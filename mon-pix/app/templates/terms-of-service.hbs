@@ -1,0 +1,36 @@
+{{page-title (t "pages.terms-of-service.title")}}
+<div class="terms-of-service-page">
+  <div class="terms-of-service-form">
+
+    <div class="terms-of-service-form__logo">
+      <a href={{this.showcaseUrl}}>
+        <img class="pix-logo__image" src="/images/pix-logo.svg" alt="{{t 'navigation.homepage'}}" />
+      </a>
+    </div>
+
+    <h1 class="terms-of-service-form__title">{{t "pages.terms-of-service.title"}}</h1>
+
+    <div class="terms-of-service-form__description">
+      {{t "pages.terms-of-service.message"}}
+    </div>
+
+    <PixCheckbox @id="pix-cgu" {{on "change" this.onChange}}>
+      {{t "pages.terms-of-service.cgu" htmlSafe=true}}
+    </PixCheckbox>
+
+    {{#if this.showErrorTermsOfServiceNotSelected}}
+      <div class="terms-of-service-form-conditions__validation-error">
+        {{t "pages.terms-of-service.form.error-message"}}
+      </div>
+    {{/if}}
+
+    <div class="terms-of-service-form__actions">
+      <PixButtonLink @route="logout" @backgroundColor="grey">{{t "common.actions.back"}}</PixButtonLink>
+
+      <PixButton @type="submit" @triggerAction={{this.submit}} class="terms-of-service-form-actions__submit">
+        {{t "pages.terms-of-service.form.button"}}
+      </PixButton>
+    </div>
+
+  </div>
+</div>

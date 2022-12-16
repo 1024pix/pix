@@ -1,0 +1,26 @@
+<span class="target-profile-details" ...attributes>
+  {{#if @targetProfileDescription}}
+    <MarkdownToHtml class="target-profile-details__description" @markdown={{@targetProfileDescription}} />
+  {{/if}}
+  <ul class="target-profile-details__specificity">
+    <li class="target-profile-details__specificity__row">
+      <FaIcon @fixedWidth={{true}} @icon="book" />
+      {{t "common.target-profile-details.subjects" value=@targetProfileTubesCount}}
+    </li>
+    {{#if @hasBadges}}
+      <li class="target-profile-details__specificity__row target-profile-details__specificity__row--add-separator">
+        <FaIcon @fixedWidth={{true}} @icon="award" />
+        {{t "common.target-profile-details.thematic-results" value=@targetProfileThematicResultCount}}
+      </li>
+    {{/if}}
+    <li class="target-profile-details__specificity__row target-profile-details__specificity__row--break-line">
+      {{t "common.target-profile-details.results.common"}}
+      <FaIcon
+        @fixedWidth={{true}}
+        @aria-hidden={{false}}
+        aria-label={{t this.displayResultInfo.label}}
+        @icon={{this.displayResultInfo.icon}}
+      />
+    </li>
+  </ul>
+</span>

@@ -1,0 +1,12 @@
+{{page-title "Profil " @model.targetProfile.id " Orgas | Pix Admin" replace=true}}
+
+<TargetProfiles::Organizations
+  @organizations={{@model.organizations}}
+  @targetProfile={{@model.targetProfile}}
+  @id={{this.id}}
+  @name={{this.name}}
+  @type={{this.type}}
+  @externalId={{this.externalId}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @goToOrganizationPage={{this.goToOrganizationPage}}
+/>

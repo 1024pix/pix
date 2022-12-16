@@ -1,0 +1,15 @@
+.page {
+  padding: 0 10px;
+
+  @include device-is('tablet') {
+    padding: 24px 35px;
+  }
+
+  &__title {
+    margin-bottom: 18px;
+  }
+}
+
+.navigation {
+  margin: 24px 0;
+}

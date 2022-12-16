@@ -1,0 +1,111 @@
+const { sinon, expect, hFake } = require('../../../test-helper');
+const trainingController = require('../../../../lib/application/trainings/training-controller');
+const usecases = require('../../../../lib/domain/usecases');
+const trainingSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/training-serializer');
+const trainingSummarySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/training-summary-serializer');
+const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
+
+describe('Unit | Controller | training-controller', function () {
+  describe('#findPaginatedTrainingSummaries', function () {
+    it('should call the training findPaginatedTrainingSummaries use-case', async function () {
+      // given
+      const expectedResult = Symbol('serialized-training-summaries');
+      const trainingSummaries = Symbol('trainingSummary');
+      const meta = Symbol('meta');
+      const useCaseParameters = {
+        page: { size: 2, number: 1 },
+      };
+
+      sinon.stub(usecases, 'findPaginatedTrainingSummaries').resolves({ trainings: trainingSummaries, meta });
+      sinon.stub(trainingSummarySerializer, 'serialize').returns(expectedResult);
+      sinon.stub(queryParamsUtils, 'extractParameters').returns(useCaseParameters);
+      // when
+      const response = await trainingController.findPaginatedTrainingSummaries(
+        {
+          params: {
+            page: { size: 2, number: 1 },
+          },
+        },
+        hFake
+      );
+
+      // then
+      expect(usecases.findPaginatedTrainingSummaries).to.have.been.calledWith(useCaseParameters);
+      expect(trainingSummarySerializer.serialize).to.have.been.calledOnce;
+      expect(queryParamsUtils.extractParameters).to.have.been.calledOnce;
+      expect(response).to.deep.equal(expectedResult);
+    });
+  });
+
+  describe('#update', function () {
+    const deserializedTraining = { title: 'new title' };
+    const updatedTraining = { title: 'new title' };
+
+    beforeEach(function () {
+      sinon.stub(trainingSerializer, 'deserialize').returns(deserializedTraining);
+      sinon.stub(trainingSerializer, 'serialize');
+      sinon.stub(usecases, 'updateTraining').resolves(updatedTraining);
+    });
+
+    describe('when request is valid', function () {
+      it('should call the training update use-case', async function () {
+        // given
+        const useCaseParameters = {
+          training: { ...deserializedTraining, id: 134 },
+        };
+        const payload = {
+          data: {
+            attributes: {
+              title: 'New title',
+              link: 'https://example.net/new-link',
+            },
+          },
+        };
+
+        // when
+        await trainingController.update(
+          {
+            params: {
+              trainingId: 134,
+            },
+            payload,
+          },
+          hFake
+        );
+
+        // then
+        expect(trainingSerializer.deserialize).to.have.been.calledWith(payload);
+        expect(usecases.updateTraining).to.have.been.calledWith(useCaseParameters);
+      });
+
+      it('should return a serialized training', async function () {
+        // given
+        const payload = {
+          data: {
+            attributes: {
+              title: 'New title',
+              link: 'https://example.net/new-link',
+            },
+          },
+        };
+        const expectedSerializedUser = { message: 'serialized user' };
+        trainingSerializer.serialize.returns(expectedSerializedUser);
+
+        // when
+        const response = await trainingController.update(
+          {
+            params: {
+              trainingId: 134,
+            },
+            payload,
+          },
+          hFake
+        );
+
+        // then
+        expect(trainingSerializer.serialize).to.have.been.calledWith(updatedTraining);
+        expect(response).to.deep.equal(expectedSerializedUser);
+      });
+    });
+  });
+});

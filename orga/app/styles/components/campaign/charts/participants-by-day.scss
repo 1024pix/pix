@@ -1,0 +1,25 @@
+.participants-by-day {
+  height: 320px;
+
+  &__legend {
+    display: flex;
+    justify-content: flex-start;
+    list-style: none;
+    padding-left: 0px;
+    font-size: 0.875rem;
+
+    &--loader {
+      height: 20px;
+      margin-top: 8px;
+      width: 100px;
+
+      &:first-child {
+        margin-right: 16px;
+      }
+    }
+  }
+
+  &--loader {
+    height: 240px;
+  }
+}

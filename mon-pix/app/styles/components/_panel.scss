@@ -1,0 +1,26 @@
+.panel {
+  background-color: white;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px 0 rgb(12 22 58 / 10%), 0 2px 5px 0 rgb(0 0 0 / 10%);
+
+  &--strong-shadow {
+    box-shadow: 0 6px 12px 0 rgb(12 22 58 / 10%), 0 2px 5px 0 rgb(0 0 0 / 10%);
+  }
+
+  &--link {
+    color: $pix-neutral-100;
+    text-decoration: none;
+    border: solid 2px white;
+    outline: none;
+    cursor: pointer;
+
+    &:hover,
+    &:active,
+    &:focus {
+      border-color: $pix-primary-40;
+      box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%);
+      transition: border-color 1s ease;
+    }
+  }
+}

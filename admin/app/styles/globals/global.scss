@@ -1,0 +1,73 @@
+html,
+body {
+  height: 100%;
+  width: 100%;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+html {
+  font-family: Roboto, Arial, sans-serif;
+  color: $pix-neutral-90;
+}
+
+body {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-family: Roboto, Arial, sans-serif;
+}
+
+h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+input:invalid {
+  box-shadow: none;
+}
+
+abbr {
+  cursor: help;
+
+  &.mandatory-mark {
+    color: $pix-error-70;
+    display: contents;
+    margin: 1.25rem;
+    text-decoration: none;
+  }
+}
+
+a {
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+}
+
+a.pix-button {
+
+  &:hover {
+    color: $pix-neutral-0;
+    text-decoration: none;
+  }
+}
+
+.modal-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0.75rem;
+  gap: 10px;
+}

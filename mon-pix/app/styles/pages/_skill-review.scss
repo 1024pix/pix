@@ -1,0 +1,613 @@
+.skill-review {
+
+  &__banner {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 30px;
+  }
+
+  &__result-and-action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+
+    @include device-is('tablet') {
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+  }
+
+  &__retry {
+    color: $pix-neutral-100;
+    font-weight: $font-light;
+    font-size: 1.125rem;
+    font-family: $font-open-sans;
+    text-align: center;
+    border-top: 1px dashed $pix-neutral-22;
+
+    @include device-is('tablet') {
+      margin-top: 32px;
+      padding: 0 32px;
+      font-size: 1.5rem;
+    }
+  }
+
+  &__trainings {
+    padding: 2.5rem 2rem 3rem;
+    background-color: $pix-neutral-10;
+    border-radius: 10px;
+  }
+
+  &__share {
+    flex: auto;
+    align-items: center;
+  }
+
+  &__result-detail-container,
+  &__result-abstract-container,
+  &__organization-message,
+  &__net-promoter-score {
+    max-width: 980px;
+    margin-bottom: 32px;
+    padding: 40px 10px;
+
+    @include device-is('tablet') {
+      padding: 32px 48px;
+    }
+  }
+
+  &__result-abstract-container {
+    margin-top: -160px;
+  }
+
+  &__organization-message {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    border-radius: 5px;
+
+    @include device-is('tablet') {
+      flex-direction: row;
+      padding: 32px;
+      border-radius: 32px 0 32px 32px;
+    }
+  }
+
+  &__subtitle {
+    font-weight: $font-light;
+  }
+
+  &__begin-improvement {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    padding: 30px;
+    border-bottom: 1px dashed $pix-neutral-22;
+  }
+
+  &__explain-text {
+    color: $pix-neutral-60;
+    font-weight: $font-light;
+    font-size: 1.5rem;
+    line-height: 33px;
+  }
+
+  &__improvement-button {
+    height: 50px;
+  }
+
+  &__net-promoter-score {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+
+    @include device-is('mobile') {
+      flex-direction: column;
+    }
+  }
+
+  &-net-promoter-score__logo > img {
+    width: 123px;
+    min-width: 123px;
+    height: 103px;
+  }
+
+  &-net-promoter-score__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    > h2 {
+      color: $pix-neutral-60;
+      font-size: 16px;
+    }
+
+    @include device-is('mobile') {
+      align-items: center;
+      text-align: center;
+    }
+  }
+}
+
+.skill-review-retry {
+
+  &__button {
+    padding: 10px;
+    font-size: 0.875rem;
+  }
+}
+
+.skill-review-trainings {
+
+  &__title {
+    color: $pix-neutral-100;
+    font-size: 1.5rem;
+    font-family: $font-open-sans;
+    text-align: center;
+  }
+
+  &__description {
+    margin: 0.5rem 0 2rem;
+    color: $pix-neutral-45;
+    font-size: 1.125rem;
+    font-family: $font-open-sans;
+    line-height: 1.8rem;
+    text-align: center;
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 0;
+    column-gap: 24px;
+    list-style: none;
+    row-gap: 24px;
+
+    @include device-is('tablet') {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @include device-is('desktop') {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+}
+
+.skill-review-trainings-list {
+
+  &__item {
+    width: 100%;
+    padding: 0;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      box-shadow: $box-shadow-competence-cards-hover;
+    }
+  }
+}
+
+.skill-review-information {
+
+  &__info-icon {
+    float: left;
+    color: $pix-neutral-60;
+    font-size: 0.938em;
+  }
+
+  &__text {
+    margin-top: 14px;
+    padding-left: 14px;
+    color: $pix-neutral-60;
+    font-size: 0.875rem;
+    font-family: $font-open-sans;
+  }
+}
+
+.skill-review-competence {
+
+  &__table {
+
+    tr {
+      height: 76px;
+    }
+  }
+
+  &__border {
+    margin-right: 1rem;
+    padding: 0.5rem 0;
+    border-style: solid;
+    border-width: 1.5px;
+    border-radius: 1.5px;
+
+    &--jaffa {
+      color: $pix-information-light;
+      background: $pix-information-light;
+    }
+
+    &--emerald {
+      color: $pix-content-light;
+      background: $pix-content-light;
+    }
+
+    &--cerulean {
+      color: $pix-communication-light;
+      background: $pix-communication-light;
+    }
+
+    &--wild-strawberry {
+      color: $pix-security-light;
+      background: $pix-security-light;
+    }
+
+    &--butterfly-bush {
+      color: $pix-environment-light;
+      background: $pix-environment-light;
+    }
+  }
+}
+
+.skill-review-table-header {
+
+  &__circle-chart-value {
+    color: $pix-neutral-100;
+    font-size: 1.938rem;
+    font-family: $font-roboto;
+  }
+}
+
+.skill-review-organization-message {
+
+  &__logo {
+    margin-bottom: 16px;
+    text-align: center;
+
+    img {
+      width: 118px;
+    }
+
+    @include device-is('tablet') {
+      min-width: 118px;
+      margin-right: 32px;
+      margin-bottom: 0;
+    }
+  }
+
+  &__title {
+    margin: 0;
+    color: $pix-neutral-60;
+    font-weight: $font-bold;
+    font-size: 1rem;
+    font-family: $font-open-sans;
+  }
+
+  &__organization-name {
+    margin: 8px 0;
+    color: $pix-neutral-90;
+    font-weight: $font-normal;
+    font-size: 1.5rem;
+    font-family: $font-open-sans;
+  }
+
+  &__text {
+    color: $pix-neutral-90;
+    font-size: 1rem;
+    font-family: $font-roboto;
+    line-height: 1.625rem;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &__link {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 8px 12px;
+    color: $pix-neutral-0;
+    font-size: 0.875rem;
+    text-decoration: none;
+    background-color: $pix-primary;
+    border-radius: 4px;
+    cursor: pointer;
+
+    svg {
+      margin-left: 8px;
+    }
+  }
+}
+
+.skill-review-result-abstract {
+
+  &__text {
+    margin: 16px 0;
+    color: $pix-neutral-90;
+    font-weight: $font-light;
+    font-size: 1.625rem;
+    font-family: $font-open-sans;
+    line-height: 2.75rem;
+    letter-spacing: 0.009rem;
+    text-align: center;
+    text-transform: none;
+
+    @include device-is('tablet') {
+      font-size: 2rem;
+      line-height: 3.375rem;
+    }
+
+    > strong {
+      display: inline-block;
+      color: $pix-primary;
+      font-weight: 300;
+    }
+  }
+
+  &__subtext {
+    margin: 40px 0;
+    color: $pix-neutral-90;
+    font-weight: $font-bold;
+    text-align: center;
+  }
+
+  &__nonDefinitive {
+    font-size: 0.8em;
+  }
+
+  &__share-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 40px 0;
+
+    @include device-is('tablet') {
+
+      &--left {
+        align-items: flex-start;
+      }
+    }
+  }
+}
+
+.badge-container {
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px dashed $pix-neutral-22;
+}
+
+.skill-review-result-detail {
+
+  &__badge-subtitle {
+    margin: 0 0 24px;
+    color: $pix-neutral-100;
+    font-weight: $font-normal;
+    font-size: 1.5rem;
+    font-family: $font-open-sans;
+    text-align: center;
+
+    @include device-is('tablet') {
+      text-align: left;
+    }
+  }
+
+  &__information {
+    display: flex;
+    align-items: center;
+    max-width: 850px;
+    margin: 10px;
+    text-align: left;
+
+    @include device-is('tablet') {
+      margin: auto;
+    }
+  }
+
+  &__table-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    text-align: center;
+
+    @include device-is('tablet') {
+      flex-direction: row;
+    }
+  }
+
+  &__subtitle {
+    margin-bottom: 32px;
+    color: $pix-neutral-100;
+    font-weight: $font-normal;
+    font-size: 1.5rem;
+    font-family: $font-open-sans;
+  }
+}
+
+.skill-review-share {
+
+  &__stage-congrats {
+    padding: 20px 40px 0;
+    text-align: center;
+
+    @include device-is('tablet') {
+      text-align: left;
+    }
+  }
+
+  &__legal {
+    margin: 4px 0;
+    color: $pix-neutral-45;
+    font-weight: $font-normal;
+    font-size: 0.85rem;
+    font-family: $font-roboto;
+    line-height: 2rem;
+  }
+
+  &__thanks {
+    margin-bottom: 16px;
+    padding: 16px;
+    color: $pix-success-70;
+    font-weight: $font-semi-bold;
+    font-size: 1rem;
+    font-family: $font-open-sans;
+    line-height: 2rem;
+    background-color: $pix-success-5;
+    border-radius: 4px;
+  }
+
+  &__error {
+    padding-bottom: 10px;
+    color: $pix-warning-60;
+    font-size: 0.938rem;
+  }
+
+  &__back-to-home {
+    margin-bottom: 16px;
+    font-weight: $font-bold;
+    font-size: 1rem;
+    font-family: $font-open-sans;
+    text-align: center;
+  }
+
+  &__badge-icons {
+    display: flex;
+    flex-basis: 100%;
+    flex-direction: column;
+    height: 89px;
+
+    @include device-is('tablet') {
+      flex-direction: row;
+    }
+  }
+
+  &__button {
+    max-width: fit-content;
+    margin: 0 auto;
+
+    @include device-is('tablet') {
+      margin: 0;
+    }
+  }
+}
+
+.skill-review-share-badge-icons {
+  display: flex;
+  justify-content: center;
+  border-radius: 16px;
+
+  &__image {
+    max-width: 50px;
+    margin: 8px 0 8px 10px;
+
+    &:last-child {
+      margin-right: 10px;
+    }
+  }
+
+  &--certifiable {
+    background-color: $pix-success-5;
+  }
+
+  &--not-certifiable {
+    margin: 16px 0 0;
+    background-color: $pix-neutral-10;
+
+    @include device-is('tablet') {
+      margin: 0 0 0 16px;
+    }
+  }
+}
+
+.skill-review-share-error {
+
+  &__message {
+    padding-bottom: 10px;
+    color: #F45C00;
+    font-size: 0.938rem;
+  }
+
+  &__button {
+    position: relative;
+    top: 24px;
+  }
+}
+
+.skill-review__disabled-share {
+  position: relative;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.skill-review-disabled-share {
+
+  &__image {
+    margin-top: -50px;
+  }
+
+  &__text {
+    max-width: 640px;
+    margin: 30px auto 60px;
+    color: $pix-neutral-35;
+    font-weight: $font-light;
+    font-size: 1.375rem;
+    font-family: $font-open-sans;
+    line-height: 30px;
+  }
+}
+
+.stage-congrats {
+
+  &__title {
+    padding-bottom: 10px;
+    color: $pix-neutral-100;
+    font-weight: $font-bold;
+    font-size: 1.875rem;
+    font-family: $font-open-sans;
+  }
+
+  &__message {
+    color: $pix-neutral-45;
+    font-weight: $font-normal;
+    font-size: 1.125rem;
+    font-family: $font-open-sans;
+    line-height: 1.8rem;
+
+    & p {
+      margin: 0;
+    }
+  }
+}
+
+@media print {
+
+  a[href]::after {
+    content: none;
+  }
+
+  .progression-gauge {
+    border-bottom: 4px solid $pix-neutral-20;
+  }
+
+  .progression-gauge__marker {
+    border-bottom: 4px solid $pix-information-light;
+  }
+
+  .default-table thead {
+    display: table-header-group;
+  }
+
+  .default-table tr {
+    display: table-row;
+    height: 60px;
+  }
+
+  .skill-review-results__header {
+    flex-direction: row;
+  }
+}

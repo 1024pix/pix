@@ -1,0 +1,14 @@
+<div class="panel session-finalization-step-container">
+  <div class="session-finalization-step-container__header">
+    <img src={{@icon}} alt={{@iconAlt}} />
+    <div class="session-finalization-step-container__titles">
+      <div class="session-finalization-step-container__page-title">{{@title}}</div>
+      {{#if @subtitle}}
+        <p>{{@subtitle}}</p>
+      {{/if}}
+    </div>
+  </div>
+  <div class="session-finalization-step-container__border">
+    {{yield}}
+  </div>
+</div>

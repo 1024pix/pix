@@ -1,0 +1,58 @@
+.authentication-method {
+
+  &__connexions-information {
+    display: flex;
+
+    dt {
+      font-weight: normal;
+    }
+
+    dd {
+      margin-left: 6px;
+    }
+  }
+}
+
+.authentication-method-table {
+  width: inherit;
+
+  &__caption {
+    display: none;
+  }
+
+  &__name-column {
+    min-width: 200px;
+  }
+
+  &__actions-column {
+
+    > div {
+      display: flex;
+
+      button:not(:first-child) {
+        margin-left: 10px;
+      }
+    }
+  }
+
+  &__check {
+    color: $pix-success-70;
+    margin: 0 20px;
+  }
+
+  &__uncheck {
+    color: $pix-neutral-30;
+    margin: 0 20px;
+  }
+}
+
+.reassign-authentication-method-modal {
+
+  &__form-body {
+
+    p {
+      padding: 0;
+      margin-bottom: 40px;
+    }
+  }
+}

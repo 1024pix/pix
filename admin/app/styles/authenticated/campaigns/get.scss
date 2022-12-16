@@ -1,0 +1,23 @@
+/* stylelint-disable selector-class-pattern */
+.campaign__subtitle {
+  font-size: 0.875rem;
+  color: $pix-neutral-50;
+}
+
+.campaign__attributes {
+  list-style: none;
+  padding-inline: 0;
+  margin: 0;
+}
+
+.campaign-title {
+  display: flex;
+
+  & h1 {
+    margin-right: 8px;
+  }
+
+  &__tag {
+    margin-right: 8px;
+  }
+}

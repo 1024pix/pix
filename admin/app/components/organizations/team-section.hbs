@@ -1,0 +1,88 @@
+{{! template-lint-disable require-input-label }}
+<section class="page-section">
+  <header class="page-section__header">
+    <h2 class="page-section__title">Membres</h2>
+  </header>
+  <div class="content-text content-text--small">
+    <div class="table-admin">
+      <table>
+        <thead>
+          <tr>
+            <th class="table__column table__column--id">ID user</th>
+            <th class="table__column table__column--wide">Prénom</th>
+            <th class="table__column table__column--wide">Nom</th>
+            <th class="table__column table__column--wide">Adresse e-mail</th>
+            <th class="table__column">Rôle</th>
+            {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
+              <th class="table__column">Actions</th>
+            {{/if}}
+          </tr>
+          <tr>
+            <td class="table__column"></td>
+            <td class="table__column table__column--wide">
+              <input
+                id="firstName"
+                type="text"
+                aria-label="Rechercher par prénom"
+                value={{@firstName}}
+                oninput={{fn @triggerFiltering "firstName"}}
+                class="table-admin-input form-control"
+              />
+            </td>
+            <td class="table__column table__column--wide">
+              <input
+                id="lastName"
+                type="text"
+                aria-label="Rechercher par nom"
+                value={{@lastName}}
+                oninput={{fn @triggerFiltering "lastName"}}
+                class="table-admin-input form-control"
+              />
+            </td>
+            <td class="table__column table__column--wide">
+              <input
+                id="email"
+                type="text"
+                aria-label="Rechercher par adresse e-mail"
+                value={{@email}}
+                oninput={{fn @triggerFiltering "email"}}
+                class="table-admin-input form-control"
+              />
+            </td>
+            <td class="table__column">
+              <PixSelect
+                id="organizationRole"
+                @options={{this.options}}
+                @selectedOption={{@organizationRole}}
+                @onChange={{@selectRoleForSearch}}
+                @emptyOptionLabel="Tous"
+                aria-label="Rechercher par rôle"
+              />
+            </td>
+            {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
+              <td class="table__column"></td>
+            {{/if}}
+          </tr>
+        </thead>
+
+        {{#if @organizationMemberships}}
+          <tbody>
+            {{#each @organizationMemberships as |organizationMembership|}}
+              <tr aria-label="Membre">
+                <Organizations::MemberItem @organizationMembership={{organizationMembership}} />
+              </tr>
+            {{/each}}
+          </tbody>
+        {{/if}}
+      </table>
+
+      {{#unless @organizationMemberships}}
+        <div class="table__empty">Aucun résultat</div>
+      {{/unless}}
+    </div>
+
+    {{#if @organizationMemberships}}
+      <PixPagination @pagination={{@organizationMemberships.meta}} />
+    {{/if}}
+  </div>
+</section>

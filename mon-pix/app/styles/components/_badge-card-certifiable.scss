@@ -1,0 +1,46 @@
+.badge-certifiable-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+.badge-card-certifiable {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding: 20px 35px;
+  background-color: $pix-success-5;
+  border-radius: 16px;
+
+  &--not-acquired {
+    background-color: $pix-neutral-10;
+    filter: grayscale(1);
+  }
+
+  &__header {
+    text-align: center;
+  }
+
+  &__header h3 {
+    font-weight: $font-normal;
+    font-size: 1.25rem;
+  }
+
+  @include device-is('tablet') {
+    flex-grow: 0;
+    width: calc(50% - 10px);
+    height: 253px;
+
+    &:nth-child(even) {
+      margin-left: 20px;
+    }
+
+    &:first-child:last-child {
+      width: 100%;
+    }
+  }
+}

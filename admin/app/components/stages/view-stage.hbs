@@ -1,0 +1,30 @@
+<section class="page-section">
+  <div class="page-section__header">
+    <h1 class="page-section__title">{{@stage.name}}</h1>
+  </div>
+  <div class="page-section__details">
+    <ul class="stage-data__list">
+      <li>ID : {{@stage.id}}</li>
+      <li>{{@stageTypeName}}
+        :
+        {{#if @isTypeLevel}}
+          {{@stage.level}}
+        {{else}}
+          {{@stage.threshold}}
+        {{/if}}</li>
+      <li>Titre : {{@stage.title}}</li>
+      <li>Message : {{@stage.message}}</li>
+      <li>Titre pour le prescripteur : {{@stage.prescriberTitle}}</li>
+      <li>Description pour le prescripteur : {{@stage.prescriberDescription}}</li>
+    </ul>
+  </div>
+  <br />
+  <PixButton
+    @size="small"
+    @backgroundColor="transparent-light"
+    @isBorderVisible={{true}}
+    @triggerAction={{@toggleEditMode}}
+  >
+    Éditer
+  </PixButton>
+</section>

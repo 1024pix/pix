@@ -1,0 +1,118 @@
+.tutorial-item {
+  margin-bottom: 24px;
+  border-bottom: 1px solid $pix-neutral-20;
+}
+
+.tutorial__content {
+  position: relative;
+  padding-left: 24px;
+
+  &::after {
+    position: absolute;
+    top: 6px;
+    left: 0;
+    display: block;
+    width: 4px;
+    height: calc(100% - 6px);
+    background: $pix-neutral-50;
+    border-radius: 50px;
+    content: ' ';
+  }
+}
+
+.tutorial-content {
+
+  &__title {
+    display: inline-block;
+    margin-bottom: 4px;
+    color: $pix-neutral-90;
+    font-weight: $font-normal;
+    font-size: 1.125rem;
+    line-height: 1.875rem;
+    letter-spacing: 0;
+
+    @include device-is('tablet') {
+      font-weight: $font-medium;
+    }
+
+    &::after {
+      @include external-link;
+    }
+  }
+
+  &__description {
+    margin: 0 0 14px;
+    color: $pix-neutral-50;
+    font-weight: $font-normal;
+    font-size: 0.875rem;
+    font-family: $font-roboto;
+    line-height: 1.5rem;
+
+    .tutorial-content__format {
+      text-transform: capitalize;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
+  }
+}
+
+.tutorial-content-actions {
+
+  &__save {
+    display: block;
+    margin: 0 0 16px;
+    padding: 0;
+    color: $pix-neutral-50;
+    font-weight: $font-medium;
+    font-size: 0.813rem;
+    letter-spacing: 0.028rem;
+    background: transparent;
+    border: none;
+
+    svg {
+      margin-right: 4px;
+    }
+
+    &:hover {
+      cursor: pointer;
+      filter: brightness(70%);
+    }
+
+    &:disabled {
+      color: $pix-neutral-30;
+      cursor: auto;
+      filter: brightness(90%);
+    }
+  }
+
+  &__evaluate {
+    display: block;
+    margin: 0 0 16px;
+    padding: 0;
+    color: $pix-neutral-50;
+    font-weight: $font-medium;
+    font-size: 0.813rem;
+    letter-spacing: 0.028rem;
+    background: transparent;
+    border: none;
+
+    svg {
+      margin-right: 4px;
+    }
+
+    &:hover {
+      cursor: pointer;
+      filter: brightness(70%);
+    }
+
+    &:disabled {
+      color: $pix-neutral-30;
+      cursor: auto;
+      filter: brightness(90%);
+    }
+  }
+}

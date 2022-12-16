@@ -1,0 +1,99 @@
+.challenge {
+
+  &__content {
+    width: 100%;
+    max-width: 990px;
+    padding: 0 20px;
+
+    @include device-is('desktop') {
+      padding: 0;
+    }
+  }
+
+  &__banner {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+
+  &__focused-out-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0 0 0 / 50%);
+  }
+
+  &__feedback {
+    z-index: 1;
+    width: 100%;
+    max-width: 990px;
+    margin-bottom: 20px;
+    padding: 0 20px;
+    text-align: left;
+
+    @include device-is('desktop') {
+      padding: 0;
+    }
+  }
+
+  &__info-alert {
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: $pix-primary-70;
+    background-color: rgba($pix-primary-20, 0.9);
+    border-radius: 51px;
+    box-shadow: 0 10px 20px 0 rgba($pix-content-dark, 0.06);
+
+    &.challenge__info-alert--hide {
+      height: 0;
+      opacity: 0;
+    }
+
+    &.challenge__info-alert--show,
+    &:focus.challenge__info-alert--could-show {
+      position: sticky;
+      bottom: 10px;
+      height: auto;
+      margin: 20px auto 0;
+      padding: 24px 32px;
+      opacity: 1;
+
+      @include device-is('tablet') {
+        padding: 24px 98px;
+      }
+    }
+  }
+}
+
+.challenge-info-alert {
+  font-family: $font-roboto;
+
+  &__icon {
+    width: 49px;
+    height: 55px;
+    margin-bottom: 8px;
+    background-image: url('/images/focused-challenge-info-alert-icon.svg');
+  }
+
+  &__title {
+    margin: auto 0 7px;
+    font-weight: $font-medium;
+    font-size: 1.125rem;
+    line-height: 1.625rem;
+    letter-spacing: 0.011rem;
+  }
+
+  &__subtitle {
+    margin: 0;
+    font-weight: $font-light;
+    font-size: 0.875rem;
+    line-height: 1.375rem;
+    letter-spacing: 0.009rem;
+  }
+}

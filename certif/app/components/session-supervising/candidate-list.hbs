@@ -1,0 +1,53 @@
+<div class="session-supervising-candidate-list-background">
+  {{#if @candidates}}
+    <div class="session-supervising-candidate-list">
+      <h1 class="session-supervising-candidate-list__title">Candidats</h1>
+      <p class="session-supervising-candidate-list__description">Cochez chaque candidat présent dans la salle de test
+        pour l'autoriser à commencer son test de certification.</p>
+      <div class="session-supervising-candidate-list__search">
+        <FaIcon @icon="search" class="search-icon" />
+        <PixInput
+          class="search-input"
+          @id="search-candidate"
+          @ariaLabel="Rechercher un candidat"
+          placeholder="Rechercher un candidat"
+          @value={{this.filter}}
+          {{on "input" this.setFilter}}
+        />
+        <PixButton
+          @size="small"
+          @backgroundColor="transparent-light"
+          @isBorderVisible={{false}}
+          @triggerAction={{this.emptySearchInput}}
+          aria-label="Vider le champ"
+          class="empty-button"
+        >
+          <FaIcon @icon="times" />
+        </PixButton>
+      </div>
+      <p class="session-supervising-candidate-list__candidates-count">{{t
+          "pages.session-supervising.candidate-list.authorized-to-start-candidates"
+          authorizedToStartCandidates=this.authorizedToStartCandidates
+          totalCandidates=@candidates.length
+        }}</p>
+      <ul class="session-supervising-candidate-list__candidates">
+        {{#each this.filteredCandidates as |candidate|}}
+          <SessionSupervising::CandidateInList
+            @candidate={{candidate}}
+            @toggleCandidate={{this.toggleCandidate}}
+            @onCandidateTestResumeAuthorization={{this.authorizeTestResume}}
+            @onSupervisorEndAssessment={{this.endAssessmentBySupervisor}}
+          />
+        {{/each}}
+      </ul>
+    </div>
+  {{else}}
+    <img
+      src="/session-supervising-empty-candidate-list.svg"
+      class="session-supervising-candidate-list__empty-image"
+      alt=""
+      role="presentation"
+    />
+    <p class="session-supervising-candidate-list__empty-message">Aucun candidat inscrit à cette session</p>
+  {{/if}}
+</div>

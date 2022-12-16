@@ -1,0 +1,181 @@
+.user-tutorials-banner {
+  margin: 0 24px;
+  padding-bottom: 16px;
+  font-weight: $font-light;
+  font-family: $font-roboto;
+
+  @include device-is('desktop') {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 20px 16px;
+  }
+
+  &__title {
+    color: $pix-neutral-90;
+    font-weight: $font-normal;
+    font-size: 2rem;
+    font-family: $font-open-sans;
+    line-height: 2.6875rem;
+    letter-spacing: 0.0093rem;
+  }
+
+  &__description {
+    margin: 0;
+    padding: 8px 0 32px;
+    color: $pix-neutral-60;
+    font-weight: $font-normal;
+    font-size: 1rem;
+    font-family: $font-roboto;
+    line-height: 1.375rem;
+    letter-spacing: 0.0093rem;
+  }
+
+  &__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    min-height: 45px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}
+
+.user-tutorials-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: inherit;
+  padding-top: 20px;
+
+  &__container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+
+    @include device-is('desktop') {
+      max-width: 1280px;
+    }
+  }
+
+  &__cards {
+    display: grid;
+    grid-auto-rows: min-content;
+    grid-template-columns: 1fr;
+    width: 100%;
+    margin: 0 0 32px;
+    padding: 0;
+    list-style: none;
+    row-gap: 16px;
+
+    @include device-is('desktop') {
+      grid-template-columns: 1fr 1fr;
+      margin: 0 auto 32px;
+      column-gap: 24px;
+    }
+  }
+
+  &__saved-empty,
+  &__recommended-empty {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    align-self: center;
+    max-width: 1037px;
+    margin: 75px auto 0;
+    padding: 0 20px;
+    text-align: center;
+    row-gap: 20px;
+
+    @include device-is('desktop') {
+      flex-direction: row;
+      text-align: left;
+      column-gap: 100px;
+    }
+  }
+}
+
+.user-tutorials-saved-empty,
+.user-tutorials-recommended-empty {
+
+  &__title,
+  &__description {
+    color: $pix-neutral-90;
+    font-family: $font-open-sans;
+  }
+
+  &__title {
+    font-weight: $font-normal;
+  }
+
+  &__description {
+    font-size: 1.2rem;
+  }
+
+  &__link {
+    display: inline-flex;
+  }
+}
+
+.user-tutorials-no-tutorial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 980px;
+  margin: 24px 16px;
+  padding: 32px 16px 24px;
+  color: $pix-neutral-80;
+  text-align: center;
+  background: $pix-neutral-20;
+
+  @include device-is('tablet') {
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 24px;
+    text-align: left;
+  }
+
+  @include device-is('desktop') {
+    margin: 24px auto;
+  }
+
+  &__illustration {
+    margin-bottom: 16px;
+
+    @include device-is('tablet') {
+      margin-bottom: 0;
+    }
+  }
+
+  &__instructions {
+    font-weight: $font-light;
+
+    svg {
+      margin: 0 3px;
+    }
+
+    @include device-is('tablet') {
+      padding: 0 0 0 32px;
+    }
+  }
+
+  &-instructions__title {
+    margin: 0 0 8px;
+    font-weight: $font-normal;
+    font-family: $font-open-sans;
+    line-height: 2.5rem;
+    letter-spacing: 0;
+
+    @include device-is('tablet') {
+      line-height: 3.375rem;
+    }
+  }
+
+  &-instructions__description {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.688rem;
+    letter-spacing: 0.009rem;
+  }
+}

@@ -1,0 +1,68 @@
+.comparison-window-content__body {
+  display: flex;
+  flex-direction: column;
+}
+
+.comparison-window-content-body {
+
+  &__instruction {
+    font-size: 1rem;
+  }
+
+  &__default-message-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 991px;
+    margin: 0 15px 15px;
+    padding: 36px 0 28px;
+    border: 1.3px dashed $pix-neutral-40;
+    border-radius: 5px;
+
+    @include device-is('desktop') {
+      margin: 0 40px 20px;
+    }
+  }
+}
+
+.comparison-windows-content-body-default-message-container {
+
+  &__default-message-title {
+    margin: 10px 25px 40px;
+    color: $pix-neutral-110;
+    font-weight: $font-semi-bold;
+    font-size: 1.063rem;
+    font-family: $font-open-sans;
+    text-align: center;
+
+    @include device-is('desktop') {
+      line-height: 26px;
+    }
+  }
+}
+
+.comparison-window-solution {
+  display: flex;
+  align-items: stretch;
+
+  &__text {
+    position: relative;
+    bottom: 3px;
+    display: flex;
+    margin-top: 10px;
+    margin-left: 10px;
+    color: $pix-success-70;
+    font-weight: $font-bold;
+    font-size: 1rem;
+    overflow-wrap: break-word;
+  }
+
+  &__img {
+    width: 18px;
+    height: 18px;
+  }
+
+  &--with-margin {
+    margin: 0 0 20px 20px;
+  }
+}

@@ -1,0 +1,225 @@
+{
+  "common": {
+    "actions": {
+      "cancel": "Annuler",
+      "close": "Fermer",
+      "delete": "Supprimer",
+      "quit": "Quitter",
+      "update": "Modifier"
+    },
+    "api-errors-messages": {
+      "bad-request": "Les données que vous avez soumises ne sont pas au bon format.",
+      "default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement."
+    },
+    "form": {
+      "mandatory-all-fields": "Tous les champs sont obligatoires."
+    }
+  },
+  "current-lang": "fr",
+  "navigation": {
+    "footer": {
+      "a11y": "Accessibilité : partiellement conforme",
+      "legal-notice": "Mentions légales",
+      "current-year": "© {currentYear} Pix"
+    }
+  },
+  "pages": {
+    "login": {
+      "title": "Connectez-vous",
+      "errors": {
+        "invitation-was-cancelled": "Cette invitation n’est plus valide.<br/>Contactez l’administrateur de votre espace Pix Certif.",
+        "invitation-already-accepted": "Cette invitation a déjà été acceptée.<br/>Connectez-vous ou contactez l’administrateur de votre espace Pix Certif."
+      }
+    },
+    "login-or-register": {
+      "title": "Vous êtes invité(e) à rejoindre le centre de certification {certificationCenterName}",
+      "login-form": {
+        "errors": {
+          "status": {
+            "401": "L'adresse e-mail et/ou le mot de passe saisis sont incorrects.",
+            "403": "L'accès à Pix Certif est limité aux membres invités. Chaque espace est géré par un administrateur Pix Certif propre à l'organisation qui l'utilise. Contactez-le pour qu'il vous y invite.",
+            "404": "Cet email n'appartient à aucun utilisateur.",
+            "409": "Cette invitation a déjà été acceptée ou annulée.",
+            "412": "Cette invitation a déjà été acceptée"
+          }
+        },
+        "title": "J'ai déjà un compte",
+        "fields": {
+          "email": {
+            "label": "Adresse e-mail",
+            "error": "Le champ adresse e-mail n’est pas valide."
+          },
+          "password": {
+            "label": "Mot de passe",
+            "error": "Le champ mot de passe est obligatoire.",
+            "forgot-password": "Mot de passe oublié ?"
+          }
+        },
+        "login": "Je me connecte",
+        "button": "Se connecter"
+      },
+      "register-form": {
+        "title": "Je m’inscris",
+        "button": "S'inscrire",
+        "fields": {
+          "button": {
+            "label": "Je m'inscris"
+          },
+          "cgu": {
+            "accept": "J'accepte les",
+            "and": "et la",
+            "aria-label": "Accepter les conditions d'utilisation de Pix",
+            "data-protection-policy": "politique de confidentialité",
+            "error": "Vous devez accepter les conditions d’utilisation de Pix et la politique de confidentialité pour créer un compte.",
+            "terms-of-use": "conditions d'utilisation de Pix"
+          },
+          "email": {
+            "error": "Le champ adresse e-mail n’est pas valide.",
+            "label": "Adresse e-mail"
+          },
+          "first-name": {
+            "error": "Le champ prénom est obligatoire.",
+            "label": "Prénom"
+          },
+          "last-name": {
+            "error": "Le champ nom est obligatoire.",
+            "label": "Nom"
+          },
+          "password": {
+            "error": "Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.",
+            "label": "Mot de passe"
+          }
+        },
+        "errors": {
+          "default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement.",
+          "email-already-exists": "Cette adresse e-mail est déjà enregistrée, connectez-vous."
+        }
+      }
+    },
+    "sessions": {
+      "enrolled-candidates": {
+        "without-details-description": "Liste des candidats inscrits à la session, triée par nom de naissance, avec la possibilité de supprimer un candidat dans la dernière colonne.",
+        "with-details-description": "Liste des candidats inscrits à la session, triée par nom de naissance, avec un lien pour voir les détails du candidat et la possibilité de supprimer un candidat dans la dernière colonne."
+      },
+      "finalize": {
+        "finished-test-list-description": "Liste des candidats qui ont fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant et une liste déroulante permettant de sélectionner la raison de l’abandon.",
+        "unfinished-test-list-description": "Liste des candidats qui n’ont pas fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant et une liste déroulante permettant de sélectionner la raison de l’abandon."
+      },
+      "list": {
+        "header": {
+          "title": "Sessions de certification",
+          "session-creation": "Créer une session",
+          "session-import-template": "Template d'import de sessions",
+          "session-import-template-dl-error": "Une erreur s'est produite pendant le téléchargement",
+          "session-import-template-label": "Télécharger le template d'import en masse",
+          "session-import-upload": "Importer en masse"
+        },
+        "delete-modal": {
+          "title": "Supprimer la session",
+          "label": "Souhaitez-vous supprimer la session <span>{sessionId}</span> ?",
+          "enrolled-candidates": "<span>{enrolledCandidatesCount} {enrolledCandidatesCount, plural,one {candidat} other {candidats}}</span> {enrolledCandidatesCount, plural,one {est inscrit} other {sont inscrits}} à cette session",
+          "disclaimer": "Attention, cette action est irréversible."
+        },
+        "session-summary": {
+          "session-number": "N° de session",
+          "center-name": "Nom du site",
+          "room": "Salle",
+          "date": "Date",
+          "time": "Heure",
+          "supervisor": "Surveillant(s)",
+          "enrolled-candidates": "Candidats inscrits",
+          "effective-candidates": "Certifications passées",
+          "status": "Statut",
+          "actions": "Actions",
+          "certification-session": "Session de certification",
+          "delete-session": "Supprimer la session {sessionSummaryId}",
+          "tooltip-label": "Au moins un candidat a rejoint la session, vous ne pouvez pas la supprimer.",
+          "empty-table": "Aucune session trouvée",
+          "session-and-id": "Session {sessionId}"
+        }
+      },
+      "detail": {
+        "panel-clea": {
+          "title": "Des candidats ont obtenu le certificat CléA numérique",
+          "description": "Pour générer les certificats CléA numérique, téléchargez la liste des candidats, complétez-la, enregistrez-la au format .xlsx puis importez-la sur la ",
+          "link-text": "plateforme du CléA numérique.",
+          "download-button": "Télécharger la liste des candidats",
+          "error-message": "Une erreur est survenue lors du téléchargement du fichier. Veuillez réessayer ou contacter certif@pix.fr en indiquant le numéro de la session concernée."
+        },
+        "parameters": {
+          "copy-access-code-number": "Copier le code du numéro de session",
+          "copy-session-number": "Copier le code du numéro de session",
+          "copy-session-password-supervisor": "Copier le mot de passe de session pour le surveillant",
+          "finalization-info": "Les informations de finalisation de la session ont déjà été transmises aux équipes de Pix",
+          "finalizing": "Finaliser la session",
+          "observations": "Observations",
+          "session-access-code": "Code d'accès",
+          "session-candidate": "Candidat",
+          "session-password": "Mot de passe de session",
+          "session-update": "Modifier les informations de la session {sessionId}"
+        }
+      }
+    },
+    "session-supervising": {
+      "header": {
+        "session-id": "Session {sessionId}",
+        "center-name": "Site",
+        "center-name-full": "Nom du site",
+        "room": "Salle",
+        "supervisor": "Surveillant",
+        "multiple-supervisor": "Surveillant(s)",
+        "access-code": "Code d'accès (candidats)"
+      },
+      "candidate-list": {
+        "authorized-to-start-candidates": "{authorizedToStartCandidates}/{totalCandidates} {authorizedToStartCandidates, plural,one {candidat sélectionné} other {candidats sélectionnés}}"
+      },
+      "candidate-in-list": {
+        "extra-time": "Temps majoré",
+        "ongoing": "En cours",
+        "authorized-to-resume": "Autorisé à reprendre",
+        "finished": "Terminé",
+        "display-candidate-options": "Afficher les options du candidat",
+        "candidate-options": "Options du candidat",
+        "start": "Début",
+        "test-end-modal": {
+          "description": "Attention : cette action entraîne la fin de son test de certification et est irréversible.",
+          "instruction-with-name": "Terminer le test de {firstName} {lastName} ?",
+          "end-assessment": "Terminer le test",
+          "cancel-label": "Annuler et fermer la fenêtre de confirmation",
+          "success": "Succès ! Le test de {firstName} {lastName} est terminé.",
+          "error": "Une erreur est survenue, le test de {firstName} {lastName} n'a pas pu être terminé."
+        },
+        "resume-test-modal": {
+          "allow-test-resume": "Autoriser la reprise du test",
+          "description": "Si le candidat a fermé la fenêtre de son test de certification (par erreur, ou à cause d'un problème technique) et est toujours présent dans la salle de test, vous pouvez lui permettre de reprendre son test à l'endroit où il l'avait quitté.",
+          "instruction-with-name": "Autoriser {firstName} {lastName} à reprendre son test ?",
+          "confirm": "Je confirme l'autorisation",
+          "cancel-label": "Annuler et fermer la fenêtre de confirmation",
+          "success": "Succès ! {firstName} {lastName} peut reprendre son test de certification.",
+          "error": "Une erreur est survenue, {firstName} {lastName} n'a a pu être autorisé à reprendre son test."
+        }
+      }
+    },
+    "team": {
+      "title": "Équipe",
+      "last-name": "Nom",
+      "first-name": "Prénom",
+      "referer": "Référent",
+      "pix-referer": "Référent Pix",
+      "update-referer-button": "Changer de référent",
+      "pix-referer-tooltip": "Le référent Pix est le contact privilégié des équipes de Pix. Il est le responsable du bon déroulement des sessions de certification.",
+      "no-referer-section": {
+        "title": "Aucun référent Pix désigné",
+        "description": "Le référent Pix est le contact privilégié des équipes de Pix. Il est le responsable du bon déroulement des sessions de certification.",
+        "select-referer-button": "Désigner un référent"
+      },
+      "select-referer-modal" : {
+        "title": "Sélectionner le référent Pix",
+        "empty-option": "--Sélectionner--",
+        "cancel": "Annuler",
+        "validate": "Valider",
+        "description" : "Le Groupement d’intérêt public, sis 21-23 rue des Ardennes 75019 Paris PIX met en œuvre en tant que responsable de traitement un traitement de données à caractère personnel portant sur votre adresse email professionnel de référent Pix.<br />La finalité de ce traitement est la communication des informations nécessaires aux attributions du référent Pix au sein du centre de certification agréé. Le traitement de cette données repose sur l’exécution de la convention d’agrément de votre centre de certification.<br />Les données sont conservées pendant la durée de la convention d’agrément en vigueur entre le GIP Pix et le centre habilité auquel vous êtes rattaché.<br />Vous disposez de droits personnels, droits d'accès, de rectification et d’effacement des données, le droit de limitation ou d’opposition au traitement pour motif légitime et le droit d’introduire une réclamation auprès d’une autorité de contrôle ainsi que le droit de définir des directives relatives à la conservation, à l'effacement et à la communication de vos données à caractère personnel en cas de décès que vous pouvez exercer par courriel auprès de notre DPD en adressant votre demande à l’adresse électronique suivante : dpd@pix.fr .<br />Vous disposez de la possibilité d’introduire une réclamation auprès de Commission nationale Informatique et libertés « CNIL » à l’adresse suivante : 3 Place de Fontenoy – TSA 80715 – 75334 Paris Cedex 07."
+      }
+    }
+  }
+}

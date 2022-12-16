@@ -1,0 +1,165 @@
+.login-or-register-oidc-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 1250px;
+  margin-bottom: 32px;
+  padding: 25px 50px;
+
+  @include device-is('desktop') {
+    padding: 50px;
+  }
+
+  &__logo {
+    text-align: center;
+
+    img {
+      height: 80px;
+    }
+  }
+
+  &__title {
+    padding: 22px 0 38px;
+    color: $pix-neutral-90;
+    font-weight: 300;
+    font-size: 36px;
+    font-family: $font-open-sans;
+    text-align: center;
+
+    @include device-is('desktop') {
+      padding: 32px 0 48px;
+      font-size: 46px;
+      line-height: 3.75rem;
+    }
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 450px;
+
+    @include device-is('desktop') {
+      flex-direction: row;
+      align-items: normal;
+      justify-content: space-between;
+    }
+  }
+
+  &__subtitle {
+    padding-bottom: 24px;
+    color: $pix-neutral-90;
+    font-weight: 500;
+    font-size: 22px;
+    font-family: $font-open-sans;
+    line-height: 2.5rem;
+
+    @include device-is('desktop') {
+      font-size: 28px;
+    }
+  }
+
+  &__description {
+    margin: 0;
+    padding-bottom: 24px;
+    color: $pix-neutral-60;
+    font-weight: 500;
+    font-size: 16px;
+    font-family: $font-roboto;
+    line-height: 1.375rem;
+  }
+
+  &__description em {
+    padding-right: 0.2rem;
+    padding-left: 0.2rem;
+    color: $pix-neutral-90;
+    font-style: normal;
+  }
+
+  &__information {
+    margin-bottom: 2rem;
+    color: $pix-neutral-60;
+    font-weight: 500;
+    font-size: 16px;
+    font-family: $font-roboto;
+    line-height: 1.375rem;
+
+    ul {
+      margin: 0;
+      padding-left: 1rem;
+    }
+
+    li {
+      list-style: initial;
+    }
+  }
+
+  &__register-container,
+  &__login-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 440px;
+  }
+
+  &__register-container {
+    @include device-is('desktop') {
+      padding-right: 30px;
+    }
+  }
+
+  &__login-container {
+    @include device-is('desktop') {
+      padding-left: 30px;
+    }
+  }
+
+  &__divider {
+    width: 100%;
+    margin: 50px 0 30px;
+    border-bottom: 1px solid $pix-neutral-30;
+
+    @include device-is('desktop') {
+      width: 0;
+      margin: 0;
+      border-bottom-style: none;
+      border-left: 1px solid $pix-neutral-30;
+    }
+  }
+
+  &__cgu-container {
+    display: flex;
+    padding: 0 0 24px;
+  }
+
+  &__cgu-label {
+    margin-bottom: 0;
+    font-size: 14px;
+  }
+
+  &__cgu-error {
+    margin-bottom: 20px;
+  }
+
+  &__mandatory-description {
+    padding-bottom: 10px;
+    color: $pix-neutral-70;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  &__password-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+  }
+
+  &__forgotten-password-link {
+    align-self: flex-end;
+    margin-top: 5px;
+    color: $pix-neutral-70;
+    font-size: 14px;
+  }
+
+  &__submit-button {
+    width: 100%;
+  }
+}

@@ -1,0 +1,131 @@
+.c-notification.notification {
+  font-family: $font-roboto;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 6px;
+  border: 1.5px solid $pix-neutral-60;
+  color: $pix-neutral-70;
+  line-height: 1.3125rem;
+
+  > div:first-child {
+    background-color: $pix-neutral-60;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  > div:nth-child(2) {
+    background-color: $pix-neutral-20;
+    padding: 8px 12px;
+    align-items: center;
+
+    > div {
+      align-self: center;
+      padding-right: 0;
+      background-color: inherit;
+    }
+  }
+
+  a {
+    color: $pix-neutral-70;
+  }
+
+  .fa {
+    font-size: 1.375rem;
+  }
+
+  .fa-exclamation-circle {
+    color: $pix-neutral-0;
+  }
+
+  .c-notification__close svg {
+    fill: $pix-neutral-60;
+
+    &:hover,
+    &:active {
+      fill: $pix-neutral-70;
+    }
+  }
+
+  &--error {
+    border: 1.5px solid $pix-error-70;
+
+    div:first-child {
+      background-color: $pix-error-70;
+    }
+
+    div:nth-child(2) {
+      background-color: $pix-error-5;
+      color: $pix-error-70;
+    }
+
+    .c-notification__close svg {
+      fill: $pix-error-70;
+
+      &:hover,
+      &:active {
+        fill: $pix-error-80;
+      }
+    }
+  }
+
+  &--warning {
+    border: 1.5px solid $pix-warning-70;
+
+    div:first-child {
+      background-color: $pix-warning-70;
+    }
+
+    div:nth-child(2) {
+      background-color: $pix-warning-5;
+      color: $pix-warning-70;
+    }
+
+    .c-notification__close svg {
+      fill: $pix-warning-70;
+
+      &:hover,
+      &:active {
+        fill: $pix-warning-80;
+      }
+    }
+  }
+
+  &--success {
+    border: 1.5px solid $pix-success-70;
+
+    div:first-child {
+      background-color: $pix-success-70;
+    }
+
+    div:nth-child(2) {
+      background-color: $pix-success-5;
+      color: $pix-success-70;
+    }
+    .c-notification__close svg {
+      fill: $pix-success-70;
+
+      &:hover,
+      &:active {
+        fill: $pix-success-80;
+      }
+    }
+  }
+}
+
+.alert-input {
+  position: relative;
+  text-align: right;
+  margin-top: -5px;
+  margin-bottom: 5px;
+  font-size: 0.75rem;
+
+  &--error {
+    color: $pix-error-70;
+  }
+
+  &--left {
+    text-align: left;
+    margin-top: 5px;
+  }
+}

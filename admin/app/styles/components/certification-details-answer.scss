@@ -1,0 +1,42 @@
+/* stylelint-disable selector-class-pattern */
+.certification-details-card {
+  padding: 5px 10px;
+  text-align: center;
+}
+
+.certification-details-answer {
+
+  .card__content {
+    padding: 0;
+  }
+
+  .certification-details-answer-skill {
+    font-size: 0.875rem;
+  }
+
+  .certification-details-answer-challenge {
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 0.875rem;
+  }
+
+  .certification-details-answer-challenge-link {
+    display: flex;
+    font-size: 0.875rem;
+  }
+
+  .certification-details-answer-order {
+    display: flex;
+    justify-content: flex-start;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  .certification-details-answer-value {
+    font-size: 0.875rem;
+  }
+
+  .jury {
+    color: $pix-error-70;
+  }
+}

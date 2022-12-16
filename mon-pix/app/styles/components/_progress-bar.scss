@@ -1,0 +1,73 @@
+.blur-progress-bar {
+  filter: $blur-30;
+}
+
+.progress-bar-container {
+  position: relative;
+  margin-top: 15px;
+  margin-bottom: 50px;
+}
+
+.progress-bar-stepnums {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 0 4px;
+  font-size: 0.938rem;
+}
+
+.progress-bar-stepnum {
+  color: $pix-neutral-110;
+  opacity: 0.3;
+
+  &.active {
+    color: $pix-neutral-0;
+    opacity: 1;
+  }
+}
+
+.progress-bar-background {
+  position: absolute;
+  width: 100%;
+  height: 16px;
+  background: rgb(0 0 0 / 20%);
+  border-radius: 15px;
+}
+
+.progress-bar-progression {
+  position: absolute;
+  height: 16px;
+  background: white;
+  border-radius: 15px;
+  transition: 1s;
+}
+
+.progress-bar-steps {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.progress-bar-step {
+  width: 10px;
+  height: 10px;
+  margin: 3px;
+  border-radius: 5px;
+}
+
+.assessment-progress {
+  margin-bottom: 10px;
+  color: $pix-neutral-0;
+  text-align: right;
+
+  &__label {
+    text-transform: uppercase;
+    opacity: 0.5;
+  }
+
+  &__value {
+    font-weight: bold;
+    font-size: 1.875rem;
+  }
+}

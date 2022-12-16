@@ -1,0 +1,200 @@
+<header class="page-section__header">
+  <h2 class="page-section__title">Méthodes de connexion</h2>
+</header>
+
+<dl>
+  <div class="authentication-method__connexions-information">
+    <dt>Date de dernière connexion :</dt>
+    {{#if @user.lastLoggedAt}}
+      <dd>{{dayjs-format @user.lastLoggedAt "DD/MM/YYYY"}}</dd>
+    {{/if}}
+  </div>
+  {{#if @user.emailConfirmedAt}}
+    <div class="authentication-method__connexions-information">
+      <dt>Adresse e-mail confirmée le :</dt>
+      <dd>{{dayjs-format @user.emailConfirmedAt "DD/MM/YYYY"}}</dd>
+    </div>
+  {{else}}
+    <div class="authentication-method__connexions-information">
+      Adresse e-mail non confirmée
+    </div>
+  {{/if}}
+
+</dl>
+
+<table class="authentication-method-table">
+
+  <caption class="authentication-method-table__caption">Méthodes de connexion</caption>
+
+  <tbody>
+    <tr>
+      <td class="authentication-method-table__name-column">Adresse e-mail</td>
+      <td>
+        {{#if this.hasEmailAuthenticationMethod}}
+          <FaIcon
+            @icon="circle-check"
+            aria-label="L'utilisateur a une méthode de connexion avec adresse e-mail"
+            class="authentication-method-table__check"
+          />
+        {{else}}
+          <FaIcon
+            @icon="circle-xmark"
+            aria-label="L'utilisateur n'a pas de méthode de connexion avec adresse e-mail"
+            class="authentication-method-table__uncheck"
+          />
+        {{/if}}
+      </td>
+      <td>
+        {{#if this.accessControl.hasAccessToUsersActionsScope}}
+          {{#if this.isAllowedToRemoveEmailAuthenticationMethod}}
+            <PixButton
+              class="user-authentication-method__remove-button"
+              @size="small"
+              @backgroundColor="red"
+              @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "EMAIL"}}
+            >Supprimer</PixButton>
+          {{/if}}
+          {{#if this.isAllowedToAddEmailAuthenticationMethod}}
+            <PixButton @triggerAction={{this.toggleAddAuthenticationMethodModal}} @size="small">
+              Ajouter une adresse e-mail
+            </PixButton>
+          {{/if}}
+        {{/if}}
+      </td>
+    </tr>
+
+    <tr>
+      <td class="authentication-method-table__name-column">Identifiant</td>
+      <td>
+        {{#if this.hasUsernameAuthenticationMethod}}
+          <FaIcon
+            @icon="circle-check"
+            aria-label="L'utilisateur a une méthode de connexion avec identifiant"
+            class="authentication-method-table__check"
+          />
+        {{else}}
+          <FaIcon
+            @icon="circle-xmark"
+            aria-label="L'utilisateur n'a pas de méthode de connexion avec identifiant"
+            class="authentication-method-table__uncheck"
+          />
+        {{/if}}
+      </td>
+      <td>
+        {{#if this.accessControl.hasAccessToUsersActionsScope}}
+          {{#if this.isAllowedToRemoveUsernameAuthenticationMethod}}
+            <PixButton
+              class="user-authentication-method__remove-button"
+              @size="small"
+              @backgroundColor="red"
+              @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "USERNAME"}}
+            >Supprimer</PixButton>
+          {{/if}}
+        {{/if}}
+      </td>
+    </tr>
+
+    <tr>
+      <td class="authentication-method-table__name-column">Médiacentre</td>
+      <td>
+        {{#if this.hasGarAuthenticationMethod}}
+          <FaIcon
+            @icon="circle-check"
+            aria-label="L'utilisateur a une méthode de connexion Médiacentre"
+            class="authentication-method-table__check"
+          />
+        {{else}}
+          <FaIcon
+            @icon="circle-xmark"
+            aria-label="L'utilisateur n'a pas de méthode de connexion Médiacentre"
+            class="authentication-method-table__uncheck"
+          />
+        {{/if}}
+      </td>
+      <td class="authentication-method-table__actions-column">
+        {{#if this.accessControl.hasAccessToUsersActionsScope}}
+          <div>
+            {{#if this.isAllowedToRemoveGarAuthenticationMethod}}
+              <PixButton
+                @size="small"
+                @backgroundColor="red"
+                @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "GAR"}}
+              >Supprimer</PixButton>
+            {{/if}}
+            {{#if this.hasGarAuthenticationMethod}}
+              <PixButton @triggerAction={{this.toggleReassignGarAuthenticationMethodModal}} @size="small">
+                Déplacer cette méthode de connexion
+              </PixButton>
+            {{/if}}
+          </div>
+        {{/if}}
+      </td>
+    </tr>
+
+    {{#each this.oidcAuthenticationMethods as |oidcAuthenticationMethod|}}
+      <tr>
+        <td class="authentication-method-table__name-column">{{oidcAuthenticationMethod.name}}</td>
+        <td>
+          {{#if oidcAuthenticationMethod.hasAuthenticationMethod}}
+            <FaIcon
+              @icon="circle-check"
+              aria-label="L'utilisateur a une méthode de connexion {{oidcAuthenticationMethod.name}}"
+              class="authentication-method-table__check"
+            />
+          {{else}}
+            <FaIcon
+              @icon="circle-xmark"
+              aria-label="L'utilisateur n'a pas de méthode de connexion {{oidcAuthenticationMethod.name}}"
+              class="authentication-method-table__uncheck"
+            />
+          {{/if}}
+        </td>
+        <td class="authentication-method-table__actions-column">
+          {{#if this.accessControl.hasAccessToUsersActionsScope}}
+            <div>
+              {{#if oidcAuthenticationMethod.canBeRemoved}}
+                <PixButton
+                  class="user-authentication-method__remove-button"
+                  @size="small"
+                  @backgroundColor="red"
+                  @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal oidcAuthenticationMethod.code}}
+                >Supprimer</PixButton>
+              {{/if}}
+              {{#if oidcAuthenticationMethod.canBeReassigned}}
+                <PixButton
+                  @triggerAction={{fn this.toggleReassignOidcAuthenticationMethodModal oidcAuthenticationMethod}}
+                  @size="small"
+                >
+                  Déplacer cette méthode de connexion
+                </PixButton>
+              {{/if}}
+            </div>
+          {{/if}}
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+<Users::UserDetailPersonalInformation::AddAuthenticationMethodModal
+  @onChangeNewEmail={{this.onChangeNewEmail}}
+  @showAlreadyExistingEmailError={{this.showAlreadyExistingEmailError}}
+  @toggleAddAuthenticationMethodModal={{this.toggleAddAuthenticationMethodModal}}
+  @submitAddingPixAuthenticationMethod={{this.submitAddingPixAuthenticationMethod}}
+  @isDisplayed={{this.showAddAuthenticationMethodModal}}
+/>
+
+<Users::UserDetailPersonalInformation::ReassignGarAuthenticationMethodModal
+  @onChangeTargetUserId={{this.onChangeTargetUserId}}
+  @toggleReassignGarAuthenticationMethodModal={{this.toggleReassignGarAuthenticationMethodModal}}
+  @submitReassignGarAuthenticationMethod={{this.submitReassignGarAuthenticationMethod}}
+  @isDisplayed={{this.showReassignGarAuthenticationMethodModal}}
+/>
+
+<Users::UserDetailPersonalInformation::ReassignOidcAuthenticationMethodModal
+  @oidcAuthenticationMethod={{this.selectedOidcAuthenticationMethod}}
+  @onChangeTargetUserId={{this.onChangeTargetUserId}}
+  @toggleReassignOidcAuthenticationMethodModal={{this.toggleReassignOidcAuthenticationMethodModal}}
+  @submitReassignOidcAuthenticationMethod={{this.submitReassignOidcAuthenticationMethod}}
+  @isDisplayed={{this.showReassignOidcAuthenticationMethodModal}}
+/>

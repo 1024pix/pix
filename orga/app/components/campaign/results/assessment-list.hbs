@@ -1,0 +1,69 @@
+<section ...attributes>
+  <h3 class="sr-only">{{t "pages.campaign-results.table.title"}}</h3>
+
+  <Campaign::Filter::ParticipationFilters
+    @campaign={{@campaign}}
+    @selectedDivisions={{@selectedDivisions}}
+    @selectedGroups={{@selectedGroups}}
+    @selectedBadges={{@selectedBadges}}
+    @selectedStages={{@selectedStages}}
+    @searchFilter={{@searchFilter}}
+    @rowCount={{@participations.meta.rowCount}}
+    @isHiddenStatus={{true}}
+    @onResetFilter={{@onResetFilter}}
+    @onFilter={{@onFilter}}
+  />
+
+  <div class="panel">
+    <table class="table content-text content-text--small">
+      <colgroup class="table__column">
+        <col />
+        <col />
+        {{#if @campaign.idPixLabel}}
+          <col />
+        {{/if}}
+        <col />
+        {{#if @campaign.hasBadges}}
+          <col />
+        {{/if}}
+      </colgroup>
+      <thead>
+        <tr>
+          <Table::Header>{{t "pages.campaign-results.table.column.last-name"}}</Table::Header>
+          <Table::Header>{{t "pages.campaign-results.table.column.first-name"}}</Table::Header>
+          {{#if @campaign.hasExternalId}}
+            <Table::Header>{{@campaign.idPixLabel}}</Table::Header>
+          {{/if}}
+          <Table::Header>{{t "pages.campaign-results.table.column.results.label"}}</Table::Header>
+          {{#if @campaign.hasBadges}}
+            <Table::Header>{{t "pages.campaign-results.table.column.badges"}}</Table::Header>
+          {{/if}}
+        </tr>
+      </thead>
+
+      {{#if @participations}}
+        <tbody>
+          {{#each @participations as |participation|}}
+            <Campaign::Results::AssessmentRow
+              @hasStages={{@campaign.hasStages}}
+              @hasBadges={{@campaign.hasBadges}}
+              @hasExternalId={{@campaign.hasExternalId}}
+              @participation={{participation}}
+              @campaignId={{@campaign.id}}
+              @stages={{@campaign.stages}}
+              @onClickParticipant={{@onClickParticipant}}
+            />
+          {{/each}}
+        </tbody>
+      {{/if}}
+    </table>
+
+    {{#unless @participations}}
+      <p class="table__empty content-text">{{t "pages.campaign-results.table.empty"}}</p>
+    {{/unless}}
+  </div>
+
+  {{#if @participations}}
+    <Table::PaginationControl @pagination={{@participations.meta}} />
+  {{/if}}
+</section>

@@ -1,0 +1,347 @@
+<PixModal
+  @title="Inscrire un candidat"
+  @onCloseButtonClick={{@closeModal}}
+  class="new-certification-candidate-modal"
+  @showModal={{@showModal}}
+>
+  <:content>
+    <form
+      id="new-certification-candidate-form"
+      class="new-certification-candidate-modal__form"
+      {{on "submit" this.onFormSubmit}}
+    >
+
+      <p class="new-certification-candidate-modal__form__required-fields-mention">
+        Les champs marqués de
+        <span class="required-field-indicator">*</span>
+        sont obligatoires.
+      </p>
+
+      <div class="new-certification-candidate-modal__form__field new-certification-candidate-modal__form__field-double">
+        <label for="last-name" class="label">
+          <span class="required-field-indicator">*</span>
+          Nom de famille
+        </label>
+        <Input
+          id="last-name"
+          @type="text"
+          class="input"
+          @value={{@candidateData.lastName}}
+          {{on "input" (fn @updateCandidateData @candidateData "lastName")}}
+          {{did-insert this.focus}}
+          required
+        />
+      </div>
+
+      <div class="new-certification-candidate-modal__form__field new-certification-candidate-modal__form__field-double">
+        <label for="first-name" class="label">
+          <span class="required-field-indicator">*</span>
+          Prénom
+        </label>
+        <Input
+          id="first-name"
+          @type="text"
+          class="input"
+          @value={{@candidateData.firstName}}
+          {{on "input" (fn @updateCandidateData @candidateData "firstName")}}
+          required
+        />
+      </div>
+
+      <div class="new-certification-candidate-modal__form__field">
+        <fieldset>
+          <legend class="label">
+            <span class="required-field-indicator">*</span>
+            Sexe
+          </legend>
+          <div class="radio-button-container">
+            <input
+              type="radio"
+              id="female"
+              value="F"
+              name="sex"
+              required
+              {{on "click" (fn @updateCandidateData @candidateData "sex")}}
+            />
+            <label class="radio-button-label" for="female">Femme</label>
+            <input
+              type="radio"
+              id="male"
+              value="M"
+              name="sex"
+              {{on "click" (fn @updateCandidateData @candidateData "sex")}}
+            />
+            <label class="radio-button-label" for="male">Homme</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="new-certification-candidate-modal__form__field">
+        <label for="birthdate" class="label">
+          <span class="required-field-indicator">*</span>
+          Date de naissance
+        </label>
+        <OneWayDateMask
+          required
+          @placeholder="dd/mm/yyyy"
+          @options={{this.query}}
+          class="input"
+          id="birthdate"
+          @value={{this.maskedBirthdate}}
+          @update={{this.updateBirthdate}}
+        />
+      </div>
+
+      <div class="new-certification-candidate-modal__form__field">
+        <label for="birth-country" class="label">
+          <span class="required-field-indicator">*</span>
+          Pays de naissance
+        </label>
+        <PixSelect
+          id="birth-country"
+          class="birth-country-selector"
+          @options={{this.countryOptions}}
+          @onChange={{this.selectBirthCountry}}
+          @selectedOption={{this.defaultCountryOption}}
+          required
+        />
+      </div>
+
+      {{#if this.isBirthGeoCodeRequired}}
+        <div class="new-certification-candidate-modal__form__field">
+          <fieldset>
+            <legend class="label">
+              <span class="required-field-indicator">*</span>
+              Code géographique de naissance
+            </legend>
+            <div class="radio-button-container">
+              <input
+                type="radio"
+                id="insee-code-choice"
+                name="birth-geo-code-option"
+                value="insee"
+                checked="checked"
+                {{on "click" (fn this.selectBirthGeoCodeOption "insee")}}
+                required
+              />
+              <label class="radio-button-label" for="insee-code-choice">Code INSEE</label>
+              <input
+                type="radio"
+                id="postal-code-choice"
+                name="birth-geo-code-option"
+                value="postal"
+                {{on "click" (fn this.selectBirthGeoCodeOption "postal")}}
+              />
+              <label class="radio-button-label" for="postal-code-choice">Code postal</label>
+            </div>
+          </fieldset>
+        </div>
+      {{/if}}
+
+      {{#if this.isBirthInseeCodeRequired}}
+        <div class="new-certification-candidate-modal__form__field">
+          <label for="birth-insee-code" class="label">
+            <span class="required-field-indicator">*</span>
+            Code INSEE de naissance
+          </label>
+          <Input
+            id="birth-insee-code"
+            @type="text"
+            maxlength="5"
+            class="input"
+            @value={{@candidateData.birthInseeCode}}
+            required
+            {{on "input" (fn @updateCandidateData @candidateData "birthInseeCode")}}
+          />
+        </div>
+      {{/if}}
+
+      {{#if this.isBirthPostalCodeRequired}}
+        <div
+          class="new-certification-candidate-modal__form__field new-certification-candidate-modal__form__field-double"
+        >
+          <label for="birth-postal-code" class="label">
+            <span class="required-field-indicator">*</span>
+            Code postal de naissance
+          </label>
+          <Input
+            id="birth-postal-code"
+            @type="text"
+            maxlength="5"
+            class="input"
+            @value={{@candidateData.birthPostalCode}}
+            required
+            {{on "input" (fn @updateCandidateData @candidateData "birthPostalCode")}}
+          />
+        </div>
+      {{/if}}
+
+      {{#if this.isBirthCityRequired}}
+        <div
+          class="new-certification-candidate-modal__form__field new-certification-candidate-modal__form__field-double"
+        >
+          <label for="birth-city" class="label">
+            <span class="required-field-indicator">*</span>
+            Commune de naissance
+          </label>
+          <Input
+            id="birth-city"
+            @type="text"
+            class="input"
+            @value={{@candidateData.birthCity}}
+            required
+            {{on "input" (fn @updateCandidateData @candidateData "birthCity")}}
+          />
+        </div>
+      {{/if}}
+
+      <div class="new-certification-candidate-modal__form__field">
+        <label for="external-id" class="label">Identifiant externe</label>
+        <Input
+          id="external-id"
+          @type="text"
+          class="input"
+          @value={{@candidateData.externalId}}
+          {{on "input" (fn @updateCandidateData @candidateData "externalId")}}
+        />
+      </div>
+
+      <div class="new-certification-candidate-modal__form__field">
+        <label for="extra-time-percentage" class="label">Temps majoré (%)</label>
+        <Input
+          id="extra-time-percentage"
+          @type="number"
+          class="input {{if this.validation.email.hasError 'input--error'}}"
+          @value={{@candidateData.extraTimePercentage}}
+          {{on "input" (fn @updateCandidateData @candidateData "extraTimePercentage")}}
+        />
+      </div>
+
+      <div id="recipient-email-container" class="new-certification-candidate-modal__form__field">
+        <label for="result-recipient-email" class="label">E-mail du destinataire des résultats (formateur,
+          enseignant...)</label>
+        <Input
+          id="result-recipient-email"
+          @type="email"
+          class="input"
+          @value={{@candidateData.resultRecipientEmail}}
+          {{on "input" (fn @updateCandidateData @candidateData "resultRecipientEmail")}}
+        />
+        <div class="new-certification-candidate-modal__form__field__info-panel">
+          <FaIcon @icon="info-circle" />
+          <span>Si le champ n’est pas renseigné, les résultats ne seront pas transmis par mail pour le/les candidats
+            concernés.<br />Le candidat verra ses résultats affichés directement sur son compte Pix.</span>
+        </div>
+      </div>
+
+      <div id="email-container" class="new-certification-candidate-modal__form__field">
+        <label for="email" class="label">E-mail de convocation</label>
+        <Input
+          id="email"
+          @type="email"
+          class="input"
+          @value={{@candidateData.email}}
+          {{on "input" (fn @updateCandidateData @candidateData "email")}}
+        />
+      </div>
+
+      {{#if @shouldDisplayPaymentOptions}}
+        <div
+          class="new-certification-candidate-modal__form__field new-certification-candidate-modal__form__field-double"
+        >
+          <label for="billing-mode" class="label">
+            <span class="required-field-indicator">*</span>
+            Tarification part Pix</label>
+          <PixSelect
+            id="billing-mode"
+            class="birth-country-selector"
+            @options={{this.billingModeOptions}}
+            @onChange={{fn @updateCandidateData @candidateData "billingMode"}}
+            @emptyOptionLabel={{"-- Choisissez --"}}
+            @emptyOptionNotSelectable={{true}}
+            required
+          />
+        </div>
+        <div
+          class="new-certification-candidate-modal__form__field new-certification-candidate-modal__form__field-double new-certification-candidate-modal__form__field__tooltip"
+        >
+          <label for="prepayment-code" class="label">
+            Code de prépaiement
+          </label>
+          <PixTooltip @id="tooltip-prepayment-code" @position="left">
+            <:triggerElement>
+              <FaIcon
+                @icon="info-circle"
+                tabindex="0"
+                aria-describedby="tooltip-prepayment-code"
+                aria-label="Information du code de prépaiement"
+              />
+            </:triggerElement>
+            <:tooltip>
+              (Requis notamment dans le cas d'un achat de crédits combinés)<br />
+              Doit être composé du SIRET de l’organisation et du numéro de facture. Ex : 12345678912345/FACT12345'.<br
+              />
+              Si vous ne possédez pas de facture, un code de prépaiement doit être établi avec Pix.
+            </:tooltip>
+          </PixTooltip>
+          <Input
+            id="prepayment-code"
+            @type="text"
+            class="input"
+            @value={{@candidateData.prepaymentCode}}
+            {{on "input" (fn @updateCandidateData @candidateData "prepaymentCode")}}
+          />
+        </div>
+      {{/if}}
+
+      {{#if this.complementaryCertifications.length}}
+        <div class="new-certification-candidate-modal__form__field">
+          <span class="label">Certifications complémentaires</span>
+          <div class="complementary-certifications-checkbox-list">
+            <fieldset id="complementary-certifications">
+              <label for="no-complementaryCertification">
+                <input
+                  type="radio"
+                  name="complementary-certifications"
+                  id={{concat "no-complementaryCertification"}}
+                  checked="checked"
+                  value="none"
+                  {{on "input" this.updateComplementaryCertification}}
+                />
+                Aucune
+              </label>
+              {{#each this.complementaryCertifications as |complementaryCertification index|}}
+                <label for={{concat "complementaryCertification_" index}}>
+                  <input
+                    type="radio"
+                    name="complementary-certifications"
+                    id={{concat "complementaryCertification_" index}}
+                    {{on "input" (fn this.updateComplementaryCertification complementaryCertification)}}
+                  />
+                  {{complementaryCertification.label}}
+                </label>
+              {{/each}}
+            </fieldset>
+          </div>
+        </div>
+      {{/if}}
+    </form>
+  </:content>
+  <:footer>
+    <PixButton
+      aria-label="Fermer la modale d'ajout de candidat"
+      @triggerAction={{@closeModal}}
+      @backgroundColor="transparent-light"
+    >
+      Fermer
+    </PixButton>
+    <PixButton
+      @type="submit"
+      @isLoading={{this.isLoading}}
+      @isDisabled={{this.isLoading}}
+      form="new-certification-candidate-form"
+    >
+      Inscrire le candidat
+    </PixButton>
+  </:footer>
+</PixModal>

@@ -1,0 +1,20 @@
+.no-participant-panel {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: center;
+  text-align: center;
+  padding: 60px 30px;
+
+  .page-title {
+    font-size: 2rem;
+  }
+
+  &__information-text {
+    color: $pix-neutral-60;
+  }
+
+  .link-icon {
+    color: $pix-primary;
+  }
+}

@@ -1,0 +1,31 @@
+<PixTooltip
+  @id={{concat "last-participation-date-tooltip-" @id}}
+  @position="left"
+  @isWide={{true}}
+  class="last-participation-date-tooltip"
+>
+  <:triggerElement>
+    <FaIcon
+      @icon="circle-info"
+      tabindex="0"
+      aria-label={{t "pages.participants-list.latest-participation-information-tooltip.aria-label"}}
+      aria-describedby={{concat "last-participation-date-tooltip-" @id}}
+      class="last-participation-date-tooltip__icon"
+    />
+  </:triggerElement>
+  <:tooltip>
+    <ul>
+      <li>
+        {{t "pages.participants-list.latest-participation-information-tooltip.campaign-name"}}
+        <span class="last-participation-date-tooltip__informations">{{@campaignName}}</span>
+      </li>
+      <li>
+        {{t "pages.participants-list.latest-participation-information-tooltip.campaign-type"}}
+        <span class="last-participation-date-tooltip__informations">{{this.campaignTypeLabel}}</span>
+      </li>
+      <li>{{t "pages.participants-list.latest-participation-information-tooltip.campaign-status"}}
+        <span class="last-participation-date-tooltip__informations">{{this.participationStatusLabel}}</span>
+      </li>
+    </ul>
+  </:tooltip>
+</PixTooltip>

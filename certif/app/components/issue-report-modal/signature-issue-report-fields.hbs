@@ -1,0 +1,24 @@
+<fieldset>
+  <div>
+    <input
+      id="input-radio-for-category-signature-issue"
+      type="radio"
+      name="signature-issue"
+      checked={{@signatureIssueCategory.isChecked}}
+      {{on "click" (fn @toggleOnCategory @signatureIssueCategory)}}
+    />
+    <label for="input-radio-for-category-signature-issue"><span
+      >{{@signatureIssueCategory.categoryCode}}&nbsp;</span>{{@signatureIssueCategory.categoryLabel}}</label>
+  </div>
+  {{#if @signatureIssueCategory.isChecked}}
+    <div>
+      <label for="text-area-for-category-signature-issue">Précisez</label>
+      <PixTextarea
+        @id="text-area-for-category-signature-issue"
+        @value={{@signatureIssueCategory.description}}
+        @maxlength={{@maxlength}}
+        required="true"
+      />
+    </div>
+  {{/if}}
+</fieldset>

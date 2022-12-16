@@ -1,0 +1,52 @@
+.personal-information {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.personal-information-item {
+  display: flex;
+  align-content: flex-start;
+  margin: 20px 0;
+  padding-bottom: 1rem;
+  border-bottom: $pix-neutral-15 1px solid;
+
+  &:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    min-width: 200px;
+    margin: 0;
+  }
+
+  &__value {
+    margin: 0;
+    color: $pix-neutral-50;
+  }
+
+  &__select {
+    width: 165px;
+    margin: 0;
+    color: $pix-neutral-50;
+  }
+}
+
+@include device-is('mobile') {
+
+  .personal-information {
+    padding: 0;
+  }
+
+  .personal-information-item {
+    flex-direction: column;
+    padding-left: 10px;
+
+    &__label {
+      padding-bottom: 10px;
+    }
+  }
+}

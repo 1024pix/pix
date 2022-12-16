@@ -1,0 +1,56 @@
+$margin-right: 32px;
+
+.organization-participant-list-page {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  width: 100%;
+
+  &__last-participation {
+    display: flex;
+    gap: $spacing-xs;
+    justify-content: center;
+  }
+
+  &__certificability-header {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__certifiable-at {
+    display: block;
+    margin-top: $spacing-xxs;
+  }
+
+  &__header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin: 1rem 0;
+  }
+
+  &__import-students-button {
+    display: flex;
+
+    > a {
+      margin-right: 16px;
+    }
+
+    > a:last-child {
+      margin-right: 0;
+    }
+  }
+
+  &__actions {
+    text-align: right;
+  }
+
+  &__dropdown-button {
+    margin-right: $margin-right;
+  }
+
+  &__dropdown-content {
+    width: 200px;
+    right: $margin-right;
+  }
+}

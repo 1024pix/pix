@@ -1,0 +1,75 @@
+.timed-challenge-instructions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  overflow: hidden;
+  text-align: center;
+
+  &__primary {
+    margin-top: 22px;
+    color: $pix-neutral-80;
+    font-weight: $font-bold;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-stretch: normal;
+  }
+
+  &__secondary {
+    margin-top: 9px;
+    margin-bottom: 50px;
+    color: $pix-neutral-80;
+    font-size: 1.125rem;
+    font-style: normal;
+    font-stretch: normal;
+  }
+
+  &__time {
+    color: $pix-primary;
+  }
+
+  &__allocated-time {
+    color: $pix-neutral-80;
+    font-size: 1.7375rem;
+  }
+
+  &__action {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.timed-challenge-instructions-allocated-time {
+
+  &__gauge {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    height: 50px;
+    margin: 0 auto;
+    padding: 4px 12px;
+    line-height: 3.125rem;
+    background-color: $pix-neutral-20;
+    border-radius: 7px;
+  }
+}
+
+.timed-challenge-instructions-gauge {
+
+  &__icon {
+    width: 42px;
+    padding-right: 6px;
+    padding-bottom: 6px;
+  }
+}
+
+.timed-challenge-instructions-action {
+
+  &__confirmation-button {
+    margin-top: 22px;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+  }
+}

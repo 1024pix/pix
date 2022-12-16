@@ -1,0 +1,17 @@
+{{#if @isLoading}}
+  <div class="multi-select-filter--is-loading placeholder-box"></div>
+{{else}}
+  <PixMultiSelect
+    @label={{@title}}
+    @placeholder={{@placeholder}}
+    @screenReaderOnly={{true}}
+    @emptyMessage={{@emptyMessage}}
+    @isSearchable={{true}}
+    @onChange={{this.onSelect}}
+    @values={{@selectedOption}}
+    @options={{@options}}
+    as |option|
+  >
+    {{option.label}}
+  </PixMultiSelect>
+{{/if}}

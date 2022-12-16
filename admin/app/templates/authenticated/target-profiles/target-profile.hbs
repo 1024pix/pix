@@ -1,0 +1,7 @@
+{{#if this.showTargetProfile}}
+  <TargetProfiles::TargetProfile @model={{@model}}>
+    {{outlet}}
+  </TargetProfiles::TargetProfile>
+{{else}}
+  {{outlet}}
+{{/if}}

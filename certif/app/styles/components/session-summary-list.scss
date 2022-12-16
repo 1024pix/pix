@@ -1,0 +1,15 @@
+.session-summary-list {
+
+  &__link {
+    color: $pix-neutral-80;
+    text-decoration: none;
+  }
+
+  &__delete {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 16px;
+  }
+}

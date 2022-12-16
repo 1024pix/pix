@@ -1,0 +1,28 @@
+<div class="certification-info-field">
+  {{#if @edition}}
+    <label for={{@fieldId}} class="certification-info-field__label">
+      {{@label}}
+    </label>
+    {{#if @isTextarea}}
+      <Textarea id={{@fieldId}} @value={{@value}} class="form-control" ...attributes />
+    {{else}}
+      <Input id={{@fieldId}} @type="text" @value={{@value}} class="form-control" ...attributes />
+    {{/if}}
+    {{#if @suffix}}
+      <span class="certification-info-field__suffix">{{@suffix}}</span>
+    {{/if}}
+  {{else}}
+    <p>
+      {{@label}}
+      {{#if @linkRoute}}
+        <LinkTo @route={{@linkRoute}} @model={{@value}}>
+          {{this.valueWithSuffix}}
+        </LinkTo>
+      {{else}}
+        <span class={{@class}}>
+          {{if this.valueWithSuffix this.valueWithSuffix " - "}}
+        </span>
+      {{/if}}
+    </p>
+  {{/if}}
+</div>

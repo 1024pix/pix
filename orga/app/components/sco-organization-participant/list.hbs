@@ -1,0 +1,169 @@
+<PixFilterBanner
+  @title={{t "pages.sco-organization-participants.filter.title"}}
+  class="participant-filter-banner hide-on-mobile"
+  aria-label={{t "pages.sco-organization-participants.filter.aria-label"}}
+  @details={{t "pages.sco-organization-participants.filter.students-count" count=@students.meta.rowCount}}
+  @clearFiltersLabel={{t "pages.sco-organization-participants.filter.actions.clear"}}
+  @onClearFilters={{@onResetFilter}}
+>
+  <Ui::SearchInputFilter
+    @field="search"
+    @value={{@searchFilter}}
+    @placeholder={{t "pages.sco-organization-participants.filter.search.label"}}
+    @ariaLabel={{t "pages.sco-organization-participants.filter.search.aria-label"}}
+    @triggerFiltering={{@onFilter}}
+  />
+
+  <Ui::MultiSelectFilter
+    @field="divisions"
+    @title={{t "pages.sco-organization-participants.filter.division.label"}}
+    @onSelect={{@onFilter}}
+    @selectedOption={{@divisionsFilter}}
+    @isLoading={{this.isLoadingDivisions}}
+    @options={{this.divisions}}
+    @placeholder={{t "pages.sco-organization-participants.filter.division.label"}}
+    @ariaLabel={{t "pages.sco-organization-participants.filter.division.aria-label"}}
+    @emptyMessage={{t "pages.sco-organization-participants.filter.division.empty"}}
+  />
+
+  <Ui::SelectFilter
+    @field="connexionType"
+    @options={{this.connectionTypesOptions}}
+    @selectedOption={{@connexionTypeFilter}}
+    @triggerFiltering={{@onFilter}}
+    @ariaLabel={{t "pages.sco-organization-participants.filter.login-method.aria-label"}}
+    @emptyOptionLabel={{t "pages.sco-organization-participants.filter.login-method.empty-option"}}
+  />
+  <Ui::MultiSelectFilter
+    @field="certificability"
+    @title={{t "pages.sco-organization-participants.filter.certificability.label"}}
+    @onSelect={{@onFilter}}
+    @selectedOption={{@certificabilityFilter}}
+    @options={{this.certificabilityOptions}}
+    @placeholder={{t "pages.sco-organization-participants.filter.certificability.label"}}
+    @ariaLabel={{t "pages.sco-organization-participants.filter.certificability.aria-label"}}
+    @emptyMessage=""
+  />
+</PixFilterBanner>
+
+<div class="panel">
+  <table class="table content-text content-text--small">
+    <caption class="sr-only">{{t "pages.sco-organization-participants.table.description"}}</caption>
+    <colgroup class="table__column">
+      <col />
+      <col />
+      <col class="table__column--center" />
+      <col />
+      <col />
+      <col class="table__column--right" />
+      <col class="table__column--center" />
+      <col class="table__column--center" />
+      <col class="hide-on-mobile" />
+    </colgroup>
+    <thead>
+      <tr>
+        <Table::Header @size="wide">{{t "pages.sco-organization-participants.table.column.last-name"}}</Table::Header>
+        <Table::Header @size="wide">{{t "pages.sco-organization-participants.table.column.first-name"}}</Table::Header>
+        <Table::Header @size="medium" @align="center">
+          {{t "pages.sco-organization-participants.table.column.date-of-birth"}}
+        </Table::Header>
+        <Table::Header @size="wide">{{t "pages.sco-organization-participants.table.column.division"}}</Table::Header>
+        <Table::Header @size="wide">
+          {{t "pages.sco-organization-participants.table.column.login-method"}}
+        </Table::Header>
+        <Table::Header @size="medium" @align="right">
+          {{t "pages.sco-organization-participants.table.column.participation-count"}}
+        </Table::Header>
+        <Table::Header @size="medium" @align="center">
+          {{t "pages.sco-organization-participants.table.column.last-participation-date"}}
+        </Table::Header>
+        <Table::Header @size="medium" @align="center">
+          <div class="sco-organization-participant-list-page__certificability-header">
+            {{t "pages.sco-organization-participants.table.column.is-certifiable.label"}}
+            <Ui::CertificabilityTooltip
+              @aria-label={{t "pages.sco-organization-participants.table.column.is-certifiable.tooltip.aria-label"}}
+              @content={{t "pages.sco-organization-participants.table.column.is-certifiable.tooltip.content"}}
+            />
+          </div>
+        </Table::Header>
+        <Table::Header @size="small" class="hide-on-mobile" />
+      </tr>
+    </thead>
+
+    {{#if @students}}
+      <tbody>
+        {{#each @students as |student index|}}
+          <tr aria-label={{t "pages.sco-organization-participants.table.row-title"}}>
+            <td class="ellipsis" title={{student.lastName}}>{{student.lastName}}</td>
+            <td class="ellipsis" title={{student.firstName}}>{{student.firstName}}</td>
+            <td class="table__column--center">{{dayjs-format student.birthdate "DD/MM/YYYY" allow-empty=true}}</td>
+            <td class="ellipsis">{{student.division}}</td>
+            <td class="sco-organization-participant-list-page__authentication-methods">
+              {{#each student.authenticationMethods as |authenticationMethod|}}
+                <p>{{t authenticationMethod}}</p>
+              {{/each}}
+            </td>
+            <td class="table__column--right">{{student.participationCount}}</td>
+            <td class="table__column--center">
+              {{#if student.lastParticipationDate}}
+                <div class="organization-participant-list-page__last-participation">
+                  <span>{{dayjs-format student.lastParticipationDate "DD/MM/YYYY" allow-empty=true}}</span>
+                  <Ui::LastParticipationDateTooltip
+                    @id={{index}}
+                    @campaignName={{student.campaignName}}
+                    @campaignType={{student.campaignType}}
+                    @participationStatus={{student.participationStatus}}
+                  />
+                </div>
+              {{/if}}
+            </td>
+            <td class="table__column--center">
+              <Ui::IsCertifiable @isCertifiable={{student.isCertifiable}} />
+              {{#if student.certifiableAt}}
+                <span class="organization-participant-list-page__certifiable-at">{{dayjs-format
+                    student.certifiableAt
+                    "DD/MM/YYYY"
+                    allow-empty=true
+                  }}</span>
+              {{/if}}
+            </td>
+            <td class="organization-participant-list-page__actions hide-on-mobile">
+              {{#if student.isAssociated}}
+                <Dropdown::IconTrigger
+                  @icon="ellipsis-vertical"
+                  @dropdownButtonClass="organization-participant-list-page__dropdown-button"
+                  @dropdownContentClass="organization-participant-list-page__dropdown-content"
+                  @ariaLabel={{t "pages.sco-organization-participants.actions.show-actions"}}
+                >
+                  <Dropdown::Item @onClick={{fn this.openAuthenticationMethodModal student}}>
+                    {{t "pages.sco-organization-participants.actions.manage-account"}}
+                  </Dropdown::Item>
+                </Dropdown::IconTrigger>
+              {{/if}}
+            </td>
+          </tr>
+        {{/each}}
+
+      </tbody>
+    {{/if}}
+  </table>
+  {{#if (eq @students.meta.participantCount 0)}}
+    <Ui::EmptyState
+      @infoText={{t "pages.sco-organization-participants.no-participants"}}
+      @actionText={{t "pages.sco-organization-participants.no-participants-action"}}
+    />
+  {{else if (not @students)}}
+    <div class="table__empty content-text">
+      {{t "pages.sco-organization-participants.table.empty"}}
+    </div>
+  {{/if}}
+</div>
+
+<ScoOrganizationParticipant::ManageAuthenticationMethodModal
+  @organizationId={{this.currentUser.organization.id}}
+  @student={{this.student}}
+  @display={{this.isShowingAuthenticationMethodModal}}
+  @onClose={{this.closeAuthenticationMethodModal}}
+/>
+
+<Table::PaginationControl @pagination={{@students.meta}} />

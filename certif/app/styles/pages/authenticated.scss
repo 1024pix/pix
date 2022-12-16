@@ -1,0 +1,88 @@
+.app {
+  display: flex;
+  min-height: 100vh;
+
+  &__sidebar {
+    width: 280px;
+    min-width: 100px;
+  }
+
+  &__main-content {
+    width: 100%;
+  }
+}
+
+.sidebar {
+  min-height: inherit;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  background: $pix-neutral-0;
+  box-shadow: 0 2px 8px 0 rgb(0 0 0 / 10%);
+
+  &__logo {
+    padding: 25px;
+
+    &-image {
+      height: 60px;
+    }
+  }
+
+  .sidebar-menu {
+
+    ul {
+      padding: 0;
+      list-style-type: none;
+
+      .sidebar-menu__item {
+        display: flex;
+        align-items: center;
+        padding-left: 20px;
+        height: 40px;
+        color: $pix-neutral-80;
+        text-decoration: none;
+
+        &-icon {
+          color: $pix-neutral-80;
+          width: 15px;
+          margin-right: 8px;
+        }
+
+        &.active {
+          background-color: $pix-neutral-15;
+        }
+
+        &:active {
+          background-color: $pix-neutral-20;
+        }
+      }
+
+      li:hover {
+        background-color: $pix-neutral-15;
+      }
+    }
+  }
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+
+  &__topbar {
+    background-color: $pix-neutral-0;
+    min-height: $navbar-height;
+  }
+}
+
+.topbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  &__user-logged-menu {
+    position: relative;
+    padding: 0 30px;
+    border-left: 1px solid $pix-neutral-20;
+  }
+}

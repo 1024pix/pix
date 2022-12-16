@@ -1,0 +1,29 @@
+<header class="page-header">
+  <div class="page-title">
+    <p>
+      <LinkTo @route="authenticated.target-profiles.target-profile.insights">{{@targetProfile.name}}</LinkTo>
+      <span class="wire">&nbsp;>&nbsp;</span>
+      Palier
+      {{@stage.id}}
+    </p>
+  </div>
+</header>
+
+<main class="page-body">
+  {{#if @isEditMode}}
+    <Stages::UpdateStage
+      @stage={{@stage}}
+      @isTypeLevel={{this.isTypeLevel}}
+      @stageTypeName={{this.stageTypeName}}
+      @toggleEditMode={{@toggleEditMode}}
+      @maxLevel={{@targetProfile.maxLevel}}
+    />
+  {{else}}
+    <Stages::ViewStage
+      @stage={{@stage}}
+      @isTypeLevel={{this.isTypeLevel}}
+      @stageTypeName={{this.stageTypeName}}
+      @toggleEditMode={{@toggleEditMode}}
+    />
+  {{/if}}
+</main>

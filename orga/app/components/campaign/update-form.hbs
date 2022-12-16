@@ -1,0 +1,101 @@
+<form class="form" {{on "submit" this.onSubmit}}>
+  <p class="form__mandatory-fields-information" aria-hidden="true">
+    <abbr title={{t "common.form.mandatory-fields-title"}} class="mandatory-mark">*</abbr>
+    {{t "common.form.mandatory-fields"}}
+  </p>
+  <div class="form__field">
+    <PixInput
+      @id="campaign-name"
+      @name="campaign-name"
+      @label={{t "pages.campaign-modification.campaign-name"}}
+      @requiredLabel={{t "common.form.mandatory-fields-title"}}
+      class="input"
+      maxlength="255"
+      aria-required={{true}}
+      required={{true}}
+      @value={{this.name}}
+      {{on "change" this.onChangeCampaignName}}
+    />
+    {{#if @campaign.errors.name}}
+      <div class="form__error error-message">
+        {{display-campaign-errors @campaign.errors.name}}
+      </div>
+    {{/if}}
+  </div>
+
+  <div class="form__field-with-info form__field">
+    <PixDropdown
+      @id="campaign-owner"
+      @options={{this.campaignOwnerOptions}}
+      @onSelect={{this.onChangeCampaignOwner}}
+      @selectedOption={{this.ownerIdOption}}
+      @isSearchable={{true}}
+      @placeholder={{t "pages.campaign-creation.owner.placeholder"}}
+      @searchPlaceholder={{t "pages.campaign-creation.owner.search-placeholder"}}
+      @clearLabel={{t "pages.campaign-creation.owner.clear-label"}}
+      @expandLabel={{t "pages.campaign-creation.owner.expand-label"}}
+      @collapseLabel={{t "pages.campaign-creation.owner.collapse-label"}}
+      @pageSize={{10}}
+      @label={{t "pages.campaign-creation.owner.label"}}
+      @requiredLabel={{t "common.form.mandatory-fields-title"}}
+    />
+    {{#if @campaign.errors.owner}}
+      <div class="form__error error-message">
+        {{display-campaign-errors @campaign.errors.owner}}
+      </div>
+    {{/if}}
+
+    <div class="form__field-info">
+      <span class="form__field-info-title">
+        <FaIcon @icon="circle-info" class="form__field-info-icon" />
+        <span>{{t "pages.campaign-modification.owner.title"}}</span>
+      </span>
+      <span class="form__field-info-message">{{t "pages.campaign-modification.owner.info"}}</span>
+    </div>
+  </div>
+
+  {{#if @campaign.isTypeAssessment}}
+    <div class="form__field">
+      <PixInput
+        @id="campaign-title"
+        @name="campaign-title"
+        class="form-control"
+        @label={{t "pages.campaign-modification.personalised-test-title"}}
+        maxlength="50"
+        @value={{this.title}}
+        {{on "change" this.onChangeCampaignTitle}}
+      />
+      {{#if @campaign.errors.title}}
+        <div class="form__error error-message">
+          {{display-campaign-errors @campaign.errors.title}}
+        </div>
+      {{/if}}
+    </div>
+  {{/if}}
+
+  <div class="form__field">
+    <PixTextarea
+      @id="campaign-custom-landing-page-text"
+      @label={{t "pages.campaign-modification.landing-page-text"}}
+      class="form-control"
+      @maxlength={{5000}}
+      @value={{this.customLandingPageText}}
+      {{on "change" this.onChangeCampaignCustomLandingPageText}}
+      rows={{8}}
+    />
+    {{#if @campaign.errors.customLandingPageText}}
+      <div class="form__error error-message">
+        {{display-campaign-errors @campaign.errors.customLandingPageText}}
+      </div>
+    {{/if}}
+  </div>
+
+  <div class="form__validation">
+    <PixButton @triggerAction={{fn @onCancel @campaign.id}} @backgroundColor="transparent-light">
+      {{t "common.actions.cancel"}}
+    </PixButton>
+    <PixButton @type="submit">
+      {{t "pages.campaign-modification.actions.edit"}}
+    </PixButton>
+  </div>
+</form>

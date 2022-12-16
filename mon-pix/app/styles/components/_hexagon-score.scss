@@ -1,0 +1,127 @@
+.hexagon-score {
+  width: 132px;
+  height: 148px;
+  background: url('/images/background/hexa-pix-blue.svg') no-repeat center center;
+  background-size: cover;
+
+  &__content {
+    position: relative;
+    text-align: center;
+  }
+}
+
+@mixin hexagon-score-title {
+  color: $pix-neutral-100;
+  font-size: 0.875rem;
+  font-family: $font-roboto;
+  letter-spacing: 0.219rem;
+}
+
+@mixin hexagon-score-pix-score {
+  color: $pix-neutral-110;
+  font-size: 2.875rem;
+  font-family: $font-open-sans;
+}
+
+@mixin hexagon-score-pix-total {
+  color: $pix-neutral-60;
+  font-size: 0.813rem;
+  font-family: $font-roboto;
+  border-top: 1px solid $pix-neutral-30;
+}
+
+.hexagon-score-content {
+
+  &__title {
+    @include hexagon-score-title;
+
+    position: absolute;
+    top: 26px;
+    left: 1px;
+    width: 100%;
+    text-transform: uppercase;
+  }
+
+  &__pix-score {
+    @include hexagon-score-pix-score;
+
+    position: absolute;
+    top: 40px;
+    width: 100%;
+  }
+
+  &__pix-total {
+    @include hexagon-score-pix-total;
+
+    position: absolute;
+    top: 100px;
+    left: 31px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 70px;
+    padding: 3px 8px 0;
+
+    .pix-tooltip__content {
+      max-width: 19rem;
+
+      @include device-is('tablet') {
+        max-width: 40rem;
+      }
+
+      @include device-is('desktop') {
+        max-width: 19rem;
+      }
+    }
+  }
+}
+
+.hexagon-score__information {
+  padding: 24px 16px;
+
+  p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.hexagon-score-information__text {
+  display: block;
+  font-size: 1rem;
+  font-family: $font-open-sans;
+  line-height: 1.6rem;
+
+  &--strong {
+    font-weight: $font-bold;
+  }
+}
+
+.hexagon-score-information__close {
+  float: right;
+  margin-top: -10px;
+  padding: 10px;
+  font-size: 1.25rem;
+
+  @include device-is('desktop') {
+    display: none;
+  }
+}
+
+.hexagon-score-content-pix-total__icon {
+  margin-left: 4px;
+  padding: 0;
+  color: inherit;
+  line-height: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    color: $pix-neutral-80;
+  }
+}

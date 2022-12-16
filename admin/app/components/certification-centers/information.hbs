@@ -1,0 +1,18 @@
+<section class="page-section">
+  <div class="certification-center-information">
+    {{#if this.isEditMode}}
+      <CertificationCenters::InformationEdit
+        @certificationCenter={{@certificationCenter}}
+        @availableHabilitations={{@availableHabilitations}}
+        @toggleEditMode={{this.toggleEditMode}}
+        @onSubmit={{@updateCertificationCenter}}
+      />
+    {{else}}
+      <CertificationCenters::InformationView
+        @certificationCenter={{@certificationCenter}}
+        @availableHabilitations={{@availableHabilitations}}
+        @toggleEditMode={{this.toggleEditMode}}
+      />
+    {{/if}}
+  </div>
+</section>

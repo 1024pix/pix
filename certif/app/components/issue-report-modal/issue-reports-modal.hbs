@@ -1,0 +1,39 @@
+<PixModal
+  @showModal={{@showModal}}
+  @title="Signalement du candidat : {{@report.firstName}} {{@report.lastName}}"
+  @onCloseButtonClick={{@closeModal}}
+  class="issue-report-modal"
+>
+  <:content>
+    <h2>Mes signalements ({{@report.certificationIssueReports.length}})</h2>
+    <div class="issue-report-modal__frame">
+      <ul>
+        {{#each @report.certificationIssueReports as |issueReport|}}
+          <li class="issue-report-modal__report">
+            <p class="issue-report-modal__category-label">
+              {{issueReport.categoryCode}}&nbsp;{{issueReport.categoryLabel}}
+              <PixIconButton
+                @icon="trash"
+                aria-label="Supprimer le signalement"
+                @triggerAction={{fn this.handleClickOnDeleteButton issueReport}}
+              />
+            </p>
+            {{#if issueReport.subcategoryLabel}}
+              <p
+                class="issue-report-modal__subcategory-label"
+              >{{issueReport.subcategoryCode}}&nbsp;{{issueReport.subcategoryLabel}}</p>
+            {{/if}}
+          </li>
+        {{/each}}
+      </ul>
+      <PixButton @triggerAction={{fn @onClickIssueReport @report}} class="issue-report-modal__add-button">
+        <FaIcon @icon="plus" />
+        Ajouter un signalement
+      </PixButton>
+    </div>
+
+    {{#if this.showDeletionError}}
+      <PixMessage @type="alert">Une erreur s'est produite lors de la suppression du signalement. Merci de réessayer</PixMessage>
+    {{/if}}
+  </:content>
+</PixModal>

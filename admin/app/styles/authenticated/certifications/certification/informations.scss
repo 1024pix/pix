@@ -1,0 +1,162 @@
+.certification-informations {
+
+  &__actions {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__row {
+    align-items: flex-start;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+
+    &--center {
+      justify-content: center;
+    }
+
+    &:last-child {
+      margin: 0;
+    }
+
+    a:hover {
+      color: $pix-neutral-0;
+      text-decoration: none;
+    }
+  }
+
+  &__card {
+    box-shadow: 0 4px 8px rgba($grey-200, 0.08);
+    border: 1px solid $grey-20;
+    border-radius: 8px;
+    background: $white;
+    padding: 1rem;
+    flex-grow: 1;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &--pix-edu {
+      flex: 1;
+      background-color: $pix-neutral-5;
+      text-align: center;
+      box-shadow: none;
+      border: 2px solid $pix-neutral-20;
+      font-weight: 500;
+      color: $pix-neutral-40;
+    }
+
+    &__title {
+      margin-bottom: 0.75rem;
+      font-size: 1.25rem;
+    }
+
+    &__list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    &__list-item {
+      margin-bottom: 0.25rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    &__list-label {
+      color: $pix-neutral-40;
+      min-width: 180px;
+      display: inline-block;
+    }
+
+    &__score {
+      font-size: 1.125rem;
+      color: $grey-90;
+    }
+  }
+
+  &__published--float {
+    float: right;
+  }
+
+  &__pix-edu {
+
+    &__title {
+      margin-bottom: 16px;
+      font-size: 1.125rem;
+    }
+
+    &__row {
+      margin-top: 16px;
+      display: flex;
+      gap: 16px;
+
+      &__jury-level {
+        display: flex;
+        justify-content: center;
+        align-items: start;
+
+        p {
+          margin-top: 0;
+        }
+
+        .jury-level-edit-icon-button {
+          margin-left: 10px;
+          background: none;
+          border: none;
+          cursor: pointer;
+          font-size: 19px;
+          color: $pix-neutral-60;
+        }
+      }
+
+      &__jury-level-editor {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        max-width: 100%;
+        padding: 0 8px;
+
+        section:nth-of-type(2) {
+          margin: 8px 0;
+          display: flex;
+          gap: 1rem;
+
+          button:last-child {
+            flex: 2;
+          }
+        }
+      }
+    }
+  }
+
+  &__complementary-certification {
+
+    &__title {
+      margin-bottom: 24px;
+    }
+  }
+
+  &__certification-issue-reports {
+    flex-direction: column;
+  }
+
+  .candidate-informations {
+
+    &__actions {
+      display: flex;
+      margin-top: 8px;
+    }
+
+    &__warning-cpf-message {
+      font-style: italic;
+      color: $pix-error-60;
+      margin-top: 8px;
+      margin-left: 5px;
+    }
+  }
+}

@@ -1,0 +1,244 @@
+@import 'challenge-embed-simulator';
+
+.challenge-statement {
+  /* XXX required to let "help tooltip" displaying well even if instruction section is short (1 line) */
+  overflow: visible;
+}
+
+.challenge-statement__instruction-section {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  font-size: 0.938rem;
+  font-family: $font-open-sans;
+
+  hr {
+    border-top: 1px solid $pix-neutral-15;
+    border-bottom: none;
+  }
+
+  @include device-is('desktop') {
+    font-size: 1.25rem;
+  }
+}
+
+.challenge-statement__instruction-section blockquote {
+  font-size: inherit;
+}
+
+.challenge-statement-instruction {
+
+  &__text {
+    width: 100%;
+
+    p {
+      overflow-wrap: break-word;
+    }
+
+    strong {
+      font-weight: $font-heavy;
+    }
+
+    a {
+      color: $pix-primary;
+      text-decoration: underline;
+
+      @include device-is('tablet') {
+        display: inline-block;
+      }
+
+      &:active,
+      &:focus,
+      &:hover {
+        color: $pix-primary-60;
+      }
+    }
+
+    a::after {
+      @include external-link;
+    }
+  }
+}
+
+.challenge-statement__illustration-section {
+  display: block;
+  box-sizing: content-box;
+  padding: 10px 0;
+  text-align: center;
+  border-top: 1px solid $pix-neutral-20;
+}
+
+.challenge-statement__attachments-section {
+  padding: 20px;
+  text-align: center;
+  background-color: $pix-neutral-15;
+}
+
+.challenge-statement__text {
+  font-size: 1rem;
+}
+
+.challenge-statement__help-icon {
+  position: relative;
+  display: inline-block;
+  margin: 0 5px;
+  color: $pix-primary;
+  cursor: pointer;
+}
+
+.challenge-statement__help-tooltip {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  z-index: 999;
+  width: 430px;
+  height: auto;
+  margin-left: -400px;
+  padding: 15px;
+  color: $pix-neutral-22;
+  text-align: justify;
+  background-color: $pix-neutral-0;
+  border: solid 1px $pix-neutral-20;
+  border-radius: 6px;
+  box-shadow: 1px 1px 1px 0 rgb(0 0 0 / 10%);
+  visibility: hidden;
+}
+
+/* XXX tooltip bottom arrow */
+.challenge-statement__help-tooltip::before {
+  position: absolute;
+  top: 100%;
+  left: 400px;
+  width: 0;
+  height: 0;
+  margin-left: -10px;
+  border-top: 10px solid $pix-neutral-20;
+  border-right: 10px solid transparent;
+  border-left: 10px solid transparent;
+  content: '';
+}
+
+.challenge-statement__help-tooltip::after {
+  position: absolute;
+  top: 100%;
+  left: 400px;
+  width: 0;
+  height: 0;
+  margin-left: -8px;
+  border-top: 8px solid white;
+  border-right: 8px solid transparent;
+  border-left: 8px solid transparent;
+  content: '';
+}
+
+/* XXX the magic trick to manage tooltip appearing at icon mouse hover */
+.challenge-statement__help-icon:hover .challenge-statement__help-tooltip {
+  visibility: visible;
+}
+
+.challenge-statement__help-text {
+  color: $pix-neutral-80;
+  font-size: 0.875rem;
+}
+
+.challenge-statement__file-options {
+  margin-left: 0;
+  padding: 10px 0;
+}
+
+.challenge-statement__file-option {
+  display: inline-block;
+  margin: 5px;
+  padding: 0 15px;
+  list-style-type: none;
+}
+
+.challenge-statement__file-option-label {
+  font-weight: $font-normal;
+  font-size: 1rem;
+  line-height: 10px;
+}
+
+.challenge-statement__action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.challenge-statement__action-link {
+  width: 156px;
+  height: 46px;
+  color: $pix-neutral-0;
+  text-align: center;
+  background-color: $pix-primary;
+  border-radius: 23px;
+  cursor: pointer;
+}
+
+.challenge-statement__action-link:hover,
+.challenge-statement__action-link:focus {
+  color: $pix-neutral-0;
+}
+
+.challenge-statement__action-help {
+  position: relative;
+  top: 16px;
+  font-size: 0.825rem;
+
+  &--link {
+    color: $pix-primary-60;
+    text-decoration: underline;
+
+    &:active,
+    &:focus,
+    &:hover {
+      color: $dark-blue-pro;
+    }
+
+    &:visited {
+      color: $pix-primary;
+    }
+
+    &::after {
+      @include external-link;
+
+      position: relative;
+      top: 4px;
+      left: 2px;
+    }
+  }
+}
+
+.challenge-statement__action-label {
+  width: 76px;
+  font-weight: $font-heavy;
+  font-size: 1rem;
+  line-height: 46px;
+  text-transform: uppercase;
+}
+
+.challenge-statement__alternative-instruction {
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+  button {
+    padding: 0;
+    color: $pix-primary;
+    font-weight: 500;
+    font-size: 1rem;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: $pix-neutral-0;
+    }
+  }
+
+  &-text {
+    margin-top: 10px;
+  }
+}

@@ -1,0 +1,57 @@
+{{page-title "Certif " @model.id " Neutralisation | Pix Admin" replace=true}}
+{{#if this.model.answers}}
+  <table class="table-admin table-admin__auto-width">
+    <thead>
+      <tr>
+        <th>
+          Numéro de question
+        </th>
+        <th>
+          RecId de l'épreuve
+        </th>
+        {{#if this.accessControl.hasAccessToCertificationActionsScope}}
+          <th>
+            Action
+          </th>
+        {{/if}}
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this.model.answers as |answer|}}
+        <tr>
+          <td>
+            {{answer.order}}
+          </td>
+          <td>
+            {{answer.challengeId}}
+          </td>
+          {{#if this.accessControl.hasAccessToCertificationActionsScope}}
+            <td>
+              {{#if answer.isNeutralized}}
+                <PixButton
+                  @triggerAction={{fn this.deneutralize answer.challengeId answer.order}}
+                  @backgroundColor="transparent"
+                  @loading-color="grey"
+                  @size="small"
+                >
+                  Dé-neutraliser
+                </PixButton>
+              {{else}}
+                <PixButton
+                  @triggerAction={{fn this.neutralize answer.challengeId answer.order}}
+                  @backgroundColor="blue"
+                  @loading-color="white"
+                  @size="small"
+                >
+                  Neutraliser
+                </PixButton>
+              {{/if}}
+            </td>
+          {{/if}}
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+{{else}}
+  <p>Aucune épreuve posée.</p>
+{{/if}}

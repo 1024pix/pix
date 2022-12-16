@@ -1,0 +1,112 @@
+<section class="page-section">
+  <div class="places__add-form">
+    <form class="form" {{on "submit" this.onSubmit}}>
+      <span class="form__instructions">
+        Les champs marqués de
+        <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+        sont obligatoires.
+      </span>
+      <div class="form-field">
+        <label for="count" class="form-field__label">
+          Nombre :
+        </label>
+        <Input
+          id="count"
+          @type="string"
+          class={{if @errors.count "form-control is-invalid" "form-control"}}
+          @value={{this.count}}
+        />
+
+        {{#if @errors.count}}
+          <div class="form-field__error">
+            {{get @errors.count "0.message"}}
+          </div>
+        {{/if}}
+      </div>
+      <div class="form-field">
+        <label for="activationDate" class="form-field__label">
+          <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+          Date d'activation :
+        </label>
+        <Input
+          id="activationDate"
+          @type="date"
+          class={{if @errors.activationDate "form-control is-invalid" "form-control"}}
+          @value={{this.activationDate}}
+        />
+
+        {{#if @errors.activationDate}}
+          <div class="form-field__error">
+            {{get @errors.activationDate "0.message"}}
+          </div>
+        {{/if}}
+      </div>
+      <div class="form-field">
+        <label for="expirationDate" class="form-field__label">Date d'expiration :</label>
+        <Input
+          id="expirationDate"
+          class={{if @errors.expirationDate "form-control is-invalid" "form-control"}}
+          @type="date"
+          @value={{this.expirationDate}}
+        />
+
+        {{#if @errors.expirationDate}}
+          <div class="form-field__error">
+            {{get @errors.expirationDate "0.message"}}
+          </div>
+        {{/if}}
+      </div>
+      <div class="form-field">
+        <label for="category" class="form-field__label">
+          <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+          Catégorie :
+        </label>
+        <PixSelect
+          name="category"
+          id="category"
+          class={{if @errors.category "form-control is-invalid" "form-control"}}
+          @options={{this.categories}}
+          @onChange={{this.selectCategory}}
+          @selectedOption={{this.selectedCategory}}
+          @isValidationActive={{true}}
+          @emptyOptionNotSelectable={{true}}
+        />
+
+        {{#if @errors.category}}
+          <div class="form-field__error">
+            {{get @errors.category "0.message"}}
+          </div>
+        {{/if}}
+      </div>
+      <div class="form-field">
+        <label for="reference" class="form-field__label">
+          <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+          Référence :</label>
+        <Input
+          id="reference"
+          @type="text"
+          @value={{this.reference}}
+          class={{if @errors.reference "form-control is-invalid" "form-control"}}
+          maxlength="255"
+        />
+
+        {{#if @errors.reference}}
+          <div class="form-field__error">
+            {{get @errors.reference "0.message"}}
+          </div>
+        {{/if}}
+      </div>
+
+      <div class="form-actions">
+        <PixButtonLink
+          class="action-buttons__cancel"
+          @backgroundColor="transparent-light"
+          @isBorderVisible={{true}}
+          @size="small"
+          @route="authenticated.organizations.get.places"
+        >Annuler</PixButtonLink>
+        <PixButton @type="submit" @size="small" @backgroundColor="green">Ajouter</PixButton>
+      </div>
+    </form>
+  </div>
+</section>

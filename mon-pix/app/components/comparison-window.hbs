@@ -1,0 +1,94 @@
+<PixModal @title={{t this.resultItem.title}} @onCloseButtonClick={{@closeComparisonWindow}} @showModal={{@showModal}}>
+  <:content>
+    <div class="comparison-window-content__body">
+
+      <div class="rounded-panel comparison-window-content-body__instruction">
+        <div class="rounded-panel__row">
+          <MarkdownToHtmlUnsafe
+            @class="challenge-statement-instruction__text"
+            @markdown={{@answer.challenge.instruction}}
+          />
+        </div>
+
+        {{#if @answer.challenge.illustrationUrl}}
+          <div class="rounded-panel__row challenge-statement__illustration-section">
+            <ChallengeIllustration
+              @src={{@answer.challenge.illustrationUrl}}
+              @alt={{@answer.challenge.illustrationAlt}}
+            />
+          </div>
+        {{/if}}
+      </div>
+      <div>
+        {{#if this.isAssessmentChallengeTypeQcm}}
+          <QcmSolutionPanel
+            @challenge={{@answer.challenge}}
+            @answer={{@answer}}
+            @solution={{this.solution}}
+            @solutionToDisplay={{this.solutionToDisplay}}
+          />
+        {{/if}}
+
+        {{#if this.isAssessmentChallengeTypeQcu}}
+          <QcuSolutionPanel
+            @challenge={{@answer.challenge}}
+            @answer={{@answer}}
+            @solution={{this.solution}}
+            @solutionToDisplay={{this.solutionToDisplay}}
+          />
+        {{/if}}
+
+        {{#if this.isAssessmentChallengeTypeQroc}}
+          <div data-test-id="comparison-window__corrected-answers--qroc">
+            <QrocSolutionPanel
+              @answer={{@answer}}
+              @solution={{this.solution}}
+              @solutionToDisplay={{this.solutionToDisplay}}
+            />
+          </div>
+        {{/if}}
+
+        {{#if this.isAssessmentChallengeTypeQrocmInd}}
+          <div data-test-id="comparison-window__corrected-answers--qrocm">
+            <QrocmIndSolutionPanel
+              @answer={{@answer}}
+              @solution={{this.solution}}
+              @challenge={{@answer.challenge}}
+              @solutionToDisplay={{this.solutionToDisplay}}
+            />
+          </div>
+        {{/if}}
+
+        {{#if this.isAssessmentChallengeTypeQrocmDep}}
+          <div data-test-id="comparison-window__corrected-answers--qrocm">
+            <QrocmDepSolutionPanel
+              @answer={{@answer}}
+              @solution={{this.solution}}
+              @challenge={{@answer.challenge}}
+              @solutionToDisplay={{this.solutionToDisplay}}
+            />
+          </div>
+        {{/if}}
+      </div>
+
+      {{#if @answer.isResultNotOk}}
+        {{#if @answer.correction.noHintsNorTutorialsAtAll}}
+          <p class="comparison-windows-content-body-default-message-container__default-message-title">{{t
+              "pages.comparison-window.upcoming-tutorials"
+            }}</p>
+        {{else}}
+          <TutorialPanel @hint={{@answer.correction.hint}} @tutorials={{@answer.correction.tutorials}} />
+        {{/if}}
+      {{/if}}
+      <LearningMorePanel @learningMoreTutorials={{@answer.correction.learningMoreTutorials}} />
+    </div>
+  </:content>
+  <:footer>
+    <FeedbackPanel
+      @assessment={{@answer.assessment}}
+      @challenge={{@answer.challenge}}
+      @context="comparison-window"
+      @answer={{@answer}}
+    />
+  </:footer>
+</PixModal>

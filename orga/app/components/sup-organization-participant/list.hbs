@@ -1,0 +1,152 @@
+<PixFilterBanner
+  @title={{t "pages.sup-organization-participants.filter.title"}}
+  class="participant-filter-banner hide-on-mobile"
+  aria-label={{t "pages.sup-organization-participants.filter.aria-label"}}
+  @details={{t "pages.sup-organization-participants.filter.students-count" count=@students.meta.rowCount}}
+  @clearFiltersLabel={{t "pages.sup-organization-participants.filter.actions.clear"}}
+  @onClearFilters={{@onResetFilter}}
+>
+  <Ui::SearchInputFilter
+    @field="studentNumber"
+    @value={{@studentNumberFilter}}
+    @placeholder={{t "pages.sup-organization-participants.filter.student-number.label"}}
+    @ariaLabel={{t "pages.sup-organization-participants.filter.student-number.aria-label"}}
+    @triggerFiltering={{@onFilter}}
+  />
+  <Ui::SearchInputFilter
+    @field="search"
+    @value={{@searchFilter}}
+    @placeholder={{t "pages.sup-organization-participants.filter.search.label"}}
+    @ariaLabel={{t "pages.sup-organization-participants.filter.search.aria-label"}}
+    @triggerFiltering={{@onFilter}}
+  />
+  <Ui::MultiSelectFilter
+    @field="groups"
+    @title={{t "pages.sup-organization-participants.table.column.group"}}
+    @onSelect={{@onFilter}}
+    @selectedOption={{@groupsFilter}}
+    @isLoading={{this.isLoadingGroups}}
+    @options={{this.groups}}
+    @placeholder={{t "pages.sup-organization-participants.filter.group.label"}}
+    @ariaLabel={{t "pages.sup-organization-participants.filter.group.aria-label"}}
+    @emptyMessage={{t "pages.sup-organization-participants.filter.group.empty"}}
+  />
+
+  <Ui::MultiSelectFilter
+    @field="certificability"
+    @title={{t "pages.sup-organization-participants.filter.certificability.label"}}
+    @onSelect={{@onFilter}}
+    @selectedOption={{@certificabilityFilter}}
+    @options={{this.certificabilityOptions}}
+    @placeholder={{t "pages.sup-organization-participants.filter.certificability.label"}}
+    @ariaLabel={{t "pages.sup-organization-participants.filter.certificability.aria-label"}}
+    @emptyMessage=""
+  />
+</PixFilterBanner>
+<div class="panel">
+  <table class="table content-text content-text--small">
+    <caption class="sr-only">{{t "pages.sup-organization-participants.table.description"}}</caption>
+    <thead>
+      <tr>
+        <Table::Header @size="wide">
+          {{t "pages.sup-organization-participants.table.column.student-number"}}
+        </Table::Header>
+        <Table::Header @size="wide">{{t "pages.sup-organization-participants.table.column.last-name"}}</Table::Header>
+        <Table::Header @size="wide">{{t "pages.sup-organization-participants.table.column.first-name"}}</Table::Header>
+        <Table::Header @size="medium" @align="center">
+          {{t "pages.sup-organization-participants.table.column.date-of-birth"}}
+        </Table::Header>
+        <Table::Header @size="wide">{{t "pages.sup-organization-participants.table.column.group"}}</Table::Header>
+        <Table::Header @size="medium" @align="right">
+          {{t "pages.sup-organization-participants.table.column.participation-count"}}
+        </Table::Header>
+        <Table::Header @size="medium" @align="center">
+          {{t "pages.sup-organization-participants.table.column.last-participation-date"}}
+        </Table::Header>
+        <Table::Header @size="medium" @align="center">
+          <div class="sup-organization-participant-list-page__certificability-header">
+            {{t "pages.sup-organization-participants.table.column.is-certifiable.label"}}
+            <Ui::CertificabilityTooltip
+              @aria-label={{t "pages.sup-organization-participants.table.column.is-certifiable.tooltip.aria-label"}}
+              @content={{t "pages.sup-organization-participants.table.column.is-certifiable.tooltip.content"}}
+            />
+          </div>
+        </Table::Header>
+        <Table::Header @size="medium" class="hide-on-mobile" />
+      </tr>
+    </thead>
+
+    {{#if @students}}
+      <tbody>
+        {{#each @students as |student index|}}
+          <tr aria-label={{t "pages.sup-organization-participants.table.row-title"}}>
+            <td class="ellipsis">{{student.studentNumber}}</td>
+            <td class="ellipsis">{{student.lastName}}</td>
+            <td class="ellipsis">{{student.firstName}}</td>
+            <td class="table__column--center">{{dayjs-format student.birthdate "DD/MM/YYYY"}}</td>
+            <td class="ellipsis">{{student.group}}</td>
+            <td class="table__column--right">{{student.participationCount}}</td>
+            <td class="table__column--center">
+              {{#if student.lastParticipationDate}}
+                <div class="organization-participant-list-page__last-participation">
+                  <span>{{dayjs-format student.lastParticipationDate "DD/MM/YYYY" allow-empty=true}}</span>
+                  <Ui::LastParticipationDateTooltip
+                    @id={{index}}
+                    @campaignName={{student.campaignName}}
+                    @campaignType={{student.campaignType}}
+                    @participationStatus={{student.participationStatus}}
+                  />
+                </div>
+              {{/if}}
+            </td>
+            <td class="table__column--center">
+              <Ui::IsCertifiable @isCertifiable={{student.isCertifiable}} />
+              {{#if student.certifiableAt}}
+                <span class="organization-participant-list-page__certifiable-at">{{dayjs-format
+                    student.certifiableAt
+                    "DD/MM/YYYY"
+                    allow-empty=true
+                  }}</span>
+              {{/if}}
+            </td>
+            <td class="organization-participant-list-page__actions hide-on-mobile">
+              {{#if this.currentUser.isAdminInOrganization}}
+                <Dropdown::IconTrigger
+                  @icon="ellipsis-vertical"
+                  @dropdownButtonClass="organization-participant-list-page__dropdown-button"
+                  @dropdownContentClass="organization-participant-list-page__dropdown-content"
+                  @ariaLabel={{t "pages.sup-organization-participants.actions.show-actions"}}
+                >
+                  <Dropdown::Item @onClick={{fn this.openEditStudentNumberModal student}}>
+                    {{t "pages.sup-organization-participants.actions.edit-student-number"}}
+                  </Dropdown::Item>
+                </Dropdown::IconTrigger>
+              {{/if}}
+            </td>
+          </tr>
+        {{/each}}
+
+      </tbody>
+    {{/if}}
+  </table>
+
+  {{#if (eq @students.meta.participantCount 0)}}
+    <Ui::EmptyState
+      @infoText={{t "pages.sup-organization-participants.empty-state.no-participants"}}
+      @actionText={{t "pages.sup-organization-participants.empty-state.no-participants-action"}}
+    />
+  {{else if (not @students)}}
+    <div class="table__empty content-text">
+      {{t "pages.sup-organization-participants.table.empty"}}
+    </div>
+  {{/if}}
+</div>
+
+<SupOrganizationParticipant::EditStudentNumberModal
+  @student={{this.selectedStudent}}
+  @display={{this.isShowingEditStudentNumberModal}}
+  @onClose={{this.closeEditStudentNumberModal}}
+  @onSubmit={{this.onSaveStudentNumber}}
+/>
+
+<Table::PaginationControl @pagination={{@students.meta}} />

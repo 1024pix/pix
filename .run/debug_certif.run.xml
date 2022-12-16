@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Debug certif" type="JavascriptDebugType" uri="http://localhost:4203">
+    <mapping url="http://localhost:4203/index.html" local-file="$PROJECT_DIR$/certif/dist/index.html" />
+    <mapping url="http://localhost:4203/assets/certif.js" local-file="$PROJECT_DIR$/certif/dist/assets/pix-certif.js" />
+    <mapping url="http://localhost:4203/assets/certif" local-file="$PROJECT_DIR$/certif/app" />
+    <mapping url="http://localhost:4203/assets/vendor.js" local-file="$PROJECT_DIR$/certif/dist/assets/vendor.js" />
+    <mapping url="http://localhost:4203" local-file="$PROJECT_DIR$/certif/dist" />
+    <method v="2" />
+  </configuration>
+</component>

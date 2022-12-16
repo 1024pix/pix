@@ -1,0 +1,112 @@
+.badge-form {
+
+  h2 {
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+
+  &__label {
+    margin-bottom: 2px;
+  }
+
+  &__information {
+    font-size: 0.75rem;
+    margin-bottom: 10px;
+
+    &--link {
+      color: $pix-primary-70;
+      text-decoration: underline;
+    }
+  }
+
+  &__text-field {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__text-field:not(:last-child),
+  &__check-field:not(:last-child) {
+    margin-bottom: 16px;
+  }
+
+  &-check-field__control {
+    margin: 0 8px;
+  }
+
+  &__action-buttons {
+    display: flex;
+    padding-top: 24px;
+  }
+
+  &-action-buttons__cancel {
+    margin-right: 8px;
+
+    &:hover {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+
+  &-criteria {
+    display: flex;
+    gap: 32px;
+    margin-bottom: 16px;
+
+    &__threshold {
+      width: 200px;
+    }
+
+    &__skill-set {
+      flex: 1;
+    }
+  }
+
+  &-criterion {
+    border: 1px solid #A5ADBA;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 24px;
+    background: $pix-neutral-5;
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    &__add {
+
+      svg {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+
+  &-criteria-choice {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 8px;
+    margin-bottom: 16px;
+
+    label {
+      margin-bottom: 0;
+    }
+  }
+}
+
+input {
+
+  &.badge-form-criterion {
+
+    &__name {
+      margin-bottom: 16px;
+    }
+
+    &__threshold {
+      width: 134px;
+      margin-bottom: 16px;
+    }
+  }
+}

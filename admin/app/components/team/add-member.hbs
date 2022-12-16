@@ -1,0 +1,36 @@
+<form class="add-member-to-team-form" onsubmit={{this.inviteMember}}>
+  <h2 class="pix-text--large">Donner accès à un agent Pix</h2>
+
+  <section class="add-member-to-team-form__content">
+    <section class="add-member-to-team-form__input">
+      <PixInput
+        @id="email"
+        @label="Adresse e-mail professionnelle de l'agent Pix à rattacher"
+        @requiredLabel="Champ obligatoire"
+        @errorMessage={{this.inviteErrorRaised}}
+        value={{this.email}}
+        {{on "change" this.emailChanged}}
+      />
+    </section>
+
+    <section class="add-member-to-team-form__select {{if this.inviteErrorRaised 'error-padding'}}">
+      <PixSelect
+        @options={{@roles}}
+        @selectedOption={{this.role}}
+        @isSearchable={{false}}
+        @onChange={{this.roleChanged}}
+        aria-label="Choisir le rôle à assigner au nouveau membre"
+      />
+    </section>
+
+    <PixButton
+      @size="small"
+      class={{if this.inviteErrorRaised "error-padding"}}
+      type="submit"
+      aria-label="Donner accès à un agent Pix"
+      @triggerAction={{this.inviteMember}}
+    >
+      Valider
+    </PixButton>
+  </section>
+</form>

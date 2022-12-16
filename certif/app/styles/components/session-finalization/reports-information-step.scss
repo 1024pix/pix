@@ -1,0 +1,96 @@
+.session-finalization-reports-information-step {
+  font-size: 0.8125rem;
+
+  &__title-completed {
+    display: flex;
+    background: $pix-success-10;
+    margin: 8px;
+    color: $pix-success-70;
+    font-weight: bold;
+    padding: 20px 0 20px 24px;
+
+    &--hidden {
+      display: none;
+    }
+  }
+
+  &__title-uncompleted {
+    display: flex;
+    background: $pix-warning-10;
+    margin: 8px;
+    color: $pix-warning-60;
+    font-weight: bold;
+    padding: 20px 0 20px 24px;
+  }
+
+  table {
+    table-layout: initial;
+
+    th {
+      width: 20%;
+    }
+
+    th:nth-child(2) {
+      width: 10%;
+    }
+
+    th:nth-child(3),
+    th:nth-child(4) {
+      width: 20%;
+    }
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+  }
+
+  &__checker {
+    margin-right: 16px;
+  }
+
+  .finalization-report-examiner-comment {
+    display: flex;
+
+    .add-button {
+      color: $pix-neutral-70;
+      display: flex;
+      gap: 4px;
+      align-items: center;
+
+      svg {
+        font-size: 1.125rem;
+      }
+    }
+
+    p {
+      color: $pix-neutral-70;
+      font-weight: 700;
+    }
+  }
+
+  &__header_cancel {
+    display: flex;
+
+    .pix-tooltip {
+      padding-left: 5px;
+      cursor: help;
+    }
+
+    .pix-tooltip__content--wide {
+      width: 600px;
+    }
+
+    ul {
+      margin-left: 10px;
+
+      li {
+        list-style-type: disc;
+
+        li {
+          list-style-type: '- ';
+        }
+      }
+    }
+  }
+}

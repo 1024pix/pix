@@ -1,0 +1,121 @@
+.manage-authentication-window {
+  display: flex;
+  flex-direction: column;
+  background-color: $pix-neutral-10;
+  padding: 24px;
+
+  h6 {
+    font-size: 1.125rem;
+    font-weight: normal;
+    color: $pix-neutral-90;
+    margin: 0px;
+  }
+
+  label {
+    color: $pix-neutral-60;
+    font-size: .88rem;
+    font-weight: 500;
+    padding-bottom: 5px;
+  }
+
+  .disabled {
+    background-color: $pix-neutral-10;
+    border: none;
+  }
+
+  .help {
+    color: $pix-neutral-100;
+    text-transform: none;
+    font-weight: normal;
+    letter-spacing: normal;
+    font-size: 0.85rem;
+  }
+
+  &__clipboard {
+    input {
+      width: 85%;
+      box-sizing: border-box;
+      background-color: $pix-neutral-15;
+    }
+  }
+
+  &__clipboard-button {
+    margin: -10px 6px 0 6px;
+  }
+
+  &__tooltip {
+    display: inline-block;
+    .pix-tooltip__content {
+      margin-bottom: 6px;
+    }
+  }
+
+  &__warning {
+    display: flex;
+    color: $pix-neutral-0;
+    font-size: .875rem;
+
+    span {
+      margin-left: 10px;
+    }
+  }
+
+  &__informations {
+    display: flex;
+    color: $pix-neutral-0;
+    flex-direction: column;
+    font-size: .875rem;
+    padding-left: 16px;
+
+    li {
+      margin: 4px 0;
+    }
+  }
+
+  &__footer {
+    background-color: $pix-neutral-70;
+    border-radius: 8px;
+    padding: 16px 24px;
+    margin-top: 16px;
+
+    button {
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    label {
+      color: $pix-neutral-0;
+    }
+  }
+
+  &__box {
+    background-color: $pix-neutral-0;
+    border-radius: 8px;
+    margin-top: 16px;
+    padding: 16px 24px 16px 24px;
+
+    hr {
+      color: $pix-neutral-22;
+      margin-bottom: 16px;
+    }
+
+    > .input-container {
+      margin-bottom: 0px;
+    }
+  }
+
+  &__subTitle {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+
+    .green-icon {
+      color: $pix-success-70;
+    }
+
+    .grey-icon {
+      color: $pix-neutral-45;
+    }
+  }
+}
+

@@ -1,0 +1,212 @@
+@mixin add-dashboard-content-separator() {
+  padding: 24px 0;
+  border-bottom: 1px solid $pix-neutral-20;
+}
+
+.dashboard-content {
+  display: grid;
+  grid-template-areas:
+    'banner'
+    'score'
+    'main'
+    'certif';
+  grid-template-rows: auto;
+  grid-template-columns: 100%;
+  padding: 40px 20px;
+
+  .dashboard-banner {
+    grid-area: banner;
+  }
+
+  &__score {
+    @include add-dashboard-content-separator;
+
+    grid-area: score;
+    margin-bottom: 20px;
+  }
+
+  &__main {
+    grid-area: main;
+
+    .dashboard-banner {
+      display: none;
+    }
+  }
+
+  &__certif {
+    grid-area: certif;
+  }
+
+  @include device-is('tablet') {
+    grid-template-areas:
+      'banner banner banner banner banner banner'
+      'score score score certif certif certif'
+      'main main main main main main'
+      'main main main main main main'
+      'main main main main main main';
+    grid-template-rows: auto;
+    grid-template-columns: repeat(6, 1fr);
+
+    .dashboard-banner {
+      grid-area: banner;
+    }
+
+    &__score {
+      grid-area: score;
+      height: 100%;
+    }
+
+    &__certif {
+      @include add-dashboard-content-separator;
+
+      grid-area: certif;
+      height: 100%;
+      margin-bottom: 24px;
+    }
+
+    &__main {
+      grid-area: main;
+
+      .dashboard-banner {
+        display: none;
+      }
+    }
+  }
+
+  @include device-is('large-screen') {
+    grid-template-areas:
+      'main main main score'
+      'main main main certif'
+      'main main main certif'
+      'main main main certif';
+    grid-template-rows: auto;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 0;
+
+    .dashboard-banner {
+      display: none;
+    }
+
+    &__main {
+      grid-area: main;
+
+      .dashboard-banner {
+        @include add-dashboard-content-separator;
+
+        display: block;
+        padding: 40px 0 47px;
+
+        & > .new-information {
+          padding: 20px 5px 20px 0;
+        }
+      }
+    }
+
+    &__score {
+      grid-area: score;
+      margin: 0;
+      padding-top: 40px;
+      border-bottom: none;
+
+      &:first-of-type {
+        padding-top: 40px;
+      }
+    }
+
+    &__certif {
+      grid-area: certif;
+      margin: 0;
+      border-bottom: none;
+    }
+  }
+}
+
+.dashboard-content-score {
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 19px 0;
+    background-color: $pix-neutral-0;
+    border-radius: 10px;
+    box-shadow: 0 1px 0 0 rgb(23 43 77 / 12%);
+
+    @include device-is('large-screen') {
+      margin-left: 34px;
+      font-size: 0.8125rem;
+    }
+  }
+}
+
+.dashboard-content-score-wrapper {
+
+  &__button {
+    padding-top: 10px;
+    color: $pix-primary;
+
+    &:hover,
+    &:focus {
+      color: $pix-primary-70;
+      text-decoration: underline;
+    }
+
+    &:visited {
+      color: $pix-tertiary-70;
+    }
+  }
+}
+
+.dashboard-section {
+
+  &__title {
+    color: $pix-neutral-80;
+    font-weight: $font-semi-bold;
+    font-size: 1.125rem;
+    font-family: $font-open-sans;
+    line-height: 1.562rem;
+    letter-spacing: 0.009rem;
+  }
+
+  &__subtitle {
+    margin: 4px 0 24px;
+    color: $pix-neutral-50;
+    font-size: 0.8125rem;
+    font-family: $font-roboto;
+    letter-spacing: 0.009rem;
+  }
+
+  &__header {
+
+    &--with-button {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+  }
+
+  &__button {
+    display: none;
+    padding: 10px 16px;
+    color: $pix-neutral-90;
+    font-size: 0.875rem;
+    border: 1px solid $pix-neutral-50;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: darken($pix-neutral-10, 5%);
+    }
+
+    @include device-is('tablet') {
+      display: block;
+    }
+  }
+
+  @include add-dashboard-content-separator;
+
+  padding: 24px 0;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}

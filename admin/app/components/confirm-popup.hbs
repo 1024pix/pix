@@ -1,0 +1,16 @@
+<PixModal @title={{this.title}} @onCloseButtonClick={{@cancel}} @showModal={{@show}}>
+  <:content>
+    <p>{{@message}}</p>
+    <p class="confirm-popup__errors">{{@error}}</p>
+  </:content>
+
+  <:footer>
+    <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @triggerAction={{@cancel}}>
+      {{this.closeTitle}}
+    </PixButton>
+
+    <PixButton @triggerAction={{@confirm}} @loadingColor="white" @backgroundColor="blue">
+      {{this.submitTitle}}
+    </PixButton>
+  </:footer>
+</PixModal>

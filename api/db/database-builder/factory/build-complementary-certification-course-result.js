@@ -1,0 +1,30 @@
+const databaseBuffer = require('../database-buffer');
+const buildComplementaryCertificationCourse = require('./build-complementary-certification-course');
+const buildComplementaryCertification = require('./build-complementary-certification');
+const buildCertificationCourse = require('./build-certification-course');
+const _ = require('lodash');
+const ComplementaryCertificationCourseResult = require('../../../lib/domain/models/ComplementaryCertificationCourseResult');
+
+module.exports = function buildComplementaryCertificationCourseResult({
+  complementaryCertificationCourseId,
+  partnerKey,
+  source = ComplementaryCertificationCourseResult.sources.PIX,
+  acquired = true,
+}) {
+  complementaryCertificationCourseId = _.isUndefined(complementaryCertificationCourseId)
+    ? _buildComplementaryCertificationCourse().id
+    : complementaryCertificationCourseId;
+  return databaseBuffer.objectsToInsert.push({
+    tableName: 'complementary-certification-course-results',
+    values: { complementaryCertificationCourseId, partnerKey, source, acquired },
+  });
+};
+
+function _buildComplementaryCertificationCourse() {
+  const { id: complementaryCertificationId } = buildComplementaryCertification();
+  const { id: certificationCourseId } = buildCertificationCourse();
+  return buildComplementaryCertificationCourse({
+    complementaryCertificationId,
+    certificationCourseId,
+  });
+}

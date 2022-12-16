@@ -1,0 +1,34 @@
+.register-form {
+  max-width: 360px;
+
+  &__cgu-label {
+    font-family: $font-roboto;
+    font-size: 0.875rem;
+    margin: 0;
+  }
+
+  &__cgu-error {
+    color: $pix-error-70;
+    font-size: 0.75em;
+    margin-top: 20px;
+  }
+
+  .input-container {
+    margin: 16px 2px 25px 2px;
+  }
+
+  .pix-input-password > .pix-input__error-message {
+    bottom: calc(-18px - 1px - 0.75rem);
+  }
+
+  .checkbox-container {
+    display: flex;
+    input[type='checkbox'] {
+      margin: 1px 6px 0 0;
+    }
+  }
+
+  .cgu-validation-message {
+    margin-top: 20px;
+  }
+}

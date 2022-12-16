@@ -1,0 +1,46 @@
+.campaign-list-header {
+  &__header {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    
+    @include device-is('tablet') {
+      flex-direction: row;
+      margin: 1em 0 2.4em;
+      margin-bottom: 20px;
+    }
+  }
+
+  @include device-is('tablet') {
+    &__create-campaign-button {
+      margin-left: auto;
+    }
+  }
+
+  &__tabs {
+    margin-bottom: 20px;
+
+    ul {
+      width: 100%;
+      list-style: none;
+      margin:0;
+      padding: 0;
+      display: flex;
+    }
+
+    ul li {
+      flex-grow: 1;
+    }
+
+    .navbar-item {
+      height: 100%;
+    }    
+
+    @include device-is('tablet') {
+      ul li {
+        flex-grow: inherit;
+      }
+    }
+
+  }
+}

@@ -1,0 +1,212 @@
+/* stylelint-disable declaration-colon-newline-after */
+/* stylelint-disable function-parentheses-newline-inside */
+/* stylelint-disable no-descending-specificity */
+
+.certification-starter {
+  @include device-is('desktop') {
+    padding: 50px 70px 40px;
+  }
+}
+
+.certification-start-page {
+
+  &__block {
+    max-width: 980px;
+    margin-bottom: 32px;
+    padding: 12px;
+
+    @include device-is('mobile') {
+      padding: 16px;
+    }
+  }
+
+  &__errors {
+    margin: 5px;
+    color: $pix-warning-60;
+    font-size: 0.875rem;
+    text-align: start;
+
+    &__list {
+
+      li {
+        margin: 8px 0 0 16px;
+        text-align: start;
+        list-style: disc;
+      }
+    }
+
+    a,
+    a:visited {
+      color: $pix-warning-60;
+      text-decoration: underline;
+    }
+  }
+
+  &__link-to-user-certifications {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 16px;
+    padding: 16px;
+    color: $pix-neutral-70;
+    background-color: $pix-neutral-10;
+    border-radius: 8px;
+
+    a,
+    a:visited {
+      color: $pix-neutral-70;
+      text-decoration-line: underline;
+    }
+  }
+
+  &__title {
+    margin-bottom: 20px;
+    color: $pix-neutral-100;
+    font-weight: $font-light;
+    font-size: 2.625rem;
+    font-family: $font-open-sans;
+    text-align: center;
+  }
+}
+
+.certification-starter-subscriptions {
+  margin-bottom: 32px;
+  color: $pix-neutral-90;
+  font-size: 0.875rem;
+
+  &-container {
+    padding: 16px 0;
+    text-align: center;
+    background-color: $pix-neutral-10;
+
+    &-title {
+      font-size: 1rem;
+    }
+
+    &-items {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+
+      &__eligible-item,
+      &__non-eligible-item {
+        font-weight: 500;
+      }
+
+      &__eligible-icon {
+        color: $pix-success-70;
+      }
+
+      &__non-eligible-item,
+      &__non-eligible-icon {
+        color: $pix-neutral-50;
+      }
+    }
+
+    &__non-eligible {
+      display: flex;
+      align-items: center;
+      padding: 10px 16px;
+      color: $yellow-alert-dark;
+      background-color: $yellow-alert-light;
+    }
+
+    &__info-icon {
+      margin-right: 10px;
+    }
+  }
+}
+
+.certification-start-page__order {
+  display: block;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  color: $pix-neutral-80;
+  font-weight: $font-light;
+  font-size: 1.25rem;
+  font-family: $font-open-sans;
+  line-height: 28px;
+  text-align: center;
+}
+
+.certification-start-page__cgu {
+  margin: 5px 30px;
+  color: $pix-neutral-80;
+  font-size: 0.75rem;
+  line-height: 18px;
+  text-align: justify;
+}
+
+.certification-start-page__session-code-input {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+#certificationStarterSessionCode {
+  $space-between-dashes: 0.6ch;
+  $nb-characters: 6;
+  $total-width: $nb-characters * (1ch + $space-between-dashes);
+
+  display: inline-block;
+  box-sizing: content-box;
+  width: $total-width;
+  height: 50px;
+  padding: 0 0.2ch 1px 0.5ch;
+  font-size: 1.875rem;
+  font-family: $font-roboto-mono;
+  letter-spacing: $space-between-dashes;
+  text-transform: uppercase;
+  background: repeating-linear-gradient(90deg,
+    $pix-neutral-22 0,
+    $pix-neutral-22 1ch,
+    transparent 0,
+    transparent 1ch + $space-between-dashes) 0 100% / #{$total-width - $space-between-dashes} 2px no-repeat;
+  background-position-x: 0.5ch;
+  background-position-y: 2.5ch;
+  border: solid 2px $pix-neutral-20;
+  border-radius: 3px;
+  outline: none;
+
+  @media all and (-ms-high-contrast: none) {
+    $ie11-modifier: 1.162;
+    $space-between-dashes: $ie11-modifier*0.6ch;
+    $total-width: $nb-characters * ($ie11-modifier * 1.2ch + $space-between-dashes);
+
+    width: $total-width;
+    padding: 0 0 1px 1ch;
+
+    //display differently for IE because 1 character (ch) is equal to 1.162
+    line-height: 0.7;
+    letter-spacing: $space-between-dashes;
+    background: repeating-linear-gradient(90deg,
+      $pix-neutral-22 0,
+      $pix-neutral-22 1.3ch,
+      transparent 0,
+      transparent 1.3ch + $space-between-dashes) 0 100% / #{$total-width - $space-between-dashes} 2px no-repeat;
+    background-position-x: 0.1ch*$ie11-modifier;
+    background-position-y: 2.8ch*$ie11-modifier;
+    background-origin: content-box;
+  }
+
+  &:focus {
+    color: $pix-neutral-70;
+    outline: none;
+  }
+}
+
+.certification-start-page__field-button {
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+.certification-start-page__submit_button {
+  width: content-box;
+  min-width: 150px;
+  white-space: nowrap;
+}

@@ -1,0 +1,18 @@
+.certification-list-page {
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  /* stylelint-disable selector-class-pattern */
+  td.certification-list-page__cell--important,
+  span.certification-list-page__cell--important {
+    color: $pix-information-dark;
+    font-weight: bold;
+  }
+
+  footer.pix-pagination {
+    padding-top: 10px;
+  }
+}

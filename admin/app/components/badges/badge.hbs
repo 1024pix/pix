@@ -1,0 +1,142 @@
+<header class="page-header">
+  <div class="page-title">
+    <p>
+      <LinkTo @route="authenticated.target-profiles.target-profile.insights">{{@targetProfile.name}}</LinkTo>
+      <span class="wire">&nbsp;>&nbsp;</span>
+      Résultat thématique
+      {{@badge.id}}
+    </p>
+  </div>
+</header>
+
+<main class="page-body">
+  <section class="page-section">
+    <div class="page-section__header">
+      <h1 class="page-section__title">{{@badge.name}}</h1>
+    </div>
+    <div class="page-section__details badge-data">
+      <div class="badge-data__image">
+        <img src={{@badge.imageUrl}} alt="" role="presentation" width="90px" /><br />
+      </div>
+      {{#if this.editMode}}
+        <div class="badge-edit-form">
+          <form class="form" {{on "submit" this.updateBadge}}>
+            <div class="badge-edit-form__field">
+              <label for="title" class="badge-edit-form-field__label">
+                <abbr title="obligatoire" class="mandatory-mark">*</abbr>
+                Titre :
+              </label>
+              <Input id="title" @type="text" class="form-control" @value={{this.form.title}} required={{true}} />
+            </div>
+            <div class="badge-edit-form__field">
+              <label for="key" class="badge-edit-form-field__label">
+                <abbr title="obligatoire" class="mandatory-mark">*</abbr>
+                Clé :
+              </label>
+              <Input id="key" @type="text" class="form-control" @value={{this.form.key}} required={{true}} />
+            </div>
+            <div class="badge-edit-form__field">
+              <label for="message" class="badge-edit-form-field__label">
+                Message :
+              </label>
+              <Textarea id="message" class="form-control" @value={{this.form.message}} rows="4" />
+            </div>
+            <div class="badge-edit-form__field">
+              <label for="imageUrl" class="badge-edit-form-field__label">
+                <abbr title="obligatoire" class="mandatory-mark">*</abbr>
+                Nom de l'image (svg) :
+              </label>
+              <Input id="imageUrl" @type="text" class="form-control" @value={{this.form.imageName}} required={{true}} />
+            </div>
+            <div class="badge-edit-form__field">
+              <label for="altMessage" class="badge-edit-form-field__label">
+                <abbr title="obligatoire" class="mandatory-mark">*</abbr>
+                Message Alternatif :
+              </label>
+              <Input
+                id="altMessage"
+                @type="text"
+                class="form-control"
+                @value={{this.form.altMessage}}
+                required={{true}}
+              />
+            </div>
+            <div class="badge-edit-form__field">
+              <label for="isCertifiable">Certifiable : </label>
+              <Input
+                class="badge-form-check-field__control"
+                @type="checkbox"
+                @checked={{this.form.isCertifiable}}
+                id="isCertifiable"
+              />
+            </div>
+            <div class="badge-edit-form__field">
+              <label for="isAlwaysVisible">Lacunes : </label>
+              <Input
+                class="badge-form-check-field__control"
+                @type="checkbox"
+                @checked={{this.form.isAlwaysVisible}}
+                id="isAlwaysVisible"
+              />
+            </div>
+            <div class="badge-edit-form__actions">
+              <PixButton
+                @size="small"
+                @backgroundColor="transparent-light"
+                @isBorderVisible={{true}}
+                @triggerAction={{this.cancel}}
+              >Annuler</PixButton>
+              <PixButton @type="submit" @size="small" @backgroundColor="green">Enregistrer</PixButton>
+            </div>
+          </form>
+        </div>
+      {{else}}
+        <div>
+          <ul class="badge-data__list">
+            <li>ID : {{@badge.id}}</li>
+            <li>Nom du résultat thématique : {{@badge.title}}</li>
+            <li>Nom de l'image : {{this.imageName}}</li>
+            <li>Clé : {{@badge.key}}</li>
+            <li>Message : {{@badge.message}}</li>
+            <li>Message alternatif : {{@badge.altMessage}}</li>
+          </ul>
+          {{#if @badge.isCertifiable}}
+            <PixTag @color={{this.isCertifiableColor}} class="badge-data__tags">{{this.isCertifiableText}}</PixTag><br
+            />
+          {{/if}}
+          {{#if @badge.isAlwaysVisible}}
+            <PixTag @color={{this.isAlwaysVisibleColor}} class="badge-data__tags">
+              {{this.isAlwaysVisibleText}}</PixTag><br />
+          {{/if}}
+          <PixButton
+            @backgroundColor="transparent-light"
+            class="badge-data__action"
+            @isBorderVisible={{true}}
+            @size="small"
+            @triggerAction={{this.toggleEditMode}}
+          >Éditer</PixButton>
+        </div>
+      {{/if}}
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="page-section__header">
+      <h1 class="page-section__title">Critères</h1>
+    </div>
+
+    <div class="page-section__details table-admin">
+      {{#each @badge.criteria as |criterion|}}
+        {{#if criterion.isCampaignScope}}
+          <Badges::CampaignCriterion @criterion={{criterion}} />
+        {{/if}}
+        {{#if criterion.isSkillSetScope}}
+          <Badges::SkillSetCriterion @criterion={{criterion}} @targetProfile={{@targetProfile}} />
+        {{/if}}
+        {{#if criterion.isCappedTubesScope}}
+          <Badges::CappedTubesCriterion @criterion={{criterion}} @targetProfile={{@targetProfile}} />
+        {{/if}}
+      {{/each}}
+    </div>
+  </section>
+</main>

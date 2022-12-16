@@ -1,0 +1,37 @@
+<section class="page-section">
+  <header class="page-section__header">
+    <h2 class="page-section__title">Ajouter un membre</h2>
+  </header>
+
+  <div class="certification-center__section">
+    {{! template-lint-disable require-input-label }}
+    <Input
+      id="userEmailToAdd"
+      @type="email"
+      @value={{this.userEmailToAdd}}
+      aria-label="Adresse e-mail du nouveau membre"
+      class="form-field__text form-control"
+      placeholder="membre@inviter.net"
+      {{on "focusout" this.updateEmailErrorMessage}}
+    />
+
+    <PixButton
+      @triggerAction={{this.addCertificationCenterMembership}}
+      @isDisabled={{this.isDisabled}}
+      @size="small"
+      aria-label="Ajouter le membre"
+    >
+      Valider
+    </PixButton>
+  </div>
+  {{#if this.errorMessage}}
+    <div class="certification-center__section error">
+      {{this.errorMessage}}
+    </div>
+  {{/if}}
+</section>
+
+<CertificationCenters::MembershipsSection
+  @certificationCenterMemberships={{@model.certificationCenterMemberships}}
+  @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}}
+/>

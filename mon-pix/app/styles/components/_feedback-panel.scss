@@ -1,0 +1,167 @@
+.feedback-panel {
+  z-index: 1;
+  margin-top: 16px;
+  padding: 5px 15px;
+  color: $pix-neutral-60;
+  font-size: 0.938rem;
+  background-color: white;
+  border-radius: 10px;
+}
+
+/* "Link" view
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.feedback-panel__open-button {
+  padding: 0;
+  color: $pix-neutral-50;
+  font-weight: $font-medium;
+  font-size: 0.875rem;
+  font-family: $font-roboto;
+  line-height: 20px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.feedback-panel__open-button:hover,
+.feedback-panel__open-button:focus,
+.feedback-panel__open-button:active {
+  color: $pix-neutral-80;
+}
+
+/* "Form" view
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.feedback-panel__form-description {
+  margin-bottom: 20px;
+  font-size: 1.25rem;
+
+  & .link {
+    color: $dark-blue-pro;
+
+    &:hover {
+      color: $dark-blue-pro;
+    }
+  }
+}
+
+.feedback-panel__form-description p {
+  margin: 0;
+  font-size: 0.938rem;
+  font-family: $font-open-sans;
+}
+
+.feedback-panel__form-wrapper {
+  display: flex;
+}
+
+.feedback-panel__form {
+  width: 100%;
+}
+
+.feedback-panel__group {
+  margin-bottom: 10px;
+}
+
+.feedback-panel__field {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 8px;
+  font-size: 0.875rem;
+  background-color: $pix-neutral-0;
+  border: solid 1px $pix-neutral-20;
+  border-radius: 3px;
+}
+
+.feedback-panel__category-selection {
+  display: flex;
+  flex-direction: column;
+}
+
+.feedback-panel__dropdown {
+  width: 100%;
+  margin: 5px 0;
+  color: $pix-neutral-80;
+  font-size: 0.938rem;
+  font-family: $font-roboto;
+
+  @include device-is('desktop') {
+    width: 40%;
+  }
+}
+
+.feedback-panel__quick-help {
+  margin-top: 20px;
+  padding: 20px;
+  font-weight: bold;
+  font-size: 0.938rem;
+  word-break: break-word;
+  background-color: $pix-neutral-0;
+  border: dashed $pix-neutral-70;
+
+  & .tuto-icon {
+    width: 15px;
+
+    &__warning {
+      float: left;
+      width: 20px;
+      height: 20px;
+      color: $pix-warning-60;
+    }
+  }
+
+  & p {
+    margin: 0 0 0 35px;
+  }
+}
+
+.feedback-panel__button {
+  box-sizing: border-box;
+  margin: 0 10px 20px 0;
+  padding: 10px 20px;
+  background-color: $pix-neutral-20;
+  border: 1px solid $pix-neutral-40;
+  border-radius: 3px;
+
+  &[disabled] {
+    opacity: 0.3;
+  }
+}
+
+.feedback-panel__button--send {
+  color: white;
+  background-color: $pix-neutral-50;
+
+  &:hover,
+  &:focus {
+    background-color: $pix-neutral-70;
+  }
+}
+
+.feedback-panel__form-legal-notice {
+  padding-top: 15px;
+  border-top: 1px solid $pix-neutral-20;
+
+  & p {
+    font-size: 0.75rem;
+  }
+
+  & a {
+    color: $pix-primary-60;
+  }
+}
+
+/* "Mercix" view
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.feedback-panel__view--mercix {
+  padding-top: 20px;
+  padding-bottom: 10px;
+  color: $pix-neutral-80;
+  font-size: 1.125rem;
+  text-align: center;
+}
+
+.feedback-panel__alert {
+  margin: 4px 0;
+}

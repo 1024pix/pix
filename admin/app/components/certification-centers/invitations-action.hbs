@@ -1,0 +1,38 @@
+<section class="page-section certification-center-invitations">
+  <form>
+    <h2 class="certification-center-invitations__heading">Inviter un membre</h2>
+    <div class="certification-center-invitations-form-container">
+      <PixInput
+        @id="userEmailToInvite"
+        value={{@userEmailToInvite}}
+        {{on "change" @onChangeUserEmailToInvite}}
+        @label="Adresse e-mail du membre à inviter"
+        class="certification-center-invitations-form-container__input
+          {{if @userEmailToInviteError 'certification-center-invitations-form-container__input--error'}}"
+      />
+
+      <PixSelect
+        @options={{this.languagesOptions}}
+        @selectedOption={{this.invitationLanguage}}
+        @onChange={{this.changeInvitationLanguage}}
+        aria-label="Choisir la langue de l’email d’invitation"
+      />
+
+      <PixButton
+        @size="small"
+        @triggerAction={{fn @createInvitation this.invitationLanguage}}
+        aria-label="Inviter un membre"
+        class="certification-center-invitations-form-container__button"
+        name="Inviter"
+      >
+        Inviter
+      </PixButton>
+    </div>
+    {{#if @userEmailToInviteError}}
+      <label
+        for="userEmailToInvite"
+        class="certification-center-invitations-form-container__error-message"
+      >{{@userEmailToInviteError}}</label>
+    {{/if}}
+  </form>
+</section>

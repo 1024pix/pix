@@ -1,0 +1,25 @@
+.user-certifications-page__container {
+  padding: 0 10px;
+
+  @include device-is('desktop') {
+    justify-content: flex-start;
+    padding: 0;
+  }
+}
+
+.user-certifications-page__title {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding-top: 60px;
+  padding-bottom: 40px;
+  color: $pix-neutral-80;
+  font-weight: $font-medium;
+  font-size: 1.75rem;
+  font-family: $font-open-sans;
+  line-height: 33px;
+
+  @include device-is('desktop') {
+    justify-content: flex-start;
+  }
+}

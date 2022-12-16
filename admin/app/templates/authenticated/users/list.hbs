@@ -1,0 +1,58 @@
+{{page-title "Utilisateurs"}}
+
+<header class="page-header">
+  <h1 class="page-title">Rechercher un(des) utilisateur(s)</h1>
+  <div class="page-actions">
+    <form class="user-list-form" {{on "submit" this.refreshModel}}>
+      <PixInput
+        @id="firstName"
+        {{on "change" this.onChangeFirstName}}
+        placeholder="Prénom"
+        @ariaLabel="Prénom"
+        class="user-list-form__input--small"
+      />
+      <PixInput
+        @id="lastName"
+        {{on "change" this.onChangeLastName}}
+        placeholder="Nom"
+        @ariaLabel="Nom"
+        class="user-list-form__input--small"
+      />
+      <PixInput
+        @id="email"
+        {{on "change" this.onChangeEmail}}
+        placeholder="Adresse e-mail"
+        @ariaLabel="Adresse e-mail"
+      />
+      <PixInput
+        @id="username"
+        {{on "change" this.onChangeUsername}}
+        placeholder="Identifiant"
+        @ariaLabel="Identifiant"
+        class="user-list-form__input--small"
+      />
+      <div class="user-list-form__actions">
+        <PixButton @size="small" @type="submit">Charger</PixButton>
+        <PixIconButton
+          type="reset"
+          @ariaLabel="Vider les champs de recherche"
+          @icon="xmark"
+          @withBackground={{true}}
+          @triggerAction={{this.clearSearchFields}}
+        />
+      </div>
+    </form>
+  </div>
+</header>
+
+<main class="page-body">
+  <section class="page-section">
+    <Users::ListItems
+      @users={{@model}}
+      @firstName={{this.firstName}}
+      @lastName={{this.lastName}}
+      @email={{this.email}}
+      @username={{this.username}}
+    />
+  </section>
+</main>

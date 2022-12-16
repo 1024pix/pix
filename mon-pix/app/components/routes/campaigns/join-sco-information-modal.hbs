@@ -1,0 +1,56 @@
+<PixModal @title={{t "pages.join.sco.login-information-title"}} @onCloseButtonClick={{@closeModal}} @showModal={{true}}>
+  <:content>
+    <div class="join-error-modal__body">
+      {{#if this.message}}
+        <div class="join-error-modal-body__message" aria-live="polite">
+          <p>{{this.message}}</p>
+        </div>
+      {{/if}}
+      {{#if this.isAccountBelongingToAnotherUser}}
+        <p>
+          {{t "api-error-messages.join-error.r90.account-belonging-to-another-user"}}
+          <ul class="join-error-modal-body__list">
+            <li>
+              {{t "api-error-messages.join-error.r90.details.if-account-belonging-to-user"}}
+              <a
+                href="{{t 'api-error-messages.join-error.r90.details.contact-support.link-url'}}"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {{t "api-error-messages.join-error.r90.details.contact-support.link-text"}}
+              </a>
+              {{t "api-error-messages.join-error.r90.details.code"}}
+            </li>
+            <li>{{t "api-error-messages.join-error.r90.details.disconnect-user"}}</li>
+          </ul>
+        </p>
+      {{/if}}
+    </div>
+  </:content>
+  <:footer>
+    <div class="join-error-modal__footer">
+      {{#if this.isInformationMode}}
+        <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @triggerAction={{this.goToHome}}>
+          {{t "common.actions.sign-out"}}
+        </PixButton>
+
+        <PixButton @triggerAction={{@associate}}>
+          {{t "pages.join.sco.associate"}}
+        </PixButton>
+      {{else}}
+        <PixButton
+          @backgroundColor="{{if this.displayContinueButton 'transparent-light' 'blue'}}"
+          @isBorderVisible={{true}}
+          @triggerAction={{this.goToHome}}
+        >
+          {{t "common.actions.quit"}}
+        </PixButton>
+        {{#if this.displayContinueButton}}
+          <PixButton @triggerAction={{this.goToCampaignConnectionForm}}>
+            {{t "pages.join.sco.continue-with-pix"}}
+          </PixButton>
+        {{/if}}
+      {{/if}}
+    </div>
+  </:footer>
+</PixModal>

@@ -1,0 +1,10 @@
+<div class="organization-participant-list-page__header">
+  <h1 class="page__title page-title">{{t "pages.sco-organization-participants.title" count=@participantCount}}</h1>
+  {{#if this.currentUser.isAdminInOrganization}}
+    <div class="organization-participant-list-page__import-students-button hide-on-mobile">
+      <PixButtonUpload @id="students-file-upload" @onChange={{@onImportStudents}} accept={{this.acceptedFileType}}>
+        {{this.importButtonLabel}}
+      </PixButtonUpload>
+    </div>
+  {{/if}}
+</div>

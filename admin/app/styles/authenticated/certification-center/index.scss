@@ -1,0 +1,26 @@
+/* stylelint-disable selector-class-pattern */
+#certification-center-get-page {
+
+  .page-section__header {
+    justify-content: space-around;
+  }
+
+  .certification-center {
+
+    &__section {
+      display: flex;
+      justify-content: center;
+      max-height: 38px;
+
+      input {
+        width: 310px;
+      }
+    }
+  }
+
+  .error {
+    padding-top: 5px;
+    color: $pix-error-70;
+    font-size: 0.85rem;
+  }
+}

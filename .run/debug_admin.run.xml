@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Debug admin" type="JavascriptDebugType" uri="http://localhost:4202">
+    <mapping url="http://localhost:4202/assets/admin" local-file="$PROJECT_DIR$/admin/app" />
+    <mapping url="http://localhost:4202/assets/admin.js" local-file="$PROJECT_DIR$/admin/dist/assets/pix-admin.js" />
+    <mapping url="http://localhost:4202/assets/vendor.js" local-file="$PROJECT_DIR$/admin/dist/assets/vendor.js" />
+    <mapping url="http://localhost:4202" local-file="$PROJECT_DIR$/admin/dist" />
+    <mapping url="http://localhost:4202/index.html" local-file="$PROJECT_DIR$/admin/dist/index.html" />
+    <method v="2" />
+  </configuration>
+</component>

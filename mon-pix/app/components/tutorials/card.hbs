@@ -1,0 +1,42 @@
+<li>
+  <article class="tutorial-card" role="article">
+    <div class="tutorial-card__content">
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        href="{{@tutorial.link}}"
+        class="tutorial-card-content__link"
+        title="{{@tutorial.title}}"
+      >
+        {{@tutorial.title}}
+      </a>
+      <p class="tutorial-card-content__details">
+        {{@tutorial.source}}
+        •
+        {{@tutorial.format}}
+        •
+        {{dayjs-duration-humanize @tutorial.duration "seconds"}}
+      </p>
+      {{#if this.shouldShowActions}}
+        <ul class="tutorial-card-content__actions">
+          <li>
+            <ActionChip
+              @title={{this.evaluateInformation}}
+              @isCompleted={{this.isTutorialEvaluated}}
+              @triggerAction={{this.evaluateTutorial}}
+              @icon="thumbs-up"
+            />
+          </li>
+          <li>
+            <ActionChip
+              @title={{this.saveInformation}}
+              @isCompleted={{this.isTutorialSaved}}
+              @triggerAction={{this.toggleSaveTutorial}}
+              @icon="bookmark"
+            />
+          </li>
+        </ul>
+      {{/if}}
+    </div>
+  </article>
+</li>

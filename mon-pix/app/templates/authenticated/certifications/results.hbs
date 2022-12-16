@@ -1,0 +1,11 @@
+{{page-title (t "pages.certification-results.title")}}
+
+{{#if (or @model.isEndTestScreenRemovalEnabled this.hasBeenEndedDueToFinalization)}}
+  <Certifications::CertificationEnder
+    @certificationNumber={{@model.id}}
+    @isEndedBySupervisor={{this.isEndedBySupervisor}}
+    @hasBeenEndedDueToFinalization={{this.hasBeenEndedDueToFinalization}}
+  />
+{{else}}
+  <CertificationResultsPage @certificationNumber={{@model.id}} />
+{{/if}}

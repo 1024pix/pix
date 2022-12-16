@@ -1,0 +1,163 @@
+/* stylelint-disable selector-class-pattern */
+.tubes-selection {
+  color: $pix-neutral-70;
+  margin-bottom: $spacing-m;
+
+  &__card {
+    margin-bottom: $spacing-m;
+  }
+
+  &__inline-layout {
+    display: flex;
+    align-items: center;
+
+    label {
+      margin: 0;
+    }
+
+    .vertical-delimiter {
+      margin: 0 1em;
+      border-left: 1px solid $pix-neutral-90;
+      height: 32px;
+    }
+
+    &--count {
+      margin-left: auto;
+    }
+  }
+
+  &__multi-select {
+    max-width: 300px;
+    margin-left: $spacing-s;
+  }
+
+  &__multi-select-label {
+    font-weight: 500;
+    padding-right: $spacing-s;
+  }
+}
+
+.select-tube-table {
+
+  .is-responsive {
+    color: $pix-success-60;
+  }
+
+  .not-responsive {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: $pix-error-60;
+  }
+
+  table {
+    color: $pix-neutral-70;
+  }
+
+  th {
+    font-weight: 500;
+    color: $pix-neutral-100;
+
+    p {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  th,
+  td {
+    vertical-align: middle;
+
+    .icon-container {
+      display: inline-block;
+      position: relative;
+
+      &:first-child {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+
+  td.table__column--center,
+  th.table__column--center {
+    text-align: center;
+  }
+
+  thead {
+    background: $pix-neutral-10;
+  }
+
+  tr:not(:first-child) {
+    border-top: solid 1px $pix-neutral-20;
+  }
+}
+
+.area-border-container {
+  position: relative;
+  box-shadow: 0 4px 8px rgb(7 20 46 / 8%);
+
+  .area-border {
+    position: absolute;
+    width: 4px;
+    border-radius: 2px;
+    height: calc(100% - 24px);
+    top: 12px;
+    left: 1rem;
+    z-index: 2;
+    background-color: $pix-primary-70;
+
+    &.jaffa {
+      background-color: $pix-information-light;
+    }
+
+    &.emerald {
+      background-color: $pix-content-light;
+    }
+
+    &.cerulean {
+      background-color: $pix-communication-light;
+    }
+
+    &.wild-strawberry {
+      background-color: $pix-security-light;
+    }
+
+    &.butterfly-bush {
+      background-color: $pix-environment-light;
+    }
+  }
+}
+
+.pix-collapsible__content {
+  padding: 0;
+}
+
+.list-competences {
+
+  &.pix-collapsible__title {
+    align-items: center;
+    font-family: $font-open-sans;
+    font-size: 1.3rem;
+    font-weight: 500;
+    position: relative;
+    padding-left: 2rem;
+    background-color: $pix-neutral-0;
+
+    &:hover {
+      background-color: $pix-neutral-10;
+    }
+  }
+
+  & + .pix-collapsible__content {
+    padding: 0 0 1rem 2rem;
+    cursor: auto;
+  }
+}
+
+.competence-container {
+
+  .pix-collapsible {
+    box-shadow: none;
+    border-radius: 0;
+  }
+}

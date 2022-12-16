@@ -1,0 +1,13 @@
+{{page-title "Invitations"}}
+
+<CertificationCenters::InvitationsAction
+  @userEmailToInvite={{this.userEmailToInvite}}
+  @onChangeUserEmailToInvite={{this.onChangeUserEmailToInvite}}
+  @userEmailToInviteError={{this.userEmailToInviteError}}
+  @createInvitation={{this.createInvitation}}
+/>
+
+<CertificationCenters::Invitations
+  @certificationCenterInvitations={{this.model.certificationCenterInvitations}}
+  @onCancelCertificationCenterInvitation={{this.cancelCertificationCenterInvitation}}
+/>

@@ -1,0 +1,112 @@
+.session-supervising-candidate-list-background {
+  background: $pix-neutral-100;
+  border-radius: 18px 18px 0 0;
+  flex-grow: 1;
+  padding: 32px 16px;
+
+  .session-supervising-candidate-list {
+    @include device-is("tablet") {
+      padding: 0 48px;
+      margin: auto;
+    }
+
+    @include device-is("desktop") {
+      max-width: 672px;
+      margin: auto;
+    }
+
+    &__description {
+      display: flex;
+      justify-content: flex-start;
+      color: $pix-neutral-15;
+      font-size: 0.875rem;
+      font-weight: normal;
+      min-height: 14px;
+      letter-spacing: 0;
+      margin: 0 0 24px;
+    }
+
+    &__title {
+      font-weight: 600;
+      margin: 0 0 8px;
+      font-family: $font-open-sans;
+      color: $pix-neutral-15;
+      font-size: 1.25rem;
+    }
+
+    &__candidates {
+      list-style: none;
+      padding: 0;
+
+      > li:nth-child(odd) {
+        background: $pix-neutral-80;
+      }
+
+      > li:nth-child(even) {
+        background: $pix-neutral-90;
+      }
+    }
+
+    &__empty-image {
+      display: block;
+      margin: 20px auto;
+    }
+
+    &__empty-message {
+      color: $pix-neutral-15;
+      font-family: $font-open-sans;
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin: auto;
+      max-width: 225px;
+      text-align: center;
+    }
+
+    &__search {
+      align-items: center;
+      background-color: white;
+      border: 1px solid #7A869A;
+      border-radius: 4px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: row;
+      height: 44px;
+      padding-left: 15px;
+      width: 100%;
+    }
+
+    &__candidates-count {
+      display: flex;
+      justify-content: flex-start;
+      color: $pix-neutral-15;
+      font-size: 0.875rem;
+      font-weight: normal;
+      height: 14px;
+      letter-spacing: 0;
+      margin: 16px 0 24px;
+    }
+
+    .search-icon {
+      color: $pix-neutral-30;
+    }
+
+    .search-input {
+      border: none;
+      box-shadow: none;
+      color: $pix-neutral-90;
+      font-family: $font-roboto;
+      font-size: 1rem;
+      padding: 0 10px;
+      width: 100%;
+    }
+
+    .empty-button {
+      margin-left: auto;
+      margin-right: 4px;
+    }
+
+    .pix-input {
+      flex: 1;
+    }
+  }
+}

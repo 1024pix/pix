@@ -1,0 +1,41 @@
+.session-list-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  footer {
+    padding: 18px 24px;
+  }
+}
+
+.session-list {
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 78px;
+    margin: 16px 0 20px;
+
+    & > h1 {
+      margin: 0;
+    }
+  }
+
+  &-content__update-button {
+    padding: 6px;
+  }
+}
+
+.session-list-header__actions {
+  display: flex;
+
+  & button {
+    margin-right: 12px;
+  }
+}
+
+.new-session-icon {
+  font-weight: 900;
+  margin-left: 4px;
+}

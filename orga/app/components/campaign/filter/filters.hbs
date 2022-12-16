@@ -1,0 +1,57 @@
+<div class="campaign-filters">
+  <div>
+    <span class="sr-only">{{t "pages.campaigns-list.filter.legend"}}</span>
+    <label class="campaign-filters__title">{{t "pages.campaigns-list.filter.title"}}</label>
+    <Ui::SearchInputFilter
+      @field="name"
+      @value={{@nameFilter}}
+      @placeholder={{t "pages.campaigns-list.filter.by-name"}}
+      @ariaLabel={{t "pages.campaigns-list.filter.by-name"}}
+      @triggerFiltering={{@onFilter}}
+    />
+    {{#unless @listOnlyCampaignsOfCurrentUser}}
+      <Ui::SearchInputFilter
+        @field="ownerName"
+        @value={{@ownerNameFilter}}
+        @placeholder={{t "pages.campaigns-list.filter.by-owner"}}
+        @ariaLabel={{t "pages.campaigns-list.filter.by-owner"}}
+        @triggerFiltering={{@onFilter}}
+      />
+    {{/unless}}
+    <div role="radiogroup" class="campaign-filters__type">
+      <input
+        id="ongoing-campaigns"
+        type="radio"
+        class="campaign-filters__radio"
+        checked={{not @isArchived}}
+        {{on "click" (fn @onFilter "status" null)}}
+      />
+      <label
+        for="ongoing-campaigns"
+        class="campaign-filters__tab {{unless @isArchived 'campaign-filters__tab--active'}}"
+      >
+        {{t "pages.campaigns-list.action.ongoing.label"}}
+      </label>
+      <input
+        id="archived-campaigns"
+        type="radio"
+        class="campaign-filters__radio"
+        checked={{@isArchived}}
+        {{on "click" (fn @onFilter "status" "archived")}}
+      />
+      <label for="archived-campaigns" class="campaign-filters__tab {{if @isArchived 'campaign-filters__tab--active'}}">
+        {{t "pages.campaigns-list.action.archived.label"}}
+      </label>
+    </div>
+  </div>
+  <div>
+    <p class="campaign-filters__results">
+      {{t "pages.campaigns-list.filter.results" total=@numResults}}
+    </p>
+    <div class="campaign-filters__clear">
+      <PixButton @triggerAction={{@onClearFilters}} @isDisabled={{@isClearFiltersButtonDisabled}}>
+        {{t "pages.campaigns-list.filter.clear"}}
+      </PixButton>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,225 @@
+{
+  "common": {
+    "actions": {
+      "cancel": "Annuler",
+      "close": "Fermer",
+      "delete": "Supprimer",
+      "quit": "Quitter",
+      "update": "Modifier"
+    },
+    "api-errors-messages": {
+      "bad-request": "The data entered was not in the correct format.",
+      "default": "The service is temporarily unavailable. Please try again later."
+    },
+    "form": {
+      "mandatory-all-fields": "All fields are required."
+    }
+  },
+  "current-lang": "en",
+  "navigation": {
+    "footer": {
+      "a11y": "Accessibilité : partiellement conforme",
+      "legal-notice": "Mentions légales",
+      "current-year": "© {currentYear} Pix"
+    }
+  },
+  "pages": {
+    "login": {
+      "title": "Login",
+      "errors": {
+        "invitation-was-cancelled": "This invitation is no longer valid.<br/>Please contact the administrator of your Pix Certif space.",
+        "invitation-already-accepted": "This invitation has already been accepted.<br/>Please log in or contact the administrator of your Pix Certif space."
+      }
+    },
+    "login-or-register": {
+      "title": "You have been invited to join the certification center {certificationCenterName}",
+      "login-form": {
+        "errors": {
+          "status": {
+            "401": "Missing or invalid credentials",
+            "403": "Access to this Pix Certif space is limited to invited members. Each Pix Certif space is managed by an administrator specific to the organisation using it. Please contact your administrator to get invited.",
+            "404": "This email address doesn't match any Pix user.",
+            "409": "This invitation has been already accepted or cancelled.",
+            "412": "This invitation has already been accepted."
+          }
+        },
+        "title": "Already have an account?",
+        "fields": {
+          "email": {
+            "label": "Email address",
+            "error": "Your email address is invalid."
+          },
+          "password": {
+            "label": "Password",
+            "error": "Your password can't be empty.",
+            "forgot-password": "Forgot your password?"
+          }
+        },
+        "login": "Log in",
+        "button": "Log in"
+      },
+      "register-form": {
+        "title": "Sign up",
+        "button": "Sign up",
+        "fields": {
+          "button": {
+            "label": "Sign up"
+          },
+          "cgu": {
+            "accept": "I agree to the",
+            "and": "and",
+            "aria-label": "Accept the terms of use of the Pix platform",
+            "data-protection-policy": "personal data protection policy",
+            "error": "You must agree to the Pix terms of use and personal data protection policy to create an account.",
+            "terms-of-use": "Pix terms of use"
+          },
+          "email": {
+            "error": "Please enter a valid email address.",
+            "label": "Email address"
+          },
+          "first-name": {
+            "error": "Please enter a first name.",
+            "label": "First name"
+          },
+          "last-name": {
+            "error": "Please enter a last name.",
+            "label": "Last name"
+          },
+          "password": {
+            "error": "Your password must contain at least 8 characters and include at least one uppercase letter, one lowercase letter and one number.",
+            "label": "Password"
+          }
+        },
+        "errors": {
+          "default": "The service is temporarily unavailable. Please try again later.",
+          "email-already-exists": "This email address is already registered, please login."
+        }
+      }
+    },
+    "sessions": {
+      "enrolled-candidates": {
+        "without-details-description": "Liste des candidats inscrits à la session, triée par nom de naissance, avec la possibilité de supprimer un candidat dans la dernière colonne.",
+        "with-details-description": "Liste des candidats inscrits à la session, triée par nom de naissance, avec un lien pour voir les détails du candidat et la possibilité de supprimer un candidat dans la dernière colonne."
+      },
+      "finalize": {
+        "finished-test-list-description": "Liste des candidats qui ont fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant et une liste déroulante permettant de sélectionner la raison de l’abandon.",
+        "unfinished-test-list-description": "Liste des candidats qui n’ont pas fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant et une liste déroulante permettant de sélectionner la raison de l’abandon."
+      },
+      "list": {
+        "header": {
+          "title": "Sessions de certification",
+          "session-creation": "Créer une session",
+          "session-import-template": "Template d'import de sessions",
+          "session-import-template-dl-error": "Une erreur s'est produite pendant le téléchargement",
+          "session-import-template-label": "Télécharger le template d'import en masse",
+          "session-import-upload": "Importer en masse"
+        },
+        "delete-modal": {
+          "title": "Supprimer la session",
+          "label": "Souhaitez-vous supprimer la session <span>{sessionId}</span> ?",
+          "enrolled-candidates": "<span>{enrolledCandidatesCount} candidats</span> sont inscrits à cette session",
+          "disclaimer": "Attention, cette action est irréversible."
+        },
+        "session-summary": {
+          "session-number": "N° de session",
+          "center-name": "Nom du site",
+          "room": "Salle",
+          "date": "Date",
+          "time": "Heure",
+          "supervisor": "Surveillant(s)",
+          "enrolled-candidates": "Candidats inscrits",
+          "effective-candidates": "Certifications passées",
+          "status": "Statut",
+          "actions": "Actions",
+          "certification-session": "Session de certification",
+          "delete-session": "Supprimer la session {sessionSummaryId}",
+          "tooltip-label": "Au moins un candidat a rejoint la session, vous ne pouvez pas la supprimer.",
+          "empty-table": "Aucune session trouvée",
+          "session-and-id": "Session {sessionId}"
+        }
+      },
+      "detail": {
+        "panel-clea": {
+          "title": "Des candidats ont obtenu le certificat CléA numérique",
+          "description": "Pour générer les certificats CléA numérique, téléchargez la liste des candidats, complétez-la, enregistrez-la au format .xlsx puis importez-la sur la ",
+          "link-text": "plateforme du CléA numérique.",
+          "download-button": "Télécharger la liste des candidats",
+          "error-message": "Une erreur est survenue lors du téléchargement du fichier. Veuillez réessayer ou contacter certif@pix.fr en indiquant le numéro de la session concernée."
+        },
+        "parameters": {
+          "copy-access-code-number": "Copier le code du numéro de session",
+          "copy-session-number": "Copier le code du numéro de session",
+          "copy-session-password-supervisor": "Copier le mot de passe de session pour le surveillant",
+          "finalization-info": "Les informations de finalisation de la session ont déjà été transmises aux équipes de Pix",
+          "finalizing": "Finaliser la session",
+          "observations": "Observations",
+          "session-access-code": "Code d'accès",
+          "session-candidate": "Candidat",
+          "session-password": "Mot de passe de session",
+          "session-update": "Modifier les informations de la session {sessionId}"
+        }
+      }
+    },
+    "session-supervising": {
+      "header": {
+        "session-id": "Session {sessionId}",
+        "center-name": "Center name",
+        "center-name-full": "Center name",
+        "room": "Room",
+        "supervisor": "Supervisor",
+        "multiple-supervisor": "Supervisor(s)",
+        "access-code": "Access code (candidates)"
+      },
+      "candidate-list": {
+        "authorized-to-start-candidates": "{authorizedToStartCandidates}/{totalCandidates} authorized {authorizedToStartCandidates, plural,one {candidate} other {candidates}}"
+      },
+      "candidate-in-list": {
+        "extra-time": "Extra time",
+        "ongoing": "In progress",
+        "finished": "Finished",
+        "authorized-to-resume": "Allowed to resume",
+        "display-candidate-options": "Display the candidate's options",
+        "candidate-options": "Candidate's options",
+        "start": "Start",
+        "test-end-modal": {
+          "description": "Attention : cette action entraîne la fin de son test de certification et est irréversible.",
+          "instruction-with-name": "Finish the test of {firstName} {lastName}?",
+          "end-assessment": "Finish the test",
+          "cancel-label": "Annuler et fermer la fenêtre de confirmation",
+          "success": "Success! {firstName} {lastName}'s test has been finished.",
+          "error": "An error occured, {firstName} {lastName}'s test could not be finished."
+        },
+        "resume-test-modal": {
+          "allow-test-resume": "Autoriser la reprise du test",
+          "description": "Si le candidat a fermé la fenêtre de son test de certification (par erreur, ou à cause d'un problème technique) et est toujours présent dans la salle de test, vous pouvez lui permettre de reprendre son test à l'endroit où il l'avait quitté.",
+          "instruction-with-name": "Autoriser {firstName} {lastName} à reprendre son test ?`",
+          "confirm": "Je confirme l'autorisation",
+          "cancel-label": "Annuler et fermer la fenêtre de confirmation",
+          "success": "Succès ! {firstName} {lastName} peut reprendre son test de certification.",
+          "error": "Une erreur est survenue, {firstName} {lastName} n'a a pu être autorisé à reprendre son test."
+        }
+      }
+    },
+    "team": {
+      "title": "Équipe",
+      "last-name": "Nom",
+      "first-name": "Prénom",
+      "referer": "Référent",
+      "pix-referer": "Référent Pix",
+      "update-referer-button": "Changer de référent",
+      "pix-referer-tooltip": "Le référent Pix est le contact privilégié des équipes de Pix. Il est le responsable du bon déroulement des sessions de certification.",
+      "no-referer-section": {
+        "title": "Aucun référent Pix désigné",
+        "description": "Le référent Pix est le contact privilégié des équipes de Pix. Il est le responsable du bon déroulement des sessions de certification.",
+        "select-referer-button": "Désigner un référent"
+      },
+      "select-referer-modal": {
+        "title": "Sélectionner le référent Pix",
+        "empty-option": "--Sélectionner--",
+        "cancel": "Annuler",
+        "validate": "Valider",
+        "description": "Le Groupement d’intérêt public, sis 21-23 rue des Ardennes 75019 Paris PIX met en œuvre en tant que responsable de traitement un traitement de données à caractère personnel portant sur votre adresse email professionnel de référent Pix.<br />La finalité de ce traitement est la communication des informations nécessaires aux attributions du référent Pix au sein du centre de certification agréé. Le traitement de cette données repose sur l’exécution de la convention d’agrément de votre centre de certification.<br />Les données sont conservées pendant la durée de la convention d’agrément en vigueur entre le GIP Pix et le centre habilité auquel vous êtes rattaché.<br />Vous disposez de droits personnels, droits d'accès, de rectification et d’effacement des données, le droit de limitation ou d’opposition au traitement pour motif légitime et le droit d’introduire une réclamation auprès d’une autorité de contrôle ainsi que le droit de définir des directives relatives à la conservation, à l'effacement et à la communication de vos données à caractère personnel en cas de décès que vous pouvez exercer par courriel auprès de notre DPD en adressant votre demande à l’adresse électronique suivante : dpd@pix.fr .<br />Vous disposez de la possibilité d’introduire une réclamation auprès de Commission nationale Informatique et libertés « CNIL » à l’adresse suivante : 3 Place de Fontenoy – TSA 80715 – 75334 Paris Cedex 07."
+      }
+    }
+  }
+}

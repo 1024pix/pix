@@ -1,0 +1,48 @@
+.paragraph {
+  color: $pix-neutral-45;
+  font-family: $font-open-sans;
+  font-size: 0.875rem;
+  line-height: 20px;
+}
+
+.label-text {
+  color: $pix-neutral-35;
+  font-family: $font-roboto;
+  font-size: 0.8125rem;
+  font-weight: 400;
+}
+
+.content-text {
+  color: $pix-neutral-60;
+  font-family: $font-roboto;
+  font-size: 1rem;
+
+  &--bold {
+    color: $pix-neutral-80;
+    font-weight: 700;
+  }
+
+  &--big {
+    font-size: 2rem;
+    font-weight: 300;
+  }
+
+  &--small {
+    font-size: 0.8125rem;
+  }
+}
+
+.link {
+  outline: none;
+  border: none;
+  background-color: inherit;
+  color: $pix-primary;
+  text-decoration: none;
+
+  &:hover,
+  &:focus,
+  &:active {
+    text-decoration: underline;
+    color: $pix-primary-60;
+  }
+}

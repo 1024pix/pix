@@ -1,0 +1,18 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="api tests with watch" type="mocha-javascript-test-runner">
+    <node-interpreter>project</node-interpreter>
+    <node-options />
+    <mocha-package>$PROJECT_DIR$/api/node_modules/mocha</mocha-package>
+    <working-directory>$PROJECT_DIR$/api</working-directory>
+    <pass-parent-env>true</pass-parent-env>
+    <envs>
+      <env name="NODE_ENV" value="test" />
+    </envs>
+    <ui>bdd</ui>
+    <extra-mocha-options>--exit --watch</extra-mocha-options>
+    <test-kind>DIRECTORY</test-kind>
+    <test-directory>$PROJECT_DIR$/api/tests</test-directory>
+    <recursive>true</recursive>
+    <method v="2" />
+  </configuration>
+</component>

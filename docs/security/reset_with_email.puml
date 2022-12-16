@@ -1,0 +1,26 @@
+@startuml
+actor User #blue
+participant MonPix
+participant API
+participant ServiceMail
+User -> MonPix : /connexion
+note left: Connexion à app.pix.fr
+User -> MonPix : /mot-de-passe-oublie
+note left: Clic sur "Mot de passe oublié ?"
+User -> MonPix : /mot-de-passe-oublie ?
+MonPix -> API : POST /api/password-reset-demands
+API -> ServiceMail : <TOKEN>
+ServiceMail -> User: envoi mail
+API -> MonPix : 201 Created
+MonPix -> User : "Un e-mail contenant la démarche  \n à suivre (..) vous a été envoyé"
+User -> MonPix : /changer-mot-de-passe/<TOKEN>
+note left: Ouverture de l'email, clic sur \n "Définir un nouveau mot de passe"
+MonPix -> API : POST /api/password-reset-demands \n{ data: { \ntype: "password-reset-demands" \nattributes: { email: <EMAIL> }\n}}
+API -> MonPix : 201 Created \n { data: {\ntype: "password-reset-demands", \nid: <ID>, \nattributes: { email:<EMAIL>}\n}}
+User -> MonPix : /changer-mot-de-passe/<TOKEN>
+note left: Saisie nouveau mot de passe \nclic sur Envoyer
+MonPix -> API : PATCH /api/users/{id}/password-update\n&temporaryKey=<TOKEN>\n\n { data: { \ntype: "users", \nattributes: {  \nid: <ID>,  \nemail: <EMAIL>, \npassword:<PASSWORD>}\n}}
+API -> MonPix : 200 OK Created \n{ data: { \ntype: "users", \nattributes: (..)} \n}
+MonPix -> User : "Votre mot de passe a été modifié avec succès."
+note left: Clic sur connectez-vous
+@enduml

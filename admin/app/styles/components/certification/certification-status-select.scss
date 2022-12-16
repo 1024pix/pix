@@ -1,0 +1,12 @@
+/* stylelint-disable selector-class-pattern */
+.certification-status-select {
+  display: flex;
+
+  label {
+    margin-right: 10px;
+  }
+
+  select.certification-status-select__select {
+    height: 30px;
+  }
+}

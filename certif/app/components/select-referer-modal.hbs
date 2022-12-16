@@ -1,0 +1,46 @@
+<PixModal
+  class="select-referer-modal"
+  @title={{(t "pages.team.select-referer-modal.title")}}
+  @onCloseButtonClick={{@toggleRefererModal}}
+  @showModal={{@showModal}}
+>
+  <:content>
+    <div class="select-referer-modal__referer-selector">
+      <label for="referer" class="select-referer-modal__label">
+        {{t "pages.team.select-referer-modal.title"}}
+      </label>
+      <PixSelect
+        id="referer"
+        @options={{@options}}
+        @onChange={{@onSelectReferer}}
+        @emptyOptionLabel={{(t "pages.team.select-referer-modal.empty-option")}}
+        @emptyOptionNotSelectable={{true}}
+      />
+    </div>
+    <div class="select-referer-modal__actions">
+      <PixButton
+        aria-label="Annuler la sélection de référent"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        @triggerAction={{@toggleRefererModal}}
+      >
+        {{t "pages.team.select-referer-modal.cancel"}}
+      </PixButton>
+      <PixButton
+        class="select-referer-modal__validation-button"
+        aria-label="Valider la sélection de référent"
+        @triggerAction={{@onValidateReferer}}
+        @loadingColor="white"
+        @isDisabled={{@noSelectedReferer}}
+        @backgroundColor="blue"
+      >
+        {{t "pages.team.select-referer-modal.validate"}}
+      </PixButton>
+    </div>
+  </:content>
+  <:footer>
+    <p class="select-referer-modal__description">
+      {{t "pages.team.select-referer-modal.description" htmlSafe=true}}
+    </p>
+  </:footer>
+</PixModal>

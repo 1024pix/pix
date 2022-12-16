@@ -1,0 +1,11 @@
+{{page-title @model.campaign.name}}
+{{page-title this.pageTitle}}
+
+<article class="profile">
+  <Participant::Profile::Header @campaign={{@model.campaign}} @campaignProfile={{@model.campaignProfile}} />
+
+  <Participant::Profile::Table
+    @competences={{@model.campaignProfile.sortedCompetences}}
+    @isShared={{@model.campaignProfile.isShared}}
+  />
+</article>

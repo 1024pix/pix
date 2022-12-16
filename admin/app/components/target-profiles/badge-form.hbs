@@ -1,0 +1,85 @@
+<form {{on "submit" this.createBadgeAndCriteria}} class="badge-form">
+  <h2>Création d'un résultat thématique</h2>
+  <Card class="create-target-profile__card" @title="Informations">
+    <div class="badge-form__text-field">
+      <label for="title">Nom du résultat thématique : </label>
+      <Input id="title" class="form-control" @type="text" @value={{this.badge.title}} />
+    </div>
+    <div class="badge-form__text-field">
+      <label for="image-name" class="badge-form__label">Nom de l'image (svg) :</label>
+      <p class="badge-form__information">
+        <a
+          class="badge-form__information--link"
+          href="https://images.pix.fr/badges.html"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Voir la liste des résultats thématiques
+        </a>
+      </p>
+      <Input
+        id="image-name"
+        required="true"
+        class="form-control"
+        @type="text"
+        @value={{this.imageName}}
+        placeholder="exemple: clea_num.svg"
+      />
+    </div>
+    <div class="badge-form__text-field">
+      <label for="alt-message">Texte alternatif pour l'image : </label>
+      <Input id="alt-message" required="true" class="form-control" @type="text" @value={{this.badge.altMessage}} />
+    </div>
+    <div class="badge-form__text-field">
+      <label for="message">Message : </label>
+      <Textarea id="message" class="form-control" @value={{this.badge.message}} rows="4" />
+    </div>
+    <div class="badge-form__text-field">
+      <label for="badge-key">Clé (texte unique , vérifier qu'il n'existe pas) : </label>
+      <Input
+        id="badge-key"
+        class="form-control"
+        maxlength="255"
+        @type="text"
+        required="true"
+        @value={{this.badge.key}}
+      />
+    </div>
+    <div class="badge-form__check-field">
+      <label for="isCertifiable">Certifiable : </label>
+      <Input
+        class="badge-form-check-field__control"
+        @type="checkbox"
+        @checked={{this.badge.isCertifiable}}
+        id="isCertifiable"
+      />
+    </div>
+    <div class="badge-form__check-field">
+      <label for="isAlwaysVisible">Lacunes : </label>
+      <Input
+        class="badge-form-check-field__control"
+        @type="checkbox"
+        @checked={{this.badge.isAlwaysVisible}}
+        id="isAlwaysVisible"
+      />
+    </div>
+  </Card>
+  {{#if @targetProfile.isNewFormat}}
+    <TargetProfiles::BadgeForm::Criteria @badge={{this.badge}} @areas={{@targetProfile.newAreas}} />
+    <div class="badge-form__action-buttons">
+      <PixButtonLink
+        class="badge-form-action-buttons__cancel"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        @route="authenticated.target-profiles.target-profile.insights"
+      >
+        Annuler
+      </PixButtonLink>
+      <PixButton @backgroundColor="green" @type="submit">
+        Enregistrer le RT
+      </PixButton>
+    </div>
+  {{else}}
+    <TargetProfiles::BadgeForm::OldCriteria @badge={{this.badge}} @skillSetSkills={{this.skillSetSkills}} />
+  {{/if}}
+</form>

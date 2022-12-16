@@ -1,0 +1,14 @@
+<div class="user-tutorials-content__recommended-empty">
+  <div>
+    <h2 class="user-tutorials-recommended-empty__title">
+      {{t "pages.user-tutorials.recommended-empty.title" firstName=this.currentUser.user.firstName}}
+    </h2>
+    <p class="user-tutorials-recommended-empty__description">
+      {{t "pages.user-tutorials.recommended-empty.description"}}
+    </p>
+    <PixButtonLink @route="authenticated.profile" class="user-tutorials-recommended-empty__link">
+      {{t "pages.user-tutorials.recommended-empty.link"}}
+    </PixButtonLink>
+  </div>
+  <img src="/images/illustrations/user-tutorials/recommended-empty.svg" role="presentation" alt="" />
+</div>

@@ -1,0 +1,101 @@
+.navbar-desktop-header {
+
+  &__container {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+}
+
+.navbar-desktop-header-container {
+
+  &__menu {
+    display: flex;
+    width: 100%;
+    margin-right: 20px;
+    margin-left: 68px;
+    padding-left: 0;
+  }
+}
+
+.navbar-desktop-header-menu {
+
+  &__list {
+    display: flex;
+    padding-left: 0;
+  }
+
+  &__item {
+    margin-right: 20px;
+    margin-left: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    list-style: none;
+  }
+
+  &__link {
+    color: $pix-neutral-60;
+    font-size: 1rem;
+    font-family: $font-roboto;
+    text-decoration: none;
+
+    &.active {
+      padding-bottom: 5px;
+      color: $pix-primary-60;
+      text-decoration: none;
+      border-bottom: 2px solid $pix-primary-60;
+    }
+
+    &:focus {
+      color: $pix-neutral-60;
+      text-decoration: none;
+    }
+
+    &:hover {
+      color: $pix-primary-60;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  }
+}
+
+.navbar-desktop-header-campaign-menu {
+
+  &__button {
+    font-size: 1rem;
+    font-family: $font-roboto;
+    white-space: nowrap;
+  }
+}
+
+.navbar-desktop-header-right {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0;
+  margin-left: auto;
+  padding: 0;
+}
+
+/* Logo
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.navbar-desktop-header-logo {
+  position: relative;
+  display: flex;
+  gap: 40px;
+  align-items: center;
+
+  &__link {
+    display: inline-block;
+
+    &:hover,
+    &:active,
+    &:focus {
+      text-decoration: none;
+    }
+  }
+}

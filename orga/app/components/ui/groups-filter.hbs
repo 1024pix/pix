@@ -1,0 +1,18 @@
+{{#if this.isLoading}}
+  <div class="groups-filter--is-loading placeholder-box"></div>
+{{else}}
+  <PixMultiSelect
+    @label={{t "pages.campaign-results.filters.type.groups.title"}}
+    @placeholder={{t "pages.campaign-results.filters.type.groups.title"}}
+    @emptyMessage={{t "pages.campaign-results.filters.type.groups.empty"}}
+    @screenReaderOnly={{true}}
+    @isSearchable={{true}}
+    @onChange={{@onSelect}}
+    @values={{@selectedGroups}}
+    @options={{this.options}}
+    ...attributes
+    as |option|
+  >
+    {{option.label}}
+  </PixMultiSelect>
+{{/if}}

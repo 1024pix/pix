@@ -1,0 +1,56 @@
+.qcm-panel {
+
+  &__proposals {
+    margin: 0 0 15px;
+    font-size: 1rem;
+
+    .rounded-panel__row label {
+      display: flex;
+    }
+  }
+
+  &__proposal-item {
+    margin-left: 7px;
+  }
+
+  &__proposal-label {
+    align-items: center;
+    width: 100%;
+    font-weight: $font-normal;
+
+    p {
+      display: inline;
+    }
+  }
+}
+
+.qcm-proposal-label {
+
+  & a,
+  a:visited {
+    color: inherit;
+  }
+
+  &__answer-details[data-goodness='good'] {
+    display: inline;
+    color: $pix-success-70;
+    font-weight: $font-heavy;
+  }
+
+  &__answer-details[data-goodness='bad'][data-checked='yes'] {
+    display: inline;
+    text-decoration: line-through;
+  }
+
+  &__answer-details[data-goodness='bad'][data-checked='no'] {
+    display: inline;
+  }
+
+  .qcm-panel__proposal-checkbox {
+    min-width: 18px;
+    min-height: 18px;
+    margin: 4px 10px;
+    border: 1.2px solid $pix-neutral-90;
+    border-radius: 2px;
+  }
+}

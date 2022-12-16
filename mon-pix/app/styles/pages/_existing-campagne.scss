@@ -1,0 +1,13 @@
+.inaccessible-campaign-message {
+  padding: 0 32px;
+
+  &__username {
+    padding: 0;
+    font-weight: $font-bold;
+  }
+}
+
+.inaccessible-campaign-info {
+  margin-top: 32px;
+  padding: 0 32px;
+}

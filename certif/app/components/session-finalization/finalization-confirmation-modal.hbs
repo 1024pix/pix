@@ -1,0 +1,32 @@
+<PixModal
+  @title="Finalisation de la session"
+  @onCloseButtonClick={{@closeModal}}
+  class="finalization-confirmation-modal"
+  @showModal={{@showModal}}
+>
+  <:content>
+    {{#if (and @hasUncheckedHasSeenEndTestScreen @shouldDisplayHasSeenEndTestScreenCheckbox)}}
+      <p class="app-modal-body__contextual finalization-confirmation-modal__unchecked-has-seen-end-test-screen">La case
+        "Écran de fin du test vu" n'est pas cochée pour
+        {{@uncheckedHasSeenEndTestScreenCount}}
+        candidat(s)</p>
+    {{/if}}
+    <p><span class="finalization-confirmation-modal__warning">Attention :</span>
+      il ne vous sera plus possible de modifier ces informations par la suite.</p>
+    <p>Un délai de traitement est nécessaire avant la mise à disposition des résultats par Pix (ce délai de traitement
+      pouvant varier d'une session à l'autre).</p>
+  </:content>
+  <:footer>
+    <PixButton
+      @triggerAction={{@closeModal}}
+      @backgroundColor="transparent-light"
+      @isBorderVisible="true"
+      @size="small"
+    >
+      Annuler
+    </PixButton>
+    <PixButton data-test-id="finalize-session-modal__confirm-button" @triggerAction={{@finalizeSession}} @size="small">
+      Confirmer la finalisation
+    </PixButton>
+  </:footer>
+</PixModal>

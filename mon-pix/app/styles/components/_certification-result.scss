@@ -1,0 +1,91 @@
+.certification-results__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 990px;
+  margin: -150px auto;
+  padding-top: 10px;
+  line-height: 1.875rem;
+  background-color: $pix-neutral-0;
+
+  @include device-is('tablet') {
+    padding: 41px 0;
+  }
+}
+
+.result-content__panel-title {
+  margin-top: 11px;
+  color: $pix-neutral-80;
+  font-weight: $font-bold;
+  font-size: 1.563rem;
+  font-family: $font-open-sans;
+  line-height: 2.5rem;
+  text-align: center;
+
+  @include device-is('tablet') {
+    font-size: 1.875rem;
+  }
+}
+
+.result-content__panel-description {
+  margin-top: 21px;
+  padding: 0 3px;
+  color: $pix-neutral-80;
+  font-size: 1.25rem;
+  font-family: $font-open-sans;
+  line-height: 1.875rem;
+  text-align: center;
+}
+
+.result-content__panel-description-supervisor {
+  margin-top: 21px;
+  padding: 0 3px;
+  color: $pix-warning-60;
+  font-weight: bold;
+  font-size: 1.25rem;
+  line-height: 1.875rem;
+  text-align: center;
+}
+
+.result-content__warning-container {
+  padding-top: 3.125rem;
+  text-align: center;
+}
+
+.result-content__warning-text {
+  padding-bottom: 30px;
+  padding-left: 0.625rem;
+  color: $pix-neutral-80;
+  font-size: 0.938rem;
+  line-height: normal;
+  text-align: center;
+}
+
+.result-content__checked-supervisor {
+  display: flex;
+  padding-bottom: 30px;
+
+  span {
+    padding: 0;
+  }
+}
+
+.result-content__button {
+  margin: 12px auto;
+
+  @include device-is('tablet') {
+    margin-top: 8px;
+  }
+}
+
+.result-content__button-blocked {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.result-content__logout-button,
+.result-content__logout-button:hover {
+  color: $pix-neutral-0;
+}

@@ -1,0 +1,55 @@
+<h1 class="account-recovery__content--title">
+  {{t "pages.account-recovery.update-sco-record.welcome-message" firstName=@firstName}}
+</h1>
+
+<p class="account-recovery__content--information-text--details">
+  {{t "pages.account-recovery.update-sco-record.fill-password"}}
+</p>
+
+<form onSubmit={{this.submitUpdate}} class="account-recovery__content--form">
+  <div class="account-recovery__content--form-fields">
+    <FormTextfield
+      @label={{t "pages.account-recovery.update-sco-record.form.email-label"}}
+      @textfieldName="email"
+      @inputBindingValue={{@email}}
+      @disabled={{true}}
+    />
+
+    <FormTextfield
+      @label={{t "pages.account-recovery.update-sco-record.form.password-label"}}
+      @textfieldName="password"
+      @inputBindingValue={{this.password}}
+      @onValidate={{this.validatePassword}}
+      @validationStatus={{this.passwordValidation.status}}
+      @validationMessage={{this.passwordValidation.message}}
+      @autocomplete="off"
+      @require={{true}}
+      @hideRequired={{true}}
+    />
+
+    <div class="update-sco-record-form__cgu-container">
+      <PixCheckbox @id="checkbox" @screenReaderOnly="true" {{on "change" this.onChange}}>
+        {{t "common.cgu.label"}}
+      </PixCheckbox>
+      <p class="account-recovery__content--information-text--details">
+        {{t "common.cgu.accept"}}
+        <a href={{this.cguUrl}} class="link" target="_blank" rel="noopener noreferrer">
+          {{t "common.cgu.cgu"}}
+        </a>
+        {{t "common.cgu.and"}}
+        <a href={{this.dataProtectionPolicyUrl}} class="link" target="_blank" rel="noopener noreferrer">
+          {{t "common.cgu.data-protection-policy"}}
+        </a>
+        {{t "common.cgu.pix"}}
+      </p>
+    </div>
+
+    <PixButton
+      @type="submit"
+      @isDisabled={{not this.isSubmitButtonEnabled}}
+      class="account-recovery__content--actions update-sco-record-form__submit"
+    >
+      {{t "pages.account-recovery.update-sco-record.form.login-button"}}
+    </PixButton>
+  </div>
+</form>

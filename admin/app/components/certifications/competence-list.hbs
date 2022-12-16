@@ -1,0 +1,32 @@
+{{#if @edition}}
+  {{#each this.competenceList as |competenceItem key|}}
+    <div class="competence-list-edited" aria-label="Informations de la compétence {{competenceItem}} éditable">
+      <Certifications::InfoField
+        @fieldId={{concat "certification-info-score_" key}}
+        @value={{get this.indexedValues.scores key}}
+        @edition={{@edition}}
+        @label={{competenceItem}}
+        @suffix="Pix"
+        {{on "change" (fn this.onScoreChange key)}}
+      />
+
+      <Certifications::InfoField
+        @fieldId={{concat "certification-info-level_" key}}
+        @value={{get this.indexedValues.levels key}}
+        @edition={{@edition}}
+        @label="Niveau:"
+        {{on "change" (fn this.onLevelChange key)}}
+      />
+    </div>
+  {{/each}}
+{{else}}
+  <ul class="competence-list-details">
+    {{#each @competences as |competence|}}
+      <li class="competence-list-details__item" aria-label="Informations de la compétence {{competence.index}}">
+        <span aria-hidden="true">{{competence.index}}</span>
+        <span>{{competence.score}} Pix</span>
+        <span>Niveau: {{competence.level}}</span>
+      </li>
+    {{/each}}
+  </ul>
+{{/if}}

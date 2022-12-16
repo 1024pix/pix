@@ -1,0 +1,10 @@
+.language {
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+
+  &__label {
+    min-width: 200px;
+    margin: 0;
+  }
+}

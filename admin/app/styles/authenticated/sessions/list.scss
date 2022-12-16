@@ -1,0 +1,43 @@
+.session-list {
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  &__navbar {
+    margin: 10px;
+    margin-top: 20px;
+
+    .navbar-item {
+      width: max-content;
+      padding: 0 20px;
+    }
+  }
+
+  &__self-toogle {
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 10px;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &__item--align-center {
+    text-align: center;
+  }
+}
+
+.session-to-be-publish {
+
+  &__publish-all {
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    margin-bottom: 16px;
+  }
+}

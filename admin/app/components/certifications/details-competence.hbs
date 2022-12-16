@@ -1,0 +1,56 @@
+<Card @title="{{@competence.index}} {{@competence.name}}" class="certification-details-competence">
+  <div class="certification-details-competence__content">
+    <div class="certification-details-competence__content__header">
+      <div>Positionné :</div>
+      <div class="progress">
+        <div
+          aria-label="Jauge de compétences positionnées"
+          class="progress-bar"
+          role="progressbar"
+          aria-valuenow="{{@competence.positionedLevel}}"
+          aria-valuemin="0"
+          aria-valuemax="8"
+          style={{this.positionedWidth}}
+        >{{@competence.positionedLevel}}</div>
+      </div>
+      <div class="competence-score">{{@competence.positionedScore}} Pix</div>
+    </div>
+    <div class="certification-details-competence__content__header">
+      <div>Certifié :</div>
+      <div class="progress">
+        <div
+          aria-label="Jauge de compétences certifiées"
+          class="progress-bar certificate"
+          role="progressbar"
+          aria-valuenow="{{@competence.obtainedLevel}}"
+          aria-valuemin="0"
+          aria-valuemax="8"
+          style={{this.certifiedWidth}}
+        >{{@competence.obtainedLevel}}</div>
+      </div>
+      <div class="certificate">{{@competence.obtainedScore}} Pix</div>
+    </div>
+    {{#if this.competenceJury}}
+      <div class="jury">
+        <div>Corrigé :</div>
+        <div class="progress">
+          <div
+            aria-label="Jauge de compétences corrigées"
+            class="progress-bar jury"
+            role="progressbar"
+            aria-valuenow="{{this.competenceJury.level}}"
+            aria-valuemin="0"
+            aria-valuemax="8"
+            style={{this.competenceJury.width}}
+          >{{this.competenceJury.level}}</div>
+        </div>
+        <div class="jury competence-score">{{this.competenceJury.score}} Pix</div>
+      </div>
+    {{/if}}
+    <div class="certification-details-competence-challenges">
+      {{#each this.answers as |answer|}}
+        <Certifications::DetailsAnswer @answer={{answer}} @onUpdateRate={{@onUpdateRate}} />
+      {{/each}}
+    </div>
+  </div>
+</Card>

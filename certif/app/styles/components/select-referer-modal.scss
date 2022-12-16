@@ -1,0 +1,36 @@
+.select-referer-modal {
+  width: 35%;
+
+  &__title {
+    font-family: $font-open-sans;
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: $pix-neutral-90;
+  }
+
+  &__label {
+    font-weight: 500;
+    padding-bottom: 4px;
+  }
+
+  &__referer-selector {
+    margin: 0 24px;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: end;
+    margin: 32px 24px;
+  }
+
+  &__validation-button {
+    margin-left: 6px;
+  }
+
+  &__description {
+    color: $pix-neutral-70;
+    font-size: 0.75rem;
+    margin: 16px 24px;
+    font-weight: 400;
+  }
+}

@@ -1,0 +1,114 @@
+.user-account {
+
+  &__title {
+    position: relative;
+    right: 0;
+    margin: 0 0 8px;
+    padding-bottom: 26px;
+    color: $pix-neutral-0;
+    font-weight: 300;
+    font-size: 3rem;
+    font-family: $font-open-sans;
+    text-align: center;
+  }
+
+  &__validation-title {
+    padding-bottom: 16px;
+    color: $pix-neutral-90;
+    font-weight: 400;
+    font-size: 1.5rem;
+    font-family: $font-open-sans;
+    text-align: center;
+
+    @include device-is('tablet') {
+      text-align: start;
+    }
+  }
+
+  &__menu-and-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .pix-block {
+      width: auto;
+    }
+  }
+
+  &__menu-block {
+    height: max-content;
+    margin: 32px 26px;
+
+    .user-account-menu {
+
+      ul {
+        margin: 0;
+        padding-left: 0;
+        list-style: none;
+      }
+
+      ul li {
+        border-bottom: 1.5px solid $pix-neutral-10;
+        border-radius: 4px;
+
+        &:first-child a {
+          border-radius: 4px 4px 0 0;
+        }
+
+        &:last-child a {
+          border-bottom: none;
+          border-radius: 0 0 4px 4px;
+        }
+      }
+
+      &__link {
+        display: block;
+        padding: 16px 60px 16px 20px;
+        color: $pix-neutral-60;
+
+        svg {
+          margin-right: 8px;
+        }
+
+        &:hover {
+          background-color: $pix-neutral-15;
+        }
+
+        &:focus-within {
+          background-color: $pix-neutral-15;
+        }
+
+        &.active {
+          background-color: $pix-neutral-15;
+        }
+      }
+    }
+  }
+
+  &__content.pix-block {
+    flex-grow: 1;
+    max-width: 600px;
+    height: max-content;
+    margin: 32px 0;
+    padding: 14px 24px;
+
+    @include device-is('mobile') {
+      min-width: 100%;
+      max-width: 100%;
+      margin: 0;
+      padding: 16px;
+    }
+  }
+
+  &__error-message {
+    @include device-is('tablet') {
+      max-width: 520px;
+      margin-bottom: 10px;
+    }
+  }
+
+  &__connection-methods {
+    max-width: 980px;
+    padding: 10px 0;
+  }
+}

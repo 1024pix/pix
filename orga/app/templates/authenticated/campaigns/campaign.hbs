@@ -1,0 +1,11 @@
+{{page-title @model.name}}
+
+<article class="campaign-page">
+  <Campaign::Header::Title @campaign={{@model}} @previousRouteName={{this.previousRouteName}} />
+
+  <Campaign::Header::Tabs @campaign={{@model}} />
+
+  <Campaign::Header::ArchivedBanner @campaign={{@model}} />
+
+  {{outlet}}
+</article>

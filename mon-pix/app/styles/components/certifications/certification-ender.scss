@@ -1,0 +1,179 @@
+.certification-ender {
+  width: calc(100% - 16px);
+  max-width: 990px;
+  margin: -150px auto;
+  padding-top: 10px;
+  overflow: hidden;
+  line-height: 1.875rem;
+  background-color: $pix-neutral-0;
+
+  &__image {
+    display: block;
+    height: 168px;
+    margin: auto;
+  }
+
+  &__finished-test {
+    margin-bottom: 40px;
+  }
+
+  &__candidate {
+    margin: 32px 16px 0;
+    text-align: center;
+  }
+
+  &__candidate-name {
+    display: block;
+    color: $pix-neutral-60;
+    font-weight: normal;
+    font-size: 1.25rem;
+    font-family: $font-open-sans;
+    line-height: 45px;
+  }
+
+  &__candidate-title {
+    display: block;
+    color: $pix-success-70;
+    font-size: 2rem;
+    font-family: $font-open-sans;
+    line-height: 64px;
+  }
+
+  &__candidate-message {
+    display: block;
+    width: 272px;
+    margin: 16px auto auto;
+    color: $pix-neutral-50;
+    font-size: 1rem;
+    font-family: $font-roboto;
+    line-height: 22px;
+  }
+
+  &__remote-certification {
+    margin-top: 16px;
+
+    .pix-message {
+
+      &__content {
+        margin-left: 16px;
+        color: $pix-neutral-50;
+        font-size: 14px;
+        line-height: 20px;
+      }
+    }
+  }
+
+  .pix-button {
+    display: inline-flex;
+  }
+
+  &__candidate-action-disconnect {
+    margin: 16px 0;
+  }
+
+  &__candidate-disconnect-tip {
+    display: block;
+    width: 272px;
+    margin: auto;
+    color: $pix-neutral-50;
+    font-size: 0.875rem;
+    font-family: $font-roboto;
+    line-height: 22px;
+  }
+
+  &__results {
+    margin: 8px;
+    padding: 16px 24px;
+    background-color: $pix-neutral-10;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%);
+  }
+
+  &__results-disclaimer {
+    margin-bottom: 8px;
+    color: $pix-success-70;
+    font-weight: 600;
+    font-size: 0.875rem;
+    font-family: $font-open-sans;
+    line-height: 23px;
+    text-transform: uppercase;
+  }
+
+  &__results-title {
+    display: block;
+    margin-bottom: 6px;
+    color: $pix-neutral-90;
+    font-size: 1.25rem;
+    font-family: $font-open-sans;
+  }
+
+  &__results-steps {
+    display: block;
+    color: $pix-neutral-60;
+    font-size: 0.875rem;
+    font-family: $font-roboto;
+    line-height: 22px;
+  }
+}
+
+@include device-is('tablet') {
+
+  .certification-ender {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+
+    &__finished-test {
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    &__image {
+      order: 2;
+      height: 250px;
+      margin: 0;
+    }
+
+    &__candidate {
+      order: 1;
+      width: 55%;
+      margin: 64px 56px 16px;
+      text-align: left;
+    }
+
+    &__candidate-message {
+      width: auto;
+    }
+
+    &__candidate-disconnect-tip {
+      width: auto;
+    }
+
+    &__candidate-name {
+      font-size: 1.5rem;
+    }
+
+    &__candidate-title {
+      font-size: 3rem;
+    }
+
+    &__results {
+      display: flex;
+      flex-direction: row;
+      padding: 24px 48px;
+    }
+
+    &__results-example {
+      display: flex;
+      align-items: center;
+      width: 40%;
+      padding-right: 45px;
+    }
+
+    &__results-instructions {
+      width: 60%;
+    }
+  }
+}

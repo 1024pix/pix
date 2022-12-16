@@ -1,0 +1,93 @@
+@mixin action-button($text-color) {
+  margin: 0 1px;
+
+  @include device-is('tablet') {
+    margin: 0 5px;
+  }
+
+  &-text {
+    color: $text-color;
+    font-size: 0.8rem;
+    letter-spacing: 0.03rem;
+    text-transform: uppercase;
+
+    @include device-is('tablet') {
+      font-size: 1rem;
+    }
+  }
+}
+
+.rounded-panel__row.challenge-actions {
+  padding: 20px 0;
+
+  @include device-is('tablet') {
+    padding: 20px;
+  }
+}
+
+.challenge-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 6px;
+  background-color: $pix-neutral-10;
+
+  @include device-is('tablet') {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  &__group {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
+  &__action-skip {
+    @include action-button($pix-neutral-50);
+  }
+
+  &__action-validate {
+    @include action-button($pix-neutral-0);
+  }
+
+  &__action-continue {
+    @include action-button($pix-neutral-0);
+  }
+
+  &__already-answered {
+    margin-right: 20px;
+    color: $pix-neutral-70;
+    font-weight: $font-semi-bold;
+    font-size: 1rem;
+    font-family: $font-roboto;
+    letter-spacing: 0.031rem;
+  }
+
+  &__alert-message {
+    display: flex;
+    align-items: center;
+    max-width: 600px;
+    margin: 0 auto 24px 12px;
+    color: $pix-neutral-90;
+    font-weight: $font-normal;
+    font-size: 0.875rem;
+    font-family: $font-roboto;
+    line-height: 1.375rem;
+    letter-spacing: 0.009rem;
+
+    @include device-is('tablet') {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.challenge-actions-alert-message {
+
+  &__icon {
+    margin-right: 20px;
+    margin-left: 0;
+    color: $pix-neutral-45;
+    font-size: 1rem;
+  }
+}

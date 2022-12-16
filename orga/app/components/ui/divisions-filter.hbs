@@ -1,0 +1,18 @@
+{{#if this.isLoading}}
+  <div class="divisions-filter--is-loading placeholder-box"></div>
+{{else}}
+  <PixMultiSelect
+    @label={{t "common.filters.divisions.title"}}
+    @placeholder={{@placeholder}}
+    @emptyMessage={{t "common.filters.divisions.empty"}}
+    @screenReaderOnly={{true}}
+    @values={{@selected}}
+    @onChange={{@onSelect}}
+    @options={{this.options}}
+    @isSearchable={{true}}
+    ...attributes
+    as |option|
+  >
+    {{option.label}}
+  </PixMultiSelect>
+{{/if}}

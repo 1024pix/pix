@@ -1,0 +1,21 @@
+.profile-already-shared-retry {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px dashed $pix-neutral-22;
+
+  &__message {
+    font-weight: $font-light;
+    font-size: 1.5rem;
+    font-family: $font-open-sans;
+    text-align: center;
+  }
+
+  &__button {
+    padding: 10px;
+    font-size: 0.875rem;
+  }
+}

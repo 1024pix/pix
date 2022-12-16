@@ -1,0 +1,32 @@
+<button
+  type="button"
+  {{on "click" this.toggleUserMenu}}
+  aria-haspopup="listbox"
+  aria-expanded="{{this.isMenuOpen}}"
+  aria-label={{t "navigation.user-logged-menu.button"}}
+  class="user-logged-button"
+  ...attributes
+>
+  <span class="user-logged-button__text">
+    <span>{{this.currentUser.prescriber.firstName}} {{this.currentUser.prescriber.lastName}}</span>
+    <span>{{this.organizationNameAndExternalId}}</span>
+  </span>
+  {{#if this.isMenuOpen}}
+    <FaIcon @icon="chevron-up" @class="user-logged-button__chevron user-logged-button__chevron--up" />
+  {{else}}
+    <FaIcon @icon="chevron-down" @class="user-logged-button__chevron" />
+  {{/if}}
+</button>
+
+<Dropdown::Content @display={{this.isMenuOpen}} @close={{this.closeMenu}} class="user-logged-menu">
+  {{#each this.eligibleOrganizations as |organization|}}
+    <Dropdown::Item @onClick={{fn this.onOrganizationChange organization}}>
+      {{organization.name}}
+      {{#if organization.externalId}}({{organization.externalId}}){{/if}}
+    </Dropdown::Item>
+  {{/each}}
+  <Dropdown::ItemLink @linkTo="logout">
+    <FaIcon @icon="power-off" @class="user-logged-menu__icon" />
+    {{t "navigation.user-logged-menu.logout"}}
+  </Dropdown::ItemLink>
+</Dropdown::Content>

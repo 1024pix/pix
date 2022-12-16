@@ -1,0 +1,44 @@
+.card {
+  box-shadow: 5px 4px 10px 2px rgb(0 0 0 / 10%);
+  border-radius: 8px;
+  background: $pix-neutral-0;
+  border: 1.2px $pix-neutral-35 solid;
+
+  &__title {
+    color: $pix-neutral-0;
+    font-family: $font-open-sans;
+    font-size: 1.5rem;
+    font-weight: $font-semi-bold;
+    line-height: 28px;
+    padding: 11px 32px;
+    background: $pix-neutral-70;
+    border-radius: 8px 8px 0 0;
+  }
+
+  &__content {
+    padding: 11px 32px;
+    font-family: $font-roboto;
+  }
+
+  &__body {
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1.25rem;
+  }
+
+  &-footer {
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid rgb(0 0 0 / 12.5%);
+
+    &:last-child {
+      border-radius: 0 0 calc(0.25rem - 1px) calc(0.25rem - 1px);
+    }
+  }
+
+  .card-footer,
+  .card-header {
+    padding: 0.75rem 1.25rem;
+    background-color: rgb(0 0 0 / 3%);
+  }
+}

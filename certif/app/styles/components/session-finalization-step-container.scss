@@ -1,0 +1,39 @@
+.session-finalization-step-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+
+  &__page-title {
+    color: $pix-neutral-90;
+    font-family: $font-open-sans;
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  p {
+    color: $pix-neutral-60;
+    font-size: 0.875rem;
+    font-weight: normal;
+    margin: 8px 0 0;
+  }
+
+  &__header {
+    align-items: center;
+    background: $pix-neutral-10;
+    border-radius: 8px;
+    display: flex;
+    margin: 16px;
+    padding: 20px 24px;
+  }
+
+  &__titles {
+    display: flex;
+    flex-direction: column;
+    margin-left: 24px;
+  }
+
+  &__border {
+    border-top: 1px solid $pix-neutral-20;
+  }
+}

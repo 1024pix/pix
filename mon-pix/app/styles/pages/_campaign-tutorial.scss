@@ -1,0 +1,96 @@
+.campaign-tutorial {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  background: $pix-secondary-app-gradient;
+
+  &__container {
+    max-width: 800px;
+    min-height: 600px;
+    margin: auto;
+    padding: 30px 40px;
+
+    @include device-is('tablet') {
+      width: 800px;
+      min-height: 600px;
+      padding: 30px 10px;
+      padding-top: 85px;
+    }
+  }
+
+  &__title {
+    color: $pix-primary;
+    font-weight: 600;
+    font-size: 1.25rem;
+    font-family: $font-open-sans;
+    line-height: 40px;
+    text-align: center;
+
+    @include device-is('tablet') {
+      font-size: 1.875rem;
+    }
+  }
+
+  &__explanation-icon {
+    margin: 40px;
+    text-align: center;
+
+    img {
+      width: 160px;
+      height: 160px;
+    }
+  }
+
+  &__explanation-text {
+    color: $pix-neutral-100;
+    font-size: 1.125rem;
+    font-family: $font-open-sans;
+    white-space: pre-line;
+    text-align: center;
+
+    @include device-is('tablet') {
+      font-size: 1.25rem;
+    }
+  }
+
+  &__paging {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 30px;
+
+    @include device-is('tablet') {
+      margin-top: 15px;
+    }
+
+    .dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin: 2px;
+      background-color: $pix-neutral-22;
+      border-radius: 50%;
+
+      &__active {
+        background-color: $pix-primary;
+      }
+    }
+  }
+
+  &__next-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+  }
+
+  &__start-campaign-button {
+    margin: auto auto 50px;
+  }
+
+  &__buttons {
+    width: 180px;
+    margin-top: 10px;
+  }
+}

@@ -1,0 +1,65 @@
+<section class="page-section">
+
+  <header class="page-section__header">
+    <h2 class="page-section__title">Membres</h2>
+  </header>
+
+  <div class="content-text content-text--small">
+    <div class="table-admin">
+      <table>
+        <thead>
+          <tr>
+            <th class="table__column table__column--id">ID Membre</th>
+            <th class="table__column table__column--id">ID Utilisateur</th>
+            <th class="table__column table__column--wide">Prénom</th>
+            <th class="table__column table__column--wide">Nom</th>
+            <th class="table__column table__column--wide">Adresse e-mail</th>
+            <th class="table__column table__column--wide">Date de rattachement</th>
+            <th class="table__column table__column--wide">Actions</th>
+          </tr>
+        </thead>
+
+        {{#if @certificationCenterMemberships}}
+          <tbody>
+            {{#each @certificationCenterMemberships as |certificationCenterMembership|}}
+              <tr
+                aria-label="
+                  Informations du membre
+                  {{certificationCenterMembership.user.firstName}}
+                  {{certificationCenterMembership.user.lastName}}
+                "
+              >
+                <td>{{certificationCenterMembership.id}}</td>
+                <td>
+                  <LinkTo @route="authenticated.users.get" @model={{certificationCenterMembership.user.id}}>
+                    {{certificationCenterMembership.user.id}}
+                  </LinkTo>
+                </td>
+                <td>{{certificationCenterMembership.user.firstName}}</td>
+                <td>{{certificationCenterMembership.user.lastName}}</td>
+                <td>{{certificationCenterMembership.user.email}}</td>
+                <td>
+                  {{dayjs-format certificationCenterMembership.createdAt "DD-MM-YYYY - HH:mm:ss"}}
+                </td>
+                <td>
+                  <PixButton
+                    @size="small"
+                    @backgroundColor="red"
+                    @triggerAction={{fn @disableCertificationCenterMembership certificationCenterMembership}}
+                    class="member-item-actions__button"
+                  >
+                    <FaIcon @icon="trash" />Désactiver
+                  </PixButton>
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        {{/if}}
+      </table>
+
+      {{#unless @certificationCenterMemberships}}
+        <div class="table__empty">Aucun résultat</div>
+      {{/unless}}
+    </div>
+  </div>
+</section>

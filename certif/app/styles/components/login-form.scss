@@ -1,0 +1,88 @@
+.login {
+  margin: auto;
+  background-color: $pix-neutral-0;
+  border-radius: 10px;
+  padding: 20px 30px;
+  max-width: 500px;
+
+  @include device-is("tablet") {
+    padding: 40px 60px;
+  }
+
+  &__header {
+    text-align: center;
+  }
+
+  &__main {
+    width: 100%;
+  }
+}
+
+.login-header {
+
+  &__title {
+    font-family: $font-open-sans;
+    font-weight: 400;
+    font-size: 2rem;
+    color: $pix-neutral-80;
+    margin-top: 32px;
+    margin-bottom: 8px;
+  }
+
+  &__information {
+    margin-bottom: 32px;
+    font-family: $font-roboto;
+    max-width: 400px;
+    width: 100%;
+  }
+
+  &__invitation-error {
+    border-radius: 3px;
+    color: $pix-error-70;
+    font-size: 0.875rem;
+    margin: 10px 0 16px;
+    padding: 9px;
+    text-align: center;
+  }
+}
+
+.login-main {
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-s;
+  }
+}
+
+.login-main-form {
+
+  &__mandatory-information {
+    text-align: center;
+    font-family: $font-roboto;
+    color: $pix-neutral-80;
+  }
+
+  &__button {
+    margin-top: 8px;
+    font-size: 0.875rem;
+  }
+
+  &__forgotten-password {
+    text-align: left;
+    font-size: 0.875rem;
+    color: $pix-communication-dark;
+
+    a {
+      text-decoration: none;
+
+      &:hover,
+      &:active,
+      &:focus,
+      &:visited {
+        text-decoration: underline;
+        color: $pix-communication-dark;
+      }
+    }
+  }
+}

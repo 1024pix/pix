@@ -1,0 +1,42 @@
+<PixModal
+  @title={{t "pages.sessions.list.delete-modal.title"}}
+  @onCloseButtonClick={{@close}}
+  @showModal={{@showModal}}
+>
+  <:content>
+    <p class="session-delete-confirmation-modal">{{t
+        "pages.sessions.list.delete-modal.label"
+        sessionId=@sessionId
+        htmlSafe=true
+      }}</p>
+    {{#if (gt @enrolledCandidatesCount 0)}}
+      <p class="session-delete-confirmation-modal">{{t
+          "pages.sessions.list.delete-modal.enrolled-candidates"
+          enrolledCandidatesCount=@enrolledCandidatesCount
+          htmlSafe=true
+        }}</p>
+    {{/if}}
+    <PixMessage @type="warning" @withIcon={{true}}>
+      {{t "pages.sessions.list.delete-modal.disclaimer"}}
+    </PixMessage>
+  </:content>
+  <:footer>
+    <PixButton
+      aria-label="Annuler la suppression de la session"
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      @triggerAction={{@close}}
+    >
+      {{t "common.actions.cancel"}}
+    </PixButton>
+
+    <PixButton
+      aria-label="Supprimer la session"
+      @triggerAction={{@confirm}}
+      @loadingColor="white"
+      @backgroundColor="blue"
+    >
+      {{t "common.actions.delete"}}
+    </PixButton>
+  </:footer>
+</PixModal>

@@ -1,0 +1,32 @@
+<div class="background-banner-v2">
+  <div class="user-tutorials-banner">
+    <h1 class="user-tutorials-banner__title">{{t "pages.user-tutorials.title"}}</h1>
+    <p class="user-tutorials-banner__description">
+      {{t "pages.user-tutorials.description"}}
+    </p>
+
+    <ul class="user-tutorials-banner__filters">
+      <li class="user-tutorials-banner-filters__filter">
+        <ChoiceChip @route="authenticated.user-tutorials.recommended">
+          {{t "pages.user-tutorials.recommended"}}
+        </ChoiceChip>
+      </li>
+      <li class="user-tutorials-banner-filters__filter">
+        <ChoiceChip @route="authenticated.user-tutorials.saved">
+          {{t "pages.user-tutorials.saved"}}
+        </ChoiceChip>
+      </li>
+      {{#if @shouldShowFilterButton}}
+        <li class="user-tutorials-banner-filters__filter">
+          <PixButton
+            @backgroundColor="transparent-light"
+            @isBorderVisible={{false}}
+            @triggerAction={{@onTriggerFilterButton}}
+          >
+            {{t "pages.user-tutorials.filter"}}
+          </PixButton>
+        </li>
+      {{/if}}
+    </ul>
+  </div>
+</div>

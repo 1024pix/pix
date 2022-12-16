@@ -1,0 +1,16 @@
+{{page-title (t "pages.campaign-review.title")}}
+
+{{#if @model.hasSharedParticipations}}
+  <h2 class="sr-only">{{t "pages.campaign-review.title"}}</h2>
+  <Campaign::Analysis::Recommendations
+    @campaignTubeRecommendations={{@model.campaignAnalysis.campaignTubeRecommendations}}
+    @displayAnalysis={{@model.hasSharedParticipations}}
+  />
+
+  <Campaign::Analysis::Competences
+    @campaignId={{@model.id}}
+    @campaignCollectiveResult={{@model.campaignCollectiveResult}}
+  />
+{{else}}
+  <Campaign::EmptyState @campaignCode={{@model.code}} />
+{{/if}}

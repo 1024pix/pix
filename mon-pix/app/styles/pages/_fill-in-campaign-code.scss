@@ -1,0 +1,103 @@
+.fill-in-campaign-code {
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 32px;
+    padding: 16px 16px $spacing-s;
+
+    @include device-is('tablet') {
+      padding: $spacing-xl;
+    }
+  }
+
+  &__title {
+    margin-bottom: $spacing-l;
+    font-weight: $font-light;
+    text-align: center;
+  }
+
+  &__instruction {
+    max-width: 600px;
+    margin-bottom: $spacing-s;
+    color: $pix-neutral-100;
+    font-weight: $font-light;
+    font-size: 1.219rem;
+    font-family: $font-open-sans;
+    text-align: center;
+
+    @include device-is('tablet') {
+      width: 75vw;
+    }
+
+    @include device-is('mobile') {
+      width: 75vw;
+    }
+  }
+
+  &__form-field {
+    display: inline-block;
+    margin-bottom: $spacing-s;
+    text-align: left;
+
+    input {
+      width: 13.6ch;
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: $spacing-s;
+  }
+
+  &__error {
+    margin-bottom: $spacing-s;
+    color: $pix-warning-60;
+    font-size: 0.875rem;
+    text-align: center;
+  }
+
+  &__warning {
+    margin-top: $spacing-s;
+    margin-bottom: $spacing-s;
+    color: $pix-neutral-90;
+    font-size: 0.875rem;
+    text-align: center;
+  }
+
+  &__explanation {
+    max-width: 600px;
+    padding-top: 25px;
+    text-align: center;
+    border-top: 1px solid $pix-neutral-15;
+
+    @include device-is('tablet') {
+      width: 75vw;
+    }
+
+    @include device-is('mobile') {
+      width: 75vw;
+    }
+  }
+}
+
+.mediacentre-start-campaign-modal__action-buttons {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+
+  a {
+    margin-bottom: 16px;
+  }
+}

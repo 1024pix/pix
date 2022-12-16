@@ -1,0 +1,15 @@
+<section class="badge-form-criterion">
+  <header>
+    <h3>Critère d’obtention sur l’ensemble du profil cible</h3>
+  </header>
+  <PixInput
+    @id="campaignThreshold"
+    class="badge-form-criterion__threshold"
+    type="number"
+    min="0"
+    max="100"
+    @label="Taux de réussite requis :"
+    @requiredLabel="Champ obligatoire"
+    {{on "change" @onThresholdChange}}
+  />
+</section>

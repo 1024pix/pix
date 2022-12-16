@@ -1,0 +1,35 @@
+.learning-more-panel {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.learning-more-panel__container {
+  margin: 25px 15px;
+
+  @include device-is('desktop') {
+    margin: 25px 40px;
+  }
+
+  & .tutorial-card {
+    margin-bottom: 16px;
+  }
+}
+
+.learning-more-panel__hint-title {
+  @include tutorial-panel-title(white);
+}
+
+.learning-more-panel__tutorial-info {
+  margin: 5px;
+  color: $pix-neutral-50;
+  font-size: 0.813rem;
+  line-height: 1.25rem;
+}
+
+.learning-more-panel__list-container {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

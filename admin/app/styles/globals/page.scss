@@ -1,0 +1,83 @@
+/* stylelint-disable selector-class-pattern */
+.page {
+
+  .page-header {
+    background: $pix-neutral-0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 20px;
+    border-bottom: 1px solid $pix-neutral-20;
+    top: 0;
+    left: 80px;
+    right: 0;
+    min-height: 60px;
+    z-index: 4;
+    margin: 0;
+
+    .page-title {
+      font-weight: 500;
+      font-size: 1rem;
+
+      a {
+        color: $pix-primary;
+      }
+
+      .wire {
+        color: $pix-neutral-45;
+      }
+    }
+
+    .page-actions {
+      display: flex;
+      gap: 1rem;
+    }
+  }
+
+  .page-body {
+    top: 60px;
+    left: 80px;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+    padding: 10px;
+
+    .page-section {
+      background: $pix-neutral-0;
+      border-radius: 5px;
+      padding: 32px;
+      margin-bottom: 10px;
+
+      &__header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      &__title {
+        font-size: 1.2rem;
+        font-weight: 600;
+
+        &--sub {
+          margin-bottom: $spacing-s;
+        }
+      }
+
+      &__content {
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
+
+.pix-button__secondary {
+
+  &:hover {
+    text-decoration: none;
+    color: initial;
+  }
+
+  svg {
+    margin-right: 6px;
+  }
+}

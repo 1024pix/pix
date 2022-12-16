@@ -1,0 +1,133 @@
+/* stylelint-disable no-descending-specificity */
+
+.new-certification-candidate-modal {
+  min-width: 576px;
+  max-width: 576px;
+  margin: 100px auto;
+
+  /* to fix in pix UI */
+  fieldset {
+    margin: 0;
+    border: 0;
+    padding: 0;
+  }
+
+  &__form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    &__required-fields-mention {
+      width: 100%;
+    }
+
+    .required-field-indicator {
+      color: $pix-error-70;
+    }
+
+    &__field {
+      width: 100%;
+      margin: 12px 0;
+
+      label {
+        display: block;
+
+        &.radio-button-label {
+          display: inline-block;
+          margin: 0 16px 0 8px;
+        }
+      }
+
+      input {
+        border: 1.2px $pix-neutral-35 solid;
+        box-sizing: border-box;
+        width: 248px;
+        height: 36px;
+      }
+
+      .pix-select {
+        height: 36px;
+        width: 248px;
+      }
+
+      .birth-country-selector {
+        border: 1.2px $pix-neutral-35 solid;
+        height: 36px;
+        width: 248px;
+      }
+
+      input[type="radio"] {
+        height: 20px;
+        width: 20px;
+      }
+
+      .radio-button-container {
+        align-items: center;
+        display: flex;
+      }
+
+      &-double {
+        width: 248px;
+      }
+
+      &__tooltip {
+        display: flex;
+        flex-wrap: wrap;
+
+        .pix-tooltip {
+          padding-left: 5px;
+          cursor: help;
+        }
+
+        .pix-tooltip__content--wide {
+          width: 600px;
+        }
+      }
+
+      &__info-panel {
+        align-items: center;
+        background-color: $pix-primary-10;
+        border-radius: 4px;
+        color: $pix-primary-70;
+        display: flex;
+        gap: 16px;
+        margin-top: 8px;
+        padding: 12px 16px;
+      }
+
+      .complementary-certifications-checkbox-list {
+        display: flex;
+
+        ul {
+          list-style-type: none;
+          margin: 8px;
+          padding: 0;
+        }
+
+        label {
+          align-items: center;
+          display: flex;
+          height: 30px;
+        }
+
+        input {
+          width: 20px;
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+
+  &__actions {
+    background-color: $pix-neutral-10;
+    padding: 16px 0;
+    display: flex;
+    justify-content: flex-end;
+    border-radius: 0 0 5px 5px;
+    width: 100%;
+
+    .pix-button {
+      margin-left: 16px;
+    }
+  }
+}

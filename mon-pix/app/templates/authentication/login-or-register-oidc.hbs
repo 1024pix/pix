@@ -1,0 +1,31 @@
+{{page-title (t "pages.login-or-register-oidc.title")}}
+
+<PixBackgroundHeader>
+  <PixBlock @shadow="light" class="login-or-register-oidc-form">
+    <a href={{this.showcaseUrl}} class="login-or-register-oidc-form__logo">
+      <img src="/images/pix-logo.svg" alt="{{t 'common.pix'}}" />
+    </a>
+
+    {{#if this.showOidcReconciliation}}
+      <Authentication::OidcReconciliation
+        @identityProviderSlug={{this.identityProviderSlug}}
+        @authenticationKey={{this.authenticationKey}}
+        @email={{this.email}}
+        @username={{this.username}}
+        @fullNameFromPix={{this.fullNameFromPix}}
+        @fullNameFromExternalIdentityProvider={{this.fullNameFromExternalIdentityProvider}}
+        @authenticationMethods={{this.authenticationMethods}}
+        @toggleOidcReconciliation={{this.toggleOidcReconciliation}}
+      />
+    {{else}}
+      <Authentication::LoginOrRegisterOidc
+        @identityProviderSlug={{this.identityProviderSlug}}
+        @authenticationKey={{this.authenticationKey}}
+        @givenName={{this.givenName}}
+        @familyName={{this.familyName}}
+        @onLogin={{this.onLogin}}
+      />
+    {{/if}}
+
+  </PixBlock>
+</PixBackgroundHeader>

@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Debug mon-pix" type="JavascriptDebugType" uri="http://localhost:4200">
+    <mapping url="http://localhost:4200/index.html" local-file="$PROJECT_DIR$/mon-pix/dist/index.html" />
+    <mapping url="http://localhost:4200/assets/mon-pix.js" local-file="$PROJECT_DIR$/mon-pix/dist/assets/mon-pix.js" />
+    <mapping url="http://localhost:4200/assets/mon-pix" local-file="$PROJECT_DIR$/mon-pix/app" />
+    <mapping url="http://localhost:4200/assets/vendor.js" local-file="$PROJECT_DIR$/mon-pix/dist/assets/vendor.js" />
+    <mapping url="http://localhost:4200" local-file="$PROJECT_DIR$/mon-pix/dist" />
+    <method v="2" />
+  </configuration>
+</component>

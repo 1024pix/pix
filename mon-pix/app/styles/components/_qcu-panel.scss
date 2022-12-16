@@ -1,0 +1,64 @@
+.qcu-panel {
+
+  a {
+    color: $pix-primary;
+    text-decoration: underline;
+
+    @include device-is('tablet') {
+      display: inline-block;
+    }
+
+    &:active,
+    &:focus,
+    &:hover {
+      color: $pix-primary-60;
+    }
+
+    &::after {
+      @include external-link;
+    }
+  }
+
+  &__label {
+    position: relative;
+    display: inline-block;
+    padding-left: 20px;
+    font-weight: $font-normal;
+    line-height: 21px;
+    cursor: pointer;
+  }
+
+  &-solution {
+
+    &__proposal-item {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      margin-left: 7px;
+      font-weight: $font-normal;
+      line-height: 1.2rem;
+    }
+
+    &__radio-button {
+      margin: auto 10px auto 0;
+    }
+
+    &__proposition {
+      display: inline-block;
+
+      &[data-goodness='good'] {
+        color: $pix-success-70;
+        font-weight: $font-heavy;
+      }
+
+      &[data-goodness='bad'][data-checked='yes'] {
+        text-decoration: line-through;
+      }
+
+      p {
+        margin: 0;
+      }
+    }
+  }
+}

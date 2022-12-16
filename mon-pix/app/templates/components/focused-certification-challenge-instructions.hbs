@@ -1,0 +1,23 @@
+<div class="focused-certification-challenge-instructions">
+  <div class="focused-certification-challenge-instructions__image">
+    <img src="/images/icone-pix-focus-rounded.svg" role="none" alt="" />
+  </div>
+  <div class="focused-certification-challenge-instructions__title">
+    {{t "pages.focused-certification-challenge-instructions.title"}}
+  </div>
+
+  <div class="focused-certification-challenge-instructions__description">
+    {{t "pages.focused-certification-challenge-instructions.description"}}
+  </div>
+
+  <div class="focused-certification-challenge-instructions__action">
+    <PixButton
+      @triggerAction={{@hasUserConfirmedWarning}}
+      class="focused-certification-challenge-instructions-action__confirmation-button"
+      @shape="rounded"
+      @backgroundColor="green"
+    >
+      {{t "pages.focused-certification-challenge-instructions.action"}}
+    </PixButton>
+  </div>
+</div>

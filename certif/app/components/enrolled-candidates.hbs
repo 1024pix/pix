@@ -1,0 +1,172 @@
+<div class="panel">
+  <div class="panel-header">
+    <h3 class="panel-header__title">
+      Liste des candidats ({{@certificationCandidates.length}})
+    </h3>
+    {{#if @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+      <PixButtonLink
+        @route="authenticated.sessions.add-student"
+        @model={{@sessionId}}
+        class="enrolled-candidate__add-students"
+      >
+        Inscrire des candidats
+      </PixButtonLink>
+    {{else}}
+      <PixButton
+        id="add-candidate"
+        class="certification-candidates-add-button__text"
+        @triggerAction={{this.openNewCertificationCandidateModal}}
+        @size="small"
+      >
+        Inscrire un candidat
+      </PixButton>
+    {{/if}}
+  </div>
+  <div class="table content-text content-text--small certification-candidates-table">
+    {{#if (or @certificationCandidates this.candidatesInStaging)}}
+      <table class="certification-candidates-table-cpf-toggle-enabled">
+        <caption class="sr-only">
+          {{#if @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+            {{t "pages.sessions.enrolled-candidates.without-details-description"}}
+          {{else}}
+            {{t "pages.sessions.enrolled-candidates.with-details-description"}}
+          {{/if}}
+        </caption>
+        <thead>
+          <tr>
+            <th class="certification-candidates-table__column-last-name">
+              Nom de naissance
+            </th>
+            <th class="certification-candidates-table__column-first-name">
+              Prénom
+            </th>
+            <th class="certification-candidates-table__column-birthdate">
+              Date de naissance
+            </th>
+            {{#if @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+              <th class="certification-candidates-table__birth-city">
+                Commune de naissance
+              </th>
+              <th>
+                Pays de naissance
+              </th>
+            {{/if}}
+            {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+              <th class="certification-candidates-table__recipient-email">E-mail du destinataire des résultats
+                (formateur, enseignant...)</th>
+            {{/unless}}
+            {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+              <th class="certification-candidates-table__external-id">Identifiant externe</th>
+            {{/unless}}
+            <th class="certification-candidates-table__column-time">Temps majoré</th>
+            {{#if @shouldDisplayPaymentOptions}}
+              <th class="certification-candidates-table__payment-options">Tarification part Pix</th>
+            {{/if}}
+            {{#if @displayComplementaryCertification}}
+              <th>Certifications complémentaires</th>
+            {{/if}}
+          </tr>
+        </thead>
+        <tbody>
+          {{#each @certificationCandidates as |candidate|}}
+            <tr>
+              <td>{{candidate.lastName}}</td>
+              <td>{{candidate.firstName}}</td>
+              <td>{{dayjs-format candidate.birthdate "DD/MM/YYYY"}}</td>
+              {{#if @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+                <td>{{candidate.birthCity}}</td>
+                <td>{{candidate.birthCountry}}</td>
+              {{/if}}
+              {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+                <td>{{candidate.resultRecipientEmail}}</td>
+              {{/unless}}
+              {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+                <td>{{candidate.externalId}}</td>
+              {{/unless}}
+              <td>{{format-percentage candidate.extraTimePercentage}}</td>
+              {{#if @shouldDisplayPaymentOptions}}
+                <td>{{candidate.billingMode}}
+                  {{candidate.prepaymentCode}}
+                </td>
+              {{/if}}
+
+              {{#if @displayComplementaryCertification}}
+                <td>
+                  {{if candidate.complementaryCertifications candidate.complementaryCertificationsList "-"}}
+                </td>
+              {{/if}}
+              <td>
+                <div class="certification-candidates-actions">
+                  {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+                    <div class="certification-candidates-actions__display-details">
+                      <button
+                        type="button"
+                        class="button--showed-as-link"
+                        {{on "click" (fn this.openCertificationCandidateDetailsModal candidate)}}
+                        aria-label="Voir le détail du candidat {{candidate.firstName}} {{candidate.lastName}}"
+                      >
+                        Voir le détail
+                      </button>
+                    </div>
+                  {{/unless}}
+                  <div class="certification-candidates-actions__delete">
+                    {{#if candidate.isLinked}}
+                      <PixTooltip @position="left" @isInline={{true}} @id="tooltip-delete-student-button">
+                        <:triggerElement>
+                          <PixIconButton
+                            @icon="trash-alt"
+                            class="certification-candidates-actions__delete-button--disabled"
+                            aria-label="Supprimer le candidat {{candidate.firstName}} {{candidate.lastName}}"
+                            aria-disabled="true"
+                            aria-describedby="tooltip-delete-student-button"
+                            @withBackground={{true}}
+                          />
+                        </:triggerElement>
+                        <:tooltip>Ce candidat a déjà rejoint la session. Vous ne pouvez pas le supprimer.</:tooltip>
+                      </PixTooltip>
+                    {{else}}
+                      <PixIconButton
+                        @icon="trash-alt"
+                        {{on "click" (fn this.deleteCertificationCandidate candidate)}}
+                        aria-label="Supprimer le candidat {{candidate.firstName}} {{candidate.lastName}}"
+                        class="certification-candidates-actions__delete-button"
+                        @withBackground={{true}}
+                      />
+                    {{/if}}
+                  </div>
+                </div>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    {{else}}
+      <div class="table__empty content-text">
+        <p>En attente de candidats</p>
+      </div>
+    {{/if}}
+  </div>
+</div>
+
+{{#if this.shouldDisplayCertificationCandidateModal}}
+  <CertificationCandidateDetailsModal
+    @showModal={{this.shouldDisplayCertificationCandidateModal}}
+    @closeModal={{this.closeCertificationCandidateDetailsModal}}
+    @candidate={{this.certificationCandidateInDetailsModal}}
+    @displayComplementaryCertification={{@displayComplementaryCertification}}
+    @shouldDisplayPaymentOptions={{@shouldDisplayPaymentOptions}}
+  />
+{{/if}}
+
+{{#if this.showNewCertificationCandidateModal}}
+  <NewCertificationCandidateModal
+    @showModal={{this.showNewCertificationCandidateModal}}
+    @closeModal={{this.closeNewCertificationCandidateModal}}
+    @countries={{@countries}}
+    @saveCandidate={{this.addCertificationCandidate}}
+    @candidateData={{this.newCandidate}}
+    @updateCandidateData={{this.updateCertificationCandidateInStagingFieldFromEvent}}
+    @updateCandidateDataFromValue={{this.updateCertificationCandidateInStagingFieldFromValue}}
+    @shouldDisplayPaymentOptions={{@shouldDisplayPaymentOptions}}
+  />
+{{/if}}

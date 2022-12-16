@@ -1,0 +1,23 @@
+.organization-information-section {
+
+  &__content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  &__archived-message {
+    margin-bottom: 16px;
+  }
+
+  &__details {
+
+    ul {
+      padding: 0;
+    }
+
+    .form-actions {
+      padding-bottom: 2px;
+    }
+  }
+}

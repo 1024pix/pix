@@ -1,0 +1,41 @@
+<section class="page-section">
+  <header class="page-section__header">
+    <h2 class="page-section__title">Invitations</h2>
+  </header>
+  <div class="content-text content-text--small">
+    <div class="table-admin">
+      {{#if this.sortedCertificationCenterInvitations}}
+        <table>
+          <thead>
+            <tr>
+              <th>Adresse e-mail</th>
+              <th>Date de dernier envoi</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each this.sortedCertificationCenterInvitations as |invitation|}}
+              <tr aria-label="Invitation en attente de {{invitation.email}}">
+                <td>{{invitation.email}}</td>
+                <td>{{dayjs-format invitation.updatedAt "DD/MM/YYYY [-] HH:mm" locale="fr"}}</td>
+                <td>
+                  <PixButton
+                    @size="small"
+                    @backgroundColor="red"
+                    class="certification-center-invitations-actions__button"
+                    aria-label="Annuler l’invitation de {{invitation.email}}"
+                    @triggerAction={{fn @onCancelCertificationCenterInvitation invitation}}
+                  >
+                    <FaIcon @icon="trash" />Annuler l’invitation
+                  </PixButton>
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      {{else}}
+        <p class="certification-center-invitations__message">Aucune invitation en attente</p>
+      {{/if}}
+    </div>
+  </div>
+</section>

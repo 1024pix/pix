@@ -1,0 +1,305 @@
+{{! template-lint-disable no-action }}
+<div class="certification-informations">
+  <div class="certification-informations__row">
+    <PixButton @route="authenticated.users.get" @size="small" @model={{this.certification.userId}}>
+      Voir les détails de l'utilisateur
+    </PixButton>
+    {{#if this.isCertificationCancelled}}
+      <PixButton @backgroundColor="red" @size="small" @triggerAction={{this.onUncancelCertificationButtonClick}}>
+        Désannuler la certification
+      </PixButton>
+    {{else}}
+      <PixButton @backgroundColor="red" @size="small" @triggerAction={{this.onCancelCertificationButtonClick}}>
+        Annuler la certification
+      </PixButton>
+    {{/if}}
+  </div>
+
+  <div class="certification-informations__row">
+    <div class="certification-informations__card {{if this.editingCandidateResults 'border-primary'}}">
+      <h2 class="certification-informations__card__title">
+        <Certifications::InfoPublished @record={{this.certification}} @float={{true}} />État
+      </h2>
+      <Certifications::InfoField
+        @value={{this.certification.sessionId}}
+        @edition={{false}}
+        @label="Session :"
+        @linkRoute="authenticated.sessions.session"
+      />
+      <Certifications::StatusSelect @certification={{this.certification}} @edition={{this.editingCandidateResults}} />
+      <Certifications::InfoField @value={{this.certification.creationDate}} @edition={{false}} @label="Créée le :" />
+      <Certifications::InfoField
+        @value={{this.certification.completionDate}}
+        @edition={{false}}
+        @label="Terminée le :"
+      />
+      <Certifications::InfoField @value={{this.certification.publishedText}} @edition={{false}} @label="Publiée :" />
+    </div>
+
+    <div class="certification-informations__card {{if this.editingCandidateInformations 'border-primary'}}">
+      <h2 class="certification-informations__card__title">Candidat</h2>
+      <div>
+        Prénom :
+        {{this.certification.firstName}}
+      </div>
+      <div>
+        Nom de famille :
+        {{this.certification.lastName}}
+      </div>
+      <div>
+        Date de naissance :
+        {{dayjs-format this.certification.birthdate "DD/MM/YYYY" allow-empty=true}}
+      </div>
+      <div>
+        Sexe :
+        {{this.certification.sex}}
+      </div>
+      <div>
+        Commune de naissance :
+        {{this.certification.birthplace}}
+      </div>
+      <div>
+        Code postal de naissance :
+        {{this.certification.birthPostalCode}}
+      </div>
+      <div>
+        Code INSEE de naissance :
+        {{this.certification.birthInseeCode}}
+      </div>
+      <div>
+        Pays de naissance :
+        {{this.certification.birthCountry}}
+      </div>
+
+      <div class="candidate-informations__actions">
+        <PixButton
+          @size="small"
+          @triggerAction={{this.openCandidateEditModal}}
+          aria-label="Modifier les informations du candidat"
+          @isDisabled={{this.isModifyButtonDisabled}}
+        >
+          Modifier
+        </PixButton>
+        {{#if this.certification.wasRegisteredBeforeCPF}}
+          <span class="candidate-informations__warning-cpf-message">Voir avec PO/Dev pour modifier les infos candidat.</span>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+
+  {{#if this.certification.hasComplementaryCertifications}}
+    <div class="certification-informations__row">
+      <div class="certification-informations__card">
+        <h2 class="certification-informations__card__title">Certifications complémentaires</h2>
+
+        {{#if this.certification.commonComplementaryCertificationCourseResults}}
+          <ul class="certification-informations__card__list">
+            {{#each
+              this.certification.commonComplementaryCertificationCourseResults
+              as |commonComplementaryCertificationCourseResult|
+            }}
+              <li class="certification-informations__card__list-item">
+                <span class="certification-informations__card__list-label">
+                  {{commonComplementaryCertificationCourseResult.label}}
+                  :
+                </span>
+                {{commonComplementaryCertificationCourseResult.status}}
+              </li>
+            {{/each}}
+          </ul>
+        {{/if}}
+
+        {{#if this.certification.complementaryCertificationCourseResultsWithExternal}}
+          <section class="certification-informations__pix-edu">
+            <h2 class="certification-informations__pix-edu__title">Résultats de la certification complémentaire Pix+ Edu
+              :</h2>
+            <div class="certification-informations__row">
+              <div class="certification-informations__card certification-informations__card--pix-edu">
+                <p>VOLET PIX</p>
+                <p class="certification-informations__card__score">
+                  {{this.certification.complementaryCertificationCourseResultsWithExternal.pixResult}}
+                </p>
+              </div>
+              <div class="certification-informations__card certification-informations__card--pix-edu">
+                <p>VOLET JURY</p>
+                {{#if this.displayJuryLevelSelect}}
+                  <div class="certification-informations__pix-edu__row__jury-level-editor">
+                    <section>
+                      <PixSelect
+                        aria-label="Sélectionner un niveau"
+                        @options={{this.juryLevelOptions}}
+                        @selectedOption={{this.selectedJuryLevel}}
+                        @emptyOptionNotSelectable={{true}}
+                        @onChange={{this.selectJuryLevel}}
+                        @emptyOptionLabel="Choisir un niveau"
+                        @size="small"
+                      />
+                    </section>
+                    <section>
+                      <PixButton
+                        @backgroundColor="transparent-light"
+                        @isBorderVisible="true"
+                        @size="small"
+                        @triggerAction={{this.onCancelJuryLevelEditButtonClick}}
+                      >
+                        Annuler
+                      </PixButton>
+                      <PixButton
+                        @size="small"
+                        @triggerAction={{this.onEditJuryLevelSave}}
+                        aria-label="Modifier le niveau du jury"
+                        @isDisabled={{this.isModifyButtonDisabled}}
+                      >
+                        Enregistrer
+                      </PixButton>
+                    </section>
+                  </div>
+                {{else}}
+                  <div class="certification-informations__pix-edu__row__jury-level">
+                    <p class="certification-informations__card__score">
+                      {{this.certification.complementaryCertificationCourseResultsWithExternal.externalResult}}
+                    </p>
+                    {{#if this.shouldDisplayJuryLevelEditButton}}
+                      <button
+                        type="button"
+                        class="jury-level-edit-icon-button"
+                        aria-label="Modifier le volet jury"
+                        {{on "click" this.editJury}}
+                      >
+                        <FaIcon @icon="pen-to-square" />
+                      </button>
+                    {{/if}}
+                  </div>
+                {{/if}}
+              </div>
+              <div class="certification-informations__card certification-informations__card--pix-edu">
+                <p>NIVEAU FINAL</p>
+                <p
+                  class="certification-informations__card__score"
+                >{{this.certification.complementaryCertificationCourseResultsWithExternal.finalResult}}</p>
+              </div>
+            </div>
+          </section>
+        {{/if}}
+      </div>
+    </div>
+  {{/if}}
+
+  {{#if this.hasIssueReports}}
+    <section
+      class="certification-informations__row certification-informations__card certification-informations__certification-issue-reports"
+    >
+      <h2 class="card-title certification-informations__card__title">Signalements</h2>
+      <Certifications::IssueReports
+        @hasImpactfulIssueReports={{this.hasImpactfulIssueReports}}
+        @hasUnimpactfulIssueReports={{this.hasUnimpactfulIssueReports}}
+        @impactfulCertificationIssueReports={{this.impactfulCertificationIssueReports}}
+        @unimpactfulCertificationIssueReports={{this.unimpactfulCertificationIssueReports}}
+        @resolveIssueReport={{this.resolveIssueReport}}
+      />
+    </section>
+  {{/if}}
+
+  <div class="certification-informations__row">
+    <div class="certification-informations__card {{if this.editingCandidateResults 'border-primary'}}">
+      <h2 class="certification-informations__card__title">Commentaires jury</h2>
+      <Certifications::InfoField
+        @value={{this.certification.commentForCandidate}}
+        @edition={{this.editingCandidateResults}}
+        @label="Pour le candidat :"
+        @fieldId="certification-commentForCandidate"
+        @isTextarea={{true}}
+      />
+      <Certifications::InfoField
+        @value={{this.certification.commentForOrganization}}
+        @edition={{this.editingCandidateResults}}
+        @label="Pour l'organisation :"
+        @fieldId="certification-commentForOrganization"
+        @isTextarea={{true}}
+      />
+      <Certifications::InfoField
+        @value={{this.certification.commentForJury}}
+        @edition={{this.editingCandidateResults}}
+        @label="Pour le jury :"
+        @fieldId="certification-commentForJury"
+        @isTextarea={{true}}
+      />
+      <Certifications::InfoField
+        @value={{this.certification.juryId}}
+        @edition={{false}}
+        @label="Identifiant jury :"
+        @isTextarea={{true}}
+      />
+    </div>
+
+  </div>
+  <div class="certification-informations__row">
+    <div class="certification-informations__card {{if this.editingCandidateResults 'border-primary'}}">
+      <h2 class="certification-informations__card__title">Résultats</h2>
+      <Certifications::InfoField
+        @value={{this.certification.pixScore}}
+        @edition={{this.editingCandidateResults}}
+        @label="Score :"
+        @fieldId="certification-pixScore"
+        @suffix=" Pix"
+      />
+
+      <Certifications::CompetenceList
+        @competences={{this.certification.competences}}
+        @edition={{this.editingCandidateResults}}
+        @onUpdateScore={{this.onUpdateScore}}
+        @onUpdateLevel={{this.onUpdateLevel}}
+      />
+    </div>
+  </div>
+  {{#if this.isValid}}
+    <div class="certification-informations__row certification-informations__row--center">
+      {{#if this.editingCandidateResults}}
+        <PixButton
+          @size="small"
+          @backgroundColor="transparent-light"
+          @isBorderVisible={{true}}
+          @triggerAction={{this.onCandidateResultsCancel}}
+          aria-label="Annuler la modification des résultats du candidat"
+        >
+          Annuler
+        </PixButton>
+        <PixButton
+          @size="small"
+          @triggerAction={{this.onCandidateResultsSaveConfirm}}
+          @backgroundColor="green"
+          aria-label="Enregistrer les résultats du candidat"
+        >
+          Enregistrer
+        </PixButton>
+      {{else}}
+        <PixButton
+          @size="small"
+          @triggerAction={{this.onCandidateResultsEdit}}
+          aria-label="Modifier les résultats du candidat"
+          @isDisabled={{this.editingCandidateInformations}}
+        >
+          Modifier
+        </PixButton>
+      {{/if}}
+    </div>
+  {{/if}}
+</div>
+
+<ConfirmPopup
+  @message={{this.confirmMessage}}
+  @error={{this.confirmErrorMessage}}
+  @confirm={{action this.confirmAction}}
+  @cancel={{action this.onCandidateResultsCancelConfirm}}
+  @show={{this.displayConfirm}}
+/>
+
+{{#if this.isCandidateEditModalOpen}}
+  <Certifications::CandidateEditModal
+    @onCancelButtonsClicked={{this.closeCandidateEditModal}}
+    @onFormSubmit={{this.onCandidateInformationSave}}
+    @candidate={{this.certification}}
+    @countries={{this.countries}}
+    @isDisplayed={{this.isCandidateEditModalOpen}}
+  />
+{{/if}}

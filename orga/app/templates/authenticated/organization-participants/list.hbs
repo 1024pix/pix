@@ -1,0 +1,17 @@
+{{page-title (t "pages.organization-participants.page-title")}}
+
+<div class="organization-participant-list-page">
+  <OrganizationParticipant::Header @participantCount={{@model.meta.participantCount}} />
+  {{#if @model.meta.participantCount}}
+    <OrganizationParticipant::List
+      @participants={{@model}}
+      @triggerFiltering={{this.triggerFiltering}}
+      @onResetFilter={{this.resetFilters}}
+      @fullName={{this.fullName}}
+      @certificabilityFilter={{this.certificability}}
+      @certificabilityOptions={{this.certificabilityOptions}}
+    />
+  {{else}}
+    <OrganizationParticipant::NoParticipantPanel />
+  {{/if}}
+</div>

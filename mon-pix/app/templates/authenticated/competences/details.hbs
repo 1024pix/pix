@@ -1,0 +1,15 @@
+{{page-title @model.name}}
+
+<header role="banner">
+  <NavbarHeader />
+</header>
+
+<main id="main" class="main background-banner-wrapper competence-details" role="main">
+  <div class="background-banner"></div>
+
+  <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner">
+    <ScorecardDetails @scorecard={{@model}} />
+  </div>
+</main>
+
+<Footer />

@@ -1,0 +1,68 @@
+.terms-of-service-page {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  background: $pix-primary-app-gradient;
+}
+
+.terms-of-service-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 581px;
+  margin: auto;
+  padding: 40px 32px;
+  background: white;
+  border-radius: 8px;
+
+  &__logo {
+    margin-bottom: 24px;
+
+    & img {
+      display: flex;
+      height: 75px;
+      margin: auto;
+    }
+  }
+
+  &__title,
+  &__description {
+    color: $pix-neutral-80;
+    font-family: $font-roboto;
+    text-align: center;
+  }
+
+  &__title {
+    margin-bottom: 8px;
+    font-weight: 300;
+    font-size: 2.125rem;
+  }
+
+  &__description {
+    margin-bottom: 40px;
+    font-weight: normal;
+    font-size: 1rem;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+  }
+}
+
+.terms-of-service-form-conditions {
+
+  &__validation-error {
+    margin-top: 16px;
+    color: $error;
+    font-weight: normal;
+  }
+}
+
+.terms-of-service-form-actions {
+
+  &__submit {
+    margin-left: 10px;
+  }
+}

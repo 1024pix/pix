@@ -1,0 +1,4 @@
+type,externalId,name,provinceCode,credit,emailInvitations,emailForSCOActivation,organizationInvitationRole,locale,tags,createdBy,documentationUrl,targetProfiles,isManagingStudents,identityProviderForCampaigns,DPOFirstName,DPOLastName,DPOEmail
+pro,TUTU001,Team Accès,123,,   team-acces@e  x  ample.net   ,superadmin@example.net,admin,,PUBLIC_AGRICULTURE,100,https://pix.fr/,123456,,pole_emploi,Djamal,Dormi,super admin @ Example.net
+pro,TUTU001,Team Accès,123,,   team-acces@e  x  ample.net   ,superadmin@example.net,admin,,PUBLIC_AGRICULTURE,100,https://pix.fr/,123456,true,pole_emploi,Djamal,Dormi,super admin @ Example.net
+pro,TUTU001,Team Accès,123,,   team-acces@e  x  ample.net   ,superadmin@example.net,admin,,PUBLIC_AGRICULTURE,100,https://pix.fr/,123456,false,pole_emploi,Djamal,Dormi,super admin @ Example.net

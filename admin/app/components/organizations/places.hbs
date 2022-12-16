@@ -1,0 +1,40 @@
+<section class="page-section">
+  <header class="page-section__header">
+    <h2 class="page-section__title">Places</h2>
+  </header>
+  <div class="places__resume">
+    <h3 class="page-section__title page-section__title--sub">Nombre de places actives</h3>
+    <Organizations::Places::Capacity @placesCapacity={{@placesCapacity}} />
+
+    {{#if this.accessControl.hasAccessToOrganizationPlacesActionsScope}}
+      <PixButtonLink
+        class="places__button"
+        @backgroundColor="blue"
+        @route="authenticated.organizations.get.places.new"
+        @model={{@model}}
+        @isBorderVisible={{true}}
+      >
+        <FaIcon @icon="plus" class="places__button-icon" />
+        Ajouter des places
+      </PixButtonLink>
+    {{/if}}
+  </div>
+
+  <h3 class="page-section__title page-section__title--sub">Historique des lots</h3>
+
+  {{#if @places}}
+    <Organizations::Places::List @places={{@places}} @onDelete={{this.toggleDisplayDeletePlacesLotModal}} />
+  {{/if}}
+
+  {{#unless @places}}
+    <div class="table-admin-empty">Aucun lot de places saisi</div>
+  {{/unless}}
+
+  <Organizations::Places::DeleteModal
+    @organizationId={{@organizationId}}
+    @organizationPlacesLot={{this.organizationPlacesLotToDelete}}
+    @show={{this.displayDeletePlacesLotModal}}
+    @toggle={{this.toggleDisplayDeletePlacesLotModal}}
+    @refreshModel={{@refreshModel}}
+  />
+</section>

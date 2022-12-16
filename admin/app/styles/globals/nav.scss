@@ -1,0 +1,69 @@
+/* stylelint-disable selector-class-pattern */
+@mixin whiteBlock {
+  background: $pix-neutral-0;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px 0 rgba($pix-neutral-100, 0.1), 0 2px 5px 0 rgba($pix-neutral-100, 0.1);
+}
+
+.navbar {
+  @include whiteBlock;
+
+  margin: 20px 0;
+  height: 60px;
+  padding: 0 10px;
+  justify-content: start;
+  align-items: normal;
+  display: flex;
+
+  a { text-decoration: none; }
+
+  &-item {
+    width: 150px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    color: $pix-neutral-45;
+    font-weight: 500;
+    transition: all ease-in-out 0.2s;
+
+    &:hover {
+      color: $pix-communication-dark;
+    }
+  }
+
+  &__list--item {
+    width: 150px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .navbar-list-item {
+
+    &__link {
+      color: $pix-neutral-45;
+      font-weight: 500;
+    }
+
+    &__link.active {
+      color: $pix-communication-dark;
+    }
+  }
+
+  &__list--item:has(.navbar-list-item__link.active) {
+    border-bottom: 2px solid $pix-communication-dark;
+  }
+
+  &-item.active {
+    border-bottom: 2px solid $pix-communication-dark;
+    color: $pix-communication-dark;
+  }
+}
+
+.navbar + section {
+  @include whiteBlock();
+
+  padding: 20px;
+}

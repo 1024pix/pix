@@ -1,0 +1,20 @@
+{{page-title "Certif " @model.id " Profil | Pix Admin" replace=true}}
+
+<section class="profile__header">
+  <div>
+    <p>ID du compte Pix du candidat: {{@model.userId}}</p>
+    <p>ID de la certification du candidat: {{@model.id}}</p>
+  </div>
+  <div class="legend">
+    <p>
+      <FaIcon @icon="check-double" class="skill-column--tested-in-certif" />
+      Acquis proposé en certification
+    </p>
+    <p>
+      <FaIcon @icon="check" class="skill-column--check" />
+      Acquis validé en direct ou par inférence en positionnement au moment du test de certification
+    </p>
+  </div>
+</section>
+
+<Certifications::CertifiedProfile @certifiedProfile={{@model}} />

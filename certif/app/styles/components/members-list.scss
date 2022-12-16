@@ -1,0 +1,17 @@
+.members-list {
+
+  &__is-referer {
+    display: flex;
+  }
+
+  &__tag {
+    margin-right: 12px;
+    font-weight: 500;
+    font-size: 12px;
+  }
+
+  &__tool-tip {
+    font-size: 18px;
+    font-weight: 900;
+  }
+}

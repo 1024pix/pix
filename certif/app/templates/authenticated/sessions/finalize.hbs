@@ -1,0 +1,60 @@
+{{page-title this.pageTitle replace=true}}
+<div class="page__title finalize">
+  <div class="finalize__title">
+    <PixReturnTo @route="authenticated.sessions.details" @model={{this.session.id}}>
+      Retour à la session
+    </PixReturnTo>
+    <h1 class="page-title">Finaliser la session {{this.session.id}}</h1>
+  </div>
+  <SessionFinalizationStepContainer
+    @title="Signalements : Reporter, pour chaque candidat, les signalements renseignés sur le PV d'incident"
+    @subtitle="Pour que le signalement soit pris en compte, il est nécessaire d’utiliser la catégorie de signalement appropriée (exemples : C1, C2, etc)."
+    @icon="/icons/session-finalization-user.svg"
+    @iconAlt=""
+  >
+    {{#if (gt this.session.uncompletedCertificationReports.length 0)}}
+      <SessionFinalization::UncompletedReportsInformationStep
+        @certificationReports={{this.session.uncompletedCertificationReports}}
+        @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+        @onIssueReportDeleteButtonClicked={{this.deleteCertificationIssueReport}}
+        @onChangeAbortReason={{this.abort}}
+      />
+    {{/if}}
+    {{#if (gt this.session.completedCertificationReports.length 0)}}
+      <SessionFinalization::CompletedReportsInformationStep
+        @session={{this.session}}
+        @certificationReports={{this.session.completedCertificationReports}}
+        @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+        @onHasSeenEndTestScreenCheckboxClicked={{this.toggleCertificationReportHasSeenEndTestScreen}}
+        @onAllHasSeenEndTestScreenCheckboxesClicked={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
+        @onIssueReportDeleteButtonClicked={{this.deleteCertificationIssueReport}}
+        @shouldDisplayHasSeenEndTestScreenCheckbox={{this.shouldDisplayHasSeenEndTestScreenCheckbox}}
+      />
+    {{/if}}
+  </SessionFinalizationStepContainer>
+
+  <SessionFinalizationStepContainer
+    @title="Informations complémentaires (facultatif)"
+    @subtitle="Vous pouvez indiquer, le cas échéant, les événements survenus lors de la session. Il n'est pas nécessaire de renseigner les candidats absents."
+    @icon="/icons/edit-file.svg"
+    @iconAlt=""
+  >
+    <SessionFinalization::ComplementaryInformationStep
+      @toggleIncidentDuringCertificationSession={{this.toggleIncidentDuringCertificationSession}}
+      @toggleSessionJoiningIssue={{this.toggleSessionJoiningIssue}}
+    />
+  </SessionFinalizationStepContainer>
+
+  <PixButton class="finalize__button" data-test-id="finalize__button" @triggerAction={{this.openModal}}>
+    Finaliser
+  </PixButton>
+</div>
+
+<SessionFinalization::FinalizationConfirmationModal
+  @showModal={{this.showConfirmModal}}
+  @closeModal={{this.closeModal}}
+  @hasUncheckedHasSeenEndTestScreen={{this.hasUncheckedHasSeenEndTestScreen}}
+  @uncheckedHasSeenEndTestScreenCount={{this.uncheckedHasSeenEndTestScreenCount}}
+  @shouldDisplayHasSeenEndTestScreenCheckbox={{this.shouldDisplayHasSeenEndTestScreenCheckbox}}
+  @finalizeSession={{this.finalizeSession}}
+/>

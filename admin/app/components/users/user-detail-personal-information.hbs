@@ -1,0 +1,34 @@
+<section class="page-section user-authentication-method">
+  <Users::UserDetailPersonalInformation::AuthenticationMethod
+    @user={{@user}}
+    @toggleDisplayRemoveAuthenticationMethodModal={{this.toggleDisplayRemoveAuthenticationMethodModal}}
+    @addPixAuthenticationMethod={{@addPixAuthenticationMethod}}
+    @reassignAuthenticationMethod={{@reassignAuthenticationMethod}}
+  />
+</section>
+
+<section class="page-section">
+  <Users::UserDetailPersonalInformation::OrganizationLearnerInformation
+    @user={{@user}}
+    @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}
+  />
+</section>
+
+<ConfirmPopup
+  @message="Êtes-vous sûr de vouloir dissocier ce prescrit ?"
+  @title="Confirmer la dissociation"
+  @submitTitle="Oui, je dissocie"
+  @submitButtonType="danger"
+  @confirm={{this.dissociate}}
+  @cancel={{this.toggleDisplayDissociateModal}}
+  @show={{this.displayDissociateModal}}
+/>
+
+<ConfirmPopup
+  @message="Suppression de la méthode de connexion suivante : {{this.translatedType}}"
+  @title="Confirmer la suppression"
+  @submitTitle="Oui, je supprime"
+  @confirm={{this.removeAuthenticationMethod}}
+  @cancel={{this.toggleDisplayRemoveAuthenticationMethodModal}}
+  @show={{this.displayRemoveAuthenticationMethodModal}}
+/>

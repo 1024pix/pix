@@ -1,0 +1,14 @@
+.session-finalization-complementary-information-step__content {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+
+  .session-finalization-complementary-information-step__checkboxes {
+    color: $pix-neutral-90;
+    display: flex;
+    font-size: 0.875rem;
+    column-gap: 8px;
+    align-items: center;
+  }
+}

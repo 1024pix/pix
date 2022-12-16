@@ -1,0 +1,61 @@
+<div class="content-text content-text--small">
+  {{#if this.hasBadges}}
+    <table class="table-admin">
+      <thead>
+        <tr>
+          <th class="table__column table__column--id">ID</th>
+          <th class="badges-table__image">Image</th>
+          <th class="badges-table__key">Clé</th>
+          <th class="badges-table__name">Nom</th>
+          <th>Message</th>
+          <th class="badges-table__shortcoming">Lacune</th>
+          <th class="badges-table__actions">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each @badges as |badge|}}
+          <tr aria-label="Informations du badge {{badge.title}}">
+            <td class="table__column table__column--id">{{badge.id}}</td>
+            <td class="badges-table__image"><img src={{badge.imageUrl}} alt={{badge.altMessage}} /></td>
+            <td>{{badge.key}}</td>
+            <td>{{badge.title}}</td>
+            <td>{{badge.message}}</td>
+            <td>
+              <Common::TickOrCross @isTrue={{badge.isAlwaysVisible}} />
+            </td>
+            <td class="badges-table__actions">
+              <PixButtonLink
+                @backgroundColor="transparent-light"
+                @isBorderVisible={{true}}
+                @route="authenticated.target-profiles.target-profile.badges.badge"
+                @size="small"
+                @model={{badge.id}}
+                class="badges-table-actions__button"
+                aria-label="Détails du badge {{badge.title}}"
+              >Voir détail</PixButtonLink>
+              <PixButton
+                @size="small"
+                @backgroundColor="red"
+                @triggerAction={{fn this.toggleDisplayConfirm badge.id}}
+                class="badges-table-actions__button badges-table-actions__button--delete"
+              >
+                <FaIcon @icon="trash" />Supprimer
+              </PixButton>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{else}}
+    <div class="table__empty">Aucun résultat thématique associé</div>
+  {{/if}}
+</div>
+
+<ConfirmPopup
+  @message="Êtes-vous sûr de vouloir supprimer ce résultat thématique ? (Uniquement si le RT n'a pas encore été assigné)"
+  @title="Suppression d'un résultat thématique"
+  @submitTitle="Confirmer"
+  @confirm={{fn this.deleteBadge this.badgeIdToDelete}}
+  @cancel={{this.toggleDisplayConfirm}}
+  @show={{this.displayConfirm}}
+/>

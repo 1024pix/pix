@@ -1,0 +1,42 @@
+<section class="profile-competences panel">
+  <h3 class="sr-only">{{t "pages.profiles-individual-results.table.title"}}</h3>
+  <table>
+    <thead>
+      <tr>
+        <Table::Header @size="wide">
+          {{t "pages.profiles-individual-results.table.column.skill"}}
+        </Table::Header>
+        <Table::Header @size="small" @align="center">{{t
+            "pages.profiles-individual-results.table.column.level"
+          }}</Table::Header>
+        <Table::Header @size="small" @align="center">{{t
+            "pages.profiles-individual-results.table.column.pix-score"
+          }}</Table::Header>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each @competences as |competence|}}
+        <tr aria-label={{t "pages.profiles-individual-results.table.row-title"}}>
+          <td class="competences-col__name">
+            <span class="competences-col__border competences-col__border--{{competence.areaColor}}"></span>
+            <span>
+              {{competence.name}}
+            </span>
+          </td>
+          <td class="table__column--center">
+            {{competence.estimatedLevel}}
+          </td>
+          <td class="table__column--center">
+            {{competence.pixScore}}
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  {{#unless @isShared}}
+    <p class="table__empty content-text">
+      {{t "pages.profiles-individual-results.table.empty"}}
+    </p>
+  {{/unless}}
+</section>

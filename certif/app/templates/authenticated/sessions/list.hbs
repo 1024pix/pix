@@ -1,0 +1,9 @@
+<div class="session-list-page">
+  {{#if this.displayNoSessionPanel}}
+    <NoSessionPanel />
+  {{else}}
+    <Sessions::PanelHeader />
+
+    <SessionSummaryList @sessionSummaries={{@model}} @goToSessionDetails={{this.goToSessionDetails}} />
+  {{/if}}
+</div>

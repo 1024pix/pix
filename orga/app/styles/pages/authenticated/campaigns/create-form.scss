@@ -1,0 +1,30 @@
+// enlève la flèche par défaut de la datalist sur chrome
+.campaign-target-profile::-webkit-calendar-picker-indicator {
+  opacity: 0;
+}
+
+.clean-input-button__tooltip {
+  position: absolute;
+  height: 20px;
+  top: 0;
+  bottom: 0;
+  right: 30px;
+  margin: auto;
+  border-right: solid 0.5px $pix-neutral-30;
+
+  &__content {
+    width: auto;
+  }
+}
+
+
+.target-profile-option {
+  position: absolute;
+  height: 20px;
+  width: 14px;
+  top: 2px;
+  bottom: 0;
+  right: 10px;
+  margin: auto;
+  color :$pix-neutral-30;
+}

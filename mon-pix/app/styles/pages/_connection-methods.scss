@@ -1,0 +1,50 @@
+.user-account-panel__item {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-m;
+  justify-content: space-between;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  border-top: $pix-neutral-15 1px solid;
+
+  &--with-success-message {
+    margin: 20px 0 0;
+  }
+
+  &:first-child {
+    padding-top: 0;
+    border-top: none;
+  }
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+}
+
+.user-account-panel__success-message + .user-account-panel__item {
+  margin-top: 20px;
+}
+
+.user-account-panel-item__text {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-xs;
+}
+
+.user-account-panel-item__label {
+  display: flex;
+  align-items: center;
+  min-width: 200px;
+  margin: 0;
+}
+
+.user-account-panel-item__value {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  color: $pix-neutral-50;
+}
+
+.user-account-panel-item__edit-button {
+  margin-left: auto;
+}

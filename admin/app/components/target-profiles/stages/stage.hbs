@@ -1,0 +1,33 @@
+<tr aria-label="Informations sur le palier {{@title}}">
+  <td class="table__column table__column--id">{{@id}}</td>
+  <td class="stages-table__image">
+    <img src={{@imageUrl}} alt="" role="presentation" />
+  </td>
+  <td>
+    {{#if @isTypeLevel}}
+      {{@level}}
+    {{else}}
+      {{@threshold}}
+    {{/if}}
+  </td>
+  <td>{{@title}}</td>
+  <td>{{@message}}</td>
+  <td>
+    <Common::TickOrCross @isTrue={{@hasPrescriberTitle}} />
+  </td>
+  <td>
+    <Common::TickOrCross @isTrue={{@hasPrescriberDescription}} />
+  </td>
+  <td>
+    <PixButtonLink
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      @route="authenticated.target-profiles.target-profile.stages.stage"
+      @size="small"
+      @model={{@id}}
+      class="pix-button__secondary"
+    >
+      Voir détail
+    </PixButtonLink>
+  </td>
+</tr>

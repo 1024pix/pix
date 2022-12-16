@@ -1,0 +1,70 @@
+{{#if this.displayFilters}}
+  <PixFilterBanner
+    @title={{t "pages.campaign-results.filters.title"}}
+    class="participant-filter-banner hide-on-mobile"
+    aria-label={{t "pages.campaign-results.filters.aria-label"}}
+    @details={{t "pages.campaign-results.filters.participations-count" count=@rowCount}}
+    @clearFiltersLabel={{t "pages.campaign-results.filters.actions.clear"}}
+    @onClearFilters={{@onResetFilter}}
+  >
+    {{#if this.displayStatusFilter}}
+      <PixSelect
+        @label={{t "pages.campaign-results.filters.type.status.title"}}
+        @screenReaderOnly={{true}}
+        @options={{this.statusOptions}}
+        @onChange={{this.onSelectStatus}}
+        @value={{@selectedStatus}}
+        @placeholder={{t "pages.campaign-results.filters.type.status.empty"}}
+        @hideDefaultOption={{false}}
+      />
+    {{/if}}
+    {{#if this.displayDivisionFilter}}
+      <Ui::DivisionsFilter
+        @model={{@campaign}}
+        @selected={{@selectedDivisions}}
+        @onSelect={{this.onSelectDivision}}
+        @placeholder={{t "pages.campaign-results.filters.type.divisions.placeholder"}}
+      />
+    {{/if}}
+    {{#if this.displayGroupsFilter}}
+      <Ui::GroupsFilter @campaign={{@campaign}} @onSelect={{this.onSelectGroup}} @selectedGroups={{@selectedGroups}} />
+    {{/if}}
+    {{#if this.displaySearchFilter}}
+      <Ui::SearchInputFilter
+        @field="search"
+        @value={{@searchFilter}}
+        @placeholder={{t "pages.campaign-results.filters.type.search.placeholder"}}
+        @ariaLabel={{t "pages.campaign-results.filters.type.search.title"}}
+        @triggerFiltering={{@onFilter}}
+      />
+    {{/if}}
+    {{#if this.displayStagesFilter}}
+      <PixMultiSelect
+        @label={{t "pages.campaign-results.filters.type.stages"}}
+        @placeholder={{t "pages.campaign-results.filters.type.stages"}}
+        @screenReaderOnly={{true}}
+        @onChange={{this.onSelectStage}}
+        @values={{@selectedStages}}
+        @options={{this.stageOptions}}
+        class="participant-filter-banner__stages"
+        as |stage|
+      >
+        <Campaign::StageStars @result={{stage.threshold}} @stages={{@campaign.stages}} />
+      </PixMultiSelect>
+    {{/if}}
+    {{#if this.displayBadgesFilter}}
+      <PixMultiSelect
+        @label={{t "pages.campaign-results.filters.type.badges"}}
+        @placeholder={{t "pages.campaign-results.filters.type.badges"}}
+        @screenReaderOnly={{true}}
+        @onChange={{this.onSelectBadge}}
+        @values={{@selectedBadges}}
+        @options={{this.badgeOptions}}
+        class="participant-filter-banner__badges"
+        as |badge|
+      >
+        {{badge.label}}
+      </PixMultiSelect>
+    {{/if}}
+  </PixFilterBanner>
+{{/if}}

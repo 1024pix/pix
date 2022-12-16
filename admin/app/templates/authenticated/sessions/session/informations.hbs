@@ -1,0 +1,188 @@
+<section class="page-section">
+  <div class="session-info">
+
+    <div class="session-info__certification-officer-assigned">
+      <span>{{this.sessionModel.assignedCertificationOfficer.fullName}}</span>
+    </div>
+
+    <ul class="session-info__list">
+      <li class="session-info__list-item">
+        <span>Centre :</span>
+        <span>
+          <LinkTo @route="authenticated.certification-centers.get" @model={{this.sessionModel.certificationCenterId}}>
+            {{this.sessionModel.certificationCenterName}}
+          </LinkTo>
+        </span>
+      </li>
+      <li class="session-info__list-item">
+        <span>Adresse :</span>
+        <span>{{this.sessionModel.address}}</span>
+      </li>
+      <li class="session-info__list-item">
+        <span>Pièce :</span>
+        <span>{{this.sessionModel.room}}</span>
+      </li>
+      <li class="session-info__list-item">
+        <span>Surveillant :</span>
+        <span>{{this.sessionModel.examiner}}</span>
+      </li>
+      <li class="session-info__list-item">
+        <span>Date :</span>
+        <span>{{format-date this.sessionModel.date}}</span>
+      </li>
+      <li class="session-info__list-item">
+        <span>Heure :</span>
+        <span>{{this.sessionModel.time}}</span>
+      </li>
+      <li class="session-info__list-item">
+        <span>Description :</span>
+        <span>{{this.sessionModel.description}}</span>
+      </li>
+      <li class="session-info__list-item">
+        <span>Code d'accès :</span>
+        <span>{{this.sessionModel.accessCode}}</span>
+      </li>
+      <li class="session-info__list-item">
+        <span>Statut :</span>
+        <span>{{this.sessionModel.displayStatus}}</span>
+      </li>
+
+      {{#if this.sessionModel.finalizedAt}}
+        <li class="session-info__list-item">
+          <span>Date de finalisation :</span>
+          <span>{{format-date this.sessionModel.finalizedAt}}</span>
+        </li>
+      {{/if}}
+      {{#if this.sessionModel.publishedAt}}
+        <li class="session-info__list-item">
+          <span>Date de publication :</span>
+          <span>{{format-date this.sessionModel.publishedAt}}</span>
+        </li>
+      {{/if}}
+      {{#if this.sessionModel.resultsSentToPrescriberAt}}
+        <li class="session-info__list-item">
+          <span>Date d'envoi des résultats au prescripteur :</span>
+          <span>{{format-date this.sessionModel.resultsSentToPrescriberAt}}</span>
+        </li>
+      {{/if}}
+    </ul>
+
+    {{#if this.sessionModel.finalizedAt}}
+      <ul class="session-info__list">
+        <li class="session-info__list-item">
+          <span>Nombre de signalements impactants non résolus :</span>
+          <span>{{this.sessionModel.countCertificationIssueReportsWithActionRequired}}</span>
+        </li>
+        <li class="session-info__list-item">
+          <span>Nombre de signalements :</span>
+          <span
+            data-test-id="session-info__number-of-issue-report"
+          >{{this.sessionModel.countCertificationIssueReports}}</span>
+        </li>
+        {{#unless this.sessionModel.hasSupervisorAccess}}
+          <li class="session-info__list-item">
+            <span>Nombre d'écrans de fin de test non renseignés :</span>
+            <span
+              data-test-id="session-info__number-of-not-checked-end-screen"
+            >{{this.sessionModel.countNotCheckedEndScreen}}</span>
+          </li>
+        {{/unless}}
+        <li class="session-info__list-item">
+          <span>Certifications non terminées traitées automatiquement :</span>
+          <span>{{this.sessionModel.countCertificationsFlaggedAsAborted}}</span>
+        </li>
+        <li class="session-info__list-item">
+          <span>Nombre de certifications démarrées/en erreur :</span>
+          <span
+            data-test-id="session-info__number-of-started-or-error-certifications"
+          >{{this.sessionModel.countStartedAndInErrorCertifications}}</span>
+        </li>
+        {{#if this.sessionModel.hasComplementaryInfo}}
+          <li class="session-info__list-item">
+            <span>Informations complémentaires :</span>
+            {{#if this.sessionModel.hasIncident}}
+              <span>Malgré un incident survenu pendant la session, les candidats ont pu terminer leur test de
+                certification. Un temps supplémentaire a été accordé à un ou plusieurs candidats.</span>
+            {{/if}}
+            {{#if this.sessionModel.hasJoiningIssue}}
+              <span>Un ou plusieurs candidats étaient présents en session de certification mais n'ont pas pu rejoindre
+                la session.</span>
+            {{/if}}
+          </li>
+        {{/if}}
+        {{#if this.sessionModel.hasExaminerGlobalComment}}
+          <li class="session-info__list-item">
+            <span>Commentaire global :</span>
+            <span>{{this.sessionModel.examinerGlobalComment}}</span>
+          </li>
+        {{/if}}
+      </ul>
+    {{/if}}
+
+    {{#if this.accessControl.hasAccessToCertificationActionsScope}}
+      <div class="session-info__actions">
+        {{#if this.sessionModel.finalizedAt}}
+          {{#if this.isCurrentUserAssignedToSession}}
+            <PixButton @size="small" @isDisabled={{true}}>Vous êtes assigné à cette session</PixButton>
+          {{else}}
+            <PixButton @size="small" @triggerAction={{this.checkForAssignment}}>M'assigner la session</PixButton>
+          {{/if}}
+        {{/if}}
+
+        <div class="session-info__copy-button">
+          {{#if this.isCopyButtonClicked}}
+            <p>{{this.copyButtonText}}</p>
+          {{/if}}
+
+          <PixButton size="small" @triggerAction={{this.copyResultsDownloadLink}} @backgroundColor="grey">
+            <FaIcon @icon="copy" @prefix="far" class="fa-inverse" aria-label="Copier" />
+            Lien de téléchargement des résultats
+          </PixButton>
+        </div>
+
+        {{#if this.sessionModel.areResultsToBeSentToPrescriber}}
+          <PixButton size="small" @triggerAction={{this.tagSessionAsSentToPrescriber}} @backgroundColor="grey">
+            Résultats transmis au prescripteur
+          </PixButton>
+        {{/if}}
+      </div>
+    {{/if}}
+  </div>
+</section>
+
+<Sessions::JuryComment
+  @author={{this.sessionModel.juryCommentAuthor.fullName}}
+  @date={{this.sessionModel.juryCommentedAt}}
+  @comment={{this.sessionModel.juryComment}}
+  @onFormSubmit={{this.saveComment}}
+  @onDeleteButtonClicked={{this.deleteComment}}
+/>
+
+<PixModal
+  @title="Assignation de la session"
+  @onCloseButtonClick={{this.cancelAssignment}}
+  @showModal={{this.isShowingAssignmentModal}}
+>
+  <:content>
+    <p>
+      L'utilisateur
+      {{this.sessionModel.assignedCertificationOfficer.fullName}}
+      s'est déjà assigné cette session.
+      <br />
+      Voulez-vous vous quand même vous assigner cette session ?
+    </p>
+  </:content>
+  <:footer>
+    <PixButton
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      @size="small"
+      @triggerAction={{this.cancelAssignment}}
+    >
+      Annuler
+    </PixButton>
+    <PixButton @size="small" @triggerAction={{this.confirmAssignment}}>
+      Confirmer
+    </PixButton>
+  </:footer>
+</PixModal>

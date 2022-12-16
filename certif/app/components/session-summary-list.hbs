@@ -1,0 +1,124 @@
+<div class="table--with-row-clickable session-summary-list" role="tabpanel">
+  <div class="panel">
+    <div class="table content-text content-text--small">
+      <table>
+        <thead>
+          <tr>
+            <th class="table__column table__column--small" scope="col">
+              {{t "pages.sessions.list.session-summary.session-number"}}
+            </th>
+            <th class="table__column table__column--small" scope="col">
+              {{t "pages.sessions.list.session-summary.center-name"}}
+            </th>
+            <th class="table__column table__column--small" scope="col">
+              {{t "pages.sessions.list.session-summary.room"}}
+            </th>
+            <th class="table__column table__column--small" scope="col">
+              {{t "pages.sessions.list.session-summary.date"}}
+            </th>
+            <th class="table__column table__column--small" scope="col">
+              {{t "pages.sessions.list.session-summary.time"}}
+            </th>
+            <th class="table__column table__column--small" scope="col">
+              {{t "pages.sessions.list.session-summary.supervisor"}}
+            </th>
+            <th class="table__column table__column" scope="col">
+              {{t "pages.sessions.list.session-summary.enrolled-candidates"}}
+            </th>
+            <th class="table__column table__column" scope="col">
+              {{t "pages.sessions.list.session-summary.effective-candidates"}}
+            </th>
+            <th class="table__column table__column--small" scope="col">
+              {{t "pages.sessions.list.session-summary.status"}}
+            </th>
+            <th class="table__column table__column--small" scope="col">
+              <span class="sr-only">
+                {{t "pages.sessions.list.session-summary.actions"}}
+              </span>
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {{#each @sessionSummaries as |sessionSummary|}}
+            <tr
+              aria-label="{{t 'pages.sessions.list.session-summary.certification-session'}}"
+              {{on "click" (fn @goToSessionDetails sessionSummary.id)}}
+              class="tr--clickable"
+            >
+              <td>
+                <LinkTo
+                  @route="authenticated.sessions.details"
+                  @model={{sessionSummary.id}}
+                  class="session-summary-list__link"
+                  aria-label="{{t 'pages.sessions.list.session-summary.session-and-id' sessionId=sessionSummary.id}}"
+                >
+                  {{sessionSummary.id}}
+                </LinkTo>
+              </td>
+              <td>{{sessionSummary.address}}</td>
+              <td>{{sessionSummary.room}}</td>
+              <td>{{dayjs-format sessionSummary.date "DD/MM/YYYY" allow-empty=true}}</td>
+              <td>{{dayjs-format sessionSummary.time "HH:mm" inputFormat="HH:mm:ss" allow-empty=true}}</td>
+              <td>{{sessionSummary.examiner}}</td>
+              <td>{{sessionSummary.enrolledCandidatesCount}}</td>
+              <td>{{sessionSummary.effectiveCandidatesCount}}</td>
+              <td>{{sessionSummary.statusLabel}}</td>
+              <td>
+                <div class="session-summary-list__delete">
+                  {{#if sessionSummary.hasEffectiveCandidates}}
+                    <PixTooltip @position="left" @isInline={{true}} @id="tooltip-delete-session-button">
+                      <:triggerElement>
+                        <PixIconButton
+                          @icon="trash-alt"
+                          aria-label={{t
+                            "pages.sessions.list.session-summary.delete-session"
+                            sessionSummaryId=sessionSummary.id
+                          }}
+                          disabled={{true}}
+                          aria-describedby="tooltip-delete-session-button"
+                          @withBackground={{true}}
+                        />
+                      </:triggerElement>
+                      <:tooltip>{{t "pages.sessions.list.session-summary.tooltip-label"}}</:tooltip>
+                    </PixTooltip>
+                  {{else}}
+                    <PixIconButton
+                      @icon="trash-alt"
+                      aria-label={{t
+                        "pages.sessions.list.session-summary.delete-session"
+                        sessionSummaryId=sessionSummary.id
+                      }}
+                      disabled={{false}}
+                      @withBackground={{true}}
+                      @triggerAction={{fn
+                        this.openSessionDeletionConfirmModal
+                        sessionSummary.id
+                        sessionSummary.enrolledCandidatesCount
+                      }}
+                    />
+                  {{/if}}
+                </div>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+      {{#if (eq @sessionSummaries.length 0)}}
+        <div class="table__empty content-text">
+          {{t "pages.sessions.list.session-summary.empty-table"}}
+        </div>
+      {{/if}}
+    </div>
+  </div>
+</div>
+
+<PixPagination @pagination={{@sessionSummaries.meta}} />
+
+<SessionDeleteConfirmModal
+  @showModal={{this.shouldDisplaySessionDeletionModal}}
+  @close={{this.closeSessionDeletionConfirmModal}}
+  @sessionId={{this.currentSessionToBeDeletedId}}
+  @enrolledCandidatesCount="{{this.currentEnrolledCandidatesCount}}"
+  @confirm={{this.deleteSession}}
+/>

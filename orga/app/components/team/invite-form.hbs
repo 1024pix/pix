@@ -1,0 +1,25 @@
+{{! template-lint-disable require-input-label }}
+<form {{on "submit" @onSubmit}} class="form" ...attributes>
+
+  <div class="form__field">
+    <PixTextarea
+      @id="email"
+      @label={{t "pages.team-new-item.input-label"}}
+      type="email"
+      @value={{@email}}
+      class="invite-form__email-field"
+      aria-required="true"
+      required="required"
+    />
+  </div>
+
+  <div class="form__validation">
+    <PixButton @triggerAction={{@onCancel}} @backgroundColor="transparent-light">
+      {{t "common.actions.cancel"}}
+    </PixButton>
+    <PixButton @type="submit" @isLoading={{@isLoading}}>
+      {{t "pages.team-new-item.invite-button"}}
+    </PixButton>
+  </div>
+
+</form>

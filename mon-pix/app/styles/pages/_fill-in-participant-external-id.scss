@@ -1,0 +1,90 @@
+.fill-in-participant-external-id__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 20px;
+
+  @include device-is('tablet') {
+    margin-bottom: 25px;
+    padding-top: 80px;
+    padding-bottom: 40px;
+  }
+}
+
+.fill-in-participant-external-id-text {
+  padding: 5px;
+  font-family: $font-open-sans;
+
+  &__title {
+    font-weight: $font-bold;
+    font-size: 1.875rem;
+
+    @include device-is('tablet') {
+      font-size: 2rem;
+    }
+  }
+
+  &__announcement {
+    margin-bottom: 40px;
+    font-size: 1.125rem;
+  }
+}
+
+.fill-in-participant-external-id__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fill-in-participant-external-id-form__section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @include device-is('tablet') {
+    display: block;
+  }
+}
+
+.fill-in-participant-external-id__form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: $font-bold;
+  font-size: 0.938rem;
+}
+
+.fill-in-participant-external-id__form-field {
+  display: inline-block;
+  text-align: left;
+}
+
+.fill-in-participant-external-id__form-field input {
+  width: 232px;
+  height: 50px;
+  margin-right: 5px;
+  border: solid 2px $pix-neutral-20;
+  border-radius: 3px;
+  outline: none;
+}
+
+.fill-in-participant-external-id__button {
+  display: inline-block;
+}
+
+.fill-in-participant-external-id__cancel-button {
+  margin-top: 50px;
+}
+
+.fill-in-participant-external-id__help {
+  margin-top: 32px;
+}
+
+/* ------------------------ ERROR ------------------------ */
+
+.fill-in-participant-external-id__form__error-message {
+  margin-top: 5px;
+  color: red;
+  font-size: 0.75rem;
+}

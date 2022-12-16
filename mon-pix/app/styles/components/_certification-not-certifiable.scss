@@ -1,0 +1,37 @@
+.certification-not-certifiable__panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 10px;
+  margin-bottom: 50px;
+  margin-left: 10px;
+  padding: 20px;
+  text-rendering: optimizelegibility;
+
+  @include device-is('desktop') {
+    padding: 50px 70px 40px;
+  }
+}
+
+.certification-not-certifiable__button {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.certification-not-certifiable__title {
+  font-weight: $font-light;
+  font-family: $font-open-sans;
+  text-align: center;
+}
+
+.certification-not-certifiable__text {
+  margin-top: 0;
+  font-size: 1rem;
+  font-family: $font-open-sans;
+  line-height: 27px;
+  text-align: center;
+
+  @include device-is('desktop') {
+    max-width: 850px;
+  }
+}

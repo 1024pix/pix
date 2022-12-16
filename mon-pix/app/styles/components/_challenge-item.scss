@@ -1,0 +1,147 @@
+.challenge-item {
+  border: 3px solid transparent;
+
+  &--focused {
+    z-index: 1;
+    border: 3px dashed $pix-neutral-70;
+    border-radius: 10px;
+  }
+}
+
+.challenge-response {
+  margin: 6px;
+  font-size: 0.938rem;
+  background-color: $pix-neutral-10;
+
+  @include device-is('desktop') {
+    font-size: 1.25rem;
+  }
+
+  label {
+    font-weight: $font-normal;
+  }
+
+  a {
+    color: $pix-primary;
+    text-decoration: underline;
+
+    @include device-is('tablet') {
+      display: inline-block;
+    }
+
+    &:active,
+    &:focus,
+    &:hover {
+      color: $pix-primary-60;
+    }
+
+    &::after {
+      @include external-link;
+    }
+  }
+
+  &__instructions {
+    font-weight: $font-normal;
+    font-size: 1rem;
+  }
+
+  &__proposal {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: $pix-neutral-80;
+    font-size: 1.25rem;
+
+    &--paragraph {
+      display: flex;
+      width: 100%;
+      height: auto;
+      resize: vertical;
+    }
+
+    &--sentence {
+      display: flex;
+      width: 100%;
+    }
+
+    &--selector {
+      display: inline-block;
+    }
+  }
+
+  &__proposal-label {
+    width: 100%;
+    font-weight: $font-normal;
+  }
+
+  &__alert {
+    margin: 4px;
+  }
+}
+
+.proposal-text {
+  width: 100%;
+  font-weight: $font-normal;
+  line-height: 1.625rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+
+  p {
+    margin: 0;
+  }
+}
+
+form .challenge-response {
+
+  &--locked {
+    position: relative;
+  }
+
+  &__locked-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+  }
+
+  .qroc-proposal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-xs;
+    align-items: center;
+
+    .qroc_input-label {
+      display: inline;
+    }
+
+    ul,
+    ol,
+    p {
+      margin: 0;
+    }
+  }
+}
+
+form .challenge-response.challenge-response--locked {
+
+  &:hover {
+
+    .challenge-response__locked-overlay {
+      opacity: 1;
+      transition: 0.9s ease;
+    }
+  }
+}
+
+form .challenge-response-locked {
+
+  &__icon {
+    font-size: 3.125rem;
+    opacity: 1;
+
+    &:hover {
+      opacity: 1;
+      transition: 0.3s ease;
+    }
+  }
+}

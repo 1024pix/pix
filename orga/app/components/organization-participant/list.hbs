@@ -1,0 +1,92 @@
+<PixFilterBanner
+  @title={{t "pages.organization-participants.filters.title"}}
+  class="participant-filter-banner hide-on-mobile"
+  aria-label={{t "pages.organization-participants.filters.aria-label"}}
+  @details={{t "pages.organization-participants.filters.participations-count" count=@participants.meta.rowCount}}
+  @clearFiltersLabel={{t "pages.organization-participants.filters.actions.clear"}}
+  @onClearFilters={{@onResetFilter}}
+>
+  <Ui::SearchInputFilter
+    @field="fullName"
+    @value={{@fullName}}
+    @placeholder={{t "pages.organization-participants.filters.type.fullName.placeholder"}}
+    @ariaLabel={{t "pages.organization-participants.filters.type.fullName.title"}}
+    @triggerFiltering={{@triggerFiltering}}
+  />
+  <Ui::MultiSelectFilter
+    @field="certificability"
+    @title={{t "pages.organization-participants.filters.type.certificability.label"}}
+    @onSelect={{@triggerFiltering}}
+    @selectedOption={{@certificabilityFilter}}
+    @options={{@certificabilityOptions}}
+    @placeholder={{t "pages.organization-participants.filters.type.certificability.label"}}
+    @ariaLabel={{t "pages.organization-participants.filters.type.certificability.aria-label"}}
+    @emptyMessage=""
+  />
+</PixFilterBanner>
+<div class="panel">
+  <table class="table content-text content-text--small">
+    <thead>
+      <tr>
+        <Table::Header>{{t "pages.organization-participants.table.column.last-name"}}</Table::Header>
+        <Table::Header>{{t "pages.organization-participants.table.column.first-name"}}</Table::Header>
+        <Table::Header @size="medium" @align="right">{{t
+            "pages.organization-participants.table.column.participation-count"
+          }}</Table::Header>
+        <Table::Header @size="medium">{{t
+            "pages.organization-participants.table.column.lastest-participation"
+          }}</Table::Header>
+        <Table::Header @size="medium" @align="center">
+          <div class="organization-participant-list-page__certificability-header">
+            {{t "pages.organization-participants.table.column.is-certifiable.label"}}
+            <Ui::CertificabilityTooltip
+              @aria-label={{t "pages.organization-participants.table.column.is-certifiable.tooltip.aria-label"}}
+              @content={{t "pages.organization-participants.table.column.is-certifiable.tooltip.content"}}
+            />
+          </div>
+        </Table::Header>
+      </tr>
+    </thead>
+
+    {{#if @participants}}
+      <tbody>
+        {{#each @participants as |participant index|}}
+          <tr aria-label={{t "pages.organization-participants.table.row-title"}}>
+            <td class="ellipsis" title={{participant.lastName}}>{{participant.lastName}}</td>
+            <td class="ellipsis" title={{participant.firstName}}>{{participant.firstName}}</td>
+            <td class="table__column--right">{{participant.participationCount}}</td>
+            <td>
+              <div class="organization-participant-list-page__last-participation">
+                <span>{{dayjs-format participant.lastParticipationDate "DD/MM/YYYY"}}</span>
+                <Ui::LastParticipationDateTooltip
+                  @id={{index}}
+                  @campaignName={{participant.campaignName}}
+                  @campaignType={{participant.campaignType}}
+                  @participationStatus={{participant.participationStatus}}
+                />
+              </div>
+            </td>
+            <td class="table__column--center">
+              <Ui::IsCertifiable @isCertifiable={{participant.isCertifiable}} />
+              {{#if participant.certifiableAt}}
+                <span class="organization-participant-list-page__certifiable-at">{{dayjs-format
+                    participant.certifiableAt
+                    "DD/MM/YYYY"
+                    allow-empty=true
+                  }}</span>
+              {{/if}}
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    {{/if}}
+  </table>
+
+  {{#unless @participants}}
+    <div class="table__empty content-text">
+      {{t "pages.organization-participants.table.empty"}}
+    </div>
+  {{/unless}}
+</div>
+
+<Table::PaginationControl @pagination={{@participants.meta}} />

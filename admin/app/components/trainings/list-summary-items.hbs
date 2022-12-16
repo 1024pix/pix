@@ -1,0 +1,31 @@
+<div class="content-text content-text--small">
+  <div class="table-admin">
+    <table>
+      <thead>
+        <tr>
+          <th class="table__column table__column--id" id="training-id">ID</th>
+          <th id="training-titre">Titre</th>
+        </tr>
+      </thead>
+
+      {{#if @summaries}}
+        <tbody>
+          {{#each @summaries as |summary|}}
+            <tr aria-label="Contenu formatif">
+              <td headers="training-id" class="table__column table__column--id">{{summary.id}}</td>
+              <td headers="training-title">{{summary.title}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      {{/if}}
+    </table>
+
+    {{#unless @summaries}}
+      <div class="table__empty">Aucun résultat</div>
+    {{/unless}}
+  </div>
+</div>
+
+{{#if @summaries}}
+  <PixPagination @pagination={{@summaries.meta.pagination}} />
+{{/if}}

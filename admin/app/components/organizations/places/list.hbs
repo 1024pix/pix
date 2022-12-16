@@ -1,0 +1,45 @@
+<table
+  class="table-admin"
+  summary="Affichage des lots de place disponible triés par ordre anti-chronologique d'activation puis d'expiration"
+>
+  <thead>
+    <tr>
+      <th scope="col">Nombre</th>
+      <th scope="col">Catégorie</th>
+      <th scope="col">Date d'activation</th>
+      <th scope="col">Statut</th>
+      <th scope="col">Référence</th>
+      <th scope="col">Créé par</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each @places as |place|}}
+      <tr aria-label="Lot de Places">
+        <td class="td--bold">{{place.count}}</td>
+        <td class="td--bold">{{place.categoryLabel}}</td>
+        <td>
+          Du:
+          {{dayjs-format place.activationDate "DD/MM/YYYY"}}
+          {{#if place.hasExpirationDate}}
+            <br />
+            Au:
+            {{dayjs-format place.expirationDate "DD/MM/YYYY"}}
+          {{/if}}
+        </td>
+        <td class="table__column table__column--center">
+          <PixTag @color={{if (eq place.status "ACTIVE") "blue" "grey"}}>{{place.displayStatus}}</PixTag>
+        </td>
+        <td>{{place.reference}}</td>
+        <td>{{place.creatorFullName}}</td>
+        <td>
+          {{#if this.accessControl.hasAccessToOrganizationPlacesActionsScope}}
+            <PixButton @size="small" @backgroundColor="red" @triggerAction={{fn @onDelete place}}><FaIcon
+                @icon="trash"
+              />&nbsp;Supprimer</PixButton>
+          {{/if}}
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>

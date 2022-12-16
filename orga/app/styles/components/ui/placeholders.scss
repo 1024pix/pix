@@ -1,0 +1,23 @@
+.placeholder-box {
+  background-color: $pix-neutral-10;
+  border-radius: 5px;
+  animation: placeholder-background-color 1s infinite alternate;
+}
+
+@keyframes placeholder-background-color {
+  from { background-color: $pix-neutral-10; border-color: $pix-neutral-10;  }
+  to { background-color: $pix-neutral-20; border-color: $pix-neutral-20; }
+}
+
+.placeholder-doughnut {
+  box-sizing: border-box;
+  border: 50px solid $pix-neutral-10;
+  border-radius: 50%;
+  animation: placeholder-border-color 1s infinite alternate;
+}
+
+@keyframes placeholder-border-color {
+  from { border-color: $pix-neutral-10;  }
+  to { border-color: $pix-neutral-20; }
+}
+

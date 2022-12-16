@@ -1,0 +1,15 @@
+{{page-title (t "pages.certification-start.title")}}
+
+<header role="banner">
+  <NavbarHeader />
+</header>
+
+<main class="main" role="main">
+  <PixBackgroundHeader id="main">
+    <PixBlock @shadow="heavy" class="certification-start-page__block">
+      <CertificationStarter @certificationCandidateSubscription={{@model}} />
+    </PixBlock>
+  </PixBackgroundHeader>
+</main>
+
+<Footer />

@@ -1,0 +1,8 @@
+.groups-filter,
+.divisions-filter,
+.multi-select-filter {
+  &--is-loading.placeholder-box {
+    flex: 1;
+    height: 36px;
+  }
+}

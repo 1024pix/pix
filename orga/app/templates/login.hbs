@@ -1,0 +1,14 @@
+{{page-title (t "pages.login.title")}}
+<main class="login-page">
+  <div class="panel login-page__panel">
+    <div class="panel__image">
+      <img src="/pix-orga.svg" alt="Pix Orga" />
+    </div>
+    <h1 class="form-title">{{t "pages.login.title"}}</h1>
+    <Auth::LoginForm
+      @isWithInvitation={{false}}
+      @hasInvitationAlreadyBeenAccepted={{this.hasInvitationAlreadyBeenAccepted}}
+      @isInvitationCancelled={{this.isInvitationCancelled}}
+    />
+  </div>
+</main>

@@ -1,0 +1,25 @@
+.participation-item-actions {
+  display: flex;
+  flex-direction: column;
+
+  &__modify {
+    display: flex;
+  }
+
+  &__button {
+    max-height: 30px;
+
+    svg {
+      margin-right: 6px;
+    }
+
+    &--save {
+      margin-right: 12px;
+    }
+
+    &--icon {
+      height: 30px;
+      width: 30px;
+    }
+  }
+}

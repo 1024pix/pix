@@ -1,0 +1,109 @@
+.register-form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  max-width: 360px;
+  padding: 4px;
+
+  &__login-options {
+    display: inline-block;
+    margin-bottom: 5px;
+    color: $pix-neutral-80;
+    font-weight: $font-bold;
+    font-size: 0.875rem;
+    font-family: $font-roboto;
+  }
+
+  &__required-inputs {
+    color: $pix-neutral-60;
+    font-weight: $font-normal;
+    font-size: 1rem;
+    font-family: $font-roboto;
+  }
+
+  &__cgu-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 449px;
+    margin-top: 10px;
+    margin-bottom: 6px;
+
+    @include device-is('tablet') {
+      margin-top: 15px;
+      margin-bottom: 0;
+      padding: 0;
+    }
+  }
+
+  &__validation-error {
+    color: $pix-error-70;
+    font-weight: normal;
+  }
+
+  .register-button-container {
+    display: flex;
+
+    button {
+      flex-grow: 1;
+      margin-top: 25px;
+    }
+  }
+
+  hr {
+    height: 2px;
+    margin: 20px 0;
+    color: $pix-neutral-20;
+    background-color: $pix-neutral-20;
+    border: none;
+  }
+
+  &__return-button {
+    display: inline-flex;
+    align-items: center;
+    margin: 4px 0;
+    font-size: 0.875rem;
+    font-family: $font-roboto;
+  }
+
+  &__return-button:hover {
+
+    > .register-form-return-button__icon {
+      background-color: $pix-neutral-20;
+    }
+  }
+
+  &__error {
+    padding: 4px 10px;
+    color: $pix-warning-60;
+    font-size: 0.938rem;
+    text-align: center;
+
+    @include device-is('tablet') {
+      padding: 10px 10px 0;
+    }
+  }
+
+  &-username-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+
+    &__label {
+      color: $pix-neutral-80;
+      font-weight: $font-medium;
+      font-size: 0.938rem;
+      letter-spacing: 0.031rem;
+    }
+
+    &__span {
+      padding: 15px 10px;
+      color: $pix-neutral-50;
+      font-size: 0.875rem;
+      font-family: $font-roboto;
+      background-color: $pix-neutral-20;
+      border-radius: 3px;
+    }
+  }
+}

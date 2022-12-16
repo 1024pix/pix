@@ -1,0 +1,43 @@
+.user-certification-hexagon-score {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 180px;
+  height: 194px;
+  margin-right: 22px;
+  background: url('/images/macaron-certif.svg') no-repeat center center;
+  background-size: 100% 100%;
+
+  p { margin: 0; }
+
+  &__content {
+    padding-bottom: 7%;
+    text-align: center;
+
+    &-title {
+      color: $pix-neutral-60;
+      font-weight: lighter;
+      font-size: 0.8rem;
+      font-family: $font-roboto;
+      letter-spacing: 0.219rem;
+      text-transform: uppercase;
+    }
+
+    &-pix-score {
+      color: $pix-neutral-70;
+      font-weight: $font-semi-bold;
+      font-size: 2.3rem;
+      font-family: $font-open-sans;
+    }
+
+    &-certified {
+      width: 70px;
+      color: $pix-neutral-60;
+      font-weight: $font-medium;
+      font-size: 0.7rem;
+      font-family: $font-roboto;
+      text-transform: uppercase;
+    }
+  }
+}

@@ -1,0 +1,34 @@
+.candidate-edit-modal {
+
+  &--content {
+
+    &__required-fields-mention {
+      padding-bottom: 10px;
+    }
+
+    &__field {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 15px;
+
+      input {
+        border: 1px $pix-neutral-50 solid;
+        box-sizing: border-box;
+        width: 248px;
+        height: 36px;
+      }
+
+      .pix-select {
+        width: 248px;
+      }
+    }
+
+    &__field-radio-button {
+
+      .radio-button-container {
+        display: flex;
+        gap: 10px;
+      }
+    }
+  }
+}

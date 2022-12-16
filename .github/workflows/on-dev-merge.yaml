@@ -1,0 +1,21 @@
+name: Merge on Dev
+on:
+  push:
+    branches:
+      - dev
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  notify-team:
+    name: Notify team on config file changed
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify team on config file change
+        uses: 1024pix/notify-team-on-config-file-change@v1.0.3
+        with:
+          GITHUB_TOKEN: ${{ github.token }}
+          SLACK_BOT_TOKEN: ${{ secrets.PIX_BOT_RUN_SLACK_TOKEN }}
+          INTEGRATION_ENV_URL: ${{ secrets.INTEGRATION_ENV_URL }}

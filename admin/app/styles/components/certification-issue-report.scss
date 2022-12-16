@@ -1,0 +1,35 @@
+.certification-issue-report {
+  display: flex;
+  align-items: center;
+  border-bottom: #EAECF0 solid 1px;
+
+  &__resolution-status {
+    margin-left: 24px;
+    margin-top: 24px;
+    margin-bottom: 24px;
+
+    &--resolved {
+      color: $pix-success-70;
+    }
+
+    &--unresolved {
+      color: $pix-error-70;
+    }
+  }
+
+  &__details {
+    margin-left: 16px;
+
+    &__label {
+      font-family: $font-roboto;
+      font-weight: $font-medium;
+      color: $pix-neutral-60;
+    }
+
+    &__resolution-message {
+      font-family: $font-roboto;
+      font-weight: $font-light;
+      color: $pix-neutral-30;
+    }
+  }
+}

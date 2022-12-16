@@ -1,0 +1,22 @@
+<PixModal @title="Paramètres du PDF" @onCloseButtonClick={{@onCloseButtonClicked}} @showModal={{@displayModal}}>
+  <:content>
+    <PixSelect
+      @id="pdfParameterLanguage"
+      @selectedOption={{this.language}}
+      @onChange={{this.onChangeLanguage}}
+      @options={{this.options}}
+      @label="Langue du référentiel (fr ou en) :"
+    />
+  </:content>
+  <:footer>
+    <PixButton
+      @type="submit"
+      @size="small"
+      class="pix-button--background-transparent-light"
+      {{on "click" @onCloseButtonClicked}}
+    >
+      Annuler
+    </PixButton>
+    <PixButton @size="small" @triggerAction={{this.submit}}>Télécharger</PixButton>
+  </:footer>
+</PixModal>

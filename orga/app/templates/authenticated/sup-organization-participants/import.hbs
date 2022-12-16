@@ -1,0 +1,11 @@
+{{page-title (t "pages.sup-organization-participants-import.title")}}
+
+<PixReturnTo @route="authenticated.sup-organization-participants.list">
+  {{t "common.actions.back"}}
+</PixReturnTo>
+
+<SupOrganizationParticipant::Import
+  @onImportStudents={{this.importStudents}}
+  @onReplaceStudents={{this.replaceStudents}}
+  @isLoading={{this.isLoading}}
+/>

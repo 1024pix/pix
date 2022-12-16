@@ -1,0 +1,28 @@
+{{page-title (t "pages.certification-start.title")}}
+
+<header role="banner">
+  <NavbarHeader />
+</header>
+
+<main class="main" role="main">
+  <PixBackgroundHeader id="main">
+
+    {{#if this.model.isCertifiable}}
+      <PixBlock @shadow="heavy" class="certification-start-page__block">
+        {{#if this.showCongratulationsBanner}}
+          <CongratulationsCertificationBanner
+            @certificationEligibility={{this.model}}
+            @fullName={{this.currentUser.user.fullName}}
+            @closeBanner={{this.closeBanner}}
+          />
+        {{/if}}
+        <CertificationJoiner @onStepChange={{this.changeStep}} />
+      </PixBlock>
+    {{else}}
+      <CertificationNotCertifiable />
+    {{/if}}
+
+  </PixBackgroundHeader>
+</main>
+
+<Footer />

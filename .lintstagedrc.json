@@ -1,0 +1,4 @@
+{
+  "*.{js,yml, yaml}": "eslint --fix",
+  "*.scss": "stylelint --fix"
+}

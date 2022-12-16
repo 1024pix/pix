@@ -1,0 +1,35 @@
+{{page-title "Centre " @model.certificationCenter.id}}
+<header class="page-header">
+  <div class="page-title">
+    <LinkTo @route="authenticated.certification-centers.list"><span id="link-to-certification-centers-page">Tous les
+        centres de certification</span></LinkTo>
+    <span class="wire">&nbsp;>&nbsp;</span>
+    {{@model.certificationCenter.name}}
+  </div>
+</header>
+
+<main class="page-body" id="certification-center-get-page">
+  <CertificationCenters::Information
+    @availableHabilitations={{this.model.habilitations}}
+    @certificationCenter={{this.model.certificationCenter}}
+    @updateCertificationCenter={{this.updateCertificationCenter}}
+  />
+
+  <nav aria-label="Navigation de la section centre de certification">
+    <ul class="navbar">
+      <li class="navbar__list--item">
+        <LinkTo @route="authenticated.certification-centers.get.team" class="navbar-list-item__link">
+          Équipe
+        </LinkTo>
+      </li>
+      <li class="navbar__list--item">
+        <LinkTo @route="authenticated.certification-centers.get.invitations" class="navbar-list-item__link">
+          Invitations
+        </LinkTo>
+      </li>
+    </ul>
+  </nav>
+
+  {{outlet}}
+
+</main>

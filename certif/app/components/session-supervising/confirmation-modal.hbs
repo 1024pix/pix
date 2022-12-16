@@ -1,0 +1,32 @@
+<PixModal
+  @class="pix-modal-dialog"
+  @title={{@title}}
+  @onCloseButtonClick={{@closeConfirmationModal}}
+  @showModal={{@showModal}}
+>
+  <:content>
+    <div class="app-modal-body__warning">
+      <p>
+        {{yield to="description"}}
+      </p>
+    </div>
+  </:content>
+  <:footer>
+    <PixButton
+      data-test-id="finalize-session-modal__confirm-button"
+      @triggerAction={{@actionOnConfirmation}}
+      @backgroundColor="yellow"
+    >
+      {{@modalConfirmationButtonText}}
+    </PixButton>
+    <PixButton
+      data-test-id="finalize-session-modal__cancel-button"
+      @triggerAction={{@closeConfirmationModal}}
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      aria-label={{t "pages.session-supervising.candidate-in-list.resume-test-modal.cancel-label"}}
+    >
+      {{@modalCancelText}}
+    </PixButton>
+  </:footer>
+</PixModal>

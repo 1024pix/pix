@@ -1,0 +1,97 @@
+<li class="session-supervising-candidate-in-list">
+  {{#if this.isCheckboxToBeDisplayed}}
+    <PixInput
+      @id={{concat "candidate-checkbox-" @candidate.id}}
+      class="session-supervising-candidate-in-list__checkbox"
+      type="checkbox"
+      checked={{@candidate.authorizedToStart}}
+      @ariaLabel="{{@candidate.lastName}} {{@candidate.firstName}}"
+      {{on "click" (fn this.toggleCandidate @candidate)}}
+    />
+  {{/if}}
+  <div class="session-supervising-candidate-in-list__candidate-data">
+    <div class="session-supervising-candidate-in-list__full-name">
+      {{#if @candidate.hasStarted}}
+        {{@candidate.lastName}}
+        {{@candidate.firstName}}
+      {{else}}
+        <label for={{concat "candidate-checkbox-" @candidate.id}}>
+          {{@candidate.lastName}}
+          {{@candidate.firstName}}
+        </label>
+      {{/if}}
+    </div>
+    <div class="session-supervising-candidate-in-list__details">
+      {{dayjs-format @candidate.birthdate "DD/MM/YYYY"}}
+      {{#if @candidate.extraTimePercentage}}
+        ·
+        {{t "pages.session-supervising.candidate-in-list.extra-time"}}
+        :
+        {{@candidate.extraTimePercentage}}%
+      {{/if}}
+    </div>
+    {{#if @candidate.hasStarted}}
+      {{#if @candidate.isAuthorizedToResume}}
+        <span
+          class="session-supervising-candidate-in-list__status session-supervising-candidate-in-list__status--authorized-to-resume"
+        >
+          {{t "pages.session-supervising.candidate-in-list.authorized-to-resume"}}
+        </span>
+      {{else}}
+        <span
+          class="session-supervising-candidate-in-list__status session-supervising-candidate-in-list__status--started"
+        >
+          {{t "pages.session-supervising.candidate-in-list.ongoing"}}
+        </span>
+      {{/if}}
+      <span class="session-supervising-candidate-in-list__start-time">{{t
+          "pages.session-supervising.candidate-in-list.start"
+        }}
+        :
+        <time>{{this.candidateStartTime}}</time></span>
+    {{/if}}
+    {{#if @candidate.hasCompleted}}
+      <span
+        class="session-supervising-candidate-in-list__status session-supervising-candidate-in-list__status--completed"
+      >
+        {{t "pages.session-supervising.candidate-in-list.finished"}}
+      </span>
+    {{/if}}
+  </div>
+  {{#if this.optionsMenuShouldBeDisplayed}}
+    <div class="session-supervising-candidate-in-list__menu">
+      <PixIconButton
+        @icon="ellipsis-v"
+        aria-label={{t "pages.session-supervising.candidate-in-list.display-candidate-options"}}
+        @triggerAction={{this.toggleMenu}}
+      />
+      <Dropdown::Content
+        @display={{this.isMenuOpen}}
+        @close={{this.closeMenu}}
+        aria-label={{t "pages.session-supervising.candidate-in-list.candidate-options"}}
+      >
+        <Dropdown::Item @onClick={{this.askUserToConfirmTestResume}}>
+          {{t "pages.session-supervising.candidate-in-list.resume-test-modal.allow-test-resume"}}
+        </Dropdown::Item>
+        <Dropdown::Item @onClick={{this.askUserToConfirmTestEnd}}>
+          {{t "pages.session-supervising.candidate-in-list.test-end-modal.end-assessment"}}
+        </Dropdown::Item>
+      </Dropdown::Content>
+    </div>
+  {{/if}}
+
+  <SessionSupervising::ConfirmationModal
+    @showModal={{this.isConfirmationModalDisplayed}}
+    @closeConfirmationModal={{this.closeConfirmationModal}}
+    @actionOnConfirmation={{this.actionMethod}}
+    @candidate={{this.candidate}}
+    @modalCancelText={{this.modalCancelText}}
+    @modalConfirmationButtonText={{this.modalConfirmationText}}
+    @title={{this.modalInstructionText}}
+  >
+    <:description>
+      {{this.modalDescriptionText}}
+    </:description>
+  </SessionSupervising::ConfirmationModal>
+
+</li>

@@ -1,0 +1,64 @@
+<div class="join-request-form">
+
+  <form {{on "submit" this.submit}}>
+    <p class="join-request-form__information">Tous les champs sont obligatoires.</p>
+
+    <div class="input-container">
+      <PixInput
+        @id="uai"
+        @label="UAI/RNE de l'établissement"
+        name="uai"
+        type="text"
+        {{on "focusout" this.validateUai}}
+        @errorMessage={{this.uaiValidationMessage}}
+        required={{true}}
+        aria-required={{true}}
+        autocomplete="off"
+      />
+    </div>
+
+    <div class="input-container">
+      <PixInput
+        @id="firstName"
+        @label="Votre prénom"
+        name="firstName"
+        type="firstName"
+        {{on "focusout" this.validateFirstName}}
+        @errorMessage={{this.firstNameValidationMessage}}
+        required={{true}}
+        aria-required={{true}}
+        autocomplete="given-name"
+      />
+    </div>
+
+    <div class="input-container">
+      <PixInput
+        @id="lastName"
+        @label="Votre nom"
+        name="lastName"
+        type="lastName"
+        {{on "focusout" this.validateLastName}}
+        @errorMessage={{this.lastNameValidationMessage}}
+        required={{true}}
+        aria-required={{true}}
+        autocomplete="family-name"
+      />
+    </div>
+
+    <div class="input-container">
+      <PixButton @type="submit" @isLoading={{this.isLoading}}>
+        Envoyer
+      </PixButton>
+    </div>
+
+  </form>
+
+  <p class="join-request-form__legal-information">
+    Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par Pix pour permettre
+    à votre établissement scolaire d'accéder à son espace Pix Orga. Elles sont conservées pendant un an. Elles sont
+    destinées à Pix et ne sont pas communiquées à des tiers en dehors d’un envoi par mail à l'adresse électronique du
+    chef de l'établissement dont vous avez saisi l'identifiant UAI/RNE. Conformément à la loi « informatique et libertés
+    », vous pouvez exercer votre droit d’accès aux données vous concernant et les faire rectifier en envoyant un mail à
+    <a href="mailto:dpo@pix.fr">dpo@pix.fr</a>
+  </p>
+</div>

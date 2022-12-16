@@ -1,0 +1,148 @@
+.user-certifications-detail-competence {
+  margin-bottom: 32px;
+
+  @mixin leftElement {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  @mixin rightElement {
+    min-width: 90px;
+    padding-right: 36px;
+    text-align: center;
+  }
+
+  &__title {
+    @include leftElement;
+
+    padding-left: 16px;
+    font-weight: normal;
+    font-size: 0.9rem;
+    font-family: $font-roboto;
+    line-height: 1rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+
+    &--level {
+      @include rightElement;
+
+      color: $pix-neutral-60;
+    }
+  }
+
+  &__competence {
+    @include leftElement;
+
+    height: 100%;
+    margin: 0;
+    padding: 20px 0 20px 36px;
+    color: $pix-neutral-80;
+    font-size: 1rem;
+    font-family: $font-open-sans;
+
+    &--level {
+      @include rightElement;
+
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+
+    &::before {
+      position: absolute;
+      top: 10px;
+      left: 16px;
+      width: 3px;
+      height: calc(100% - 20px);
+      border-radius: 1.5px;
+      content: '';
+    }
+
+    &--disabled {
+      opacity: 0.4;
+
+      span {
+        display: none;
+      }
+    }
+  }
+
+  > * {
+    height: 75px;
+    min-height: 60px;
+    border-bottom: 1.5px $pix-neutral-10 solid;
+  }
+
+  > :last-child {
+    border: none;
+  }
+}
+
+@mixin coloriseElements($color) {
+
+  .user-certifications-detail-competence__title {
+    color: $color;
+  }
+
+  .user-certifications-detail-competence__competence {
+
+    &--level {
+      color: $color;
+    }
+
+    &::before {
+      background-color: $color;
+    }
+  }
+}
+
+.user-certifications-detail-competence--jaffa {
+  @include coloriseElements($information-light);
+}
+
+.user-certifications-detail-competence--emerald {
+  @include coloriseElements($content-light);
+}
+
+.user-certifications-detail-competence--cerulean {
+  @include coloriseElements($communication-light);
+}
+
+.user-certifications-detail-competence--wild-strawberry {
+  @include coloriseElements($security-light);
+}
+
+.user-certifications-detail-competence--butterfly-bush {
+  @include coloriseElements($environment-light);
+}
+
+@include device-is('mobile') {
+
+  .user-certifications-detail-competence {
+
+    &__title {
+      font-weight: $font-normal;
+      font-size: 0.875rem;
+
+      &--level {
+        padding-right: 0;
+      }
+    }
+
+    &__competence {
+
+      &--level {
+        padding-right: 0;
+      }
+
+      &--disabled {
+
+        span {
+          display: block;
+          opacity: 0;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,41 @@
+<section class="page-section">
+  <div class="organization__information">
+    <div class="organization__logo">
+      <figure class="organization__logo-figure">
+        {{#if @organization.logoUrl}}
+          <img src={{@organization.logoUrl}} alt="" role="presentation" />
+        {{else}}
+          <img src="{{this.rootURL}}/logo-placeholder.png" alt="" role="presentation" />
+        {{/if}}
+
+        {{#let (file-queue name="photos" onFileAdded=this.updateLogo) as |queue|}}
+          <label class="file-upload">
+            <input type="file" accept="image/*" hidden {{queue.selectFile}} />
+          </label>
+        {{/let}}
+      </figure>
+    </div>
+
+    {{#if this.isEditMode}}
+      <Organizations::InformationSectionEdit
+        @organization={{@organization}}
+        @toggleEditMode={{this.toggleEditMode}}
+        @cancel={{this.cancel}}
+        @onSubmit={{@onSubmit}}
+      />
+    {{else}}
+      <Organizations::InformationSectionView
+        @organization={{@organization}}
+        @toggleEditMode={{this.toggleEditMode}}
+        @toggleArchivingConfirmationModal={{this.toggleArchivingConfirmationModal}}
+      />
+    {{/if}}
+
+    <Organizations::ArchivingConfirmationModal
+      @organizationName={{@organization.name}}
+      @toggleArchivingConfirmationModal={{this.toggleArchivingConfirmationModal}}
+      @archiveOrganization={{this.archiveOrganization}}
+      @displayModal={{this.showArchivingConfirmationModal}}
+    />
+  </div>
+</section>

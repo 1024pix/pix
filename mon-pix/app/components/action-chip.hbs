@@ -1,0 +1,11 @@
+<button
+  class="action-chip {{if @isCompleted 'action-chip--selected' ''}}"
+  aria-label={{@title}}
+  title={{@title}}
+  type="button"
+  {{on "click" this.triggerAction}}
+  disabled={{this.isTriggering}}
+  aria-disabled={{this.isTriggering}}
+>
+  <FaIcon class="action-chip__icon" @prefix={{if @isCompleted "fas" "far"}} @icon="{{@icon}}" />
+</button>

@@ -1,0 +1,39 @@
+.jury-comment {
+  color: $pix-neutral-70;
+  font-family: $font-roboto;
+
+  &__title {
+    font-family: $font-open-sans;
+    font-weight: normal;
+    font-size: 1.25rem;
+    margin-bottom: 16px;
+  }
+
+  &__author {
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+
+  &__date {
+    color: $pix-neutral-40;
+    font-size: 0.9rem;
+  }
+
+  &__content {
+    background-color: $pix-neutral-10;
+    padding: 8px 24px;
+  }
+
+  &__field {
+    height: 80px;
+    margin-bottom: 20px;
+  }
+
+  &__actions {
+    display: flex;
+
+    .pix-button {
+      margin-right: 16px;
+    }
+  }
+}

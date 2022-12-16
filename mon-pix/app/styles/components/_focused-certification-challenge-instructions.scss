@@ -1,0 +1,56 @@
+.focused-certification-challenge-instructions {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &__image {
+
+    img {
+      width: 158px;
+      height: 158px;
+    }
+  }
+
+  &__title {
+    margin-top: 22px;
+    color: $pix-neutral-80;
+    font-weight: $font-light;
+    font-size: 3rem;
+    font-family: $font-open-sans;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 56px;
+  }
+
+  &__description {
+    max-width: 450px;
+    margin-top: 24px;
+    margin-bottom: 50px;
+    color: $pix-neutral-80;
+    font-weight: 500;
+    font-size: 1.25rem;
+    font-family: $font-roboto;
+    font-style: normal;
+    font-stretch: normal;
+    text-align: center;
+  }
+
+  &__action {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.focused-challenge-instructions-action {
+
+  &__confirmation-button {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+  }
+}

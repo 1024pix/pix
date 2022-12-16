@@ -1,0 +1,53 @@
+{{! template-lint-disable no-action }}
+{{page-title "Session " @model.id " Certifications | Pix Admin" replace=true}}
+<section>
+  <div class="certification-list-page">
+
+    <header class="certification-list-page__header">
+      <h2>Certifications</h2>
+      {{#if this.accessControl.hasAccessToCertificationActionsScope}}
+        <div class="btn-group" role="group">
+
+          {{#if this.model.isPublished}}
+            <PixButton @triggerAction={{this.displayCertificationStatusUpdateConfirmationModal}}>Dépublier la session</PixButton>
+          {{else}}
+
+            {{#if this.canPublish}}
+              <PixButton @triggerAction={{this.displayCertificationStatusUpdateConfirmationModal}}>Publier la session</PixButton>
+            {{else}}
+
+              <PixTooltip @position="left" @isWide={{true}}>
+                <:triggerElement>
+                  <PixButton
+                    @triggerAction={{this.displayCertificationStatusUpdateConfirmationModal}}
+                    @isDisabled={{true}}
+                  >
+                    Publier la session
+                  </PixButton>
+                </:triggerElement>
+                <:tooltip>Vous ne pouvez pas publier la session tant qu'il reste des certifications en 'error' ou
+                  'started'.</:tooltip>
+              </PixTooltip>
+            {{/if}}
+
+          {{/if}}
+        </div>
+      {{/if}}
+    </header>
+
+    <div>
+      <Certifications::List
+        @certifications={{this.sortedCertificationJurySummaries}}
+        @pagination={{this.model.juryCertificationSummaries.meta}}
+        @displayHasSeenEndTestScreenColumn={{this.model.displayHasSeenEndTestScreenColumn}}
+      />
+    </div>
+  </div>
+</section>
+
+<ConfirmPopup
+  @message={{this.confirmMessage}}
+  @confirm={{action this.toggleSessionPublication}}
+  @cancel={{action this.onCancelConfirm}}
+  @show={{this.displayConfirm}}
+/>

@@ -1,0 +1,107 @@
+.paragraph {
+  color: $pix-neutral-60;
+  font-family: $font-open-sans;
+  font-size: 0.875rem;
+  line-height: 20px;
+}
+
+.help-text {
+  color: $pix-neutral-60;
+  font-family: $font-roboto;
+  font-size: 0.75rem;
+}
+
+.information-text {
+  color: $pix-neutral-60;
+  font-family: $font-open-sans;
+  font-size: 1.2rem;
+}
+
+.label-text {
+  color: $pix-neutral-50;
+  font-family: $font-roboto;
+  font-size: 0.875rem;
+  font-weight: 400;
+
+  &--dark {
+    color: $pix-neutral-60;
+  }
+
+  &--small {
+    font-size: 0.75rem;
+  }
+}
+
+.value-text {
+  color: $pix-neutral-80;
+  font-family: $font-roboto;
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  &--highlight {
+    color: $pix-neutral-90;
+    font-size: 1.125rem;
+  }
+}
+
+.content-text {
+  color: $pix-neutral-60;
+  font-family: $font-roboto;
+  font-size: 1rem;
+
+  &--bold {
+    color: $pix-neutral-100;
+    font-weight: 700;
+  }
+
+  &--big {
+    font-size: 1.5rem;
+    font-weight: 300;
+  }
+
+  &--small {
+    font-size: 0.8125rem;
+  }
+}
+
+.link {
+  outline: none;
+  border: none;
+  background-color: inherit;
+  color: $pix-primary;
+  text-decoration: none;
+
+  &:hover,
+  &:focus,
+  &:active {
+    text-decoration: underline;
+    color: $pix-primary-60;
+  }
+
+  &--bold {
+    font-weight: 600;
+  }
+
+  &--underlined {
+    text-decoration: underline;
+  }
+
+  &--white {
+    color: $pix-neutral-0;
+
+    &:hover {
+      color: $pix-neutral-0;
+      opacity: 0.85;
+    }
+
+    &:focus,
+    &:active {
+      color: $pix-neutral-110;
+      background-color: $pix-warning-40;
+    }
+  }
+
+  &--banner {
+    color: inherit;
+  }
+}

@@ -1,0 +1,37 @@
+<td>
+  <label data-test="label-tube-{{@tube.id}}">
+    <TargetProfiles::TubesSelection::Checkbox
+      id="tube-{{@tube.id}}"
+      @state={{this.state}}
+      {{on "change" this.onChange}}
+    />
+    {{@tube.name}}
+    :
+    {{@tube.practicalTitle}}
+  </label>
+</td>
+<td class="table__column--center">
+  <PixSelect
+    id="select-level-tube-{{@tube.id}}"
+    data-testid="select-level-tube-{{@tube.id}}"
+    @options={{this.levelOptions}}
+    @onChange={{this.setLevelTube}}
+    @selectedOption={{this.selectedLevel}}
+    disabled={{not this.checked}}
+  />
+  <label for="select-level-tube-{{@tube.id}}" class="sr-only">Sélection du niveau du sujet</label>
+</td>
+<td class="table__column--center">
+  <div class="icon-container" aria-label="{{if @tube.mobile 'compatible mobile' 'incompatible mobile'}}">
+    <FaIcon @icon="mobile-screen-button" class="fa-2x {{if @tube.mobile 'is-responsive'}}" />
+    {{#unless @tube.mobile}}
+      <FaIcon @icon="slash" class="fa-2x not-responsive" />
+    {{/unless}}
+  </div>
+  <div class="icon-container" aria-label="{{if @tube.tablet 'compatible tablette' 'incompatible tablette'}}">
+    <FaIcon @icon="tablet-screen-button" class="fa-2x {{if @tube.tablet 'is-responsive'}}" />
+    {{#unless @tube.tablet}}
+      <FaIcon @icon="slash" class="fa-2x not-responsive" />
+    {{/unless}}
+  </div>
+</td>

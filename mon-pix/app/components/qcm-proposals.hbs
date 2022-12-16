@@ -1,0 +1,20 @@
+<div class="qcm-proposals">
+  {{#each this.labeledCheckboxes as |labeledCheckbox index|}}
+    <p class="proposal-paragraph">
+
+      <Input
+        @type="checkbox"
+        id="checkbox_{{inc index}}"
+        @checked={{get labeledCheckbox 1}}
+        data-test="challenge-response-proposal-selector"
+        name="{{inc index}}"
+        {{on "click" (fn this.checkboxClicked (inc index))}}
+        disabled={{@isAnswerFieldDisabled}}
+      />
+
+      <label for="checkbox_{{inc index}}" class="label-checkbox-proposal">
+        <MarkdownToHtml @class="proposal-text" @markdown={{get labeledCheckbox 0}} />
+      </label>
+    </p>
+  {{/each}}
+</div>

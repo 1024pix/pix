@@ -1,0 +1,49 @@
+<header class="page-header">
+  <div class="page-title">
+    <LinkTo @route="authenticated.organizations.list">Toutes les organisations</LinkTo>
+    <span class="wire">&nbsp;>&nbsp;</span>
+    {{@model.name}}
+  </div>
+</header>
+
+<main class="page-body" id="organizations-get-page">
+
+  <Organizations::InformationSection
+    @organization={{@model}}
+    @onLogoUpdated={{this.updateOrganizationInformation}}
+    @onSubmit={{this.updateOrganizationInformation}}
+    @archiveOrganization={{this.archiveOrganization}}
+  />
+
+  <nav class="navbar">
+
+    {{#unless @model.isArchived}}
+      <LinkTo @route="authenticated.organizations.get.team" @model={{@model}} class="navbar-item">
+        Équipe
+      </LinkTo>
+
+      <LinkTo @route="authenticated.organizations.get.invitations" @model={{@model}} class="navbar-item">
+        Invitations
+      </LinkTo>
+    {{/unless}}
+
+    <LinkTo @route="authenticated.organizations.get.target-profiles" @model={{@model}} class="navbar-item">
+      Profils cibles
+    </LinkTo>
+
+    <LinkTo @route="authenticated.organizations.get.campaigns" @model={{@model}} class="navbar-item">
+      Campagnes
+    </LinkTo>
+
+    <LinkTo @route="authenticated.organizations.get.places" @model={{@model}} class="navbar-item">
+      Places
+    </LinkTo>
+    {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
+      <LinkTo @route="authenticated.organizations.get.all-tags" @model={{@model}} class="navbar-item">
+        Tags
+      </LinkTo>
+    {{/if}}
+  </nav>
+
+  {{outlet}}
+</main>

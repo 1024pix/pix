@@ -1,0 +1,70 @@
+.session-info {
+  padding: 20px;
+
+  .pix-button svg {
+    margin-right: 6px;
+  }
+
+  /* stylelint-disable selector-class-pattern */
+  .row--btn {
+    margin: inherit;
+    margin-right: -20px;
+  }
+
+  &__list {
+    list-style: none;
+    margin-bottom: 40px;
+    padding: 0;
+  }
+
+  &__list-item {
+    display: flex;
+    border-bottom: 1px solid $pix-neutral-10;
+
+    span {
+      width: 50%;
+    }
+  }
+
+  &__certification-officer-assigned {
+    display: flex;
+    justify-content: flex-end;
+
+    span {
+      color: $pix-content-dark;
+      font-style: italic;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__copy-button {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin-right: 20px;
+    margin-left: auto;
+
+    p {
+      background-color: $pix-neutral-110;
+      border-radius: 6px;
+      color: $pix-neutral-0;
+      padding: 5px 10px;
+      position: absolute;
+      top: calc(-23px + -10px + -10px);
+
+      &::before {
+        content: "";
+        position: absolute;
+        border-width: 5px;
+        border-style: solid;
+        border-color: $pix-neutral-110 transparent transparent transparent;
+        bottom: -10px;
+        left: calc(50% - 5px);
+      }
+    }
+  }
+}

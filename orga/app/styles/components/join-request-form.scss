@@ -1,0 +1,56 @@
+.join-request-form {
+  font-family: $font-roboto;
+
+  &__information {
+    font-size: 0.875rem;
+    margin: 14px 0 24px 0;
+    text-align: center;
+  }
+
+  &__legal-information {
+    color: $pix-neutral-60;
+    font-size: 0.6875rem;
+    max-width: 500px;
+  }
+
+  &__back {
+    font-size: 1rem;
+    text-align: left;
+
+    a {
+      color: $communication-dark;
+      text-decoration: none;
+
+      svg {
+        margin-right: 4px;
+        transition: all 0.2s ease-in-out;
+      }
+
+      &:hover {
+        text-decoration: underline;
+
+        svg {
+          transform: scale(1.2);
+        }
+      }
+    }
+  }
+
+  &__button {
+    font-weight: 600;
+    margin-top: 8px;
+  }
+
+  .input-container {
+    margin-bottom: 16px;
+  }
+
+  form {
+    margin: auto;
+    width: 300px;
+
+    @include device-is('tablet') {
+      width: 450px;
+    }
+  }
+}

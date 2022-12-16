@@ -1,0 +1,101 @@
+<main id="main" class="page-container dashboard-content" role="main">
+  <h1 class="sr-only">{{t "pages.dashboard.title"}}</h1>
+
+  {{! This banner is displayed on tablet }}
+  <Dashboard::Banner
+    @show={{this.hasNewInformationToShow}}
+    @hasSeenNewDashboardInfo={{this.hasSeenNewDashboardInfo}}
+    @newDashboardInfoLink={{this.newDashboardInfoLink}}
+    @closeInformationAboutNewDashboard={{this.closeInformationAboutNewDashboard}}
+    @userFirstname={{this.userFirstname}}
+    @code={{this.codeForLastProfileToShare}}
+  />
+
+  <section class="dashboard-content__score">
+    <div class="dashboard-content-score__wrapper">
+      <HexagonScore @pixScore={{this.userScore}} />
+      <LinkTo @route="authenticated.profile" class="dashboard-content-score-wrapper__button">{{t
+          "pages.dashboard.score.profile-link"
+        }}</LinkTo>
+    </div>
+  </section>
+
+  <section class="dashboard-content__main">
+    {{! This banner is displayed on large screens }}
+    <Dashboard::Banner
+      @show={{this.hasNewInformationToShow}}
+      @hasSeenNewDashboardInfo={{this.hasSeenNewDashboardInfo}}
+      @newDashboardInfoLink={{this.newDashboardInfoLink}}
+      @closeInformationAboutNewDashboard={{this.closeInformationAboutNewDashboard}}
+      @userFirstname={{this.userFirstname}}
+      @code={{this.codeForLastProfileToShare}}
+    />
+
+    {{#if this.hasNothingToShow}}
+      <section data-test-empty-dashboard>
+        <div>
+          <NewInformation
+            @information="{{t 'pages.dashboard.empty-dashboard.message'}}"
+            @image="/images/illustrations/fusee.png"
+            @backgroundColorClass="new-information--yellow-background"
+            @linkText={{t "pages.dashboard.empty-dashboard.link-to-competences"}}
+            @linkTo="authenticated.profile"
+            @linkDisplayType="button"
+            @textColorClass="new-information--black-text"
+          />
+        </div>
+      </section>
+    {{/if}}
+
+    {{#if this.hasCampaignParticipationOverviews}}
+      <Dashboard::Section
+        data-test-campaign-participation-overviews
+        @title={{t "pages.dashboard.campaigns.title"}}
+        @subtitle={{t "pages.dashboard.campaigns.subtitle"}}
+        @linkRoute="authenticated.user-tests"
+        @linkText={{t "pages.dashboard.campaigns.tests-link"}}
+      >
+        <CampaignParticipationOverview::Grid @model={{@model.campaignParticipationOverviews}} />
+      </Dashboard::Section>
+    {{/if}}
+
+    {{#if this.hasStartedCompetences}}
+      <Dashboard::Section
+        data-test-started-competences
+        @title={{t "pages.dashboard.started-competences.title"}}
+        @subtitle={{t "pages.dashboard.started-competences.subtitle"}}
+      >
+        <CompetenceCard::List @scorecards={{this.startedCompetences}} />
+      </Dashboard::Section>
+    {{/if}}
+
+    {{#if this.hasRecommendedCompetences}}
+      <Dashboard::Section
+        data-test-recommended-competences
+        @title={{t "pages.dashboard.recommended-competences.title"}}
+        @subtitle={{t "pages.dashboard.recommended-competences.subtitle"}}
+        @linkRoute="authenticated.profile"
+        @linkText={{t "pages.dashboard.recommended-competences.profile-link"}}
+      >
+        <CompetenceCard::List @scorecards={{this.recommendedScorecards}} />
+      </Dashboard::Section>
+    {{/if}}
+
+    {{#if this.hasImprovableCompetences}}
+      <Dashboard::Section
+        @title={{t "pages.dashboard.improvable-competences.title"}}
+        @subtitle={{t "pages.dashboard.improvable-competences.subtitle"}}
+        @linkRoute="authenticated.profile"
+        @linkText={{t "pages.dashboard.improvable-competences.profile-link"}}
+      >
+        <CompetenceCard::List @scorecards={{this.improvableScorecards}} />
+      </Dashboard::Section>
+    {{/if}}
+  </section>
+
+  <section class="dashboard-content__certif">
+    <!-- Rajout du bloc certif ultérieurement -->
+    <!-- Div ajoutée afin de créer le layout Grid CSS -->
+  </section>
+
+</main>
