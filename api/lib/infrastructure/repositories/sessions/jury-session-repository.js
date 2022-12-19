@@ -116,7 +116,7 @@ function _setupFilters(query, filters) {
   }
 
   if (certificationCenterName) {
-    query.whereRaw('LOWER(??) LIKE ?', ['certificationCenter', '%' + certificationCenterName.toLowerCase() + '%']);
+    query.whereILike('certificationCenter', `%${certificationCenterName}%`);
   }
 
   if (certificationCenterType) {
