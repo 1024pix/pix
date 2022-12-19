@@ -244,8 +244,9 @@ module.exports = {
     await knex('organization-learners').where({ id: organizationLearnerId }).update({ userId: null });
   },
 
-  async dissociateAllStudentsByUserId({ userId }) {
-    await knex('organization-learners')
+  async dissociateAllStudentsByUserId({ userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const knexConn = domainTransaction.knexTransaction ?? knex;
+    await knexConn('organization-learners')
       .update({ userId: null })
       .where({ userId })
       .whereIn(
