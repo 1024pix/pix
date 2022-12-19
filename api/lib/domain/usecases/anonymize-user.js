@@ -7,6 +7,7 @@ module.exports = async function anonymizeUser({
   authenticationMethodRepository,
   membershipRepository,
   certificationCenterMembershipRepository,
+  organizationLearnerRepository,
   refreshTokenService,
 }) {
   const anonymizedUser = {
@@ -25,6 +26,7 @@ module.exports = async function anonymizeUser({
       userId,
       domainTransaction,
     });
+    await organizationLearnerRepository.dissociateAllStudentsByUserId({ userId, domainTransaction });
     await userRepository.updateUserDetailsForAdministration({
       id: userId,
       userAttributes: anonymizedUser,

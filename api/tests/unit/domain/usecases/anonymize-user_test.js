@@ -14,7 +14,12 @@ describe('Unit | UseCase | anonymize-user', function () {
     clock.restore();
   });
 
-  it("deletes all authentication methods, revokes all user's refresh tokens, disables all user's organisation memberships, disables all user's certification center memberships and anonymize user", async function () {
+  it(`deletes all authentication methods,
+      revokes all user's refresh tokens,
+      disables all user's organisation memberships,
+      disables all user's certification center memberships,
+      disables all user's student prescriptions,
+      and anonymize user`, async function () {
     // given
     const userId = 1;
     const updatedByUserId = 2;
@@ -40,16 +45,18 @@ describe('Unit | UseCase | anonymize-user', function () {
     const refreshTokenService = { revokeRefreshTokensForUserId: sinon.stub() };
     const membershipRepository = { disableMembershipsByUserId: sinon.stub() };
     const certificationCenterMembershipRepository = { disableMembershipsByUserId: sinon.stub() };
+    const organizationLearnerRepository = { dissociateAllStudentsByUserId: sinon.stub() };
 
     // when
     const result = await anonymizeUser({
+      updatedByUserId,
       userId,
       userRepository,
       authenticationMethodRepository,
       refreshTokenService,
       membershipRepository,
       certificationCenterMembershipRepository,
-      updatedByUserId,
+      organizationLearnerRepository,
     });
 
     // then
@@ -73,6 +80,10 @@ describe('Unit | UseCase | anonymize-user', function () {
     expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWithExactly({
       id: userId,
       userAttributes: anonymizedUser,
+      domainTransaction,
+    });
+    expect(organizationLearnerRepository.dissociateAllStudentsByUserId).to.have.been.calledWithExactly({
+      userId,
       domainTransaction,
     });
   });
