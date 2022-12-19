@@ -234,9 +234,14 @@ module.exports = {
       });
   },
 
-  async updateUserDetailsForAdministration({ id, userAttributes }) {
+  async updateUserDetailsForAdministration({
+    id,
+    userAttributes,
+    domainTransaction = DomainTransaction.emptyTransaction(),
+  }) {
     try {
-      const [userDTO] = await knex('users').where({ id }).update(userAttributes).returning('*');
+      const knexConn = domainTransaction.knexTransaction ?? knex;
+      const [userDTO] = await knexConn('users').where({ id }).update(userAttributes).returning('*');
 
       if (!userDTO) {
         throw new UserNotFoundError(`User not found for ID ${id}`);
