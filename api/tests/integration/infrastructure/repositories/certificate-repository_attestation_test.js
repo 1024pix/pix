@@ -7,8 +7,6 @@ const {
   mockLearningContent,
 } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
-const CertificationAttestation = require('../../../../lib/domain/models/CertificationAttestation');
-const _ = require('lodash');
 const certificationRepository = require('../../../../lib/infrastructure/repositories/certificate-repository');
 
 describe('Integration | Infrastructure | Repository | Certification Attestation', function () {
@@ -191,10 +189,9 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       // then
       const expectedCertificationAttestation =
         domainBuilder.buildCertificationAttestation(certificationAttestationData);
-      expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
-      expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedCertificationAttestation, ['resultCompetenceTree'])
-      );
+      expect(certificationAttestation).to.deepEqualInstanceOmitting(expectedCertificationAttestation, [
+        'resultCompetenceTree',
+      ]);
     });
 
     it('should return a CertificationAttestation with appropriate result competence tree', async function () {
@@ -275,7 +272,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         competenceMarks: [competenceMarks1, competenceMarks2],
         competenceTree: domainBuilder.buildCompetenceTree({ areas: [area1] }),
       });
-      expect(certificationAttestation.resultCompetenceTree).to.deep.equal(expectedResultCompetenceTree);
+      expect(certificationAttestation.resultCompetenceTree).to.deepEqualInstance(expectedResultCompetenceTree);
     });
 
     it('should take into account the latest validated assessment result of a student', async function () {
@@ -310,7 +307,6 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       // then
       const expectedCertificationAttestation =
         domainBuilder.buildCertificationAttestation(certificationAttestationData);
-      expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
       expect(certificationAttestation).to.deepEqualInstanceOmitting(expectedCertificationAttestation, [
         'resultCompetenceTree',
       ]);
@@ -415,10 +411,9 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         // then
         const expectedCertificationAttestation =
           domainBuilder.buildCertificationAttestation(certificationAttestationData);
-        expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
-        expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(
-          _.omit(expectedCertificationAttestation, ['resultCompetenceTree'])
-        );
+        expect(certificationAttestation).deepEqualInstanceOmitting(expectedCertificationAttestation, [
+          'resultCompetenceTree',
+        ]);
       });
     });
   });
@@ -771,18 +766,16 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       const expectedCertificationAttestationC =
         domainBuilder.buildCertificationAttestation(certificationAttestationDataC);
       expect(certificationAttestations).to.have.length(3);
-      expect(certificationAttestations[0]).to.be.instanceOf(CertificationAttestation);
-      expect(_.omit(certificationAttestations[0], ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedCertificationAttestationB, ['resultCompetenceTree'])
-      );
-      expect(certificationAttestations[1]).to.be.instanceOf(CertificationAttestation);
-      expect(_.omit(certificationAttestations[1], ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedCertificationAttestationC, ['resultCompetenceTree'])
-      );
-      expect(certificationAttestations[2]).to.be.instanceOf(CertificationAttestation);
-      expect(_.omit(certificationAttestations[2], ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedCertificationAttestationA, ['resultCompetenceTree'])
-      );
+
+      expect(certificationAttestations[0]).deepEqualInstanceOmitting(expectedCertificationAttestationB, [
+        'resultCompetenceTree',
+      ]);
+      expect(certificationAttestations[1]).deepEqualInstanceOmitting(expectedCertificationAttestationC, [
+        'resultCompetenceTree',
+      ]);
+      expect(certificationAttestations[2]).deepEqualInstanceOmitting(expectedCertificationAttestationA, [
+        'resultCompetenceTree',
+      ]);
     });
 
     it('should ignore disabled shooling-registrations', async function () {
@@ -883,7 +876,6 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         'resultCompetenceTree',
       ]);
 
-      expect(certificationAttestations[1]).to.be.instanceOf(CertificationAttestation);
       expect(certificationAttestations[1]).to.deepEqualInstanceOmitting(expectedCertificationAttestationA, [
         'resultCompetenceTree',
       ]);
@@ -931,7 +923,6 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       const expectedCertificationAttestation =
         domainBuilder.buildCertificationAttestation(certificationAttestationData);
       expect(certificationAttestations).to.have.length(1);
-      expect(certificationAttestations[0]).to.be.instanceOf(CertificationAttestation);
       expect(certificationAttestations[0]).to.deepEqualInstanceOmitting(expectedCertificationAttestation, [
         'resultCompetenceTree',
       ]);
@@ -1008,10 +999,9 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         certificationAttestationDataNewest
       );
       expect(certificationAttestations).to.have.length(1);
-      expect(certificationAttestations[0]).to.be.instanceOf(CertificationAttestation);
-      expect(_.omit(certificationAttestations[0], ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedCertificationAttestation, ['resultCompetenceTree'])
-      );
+      expect(certificationAttestations[0]).to.deepEqualInstanceOmitting(expectedCertificationAttestation, [
+        'resultCompetenceTree',
+      ]);
     });
   });
 });
