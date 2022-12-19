@@ -244,6 +244,16 @@ module.exports = {
     await knex('organization-learners').where({ id: organizationLearnerId }).update({ userId: null });
   },
 
+  async dissociateAllStudentsByUserId({ userId }) {
+    await knex('organization-learners')
+      .update({ userId: null })
+      .where({ userId })
+      .whereIn(
+        'organization-learners.organizationId',
+        knex.select('id').from('organizations').where({ isManagingStudents: true })
+      );
+  },
+
   async findOneByUserIdAndOrganizationId({
     userId,
     organizationId,
