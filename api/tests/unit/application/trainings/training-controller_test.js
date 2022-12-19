@@ -37,6 +37,67 @@ describe('Unit | Controller | training-controller', function () {
     });
   });
 
+  describe('#create', function () {
+    const deserializedTraining = { title: 'Training title' };
+    const createdTraining = { title: 'Training title' };
+
+    beforeEach(function () {
+      sinon.stub(trainingSerializer, 'deserialize').returns(deserializedTraining);
+      sinon.stub(trainingSerializer, 'serialize');
+      sinon.stub(usecases, 'createTraining').resolves(createdTraining);
+    });
+
+    it('should call the training create use-case', async function () {
+      // given
+      const payload = {
+        data: {
+          attributes: {
+            title: 'A new training',
+            locale: 'fr',
+          },
+        },
+      };
+
+      // when
+      await trainingController.create({ payload }, hFake);
+
+      // then
+      expect(trainingSerializer.deserialize).to.have.been.calledWith(payload);
+      expect(usecases.createTraining).to.have.been.calledOnceWithExactly({
+        training: deserializedTraining,
+      });
+    });
+
+    it('should return a serialized training', async function () {
+      // given
+      const expectedSerializedTraining = {
+        title: 'A new training',
+        duration: {
+          hours: 5,
+        },
+      };
+
+      trainingSerializer.serialize.returns(expectedSerializedTraining);
+
+      // when
+      const response = await trainingController.create(
+        {
+          data: {
+            attributes: {
+              title: 'A new training',
+              duration: '5h',
+            },
+          },
+        },
+        hFake
+      );
+
+      // then
+      expect(trainingSerializer.serialize).to.have.been.calledWith(deserializedTraining);
+      expect(response.source).to.deep.equal(expectedSerializedTraining);
+    });
+  });
+
   describe('#update', function () {
     const deserializedTraining = { title: 'new title' };
     const updatedTraining = { title: 'new title' };

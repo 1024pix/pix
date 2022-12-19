@@ -5,6 +5,345 @@ const trainingController = require('../../../../lib/application/trainings/traini
 const moduleUnderTest = require('../../../../lib/application/trainings');
 
 describe('Unit | Router | training-router', function () {
+  describe('POST /api/admin/trainings', function () {
+    const validPayload = {
+      data: {
+        attributes: {
+          link: 'http://www.example.net',
+          title: 'ma formation',
+          duration: '6h',
+          type: 'webinaire',
+          locale: 'fr-fr',
+          editorName: 'ministère',
+          editorLogoUrl: 'http://www.image.pix.fr/image.svg',
+        },
+      },
+    };
+
+    it('should allow user if its role is SUPER_ADMIN', async function () {
+      // given
+      sinon.stub(trainingController, 'create').returns('ok');
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      await httpTestServer.request('POST', '/api/admin/trainings', validPayload);
+
+      // then
+      sinon.assert.calledOnce(trainingController.create);
+    });
+
+    it('should allow user if the role is METIER', async function () {
+      // given
+      sinon.stub(trainingController, 'create').returns('ok');
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      await httpTestServer.request('POST', '/api/admin/trainings', validPayload);
+
+      // then
+      sinon.assert.calledOnce(trainingController.create);
+    });
+
+    it('should return 403 it if the role is not allowed', async function () {
+      // given
+      sinon.stub(trainingController, 'create').returns('ok');
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('POST', '/api/admin/trainings', validPayload);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+      sinon.assert.notCalled(trainingController.create);
+    });
+
+    it('should return 201 if the payload is valid', async function () {
+      // given
+      sinon.stub(trainingController, 'create').callsFake((request, h) => h.response().created());
+
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('POST', '/api/admin/trainings', validPayload);
+
+      // then
+      expect(response.statusCode).to.equal(201);
+    });
+
+    it('should return 400 if in the payload there is no link', async function () {
+      // given
+      const invalidPayload = {
+        data: {
+          attributes: {
+            title: 'ma formation',
+            duration: '6h',
+            type: 'webinaire',
+            locale: 'fr-fr',
+            editorName: 'ministère',
+            editorLogoUrl: 'http://www.image.pix.fr/image.svg',
+          },
+        },
+      };
+      sinon.stub(trainingController, 'create').returns('ok');
+
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('POST', '/api/admin/trainings', invalidPayload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return 400 if in the payload there is no title', async function () {
+      // given
+      const invalidPayload = {
+        data: {
+          attributes: {
+            link: 'http://www.example.net',
+            duration: '6h',
+            type: 'webinaire',
+            locale: 'fr-fr',
+            editorName: 'ministère',
+            editorLogoUrl: 'http://www.image.pix.fr/image.svg',
+          },
+        },
+      };
+      sinon.stub(trainingController, 'create').returns('ok');
+
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('POST', '/api/admin/trainings', invalidPayload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return 400 if in the payload there is no duration', async function () {
+      // given
+      const invalidPayload = {
+        data: {
+          attributes: {
+            title: 'ma formation',
+            link: 'http://www.example.net',
+            type: 'webinaire',
+            locale: 'fr-fr',
+            editorName: 'ministère',
+            editorLogoUrl: 'http://www.image.pix.fr/image.svg',
+          },
+        },
+      };
+      sinon.stub(trainingController, 'create').returns('ok');
+
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('POST', '/api/admin/trainings', invalidPayload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return 400 if in the payload there is no type', async function () {
+      // given
+      const invalidPayload = {
+        data: {
+          attributes: {
+            title: 'ma formation',
+            link: 'http://www.example.net',
+            duration: '6h',
+            locale: 'fr-fr',
+            editorName: 'ministère',
+            editorLogoUrl: 'http://www.image.pix.fr/image.svg',
+          },
+        },
+      };
+      sinon.stub(trainingController, 'create').returns('ok');
+
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('POST', '/api/admin/trainings', invalidPayload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return 400 if in the payload there is no locale', async function () {
+      // given
+      const invalidPayload = {
+        data: {
+          attributes: {
+            title: 'ma formation',
+            link: 'http://www.example.net',
+            duration: '6h',
+            type: 'webinaire',
+            editorName: 'ministère',
+            editorLogoUrl: 'http://www.image.pix.fr/image.svg',
+          },
+        },
+      };
+      sinon.stub(trainingController, 'create').returns('ok');
+
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('POST', '/api/admin/trainings', invalidPayload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return 400 if in the payload there is no editorName', async function () {
+      // given
+      const invalidPayload = {
+        data: {
+          attributes: {
+            title: 'ma formation',
+            link: 'http://www.example.net',
+            duration: '6h',
+            type: 'webinaire',
+            locale: 'fr-fr',
+            editorLogoUrl: 'http://www.image.pix.fr/image.svg',
+          },
+        },
+      };
+      sinon.stub(trainingController, 'create').returns('ok');
+
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('POST', '/api/admin/trainings', invalidPayload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return 400 if in the payload there is no editorLogoUrl', async function () {
+      // given
+      const invalidPayload = {
+        data: {
+          attributes: {
+            title: 'ma formation',
+            link: 'http://www.example.net',
+            duration: '6h',
+            type: 'webinaire',
+            locale: 'fr-fr',
+            editorName: 'ministère',
+          },
+        },
+      };
+      sinon.stub(trainingController, 'create').returns('ok');
+
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('POST', '/api/admin/trainings', invalidPayload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+  });
+
   describe('PATCH /api/admin/trainings', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
