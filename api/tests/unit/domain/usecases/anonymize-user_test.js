@@ -54,9 +54,9 @@ describe('Unit | UseCase | anonymize-user', function () {
       updatedByUserId,
       userId,
     });
-    expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWithExactly(
-      userId,
-      expectedAnonymizedUser
-    );
+    expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWithExactly({
+      id: userId,
+      userAttributes: expectedAnonymizedUser,
+    });
   });
 });

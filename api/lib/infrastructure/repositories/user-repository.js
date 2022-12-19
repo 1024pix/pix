@@ -234,7 +234,7 @@ module.exports = {
       });
   },
 
-  async updateUserDetailsForAdministration(id, userAttributes) {
+  async updateUserDetailsForAdministration({ id, userAttributes }) {
     try {
       const updatedUser = await BookshelfUser.where({ id }).save(userAttributes, { patch: true, method: 'update' });
       await updatedUser.related('authenticationMethods').fetch({ require: false });

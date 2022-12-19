@@ -26,7 +26,7 @@ module.exports = async function updateUserDetailsForAdministration({
     userDetailsForAdministration.mustValidateTermsOfService = true;
   }
 
-  await userRepository.updateUserDetailsForAdministration(userId, userDetailsForAdministration);
+  await userRepository.updateUserDetailsForAdministration({ id: userId, userAttributes: userDetailsForAdministration });
 
   return userRepository.getUserDetailsForAdmin(userId);
 };

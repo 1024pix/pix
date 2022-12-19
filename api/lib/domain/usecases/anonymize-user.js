@@ -18,5 +18,5 @@ module.exports = async function anonymizeUser({
   await refreshTokenService.revokeRefreshTokensForUserId({ userId });
   await membershipRepository.disableMembershipsByUserId({ userId, updatedByUserId });
   await certificationCenterMembershipRepository.disableMembershipsByUserId({ updatedByUserId, userId });
-  return userRepository.updateUserDetailsForAdministration(userId, anonymizedUser);
+  return userRepository.updateUserDetailsForAdministration({ id: userId, userAttributes: anonymizedUser });
 };
