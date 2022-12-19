@@ -1288,113 +1288,69 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
     });
 
     describe('#updateUserDetailsForAdministration', function () {
-      let userInDb;
-
-      beforeEach(async function () {
-        userInDb = databaseBuilder.factory.buildUser(userToInsert);
+      it('should update firstName, lastName, email and username of the user', async function () {
+        // given
+        const userInDb = databaseBuilder.factory.buildUser(userToInsert);
         databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
           externalIdentifier: 'samlId',
           userId: userInDb.id,
         });
         await databaseBuilder.commit();
-      });
-
-      it('should update firstName,lastName,email of the user', async function () {
-        // given
-        const patchUserFirstNameLastNameEmail = {
-          id: userInDb.id,
-          firstName: 'firstname',
-          lastName: 'lastname',
-          email: 'firstname.lastname@example.net',
-        };
 
         // when
-        const updatedUser = await userRepository.updateUserDetailsForAdministration(
-          userInDb.id,
-          patchUserFirstNameLastNameEmail
-        );
-
-        // then
-        expect(updatedUser).to.be.an.instanceOf(UserDetailsForAdmin);
-        expect(updatedUser.firstName).to.equal(patchUserFirstNameLastNameEmail.firstName);
-        expect(updatedUser.lastName).to.equal(patchUserFirstNameLastNameEmail.lastName);
-        expect(updatedUser.email).to.equal(patchUserFirstNameLastNameEmail.email);
-      });
-
-      it('should update email of the user', async function () {
-        // given
-        const patchUserFirstNameLastNameEmail = {
-          id: userInDb.id,
-          email: 'partielupdate@hotmail.com',
-        };
-
-        // when
-        const updatedUser = await userRepository.updateUserDetailsForAdministration(
-          userInDb.id,
-          patchUserFirstNameLastNameEmail
-        );
-
-        // then
-        expect(updatedUser).to.be.an.instanceOf(UserDetailsForAdmin);
-        expect(updatedUser.email).to.equal(patchUserFirstNameLastNameEmail.email);
-      });
-
-      it('should update username of the user', async function () {
-        // given
-        const userId = databaseBuilder.factory.buildUser({
-          email: null,
-          username: 'current.username',
-        }).id;
-        await databaseBuilder.commit();
-
         const userPropertiesToUpdate = {
-          username: 'username.updated',
+          firstName: 'prenom_123',
+          lastName: 'nom_123',
+          email: 'email_123@example.net',
+          username: 'username_123',
         };
-
-        // when
-        const updatedUser = await userRepository.updateUserDetailsForAdministration(userId, userPropertiesToUpdate);
+        const updatedUser = await userRepository.updateUserDetailsForAdministration(
+          userInDb.id,
+          userPropertiesToUpdate
+        );
 
         // then
         expect(updatedUser).to.be.an.instanceOf(UserDetailsForAdmin);
-        expect(updatedUser.username).to.equal(userPropertiesToUpdate.username);
+        expect(updatedUser.firstName).to.equal('prenom_123');
+        expect(updatedUser.lastName).to.equal('nom_123');
+        expect(updatedUser.email).to.equal('email_123@example.net');
+        expect(updatedUser.username).to.equal('username_123');
       });
 
       it('should throw AlreadyExistingEntityError when username is already used', async function () {
         // given
-        const userId = databaseBuilder.factory.buildUser({
-          email: null,
-          username: 'current.username',
-        }).id;
         databaseBuilder.factory.buildUser({
           email: null,
           username: 'already.exist.username',
         });
+        const userId = databaseBuilder.factory.buildUser({
+          email: null,
+          username: 'current.username',
+        }).id;
         await databaseBuilder.commit();
 
+        // when
         const userPropertiesToUpdate = {
           username: 'already.exist.username',
         };
-        const expectedErrorMessage = 'Cette adresse e-mail ou cet identifiant est déjà utilisé(e).';
-
-        // when
         const error = await catchErr(userRepository.updateUserDetailsForAdministration)(userId, userPropertiesToUpdate);
 
         // then
         expect(error).to.be.instanceOf(AlreadyExistingEntityError);
-        expect(error.message).to.equal(expectedErrorMessage);
+        expect(error.message).to.equal('Cette adresse e-mail ou cet identifiant est déjà utilisé(e).');
       });
 
       it('should throw UserNotFoundError when user id not found', async function () {
         // given
         const wrongUserId = 0;
-        const patchUserFirstNameLastNameEmail = {
-          email: 'partielupdate@hotmail.com',
-        };
 
         // when
+        const userPropertiesToUpdate = {
+          email: 'partielupdate@hotmail.com',
+        };
         const error = await catchErr(userRepository.updateUserDetailsForAdministration)(
           wrongUserId,
-          patchUserFirstNameLastNameEmail
+          userPropertiesToUpdate
         );
 
         // then
