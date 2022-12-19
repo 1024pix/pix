@@ -236,13 +236,17 @@ module.exports = {
 
   async updateUserDetailsForAdministration({ id, userAttributes }) {
     try {
-      const updatedUser = await BookshelfUser.where({ id }).save(userAttributes, { patch: true, method: 'update' });
-      await updatedUser.related('authenticationMethods').fetch({ require: false });
-      return _toUserDetailsForAdminDomain(updatedUser);
-    } catch (err) {
-      if (err instanceof BookshelfUser.NoRowsUpdatedError) {
+      const [userDTO] = await knex('users').where({ id }).update(userAttributes).returning('*');
+
+      if (!userDTO) {
         throw new UserNotFoundError(`User not found for ID ${id}`);
       }
+
+      const organizationLearnersDTO = await knex('organization-learners').where({ userId: userDTO.id });
+      const authenticationMethodsDTO = await knex('authentication-methods').where({ userId: userDTO.id });
+
+      return _toUserDetailsForAdminDomain({ userDTO, organizationLearnersDTO, authenticationMethodsDTO });
+    } catch (err) {
       if (isUniqConstraintViolated(err)) {
         throw new AlreadyExistingEntityError('Cette adresse e-mail ou cet identifiant est déjà utilisé(e).');
       }
@@ -437,50 +441,30 @@ function _fromKnexDTOToUserDetailsForAdmin({ userDTO, organizationLearnersDTO, a
   });
 }
 
-function _toUserDetailsForAdminDomain(bookshelfUser) {
-  const rawUserDetailsForAdmin = bookshelfUser.toJSON();
+function _toUserDetailsForAdminDomain({ userDTO, organizationLearnersDTO, authenticationMethodsDTO }) {
+  const organizationLearners = organizationLearnersDTO?.map(
+    (organizationLearnerDTO) => new OrganizationLearner(organizationLearnerDTO)
+  );
   return new UserDetailsForAdmin({
-    id: rawUserDetailsForAdmin.id,
-    firstName: rawUserDetailsForAdmin.firstName,
-    lastName: rawUserDetailsForAdmin.lastName,
-    birthdate: rawUserDetailsForAdmin.birthdate,
-    organizationId: rawUserDetailsForAdmin.organizationId,
-    username: rawUserDetailsForAdmin.username,
-    email: rawUserDetailsForAdmin.email,
-    cgu: rawUserDetailsForAdmin.cgu,
-    pixOrgaTermsOfServiceAccepted: rawUserDetailsForAdmin.pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted: rawUserDetailsForAdmin.pixCertifTermsOfServiceAccepted,
-    createdAt: rawUserDetailsForAdmin.createdAt,
-    lang: rawUserDetailsForAdmin.lang,
-    lastTermsOfServiceValidatedAt: rawUserDetailsForAdmin.lastTermsOfServiceValidatedAt,
-    lastPixOrgaTermsOfServiceValidatedAt: rawUserDetailsForAdmin.lastPixOrgaTermsOfServiceValidatedAt,
-    lastPixCertifTermsOfServiceValidatedAt: rawUserDetailsForAdmin.lastPixCertifTermsOfServiceValidatedAt,
-    lastLoggedAt: rawUserDetailsForAdmin.lastLoggedAt,
-    emailConfirmedAt: rawUserDetailsForAdmin.emailConfirmedAt,
-    organizationLearners: _toOrganizationLearnersForAdmin(rawUserDetailsForAdmin.organizationLearners),
-    authenticationMethods: rawUserDetailsForAdmin.authenticationMethods,
-  });
-}
-
-function _toOrganizationLearnersForAdmin(organizationLearners) {
-  if (!organizationLearners) {
-    return [];
-  }
-  return organizationLearners.map((organizationLearner) => {
-    return new OrganizationLearnerForAdmin({
-      id: organizationLearner.id,
-      firstName: organizationLearner.firstName,
-      lastName: organizationLearner.lastName,
-      birthdate: organizationLearner.birthdate,
-      division: organizationLearner.division,
-      group: organizationLearner.group,
-      organizationId: organizationLearner.organization.id,
-      organizationName: organizationLearner.organization.name,
-      createdAt: organizationLearner.createdAt,
-      updatedAt: organizationLearner.updatedAt,
-      isDisabled: organizationLearner.isDisabled,
-      organizationIsManagingStudents: organizationLearner.organization.isManagingStudents,
-    });
+    id: userDTO.id,
+    firstName: userDTO.firstName,
+    lastName: userDTO.lastName,
+    birthdate: userDTO.birthdate,
+    organizationId: userDTO.organizationId,
+    username: userDTO.username,
+    email: userDTO.email,
+    cgu: userDTO.cgu,
+    pixOrgaTermsOfServiceAccepted: userDTO.pixOrgaTermsOfServiceAccepted,
+    pixCertifTermsOfServiceAccepted: userDTO.pixCertifTermsOfServiceAccepted,
+    createdAt: userDTO.createdAt,
+    lang: userDTO.lang,
+    lastTermsOfServiceValidatedAt: userDTO.lastTermsOfServiceValidatedAt,
+    lastPixOrgaTermsOfServiceValidatedAt: userDTO.lastPixOrgaTermsOfServiceValidatedAt,
+    lastPixCertifTermsOfServiceValidatedAt: userDTO.lastPixCertifTermsOfServiceValidatedAt,
+    lastLoggedAt: userDTO.lastLoggedAt,
+    emailConfirmedAt: userDTO.emailConfirmedAt,
+    organizationLearners,
+    authenticationMethods: authenticationMethodsDTO,
   });
 }
 
