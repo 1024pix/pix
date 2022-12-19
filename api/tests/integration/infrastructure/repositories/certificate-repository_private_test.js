@@ -8,7 +8,6 @@ const {
 } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const certificateRepository = require('../../../../lib/infrastructure/repositories/certificate-repository');
-const PrivateCertificate = require('../../../../lib/domain/models/PrivateCertificate');
 
 describe('Integration | Infrastructure | Repository | Certificate_private', function () {
   const minimalLearningContent = [
@@ -59,7 +58,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         certificationCenter: privateCertificateData.certificationCenter,
         certificationCenterId,
       }).id;
-      const certificateId = databaseBuilder.factory.buildCertificationCourse({
+      const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
         firstName: privateCertificateData.firstName,
         lastName: privateCertificateData.lastName,
         birthdate: privateCertificateData.birthdate,
@@ -72,15 +71,17 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         sessionId,
         userId,
       }).id;
-      databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
+      databaseBuilder.factory.buildAssessment({ certificationCourseId });
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(certificateRepository.getPrivateCertificate)(certificateId, { locale: 'fr' });
+      const error = await catchErr(certificateRepository.getPrivateCertificate)(certificationCourseId, {
+        locale: 'fr',
+      });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
-      expect(error.message).to.equal(`Certificate not found for ID ${certificateId}`);
+      expect(error.message).to.equal(`Certificate not found for ID ${certificationCourseId}`);
     });
 
     it('should throw a NotFoundError when the certificate is cancelled', async function () {
@@ -107,7 +108,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         certificationCenter: privateCertificateData.certificationCenter,
         certificationCenterId,
       }).id;
-      const certificateId = databaseBuilder.factory.buildCertificationCourse({
+      const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
         firstName: privateCertificateData.firstName,
         lastName: privateCertificateData.lastName,
         birthdate: privateCertificateData.birthdate,
@@ -120,7 +121,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         sessionId,
         userId,
       }).id;
-      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
+      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
       databaseBuilder.factory.buildAssessmentResult({
         assessmentId,
         pixScore: privateCertificateData.pixScore,
@@ -129,11 +130,13 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(certificateRepository.getPrivateCertificate)(certificateId, { locale: 'fr' });
+      const error = await catchErr(certificateRepository.getPrivateCertificate)(certificationCourseId, {
+        locale: 'fr',
+      });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
-      expect(error.message).to.equal(`Certificate not found for ID ${certificateId}`);
+      expect(error.message).to.equal(`Certificate not found for ID ${certificationCourseId}`);
     });
 
     it('should throw a NotFoundError when the certificate is not published', async function () {
@@ -159,7 +162,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         certificationCenter: privateCertificateData.certificationCenter,
         certificationCenterId,
       }).id;
-      const certificateId = databaseBuilder.factory.buildCertificationCourse({
+      const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
         firstName: privateCertificateData.firstName,
         lastName: privateCertificateData.lastName,
         birthdate: privateCertificateData.birthdate,
@@ -172,7 +175,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         sessionId,
         userId,
       }).id;
-      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
+      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
       databaseBuilder.factory.buildAssessmentResult({
         assessmentId,
         pixScore: privateCertificateData.pixScore,
@@ -181,11 +184,13 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(certificateRepository.getPrivateCertificate)(certificateId, { locale: 'fr' });
+      const error = await catchErr(certificateRepository.getPrivateCertificate)(certificationCourseId, {
+        locale: 'fr',
+      });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
-      expect(error.message).to.equal(`Certificate not found for ID ${certificateId}`);
+      expect(error.message).to.equal(`Certificate not found for ID ${certificationCourseId}`);
     });
 
     it('should throw a NotFoundError when the certificate is rejected', async function () {
@@ -212,7 +217,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         certificationCenter: privateCertificateData.certificationCenter,
         certificationCenterId,
       }).id;
-      const certificateId = databaseBuilder.factory.buildCertificationCourse({
+      const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
         firstName: privateCertificateData.firstName,
         lastName: privateCertificateData.lastName,
         birthdate: privateCertificateData.birthdate,
@@ -225,7 +230,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         sessionId,
         userId,
       }).id;
-      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
+      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
       databaseBuilder.factory.buildAssessmentResult({
         assessmentId,
         pixScore: privateCertificateData.pixScore,
@@ -234,11 +239,13 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(certificateRepository.getPrivateCertificate)(certificateId, { locale: 'fr' });
+      const error = await catchErr(certificateRepository.getPrivateCertificate)(certificationCourseId, {
+        locale: 'fr',
+      });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
-      expect(error.message).to.equal(`Certificate not found for ID ${certificateId}`);
+      expect(error.message).to.equal(`Certificate not found for ID ${certificationCourseId}`);
     });
 
     it('should return a PrivateCertificate', async function () {
@@ -264,14 +271,14 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         commentForCandidate: 'Il aime beaucoup les mangues, et ça se voit !',
       };
 
-      const { certificateId } = await _buildValidPrivateCertificate(privateCertificateData);
+      const { certificationCourseId } = await _buildValidPrivateCertificate(privateCertificateData);
 
       // when
-      const privateCertificate = await certificateRepository.getPrivateCertificate(certificateId);
+      const privateCertificate = await certificateRepository.getPrivateCertificate(certificationCourseId);
 
       // then
       const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.validated({
-        id: certificateId,
+        id: certificationCourseId,
         ...privateCertificateData,
       });
       expect(privateCertificate).to.deepEqualInstanceOmitting(expectedPrivateCertificate, ['resultCompetenceTree']);
@@ -298,7 +305,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
           commentForCandidate: 'Il aime beaucoup les mangues, et ça se voit !',
         };
 
-        const { certificateId, assessmentResultId } = await _buildValidPrivateCertificate(
+        const { certificationCourseId, assessmentResultId } = await _buildValidPrivateCertificate(
           privateCertificateData,
           false
         );
@@ -373,21 +380,22 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         mockLearningContent(learningContentObjects);
 
         // when
-        const privateCertificate = await certificateRepository.getPrivateCertificate(certificateId, { locale: 'fr' });
+        const privateCertificate = await certificateRepository.getPrivateCertificate(certificationCourseId, {
+          locale: 'fr',
+        });
 
         // then
         const resultCompetenceTree = domainBuilder.buildResultCompetenceTree({
-          id: `${certificateId}-${assessmentResultId}`,
+          id: `${certificationCourseId}-${assessmentResultId}`,
           competenceMarks: [competenceMarks1, competenceMarks2],
           competenceTree: domainBuilder.buildCompetenceTree({ areas: [area1] }),
         });
         const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.validated({
-          id: certificateId,
+          id: certificationCourseId,
           resultCompetenceTree,
           ...privateCertificateData,
         });
-        expect(privateCertificate).to.be.instanceOf(PrivateCertificate);
-        expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
+        expect(privateCertificate).to.deepEqualInstance(expectedPrivateCertificate);
       });
     });
 
@@ -413,7 +421,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
           commentForCandidate: 'Il aime beaucoup les mangues, et ça se voit !',
         };
 
-        const { certificateId, assessmentResultId } = await _buildValidPrivateCertificate(
+        const { certificationCourseId, assessmentResultId } = await _buildValidPrivateCertificate(
           privateCertificateData,
           false
         );
@@ -488,11 +496,13 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         mockLearningContent(learningContentObjects);
 
         // when
-        const privateCertificate = await certificateRepository.getPrivateCertificate(certificateId, { locale: 'en' });
+        const privateCertificate = await certificateRepository.getPrivateCertificate(certificationCourseId, {
+          locale: 'en',
+        });
 
         // then
         const resultCompetenceTree = domainBuilder.buildResultCompetenceTree({
-          id: `${certificateId}-${assessmentResultId}`,
+          id: `${certificationCourseId}-${assessmentResultId}`,
           competenceMarks: [competenceMarks1, competenceMarks2],
           competenceTree: domainBuilder.buildCompetenceTree({
             areas: [
@@ -508,7 +518,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
           }),
         });
         const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.validated({
-          id: certificateId,
+          id: certificationCourseId,
           resultCompetenceTree,
           ...privateCertificateData,
         });
@@ -567,7 +577,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
           ],
         };
 
-        const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
+        const { certificationCourseId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
           privateCertificateData,
           acquiredBadges: [
             {
@@ -592,11 +602,11 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         await databaseBuilder.commit();
 
         // when
-        const privateCertificate = await certificateRepository.getPrivateCertificate(certificateId);
+        const privateCertificate = await certificateRepository.getPrivateCertificate(certificationCourseId);
 
         // then
         const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.validated({
-          id: certificateId,
+          id: certificationCourseId,
           ...privateCertificateData,
         });
 
@@ -639,7 +649,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         certificationCenter: privateCertificateData.certificationCenter,
         certificationCenterId,
       }).id;
-      const certificateId = databaseBuilder.factory.buildCertificationCourse({
+      const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
         firstName: privateCertificateData.firstName,
         lastName: privateCertificateData.lastName,
         birthdate: privateCertificateData.birthdate,
@@ -652,7 +662,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         sessionId,
         userId,
       }).id;
-      databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
+      databaseBuilder.factory.buildAssessment({ certificationCourseId });
       await databaseBuilder.commit();
 
       // when
@@ -686,7 +696,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         certificationCenter: privateCertificateData.certificationCenter,
         certificationCenterId,
       }).id;
-      const certificateId = databaseBuilder.factory.buildCertificationCourse({
+      const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
         firstName: privateCertificateData.firstName,
         lastName: privateCertificateData.lastName,
         birthdate: privateCertificateData.birthdate,
@@ -699,7 +709,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         sessionId,
         userId,
       }).id;
-      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
+      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
       databaseBuilder.factory.buildAssessmentResult({
         assessmentId,
         pixScore: privateCertificateData.pixScore,
@@ -738,7 +748,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         certificationCenter: privateCertificateData.certificationCenter,
         certificationCenterId,
       }).id;
-      const certificateId = databaseBuilder.factory.buildCertificationCourse({
+      const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
         firstName: privateCertificateData.firstName,
         lastName: privateCertificateData.lastName,
         birthdate: privateCertificateData.birthdate,
@@ -751,7 +761,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         sessionId,
         userId,
       }).id;
-      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
+      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
       databaseBuilder.factory.buildAssessmentResult({
         assessmentId,
         pixScore: privateCertificateData.pixScore,
@@ -790,7 +800,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         certificationCenter: privateCertificateData.certificationCenter,
         certificationCenterId,
       }).id;
-      const certificateId = databaseBuilder.factory.buildCertificationCourse({
+      const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
         firstName: privateCertificateData.firstName,
         lastName: privateCertificateData.lastName,
         birthdate: privateCertificateData.birthdate,
@@ -803,7 +813,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         sessionId,
         userId,
       }).id;
-      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
+      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
       databaseBuilder.factory.buildAssessmentResult({
         assessmentId,
         pixScore: privateCertificateData.pixScore,
@@ -838,26 +848,31 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         commentForCandidate: 'Il aime beaucoup les mangues, et ça se voit !',
       };
 
-      const { certificateId } = await _buildValidPrivateCertificate(privateCertificateData);
+      const { certificationCourseId } = await _buildValidPrivateCertificate(privateCertificateData);
       // when
       const privateCertificates = await certificateRepository.findPrivateCertificatesByUserId({ userId });
 
       // then
       const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.validated({
-        id: certificateId,
+        id: certificationCourseId,
         ...privateCertificateData,
       });
       expect(privateCertificates).to.have.length(1);
-      expect(privateCertificates[0]).to.be.instanceOf(PrivateCertificate);
-      expect(privateCertificates[0]).to.deep.equal(expectedPrivateCertificate);
+      expect(privateCertificates[0]).to.deepEqualInstance(expectedPrivateCertificate);
     });
 
     it('should return all the certificates of the user if he has many ordered by creation date DESC', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
-      const { certificateId } = await _buildValidPrivateCertificate({ userId, date: '2021-05-02' });
-      const { certificateId: certificateId2 } = await _buildValidPrivateCertificate({ userId, date: '2021-06-02' });
-      const { certificateId: certificateId3 } = await _buildValidPrivateCertificate({ userId, date: '2021-07-02' });
+      const { certificationCourseId } = await _buildValidPrivateCertificate({ userId, date: '2021-05-02' });
+      const { certificationCourseId: certificationCourseId2 } = await _buildValidPrivateCertificate({
+        userId,
+        date: '2021-06-02',
+      });
+      const { certificationCourseId: certificationCourseId3 } = await _buildValidPrivateCertificate({
+        userId,
+        date: '2021-07-02',
+      });
       await databaseBuilder.commit();
 
       // when
@@ -865,9 +880,9 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
 
       // then
       expect(privateCertificates).to.have.length(3);
-      expect(privateCertificates[0].id).to.equal(certificateId3);
-      expect(privateCertificates[1].id).to.equal(certificateId2);
-      expect(privateCertificates[2].id).to.equal(certificateId);
+      expect(privateCertificates[0].id).to.equal(certificationCourseId3);
+      expect(privateCertificates[1].id).to.equal(certificationCourseId2);
+      expect(privateCertificates[2].id).to.equal(certificationCourseId);
     });
 
     it('should build from the latest assessment result if validated', async function () {
@@ -889,17 +904,17 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         commentForCandidate: 'Il aime beaucoup les mangues, et ça se voit !',
       };
 
-      const { certificateId } = await _buildValidPrivateCertificateWithSeveralResults(privateCertificateData);
+      const { certificationCourseId } = await _buildValidPrivateCertificateWithSeveralResults(privateCertificateData);
 
       // when
       const privateCertificates = await certificateRepository.findPrivateCertificatesByUserId({ userId });
 
       // then
       const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.validated({
-        id: certificateId,
+        id: certificationCourseId,
         ...privateCertificateData,
       });
-      expect(privateCertificates[0]).to.deep.equal(expectedPrivateCertificate);
+      expect(privateCertificates[0]).to.deepEqualInstance(expectedPrivateCertificate);
     });
   });
 });
@@ -911,7 +926,7 @@ async function _buildValidPrivateCertificate(privateCertificateData, buildCompet
     certificationCenter: privateCertificateData.certificationCenter,
     certificationCenterId,
   }).id;
-  const certificateId = databaseBuilder.factory.buildCertificationCourse({
+  const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
     firstName: privateCertificateData.firstName,
     lastName: privateCertificateData.lastName,
     birthdate: privateCertificateData.birthdate,
@@ -924,7 +939,7 @@ async function _buildValidPrivateCertificate(privateCertificateData, buildCompet
     sessionId,
     userId: privateCertificateData.userId,
   }).id;
-  const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
+  const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
   const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
     assessmentId,
     pixScore: privateCertificateData.pixScore,
@@ -941,7 +956,7 @@ async function _buildValidPrivateCertificate(privateCertificateData, buildCompet
 
   await databaseBuilder.commit();
 
-  return { certificateId, assessmentResultId, assessmentId };
+  return { certificationCourseId, assessmentResultId, assessmentId };
 }
 
 async function _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
@@ -954,7 +969,7 @@ async function _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
     certificationCenter: privateCertificateData.certificationCenter,
     certificationCenterId,
   }).id;
-  const certificateId = databaseBuilder.factory.buildCertificationCourse({
+  const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
     firstName: privateCertificateData.firstName,
     lastName: privateCertificateData.lastName,
     birthdate: privateCertificateData.birthdate,
@@ -967,7 +982,7 @@ async function _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
     sessionId,
     userId: privateCertificateData.userId,
   }).id;
-  const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
+  const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
   databaseBuilder.factory.buildAssessmentResult({
     assessmentId,
     pixScore: privateCertificateData.pixScore,
@@ -997,7 +1012,7 @@ async function _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
         temporaryCertificateMessage,
       }).id;
       const { id: complementaryCertificationCourseId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
-        certificationCourseId: certificateId,
+        certificationCourseId,
         complementaryCertificationId,
         complementaryCertificationBadgeId: acquiredComplementaryBadgeId,
       });
@@ -1009,7 +1024,7 @@ async function _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
     }
   );
   await databaseBuilder.commit();
-  return { certificateId };
+  return { certificationCourseId };
 }
 
 async function _buildValidPrivateCertificateWithSeveralResults(privateCertificateData) {
@@ -1019,7 +1034,7 @@ async function _buildValidPrivateCertificateWithSeveralResults(privateCertificat
     certificationCenter: privateCertificateData.certificationCenter,
     certificationCenterId,
   }).id;
-  const certificateId = databaseBuilder.factory.buildCertificationCourse({
+  const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
     firstName: privateCertificateData.firstName,
     lastName: privateCertificateData.lastName,
     birthdate: privateCertificateData.birthdate,
@@ -1032,7 +1047,7 @@ async function _buildValidPrivateCertificateWithSeveralResults(privateCertificat
     sessionId,
     userId: privateCertificateData.userId,
   }).id;
-  const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
+  const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
   const assessmentResult1Id = databaseBuilder.factory.buildAssessmentResult({
     assessmentId,
     pixScore: privateCertificateData.pixScore,
@@ -1055,5 +1070,5 @@ async function _buildValidPrivateCertificateWithSeveralResults(privateCertificat
 
   await databaseBuilder.commit();
 
-  return { certificateId };
+  return { certificationCourseId };
 }
