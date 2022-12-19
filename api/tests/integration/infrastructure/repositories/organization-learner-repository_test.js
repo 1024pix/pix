@@ -1454,21 +1454,31 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
   });
 
   describe('#dissociateUserFromOrganizationLearner', function () {
-    let organizationLearner;
-
-    beforeEach(async function () {
-      const user = databaseBuilder.factory.buildUser();
-      organizationLearner = databaseBuilder.factory.buildOrganizationLearner({ userId: user.id });
-      await databaseBuilder.commit();
-    });
-
     it('should delete association between user and organizationLearner', async function () {
+      // given
+      const userToNotDissociate = databaseBuilder.factory.buildUser();
+      const organizationLearnerToNotDissociate = databaseBuilder.factory.buildOrganizationLearner({
+        userId: userToNotDissociate.id,
+      });
+      const userToDissociate = databaseBuilder.factory.buildUser();
+      const organizationLearnerToDissociate = databaseBuilder.factory.buildOrganizationLearner({
+        userId: userToDissociate.id,
+      });
+      await databaseBuilder.commit();
+
       // when
-      await organizationLearnerRepository.dissociateUserFromOrganizationLearner(organizationLearner.id);
+      await organizationLearnerRepository.dissociateUserFromOrganizationLearner(organizationLearnerToDissociate.id);
 
       // then
-      const organizationLearnerPatched = await organizationLearnerRepository.get(organizationLearner.id);
+      const organizationLearnerPatched = await knex('organization-learners')
+        .where({ id: organizationLearnerToDissociate.id })
+        .first();
       expect(organizationLearnerPatched.userId).to.equal(null);
+
+      const robotInBDD = await knex('organization-learners')
+        .where({ id: organizationLearnerToNotDissociate.id })
+        .first();
+      expect(robotInBDD.userId).to.equal(userToNotDissociate.id);
     });
   });
 

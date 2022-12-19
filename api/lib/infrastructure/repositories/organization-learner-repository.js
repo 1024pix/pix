@@ -241,12 +241,7 @@ module.exports = {
   },
 
   async dissociateUserFromOrganizationLearner(organizationLearnerId) {
-    await BookshelfOrganizationLearner.where({ id: organizationLearnerId }).save(
-      { userId: null },
-      {
-        patch: true,
-      }
-    );
+    await knex('organization-learners').where({ id: organizationLearnerId }).update({ userId: null });
   },
 
   async findOneByUserIdAndOrganizationId({
