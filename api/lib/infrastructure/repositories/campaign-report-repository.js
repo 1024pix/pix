@@ -13,7 +13,7 @@ const { SHARED } = CampaignParticipationStatuses;
 
 function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true, ownerName, isOwnedByMe }, userId) {
   if (name) {
-    qb.whereRaw('LOWER("name") LIKE ?', `%${name.toLowerCase()}%`);
+    qb.whereILike('name', `%${name}%`);
   }
   if (ongoing) {
     qb.whereNull('campaigns.archivedAt');

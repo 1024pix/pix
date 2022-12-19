@@ -27,13 +27,13 @@ function _toDomain(bookshelfMembership) {
 function _setSearchFiltersForQueryBuilder(filter, qb) {
   const { firstName, lastName, email, organizationRole } = filter;
   if (firstName) {
-    qb.whereRaw('LOWER(users."firstName") LIKE ?', `%${firstName.toLowerCase()}%`);
+    qb.whereILike('users.firstName', `%${firstName}%`);
   }
   if (lastName) {
-    qb.whereRaw('LOWER(users."lastName") LIKE ?', `%${lastName.toLowerCase()}%`);
+    qb.whereILike('users.lastName', `%${lastName}%`);
   }
   if (email) {
-    qb.whereRaw('LOWER(users."email") LIKE ?', `%${email.toLowerCase()}%`);
+    qb.whereILike('users.email', `%${email}%`);
   }
   if (organizationRole) {
     qb.where('memberships.organizationRole', organizationRole);
