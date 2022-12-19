@@ -1304,10 +1304,10 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
           email: 'email_123@example.net',
           username: 'username_123',
         };
-        const updatedUser = await userRepository.updateUserDetailsForAdministration(
-          userInDb.id,
-          userPropertiesToUpdate
-        );
+        const updatedUser = await userRepository.updateUserDetailsForAdministration({
+          id: userInDb.id,
+          userAttributes: userPropertiesToUpdate,
+        });
 
         // then
         expect(updatedUser).to.be.an.instanceOf(UserDetailsForAdmin);
@@ -1333,7 +1333,10 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         const userPropertiesToUpdate = {
           username: 'already.exist.username',
         };
-        const error = await catchErr(userRepository.updateUserDetailsForAdministration)(userId, userPropertiesToUpdate);
+        const error = await catchErr(userRepository.updateUserDetailsForAdministration)({
+          id: userId,
+          userAttributes: userPropertiesToUpdate,
+        });
 
         // then
         expect(error).to.be.instanceOf(AlreadyExistingEntityError);
@@ -1348,10 +1351,10 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         const userPropertiesToUpdate = {
           email: 'partielupdate@hotmail.com',
         };
-        const error = await catchErr(userRepository.updateUserDetailsForAdministration)(
-          wrongUserId,
-          userPropertiesToUpdate
-        );
+        const error = await catchErr(userRepository.updateUserDetailsForAdministration)({
+          id: wrongUserId,
+          userAttributes: userPropertiesToUpdate,
+        });
 
         // then
         expect(error).to.be.instanceOf(UserNotFoundError);

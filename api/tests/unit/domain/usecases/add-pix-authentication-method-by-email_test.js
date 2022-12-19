@@ -108,6 +108,9 @@ describe('Unit | UseCase | add-pix-authentication-method-by-email', function () 
     });
 
     // then
-    expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWith(user.id, { email });
+    expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWith({
+      id: user.id,
+      userAttributes: { email },
+    });
   });
 });
