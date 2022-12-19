@@ -9,7 +9,7 @@
       <div class="challenge-response__proposal challenge-response__proposal--selector">
         <PixSelect
           data-test="challenge-response-proposal-selector"
-          disabled={{@isAnswerFieldDisabled}}
+          @isDisabled={{@isAnswerFieldDisabled}}
           @label={{block.ariaLabel}}
           @screenReaderOnly={{true}}
           @placeholder={{block.placeholder}}

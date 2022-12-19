@@ -16,7 +16,7 @@
                 <PixSelect
                   data-uid="qroc-proposal-uid"
                   data-test="challenge-response-proposal-selector"
-                  disabled={{this.isAnswerFieldDisabled}}
+                  @isDisabled={{this.isAnswerFieldDisabled}}
                   @label={{block.ariaLabel}}
                   @screenReaderOnly={{true}}
                   @placeholder={{block.placeholder}}
