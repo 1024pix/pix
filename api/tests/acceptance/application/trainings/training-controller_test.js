@@ -13,6 +13,56 @@ describe('Acceptance | Controller | training-controller', function () {
     server = await createServer();
   });
 
+  describe('POST /api/admin/trainings', function () {
+    it('should create a new training and response with a 201', async function () {
+      // given
+      const superAdmin = await insertUserWithRoleSuperAdmin();
+
+      const expectedResponse = {
+        type: 'trainings',
+        id: '101064',
+        attributes: {
+          title: 'Titre du training',
+          link: 'https://training-link.org',
+          type: 'webinaire',
+          duration: {
+            hours: 6,
+          },
+          locale: 'fr',
+          'editor-name': 'Un ministère',
+          'editor-logo-url': 'https://mon-logo.svg',
+        },
+      };
+
+      // when
+      const response = await server.inject({
+        method: 'POST',
+        url: '/api/admin/trainings',
+        payload: {
+          data: {
+            type: 'trainings',
+            attributes: {
+              title: 'Titre du training',
+              link: 'https://training-link.org',
+              type: 'webinaire',
+              duration: '6h',
+              locale: 'fr',
+              editorLogoUrl: 'https://mon-logo.svg',
+              editorName: 'Un ministère',
+            },
+          },
+        },
+        headers: { authorization: generateValidRequestAuthorizationHeader(superAdmin.id) },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(201);
+      expect(response.result.data.type).to.equal(expectedResponse.type);
+      expect(response.result.data.id).to.exist;
+      expect(response.result.data.attributes).to.deep.equal(expectedResponse.attributes);
+    });
+  });
+
   describe('PATCH /api/admin/trainings/{trainingId}', function () {
     let options;
 
