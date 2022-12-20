@@ -68,9 +68,12 @@ module('Unit | Component | panel-header', function (hooks) {
     test('should call upload with the right parameters', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
+      const adapter = store.adapterFor('sessions-import');
+      const sessionsImportStub = sinon.stub(adapter, 'importSessions');
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
         id: 123,
       });
+      const files = [Symbol('file 1')];
 
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
@@ -87,39 +90,38 @@ module('Unit | Component | panel-header', function (hooks) {
           },
         },
       };
-      const file = {
-        upload: sinon.stub(),
-      };
+
       component.args = {
         reloadSessionSummaries: sinon.stub(),
       };
-      component.notifications = { success: sinon.stub() };
+      component.notifications = { success: sinon.stub(), clearAll: sinon.stub() };
 
       // when
-      await component.importSessions(file);
+      await component.importSessions(files);
 
       // then
       sinon.assert.calledOnce(component.notifications.success);
-      assert.ok(
-        file.upload.calledWith('/api/certification-centers/123/sessions/import', {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-      );
+      sinon.assert.calledOnce(component.args.reloadSessionSummaries);
+      assert.ok(sessionsImportStub.calledWith(files, currentAllowedCertificationCenterAccess.id));
     });
 
     test('should call the notifications service in case of an error', async function (assert) {
       // given
-      const token = 'a token';
       const store = this.owner.lookup('service:store');
+      const adapter = store.adapterFor('sessions-import');
+      const sessionsImportStub = sinon.stub(adapter, 'importSessions');
+      sessionsImportStub.rejects();
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
         id: 123,
       });
+      const files = [Symbol('file 1')];
 
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
       }
 
       this.owner.register('service:current-user', CurrentUserStub);
+      const token = 'a token';
 
       component.session = {
         isAuthenticated: true,
@@ -129,13 +131,11 @@ module('Unit | Component | panel-header', function (hooks) {
           },
         },
       };
-      const file = {
-        upload: sinon.stub().rejects({ body: { errors: [{ detail: 'error message' }] } }),
-      };
-      component.notifications = { error: sinon.stub() };
+
+      component.notifications = { error: sinon.stub(), clearAll: sinon.stub() };
 
       // when
-      await component.importSessions(file);
+      await component.importSessions(files);
 
       // then
       sinon.assert.calledOnce(component.notifications.error);

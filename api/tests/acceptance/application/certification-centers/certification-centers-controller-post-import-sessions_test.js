@@ -1,9 +1,5 @@
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../../test-helper');
 const createServer = require('../../../../server');
-const FormData = require('form-data');
-const fs = require('node:fs');
-const { stat } = require('node:fs/promises');
-const streamToPromise = require('stream-to-promise');
 
 describe('Acceptance | Controller | certification-centers-controller-post-import-sessions', function () {
   let server;
@@ -25,9 +21,17 @@ describe('Acceptance | Controller | certification-centers-controller-post-import
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
         await databaseBuilder.commit();
 
-        const csvFileName = 'files/sessions.csv';
-        const csvFilePath = `${__dirname}/${csvFileName}`;
-        const options = await createRequest({ csvFilePath, userId, certificationCenterId });
+        const newBuffer = `N° de session;* Nom du site;* Nom de la salle;* Date de début;* Heure de début (heure locale);* Surveillant(s);Observations (optionnel);* Nom de naissance;* Prénom;* Date de naissance (format: jj/mm/aaaa);* Sexe (M ou F);Code Insee;Code postal;Nom de la commune;* Pays;E-mail du destinataire des résultats (formateur, enseignant…);E-mail de convocation;Identifiant local;Temps majoré ?
+        ;site1;salle1;2022-10-19;12:00;surveillant;non;;;;;;;;;;;;`;
+
+        const options = {
+          method: 'POST',
+          url: `/api/certification-centers/${certificationCenterId}/sessions/import`,
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader(userId),
+          },
+          payload: newBuffer,
+        };
 
         // when
         const response = await server.inject(options);
@@ -38,19 +42,3 @@ describe('Acceptance | Controller | certification-centers-controller-post-import
     });
   });
 });
-
-async function createRequest({ csvFilePath, userId, certificationCenterId }) {
-  const form = new FormData();
-  const knownLength = await stat(csvFilePath).size;
-  form.append('file', fs.createReadStream(csvFilePath), { knownLength });
-  const payload = await streamToPromise(form);
-  const authHeader = generateValidRequestAuthorizationHeader(userId);
-  const token = authHeader.replace('Bearer ', '');
-  const headers = Object.assign({}, form.getHeaders(), { authorization: `Bearer ${token}` });
-  return {
-    method: 'POST',
-    url: `/api/certification-centers/${certificationCenterId}/sessions/import`,
-    headers,
-    payload,
-  };
-}
