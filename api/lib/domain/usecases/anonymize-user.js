@@ -1,3 +1,5 @@
+const DomainTransaction = require('../../infrastructure/DomainTransaction');
+
 module.exports = async function anonymizeUser({
   updatedByUserId,
   userId,
@@ -14,16 +16,20 @@ module.exports = async function anonymizeUser({
     username: null,
   };
 
-  await authenticationMethodRepository.removeAllAuthenticationMethodsByUserId({ userId });
-  await refreshTokenService.revokeRefreshTokensForUserId({ userId });
-  await membershipRepository.disableMembershipsByUserId({ userId, updatedByUserId });
-  await certificationCenterMembershipRepository.disableMembershipsByUserId({
-    updatedByUserId,
-    userId,
-  });
-  await userRepository.updateUserDetailsForAdministration({
-    id: userId,
-    userAttributes: anonymizedUser,
+  await DomainTransaction.execute(async (domainTransaction) => {
+    await authenticationMethodRepository.removeAllAuthenticationMethodsByUserId({ userId, domainTransaction });
+    await refreshTokenService.revokeRefreshTokensForUserId({ userId });
+    await membershipRepository.disableMembershipsByUserId({ userId, updatedByUserId, domainTransaction });
+    await certificationCenterMembershipRepository.disableMembershipsByUserId({
+      updatedByUserId,
+      userId,
+      domainTransaction,
+    });
+    await userRepository.updateUserDetailsForAdministration({
+      id: userId,
+      userAttributes: anonymizedUser,
+      domainTransaction,
+    });
   });
   return userRepository.getUserDetailsForAdmin(userId);
 };
