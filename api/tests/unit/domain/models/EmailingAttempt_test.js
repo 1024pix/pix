@@ -63,12 +63,21 @@ describe('Unit | Domain | Models | EmailingAttempt', function () {
   });
 
   describe('#failure', function () {
-    it('should create an emailAttempt with failure status', function () {
+    it('should create an emailAttempt with default error code', function () {
       // when
       const result = EmailingAttempt.failure('example@example.net');
 
       // then
-      const expectedEmailAttempt = new EmailingAttempt('example@example.net', 'FAILURE');
+      const expectedEmailAttempt = new EmailingAttempt('example@example.net', 'FAILURE', 'PROVIDER_ERROR');
+      expect(result).to.deepEqualInstance(expectedEmailAttempt);
+    });
+
+    it('should create an emailAttempt with given error code', function () {
+      // when
+      const result = EmailingAttempt.failure('example@example.net', EmailingAttempt.errorCode.INVALID_DOMAIN);
+
+      // then
+      const expectedEmailAttempt = new EmailingAttempt('example@example.net', 'FAILURE', 'INVALID_DOMAIN');
       expect(result).to.deepEqualInstance(expectedEmailAttempt);
     });
   });
