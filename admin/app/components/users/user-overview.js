@@ -192,6 +192,7 @@ export default class UserOverview extends Component {
     await this.args.user.save({ adapterOptions: { anonymizeUser: true } });
     this.args.user.organizationMemberships = [];
     this.args.user.certificationCenterMemberships = [];
+    this.args.user.organizationLearners = [];
 
     this.toggleDisplayAnonymizeModal();
   }
