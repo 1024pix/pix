@@ -35,6 +35,7 @@ export default class PanelHeader extends Component {
       await file.upload(url, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      await this.args.reloadSessionSummaries();
       this.notifications.success('La liste des sessions a été importée avec succès.');
     } catch (err) {
       this.notifications.error(err.body.errors[0].detail);
