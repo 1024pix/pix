@@ -10,7 +10,7 @@ function _setFilters(qb, { search, studentNumber, groups, certificability } = {}
     filterByFullName(qb, search, 'organization-learners.firstName', 'organization-learners.lastName');
   }
   if (studentNumber) {
-    qb.whereRaw('LOWER("organization-learners"."studentNumber") LIKE ?', `%${studentNumber.toLowerCase()}%`);
+    qb.whereILike('organization-learners.studentNumber', `%${studentNumber}%`);
   }
   if (groups) {
     qb.whereIn(

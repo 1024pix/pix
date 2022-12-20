@@ -45,7 +45,7 @@ module.exports = {
 function _applyFilters(qb, filter) {
   const { name, id } = filter;
   if (name) {
-    qb.whereRaw('LOWER("name") LIKE ?', `%${name.toLowerCase()}%`);
+    qb.whereILike('name', `%${name}%`);
   }
   if (id) {
     qb.where({ id });

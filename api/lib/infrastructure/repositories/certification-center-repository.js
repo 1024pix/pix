@@ -35,13 +35,13 @@ function _setSearchFiltersForQueryBuilder(filters, qb) {
     qb.whereRaw('CAST(id as TEXT) LIKE ?', `%${id.toString().toLowerCase()}%`);
   }
   if (name) {
-    qb.whereRaw('LOWER("name") LIKE ?', `%${name.toLowerCase()}%`);
+    qb.whereILike('name', `%${name}%`);
   }
   if (type) {
-    qb.whereRaw('LOWER("type") LIKE ?', `%${type.toLowerCase()}%`);
+    qb.whereILike('type', `%${type}%`);
   }
   if (externalId) {
-    qb.whereRaw('LOWER("externalId") LIKE ?', `%${externalId.toLowerCase()}%`);
+    qb.whereILike('externalId', `%${externalId}%`);
   }
 }
 

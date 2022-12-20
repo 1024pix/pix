@@ -38,13 +38,13 @@ function _setSearchFiltersForQueryBuilder(qb, filter) {
     qb.where('organizations.id', id);
   }
   if (name) {
-    qb.whereRaw('LOWER("name") LIKE ?', `%${name.toLowerCase()}%`);
+    qb.whereILike('name', `%${name}%`);
   }
   if (type) {
-    qb.whereRaw('LOWER("type") LIKE ?', `%${type.toLowerCase()}%`);
+    qb.whereILike('type', `%${type}%`);
   }
   if (externalId) {
-    qb.whereRaw('LOWER("externalId") LIKE ?', `%${externalId.toLowerCase()}%`);
+    qb.whereILike('externalId', `%${externalId}%`);
   }
 }
 
