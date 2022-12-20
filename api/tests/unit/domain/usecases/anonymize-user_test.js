@@ -1,5 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const anonymizeUser = require('../../../../lib/domain/usecases/anonymize-user');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Unit | UseCase | anonymize-user', function () {
   let clock;
@@ -25,12 +26,20 @@ describe('Unit | UseCase | anonymize-user', function () {
     };
     const expectedAnonymizedUser = Symbol('anonymized user');
 
+    const domainTransaction = {
+      knexTransaction: Symbol('transaction'),
+    };
+    sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
+      return callback(domainTransaction);
+    });
+
     const userRepository = { updateUserDetailsForAdministration: sinon.stub(), getUserDetailsForAdmin: sinon.stub() };
+    userRepository.getUserDetailsForAdmin.withArgs(userId).resolves(expectedAnonymizedUser);
+
     const authenticationMethodRepository = { removeAllAuthenticationMethodsByUserId: sinon.stub() };
     const refreshTokenService = { revokeRefreshTokensForUserId: sinon.stub() };
     const membershipRepository = { disableMembershipsByUserId: sinon.stub() };
     const certificationCenterMembershipRepository = { disableMembershipsByUserId: sinon.stub() };
-    userRepository.getUserDetailsForAdmin.withArgs(userId).resolves(expectedAnonymizedUser);
 
     // when
     const result = await anonymizeUser({
@@ -48,19 +57,23 @@ describe('Unit | UseCase | anonymize-user', function () {
 
     expect(authenticationMethodRepository.removeAllAuthenticationMethodsByUserId).to.have.been.calledWithExactly({
       userId,
+      domainTransaction,
     });
     expect(refreshTokenService.revokeRefreshTokensForUserId).to.have.been.calledWithExactly({ userId });
     expect(membershipRepository.disableMembershipsByUserId).to.have.been.calledWith({
       userId,
       updatedByUserId,
+      domainTransaction,
     });
     expect(certificationCenterMembershipRepository.disableMembershipsByUserId).to.have.been.calledWith({
       updatedByUserId,
       userId,
+      domainTransaction,
     });
     expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWithExactly({
       id: userId,
       userAttributes: anonymizedUser,
+      domainTransaction,
     });
   });
 });
