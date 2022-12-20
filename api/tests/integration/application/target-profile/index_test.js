@@ -41,6 +41,7 @@ describe('Integration | Application | Route | target-profile-router', function (
           domainBuilder.buildCompetence({
             id: 'recComp1',
             area,
+            areaId: area.id,
             name: 'Super compétence',
             index: '1.1',
           }),
