@@ -28,7 +28,7 @@ module.exports = async function addPixAuthenticationMethodByEmail({
       }),
     });
     await authenticationMethodRepository.create({ authenticationMethod: authenticationMethodFromPix });
-
-    return userRepository.updateUserDetailsForAdministration({ id: userId, userAttributes: { email } });
+    await userRepository.updateUserDetailsForAdministration({ id: userId, userAttributes: { email } });
+    return userRepository.getUserDetailsForAdmin(userId);
   }
 };

@@ -246,11 +246,6 @@ module.exports = {
       if (!userDTO) {
         throw new UserNotFoundError(`User not found for ID ${id}`);
       }
-
-      const organizationLearnersDTO = await knex('organization-learners').where({ userId: userDTO.id });
-      const authenticationMethodsDTO = await knex('authentication-methods').where({ userId: userDTO.id });
-
-      return _toUserDetailsForAdminDomain({ userDTO, organizationLearnersDTO, authenticationMethodsDTO });
     } catch (err) {
       if (isUniqConstraintViolated(err)) {
         throw new AlreadyExistingEntityError('Cette adresse e-mail ou cet identifiant est déjà utilisé(e).');
@@ -443,33 +438,6 @@ function _fromKnexDTOToUserDetailsForAdmin({ userDTO, organizationLearnersDTO, a
     organizationLearners,
     authenticationMethods: authenticationMethodsDTO,
     userLogin,
-  });
-}
-
-function _toUserDetailsForAdminDomain({ userDTO, organizationLearnersDTO, authenticationMethodsDTO }) {
-  const organizationLearners = organizationLearnersDTO?.map(
-    (organizationLearnerDTO) => new OrganizationLearner(organizationLearnerDTO)
-  );
-  return new UserDetailsForAdmin({
-    id: userDTO.id,
-    firstName: userDTO.firstName,
-    lastName: userDTO.lastName,
-    birthdate: userDTO.birthdate,
-    organizationId: userDTO.organizationId,
-    username: userDTO.username,
-    email: userDTO.email,
-    cgu: userDTO.cgu,
-    pixOrgaTermsOfServiceAccepted: userDTO.pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted: userDTO.pixCertifTermsOfServiceAccepted,
-    createdAt: userDTO.createdAt,
-    lang: userDTO.lang,
-    lastTermsOfServiceValidatedAt: userDTO.lastTermsOfServiceValidatedAt,
-    lastPixOrgaTermsOfServiceValidatedAt: userDTO.lastPixOrgaTermsOfServiceValidatedAt,
-    lastPixCertifTermsOfServiceValidatedAt: userDTO.lastPixCertifTermsOfServiceValidatedAt,
-    lastLoggedAt: userDTO.lastLoggedAt,
-    emailConfirmedAt: userDTO.emailConfirmedAt,
-    organizationLearners,
-    authenticationMethods: authenticationMethodsDTO,
   });
 }
 

@@ -11,6 +11,7 @@ describe('Unit | UseCase | add-pix-authentication-method-by-email', function () 
     userRepository = {
       checkIfEmailIsAvailable: sinon.stub(),
       updateUserDetailsForAdministration: sinon.stub(),
+      getUserDetailsForAdmin: sinon.stub(),
     };
     authenticationMethodRepository = {
       hasIdentityProviderPIX: sinon.stub(),
