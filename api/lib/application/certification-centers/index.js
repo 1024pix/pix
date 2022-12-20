@@ -181,9 +181,7 @@ exports.register = async function (server) {
         payload: {
           maxBytes: 20715200,
           output: 'file',
-          parse: true,
-          allow: 'multipart/form-data',
-          multipart: true,
+          parse: 'gunzip',
         },
         tags: ['api', 'certification-center', 'sessions'],
         notes: [
