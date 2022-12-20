@@ -1304,13 +1304,13 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
           email: 'email_123@example.net',
           username: 'username_123',
         };
-        const updatedUser = await userRepository.updateUserDetailsForAdministration({
+        await userRepository.updateUserDetailsForAdministration({
           id: userInDb.id,
           userAttributes: userPropertiesToUpdate,
         });
 
         // then
-        expect(updatedUser).to.be.an.instanceOf(UserDetailsForAdmin);
+        const updatedUser = await knex('users').where({ id: userInDb.id }).first();
         expect(updatedUser.firstName).to.equal('prenom_123');
         expect(updatedUser.lastName).to.equal('nom_123');
         expect(updatedUser.email).to.equal('email_123@example.net');

@@ -17,21 +17,23 @@ describe('Unit | UseCase | anonymize-user', function () {
     // given
     const userId = 1;
     const updatedByUserId = 2;
-    const expectedAnonymizedUser = {
+    const anonymizedUser = {
       firstName: `prenom_${userId}`,
       lastName: `nom_${userId}`,
       email: `email_${userId}@example.net`,
       username: null,
     };
+    const expectedAnonymizedUser = Symbol('anonymized user');
 
-    const userRepository = { updateUserDetailsForAdministration: sinon.stub() };
+    const userRepository = { updateUserDetailsForAdministration: sinon.stub(), getUserDetailsForAdmin: sinon.stub() };
     const authenticationMethodRepository = { removeAllAuthenticationMethodsByUserId: sinon.stub() };
     const refreshTokenService = { revokeRefreshTokensForUserId: sinon.stub() };
     const membershipRepository = { disableMembershipsByUserId: sinon.stub() };
     const certificationCenterMembershipRepository = { disableMembershipsByUserId: sinon.stub() };
+    userRepository.getUserDetailsForAdmin.withArgs(userId).resolves(expectedAnonymizedUser);
 
     // when
-    await anonymizeUser({
+    const result = await anonymizeUser({
       userId,
       userRepository,
       authenticationMethodRepository,
@@ -42,6 +44,8 @@ describe('Unit | UseCase | anonymize-user', function () {
     });
 
     // then
+    expect(result).to.be.equal(expectedAnonymizedUser);
+
     expect(authenticationMethodRepository.removeAllAuthenticationMethodsByUserId).to.have.been.calledWithExactly({
       userId,
     });
@@ -56,7 +60,7 @@ describe('Unit | UseCase | anonymize-user', function () {
     });
     expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWithExactly({
       id: userId,
-      userAttributes: expectedAnonymizedUser,
+      userAttributes: anonymizedUser,
     });
   });
 });
