@@ -598,15 +598,15 @@ function _setSearchFiltersForQueryBuilder(filter, qb) {
   const { firstName, lastName, email, username } = filter;
 
   if (firstName) {
-    qb.whereRaw('LOWER("firstName") LIKE ?', `%${firstName.toLowerCase()}%`);
+    qb.whereILike('firstName', `%${firstName}%`);
   }
   if (lastName) {
-    qb.whereRaw('LOWER("lastName") LIKE ?', `%${lastName.toLowerCase()}%`);
+    qb.whereILike('lastName', `%${lastName}%`);
   }
   if (email) {
-    qb.whereRaw('LOWER("email") LIKE ?', `%${email.toLowerCase()}%`);
+    qb.whereILike('email', `%${email}%`);
   }
   if (username) {
-    qb.whereRaw('LOWER("username") LIKE ?', `%${username.toLowerCase()}%`);
+    qb.whereILike('username', `%${username}%`);
   }
 }

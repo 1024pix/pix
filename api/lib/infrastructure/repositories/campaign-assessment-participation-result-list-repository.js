@@ -81,8 +81,8 @@ function _filterBySearch(queryBuilder, filters) {
         '<=',
         0.8
       )
-        .orWhereRaw('LOWER("organization-learners"."lastName") LIKE ?', `%${search}%`)
-        .orWhereRaw('LOWER("organization-learners"."firstName") LIKE ?', `%${search}%`);
+        .orWhereILike('organization-learners.lastName', `%${search}%`)
+        .orWhereILike('organization-learners.firstName', `%${search}%`);
     });
   }
 }
