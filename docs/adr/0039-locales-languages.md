@@ -168,7 +168,7 @@ On souhaite donc :
 
 ## Décision
 
-* Recueillir les avis et commentaires de tous les développeurs Pix
+* Recueillir les avis et commentaires de tous les développeurs Pix. Ces avis et commentaires, s'il y en a, seront à centraliser dans un ticket Jira à créer et qui sera indépendant de la PR qui a servi à créer cet ADR.
 * Mettre en oeuvre cet ADR dans *pix-site*, le faire évoluer si besoin en fonction de l'expérience acquise
 
    Concrètement :
@@ -180,4 +180,4 @@ On souhaite donc :
 
    Cela ne devrait pas faire beaucoup de changements et cela devrait être des changements simples. C'est surtout que cela permettra de normer tout ce qu'on fait et de ne pas être dans l'arbitraire toujours à se demander quel nom donner à une variable et quelle valeur mettre dans cette variable.
 
-* Enfin, une fois que cet ADR aura été utilisé de manière satisfaisante sur *pix-site* on pourra le mettre en oeuvre dans tout le code de pix
+* Enfin, une fois que cet ADR aura été utilisé sur *pix-site*, un point d'étape sera fait, avec d'éventuelles modifications. On lui retirera alors son statut *En cours* avant de le mettre en oeuvre dans tout le code de pix.
