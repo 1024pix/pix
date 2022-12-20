@@ -47,15 +47,9 @@
           </p>
         </div>
         <div class="panel-actions__button">
-          {{! template-lint-disable require-presentational-children }}
-          {{#let (file-queue name="file-upload" onFileAdded=this.importCertificationCandidates) as |queue|}}
-            <label class="file-upload" for="upload-attendance-sheet">
-              <PixButtonLink role="button" tabindex="0">
-                Importer (.ods)&nbsp;<FaIcon @icon="cloud-upload-alt" />
-              </PixButtonLink>
-            </label>
-            <input id="upload-attendance-sheet" type="file" accept=".ods" hidden {{queue.selectFile}} />
-          {{/let}}
+          <PixButtonUpload @id="upload-attendance-sheet" @onChange={{this.importCertificationCandidates}} accept=".ods">
+            Importer (.ods)&nbsp;<FaIcon @icon="cloud-upload-alt" />
+          </PixButtonUpload>
         </div>
       {{else}}
         <div class="panel-actions__action-icon">
