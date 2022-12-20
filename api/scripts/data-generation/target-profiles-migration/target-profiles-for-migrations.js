@@ -1,21 +1,11 @@
 require('dotenv').config({ path: `${__dirname}/../../../.env` });
-const fs = require('fs').promises;
 const _ = require('lodash');
-const papa = require('papaparse');
 const { performance } = require('perf_hooks');
+const XLSX = require('xlsx');
 const logger = require('../../../lib/infrastructure/logger');
 const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
 const { knex, disconnect } = require('../../../db/knex-database-connection');
 const DatabaseBuilder = require('../../../db/database-builder/database-builder');
-
-const HEADERS = {
-  ID: 'id',
-  TO_OUTDATE: 'Si obsolète, mettre "OBSOLETE"',
-  MORE_THAN_AUTO_MIGRATION: 'On garde (passer sous le nouveau modèle) ?\nOUI / NON',
-  UNCAP: 'Sujets entiers ? (sans capage)\nOUI / NON',
-  UNIFORM_CAP: 'Capage uniforme ?\nSi OUI indiquer le niveau max\nSi NON mettre NON',
-  MULTIFORM_CAP: 'Capage multiforme\nSI OUI (précisez lesquels et à combien)\n¤¤¤',
-};
 
 const TARGET_PROFILE_ID_TO_OUTDATE = 2001;
 const TARGET_PROFILE_ID_AUTO = 2002;
@@ -66,7 +56,6 @@ async function _cacheLearningContentData() {
 }
 
 const prepareData = async () => {
-  console.log('prepareData...');
   await _cacheLearningContentData();
 
   const databaseBuilder = new DatabaseBuilder({ knex, emptyFirst: true });
@@ -129,93 +118,106 @@ const prepareData = async () => {
   await databaseBuilder.commit();
 };
 
-const doThingForPRO = async (file) => {
-  const report = {};
-  const actions = await _parseFile(file, report);
-  await _doActions(actions, report);
-  return report;
+const tabs = {
+  PRO: {
+    sheetToJsonConfig: {
+      header: ['id', 'name', undefined, undefined, 'obsolete', 'auto', 'uncap', 'uniformCap', 'multiformCap'],
+      range: 2,
+    },
+    mapper: (line) => ({
+      ...line,
+      obsolete: line.obsolete?.toLowerCase().trim() === 'obsolete',
+      auto: !ouiNonToBoolean(line.auto),
+      uncap: ouiNonToBoolean(line.uncap),
+      multiformCap: ouiNonToBoolean(line.multiformCap),
+    }),
+  },
 };
 
-async function _parseFile(file, report) {
-  const data = await fs.readFile(file, 'utf8');
-  const csvRawData = data.toString('utf8').replace(/^\uFEFF/, '');
-  const parsedCSVData = papa.parse(csvRawData, { header: true });
-  const actions = [];
-  for (const line of parsedCSVData.data.filter((line) => line[HEADERS.ID].length !== 0)) {
-    let shouldOutdate, shouldUncap, uniformCap, hasMultiformCap;
-    const id = parseInt(line[HEADERS.ID]);
-    if (line[HEADERS.TO_OUTDATE].toLowerCase() === 'obsolete') {
-      shouldOutdate = true;
-      shouldUncap = false;
-      uniformCap = -1;
-      hasMultiformCap = false;
-      actions.push({ id, shouldOutdate, shouldUncap, uniformCap, hasMultiformCap });
-      continue;
-    }
-    shouldOutdate = false;
-    if (line[HEADERS.MORE_THAN_AUTO_MIGRATION].toLowerCase() === 'non') {
-      shouldUncap = false;
-      uniformCap = -1;
-      hasMultiformCap = false;
-      actions.push({ id, shouldOutdate, shouldUncap, uniformCap, hasMultiformCap });
-      continue;
-    }
-    if (line[HEADERS.UNCAP].toLowerCase() === 'oui') {
-      shouldUncap = true;
-      uniformCap = -1;
-      hasMultiformCap = false;
-      actions.push({ id, shouldOutdate, shouldUncap, uniformCap, hasMultiformCap });
-      continue;
-    }
-    shouldUncap = false;
-    const uniformCapValue = parseInt(line[HEADERS.UNIFORM_CAP]);
-    if (!isNaN(uniformCapValue)) {
-      uniformCap = uniformCapValue;
-      hasMultiformCap = false;
-      actions.push({ id, shouldOutdate, shouldUncap, uniformCap, hasMultiformCap });
-      continue;
-    } else if (line[HEADERS.MULTIFORM_CAP].toLowerCase() === 'oui') {
-      uniformCap = -1;
-      hasMultiformCap = true;
-      actions.push({ id, shouldOutdate, shouldUncap, uniformCap, hasMultiformCap });
-      continue;
-    }
-    report[id.toString()] = `${id}: rien à faire`;
-  }
-  return actions;
+async function parseTabsData(file) {
+  const workbook = XLSX.readFile(file);
+
+  const tabsData = Object.fromEntries(
+    Object.entries(tabs).map(([tab, { sheetToJsonConfig, mapper = (_) => _ }]) => [
+      tab,
+      XLSX.utils.sheet_to_json(workbook.Sheets[tab], sheetToJsonConfig).map(mapper),
+    ])
+  );
+
+  return tabsData;
 }
 
-async function _doActions(actions, report) {
-  for (const tpAction of actions) {
-    const trx = await knex.transaction();
+function ouiNonToBoolean(s, defaultValue = false) {
+  return s?.toLowerCase().trim().startsWith('o') ?? defaultValue;
+}
+
+async function migrateTargetProfiles(targetProfiles) {
+  for (const targetProfile of targetProfiles) {
     try {
-      const exists = await _checkIfTPExists(tpAction.id, trx);
-      if (!exists) {
-        report[tpAction.id.toString()] = `${tpAction.id}: PC n'existe pas`;
-        continue;
-      }
-      const alreadyHasTubes = await _checkIfTPAlreadyHasTubes(tpAction.id, trx);
-      if (alreadyHasTubes) {
-        report[tpAction.id.toString()] = `${tpAction.id}: PC déjà converti`;
-        continue;
-      }
-      await _doAutomaticMigration(tpAction.id, trx);
-      if (tpAction.shouldOutdate) {
-        await _outdate(tpAction.id, trx);
-      }
-      if (tpAction.shouldUncap) {
-        await _uncap(tpAction.id, trx);
-      }
-      if (tpAction.uniformCap !== -1) {
-        await _uniformCap(tpAction.id, tpAction.uniformCap, trx);
-      }
-      if (tpAction.hasMultiformCap) {
-        console.log(`${tpAction.id}: multiform todo`);
-      }
-      await trx.commit();
-    } catch (err) {
-      await trx.rollback();
-      report[tpAction.id.toString()] = `${tpAction.id}: ${err}`;
+      await knex.transaction(async (trx) => {
+        const exists = await _checkIfTPExists(targetProfile.id, trx);
+        if (!exists) {
+          logger.warn(
+            { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
+            `Profil cible introuvable`
+          );
+          return;
+        }
+        const alreadyHasTubes = await _checkIfTPAlreadyHasTubes(targetProfile.id, trx);
+        if (alreadyHasTubes) {
+          logger.info(
+            { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
+            `Profil cible déja migré`
+          );
+          return;
+        }
+        await _doAutomaticMigration(targetProfile.id, trx);
+        if (targetProfile.obsolete) {
+          await _outdate(targetProfile.id, trx);
+          logger.info(
+            { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
+            `Profil cible marqué comme obsolète`
+          );
+          return;
+        }
+        if (targetProfile.auto) {
+          logger.info(
+            { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
+            `Profil cible migré automatiquement`
+          );
+          return;
+        }
+        if (targetProfile.uncap) {
+          await _uncap(targetProfile.id, trx);
+          logger.info(
+            { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
+            `Profil cible décappé`
+          );
+          return;
+        }
+        if (targetProfile.uniformCap != undefined) {
+          await _uniformCap(targetProfile.id, targetProfile.uniformCap, trx);
+          logger.info(
+            { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
+            `Profil cible cappé uniformément à %s`,
+            targetProfile.uniformCap
+          );
+          return;
+        }
+        if (targetProfile.multiformCap) {
+          logger.error(
+            { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
+            `Profil cible cappé multiforme non traité`,
+            targetProfile.uniformCap
+          );
+        }
+      });
+    } catch (e) {
+      logger.error(
+        { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
+        `Erreur lors de la migration d'un profil cible: %s`,
+        e
+      );
     }
   }
 }
@@ -457,9 +459,8 @@ async function main() {
   logger.info(`Script ${__filename} has started`);
   await prepareData();
   const file = process.argv[2];
-  const report = await doThingForPRO(file);
-  console.log(report);
-  await checkData(report);
+  const tabsData = await parseTabsData(file);
+  await migrateTargetProfiles(tabsData['PRO']);
   const endTime = performance.now();
   const duration = Math.round(endTime - startTime);
   logger.info(`Script has ended: took ${duration} milliseconds`);
@@ -473,12 +474,10 @@ async function main() {
       logger.error(error);
       process.exitCode = 1;
     } finally {
-      //const databaseBuilder = new DatabaseBuilder({ knex, emptyFirst: false });
-      //await databaseBuilder.clean();
       await disconnect();
       await cache.quit();
     }
   }
 })();
 
-module.exports = { prepareData, doThingForPRO, checkData };
+module.exports = { prepareData, checkData };
