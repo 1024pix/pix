@@ -2,8 +2,8 @@
   {{#if this.displayNoSessionPanel}}
     <NoSessionPanel />
   {{else}}
-    <Sessions::PanelHeader />
+    <Sessions::PanelHeader @reloadSessionSummaries={{@model.refreshModel}} />
 
-    <SessionSummaryList @sessionSummaries={{@model}} @goToSessionDetails={{this.goToSessionDetails}} />
+    <SessionSummaryList @sessionSummaries={{@model.sessionSummaries}} @goToSessionDetails={{this.goToSessionDetails}} />
   {{/if}}
 </div>

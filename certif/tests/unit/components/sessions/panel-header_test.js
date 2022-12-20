@@ -90,6 +90,9 @@ module('Unit | Component | panel-header', function (hooks) {
       const file = {
         upload: sinon.stub(),
       };
+      component.args = {
+        reloadSessionSummaries: sinon.stub(),
+      };
       component.notifications = { success: sinon.stub() };
 
       // when
