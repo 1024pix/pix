@@ -11,6 +11,7 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', functi
       const competence = domainBuilder.buildCompetence({
         id: 'recCompetence1',
         competenceId: 'recCompetence1',
+        areaId: 'recArea1',
         tubes: [tube],
       });
       const area = domainBuilder.buildArea({ id: 'recArea1', competences: [competence] });
@@ -80,11 +81,13 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', functi
       });
       const competence1Area1 = domainBuilder.buildCompetence({
         id: 'a1_c1_id',
+        areaId: 'a1_id',
         tubes: [tube1Area1, tube2Area1],
         origin: 'Origin1',
       });
       const competence2Area1 = domainBuilder.buildCompetence({
         id: 'a1_c2_id',
+        areaId: 'a1_id',
         tubes: [tube3Area1],
         origin: 'Origin2',
       });
@@ -109,6 +112,7 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', functi
       });
       const competence1Area2 = domainBuilder.buildCompetence({
         id: 'a2_c1_id',
+        areaId: 'a2_id',
         tubes: [tube1Area2],
         origin: 'Origin1',
       });
@@ -310,6 +314,7 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', functi
       });
       const competence1 = domainBuilder.buildCompetence({
         id: 'competence1',
+        areaId: 'area1',
         tubes: [tube1],
       });
       const area1 = domainBuilder.buildArea({

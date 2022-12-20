@@ -79,12 +79,14 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
           domainBuilder.buildCompetence({
             id: 'recComp1',
             area,
+            areaId: area.id,
             name: 'Super compétence',
             index: '1.1',
           }),
           domainBuilder.buildCompetence({
             id: 'recComp2',
             area: area2,
+            areaId: area2.id,
             name: 'Super compétence2',
             index: '1.2',
           }),

@@ -9,7 +9,7 @@ describe('Integration | Repository | competence-repository', function () {
     it('should return the competence with full area (minus name)', async function () {
       // given
       const expectedArea = domainBuilder.buildArea();
-      const expectedCompetence = domainBuilder.buildCompetence({ area: expectedArea });
+      const expectedCompetence = domainBuilder.buildCompetence({ area: expectedArea, areaId: expectedArea.id });
       const learningContent = {
         areas: [
           {

@@ -1004,6 +1004,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       const competence = domainBuilder.buildCompetence({
         id: `comp_${areaName}_id`,
         name: `comp_${areaName}`,
+        areaId,
         tubes,
         origin,
       });

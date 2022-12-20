@@ -44,7 +44,7 @@ describe('Unit | UseCase | get-target-profile-content-as-json', function () {
       const targetProfileForAdmin = domainBuilder.buildTargetProfileForAdmin({
         name: 'Profil Rentrée scolaire',
         areas: [area],
-        competences: [domainBuilder.buildCompetence({ id: 'recCompetence', area })],
+        competences: [domainBuilder.buildCompetence({ id: 'recCompetence', area, areaId: area.id })],
         thematics: [
           domainBuilder.buildThematic({ id: 'recThematic1', competenceId: 'recCompetence' }),
           domainBuilder.buildThematic({ id: 'recThematic2', competenceId: 'recCompetence' }),

@@ -70,6 +70,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-old-format-seri
           domainBuilder.buildCompetence({
             id: 'recComp1',
             area,
+            areaId: area.id,
             name: 'Super compétence',
             index: '2.1',
           }),

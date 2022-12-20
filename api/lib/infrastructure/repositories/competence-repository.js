@@ -23,6 +23,7 @@ function _toDomain({ competenceData, areaDatas, locale }) {
     origin: competenceData.origin,
     skillIds: competenceData.skillIds,
     thematicIds: competenceData.thematicIds,
+    areaId: competenceData.areaId,
     area:
       areaData &&
       new Area({
