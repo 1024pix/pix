@@ -317,6 +317,19 @@ module.exports = {
     return h.response(organizationInvitationSerializer.serialize(organizationInvitations)).created();
   },
 
+  async resendInvitation(request, h) {
+    const organizationId = request.params.id;
+    const email = request.payload.data.attributes.email;
+    const locale = extractLocaleFromRequest(request);
+
+    const organizationInvitation = await usecases.resendOrganizationInvitation({
+      organizationId,
+      email,
+      locale,
+    });
+    return h.response(organizationInvitationSerializer.serialize(organizationInvitation));
+  },
+
   async cancelOrganizationInvitation(request, h) {
     const organizationInvitationId = request.params.organizationInvitationId;
     await usecases.cancelOrganizationInvitation({ organizationInvitationId });
