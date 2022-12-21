@@ -266,7 +266,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
             await click('#submit-search');
             //go to email-based authentication window
-            await click('.pix-toggle__off');
+            await click('.pix-toggle-deprecated__off');
 
             await fillIn('#email', prescritUser.email);
             await fillIn('#password', 'pix123');
@@ -286,7 +286,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             assert.equal(find('#password').value, 'pix123');
 
             //go to username-based authentication window
-            await click('.pix-toggle__off');
+            await click('.pix-toggle-deprecated__off');
             // TODO: Fix this the next time the file is edited.
             // eslint-disable-next-line qunit/no-assert-equal
             assert.equal(find('span[data-test-username]').textContent, 'first.last1010');

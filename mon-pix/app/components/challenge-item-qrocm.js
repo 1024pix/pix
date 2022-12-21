@@ -6,11 +6,12 @@ import isEmpty from 'lodash/isEmpty';
 import ChallengeItemGeneric from './challenge-item-generic';
 import jsyaml from 'js-yaml';
 import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
+import { tracked } from '@glimmer/tracking';
 
 export default class ChallengeItemQrocm extends ChallengeItemGeneric {
   @service intl;
 
-  answersValue = {};
+  @tracked answersValue = {};
 
   constructor() {
     super(...arguments);
@@ -54,5 +55,10 @@ export default class ChallengeItemQrocm extends ChallengeItemGeneric {
   @action
   answerChanged() {
     this.errorMessage = null;
+  }
+
+  @action
+  onChangeSelect(value) {
+    this.answersValue = value;
   }
 }

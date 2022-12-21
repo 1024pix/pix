@@ -33,8 +33,8 @@ export default class QrocmProposal extends Component {
   }
 
   @action
-  setAnswerValue(event) {
-    const key = event.target.id;
-    this.args.answersValue[key] = event.target.value;
+  onChange(key, value) {
+    this.args.answersValue[key] = value;
+    this.args.onChangeSelect(this.args.answersValue);
   }
 }

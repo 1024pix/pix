@@ -2,6 +2,7 @@ import { click, find, findAll, currentURL, fillIn, triggerEvent, visit } from '@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
 
 module('Acceptance | Displaying a QROCM challenge', function (hooks) {
   setupApplicationTest(hooks);
@@ -76,14 +77,12 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
       });
     });
 
-    module('and challenge contains select field', function (hooks) {
-      hooks.beforeEach(async function () {
-        // when
-        server.create('challenge', 'forCompetenceEvaluation', 'QROCMWithSelect');
-        await visit(`/assessments/${assessment.id}/challenges/0`);
-      });
-
+    module('and challenge contains select field', function () {
       test('should not be able to validate with the initial option', async function (assert) {
+        // given
+        server.create('challenge', 'forCompetenceEvaluation', 'QROCMWithSelect');
+        await visitScreen(`/assessments/${assessment.id}/challenges/0`);
+
         // when
         await click(find('.challenge-actions__action-validate'));
 
@@ -94,11 +93,12 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
 
       test('should not be able to validate the empty option', async function (assert) {
         // given
-        const selectOptions = findAll('select[data-test="challenge-response-proposal-selector"] option');
-        const optionToFillIn = selectOptions[0];
+        server.create('challenge', 'forCompetenceEvaluation', 'QROCMWithSelect');
+        const screen = await visitScreen(`/assessments/${assessment.id}/challenges/0`);
 
         // when
-        await fillIn('select[data-test="challenge-response-proposal-selector"]', optionToFillIn.value);
+        await clickByName('saladAriaLabel');
+        await screen.findByRole('listbox');
         await click(find('.challenge-actions__action-validate'));
 
         // then
@@ -108,11 +108,13 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
 
       test('should validate an option and redirect to next page', async function (assert) {
         // given
-        const selectOptions = findAll('select[data-test="challenge-response-proposal-selector"] option');
-        const optionToFillIn = selectOptions[1];
+        server.create('challenge', 'forCompetenceEvaluation', 'QROCMWithSelect');
+        const screen = await visitScreen(`/assessments/${assessment.id}/challenges/0`);
 
         // when
-        await fillIn('select[data-test="challenge-response-proposal-selector"]', optionToFillIn.value);
+        await clickByName('saladAriaLabel');
+        await screen.findByRole('listbox');
+        await click(screen.getByRole('option', { name: 'potato' }));
         await click(find('.challenge-actions__action-validate'));
 
         // then
@@ -156,8 +158,8 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
       });
     });
 
-    module('and challenge contains select field', function (hooks) {
-      hooks.beforeEach(async function () {
+    module('and challenge contains select field', function () {
+      test('should set the select with previous answer and propose to continue', async function (assert) {
         // given
         const qrocmWithSelectChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCMWithSelect');
         server.create('answer', {
@@ -168,12 +170,10 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         });
 
         // when
-        await visit(`/assessments/${assessment.id}/challenges/0`);
-      });
+        const screen = await visitScreen(`/assessments/${assessment.id}/challenges/0`);
 
-      test('should set the select with previous answer and propose to continue', async function (assert) {
         // then
-        assert.ok(findAll('select[data-test="challenge-response-proposal-selector"] option')[1].selected);
+        assert.strictEqual(screen.getByLabelText('saladAriaLabel').innerText, 'mango');
 
         assert.dom('.challenge-actions__action-continue').exists();
         assert.dom('.challenge-actions__action-validate').doesNotExist();

@@ -1,7 +1,9 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { fillIn, find, findAll, render } from '@ember/test-helpers';
+import { find, findAll, render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import { clickByName, render as renderScreen } from '@1024pix/ember-testing-library';
+import sinon from 'sinon';
 
 module('Integration | Component | QROCm proposal', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -17,40 +19,23 @@ module('Integration | Component | QROCm proposal', function (hooks) {
       this.set('proposals', '${potato§La patate#samurai options=["salad", "tomato", "onion"]}');
     });
 
-    test('should display a selector with related options', async function (assert) {
-      // given
-      const placeholderValue = '';
-      const expectedOptionValues = [placeholderValue, 'salad', 'tomato', 'onion'];
-
-      // when
-      await render(hbs`<QrocmProposal @proposals={{this.proposals}}/>`);
-
-      // then
-      const selector = find('select[data-test="challenge-response-proposal-selector"]');
-      const options = findAll('select[data-test="challenge-response-proposal-selector"] option');
-      const optionValues = options.map((option) => option.value);
-
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(selector.tagName, 'SELECT');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(selector.getAttribute('aria-label'), 'La patate');
-      assert.deepEqual(optionValues, expectedOptionValues);
-    });
-
     test('should select option', async function (assert) {
       // given
+      const onChangeSelectStub = sinon.stub();
       this.set('answersValue', { potato: null });
+      this.set('onChangeSelect', onChangeSelectStub);
+      const screen = await renderScreen(
+        hbs`<QrocmProposal @proposals={{this.proposals}} @answersValue={{this.answersValue}} @onChangeSelect={{this.onChangeSelect}}/>`
+      );
 
       // when
-      await render(hbs`<QrocmProposal @proposals={{this.proposals}} @answersValue={{this.answersValue}}/>`);
-      await fillIn('select[data-test="challenge-response-proposal-selector"]', 'tomato');
+      await clickByName('La patate');
+      await screen.findByRole('listbox');
+      await click(screen.getByRole('option', { name: 'tomato' }));
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(this.answersValue['potato'], 'tomato');
+      sinon.assert.calledOnce(onChangeSelectStub);
+      assert.ok(true);
     });
   });
 
