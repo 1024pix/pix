@@ -231,7 +231,7 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         const startDate = new Date('2022-01-01');
         const endDate = new Date('2022-01-10');
 
-        createCertificationCourseWithCompetenceMarks({ sessionDate: '2022-01-08', cpfFilename: 'file.xml' });
+        createCertificationCourseWithCompetenceMarks({ sessionDate: '2022-01-08', cpfImportStatus: 'SUCCESS' });
         await databaseBuilder.commit();
 
         // when
@@ -462,24 +462,22 @@ describe('Integration | Repository | CpfCertificationResult', function () {
   describe('#markCertificationCoursesAsExported', function () {
     it('should save filename in cpfFilename', async function () {
       // given
-      databaseBuilder.factory.buildCertificationCourse({ id: 123, cpfFilename: null });
-      databaseBuilder.factory.buildCertificationCourse({ id: 456, cpfFilename: null });
-      databaseBuilder.factory.buildCertificationCourse({ id: 789, cpfFilename: null });
+      databaseBuilder.factory.buildCertificationCourse({ id: 123 });
+      databaseBuilder.factory.buildCertificationCourse({ id: 456 });
+      databaseBuilder.factory.buildCertificationCourse({ id: 789 });
       await databaseBuilder.commit();
 
       // when
       await cpfCertificationResultRepository.markCertificationCoursesAsExported({
         certificationCourseIds: [456, 789],
-        filename: 'filename.xml',
-        cpfImportStatus: 'GENERATED',
       });
 
       // then
-      const certificationCourses = await knex('certification-courses').select('id', 'cpfFilename', 'cpfImportStatus');
+      const certificationCourses = await knex('certification-courses').select('id', 'cpfImportStatus');
       expect(certificationCourses).to.deep.equal([
-        { id: 123, cpfImportStatus: null, cpfFilename: null },
-        { id: 456, cpfImportStatus: 'GENERATED', cpfFilename: 'filename.xml' },
-        { id: 789, cpfImportStatus: 'GENERATED', cpfFilename: 'filename.xml' },
+        { id: 123, cpfImportStatus: null },
+        { id: 456, cpfImportStatus: 'READY_TO_SEND' },
+        { id: 789, cpfImportStatus: 'READY_TO_SEND' },
       ]);
     });
   });
@@ -487,26 +485,23 @@ describe('Integration | Repository | CpfCertificationResult', function () {
   describe('#markCertificationToExport', function () {
     it('should save batchId in cpfFilename', async function () {
       // given
-      databaseBuilder.factory.buildCertificationCourse({ id: 123, cpfFilename: null });
-      databaseBuilder.factory.buildCertificationCourse({ id: 456, cpfFilename: null });
-      databaseBuilder.factory.buildCertificationCourse({ id: 789, cpfFilename: null });
+      databaseBuilder.factory.buildCertificationCourse({ id: 123 });
+      databaseBuilder.factory.buildCertificationCourse({ id: 456 });
+      databaseBuilder.factory.buildCertificationCourse({ id: 789 });
       await databaseBuilder.commit();
 
       // when
       await cpfCertificationResultRepository.markCertificationToExport({
         certificationCourseIds: [456, 789],
         batchId: '1234-75834#0',
-        cpfImportStatus: 'PENDING',
       });
 
       // then
-      const certificationCourses = await knex('certification-courses')
-        .select('id', 'cpfFilename', 'cpfImportStatus')
-        .orderBy('id');
+      const certificationCourses = await knex('certification-courses').select('id', 'cpfImportStatus').orderBy('id');
       expect(certificationCourses).to.deep.equal([
-        { id: 123, cpfImportStatus: null, cpfFilename: null },
-        { id: 456, cpfImportStatus: 'PENDING', cpfFilename: '1234-75834#0' },
-        { id: 789, cpfImportStatus: 'PENDING', cpfFilename: '1234-75834#0' },
+        { id: 123, cpfImportStatus: null },
+        { id: 456, cpfImportStatus: 'PENDING' },
+        { id: 789, cpfImportStatus: 'PENDING' },
       ]);
     });
   });
@@ -544,6 +539,7 @@ function createCertificationCourseWithCompetenceMarks({
   isPublished = true,
   sessionDate = '2022-01-08',
   cpfFilename = null,
+  cpfImportStatus = null,
 }) {
   const publishedSessionId = databaseBuilder.factory.buildSession({ publishedAt: new Date(sessionDate) }).id;
   databaseBuilder.factory.buildCertificationCourse({
@@ -560,6 +556,7 @@ function createCertificationCourseWithCompetenceMarks({
     sessionId: publishedSessionId,
     isCancelled: certificationCourseCancelled,
     cpfFilename,
+    cpfImportStatus,
   }).id;
   databaseBuilder.factory.buildAssessmentResult({
     id: 2244,
