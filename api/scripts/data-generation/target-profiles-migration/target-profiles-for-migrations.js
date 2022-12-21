@@ -144,6 +144,18 @@ const tabs = {
       multiformCap: ouiNonToBoolean(line.multiformCap),
     }),
   },
+  SUP: {
+    sheetToJsonConfig: {
+      header: ['id', 'name', 'auto', 'uncap', 'uniformCap', 'multiformCap'],
+      range: 2,
+    },
+    mapper: (line) => ({
+      ...line,
+      auto: !ouiNonToBoolean(line.auto),
+      uncap: ouiNonToBoolean(line.uncap),
+      multiformCap: ouiNonToBoolean(line.multiformCap),
+    }),
+  },
 };
 
 async function parseTabsData(file) {
@@ -207,7 +219,7 @@ async function migrateTargetProfiles(targetProfiles) {
           );
           return;
         }
-        if (targetProfile.uniformCap != undefined) {
+        if (typeof targetProfile.uniformCap === 'number') {
           await _uniformCap(targetProfile.id, targetProfile.uniformCap, trx);
           logger.info(
             { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
@@ -217,12 +229,14 @@ async function migrateTargetProfiles(targetProfiles) {
           return;
         }
         if (targetProfile.multiformCap) {
-          logger.error(
+          logger.warn(
             { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
             `Profil cible cappé multiforme non traité`,
             targetProfile.uniformCap
           );
+          return;
         }
+        throw new Error('Aucune action définie pour le profil cible');
       });
     } catch (e) {
       logger.error(
@@ -508,6 +522,7 @@ async function main() {
   await prepareData();
   const file = process.argv[2];
   const tabsData = await parseTabsData(file);
+  console.log(tabsData);
   await migrateTargetProfiles(tabsData['PRO']);
   const endTime = performance.now();
   const duration = Math.round(endTime - startTime);
