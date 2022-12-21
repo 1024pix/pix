@@ -224,6 +224,7 @@ module.exports = injectDependencies(
     createOrganization: require('./create-organization'),
     createOrganizationInvitationByAdmin: require('./create-organization-invitation-by-admin'),
     createOrganizationInvitations: require('./create-organization-invitations'),
+    resendOrganizationInvitation: require('./resend-organization-invitation'),
     createOrganizationPlacesLot: require('./create-organization-places-lot'),
     createPasswordResetDemand: require('./create-password-reset-demand'),
     createSession: require('./create-session'),
