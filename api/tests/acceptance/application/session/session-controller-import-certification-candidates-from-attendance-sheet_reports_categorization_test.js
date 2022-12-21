@@ -62,12 +62,7 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
             // given
             const odsFileName = 'files/1.5/import-certification-candidates-reports-categorization-test-ok.ods';
             const odsFilePath = `${__dirname}/${odsFileName}`;
-            const options = {
-              method: 'POST',
-              url: `/api/sessions/${sessionIdAllowed}/certification-candidates/import`,
-              headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-              payload: fs.createReadStream(odsFilePath),
-            };
+            const options = generateOptions({ odsFilePath, userId: user.id, sessionId: sessionIdAllowed });
 
             // when
             const response = await server.inject(options);
@@ -83,12 +78,7 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
             const odsFileName =
               'files/1.5/import-certification-candidates-reports-categorization-test-special-birthdate-ok.ods';
             const odsFilePath = `${__dirname}/${odsFileName}`;
-            const options = {
-              method: 'POST',
-              url: `/api/sessions/${sessionIdAllowed}/certification-candidates/import`,
-              headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-              payload: fs.createReadStream(odsFilePath),
-            };
+            const options = generateOptions({ odsFilePath, userId: user.id, sessionId: sessionIdAllowed });
 
             // when
             const response = await server.inject(options);
@@ -105,12 +95,7 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
           const odsFileName =
             'files/1.5/import-certification-candidates-reports-categorization-test-ko-invalid-file.ods';
           const odsFilePath = `${__dirname}/${odsFileName}`;
-          const options = {
-            method: 'POST',
-            url: `/api/sessions/${sessionIdAllowed}/certification-candidates/import`,
-            headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-            payload: fs.createReadStream(odsFilePath),
-          };
+          const options = generateOptions({ odsFilePath, userId: user.id, sessionId: sessionIdAllowed });
 
           // when
           const response = await server.inject(options);
@@ -126,12 +111,7 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
         // given
         const odsFileName = 'files/1.5/import-certification-candidates-reports-categorization-test-ko-invalid-data.ods';
         const odsFilePath = `${__dirname}/${odsFileName}`;
-        const options = {
-          method: 'POST',
-          url: `/api/sessions/${sessionIdAllowed}/certification-candidates/import`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-          payload: fs.createReadStream(odsFilePath),
-        };
+        const options = generateOptions({ odsFilePath, userId: user.id, sessionId: sessionIdAllowed });
 
         // when
         const response = await server.inject(options);
@@ -146,12 +126,7 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
         // given
         const odsFileName = 'files/1.5/import-certification-candidates-reports-categorization-test-ok.ods';
         const odsFilePath = `${__dirname}/${odsFileName}`;
-        const options = {
-          method: 'POST',
-          url: `/api/sessions/${sessionIdAllowed}/certification-candidates/import`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-          payload: fs.createReadStream(odsFilePath),
-        };
+        const options = generateOptions({ odsFilePath, userId: user.id, sessionId: sessionIdAllowed });
 
         const userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildCertificationCandidate({ sessionId: sessionIdAllowed, userId });
@@ -166,3 +141,12 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
     });
   });
 });
+
+function generateOptions({ odsFilePath, userId, sessionId }) {
+  return {
+    method: 'POST',
+    url: `/api/sessions/${sessionId}/certification-candidates/import`,
+    headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+    payload: fs.createReadStream(odsFilePath),
+  };
+}

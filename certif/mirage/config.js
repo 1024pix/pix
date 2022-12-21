@@ -1,5 +1,4 @@
 import { Response } from 'miragejs';
-import { uploadHandler } from 'ember-file-upload';
 import { findPaginatedStudents } from './handlers/find-paginated-students';
 import { findPaginatedSessionSummaries } from './handlers/find-paginated-session-summaries';
 
@@ -114,65 +113,62 @@ export default function () {
     return { data: null };
   });
 
-  this.post(
-    '/sessions/:id/certification-candidates/import',
-    uploadHandler(function (schema, request) {
-      const { name } = request.requestBody.file;
-      if (name === 'invalid-file') {
-        return new Response(
-          422,
-          { some: 'header' },
-          {
-            errors: [
-              {
-                code: 'INVALID_DOCUMENT',
-                status: '422',
-                title: 'Unprocessable Entity',
-                detail: 'Une erreur personnalisée.',
-              },
-            ],
-          }
-        );
-      }
-      if (name === 'validation-error') {
-        return new Response(
-          422,
-          { some: 'header' },
-          {
-            errors: [
-              {
-                status: '422',
-                title: 'Unprocessable Entity',
-                detail: 'Une erreur personnalisée.',
-              },
-            ],
-          }
-        );
-      }
-      if (name === 'forbidden-import') {
-        return new Response(
-          403,
-          { some: 'header' },
-          {
-            errors: [
-              {
-                status: '403',
-                title: 'Forbidden',
-                detail: 'At least one candidate is already linked to a user',
-              },
-            ],
-          }
-        );
-      }
-      if (name.endsWith('addTwoCandidates')) {
-        const sessionId = name.split('.')[0];
-        const certificationCandidates = schema.certificationCandidates.where({ sessionId });
-        certificationCandidates.destroy();
-        server.createList('certification-candidate', 2, { isLinked: false, sessionId });
-      }
-      return new Response(204);
-    })
-  );
+  this.post('/sessions/:id/certification-candidates/import', function (schema, request) {
+    const { type } = request.requestBody;
+    if (type === 'invalid-file') {
+      return new Response(
+        422,
+        { some: 'header' },
+        {
+          errors: [
+            {
+              code: 'INVALID_DOCUMENT',
+              status: '422',
+              title: 'Unprocessable Entity',
+              detail: 'Une erreur personnalisée.',
+            },
+          ],
+        }
+      );
+    }
+    if (type === 'validation-error') {
+      return new Response(
+        422,
+        { some: 'header' },
+        {
+          errors: [
+            {
+              status: '422',
+              title: 'Unprocessable Entity',
+              detail: 'Une erreur personnalisée.',
+            },
+          ],
+        }
+      );
+    }
+    if (type === 'forbidden-import') {
+      return new Response(
+        403,
+        { some: 'header' },
+        {
+          errors: [
+            {
+              status: '403',
+              title: 'Forbidden',
+              detail: 'At least one candidate is already linked to a user',
+            },
+          ],
+        }
+      );
+    }
+    if (type.endsWith('add-two-candidates')) {
+      const sessionId = type.split('.')[0];
+      const certificationCandidates = schema.certificationCandidates.where({ sessionId });
+      certificationCandidates.destroy();
+      server.createList('certification-candidate', 2, { isLinked: false, sessionId });
+    }
+    return new Response(204);
+  });
 
   this.put('/sessions/:id/enroll-students-to-session', (schema, request) => {
     const requestBody = JSON.parse(request.requestBody);
