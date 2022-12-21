@@ -1,7 +1,5 @@
 const { readFile } = require('fs').promises;
 const _ = require('lodash');
-const moment = require('moment');
-moment.suppressDeprecationWarnings = true;
 
 const { expect, catchErr } = require('../../../../test-helper');
 const { UnprocessableEntityError } = require('../../../../../lib/application/http-errors');
