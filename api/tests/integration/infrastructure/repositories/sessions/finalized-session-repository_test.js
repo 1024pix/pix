@@ -5,8 +5,8 @@ const { NotFoundError } = require('../../../../../lib/domain/errors');
 
 describe('Integration | Repository | Finalized-session', function () {
   describe('#save', function () {
-    afterEach(function () {
-      return knex('finalized-sessions').delete();
+    afterEach(async function () {
+      await knex('finalized-sessions').delete();
     });
 
     context('When the session does not exist', function () {
@@ -41,7 +41,7 @@ describe('Integration | Repository | Finalized-session', function () {
     });
 
     context('When the session does exist', function () {
-      it('is idempotent', async function () {
+      it('is idempotent', function (done) {
         // given
         const finalizedSession = new FinalizedSession({
           sessionId: 1234,
@@ -56,6 +56,7 @@ describe('Integration | Repository | Finalized-session', function () {
         expect(async () => {
           await finalizedSessionRepository.save(finalizedSession);
           await finalizedSessionRepository.save(finalizedSession);
+          done();
         }).not.to.throw();
       });
 
