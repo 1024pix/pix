@@ -291,6 +291,34 @@ export default function () {
     return new Response(204);
   });
 
+  this.post('/certification-centers/:id/sessions/import', async (schema, request) => {
+    const { type } = request.requestBody;
+    const { id: certificationCenterId } = request.params;
+
+    if (type === 'valid-file') {
+      await schema.sessionSummaries.create({ certificationCenterId });
+      await schema.sessionSummaries.create({ certificationCenterId });
+    }
+
+    if (type === 'invalid-file') {
+      return new Response(
+        422,
+        { some: 'header' },
+        {
+          errors: [
+            {
+              code: 'INVALID_DOCUMENT',
+              status: '422',
+              title: 'Unprocessable Entity',
+              detail: 'Une erreur personnalisée.',
+            },
+          ],
+        }
+      );
+    }
+    return new Response(200);
+  });
+
   this.post('/users', (schema, request) => {
     const requestBody = JSON.parse(request.requestBody);
     const attributes = requestBody.data.attributes;
