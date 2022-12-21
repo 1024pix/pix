@@ -1,5 +1,5 @@
-.invitations-list {
-  &__action {
-    width: 38px;
-  }
+.invitations-list__action {
+  width: 38px;
+  display: flex;
+  gap: 24px;
 }
