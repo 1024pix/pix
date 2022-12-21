@@ -31,7 +31,7 @@ rules:
     - selector: "CallExpression[callee.object.object.name='faker'][callee.object.property.name='internet'][callee.property.name='email']"
       message: Use only faker.internet.exampleEmail()
   knex/avoid-injections: error
-  i18n-json/valid-message-syntax: warn
+  i18n-json/valid-message-syntax: off
   # Set all recommended rules as blocking for CI
   mocha/no-exclusive-tests: error
   mocha/no-pending-tests: error
