@@ -114,6 +114,10 @@ class Scorecard {
   get isNotStarted() {
     return this.status === statuses.NOT_STARTED;
   }
+
+  get isStarted() {
+    return this.status === statuses.STARTED;
+  }
 }
 
 function _getScorecardStatus(competenceEvaluation, knowledgeElements) {
