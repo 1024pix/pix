@@ -11,7 +11,8 @@ const TARGET_PROFILE_ID_TO_OUTDATE = 2001;
 const TARGET_PROFILE_ID_AUTO = 2002;
 const TARGET_PROFILE_ID_UNCAP = 2003;
 const TARGET_PROFILE_ID_UNIFORM_CAP = 2004;
-const TARGET_PROFILE_ID_MULTIFORM_CAP = 2005;
+const TARGET_PROFILE_ID_MULTIFORM_CAP_1 = 2005;
+const TARGET_PROFILE_ID_MULTIFORM_CAP_2 = 2006;
 
 const tubeIdCodageEmblematique = 'recJJVWsUD0A4g7bf';
 const skillIdsCodageEmblematique = {
@@ -105,12 +106,23 @@ const prepareData = async () => {
   );
 
   databaseBuilder.factory.buildTargetProfile({
-    id: TARGET_PROFILE_ID_MULTIFORM_CAP,
-    name: 'PC avec sujets plafonnés à différents niveaux',
+    id: TARGET_PROFILE_ID_MULTIFORM_CAP_1,
+    name: 'PC avec sujets plafonnés à différents niveaux 1',
   });
   allSkillIds.forEach((skillId) =>
     databaseBuilder.factory.buildTargetProfileSkill({
-      targetProfileId: TARGET_PROFILE_ID_MULTIFORM_CAP,
+      targetProfileId: TARGET_PROFILE_ID_MULTIFORM_CAP_1,
+      skillId,
+    })
+  );
+
+  databaseBuilder.factory.buildTargetProfile({
+    id: TARGET_PROFILE_ID_MULTIFORM_CAP_2,
+    name: 'PC avec sujets plafonnés à différents niveaux 2',
+  });
+  allSkillIds.forEach((skillId) =>
+    databaseBuilder.factory.buildTargetProfileSkill({
+      targetProfileId: TARGET_PROFILE_ID_MULTIFORM_CAP_2,
       skillId,
     })
   );
@@ -269,13 +281,13 @@ async function _uniformCap(id, cap, trx) {
   await trx('target-profile_tubes').update({ level: cap }).where({ targetProfileId: id });
 }
 
-const checkData = async (report) => {
-  if (report['2000'] !== "2000: PC n'existe pas") console.log('PC 2000 KO');
+const checkData = async () => {
   await _checkTP2001();
   await _checkTP2002();
   await _checkTP2003();
   await _checkTP2004();
   await _checkTP2005();
+  await _checkTP2006();
 };
 
 async function _checkTP2001() {
@@ -425,12 +437,48 @@ async function _checkTP2005() {
   };
   const { outdated } = await knex('target-profiles')
     .select('outdated')
-    .where({ id: TARGET_PROFILE_ID_MULTIFORM_CAP })
+    .where({ id: TARGET_PROFILE_ID_MULTIFORM_CAP_1 })
     .first();
   if (outdated === true) console.log('PC 2005 KO');
   const targetProfileTubes = await knex('target-profile_tubes')
     .select('tubeId', 'level')
-    .where({ targetProfileId: TARGET_PROFILE_ID_MULTIFORM_CAP })
+    .where({ targetProfileId: TARGET_PROFILE_ID_MULTIFORM_CAP_1 })
+    .orderBy('tubeId');
+  if (targetProfileTubes.length !== 4) console.log('PC 2005 KO');
+  if (
+    targetProfileTubes.find(({ tubeId }) => tubeId === tubeIdCodageEmblematique).level !==
+    EXPECTED_TUBES_AUTO[tubeIdCodageEmblematique]
+  )
+    console.log('PC 2005 KO');
+  if (targetProfileTubes.find(({ tubeId }) => tubeId === tubeIdTerminal).level !== EXPECTED_TUBES_AUTO[tubeIdTerminal])
+    console.log('PC 2005 KO');
+  if (
+    targetProfileTubes.find(({ tubeId }) => tubeId === tubeIdEditerDocEnLigne).level !==
+    EXPECTED_TUBES_AUTO[tubeIdEditerDocEnLigne]
+  )
+    console.log('PC 2005 KO');
+  if (
+    targetProfileTubes.find(({ tubeId }) => tubeId === tubeIdPartageDroits).level !==
+    EXPECTED_TUBES_AUTO[tubeIdPartageDroits]
+  )
+    console.log('PC 2005 KO');
+}
+
+async function _checkTP2006() {
+  const EXPECTED_TUBES_AUTO = {
+    [tubeIdCodageEmblematique]: 7,
+    [tubeIdTerminal]: 4,
+    [tubeIdEditerDocEnLigne]: 2,
+    [tubeIdPartageDroits]: 4,
+  };
+  const { outdated } = await knex('target-profiles')
+    .select('outdated')
+    .where({ id: TARGET_PROFILE_ID_MULTIFORM_CAP_1 })
+    .first();
+  if (outdated === true) console.log('PC 2005 KO');
+  const targetProfileTubes = await knex('target-profile_tubes')
+    .select('tubeId', 'level')
+    .where({ targetProfileId: TARGET_PROFILE_ID_MULTIFORM_CAP_1 })
     .orderBy('tubeId');
   if (targetProfileTubes.length !== 4) console.log('PC 2005 KO');
   if (
