@@ -55,7 +55,8 @@ describe('Integration | Scripts | Certification | get-cpf-import-status-from-xml
         // then
         const [certificationCourse1, certificationCourse2, certificationCourse3] = await knex('certification-courses')
           .select('id', 'cpfImportStatus')
-          .whereIn('id', [1234, 4567, 891011]);
+          .whereIn('id', [1234, 4567, 891011])
+          .orderBy('id');
         expect(certificationCourse1).to.deep.equal({
           id: 1234,
           cpfImportStatus: null,
