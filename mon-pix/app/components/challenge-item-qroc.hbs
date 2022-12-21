@@ -14,17 +14,16 @@
             {{#if (eq block.type "select")}}
               <div class="challenge-response__proposal challenge-response__proposal--selector">
                 <PixSelect
-                  data-test="challenge-response-proposal-selector"
-                  name={{block.randomName}}
-                  id="{{block.input}}"
-                  aria-label={{block.ariaLabel}}
-                  @emptyOptionLabel={{block.placeholder}}
-                  @selectedOption={{this.userAnswer}}
-                  @emptyOptionNotSelectable={{true}}
-                  disabled={{this.isAnswerFieldDisabled}}
-                  @options={{block.options}}
                   data-uid="qroc-proposal-uid"
-                  @onChange={{this.answerChanged}}
+                  data-test="challenge-response-proposal-selector"
+                  @isDisabled={{this.isAnswerFieldDisabled}}
+                  @label={{block.ariaLabel}}
+                  @screenReaderOnly={{true}}
+                  @placeholder={{block.placeholder}}
+                  @value={{this.qcrocProposalAnswerValue}}
+                  @hideDefaultOption={{true}}
+                  @options={{block.options}}
+                  @onChange={{this.onChangeSelect}}
                   @size="big"
                 />
               </div>
@@ -38,7 +37,7 @@
                 name={{block.randomName}}
                 placeholder={{block.placeholder}}
                 autocomplete="nope"
-                value="{{this.userAnswer}}"
+                value={{this.userAnswer}}
                 data-uid="qroc-proposal-uid"
                 disabled={{this.isAnswerFieldDisabled}}
               >
@@ -53,7 +52,7 @@
                 name={{block.randomName}}
                 placeholder={{block.placeholder}}
                 autocomplete="nope"
-                value="{{this.userAnswer}}"
+                value={{this.userAnswer}}
                 data-uid="qroc-proposal-uid"
                 disabled={{this.isAnswerFieldDisabled}}
               />
@@ -65,7 +64,7 @@
                 min="0"
                 data-test="challenge-response-proposal-selector"
                 placeholder={{block.placeholder}}
-                @value="{{this.userAnswer}}"
+                @value={{this.userAnswer}}
                 aria-label={{block.ariaLabel}}
                 data-uid="qroc-proposal-uid"
                 disabled={{this.isAnswerFieldDisabled}}
@@ -83,7 +82,7 @@
                 name={{block.randomName}}
                 placeholder={{block.placeholder}}
                 autocomplete="nope"
-                value="{{this.userAnswer}}"
+                value={{this.userAnswer}}
                 data-uid="qroc-proposal-uid"
                 disabled={{this.isAnswerFieldDisabled}}
               />

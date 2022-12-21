@@ -10,12 +10,11 @@ module('Unit | Controller | user-account/language', function (hooks) {
       // given
       const controller = this.owner.lookup('controller:authenticated/user-account/language');
       controller.url = { isFrenchDomainExtension: false };
-      const event = { target: { value: 'en' } };
       const replaceStub = sinon.stub();
       controller.location = { replace: replaceStub };
 
       // when
-      controller.onChangeLang(event);
+      controller.onChangeLang('en');
 
       // then
       sinon.assert.calledWith(replaceStub, '/mon-compte/langue?lang=en');

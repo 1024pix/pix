@@ -5,20 +5,18 @@
     {{#if block.showText}}
       <MarkdownToHtml @markdown={{block.text}} @extensions="remove-paragraph-tags" class="qrocm-proposal__label" />
     {{/if}}
-
     {{#if (eq block.type "select")}}
       <div class="challenge-response__proposal challenge-response__proposal--selector">
         <PixSelect
           data-test="challenge-response-proposal-selector"
-          name={{block.randomName}}
-          disabled={{@isAnswerFieldDisabled}}
-          id="{{block.input}}"
-          aria-label={{block.ariaLabel}}
-          @emptyOptionLabel={{block.placeholder}}
-          @selectedOption={{get @answersValue block.input}}
-          @emptyOptionNotSelectable={{true}}
+          @isDisabled={{@isAnswerFieldDisabled}}
+          @label={{block.ariaLabel}}
+          @screenReaderOnly={{true}}
+          @placeholder={{block.placeholder}}
+          @value={{get @answersValue block.input}}
+          @hideDefaultOption={{true}}
           @options={{block.options}}
-          @onChange={{this.setAnswerValue}}
+          @onChange={{fn this.onChange block.input}}
           @size="big"
         />
       </div>

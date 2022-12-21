@@ -94,10 +94,7 @@
 
 .mediacentre-start-campaign-modal__action-buttons {
   display: flex;
-  gap: 16px;
+  gap: 24px;
   align-items: center;
-
-  a {
-    margin-bottom: 16px;
-  }
+  justify-content: flex-end;
 }
