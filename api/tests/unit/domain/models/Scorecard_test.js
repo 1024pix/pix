@@ -519,4 +519,30 @@ describe('Unit | Domain | Models | Scorecard', function () {
       });
     });
   });
+
+  describe('#isImprovable', function () {
+    [
+      { isFinished: false, isFinishedWithMaxLevel: true, remainingDaysBeforeImproving: 5, expectedResult: false },
+      { isFinished: false, isFinishedWithMaxLevel: true, remainingDaysBeforeImproving: 0, expectedResult: false },
+      { isFinished: false, isFinishedWithMaxLevel: false, remainingDaysBeforeImproving: 5, expectedResult: false },
+      { isFinished: false, isFinishedWithMaxLevel: false, remainingDaysBeforeImproving: 0, expectedResult: false },
+      { isFinished: true, isFinishedWithMaxLevel: true, remainingDaysBeforeImproving: 0, expectedResult: false },
+      { isFinished: true, isFinishedWithMaxLevel: true, remainingDaysBeforeImproving: 5, expectedResult: false },
+      { isFinished: true, isFinishedWithMaxLevel: false, remainingDaysBeforeImproving: 5, expectedResult: false },
+      { isFinished: true, isFinishedWithMaxLevel: false, remainingDaysBeforeImproving: 0, expectedResult: true },
+    ].forEach((testCase) => {
+      it(`should return ${testCase.expectedResult} when isFinished : ${testCase.isFinished}, isFinishedWithMaxLevel is ${testCase.isFinishedWithMaxLevel} and remainingDaysBeforeImproving is ${testCase.remainingDaysBeforeImproving}`, function () {
+        // given
+        const scorecard = new Scorecard({ remainingDaysBeforeImproving: testCase.remainingDaysBeforeImproving });
+        sinon.stub(scorecard, 'isFinished').get(() => testCase.isFinished);
+        sinon.stub(scorecard, 'isFinishedWithMaxLevel').get(() => testCase.isFinishedWithMaxLevel);
+
+        // when
+        const result = scorecard.isImprovable;
+
+        // then
+        expect(result).to.equal(testCase.expectedResult);
+      });
+    });
+  });
 });
