@@ -18,6 +18,7 @@ describe('Acceptance | API | Campaign Participations', function () {
 
   afterEach(async function () {
     await knex('pgboss.job').delete();
+    await knex('knowledge-element-snapshots').delete();
   });
 
   beforeEach(async function () {

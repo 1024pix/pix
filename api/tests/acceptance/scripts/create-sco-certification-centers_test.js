@@ -1,4 +1,4 @@
-const { expect } = require('../../test-helper');
+const { expect, knex } = require('../../test-helper');
 
 const BookshelfCertificationCenter = require('../../../lib/infrastructure/orm-models/CertificationCenter');
 
@@ -9,6 +9,10 @@ describe('Acceptance | Scripts | create-sco-certification-centers.js', function 
     const getNumberOfCertificationCenters = () => {
       return BookshelfCertificationCenter.count().then((number) => parseInt(number, 10));
     };
+
+    afterEach(async function () {
+      await knex('certification-centers').delete();
+    });
 
     it('should insert 2 sco certification centers', async function () {
       // given

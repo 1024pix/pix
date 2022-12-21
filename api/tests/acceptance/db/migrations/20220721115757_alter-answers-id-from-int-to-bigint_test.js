@@ -21,34 +21,4 @@ describe('#changeAnswerIdTypeToBigint', function () {
     );
     expect(sequenceDataType[0]['data_type']).to.equal('bigint');
   });
-
-  it('should sequence are correctly reassigned', async function () {
-    // given
-    const [{ id: answerIdInsertedBeforeSwitch }] = await knex('answers')
-      .insert({
-        value: 'Some value for answer',
-        result: 'Some result for answer',
-        challengeId: 'rec123ABC',
-        createdAt: new Date('2020-01-01'),
-        updatedAt: new Date('2020-01-02'),
-        resultDetails: 'Some result details for answer.',
-        timeSpent: 30,
-      })
-      .returning('id');
-
-    // when migration 20220721115757_alter-answers-id-from-int-to-bigint.js is done
-    const [{ id: answerIdInsertedAfterSwitch }] = await knex('answers')
-      .insert({
-        value: 'Some value for answer',
-        result: 'Some result for answer',
-        challengeId: 'rec123ABC',
-        createdAt: new Date('2020-01-01'),
-        updatedAt: new Date('2020-01-02'),
-        resultDetails: 'Some result details for answer.',
-        timeSpent: 30,
-      })
-      .returning('id');
-    // then
-    expect(answerIdInsertedAfterSwitch).to.equal(answerIdInsertedBeforeSwitch + 1);
-  });
 });
