@@ -1,14 +1,14 @@
 {
   "account-recovery-email": {
     "params": {
-      "context": "Vous avez demandé la récupération de votre compte Pix.",
-      "instruction": "Choisissez un mot de passe pour finaliser la procédure.",
       "choosePassword": "Choisir un mot de passe",
+      "context": "Vous avez demandé la récupération de votre compte Pix.",
+      "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre.",
+      "instruction": "Choisissez un mot de passe pour finaliser la procédure.",
       "linkValidFor": "Ce lien est valide 24 heures. Si vous n'êtes pas à l'origine de cette demande, merci d'ignorer cet e-mail.",
-      "signing": "– L'équipe Pix",
-      "pixPresentation": "Pix est le service public en ligne pour évaluer, développer et certifier ses compétences numériques.",
       "moreOn": "En savoir plus sur",
-      "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre."
+      "pixPresentation": "Pix est le service public en ligne pour évaluer, développer et certifier ses compétences numériques.",
+      "signing": "– L'équipe Pix"
     }
   },
   "campaign-export": {
@@ -61,7 +61,68 @@
       "skill-ranking": "Nombre de pix pour la compétence {{name}}"
     }
   },
+  "certification-center-invitation-email": {
+    "params": {
+      "acceptInvitation": "Accepter l’invitation",
+      "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre.",
+      "here": "ici",
+      "moreAbout": "En savoir plus sur",
+      "needHelp": "Besoin d’aide, contactez-nous",
+      "oneTimeLink": "Ce lien est à usage unique",
+      "pixCertifPresentation": "L’espace Pix Certif est un outil dédié à l’organisation des sessions de certification.",
+      "title": "Invitation à rejoindre l’espace",
+      "yourCertificationCenter": "Votre centre de certification"
+    },
+    "subject": "Invitation à rejoindre Pix Certif"
+  },
+  "csv-import-values": {
+    "sup-organization-learner": {
+      "diplomas": {
+        "bts": "BTS contrôlé par l'Etat",
+        "classe-preparatoire": "Classe préparatoire contrôlée par l'Etat",
+        "dcg ": "DCG contrôlé par l'Etat",
+        "deust": "DEUST contrôlé par l'Etat",
+        "dma ": "DMA contrôlé par l'Etat",
+        "dnmade": "DNMADE contrôlé par l'Etat",
+        "doctorat": "Diplôme National de Doctorat contrôlé par l'Etat",
+        "dts": "DTS contrôlé par l'Etat",
+        "dut": "DUT contrôlé par l'Etat",
+        "etat-controle": "Diplôme d'Etat contrôlé",
+        "ingenieur": "Diplôme d'ingénieur contrôlé par l'Etat",
+        "license": "Diplôme National de Licence contrôlé par l'Etat",
+        "license-grade": "Diplôme conférant le grade de licence contrôlé par l'Etat",
+        "master": "Diplôme National de Master contrôlé par l'Etat",
+        "master-grade": "Diplôme conférant le grade de master contrôlé par l'Etat",
+        "other": "Autre",
+        "vise": "Diplôme visé contrôlé par l'Etat"
+      },
+      "study-schemes": {
+        "continuous-training": "Formation continue",
+        "initial-training": "Formation initiale hors apprentissage",
+        "other": "Autre",
+        "training": "Apprentissage"
+      },
+      "unknown": "Non reconnu"
+    }
+  },
   "csv-template": {
+    "organization-learners": {
+      "birth-city": "Libellé commune naissance**",
+      "birth-city-code": "Code commune naissance**",
+      "birth-country-code": "Code pays naissance*",
+      "birth-province-code": "Code département naissance*",
+      "birthdate": "Date de naissance (jj/mm/aaaa)*",
+      "division": "Division*",
+      "first-name": "Premier prénom*",
+      "last-name": "Nom de famille*",
+      "mef-code": "Code MEF*",
+      "middle-name": "Deuxième prénom",
+      "national-identifier": "Identifiant unique*",
+      "preferred-last-name": "Nom d'usage",
+      "sex": "Code sexe*",
+      "status": "Statut*",
+      "third-name": "Troisième prénom"
+    },
     "sup-organization-learners": {
       "birthdate": "Date de naissance (jj/mm/aaaa)",
       "department": "Composante",
@@ -77,69 +138,9 @@
       "study-scheme": "Régime",
       "third-name": "Troisième prénom"
     },
-    "organization-learners": {
-      "birth-city": "Libellé commune naissance**",
-      "birth-city-code": "Code commune naissance**",
-      "birth-country-code": "Code pays naissance*",
-      "birth-province-code": "Code département naissance*",
-      "birthdate": "Date de naissance (jj/mm/aaaa)*",
-      "division": "Division*",
-      "first-name": "Premier prénom*",
-      "last-name": "Nom de famille*",
-      "sex": "Code sexe*",
-      "mef-code": "Code MEF*",
-      "middle-name": "Deuxième prénom",
-      "national-identifier": "Identifiant unique*",
-      "preferred-last-name": "Nom d'usage",
-      "status": "Statut*",
-      "third-name": "Troisième prénom"
-    },
     "template-name": "modele-import"
   },
-  "csv-import-values": {
-    "sup-organization-learner": {
-      "diplomas": {
-        "license": "Diplôme National de Licence contrôlé par l'Etat",
-        "master": "Diplôme National de Master contrôlé par l'Etat",
-        "doctorat": "Diplôme National de Doctorat contrôlé par l'Etat",
-        "dnmade": "DNMADE contrôlé par l'Etat",
-        "dma ": "DMA contrôlé par l'Etat",
-        "bts": "BTS contrôlé par l'Etat",
-        "dut": "DUT contrôlé par l'Etat",
-        "dts": "DTS contrôlé par l'Etat",
-        "dcg ": "DCG contrôlé par l'Etat",
-        "deust": "DEUST contrôlé par l'Etat",
-        "etat-controle": "Diplôme d'Etat contrôlé",
-        "ingenieur": "Diplôme d'ingénieur contrôlé par l'Etat",
-        "license-grade": "Diplôme conférant le grade de licence contrôlé par l'Etat",
-        "master-grade": "Diplôme conférant le grade de master contrôlé par l'Etat",
-        "vise": "Diplôme visé contrôlé par l'Etat",
-        "classe-preparatoire": "Classe préparatoire contrôlée par l'Etat",
-        "other": "Autre"
-      },
-      "study-schemes": {
-        "initial-training": "Formation initiale hors apprentissage",
-        "training": "Apprentissage",
-        "continuous-training": "Formation continue",
-        "other": "Autre"
-      },
-      "unknown": "Non reconnu"
-    }
-  },
   "current-lang": "fr",
-  "verification-code-email": {
-    "subject": "Votre code Pix est {{ code }}",
-    "body": {
-      "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre",
-      "context": "Vous souhaitez faire une modification de votre adresse e-mail sur votre compte. Pour continuer, entrez le code suivant sur Pix :",
-      "warningMessage": "Si ce n'était pas vous, nous vous invitons à réinitialiser votre mot de passe au plus vite afin de sécuriser votre compte.",
-      "greeting": "Bonjour,",
-      "moreOn": "En savoir plus sur",
-      "pixPresentation": "Pix est le service public en ligne pour évaluer, développer et certifier ses compétences numériques.",
-      "signing": "— L'équipe Pix",
-      "seeYouSoon": "À tout de suite sur Pix."
-    }
-  },
   "entity-validation-errors": {
     "ACCEPT_CGU": "Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.",
     "ALREADY_REGISTERED_EMAIL": "Cette adresse e-mail est déjà enregistrée, connectez-vous.",
@@ -155,9 +156,9 @@
     "MAX_SIZE_EMAIL": "Votre adresse e-mail ne doit pas dépasser les 255 caractères.",
     "MAX_SIZE_FIRST_NAME": "Votre prénom ne doit pas dépasser les 255 caractères.",
     "MAX_SIZE_LAST_NAME": "Votre nom ne doit pas dépasser les 255 caractères.",
+    "STAGE_TARGET_PROFILE_IS_REQUIRED": "Le profil cible est obligatoire",
     "STAGE_THRESHOLD_IS_REQUIRED": "Le seuil du palier est obligatoire",
     "STAGE_TITLE_IS_REQUIRED": "Le titre du palier est obligatoire",
-    "STAGE_TARGET_PROFILE_IS_REQUIRED": "Le profil cible est obligatoire",
     "WRONG_EMAIL_FORMAT": "Le format de l'adresse e-mail est incorrect."
   },
   "organization-invitation-email": {
@@ -174,20 +175,6 @@
       "yourOrganization": "Votre organisation"
     },
     "subject": "Invitation à rejoindre Pix Orga"
-  },
-  "certification-center-invitation-email": {
-    "subject": "Invitation à rejoindre Pix Certif",
-    "params": {
-      "title": "Invitation à rejoindre l’espace",
-      "yourCertificationCenter": "Votre centre de certification",
-      "acceptInvitation": "Accepter l’invitation",
-      "oneTimeLink": "Ce lien est à usage unique",
-      "pixCertifPresentation": "L’espace Pix Certif est un outil dédié à l’organisation des sessions de certification.",
-      "moreAbout": "En savoir plus sur",
-      "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre.",
-      "needHelp": "Besoin d’aide, contactez-nous",
-      "here": "ici"
-    }
   },
   "pix-account-creation-email": {
     "params": {
@@ -216,5 +203,18 @@
       "weCannotSendYourPassword": "Bonjour, pour des raisons de sécurité, nous ne vous envoyons pas votre mot de passe par e-mail."
     },
     "subject": "Demande de réinitialisation de mot de passe Pix"
+  },
+  "verification-code-email": {
+    "body": {
+      "context": "Vous souhaitez faire une modification de votre adresse e-mail sur votre compte. Pour continuer, entrez le code suivant sur Pix :",
+      "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre",
+      "greeting": "Bonjour,",
+      "moreOn": "En savoir plus sur",
+      "pixPresentation": "Pix est le service public en ligne pour évaluer, développer et certifier ses compétences numériques.",
+      "seeYouSoon": "À tout de suite sur Pix.",
+      "signing": "— L'équipe Pix",
+      "warningMessage": "Si ce n'était pas vous, nous vous invitons à réinitialiser votre mot de passe au plus vite afin de sécuriser votre compte."
+    },
+    "subject": "Votre code Pix est {{ code }}"
   }
 }
