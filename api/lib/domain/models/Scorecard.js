@@ -130,6 +130,10 @@ class Scorecard {
   get shouldWaitBeforeImproving() {
     return this.isFinished && !this.isFinishedWithMaxLevel && this.remainingDaysBeforeImproving > 0;
   }
+
+  get isResettable() {
+    return (this.isFinished || this.isStarted) && this.remainingDaysBeforeReset == 0;
+  }
 }
 
 function _getScorecardStatus(competenceEvaluation, knowledgeElements) {

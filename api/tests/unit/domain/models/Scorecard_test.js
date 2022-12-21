@@ -571,4 +571,30 @@ describe('Unit | Domain | Models | Scorecard', function () {
       });
     });
   });
+
+  describe('#isResettable', function () {
+    [
+      { isFinished: false, isStarted: true, remainingDaysBeforeReset: 5, expectedResult: false },
+      { isFinished: false, isStarted: true, remainingDaysBeforeReset: 0, expectedResult: true },
+      { isFinished: false, isStarted: false, remainingDaysBeforeReset: 5, expectedResult: false },
+      { isFinished: false, isStarted: false, remainingDaysBeforeReset: 0, expectedResult: false },
+      { isFinished: true, isStarted: true, remainingDaysBeforeReset: 5, expectedResult: false },
+      { isFinished: true, isStarted: true, remainingDaysBeforeReset: 0, expectedResult: true },
+      { isFinished: true, isStarted: false, remainingDaysBeforeReset: 5, expectedResult: false },
+      { isFinished: true, isStarted: false, remainingDaysBeforeReset: 0, expectedResult: true },
+    ].forEach((testCase) => {
+      it(`should return ${testCase.expectedResult} when isFinished : ${testCase.isFinished}, isStarted is ${testCase.isStarted} and remainingDaysBeforeReset is ${testCase.remainingDaysBeforeReset}`, function () {
+        // given
+        const scorecard = new Scorecard({ remainingDaysBeforeReset: testCase.remainingDaysBeforeReset });
+        sinon.stub(scorecard, 'isFinished').get(() => testCase.isFinished);
+        sinon.stub(scorecard, 'isStarted').get(() => testCase.isStarted);
+
+        // when
+        const result = scorecard.isResettable;
+
+        // then
+        expect(result).to.equal(testCase.expectedResult);
+      });
+    });
+  });
 });
