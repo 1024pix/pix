@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
 
 export default class TeamInvitationsListComponent extends Component {
   @service store;
