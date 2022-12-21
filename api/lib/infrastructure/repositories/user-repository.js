@@ -24,20 +24,12 @@ const OidcIdentityProviders = require('../../domain/constants/oidc-identity-prov
 const UserLogin = require('../../domain/models/UserLogin');
 
 module.exports = {
-  getByEmail(email) {
-    return BookshelfUser.query((qb) => {
-      qb.whereRaw('LOWER("email") = ?', email.toLowerCase());
-    })
-      .fetch()
-      .then((bookshelfUser) => {
-        return _toDomain(bookshelfUser);
-      })
-      .catch((err) => {
-        if (err instanceof BookshelfUser.NotFoundError) {
-          throw new UserNotFoundError(`User not found for email ${email}`);
-        }
-        throw err;
-      });
+  async getByEmail(email) {
+    const foundUser = await knex.from('users').whereRaw('LOWER("email") = ?', email.toLowerCase()).first();
+    if (!foundUser) {
+      throw new UserNotFoundError(`User not found for email ${email}`);
+    }
+    return new User(foundUser);
   },
 
   getByUsernameOrEmailWithRolesAndPassword(username) {
