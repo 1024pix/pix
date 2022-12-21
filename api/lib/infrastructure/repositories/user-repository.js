@@ -32,26 +32,27 @@ module.exports = {
     return new User(foundUser);
   },
 
-  getByUsernameOrEmailWithRolesAndPassword(username) {
-    return BookshelfUser.query((qb) =>
-      qb.where({ email: username.toLowerCase() }).orWhere({ username: username.toLowerCase() })
-    )
-      .fetch({
-        require: false,
-        withRelated: [
-          { memberships: (qb) => qb.where({ disabledAt: null }) },
-          { certificationCenterMemberships: (qb) => qb.where({ disabledAt: null }) },
-          'memberships.organization',
-          'certificationCenterMemberships.certificationCenter',
-          { authenticationMethods: (qb) => qb.where({ identityProvider: 'PIX' }) },
-        ],
-      })
-      .then((foundUser) => {
-        if (foundUser === null) {
-          return Promise.reject(new UserNotFoundError());
-        }
-        return _toDomain(foundUser);
-      });
+  async getByUsernameOrEmailWithRolesAndPassword(username) {
+    const userDTO = await knex('users')
+      .where({ email: username.toLowerCase() })
+      .orWhere({ username: username.toLowerCase() })
+      .first();
+
+    if (!userDTO) {
+      throw new UserNotFoundError();
+    }
+
+    const membershipsDTO = await knex('memberships').where({ userId: userDTO.id, disabledAt: null });
+    const certificationCenterMembershipsDTO = await knex('certification-center-memberships').where({
+      userId: userDTO.id,
+      disabledAt: null,
+    });
+    const authenticationMethodsDTO = await knex('authentication-methods').where({
+      userId: userDTO.id,
+      identityProvider: 'PIX',
+    });
+
+    return _toDomainFromDTO({ userDTO, membershipsDTO, certificationCenterMembershipsDTO, authenticationMethodsDTO });
   },
 
   /**
@@ -583,6 +584,46 @@ function _toDomain(userBookshelf) {
     ),
     hasSeenAssessmentInstructions: Boolean(userBookshelf.get('hasSeenAssessmentInstructions')),
     authenticationMethods: _toAuthenticationMethodsDomain(userBookshelf.related('authenticationMethods')),
+  });
+}
+
+function _toDomainFromDTO({
+  userDTO,
+  membershipsDTO = [],
+  certificationCenterMembershipsDTO = [],
+  authenticationMethodsDTO = [],
+}) {
+  const memberships = membershipsDTO.map((membershipDTO) => new Membership(membershipDTO));
+  const certificationCenterMemberships = certificationCenterMembershipsDTO.map(
+    (certificationCenterMembershipDTO) => new CertificationCenterMembership(certificationCenterMembershipDTO)
+  );
+  return new User({
+    id: userDTO.id,
+    cgu: userDTO.cgu,
+    pixOrgaTermsOfServiceAccepted: userDTO.pixOrgaTermsOfServiceAccepted,
+    pixCertifTermsOfServiceAccepted: userDTO.pixCertifTermsOfServiceAccepted,
+    email: userDTO.email,
+    emailConfirmedAt: userDTO.emailConfirmedAt,
+    username: userDTO.username,
+    firstName: userDTO.firstName,
+    knowledgeElements: userDTO.knowledgeElements,
+    lastName: userDTO.lastName,
+    lastTermsOfServiceValidatedAt: userDTO.lastTermsOfServiceValidatedAt,
+    lastPixOrgaTermsOfServiceValidatedAt: userDTO.lastPixOrgaTermsOfServiceValidatedAt,
+    lastPixCertifTermsOfServiceValidatedAt: userDTO.lastPixCertifTermsOfServiceValidatedAt,
+    hasSeenAssessmentInstructions: userDTO.hasSeenAssessmentInstructions,
+    hasSeenNewDashboardInfo: userDTO.hasSeenNewDashboardInfo,
+    hasSeenFocusedChallengeTooltip: userDTO.hasSeenFocusedChallengeTooltip,
+    hasSeenOtherChallengesTooltip: userDTO.hasSeenOtherChallengesTooltip,
+    mustValidateTermsOfService: userDTO.mustValidateTermsOfService,
+    lang: userDTO.lang,
+    isAnonymous: userDTO.isAnonymous,
+    pixScore: userDTO.pixScore,
+    scorecards: userDTO.scorecards,
+    campaignParticipations: userDTO.campaignParticipations,
+    memberships,
+    certificationCenterMemberships,
+    authenticationMethods: authenticationMethodsDTO,
   });
 }
 
