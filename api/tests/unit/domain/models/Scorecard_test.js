@@ -1,3 +1,5 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable mocha/no-setup-in-describe */
 const { expect, sinon } = require('../../../test-helper');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
@@ -262,8 +264,6 @@ describe('Unit | Domain | Models | Scorecard', function () {
 
   describe('#computeRemainingDaysBeforeReset', function () {
     let testCurrentDate;
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
     const originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET;
 
     beforeEach(function () {
@@ -279,7 +279,6 @@ describe('Unit | Domain | Models | Scorecard', function () {
       constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET = originalConstantValue;
     });
 
-    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { daysSinceLastKnowledgeElement: 0.0833, expectedDaysBeforeReset: 7 },
       { daysSinceLastKnowledgeElement: 1, expectedDaysBeforeReset: 6 },
@@ -308,8 +307,6 @@ describe('Unit | Domain | Models | Scorecard', function () {
 
   describe('#computeRemainingDaysBeforeImproving', function () {
     let testCurrentDate;
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
     const originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING;
 
     beforeEach(function () {
@@ -325,7 +322,6 @@ describe('Unit | Domain | Models | Scorecard', function () {
       constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING = originalConstantValue;
     });
 
-    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { daysSinceLastKnowledgeElement: 0.0833, expectedDaysBeforeImproving: 4 },
       { daysSinceLastKnowledgeElement: 0, expectedDaysBeforeImproving: 4 },
@@ -378,7 +374,6 @@ describe('Unit | Domain | Models | Scorecard', function () {
       expect(result).to.be.true;
     });
 
-    // eslint-disable-next-line mocha/no-setup-in-describe
     [Scorecard.statuses.STARTED, Scorecard.statuses.NOT_STARTED].forEach((status) => {
       it('should return false when status is not completed', function () {
         // given
@@ -438,7 +433,6 @@ describe('Unit | Domain | Models | Scorecard', function () {
   });
 
   describe('#isFinishedWithMaxLevel', function () {
-    // eslint-disable mocha/no-setup-in-describe
     [
       { level: 2, status: Scorecard.statuses.NOT_STARTED, expectedResult: false },
       { level: 2, status: Scorecard.statuses.STARTED, expectedResult: false },
@@ -463,6 +457,24 @@ describe('Unit | Domain | Models | Scorecard', function () {
         expect(result).to.equal(testCase.expectedResult);
       });
     });
-    // eslint-enable mocha/no-setup-in-describe
+  });
+
+  describe('#isNotStarted', function () {
+    [
+      { status: Scorecard.statuses.NOT_STARTED, expectedResult: true },
+      { status: Scorecard.statuses.STARTED, expectedResult: false },
+      { status: Scorecard.statuses.COMPLETED, expectedResult: false },
+    ].forEach((testCase) => {
+      it(`should return ${testCase.expectedResult} when status is ${testCase.status}`, function () {
+        // given
+        const scorecard = new Scorecard({ status: testCase.status });
+
+        // when
+        const result = scorecard.isNotStarted;
+
+        // then
+        expect(result).to.equal(testCase.expectedResult);
+      });
+    });
   });
 });
