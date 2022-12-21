@@ -21,6 +21,14 @@ export default class OrganizationInvitationAdapter extends ApplicationAdapter {
     return super.urlForQueryRecord(...arguments);
   }
 
+  urlForUpdateRecord(id, modelName, { adapterOptions }) {
+    if (adapterOptions && adapterOptions.resendInvitation) {
+      const { organizationId } = adapterOptions;
+      return `${this.host}/${this.namespace}/organizations/${organizationId}/resend-invitation`;
+    }
+    return super.urlForUpdateRecord(...arguments);
+  }
+
   createRecord() {
     return super.createRecord(...arguments).then((response) => {
       response.data = response.data[0];
