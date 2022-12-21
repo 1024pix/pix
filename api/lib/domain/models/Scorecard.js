@@ -102,6 +102,10 @@ class Scorecard {
   get isFinished() {
     return this.status === statuses.COMPLETED;
   }
+
+  get isMaxLevel() {
+    return this.level >= constants.MAX_REACHABLE_LEVEL;
+  }
 }
 
 function _getScorecardStatus(competenceEvaluation, knowledgeElements) {
