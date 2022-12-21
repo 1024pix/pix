@@ -1,4 +1,3 @@
-const moment = require('moment');
 const { expect, sinon } = require('../../../test-helper');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
@@ -294,8 +293,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
       { daysSinceLastKnowledgeElement: 10, expectedDaysBeforeReset: 0 },
     ].forEach(({ daysSinceLastKnowledgeElement, expectedDaysBeforeReset }) => {
       it(`should return ${expectedDaysBeforeReset} days when ${daysSinceLastKnowledgeElement} days passed since last knowledge element`, function () {
-        const date = moment(testCurrentDate).toDate();
-        const knowledgeElements = [{ createdAt: date }];
+        const knowledgeElements = [{ createdAt: new Date(testCurrentDate) }];
 
         computeDaysSinceLastKnowledgeElementStub.returns(daysSinceLastKnowledgeElement);
 
@@ -339,8 +337,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
       { daysSinceLastKnowledgeElement: 10, expectedDaysBeforeImproving: 0 },
     ].forEach(({ daysSinceLastKnowledgeElement, expectedDaysBeforeImproving }) => {
       it(`should return ${expectedDaysBeforeImproving} days when ${daysSinceLastKnowledgeElement} days passed since last knowledge element`, function () {
-        const date = moment(testCurrentDate).toDate();
-        const knowledgeElements = [{ createdAt: date }];
+        const knowledgeElements = [{ createdAt: new Date(testCurrentDate) }];
 
         computeDaysSinceLastKnowledgeElementStub.returns(daysSinceLastKnowledgeElement);
 

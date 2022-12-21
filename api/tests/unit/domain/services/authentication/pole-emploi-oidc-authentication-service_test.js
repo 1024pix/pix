@@ -3,7 +3,6 @@ const UserToCreate = require('../../../../../lib/domain/models/UserToCreate');
 const DomainTransaction = require('../../../../../lib/infrastructure/DomainTransaction');
 const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
 const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
-const moment = require('moment');
 const PoleEmploiOidcAuthenticationService = require('../../../../../lib/domain/services/authentication/pole-emploi-oidc-authentication-service');
 const logoutUrlTemporaryStorage = require('../../../../../lib/infrastructure/temporary-storage').withPrefix(
   'logout-url:'
@@ -58,7 +57,7 @@ describe('Unit | Domain | Services | pole-emploi-oidc-authentication-service', f
         authenticationComplement: new AuthenticationMethod.OidcAuthenticationComplement({
           accessToken: sessionContent.accessToken,
           refreshToken: sessionContent.refreshToken,
-          expiredDate: moment().add(sessionContent.expiresIn, 's').toDate(),
+          expiredDate: new Date('2021-01-02T00:00:10Z'),
         }),
         userId,
       });

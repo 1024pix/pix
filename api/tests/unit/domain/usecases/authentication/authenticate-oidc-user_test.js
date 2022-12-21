@@ -5,7 +5,6 @@ const logger = require('../../../../../lib/infrastructure/logger');
 const authenticateOidcUser = require('../../../../../lib/domain/usecases/authentication/authenticate-oidc-user');
 const AuthenticationSessionContent = require('../../../../../lib/domain/models/AuthenticationSessionContent');
 const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
-const moment = require('moment');
 const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
 
 describe('Unit | UseCase | authenticate-oidc-user', function () {
@@ -205,7 +204,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
         const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
           accessToken: sessionContent.accessToken,
           refreshToken: sessionContent.refreshToken,
-          expiredDate: moment().add(sessionContent.expiresIn, 's').toDate(),
+          expiredDate: new Date(),
         });
         oidcAuthenticationService.createAuthenticationComplement.returns(authenticationComplement);
 
@@ -273,7 +272,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
       const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
         accessToken: sessionContent.accessToken,
         refreshToken: sessionContent.refreshToken,
-        expiredDate: moment().add(sessionContent.expiresIn, 's').toDate(),
+        expiredDate: new Date(),
       });
       oidcAuthenticationService.createAuthenticationComplement.returns(authenticationComplement);
 
