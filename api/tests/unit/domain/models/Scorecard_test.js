@@ -477,4 +477,23 @@ describe('Unit | Domain | Models | Scorecard', function () {
       });
     });
   });
+
+  describe('#isStarted', function () {
+    [
+      { status: Scorecard.statuses.NOT_STARTED, expectedResult: false },
+      { status: Scorecard.statuses.STARTED, expectedResult: true },
+      { status: Scorecard.statuses.COMPLETED, expectedResult: false },
+    ].forEach((testCase) => {
+      it(`should return ${testCase.expectedResult} when status is ${testCase.status}`, function () {
+        // given
+        const scorecard = new Scorecard({ status: testCase.status });
+
+        // when
+        const result = scorecard.isStarted;
+
+        // then
+        expect(result).to.equal(testCase.expectedResult);
+      });
+    });
+  });
 });
