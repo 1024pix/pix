@@ -98,6 +98,10 @@ class Scorecard {
 
     return remainingDaysToWait > 0 ? remainingDaysToWait : 0;
   }
+
+  get isFinished() {
+    return this.status === statuses.COMPLETED;
+  }
 }
 
 function _getScorecardStatus(competenceEvaluation, knowledgeElements) {
