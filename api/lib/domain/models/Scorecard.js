@@ -146,6 +146,10 @@ class Scorecard {
   get hasReachedAtLeastLevelOne() {
     return this.level >= 1;
   }
+
+  get percentageAheadOfNextLevel() {
+    return (this.pixScoreAheadOfNextLevel / constants.PIX_COUNT_BY_LEVEL) * 100;
+  }
 }
 
 function _getScorecardStatus(competenceEvaluation, knowledgeElements) {
