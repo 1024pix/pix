@@ -7,7 +7,7 @@ const _generateCode = () => {
   return randomString.generate({ length: 10, capitalization: 'uppercase' });
 };
 
-const createOrganizationInvitation = async ({
+const createOrUpdateOrganizationInvitation = async ({
   organizationRepository,
   organizationInvitationRepository,
   organizationId,
@@ -125,7 +125,7 @@ const createScoOrganizationInvitation = async ({
 };
 
 module.exports = {
-  createOrganizationInvitation,
+  createOrUpdateOrganizationInvitation,
   createScoOrganizationInvitation,
   createProOrganizationInvitation,
 };

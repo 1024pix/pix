@@ -17,7 +17,7 @@ describe('Unit | UseCase | create-organization-invitation-by-admin', function ()
 
       const organizationInvitationRepository = sinon.stub();
       const organizationRepository = { get: sinon.stub().resolves(organization) };
-      sinon.stub(organizationInvitationService, 'createOrganizationInvitation').resolves();
+      sinon.stub(organizationInvitationService, 'createOrUpdateOrganizationInvitation').resolves();
 
       // when
       await createOrganizationInvitationByAdmin({
@@ -30,8 +30,8 @@ describe('Unit | UseCase | create-organization-invitation-by-admin', function ()
       });
 
       // then
-      expect(organizationInvitationService.createOrganizationInvitation).to.has.been.calledOnce;
-      expect(organizationInvitationService.createOrganizationInvitation).to.has.been.calledWith({
+      expect(organizationInvitationService.createOrUpdateOrganizationInvitation).to.has.been.calledOnce;
+      expect(organizationInvitationService.createOrUpdateOrganizationInvitation).to.has.been.calledWith({
         organizationId: organization.id,
         email,
         locale,
@@ -52,7 +52,7 @@ describe('Unit | UseCase | create-organization-invitation-by-admin', function ()
       const organizationRepository = {
         get: sinon.stub().resolves(archivedOrganization),
       };
-      sinon.stub(organizationInvitationService, 'createOrganizationInvitation').resolves();
+      sinon.stub(organizationInvitationService, 'createOrUpdateOrganizationInvitation').resolves();
 
       // when
       const error = await catchErr(createOrganizationInvitationByAdmin)({
@@ -67,7 +67,7 @@ describe('Unit | UseCase | create-organization-invitation-by-admin', function ()
       // then
       expect(error).to.be.instanceOf(OrganizationArchivedError);
       expect(error.message).to.be.equal("L'organisation est archivée.");
-      expect(organizationInvitationService.createOrganizationInvitation).to.not.have.been.called;
+      expect(organizationInvitationService.createOrUpdateOrganizationInvitation).to.not.have.been.called;
     });
   });
 });

@@ -13,7 +13,7 @@ describe('Unit | UseCase | create-organization-invitations', function () {
     organizationRepository = {
       get: sinon.stub().resolves(organization),
     };
-    sinon.stub(organizationInvitationService, 'createOrganizationInvitation').resolves();
+    sinon.stub(organizationInvitationService, 'createOrUpdateOrganizationInvitation').resolves();
   });
 
   describe('#createOrganizationInvitations', function () {
@@ -33,8 +33,8 @@ describe('Unit | UseCase | create-organization-invitations', function () {
       });
 
       // then
-      expect(organizationInvitationService.createOrganizationInvitation).to.has.been.calledOnce;
-      expect(organizationInvitationService.createOrganizationInvitation).to.has.been.calledWith({
+      expect(organizationInvitationService.createOrUpdateOrganizationInvitation).to.has.been.calledOnce;
+      expect(organizationInvitationService.createOrUpdateOrganizationInvitation).to.has.been.calledWith({
         organizationId,
         email: emails[0],
         locale,
@@ -57,7 +57,7 @@ describe('Unit | UseCase | create-organization-invitations', function () {
       });
 
       // then
-      expect(organizationInvitationService.createOrganizationInvitation).to.has.been.calledTwice;
+      expect(organizationInvitationService.createOrUpdateOrganizationInvitation).to.has.been.calledTwice;
     });
 
     it('should throw an organization archived error when it is archived', async function () {
@@ -77,7 +77,7 @@ describe('Unit | UseCase | create-organization-invitations', function () {
       // then
       expect(error).to.be.instanceOf(OrganizationArchivedError);
       expect(error.message).to.be.equal("L'organisation est archivée.");
-      expect(organizationInvitationService.createOrganizationInvitation).to.not.have.been.called;
+      expect(organizationInvitationService.createOrUpdateOrganizationInvitation).to.not.have.been.called;
     });
   });
 });
