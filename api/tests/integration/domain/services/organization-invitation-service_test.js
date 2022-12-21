@@ -8,12 +8,14 @@ const mailService = require('../../../../lib/domain/services/mail-service');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const Membership = require('../../../../lib/domain/models/Membership');
 
-const { createOrganizationInvitation } = require('../../../../lib/domain/services/organization-invitation-service');
+const {
+  createOrUpdateOrganizationInvitation,
+} = require('../../../../lib/domain/services/organization-invitation-service');
 const EmailingAttempt = require('../../../../lib/domain/models/EmailingAttempt');
 const { SendingEmailError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Service | Organization-Invitation Service', function () {
-  describe('#createOrganizationInvitation', function () {
+  describe('#createOrUpdateOrganizationInvitation', function () {
     let clock;
     const now = new Date('2021-01-02');
 
@@ -41,7 +43,7 @@ describe('Integration | Service | Organization-Invitation Service', function () 
       };
 
       // when
-      const result = await createOrganizationInvitation({
+      const result = await createOrUpdateOrganizationInvitation({
         organizationId,
         email,
         role,
@@ -64,7 +66,7 @@ describe('Integration | Service | Organization-Invitation Service', function () 
       await databaseBuilder.commit();
 
       // when
-      const result = await createOrganizationInvitation({
+      const result = await createOrUpdateOrganizationInvitation({
         organizationId: organizationInvitation.organizationId,
         email: organizationInvitation.email,
         organizationRepository,
@@ -93,7 +95,7 @@ describe('Integration | Service | Organization-Invitation Service', function () 
       mailService.sendOrganizationInvitationEmail.resolves(mailerResponse);
 
       // when
-      const result = await catchErr(createOrganizationInvitation)({
+      const result = await catchErr(createOrUpdateOrganizationInvitation)({
         organizationId: organizationInvitation.organizationId,
         email,
         organizationRepository,

@@ -20,7 +20,7 @@ module.exports = async function createOrganizationInvitations({
   const uniqueEmails = [...new Set(trimmedEmails)];
 
   return bluebird.mapSeries(uniqueEmails, (email) => {
-    return organizationInvitationService.createOrganizationInvitation({
+    return organizationInvitationService.createOrUpdateOrganizationInvitation({
       organizationRepository,
       organizationInvitationRepository,
       organizationId,

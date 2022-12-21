@@ -3,7 +3,7 @@ const Membership = require('../../../../lib/domain/models/Membership');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const mailService = require('../../../../lib/domain/services/mail-service');
 const {
-  createOrganizationInvitation,
+  createOrUpdateOrganizationInvitation,
   createScoOrganizationInvitation,
   createProOrganizationInvitation,
 } = require('../../../../lib/domain/services/organization-invitation-service');
@@ -29,7 +29,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
     sinon.stub(mailService, 'sendScoOrganizationInvitationEmail').resolves();
   });
 
-  describe('#createOrganizationInvitation', function () {
+  describe('#createOrUpdateOrganizationInvitation', function () {
     context('when organization-invitation does not exist', function () {
       it('should create a new organization-invitation and send an email with organizationId, email, code and locale', async function () {
         // given
@@ -50,7 +50,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         organizationRepository.get.resolves(organization);
 
         // when
-        await createOrganizationInvitation({
+        await createOrUpdateOrganizationInvitation({
           organizationRepository,
           organizationInvitationRepository,
           organizationId: organization.id,
@@ -98,7 +98,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
           );
 
           // when
-          const error = await catchErr(createOrganizationInvitation)({
+          const error = await catchErr(createOrUpdateOrganizationInvitation)({
             organizationRepository,
             organizationInvitationRepository,
             organizationId: organization.id,
@@ -132,7 +132,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         organizationRepository.get.resolves(organization);
 
         // when
-        await createOrganizationInvitation({
+        await createOrUpdateOrganizationInvitation({
           organizationRepository,
           organizationInvitationRepository,
           organizationId: organization.id,
@@ -167,7 +167,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         organizationRepository.get.resolves(organization);
 
         // when
-        await createOrganizationInvitation({
+        await createOrUpdateOrganizationInvitation({
           organizationRepository,
           organizationInvitationRepository,
           organizationId: organization.id,
