@@ -158,17 +158,26 @@ const tabs = {
   },
 };
 
-async function parseTabsData(file) {
+async function parseMainFile(file) {
   const workbook = XLSX.readFile(file);
 
-  const tabsData = Object.fromEntries(
+  return Object.fromEntries(
     Object.entries(tabs).map(([tab, { sheetToJsonConfig, mapper = (_) => _ }]) => [
       tab,
       XLSX.utils.sheet_to_json(workbook.Sheets[tab], sheetToJsonConfig).map(mapper),
     ])
   );
+}
 
-  return tabsData;
+async function parseMultiformFile(file) {
+  const workbook = XLSX.readFile(file);
+
+  return Object.fromEntries(
+    Object.entries(workbook.Sheets).map(([tab, sheet]) => [
+      tab,
+      XLSX.utils.sheet_to_json(sheet, { header: ['name', 'level'], range: 1 }),
+    ])
+  );
 }
 
 function ouiNonToBoolean(s, defaultValue = false) {
@@ -520,10 +529,10 @@ async function main() {
   const startTime = performance.now();
   logger.info(`Script ${__filename} has started`);
   await prepareData();
-  const file = process.argv[2];
-  const tabsData = await parseTabsData(file);
-  console.log(tabsData);
-  await migrateTargetProfiles(tabsData['PRO']);
+  const [, , mainFile, multiFormFile] = process.argv;
+  const mainData = await parseMainFile(mainFile);
+  const multiFormData = await parseMultiformFile(multiFormFile);
+  await migrateTargetProfiles(mainData['PRO'], multiFormData);
   const endTime = performance.now();
   const duration = Math.round(endTime - startTime);
   logger.info(`Script has ended: took ${duration} milliseconds`);
