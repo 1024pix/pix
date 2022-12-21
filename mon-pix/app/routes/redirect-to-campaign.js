@@ -1,12 +1,10 @@
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 
 export default class RedirectToCampaign extends Route {
+  @service pix1d;
   async beforeModel(transition) {
-    const { masteryPercentage } = transition.to.queryParams;
-    if (masteryPercentage <= 10 || !transition.to.queryParams.masteryPercentage) {
-      await this.transitionTo('campaigns', 'PROCOLECT');
-    } else {
-      await this.transitionTo('campaigns', 'PROCUSTOM');
-    }
+    const { masteryPercentage, campaignCode } = transition.to.queryParams;
+    this.pix1d.transition(campaignCode, masteryPercentage);
   }
 }

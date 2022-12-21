@@ -142,7 +142,7 @@ export default class SkillReview extends Component {
   get customButtonUrl() {
     const buttonUrl = this.args.model.campaign.customResultPageButtonUrl;
     if (buttonUrl) {
-      const params = {};
+      const params = { campaignCode: this.args.model.campaign.code };
 
       if (!isNil(this.masteryRate)) {
         params.masteryPercentage = parseInt(this.masteryRate * 100);
