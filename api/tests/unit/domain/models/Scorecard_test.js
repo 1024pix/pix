@@ -496,4 +496,27 @@ describe('Unit | Domain | Models | Scorecard', function () {
       });
     });
   });
+
+  describe('#isProgressable', function () {
+    [
+      { status: Scorecard.statuses.NOT_STARTED, level: 0, expectedResult: false },
+      { status: Scorecard.statuses.COMPLETED, level: 1, expectedResult: false },
+      { status: Scorecard.statuses.STARTED, level: 1, expectedResult: true },
+      { status: Scorecard.statuses.STARTED, level: 2, expectedResult: false },
+      { status: Scorecard.statuses.STARTED, level: 3, expectedResult: false },
+    ].forEach((testCase) => {
+      it(`should return ${testCase.expectedResult} when status is ${testCase.status}, level is ${testCase.level}`, function () {
+        // given
+        const maxReachableLevel = 2;
+        sinon.stub(constants, 'MAX_REACHABLE_LEVEL').value(maxReachableLevel);
+        const scorecard = new Scorecard({ status: testCase.status, level: testCase.level });
+
+        // when
+        const result = scorecard.isProgressable;
+
+        // then
+        expect(result).to.equal(testCase.expectedResult);
+      });
+    });
+  });
 });
