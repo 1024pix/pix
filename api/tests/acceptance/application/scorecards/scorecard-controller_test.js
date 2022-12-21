@@ -114,8 +114,6 @@ describe('Acceptance | Controller | scorecard-controller', function () {
     return knex('campaign-participations').delete();
   });
 
-  let knowledgeElement;
-
   describe('GET /scorecards/{id}', function () {
     beforeEach(async function () {
       options = {
@@ -145,7 +143,7 @@ describe('Acceptance | Controller | scorecard-controller', function () {
       beforeEach(async function () {
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
 
-        knowledgeElement = databaseBuilder.factory.buildKnowledgeElement({
+        databaseBuilder.factory.buildKnowledgeElement({
           userId,
           competenceId: competenceId,
         });
@@ -179,16 +177,30 @@ describe('Acceptance | Controller | scorecard-controller', function () {
             type: 'scorecards',
             id: `${userId}_${competenceId}`,
             attributes: {
-              name: competence.name_i18n.fr,
-              description: competence.description_i18n.fr,
-              'competence-id': competenceId,
-              index: competence.index,
-              'earned-pix': knowledgeElement.earnedPix,
-              level: Math.round(knowledgeElement.earnedPix / 8),
-              'pix-score-ahead-of-next-level': knowledgeElement.earnedPix,
-              status: 'STARTED',
-              'remaining-days-before-reset': 0,
+              'competence-id': 'recCompetence',
+              description: 'Une description',
+              'earned-pix': 2,
+              'has-not-earned-anything': false,
+              'has-not-reached-level-one': true,
+              'has-reached-at-least-level-one': false,
+              index: '1.1',
+              'is-finished': false,
+              'is-finished-with-max-level': false,
+              'is-improvable': false,
+              'is-max-level': false,
+              'is-not-started': false,
+              'is-progressable': true,
+              'is-resettable': true,
+              'is-started': true,
+              level: 0,
+              name: 'Mener une recherche et une veille d’information',
+              'percentage-ahead-of-next-level': 25,
+              'pix-score-ahead-of-next-level': 2,
               'remaining-days-before-improving': 0,
+              'remaining-days-before-reset': 0,
+              'remaining-pix-to-next-level': 6,
+              'should-wait-before-improving': false,
+              status: 'STARTED',
             },
             relationships: {
               area: {
@@ -259,7 +271,7 @@ describe('Acceptance | Controller | scorecard-controller', function () {
           'accept-language': FRENCH_SPOKEN,
         };
 
-        knowledgeElement = databaseBuilder.factory.buildKnowledgeElement({
+        databaseBuilder.factory.buildKnowledgeElement({
           userId,
           competenceId: competence.id,
           status: KnowledgeElement.StatusType.INVALIDATED,
