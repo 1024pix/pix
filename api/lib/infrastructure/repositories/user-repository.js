@@ -78,16 +78,12 @@ module.exports = {
     return new User(foundUser);
   },
 
-  getForObfuscation(userId) {
-    return BookshelfUser.where({ id: userId })
-      .fetch({ columns: ['id', 'email', 'username'] })
-      .then((userAuthenticationMethods) => _toUserAuthenticationMethods(userAuthenticationMethods))
-      .catch((err) => {
-        if (err instanceof BookshelfUser.NotFoundError) {
-          throw new UserNotFoundError(`User not found for ID ${userId}`);
-        }
-        throw err;
-      });
+  async getForObfuscation(userId) {
+    const foundUser = await knex.select('id', 'email', 'username').from('users').where({ id: userId }).first();
+    if (!foundUser) {
+      throw new UserNotFoundError(`User not found for ID ${userId}`);
+    }
+    return new User({ id: foundUser.id, email: foundUser.email, username: foundUser.username });
   },
 
   async getUserDetailsForAdmin(userId) {
@@ -481,15 +477,6 @@ function _toOrganizationLearnersForAdmin(organizationLearners) {
       isDisabled: organizationLearner.isDisabled,
       organizationIsManagingStudents: organizationLearner.organization.isManagingStudents,
     });
-  });
-}
-
-function _toUserAuthenticationMethods(bookshelfUser) {
-  const rawUser = bookshelfUser.toJSON();
-  return new User({
-    id: rawUser.id,
-    email: rawUser.email,
-    username: rawUser.username,
   });
 }
 
