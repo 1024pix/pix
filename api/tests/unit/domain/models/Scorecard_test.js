@@ -365,4 +365,31 @@ describe('Unit | Domain | Models | Scorecard', function () {
       });
     });
   });
+
+  describe('#isFinished', function () {
+    it('should return true when status is completed', function () {
+      // given
+      const scorecard = new Scorecard({ status: Scorecard.statuses.COMPLETED });
+
+      // when
+      const result = scorecard.isFinished;
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    [Scorecard.statuses.STARTED, Scorecard.statuses.NOT_STARTED].forEach((status) => {
+      it('should return false when status is not completed', function () {
+        // given
+        const scorecard = new Scorecard({ status });
+
+        // when
+        const result = scorecard.isFinished;
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
+  });
 });
