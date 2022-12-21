@@ -8,6 +8,7 @@ const {
 } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const certificationRepository = require('../../../../lib/infrastructure/repositories/certificate-repository');
+const { status } = require('../../../../lib/domain/models/AssessmentResult');
 
 describe('Integration | Infrastructure | Repository | Certification Attestation', function () {
   const minimalLearningContent = [
@@ -342,7 +343,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         publishedAt: certificationAttestationData.deliveredAt,
         certificationCenter: certificationAttestationData.certificationCenter,
       });
-      _buildValidCertificationAttestationWithSeveralResults(certificationAttestationData);
+      _buildCertificationAttestationWithSeveralResults(certificationAttestationData);
       await databaseBuilder.commit();
 
       // when
@@ -1006,58 +1007,88 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       ]);
     });
 
-    it('should take into account the latest validated assessment result of the certification', async function () {
-      // given
-      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(minimalLearningContent);
-      mockLearningContent(learningContentObjects);
-      databaseBuilder.factory.buildOrganization({ id: 123, type: 'SCO', isManagingStudents: true });
-      const certificationAttestationData = {
-        id: 123,
-        firstName: 'Sarah Michelle',
-        lastName: 'Gellar',
-        birthdate: '1977-04-14',
-        birthplace: 'Saint-Ouen',
-        isPublished: true,
-        userId: 456,
-        date: new Date('2020-01-01'),
-        verificationCode: 'P-SOMECODE',
-        maxReachableLevelOnCertificationDate: 5,
-        deliveredAt: new Date('2021-05-05'),
-        certificationCenter: 'Centre des poules bien dodues',
-        pixScore: 51,
-        cleaCertificationImagePath: null,
-        pixPlusDroitCertificationImagePath: null,
-        sessionId: 789,
-      };
-      _buildSession({
-        userId: 456,
-        sessionId: 789,
-        publishedAt: new Date('2021-05-05'),
-        certificationCenter: 'Centre des poules bien dodues',
-      });
-      _buildValidCertificationAttestationWithSeveralResults(certificationAttestationData);
-      _linkCertificationAttestationToOrganization({
-        certificationAttestationData,
-        organizationId: 123,
-        division: '3emeB',
-      });
-
-      await databaseBuilder.commit();
-
-      // when
-      const certificationAttestations =
-        await certificationRepository.findByDivisionForScoIsManagingStudentsOrganization({
+    describe('when the last certification is rejected', function () {
+      it('should take into account the latest valid certification', async function () {
+        // given
+        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(minimalLearningContent);
+        mockLearningContent(learningContentObjects);
+        databaseBuilder.factory.buildOrganization({ id: 123, type: 'SCO', isManagingStudents: true });
+        const certificationAttestationData = {
+          id: 123,
+          firstName: 'Sarah Michelle',
+          lastName: 'Gellar',
+          birthdate: '1977-04-14',
+          birthplace: 'Saint-Ouen',
+          isPublished: true,
+          userId: 456,
+          date: new Date('2020-01-01'),
+          verificationCode: 'P-SOMECODE',
+          maxReachableLevelOnCertificationDate: 5,
+          deliveredAt: new Date('2021-05-05'),
+          certificationCenter: 'Centre des poules bien dodues',
+          pixScore: 51,
+          cleaCertificationImagePath: null,
+          pixPlusDroitCertificationImagePath: null,
+          sessionId: 789,
+        };
+        databaseBuilder.factory.buildUser({ id: 456 });
+        databaseBuilder.factory.buildOrganizationLearner({
+          id: 55,
           organizationId: 123,
+          userId: 456,
           division: '3emeB',
+        }).id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        databaseBuilder.factory.buildSession({
+          id: 789,
+          publishedAt: new Date('2021-05-05'),
+          certificationCenter: 'Centre des poules bien dodues',
+          certificationCenterId,
         });
 
-      // then
-      const expectedCertificationAttestation =
-        domainBuilder.buildCertificationAttestation(certificationAttestationData);
-      expect(certificationAttestations).to.have.length(1);
-      expect(certificationAttestations[0]).to.deepEqualInstanceOmitting(expectedCertificationAttestation, [
-        'resultCompetenceTree',
-      ]);
+        _buildCertificationAttestationWithSeveralResults(certificationAttestationData, status.VALIDATED);
+        _linkCertificationAttestationToOrganization({
+          certificationAttestationData,
+          organizationLearnerId: 55,
+        });
+
+        const certificationAttestationDataRejected = {
+          ...certificationAttestationData,
+          id: 124,
+          date: new Date('2020-01-03'),
+          sessionId: 790,
+          verificationCode: 'P-SOM3COD3',
+        };
+        databaseBuilder.factory.buildSession({
+          id: 790,
+          publishedAt: new Date('2021-05-07'),
+          certificationCenter: 'Centre des poules bien dodues',
+          certificationCenterId,
+        });
+        _buildCertificationAttestationWithSeveralResults(certificationAttestationDataRejected, status.REJECTED);
+        databaseBuilder.factory.buildCertificationCandidate({
+          userId: 456,
+          sessionId: certificationAttestationDataRejected.sessionId,
+          organizationLearnerId: 55,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const certificationAttestations =
+          await certificationRepository.findByDivisionForScoIsManagingStudentsOrganization({
+            organizationId: 123,
+            division: '3emeB',
+          });
+
+        // then
+        const expectedCertificationAttestation =
+          domainBuilder.buildCertificationAttestation(certificationAttestationData);
+        expect(certificationAttestations).to.have.length(1);
+        expect(certificationAttestations[0]).to.deepEqualInstanceOmitting(expectedCertificationAttestation, [
+          'resultCompetenceTree',
+        ]);
+      });
     });
 
     it('should take into account the latest certification of an organization learner', async function () {
@@ -1263,7 +1294,7 @@ function _buildSession({ userId, sessionId, publishedAt, certificationCenter }) 
   });
 }
 
-function _buildValidCertificationAttestationWithSeveralResults(certificationAttestationData) {
+function _buildCertificationAttestationWithSeveralResults(certificationAttestationData, status = 'validated') {
   databaseBuilder.factory.buildCertificationCourse({
     id: certificationAttestationData.id,
     firstName: certificationAttestationData.firstName,
@@ -1284,13 +1315,13 @@ function _buildValidCertificationAttestationWithSeveralResults(certificationAtte
   const assessmentResultId1 = databaseBuilder.factory.buildAssessmentResult({
     assessmentId,
     pixScore: certificationAttestationData.pixScore,
-    status: 'validated',
+    status: 'rejected',
     createdAt: new Date('2019-01-01'),
   }).id;
   const assessmentResultId2 = databaseBuilder.factory.buildAssessmentResult({
     assessmentId,
     pixScore: certificationAttestationData.pixScore,
-    status: 'validated',
+    status,
     createdAt: new Date('2019-01-02'),
   }).id;
   databaseBuilder.factory.buildCompetenceMark({
