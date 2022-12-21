@@ -35,6 +35,7 @@ module.exports = function () {
       'xmark',
       'users',
       'trash-can',
+      'redo',
     ],
     'free-regular-svg-icons': ['circle-check', 'copy', 'trash-can'],
   };
