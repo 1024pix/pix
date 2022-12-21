@@ -392,4 +392,48 @@ describe('Unit | Domain | Models | Scorecard', function () {
       });
     });
   });
+
+  describe('#isMaxLevel', function () {
+    it('should return true when level is equal to maxReachableLevel', function () {
+      // given
+      const level = 18;
+      const maxReachableLevel = 18;
+      sinon.stub(constants, 'MAX_REACHABLE_LEVEL').value(maxReachableLevel);
+      const scorecard = new Scorecard({ level });
+
+      // when
+      const result = scorecard.isMaxLevel;
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return true when level is above maxReachableLevel', function () {
+      // given
+      const level = 2;
+      const maxReachableLevel = 1;
+      sinon.stub(constants, 'MAX_REACHABLE_LEVEL').value(maxReachableLevel);
+      const scorecard = new Scorecard({ level });
+
+      // when
+      const result = scorecard.isMaxLevel;
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return false when level is below maxReachableLevel', function () {
+      // given
+      const level = 1;
+      const maxReachableLevel = 2;
+      sinon.stub(constants, 'MAX_REACHABLE_LEVEL').value(maxReachableLevel);
+      const scorecard = new Scorecard({ level });
+
+      // when
+      const result = scorecard.isMaxLevel;
+
+      // then
+      expect(result).to.be.false;
+    });
+  });
 });
