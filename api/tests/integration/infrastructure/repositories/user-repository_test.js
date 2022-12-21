@@ -714,9 +714,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         const firstAuthenticationMethod = foundUser.authenticationMethods[0];
         expect(firstAuthenticationMethod.identityProvider).to.equal(passwordAuthenticationMethodInDB.identityProvider);
         expect(firstAuthenticationMethod.userId).to.equal(passwordAuthenticationMethodInDB.userId);
-        expect(firstAuthenticationMethod.externalIdentifier).to.equal(
-          passwordAuthenticationMethodInDB.externalIdentifier
-        );
+        expect(firstAuthenticationMethod.externalIdentifier).to.be.null;
         expect(firstAuthenticationMethod.authenticationComplement).to.deep.equal(
           passwordAuthenticationMethodInDB.authenticationComplement
         );
@@ -760,14 +758,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         const firstMembership = user.memberships[0];
         expect(firstMembership).to.be.an.instanceof(Membership);
         expect(firstMembership.id).to.equal(membershipInDB.id);
-
-        const associatedOrganization = firstMembership.organization;
-        expect(associatedOrganization).to.be.an.instanceof(Organization);
-        expect(associatedOrganization.id).to.equal(organizationInDB.id);
-        expect(associatedOrganization.code).to.equal(organizationInDB.code);
-        expect(associatedOrganization.name).to.equal(organizationInDB.name);
-        expect(associatedOrganization.type).to.equal(organizationInDB.type);
-
         expect(firstMembership.organizationRole).to.equal(membershipInDB.organizationRole);
       });
 
@@ -793,16 +783,23 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
       });
 
       it('should return certification center membership associated to the user', async function () {
+        // given
+        const user = databaseBuilder.factory.buildUser({ email: 'super@example.net' });
+        const certificationCenterMembershipId = databaseBuilder.factory.buildCertificationCenterMembership({
+          userId: user.id,
+          certificationCenterId: certificationCenterInDB.id,
+        }).id;
+        await databaseBuilder.commit();
+
         // when
-        const user = await userRepository.getByUsernameOrEmailWithRolesAndPassword(userInDB.email);
+        const foundUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(user.email);
 
         // then
-        expect(user.certificationCenterMemberships).to.be.an('array');
+        expect(foundUser.certificationCenterMemberships).to.be.an('array');
 
-        const firstMembership = user.certificationCenterMemberships[0];
-        expect(firstMembership).to.be.an.instanceof(CertificationCenterMembership);
-        expect(firstMembership.certificationCenter.id).to.equal(certificationCenterInDB.id);
-        expect(firstMembership.certificationCenter.name).to.equal(certificationCenterInDB.name);
+        const firstCertificationCenterMembership = foundUser.certificationCenterMemberships[0];
+        expect(firstCertificationCenterMembership).to.be.an.instanceof(CertificationCenterMembership);
+        expect(firstCertificationCenterMembership.id).to.equal(certificationCenterMembershipId);
       });
 
       it('should reject with a UserNotFound error when no user was found with this email', async function () {
