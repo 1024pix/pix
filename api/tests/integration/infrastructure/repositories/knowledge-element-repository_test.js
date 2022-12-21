@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const moment = require('moment');
 const { expect, knex, domainBuilder, databaseBuilder, sinon } = require('../../../test-helper');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
@@ -46,15 +45,15 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
   });
 
   describe('#findUniqByUserId', function () {
-    const today = new Date('2018-08-01T12:34:56Z');
+    const today = new Date('2018-08-03');
     let knowledgeElementsWanted, knowledgeElementsWantedWithLimitDate;
     let userId;
 
     beforeEach(async function () {
       // given
-      const yesterday = moment(today).subtract(1, 'days').toDate();
-      const tomorrow = moment(today).add(1, 'days').toDate();
-      const dayBeforeYesterday = moment(today).subtract(2, 'days').toDate();
+      const yesterday = new Date('2018-08-02');
+      const tomorrow = new Date('2018-08-04');
+      const dayBeforeYesterday = new Date('2018-08-01');
 
       userId = databaseBuilder.factory.buildUser().id;
 
@@ -1021,13 +1020,13 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
     context('when user does not have a snapshot for this date', function () {
       context('when no date is provided along with the user', function () {
-        it('should take into account all the knowledge elements with a createdAt anterior as now', async function () {
+        it('should take into account all the knowledge elements with a createdAt date prior to today', async function () {
           // given
           const learningContent = domainBuilder.buildCampaignLearningContent.withSimpleContent();
           const userId = databaseBuilder.factory.buildUser().id;
           databaseBuilder.factory.buildKnowledgeElement({
             userId,
-            createdAt: moment.utc().subtract(1, 'minute').toDate(),
+            createdAt: new Date('2019-04-28'),
             competenceId: learningContent.competences[0].id,
             skillId: learningContent.skills[0].id,
           });
