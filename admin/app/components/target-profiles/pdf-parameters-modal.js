@@ -8,8 +8,8 @@ export default class PdfParametersModal extends Component {
   constructor() {
     super(...arguments);
     this.options = [
-      { value: 'fr', label: 'fr' },
-      { value: 'en', label: 'en' },
+      { value: 'fr', label: 'Français' },
+      { value: 'en', label: 'Anglais' },
     ];
     this.language = 'fr';
   }
