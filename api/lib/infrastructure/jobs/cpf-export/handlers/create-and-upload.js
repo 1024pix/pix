@@ -3,7 +3,6 @@ const logger = require('../../../logger');
 const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
 const timezone = require('dayjs/plugin/timezone');
-const { cpfImportStatus } = require('../../../../domain/models/CertificationCourse');
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
@@ -41,7 +40,6 @@ module.exports = async function createAndUpload({
   await cpfCertificationResultRepository.markCertificationCoursesAsExported({
     certificationCourseIds,
     filename,
-    cpfImportStatus: cpfImportStatus.READY_TO_SEND,
   });
 
   logger.info(`${filename} generated in ${_getTimeInSec(start)}s.`);
