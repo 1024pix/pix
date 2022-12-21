@@ -713,4 +713,19 @@ describe('Unit | Domain | Models | Scorecard', function () {
       });
     });
   });
+
+  describe('#remainingPixToNextLevel', function () {
+    it('should return remaining pix to next level', function () {
+      // given
+      const pixCountByLevel = 8;
+      sinon.stub(constants, 'PIX_COUNT_BY_LEVEL').value(pixCountByLevel);
+      const scorecard = new Scorecard({ pixScoreAheadOfNextLevel: 3 });
+
+      // when
+      const result = scorecard.remainingPixToNextLevel;
+
+      // then
+      expect(result).to.equal(5);
+    });
+  });
 });
