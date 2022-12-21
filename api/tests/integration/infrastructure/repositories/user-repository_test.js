@@ -826,47 +826,52 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
     });
 
     describe('#getWithMemberships', function () {
-      beforeEach(async function () {
-        await _insertUserWithOrganizationsAndCertificationCenterAccesses();
-      });
-
-      it('should return user for the given id', async function () {
+      it('should return user with his/her membership(s) for the given id', async function () {
         // given
-        const expectedUser = new User(userInDB);
+        const user = databaseBuilder.factory.buildUser.withRawPassword({
+          firstName: 'Sarah',
+          lastName: 'Pelle',
+          email: 'sarahpelle@example.net',
+          password: 'pix123',
+          cgu: true,
+        });
+        const organizationId = databaseBuilder.factory.buildOrganization({ name: "Orga de l'année.", type: 'SUP' }).id;
+        const membershipId = databaseBuilder.factory.buildMembership({
+          userId: user.id,
+          organizationRole: 'MEMBER',
+          organizationId,
+        }).id;
+        await databaseBuilder.commit();
 
         // when
-        const user = await userRepository.getWithMemberships(userInDB.id);
+        const foundUser = await userRepository.getWithMemberships(user.id);
 
         // then
-        expect(user).to.be.an.instanceof(User);
-        expect(user.id).to.equal(expectedUser.id);
-        expect(user.firstName).to.equal(expectedUser.firstName);
-        expect(user.lastName).to.equal(expectedUser.lastName);
-        expect(user.email).to.equal(expectedUser.email);
-        expect(user.password).to.equal(expectedUser.password);
-        expect(user.cgu).to.equal(expectedUser.cgu);
-      });
+        expect(foundUser).to.be.an.instanceof(User);
+        const expectedUserAttributes = ['id', 'firstName', 'lastName', 'email', 'password', 'cgu'];
+        expect(pick(foundUser, expectedUserAttributes)).to.deep.equal({
+          id: user.id,
+          firstName: 'Sarah',
+          lastName: 'Pelle',
+          email: 'sarahpelle@example.net',
+          cgu: true,
+        });
 
-      it('should return membership associated to the user', async function () {
-        // when
-        const user = await userRepository.getWithMemberships(userInDB.id);
-
-        // then
-        expect(user.memberships).to.be.an('array');
-        expect(user.memberships).to.have.lengthOf(1);
-
-        const membership = user.memberships[0];
+        expect(foundUser.memberships).to.have.lengthOf(1);
+        const membership = foundUser.memberships[0];
         expect(membership).to.be.an.instanceof(Membership);
-        expect(membership.id).to.equal(membershipInDB.id);
+        expect(pick(membership, ['id', 'organizationRole'])).to.deep.equal({
+          id: membershipId,
+          organizationRole: 'MEMBER',
+        });
 
         const associatedOrganization = membership.organization;
         expect(associatedOrganization).to.be.an.instanceof(Organization);
-        expect(associatedOrganization.id).to.equal(organizationInDB.id);
-        expect(associatedOrganization.code).to.equal(organizationInDB.code);
-        expect(associatedOrganization.name).to.equal(organizationInDB.name);
-        expect(associatedOrganization.type).to.equal(organizationInDB.type);
-
-        expect(membership.organizationRole).to.equal(membershipInDB.organizationRole);
+        expect(pick(associatedOrganization, ['id', 'name', 'type'])).to.deep.equal({
+          id: organizationId,
+          name: "Orga de l'année.",
+          type: 'SUP',
+        });
       });
 
       context('when the membership associated to the user has been disabled', function () {
