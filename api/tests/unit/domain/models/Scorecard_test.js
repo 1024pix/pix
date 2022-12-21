@@ -656,4 +656,39 @@ describe('Unit | Domain | Models | Scorecard', function () {
       expect(result).to.be.false;
     });
   });
+
+  describe('#hasReachedAtLeastLevelOne', function () {
+    it('should return true when level is above to 1', function () {
+      // given
+      const scorecard = new Scorecard({ level: 2 });
+
+      // when
+      const result = scorecard.hasReachedAtLeastLevelOne;
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return true when level is equal to 1', function () {
+      // given
+      const scorecard = new Scorecard({ level: 1 });
+
+      // when
+      const result = scorecard.hasReachedAtLeastLevelOne;
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return false when level is below to 1', function () {
+      // given
+      const scorecard = new Scorecard({ level: 0 });
+
+      // when
+      const result = scorecard.hasReachedAtLeastLevelOne;
+
+      // then
+      expect(result).to.be.false;
+    });
+  });
 });
