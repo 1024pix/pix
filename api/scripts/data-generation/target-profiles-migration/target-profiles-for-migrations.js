@@ -13,6 +13,8 @@ const TARGET_PROFILE_ID_UNCAP = 2003;
 const TARGET_PROFILE_ID_UNIFORM_CAP = 2004;
 const TARGET_PROFILE_ID_MULTIFORM_CAP_1 = 2005;
 const TARGET_PROFILE_ID_MULTIFORM_CAP_2 = 2006;
+const TARGET_PROFILE_ID_MULTIFORM_CAP_3 = 2007;
+const TARGET_PROFILE_ID_MULTIFORM_CAP_4 = 2008;
 
 const tubeIdCodageEmblematique = 'recJJVWsUD0A4g7bf';
 const skillIdsCodageEmblematique = {
@@ -45,6 +47,11 @@ const allSkillIds = [
   ...Object.values(skillIdsTerminal),
   ...Object.values(skillIdsEditerDocEnLigne),
   ...Object.values(skillIdsPartageDroits),
+];
+const allSkillIdsExceptPartageDroits = [
+  ...Object.values(skillIdsCodageEmblematique),
+  ...Object.values(skillIdsTerminal),
+  ...Object.values(skillIdsEditerDocEnLigne),
 ];
 
 let allSkills;
@@ -127,6 +134,28 @@ const prepareData = async () => {
     })
   );
 
+  databaseBuilder.factory.buildTargetProfile({
+    id: TARGET_PROFILE_ID_MULTIFORM_CAP_3,
+    name: 'PC avec sujets plafonnés à différents niveaux 3',
+  });
+  allSkillIds.forEach((skillId) =>
+    databaseBuilder.factory.buildTargetProfileSkill({
+      targetProfileId: TARGET_PROFILE_ID_MULTIFORM_CAP_3,
+      skillId,
+    })
+  );
+
+  databaseBuilder.factory.buildTargetProfile({
+    id: TARGET_PROFILE_ID_MULTIFORM_CAP_4,
+    name: 'PC avec sujets plafonnés à différents niveaux 4',
+  });
+  allSkillIdsExceptPartageDroits.forEach((skillId) =>
+    databaseBuilder.factory.buildTargetProfileSkill({
+      targetProfileId: TARGET_PROFILE_ID_MULTIFORM_CAP_4,
+      skillId,
+    })
+  );
+
   await databaseBuilder.commit();
 };
 
@@ -184,7 +213,7 @@ function ouiNonToBoolean(s, defaultValue = false) {
   return s?.toLowerCase().trim().startsWith('o') ?? defaultValue;
 }
 
-async function migrateTargetProfiles(targetProfiles) {
+async function migrateTargetProfiles(targetProfiles, multiFormData) {
   for (const targetProfile of targetProfiles) {
     try {
       await knex.transaction(async (trx) => {
@@ -238,11 +267,19 @@ async function migrateTargetProfiles(targetProfiles) {
           return;
         }
         if (targetProfile.multiformCap) {
-          logger.warn(
-            { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
-            `Profil cible cappé multiforme non traité`,
-            targetProfile.uniformCap
-          );
+          const targetProfileMultiFormData = multiFormData[targetProfile.id];
+          if (!targetProfileMultiFormData) {
+            logger.error(
+              { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
+              `Profil cible cappé multiforme sans instructions`
+            );
+            return;
+          }
+          if (await _multiformCap(targetProfile, targetProfileMultiFormData, trx))
+            logger.info(
+              { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
+              `Profil cible cappé multiformément`
+            );
           return;
         }
         throw new Error('Aucune action définie pour le profil cible');
@@ -304,223 +341,49 @@ async function _uniformCap(id, cap, trx) {
   await trx('target-profile_tubes').update({ level: cap }).where({ targetProfileId: id });
 }
 
-const checkData = async () => {
-  await _checkTP2001();
-  await _checkTP2002();
-  await _checkTP2003();
-  await _checkTP2004();
-  await _checkTP2005();
-  await _checkTP2006();
-};
-
-async function _checkTP2001() {
-  const EXPECTED_TUBES_AUTO = {
-    [tubeIdCodageEmblematique]: 7,
-    [tubeIdTerminal]: 5,
-    [tubeIdEditerDocEnLigne]: 4,
-    [tubeIdPartageDroits]: 6,
-  };
-  const { outdated } = await knex('target-profiles')
-    .select('outdated')
-    .where({ id: TARGET_PROFILE_ID_TO_OUTDATE })
-    .first();
-  if (outdated === false) console.log('PC 2001 KO');
-  const targetProfileTubes = await knex('target-profile_tubes')
-    .select('tubeId', 'level')
-    .where({ targetProfileId: TARGET_PROFILE_ID_TO_OUTDATE })
-    .orderBy('tubeId');
-  if (targetProfileTubes.length !== 4) console.log('PC 2001 KO');
-  if (
-    targetProfileTubes.find(({ tubeId }) => tubeId === tubeIdCodageEmblematique).level !==
-    EXPECTED_TUBES_AUTO[tubeIdCodageEmblematique]
-  )
-    console.log('PC 2001 KO');
-  if (targetProfileTubes.find(({ tubeId }) => tubeId === tubeIdTerminal).level !== EXPECTED_TUBES_AUTO[tubeIdTerminal])
-    console.log('PC 2001 KO');
-  if (
-    targetProfileTubes.find(({ tubeId }) => tubeId === tubeIdEditerDocEnLigne).level !==
-    EXPECTED_TUBES_AUTO[tubeIdEditerDocEnLigne]
-  )
-    console.log('PC 2001 KO');
-  if (
-    targetProfileTubes.find(({ tubeId }) => tubeId === tubeIdPartageDroits).level !==
-    EXPECTED_TUBES_AUTO[tubeIdPartageDroits]
-  )
-    console.log('PC 2001 KO');
-}
-
-async function _checkTP2002() {
-  const EXPECTED_TUBES_AUTO = {
-    [tubeIdCodageEmblematique]: 7,
-    [tubeIdTerminal]: 5,
-    [tubeIdEditerDocEnLigne]: 4,
-    [tubeIdPartageDroits]: 6,
-  };
-  const { outdated } = await knex('target-profiles').select('outdated').where({ id: TARGET_PROFILE_ID_AUTO }).first();
-  if (outdated === true) console.log('PC 2002 KO');
-  const targetProfileTubes = await knex('target-profile_tubes')
-    .select('tubeId', 'level')
-    .where({ targetProfileId: TARGET_PROFILE_ID_AUTO })
-    .orderBy('tubeId');
-  if (targetProfileTubes.length !== 4) console.log('PC 2002 KO');
-  if (
-    targetProfileTubes.find(({ tubeId }) => tubeId === tubeIdCodageEmblematique).level !==
-    EXPECTED_TUBES_AUTO[tubeIdCodageEmblematique]
-  )
-    console.log('PC 2002 KO');
-  if (targetProfileTubes.find(({ tubeId }) => tubeId === tubeIdTerminal).level !== EXPECTED_TUBES_AUTO[tubeIdTerminal])
-    console.log('PC 2002 KO');
-  if (
-    targetProfileTubes.find(({ tubeId }) => tubeId === tubeIdEditerDocEnLigne).level !==
-    EXPECTED_TUBES_AUTO[tubeIdEditerDocEnLigne]
-  )
-    console.log('PC 2002 KO');
-  if (
-    targetProfileTubes.find(({ tubeId }) => tubeId === tubeIdPartageDroits).level !==
-    EXPECTED_TUBES_AUTO[tubeIdPartageDroits]
-  )
-    console.log('PC 2002 KO');
-}
-
-async function _checkTP2003() {
-  const EXPECTED_TUBES_AUTO = {
-    [tubeIdCodageEmblematique]: 8,
-    [tubeIdTerminal]: 8,
-    [tubeIdEditerDocEnLigne]: 8,
-    [tubeIdPartageDroits]: 8,
-  };
-  const { outdated } = await knex('target-profiles').select('outdated').where({ id: TARGET_PROFILE_ID_UNCAP }).first();
-  if (outdated === true) console.log('PC 2003 KO');
-  const targetProfileTubes = await knex('target-profile_tubes')
-    .select('tubeId', 'level')
-    .where({ targetProfileId: TARGET_PROFILE_ID_UNCAP })
-    .orderBy('tubeId');
-  if (targetProfileTubes.length !== 4) console.log('PC 2003 KO');
-  if (
-    targetProfileTubes.find(({ tubeId }) => tubeId === tubeIdCodageEmblematique).level !==
-    EXPECTED_TUBES_AUTO[tubeIdCodageEmblematique]
-  )
-    console.log('PC 2003 KO');
-  if (targetProfileTubes.find(({ tubeId }) => tubeId === tubeIdTerminal).level !== EXPECTED_TUBES_AUTO[tubeIdTerminal])
-    console.log('PC 2003 KO');
-  if (
-    targetProfileTubes.find(({ tubeId }) => tubeId === tubeIdEditerDocEnLigne).level !==
-    EXPECTED_TUBES_AUTO[tubeIdEditerDocEnLigne]
-  )
-    console.log('PC 2003 KO');
-  if (
-    targetProfileTubes.find(({ tubeId }) => tubeId === tubeIdPartageDroits).level !==
-    EXPECTED_TUBES_AUTO[tubeIdPartageDroits]
-  )
-    console.log('PC 2003 KO');
-}
-
-async function _checkTP2004() {
-  const EXPECTED_TUBES_AUTO = {
-    [tubeIdCodageEmblematique]: 6,
-    [tubeIdTerminal]: 6,
-    [tubeIdEditerDocEnLigne]: 6,
-    [tubeIdPartageDroits]: 6,
-  };
-  const { outdated } = await knex('target-profiles')
-    .select('outdated')
-    .where({ id: TARGET_PROFILE_ID_UNIFORM_CAP })
-    .first();
-  if (outdated === true) console.log('PC 2004 KO');
-  const targetProfileTubes = await knex('target-profile_tubes')
-    .select('tubeId', 'level')
-    .where({ targetProfileId: TARGET_PROFILE_ID_UNIFORM_CAP })
-    .orderBy('tubeId');
-  if (targetProfileTubes.length !== 4) console.log('PC 2004 KO');
-  if (
-    targetProfileTubes.find(({ tubeId }) => tubeId === tubeIdCodageEmblematique).level !==
-    EXPECTED_TUBES_AUTO[tubeIdCodageEmblematique]
-  )
-    console.log('PC 2004 KO');
-  if (targetProfileTubes.find(({ tubeId }) => tubeId === tubeIdTerminal).level !== EXPECTED_TUBES_AUTO[tubeIdTerminal])
-    console.log('PC 2004 KO');
-  if (
-    targetProfileTubes.find(({ tubeId }) => tubeId === tubeIdEditerDocEnLigne).level !==
-    EXPECTED_TUBES_AUTO[tubeIdEditerDocEnLigne]
-  )
-    console.log('PC 2004 KO');
-  if (
-    targetProfileTubes.find(({ tubeId }) => tubeId === tubeIdPartageDroits).level !==
-    EXPECTED_TUBES_AUTO[tubeIdPartageDroits]
-  )
-    console.log('PC 2004 KO');
-}
-
-async function _checkTP2005() {
-  const EXPECTED_TUBES_AUTO = {
-    [tubeIdCodageEmblematique]: 7,
-    [tubeIdTerminal]: 4,
-    [tubeIdEditerDocEnLigne]: 2,
-    [tubeIdPartageDroits]: 4,
-  };
-  const { outdated } = await knex('target-profiles')
-    .select('outdated')
-    .where({ id: TARGET_PROFILE_ID_MULTIFORM_CAP_1 })
-    .first();
-  if (outdated === true) console.log('PC 2005 KO');
-  const targetProfileTubes = await knex('target-profile_tubes')
-    .select('tubeId', 'level')
-    .where({ targetProfileId: TARGET_PROFILE_ID_MULTIFORM_CAP_1 })
-    .orderBy('tubeId');
-  if (targetProfileTubes.length !== 4) console.log('PC 2005 KO');
-  if (
-    targetProfileTubes.find(({ tubeId }) => tubeId === tubeIdCodageEmblematique).level !==
-    EXPECTED_TUBES_AUTO[tubeIdCodageEmblematique]
-  )
-    console.log('PC 2005 KO');
-  if (targetProfileTubes.find(({ tubeId }) => tubeId === tubeIdTerminal).level !== EXPECTED_TUBES_AUTO[tubeIdTerminal])
-    console.log('PC 2005 KO');
-  if (
-    targetProfileTubes.find(({ tubeId }) => tubeId === tubeIdEditerDocEnLigne).level !==
-    EXPECTED_TUBES_AUTO[tubeIdEditerDocEnLigne]
-  )
-    console.log('PC 2005 KO');
-  if (
-    targetProfileTubes.find(({ tubeId }) => tubeId === tubeIdPartageDroits).level !==
-    EXPECTED_TUBES_AUTO[tubeIdPartageDroits]
-  )
-    console.log('PC 2005 KO');
-}
-
-async function _checkTP2006() {
-  const EXPECTED_TUBES_AUTO = {
-    [tubeIdCodageEmblematique]: 7,
-    [tubeIdTerminal]: 4,
-    [tubeIdEditerDocEnLigne]: 2,
-    [tubeIdPartageDroits]: 4,
-  };
-  const { outdated } = await knex('target-profiles')
-    .select('outdated')
-    .where({ id: TARGET_PROFILE_ID_MULTIFORM_CAP_1 })
-    .first();
-  if (outdated === true) console.log('PC 2005 KO');
-  const targetProfileTubes = await knex('target-profile_tubes')
-    .select('tubeId', 'level')
-    .where({ targetProfileId: TARGET_PROFILE_ID_MULTIFORM_CAP_1 })
-    .orderBy('tubeId');
-  if (targetProfileTubes.length !== 4) console.log('PC 2005 KO');
-  if (
-    targetProfileTubes.find(({ tubeId }) => tubeId === tubeIdCodageEmblematique).level !==
-    EXPECTED_TUBES_AUTO[tubeIdCodageEmblematique]
-  )
-    console.log('PC 2005 KO');
-  if (targetProfileTubes.find(({ tubeId }) => tubeId === tubeIdTerminal).level !== EXPECTED_TUBES_AUTO[tubeIdTerminal])
-    console.log('PC 2005 KO');
-  if (
-    targetProfileTubes.find(({ tubeId }) => tubeId === tubeIdEditerDocEnLigne).level !==
-    EXPECTED_TUBES_AUTO[tubeIdEditerDocEnLigne]
-  )
-    console.log('PC 2005 KO');
-  if (
-    targetProfileTubes.find(({ tubeId }) => tubeId === tubeIdPartageDroits).level !==
-    EXPECTED_TUBES_AUTO[tubeIdPartageDroits]
-  )
-    console.log('PC 2005 KO');
+async function _multiformCap(targetProfile, instructions, trx) {
+  const tubeNames = instructions.map(({ name }) => name);
+  const nonExistentTubes = tubeNames.filter((tubeName) => !allTubes.find((tube) => tube.name === tubeName));
+  if (nonExistentTubes.length > 0) {
+    logger.error(
+      { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
+      `Les sujets suivants n'existent pas : %s`,
+      nonExistentTubes
+    );
+    return false;
+  }
+  const fullInstructions = instructions.map(({ name, level }) => {
+    const id = allTubes.find((tube) => tube.name === name).id;
+    return { id, name, level };
+  });
+  const tubeIds = fullInstructions.map(({ id }) => id);
+  const targetProfileTubeIds = await trx('target-profile_tubes')
+    .pluck('tubeId')
+    .where({ targetProfileId: targetProfile.id });
+  const tubeIdsInTpNotInInstructions = targetProfileTubeIds.filter((id) => !tubeIds.includes(id));
+  const tubeIdsInInstructionNotInTp = tubeIds.filter((id) => !targetProfileTubeIds.includes(id));
+  if (tubeIdsInTpNotInInstructions.length > 0) {
+    const errorTubeNames = tubeIdsInTpNotInInstructions.map((id) => allTubes.find((tube) => tube.id === id).name);
+    logger.error(
+      { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
+      `Les sujets suivants sont présents dans le profil cible mais pas dans les instructions : %s`,
+      errorTubeNames
+    );
+    return false;
+  }
+  if (tubeIdsInInstructionNotInTp.length > 0) {
+    const errorTubeNames = tubeIdsInInstructionNotInTp.map((id) => allTubes.find((tube) => tube.id === id).name);
+    logger.error(
+      { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
+      `Les sujets suivants sont présents dans les instructions mais pas dans le profil cible : %s`,
+      errorTubeNames
+    );
+    return false;
+  }
+  for (const { id, level } of fullInstructions) {
+    await trx('target-profile_tubes').update({ level }).where({ targetProfileId: targetProfile.id, tubeId: id });
+  }
+  return true;
 }
 
 const isLaunchedFromCommandLine = require.main === module;
@@ -552,4 +415,4 @@ async function main() {
   }
 })();
 
-module.exports = { prepareData, checkData };
+module.exports = { prepareData };
