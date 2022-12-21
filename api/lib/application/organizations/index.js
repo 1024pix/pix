@@ -592,6 +592,39 @@ exports.register = async (server) => {
       },
     },
     {
+      method: 'PATCH',
+      path: '/api/organizations/{id}/resend-invitation',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsAdminInOrganization,
+            assign: 'isAdminInOrganization',
+          },
+        ],
+        handler: organizationController.resendInvitation,
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+          options: {
+            allowUnknown: true,
+          },
+          payload: Joi.object({
+            data: {
+              attributes: {
+                email: Joi.string().email().required(),
+              },
+            },
+          }),
+        },
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés en tant que responsables de l'organisation**\n" +
+            "- Elle permet de renvoyer une invitation à une personne, déjà utilisateur de Pix ou non, à être membre d'une organisation, via leur **adresse e-mail**",
+        ],
+        tags: ['api', 'invitations'],
+      },
+    },
+    {
       method: 'DELETE',
       path: '/api/organizations/{id}/invitations/{organizationInvitationId}',
       config: {
