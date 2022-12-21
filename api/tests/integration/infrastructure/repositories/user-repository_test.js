@@ -90,13 +90,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
 
   describe('find user', function () {
     describe('#getByEmail', function () {
-      let userInDb;
-
-      beforeEach(async function () {
-        userInDb = databaseBuilder.factory.buildUser(userToInsert);
-        await databaseBuilder.commit();
-      });
-
       it('should handle a rejection, when user id is not found', async function () {
         // given
         const emailThatDoesNotExist = '10093';
@@ -108,36 +101,18 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         expect(result).to.be.instanceOf(NotFoundError);
       });
 
-      it('should return a domain user when found', async function () {
-        // when
-        const user = await userRepository.getByEmail(userInDb.email);
-
-        // then
-        expect(user.email).to.equal(userInDb.email);
-      });
-
-      it('should return a domain user when email case insensitive found', async function () {
-        // given
-        const uppercaseEmailAlreadyInDb = userInDb.email.toUpperCase();
-
-        // when
-        const user = await userRepository.getByEmail(uppercaseEmailAlreadyInDb);
-
-        // then
-        expect(user.email).to.equal(userInDb.email);
-      });
-
-      it('should return a domain user when email match (case insensitive)', async function () {
+      it('should return the user with email case insensitive', async function () {
         // given
         const mixCaseEmail = 'USER@example.net';
-        databaseBuilder.factory.buildUser({ email: mixCaseEmail });
+        const userInDb = databaseBuilder.factory.buildUser({ email: mixCaseEmail });
         await databaseBuilder.commit();
 
         // when
-        const foundUser = await userRepository.getByEmail(mixCaseEmail.toLowerCase());
+        const user = await userRepository.getByEmail(mixCaseEmail);
 
         // then
-        expect(foundUser).to.exist;
+        expect(user.id).to.equal(userInDb.id);
+        expect(user.email).to.equal('user@example.net');
       });
     });
 
