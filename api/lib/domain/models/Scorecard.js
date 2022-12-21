@@ -99,6 +99,10 @@ class Scorecard {
     return remainingDaysToWait > 0 ? remainingDaysToWait : 0;
   }
 
+  get isFinishedWithMaxLevel() {
+    return this.isFinished && this.isMaxLevel;
+  }
+
   get isFinished() {
     return this.status === statuses.COMPLETED;
   }

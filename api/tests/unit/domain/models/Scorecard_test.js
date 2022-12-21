@@ -436,4 +436,33 @@ describe('Unit | Domain | Models | Scorecard', function () {
       expect(result).to.be.false;
     });
   });
+
+  describe('#isFinishedWithMaxLevel', function () {
+    // eslint-disable mocha/no-setup-in-describe
+    [
+      { level: 2, status: Scorecard.statuses.NOT_STARTED, expectedResult: false },
+      { level: 2, status: Scorecard.statuses.STARTED, expectedResult: false },
+      { level: 2, status: Scorecard.statuses.COMPLETED, expectedResult: true },
+      { level: 1, status: Scorecard.statuses.NOT_STARTED, expectedResult: false },
+      { level: 1, status: Scorecard.statuses.STARTED, expectedResult: false },
+      { level: 1, status: Scorecard.statuses.COMPLETED, expectedResult: false },
+      { level: 3, status: Scorecard.statuses.NOT_STARTED, expectedResult: false },
+      { level: 3, status: Scorecard.statuses.STARTED, expectedResult: false },
+      { level: 3, status: Scorecard.statuses.COMPLETED, expectedResult: true },
+    ].forEach((testCase) => {
+      it(`should return ${testCase.expectedResult} when level is ${testCase.level} and status ${testCase.status}`, function () {
+        // given
+        const maxReachableLevel = 2;
+        sinon.stub(constants, 'MAX_REACHABLE_LEVEL').value(maxReachableLevel);
+        const scorecard = new Scorecard({ level: testCase.level, status: testCase.status });
+
+        // when
+        const result = scorecard.isFinishedWithMaxLevel;
+
+        // then
+        expect(result).to.equal(testCase.expectedResult);
+      });
+    });
+    // eslint-enable mocha/no-setup-in-describe
+  });
 });
