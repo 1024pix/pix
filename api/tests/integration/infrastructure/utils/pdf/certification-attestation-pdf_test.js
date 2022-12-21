@@ -1,5 +1,5 @@
 const { domainBuilder, expect, nock, catchErr } = require('../../../../test-helper');
-const moment = require('moment');
+const dayjs = require('dayjs');
 const { isSameBinary } = require('../../../../tooling/binary-comparator');
 const {
   getCertificationAttestationsPdfBuffer,
@@ -137,8 +137,8 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
   it('should generate a page per certificate', async function () {
     // given
     const professionalizingValidityStartDate = new Date('2022-01-01');
-    const deliveredBeforeStartDate = moment(professionalizingValidityStartDate).subtract(1, 'days').toDate();
-    const deliveredAfterStartDate = moment(professionalizingValidityStartDate).add(1, 'days').toDate();
+    const deliveredBeforeStartDate = dayjs(professionalizingValidityStartDate).subtract(1, 'days').toDate();
+    const deliveredAfterStartDate = dayjs(professionalizingValidityStartDate).add(1, 'days').toDate();
 
     const resultCompetenceTree = domainBuilder.buildResultCompetenceTree();
     const certificateWithComplementaryCertificationsAndWithoutProfessionalizingMessage =

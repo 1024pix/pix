@@ -11,7 +11,7 @@ const {
   UserHasAlreadyLeftSCO,
 } = require('../../../../lib/domain/errors');
 const { features } = require('../../../../lib/config');
-const moment = require('moment');
+const dayjs = require('dayjs');
 
 describe('Unit | Service | sco-account-recovery-service', function () {
   describe('#retrieveOrganizationLearner', function () {
@@ -563,7 +563,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
         // given
         features.scoAccountRecoveryKeyLifetimeMinutes = 1;
         const userId = '1234';
-        const createdTwoMinutesAgo = moment().subtract(2, 'minutes').toDate();
+        const createdTwoMinutesAgo = dayjs().subtract(2, 'minutes').toDate();
         accountRecoveryDemandRepository.findByTemporaryKey.resolves({ userId, createdAt: createdTwoMinutesAgo });
         userRepository.checkIfEmailIsAvailable.resolves();
         accountRecoveryDemandRepository.findByUserId.withArgs(userId).resolves([{ used: false }]);
