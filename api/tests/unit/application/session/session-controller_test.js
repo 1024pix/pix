@@ -174,7 +174,7 @@ describe('Unit | Controller | sessionController', function () {
       // given
       request = {
         params: { id: sessionId },
-        payload: { file: odsBuffer },
+        payload: odsBuffer,
       };
 
       sinon.stub(usecases, 'importCertificationCandidatesFromCandidatesImportSheet').resolves();
