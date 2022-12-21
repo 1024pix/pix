@@ -1,7 +1,7 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const moment = require('moment');
+const dayjs = require('dayjs');
 
 describe('Unit | Domain | Models | KnowledgeElement', function () {
   describe('#isValidated', function () {
@@ -349,11 +349,11 @@ describe('Unit | Domain | Models | KnowledgeElement', function () {
       { daysBefore: 10, hoursBefore: 0, expectedDaysSinceLastKnowledgeElement: 10 },
     ].forEach(({ daysBefore, hoursBefore, expectedDaysSinceLastKnowledgeElement }) => {
       it(`should return ${expectedDaysSinceLastKnowledgeElement} days when the last knowledge element is ${daysBefore} days and ${hoursBefore} hours old`, function () {
-        const knowledgeElementCreationDate = moment(testCurrentDate)
+        const knowledgeElementCreationDate = dayjs(testCurrentDate)
           .subtract(daysBefore, 'day')
           .subtract(hoursBefore, 'hour')
           .toDate();
-        const oldDate = moment(testCurrentDate).subtract(100, 'day').toDate();
+        const oldDate = dayjs(testCurrentDate).subtract(100, 'day').toDate();
 
         knowledgeElements = [{ createdAt: oldDate }, { createdAt: knowledgeElementCreationDate }];
 

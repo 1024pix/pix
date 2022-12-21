@@ -1,5 +1,5 @@
 const querystring = require('querystring');
-const moment = require('moment');
+const dayjs = require('dayjs');
 const { expect, sinon, catchErr, domainBuilder } = require('../../../../test-helper');
 const settings = require('../../../../../lib/config');
 const { UnexpectedUserAccountError } = require('../../../../../lib/domain/errors');
@@ -79,7 +79,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
     context('when access token is valid', function () {
       it('should send the notification to Pole Emploi', async function () {
         // given
-        const expiredDate = moment().add(10, 'm').toDate();
+        const expiredDate = dayjs().add(10, 'm').toDate();
         const authenticationMethod = { authenticationComplement: { accessToken, expiredDate, refreshToken } };
 
         const expectedHearders = {
@@ -108,7 +108,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
       it('should log the notification to Pole Emploi', async function () {
         // given
         payload = { test: { progression: 100 } };
-        const expiredDate = moment().add(10, 'm').toDate();
+        const expiredDate = dayjs().add(10, 'm').toDate();
         const authenticationMethod = { authenticationComplement: { accessToken, expiredDate, refreshToken } };
 
         authenticationMethodRepository.findOneByUserIdAndIdentityProvider
@@ -182,7 +182,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
             accessToken: data['access_token'],
             refreshToken: data['refresh_token'],
-            expiredDate: moment().add(data['expires_in'], 's').toDate(),
+            expiredDate: dayjs().add(data['expires_in'], 's').toDate(),
           });
 
           // when
@@ -203,7 +203,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
             accessToken: data['access_token'],
             refreshToken: data['refresh_token'],
-            expiredDate: moment().add(data['expires_in'], 's').toDate(),
+            expiredDate: dayjs().add(data['expires_in'], 's').toDate(),
           });
 
           const expectedHeaders = {
