@@ -85,6 +85,11 @@ async function _saveResult({
     assessmentResultRepository,
   });
 
+  await certificationCourseRepository.saveLastAssessmentResultId({
+    certificationCourseId: certificationAssessment.certificationCourseId,
+    lastAssessmentResultId: assessmentResult.id,
+  });
+
   await bluebird.mapSeries(certificationAssessmentScore.competenceMarks, (competenceMark) => {
     const competenceMarkDomain = new CompetenceMark({
       ...competenceMark,
@@ -123,7 +128,11 @@ async function _saveResultAfterCertificationComputeError({
     assessmentId: certificationAssessment.id,
     emitter: EMITTER,
   });
-  await assessmentResultRepository.save(assessmentResult);
+  const { id: assessmentResultId } = await assessmentResultRepository.save(assessmentResult);
+  await certificationCourseRepository.saveLastAssessmentResultId({
+    certificationCourseId: certificationAssessment.certificationCourseId,
+    lastAssessmentResultId: assessmentResultId,
+  });
   const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
   certificationCourse.complete({ now: new Date() });
   return certificationCourseRepository.update(certificationCourse);

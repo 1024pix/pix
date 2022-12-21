@@ -172,6 +172,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
   });
 
   afterEach(async function () {
+    await knex('certification-courses-last-assessment-results').delete();
     return knex('assessment-results').delete();
   });
 
@@ -340,7 +341,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
       });
 
       afterEach(async function () {
-        await knex('complementary-certification-course-results').delete();
+        await knex('certification-courses-last-assessment-results').delete();
         await knex('competence-marks').delete();
         await knex('assessment-results').delete();
       });
