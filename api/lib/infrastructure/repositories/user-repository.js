@@ -22,6 +22,7 @@ const OrganizationLearnerForAdmin = require('../../domain/read-models/Organizati
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
 const OidcIdentityProviders = require('../../domain/constants/oidc-identity-providers');
 const UserLogin = require('../../domain/models/UserLogin');
+const { fetchPage } = require('../utils/knex-utils');
 
 module.exports = {
   async getByEmail(email) {
@@ -121,16 +122,12 @@ module.exports = {
     return _fromKnexDTOToUserDetailsForAdmin({ userDTO, organizationLearnersDTO, authenticationMethodsDTO });
   },
 
-  findPaginatedFiltered({ filter, page }) {
-    return BookshelfUser.query((qb) => _setSearchFiltersForQueryBuilder(filter, qb))
-      .fetchPage({
-        page: page.number,
-        pageSize: page.size,
-      })
-      .then(({ models, pagination }) => {
-        const users = bookshelfToDomainConverter.buildDomainObjects(BookshelfUser, models);
-        return { models: users, pagination };
-      });
+  async findPaginatedFiltered({ filter, page }) {
+    const query = knex('users').where((qb) => _setSearchFiltersForQueryBuilder(filter, qb));
+    const { results, pagination } = await fetchPage(query, page);
+
+    const users = results.map((userDTO) => new User(userDTO));
+    return { models: users, pagination };
   },
 
   getWithMemberships(userId) {
