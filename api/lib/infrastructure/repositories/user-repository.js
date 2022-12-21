@@ -130,18 +130,25 @@ module.exports = {
     return { models: users, pagination };
   },
 
-  getWithMemberships(userId) {
-    return BookshelfUser.where({ id: userId })
-      .fetch({
-        require: false,
-        withRelated: [{ memberships: (qb) => qb.where({ disabledAt: null }) }, 'memberships.organization'],
-      })
-      .then((foundUser) => {
-        if (foundUser === null) {
-          return Promise.reject(new UserNotFoundError(`User not found for ID ${userId}`));
-        }
-        return _toDomain(foundUser);
-      });
+  async getWithMemberships(userId) {
+    const userDTO = await knex('users').where({ id: userId }).first();
+
+    if (!userDTO) {
+      throw new UserNotFoundError();
+    }
+
+    const membershipsDTO = await knex('memberships')
+      .select(
+        'memberships.*',
+        'organizations.name AS organizationName',
+        'organizations.type AS organizationType',
+        'organizations.externalId AS organizationExternalId',
+        'organizations.isManagingStudents AS organizationIsManagingStudents'
+      )
+      .join('organizations', 'organizations.id', 'memberships.organizationId')
+      .where({ userId: userDTO.id, disabledAt: null });
+
+    return _toDomainFromDTO({ userDTO, membershipsDTO });
   },
 
   getWithCertificationCenterMemberships(userId) {
@@ -577,7 +584,19 @@ function _toDomainFromDTO({
   certificationCenterMembershipsDTO = [],
   authenticationMethodsDTO = [],
 }) {
-  const memberships = membershipsDTO.map((membershipDTO) => new Membership(membershipDTO));
+  const memberships = membershipsDTO.map((membershipDTO) => {
+    let organization;
+    if (membershipDTO.organizationName) {
+      organization = new Organization({
+        id: membershipDTO.organizationId,
+        name: membershipDTO.organizationName,
+        type: membershipDTO.organizationType,
+        externalId: membershipDTO.organizationExternalId,
+        isManagingStudents: membershipDTO.organizationIsManagingStudents,
+      });
+    }
+    return new Membership({ ...membershipDTO, organization });
+  });
   const certificationCenterMemberships = certificationCenterMembershipsDTO.map(
     (certificationCenterMembershipDTO) => new CertificationCenterMembership(certificationCenterMembershipDTO)
   );
