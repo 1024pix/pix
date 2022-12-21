@@ -64,8 +64,6 @@ async function _cacheLearningContentData() {
 }
 
 const prepareData = async () => {
-  await _cacheLearningContentData();
-
   const databaseBuilder = new DatabaseBuilder({ knex, emptyFirst: true });
 
   databaseBuilder.factory.buildTargetProfile({
@@ -213,7 +211,7 @@ function ouiNonToBoolean(s, defaultValue = false) {
   return s?.toLowerCase().trim().startsWith('o') ?? defaultValue;
 }
 
-async function migrateTargetProfiles(targetProfiles, multiFormData) {
+async function migrateTargetProfiles(targetProfiles, multiFormData, dryRun) {
   for (const targetProfile of targetProfiles) {
     try {
       await knex.transaction(async (trx) => {
@@ -240,6 +238,7 @@ async function migrateTargetProfiles(targetProfiles, multiFormData) {
             { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
             `Profil cible marqué comme obsolète`
           );
+          if (dryRun) throw new Error('dryrun');
           return;
         }
         if (targetProfile.auto) {
@@ -247,6 +246,7 @@ async function migrateTargetProfiles(targetProfiles, multiFormData) {
             { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
             `Profil cible migré automatiquement`
           );
+          if (dryRun) throw new Error('dryrun');
           return;
         }
         if (targetProfile.uncap) {
@@ -255,6 +255,7 @@ async function migrateTargetProfiles(targetProfiles, multiFormData) {
             { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
             `Profil cible décappé`
           );
+          if (dryRun) throw new Error('dryrun');
           return;
         }
         if (typeof targetProfile.uniformCap === 'number') {
@@ -264,6 +265,7 @@ async function migrateTargetProfiles(targetProfiles, multiFormData) {
             `Profil cible cappé uniformément à %s`,
             targetProfile.uniformCap
           );
+          if (dryRun) throw new Error('dryrun');
           return;
         }
         if (targetProfile.multiformCap) {
@@ -273,6 +275,7 @@ async function migrateTargetProfiles(targetProfiles, multiFormData) {
               { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
               `Profil cible cappé multiforme sans instructions`
             );
+            if (dryRun) throw new Error('dryrun');
             return;
           }
           if (await _multiformCap(targetProfile, targetProfileMultiFormData, trx))
@@ -280,6 +283,7 @@ async function migrateTargetProfiles(targetProfiles, multiFormData) {
               { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
               `Profil cible cappé multiformément`
             );
+          if (dryRun) throw new Error('dryrun');
           return;
         }
         throw new Error('Aucune action définie pour le profil cible');
@@ -391,11 +395,13 @@ const isLaunchedFromCommandLine = require.main === module;
 async function main() {
   const startTime = performance.now();
   logger.info(`Script ${__filename} has started`);
-  await prepareData();
+  const dryRun = process.env.DRY_RUN === 'true';
+  await _cacheLearningContentData();
+  //await prepareData();
   const [, , mainFile, multiFormFile] = process.argv;
   const mainData = await parseMainFile(mainFile);
   const multiFormData = await parseMultiformFile(multiFormFile);
-  await migrateTargetProfiles(mainData['PRO'], multiFormData);
+  await migrateTargetProfiles(mainData['PRO'], multiFormData, dryRun);
   const endTime = performance.now();
   const duration = Math.round(endTime - startTime);
   logger.info(`Script has ended: took ${duration} milliseconds`);
