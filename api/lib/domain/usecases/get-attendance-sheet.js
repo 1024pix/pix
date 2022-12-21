@@ -1,5 +1,6 @@
 const _ = require('lodash');
-const moment = require('moment');
+const dayjs = require('dayjs');
+dayjs.extend(require('dayjs/plugin/customParseFormat'));
 const writeOdsUtils = require('../../infrastructure/utils/ods/write-ods-utils.js');
 const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils.js');
 const sessionXmlService = require('../services/session-xml-service.js');
@@ -82,11 +83,11 @@ function _attendanceSheetWithCertificationCandidates(stringifiedXml, session) {
 function _transformSessionIntoAttendanceSheetSessionData(attendanceSheetData, value, prop) {
   switch (prop) {
     case 'time':
-      attendanceSheetData.startTime = moment(value, 'HH:mm').format('HH:mm');
-      attendanceSheetData.endTime = moment(value, 'HH:mm').add(moment.duration(2, 'hours')).format('HH:mm');
+      attendanceSheetData.startTime = dayjs(value, 'HH:mm').format('HH:mm');
+      attendanceSheetData.endTime = dayjs(value, 'HH:mm').add(2, 'hours').format('HH:mm');
       break;
     case 'date':
-      attendanceSheetData.date = moment(value, 'YYYY-MM-DD').format('DD/MM/YYYY');
+      attendanceSheetData.date = dayjs(value, 'YYYY-MM-DD').format('DD/MM/YYYY');
       break;
     case 'certificationCandidates':
       break;
@@ -105,7 +106,7 @@ function _transformCandidateIntoAttendanceSheetCandidateData(attendanceSheetData
       }
       break;
     case 'birthdate':
-      attendanceSheetData[prop] = value === null ? '' : moment(value, 'YYYY-MM-DD').format('YYYY-MM-DD');
+      attendanceSheetData[prop] = value === null ? '' : dayjs(value, 'YYYY-MM-DD').format('YYYY-MM-DD');
       break;
     default:
       attendanceSheetData[prop] = value === null ? '' : value;

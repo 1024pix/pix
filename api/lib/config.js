@@ -1,6 +1,6 @@
 /* eslint-disable node/no-process-env*/
 const path = require('path');
-const moment = require('moment');
+const dayjs = require('dayjs');
 const ms = require('ms');
 
 const { getArrayOfStrings } = require('../lib/infrastructure/utils/string-utils.js');
@@ -29,12 +29,12 @@ function _getDate(dateAsString) {
   if (!dateAsString) {
     return null;
   }
-  const dateAsMoment = moment(dateAsString);
-  if (!dateAsMoment.isValid()) {
+  const dateAsdayjs = dayjs(dateAsString);
+  if (!dateAsdayjs.isValid()) {
     return null;
   }
 
-  return dateAsMoment.toDate();
+  return dateAsdayjs.toDate();
 }
 
 function _removeTrailingSlashFromUrl(url) {

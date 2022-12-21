@@ -1,4 +1,5 @@
 const dayjs = require('dayjs');
+dayjs.extend(require('dayjs/plugin/customParseFormat'));
 const { plannerJob } = require('../../../../config.js').cpf;
 const _ = require('lodash');
 

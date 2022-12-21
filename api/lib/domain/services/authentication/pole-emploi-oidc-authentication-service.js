@@ -2,7 +2,8 @@ const settings = require('../../../config.js');
 const OidcAuthenticationService = require('./oidc-authentication-service.js');
 const DomainTransaction = require('../../../infrastructure/DomainTransaction.js');
 const AuthenticationMethod = require('../../models/AuthenticationMethod.js');
-const moment = require('moment');
+const dayjs = require('dayjs');
+dayjs.extend(require('dayjs/plugin/customParseFormat'));
 const { v4: uuidv4 } = require('uuid');
 const { temporaryStorage } = require('../../../infrastructure/temporary-storage/index.js');
 const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
@@ -100,7 +101,7 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
     return new AuthenticationMethod.OidcAuthenticationComplement({
       accessToken: sessionContent.accessToken,
       refreshToken: sessionContent.refreshToken,
-      expiredDate: moment().add(sessionContent.expiresIn, 's').toDate(),
+      expiredDate: dayjs().add(sessionContent.expiresIn, 's').toDate(),
     });
   }
 }

@@ -1,4 +1,5 @@
-const moment = require('moment');
+const dayjs = require('dayjs');
+dayjs.extend(require('dayjs/plugin/customParseFormat'));
 const { isEmpty, isNil, each } = require('lodash');
 const { SiecleXmlImportError } = require('../../../domain/errors.js');
 
@@ -75,7 +76,7 @@ function _mapStudentInformationToOrganizationLearner(studentNode) {
     middleName: _getValueFromParsedElement(studentNode.PRENOM2),
     thirdName: _getValueFromParsedElement(studentNode.PRENOM3),
     sex: _convertSexCode(studentNode.CODE_SEXE),
-    birthdate: moment(studentNode.DATE_NAISS, 'DD/MM/YYYY').format('YYYY-MM-DD') || null,
+    birthdate: dayjs(studentNode.DATE_NAISS, 'DD/MM/YYYY').format('YYYY-MM-DD') || null,
     birthCountryCode: _getValueFromParsedElement(studentNode.CODE_PAYS),
     birthProvinceCode: _getValueFromParsedElement(studentNode.CODE_DEPARTEMENT_NAISS),
     birthCityCode: _getValueFromParsedElement(studentNode.CODE_COMMUNE_INSEE_NAISS),

@@ -1,12 +1,13 @@
 const constants = require('../constants.js');
-const moment = require('moment');
+const dayjs = require('dayjs');
+dayjs.extend(require('dayjs/plugin/customParseFormat'));
 
 function _keepKnowledgeElementsRecentOrValidated({ currentUserKnowledgeElements, assessment, minimumDelayInDays }) {
   const startedDateOfAssessment = assessment.createdAt;
 
   return currentUserKnowledgeElements.filter((knowledgeElement) => {
     const isNotOldEnoughToBeImproved =
-      moment(startedDateOfAssessment).diff(knowledgeElement.createdAt, 'days', true) < minimumDelayInDays;
+      dayjs(startedDateOfAssessment).diff(knowledgeElement.createdAt, 'days', true) < minimumDelayInDays;
     return knowledgeElement.isValidated || isNotOldEnoughToBeImproved;
   });
 }

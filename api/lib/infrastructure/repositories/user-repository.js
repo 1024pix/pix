@@ -1,4 +1,5 @@
-const moment = require('moment');
+const dayjs = require('dayjs');
+dayjs.extend(require('dayjs/plugin/customParseFormat'));
 
 const { knex } = require('../../../db/knex-database-connection.js');
 const DomainTransaction = require('../DomainTransaction.js');
@@ -289,7 +290,7 @@ module.exports = {
     const user = await BookshelfUser.where({ id }).fetch({ require: false });
     await user.save(
       {
-        lastTermsOfServiceValidatedAt: moment().toDate(),
+        lastTermsOfServiceValidatedAt: dayjs().toDate(),
         mustValidateTermsOfService: false,
       },
       { patch: true, method: 'update' }

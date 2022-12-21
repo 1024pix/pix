@@ -1,4 +1,5 @@
 const dayjs = require('dayjs');
+dayjs.extend(require('dayjs/plugin/customParseFormat'));
 const Text = require('./Text.js');
 const ColorManager = require('../manager/color-manager.js');
 const FontManager = require('../manager/font-manager.js');

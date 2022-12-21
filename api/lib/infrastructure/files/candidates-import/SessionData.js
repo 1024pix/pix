@@ -1,4 +1,5 @@
-const moment = require('moment');
+const dayjs = require('dayjs');
+dayjs.extend(require('dayjs/plugin/customParseFormat'));
 
 module.exports = class SessionData {
   constructor({
@@ -33,9 +34,9 @@ module.exports = class SessionData {
     this.publishedAt = publishedAt;
     this.certificationCenterId = certificationCenterId;
     this.assignedCertificationOfficerId = assignedCertificationOfficerId;
-    this.startTime = moment(time, 'HH:mm').format('HH:mm');
-    this.endTime = moment(time, 'HH:mm').add(moment.duration(2, 'hours')).format('HH:mm');
-    this.date = moment(date, 'YYYY-MM-DD').format('DD/MM/YYYY');
+    this.startTime = dayjs(time, 'HH:mm').format('HH:mm');
+    this.endTime = dayjs(time, 'HH:mm').add(2, 'hours').format('HH:mm');
+    this.date = dayjs(date, 'YYYY-MM-DD').format('DD/MM/YYYY');
   }
 
   static fromSession(session) {

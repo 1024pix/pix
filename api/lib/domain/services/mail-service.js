@@ -1,4 +1,5 @@
 const dayjs = require('dayjs');
+dayjs.extend(require('dayjs/plugin/customParseFormat'));
 
 const tokenService = require('./token-service.js');
 const { mailer } = require('../../infrastructure/mailers/mailer.js');

@@ -1,5 +1,6 @@
 const get = require('lodash/get');
-const moment = require('moment');
+const dayjs = require('dayjs');
+dayjs.extend(require('dayjs/plugin/customParseFormat'));
 const querystring = require('querystring');
 const monitoringTools = require('../../monitoring-tools.js');
 const authenticationMethodRepository = require('../../repositories/authentication-method-repository.js');
@@ -69,7 +70,7 @@ module.exports = {
       const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
         accessToken,
         refreshToken: tokenResponse.data['refresh_token'],
-        expiredDate: moment().add(tokenResponse.data['expires_in'], 's').toDate(),
+        expiredDate: dayjs().add(tokenResponse.data['expires_in'], 's').toDate(),
       });
       await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
         authenticationComplement,

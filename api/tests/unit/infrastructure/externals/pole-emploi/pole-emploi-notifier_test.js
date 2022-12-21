@@ -295,6 +295,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
             isSuccessful: true,
             data: {
               access_token: 'TOKEN',
+              expires_in: new Date(),
             },
           };
           const httpResponse = {

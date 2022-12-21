@@ -1,7 +1,8 @@
 const { PDFDocument, rgb } = require('pdf-lib');
 const { readFile } = require('fs/promises');
 const pdfLibFontkit = require('@pdf-lib/fontkit');
-const moment = require('moment');
+const dayjs = require('dayjs');
+dayjs.extend(require('dayjs/plugin/customParseFormat'));
 const _ = require('lodash');
 const bluebird = require('bluebird');
 // eslint-disable-next-line no-restricted-modules
@@ -48,7 +49,7 @@ async function getCertificationAttestationsPdfBuffer({
 
   const buffer = await _finalizeDocument(generatedPdfDoc);
 
-  const fileName = `attestation-pix-${moment(certificates[0].deliveredAt).format('YYYYMMDD')}.pdf`;
+  const fileName = `attestation-pix-${dayjs(certificates[0].deliveredAt).format('YYYYMMDD')}.pdf`;
 
   return {
     buffer,

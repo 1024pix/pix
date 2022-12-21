@@ -1,5 +1,6 @@
 const sortBy = require('lodash/sortBy');
-const moment = require('moment');
+const dayjs = require('dayjs');
+dayjs.extend(require('dayjs/plugin/customParseFormat'));
 const { toArrayOfFixedLengthStringsConservingWords } = require('../string-utils.js');
 
 const PROFESSIONALIZING_VALIDITY_START_DATE = new Date('2022-01-01');
@@ -132,7 +133,7 @@ class CompetenceDetailViewModel {
 }
 
 function _formatDate(date) {
-  return moment(date).locale('fr').format('LL');
+  return dayjs(date).locale('fr').format('LL');
 }
 
 module.exports = AttestationViewModel;

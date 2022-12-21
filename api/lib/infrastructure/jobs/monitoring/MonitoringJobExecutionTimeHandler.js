@@ -1,4 +1,5 @@
 const dayjs = require('dayjs');
+dayjs.extend(require('dayjs/plugin/customParseFormat'));
 
 class MonitoringJobExecutionTimeHandler {
   constructor({ logger }) {

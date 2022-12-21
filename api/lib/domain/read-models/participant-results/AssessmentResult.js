@@ -1,7 +1,8 @@
 const BadgeResult = require('./BadgeResult.js');
 const CompetenceResult = require('./CompetenceResult.js');
 const constants = require('../../constants.js');
-const moment = require('moment');
+const dayjs = require('dayjs');
+dayjs.extend(require('dayjs/plugin/customParseFormat'));
 
 class AssessmentResult {
   constructor({
@@ -79,7 +80,7 @@ class AssessmentResult {
     const isImprovementPossible =
       knowledgeElements.filter((knowledgeElement) => {
         const isOldEnoughToBeImproved =
-          moment(assessmentCreatedAt).diff(knowledgeElement.createdAt, 'days', true) >=
+          dayjs(assessmentCreatedAt).diff(knowledgeElement.createdAt, 'days', true) >=
           constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING;
         return knowledgeElement.isInvalidated && isOldEnoughToBeImproved;
       }).length > 0;
@@ -103,7 +104,7 @@ class AssessmentResult {
   _timeBeforeRetryingPassed(sharedAt) {
     const isShared = Boolean(sharedAt);
     if (!isShared) return false;
-    return sharedAt && moment().diff(sharedAt, 'days', true) >= constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
+    return sharedAt && dayjs().diff(sharedAt, 'days', true) >= constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
   }
 }
 

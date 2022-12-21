@@ -1,4 +1,5 @@
-const moment = require('moment');
+const dayjs = require('dayjs');
+dayjs.extend(require('dayjs/plugin/customParseFormat'));
 const _ = require('lodash');
 
 const STATS_COLUMNS_COUNT = 3;
@@ -105,10 +106,10 @@ class CampaignAssessmentCsvLine {
         this.targetedKnowledgeElementsCount,
         this.learningContent.skills.length
       ),
-      moment.utc(this.campaignParticipationInfo.createdAt).format('YYYY-MM-DD'),
+      dayjs.utc(this.campaignParticipationInfo.createdAt).format('YYYY-MM-DD'),
       this._makeYesNoColumns(this.campaignParticipationInfo.isShared),
       this.campaignParticipationInfo.isShared
-        ? moment.utc(this.campaignParticipationInfo.sharedAt).format('YYYY-MM-DD')
+        ? dayjs.utc(this.campaignParticipationInfo.sharedAt).format('YYYY-MM-DD')
         : this.emptyContent,
       ...(this.campaignStages.hasReachableStages ? [this._getReachedStage()] : []),
       ...(this.campaignParticipationInfo.isShared

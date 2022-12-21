@@ -1,5 +1,6 @@
 const _ = require('lodash');
-const moment = require('moment');
+const dayjs = require('dayjs');
+dayjs.extend(require('dayjs/plugin/customParseFormat'));
 const { getCsvContent } = require('./write-csv-utils.js');
 
 const REJECTED_AUTOMATICALLY_COMMENT =
@@ -223,7 +224,7 @@ function _formatPixScore(certificationResult) {
 }
 
 function _formatDate(date) {
-  return moment(date).format('DD/MM/YYYY');
+  return dayjs(date).format('DD/MM/YYYY');
 }
 
 function _formatStatus(certificationResult) {

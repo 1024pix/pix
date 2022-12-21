@@ -1,5 +1,6 @@
 const { ForbiddenAccess } = require('../../domain/errors.js');
 const dayjs = require('dayjs');
+dayjs.extend(require('dayjs/plugin/customParseFormat'));
 const learningContentConversionService = require('../services/learning-content/learning-content-conversion-service.js');
 
 module.exports = async function getTargetProfileContentAsJson({

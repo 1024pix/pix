@@ -5,7 +5,8 @@ const shareableCertificateSerializer = require('../../infrastructure/serializers
 const certificationAttestationPdf = require('../../infrastructure/utils/pdf/certification-attestation-pdf.js');
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils.js');
 
-const moment = require('moment');
+const dayjs = require('dayjs');
+dayjs.extend(require('dayjs/plugin/customParseFormat'));
 
 module.exports = {
   async findUserCertifications(request) {
@@ -50,7 +51,7 @@ module.exports = {
       isFrenchDomainExtension,
     });
 
-    const fileName = `attestation-pix-${moment(attestation.deliveredAt).format('YYYYMMDD')}.pdf`;
+    const fileName = `attestation-pix-${dayjs(attestation.deliveredAt).format('YYYYMMDD')}.pdf`;
     return h
       .response(buffer)
       .header('Content-Disposition', `attachment; filename=${fileName}`)

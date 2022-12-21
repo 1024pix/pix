@@ -1,5 +1,6 @@
 const csvSerializer = require('../../serializers/csv/csv-serializer.js');
-const moment = require('moment');
+const dayjs = require('dayjs');
+dayjs.extend(require('dayjs/plugin/customParseFormat'));
 
 const EMPTY_ARRAY = [];
 
@@ -71,7 +72,7 @@ class CampaignProfilesCollectionResultLine {
 
   _getSharedAtColumn() {
     return this.campaignParticipationResult.isShared
-      ? moment.utc(this.campaignParticipationResult.sharedAt).format('YYYY-MM-DD')
+      ? dayjs.utc(this.campaignParticipationResult.sharedAt).format('YYYY-MM-DD')
       : this.notShared;
   }
 
