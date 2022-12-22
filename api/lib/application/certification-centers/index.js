@@ -174,6 +174,12 @@ exports.register = async function (server) {
       method: 'POST',
       path: '/api/certification-centers/{certificationCenterId}/sessions/import',
       config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsMemberOfCertificationCenter,
+            assign: 'isMemberOfCertificationCenter',
+          },
+        ],
         validate: {
           params: Joi.object({ certificationCenterId: identifiersType.certificationCenterId }),
         },
