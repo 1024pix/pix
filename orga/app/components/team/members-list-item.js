@@ -13,8 +13,6 @@ export default class MembersListItem extends Component {
 
   @tracked organizationRoles = null;
   @tracked isEditionMode = false;
-  @tracked selectedNewRole = null;
-  @tracked currentRole = null;
   @tracked isRemoveMembershipModalDisplayed = false;
 
   adminOption = {
@@ -49,14 +47,11 @@ export default class MembersListItem extends Component {
 
   @action
   setRoleSelection(value) {
-    this.selectedNewRole = value;
-    this.isEditionMode = true;
+    this.args.membership.organizationRole = value;
   }
 
   @action
-  editRoleOfMember(membership) {
-    this.selectedNewRole = null;
-    this.currentRole = membership.displayRole;
+  toggleEditionMode() {
     this.isEditionMode = true;
   }
 
@@ -64,15 +59,13 @@ export default class MembersListItem extends Component {
   async updateRoleOfMember(membership) {
     this.isEditionMode = false;
 
-    if (!this.selectedNewRole) return false;
-
-    membership.organizationRole = this.selectedNewRole;
     membership.organization = this.currentUser.organization;
 
     try {
       await membership.save();
       this.notifications.success(this.intl.t('pages.team-members.notifications.change-member-role.success'));
     } catch (e) {
+      membership.rollbackAttributes();
       this.notifications.error(this.intl.t('pages.team-members.notifications.change-member-role.error'));
     }
   }
@@ -80,7 +73,7 @@ export default class MembersListItem extends Component {
   @action
   cancelUpdateRoleOfMember() {
     this.isEditionMode = false;
-    this._clearState();
+    this.args.membership.rollbackAttributes();
   }
 
   @action
@@ -109,10 +102,5 @@ export default class MembersListItem extends Component {
     } finally {
       this.closeRemoveMembershipModal();
     }
-  }
-
-  _clearState() {
-    this.selectedNewRole = null;
-    this.currentRole = null;
   }
 }
