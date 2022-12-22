@@ -208,7 +208,6 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
 
     module('when user set a search filter', function () {
       test('that in the fullname search input we will have the value that we put', async function (assert) {
-        console.log('hi');
         const campaign = store.createRecord('campaign', {
           id: 1,
           name: 'campagne 1',
