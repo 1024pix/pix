@@ -44,7 +44,7 @@ async function publishSession({
     }
 
     if (_someHaveFailed(refererEmailingAttempts)) {
-      const failedEmailsReferer = _failedAttemptsReferer(refererEmailingAttempts);
+      const failedEmailsReferer = _failedAttemptsEmail(refererEmailingAttempts);
       throw new SendingEmailToRefererError(failedEmailsReferer);
     }
   }
@@ -57,7 +57,7 @@ async function publishSession({
     });
   }
   if (_someHaveFailed(emailingAttempts)) {
-    const failedEmailsRecipients = _failedAttemptsRecipients(emailingAttempts);
+    const failedEmailsRecipients = _failedAttemptsEmail(emailingAttempts);
     throw new SendingEmailToResultRecipientError(failedEmailsRecipients);
   }
 }
@@ -98,13 +98,7 @@ function _someHaveFailed(emailingAttempts) {
   return some(emailingAttempts, (emailAttempt) => emailAttempt.hasFailed());
 }
 
-function _failedAttemptsRecipients(emailingAttempts) {
-  return emailingAttempts
-    .filter((emailAttempt) => emailAttempt.hasFailed())
-    .map((emailAttempt) => emailAttempt.recipientEmail);
-}
-
-function _failedAttemptsReferer(emailingAttempts) {
+function _failedAttemptsEmail(emailingAttempts) {
   return emailingAttempts.filter((emailAttempt) => emailAttempt.hasFailed()).map((emailAttempt) => emailAttempt.email);
 }
 
