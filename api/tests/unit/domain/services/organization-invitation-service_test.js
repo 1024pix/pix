@@ -1,4 +1,4 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const Membership = require('../../../../lib/domain/models/Membership');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const mailService = require('../../../../lib/domain/services/mail-service');
@@ -7,6 +7,8 @@ const {
   createScoOrganizationInvitation,
   createProOrganizationInvitation,
 } = require('../../../../lib/domain/services/organization-invitation-service');
+const { SendingEmailToInvalidDomainError } = require('../../../../lib/domain/errors');
+const EmailingAttempt = require('../../../../lib/domain/models/EmailingAttempt');
 
 describe('Unit | Service | Organization-Invitation Service', function () {
   const userEmailAddress = 'user@example.net';
@@ -71,6 +73,45 @@ describe('Unit | Service | Organization-Invitation Service', function () {
           code,
           locale,
           tags,
+        });
+      });
+
+      context('when recipient email has an invalid domain', function () {
+        it('should throw an error', async function () {
+          // given
+          const role = null;
+          const locale = 'fr-fr';
+          const organization = domainBuilder.buildOrganization();
+          const organizationInvitation = new OrganizationInvitation({
+            role: Membership.roles.MEMBER,
+            status: 'pending',
+            code,
+          });
+
+          organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail
+            .withArgs({ organizationId: organization.id, email: userEmailAddress })
+            .resolves(null);
+          organizationInvitationRepository.create.resolves(organizationInvitation);
+          organizationRepository.get.resolves(organization);
+          mailService.sendOrganizationInvitationEmail.resolves(
+            EmailingAttempt.failure(userEmailAddress, EmailingAttempt.errorCode.INVALID_DOMAIN)
+          );
+
+          // when
+          const error = await catchErr(createOrganizationInvitation)({
+            organizationRepository,
+            organizationInvitationRepository,
+            organizationId: organization.id,
+            email: userEmailAddress,
+            locale,
+            role,
+          });
+
+          // then
+          expect(error).to.be.an.instanceOf(SendingEmailToInvalidDomainError);
+          expect(error.message).to.equal(
+            'Failed to send email to user@example.net because domain seems to be invalid.'
+          );
         });
       });
     });

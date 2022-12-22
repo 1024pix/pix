@@ -1,7 +1,7 @@
 const randomString = require('randomstring');
 const Membership = require('../models/Membership');
 const mailService = require('../../domain/services/mail-service');
-const { SendingEmailError } = require('../errors');
+const { SendingEmailError, SendingEmailToInvalidDomainError } = require('../errors');
 
 const _generateCode = () => {
   return randomString.generate({ length: 10, capitalization: 'uppercase' });
@@ -42,6 +42,10 @@ const createOrganizationInvitation = async ({
     tags,
   });
   if (mailerResponse?.status === 'FAILURE') {
+    if (mailerResponse.hasFailedBecauseDomainWasInvalid()) {
+      throw new SendingEmailToInvalidDomainError(email);
+    }
+
     throw new SendingEmailError();
   }
 
