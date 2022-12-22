@@ -46,8 +46,9 @@ async function main() {
 module.exports = { main };
 
 async function _updateIssueReportsWithCategoryId(certificationIssueReports, categories) {
-  await bluebird.map(certificationIssueReports, async (certificationIssueReport) => {
-    const getCategoryId = (lookupName) => categories.find(({ name }) => lookupName === name).id;
+  let count = 0;
+  await bluebird.mapSeries(certificationIssueReports, async (certificationIssueReport) => {
+    const getCategoryId = (lookupName) => categories.find(({ name }) => lookupName === name)?.id;
     const category = certificationIssueReport.subcategory ?? certificationIssueReport.category;
     certificationIssueReport.categoryId = getCategoryId(category);
 
@@ -55,5 +56,7 @@ async function _updateIssueReportsWithCategoryId(certificationIssueReports, cate
       categoryId: certificationIssueReport.categoryId,
       updatedAt: new Date(),
     });
+    count++;
+    if (count % 1000 === 0) logger.info('Nombre de certification issue report mis à jour : ', count);
   });
 }
