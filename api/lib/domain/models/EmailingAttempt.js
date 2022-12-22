@@ -14,6 +14,10 @@ module.exports = class EmailingAttempt {
     return this.status === AttemptStatus.FAILURE;
   }
 
+  hasFailedBecauseDomainWasInvalid() {
+    return this.status === AttemptStatus.FAILURE && this.errorCode === EmailingAttempt.errorCode.INVALID_DOMAIN;
+  }
+
   hasSucceeded() {
     return this.status === AttemptStatus.SUCCESS;
   }
