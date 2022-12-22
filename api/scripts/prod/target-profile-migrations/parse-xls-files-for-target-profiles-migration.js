@@ -1,58 +1,10 @@
-require('dotenv').config({ path: `${__dirname}/../../../.env` });
+require('dotenv').config();
 const _ = require('lodash');
 const { performance } = require('perf_hooks');
 const XLSX = require('xlsx');
 const logger = require('../../../lib/infrastructure/logger');
 const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
 const { knex, disconnect } = require('../../../db/knex-database-connection');
-const DatabaseBuilder = require('../../../db/database-builder/database-builder');
-
-const TARGET_PROFILE_ID_TO_OUTDATE = 2001;
-const TARGET_PROFILE_ID_AUTO = 2002;
-const TARGET_PROFILE_ID_UNCAP = 2003;
-const TARGET_PROFILE_ID_UNIFORM_CAP = 2004;
-const TARGET_PROFILE_ID_MULTIFORM_CAP_1 = 2005;
-const TARGET_PROFILE_ID_MULTIFORM_CAP_2 = 2006;
-const TARGET_PROFILE_ID_MULTIFORM_CAP_3 = 2007;
-const TARGET_PROFILE_ID_MULTIFORM_CAP_4 = 2008;
-
-const tubeIdCodageEmblematique = 'recJJVWsUD0A4g7bf';
-const skillIdsCodageEmblematique = {
-  3: 'recXO3Ei4vf25mJE7',
-  4: 'recVfp1idTGE727dl',
-  5: 'rec3wTu36JBVMu70s',
-  6: 'recqUtUE0mrjZYmcI',
-  7: 'recCQPm1mgdexw3jV',
-};
-const tubeIdTerminal = 'rec1ahEQ4rwrml6Lo';
-const skillIdsTerminal = {
-  3: 'recNXnzzW5yvqQlA',
-  4: 'rec2Qat2a1iwKpqR2',
-  5: 'rec145HIb1bvzOuod',
-};
-const tubeIdEditerDocEnLigne = 'reciWLZDyQmXNn6lc';
-const skillIdsEditerDocEnLigne = {
-  1: 'recXDYAkqqIDCDePc',
-  4: 'recwOLZ8bzMQK9NF9',
-};
-const tubeIdPartageDroits = 'recd3rYCdpWLtHXLk';
-const skillIdsPartageDroits = {
-  2: 'rec7EvARki1b9t574',
-  4: 'recqSPZiRJYzfCDaS',
-  5: 'recp7rTXpecbxjE5d',
-  6: 'recIyRA2zdCdlX6UD',
-};
-const allSkillIds = [
-  ...Object.values(skillIdsCodageEmblematique),
-  ...Object.values(skillIdsTerminal),
-  ...Object.values(skillIdsEditerDocEnLigne),
-  ...Object.values(skillIdsPartageDroits),
-];
-const allSkillIdsExceptPartageDroits = [
-  ...Object.values(skillIdsCodageEmblematique),
-  ...Object.values(skillIdsTerminal),
-  ...Object.values(skillIdsEditerDocEnLigne),
-];
 
 let allSkills;
 let allTubes;
@@ -63,99 +15,13 @@ async function _cacheLearningContentData() {
   allTubes = await tubeRepository.list();
 }
 
-const prepareData = async () => {
-  const databaseBuilder = new DatabaseBuilder({ knex, emptyFirst: true });
-
-  databaseBuilder.factory.buildTargetProfile({
-    id: TARGET_PROFILE_ID_TO_OUTDATE,
-    name: 'PC à périmer',
-  });
-  allSkillIds.forEach((skillId) =>
-    databaseBuilder.factory.buildTargetProfileSkill({
-      targetProfileId: TARGET_PROFILE_ID_TO_OUTDATE,
-      skillId,
-    })
-  );
-
-  databaseBuilder.factory.buildTargetProfile({
-    id: TARGET_PROFILE_ID_AUTO,
-    name: 'PC à migrer automatiquement',
-  });
-  allSkillIds.forEach((skillId) =>
-    databaseBuilder.factory.buildTargetProfileSkill({
-      targetProfileId: TARGET_PROFILE_ID_AUTO,
-      skillId,
-    })
-  );
-
-  databaseBuilder.factory.buildTargetProfile({
-    id: TARGET_PROFILE_ID_UNCAP,
-    name: 'PC avec sujets non plafonnés',
-  });
-  allSkillIds.forEach((skillId) =>
-    databaseBuilder.factory.buildTargetProfileSkill({
-      targetProfileId: TARGET_PROFILE_ID_UNCAP,
-      skillId,
-    })
-  );
-
-  databaseBuilder.factory.buildTargetProfile({
-    id: TARGET_PROFILE_ID_UNIFORM_CAP,
-    name: 'PC avec sujets plafonnés au même niveau',
-  });
-  allSkillIds.forEach((skillId) =>
-    databaseBuilder.factory.buildTargetProfileSkill({
-      targetProfileId: TARGET_PROFILE_ID_UNIFORM_CAP,
-      skillId,
-    })
-  );
-
-  databaseBuilder.factory.buildTargetProfile({
-    id: TARGET_PROFILE_ID_MULTIFORM_CAP_1,
-    name: 'PC avec sujets plafonnés à différents niveaux 1',
-  });
-  allSkillIds.forEach((skillId) =>
-    databaseBuilder.factory.buildTargetProfileSkill({
-      targetProfileId: TARGET_PROFILE_ID_MULTIFORM_CAP_1,
-      skillId,
-    })
-  );
-
-  databaseBuilder.factory.buildTargetProfile({
-    id: TARGET_PROFILE_ID_MULTIFORM_CAP_2,
-    name: 'PC avec sujets plafonnés à différents niveaux 2',
-  });
-  allSkillIds.forEach((skillId) =>
-    databaseBuilder.factory.buildTargetProfileSkill({
-      targetProfileId: TARGET_PROFILE_ID_MULTIFORM_CAP_2,
-      skillId,
-    })
-  );
-
-  databaseBuilder.factory.buildTargetProfile({
-    id: TARGET_PROFILE_ID_MULTIFORM_CAP_3,
-    name: 'PC avec sujets plafonnés à différents niveaux 3',
-  });
-  allSkillIds.forEach((skillId) =>
-    databaseBuilder.factory.buildTargetProfileSkill({
-      targetProfileId: TARGET_PROFILE_ID_MULTIFORM_CAP_3,
-      skillId,
-    })
-  );
-
-  databaseBuilder.factory.buildTargetProfile({
-    id: TARGET_PROFILE_ID_MULTIFORM_CAP_4,
-    name: 'PC avec sujets plafonnés à différents niveaux 4',
-  });
-  allSkillIdsExceptPartageDroits.forEach((skillId) =>
-    databaseBuilder.factory.buildTargetProfileSkill({
-      targetProfileId: TARGET_PROFILE_ID_MULTIFORM_CAP_4,
-      skillId,
-    })
-  );
-
-  await databaseBuilder.commit();
-};
+async function doJob(mainFile, multiFormFile) {
+  const dryRun = process.env.DRY_RUN === 'true';
+  await _cacheLearningContentData();
+  const mainData = await parseMainFile(mainFile);
+  const multiFormData = await parseMultiformFile(multiFormFile);
+  await migrateTargetProfiles(mainData['PRO'], multiFormData, dryRun);
+}
 
 const tabs = {
   PRO: {
@@ -395,13 +261,8 @@ const isLaunchedFromCommandLine = require.main === module;
 async function main() {
   const startTime = performance.now();
   logger.info(`Script ${__filename} has started`);
-  const dryRun = process.env.DRY_RUN === 'true';
-  await _cacheLearningContentData();
-  //await prepareData();
   const [, , mainFile, multiFormFile] = process.argv;
-  const mainData = await parseMainFile(mainFile);
-  const multiFormData = await parseMultiformFile(multiFormFile);
-  await migrateTargetProfiles(mainData['PRO'], multiFormData, dryRun);
+  await doJob(mainFile, multiFormFile);
   const endTime = performance.now();
   const duration = Math.round(endTime - startTime);
   logger.info(`Script has ended: took ${duration} milliseconds`);
@@ -421,4 +282,4 @@ async function main() {
   }
 })();
 
-module.exports = { prepareData };
+module.exports = { doJob };
