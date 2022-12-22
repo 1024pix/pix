@@ -26,7 +26,7 @@ class Mailer {
       await mailCheck.checkDomainIsValid(options.to);
     } catch (err) {
       logger.warn({ err }, `Email is not valid '${options.to}'`);
-      return EmailingAttempt.failure(options.to);
+      return EmailingAttempt.failure(options.to, EmailingAttempt.errorCode.INVALID_DOMAIN);
     }
 
     try {
