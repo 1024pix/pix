@@ -1,26 +1,17 @@
 const sessionValidator = require('../validators/session-validator');
-const { EntityValidationError, ForbiddenAccess } = require('../errors');
+const { EntityValidationError } = require('../errors');
 const { UnprocessableEntityError } = require('../../application/http-errors');
 const Session = require('../models/Session');
 const sessionCodeService = require('../services/session-code-service');
 
 module.exports = async function createSessions({
   data,
-  userId,
   certificationCenterId,
   certificationCenterRepository,
   sessionRepository,
-  userRepository,
 }) {
   if (data.length === 0) {
     throw new UnprocessableEntityError('No data in table');
-  }
-
-  const userWithCertifCenters = await userRepository.getWithCertificationCenterMemberships(userId);
-  if (!userWithCertifCenters.hasAccessToCertificationCenter(certificationCenterId)) {
-    throw new ForbiddenAccess(
-      "L'utilisateur n'est pas membre du centre de certification dans lequel il souhaite créer une session"
-    );
   }
 
   const { name: certificationCenter } = await certificationCenterRepository.get(certificationCenterId);

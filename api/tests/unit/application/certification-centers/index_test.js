@@ -342,6 +342,7 @@ describe('Unit | Router | certification-center-router', function () {
 
     it('should exist', async function () {
       // given
+      sinon.stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenter').callsFake((_, h) => h.response(true));
       sinon.stub(certificationCenterController, 'importSessions').returns('ok');
       const certificationCenterId = 123;
       const httpTestServer = new HttpTestServer();
