@@ -476,6 +476,11 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.InvalidJuryLevelError) {
     return new HttpErrors.BadRequestError(error.message);
   }
+
+  if (error instanceof DomainErrors.SendingEmailToInvalidDomainError) {
+    return new HttpErrors.BadRequestError(error.message, 'SENDING_EMAIL_TO_INVALID_DOMAIN');
+  }
+
   return new HttpErrors.BaseHttpError(error.message);
 }
 

@@ -32,6 +32,7 @@ const {
   InvalidJuryLevelError,
   UnexpectedOidcStateError,
   InvalidIdentityProviderError,
+  SendingEmailToInvalidDomainError,
 } = require('../../../lib/domain/errors');
 const HttpErrors = require('../../../lib/application/http-errors.js');
 
@@ -509,6 +510,22 @@ describe('Unit | Application | ErrorManager', function () {
 
       // then
       expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(error.message);
+    });
+
+    it('should instantiate BadRequestError when SendingEmailToInvalidDomainError', async function () {
+      // given
+      const error = new SendingEmailToInvalidDomainError('Email domain was invalid.');
+      sinon.stub(HttpErrors, 'BadRequestError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(
+        error.message,
+        'SENDING_EMAIL_TO_INVALID_DOMAIN'
+      );
     });
 
     describe('SSO specific errors', function () {
