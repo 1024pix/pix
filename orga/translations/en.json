@@ -361,6 +361,9 @@
         "SUBJECT": "Subject"
       },
       "tags-title": "Filter:",
+      "target-profiles-category-label": "Filter customised test by category",
+      "target-profiles-category-placeholder": "Categories",
+      "target-profiles-label": "Select a customised test",
       "target-profiles-list-label": "What would you like to test?",
       "target-profiles-search-placeholder": "Search by name",
       "test-title": {

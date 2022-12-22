@@ -361,6 +361,9 @@
         "SUBJECT": "Thématiques"
       },
       "tags-title": "Filtrer la recherche :",
+      "target-profiles-category-label": "Filtrer les parcours par catégories",
+      "target-profiles-category-placeholder": "Catégories",
+      "target-profiles-label": "Sélectionner un parcours",
       "target-profiles-list-label": "Que souhaitez-vous tester ?",
       "target-profiles-search-placeholder": "Rechercher par nom",
       "test-title": {

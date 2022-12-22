@@ -2,10 +2,7 @@ import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import _sortBy from 'lodash/sortBy';
-import _find from 'lodash/find';
-import _pull from 'lodash/pull';
-import _uniq from 'lodash/uniq';
+import _orderBy from 'lodash/orderBy';
 
 export default class CreateForm extends Component {
   @service currentUser;
@@ -17,7 +14,6 @@ export default class CreateForm extends Component {
   @tracked isCampaignGoalAssessment = null;
   @tracked isCampaignGoalProfileCollection = null;
   @tracked targetProfile;
-  @tracked selectedCategories = [];
   @tracked targetProfilesOptions = [];
 
   constructor() {
@@ -26,7 +22,6 @@ export default class CreateForm extends Component {
       organization: this.currentUser.organization,
     };
     this._setTargetProfilesOptions(this.args.targetProfiles);
-
     this.campaign.ownerId = this.currentUser.prescriber.id;
   }
 
@@ -37,47 +32,16 @@ export default class CreateForm extends Component {
     return currentUserOption.get('id');
   }
 
-  get categories() {
-    if (!this.args.targetProfiles) return [];
-    let allCategories = _uniq(this.args.targetProfiles.map((targetProfile) => targetProfile.category));
-
-    const otherCategoryIsPresents = allCategories.includes('OTHER');
-    allCategories = allCategories.map((category) => {
-      return { name: category, translation: this.intl.t(`pages.campaign-creation.tags.${category}`) };
-    });
-
-    allCategories = _sortBy(allCategories, 'translation');
-
-    if (otherCategoryIsPresents) {
-      const other = _find(allCategories, ['name', 'OTHER']);
-      _pull(allCategories, other);
-      allCategories.push(other);
-    }
-
-    return allCategories;
-  }
-
-  _filterTargetProfilesOptions() {
-    if (!this.args.targetProfiles) return [];
-    if (this.selectedCategories.length > 0) {
-      const filteredTargetProfiles = [];
-      this.selectedCategories.forEach((category) => {
-        const targetProfilesForOneCategory = this.args.targetProfiles.filter((targetProfile) => {
-          return targetProfile.category === category;
-        });
-        filteredTargetProfiles.push(...targetProfilesForOneCategory);
-      });
-      this._setTargetProfilesOptions(filteredTargetProfiles);
-    } else {
-      this._setTargetProfilesOptions(this.args.targetProfiles);
-    }
-  }
-
   _setTargetProfilesOptions(targetProfiles) {
-    if (!targetProfiles) return [];
-    this.targetProfilesOptions = targetProfiles.map((targetProfile) => {
-      return { value: targetProfile.id, label: targetProfile.name };
+    const options = targetProfiles.map((targetProfile) => {
+      return {
+        value: targetProfile.id,
+        label: targetProfile.name,
+        category: this.intl.t(`pages.campaign-creation.tags.${targetProfile.category}`),
+        order: 'OTHER' === targetProfile.category ? 1 : 0,
+      };
     });
+    this.targetProfilesOptions = _orderBy(options, ['order', 'category', 'label']);
   }
 
   get campaignOwnerOptions() {
@@ -91,16 +55,6 @@ export default class CreateForm extends Component {
     const input = document.getElementById('campaign-target-profile');
     input.value = '';
     this.targetProfile = '';
-  }
-
-  @action
-  toggleCategory(category, isChecked) {
-    if (isChecked) {
-      this.selectedCategories.push(category);
-    } else {
-      this.selectedCategories = this.selectedCategories.filter((oldCategory) => oldCategory !== category);
-    }
-    this._filterTargetProfilesOptions();
   }
 
   @action
