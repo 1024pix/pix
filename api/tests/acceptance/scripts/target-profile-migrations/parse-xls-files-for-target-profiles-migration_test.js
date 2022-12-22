@@ -45,7 +45,7 @@ describe('Acceptance | Scripts | parse-xls-files-for-target-profiles-migration',
     await databaseBuilder.commit();
 
     // when
-    await doJob(PATH_TO_GENERIC_XLS, PATH_TO_MULTIFORM_XLS);
+    await doJob(PATH_TO_GENERIC_XLS, [PATH_TO_MULTIFORM_XLS]);
 
     // then
     const tubesAndSkillsForToOutdate = await _getTubesAndSkills(TARGET_PROFILE_ID_TO_OUTDATE);
