@@ -16,15 +16,24 @@
     width: auto;
   }
 }
+.pix-filterable-and-searchable-select {
+  @include device-is('desktop') {
+    width: 500px;
+  }
+}
 
+.pix-multi-select {
+  @include device-is('desktop') {
+    width: 140px;
+  }
+}
 
-.target-profile-option {
-  position: absolute;
-  height: 20px;
-  width: 14px;
-  top: 2px;
-  bottom: 0;
-  right: 10px;
-  margin: auto;
-  color :$pix-neutral-30;
+.pix-select {
+  @include device-is('desktop') {
+    width: 360px !important;
+  }
+
+  &__dropdown {
+    overflow-x: hidden;
+  }
 }
