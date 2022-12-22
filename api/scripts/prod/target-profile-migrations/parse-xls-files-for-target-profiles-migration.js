@@ -84,83 +84,79 @@ async function migrateTargetProfiles(targetProfiles, multiFormData, dryRun) {
   for (const targetProfile of targetProfiles) {
     try {
       await knex.transaction(async (trx) => {
-        const exists = await _checkIfTPExists(targetProfile.id, trx);
-        if (!exists) {
-          logger.warn(
-            { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
-            `Profil cible introuvable`
-          );
-          return;
-        }
-        const alreadyHasTubes = await _checkIfTPAlreadyHasTubes(targetProfile.id, trx);
-        if (alreadyHasTubes) {
-          logger.info(
-            { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
-            `Profil cible déja migré`
-          );
-          return;
-        }
-        await _doAutomaticMigration(targetProfile.id, trx);
-        if (targetProfile.obsolete) {
-          await _outdate(targetProfile.id, trx);
-          logger.info(
-            { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
-            `Profil cible marqué comme obsolète`
-          );
-          if (dryRun) throw new Error('dryrun');
-          return;
-        }
-        if (targetProfile.auto) {
-          logger.info(
-            { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
-            `Profil cible migré automatiquement`
-          );
-          if (dryRun) throw new Error('dryrun');
-          return;
-        }
-        if (targetProfile.uncap) {
-          await _uncap(targetProfile.id, trx);
-          logger.info(
-            { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
-            `Profil cible décappé`
-          );
-          if (dryRun) throw new Error('dryrun');
-          return;
-        }
-        if (typeof targetProfile.uniformCap === 'number') {
-          await _uniformCap(targetProfile.id, targetProfile.uniformCap, trx);
-          logger.info(
-            { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
-            `Profil cible cappé uniformément à %s`,
-            targetProfile.uniformCap
-          );
-          if (dryRun) throw new Error('dryrun');
-          return;
-        }
-        if (targetProfile.multiformCap) {
-          const targetProfileMultiFormData = multiFormData[targetProfile.id];
-          if (!targetProfileMultiFormData) {
-            logger.error(
+        let hasError = false;
+        try {
+          const exists = await _checkIfTPExists(targetProfile.id, trx);
+          if (!exists) {
+            logger.warn(
               { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
-              `Profil cible cappé multiforme sans instructions`
+              `Profil cible introuvable`
             );
-            if (dryRun) throw new Error('dryrun');
             return;
           }
-          if (await _multiformCap(targetProfile, targetProfileMultiFormData, trx))
+          const alreadyHasTubes = await _checkIfTPAlreadyHasTubes(targetProfile.id, trx);
+          if (alreadyHasTubes) {
+            logger.info(
+              { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
+              `Profil cible déja migré`
+            );
+            return;
+          }
+          await _doAutomaticMigration(targetProfile.id, trx);
+          if (targetProfile.obsolete) {
+            await _outdate(targetProfile.id, trx);
+            logger.info(
+              { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
+              `Profil cible marqué comme obsolète`
+            );
+            return;
+          }
+          if (targetProfile.auto) {
+            logger.info(
+              { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
+              `Profil cible migré automatiquement`
+            );
+            return;
+          }
+          if (targetProfile.uncap) {
+            await _uncap(targetProfile.id, trx);
+            logger.info(
+              { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
+              `Profil cible décappé`
+            );
+            return;
+          }
+          if (typeof targetProfile.uniformCap === 'number') {
+            await _uniformCap(targetProfile.id, targetProfile.uniformCap, trx);
+            logger.info(
+              { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
+              'Profil cible cappé uniformément à %s',
+              targetProfile.uniformCap
+            );
+            return;
+          }
+          if (targetProfile.multiformCap) {
+            const targetProfileMultiFormData = multiFormData[targetProfile.id];
+            if (!targetProfileMultiFormData) throw new Error('Profil cible cappé multiforme sans instructions');
+            await _multiformCap(targetProfile, targetProfileMultiFormData, trx);
             logger.info(
               { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
               `Profil cible cappé multiformément`
             );
-          if (dryRun) throw new Error('dryrun');
-          return;
+            return;
+          }
+          throw new Error('Aucune action définie pour le profil cible');
+        } catch (e) {
+          hasError = true;
+          throw e;
+        } finally {
+          if (dryRun && !hasError) throw new Error('dryrun'); // eslint-disable-line no-unsafe-finally
         }
-        throw new Error('Aucune action définie pour le profil cible');
       });
     } catch (e) {
       logger.error(
         { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
-        `Erreur lors de la migration d'un profil cible: %s`,
+        "Erreur lors de la migration d'un profil cible: %s",
         e
       );
     }
@@ -217,14 +213,7 @@ async function _uniformCap(id, cap, trx) {
 async function _multiformCap(targetProfile, instructions, trx) {
   const tubeNames = instructions.map(({ name }) => name);
   const nonExistentTubes = tubeNames.filter((tubeName) => !allTubes.find((tube) => tube.name === tubeName));
-  if (nonExistentTubes.length > 0) {
-    logger.error(
-      { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
-      `Les sujets suivants n'existent pas : %s`,
-      nonExistentTubes
-    );
-    return false;
-  }
+  if (nonExistentTubes.length > 0) throw new Error(`Les sujets suivants n'existent pas : ${nonExistentTubes}`);
   const fullInstructions = instructions.map(({ name, level }) => {
     const id = allTubes.find((tube) => tube.name === name).id;
     return { id, name, level };
@@ -237,26 +226,21 @@ async function _multiformCap(targetProfile, instructions, trx) {
   const tubeIdsInInstructionNotInTp = tubeIds.filter((id) => !targetProfileTubeIds.includes(id));
   if (tubeIdsInTpNotInInstructions.length > 0) {
     const errorTubeNames = tubeIdsInTpNotInInstructions.map((id) => allTubes.find((tube) => tube.id === id).name);
-    logger.error(
-      { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
-      `Les sujets suivants sont présents dans le profil cible mais pas dans les instructions : %s`,
-      errorTubeNames
+    throw new Error(
+      `Les sujets suivants sont présents dans le profil cible mais pas dans les instructions : ${errorTubeNames}`
     );
-    return false;
   }
   if (tubeIdsInInstructionNotInTp.length > 0) {
     const errorTubeNames = tubeIdsInInstructionNotInTp.map((id) => allTubes.find((tube) => tube.id === id).name);
-    logger.error(
-      { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
-      `Les sujets suivants sont présents dans les instructions mais pas dans le profil cible : %s`,
-      errorTubeNames
+    throw new Error(
+      `Les sujets suivants sont présents dans les instructions mais pas dans le profil cible : ${errorTubeNames}`
     );
-    return false;
   }
-  for (const { id, level } of fullInstructions) {
-    await trx('target-profile_tubes').update({ level }).where({ targetProfileId: targetProfile.id, tubeId: id });
-  }
-  return true;
+  await Promise.all(
+    fullInstructions.map(({ id, level }) =>
+      trx('target-profile_tubes').update({ level }).where({ targetProfileId: targetProfile.id, tubeId: id })
+    )
+  );
 }
 
 const isLaunchedFromCommandLine = require.main === module;
