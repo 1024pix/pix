@@ -26,6 +26,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     }
     this.owner.register('service:current-user', CurrentUserStub);
     this.set('defaultMembers', defaultMembers);
+    this.targetProfiles = [];
   });
 
   test('it should contain inputs, attributes and validation button', async function (assert) {
@@ -35,6 +36,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         @onSubmit={{this.createCampaignSpy}}
         @onCancel={{this.cancelSpy}}
         @errors={{this.errors}}
+        @targetProfiles={{this.targetProfiles}}
         @membersSortedByFullName={{this.defaultMembers}} />`
     );
 
@@ -52,6 +54,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         @onSubmit={{this.createCampaignSpy}}
         @onCancel={{this.cancelSpy}}
         @errors={{this.errors}}
+        @targetProfiles={{this.targetProfiles}}
         @membersSortedByFullName={{this.defaultMembers}} />`
     );
 
@@ -67,6 +70,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         @onSubmit={{this.createCampaignSpy}}
         @onCancel={{this.cancelSpy}}
         @errors={{this.errors}}
+        @targetProfiles={{this.targetProfiles}}
         @membersSortedByFullName={{this.defaultMembers}} />`
     );
 
@@ -81,6 +85,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         @onSubmit={{this.createCampaignSpy}}
         @onCancel={{this.cancelSpy}}
         @errors={{this.errors}}
+        @targetProfiles={{this.targetProfiles}}
         @membersSortedByFullName={{this.defaultMembers}} />`
     );
 
@@ -96,6 +101,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           @onSubmit={{this.createCampaignSpy}}
           @onCancel={{this.cancelSpy}}
           @errors={{this.errors}}
+          @targetProfiles={{this.targetProfiles}}
           @membersSortedByFullName={{this.defaultMembers}}/>`
       );
       await clickByName(t('pages.campaign-creation.purpose.assessment'));
@@ -116,6 +122,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           @onSubmit={{this.createCampaignSpy}}
           @onCancel={{this.cancelSpy}}
           @errors={{this.errors}}
+          @targetProfiles={{this.targetProfiles}}
           @membersSortedByFullName={{this.defaultMembers}} />`
       );
       await clickByName(t('pages.campaign-creation.purpose.assessment'));
@@ -132,142 +139,13 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           @onSubmit={{this.createCampaignSpy}}
           @onCancel={{this.cancelSpy}}
           @errors={{this.errors}}
+          @targetProfiles={{this.targetProfiles}}
           @membersSortedByFullName={{this.defaultMembers}} />`
       );
 
       // then
       assert.notContains(t('pages.campaign-creation.multiple-sendings.question-label'));
       assert.notContains(t('pages.campaign-creation.multiple-sendings.info'));
-    });
-
-    module('when there are several target profiles associated to the organization', function () {
-      test('it should display the all category tags', async function (assert) {
-        // given
-        this.targetProfiles = [
-          EmberObject.create({
-            id: '4',
-            name: 'targetProfile4',
-            description: 'description4',
-            category: 'SUBJECT',
-          }),
-          EmberObject.create({
-            id: '5',
-            name: 'targetProfile5',
-            description: 'description7',
-            category: 'OTHER',
-          }),
-        ];
-        // when
-        await render(
-          hbs`<Campaign::CreateForm
-            @targetProfiles={{this.targetProfiles}}
-            @onSubmit={{this.createCampaignSpy}}
-            @onCancel={{this.cancelSpy}} 
-            @errors={{this.errors}}
-            @membersSortedByFullName={{this.defaultMembers}} />`
-        );
-        await clickByName(t('pages.campaign-creation.purpose.assessment'));
-
-        // then
-        assert.contains(t('pages.campaign-creation.tags-title'));
-        assert.contains(t('pages.campaign-creation.tags.SUBJECT'));
-        assert.contains(t('pages.campaign-creation.tags.OTHER'));
-      });
-
-      test('it should display each category tags once', async function (assert) {
-        // given
-        this.targetProfiles = [
-          EmberObject.create({
-            id: '4',
-            name: 'targetProfile4',
-            description: 'description4',
-            category: 'SUBJECT',
-          }),
-          EmberObject.create({
-            id: '4',
-            name: 'targetProfile6',
-            description: 'description6',
-            category: 'SUBJECT',
-          }),
-          EmberObject.create({
-            id: '5',
-            name: 'targetProfile5',
-            description: 'description7',
-            category: 'OTHER',
-          }),
-        ];
-
-        // when
-        await render(
-          hbs`<Campaign::CreateForm
-            @targetProfiles={{this.targetProfiles}}
-            @onSubmit={{this.createCampaignSpy}}
-            @onCancel={{this.cancelSpy}} 
-            @errors={{this.errors}}
-            @membersSortedByFullName={{this.defaultMembers}} />`
-        );
-        await clickByName(t('pages.campaign-creation.purpose.assessment'));
-        // then
-        assert.contains(t('pages.campaign-creation.tags-title'));
-        assert.dom('label[for="SUBJECT"]').exists({ count: 1 });
-        assert.contains(t('pages.campaign-creation.tags.OTHER'));
-      });
-
-      test('it should display only the target profiles associated to the tag selected', async function (assert) {
-        // given
-        this.targetProfiles = [
-          EmberObject.create({
-            id: '4',
-            name: 'targetProfile4',
-            description: 'description4',
-            category: 'SUBJECT',
-          }),
-          EmberObject.create({
-            id: '5',
-            name: 'targetProfile5',
-            description: 'description7',
-            category: 'OTHER',
-          }),
-        ];
-        // when
-        const screen = await render(
-          hbs`<Campaign::CreateForm
-            @targetProfiles={{this.targetProfiles}}
-            @onSubmit={{this.createCampaignSpy}}
-            @onCancel={{this.cancelSpy}} 
-            @errors={{this.errors}}
-            @membersSortedByFullName={{this.defaultMembers}} />`
-        );
-        await click(screen.getByLabelText(t('pages.campaign-creation.purpose.assessment')));
-        await click(screen.getByLabelText(t('pages.campaign-creation.tags.SUBJECT')));
-        // then
-        await click(screen.getByLabelText(t('pages.campaign-creation.target-profiles-list-label'), { exact: false }));
-        const option = await screen.findAllByRole('option');
-
-        assert.strictEqual(option.length, 1);
-        assert.dom(option[0]).hasText('targetProfile4');
-      });
-    });
-
-    module('when there is no target profiles associated to the organization', function () {
-      test('it should not display the category tags', async function (assert) {
-        // given
-        this.targetProfiles = [];
-
-        // when
-        await render(
-          hbs`<Campaign::CreateForm
-            @targetProfiles={{this.targetProfiles}}
-            @onSubmit={{this.createCampaignSpy}}
-            @onCancel={{this.cancelSpy}}
-            @errors={{this.errors}}
-            @membersSortedByFullName={{this.defaultMembers}} />`
-        );
-        await clickByName(t('pages.campaign-creation.purpose.assessment'));
-
-        // then
-        assert.notContains(t('pages.campaign-creation.tags-title'));
-      });
     });
 
     module('when the user chose a target profile', function () {
@@ -350,6 +228,123 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         // then
         assert.contains(t('common.target-profile-details.results.common'));
       });
+      module('Displaying options and categories', function () {
+        test('it should display options in alphapetical order', async function (assert) {
+          // given
+          this.targetProfiles = [
+            EmberObject.create({
+              id: '1',
+              name: 'targetProfile4',
+              description: 'description4',
+              tubeCount: 11,
+              thematicResultCount: 12,
+              hasStage: true,
+              category: 'B',
+            }),
+            EmberObject.create({
+              id: '2',
+              name: 'targetProfile3',
+              description: 'description3',
+              tubeCount: 21,
+              thematicResultCount: 22,
+              hasStage: false,
+              category: 'B',
+            }),
+            EmberObject.create({
+              id: '3',
+              name: 'targetProfile2',
+              description: 'description2',
+              tubeCount: 33,
+              thematicResultCount: 12,
+              hasStage: true,
+              category: 'A',
+            }),
+            EmberObject.create({
+              id: '4',
+              name: 'targetProfile1',
+              description: 'description1',
+              tubeCount: 44,
+              thematicResultCount: 12,
+              hasStage: true,
+              category: 'A',
+            }),
+          ];
+
+          // when
+          const screen = await render(
+            hbs`<Campaign::CreateForm
+              @targetProfiles={{this.targetProfiles}}
+              @onSubmit={{this.createCampaignSpy}}
+              @onCancel={{this.cancelSpy}}
+              @errors={{this.errors}}
+              @membersSortedByFullName={{this.defaultMembers}} />`
+          );
+          await clickByName(t('pages.campaign-creation.purpose.assessment'));
+
+          await click(screen.getByLabelText(t('pages.campaign-creation.target-profiles-list-label'), { exact: false }));
+          let options = await screen.findAllByRole('option');
+
+          // then
+          options = options.map((option) => {
+            return option.innerText;
+          });
+          assert.deepEqual(options, [
+            t('pages.campaign-creation.target-profiles-label'),
+            'targetProfile1',
+            'targetProfile2',
+            'targetProfile3',
+            'targetProfile4',
+          ]);
+        });
+
+        test('it should display options with OTHER category at last position', async function (assert) {
+          // given
+          this.targetProfiles = [
+            EmberObject.create({
+              id: '2',
+              name: 'targetProfile3',
+              description: 'description3',
+              tubeCount: 21,
+              thematicResultCount: 22,
+              hasStage: false,
+              category: 'OTHER',
+            }),
+            EmberObject.create({
+              id: '1',
+              name: 'targetProfile4',
+              description: 'description4',
+              tubeCount: 11,
+              thematicResultCount: 12,
+              hasStage: true,
+              category: 'A',
+            }),
+          ];
+
+          // when
+          const screen = await render(
+            hbs`<Campaign::CreateForm
+              @targetProfiles={{this.targetProfiles}}
+              @onSubmit={{this.createCampaignSpy}}
+              @onCancel={{this.cancelSpy}}
+              @errors={{this.errors}}
+              @membersSortedByFullName={{this.defaultMembers}} />`
+          );
+          await clickByName(t('pages.campaign-creation.purpose.assessment'));
+
+          await click(screen.getByLabelText(t('pages.campaign-creation.target-profiles-list-label'), { exact: false }));
+          let options = await screen.findAllByRole('option');
+
+          // then
+          options = options.map((option) => {
+            return option.innerText;
+          });
+          assert.deepEqual(options, [
+            t('pages.campaign-creation.target-profiles-label'),
+            'targetProfile4',
+            'targetProfile3',
+          ]);
+        });
+      });
     });
 
     module('when the user wants to clear the content of the target profile input', function (hooks) {
@@ -373,6 +368,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           @onSubmit={{this.createCampaignSpy}}
           @onCancel={{this.cancelSpy}}
           @errors={{this.errors}}
+          @targetProfiles={{this.targetProfiles}}
           @membersSortedByFullName={{this.defaultMembers}} />`
       );
       await clickByName(t('pages.campaign-creation.purpose.profiles-collection'));
@@ -389,6 +385,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           @onSubmit={{this.createCampaignSpy}}
           @onCancel={{this.cancelSpy}}
           @errors={{this.errors}}
+          @targetProfiles={{this.targetProfiles}}
           @membersSortedByFullName={{this.defaultMembers}} />`
       );
       await clickByName(t('pages.campaign-creation.purpose.profiles-collection'));
@@ -409,6 +406,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           @onSubmit={{this.createCampaignSpy}}
           @onCancel={{this.cancelSpy}}
           @errors={{this.errors}}
+          @targetProfiles={{this.targetProfiles}}
           @membersSortedByFullName={{this.defaultMembers}} />`
       );
       await clickByName(t('pages.campaign-creation.purpose.profiles-collection'));
@@ -427,6 +425,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           @onSubmit={{this.createCampaignSpy}}
           @onCancel={{this.cancelSpy}}
           @errors={{this.errors}}
+          @targetProfiles={{this.targetProfiles}}
           @membersSortedByFullName={{this.defaultMembers}} />`
       );
 
@@ -443,6 +442,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           @onSubmit={{this.createCampaignSpy}}
           @onCancel={{this.cancelSpy}}
           @errors={{this.errors}}
+          @targetProfiles={{this.targetProfiles}}
           @membersSortedByFullName={{this.defaultMembers}} />`
       );
       await clickByName(t('pages.campaign-creation.no'));
@@ -460,6 +460,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           @onSubmit={{this.createCampaignSpy}}
           @onCancel={{this.cancelSpy}}
           @errors={{this.errors}}
+          @targetProfiles={{this.targetProfiles}}
           @membersSortedByFullName={{this.defaultMembers}} />`
       );
       await clickByName(t('pages.campaign-creation.yes'));
@@ -471,7 +472,8 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
 
   test('it should send campaign creation action when submitted', async function (assert) {
     // given
-    this.targetProfiles = [{ name: 'targetProfile1' }];
+    const targetProfile = { name: 'targetProfile1', id: 123 };
+    this.targetProfiles = [targetProfile];
     this.createCampaignSpy = sinon.stub();
 
     const screen = await render(
@@ -485,12 +487,12 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     await fillByLabel(`* ${t('pages.campaign-creation.name.label')}`, 'Ma campagne');
     await clickByName(t('pages.campaign-creation.purpose.assessment'));
     await click(screen.getByLabelText(t('pages.campaign-creation.target-profiles-list-label'), { exact: false }));
-    await click(await screen.findByRole('option', { name: this.targetProfiles[0].name }));
+    await click(await screen.findByRole('option', { name: targetProfile.name }));
 
     // when
     await clickByName(t('pages.campaign-creation.actions.create'));
 
-    sinon.assert.calledWithMatch(this.createCampaignSpy, { name: 'Ma campagne' });
+    sinon.assert.calledWithMatch(this.createCampaignSpy, { name: 'Ma campagne', targetProfile });
     // then
     assert.ok(true);
   });
@@ -526,6 +528,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           @onSubmit={{this.createCampaignSpy}}
           @onCancel={{this.cancelSpy}}
           @errors={{this.errors}}
+          @targetProfiles={{this.targetProfiles}}
           @membersSortedByFullName={{this.defaultMembers}} />`
       );
       await clickByName(t('pages.campaign-creation.yes'));
@@ -555,6 +558,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           @onSubmit={{this.createCampaignSpy}}
           @onCancel={{this.cancelSpy}}
           @errors={{this.errors}}
+          @targetProfiles={{this.targetProfiles}}
           @membersSortedByFullName={{this.defaultMembers}} />`
       );
       await clickByName(t('pages.campaign-creation.purpose.assessment'));
