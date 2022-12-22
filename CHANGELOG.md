@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v3.302.1 (22/12/2022)
+
+
+### :bug: Correction
+- [#5400](https://github.com/1024pix/pix/pull/5400) [BUGFIX] Corriger taille input (PIX-6639)
+
 ## v3.302.0 (22/12/2022)
 
 
