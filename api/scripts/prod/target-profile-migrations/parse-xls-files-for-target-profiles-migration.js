@@ -15,12 +15,15 @@ async function _cacheLearningContentData() {
   allTubes = await tubeRepository.list();
 }
 
-async function doJob(mainFile, multiFormFile) {
+async function doJob(mainFile, multiFormFiles) {
   const dryRun = process.env.DRY_RUN === 'true';
   await _cacheLearningContentData();
-  const mainData = await parseMainFile(mainFile);
-  const multiFormData = await parseMultiformFile(multiFormFile);
+  const mainData = parseMainFile(mainFile);
+  const multiFormData = multiFormFiles
+    .map((multiFormFile) => parseMultiformFile(multiFormFile))
+    .reduce((acc, data) => ({ ...acc, ...data }));
   await migrateTargetProfiles(mainData['PRO'], multiFormData, dryRun);
+  await migrateTargetProfiles(mainData['SUP'], multiFormData, dryRun);
 }
 
 const tabs = {
@@ -51,7 +54,7 @@ const tabs = {
   },
 };
 
-async function parseMainFile(file) {
+function parseMainFile(file) {
   const workbook = XLSX.readFile(file);
 
   return Object.fromEntries(
@@ -62,7 +65,7 @@ async function parseMainFile(file) {
   );
 }
 
-async function parseMultiformFile(file) {
+function parseMultiformFile(file) {
   const workbook = XLSX.readFile(file);
 
   return Object.fromEntries(
@@ -261,8 +264,8 @@ const isLaunchedFromCommandLine = require.main === module;
 async function main() {
   const startTime = performance.now();
   logger.info(`Script ${__filename} has started`);
-  const [, , mainFile, multiFormFile] = process.argv;
-  await doJob(mainFile, multiFormFile);
+  const [, , mainFile, ...multiFormFiles] = process.argv;
+  await doJob(mainFile, multiFormFiles);
   const endTime = performance.now();
   const duration = Math.round(endTime - startTime);
   logger.info(`Script has ended: took ${duration} milliseconds`);
