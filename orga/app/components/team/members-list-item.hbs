@@ -13,7 +13,7 @@
             @dropdownContentClass="zone-edit-role__dropdown-content"
             @ariaLabel={{t "pages.team-members.actions.manage"}}
           >
-            <Dropdown::Item @onClick={{fn this.editRoleOfMember @membership}}>
+            <Dropdown::Item @onClick={{this.toggleEditionMode}}>
               {{t "pages.team-members.actions.edit-organization-membership-role"}}
             </Dropdown::Item>
             <Dropdown::Item @onClick={{fn this.displayRemoveMembershipModal @membership}}>
