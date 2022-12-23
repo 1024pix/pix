@@ -149,10 +149,10 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         // when
         await click(screen.getByLabelText('Sélectionner un rôle'));
         await click(await screen.findByRole('option', { name: 'Administrateur' }));
-        await clickByText('Enregistrer');
 
         // then
-
+        assert.dom(screen.getByRole('option', { selected: true, name: 'Administrateur' })).exists();
+        await clickByText('Enregistrer');
         assert.strictEqual(memberMembership.organizationRole, 'ADMIN');
         sinon.assert.called(memberMembership.save);
       });
