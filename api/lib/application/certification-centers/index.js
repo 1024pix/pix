@@ -170,6 +170,32 @@ exports.register = async function (server) {
         tags: ['api', 'certification-center'],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/certification-centers/{certificationCenterId}/sessions/import',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsMemberOfCertificationCenter,
+            assign: 'isMemberOfCertificationCenter',
+          },
+        ],
+        validate: {
+          params: Joi.object({ certificationCenterId: identifiersType.certificationCenterId }),
+        },
+        handler: certificationCenterController.importSessions,
+        payload: {
+          maxBytes: 20715200,
+          output: 'file',
+          parse: 'gunzip',
+        },
+        tags: ['api', 'certification-center', 'sessions'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            "- Elle permet d'importer un fichier contenant une liste de sessions à créer",
+        ],
+      },
+    },
   ];
 
   server.route([

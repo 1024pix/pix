@@ -6,6 +6,7 @@ const sessionSerializer = require('../../../../lib/infrastructure/serializers/js
 const Session = require('../../../../lib/domain/models/Session');
 
 const certificationCenterController = require('../../../../lib/application/certification-centers/certification-center-controller');
+const csvHelpers = require('../../../../scripts/helpers/csvHelpers');
 
 describe('Unit | Controller | certifications-center-controller', function () {
   describe('#saveSession', function () {
@@ -471,6 +472,31 @@ describe('Unit | Controller | certifications-center-controller', function () {
       // then
       expect(response.source).to.equal(serializedData);
       expect(response.statusCode).to.equal(200);
+    });
+  });
+
+  describe('#importSessions', function () {
+    it('should call the usecase to import sessions', async function () {
+      // given
+      const request = {
+        payload: { file: { path: 'csv-path' } },
+        params: { certificationCenterId: 123 },
+      };
+
+      sinon.stub(csvHelpers, 'parseCsvWithHeader');
+      sinon.stub(usecases, 'createSessions');
+
+      csvHelpers.parseCsvWithHeader.resolves('result data');
+      usecases.createSessions.resolves();
+
+      // when
+      await certificationCenterController.importSessions(request, hFake);
+
+      // then
+      expect(usecases.createSessions).to.have.been.calledWith({
+        data: 'result data',
+        certificationCenterId: request.params.certificationCenterId,
+      });
     });
   });
 });

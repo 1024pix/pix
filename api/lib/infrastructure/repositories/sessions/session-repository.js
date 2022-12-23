@@ -17,6 +17,13 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, newSession);
   },
 
+  async saveSessions(sessionsData) {
+    const sessions = sessionsData.map((session) => {
+      return _.omit(session, ['certificationCandidates']);
+    });
+    return knex.batchInsert('sessions', sessions);
+  },
+
   async isSessionCodeAvailable(accessCode) {
     const sessionWithAccessCode = await BookshelfSession.where({ accessCode }).fetch({ require: false });
 

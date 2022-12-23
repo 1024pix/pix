@@ -4,7 +4,7 @@ const sessionRepository = require('../../../../lib/infrastructure/repositories/s
 const _ = require('lodash');
 
 describe('Unit | Service | CodeSession', function () {
-  describe('#isSessionCodeAvailable', function () {
+  describe('#getNewSessionCode', function () {
     it('should return a non ambiguous session code with 4 random capital letters and 2 random numbers', async function () {
       // given
       sinon.stub(sessionRepository, 'isSessionCodeAvailable').resolves(true);
@@ -40,6 +40,16 @@ describe('Unit | Service | CodeSession', function () {
 
       // then
       expect(result).to.equal('BBBB22');
+    });
+  });
+
+  describe('#getNewSessionCodeWithoutAvailabilityCheck', function () {
+    it('should return a non ambiguous session code with 4 random capital letters and 2 random numbers', async function () {
+      // when
+      const sessionCode = sessionCodeService.getNewSessionCodeWithoutAvailabilityCheck();
+
+      // then
+      expect(sessionCode).to.match(/[B,C,D,F,G,H,J,K,M,P,Q,R,T,V,W,X,Y]{4}[2,3,4,6,7,8,9]{2}/);
     });
   });
 });

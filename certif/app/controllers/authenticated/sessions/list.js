@@ -12,7 +12,7 @@ export default class ListController extends Controller {
   @service router;
 
   get displayNoSessionPanel() {
-    return !this.model.meta.hasSessions;
+    return !this.model.sessionSummaries.meta.hasSessions;
   }
 
   @action
