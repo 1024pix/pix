@@ -18,8 +18,8 @@ export default class ListRoute extends Route {
     this.currentUser.checkRestrictedAccess();
   }
 
-  model(params) {
-    return this.store.query(
+  async model(params) {
+    const sessionSummaries = await this.store.query(
       'session-summary',
       {
         page: {
@@ -29,6 +29,15 @@ export default class ListRoute extends Route {
       },
       { reload: true }
     );
+
+    const refreshModel = () => {
+      this.refresh();
+    };
+
+    return {
+      sessionSummaries,
+      refreshModel,
+    };
   }
 
   resetController(controller, isExiting, transition) {

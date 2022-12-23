@@ -10,7 +10,9 @@ module('Unit | Controller | authenticated/sessions/list', function (hooks) {
         // given
         const controller = this.owner.lookup('controller:authenticated/sessions/list');
         controller.model = {
-          meta: { hasSessions: true },
+          sessionSummaries: {
+            meta: { hasSessions: true },
+          },
         };
 
         // when
@@ -26,7 +28,9 @@ module('Unit | Controller | authenticated/sessions/list', function (hooks) {
         // given
         const controller = this.owner.lookup('controller:authenticated/sessions/list');
         controller.model = {
-          meta: { hasSessions: false },
+          sessionSummaries: {
+            meta: { hasSessions: false },
+          },
         };
 
         // when

@@ -1,52 +1,112 @@
-const { expect, catchErr } = require('../../../test-helper');
+const { expect, catchErr, sinon } = require('../../../test-helper');
 const createSessions = require('../../../../lib/domain/usecases/create-sessions');
-const { EntityValidationError } = require('../../../../lib/domain/errors');
+const { EntityValidationError, ForbiddenAccess } = require('../../../../lib/domain/errors');
 const { UnprocessableEntityError } = require('../../../../lib/application/http-errors');
+const sessionValidator = require('../../../../lib/domain/validators/session-validator');
+const sessionCodeService = require('../../../../lib/domain/services/session-code-service');
+const Session = require('../../../../lib/domain/models/Session');
+const createSession = require('../../../../lib/domain/usecases/create-session');
 
 describe('Unit | UseCase | create-sessions', function () {
-  context('when session fields are correct', function () {
-    it('should validate data for session', async function () {
-      // given
-      const data = [
-        {
-          'N° de session': '',
-          '* Nom du site': 'site',
-          '* Nom de la salle': 'salle',
-          '* Date de début': '2022-12-22',
-          '* Heure de début (heure locale)': '12:00',
-          '* Surveillant(s)': 'surveillant',
-          'Observations (optionnel)': 'non',
-          '* Nom de naissance': '',
-          '* Prénom': '',
-          '* Date de naissance (format: jj/mm/aaaa)': '',
-        },
-      ];
+  let userId;
+  let accessCode;
+  let certificationCenterId;
+  let certificationCenterName;
+  let certificationCenter;
+  let certificationCenterRepository;
+  let sessionRepository;
+  let userRepository;
+  let userWithMemberships;
 
-      // when
-      await createSessions({ data });
+  beforeEach(function () {
+    userId = 'userId';
+    accessCode = 'accessCode';
+    certificationCenterId = '123';
+    certificationCenterName = 'certificationCenterName';
+    certificationCenter = { id: certificationCenterId, name: certificationCenterName };
+    certificationCenterRepository = { get: sinon.stub() };
+    sessionRepository = { saveSessions: sinon.stub() };
+    userRepository = { getWithCertificationCenterMemberships: sinon.stub() };
+    userWithMemberships = { hasAccessToCertificationCenter: sinon.stub() };
+    sinon.stub(sessionValidator, 'validate');
+    sinon.stub(sessionCodeService, 'getNewSessionCodeWithoutAvailabilityCheck');
+    sessionCodeService.getNewSessionCodeWithoutAvailabilityCheck.returns(accessCode);
+    certificationCenterRepository.get.withArgs(certificationCenterId).resolves({ name: certificationCenter.name });
+  });
 
-      // then
-      expect(createSessions).to.be.ok;
+  context('when sessions are valid', function () {
+    context('when user has certification center membership', function () {
+      it('should save the sessions', async function () {
+        // given
+        const sessionsToSave = [{ certificationCenterId }];
+        userWithMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(true);
+        userRepository.getWithCertificationCenterMemberships.withArgs(userId).returns(userWithMemberships);
+        sessionRepository.saveSessions.resolves();
+        sessionValidator.validate.returns();
+
+        // when
+        await createSessions({
+          data: sessionsToSave,
+          certificationCenterId,
+          userId,
+          certificationCenterRepository,
+          sessionRepository,
+          userRepository,
+        });
+
+        // then
+        const expectedSessions = [
+          new Session({
+            certificationCenterId,
+            certificationCenter: certificationCenterName,
+            accessCode,
+            supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
+          }),
+        ];
+
+        expect(sessionRepository.saveSessions).to.have.been.calledWithExactly(expectedSessions);
+      });
+    });
+
+    context('when user has no certification center membership', function () {
+      it('should throw a forbidden error', async function () {
+        // given
+        const sessionsToSave = [{ certificationCenterId }];
+        userRepository.getWithCertificationCenterMemberships.withArgs(userId).returns(userWithMemberships);
+        userWithMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(false);
+
+        // when
+        const error = await catchErr(createSession)({
+          userId,
+          session: sessionsToSave,
+          certificationCenterRepository,
+          sessionRepository,
+          userRepository,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(ForbiddenAccess);
+      });
     });
   });
 
-  context('when session fields are not correct', function () {
+  context('when at least one of the sessions is not valid', function () {
     it('should throw an error', async function () {
       // given
-      const data = [
-        {
-          'N° de session': '',
-          '* Nom du site': 'site',
-          '* Nom de la salle': 'salle',
-          '* Date de début': '',
-          '* Heure de début (heure locale)': '12:00',
-          '* Surveillant(s)': 'surveillant',
-          'Observations (optionnel)': 'non',
-        },
-      ];
+      const sessionsToSave = [{ date: "Ceci n'est pas une date" }];
+      userWithMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(true);
+      userRepository.getWithCertificationCenterMemberships.withArgs(userId).returns(userWithMemberships);
+      sessionValidator.validate.throws();
 
       // when
-      const err = await catchErr(createSessions)({ data });
+      const err = await catchErr(createSessions)({
+        data: sessionsToSave,
+        userId,
+        certificationCenterId,
+        certificationCenterRepository,
+        sessionRepository,
+        userRepository,
+      });
 
       // then
       expect(err).to.be.instanceOf(EntityValidationError);
@@ -59,7 +119,7 @@ describe('Unit | UseCase | create-sessions', function () {
       const data = [];
 
       // when
-      const err = await catchErr(createSessions)({ data });
+      const err = await catchErr(createSessions)({ data, certificationCenterId });
 
       // then
       expect(err).to.be.instanceOf(UnprocessableEntityError);

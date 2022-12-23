@@ -8,6 +8,8 @@ export default class PanelHeader extends Component {
   @service featureToggles;
   @service notifications;
   @service intl;
+  @service currentUser;
+  @service store;
 
   get shouldRenderImportTemplateButton() {
     return this.featureToggles.featureToggles.isMassiveSessionManagementEnabled;
@@ -25,17 +27,16 @@ export default class PanelHeader extends Component {
   }
 
   @action
-  async importSessions(file) {
-    const url = '/api/sessions/import';
-    const token = this.session.data.authenticated.access_token;
-    this.errorMessage = '';
+  async importSessions(files) {
+    const adapter = this.store.adapterFor('sessions-import');
+    const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;
+    this.notifications.clearAll();
     try {
-      await file.upload(url, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await adapter.importSessions(files, certificationCenterId);
+      await this.args.reloadSessionSummaries();
       this.notifications.success('La liste des sessions a été importée avec succès.');
     } catch (err) {
-      this.notifications.error(err.body.errors[0].detail);
+      this.notifications.error("Aucune session n'a été importée");
     }
   }
 }
