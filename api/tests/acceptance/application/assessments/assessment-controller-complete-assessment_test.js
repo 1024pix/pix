@@ -1,4 +1,3 @@
-const moment = require('moment');
 const {
   databaseBuilder,
   expect,
@@ -316,6 +315,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
 
       beforeEach(function () {
         const limitDate = new Date('2020-01-01T00:00:00Z');
+        const dateAfterLimitDate = new Date('2020-01-02T00:00:00Z');
         certifiableUserId = databaseBuilder.factory.buildUser().id;
 
         const competenceIdSkillIdPairs =
@@ -329,7 +329,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         certificationAssessmentId = databaseBuilder.factory.buildAnsweredNotCompletedCertificationAssessment({
           certifiableUserId,
           competenceIdSkillIdPairs,
-          limitDate: moment(limitDate).add(1, 'day').toDate(),
+          limitDate: dateAfterLimitDate,
         }).id;
         const badgeId = databaseBuilder.factory.buildBadge().id;
         databaseBuilder.factory.buildSkillSet({

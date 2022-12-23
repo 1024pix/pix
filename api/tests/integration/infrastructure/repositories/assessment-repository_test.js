@@ -1,6 +1,5 @@
 const { expect, knex, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
 const _ = require('lodash');
-const moment = require('moment');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
@@ -30,11 +29,10 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
       it('should return the assessment with the answers sorted by creation date', async function () {
         //given
-        const dateOfFirstAnswer = moment.utc().subtract(3, 'minute').toDate();
-        const dateOfSecondAnswer = moment.utc().subtract(2, 'minute').toDate();
-        const dateOfThirdAnswer = moment.utc().subtract(1, 'minute').toDate();
-        moment.utc().toDate();
-        const dateOfFourthAnswer = moment.utc().toDate();
+        const dateOfFirstAnswer = new Date('2022-01-01T10:00:00Z');
+        const dateOfSecondAnswer = new Date('2022-01-01T10:01:00Z');
+        const dateOfThirdAnswer = new Date('2022-01-01T10:02:00Z');
+        const dateOfFourthAnswer = new Date('2022-01-01T10:03:00Z');
 
         _.each(
           [
@@ -180,24 +178,25 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     // - completed assessments without an AssessmentResult
 
     before(async function () {
-      limitDate = moment.utc().toDate();
+      limitDate = new Date('2022-01-01');
 
-      const afterLimiteDate = moment(limitDate).add(1, 'day').toDate();
-      const johnAssessmentResultDateToRemember = moment(limitDate).subtract(1, 'month').toDate();
-      const johnAssessmentDateToRemember = moment(limitDate).subtract(2, 'month').toDate();
-      const dateAssessmentBefore1 = moment(johnAssessmentDateToRemember).subtract(1, 'month').toDate();
-      const dateAssessmentBefore2 = moment(johnAssessmentDateToRemember).subtract(2, 'month').toDate();
-      const dateAssessmentBefore3 = moment(johnAssessmentDateToRemember).subtract(3, 'month').toDate();
+      const afterLimiteDate = new Date('2022-01-02');
+      const johnAssessmentResultDateToRemember = new Date('2021-12-01');
+      const johnAssessmentDateToRemember = new Date('2021-11-01');
+      const dateAssessmentBefore1 = new Date('2021-10-01');
+      const dateAssessmentBefore2 = new Date('2021-09-01');
+      const dateAssessmentBefore3 = new Date('2021-08-01');
+
       const dateAssessmentAfter = afterLimiteDate;
 
-      const dateAssessmentResultBefore1 = moment(johnAssessmentResultDateToRemember).subtract(1, 'month').toDate();
-      const dateAssessmentResultBefore2 = moment(johnAssessmentResultDateToRemember).subtract(2, 'month').toDate();
-      const dateAssessmentResultBefore3 = moment(johnAssessmentResultDateToRemember).subtract(3, 'month').toDate();
+      const dateAssessmentResultBefore1 = new Date('2021-11-01');
+      const dateAssessmentResultBefore2 = new Date('2021-10-01');
+      const dateAssessmentResultBefore3 = new Date('2021-09-01');
 
-      const dateAssessmentResultAfter1 = moment(afterLimiteDate).add(1, 'month').toDate();
-      const dateAssessmentResultAfter2 = moment(afterLimiteDate).add(2, 'month').toDate();
+      const dateAssessmentResultAfter1 = new Date('2022-02-02');
+      const dateAssessmentResultAfter2 = new Date('2022-03-02');
 
-      lastQuestionDate = moment('2021-03-10').toDate();
+      lastQuestionDate = new Date('2021-12-31');
 
       johnUserId = databaseBuilder.factory.buildUser().id;
       laylaUserId = databaseBuilder.factory.buildUser().id;

@@ -1,6 +1,4 @@
 const { writeFile, unlink } = require('fs').promises;
-const moment = require('moment');
-moment.suppressDeprecationWarnings = true;
 
 const { expect } = require('../../../../test-helper');
 

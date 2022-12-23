@@ -1,4 +1,3 @@
-const { fn: momentProto } = require('moment');
 const {
   domainBuilder,
   expect,
@@ -1064,6 +1063,14 @@ describe('Unit | Application | Organizations | organization-controller', functio
   });
 
   describe('#downloadCertificationResults', function () {
+    const now = new Date('2019-01-01T05:06:07Z');
+    let clock;
+    beforeEach(function () {
+      clock = sinon.useFakeTimers(now);
+    });
+    afterEach(function () {
+      clock.restore();
+    });
     it('should return a response with CSV results', async function () {
       // given
       const request = {
@@ -1081,9 +1088,6 @@ describe('Unit | Application | Organizations | organization-controller', functio
         domainBuilder.buildCertificationResult({ isPublished: true }),
       ];
 
-      sinon.stub(momentProto, 'format');
-      momentProto.format.withArgs('YYYYMMDD').returns('20210101');
-
       sinon
         .stub(usecases, 'getScoCertificationResultsByDivision')
         .withArgs({ organizationId: 1, division: '3èmeA' })
@@ -1100,11 +1104,19 @@ describe('Unit | Application | Organizations | organization-controller', functio
       // then
       expect(response.source).to.equal('csv-string');
       expect(response.headers['Content-Type']).to.equal('text/csv;charset=utf-8');
-      expect(response.headers['Content-Disposition']).to.equal('attachment; filename="20210101_resultats_3èmeA.csv"');
+      expect(response.headers['Content-Disposition']).to.equal('attachment; filename="20190101_resultats_3èmeA.csv"');
     });
   });
 
   describe('#downloadCertificationAttestationsForDivision', function () {
+    const now = new Date('2019-01-01T05:06:07Z');
+    let clock;
+    beforeEach(function () {
+      clock = sinon.useFakeTimers(now);
+    });
+    afterEach(function () {
+      clock.restore();
+    });
     it('should return binary attestations', async function () {
       // given
       const certifications = [
@@ -1114,11 +1126,6 @@ describe('Unit | Application | Organizations | organization-controller', functio
       const organizationId = domainBuilder.buildOrganization().id;
       const division = '3b';
       const attestationsPDF = 'binary string';
-
-      sinon.stub(momentProto, 'format');
-      momentProto.format.withArgs('YYYYMMDD').returns('20210101');
-
-      const fileName = '20210101_attestations_3b.pdf';
       const userId = 1;
 
       const request = {
@@ -1137,14 +1144,14 @@ describe('Unit | Application | Organizations | organization-controller', functio
       sinon
         .stub(certificationAttestationPdf, 'getCertificationAttestationsPdfBuffer')
         .withArgs({ certificates: certifications, isFrenchDomainExtension: true })
-        .resolves({ buffer: attestationsPDF, fileName });
+        .resolves({ buffer: attestationsPDF });
 
       // when
       const response = await organizationController.downloadCertificationAttestationsForDivision(request, hFake);
 
       // then
       expect(response.source).to.deep.equal(attestationsPDF);
-      expect(response.headers['Content-Disposition']).to.contains('attachment; filename=20210101_attestations_3b.pdf');
+      expect(response.headers['Content-Disposition']).to.contains('attachment; filename=20190101_attestations_3b.pdf');
     });
   });
 
