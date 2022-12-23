@@ -236,11 +236,12 @@ async function _multiformCap(targetProfile, instructions, trx) {
       `Les sujets suivants sont présents dans les instructions mais pas dans le profil cible : ${errorTubeNames}`
     );
   }
-  await Promise.all(
-    fullInstructions.map(({ id, level }) =>
-      trx('target-profile_tubes').update({ level }).where({ targetProfileId: targetProfile.id, tubeId: id })
-    )
-  );
+  for (const { id, level, name } of fullInstructions) {
+    const levelAsNumber = parseInt(level);
+    if (isNaN(levelAsNumber) || levelAsNumber >= 8 || levelAsNumber < 1)
+      throw new Error(`Le niveau pour le sujet ${name} est invalide : "${level}"`);
+    await trx('target-profile_tubes').update({ level }).where({ targetProfileId: targetProfile.id, tubeId: id });
+  }
 }
 
 const isLaunchedFromCommandLine = require.main === module;
