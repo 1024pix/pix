@@ -22,44 +22,38 @@ const OrganizationLearnerForAdmin = require('../../domain/read-models/Organizati
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
 const OidcIdentityProviders = require('../../domain/constants/oidc-identity-providers');
 const UserLogin = require('../../domain/models/UserLogin');
+const { fetchPage } = require('../utils/knex-utils');
 
 module.exports = {
-  getByEmail(email) {
-    return BookshelfUser.query((qb) => {
-      qb.whereRaw('LOWER("email") = ?', email.toLowerCase());
-    })
-      .fetch()
-      .then((bookshelfUser) => {
-        return _toDomain(bookshelfUser);
-      })
-      .catch((err) => {
-        if (err instanceof BookshelfUser.NotFoundError) {
-          throw new UserNotFoundError(`User not found for email ${email}`);
-        }
-        throw err;
-      });
+  async getByEmail(email) {
+    const foundUser = await knex.from('users').whereRaw('LOWER("email") = ?', email.toLowerCase()).first();
+    if (!foundUser) {
+      throw new UserNotFoundError(`User not found for email ${email}`);
+    }
+    return new User(foundUser);
   },
 
-  getByUsernameOrEmailWithRolesAndPassword(username) {
-    return BookshelfUser.query((qb) =>
-      qb.where({ email: username.toLowerCase() }).orWhere({ username: username.toLowerCase() })
-    )
-      .fetch({
-        require: false,
-        withRelated: [
-          { memberships: (qb) => qb.where({ disabledAt: null }) },
-          { certificationCenterMemberships: (qb) => qb.where({ disabledAt: null }) },
-          'memberships.organization',
-          'certificationCenterMemberships.certificationCenter',
-          { authenticationMethods: (qb) => qb.where({ identityProvider: 'PIX' }) },
-        ],
-      })
-      .then((foundUser) => {
-        if (foundUser === null) {
-          return Promise.reject(new UserNotFoundError());
-        }
-        return _toDomain(foundUser);
-      });
+  async getByUsernameOrEmailWithRolesAndPassword(username) {
+    const userDTO = await knex('users')
+      .where({ email: username.toLowerCase() })
+      .orWhere({ username: username.toLowerCase() })
+      .first();
+
+    if (!userDTO) {
+      throw new UserNotFoundError();
+    }
+
+    const membershipsDTO = await knex('memberships').where({ userId: userDTO.id, disabledAt: null });
+    const certificationCenterMembershipsDTO = await knex('certification-center-memberships').where({
+      userId: userDTO.id,
+      disabledAt: null,
+    });
+    const authenticationMethodsDTO = await knex('authentication-methods').where({
+      userId: userDTO.id,
+      identityProvider: 'PIX',
+    });
+
+    return _toDomainFromDTO({ userDTO, membershipsDTO, certificationCenterMembershipsDTO, authenticationMethodsDTO });
   },
 
   /**
@@ -85,16 +79,12 @@ module.exports = {
     return new User(foundUser);
   },
 
-  getForObfuscation(userId) {
-    return BookshelfUser.where({ id: userId })
-      .fetch({ columns: ['id', 'email', 'username'] })
-      .then((userAuthenticationMethods) => _toUserAuthenticationMethods(userAuthenticationMethods))
-      .catch((err) => {
-        if (err instanceof BookshelfUser.NotFoundError) {
-          throw new UserNotFoundError(`User not found for ID ${userId}`);
-        }
-        throw err;
-      });
+  async getForObfuscation(userId) {
+    const foundUser = await knex.select('id', 'email', 'username').from('users').where({ id: userId }).first();
+    if (!foundUser) {
+      throw new UserNotFoundError(`User not found for ID ${userId}`);
+    }
+    return new User({ id: foundUser.id, email: foundUser.email, username: foundUser.username });
   },
 
   async getUserDetailsForAdmin(userId) {
@@ -132,30 +122,33 @@ module.exports = {
     return _fromKnexDTOToUserDetailsForAdmin({ userDTO, organizationLearnersDTO, authenticationMethodsDTO });
   },
 
-  findPaginatedFiltered({ filter, page }) {
-    return BookshelfUser.query((qb) => _setSearchFiltersForQueryBuilder(filter, qb))
-      .fetchPage({
-        page: page.number,
-        pageSize: page.size,
-      })
-      .then(({ models, pagination }) => {
-        const users = bookshelfToDomainConverter.buildDomainObjects(BookshelfUser, models);
-        return { models: users, pagination };
-      });
+  async findPaginatedFiltered({ filter, page }) {
+    const query = knex('users').where((qb) => _setSearchFiltersForQueryBuilder(filter, qb));
+    const { results, pagination } = await fetchPage(query, page);
+
+    const users = results.map((userDTO) => new User(userDTO));
+    return { models: users, pagination };
   },
 
-  getWithMemberships(userId) {
-    return BookshelfUser.where({ id: userId })
-      .fetch({
-        require: false,
-        withRelated: [{ memberships: (qb) => qb.where({ disabledAt: null }) }, 'memberships.organization'],
-      })
-      .then((foundUser) => {
-        if (foundUser === null) {
-          return Promise.reject(new UserNotFoundError(`User not found for ID ${userId}`));
-        }
-        return _toDomain(foundUser);
-      });
+  async getWithMemberships(userId) {
+    const userDTO = await knex('users').where({ id: userId }).first();
+
+    if (!userDTO) {
+      throw new UserNotFoundError();
+    }
+
+    const membershipsDTO = await knex('memberships')
+      .select(
+        'memberships.*',
+        'organizations.name AS organizationName',
+        'organizations.type AS organizationType',
+        'organizations.externalId AS organizationExternalId',
+        'organizations.isManagingStudents AS organizationIsManagingStudents'
+      )
+      .join('organizations', 'organizations.id', 'memberships.organizationId')
+      .where({ userId: userDTO.id, disabledAt: null });
+
+    return _toDomainFromDTO({ userDTO, membershipsDTO });
   },
 
   getWithCertificationCenterMemberships(userId) {
@@ -491,15 +484,6 @@ function _toOrganizationLearnersForAdmin(organizationLearners) {
   });
 }
 
-function _toUserAuthenticationMethods(bookshelfUser) {
-  const rawUser = bookshelfUser.toJSON();
-  return new User({
-    id: rawUser.id,
-    email: rawUser.email,
-    username: rawUser.username,
-  });
-}
-
 function _toCertificationCenterMembershipsDomain(certificationCenterMembershipBookshelf) {
   return certificationCenterMembershipBookshelf.map((bookshelf) => {
     return new CertificationCenterMembership({
@@ -591,6 +575,58 @@ function _toDomain(userBookshelf) {
     ),
     hasSeenAssessmentInstructions: Boolean(userBookshelf.get('hasSeenAssessmentInstructions')),
     authenticationMethods: _toAuthenticationMethodsDomain(userBookshelf.related('authenticationMethods')),
+  });
+}
+
+function _toDomainFromDTO({
+  userDTO,
+  membershipsDTO = [],
+  certificationCenterMembershipsDTO = [],
+  authenticationMethodsDTO = [],
+}) {
+  const memberships = membershipsDTO.map((membershipDTO) => {
+    let organization;
+    if (membershipDTO.organizationName) {
+      organization = new Organization({
+        id: membershipDTO.organizationId,
+        name: membershipDTO.organizationName,
+        type: membershipDTO.organizationType,
+        externalId: membershipDTO.organizationExternalId,
+        isManagingStudents: membershipDTO.organizationIsManagingStudents,
+      });
+    }
+    return new Membership({ ...membershipDTO, organization });
+  });
+  const certificationCenterMemberships = certificationCenterMembershipsDTO.map(
+    (certificationCenterMembershipDTO) => new CertificationCenterMembership(certificationCenterMembershipDTO)
+  );
+  return new User({
+    id: userDTO.id,
+    cgu: userDTO.cgu,
+    pixOrgaTermsOfServiceAccepted: userDTO.pixOrgaTermsOfServiceAccepted,
+    pixCertifTermsOfServiceAccepted: userDTO.pixCertifTermsOfServiceAccepted,
+    email: userDTO.email,
+    emailConfirmedAt: userDTO.emailConfirmedAt,
+    username: userDTO.username,
+    firstName: userDTO.firstName,
+    knowledgeElements: userDTO.knowledgeElements,
+    lastName: userDTO.lastName,
+    lastTermsOfServiceValidatedAt: userDTO.lastTermsOfServiceValidatedAt,
+    lastPixOrgaTermsOfServiceValidatedAt: userDTO.lastPixOrgaTermsOfServiceValidatedAt,
+    lastPixCertifTermsOfServiceValidatedAt: userDTO.lastPixCertifTermsOfServiceValidatedAt,
+    hasSeenAssessmentInstructions: userDTO.hasSeenAssessmentInstructions,
+    hasSeenNewDashboardInfo: userDTO.hasSeenNewDashboardInfo,
+    hasSeenFocusedChallengeTooltip: userDTO.hasSeenFocusedChallengeTooltip,
+    hasSeenOtherChallengesTooltip: userDTO.hasSeenOtherChallengesTooltip,
+    mustValidateTermsOfService: userDTO.mustValidateTermsOfService,
+    lang: userDTO.lang,
+    isAnonymous: userDTO.isAnonymous,
+    pixScore: userDTO.pixScore,
+    scorecards: userDTO.scorecards,
+    campaignParticipations: userDTO.campaignParticipations,
+    memberships,
+    certificationCenterMemberships,
+    authenticationMethods: authenticationMethodsDTO,
   });
 }
 

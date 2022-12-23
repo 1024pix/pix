@@ -89,91 +89,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
   }
 
   describe('find user', function () {
-    describe('#getByEmail', function () {
-      let userInDb;
-
-      beforeEach(async function () {
-        userInDb = databaseBuilder.factory.buildUser(userToInsert);
-        await databaseBuilder.commit();
-      });
-
-      it('should handle a rejection, when user id is not found', async function () {
-        // given
-        const emailThatDoesNotExist = '10093';
-
-        // when
-        const result = await catchErr(userRepository.getByEmail)(emailThatDoesNotExist);
-
-        // then
-        expect(result).to.be.instanceOf(NotFoundError);
-      });
-
-      it('should return a domain user when found', async function () {
-        // when
-        const user = await userRepository.getByEmail(userInDb.email);
-
-        // then
-        expect(user.email).to.equal(userInDb.email);
-      });
-
-      it('should return a domain user when email case insensitive found', async function () {
-        // given
-        const uppercaseEmailAlreadyInDb = userInDb.email.toUpperCase();
-
-        // when
-        const user = await userRepository.getByEmail(uppercaseEmailAlreadyInDb);
-
-        // then
-        expect(user.email).to.equal(userInDb.email);
-      });
-
-      it('should return a domain user when email match (case insensitive)', async function () {
-        // given
-        const mixCaseEmail = 'USER@example.net';
-        databaseBuilder.factory.buildUser({ email: mixCaseEmail });
-        await databaseBuilder.commit();
-
-        // when
-        const foundUser = await userRepository.getByEmail(mixCaseEmail.toLowerCase());
-
-        // then
-        expect(foundUser).to.exist;
-      });
-    });
-
-    describe('#getBySamlId', function () {
-      let userInDb;
-
-      beforeEach(async function () {
-        userInDb = databaseBuilder.factory.buildUser(userToInsert);
-        databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
-          externalIdentifier: 'some-saml-id',
-          userId: userInDb.id,
-        });
-        await databaseBuilder.commit();
-      });
-
-      it('should return user informations for the given SAML ID', async function () {
-        // when
-        const user = await userRepository.getBySamlId('some-saml-id');
-
-        // then
-        expect(user).to.be.an.instanceof(User);
-        expect(user.id).to.equal(userInDb.id);
-      });
-
-      it('should return undefined when no user was found with this SAML ID', async function () {
-        // given
-        const badSamlId = 'bad-saml-id';
-
-        // when
-        const user = await userRepository.getBySamlId(badSamlId);
-
-        // then
-        return expect(user).to.be.null;
-      });
-    });
-
     describe('#findByExternalIdentifier', function () {
       it('should return user informations for the given external identity id and identity provider', async function () {
         // given
@@ -229,35 +144,448 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         expect(foundUser).to.be.null;
       });
     });
-  });
 
-  describe('#getForObfuscation', function () {
-    it('should return a domain user with authentication methods only when found', async function () {
-      // given
-      const userInDb = databaseBuilder.factory.buildUser(userToInsert);
-      await databaseBuilder.commit();
+    describe('#findPaginatedFiltered', function () {
+      context('when there are users in the database', function () {
+        it('should return an array of users', async function () {
+          // given
+          const filter = {};
+          const page = { number: 1, size: 10 };
+          const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
+          times(3, databaseBuilder.factory.buildUser);
+          await databaseBuilder.commit();
 
-      // when
-      const user = await userRepository.getForObfuscation(userInDb.id);
+          // when
+          const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
 
-      // then
-      expect(user.username).to.equal(userInDb.username);
-      expect(user.email).to.equal(userInDb.email);
+          // then
+          expect(matchingUsers).to.exist;
+          expect(matchingUsers).to.have.lengthOf(3);
+          expect(matchingUsers[0]).to.be.an.instanceOf(User);
+          expect(pagination).to.deep.equal(expectedPagination);
+        });
+      });
+
+      context('when there are lots of users (> 10) in the database', function () {
+        it('should return paginated matching users', async function () {
+          // given
+          const filter = {};
+          const page = { number: 1, size: 3 };
+          const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 4, rowCount: 12 };
+          times(12, databaseBuilder.factory.buildUser);
+          await databaseBuilder.commit();
+
+          // when
+          const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
+
+          // then
+          expect(matchingUsers).to.have.lengthOf(3);
+          expect(pagination).to.deep.equal(expectedPagination);
+        });
+      });
+
+      context('when there are multiple users matching the same "first name" search pattern', function () {
+        beforeEach(function () {
+          databaseBuilder.factory.buildUser({ firstName: 'Son Gohan' });
+          databaseBuilder.factory.buildUser({ firstName: 'Son Goku' });
+          databaseBuilder.factory.buildUser({ firstName: 'Son Goten' });
+          databaseBuilder.factory.buildUser({ firstName: 'Vegeta' });
+          databaseBuilder.factory.buildUser({ firstName: 'Piccolo' });
+          return databaseBuilder.commit();
+        });
+
+        it('should return only users matching "first name" if given in filter', async function () {
+          // given
+          const filter = { firstName: 'Go' };
+          const page = { number: 1, size: 10 };
+          const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
+
+          // when
+          const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
+
+          // then
+          expect(map(matchingUsers, 'firstName')).to.have.members(['Son Gohan', 'Son Goku', 'Son Goten']);
+          expect(pagination).to.deep.equal(expectedPagination);
+        });
+      });
+
+      context('when there are multiple users matching the same "last name" search pattern', function () {
+        beforeEach(async function () {
+          each(
+            [
+              { firstName: 'Anakin', lastName: 'Skywalker' },
+              { firstName: 'Luke', lastName: 'Skywalker' },
+              { firstName: 'Leia', lastName: 'Skywalker' },
+              { firstName: 'Han', lastName: 'Solo' },
+              { firstName: 'Ben', lastName: 'Solo' },
+            ],
+            (user) => {
+              databaseBuilder.factory.buildUser(user);
+            }
+          );
+
+          await databaseBuilder.commit();
+        });
+
+        it('should return only users matching "last name" if given in filter', async function () {
+          // given
+          const filter = { lastName: 'walk' };
+          const page = { number: 1, size: 10 };
+          const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
+
+          // when
+          const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
+
+          // then
+          expect(map(matchingUsers, 'firstName')).to.have.members(['Anakin', 'Luke', 'Leia']);
+          expect(pagination).to.deep.equal(expectedPagination);
+        });
+      });
+
+      context('when there are multiple users matching the same "email" search pattern', function () {
+        beforeEach(async function () {
+          each(
+            [
+              { email: 'playpus@pix.fr' },
+              { email: 'panda@pix.fr' },
+              { email: 'otter@pix.fr' },
+              { email: 'playpus@example.net' },
+              { email: 'panda@example.net' },
+              { email: 'PANDA@example.net' },
+              { email: 'PANDA@PIX.be' },
+            ],
+            (user) => {
+              databaseBuilder.factory.buildUser(user);
+            }
+          );
+
+          await databaseBuilder.commit();
+        });
+
+        it('should return only users matching "email" if given in filter even if it is in uppercase in database', async function () {
+          // given
+          const filter = { email: 'panda' };
+          const page = { number: 1, size: 10 };
+          const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 4 };
+
+          // when
+          const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
+
+          // then
+          expect(map(matchingUsers, 'email')).to.have.members([
+            'panda@pix.fr',
+            'panda@example.net',
+            'panda@example.net',
+            'panda@pix.be',
+          ]);
+          expect(pagination).to.deep.equal(expectedPagination);
+        });
+
+        it('should return only users matching "email" if given in filter', async function () {
+          // given
+          const filter = { email: 'pix.fr' };
+          const page = { number: 1, size: 10 };
+          const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
+
+          // when
+          const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
+
+          // then
+          expect(map(matchingUsers, 'email')).to.have.members(['playpus@pix.fr', 'panda@pix.fr', 'otter@pix.fr']);
+          expect(pagination).to.deep.equal(expectedPagination);
+        });
+      });
+
+      context('when there are multiple users matching the same "username" search pattern', function () {
+        it('should return only users matching "username" if given in filter', async function () {
+          // given
+          each(
+            [
+              { username: 'alex.ception1011' },
+              { username: 'alex.terieur1011' },
+              { username: 'ella.danloss0101' },
+              { username: 'ella.bienhu1011' },
+              { username: 'ella.bienhu2312' },
+            ],
+            (user) => {
+              databaseBuilder.factory.buildUser(user);
+            }
+          );
+          await databaseBuilder.commit();
+          const filter = { username: '1011' };
+          const page = { number: 1, size: 10 };
+
+          // when
+          const { models: matchingUsers } = await userRepository.findPaginatedFiltered({ filter, page });
+
+          // then
+          expect(map(matchingUsers, 'username')).to.have.members([
+            'alex.ception1011',
+            'alex.terieur1011',
+            'ella.bienhu1011',
+          ]);
+        });
+      });
+
+      context(
+        'when there are multiple users matching the fields "first name", "last name" and "email" search pattern',
+        function () {
+          beforeEach(async function () {
+            each(
+              [
+                // Matching users
+                {
+                  firstName: 'fn_ok_1',
+                  lastName: 'ln_ok_1',
+                  email: 'email_ok_1@mail.com',
+                  username: 'username_ok0210',
+                },
+                {
+                  firstName: 'fn_ok_2',
+                  lastName: 'ln_ok_2',
+                  email: 'email_ok_2@mail.com',
+                  username: 'username_ok1214',
+                },
+                {
+                  firstName: 'fn_ok_3',
+                  lastName: 'ln_ok_3',
+                  email: 'email_ok_3@mail.com',
+                  username: 'username_ok1010',
+                },
+
+                // Unmatching users
+                {
+                  firstName: 'fn_ko_4',
+                  lastName: 'ln_ok_4',
+                  email: 'email_ok_4@mail.com',
+                  username: 'username_ko1309',
+                },
+                {
+                  firstName: 'fn_ok_5',
+                  lastName: 'ln_ko_5',
+                  email: 'email_ok_5@mail.com',
+                  username: 'username_ok1911',
+                },
+                {
+                  firstName: 'fn_ok_6',
+                  lastName: 'ln_ok_6',
+                  email: 'email_ko_6@mail.com',
+                  username: 'username_ok2010',
+                },
+              ],
+              (user) => {
+                databaseBuilder.factory.buildUser(user);
+              }
+            );
+
+            await databaseBuilder.commit();
+          });
+
+          it('should return only users matching "first name" AND "last name" AND "email" AND "username" if given in filter', async function () {
+            // given
+            const filter = { firstName: 'fn_ok', lastName: 'ln_ok', email: 'email_ok', username: 'username_ok' };
+            const page = { number: 1, size: 10 };
+            const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
+
+            // when
+            const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
+
+            // then
+            expect(map(matchingUsers, 'firstName')).to.have.members(['fn_ok_1', 'fn_ok_2', 'fn_ok_3']);
+            expect(map(matchingUsers, 'lastName')).to.have.members(['ln_ok_1', 'ln_ok_2', 'ln_ok_3']);
+            expect(map(matchingUsers, 'email')).to.have.members([
+              'email_ok_1@mail.com',
+              'email_ok_2@mail.com',
+              'email_ok_3@mail.com',
+            ]);
+            expect(map(matchingUsers, 'username')).to.have.members([
+              'username_ok0210',
+              'username_ok1214',
+              'username_ok1010',
+            ]);
+            expect(pagination).to.deep.equal(expectedPagination);
+          });
+        }
+      );
+
+      context('when there are filter that should be ignored', function () {
+        let firstUserId;
+        let secondUserId;
+
+        beforeEach(async function () {
+          firstUserId = databaseBuilder.factory.buildUser().id;
+          secondUserId = databaseBuilder.factory.buildUser().id;
+
+          await databaseBuilder.commit();
+        });
+
+        it('should ignore the filter and retrieve all users', async function () {
+          // given
+          const filter = { id: firstUserId };
+          const page = { number: 1, size: 10 };
+          const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
+
+          // when
+          const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
+
+          // then
+          expect(map(matchingUsers, 'id')).to.have.members([firstUserId, secondUserId]);
+          expect(pagination).to.deep.equal(expectedPagination);
+        });
+      });
     });
 
-    it('should throw an error when user not found', async function () {
-      // given
-      const userIdThatDoesNotExist = '99999';
+    describe('#findAnotherUserByEmail', function () {
+      it('should return a list of a single user if email already used', async function () {
+        // given
+        const currentUser = databaseBuilder.factory.buildUser({
+          email: 'current.user@example.net',
+        });
+        const anotherUser = databaseBuilder.factory.buildUser({
+          email: 'another.user@example.net',
+        });
+        await databaseBuilder.commit();
 
-      // when
-      const result = await catchErr(userRepository.getForObfuscation)(userIdThatDoesNotExist);
+        // when
+        const foundUsers = await userRepository.findAnotherUserByEmail(currentUser.id, anotherUser.email);
 
-      // then
-      expect(result).to.be.instanceOf(UserNotFoundError);
+        // then
+        expect(foundUsers).to.be.an('array').that.have.lengthOf(1);
+        expect(foundUsers[0]).to.be.an.instanceof(User);
+        expect(foundUsers[0].email).to.equal(anotherUser.email);
+      });
+
+      it('should return a list of a single user if email case insensitive already used', async function () {
+        // given
+        const currentUser = databaseBuilder.factory.buildUser({
+          email: 'current.user@example.net',
+        });
+        const anotherUser = databaseBuilder.factory.buildUser({
+          email: 'another.user@example.net',
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const foundUsers = await userRepository.findAnotherUserByEmail(currentUser.id, anotherUser.email.toUpperCase());
+
+        // then
+        expect(foundUsers).to.be.an('array').that.have.lengthOf(1);
+        expect(foundUsers[0]).to.be.an.instanceof(User);
+        expect(foundUsers[0].email).to.equal(anotherUser.email);
+      });
+
+      it('should return an empty list if email is not used', async function () {
+        // given
+        const currentUser = databaseBuilder.factory.buildUser({
+          email: 'current.user@example.net',
+        });
+        const email = 'not.used@example.net';
+
+        // when
+        const foundUsers = await userRepository.findAnotherUserByEmail(currentUser.id, email);
+
+        // then
+        expect(foundUsers).to.be.an('array').that.is.empty;
+      });
+    });
+
+    describe('#findAnotherUserByUsername', function () {
+      it('should return a list of a single user if username already used', async function () {
+        // given
+        const currentUser = databaseBuilder.factory.buildUser({
+          username: 'current.user.name',
+        });
+        const anotherUser = databaseBuilder.factory.buildUser({
+          username: 'another.user.name',
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const foundUsers = await userRepository.findAnotherUserByUsername(currentUser.id, anotherUser.username);
+
+        // then
+        expect(foundUsers).to.be.an('array').that.have.lengthOf(1);
+        expect(foundUsers[0]).to.be.an.instanceof(User);
+        expect(foundUsers[0].username).to.equal(anotherUser.username);
+      });
+
+      it('should return an empty list if username is not used', async function () {
+        // given
+        const currentUser = databaseBuilder.factory.buildUser({
+          username: 'current.user.name',
+        });
+        const username = 'not.user.name';
+
+        // when
+        const foundUsers = await userRepository.findAnotherUserByUsername(currentUser.id, username);
+
+        // then
+        expect(foundUsers).to.be.an('array').that.is.empty;
+      });
     });
   });
 
   describe('get user', function () {
+    describe('#getByEmail', function () {
+      it('should handle a rejection, when user id is not found', async function () {
+        // given
+        const emailThatDoesNotExist = '10093';
+
+        // when
+        const result = await catchErr(userRepository.getByEmail)(emailThatDoesNotExist);
+
+        // then
+        expect(result).to.be.instanceOf(NotFoundError);
+      });
+
+      it('should return the user with email case insensitive', async function () {
+        // given
+        const mixCaseEmail = 'USER@example.net';
+        const userInDb = databaseBuilder.factory.buildUser({ email: mixCaseEmail });
+        await databaseBuilder.commit();
+
+        // when
+        const user = await userRepository.getByEmail(mixCaseEmail);
+
+        // then
+        expect(user.id).to.equal(userInDb.id);
+        expect(user.email).to.equal('user@example.net');
+      });
+    });
+
+    describe('#getBySamlId', function () {
+      let userInDb;
+
+      beforeEach(async function () {
+        userInDb = databaseBuilder.factory.buildUser(userToInsert);
+        databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
+          externalIdentifier: 'some-saml-id',
+          userId: userInDb.id,
+        });
+        await databaseBuilder.commit();
+      });
+
+      it('should return user informations for the given SAML ID', async function () {
+        // when
+        const user = await userRepository.getBySamlId('some-saml-id');
+
+        // then
+        expect(user).to.be.an.instanceof(User);
+        expect(user.id).to.equal(userInDb.id);
+      });
+
+      it('should return undefined when no user was found with this SAML ID', async function () {
+        // given
+        const badSamlId = 'bad-saml-id';
+
+        // when
+        const user = await userRepository.getBySamlId(badSamlId);
+
+        // then
+        return expect(user).to.be.null;
+      });
+    });
+
     describe('#get', function () {
       it('should return the found user', async function () {
         // given
@@ -386,9 +714,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         const firstAuthenticationMethod = foundUser.authenticationMethods[0];
         expect(firstAuthenticationMethod.identityProvider).to.equal(passwordAuthenticationMethodInDB.identityProvider);
         expect(firstAuthenticationMethod.userId).to.equal(passwordAuthenticationMethodInDB.userId);
-        expect(firstAuthenticationMethod.externalIdentifier).to.equal(
-          passwordAuthenticationMethodInDB.externalIdentifier
-        );
+        expect(firstAuthenticationMethod.externalIdentifier).to.be.null;
         expect(firstAuthenticationMethod.authenticationComplement).to.deep.equal(
           passwordAuthenticationMethodInDB.authenticationComplement
         );
@@ -432,14 +758,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         const firstMembership = user.memberships[0];
         expect(firstMembership).to.be.an.instanceof(Membership);
         expect(firstMembership.id).to.equal(membershipInDB.id);
-
-        const associatedOrganization = firstMembership.organization;
-        expect(associatedOrganization).to.be.an.instanceof(Organization);
-        expect(associatedOrganization.id).to.equal(organizationInDB.id);
-        expect(associatedOrganization.code).to.equal(organizationInDB.code);
-        expect(associatedOrganization.name).to.equal(organizationInDB.name);
-        expect(associatedOrganization.type).to.equal(organizationInDB.type);
-
         expect(firstMembership.organizationRole).to.equal(membershipInDB.organizationRole);
       });
 
@@ -465,16 +783,23 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
       });
 
       it('should return certification center membership associated to the user', async function () {
+        // given
+        const user = databaseBuilder.factory.buildUser({ email: 'super@example.net' });
+        const certificationCenterMembershipId = databaseBuilder.factory.buildCertificationCenterMembership({
+          userId: user.id,
+          certificationCenterId: certificationCenterInDB.id,
+        }).id;
+        await databaseBuilder.commit();
+
         // when
-        const user = await userRepository.getByUsernameOrEmailWithRolesAndPassword(userInDB.email);
+        const foundUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(user.email);
 
         // then
-        expect(user.certificationCenterMemberships).to.be.an('array');
+        expect(foundUser.certificationCenterMemberships).to.be.an('array');
 
-        const firstMembership = user.certificationCenterMemberships[0];
-        expect(firstMembership).to.be.an.instanceof(CertificationCenterMembership);
-        expect(firstMembership.certificationCenter.id).to.equal(certificationCenterInDB.id);
-        expect(firstMembership.certificationCenter.name).to.equal(certificationCenterInDB.name);
+        const firstCertificationCenterMembership = foundUser.certificationCenterMemberships[0];
+        expect(firstCertificationCenterMembership).to.be.an.instanceof(CertificationCenterMembership);
+        expect(firstCertificationCenterMembership.id).to.equal(certificationCenterMembershipId);
       });
 
       it('should reject with a UserNotFound error when no user was found with this email', async function () {
@@ -501,47 +826,52 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
     });
 
     describe('#getWithMemberships', function () {
-      beforeEach(async function () {
-        await _insertUserWithOrganizationsAndCertificationCenterAccesses();
-      });
-
-      it('should return user for the given id', async function () {
+      it('should return user with his/her membership(s) for the given id', async function () {
         // given
-        const expectedUser = new User(userInDB);
+        const user = databaseBuilder.factory.buildUser.withRawPassword({
+          firstName: 'Sarah',
+          lastName: 'Pelle',
+          email: 'sarahpelle@example.net',
+          password: 'pix123',
+          cgu: true,
+        });
+        const organizationId = databaseBuilder.factory.buildOrganization({ name: "Orga de l'année.", type: 'SUP' }).id;
+        const membershipId = databaseBuilder.factory.buildMembership({
+          userId: user.id,
+          organizationRole: 'MEMBER',
+          organizationId,
+        }).id;
+        await databaseBuilder.commit();
 
         // when
-        const user = await userRepository.getWithMemberships(userInDB.id);
+        const foundUser = await userRepository.getWithMemberships(user.id);
 
         // then
-        expect(user).to.be.an.instanceof(User);
-        expect(user.id).to.equal(expectedUser.id);
-        expect(user.firstName).to.equal(expectedUser.firstName);
-        expect(user.lastName).to.equal(expectedUser.lastName);
-        expect(user.email).to.equal(expectedUser.email);
-        expect(user.password).to.equal(expectedUser.password);
-        expect(user.cgu).to.equal(expectedUser.cgu);
-      });
+        expect(foundUser).to.be.an.instanceof(User);
+        const expectedUserAttributes = ['id', 'firstName', 'lastName', 'email', 'password', 'cgu'];
+        expect(pick(foundUser, expectedUserAttributes)).to.deep.equal({
+          id: user.id,
+          firstName: 'Sarah',
+          lastName: 'Pelle',
+          email: 'sarahpelle@example.net',
+          cgu: true,
+        });
 
-      it('should return membership associated to the user', async function () {
-        // when
-        const user = await userRepository.getWithMemberships(userInDB.id);
-
-        // then
-        expect(user.memberships).to.be.an('array');
-        expect(user.memberships).to.have.lengthOf(1);
-
-        const membership = user.memberships[0];
+        expect(foundUser.memberships).to.have.lengthOf(1);
+        const membership = foundUser.memberships[0];
         expect(membership).to.be.an.instanceof(Membership);
-        expect(membership.id).to.equal(membershipInDB.id);
+        expect(pick(membership, ['id', 'organizationRole'])).to.deep.equal({
+          id: membershipId,
+          organizationRole: 'MEMBER',
+        });
 
         const associatedOrganization = membership.organization;
         expect(associatedOrganization).to.be.an.instanceof(Organization);
-        expect(associatedOrganization.id).to.equal(organizationInDB.id);
-        expect(associatedOrganization.code).to.equal(organizationInDB.code);
-        expect(associatedOrganization.name).to.equal(organizationInDB.name);
-        expect(associatedOrganization.type).to.equal(organizationInDB.type);
-
-        expect(membership.organizationRole).to.equal(membershipInDB.organizationRole);
+        expect(pick(associatedOrganization, ['id', 'name', 'type'])).to.deep.equal({
+          id: organizationId,
+          name: "Orga de l'année.",
+          type: 'SUP',
+        });
       });
 
       context('when the membership associated to the user has been disabled', function () {
@@ -641,160 +971,474 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         expect(result).to.be.instanceOf(UserNotFoundError);
       });
     });
+
+    describe('#getForObfuscation', function () {
+      it('should return a domain user with authentication methods only when found', async function () {
+        // given
+        const userInDb = databaseBuilder.factory.buildUser(userToInsert);
+        await databaseBuilder.commit();
+
+        // when
+        const user = await userRepository.getForObfuscation(userInDb.id);
+
+        // then
+        expect(user.username).to.equal(userInDb.username);
+        expect(user.email).to.equal(userInDb.email);
+      });
+
+      it('should throw an error when user not found', async function () {
+        // given
+        const userIdThatDoesNotExist = '99999';
+
+        // when
+        const result = await catchErr(userRepository.getForObfuscation)(userIdThatDoesNotExist);
+
+        // then
+        expect(result).to.be.instanceOf(UserNotFoundError);
+      });
+    });
+
+    describe('#getUserDetailsForAdmin', function () {
+      it('should return the found user', async function () {
+        // given
+        const emailConfirmedAt = new Date('2022-01-01');
+        const lastTermsOfServiceValidatedAt = new Date('2022-01-02');
+        const lastPixOrgaTermsOfServiceValidatedAt = new Date('2022-01-03');
+        const lastLoggedAt = new Date('2022-01-04');
+        const now = new Date();
+        const userInDB = databaseBuilder.factory.buildUser({
+          firstName: 'Henri',
+          lastName: 'Cochet',
+          email: 'henri-cochet@example.net',
+          cgu: true,
+          lang: 'en',
+          createdAt: now,
+          lastTermsOfServiceValidatedAt,
+          lastPixOrgaTermsOfServiceValidatedAt,
+          lastPixCertifTermsOfServiceValidatedAt: lastLoggedAt,
+          lastLoggedAt,
+          emailConfirmedAt,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
+
+        // then
+        expect(userDetailsForAdmin).to.be.an.instanceOf(UserDetailsForAdmin);
+        expect(userDetailsForAdmin.id).to.equal(userInDB.id);
+        expect(userDetailsForAdmin.firstName).to.equal('Henri');
+        expect(userDetailsForAdmin.lastName).to.equal('Cochet');
+        expect(userDetailsForAdmin.email).to.equal('henri-cochet@example.net');
+        expect(userDetailsForAdmin.cgu).to.be.true;
+        expect(userDetailsForAdmin.createdAt).to.deep.equal(now);
+        expect(userDetailsForAdmin.lang).to.equal('en');
+        expect(userDetailsForAdmin.lastTermsOfServiceValidatedAt).to.deep.equal(lastTermsOfServiceValidatedAt);
+        expect(userDetailsForAdmin.lastPixOrgaTermsOfServiceValidatedAt).to.deep.equal(
+          lastPixOrgaTermsOfServiceValidatedAt
+        );
+        expect(userDetailsForAdmin.lastPixCertifTermsOfServiceValidatedAt).to.deep.equal(lastLoggedAt);
+        expect(userDetailsForAdmin.lastLoggedAt).to.deep.equal(lastLoggedAt);
+        expect(userDetailsForAdmin.emailConfirmedAt).to.deep.equal(emailConfirmedAt);
+      });
+
+      it('should return a UserNotFoundError if no user is found', async function () {
+        // given
+        const nonExistentUserId = 678;
+
+        // when
+        const result = await catchErr(userRepository.getUserDetailsForAdmin)(nonExistentUserId);
+
+        // then
+        expect(result).to.be.instanceOf(UserNotFoundError);
+      });
+
+      context('when user has organizationLearners', function () {
+        it('should return the user with his organizationLearner', async function () {
+          // given
+          const randomUser = databaseBuilder.factory.buildUser();
+          const userInDB = databaseBuilder.factory.buildUser(userToInsert);
+          const firstOrganizationInDB = databaseBuilder.factory.buildOrganization();
+          const firstOrganizationLearnerInDB = databaseBuilder.factory.buildOrganizationLearner({
+            id: 1,
+            userId: userInDB.id,
+            organizationId: firstOrganizationInDB.id,
+          });
+          const secondOrganizationInDB = databaseBuilder.factory.buildOrganization();
+          const secondOrganizationLearnerInDB = databaseBuilder.factory.buildOrganizationLearner({
+            id: 2,
+            userId: userInDB.id,
+            organizationId: secondOrganizationInDB.id,
+          });
+          databaseBuilder.factory.buildOrganizationLearner({
+            id: 3,
+            userId: randomUser.id,
+            organizationId: firstOrganizationInDB.id,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
+
+          // then
+          expect(userDetailsForAdmin.organizationLearners.length).to.equal(2);
+          const organizationLearners = userDetailsForAdmin.organizationLearners;
+          expect(organizationLearners[0]).to.be.instanceOf(OrganizationLearnerForAdmin);
+
+          const expectedOrganizationLearners = [
+            {
+              ...firstOrganizationLearnerInDB,
+              organizationName: firstOrganizationInDB.name,
+              canBeDissociated: firstOrganizationInDB.isManagingStudents,
+            },
+            {
+              ...secondOrganizationLearnerInDB,
+              organizationName: secondOrganizationInDB.name,
+              canBeDissociated: secondOrganizationInDB.isManagingStudents,
+            },
+          ].map((organizationLearner) => pick(organizationLearner, expectedUserDetailsForAdminAttributes));
+          expect(organizationLearners).to.deep.equal(expectedOrganizationLearners);
+        });
+      });
+
+      context("when user doesn't have organizationLearners", function () {
+        it('should return the user with an empty array', async function () {
+          // given
+          const userInDB = databaseBuilder.factory.buildUser(userToInsert);
+          await databaseBuilder.commit();
+
+          // when
+          const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
+
+          // then
+          expect(userDetailsForAdmin.organizationLearners.length).to.equal(0);
+        });
+      });
+
+      context('when user has authentication methods', function () {
+        it('should return the user with his authentication methods', async function () {
+          // given
+          const userInDB = databaseBuilder.factory.buildUser(userToInsert);
+          databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+            userId: userInDB.id,
+          });
+          databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({ userId: userInDB.id });
+          await databaseBuilder.commit();
+
+          // when
+          const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
+
+          // then
+          expect(userDetailsForAdmin.authenticationMethods.length).to.equal(2);
+        });
+      });
+
+      context('when user is anonymized', function () {
+        it('should return an empty array', async function () {
+          // given
+          const userInDB = databaseBuilder.factory.buildUser(userToInsert);
+          await databaseBuilder.commit();
+
+          // when
+          const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
+
+          // then
+          expect(userDetailsForAdmin.authenticationMethods.length).to.equal(0);
+        });
+      });
+
+      context('when user has login details', function () {
+        let clock;
+        const now = new Date('2022-02-02');
+
+        beforeEach(function () {
+          clock = sinon.useFakeTimers(now);
+        });
+
+        afterEach(function () {
+          clock.restore();
+        });
+
+        it('should return the user with his login details', async function () {
+          // given
+          const userInDB = databaseBuilder.factory.buildUser(userToInsert);
+          databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+            userId: userInDB.id,
+          });
+          databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({ userId: userInDB.id });
+          databaseBuilder.factory.buildUserLogin({
+            id: 12345,
+            userId: userInDB.id,
+            failureCount: 5,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
+
+          // then
+          expect(userDetailsForAdmin.userLogin).to.deep.include({
+            id: 12345,
+            blockedAt: null,
+            temporaryBlockedUntil: null,
+            failureCount: 5,
+          });
+        });
+      });
+    });
   });
 
-  describe('#getUserDetailsForAdmin', function () {
-    it('should return the found user', async function () {
-      // given
-      const emailConfirmedAt = new Date('2022-01-01');
-      const lastTermsOfServiceValidatedAt = new Date('2022-01-02');
-      const lastPixOrgaTermsOfServiceValidatedAt = new Date('2022-01-03');
-      const lastLoggedAt = new Date('2022-01-04');
-      const now = new Date();
-      const userInDB = databaseBuilder.factory.buildUser({
-        firstName: 'Henri',
-        lastName: 'Cochet',
-        email: 'henri-cochet@example.net',
-        cgu: true,
-        lang: 'en',
-        createdAt: now,
-        lastTermsOfServiceValidatedAt,
-        lastPixOrgaTermsOfServiceValidatedAt,
-        lastPixCertifTermsOfServiceValidatedAt: lastLoggedAt,
-        lastLoggedAt,
-        emailConfirmedAt,
-      });
-      await databaseBuilder.commit();
-
-      // when
-      const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
-
-      // then
-      expect(userDetailsForAdmin).to.be.an.instanceOf(UserDetailsForAdmin);
-      expect(userDetailsForAdmin.id).to.equal(userInDB.id);
-      expect(userDetailsForAdmin.firstName).to.equal('Henri');
-      expect(userDetailsForAdmin.lastName).to.equal('Cochet');
-      expect(userDetailsForAdmin.email).to.equal('henri-cochet@example.net');
-      expect(userDetailsForAdmin.cgu).to.be.true;
-      expect(userDetailsForAdmin.createdAt).to.deep.equal(now);
-      expect(userDetailsForAdmin.lang).to.equal('en');
-      expect(userDetailsForAdmin.lastTermsOfServiceValidatedAt).to.deep.equal(lastTermsOfServiceValidatedAt);
-      expect(userDetailsForAdmin.lastPixOrgaTermsOfServiceValidatedAt).to.deep.equal(
-        lastPixOrgaTermsOfServiceValidatedAt
-      );
-      expect(userDetailsForAdmin.lastPixCertifTermsOfServiceValidatedAt).to.deep.equal(lastLoggedAt);
-      expect(userDetailsForAdmin.lastLoggedAt).to.deep.equal(lastLoggedAt);
-      expect(userDetailsForAdmin.emailConfirmedAt).to.deep.equal(emailConfirmedAt);
-    });
-
-    it('should return a UserNotFoundError if no user is found', async function () {
-      // given
-      const nonExistentUserId = 678;
-
-      // when
-      const result = await catchErr(userRepository.getUserDetailsForAdmin)(nonExistentUserId);
-
-      // then
-      expect(result).to.be.instanceOf(UserNotFoundError);
-    });
-
-    context('when user has organizationLearners', function () {
-      it('should return the user with his organizationLearner', async function () {
+  describe('update user', function () {
+    describe('#updateEmail', function () {
+      it('should update the user email', async function () {
         // given
-        const randomUser = databaseBuilder.factory.buildUser();
-        const userInDB = databaseBuilder.factory.buildUser(userToInsert);
-        const firstOrganizationInDB = databaseBuilder.factory.buildOrganization();
-        const firstOrganizationLearnerInDB = databaseBuilder.factory.buildOrganizationLearner({
-          id: 1,
-          userId: userInDB.id,
-          organizationId: firstOrganizationInDB.id,
-        });
-        const secondOrganizationInDB = databaseBuilder.factory.buildOrganization();
-        const secondOrganizationLearnerInDB = databaseBuilder.factory.buildOrganizationLearner({
-          id: 2,
-          userId: userInDB.id,
-          organizationId: secondOrganizationInDB.id,
-        });
-        databaseBuilder.factory.buildOrganizationLearner({
-          id: 3,
-          userId: randomUser.id,
-          organizationId: firstOrganizationInDB.id,
-        });
+        const newEmail = 'new_email@example.net';
+        const userInDb = databaseBuilder.factory.buildUser({ ...userToInsert, email: 'old_email@example.net' });
         await databaseBuilder.commit();
 
         // when
-        const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
+        const updatedUser = await userRepository.updateEmail({ id: userInDb.id, email: newEmail });
 
         // then
-        expect(userDetailsForAdmin.organizationLearners.length).to.equal(2);
-        const organizationLearners = userDetailsForAdmin.organizationLearners;
-        expect(organizationLearners[0]).to.be.instanceOf(OrganizationLearnerForAdmin);
-
-        const expectedOrganizationLearners = [
-          {
-            ...firstOrganizationLearnerInDB,
-            organizationName: firstOrganizationInDB.name,
-            canBeDissociated: firstOrganizationInDB.isManagingStudents,
-          },
-          {
-            ...secondOrganizationLearnerInDB,
-            organizationName: secondOrganizationInDB.name,
-            canBeDissociated: secondOrganizationInDB.isManagingStudents,
-          },
-        ].map((organizationLearner) => pick(organizationLearner, expectedUserDetailsForAdminAttributes));
-        expect(organizationLearners).to.deep.equal(expectedOrganizationLearners);
+        expect(updatedUser).to.be.an.instanceOf(User);
+        expect(updatedUser.email).to.equal(newEmail);
       });
     });
 
-    context("when user doesn't have organizationLearners", function () {
-      it('should return the user with an empty array', async function () {
-        // given
-        const userInDB = databaseBuilder.factory.buildUser(userToInsert);
+    describe('#updateWithEmailConfirmed', function () {
+      let userInDb;
+
+      beforeEach(async function () {
+        userInDb = databaseBuilder.factory.buildUser({ ...userToInsert, email: 'old_email@example.net', cgu: false });
         await databaseBuilder.commit();
+      });
+
+      it('should update the user email', async function () {
+        // given
+        const newEmail = 'new_email@example.net';
+        const userAttributes = {
+          cgu: true,
+          email: newEmail,
+          emailConfirmedAt: new Date('2020-12-15T00:00:00Z'),
+        };
 
         // when
-        const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
+        await userRepository.updateWithEmailConfirmed({ id: userInDb.id, userAttributes });
 
         // then
-        expect(userDetailsForAdmin.organizationLearners.length).to.equal(0);
+        const [updatedUser] = await knex('users').where({ id: userInDb.id });
+        expect(updatedUser.emailConfirmedAt.toString()).to.equal(userAttributes.emailConfirmedAt.toString());
+        expect(updatedUser.email).to.equal(userAttributes.email);
+        expect(updatedUser.cgu).to.equal(userAttributes.cgu);
       });
-    });
 
-    context('when user has authentication methods', function () {
-      it('should return the user with his authentication methods', async function () {
+      it('should rollback the user email in case of error in transaction', async function () {
         // given
-        const userInDB = databaseBuilder.factory.buildUser(userToInsert);
-        databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
-          userId: userInDB.id,
+        const newEmail = 'new_email@example.net';
+        const userAttributes = {
+          cgu: true,
+          email: newEmail,
+          emailConfirmedAt: new Date('2020-12-15T00:00:00Z'),
+        };
+
+        // when
+        await catchErr(async () => {
+          await DomainTransaction.execute(async (domainTransaction) => {
+            await userRepository.updateWithEmailConfirmed({ id: userInDb.id, userAttributes }, domainTransaction);
+            throw new Error('Error occurs in transaction');
+          });
         });
-        databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({ userId: userInDB.id });
-        await databaseBuilder.commit();
-
-        // when
-        const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
 
         // then
-        expect(userDetailsForAdmin.authenticationMethods.length).to.equal(2);
+        const [updatedUser] = await knex('users').where({ id: userInDb.id });
+        expect(updatedUser.emailConfirmedAt).to.be.null;
+        expect(updatedUser.email).to.equal(userInDb.email);
+        expect(updatedUser.cgu).to.be.false;
       });
     });
 
-    context('when user is anonymized', function () {
-      it('should return an empty array', async function () {
+    describe('#updateUserAttributes', function () {
+      it('should update lang of the user', async function () {
         // given
-        const userInDB = databaseBuilder.factory.buildUser(userToInsert);
+        const userInDb = databaseBuilder.factory.buildUser(userToInsert);
         await databaseBuilder.commit();
 
+        const userAttributes = {
+          lang: 'en',
+        };
+
         // when
-        const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
+        const updatedUser = await userRepository.updateUserAttributes(userInDb.id, userAttributes);
 
         // then
-        expect(userDetailsForAdmin.authenticationMethods.length).to.equal(0);
+        expect(updatedUser).to.be.an.instanceOf(User);
+        expect(updatedUser.lang).to.equal(userAttributes.lang);
+      });
+
+      it('should throw UserNotFoundError when user id not found', async function () {
+        // given
+        const wrongUserId = 0;
+
+        // when
+        const error = await catchErr(userRepository.updateUserAttributes)(wrongUserId, { lang: 'en' });
+
+        // then
+        expect(error).to.be.instanceOf(UserNotFoundError);
       });
     });
 
-    context('when user has login details', function () {
+    describe('#updateUserDetailsForAdministration', function () {
+      let userInDb;
+
+      beforeEach(async function () {
+        userInDb = databaseBuilder.factory.buildUser(userToInsert);
+        databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
+          externalIdentifier: 'samlId',
+          userId: userInDb.id,
+        });
+        await databaseBuilder.commit();
+      });
+
+      it('should update firstName,lastName,email of the user', async function () {
+        // given
+        const patchUserFirstNameLastNameEmail = {
+          id: userInDb.id,
+          firstName: 'firstname',
+          lastName: 'lastname',
+          email: 'firstname.lastname@example.net',
+        };
+
+        // when
+        const updatedUser = await userRepository.updateUserDetailsForAdministration(
+          userInDb.id,
+          patchUserFirstNameLastNameEmail
+        );
+
+        // then
+        expect(updatedUser).to.be.an.instanceOf(UserDetailsForAdmin);
+        expect(updatedUser.firstName).to.equal(patchUserFirstNameLastNameEmail.firstName);
+        expect(updatedUser.lastName).to.equal(patchUserFirstNameLastNameEmail.lastName);
+        expect(updatedUser.email).to.equal(patchUserFirstNameLastNameEmail.email);
+      });
+
+      it('should update email of the user', async function () {
+        // given
+        const patchUserFirstNameLastNameEmail = {
+          id: userInDb.id,
+          email: 'partielupdate@hotmail.com',
+        };
+
+        // when
+        const updatedUser = await userRepository.updateUserDetailsForAdministration(
+          userInDb.id,
+          patchUserFirstNameLastNameEmail
+        );
+
+        // then
+        expect(updatedUser).to.be.an.instanceOf(UserDetailsForAdmin);
+        expect(updatedUser.email).to.equal(patchUserFirstNameLastNameEmail.email);
+      });
+
+      it('should update username of the user', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser({
+          email: null,
+          username: 'current.username',
+        }).id;
+        await databaseBuilder.commit();
+
+        const userPropertiesToUpdate = {
+          username: 'username.updated',
+        };
+
+        // when
+        const updatedUser = await userRepository.updateUserDetailsForAdministration(userId, userPropertiesToUpdate);
+
+        // then
+        expect(updatedUser).to.be.an.instanceOf(UserDetailsForAdmin);
+        expect(updatedUser.username).to.equal(userPropertiesToUpdate.username);
+      });
+
+      it('should throw AlreadyExistingEntityError when username is already used', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser({
+          email: null,
+          username: 'current.username',
+        }).id;
+        databaseBuilder.factory.buildUser({
+          email: null,
+          username: 'already.exist.username',
+        });
+        await databaseBuilder.commit();
+
+        const userPropertiesToUpdate = {
+          username: 'already.exist.username',
+        };
+        const expectedErrorMessage = 'Cette adresse e-mail ou cet identifiant est déjà utilisé(e).';
+
+        // when
+        const error = await catchErr(userRepository.updateUserDetailsForAdministration)(userId, userPropertiesToUpdate);
+
+        // then
+        expect(error).to.be.instanceOf(AlreadyExistingEntityError);
+        expect(error.message).to.equal(expectedErrorMessage);
+      });
+
+      it('should throw UserNotFoundError when user id not found', async function () {
+        // given
+        const wrongUserId = 0;
+        const patchUserFirstNameLastNameEmail = {
+          email: 'partielupdate@hotmail.com',
+        };
+
+        // when
+        const error = await catchErr(userRepository.updateUserDetailsForAdministration)(
+          wrongUserId,
+          patchUserFirstNameLastNameEmail
+        );
+
+        // then
+        expect(error).to.be.instanceOf(UserNotFoundError);
+      });
+    });
+
+    describe('#updateUsername', function () {
+      it('should update the username', async function () {
+        // given
+        const username = 'blue.carter0701';
+        const userId = databaseBuilder.factory.buildUser(userToInsert).id;
+        await databaseBuilder.commit();
+
+        // when
+        const updatedUser = await userRepository.updateUsername({
+          id: userId,
+          username,
+        });
+
+        // then
+        expect(updatedUser).to.be.an.instanceOf(User);
+        expect(updatedUser.username).to.equal(username);
+      });
+
+      it('should throw UserNotFoundError when user id not found', async function () {
+        // given
+        const wrongUserId = 0;
+        const username = 'blue.carter0701';
+
+        // when
+        const error = await catchErr(userRepository.updateUsername)({
+          id: wrongUserId,
+          username,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(UserNotFoundError);
+      });
+    });
+
+    describe('#updatePixOrgaTermsOfServiceAcceptedToTrue', function () {
       let clock;
-      const now = new Date('2022-02-02');
+      const now = new Date('2021-01-02');
 
       beforeEach(function () {
         clock = sinon.useFakeTimers(now);
@@ -804,30 +1448,158 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         clock.restore();
       });
 
-      it('should return the user with his login details', async function () {
+      it('should return the model with pixOrgaTermsOfServiceAccepted flag updated to true', async function () {
         // given
-        const userInDB = databaseBuilder.factory.buildUser(userToInsert);
-        databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
-          userId: userInDB.id,
-        });
-        databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({ userId: userInDB.id });
-        databaseBuilder.factory.buildUserLogin({
-          id: 12345,
-          userId: userInDB.id,
-          failureCount: 5,
+        const userId = databaseBuilder.factory.buildUser({ pixOrgaTermsOfServiceAccepted: false }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const result = await userRepository.updatePixOrgaTermsOfServiceAcceptedToTrue(userId);
+
+        // then
+        expect(result).to.be.an.instanceof(User);
+        expect(result.pixOrgaTermsOfServiceAccepted).to.be.true;
+      });
+
+      it('should update the lastPixOrgaTermsOfServiceValidatedAt', async function () {
+        // given
+        const user = databaseBuilder.factory.buildUser({
+          pixOrgaTermsOfServiceAccepted: true,
+          lastPixOrgaTermsOfServiceValidatedAt: new Date('2020-01-01T00:00:00Z'),
         });
         await databaseBuilder.commit();
 
         // when
-        const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
+        const result = await userRepository.updatePixOrgaTermsOfServiceAcceptedToTrue(user.id);
 
         // then
-        expect(userDetailsForAdmin.userLogin).to.deep.include({
-          id: 12345,
-          blockedAt: null,
-          temporaryBlockedUntil: null,
-          failureCount: 5,
+        expect(result.lastPixOrgaTermsOfServiceValidatedAt).to.deep.equal(now);
+      });
+    });
+
+    describe('#updatePixCertifTermsOfServiceAcceptedToTrue', function () {
+      let clock;
+      const now = new Date('2021-01-02');
+
+      beforeEach(function () {
+        clock = sinon.useFakeTimers(now);
+      });
+
+      afterEach(function () {
+        clock.restore();
+      });
+
+      it('should return the model with pixCertifTermsOfServiceAccepted flag updated to true', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser({ pixCertifTermsOfServiceAccepted: false }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const actualUser = await userRepository.updatePixCertifTermsOfServiceAcceptedToTrue(userId);
+
+        // then
+        expect(actualUser).to.be.an.instanceof(User);
+        expect(actualUser.pixCertifTermsOfServiceAccepted).to.be.true;
+      });
+
+      it('should update the pixCertifTermsOfServiceValidatedAt', async function () {
+        // given
+        const user = databaseBuilder.factory.buildUser({
+          pixCertifTermsOfServiceAccepted: true,
+          lastPixCertifTermsOfServiceValidatedAt: new Date('2020-01-01T00:00:00Z'),
         });
+        await databaseBuilder.commit();
+
+        // when
+        const actualUser = await userRepository.updatePixCertifTermsOfServiceAcceptedToTrue(user.id);
+
+        // then
+        expect(actualUser.lastPixCertifTermsOfServiceValidatedAt).to.deep.equal(now);
+      });
+    });
+
+    describe('#updateHasSeenAssessmentInstructionsToTrue', function () {
+      it('should return the model with hasSeenAssessmentInstructions flag updated to true', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser({ hasSeenAssessmentInstructions: false }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const actualUser = await userRepository.updateHasSeenAssessmentInstructionsToTrue(userId);
+
+        // then
+        expect(actualUser.hasSeenAssessmentInstructions).to.be.true;
+      });
+    });
+
+    describe('#updateHasSeenNewDashboardInfoToTrue', function () {
+      it('should return the model with hasSeenNewDashboardInfo flag updated to true', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser({ hasSeenNewDashboardInfo: false }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const actualUser = await userRepository.updateHasSeenNewDashboardInfoToTrue(userId);
+
+        // then
+        expect(actualUser.hasSeenNewDashboardInfo).to.be.true;
+      });
+    });
+
+    describe('#updateHasSeenChallengeTooltip', function () {
+      let userId;
+
+      beforeEach(function () {
+        userId = databaseBuilder.factory.buildUser({
+          hasSeenFocusedChallengeTooltip: false,
+          hasSeenOtherChallengesTooltip: false,
+        }).id;
+        return databaseBuilder.commit();
+      });
+
+      it('should return the model with hasSeenFocusedChallengeTooltip flag updated to true', async function () {
+        // when
+        const challengeType = 'focused';
+        const actualUser = await userRepository.updateHasSeenChallengeTooltip({ userId, challengeType });
+
+        // then
+        expect(actualUser.hasSeenFocusedChallengeTooltip).to.be.true;
+      });
+
+      it('should return the model with hasSeenOtherChallengesTooltip flag updated to true', async function () {
+        // when
+        const challengeType = 'other';
+        const actualUser = await userRepository.updateHasSeenChallengeTooltip({ userId, challengeType });
+
+        // then
+        expect(actualUser.hasSeenOtherChallengesTooltip).to.be.true;
+      });
+    });
+
+    describe('#updateLastLoggedAt', function () {
+      let clock;
+      const now = new Date('2020-01-02');
+
+      beforeEach(function () {
+        clock = sinon.useFakeTimers(now);
+      });
+
+      afterEach(function () {
+        clock.restore();
+      });
+
+      it('should update the last login date to now', async function () {
+        // given
+        const user = databaseBuilder.factory.buildUser();
+        const userId = user.id;
+        await databaseBuilder.commit();
+
+        // when
+        await userRepository.updateLastLoggedAt({ userId });
+
+        // then
+        const userUpdated = await knex('users').select().where({ id: userId }).first();
+        expect(userUpdated.lastLoggedAt).to.deep.equal(now);
       });
     });
   });
@@ -868,253 +1640,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
     });
   });
 
-  describe('#updateEmail', function () {
-    it('should update the user email', async function () {
-      // given
-      const newEmail = 'new_email@example.net';
-      const userInDb = databaseBuilder.factory.buildUser({ ...userToInsert, email: 'old_email@example.net' });
-      await databaseBuilder.commit();
-
-      // when
-      const updatedUser = await userRepository.updateEmail({ id: userInDb.id, email: newEmail });
-
-      // then
-      expect(updatedUser).to.be.an.instanceOf(User);
-      expect(updatedUser.email).to.equal(newEmail);
-    });
-  });
-
-  describe('#updateWithEmailConfirmed', function () {
-    let userInDb;
-
-    beforeEach(async function () {
-      userInDb = databaseBuilder.factory.buildUser({ ...userToInsert, email: 'old_email@example.net', cgu: false });
-      await databaseBuilder.commit();
-    });
-
-    it('should update the user email', async function () {
-      // given
-      const newEmail = 'new_email@example.net';
-      const userAttributes = {
-        cgu: true,
-        email: newEmail,
-        emailConfirmedAt: new Date('2020-12-15T00:00:00Z'),
-      };
-
-      // when
-      await userRepository.updateWithEmailConfirmed({ id: userInDb.id, userAttributes });
-
-      // then
-      const [updatedUser] = await knex('users').where({ id: userInDb.id });
-      expect(updatedUser.emailConfirmedAt.toString()).to.equal(userAttributes.emailConfirmedAt.toString());
-      expect(updatedUser.email).to.equal(userAttributes.email);
-      expect(updatedUser.cgu).to.equal(userAttributes.cgu);
-    });
-
-    it('should rollback the user email in case of error in transaction', async function () {
-      // given
-      const newEmail = 'new_email@example.net';
-      const userAttributes = {
-        cgu: true,
-        email: newEmail,
-        emailConfirmedAt: new Date('2020-12-15T00:00:00Z'),
-      };
-
-      // when
-      await catchErr(async () => {
-        await DomainTransaction.execute(async (domainTransaction) => {
-          await userRepository.updateWithEmailConfirmed({ id: userInDb.id, userAttributes }, domainTransaction);
-          throw new Error('Error occurs in transaction');
-        });
-      });
-
-      // then
-      const [updatedUser] = await knex('users').where({ id: userInDb.id });
-      expect(updatedUser.emailConfirmedAt).to.be.null;
-      expect(updatedUser.email).to.equal(userInDb.email);
-      expect(updatedUser.cgu).to.be.false;
-    });
-  });
-
-  describe('#updateUserAttributes', function () {
-    it('should update lang of the user', async function () {
-      // given
-      const userInDb = databaseBuilder.factory.buildUser(userToInsert);
-      await databaseBuilder.commit();
-
-      const userAttributes = {
-        lang: 'en',
-      };
-
-      // when
-      const updatedUser = await userRepository.updateUserAttributes(userInDb.id, userAttributes);
-
-      // then
-      expect(updatedUser).to.be.an.instanceOf(User);
-      expect(updatedUser.lang).to.equal(userAttributes.lang);
-    });
-
-    it('should throw UserNotFoundError when user id not found', async function () {
-      // given
-      const wrongUserId = 0;
-
-      // when
-      const error = await catchErr(userRepository.updateUserAttributes)(wrongUserId, { lang: 'en' });
-
-      // then
-      expect(error).to.be.instanceOf(UserNotFoundError);
-    });
-  });
-
-  describe('#updateUserDetailsForAdministration', function () {
-    let userInDb;
-
-    beforeEach(async function () {
-      userInDb = databaseBuilder.factory.buildUser(userToInsert);
-      databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
-        externalIdentifier: 'samlId',
-        userId: userInDb.id,
-      });
-      await databaseBuilder.commit();
-    });
-
-    it('should update firstName,lastName,email of the user', async function () {
-      // given
-      const patchUserFirstNameLastNameEmail = {
-        id: userInDb.id,
-        firstName: 'firstname',
-        lastName: 'lastname',
-        email: 'firstname.lastname@example.net',
-      };
-
-      // when
-      const updatedUser = await userRepository.updateUserDetailsForAdministration(
-        userInDb.id,
-        patchUserFirstNameLastNameEmail
-      );
-
-      // then
-      expect(updatedUser).to.be.an.instanceOf(UserDetailsForAdmin);
-      expect(updatedUser.firstName).to.equal(patchUserFirstNameLastNameEmail.firstName);
-      expect(updatedUser.lastName).to.equal(patchUserFirstNameLastNameEmail.lastName);
-      expect(updatedUser.email).to.equal(patchUserFirstNameLastNameEmail.email);
-    });
-
-    it('should update email of the user', async function () {
-      // given
-      const patchUserFirstNameLastNameEmail = {
-        id: userInDb.id,
-        email: 'partielupdate@hotmail.com',
-      };
-
-      // when
-      const updatedUser = await userRepository.updateUserDetailsForAdministration(
-        userInDb.id,
-        patchUserFirstNameLastNameEmail
-      );
-
-      // then
-      expect(updatedUser).to.be.an.instanceOf(UserDetailsForAdmin);
-      expect(updatedUser.email).to.equal(patchUserFirstNameLastNameEmail.email);
-    });
-
-    it('should update username of the user', async function () {
-      // given
-      const userId = databaseBuilder.factory.buildUser({
-        email: null,
-        username: 'current.username',
-      }).id;
-      await databaseBuilder.commit();
-
-      const userPropertiesToUpdate = {
-        username: 'username.updated',
-      };
-
-      // when
-      const updatedUser = await userRepository.updateUserDetailsForAdministration(userId, userPropertiesToUpdate);
-
-      // then
-      expect(updatedUser).to.be.an.instanceOf(UserDetailsForAdmin);
-      expect(updatedUser.username).to.equal(userPropertiesToUpdate.username);
-    });
-
-    it('should throw AlreadyExistingEntityError when username is already used', async function () {
-      // given
-      const userId = databaseBuilder.factory.buildUser({
-        email: null,
-        username: 'current.username',
-      }).id;
-      databaseBuilder.factory.buildUser({
-        email: null,
-        username: 'already.exist.username',
-      });
-      await databaseBuilder.commit();
-
-      const userPropertiesToUpdate = {
-        username: 'already.exist.username',
-      };
-      const expectedErrorMessage = 'Cette adresse e-mail ou cet identifiant est déjà utilisé(e).';
-
-      // when
-      const error = await catchErr(userRepository.updateUserDetailsForAdministration)(userId, userPropertiesToUpdate);
-
-      // then
-      expect(error).to.be.instanceOf(AlreadyExistingEntityError);
-      expect(error.message).to.equal(expectedErrorMessage);
-    });
-
-    it('should throw UserNotFoundError when user id not found', async function () {
-      // given
-      const wrongUserId = 0;
-      const patchUserFirstNameLastNameEmail = {
-        email: 'partielupdate@hotmail.com',
-      };
-
-      // when
-      const error = await catchErr(userRepository.updateUserDetailsForAdministration)(
-        wrongUserId,
-        patchUserFirstNameLastNameEmail
-      );
-
-      // then
-      expect(error).to.be.instanceOf(UserNotFoundError);
-    });
-  });
-
-  describe('#updateUsername', function () {
-    it('should update the username', async function () {
-      // given
-      const username = 'blue.carter0701';
-      const userId = databaseBuilder.factory.buildUser(userToInsert).id;
-      await databaseBuilder.commit();
-
-      // when
-      const updatedUser = await userRepository.updateUsername({
-        id: userId,
-        username,
-      });
-
-      // then
-      expect(updatedUser).to.be.an.instanceOf(User);
-      expect(updatedUser.username).to.equal(username);
-    });
-
-    it('should throw UserNotFoundError when user id not found', async function () {
-      // given
-      const wrongUserId = 0;
-      const username = 'blue.carter0701';
-
-      // when
-      const error = await catchErr(userRepository.updateUsername)({
-        id: wrongUserId,
-        username,
-      });
-
-      // then
-      expect(error).to.be.instanceOf(UserNotFoundError);
-    });
-  });
-
   describe('#isUserExistingByEmail', function () {
     const email = 'shi@fu.fr';
 
@@ -1146,280 +1671,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
     });
   });
 
-  describe('#findPaginatedFiltered', function () {
-    context('when there are users in the database', function () {
-      it('should return an array of users', async function () {
-        // given
-        const filter = {};
-        const page = { number: 1, size: 10 };
-        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
-        times(3, databaseBuilder.factory.buildUser);
-        await databaseBuilder.commit();
-
-        // when
-        const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
-
-        // then
-        expect(matchingUsers).to.exist;
-        expect(matchingUsers).to.have.lengthOf(3);
-        expect(matchingUsers[0]).to.be.an.instanceOf(User);
-        expect(pagination).to.deep.equal(expectedPagination);
-      });
-    });
-
-    context('when there are lots of users (> 10) in the database', function () {
-      it('should return paginated matching users', async function () {
-        // given
-        const filter = {};
-        const page = { number: 1, size: 3 };
-        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 4, rowCount: 12 };
-        times(12, databaseBuilder.factory.buildUser);
-        await databaseBuilder.commit();
-
-        // when
-        const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
-
-        // then
-        expect(matchingUsers).to.have.lengthOf(3);
-        expect(pagination).to.deep.equal(expectedPagination);
-      });
-    });
-
-    context('when there are multiple users matching the same "first name" search pattern', function () {
-      beforeEach(function () {
-        databaseBuilder.factory.buildUser({ firstName: 'Son Gohan' });
-        databaseBuilder.factory.buildUser({ firstName: 'Son Goku' });
-        databaseBuilder.factory.buildUser({ firstName: 'Son Goten' });
-        databaseBuilder.factory.buildUser({ firstName: 'Vegeta' });
-        databaseBuilder.factory.buildUser({ firstName: 'Piccolo' });
-        return databaseBuilder.commit();
-      });
-
-      it('should return only users matching "first name" if given in filter', async function () {
-        // given
-        const filter = { firstName: 'Go' };
-        const page = { number: 1, size: 10 };
-        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
-
-        // when
-        const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
-
-        // then
-        expect(map(matchingUsers, 'firstName')).to.have.members(['Son Gohan', 'Son Goku', 'Son Goten']);
-        expect(pagination).to.deep.equal(expectedPagination);
-      });
-    });
-
-    context('when there are multiple users matching the same "last name" search pattern', function () {
-      beforeEach(async function () {
-        each(
-          [
-            { firstName: 'Anakin', lastName: 'Skywalker' },
-            { firstName: 'Luke', lastName: 'Skywalker' },
-            { firstName: 'Leia', lastName: 'Skywalker' },
-            { firstName: 'Han', lastName: 'Solo' },
-            { firstName: 'Ben', lastName: 'Solo' },
-          ],
-          (user) => {
-            databaseBuilder.factory.buildUser(user);
-          }
-        );
-
-        await databaseBuilder.commit();
-      });
-
-      it('should return only users matching "last name" if given in filter', async function () {
-        // given
-        const filter = { lastName: 'walk' };
-        const page = { number: 1, size: 10 };
-        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
-
-        // when
-        const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
-
-        // then
-        expect(map(matchingUsers, 'firstName')).to.have.members(['Anakin', 'Luke', 'Leia']);
-        expect(pagination).to.deep.equal(expectedPagination);
-      });
-    });
-
-    context('when there are multiple users matching the same "email" search pattern', function () {
-      beforeEach(async function () {
-        each(
-          [
-            { email: 'playpus@pix.fr' },
-            { email: 'panda@pix.fr' },
-            { email: 'otter@pix.fr' },
-            { email: 'playpus@example.net' },
-            { email: 'panda@example.net' },
-            { email: 'PANDA@example.net' },
-            { email: 'PANDA@PIX.be' },
-          ],
-          (user) => {
-            databaseBuilder.factory.buildUser(user);
-          }
-        );
-
-        await databaseBuilder.commit();
-      });
-
-      it('should return only users matching "email" if given in filter even if it is in uppercase in database', async function () {
-        // given
-        const filter = { email: 'panda' };
-        const page = { number: 1, size: 10 };
-        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 4 };
-
-        // when
-        const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
-
-        // then
-        expect(map(matchingUsers, 'email')).to.have.members([
-          'panda@pix.fr',
-          'panda@example.net',
-          'panda@example.net',
-          'panda@pix.be',
-        ]);
-        expect(pagination).to.deep.equal(expectedPagination);
-      });
-
-      it('should return only users matching "email" if given in filter', async function () {
-        // given
-        const filter = { email: 'pix.fr' };
-        const page = { number: 1, size: 10 };
-        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
-
-        // when
-        const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
-
-        // then
-        expect(map(matchingUsers, 'email')).to.have.members(['playpus@pix.fr', 'panda@pix.fr', 'otter@pix.fr']);
-        expect(pagination).to.deep.equal(expectedPagination);
-      });
-    });
-
-    context('when there are multiple users matching the same "username" search pattern', function () {
-      it('should return only users matching "username" if given in filter', async function () {
-        // given
-        each(
-          [
-            { username: 'alex.ception1011' },
-            { username: 'alex.terieur1011' },
-            { username: 'ella.danloss0101' },
-            { username: 'ella.bienhu1011' },
-            { username: 'ella.bienhu2312' },
-          ],
-          (user) => {
-            databaseBuilder.factory.buildUser(user);
-          }
-        );
-        await databaseBuilder.commit();
-        const filter = { username: '1011' };
-        const page = { number: 1, size: 10 };
-
-        // when
-        const { models: matchingUsers } = await userRepository.findPaginatedFiltered({ filter, page });
-
-        // then
-        expect(map(matchingUsers, 'username')).to.have.members([
-          'alex.ception1011',
-          'alex.terieur1011',
-          'ella.bienhu1011',
-        ]);
-      });
-    });
-
-    context(
-      'when there are multiple users matching the fields "first name", "last name" and "email" search pattern',
-      function () {
-        beforeEach(async function () {
-          each(
-            [
-              // Matching users
-              { firstName: 'fn_ok_1', lastName: 'ln_ok_1', email: 'email_ok_1@mail.com', username: 'username_ok0210' },
-              { firstName: 'fn_ok_2', lastName: 'ln_ok_2', email: 'email_ok_2@mail.com', username: 'username_ok1214' },
-              { firstName: 'fn_ok_3', lastName: 'ln_ok_3', email: 'email_ok_3@mail.com', username: 'username_ok1010' },
-
-              // Unmatching users
-              { firstName: 'fn_ko_4', lastName: 'ln_ok_4', email: 'email_ok_4@mail.com', username: 'username_ko1309' },
-              { firstName: 'fn_ok_5', lastName: 'ln_ko_5', email: 'email_ok_5@mail.com', username: 'username_ok1911' },
-              { firstName: 'fn_ok_6', lastName: 'ln_ok_6', email: 'email_ko_6@mail.com', username: 'username_ok2010' },
-            ],
-            (user) => {
-              databaseBuilder.factory.buildUser(user);
-            }
-          );
-
-          await databaseBuilder.commit();
-        });
-
-        it('should return only users matching "first name" AND "last name" AND "email" AND "username" if given in filter', async function () {
-          // given
-          const filter = { firstName: 'fn_ok', lastName: 'ln_ok', email: 'email_ok', username: 'username_ok' };
-          const page = { number: 1, size: 10 };
-          const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
-
-          // when
-          const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
-
-          // then
-          expect(map(matchingUsers, 'firstName')).to.have.members(['fn_ok_1', 'fn_ok_2', 'fn_ok_3']);
-          expect(map(matchingUsers, 'lastName')).to.have.members(['ln_ok_1', 'ln_ok_2', 'ln_ok_3']);
-          expect(map(matchingUsers, 'email')).to.have.members([
-            'email_ok_1@mail.com',
-            'email_ok_2@mail.com',
-            'email_ok_3@mail.com',
-          ]);
-          expect(map(matchingUsers, 'username')).to.have.members([
-            'username_ok0210',
-            'username_ok1214',
-            'username_ok1010',
-          ]);
-          expect(pagination).to.deep.equal(expectedPagination);
-        });
-      }
-    );
-
-    context('when there are filter that should be ignored', function () {
-      let firstUserId;
-      let secondUserId;
-
-      beforeEach(async function () {
-        firstUserId = databaseBuilder.factory.buildUser().id;
-        secondUserId = databaseBuilder.factory.buildUser().id;
-
-        await databaseBuilder.commit();
-      });
-
-      it('should ignore the filter and retrieve all users', async function () {
-        // given
-        const filter = { id: firstUserId };
-        const page = { number: 1, size: 10 };
-        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
-
-        // when
-        const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
-
-        // then
-        expect(map(matchingUsers, 'id')).to.have.members([firstUserId, secondUserId]);
-        expect(pagination).to.deep.equal(expectedPagination);
-      });
-    });
-  });
-
-  describe('#updateHasSeenAssessmentInstructionsToTrue', function () {
-    it('should return the model with hasSeenAssessmentInstructions flag updated to true', async function () {
-      // given
-      const userId = databaseBuilder.factory.buildUser({ hasSeenAssessmentInstructions: false }).id;
-      await databaseBuilder.commit();
-
-      // when
-      const actualUser = await userRepository.updateHasSeenAssessmentInstructionsToTrue(userId);
-
-      // then
-      expect(actualUser.hasSeenAssessmentInstructions).to.be.true;
-    });
-  });
-
   describe('#acceptPixLastTermsOfService', function () {
     it('should validate the last terms of service and save the date of acceptance ', async function () {
       // given
@@ -1436,88 +1687,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
       expect(actualUser.lastTermsOfServiceValidatedAt).to.be.exist;
       expect(actualUser.lastTermsOfServiceValidatedAt).to.be.a('Date');
       expect(actualUser.mustValidateTermsOfService).to.be.false;
-    });
-  });
-
-  describe('#updatePixOrgaTermsOfServiceAcceptedToTrue', function () {
-    let clock;
-    const now = new Date('2021-01-02');
-
-    beforeEach(function () {
-      clock = sinon.useFakeTimers(now);
-    });
-
-    afterEach(function () {
-      clock.restore();
-    });
-
-    it('should return the model with pixOrgaTermsOfServiceAccepted flag updated to true', async function () {
-      // given
-      const userId = databaseBuilder.factory.buildUser({ pixOrgaTermsOfServiceAccepted: false }).id;
-      await databaseBuilder.commit();
-
-      // when
-      const result = await userRepository.updatePixOrgaTermsOfServiceAcceptedToTrue(userId);
-
-      // then
-      expect(result).to.be.an.instanceof(User);
-      expect(result.pixOrgaTermsOfServiceAccepted).to.be.true;
-    });
-
-    it('should update the lastPixOrgaTermsOfServiceValidatedAt', async function () {
-      // given
-      const user = databaseBuilder.factory.buildUser({
-        pixOrgaTermsOfServiceAccepted: true,
-        lastPixOrgaTermsOfServiceValidatedAt: new Date('2020-01-01T00:00:00Z'),
-      });
-      await databaseBuilder.commit();
-
-      // when
-      const result = await userRepository.updatePixOrgaTermsOfServiceAcceptedToTrue(user.id);
-
-      // then
-      expect(result.lastPixOrgaTermsOfServiceValidatedAt).to.deep.equal(now);
-    });
-  });
-
-  describe('#updatePixCertifTermsOfServiceAcceptedToTrue', function () {
-    let clock;
-    const now = new Date('2021-01-02');
-
-    beforeEach(function () {
-      clock = sinon.useFakeTimers(now);
-    });
-
-    afterEach(function () {
-      clock.restore();
-    });
-
-    it('should return the model with pixCertifTermsOfServiceAccepted flag updated to true', async function () {
-      // given
-      const userId = databaseBuilder.factory.buildUser({ pixCertifTermsOfServiceAccepted: false }).id;
-      await databaseBuilder.commit();
-
-      // when
-      const actualUser = await userRepository.updatePixCertifTermsOfServiceAcceptedToTrue(userId);
-
-      // then
-      expect(actualUser).to.be.an.instanceof(User);
-      expect(actualUser.pixCertifTermsOfServiceAccepted).to.be.true;
-    });
-
-    it('should update the pixCertifTermsOfServiceValidatedAt', async function () {
-      // given
-      const user = databaseBuilder.factory.buildUser({
-        pixCertifTermsOfServiceAccepted: true,
-        lastPixCertifTermsOfServiceValidatedAt: new Date('2020-01-01T00:00:00Z'),
-      });
-      await databaseBuilder.commit();
-
-      // when
-      const actualUser = await userRepository.updatePixCertifTermsOfServiceAcceptedToTrue(user.id);
-
-      // then
-      expect(actualUser.lastPixCertifTermsOfServiceValidatedAt).to.deep.equal(now);
     });
   });
 
@@ -1544,166 +1713,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
 
       // then
       expect(error).to.be.instanceOf(AlreadyRegisteredUsernameError);
-    });
-  });
-
-  describe('#updateHasSeenNewDashboardInfoToTrue', function () {
-    it('should return the model with hasSeenNewDashboardInfo flag updated to true', async function () {
-      // given
-      const userId = databaseBuilder.factory.buildUser({ hasSeenNewDashboardInfo: false }).id;
-      await databaseBuilder.commit();
-
-      // when
-      const actualUser = await userRepository.updateHasSeenNewDashboardInfoToTrue(userId);
-
-      // then
-      expect(actualUser.hasSeenNewDashboardInfo).to.be.true;
-    });
-  });
-
-  describe('#updateHasSeenChallengeTooltip', function () {
-    let userId;
-
-    beforeEach(function () {
-      userId = databaseBuilder.factory.buildUser({
-        hasSeenFocusedChallengeTooltip: false,
-        hasSeenOtherChallengesTooltip: false,
-      }).id;
-      return databaseBuilder.commit();
-    });
-
-    it('should return the model with hasSeenFocusedChallengeTooltip flag updated to true', async function () {
-      // when
-      const challengeType = 'focused';
-      const actualUser = await userRepository.updateHasSeenChallengeTooltip({ userId, challengeType });
-
-      // then
-      expect(actualUser.hasSeenFocusedChallengeTooltip).to.be.true;
-    });
-
-    it('should return the model with hasSeenOtherChallengesTooltip flag updated to true', async function () {
-      // when
-      const challengeType = 'other';
-      const actualUser = await userRepository.updateHasSeenChallengeTooltip({ userId, challengeType });
-
-      // then
-      expect(actualUser.hasSeenOtherChallengesTooltip).to.be.true;
-    });
-  });
-
-  describe('#findAnotherUserByEmail', function () {
-    it('should return a list of a single user if email already used', async function () {
-      // given
-      const currentUser = databaseBuilder.factory.buildUser({
-        email: 'current.user@example.net',
-      });
-      const anotherUser = databaseBuilder.factory.buildUser({
-        email: 'another.user@example.net',
-      });
-      await databaseBuilder.commit();
-
-      // when
-      const foundUsers = await userRepository.findAnotherUserByEmail(currentUser.id, anotherUser.email);
-
-      // then
-      expect(foundUsers).to.be.an('array').that.have.lengthOf(1);
-      expect(foundUsers[0]).to.be.an.instanceof(User);
-      expect(foundUsers[0].email).to.equal(anotherUser.email);
-    });
-
-    it('should return a list of a single user if email case insensitive already used', async function () {
-      // given
-      const currentUser = databaseBuilder.factory.buildUser({
-        email: 'current.user@example.net',
-      });
-      const anotherUser = databaseBuilder.factory.buildUser({
-        email: 'another.user@example.net',
-      });
-      await databaseBuilder.commit();
-
-      // when
-      const foundUsers = await userRepository.findAnotherUserByEmail(currentUser.id, anotherUser.email.toUpperCase());
-
-      // then
-      expect(foundUsers).to.be.an('array').that.have.lengthOf(1);
-      expect(foundUsers[0]).to.be.an.instanceof(User);
-      expect(foundUsers[0].email).to.equal(anotherUser.email);
-    });
-
-    it('should return an empty list if email is not used', async function () {
-      // given
-      const currentUser = databaseBuilder.factory.buildUser({
-        email: 'current.user@example.net',
-      });
-      const email = 'not.used@example.net';
-
-      // when
-      const foundUsers = await userRepository.findAnotherUserByEmail(currentUser.id, email);
-
-      // then
-      expect(foundUsers).to.be.an('array').that.is.empty;
-    });
-  });
-
-  describe('#findAnotherUserByUsername', function () {
-    it('should return a list of a single user if username already used', async function () {
-      // given
-      const currentUser = databaseBuilder.factory.buildUser({
-        username: 'current.user.name',
-      });
-      const anotherUser = databaseBuilder.factory.buildUser({
-        username: 'another.user.name',
-      });
-      await databaseBuilder.commit();
-
-      // when
-      const foundUsers = await userRepository.findAnotherUserByUsername(currentUser.id, anotherUser.username);
-
-      // then
-      expect(foundUsers).to.be.an('array').that.have.lengthOf(1);
-      expect(foundUsers[0]).to.be.an.instanceof(User);
-      expect(foundUsers[0].username).to.equal(anotherUser.username);
-    });
-
-    it('should return an empty list if username is not used', async function () {
-      // given
-      const currentUser = databaseBuilder.factory.buildUser({
-        username: 'current.user.name',
-      });
-      const username = 'not.user.name';
-
-      // when
-      const foundUsers = await userRepository.findAnotherUserByUsername(currentUser.id, username);
-
-      // then
-      expect(foundUsers).to.be.an('array').that.is.empty;
-    });
-  });
-
-  describe('#updateLastLoggedAt', function () {
-    let clock;
-    const now = new Date('2020-01-02');
-
-    beforeEach(function () {
-      clock = sinon.useFakeTimers(now);
-    });
-
-    afterEach(function () {
-      clock.restore();
-    });
-
-    it('should update the last login date to now', async function () {
-      // given
-      const user = databaseBuilder.factory.buildUser();
-      const userId = user.id;
-      await databaseBuilder.commit();
-
-      // when
-      await userRepository.updateLastLoggedAt({ userId });
-
-      // then
-      const userUpdated = await knex('users').select().where({ id: userId }).first();
-      expect(userUpdated.lastLoggedAt).to.deep.equal(now);
     });
   });
 });
