@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 import ENV from 'pix-admin/config/environment';
+import sinon from 'sinon';
 
 module('Unit | Component | users | user-overview', function (hooks) {
   setupTest(hooks);
@@ -120,6 +121,21 @@ module('Unit | Component | users | user-overview', function (hooks) {
         // when && then
         assert.false(component.shouldDisplayTemporaryBlockedDate);
       });
+    });
+  });
+
+  module('#anonymizeUser', function () {
+    test('should empty organization learners', async function (assert) {
+      // given
+      const organizationLearners = [{ firstName: 'fanny', lastName: 'epi' }];
+      const user = { organizationLearners, save: sinon.stub().resolves() };
+      const component = createGlimmerComponent('component:users/user-overview', { user });
+
+      // when
+      await component.anonymizeUser();
+
+      // then
+      assert.deepEqual(user.organizationLearners, []);
     });
   });
 });

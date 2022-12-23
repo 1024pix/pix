@@ -241,12 +241,18 @@ module.exports = {
   },
 
   async dissociateUserFromOrganizationLearner(organizationLearnerId) {
-    await BookshelfOrganizationLearner.where({ id: organizationLearnerId }).save(
-      { userId: null },
-      {
-        patch: true,
-      }
-    );
+    await knex('organization-learners').where({ id: organizationLearnerId }).update({ userId: null });
+  },
+
+  async dissociateAllStudentsByUserId({ userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const knexConn = domainTransaction.knexTransaction ?? knex;
+    await knexConn('organization-learners')
+      .update({ userId: null })
+      .where({ userId })
+      .whereIn(
+        'organization-learners.organizationId',
+        knex.select('id').from('organizations').where({ isManagingStudents: true })
+      );
   },
 
   async findOneByUserIdAndOrganizationId({

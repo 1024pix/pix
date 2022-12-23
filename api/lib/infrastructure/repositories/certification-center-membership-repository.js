@@ -10,6 +10,7 @@ const { knex } = require('../../../db/knex-database-connection');
 const CertificationCenter = require('../../domain/models/CertificationCenter');
 const User = require('../../domain/models/User');
 const CertificationCenterMembership = require('../../domain/models/CertificationCenterMembership');
+const DomainTransaction = require('../DomainTransaction');
 
 function _toDomain(certificationCenterMembershipDTO) {
   let user, certificationCenter;
@@ -154,8 +155,13 @@ module.exports = {
     return _toDomain(refererCertificationCenterMembership);
   },
 
-  async disableMembershipsByUserId({ userId, updatedByUserId }) {
-    await knex('certification-center-memberships')
+  async disableMembershipsByUserId({
+    userId,
+    updatedByUserId,
+    domainTransaction = DomainTransaction.emptyTransaction(),
+  }) {
+    const knexConn = domainTransaction.knexTransaction ?? knex;
+    await knexConn('certification-center-memberships')
       .whereNull('disabledAt')
       .andWhere({ userId })
       .update({ disabledAt: new Date(), updatedByUserId });
