@@ -69,6 +69,10 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
           createdAt: new Date('2018-04-15T00:00:00Z'),
           status: assessmentResultStatuses.VALIDATED,
         });
+        dbf.buildCertificationCourseLastAssessmentResult({
+          certificationCourseId: manyAsrCertification.id,
+          lastAssessmentResultId: latestAssessmentResult.id,
+        });
 
         return databaseBuilder.commit();
       });
@@ -335,6 +339,10 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
           assessmentId: manyAsrAssessmentId,
           createdAt: new Date('2018-04-15T00:00:00Z'),
           status: assessmentResultStatuses.VALIDATED,
+        });
+        dbf.buildCertificationCourseLastAssessmentResult({
+          certificationCourseId: manyAsrCertification.id,
+          lastAssessmentResultId: latestAssessmentResult.id,
         });
 
         const categoryId = dbf.buildIssueReportCategory({
