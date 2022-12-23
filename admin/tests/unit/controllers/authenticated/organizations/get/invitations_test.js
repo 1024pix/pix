@@ -47,9 +47,7 @@ module('Unit | Controller | authenticated/organizations/get/invitations', functi
       controller.createOrganizationInvitation();
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(controller.userEmailToInviteError, 'Ce champ est requis.');
+      assert.strictEqual(controller.userEmailToInviteError, 'Ce champ est requis.');
     });
 
     test('it should fail if userEmailToInvite is empty', function (assert) {
@@ -60,9 +58,7 @@ module('Unit | Controller | authenticated/organizations/get/invitations', functi
       controller.createOrganizationInvitation();
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(controller.userEmailToInviteError, 'Ce champ est requis.');
+      assert.strictEqual(controller.userEmailToInviteError, 'Ce champ est requis.');
     });
 
     test('it should fail if userEmailToInvite is not a valid email address', function (assert) {
@@ -73,9 +69,7 @@ module('Unit | Controller | authenticated/organizations/get/invitations', functi
       controller.createOrganizationInvitation();
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(controller.userEmailToInviteError, "L'adresse e-mail saisie n'est pas valide.");
+      assert.strictEqual(controller.userEmailToInviteError, "L'adresse e-mail saisie n'est pas valide.");
     });
 
     test('it should send a notification error if an error occured', async function (assert) {
