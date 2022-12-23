@@ -66,8 +66,16 @@ async function _getByCertificationCourseIds(orderedCertificationCourseIds) {
     )
     .from('certification-courses')
     .leftJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
-    .leftJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
-    .modify(_filterMostRecentAssessmentResult)
+    .leftJoin(
+      'certification-courses-last-assessment-results',
+      'certification-courses.id',
+      'certification-courses-last-assessment-results.certificationCourseId'
+    )
+    .leftJoin(
+      'assessment-results',
+      'assessment-results.id',
+      'certification-courses-last-assessment-results.lastAssessmentResultId'
+    )
     .leftJoin(
       'complementary-certification-courses',
       'complementary-certification-courses.certificationCourseId',
@@ -112,16 +120,6 @@ function _getCertificationCoursesIdBySessionIdQuery(sessionId) {
     .orderBy('lastName', 'ASC')
     .orderBy('firstName', 'ASC')
     .orderBy('id', 'ASC');
-}
-
-function _filterMostRecentAssessmentResult(qb) {
-  return qb.whereNotExists(
-    knex
-      .select(1)
-      .from({ 'last-assessment-results': 'assessment-results' })
-      .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
-      .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"')
-  );
 }
 
 function _buildJuryCertificationSummaryDTOs(juryCertificationSummaryRows, certificationIssueReportRows) {
