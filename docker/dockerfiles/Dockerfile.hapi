@@ -1,10 +1,12 @@
 FROM node:16.18.1 as dev
 
-WORKDIR /code
+
 EXPOSE 3000
 
-COPY . .
+USER node
+COPY --chown=node:node . /code 
 
+WORKDIR /code
 RUN npm ci
 
-CMD [ "npm", "run", "start:watch" ]
+CMD [ "npm", "run", "start" ]
