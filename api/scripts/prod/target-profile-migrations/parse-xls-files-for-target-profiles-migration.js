@@ -69,10 +69,10 @@ function parseMultiformFile(file) {
   const workbook = XLSX.readFile(file);
 
   return Object.fromEntries(
-    Object.entries(workbook.Sheets).map(([tab, sheet]) => [
-      tab,
-      XLSX.utils.sheet_to_json(sheet, { header: ['name', 'level'], range: 1 }),
-    ])
+    Object.entries(workbook.Sheets).map(([tab, sheet]) => {
+      const rowValues = XLSX.utils.sheet_to_json(sheet, { header: ['name', 'level'], range: 1 });
+      return [tab, rowValues.filter(({ name }) => name.startsWith('@'))];
+    })
   );
 }
 
