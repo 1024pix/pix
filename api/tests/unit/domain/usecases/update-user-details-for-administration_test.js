@@ -109,7 +109,10 @@ describe('Unit | UseCase | update-user-details-for-administration', function () 
     });
 
     // then
-    expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWith(userId, attributesToUpdate);
+    expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWith({
+      id: userId,
+      userAttributes: attributesToUpdate,
+    });
   });
 
   context('when adding a new email for user', function () {
@@ -133,7 +136,10 @@ describe('Unit | UseCase | update-user-details-for-administration', function () 
 
       // then
       const expectedAttributes = { email, mustValidateTermsOfService: true };
-      expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWith(userId, expectedAttributes);
+      expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWith({
+        id: userId,
+        userAttributes: expectedAttributes,
+      });
     });
 
     it('should not update mustValidateTermsOfService if user has email', async function () {
@@ -156,7 +162,10 @@ describe('Unit | UseCase | update-user-details-for-administration', function () 
 
       // then
       const expectedAttributes = { email };
-      expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWith(userId, expectedAttributes);
+      expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWith({
+        id: userId,
+        userAttributes: expectedAttributes,
+      });
     });
   });
 

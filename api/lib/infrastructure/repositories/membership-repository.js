@@ -6,6 +6,7 @@ const Organization = require('../../domain/models/Organization');
 const bookshelfUtils = require('../utils/knex-utils');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../../../db/knex-database-connection');
+const DomainTransaction = require('../DomainTransaction');
 
 const DEFAULT_PAGE_SIZE = 10;
 const DEFAULT_PAGE_NUMBER = 1;
@@ -129,7 +130,12 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfMembership, updatedMembershipWithUserAndOrganization);
   },
 
-  async disableMembershipsByUserId({ userId, updatedByUserId }) {
-    await knex('memberships').where({ userId }).update({ disabledAt: new Date(), updatedByUserId });
+  async disableMembershipsByUserId({
+    userId,
+    updatedByUserId,
+    domainTransaction = DomainTransaction.emptyTransaction(),
+  }) {
+    const knexConn = domainTransaction.knexTransaction ?? knex;
+    await knexConn('memberships').where({ userId }).update({ disabledAt: new Date(), updatedByUserId });
   },
 };

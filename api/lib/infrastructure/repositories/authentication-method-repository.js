@@ -166,8 +166,9 @@ module.exports = {
     return knex(AUTHENTICATION_METHODS_TABLE).where({ userId, identityProvider }).del();
   },
 
-  async removeAllAuthenticationMethodsByUserId({ userId }) {
-    return knex(AUTHENTICATION_METHODS_TABLE).where({ userId }).del();
+  async removeAllAuthenticationMethodsByUserId({ userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const knexConn = domainTransaction.knexTransaction ?? knex;
+    return knexConn(AUTHENTICATION_METHODS_TABLE).where({ userId }).del();
   },
 
   async updateChangedPassword({ userId, hashedPassword }, domainTransaction = DomainTransaction.emptyTransaction()) {
