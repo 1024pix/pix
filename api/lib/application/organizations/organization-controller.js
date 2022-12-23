@@ -25,7 +25,8 @@ const {
   extractLocaleFromRequest,
   extractUserIdFromRequest,
 } = require('../../infrastructure/utils/request-response-utils');
-const moment = require('moment');
+const dayjs = require('dayjs');
+dayjs.extend(require('dayjs/plugin/customParseFormat'));
 const certificationResultUtils = require('../../infrastructure/utils/csv/certification-results');
 const certificationAttestationPdf = require('../../infrastructure/utils/pdf/certification-attestation-pdf');
 const organizationForAdminSerializer = require('../../infrastructure/serializers/jsonapi/organization-for-admin-serializer');
@@ -178,7 +179,7 @@ module.exports = {
       isFrenchDomainExtension,
     });
 
-    const now = moment();
+    const now = dayjs();
     const fileName = `${now.format('YYYYMMDD')}_attestations_${division}.pdf`;
 
     return h
@@ -195,7 +196,7 @@ module.exports = {
 
     const csvResult = await certificationResultUtils.getDivisionCertificationResultsCsv({ certificationResults });
 
-    const now = moment();
+    const now = dayjs();
     const fileName = `${now.format('YYYYMMDD')}_resultats_${division}.csv`;
 
     return h

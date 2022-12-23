@@ -1,14 +1,11 @@
 const { expect, databaseBuilder, mockLearningContent } = require('../../../test-helper');
 const placementProfileService = require('../../../../lib/domain/services/placement-profile-service');
 const certificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
-const moment = require('moment');
 const { PIX_COUNT_BY_LEVEL } = require('../../../../lib/domain/constants');
 
 describe('Integration | CertificationChallengeService | pickCertificationChallenge', function () {
-  const placementDate = new Date('2020-01-01T00:00:00Z');
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const certificationDate = _addOneDayToDate(placementDate);
+  const placementDate = new Date('2020-01-01');
+  const certificationDate = new Date('2020-01-02');
   const sufficientPixValueToBeCertifiableOnCompetence = PIX_COUNT_BY_LEVEL;
   const unsufficientPixValueToBeCertifiableOnCompetence = 1;
   const locale = 'fr-fr';
@@ -705,8 +702,4 @@ async function _buildCorrectAnswerAndKnowledgeElement({
     skillId,
   });
   await databaseBuilder.commit();
-}
-
-function _addOneDayToDate(date) {
-  return moment(date).add(1, 'day').toDate();
 }

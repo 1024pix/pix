@@ -1,7 +1,13 @@
 const { expect, sinon } = require('../../../../../test-helper');
 const sendEmail = require('../../../../../../lib/infrastructure/jobs/cpf-export/handlers/send-email');
 const { cpf } = require('../../../../../../lib/config');
-const moment = require('moment-timezone');
+const dayjs = require('dayjs');
+const timezone = require('dayjs/plugin/timezone');
+const utc = require('dayjs/plugin/utc');
+const customParseFormat = require('dayjs/plugin/customParseFormat');
+dayjs.extend(timezone);
+dayjs.extend(utc);
+dayjs.extend(customParseFormat);
 
 describe('Unit | Infrastructure | jobs | cpf-export | send-email', function () {
   let cpfExternalStorage;
@@ -25,7 +31,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | send-email', function () {
     await sendEmail({ cpfExternalStorage, mailService });
 
     // then
-    const expectedDate = moment.tz('01-15', 'MM-DD', 'Europe/Paris').toDate();
+    const expectedDate = dayjs.tz('01-15', 'MM-DD', 'Europe/Paris').toDate();
     expect(cpfExternalStorage.getPreSignUrlsOfFilesModifiedAfter).to.have.been.calledWith({ date: expectedDate });
   });
 
