@@ -18,11 +18,11 @@ const report = [];
 
 async function doJob(mainFile, multiFormFiles) {
   const dryRun = process.env.DRY_RUN === 'true';
-  await _cacheLearningContentData();
   const mainData = parseMainFile(mainFile);
   const multiFormData = multiFormFiles
     .map((multiFormFile) => parseMultiformFile(multiFormFile))
     .reduce((acc, data) => ({ ...acc, ...data }));
+  await _cacheLearningContentData();
   await migrateTargetProfiles(mainData['PRO'], multiFormData, dryRun);
   await migrateTargetProfiles(mainData['SUP'], multiFormData, dryRun);
   if (dryRun) printReport();
@@ -78,12 +78,13 @@ function parseMultiformFile(file) {
   return Object.fromEntries(
     Object.entries(workbook.Sheets).map(([tab, sheet]) => {
       const rowValues = XLSX.utils.sheet_to_json(sheet, { header: ['name', 'level'], range: 1 });
-      return [tab, rowValues.filter(({ name }) => name.startsWith('@'))];
+      return [tab, rowValues.filter(({ name }) => typeof name !== 'number' && name?.startsWith('@'))];
     })
   );
 }
 
 function ouiNonToBoolean(s, defaultValue = false) {
+  if (typeof s === 'number') return defaultValue;
   return s?.toLowerCase().trim().startsWith('o') ?? defaultValue;
 }
 
@@ -152,7 +153,8 @@ async function migrateTargetProfiles(targetProfiles, multiFormData, dryRun) {
           }
           if (targetProfile.multiformCap) {
             const targetProfileMultiFormData = multiFormData[targetProfile.id];
-            if (!targetProfileMultiFormData) throw new Error('Profil cible cappé multiforme sans instructions');
+            if (!targetProfileMultiFormData || targetProfileMultiFormData.length === 0)
+              throw new Error('Profil cible cappé multiforme sans instructions');
             await _multiformCap(targetProfile, targetProfileMultiFormData, trx);
             logger.info(
               { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
