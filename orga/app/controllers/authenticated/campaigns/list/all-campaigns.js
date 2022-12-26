@@ -6,7 +6,7 @@ const DEFAULT_PAGE_NUMBER = 1;
 
 export default class AuthenticatedCampaignsListAllCampaignsController extends Controller {
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
-  @tracked pageSize = 25;
+  @tracked pageSize = 50;
   @tracked name = null;
   @tracked ownerName = null;
   @tracked status = null;
