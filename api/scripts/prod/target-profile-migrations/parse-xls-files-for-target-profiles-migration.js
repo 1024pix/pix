@@ -26,31 +26,32 @@ async function doJob(mainFile, multiFormFiles) {
   await migrateTargetProfiles(mainData['SUP'], multiFormData, dryRun);
 }
 
+const mapperFnc = (line) => ({
+  ...line,
+  obsolete: !ouiNonToBoolean(line.keep),
+  auto:
+    ouiNonToBoolean(line.keep) &&
+    !ouiNonToBoolean(line.uncap) &&
+    !ouiNonToBoolean(line.multiformCap) &&
+    isEmpty(line.uniformCap),
+  uncap: ouiNonToBoolean(line.uncap),
+  multiformCap: ouiNonToBoolean(line.multiformCap),
+});
+
 const tabs = {
   PRO: {
     sheetToJsonConfig: {
-      header: ['id', 'name', undefined, undefined, 'obsolete', 'auto', 'uncap', 'uniformCap', 'multiformCap'],
+      header: ['id', 'name', undefined, undefined, undefined, 'keep', 'uncap', 'uniformCap', 'multiformCap'],
       range: 2,
     },
-    mapper: (line) => ({
-      ...line,
-      obsolete: line.obsolete?.toLowerCase().trim() === 'obsolete',
-      auto: !ouiNonToBoolean(line.auto),
-      uncap: ouiNonToBoolean(line.uncap),
-      multiformCap: ouiNonToBoolean(line.multiformCap),
-    }),
+    mapper: mapperFnc,
   },
   SUP: {
     sheetToJsonConfig: {
-      header: ['id', 'name', 'auto', 'uncap', 'uniformCap', 'multiformCap'],
+      header: ['id', 'name', 'keep', 'uncap', 'uniformCap', 'multiformCap'],
       range: 2,
     },
-    mapper: (line) => ({
-      ...line,
-      auto: !ouiNonToBoolean(line.auto),
-      uncap: ouiNonToBoolean(line.uncap),
-      multiformCap: ouiNonToBoolean(line.multiformCap),
-    }),
+    mapper: mapperFnc,
   },
 };
 
@@ -80,6 +81,10 @@ function ouiNonToBoolean(s, defaultValue = false) {
   return s?.toLowerCase().trim().startsWith('o') ?? defaultValue;
 }
 
+function isEmpty(s) {
+  return typeof s === 'number' ? false : s?.trim().length !== 0;
+}
+
 async function migrateTargetProfiles(targetProfiles, multiFormData, dryRun) {
   for (const targetProfile of targetProfiles) {
     try {
@@ -102,6 +107,7 @@ async function migrateTargetProfiles(targetProfiles, multiFormData, dryRun) {
             );
             return;
           }
+          console.log(targetProfile);
           await _doAutomaticMigration(targetProfile.id, trx);
           if (targetProfile.obsolete) {
             await _outdate(targetProfile.id, trx);
