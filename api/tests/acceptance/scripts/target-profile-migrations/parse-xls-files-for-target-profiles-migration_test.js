@@ -65,6 +65,7 @@ describe('Acceptance | Scripts | parse-xls-files-for-target-profiles-migration',
     const TARGET_PROFILE_ID_MULTIFORM_CAP_3 = 2007;
     const TARGET_PROFILE_ID_MULTIFORM_CAP_4 = 2008;
     const TARGET_PROFILE_ID_MULTIFORM_CAP_5 = 2010;
+    const TARGET_PROFILE_ID_MULTIFORM_CAP_6 = 2012;
     const TARGET_PROFILE_ID_UNCAP_SUP = 2009;
     const learningContent = _mockLearningContent();
     [
@@ -77,6 +78,7 @@ describe('Acceptance | Scripts | parse-xls-files-for-target-profiles-migration',
       TARGET_PROFILE_ID_MULTIFORM_CAP_2,
       TARGET_PROFILE_ID_MULTIFORM_CAP_3,
       TARGET_PROFILE_ID_MULTIFORM_CAP_5,
+      TARGET_PROFILE_ID_MULTIFORM_CAP_6,
       TARGET_PROFILE_ID_UNCAP_SUP,
     ].forEach((targetProfileId) => _buildTargetProfileWithAllSkills(targetProfileId, learningContent.skills));
     _buildTargetProfileWithAllSkills(
@@ -219,6 +221,21 @@ describe('Acceptance | Scripts | parse-xls-files-for-target-profiles-migration',
       "Erreur lors de la migration d'un profil cible: %s",
       sinon.match({
         message: 'Le niveau pour le sujet @codageEmblématique est invalide : "MAX"',
+      })
+    );
+
+    const { tubes: tubesForMultiformCap6, migrationStatus: migrationStatusMultiformCap6 } =
+      await _getTubesAndMigrationStatus(TARGET_PROFILE_ID_MULTIFORM_CAP_6);
+    expect(tubesForMultiformCap6).to.deep.equal([]);
+    expect(migrationStatusMultiformCap6).to.equal('NOT_MIGRATED');
+    expect(loggerErrorStub).to.have.been.calledWith(
+      {
+        targetProfileId: TARGET_PROFILE_ID_MULTIFORM_CAP_6,
+        targetProfileName: 'Profil cible avec capage multiforme vide',
+      },
+      "Erreur lors de la migration d'un profil cible: %s",
+      sinon.match({
+        message: 'Profil cible cappé multiforme sans instructions',
       })
     );
 
