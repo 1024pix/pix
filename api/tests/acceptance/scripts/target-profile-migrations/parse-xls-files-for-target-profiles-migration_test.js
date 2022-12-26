@@ -58,6 +58,7 @@ describe('Acceptance | Scripts | parse-xls-files-for-target-profiles-migration',
     const TARGET_PROFILE_ID_TO_OUTDATE = 2001;
     const TARGET_PROFILE_ID_AUTO = 2002;
     const TARGET_PROFILE_ID_UNCAP = 2003;
+    const TARGET_PROFILE_ID_UNCAP_2 = 2011;
     const TARGET_PROFILE_ID_UNIFORM_CAP = 2004;
     const TARGET_PROFILE_ID_MULTIFORM_CAP_1 = 2005;
     const TARGET_PROFILE_ID_MULTIFORM_CAP_2 = 2006;
@@ -70,6 +71,7 @@ describe('Acceptance | Scripts | parse-xls-files-for-target-profiles-migration',
       TARGET_PROFILE_ID_TO_OUTDATE,
       TARGET_PROFILE_ID_AUTO,
       TARGET_PROFILE_ID_UNCAP,
+      TARGET_PROFILE_ID_UNCAP_2,
       TARGET_PROFILE_ID_UNIFORM_CAP,
       TARGET_PROFILE_ID_MULTIFORM_CAP_1,
       TARGET_PROFILE_ID_MULTIFORM_CAP_2,
@@ -124,6 +126,22 @@ describe('Acceptance | Scripts | parse-xls-files-for-target-profiles-migration',
     expect(tubesForUncap).to.deep.contain({ tubeId: tubeIdEditerDocEnLigne, level: 8 });
     expect(tubesForUncap).to.deep.contain({ tubeId: tubeIdPartageDroits, level: 8 });
     expect(migrationStatusUncap).to.equal('UNCAP');
+
+    const { tubes: tubesForUncap2, migrationStatus: migrationStatusUncap2 } = await _getTubesAndMigrationStatus(
+      TARGET_PROFILE_ID_UNCAP_2
+    );
+    expect(tubesForUncap2).to.deep.equal([]);
+    expect(migrationStatusUncap2).to.equal('NOT_MIGRATED');
+    expect(loggerErrorStub).to.have.been.calledWith(
+      {
+        targetProfileId: TARGET_PROFILE_ID_UNCAP_2,
+        targetProfileName: 'Profil cible sans capage ET avec instructions multiforme',
+      },
+      "Erreur lors de la migration d'un profil cible: %s",
+      sinon.match({
+        message: 'Une feuille d\'instructions "multiforme" existe pour ce profil cible.',
+      })
+    );
 
     const { tubes: tubesForUniformCap, migrationStatus: migrationStatusUniformCap } = await _getTubesAndMigrationStatus(
       TARGET_PROFILE_ID_UNIFORM_CAP

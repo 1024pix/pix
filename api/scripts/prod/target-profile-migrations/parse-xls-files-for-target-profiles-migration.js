@@ -109,6 +109,7 @@ async function migrateTargetProfiles(targetProfiles, multiFormData, dryRun) {
           }
           await _doAutomaticMigration(targetProfile.id, trx);
           if (targetProfile.obsolete) {
+            _checkIfTPHasUnexpectedMultiformInstructions(targetProfile.id, multiFormData);
             await _outdate(targetProfile.id, trx);
             logger.info(
               { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
@@ -117,6 +118,7 @@ async function migrateTargetProfiles(targetProfiles, multiFormData, dryRun) {
             return;
           }
           if (targetProfile.auto) {
+            _checkIfTPHasUnexpectedMultiformInstructions(targetProfile.id, multiFormData);
             logger.info(
               { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
               `Profil cible migré automatiquement`
@@ -124,6 +126,7 @@ async function migrateTargetProfiles(targetProfiles, multiFormData, dryRun) {
             return;
           }
           if (targetProfile.uncap) {
+            _checkIfTPHasUnexpectedMultiformInstructions(targetProfile.id, multiFormData);
             await _uncap(targetProfile.id, trx);
             logger.info(
               { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
@@ -132,6 +135,7 @@ async function migrateTargetProfiles(targetProfiles, multiFormData, dryRun) {
             return;
           }
           if (typeof targetProfile.uniformCap === 'number') {
+            _checkIfTPHasUnexpectedMultiformInstructions(targetProfile.id, multiFormData);
             await _uniformCap(targetProfile.id, targetProfile.uniformCap, trx);
             logger.info(
               { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
@@ -251,6 +255,10 @@ async function _multiformCap(targetProfile, instructions, trx) {
     await trx('target-profiles').update({ migration_status: 'MULTIFORM_CAP' }).where({ id: targetProfile.id });
     await trx('target-profile_tubes').update({ level }).where({ targetProfileId: targetProfile.id, tubeId: id });
   }
+}
+
+function _checkIfTPHasUnexpectedMultiformInstructions(id, multiFormData) {
+  if (multiFormData[id]) throw new Error(`Une feuille d'instructions "multiforme" existe pour ce profil cible.`);
 }
 
 const isLaunchedFromCommandLine = require.main === module;
