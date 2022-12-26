@@ -1,9 +1,6 @@
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const fs = require('fs');
-const { stat } = require('fs').promises;
-const FormData = require('form-data');
-const streamToPromise = require('stream-to-promise');
 
 describe('Acceptance | Controller | session-controller-import-certification-candidates-from-attendance-sheet', function () {
   let server;
@@ -65,7 +62,7 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
             // given
             const odsFileName = 'files/1.5/import-certification-candidates-reports-categorization-test-ok.ods';
             const odsFilePath = `${__dirname}/${odsFileName}`;
-            const options = await createRequest({ odsFilePath, user, sessionIdAllowed });
+            const options = generateOptions({ odsFilePath, userId: user.id, sessionId: sessionIdAllowed });
 
             // when
             const response = await server.inject(options);
@@ -81,7 +78,7 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
             const odsFileName =
               'files/1.5/import-certification-candidates-reports-categorization-test-special-birthdate-ok.ods';
             const odsFilePath = `${__dirname}/${odsFileName}`;
-            const options = await createRequest({ odsFilePath, user, sessionIdAllowed });
+            const options = generateOptions({ odsFilePath, userId: user.id, sessionId: sessionIdAllowed });
 
             // when
             const response = await server.inject(options);
@@ -98,7 +95,7 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
           const odsFileName =
             'files/1.5/import-certification-candidates-reports-categorization-test-ko-invalid-file.ods';
           const odsFilePath = `${__dirname}/${odsFileName}`;
-          const options = await createRequest({ odsFilePath, user, sessionIdAllowed });
+          const options = generateOptions({ odsFilePath, userId: user.id, sessionId: sessionIdAllowed });
 
           // when
           const response = await server.inject(options);
@@ -114,7 +111,7 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
         // given
         const odsFileName = 'files/1.5/import-certification-candidates-reports-categorization-test-ko-invalid-data.ods';
         const odsFilePath = `${__dirname}/${odsFileName}`;
-        const options = await createRequest({ odsFilePath, user, sessionIdAllowed });
+        const options = generateOptions({ odsFilePath, userId: user.id, sessionId: sessionIdAllowed });
 
         // when
         const response = await server.inject(options);
@@ -129,7 +126,7 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
         // given
         const odsFileName = 'files/1.5/import-certification-candidates-reports-categorization-test-ok.ods';
         const odsFilePath = `${__dirname}/${odsFileName}`;
-        const options = await createRequest({ odsFilePath, user, sessionIdAllowed });
+        const options = generateOptions({ odsFilePath, userId: user.id, sessionId: sessionIdAllowed });
 
         const userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildCertificationCandidate({ sessionId: sessionIdAllowed, userId });
@@ -145,18 +142,11 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
   });
 });
 
-async function createRequest({ odsFilePath, user, sessionIdAllowed }) {
-  const form = new FormData();
-  const knownLength = await stat(odsFilePath).size;
-  form.append('file', fs.createReadStream(odsFilePath), { knownLength });
-  const payload = await streamToPromise(form);
-  const authHeader = generateValidRequestAuthorizationHeader(user.id);
-  const token = authHeader.replace('Bearer ', '');
-  const headers = Object.assign({}, form.getHeaders(), { authorization: `Bearer ${token}` });
+function generateOptions({ odsFilePath, userId, sessionId }) {
   return {
     method: 'POST',
-    url: `/api/sessions/${sessionIdAllowed}/certification-candidates/import`,
-    headers,
-    payload,
+    url: `/api/sessions/${sessionId}/certification-candidates/import`,
+    headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+    payload: fs.createReadStream(odsFilePath),
   };
 }
