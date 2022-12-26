@@ -15,6 +15,7 @@ export default class CreateForm extends Component {
   @tracked isCampaignGoalProfileCollection = null;
   @tracked targetProfile;
   @tracked targetProfilesOptions = [];
+  @tracked ownerId;
 
   constructor() {
     super(...arguments);
@@ -22,14 +23,7 @@ export default class CreateForm extends Component {
       organization: this.currentUser.organization,
     };
     this._setTargetProfilesOptions(this.args.targetProfiles);
-    this.campaign.ownerId = this.currentUser.prescriber.id;
-  }
-
-  get currentUserOptionId() {
-    const currentUserOption = this.args.membersSortedByFullName.find(
-      (member) => member.get('fullName') === this.currentUser.prescriber.fullName
-    );
-    return currentUserOption.get('id');
+    this.ownerId = this.currentUser.prescriber.id;
   }
 
   _setTargetProfilesOptions(targetProfiles) {
@@ -48,13 +42,6 @@ export default class CreateForm extends Component {
     if (!this.args.membersSortedByFullName) return [];
 
     return this.args.membersSortedByFullName.map((member) => ({ value: member.id, label: member.fullName }));
-  }
-
-  @action
-  cleanInput() {
-    const input = document.getElementById('campaign-target-profile');
-    input.value = '';
-    this.targetProfile = '';
   }
 
   @action
@@ -119,13 +106,14 @@ export default class CreateForm extends Component {
   onChangeCampaignOwner(newOwnerId) {
     const selectedMember = this.args.membersSortedByFullName.find((member) => newOwnerId === member.id);
     if (selectedMember) {
-      this.campaign.ownerId = selectedMember.id;
+      this.ownerId = selectedMember.id;
     }
   }
 
   @action
   onSubmit(event) {
     event.preventDefault();
+    this.campaign.ownerId = this.ownerId;
     this.args.onSubmit(this.campaign);
   }
 }

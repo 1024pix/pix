@@ -73,9 +73,11 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         @targetProfiles={{this.targetProfiles}}
         @membersSortedByFullName={{this.defaultMembers}} />`
     );
+    await click(screen.getByLabelText(t('pages.campaign-creation.owner.label'), { exact: false }));
+    await screen.findByRole('listbox');
 
     // then
-    assert.dom(screen.getByTitle('Adam Troisjour')).exists();
+    assert.dom(screen.getByRole('option', { name: 'Adam Troisjour', selected: true })).exists();
   });
 
   test('[a11y] it should display a message that some inputs are required', async function (assert) {
