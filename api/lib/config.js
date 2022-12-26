@@ -77,6 +77,10 @@ module.exports = (function () {
       fetchTimeOut: ms(process.env.FETCH_TIMEOUT_MILLISECONDS || '20s'),
     },
 
+    dataProtectionPolicy: {
+      updateDate: process.env.DATA_PROTECTION_POLICY_UPDATE_DATE || null,
+    },
+
     lcms: {
       url: _removeTrailingSlashFromUrl(process.env.CYPRESS_LCMS_API_URL || process.env.LCMS_API_URL || ''),
       apiKey: process.env.CYPRESS_LCMS_API_KEY || process.env.LCMS_API_KEY,
@@ -424,6 +428,8 @@ module.exports = (function () {
       url: process.env.TEST_REDIS_URL,
       database: 1,
     };
+
+    config.dataProtectionPolicy.updateDate = '2022-12-25 00:00:01';
 
     config.partner.fetchTimeOut = '5ms';
   }
