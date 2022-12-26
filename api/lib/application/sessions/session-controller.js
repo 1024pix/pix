@@ -207,7 +207,7 @@ module.exports = {
 
   async importCertificationCandidatesFromCandidatesImportSheet(request) {
     const sessionId = request.params.id;
-    const odsBuffer = request.payload.file;
+    const odsBuffer = request.payload;
 
     try {
       await usecases.importCertificationCandidatesFromCandidatesImportSheet({ sessionId, odsBuffer });
