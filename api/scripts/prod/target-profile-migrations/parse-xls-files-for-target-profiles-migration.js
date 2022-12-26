@@ -107,7 +107,6 @@ async function migrateTargetProfiles(targetProfiles, multiFormData, dryRun) {
             );
             return;
           }
-          console.log(targetProfile);
           await _doAutomaticMigration(targetProfile.id, trx);
           if (targetProfile.obsolete) {
             await _outdate(targetProfile.id, trx);
@@ -201,6 +200,7 @@ async function _doAutomaticMigration(id, trx) {
   const completeTubes = tubes.map((tube) => {
     return { ...tube, targetProfileId: id };
   });
+  await trx('target-profiles').update({ migration_status: 'AUTO' }).where({ id });
   await trx.batchInsert('target-profile_tubes', completeTubes);
 }
 
@@ -209,10 +209,12 @@ async function _outdate(id, trx) {
 }
 
 async function _uncap(id, trx) {
+  await trx('target-profiles').update({ migration_status: 'UNCAP' }).where({ id });
   await trx('target-profile_tubes').update({ level: 8 }).where({ targetProfileId: id });
 }
 
 async function _uniformCap(id, cap, trx) {
+  await trx('target-profiles').update({ migration_status: 'UNIFORM_CAP' }).where({ id });
   await trx('target-profile_tubes').update({ level: cap }).where({ targetProfileId: id });
 }
 
@@ -246,6 +248,7 @@ async function _multiformCap(targetProfile, instructions, trx) {
     const levelAsNumber = parseInt(level);
     if (isNaN(levelAsNumber) || levelAsNumber >= 8 || levelAsNumber < 1)
       throw new Error(`Le niveau pour le sujet ${name} est invalide : "${level}"`);
+    await trx('target-profiles').update({ migration_status: 'MULTIFORM_CAP' }).where({ id: targetProfile.id });
     await trx('target-profile_tubes').update({ level }).where({ targetProfileId: targetProfile.id, tubeId: id });
   }
 }

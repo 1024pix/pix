@@ -92,7 +92,9 @@ describe('Acceptance | Scripts | parse-xls-files-for-target-profiles-migration',
       `Profil cible introuvable`
     );
 
-    const tubesForToOutdate = await _getTubes(TARGET_PROFILE_ID_TO_OUTDATE);
+    const { tubes: tubesForToOutdate, migrationStatus: migrationStatusOutdate } = await _getTubesAndMigrationStatus(
+      TARGET_PROFILE_ID_TO_OUTDATE
+    );
     expect(tubesForToOutdate).to.deep.contain({
       tubeId: tubeIdCodageEmblematique,
       level: maxSkillLevelCodageEmblematique,
@@ -100,8 +102,11 @@ describe('Acceptance | Scripts | parse-xls-files-for-target-profiles-migration',
     expect(tubesForToOutdate).to.deep.contain({ tubeId: tubeIdTerminal, level: maxSkillLevelTerminal });
     expect(tubesForToOutdate).to.deep.contain({ tubeId: tubeIdEditerDocEnLigne, level: maxSkillLevelEditerDocEnLigne });
     expect(tubesForToOutdate).to.deep.contain({ tubeId: tubeIdPartageDroits, level: maxSkillLevelPartageDroits });
+    expect(migrationStatusOutdate).to.equal('AUTO');
 
-    const tubesForAuto = await _getTubes(TARGET_PROFILE_ID_AUTO);
+    const { tubes: tubesForAuto, migrationStatus: migrationStatusAuto } = await _getTubesAndMigrationStatus(
+      TARGET_PROFILE_ID_AUTO
+    );
     expect(tubesForAuto).to.deep.contain({
       tubeId: tubeIdCodageEmblematique,
       level: maxSkillLevelCodageEmblematique,
@@ -109,27 +114,38 @@ describe('Acceptance | Scripts | parse-xls-files-for-target-profiles-migration',
     expect(tubesForAuto).to.deep.contain({ tubeId: tubeIdTerminal, level: maxSkillLevelTerminal });
     expect(tubesForAuto).to.deep.contain({ tubeId: tubeIdEditerDocEnLigne, level: maxSkillLevelEditerDocEnLigne });
     expect(tubesForAuto).to.deep.contain({ tubeId: tubeIdPartageDroits, level: maxSkillLevelPartageDroits });
+    expect(migrationStatusAuto).to.equal('AUTO');
 
-    const tubesForUncap = await _getTubes(TARGET_PROFILE_ID_UNCAP);
+    const { tubes: tubesForUncap, migrationStatus: migrationStatusUncap } = await _getTubesAndMigrationStatus(
+      TARGET_PROFILE_ID_UNCAP
+    );
     expect(tubesForUncap).to.deep.contain({ tubeId: tubeIdCodageEmblematique, level: 8 });
     expect(tubesForUncap).to.deep.contain({ tubeId: tubeIdTerminal, level: 8 });
     expect(tubesForUncap).to.deep.contain({ tubeId: tubeIdEditerDocEnLigne, level: 8 });
     expect(tubesForUncap).to.deep.contain({ tubeId: tubeIdPartageDroits, level: 8 });
+    expect(migrationStatusUncap).to.equal('UNCAP');
 
-    const tubesForUniformCap = await _getTubes(TARGET_PROFILE_ID_UNIFORM_CAP);
+    const { tubes: tubesForUniformCap, migrationStatus: migrationStatusUniformCap } = await _getTubesAndMigrationStatus(
+      TARGET_PROFILE_ID_UNIFORM_CAP
+    );
     expect(tubesForUniformCap).to.deep.contain({ tubeId: tubeIdCodageEmblematique, level: 6 });
     expect(tubesForUniformCap).to.deep.contain({ tubeId: tubeIdTerminal, level: 6 });
     expect(tubesForUniformCap).to.deep.contain({ tubeId: tubeIdEditerDocEnLigne, level: 6 });
     expect(tubesForUniformCap).to.deep.contain({ tubeId: tubeIdPartageDroits, level: 6 });
+    expect(migrationStatusUniformCap).to.equal('UNIFORM_CAP');
 
-    const tubesForMultiformCap1 = await _getTubes(TARGET_PROFILE_ID_MULTIFORM_CAP_1);
+    const { tubes: tubesForMultiformCap1, migrationStatus: migrationStatusMultiformCap } =
+      await _getTubesAndMigrationStatus(TARGET_PROFILE_ID_MULTIFORM_CAP_1);
     expect(tubesForMultiformCap1).to.deep.contain({ tubeId: tubeIdCodageEmblematique, level: 1 });
     expect(tubesForMultiformCap1).to.deep.contain({ tubeId: tubeIdTerminal, level: 2 });
     expect(tubesForMultiformCap1).to.deep.contain({ tubeId: tubeIdEditerDocEnLigne, level: 3 });
     expect(tubesForMultiformCap1).to.deep.contain({ tubeId: tubeIdPartageDroits, level: 1 });
+    expect(migrationStatusMultiformCap).to.equal('MULTIFORM_CAP');
 
-    const tubesForMultiformCap2 = await _getTubes(TARGET_PROFILE_ID_MULTIFORM_CAP_2);
+    const { tubes: tubesForMultiformCap2, migrationStatus: migrationStatusMultiformCap2 } =
+      await _getTubesAndMigrationStatus(TARGET_PROFILE_ID_MULTIFORM_CAP_2);
     expect(tubesForMultiformCap2).to.deep.equal([]);
+    expect(migrationStatusMultiformCap2).to.equal('NOT_MIGRATED');
     expect(loggerErrorStub).to.have.been.calledWith(
       {
         targetProfileId: TARGET_PROFILE_ID_MULTIFORM_CAP_2,
@@ -141,8 +157,10 @@ describe('Acceptance | Scripts | parse-xls-files-for-target-profiles-migration',
       })
     );
 
-    const tubesForMultiformCap3 = await _getTubes(TARGET_PROFILE_ID_MULTIFORM_CAP_3);
+    const { tubes: tubesForMultiformCap3, migrationStatus: migrationStatusMultiformCap3 } =
+      await _getTubesAndMigrationStatus(TARGET_PROFILE_ID_MULTIFORM_CAP_3);
     expect(tubesForMultiformCap3).to.deep.equal([]);
+    expect(migrationStatusMultiformCap3).to.equal('NOT_MIGRATED');
     expect(loggerErrorStub).to.have.been.calledWith(
       {
         targetProfileId: TARGET_PROFILE_ID_MULTIFORM_CAP_3,
@@ -155,8 +173,10 @@ describe('Acceptance | Scripts | parse-xls-files-for-target-profiles-migration',
       })
     );
 
-    const tubesForMultiformCap4 = await _getTubes(TARGET_PROFILE_ID_MULTIFORM_CAP_4);
+    const { tubes: tubesForMultiformCap4, migrationStatus: migrationStatusMultiformCap4 } =
+      await _getTubesAndMigrationStatus(TARGET_PROFILE_ID_MULTIFORM_CAP_4);
     expect(tubesForMultiformCap4).to.deep.equal([]);
+    expect(migrationStatusMultiformCap4).to.equal('NOT_MIGRATED');
     expect(loggerErrorStub).to.have.been.calledWith(
       {
         targetProfileId: TARGET_PROFILE_ID_MULTIFORM_CAP_4,
@@ -169,8 +189,10 @@ describe('Acceptance | Scripts | parse-xls-files-for-target-profiles-migration',
       })
     );
 
-    const tubesForMultiformCap5 = await _getTubes(TARGET_PROFILE_ID_MULTIFORM_CAP_5);
+    const { tubes: tubesForMultiformCap5, migrationStatus: migrationStatusMultiformCap5 } =
+      await _getTubesAndMigrationStatus(TARGET_PROFILE_ID_MULTIFORM_CAP_5);
     expect(tubesForMultiformCap5).to.deep.equal([]);
+    expect(migrationStatusMultiformCap5).to.equal('NOT_MIGRATED');
     expect(loggerErrorStub).to.have.been.calledWith(
       {
         targetProfileId: TARGET_PROFILE_ID_MULTIFORM_CAP_5,
@@ -182,23 +204,31 @@ describe('Acceptance | Scripts | parse-xls-files-for-target-profiles-migration',
       })
     );
 
-    const tubesForUncapSup = await _getTubes(TARGET_PROFILE_ID_UNCAP_SUP);
+    const { tubes: tubesForUncapSup, migrationStatus: migrationStatusUncapSup } = await _getTubesAndMigrationStatus(
+      TARGET_PROFILE_ID_UNCAP_SUP
+    );
     expect(tubesForUncapSup).to.deep.contain({ tubeId: tubeIdCodageEmblematique, level: 8 });
     expect(tubesForUncapSup).to.deep.contain({ tubeId: tubeIdTerminal, level: 8 });
     expect(tubesForUncapSup).to.deep.contain({ tubeId: tubeIdEditerDocEnLigne, level: 8 });
     expect(tubesForUncapSup).to.deep.contain({ tubeId: tubeIdPartageDroits, level: 8 });
+    expect(migrationStatusUncapSup).to.equal('UNCAP');
   });
 });
 
-async function _getTubes(targetProfileId) {
-  return knex('target-profile_tubes')
+async function _getTubesAndMigrationStatus(targetProfileId) {
+  const tubes = await knex('target-profile_tubes')
     .select('tubeId', 'level')
     .where('targetProfileId', targetProfileId)
     .orderBy('tubeId', 'ASC');
+  const { migrationStatus } = await knex('target-profiles')
+    .select({ migrationStatus: 'migration_status' })
+    .where({ id: targetProfileId })
+    .first();
+  return { tubes, migrationStatus };
 }
 
 function _buildTargetProfileWithAllSkills(id, skills) {
-  databaseBuilder.factory.buildTargetProfile({ id });
+  databaseBuilder.factory.buildTargetProfile({ id, migration_status: 'NOT_MIGRATED' });
   skills.forEach((skill) =>
     databaseBuilder.factory.buildTargetProfileSkill({
       targetProfileId: id,

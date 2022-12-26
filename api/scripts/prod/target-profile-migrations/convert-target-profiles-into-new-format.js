@@ -62,6 +62,7 @@ async function _convertTargetProfile(targetProfileId, trx) {
   const tubes = await _computeTubeIdsAndLevelsForSkills(skillIds);
 
   await _createTargetProfileTubes(targetProfileId, tubes, trx);
+  await trx('target-profiles').update({ migration_status: 'AUTO' }).where({ id: targetProfileId });
   logger.info(`${targetProfileId} OK. ${tubes.length} tubes créés.`);
 }
 
