@@ -16,7 +16,7 @@ export default class ListController extends Controller {
   @tracked connexionType = null;
   @tracked certificability = [];
   @tracked pageNumber = null;
-  @tracked pageSize = null;
+  @tracked pageSize = 50;
 
   @action
   triggerFiltering(fieldName, value) {
