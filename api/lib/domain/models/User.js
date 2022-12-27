@@ -1,5 +1,7 @@
 const toLower = require('lodash/toLower');
 const isNil = require('lodash/isNil');
+const dayjs = require('dayjs');
+const config = require('../../config');
 
 const AuthenticationMethod = require('./AuthenticationMethod');
 
@@ -72,6 +74,12 @@ class User {
     );
 
     return pixAuthenticationMethod ? pixAuthenticationMethod.authenticationComplement.shouldChangePassword : null;
+  }
+
+  get shouldSeeDataProtectionPolicyInformationBanner() {
+    const isNotOrganizationLearner = this.cgu === true;
+    const parsedDate = new Date(this.lastDataProtectionPolicySeenAt);
+    return dayjs(parsedDate).isBefore(dayjs(config.dataProtectionPolicy.updateDate)) && isNotOrganizationLearner;
   }
 
   isLinkedToOrganizations() {
