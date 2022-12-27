@@ -13,14 +13,17 @@ export default class DataProtectionPolicyInformationBanner extends Component {
   _rawBannerContent = ENV.APP.BANNER_CONTENT;
 
   get shouldDisplayDataProtectionPolicyInformation() {
-    const hasNotAlreadySeenDataProtectionPolicyInformation =
-      this.currentUser.user?.lastDataProtectionPolicySeenAt === null;
-
-    const isNotAStudent = this.currentUser.user?.cgu === true;
+    const isUserLoggedIn = typeof this.currentUser.user !== 'undefined';
+    if (!isUserLoggedIn) {
+      return false;
+    }
 
     const isCommunicationBannerDisplayed = !isEmpty(this._rawBannerContent) && !isEmpty(this.bannerType);
+    if (isCommunicationBannerDisplayed) {
+      return false;
+    }
 
-    return hasNotAlreadySeenDataProtectionPolicyInformation && isNotAStudent && !isCommunicationBannerDisplayed;
+    return this.currentUser.user.shouldSeeDataProtectionPolicyInformationBanner;
   }
 
   get dataProtectionPolicyUrl() {
