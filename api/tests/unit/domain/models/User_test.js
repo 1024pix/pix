@@ -1,4 +1,5 @@
 const { expect, domainBuilder } = require('../../../test-helper');
+const config = require('../../../../lib/config');
 
 const User = require('../../../../lib/domain/models/User');
 
@@ -248,6 +249,99 @@ describe('Unit | Domain | Models | User', function () {
 
         // then
         expect(shouldChangePassword).to.be.null;
+      });
+    });
+  });
+
+  describe('#shouldSeeDataProtectionPolicyInformationBanner', function () {
+    context('when user has not seen data protection policy but data protection date is not setted', function () {
+      it('should return false', function () {
+        // given
+        config.dataProtectionPolicy.updateDate = null;
+        const user = new User({ lastDataProtectionPolicySeenAt: null });
+
+        // then
+        expect(user.shouldSeeDataProtectionPolicyInformationBanner).to.be.false;
+      });
+    });
+
+    context('when user has not seen data protection policy and data protection has been updated', function () {
+      it('should return true', function () {
+        // given
+        config.dataProtectionPolicy.updateDate = new Date();
+        const user = new User({ lastDataProtectionPolicySeenAt: null, cgu: true });
+
+        // then
+        expect(user.shouldSeeDataProtectionPolicyInformationBanner).to.be.true;
+      });
+
+      it('should return false for an organization learner', function () {
+        // given
+        config.dataProtectionPolicy.updateDate = new Date();
+        const user = new User({ lastDataProtectionPolicySeenAt: null, cgu: false });
+
+        // then
+        expect(user.shouldSeeDataProtectionPolicyInformationBanner).to.be.false;
+      });
+    });
+
+    context('when user has seen data protection policy but data protection date is not setted', function () {
+      it('should return false', function () {
+        // given
+        config.dataProtectionPolicy.updateDate = null;
+        const user = new User({ lastDataProtectionPolicySeenAt: new Date(), cgu: true });
+
+        // then
+        expect(user.shouldSeeDataProtectionPolicyInformationBanner).to.be.false;
+      });
+
+      it('should return false for an organization learner', function () {
+        // given
+        config.dataProtectionPolicy.updateDate = null;
+        const user = new User({ lastDataProtectionPolicySeenAt: new Date(), cgu: false });
+
+        // then
+        expect(user.shouldSeeDataProtectionPolicyInformationBanner).to.be.false;
+      });
+    });
+
+    context('when user has seen data protection policy but data protection has not been updated since', function () {
+      it('should return false', function () {
+        // given
+        config.dataProtectionPolicy.updateDate = new Date();
+        const user = new User({ lastDataProtectionPolicySeenAt: new Date(Date.now() + 3600 * 1000), cgu: true });
+
+        // then
+        expect(user.shouldSeeDataProtectionPolicyInformationBanner).to.be.false;
+      });
+
+      it('should return false for an organization learner', function () {
+        // given
+        config.dataProtectionPolicy.updateDate = new Date();
+        const user = new User({ lastDataProtectionPolicySeenAt: new Date(Date.now() + 3600 * 1000), cgu: false });
+
+        // then
+        expect(user.shouldSeeDataProtectionPolicyInformationBanner).to.be.false;
+      });
+    });
+
+    context('when user has seen data protection policy but data protection has been updated', function () {
+      it('should return true', function () {
+        // given
+        config.dataProtectionPolicy.updateDate = new Date(Date.now() + 3600 * 1000);
+        const user = new User({ lastDataProtectionPolicySeenAt: new Date(), cgu: true });
+
+        // then
+        expect(user.shouldSeeDataProtectionPolicyInformationBanner).to.be.true;
+      });
+
+      it('should return false for an organization learner', function () {
+        // given
+        config.dataProtectionPolicy.updateDate = new Date(Date.now() + 3600 * 1000);
+        const user = new User({ lastDataProtectionPolicySeenAt: new Date(), cgu: false });
+
+        // then
+        expect(user.shouldSeeDataProtectionPolicyInformationBanner).to.be.false;
       });
     });
   });
