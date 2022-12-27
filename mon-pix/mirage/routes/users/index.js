@@ -71,7 +71,10 @@ export default function index(config) {
 
   config.patch('/users/:id/has-seen-last-data-protection-policy-information', (schema, request) => {
     const user = schema.users.find(request.params.id);
-    user.update({ lastDataProtectionPolicySeenAt: new Date('2022-12-24') });
+    user.update({
+      lastDataProtectionPolicySeenAt: new Date('2022-12-24'),
+      shouldSeeDataProtectionPolicyInformationBanner: false,
+    });
     return user;
   });
 }
