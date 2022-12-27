@@ -12,10 +12,12 @@ module.exports = async function getCurrentUser({
     userRecommendedTrainingRepository.hasRecommendedTrainings(authenticatedUserId),
   ]);
   const user = await userRepository.get(authenticatedUserId);
+  const shouldSeeDataProtectionPolicyInformationBanner = user.shouldSeeDataProtectionPolicyInformationBanner;
   return new UserWithActivity({
     user,
     hasAssessmentParticipations,
     codeForLastProfileToShare,
     hasRecommendedTrainings,
+    shouldSeeDataProtectionPolicyInformationBanner,
   });
 };
