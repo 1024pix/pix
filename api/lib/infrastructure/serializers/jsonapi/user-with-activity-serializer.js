@@ -29,6 +29,7 @@ module.exports = {
         'hasRecommendedTrainings',
         'codeForLastProfileToShare',
         'trainings',
+        'shouldSeeDataProtectionPolicyInformationBanner',
       ],
       certificationCenterMemberships: {
         ref: 'id',

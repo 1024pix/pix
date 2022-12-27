@@ -17,7 +17,6 @@ describe('Unit | Serializer | JSONAPI | user-with-activity-serializer', function
           email: 'lskywalker@deathstar.empire',
           username: 'luke.skywalker1234',
           cgu: true,
-          lang: 'fr',
           isAnonymous: false,
           lastTermsOfServiceValidatedAt: '2020-05-04T13:18:26.323Z',
           mustValidateTermsOfService: true,
@@ -61,6 +60,8 @@ describe('Unit | Serializer | JSONAPI | user-with-activity-serializer', function
               'has-assessment-participations': userModelObject.hasAssessmentParticipations,
               'code-for-last-profile-to-share': userModelObject.codeForLastProfileToShare,
               'has-recommended-trainings': userModelObject.hasRecommendedTrainings,
+              'should-see-data-protection-policy-information-banner':
+                userModelObject.shouldSeeDataProtectionPolicyInformationBanner,
             },
             relationships: {
               'certification-center-memberships': {
