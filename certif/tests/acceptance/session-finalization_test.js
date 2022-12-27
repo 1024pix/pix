@@ -402,6 +402,79 @@ module('Acceptance | Session Finalization', function (hooks) {
           });
         });
       });
+
+      module('when there are completed reports and uncompleted reports', function () {
+        module('when we add a certification issue report on a completed report', function () {
+          test('it should add the issue report correctly', async function (assert) {
+            // given
+            const certificationReportUncompleted = server.create('certification-report', {
+              isCompleted: false,
+              abortReason: null,
+              certificationCourseId: 1,
+            });
+            const certificationReportCompleted = server.create('certification-report', {
+              isCompleted: true,
+              certificationCourseId: 2,
+            });
+            const certificationIssueReportUncompleted = server.create('certification-issue-report', {
+              certificationReportId: 1,
+            });
+            const certificationIssueReportUncompleted2 = server.create('certification-issue-report', {
+              certificationReportId: 1,
+            });
+            const certificationIssueReports = [
+              certificationIssueReportUncompleted,
+              certificationIssueReportUncompleted2,
+            ];
+            certificationReportUncompleted.update({ certificationIssueReports });
+            session.update({ certificationReports: [certificationReportUncompleted, certificationReportCompleted] });
+
+            // when
+            const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
+            await click(screen.getByRole('button', { name: 'Ajouter' }));
+            await screen.findByRole('dialog');
+            await click(screen.getByLabelText('C6 Suspicion de fraude'));
+            await click(screen.getByRole('button', { name: 'Ajouter le signalement' }));
+
+            // then
+            assert.dom(screen.getByText('1 signalement')).exists();
+          });
+        });
+
+        module('when we add a certification issue report on an uncompleted report', function () {
+          test('it should add the issue report correctly', async function (assert) {
+            // given
+            const certificationReportCompleted = server.create('certification-report', {
+              isCompleted: true,
+              certificationCourseId: 1,
+            });
+            const certificationReportUncompleted = server.create('certification-report', {
+              isCompleted: false,
+              abortReason: null,
+              certificationCourseId: 2,
+            });
+            const certificationIssueReportCompleted = server.create('certification-issue-report', {
+              certificationReportId: 1,
+            });
+            const certificationIssueReportCompleted2 = server.create('certification-issue-report', {
+              certificationReportId: 1,
+            });
+            const certificationIssueReports = [certificationIssueReportCompleted, certificationIssueReportCompleted2];
+            certificationReportCompleted.update({ certificationIssueReports });
+            session.update({ certificationReports: [certificationReportUncompleted, certificationReportCompleted] });
+
+            // when
+            const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
+            await click(screen.getByRole('button', { name: 'Ajouter' }));
+            await screen.findByRole('dialog');
+            await click(screen.getByLabelText('C6 Suspicion de fraude'));
+            await click(screen.getByRole('button', { name: 'Ajouter le signalement' }));
+
+            // then
+            assert.dom(screen.getByText('1 signalement')).exists();
+          });
+        });
+      });
     });
 
     module('When certificationPointOfContact tries to finalize a session that has not started yet', function () {
