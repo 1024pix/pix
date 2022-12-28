@@ -15,7 +15,8 @@ async function _cacheLearningContentData() {
 
 async function main() {
   try {
-    await doJob();
+    const dryRun = process.env.DRY_RUN === 'true';
+    await doJob(dryRun);
   } catch (err) {
     logger.error(err);
     throw err;
@@ -25,7 +26,7 @@ async function main() {
   }
 }
 
-async function doJob() {
+async function doJob(dryRun) {
   await _cacheLearningContentData();
   const badgeIds = await _findBadgeIdsToConvert();
   if (badgeIds.length === 0) {
@@ -40,7 +41,8 @@ async function doJob() {
       const targetProfileTubes = await _findTargetProfileTubes(badgeId, trx);
       await _convertBadge(badgeId, targetProfileTubes, trx);
       await _deleteSkillSetCriteria(badgeId, trx);
-      await trx.commit();
+      if (dryRun) await trx.rollback();
+      else await trx.commit();
     } catch (err) {
       logger.error(`${badgeId} Echec. Raison : ${err}`);
       await trx.rollback();
