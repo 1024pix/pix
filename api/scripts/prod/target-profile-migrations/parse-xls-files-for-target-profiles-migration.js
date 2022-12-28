@@ -14,6 +14,7 @@ async function _cacheLearningContentData() {
   const tubeRepository = require('../../../lib/infrastructure/repositories/tube-repository');
   allTubes = await tubeRepository.list();
 }
+const report = [];
 
 async function doJob(mainFile, multiFormFiles) {
   const dryRun = process.env.DRY_RUN === 'true';
@@ -24,6 +25,11 @@ async function doJob(mainFile, multiFormFiles) {
     .reduce((acc, data) => ({ ...acc, ...data }));
   await migrateTargetProfiles(mainData['PRO'], multiFormData, dryRun);
   await migrateTargetProfiles(mainData['SUP'], multiFormData, dryRun);
+  if (dryRun) printReport();
+}
+
+function printReport() {
+  console.log(`\n\n\n\n${report.join('\n')}`);
 }
 
 const mapperFnc = (line) => ({
@@ -157,6 +163,7 @@ async function migrateTargetProfiles(targetProfiles, multiFormData, dryRun) {
           throw new Error('Aucune action définie pour le profil cible');
         } catch (e) {
           hasError = true;
+          if (dryRun) report.push(`${targetProfile.id} - ${targetProfile.name} : ${e.message}`);
           throw e;
         } finally {
           if (dryRun && !hasError) throw new Error('dryrun'); // eslint-disable-line no-unsafe-finally
