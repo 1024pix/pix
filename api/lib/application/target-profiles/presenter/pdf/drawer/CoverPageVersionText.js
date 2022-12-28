@@ -1,4 +1,6 @@
 const dayjs = require('dayjs');
+const localizedFormat = require('dayjs/plugin/localizedFormat');
+dayjs.extend(localizedFormat);
 const Text = require('./Text');
 const ColorManager = require('../manager/color-manager');
 const FontManager = require('../manager/font-manager');
@@ -12,7 +14,7 @@ const textByLang = {
 module.exports = class CoverPageVersionText extends Text {
   constructor({ language, page }) {
     let text = textByLang[language];
-    const todayDateString = dayjs().locale(language).format('DD MMMM YYYY');
+    const todayDateString = dayjs().locale(language).format('LL');
     text = text.replace('{date}', todayDateString);
     const font = FontManager.coverPageVersionFont;
     const fontSize = FontManager.coverPageVersionHeight;
