@@ -8,7 +8,7 @@ export default class ListController extends Controller {
   @tracked groups = [];
   @tracked certificability = [];
   @tracked pageNumber = null;
-  @tracked pageSize = null;
+  @tracked pageSize = 50;
 
   @action
   triggerFiltering(fieldName, value) {
