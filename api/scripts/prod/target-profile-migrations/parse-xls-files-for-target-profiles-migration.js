@@ -35,17 +35,29 @@ function printReport() {
   console.log(`\n\n\n\n${report.join('\n')}`);
 }
 
-const mapperFnc = (line) => ({
-  ...line,
-  obsolete: !ouiNonToBoolean(line.keep),
-  auto:
-    ouiNonToBoolean(line.keep) &&
-    !ouiNonToBoolean(line.uncap) &&
-    !ouiNonToBoolean(line.multiformCap) &&
-    isEmpty(line.uniformCap),
-  uncap: ouiNonToBoolean(line.uncap),
-  multiformCap: ouiNonToBoolean(line.multiformCap),
-});
+const mapperFnc = (line) => {
+  try {
+    return {
+      ...line,
+      obsolete: !ouiNonToBoolean(line.keep),
+      auto:
+        ouiNonToBoolean(line.keep) &&
+        !ouiNonToBoolean(line.uncap) &&
+        !ouiNonToBoolean(line.multiformCap) &&
+        isEmpty(line.uniformCap),
+      uniformCap: toLevel(line.uniformCap),
+      uncap: ouiNonToBoolean(line.uncap),
+      multiformCap: ouiNonToBoolean(line.multiformCap),
+    };
+  } catch (_e) {
+    logger.error(
+      { targetProfileId: line.id, targetProfileName: line.name },
+      "Erreur lors de la migration d'un profil cible: Ligne EXCEL incorrecte, valeur de cellule invalide"
+    );
+    report.push(`${line.id} - ${line.name} : Ligne EXCEL incorrecte, valeur de cellule invalide`);
+    return null;
+  }
+};
 
 const tabs = {
   PRO: {
@@ -91,17 +103,32 @@ function parseMultiformFile(file) {
   );
 }
 
-function ouiNonToBoolean(s, defaultValue = false) {
-  if (typeof s === 'number') return defaultValue;
-  return s?.toLowerCase().trim().startsWith('o') ?? defaultValue;
+function ouiNonToBoolean(s) {
+  if (typeof s === 'number') throw new Error();
+  if (!s || s.length === 0) return false;
+  if (s.toLowerCase().trim().startsWith('oui')) return true;
+  if (s.toLowerCase().trim().startsWith('non')) return false;
+  if (s.toLowerCase().trim() === '-') return false;
+  throw new Error();
 }
 
 function isEmpty(s) {
   return typeof s === 'number' ? false : s?.trim().length !== 0;
 }
 
+function toLevel(s) {
+  if (typeof s === 'number') {
+    if (s > 8 || s < 1) throw new Error();
+    return s;
+  }
+  if (!s || s.length === 0) return s;
+  if (s.toLowerCase().trim().startsWith('non')) return s;
+  if (s.toLowerCase().trim() === '-') return s;
+  throw new Error();
+}
+
 async function migrateTargetProfiles(targetProfiles, multiFormData, dryRun) {
-  for (const targetProfile of targetProfiles) {
+  for (const targetProfile of _.compact(targetProfiles)) {
     try {
       await knex.transaction(async (trx) => {
         let hasError = false;
@@ -116,7 +143,7 @@ async function migrateTargetProfiles(targetProfiles, multiFormData, dryRun) {
           }
           const alreadyHasTubes = await _checkIfTPAlreadyHasTubes(targetProfile.id, trx);
           if (alreadyHasTubes) {
-            logger.info(
+            logger.warn(
               { targetProfileId: targetProfile.id, targetProfileName: targetProfile.name },
               `Profil cible déja migré`
             );

@@ -68,6 +68,8 @@ describe('Acceptance | Scripts | parse-xls-files-for-target-profiles-migration',
     const TARGET_PROFILE_ID_MULTIFORM_CAP_5 = 2010;
     const TARGET_PROFILE_ID_MULTIFORM_CAP_6 = 2012;
     const TARGET_PROFILE_ID_UNCAP_SUP = 2009;
+    const TARGET_PROFILE_ID_CELL_ERROR_BOOLEAN = 2014;
+    const TARGET_PROFILE_ID_CELL_ERROR_LEVEL = 2015;
     const learningContent = _mockLearningContent();
     [
       TARGET_PROFILE_ID_TO_OUTDATE,
@@ -82,6 +84,8 @@ describe('Acceptance | Scripts | parse-xls-files-for-target-profiles-migration',
       TARGET_PROFILE_ID_MULTIFORM_CAP_5,
       TARGET_PROFILE_ID_MULTIFORM_CAP_6,
       TARGET_PROFILE_ID_UNCAP_SUP,
+      TARGET_PROFILE_ID_CELL_ERROR_BOOLEAN,
+      TARGET_PROFILE_ID_CELL_ERROR_LEVEL,
     ].forEach((targetProfileId) => _buildTargetProfileWithAllSkills(targetProfileId, learningContent.skills));
     _buildTargetProfileWithAllSkills(
       TARGET_PROFILE_ID_MULTIFORM_CAP_4,
@@ -257,6 +261,30 @@ describe('Acceptance | Scripts | parse-xls-files-for-target-profiles-migration',
     expect(tubesForUncapSup).to.deep.contain({ tubeId: tubeIdEditerDocEnLigne, level: 8 });
     expect(tubesForUncapSup).to.deep.contain({ tubeId: tubeIdPartageDroits, level: 8 });
     expect(migrationStatusUncapSup).to.equal('UNCAP');
+
+    const { tubes: tubeForCellErrorBoolean, migrationStatus: migrationStatusCellErrorBoolean } =
+      await _getTubesAndMigrationStatus(TARGET_PROFILE_ID_CELL_ERROR_BOOLEAN);
+    expect(tubeForCellErrorBoolean).to.deep.equal([]);
+    expect(migrationStatusCellErrorBoolean).to.equal('NOT_MIGRATED');
+    expect(loggerErrorStub).to.have.been.calledWith(
+      {
+        targetProfileId: TARGET_PROFILE_ID_CELL_ERROR_BOOLEAN,
+        targetProfileName: 'Profil cible mauvaise valeur oui/non',
+      },
+      "Erreur lors de la migration d'un profil cible: Ligne EXCEL incorrecte, valeur de cellule invalide"
+    );
+
+    const { tubes: tubeForCellErrorNumber, migrationStatus: migrationStatusCellErrorNumber } =
+      await _getTubesAndMigrationStatus(TARGET_PROFILE_ID_CELL_ERROR_LEVEL);
+    expect(tubeForCellErrorNumber).to.deep.equal([]);
+    expect(migrationStatusCellErrorNumber).to.equal('NOT_MIGRATED');
+    expect(loggerErrorStub).to.have.been.calledWith(
+      {
+        targetProfileId: TARGET_PROFILE_ID_CELL_ERROR_LEVEL,
+        targetProfileName: 'Profil cible mauvaise valeur nombre',
+      },
+      "Erreur lors de la migration d'un profil cible: Ligne EXCEL incorrecte, valeur de cellule invalide"
+    );
   });
 });
 
