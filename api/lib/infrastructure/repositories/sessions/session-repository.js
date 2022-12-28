@@ -1,8 +1,6 @@
 const _ = require('lodash');
 
 const { knex } = require('../../../../db/knex-database-connection');
-const BookshelfSession = require('../../orm-models/Session');
-const bookshelfToDomainConverter = require('../../utils/bookshelf-to-domain-converter');
 const { NotFoundError } = require('../../../domain/errors');
 const Session = require('../../../domain/models/Session');
 const CertificationCenter = require('../../../domain/models/CertificationCenter');
@@ -19,30 +17,29 @@ module.exports = {
     return new Session(savedSession);
   },
 
-  async isSessionCodeAvailable(accessCode) {
-    const sessionWithAccessCode = await BookshelfSession.where({ accessCode }).fetch({ require: false });
+  async saveSessions(sessionsData) {
+    const sessions = sessionsData.map((session) => {
+      return _.omit(session, ['certificationCandidates']);
+    });
+    return knex.batchInsert('sessions', sessions);
+  },
 
-    return !sessionWithAccessCode;
+  async isSessionCodeAvailable(accessCode) {
+    const sessionWithAccessCode = await knex('sessions').where({ accessCode }).returning('id');
+    return !sessionWithAccessCode.length;
   },
 
   async isFinalized(id) {
-    const session = await BookshelfSession.query((qb) => {
-      qb.where({ id });
-      qb.whereRaw('?? IS NOT NULL', ['finalizedAt']);
-    }).fetch({ require: false, columns: 'id' });
-    return Boolean(session);
+    const session = await knex('sessions').where({ id }).whereNotNull('finalizedAt').returning('id');
+    return Boolean(session.length);
   },
 
   async get(sessionId) {
-    try {
-      const session = await BookshelfSession.where({ id: sessionId }).fetch();
-      return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, session);
-    } catch (err) {
-      if (err instanceof BookshelfSession.NotFoundError) {
-        throw new NotFoundError("La session n'existe pas ou son accès est restreint");
-      }
-      throw err;
+    const foundSession = await knex.select('*').from('sessions').where({ id: sessionId }).first();
+    if (!foundSession) {
+      throw new NotFoundError("La session n'existe pas ou son accès est restreint");
     }
+    return new Session({ ...foundSession });
   },
 
   async getExistingSessionByInformation({ address, room, date, time }) {
@@ -93,51 +90,46 @@ module.exports = {
       'description',
     ]);
 
-    let updatedSession = await new BookshelfSession({ id: session.id }).save(sessionDataToUpdate, {
-      patch: true,
-      method: 'update',
-    });
-    updatedSession = await updatedSession.refresh();
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, updatedSession);
+    const [updatedSession] = await knex('sessions')
+      .where({ id: session.id })
+      .update(sessionDataToUpdate)
+      .returning('*');
+    return new Session(updatedSession);
   },
 
   async doesUserHaveCertificationCenterMembershipForSession(userId, sessionId) {
-    const session = await BookshelfSession.where({
-      'sessions.id': sessionId,
-      'certification-center-memberships.userId': userId,
-      'certification-center-memberships.disabledAt': null,
-    })
-      .query((qb) => {
-        qb.innerJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId');
-        qb.innerJoin(
-          'certification-center-memberships',
-          'certification-center-memberships.certificationCenterId',
-          'certification-centers.id'
-        );
+    const session = await knex('sessions')
+      .select('sessions.id')
+      .where({
+        'sessions.id': sessionId,
+        'certification-center-memberships.userId': userId,
+        'certification-center-memberships.disabledAt': null,
       })
-      .fetch({ require: false, columns: 'sessions.id' });
-    return Boolean(session);
+      .innerJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
+      .innerJoin(
+        'certification-center-memberships',
+        'certification-center-memberships.certificationCenterId',
+        'certification-centers.id'
+      );
+    return Boolean(session.length);
   },
 
   async finalize({ id, examinerGlobalComment, hasIncident, hasJoiningIssue, finalizedAt }) {
-    let updatedSession = await new BookshelfSession({ id }).save(
-      { examinerGlobalComment, hasIncident, hasJoiningIssue, finalizedAt },
-      { patch: true }
-    );
-    updatedSession = await updatedSession.refresh();
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, updatedSession);
+    const [finalizedSession] = await knex('sessions')
+      .where({ id })
+      .update({ examinerGlobalComment, hasIncident, hasJoiningIssue, finalizedAt })
+      .returning('*');
+    return new Session(finalizedSession);
   },
 
   async flagResultsAsSentToPrescriber({ id, resultsSentToPrescriberAt }) {
-    let flaggedSession = await new BookshelfSession({ id }).save({ resultsSentToPrescriberAt }, { patch: true });
-    flaggedSession = await flaggedSession.refresh();
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, flaggedSession);
+    const [flaggedSession] = await knex('sessions').where({ id }).update({ resultsSentToPrescriberAt }).returning('*');
+    return new Session(flaggedSession);
   },
 
   async updatePublishedAt({ id, publishedAt }) {
-    let publishedSession = await new BookshelfSession({ id }).save({ publishedAt }, { patch: true });
-    publishedSession = await publishedSession.refresh();
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, publishedSession);
+    const [publishedSession] = await knex('sessions').where({ id }).update({ publishedAt }).returning('*');
+    return new Session(publishedSession);
   },
 
   async isSco({ sessionId }) {
