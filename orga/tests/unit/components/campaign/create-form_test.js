@@ -29,7 +29,7 @@ module('Unit | Component | Campaign::CreateForm', (hooks) => {
       await component.onChangeCampaignOwner(newOwnerId);
 
       //then
-      assert.deepEqual(component.campaign.ownerId, 7);
+      assert.deepEqual(component.ownerId, 7);
     });
   });
 });
