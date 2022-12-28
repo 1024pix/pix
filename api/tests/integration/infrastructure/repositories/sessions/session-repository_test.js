@@ -68,7 +68,7 @@ describe('Integration | Repository | Session', function () {
         date: '2018-02-23',
         time: '12:00',
         description: 'The lost examen',
-        accessCode: 'ABC123',
+        accessCode: 'ABCD12',
       });
 
       return databaseBuilder.commit();
@@ -76,7 +76,7 @@ describe('Integration | Repository | Session', function () {
 
     it('should return true if the accessCode is not in database', async function () {
       // given
-      const accessCode = 'DEF123';
+      const accessCode = 'DEFG34';
 
       // when
       const isAvailable = await sessionRepository.isSessionCodeAvailable(accessCode);
@@ -87,7 +87,7 @@ describe('Integration | Repository | Session', function () {
 
     it('should return false if the accessCode is in database', async function () {
       // given
-      const accessCode = 'ABC123';
+      const accessCode = 'ABCD12';
 
       // when
       const isAvailable = await sessionRepository.isSessionCodeAvailable(accessCode);
