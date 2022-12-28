@@ -60,6 +60,7 @@ describe('Acceptance | Scripts | parse-xls-files-for-target-profiles-migration',
     const TARGET_PROFILE_ID_UNCAP = 2003;
     const TARGET_PROFILE_ID_UNCAP_2 = 2011;
     const TARGET_PROFILE_ID_UNIFORM_CAP = 2004;
+    const TARGET_PROFILE_ID_UNIFORM_CAP_2 = 2013;
     const TARGET_PROFILE_ID_MULTIFORM_CAP_1 = 2005;
     const TARGET_PROFILE_ID_MULTIFORM_CAP_2 = 2006;
     const TARGET_PROFILE_ID_MULTIFORM_CAP_3 = 2007;
@@ -74,6 +75,7 @@ describe('Acceptance | Scripts | parse-xls-files-for-target-profiles-migration',
       TARGET_PROFILE_ID_UNCAP,
       TARGET_PROFILE_ID_UNCAP_2,
       TARGET_PROFILE_ID_UNIFORM_CAP,
+      TARGET_PROFILE_ID_UNIFORM_CAP_2,
       TARGET_PROFILE_ID_MULTIFORM_CAP_1,
       TARGET_PROFILE_ID_MULTIFORM_CAP_2,
       TARGET_PROFILE_ID_MULTIFORM_CAP_3,
@@ -154,6 +156,14 @@ describe('Acceptance | Scripts | parse-xls-files-for-target-profiles-migration',
     expect(tubesForUniformCap).to.deep.contain({ tubeId: tubeIdPartageDroits, level: 6 });
     expect(migrationStatusUniformCap).to.equal('UNIFORM_CAP');
 
+    const { tubes: tubesForUniformCap2, migrationStatus: migrationStatusUniformCap2 } =
+      await _getTubesAndMigrationStatus(TARGET_PROFILE_ID_UNIFORM_CAP_2);
+    expect(tubesForUniformCap2).to.deep.contain({ tubeId: tubeIdCodageEmblematique, level: 5 });
+    expect(tubesForUniformCap2).to.deep.contain({ tubeId: tubeIdTerminal, level: 5 });
+    expect(tubesForUniformCap2).to.deep.contain({ tubeId: tubeIdEditerDocEnLigne, level: 5 });
+    expect(tubesForUniformCap2).to.deep.contain({ tubeId: tubeIdPartageDroits, level: 5 });
+    expect(migrationStatusUniformCap2).to.equal('UNIFORM_CAP');
+
     const { tubes: tubesForMultiformCap1, migrationStatus: migrationStatusMultiformCap } =
       await _getTubesAndMigrationStatus(TARGET_PROFILE_ID_MULTIFORM_CAP_1);
     expect(tubesForMultiformCap1).to.deep.contain({ tubeId: tubeIdCodageEmblematique, level: 1 });
@@ -231,7 +241,7 @@ describe('Acceptance | Scripts | parse-xls-files-for-target-profiles-migration',
     expect(loggerErrorStub).to.have.been.calledWith(
       {
         targetProfileId: TARGET_PROFILE_ID_MULTIFORM_CAP_6,
-        targetProfileName: 'Profil cible avec capage multiforme vide',
+        targetProfileName: 'Profil cible avec capage multiforme sans instructions',
       },
       "Erreur lors de la migration d'un profil cible: %s",
       sinon.match({

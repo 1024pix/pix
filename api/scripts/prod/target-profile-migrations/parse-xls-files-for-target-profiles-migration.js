@@ -277,7 +277,8 @@ async function _multiformCap(targetProfile, instructions, trx) {
 }
 
 function _checkIfTPHasUnexpectedMultiformInstructions(id, multiFormData) {
-  if (multiFormData[id]) throw new Error(`Une feuille d'instructions "multiforme" existe pour ce profil cible.`);
+  if (multiFormData[id]?.length > 0)
+    throw new Error(`Une feuille d'instructions "multiforme" existe pour ce profil cible.`);
 }
 
 const isLaunchedFromCommandLine = require.main === module;
