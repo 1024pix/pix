@@ -3,6 +3,7 @@ const { EntityValidationError } = require('../errors');
 const { UnprocessableEntityError } = require('../../application/http-errors');
 const Session = require('../models/Session');
 const sessionCodeService = require('../services/session-code-service');
+const certificationSessionsService = require('../services/certification-sessions-service');
 
 module.exports = async function createSessions({
   data,
@@ -16,8 +17,10 @@ module.exports = async function createSessions({
 
   const { name: certificationCenter } = await certificationCenterRepository.get(certificationCenterId);
 
+  const groupedSessions = certificationSessionsService.groupBySessions(data);
+
   try {
-    const domainSessions = data.map((data) => {
+    const domainSessions = groupedSessions.map((data) => {
       const accessCode = sessionCodeService.getNewSessionCodeWithoutAvailabilityCheck();
       const domainSession = new Session({
         certificationCenterId,
