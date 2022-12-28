@@ -88,7 +88,7 @@ describe('Acceptance | Scripts | parse-xls-files-for-target-profiles-migration',
     await databaseBuilder.commit();
 
     // when
-    await doJob(PATH_TO_GENERIC_XLS, [PATH_TO_MULTIFORM_1_XLS, PATH_TO_MULTIFORM_2_XLS]);
+    await doJob(PATH_TO_GENERIC_XLS, [PATH_TO_MULTIFORM_1_XLS, PATH_TO_MULTIFORM_2_XLS], false);
 
     // then
     expect(loggerWarnStub).to.have.been.calledWith(
