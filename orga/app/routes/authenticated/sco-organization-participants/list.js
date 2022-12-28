@@ -39,7 +39,7 @@ export default class ListRoute extends Route {
       controller.connexionType = null;
       controller.certificability = [];
       controller.pageNumber = null;
-      controller.pageSize = null;
+      controller.pageSize = 50;
     }
   }
 
