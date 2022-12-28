@@ -119,7 +119,7 @@ jobs:
           when: always
       - run:
           name: Test
-          command: npm run test:ci
+          command: npm run test
           environment:
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
             TEST_REDIS_URL: redis://localhost:6379
