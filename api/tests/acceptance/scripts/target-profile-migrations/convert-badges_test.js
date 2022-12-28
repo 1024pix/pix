@@ -36,7 +36,7 @@ describe('Acceptance | Scripts | convert-badges', function () {
     await databaseBuilder.commit();
 
     // when
-    await doJob();
+    await doJob(false);
 
     // then
     const criteriaForAlreadyConverted = await _getCriteria(badgeAlreadyConvertedId);
