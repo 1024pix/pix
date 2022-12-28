@@ -480,6 +480,8 @@ describe('Integration | Repository | Certification Center Membership', function 
           'campaignParticipations',
           'authenticationMethods',
           'username',
+          'hasBeenAnonymised',
+          'hasBeenAnonymisedBy',
         ]);
       });
     });

@@ -3,35 +3,6 @@ const { expect, domainBuilder } = require('../../../test-helper');
 const User = require('../../../../lib/domain/models/User');
 
 describe('Unit | Domain | Models | User', function () {
-  describe('constructor', function () {
-    it('should build a user from raw JSON', function () {
-      // given
-      const rawData = {
-        id: 1,
-        firstName: 'Son',
-        lastName: 'Goku',
-        email: 'email@example.net',
-        cgu: true,
-        lastTermsOfServiceValidatedAt: '2020-05-04T13:40:00.000Z',
-        mustValidateTermsOfService: true,
-        isAnonymous: false,
-      };
-
-      // when
-      const user = new User(rawData);
-
-      // then
-      expect(user.id).to.equal(rawData.id);
-      expect(user.firstName).to.equal(rawData.firstName);
-      expect(user.lastName).to.equal(rawData.lastName);
-      expect(user.email).to.equal(rawData.email);
-      expect(user.cgu).to.equal(rawData.cgu);
-      expect(user.lastTermsOfServiceValidatedAt).to.equal(rawData.lastTermsOfServiceValidatedAt);
-      expect(user.mustValidateTermsOfService).to.equal(rawData.mustValidateTermsOfService);
-      expect(user.isAnonymous).to.equal(rawData.isAnonymous);
-    });
-  });
-
   describe('isLinkedToOrganizations', function () {
     it('should be true if user has a role in an organization', function () {
       // given
