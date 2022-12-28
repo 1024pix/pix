@@ -1,10 +1,13 @@
-require('dotenv').config();
+require('dotenv').config({
+  path: `${__dirname}/../../../.env`,
+});
 const _ = require('lodash');
 const { performance } = require('perf_hooks');
 const XLSX = require('xlsx');
 const logger = require('../../../lib/infrastructure/logger');
 const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
 const { knex, disconnect } = require('../../../db/knex-database-connection');
+const { normalizeAndRemoveAccents } = require('../../../lib/domain/services/validation-treatments');
 
 let allSkills;
 let allTubes;
@@ -12,12 +15,12 @@ async function _cacheLearningContentData() {
   const skillRepository = require('../../../lib/infrastructure/repositories/skill-repository');
   allSkills = await skillRepository.list();
   const tubeRepository = require('../../../lib/infrastructure/repositories/tube-repository');
-  allTubes = await tubeRepository.list();
+  const tubes = await tubeRepository.list();
+  allTubes = tubes.map((tube) => ({ ...tube, normalizedName: normalizeAndRemoveAccents(tube.name) }));
 }
 const report = [];
 
-async function doJob(mainFile, multiFormFiles) {
-  const dryRun = process.env.DRY_RUN === 'true';
+async function doJob(mainFile, multiFormFiles, dryRun) {
   const mainData = parseMainFile(mainFile);
   const multiFormData = multiFormFiles
     .map((multiFormFile) => parseMultiformFile(multiFormFile))
@@ -78,7 +81,12 @@ function parseMultiformFile(file) {
   return Object.fromEntries(
     Object.entries(workbook.Sheets).map(([tab, sheet]) => {
       const rowValues = XLSX.utils.sheet_to_json(sheet, { header: ['name', 'level'], range: 1 });
-      return [tab, rowValues.filter(({ name }) => typeof name !== 'number' && name?.startsWith('@'))];
+      return [
+        tab,
+        rowValues
+          .filter(({ name }) => typeof name !== 'number' && name?.startsWith('@'))
+          .map(({ level, name }) => ({ normalizedName: normalizeAndRemoveAccents(name), name, level })),
+      ];
     })
   );
 }
@@ -232,11 +240,13 @@ async function _uniformCap(id, cap, trx) {
 }
 
 async function _multiformCap(targetProfile, instructions, trx) {
-  const tubeNames = instructions.map(({ name }) => name);
-  const nonExistentTubes = tubeNames.filter((tubeName) => !allTubes.find((tube) => tube.name === tubeName));
-  if (nonExistentTubes.length > 0) throw new Error(`Les sujets suivants n'existent pas : ${nonExistentTubes}`);
-  const fullInstructions = instructions.map(({ name, level }) => {
-    const id = allTubes.find((tube) => tube.name === name).id;
+  const nonExistentTubes = instructions.filter(
+    ({ normalizedName }) => !allTubes.find((tube) => tube.normalizedName === normalizedName)
+  );
+  if (nonExistentTubes.length > 0)
+    throw new Error(`Les sujets suivants n'existent pas : ${nonExistentTubes.map(({ name }) => name)}`);
+  const fullInstructions = instructions.map(({ name, normalizedName, level }) => {
+    const id = allTubes.find((tube) => tube.normalizedName === normalizedName).id;
     return { id, name, level };
   });
   const tubeIds = fullInstructions.map(({ id }) => id);
@@ -276,7 +286,8 @@ async function main() {
   const startTime = performance.now();
   logger.info(`Script ${__filename} has started`);
   const [, , mainFile, ...multiFormFiles] = process.argv;
-  await doJob(mainFile, multiFormFiles);
+  const dryRun = process.env.DRY_RUN === 'true';
+  await doJob(mainFile, multiFormFiles, dryRun);
   const endTime = performance.now();
   const duration = Math.round(endTime - startTime);
   logger.info(`Script has ended: took ${duration} milliseconds`);
