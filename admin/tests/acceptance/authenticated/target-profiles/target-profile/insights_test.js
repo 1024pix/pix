@@ -245,7 +245,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         assert.dom(screen.getByText('Lacunes')).exists();
         assert.deepEqual(
           screen.getByTestId('triste').innerText,
-          'L‘évalué doit obtenir 50% sur l‘ensemble des acquis du profil cible.'
+          'L‘évalué doit obtenir 50% sur l‘ensemble des sujets du profil cible.'
         );
       });
 
@@ -427,7 +427,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         assert.dom(screen.getByText('Lacunes')).exists();
         assert.deepEqual(
           screen.getByTestId('triste').innerText,
-          'L‘évalué doit obtenir 50% sur l‘ensemble des acquis du profil cible.'
+          'L‘évalué doit obtenir 50% sur l‘ensemble des sujets du profil cible.'
         );
         const labelsForCappedTubes = screen.getAllByTestId('toujourstriste');
         assert.deepEqual(
