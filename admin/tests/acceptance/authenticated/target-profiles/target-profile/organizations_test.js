@@ -68,7 +68,7 @@ module('Acceptance | Target Profile Organizations', function (hooks) {
 
       test('should list organizations', async function (assert) {
         const screen = await visit('/target-profiles/1');
-        await clickByName('Organisations du profil-cible');
+        await clickByName('Organisations du profil cible');
 
         assert.dom(screen.getByText('My organization')).exists();
         assert.dom(screen.getByText('My other organization')).exists();
@@ -77,7 +77,7 @@ module('Acceptance | Target Profile Organizations', function (hooks) {
       test('it should redirect to organization details on click', async function (assert) {
         // given
         await visit('/target-profiles/1');
-        await clickByName('Organisations du profil-cible');
+        await clickByName('Organisations du profil cible');
 
         // when
         await clickByName('456');
@@ -88,7 +88,7 @@ module('Acceptance | Target Profile Organizations', function (hooks) {
 
       test('should be able to add new organization to the target profile', async function (assert) {
         const screen = await visit('/target-profiles/1');
-        await clickByName('Organisations du profil-cible');
+        await clickByName('Organisations du profil cible');
 
         await fillByLabel('Rattacher une ou plusieurs organisation(s)', '42');
         await clickByName('Valider le rattachement');
@@ -98,7 +98,7 @@ module('Acceptance | Target Profile Organizations', function (hooks) {
 
       test('should be able to attach an organization with given target profile', async function (assert) {
         const screen = await visit('/target-profiles/1');
-        await clickByName('Organisations du profil-cible');
+        await clickByName('Organisations du profil cible');
 
         await fillByLabel("Rattacher les organisations d'un profil cible existant", '43');
         await clickByName('Valider le rattachement à partir de ce profil cible');
