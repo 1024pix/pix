@@ -111,10 +111,15 @@ jobs:
           paths:
             - ~/.npm
       - run:
-          name: Lint and test
-          command: |
-            npm run lint
-            npm run test:ci
+          name: Lint
+          command: npm run lint
+          environment:
+            TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
+            TEST_REDIS_URL: redis://localhost:6379
+          when: always
+      - run:
+          name: Test
+          command: npm run test:ci
           environment:
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
             TEST_REDIS_URL: redis://localhost:6379
