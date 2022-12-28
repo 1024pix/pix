@@ -34,7 +34,7 @@ describe('Unit | UseCase | attach-target-profiles-to-organization', function () 
 
       // then
       expect(err).to.be.instanceOf(NotFoundError);
-      expect(err.message).to.equal("Le(s) profil-cible(s) [55, 66] n'existe(nt) pas.");
+      expect(err.message).to.equal("Le(s) profil cible(s) [55, 66] n'existe(nt) pas.");
     });
   });
 

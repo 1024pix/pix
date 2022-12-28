@@ -430,7 +430,7 @@ exports.register = async (server) => {
         tags: ['api', 'admin', 'target-profiles', 'organizations'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Elle permet de rattacher des profil-cibles à une organisation',
+            '- Elle permet de rattacher des profil cibles à une organisation',
         ],
       },
     },
@@ -458,7 +458,7 @@ exports.register = async (server) => {
         handler: organizationController.findTargetProfileSummariesForAdmin,
         tags: ['api', 'organizations', 'target-profiles'],
         notes: [
-          `- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n- Elle retourne la liste des profil-cibles d'une organisation`,
+          `- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n- Elle retourne la liste des profil cibles d'une organisation`,
         ],
       },
     },
