@@ -5,9 +5,11 @@ describe('Unit | Serializer | JSONAPI | user-anonymized-details-for-admin-serial
   describe('#serialize', function () {
     it('should serialize user details for Pix Admin', function () {
       // given
+      const now = new Date();
       const modelObject = domainBuilder.buildUserDetailsForAdmin({
         organizationLearners: [domainBuilder.buildOrganizationLearnerForAdmin()],
         authenticationMethods: [{ id: 1, identityProvider: 'PIX' }],
+        updatedAt: now,
       });
 
       // when
@@ -24,6 +26,9 @@ describe('Unit | Serializer | JSONAPI | user-anonymized-details-for-admin-serial
             cgu: modelObject.cgu,
             'pix-orga-terms-of-service-accepted': modelObject.pixOrgaTermsOfServiceAccepted,
             'pix-certif-terms-of-service-accepted': modelObject.pixCertifTermsOfServiceAccepted,
+            'has-been-anonymised': modelObject.hasBeenAnonymised,
+            'has-been-anonymised-by': modelObject.hasBeenAnonymisedBy,
+            'updated-at': now,
           },
           relationships: {
             'authentication-methods': {
