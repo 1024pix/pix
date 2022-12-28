@@ -39,9 +39,8 @@ module.exports = async function createSessions({
       return domainSession;
     });
 
-    await sessionRepository.saveSessions(domainSessions);
+    return sessionRepository.saveSessions(domainSessions);
   } catch (e) {
     throw new EntityValidationError(e);
   }
-  return;
 };
