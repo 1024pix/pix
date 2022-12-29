@@ -1,7 +1,8 @@
 const _ = require('lodash');
-const { expect, domainBuilder, mockLearningContent } = require('../../../test-helper');
+const { expect, domainBuilder, mockLearningContent, catchErr } = require('../../../test-helper');
 const Area = require('../../../../lib/domain/models/Area');
 const areaRepository = require('../../../../lib/infrastructure/repositories/area-repository');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | area-repository', function () {
   describe('#list', function () {
@@ -458,6 +459,59 @@ describe('Integration | Repository | area-repository', function () {
 
       // then
       expect(areas).to.deepEqualArray([area1, area2]);
+    });
+  });
+
+  describe('#get', function () {
+    beforeEach(function () {
+      const learningContentArea0 = {
+        id: 'recArea0',
+        code: 1,
+        name: 'area_name0',
+        title_i18n: {
+          fr: 'area_title0FR',
+          en: 'area_title0EN',
+        },
+        color: 'blue0',
+        frameworkId: 'recFwkId0',
+      };
+      const learningContentArea1 = {
+        id: 'recArea1',
+        code: 4,
+        name: 'area_name1',
+        title_i18n: {
+          fr: 'area_title1FR',
+          en: 'area_title1EN',
+        },
+        color: 'blue1',
+        frameworkId: 'recFwkId1',
+      };
+      mockLearningContent({ areas: [learningContentArea0, learningContentArea1] });
+    });
+
+    it('should return the area', async function () {
+      // when
+      const area = await areaRepository.get({ id: 'recArea1' });
+
+      // then
+      const expectedArea = domainBuilder.buildArea({
+        id: 'recArea1',
+        code: 4,
+        name: 'area_name1',
+        title: 'area_title1FR',
+        color: 'blue1',
+        frameworkId: 'recFwkId1',
+      });
+      expect(area).to.deepEqualInstance(expectedArea);
+    });
+
+    it('should throw a NotFound error', async function () {
+      // when
+      const error = await catchErr(areaRepository.get)({ id: 'jexistepas' });
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
+      expect(error.message).to.equal('Area "jexistepas" not found.');
     });
   });
 });
