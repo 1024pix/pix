@@ -1,7 +1,6 @@
 class Competence {
-  constructor({ id, area, name, index, description, origin, areaId, skillIds = [], thematicIds = [], tubes = [] }) {
+  constructor({ id, name, index, description, origin, areaId, skillIds = [], thematicIds = [], tubes = [] }) {
     this.id = id;
-    this.area = area;
     this.name = name;
     this.index = index;
     this.description = description;

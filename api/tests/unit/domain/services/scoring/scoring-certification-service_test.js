@@ -170,37 +170,37 @@ const challenges = _.map(
   domainBuilder.buildCertificationChallengeWithType
 );
 
-const competence_1 = domainBuilder.buildCompetence.noArea({
+const competence_1 = domainBuilder.buildCompetence({
   id: 'competence_1',
   index: '1.1',
   areaId: 'area1',
   name: 'Mener une recherche',
 });
-const competence_2 = domainBuilder.buildCompetence.noArea({
+const competence_2 = domainBuilder.buildCompetence({
   id: 'competence_2',
   index: '2.2',
   areaId: 'area2',
   name: 'Partager',
 });
-const competence_3 = domainBuilder.buildCompetence.noArea({
+const competence_3 = domainBuilder.buildCompetence({
   id: 'competence_3',
   index: '3.3',
   areaId: 'area3',
   name: 'Adapter',
 });
-const competence_4 = domainBuilder.buildCompetence.noArea({
+const competence_4 = domainBuilder.buildCompetence({
   id: 'competence_4',
   index: '4.4',
   areaId: 'area4',
   name: 'Résoudre',
 });
-const competence_5 = domainBuilder.buildCompetence.noArea({
+const competence_5 = domainBuilder.buildCompetence({
   id: 'competence_5',
   index: '5.5',
   areaId: 'area5',
   name: 'Chercher',
 });
-const competence_6 = domainBuilder.buildCompetence.noArea({
+const competence_6 = domainBuilder.buildCompetence({
   id: 'competence_6',
   index: '6.6',
   areaId: 'area6',
