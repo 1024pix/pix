@@ -264,7 +264,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
 
           monitoringTools.logErrorWithCorrelationIds.resolves();
 
-          const expectedLoggerMessage = `${errorData.error} ${errorData.error_description}`;
+          const expectedLoggerMessage = JSON.stringify(tokenResponse.data);
           const expectedResult = {
             code: tokenResponse.code,
             isSuccessful: tokenResponse.isSuccessful,
