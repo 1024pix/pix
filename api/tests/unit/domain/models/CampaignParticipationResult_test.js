@@ -16,13 +16,13 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
       new KnowledgeElement({ skillId: 7, status: 'validated' }),
     ];
 
-    const jaffaArea = new Area({ name: 'area 1', color: 'jaffa' });
-    const wildStrawberryArea = new Area({ name: 'area 2', color: 'wild-strawberry' });
-
+    const jaffaArea = new Area({ id: 'jaffaArea', name: 'area 1', color: 'jaffa' });
+    const wildStrawberryArea = new Area({ id: 'wildStrawberryArea', name: 'area 2', color: 'wild-strawberry' });
+    const allAreas = [jaffaArea, wildStrawberryArea];
     const competences = [
-      { id: 1, name: 'Economie symbiotique', index: '5.1', skillIds: [1], area: jaffaArea },
-      { id: 2, name: 'Désobéissance civile', index: '6.9', skillIds: [2, 3, 4], area: wildStrawberryArea },
-      { id: 3, name: 'Démocratie liquide', index: '8.6', skillIds: [5, 6], area: wildStrawberryArea },
+      { id: 1, name: 'Economie symbiotique', index: '5.1', skillIds: [1], areaId: 'jaffaArea' },
+      { id: 2, name: 'Désobéissance civile', index: '6.9', skillIds: [2, 3, 4], areaId: 'wildStrawberryArea' },
+      { id: 3, name: 'Démocratie liquide', index: '8.6', skillIds: [5, 6], areaId: 'wildStrawberryArea' },
     ];
 
     const assessment = {
@@ -43,6 +43,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
           stages: [],
           skillIds,
           knowledgeElements,
+          allAreas,
         });
 
         // then
@@ -102,6 +103,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
           stages,
           skillIds,
           knowledgeElements,
+          allAreas,
         });
 
         // then
@@ -155,6 +157,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
           stages: [],
           skillIds,
           knowledgeElements,
+          allAreas,
         });
 
         // then
