@@ -45,6 +45,7 @@ module.exports = {
         code = httpErr.response.status;
         data = httpErr.response.data;
       } else {
+        code = httpErr.code;
         data = httpErr.message;
       }
 
@@ -66,7 +67,7 @@ module.exports = {
     const startTime = performance.now();
     let responseTime = null;
     try {
-      const config = { data: payload, headers };
+      const config = { data: payload, headers, timeout: TIMEOUT_MILLISECONDS };
       const httpResponse = await axios.get(url, config);
       responseTime = performance.now() - startTime;
       monitoringTools.logInfoWithCorrelationIds({

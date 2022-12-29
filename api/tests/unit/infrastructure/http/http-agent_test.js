@@ -151,7 +151,10 @@ describe('Unit | Infrastructure | http | http-agent', function () {
         data: Symbol('data'),
         status: 'someStatus',
       };
-      sinon.stub(axios, 'get').withArgs(url, { data: payload, headers }).resolves(axiosResponse);
+      sinon
+        .stub(axios, 'get')
+        .withArgs(url, { data: payload, headers, timeout: TIMEOUT_MILLISECONDS })
+        .resolves(axiosResponse);
 
       // when
       const actualResponse = await get({ url, payload, headers });
@@ -179,7 +182,10 @@ describe('Unit | Infrastructure | http | http-agent', function () {
             status: 400,
           },
         };
-        sinon.stub(axios, 'get').withArgs(url, { data: payload, headers }).rejects(axiosError);
+        sinon
+          .stub(axios, 'get')
+          .withArgs(url, { data: payload, headers, timeout: TIMEOUT_MILLISECONDS })
+          .rejects(axiosError);
 
         // when
         await get({ url, payload, headers });
@@ -203,7 +209,10 @@ describe('Unit | Infrastructure | http | http-agent', function () {
               status: 'someStatus',
             },
           };
-          sinon.stub(axios, 'get').withArgs(url, { data: payload, headers }).rejects(axiosError);
+          sinon
+            .stub(axios, 'get')
+            .withArgs(url, { data: payload, headers, timeout: TIMEOUT_MILLISECONDS })
+            .rejects(axiosError);
 
           // when
           const actualResponse = await get({ url, payload, headers });
