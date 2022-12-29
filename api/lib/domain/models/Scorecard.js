@@ -65,7 +65,7 @@ class Scorecard {
     const remainingDaysBeforeImproving = _.isEmpty(knowledgeElements)
       ? null
       : Scorecard.computeRemainingDaysBeforeImproving(knowledgeElements);
-
+    // TODO LAURA ici dans les appels en amont en fait
     return new Scorecard({
       id: `${userId}_${competence.id}`,
       name: competence.name,
