@@ -53,6 +53,7 @@ class Scorecard {
     userId,
     knowledgeElements,
     competence,
+    area,
     competenceEvaluation,
     allowExcessPix = false,
     allowExcessLevel = false,
@@ -65,14 +66,13 @@ class Scorecard {
     const remainingDaysBeforeImproving = _.isEmpty(knowledgeElements)
       ? null
       : Scorecard.computeRemainingDaysBeforeImproving(knowledgeElements);
-    // TODO LAURA ici dans les appels en amont en fait
     return new Scorecard({
       id: `${userId}_${competence.id}`,
       name: competence.name,
       description: competence.description,
       competenceId: competence.id,
       index: competence.index,
-      area: competence.area,
+      area,
       earnedPix: pixScoreForCompetence,
       exactlyEarnedPix: realTotalPixScoreForCompetence,
       level: currentLevel,
