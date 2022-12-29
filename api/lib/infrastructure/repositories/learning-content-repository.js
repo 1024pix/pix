@@ -9,6 +9,7 @@ const frameworkRepository = require('./framework-repository');
 const LearningContent = require('../../domain/models/LearningContent');
 // TODO pas satisfaisant comme dépendance
 const learningContentConversionService = require('../../domain/services/learning-content/learning-content-conversion-service');
+const areaRepository = require('./area-repository');
 
 async function findByCampaignId(campaignId, locale) {
   const skills = await campaignRepository.findSkills({ campaignId });
@@ -84,7 +85,7 @@ async function _getLearningContentByTubes(tubes, locale) {
   });
 
   const competenceIds = _.uniq(tubes.map((tube) => tube.competenceId));
-  const competences = await competenceRepository.findByRecordIds({ competenceIds, locale });
+  const competences = await competenceRepository.findByRecordIds_new({ competenceIds, locale });
 
   competences.forEach((competence) => {
     competence.tubes = tubes.filter((tube) => {
@@ -95,13 +96,12 @@ async function _getLearningContentByTubes(tubes, locale) {
     });
   });
 
-  const areas = _.uniqBy(
-    competences.map(({ area }) => area),
-    'id'
-  );
+  const allAreaIds = _.map(competences, (competence) => competence.areaId);
+  const uniqAreaIds = _.uniq(allAreaIds, 'id');
+  const areas = await areaRepository.findByRecordIds({ areaIds: uniqAreaIds, locale });
   for (const area of areas) {
     area.competences = competences.filter((competence) => {
-      return competence.area.id === area.id;
+      return competence.areaId === area.id;
     });
   }
 

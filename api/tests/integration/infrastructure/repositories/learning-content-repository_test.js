@@ -275,7 +275,6 @@ describe('Integration | Repository | learning-content', function () {
 
         framework1Fr.areas = [area1Fr];
         area1Fr.competences = [competence2Fr];
-        competence2Fr.area = area1Fr;
         competence2Fr.thematics = [thematic2Fr];
         competence2Fr.tubes = [tube2Fr];
         thematic2Fr.tubes = [tube2Fr];
@@ -324,7 +323,6 @@ describe('Integration | Repository | learning-content', function () {
 
       framework1Fr.areas = [area1Fr];
       area1Fr.competences = [competence2Fr];
-      competence2Fr.area = area1Fr;
       competence2Fr.thematics = [thematic2Fr];
       competence2Fr.tubes = [tube2Fr];
       thematic2Fr.tubes = [tube2Fr];
@@ -350,7 +348,6 @@ describe('Integration | Repository | learning-content', function () {
 
         framework1En.areas = [area1En];
         area1En.competences = [competence2En];
-        competence2En.area = area1En;
         competence2En.thematics = [thematic2En];
         competence2En.tubes = [tube2En];
         thematic2En.tubes = [tube2En];
@@ -422,7 +419,6 @@ describe('Integration | Repository | learning-content', function () {
         await databaseBuilder.commit();
 
         area1Fr.competences = [competence2Fr];
-        competence2Fr.area = area1Fr;
         competence2Fr.thematics = [thematic2Fr];
         competence2Fr.tubes = [tube2Fr];
         thematic2Fr.tubes = [tube2Fr];
@@ -475,7 +471,6 @@ describe('Integration | Repository | learning-content', function () {
       await databaseBuilder.commit();
 
       area1Fr.competences = [competence2Fr];
-      competence2Fr.area = area1Fr;
       competence2Fr.thematics = [thematic2Fr];
       competence2Fr.tubes = [tube2Fr];
       thematic2Fr.tubes = [tube2Fr];
@@ -502,7 +497,6 @@ describe('Integration | Repository | learning-content', function () {
         await databaseBuilder.commit();
 
         area1En.competences = [competence2En];
-        competence2En.area = area1En;
         competence2En.thematics = [thematic2En];
         competence2En.tubes = [tube2En];
         thematic2En.tubes = [tube2En];
@@ -564,7 +558,6 @@ describe('Integration | Repository | learning-content', function () {
 
         framework1Fr.areas = [area1Fr];
         area1Fr.competences = [competence2Fr];
-        competence2Fr.area = area1Fr;
         competence2Fr.thematics = [thematic2Fr];
         competence2Fr.tubes = [tube2Fr];
         thematic2Fr.tubes = [tube2Fr];
@@ -586,7 +579,6 @@ describe('Integration | Repository | learning-content', function () {
 
           framework1En.areas = [area1En];
           area1En.competences = [competence2En];
-          competence2En.area = area1En;
           competence2En.thematics = [thematic2En];
           competence2En.tubes = [tube2En];
           thematic2En.tubes = [tube2En];
@@ -627,7 +619,7 @@ function _buildDomainAreasFromLearningContent({ areas }, locale) {
 
 function _buildDomainCompetencesFromLearningContent({ competences }, locale) {
   return competences.map((competence) =>
-    domainBuilder.buildCompetence({
+    domainBuilder.buildCompetence.noArea({
       ...competence,
       name: competence.name_i18n[locale],
       description: competence.description_i18n[locale],
