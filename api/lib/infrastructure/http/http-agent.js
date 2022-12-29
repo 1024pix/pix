@@ -1,7 +1,12 @@
 // eslint-disable-next-line no-restricted-modules
 const axios = require('axios');
 const { performance } = require('perf_hooks');
+
+const config = require('../../config');
+
 const monitoringTools = require('../monitoring-tools');
+
+const TIMEOUT_MILLISECONDS = config.partner.fetchTimeOut;
 
 class HttpResponse {
   constructor({ code, data, isSuccessful }) {
@@ -18,6 +23,7 @@ module.exports = {
     try {
       const httpResponse = await axios.post(url, payload, {
         headers,
+        timeout: TIMEOUT_MILLISECONDS,
       });
       responseTime = performance.now() - startTime;
       monitoringTools.logInfoWithCorrelationIds({
