@@ -85,7 +85,7 @@ async function _getLearningContentByTubes(tubes, locale) {
   });
 
   const competenceIds = _.uniq(tubes.map((tube) => tube.competenceId));
-  const competences = await competenceRepository.findByRecordIds_new({ competenceIds, locale });
+  const competences = await competenceRepository.findByRecordIds({ competenceIds, locale });
 
   competences.forEach((competence) => {
     competence.tubes = tubes.filter((tube) => {

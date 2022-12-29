@@ -31,7 +31,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationResult', funct
 
     context('when the campaignParticipation is shared', function () {
       it('should compute results with targeted competences', function () {
-        const competence = domainBuilder.buildCompetence.noArea({
+        const competence = domainBuilder.buildCompetence({
           id: 'competence1',
           skills: ['oneSkill'],
           areaId: 'area1',

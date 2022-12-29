@@ -93,25 +93,21 @@ describe('Unit | Service | Certification Challenge Service', function () {
       id: 'competenceRecordIdOne',
       index: '1.1',
       name: '1.1 Construire un flipper',
-      area: '1',
     });
     competenceRemplir = domainBuilder.buildCompetence({
       id: 'competenceRecordIdTwo',
       index: '1.2',
       name: '1.2 Adopter un dauphin',
-      area: '1',
     });
     competenceRequin = domainBuilder.buildCompetence({
       id: 'competenceRecordIdThree',
       index: '1.3',
       name: '1.3 Se faire manger par un requin',
-      area: '1',
     });
     competenceKoala = domainBuilder.buildCompetence({
       id: 'competenceRecordIdKoala',
       index: '1.3',
       name: '1.3 Se faire manger par un koala',
-      area: '1',
     });
 
     skillCitation4 = domainBuilder.buildSkill({

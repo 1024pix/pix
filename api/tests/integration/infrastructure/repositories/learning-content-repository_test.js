@@ -619,7 +619,7 @@ function _buildDomainAreasFromLearningContent({ areas }, locale) {
 
 function _buildDomainCompetencesFromLearningContent({ competences }, locale) {
   return competences.map((competence) =>
-    domainBuilder.buildCompetence.noArea({
+    domainBuilder.buildCompetence({
       ...competence,
       name: competence.name_i18n[locale],
       description: competence.description_i18n[locale],
