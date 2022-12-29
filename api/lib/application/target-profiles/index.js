@@ -437,7 +437,7 @@ exports.register = async (server) => {
         handler: targetProfileController.getLearningContentAsPdf,
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Elle permet de récupérer le référentiel du profil-cible en version pdf',
+            '- Elle permet de récupérer le référentiel du profil cible en version pdf',
         ],
         tags: ['api', 'learning-content', 'target-profile', 'PDF'],
       },

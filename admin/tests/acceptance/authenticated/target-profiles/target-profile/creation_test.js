@@ -61,7 +61,7 @@ module('Acceptance | Target profile creation', function (hooks) {
       server.get('/admin/frameworks', (schema) => schema.frameworks.all());
       const screen = await visit('/target-profiles/list');
       await clickByName('Nouveau profil cible');
-      await fillByLabel('Nom (obligatoire) :', 'Un profil-cible, et vite !');
+      await fillByLabel('Nom (obligatoire) :', 'Un profil cible, et vite !');
       await fillByLabel("Identifiant de l'organisation de référence :", 1);
       await fillByLabel('Référentiel :', 'Pi');
       const otherFrameworkChoice = screen.getByLabelText('Pix + Cuisine');
@@ -74,7 +74,7 @@ module('Acceptance | Target profile creation', function (hooks) {
       // then
       assert.strictEqual(currentURL(), '/target-profiles/1');
       await _unfoldLearningContent();
-      assert.dom(screen.getByRole('heading', { name: 'Un profil-cible, et vite !' })).exists();
+      assert.dom(screen.getByRole('heading', { name: 'Un profil cible, et vite !' })).exists();
       let isMobileCompliant = screen.getByTestId('mobile-compliant-tube_f1_a1_c1_th1_tu1').getAttribute('aria-label');
       let isTabletCompliant = screen.getByTestId('tablet-compliant-tube_f1_a1_c1_th1_tu1').getAttribute('aria-label');
       assert.deepEqual(

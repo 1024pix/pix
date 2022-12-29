@@ -14,7 +14,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
       const badge = server.create('badge', { id: 200 });
       const targetProfile = server.create('target-profile', {
         id: 1,
-        name: 'Profil-cible extra croustillant',
+        name: 'Profil cible extra croustillant',
         badges: [badge],
       });
       server.create('stage', { id: 100, targetProfile });
@@ -69,7 +69,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
     let targetProfile;
 
     hooks.beforeEach(async function () {
-      targetProfile = server.create('target-profile', { id: 1, name: 'Profil-cible extra croustillant' });
+      targetProfile = server.create('target-profile', { id: 1, name: 'Profil cible extra croustillant' });
       await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
     });
 
@@ -122,7 +122,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
 
         // when
         await visit('/target-profiles/1/stages/100');
-        await clickByName('Profil-cible extra croustillant');
+        await clickByName('Profil cible extra croustillant');
 
         // then
         assert.strictEqual(currentURL(), '/target-profiles/1/insights');
@@ -245,7 +245,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         assert.dom(screen.getByText('Lacunes')).exists();
         assert.deepEqual(
           screen.getByTestId('triste').innerText,
-          'L‘évalué doit obtenir 50% sur l‘ensemble des acquis du profil-cible.'
+          'L‘évalué doit obtenir 50% sur l‘ensemble des acquis du profil cible.'
         );
       });
 
@@ -255,7 +255,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
 
         // when
         await visit('/target-profiles/1/badges/100');
-        await clickByName('Profil-cible extra croustillant');
+        await clickByName('Profil cible extra croustillant');
 
         // then
         assert.strictEqual(currentURL(), '/target-profiles/1/insights');
@@ -427,7 +427,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         assert.dom(screen.getByText('Lacunes')).exists();
         assert.deepEqual(
           screen.getByTestId('triste').innerText,
-          'L‘évalué doit obtenir 50% sur l‘ensemble des acquis du profil-cible.'
+          'L‘évalué doit obtenir 50% sur l‘ensemble des acquis du profil cible.'
         );
         const labelsForCappedTubes = screen.getAllByTestId('toujourstriste');
         assert.deepEqual(
