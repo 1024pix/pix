@@ -109,4 +109,23 @@ describe('serializeHttpErrorResponse', function () {
       });
     });
   });
+
+  describe('When no custom message is provided', function () {
+    it('should display only formatted error', function () {
+      // given
+      const errorResponse = {
+        code: 400,
+        data: {
+          error: 'invalid_client',
+          custom_error: 'Invalid authentication method for accessing this endpoint.',
+        },
+      };
+
+      // when
+      const formattedResponse = serializeHttpErrorResponse(errorResponse);
+
+      // then
+      expect(formattedResponse).to.deep.equal(JSON.stringify(errorResponse.data));
+    });
+  });
 });

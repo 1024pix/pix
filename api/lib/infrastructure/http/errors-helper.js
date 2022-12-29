@@ -9,6 +9,10 @@ function serializeHttpErrorResponse(response, customMessage) {
     errorDetails = JSON.stringify(response.data);
   }
 
+  if (!customMessage) {
+    return errorDetails;
+  }
+
   const dataToLog = {
     customMessage,
     errorDetails,
