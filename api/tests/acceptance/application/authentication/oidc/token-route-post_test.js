@@ -151,6 +151,67 @@ describe('Acceptance | Route | oidc | token', function () {
       expect(response.result['logout_url_uuid']).to.match(uuidPattern);
     });
 
+    context('when the identity provider API does not respond within timeout', function () {
+      it('should return 503', async function () {
+        // given
+        const firstName = 'John';
+        const lastName = 'Doe';
+        const externalIdentifier = 'sub';
+
+        const userId = databaseBuilder.factory.buildUser({
+          firstName,
+          lastName,
+        }).id;
+
+        databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
+          identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+          externalIdentifier,
+          accessToken: 'access_token',
+          refreshToken: 'refresh_token',
+          expiresIn: 1000,
+          userId,
+        });
+        await databaseBuilder.commit();
+
+        const idToken = jsonwebtoken.sign(
+          {
+            given_name: firstName,
+            family_name: lastName,
+            nonce: 'nonce',
+            sub: externalIdentifier,
+          },
+          'secret'
+        );
+        const getAccessTokenResponse = {
+          access_token: 'access_token',
+          id_token: idToken,
+          expires_in: 60,
+          refresh_token: 'refresh_token',
+        };
+
+        const TIMEOUT_MILLISECONDS = 10;
+        const getAccessTokenRequest = nock(settings.poleEmploi.tokenUrl)
+          .post('/')
+          .delay(TIMEOUT_MILLISECONDS)
+          .reply(200, getAccessTokenResponse);
+
+        // when
+        const response = await server.inject({
+          method: 'POST',
+          url: '/api/oidc/token',
+          headers: { Authorization: generateValidRequestAuthorizationHeader(userId) },
+          payload,
+        });
+
+        // then
+        expect(response.statusCode).to.equal(503);
+        expect(getAccessTokenRequest.isDone()).to.be.true;
+        expect(response.payload).to.equal(
+          '{"errors":[{"status":"503","title":"ServiceUnavailable","detail":"Erreur lors de la récupération des tokens du partenaire."}]}'
+        );
+      });
+    });
+
     context('When user has an invalid token', function () {
       it('should be rejected by API', async function () {
         // given
