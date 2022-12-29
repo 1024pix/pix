@@ -8,6 +8,7 @@ const OidcIdentityProviders = require('../../../domain/constants/oidc-identity-p
 const httpAgent = require('../../http/http-agent');
 const settings = require('../../../config');
 const { UnexpectedUserAccountError } = require('../../../domain/errors');
+const httpErrorsHelper = require('../../../infrastructure/http/errors-helper');
 
 module.exports = {
   async notify(userId, payload) {
@@ -50,12 +51,12 @@ module.exports = {
       });
 
       if (!tokenResponse.isSuccessful) {
-        const errorMessage = _getErrorMessage(tokenResponse.data);
+        const serializedError = httpErrorsHelper.serializeHttpErrorResponse(tokenResponse);
         monitoringTools.logErrorWithCorrelationIds({
           event: 'participation-send-pole-emploi',
           'pole-emploi-action': 'refresh-token',
           'participation-state': participationState(payload),
-          message: errorMessage,
+          message: serializedError,
         });
         return {
           isSuccessful: tokenResponse.isSuccessful,
@@ -87,12 +88,12 @@ module.exports = {
     const httpResponse = await httpAgent.post({ url, payload, headers });
 
     if (!httpResponse.isSuccessful) {
-      const errorMessage = _getErrorMessage(httpResponse.data);
+      const serializedError = httpErrorsHelper.serializeHttpErrorResponse(httpResponse);
       monitoringTools.logErrorWithCorrelationIds({
         event: 'participation-send-pole-emploi',
         'pole-emploi-action': 'send-results',
         'participation-state': participationState(payload),
-        message: errorMessage,
+        message: serializedError,
       });
     }
 
@@ -102,19 +103,6 @@ module.exports = {
     };
   },
 };
-
-function _getErrorMessage(data) {
-  let message;
-
-  if (typeof data === 'string') {
-    message = data;
-  } else {
-    const error = get(data, 'error', '');
-    const error_description = get(data, 'error_description', '');
-    message = `${error} ${error_description}`;
-  }
-  return message.trim();
-}
 
 function participationState({ test }) {
   if (test.dateValidation) {
