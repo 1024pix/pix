@@ -27,9 +27,8 @@ async function listWithPixCompetencesOnly({ locale } = {}) {
     list({ locale }),
     competenceRepository.listPixCompetencesOnly({ locale }),
   ]);
-  // TODO LAURA ici
   areas.forEach((area) => {
-    area.competences = _.filter(competences, { area: { id: area.id } });
+    area.competences = _.filter(competences, { areaId: area.id });
   });
   return _.filter(areas, ({ competences }) => !_.isEmpty(competences));
 }
@@ -39,7 +38,7 @@ async function findByFrameworkIdWithCompetences({ frameworkId, locale }) {
   const areas = areaDatas.map((areaData) => _toDomain({ areaData, locale }));
   const competences = await competenceRepository.list({ locale });
   areas.forEach((area) => {
-    area.competences = _.filter(competences, { area: { id: area.id } });
+    area.competences = _.filter(competences, { areaId: area.id });
   });
   return areas;
 }
