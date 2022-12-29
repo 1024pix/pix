@@ -8,6 +8,7 @@ async function computeScorecard({
   userId,
   competenceId,
   competenceRepository,
+  areaRepository,
   competenceEvaluationRepository,
   knowledgeElementRepository,
   allowExcessPix = false,
@@ -19,14 +20,14 @@ async function computeScorecard({
     competenceRepository.get({ id: competenceId, locale }),
     competenceEvaluationRepository.findByUserId(userId),
   ]);
-
   const competenceEvaluation = _.find(competenceEvaluations, { competenceId: competence.id });
-
+  const area = await areaRepository.get({ id: competence.areaId, locale });
   return Scorecard.buildFrom({
     userId,
     knowledgeElements,
     competenceEvaluation,
     competence,
+    area,
     allowExcessPix,
     allowExcessLevel,
   });

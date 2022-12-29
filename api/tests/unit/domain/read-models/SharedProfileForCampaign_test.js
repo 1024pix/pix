@@ -8,7 +8,8 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
     context('when participant has knowledge elements', function () {
       it('return scorecards', function () {
         const userId = 1;
-        const competence = { id: 1, name: 'Useful competence' };
+        const competence = { id: 1, name: 'Useful competence', areaId: 'area' };
+        const area = { id: 'area' };
         const knowledgeElements = [domainBuilder.buildKnowledgeElement({ competenceId: competence.id })];
         const expectedScorecard = Scorecard.buildFrom({ userId, competence, knowledgeElements });
 
@@ -17,7 +18,8 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
           campaignParticipation: {
             sharedAt: new Date('2020-01-01'),
           },
-          competencesWithArea: [competence],
+          competences: [competence],
+          allAreas: [area],
           knowledgeElementsGroupedByCompetenceId: {
             [competence.id]: knowledgeElements,
           },

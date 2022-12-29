@@ -7,14 +7,15 @@ class SharedProfileForCampaign {
     campaignParticipation,
     campaignAllowsRetry,
     isOrganizationLearnerActive,
-    competencesWithArea,
+    competences,
     knowledgeElementsGroupedByCompetenceId,
     userId,
+    allAreas,
   }) {
     this.id = campaignParticipation?.id;
     this.sharedAt = campaignParticipation?.sharedAt;
     this.pixScore = campaignParticipation?.pixScore || 0;
-    this.scorecards = this._buildScorecards(userId, competencesWithArea, knowledgeElementsGroupedByCompetenceId);
+    this.scorecards = this._buildScorecards(userId, competences, allAreas, knowledgeElementsGroupedByCompetenceId);
     this.canRetry = this._computeCanRetry(
       campaignAllowsRetry,
       this.sharedAt,
@@ -23,16 +24,18 @@ class SharedProfileForCampaign {
     );
   }
 
-  _buildScorecards(userId, competencesWithArea, knowledgeElementsGroupedByCompetenceId) {
+  _buildScorecards(userId, competences, allAreas, knowledgeElementsGroupedByCompetenceId) {
     if (isEmpty(knowledgeElementsGroupedByCompetenceId)) return [];
-    return map(competencesWithArea, (competence) => {
+    return map(competences, (competence) => {
       const competenceId = competence.id;
+      const area = allAreas.find((area) => area.id === competence.areaId);
       const knowledgeElements = knowledgeElementsGroupedByCompetenceId[competenceId];
 
       return Scorecard.buildFrom({
         userId,
         knowledgeElements,
         competence,
+        area,
       });
     });
   }
