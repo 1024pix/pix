@@ -260,7 +260,7 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
             data: [{ lastName }],
           } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
             organizationId,
-            filter: { connexionType: 'none' },
+            filter: { connexionType: ['none'] },
           });
 
           // then
@@ -273,7 +273,7 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
             data: [{ lastName }],
           } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
             organizationId,
-            filter: { connexionType: 'identifiant' },
+            filter: { connexionType: ['identifiant'] },
           });
 
           // then
@@ -286,7 +286,7 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
             data: [{ lastName }],
           } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
             organizationId,
-            filter: { connexionType: 'email' },
+            filter: { connexionType: ['email'] },
           });
 
           // then
@@ -299,11 +299,22 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
             data: [{ lastName }],
           } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
             organizationId,
-            filter: { connexionType: 'mediacentre' },
+            filter: { connexionType: ['mediacentre'] },
           });
 
           // then
           expect(lastName).to.equal('Norris');
+        });
+        it('should return sco participants filtered by "none" & "mediacentre" user connexion', async function () {
+          // when
+          const { data } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
+            organizationId,
+            filter: { connexionType: ['mediacentre', 'none'] },
+          });
+
+          // then
+          expect(data[0].lastName).to.equal('Lee');
+          expect(data[1].lastName).to.equal('Norris');
         });
       });
 
