@@ -8,6 +8,7 @@ const { ReproducibilityRate } = require('../../models/ReproducibilityRate');
 const CompetenceMark = require('../../models/CompetenceMark');
 const CertificationAssessmentScore = require('../../models/CertificationAssessmentScore');
 const AnswerCollectionForScoring = require('../../models/AnswerCollectionForScoring');
+const areaRepository = require('../../../infrastructure/repositories/area-repository');
 
 function _selectAnswersMatchingCertificationChallenges(answers, certificationChallenges) {
   return answers.filter(({ challengeId }) => _.some(certificationChallenges, { challengeId }));
@@ -27,7 +28,8 @@ function _getCompetenceMarksWithCertifiedLevelAndScore(
   reproducibilityRate,
   certificationChallenges,
   continueOnError,
-  answerCollection
+  answerCollection,
+  allAreas
 ) {
   return listCompetences.map((competence) => {
     const challengesForCompetence = _.filter(certificationChallenges, { competenceId: competence.id });
@@ -47,29 +49,31 @@ function _getCompetenceMarksWithCertifiedLevelAndScore(
       reproducibilityRate,
     });
     const certifiedScore = CertifiedScore.from({ certifiedLevel, estimatedScore: competence.pixScore });
+    const area = allAreas.find((area) => area.id === competence.areaId);
     return new CompetenceMark({
       level: scoringService.getBlockedLevel(certifiedLevel.value),
       score: scoringService.getBlockedPixScore(certifiedScore.value),
-      area_code: competence.area.code,
+      area_code: area.code,
       competence_code: competence.index,
       competenceId: competence.id,
     });
   });
 }
 
-function _getCompetenceMarksWithFailedLevel(listCompetences) {
+function _getCompetenceMarksWithFailedLevel(listCompetences, allAreas) {
   return listCompetences.map((competence) => {
+    const area = allAreas.find((area) => area.id === competence.areaId);
     return new CompetenceMark({
       level: scoringService.getBlockedLevel(CertifiedLevel.invalidate().value),
       score: scoringService.getBlockedPixScore(0),
-      area_code: competence.area.code,
+      area_code: area.code,
       competence_code: competence.index,
       competenceId: competence.id,
     });
   });
 }
 
-function _getResult(answers, certificationChallenges, testedCompetences, continueOnError) {
+function _getResult(answers, certificationChallenges, testedCompetences, allAreas, continueOnError) {
   if (!continueOnError) {
     CertificationContract.assertThatWeHaveEnoughAnswers(answers, certificationChallenges);
   }
@@ -89,7 +93,7 @@ function _getResult(answers, certificationChallenges, testedCompetences, continu
 
   if (!reproducibilityRate.isEnoughToBeCertified()) {
     return new CertificationAssessmentScore({
-      competenceMarks: _getCompetenceMarksWithFailedLevel(testedCompetences),
+      competenceMarks: _getCompetenceMarksWithFailedLevel(testedCompetences, allAreas),
       percentageCorrectAnswers: reproducibilityRate.value,
       hasEnoughNonNeutralizedChallengesToBeTrusted,
     });
@@ -101,7 +105,8 @@ function _getResult(answers, certificationChallenges, testedCompetences, continu
     reproducibilityRate.value,
     certificationChallenges,
     continueOnError,
-    answerCollection
+    answerCollection,
+    allAreas
   );
   const scoreAfterRating = _getSumScoreFromCertifiedCompetences(competenceMarks);
 
@@ -120,7 +125,7 @@ async function _getTestedCompetences({ userId, limitDate, isV2Certification }) {
   const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate, isV2Certification });
   return _(placementProfile.userCompetences)
     .filter((uc) => uc.isCertifiable())
-    .map((uc) => _.pick(uc, ['id', 'area', 'index', 'name', 'estimatedLevel', 'pixScore']))
+    .map((uc) => _.pick(uc, ['id', 'index', 'areaId', 'name', 'estimatedLevel', 'pixScore']))
     .value();
 }
 
@@ -145,6 +150,7 @@ module.exports = {
       matchingCertificationChallenges
     );
 
-    return _getResult(matchingAnswers, matchingCertificationChallenges, testedCompetences, continueOnError);
+    const allAreas = await areaRepository.list();
+    return _getResult(matchingAnswers, matchingCertificationChallenges, testedCompetences, allAreas, continueOnError);
   },
 };
