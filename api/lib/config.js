@@ -73,6 +73,10 @@ module.exports = (function () {
       pixCertif: process.env.DOMAIN_PIX_CERTIF || 'https://certif.pix',
     },
 
+    partner: {
+      fetchTimeOut: ms(process.env.FETCH_TIMEOUT_MILLISECONDS || '20s'),
+    },
+
     lcms: {
       url: _removeTrailingSlashFromUrl(process.env.CYPRESS_LCMS_API_URL || process.env.LCMS_API_URL || ''),
       apiKey: process.env.CYPRESS_LCMS_API_KEY || process.env.LCMS_API_KEY,
@@ -419,6 +423,8 @@ module.exports = (function () {
       url: process.env.TEST_REDIS_URL,
       database: 1,
     };
+
+    config.partner.fetchTimeOut = '5ms';
   }
 
   return config;
