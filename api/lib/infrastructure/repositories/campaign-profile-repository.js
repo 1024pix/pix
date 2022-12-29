@@ -3,11 +3,13 @@ const placementProfileService = require('../../domain/services/placement-profile
 const { NotFoundError } = require('../../../lib/domain/errors');
 const { knex } = require('../../../db/knex-database-connection');
 const competenceRepository = require('./competence-repository');
+const areaRepository = require('./area-repository');
 
 module.exports = {
   async findProfile({ campaignId, campaignParticipationId, locale }) {
     const profile = await _fetchCampaignProfileAttributesFromCampaignParticipation(campaignId, campaignParticipationId);
     const competences = await competenceRepository.listPixCompetencesOnly({ locale });
+    const allAreas = await areaRepository.list({ locale });
 
     const { sharedAt, userId } = profile;
     const placementProfile = await placementProfileService.getPlacementProfileWithSnapshotting({
@@ -17,7 +19,7 @@ module.exports = {
       competences,
     });
 
-    return new CampaignProfile({ ...profile, placementProfile });
+    return new CampaignProfile({ ...profile, placementProfile, allAreas });
   },
 };
 

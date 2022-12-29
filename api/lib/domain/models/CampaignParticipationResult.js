@@ -115,6 +115,7 @@ function _getTestedCompetenceResults(competence, targetedKnowledgeElements) {
   const testedSkillsCount = targetedKnowledgeElementsForCompetence.length;
   const validatedSkillsCount = validatedKnowledgeElementsForCompetence.length;
   const totalSkillsCount = competence.skillIds.length;
+  // TODO LAURA ici
   const areaColor = competence.area ? competence.area.color : null;
   const areaName = _getAreaName(competence);
 
