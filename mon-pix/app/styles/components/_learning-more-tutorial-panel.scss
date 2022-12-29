@@ -1,16 +1,10 @@
 .learning-more-panel {
   display: flex;
   flex-direction: column;
-  background-color: white;
   border-radius: 10px;
 }
 
 .learning-more-panel__container {
-  margin: 25px 15px;
-
-  @include device-is('desktop') {
-    margin: 25px 40px;
-  }
 
   & .tutorial-card {
     margin-bottom: 16px;
@@ -18,7 +12,7 @@
 }
 
 .learning-more-panel__hint-title {
-  @include tutorial-panel-title(white);
+  @include tutorial-panel-title($pix-neutral-10);
 }
 
 .learning-more-panel__tutorial-info {
