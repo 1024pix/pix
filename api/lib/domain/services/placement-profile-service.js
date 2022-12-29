@@ -43,10 +43,8 @@ async function _createUserCompetencesV1({ competences, userLastAssessments, limi
       estimatedLevel = assessmentResultLevelAndPixScore.level;
       pixScore = assessmentResultLevelAndPixScore.pixScore;
     }
-    // TODO laura remove area from usercompetence
     return new UserCompetence({
       id: competence.id,
-      area: competence.area,
       areaId: competence.areaId,
       index: competence.index,
       name: competence.name,
@@ -95,10 +93,8 @@ function _createUserCompetencesV2({
       knowledgeElementsForCompetence,
       skillMap
     );
-    // TODO laura remove area from usercompetence
     return new UserCompetence({
       id: competence.id,
-      area: competence.area,
       areaId: competence.areaId,
       index: competence.index,
       name: competence.name,
