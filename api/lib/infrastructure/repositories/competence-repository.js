@@ -9,6 +9,22 @@ const { FRENCH_FRANCE } = require('../../domain/constants').LOCALE;
 const { PIX_ORIGIN } = require('../../domain/constants');
 const { getTranslatedKey } = require('../../domain/services/get-translated-text');
 
+function _toDomain_new({ competenceData, locale }) {
+  const translatedCompetenceName = getTranslatedKey(competenceData.name_i18n, locale);
+  const translatedCompetenceDescription = getTranslatedKey(competenceData.description_i18n, locale);
+
+  return new Competence({
+    id: competenceData.id,
+    name: translatedCompetenceName,
+    index: competenceData.index,
+    description: translatedCompetenceDescription,
+    origin: competenceData.origin,
+    skillIds: competenceData.skillIds,
+    thematicIds: competenceData.thematicIds,
+    areaId: competenceData.areaId,
+  });
+}
+
 function _toDomain({ competenceData, areaDatas, locale }) {
   const areaData = competenceData.areaId && _.find(areaDatas, { id: competenceData.areaId });
   const translatedCompetenceName = getTranslatedKey(competenceData.name_i18n, locale);
@@ -77,6 +93,14 @@ module.exports = {
     return competenceDatas
       .filter(({ id }) => competenceIds.includes(id))
       .map((competenceData) => _toDomain({ competenceData, areaDatas, locale }));
+  },
+
+  // TODO dont forget to promote me later !
+  async findByRecordIds_new({ competenceIds, locale }) {
+    const competenceDatas = await competenceDatasource.list();
+    return competenceDatas
+      .filter(({ id }) => competenceIds.includes(id))
+      .map((competenceData) => _toDomain_new({ competenceData, locale }));
   },
 };
 
