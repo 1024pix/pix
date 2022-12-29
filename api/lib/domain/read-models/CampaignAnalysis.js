@@ -2,17 +2,18 @@ const _ = require('lodash');
 const recommendationService = require('../services/recommendation-service');
 
 class CampaignAnalysis {
-  constructor({ campaignId, learningContent, tutorials, participantCount = 0 } = {}) {
+  constructor({ campaignId, campaignLearningContent, tutorials, participantCount = 0 } = {}) {
     this.id = campaignId;
     this.participantCount = participantCount;
-    const maxSkillLevel = learningContent.maxSkillDifficulty;
-    this.campaignTubeRecommendations = learningContent.tubes.map((tube) => {
-      const competence = learningContent.getCompetence(tube.competenceId);
+    const maxSkillLevel = campaignLearningContent.maxSkillDifficulty;
+    this.campaignTubeRecommendations = campaignLearningContent.tubes.map((tube) => {
+      const competence = campaignLearningContent.findCompetence(tube.competenceId);
+      const area = campaignLearningContent.findAreaOfCompetence(competence);
       const tutorialIds = _.uniq(_.flatMap(tube.skills, 'tutorialIds'));
       const tubeTutorials = _.filter(tutorials, (tutorial) => tutorialIds.includes(tutorial.id));
       return new CampaignTubeRecommendation({
         campaignId: campaignId,
-        area: competence.area,
+        area,
         competence,
         tube,
         maxSkillLevel,

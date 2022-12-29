@@ -9,14 +9,14 @@ const constants = require('../constants');
 const { SHARED } = CampaignParticipationStatuses;
 
 module.exports = {
-  async getCampaignAnalysis(campaignId, learningContent, tutorials) {
+  async getCampaignAnalysis(campaignId, campaignLearningContent, tutorials) {
     const userIdsAndSharedDates = await _getSharedParticipationsWithUserIdsAndDates(campaignId);
     const userIdsAndSharedDatesChunks = _.chunk(userIdsAndSharedDates, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
     const participantCount = userIdsAndSharedDates.length;
 
     const campaignAnalysis = new CampaignAnalysis({
       campaignId,
-      learningContent,
+      campaignLearningContent,
       tutorials,
       participantCount,
     });
@@ -24,7 +24,7 @@ module.exports = {
     await bluebird.mapSeries(userIdsAndSharedDatesChunks, async (userIdsAndSharedDates) => {
       const knowledgeElementsByTube = await knowledgeElementRepository.findValidatedGroupedByTubesWithinCampaign(
         Object.fromEntries(userIdsAndSharedDates),
-        learningContent
+        campaignLearningContent
       );
       campaignAnalysis.addToTubeRecommendations({ knowledgeElementsByTube });
     });
@@ -32,17 +32,17 @@ module.exports = {
     return campaignAnalysis;
   },
 
-  async getCampaignParticipationAnalysis(campaignId, campaignParticipation, learningContent, tutorials) {
+  async getCampaignParticipationAnalysis(campaignId, campaignParticipation, campaignLearningContent, tutorials) {
     const campaignAnalysis = new CampaignAnalysis({
       campaignId,
-      learningContent,
+      campaignLearningContent,
       tutorials,
       participantCount: 1,
     });
 
     const knowledgeElementsByTube = await knowledgeElementRepository.findValidatedGroupedByTubesWithinCampaign(
       { [campaignParticipation.userId]: campaignParticipation.sharedAt },
-      learningContent
+      campaignLearningContent
     );
     campaignAnalysis.addToTubeRecommendations({ knowledgeElementsByTube });
 

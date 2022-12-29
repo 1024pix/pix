@@ -10,7 +10,6 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationResult', funct
       const campaignAssessmentParticipationResult = new CampaignAssessmentParticipationResult({
         campaignParticipationId: 1,
         campaignId: 2,
-        competences: [],
       });
 
       expect(campaignAssessmentParticipationResult.campaignParticipationId).equal(1);
@@ -19,12 +18,9 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationResult', funct
 
     context('when the campaignParticipation is not shared', function () {
       it('does not compute CampaignAssessmentParticipationCompetenceResult', function () {
-        const competence = domainBuilder.buildCompetence({ id: 'competence1', skills: ['oneSkill'] });
-
         const campaignAssessmentParticipationResult = new CampaignAssessmentParticipationResult({
           campaignParticipationId: 1,
           campaignId: 2,
-          competences: [competence],
           status: TO_SHARE,
         });
 
@@ -35,13 +31,15 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationResult', funct
 
     context('when the campaignParticipation is shared', function () {
       it('should compute results with targeted competences', function () {
-        const area = domainBuilder.buildArea({ id: 'area1' });
-
-        const competence = domainBuilder.buildCompetence({
+        const competence = domainBuilder.buildCompetence.noArea({
           id: 'competence1',
           skills: ['oneSkill'],
-          area,
+          areaId: 'area1',
         });
+        const area = domainBuilder.buildArea({ id: 'area1', color: 'red', competences: [competence] });
+        const framework = domainBuilder.buildFramework({ areas: [area] });
+        const learningContent = domainBuilder.buildLearningContent([framework]);
+        const campaignLearningContent = domainBuilder.buildCampaignLearningContent(learningContent);
 
         const validatedTargetedKnowledgeElementsByCompetenceId = {
           competence1: [domainBuilder.buildKnowledgeElement({ skillId: 'someId', competenceId: 'competence1' })],
@@ -50,7 +48,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationResult', funct
         const campaignAssessmentParticipationResult = new CampaignAssessmentParticipationResult({
           campaignParticipationId: 1,
           campaignId: 2,
-          competences: [competence],
+          campaignLearningContent,
           status: SHARED,
           validatedTargetedKnowledgeElementsByCompetenceId,
         });

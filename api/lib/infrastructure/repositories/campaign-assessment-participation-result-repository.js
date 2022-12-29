@@ -50,17 +50,17 @@ async function _fetchCampaignAssessmentParticipationResultAttributesFromCampaign
   return campaignAssessmentParticipationResult;
 }
 
-async function _buildCampaignAssessmentParticipationResults(result, learningContent) {
+async function _buildCampaignAssessmentParticipationResults(result, campaignLearningContent) {
   const validatedTargetedKnowledgeElementsCountByCompetenceId =
     await knowledgeElementRepository.countValidatedByCompetencesForOneUserWithinCampaign(
       result.userId,
       result.sharedAt,
-      learningContent
+      campaignLearningContent
     );
 
   return new CampaignAssessmentParticipationResult({
     ...result,
-    competences: learningContent.competences,
+    campaignLearningContent,
     validatedTargetedKnowledgeElementsCountByCompetenceId,
   });
 }

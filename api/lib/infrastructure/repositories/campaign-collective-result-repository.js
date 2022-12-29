@@ -9,10 +9,10 @@ const constants = require('../constants');
 const { SHARED } = CampaignParticipationStatuses;
 
 module.exports = {
-  async getCampaignCollectiveResult(campaignId, learningContent) {
+  async getCampaignCollectiveResult(campaignId, campaignLearningContent) {
     const campaignCollectiveResult = new CampaignCollectiveResult({
       id: campaignId,
-      learningContent,
+      campaignLearningContent,
     });
 
     const userIdsAndSharedDatesChunks = await _getChunksSharedParticipationsWithUserIdsAndDates(campaignId);
@@ -23,7 +23,7 @@ module.exports = {
       const validatedTargetedKnowledgeElementsCountByCompetenceId =
         await knowledgeElementRepository.countValidatedByCompetencesForUsersWithinCampaign(
           Object.fromEntries(userIdsAndSharedDates),
-          learningContent
+          campaignLearningContent
         );
       campaignCollectiveResult.addValidatedSkillCountToCompetences(
         validatedTargetedKnowledgeElementsCountByCompetenceId
