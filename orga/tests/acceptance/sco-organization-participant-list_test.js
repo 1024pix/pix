@@ -144,13 +144,12 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
             screen.getByLabelText(this.intl.t('pages.sco-organization-participants.filter.login-method.aria-label'))
           );
           await click(
-            await screen.findByRole('option', {
+            await screen.findByRole('checkbox', {
               name: this.intl.t('pages.sco-organization-participants.connection-types.email'),
             })
           );
-
           // then
-          assert.strictEqual(currentURL(), '/eleves?connexionType=email');
+          assert.strictEqual(currentURL(), '/eleves?connexionType=%5B%22email%22%5D');
           assert.contains('Rambo');
           assert.notContains('Norris');
         });

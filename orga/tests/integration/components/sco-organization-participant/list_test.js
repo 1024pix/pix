@@ -176,10 +176,10 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
       // when
       await click(screen.getByLabelText('Rechercher par méthode de connexion'));
-      await click(await screen.findByRole('option', { name: 'Adresse e-mail' }));
+      await click(await screen.findByRole('checkbox', { name: 'Adresse e-mail' }));
 
       // then
-      sinon.assert.calledWithExactly(triggerFiltering, 'connexionType', 'email');
+      sinon.assert.calledWithExactly(triggerFiltering, 'connexionType', ['email']);
       assert.ok(true);
     });
 

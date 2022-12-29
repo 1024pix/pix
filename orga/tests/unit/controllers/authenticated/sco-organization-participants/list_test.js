@@ -124,7 +124,7 @@ module('Unit | Controller | authenticated/sco-organization-participants/list', f
       // then
       assert.strictEqual(controller.search, null);
       assert.deepEqual(controller.divisions, []);
-      assert.strictEqual(controller.connexionType, null);
+      assert.deepEqual(controller.connexionType, []);
       assert.deepEqual(controller.certificability, []);
       assert.strictEqual(controller.pageNumber, null);
       assert.strictEqual(controller.pageSize, 10);
