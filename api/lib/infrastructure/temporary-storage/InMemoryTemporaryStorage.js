@@ -17,8 +17,9 @@ class InMemoryTemporaryStorage extends TemporaryStorage {
 
   update(key, value) {
     const storageKey = trim(key);
-    const ttl = (this._client.getTtl(storageKey) - Date.now()) / 1000;
-    this._client.set(storageKey, value, ttl);
+    const timeoutMs = this._client.getTtl(storageKey);
+    const expirationDelaySeconds = timeoutMs === 0 ? 0 : (timeoutMs - Date.now()) / 1000;
+    this._client.set(storageKey, value, expirationDelaySeconds);
   }
 
   get(key) {
