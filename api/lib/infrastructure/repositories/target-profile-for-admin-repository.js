@@ -89,11 +89,11 @@ async function _getLearningContent_old(skillIds, locale) {
   const competenceIds = _.keys(_.groupBy(tubes, 'competenceId'));
   const competences = await competenceRepository.findByRecordIds({ competenceIds, locale });
 
-  const allAreas = _.map(competences, (competence) => competence.area);
-  const uniqAreas = _.uniqBy(allAreas, 'id');
+  const areaIds = _.keys(_.groupBy(competences, 'areaId'));
+  const areas = await areaRepository.findByRecordIds({ areaIds, locale });
 
   return {
-    areas: uniqAreas,
+    areas,
     competences,
     tubes,
     skills,
