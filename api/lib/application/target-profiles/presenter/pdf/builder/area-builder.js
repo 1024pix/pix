@@ -21,7 +21,7 @@ module.exports = {
       positionY: _drawAreaTitle(page, areaTitle, area.color),
     };
     for (const competence of sortBy(area.competences, 'index')) {
-      pageContext = _nextPage(pageContext.page, pageContext.positionY, competence, language);
+      pageContext = _nextPage(pageContext.page, pageContext.positionY, competence, area.color, language);
       pageContext.positionY = competenceBuilder.build(pageContext.positionY, pageContext.page, competence, area.color);
     }
   },
@@ -30,14 +30,15 @@ module.exports = {
  * @param page{PDFPage}
  * @param positionY{number}
  * @param competence{Competence}
+ * @param areaColor{string}
  * @param language{string}
  * @return {{positionY: number, page: PDFPage}}
  *  - current page if it's possible or create another one
  *  - next position y
  * @private
  */
-function _nextPage(page, positionY, competence, language) {
-  const currentYAfterDryRun = competenceBuilder.build(positionY, page, competence, competence.area.color, true);
+function _nextPage(page, positionY, competence, areaColor, language) {
+  const currentYAfterDryRun = competenceBuilder.build(positionY, page, competence, areaColor, true);
   if (currentYAfterDryRun - MARGIN_BOTTOM_LIMIT < 0) {
     const newPage = _addPage(page.doc, language);
     return {
