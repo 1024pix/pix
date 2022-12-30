@@ -126,7 +126,7 @@ module.exports = {
     const fakeAnswer = {
       assessmentId,
       challengeId: assessment.lastChallengeId,
-      value: 'fake_answer',
+      value: 'FAKE_ANSWER_WITH_AUTO_VALIDATE_NEXT_CHALLENGE',
     };
     const validatorAlwaysOK = new ValidatorAlwaysOK();
     const alwaysTrueExaminer = new Examiner({ validator: validatorAlwaysOK });
