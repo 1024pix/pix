@@ -309,4 +309,100 @@ describe('Integration | Repository | competence-repository', function () {
       expect(competences).to.deepEqualArray([competence1, competence3]);
     });
   });
+
+  describe('#findByAreaIds', function () {
+    beforeEach(function () {
+      const learningContent = {
+        competences: [
+          {
+            id: 'competence1',
+            name_i18n: { fr: 'competence1 name fr', en: 'competence1 name en' },
+            index: '1.1',
+            description_i18n: { fr: 'competence1 description fr', en: 'competence1 description en' },
+            origin: 'competence1 origin',
+            skillIds: ['skillA'],
+            thematicIds: ['thematicA'],
+            areaId: 'area1',
+          },
+          {
+            id: 'competence2',
+            name_i18n: { fr: 'competence2 name fr', en: 'competence2 name en' },
+            index: '2.2',
+            description_i18n: { fr: 'competence2 description fr', en: 'competence2 description en' },
+            origin: 'competence2 origin',
+            skillIds: ['skillB'],
+            thematicIds: ['thematicB'],
+            areaId: 'area2',
+          },
+          {
+            id: 'competence3',
+            name_i18n: { fr: 'competence3 name fr', en: 'competence3 name en' },
+            index: '1.3',
+            description_i18n: { fr: 'competence3 description fr', en: 'competence3 description en' },
+            origin: 'competence3 origin',
+            skillIds: ['skillC'],
+            thematicIds: ['thematicC'],
+            areaId: 'area1',
+          },
+        ],
+      };
+      mockLearningContent(learningContent);
+    });
+
+    it('should return competences given by areaId with default locale', async function () {
+      // when
+      const competences = await competenceRepository.findByAreaId({ areaId: 'area1' });
+
+      // then
+      const competence1 = domainBuilder.buildCompetence({
+        id: 'competence1',
+        name: 'competence1 name fr',
+        index: '1.1',
+        description: 'competence1 description fr',
+        areaId: 'area1',
+        skillIds: ['skillA'],
+        thematicIds: ['thematicA'],
+        origin: 'competence1 origin',
+      });
+      const competence3 = domainBuilder.buildCompetence({
+        id: 'competence3',
+        name: 'competence3 name fr',
+        index: '1.3',
+        description: 'competence3 description fr',
+        areaId: 'area1',
+        skillIds: ['skillC'],
+        thematicIds: ['thematicC'],
+        origin: 'competence3 origin',
+      });
+      expect(competences).to.deepEqualArray([competence1, competence3]);
+    });
+
+    it('should return competences in given locale', async function () {
+      // when
+      const competences = await competenceRepository.findByAreaId({ areaId: 'area1', locale: 'en' });
+
+      // then
+      const competence1 = domainBuilder.buildCompetence({
+        id: 'competence1',
+        name: 'competence1 name en',
+        index: '1.1',
+        description: 'competence1 description en',
+        areaId: 'area1',
+        skillIds: ['skillA'],
+        thematicIds: ['thematicA'],
+        origin: 'competence1 origin',
+      });
+      const competence3 = domainBuilder.buildCompetence({
+        id: 'competence3',
+        name: 'competence3 name en',
+        index: '1.3',
+        description: 'competence3 description en',
+        areaId: 'area1',
+        skillIds: ['skillC'],
+        thematicIds: ['thematicC'],
+        origin: 'competence3 origin',
+      });
+      expect(competences).to.deepEqualArray([competence1, competence3]);
+    });
+  });
 });
