@@ -25,6 +25,7 @@ module.exports = async function correctAnswerThenUpdateAssessment({
   flashAssessmentResultRepository,
   flashAlgorithmService,
   algorithmDataFetcherService,
+  examiner,
 } = {}) {
   const assessment = await assessmentRepository.get(answer.assessmentId);
   if (assessment.userId !== userId) {
@@ -41,7 +42,7 @@ module.exports = async function correctAnswerThenUpdateAssessment({
   }
 
   const challenge = await challengeRepository.get(answer.challengeId);
-  const correctedAnswer = _evaluateAnswer({ challenge, answer, assessment });
+  const correctedAnswer = _evaluateAnswer({ challenge, answer, assessment, examiner });
   const now = dateUtils.getNowDate();
   const lastQuestionDate = assessment.lastQuestionDate || now;
   correctedAnswer.setTimeSpentFrom({ now, lastQuestionDate });
@@ -112,8 +113,8 @@ module.exports = async function correctAnswerThenUpdateAssessment({
   return answerSaved;
 };
 
-function _evaluateAnswer({ challenge, answer, assessment }) {
-  const examiner = new Examiner({ validator: challenge.validator });
+function _evaluateAnswer({ challenge, answer, assessment, examiner: injectedExaminer }) {
+  const examiner = injectedExaminer ?? new Examiner({ validator: challenge.validator });
   return examiner.evaluate({
     answer,
     challengeFormat: challenge.format,

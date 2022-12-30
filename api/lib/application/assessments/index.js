@@ -1,11 +1,12 @@
 const Joi = require('joi');
+const { featureToggles } = require('../../config');
 const assessmentController = require('./assessment-controller');
 const securityPreHandlers = require('../security-pre-handlers');
 const assessmentAuthorization = require('../preHandlers/assessment-authorization');
 const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async (server) => {
-  server.route([
+  const routes = [
     {
       method: 'POST',
       path: '/api/assessments',
@@ -172,7 +173,37 @@ exports.register = async (server) => {
         tags: ['api', 'assessments'],
       },
     },
-  ]);
+  ];
+
+  if (featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled) {
+    routes.push({
+      method: 'POST',
+      path: '/api/admin/assessments/{id}/always-ok-validate-next-challenge',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.assessmentId,
+          }),
+        },
+        handler: assessmentController.autoValidateNextChallenge,
+        tags: ['api'],
+      },
+    });
+  }
+
+  server.route(routes);
 };
 
 exports.name = 'assessments-api';

@@ -14,6 +14,9 @@ const {
   extractUserIdFromRequest,
 } = require('../../infrastructure/utils/request-response-utils');
 
+const Examiner = require('../../domain/models/Examiner');
+const ValidatorAlwaysOK = require('../../domain/models/ValidatorAlwaysOK');
+
 module.exports = {
   async save(request, h) {
     const assessment = assessmentSerializer.deserialize(request.payload);
@@ -113,6 +116,27 @@ module.exports = {
     const competenceEvaluations = await usecases.findCompetenceEvaluationsByAssessment({ userId, assessmentId });
 
     return competenceEvaluationSerializer.serialize(competenceEvaluations);
+  },
+
+  async autoValidateNextChallenge(request, h) {
+    const assessmentId = request.params.id;
+    const locale = extractLocaleFromRequest(request);
+    const assessment = await usecases.getAssessment({ assessmentId, locale });
+    const userId = assessment.userId;
+    const fakeAnswer = {
+      assessmentId,
+      challengeId: assessment.lastChallengeId,
+      value: 'FAKE_ANSWER_WITH_AUTO_VALIDATE_NEXT_CHALLENGE',
+    };
+    const validatorAlwaysOK = new ValidatorAlwaysOK();
+    const alwaysTrueExaminer = new Examiner({ validator: validatorAlwaysOK });
+    await usecases.correctAnswerThenUpdateAssessment({
+      answer: fakeAnswer,
+      userId,
+      locale,
+      examiner: alwaysTrueExaminer,
+    });
+    return h.response().code(204);
   },
 };
 
