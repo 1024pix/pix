@@ -16,22 +16,18 @@ describe('Unit | Service | certification-badges-service', function () {
 
     it('should return all still valid badge acquisitions based on highest certifiable ones', async function () {
       // given
-      const badge1 = domainBuilder.buildBadge({ id: 1 });
-      const badge2 = domainBuilder.buildBadge({ id: 2 });
-      const badge3 = domainBuilder.buildBadge({ id: 3 });
-      const badge4 = domainBuilder.buildBadge({ id: 4 });
-      const highestBadgeAcquisition1 = domainBuilder.buildCertifiableBadgeAcquisition({ badge: badge1 });
-      const highestBadgeAcquisition2 = domainBuilder.buildCertifiableBadgeAcquisition({ badge: badge2 });
-      const highestBadgeAcquisition3 = domainBuilder.buildCertifiableBadgeAcquisition({ badge: badge3 });
-      const highestBadgeAcquisition4 = domainBuilder.buildCertifiableBadgeAcquisition({ badge: badge4 });
+      const highestBadgeAcquisition1 = domainBuilder.buildCertifiableBadgeAcquisition({ badgeId: 1 });
+      const highestBadgeAcquisition2 = domainBuilder.buildCertifiableBadgeAcquisition({ badgeId: 2 });
+      const highestBadgeAcquisition3 = domainBuilder.buildCertifiableBadgeAcquisition({ badgeId: 3 });
+      const highestBadgeAcquisition4 = domainBuilder.buildCertifiableBadgeAcquisition({ badgeId: 4 });
       const badgeStillValid1 = domainBuilder.buildBadgeForCalculation.mockObtainable({
-        id: badge1.id,
+        id: highestBadgeAcquisition1.badgeId,
       });
       const badgeNoMoreValid2 = domainBuilder.buildBadgeForCalculation.mockNotObtainable({
-        id: badge2.id,
+        id: highestBadgeAcquisition2.badgeId,
       });
       const badgeStillValid3 = domainBuilder.buildBadgeForCalculation.mockObtainable({
-        id: badge3.id,
+        id: highestBadgeAcquisition3.badgeId,
       });
       sinon
         .stub(certifiableBadgeAcquisitionRepository, 'findHighestCertifiable')

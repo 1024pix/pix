@@ -1,14 +1,22 @@
 class CertifiableBadgeAcquisition {
-  constructor({ id, badge, userId, campaignId, complementaryCertification } = {}) {
-    this.id = id;
-    this.badge = badge;
-    this.userId = userId;
+  constructor({
+    badgeId,
+    badgeKey,
+    campaignId,
+    complementaryCertificationId,
+    complementaryCertificationKey,
+    complementaryCertificationBadgeId,
+    complementaryCertificationBadgeImageUrl,
+    complementaryCertificationBadgeLabel,
+  }) {
+    this.badgeId = badgeId;
+    this.badgeKey = badgeKey;
     this.campaignId = campaignId;
-    this.complementaryCertification = complementaryCertification;
-  }
-
-  get badgeKey() {
-    return this.badge.key;
+    this.complementaryCertificationId = complementaryCertificationId;
+    this.complementaryCertificationKey = complementaryCertificationKey;
+    this.complementaryCertificationBadgeId = complementaryCertificationBadgeId;
+    this.complementaryCertificationBadgeImageUrl = complementaryCertificationBadgeImageUrl;
+    this.complementaryCertificationBadgeLabel = complementaryCertificationBadgeLabel;
   }
 }
 

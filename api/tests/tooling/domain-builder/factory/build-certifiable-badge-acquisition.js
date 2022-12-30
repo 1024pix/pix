@@ -1,22 +1,24 @@
-const buildBadge = require('./build-badge');
-const buildComplementaryCertification = require('./build-complementary-certification');
 const CertifiableBadgeAcquisition = require('../../../../lib/domain/models/CertifiableBadgeAcquisition');
 
 const buildCertifiableBadgeAcquisition = function ({
-  id = 123,
-  userId = 456,
+  badgeId = 123,
+  badgeKey = 'PIX_DROIT_MAITRE',
   campaignId = 456,
-  badge,
-  complementaryCertification,
+  complementaryCertificationId = 789,
+  complementaryCertificationKey = 'PIX_DROIT',
+  complementaryCertificationBadgeId = 159,
+  complementaryCertificationBadgeImageUrl = 'image/droit.svg',
+  complementaryCertificationBadgeLabel = 'Pix+ droit maitre',
 } = {}) {
-  badge = badge || buildBadge({ id: 1234 });
-  complementaryCertification = complementaryCertification || buildComplementaryCertification();
   return new CertifiableBadgeAcquisition({
-    id,
-    userId,
+    badgeId,
+    badgeKey,
     campaignId,
-    badge,
-    complementaryCertification,
+    complementaryCertificationId,
+    complementaryCertificationKey,
+    complementaryCertificationBadgeId,
+    complementaryCertificationBadgeImageUrl,
+    complementaryCertificationBadgeLabel,
   });
 };
 

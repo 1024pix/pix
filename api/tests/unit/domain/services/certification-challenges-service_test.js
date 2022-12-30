@@ -1161,14 +1161,11 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', { id: 'faireSonLit4_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', { id: 'faireSonLit6_id' }, 1));
       sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves(challenges);
-      const badgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
-        badge: domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 }),
-        campaignId: 123,
-      });
 
       // when
       const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(
-        badgeAcquisition,
+        123,
+        'BADGE_KEY',
         456,
         locale
       );
@@ -1345,14 +1342,11 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', { id: 'faireSonLit4_id' }, 2));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', { id: 'faireSonLit6_id' }, 1));
       sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves(challenges);
-      const badgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
-        badge: domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 }),
-        campaignId: 123,
-      });
 
       // when
       const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(
-        badgeAcquisition,
+        123,
+        'BADGE_KEY',
         456,
         locale
       );
@@ -1536,14 +1530,11 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit5', { id: 'faireSonLit5_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', { id: 'faireSonLit6_id' }, 1));
       sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves(challenges);
-      const badgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
-        badge: domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 }),
-        campaignId: 123,
-      });
 
       // when
       const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(
-        badgeAcquisition,
+        123,
+        'BADGE_KEY',
         456,
         locale
       );
@@ -1728,14 +1719,11 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit5', { id: 'faireSonLit5_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', { id: 'faireSonLit6_id' }, 1));
       sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves(challenges);
-      const badgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
-        badge: domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 }),
-        campaignId: 123,
-      });
 
       // when
       const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(
-        badgeAcquisition,
+        123,
+        'BADGE_KEY',
         456,
         locale
       );
@@ -1877,14 +1865,11 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit5', { id: 'faireSonLit5_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', { id: 'faireSonLit6_id' }, 1));
       sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves(challenges);
-      const badgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
-        badge: domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 }),
-        campaignId: 123,
-      });
 
       // when
       const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(
-        badgeAcquisition,
+        123,
+        'BADGE_KEY',
         456,
         locale
       );
@@ -1970,14 +1955,11 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', { id: 'laverLesDents3_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit', { id: 'faireSonLit6_id' }, 1));
       sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves(challenges);
-      const badgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
-        badge: domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 }),
-        campaignId: 123,
-      });
 
       // when
       const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(
-        badgeAcquisition,
+        123,
+        'BADGE_KEY',
         456,
         locale
       );
@@ -2143,14 +2125,11 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', { id: 'faireSonLit4_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', { id: 'faireSonLit6_id' }, 1));
       sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves(challenges);
-      const badgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
-        badge: domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 }),
-        campaignId: 123,
-      });
 
       // when
       const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(
-        badgeAcquisition,
+        123,
+        'BADGE_KEY',
         456,
         locale
       );
@@ -2310,14 +2289,10 @@ describe('Unit | Service | Certification Challenge Service', function () {
         challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', { id: 'faireSonLit4_id' }, 1));
         challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', { id: 'faireSonLit6_id' }, 1));
         sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves(challenges);
-        const badgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
-          badge: domainBuilder.buildBadge({ key: 'BADGE_KEY', targetProfileId: 123 }),
-          campaignId: 123,
-        });
 
         // when
         const certificationChallengesForPlus =
-          await certificationChallengesService.pickCertificationChallengesForPixPlus(badgeAcquisition, 456, locale);
+          await certificationChallengesService.pickCertificationChallengesForPixPlus(123, 'BADGE_KEY', 456, locale);
 
         // then
         let expectedCertificationChallenges = [];
