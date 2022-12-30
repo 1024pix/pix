@@ -340,6 +340,7 @@ module.exports = injectDependencies(
     getJurySession: require('./get-jury-session'),
     getLastChallengeIdFromAssessmentId: require('./get-last-challenge-id-from-assessment-id'),
     getLearningContentByTargetProfile: require('./get-learning-content-by-target-profile'),
+    getLearningContentForTargetProfileSubmission: require('./get-learning-content-for-target-profile-submission'),
     getNextChallengeForCampaignAssessment: require('./get-next-challenge-for-campaign-assessment'),
     getNextChallengeForCertification: require('./get-next-challenge-for-certification'),
     getNextChallengeForCompetenceEvaluation: require('./get-next-challenge-for-competence-evaluation'),

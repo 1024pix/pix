@@ -23,4 +23,9 @@ module.exports = {
     const framework = await usecases.getFrameworkAreas({ frameworkName: 'Pix', locale });
     return frameworkAreasSerializer.serialize(framework, { withoutThematics: true });
   },
+  async getFrameworksForTargetProfileSubmission(request) {
+    const locale = extractLocaleFromRequest(request);
+    const learningContent = await usecases.getLearningContentForTargetProfileSubmission({ locale });
+    return frameworkSerializer.serialize2(learningContent.frameworks);
+  },
 };
