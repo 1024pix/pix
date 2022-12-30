@@ -11,12 +11,12 @@ const learningContentRepository = require('../../../../lib/infrastructure/reposi
 
 describe('Integration | Repository | learning-content', function () {
   let learningContent;
-  let framework1Fr, framework1En;
-  let area1Fr, area1En;
-  let competence2Fr, competence2En;
-  let thematic2Fr, thematic2En;
-  let tube2Fr, tube2En;
-  let skill2, skill3;
+  let framework1Fr, framework1En, framework2Fr, framework2En;
+  let area1Fr, area1En, area2Fr, area2En;
+  let competence1Fr, competence1En, competence2Fr, competence2En, competence3Fr, competence3En;
+  let thematic1Fr, thematic1En, thematic2Fr, thematic2En, thematic3Fr, thematic3En;
+  let tube1Fr, tube1En, tube2Fr, tube2En, tube4Fr, tube4En;
+  let skill1, skill2, skill3, skill8;
 
   beforeEach(function () {
     learningContent = learningContentBuilder.buildLearningContent([
@@ -117,7 +117,6 @@ describe('Integration | Repository | learning-content', function () {
                             pixValue: 56,
                             version: 54,
                           },
-                          // outdated skill
                           {
                             id: 'recSkill4',
                             status: 'périmé',
@@ -203,8 +202,8 @@ describe('Integration | Repository | learning-content', function () {
                         isTabletCompliant: false,
                         skills: [
                           {
-                            id: 'recSkill6',
-                            name: '@tube4_name7',
+                            id: 'recSkill8',
+                            name: '@tube4_name8',
                             status: 'actif',
                             level: 7,
                             pixValue: 78,
@@ -222,17 +221,17 @@ describe('Integration | Repository | learning-content', function () {
       },
     ]);
 
-    [framework1Fr] = _buildDomainFrameworksFromLearningContent(learningContent);
-    [framework1En] = _buildDomainFrameworksFromLearningContent(learningContent);
-    [area1Fr] = _buildDomainAreasFromLearningContent(learningContent, 'fr');
-    [area1En] = _buildDomainAreasFromLearningContent(learningContent, 'en');
-    [, competence2Fr] = _buildDomainCompetencesFromLearningContent(learningContent, 'fr');
-    [, competence2En] = _buildDomainCompetencesFromLearningContent(learningContent, 'en');
-    [, thematic2Fr] = _buildDomainThematicsFromLearningContent(learningContent, 'fr');
-    [, thematic2En] = _buildDomainThematicsFromLearningContent(learningContent, 'en');
-    [, tube2Fr] = _buildDomainTubesFromLearningContent(learningContent, 'fr');
-    [, tube2En] = _buildDomainTubesFromLearningContent(learningContent, 'en');
-    [, skill2, skill3] = _buildDomainSkillsFromLearningContent(learningContent);
+    [framework1Fr, framework2Fr] = _buildDomainFrameworksFromLearningContent(learningContent);
+    [framework1En, framework2En] = _buildDomainFrameworksFromLearningContent(learningContent);
+    [area1Fr, area2Fr] = _buildDomainAreasFromLearningContent(learningContent, 'fr');
+    [area1En, area2En] = _buildDomainAreasFromLearningContent(learningContent, 'en');
+    [competence1Fr, competence2Fr, competence3Fr] = _buildDomainCompetencesFromLearningContent(learningContent, 'fr');
+    [competence1En, competence2En, competence3En] = _buildDomainCompetencesFromLearningContent(learningContent, 'en');
+    [thematic1Fr, thematic2Fr, thematic3Fr] = _buildDomainThematicsFromLearningContent(learningContent, 'fr');
+    [thematic1En, thematic2En, thematic3En] = _buildDomainThematicsFromLearningContent(learningContent, 'en');
+    [tube1Fr, tube2Fr, , tube4Fr] = _buildDomainTubesFromLearningContent(learningContent, 'fr');
+    [tube1En, tube2En, , tube4En] = _buildDomainTubesFromLearningContent(learningContent, 'en');
+    [skill1, skill2, skill3, , , , , skill8] = _buildDomainSkillsFromLearningContent(learningContent);
 
     mockLearningContent(learningContent);
   });
@@ -594,6 +593,66 @@ describe('Integration | Repository | learning-content', function () {
           expect(targetProfileLearningContent.frameworks).to.deep.equal([framework1En]);
         });
       });
+    });
+  });
+
+  describe('#findByFrameworkNames', function () {
+    it('should return an active LearningContent with the frameworks designated by name', async function () {
+      // given
+      framework1Fr.areas = [area1Fr];
+      framework2Fr.areas = [area2Fr];
+      area1Fr.competences = [competence1Fr, competence2Fr];
+      area2Fr.competences = [competence3Fr];
+      competence1Fr.thematics = [thematic1Fr];
+      competence1Fr.tubes = [tube1Fr];
+      competence2Fr.thematics = [thematic2Fr];
+      competence2Fr.tubes = [tube2Fr];
+      competence3Fr.thematics = [thematic3Fr];
+      competence3Fr.tubes = [tube4Fr];
+      thematic1Fr.tubes = [tube1Fr];
+      thematic2Fr.tubes = [tube2Fr];
+      thematic3Fr.tubes = [tube4Fr];
+      tube1Fr.skills = [skill1];
+      tube2Fr.skills = [skill2];
+      tube4Fr.skills = [skill8];
+
+      // when
+      const learningContent = await learningContentRepository.findByFrameworkNames({
+        frameworkNames: ['Mon référentiel 1', 'Mon référentiel 2'],
+      });
+
+      // then
+      const expectedLearningContent = domainBuilder.buildLearningContent([framework1Fr, framework2Fr]);
+      expect(learningContent).to.deepEqualInstance(expectedLearningContent);
+    });
+    it('should return an active LearningContent in the given language', async function () {
+      // given
+      framework1En.areas = [area1En];
+      framework2En.areas = [area2En];
+      area1En.competences = [competence1En, competence2En];
+      area2En.competences = [competence3En];
+      competence1En.thematics = [thematic1En];
+      competence1En.tubes = [tube1En];
+      competence2En.thematics = [thematic2En];
+      competence2En.tubes = [tube2En];
+      competence3En.thematics = [thematic3En];
+      competence3En.tubes = [tube4En];
+      thematic1En.tubes = [tube1En];
+      thematic2En.tubes = [tube2En];
+      thematic3En.tubes = [tube4En];
+      tube1En.skills = [skill1];
+      tube2En.skills = [skill2];
+      tube4En.skills = [skill8];
+
+      // when
+      const learningContent = await learningContentRepository.findByFrameworkNames({
+        frameworkNames: ['Mon référentiel 1', 'Mon référentiel 2'],
+        locale: 'en',
+      });
+
+      // then
+      const expectedLearningContent = domainBuilder.buildLearningContent([framework1En, framework2En]);
+      expect(learningContent).to.deepEqualInstance(expectedLearningContent);
     });
   });
 });
