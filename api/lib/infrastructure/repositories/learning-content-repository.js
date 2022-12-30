@@ -5,11 +5,12 @@ const tubeRepository = require('./tube-repository');
 const thematicRepository = require('./thematic-repository');
 const campaignRepository = require('./campaign-repository');
 const competenceRepository = require('./competence-repository');
+const areaRepository = require('./area-repository');
 const frameworkRepository = require('./framework-repository');
+const skillRepository = require('./skill-repository');
 const LearningContent = require('../../domain/models/LearningContent');
 // TODO pas satisfaisant comme dépendance
 const learningContentConversionService = require('../../domain/services/learning-content/learning-content-conversion-service');
-const areaRepository = require('./area-repository');
 
 async function findByCampaignId(campaignId, locale) {
   const skills = await campaignRepository.findSkills({ campaignId });
@@ -41,6 +42,16 @@ async function findByTargetProfileId(targetProfileId, locale) {
   }
 
   const frameworks = await _getLearningContentByCappedTubes(cappedTubesDTO, locale);
+  return new LearningContent(frameworks);
+}
+
+async function findByFrameworkNames({ frameworkNames, locale }) {
+  const baseFrameworks = [];
+  for (const frameworkName of frameworkNames) {
+    baseFrameworks.push(await frameworkRepository.getByName(frameworkName));
+  }
+
+  const frameworks = await _getLearningContentByFrameworks(baseFrameworks, locale);
   return new LearningContent(frameworks);
 }
 
@@ -116,8 +127,31 @@ async function _getLearningContentByTubes(tubes, locale) {
   return frameworks;
 }
 
+async function _getLearningContentByFrameworks(frameworks, locale) {
+  for (const framework of frameworks) {
+    framework.areas = await areaRepository.findByFrameworkId({ frameworkId: framework.id, locale });
+    for (const area of framework.areas) {
+      area.competences = await competenceRepository.findByAreaId({ areaId: area.id, locale });
+      for (const competence of area.competences) {
+        competence.thematics = await thematicRepository.findByCompetenceIds([competence.id], locale);
+        for (const thematic of competence.thematics) {
+          const tubes = await tubeRepository.findActiveByRecordIds(thematic.tubeIds, locale);
+          thematic.tubes = tubes;
+          competence.tubes.push(...tubes);
+          for (const tube of thematic.tubes) {
+            tube.skills = await skillRepository.findActiveByTubeId(tube.id);
+          }
+        }
+      }
+    }
+  }
+
+  return frameworks;
+}
+
 module.exports = {
   findByCampaignId,
   findByTargetProfileId,
   findByCampaignParticipationId,
+  findByFrameworkNames,
 };
