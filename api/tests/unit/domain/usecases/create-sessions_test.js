@@ -1,4 +1,4 @@
-const { expect, catchErr, sinon } = require('../../../test-helper');
+const { expect, catchErr, sinon, domainBuilder } = require('../../../test-helper');
 const createSessions = require('../../../../lib/domain/usecases/create-sessions');
 const { EntityValidationError, ForbiddenAccess } = require('../../../../lib/domain/errors');
 const { UnprocessableEntityError } = require('../../../../lib/application/http-errors');
@@ -6,6 +6,7 @@ const sessionValidator = require('../../../../lib/domain/validators/session-vali
 const sessionCodeService = require('../../../../lib/domain/services/session-code-service');
 const Session = require('../../../../lib/domain/models/Session');
 const createSession = require('../../../../lib/domain/usecases/create-session');
+const certificationSessionsService = require('../../../../lib/domain/services/certification-sessions-service');
 
 describe('Unit | UseCase | create-sessions', function () {
   let userId;
@@ -36,13 +37,15 @@ describe('Unit | UseCase | create-sessions', function () {
 
   context('when sessions are valid', function () {
     context('when user has certification center membership', function () {
-      it('should save the sessions', async function () {
+      it('should create the sessions', async function () {
         // given
         const sessionsToSave = [{ certificationCenterId }];
         userWithMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(true);
         userRepository.getWithCertificationCenterMemberships.withArgs(userId).returns(userWithMemberships);
         sessionRepository.saveSessions.resolves();
         sessionValidator.validate.returns();
+        sinon.stub(certificationSessionsService, 'associateSessionIdToParsedData');
+        certificationSessionsService.associateSessionIdToParsedData.returns([]);
 
         // when
         await createSessions({
@@ -86,6 +89,61 @@ describe('Unit | UseCase | create-sessions', function () {
 
         // then
         expect(error).to.be.instanceOf(ForbiddenAccess);
+      });
+    });
+
+    context('when candidates information is valid', function () {
+      it('should not throw an error', async function () {
+        // given
+        const parsedCsvData = [
+          {
+            '* Nom du site': 'site1',
+            '* Nom de la salle': 'salle1',
+            '* Date de début': '2022-01-01',
+            '* Heure de début (heure locale)': '01:00',
+            '* Surveillant(s)': 'surveillant un',
+            'Observations (optionnel)': 'non',
+            ' * Nom de naissance': 'Man',
+            '* Prénom': 'Iron',
+            '* Date de naissance (format: jj/mm/aaaa)': '01/01/2000',
+            '* Sexe (M ou F)': 'M',
+            'Code Insee': '',
+            'Code postal': '75015',
+            'Nom de la commune': '',
+            '* Pays': 'France',
+            'E-mail du destinataire des résultats (formateur, enseignant…)': 'destinataire@email.com',
+            'E-mail de convocation': 'convocation@email.com',
+            'Identifiant local': '12345R',
+            'Temps majoré ?': '10',
+          },
+        ];
+
+        sessionRepository.saveSessions.resolves([
+          domainBuilder.buildSession({
+            id: 201,
+            certificationCenterId: 101,
+            certificationCenter: 'Centre avec un candidat',
+            address: 'site1',
+            room: 'salle1',
+            examiner: 'surveillant un',
+            date: '2022-01-01',
+            time: '01:00',
+            description: 'non',
+          }),
+        ]);
+
+        // when
+        const result = await createSessions({
+          data: parsedCsvData,
+          certificationCenterId,
+          userId,
+          certificationCenterRepository,
+          sessionRepository,
+          userRepository,
+        });
+
+        // then
+        expect(result).not.to.throw;
       });
     });
   });
