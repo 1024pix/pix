@@ -171,8 +171,10 @@ describe('Integration | Repository | BadgeForCalculation', function () {
         targetProfileId,
         campaignSkillsId
       );
-      const badge = domainBuilder.buildBadge({ id: expectedBadgeForCalculation1.id });
-      const certifiableBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({ campaignId, badge });
+      const certifiableBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
+        campaignId,
+        badgeId: expectedBadgeForCalculation1.id,
+      });
       await databaseBuilder.commit();
 
       // when

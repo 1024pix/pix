@@ -88,7 +88,7 @@ module.exports = {
     certifiableBadgeAcquisition,
     domainTransaction = DomainTransaction.emptyTransaction(),
   }) {
-    const badgeId = certifiableBadgeAcquisition.badge.id;
+    const badgeId = certifiableBadgeAcquisition.badgeId;
     const campaignId = certifiableBadgeAcquisition.campaignId;
     const knexConn = domainTransaction?.knexTransaction || knex;
     const badgeDTO = await knexConn('badges')

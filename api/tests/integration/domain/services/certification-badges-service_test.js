@@ -1,4 +1,10 @@
-const { expect, databaseBuilder, mockLearningContent, learningContentBuilder } = require('../../../test-helper');
+const {
+  expect,
+  databaseBuilder,
+  mockLearningContent,
+  learningContentBuilder,
+  domainBuilder,
+} = require('../../../test-helper');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 const certificationBadgesService = require('../../../../lib/domain/services/certification-badges-service');
@@ -69,11 +75,11 @@ describe('Integration | Service | Certification-Badges Service', function () {
       const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
 
       databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId: badge.id, campaignParticipationId });
-      const { id: complementaryCertificationId } = databaseBuilder.factory.buildComplementaryCertification();
-      databaseBuilder.factory.buildComplementaryCertificationBadge({
+      const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
+      const complementaryCertificationBadge = databaseBuilder.factory.buildComplementaryCertificationBadge({
         userId,
         badgeId: badge.id,
-        complementaryCertificationId,
+        complementaryCertificationId: complementaryCertification.id,
         level: 2,
       });
       databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web1', status: 'validated' });
@@ -81,20 +87,12 @@ describe('Integration | Service | Certification-Badges Service', function () {
       databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web3', status: 'validated' });
       databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web4', status: 'invalidated' });
 
-      const skillSet = databaseBuilder.factory.buildSkillSet({
-        badgeId: badge.id,
-        skillIds: ['web1', 'web2', 'web3', 'web4'],
-      });
-
-      const badgeCriterion = databaseBuilder.factory.buildBadgeCriterion({
+      databaseBuilder.factory.buildBadgeCriterion({
         scope: 'CampaignParticipation',
         badgeId: badge.id,
         threshold: 40,
-        skillSetIds: [skillSet.id],
       });
-
       await databaseBuilder.commit();
-
       const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
 
@@ -104,28 +102,17 @@ describe('Integration | Service | Certification-Badges Service', function () {
       });
 
       // then
-      const expectedBadgeCriteria = [
-        {
-          id: badgeCriterion.id,
-          scope: badgeCriterion.scope,
-          threshold: badgeCriterion.threshold,
-          skillSetIds: badgeCriterion.skillSetIds,
-          badgeId: badge.id,
-        },
-      ];
-
-      const expectedSkillSets = [
-        {
-          id: skillSet.id,
-          badgeId: badge.id,
-          name: skillSet.name,
-          skillIds: skillSet.skillIds,
-        },
-      ];
-
-      expect(badgeAcquisitions.length).to.equal(1);
-      expect(badgeAcquisitions[0].badge.badgeCriteria).to.deep.equal(expectedBadgeCriteria);
-      expect(badgeAcquisitions[0].badge.skillSets).to.deep.equal(expectedSkillSets);
+      const expectedCertifiableBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
+        badgeId: badge.id,
+        badgeKey: badge.key,
+        campaignId,
+        complementaryCertificationId: complementaryCertification.id,
+        complementaryCertificationKey: complementaryCertification.key,
+        complementaryCertificationBadgeId: complementaryCertificationBadge.id,
+        complementaryCertificationBadgeLabel: complementaryCertificationBadge.label,
+        complementaryCertificationBadgeImageUrl: complementaryCertificationBadge.imageUrl,
+      });
+      expect(badgeAcquisitions).to.deepEqualArray([expectedCertifiableBadgeAcquisition]);
     });
   });
 });

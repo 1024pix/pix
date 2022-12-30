@@ -136,21 +136,30 @@ async function _startNewCertification({
     domainTransaction,
   });
 
-  await bluebird.each(highestCertifiableBadgeAcquisitions, async (badgeAcquisition) => {
-    const { key, id: complementaryCertificationId } = badgeAcquisition.complementaryCertification;
-    if (certificationCenter.isHabilitated(key) && certificationCandidate.isGranted(key)) {
-      complementaryCertificationCourseData.push({
-        complementaryCertificationBadgeId: badgeAcquisition.badge.complementaryCertificationBadge.id,
-        complementaryCertificationId,
-      });
-      const certificationChallenges = await certificationChallengesService.pickCertificationChallengesForPixPlus(
-        badgeAcquisition,
-        userId,
-        locale
-      );
-      challengesForCertification.push(...certificationChallenges);
+  await bluebird.each(
+    highestCertifiableBadgeAcquisitions,
+    async ({
+      complementaryCertificationKey,
+      complementaryCertificationId,
+      complementaryCertificationBadgeId,
+      campaignId,
+      badgeKey,
+    }) => {
+      if (
+        certificationCenter.isHabilitated(complementaryCertificationKey) &&
+        certificationCandidate.isGranted(complementaryCertificationKey)
+      ) {
+        complementaryCertificationCourseData.push({ complementaryCertificationBadgeId, complementaryCertificationId });
+        const certificationChallenges = await certificationChallengesService.pickCertificationChallengesForPixPlus(
+          campaignId,
+          badgeKey,
+          userId,
+          locale
+        );
+        challengesForCertification.push(...certificationChallenges);
+      }
     }
-  });
+  );
 
   const challengesForPixCertification = await certificationChallengesService.pickCertificationChallenges(
     placementProfile,

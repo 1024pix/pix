@@ -445,24 +445,15 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     context('when user has a subscription', function () {
                       it('should save complementary certification info', async function () {
                         // given
-                        const badge = domainBuilder.buildBadge({
-                          isCertifiable: true,
-                          key: 'PIX_PLUS_TEST_1',
-                          complementaryCertificationBadge: domainBuilder.buildComplementaryCertificationBadge({
-                            id: 100,
-                          }),
-                        });
-
                         const complementaryCertification = domainBuilder.buildComplementaryCertification({
                           key: 'PIX+TEST',
                         });
-
-                        const badgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
-                          complementaryCertification,
-                          userid: 2,
-                          badge,
+                        const certifiableBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
+                          badgeKey: 'PIX_PLUS_TEST_1',
+                          complementaryCertificationId: complementaryCertification.id,
+                          complementaryCertificationKey: complementaryCertification.key,
+                          complementaryCertificationBadgeId: 100,
                         });
-
                         const domainTransaction = Symbol('someDomainTransaction');
 
                         const foundSession = domainBuilder.buildSession.created({
@@ -503,10 +494,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                         certificationBadgesService.findStillValidBadgeAcquisitions
                           .withArgs({ userId: 2, domainTransaction })
-                          .resolves([badgeAcquisition]);
+                          .resolves([certifiableBadgeAcquisition]);
 
                         certificationChallengesService.pickCertificationChallengesForPixPlus
-                          .withArgs(badgeAcquisition, 2)
+                          .withArgs(certifiableBadgeAcquisition.campaignId, certifiableBadgeAcquisition.badgeKey, 2)
                           .resolves([challengePlus1, challengePlus2, challengePlus3]);
 
                         const complementaryCertificationCourse = new ComplementaryCertificationCourse({
@@ -573,22 +564,14 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                       it('should save all the challenges from both pix and complementary referential', async function () {
                         // given
-                        const badge = domainBuilder.buildBadge({
-                          isCertifiable: true,
-                          key: 'PIX_PLUS_TEST_1',
-                          complementaryCertificationBadge: domainBuilder.buildComplementaryCertificationBadge({
-                            id: 100,
-                          }),
-                        });
-
                         const complementaryCertification = domainBuilder.buildComplementaryCertification({
                           key: 'PIX+TEST',
                         });
-
-                        const badgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
-                          complementaryCertification,
-                          userid: 2,
-                          badge,
+                        const certifiableBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
+                          badgeKey: 'PIX_PLUS_TEST_1',
+                          complementaryCertificationId: complementaryCertification.id,
+                          complementaryCertificationKey: complementaryCertification.key,
+                          complementaryCertificationBadgeId: 100,
                         });
 
                         const domainTransaction = Symbol('someDomainTransaction');
@@ -631,10 +614,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                         certificationBadgesService.findStillValidBadgeAcquisitions
                           .withArgs({ userId: 2, domainTransaction })
-                          .resolves([badgeAcquisition]);
+                          .resolves([certifiableBadgeAcquisition]);
 
                         certificationChallengesService.pickCertificationChallengesForPixPlus
-                          .withArgs(badgeAcquisition, 2)
+                          .withArgs(certifiableBadgeAcquisition.campaignId, certifiableBadgeAcquisition.badgeKey, 2)
                           .resolves([challengePlus1, challengePlus2, challengePlus3]);
 
                         const complementaryCertificationCourse = new ComplementaryCertificationCourse({
@@ -793,22 +776,14 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       context('when the complementary certification has no specific referential', function () {
                         it('should save all the challenges from pix referential only', async function () {
                           // given
-                          const badge = domainBuilder.buildBadge({
-                            isCertifiable: true,
-                            key: 'PIX_PLUS_TEST_1',
-                            complementaryCertificationBadge: domainBuilder.buildComplementaryCertificationBadge({
-                              id: 100,
-                            }),
-                          });
-
                           const complementaryCertification = domainBuilder.buildComplementaryCertification({
                             key: 'PIX+TEST',
                           });
-
-                          const badgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
-                            complementaryCertification,
-                            userid: 2,
-                            badge,
+                          const certifiableBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
+                            badgeKey: 'PIX_PLUS_TEST_1',
+                            complementaryCertificationId: complementaryCertification.id,
+                            complementaryCertificationKey: complementaryCertification.key,
+                            complementaryCertificationBadgeId: 100,
                           });
 
                           const domainTransaction = Symbol('someDomainTransaction');
@@ -847,10 +822,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                           certificationBadgesService.findStillValidBadgeAcquisitions
                             .withArgs({ userId: 2, domainTransaction })
-                            .resolves([badgeAcquisition]);
+                            .resolves([certifiableBadgeAcquisition]);
 
                           certificationChallengesService.pickCertificationChallengesForPixPlus
-                            .withArgs(badgeAcquisition, 2)
+                            .withArgs(certifiableBadgeAcquisition.campaignId, certifiableBadgeAcquisition.badgeKey, 2)
                             .resolves([]);
 
                           const complementaryCertificationCourse = new ComplementaryCertificationCourse({
@@ -1101,44 +1076,26 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 context('#when the user is eligible to several complementary certifications', function () {
                   it('should save all the challenges from both pix and complementary referential', async function () {
                     // given
-                    const badge1 = domainBuilder.buildBadge({
-                      id: 1,
-                      isCertifiable: true,
-                      key: 'PIX_PLUS_TEST_1',
-                      complementaryCertificationBadge: domainBuilder.buildComplementaryCertificationBadge({
-                        id: 100,
-                      }),
-                    });
-
-                    const badge2 = domainBuilder.buildBadge({
-                      id: 2,
-                      isCertifiable: true,
-                      key: 'PIX_PLUS_TEST_2',
-                      complementaryCertificationBadge: domainBuilder.buildComplementaryCertificationBadge({
-                        id: 101,
-                      }),
-                    });
-
                     const complementaryCertification1 = domainBuilder.buildComplementaryCertification({
                       key: 'PIX+TEST1',
+                    });
+                    const certifiableBadgeAcquisition1 = domainBuilder.buildCertifiableBadgeAcquisition({
+                      badgeId: 1,
+                      badgeKey: 'PIX_PLUS_TEST_1',
+                      complementaryCertificationId: complementaryCertification1.id,
+                      complementaryCertificationKey: complementaryCertification1.key,
+                      complementaryCertificationBadgeId: 100,
                     });
                     const complementaryCertification2 = domainBuilder.buildComplementaryCertification({
                       key: 'PIX+TEST2',
                     });
-
-                    const badgeAcquisition1 = domainBuilder.buildCertifiableBadgeAcquisition({
-                      id: 123,
-                      complementaryCertification: complementaryCertification1,
-                      userId: 2,
-                      badge: badge1,
+                    const certifiableBadgeAcquisition2 = domainBuilder.buildCertifiableBadgeAcquisition({
+                      badgeId: 2,
+                      badgeKey: 'PIX_PLUS_TEST_2',
+                      complementaryCertificationId: complementaryCertification2.id,
+                      complementaryCertificationKey: complementaryCertification2.key,
+                      complementaryCertificationBadgeId: 101,
                     });
-                    const badgeAcquisition2 = domainBuilder.buildCertifiableBadgeAcquisition({
-                      id: 456,
-                      complementaryCertification: complementaryCertification2,
-                      userId: 2,
-                      badge: badge2,
-                    });
-
                     const domainTransaction = Symbol('someDomainTransaction');
 
                     const foundSession = domainBuilder.buildSession.created({
@@ -1180,13 +1137,13 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                     certificationBadgesService.findStillValidBadgeAcquisitions
                       .withArgs({ userId: 2, domainTransaction })
-                      .resolves([badgeAcquisition1, badgeAcquisition2]);
+                      .resolves([certifiableBadgeAcquisition1, certifiableBadgeAcquisition2]);
 
                     certificationChallengesService.pickCertificationChallengesForPixPlus
-                      .withArgs(badgeAcquisition1, 2)
+                      .withArgs(certifiableBadgeAcquisition1.campaignId, certifiableBadgeAcquisition1.badgeKey, 2)
                       .resolves([challenge1ForPixPlus1, challenge2ForPixPlus1]);
                     certificationChallengesService.pickCertificationChallengesForPixPlus
-                      .withArgs(badgeAcquisition2, 2)
+                      .withArgs(certifiableBadgeAcquisition2.campaignId, certifiableBadgeAcquisition2.badgeKey, 2)
                       .resolves([challenge1ForPixPlus2, challenge2ForPixPlus2]);
 
                     const complementaryCertificationCourse1 = new ComplementaryCertificationCourse({
