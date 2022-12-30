@@ -91,7 +91,7 @@ jobs:
   api_build_and_test:
     docker:
       - image: cimg/node:16.18.1
-      - image: postgres:13.7-alpine
+      - image: postgres:14.6-alpine
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -243,7 +243,7 @@ jobs:
   e2e_test:
     docker:
       - image: cimg/node:16.18.1-browsers
-      - image: postgres:13.7-alpine
+      - image: postgres:14.6-alpine
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
