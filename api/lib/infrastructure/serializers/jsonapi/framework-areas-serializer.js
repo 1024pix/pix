@@ -24,6 +24,7 @@ module.exports = {
               ref: true,
               ignoreRelationshipData: true,
               relationshipLinks: {
+                // TODO LAURA why ?
                 related: (_area, _skills, tube) => `/api/admin/tubes/${tube.id}/skills`,
               },
             },
