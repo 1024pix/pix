@@ -514,4 +514,94 @@ describe('Integration | Repository | area-repository', function () {
       expect(error.message).to.equal('Area "jexistepas" not found.');
     });
   });
+
+  describe('#findByFrameworkId', function () {
+    beforeEach(function () {
+      const area0 = {
+        id: 'recArea0',
+        code: 'area0code',
+        name: 'area0name',
+        title_i18n: {
+          fr: 'area0titleFr',
+          en: 'area0titleEn',
+        },
+        color: 'area0color',
+        frameworkId: 'framework1',
+      };
+      const area1 = {
+        id: 'recArea1',
+        code: 'area1code',
+        name: 'area1name',
+        title_i18n: {
+          fr: 'area1titleFr',
+          en: 'area1titleEn',
+        },
+        color: 'area1color',
+        frameworkId: 'framework2',
+      };
+      const area2 = {
+        id: 'recArea2',
+        code: 'area2code',
+        name: 'area2name',
+        title_i18n: {
+          fr: 'area2titleFr',
+          en: 'area2titleEn',
+        },
+        color: 'area2color',
+        frameworkId: 'framework1',
+      };
+      const learningContent = {
+        areas: [area0, area1, area2],
+      };
+      mockLearningContent(learningContent);
+    });
+
+    it('should return a list of areas from the proper framework', async function () {
+      // when
+      const areas = await areaRepository.findByFrameworkId({ frameworkId: 'framework1' });
+
+      // then
+      const area0 = domainBuilder.buildArea({
+        id: 'recArea0',
+        code: 'area0code',
+        name: 'area0name',
+        title: 'area0titleFr',
+        color: 'area0color',
+        frameworkId: 'framework1',
+      });
+      const area2 = domainBuilder.buildArea({
+        id: 'recArea2',
+        code: 'area2code',
+        name: 'area2name',
+        title: 'area2titleFr',
+        color: 'area2color',
+        frameworkId: 'framework1',
+      });
+      expect(areas).to.deepEqualArray([area0, area2]);
+    });
+
+    it('should return a list of areas in english', async function () {
+      // when
+      const areas = await areaRepository.findByFrameworkId({ frameworkId: 'framework1', locale: 'en' });
+
+      // then
+      const area0 = domainBuilder.buildArea({
+        id: 'recArea0',
+        code: 'area0code',
+        name: 'area0name',
+        title: 'area0titleEn',
+        color: 'area0color',
+        frameworkId: 'framework1',
+      });
+      const area2 = domainBuilder.buildArea({
+        id: 'recArea2',
+        code: 'area2code',
+        name: 'area2name',
+        title: 'area2titleEn',
+        color: 'area2color',
+        frameworkId: 'framework1',
+      });
+      expect(areas).to.deepEqualArray([area0, area2]);
+    });
+  });
 });
