@@ -60,19 +60,6 @@ exports.register = async function (server) {
     ...adminRoutes,
     {
       method: 'GET',
-      path: '/api/frameworks/pix/areas',
-      config: {
-        handler: frameworkController.getPixFramework,
-        pre: [{ method: securityPreHandlers.checkUserIsMemberOfAnOrganization }],
-        tags: ['api', 'framework', 'pix'],
-        notes: [
-          "Cette route est restreinte aux utilisateurs authentifiés membre d'une organisation",
-          "Elle permet de récupérer toutes les données du référentiel Pix jusqu'aux sujets",
-        ],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/frameworks/pix/areas-for-user',
       config: {
         handler: frameworkController.getPixFrameworkAreasWithoutThematics,

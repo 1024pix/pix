@@ -338,7 +338,7 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
       // given
       const options = {
         method: 'GET',
-        url: '/api/frameworks/pix/areas',
+        url: '/api/frameworks/for-target-profile-submission',
         headers: { authorization: generateValidRequestAuthorizationHeader() },
       };
 
