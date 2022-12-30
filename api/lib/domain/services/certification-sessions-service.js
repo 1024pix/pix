@@ -1,5 +1,6 @@
 module.exports = {
   groupBySessions,
+  associateSessionIdToParsedData,
 };
 
 function groupBySessions(data) {
@@ -18,4 +19,23 @@ function groupBySessions(data) {
   );
 
   return groupedSessions;
+}
+
+function associateSessionIdToParsedData(parsedCsvData, sessions) {
+  const parsedDataWithSessionId = parsedCsvData.map((parsedCsvline) => {
+    const matchedSession = sessions.find((session) => {
+      return (
+        parsedCsvline['* Nom du site'] === session.address &&
+        parsedCsvline['* Nom de la salle'] === session.room &&
+        parsedCsvline['* Date de début'] === session.date &&
+        parsedCsvline['* Heure de début (heure locale)'] === session.time &&
+        parsedCsvline['* Surveillant(s)'] === session.examiner &&
+        parsedCsvline['Observations (optionnel)'] === session.description
+      );
+    });
+
+    parsedCsvline.sessionId = matchedSession.id.toString();
+    return parsedCsvline;
+  });
+  return parsedDataWithSessionId;
 }
