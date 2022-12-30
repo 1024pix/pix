@@ -462,9 +462,8 @@ export default function () {
     return new Response(204);
   });
 
-  this.get('/frameworks/pix/areas', (schema, request) => {
-    request.queryParams.include = ['competences.thematics', 'competences.thematics.tubes'].join(',');
-    return schema.areas.all();
+  this.get('/frameworks/for-target-profile-submission', (schema) => {
+    return schema.frameworks.all();
   });
 
   this.delete('/campaigns/:campaignId/campaign-participations/:campaignParticipationId', (schema, request) => {
