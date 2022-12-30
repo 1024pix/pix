@@ -98,7 +98,7 @@ describe('Acceptance | API | assessment-controller-auto-validate-next-challenge'
       const lastAnswer = await knex.select('*').from('answers').where({ assessmentId }).first();
       expect(lastAnswer).to.exist;
       expect(lastAnswer.result).to.eql('ok');
-      expect(lastAnswer.value).to.eql('fake_answer');
+      expect(lastAnswer.value).to.eql('FAKE_ANSWER_WITH_AUTO_VALIDATE_NEXT_CHALLENGE');
     });
   });
 });
