@@ -43,7 +43,7 @@ Parmi ces identifiants de locales spécifiques et historiques il y a les identif
 
 `[language[_territory][.codeset][@modifier]]`.
 
-Les identifiants de locales *POSIX locales* sont donc par exemple : `fr`, `fr_FR`, `fr_BE`, `fr_FR.UTF-8`, `en`, `en_GB`, `en_US`, et même `fr_FR@euro` pour un identifiant ancien datant du passage à l'euro, etc.
+Les identifiants de locales *POSIX locales* sont donc par exemple : `fr`, `fr_FR`, `fr_BE`, `fr_FR.UTF-8`, `en`, `en_GB`, `en_US`, et même `fr_FR@euro` pour un identifiant ancien datant du passage à l'euro
 
 Ces identifiants de locales sont toujours utilisés par les systèmes POSIX comme les distributions Linux, et aussi par certains outils existants depuis longtemps comme [GNU gettext utilities](https://www.gnu.org/software/gettext/manual/html_node/Locale-Environment-Variables.html). La plateforme Java aussi (construit suivant la tradition UNIX, car créé par Sun Microsystems, entreprise qui concevait et vendait des machines de type UNIX) se basait sur ces identifiants, gérés au niveau de la classe `java.util.Locale`.
 C'est pourquoi beaucoup peuvent se souvenir de l'utilisation de fichiers PO de la forme `fr_FR.po`, `en_US.po`, etc. et d'applications (notamment des applications Java multiplateformes) lancées en spécifiant `LC_ALL=fr_FR`, `LC_ALL=en_US`, etc.
@@ -52,20 +52,13 @@ Mais avec la généralisation d'Unicode sur quasiment tous les systèmes et tout
 
 La standardisation du format des identifiants de locales s'est faite dans la spécification [Tags for Identifying Languages (BCP 47 - RFC 5646)](https://www.rfc-editor.org/rfc/rfc5646.html), notamment autour de la notion de *language tags* définis . Il aurait peut-être été plus clair que ce mécanisme soit nommé *locale tags* … mais c'est le nom *language tags* qui a été retenu pour ce concept. Aussi pour éviter les confusions, dans le reste de ce document on va parler du *format BCP 47*.
 
-Concrètement avant de donner plus d'informations, voici des exemples d'identifiants de locales au *format BCP 47* :
-
-* `fr`
-* `fr-FR`
-* `fr-BE`
-* `en`
-* `en-US`
-* `en-GB`
+Concrètement avant de donner plus d'informations sur le *format BCP 47*, pour se donner une idée de ce à quoi cela ressemble, voici des exemples d'identifiants de locales au *format BCP 47* : `fr`, `fr-FR`, `fr-BE`, `en`, `en-US`, `en-GB`
 
 Le W3C définit le *format BCP 47* et les locales Unicode comme étant le format à utiliser par le web pour les identifiants de locales dans le document [Language Tags and Locale Identifiers for the World Wide Web](https://www.w3.org/TR/ltli/).
 
-Idem pour le langage JavaScript dans le namespace [`Intl`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) avec notamment le builtin `Intl.Locale`.
+La plateforme Java, dans sa classe [`java.util.Locale`](https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Locale.html) définit maintenant également le *format BCP 47* comme étant le format à utiliser pour les identifiants de locales, mais continue d'utiliser la forme POSIX pour sa méthode `toString` uniquement pour des raisons de compatibilité tout en dépréciant cette utilisation depuis *Java 19*.
 
-La plateforme Java, dans sa classe [`java.util.Locale`](https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Locale.html) définit également le *format BCP 47* comme étant le format à utiliser pour les identifiants de locales, mais continue d'utiliser la forme POSIX pour sa méthode `toString` uniquement pour des raisons de compatibilité tout en dépréciant cette utilisation depuis *Java 19*.
+Enfin, le langage JavaScript intègre le *format BCP 47* dans son coeur avec le namespace [`Intl`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) et notamment le builtin [`Intl.Locale`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale).
 
 ### Format BCP 47, identifiants de locales
 
