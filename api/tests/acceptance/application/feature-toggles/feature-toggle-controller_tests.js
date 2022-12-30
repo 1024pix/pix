@@ -22,6 +22,7 @@ describe('Acceptance | Controller | feature-toggle-controller', function () {
           id: '0',
           type: 'feature-toggles',
           attributes: {
+            'is-always-ok-validate-next-challenge-endpoint-enabled': false,
             'is-clea-results-retrieval-by-habilitated-certification-centers-enabled': false,
             'is-massive-session-management-enabled': false,
           },
