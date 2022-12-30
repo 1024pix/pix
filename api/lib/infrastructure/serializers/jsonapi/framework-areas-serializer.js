@@ -19,15 +19,7 @@ module.exports = {
           tubes: {
             include: true,
             ref: 'id',
-            attributes: ['name', 'practicalTitle', 'practicalDescription', 'mobile', 'tablet', 'skills'],
-            skills: {
-              ref: true,
-              ignoreRelationshipData: true,
-              relationshipLinks: {
-                // TODO LAURA why ?
-                related: (_area, _skills, tube) => `/api/admin/tubes/${tube.id}/skills`,
-              },
-            },
+            attributes: ['name', 'practicalTitle', 'practicalDescription', 'mobile', 'tablet'],
           },
         },
       },
