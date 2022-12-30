@@ -155,7 +155,7 @@ On souhaite donc :
 
 * associer à chaque utilisateur une *locale* (et non plus un *language*) au format BCP 47 avec persistance de ce choix en base de données
 * avoir les différentes versions des sites web identifiées par une *locale* au format BCP 47 (`fr`, `fr-FR`, `fr-BE`, `en`) et non plus des identifiants non-canoniques (`fr`, `fr-fr`, `fr-be`, `en` ont la partie `region` en minuscules)
-* Utiliser le builtin JavaScript [`Intl.Locale`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale) chaque fois que c'est possible
+* utiliser le builtin JavaScript [`Intl.Locale`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale) chaque fois que c'est possible
 
 **Avantage(s) :**
 
