@@ -338,13 +338,6 @@ describe('Acceptance | Controller | frameworks-controller', function () {
               'practical-description': 'tubePix1_1_1_1 practicalDescription fr',
               'practical-title': 'tubePix1_1_1_1 practicalTitle fr',
             },
-            relationships: {
-              skills: {
-                links: {
-                  related: '/api/admin/tubes/tubePix1_1_1_1/skills',
-                },
-              },
-            },
           },
           {
             type: 'thematics',
@@ -410,13 +403,6 @@ describe('Acceptance | Controller | frameworks-controller', function () {
               'is-tablet-compliant': false,
               'practical-description': 'tubeFrance1_1_1_1 practicalDescription fr',
               'practical-title': 'tubeFrance1_1_1_1 practicalTitle fr',
-            },
-            relationships: {
-              skills: {
-                links: {
-                  related: '/api/admin/tubes/tubeFrance1_1_1_1/skills',
-                },
-              },
             },
           },
           {

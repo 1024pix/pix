@@ -21,6 +21,6 @@ module.exports = {
   async getFrameworksForTargetProfileSubmission(request) {
     const locale = extractLocaleFromRequest(request);
     const learningContent = await usecases.getLearningContentForTargetProfileSubmission({ locale });
-    return frameworkSerializer.serialize2(learningContent.frameworks);
+    return frameworkSerializer.serializeDeep(learningContent.frameworks);
   },
 };
