@@ -74,7 +74,6 @@ class OidcAuthenticationService {
       const message = 'Erreur lors de la récupération des tokens du partenaire.';
       const dataToLog = httpErrorsHelper.serializeHttpErrorResponse(response, message);
       monitoringTools.logErrorWithCorrelationIds({ message: dataToLog });
-
       throw new InvalidExternalAPIResponseError(message);
     }
 
