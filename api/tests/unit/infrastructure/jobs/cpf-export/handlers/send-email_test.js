@@ -21,8 +21,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | send-email', function () {
     const month = '01';
     sinon.stub(cpf, 'plannerJob').value({ cron: `0 0 ${day} ${month} *` });
 
-    // eslint-disable-next-line no-restricted-syntax
-    const expectedDate = new Date('2022-15-01');
+    const expectedDate = new Date('2022-01-15T00:00:00Z');
     const cronExpressionParserStub = {
       prev: () => ({
         toDate: () => expectedDate,
