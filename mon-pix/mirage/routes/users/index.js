@@ -68,4 +68,10 @@ export default function index(config) {
     user.update({ tooltipChallengeType: request.params.challengeType });
     return user;
   });
+
+  config.patch('/users/:id/has-seen-last-data-protection-policy-information', (schema, request) => {
+    const user = schema.users.find(request.params.id);
+    user.update({ lastDataProtectionPolicySeenAt: new Date('2022-12-24') });
+    return user;
+  });
 }

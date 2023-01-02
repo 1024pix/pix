@@ -2,6 +2,7 @@ import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import ENV from 'mon-pix/config/environment';
 import isEmpty from 'lodash/isEmpty';
+import { action } from '@ember/object';
 
 export default class DataProtectionPolicyInformationBanner extends Component {
   @service currentUser;
@@ -28,5 +29,12 @@ export default class DataProtectionPolicyInformationBanner extends Component {
       return 'https://pix.org/en-gb/personal-data-protection-policy';
     }
     return `https://pix.${this.currentDomain.getExtension()}/politique-protection-donnees-personnelles-app`;
+  }
+
+  @action
+  async validateLastDataProtectionPolicy() {
+    await this.currentUser.user.save({
+      adapterOptions: { rememberUserHasSeenLastDataProtectionPolicyInformation: true },
+    });
   }
 }

@@ -7,6 +7,8 @@ import { authenticate } from '../helpers/authentication';
 import setupIntl from '../helpers/setup-intl';
 import { clickByLabel } from '../helpers/click-by-label';
 import { visit } from '@1024pix/ember-testing-library';
+import ENV from 'mon-pix/config/environment';
+import sinon from 'sinon';
 
 const ASSESSMENT = 'ASSESSMENT';
 
@@ -314,6 +316,143 @@ module('Acceptance | User dashboard page', function (hooks) {
 
         // then
         assert.dom('.new-information__content').doesNotExist();
+      });
+    });
+  });
+
+  module('data-protection-policy-information-banner', function (hooks) {
+    hooks.afterEach(async function () {
+      await invalidateSession();
+    });
+
+    module('when user has last data protection policy to see', function () {
+      module('when communication banner is enabled', function () {
+        test('should only display communication banner', async function (assert) {
+          // given
+          sinon.stub(ENV.APP, 'BANNER_TYPE').value('warning');
+          sinon.stub(ENV.APP, 'BANNER_CONTENT').value('Hello world');
+          const user = server.create('user', 'withEmail');
+          await authenticate(user);
+          await visit('/accueil');
+
+          // when
+          const screen = await visit('/accueil');
+
+          // then
+          assert
+            .dom(
+              screen.getByRole('alert', {
+                name: this.intl.t('common.communication-banner.aria-label'),
+              })
+            )
+            .exists();
+          assert
+            .dom(
+              screen.queryByRole('alert', {
+                name: this.intl.t('common.data-protection-policy-information-banner.aria-label'),
+              })
+            )
+            .doesNotExist();
+        });
+      });
+
+      module('when communication banner is not enabled', function () {
+        test('should display data protection policy information banner', async function (assert) {
+          // given
+          sinon.stub(ENV.APP, 'BANNER_TYPE').value('');
+          sinon.stub(ENV.APP, 'BANNER_CONTENT').value('');
+          const user = server.create('user', { lastDataProtectionPolicySeenAt: null, cgu: true });
+          await authenticate(user);
+
+          // when
+          const screen = await visit('/accueil');
+
+          // then
+          assert
+            .dom(
+              screen.getByRole('alert', {
+                name: this.intl.t('common.data-protection-policy-information-banner.aria-label'),
+              })
+            )
+            .exists();
+          assert
+            .dom(
+              screen.queryByRole('alert', {
+                name: this.intl.t('common.communication-banner.aria-label'),
+              })
+            )
+            .doesNotExist();
+        });
+
+        module('when user close the data protection policy information banner', function () {
+          test('should display data protection policy information banner', async function (assert) {
+            // given
+            sinon.stub(ENV.APP, 'BANNER_TYPE').value('');
+            sinon.stub(ENV.APP, 'BANNER_CONTENT').value('');
+            const user = server.create('user', { lastDataProtectionPolicySeenAt: null, cgu: true });
+            await authenticate(user);
+            const screen = await visit('/accueil');
+
+            // when
+            await click(screen.getByRole('button', { name: 'Fermer' }));
+
+            // then
+            assert
+              .dom(
+                screen.queryByRole('alert', {
+                  name: this.intl.t('common.data-protection-policy-information-banner.aria-label'),
+                })
+              )
+              .doesNotExist();
+          });
+        });
+
+        module('when user has already closed data protection policy information banner', function () {
+          test('should not display data protection policy information banner', async function (assert) {
+            // given
+            sinon.stub(ENV.APP, 'BANNER_TYPE').value('');
+            sinon.stub(ENV.APP, 'BANNER_CONTENT').value('');
+            const user = server.create('user', {
+              lastDataProtectionPolicySeenAt: new Date('2022-12-24T04:05:06Z'),
+              cgu: true,
+            });
+            await authenticate(user);
+
+            // when
+            const screen = await visit('/accueil');
+
+            // then
+            assert
+              .dom(
+                screen.queryByRole('alert', {
+                  name: this.intl.t('common.data-protection-policy-information-banner.aria-label'),
+                })
+              )
+              .doesNotExist();
+          });
+        });
+      });
+    });
+
+    module('when user is a student', function () {
+      test('should not display data protection policy information banner', async function (assert) {
+        // given
+        sinon.stub(ENV.APP, 'BANNER_TYPE').value('');
+        sinon.stub(ENV.APP, 'BANNER_CONTENT').value('');
+        const user = server.create('user', { lastDataProtectionPolicySeenAt: null, cgu: false });
+        await authenticate(user);
+
+        // when
+        const screen = await visit('/accueil');
+
+        // then
+        assert
+          .dom(
+            screen.queryByRole('alert', {
+              name: this.intl.t('common.data-protection-policy-information-banner.aria-label'),
+            })
+          )
+          .doesNotExist();
       });
     });
   });
