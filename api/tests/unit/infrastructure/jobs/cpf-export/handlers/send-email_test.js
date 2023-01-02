@@ -1,13 +1,7 @@
 const { expect, sinon } = require('../../../../../test-helper');
 const sendEmail = require('../../../../../../lib/infrastructure/jobs/cpf-export/handlers/send-email');
+const cronParser = require('cron-parser');
 const { cpf } = require('../../../../../../lib/config');
-const dayjs = require('dayjs');
-const timezone = require('dayjs/plugin/timezone');
-const utc = require('dayjs/plugin/utc');
-const customParseFormat = require('dayjs/plugin/customParseFormat');
-dayjs.extend(timezone);
-dayjs.extend(utc);
-dayjs.extend(customParseFormat);
 
 describe('Unit | Infrastructure | jobs | cpf-export | send-email', function () {
   let cpfExternalStorage;
@@ -27,11 +21,19 @@ describe('Unit | Infrastructure | jobs | cpf-export | send-email', function () {
     const month = '01';
     sinon.stub(cpf, 'plannerJob').value({ cron: `0 0 ${day} ${month} *` });
 
+    // eslint-disable-next-line no-restricted-syntax
+    const expectedDate = new Date('2022-15-01');
+    const cronExpressionParserStub = {
+      prev: () => ({
+        toDate: () => expectedDate,
+      }),
+    };
+    sinon.stub(cronParser, 'parseExpression').returns(cronExpressionParserStub);
+
     // when
     await sendEmail({ cpfExternalStorage, mailService });
 
     // then
-    const expectedDate = dayjs.tz('01-15', 'MM-DD', 'Europe/Paris').toDate();
     expect(cpfExternalStorage.getPreSignUrlsOfFilesModifiedAfter).to.have.been.calledWith({ date: expectedDate });
   });
 
