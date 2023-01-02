@@ -1032,6 +1032,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         expect(userDetailsForAdmin.email).to.equal('henri-cochet@example.net');
         expect(userDetailsForAdmin.cgu).to.be.true;
         expect(userDetailsForAdmin.createdAt).to.deep.equal(now);
+        expect(userDetailsForAdmin.updatedAt).to.deep.equal(now);
         expect(userDetailsForAdmin.lang).to.equal('en');
         expect(userDetailsForAdmin.lastTermsOfServiceValidatedAt).to.deep.equal(lastTermsOfServiceValidatedAt);
         expect(userDetailsForAdmin.lastPixOrgaTermsOfServiceValidatedAt).to.deep.equal(
@@ -1040,6 +1041,8 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         expect(userDetailsForAdmin.lastPixCertifTermsOfServiceValidatedAt).to.deep.equal(lastLoggedAt);
         expect(userDetailsForAdmin.lastLoggedAt).to.deep.equal(lastLoggedAt);
         expect(userDetailsForAdmin.emailConfirmedAt).to.deep.equal(emailConfirmedAt);
+        expect(userDetailsForAdmin.hasBeenAnonymised).to.be.false;
+        expect(userDetailsForAdmin.hasBeenAnonymisedBy).to.be.null;
       });
 
       it('should return a UserNotFoundError if no user is found', async function () {
@@ -1134,9 +1137,13 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
       });
 
       context('when user is anonymized', function () {
-        it('should return an empty array', async function () {
+        it('should return an empty array of authenticationMethods', async function () {
           // given
-          const userInDB = databaseBuilder.factory.buildUser(userToInsert);
+          const userInDB = databaseBuilder.factory.buildUser({
+            ...userToInsert,
+            hasBeenAnonymised: true,
+            hasBeenAnonymisedBy: 1,
+          });
           await databaseBuilder.commit();
 
           // when
@@ -1144,6 +1151,8 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
 
           // then
           expect(userDetailsForAdmin.authenticationMethods.length).to.equal(0);
+          expect(userDetailsForAdmin.hasBeenAnonymised).to.be.true;
+          expect(userDetailsForAdmin.hasBeenAnonymisedBy).to.equal(1);
         });
       });
 

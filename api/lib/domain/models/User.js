@@ -31,6 +31,8 @@ class User {
     scorecards = [],
     campaignParticipations = [],
     authenticationMethods = [],
+    hasBeenAnonymised,
+    hasBeenAnonymisedBy,
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -58,6 +60,8 @@ class User {
     this.scorecards = scorecards;
     this.campaignParticipations = campaignParticipations;
     this.authenticationMethods = authenticationMethods;
+    this.hasBeenAnonymised = hasBeenAnonymised;
+    this.hasBeenAnonymisedBy = hasBeenAnonymisedBy;
   }
 
   get shouldChangePassword() {

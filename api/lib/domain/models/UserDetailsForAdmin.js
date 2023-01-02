@@ -11,6 +11,7 @@ class UserDetailsForAdmin {
     organizationLearners,
     authenticationMethods,
     createdAt,
+    updatedAt,
     lang,
     lastTermsOfServiceValidatedAt,
     lastPixOrgaTermsOfServiceValidatedAt,
@@ -18,6 +19,8 @@ class UserDetailsForAdmin {
     lastLoggedAt,
     emailConfirmedAt,
     userLogin,
+    hasBeenAnonymised,
+    hasBeenAnonymisedBy,
   } = {}) {
     this.id = id;
     this.cgu = cgu;
@@ -37,6 +40,9 @@ class UserDetailsForAdmin {
     this.lastLoggedAt = lastLoggedAt;
     this.emailConfirmedAt = emailConfirmedAt;
     this.userLogin = userLogin;
+    this.hasBeenAnonymised = hasBeenAnonymised;
+    this.hasBeenAnonymisedBy = hasBeenAnonymisedBy;
+    this.updatedAt = updatedAt;
   }
 }
 

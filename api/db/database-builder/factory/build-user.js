@@ -80,6 +80,8 @@ const buildUser = function buildUser({
   updatedAt = new Date(),
   lastLoggedAt = new Date(),
   emailConfirmedAt = null,
+  hasBeenAnonymised = false,
+  hasBeenAnonymisedBy = null,
 } = {}) {
   email = _generateAnEmailIfNecessary(email, id, lastName, firstName);
 
@@ -106,6 +108,8 @@ const buildUser = function buildUser({
     updatedAt,
     lastLoggedAt,
     emailConfirmedAt,
+    hasBeenAnonymised,
+    hasBeenAnonymisedBy,
   };
 
   return databaseBuffer.pushInsertable({

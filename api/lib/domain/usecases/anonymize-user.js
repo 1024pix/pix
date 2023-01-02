@@ -15,6 +15,9 @@ module.exports = async function anonymizeUser({
     lastName: `nom_${userId}`,
     email: `email_${userId}@example.net`,
     username: null,
+    hasBeenAnonymised: true,
+    hasBeenAnonymisedBy: updatedByUserId,
+    updatedAt: new Date(),
   };
 
   await DomainTransaction.execute(async (domainTransaction) => {
