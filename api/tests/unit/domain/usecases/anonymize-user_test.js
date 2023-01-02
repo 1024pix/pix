@@ -28,6 +28,9 @@ describe('Unit | UseCase | anonymize-user', function () {
       lastName: `nom_${userId}`,
       email: `email_${userId}@example.net`,
       username: null,
+      hasBeenAnonymised: true,
+      hasBeenAnonymisedBy: 2,
+      updatedAt: now,
     };
     const expectedAnonymizedUser = Symbol('anonymized user');
 

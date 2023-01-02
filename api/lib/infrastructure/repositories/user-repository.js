@@ -428,7 +428,6 @@ function _fromKnexDTOToUserDetailsForAdmin({ userDTO, organizationLearnersDTO, a
     cgu: userDTO.cgu,
     pixOrgaTermsOfServiceAccepted: userDTO.pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted: userDTO.pixCertifTermsOfServiceAccepted,
-    createdAt: userDTO.createdAt,
     lang: userDTO.lang,
     lastTermsOfServiceValidatedAt: userDTO.lastTermsOfServiceValidatedAt,
     lastPixOrgaTermsOfServiceValidatedAt: userDTO.lastPixOrgaTermsOfServiceValidatedAt,
@@ -438,6 +437,10 @@ function _fromKnexDTOToUserDetailsForAdmin({ userDTO, organizationLearnersDTO, a
     organizationLearners,
     authenticationMethods: authenticationMethodsDTO,
     userLogin,
+    hasBeenAnonymised: userDTO.hasBeenAnonymised,
+    hasBeenAnonymisedBy: userDTO.hasBeenAnonymisedBy,
+    updatedAt: userDTO.updatedAt,
+    createdAt: userDTO.createdAt,
   });
 }
 

@@ -11,6 +11,7 @@ module.exports = function buildUserDetailsForAdmin({
   pixOrgaTermsOfServiceAccepted = false,
   isAuthenticatedFromGAR = false,
   createdAt,
+  updatedAt,
   lang,
   lastTermsOfServiceValidatedAt,
   lastPixOrgaTermsOfServiceValidatedAt,
@@ -20,6 +21,8 @@ module.exports = function buildUserDetailsForAdmin({
   organizationLearners = [],
   authenticationMethods = [],
   userLogin = [],
+  hasBeenAnonymised = false,
+  hasBeenAnonymisedBy = null,
 } = {}) {
   return new UserDetailsForAdmin({
     id,
@@ -31,6 +34,7 @@ module.exports = function buildUserDetailsForAdmin({
     pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted,
     createdAt,
+    updatedAt,
     lang,
     lastTermsOfServiceValidatedAt,
     lastPixOrgaTermsOfServiceValidatedAt,
@@ -41,5 +45,7 @@ module.exports = function buildUserDetailsForAdmin({
     organizationLearners,
     authenticationMethods,
     userLogin,
+    hasBeenAnonymised,
+    hasBeenAnonymisedBy,
   });
 };

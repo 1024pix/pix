@@ -23,6 +23,8 @@ module.exports = function buildUser({
   memberships = [buildMembership()],
   certificationCenterMemberships = [buildCertificationCenterMembership()],
   authenticationMethods = [buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword()],
+  hasBeenAnonymised = false,
+  hasBeenAnonymisedBy = null,
 } = {}) {
   return new User({
     id,
@@ -43,5 +45,7 @@ module.exports = function buildUser({
     memberships,
     certificationCenterMemberships,
     authenticationMethods,
+    hasBeenAnonymised,
+    hasBeenAnonymisedBy,
   });
 };
