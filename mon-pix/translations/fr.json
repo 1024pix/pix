@@ -91,6 +91,9 @@
       "skip-to-content": "Aller au contenu",
       "skip-to-footer": "Aller au bas de page"
     },
+    "communication-banner" : {
+      "aria-label": "Bannière d'information Pix"
+    },
     "data-protection-policy-information-banner" : {
       "url-label": "Politique de protection des données.",
       "title": "Notre politique de confidentialité a évolué. Nous vous invitons à en prendre connaissance : ",
