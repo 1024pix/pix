@@ -377,7 +377,6 @@ module.exports = injectDependencies(
     getUserDetailsForAdmin: require('./get-user-details-for-admin'),
     getUserProfile: require('./get-user-profile'),
     getUserProfileSharedForCampaign: require('./get-user-profile-shared-for-campaign'),
-    getUserWithMemberships: require('./get-user-with-memberships'),
     handleBadgeAcquisition: require('./handle-badge-acquisition'),
     handleTrainingRecommendation: require('./handle-training-recommendation'),
     importCertificationCandidatesFromCandidatesImportSheet: require('./import-certification-candidates-from-candidates-import-sheet'),
