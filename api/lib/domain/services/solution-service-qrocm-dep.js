@@ -16,13 +16,12 @@ function _applyTreatmentsToSolutions(solutions, enabledTreatments) {
 }
 
 function _applyTreatmentsToAnswers(answers, enabledTreatments) {
-  return _.mapValues(answers, answer => applyTreatments(answer.toString(), enabledTreatments))
+  return _.mapValues(answers, (answer) => applyTreatments(answer.toString(), enabledTreatments));
 }
 
 function _formatResult(scoring, numberOfGoodAnswers, nbOfAnswers) {
-
   if (_.isEmpty(scoring)) {
-    return numberOfGoodAnswers === nbOfAnswers ? AnswerStatus.OK : AnswerStatus.KO ;
+    return numberOfGoodAnswers === nbOfAnswers ? AnswerStatus.OK : AnswerStatus.KO;
   } else {
     const minGrade = _.min(Object.keys(scoring));
     const maxGrade = _.max(Object.keys(scoring));
@@ -37,29 +36,28 @@ function _formatResult(scoring, numberOfGoodAnswers, nbOfAnswers) {
   }
 }
 
-
 function _getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatments) {
-
   let solutionsNotFound = _.clone(treatedSolutions);
 
-  return _.reduce(treatedAnswers, (goodAnswerNb, answer) => {
+  return _.reduce(
+    treatedAnswers,
+    (goodAnswerNb, answer) => {
+      let result = goodAnswerNb;
 
-    let result = goodAnswerNb;
+      const solutionKey = _.findKey(solutionsNotFound, (solutionList) => {
+        return validateAnswer(answer, solutionList, useLevenshteinRatio(enabledTreatments));
+      });
 
-    const solutionKey = _.findKey(solutionsNotFound, (solutionList) => {
-      return validateAnswer(answer, solutionList, useLevenshteinRatio(enabledTreatments));
-    });
+      if (solutionKey) {
+        solutionsNotFound = _.omit(solutionsNotFound, solutionKey);
+        result += 1;
+      }
 
-    if(solutionKey) {
-      solutionsNotFound = _.omit(solutionsNotFound, solutionKey);
-      result += 1;
-    }
-
-    return result;
-
-  }, 0);
+      return result;
+    },
+    0
+  );
 }
-
 
 module.exports = {
   match({ answerValue, solution }) {

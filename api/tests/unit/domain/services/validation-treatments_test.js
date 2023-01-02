@@ -56,7 +56,6 @@ describe('Unit | Service | Validation Treatments', function () {
   });
 
   describe('#applyPreTreatments', function () {
-
     it('should return a copy of the given string with utf8 nfc normaliztion. \u0065\u0301 -> \u00e9', function () {
       // given
       const unnormalizedStr = '\u0065\u0301';

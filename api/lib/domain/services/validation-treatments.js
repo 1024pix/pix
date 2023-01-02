@@ -20,23 +20,28 @@ function removeSpecialCharacters(value) {
 }
 
 function applyPreTreatments(value) {
-  return value.toString().normalize('NFC').replace(/\u00A0/g, ' ');
+  return value
+    .toString()
+    .normalize('NFC')
+    .replace(/\u00A0/g, ' ');
 }
 
 const treatments = {
   t1: normalizeAndRemoveAccents,
-  t2: removeSpecialCharacters
-}
+  t2: removeSpecialCharacters,
+};
 
 function applyTreatments(string, enabledTreatments) {
   let result = string.toString();
   if (_.isEmpty(enabledTreatments)) {
     return result;
   }
-  _(enabledTreatments).sort().each(treatment => { 
-  	const treatmentFunction = _.get(treatments, treatment); 
-  	result = treatmentFunction ? treatmentFunction(result) : result; 
-  });
+  _(enabledTreatments)
+    .sort()
+    .each((treatment) => {
+      const treatmentFunction = _.get(treatments, treatment);
+      result = treatmentFunction ? treatmentFunction(result) : result;
+    });
   return result;
 }
 
