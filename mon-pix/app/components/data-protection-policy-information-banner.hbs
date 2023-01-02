@@ -1,6 +1,7 @@
 {{#if this.shouldDisplayDataProtectionPolicyInformation}}
   <PixBanner
     @canCloseBanner={{true}}
+    @onCloseBannerTriggerAction={{this.validateLastDataProtectionPolicy}}
     @actionLabel={{t "common.data-protection-policy-information-banner.url-label"}}
     @actionUrl={{this.dataProtectionPolicyUrl}}
   >
