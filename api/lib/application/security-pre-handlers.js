@@ -7,6 +7,7 @@ const checkAdminMemberHasRoleSupportUseCase = require('./usecases/checkAdminMemb
 const checkAdminMemberHasRoleMetierUseCase = require('./usecases/checkAdminMemberHasRoleMetier');
 const checkUserIsAdminInOrganizationUseCase = require('./usecases/checkUserIsAdminInOrganization');
 const checkUserBelongsToOrganizationManagingStudentsUseCase = require('./usecases/checkUserBelongsToOrganizationManagingStudents');
+const checkUserBelongsToLearnersOrganizationUseCase = require('./usecases/checkUserBelongsToLearnersOrganization');
 const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('./usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
 const checkUserBelongsToSupOrganizationAndManagesStudentsUseCase = require('./usecases/checkUserBelongsToSupOrganizationAndManagesStudents');
 const checkUserOwnsCertificationCourseUseCase = require('./usecases/checkUserOwnsCertificationCourse');
@@ -300,6 +301,30 @@ async function checkUserIsAdminInSUPOrganizationManagingStudents(request, h) {
   return _replyForbiddenError(h);
 }
 
+async function checkUserBelongsToLearnersOrganization(request, h) {
+  if (!request.auth.credentials) {
+    return _replyForbiddenError(h);
+  }
+
+  const userId = request.auth.credentials.userId;
+  const organizationLearnerId = parseInt(request.params.id);
+
+  let belongsToLearnersOrganization;
+
+  try {
+    belongsToLearnersOrganization = await checkUserBelongsToLearnersOrganizationUseCase.execute(
+      userId,
+      organizationLearnerId
+    );
+  } catch (e) {
+    return _replyForbiddenError(h);
+  }
+  if (belongsToLearnersOrganization) {
+    return h.response(true);
+  }
+  return _replyForbiddenError(h);
+}
+
 async function checkUserBelongsToOrganization(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyForbiddenError(h);
@@ -390,6 +415,7 @@ module.exports = {
   checkAuthorizationToManageCampaign,
   checkUserIsAdminInSCOOrganizationManagingStudents,
   checkUserIsAdminInSUPOrganizationManagingStudents,
+  checkUserBelongsToLearnersOrganization: checkUserBelongsToLearnersOrganization,
   checkUserBelongsToOrganization,
   checkUserIsMemberOfAnOrganization,
   checkUserIsMemberOfCertificationCenter,

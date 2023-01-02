@@ -10,9 +10,8 @@ export default class ParticipationStatus extends Component {
   }
 
   get label() {
-    const { status, isTypeAssessment } = this.args;
-    const type = isTypeAssessment ? 'assessment' : 'profile';
-    return this.intl.t(`pages.campaign-activity.status.${status}-${type}`);
+    const { status, campaignType } = this.args;
+    return this.intl.t(`components.participation-status.${status}-${campaignType}`);
   }
 }
 

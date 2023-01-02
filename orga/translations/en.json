@@ -292,13 +292,6 @@
         "title": "List of participants",
         "see-results": "See results of {firstName} {lastName}"
       },
-      "status": {
-        "STARTED-assessment": "In progress",
-        "TO_SHARE-assessment": "Pending results",
-        "SHARED-assessment": "Submitted results",
-        "TO_SHARE-profile": "Pending profile",
-        "SHARED-profile": "Submitted profile"
-      },
       "delete-participation-modal": {
         "actions": {
           "cancel": "No",
@@ -650,6 +643,30 @@
         }
       }
     },
+    "organization-learner": {
+      "activity": {
+        "empty-state": "No activity yet. As soon as {organizationLearnerFirstName} {organizationLearnerLastName} participates in a campaign, you will be able to follow their progress here.",
+        "title": "Activity",
+        "participations-title": "Participations",
+        "participation-list": {
+          "table": {
+            "description": "Participations",
+            "column": {
+              "campaign-name": "Campaign",
+              "campaign-type": "Type",
+              "created-at": "Started on",
+              "shared-at": "Sent on",
+              "status": "Status"
+            },
+            "row-title": "Participation"
+          },
+          "type": {
+            "ASSESSMENT": "Assessment",
+            "PROFILES_COLLECTION": "Profiles collection"
+          }
+        }
+      }
+    },
     "organization-participants": {
       "empty-state": {
         "message": "No participants yet!",
@@ -680,11 +697,11 @@
           "last-name": "Last name",
           "lastest-participation": "Lastest participation",
           "participation-count": "Number of participations",
-          "is-certifiable":{
+          "is-certifiable": {
             "label": "Eligibility for certification",
             "tooltip": {
               "aria-label": "How to know if a participant is eligible for certification and what does it mean?",
-              "content":"To know if a participant is eligible for certification (meaning they have reached the level 1 in at least 5 different competences), their Pix profile needs to be submitted through a profile collection campaign. If the participant has already submitted their profile, the date and status of the last submission are displayed."
+              "content": "To know if a participant is eligible for certification (meaning they have reached the level 1 in at least 5 different competences), their Pix profile needs to be submitted through a profile collection campaign. If the participant has already submitted their profile, the date and status of the last submission are displayed."
             }
           }
         },
@@ -855,7 +872,7 @@
         },
         "students-count": "{count, plural, =0 {0 students} =1 {1 student} other {{count} students}}",
         "title": "Filters",
-        "aria-label":"Filters on students",
+        "aria-label": "Filters on students",
         "actions": {
           "clear": "Clear filters"
         }
@@ -872,7 +889,7 @@
             "not-available": "Not available",
             "tooltip": {
               "aria-label": "How to know if a student is eligible for certification and what does it mean?",
-              "content":"To know if a student is eligible for certification (meaning they have reached the level 1 in at least 5 different competences), their Pix profile needs to be submitted through a profile collection campaign. If the student has already submitted their profile, the date and status of the last submission are displayed."
+              "content": "To know if a student is eligible for certification (meaning they have reached the level 1 in at least 5 different competences), their Pix profile needs to be submitted through a profile collection campaign. If the student has already submitted their profile, the date and status of the last submission are displayed."
             }
           },
           "last-name": "Last name",
@@ -923,7 +940,7 @@
             "label": "Certificabilité",
             "tooltip": {
               "aria-label": "How to know if a student is eligible for certification and what does it mean?",
-              "content":"To know if a student is eligible for certification (meaning they have reached the level 1 in at least 5 different competences), their Pix profile needs to be submitted through a profile collection campaign. If the student has already submitted their profile, the date and status of the last submission are displayed."
+              "content": "To know if a student is eligible for certification (meaning they have reached the level 1 in at least 5 different competences), their Pix profile needs to be submitted through a profile collection campaign. If the student has already submitted their profile, the date and status of the last submission are displayed."
             }
           }
         },
@@ -935,7 +952,7 @@
         "actions": {
           "clear": "Clear filters"
         },
-        "aria-label":"Filters on students",
+        "aria-label": "Filters on students",
         "certificability": {
           "aria-label": "Enter a status for certificability",
           "label": "Search by certificability"
@@ -981,6 +998,15 @@
         "diploma": "Diplomas unknown: {diplomas}; ",
         "study-scheme": "Study schemes unknown: {studySchemes}; "
       }
+    },
+    "sup-organization-participant-activity": {
+      "title": "Student activity"
+    },
+    "sco-organization-participant-activity": {
+      "title": "Student activity"
+    },
+    "organization-participant-activity": {
+      "title": "Participant activity"
     },
     "team-invitations": {
       "title": "Team invitations",
@@ -1072,6 +1098,15 @@
     "terms-of-service": {
       "title": "Terms and conditions of use",
       "accept": "I accept the terms and conditions"
+    }
+  },
+  "components": {
+    "participation-status": {
+      "STARTED-ASSESSMENT": "In progress",
+      "TO_SHARE-ASSESSMENT": "Pending results",
+      "SHARED-ASSESSMENT": "Submitted results",
+      "TO_SHARE-PROFILES_COLLECTION": "Pending profile",
+      "SHARED-PROFILES_COLLECTION": "Submitted profile"
     }
   }
 }
