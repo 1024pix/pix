@@ -277,6 +277,59 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
         assert.contains('Inscrire le candidat');
       });
 
+      module('when the addCandidate button is clicked a second time', function (hooks) {
+        hooks.beforeEach(async function () {
+          server.createList('country', 2, { code: '99100' });
+        });
+
+        test('it should open the new Certification Candidate Modal with empty input', async function (assert) {
+          // given
+          const sessionWithoutCandidates = server.create('session', {
+            certificationCenterId: allowedCertificationCenterAccess.id,
+          });
+          const screen = await visit(`/sessions/${sessionWithoutCandidates.id}/candidats`);
+
+          await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
+          await fillIn(screen.getByLabelText('* Nom de famille'), 'BackStreet');
+          await fillIn(screen.getByLabelText('* Prénom'), 'Boys');
+          await click(screen.getByLabelText('Homme'));
+          await fillIn(screen.getByLabelText('* Date de naissance'), '01/01/2000');
+          await fillIn(screen.getByLabelText('* Pays de naissance'), '99100');
+          await click(screen.getByLabelText('Code INSEE'));
+          await fillIn(screen.getByLabelText('Identifiant externe'), '44AA3355');
+          await fillIn(screen.getByLabelText('* Code INSEE de naissance'), '75100');
+          await fillIn(screen.getByLabelText('Temps majoré (%)'), '20');
+          await fillIn(screen.getByLabelText('* Tarification part Pix'), 'PREPAID');
+          await fillIn(screen.getByLabelText('Code de prépaiement'), '12345');
+          await fillIn(
+            screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)'),
+            'guybrush.threepwood@example.net'
+          );
+          await fillIn(screen.getByLabelText('E-mail de convocation'), 'roooooar@example.net');
+
+          await click(screen.getByRole('button', { name: 'Fermer' }));
+
+          // when
+          await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
+
+          // then
+          assert.strictEqual(screen.getByLabelText('* Nom de famille').value, '');
+          assert.strictEqual(screen.getByLabelText('* Prénom').value, '');
+          assert.false(screen.getByLabelText('Homme').checked);
+          assert.strictEqual(screen.getByLabelText('* Date de naissance').value, '');
+          assert.strictEqual(screen.getByLabelText('Identifiant externe').value, '');
+          assert.strictEqual(screen.getByLabelText('* Code INSEE de naissance').value, '');
+          assert.strictEqual(screen.getByLabelText('Temps majoré (%)').value, '');
+          assert.strictEqual(screen.getByLabelText('* Tarification part Pix').value, '');
+          assert.strictEqual(screen.getByLabelText('Code de prépaiement').value, '');
+          assert.strictEqual(
+            screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)').value,
+            ''
+          );
+          assert.strictEqual(screen.getByLabelText('E-mail de convocation').value, '');
+        });
+      });
+
       module('when the new candidate form is submitted', function () {
         test('it should display the error message when the submitted form data is incorrect', async function (assert) {
           // given
