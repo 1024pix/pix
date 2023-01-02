@@ -75,10 +75,7 @@
                 <td>{{participation.participantExternalId}}</td>
               {{/if}}
               <td>
-                <Campaign::Activity::ParticipationStatus
-                  @status={{participation.status}}
-                  @isTypeAssessment={{@campaign.isTypeAssessment}}
-                />
+                <Ui::ParticipationStatus @status={{participation.status}} @campaignType={{@campaign.type}} />
               </td>
               {{#if this.canDeleteParticipation}}
                 <td class="hide-on-mobile">

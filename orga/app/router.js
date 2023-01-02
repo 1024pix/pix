@@ -25,13 +25,22 @@ Router.map(function () {
   this.route('authenticated', { path: '' }, function () {
     this.route('sco-organization-participants', { path: 'eleves' }, function () {
       this.route('list', { path: '/' });
+      this.route('sco-organization-participant', { path: '/:eleve_id' }, function () {
+        this.route('activity', { path: '/' });
+      });
     });
     this.route('organization-participants', { path: 'participants' }, function () {
       this.route('list', { path: '/' });
+      this.route('organization-participant', { path: '/:participant_id' }, function () {
+        this.route('activity', { path: '/' });
+      });
     });
     this.route('sup-organization-participants', { path: 'etudiants' }, function () {
       this.route('list', { path: '/' });
       this.route('import');
+      this.route('sup-organization-participant', { path: '/:etudiant_id' }, function () {
+        this.route('activity', { path: '/' });
+      });
     });
     this.route('team', { path: '/equipe' }, function () {
       this.route('list', { path: '/' }, function () {

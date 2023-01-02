@@ -292,13 +292,6 @@
         "title": "Liste des participants",
         "see-results": "Voir les résultats de {firstName} {lastName}"
       },
-      "status": {
-        "STARTED-assessment": "En cours",
-        "TO_SHARE-assessment": "En attente d'envoi",
-        "SHARED-assessment": "Résultats reçus",
-        "TO_SHARE-profile": "En attente d'envoi",
-        "SHARED-profile": "Profil reçu"
-      },
       "delete-participation-modal": {
         "actions": {
           "cancel": "Non",
@@ -650,6 +643,30 @@
         }
       }
     },
+    "organization-learner": {
+      "activity": {
+        "empty-state": "Aucune activité pour l’instant ! Envoyez une campagne à {organizationLearnerFirstName} {organizationLearnerLastName} et commencez à suivre sa progression.",
+        "title": "Activité",
+        "participations-title": "Participations",
+        "participation-list": {
+          "table": {
+            "description": "Participations",
+            "column": {
+              "campaign-name": "Campagne",
+              "campaign-type": "Type",
+              "created-at": "Date de début",
+              "shared-at": "Date d'envoi",
+              "status": "Statut"
+            },
+            "row-title": "Participation"
+          },
+          "type": {
+            "ASSESSMENT": "Evaluation",
+            "PROFILES_COLLECTION": "Collecte de profil"
+          }
+        }
+      }
+    },
     "organization-participants": {
       "empty-state": {
         "message": "Aucun participant pour l’instant !",
@@ -855,7 +872,7 @@
         },
         "students-count": "{count, plural, =0 {0 élève} =1 {1 élève} other {{count} élèves}}",
         "title": "Filtres",
-        "aria-label":"Filtres sur les élèves",
+        "aria-label": "Filtres sur les élèves",
         "actions": {
           "clear": "Effacer les filtres"
         }
@@ -932,7 +949,7 @@
         "row-title": "Étudiant"
       },
       "filter": {
-        "aria-label":"Filtrer les étudiants",
+        "aria-label": "Filtrer les étudiants",
         "actions": {
           "clear": "Effacer les filtres"
         },
@@ -981,6 +998,15 @@
         "diploma": "Diplômes non reconnus : {diplomas}; ",
         "study-scheme": "Régimes non reconnus : {studySchemes}; "
       }
+    },
+    "sup-organization-participant-activity": {
+      "title": "Activité de l'étudiant"
+    },
+    "sco-organization-participant-activity": {
+      "title": "Activité de l'élève"
+    },
+    "organization-participant-activity": {
+      "title": "Activité du participant"
     },
     "team-invitations": {
       "title": "Invitations",
@@ -1072,6 +1098,15 @@
     "terms-of-service": {
       "title": "Conditions d'utilisation",
       "accept": "J’accepte les conditions d’utilisation"
+    }
+  },
+  "components": {
+    "participation-status": {
+      "STARTED-ASSESSMENT": "En cours",
+      "TO_SHARE-ASSESSMENT": "En attente d'envoi",
+      "SHARED-ASSESSMENT": "Résultats reçus",
+      "TO_SHARE-PROFILES_COLLECTION": "En attente d'envoi",
+      "SHARED-PROFILES_COLLECTION": "Profil reçu"
     }
   }
 }

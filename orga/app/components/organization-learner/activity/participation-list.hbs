@@ -1,0 +1,43 @@
+<div class="panel">
+  <table class="table content-text content-text--small participation-list__table">
+    <caption class="sr-only">{{t "pages.organization-learner.activity.participation-list.table.description"}}</caption>
+    <thead>
+      <tr>
+        <Table::Header @size="wide">{{t
+            "pages.organization-learner.activity.participation-list.table.column.campaign-name"
+          }}</Table::Header>
+        <Table::Header @size="medium" @align="left">{{t
+            "pages.organization-learner.activity.participation-list.table.column.campaign-type"
+          }}</Table::Header>
+        <Table::Header @size="medium" @align="left">
+          {{t "pages.organization-learner.activity.participation-list.table.column.created-at"}}
+        </Table::Header>
+        <Table::Header @size="medium" @align="left">{{t
+            "pages.organization-learner.activity.participation-list.table.column.shared-at"
+          }}</Table::Header>
+        <Table::Header @size="medium" @align="left">{{t
+            "pages.organization-learner.activity.participation-list.table.column.status"
+          }}</Table::Header>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each @participations as |participation|}}
+        <tr aria-label={{t "pages.organization-learner.activity.participation-list.table.row-title"}}>
+          <td class="ellipsis">{{participation.campaignName}}</td>
+          <td class="ellipsis">
+            <OrganizationLearner::Activity::CampaignType @campaignType={{participation.campaignType}} />
+          </td>
+          <td class="table__column--left">
+            <Ui::Date @date="{{participation.createdAt}}" />
+          </td>
+          <td class="table__column--left">
+            <Ui::Date @date="{{participation.sharedAt}}" />
+          </td>
+          <td class="table__column--left">
+            <Ui::ParticipationStatus @status={{participation.status}} @campaignType={{participation.campaignType}} />
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

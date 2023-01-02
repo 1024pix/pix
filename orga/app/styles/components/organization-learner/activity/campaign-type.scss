@@ -1,0 +1,8 @@
+.campaign-type {
+  display: flex;
+  align-items: center;
+
+  &__label {
+    margin-left: $spacing-xs;
+  }
+}
