@@ -331,7 +331,7 @@ module('Acceptance | User dashboard page', function (hooks) {
           // given
           sinon.stub(ENV.APP, 'BANNER_TYPE').value('warning');
           sinon.stub(ENV.APP, 'BANNER_CONTENT').value('Hello world');
-          const user = server.create('user', 'withEmail');
+          const user = server.create('user', 'withEmail', { shouldSeeDataProtectionPolicyInformationBanner: true });
           await authenticate(user);
           await visit('/accueil');
 
@@ -361,7 +361,11 @@ module('Acceptance | User dashboard page', function (hooks) {
           // given
           sinon.stub(ENV.APP, 'BANNER_TYPE').value('');
           sinon.stub(ENV.APP, 'BANNER_CONTENT').value('');
-          const user = server.create('user', { lastDataProtectionPolicySeenAt: null, cgu: true });
+          const user = server.create('user', {
+            lastDataProtectionPolicySeenAt: null,
+            cgu: true,
+            shouldSeeDataProtectionPolicyInformationBanner: true,
+          });
           await authenticate(user);
 
           // when
@@ -385,11 +389,15 @@ module('Acceptance | User dashboard page', function (hooks) {
         });
 
         module('when user close the data protection policy information banner', function () {
-          test('should display data protection policy information banner', async function (assert) {
+          test('should not display data protection policy information banner', async function (assert) {
             // given
             sinon.stub(ENV.APP, 'BANNER_TYPE').value('');
             sinon.stub(ENV.APP, 'BANNER_CONTENT').value('');
-            const user = server.create('user', { lastDataProtectionPolicySeenAt: null, cgu: true });
+            const user = server.create('user', {
+              lastDataProtectionPolicySeenAt: null,
+              cgu: true,
+              shouldSeeDataProtectionPolicyInformationBanner: true,
+            });
             await authenticate(user);
             const screen = await visit('/accueil');
 
@@ -415,6 +423,7 @@ module('Acceptance | User dashboard page', function (hooks) {
             const user = server.create('user', {
               lastDataProtectionPolicySeenAt: new Date('2022-12-24T04:05:06Z'),
               cgu: true,
+              shouldSeeDataProtectionPolicyInformationBanner: false,
             });
             await authenticate(user);
 
@@ -434,12 +443,49 @@ module('Acceptance | User dashboard page', function (hooks) {
       });
     });
 
+    module('when user has already seen data protection policy but it has been updated', function () {
+      test('should display data protection policy information banner', async function (assert) {
+        // given
+        sinon.stub(ENV.APP, 'BANNER_TYPE').value('');
+        sinon.stub(ENV.APP, 'BANNER_CONTENT').value('');
+        const user = server.create('user', {
+          lastDataProtectionPolicySeenAt: new Date('2022-12-24T04:05:06Z'),
+          cgu: true,
+          shouldSeeDataProtectionPolicyInformationBanner: true,
+        });
+        await authenticate(user);
+
+        // when
+        const screen = await visit('/accueil');
+
+        // then
+        assert
+          .dom(
+            screen.getByRole('alert', {
+              name: this.intl.t('common.data-protection-policy-information-banner.aria-label'),
+            })
+          )
+          .exists();
+        assert
+          .dom(
+            screen.queryByRole('alert', {
+              name: this.intl.t('common.communication-banner.aria-label'),
+            })
+          )
+          .doesNotExist();
+      });
+    });
+
     module('when user is a student', function () {
       test('should not display data protection policy information banner', async function (assert) {
         // given
         sinon.stub(ENV.APP, 'BANNER_TYPE').value('');
         sinon.stub(ENV.APP, 'BANNER_CONTENT').value('');
-        const user = server.create('user', { lastDataProtectionPolicySeenAt: null, cgu: false });
+        const user = server.create('user', {
+          lastDataProtectionPolicySeenAt: null,
+          cgu: false,
+          shouldSeeDataProtectionPolicyInformationBanner: true,
+        });
         await authenticate(user);
 
         // when
