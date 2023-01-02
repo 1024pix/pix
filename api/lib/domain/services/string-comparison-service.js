@@ -24,8 +24,8 @@ function getSmallestLevenshteinDistance(comparative, alternatives) {
 }
 
 function validateAnswer(answer, solutions, useLevenshteinRatio) {
-  if ( useLevenshteinRatio ) {
-    return getSmallestLevenshteinRatio(answer, solutions) <= LEVENSHTEIN_DISTANCE_MAX_RATE; 
+  if (useLevenshteinRatio) {
+    return getSmallestLevenshteinRatio(answer, solutions) <= LEVENSHTEIN_DISTANCE_MAX_RATE;
   }
   return _.includes(solutions, answer);
 }
@@ -36,5 +36,5 @@ module.exports = {
   getSmallestLevenshteinDistance,
   getSmallestLevenshteinRatio,
   getLevenshteinRatio,
-  validateAnswer
+  validateAnswer,
 };

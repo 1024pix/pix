@@ -51,10 +51,11 @@ function _getAnswerStatusFromNumberMatching(answer, solutions) {
 }
 
 function _getAnswerStatusFromStringMatching(answer, solutions, deactivations, shouldApplyTreatments) {
-
   const enabledTreatments = getEnabledTreatments(shouldApplyTreatments, deactivations);
   const treatedAnswer = applyTreatments(applyPreTreatments(answer), enabledTreatments);
-  const treatedSolutions = map(solutions, solution => applyTreatments(solution, enabledTreatments));
+  const treatedSolutions = map(solutions, (solution) => applyTreatments(solution, enabledTreatments));
 
-  return validateAnswer(treatedAnswer, treatedSolutions, useLevenshteinRatio(enabledTreatments)) ? AnswerStatus.OK : AnswerStatus.KO;
+  return validateAnswer(treatedAnswer, treatedSolutions, useLevenshteinRatio(enabledTreatments))
+    ? AnswerStatus.OK
+    : AnswerStatus.KO;
 }

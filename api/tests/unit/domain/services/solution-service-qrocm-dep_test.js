@@ -781,20 +781,18 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
         deactivations: { t1: true, t2: true, t3: true },
       },
     ];
-
+    // It is recommended to disable 'no-setup-in-describe' for dynamically
+    // generated tests. cf: https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md
     // eslint-disable-next-line mocha/no-setup-in-describe
-    
-    allCases.forEach(function ({when, output, answer, solution, scoring, deactivations }) {
-      it(`${when} should return ${output} when answer is "${answer}" and solution is "${solution}"`,
-        function () {
-          const solutionResult = {
-            value: solution,
-            scoring: scoring,
-            deactivations: deactivations,
-          };
-          expect(service.match({ answerValue: answer, solution: solutionResult })).to.deep.equal(output);
-        }
-      );
+    allCases.forEach(function ({ when, output, answer, solution, scoring, deactivations }) {
+      it(`${when} should return ${output} when answer is "${answer}" and solution is "${solution}"`, function () {
+        const solutionResult = {
+          value: solution,
+          scoring: scoring,
+          deactivations: deactivations,
+        };
+        expect(service.match({ answerValue: answer, solution: solutionResult })).to.deep.equal(output);
+      });
     });
   });
 
