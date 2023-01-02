@@ -115,11 +115,11 @@ function _enableMailing() {
 }
 
 function _mailAddressIsValid(recipient) {
-  sinon.stub(mailCheck, 'checkMail').withArgs(recipient).resolves();
+  sinon.stub(mailCheck, 'checkDomainIsValid').withArgs(recipient).resolves();
 }
 
 function _mailAddressIsInvalid(recipient, expectedError) {
-  sinon.stub(mailCheck, 'checkMail').withArgs(recipient).rejects(expectedError);
+  sinon.stub(mailCheck, 'checkDomainIsValid').withArgs(recipient).rejects(expectedError);
 }
 
 function _mockMailingProvider() {
