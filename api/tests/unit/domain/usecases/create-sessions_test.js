@@ -7,6 +7,7 @@ const sessionCodeService = require('../../../../lib/domain/services/session-code
 const Session = require('../../../../lib/domain/models/Session');
 const createSession = require('../../../../lib/domain/usecases/create-session');
 const certificationSessionsService = require('../../../../lib/domain/services/certification-sessions-service');
+const certificationCpfService = require('../../../../lib/domain/services/certification-cpf-service');
 
 describe('Unit | UseCase | create-sessions', function () {
   let userId;
@@ -33,6 +34,64 @@ describe('Unit | UseCase | create-sessions', function () {
     sinon.stub(sessionCodeService, 'getNewSessionCodeWithoutAvailabilityCheck');
     sessionCodeService.getNewSessionCodeWithoutAvailabilityCheck.returns(accessCode);
     certificationCenterRepository.get.withArgs(certificationCenterId).resolves({ name: certificationCenter.name });
+  });
+
+  context('when verifying cpf candidat information', function () {
+    context('when mandatory candidate information is missing', function () {
+      it('should not get candidate CPF birth information', async function () {
+        // given
+        sessionRepository.saveSessions.resolves([
+          new Session({
+            id: 123,
+            address: 'site1',
+            room: 'salle1',
+            examiner: 'surveillant un',
+            time: '01:00',
+            description: 'non',
+            date: '2022-01-01',
+            certificationCenterId,
+            certificationCenter: certificationCenterName,
+            accessCode,
+            supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
+          }),
+        ]);
+
+        const data = [
+          {
+            '* Nom du site': 'site1',
+            '* Nom de la salle': 'salle1',
+            '* Date de début': '2022-01-01',
+            '* Heure de début (heure locale)': '01:00',
+            '* Surveillant(s)': 'surveillant un',
+            'Observations (optionnel)': 'non',
+            '* Nom de naissance': '',
+            '* Prénom': '',
+            '* Date de naissance (format: jj/mm/aaaa)': '',
+            '* Sexe (M ou F)': '',
+            'Code Insee': '',
+            'Code postal': '',
+            'Nom de la commune': '',
+            '* Pays': '',
+            'E-mail du destinataire des résultats (formateur, enseignant…)': '',
+            'E-mail de convocation': '',
+            'Identifiant local': '',
+            'Temps majoré ?': '',
+          },
+        ];
+        // when
+        await createSessions({
+          data,
+          certificationCenterId,
+          userId,
+          certificationCenterRepository,
+          sessionRepository,
+          userRepository,
+        });
+
+        // then
+        expect(certificationCpfService.getBirthInformation).not.to.have.been.called;
+      });
+    });
   });
 
   context('when sessions are valid', function () {
