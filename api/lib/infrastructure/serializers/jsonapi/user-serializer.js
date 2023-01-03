@@ -28,6 +28,7 @@ module.exports = {
         'hasSeenOtherChallengesTooltip',
         'trainings',
         'lastDataProtectionPolicySeenAt',
+        'shouldSeeDataProtectionPolicyInformationBanner',
       ],
       certificationCenterMemberships: {
         ref: 'id',
