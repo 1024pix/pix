@@ -14,9 +14,9 @@ export default class DataProtectionPolicyInformationBanner extends Component {
 
   get shouldDisplayDataProtectionPolicyInformation() {
     const hasNotAlreadySeenDataProtectionPolicyInformation =
-      this.currentUser.user.lastDataProtectionPolicySeenAt === null;
+      this.currentUser.user?.lastDataProtectionPolicySeenAt === null;
 
-    const isNotAStudent = this.currentUser.user.cgu === true;
+    const isNotAStudent = this.currentUser.user?.cgu === true;
 
     const isCommunicationBannerDisplayed = !isEmpty(this._rawBannerContent) && !isEmpty(this.bannerType);
 
