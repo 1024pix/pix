@@ -268,18 +268,17 @@ module.exports = {
     return new OrganizationLearner(organizationLearner);
   },
 
-  get(organizationLearnerId) {
-    return BookshelfOrganizationLearner.where({ id: organizationLearnerId })
-      .fetch()
-      .then((organizationLearner) =>
-        bookshelfToDomainConverter.buildDomainObject(BookshelfOrganizationLearner, organizationLearner)
-      )
-      .catch((err) => {
-        if (err instanceof BookshelfOrganizationLearner.NotFoundError) {
-          throw new NotFoundError(`Student not found for ID ${organizationLearnerId}`);
-        }
-        throw err;
-      });
+  async get(organizationLearnerId) {
+    const organizationLearner = await knex
+      .select('*')
+      .from('organization-learners')
+      .where({ id: organizationLearnerId })
+      .first();
+
+    if (!organizationLearner) {
+      throw new NotFoundError(`Student not found for ID ${organizationLearnerId}`);
+    }
+    return new OrganizationLearner(organizationLearner);
   },
 
   async getLatestOrganizationLearner({ nationalStudentId, birthdate }) {
