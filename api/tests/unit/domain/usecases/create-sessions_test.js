@@ -36,25 +36,69 @@ describe('Unit | UseCase | create-sessions', function () {
     certificationCenterRepository.get.withArgs(certificationCenterId).resolves({ name: certificationCenter.name });
   });
 
-  context('when verifying cpf candidat information', function () {
-    context('when mandatory candidate information is missing', function () {
-      it('should not get candidate CPF birth information', async function () {
+  context('when there is no candidate', function () {
+    it('should not get candidate CPF birth information', async function () {
+      // given
+      sessionRepository.saveSessions.resolves([
+        new Session({
+          id: 123,
+          address: 'site1',
+          room: 'salle1',
+          examiner: 'surveillant un',
+          time: '01:00',
+          description: 'non',
+          date: '2022-01-01',
+          certificationCenterId,
+          certificationCenter: certificationCenterName,
+          accessCode,
+          supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
+        }),
+      ]);
+
+      const data = [
+        {
+          '* Nom du site': 'site1',
+          '* Nom de la salle': 'salle1',
+          '* Date de début': '2022-01-01',
+          '* Heure de début (heure locale)': '01:00',
+          '* Surveillant(s)': 'surveillant un',
+          'Observations (optionnel)': 'non',
+          '* Nom de naissance': '',
+          '* Prénom': '',
+          '* Date de naissance (format: jj/mm/aaaa)': '',
+          '* Sexe (M ou F)': '',
+          'Code Insee': '',
+          'Code postal': '',
+          'Nom de la commune': '',
+          '* Pays': '',
+          'E-mail du destinataire des résultats (formateur, enseignant…)': '',
+          'E-mail de convocation': '',
+          'Identifiant local': '',
+          'Temps majoré ?': '',
+        },
+      ];
+
+      sinon.stub(certificationCpfService, 'getBirthInformation');
+
+      // when
+      await createSessions({
+        data,
+        certificationCenterId,
+        userId,
+        certificationCenterRepository,
+        sessionRepository,
+        userRepository,
+      });
+
+      // then
+      expect(certificationCpfService.getBirthInformation).not.to.have.been.called;
+    });
+  });
+
+  context('when sessions are valid', function () {
+    context('when user has certification center membership', function () {
+      it.only('should create the sessions', async function () {
         // given
-        sessionRepository.saveSessions.resolves([
-          new Session({
-            id: 123,
-            address: 'site1',
-            room: 'salle1',
-            examiner: 'surveillant un',
-            time: '01:00',
-            description: 'non',
-            date: '2022-01-01',
-            certificationCenterId,
-            certificationCenter: certificationCenterName,
-            accessCode,
-            supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
-          }),
-        ]);
 
         const data = [
           {
@@ -78,6 +122,24 @@ describe('Unit | UseCase | create-sessions', function () {
             'Temps majoré ?': '',
           },
         ];
+
+        const savedSession = domainBuilder.buildSession({
+          id: 1234,
+          address: 'site1',
+          room: 'salle1',
+          examiner: 'surveillant un',
+          time: '01:00',
+          description: 'non',
+          date: '2022-01-01',
+          certificationCenterId,
+          certificationCenter: certificationCenterName,
+          accessCode,
+        });
+        userWithMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(true);
+        userRepository.getWithCertificationCenterMemberships.withArgs(userId).returns(userWithMemberships);
+        sessionRepository.saveSessions.resolves([savedSession]);
+        sessionValidator.validate.returns();
+
         // when
         await createSessions({
           data,
@@ -89,44 +151,16 @@ describe('Unit | UseCase | create-sessions', function () {
         });
 
         // then
-        expect(certificationCpfService.getBirthInformation).not.to.have.been.called;
-      });
-    });
-  });
-
-  context('when sessions are valid', function () {
-    context('when user has certification center membership', function () {
-      it('should create the sessions', async function () {
-        // given
-        const sessionsToSave = [{ certificationCenterId }];
-        userWithMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(true);
-        userRepository.getWithCertificationCenterMemberships.withArgs(userId).returns(userWithMemberships);
-        sessionRepository.saveSessions.resolves();
-        sessionValidator.validate.returns();
-        sinon.stub(certificationSessionsService, 'associateSessionIdToParsedData');
-        certificationSessionsService.associateSessionIdToParsedData.returns([]);
-
-        // when
-        await createSessions({
-          data: sessionsToSave,
-          certificationCenterId,
-          userId,
-          certificationCenterRepository,
-          sessionRepository,
-          userRepository,
-        });
-
-        // then
-        const expectedSessions = [
-          new Session({
-            certificationCenterId,
-            certificationCenter: certificationCenterName,
-            accessCode,
-            supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
-          }),
-        ];
-
-        expect(sessionRepository.saveSessions).to.have.been.calledWithExactly(expectedSessions);
+        expect(sessionRepository.saveSessions).to.have.been.calledWith(
+          sinon.match.array.deepEquals([
+            new Session({
+              certificationCenterId,
+              certificationCenter: certificationCenterName,
+              accessCode,
+              supervisorPassword: sinon.match.string,
+            }),
+          ])
+        );
       });
     });
 

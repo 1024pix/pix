@@ -68,6 +68,10 @@ module.exports = async function createSessions({
     const dataWithSessionIds = certificationSessionsService.associateSessionIdToParsedData(data, savedSessions);
 
     dataWithSessionIds.map((data) => {
+      if (!_hasCandidateInformation(data)) {
+        return;
+      }
+
       return new CertificationCandidate({
         sessionId: data['sessionId'],
         lastName: data['* Nom de naissance'],
