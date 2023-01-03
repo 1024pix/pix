@@ -102,6 +102,12 @@ export default class UserOverview extends Component {
     return urlDashboardPrefix && urlDashboardPrefix + this.args.user.id;
   }
 
+  get anonymisationMessage() {
+    return this.args.user.anonymisedByFullName
+      ? `Utilisateur anonymisé par ${this.args.user.anonymisedByFullName}.`
+      : 'Utilisateur anonymisé.';
+  }
+
   get canModifyEmail() {
     return !!(this.args.user.email || this.args.user.username);
   }
