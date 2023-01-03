@@ -92,6 +92,11 @@
     <section class="page-section">
       <div class="user-detail-personal-information-section__content">
         <div>
+          {{#if @user.hasBeenAnonymised}}
+            <PixMessage @type="warning" class="user-detail-personal-information-section__anonymisation-message">
+              {{this.anonymisationMessage}}
+            </PixMessage>
+          {{/if}}
           <div>
             <span>Prénom : </span>
             <span>{{@user.firstName}}</span>
