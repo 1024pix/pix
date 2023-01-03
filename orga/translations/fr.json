@@ -157,6 +157,7 @@
       "mandatory-fields": " indique un champ obligatoire",
       "mandatory-fields-title": "obligatoire"
     },
+    "fullname": "{firstName} {lastName}",
     "help-form": "https://support.pix.fr/support/tickets/new",
     "home-page": "Page d'accueil de Pix Orga",
     "loading": "Chargement en cours",
@@ -665,6 +666,9 @@
             "PROFILES_COLLECTION": "Collecte de profil"
           }
         }
+      },
+      "header": {
+        "aria-label-title" : "Nom du participant"
       }
     },
     "organization-participants": {
