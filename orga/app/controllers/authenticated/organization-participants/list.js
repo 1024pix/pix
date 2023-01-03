@@ -6,6 +6,7 @@ import { tracked } from '@glimmer/tracking';
 export default class ListController extends Controller {
   @service currentUser;
   @service intl;
+  @service router;
 
   @tracked pageNumber = 1;
   @tracked pageSize = 25;
@@ -23,6 +24,12 @@ export default class ListController extends Controller {
     this.pageNumber = null;
     this.fullName = null;
     this.certificability = [];
+  }
+
+  @action
+  goToLearnerPage(learnerId, event) {
+    event.preventDefault();
+    this.router.transitionTo('authenticated.organization-participants.organization-participant', learnerId);
   }
 
   get certificabilityOptions() {

@@ -17,7 +17,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
       organization = organization;
     }
     this.owner.register('service:current-user', CurrentUserStub);
-    this.set('stub', () => {});
+    this.set('noop', sinon.stub());
   });
 
   test('it should display the header labels', async function (assert) {
@@ -26,7 +26,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     // when
     await render(
-      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.stub}} />`
+      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.noop}} @onClickLearner={{this.noop}}/>`
     );
 
     // then
@@ -54,12 +54,38 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     // when
     await render(
-      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.stub}}/>`
+      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.noop}} @onClickLearner={{this.noop}}/>`
     );
 
     // then
     assert.contains('La Terreur');
     assert.contains("L'asticot");
+  });
+
+  test('it should display a link to access participant detail', async function (assert) {
+    // given
+    this.owner.setupRouter();
+
+    const participants = [
+      {
+        lastName: 'Chase',
+        firstName: 'PatPatrouille',
+        id: 34,
+      },
+      {
+        lastName: 'Ruben',
+        firstName: 'PatPatrouille',
+        id: 56,
+      },
+    ];
+    this.set('participants', participants);
+
+    // when
+    const screen = await render(
+      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.noop}} @onClickLearner={{this.noop}}/>`
+    );
+    // then
+    assert.dom(screen.getByRole('link', { name: 'Ruben' })).hasProperty('href', /\/participants\/56/g);
   });
 
   test('it should display the participant firstName and lastName', async function (assert) {
@@ -75,7 +101,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     // when
     await render(
-      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.stub}}/>`
+      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.noop}} @onClickLearner={{this.noop}}/>`
     );
 
     // then
@@ -104,7 +130,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     // when
     const screen = await render(
-      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.stub}}/>`
+      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.noop}} @onClickLearner={{this.noop}}/>`
     );
     const allRows = screen.getAllByLabelText(this.intl.t('pages.organization-participants.table.row-title'));
 
@@ -134,7 +160,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     // when
     const screen = await render(
-      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.stub}}/>`
+      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.noop}} @onClickLearner={{this.noop}}/>`
     );
     const allRows = screen.getAllByLabelText(this.intl.t('pages.organization-participants.table.row-title'));
 
@@ -166,7 +192,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     // when
     await render(
-      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.stub}}/>`
+      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.noop}} @onClickLearner={{this.noop}}/>`
     );
 
     // then
@@ -188,7 +214,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     // when
     await render(
-      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.triggerFiltering}}/>`
+      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.triggerFiltering}} @onClickLearner={{this.noop}}/>`
     );
     await fillByLabel('Recherche sur le nom et prénom', 'Karam');
     // then
@@ -205,7 +231,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     this.set('certificability', []);
 
     const { getByPlaceholderText, findByRole } = await render(
-      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.triggerFiltering}} @certificabilityOptions={{this.certificabilityOptions}} @certificability={{this.certificability}} />`
+      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.triggerFiltering}} @certificabilityOptions={{this.certificabilityOptions}} @certificability={{this.certificability}} @onClickLearner={{this.noop}}/>`
     );
 
     // when
@@ -230,7 +256,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     // when
     await render(
-      hbs`<OrganizationParticipant::List @participants={{this.participants}}  @triggerFiltering={{this.triggerFiltering}}/>`
+      hbs`<OrganizationParticipant::List @participants={{this.participants}}  @triggerFiltering={{this.triggerFiltering}} @onClickLearner={{this.noop}}/>`
     );
     await fillByLabel('Recherche sur le nom et prénom', 'Karam');
 
@@ -253,7 +279,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     // when
     const screen = await render(
-      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.triggerFiltering}}/>`
+      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.triggerFiltering}} @onClickLearner={{this.noop}}/>`
     );
     assert
       .dom(
