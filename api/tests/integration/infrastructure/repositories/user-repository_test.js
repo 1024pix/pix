@@ -1155,6 +1155,29 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
           expect(userDetailsForAdmin.hasBeenAnonymised).to.be.true;
           expect(userDetailsForAdmin.hasBeenAnonymisedBy).to.equal(1);
         });
+
+        it("should return the anonymisedBy's first and last names", async function () {
+          // given
+          const adminWhoAnonymisedUser = databaseBuilder.factory.buildUser({
+            id: 1,
+            firstName: 'Laurent',
+            lastName: 'Gina',
+          });
+          const userInDB = databaseBuilder.factory.buildUser({
+            ...userToInsert,
+            id: 2,
+            hasBeenAnonymised: true,
+            hasBeenAnonymisedBy: adminWhoAnonymisedUser.id,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
+
+          // then
+          expect(userDetailsForAdmin.anonymisedByFirstName).to.equal('Laurent');
+          expect(userDetailsForAdmin.anonymisedByLastName).to.equal('Gina');
+        });
       });
 
       context('when user has login details', function () {
