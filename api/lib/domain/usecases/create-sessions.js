@@ -3,34 +3,26 @@ const { EntityValidationError } = require('../errors');
 const { UnprocessableEntityError } = require('../../application/http-errors');
 const Session = require('../models/Session');
 const sessionCodeService = require('../services/session-code-service');
-const certificationSessionsService = require('../services/certification-sessions-service');
 
 module.exports = async function createSessions({
-  data,
+  sessions,
   certificationCenterId,
   certificationCenterRepository,
   sessionRepository,
 }) {
-  if (data.length === 0) {
-    throw new UnprocessableEntityError('No data in table');
+  if (sessions.length === 0) {
+    throw new UnprocessableEntityError('No session in table');
   }
 
   const { name: certificationCenter } = await certificationCenterRepository.get(certificationCenterId);
 
-  const groupedSessions = certificationSessionsService.groupBySessions(data);
-
   try {
-    const domainSessions = groupedSessions.map((data) => {
+    const domainSessions = sessions.map((session) => {
       const accessCode = sessionCodeService.getNewSessionCodeWithoutAvailabilityCheck();
       const domainSession = new Session({
+        ...session,
         certificationCenterId,
         certificationCenter,
-        address: data['* Nom du site'],
-        room: data['* Nom de la salle'],
-        date: data['* Date de début'],
-        time: data['* Heure de début (heure locale)'],
-        examiner: data['* Surveillant(s)'],
-        description: data['Observations (optionnel)'],
         accessCode,
       });
 

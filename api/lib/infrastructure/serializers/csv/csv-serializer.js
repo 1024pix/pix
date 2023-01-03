@@ -20,8 +20,20 @@ function _csvSerializeValue(data) {
   }
 }
 
+function deserializeForSessionsImport(parsedCsvData) {
+  return parsedCsvData.map((line) => ({
+    address: line['* Nom du site'],
+    room: line['* Nom de la salle'],
+    date: line['* Date de début'],
+    time: line['* Heure de début (heure locale)'],
+    examiner: line['* Surveillant(s)'],
+    description: line['Observations (optionnel)'],
+  }));
+}
+
 module.exports = {
   serializeLine(lineArray) {
     return lineArray.map(_csvSerializeValue).join(';') + '\n';
   },
+  deserializeForSessionsImport,
 };
