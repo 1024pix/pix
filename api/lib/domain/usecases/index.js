@@ -342,6 +342,7 @@ module.exports = injectDependencies(
     getNextChallengeForPreview: require('./get-next-challenge-for-preview'),
     getOrganizationDetails: require('./get-organization-details'),
     getOrganizationInvitation: require('./get-organization-invitation'),
+    getOrganizationLearner: require('./get-organization-learner'),
     getOrganizationLearnerActivity: require('./get-organization-learner-activity'),
     getParticipantsDivision: require('./get-participants-division'),
     getParticipantsGroup: require('./get-participants-group'),
