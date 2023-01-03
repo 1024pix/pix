@@ -38,15 +38,26 @@ describe('Unit | UseCase | create-sessions', function () {
     context('when user has certification center membership', function () {
       it('should save the sessions', async function () {
         // given
-        const sessionsToSave = [{ certificationCenterId }];
+        const sessionsToSave = [
+          {
+            address: 'Site 1',
+            room: 'Salle 1',
+            date: '2022-03-12',
+            time: '01:00',
+            examiner: 'Pierre',
+            description: '',
+          },
+        ];
+
         userWithMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(true);
+        certificationCenterRepository.get.withArgs(certificationCenterId).resolves({ name: certificationCenterName });
         userRepository.getWithCertificationCenterMemberships.withArgs(userId).returns(userWithMemberships);
         sessionRepository.saveSessions.resolves();
         sessionValidator.validate.returns();
 
         // when
         await createSessions({
-          data: sessionsToSave,
+          sessions: sessionsToSave,
           certificationCenterId,
           userId,
           certificationCenterRepository,
@@ -57,6 +68,7 @@ describe('Unit | UseCase | create-sessions', function () {
         // then
         const expectedSessions = [
           new Session({
+            ...sessionsToSave[0],
             certificationCenterId,
             certificationCenter: certificationCenterName,
             accessCode,
@@ -78,7 +90,7 @@ describe('Unit | UseCase | create-sessions', function () {
         // when
         const error = await catchErr(createSession)({
           userId,
-          session: sessionsToSave,
+          sessions: sessionsToSave,
           certificationCenterRepository,
           sessionRepository,
           userRepository,
@@ -100,7 +112,7 @@ describe('Unit | UseCase | create-sessions', function () {
 
       // when
       const err = await catchErr(createSessions)({
-        data: sessionsToSave,
+        sessions: sessionsToSave,
         userId,
         certificationCenterId,
         certificationCenterRepository,
@@ -116,10 +128,10 @@ describe('Unit | UseCase | create-sessions', function () {
   context('when there is no session data', function () {
     it('should throw an error', async function () {
       // given
-      const data = [];
+      const sessions = [];
 
       // when
-      const err = await catchErr(createSessions)({ data, certificationCenterId });
+      const err = await catchErr(createSessions)({ sessions, certificationCenterId });
 
       // then
       expect(err).to.be.instanceOf(UnprocessableEntityError);

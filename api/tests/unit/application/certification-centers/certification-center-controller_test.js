@@ -7,6 +7,7 @@ const Session = require('../../../../lib/domain/models/Session');
 
 const certificationCenterController = require('../../../../lib/application/certification-centers/certification-center-controller');
 const csvHelpers = require('../../../../scripts/helpers/csvHelpers');
+const csvSerializer = require('../../../../lib/infrastructure/serializers/csv/csv-serializer');
 
 describe('Unit | Controller | certifications-center-controller', function () {
   describe('#saveSession', function () {
@@ -484,9 +485,11 @@ describe('Unit | Controller | certifications-center-controller', function () {
       };
 
       sinon.stub(csvHelpers, 'parseCsvWithHeader');
+      sinon.stub(csvSerializer, 'deserializeForSessionsImport');
       sinon.stub(usecases, 'createSessions');
 
-      csvHelpers.parseCsvWithHeader.resolves('result data');
+      csvHelpers.parseCsvWithHeader.resolves(['result data']);
+      csvSerializer.deserializeForSessionsImport.returns(['session']);
       usecases.createSessions.resolves();
 
       // when
@@ -494,7 +497,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
 
       // then
       expect(usecases.createSessions).to.have.been.calledWith({
-        data: 'result data',
+        sessions: ['session'],
         certificationCenterId: request.params.certificationCenterId,
       });
     });

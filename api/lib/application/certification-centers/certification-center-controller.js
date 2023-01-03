@@ -12,6 +12,7 @@ const sessionSerializer = require('../../infrastructure/serializers/jsonapi/sess
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const map = require('lodash/map');
 const csvHelpers = require('../../../scripts/helpers/csvHelpers');
+const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
 
 module.exports = {
   async saveSession(request) {
@@ -172,8 +173,9 @@ module.exports = {
 
   async importSessions(request, h) {
     const certificationCenterId = request.params.certificationCenterId;
-    const data = await csvHelpers.parseCsvWithHeader(request.payload.path);
-    await usecases.createSessions({ data, certificationCenterId });
+    const parsedCsvData = await csvHelpers.parseCsvWithHeader(request.payload.path);
+    const sessions = csvSerializer.deserializeForSessionsImport(parsedCsvData);
+    await usecases.createSessions({ sessions, certificationCenterId });
     return h.response().code(200);
   },
 };
