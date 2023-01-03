@@ -1,10 +1,12 @@
 import { action } from '@ember/object';
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
+import { inject as service } from '@ember/service';
 
 const DEFAULT_PAGE_NUMBER = 1;
 
 export default class AuthenticatedCampaignsListMyCampaignsController extends Controller {
+  @service router;
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
   @tracked pageSize = 50;
   @tracked name = null;
@@ -34,7 +36,6 @@ export default class AuthenticatedCampaignsListMyCampaignsController extends Con
   @action
   goToCampaignPage(campaignId, event) {
     event.preventDefault();
-    event.stopPropagation();
-    this.transitionToRoute('authenticated.campaigns.campaign', campaignId);
+    this.router.transitionTo('authenticated.campaigns.campaign', campaignId);
   }
 }

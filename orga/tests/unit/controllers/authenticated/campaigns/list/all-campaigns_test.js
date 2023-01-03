@@ -46,15 +46,14 @@ module('Unit | Controller | authenticated/campaigns/list/all-campaigns', functio
   module('#action goToCampaignPage', function () {
     test('it should call transitionToRoute with appropriate arguments', function (assert) {
       // given
-      controller.transitionToRoute = sinon.stub();
+      controller.router = { transitionTo: sinon.stub() };
 
       // when
       controller.send('goToCampaignPage', 123, event);
 
       // then
       assert.true(event.preventDefault.called);
-      assert.true(event.stopPropagation.called);
-      assert.true(controller.transitionToRoute.calledWith('authenticated.campaigns.campaign', 123));
+      assert.true(controller.router.transitionTo.calledWith('authenticated.campaigns.campaign', 123));
     });
   });
 
