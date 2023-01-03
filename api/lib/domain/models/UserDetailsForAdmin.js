@@ -21,6 +21,8 @@ class UserDetailsForAdmin {
     userLogin,
     hasBeenAnonymised,
     hasBeenAnonymisedBy,
+    anonymisedByFirstName,
+    anonymisedByLastName,
   } = {}) {
     this.id = id;
     this.cgu = cgu;
@@ -43,6 +45,8 @@ class UserDetailsForAdmin {
     this.hasBeenAnonymised = hasBeenAnonymised;
     this.hasBeenAnonymisedBy = hasBeenAnonymisedBy;
     this.updatedAt = updatedAt;
+    this.anonymisedByFirstName = anonymisedByFirstName;
+    this.anonymisedByLastName = anonymisedByLastName;
   }
 }
 
