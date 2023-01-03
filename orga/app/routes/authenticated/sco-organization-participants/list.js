@@ -7,7 +7,7 @@ export default class ListRoute extends Route {
   queryParams = {
     search: { refreshModel: true },
     divisions: { refreshModel: true },
-    connexionType: { refreshModel: true },
+    connectionTypes: { refreshModel: true },
     certificability: { refreshModel: true },
     pageNumber: { refreshModel: true },
     pageSize: { refreshModel: true },
@@ -22,7 +22,7 @@ export default class ListRoute extends Route {
         organizationId: this.currentUser.organization.id,
         search: params.search,
         divisions: params.divisions,
-        connexionType: params.connexionType,
+        connexionType: params.connectionTypes,
         certificability: params.certificability,
       },
       page: {
@@ -36,7 +36,7 @@ export default class ListRoute extends Route {
     if (isExiting) {
       controller.search = null;
       controller.divisions = [];
-      controller.connexionType = null;
+      controller.connectionTypes = [];
       controller.certificability = [];
       controller.pageNumber = null;
       controller.pageSize = 50;

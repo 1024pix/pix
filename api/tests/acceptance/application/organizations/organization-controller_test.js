@@ -1082,35 +1082,67 @@ describe('Acceptance | Application | organization-controller', function () {
         expect(response.statusCode).to.equal(200);
         expect(response.result.data).to.deep.equal(expectedResult.data);
       });
+      context('Certificability filter', function () {
+        it('should filter certificability with one value', async function () {
+          // given
+          options = {
+            method: 'GET',
+            url: `/api/organizations/${organization.id}/sco-participants?filter[certificability][]=eligible`,
+            headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          };
 
-      it('should filter certificability with one value', async function () {
-        // given
-        options = {
-          method: 'GET',
-          url: `/api/organizations/${organization.id}/sco-participants?filter[certificability][]=eligible`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-        };
+          // when
+          const response = await server.inject(options);
 
-        // when
-        const response = await server.inject(options);
+          // then
+          expect(response.statusCode).to.equal(200);
+        });
 
-        // then
-        expect(response.statusCode).to.equal(200);
+        it('should filter certificability with two values', async function () {
+          // given
+          options = {
+            method: 'GET',
+            url: `/api/organizations/${organization.id}/sco-participants?filter[certificability][]=eligible&filter[certificability][]=not-available`,
+            headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(200);
+        });
       });
+      context('Connexion type filter', function () {
+        it('should filter connexion type with one value', async function () {
+          // given
+          options = {
+            method: 'GET',
+            url: `/api/organizations/${organization.id}/sco-participants?filter[connexionType][]=none`,
+            headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          };
 
-      it('should filter certificability with two values', async function () {
-        // given
-        options = {
-          method: 'GET',
-          url: `/api/organizations/${organization.id}/sco-participants?filter[certificability][]=eligible&filter[certificability][]=not-available`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-        };
+          // when
+          const response = await server.inject(options);
 
-        // when
-        const response = await server.inject(options);
+          // then
+          expect(response.statusCode).to.equal(200);
+        });
 
-        // then
-        expect(response.statusCode).to.equal(200);
+        it('should filter connexion type with two values', async function () {
+          // given
+          options = {
+            method: 'GET',
+            url: `/api/organizations/${organization.id}/sco-participants?filter[connexionType][]=none&filter[connexionType][]=email`,
+            headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(200);
+        });
       });
     });
 
