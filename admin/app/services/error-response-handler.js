@@ -13,6 +13,10 @@ const ERROR_MESSAGES_BY_STATUS = {
   STATUS_503: 'Service momentanément indisponible',
 };
 
+const ERROR_MESSAGES_BY_CODE = {
+  SENDING_EMAIL_TO_INVALID_DOMAIN: "Échec lors de l'envoi d'un e-mail car le domaine semble invalide.",
+};
+
 export default class ErrorResponseHandlerService extends Service {
   @service notifications;
 
@@ -29,6 +33,12 @@ export default class ErrorResponseHandlerService extends Service {
     }
 
     errors.forEach((error) => {
+      const messageForCode = _getErrorMessageForErrorCode(error.code);
+      if (messageForCode) {
+        this.notifications.error(messageForCode);
+        return;
+      }
+
       const message = _getErrorMessageForHttpStatus(error.status, customErrorMessageByStatus);
       this.notifications.error(message);
     });
@@ -37,6 +47,14 @@ export default class ErrorResponseHandlerService extends Service {
 
 function _isJSONAPIError(errorResponse) {
   return !isEmpty(errorResponse.errors) && every(errorResponse.errors, (error) => error.title);
+}
+
+function _getErrorMessageForErrorCode(errorCode) {
+  if (errorCode === 'SENDING_EMAIL_TO_INVALID_DOMAIN') {
+    return ERROR_MESSAGES_BY_CODE.SENDING_EMAIL_TO_INVALID_DOMAIN;
+  }
+
+  return null;
 }
 
 function _getErrorMessageForHttpStatus(errorStatus, customErrorMessageByStatus) {

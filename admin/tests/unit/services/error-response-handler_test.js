@@ -41,6 +41,11 @@ module('Unit | Service | error-response-handler', function (hooks) {
             title: 'Something else went wrong too !',
           },
           {
+            status: '400',
+            title: 'Sending email to an invalid domain',
+            code: 'SENDING_EMAIL_TO_INVALID_DOMAIN',
+          },
+          {
             title: 'Something went wrong',
             detail: 'the provided id is invalid',
           },
@@ -53,6 +58,7 @@ module('Unit | Service | error-response-handler', function (hooks) {
       // then
       sinon.assert.calledWith(errorMock, 'Cette opération est impossible.');
       sinon.assert.calledWith(errorMock, 'Non trouvé.');
+      sinon.assert.calledWith(errorMock, "Échec lors de l'envoi d'un e-mail car le domaine semble invalide.");
       sinon.assert.calledWith(errorMock, 'Une erreur est survenue.');
       assert.ok(true);
     });
@@ -97,6 +103,29 @@ module('Unit | Service | error-response-handler', function (hooks) {
       sinon.assert.calledWith(errorMock, customErrorMessagesByStatus.DEFAULT);
       sinon.assert.calledWith(errorMock, customErrorMessagesByStatus.STATUS_422);
       sinon.assert.calledWith(errorMock, customErrorMessagesByStatus.STATUS_404);
+      assert.ok(true);
+    });
+  });
+
+  module('with error codes', function () {
+    test('it notifies correct error for SENDING_EMAIL_TO_INVALID_DOMAIN error', function (assert) {
+      // given
+      const service = this.owner.lookup('service:error-response-handler');
+      service.notifications.error = sinon.stub();
+      const invalidDomainError = {
+        status: '400',
+        title: 'Sending email to an invalid domain',
+        code: 'SENDING_EMAIL_TO_INVALID_DOMAIN',
+      };
+
+      // when
+      service.notify({ errors: [invalidDomainError] });
+
+      // then
+      sinon.assert.calledWith(
+        service.notifications.error,
+        "Échec lors de l'envoi d'un e-mail car le domaine semble invalide."
+      );
       assert.ok(true);
     });
   });
