@@ -149,7 +149,7 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
             })
           );
           // then
-          assert.strictEqual(currentURL(), '/eleves?connexionType=%5B%22email%22%5D');
+          assert.strictEqual(currentURL(), '/eleves?connectionTypes=%5B%22email%22%5D');
           assert.contains('Rambo');
           assert.notContains('Norris');
         });
