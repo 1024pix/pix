@@ -48,6 +48,12 @@ class UserDetailsForAdmin {
     this.anonymisedByFirstName = anonymisedByFirstName;
     this.anonymisedByLastName = anonymisedByLastName;
   }
+
+  get anonymisedByFullName() {
+    return this.anonymisedByFirstName && this.anonymisedByLastName
+      ? `${this.anonymisedByFirstName} ${this.anonymisedByLastName}`
+      : null;
+  }
 }
 
 module.exports = UserDetailsForAdmin;
