@@ -157,6 +157,7 @@
       "mandatory-fields": " indicates a required field",
       "mandatory-fields-title": "required"
     },
+    "fullname": "{firstName} {lastName}",
     "help-form": "https://pix.org/en-gb/contact-form",
     "home-page": "Pix Orga home page",
     "loading": "Loading",
@@ -665,6 +666,9 @@
             "PROFILES_COLLECTION": "Profiles collection"
           }
         }
+      },
+      "header": {
+        "aria-label-title" : "Participant's name"
       }
     },
     "organization-participants": {
