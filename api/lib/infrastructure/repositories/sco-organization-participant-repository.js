@@ -15,18 +15,27 @@ function _setFilters(qb, { search, divisions, connexionType, certificability } =
   if (!_.isEmpty(divisions)) {
     qb.whereIn('division', divisions);
   }
-  if (connexionType === 'none') {
-    qb.whereRaw('"users"."username" IS NULL');
-    qb.whereRaw('"users"."email" IS NULL');
-    // we only retrieve GAR authentication method in join clause
-    qb.whereRaw('"authentication-methods"."externalIdentifier" IS NULL');
-  } else if (connexionType === 'identifiant') {
-    qb.whereRaw('"users"."username" IS NOT NULL');
-  } else if (connexionType === 'email') {
-    qb.whereRaw('"users"."email" IS NOT NULL');
-  } else if (connexionType === 'mediacentre') {
-    // we only retrieve GAR authentication method in join clause
-    qb.whereRaw('"authentication-methods"."externalIdentifier" IS NOT NULL');
+  if (!_.isEmpty(connexionType)) {
+    qb.where(function () {
+      if (connexionType.includes('none')) {
+        this.orWhere(function () {
+          this.whereRaw('"users"."username" IS NULL');
+          this.whereRaw('"users"."email" IS NULL');
+          // we only retrieve GAR authentication method in join clause
+          this.whereRaw('"authentication-methods"."externalIdentifier" IS NULL');
+        });
+      }
+      if (connexionType.includes('identifiant')) {
+        this.orWhereRaw('"users"."username" IS NOT NULL');
+      }
+      if (connexionType.includes('email')) {
+        this.orWhereRaw('"users"."email" IS NOT NULL');
+      }
+      if (connexionType.includes('mediacentre')) {
+        // we only retrieve GAR authentication method in join clause
+        this.orWhereRaw('"authentication-methods"."externalIdentifier" IS NOT NULL');
+      }
+    });
   }
   if (certificability) {
     qb.where(function (query) {

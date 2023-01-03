@@ -164,7 +164,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       assert.ok(true);
     });
 
-    test('it should trigger filtering with connexionType', async function (assert) {
+    test('it should trigger filtering with connectionType', async function (assert) {
       // given
       const triggerFiltering = sinon.spy();
       this.set('triggerFiltering', triggerFiltering);
@@ -176,10 +176,10 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
       // when
       await click(screen.getByLabelText('Rechercher par méthode de connexion'));
-      await click(await screen.findByRole('option', { name: 'Adresse e-mail' }));
+      await click(await screen.findByRole('checkbox', { name: 'Adresse e-mail' }));
 
       // then
-      sinon.assert.calledWithExactly(triggerFiltering, 'connexionType', 'email');
+      sinon.assert.calledWithExactly(triggerFiltering, 'connectionTypes', ['email']);
       assert.ok(true);
     });
 

@@ -113,7 +113,7 @@ module('Unit | Controller | authenticated/sco-organization-participants/list', f
       // given
       controller.search = 'th';
       controller.divisions = ['ing'];
-      controller.connexionType = 'co';
+      controller.connectionTypes = 'co';
       controller.certificability = ['ool'];
       controller.pageNumber = 1;
       controller.pageSize = 10;
@@ -124,7 +124,7 @@ module('Unit | Controller | authenticated/sco-organization-participants/list', f
       // then
       assert.strictEqual(controller.search, null);
       assert.deepEqual(controller.divisions, []);
-      assert.strictEqual(controller.connexionType, null);
+      assert.deepEqual(controller.connectionTypes, []);
       assert.deepEqual(controller.certificability, []);
       assert.strictEqual(controller.pageNumber, null);
       assert.strictEqual(controller.pageSize, 10);

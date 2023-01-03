@@ -26,13 +26,14 @@
     @emptyMessage={{t "pages.sco-organization-participants.filter.division.empty"}}
   />
 
-  <Ui::SelectFilter
-    @field="connexionType"
+  <Ui::MultiSelectFilter
+    @field="connectionTypes"
+    @title={{t "pages.sco-organization-participants.filter.login-method.aria-label"}}
+    @onSelect={{@onFilter}}
+    @selectedOption={{@connectionTypeFilter}}
     @options={{this.connectionTypesOptions}}
-    @selectedOption={{@connexionTypeFilter}}
-    @triggerFiltering={{@onFilter}}
+    @placeholder={{t "pages.sco-organization-participants.filter.login-method.empty-option"}}
     @ariaLabel={{t "pages.sco-organization-participants.filter.login-method.aria-label"}}
-    @emptyOptionLabel={{t "pages.sco-organization-participants.filter.login-method.empty-option"}}
   />
   <Ui::MultiSelectFilter
     @field="certificability"
