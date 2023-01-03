@@ -51,8 +51,19 @@
     {{#if @participants}}
       <tbody>
         {{#each @participants as |participant index|}}
-          <tr aria-label={{t "pages.organization-participants.table.row-title"}}>
-            <td class="ellipsis" title={{participant.lastName}}>{{participant.lastName}}</td>
+          <tr
+            aria-label={{t "pages.organization-participants.table.row-title"}}
+            {{on "click" (fn @onClickLearner participant.id)}}
+            class="tr--clickable"
+          >
+            <td class="table__column">
+              <LinkTo
+                @route="authenticated.organization-participants.organization-participant"
+                @model={{participant.id}}
+              >
+                {{participant.lastName}}
+              </LinkTo>
+            </td>
             <td class="ellipsis" title={{participant.firstName}}>{{participant.firstName}}</td>
             <td class="table__column--right">{{participant.participationCount}}</td>
             <td>
