@@ -96,6 +96,8 @@ describe('Acceptance | Controller | users-controller-get-user-details-for-admin'
           'pix-certif-terms-of-service-accepted': false,
           'pix-orga-terms-of-service-accepted': false,
           username: user.username,
+          'has-been-anonymised': false,
+          'anonymised-by-full-name': null,
         });
 
         expect(response.result.data.relationships).to.deep.equal({
