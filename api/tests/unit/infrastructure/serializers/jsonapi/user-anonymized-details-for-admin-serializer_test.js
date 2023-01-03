@@ -27,7 +27,7 @@ describe('Unit | Serializer | JSONAPI | user-anonymized-details-for-admin-serial
             'pix-orga-terms-of-service-accepted': modelObject.pixOrgaTermsOfServiceAccepted,
             'pix-certif-terms-of-service-accepted': modelObject.pixCertifTermsOfServiceAccepted,
             'has-been-anonymised': modelObject.hasBeenAnonymised,
-            'has-been-anonymised-by': modelObject.hasBeenAnonymisedBy,
+            'anonymised-by-full-name': modelObject.anonymisedByFullName,
             'updated-at': now,
           },
           relationships: {
