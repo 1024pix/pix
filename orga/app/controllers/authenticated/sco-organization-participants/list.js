@@ -13,7 +13,7 @@ export default class ListController extends Controller {
 
   @tracked search = null;
   @tracked divisions = [];
-  @tracked connexionType = [];
+  @tracked connectionTypes = [];
   @tracked certificability = [];
   @tracked pageNumber = null;
   @tracked pageSize = 50;
@@ -28,7 +28,7 @@ export default class ListController extends Controller {
   resetFiltering() {
     this.pageNumber = null;
     this.divisions = [];
-    this.connexionType = [];
+    this.connectionTypes = [];
     this.search = null;
     this.certificability = [];
   }

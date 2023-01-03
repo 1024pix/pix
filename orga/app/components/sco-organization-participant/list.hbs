@@ -27,10 +27,10 @@
   />
 
   <Ui::MultiSelectFilter
-    @field="connexionType"
+    @field="connectionTypes"
     @title={{t "pages.sco-organization-participants.filter.login-method.aria-label"}}
     @onSelect={{@onFilter}}
-    @selectedOption={{@connexionTypeFilter}}
+    @selectedOption={{@connectionTypeFilter}}
     @options={{this.connectionTypesOptions}}
     @placeholder={{t "pages.sco-organization-participants.filter.login-method.empty-option"}}
     @ariaLabel={{t "pages.sco-organization-participants.filter.login-method.aria-label"}}
