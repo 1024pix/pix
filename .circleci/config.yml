@@ -126,6 +126,12 @@ jobs:
           path: /home/circleci/test-results
       - store_artifacts:
           path: /home/circleci/test-results
+      - run:
+          name: Send test results
+          command: |
+            curl -L --fail "https://github.com/DataDog/datadog-ci/releases/latest/download/datadog-ci_linux-x64" --output "/usr/local/bin/datadog-ci" && chmod +x /usr/local/bin/datadog-ci
+            datadog-ci junit upload --service pix-api-tests /home/circleci/test-results
+
       - notify-ci-errors-on-slack
 
   mon_pix_build_and_test:
