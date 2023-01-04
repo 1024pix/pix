@@ -27,9 +27,18 @@ module.exports = {
       })
       .from('certification-courses')
       .innerJoin('organization-learners', 'organization-learners.userId', 'certification-courses.userId')
-      .innerJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
-      .innerJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
       .innerJoin('sessions', 'sessions.id', 'certification-courses.sessionId')
+      .innerJoin(
+        'certification-courses-last-assessment-results',
+        'certification-courses.id',
+        'certification-courses-last-assessment-results.certificationCourseId'
+      )
+      .innerJoin(
+        'assessment-results',
+        'assessment-results.id',
+        'certification-courses-last-assessment-results.lastAssessmentResultId'
+      )
+      .innerJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
       .innerJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
       .whereNotExists(
         knex
@@ -38,13 +47,6 @@ module.exports = {
           .whereRaw('"last-certification-courses"."userId" = "certification-courses"."userId"')
           .whereRaw('"last-certification-courses"."isCancelled"= false')
           .whereRaw('"certification-courses"."createdAt" < "last-certification-courses"."createdAt"')
-      )
-      .whereNotExists(
-        knex
-          .select(1)
-          .from({ 'last-assessment-results': 'assessment-results' })
-          .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
-          .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"')
       )
 
       .where({ 'certification-courses.isCancelled': false })
