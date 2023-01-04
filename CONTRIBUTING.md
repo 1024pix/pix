@@ -35,7 +35,7 @@ FEATURE | PR relative à une story
 BUGFIX | PR relative à une correction d'un bug
 TECH | PR relative à du code technique / d'infra
 
-Ce tag nous permet de générer automatiquement un fichier [CHANGELOG.md](../CHANGELOG.md) regroupant les modifications
+Ce tag nous permet de générer automatiquement un fichier [CHANGELOG.md](./CHANGELOG.md) regroupant les modifications
 d'une version à l'autre. Il est possible d'utiliser d'autres tags mais le CHANGELOG les regroupera comme des
 modifications "Autres".
 
