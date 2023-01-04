@@ -43,6 +43,7 @@ class Challenge {
    * @param discriminant
    * @param difficulty
    * @param responsive
+   * @param successProbabilityThreshold
    */
   constructor({
     id,
@@ -68,6 +69,7 @@ class Challenge {
     focused,
     discriminant,
     difficulty,
+    successProbabilityThreshold,
     responsive,
   } = {}) {
     this.id = id;
@@ -94,6 +96,7 @@ class Challenge {
     this.discriminant = discriminant;
     this.difficulty = difficulty;
     this.responsive = responsive;
+    this.successProbabilityThreshold = successProbabilityThreshold;
   }
 
   isTimed() {
@@ -122,6 +125,11 @@ class Challenge {
 
   get isTabletCompliant() {
     return this._isCompliant('Tablet');
+  }
+
+  set successProbabilityThreshold(successProbabilityThreshold) {
+    if (this.difficulty == null || this.discriminant == null || successProbabilityThreshold == null) return;
+    this.minimumCapability = this.difficulty - Math.log(1 / successProbabilityThreshold - 1) / this.discriminant;
   }
 
   _isCompliant(type) {
