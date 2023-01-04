@@ -1,4 +1,4 @@
-@mixin action-button($text-color) {
+@mixin action-button() {
   margin: 0 1px;
 
   @include device-is('tablet') {
@@ -6,7 +6,6 @@
   }
 
   &-text {
-    color: $text-color;
     font-size: 0.8rem;
     letter-spacing: 0.03rem;
     text-transform: uppercase;
@@ -44,15 +43,15 @@
   }
 
   &__action-skip {
-    @include action-button($pix-neutral-50);
+    @include action-button;
   }
 
   &__action-validate {
-    @include action-button($pix-neutral-0);
+    @include action-button;
   }
 
   &__action-continue {
-    @include action-button($pix-neutral-0);
+    @include action-button;
   }
 
   &__already-answered {

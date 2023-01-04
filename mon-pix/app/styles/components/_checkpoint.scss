@@ -60,7 +60,6 @@
 
 .checkpoint__continue-button {
   display: inline-block;
-  font-weight: $font-bold;
 
   @include device-is('tablet') {
     width: 230px;
