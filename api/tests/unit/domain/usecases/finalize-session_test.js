@@ -5,6 +5,7 @@ const {
   SessionAlreadyFinalizedError,
   SessionWithoutStartedCertificationError,
   SessionWithAbortReasonOnCompletedCertificationCourseError,
+  SessionWithMissingAbortReasonError,
   InvalidCertificationReportForFinalization,
 } = require('../../../../lib/domain/errors');
 const SessionFinalized = require('../../../../lib/domain/events/SessionFinalized');
@@ -144,6 +145,40 @@ describe('Unit | UseCase | finalize-session', function () {
         // then
         expect(certificationCourseRepository.update).to.have.been.calledOnce;
         expect(err).to.be.instanceOf(SessionWithAbortReasonOnCompletedCertificationCourseError);
+      });
+    });
+
+    context('When there is no abort reason for uncompleted certification course', function () {
+      it('should throw an SessionWithMissingAbortReasonError error', async function () {
+        // given
+        const certificationReports = [];
+        const uncompletedCertificationCourse = domainBuilder.buildCertificationCourse({
+          id: 1234,
+          abortReason: null,
+          completedAt: null,
+        });
+        sessionRepository.countUncompletedCertifications.withArgs(sessionId).resolves(1);
+        certificationCourseRepository.findCertificationCoursesBySessionId
+          .withArgs({ sessionId })
+          .resolves([uncompletedCertificationCourse]);
+
+        certificationCourseRepository.update.resolves(
+          domainBuilder.buildCertificationCourse({ ...uncompletedCertificationCourse, abortReason: null })
+        );
+
+        // when
+        const err = await catchErr(finalizeSession)({
+          sessionId,
+          examinerGlobalComment,
+          sessionRepository,
+          certificationReports,
+          certificationReportRepository,
+          certificationCourseRepository,
+        });
+
+        // then
+        expect(certificationCourseRepository.update).not.to.have.been.calledOnce;
+        expect(err).to.be.instanceOf(SessionWithMissingAbortReasonError);
       });
     });
 
