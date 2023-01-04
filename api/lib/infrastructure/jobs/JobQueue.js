@@ -1,18 +1,19 @@
+const MonitoredJobHandler = require('./monitoring/MonitoredJobHandler');
+const logger = require('../logger');
 const { teamSize, teamConcurrency } = require('../../config').pgBoss;
 class JobQueue {
-  constructor(pgBoss, dependenciesBuilder) {
+  constructor(pgBoss) {
     this.pgBoss = pgBoss;
-    this.dependenciesBuilder = dependenciesBuilder;
   }
 
   performJob(name, handlerClass) {
     this.pgBoss.work(name, { teamSize, teamConcurrency }, async (job) => {
-      const handler = this.dependenciesBuilder.build(handlerClass);
-      const promise = handler
+      const jobHandler = new handlerClass();
+      const monitoredJobHandler = new MonitoredJobHandler(jobHandler, logger);
+      return monitoredJobHandler
         .handle(job.data)
         .then(() => job.done())
         .catch((error) => job.done(error));
-      return promise;
     });
   }
 
