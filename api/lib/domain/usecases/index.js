@@ -422,6 +422,7 @@ module.exports = injectDependencies(
     revokeRefreshToken: require('./revoke-refresh-token'),
     saveAdminMember: require('./save-admin-member'),
     saveCertificationIssueReport: require('./save-certification-issue-report'),
+    saveComputedCampaignParticipationResult: require('./save-computed-campaign-participation-result'),
     saveJuryComplementaryCertificationCourseResult: require('./save-jury-complementary-certification-course-result'),
     sendEmailForAccountRecovery: require('./account-recovery/send-email-for-account-recovery'),
     sendScoInvitation: require('./send-sco-invitation'),
