@@ -132,70 +132,213 @@ describe('Unit | UseCase | generate-username', function () {
   });
 
   context('When student is already reconciled in the same organization', function () {
-    it('should return a OrganizationLearnerAlreadyLinkedToUser error', async function () {
-      // given
-      organizationLearner.userId = studentInformation.id;
-      organizationLearner.firstName = studentInformation.firstName;
-      organizationLearner.lastName = studentInformation.lastName;
-      const exceptedErrorMessage = 'Un compte existe déjà pour l‘élève dans le même établissement.';
+    context('When connected with email', function () {
+      it('should return a OrganizationLearnerAlreadyLinkedToUser error with a specific code', async function () {
+        // given
+        organizationLearner.userId = studentInformation.id;
+        organizationLearner.firstName = studentInformation.firstName;
+        organizationLearner.lastName = studentInformation.lastName;
+        organizationLearnerRepository.findByOrganizationIdAndBirthdate.resolves([organizationLearner]);
+        userReconciliationService.findMatchingCandidateIdForGivenUser.resolves(organizationLearner.id);
+        userRepository.getForObfuscation.resolves();
+        obfuscationService.getUserAuthenticationMethodWithObfuscation.resolves({
+          authenticatedBy: 'email',
+          value: 'e***@example.net',
+        });
 
-      organizationLearnerRepository.findByOrganizationIdAndBirthdate.resolves([organizationLearner]);
-      userReconciliationService.findMatchingCandidateIdForGivenUser.resolves(organizationLearner.id);
-      userRepository.getForObfuscation.resolves();
-      obfuscationService.getUserAuthenticationMethodWithObfuscation.resolves({
-        authenticatedBy: 'email',
-        value: 'e***@example.net',
+        // when
+        const result = await catchErr(generateUsername)({
+          studentInformation,
+          campaignCode,
+          campaignRepository,
+          organizationLearnerRepository,
+          userReconciliationService,
+          obfuscationService,
+          userRepository,
+          studentRepository,
+        });
+
+        // then
+        expect(result).to.be.instanceof(OrganizationLearnerAlreadyLinkedToUserError);
+        expect(result.message).to.equal('Un compte existe déjà pour l‘élève dans le même établissement.');
+        expect(result.code).to.equal('ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION');
+        expect(result.meta).to.deep.equal({ shortCode: 'S51', value: 'e***@example.net' });
       });
+    });
 
-      // when
-      const result = await catchErr(generateUsername)({
-        studentInformation,
-        campaignCode,
-        campaignRepository,
-        organizationLearnerRepository,
-        userReconciliationService,
-        obfuscationService,
-        userRepository,
-        studentRepository,
+    context('When connected with username', function () {
+      it('should return a OrganizationLearnerAlreadyLinkedToUser error with a specific code', async function () {
+        // given
+        organizationLearner.userId = studentInformation.id;
+        organizationLearner.firstName = studentInformation.firstName;
+        organizationLearner.lastName = studentInformation.lastName;
+        organizationLearnerRepository.findByOrganizationIdAndBirthdate.resolves([organizationLearner]);
+        userReconciliationService.findMatchingCandidateIdForGivenUser.resolves(organizationLearner.id);
+        userRepository.getForObfuscation.resolves();
+        obfuscationService.getUserAuthenticationMethodWithObfuscation.resolves({
+          authenticatedBy: 'username',
+          value: 'j***.h***2',
+        });
+
+        // when
+        const result = await catchErr(generateUsername)({
+          studentInformation,
+          campaignCode,
+          campaignRepository,
+          organizationLearnerRepository,
+          userReconciliationService,
+          obfuscationService,
+          userRepository,
+          studentRepository,
+        });
+
+        // then
+        expect(result).to.be.instanceof(OrganizationLearnerAlreadyLinkedToUserError);
+        expect(result.message).to.equal('Un compte existe déjà pour l‘élève dans le même établissement.');
+        expect(result.code).to.equal('ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION');
+        expect(result.meta).to.deep.equal({ shortCode: 'S52', value: 'j***.h***2' });
       });
+    });
 
-      // then
-      expect(result).to.be.instanceof(OrganizationLearnerAlreadyLinkedToUserError);
-      expect(result.message).to.equal(exceptedErrorMessage);
+    context('When connected with samlId', function () {
+      it('should return a OrganizationLearnerAlreadyLinkedToUser error with a specific code', async function () {
+        // given
+        organizationLearner.userId = studentInformation.id;
+        organizationLearner.firstName = studentInformation.firstName;
+        organizationLearner.lastName = studentInformation.lastName;
+        organizationLearnerRepository.findByOrganizationIdAndBirthdate.resolves([organizationLearner]);
+        userReconciliationService.findMatchingCandidateIdForGivenUser.resolves(organizationLearner.id);
+        userRepository.getForObfuscation.resolves();
+        obfuscationService.getUserAuthenticationMethodWithObfuscation.resolves({
+          authenticatedBy: 'samlId',
+          value: null,
+        });
+
+        // when
+        const result = await catchErr(generateUsername)({
+          studentInformation,
+          campaignCode,
+          campaignRepository,
+          organizationLearnerRepository,
+          userReconciliationService,
+          obfuscationService,
+          userRepository,
+          studentRepository,
+        });
+
+        // then
+        expect(result).to.be.instanceof(OrganizationLearnerAlreadyLinkedToUserError);
+        expect(result.message).to.equal('Un compte existe déjà pour l‘élève dans le même établissement.');
+        expect(result.code).to.equal('ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION');
+        expect(result.meta).to.deep.equal({ shortCode: 'S53', value: null });
+      });
     });
   });
 
   context('When student is already reconciled in others organizations', function () {
-    it('should return a OrganizationLearnerAlreadyLinkedToUser error', async function () {
-      // given
-      organizationLearner.firstName = studentInformation.firstName;
-      organizationLearner.lastName = studentInformation.lastName;
-      const exceptedErrorMessage = 'Un compte existe déjà pour l‘élève dans un autre établissement.';
-      organizationLearnerRepository.findByOrganizationIdAndBirthdate.resolves([organizationLearner]);
-      userReconciliationService.findMatchingCandidateIdForGivenUser.resolves(organizationLearner.id);
-      const student = new Student({ account: { userId: studentInformation.id } });
-      studentRepository.getReconciledStudentByNationalStudentId.resolves(student);
-      userRepository.getForObfuscation.resolves();
-      obfuscationService.getUserAuthenticationMethodWithObfuscation.resolves({
-        authenticatedBy: 'email',
-        value: 'e***@example.net',
-      });
+    context('When connected with email', function () {
+      it('should return a OrganizationLearnerAlreadyLinkedToUser error with specific error', async function () {
+        // given
+        organizationLearner.firstName = studentInformation.firstName;
+        organizationLearner.lastName = studentInformation.lastName;
+        organizationLearnerRepository.findByOrganizationIdAndBirthdate.resolves([organizationLearner]);
+        userReconciliationService.findMatchingCandidateIdForGivenUser.resolves(organizationLearner.id);
+        const student = new Student({ account: { userId: studentInformation.id } });
+        studentRepository.getReconciledStudentByNationalStudentId.resolves(student);
+        userRepository.getForObfuscation.resolves();
+        obfuscationService.getUserAuthenticationMethodWithObfuscation.resolves({
+          authenticatedBy: 'email',
+          value: 'e***@example.net',
+        });
 
-      // when
-      const result = await catchErr(generateUsername)({
-        studentInformation,
-        campaignCode,
-        campaignRepository,
-        organizationLearnerRepository,
-        userReconciliationService,
-        obfuscationService,
-        userRepository,
-        studentRepository,
-      });
+        // when
+        const result = await catchErr(generateUsername)({
+          studentInformation,
+          campaignCode,
+          campaignRepository,
+          organizationLearnerRepository,
+          userReconciliationService,
+          obfuscationService,
+          userRepository,
+          studentRepository,
+        });
 
-      // then
-      expect(result).to.be.instanceof(OrganizationLearnerAlreadyLinkedToUserError);
-      expect(result.message).to.equal(exceptedErrorMessage);
+        // then
+        expect(result).to.be.instanceof(OrganizationLearnerAlreadyLinkedToUserError);
+        expect(result.message).to.equal('Un compte existe déjà pour l‘élève dans un autre établissement.');
+        expect(result.code).to.equal('ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION');
+        expect(result.meta).to.deep.equal({ shortCode: 'S61', value: 'e***@example.net' });
+      });
+    });
+
+    context('When connected with username', function () {
+      it('should return a OrganizationLearnerAlreadyLinkedToUser error with specific error', async function () {
+        // given
+        organizationLearner.firstName = studentInformation.firstName;
+        organizationLearner.lastName = studentInformation.lastName;
+        organizationLearnerRepository.findByOrganizationIdAndBirthdate.resolves([organizationLearner]);
+        userReconciliationService.findMatchingCandidateIdForGivenUser.resolves(organizationLearner.id);
+        const student = new Student({ account: { userId: studentInformation.id } });
+        studentRepository.getReconciledStudentByNationalStudentId.resolves(student);
+        userRepository.getForObfuscation.resolves();
+        obfuscationService.getUserAuthenticationMethodWithObfuscation.resolves({
+          authenticatedBy: 'username',
+          value: 'j***.h***2',
+        });
+
+        // when
+        const result = await catchErr(generateUsername)({
+          studentInformation,
+          campaignCode,
+          campaignRepository,
+          organizationLearnerRepository,
+          userReconciliationService,
+          obfuscationService,
+          userRepository,
+          studentRepository,
+        });
+
+        // then
+        expect(result).to.be.instanceof(OrganizationLearnerAlreadyLinkedToUserError);
+        expect(result.message).to.equal('Un compte existe déjà pour l‘élève dans un autre établissement.');
+        expect(result.code).to.equal('ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION');
+        expect(result.meta).to.deep.equal({ shortCode: 'S62', value: 'j***.h***2' });
+      });
+    });
+
+    context('When connected with samlId', function () {
+      it('should return a OrganizationLearnerAlreadyLinkedToUser error with specific error', async function () {
+        // given
+        organizationLearner.firstName = studentInformation.firstName;
+        organizationLearner.lastName = studentInformation.lastName;
+        organizationLearnerRepository.findByOrganizationIdAndBirthdate.resolves([organizationLearner]);
+        userReconciliationService.findMatchingCandidateIdForGivenUser.resolves(organizationLearner.id);
+        const student = new Student({ account: { userId: studentInformation.id } });
+        studentRepository.getReconciledStudentByNationalStudentId.resolves(student);
+        userRepository.getForObfuscation.resolves();
+        obfuscationService.getUserAuthenticationMethodWithObfuscation.resolves({
+          authenticatedBy: 'samlId',
+          value: null,
+        });
+
+        // when
+        const result = await catchErr(generateUsername)({
+          studentInformation,
+          campaignCode,
+          campaignRepository,
+          organizationLearnerRepository,
+          userReconciliationService,
+          obfuscationService,
+          userRepository,
+          studentRepository,
+        });
+
+        // then
+        expect(result).to.be.instanceof(OrganizationLearnerAlreadyLinkedToUserError);
+        expect(result.message).to.equal('Un compte existe déjà pour l‘élève dans un autre établissement.');
+        expect(result.code).to.equal('ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION');
+        expect(result.meta).to.deep.equal({ shortCode: 'S63', value: null });
+      });
     });
   });
 
