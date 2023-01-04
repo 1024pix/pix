@@ -5,7 +5,7 @@ on:
 jobs:
   lint-pr-title:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.draft == false
+    if: github.event.pull_request.draft == false && github.event.pull_request.state == "open"
     permissions:
       pull-requests: read
     steps:
