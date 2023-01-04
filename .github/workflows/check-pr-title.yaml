@@ -1,0 +1,14 @@
+name: pr title check
+on:
+  pull_request:
+    types: [opened, edited, ready_for_review, reopened]
+jobs:
+  lint-pr-title:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    permissions:
+      pull-requests: read
+    steps:
+      - uses: Slashgear/action-check-pr-title@v4.0.0
+        with:
+          regexp: '\[[A-Z]+\] .+'
