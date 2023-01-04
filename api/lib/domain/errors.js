@@ -901,6 +901,14 @@ class SessionWithAbortReasonOnCompletedCertificationCourseError extends DomainEr
   }
 }
 
+class SessionWithMissingAbortReasonError extends DomainError {
+  constructor(
+    message = "Une ou plusieurs certifications non terminées n'ont pas de “Raison de l’abandon” renseignées. La session ne peut donc pas être finalisée."
+  ) {
+    super(message);
+  }
+}
+
 class SessionAlreadyPublishedError extends DomainError {
   constructor(message = 'La session est déjà publiée.') {
     super(message);
@@ -1371,6 +1379,7 @@ module.exports = {
   SessionStartedDeletionError,
   SessionWithoutStartedCertificationError,
   SessionWithAbortReasonOnCompletedCertificationCourseError,
+  SessionWithMissingAbortReasonError,
   SiecleXmlImportError,
   SupervisorAccessNotAuthorizedError,
   TargetProfileInvalidError,
