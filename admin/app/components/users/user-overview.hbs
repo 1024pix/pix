@@ -173,10 +173,16 @@
           @backgroundColor="transparent-light"
           @isBorderVisible={{true}}
           @triggerAction={{this.changeEditionMode}}
+          @isDisabled={{@user.hasBeenAnonymised}}
         >
           Modifier
         </PixButton>
-        <PixButton @size="small" @backgroundColor="red" @triggerAction={{this.toggleDisplayAnonymizeModal}}>
+        <PixButton
+          @size="small"
+          @backgroundColor="red"
+          @triggerAction={{this.toggleDisplayAnonymizeModal}}
+          @isDisabled={{@user.hasBeenAnonymised}}
+        >
           Anonymiser cet utilisateur
         </PixButton>
         {{#if @user.userLogin.blockedAt}}
