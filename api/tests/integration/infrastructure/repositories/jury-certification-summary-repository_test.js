@@ -3,7 +3,7 @@ const JuryCertificationSummary = require('../../../../lib/domain/read-models/Jur
 const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
 const {
   CertificationIssueReportCategories,
-  ImpactfulCategories,
+  CertificationIssueReportSubcategories,
   ImpactfulSubcategories,
 } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 const { status: assessmentResultStatuses } = require('../../../../lib/domain/models/AssessmentResult');
@@ -38,7 +38,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
       let otherStartedCertification;
       const description = 'Super candidat !';
       let certificationIssueReport;
-      let issueReportCategoryId;
+      let categoryId;
 
       beforeEach(function () {
         const dbf = databaseBuilder.factory;
@@ -47,15 +47,18 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
         startedCertification = dbf.buildCertificationCourse({ sessionId, lastName: 'CCC' });
         otherStartedCertification = dbf.buildCertificationCourse({ sessionId, lastName: 'DDD' });
 
-        issueReportCategoryId = dbf.buildIssueReportCategory({ name: CertificationIssueReportCategories.OTHER }).id;
-
         const manyAsrAssessmentId = dbf.buildAssessment({ certificationCourseId: manyAsrCertification.id }).id;
         dbf.buildAssessment({ certificationCourseId: startedCertification.id });
+
+        categoryId = dbf.buildIssueReportCategory({
+          name: CertificationIssueReportCategories.OTHER,
+          isImpactful: false,
+        }).id;
 
         certificationIssueReport = dbf.buildCertificationIssueReport({
           certificationCourseId: manyAsrCertification.id,
           category: CertificationIssueReportCategories.OTHER,
-          categoryId: issueReportCategoryId,
+          categoryId,
           description,
         });
 
@@ -90,10 +93,10 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
               id: certificationIssueReport.id,
               certificationCourseId: manyAsrCertification.id,
               description,
+              categoryId,
               subcategory: null,
               questionNumber: null,
               category: CertificationIssueReportCategories.OTHER,
-              categoryId: issueReportCategoryId,
               hasBeenAutomaticallyResolved: null,
               resolvedAt: null,
               resolution: null,
@@ -202,7 +205,10 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
 
         const manyAsrAssessmentId = dbf.buildAssessment({ certificationCourseId: manyAsrCertification.id }).id;
 
-        const categoryId = dbf.buildIssueReportCategory({ name: CertificationIssueReportCategories.OTHER }).id;
+        const categoryId = dbf.buildIssueReportCategory({
+          name: CertificationIssueReportCategories.OTHER,
+          isImpactful: false,
+        }).id;
 
         const issueReport1 = dbf.buildCertificationIssueReport({
           certificationCourseId: manyAsrCertification.id,
@@ -331,7 +337,10 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
           status: assessmentResultStatuses.VALIDATED,
         });
 
-        const categoryId = dbf.buildIssueReportCategory({ name: CertificationIssueReportCategories.OTHER }).id;
+        const categoryId = dbf.buildIssueReportCategory({
+          name: CertificationIssueReportCategories.OTHER,
+          isImpactful: false,
+        }).id;
 
         const issueReport1 = dbf.buildCertificationIssueReport({
           certificationCourseId: manyAsrCertification.id,
@@ -339,6 +348,11 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
           categoryId,
           description: 'first certification issue report',
           hasBeenAutomaticallyResolved: false,
+        });
+        dbf.buildIssueReportCategory({
+          name: CertificationIssueReportCategories.OTHER,
+          isImpactful: true,
+          isDeprecated: true,
         });
         const issueReport2 = dbf.buildCertificationIssueReport({
           certificationCourseId: manyAsrCertification.id,
@@ -445,76 +459,114 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
       });
 
       context('when some certifications have issue reports', function () {
-        it('should return certifications with unresolved impactful issue reports first', async function () {
-          // given
-          const page = { size: 4, number: 1 };
-          const dbf = databaseBuilder.factory;
-          const sessionId = dbf.buildSession().id;
-          const certificationWithResolvedImpactfulAndNotImpactfulIssueReportsId = dbf.buildCertificationCourse({
-            id: 101,
-            sessionId,
-            lastName: 'AAA',
-          }).id;
-          const certificationWithOneImpactfulIssueReportId = dbf.buildCertificationCourse({
-            id: 102,
-            sessionId,
-            lastName: 'BBB',
-          }).id;
-          const certificationWithTwoImpactfulIssueReportsId = dbf.buildCertificationCourse({
-            id: 103,
-            sessionId,
-            lastName: 'CCC',
-          }).id;
-          const certificationWithoutIssueReportsId = dbf.buildCertificationCourse({
-            id: 104,
-            sessionId,
-            lastName: 'DDD',
-          }).id;
+        context('when the issue reports are from categories', function () {
+          it('should return certifications with unresolved impactful issue reports first', async function () {
+            // given
+            const page = { size: 4, number: 1 };
+            const dbf = databaseBuilder.factory;
+            const sessionId = dbf.buildSession().id;
+            const certificationWithNotImpactfulCategoryIssueReportId = dbf.buildCertificationCourse({
+              id: 101,
+              sessionId,
+              lastName: 'AAA',
+            }).id;
+            const certificationWithOneImpactfulCategoryIssueReportId = dbf.buildCertificationCourse({
+              id: 102,
+              sessionId,
+              lastName: 'BBB',
+            }).id;
 
-          dbf.buildCertificationIssueReport({
-            certificationCourseId: certificationWithOneImpactfulIssueReportId,
-            isActionRequired: true,
-            category: ImpactfulCategories[0],
-          });
-          dbf.buildCertificationIssueReport({
-            certificationCourseId: certificationWithTwoImpactfulIssueReportsId,
-            isActionRequired: true,
-            subcategory: ImpactfulSubcategories[0],
-          });
-          dbf.buildCertificationIssueReport({
-            certificationCourseId: certificationWithTwoImpactfulIssueReportsId,
-            isActionRequired: true,
-            subcategory: ImpactfulSubcategories[1],
-          });
-          dbf.buildCertificationIssueReport({
-            certificationCourseId: certificationWithResolvedImpactfulAndNotImpactfulIssueReportsId,
-            isActionRequired: true,
-            resolvedAt: new Date(),
-            category: ImpactfulCategories[0],
-          });
-          dbf.buildCertificationIssueReport({
-            certificationCourseId: certificationWithResolvedImpactfulAndNotImpactfulIssueReportsId,
-            isActionRequired: true,
-            category: CertificationIssueReportCategories.NON_BLOCKING_TECHNICAL_ISSUE,
-          });
+            // issue reports
+            const impactfulIssueReportId = dbf.buildIssueReportCategory({
+              name: 'FRAUD',
+              isImpactful: true,
+              isDeprecated: false,
+            }).id;
+            const notImpactfulIssueReportId = dbf.buildIssueReportCategory({
+              name: 'NON_BLOCKING_TECHNICAL_ISSUE',
+              isImpactful: false,
+              isDeprecated: false,
+            }).id;
 
-          await databaseBuilder.commit();
+            // certification issue reports
+            dbf.buildCertificationIssueReport({
+              certificationCourseId: certificationWithNotImpactfulCategoryIssueReportId,
+              isActionRequired: true,
+              categoryId: notImpactfulIssueReportId,
+            });
+            dbf.buildCertificationIssueReport({
+              certificationCourseId: certificationWithOneImpactfulCategoryIssueReportId,
+              isActionRequired: true,
+              categoryId: impactfulIssueReportId,
+            });
 
-          // when
-          const { juryCertificationSummaries } = await juryCertificationSummaryRepository.findBySessionIdPaginated({
-            page,
-            sessionId,
+            await databaseBuilder.commit();
+
+            // when
+            const { juryCertificationSummaries } = await juryCertificationSummaryRepository.findBySessionIdPaginated({
+              page,
+              sessionId,
+            });
+
+            // then
+            expect(juryCertificationSummaries[0].id).to.equal(certificationWithOneImpactfulCategoryIssueReportId);
+            expect(juryCertificationSummaries[1].id).to.equal(certificationWithNotImpactfulCategoryIssueReportId);
+            expect(juryCertificationSummaries[0].certificationIssueReports.length).to.equal(1);
+            expect(juryCertificationSummaries[1].certificationIssueReports.length).to.equal(1);
           });
+        });
 
-          // then
-          expect(juryCertificationSummaries[0].id).to.equal(certificationWithTwoImpactfulIssueReportsId);
-          expect(juryCertificationSummaries[1].id).to.equal(certificationWithOneImpactfulIssueReportId);
-          expect(juryCertificationSummaries[2].id).to.equal(
-            certificationWithResolvedImpactfulAndNotImpactfulIssueReportsId
-          );
-          expect(juryCertificationSummaries[3].id).to.equal(certificationWithoutIssueReportsId);
-          expect(juryCertificationSummaries[0].certificationIssueReports.length).to.equal(2);
-          expect(juryCertificationSummaries[1].certificationIssueReports.length).to.equal(1);
+        context('when the issue reports are from subcategories', function () {
+          it('should return certifications with unresolved impactful issue reports first', async function () {
+            // given
+            const page = { size: 4, number: 1 };
+            const dbf = databaseBuilder.factory;
+            const sessionId = dbf.buildSession().id;
+            const certificationWithOneImpactfulSubcategoryIssueReportsId = dbf.buildCertificationCourse({
+              id: 101,
+              sessionId,
+              lastName: 'AAA',
+            }).id;
+            const certificationWithoutImpactfulIssueReportId = dbf.buildCertificationCourse({
+              id: 102,
+              sessionId,
+              lastName: 'BBB',
+            }).id;
+
+            dbf.buildIssueReportCategory({
+              id: 3,
+              name: CertificationIssueReportCategories.IN_CHALLENGE,
+              isImpactful: true,
+              isDeprecated: false,
+            });
+            dbf.buildIssueReportCategory({
+              name: CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
+              isImpactful: true,
+              isDeprecated: false,
+              categoryId: 3,
+            });
+
+            dbf.buildCertificationIssueReport({
+              certificationCourseId: certificationWithOneImpactfulSubcategoryIssueReportsId,
+              isActionRequired: true,
+              subcategory: ImpactfulSubcategories[0],
+            });
+
+            await databaseBuilder.commit();
+
+            // when
+            const { juryCertificationSummaries } = await juryCertificationSummaryRepository.findBySessionIdPaginated({
+              page,
+              sessionId,
+            });
+
+            // then
+            expect(juryCertificationSummaries[0].id).to.equal(certificationWithOneImpactfulSubcategoryIssueReportsId);
+            expect(juryCertificationSummaries[1].id).to.equal(certificationWithoutImpactfulIssueReportId);
+
+            expect(juryCertificationSummaries[0].certificationIssueReports.length).to.equal(1);
+            expect(juryCertificationSummaries[1].certificationIssueReports.length).to.equal(0);
+          });
         });
       });
     });
