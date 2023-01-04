@@ -4,7 +4,6 @@ const { CLEA } = require('../../../../lib/domain/models/ComplementaryCertificati
 
 describe('Acceptance | Controller | session-controller-get-jury-certification-summaries', function () {
   let server;
-  this.timeout(5000);
 
   beforeEach(async function () {
     server = await createServer();
