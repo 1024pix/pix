@@ -446,7 +446,7 @@ describe('Integration | Repository | challenge-repository', function () {
   });
 
   describe('#findFlashCompatible', function () {
-    it('should return only flash compatible challenges with skills', async function () {
+    beforeEach(function () {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
       const flashCompatibleChallenge = domainBuilder.buildChallenge({
@@ -463,15 +463,42 @@ describe('Integration | Repository | challenge-repository', function () {
         ],
       };
       mockLearningContent(learningContent);
-      const locale = 'fr-fr';
+    });
 
+    it('should return only flash compatible challenges with skills', async function () {
       // when
-      const actualChallenges = await challengeRepository.findFlashCompatible(locale);
+      const actualChallenges = await challengeRepository.findFlashCompatible({ locale: 'fr-fr' });
 
       // then
       expect(actualChallenges).to.have.lengthOf(1);
       expect(actualChallenges[0]).to.be.instanceOf(Challenge);
-      expect(_.omit(actualChallenges[0], 'validator')).to.deep.equal(_.omit(actualChallenges[0], 'validator'));
+      expect(_.omit(actualChallenges[0], 'validator')).to.deep.contain({
+        id: 'recCHAL1',
+        status: 'validé',
+        locales: ['fr-fr'],
+        difficulty: -8.99,
+        discriminant: 3.57,
+        minimumCapability: -8.165227176704079,
+      });
+      expect(actualChallenges[0].skill).to.contain({
+        id: 'recSkill1',
+      });
+    });
+
+    it('should allow overriding success probability threshold default value', async function () {
+      // given
+      const successProbabilityThreshold = 0.75;
+
+      // when
+      const actualChallenges = await challengeRepository.findFlashCompatible({
+        locale: 'fr-fr',
+        successProbabilityThreshold,
+      });
+
+      // then
+      expect(actualChallenges).to.have.lengthOf(1);
+      expect(actualChallenges[0]).to.be.instanceOf(Challenge);
+      expect(actualChallenges[0].minimumCapability).to.equal(-8.682265465359073);
     });
   });
 
