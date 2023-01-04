@@ -1,4 +1,4 @@
-# 15. Modification du stockage en cache du référentiel de contenu
+# 16. Modification du stockage en cache du référentiel de contenu
 
 Date : 2020-12-02
 
