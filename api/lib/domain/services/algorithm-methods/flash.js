@@ -15,6 +15,7 @@ module.exports = {
   getPossibleNextChallenges,
   getEstimatedLevelAndErrorRate,
   getNonAnsweredChallenges,
+  calculateTotalPixScore,
 };
 
 function getPossibleNextChallenges({ allAnswers, challenges, estimatedLevel = DEFAULT_ESTIMATED_LEVEL } = {}) {
@@ -116,6 +117,17 @@ function getNonAnsweredChallenges({ allAnswers, challenges }) {
   const nonAnsweredChallenges = _.filter(challenges, filterNonAnsweredChallenge);
 
   return nonAnsweredChallenges;
+}
+
+function calculateTotalPixScore({ allAnswers, challenges }) {
+  const correctAnswers = allAnswers.filter((answer) => answer.isOk());
+  const successedChallenges = correctAnswers.map((answer) =>
+    challenges.find((challenge) => challenge.id === answer.challengeId)
+  );
+  const directPixScore = successedChallenges.reduce((acc, challenge) => acc + challenge.skill.pixValue, 0);
+  const totalPixScore = directPixScore;
+
+  return totalPixScore;
 }
 
 function _getReward({ estimatedLevel, discriminant, difficulty }) {
