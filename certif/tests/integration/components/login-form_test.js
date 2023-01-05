@@ -4,15 +4,12 @@ import { render as renderScreen } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import { reject, resolve } from 'rsvp';
-import ENV from 'pix-certif/config/environment';
 import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
-const errorMessages = {
-  NOT_LINKED_CERTIFICATION_MSG:
-    "L'accès à Pix Certif est limité aux centres de certification Pix. Contactez le référent de votre centre de certification si vous pensez avoir besoin d'y accéder.",
-};
+import ENV from 'pix-certif/config/environment';
+const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
 
 module('Integration | Component | login-form', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -66,12 +63,13 @@ module('Integration | Component | login-form', function (hooks) {
   test('it should display an invalid credentials message if authentication failed', async function (assert) {
     // given
     const invalidCredentialsErrorMessage = {
+      status: Number(ApiErrorMessages.LOGIN_UNAUTHORIZED.CODE),
       responseJSON: {
         errors: [
           {
             status: '401',
             title: 'Unauthorized',
-            detail: ENV.APP.API_ERROR_MESSAGES.UNAUTHORIZED.MESSAGE,
+            detail: ApiErrorMessages.LOGIN_UNAUTHORIZED.I18N_KEY,
           },
         ],
       },
@@ -86,14 +84,54 @@ module('Integration | Component | login-form', function (hooks) {
     await click(screen.getByRole('button', { name: 'Je me connecte' }));
 
     // then
-    assert.dom(screen.getByText(ENV.APP.API_ERROR_MESSAGES.UNAUTHORIZED.MESSAGE)).exists();
+    assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.LOGIN_UNAUTHORIZED.I18N_KEY))).exists();
+  });
+
+  test('it displays a should change password message', async function (assert) {
+    // given
+    const errorResponse = {
+      responseJSON: {
+        errors: [{ status: '401', code: 'SHOULD_CHANGE_PASSWORD' }],
+      },
+    };
+
+    sessionStub.authenticate.callsFake(() => reject(errorResponse));
+    const screen = await renderScreen(hbs`{{login-form}}`);
+    await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), 'pix@example.net');
+    await fillIn(screen.getByLabelText('Mot de passe'), 'Mauvais mot de passe');
+
+    //  when
+    await click(screen.getByRole('button', { name: 'Je me connecte' }));
+
+    // then
+    const expectedErrorMessage = this.intl.t('pages.login-form.errors.should-change-password', {
+      url: 'https://app.pix.localhost/mot-de-passe-oublie',
+      htmlSafe: true,
+    });
+    assert
+      .dom(
+        screen.getByText((content, node) => {
+          const hasText = (node) => node.innerHTML.trim() === expectedErrorMessage.string;
+          const nodeHasText = hasText(node);
+          const childrenDontHaveText = Array.from(node.children).every((child) => !hasText(child));
+          return nodeHasText && childrenDontHaveText;
+        })
+      )
+      .exists();
   });
 
   test('it should display a not linked certification message when authentication fails with Forbidden Access', async function (assert) {
     // given
     const notLinkedToOrganizationErrorMessage = {
+      status: Number(ApiErrorMessages.NOT_LINKED_CERTIFICATION.CODE),
       responseJSON: {
-        errors: [{ status: '403', title: 'Unauthorized', detail: errorMessages.NOT_LINKED_CERTIFICATION_MSG }],
+        errors: [
+          {
+            status: '403',
+            title: 'Unauthorized',
+            detail: ApiErrorMessages.NOT_LINKED_CERTIFICATION.I18N_KEY,
+          },
+        ],
       },
     };
 
@@ -106,18 +144,19 @@ module('Integration | Component | login-form', function (hooks) {
     await click(screen.getByRole('button', { name: 'Je me connecte' }));
 
     // then
-    assert.dom(screen.getByText(errorMessages.NOT_LINKED_CERTIFICATION_MSG)).exists();
+    assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.NOT_LINKED_CERTIFICATION.I18N_KEY))).exists();
   });
 
   test('it should display a 504 message when authentication fails with gateway Timeout', async function (assert) {
     // given
     const gatewayTimeoutErrorMessage = {
+      status: Number(ApiErrorMessages.GATEWAY_TIMEOUT.CODE),
       responseJSON: {
         errors: [
           {
-            status: ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.CODE,
+            status: ApiErrorMessages.GATEWAY_TIMEOUT.CODE,
             title: 'Gateway Timeout',
-            detail: ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.MESSAGE,
+            detail: ApiErrorMessages.GATEWAY_TIMEOUT.I18N_KEY,
           },
         ],
       },
@@ -132,12 +171,13 @@ module('Integration | Component | login-form', function (hooks) {
     await click(screen.getByRole('button', { name: 'Je me connecte' }));
 
     // then
-    assert.dom(screen.getByText(ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.MESSAGE)).exists();
+    assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.GATEWAY_TIMEOUT.I18N_KEY))).exists();
   });
 
   test('it should display an internal server error message when unhandled error', async function (assert) {
     // given
     const msgErrorNotLinkedCertification = {
+      status: Number(ApiErrorMessages.GATEWAY_TIMEOUT.CODE),
       errors: [{ status: '502', title: 'Bad Gateway', detail: 'Bad gateway occured' }],
     };
 
@@ -150,7 +190,7 @@ module('Integration | Component | login-form', function (hooks) {
     await click(screen.getByRole('button', { name: 'Je me connecte' }));
 
     // then
-    assert.dom(screen.getByText(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE)).exists();
+    assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.GATEWAY_TIMEOUT.I18N_KEY))).exists();
   });
 
   module('when an invitation is cancelled', function () {
