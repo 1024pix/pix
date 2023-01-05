@@ -14,8 +14,8 @@ describe('Unit | Router | training-router', function () {
           duration: '6h',
           type: 'webinaire',
           locale: 'fr-fr',
-          editorName: 'ministère',
-          editorLogoUrl: 'http://www.image.pix.fr/image.svg',
+          'editor-name': 'ministère',
+          'editor-logo-url': 'http://www.image.pix.fr/image.svg',
         },
       },
     };
