@@ -8,6 +8,9 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { contains } from '../../helpers/contains';
 import { clickByLabel } from '../../helpers/click-by-label';
 
+import ENV from '../../../config/environment';
+const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
+
 const PASSWORD_INPUT_CLASS = '.form-textfield__input';
 
 module('Integration | Component | update-expired-password-form', function (hooks) {
@@ -50,8 +53,6 @@ module('Integration | Component | update-expired-password-form', function (hooks
   module('errors cases', function () {
     test('should display an error, when saving fails', async function (assert) {
       // given
-      const expectedErrorMessage = this.intl.t('api-error-messages.internal-server-error');
-
       const resetExpiredPasswordDemand = EmberObject.create({
         login: 'toto',
         password: 'Password123',
@@ -70,7 +71,7 @@ module('Integration | Component | update-expired-password-form', function (hooks
       await clickByLabel(this.intl.t('pages.update-expired-password.button'));
 
       // then
-      assert.ok(contains(expectedErrorMessage));
+      assert.ok(contains(this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY)));
     });
   });
 });

@@ -6,6 +6,9 @@ import Service from '@ember/service';
 
 import setupIntl from '../../helpers/setup-intl';
 
+import ENV from '../../../config/environment';
+const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
+
 const ERROR_PASSWORD_MESSAGE = 'pages.update-expired-password.fields.error';
 
 const VALIDATION_MAP = {
@@ -132,7 +135,6 @@ module('Unit | Component | Update Expired Password Form', function (hooks) {
 
       test('should set error message if http 401 error', async function (assert) {
         // given
-        const expectedErrorMessage = component.intl.t('api-error-messages.login-unauthorized-error');
         const response = {
           errors: [{ status: '401' }],
         };
@@ -142,23 +144,18 @@ module('Unit | Component | Update Expired Password Form', function (hooks) {
         await component.actions.handleUpdatePasswordAndAuthenticate.call(component);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(component.errorMessage, expectedErrorMessage);
+        assert.strictEqual(component.errorMessage, component.intl.t(ApiErrorMessages.LOGIN_UNAUTHORIZED.I18N_KEY));
       });
 
       test('should set validation with errors data', async function (assert) {
         // given
-        const expectedErrorMessage = component.intl.t('api-error-messages.internal-server-error');
         component.resetExpiredPasswordDemand.updateExpiredPassword.rejects();
 
         // when
         await component.actions.handleUpdatePasswordAndAuthenticate.call(component);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(component.errorMessage, expectedErrorMessage);
+        assert.strictEqual(component.errorMessage, component.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY));
       });
     });
 

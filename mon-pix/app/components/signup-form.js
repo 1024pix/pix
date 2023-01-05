@@ -156,7 +156,7 @@ export default class SignupForm extends Component {
         if (error) {
           this._manageErrorsApi(error);
         } else {
-          this.errorMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE);
+          this.errorMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY);
         }
         this._tokenHasBeenUsed = true;
         this.isLoading = false;
@@ -173,11 +173,11 @@ export default class SignupForm extends Component {
 
   _showErrorMessages(statusCode) {
     const httpStatusCodeMessages = {
-      400: ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.MESSAGE,
-      500: ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
-      502: ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
-      504: ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.MESSAGE,
-      default: ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
+      400: ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.I18N_KEY,
+      500: ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY,
+      502: ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY,
+      504: ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.I18N_KEY,
+      default: ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY,
     };
     return this.intl.t(httpStatusCodeMessages[statusCode] || httpStatusCodeMessages['default']);
   }
