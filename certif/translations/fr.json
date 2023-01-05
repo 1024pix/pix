@@ -7,9 +7,13 @@
       "quit": "Quitter",
       "update": "Modifier"
     },
-    "api-errors-messages": {
-      "bad-request": "Les données que vous avez soumises ne sont pas au bon format.",
-      "default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement."
+    "api-error-messages": {
+      "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
+      "internal-server-error": "Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.",
+      "login-unauthorized-error": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects.",
+      "login-user-temporary-blocked-error": "Vous avez effectué trop de tentatives de connexion. Réessayez plus tard ou cliquez sur <a href=\"{url}\">mot de passe oublié</a> pour le réinitialiser.",
+      "login-user-blocked-error": "Votre compte est bloqué car vous avez effectué trop de tentatives de connexion. Pour le débloquer, <a href=\"{url}\">contactez-nous</a>.",
+      "gateway-timeout-error": "Le service subit des ralentissements. Veuillez réessayer ultérieurement."
     },
     "form": {
       "mandatory-all-fields": "Tous les champs sont obligatoires."
@@ -27,6 +31,7 @@
     "login": {
       "title": "Connectez-vous",
       "errors": {
+        "should-change-password": "Vous avez actuellement un mot de passe temporaire. Cliquez sur <a href=\"{url}\">mot de passe oublié</a> pour le réinitialiser.",
         "invitation-was-cancelled": "Cette invitation n’est plus valide.<br/>Contactez l’administrateur de votre espace Pix Certif.",
         "invitation-already-accepted": "Cette invitation a déjà été acceptée.<br/>Connectez-vous ou contactez l’administrateur de votre espace Pix Certif."
       }
@@ -36,7 +41,6 @@
       "login-form": {
         "errors": {
           "status": {
-            "401": "L'adresse e-mail et/ou le mot de passe saisis sont incorrects.",
             "403": "L'accès à Pix Certif est limité aux membres invités. Chaque espace est géré par un administrateur Pix Certif propre à l'organisation qui l'utilise. Contactez-le pour qu'il vous y invite.",
             "404": "Cet email n'appartient à aucun utilisateur.",
             "409": "Cette invitation a déjà été acceptée ou annulée.",

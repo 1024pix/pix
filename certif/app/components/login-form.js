@@ -6,6 +6,8 @@ import ENV from 'pix-certif/config/environment';
 import get from 'lodash/get';
 
 export default class LoginForm extends Component {
+  @service url;
+  @service intl;
   @service session;
 
   email = null;
@@ -36,9 +38,9 @@ export default class LoginForm extends Component {
     const scope = 'pix-certif';
     try {
       await this.session.authenticate('authenticator:oauth2', email, password, scope);
-    } catch (response) {
+    } catch (responseError) {
       this.isErrorMessagePresent = true;
-      this._manageErrorsApi(response);
+      this._handleApiError(responseError);
     }
   }
 
@@ -47,29 +49,48 @@ export default class LoginForm extends Component {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
 
-  _manageErrorsApi(response = {}) {
-    const nbErrors = get(response, 'responseJSON.errors.length', 0);
-
-    if (nbErrors > 0) {
-      const firstError = response.responseJSON.errors[0];
-      const messageError = this._showErrorMessages(firstError.status, firstError.detail);
-      this.errorMessage = messageError;
-    } else {
-      this.errorMessage = ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE;
+  _handleApiError(responseError) {
+    const errors = get(responseError, 'responseJSON.errors');
+    const error = Array.isArray(errors) && errors.length > 0 && errors[0];
+    switch (error?.code) {
+      case 'SHOULD_CHANGE_PASSWORD':
+        this.errorMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.SHOULD_CHANGE_PASSWORD.I18N_KEY, {
+          url: this.url.forgottenPasswordUrl,
+          htmlSafe: true,
+        });
+        break;
+      case 'USER_IS_TEMPORARY_BLOCKED':
+        this.errorMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.USER_IS_TEMPORARY_BLOCKED.I18N_KEY, {
+          url: this.url.forgottenPasswordUrl,
+          htmlSafe: true,
+        });
+        break;
+      case 'USER_IS_BLOCKED':
+        this.errorMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.USER_IS_BLOCKED.I18N_KEY, {
+          url: 'https://support.pix.org/support/tickets/new',
+          htmlSafe: true,
+        });
+        break;
+      default:
+        this.errorMessage = this.intl.t(this._getI18nKeyByStatus(responseError.status));
     }
   }
 
-  _showErrorMessages(statusCode, apiError) {
-    const httpStatusCodeMessages = {
-      400: ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.MESSAGE,
-      500: ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
-      422: ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.MESSAGE,
-      502: ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
-      504: ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.MESSAGE,
-      401: apiError,
-      403: apiError,
-      default: ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
-    };
-    return httpStatusCodeMessages[statusCode] || httpStatusCodeMessages['default'];
+  _getI18nKeyByStatus(status) {
+    switch (status) {
+      case 400:
+        return ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.I18N_KEY;
+      case 401:
+        return ENV.APP.API_ERROR_MESSAGES.LOGIN_UNAUTHORIZED.I18N_KEY;
+      // TODO: This case should be handled with a specific error code like USER_IS_TEMPORARY_BLOCKED or USER_IS_BLOCKED
+      case 403:
+        return ENV.APP.API_ERROR_MESSAGES.NOT_LINKED_CERTIFICATION.I18N_KEY;
+      case 422:
+        return ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.I18N_KEY;
+      case 504:
+        return ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.I18N_KEY;
+      default:
+        return ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY;
+    }
   }
 }
