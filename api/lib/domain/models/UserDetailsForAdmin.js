@@ -20,7 +20,8 @@ class UserDetailsForAdmin {
     emailConfirmedAt,
     userLogin,
     hasBeenAnonymised,
-    hasBeenAnonymisedBy,
+    anonymisedByFirstName,
+    anonymisedByLastName,
   } = {}) {
     this.id = id;
     this.cgu = cgu;
@@ -41,8 +42,15 @@ class UserDetailsForAdmin {
     this.emailConfirmedAt = emailConfirmedAt;
     this.userLogin = userLogin;
     this.hasBeenAnonymised = hasBeenAnonymised;
-    this.hasBeenAnonymisedBy = hasBeenAnonymisedBy;
     this.updatedAt = updatedAt;
+    this.anonymisedByFirstName = anonymisedByFirstName;
+    this.anonymisedByLastName = anonymisedByLastName;
+  }
+
+  get anonymisedByFullName() {
+    return this.anonymisedByFirstName && this.anonymisedByLastName
+      ? `${this.anonymisedByFirstName} ${this.anonymisedByLastName}`
+      : null;
   }
 }
 

@@ -17,6 +17,8 @@ export default class User extends Model {
   @attr() lastPixCertifTermsOfServiceValidatedAt;
   @attr() lastLoggedAt;
   @attr() emailConfirmedAt;
+  @attr() hasBeenAnonymised;
+  @attr() anonymisedByFullName;
 
   // includes
   @belongsTo('profile') profile;

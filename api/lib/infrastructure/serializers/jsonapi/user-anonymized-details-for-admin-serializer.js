@@ -10,7 +10,7 @@ module.exports = {
         'username',
         'cgu',
         'hasBeenAnonymised',
-        'hasBeenAnonymisedBy',
+        'anonymisedByFullName',
         'updatedAt',
         'pixOrgaTermsOfServiceAccepted',
         'pixCertifTermsOfServiceAccepted',
