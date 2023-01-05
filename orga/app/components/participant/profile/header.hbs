@@ -23,7 +23,7 @@
   </header>
 
   <div class="panel-header__body">
-    <dl class="panel-header__data">
+    <Ui::InformationWrapper>
       {{#if @campaignProfile.externalId}}
         <Ui::Information>
           <:title>{{@campaign.idPixLabel}}</:title>
@@ -40,7 +40,7 @@
           <:content>{{dayjs-format @campaignProfile.sharedAt "DD MMM YYYY"}}</:content>
         </Ui::Information>
       {{/if}}
-    </dl>
+    </Ui::InformationWrapper>
 
     {{#if @campaignProfile.isShared}}
       <ul class="panel-header__data panel-header__data--highlight">

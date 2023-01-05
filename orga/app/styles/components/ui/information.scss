@@ -1,7 +1,11 @@
+.information-wrapper {
+  display: flex;
+  margin: 0;
+}
+
 .information {
-  padding-right: $spacing-xs;
-  margin-right: $spacing-xs;
-  border-right: 1px solid $pix-neutral-22;
+  padding:0 $spacing-xs;
+  border-left: 1px solid $pix-neutral-22;
   font-size: 0.875rem;
 
   &__title {
@@ -13,10 +17,9 @@
     color: $pix-neutral-90;
     margin: 0;
   }
-}
 
-* > .information:last-child {
-  padding-right: 0;
-  margin-right: 0;
-  border-right-width: 0;
+  &:first-of-type {
+    padding-left: 0;
+    border:none;
+  }
 }
