@@ -7,6 +7,7 @@ const skillAdapter = require('../adapters/skill-adapter');
 const solutionAdapter = require('../adapters/solution-adapter');
 const LearningContentResourceNotFound = require('../datasources/learning-content/LearningContentResourceNotFound');
 const { NotFoundError } = require('../../domain/errors');
+const config = require('../../config');
 
 module.exports = {
   async get(id) {
@@ -72,10 +73,13 @@ module.exports = {
     return _toDomainCollection({ challengeDataObjects, skills: operativeSkills });
   },
 
-  async findFlashCompatible(locale) {
+  async findFlashCompatible({
+    locale,
+    successProbabilityThreshold = config.features.successProbabilityThreshold,
+  } = {}) {
     const challengeDataObjects = await challengeDatasource.findFlashCompatible(locale);
     const activeSkills = await skillDatasource.findActive();
-    return _toDomainCollection({ challengeDataObjects, skills: activeSkills });
+    return _toDomainCollection({ challengeDataObjects, skills: activeSkills, successProbabilityThreshold });
   },
 
   async findValidatedBySkillId(skillId) {
@@ -85,7 +89,7 @@ module.exports = {
   },
 };
 
-function _toDomainCollection({ challengeDataObjects, skills }) {
+function _toDomainCollection({ challengeDataObjects, skills, successProbabilityThreshold }) {
   const lookupSkill = (id) => _.find(skills, { id });
   const challenges = challengeDataObjects.map((challengeDataObject) => {
     const skillDataObject = lookupSkill(challengeDataObject.skillId);
@@ -93,13 +97,14 @@ function _toDomainCollection({ challengeDataObjects, skills }) {
     return _toDomain({
       challengeDataObject,
       skillDataObject,
+      successProbabilityThreshold,
     });
   });
 
   return challenges;
 }
 
-function _toDomain({ challengeDataObject, skillDataObject }) {
+function _toDomain({ challengeDataObject, skillDataObject, successProbabilityThreshold }) {
   const skill = skillDataObject ? skillAdapter.fromDatasourceObject(skillDataObject) : null;
 
   const solution = solutionAdapter.fromDatasourceObject(challengeDataObject);
@@ -133,5 +138,6 @@ function _toDomain({ challengeDataObject, skillDataObject }) {
     discriminant: challengeDataObject.alpha,
     difficulty: challengeDataObject.delta,
     responsive: challengeDataObject.responsive,
+    successProbabilityThreshold,
   });
 }
