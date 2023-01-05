@@ -90,12 +90,15 @@ module.exports = {
   async getUserDetailsForAdmin(userId) {
     const userDTO = await knex('users')
       .leftJoin('user-logins', 'user-logins.userId', 'users.id')
+      .leftJoin('users AS anonymisedBy', 'anonymisedBy.id', 'users.hasBeenAnonymisedBy')
       .select([
         'users.*',
         'user-logins.id AS userLoginId',
         'user-logins.failureCount',
         'user-logins.temporaryBlockedUntil',
         'user-logins.blockedAt',
+        'anonymisedBy.firstName AS anonymisedByFirstName',
+        'anonymisedBy.lastName AS anonymisedByLastName',
       ])
       .where({ 'users.id': userId })
       .first();
@@ -438,9 +441,10 @@ function _fromKnexDTOToUserDetailsForAdmin({ userDTO, organizationLearnersDTO, a
     authenticationMethods: authenticationMethodsDTO,
     userLogin,
     hasBeenAnonymised: userDTO.hasBeenAnonymised,
-    hasBeenAnonymisedBy: userDTO.hasBeenAnonymisedBy,
     updatedAt: userDTO.updatedAt,
     createdAt: userDTO.createdAt,
+    anonymisedByFirstName: userDTO.anonymisedByFirstName,
+    anonymisedByLastName: userDTO.anonymisedByLastName,
   });
 }
 

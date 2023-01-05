@@ -26,6 +26,8 @@ module.exports = {
         'lastPixCertifTermsOfServiceValidatedAt',
         'lastLoggedAt',
         'emailConfirmedAt',
+        'hasBeenAnonymised',
+        'anonymisedByFullName',
         'organizationLearners',
         'authenticationMethods',
         'profile',

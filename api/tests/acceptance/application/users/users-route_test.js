@@ -53,7 +53,7 @@ describe('Acceptance | Route | users', function () {
       expect(updatedUserAttributes.username).to.be.null;
 
       expect(updatedUserAttributes['has-been-anonymised']).to.be.true;
-      expect(updatedUserAttributes['has-been-anonymised-by']).to.equal(1234);
+      expect(updatedUserAttributes['anonymised-by-full-name']).to.equal('Super Papa');
       expect(updatedUserAttributes['updated-at']).to.exist;
     });
 

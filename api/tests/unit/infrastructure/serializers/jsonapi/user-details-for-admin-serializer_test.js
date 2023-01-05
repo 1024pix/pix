@@ -14,6 +14,8 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
         lastPixCertifTermsOfServiceValidatedAt: now,
         lastLoggedAt: now,
         emailConfirmedAt: now,
+        hasBeenAnonymised: false,
+        anonymisedByFullName: null,
         organizationLearners: [domainBuilder.buildOrganizationLearnerForAdmin()],
         authenticationMethods: [{ id: 1, identityProvider: 'PIX' }],
         userLogin: [{ id: 123, failureCount: 8 }],
@@ -40,6 +42,8 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
             'last-pix-certif-terms-of-service-validated-at': now,
             'last-logged-at': now,
             'email-confirmed-at': now,
+            'has-been-anonymised': false,
+            'anonymised-by-full-name': null,
           },
           relationships: {
             'certification-center-memberships': {

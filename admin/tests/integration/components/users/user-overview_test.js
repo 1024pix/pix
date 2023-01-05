@@ -403,6 +403,48 @@ module('Integration | Component | users | user-overview', function (hooks) {
         assert.dom(screen.queryByRole('button', { name: 'Confirmer' })).doesNotExist();
         assert.dom(screen.queryByRole('button', { name: 'Annuler' })).doesNotExist();
       });
+
+      test('should display an anonymisation message with the full name of the admin member', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const user = store.createRecord('user', { hasBeenAnonymised: true, anonymisedByFullName: 'Laurent Gina' });
+        this.set('user', user);
+
+        // when
+        const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
+
+        // then
+        assert.dom(screen.getByText('Utilisateur anonymisé par Laurent Gina.')).exists();
+      });
+
+      test('should disable action buttons "Modifier" and "Anonymiser cet utilisateur"', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const user = store.createRecord('user', { hasBeenAnonymised: true, anonymisedByFullName: 'Laurent Gina' });
+        this.set('user', user);
+
+        // when
+        const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
+
+        // then
+        assert.dom(screen.getByRole('button', { name: 'Modifier' })).hasAttribute('disabled');
+        assert.dom(screen.getByRole('button', { name: 'Anonymiser cet utilisateur' })).hasAttribute('disabled');
+      });
+
+      module('When the admin member who anonymised the user is not set in database', function () {
+        test('should display an anonymisation message', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const user = store.createRecord('user', { hasBeenAnonymised: true, anonymisedByFullName: null });
+          this.set('user', user);
+
+          // when
+          const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
+
+          // then
+          assert.dom(screen.getByText('Utilisateur anonymisé.')).exists();
+        });
+      });
     });
   });
 
