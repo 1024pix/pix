@@ -108,13 +108,9 @@ function getEstimatedLevelAndErrorRate({ allAnswers, challenges }) {
   return { estimatedLevel: latestEstimatedLevel, errorRate: correctedErrorRate };
 }
 
-function findChallengeForAnswer(challenges, answer) {
-  return challenges.find((challenge) => challenge.id === answer.challengeId);
-}
-
 function getChallengesForNonAnsweredSkills({ allAnswers, challenges }) {
   const alreadyAnsweredSkillsIds = allAnswers
-    .map((answer) => findChallengeForAnswer(challenges, answer))
+    .map((answer) => _findChallengeForAnswer(challenges, answer))
     .map((challenge) => challenge.skill.id);
 
   const isNonAnsweredSkill = (skill) => !alreadyAnsweredSkillsIds.includes(skill.id);
@@ -123,13 +119,55 @@ function getChallengesForNonAnsweredSkills({ allAnswers, challenges }) {
   return challengesForNonAnsweredSkills;
 }
 
-function calculateTotalPixScore({ allAnswers, challenges }) {
-  const correctAnswers = allAnswers.filter((answer) => answer.isOk());
-  const successedChallenges = correctAnswers.map((answer) => findChallengeForAnswer(challenges, answer));
-  const directPixScore = successedChallenges.reduce((acc, challenge) => acc + challenge.skill.pixValue, 0);
-  const totalPixScore = directPixScore;
+function calculateTotalPixScore({ allAnswers, challenges, estimatedLevel }) {
+  const directPixScore = _getDirectPixScore({ allAnswers, challenges });
+
+  const inferredPixScore = _getInferredPixScore({
+    challenges: getChallengesForNonAnsweredSkills({ allAnswers, challenges }),
+    estimatedLevel,
+  });
+
+  const totalPixScore = directPixScore + inferredPixScore;
 
   return totalPixScore;
+}
+
+function _getDirectPixScore({ allAnswers, challenges }) {
+  const correctAnswers = allAnswers.filter((answer) => answer.isOk());
+  const succeededChallenges = correctAnswers.map((answer) => _findChallengeForAnswer(challenges, answer));
+  const directPixScore = _sumSkillsChallengesPixScore(succeededChallenges);
+  return directPixScore;
+}
+
+function _getInferredPixScore({ challenges, estimatedLevel }) {
+  const lowestCapabilityChallengesBySkill = _findLowestCapabilityChallengesBySkill(challenges);
+  const inferredChallenges = lowestCapabilityChallengesBySkill.filter(
+    (challenge) => estimatedLevel >= challenge.minimumCapability
+  );
+  const inferredPixScore = _sumSkillsChallengesPixScore(inferredChallenges);
+  return inferredPixScore;
+}
+
+function _findLowestCapabilityChallengesBySkill(challenges) {
+  const challengesBySkillId = challenges.reduce((acc, challenge) => {
+    if (acc[challenge.skill.id] && acc[challenge.skill.id].minimumCapability < challenge.minimumCapability) {
+      return acc;
+    }
+
+    return {
+      ...acc,
+      [challenge.skill.id]: challenge,
+    };
+  }, {});
+  return Object.values(challengesBySkillId);
+}
+
+function _findChallengeForAnswer(challenges, answer) {
+  return challenges.find((challenge) => challenge.id === answer.challengeId);
+}
+
+function _sumSkillsChallengesPixScore(challenges) {
+  return challenges.reduce((sum, challenge) => sum + challenge.skill.pixValue, 0);
 }
 
 function _getReward({ estimatedLevel, discriminant, difficulty }) {
