@@ -11,7 +11,7 @@ module.exports = async function createSessions({
   sessionRepository,
 }) {
   if (sessions.length === 0) {
-    throw new UnprocessableEntityError('No session in table');
+    throw new UnprocessableEntityError('No session data in csv');
   }
 
   const { name: certificationCenter } = await certificationCenterRepository.get(certificationCenterId);

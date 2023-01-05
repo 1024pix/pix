@@ -4,6 +4,7 @@ const { NotFoundError } = require('../../../../../lib/domain/errors');
 const Session = require('../../../../../lib/domain/models/Session');
 const { statuses } = require('../../../../../lib/domain/models/Session');
 const sessionRepository = require('../../../../../lib/infrastructure/repositories/sessions/session-repository');
+const omit = require('lodash/omit');
 
 describe('Integration | Repository | Session', function () {
   describe('#save', function () {
@@ -77,6 +78,7 @@ describe('Integration | Repository | Session', function () {
         description: 'Première certification EVER !!!',
         accessCode: 'XXXX',
         supervisorPassword: 'AB2C7',
+        examinerGlobalComment: '',
       });
       const secondSession = new Session({
         certificationCenter: certificationCenter.name,
@@ -89,6 +91,7 @@ describe('Integration | Repository | Session', function () {
         description: 'Seconde certification',
         accessCode: 'YYYY',
         supervisorPassword: 'DEGYC',
+        examinerGlobalComment: '',
       });
 
       const sessions = [firstSession, secondSession];
@@ -96,11 +99,27 @@ describe('Integration | Repository | Session', function () {
       await databaseBuilder.commit();
 
       // when
-      await sessionRepository.saveSessions(sessions);
+      const savedSessions = await sessionRepository.saveSessions(sessions);
 
       // then
-      const sessionSaved = await knex('sessions').select();
-      expect(sessionSaved).to.have.lengthOf(2);
+      const [firstSavedSession, secondSavedSession] = savedSessions;
+      const expectedSessions = [
+        domainBuilder.buildSession({
+          ...firstSession,
+          id: firstSavedSession.id,
+        }),
+        domainBuilder.buildSession({
+          ...secondSession,
+          id: secondSavedSession.id,
+        }),
+      ];
+
+      expect(omit(firstSavedSession, 'certificationCandidates')).to.deepEqualInstance(
+        omit(expectedSessions[0], 'certificationCandidates')
+      );
+      expect(omit(secondSavedSession, 'certificationCandidates')).to.deepEqualInstance(
+        omit(expectedSessions[1], 'certificationCandidates')
+      );
     });
   });
 
