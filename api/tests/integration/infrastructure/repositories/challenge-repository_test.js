@@ -17,7 +17,7 @@ describe('Integration | Repository | challenge-repository', function () {
 
       const learningContent = {
         skills: [{ ...skill, status: 'actif' }],
-        challenges: [{ ...challenge, skillId: 'recSkill1', alpha: 0, delta: 0 }],
+        challenges: [{ ...challenge, skillId: 'recSkill1', alpha: 1, delta: 0 }],
       };
 
       mockLearningContent(learningContent);
@@ -565,13 +565,13 @@ function _buildChallenge({ id, skill, status = 'validé' }) {
     type: Challenge.Type.QCM,
     locales: ['fr'],
     autoReply: false,
-    discriminant: 0,
+    discriminant: 1,
     difficulty: 0,
     answer: undefined,
     responsive: 'Smartphone/Tablette',
     competenceId: 'recCOMP1',
     skillId: skill.id,
-    alpha: 0,
+    alpha: 1,
     delta: 0,
     skill,
   };
