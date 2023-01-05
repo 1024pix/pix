@@ -27,7 +27,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
     // when
     await render(
-      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @groups={{this.groups}}/>`
+      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @groups={{this.groups}} @onClickLearner={{this.noop}}/>`
     );
 
     // then
@@ -49,11 +49,39 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
     // when
     await render(
-      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @groups={{this.groups}}/>`
+      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @groups={{this.groups}} @onClickLearner={{this.noop}}/>`
     );
 
     // then
+
     assert.dom('[aria-label="Étudiant"]').exists({ count: 2 });
+  });
+
+  test('it should display a link to access student detail', async function (assert) {
+    // given
+    const students = [
+      {
+        lastName: 'Skywalker',
+        firstName: 'Anakin',
+        id: 66,
+        birthdate: new Date('1977-05-25'),
+      },
+      {
+        lastName: 'Kenobi',
+        firstName: 'Obiwan',
+        id: 33,
+        birthdate: new Date('1977-05-25'),
+      },
+    ];
+    this.set('students', students);
+    this.set('groups', []);
+
+    // when
+    const screen = await render(
+      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @groups={{this.groups}} @onClickLearner={{this.noop}}/>`
+    );
+    // then
+    assert.dom(screen.getByRole('link', { name: 'Kenobi' })).hasProperty('href', /\/etudiants\/33/g);
   });
 
   test('it should display the student number, firstName, lastName, birthdate, group, participation count and and last participation date of student', async function (assert) {
@@ -75,7 +103,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
     // when
     await render(
-      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @groups={{this.groups}}/>`
+      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @groups={{this.groups}} @onClickLearner={{this.noop}}/>`
     );
 
     // then
@@ -102,7 +130,9 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     this.set('students', students);
 
     // when
-    await render(hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} />`);
+    await render(
+      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}}/>`
+    );
 
     // then
     assert.contains('SUP - Campagne de collecte de profils');
@@ -125,7 +155,9 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     this.set('students', students);
 
     // when
-    await render(hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}}/>`);
+    await render(
+      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}}/>`
+    );
 
     // then
     assert.contains(this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'));
@@ -147,7 +179,9 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     this.set('students', students);
 
     // when
-    await render(hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}}/>`);
+    await render(
+      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}}/>`
+    );
 
     // then
     assert.contains('03/01/2022');
@@ -170,7 +204,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
     // when
     const screen = await render(
-      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.triggerFiltering}} @groups={{this.groups}}/>`
+      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.triggerFiltering}} @groups={{this.groups}} @onClickLearner={{this.noop}}/>`
     );
 
     // then
@@ -191,7 +225,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       this.set('students', []);
 
       await render(
-        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.triggerFiltering}}/>`
+        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.triggerFiltering}} @onClickLearner={{this.noop}}/>`
       );
 
       // when
@@ -210,7 +244,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
       // when
       await render(
-        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.triggerFiltering}} @groups={{this.groups}}/>`
+        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.triggerFiltering}} @groups={{this.groups}} @onClickLearner={{this.noop}}/>`
       );
 
       await fillByLabel('Entrer un numéro étudiant', 'LATERREURGIGI123');
@@ -230,6 +264,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
   @students={{this.students}}
   @onFilter={{this.triggerFiltering}}
   @groups={{this.groups}}
+  @onClickLearner={{this.noop}}
 />`);
       const select = await getByPlaceholderText('Rechercher par groupe');
       await click(select);
@@ -251,7 +286,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       this.set('certificability', []);
 
       const { getByPlaceholderText, findByRole } = await render(
-        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.triggerFiltering}} @certificability={{this.certificability}} />`
+        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.triggerFiltering}} @certificability={{this.certificability}} @onClickLearner={{this.noop}}/>`
       );
 
       // when
@@ -277,7 +312,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       this.set('groups', []);
       // when
       await render(
-        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @groups={{this.groups}}/>`
+        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @groups={{this.groups}} @onClickLearner={{this.noop}}/>`
       );
 
       // then
@@ -294,7 +329,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       this.set('groups', []);
       // when
       await render(
-        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @groups={{this.groups}}/>`
+        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @groups={{this.groups}} @onClickLearner={{this.noop}}/>`
       );
 
       // then
