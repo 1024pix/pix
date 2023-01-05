@@ -1043,7 +1043,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         expect(userDetailsForAdmin.lastLoggedAt).to.deep.equal(lastLoggedAt);
         expect(userDetailsForAdmin.emailConfirmedAt).to.deep.equal(emailConfirmedAt);
         expect(userDetailsForAdmin.hasBeenAnonymised).to.be.false;
-        expect(userDetailsForAdmin.hasBeenAnonymisedBy).to.be.null;
       });
 
       it('should return a UserNotFoundError if no user is found', async function () {
@@ -1153,7 +1152,9 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
           // then
           expect(userDetailsForAdmin.authenticationMethods.length).to.equal(0);
           expect(userDetailsForAdmin.hasBeenAnonymised).to.be.true;
-          expect(userDetailsForAdmin.hasBeenAnonymisedBy).to.equal(1);
+
+          const { hasBeenAnonymisedBy } = await knex('users').where({ id: userInDB.id }).first();
+          expect(hasBeenAnonymisedBy).to.equal(1);
         });
 
         it("should return the anonymisedBy's first and last names", async function () {
