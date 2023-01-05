@@ -1013,6 +1013,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
           cgu: true,
           lang: 'en',
           createdAt: now,
+          updatedAt: now,
           lastTermsOfServiceValidatedAt,
           lastPixOrgaTermsOfServiceValidatedAt,
           lastPixCertifTermsOfServiceValidatedAt: lastLoggedAt,
