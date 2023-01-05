@@ -79,9 +79,20 @@
     {{#if @students}}
       <tbody>
         {{#each @students as |student index|}}
-          <tr aria-label={{t "pages.sup-organization-participants.table.row-title"}}>
+          <tr
+            aria-label={{t "pages.sup-organization-participants.table.row-title"}}
+            {{on "click" (fn @onClickLearner student.id)}}
+            class="tr--clickable"
+          >
             <td class="ellipsis">{{student.studentNumber}}</td>
-            <td class="ellipsis">{{student.lastName}}</td>
+            <td class="ellipsis">
+              <LinkTo
+                @route="authenticated.sup-organization-participants.sup-organization-participant"
+                @model={{student.id}}
+              >
+                {{student.lastName}}
+              </LinkTo>
+            </td>
             <td class="ellipsis">{{student.firstName}}</td>
             <td class="table__column--center">{{dayjs-format student.birthdate "DD/MM/YYYY"}}</td>
             <td class="ellipsis">{{student.group}}</td>
