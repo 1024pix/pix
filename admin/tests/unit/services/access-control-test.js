@@ -153,7 +153,7 @@ module('Unit | Service | access-control', function (hooks) {
     test('should be false if admin member has role "CERTIF"', function (assert) {
       // given
       const currentUser = this.owner.lookup('service:current-user');
-      currentUser.adminMember = { isCertif: true };
+      currentUser.adminMember = { isCertif: true, isMetier: false, isSuperAdmin: false, isSupport: false };
       const service = this.owner.lookup('service:access-control');
 
       // when & then
