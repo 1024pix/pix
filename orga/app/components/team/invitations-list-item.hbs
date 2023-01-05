@@ -1,0 +1,43 @@
+<tr aria-label="{{t 'pages.team-invitations.table.row.aria-label'}}">
+  <td>{{@invitation.email}}</td>
+  <td class="hide-on-mobile">
+    {{dayjs-format @invitation.updatedAt "DD/MM/YYYY [-] HH:mm" locale="fr"}}
+  </td>
+  <td>
+    <div class="invitations-list__action">
+      <PixTooltip @isInline={{true}}>
+        <:triggerElement>
+          <PixIconButton
+            @ariaLabel={{t "pages.team-invitations.resend-invitation"}}
+            @icon="redo"
+            @triggerAction={{fn this.resendInvitation @invitation}}
+            @withBackground={{true}}
+            disabled={{this.isResending}}
+            aria-disabled={{this.isResending}}
+          />
+        </:triggerElement>
+        <:tooltip>
+          {{#if this.isResending}}
+            {{t "pages.team-invitations.invitation-resent-succeed-message"}}
+          {{else}}
+            {{t "pages.team-invitations.resend-invitation"}}
+          {{/if}}
+        </:tooltip>
+      </PixTooltip>
+
+      <PixTooltip @isInline={{true}}>
+        <:triggerElement>
+          <PixIconButton
+            @ariaLabel={{t "pages.team-invitations.cancel-invitation"}}
+            @icon="trash-can"
+            @triggerAction={{fn @cancelInvitation @invitation}}
+            @withBackground={{true}}
+          />
+        </:triggerElement>
+        <:tooltip>
+          {{t "pages.team-invitations.cancel-invitation"}}
+        </:tooltip>
+      </PixTooltip>
+    </div>
+  </td>
+</tr>
