@@ -683,4 +683,81 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
       expect(result).to.be.deep.equal([challenges[2]]);
     });
   });
+
+  describe('#calculateTotalPixScore', function () {
+    describe('when there is no answer', function () {
+      it('should return a score of 0', function () {
+        // given
+        const challenges = [
+          domainBuilder.buildChallenge({
+            id: 'ChallengeFirstAnswers',
+            discriminant: 1.86350005965093,
+            difficulty: 0.194712138508747,
+          }),
+          domainBuilder.buildChallenge({
+            id: 'ChallengeSecondAnswers',
+            discriminant: 2.25422414740233,
+            difficulty: 0.823376599163319,
+          }),
+        ];
+
+        const allAnswers = [];
+
+        // when
+        const result = flash.calculateTotalPixScore({ allAnswers, challenges });
+
+        // then
+        expect(result).to.equal(0);
+      });
+    });
+
+    describe('when there are answers', function () {
+      it('should return a score of 11', function () {
+        // given
+        const skills = [
+          domainBuilder.buildSkill({ id: 'FirstSkill', pixValue: 1 }),
+          domainBuilder.buildSkill({ id: 'SecondSkill', pixValue: 10 }),
+          domainBuilder.buildSkill({ id: 'ThirdSkill', pixValue: 100 }),
+          domainBuilder.buildSkill({ id: 'FourthSkill', pixValue: 1000 }),
+          domainBuilder.buildSkill({ id: 'FifthSkill', pixValue: 10000 }),
+        ];
+
+        const challenges = [
+          domainBuilder.buildChallenge({
+            id: 'First',
+            skill: skills[0],
+          }),
+          domainBuilder.buildChallenge({
+            id: 'Second',
+            skill: skills[1],
+          }),
+          domainBuilder.buildChallenge({
+            id: 'Third',
+            skill: skills[2],
+          }),
+          domainBuilder.buildChallenge({
+            id: 'Fourth',
+            skill: skills[3],
+          }),
+          domainBuilder.buildChallenge({
+            id: 'Fifth',
+            skill: skills[4],
+          }),
+        ];
+
+        const allAnswers = [
+          domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[0].id }),
+          domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[1].id }),
+          domainBuilder.buildAnswer({ result: AnswerStatus.KO, challengeId: challenges[2].id }),
+          domainBuilder.buildAnswer({ result: AnswerStatus.SKIPPED, challengeId: challenges[3].id }),
+        ];
+
+        // when
+        const result = flash.calculateTotalPixScore({ allAnswers, challenges });
+
+        // then
+        expect(result).to.equal(11);
+      });
+    });
+  });
 });
