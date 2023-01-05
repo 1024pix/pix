@@ -22,7 +22,9 @@ module.exports = {
     const sessions = sessionsData.map((session) => {
       return _.omit(session, ['certificationCandidates']);
     });
-    return knex.batchInsert('sessions', sessions);
+
+    const recordedSessions = await knex.batchInsert('sessions', sessions).returning('*');
+    return recordedSessions.map((recordedSession) => new Session(recordedSession));
   },
 
   async isSessionCodeAvailable(accessCode) {
