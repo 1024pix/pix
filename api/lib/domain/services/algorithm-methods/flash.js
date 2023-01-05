@@ -14,12 +14,12 @@ const ERROR_RATE_CLASS_INTERVAL = 9 / 80;
 module.exports = {
   getPossibleNextChallenges,
   getEstimatedLevelAndErrorRate,
-  getNonAnsweredChallenges,
+  getChallengesForNonAnsweredSkills,
   calculateTotalPixScore,
 };
 
 function getPossibleNextChallenges({ allAnswers, challenges, estimatedLevel = DEFAULT_ESTIMATED_LEVEL } = {}) {
-  const nonAnsweredChallenges = getNonAnsweredChallenges({ allAnswers, challenges });
+  const nonAnsweredChallenges = getChallengesForNonAnsweredSkills({ allAnswers, challenges });
 
   if (nonAnsweredChallenges?.length === 0 || allAnswers.length >= config.features.numberOfChallengesForFlashMethod) {
     return {
@@ -108,22 +108,24 @@ function getEstimatedLevelAndErrorRate({ allAnswers, challenges }) {
   return { estimatedLevel: latestEstimatedLevel, errorRate: correctedErrorRate };
 }
 
-function getNonAnsweredChallenges({ allAnswers, challenges }) {
-  const getAnswerSkill = (answer) => challenges.find((challenge) => challenge.id === answer.challengeId).skill;
-  const alreadyAnsweredSkillsIds = allAnswers.map(getAnswerSkill).map((skill) => skill.id);
+function findChallengeForAnswer(challenges, answer) {
+  return challenges.find((challenge) => challenge.id === answer.challengeId);
+}
 
-  const isSkillAlreadyAnswered = (skill) => alreadyAnsweredSkillsIds.includes(skill.id);
-  const filterNonAnsweredChallenge = (challenge) => !isSkillAlreadyAnswered(challenge.skill);
-  const nonAnsweredChallenges = _.filter(challenges, filterNonAnsweredChallenge);
+function getChallengesForNonAnsweredSkills({ allAnswers, challenges }) {
+  const alreadyAnsweredSkillsIds = allAnswers
+    .map((answer) => findChallengeForAnswer(challenges, answer))
+    .map((challenge) => challenge.skill.id);
 
-  return nonAnsweredChallenges;
+  const isNonAnsweredSkill = (skill) => !alreadyAnsweredSkillsIds.includes(skill.id);
+  const challengesForNonAnsweredSkills = challenges.filter((challenge) => isNonAnsweredSkill(challenge.skill));
+
+  return challengesForNonAnsweredSkills;
 }
 
 function calculateTotalPixScore({ allAnswers, challenges }) {
   const correctAnswers = allAnswers.filter((answer) => answer.isOk());
-  const successedChallenges = correctAnswers.map((answer) =>
-    challenges.find((challenge) => challenge.id === answer.challengeId)
-  );
+  const successedChallenges = correctAnswers.map((answer) => findChallengeForAnswer(challenges, answer));
   const directPixScore = successedChallenges.reduce((acc, challenge) => acc + challenge.skill.pixValue, 0);
   const totalPixScore = directPixScore;
 
