@@ -15,7 +15,7 @@
   </header>
 
   <div class="panel-header__body">
-    <dl class="panel-header__data">
+    <Ui::InformationWrapper>
       {{#if @participation.participantExternalId}}
         <Ui::Information>
           <:title>{{@campaign.idPixLabel}}</:title>
@@ -38,7 +38,7 @@
           <:content>{{dayjs-format @participation.sharedAt "DD MMM YYYY"}}</:content>
         </Ui::Information>
       {{/if}}
-    </dl>
+    </Ui::InformationWrapper>
 
     {{#if @participation.isShared}}
       <ul class="panel-header__data panel-header__data--highlight">
