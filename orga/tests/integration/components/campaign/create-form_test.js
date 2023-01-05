@@ -536,9 +536,9 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       await clickByName(t('pages.campaign-creation.yes'));
 
       // then
-      assert.contains(t('api-errors-messages.campaign-creation.name-required'));
-      assert.contains(t('api-errors-messages.campaign-creation.purpose-required'));
-      assert.contains(t('api-errors-messages.campaign-creation.external-user-id-required'));
+      assert.contains(t('api-error-messages.campaign-creation.name-required'));
+      assert.contains(t('api-error-messages.campaign-creation.purpose-required'));
+      assert.contains(t('api-error-messages.campaign-creation.external-user-id-required'));
     });
 
     test('it should display errors messages when the target profile field is empty', async function (assert) {
@@ -566,7 +566,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       await clickByName(t('pages.campaign-creation.purpose.assessment'));
 
       // then
-      assert.contains(t('api-errors-messages.campaign-creation.target-profile-required'));
+      assert.contains(t('api-error-messages.campaign-creation.target-profile-required'));
     });
   });
 });

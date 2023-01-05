@@ -44,7 +44,7 @@ export default class EditStudentNumberModal extends Component {
   _handleError(errorResponse) {
     errorResponse.errors.forEach((error) => {
       if (error.detail === 'STUDENT_NUMBER_EXISTS') {
-        return (this.error = this.intl.t('api-errors-messages.edit-student-number.student-number-exists', {
+        return (this.error = this.intl.t('api-error-messages.edit-student-number.student-number-exists', {
           firstName: this.args.student.firstName,
           lastName: this.args.student.lastName,
         }));

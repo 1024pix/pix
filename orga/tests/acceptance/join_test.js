@@ -13,6 +13,9 @@ import {
 } from '../helpers/test-init';
 import setupIntl from '../helpers/setup-intl';
 
+import ENV from '../../config/environment';
+const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
+
 module('Acceptance | join', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -237,8 +240,6 @@ module('Acceptance | join', function (hooks) {
 
       test('it should remain on join page', async function (assert) {
         // given
-        const expectedErrorMessage = this.intl.t('pages.login-form.errors.status.401');
-
         server.post(
           '/token',
           {
@@ -259,7 +260,7 @@ module('Acceptance | join', function (hooks) {
 
         assert.strictEqual(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
         assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
-        assert.contains(expectedErrorMessage);
+        assert.contains(this.intl.t(ApiErrorMessages.LOGIN_UNAUTHORIZED.I18N_KEY));
       });
     });
 

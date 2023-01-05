@@ -53,4 +53,13 @@ export default class Url extends Service {
     }
     return `https://pix.${this.currentDomain.getExtension()}/accessibilite-pix-orga`;
   }
+
+  get forgottenPasswordUrl() {
+    const currentLanguage = this.intl.t('current-lang');
+    let url = `${this.pixAppUrlWithoutExtension}${this.currentDomain.getExtension()}/mot-de-passe-oublie`;
+    if (currentLanguage === 'en') {
+      url += '?lang=en';
+    }
+    return url;
+  }
 }

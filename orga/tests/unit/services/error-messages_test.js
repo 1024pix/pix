@@ -30,7 +30,7 @@ module('Unit | Service | Error messages', function (hooks) {
     // When
     const message = errorMessages.getErrorMessage('CAMPAIGN_NAME_IS_REQUIRED');
     // Then
-    assert.strictEqual(message, t('api-errors-messages.campaign-creation.name-required'));
+    assert.strictEqual(message, t('api-error-messages.campaign-creation.name-required'));
   });
 
   test('should return the message with parameters', function (assert) {
@@ -41,7 +41,7 @@ module('Unit | Service | Error messages', function (hooks) {
     // Then
     assert.strictEqual(
       message,
-      t('api-errors-messages.student-csv-import.field-min-length', { line: 1, field: 'Boo', limit: 2 })
+      t('api-error-messages.student-csv-import.field-min-length', { line: 1, field: 'Boo', limit: 2 })
     );
   });
 
@@ -53,10 +53,10 @@ module('Unit | Service | Error messages', function (hooks) {
     // Then
     assert.strictEqual(
       message,
-      t('api-errors-messages.student-csv-import.field-bad-values', {
+      t('api-error-messages.student-csv-import.field-bad-values', {
         line: 1,
         field: 'Boo',
-        valids: `A${t('api-errors-messages.or-separator')}B`,
+        valids: `A${t('api-error-messages.or-separator')}B`,
       })
     );
   });
