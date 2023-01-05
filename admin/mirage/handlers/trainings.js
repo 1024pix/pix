@@ -24,4 +24,12 @@ function findPaginatedTrainingSummaries(schema, request) {
   return json;
 }
 
-export { findPaginatedTrainingSummaries };
+function createTraining(schema, request) {
+  const params = JSON.parse(request.requestBody);
+
+  return schema.create('training', {
+    ...params.data.attributes,
+  });
+}
+
+export { findPaginatedTrainingSummaries, createTraining };
