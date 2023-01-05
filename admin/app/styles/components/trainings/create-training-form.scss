@@ -1,0 +1,37 @@
+.create-training-form {
+  color: $pix-neutral-70;
+
+  .training-editor-logo-url-input {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+
+    &__label {
+      display: inline;
+    }
+
+    &__information {
+      font-size: 0.75rem;
+      margin-top: 4px;
+      margin-bottom: 4px;
+      color: $pix-neutral-60;
+      display: block;
+    }
+  }
+
+  &__card {
+    margin-bottom: $spacing-m;
+  }
+}
+
+.create-training-form-card {
+
+  &__duration {
+    margin-top: 1rem;
+    display: flex;
+    gap: 2rem;
+
+    input {
+      width: 6.25rem;
+    }
+  }
+}
