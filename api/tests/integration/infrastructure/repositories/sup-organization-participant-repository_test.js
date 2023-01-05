@@ -203,14 +203,14 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
           organizationId: organization.id,
         });
 
-        const expectedOrganizationLeaner = databaseBuilder.factory.buildOrganizationLearner({
+        const expectedOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
           organizationId: organization.id,
           firstName: 'John',
           lastName: 'Rambo',
         });
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
-          organizationLearnerId: expectedOrganizationLeaner.id,
+          organizationLearnerId: expectedOrganizationLearner.id,
           status: CampaignParticipationStatuses.SHARED,
           isCertifiable: true,
         });
@@ -237,7 +237,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
 
         // then
         expect(data.length).to.equal(1);
-        expect(data[0].id).to.equal(expectedOrganizationLeaner.id);
+        expect(data[0].id).to.equal(expectedOrganizationLearner.id);
       });
 
       it('should return sup participants that are not eligible for certificability or not communicate', async function () {
@@ -248,14 +248,14 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
           organizationId: organization.id,
         });
 
-        const eligibleOrganizationLeaner = databaseBuilder.factory.buildOrganizationLearner({
+        const eligibleOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
           organizationId: organization.id,
           firstName: 'John',
           lastName: 'Rambo',
         });
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
-          organizationLearnerId: eligibleOrganizationLeaner.id,
+          organizationLearnerId: eligibleOrganizationLearner.id,
           status: CampaignParticipationStatuses.SHARED,
           isCertifiable: true,
         });
