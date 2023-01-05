@@ -20,7 +20,6 @@ class UserDetailsForAdmin {
     emailConfirmedAt,
     userLogin,
     hasBeenAnonymised,
-    hasBeenAnonymisedBy,
     anonymisedByFirstName,
     anonymisedByLastName,
   } = {}) {
@@ -43,7 +42,6 @@ class UserDetailsForAdmin {
     this.emailConfirmedAt = emailConfirmedAt;
     this.userLogin = userLogin;
     this.hasBeenAnonymised = hasBeenAnonymised;
-    this.hasBeenAnonymisedBy = hasBeenAnonymisedBy;
     this.updatedAt = updatedAt;
     this.anonymisedByFirstName = anonymisedByFirstName;
     this.anonymisedByLastName = anonymisedByLastName;
