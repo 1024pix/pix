@@ -28,18 +28,4 @@ module('Unit | Route | authenticated/campaigns/campaign', function (hooks) {
     // when
     await route.model(params);
   });
-
-  test('should set up isComingFromAllCampaignPage to true if transition is from all campaign page', async function (assert) {
-    // given
-    const route = this.owner.lookup('route:authenticated/campaigns/campaign');
-    const controller = { set: sinon.stub() };
-    const model = {};
-    const transition = { from: { name: 'authenticated.campaigns.list.all-campaigns' } };
-
-    // then
-    route.setupController(controller, model, transition);
-
-    // then
-    assert.ok(controller.set.calledWith('isComingFromAllCampaignPage', true));
-  });
 });
