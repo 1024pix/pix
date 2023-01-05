@@ -171,7 +171,7 @@ export default class RegisterForm extends Component {
             const message = this._showErrorMessageByShortCode(error.meta);
             return (this.errorMessage = message);
           }
-          const defaultMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE);
+          const defaultMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY);
           return (this.errorMessage = error.detail ? error.detail : defaultMessage);
         });
       }
@@ -179,7 +179,7 @@ export default class RegisterForm extends Component {
   }
 
   _showErrorMessageByShortCode(meta) {
-    const defaultMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE);
+    const defaultMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY);
     return (
       this.intl.t(getRegisterErrorsMessageByShortCode(meta), { value: meta.value, htlmSafe: true }) || defaultMessage
     );

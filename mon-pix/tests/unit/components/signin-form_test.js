@@ -21,6 +21,7 @@ module('Unit | Component | signin-form', function (hooks) {
               errors: [
                 {
                   title: 'PasswordShouldChange',
+                  code: 'SHOULD_CHANGE_PASSWORD',
                   meta: 'PASSWORD_RESET_TOKEN',
                 },
               ],

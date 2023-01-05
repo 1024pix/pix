@@ -5,11 +5,11 @@ import hbs from 'htmlbars-inline-precompile';
 
 import Service from '@ember/service';
 
-import ENV from '../../../config/environment';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { contains } from '../../helpers/contains';
 import { clickByLabel } from '../../helpers/click-by-label';
 
+import ENV from '../../../config/environment';
 const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
 
 module('Integration | Component | signin form', function (hooks) {
@@ -59,7 +59,6 @@ module('Integration | Component | signin form', function (hooks) {
     module('When error api occurs', function () {
       test('should display related error message if unauthorized error', async function (assert) {
         // given
-        const expectedErrorMessage = ApiErrorMessages.LOGIN_UNAUTHORIZED.MESSAGE;
         class sessionService extends Service {
           authenticateUser = sinon.stub().rejects({ status: 401 });
         }
@@ -72,14 +71,12 @@ module('Integration | Component | signin form', function (hooks) {
         await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(find('div[id="sign-in-error-message"]').textContent.trim(), this.intl.t(expectedErrorMessage));
+        const expectedErrorMessage = this.intl.t(ApiErrorMessages.LOGIN_UNAUTHORIZED.I18N_KEY);
+        assert.strictEqual(find('div[id="sign-in-error-message"]').textContent.trim(), expectedErrorMessage);
       });
 
       test('should display related error message if bad request error', async function (assert) {
         // given
-        const expectedErrorMessage = ApiErrorMessages.BAD_REQUEST.MESSAGE;
         class sessionService extends Service {
           authenticateUser = sinon.stub().rejects({ status: 400 });
         }
@@ -92,9 +89,8 @@ module('Integration | Component | signin form', function (hooks) {
         await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(find('div[id="sign-in-error-message"]').textContent.trim(), this.intl.t(expectedErrorMessage));
+        const expectedErrorMessage = this.intl.t(ApiErrorMessages.BAD_REQUEST.I18N_KEY);
+        assert.strictEqual(find('div[id="sign-in-error-message"]').textContent.trim(), expectedErrorMessage);
       });
 
       test('should display an error if api cannot be reached', async function (assert) {
@@ -113,11 +109,9 @@ module('Integration | Component | signin form', function (hooks) {
 
         // then
         assert.ok(document.querySelector('div.sign-form__notification-message--error'));
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(
+        assert.strictEqual(
           find('div[id="sign-in-error-message"]').textContent.trim(),
-          this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.MESSAGE)
+          this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY)
         );
       });
 
@@ -125,10 +119,6 @@ module('Integration | Component | signin form', function (hooks) {
         module('when is user is temporary blocked', function () {
           test('displays a specific error', async function (assert) {
             // given
-            const expectedErrorMessage = this.intl.t(ApiErrorMessages.USER_IS_TEMPORARY_BLOCKED.MESSAGE, {
-              url: '/mot-de-passe-oublie',
-              htmlSafe: true,
-            });
             class sessionService extends Service {
               authenticateUser = sinon
                 .stub()
@@ -143,6 +133,10 @@ module('Integration | Component | signin form', function (hooks) {
             await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
 
             // then
+            const expectedErrorMessage = this.intl.t(ApiErrorMessages.USER_IS_TEMPORARY_BLOCKED.I18N_KEY, {
+              url: '/mot-de-passe-oublie',
+              htmlSafe: true,
+            });
             assert.deepEqual(find('div[id="sign-in-error-message"]').innerHTML.trim(), expectedErrorMessage.string);
           });
         });
@@ -150,10 +144,6 @@ module('Integration | Component | signin form', function (hooks) {
         module('when is user blocked', function () {
           test('displays a specific error', async function (assert) {
             // given
-            const expectedErrorMessage = this.intl.t(ApiErrorMessages.USER_IS_BLOCKED.MESSAGE, {
-              url: 'https://support.pix.org/support/tickets/new',
-              htmlSafe: true,
-            });
             class sessionService extends Service {
               authenticateUser = sinon
                 .stub()
@@ -168,6 +158,10 @@ module('Integration | Component | signin form', function (hooks) {
             await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
 
             // then
+            const expectedErrorMessage = this.intl.t(ApiErrorMessages.USER_IS_BLOCKED.I18N_KEY, {
+              url: 'https://support.pix.org/support/tickets/new',
+              htmlSafe: true,
+            });
             assert.deepEqual(find('div[id="sign-in-error-message"]').innerHTML.trim(), expectedErrorMessage.string);
           });
         });

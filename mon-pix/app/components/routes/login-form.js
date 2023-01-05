@@ -81,8 +81,8 @@ export default class LoginForm extends Component {
   }
 
   _manageErrorsApi(errorsApi) {
-    const defaultErrorMessage = this.intl.t('api-error-messages.internal-server-error');
-    const errorMessageStatusCode4xx = this.intl.t('api-error-messages.bad-request-error');
+    const defaultErrorMessage = this.intl.t('common.api-error-messages.internal-server-error');
+    const errorMessageStatusCode4xx = this.intl.t('common.api-error-messages.bad-request-error');
     const invalidCredentialsErrorMessage = this.intl.t('pages.login-or-register.login-form.error');
     const unexpectedUserAccountErrorMessage = this.intl.t(
       'pages.login-or-register.login-form.unexpected-user-account-error'
