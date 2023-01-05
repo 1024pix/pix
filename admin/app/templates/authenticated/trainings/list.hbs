@@ -1,15 +1,17 @@
 <header class="page-header">
   <h1 class="page-title">Tous les contenus formatifs</h1>
-  <div class="page-actions">
-    <PixButton
-      @route="authenticated.trainings.new"
-      @backgroundColor="transparent-light"
-      @isBorderVisible={{true}}
-      class="pix-button__secondary"
-    >
-      <FaIcon @icon="plus" />Nouveau contenu formatif
-    </PixButton>
-  </div>
+  {{#if this.accessControl.hasAccessToTrainingsCreationActionsScope}}
+    <div class="page-actions">
+      <PixButton
+        @route="authenticated.trainings.new"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        class="pix-button__secondary"
+      >
+        <FaIcon @icon="plus" />Nouveau contenu formatif
+      </PixButton>
+    </div>
+  {{/if}}
 </header>
 
 <main class="page-body">
