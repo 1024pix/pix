@@ -1,8 +1,8 @@
 import { memberAction } from 'ember-api-actions';
 import Model, { attr, hasMany } from '@ember-data/model';
-import map from 'lodash/map';
 import ENV from 'pix-admin/config/environment';
 import { inject as service } from '@ember/service';
+import formatList from '../utils/format-select-options';
 
 export const categories = {
   COMPETENCES: 'Les 16 compétences',
@@ -13,9 +13,7 @@ export const categories = {
   OTHER: 'Autres',
 };
 
-export const optionsCategoryList = map(categories, function (key, value) {
-  return { value: value, label: key };
-});
+export const optionsCategoryList = formatList(categories);
 
 export default class TargetProfile extends Model {
   @service session;
