@@ -33,6 +33,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
         participantExternalId: 'greg@lafleche.fr',
         masteryRate: 0.5,
         estimatedFlashLevel: -2.4672347856,
+        flashPixScore: 374.3438957781,
         isDeleted: false,
       };
 
@@ -94,6 +95,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
             'is-disabled': false,
             'participant-external-id': 'greg@lafleche.fr',
             'estimated-flash-level': -2.4672347856,
+            'flash-pix-score': 374.3438957781,
           },
           id: '1',
           relationships: {

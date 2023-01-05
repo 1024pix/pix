@@ -21,6 +21,7 @@ class AssessmentResult {
     this.isShared = Boolean(participationResults.sharedAt);
     this.participantExternalId = participationResults.participantExternalId;
     this.estimatedFlashLevel = participationResults.estimatedFlashLevel;
+    this.flashPixScore = participationResults.flashPixScore;
 
     this.totalSkillsCount = competences.flatMap(({ skillIds }) => skillIds).length;
     this.testedSkillsCount = knowledgeElements.length;
