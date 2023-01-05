@@ -50,12 +50,17 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
           { id: 'recTube2', competenceId: 'rec2' },
         ],
         skills: [
-          { id: 'skill1', status: 'actif', tubeId: 'recTube1', competenceId: 'rec1' },
+          { id: 'skill1', status: 'actif', tubeId: 'recTube1', competenceId: 'rec1', pixValue: 2 },
           { id: 'skill2', status: 'archivé', tubeId: 'recTube1', competenceId: 'rec1' },
-          { id: 'skill3', status: 'actif', tubeId: 'recTube2', competenceId: 'rec2' },
-          { id: 'skill4', status: 'actif', tubeId: 'recTube2', competenceId: 'rec2' },
+          { id: 'skill3', status: 'actif', tubeId: 'recTube2', competenceId: 'rec2', pixValue: 20 },
+          { id: 'skill4', status: 'actif', tubeId: 'recTube2', competenceId: 'rec2', pixValue: 200 },
           { id: 'skill5', status: 'actif', tubeId: 'recTube2', competenceId: 'rec2' },
           { id: 'skill6', status: 'périmé', tubeId: 'recTube2', competenceId: 'rec2' },
+        ],
+        challenges: [
+          { id: 'challenge1', skillId: 'skill1', status: 'validé', locales: ['FR'], alpha: 1, delta: 0 },
+          { id: 'challenge2', skillId: 'skill3', status: 'validé', locales: ['FR'], alpha: 1, delta: 4 },
+          { id: 'challenge3', skillId: 'skill4', status: 'validé', locales: ['FR'], alpha: 2.57, delta: 1.4 },
         ],
       };
 
@@ -1027,7 +1032,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
     });
 
     context('when campaign is flash', function () {
-      it('returns the estimated flash level', async function () {
+      it('returns the estimated flash level and calculated pix score', async function () {
         // given
         const { id: userId } = databaseBuilder.factory.buildUser();
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({
@@ -1043,8 +1048,16 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
           userId,
           method: Assessment.methods.FLASH,
         });
+        const answers = [
+          databaseBuilder.factory.buildAnswer({
+            assessmentId,
+            challengeId: 'challenge1',
+            result: 'ok',
+          }),
+        ];
         const { estimatedLevel } = databaseBuilder.factory.buildFlashAssessmentResult({
           assessmentId,
+          answerId: answers[0].id,
         });
         await databaseBuilder.commit();
 
@@ -1060,6 +1073,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
         // then
         expect(participantResult).to.contain({
           estimatedFlashLevel: estimatedLevel,
+          flashPixScore: 202,
         });
       });
     });
