@@ -23,7 +23,7 @@ export default class NewController extends Controller {
     } catch (errorResponse) {
       errorResponse.errors.forEach((error) => {
         if (error.status === '500') {
-          this.notifications.sendError(this.intl.t('api-errors-messages.global'));
+          this.notifications.sendError(this.intl.t('api-error-messages.global'));
         }
       });
       this.errors = this.model.campaign.errors;

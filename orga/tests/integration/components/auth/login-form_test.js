@@ -8,6 +8,9 @@ import { fillByLabel, clickByName, render as renderScreen } from '@1024pix/ember
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
+import ENV from '../../../../config/environment';
+const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
+
 module('Integration | Component | Auth::LoginForm', function (hooks) {
   setupIntlRenderingTest(hooks);
 
@@ -122,8 +125,8 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
 
   test('it should display an invalid credentials message when authentication fails', async function (assert) {
     // given
-    const expectedErrorMessages = this.intl.t('pages.login-form.errors.status.401');
     const errorResponse = {
+      status: 401,
       responseJSON: {
         errors: [{ status: '401' }],
       },
@@ -131,7 +134,7 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
 
     SessionStub.prototype.authenticate = () => reject(errorResponse);
 
-    await renderScreen(hbs`<Auth::LoginForm/>`);
+    const screen = await renderScreen(hbs`<Auth::LoginForm/>`);
     await fillByLabel(emailInputLabel, 'pix@example.net');
     await fillByLabel(passwordInputLabel, 'Mauvais mot de passe');
 
@@ -139,14 +142,47 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
     await clickByName(loginLabel);
 
     // then
-    assert.dom('#login-form-error-message').exists();
-    assert.dom('#login-form-error-message').hasText(expectedErrorMessages);
+    assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.LOGIN_UNAUTHORIZED.I18N_KEY))).exists();
+  });
+
+  test('it displays a should change password message', async function (assert) {
+    // given
+    const errorResponse = {
+      responseJSON: {
+        errors: [{ status: '401', code: 'SHOULD_CHANGE_PASSWORD' }],
+      },
+    };
+
+    SessionStub.prototype.authenticate = () => reject(errorResponse);
+
+    const screen = await renderScreen(hbs`<Auth::LoginForm/>`);
+    await fillByLabel(emailInputLabel, 'pix@example.net');
+    await fillByLabel(passwordInputLabel, 'Mauvais mot de passe');
+
+    //  when
+    await clickByName(loginLabel);
+
+    // then
+    const expectedErrorMessage = this.intl.t('pages.login-form.errors.should-change-password', {
+      url: 'https://app.pix.localhost/mot-de-passe-oublie',
+      htmlSafe: true,
+    });
+    assert
+      .dom(
+        screen.getByText((content, node) => {
+          const hasText = (node) => node.innerHTML.trim() === expectedErrorMessage.string;
+          const nodeHasText = hasText(node);
+          const childrenDontHaveText = Array.from(node.children).every((child) => !hasText(child));
+          return nodeHasText && childrenDontHaveText;
+        })
+      )
+      .exists();
   });
 
   test('it should display an not linked organisation message when authentication fails', async function (assert) {
     // given
-    const expectedErrorMessages = this.intl.t('pages.login-form.errors.status.403');
     const errorResponse = {
+      status: Number(ApiErrorMessages.NOT_LINKED_ORGANIZATION.CODE),
       responseJSON: {
         errors: [{ status: '403' }],
       },
@@ -154,7 +190,7 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
 
     SessionStub.prototype.authenticate = () => reject(errorResponse);
 
-    await renderScreen(hbs`<Auth::LoginForm/>`);
+    const screen = await renderScreen(hbs`<Auth::LoginForm/>`);
     await fillByLabel(emailInputLabel, 'pix@example.net');
     await fillByLabel(passwordInputLabel, 'pix123');
 
@@ -162,8 +198,7 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
     await clickByName(loginLabel);
 
     // then
-    assert.dom('#login-form-error-message').exists();
-    assert.dom('#login-form-error-message').hasText(expectedErrorMessages);
+    assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.NOT_LINKED_ORGANIZATION.I18N_KEY))).exists();
   });
 
   test('it should not display context message', async function (assert) {

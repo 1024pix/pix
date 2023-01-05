@@ -1,7 +1,6 @@
 {
   "current-lang": "fr",
-  "api-errors-messages": {
-    "bad-request": "Les données que vous avez soumises ne sont pas au bon format.",
+  "api-error-messages": {
     "campaign-creation": {
       "external-user-id-required": "Veuillez préciser le libellé du champ qui sera demandé à vos participants au démarrage du parcours.",
       "name-required": "Veuillez donner un nom à votre campagne.",
@@ -144,6 +143,14 @@
       "cancel": "Annuler",
       "close": "Fermer",
       "global": "Actions"
+    },
+    "api-error-messages": {
+      "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
+      "internal-server-error": "Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.",
+      "login-unauthorized-error": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects.",
+      "login-user-temporary-blocked-error": "Vous avez effectué trop de tentatives de connexion. Réessayez plus tard ou cliquez sur <a href=\"{url}\">mot de passe oublié</a> pour le réinitialiser.",
+      "login-user-blocked-error": "Votre compte est bloqué car vous avez effectué trop de tentatives de connexion. Pour le débloquer, <a href=\"{url}\">contactez-nous</a>.",
+      "gateway-timeout-error": "Le service subit des ralentissements. Veuillez réessayer ultérieurement."
     },
     "filters": {
       "loading": "Chargement...",
@@ -585,10 +592,9 @@
       "errors": {
         "invalid-email": "Votre adresse e-mail n’est pas valide.",
         "empty-password": "Le champ mot de passe est obligatoire.",
+        "should-change-password": "Vous avez actuellement un mot de passe temporaire. Cliquez sur <a href=\"{url}\">mot de passe oublié</a> pour le réinitialiser.",
         "status": {
-          "401": "L'adresse e-mail et/ou le mot de passe saisis sont incorrects.",
-          "403": "L'accès à Pix Orga est limité aux membres invités. Chaque espace est géré par un administrateur Pix Orga propre à l'organisation qui l'utilise. Contactez-le pour qu'il vous y invite.",
-          "401-should-change-password": "Erreur, vous devez changer votre mot de passe."
+          "403": "L'accès à Pix Orga est limité aux membres invités. Chaque espace est géré par un administrateur Pix Orga propre à l'organisation qui l'utilise. Contactez-le pour qu'il vous y invite."
         }
       },
       "forgot-password": "Mot de passe oublié ?",

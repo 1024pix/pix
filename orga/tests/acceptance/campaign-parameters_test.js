@@ -40,6 +40,6 @@ module('Acceptance | Campaign Parameters', function (hooks) {
     await clickByName('Archiver');
 
     // then
-    assert.dom(screen.getByText(this.intl.t('api-errors-messages.global'))).exists();
+    assert.dom(screen.getByText(this.intl.t('api-error-messages.global'))).exists();
   });
 });
