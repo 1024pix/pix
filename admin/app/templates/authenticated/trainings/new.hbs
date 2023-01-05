@@ -1,0 +1,14 @@
+{{page-title "Nouveau contenu formatif"}}
+<header class="page-header">
+  <div class="page-title">
+    Contenus Formatifs
+    <FaIcon @icon="chevron-right" />
+    Création du contenu
+  </div>
+</header>
+
+<main class="page-body">
+  <section class="page-section">
+    <Trainings::CreateTrainingForm @onSubmit={{this.createOrUpdateTraining}} @onCancel={{this.goBackToTrainingList}} />
+  </section>
+</main>
