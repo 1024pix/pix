@@ -624,7 +624,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
     });
   });
 
-  describe('#getNonAnsweredChallenges', function () {
+  describe('#getChallengesForNonAnsweredSkills', function () {
     it('should return the same list of challenges if there is no answers', function () {
       // given
       const challenges = [
@@ -643,7 +643,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
       const allAnswers = [];
 
       // when
-      const result = flash.getNonAnsweredChallenges({ allAnswers, challenges });
+      const result = flash.getChallengesForNonAnsweredSkills({ allAnswers, challenges });
 
       // then
       expect(result).to.be.deep.equal(challenges);
@@ -677,7 +677,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
       const allAnswers = [domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[0].id })];
 
       // when
-      const result = flash.getNonAnsweredChallenges({ allAnswers, challenges });
+      const result = flash.getChallengesForNonAnsweredSkills({ allAnswers, challenges });
 
       // then
       expect(result).to.be.deep.equal([challenges[2]]);
