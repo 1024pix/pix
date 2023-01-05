@@ -176,22 +176,17 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
   });
 
   describe('PUT /api/sco-organization-learners/possibilities', function () {
-    let options;
-    let user;
-    let organization;
-    let organizationLearner;
-    let campaignCode;
-
-    beforeEach(async function () {
-      organization = databaseBuilder.factory.buildOrganization({
+    it('should return the organizationLearner linked to the user and a 200 status code response', async function () {
+      //given
+      const organization = databaseBuilder.factory.buildOrganization({
         isManagingStudents: true,
         type: 'SCO',
       });
-      campaignCode = databaseBuilder.factory.buildCampaign({
+      const campaignCode = databaseBuilder.factory.buildCampaign({
         organizationId: organization.id,
       }).code;
-      user = databaseBuilder.factory.buildUser();
-      organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
+      const user = databaseBuilder.factory.buildUser();
+      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         firstName: user.firstName,
         lastName: user.lastName,
@@ -200,7 +195,8 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
       });
       await databaseBuilder.commit();
 
-      options = {
+      // when
+      const response = await server.inject({
         method: 'PUT',
         url: '/api/sco-organization-learners/possibilities',
         headers: {},
@@ -214,30 +210,20 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
             },
           },
         },
-      };
-    });
+      });
 
-    describe('Success case', function () {
-      it('should return the organizationLearner linked to the user and a 200 status code response', async function () {
-        //given
-        const expectedResult = {
-          data: {
-            attributes: {
-              birthdate: '2005-08-05',
-              'first-name': 'Billy',
-              'last-name': 'TheKid',
-              username: 'billy.thekid0508',
-            },
-            type: 'sco-organization-learners',
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result).to.deep.equal({
+        data: {
+          attributes: {
+            birthdate: '2005-08-05',
+            'first-name': 'Billy',
+            'last-name': 'TheKid',
+            username: 'billy.thekid0508',
           },
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(200);
-        expect(response.result).to.deep.equal(expectedResult);
+          type: 'sco-organization-learners',
+        },
       });
     });
   });
@@ -501,17 +487,19 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
   });
 
   describe('POST /api/sco-organization-learners/password-update', function () {
-    let organizationId;
-    let options;
-
-    beforeEach(async function () {
-      organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
-      const userId = databaseBuilder.factory.buildUser().id;
+    it('should return a 200 status after having successfully updated the password', async function () {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
+      const userId = databaseBuilder.factory.buildUser.withRawPassword().id;
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId,
+        userId,
+      }).id;
       databaseBuilder.factory.buildMembership({ organizationId, userId });
-
       await databaseBuilder.commit();
 
-      options = {
+      // when
+      const response = await server.inject({
         method: 'POST',
         url: '/api/sco-organization-learners/password-update',
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
@@ -519,26 +507,11 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
           data: {
             attributes: {
               'organization-id': organizationId,
-              'organization-learner-id': null,
+              'organization-learner-id': organizationLearnerId,
             },
           },
         },
-      };
-    });
-
-    it('should return a 200 status after having successfully updated the password', async function () {
-      // given
-      const userId = databaseBuilder.factory.buildUser.withRawPassword().id;
-      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
-        organizationId,
-        userId,
-      }).id;
-      options.payload.data.attributes['organization-learner-id'] = organizationLearnerId;
-
-      await databaseBuilder.commit();
-
-      // when
-      const response = await server.inject(options);
+      });
 
       // then
       expect(response.statusCode).to.equal(200);
