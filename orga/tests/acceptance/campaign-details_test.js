@@ -25,7 +25,7 @@ module('Acceptance | Campaign Details', function (hooks) {
   });
 
   module('When prescriber is logged in', function () {
-    test('it should redirect to campaign list on click on return button', async function (assert) {
+    test('it should redirect to campaign list on click on return button by default', async function (assert) {
       // given
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
       createPrescriberByUser(user);
@@ -33,8 +33,43 @@ module('Acceptance | Campaign Details', function (hooks) {
       await authenticateSession(user.id);
 
       server.create('campaign', { id: 1 });
-      server.create('campaign-participant-activity', { firstName: 'toto' });
       await visit('/campagnes/1');
+
+      // when
+      await clickByName('Retour');
+
+      // then
+      assert.strictEqual(currentURL(), '/campagnes/les-miennes');
+    });
+
+    test('it should redirect to all campaigns list on click on return button if coming from all campaigns', async function (assert) {
+      // given
+      const user = createUserWithMembershipAndTermsOfServiceAccepted();
+      createPrescriberByUser(user);
+
+      await authenticateSession(user.id);
+
+      server.create('campaign', { id: 1, name: 'CampagneEtPrairie' });
+      await visit('/campagnes/toutes');
+      await clickByName('CampagneEtPrairie');
+
+      // when
+      await clickByName('Retour');
+
+      // then
+      assert.strictEqual(currentURL(), '/campagnes/toutes');
+    });
+
+    test('it should redirect to my campaigns list on click on return button if coming from my campaigns', async function (assert) {
+      // given
+      const user = createUserWithMembershipAndTermsOfServiceAccepted();
+      createPrescriberByUser(user);
+
+      await authenticateSession(user.id);
+
+      server.create('campaign', { id: 1, name: 'CampagneEtPrairie', ownerId: user.id });
+      await visit('/campagnes/les-miennes');
+      await clickByName('CampagneEtPrairie');
 
       // when
       await clickByName('Retour');
