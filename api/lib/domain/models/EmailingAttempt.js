@@ -1,11 +1,21 @@
 module.exports = class EmailingAttempt {
-  constructor(email, status) {
+  static errorCode = {
+    PROVIDER_ERROR: 'PROVIDER_ERROR',
+    INVALID_DOMAIN: 'INVALID_DOMAIN',
+  };
+
+  constructor(email, status, errorCode) {
     this.email = email;
     this.status = status;
+    this.errorCode = errorCode;
   }
 
   hasFailed() {
     return this.status === AttemptStatus.FAILURE;
+  }
+
+  hasFailedBecauseDomainWasInvalid() {
+    return this.status === AttemptStatus.FAILURE && this.errorCode === EmailingAttempt.errorCode.INVALID_DOMAIN;
   }
 
   hasSucceeded() {
@@ -16,8 +26,8 @@ module.exports = class EmailingAttempt {
     return new EmailingAttempt(email, AttemptStatus.SUCCESS);
   }
 
-  static failure(email) {
-    return new EmailingAttempt(email, AttemptStatus.FAILURE);
+  static failure(email, errorCode = EmailingAttempt.errorCode.PROVIDER_ERROR) {
+    return new EmailingAttempt(email, AttemptStatus.FAILURE, errorCode);
   }
 };
 

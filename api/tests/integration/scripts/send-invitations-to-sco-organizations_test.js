@@ -106,12 +106,15 @@ describe('Integration | Scripts | send-invitations-to-sco-organizations.js', fun
 
     it('should add organization invitations into database', async function () {
       // given
-      const objectsForInvitations = ['user1@example', 'user2@example', 'user3@example', 'user4@example'].map(
-        (email) => {
-          const organizationId = databaseBuilder.factory.buildOrganization().id;
-          return { organizationId, email };
-        }
-      );
+      const objectsForInvitations = [
+        'user1@example.net',
+        'user2@example.net',
+        'user3@example.net',
+        'user4@example.net',
+      ].map((email) => {
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        return { organizationId, email };
+      });
 
       const numberBefore = await getNumberOfOrganizationInvitations();
       const tags = ['TEST'];

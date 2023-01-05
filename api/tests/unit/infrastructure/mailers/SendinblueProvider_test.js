@@ -24,7 +24,7 @@ describe('Unit | Class | SendinblueProvider', function () {
         sinon.stub(mailing, 'provider').value('sendinblue');
 
         sinon.stub(SendinblueProvider, 'createSendinblueSMTPApi');
-        sinon.stub(mailCheck, 'checkMail').withArgs(userEmailAddress).resolves();
+        sinon.stub(mailCheck, 'checkDomainIsValid').withArgs(userEmailAddress).resolves();
 
         stubbedSendinblueSMTPApi = { sendTransacEmail: sinon.stub() };
         SendinblueProvider.createSendinblueSMTPApi.returns(stubbedSendinblueSMTPApi);
