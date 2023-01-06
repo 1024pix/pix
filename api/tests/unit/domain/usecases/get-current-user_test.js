@@ -19,7 +19,7 @@ describe('Unit | UseCase | get-current-user', function () {
 
   it('should get the current user', async function () {
     // given
-    userRepository.get.withArgs(1).resolves({ id: 1 });
+    userRepository.get.withArgs(1).resolves({ id: 1, shouldSeeDataProtectionPolicyInformationBanner: true });
     campaignParticipationRepository.hasAssessmentParticipations.withArgs(1).resolves(false);
     campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser
       .withArgs(1)
@@ -40,6 +40,7 @@ describe('Unit | UseCase | get-current-user', function () {
       hasAssessmentParticipations: false,
       codeForLastProfileToShare: 'SOMECODE',
       hasRecommendedTrainings: false,
+      shouldSeeDataProtectionPolicyInformationBanner: true,
     });
   });
 });

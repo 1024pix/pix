@@ -296,9 +296,7 @@ module('Acceptance | User dashboard page', function (hooks) {
             await click('.new-information-content-text__button');
 
             // then
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line qunit/no-assert-equal
-            assert.equal(currentURL(), '/campagnes/SNAP1234/collecte/envoi-profil');
+            assert.strictEqual(currentURL(), '/campagnes/SNAP1234/collecte/envoi-profil');
           });
         });
       });
