@@ -595,19 +595,13 @@ async function _buildValidShareableCertificate(shareableCertificateData, buildCo
     sessionId,
     userId: shareableCertificateData.userId,
   }).id;
-  const assessmentId = databaseBuilder.factory.buildAssessment({
+
+  const assessmentResultId = databaseBuilder.factory.buildAssessmentResult.last({
     certificationCourseId: shareableCertificateData.id,
-  }).id;
-  const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
-    assessmentId,
     pixScore: shareableCertificateData.pixScore,
     status: 'validated',
     createdAt: new Date('2020-01-02'),
   }).id;
-  databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
-    certificationCourseId,
-    lastAssessmentResultId: assessmentResultId,
-  });
 
   if (buildCompetenceMark) {
     databaseBuilder.factory.buildCompetenceMark({
@@ -641,16 +635,11 @@ async function _buildValidShareableCertificateWithAcquiredBadges({ shareableCert
     sessionId,
     userId: shareableCertificateData.userId,
   }).id;
-  const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
-  const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
-    assessmentId,
+  const assessmentResultId = databaseBuilder.factory.buildAssessmentResult.last({
+    certificationCourseId,
     pixScore: shareableCertificateData.pixScore,
     status: 'validated',
   }).id;
-  databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
-    certificationCourseId,
-    lastAssessmentResultId: assessmentResultId,
-  });
 
   acquiredBadges?.forEach(
     ({

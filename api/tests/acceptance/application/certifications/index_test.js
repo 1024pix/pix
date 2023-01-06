@@ -37,16 +37,13 @@ describe('Acceptance | API | Certifications', function () {
       type: Assessment.types.CERTIFICATION,
       state: 'completed',
     });
-    assessmentResult = databaseBuilder.factory.buildAssessmentResult({
+    assessmentResult = databaseBuilder.factory.buildAssessmentResult.last({
+      certificationCourseId: certificationCourse.id,
       assessmentId: assessment.id,
       level: 1,
       pixScore: 23,
       emitter: 'PIX-ALGO',
       status: 'validated',
-    });
-    databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
-      certificationCourseId: certificationCourse.id,
-      lastAssessmentResultId: assessmentResult.id,
     });
     const { id } = databaseBuilder.factory.buildComplementaryCertificationCourse({
       certificationCourseId: certificationCourse.id,

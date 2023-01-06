@@ -1,10 +1,11 @@
 const buildAssessment = require('./build-assessment');
+const buildCertificationCourseLastAssessmentResult = require('./build-certification-course-last-assessment-result');
 const buildUser = require('./build-user');
 const databaseBuffer = require('../database-buffer');
 const AssessmentResult = require('../../../lib/domain/models/AssessmentResult');
 const _ = require('lodash');
 
-module.exports = function buildAssessmentResult({
+function buildAssessmentResult({
   id = databaseBuffer.getNextId(),
   pixScore = 456,
   reproducibilityRate = null,
@@ -17,8 +18,9 @@ module.exports = function buildAssessmentResult({
   juryId,
   assessmentId,
   createdAt = new Date('2020-01-01'),
+  certificationCourseId,
 } = {}) {
-  assessmentId = _.isUndefined(assessmentId) ? buildAssessment().id : assessmentId;
+  assessmentId = _.isUndefined(assessmentId) ? buildAssessment({ certificationCourseId }).id : assessmentId;
   juryId = _.isUndefined(juryId) ? buildUser().id : juryId;
 
   const values = {
@@ -39,4 +41,45 @@ module.exports = function buildAssessmentResult({
     tableName: 'assessment-results',
     values,
   });
+}
+
+module.exports = buildAssessmentResult;
+
+buildAssessmentResult.last = function ({
+  certificationCourseId,
+  id,
+  pixScore,
+  reproducibilityRate,
+  level,
+  status,
+  emitter,
+  commentForJury,
+  commentForCandidate,
+  commentForOrganization,
+  juryId,
+  assessmentId,
+  createdAt,
+}) {
+  const assessmentResult = buildAssessmentResult({
+    id,
+    pixScore,
+    reproducibilityRate,
+    level,
+    status,
+    emitter,
+    commentForJury,
+    commentForCandidate,
+    commentForOrganization,
+    juryId,
+    assessmentId,
+    createdAt,
+    certificationCourseId,
+  });
+
+  buildCertificationCourseLastAssessmentResult({
+    certificationCourseId,
+    lastAssessmentResultId: assessmentResult.id,
+  });
+
+  return assessmentResult;
 };

@@ -364,12 +364,10 @@ function createCertificationCourseWithCompetenceMarks({
     cpfFilename,
     cpfImportStatus,
   }).id;
-  const { id: lastAssessmentResultId } = databaseBuilder.factory.buildAssessmentResult({
+  const { id: lastAssessmentResultId } = databaseBuilder.factory.buildAssessmentResult.last({
+    certificationCourseId,
     pixScore: 132,
     status: assessmentResultStatus,
-    assessmentId: databaseBuilder.factory.buildAssessment({
-      certificationCourseId,
-    }).id,
   });
   competenceMarks.forEach((competenceMark) =>
     databaseBuilder.factory.buildCompetenceMark({
@@ -379,9 +377,4 @@ function createCertificationCourseWithCompetenceMarks({
       competence_code: competenceMark.competenceCode,
     })
   );
-
-  databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
-    certificationCourseId,
-    lastAssessmentResultId,
-  });
 }
