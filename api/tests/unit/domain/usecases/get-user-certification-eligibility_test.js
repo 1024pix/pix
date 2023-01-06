@@ -75,14 +75,10 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
         isCertifiable: () => true,
       };
       placementProfileService.getPlacementProfile.withArgs({ userId: 2, limitDate: now }).resolves(placementProfile);
-      const badgeAcquisition = domainBuilder.buildBadgeAcquisition({
-        badge: domainBuilder.buildBadge({
-          key: 'BADGE_KEY',
-          complementaryCertificationBadge: domainBuilder.buildComplementaryCertificationBadge({
-            label: 'BADGE_LABEL',
-            imageUrl: 'http://www.image-url.com',
-          }),
-        }),
+      const badgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
+        badgeKey: 'BADGE_KEY',
+        complementaryCertificationBadgeLabel: 'BADGE_LABEL',
+        complementaryCertificationBadgeImageUrl: 'http://www.image-url.com',
       });
       certificationBadgesService.findStillValidBadgeAcquisitions.resolves([badgeAcquisition]);
 

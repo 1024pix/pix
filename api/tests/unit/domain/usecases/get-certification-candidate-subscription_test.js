@@ -153,11 +153,8 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
           });
 
           const certifiableBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
-            badge: domainBuilder.buildBadge({
-              key: 'PIX+_BADGE',
-              isCertifiable: true,
-            }),
-            complementaryCertification: complementaryCertification1,
+            badgeKey: 'PIX+_BADGE',
+            complementaryCertificationKey: complementaryCertification1.key,
           });
 
           const candidateWithComplementaryCertifications = domainBuilder.buildCertificationCandidate({

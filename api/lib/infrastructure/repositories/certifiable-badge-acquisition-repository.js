@@ -1,11 +1,6 @@
 const CertifiableBadgeAcquisition = require('../../domain/models/CertifiableBadgeAcquisition');
-const Badge = require('../../domain/models/Badge');
-const BadgeCriterion = require('../../domain/models/BadgeCriterion');
-const SkillSet = require('../../domain/models/SkillSet');
-const ComplementaryCertificationBadge = require('../../domain/models/ComplementaryCertificationBadge');
 const { knex } = require('../../../db/knex-database-connection');
 const DomainTransaction = require('../DomainTransaction');
-const ComplementaryCertification = require('../../domain/models/ComplementaryCertification');
 const _ = require('lodash');
 
 const BADGE_ACQUISITIONS_TABLE = 'badge-acquisitions';
@@ -14,18 +9,17 @@ module.exports = {
   async findHighestCertifiable({ userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const knexConn = domainTransaction.knexTransaction || knex;
     const certifiableBadgeAcquisitions = await knexConn(BADGE_ACQUISITIONS_TABLE)
-      .select(
-        'badges.*',
-        'badge-acquisitions.*',
-        'complementary-certification-badges.id as complementaryCertificationBadgeId',
-        'complementary-certification-badges.level as complementaryCertificationBadgeLevel',
-        'complementary-certification-badges.imageUrl as complementaryCertificationBadgeImageUrl',
-        'complementary-certification-badges.label as complementaryCertificationBadgeLabel',
-        'complementary-certifications.id as complementaryCertificationId',
-        'complementary-certifications.label as complementaryCertificationLabel',
-        'complementary-certifications.key as complementaryCertificationKey',
-        'campaign-participations.campaignId'
-      )
+      .select({
+        badgeId: 'badges.id',
+        badgeKey: 'badges.key',
+        campaignId: 'campaign-participations.campaignId',
+        complementaryCertificationId: 'complementary-certifications.id',
+        complementaryCertificationKey: 'complementary-certifications.key',
+        complementaryCertificationBadgeId: 'complementary-certification-badges.id',
+        complementaryCertificationBadgeImageUrl: 'complementary-certification-badges.imageUrl',
+        complementaryCertificationBadgeLabel: 'complementary-certification-badges.label',
+        complementaryCertificationBadgeLevel: 'complementary-certification-badges.level',
+      })
       .join('badges', 'badges.id', 'badge-acquisitions.badgeId')
       .join('complementary-certification-badges', 'badges.id', 'complementary-certification-badges.badgeId')
       .join(
@@ -58,54 +52,12 @@ module.exports = {
       .flatten()
       .value();
 
-    const certifiableBadgeAcquisitionBadgeIds = highestCertifiableBadgeAcquisitionByComplementaryCertificationId.map(
-      (certifiableBadgeAcquisition) => certifiableBadgeAcquisition.badgeId
-    );
-
-    const badgeCriteria = await knexConn('badge-criteria').whereIn('badgeId', certifiableBadgeAcquisitionBadgeIds);
-
-    const skillSetIds = badgeCriteria.flatMap((badgeCriterion) => badgeCriterion.skillSetIds);
-
-    const uniqueSkillSetIds = [...new Set(skillSetIds)];
-
-    const skillSets = await knexConn('skill-sets').whereIn('id', uniqueSkillSetIds);
-
-    return _toDomain(highestCertifiableBadgeAcquisitionByComplementaryCertificationId, badgeCriteria, skillSets);
+    return _toDomain(highestCertifiableBadgeAcquisitionByComplementaryCertificationId);
   },
 };
 
-function _toDomain(certifiableBadgeAcquisitionsDto, badgeCriteriaDto, skillSetsDto) {
-  return certifiableBadgeAcquisitionsDto.map((certifiableBadgeAcquisitionDto) => {
-    const skillSets = skillSetsDto
-      .filter((skillSetDto) => skillSetDto.badgeId === certifiableBadgeAcquisitionDto.badgeId)
-      .map((skillSetDto) => new SkillSet({ ...skillSetDto }));
-
-    const badgeCriteria = badgeCriteriaDto
-      .filter((badgeCriterionDto) => badgeCriterionDto.badgeId === certifiableBadgeAcquisitionDto.badgeId)
-      .map((badgeCriterionDto) => new BadgeCriterion({ ...badgeCriterionDto }));
-    const badge = new Badge({
-      ...certifiableBadgeAcquisitionDto,
-      id: certifiableBadgeAcquisitionDto.badgeId,
-      badgeCriteria,
-      skillSets,
-      complementaryCertificationBadge: new ComplementaryCertificationBadge({
-        id: certifiableBadgeAcquisitionDto.complementaryCertificationBadgeId,
-        level: certifiableBadgeAcquisitionDto.complementaryCertificationBadgeLevel,
-        label: certifiableBadgeAcquisitionDto.complementaryCertificationBadgeLabel,
-        imageUrl: certifiableBadgeAcquisitionDto.complementaryCertificationBadgeImageUrl,
-      }),
-    });
-
-    const complementaryCertification = new ComplementaryCertification({
-      id: certifiableBadgeAcquisitionDto.complementaryCertificationId,
-      label: certifiableBadgeAcquisitionDto.complementaryCertificationLabel,
-      key: certifiableBadgeAcquisitionDto.complementaryCertificationKey,
-    });
-
-    return new CertifiableBadgeAcquisition({
-      ...certifiableBadgeAcquisitionDto,
-      complementaryCertification,
-      badge,
-    });
-  });
+function _toDomain(certifiableBadgeAcquisitionsDto) {
+  return certifiableBadgeAcquisitionsDto.map(
+    (certifiableBadgeAcquisitionDto) => new CertifiableBadgeAcquisition(certifiableBadgeAcquisitionDto)
+  );
 }
