@@ -22,6 +22,7 @@ export default class AuthenticatedCampaignsListAllCampaignsRoute extends Route {
 
   @service store;
   @service currentUser;
+  @service navigation;
 
   model(params) {
     return this.store.query(
@@ -40,6 +41,10 @@ export default class AuthenticatedCampaignsListAllCampaignsRoute extends Route {
       },
       { reload: true }
     );
+  }
+
+  afterModel() {
+    this.navigation.campaignsRouteToGoBackTo = 'authenticated.campaigns.list.all-campaigns';
   }
 
   resetController(controller, isExiting) {

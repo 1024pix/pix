@@ -1,7 +1,10 @@
 import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
 
 export default class AuthenticatedCampaignsCampaignController extends Controller {
+  @service navigation;
+
   get previousRouteName() {
-    return this.isComingFromAllCampaignPage ? 'authenticated.campaigns.list.all-campaigns' : 'authenticated.campaigns';
+    return this.navigation.campaignsRouteToGoBackTo || 'authenticated.campaigns';
   }
 }
