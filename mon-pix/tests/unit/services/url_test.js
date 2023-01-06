@@ -4,7 +4,7 @@ import sinon from 'sinon';
 
 import setupIntl from 'mon-pix/tests/helpers/setup-intl';
 
-module.only('Unit | Service | locale', function (hooks) {
+module('Unit | Service | locale', function (hooks) {
   setupTest(hooks);
   setupIntl(hooks);
 
@@ -61,10 +61,30 @@ module.only('Unit | Service | locale', function (hooks) {
     });
 
     [
-      { language: 'fr', currentDomainExtension: 'fr', expectedShowcaseUrl: 'https://pix.fr' },
-      { language: 'fr', currentDomainExtension: 'org', expectedShowcaseUrl: 'https://pix.org' },
-      { language: 'en', currentDomainExtension: 'fr', expectedShowcaseUrl: 'https://pix.fr/en-gb' },
-      { language: 'en', currentDomainExtension: 'org', expectedShowcaseUrl: 'https://pix.org/en-gb' },
+      {
+        language: 'fr',
+        currentDomainExtension: 'fr',
+        expectedShowcaseUrl: 'https://pix.fr',
+        expectedShowcaseLinkText: "Page d'accueil de Pix.fr",
+      },
+      {
+        language: 'fr',
+        currentDomainExtension: 'org',
+        expectedShowcaseUrl: 'https://pix.org',
+        expectedShowcaseLinkText: "Page d'accueil de Pix.org",
+      },
+      {
+        language: 'en',
+        currentDomainExtension: 'fr',
+        expectedShowcaseUrl: 'https://pix.fr/en-gb',
+        expectedShowcaseLinkText: "Pix.fr's Homepage",
+      },
+      {
+        language: 'en',
+        currentDomainExtension: 'org',
+        expectedShowcaseUrl: 'https://pix.org/en-gb',
+        expectedShowcaseLinkText: "Pix.org's Homepage",
+      },
     ].forEach(function (testCase) {
       test(`should get "${testCase.expectedShowcaseUrl}" when current domain="${testCase.currentDomainExtension}" and lang="${testCase.language}"`, function (assert) {
         // given
@@ -74,12 +94,13 @@ module.only('Unit | Service | locale', function (hooks) {
         this.intl.setLocale([testCase.language]);
 
         // when
-        const showcaseUrl = service.showcaseUrl;
+        const showcase = service.showcase;
 
         // then
         // TODO: Fix this the next time the file is edited.
         // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(showcaseUrl, testCase.expectedShowcaseUrl);
+        assert.equal(showcase.url, testCase.expectedShowcaseUrl);
+        assert.equal(showcase.linkText, testCase.expectedShowcaseLinkText);
       });
     });
   });
@@ -179,21 +200,6 @@ module.only('Unit | Service | locale', function (hooks) {
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(cguUrl, expectedCguUrl);
-    });
-  });
-
-  module('#extensionUrl', function () {
-    test('should get extension url', function (assert) {
-      // given
-      const expectedExtension = 'fr';
-      const service = this.owner.lookup('service:url');
-      service.currentDomain = { getExtension: sinon.stub().returns(expectedExtension) };
-
-      // when
-      const homeUrl = service.extensionUrl;
-
-      // then
-      assert.deepEqual(homeUrl, expectedExtension);
     });
   });
 });

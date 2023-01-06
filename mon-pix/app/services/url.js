@@ -14,8 +14,8 @@ export default class Url extends Service {
     return this.currentDomain.getExtension() === FRENCH_DOMAIN_EXTENSION;
   }
 
-  get showcaseUrl() {
-    return this._showcaseWebsiteUrl;
+  get showcase() {
+    return { url: this._showcaseWebsiteUrl, linkText: this._showcaseWebsiteLinkText };
   }
 
   get homeUrl() {
@@ -29,10 +29,6 @@ export default class Url extends Service {
       return 'https://pix.org/en-gb/terms-and-conditions';
     }
     return `https://pix.${this.currentDomain.getExtension()}/conditions-generales-d-utilisation`;
-  }
-
-  get extensionUrl() {
-    return this.currentDomain.getExtension();
   }
 
   get dataProtectionPolicyUrl() {
@@ -50,6 +46,10 @@ export default class Url extends Service {
       return `https://pix.${this.currentDomain.getExtension()}/en-gb`;
     }
     return `https://pix.${this.currentDomain.getExtension()}`;
+  }
+
+  get _showcaseWebsiteLinkText() {
+    return this.intl.t('navigation.showcase-homepage', { extension: this.currentDomain.getExtension() });
   }
 
   get accessibilityUrl() {

@@ -17,12 +17,8 @@ export default class ResetPasswordForm extends Component {
   @tracked hasSucceeded = false;
   @tracked validation = new ValidationForm();
 
-  get showcaseUrl() {
-    return this.url.showcaseUrl;
-  }
-
-  get urlExtension() {
-    return this.url.extensionUrl;
+  get showcase() {
+    return this.url.showcase;
   }
 
   @action
