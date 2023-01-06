@@ -94,8 +94,19 @@
     {{#if @students}}
       <tbody>
         {{#each @students as |student index|}}
-          <tr aria-label={{t "pages.sco-organization-participants.table.row-title"}}>
-            <td class="ellipsis" title={{student.lastName}}>{{student.lastName}}</td>
+          <tr
+            aria-label={{t "pages.sco-organization-participants.table.row-title"}}
+            {{on "click" (fn @onClickLearner student.id)}}
+            class="tr--clickable"
+          >
+            <td class="ellipsis">
+              <LinkTo
+                @route="authenticated.sco-organization-participants.sco-organization-participant"
+                @model={{student.id}}
+              >
+                {{student.lastName}}
+              </LinkTo>
+            </td>
             <td class="ellipsis" title={{student.firstName}}>{{student.firstName}}</td>
             <td class="table__column--center">{{dayjs-format student.birthdate "DD/MM/YYYY" allow-empty=true}}</td>
             <td class="ellipsis">{{student.division}}</td>
