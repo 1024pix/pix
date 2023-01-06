@@ -55,7 +55,7 @@ async function _getParticipationResults(userId, campaignId, locale) {
   let flashPixScore;
   if (isFlash) {
     const { allAnswers, challenges, estimatedLevel } = await dataFetcher.fetchForFlashCampaigns({
-      assessment: { id: assessmentId },
+      assessmentId,
       locale,
       answerRepository,
       challengeRepository,
