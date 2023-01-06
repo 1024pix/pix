@@ -1,4 +1,4 @@
-# 16. Utilisation de `hasMany` avec les filtres et pagination dans Ember
+# 17. Utilisation de `hasMany` avec les filtres et pagination dans Ember
 
 Date : 2021-01-12
 

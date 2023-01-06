@@ -1,4 +1,4 @@
-# 14. Utiliser le type de données JSONB en base de données
+# 15. Utiliser le type de données JSONB en base de données
 
 Date: 2020-11-20
 
