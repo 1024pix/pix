@@ -169,7 +169,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function () {
 
     it('fetches answers and challenges', async function () {
       // given
-      const assessment = domainBuilder.buildAssessment.ofTypeCampaign({
+      const { id: assessmentId } = domainBuilder.buildAssessment.ofTypeCampaign({
         state: 'started',
         method: 'FLASH',
         campaignParticipationId: 1,
@@ -179,13 +179,13 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function () {
       const challenges = Symbol('challenge');
       const estimatedLevel = Symbol('estimatedLevel');
 
-      answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
+      answerRepository.findByAssessment.withArgs(assessmentId).resolves([answer]);
       challengeRepository.findFlashCompatible.withArgs().resolves(challenges);
-      flashAssessmentResultRepository.getLatestByAssessmentId.withArgs(assessment.id).resolves({ estimatedLevel });
+      flashAssessmentResultRepository.getLatestByAssessmentId.withArgs(assessmentId).resolves({ estimatedLevel });
 
       // when
       const data = await dataFetcher.fetchForFlashCampaigns({
-        assessment,
+        assessmentId,
         answerRepository,
         challengeRepository,
         flashAssessmentResultRepository,

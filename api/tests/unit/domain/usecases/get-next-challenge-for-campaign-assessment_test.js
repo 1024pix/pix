@@ -69,7 +69,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
         // then
         expect(flash.getPossibleNextChallenges).to.have.been.called;
         expect(dataFetcher.fetchForFlashCampaigns).to.have.been.calledWith({
-          assessment,
+          assessmentId: assessment.id,
           answerRepository,
           challengeRepository,
           flashAssessmentResultRepository,
