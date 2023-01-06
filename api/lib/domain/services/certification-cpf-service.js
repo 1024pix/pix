@@ -156,4 +156,5 @@ function _getActualCity(cities) {
 module.exports = {
   getBirthInformation,
   CpfBirthInformationValidation,
+  CpfValidationStatus,
 };
