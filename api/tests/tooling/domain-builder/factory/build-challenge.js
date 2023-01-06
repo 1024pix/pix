@@ -20,8 +20,9 @@ module.exports = function buildChallenge({
   type = Challenge.Type.QCM,
   locales = ['fr'],
   autoReply = false,
-  discriminant = 0,
+  discriminant = 1,
   difficulty = 0,
+  successProbabilityThreshold,
   responsive = 'Smartphone/Tablette',
   focused = false,
   // includes
@@ -49,6 +50,7 @@ module.exports = function buildChallenge({
     autoReply,
     discriminant,
     difficulty,
+    successProbabilityThreshold,
     alternativeInstruction,
     responsive,
     focused,
