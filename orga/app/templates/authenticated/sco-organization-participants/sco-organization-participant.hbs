@@ -1,0 +1,13 @@
+<article>
+  <header class="learner-header">
+    <Ui::PreviousPageButton
+      @route="authenticated.sco-organization-participants"
+      @backButtonAriaLabel={{t "common.actions.back"}}
+      aria-label={{t "pages.organization-learner.header.aria-label-title"}}
+      class="learner-header-title"
+    >
+      {{t "common.fullname" firstName=@model.firstName lastName=@model.lastName}}
+    </Ui::PreviousPageButton>
+  </header>
+  {{outlet}}
+</article>
