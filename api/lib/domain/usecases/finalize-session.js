@@ -2,6 +2,7 @@ const {
   SessionAlreadyFinalizedError,
   SessionWithoutStartedCertificationError,
   SessionWithAbortReasonOnCompletedCertificationCourseError,
+  SessionWithMissingAbortReasonError,
 } = require('../errors');
 const SessionFinalized = require('../events/SessionFinalized');
 const bluebird = require('bluebird');
@@ -30,6 +31,10 @@ module.exports = async function finalizeSession({
 
   if (hasNoStartedCertification) {
     throw new SessionWithoutStartedCertificationError();
+  }
+
+  if (_hasMissingAbortReasonForUncompletedCertificationCourse({ abortReasonCount, uncompletedCertificationCount })) {
+    throw new SessionWithMissingAbortReasonError();
   }
 
   if (
@@ -71,6 +76,10 @@ module.exports = async function finalizeSession({
 
 function _hasAbortReasonForCompletedCertificationCourse({ abortReasonCount, uncompletedCertificationCount }) {
   return abortReasonCount > uncompletedCertificationCount;
+}
+
+function _hasMissingAbortReasonForUncompletedCertificationCourse({ abortReasonCount, uncompletedCertificationCount }) {
+  return abortReasonCount < uncompletedCertificationCount;
 }
 
 function _countAbortReasons(certificationReports) {
