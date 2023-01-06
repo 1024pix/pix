@@ -18,15 +18,6 @@ module.exports = {
     return new Session(savedSession);
   },
 
-  async saveSessions(sessionsData) {
-    const sessions = sessionsData.map((session) => {
-      return _.omit(session, ['certificationCandidates']);
-    });
-
-    const recordedSessions = await knex.batchInsert('sessions', sessions).returning('*');
-    return recordedSessions.map((recordedSession) => new Session(recordedSession));
-  },
-
   async isSessionCodeAvailable(accessCode) {
     const sessionWithAccessCode = await BookshelfSession.where({ accessCode }).fetch({ require: false });
 

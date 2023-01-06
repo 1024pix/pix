@@ -3,6 +3,7 @@ const { EntityValidationError } = require('../errors');
 const { UnprocessableEntityError } = require('../../application/http-errors');
 const Session = require('../models/Session');
 const sessionCodeService = require('../services/session-code-service');
+const CertificationCandidate = require('../models/CertificationCandidate');
 
 module.exports = async function createSessions({
   sessions,
@@ -17,7 +18,7 @@ module.exports = async function createSessions({
   const { name: certificationCenter } = await certificationCenterRepository.get(certificationCenterId);
 
   try {
-    const domainSessions = sessions.map((session) => {
+    await bluebird.mapSeries(sessions, async (session) => {
       const accessCode = sessionCodeService.getNewSessionCodeWithoutAvailabilityCheck();
       const domainSession = new Session({
         ...session,
@@ -28,10 +29,10 @@ module.exports = async function createSessions({
 
       domainSession.generateSupervisorPassword();
       sessionValidator.validate(domainSession);
+      const savedSession = await sessionRepository.save(domainSession);
+
       return domainSession;
     });
-
-    await sessionRepository.saveSessions(domainSessions);
   } catch (e) {
     throw new EntityValidationError(e);
   }
