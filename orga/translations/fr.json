@@ -48,7 +48,7 @@
   },
   "banners": {
     "campaigns": {
-      "message": "'<strong>'Parcours de rentrée 2022 :'</strong>' N’oubliez pas de créer les campagnes de rentrée et de diffuser les codes aux élèves avant la Toussaint. '<'a href={documentationLink} class={linkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'Plus d’info'</a>'"
+      "message": "'<strong>'Parcours de rentrée 2022 :'</strong>' N’oubliez pas de créer les campagnes de rentrée et de diffuser les codes aux élèves avant la Toussaint. '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Plus d’info'</a>'"
     },
     "import": {
       "message": "'<strong>'Rentrée 2022 :'</strong>' l’administrateur doit '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'importer la base élèves'</a>' 2022 pour initialiser Pix Orga. '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Plus d’info'</a>'"

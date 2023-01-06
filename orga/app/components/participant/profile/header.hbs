@@ -23,34 +23,24 @@
   </header>
 
   <div class="panel-header__body">
-    <dl class="panel-header__data">
+    <Ui::InformationWrapper>
       {{#if @campaignProfile.externalId}}
-        <div class="panel-header-data__content">
-          <dt class="label-text panel-header-data-content__label">{{@campaign.idPixLabel}}</dt>
-          <dd class="value-text panel-header-data-content__value">{{@campaignProfile.externalId}}</dd>
-        </div>
+        <Ui::Information>
+          <:title>{{@campaign.idPixLabel}}</:title>
+          <:content>{{@campaignProfile.externalId}}</:content>
+        </Ui::Information>
       {{/if}}
-      <div class="panel-header-data__content">
-        <dt class="label-text panel-header-data-content__label">
-          {{t "pages.campaign-individual-results.start-date"}}
-        </dt>
-        <dd class="value-text panel-header-data-content__value">{{dayjs-format
-            @campaignProfile.createdAt
-            "DD MMM YYYY"
-          }}</dd>
-      </div>
+      <Ui::Information>
+        <:title>{{t "pages.campaign-individual-results.start-date"}}</:title>
+        <:content>{{dayjs-format @campaignProfile.createdAt "DD MMM YYYY"}}</:content>
+      </Ui::Information>
       {{#if @campaignProfile.isShared}}
-        <div class="panel-header-data__content">
-          <dt class="label-text panel-header-data-content__label">
-            {{t "pages.campaign-individual-results.shared-date"}}
-          </dt>
-          <dd class="value-text panel-header-data-content__value">{{dayjs-format
-              @campaignProfile.sharedAt
-              "DD MMM YYYY"
-            }}</dd>
-        </div>
+        <Ui::Information>
+          <:title>{{t "pages.campaign-individual-results.shared-date"}}</:title>
+          <:content>{{dayjs-format @campaignProfile.sharedAt "DD MMM YYYY"}}</:content>
+        </Ui::Information>
       {{/if}}
-    </dl>
+    </Ui::InformationWrapper>
 
     {{#if @campaignProfile.isShared}}
       <ul class="panel-header__data panel-header__data--highlight">
