@@ -24,6 +24,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', function () {
         hasSeenAssessmentInstructions: false,
         hasSeenFocusedChallengeTooltip: false,
         hasSeenOtherChallengesTooltip: false,
+        lastDataProtectionPolicySeenAt: '2022-12-24T10:00:00.000Z',
       });
     });
 
@@ -50,6 +51,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', function () {
               'has-seen-new-dashboard-info': userModelObject.hasSeenNewDashboardInfo,
               'has-seen-focused-challenge-tooltip': userModelObject.hasSeenFocusedChallengeTooltip,
               'has-seen-other-challenges-tooltip': userModelObject.hasSeenOtherChallengesTooltip,
+              'last-data-protection-policy-seen-at': userModelObject.lastDataProtectionPolicySeenAt,
             },
             relationships: {
               'certification-center-memberships': {

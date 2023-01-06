@@ -395,6 +395,17 @@ module.exports = {
 
     await knex('users').where({ id: userId }).update({ lastLoggedAt: now });
   },
+
+  async updateLastDataProtectionPolicySeenAt({ userId }) {
+    const now = new Date();
+
+    const [user] = await knex('users')
+      .where({ id: userId })
+      .update({ lastDataProtectionPolicySeenAt: now })
+      .returning('*');
+
+    return new User(user);
+  },
 };
 
 function _fromKnexDTOToUserDetailsForAdmin({ userDTO, organizationLearnersDTO, authenticationMethodsDTO }) {

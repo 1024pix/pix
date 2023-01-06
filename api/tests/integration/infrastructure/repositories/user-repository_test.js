@@ -1708,4 +1708,31 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
       expect(error).to.be.instanceOf(AlreadyRegisteredUsernameError);
     });
   });
+
+  describe('#updateLastDataProtectionPolicySeenAt', function () {
+    let clock;
+    const now = new Date('2022-12-24');
+
+    beforeEach(function () {
+      clock = sinon.useFakeTimers(now);
+    });
+
+    afterEach(function () {
+      clock.restore();
+    });
+
+    it('should update the last data protection policy to now', async function () {
+      // given
+      const user = databaseBuilder.factory.buildUser();
+      const userId = user.id;
+      await databaseBuilder.commit();
+
+      // when
+      const result = await userRepository.updateLastDataProtectionPolicySeenAt({ userId });
+
+      // then
+      expect(result).to.be.an.instanceOf(User);
+      expect(result.lastDataProtectionPolicySeenAt).to.deep.equal(now);
+    });
+  });
 });

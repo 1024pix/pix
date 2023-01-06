@@ -1173,4 +1173,23 @@ describe('Unit | Controller | user-controller', function () {
       expect(result.source).to.equal(certificationCenterMembershipsSerialized);
     });
   });
+
+  describe('#rememberUserHasSeenLastDataProtectionPolicyInformation', function () {
+    it('should remember user has seen last data protection policy information', async function () {
+      // given
+      sinon.stub(usecases, 'rememberUserHasSeenLastDataProtectionPolicyInformation');
+      usecases.rememberUserHasSeenLastDataProtectionPolicyInformation.withArgs({ userId: 1 }).resolves({});
+      sinon.stub(userSerializer, 'serialize');
+      userSerializer.serialize.withArgs({}).returns('ok');
+
+      // when
+      const response = await userController.rememberUserHasSeenLastDataProtectionPolicyInformation({
+        auth: { credentials: { userId: 1 } },
+        params: { id: 1 },
+      });
+
+      // then
+      expect(response).to.be.equal('ok');
+    });
+  });
 });

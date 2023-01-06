@@ -399,6 +399,7 @@ module.exports = injectDependencies(
     reconcileSupOrganizationLearner: require('./reconcile-sup-organization-learner'),
     rememberUserHasSeenAssessmentInstructions: require('./remember-user-has-seen-assessment-instructions'),
     rememberUserHasSeenChallengeTooltip: require('./remember-user-has-seen-challenge-tooltip'),
+    rememberUserHasSeenLastDataProtectionPolicyInformation: require('./remember-user-has-seen-last-data-protection-policy-information'),
     rememberUserHasSeenNewDashboardInfo: require('./remember-user-has-seen-new-dashboard-info'),
     removeAuthenticationMethod: require('./remove-authentication-method'),
     replaceSupOrganizationLearners: require('./replace-sup-organization-learner'),

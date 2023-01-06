@@ -18,6 +18,7 @@ class User {
     lastTermsOfServiceValidatedAt,
     lastPixOrgaTermsOfServiceValidatedAt,
     lastPixCertifTermsOfServiceValidatedAt,
+    lastDataProtectionPolicySeenAt,
     hasSeenAssessmentInstructions,
     hasSeenNewDashboardInfo,
     hasSeenFocusedChallengeTooltip,
@@ -44,6 +45,7 @@ class User {
     this.lastTermsOfServiceValidatedAt = lastTermsOfServiceValidatedAt;
     this.lastPixOrgaTermsOfServiceValidatedAt = lastPixOrgaTermsOfServiceValidatedAt;
     this.lastPixCertifTermsOfServiceValidatedAt = lastPixCertifTermsOfServiceValidatedAt;
+    this.lastDataProtectionPolicySeenAt = lastDataProtectionPolicySeenAt;
     this.mustValidateTermsOfService = mustValidateTermsOfService;
     this.pixOrgaTermsOfServiceAccepted = pixOrgaTermsOfServiceAccepted;
     this.pixCertifTermsOfServiceAccepted = pixCertifTermsOfServiceAccepted;

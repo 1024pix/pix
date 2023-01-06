@@ -27,6 +27,7 @@ module.exports = {
         'hasSeenFocusedChallengeTooltip',
         'hasSeenOtherChallengesTooltip',
         'trainings',
+        'lastDataProtectionPolicySeenAt',
       ],
       certificationCenterMemberships: {
         ref: 'id',

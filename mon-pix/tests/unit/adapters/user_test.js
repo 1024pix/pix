@@ -58,6 +58,15 @@ module('Unit | Adapters | user', function (hooks) {
       assert.true(url.endsWith('/users/123/remember-user-has-seen-assessment-instructions'));
     });
 
+    test('should redirect to has-seen-last-data-protection-policy-information', async function (assert) {
+      // when
+      const snapshot = { adapterOptions: { rememberUserHasSeenLastDataProtectionPolicyInformation: true } };
+      const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
+
+      // then
+      assert.true(url.endsWith('/users/123/has-seen-last-data-protection-policy-information'));
+    });
+
     test('should redirect to has-seen-challenge-tooltip', async function (assert) {
       // when
       const snapshot = { adapterOptions: { tooltipChallengeType: 'focused' } };

@@ -68,6 +68,11 @@ export default class User extends ApplicationAdapter {
       return url + `/password-update?temporary-key=${encodeURIComponent(temporaryKey)}`;
     }
 
+    if (adapterOptions && adapterOptions.rememberUserHasSeenLastDataProtectionPolicyInformation) {
+      delete adapterOptions.rememberUserHasSeenLastDataProtectionPolicyInformation;
+      return url + '/has-seen-last-data-protection-policy-information';
+    }
+
     return url;
   }
 }

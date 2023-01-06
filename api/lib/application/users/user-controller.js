@@ -354,4 +354,13 @@ module.exports = {
     });
     return h.response(certificationCenterMembershipSerializer.serializeForAdmin(certificationCenterMemberships));
   },
+
+  async rememberUserHasSeenLastDataProtectionPolicyInformation(request) {
+    const authenticatedUserId = request.auth.credentials.userId;
+
+    const updatedUser = await usecases.rememberUserHasSeenLastDataProtectionPolicyInformation({
+      userId: authenticatedUserId,
+    });
+    return userSerializer.serialize(updatedUser);
+  },
 };
