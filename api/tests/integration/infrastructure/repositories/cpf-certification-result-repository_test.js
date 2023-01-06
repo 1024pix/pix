@@ -1,4 +1,4 @@
-const { databaseBuilder, domainBuilder, expect, knex } = require('../../../test-helper');
+const { databaseBuilder, expect, knex, domainBuilder } = require('../../../test-helper');
 const cpfCertificationResultRepository = require('../../../../lib/infrastructure/repositories/cpf-certification-result-repository');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const { cpfImportStatus } = require('../../../../lib/domain/models/CertificationCourse');
@@ -11,105 +11,11 @@ describe('Integration | Repository | CpfCertificationResult', function () {
       const endDate = new Date('2022-01-10');
 
       const firstPublishedSessionId = databaseBuilder.factory.buildSession({ publishedAt: new Date('2022-01-04') }).id;
-      databaseBuilder.factory.buildCertificationCourse({
-        id: 545,
-        firstName: 'Barack',
-        lastName: 'Afritt',
-        birthdate: '2004-10-22',
-        sex: 'M',
-        birthINSEECode: '75116',
-        birthPostalCode: null,
-        birthplace: 'PARIS',
-        birthCountry: 'FRANCE',
-        isPublished: true,
-        sessionId: firstPublishedSessionId,
-      });
-      databaseBuilder.factory.buildAssessmentResult({
-        id: 2244,
-        pixScore: 132,
-        assessmentId: databaseBuilder.factory.buildAssessment({
-          certificationCourseId: 545,
-        }).id,
-      });
-      databaseBuilder.factory.buildCompetenceMark({
-        assessmentResultId: 2244,
-        level: 5,
-        competence_code: '1.2',
-        area_code: '1',
-      });
-      databaseBuilder.factory.buildCompetenceMark({
-        assessmentResultId: 2244,
-        level: 5,
-        competence_code: '2.3',
-        area_code: '2',
-      });
-
-      databaseBuilder.factory.buildCertificationCourse({
-        id: 245,
-        firstName: 'Ahmed',
-        lastName: 'Épan',
-        birthdate: '2004-06-12',
-        sex: 'M',
-        birthINSEECode: null,
-        birthPostalCode: '75008',
-        birthplace: 'PARIS',
-        birthCountry: 'FRANCE',
-        isPublished: true,
-        sessionId: firstPublishedSessionId,
-      });
-      databaseBuilder.factory.buildAssessmentResult({
-        id: 4466,
-        pixScore: 112,
-        assessmentId: databaseBuilder.factory.buildAssessment({
-          certificationCourseId: 245,
-        }).id,
-      });
-      databaseBuilder.factory.buildCompetenceMark({
-        assessmentResultId: 4466,
-        level: 5,
-        competence_code: '3.1',
-        area_code: '3',
-      });
-      databaseBuilder.factory.buildCompetenceMark({
-        assessmentResultId: 4466,
-        level: 4,
-        competence_code: '2.3',
-        area_code: '2',
-      });
-
+      createCertificationCourseWithCompetenceMarks({ certificationCourseId: 545, sessionId: firstPublishedSessionId });
+      createCertificationCourseWithCompetenceMarks({ certificationCourseId: 245, sessionId: firstPublishedSessionId });
       const secondPublishedSessionId = databaseBuilder.factory.buildSession({ publishedAt: new Date('2022-01-10') }).id;
-      databaseBuilder.factory.buildCertificationCourse({
-        id: 345,
-        firstName: 'Cécile',
-        lastName: 'En cieux',
-        birthdate: '2004-03-04',
-        sex: 'F',
-        birthINSEECode: '75114',
-        birthplace: 'PARIS 14',
-        birthPostalCode: null,
-        birthCountry: 'FRANCE',
-        isPublished: true,
-        sessionId: secondPublishedSessionId,
-      });
-      databaseBuilder.factory.buildAssessmentResult({
-        id: 4467,
-        pixScore: 268,
-        assessmentId: databaseBuilder.factory.buildAssessment({
-          certificationCourseId: 345,
-        }).id,
-      });
-      databaseBuilder.factory.buildCompetenceMark({
-        assessmentResultId: 4467,
-        level: 2,
-        competence_code: '2.1',
-        area_code: '2',
-      });
-      databaseBuilder.factory.buildCompetenceMark({
-        assessmentResultId: 4467,
-        level: 4,
-        competence_code: '3.1',
-        area_code: '3',
-      });
+      createCertificationCourseWithCompetenceMarks({ certificationCourseId: 345, sessionId: secondPublishedSessionId });
+
       await databaseBuilder.commit();
 
       // when
@@ -127,8 +33,8 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         // given
         const startDate = new Date('2022-01-01');
         const endDate = new Date('2022-01-10');
-
-        createCertificationCourseWithCompetenceMarks({ sessionDate: '2022-01-08', isPublished: false });
+        const unpublishedSessionId = databaseBuilder.factory.buildSession({ publishedAt: null }).id;
+        createCertificationCourseWithCompetenceMarks({ sessionId: unpublishedSessionId, isPublished: false });
         await databaseBuilder.commit();
 
         // when
@@ -148,7 +54,13 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         const startDate = new Date('2022-01-01');
         const endDate = new Date('2022-01-10');
 
-        createCertificationCourseWithCompetenceMarks({ sessionDate: '2022-01-08', certificationCourseCancelled: true });
+        const publishedSessionId = databaseBuilder.factory.buildSession({
+          publishedAt: new Date('2022-01-08'),
+        }).id;
+        createCertificationCourseWithCompetenceMarks({
+          sessionId: publishedSessionId,
+          certificationCourseCancelled: true,
+        });
         await databaseBuilder.commit();
 
         // when
@@ -168,8 +80,11 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         const startDate = new Date('2022-01-01');
         const endDate = new Date('2022-01-10');
 
+        const publishedSessionId = databaseBuilder.factory.buildSession({
+          publishedAt: new Date('2022-01-08'),
+        }).id;
         createCertificationCourseWithCompetenceMarks({
-          sessionDate: '2022-01-08',
+          sessionId: publishedSessionId,
           assessmentResultStatus: AssessmentResult.status.REJECTED,
         });
         await databaseBuilder.commit();
@@ -191,7 +106,13 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         const startDate = new Date('2022-01-01');
         const endDate = new Date('2022-01-10');
 
-        createCertificationCourseWithCompetenceMarks({ sessionDate: '2022-02-08' });
+        const publishedSessionId = databaseBuilder.factory.buildSession({
+          publishedAt: new Date('2022-02-08'),
+        }).id;
+        createCertificationCourseWithCompetenceMarks({
+          sessionId: publishedSessionId,
+          assessmentResultStatus: AssessmentResult.status.VALIDATED,
+        });
         await databaseBuilder.commit();
 
         // when
@@ -210,8 +131,10 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         // given
         const startDate = new Date('2022-01-01');
         const endDate = new Date('2022-01-10');
-
-        createCertificationCourseWithCompetenceMarks({ sessionDate: '2022-01-08', sex: null });
+        const publishedSessionId = databaseBuilder.factory.buildSession({
+          publishedAt: new Date('2022-02-08'),
+        }).id;
+        createCertificationCourseWithCompetenceMarks({ sessionId: publishedSessionId, sex: null });
         await databaseBuilder.commit();
 
         // when
@@ -231,7 +154,10 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         const startDate = new Date('2022-01-01');
         const endDate = new Date('2022-01-10');
 
-        createCertificationCourseWithCompetenceMarks({ sessionDate: '2022-01-08', cpfImportStatus: 'SUCCESS' });
+        const publishedSessionId = databaseBuilder.factory.buildSession({
+          publishedAt: new Date('2022-02-08'),
+        }).id;
+        createCertificationCourseWithCompetenceMarks({ sessionId: publishedSessionId, cpfImportStatus: 'SUCCESS' });
         await databaseBuilder.commit();
 
         // when
@@ -253,201 +179,74 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         const firstPublishedSessionId = databaseBuilder.factory.buildSession({
           publishedAt: new Date('2022-01-04'),
         }).id;
-        databaseBuilder.factory.buildCertificationCourse({
-          id: 545,
-          firstName: 'Barack',
-          lastName: 'Afritt',
+        createCertificationCourseWithCompetenceMarks({
+          certificationCourseId: 545,
+          sessionId: firstPublishedSessionId,
+          cpfFilename: '123#0',
+        });
+        createCertificationCourseWithCompetenceMarks({
+          certificationCourseId: 245,
+          sessionId: firstPublishedSessionId,
+          cpfFilename: '123#0',
+          firstName: 'Georges',
+          lastName: 'Abitbol',
           birthdate: '2004-10-22',
           sex: 'M',
-          birthINSEECode: '75116',
+          birthINSEECode: '75110',
           birthPostalCode: null,
-          birthplace: 'PARIS 16',
+          birthplace: 'PARIS 10',
           birthCountry: 'FRANCE',
-          isPublished: true,
-          sessionId: firstPublishedSessionId,
-          cpfFilename: '123#0',
-        }).id;
-        databaseBuilder.factory.buildAssessmentResult({
-          id: 2244,
-          pixScore: 132,
-          assessmentId: databaseBuilder.factory.buildAssessment({
-            certificationCourseId: 545,
-          }).id,
-        });
-        databaseBuilder.factory.buildCompetenceMark({
-          assessmentResultId: 2244,
-          level: 5,
-          competence_code: '1.2',
-          area_code: '1',
-        });
-        databaseBuilder.factory.buildCompetenceMark({
-          assessmentResultId: 2244,
-          level: 5,
-          competence_code: '2.3',
-          area_code: '2',
-        });
-
-        databaseBuilder.factory.buildCertificationCourse({
-          id: 245,
-          firstName: 'Ahmed',
-          lastName: 'Épan',
-          birthdate: '2004-06-12',
-          sex: 'M',
-          birthINSEECode: null,
-          birthPostalCode: '75008',
-          birthplace: 'PARIS',
-          birthCountry: 'FRANCE',
-          isPublished: true,
-          sessionId: firstPublishedSessionId,
-          cpfFilename: '123#0',
-        });
-        databaseBuilder.factory.buildAssessmentResult({
-          id: 4466,
-          pixScore: 112,
-          assessmentId: databaseBuilder.factory.buildAssessment({
-            certificationCourseId: 245,
-          }).id,
-        });
-        databaseBuilder.factory.buildCompetenceMark({
-          assessmentResultId: 4466,
-          level: 5,
-          competence_code: '3.1',
-          area_code: '3',
-        });
-        databaseBuilder.factory.buildCompetenceMark({
-          assessmentResultId: 4466,
-          level: 4,
-          competence_code: '2.3',
-          area_code: '2',
+          competenceMarks: [
+            { competenceCode: '2.1', areaCode: '2', level: 1 },
+            { competenceCode: '3.2', areaCode: '3', level: 2 },
+          ],
         });
 
         const secondPublishedSessionId = databaseBuilder.factory.buildSession({
           publishedAt: new Date('2022-01-10'),
         }).id;
-        databaseBuilder.factory.buildCertificationCourse({
-          id: 345,
-          firstName: 'Cécile',
-          lastName: 'En cieux',
-          birthdate: '2004-03-04',
-          sex: 'F',
-          birthINSEECode: '75114',
-          birthPostalCode: null,
-          birthplace: 'PARIS 14',
-          birthCountry: 'FRANCE',
-          isPublished: true,
+        createCertificationCourseWithCompetenceMarks({
+          certificationCourseId: 345,
           sessionId: secondPublishedSessionId,
           cpfFilename: '123#0',
         });
-        databaseBuilder.factory.buildAssessmentResult({
-          id: 4467,
-          pixScore: 268,
-          assessmentId: databaseBuilder.factory.buildAssessment({
-            certificationCourseId: 345,
-          }).id,
-        });
-        databaseBuilder.factory.buildCompetenceMark({
-          assessmentResultId: 4467,
-          level: 2,
-          competence_code: '2.1',
-          area_code: '2',
-        });
-        databaseBuilder.factory.buildCompetenceMark({
-          assessmentResultId: 4467,
-          level: 4,
-          competence_code: '3.1',
-          area_code: '3',
-        });
+
         await databaseBuilder.commit();
 
         // when
         const cpfCertificationResults = await cpfCertificationResultRepository.findByBatchId('123#0');
 
         // then
-        expect(cpfCertificationResults).to.deepEqualArray([
+        expect(cpfCertificationResults[0]).to.deepEqualInstance(
           domainBuilder.buildCpfCertificationResult({
             id: 245,
-            firstName: 'Ahmed',
-            lastName: 'Épan',
-            birthdate: '2004-06-12',
-            sex: 'M',
-            birthINSEECode: null,
-            birthPostalCode: '75008',
-            birthplace: 'PARIS',
-            birthCountry: 'FRANCE',
-            pixScore: 112,
-            publishedAt: new Date('2022-01-04'),
-            competenceMarks: [
-              {
-                competenceCode: '2.3',
-                areaCode: '2',
-                level: 4,
-              },
-              {
-                competenceCode: '3.1',
-                areaCode: '3',
-                level: 5,
-              },
-            ],
-          }),
-          domainBuilder.buildCpfCertificationResult({
-            id: 345,
-            firstName: 'Cécile',
-            lastName: 'En cieux',
-            birthdate: '2004-03-04',
-            sex: 'F',
-            birthINSEECode: '75114',
-            birthPostalCode: null,
-            birthplace: 'PARIS 14',
-            birthCountry: 'FRANCE',
-            pixScore: 268,
-            publishedAt: new Date('2022-01-10'),
-            competenceMarks: [
-              {
-                competenceCode: '2.1',
-                areaCode: '2',
-                level: 2,
-              },
-              {
-                competenceCode: '3.1',
-                areaCode: '3',
-                level: 4,
-              },
-            ],
-          }),
-          domainBuilder.buildCpfCertificationResult({
-            id: 545,
-            firstName: 'Barack',
-            lastName: 'Afritt',
+            firstName: 'Georges',
+            lastName: 'Abitbol',
             birthdate: '2004-10-22',
             sex: 'M',
-            birthINSEECode: '75116',
+            birthINSEECode: '75110',
             birthPostalCode: null,
-            birthplace: 'PARIS 16',
+            birthplace: 'PARIS 10',
             birthCountry: 'FRANCE',
-            pixScore: 132,
             publishedAt: new Date('2022-01-04'),
+            pixScore: 132,
             competenceMarks: [
-              {
-                competenceCode: '1.2',
-                areaCode: '1',
-                level: 5,
-              },
-              {
-                competenceCode: '2.3',
-                areaCode: '2',
-                level: 5,
-              },
+              { competenceCode: '2.1', areaCode: '2', level: 1 },
+              { competenceCode: '3.2', areaCode: '3', level: 2 },
             ],
-          }),
-        ]);
+          })
+        );
+        expect(cpfCertificationResults.map(({ id }) => id)).to.deepEqualArray([245, 345, 545]);
       });
     });
 
     context('when the is no certification course planned for the batch', function () {
       it('should return an empty array', async function () {
         // given
-
-        createCertificationCourseWithCompetenceMarks({ sessionDate: '2022-01-08', sex: null });
+        const publishedSessionId = databaseBuilder.factory.buildSession({
+          publishedAt: new Date('2022-01-04'),
+        }).id;
+        createCertificationCourseWithCompetenceMarks({ sessionId: publishedSessionId, sex: null });
         await databaseBuilder.commit();
 
         // when
@@ -537,38 +336,52 @@ function createCertificationCourseWithCompetenceMarks({
   assessmentResultStatus = AssessmentResult.status.VALIDATED,
   certificationCourseCancelled = false,
   isPublished = true,
-  sessionDate = '2022-01-08',
+  sessionId,
+  firstName = 'Barack',
+  lastName = 'Afritt',
+  birthdate = '2004-10-22',
+  birthINSEECode = '75116',
+  birthPostalCode = null,
+  birthplace = 'PARIS 16',
+  birthCountry = 'FRANCE',
   cpfFilename = null,
   cpfImportStatus = null,
+  competenceMarks = [{ level: 2, competence_code: '2.1' }],
 }) {
-  const publishedSessionId = databaseBuilder.factory.buildSession({ publishedAt: new Date(sessionDate) }).id;
   databaseBuilder.factory.buildCertificationCourse({
     id: certificationCourseId,
-    firstName: 'Barack',
-    lastName: 'Afritt',
-    birthdate: '2004-10-22',
+    firstName,
+    lastName,
+    birthdate,
     sex,
-    birthINSEECode: '75116',
-    birthPostalCode: null,
-    birthplace: 'PARIS 16',
-    birthCountry: 'FRANCE',
+    birthINSEECode,
+    birthPostalCode,
+    birthplace,
+    birthCountry,
     isPublished: isPublished,
-    sessionId: publishedSessionId,
+    sessionId,
     isCancelled: certificationCourseCancelled,
     cpfFilename,
     cpfImportStatus,
   }).id;
-  databaseBuilder.factory.buildAssessmentResult({
-    id: 2244,
+  const { id: lastAssessmentResultId } = databaseBuilder.factory.buildAssessmentResult({
     pixScore: 132,
     status: assessmentResultStatus,
     assessmentId: databaseBuilder.factory.buildAssessment({
       certificationCourseId,
     }).id,
   });
-  databaseBuilder.factory.buildCompetenceMark({
-    assessmentResultId: 2244,
-    level: 2,
-    competence_code: '2.1',
+  competenceMarks.forEach((competenceMark) =>
+    databaseBuilder.factory.buildCompetenceMark({
+      assessmentResultId: lastAssessmentResultId,
+      ...competenceMark,
+      area_code: competenceMark.areaCode,
+      competence_code: competenceMark.competenceCode,
+    })
+  );
+
+  databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+    certificationCourseId,
+    lastAssessmentResultId,
   });
 }

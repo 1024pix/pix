@@ -6,13 +6,6 @@ const { cpfImportStatus } = require('../../domain/models/CertificationCourse');
 module.exports = {
   async getIdsByTimeRange({ startDate, endDate }) {
     const ids = await _selectCpfCertificationResults({ startDate, endDate })
-      .whereNotExists(
-        knex
-          .select(1)
-          .from({ 'last-assessment-results': 'assessment-results' })
-          .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
-          .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"')
-      )
       .where('certification-courses.isPublished', true)
       .where('certification-courses.isCancelled', false)
       .whereNotNull('certification-courses.sex')
@@ -71,8 +64,16 @@ function _selectCpfCertificationResults() {
         ) ORDER BY "competence-marks"."competence_code" asc) as "competenceMarks"`)
     )
     .innerJoin('sessions', 'sessions.id', 'certification-courses.sessionId')
-    .innerJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
-    .innerJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
+    .innerJoin(
+      'certification-courses-last-assessment-results',
+      'certification-courses.id',
+      'certification-courses-last-assessment-results.certificationCourseId'
+    )
+    .leftJoin(
+      'assessment-results',
+      'assessment-results.id',
+      'certification-courses-last-assessment-results.lastAssessmentResultId'
+    )
     .innerJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
     .groupBy('certification-courses.id', 'assessment-results.pixScore', 'sessions.publishedAt');
 }
