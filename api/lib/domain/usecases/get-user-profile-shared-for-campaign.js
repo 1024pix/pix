@@ -23,17 +23,16 @@ module.exports = async function getUserProfileSharedForCampaign({
   const [
     { multipleSendings: campaignAllowsRetry },
     isOrganizationLearnerActive,
-    competencesWithArea,
     knowledgeElementsGroupedByCompetenceId,
   ] = await Promise.all([
     campaignRepository.get(campaignId),
     organizationLearnerRepository.isActive({ campaignId, userId }),
-    competenceRepository.listPixCompetencesOnly({ locale }),
-    await knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({
+    knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({
       userId,
       limitDate: campaignParticipation.sharedAt,
     }),
   ]);
+  const competencesWithArea = await competenceRepository.listPixCompetencesOnly({ locale });
 
   return new SharedProfileForCampaign({
     campaignParticipation,
