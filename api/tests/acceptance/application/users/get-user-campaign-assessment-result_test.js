@@ -204,6 +204,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
             'is-disabled': false,
             'participant-external-id': 'participantExternalId',
             'estimated-flash-level': undefined,
+            'flash-pix-score': undefined,
           },
           relationships: {
             'campaign-participation-badges': {
