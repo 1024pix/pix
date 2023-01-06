@@ -31,6 +31,10 @@ export default class Url extends Service {
     return `https://pix.${this.currentDomain.getExtension()}/conditions-generales-d-utilisation`;
   }
 
+  get extensionUrl() {
+    return this.currentDomain.getExtension();
+  }
+
   get dataProtectionPolicyUrl() {
     const currentLanguage = this.intl.t('current-lang');
     if (currentLanguage === 'en') {

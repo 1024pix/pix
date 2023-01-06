@@ -40,6 +40,10 @@ export default class UpdateExpiredPasswordForm extends Component {
     return this.url.showcaseUrl;
   }
 
+  get urlExtension() {
+    return this.url.extensionUrl;
+  }
+
   get validationMessage() {
     if (this.validation.message) {
       return this.intl.t(this.validation.message);

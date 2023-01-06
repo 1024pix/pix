@@ -21,6 +21,10 @@ export default class ResetPasswordForm extends Component {
     return this.url.showcaseUrl;
   }
 
+  get urlExtension() {
+    return this.url.extensionUrl;
+  }
+
   @action
   validatePassword() {
     const password = this.args.user.password;

@@ -18,6 +18,10 @@ export default class PasswordResetDemandForm extends Component {
     return this.url.showcaseUrl;
   }
 
+  get urlExtension() {
+    return this.url.extensionUrl;
+  }
+
   get error() {
     return this.errors.shift();
   }

@@ -16,6 +16,10 @@ export default class TermsOfServiceController extends Controller {
     return this.url.showcaseUrl;
   }
 
+  get urlExtension() {
+    return this.url.extensionUrl;
+  }
+
   @action
   async submit() {
     if (this.isTermsOfServiceValidated) {
