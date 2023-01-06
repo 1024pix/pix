@@ -36,8 +36,8 @@ module.exports = {
     );
   },
 
-  async pickCertificationChallengesForPixPlus(badgeAcquisition, userId, locale) {
-    const learningContent = await learningContentRepository.findByCampaignId(badgeAcquisition.campaignId, locale);
+  async pickCertificationChallengesForPixPlus(campaignId, badgeKey, userId, locale) {
+    const learningContent = await learningContentRepository.findByCampaignId(campaignId, locale);
     const certifiableProfile = await certifiableProfileForLearningContentRepository.get({
       id: userId,
       profileDate: new Date(),
@@ -56,7 +56,7 @@ module.exports = {
       alreadyAnsweredChallengeIds,
       allOperativeChallengesForLocale,
       learningContent,
-      badgeAcquisition.badge.key
+      badgeKey
     );
   },
 };

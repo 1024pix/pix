@@ -33,7 +33,7 @@ module.exports = async function getCertificationCandidateSubscription({
       return;
     }
     const isSubscriptionEligible = certifiableBadgeAcquisitions.some(
-      ({ complementaryCertification }) => complementaryCertification.key === registeredComplementaryCertification.key
+      ({ complementaryCertificationKey }) => complementaryCertificationKey === registeredComplementaryCertification.key
     );
 
     if (isSubscriptionEligible) {
