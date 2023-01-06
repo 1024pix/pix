@@ -3,113 +3,85 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 
 describe('Unit | Serializer | JSONAPI | scorecard-serializer', function () {
   describe('#serialize()', function () {
-    const expectedTutorials = [
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      domainBuilder.buildTutorial({ id: 'recTuto1' }),
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      domainBuilder.buildTutorial({ id: 'recTuto2' }),
-    ];
-
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const scorecardObject = domainBuilder.buildUserScorecard({ tutorials: expectedTutorials });
-
-    const expectedSerializedScorecard = {
-      data: {
-        type: 'scorecards',
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        id: scorecardObject.id,
-        attributes: {
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          name: scorecardObject.name,
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          description: scorecardObject.description,
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          index: scorecardObject.index,
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          'competence-id': scorecardObject.competenceId,
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          'earned-pix': scorecardObject.earnedPix,
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          level: scorecardObject.level,
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          'pix-score-ahead-of-next-level': scorecardObject.pixScoreAheadOfNextLevel,
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          status: scorecardObject.status,
-        },
-        relationships: {
-          area: {
-            data: {
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line mocha/no-setup-in-describe
-              id: scorecardObject.area.id,
-              type: 'areas',
-            },
-          },
-          tutorials: {
-            links: {
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line mocha/no-setup-in-describe
-              related: `/api/scorecards/${scorecardObject.id}/tutorials`,
-            },
-          },
-        },
-      },
-      included: [
-        {
-          attributes: {
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line mocha/no-setup-in-describe
-            code: scorecardObject.area.code,
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line mocha/no-setup-in-describe
-            title: scorecardObject.area.title,
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line mocha/no-setup-in-describe
-            color: scorecardObject.area.color,
-          },
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          id: scorecardObject.area.id,
-          type: 'areas',
-        },
-        {
-          attributes: {
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line mocha/no-setup-in-describe
-            ...expectedTutorials[0],
-          },
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          id: expectedTutorials[0].id,
-          type: 'tutorials',
-        },
-        {
-          attributes: {
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line mocha/no-setup-in-describe
-            ...expectedTutorials[1],
-          },
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          id: expectedTutorials[1].id,
-          type: 'tutorials',
-        },
-      ],
-    };
-
     it('should convert a scorecard object into JSON API data', function () {
+      const expectedTutorials = [
+        domainBuilder.buildTutorial({ id: 'recTuto1' }),
+        domainBuilder.buildTutorial({ id: 'recTuto2' }),
+      ];
+
+      const scorecardObject = domainBuilder.buildUserScorecard({ tutorials: expectedTutorials });
+
+      const expectedSerializedScorecard = {
+        data: {
+          type: 'scorecards',
+          id: scorecardObject.id,
+          attributes: {
+            'competence-id': 'recCOMP123',
+            description: 'description',
+            'earned-pix': 45,
+            'has-not-earned-anything': false,
+            'has-not-reached-level-one': false,
+            'has-reached-at-least-level-one': true,
+            index: '2.3',
+            'is-finished': false,
+            'is-finished-with-max-level': false,
+            'is-improvable': false,
+            'is-max-level': true,
+            'is-not-started': false,
+            'is-progressable': false,
+            'is-resettable': false,
+            'is-started': true,
+            level: 6,
+            name: 'Mener une troupe à la bataille',
+            'percentage-ahead-of-next-level': 37.5,
+            'pix-score-ahead-of-next-level': 3,
+            'remaining-days-before-improving': 2,
+            'remaining-days-before-reset': 2,
+            'remaining-pix-to-next-level': 5,
+            'should-wait-before-improving': false,
+            status: 'STARTED',
+          },
+          relationships: {
+            area: {
+              data: {
+                id: scorecardObject.area.id,
+                type: 'areas',
+              },
+            },
+            tutorials: {
+              links: {
+                related: `/api/scorecards/${scorecardObject.id}/tutorials`,
+              },
+            },
+          },
+        },
+        included: [
+          {
+            attributes: {
+              code: scorecardObject.area.code,
+              title: scorecardObject.area.title,
+              color: scorecardObject.area.color,
+            },
+            id: scorecardObject.area.id,
+            type: 'areas',
+          },
+          {
+            attributes: {
+              ...expectedTutorials[0],
+            },
+            id: expectedTutorials[0].id,
+            type: 'tutorials',
+          },
+          {
+            attributes: {
+              ...expectedTutorials[1],
+            },
+            id: expectedTutorials[1].id,
+            type: 'tutorials',
+          },
+        ],
+      };
+
       // when
       const json = serializer.serialize(scorecardObject);
 
