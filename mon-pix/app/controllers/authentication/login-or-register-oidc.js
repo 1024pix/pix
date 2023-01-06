@@ -23,6 +23,10 @@ export default class LoginOrRegisterOidcController extends Controller {
     return this.url.showcaseUrl;
   }
 
+  get urlExtension() {
+    return this.url.extensionUrl;
+  }
+
   @action toggleOidcReconciliation() {
     this.showOidcReconciliation = !this.showOidcReconciliation;
   }

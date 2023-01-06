@@ -24,6 +24,10 @@ export default class SigninForm extends Component {
     return this.url.showcaseUrl;
   }
 
+  get urlExtension() {
+    return this.url.extensionUrl;
+  }
+
   get displayPoleEmploiButton() {
     return this.url.isFrenchDomainExtension;
   }

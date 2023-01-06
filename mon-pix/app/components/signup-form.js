@@ -62,6 +62,10 @@ export default class SignupForm extends Component {
     return this.url.showcaseUrl;
   }
 
+  get urlExtension() {
+    return this.url.extensionUrl;
+  }
+
   get cguUrl() {
     return this.url.cguUrl;
   }

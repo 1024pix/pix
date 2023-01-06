@@ -4,7 +4,7 @@ import sinon from 'sinon';
 
 import setupIntl from 'mon-pix/tests/helpers/setup-intl';
 
-module('Unit | Service | locale', function (hooks) {
+module.only('Unit | Service | locale', function (hooks) {
   setupTest(hooks);
   setupIntl(hooks);
 
@@ -179,6 +179,21 @@ module('Unit | Service | locale', function (hooks) {
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(cguUrl, expectedCguUrl);
+    });
+  });
+
+  module('#extensionUrl', function () {
+    test('should get extension url', function (assert) {
+      // given
+      const expectedExtension = 'fr';
+      const service = this.owner.lookup('service:url');
+      service.currentDomain = { getExtension: sinon.stub().returns(expectedExtension) };
+
+      // when
+      const homeUrl = service.extensionUrl;
+
+      // then
+      assert.deepEqual(homeUrl, expectedExtension);
     });
   });
 });
