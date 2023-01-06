@@ -1,6 +1,6 @@
 module.exports = async function unblockUserAccount({ userId, userLoginRepository }) {
   const userLogin = await userLoginRepository.findByUserId(userId);
-  userLogin.unblockUser();
+  userLogin.resetUserBlocking();
 
   return await userLoginRepository.update(userLogin);
 };

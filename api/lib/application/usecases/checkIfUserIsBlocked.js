@@ -4,10 +4,10 @@ const userLoginRepository = require('../../infrastructure/repositories/user-logi
 module.exports = {
   async execute(username) {
     const foundUserLogin = await userLoginRepository.findByUsername(username);
-    if (foundUserLogin?.isUserBlocked()) {
+    if (foundUserLogin?.isUserMarkedAsBlocked()) {
       throw new UserIsBlocked();
     }
-    if (foundUserLogin?.isUserTemporaryBlocked()) {
+    if (foundUserLogin?.isUserMarkedAsTemporaryBlocked()) {
       throw new UserIsTemporaryBlocked();
     }
   },
