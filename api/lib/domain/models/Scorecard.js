@@ -98,6 +98,62 @@ class Scorecard {
 
     return remainingDaysToWait > 0 ? remainingDaysToWait : 0;
   }
+
+  get isFinishedWithMaxLevel() {
+    return this.isFinished && this.isMaxLevel;
+  }
+
+  get isFinished() {
+    return this.status === statuses.COMPLETED;
+  }
+
+  get isMaxLevel() {
+    return this.level >= constants.MAX_REACHABLE_LEVEL;
+  }
+
+  get isNotStarted() {
+    return this.status === statuses.NOT_STARTED;
+  }
+
+  get isStarted() {
+    return this.status === statuses.STARTED;
+  }
+
+  get isProgressable() {
+    return this.isStarted && !this.isMaxLevel;
+  }
+
+  get isImprovable() {
+    return this.isFinished && !this.isFinishedWithMaxLevel && this.remainingDaysBeforeImproving === 0;
+  }
+
+  get shouldWaitBeforeImproving() {
+    return this.isFinished && !this.isFinishedWithMaxLevel && this.remainingDaysBeforeImproving > 0;
+  }
+
+  get isResettable() {
+    return (this.isFinished || this.isStarted) && this.remainingDaysBeforeReset == 0;
+  }
+
+  get hasNotEarnedAnything() {
+    return this.earnedPix === 0;
+  }
+
+  get hasNotReachedLevelOne() {
+    return this.level < 1;
+  }
+
+  get hasReachedAtLeastLevelOne() {
+    return this.level >= 1;
+  }
+
+  get percentageAheadOfNextLevel() {
+    return (this.pixScoreAheadOfNextLevel / constants.PIX_COUNT_BY_LEVEL) * 100;
+  }
+
+  get remainingPixToNextLevel() {
+    return constants.PIX_COUNT_BY_LEVEL - this.pixScoreAheadOfNextLevel;
+  }
 }
 
 function _getScorecardStatus(competenceEvaluation, knowledgeElements) {

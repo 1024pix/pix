@@ -1,3 +1,5 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable mocha/no-setup-in-describe */
 const { expect, sinon } = require('../../../test-helper');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
@@ -262,8 +264,6 @@ describe('Unit | Domain | Models | Scorecard', function () {
 
   describe('#computeRemainingDaysBeforeReset', function () {
     let testCurrentDate;
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
     const originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET;
 
     beforeEach(function () {
@@ -279,7 +279,6 @@ describe('Unit | Domain | Models | Scorecard', function () {
       constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET = originalConstantValue;
     });
 
-    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { daysSinceLastKnowledgeElement: 0.0833, expectedDaysBeforeReset: 7 },
       { daysSinceLastKnowledgeElement: 1, expectedDaysBeforeReset: 6 },
@@ -308,8 +307,6 @@ describe('Unit | Domain | Models | Scorecard', function () {
 
   describe('#computeRemainingDaysBeforeImproving', function () {
     let testCurrentDate;
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
     const originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING;
 
     beforeEach(function () {
@@ -325,7 +322,6 @@ describe('Unit | Domain | Models | Scorecard', function () {
       constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING = originalConstantValue;
     });
 
-    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { daysSinceLastKnowledgeElement: 0.0833, expectedDaysBeforeImproving: 4 },
       { daysSinceLastKnowledgeElement: 0, expectedDaysBeforeImproving: 4 },
@@ -363,6 +359,373 @@ describe('Unit | Domain | Models | Scorecard', function () {
         userId: 1234,
         competenceId: 'recABC1234',
       });
+    });
+  });
+
+  describe('#isFinished', function () {
+    it('should return true when status is completed', function () {
+      // given
+      const scorecard = new Scorecard({ status: Scorecard.statuses.COMPLETED });
+
+      // when
+      const result = scorecard.isFinished;
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    [Scorecard.statuses.STARTED, Scorecard.statuses.NOT_STARTED].forEach((status) => {
+      it('should return false when status is not completed', function () {
+        // given
+        const scorecard = new Scorecard({ status });
+
+        // when
+        const result = scorecard.isFinished;
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
+  });
+
+  describe('#isMaxLevel', function () {
+    it('should return true when level is equal to maxReachableLevel', function () {
+      // given
+      const level = 18;
+      const maxReachableLevel = 18;
+      sinon.stub(constants, 'MAX_REACHABLE_LEVEL').value(maxReachableLevel);
+      const scorecard = new Scorecard({ level });
+
+      // when
+      const result = scorecard.isMaxLevel;
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return true when level is above maxReachableLevel', function () {
+      // given
+      const level = 2;
+      const maxReachableLevel = 1;
+      sinon.stub(constants, 'MAX_REACHABLE_LEVEL').value(maxReachableLevel);
+      const scorecard = new Scorecard({ level });
+
+      // when
+      const result = scorecard.isMaxLevel;
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return false when level is below maxReachableLevel', function () {
+      // given
+      const level = 1;
+      const maxReachableLevel = 2;
+      sinon.stub(constants, 'MAX_REACHABLE_LEVEL').value(maxReachableLevel);
+      const scorecard = new Scorecard({ level });
+
+      // when
+      const result = scorecard.isMaxLevel;
+
+      // then
+      expect(result).to.be.false;
+    });
+  });
+
+  describe('#isFinishedWithMaxLevel', function () {
+    [
+      { level: 2, status: Scorecard.statuses.NOT_STARTED, expectedResult: false },
+      { level: 2, status: Scorecard.statuses.STARTED, expectedResult: false },
+      { level: 2, status: Scorecard.statuses.COMPLETED, expectedResult: true },
+      { level: 1, status: Scorecard.statuses.NOT_STARTED, expectedResult: false },
+      { level: 1, status: Scorecard.statuses.STARTED, expectedResult: false },
+      { level: 1, status: Scorecard.statuses.COMPLETED, expectedResult: false },
+      { level: 3, status: Scorecard.statuses.NOT_STARTED, expectedResult: false },
+      { level: 3, status: Scorecard.statuses.STARTED, expectedResult: false },
+      { level: 3, status: Scorecard.statuses.COMPLETED, expectedResult: true },
+    ].forEach((testCase) => {
+      it(`should return ${testCase.expectedResult} when level is ${testCase.level} and status ${testCase.status}`, function () {
+        // given
+        const maxReachableLevel = 2;
+        sinon.stub(constants, 'MAX_REACHABLE_LEVEL').value(maxReachableLevel);
+        const scorecard = new Scorecard({ level: testCase.level, status: testCase.status });
+
+        // when
+        const result = scorecard.isFinishedWithMaxLevel;
+
+        // then
+        expect(result).to.equal(testCase.expectedResult);
+      });
+    });
+  });
+
+  describe('#isNotStarted', function () {
+    [
+      { status: Scorecard.statuses.NOT_STARTED, expectedResult: true },
+      { status: Scorecard.statuses.STARTED, expectedResult: false },
+      { status: Scorecard.statuses.COMPLETED, expectedResult: false },
+    ].forEach((testCase) => {
+      it(`should return ${testCase.expectedResult} when status is ${testCase.status}`, function () {
+        // given
+        const scorecard = new Scorecard({ status: testCase.status });
+
+        // when
+        const result = scorecard.isNotStarted;
+
+        // then
+        expect(result).to.equal(testCase.expectedResult);
+      });
+    });
+  });
+
+  describe('#isStarted', function () {
+    [
+      { status: Scorecard.statuses.NOT_STARTED, expectedResult: false },
+      { status: Scorecard.statuses.STARTED, expectedResult: true },
+      { status: Scorecard.statuses.COMPLETED, expectedResult: false },
+    ].forEach((testCase) => {
+      it(`should return ${testCase.expectedResult} when status is ${testCase.status}`, function () {
+        // given
+        const scorecard = new Scorecard({ status: testCase.status });
+
+        // when
+        const result = scorecard.isStarted;
+
+        // then
+        expect(result).to.equal(testCase.expectedResult);
+      });
+    });
+  });
+
+  describe('#isProgressable', function () {
+    [
+      { status: Scorecard.statuses.NOT_STARTED, level: 0, expectedResult: false },
+      { status: Scorecard.statuses.COMPLETED, level: 1, expectedResult: false },
+      { status: Scorecard.statuses.STARTED, level: 1, expectedResult: true },
+      { status: Scorecard.statuses.STARTED, level: 2, expectedResult: false },
+      { status: Scorecard.statuses.STARTED, level: 3, expectedResult: false },
+    ].forEach((testCase) => {
+      it(`should return ${testCase.expectedResult} when status is ${testCase.status}, level is ${testCase.level}`, function () {
+        // given
+        const maxReachableLevel = 2;
+        sinon.stub(constants, 'MAX_REACHABLE_LEVEL').value(maxReachableLevel);
+        const scorecard = new Scorecard({ status: testCase.status, level: testCase.level });
+
+        // when
+        const result = scorecard.isProgressable;
+
+        // then
+        expect(result).to.equal(testCase.expectedResult);
+      });
+    });
+  });
+
+  describe('#isImprovable', function () {
+    [
+      { isFinished: false, isFinishedWithMaxLevel: true, remainingDaysBeforeImproving: 5, expectedResult: false },
+      { isFinished: false, isFinishedWithMaxLevel: true, remainingDaysBeforeImproving: 0, expectedResult: false },
+      { isFinished: false, isFinishedWithMaxLevel: false, remainingDaysBeforeImproving: 5, expectedResult: false },
+      { isFinished: false, isFinishedWithMaxLevel: false, remainingDaysBeforeImproving: 0, expectedResult: false },
+      { isFinished: true, isFinishedWithMaxLevel: true, remainingDaysBeforeImproving: 0, expectedResult: false },
+      { isFinished: true, isFinishedWithMaxLevel: true, remainingDaysBeforeImproving: 5, expectedResult: false },
+      { isFinished: true, isFinishedWithMaxLevel: false, remainingDaysBeforeImproving: 5, expectedResult: false },
+      { isFinished: true, isFinishedWithMaxLevel: false, remainingDaysBeforeImproving: 0, expectedResult: true },
+    ].forEach((testCase) => {
+      it(`should return ${testCase.expectedResult} when isFinished : ${testCase.isFinished}, isFinishedWithMaxLevel is ${testCase.isFinishedWithMaxLevel} and remainingDaysBeforeImproving is ${testCase.remainingDaysBeforeImproving}`, function () {
+        // given
+        const scorecard = new Scorecard({ remainingDaysBeforeImproving: testCase.remainingDaysBeforeImproving });
+        sinon.stub(scorecard, 'isFinished').get(() => testCase.isFinished);
+        sinon.stub(scorecard, 'isFinishedWithMaxLevel').get(() => testCase.isFinishedWithMaxLevel);
+
+        // when
+        const result = scorecard.isImprovable;
+
+        // then
+        expect(result).to.equal(testCase.expectedResult);
+      });
+    });
+  });
+
+  describe('#shouldWaitBeforeImproving', function () {
+    [
+      { isFinished: false, isFinishedWithMaxLevel: true, remainingDaysBeforeImproving: 5, expectedResult: false },
+      { isFinished: false, isFinishedWithMaxLevel: true, remainingDaysBeforeImproving: 0, expectedResult: false },
+      { isFinished: false, isFinishedWithMaxLevel: false, remainingDaysBeforeImproving: 5, expectedResult: false },
+      { isFinished: false, isFinishedWithMaxLevel: false, remainingDaysBeforeImproving: 0, expectedResult: false },
+      { isFinished: true, isFinishedWithMaxLevel: true, remainingDaysBeforeImproving: 0, expectedResult: false },
+      { isFinished: true, isFinishedWithMaxLevel: true, remainingDaysBeforeImproving: 5, expectedResult: false },
+      { isFinished: true, isFinishedWithMaxLevel: false, remainingDaysBeforeImproving: 5, expectedResult: true },
+      { isFinished: true, isFinishedWithMaxLevel: false, remainingDaysBeforeImproving: 0, expectedResult: false },
+    ].forEach((testCase) => {
+      it(`should return ${testCase.expectedResult} when isFinished : ${testCase.isFinished}, isFinishedWithMaxLevel is ${testCase.isFinishedWithMaxLevel} and remainingDaysBeforeImproving is ${testCase.remainingDaysBeforeImproving}`, function () {
+        // given
+        const scorecard = new Scorecard({ remainingDaysBeforeImproving: testCase.remainingDaysBeforeImproving });
+        sinon.stub(scorecard, 'isFinished').get(() => testCase.isFinished);
+        sinon.stub(scorecard, 'isFinishedWithMaxLevel').get(() => testCase.isFinishedWithMaxLevel);
+
+        // when
+        const result = scorecard.shouldWaitBeforeImproving;
+
+        // then
+        expect(result).to.equal(testCase.expectedResult);
+      });
+    });
+  });
+
+  describe('#isResettable', function () {
+    [
+      { isFinished: false, isStarted: true, remainingDaysBeforeReset: 5, expectedResult: false },
+      { isFinished: false, isStarted: true, remainingDaysBeforeReset: 0, expectedResult: true },
+      { isFinished: false, isStarted: false, remainingDaysBeforeReset: 5, expectedResult: false },
+      { isFinished: false, isStarted: false, remainingDaysBeforeReset: 0, expectedResult: false },
+      { isFinished: true, isStarted: true, remainingDaysBeforeReset: 5, expectedResult: false },
+      { isFinished: true, isStarted: true, remainingDaysBeforeReset: 0, expectedResult: true },
+      { isFinished: true, isStarted: false, remainingDaysBeforeReset: 5, expectedResult: false },
+      { isFinished: true, isStarted: false, remainingDaysBeforeReset: 0, expectedResult: true },
+    ].forEach((testCase) => {
+      it(`should return ${testCase.expectedResult} when isFinished : ${testCase.isFinished}, isStarted is ${testCase.isStarted} and remainingDaysBeforeReset is ${testCase.remainingDaysBeforeReset}`, function () {
+        // given
+        const scorecard = new Scorecard({ remainingDaysBeforeReset: testCase.remainingDaysBeforeReset });
+        sinon.stub(scorecard, 'isFinished').get(() => testCase.isFinished);
+        sinon.stub(scorecard, 'isStarted').get(() => testCase.isStarted);
+
+        // when
+        const result = scorecard.isResettable;
+
+        // then
+        expect(result).to.equal(testCase.expectedResult);
+      });
+    });
+  });
+
+  describe('#hasNotEarnedAnything', function () {
+    it('should return true when earnedPix is equal to 0', function () {
+      // given
+      const scorecard = new Scorecard({ earnedPix: 0 });
+
+      // when
+      const result = scorecard.hasNotEarnedAnything;
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return false when earnedPix is not equal to 0', function () {
+      // given
+      const scorecard = new Scorecard({ earnedPix: 1 });
+
+      // when
+      const result = scorecard.hasNotEarnedAnything;
+
+      // then
+      expect(result).to.be.false;
+    });
+  });
+
+  describe('#hasNotReachedLevelOne', function () {
+    it('should return true when level is below to 1', function () {
+      // given
+      const scorecard = new Scorecard({ level: 0 });
+
+      // when
+      const result = scorecard.hasNotReachedLevelOne;
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return false when level is equal to 1', function () {
+      // given
+      const scorecard = new Scorecard({ level: 1 });
+
+      // when
+      const result = scorecard.hasNotReachedLevelOne;
+
+      // then
+      expect(result).to.be.false;
+    });
+
+    it('should return false when level is above to 1', function () {
+      // given
+      const scorecard = new Scorecard({ level: 2 });
+
+      // when
+      const result = scorecard.hasNotReachedLevelOne;
+
+      // then
+      expect(result).to.be.false;
+    });
+  });
+
+  describe('#hasReachedAtLeastLevelOne', function () {
+    it('should return true when level is above to 1', function () {
+      // given
+      const scorecard = new Scorecard({ level: 2 });
+
+      // when
+      const result = scorecard.hasReachedAtLeastLevelOne;
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return true when level is equal to 1', function () {
+      // given
+      const scorecard = new Scorecard({ level: 1 });
+
+      // when
+      const result = scorecard.hasReachedAtLeastLevelOne;
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return false when level is below to 1', function () {
+      // given
+      const scorecard = new Scorecard({ level: 0 });
+
+      // when
+      const result = scorecard.hasReachedAtLeastLevelOne;
+
+      // then
+      expect(result).to.be.false;
+    });
+  });
+
+  describe('#percentageAheadOfNextLevel', function () {
+    [
+      { pixScoreAheadOfNextLevel: 0, expectedPercentageAheadOfNextLevel: 0 },
+      { pixScoreAheadOfNextLevel: 4, expectedPercentageAheadOfNextLevel: 50 },
+      { pixScoreAheadOfNextLevel: 3.33, expectedPercentageAheadOfNextLevel: 41.625 },
+      { pixScoreAheadOfNextLevel: 7.8, expectedPercentageAheadOfNextLevel: 97.5 },
+    ].forEach((testCase) => {
+      it('should return percentage ahead of next level', function () {
+        // given
+        const pixCountByLevel = 8;
+        sinon.stub(constants, 'PIX_COUNT_BY_LEVEL').value(pixCountByLevel);
+        const scorecard = new Scorecard({ pixScoreAheadOfNextLevel: testCase.pixScoreAheadOfNextLevel });
+
+        // when
+        const result = scorecard.percentageAheadOfNextLevel;
+
+        // then
+        expect(result).to.equal(testCase.expectedPercentageAheadOfNextLevel);
+      });
+    });
+  });
+
+  describe('#remainingPixToNextLevel', function () {
+    it('should return remaining pix to next level', function () {
+      // given
+      const pixCountByLevel = 8;
+      sinon.stub(constants, 'PIX_COUNT_BY_LEVEL').value(pixCountByLevel);
+      const scorecard = new Scorecard({ pixScoreAheadOfNextLevel: 3 });
+
+      // when
+      const result = scorecard.remainingPixToNextLevel;
+
+      // then
+      expect(result).to.equal(5);
     });
   });
 });
