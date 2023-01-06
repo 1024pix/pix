@@ -117,6 +117,10 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         commentForJury: 'Un commentaire jury',
         juryId: 22,
       }).id;
+      databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+        certificationCourseId: 1,
+        lastAssessmentResultId: assessmentResultId,
+      });
       databaseBuilder.factory.buildCompetenceMark({
         id: 123,
         score: 10,

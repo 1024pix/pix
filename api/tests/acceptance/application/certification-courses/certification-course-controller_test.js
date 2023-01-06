@@ -67,6 +67,10 @@ describe('Acceptance | API | Certification Course', function () {
           competenceId: 'competence_id',
         }).id;
         const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({ assessmentId }).id;
+        databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+          certificationCourseId: 1234,
+          lastAssessmentResultId: assessmentResultId,
+        });
         databaseBuilder.factory.buildCompetenceMark({ assessmentResultId, competenceId: 'competence_id' });
 
         databaseBuilder.factory.buildCertificationChallenge({
@@ -288,6 +292,10 @@ describe('Acceptance | API | Certification Course', function () {
         commentForOrganization: 'comment organization',
         commentForJury: 'comment jury',
         status: 'rejected',
+      });
+      databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+        certificationCourseId: 123,
+        lastAssessmentResultId: 456,
       });
       databaseBuilder.factory.buildCompetenceMark({
         id: 125,
