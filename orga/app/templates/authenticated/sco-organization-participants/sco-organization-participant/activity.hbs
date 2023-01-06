@@ -1,3 +1,6 @@
 {{page-title (t "pages.sco-organization-participant-activity.title")}}
 
-<OrganizationLearner::Activity @participations={{@model.organizationLearnerParticipations}} />
+<OrganizationLearner::Activity
+  @participations={{@model.activity.organizationLearnerParticipations}}
+  @learner={{@model.organizationLearner}}
+/>

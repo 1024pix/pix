@@ -5,5 +5,5 @@
     class="activity__participants-list"
   />
 {{else}}
-  <OrganizationLearner::Activity::EmptyState @firstName="Jacques" @lastName="Chirac" />
+  <OrganizationLearner::Activity::EmptyState @firstName={{@learner.firstName}} @lastName={{@learner.lastName}} />
 {{/if}}
