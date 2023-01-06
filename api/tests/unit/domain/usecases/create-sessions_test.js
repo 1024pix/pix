@@ -1,9 +1,11 @@
 const { expect, catchErr, sinon } = require('../../../test-helper');
 const createSessions = require('../../../../lib/domain/usecases/create-sessions');
-const { EntityValidationError } = require('../../../../lib/domain/errors');
+const { EntityValidationError, InvalidCertificationCandidate } = require('../../../../lib/domain/errors');
 const { UnprocessableEntityError } = require('../../../../lib/application/http-errors');
 const sessionCodeService = require('../../../../lib/domain/services/session-code-service');
 const Session = require('../../../../lib/domain/models/Session');
+const certificationCpfService = require('../../../../lib/domain/services/certification-cpf-service');
+const { CpfBirthInformationValidation } = require('../../../../lib/domain/services/certification-cpf-service');
 
 describe('Unit | UseCase | create-sessions', function () {
   let accessCode;
@@ -21,6 +23,7 @@ describe('Unit | UseCase | create-sessions', function () {
     certificationCenterRepository = { get: sinon.stub() };
     sessionRepository = { save: sinon.stub() };
     sinon.stub(sessionCodeService, 'getNewSessionCodeWithoutAvailabilityCheck');
+    sinon.stub(certificationCpfService, 'getBirthInformation');
     sessionCodeService.getNewSessionCodeWithoutAvailabilityCheck.returns(accessCode);
     certificationCenterRepository.get.withArgs(certificationCenterId).resolves({ name: certificationCenter.name });
   });
@@ -29,24 +32,15 @@ describe('Unit | UseCase | create-sessions', function () {
     context('when user has certification center membership', function () {
       it('should save every session one by one', async function () {
         // given
+        const validSessionData = createValidSessionData();
         const sessions = [
           {
-            address: 'Site 1',
+            ...validSessionData,
             room: 'Salle 1',
-            date: '2022-03-12',
-            time: '01:00',
-            examiner: 'Pierre',
-            description: '',
-            certificationCandidates: [],
           },
           {
-            address: 'Site 2',
+            ...validSessionData,
             room: 'Salle 2',
-            date: '2023-01-19',
-            time: '02:00',
-            examiner: 'Paul',
-            description: '',
-            certificationCandidates: [],
           },
         ];
 
@@ -83,43 +77,99 @@ describe('Unit | UseCase | create-sessions', function () {
     });
 
     context('when the session has candidates', function () {
-      context('when the candidate has at least one wrong information', function () {
-        it('should throw a validation error', async function () {
-          // given
-          const sessions = [
-            {
-              address: 'Site 1',
-              room: 'Salle 1',
-              date: '2022-03-12',
-              time: '01:00',
-              examiner: 'Pierre',
-              description: '',
-              certificationCandidates: [
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      [{ firstName: '' }, { firstName: null }].forEach((wrondCandidateProperty) => {
+        context(
+          // eslint-disable-next-line mocha/no-setup-in-describe
+          `when the candidate has at least one wrong information: ${JSON.stringify(wrondCandidateProperty)}`,
+          function () {
+            it('should throw a validation error', async function () {
+              // given
+              const validSessionData = createValidSessionData();
+              const validCandidateData = createValidCandidateData();
+              const sessions = [
                 {
-                  lastName: '',
+                  ...validSessionData,
+                  certificationCandidates: [{ ...validCandidateData, ...wrondCandidateProperty }],
                 },
-              ],
-            },
-          ];
-          sessionRepository.saveSessions.callsFake((sessions) =>
-            Promise.resolve(
-              sessions.map((session) => ({
-                ...session,
-                id: 123,
-              }))
-            )
-          );
+              ];
+              sessionRepository.save.resolves({ id: 99 });
 
-          // when
-          const error = await catchErr(createSessions)({
-            sessions,
-            certificationCenterId,
-            certificationCenterRepository,
-            sessionRepository,
+              // when
+              const error = await catchErr(createSessions)({
+                sessions,
+                certificationCenterId,
+                certificationCenterRepository,
+                sessionRepository,
+              });
+
+              // then
+              expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+            });
+          }
+        );
+
+        context('when the candidate has at least one wrong cpf birth information', function () {
+          it('should throw a validation error', async function () {
+            // given
+            const cpfBirthInformationValidation = CpfBirthInformationValidation.failure(
+              'Seul l\'un des champs "Code postal" ou "Code Insee" doit être renseigné.'
+            );
+            certificationCpfService.getBirthInformation.resolves(cpfBirthInformationValidation);
+            const validSessionData = createValidSessionData();
+            const validCandidateData = createValidCandidateData();
+
+            const sessions = [
+              {
+                ...validSessionData,
+                certificationCandidates: [
+                  {
+                    ...validCandidateData,
+                    birthINSEECode: '134',
+                    birthPostalCode: '3456',
+                  },
+                ],
+              },
+            ];
+            sessionRepository.save.resolves({ id: 99 });
+
+            // when
+            const error = await catchErr(createSessions)({
+              sessions,
+              certificationCenterId,
+              certificationCenterRepository,
+              sessionRepository,
+            });
+
+            // then
+            expect(error).to.be.instanceOf(InvalidCertificationCandidate);
           });
+        });
 
-          // then
-          expect(error).to.equal('toto');
+        context('when the candidate has correct information', function () {
+          it('should not throw an error', async function () {
+            // given
+            const validSessionData = createValidSessionData();
+            const validCandidateData = createValidCandidateData();
+            const sessions = [
+              {
+                ...validSessionData,
+                certificationCandidates: [{ ...validCandidateData }],
+              },
+            ];
+            sessionRepository.save.resolves({ id: 99 });
+
+            // when
+            // then
+            expect(() =>
+              createSessions({
+                sessions,
+                certificationCenterId,
+                certificationCenterRepository,
+                sessionRepository,
+              })
+            ).not.to.throw();
+          });
         });
       });
     });
@@ -128,14 +178,12 @@ describe('Unit | UseCase | create-sessions', function () {
   context('when at least one of the sessions is not valid', function () {
     it('should throw an error', async function () {
       // given
+      const validSessionData = createValidSessionData();
+
       const sessions = [
         {
+          ...validSessionData,
           address: null,
-          room: 'Salle 1',
-          date: '2022-03-12',
-          time: '01:00',
-          examiner: 'Pierre',
-          description: '',
         },
       ];
 
@@ -165,3 +213,32 @@ describe('Unit | UseCase | create-sessions', function () {
     });
   });
 });
+
+function createValidSessionData() {
+  return {
+    address: 'Site 1',
+    room: 'Salle 1',
+    date: '2022-03-12',
+    time: '01:00',
+    examiner: 'Pierre',
+    description: 'desc',
+    certificationCandidates: [],
+  };
+}
+function createValidCandidateData() {
+  return {
+    lastName: 'Candidat 2',
+    firstName: 'Candidat 2',
+    birthdate: '1981-03-12',
+    sex: 'M',
+    birthINSEECode: '134',
+    birthPostalCode: null, //'3456',
+    birthCity: '',
+    birthCountry: 'France',
+    resultRecipientEmail: 'robindahood@email.fr',
+    email: 'robindahood2@email.fr',
+    externalId: 'htehte',
+    extraTimePercentage: '20',
+    billingMode: 'FREE',
+  };
+}
