@@ -63,6 +63,7 @@ describe('Acceptance | Controller | users-controller-get-current-user', function
             'has-assessment-participations': true,
             'code-for-last-profile-to-share': expectedCode,
             'has-recommended-trainings': true,
+            'last-data-protection-policy-seen-at': null,
           },
           relationships: {
             'certification-center-memberships': {
