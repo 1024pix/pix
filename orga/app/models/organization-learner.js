@@ -1,6 +1,6 @@
 import Model, { attr } from '@ember-data/model';
 
-export default class OrganizationParticipant extends Model {
+export default class OrganizationLearner extends Model {
   @attr('string') lastName;
   @attr('string') firstName;
 }
