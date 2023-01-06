@@ -116,7 +116,7 @@ describe('Unit | Domain | Models | UserLogin', function () {
     context('when user has failure count greater than 0', function () {
       it('should return true', function () {
         // given
-        const userLogin = new UserLogin({ failureCount: 1 });
+        const userLogin = new UserLogin({ failureCount: 1, temporaryBlockedUntil: null });
 
         // when
         const result = userLogin.hasBeenTemporaryBlocked();
@@ -142,7 +142,7 @@ describe('Unit | Domain | Models | UserLogin', function () {
     context('when user has no failure count nor temporary blocked until date', function () {
       it('should return false', function () {
         // given
-        const userLogin = new UserLogin({});
+        const userLogin = new UserLogin({ failureCount: 0, temporaryBlockedUntil: null });
 
         // when
         const result = userLogin.hasBeenTemporaryBlocked();
@@ -154,23 +154,23 @@ describe('Unit | Domain | Models | UserLogin', function () {
   });
 
   describe('#isUserBlocked', function () {
-    context('when user reaches the limit failure count', function () {
-      it('returns true', function () {
+    context('when user reaches the limit failure count but is not yet blocked', function () {
+      it('returns false', function () {
         // given
-        const userLogin = new UserLogin({ failureCount: 50 });
+        const userLogin = new UserLogin({ failureCount: 50, blockedAt: null });
 
         // when
         const result = userLogin.isUserBlocked();
 
         // then
-        expect(result).to.be.true;
+        expect(result).to.be.false;
       });
     });
 
     context('when user has blockedAt date', function () {
       it('returns true', function () {
         // given
-        const userLogin = new UserLogin({ blockedAt: new Date('2022-11-29') });
+        const userLogin = new UserLogin({ failureCount: 50, blockedAt: new Date('2022-11-29') });
 
         // when
         const result = userLogin.isUserBlocked();
@@ -183,7 +183,7 @@ describe('Unit | Domain | Models | UserLogin', function () {
     context('when user has no failure count nor blockedAt date', function () {
       it('returns false', function () {
         // given
-        const userLogin = new UserLogin({});
+        const userLogin = new UserLogin({ failureCount: 50, blockedAt: null });
 
         // when
         const result = userLogin.isUserBlocked();

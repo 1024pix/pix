@@ -53,7 +53,7 @@ class UserLogin {
   }
 
   isUserBlocked() {
-    return !!this.blockedAt || this.failureCount >= settings.login.blockingLimitFailureCount;
+    return !!this.blockedAt;
   }
 }
 
