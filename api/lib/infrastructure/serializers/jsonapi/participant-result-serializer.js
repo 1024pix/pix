@@ -12,6 +12,7 @@ module.exports = {
         'isShared',
         'participantExternalId',
         'estimatedFlashLevel',
+        'flashPixScore',
         'campaignParticipationBadges',
         'competenceResults',
         'reachedStage',

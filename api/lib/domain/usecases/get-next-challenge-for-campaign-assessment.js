@@ -15,7 +15,7 @@ module.exports = async function getNextChallengeForCampaignAssessment({
 
   if (assessment.isFlash()) {
     const inputValues = await dataFetcher.fetchForFlashCampaigns({
-      assessment,
+      assessmentId: assessment.id,
       answerRepository,
       challengeRepository,
       flashAssessmentResultRepository,

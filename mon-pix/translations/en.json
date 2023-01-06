@@ -1386,7 +1386,7 @@
       },
       "flash": {
         "abstract": "Congratulations, you went all the way !",
-        "pixCount": "You got {count, number, ::.} Pix",
+        "pixScore": "You got {score, number, ::.} Pix",
         "nonDefinitive": "(non-definitive calculation)"
       },
       "trainings": {

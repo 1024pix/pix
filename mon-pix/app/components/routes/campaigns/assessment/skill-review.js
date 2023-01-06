@@ -131,8 +131,8 @@ export default class SkillReview extends Component {
     return this.args.model.campaignParticipationResult.estimatedFlashLevel;
   }
 
-  get flashPixCount() {
-    return ((this.estimatedFlashLevel + 10) / 20) * 1024;
+  get flashPixScore() {
+    return this.args.model.campaignParticipationResult.flashPixScore;
   }
 
   get participantExternalId() {
