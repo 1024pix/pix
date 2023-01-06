@@ -4,7 +4,6 @@ const { NotFoundError } = require('../../../../../lib/domain/errors');
 const Session = require('../../../../../lib/domain/models/Session');
 const { statuses } = require('../../../../../lib/domain/models/Session');
 const sessionRepository = require('../../../../../lib/infrastructure/repositories/sessions/session-repository');
-const omit = require('lodash/omit');
 
 describe('Integration | Repository | Session', function () {
   describe('#save', function () {
@@ -56,70 +55,6 @@ describe('Integration | Repository | Session', function () {
       expect(savedSession).to.be.an.instanceOf(Session);
       expect(savedSession).to.have.property('id').and.not.null;
       expect(savedSession).to.deepEqualInstance(new Session({ ...session, id: savedSession.id }));
-    });
-  });
-
-  describe('#saveSessions', function () {
-    afterEach(function () {
-      return knex('sessions').delete();
-    });
-
-    it('should persist the sessions in the database', async function () {
-      // given
-      const certificationCenter = databaseBuilder.factory.buildCertificationCenter({});
-      const firstSession = new Session({
-        certificationCenter: certificationCenter.name,
-        certificationCenterId: certificationCenter.id,
-        address: 'Nice',
-        room: '28D',
-        examiner: 'Michel Essentiel',
-        date: '2017-12-08',
-        time: '14:30:00',
-        description: 'Première certification EVER !!!',
-        accessCode: 'XXXX',
-        supervisorPassword: 'AB2C7',
-        examinerGlobalComment: '',
-      });
-      const secondSession = new Session({
-        certificationCenter: certificationCenter.name,
-        certificationCenterId: certificationCenter.id,
-        address: 'Paris',
-        room: '13P',
-        examiner: 'Jean Neymar',
-        date: '2018-11-05',
-        time: '15:00:00',
-        description: 'Seconde certification',
-        accessCode: 'YYYY',
-        supervisorPassword: 'DEGYC',
-        examinerGlobalComment: '',
-      });
-
-      const sessions = [firstSession, secondSession];
-
-      await databaseBuilder.commit();
-
-      // when
-      const savedSessions = await sessionRepository.saveSessions(sessions);
-
-      // then
-      const [firstSavedSession, secondSavedSession] = savedSessions;
-      const expectedSessions = [
-        domainBuilder.buildSession({
-          ...firstSession,
-          id: firstSavedSession.id,
-        }),
-        domainBuilder.buildSession({
-          ...secondSession,
-          id: secondSavedSession.id,
-        }),
-      ];
-
-      expect(omit(firstSavedSession, 'certificationCandidates')).to.deepEqualInstance(
-        omit(expectedSessions[0], 'certificationCandidates')
-      );
-      expect(omit(secondSavedSession, 'certificationCandidates')).to.deepEqualInstance(
-        omit(expectedSessions[1], 'certificationCandidates')
-      );
     });
   });
 

@@ -19,7 +19,7 @@ describe('Unit | UseCase | create-sessions', function () {
     certificationCenterName = 'certificationCenterName';
     certificationCenter = { id: certificationCenterId, name: certificationCenterName };
     certificationCenterRepository = { get: sinon.stub() };
-    sessionRepository = { saveSessions: sinon.stub() };
+    sessionRepository = { save: sinon.stub() };
     sinon.stub(sessionCodeService, 'getNewSessionCodeWithoutAvailabilityCheck');
     sessionCodeService.getNewSessionCodeWithoutAvailabilityCheck.returns(accessCode);
     certificationCenterRepository.get.withArgs(certificationCenterId).resolves({ name: certificationCenter.name });
@@ -27,7 +27,7 @@ describe('Unit | UseCase | create-sessions', function () {
 
   context('when sessions are valid', function () {
     context('when user has certification center membership', function () {
-      it('should save the sessions', async function () {
+      it('should save every session one by one', async function () {
         // given
         const sessions = [
           {
@@ -37,9 +37,18 @@ describe('Unit | UseCase | create-sessions', function () {
             time: '01:00',
             examiner: 'Pierre',
             description: '',
+            certificationCandidates: [],
+          },
+          {
+            address: 'Site 2',
+            room: 'Salle 2',
+            date: '2023-01-19',
+            time: '02:00',
+            examiner: 'Paul',
+            description: '',
+            certificationCandidates: [],
           },
         ];
-        sessionRepository.saveSessions.resolves();
 
         // when
         await createSessions({
@@ -58,9 +67,60 @@ describe('Unit | UseCase | create-sessions', function () {
             accessCode,
             supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
           }),
+          new Session({
+            ...sessions[1],
+            certificationCenterId,
+            certificationCenter: certificationCenterName,
+            accessCode,
+            supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
+          }),
         ];
 
-        expect(sessionRepository.saveSessions).to.have.been.calledWithExactly(expectedSessions);
+        expect(sessionRepository.save).to.have.been.calledTwice;
+        expect(sessionRepository.save.firstCall).to.have.been.calledWithExactly(expectedSessions[0]);
+        expect(sessionRepository.save.secondCall).to.have.been.calledWithExactly(expectedSessions[1]);
+      });
+    });
+
+    context('when the session has candidates', function () {
+      context('when the candidate has at least one wrong information', function () {
+        it('should throw a validation error', async function () {
+          // given
+          const sessions = [
+            {
+              address: 'Site 1',
+              room: 'Salle 1',
+              date: '2022-03-12',
+              time: '01:00',
+              examiner: 'Pierre',
+              description: '',
+              certificationCandidates: [
+                {
+                  lastName: '',
+                },
+              ],
+            },
+          ];
+          sessionRepository.saveSessions.callsFake((sessions) =>
+            Promise.resolve(
+              sessions.map((session) => ({
+                ...session,
+                id: 123,
+              }))
+            )
+          );
+
+          // when
+          const error = await catchErr(createSessions)({
+            sessions,
+            certificationCenterId,
+            certificationCenterRepository,
+            sessionRepository,
+          });
+
+          // then
+          expect(error).to.equal('toto');
+        });
       });
     });
   });
