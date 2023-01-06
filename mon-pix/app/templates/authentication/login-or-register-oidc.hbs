@@ -2,8 +2,8 @@
 
 <PixBackgroundHeader>
   <PixBlock @shadow="light" class="login-or-register-oidc-form">
-    <a href={{this.showcaseUrl}} class="login-or-register-oidc-form__logo">
-      <img src="/images/pix-logo.svg" alt="{{t 'navigation.showcase-homepage' extension=this.urlExtension}}" />
+    <a href={{this.showcase.url}} class="login-or-register-oidc-form__logo">
+      <img src="/images/pix-logo.svg" alt="{{this.showcase.linkText}}" />
     </a>
 
     {{#if this.showOidcReconciliation}}

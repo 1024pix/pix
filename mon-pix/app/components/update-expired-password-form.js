@@ -36,12 +36,8 @@ export default class UpdateExpiredPasswordForm extends Component {
 
   @tracked errorMessage = null;
 
-  get showcaseUrl() {
-    return this.url.showcaseUrl;
-  }
-
-  get urlExtension() {
-    return this.url.extensionUrl;
+  get showcase() {
+    return this.url.showcase;
   }
 
   get validationMessage() {
