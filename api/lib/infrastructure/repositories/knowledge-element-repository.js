@@ -94,7 +94,7 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfKnowledgeElement, savedKnowledgeElement);
   },
 
-  async findUniqByUserId({ userId, limitDate, domainTransaction }) {
+  findUniqByUserId({ userId, limitDate, domainTransaction }) {
     return _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate, domainTransaction });
   },
 

@@ -76,13 +76,13 @@ describe('Acceptance | Route | GET /users/{userId}/campaigns/{campaignId}/profil
       ];
       _.each(knowledgeElements, (ke) => databaseBuilder.factory.buildKnowledgeElement(ke));
 
+      await databaseBuilder.commit();
+
       options = {
         method: 'GET',
         url: `/api/users/${userId}/campaigns/${campaign.id}/profile`,
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
-
-      return databaseBuilder.commit();
     });
 
     describe('Success case', function () {
