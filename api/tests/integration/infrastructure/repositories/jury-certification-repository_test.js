@@ -108,7 +108,8 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
 
       databaseBuilder.factory.buildAssessment({ id: 159, certificationCourseId: 1 });
       databaseBuilder.factory.buildUser({ id: 22 });
-      const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
+      const assessmentResultId = databaseBuilder.factory.buildAssessmentResult.last({
+        certificationCourseId: 1,
         assessmentId: 159,
         pixScore: 123,
         status: 'validated',
@@ -117,10 +118,6 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         commentForJury: 'Un commentaire jury',
         juryId: 22,
       }).id;
-      databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
-        certificationCourseId: 1,
-        lastAssessmentResultId: assessmentResultId,
-      });
       databaseBuilder.factory.buildCompetenceMark({
         id: 123,
         score: 10,

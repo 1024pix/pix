@@ -121,15 +121,10 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         sessionId,
         userId,
       }).id;
-      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
-      const { id: lastAssessmentResultId } = databaseBuilder.factory.buildAssessmentResult({
-        assessmentId,
+      databaseBuilder.factory.buildAssessmentResult({
+        certificationCourseId,
         pixScore: privateCertificateData.pixScore,
         status: 'validated',
-      });
-      databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
-        certificationCourseId,
-        lastAssessmentResultId,
       });
       await databaseBuilder.commit();
 
@@ -179,15 +174,10 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         sessionId,
         userId,
       }).id;
-      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
-      const { id: lastAssessmentResultId } = databaseBuilder.factory.buildAssessmentResult({
-        assessmentId,
+      databaseBuilder.factory.buildAssessmentResult.last({
+        certificationCourseId,
         pixScore: privateCertificateData.pixScore,
         status: 'validated',
-      });
-      databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
-        certificationCourseId,
-        lastAssessmentResultId,
       });
       await databaseBuilder.commit();
 
@@ -238,15 +228,10 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         sessionId,
         userId,
       }).id;
-      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
-      const { id: lastAssessmentResultId } = databaseBuilder.factory.buildAssessmentResult({
-        assessmentId,
+      databaseBuilder.factory.buildAssessmentResult.last({
+        certificationCourseId,
         pixScore: privateCertificateData.pixScore,
         status: 'rejected',
-      });
-      databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
-        certificationCourseId,
-        lastAssessmentResultId,
       });
       await databaseBuilder.commit();
 
@@ -721,15 +706,10 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         sessionId,
         userId,
       }).id;
-      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
-      const { id: lastAssessmentResultId } = databaseBuilder.factory.buildAssessmentResult({
-        assessmentId,
+      databaseBuilder.factory.buildAssessmentResult.last({
+        certificationCourseId,
         pixScore: privateCertificateData.pixScore,
         status: 'validated',
-      });
-      databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
-        certificationCourseId,
-        lastAssessmentResultId,
       });
 
       await databaseBuilder.commit();
@@ -778,16 +758,12 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         sessionId,
         userId,
       }).id;
-      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
-      const { id: lastAssessmentResultId } = databaseBuilder.factory.buildAssessmentResult({
-        assessmentId,
+      databaseBuilder.factory.buildAssessmentResult.last({
+        certificationCourseId,
         pixScore: privateCertificateData.pixScore,
         status: 'validated',
       });
-      databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
-        certificationCourseId,
-        lastAssessmentResultId,
-      });
+
       await databaseBuilder.commit();
 
       // when
@@ -834,15 +810,11 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         sessionId,
         userId,
       }).id;
-      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
-      const { id: lastAssessmentResultId } = databaseBuilder.factory.buildAssessmentResult({
-        assessmentId,
+
+      databaseBuilder.factory.buildAssessmentResult.last({
+        certificationCourseId,
         pixScore: privateCertificateData.pixScore,
         status: 'rejected',
-      });
-      databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
-        certificationCourseId,
-        lastAssessmentResultId,
       });
       await databaseBuilder.commit();
 
@@ -964,18 +936,13 @@ async function _buildValidPrivateCertificate(privateCertificateData, buildCompet
     sessionId,
     userId: privateCertificateData.userId,
   }).id;
-  const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
-  const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
-    assessmentId,
+  const assessmentResultId = databaseBuilder.factory.buildAssessmentResult.last({
+    certificationCourseId,
     pixScore: privateCertificateData.pixScore,
     status: 'validated',
     commentForCandidate: privateCertificateData.commentForCandidate,
     createdAt: new Date('2021-01-01'),
   }).id;
-  databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
-    certificationCourseId,
-    lastAssessmentResultId: assessmentResultId,
-  });
 
   if (buildCompetenceMark) {
     databaseBuilder.factory.buildCompetenceMark({
@@ -985,7 +952,7 @@ async function _buildValidPrivateCertificate(privateCertificateData, buildCompet
 
   await databaseBuilder.commit();
 
-  return { certificationCourseId, assessmentResultId, assessmentId };
+  return { certificationCourseId, assessmentResultId };
 }
 
 async function _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
@@ -1011,17 +978,12 @@ async function _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
     sessionId,
     userId: privateCertificateData.userId,
   }).id;
-  const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
-  const { id: lastAssessmentResultId } = databaseBuilder.factory.buildAssessmentResult({
-    assessmentId,
+  databaseBuilder.factory.buildAssessmentResult.last({
+    certificationCourseId,
     pixScore: privateCertificateData.pixScore,
     status: 'validated',
     commentForCandidate: privateCertificateData.commentForCandidate,
     createdAt: new Date('2021-01-01'),
-  });
-  databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
-    certificationCourseId,
-    lastAssessmentResultId,
   });
 
   acquiredBadges?.forEach(
@@ -1080,17 +1042,12 @@ async function _buildValidPrivateCertificateWithSeveralResults(privateCertificat
     sessionId,
     userId: privateCertificateData.userId,
   }).id;
-  const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
-  const { id: lastAssessmentResultId } = databaseBuilder.factory.buildAssessmentResult({
-    assessmentId,
+  const { id: lastAssessmentResultId } = databaseBuilder.factory.buildAssessmentResult.last({
+    certificationCourseId,
     pixScore: privateCertificateData.pixScore,
     status: 'validated',
     commentForCandidate: privateCertificateData.commentForCandidate,
     createdAt: new Date('2021-03-01'),
-  });
-  databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
-    certificationCourseId,
-    lastAssessmentResultId,
   });
 
   databaseBuilder.factory.buildCompetenceMark({

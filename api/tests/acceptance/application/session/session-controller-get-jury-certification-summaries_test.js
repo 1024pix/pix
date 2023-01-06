@@ -77,12 +77,11 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
           partnerKey: badge.key,
           acquired: true,
         });
-        const assessmentId1 = dbf.buildAssessment({ certificationCourseId: certif1.id }).id;
-        asr1 = dbf.buildAssessmentResult({ assessmentId: assessmentId1, createdAt: new Date('2018-04-15T00:00:00Z') });
-        dbf.buildCertificationCourseLastAssessmentResult({
+        asr1 = dbf.buildAssessmentResult.last({
           certificationCourseId: certif1.id,
-          lastAssessmentResultId: asr1.id,
+          createdAt: new Date('2018-04-15T00:00:00Z'),
         });
+
         certif2 = dbf.buildCertificationCourse({ sessionId, lastName: 'CCC' });
         dbf.buildAssessment({ certificationCourseId: certif2.id });
 

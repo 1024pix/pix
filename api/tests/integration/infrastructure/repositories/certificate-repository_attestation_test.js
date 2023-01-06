@@ -1214,17 +1214,11 @@ function _buildRejected(certificationAttestationData) {
     sessionId: certificationAttestationData.sessionId,
     userId: certificationAttestationData.userId,
   });
-  const assessmentId = databaseBuilder.factory.buildAssessment({
+
+  databaseBuilder.factory.buildAssessmentResult.last({
     certificationCourseId: certificationAttestationData.id,
-  }).id;
-  const { id: lastAssessmentResultId } = databaseBuilder.factory.buildAssessmentResult({
-    assessmentId,
     pixScore: certificationAttestationData.pixScore,
     status: 'rejected',
-  });
-  databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
-    certificationCourseId: certificationAttestationData.id,
-    lastAssessmentResultId,
   });
 }
 
@@ -1243,17 +1237,10 @@ function _buildCancelled(certificationAttestationData) {
     sessionId: certificationAttestationData.sessionId,
     userId: certificationAttestationData.userId,
   });
-  const assessmentId = databaseBuilder.factory.buildAssessment({
+  databaseBuilder.factory.buildAssessmentResult.last({
     certificationCourseId: certificationAttestationData.id,
-  }).id;
-  const { id: lastAssessmentResultId } = databaseBuilder.factory.buildAssessmentResult({
-    assessmentId,
     pixScore: certificationAttestationData.pixScore,
     status: 'validated',
-  });
-  databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
-    certificationCourseId: certificationAttestationData.id,
-    lastAssessmentResultId,
   });
 }
 
@@ -1272,19 +1259,12 @@ function _buildValidCertificationAttestation(certificationAttestationData, build
     sessionId: certificationAttestationData.sessionId,
     userId: certificationAttestationData.userId,
   });
-  const assessmentId = databaseBuilder.factory.buildAssessment({
+  const assessmentResultId = databaseBuilder.factory.buildAssessmentResult.last({
     certificationCourseId: certificationAttestationData.id,
-  }).id;
-  const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
-    assessmentId,
     pixScore: certificationAttestationData.pixScore,
     status: 'validated',
     createdAt: new Date('2020-01-02'),
   }).id;
-  databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
-    certificationCourseId: certificationAttestationData.id,
-    lastAssessmentResultId: assessmentResultId,
-  });
 
   if (buildCompetenceMark) {
     databaseBuilder.factory.buildCompetenceMark({
@@ -1330,17 +1310,13 @@ function _buildCertificationAttestationWithSeveralResults(certificationAttestati
     status: 'rejected',
     createdAt: new Date('2019-01-01'),
   }).id;
-  const assessmentResultId2 = databaseBuilder.factory.buildAssessmentResult({
+  const assessmentResultId2 = databaseBuilder.factory.buildAssessmentResult.last({
+    certificationCourseId: certificationAttestationData.id,
     assessmentId,
     pixScore: certificationAttestationData.pixScore,
     status,
     createdAt: new Date('2019-01-02'),
   }).id;
-
-  databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
-    certificationCourseId: certificationAttestationData.id,
-    lastAssessmentResultId: assessmentResultId2,
-  });
 
   databaseBuilder.factory.buildCompetenceMark({
     assessmentResultId: assessmentResultId1,
