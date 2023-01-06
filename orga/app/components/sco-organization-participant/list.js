@@ -53,7 +53,8 @@ export default class ScoList extends Component {
   }
 
   @action
-  openAuthenticationMethodModal(student) {
+  openAuthenticationMethodModal(student, event) {
+    event.stopPropagation();
     this.student = student;
     this.isShowingAuthenticationMethodModal = true;
   }
