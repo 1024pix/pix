@@ -14,9 +14,7 @@ describe('#answerTheChallenge', () => {
     previousKE = [{ id: 1 }];
     challenge = { id: 'recId' };
     newKe = { id: 'KE-id' };
-    sinon
-      .stub(KnowledgeElement, 'createKnowledgeElementsForAnswer')
-      .returns([newKe]);
+    sinon.stub(KnowledgeElement, 'createKnowledgeElementsForAnswer').returns([newKe]);
     sinon.stub(console, 'log');
   });
 
@@ -203,9 +201,7 @@ describe('#answerTheChallenge', () => {
       },
       { userKE: null, answerStatus: 'ko' },
     ].forEach((testCase) => {
-      it(`should return the list of answers with ${
-        testCase.answerStatus
-      } answers for ${
+      it(`should return the list of answers with ${testCase.answerStatus} answers for ${
         testCase.userKE ? testCase.userKE.status : 'empty'
       } KE`, () => {
         // given
@@ -235,9 +231,9 @@ describe('#answerTheChallenge', () => {
 });
 
 describe('#_getReferentiel', () => {
-  it('should return skills and challenges from a given targetProfile', async () => {
+  it('should return skills and challenges from a given campaign', async () => {
     // given
-    const targetProfileId = 1;
+    const campaignId = 1;
     const answerRepository = {};
     const assessment = {};
     const challengeRepository = {};
@@ -245,19 +241,11 @@ describe('#_getReferentiel', () => {
     const skillRepository = {};
     const improvementService = {};
     const campaignRepository = {
-      findSkillsByCampaignParticipationId: () => {},
+      findSkills: () => {},
     };
 
-    const expectedSkills = [
-      { id: 'recSkill1' },
-      { id: 'recSkill2' },
-      { id: 'recSkill3' },
-    ];
-    const expectedChallenges = [
-      { id: 'recChallenge1' },
-      { id: 'recChallenge2' },
-      { id: 'recChallenge3' },
-    ];
+    const expectedSkills = [{ id: 'recSkill1' }, { id: 'recSkill2' }, { id: 'recSkill3' }];
+    const expectedChallenges = [{ id: 'recChallenge1' }, { id: 'recChallenge2' }, { id: 'recChallenge3' }];
 
     sinon.stub(DataFetcher, 'fetchForCampaigns').returns({
       targetSkills: expectedSkills,
@@ -267,7 +255,7 @@ describe('#_getReferentiel', () => {
     // when
     const result = await _getReferentiel({
       assessment,
-      targetProfileId,
+      campaignId,
       answerRepository,
       challengeRepository,
       knowledgeElementRepository,
@@ -284,7 +272,7 @@ describe('#_getReferentiel', () => {
   it('should return skills and challenges from a given assessment', async () => {
     // given
     const assessment = { competenceId: 1 };
-    const targetProfileId = null;
+    const campaignId = null;
     const answerRepository = {};
     const challengeRepository = {};
     const knowledgeElementRepository = {};
@@ -292,16 +280,8 @@ describe('#_getReferentiel', () => {
     const improvementService = {};
     const targetProfileRepository = {};
 
-    const expectedSkills = [
-      { id: 'recSkill1' },
-      { id: 'recSkill2' },
-      { id: 'recSkill3' },
-    ];
-    const expectedChallenges = [
-      { id: 'recChallenge1' },
-      { id: 'recChallenge2' },
-      { id: 'recChallenge3' },
-    ];
+    const expectedSkills = [{ id: 'recSkill1' }, { id: 'recSkill2' }, { id: 'recSkill3' }];
+    const expectedChallenges = [{ id: 'recChallenge1' }, { id: 'recChallenge2' }, { id: 'recChallenge3' }];
 
     sinon.stub(DataFetcher, 'fetchForCompetenceEvaluations').returns({
       targetSkills: expectedSkills,
@@ -311,7 +291,7 @@ describe('#_getReferentiel', () => {
     // when
     const result = await _getReferentiel({
       assessment,
-      targetProfileId,
+      campaignId,
       answerRepository,
       challengeRepository,
       knowledgeElementRepository,
