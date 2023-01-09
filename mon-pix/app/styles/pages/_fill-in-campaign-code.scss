@@ -1,23 +1,25 @@
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 32px;
-  padding: 16px 16px $spacing-s;
+.fill-in-campaign-code {
 
-  @include device-is('tablet') {
-    padding: $spacing-xl;
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 32px;
+    padding: 16px 16px $spacing-s;
+
+    @include device-is('tablet') {
+      padding: $spacing-xl;
+    }
   }
-}
 
-.title {
-  margin-bottom: $spacing-l;
-  font-weight: $font-light;
-  text-align: center;
-}
+  &__title {
+    margin-bottom: $spacing-l;
+    font-weight: $font-light;
+    text-align: center;
+  }
 
-.instruction {
+  &__instruction {
     max-width: 600px;
     margin-bottom: $spacing-s;
     color: $pix-neutral-100;
@@ -35,7 +37,7 @@
     }
   }
 
-  .form-field {
+  &__form-field {
     display: inline-block;
     margin-bottom: $spacing-s;
     text-align: left;
@@ -45,47 +47,48 @@
     }
   }
 
-.form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.actions {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: $spacing-s;
-}
-
-.error {
-  margin-bottom: $spacing-s;
-  color: $pix-warning-60;
-  font-size: 0.875rem;
-  text-align: center;
-}
-
-.warning {
-  margin-top: $spacing-s;
-  margin-bottom: $spacing-s;
-  color: $pix-neutral-90;
-  font-size: 0.875rem;
-  text-align: center;
-}
-
-.explanation {
-  max-width: 600px;
-  padding-top: 25px;
-  text-align: center;
-  border-top: 1px solid $pix-neutral-15;
-
-  @include device-is('tablet') {
-    width: 75vw;
+  &__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
   }
 
-  @include device-is('mobile') {
-    width: 75vw;
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: $spacing-s;
+  }
+
+  &__error {
+    margin-bottom: $spacing-s;
+    color: $pix-warning-60;
+    font-size: 0.875rem;
+    text-align: center;
+  }
+
+  &__warning {
+    margin-top: $spacing-s;
+    margin-bottom: $spacing-s;
+    color: $pix-neutral-90;
+    font-size: 0.875rem;
+    text-align: center;
+  }
+
+  &__explanation {
+    max-width: 600px;
+    padding-top: 25px;
+    text-align: center;
+    border-top: 1px solid $pix-neutral-15;
+
+    @include device-is('tablet') {
+      width: 75vw;
+    }
+
+    @include device-is('mobile') {
+      width: 75vw;
+    }
   }
 }
 

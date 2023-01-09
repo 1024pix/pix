@@ -11,17 +11,17 @@
 
 <main class="main" role="main">
   <PixBackgroundHeader>
-    <PixBlock class="container">
-      <h1 class="title rounded-panel-title">
+    <PixBlock class="fill-in-campaign-code__container">
+      <h1 class="fill-in-campaign-code__title rounded-panel-title">
         {{this.firstTitle}}
       </h1>
 
-      <label class="instruction" for="campaign-code">{{{t
+      <label for="campaign-code" class="fill-in-campaign-code__instruction">{{{t
           "pages.fill-in-campaign-code.description"
         }}}</label>
-      <form class="form" autocomplete="off">
+      <form class="fill-in-campaign-code__form" autocomplete="off">
 
-        <div class="form-field">
+        <div class="fill-in-campaign-code__form-field">
           <Input
             required
             id="campaign-code"
@@ -34,15 +34,15 @@
         </div>
 
         {{#if this.errorMessage}}
-          <div class="error" aria-live="polite">
+          <div class="fill-in-campaign-code__error" aria-live="polite">
             {{this.errorMessage}}
           </div>
         {{/if}}
 
-        <div class="actions">
+        <div class="fill-in-campaign-code__actions">
           <PixButton
             @type="submit"
-            class="start-button"
+            class="fill-in-campaign-code__start-button"
             @triggerAction={{action "startCampaign"}}
           >
             {{t "pages.fill-in-campaign-code.start"}}
@@ -51,7 +51,7 @@
       </form>
 
       {{#if this.showWarningMessage}}
-        <div class="warning">
+        <div class="fill-in-campaign-code__warning">
           <span>{{this.warningMessage}}</span>
           <a href="#" class="link" {{action this.disconnect}}>
             {{t "pages.fill-in-campaign-code.warning-message-logout"}}
@@ -59,7 +59,7 @@
         </div>
       {{/if}}
 
-      <div class="explanation">
+      <div class="fill-in-campaign-code__explanation">
         <a
           href={{t "pages.fill-in-campaign-code.explanation-link"}}
           class="link"
