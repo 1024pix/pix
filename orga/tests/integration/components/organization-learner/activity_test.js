@@ -4,35 +4,31 @@ import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | OrganizationLearner::Activity', function (hooks) {
-  let lastName;
-  let firstName;
-
   setupIntlRenderingTest(hooks);
-
-  hooks.beforeEach(function () {
-    lastName = 'Dylan';
-    firstName = 'Bob';
-    this.set('learner', { lastName, firstName });
-  });
 
   module('#Empty state', function () {
     test('it should display the empty state when no participations', async function (assert) {
       // given
       const participations = [];
       this.set('participations', participations);
+      this.set('learner', { lastName: 'dylan', firstName: 'bob' });
 
       // when
-      await render(
+      const screen = await render(
         hbs`<OrganizationLearner::Activity @participations={{this.participations}} @learner={{this.learner}}/>`
       );
 
       // then
-      assert.contains(
-        this.intl.t('pages.organization-learner.activity.empty-state', {
-          organizationLearnerFirstName: firstName,
-          organizationLearnerLastName: lastName,
-        })
-      );
+      assert
+        .dom(
+          screen.queryByText(
+            this.intl.t('pages.organization-learner.activity.empty-state', {
+              organizationLearnerFirstName: 'Bob',
+              organizationLearnerLastName: 'Dylan',
+            })
+          )
+        )
+        .exists();
     });
 
     test('it should not display the empty state when there is participations', async function (assert) {
@@ -47,19 +43,24 @@ module('Integration | Component | OrganizationLearner::Activity', function (hook
         },
       ];
       this.set('participations', participations);
+      this.set('learner', { lastName: 'Dylan', firstName: 'Bob' });
 
       // when
-      await render(
+      const screen = await render(
         hbs`<OrganizationLearner::Activity @participations={{this.participations}} @learner={{this.learner}}/>`
       );
 
       // then
-      assert.notContains(
-        this.intl.t('pages.organization-learner.activity.empty-state', {
-          organizationLearnerFirstName: 'Dylan',
-          organizationLearnerLastName: 'Bob',
-        })
-      );
+      assert
+        .dom(
+          screen.queryByText(
+            this.intl.t('pages.organization-learner.activity.empty-state', {
+              organizationLearnerFirstName: 'Bob',
+              organizationLearnerLastName: 'Dylan',
+            })
+          )
+        )
+        .doesNotExist();
     });
   });
 });
