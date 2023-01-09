@@ -70,9 +70,7 @@ module('Integration | Component | SignupForm', function (hooks) {
       const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
       // then
-      assert.ok(
-        screen.getByRole('link', { name: this.intl.t('navigation.showcase-homepage', { extension: 'localhost' }) })
-      );
+      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.showcase-homepage', { tld: 'localhost' }) }));
       assert.ok(screen.getByRole('heading', { name: this.intl.t('pages.sign-up.first-title') }));
       assert.ok(screen.getByRole('link', { name: this.intl.t('pages.sign-up.subtitle.link') }));
       assert.ok(screen.getByRole('textbox', { name: this.intl.t('pages.sign-up.fields.firstname.label') }));
@@ -354,9 +352,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         await triggerEvent('#lastName', 'focusout');
 
         // then
-        assert.ok(
-          find('#validationMessage-lastName').getAttribute('class').includes('form-textfield__message--error')
-        );
+        assert.ok(find('#validationMessage-lastName').getAttribute('class').includes('form-textfield__message--error'));
         assert.strictEqual(find('.form-textfield__message--error').textContent.trim(), emptyLastnameErrorMessage);
         assert.ok(find('#lastName').getAttribute('class').includes('form-textfield__input--error'));
         assert.dom('.form-textfield-icon__state--error').exists();

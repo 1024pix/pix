@@ -49,7 +49,7 @@ export default class Url extends Service {
   }
 
   get _showcaseWebsiteLinkText() {
-    return this.intl.t('navigation.showcase-homepage', { extension: this.currentDomain.getExtension() });
+    return this.intl.t('navigation.showcase-homepage', { tld: this.currentDomain.getExtension() });
   }
 
   get accessibilityUrl() {

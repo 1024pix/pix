@@ -134,7 +134,7 @@
       "sign-up": "Sign up"
     },
     "pix": "Pix",
-    "showcase-homepage": "Pix.{ extension }'s Homepage",
+    "showcase-homepage": "Pix.{ tld }'s Homepage",
     "user": {
       "account": "My account",
       "certifications": "My certifications",

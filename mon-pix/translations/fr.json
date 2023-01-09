@@ -134,7 +134,7 @@
       "sign-up": "S'inscrire"
     },
     "pix": "Pix",
-    "showcase-homepage": "Page d'accueil de Pix.{ extension }",
+    "showcase-homepage": "Page d'accueil de Pix.{ tld }",
     "user": {
       "account": "Mon compte",
       "certifications": "Mes certifications",
