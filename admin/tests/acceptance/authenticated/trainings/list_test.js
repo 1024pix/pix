@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { currentURL, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { visit } from '@1024pix/ember-testing-library';
+import { clickByName, visit } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 module('Acceptance | Trainings | List', function (hooks) {
@@ -45,6 +45,17 @@ module('Acceptance | Trainings | List', function (hooks) {
         // then
         assert.dom(screen.getByText('Formation 11')).exists();
         assert.dom(screen.getByText('Formation 12')).exists();
+      });
+
+      test('it should redirect to training creation form on click "Nouveau contenu formatif"', async function (assert) {
+        // given
+        await visit('/trainings/list');
+
+        // when
+        await clickByName('Nouveau contenu formatif');
+
+        // then
+        assert.strictEqual(currentURL(), '/trainings/new');
       });
     });
   });

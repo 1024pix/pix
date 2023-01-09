@@ -108,6 +108,7 @@ Router.map(function () {
 
     this.route('trainings', function () {
       this.route('list');
+      this.route('new');
     });
 
     this.route('tools');
