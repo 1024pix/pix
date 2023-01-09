@@ -8,6 +8,7 @@ export default class ListController extends Controller {
   @service intl;
   @service errorMessages;
   @service store;
+  @service router;
 
   @tracked isLoading = false;
 
@@ -17,6 +18,12 @@ export default class ListController extends Controller {
   @tracked certificability = [];
   @tracked pageNumber = null;
   @tracked pageSize = 50;
+
+  @action
+  goToLearnerPage(learnerId, event) {
+    event.preventDefault();
+    this.router.transitionTo('authenticated.sco-organization-participants.sco-organization-participant', learnerId);
+  }
 
   @action
   triggerFiltering(fieldName, value) {

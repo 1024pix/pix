@@ -59,7 +59,8 @@ export default class ListItems extends Component {
   }
 
   @action
-  openEditStudentNumberModal(student) {
+  openEditStudentNumberModal(student, event) {
+    event.stopPropagation();
     this.selectedStudent = student;
     this.isShowingEditStudentNumberModal = true;
   }
