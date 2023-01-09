@@ -1,3 +1,4 @@
+import RSVP from 'rsvp';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
@@ -8,8 +9,11 @@ export default class ActivityRoute extends Route {
   async model() {
     const organizationLearner = this.modelFor('authenticated.organization-participants.organization-participant');
     try {
-      return await this.store.queryRecord('organizationLearnerActivity', {
-        organizationLearnerId: organizationLearner.id,
+      return RSVP.hash({
+        organizationLearner,
+        activity: await this.store.queryRecord('organizationLearnerActivity', {
+          organizationLearnerId: organizationLearner.id,
+        }),
       });
     } catch (_) {
       return this.router.replaceWith('authenticated.organization-participants');

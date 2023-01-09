@@ -11,17 +11,24 @@ module('Integration | Component | OrganizationLearner::Activity', function (hook
       // given
       const participations = [];
       this.set('participations', participations);
+      this.set('learner', { lastName: 'dylan', firstName: 'bob' });
 
       // when
-      await render(hbs`<OrganizationLearner::Activity @participations={{this.participations}} />`);
+      const screen = await render(
+        hbs`<OrganizationLearner::Activity @participations={{this.participations}} @learner={{this.learner}}/>`
+      );
 
       // then
-      assert.contains(
-        this.intl.t('pages.organization-learner.activity.empty-state', {
-          organizationLearnerFirstName: 'Jacques',
-          organizationLearnerLastName: 'Chirac',
-        })
-      );
+      assert
+        .dom(
+          screen.queryByText(
+            this.intl.t('pages.organization-learner.activity.empty-state', {
+              organizationLearnerFirstName: 'Bob',
+              organizationLearnerLastName: 'Dylan',
+            })
+          )
+        )
+        .exists();
     });
 
     test('it should not display the empty state when there is participations', async function (assert) {
@@ -36,17 +43,24 @@ module('Integration | Component | OrganizationLearner::Activity', function (hook
         },
       ];
       this.set('participations', participations);
+      this.set('learner', { lastName: 'Dylan', firstName: 'Bob' });
 
       // when
-      await render(hbs`<OrganizationLearner::Activity @participations={{this.participations}} />`);
+      const screen = await render(
+        hbs`<OrganizationLearner::Activity @participations={{this.participations}} @learner={{this.learner}}/>`
+      );
 
       // then
-      assert.notContains(
-        this.intl.t('pages.organization-learner.activity.empty-state', {
-          organizationLearnerFirstName: 'Jacques',
-          organizationLearnerLastName: 'Chirac',
-        })
-      );
+      assert
+        .dom(
+          screen.queryByText(
+            this.intl.t('pages.organization-learner.activity.empty-state', {
+              organizationLearnerFirstName: 'Bob',
+              organizationLearnerLastName: 'Dylan',
+            })
+          )
+        )
+        .doesNotExist();
     });
   });
 });
