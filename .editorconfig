@@ -13,15 +13,9 @@ insert_final_newline = true
 indent_style = space
 indent_size = 2
 
-[*.js]
-quote_type = single
-spaces_around_brackets = both
 
 [*.hbs]
 insert_final_newline = false
 
 [*.{diff,md}]
 trim_trailing_whitespace = false
-
-[*.yaml]
-quote_type = single
