@@ -1,5 +1,5 @@
 import Model, { hasMany } from '@ember-data/model';
 
-export default class OrganizationLeanerActivity extends Model {
+export default class OrganizationLearnerActivity extends Model {
   @hasMany('OrganizationLearnerParticipation') organizationLearnerParticipations;
 }

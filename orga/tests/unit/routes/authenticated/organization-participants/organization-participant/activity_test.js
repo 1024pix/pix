@@ -7,6 +7,7 @@ module('Unit | Route | authenticated/organization-participants/organization-part
 
   let route;
   let store;
+  const organizationLearner = { id: '123' };
 
   hooks.beforeEach(function () {
     route = this.owner.lookup('route:authenticated/organization-participants/organization-participant/activity');
@@ -18,14 +19,15 @@ module('Unit | Route | authenticated/organization-participants/organization-part
 
   test("should return model if user is authorized to display participant's activity", async function (assert) {
     // given
-    const expectedModel = {};
-    store.queryRecord.resolves(expectedModel);
+    const activity = Symbol('activity');
+    const expectedModel = { organizationLearner, activity };
+    store.queryRecord.resolves(activity);
 
     // when
     const model = await route.model();
 
     // then
-    assert.strictEqual(model, expectedModel);
+    assert.deepEqual(model, expectedModel);
     assert.ok(route.router.replaceWith.notCalled);
   });
 
