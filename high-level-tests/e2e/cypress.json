@@ -8,7 +8,7 @@
   "blockHosts": ["*stats.pix.fr*", "*analytics.pix.fr*"],
   "screenshotsFolder": "cypress/snapshots/actual",
   "trashAssetsBeforeRuns": true,
-  "projectId": "g2rfqp",
+  "projectId": "3cjm89",
   "numTestsKeptInMemory": 0,
   "viewportWidth": 1500,
   "nodeVersion": "system",
