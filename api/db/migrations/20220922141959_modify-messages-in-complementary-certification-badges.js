@@ -66,4 +66,5 @@ exports.up = async function (knex) {
  * @param { import('knex').Knex } knex
  * @returns { Promise<void> }
  */
+// eslint-disable-next-line no-empty-function
 exports.down = function (_) {};
