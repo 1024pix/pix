@@ -11,9 +11,9 @@ async function index() {
       type: 'string',
       description: 'L\'id de la compétence',
     })
-    .option('targetProfileId', {
+    .option('campaignId', {
       type: 'number',
-      description: 'L\'id du target profile',
+      description: 'L\'id d\'une campagne',
     })
     .option('locale', {
       type: 'string',
@@ -38,8 +38,7 @@ async function index() {
     })
     .check((argv) => {
       return Boolean(argv.competenceId || argv.targetProfileId);
-    })
-    .argv;
+    }).argv;
 
   await launchTest(argv);
 

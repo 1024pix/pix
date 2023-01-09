@@ -28,7 +28,6 @@ function _readUsersKEFile(path) {
 }
 
 function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targetSkills, userId, userResult, userKE }) {
-
   let result;
   const isFirstAnswer = !allAnswers.length;
   switch (userResult) {
@@ -42,10 +41,10 @@ function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targe
       result = POSSIBLE_ANSWER_STATUSES[Math.round(Math.random())];
       break;
     case 'firstOKthenKO':
-      isFirstAnswer ? result = AnswerStatus.OK : result = AnswerStatus.KO;
+      result = isFirstAnswer ? AnswerStatus.OK : AnswerStatus.KO;
       break;
     case 'firstKOthenOK':
-      isFirstAnswer ? result = AnswerStatus.KO : result = AnswerStatus.OK;
+      result = isFirstAnswer ? AnswerStatus.KO : AnswerStatus.OK;
       break;
     case 'KE': {
       const ke = find(userKE, (ke) => challenge.skill.id === ke.skillId);
@@ -68,18 +67,30 @@ function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targe
   const newKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
     answer: newAnswer,
     challenge,
-    previouslyFailedSkills: _getSkillsFilteredByStatus(allKnowledgeElements, targetSkills, KnowledgeElement.StatusType.INVALIDATED),
-    previouslyValidatedSkills: _getSkillsFilteredByStatus(allKnowledgeElements, targetSkills, KnowledgeElement.StatusType.VALIDATED),
+    previouslyFailedSkills: _getSkillsFilteredByStatus(
+      allKnowledgeElements,
+      targetSkills,
+      KnowledgeElement.StatusType.INVALIDATED,
+    ),
+    previouslyValidatedSkills: _getSkillsFilteredByStatus(
+      allKnowledgeElements,
+      targetSkills,
+      KnowledgeElement.StatusType.VALIDATED,
+    ),
     targetSkills,
     userId,
   });
 
-  return { answerStatus: result, updatedAnswers: [...allAnswers, newAnswer], updatedKnowledgeElements: [...allKnowledgeElements, ...newKnowledgeElements] };
+  return {
+    answerStatus: result,
+    updatedAnswers: [...allAnswers, newAnswer],
+    updatedKnowledgeElements: [...allKnowledgeElements, ...newKnowledgeElements],
+  };
 }
 
 async function _getReferentiel({
   assessment,
-  targetProfileId,
+  campaignId,
   answerRepository,
   challengeRepository,
   knowledgeElementRepository,
@@ -87,8 +98,8 @@ async function _getReferentiel({
   improvementService,
   campaignRepository,
 }) {
-  if (targetProfileId) {
-    const skills = await campaignRepository.findSkillsByCampaignParticipationId(assessment.campaignParticipationId);
+  if (campaignId) {
+    const skills = await campaignRepository.findSkills({ campaignId });
     const campaignRepositoryStub = {
       findSkillsByCampaignParticipationId: () => {
         return skills;
@@ -125,14 +136,7 @@ async function _getReferentiel({
   }
 }
 
-async function _getChallenge({
-  challenges,
-  targetSkills,
-  assessment,
-  locale,
-  knowledgeElements,
-  allAnswers,
-}) {
+async function _getChallenge({ challenges, targetSkills, assessment, locale, knowledgeElements, allAnswers }) {
   const result = smartRandom.getPossibleSkillsForNextChallenge({
     knowledgeElements,
     challenges,
@@ -150,7 +154,12 @@ async function _getChallenge({
 
   const challengeLevel = _getChallengeLevel({ assessment, result });
 
-  return { challenge, hasAssessmentEnded: result.hasAssessmentEnded, estimatedLevel: result.levelEstimated, challengeLevel };
+  return {
+    challenge,
+    hasAssessmentEnded: result.hasAssessmentEnded,
+    estimatedLevel: result.levelEstimated,
+    challengeLevel,
+  };
 }
 
 function _getChallengeLevel({ assessment, result }) {
@@ -161,12 +170,20 @@ function _getChallengeLevel({ assessment, result }) {
   return chosenSkill ? chosenSkill.difficulty : null;
 }
 
-async function proceedAlgo(challenges, targetSkills, assessment, locale, knowledgeElements, allAnswers, userResult, userKE) {
+async function proceedAlgo(
+  challenges,
+  targetSkills,
+  assessment,
+  locale,
+  knowledgeElements,
+  allAnswers,
+  userResult,
+  userKE,
+) {
   let isAssessmentOver = false;
   const algoResult = new AlgoResult();
 
   while (!isAssessmentOver) {
-
     const { challenge, hasAssessmentEnded, estimatedLevel, challengeLevel } = await _getChallenge({
       challenges,
       targetSkills,
@@ -201,8 +218,7 @@ async function proceedAlgo(challenges, targetSkills, assessment, locale, knowled
 }
 
 async function launchTest(argv) {
-
-  const { competenceId, targetProfileId, locale, userResult, usersKEFile, enabledCsvOutput } = argv;
+  const { competenceId, campaignId, locale, userResult, usersKEFile, enabledCsvOutput } = argv;
 
   const allAnswers = [];
   const knowledgeElements = [];
@@ -224,7 +240,7 @@ async function launchTest(argv) {
 
   const { challenges, targetSkills } = await _getReferentiel({
     assessment,
-    targetProfileId,
+    campaignId,
     answerRepository,
     challengeRepository,
     knowledgeElementRepository,
@@ -241,7 +257,7 @@ async function launchTest(argv) {
 
   if (enabledCsvOutput) {
     const writeResults = algoResults.map((algoResult) => {
-      return algoResult.writeCsvFile(targetProfileId ?? competenceId);
+      return algoResult.writeCsvFile(campaignId ?? competenceId);
     });
     await Promise.all(writeResults);
   }
