@@ -114,8 +114,8 @@ describe('Unit | Router | training-router', function () {
             duration: '6h',
             type: 'webinaire',
             locale: 'fr-fr',
-            editorName: 'ministère',
-            editorLogoUrl: 'http://www.image.pix.fr/image.svg',
+            'editor-name': 'ministère',
+            'editor-logo-url': 'http://www.image.pix.fr/image.svg',
           },
         },
       };
@@ -148,8 +148,8 @@ describe('Unit | Router | training-router', function () {
             duration: '6h',
             type: 'webinaire',
             locale: 'fr-fr',
-            editorName: 'ministère',
-            editorLogoUrl: 'http://www.image.pix.fr/image.svg',
+            'editor-name': 'ministère',
+            'editor-logo-url': 'http://www.image.pix.fr/image.svg',
           },
         },
       };
@@ -182,8 +182,8 @@ describe('Unit | Router | training-router', function () {
             link: 'http://www.example.net',
             type: 'webinaire',
             locale: 'fr-fr',
-            editorName: 'ministère',
-            editorLogoUrl: 'http://www.image.pix.fr/image.svg',
+            'editor-name': 'ministère',
+            'editor-logo-url': 'http://www.image.pix.fr/image.svg',
           },
         },
       };
@@ -216,8 +216,8 @@ describe('Unit | Router | training-router', function () {
             link: 'http://www.example.net',
             duration: '6h',
             locale: 'fr-fr',
-            editorName: 'ministère',
-            editorLogoUrl: 'http://www.image.pix.fr/image.svg',
+            'editor-name': 'ministère',
+            'editor-logo-url': 'http://www.image.pix.fr/image.svg',
           },
         },
       };
@@ -250,8 +250,8 @@ describe('Unit | Router | training-router', function () {
             link: 'http://www.example.net',
             duration: '6h',
             type: 'webinaire',
-            editorName: 'ministère',
-            editorLogoUrl: 'http://www.image.pix.fr/image.svg',
+            'editor-name': 'ministère',
+            'editor-logo-url': 'http://www.image.pix.fr/image.svg',
           },
         },
       };
@@ -275,7 +275,7 @@ describe('Unit | Router | training-router', function () {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return 400 if in the payload there is no editorName', async function () {
+    it('should return 400 if in the payload there is no editor-name', async function () {
       // given
       const invalidPayload = {
         data: {
@@ -285,7 +285,7 @@ describe('Unit | Router | training-router', function () {
             duration: '6h',
             type: 'webinaire',
             locale: 'fr-fr',
-            editorLogoUrl: 'http://www.image.pix.fr/image.svg',
+            'editor-logo-url': 'http://www.image.pix.fr/image.svg',
           },
         },
       };
@@ -309,7 +309,7 @@ describe('Unit | Router | training-router', function () {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return 400 if in the payload there is no editorLogoUrl', async function () {
+    it('should return 400 if in the payload there is no editor-logo-url', async function () {
       // given
       const invalidPayload = {
         data: {
@@ -319,7 +319,7 @@ describe('Unit | Router | training-router', function () {
             duration: '6h',
             type: 'webinaire',
             locale: 'fr-fr',
-            editorName: 'ministère',
+            'editor-name': 'ministère',
           },
         },
       };
