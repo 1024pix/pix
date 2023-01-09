@@ -56,13 +56,13 @@ exports.register = async (server) => {
           payload: Joi.object({
             data: Joi.object({
               attributes: Joi.object({
-                link: Joi.string().required(),
+                link: Joi.string().uri().required(),
                 title: Joi.string().required(),
                 duration: Joi.string().required(),
                 type: Joi.string().valid('autoformation', 'webinaire').required(),
                 locale: Joi.string().valid('fr-fr', 'fr', 'en-gb').required(),
                 'editor-name': Joi.string().required(),
-                'editor-logo-url': Joi.string().required(),
+                'editor-logo-url': Joi.string().uri().required(),
               }),
               type: Joi.string().valid('trainings'),
             }).required(),
