@@ -5,11 +5,11 @@
   <DataProtectionPolicyInformationBanner />
 </div>
 
-<header>
+<header role="banner">
   <NavbarHeader />
 </header>
 
-<main class="main">
+<main class="main" role="main">
   <PixBackgroundHeader>
     <PixBlock class="container">
       <h1 class="title rounded-panel-title">
@@ -34,7 +34,7 @@
         </div>
 
         {{#if this.errorMessage}}
-          <div class="error">
+          <div class="error" aria-live="polite">
             {{this.errorMessage}}
           </div>
         {{/if}}
@@ -73,84 +73,7 @@
   </PixBackgroundHeader>
 </main>
 
-<footer id="footer" class="footer">
-  <div class="footer__container">
-    <div class="footer-container__logos">
-      <div class="footer-logos__french-government">
-        <img src="/images/logo/logo-de-la-republique-francaise.svg"  alt="{{t 'common.french-republic'}}"/>
-      </div>
-      <div class="footer-logos__french-government">
-        <img src="/images/logo/logo-de-la-republique-francaise.svg" />
-      </div>
-      <PixLogo />
-    </div>
-
-    <div class="footer-container__content">
-      <nav class="footer-container-content__navigation">
-        <ul class="footer-container-content__navigation-list">
-          <li>
-            <a href="{{this.supportHomeUrl}}" target="_blank" class="footer-navigation__item" rel="noopener noreferrer">
-              {{t "navigation.footer.help-center"}}
-            </a>
-          </li>
-
-          <li>
-            <a
-              href="{{this.accessibilityUrl}}"
-              target="_blank"
-              class="footer-navigation__item"
-              rel="noopener noreferrer"
-            >
-              {{t "navigation.footer.a11y"}}
-            </a>
-          </li>
-
-          <li>
-            <a href="{{this.cguUrl}}" target="_blank" class="footer-navigation__item" rel="noopener noreferrer">
-              {{t "navigation.footer.eula"}}
-            </a>
-          </li>
-
-          <li>
-            <a
-              href="{{this.dataProtectionPolicyUrl}}"
-              target="_blank"
-              class="footer-navigation__item"
-              rel="noopener noreferrer"
-            >
-              {{t "navigation.footer.data-protection-policy"}}
-            </a>
-          </li>
-
-          <li>
-            <a
-              href="{{t 'navigation.footer.student-data-protection-policy-url'}}"
-              target="_blank"
-              class="footer-navigation__item"
-              rel="noopener noreferrer"
-            >
-              {{t "navigation.footer.student-data-protection-policy"}}
-            </a>
-          </li>
-          <li>
-            <LinkTo
-              @route="authenticated.sitemap"
-              class="footer-navigation__item footer-navigation__item--internal-link"
-            >
-              {{t "navigation.footer.sitemap"}}
-            </LinkTo>
-          </li>
-        </ul>
-      </nav>
-
-      <div class="footer-container-content__copyrights">
-        <span>{{t "navigation.copyrights"}} 2023 {{t "navigation.pix"}}</span>
-      </div>
-    </div>
-
-  </div>
-
-</footer>
+<Footer />
 
 <PixModal
   @title={{t "pages.fill-in-campaign-code.mediacentre-start-campaign-modal.title"}}
