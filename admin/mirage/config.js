@@ -28,7 +28,7 @@ import {
 } from './handlers/organizations';
 import { getPaginatedJuryCertificationSummariesBySessionId } from './handlers/get-jury-certification-summaries-by-session-id';
 import { createAdminMember } from './handlers/admin-members';
-import { findPaginatedTrainingSummaries } from './handlers/trainings';
+import { findPaginatedTrainingSummaries, createTraining } from './handlers/trainings';
 
 export default function () {
   this.logging = true;
@@ -285,6 +285,7 @@ export default function () {
   this.patch('/admin/stages/:id');
 
   this.get('/admin/training-summaries', findPaginatedTrainingSummaries);
+  this.post('/admin/trainings', createTraining);
 
   this.get('/admin/certifications/:id');
   this.get('/admin/certifications/:id/certified-profile', (schema, request) => {
