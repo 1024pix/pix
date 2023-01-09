@@ -58,10 +58,13 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           test('should display landing page', async function (assert) {
             // given
             const campaign = server.create('campaign', { isRestricted: false });
-            await visit('/campagnes');
+            const screen = await visit('/campagnes');
 
             // when
-            await fillIn('#campaign-code', campaign.code);
+            await fillIn(
+              screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.first-title-not-connected')),
+              campaign.code
+            );
             await click('.fill-in-campaign-code__start-button');
 
             // then
@@ -93,7 +96,10 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               // given
               const campaign = server.create('campaign', { isRestricted: false });
               const screen = await visit('/campagnes');
-              await fillIn('#campaign-code', campaign.code);
+              await fillIn(
+                screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.first-title-not-connected')),
+                campaign.code
+              );
               await click('.fill-in-campaign-code__start-button');
               // TODO: Fix this the next time the file is edited.
               // eslint-disable-next-line qunit/no-assert-equal
@@ -127,10 +133,13 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           module('When the student has an account but is not reconciled', function () {
             test('should redirect to invited sco student page', async function (assert) {
               // given
-              await visit('/campagnes');
+              const screen = await visit('/campagnes');
 
               // when
-              await fillIn('#campaign-code', campaign.code);
+              await fillIn(
+                screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.first-title-not-connected')),
+                campaign.code
+              );
               await clickByLabel(t('pages.fill-in-campaign-code.start'));
               await clickByLabel('Je commence');
               await click('#login-button');
@@ -153,10 +162,13 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
                 server.create('sco-organization-learner', {
                   campaignCode: campaign.code,
                 });
-                await visit('/campagnes');
+                const screen = await visit('/campagnes');
 
                 // when
-                await fillIn('#campaign-code', campaign.code);
+                await fillIn(
+                  screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.first-title-not-connected')),
+                  campaign.code
+                );
                 await clickByLabel(t('pages.fill-in-campaign-code.start'));
                 await clickByLabel('Je commence');
                 await click('#login-button');
@@ -177,9 +189,12 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           module('When user must accept Pix last terms of service', async function () {
             test('should redirect to invited sco student page after accept terms of service', async function (assert) {
               // given
-              await visit('/campagnes');
+              const screen = await visit('/campagnes');
               prescritUser.mustValidateTermsOfService = true;
-              await fillIn('#campaign-code', campaign.code);
+              await fillIn(
+                screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.first-title-not-connected')),
+                campaign.code
+              );
               await clickByLabel(t('pages.fill-in-campaign-code.start'));
               await clickByLabel('Je commence');
               await click('#login-button');
@@ -356,10 +371,13 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
           test('should redirect to landing page', async function (assert) {
             // given
-            await visit('/campagnes');
+            const screen = await visit('/campagnes');
 
             // when
-            await fillIn('#campaign-code', campaign.code);
+            await fillIn(
+              screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.first-title-not-connected')),
+              campaign.code
+            );
             await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
             // then
@@ -434,10 +452,13 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
         test('should display an error message on fill-in-campaign-code page', async function (assert) {
           // given
           const campaignCode = 'NONEXIST';
-          await visit('/campagnes');
+          const screen = await visit('/campagnes');
 
           // when
-          await fillIn('#campaign-code', campaignCode);
+          await fillIn(
+            screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.first-title-not-connected')),
+            campaignCode
+          );
           await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
           // then
@@ -551,10 +572,15 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
         module('When association is not already done', function () {
           test('should redirect to landing page', async function (assert) {
             // given
-            await visit('/campagnes');
+            const screen = await visit('/campagnes');
 
             //when
-            await fillIn('#campaign-code', campaign.code);
+            await fillIn(
+              screen.getByLabelText(
+                this.intl.t('pages.fill-in-campaign-code.first-title-connected', { firstName: prescritUser.firstName })
+              ),
+              campaign.code
+            );
             await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
             //then
@@ -669,10 +695,15 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
         test('should redirect to landing page', async function (assert) {
           // given
-          await visit('/campagnes');
+          const screen = await visit('/campagnes');
 
           //when
-          await fillIn('#campaign-code', campaign.code);
+          await fillIn(
+            screen.getByLabelText(
+              this.intl.t('pages.fill-in-campaign-code.first-title-connected', { firstName: prescritUser.firstName })
+            ),
+            campaign.code
+          );
           await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
           //then
@@ -853,8 +884,11 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
         const previousUserId = session.data.authenticated['user_id'];
 
         // when
-        await visit('/campagnes');
-        await fillIn('#campaign-code', campaign.code);
+        const screen = await visit('/campagnes');
+        await fillIn(
+          screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.first-title-not-connected')),
+          campaign.code
+        );
         await clickByLabel(t('pages.fill-in-campaign-code.start'));
         await click('button[type="submit"]');
 
@@ -873,6 +907,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
         });
 
         module('When association is not already done and reconciliation token is provided', function (hooks) {
+          let screen;
           hooks.beforeEach(async function () {
             const externalUserToken =
               'aaa.' +
@@ -880,12 +915,15 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
                 '{"first_name":"JeanPrescrit","last_name":"Campagne","saml_id":"SamlId","source":"external","iat":1545321469,"exp":4702193958}'
               ) +
               '.bbb';
-            await visit(`/campagnes?externalUser=${externalUserToken}`);
+            screen = await visit(`/campagnes?externalUser=${externalUserToken}`);
           });
 
           test('should redirect to landing page', async function (assert) {
             // when
-            await fillIn('#campaign-code', campaign.code);
+            await fillIn(
+              screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.first-title-not-connected')),
+              campaign.code
+            );
             await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
             // then
@@ -896,7 +934,10 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
           test('should redirect to reconciliation form when landing page has been seen', async function (assert) {
             // when
-            await fillIn('#campaign-code', campaign.code);
+            await fillIn(
+              screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.first-title-not-connected')),
+              campaign.code
+            );
             await clickByLabel(t('pages.fill-in-campaign-code.start'));
             await clickByLabel('Je commence');
 
@@ -908,7 +949,10 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
           test('should set by default firstName and lastName', async function (assert) {
             // when
-            await fillIn('#campaign-code', campaign.code);
+            await fillIn(
+              screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.first-title-not-connected')),
+              campaign.code
+            );
             await clickByLabel(t('pages.fill-in-campaign-code.start'));
             await clickByLabel('Je commence');
 
@@ -923,7 +967,10 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
           test('should begin campaign participation when reconciliation is done', async function (assert) {
             // given
-            await fillIn('#campaign-code', campaign.code);
+            await fillIn(
+              screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.first-title-not-connected')),
+              campaign.code
+            );
             await clickByLabel(t('pages.fill-in-campaign-code.start'));
             await clickByLabel('Je commence');
 
@@ -972,10 +1019,13 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               server.create('sco-organization-learner', {
                 campaignCode: campaign.code,
               });
-              await visit('/campagnes');
+              const screen = await visit('/campagnes');
 
               // when
-              await fillIn('#campaign-code', campaign.code);
+              await fillIn(
+                screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.first-title-not-connected')),
+                campaign.code
+              );
               await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
               // then
@@ -993,7 +1043,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               '{"first_name":"JeanPrescrit","last_name":"Campagne","saml_id":"SamlId","source":"external","iat":1545321469,"exp":4702193958}'
             ) +
             '.bbb';
-
+          let screen;
           hooks.beforeEach(async function () {
             server.post('/sco-organization-learners/external', async function () {
               return new Response(
@@ -1017,7 +1067,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               );
             });
 
-            await visit(`/campagnes?externalUser=${externalUserToken}`);
+            screen = await visit(`/campagnes?externalUser=${externalUserToken}`);
           });
 
           test('should begin campaign participation if GAR authentication method has been added', async function (assert) {
@@ -1025,7 +1075,10 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             server.create('sco-organization-learner', {
               campaignCode: campaign.code,
             });
-            await fillIn('#campaign-code', campaign.code);
+            await fillIn(
+              screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.first-title-not-connected')),
+              campaign.code
+            );
             await clickByLabel(t('pages.fill-in-campaign-code.start'));
             await clickByLabel('Je commence');
 
@@ -1063,7 +1116,10 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             );
             server.post('/token-from-external-user', () => errorsApi);
 
-            await fillIn('#campaign-code', campaign.code);
+            await fillIn(
+              screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.first-title-not-connected')),
+              campaign.code
+            );
             await clickByLabel(t('pages.fill-in-campaign-code.start'));
             await clickByLabel('Je commence');
 
@@ -1105,7 +1161,10 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             );
             server.post('/token-from-external-user', () => errorsApi);
 
-            await fillIn('#campaign-code', campaign.code);
+            await fillIn(
+              screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.first-title-not-connected')),
+              campaign.code
+            );
             await clickByLabel(t('pages.fill-in-campaign-code.start'));
             await clickByLabel('Je commence');
 
@@ -1136,7 +1195,10 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.';
             server.post('/token-from-external-user', () => new Response(500));
 
-            await fillIn('#campaign-code', campaign.code);
+            await fillIn(
+              screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.first-title-not-connected')),
+              campaign.code
+            );
             await clickByLabel(t('pages.fill-in-campaign-code.start'));
             await clickByLabel('Je commence');
 
@@ -1190,7 +1252,10 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               });
 
               // when
-              await fillIn('#campaign-code', campaign.code);
+              await fillIn(
+                screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.first-title-not-connected')),
+                campaign.code
+              );
               await clickByLabel(t('pages.fill-in-campaign-code.start'));
               await clickByLabel('Je commence');
 

@@ -65,7 +65,10 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
 
         // when
         const screen = await visit(`/campagnes`);
-        await fillIn(screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.description')), campaign.code);
+        await fillIn(
+          screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.first-title-not-connected')),
+          campaign.code
+        );
         await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
         // then
@@ -86,7 +89,10 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
 
           // when
           const screen = await visit(`/campagnes`);
-          await fillIn(screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.description')), campaign.code);
+          await fillIn(
+            screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.first-title-not-connected')),
+            campaign.code
+          );
           await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
           await waitForDialog();
           await click(screen.getByRole('link', { name: 'Continuer' }));
@@ -109,7 +115,10 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
 
           // when
           const screen = await visit(`/campagnes`);
-          await fillIn(screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.description')), campaign.code);
+          await fillIn(
+            screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.first-title-not-connected')),
+            campaign.code
+          );
           await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
           await waitForDialog();
           await click(screen.getByRole('button', { name: 'Quitter' }));
@@ -129,7 +138,10 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
 
         // when
         const screen = await visit(`/campagnes`);
-        await fillIn(screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.description')), campaign.code);
+        await fillIn(
+          screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.first-title-not-connected')),
+          campaign.code
+        );
         await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
         // then

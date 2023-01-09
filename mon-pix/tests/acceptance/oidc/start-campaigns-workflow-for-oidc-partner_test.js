@@ -41,10 +41,13 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
 
       test('should redirect to landing page', async function (assert) {
         // given
-        await visit('/campagnes');
+        const screen = await visit('/campagnes');
 
         // when
-        await fillIn('#campaign-code', campaign.code);
+        await fillIn(
+          screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.first-title-not-connected')),
+          campaign.code
+        );
         await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
         // then
@@ -116,9 +119,10 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
 
     module('When user is logged in', function (hooks) {
       let replaceLocationStub;
+      let prescritUser;
 
       hooks.beforeEach(async function () {
-        const prescritUser = server.create('user', 'withEmail', {
+        prescritUser = server.create('user', 'withEmail', {
           mustValidateTermsOfService: false,
           lastTermsOfServiceValidatedAt: null,
         });
@@ -141,10 +145,15 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
 
         test('should redirect to landing page', async function (assert) {
           // given
-          await visit('/campagnes');
+          const screen = await visit('/campagnes');
 
           // when
-          await fillIn('#campaign-code', campaign.code);
+          await fillIn(
+            screen.getByLabelText(
+              this.intl.t('pages.fill-in-campaign-code.first-title-connected', { firstName: prescritUser.firstName })
+            ),
+            campaign.code
+          );
           await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
           // then
@@ -153,8 +162,13 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
 
         test('should begin campaign participation', async function (assert) {
           // given
-          await visit('/campagnes');
-          await fillIn('#campaign-code', campaign.code);
+          const screen = await visit('/campagnes');
+          await fillIn(
+            screen.getByLabelText(
+              this.intl.t('pages.fill-in-campaign-code.first-title-connected', { firstName: prescritUser.firstName })
+            ),
+            campaign.code
+          );
           await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
           // when
@@ -168,10 +182,15 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
       module('When user is logged in with another authentication method', function () {
         test('should redirect to landing page', async function (assert) {
           // given
-          await visit('/campagnes');
+          const screen = await visit('/campagnes');
 
           // when
-          await fillIn('#campaign-code', campaign.code);
+          await fillIn(
+            screen.getByLabelText(
+              this.intl.t('pages.fill-in-campaign-code.first-title-connected', { firstName: prescritUser.firstName })
+            ),
+            campaign.code
+          );
           await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
           // then

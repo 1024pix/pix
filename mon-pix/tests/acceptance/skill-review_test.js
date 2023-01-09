@@ -308,8 +308,11 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
       // given
       await currentSession().authenticate('authenticator:anonymous', { campaignCode: campaignForNovice.code });
 
-      await visit(`/campagnes/${campaignForNovice.code}`);
-      await fillIn('#campaign-code', campaignForNovice.code);
+      const screen = await visit(`/campagnes/${campaignForNovice.code}`);
+      await fillIn(
+        screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.first-title-not-connected')),
+        campaignForNovice.code
+      );
       await click('.fill-in-campaign-code__start-button');
 
       //TODO: locale is UNDEFINED after using visit
