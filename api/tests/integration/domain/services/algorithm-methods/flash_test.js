@@ -919,6 +919,41 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         // then
         expect(result).to.equal(110011);
       });
+
+      it('should not count a skill more than once in direct score', function () {
+        // given
+        const skill = domainBuilder.buildSkill({ id: 'FirstSkill', pixValue: 1 });
+
+        const successProbabilityThreshold = 0.95;
+
+        const challenges = [
+          domainBuilder.buildChallenge({
+            id: 'First',
+            skill,
+            discriminant: 0.16,
+            difficulty: -2,
+            successProbabilityThreshold,
+          }),
+          domainBuilder.buildChallenge({
+            id: 'Second',
+            skill,
+            discriminant: 3,
+            difficulty: 6,
+            successProbabilityThreshold,
+          }),
+        ];
+
+        const allAnswers = [
+          domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[0].id }),
+          domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[1].id }),
+        ];
+
+        // when
+        const result = flash.calculateTotalPixScore({ allAnswers, challenges });
+
+        // then
+        expect(result).to.equal(1);
+      });
     });
   });
 });
