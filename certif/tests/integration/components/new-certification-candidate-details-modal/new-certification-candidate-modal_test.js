@@ -31,26 +31,25 @@ module('Integration | Component | new-certification-candidate-modal', function (
     this.set('updateCandidateStub', updateCandidateStub);
     this.set('updateCandidateWithEventStub', updateCandidateWithEventStub);
     this.set('countries', []);
-    this.set('candidateData', [
-      {
-        firstName: '',
-        lastName: '',
-        birthdate: '',
-        birthCity: '',
-        birthCountry: '',
-        email: '',
-        externalId: '',
-        resultRecipientEmail: '',
-        birthPostalCode: '',
-        birthInseeCode: '',
-        sex: '',
-        extraTimePercentage: '',
-      },
-    ]);
+    this.set('candidateData', {
+      firstName: '',
+      lastName: '',
+      birthdate: '',
+      birthCity: '',
+      birthCountry: '',
+      email: '',
+      externalId: '',
+      resultRecipientEmail: '',
+      birthPostalCode: '',
+      birthInseeCode: '',
+      sex: '',
+      extraTimePercentage: '',
+    });
 
     // when
     const screen = await renderScreen(hbs`
       <NewCertificationCandidateModal
+        @showModal={{true}}
         @closeModal={{this.closeModal}}
         @countries={{this.countries}}
         @updateCandidateData={{this.updateCandidateStub}}
@@ -92,39 +91,41 @@ module('Integration | Component | new-certification-candidate-modal', function (
       const closeModalStub = sinon.stub();
       const updateCandidateStub = sinon.stub();
       const updateCandidateWithEventStub = sinon.stub();
+      const updateCandidateFromValueStub = sinon.stub();
+      this.set('updateCandidateFromValueStub', updateCandidateFromValueStub);
       this.set('shouldDisplayPaymentOptions', shouldDisplayPaymentOptions);
       this.set('closeModal', closeModalStub);
       this.set('updateCandidateStub', updateCandidateStub);
       this.set('updateCandidateWithEventStub', updateCandidateWithEventStub);
       this.set('countries', []);
-      this.set('candidateData', [
-        {
-          firstName: '',
-          lastName: '',
-          birthdate: '',
-          birthCity: '',
-          birthCountry: '',
-          email: '',
-          externalId: '',
-          resultRecipientEmail: '',
-          birthPostalCode: '',
-          birthInseeCode: '',
-          sex: '',
-          extraTimePercentage: '',
-          billingMode: '',
-          prepaymentCode: '',
-        },
-      ]);
+      this.set('candidateData', {
+        firstName: '',
+        lastName: '',
+        birthdate: '',
+        birthCity: '',
+        birthCountry: '',
+        email: '',
+        externalId: '',
+        resultRecipientEmail: '',
+        birthPostalCode: '',
+        birthInseeCode: '',
+        sex: '',
+        extraTimePercentage: '',
+        billingMode: '',
+        prepaymentCode: '',
+      });
 
       // when
       const screen = await renderScreen(hbs`
         <NewCertificationCandidateModal
+          @showModal={{true}}
           @closeModal={{this.closeModal}}
           @countries={{this.countries}}
           @updateCandidateData={{this.updateCandidateStub}}
           @updateCandidateDataWithEvent={{this.updateCandidateStub}}
           @candidateData={{this.candidateData}}
           @shouldDisplayPaymentOptions={{this.shouldDisplayPaymentOptions}}
+          @updateCandidateDataFromValue={{this.updateCandidateFromValueStub}}
         />
       `);
 
@@ -166,22 +167,20 @@ module('Integration | Component | new-certification-candidate-modal', function (
     this.set('closeModal', closeModalStub);
     this.set('updateCandidateStub', updateCandidateStub);
     this.set('updateCandidateWithEventStub', updateCandidateWithEventStub);
-    this.set('candidateData', [
-      {
-        firstName: '',
-        lastName: '',
-        birthdate: '',
-        birthCity: '',
-        birthCountry: '',
-        email: '',
-        externalId: '',
-        resultRecipientEmail: '',
-        birthPostalCode: '',
-        birthInseeCode: '',
-        sex: '',
-        extraTimePercentage: '',
-      },
-    ]);
+    this.set('candidateData', {
+      firstName: '',
+      lastName: '',
+      birthdate: '',
+      birthCity: '',
+      birthCountry: '',
+      email: '',
+      externalId: '',
+      resultRecipientEmail: '',
+      birthPostalCode: '',
+      birthInseeCode: '',
+      sex: '',
+      extraTimePercentage: '',
+    });
     this.set('countries', [
       { id: 1, code: '99123', name: 'Syldavie' },
       { id: 2, code: '99100', name: 'France' },
@@ -191,6 +190,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
     // when
     const screen = await renderScreen(hbs`
       <NewCertificationCandidateModal
+        @showModal={{true}}
         @closeModal={{this.closeModal}}
         @countries={{this.countries}}
         @updateCandidateData={{this.updateCandidateStub}}
@@ -200,10 +200,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
     `);
 
     // then
-    const birthCountryField = screen.getByLabelText('* Pays de naissance');
-    assert.dom(birthCountryField).includesText('Syldavie');
-    assert.dom(birthCountryField).includesText('Botswana');
-    assert.dom(birthCountryField).hasValue('99100');
+    assert.dom(screen.getByRole('button', { name: '* Pays de naissance' })).includesText('France');
   });
 
   module('when close button cross icon is clicked', () => {
@@ -321,6 +318,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
       // when
       const screen = await renderScreen(hbs`
         <NewCertificationCandidateModal
+          @showModal={{true}}
           @closeModal={{this.closeModal}}
           @countries={{this.countries}}
           @updateCandidateData={{this.updateCandidateFromEventStub}}
@@ -329,7 +327,12 @@ module('Integration | Component | new-certification-candidate-modal', function (
         />
       `);
 
-      await fillIn(screen.getByLabelText('* Pays de naissance'), '99123');
+      await click(screen.getByLabelText('* Pays de naissance'));
+      await click(
+        await screen.findByRole('option', {
+          name: 'Borduristan',
+        })
+      );
 
       // then
       assert.dom(screen.queryByLabelText('* Code INSEE de naissance')).isNotVisible();
@@ -471,7 +474,12 @@ module('Integration | Component | new-certification-candidate-modal', function (
       await fillIn(screen.getByLabelText('* Nom de famille'), 'Threepwood');
       await fillIn(screen.getByLabelText('* Date de naissance'), '28/04/2019');
       await click(screen.getByRole('radio', { name: 'Homme' }));
-      await fillIn(screen.getByLabelText('* Pays de naissance'), 99100);
+      await click(screen.getByLabelText('* Pays de naissance'));
+      await click(
+        await screen.findByRole('option', {
+          name: 'FRANCE',
+        })
+      );
       await click(screen.getByRole('radio', { name: 'Code INSEE' }));
       await click(screen.getByRole('radio', { name: 'Certif complémentaire 1' }));
       await fillIn(screen.getByLabelText('Identifiant externe'), '44AA3355');
