@@ -17,6 +17,7 @@ testExit() {
   if [ "$actualExitCode" != "$expectedExitCode" ]; then
     echo "${RED}❌ TEST FAILED: expected $command to exit with $expectedExitCode but got $actualExitCode ${RESET}"
     echo "$output"
+    exit 2
   else
     echo "${GREEN}✅ SUCCESS ${RESET}"
   fi
