@@ -3,10 +3,10 @@ export default class CampaignLevel2 {
     this.masteryPercentage = masteryPercentage;
   }
   next() {
-    if (this.masteryPercentage <= 50) {
-      return 'MGBFUS272';
+    if (this.masteryPercentage < 70) {
+      return 'LBNPQE113';
     } else {
-      return 'PROCOMP51';
+      return 'KMXHXK913';
     }
   }
 }

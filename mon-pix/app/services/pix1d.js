@@ -1,17 +1,34 @@
 import Service, { inject as service } from '@ember/service';
-import CampaignLevel1 from '../utils/PIX1D/campaign-level-1';
-import CampaignLevel2 from '../utils/PIX1D/campaign-level-2';
+import Module1Level1 from '../utils/PIX1D/module1/campaign-level-1';
+import Module1Level2 from '../utils/PIX1D/module1/campaign-level-2';
+import Module1Level3 from '../utils/PIX1D/module1/campaign-level-3';
+import Module1Level4 from '../utils/PIX1D/module1/campaign-level-4';
+import Module2Level1 from '../utils/PIX1D/module2/campaign-level-1';
+import Module2Level2 from '../utils/PIX1D/module2/campaign-level-2';
+import Module2Level3 from '../utils/PIX1D/module2/campaign-level-3';
+import Module2Level4 from '../utils/PIX1D/module2/campaign-level-4';
 
 export default class Pix1dService extends Service {
-  @service store;
   @service router;
 
   state(campaignCode, masteryPercentage) {
     switch (campaignCode) {
-      case 'MGBFUS272':
-        return new CampaignLevel1(masteryPercentage);
-      case 'KCJJUL493':
-        return new CampaignLevel2(masteryPercentage);
+      case 'LBNPQE113':
+        return new Module1Level1(masteryPercentage);
+      case 'RAENYE884':
+        return new Module1Level2(masteryPercentage);
+      case 'KMXHXK913':
+        return new Module1Level3(masteryPercentage);
+      case 'CHANGE3':
+        return new Module1Level4(masteryPercentage);
+      case 'CHANGE4':
+        return new Module2Level1(masteryPercentage);
+      case 'CHANGE5':
+        return new Module2Level2(masteryPercentage);
+      case 'CHANGE6':
+        return new Module2Level3(masteryPercentage);
+      case 'CHANGE7':
+        return new Module2Level4(masteryPercentage);
       default:
         return null;
     }

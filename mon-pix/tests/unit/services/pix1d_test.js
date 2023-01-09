@@ -14,7 +14,7 @@ module('Unit | Service | pix1d', function (hooks) {
 
   module('#transition', function () {
     test('When the code campaign exists', async function (assert) {
-      await pix1dService.transition('MGBFUS272', 50);
+      await pix1dService.transition('LBNPQE113', 50);
       sinon.assert.calledWith(pix1dService.router.transitionTo, 'campaigns');
       assert.ok(true);
     });

@@ -3,10 +3,6 @@ export default class CampaignLevel1 {
     this.masteryPercentage = masteryPercentage;
   }
   next() {
-    if (this.masteryPercentage <= 89) {
-      return 'MGBFUS272';
-    } else {
-      return 'KCJJUL493';
-    }
+    return 'KCJJUL493';
   }
 }
