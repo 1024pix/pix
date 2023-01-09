@@ -16,14 +16,15 @@
         {{this.firstTitle}}
       </h1>
 
-      <p class="instruction">{{{t
+      <label class="instruction" for="campaign-code">{{{t
           "pages.fill-in-campaign-code.description"
-        }}}</p>
+        }}}</label>
       <form class="form" autocomplete="off">
 
         <div class="form-field">
           <Input
             required
+            id="campaign-code"
             class="input-code"
             @type="text"
             @value={{this.campaignCode}}
@@ -72,10 +73,12 @@
   </PixBackgroundHeader>
 </main>
 
-<div id="footer" class="footer">
 <footer id="footer" class="footer">
   <div class="footer__container">
     <div class="footer-container__logos">
+      <div class="footer-logos__french-government">
+        <img src="/images/logo/logo-de-la-republique-francaise.svg"  alt="{{t 'common.french-republic'}}"/>
+      </div>
       <div class="footer-logos__french-government">
         <img src="/images/logo/logo-de-la-republique-francaise.svg" />
       </div>
