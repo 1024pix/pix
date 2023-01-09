@@ -2,6 +2,7 @@ const { expect, catchErr, sinon } = require('../../../../test-helper');
 const csvSerializer = require('../../../../../lib/infrastructure/serializers/csv/csv-serializer');
 const logger = require('../../../../../lib/infrastructure/logger');
 const _ = require('lodash');
+const { FileValidationError } = require('../../../../../lib/domain/errors');
 
 describe('Unit | Serializer | CSV | csv-serializer', function () {
   describe('#serializeLine', function () {
@@ -74,6 +75,22 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
   });
 
   describe('#deserializeForSessionsImport', function () {
+    describe('when one or more headers are missing', function () {
+      it('should throw an error', async function () {
+        const parsedCsvData = [
+          {
+            '* Nom du site': `Site 1`,
+          },
+        ];
+
+        // when
+        const error = await catchErr(csvSerializer.deserializeForSessionsImport)(parsedCsvData);
+
+        // then
+        expect(error).to.be.instanceOf(FileValidationError);
+      });
+    });
+
     describe('when there is session information', function () {
       describe('when session information is identical on consecutive lines', function () {
         it('should return a full session object per line', function () {
