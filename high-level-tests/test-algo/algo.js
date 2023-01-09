@@ -41,10 +41,10 @@ function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targe
       result = POSSIBLE_ANSWER_STATUSES[Math.round(Math.random())];
       break;
     case 'firstOKthenKO':
-      isFirstAnswer ? (result = AnswerStatus.OK) : (result = AnswerStatus.KO);
+      result = isFirstAnswer ? AnswerStatus.OK : AnswerStatus.KO;
       break;
     case 'firstKOthenOK':
-      isFirstAnswer ? (result = AnswerStatus.KO) : (result = AnswerStatus.OK);
+      result = isFirstAnswer ? AnswerStatus.KO : AnswerStatus.OK;
       break;
     case 'KE': {
       const ke = find(userKE, (ke) => challenge.skill.id === ke.skillId);
