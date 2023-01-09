@@ -6,7 +6,8 @@ export default class IconTrigger extends Component {
   @tracked display = false;
 
   @action
-  toggle() {
+  toggle(event) {
+    event.stopPropagation();
     this.display = !this.display;
   }
 
