@@ -1,5 +1,5 @@
 {{page-title (t "pages.campaign-activity.title")}}
-<h2 class="sr-only">{{t "pages.campaign-activity.title"}}</h2>
+<h2 class="screen-reader-only">{{t "pages.campaign-activity.title"}}</h2>
 
 {{#if @model.campaign.hasParticipations}}
   <Campaign::Activity::Dashboard
@@ -8,7 +8,7 @@
     @class="activity__dashboard"
   />
 
-  <h3 class="sr-only">{{t "pages.campaign-activity.table.title"}}</h3>
+  <h3 class="screen-reader-only">{{t "pages.campaign-activity.table.title"}}</h3>
 
   <Campaign::Activity::ParticipantsList
     @campaign={{@model.campaign}}
