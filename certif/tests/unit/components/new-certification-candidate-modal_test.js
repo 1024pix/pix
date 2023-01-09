@@ -124,8 +124,8 @@ module('Unit | Component | new-certification-candidate-modal', function (hooks) 
         modal.args.updateCandidateDataFromValue = sinon.stub();
 
         // when
-        const event = { target: { value: '99127' } };
-        await modal.selectBirthCountry(event);
+        const optionSelected = '99127';
+        await modal.selectBirthCountry(optionSelected);
 
         // then
         sinon.assert.calledWith(
