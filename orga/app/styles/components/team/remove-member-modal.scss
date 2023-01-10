@@ -2,4 +2,17 @@
   color: $pix-neutral-90;
   line-height: $spacing-m;
   font-size: 1rem;
+
+  &__action-buttons {
+
+    &--list {
+      display: flex;
+      justify-content: flex-end;
+      gap: $spacing-s;
+    }
+
+    &--container {
+      margin-bottom: $spacing-s;
+    }
+  }
 }

@@ -14,12 +14,20 @@
     </p>
   </:content>
   <:footer>
-    <PixButton @triggerAction={{@onClose}} @backgroundColor="grey">
-      {{t "common.actions.cancel"}}
-    </PixButton>
+    <div class="remove-member-modal__action-buttons--container">
+      <ul class="remove-member-modal__action-buttons--list">
+        <li>
+          <PixButton @triggerAction={{@onClose}} @backgroundColor="grey">
+            {{t "common.actions.cancel"}}
+          </PixButton>
+        </li>
 
-    <PixButton @triggerAction={{@onSubmit}} @backgroundColor="red">
-      {{t "pages.team-members.remove-membership-modal.actions.remove"}}
-    </PixButton>
+        <li>
+          <PixButton @triggerAction={{@onSubmit}} @backgroundColor="red">
+            {{t "pages.team-members.remove-membership-modal.actions.remove"}}
+          </PixButton>
+        </li>
+      </ul>
+    </div>
   </:footer>
 </PixModal>
