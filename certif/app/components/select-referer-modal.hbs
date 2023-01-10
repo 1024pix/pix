@@ -10,10 +10,12 @@
         {{t "pages.team.select-referer-modal.title"}}
       </label>
       <PixSelect
-        id="referer"
+        @id="referer"
         @options={{@options}}
+        @value={{@selectedReferer}}
+        @placeholder={{(t "pages.team.select-referer-modal.empty-option")}}
+        @hideDefaultOption={{true}}
         @onChange={{@onSelectReferer}}
-        @emptyOptionLabel={{(t "pages.team.select-referer-modal.empty-option")}}
         @emptyOptionNotSelectable={{true}}
       />
     </div>

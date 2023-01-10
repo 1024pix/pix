@@ -34,8 +34,8 @@ export default class Team extends Controller {
   }
 
   @action
-  onSelectReferer(event) {
-    this.selectedReferer = event.target.value;
+  onSelectReferer(option) {
+    this.selectedReferer = option;
   }
 
   @action
