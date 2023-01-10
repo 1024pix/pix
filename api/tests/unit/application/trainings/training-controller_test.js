@@ -38,8 +38,18 @@ describe('Unit | Controller | training-controller', function () {
   });
 
   describe('#create', function () {
-    const deserializedTraining = { title: 'Training title' };
-    const createdTraining = { title: 'Training title' };
+    const deserializedTraining = {
+      title: 'Training title',
+      duration: '2d2h2m',
+    };
+    const createdTraining = {
+      title: 'Training title',
+      duration: {
+        days: 2,
+        hours: 2,
+        minutes: 2,
+      },
+    };
 
     beforeEach(function () {
       sinon.stub(trainingSerializer, 'deserialize').returns(deserializedTraining);
@@ -54,6 +64,11 @@ describe('Unit | Controller | training-controller', function () {
           attributes: {
             title: 'A new training',
             locale: 'fr',
+            duration: {
+              days: 2,
+              hours: 2,
+              minutes: 2,
+            },
           },
         },
       };
@@ -63,9 +78,7 @@ describe('Unit | Controller | training-controller', function () {
 
       // then
       expect(trainingSerializer.deserialize).to.have.been.calledWith(payload);
-      expect(usecases.createTraining).to.have.been.calledOnceWithExactly({
-        training: deserializedTraining,
-      });
+      expect(usecases.createTraining).to.have.been.calledOnceWithExactly({ training: deserializedTraining });
     });
 
     it('should return a serialized training', async function () {
@@ -85,7 +98,9 @@ describe('Unit | Controller | training-controller', function () {
           data: {
             attributes: {
               title: 'A new training',
-              duration: '5h',
+              duration: {
+                hours: 5,
+              },
             },
           },
         },
@@ -93,7 +108,7 @@ describe('Unit | Controller | training-controller', function () {
       );
 
       // then
-      expect(trainingSerializer.serialize).to.have.been.calledWith(deserializedTraining);
+      expect(trainingSerializer.serialize).to.have.been.calledWith(createdTraining);
       expect(response.source).to.deep.equal(expectedSerializedTraining);
     });
   });
