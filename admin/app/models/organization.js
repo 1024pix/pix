@@ -48,7 +48,7 @@ export default class Organization extends Model {
   }
 
   get isArchived() {
-    return !!this.archivistFullName;
+    return !!this.archivedAt;
   }
 
   get sortedTargetProfileSummaries() {
