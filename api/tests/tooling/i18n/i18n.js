@@ -9,6 +9,10 @@ function getI18n() {
     directory,
     objectNotation: true,
     updateFiles: false,
+    mustacheConfig: {
+      tags: ['{', '}'],
+      disable: false,
+    },
   });
   return i18n;
 }

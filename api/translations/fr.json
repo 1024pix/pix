@@ -14,18 +14,18 @@
   "campaign-export": {
     "assessment": {
       "competence-area": {
-        "items-successfully-completed": "Acquis maitrisés du domaine {{ name }}",
-        "mastery-percentage": "% de maitrise des acquis du domaine {{ name }}",
-        "total-items": "Nombre d'acquis du profil cible du domaine {{ name }}"
+        "items-successfully-completed": "Acquis maitrisés du domaine { name }",
+        "mastery-percentage": "% de maitrise des acquis du domaine { name }",
+        "total-items": "Nombre d'acquis du profil cible du domaine { name }"
       },
       "is-shared": "Partage (O/N)",
       "mastery-percentage-target-profile": "% maitrise de l'ensemble des acquis du profil",
       "progress": "% de progression",
       "shared-on": "Date du partage",
       "skill": {
-        "items-successfully-completed": "Acquis maitrisés dans la compétence {{name}}",
-        "mastery-percentage": "% de maitrise des acquis de la compétence {{name}}",
-        "total-items": "Nombre d'acquis du profil cible dans la compétence {{name}}"
+        "items-successfully-completed": "Acquis maitrisés dans la compétence {name}",
+        "mastery-percentage": "% de maitrise des acquis de la compétence {name}",
+        "total-items": "Nombre d'acquis du profil cible dans la compétence {name}"
       },
       "started-on": "Date de début",
       "status": {
@@ -33,14 +33,14 @@
         "not-tested": "Non testé",
         "ok": "OK"
       },
-      "success-rate": "Palier obtenu (/{{value}})",
+      "success-rate": "Palier obtenu (/{value})",
       "target-profile-name": "Parcours",
-      "thematic-result-name": "{{name}} obtenu (O/N)"
+      "thematic-result-name": "{name} obtenu (O/N)"
     },
     "common": {
       "campaign-id": "ID Campagne",
       "campaign-name": "Nom de la campagne",
-      "file-name": "Resultats-{{name}}-{{id}}-{{date}}.csv",
+      "file-name": "Resultats-{name}-{id}-{date}.csv",
       "no": "Non",
       "not-available": "NA",
       "organization-name": "Nom de l'organisation",
@@ -57,8 +57,8 @@
       "is-sent": "Envoi (O/N)",
       "pix-score": "Nombre de pix total",
       "sent-on": "Date de l'envoi",
-      "skill-level": "Niveau pour la compétence {{name}}",
-      "skill-ranking": "Nombre de pix pour la compétence {{name}}"
+      "skill-level": "Niveau pour la compétence {name}",
+      "skill-ranking": "Nombre de pix pour la compétence {name}"
     }
   },
   "certification-center-invitation-email": {
@@ -215,6 +215,6 @@
       "signing": "— L'équipe Pix",
       "warningMessage": "Si ce n'était pas vous, nous vous invitons à réinitialiser votre mot de passe au plus vite afin de sécuriser votre compte."
     },
-    "subject": "Votre code Pix est {{ code }}"
+    "subject": "Votre code Pix est { code }"
   }
 }

@@ -2,18 +2,18 @@
   "campaign-export": {
     "assessment": {
       "competence-area": {
-        "items-successfully-completed": "Items of the target profile successfully completed in the competence area {{name}}",
-        "mastery-percentage": "% of items successfully completed in the competence area {{name}}",
-        "total-items": "Number of items of the target profile in the competence area {{name}}"
+        "items-successfully-completed": "Items of the target profile successfully completed in the competence area {name}",
+        "mastery-percentage": "% of items successfully completed in the competence area {name}",
+        "total-items": "Number of items of the target profile in the competence area {name}"
       },
       "is-shared": "Shared (Y/N)",
       "mastery-percentage-target-profile": "% of items successfully completed in the target profile",
       "progress": "% of progression",
       "shared-on": "Shared on",
       "skill": {
-        "items-successfully-completed": "Items of the target profile successfully completed in the competence {{name}}",
-        "mastery-percentage": "% of items successfully completed in the competence {{name}}",
-        "total-items": "Number of items of the target profile in the competence {{name}}"
+        "items-successfully-completed": "Items of the target profile successfully completed in the competence {name}",
+        "mastery-percentage": "% of items successfully completed in the competence {name}",
+        "total-items": "Number of items of the target profile in the competence {name}"
       },
       "started-on": "Started on",
       "status": {
@@ -21,14 +21,14 @@
         "not-tested": "Not tested",
         "ok": "OK"
       },
-      "success-rate": "Success rate (/{{value}})",
+      "success-rate": "Success rate (/{value})",
       "target-profile-name": "Customised test",
-      "thematic-result-name": "{{name}} (Y/N)"
+      "thematic-result-name": "{name} (Y/N)"
     },
     "common": {
       "campaign-id": "Campaign ID",
       "campaign-name": "Campaign's name",
-      "file-name": "Results-{{name}}-{{id}}-{{date}}.csv",
+      "file-name": "Results-{name}-{id}-{date}.csv",
       "no": "No",
       "not-available": "NA",
       "organization-name": "Organisation’s name",
@@ -45,8 +45,8 @@
       "is-sent": "Sent (Y/N)",
       "pix-score": "Total pix score",
       "sent-on": "Sent on",
-      "skill-level": "Level reached in the competence {{name}}",
-      "skill-ranking": "Pix score for the competence {{name}}"
+      "skill-level": "Level reached in the competence {name}",
+      "skill-ranking": "Pix score for the competence {name}"
     }
   },
   "certification-center-invitation-email": {
@@ -203,6 +203,6 @@
       "signing": "— The Pix Team",
       "warningMessage": "If this wasn’t you, please reset your password as soon as possible in order to secure your account."
     },
-    "subject": "Your Pix code is {{ code }}"
+    "subject": "Your Pix code is { code }"
   }
 }
