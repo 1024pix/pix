@@ -54,7 +54,7 @@ describe('Unit | Domain | Models | UserLogin', function () {
         });
 
         // when
-        const result = userLogin.isUserTemporaryBlocked();
+        const result = userLogin.isUserMarkedAsTemporaryBlocked();
 
         // then
         expect(result).to.be.false;
@@ -71,7 +71,7 @@ describe('Unit | Domain | Models | UserLogin', function () {
         });
 
         // when
-        const result = userLogin.isUserTemporaryBlocked();
+        const result = userLogin.isUserMarkedAsTemporaryBlocked();
 
         // then
         expect(result).to.be.true;
@@ -87,7 +87,7 @@ describe('Unit | Domain | Models | UserLogin', function () {
         });
 
         // when
-        const result = userLogin.isUserTemporaryBlocked();
+        const result = userLogin.isUserMarkedAsTemporaryBlocked();
 
         // then
         expect(result).to.be.false;
@@ -95,7 +95,7 @@ describe('Unit | Domain | Models | UserLogin', function () {
     });
   });
 
-  describe('#blockUserTemporarily', function () {
+  describe('#markUserAsTemporarilyBlocked', function () {
     it('should set temporary block until date', function () {
       // given
       const multipleOfThreshold = 10 * 2;
@@ -105,7 +105,7 @@ describe('Unit | Domain | Models | UserLogin', function () {
       });
 
       // when
-      userLogin.blockUserTemporarily();
+      userLogin.markUserAsTemporarilyBlocked();
 
       // then
       expect(userLogin.temporaryBlockedUntil).to.deepEqualInstance(new Date('2022-11-28T12:04:00Z'));
@@ -116,10 +116,10 @@ describe('Unit | Domain | Models | UserLogin', function () {
     context('when user has failure count greater than 0', function () {
       it('should return true', function () {
         // given
-        const userLogin = new UserLogin({ failureCount: 1 });
+        const userLogin = new UserLogin({ failureCount: 1, temporaryBlockedUntil: null });
 
         // when
-        const result = userLogin.hasBeenTemporaryBlocked();
+        const result = userLogin.hasFailedAtLeastOnce();
 
         // then
         expect(result).to.be.true;
@@ -132,7 +132,7 @@ describe('Unit | Domain | Models | UserLogin', function () {
         const userLogin = new UserLogin({ temporaryBlockedUntil: new Date('2022-11-28T15:00:00Z') });
 
         // when
-        const result = userLogin.hasBeenTemporaryBlocked();
+        const result = userLogin.hasFailedAtLeastOnce();
 
         // then
         expect(result).to.be.true;
@@ -142,10 +142,10 @@ describe('Unit | Domain | Models | UserLogin', function () {
     context('when user has no failure count nor temporary blocked until date', function () {
       it('should return false', function () {
         // given
-        const userLogin = new UserLogin({});
+        const userLogin = new UserLogin({ failureCount: 0, temporaryBlockedUntil: null });
 
         // when
-        const result = userLogin.hasBeenTemporaryBlocked();
+        const result = userLogin.hasFailedAtLeastOnce();
 
         // then
         expect(result).to.be.false;
@@ -154,26 +154,26 @@ describe('Unit | Domain | Models | UserLogin', function () {
   });
 
   describe('#isUserBlocked', function () {
-    context('when user reaches the limit failure count', function () {
-      it('returns true', function () {
+    context('when user reaches the limit failure count but is not yet blocked', function () {
+      it('returns false', function () {
         // given
-        const userLogin = new UserLogin({ failureCount: 50 });
+        const userLogin = new UserLogin({ failureCount: 50, blockedAt: null });
 
         // when
-        const result = userLogin.isUserBlocked();
+        const result = userLogin.isUserMarkedAsBlocked();
 
         // then
-        expect(result).to.be.true;
+        expect(result).to.be.false;
       });
     });
 
     context('when user has blockedAt date', function () {
       it('returns true', function () {
         // given
-        const userLogin = new UserLogin({ blockedAt: new Date('2022-11-29') });
+        const userLogin = new UserLogin({ failureCount: 50, blockedAt: new Date('2022-11-29') });
 
         // when
-        const result = userLogin.isUserBlocked();
+        const result = userLogin.isUserMarkedAsBlocked();
 
         // then
         expect(result).to.be.true;
@@ -183,10 +183,10 @@ describe('Unit | Domain | Models | UserLogin', function () {
     context('when user has no failure count nor blockedAt date', function () {
       it('returns false', function () {
         // given
-        const userLogin = new UserLogin({});
+        const userLogin = new UserLogin({ failureCount: 50, blockedAt: null });
 
         // when
-        const result = userLogin.isUserBlocked();
+        const result = userLogin.isUserMarkedAsBlocked();
 
         // then
         expect(result).to.be.false;
@@ -194,27 +194,27 @@ describe('Unit | Domain | Models | UserLogin', function () {
     });
   });
 
-  describe('#blockUser', function () {
+  describe('#markUserAsBlocked', function () {
     it('blocks user', function () {
       // given
       const userLogin = new UserLogin({});
 
       // when
-      userLogin.blockUser();
+      userLogin.markUserAsBlocked();
 
       // then
       expect(userLogin.blockedAt).to.deepEqualInstance(new Date('2022-11-28T12:00:00Z'));
     });
   });
 
-  describe('#shouldBlockUserTemporarily', function () {
+  describe('#shouldMarkUserAsTemporarilyBlocked', function () {
     context('when failure count is lower than failure count threshold', function () {
       it('returns false', function () {
         // given
         const userLogin = new UserLogin({ failureCount: 5 });
 
         // when
-        const result = userLogin.shouldBlockUserTemporarily();
+        const result = userLogin.shouldMarkUserAsTemporarilyBlocked();
 
         // then
         expect(result).to.be.false;
@@ -227,7 +227,7 @@ describe('Unit | Domain | Models | UserLogin', function () {
         const userLogin = new UserLogin({ failureCount: 20 });
 
         // when
-        const result = userLogin.shouldBlockUserTemporarily();
+        const result = userLogin.shouldMarkUserAsTemporarilyBlocked();
 
         // then
         expect(result).to.be.true;
@@ -235,14 +235,14 @@ describe('Unit | Domain | Models | UserLogin', function () {
     });
   });
 
-  describe('#shouldBlockUser', function () {
+  describe('#shouldMarkUserAsBlocked', function () {
     context('when failure count is lower than the limit failure count', function () {
       it('returns false', function () {
         // given
         const userLogin = new UserLogin({ failureCount: 49 });
 
         // when
-        const result = userLogin.shouldBlockUser();
+        const result = userLogin.shouldMarkUserAsBlocked();
 
         // then
         expect(result).to.be.false;
@@ -255,7 +255,7 @@ describe('Unit | Domain | Models | UserLogin', function () {
         const userLogin = new UserLogin({ failureCount: 50 });
 
         // when
-        const result = userLogin.shouldBlockUser();
+        const result = userLogin.shouldMarkUserAsBlocked();
 
         // then
         expect(result).to.be.true;
@@ -274,7 +274,7 @@ describe('Unit | Domain | Models | UserLogin', function () {
       });
 
       // when
-      userLogin.unblockUser();
+      userLogin.resetUserBlocking();
 
       // then
       expect(userLogin.failureCount).to.equal(0);

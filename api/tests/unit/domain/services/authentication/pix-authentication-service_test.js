@@ -89,7 +89,7 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
       context('when user is not temporary blocked', function () {
         it('should not reset password failure count', async function () {
           // given
-          const userLogin = { hasBeenTemporaryBlocked: sinon.stub().returns(false) };
+          const userLogin = { hasFailedAtLeastOnce: sinon.stub().returns(false) };
           userLoginRepository.findByUserId.withArgs(user.id).resolves(userLogin);
 
           // when
@@ -110,7 +110,7 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
           const user = domainBuilder.buildUser({ username });
           const resetUserTemporaryBlockingStub = sinon.stub();
           const userLogin = {
-            hasBeenTemporaryBlocked: sinon.stub().returns(true),
+            hasFailedAtLeastOnce: sinon.stub().returns(true),
             resetUserTemporaryBlocking: resetUserTemporaryBlockingStub,
           };
           userLoginRepository.findByUserId.withArgs(user.id).resolves(userLogin);
@@ -153,10 +153,10 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
             encryptionService.checkPassword.rejects(new PasswordNotMatching());
             const userLoginCreated = {
               incrementFailureCount: sinon.stub(),
-              shouldBlockUserTemporarily: sinon.stub().returns(false),
-              blockUserTemporarily: sinon.stub(),
-              shouldBlockUser: sinon.stub().returns(false),
-              blockUser: sinon.stub(),
+              shouldMarkUserAsTemporarilyBlocked: sinon.stub().returns(false),
+              markUserAsTemporarilyBlocked: sinon.stub(),
+              shouldMarkUserAsBlocked: sinon.stub().returns(false),
+              markUserAsBlocked: sinon.stub(),
             };
             userLoginRepository.findByUserId.withArgs(user.id).resolves(null);
             userLoginRepository.create.resolves(userLoginCreated);
@@ -171,8 +171,8 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
             // then
             expect(userLoginRepository.create).to.have.been.calledWith({ userId: user.id });
             expect(userLoginCreated.incrementFailureCount).to.have.been.calledOnce;
-            expect(userLoginCreated.blockUserTemporarily).to.not.have.been.called;
-            expect(userLoginCreated.blockUser).to.not.have.been.called;
+            expect(userLoginCreated.markUserAsTemporarilyBlocked).to.not.have.been.called;
+            expect(userLoginCreated.markUserAsBlocked).to.not.have.been.called;
             expect(userLoginRepository.update).to.have.been.calledWith(userLoginCreated);
             expect(error).to.be.an.instanceof(PasswordNotMatching);
           });
@@ -185,10 +185,10 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
             encryptionService.checkPassword.rejects(new PasswordNotMatching());
             const userLogin = {
               incrementFailureCount: sinon.stub(),
-              shouldBlockUserTemporarily: sinon.stub().returns(true),
-              blockUserTemporarily: sinon.stub(),
-              shouldBlockUser: sinon.stub().returns(false),
-              blockUser: sinon.stub(),
+              shouldMarkUserAsTemporarilyBlocked: sinon.stub().returns(true),
+              markUserAsTemporarilyBlocked: sinon.stub(),
+              shouldMarkUserAsBlocked: sinon.stub().returns(false),
+              markUserAsBlocked: sinon.stub(),
             };
             userLoginRepository.findByUserId.withArgs(user.id).resolves(userLogin);
 
@@ -202,8 +202,8 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
             // then
             expect(userLoginRepository.create).to.not.have.been.called;
             expect(userLogin.incrementFailureCount).to.have.been.calledOnce;
-            expect(userLogin.blockUserTemporarily).to.have.been.calledOnce;
-            expect(userLogin.blockUser).to.not.have.been.called;
+            expect(userLogin.markUserAsTemporarilyBlocked).to.have.been.calledOnce;
+            expect(userLogin.markUserAsBlocked).to.not.have.been.called;
             expect(userLoginRepository.update).to.have.been.calledWith(userLogin);
             expect(error).to.be.an.instanceof(PasswordNotMatching);
           });
@@ -216,10 +216,10 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
             encryptionService.checkPassword.rejects(new PasswordNotMatching());
             const userLogin = {
               incrementFailureCount: sinon.stub(),
-              shouldBlockUserTemporarily: sinon.stub().returns(false),
-              blockUserTemporarily: sinon.stub(),
-              shouldBlockUser: sinon.stub().returns(true),
-              blockUser: sinon.stub(),
+              shouldMarkUserAsTemporarilyBlocked: sinon.stub().returns(false),
+              markUserAsTemporarilyBlocked: sinon.stub(),
+              shouldMarkUserAsBlocked: sinon.stub().returns(true),
+              markUserAsBlocked: sinon.stub(),
             };
             userLoginRepository.findByUserId.withArgs(user.id).resolves(userLogin);
 
@@ -234,8 +234,8 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
             expect(userLoginRepository.create).to.not.have.been.called;
             expect(error).to.be.an.instanceof(PasswordNotMatching);
             expect(userLogin.incrementFailureCount).to.have.been.calledOnce;
-            expect(userLogin.blockUser).to.have.been.calledOnce;
-            expect(userLogin.blockUserTemporarily).to.not.have.been.called;
+            expect(userLogin.markUserAsBlocked).to.have.been.calledOnce;
+            expect(userLogin.markUserAsTemporarilyBlocked).to.not.have.been.called;
             expect(userLoginRepository.update).to.have.been.calledWith(userLogin);
           });
         });

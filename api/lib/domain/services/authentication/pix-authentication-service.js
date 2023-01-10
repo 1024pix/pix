@@ -20,10 +20,10 @@ async function getUserByUsernameAndPassword({ username, password, userRepository
     if (error instanceof PasswordNotMatching) {
       userLogin.incrementFailureCount();
 
-      if (userLogin.shouldBlockUser()) {
-        userLogin.blockUser();
-      } else if (userLogin.shouldBlockUserTemporarily()) {
-        userLogin.blockUserTemporarily();
+      if (userLogin.shouldMarkUserAsBlocked()) {
+        userLogin.markUserAsBlocked();
+      } else if (userLogin.shouldMarkUserAsTemporarilyBlocked()) {
+        userLogin.markUserAsTemporarilyBlocked();
       }
 
       await userLoginRepository.update(userLogin);
@@ -32,7 +32,7 @@ async function getUserByUsernameAndPassword({ username, password, userRepository
     throw error;
   }
 
-  if (userLogin.hasBeenTemporaryBlocked()) {
+  if (userLogin.hasFailedAtLeastOnce()) {
     userLogin.resetUserTemporaryBlocking();
     await userLoginRepository.update(userLogin);
   }
