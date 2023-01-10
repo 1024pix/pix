@@ -6,19 +6,22 @@ const moduleUnderTest = require('../../../../lib/application/trainings');
 
 describe('Unit | Router | training-router', function () {
   describe('POST /api/admin/trainings', function () {
-    const validPayload = {
-      data: {
-        attributes: {
-          link: 'http://www.example.net',
-          title: 'ma formation',
-          duration: '6h',
-          type: 'webinaire',
-          locale: 'fr-fr',
-          'editor-name': 'ministère',
-          'editor-logo-url': 'http://www.image.pix.fr/image.svg',
+    let validPayload;
+    beforeEach(function () {
+      validPayload = {
+        data: {
+          attributes: {
+            link: 'http://www.example.net',
+            title: 'ma formation',
+            duration: { days: 2, hours: 2, minutes: 2 },
+            type: 'webinaire',
+            locale: 'fr-fr',
+            'editor-name': 'ministère',
+            'editor-logo-url': 'http://www.image.pix.fr/image.svg',
+          },
         },
-      },
-    };
+      };
+    });
 
     describe('Security Prehandlers', function () {
       it('should allow user if its role is SUPER_ADMIN', async function () {
@@ -117,7 +120,7 @@ describe('Unit | Router | training-router', function () {
             attributes: {
               link: 'http://www.example.net',
               title: 'ma formation',
-              duration: '6h',
+              duration: { days: 2, hours: 2, minutes: 2 },
               type: 'webinaire',
               locale: 'fr-fr',
               'editor-name': 'ministère',
@@ -155,7 +158,7 @@ describe('Unit | Router | training-router', function () {
             attributes: {
               link: 'example',
               title: 'ma formation',
-              duration: '6h',
+              duration: { days: 2, hours: 2, minutes: 2 },
               type: 'webinaire',
               locale: 'fr-fr',
               'editor-name': 'ministère',
@@ -191,7 +194,7 @@ describe('Unit | Router | training-router', function () {
           data: {
             attributes: {
               title: 'ma formation',
-              duration: '6h',
+              duration: { days: 2, hours: 2, minutes: 2 },
               type: 'webinaire',
               locale: 'fr-fr',
               'editor-name': 'ministère',
@@ -225,7 +228,7 @@ describe('Unit | Router | training-router', function () {
           data: {
             attributes: {
               link: 'http://www.example.net',
-              duration: '6h',
+              duration: { days: 2, hours: 2, minutes: 2 },
               type: 'webinaire',
               locale: 'fr-fr',
               'editor-name': 'ministère',
@@ -253,38 +256,73 @@ describe('Unit | Router | training-router', function () {
         expect(response.statusCode).to.equal(400);
       });
 
-      it('should return 400 if in the payload there is no duration', async function () {
-        // given
-        const invalidPayload = {
-          data: {
-            attributes: {
-              title: 'ma formation',
-              link: 'http://www.example.net',
-              type: 'webinaire',
-              locale: 'fr-fr',
-              'editor-name': 'ministère',
-              'editor-logo-url': 'http://www.image.pix.fr/image.svg',
+      describe('duration', function () {
+        it('should return 400 if in the payload there is no duration', async function () {
+          // given
+          const invalidPayload = {
+            data: {
+              attributes: {
+                title: 'ma formation',
+                link: 'http://www.example.net',
+                type: 'webinaire',
+                locale: 'fr-fr',
+                'editor-name': 'ministère',
+                'editor-logo-url': 'http://www.image.pix.fr/image.svg',
+              },
             },
-          },
-        };
-        sinon.stub(trainingController, 'create').returns('ok');
+          };
+          sinon.stub(trainingController, 'create').returns('ok');
 
-        sinon
-          .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
-          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-        sinon
-          .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
-          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+          sinon
+            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+            .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+          sinon
+            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+            .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+          sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
 
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
 
-        // when
-        const response = await httpTestServer.request('POST', '/api/admin/trainings', invalidPayload);
+          // when
+          const response = await httpTestServer.request('POST', '/api/admin/trainings', invalidPayload);
 
-        // then
-        expect(response.statusCode).to.equal(400);
+          // then
+          expect(response.statusCode).to.equal(400);
+        });
+
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        [{ days: -1 }, { hours: -1 }, { hours: 24 }, { minutes: -1 }, { minutes: 60 }].forEach((duration) => {
+          it(`should return 400 if the payload.duration is ${JSON.stringify(duration)}`, async function () {
+            // given
+            const invalidPayload = {
+              data: {
+                attributes: { ...validPayload.data.attributes, duration },
+              },
+            };
+
+            sinon.stub(trainingController, 'create').returns('ok');
+
+            sinon
+              .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+              .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+            sinon
+              .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+              .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+            sinon
+              .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
+              .callsFake((request, h) => h.response(true));
+
+            const httpTestServer = new HttpTestServer();
+            await httpTestServer.register(moduleUnderTest);
+
+            // when
+            const response = await httpTestServer.request('POST', '/api/admin/trainings', invalidPayload);
+
+            // then
+            expect(response.statusCode).to.equal(400);
+          });
+        });
       });
 
       it('should return 400 if in the payload there is no type', async function () {
@@ -294,7 +332,7 @@ describe('Unit | Router | training-router', function () {
             attributes: {
               title: 'ma formation',
               link: 'http://www.example.net',
-              duration: '6h',
+              duration: { days: 2, hours: 2, minutes: 2 },
               locale: 'fr-fr',
               'editor-name': 'ministère',
               'editor-logo-url': 'http://www.image.pix.fr/image.svg',
@@ -328,7 +366,7 @@ describe('Unit | Router | training-router', function () {
             attributes: {
               title: 'ma formation',
               link: 'http://www.example.net',
-              duration: '6h',
+              duration: { days: 2, hours: 2, minutes: 2 },
               type: 'webinaire',
               'editor-name': 'ministère',
               'editor-logo-url': 'http://www.image.pix.fr/image.svg',
@@ -362,7 +400,7 @@ describe('Unit | Router | training-router', function () {
             attributes: {
               title: 'ma formation',
               link: 'http://www.example.net',
-              duration: '6h',
+              duration: { days: 2, hours: 2, minutes: 2 },
               type: 'webinaire',
               locale: 'fr-fr',
               'editor-logo-url': 'http://www.image.pix.fr/image.svg',
@@ -396,7 +434,7 @@ describe('Unit | Router | training-router', function () {
             attributes: {
               title: 'ma formation',
               link: 'http://www.example.net',
-              duration: '6h',
+              duration: { days: 2, hours: 2, minutes: 2 },
               type: 'webinaire',
               locale: 'fr-fr',
               'editor-name': 'ministère',
