@@ -47,10 +47,6 @@ module('Acceptance | Common behavior to all challenges', function (hooks) {
       await visit(`/assessments/${assessment.id}/challenges/0`);
     });
 
-    test('should display the name of the test', async function (assert) {
-      assert.ok(find('.assessment-banner__title').textContent.includes(assessment.title));
-    });
-
     test('should display the challenge to answered instead of challenge asked', async function (assert) {
       await visit(`/assessments/${assessment.id}/challenges/${challengeBis.id}`);
       // TODO: Fix this the next time the file is edited.
@@ -89,16 +85,6 @@ module('Acceptance | Common behavior to all challenges', function (hooks) {
 
     test('should display the validate button', function (assert) {
       assert.dom('.challenge-actions__action-skip').exists();
-    });
-
-    test('should display a button to come back to the courses list', function (assert) {
-      assert.dom('.assessment-banner__home-link').exists();
-    });
-
-    test('should come back to the home route when the back button is clicked', async function (assert) {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find('.assessment-banner__home-link').getAttribute('href'), '/');
     });
 
     test('should be able to send a feedback about the current challenge', function (assert) {

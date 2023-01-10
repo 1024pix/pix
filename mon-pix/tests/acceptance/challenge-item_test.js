@@ -286,7 +286,6 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
 
               // when
               await triggerEvent(document, 'focusedout');
-              await click('.assessment-banner__home-link');
               await visit(`/assessments/${assessment2.id}/challenges/0`);
 
               // then
@@ -303,7 +302,6 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
 
               // when
               await triggerEvent(document, 'focusedout');
-              await click('.assessment-banner__home-link');
               await visit(`/assessments/${assessment.id}/challenges/0`);
 
               // then

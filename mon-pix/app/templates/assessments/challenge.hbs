@@ -29,18 +29,10 @@
         @certification={{@model.assessment.certificationCourse}}
         @shouldBlurBanner={{this.shouldBlurBanner}}
       />
-    {{else}}
-      <AssessmentBanner @title={{@model.assessment.title}} @displayHomeLink={{this.displayHomeLink}} />
     {{/if}}
   </div>
 
   <main class="challenge__content rounded-panel--over-background-banner" role="main">
-    <ProgressBar
-      @assessment={{@model.assessment}}
-      @currentChallengeNumber={{@model.currentChallengeNumber}}
-      @shouldBlurProgressBar={{this.shouldBlurBanner}}
-    />
-
     {{#if this.displayTimedChallengeInstructions}}
       <TimedChallengeInstructions
         @hasUserConfirmedWarning={{this.setUserTimedChallengeConfirmation}}
