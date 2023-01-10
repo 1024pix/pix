@@ -27,9 +27,9 @@
       <label for="subcategory-for-category-in-challenge">Sélectionnez une sous-catégorie :</label>
       <PixSelect
         aria-label="Sélectionner la sous-catégorie"
-        id="subcategory-for-category-in-challenge"
+        @id="subcategory-for-category-in-challenge"
         @options={{this.options}}
-        @selectedOption={{@inChallengeCategory.subcategory}}
+        @value={{@inChallengeCategory.subcategory}}
         @onChange={{this.onChangeSubcategory}}
       />
     </div>
