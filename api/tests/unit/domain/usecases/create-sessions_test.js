@@ -6,6 +6,7 @@ const sessionCodeService = require('../../../../lib/domain/services/session-code
 const Session = require('../../../../lib/domain/models/Session');
 const certificationCpfService = require('../../../../lib/domain/services/certification-cpf-service');
 const { CpfBirthInformationValidation } = require('../../../../lib/domain/services/certification-cpf-service');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Unit | UseCase | create-sessions', function () {
   let accessCode;
@@ -44,6 +45,9 @@ describe('Unit | UseCase | create-sessions', function () {
           },
         ];
 
+        const domainTransaction = Symbol('trx');
+        sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
+
         // when
         await createSessions({
           sessions,
@@ -71,8 +75,11 @@ describe('Unit | UseCase | create-sessions', function () {
         ];
 
         expect(sessionRepository.save).to.have.been.calledTwice;
-        expect(sessionRepository.save.firstCall).to.have.been.calledWithExactly(expectedSessions[0]);
-        expect(sessionRepository.save.secondCall).to.have.been.calledWithExactly(expectedSessions[1]);
+        expect(sessionRepository.save.firstCall).to.have.been.calledWithExactly(expectedSessions[0], domainTransaction);
+        expect(sessionRepository.save.secondCall).to.have.been.calledWithExactly(
+          expectedSessions[1],
+          domainTransaction
+        );
       });
     });
 

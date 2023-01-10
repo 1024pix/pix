@@ -8,12 +8,13 @@ const Session = require('../../../domain/models/Session');
 const CertificationCenter = require('../../../domain/models/CertificationCenter');
 const CertificationCandidate = require('../../../domain/models/CertificationCandidate');
 const ComplementaryCertification = require('../../../domain/models/ComplementaryCertification');
+const DomainTransaction = require('../../DomainTransaction');
 
 module.exports = {
-  async save(sessionData) {
+  async save(sessionData, { knexTransaction } = DomainTransaction.emptyTransaction()) {
+    const knexConn = knexTransaction ?? knex;
     sessionData = _.omit(sessionData, ['certificationCandidates']);
-
-    const [savedSession] = await knex('sessions').insert(sessionData).returning('*');
+    const [savedSession] = await knexConn('sessions').insert(sessionData).returning('*');
 
     return new Session(savedSession);
   },

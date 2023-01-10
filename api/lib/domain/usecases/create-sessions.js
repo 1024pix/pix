@@ -6,6 +6,7 @@ const certificationCpfService = require('../services/certification-cpf-service')
 const CertificationCandidate = require('../models/CertificationCandidate');
 const bluebird = require('bluebird');
 const { InvalidCertificationCandidate } = require('../errors');
+const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = async function createSessions({
   sessions,
@@ -21,41 +22,43 @@ module.exports = async function createSessions({
 
   const { name: certificationCenter } = await certificationCenterRepository.get(certificationCenterId);
 
-  await bluebird.mapSeries(sessions, async (session) => {
-    const accessCode = sessionCodeService.getNewSessionCodeWithoutAvailabilityCheck();
-    const domainSession = new Session({
-      ...session,
-      certificationCenterId,
-      certificationCenter,
-      accessCode,
-    });
-
-    domainSession.generateSupervisorPassword();
-    sessionValidator.validate(domainSession);
-    const savedSession = await sessionRepository.save(domainSession);
-
-    await bluebird.mapSeries(domainSession.certificationCandidates, async (certificationCandidate) => {
-      const domainCertificationCandidate = new CertificationCandidate({
-        ...certificationCandidate,
-        sessionId: savedSession.id,
+  await DomainTransaction.execute(async (domainTransaction) => {
+    await bluebird.mapSeries(sessions, async (session) => {
+      const accessCode = sessionCodeService.getNewSessionCodeWithoutAvailabilityCheck();
+      const domainSession = new Session({
+        ...session,
+        certificationCenterId,
+        certificationCenter,
+        accessCode,
       });
 
-      domainCertificationCandidate.validate();
+      domainSession.generateSupervisorPassword();
+      sessionValidator.validate(domainSession);
+      const savedSession = await sessionRepository.save(domainSession, domainTransaction);
 
-      const cpfBirthInformation = await certificationCpfService.getBirthInformation({
-        birthCountry: domainCertificationCandidate.birthCountry,
-        birthCity: domainCertificationCandidate.birthCity,
-        birthPostalCode: domainCertificationCandidate.birthPostalCode,
-        birthINSEECode: domainCertificationCandidate.birthINSEECode,
-        certificationCpfCountryRepository,
-        certificationCpfCityRepository,
+      await bluebird.mapSeries(domainSession.certificationCandidates, async (certificationCandidate) => {
+        const domainCertificationCandidate = new CertificationCandidate({
+          ...certificationCandidate,
+          sessionId: savedSession.id,
+        });
+
+        domainCertificationCandidate.validate();
+
+        const cpfBirthInformation = await certificationCpfService.getBirthInformation({
+          birthCountry: domainCertificationCandidate.birthCountry,
+          birthCity: domainCertificationCandidate.birthCity,
+          birthPostalCode: domainCertificationCandidate.birthPostalCode,
+          birthINSEECode: domainCertificationCandidate.birthINSEECode,
+          certificationCpfCountryRepository,
+          certificationCpfCityRepository,
+        });
+
+        if (cpfBirthInformation.hasFailed()) {
+          throw new InvalidCertificationCandidate({ message: cpfBirthInformation.message, error: {} });
+        }
       });
 
-      if (cpfBirthInformation.hasFailed()) {
-        throw new InvalidCertificationCandidate({ message: cpfBirthInformation.message, error: {} });
-      }
+      return savedSession;
     });
-
-    return savedSession;
   });
 };
