@@ -73,6 +73,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
               '<PRENOM3>Lucy</PRENOM3>' +
               '<DATE_NAISS>31/12/1994</DATE_NAISS>' +
               '<CODE_PAYS>100</CODE_PAYS>' +
+              '<CODE_SEXE>2</CODE_SEXE>' +
               '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
               '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
               '<CODE_MEF>123456789</CODE_MEF>' +
@@ -85,6 +86,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
               '<PRENOM>Harry</PRENOM>' +
               '<PRENOM2>Coco</PRENOM2>' +
               '<PRENOM3></PRENOM3>' +
+              '<CODE_SEXE>1</CODE_SEXE>' +
               '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
               '<CODE_PAYS>132</CODE_PAYS>' +
               '<VILLE_NAISS>LONDRES</VILLE_NAISS>' +
@@ -154,6 +156,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
               '<PRENOM3>Lucy</PRENOM3>' +
               '<DATE_NAISS>31/12/1994</DATE_NAISS>' +
               '<CODE_PAYS>100</CODE_PAYS>' +
+              '<CODE_SEXE>2</CODE_SEXE>' +
               '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
               '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
               '<CODE_MEF>123456789</CODE_MEF>' +
@@ -208,6 +211,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
             '<PRENOM3>Lucy</PRENOM3>' +
             '<DATE_NAISS>31/12/1994</DATE_NAISS>' +
             '<CODE_PAYS>100</CODE_PAYS>' +
+            '<CODE_SEXE>1</CODE_SEXE>' +
             '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
             '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
             '<CODE_MEF>123456789</CODE_MEF>' +
@@ -231,6 +235,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
               '<PRENOM3></PRENOM3>' +
               '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
               '<CODE_PAYS>100</CODE_PAYS>' +
+              '<CODE_SEXE>1</CODE_SEXE>' +
               '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
               '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
               '<CODE_MEF>12341234</CODE_MEF>' +
@@ -242,6 +247,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
               '<PRENOM>Bran</PRENOM>' +
               '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
               '<CODE_PAYS>100</CODE_PAYS>' +
+              '<CODE_SEXE>1</CODE_SEXE>' +
               '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
               '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
               '<CODE_MEF>12341234</CODE_MEF>' +
@@ -253,6 +259,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
               '<PRENOM>Valentin</PRENOM>' +
               '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
               '<CODE_PAYS>100</CODE_PAYS>' +
+              '<CODE_SEXE>1</CODE_SEXE>' +
               '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
               '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
               '<CODE_MEF>12341234</CODE_MEF>' +
@@ -265,6 +272,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
               '<DATE_NAISS>31/08/2009</DATE_NAISS>' +
               '<DATE_SORTIE>01/09/2019</DATE_SORTIE>' +
               '<CODE_PAYS>100</CODE_PAYS>' +
+              '<CODE_SEXE>1</CODE_SEXE>' +
               '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
               '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
               '<CODE_MEF>12341234</CODE_MEF>' +
@@ -342,6 +350,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
               '<PRENOM2>Coco</PRENOM2>' +
               '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
               '<CODE_PAYS>132</CODE_PAYS>' +
+              '<CODE_SEXE>1</CODE_SEXE>' +
               '<VILLE_NAISS>LONDRES</VILLE_NAISS>' +
               '<CODE_MEF>12341234</CODE_MEF>' +
               '<CODE_STATUT>ST</CODE_STATUT>' +
@@ -386,6 +395,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
             '<PRENOM>Harry</PRENOM>' +
             '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
             '<CODE_PAYS>100</CODE_PAYS>' +
+            '<CODE_SEXE>1</CODE_SEXE>' +
             '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
             '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
             '<CODE_MEF>12341234</CODE_MEF>' +
@@ -399,6 +409,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
             '<PRENOM>Harry</PRENOM>' +
             '<DATE_NAISS>02/07/1994</DATE_NAISS>' +
             '<CODE_PAYS>100</CODE_PAYS>' +
+            '<CODE_SEXE>1</CODE_SEXE>' +
             '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
             '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
             '<CODE_MEF>12341234</CODE_MEF>' +
@@ -462,6 +473,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
             '<PRENOM3></PRENOM3>' +
             '<DATE_NAISS></DATE_NAISS>' +
             '<CODE_PAYS>100</CODE_PAYS>' +
+            '<CODE_SEXE>1</CODE_SEXE>' +
             '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
             '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
             '<CODE_MEF>12341234</CODE_MEF>' +
@@ -478,6 +490,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
             '<PRENOM3></PRENOM3>' +
             '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
             '<CODE_PAYS>100</CODE_PAYS>' +
+            '<CODE_SEXE>1</CODE_SEXE>' +
             '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
             '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
             '<CODE_MEF>12341234</CODE_MEF>' +
@@ -562,6 +575,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
             '<PRENOM3></PRENOM3>' +
             '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
             '<CODE_PAYS>100</CODE_PAYS>' +
+            '<CODE_SEXE>1</CODE_SEXE>' +
             '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
             '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
             '<CODE_MEF>12341234</CODE_MEF>' +
@@ -578,6 +592,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
             '<PRENOM3></PRENOM3>' +
             '<DATE_NAISS></DATE_NAISS>' +
             '<CODE_PAYS>100</CODE_PAYS>' +
+            '<CODE_SEXE>1</CODE_SEXE>' +
             '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
             '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
             '<CODE_MEF>12341234</CODE_MEF>' +
@@ -594,6 +609,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
             '<PRENOM3></PRENOM3>' +
             '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
             '<CODE_PAYS>100</CODE_PAYS>' +
+            '<CODE_SEXE>1</CODE_SEXE>' +
             '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
             '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
             '<CODE_MEF>12341234</CODE_MEF>' +
@@ -674,6 +690,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
             '<PRENOM3></PRENOM3>' +
             '<DATE_NAISS></DATE_NAISS>' +
             '<CODE_PAYS>100</CODE_PAYS>' +
+            '<CODE_SEXE>1</CODE_SEXE>' +
             '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
             '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
             '<CODE_MEF>12341234</CODE_MEF>' +
@@ -690,6 +707,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
             '<PRENOM3></PRENOM3>' +
             '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
             '<CODE_PAYS>100</CODE_PAYS>' +
+            '<CODE_SEXE>1</CODE_SEXE>' +
             '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
             '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
             '<CODE_MEF>12341234</CODE_MEF>' +
@@ -706,6 +724,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
             '<PRENOM3></PRENOM3>' +
             '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
             '<CODE_PAYS>100</CODE_PAYS>' +
+            '<CODE_SEXE>1</CODE_SEXE>' +
             '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
             '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
             '<CODE_MEF>12341234</CODE_MEF>' +
@@ -788,6 +807,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
               '<ID_NATIONAL>123</ID_NATIONAL>' +
               '<NOM_DE_FAMILLE>WRONG</NOM_DE_FAMILLE>' +
               '<PRENOM>Person</PRENOM>' +
+              '<CODE_SEXE>1</CODE_SEXE>' +
               '</ELEVE>' +
               '</ELEVES>' +
               '<STRUCTURES>' +

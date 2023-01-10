@@ -154,5 +154,20 @@ describe('Integration | Services | organization-learnerz-xml-service', function 
       expect(error).to.be.instanceof(SiecleXmlImportError);
       expect(error.code).to.equal('INE_REQUIRED');
     });
+
+    it('should abort parsing and reject with missing sex ', async function () {
+      // given
+      const validUAIFromSIECLE = '123ABC';
+      const organization = { externalId: validUAIFromSIECLE };
+      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-student-with-no-sex.xml`;
+      // when
+      const error = await catchErr(organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE)(
+        path,
+        organization
+      );
+
+      //then
+      expect(error).to.be.instanceof(SiecleXmlImportError);
+    });
   });
 });
