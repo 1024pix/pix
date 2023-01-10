@@ -20,8 +20,8 @@ module('Integration | Component | organizations/creation-form', function (hooks)
     );
 
     // then
-    assert.dom(screen.getByRole('textbox', { name: 'Nom :' })).exists();
-    assert.dom(screen.getByRole('textbox', { name: 'Lien vers la documentation :' })).exists();
+    assert.dom(screen.getByRole('textbox', { name: 'Nom' })).exists();
+    assert.dom(screen.getByRole('textbox', { name: 'Lien vers la documentation' })).exists();
     assert.dom(screen.getByRole('combobox', { name: "Sélectionner un type d'organisation" })).exists();
     assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
     assert.dom(screen.getByRole('button', { name: 'Ajouter' })).exists();
