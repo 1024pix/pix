@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { render, clickByName } from '@1024pix/ember-testing-library';
+import { clickByName, render } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
 import Service from '@ember/service';
 

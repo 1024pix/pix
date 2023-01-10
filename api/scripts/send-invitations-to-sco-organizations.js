@@ -44,7 +44,7 @@ async function sendJoinOrganizationInvitations(invitations, tags) {
       process.stdout.write(`${index}/${invitations.length}\r`);
     }
 
-    return organizationInvitationService.createOrganizationInvitation({
+    return organizationInvitationService.createOrUpdateOrganizationInvitation({
       organizationRepository,
       organizationInvitationRepository,
       organizationId,

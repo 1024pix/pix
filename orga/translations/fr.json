@@ -1015,7 +1015,9 @@
     "team-invitations": {
       "title": "Invitations",
       "cancel-invitation": "Supprimer l’invitation",
+      "resend-invitation": "Renvoyer l'invitation",
       "invitation-cancelled-succeed-message": "L’invitation a bien été supprimée.",
+      "invitation-resent-succeed-message": "L'invitation a bien été renvoyée.",
       "table": {
         "column": {
           "email-address": "Adresse e-mail",

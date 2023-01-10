@@ -15,7 +15,7 @@ module.exports = async function createOrganizationInvitationByAdmin({
     throw new OrganizationArchivedError();
   }
 
-  return organizationInvitationService.createOrganizationInvitation({
+  return organizationInvitationService.createOrUpdateOrganizationInvitation({
     organizationId,
     email,
     locale,
