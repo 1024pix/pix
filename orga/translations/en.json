@@ -42,7 +42,8 @@
       "invalid-file": "File does not match the requirements.",
       "invalid-file-extension": "File with extension {fileExtension} not supported.",
       "payload-too-large": "The file must be less than {maxSize}MB.",
-      "uai-mismatched": "The UAI of your SIECLE file does not match your school."
+      "uai-mismatched": "The UAI of your SIECLE file does not match your school.",
+      "sex-code-required": "SEXE_CODE is mandatory for each student."
     }
   },
   "banners": {
