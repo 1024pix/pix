@@ -281,14 +281,10 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
       certificationReport.abort = sinon.stub();
       certificationReport.abort.resolves('ok');
-      const event = {
-        target: {
-          value: 'coucou',
-        },
-      };
+      const optionSelected = 'coucou';
 
       // when
-      controller.abort(certificationReport, event);
+      controller.abort(certificationReport, optionSelected);
 
       // then
       sinon.assert.calledWithExactly(certificationReport.abort, 'coucou');
