@@ -1,9 +1,10 @@
 /* stylelint-disable no-descending-specificity */
 
 .add-issue-report-modal {
-  min-width: 650px;
-  max-width: 650px;
+  min-width: 850px;
+  max-width: 850px;
   margin: 100px auto;
+  overflow: visible;
 
   /* to fix in pix UI */
   input {
@@ -16,8 +17,9 @@
     margin-bottom: 4px;
   }
 
-  .pix-select select {
+  .pix-select {
     width: 100%;
+    max-width: 100%;
   }
 
   label[for^="text-area-for-category"] {

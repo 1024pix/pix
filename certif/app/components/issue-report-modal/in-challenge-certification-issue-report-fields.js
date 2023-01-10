@@ -2,14 +2,14 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import {
   certificationIssueReportSubcategories,
-  subcategoryToLabel,
   subcategoryToCode,
+  subcategoryToLabel,
 } from 'pix-certif/models/certification-issue-report';
 
 export default class InChallengeCertificationIssueReportFields extends Component {
   @action
-  onChangeSubcategory(event) {
-    this.args.inChallengeCategory.subcategory = event.target.value;
+  onChangeSubcategory(option) {
+    this.args.inChallengeCategory.subcategory = option;
   }
 
   get categoryCode() {
