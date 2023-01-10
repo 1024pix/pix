@@ -4,11 +4,7 @@
   @showModal={{@showModal}}
 >
   <:content>
-    <p class="session-delete-confirmation-modal">{{t
-        "pages.sessions.list.delete-modal.label"
-        sessionId=@sessionId
-        htmlSafe=true
-      }}</p>
+    <p>{{t "pages.sessions.list.delete-modal.label" sessionId=@sessionId htmlSafe=true}}</p>
     {{#if (gt @enrolledCandidatesCount 0)}}
       <p class="session-delete-confirmation-modal">{{t
           "pages.sessions.list.delete-modal.enrolled-candidates"
