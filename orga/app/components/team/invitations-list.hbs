@@ -13,29 +13,7 @@
     </thead>
     <tbody>
       {{#each @invitations as |invitation|}}
-        <tr aria-label="{{t 'pages.team-invitations.table.row.aria-label'}}">
-          <td>{{invitation.email}}</td>
-          <td class="hide-on-mobile">
-            {{dayjs-format invitation.updatedAt "DD/MM/YYYY [-] HH:mm" locale="fr"}}
-          </td>
-          <td>
-            <div class="invitations-list__action">
-              <PixTooltip @isInline={{true}}>
-                <:triggerElement>
-                  <PixIconButton
-                    @ariaLabel={{t "pages.team-invitations.cancel-invitation"}}
-                    @icon="trash-can"
-                    @triggerAction={{fn this.cancelInvitation invitation}}
-                    @withBackground={{true}}
-                  />
-                </:triggerElement>
-                <:tooltip>
-                  {{t "pages.team-invitations.cancel-invitation"}}
-                </:tooltip>
-              </PixTooltip>
-            </div>
-          </td>
-        </tr>
+        <Team::InvitationsListItem @invitation={{invitation}} @cancelInvitation={{this.cancelInvitation}} />
       {{/each}}
     </tbody>
   </table>
