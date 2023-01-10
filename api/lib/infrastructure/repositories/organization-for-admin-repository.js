@@ -119,8 +119,18 @@ module.exports = {
       .select(['tags.id', 'tags.name'])
       .join('organization-tags', 'organization-tags.tagId', 'tags.id')
       .where('organization-tags.organizationId', organizationDB.id);
+    const archivist = await knex('users')
+      .select(['users.firstName', 'users.lastName'])
+      .join('organizations', 'organizations.archivedBy', 'users.id')
+      .where('organizations.id', organizationDB.id)
+      .first();
 
     const tags = tagsDB.map((tagDB) => new Tag(tagDB));
+
+    if (archivist) {
+      organizationDB.archivistFirstName = archivist.firstName;
+      organizationDB.archivistLastName = archivist.lastName;
+    }
 
     return _toDomain({ ...organizationDB, tags });
   },
