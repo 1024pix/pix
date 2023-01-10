@@ -7,6 +7,18 @@
 
   &__instruction {
     font-size: 1rem;
+
+    ul, ol {
+      padding-left: 2em;
+
+      &:not(:last-child) {
+        margin-bottom: 1em;
+      }
+    }
+
+    li {
+      list-style: unset;
+    }
   }
 
   &__default-message-container {
