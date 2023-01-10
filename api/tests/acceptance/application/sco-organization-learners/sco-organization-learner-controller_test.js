@@ -68,315 +68,6 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
         expect(response.statusCode).to.equal(200);
       });
 
-      context('When student is already reconciled in the same organization', function () {
-        it('should return an organization learner already linked error (short code R31 when account with email)', async function () {
-          // given
-          const userWithEmailOnly = databaseBuilder.factory.buildUser({
-            username: null,
-            email: 'john.harry@example.net',
-          });
-          const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
-            organizationId: organization.id,
-            userId: null,
-          });
-          organizationLearner.userId = userWithEmailOnly.id;
-          await databaseBuilder.commit();
-
-          const expectedResponse = {
-            status: '409',
-            code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
-            title: 'Conflict',
-            detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta: { shortCode: 'R31', value: 'j***@example.net', userId: userWithEmailOnly.id },
-          };
-
-          options.headers.authorization = generateValidRequestAuthorizationHeader(userWithEmailOnly.id);
-          options.payload.data = {
-            attributes: {
-              'campaign-code': campaign.code,
-              'first-name': organizationLearner.firstName,
-              'last-name': organizationLearner.lastName,
-              birthdate: organizationLearner.birthdate,
-            },
-          };
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(409);
-          expect(response.result.errors[0]).to.deep.equal(expectedResponse);
-        });
-
-        it('should return an organization learner already linked error (short code R32 when connected with username)', async function () {
-          // given
-          const userWithUsernameOnly = databaseBuilder.factory.buildUser({
-            username: 'john.harry0702',
-            email: null,
-          });
-          const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
-            organizationId: organization.id,
-            userId: null,
-          });
-          organizationLearner.userId = userWithUsernameOnly.id;
-          await databaseBuilder.commit();
-
-          const expectedResponse = {
-            status: '409',
-            code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
-            title: 'Conflict',
-            detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta: { shortCode: 'R32', value: 'j***.h***2', userId: userWithUsernameOnly.id },
-          };
-
-          options.headers.authorization = generateValidRequestAuthorizationHeader(userWithUsernameOnly.id);
-          options.payload.data = {
-            attributes: {
-              'campaign-code': campaign.code,
-              'first-name': organizationLearner.firstName,
-              'last-name': organizationLearner.lastName,
-              birthdate: organizationLearner.birthdate,
-            },
-          };
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(409);
-          expect(response.result.errors[0]).to.deep.equal(expectedResponse);
-        });
-
-        it('should return an organization learner already linked error (short code R33 when account with samlId)', async function () {
-          // given
-          const userWithSamlOnly = databaseBuilder.factory.buildUser({
-            username: null,
-            email: null,
-          });
-          databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
-            externalIdentifier: '12345678',
-            userId: userWithSamlOnly.id,
-          });
-
-          const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
-            organizationId: organization.id,
-            userId: null,
-          });
-          organizationLearner.userId = userWithSamlOnly.id;
-          await databaseBuilder.commit();
-
-          const expectedResponse = {
-            status: '409',
-            code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
-            title: 'Conflict',
-            detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta: { shortCode: 'R33', value: null, userId: userWithSamlOnly.id },
-          };
-
-          options.headers.authorization = generateValidRequestAuthorizationHeader(userWithSamlOnly.id);
-          options.payload.data = {
-            attributes: {
-              'campaign-code': campaign.code,
-              'first-name': organizationLearner.firstName,
-              'last-name': organizationLearner.lastName,
-              birthdate: organizationLearner.birthdate,
-            },
-          };
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(409);
-          expect(response.result.errors[0]).to.deep.equal(expectedResponse);
-        });
-      });
-
-      context('When student is already reconciled in another organization', function () {
-        it('should return an organization learner already linked error (short code R13 when account with samlId)', async function () {
-          // given
-          const userWithSamlIdOnly = databaseBuilder.factory.buildUser({
-            email: null,
-            username: null,
-          });
-          databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
-            externalIdentifier: '12345678',
-            userId: userWithSamlIdOnly.id,
-          });
-
-          const otherOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner();
-          otherOrganizationLearner.nationalStudentId = organizationLearner.nationalStudentId;
-          otherOrganizationLearner.birthdate = organizationLearner.birthdate;
-          otherOrganizationLearner.firstName = organizationLearner.firstName;
-          otherOrganizationLearner.lastName = organizationLearner.lastName;
-          otherOrganizationLearner.userId = userWithSamlIdOnly.id;
-          await databaseBuilder.commit();
-
-          const expectedResponse = {
-            status: '409',
-            code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
-            title: 'Conflict',
-            detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta: { shortCode: 'R13', value: null, userId: userWithSamlIdOnly.id },
-          };
-
-          options.headers.authorization = generateValidRequestAuthorizationHeader(userWithSamlIdOnly.id);
-          options.payload.data = {
-            attributes: {
-              'campaign-code': campaign.code,
-              'first-name': organizationLearner.firstName,
-              'last-name': organizationLearner.lastName,
-              birthdate: organizationLearner.birthdate,
-            },
-          };
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(409);
-          expect(response.result.errors[0]).to.deep.equal(expectedResponse);
-        });
-
-        it('should return an organization learner already linked error (short code R11 when account with email)', async function () {
-          // given
-          const userWithEmailOnly = databaseBuilder.factory.buildUser({
-            username: null,
-            email: 'john.harry@example.net',
-          });
-          const otherOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner();
-          otherOrganizationLearner.nationalStudentId = organizationLearner.nationalStudentId;
-          otherOrganizationLearner.birthdate = organizationLearner.birthdate;
-          otherOrganizationLearner.firstName = organizationLearner.firstName;
-          otherOrganizationLearner.lastName = organizationLearner.lastName;
-          otherOrganizationLearner.userId = userWithEmailOnly.id;
-
-          await databaseBuilder.commit();
-
-          const expectedResponse = {
-            status: '409',
-            code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
-            title: 'Conflict',
-            detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta: { shortCode: 'R11', value: 'j***@example.net', userId: userWithEmailOnly.id },
-          };
-
-          options.headers.authorization = generateValidRequestAuthorizationHeader(userWithEmailOnly.id);
-          options.payload.data = {
-            attributes: {
-              'campaign-code': campaign.code,
-              'first-name': organizationLearner.firstName,
-              'last-name': organizationLearner.lastName,
-              birthdate: organizationLearner.birthdate,
-            },
-          };
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(409);
-          expect(response.result.errors[0]).to.deep.equal(expectedResponse);
-        });
-
-        it('should return an organization learner already linked error (short code R12 when connected with username)', async function () {
-          // given
-          const userWithUsernameOnly = databaseBuilder.factory.buildUser({
-            email: null,
-            username: 'john.harry0702',
-          });
-
-          const otherOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner();
-          otherOrganizationLearner.nationalStudentId = organizationLearner.nationalStudentId;
-          otherOrganizationLearner.birthdate = organizationLearner.birthdate;
-          otherOrganizationLearner.firstName = organizationLearner.firstName;
-          otherOrganizationLearner.lastName = organizationLearner.lastName;
-          otherOrganizationLearner.userId = userWithUsernameOnly.id;
-          await databaseBuilder.commit();
-
-          const expectedResponse = {
-            status: '409',
-            code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
-            title: 'Conflict',
-            detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta: { shortCode: 'R12', value: 'j***.h***2', userId: userWithUsernameOnly.id },
-          };
-
-          options.headers.authorization = generateValidRequestAuthorizationHeader(userWithUsernameOnly.id);
-          options.payload.data = {
-            attributes: {
-              'campaign-code': campaign.code,
-              'first-name': organizationLearner.firstName,
-              'last-name': organizationLearner.lastName,
-              birthdate: organizationLearner.birthdate,
-            },
-          };
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(409);
-          expect(response.result.errors[0]).to.deep.equal(expectedResponse);
-        });
-      });
-
-      context('when no organizationLearner can be associated because birthdate does not match', function () {
-        it('should return an 404 NotFoundError error', async function () {
-          // given
-          const options = {
-            method: 'POST',
-            url: '/api/sco-organization-learners/association',
-            headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-            payload: {
-              data: {
-                attributes: {
-                  'campaign-code': campaign.code,
-                  'first-name': organizationLearner.firstName,
-                  'last-name': organizationLearner.lastName,
-                  birthdate: '1990-03-01',
-                },
-              },
-            },
-          };
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(404);
-          expect(response.result.errors[0].detail).to.equal('There are no organization learners found');
-        });
-      });
-
-      context('when no organizationLearner found to associate because names does not match', function () {
-        it('should return an 404 NotFoundError error', async function () {
-          // given
-          const options = {
-            method: 'POST',
-            url: '/api/sco-organization-learners/association',
-            headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-            payload: {
-              data: {
-                attributes: {
-                  'campaign-code': campaign.code,
-                  'first-name': 'wrong firstName',
-                  'last-name': 'wrong lastName',
-                  birthdate: organizationLearner.birthdate,
-                },
-              },
-            },
-          };
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(404);
-          expect(response.result.errors[0].detail).to.equal('There were no organizationLearners matching with names');
-        });
-      });
-
       context('when user is not authenticated', function () {
         it('should respond with a 401 - unauthorized access', async function () {
           // given
@@ -387,33 +78,6 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
 
           // then
           expect(response.statusCode).to.equal(401);
-        });
-      });
-
-      context('when a field is not valid', function () {
-        it('should respond with a 422 - Unprocessable Entity', async function () {
-          // given
-          const options = {
-            method: 'POST',
-            url: '/api/sco-organization-learners/association',
-            headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-            payload: {
-              data: {
-                attributes: {
-                  'campaign-code': campaign.code,
-                  'first-name': ' ',
-                  'last-name': organizationLearner.lastName,
-                  birthdate: organizationLearner.birthdate,
-                },
-              },
-            },
-          };
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(422);
         });
       });
 
@@ -444,72 +108,6 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
             })
             .select();
           expect(organizationLearnerInDB.userId).to.be.undefined;
-        });
-
-        context('When student is trying to be reconciled on another account', function () {
-          it('should return a 422 error (short code R90 when student id and birthdate are different)', async function () {
-            // given
-            const sisterSchool = databaseBuilder.factory.buildOrganization({ id: 7, type: 'SCO' });
-            const brotherSchool = databaseBuilder.factory.buildOrganization({ id: 666, type: 'SCO' });
-            const littleBrotherCampaign = databaseBuilder.factory.buildCampaign({
-              organizationId: brotherSchool.id,
-              code: 'BROTHER',
-            });
-
-            const bigSisterAccount = databaseBuilder.factory.buildUser({
-              firstName: 'Emmy',
-              lastName: 'Barbier',
-              birthdate: '2008-02-01',
-              email: 'emmy.barbier@example.net',
-            });
-            databaseBuilder.factory.buildOrganizationLearner({
-              firstName: 'Emmy',
-              lastName: 'Barbier',
-              birthdate: '2008-02-01',
-              organizationId: sisterSchool.id,
-              nationalStudentId: 'BBCC',
-              userId: bigSisterAccount.id,
-            });
-
-            const littleBrother = databaseBuilder.factory.buildOrganizationLearner({
-              firstName: 'Nicolas',
-              lastName: 'Barbier',
-              birthdate: '2010-02-01',
-              organizationId: brotherSchool.id,
-              nationalStudentId: 'AABB',
-              userId: null,
-            });
-            await databaseBuilder.commit();
-
-            // when
-            const response = await server.inject({
-              method: 'POST',
-              url: '/api/sco-organization-learners/association?withReconciliation=false',
-              headers: { authorization: generateValidRequestAuthorizationHeader(bigSisterAccount.id) },
-              payload: {
-                data: {
-                  attributes: {
-                    'campaign-code': littleBrotherCampaign.code,
-                    'first-name': littleBrother.firstName,
-                    'last-name': littleBrother.lastName,
-                    birthdate: littleBrother.birthdate,
-                  },
-                },
-              },
-            });
-
-            // then
-            expect(response.statusCode).to.equal(422);
-            expect(response.result.errors[0]).to.deep.equal({
-              detail: "Cet utilisateur n'est pas autorisé à se réconcilier avec ce compte",
-              code: 'ACCOUNT_SEEMS_TO_BELONGS_TO_ANOTHER_USER',
-              meta: {
-                shortCode: 'R90',
-              },
-              status: '422',
-              title: 'Unprocessable entity',
-            });
-          });
         });
       });
     });
@@ -575,43 +173,20 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
         expect(response.statusCode).to.equal(401);
       });
     });
-
-    context('when user could not be reconciled', function () {
-      it('should respond with a 422 - unprocessable entity', async function () {
-        // given
-        options.headers.authorization = generateValidRequestAuthorizationHeader(user.id);
-        options.payload.data = {
-          attributes: {
-            'campaign-code': campaign.code,
-          },
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(422);
-      });
-    });
   });
 
   describe('PUT /api/sco-organization-learners/possibilities', function () {
-    let options;
-    let user;
-    let organization;
-    let organizationLearner;
-    let campaignCode;
-
-    beforeEach(async function () {
-      organization = databaseBuilder.factory.buildOrganization({
+    it('should return the organizationLearner linked to the user and a 200 status code response', async function () {
+      //given
+      const organization = databaseBuilder.factory.buildOrganization({
         isManagingStudents: true,
         type: 'SCO',
       });
-      campaignCode = databaseBuilder.factory.buildCampaign({
+      const campaignCode = databaseBuilder.factory.buildCampaign({
         organizationId: organization.id,
       }).code;
-      user = databaseBuilder.factory.buildUser();
-      organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
+      const user = databaseBuilder.factory.buildUser();
+      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         firstName: user.firstName,
         lastName: user.lastName,
@@ -620,7 +195,8 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
       });
       await databaseBuilder.commit();
 
-      options = {
+      // when
+      const response = await server.inject({
         method: 'PUT',
         url: '/api/sco-organization-learners/possibilities',
         headers: {},
@@ -634,357 +210,20 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
             },
           },
         },
-      };
-    });
+      });
 
-    describe('Success case', function () {
-      it('should return the organizationLearner linked to the user and a 200 status code response', async function () {
-        //given
-        const expectedResult = {
-          data: {
-            attributes: {
-              birthdate: '2005-08-05',
-              'first-name': 'Billy',
-              'last-name': 'TheKid',
-              username: 'billy.thekid0508',
-            },
-            type: 'sco-organization-learners',
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result).to.deep.equal({
+        data: {
+          attributes: {
+            birthdate: '2005-08-05',
+            'first-name': 'Billy',
+            'last-name': 'TheKid',
+            username: 'billy.thekid0508',
           },
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(200);
-        expect(response.result).to.deep.equal(expectedResult);
-      });
-    });
-
-    describe('Error cases', function () {
-      context('when no organizationLearner can be associated because birthdate does not match', function () {
-        it('should respond with a 404 - Not Found', async function () {
-          // given
-          options.payload.data.attributes.birthdate = '1990-03-01';
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(404);
-          expect(response.result.errors[0].detail).to.equal(
-            'There were no organizationLearners matching with organization and birthdate'
-          );
-        });
-      });
-
-      context('when no organizationLearner found to associate because names does not match', function () {
-        it('should respond with a 404 - Not Found', async function () {
-          // given
-          options.payload.data.attributes['first-name'] = 'wrong firstName';
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(404);
-          expect(response.result.errors[0].detail).to.equal('There were no organizationLearners matching with names');
-        });
-      });
-
-      context('when organizationLearner is already associated in the same organization', function () {
-        it('should return an organization learner already linked error (short code S51 when account with email)', async function () {
-          // given
-          const userWithEmailOnly = databaseBuilder.factory.buildUser({
-            username: null,
-            email: 'john.harry@example.net',
-          });
-          const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
-            organizationId: organization.id,
-            userId: userWithEmailOnly.id,
-          });
-          await databaseBuilder.commit();
-
-          const expectedResponse = {
-            status: '409',
-            code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
-            title: 'Conflict',
-            detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta: { shortCode: 'S51', value: 'j***@example.net' },
-          };
-
-          options.headers.authorization = generateValidRequestAuthorizationHeader(userWithEmailOnly.id);
-          options.payload.data = {
-            attributes: {
-              'campaign-code': campaignCode,
-              'first-name': organizationLearner.firstName,
-              'last-name': organizationLearner.lastName,
-              birthdate: organizationLearner.birthdate,
-            },
-          };
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(409);
-          expect(response.result.errors[0]).to.deep.equal(expectedResponse);
-        });
-
-        it('should return an organization learner already linked error (short code S52 when connected with username)', async function () {
-          // given
-          const userWithUsernameOnly = databaseBuilder.factory.buildUser({
-            username: 'john.harry0702',
-            email: null,
-          });
-          const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
-            organizationId: organization.id,
-            userId: userWithUsernameOnly.id,
-          });
-          await databaseBuilder.commit();
-
-          const expectedResponse = {
-            status: '409',
-            code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
-            title: 'Conflict',
-            detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta: { shortCode: 'S52', value: 'j***.h***2' },
-          };
-
-          options.headers.authorization = generateValidRequestAuthorizationHeader(userWithUsernameOnly.id);
-          options.payload.data = {
-            attributes: {
-              'campaign-code': campaignCode,
-              'first-name': organizationLearner.firstName,
-              'last-name': organizationLearner.lastName,
-              birthdate: organizationLearner.birthdate,
-            },
-          };
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(409);
-          expect(response.result.errors[0]).to.deep.equal(expectedResponse);
-        });
-
-        it('should return an organization learner already linked error (short code S53 when account with samlId)', async function () {
-          // given
-          const userWithEmailOnly = databaseBuilder.factory.buildUser({
-            username: null,
-            email: null,
-          });
-          databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
-            externalIdentifier: '12345678',
-            userId: userWithEmailOnly.id,
-          });
-
-          const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
-            firstName: 'Sam',
-            lastName: 'Lebrave',
-            birthdate: '2015-10-10',
-            nationalStudentId: 'samlebrave',
-            organizationId: organization.id,
-            userId: null,
-          });
-          organizationLearner.userId = userWithEmailOnly.id;
-          await databaseBuilder.commit();
-
-          const expectedResponse = {
-            status: '409',
-            code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
-            title: 'Conflict',
-            detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta: { shortCode: 'S53', value: null },
-          };
-
-          options.headers.authorization = generateValidRequestAuthorizationHeader(userWithEmailOnly.id);
-          options.payload.data = {
-            attributes: {
-              'campaign-code': campaignCode,
-              'first-name': organizationLearner.firstName,
-              'last-name': organizationLearner.lastName,
-              birthdate: organizationLearner.birthdate,
-            },
-          };
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(409);
-          expect(response.result.errors[0]).to.deep.equal(expectedResponse);
-        });
-      });
-
-      context('when organizationLearner is already associated in others organizations', function () {
-        it('should respond with a 409 - Conflict', async function () {
-          // given
-          const organizationLearnerAlreadyMatched = databaseBuilder.factory.buildOrganizationLearner({
-            birthdate: '2005-05-15',
-            firstName: user.firstName,
-            lastName: user.lastName,
-            organizationId: organization.id,
-            userId: user.id,
-            nationalStudentId: 'coucoucloclo',
-          });
-          await databaseBuilder.commit();
-
-          options.payload.data.attributes['first-name'] = organizationLearnerAlreadyMatched.firstName;
-          options.payload.data.attributes['last-name'] = organizationLearnerAlreadyMatched.lastName;
-          options.payload.data.attributes.birthdate = organizationLearnerAlreadyMatched.birthdate;
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(409);
-          expect(response.result.errors[0].detail).to.equal(
-            'Un compte existe déjà pour l‘élève dans le même établissement.'
-          );
-        });
-
-        it('should return an organization learner already linked error (short code S61 when account with email)', async function () {
-          // given
-          const userWithEmailOnly = databaseBuilder.factory.buildUser({
-            username: null,
-            email: 'john.harry@example.net',
-          });
-          databaseBuilder.factory.buildOrganizationLearner({
-            nationalStudentId: organizationLearner.nationalStudentId,
-            birthdate: organizationLearner.birthdate,
-            firstName: organizationLearner.firstName,
-            lastName: organizationLearner.lastName,
-            userId: userWithEmailOnly.id,
-          });
-          await databaseBuilder.commit();
-
-          const expectedResponse = {
-            status: '409',
-            code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
-            title: 'Conflict',
-            detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta: { shortCode: 'S61', value: 'j***@example.net' },
-          };
-
-          options.headers.authorization = generateValidRequestAuthorizationHeader(userWithEmailOnly.id);
-          options.payload.data = {
-            attributes: {
-              'campaign-code': campaignCode,
-              'first-name': organizationLearner.firstName,
-              'last-name': organizationLearner.lastName,
-              birthdate: organizationLearner.birthdate,
-            },
-          };
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(409);
-          expect(response.result.errors[0]).to.deep.equal(expectedResponse);
-        });
-
-        it('should return an organization learner already linked error (short code S62 when connected with username)', async function () {
-          // given
-          const userWithUsernameOnly = databaseBuilder.factory.buildUser({
-            username: 'john.harry0702',
-            email: null,
-          });
-          databaseBuilder.factory.buildOrganizationLearner({
-            nationalStudentId: organizationLearner.nationalStudentId,
-            birthdate: organizationLearner.birthdate,
-            firstName: organizationLearner.firstName,
-            lastName: organizationLearner.lastName,
-            userId: userWithUsernameOnly.id,
-          });
-          await databaseBuilder.commit();
-
-          const expectedResponse = {
-            status: '409',
-            code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
-            title: 'Conflict',
-            detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta: { shortCode: 'S62', value: 'j***.h***2' },
-          };
-
-          options.headers.authorization = generateValidRequestAuthorizationHeader(userWithUsernameOnly.id);
-          options.payload.data = {
-            attributes: {
-              'campaign-code': campaignCode,
-              'first-name': organizationLearner.firstName,
-              'last-name': organizationLearner.lastName,
-              birthdate: organizationLearner.birthdate,
-            },
-          };
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(409);
-          expect(response.result.errors[0]).to.deep.equal(expectedResponse);
-        });
-
-        it('should return an organization learner already linked error (short code S63 when account with samlId)', async function () {
-          // given
-          const userWithSamlIdOnly = databaseBuilder.factory.buildUser({
-            email: null,
-            username: null,
-          });
-          databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
-            externalIdentifier: '12345678',
-            userId: userWithSamlIdOnly.id,
-          });
-
-          databaseBuilder.factory.buildOrganizationLearner({
-            nationalStudentId: organizationLearner.nationalStudentId,
-            birthdate: organizationLearner.birthdate,
-            firstName: organizationLearner.firstName,
-            lastName: organizationLearner.lastName,
-            userId: userWithSamlIdOnly.id,
-          });
-          await databaseBuilder.commit();
-
-          const expectedResponse = {
-            status: '409',
-            code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION',
-            title: 'Conflict',
-            detail: 'Un compte existe déjà pour l‘élève dans un autre établissement.',
-            meta: { shortCode: 'S63', value: null },
-          };
-
-          options.headers.authorization = generateValidRequestAuthorizationHeader(userWithSamlIdOnly.id);
-          options.payload.data = {
-            attributes: {
-              'campaign-code': campaignCode,
-              'first-name': organizationLearner.firstName,
-              'last-name': organizationLearner.lastName,
-              birthdate: organizationLearner.birthdate,
-            },
-          };
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(409);
-          expect(response.result.errors[0]).to.deep.equal(expectedResponse);
-        });
-      });
-
-      context('when a field is not valid', function () {
-        it('should respond with a 422 - Unprocessable Entity', async function () {
-          // given
-          options.payload.data.attributes['last-name'] = ' ';
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(422);
-        });
+          type: 'sco-organization-learners',
+        },
       });
     });
   });
@@ -1034,73 +273,6 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
         // then
         expect(response.statusCode).to.equal(204);
       });
-
-      context('when no organizationLearner not linked yet found', function () {
-        it('should respond with a 409 - Conflict', async function () {
-          // given
-          const userId = databaseBuilder.factory.buildUser().id;
-          const organizationLearnerAlreadyLinked = databaseBuilder.factory.buildOrganizationLearner({
-            firstName: 'josé',
-            lastName: 'bové',
-            birthdate: '2020-01-01',
-            organizationId: organization.id,
-            userId,
-            nationalStudentId: 'coucou',
-          });
-          await databaseBuilder.commit();
-
-          // when
-          const response = await server.inject({
-            method: 'POST',
-            url: '/api/sco-organization-learners/dependent',
-            payload: {
-              data: {
-                attributes: {
-                  'campaign-code': campaign.code,
-                  'first-name': organizationLearnerAlreadyLinked.firstName,
-                  'last-name': organizationLearnerAlreadyLinked.lastName,
-                  birthdate: organizationLearnerAlreadyLinked.birthdate,
-                  password: 'P@ssw0rd',
-                  email: 'angie@example.net',
-                  'with-username': false,
-                },
-              },
-            },
-          });
-
-          // then
-          expect(response.statusCode).to.equal(409);
-          expect(response.result.errors[0].detail).to.equal(
-            'Un compte existe déjà pour l‘élève dans le même établissement.'
-          );
-        });
-      });
-
-      context('when a field is not valid', function () {
-        it('should respond with a 422 - Unprocessable Entity', async function () {
-          // when
-          const response = await server.inject({
-            method: 'POST',
-            url: '/api/sco-organization-learners/dependent',
-            payload: {
-              data: {
-                attributes: {
-                  'campaign-code': campaign.code,
-                  'first-name': organizationLearner.firstName,
-                  'last-name': organizationLearner.lastName,
-                  birthdate: organizationLearner.birthdate,
-                  password: 'P@ssw0rd',
-                  email: 'not valid email',
-                  'with-username': false,
-                },
-              },
-            },
-          });
-
-          // then
-          expect(response.statusCode).to.equal(422);
-        });
-      });
     });
 
     context('when creation is with username', function () {
@@ -1126,40 +298,6 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
 
         // then
         expect(response.statusCode).to.equal(204);
-      });
-
-      context('when username is already taken', function () {
-        it('should respond with a 422 - Unprocessable entity', async function () {
-          // given
-          const username = 'angie.go1234';
-          databaseBuilder.factory.buildUser({ username });
-          await databaseBuilder.commit();
-
-          // when
-          const response = await server.inject({
-            method: 'POST',
-            url: '/api/sco-organization-learners/dependent',
-            payload: {
-              data: {
-                attributes: {
-                  'campaign-code': campaign.code,
-                  'first-name': organizationLearner.firstName,
-                  'last-name': organizationLearner.lastName,
-                  birthdate: organizationLearner.birthdate,
-                  password: 'P@ssw0rd',
-                  username,
-                  'with-username': true,
-                },
-              },
-            },
-          });
-
-          // then
-          expect(response.statusCode).to.equal(422);
-          expect(response.result.errors[0].detail).to.equal(
-            'Cet identifiant n’est plus disponible, merci de recharger la page.'
-          );
-        });
       });
     });
   });
@@ -1349,17 +487,19 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
   });
 
   describe('POST /api/sco-organization-learners/password-update', function () {
-    let organizationId;
-    let options;
-
-    beforeEach(async function () {
-      organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
-      const userId = databaseBuilder.factory.buildUser().id;
+    it('should return a 200 status after having successfully updated the password', async function () {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
+      const userId = databaseBuilder.factory.buildUser.withRawPassword().id;
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId,
+        userId,
+      }).id;
       databaseBuilder.factory.buildMembership({ organizationId, userId });
-
       await databaseBuilder.commit();
 
-      options = {
+      // when
+      const response = await server.inject({
         method: 'POST',
         url: '/api/sco-organization-learners/password-update',
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
@@ -1367,74 +507,14 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
           data: {
             attributes: {
               'organization-id': organizationId,
-              'organization-learner-id': null,
+              'organization-learner-id': organizationLearnerId,
             },
           },
         },
-      };
-    });
-
-    it('should return a 200 status after having successfully updated the password', async function () {
-      // given
-      const userId = databaseBuilder.factory.buildUser.withRawPassword().id;
-      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
-        organizationId,
-        userId,
-      }).id;
-      options.payload.data.attributes['organization-learner-id'] = organizationLearnerId;
-
-      await databaseBuilder.commit();
-
-      // when
-      const response = await server.inject(options);
+      });
 
       // then
       expect(response.statusCode).to.equal(200);
-    });
-
-    it('should return a 404 status when organizationLearner does not exist', async function () {
-      // given
-      options.payload.data.attributes['organization-learner-id'] = 1;
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(404);
-    });
-
-    it("should return a 404 status when organizationLearner's userId does not exist", async function () {
-      // given
-      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
-        organizationId,
-        userId: null,
-      }).id;
-      options.payload.data.attributes['organization-learner-id'] = organizationLearnerId;
-
-      await databaseBuilder.commit();
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(404);
-    });
-
-    it('should return a 403 status when user does not belong to the same organization as organizationLearner', async function () {
-      // given
-      const wrongOrganization = databaseBuilder.factory.buildOrganization();
-      const organizationLearnerWithWrongOrganization = databaseBuilder.factory.buildOrganizationLearner({
-        organizationId: wrongOrganization.id,
-      });
-      await databaseBuilder.commit();
-
-      options.payload.data.attributes['organization-learner-id'] = organizationLearnerWithWrongOrganization.id;
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(403);
     });
   });
 
@@ -1480,34 +560,6 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
-    });
-
-    it('should return a 404 status when organizationLearner does not exist', async function () {
-      // given
-      options.payload.data.attributes['organization-learner-id'] = organizationLearnerId + 1;
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(404);
-    });
-
-    it("should return a 404 status when organizationLearner's userId does not exist", async function () {
-      // given
-      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
-        organizationId,
-        userId: null,
-      }).id;
-      options.payload.data.attributes['organization-learner-id'] = organizationLearnerId;
-
-      await databaseBuilder.commit();
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(404);
     });
 
     it('should return a 403 status when student does not belong to the same organization as organizationLearner', async function () {

@@ -258,6 +258,9 @@ describe('Unit | UseCase | reconcile-sco-organization-learner-manually', functio
 
           // then
           expect(error).to.be.instanceOf(UserShouldNotBeReconciledOnAnotherAccountError);
+          expect(error.code).to.equal('ACCOUNT_SEEMS_TO_BELONGS_TO_ANOTHER_USER');
+          expect(error.meta.shortCode).to.equal('R90');
+          expect(error.message).to.equal("Cet utilisateur n'est pas autorisé à se réconcilier avec ce compte");
         });
       });
     });

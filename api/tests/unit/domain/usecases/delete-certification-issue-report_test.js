@@ -10,7 +10,6 @@ describe('Unit | UseCase | delete-certification-issue-report', function () {
     get: () => _.noop(),
   };
   const sessionRepository = { isFinalized: () => _.noop() };
-  const sessionAuthorizationService = { isAuthorizedToAccessSession: () => _.noop() };
   const certificationIssueReportId = 456;
   const userId = 789;
   const sessionId = 159;
@@ -29,12 +28,10 @@ describe('Unit | UseCase | delete-certification-issue-report', function () {
     sinon.stub(certificationIssueReportRepository, 'get');
     certificationIssueReportRepository.get.withArgs(certificationIssueReportId).resolves(certificationIssueReport);
     sinon.stub(sessionRepository, 'isFinalized');
-    sinon.stub(sessionAuthorizationService, 'isAuthorizedToAccessSession');
   });
 
   it('should throw a ForbiddenAccess error when session is already finalized', async function () {
     // given
-    sessionAuthorizationService.isAuthorizedToAccessSession.withArgs({ userId, sessionId }).resolves(true);
     sessionRepository.isFinalized.withArgs(sessionId).resolves(true);
 
     // when
@@ -44,7 +41,6 @@ describe('Unit | UseCase | delete-certification-issue-report', function () {
       certificationCourseRepository,
       certificationIssueReportRepository,
       sessionRepository,
-      sessionAuthorizationService,
     });
 
     // then
@@ -54,7 +50,6 @@ describe('Unit | UseCase | delete-certification-issue-report', function () {
   it('should return deletion result', async function () {
     // given
     const deletionResult = Symbol('someValue');
-    sessionAuthorizationService.isAuthorizedToAccessSession.withArgs({ userId, sessionId }).resolves(true);
     sessionRepository.isFinalized.withArgs(sessionId).resolves(false);
     certificationIssueReportRepository.delete.withArgs(certificationIssueReportId).resolves(deletionResult);
 
@@ -65,7 +60,6 @@ describe('Unit | UseCase | delete-certification-issue-report', function () {
       certificationCourseRepository,
       certificationIssueReportRepository,
       sessionRepository,
-      sessionAuthorizationService,
     });
 
     // then
