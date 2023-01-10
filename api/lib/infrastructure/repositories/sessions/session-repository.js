@@ -13,8 +13,9 @@ module.exports = {
   async save(sessionData) {
     sessionData = _.omit(sessionData, ['certificationCandidates']);
 
-    const newSession = await new BookshelfSession(sessionData).save();
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, newSession);
+    const [savedSession] = await knex('sessions').insert(sessionData).returning('*');
+
+    return new Session(savedSession);
   },
 
   async saveSessions(sessionsData) {
