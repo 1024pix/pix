@@ -7,6 +7,8 @@ function trainingBuilder({ databaseBuilder }) {
     type: 'webinaire',
     duration: '06:00:00',
     locale: 'fr-fr',
+    prerequisiteThreshold: 20,
+    goalThreshold: 90,
   });
   const training2 = databaseBuilder.factory.buildTraining({
     title: 'Speed training',
@@ -16,6 +18,8 @@ function trainingBuilder({ databaseBuilder }) {
     locale: 'fr-fr',
     editorName: 'Autre ministère',
     editorLogoUrl: 'https://images.pix.fr/contenu-formatif/editeur/autre_logo_url.svg',
+    prerequisiteThreshold: null,
+    goalThreshold: 90,
   });
   const training3 = databaseBuilder.factory.buildTraining({
     title: 'Comment toiletter son chien',
@@ -23,6 +27,8 @@ function trainingBuilder({ databaseBuilder }) {
     type: 'autoformation',
     duration: '10:00:00',
     locale: 'fr-fr',
+    prerequisiteThreshold: 10,
+    goalThreshold: 10,
   });
   const training4 = databaseBuilder.factory.buildTraining({
     title: 'Créer un tabouret',
@@ -30,6 +36,8 @@ function trainingBuilder({ databaseBuilder }) {
     type: 'webinaire',
     duration: '47:00:00',
     locale: 'fr-fr',
+    prerequisiteThreshold: 20,
+    goalThreshold: null,
   });
   const training5 = databaseBuilder.factory.buildTraining({
     title: 'Manger bun\'s tous les midis',
@@ -37,6 +45,8 @@ function trainingBuilder({ databaseBuilder }) {
     type: 'webinaire',
     duration: '06:00:00',
     locale: 'fr-fr',
+    prerequisiteThreshold: 35,
+    goalThreshold: 40,
   });
   const training6 = databaseBuilder.factory.buildTraining({
     title: 'Apprendre à jouer à la coinche',
@@ -44,6 +54,8 @@ function trainingBuilder({ databaseBuilder }) {
     type: 'autoformation',
     duration: '50:00:50',
     locale: 'fr-fr',
+    prerequisiteThreshold: 20,
+    goalThreshold: 60,
   });
   const training7 = databaseBuilder.factory.buildTraining({
     title: 'Savoir coudre',
@@ -51,6 +63,8 @@ function trainingBuilder({ databaseBuilder }) {
     type: 'webinaire',
     duration: '00:05:00',
     locale: 'fr-fr',
+    prerequisiteThreshold: 20,
+    goalThreshold: 30,
   });
   const training8 = databaseBuilder.factory.buildTraining({
     title: 'Apprendre à faire du cidre breton',
@@ -58,6 +72,8 @@ function trainingBuilder({ databaseBuilder }) {
     type: 'autoformation',
     duration: '01:00:00',
     locale: 'fr-fr',
+    prerequisiteThreshold: 0,
+    goalThreshold: 20,
   });
   const training9 = databaseBuilder.factory.buildTraining({
     title: 'Apprendre à compter',
@@ -65,6 +81,8 @@ function trainingBuilder({ databaseBuilder }) {
     type: 'webinaire',
     duration: '10:00:00',
     locale: 'fr-fr',
+    prerequisiteThreshold: 50,
+    goalThreshold: 95,
   });
   const training10 = databaseBuilder.factory.buildTraining({
     title: 'Devenir influenceur de bonheur',
@@ -72,6 +90,8 @@ function trainingBuilder({ databaseBuilder }) {
     type: 'autoformation',
     duration: '10:00:00',
     locale: 'fr-fr',
+    prerequisiteThreshold: 20,
+    goalThreshold: 90,
   });
   const training11 = databaseBuilder.factory.buildTraining({
     title: 'Faire carrière dans la haute couture',
@@ -79,6 +99,8 @@ function trainingBuilder({ databaseBuilder }) {
     type: 'autoformation',
     duration: '07:00:00',
     locale: 'fr-fr',
+    prerequisiteThreshold: null,
+    goalThreshold: null,
   });
   const training12 = databaseBuilder.factory.buildTraining({
     title: 'Devenir tiktokeur professionel',
@@ -86,6 +108,8 @@ function trainingBuilder({ databaseBuilder }) {
     type: 'autoformation',
     duration: '12:00:00',
     locale: 'fr-fr',
+    prerequisiteThreshold: 0,
+    goalThreshold: 0,
   });
   databaseBuilder.factory.buildTargetProfileTraining({
     trainingId: training1.id,
