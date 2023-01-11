@@ -11,14 +11,9 @@
     </div>
   </div>
 
-  <div
-    class="sign-form__notification-message sign-form__notification-message--error"
-    aria-live="polite"
-    role="alert"
-    id="sign-up-error-message"
-  >
+  <p class="sign-form__notification-message--error" aria-live="polite" role="alert" id="sign-up-error-message">
     {{this.errorMessage}}
-  </div>
+  </p>
 
   <form {{on "submit" this.signup}} class="sign-form__body">
     <p class="sign-form-body__instruction">{{t "common.form.mandatory-all-fields" htmlSafe=true}}</p>
@@ -108,13 +103,14 @@
           {{t "common.cgu.label"}}
         </PixCheckbox>
       </div>
-      <div class="sign-form__validation-error" aria-live="polite" role="alert" id="sign-up-cgu-error-message">
+      <p class="sign-form__validation-error" aria-live="polite" role="alert" id="sign-up-cgu-error-message">
         {{#if @user.errors.cgu}}
           {{t "common.cgu.error"}}
         {{/if}}
-      </div>
+      </p>
 
     </fieldset>
+
     <div class="sign-form-body__bottom-button">
       {{#if this.isLoading}}
         <button type="button" disabled class="button button--thin button--big button--round button--border-focus">

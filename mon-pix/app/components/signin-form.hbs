@@ -14,13 +14,9 @@
   </div>
 
   {{#if this.hasFailed}}
-    <div
-      class="sign-form__notification-message sign-form__notification-message--error"
-      role="alert"
-      id="sign-in-error-message"
-    >
+    <p class="sign-form__notification-message--error" role="alert" id="sign-in-error-message">
       {{this.errorMessage}}
-    </div>
+    </p>
   {{/if}}
 
   <form {{on "submit" this.signin}} class="sign-form__body">
