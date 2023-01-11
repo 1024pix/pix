@@ -54,7 +54,6 @@ export default class SignupForm extends Component {
 
   @tracked errorMessage = null;
   @tracked isLoading = false;
-  @tracked notificationMessage = null;
   @tracked validation = new SignupFormValidation();
   _tokenHasBeenUsed = null;
 
@@ -137,7 +136,6 @@ export default class SignupForm extends Component {
   @action
   signup(event) {
     event && event.preventDefault();
-    this.notificationMessage = null;
     this.isLoading = true;
 
     this._trimNamesAndEmailOfUser();
