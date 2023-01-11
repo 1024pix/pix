@@ -5,26 +5,25 @@
   <DataProtectionPolicyInformationBanner />
 </div>
 
-<header role="banner">
+<div>
   <NavbarHeader />
-</header>
+</div>
 
-<main class="main" role="main">
+<div class="main">
   <PixBackgroundHeader>
-    <PixBlock class="fill-in-campaign-code__container">
-      <h1 class="fill-in-campaign-code__title rounded-panel-title">
+    <PixBlock class="container">
+      <p class="title rounded-panel-title">
         {{this.firstTitle}}
-      </h1>
+      </p>
 
-      <label for="campaign-code" class="fill-in-campaign-code__instruction">{{{t
+      <p class="instruction">{{{t
           "pages.fill-in-campaign-code.description"
-        }}}</label>
-      <form class="fill-in-campaign-code__form" autocomplete="off">
+        }}}</p>
+      <form class="form" autocomplete="off">
 
-        <div class="fill-in-campaign-code__form-field">
+        <div class="form-field">
           <Input
             required
-            id="campaign-code"
             class="input-code"
             @type="text"
             @value={{this.campaignCode}}
@@ -34,15 +33,15 @@
         </div>
 
         {{#if this.errorMessage}}
-          <div class="fill-in-campaign-code__error" aria-live="polite">
+          <div class="error">
             {{this.errorMessage}}
           </div>
         {{/if}}
 
-        <div class="fill-in-campaign-code__actions">
+        <div class="actions">
           <PixButton
             @type="submit"
-            class="fill-in-campaign-code__start-button"
+            class="start-button"
             @triggerAction={{action "startCampaign"}}
           >
             {{t "pages.fill-in-campaign-code.start"}}
@@ -51,15 +50,15 @@
       </form>
 
       {{#if this.showWarningMessage}}
-        <div class="fill-in-campaign-code__warning">
-          <span>{{this.warningMessage}}</span>
+        <div class="warning">
+          <p>{{this.warningMessage}}</p>
           <a href="#" class="link" {{action this.disconnect}}>
             {{t "pages.fill-in-campaign-code.warning-message-logout"}}
           </a>
         </div>
       {{/if}}
 
-      <div class="fill-in-campaign-code__explanation">
+      <div class="explanation">
         <a
           href={{t "pages.fill-in-campaign-code.explanation-link"}}
           class="link"
@@ -71,9 +70,83 @@
       </div>
     </PixBlock>
   </PixBackgroundHeader>
-</main>
+</div>
 
-<Footer />
+<div id="footer" class="footer">
+  <div class="footer__container">
+    <div class="footer-container__logos">
+      <div class="footer-logos__french-government">
+        <img src="/images/logo/logo-de-la-republique-francaise.svg" />
+      </div>
+      <PixLogo />
+    </div>
+
+    <div class="footer-container__content">
+      <div class="footer-container-content__navigation">
+        <div class="footer-container-content__navigation-list">
+          <div>
+            <a href="{{this.supportHomeUrl}}" target="_blank" class="footer-navigation__item" rel="noopener noreferrer">
+              {{t "navigation.footer.help-center"}}
+            </a>
+          </div>
+
+          <div>
+            <a
+              href="{{this.accessibilityUrl}}"
+              target="_blank"
+              class="footer-navigation__item"
+              rel="noopener noreferrer"
+            >
+              {{t "navigation.footer.a11y"}}
+            </a>
+          </div>
+
+          <div>
+            <a href="{{this.cguUrl}}" target="_blank" class="footer-navigation__item" rel="noopener noreferrer">
+              {{t "navigation.footer.eula"}}
+            </a>
+          </div>
+
+          <div>
+            <a
+              href="{{this.dataProtectionPolicyUrl}}"
+              target="_blank"
+              class="footer-navigation__item"
+              rel="noopener noreferrer"
+            >
+              {{t "navigation.footer.data-protection-policy"}}
+            </a>
+          </div>
+
+          <div>
+            <a
+              href="{{t 'navigation.footer.student-data-protection-policy-url'}}"
+              target="_blank"
+              class="footer-navigation__item"
+              rel="noopener noreferrer"
+            >
+              {{t "navigation.footer.student-data-protection-policy"}}
+            </a>
+          </div>
+          <div>
+            <LinkTo
+              @route="authenticated.sitemap"
+              class="footer-navigation__item footer-navigation__item--internal-link"
+            >
+              {{t "navigation.footer.sitemap"}}
+            </LinkTo>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-container-content__copyrights">
+        <span>{{t "navigation.copyrights"}} 2023 {{t "navigation.pix"}}</span>
+      </div>
+    </div>
+
+  </div>
+
+</div>
 
 <PixModal
   @title={{t "pages.fill-in-campaign-code.mediacentre-start-campaign-modal.title"}}
