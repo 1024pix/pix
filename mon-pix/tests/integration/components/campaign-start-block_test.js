@@ -44,7 +44,9 @@ module('Integration | Component | campaign-start-block', function (hooks) {
           isAnonymous: false,
         };
       }
+
       this.owner.register('service:currentUser', currentUser);
+
       class SessionStub extends Service {
         isAuthenticated = true;
         invalidate = sinon.stub();
@@ -130,7 +132,7 @@ module('Integration | Component | campaign-start-block', function (hooks) {
             @startCampaignParticipation={{this.startCampaignParticipation}}
           />`);
         // then
-        assert.ok(contains("Démarrez votre parcours d'évaluation personnalisé."));
+        assert.ok(contains(this.intl.t('pages.campaign-landing.assessment.announcement')));
         assert.ok(contains(this.intl.t('pages.campaign-landing.assessment.action')));
         assert.ok(contains(this.intl.t('pages.campaign-landing.assessment.legal')));
       });
@@ -159,7 +161,9 @@ module('Integration | Component | campaign-start-block', function (hooks) {
           isAnonymous: false,
         };
       }
+
       this.owner.register('service:currentUser', currentUser);
+
       class SessionStub extends Service {
         isAuthenticated = false;
         invalidate = sinon.stub();
@@ -229,7 +233,9 @@ module('Integration | Component | campaign-start-block', function (hooks) {
           isAnonymous: true,
         };
       }
+
       this.owner.register('service:currentUser', currentUser);
+
       class SessionStub extends Service {
         isAuthenticated = true;
         invalidate = sinon.stub();
