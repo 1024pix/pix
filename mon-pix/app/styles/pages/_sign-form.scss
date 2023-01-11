@@ -49,23 +49,21 @@
     width: 100%;
   }
 
-  &__notification-message {
-    width: 100%;
-    color: $pix-neutral-0;
+  &__notification-message--error {
+    margin: 0 0 10px;
+    color: $pix-error-70;
     font-weight: 400;
     font-size: 1rem;
     line-height: 1.625rem;
     text-align: center;
-
-    &--error {
-      color: $pix-error-70;
-    }
   }
 
   &__validation-error {
+    margin: 0;
     padding-bottom: 10px;
     color: $pix-error-70;
     font-weight: normal;
+    font-size: 0.875rem;
   }
 }
 

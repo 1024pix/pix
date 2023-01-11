@@ -3,12 +3,13 @@
 
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { fillIn, find, render } from '@ember/test-helpers';
+import { fillIn } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { resolve, reject } from 'rsvp';
 import Service from '@ember/service';
 import { clickByLabel } from '../../helpers/click-by-label';
 import { contains } from '../../helpers/contains';
+import { render } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | password reset demand form', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -93,9 +94,9 @@ module('Integration | Component | password reset demand form', function (hooks) 
     this.owner.register('service:errors', errorsServiceStub);
 
     // when
-    await render(hbs`<PasswordResetDemandForm />`);
+    const screen = await render(hbs`<PasswordResetDemandForm />`);
 
     // then
-    assert.ok(find('.sign-form__notification-message--error').textContent.includes(expectedError));
+    assert.dom(screen.getByText(expectedError)).exists();
   });
 });
