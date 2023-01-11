@@ -38,7 +38,14 @@ const certificationCandidateValidationJoiSchema_v1_5 = Joi.object({
     then: Joi.string().required().empty(['', null]),
     otherwise: Joi.valid(null),
   }),
-});
+}).assert(
+  '.birthPostalCode',
+  Joi.when('..birthINSEECode', {
+    is: Joi.exist(),
+    then: Joi.string().forbidden(),
+    otherwise: Joi.string().required(),
+  })
+);
 
 const certificationCandidateParticipationJoiSchema = Joi.object({
   id: Joi.any().allow(null).optional(),
