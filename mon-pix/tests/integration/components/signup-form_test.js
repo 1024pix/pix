@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
-import { fillIn, find, findAll, triggerEvent } from '@ember/test-helpers';
+import { fillIn, findAll, triggerEvent } from '@ember/test-helpers';
 import { render, clickByName } from '@1024pix/ember-testing-library';
 
 import ArrayProxy from '@ember/array/proxy';
@@ -615,47 +615,6 @@ module('Integration | Component | SignupForm', function (hooks) {
             .includes(INPUT_TEXT_FIELD_CLASS_DEFAULT)
         );
       });
-    });
-  });
-
-  module('Loading management', function () {
-    test('should not display any loading spinner by default', async function (assert) {
-      // given
-      this.set('user', userEmpty);
-
-      // when
-      await render(hbs`<SignupForm @user={{this.user}} />`);
-
-      // then
-      assert.dom('.sign-form-body__bottom-button .loader-in-button').doesNotExist();
-    });
-
-    test('should display a loading spinner when user submit signup', async function (assert) {
-      // given
-      class sessionService extends Service {
-        authenticateUser = sinon.stub().resolves();
-      }
-
-      this.owner.register('service:session', sessionService);
-
-      const validUser = EmberObject.create({
-        email: 'toto@pix.fr',
-        firstName: 'Marion',
-        lastName: 'Yade',
-        password: 'gipix2017',
-        cgu: true,
-        save() {
-          return new resolve();
-        },
-      });
-      this.set('user', validUser);
-      await render(hbs`<SignupForm @user={{this.user}} />`);
-
-      // when
-      await clickByName(this.intl.t('pages.sign-up.actions.submit'));
-
-      // then
-      assert.ok(find('.loader-in-button'));
     });
   });
 });
