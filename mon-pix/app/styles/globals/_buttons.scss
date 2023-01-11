@@ -204,6 +204,12 @@
     cursor: pointer;
   }
 
+  &:focus-visible {
+    border-radius: 2px;
+    outline: 1.5px solid $pix-primary;
+    outline-offset: 1px;
+  }
+
   &--underline {
     text-decoration: underline;
   }
