@@ -49,7 +49,68 @@
       "skill-ranking": "Pix score for the competence {{name}}"
     }
   },
+  "certification-center-invitation-email": {
+    "params": {
+      "acceptInvitation": "Accepter l’invitation",
+      "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre.",
+      "here": "ici",
+      "moreAbout": "En savoir plus sur",
+      "needHelp": "Besoin d’aide, contactez-nous",
+      "oneTimeLink": "Ce lien est à usage unique",
+      "pixCertifPresentation": "L’espace Pix Certif est un outil dédié à l’organisation des sessions de certification.",
+      "title": "Invitation à rejoindre l’espace",
+      "yourCertificationCenter": "Votre centre de certification"
+    },
+    "subject": "Invitation à rejoindre Pix Certif"
+  },
+  "csv-import-values": {
+    "sup-organization-learner": {
+      "diplomas": {
+        "bts": "BTS contrôlé par l'Etat",
+        "classe-preparatoire": "Classe préparatoire contrôlée par l'Etat",
+        "dcg ": "DCG contrôlé par l'Etat",
+        "deust": "DEUST contrôlé par l'Etat",
+        "dma ": "DMA contrôlé par l'Etat",
+        "dnmade": "DNMADE contrôlé par l'Etat",
+        "doctorat": "Diplôme National de Doctorat contrôlé par l'Etat",
+        "dts": "DTS contrôlé par l'Etat",
+        "dut": "DUT contrôlé par l'Etat",
+        "etat-controle": "Diplôme d'Etat contrôlé",
+        "ingenieur": "Diplôme d'ingénieur contrôlé par l'Etat",
+        "license": "Diplôme National de Licence contrôlé par l'Etat",
+        "license-grade": "Diplôme conférant le grade de licence contrôlé par l'Etat",
+        "master": "Diplôme National de Master contrôlé par l'Etat",
+        "master-grade": "Diplôme conférant le grade de master contrôlé par l'Etat",
+        "other": "Autre",
+        "vise": "Diplôme visé contrôlé par l'Etat"
+      },
+      "study-schemes": {
+        "continuous-training": "Formation continue",
+        "initial-training": "Formation initiale hors apprentissage",
+        "other": "Autre",
+        "training": "Apprentissage"
+      },
+      "unknown": "Not recognised"
+    }
+  },
   "csv-template": {
+    "organization-learners": {
+      "birth-city": "Place of birth**",
+      "birth-city-code": "City of birth code**",
+      "birth-country-code": "Country code*",
+      "birth-province-code": "Province of birth code*",
+      "birthdate": "Date of birth (DD/MM/YYYY)*",
+      "division": "Class*",
+      "first-name": "First name*",
+      "last-name": "Last name*",
+      "mef-code": "MEF code*",
+      "middle-name": "Middle name #1",
+      "national-identifier": "Unique identifier*",
+      "preferred-last-name": "Preferred name",
+      "sex": "Sex code*",
+      "status": "Status*",
+      "third-name": "Middle name #2"
+    },
     "sup-organization-learners": {
       "birthdate": "Date of birth (DD/MM/YYYY)",
       "department": "Department",
@@ -65,69 +126,9 @@
       "study-scheme": "Status",
       "third-name": "Middle name #2"
     },
-    "organization-learners": {
-      "birth-city": "Place of birth**",
-      "birth-city-code": "City of birth code**",
-      "birth-country-code": "Country code*",
-      "birth-province-code": "Province of birth code*",
-      "birthdate": "Date of birth (DD/MM/YYYY)*",
-      "division": "Class*",
-      "first-name": "First name*",
-      "last-name": "Last name*",
-      "sex": "Sex code*",
-      "mef-code": "MEF code*",
-      "middle-name": "Middle name #1",
-      "national-identifier": "Unique identifier*",
-      "preferred-last-name": "Preferred name",
-      "status": "Status*",
-      "third-name": "Middle name #2"
-    },
     "template-name": "import-template"
   },
-  "csv-import-values": {
-    "sup-organization-learner": {
-      "diplomas": {
-        "license": "Diplôme National de Licence contrôlé par l'Etat",
-        "master": "Diplôme National de Master contrôlé par l'Etat",
-        "doctorat": "Diplôme National de Doctorat contrôlé par l'Etat",
-        "dnmade": "DNMADE contrôlé par l'Etat",
-        "dma ": "DMA contrôlé par l'Etat",
-        "bts": "BTS contrôlé par l'Etat",
-        "dut": "DUT contrôlé par l'Etat",
-        "dts": "DTS contrôlé par l'Etat",
-        "dcg ": "DCG contrôlé par l'Etat",
-        "deust": "DEUST contrôlé par l'Etat",
-        "etat-controle": "Diplôme d'Etat contrôlé",
-        "ingenieur": "Diplôme d'ingénieur contrôlé par l'Etat",
-        "license-grade": "Diplôme conférant le grade de licence contrôlé par l'Etat",
-        "master-grade": "Diplôme conférant le grade de master contrôlé par l'Etat",
-        "vise": "Diplôme visé contrôlé par l'Etat",
-        "classe-preparatoire": "Classe préparatoire contrôlée par l'Etat",
-        "other": "Autre"
-      },
-      "study-schemes": {
-        "initial-training": "Formation initiale hors apprentissage",
-        "training": "Apprentissage",
-        "continuous-training": "Formation continue",
-        "other": "Autre"
-      },
-      "unknown": "Not recognised"
-    }
-  },
   "current-lang": "en",
-  "verification-code-email": {
-    "subject": "Your Pix code is {{ code }}",
-    "body": {
-      "doNotAnswer": "This is an automated email message, please do not reply.",
-      "context": "You’ve requested to change the email address linked to your account. To continue, enter the following verification code on Pix:",
-      "warningMessage" : "If this wasn’t you, please reset your password as soon as possible in order to secure your account.",
-      "greeting": "Hi,",
-      "moreOn": "More on",
-      "pixPresentation": "Pix is the online service to assess, develop and certify your digital skills.",
-      "signing": "— The Pix Team",
-      "seeYouSoon": "See you soon on Pix."
-    }
-  },
   "entity-validation-errors": {
     "ACCEPT_CGU": "Please agree to the terms and conditions of use.",
     "ALREADY_REGISTERED_EMAIL": "This email address is already registered, please log in.",
@@ -143,9 +144,9 @@
     "MAX_SIZE_EMAIL": "Your email address must not exceed 255 characters.",
     "MAX_SIZE_FIRST_NAME": "Your first name must not exceed 255 characters.",
     "MAX_SIZE_LAST_NAME": "Your last name must not exceed 255 characters.",
+    "STAGE_TARGET_PROFILE_IS_REQUIRED": "The target profile is required",
     "STAGE_THRESHOLD_IS_REQUIRED": "The threshold is required",
     "STAGE_TITLE_IS_REQUIRED": "The title is required",
-    "STAGE_TARGET_PROFILE_IS_REQUIRED": "The target profile is required",
     "WRONG_EMAIL_FORMAT": "The email address format is invalid."
   },
   "organization-invitation-email": {
@@ -162,20 +163,6 @@
       "yourOrganization": "Your organisation"
     },
     "subject": "Invitation to join Pix Orga"
-  },
-  "certification-center-invitation-email": {
-    "subject": "Invitation à rejoindre Pix Certif",
-    "params": {
-      "title": "Invitation à rejoindre l’espace",
-      "yourCertificationCenter": "Votre centre de certification",
-      "acceptInvitation": "Accepter l’invitation",
-      "oneTimeLink": "Ce lien est à usage unique",
-      "pixCertifPresentation": "L’espace Pix Certif est un outil dédié à l’organisation des sessions de certification.",
-      "moreAbout": "En savoir plus sur",
-      "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre.",
-      "needHelp": "Besoin d’aide, contactez-nous",
-      "here": "ici"
-    }
   },
   "pix-account-creation-email": {
     "params": {
@@ -204,5 +191,18 @@
       "weCannotSendYourPassword": "Hello, for security reasons, we cannot send your password by email."
     },
     "subject": "Pix password reset request"
+  },
+  "verification-code-email": {
+    "body": {
+      "context": "You’ve requested to change the email address linked to your account. To continue, enter the following verification code on Pix:",
+      "doNotAnswer": "This is an automated email message, please do not reply.",
+      "greeting": "Hi,",
+      "moreOn": "More on",
+      "pixPresentation": "Pix is the online service to assess, develop and certify your digital skills.",
+      "seeYouSoon": "See you soon on Pix.",
+      "signing": "— The Pix Team",
+      "warningMessage": "If this wasn’t you, please reset your password as soon as possible in order to secure your account."
+    },
+    "subject": "Your Pix code is {{ code }}"
   }
 }
