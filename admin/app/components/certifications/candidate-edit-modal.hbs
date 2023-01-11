@@ -59,11 +59,8 @@
       </div>
 
       <div class="candidate-edit-modal--content__field">
-        <label for="birth-country">
-          Pays de naissance
-        </label>
         <PixSelect
-          id="birth-country"
+          @label="Pays de naissance"
           @options={{this.countryOptions}}
           @onChange={{this.selectBirthCountry}}
           @selectedOption={{this.selectedCountryOption}}

@@ -16,10 +16,11 @@
     <section class="add-member-to-team-form__select {{if this.inviteErrorRaised 'error-padding'}}">
       <PixSelect
         @options={{@roles}}
-        @selectedOption={{this.role}}
+        @value={{this.role}}
         @isSearchable={{false}}
         @onChange={{this.roleChanged}}
-        aria-label="Choisir le rôle à assigner au nouveau membre"
+        @label="Choisir le rôle à assigner au nouveau membre"
+        @screenReaderOnly={{true}}
       />
     </section>
 

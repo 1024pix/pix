@@ -1,5 +1,5 @@
 <td>
-  <label data-test="label-tube-{{@tube.id}}">
+  <label>
     <TargetProfiles::TubesSelection::Checkbox
       id="tube-{{@tube.id}}"
       @state={{this.state}}
@@ -12,14 +12,13 @@
 </td>
 <td class="table__column--center">
   <PixSelect
-    id="select-level-tube-{{@tube.id}}"
-    data-testid="select-level-tube-{{@tube.id}}"
+    @label="Sélection du niveau du sujet"
+    @screenReaderOnly={{true}}
     @options={{this.levelOptions}}
     @onChange={{this.setLevelTube}}
-    @selectedOption={{this.selectedLevel}}
-    disabled={{not this.checked}}
+    @value={{this.selectedLevel}}
+    @isDisabled={{not this.checked}}
   />
-  <label for="select-level-tube-{{@tube.id}}" class="sr-only">Sélection du niveau du sujet</label>
 </td>
 <td class="table__column--center">
   <div class="icon-container" aria-label="{{if @tube.mobile 'compatible mobile' 'incompatible mobile'}}">

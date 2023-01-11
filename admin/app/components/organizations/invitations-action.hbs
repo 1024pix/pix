@@ -13,17 +13,19 @@
 
         <PixSelect
           @options={{this.languagesOptions}}
-          @selectedOption={{this.organizationInvitationLang}}
+          @value={{this.organizationInvitationLang}}
           @onChange={{this.changeOrganizationInvitationLang}}
-          aria-label="Choisir la langue de l’email d’invitation"
+          @label="Choisir la langue de l’email d’invitation"
+          @placeholder="Langue"
           class="organization-invitations__select"
         />
 
         <PixSelect
           @options={{this.rolesOptions}}
-          @selectedOption={{this.organizationInvitationRole}}
+          @value={{this.organizationInvitationRole}}
           @onChange={{this.changeOrganizationInvitationRole}}
-          aria-label="Choisir le rôle du membre"
+          @label="Choisir le rôle du membre"
+          @placeholder="Rôle"
           class="organization-invitations__select"
         />
 

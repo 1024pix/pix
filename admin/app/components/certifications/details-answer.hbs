@@ -28,10 +28,10 @@
       @onChange={{this.selectOption}}
       @options={{this.resultOptions}}
       @selectedOption={{this.selectedOption}}
-      @emptyOptionLabel=""
-      @emptyOptionNotSelectable="true"
-      aria-label="Sélectionner un résultat"
-      @isSearchable={{false}}
+      @placeholder="Sélectionner un résultat"
+      @hideDefaultOption={{true}}
+      @label="Sélectionner un résultat"
+      @screenReaderOnly={{true}}
       class={{this.resultClass}}
       as |result|
     >

@@ -42,35 +42,35 @@
         </td>
         <td>
           <PixSelect
-            aria-label="Filtrer les sessions en sélectionnant un type de centre de certification"
-            name="certificationCenterType"
+            @label="Filtrer les sessions en sélectionnant un type de centre de certification"
+            @screenReaderOnly={{true}}
             class="sessions-list-items__select"
             @options={{this.certificationCenterTypeOptions}}
             @onChange={{this.selectCertificationCenterType}}
-            @selectedOption={{@certificationCenterType}}
+            @value={{@certificationCenterType}}
           />
         </td>
         <td></td>
         <td>
           <PixSelect
-            aria-label="Filtrer les sessions en sélectionnant un statut"
-            name="status"
+            @label="Filtrer les sessions en sélectionnant un statut"
+            @screenReaderOnly={{true}}
             class="sessions-list-items__select"
             @options={{this.sessionStatusOptions}}
             @onChange={{this.selectSessionStatus}}
-            @selectedOption={{@status}}
+            @value={{@status}}
           />
         </td>
         <td></td>
         <td></td>
         <td>
           <PixSelect
-            aria-label="Filtrer les sessions par leurs résultats diffusés ou non diffusés"
-            name="resultsSentToPrescriberAt"
+            @label="Filtrer les sessions par leurs résultats diffusés ou non diffusés"
+            @screenReaderOnly={{true}}
             class="sessions-list-items__select"
             @options={{this.sessionResultsSentToPrescriberOptions}}
             @onChange={{this.selectSessionResultsSentToPrescriber}}
-            @selectedOption={{@resultsSentToPrescriberAt}}
+            @value={{@resultsSentToPrescriberAt}}
           />
         </td>
       </tr>

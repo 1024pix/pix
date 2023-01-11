@@ -156,12 +156,12 @@
 
     <div class="form-field">
       <PixSelect
-        @id="organization-edit-form__identity-provider-for-campaign-select"
         @label="SSO"
+        @placeholder="SSO"
         @options={{this.identityProviderOptions}}
-        @selectedOption={{this.currentIdentityProvider}}
+        @value={{this.currentIdentityProvider}}
         @onChange={{this.onChangeIdentityProvider}}
-        @emptyOptionNotSelectable={{true}}
+        @hideDefaultOption={{true}}
       />
     </div>
 

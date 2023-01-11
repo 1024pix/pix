@@ -13,9 +13,12 @@
 
       <PixSelect
         @options={{this.languagesOptions}}
-        @selectedOption={{this.invitationLanguage}}
+        @value={{this.invitationLanguage}}
         @onChange={{this.changeInvitationLanguage}}
-        aria-label="Choisir la langue de l’email d’invitation"
+        @label="Choisir la langue de l’email d’invitation"
+        @screenReaderOnly={{true}}
+        @placeholder="Choix de la langue"
+        @hideDefaultOption={{true}}
       />
 
       <PixButton

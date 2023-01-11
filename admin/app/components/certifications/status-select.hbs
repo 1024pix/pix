@@ -1,14 +1,13 @@
 <div class="certification-status-select">
   {{#if @edition}}
-    <label for="certification-status-selector">Statut :</label>
     <PixSelect
-      id="certification-status-selector"
-      name="certification-status-selector"
+      @label="Statut :"
+      @placeholder="Statut"
       class="certification-status-select__select"
       @options={{this.options}}
       @onChange={{this.selectOption}}
       @selectedOption={{@certification.status}}
-      @emptyOptionNotSelectable={{true}}
+      @hideDefaultOption={{true}}
     />
   {{else}}
     <span>Statut :</span>

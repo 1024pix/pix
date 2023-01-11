@@ -10,15 +10,14 @@
       aria-required={{true}}
     />
     <PixSelect
-      @id="organizationTypeSelector"
       @onChange={{this.handleOrganizationTypeSelectionChange}}
       @options={{this.organizationTypes}}
-      @isSearchable={{false}}
+      @value={{@organization.type}}
       @label="Sélectionner un type d'organisation"
-      @emptyOptionNotSelectable={{true}}
-      @emptyOptionLabel=""
-      required={{true}}
-      aria-required={{true}}
+      @placeholder="Sélectionner un type d'organisation"
+      @hideDefaultOption={{true}}
+      required
+      aria-required
       class="form-field"
       as |organizationType|
     >
