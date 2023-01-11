@@ -40,6 +40,7 @@ module('Acceptance | Organizations | Information management', function (hooks) {
       // given
       const organization = this.server.create('organization', {
         name: 'oldOrganizationName',
+        archivedAt: '2022-12-25',
         archivistFullName: 'Clément Tine',
       });
 
@@ -54,6 +55,7 @@ module('Acceptance | Organizations | Information management', function (hooks) {
       // given
       const organization = this.server.create('organization', {
         name: 'oldOrganizationName',
+        archivedAt: '2022-12-25',
         archivistFullName: 'Clément Tine',
       });
 
@@ -69,6 +71,7 @@ module('Acceptance | Organizations | Information management', function (hooks) {
       // given
       const organization = this.server.create('organization', {
         name: 'oldOrganizationName',
+        archivedAt: '2022-12-25',
         archivistFullName: 'Clément Tine',
       });
 
