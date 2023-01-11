@@ -91,11 +91,11 @@
       "skip-to-content": "Aller au contenu",
       "skip-to-footer": "Aller au bas de page"
     },
-    "data-protection-policy-information-banner" : {
+    "data-protection-policy-information-banner": {
       "url-label": "Politique de protection des données.",
       "title": "Notre politique de confidentialité a évolué. Nous vous invitons à en prendre connaissance : "
     },
-    "new-information-banner" : {
+    "new-information-banner": {
       "close-label": "Fermer la bannière"
     }
   },
@@ -169,26 +169,21 @@
       "title": "Présentation",
       "assessment": {
         "title-with-username": "<span>{userFirstName}</span>,<br> commencez votre parcours",
-        "title": "Commencez votre parcours",
+        "title": "Commencez votre parcours Pix",
         "action": "Je commence",
-        "announcement": "Démarrez votre parcours d'évaluation personnalisé.'<br>' Inscrivez-vous ou connectez-vous sur la plateforme Pix et lancez votre test.",
+        "announcement": "Inscrivez-vous ou connectez-vous sur la plateforme Pix et lancez votre test.",
         "certify": {
-          "title": "Préparer une certification reconnue par l’État et le monde professionnel",
-          "description": "La certification Pix permet de valoriser ses compétences numériques auprès des employeurs."
+          "title": "Les réponses validées dans ce parcours contribueront à alimenter votre profil personnel de compétences numériques sur Pix.",
+          "description": "En fonction de votre situation et dans certaines conditions, vous pouvez accéder à la certification Pix, reconnue par le monde professionnel, qui permet de valoriser vos compétences numériques. Pour plus d’informations, renseignez-vous auprès de l’organisateur du parcours."
         },
         "details": "Durant ce parcours, vous aurez l’opportunité de :",
         "develop": {
           "title": "Découvrir vos résultats au fil du test et consulter des indices pour progresser.",
-          "description": "Après 5 épreuves, vous pouvez visualiser vos réponses et suivre des tutos pour développer vos compétences."
+          "description": "Toutes les 5 questions, vous visualisez les bonnes réponses et obtenez des conseils et une recommandation personnalisée de tutoriels pour développer vos compétences."
         },
         "evaluate": {
-          "title": "Mesurer vos compétences numériques avec des tests ludiques sur différents thèmes comme :",
-          "complement": "Le service public d’évaluation et de certification des compétences numériques Pix permet d’évaluer son niveau dans 5 grands domaines de compétences, qui couvrent l’ensemble des usages actuels du numérique.",
-          "list": "'<ul class=\"campaign-landing-page__details__text article-list\" data=\"/images/icons/icon-reload.svg\"><li>'rechercher de l’information sur internet,'</li><li>'rédiger des documents,'</li><li>'communiquer et collaborer en ligne,'</li><li>'sécuriser son environnement de travail,'</li><li>'etc.'</li></ul>'",
-          "more-info": {
-            "label": "En savoir plus.",
-            "link": "https://pix.fr/competences"
-          }
+          "title": "Mesurer vos compétences numériques avec des défis ludiques et apprenants qui s'adaptent à votre niveau de maîtrise (via un algorithme adaptatif).",
+          "description": "Vous serez amené à effectuer des recherches sur internet, utiliser votre environnement numérique de travail, tester vos connaissances, etc."
         },
         "legal": "En cliquant sur “Je commence”, les informations relatives à votre avancée dans le parcours seront transmises à l’organisateur du parcours pour lui permettre de vous accompagner. A la fin du parcours, en cliquant sur le bouton “J’envoie mes résultats” vos résultats seront transmis à l’organisateur."
       },

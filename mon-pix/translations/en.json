@@ -91,11 +91,11 @@
       "skip-to-content": "Skip to main content",
       "skip-to-footer": "Skip to footer"
     },
-    "data-protection-policy-information-banner" : {
+    "data-protection-policy-information-banner": {
       "url-label": "Personal data protection policy.",
       "title": "Please note that our personal data protection policy has been updated. To take a look at what's changing, click here: "
     },
-    "new-information-banner" : {
+    "new-information-banner": {
       "close-label": "Close banner"
     }
   },
@@ -171,24 +171,19 @@
         "title-with-username": "<span>{userFirstName}</span>,<br> begin your customised test",
         "title": "Begin your customised test",
         "action": "Begin",
-        "announcement": "Start your customised test.'<br>' Sign up or log in to the Pix platform and start your test.",
+        "announcement": "Sign up or log in to the Pix platform and start your test.",
         "certify": {
-          "title": "Prepare a certification recognised throughout Europe and in the business world",
-          "description": "The Pix Certification enables you to highlight your digital skills to employers."
+          "title": "Your answers to this customised test will build your personal digital skills profile on Pix.",
+          "description": "Depending on your situation and under certain conditions, you will be able to take the Pix Certification exam. It is recognized in the professional world and allows you to highlight your digital skills. For more information, ask the organizer of this customised test."
         },
         "details": "During this customised test, you will be able to:",
         "develop": {
           "title": "See your results as you go along and view tips to improve.",
-          "description": "Every 5 questions, you will be able to see your results and watch tutorials to help you improve your skills."
+          "description": "Every 5 questions, you will be able to see the right answers and receive advice as well as a personalized recommendation of tutorials to help you improve your skills."
         },
         "evaluate": {
-          "title": "Assess your digital skills with fun challenges on different subjects, such as:",
-          "complement": "The Pix public service for the assessment and certification of digital skills enables assessment of your level in 5 major competence areas covering current uses of digital technology.",
-          "list": "'<ul class=\"campaign-landing-page__details__text article-list\"><li>'finding information on the internet,'</li><li>'producing documents,'</li><li>'communicating and collaborating online,'</li><li>'securing your work environment,'</li><li>'etc.'</li></ul>'",
-          "more-info": {
-            "label": "Find out more.",
-            "link": "https://pix.org/en-gb/competences"
-          }
+          "title": "Measure your digital skills with fun and educational challenges that adapt to your level of proficiency  (through an adaptive algorithm).",
+          "description": "You will have to carry out searches online, use your digital working environment, test your knowledge, etc."
         },
         "legal": "By clicking on “Begin“, information about your progress will be shared with the organiser so they can assist you if necessary. At the end of your customised test, your results will be shared with your organisation when clicking on “Submit my results“."
       },
