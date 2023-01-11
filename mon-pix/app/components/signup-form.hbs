@@ -20,12 +20,6 @@
     {{this.errorMessage}}
   </div>
 
-  {{#if this.notificationMessage}}
-    <div class="sign-form__notification-message sign-form__notification-message--success" aria-live="polite">
-      {{this.notificationMessage}}
-    </div>
-  {{/if}}
-
   <form {{on "submit" this.signup}} class="sign-form__body">
     <p class="sign-form-body__instruction">{{t "common.form.mandatory-all-fields" htmlSafe=true}}</p>
 
