@@ -15,6 +15,7 @@
     <div
       class="sign-form__notification-message sign-form__notification-message--error"
       aria-live="polite"
+      role="alert"
       id="sign-up-error-message"
     >
       {{this.errorMessage}}
@@ -116,7 +117,7 @@
         </PixCheckbox>
       </div>
       {{#if @user.errors.cgu}}
-        <div class="sign-form__validation-error" aria-live="polite" id="sign-up-cgu-error-message">
+        <div class="sign-form__validation-error" aria-live="polite" role="alert" id="sign-up-cgu-error-message">
           {{t "common.cgu.error"}}
         </div>
       {{/if}}
