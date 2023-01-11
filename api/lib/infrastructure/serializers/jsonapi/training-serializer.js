@@ -3,7 +3,17 @@ const { Serializer, Deserializer } = require('jsonapi-serializer');
 module.exports = {
   serialize(training = {}, meta) {
     return new Serializer('trainings', {
-      attributes: ['duration', 'link', 'locale', 'title', 'type', 'editorName', 'editorLogoUrl'],
+      attributes: [
+        'duration',
+        'link',
+        'locale',
+        'title',
+        'type',
+        'editorName',
+        'editorLogoUrl',
+        'prerequisiteThreshold',
+        'goalThreshold',
+      ],
       meta,
     }).serialize(training);
   },
