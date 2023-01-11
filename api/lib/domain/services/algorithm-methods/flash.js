@@ -167,7 +167,16 @@ function _findChallengeForAnswer(challenges, answer) {
 }
 
 function _sumSkillsChallengesPixScore(challenges) {
-  return challenges.reduce((sum, challenge) => sum + challenge.skill.pixValue, 0);
+  const scoreBySkillId = challenges.reduce((acc, challenge) => {
+    if (acc[challenge.skill.id]) return acc;
+
+    return {
+      ...acc,
+      [challenge.skill.id]: challenge.skill.pixValue,
+    };
+  }, {});
+
+  return Object.values(scoreBySkillId).reduce((sum, pixValue) => sum + pixValue, 0);
 }
 
 function _getReward({ estimatedLevel, discriminant, difficulty }) {
