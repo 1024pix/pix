@@ -2,10 +2,6 @@
 $app-sidebar-width-sm: 80px;
 $app-header-height: 60px;
 
-body > div.ember-view {
-  height: 100%;
-}
-
 .app-container {
   display: flex;
   height: 100%;
@@ -28,7 +24,7 @@ body > div.ember-view {
         display: block;
         line-height: $app-header-height;
         width: 100%;
-        height: 100%;
+        height:100%;
         text-decoration: none;
       }
     }
@@ -44,7 +40,6 @@ body > div.ember-view {
 
     .app-page {
       position: relative;
-      height: 100%;
       width: 100%;
       overflow-y: auto;
     }
