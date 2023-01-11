@@ -1,4 +1,4 @@
-const { SendingEmailError } = require('../errors');
+const { SendingEmailError, SendingEmailToInvalidDomainError } = require('../errors');
 const CertificationCenterInvitation = require('../models/CertificationCenterInvitation');
 
 module.exports = async function createOrUpdateCertificationCenterInvitationForAdmin({
@@ -36,6 +36,10 @@ module.exports = async function createOrUpdateCertificationCenterInvitationForAd
     code: certificationCenterInvitation.code,
   });
   if (mailerResponse?.status === 'FAILURE') {
+    if (mailerResponse.hasFailedBecauseDomainWasInvalid()) {
+      throw new SendingEmailToInvalidDomainError(email);
+    }
+
     throw new SendingEmailError();
   }
 
