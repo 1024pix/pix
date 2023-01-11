@@ -112,15 +112,9 @@
     </fieldset>
 
     <div class="sign-form-body__bottom-button">
-      {{#if this.isLoading}}
-        <button type="button" disabled class="button button--thin button--big button--round button--border-focus">
-          <span class="loader-in-button">&nbsp;</span>
-        </button>
-      {{else}}
-        <PixButton @type="submit" @shape="rounded">
-          {{t "pages.sign-up.actions.submit"}}
-        </PixButton>
-      {{/if}}
+      <PixButton @type="submit" @shape="rounded" @isLoading={{this.isLoading}}>
+        {{t "pages.sign-up.actions.submit"}}
+      </PixButton>
     </div>
   </form>
 </main>
