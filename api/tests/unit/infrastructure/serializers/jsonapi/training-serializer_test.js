@@ -19,6 +19,8 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
             locale: 'fr-fr',
             'editor-name': 'Ministère education nationale',
             'editor-logo-url': 'https://images.pix.fr/contenu-formatif/editeur/editor_logo_url.svg',
+            'prerequisite-threshold': 30,
+            'goal-threshold': 70,
           },
           id: training.id.toString(),
           type: 'trainings',
@@ -55,6 +57,8 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
             locale: 'fr-fr',
             'editor-name': 'Ministère education nationale',
             'editor-logo-url': 'https://images.pix.fr/contenu-formatif/editeur/editor_logo_url.svg',
+            'prerequisite-threshold': 30,
+            'goal-threshold': 70,
           },
           id: training.id.toString(),
           type: 'trainings',
@@ -84,6 +88,8 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
             locale: 'fr-fr',
             'editor-name': 'Ministère education nationale',
             'editor-logo-url': 'https://images.pix.fr/contenu-formatif/editeur/editor_logo_url.svg',
+            'prerequisite-threshold': 30,
+            'goal-threshold': 70,
           },
         },
       };
@@ -100,6 +106,8 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
         type: 'webinaire',
         editorLogoUrl: 'https://images.pix.fr/contenu-formatif/editeur/editor_logo_url.svg',
         editorName: 'Ministère education nationale',
+        prerequisiteThreshold: 30,
+        goalThreshold: 70,
       });
     });
 
