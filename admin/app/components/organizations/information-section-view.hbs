@@ -9,6 +9,9 @@
         </li>
       {{/each}}
     </ul>
+  {{else}}
+    <PixMessage class="organization-information-section__missing-tags-message" @type="information">Cette organisation
+      n'a pas de tags.</PixMessage>
   {{/if}}
 
   {{#if @organization.isArchived}}
