@@ -437,7 +437,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         await clickByName(this.intl.t('pages.sign-up.actions.submit'));
 
         // then
-        assert.dom(screen.getByText(this.intl.t('common.cgu.error'))).exists();
+        assert.dom(screen.getByText(uncheckedCheckboxCguErrorMessage)).exists();
       });
 
       test('should display an error message on email field, when email above a maximum length of 255 and focus-out', async function (assert) {
