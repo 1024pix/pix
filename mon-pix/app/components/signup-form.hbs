@@ -11,16 +11,14 @@
     </div>
   </div>
 
-  {{#if this.errorMessage}}
-    <div
-      class="sign-form__notification-message sign-form__notification-message--error"
-      aria-live="polite"
-      role="alert"
-      id="sign-up-error-message"
-    >
-      {{this.errorMessage}}
-    </div>
-  {{/if}}
+  <div
+    class="sign-form__notification-message sign-form__notification-message--error"
+    aria-live="polite"
+    role="alert"
+    id="sign-up-error-message"
+  >
+    {{this.errorMessage}}
+  </div>
 
   {{#if this.notificationMessage}}
     <div class="sign-form__notification-message sign-form__notification-message--success" aria-live="polite">
@@ -116,11 +114,11 @@
           {{t "common.cgu.label"}}
         </PixCheckbox>
       </div>
-      {{#if @user.errors.cgu}}
-        <div class="sign-form__validation-error" aria-live="polite" role="alert" id="sign-up-cgu-error-message">
+      <div class="sign-form__validation-error" aria-live="polite" role="alert" id="sign-up-cgu-error-message">
+        {{#if @user.errors.cgu}}
           {{t "common.cgu.error"}}
-        </div>
-      {{/if}}
+        {{/if}}
+      </div>
 
     </fieldset>
     <div class="sign-form-body__bottom-button">
