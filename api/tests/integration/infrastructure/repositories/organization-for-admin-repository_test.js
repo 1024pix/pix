@@ -196,10 +196,12 @@ describe('Integration | Repository | Organization-for-admin', function () {
   describe('#update', function () {
     it('should return an OrganizationForAdmin domain object with related tags', async function () {
       // given
-      const userId = databaseBuilder.factory.buildUser().id;
+      const userId = databaseBuilder.factory.buildUser({ firstName: 'Anne', lastName: 'Héantie' }).id;
       const organization = databaseBuilder.factory.buildOrganization({
         name: 'super orga',
         createdBy: userId,
+        archivedBy: userId,
+        archivedAt: now,
       });
       const tagId = databaseBuilder.factory.buildTag({ name: 'orga tag' }).id;
       databaseBuilder.factory.buildTag({ name: 'other tag' }).id;
@@ -217,7 +219,6 @@ describe('Integration | Repository | Organization-for-admin', function () {
         credit: 50,
         email: 'email@example.net',
         documentationUrl: 'https://pix.fr/',
-        archivedAt: null,
         identityProviderForCampaigns: SamlIdentityProviders.GAR.code,
       });
       const organizationSaved = await organizationForAdminRepository.update(organizationToUpdate);
@@ -238,11 +239,11 @@ describe('Integration | Repository | Organization-for-admin', function () {
         formNPSUrl: null,
         showNPS: false,
         showSkills: false,
-        archivedAt: null,
+        archivedAt: now,
         createdBy: userId,
         createdAt: organization.createdAt,
-        archivistFirstName: undefined,
-        archivistLastName: undefined,
+        archivistFirstName: 'Anne',
+        archivistLastName: 'Héantie',
         dataProtectionOfficerFirstName: undefined,
         dataProtectionOfficerLastName: undefined,
         dataProtectionOfficerEmail: undefined,

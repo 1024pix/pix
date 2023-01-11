@@ -37,7 +37,9 @@ module('Unit | Model | organization', function (hooks) {
     test('it return whether organization is archived', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const model = run(() => store.createRecord('organization', { archivistFullName: 'Anne Héantie' }));
+      const model = run(() =>
+        store.createRecord('organization', { archivedAt: '2022-12-25', archivistFullName: 'Anne Héantie' })
+      );
 
       // when
       const isOrganizationArchived = model.isArchived;
