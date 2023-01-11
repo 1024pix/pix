@@ -22,10 +22,9 @@
         {{on "change" (fn this.updateForm "link")}}
       />
       <PixSelect
-        @id="trainingType"
         @label="Format"
-        @emptyOptionLabel={{"-- Sélectionnez un format --"}}
-        @selectedOption={{this.form.type}}
+        @placeholder={{"-- Sélectionnez un format --"}}
+        @value={{this.form.type}}
         @options={{this.optionsTypeList}}
         required={{true}}
         aria-required={{true}}

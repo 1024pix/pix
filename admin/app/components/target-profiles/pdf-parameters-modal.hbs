@@ -1,8 +1,7 @@
 <PixModal @title="Paramètres du PDF" @onCloseButtonClick={{@onCloseButtonClicked}} @showModal={{@displayModal}}>
   <:content>
     <PixSelect
-      @id="pdfParameterLanguage"
-      @selectedOption={{this.language}}
+      @value={{this.language}}
       @onChange={{this.onChangeLanguage}}
       @options={{this.options}}
       @label="Langue du référentiel (français ou anglais) :"

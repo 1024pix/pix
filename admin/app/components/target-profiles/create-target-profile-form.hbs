@@ -13,13 +13,12 @@
       <div class="form-field form-group">
         <PixSelect
           class="form-control"
-          @id="targetProfileCategory"
           @label="Catégorie :"
           @onChange={{this.onCategoryChange}}
-          @selectedOption={{@targetProfile.category}}
+          @value={{@targetProfile.category}}
           @options={{this.optionsList}}
-          @emptyOptionLabel={{"-"}}
-          @emptyOptionNotSelectable={{true}}
+          @placeholder="-"
+          @hideDefaultOption={{true}}
           required={{true}}
           aria-required={{true}}
         />

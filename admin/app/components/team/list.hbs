@@ -20,9 +20,10 @@
               {{#if member.isInEditionMode}}
                 <PixSelect
                   @onChange={{this.setAdminRoleSelection}}
-                  @selectedOption={{member.role}}
+                  @value={{member.role}}
                   @options={{@roles}}
-                  aria-label="Sélectionner un rôle"
+                  @label="Sélectionner un rôle"
+                  @screenReaderOnly={{true}}
                   @isSearchable={{false}}
                   as |role|
                 >

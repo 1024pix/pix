@@ -13,12 +13,10 @@
 
     <div class="form-field">
       <PixSelect
-        @id="certificationCenterTypeSelector"
         @label="Type d'établissement"
         @options={{this.certificationCenterTypes}}
-        @isSearchable={{false}}
-        @emptyOptionNotSelectable={{true}}
-        @emptyOptionLabel={{"-- Choisissez --"}}
+        @placeholder="-- Choisissez --"
+        @hideDefaultOption={{true}}
         @onChange={{this.selectCertificationCenterType}}
         required={{true}}
         aria-required={{true}}

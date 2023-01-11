@@ -42,8 +42,7 @@ export default class ListItems extends Component {
   }
 
   @action
-  selectCertificationCenterType(event) {
-    const newValue = event.target.value || null;
+  selectCertificationCenterType(newValue) {
     this.selectedCertificationCenterTypeOption = this.getCertificationCenterTypeOptionByValue(newValue);
     this.args.onChangeCertificationCenterType(newValue);
   }
@@ -56,8 +55,7 @@ export default class ListItems extends Component {
   }
 
   @action
-  selectSessionStatus(event) {
-    const newValue = event.target.value || null;
+  selectSessionStatus(newValue) {
     this.selectedSessionStatusOption = this.getSessionStatusOptionByValue(newValue);
     this.args.onChangeSessionStatus(newValue);
   }
@@ -70,8 +68,7 @@ export default class ListItems extends Component {
   }
 
   @action
-  selectSessionResultsSentToPrescriber(event) {
-    const newValue = event.target.value || null;
+  selectSessionResultsSentToPrescriber(newValue) {
     this.selectedSessionResultsSentToPrescriberOption = this.getSessionResultsSentToPrescriberOptionByValue(newValue);
     this.args.onChangeSessionResultsSent(newValue);
   }

@@ -51,12 +51,12 @@
             </td>
             <td class="table__column">
               <PixSelect
-                id="organizationRole"
                 @options={{this.options}}
-                @selectedOption={{@organizationRole}}
+                @value={{@organizationRole}}
                 @onChange={{@selectRoleForSearch}}
-                @emptyOptionLabel="Tous"
-                aria-label="Rechercher par rôle"
+                @placeholder="Tous"
+                @label="Rechercher par rôle"
+                @screenReaderOnly={{true}}
               />
             </td>
             {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
