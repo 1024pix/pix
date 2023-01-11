@@ -2,7 +2,7 @@ const { expect, databaseBuilder, knex, sinon, catchErr } = require('../../../tes
 const useCases = require('../../../../lib/domain/usecases');
 const CertificationCenterInvitation = require('../../../../lib/domain/models/CertificationCenterInvitation');
 const mailService = require('../../../../lib/domain/services/mail-service');
-const { SendingEmailError } = require('../../../../lib/domain/errors');
+const { SendingEmailError, SendingEmailToInvalidDomainError } = require('../../../../lib/domain/errors');
 const EmailingAttempt = require('../../../../lib/domain/models/EmailingAttempt');
 
 describe('Integration | UseCase | create-or-update-certification-center-invitation-for-admin', function () {
@@ -159,5 +159,36 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
 
     // then
     expect(result).to.be.an.instanceOf(SendingEmailError);
+  });
+
+  context('when recipient email has an invalid domain', function () {
+    it('throw a SendingEmailToInvalidDomainError error', async function () {
+      // given
+      const email = 'hatake.kakashi@konoha.fire';
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: 'Konoha' }).id;
+      databaseBuilder.factory.buildCertificationCenterInvitation({
+        email,
+        certificationCenterId,
+        code: 'NUSUSHKH7',
+        status: CertificationCenterInvitation.StatusType.PENDING,
+      });
+      await databaseBuilder.commit();
+      const emailAttemptFailure = EmailingAttempt.failure(email, EmailingAttempt.errorCode.INVALID_DOMAIN);
+      mailService.sendCertificationCenterInvitationEmail.resolves(emailAttemptFailure);
+
+      // when
+      const error = await catchErr(useCases.createOrUpdateCertificationCenterInvitationForAdmin)({
+        email,
+        locale: 'fr',
+        certificationCenterId,
+        mailService,
+      });
+
+      // then
+      expect(error).to.be.an.instanceOf(SendingEmailToInvalidDomainError);
+      expect(error.message).to.equal(
+        'Failed to send email to hatake.kakashi@konoha.fire because domain seems to be invalid.'
+      );
+    });
   });
 });
