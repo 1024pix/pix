@@ -16,23 +16,16 @@ module.exports = async function getAttendanceSheet({
   sessionId,
   sessionRepository,
   sessionForAttendanceSheetRepository,
-  endTestScreenRemovalService,
 }) {
   const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(userId, sessionId);
   if (!hasMembership) {
     throw new UserNotAuthorizedToAccessEntityError('User is not allowed to access session.');
   }
 
-  const isEndTestScreenRemovalEnabled = await endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId(
-    sessionId
-  );
-  const addEndTestScreenColumn = !isEndTestScreenRemovalEnabled;
-
   const session = await sessionForAttendanceSheetRepository.getWithCertificationCandidates(sessionId);
   const odsFilePath = _getAttendanceSheetTemplatePath(
     session.certificationCenterType,
-    session.isOrganizationManagingStudents,
-    addEndTestScreenColumn
+    session.isOrganizationManagingStudents
   );
 
   const stringifiedXml = await readOdsUtils.getContentXml({

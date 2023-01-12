@@ -72,10 +72,6 @@ class AllowedCertificationCenterAccess {
     return features.pixCertifScoBlockedAccessWhitelist.includes(this.externalId.toUpperCase());
   }
 
-  isEndTestScreenRemovalEnabled() {
-    return this.isSupervisorAccessEnabled;
-  }
-
   get pixCertifScoBlockedAccessDateLycee() {
     return features.pixCertifScoBlockedAccessDateLycee ?? null;
   }

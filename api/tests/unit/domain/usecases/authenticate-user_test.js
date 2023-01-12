@@ -11,7 +11,6 @@ const {
   UserShouldChangePasswordError,
 } = require('../../../../lib/domain/errors');
 
-const endTestScreenRemovalService = require('../../../../lib/domain/services/end-test-screen-removal-service');
 const appMessages = require('../../../../lib/domain/constants');
 
 describe('Unit | Application | UseCase | authenticate-user', function () {
@@ -38,7 +37,6 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
     pixAuthenticationService = {
       getUserByUsernameAndPassword: sinon.stub(),
     };
-    sinon.stub(endTestScreenRemovalService, 'isEndTestScreenRemovalEnabledForSomeCertificationCenter');
   });
 
   context('check acces by pix scope', function () {
@@ -178,27 +176,6 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
 
     context('when scope is pix-certif', function () {
       context('when user is not linked to any certification centers', function () {
-        it('should rejects an error when feature toggle is disabled for all certification center', async function () {
-          // given
-          const scope = appMessages.PIX_CERTIF.SCOPE;
-          const user = domainBuilder.buildUser({ email: userEmail, certificationCenterMemberships: [] });
-          pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
-          endTestScreenRemovalService.isEndTestScreenRemovalEnabledForSomeCertificationCenter.resolves(false);
-
-          // when
-          const error = await catchErr(authenticateUser)({
-            username: userEmail,
-            password,
-            scope,
-            pixAuthenticationService,
-            userRepository,
-          });
-
-          // then
-          expect(error).to.be.an.instanceOf(ForbiddenAccess);
-          expect(error.message).to.be.equal(appMessages.PIX_CERTIF.NOT_LINKED_CERTIFICATION_MSG);
-        });
-
         it('should resolves a valid JWT access token when feature toggle is enabled', async function () {
           // given
           const scope = appMessages.PIX_CERTIF.SCOPE;
@@ -211,7 +188,6 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
             certificationCenterMemberships: [Symbol('certificationCenterMembership')],
           });
 
-          endTestScreenRemovalService.isEndTestScreenRemovalEnabledForSomeCertificationCenter.resolves(true);
           pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
           refreshTokenService.createRefreshTokenFromUserId
             .withArgs({
@@ -232,7 +208,6 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
             pixAuthenticationService,
             refreshTokenService,
             userRepository,
-            endTestScreenRemovalService,
           });
 
           // then
@@ -367,7 +342,6 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
         password: 'Password1234',
         userRepository,
         pixAuthenticationService,
-        endTestScreenRemovalService,
         tokenService,
       });
 

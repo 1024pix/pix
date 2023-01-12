@@ -38,7 +38,6 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
           attributes: {
             'nb-challenges': 2,
             'examiner-comment': "Signalement de l'examinateur",
-            'is-end-test-screen-removal-enabled': true,
             'has-seen-end-test-screen': true,
             'first-name': certificationCourse.toDTO().firstName,
             'last-name': certificationCourse.toDTO().lastName,
@@ -81,7 +80,6 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
             'nb-challenges': 2,
             'examiner-comment': undefined,
             'has-seen-end-test-screen': true,
-            'is-end-test-screen-removal-enabled': undefined,
             'first-name': certificationCourse.toDTO().firstName,
             'last-name': certificationCourse.toDTO().lastName,
           },
@@ -123,7 +121,6 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
             'nb-challenges': 0,
             'examiner-comment': undefined,
             'has-seen-end-test-screen': true,
-            'is-end-test-screen-removal-enabled': undefined,
             'first-name': certificationCourse.toDTO().firstName,
             'last-name': certificationCourse.toDTO().lastName,
           },
