@@ -654,6 +654,15 @@
     },
     "organization-learner": {
       "activity": {
+        "cards": {
+          "started": "En cours : {count}",
+          "to-share": "En attente : {count}",
+          "shared": "Envoyées : {count}",
+          "title": {
+            "assessment": "Évaluations",
+            "profiles-collection": "Collectes de profil"
+          }
+        },
         "empty-state": "Aucune activité pour l’instant ! Envoyez une campagne à {organizationLearnerFirstName} {organizationLearnerLastName} et commencez à suivre sa progression.",
         "title": "Activité",
         "participations-title": "Participations",
@@ -676,7 +685,7 @@
         }
       },
       "header": {
-        "aria-label-title" : "Nom du participant"
+        "aria-label-title": "Nom du participant"
       }
     },
     "organization-participants": {

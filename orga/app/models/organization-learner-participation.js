@@ -7,5 +7,5 @@ export default class OrganizationLearnerParticipation extends Model {
   @attr('date') sharedAt;
   @attr('string') status;
 
-  @belongsTo('OrganizationLearnerActivity') organizationLeanerActivity;
+  @belongsTo('OrganizationLearnerActivity') organizationLearnerActivity;
 }

@@ -1,0 +1,19 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+.cards {
+  display: flex;
+  margin: $spacing-m 0;
+  justify-content: space-between;
+  gap: $spacing-m;
+
+  &__stats {
+    display: inline-flex;
+    list-style: none;
+    justify-content: space-between;
+    padding: 0;
+    gap: $spacing-s;
+    margin: 0;
+  }
+}
