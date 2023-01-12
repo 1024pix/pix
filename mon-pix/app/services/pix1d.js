@@ -13,11 +13,11 @@ export default class Pix1dService extends Service {
 
   state(campaignCode, masteryPercentage) {
     switch (campaignCode) {
-      case 'LBNPQE113':
+      case 'XTBFHW392':
         return new Module1Level1(masteryPercentage);
-      case 'RAENYE884':
+      case 'EAADBL798':
         return new Module1Level2(masteryPercentage);
-      case 'KMXHXK913':
+      case 'LPLQSP272':
         return new Module1Level3(masteryPercentage);
       case 'CHANGE3':
         return new Module1Level4(masteryPercentage);

@@ -4,7 +4,7 @@ export default class CampaignModule1Level3 {
   }
   next() {
     if (this.masteryPercentage < 70) {
-      return 'RAENYE884';
+      return 'EAADBL798';
     } else {
       return 'PROCOMP51';
     }

@@ -3,6 +3,6 @@ export default class CampaignLevel1 {
     this.masteryPercentage = masteryPercentage;
   }
   next() {
-    return 'RAENYE884';
+    return 'EAADBL798';
   }
 }

@@ -25,7 +25,6 @@ export default class SkillReviewRoute extends Route {
       if (trainings?.length > 0 && !user.hasRecommendedTrainings) {
         await this.currentUser.load();
       }
-
       return { campaign, campaignParticipationResult, trainings };
     } catch (error) {
       if (error.errors?.[0]?.status === '412') {

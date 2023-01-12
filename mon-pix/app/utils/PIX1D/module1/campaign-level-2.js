@@ -4,9 +4,9 @@ export default class CampaignLevel2 {
   }
   next() {
     if (this.masteryPercentage < 70) {
-      return 'LBNPQE113';
+      return 'XTBFHW392';
     } else {
-      return 'KMXHXK913';
+      return 'LPLQSP272';
     }
   }
 }
