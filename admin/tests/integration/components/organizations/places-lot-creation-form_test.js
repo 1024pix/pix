@@ -3,6 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
+import { click } from '@ember/test-helpers';
 
 module('Integration | Component | organizations/places-lot-creation-form', function (hooks) {
   setupRenderingTest(hooks);
@@ -19,13 +20,21 @@ module('Integration | Component | organizations/places-lot-creation-form', funct
       reference: '123ABC',
     };
 
-    await render(hbs`<Organizations::PlacesLotCreationForm @create={{this.create}} />`);
+    const screen = await render(hbs`<Organizations::PlacesLotCreationForm @create={{this.create}} />`);
 
     // when
     await fillByLabel('Nombre :', '10');
     await fillByLabel("* Date d'activation :", '2022-10-20');
     await fillByLabel("Date d'expiration :", '2022-12-20');
-    await fillByLabel('* Catégorie :', 'FREE_RATE');
+
+    const select = screen.getByRole('button', { name: /Catégorie/ });
+
+    await click(select);
+
+    await screen.findByRole('listbox');
+
+    await click(screen.getByRole('option', { name: 'Tarif gratuit' }));
+
     await fillByLabel('* Référence :', '123ABC');
     await clickByName('Ajouter');
     // then
