@@ -85,33 +85,6 @@ module.exports = {
     }
     throw new NotFoundError(`Could not find certification center for sessionId ${sessionId}.`);
   },
-
-  //to delete when feature toggleisEndTestScreenRemovalEnabled is removed
-  async getByCertificationCourseId(certificationCourseId) {
-    const certificationCenterBookshelf = await BookshelfCertificationCenter.where({
-      'certification-courses.id': certificationCourseId,
-    })
-      .query((qb) => {
-        qb.innerJoin('sessions', 'sessions.certificationCenterId', 'certification-centers.id');
-        qb.innerJoin('certification-courses', 'certification-courses.sessionId', 'sessions.id');
-      })
-      .fetch({
-        require: false,
-        withRelated: [
-          {
-            habilitations: function (query) {
-              query.orderBy('id');
-            },
-          },
-        ],
-      });
-
-    if (certificationCenterBookshelf) {
-      return _toDomain(certificationCenterBookshelf);
-    }
-    throw new NotFoundError(`Could not find certification center for certificationCourseId ${certificationCourseId}.`);
-  },
-
   async save(certificationCenter) {
     const cleanedCertificationCenter = _.omit(certificationCenter, ['createdAt', 'habilitations']);
     const certificationCenterBookshelf = await new BookshelfCertificationCenter(cleanedCertificationCenter).save();

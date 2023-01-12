@@ -1,7 +1,6 @@
 const { expect, sinon, hFake } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const certificationCandidateController = require('../../../../lib/application/certification-candidates/certification-candidates-controller');
-const endTestScreenRemovalService = require('../../../../lib/domain/services/end-test-screen-removal-service');
 
 describe('Unit | Controller | certifications-candidate-controller', function () {
   describe('#authorizeToStart', function () {
@@ -36,8 +35,6 @@ describe('Unit | Controller | certifications-candidate-controller', function () 
   describe('#authorizeToResume', function () {
     it('should return a 204 status code', async function () {
       // given
-      sinon.stub(endTestScreenRemovalService, 'isEndTestScreenRemovalEnabledByCandidateId');
-      endTestScreenRemovalService.isEndTestScreenRemovalEnabledByCandidateId.withArgs(99).resolves(true);
       const request = {
         auth: {
           credentials: { userId: '111' },

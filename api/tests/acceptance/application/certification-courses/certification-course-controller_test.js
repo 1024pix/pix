@@ -556,7 +556,6 @@ describe('Acceptance | API | Certification Course', function () {
           'nb-challenges': 0,
           'first-name': certificationCourse.firstName,
           'last-name': certificationCourse.lastName,
-          'is-end-test-screen-removal-enabled': true,
         },
         relationships: {
           assessment: {

@@ -1,6 +1,5 @@
 const certificationCandidatesController = require('./certification-candidates-controller');
 const assessmentSupervisorAuthorization = require('../preHandlers/session-supervisor-authorization');
-const endTestScreenRemovalEnabled = require('../preHandlers/end-test-screen-removal-enabled');
 const Joi = require('joi');
 const identifiersType = require('../../domain/types/identifiers-type');
 
@@ -19,10 +18,6 @@ exports.register = async function (server) {
           }),
         },
         pre: [
-          {
-            method: endTestScreenRemovalEnabled.verifyByCertificationCandidateId,
-            assign: 'endTestScreenRemovalEnabledCheck',
-          },
           {
             method: assessmentSupervisorAuthorization.verifyByCertificationCandidateId,
             assign: 'authorizationCheck',
@@ -47,10 +42,6 @@ exports.register = async function (server) {
         },
         pre: [
           {
-            method: endTestScreenRemovalEnabled.verifyByCertificationCandidateId,
-            assign: 'endTestScreenRemovalEnabledCheck',
-          },
-          {
             method: assessmentSupervisorAuthorization.verifyByCertificationCandidateId,
             assign: 'authorizationCheck',
           },
@@ -68,10 +59,6 @@ exports.register = async function (server) {
       path: '/api/certification-candidates/{id}/end-assessment-by-supervisor',
       config: {
         pre: [
-          {
-            method: endTestScreenRemovalEnabled.verifyByCertificationCandidateId,
-            assign: 'endTestScreenRemovalEnabledCheck',
-          },
           {
             method: assessmentSupervisorAuthorization.verifyByCertificationCandidateId,
             assign: 'authorizationCheck',
