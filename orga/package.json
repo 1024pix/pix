@@ -62,6 +62,7 @@
     "ember-cli": "^4.8.0",
     "ember-cli-app-version": "^5.0.0",
     "ember-cli-babel": "^7.26.11",
+    "ember-cli-cjs-transform": "^2.0.0",
     "ember-cli-clipboard": "^0.16.0",
     "ember-cli-dependency-checker": "^3.3.1",
     "ember-cli-htmlbars": "^6.1.1",

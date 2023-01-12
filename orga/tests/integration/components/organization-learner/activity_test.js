@@ -10,12 +10,30 @@ module('Integration | Component | OrganizationLearner::Activity', function (hook
     test('it should display the empty state when no participations', async function (assert) {
       // given
       const participations = [];
+      const statistics = [
+        {
+          id: 'ASSESSMENT',
+          shared: 0,
+          started: 0,
+          to_share: 0,
+          total: 0,
+        },
+        {
+          id: 'PROFILES_COLLECTION',
+          shared: 0,
+          started: 0,
+          to_share: 0,
+          total: 0,
+        },
+      ];
+
       this.set('participations', participations);
+      this.set('statistics', statistics);
       this.set('learner', { lastName: 'dylan', firstName: 'bob' });
 
       // when
       const screen = await render(
-        hbs`<OrganizationLearner::Activity @participations={{this.participations}} @learner={{this.learner}}/>`
+        hbs`<OrganizationLearner::Activity @participations={{this.participations}} @statistics={{this.statistics}} @learner={{this.learner}}/>`
       );
 
       // then
@@ -42,12 +60,29 @@ module('Integration | Component | OrganizationLearner::Activity', function (hook
           status: 'SHARED',
         },
       ];
+      const statistics = [
+        {
+          id: 'ASSESSMENT',
+          shared: 1,
+          started: 0,
+          to_share: 0,
+          total: 0,
+        },
+        {
+          id: 'PROFILES_COLLECTION',
+          shared: 0,
+          started: 0,
+          to_share: 0,
+          total: 0,
+        },
+      ];
       this.set('participations', participations);
+      this.set('statistics', statistics);
       this.set('learner', { lastName: 'Dylan', firstName: 'Bob' });
 
       // when
       const screen = await render(
-        hbs`<OrganizationLearner::Activity @participations={{this.participations}} @learner={{this.learner}}/>`
+        hbs`<OrganizationLearner::Activity @participations={{this.participations}} @statistics={{this.statistics}} @learner={{this.learner}}/>`
       );
 
       // then
