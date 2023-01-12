@@ -4,7 +4,6 @@ const { expect, databaseBuilder } = require('../../../../test-helper');
 const readOdsUtils = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
 const sessionRepository = require('../../../../../lib/infrastructure/repositories/sessions/session-repository');
 const sessionForAttendanceSheetRepository = require('../../../../../lib/infrastructure/repositories/sessions/session-for-attendance-sheet-repository');
-const endTestScreenRemovalService = require('../../../../../lib/domain/services/end-test-screen-removal-service');
 const getAttendanceSheet = require('../../../../../lib/domain/usecases/get-attendance-sheet');
 
 describe('Integration | UseCases | getAttendanceSheet', function () {
@@ -13,117 +12,57 @@ describe('Integration | UseCases | getAttendanceSheet', function () {
     let sessionId;
     let certificationCenterId;
 
-    context('when certification center does not have the supervisor access enabled', function () {
-      const expectedOdsFilePath = `${__dirname}/non_sco_attendance_sheet_template_target_with_fdt.ods`;
-      const actualOdsFilePath = `${__dirname}/non_sco_attendance_sheet_template_actual_with_fdt.tmp.ods`;
+    const expectedOdsFilePath = `${__dirname}/non_sco_attendance_sheet_template_target.ods`;
+    const actualOdsFilePath = `${__dirname}/non_sco_attendance_sheet_template_actual.tmp.ods`;
 
-      beforeEach(async function () {
-        const certificationCenterName = 'Centre de certification';
-        databaseBuilder.factory.buildOrganization({ externalId: 'EXT1234', isManagingStudents: false });
-        certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
-          name: certificationCenterName,
-          type: 'SUP',
-          externalId: 'EXT1234',
-          isSupervisorAccessEnabled: false,
-        }).id;
+    beforeEach(async function () {
+      const certificationCenterName = 'Centre de certification';
+      databaseBuilder.factory.buildOrganization({ externalId: 'EXT1234', isManagingStudents: false });
+      certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+        name: certificationCenterName,
+        type: 'SUP',
+        externalId: 'EXT1234',
+      }).id;
 
-        userId = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
+      userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
 
-        sessionId = databaseBuilder.factory.buildSession({
-          id: 10,
-          certificationCenter: certificationCenterName,
-          certificationCenterId: certificationCenterId,
-          accessCode: 'ABC123DEF',
-          address: '3 rue des bibiches',
-          room: '28D',
-          examiner: 'Johnny',
-          date: '2020-07-05',
-          time: '14:30',
-          description: 'La super description',
-        }).id;
-        _createCertificationCandidatesForSession(sessionId);
+      sessionId = databaseBuilder.factory.buildSession({
+        id: 10,
+        certificationCenter: certificationCenterName,
+        certificationCenterId: certificationCenterId,
+        accessCode: 'ABC123DEF',
+        address: '3 rue des bibiches',
+        room: '28D',
+        examiner: 'Johnny',
+        date: '2020-07-05',
+        time: '14:30',
+        description: 'La super description',
+      }).id;
 
-        await databaseBuilder.commit();
-      });
+      _createCertificationCandidatesForSession(sessionId);
 
-      afterEach(async function () {
-        await unlink(actualOdsFilePath);
-      });
-
-      it('should return an attendance sheet with session data, certification candidates data prefilled', async function () {
-        // when
-        const updatedOdsFileBuffer = await getAttendanceSheet({
-          userId,
-          sessionId,
-          endTestScreenRemovalService,
-          sessionRepository,
-          sessionForAttendanceSheetRepository,
-        });
-        await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
-        const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
-        const expectedResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
-
-        // then
-        expect(actualResult).to.deep.equal(expectedResult);
-      });
+      await databaseBuilder.commit();
     });
 
-    context('when certification center does have the supervisor access enabled', function () {
-      const expectedOdsFilePath = `${__dirname}/non_sco_attendance_sheet_template_target.ods`;
-      const actualOdsFilePath = `${__dirname}/non_sco_attendance_sheet_template_actual.tmp.ods`;
+    afterEach(async function () {
+      await unlink(actualOdsFilePath);
+    });
 
-      beforeEach(async function () {
-        const certificationCenterName = 'Centre de certification';
-        databaseBuilder.factory.buildOrganization({ externalId: 'EXT1234', isManagingStudents: false });
-        certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
-          name: certificationCenterName,
-          type: 'SUP',
-          externalId: 'EXT1234',
-          isSupervisorAccessEnabled: true,
-        }).id;
-
-        userId = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
-
-        sessionId = databaseBuilder.factory.buildSession({
-          id: 10,
-          certificationCenter: certificationCenterName,
-          certificationCenterId: certificationCenterId,
-          accessCode: 'ABC123DEF',
-          address: '3 rue des bibiches',
-          room: '28D',
-          examiner: 'Johnny',
-          date: '2020-07-05',
-          time: '14:30',
-          description: 'La super description',
-        }).id;
-
-        _createCertificationCandidatesForSession(sessionId);
-
-        await databaseBuilder.commit();
+    it('should return an attendance sheet with session data, certification candidates data prefilled', async function () {
+      // when
+      const updatedOdsFileBuffer = await getAttendanceSheet({
+        userId,
+        sessionId,
+        sessionRepository,
+        sessionForAttendanceSheetRepository,
       });
+      await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
+      const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
+      const expectedResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
 
-      afterEach(async function () {
-        await unlink(actualOdsFilePath);
-      });
-
-      it('should return an attendance sheet with session data, certification candidates data prefilled', async function () {
-        // when
-        const updatedOdsFileBuffer = await getAttendanceSheet({
-          userId,
-          sessionId,
-          endTestScreenRemovalService,
-          sessionRepository,
-          sessionForAttendanceSheetRepository,
-        });
-        await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
-        const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
-        const expectedResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
-
-        // then
-        expect(actualResult).to.deep.equal(expectedResult);
-      });
+      // then
+      expect(actualResult).to.deep.equal(expectedResult);
     });
   });
 
@@ -132,117 +71,56 @@ describe('Integration | UseCases | getAttendanceSheet', function () {
     let sessionId;
     let certificationCenterId;
 
-    context('when certification center does not have the supervisor access enabled', function () {
-      const expectedOdsFilePath = `${__dirname}/sco_attendance_sheet_template_target_with_fdt.ods`;
-      const actualOdsFilePath = `${__dirname}/sco_attendance_sheet_template_actual_with_fdt.tmp.ods`;
+    const expectedOdsFilePath = `${__dirname}/sco_attendance_sheet_template_target.ods`;
+    const actualOdsFilePath = `${__dirname}/sco_attendance_sheet_template_actual.tmp.ods`;
 
-      beforeEach(async function () {
-        const certificationCenterName = 'Centre de certification';
-        databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId: 'EXT1234', isManagingStudents: true });
-        certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
-          name: certificationCenterName,
-          type: 'SCO',
-          externalId: 'EXT1234',
-          isSupervisorAccessEnabled: false,
-        }).id;
+    beforeEach(async function () {
+      const certificationCenterName = 'Centre de certification';
+      databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId: 'EXT1234', isManagingStudents: true });
+      certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+        name: certificationCenterName,
+        type: 'SCO',
+        externalId: 'EXT1234',
+      }).id;
 
-        userId = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
+      userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
 
-        sessionId = databaseBuilder.factory.buildSession({
-          id: 10,
-          certificationCenter: certificationCenterName,
-          certificationCenterId: certificationCenterId,
-          accessCode: 'ABC123DEF',
-          address: '3 rue des bibiches',
-          room: '28D',
-          examiner: 'Johnny',
-          date: '2020-07-05',
-          time: '14:30',
-          description: 'La super description',
-        }).id;
+      sessionId = databaseBuilder.factory.buildSession({
+        id: 10,
+        certificationCenter: certificationCenterName,
+        certificationCenterId: certificationCenterId,
+        accessCode: 'ABC123DEF',
+        address: '3 rue des bibiches',
+        room: '28D',
+        examiner: 'Johnny',
+        date: '2020-07-05',
+        time: '14:30',
+        description: 'La super description',
+      }).id;
+      _createCertificationCandidatesScoForSession(sessionId);
 
-        _createCertificationCandidatesScoForSession(sessionId);
-
-        await databaseBuilder.commit();
-      });
-
-      afterEach(async function () {
-        await unlink(actualOdsFilePath);
-      });
-
-      it('should return an attendance sheet with session data, certification candidates data prefilled', async function () {
-        // when
-        const updatedOdsFileBuffer = await getAttendanceSheet({
-          userId,
-          sessionId,
-          endTestScreenRemovalService,
-          sessionRepository,
-          sessionForAttendanceSheetRepository,
-        });
-        await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
-        const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
-        const expectedResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
-
-        // then
-        expect(actualResult).to.deep.equal(expectedResult);
-      });
+      await databaseBuilder.commit();
     });
 
-    context('when certification center does have the supervisor access enabled', function () {
-      const expectedOdsFilePath = `${__dirname}/sco_attendance_sheet_template_target.ods`;
-      const actualOdsFilePath = `${__dirname}/sco_attendance_sheet_template_actual.tmp.ods`;
+    afterEach(async function () {
+      await unlink(actualOdsFilePath);
+    });
 
-      beforeEach(async function () {
-        const certificationCenterName = 'Centre de certification';
-        databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId: 'EXT1234', isManagingStudents: true });
-        certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
-          name: certificationCenterName,
-          type: 'SCO',
-          externalId: 'EXT1234',
-          isSupervisorAccessEnabled: true,
-        }).id;
-
-        userId = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
-
-        sessionId = databaseBuilder.factory.buildSession({
-          id: 10,
-          certificationCenter: certificationCenterName,
-          certificationCenterId: certificationCenterId,
-          accessCode: 'ABC123DEF',
-          address: '3 rue des bibiches',
-          room: '28D',
-          examiner: 'Johnny',
-          date: '2020-07-05',
-          time: '14:30',
-          description: 'La super description',
-        }).id;
-        _createCertificationCandidatesScoForSession(sessionId);
-
-        await databaseBuilder.commit();
+    it('should return an attendance sheet with session data, certification candidates data prefilled', async function () {
+      // when
+      const updatedOdsFileBuffer = await getAttendanceSheet({
+        userId,
+        sessionId,
+        sessionRepository,
+        sessionForAttendanceSheetRepository,
       });
+      await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
+      const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
+      const expectedResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
 
-      afterEach(async function () {
-        await unlink(actualOdsFilePath);
-      });
-
-      it('should return an attendance sheet with session data, certification candidates data prefilled', async function () {
-        // when
-        const updatedOdsFileBuffer = await getAttendanceSheet({
-          userId,
-          sessionId,
-          endTestScreenRemovalService,
-          sessionRepository,
-          sessionForAttendanceSheetRepository,
-        });
-        await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
-        const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
-        const expectedResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
-
-        // then
-        expect(actualResult).to.deep.equal(expectedResult);
-      });
+      // then
+      expect(actualResult).to.deep.equal(expectedResult);
     });
   });
 });
