@@ -252,6 +252,21 @@ export default function () {
   });
 
   this.get('/admin/organizations');
+  this.post('/admin/organizations', (schema, request) => {
+    const requestBody = JSON.parse(request.requestBody);
+    const attributes = requestBody.data.attributes;
+
+    const organization = {
+      name: attributes.name,
+      type: attributes.type,
+      credit: attributes.credit,
+      dataProtectionOfficerFirstName: attributes['data-protection-officer-first-name'],
+      dataProtectionOfficerLastName: attributes['data-protection-officer-last-name'],
+      dataProtectionOfficerEmail: attributes['data-protection-officer-email'],
+    };
+
+    return schema.create('organization', organization);
+  });
   this.get('/admin/organizations/:id');
   this.get('/admin/organizations/:id/memberships', findPaginatedOrganizationMemberships);
   this.get('/admin/organizations/:id/target-profile-summaries', findOrganizationTargetProfileSummaries);
@@ -405,6 +420,7 @@ export default function () {
     return new Response(204);
   });
 
+  this.get('/admin/tags');
   this.post('/admin/tags', (schema, request) => {
     const params = JSON.parse(request.requestBody);
     const tagName = params.data.attributes.name;
