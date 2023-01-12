@@ -169,5 +169,21 @@ describe('Integration | Services | organization-learnerz-xml-service', function 
       //then
       expect(error).to.be.instanceof(SiecleXmlImportError);
     });
+    context('when student is born in France', function () {
+      it('should abort parsing and reject with missing birth city code ', async function () {
+        // given
+        const validUAIFromSIECLE = '123ABC';
+        const organization = { externalId: validUAIFromSIECLE };
+        const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-french-student-with-no-birth-city-code.xml`;
+        // when
+        const error = await catchErr(organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE)(
+          path,
+          organization
+        );
+
+        //then
+        expect(error).to.be.instanceof(SiecleXmlImportError);
+      });
+    });
   });
 });

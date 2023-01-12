@@ -6,8 +6,11 @@ const ERRORS = {
   INE_REQUIRED: 'INE_REQUIRED',
   INE_UNIQUE: 'INE_UNIQUE',
   SEX_CODE_REQUIRED: 'SEX_CODE_REQUIRED',
+  BIRTH_CITY_CODE_REQUIRED_FOR_FR_STUDENT: 'BIRTH_CITY_CODE_REQUIRED_FOR_FR_STUDENT',
 };
 const DIVISION = 'D';
+
+const FRANCE_COUNTRY_CODE = '100';
 
 class XMLOrganizationLearnersSet {
   constructor() {
@@ -38,7 +41,12 @@ class XMLOrganizationLearnersSet {
   _check(xmlNode) {
     const nationalStudentId = _getValueFromParsedElement(xmlNode.ID_NATIONAL);
     const sexCode = _getValueFromParsedElement(xmlNode.CODE_SEXE);
+    const birthCountryCode = _getValueFromParsedElement(xmlNode.CODE_PAYS);
+    const birthCityCode = _getValueFromParsedElement(xmlNode.CODE_COMMUNE_INSEE_NAISS);
 
+    if (_frenchBornHasEmptyCityCode({ birthCountryCode, birthCityCode })) {
+      throw new SiecleXmlImportError(ERRORS.BIRTH_CITY_CODE_REQUIRED_FOR_FR_STUDENT);
+    }
     if (isEmpty(sexCode)) {
       throw new SiecleXmlImportError(ERRORS.SEX_CODE_REQUIRED);
     }
@@ -88,6 +96,10 @@ function _convertSexCode(obj) {
 function _getValueFromParsedElement(obj) {
   if (isNil(obj)) return null;
   return Array.isArray(obj) && !isEmpty(obj) ? obj[0] : obj;
+}
+
+function _frenchBornHasEmptyCityCode({ birthCountryCode, birthCityCode }) {
+  return birthCountryCode === FRANCE_COUNTRY_CODE && isEmpty(birthCityCode);
 }
 
 module.exports = XMLOrganizationLearnersSet;
