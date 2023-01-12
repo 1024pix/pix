@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, selectByLabelAndOption } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | routes/authenticated/sessions | list-items', function (hooks) {
@@ -116,21 +117,21 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
   module('Dropdown menu for certification center type filtering', function () {
     test('it should render a dropdown menu to filter sessions on their certification center type', async function (assert) {
       // given
-      const expectedLabels = { allType: 'Tous', scoType: 'Sco', supType: 'Sup', proType: 'Pro' };
-
-      // when
       const screen = await render(hbs`<Sessions::ListItems />`);
 
+      // when
+      await click(
+        screen.getByRole('button', {
+          name: 'Filtrer les sessions en sélectionnant un type de centre de certification',
+        })
+      );
+      await screen.findByRole('listbox');
+
       // then
-      assert
-        .dom(
-          screen.getByRole('combobox', {
-            name: 'Filtrer les sessions en sélectionnant un type de centre de certification',
-          })
-        )
-        .hasText(
-          `${expectedLabels.allType} ${expectedLabels.scoType} ${expectedLabels.supType} ${expectedLabels.proType}`
-        );
+      assert.dom(screen.getByRole('option', { name: 'Tous' })).exists();
+      assert.dom(screen.getByRole('option', { name: 'Pro' })).exists();
+      assert.dom(screen.getByRole('option', { name: 'Sco' })).exists();
+      assert.dom(screen.getByRole('option', { name: 'Sup' })).exists();
     });
 
     test('it should filter sessions on certification center type when it has changed', async function (assert) {
@@ -145,39 +146,42 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       );
 
       // when
-      await selectByLabelAndOption('Filtrer les sessions en sélectionnant un type de centre de certification', 'PRO');
+      await click(
+        screen.getByRole('button', {
+          name: 'Sco',
+        })
+      );
+      await screen.findByRole('listbox');
+      await click(
+        screen.getByRole('option', {
+          name: 'Pro',
+        })
+      );
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(this.certificationCenterType, 'PRO');
+      assert.strictEqual(this.certificationCenterType, 'PRO');
     });
   });
 
   module('Dropdown menu for status filtering', function () {
     test('it should render a dropdown menu to filter sessions on their status', async function (assert) {
       // given
-      const expectedLabels = {
-        allStatus: 'Tous',
-        createdStatus: 'Créée',
-        finalizedStatus: 'Finalisée',
-        inProcessStatus: 'En cours de traitement',
-        processedStatus: 'Résultats transmis par Pix',
-      };
-
-      // when
       const screen = await render(hbs`<Sessions::ListItems />`);
 
+      // when
+      await click(
+        screen.getByRole('button', {
+          name: 'Filtrer les sessions en sélectionnant un statut',
+        })
+      );
+      await screen.findByRole('listbox');
+
       // then
-      assert
-        .dom(
-          screen.getByRole('combobox', {
-            name: 'Filtrer les sessions en sélectionnant un statut',
-          })
-        )
-        .hasText(
-          `${expectedLabels.allStatus} ${expectedLabels.createdStatus} ${expectedLabels.finalizedStatus} ${expectedLabels.inProcessStatus} ${expectedLabels.processedStatus}`
-        );
+      assert.dom(screen.getByRole('option', { name: 'Tous' })).exists();
+      assert.dom(screen.getByRole('option', { name: 'Créée' })).exists();
+      assert.dom(screen.getByRole('option', { name: 'Finalisée' })).exists();
+      assert.dom(screen.getByRole('option', { name: 'En cours de traitement' })).exists();
+      assert.dom(screen.getByRole('option', { name: 'Résultats transmis par Pix' })).exists();
     });
 
     test('it should filter sessions on (session) "status" when it has changed', async function (assert) {
@@ -189,35 +193,40 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       );
 
       // when
-      await selectByLabelAndOption('Filtrer les sessions en sélectionnant un statut', 'created');
+      await click(
+        screen.getByRole('button', {
+          name: 'Finalisée',
+        })
+      );
+      await screen.findByRole('listbox');
+      await click(
+        screen.getByRole('option', {
+          name: 'Créée',
+        })
+      );
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(this.status, 'created');
+      assert.strictEqual(this.status, 'created');
     });
   });
 
   module('Dropdown menu for resultsSentToPrescriberAt filtering', function () {
     test('it should render a dropdown menu to filter sessions on their results sending', async function (assert) {
       // given
-      const expectedLabels = {
-        all: 'Tous',
-        resultsSent: 'Résultats diffusés',
-        resultsNotSent: 'Résultats non diffusés',
-      };
-
-      // when
       const screen = await render(hbs`<Sessions::ListItems />`);
 
+      // when
+      await click(
+        screen.getByRole('button', {
+          name: 'Filtrer les sessions par leurs résultats diffusés ou non diffusés',
+        })
+      );
+      await screen.findByRole('listbox');
+
       // then
-      assert
-        .dom(
-          screen.getByRole('combobox', {
-            name: 'Filtrer les sessions par leurs résultats diffusés ou non diffusés',
-          })
-        )
-        .hasText(`${expectedLabels.all} ${expectedLabels.resultsSent} ${expectedLabels.resultsNotSent}`);
+      assert.dom(screen.getByRole('option', { name: 'Tous' })).exists();
+      assert.dom(screen.getByRole('option', { name: 'Résultats diffusés' })).exists();
+      assert.dom(screen.getByRole('option', { name: 'Résultats non diffusés' })).exists();
     });
 
     test('it should filter sessions on results sending status when it has changed', async function (assert) {
@@ -234,12 +243,20 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       );
 
       // when
-      await selectByLabelAndOption('Filtrer les sessions par leurs résultats diffusés ou non diffusés', 'false');
+      await click(
+        screen.getByRole('button', {
+          name: 'Résultats diffusés',
+        })
+      );
+      await screen.findByRole('listbox');
+      await click(
+        screen.getByRole('option', {
+          name: 'Résultats non diffusés',
+        })
+      );
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(this.resultsSentToPrescriberAt, 'false');
+      assert.strictEqual(this.resultsSentToPrescriberAt, 'false');
     });
   });
 });
