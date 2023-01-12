@@ -21,6 +21,24 @@ exports.register = async (server) => {
         ],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/scoring-simulator/flash',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        handler: scoringSimulatorController.calculateFlashScores,
+        tags: ['api'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          "Elle renvoie le score Pix calculé avec l'algorithme Flash pour une liste de questions et réponses données",
+        ],
+      },
+    },
   ]);
 };
 
