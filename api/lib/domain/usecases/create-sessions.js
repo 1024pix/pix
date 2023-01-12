@@ -37,10 +37,16 @@ module.exports = async function createSessions({
       const savedSession = await sessionRepository.save(domainSession, domainTransaction);
 
       await bluebird.mapSeries(domainSession.certificationCandidates, async (certificationCandidate) => {
+        const billingMode = CertificationCandidate.translateBillingMode(certificationCandidate.billingMode);
         const domainCertificationCandidate = new CertificationCandidate({
           ...certificationCandidate,
           sessionId: savedSession.id,
+          billingMode,
         });
+
+        if (domainCertificationCandidate.billingMode === 'FREE') {
+          domainCertificationCandidate.prepaymentCode = null;
+        }
 
         domainCertificationCandidate.validate();
 
