@@ -59,11 +59,10 @@
       <div class="form-field">
         <PixSelect
           @label="Catégorie :"
-          class={{if @errors.category "form-control is-invalid" "form-control"}}
           @options={{this.categories}}
+          @placeholder="Sélectionnez une catégorie"
           @onChange={{this.selectCategory}}
-          @value={{this.selectedCategory}}
-          @emptyOptionNotSelectable={{true}}
+          @value={{this.category}}
           @errorMessage={{get @errors.category "0.message"}}
           @requiredText="Champs obligatoire"
         />
