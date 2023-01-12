@@ -1,8 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, selectByLabelAndOption, fillByLabel } from '@1024pix/ember-testing-library';
+import { render, fillByLabel } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import EmberObject from '@ember/object';
 
 module('Integration | Component | organizations/creation-form', function (hooks) {
   setupRenderingTest(hooks);
@@ -10,7 +10,8 @@ module('Integration | Component | organizations/creation-form', function (hooks)
   hooks.beforeEach(function () {
     this.onSubmit = () => {};
     this.onCancel = () => {};
-    this.organization = EmberObject.create();
+    const store = this.owner.lookup('service:store');
+    this.organization = store.createRecord('organization', { type: '' });
   });
 
   test('it renders', async function (assert) {
@@ -22,7 +23,7 @@ module('Integration | Component | organizations/creation-form', function (hooks)
     // then
     assert.dom(screen.getByRole('textbox', { name: 'Nom' })).exists();
     assert.dom(screen.getByRole('textbox', { name: 'Lien vers la documentation' })).exists();
-    assert.dom(screen.getByRole('combobox', { name: "Sélectionner un type d'organisation" })).exists();
+    assert.dom(screen.getByText("Sélectionner un type d'organisation")).exists();
     assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
     assert.dom(screen.getByRole('button', { name: 'Ajouter' })).exists();
   });
@@ -35,11 +36,12 @@ module('Integration | Component | organizations/creation-form', function (hooks)
       );
 
       // when
-      await selectByLabelAndOption("Sélectionner un type d'organisation", 'SCO');
+      await click(screen.getByText("Sélectionner un type d'organisation"));
+      await screen.findByRole('listbox');
+      await click(screen.getByRole('option', { name: 'Établissement scolaire' }));
 
       // then
       assert.strictEqual(this.organization.type, 'SCO');
-      assert.dom(screen.getByText('Établissement scolaire')).exists();
     });
   });
 
