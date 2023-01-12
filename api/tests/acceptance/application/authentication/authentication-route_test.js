@@ -174,53 +174,27 @@ describe('Acceptance | Controller | authentication-controller', function () {
     });
 
     context('when scope is pix-certif', function () {
-      context('when certification center has the supervisor access enabled', function () {
-        it('should return http code 200 with accessToken when authentication is ok', async function () {
-          //given
-          databaseBuilder.factory.buildCertificationCenter({ id: 345, isSupervisorAccessEnabled: true });
-          databaseBuilder.factory.buildSession({ id: 121, certificationCenterId: 345 });
-          databaseBuilder.factory.buildCertificationCandidate({ sessionId: 121 });
-          databaseBuilder.factory.buildSupervisorAccess({ userId, sessionId: 121 });
-          await databaseBuilder.commit();
+      it('should return http code 200 with accessToken when authentication is ok', async function () {
+        //given
+        databaseBuilder.factory.buildCertificationCenter({ id: 345 });
+        databaseBuilder.factory.buildSession({ id: 121, certificationCenterId: 345 });
+        databaseBuilder.factory.buildCertificationCandidate({ sessionId: 121 });
+        databaseBuilder.factory.buildSupervisorAccess({ userId, sessionId: 121 });
+        await databaseBuilder.commit();
 
-          const options = _getOptions({ scope: 'pix-certif', username: userEmailAddress, password: userPassword });
+        const options = _getOptions({ scope: 'pix-certif', username: userEmailAddress, password: userPassword });
 
-          await databaseBuilder.commit();
-          // when
-          const response = await server.inject(options);
+        await databaseBuilder.commit();
+        // when
+        const response = await server.inject(options);
 
-          // then
-          expect(response.statusCode).to.equal(200);
+        // then
+        expect(response.statusCode).to.equal(200);
 
-          const result = response.result;
-          expect(result.token_type).to.equal('bearer');
-          expect(result.access_token).to.exist;
-          expect(result.user_id).to.equal(userId);
-        });
-      });
-
-      context('when certification center does not have the supervisor access enabled', function () {
-        it('should return http code 403 ', async function () {
-          //given
-          databaseBuilder.factory.buildUser.withRawPassword({
-            email: 'email@without.mb',
-            rawPassword: userPassword,
-            cgu: true,
-          });
-          databaseBuilder.factory.buildCertificationCenter({ id: 345, isSupervisorAccessEnabled: false });
-          databaseBuilder.factory.buildSession({ id: 121, certificationCenterId: 345 });
-          databaseBuilder.factory.buildCertificationCandidate({ sessionId: 121 });
-          databaseBuilder.factory.buildSupervisorAccess({ userId, sessionId: 121 });
-
-          await databaseBuilder.commit();
-          const options = _getOptions({ scope: 'pix-certif', username: 'email@without.mb', password: userPassword });
-
-          // when
-          const { statusCode } = await server.inject(options);
-
-          // then
-          expect(statusCode).to.equal(403);
-        });
+        const result = response.result;
+        expect(result.token_type).to.equal('bearer');
+        expect(result.access_token).to.exist;
+        expect(result.user_id).to.equal(userId);
       });
     });
 
