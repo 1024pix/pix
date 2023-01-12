@@ -15,7 +15,6 @@ module.exports = {
         name: 'certification-centers.name',
         type: 'certification-centers.type',
         externalId: 'certification-centers.externalId',
-        isSupervisorAccessEnabled: 'certification-centers.isSupervisorAccessEnabled',
         dataProtectionOfficerFirstName: 'data-protection-officers.firstName',
         dataProtectionOfficerLastName: 'data-protection-officers.lastName',
         dataProtectionOfficerEmail: 'data-protection-officers.email',
@@ -60,13 +59,13 @@ module.exports = {
   },
 
   async save(certificationCenter) {
-    const data = _.pick(certificationCenter, ['name', 'type', 'externalId', 'isSupervisorAccessEnabled']);
+    const data = _.pick(certificationCenter, ['name', 'type', 'externalId']);
     const [certificationCenterCreated] = await knex(CERTIFICATION_CENTERS_TABLE_NAME).returning('*').insert(data);
     return _toDomain(certificationCenterCreated);
   },
 
   async update(certificationCenter) {
-    const data = _.pick(certificationCenter, ['name', 'type', 'externalId', 'isSupervisorAccessEnabled']);
+    const data = _.pick(certificationCenter, ['name', 'type', 'externalId']);
 
     const [certificationCenterRow] = await knex(CERTIFICATION_CENTERS_TABLE_NAME)
       .update(data)
@@ -84,7 +83,6 @@ function _toDomain(certificationCenterDTO) {
     type: certificationCenterDTO.type,
     externalId: certificationCenterDTO.externalId,
     habilitations: certificationCenterDTO.habilitations,
-    isSupervisorAccessEnabled: certificationCenterDTO.isSupervisorAccessEnabled,
     dataProtectionOfficerFirstName: certificationCenterDTO.dataProtectionOfficerFirstName,
     dataProtectionOfficerLastName: certificationCenterDTO.dataProtectionOfficerLastName,
     dataProtectionOfficerEmail: certificationCenterDTO.dataProtectionOfficerEmail,
