@@ -59,7 +59,9 @@ module('Integration | Component | certification-centers/information-edit', funct
       );
 
       // when
-      await fillByLabel('Type', '');
+      await click(screen.getByRole('button', { name: 'Type' }));
+      await screen.findByRole('listbox');
+      await click(screen.getByRole('option', { name: '-- Choisissez --' }));
 
       // then
       assert.dom(screen.getByText('Le type ne peut pas être vide')).exists();

@@ -22,8 +22,7 @@
       <PixSelect
         @label="Type"
         @options={{this.certificationCenterTypes}}
-        @placeholder={{"-- Choisissez --"}}
-        @hideDefaultOption={{true}}
+        @placeholder="-- Choisissez --"
         @value={{this.form.type}}
         @onChange={{this.selectCertificationCenterType}}
         @errorMessage={{v-get this.form "type" "message"}}
