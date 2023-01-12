@@ -191,9 +191,6 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.CancelledInvitationError) {
     return new HttpErrors.ForbiddenError(error.message);
   }
-  if (error instanceof DomainErrors.SupervisorAccessNotAuthorizedError) {
-    return new HttpErrors.UnauthorizedError(error.message);
-  }
   if (error instanceof DomainErrors.SendingEmailError) {
     return new HttpErrors.ServiceUnavailableError(error.message);
   }

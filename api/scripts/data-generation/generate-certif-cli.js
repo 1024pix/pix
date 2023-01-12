@@ -111,7 +111,6 @@ async function main({ centerType, candidateNumber, complementaryCertifications }
   });
   const certificationCenterId = await _getCertificationCenterIdByCenterType(centerType);
 
-  await _updateCertificationCenterSupervisorPortalAccess(certificationCenterId);
   const sessionId = await _createSessionAndReturnId(certificationCenterId, databaseBuilder);
   if (centerType === 'SCO') {
     await _createScoCertificationCandidates({ candidateNumber, sessionId, organizationId }, databaseBuilder);
@@ -170,10 +169,6 @@ async function _getMaxSequenceId() {
   const maxValues = await bluebird.map(sequences, (sequence) => knex(sequence).select('last_value').first());
   const { last_value: max } = maxBy(maxValues, 'last_value');
   return max;
-}
-
-async function _updateCertificationCenterSupervisorPortalAccess(id) {
-  await knex('certification-centers').update({ isSupervisorAccessEnabled: true }).where({ id });
 }
 
 async function _createComplementaryCertificationHabilitations(

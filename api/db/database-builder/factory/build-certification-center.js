@@ -7,7 +7,6 @@ module.exports = function buildCertificationCenter({
   externalId = 'EX123',
   createdAt = new Date('2020-01-01'),
   updatedAt,
-  isSupervisorAccessEnabled = false,
 } = {}) {
   const values = {
     id,
@@ -16,7 +15,6 @@ module.exports = function buildCertificationCenter({
     externalId,
     createdAt,
     updatedAt,
-    isSupervisorAccessEnabled,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'certification-centers',
