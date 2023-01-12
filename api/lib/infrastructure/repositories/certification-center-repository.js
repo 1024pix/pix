@@ -15,15 +15,7 @@ function _toDomain(bookshelfCertificationCenter) {
     });
   });
   return new CertificationCenter({
-    ..._.pick(dbCertificationCenter, [
-      'id',
-      'name',
-      'type',
-      'externalId',
-      'isSupervisorAccessEnabled',
-      'createdAt',
-      'updatedAt',
-    ]),
+    ..._.pick(dbCertificationCenter, ['id', 'name', 'type', 'externalId', 'createdAt', 'updatedAt']),
     habilitations,
   });
 }
