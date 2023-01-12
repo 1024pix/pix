@@ -23,7 +23,7 @@ export default class CertificationCenterInvitationsAction extends Component {
   }
 
   @action
-  changeInvitationLanguage(event) {
-    this.invitationLanguage = event.target.value;
+  changeInvitationLanguage(value) {
+    this.invitationLanguage = value;
   }
 }
