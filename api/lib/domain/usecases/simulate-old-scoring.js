@@ -1,8 +1,16 @@
 const SimulationResult = require('../models/SimulationResult');
+const fp = require('lodash/fp');
 
 module.exports = async function simulateOldScoring({ challengeRepository, simulations }) {
   const challenges = await challengeRepository.findValidated();
   const challengesById = new Map(challenges.map((challenge) => [challenge.id, challenge]));
+
+  // prettier-ignore
+  const skillsByTubeId = fp.flow(
+    fp.map('skill'),
+    fp.uniqBy('id'),
+    fp.groupBy('tubeId'),
+  )(challenges);
 
   const simulationResults = simulations.map(({ answers }) => {
     const scoreBySkillId = {};
@@ -14,10 +22,20 @@ module.exports = async function simulateOldScoring({ challengeRepository, simula
         return new SimulationResult({ error: `Answer for skill ${challenge.skill.id} was already given or inferred` });
       }
 
+      const tubeSkills = skillsByTubeId[challenge.skill.tubeId];
+
       if (answer.isOk()) {
-        scoreBySkillId[challenge.skill.id] = challenge.skill.pixValue;
+        for (const tubeSkill of tubeSkills) {
+          if (tubeSkill.difficulty <= challenge.skill.difficulty) {
+            scoreBySkillId[tubeSkill.id] = tubeSkill.pixValue;
+          }
+        }
       } else {
-        scoreBySkillId[challenge.skill.id] = 0;
+        for (const tubeSkill of tubeSkills) {
+          if (tubeSkill.difficulty >= challenge.skill.difficulty) {
+            scoreBySkillId[tubeSkill.id] = 0;
+          }
+        }
       }
     }
 
