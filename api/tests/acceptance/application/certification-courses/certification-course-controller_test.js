@@ -525,7 +525,6 @@ describe('Acceptance | API | Certification Course', function () {
       otherUserId = databaseBuilder.factory.buildUser().id;
       const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
         id: 99,
-        isSupervisorAccessEnabled: true,
       });
       const session = databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenter.id });
       const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
@@ -604,7 +603,7 @@ describe('Acceptance | API | Certification Course', function () {
 
     beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser().id;
-      certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ isSupervisorAccessEnabled: false }).id;
+      certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       sessionId = databaseBuilder.factory.buildSession({ accessCode: '123', certificationCenterId }).id;
       const payload = {
         data: {
@@ -843,7 +842,11 @@ describe('Acceptance | API | Certification Course', function () {
           // given
           const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
           mockLearningContent(learningContentObjects);
-          certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
+          certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
+            sessionId,
+            userId,
+            authorizedToStart: true,
+          });
           databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas({
             learningContent,
             userId,
@@ -900,7 +903,11 @@ describe('Acceptance | API | Certification Course', function () {
           // given
           const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
           mockLearningContent(learningContentObjects);
-          certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
+          certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
+            sessionId,
+            userId,
+            authorizedToStart: true,
+          });
           databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas({
             learningContent,
             userId,
@@ -940,7 +947,7 @@ describe('Acceptance | API | Certification Course', function () {
         // given
         certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId }).id;
         databaseBuilder.factory.buildAssessment({ userId, certificationCourseId: certificationCourseId });
-        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
+        databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId, authorizedToStart: true });
         await databaseBuilder.commit();
 
         // when
