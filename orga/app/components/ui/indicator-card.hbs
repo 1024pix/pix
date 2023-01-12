@@ -1,21 +1,26 @@
-<section class="indicator-card" ...attributes>
+<section class="old-indicator-card" ...attributes>
   {{#if @isLoading}}
     <p class="screen-reader-only">{{@loader}}</p>
-    <div class="indicator-card__icon" aria-hidden="true"></div>
-    <div class="indicator-card__content" aria-hidden="true"></div>
+    <div class="old-indicator-card__icon" aria-hidden="true"></div>
+    <div class="old-indicator-card__content" aria-hidden="true"></div>
   {{else}}
-    <div class="indicator-card__icon {{if @color (concat 'indicator-card__icon--' @color)}}" aria-hidden="true">
+    <div class="old-indicator-card__icon {{if @color (concat 'old-indicator-card__icon--' @color)}}" aria-hidden="true">
       <FaIcon @icon={{@icon}} />
     </div>
-    <dl class="indicator-card__content">
-      <div class="indicator-card__title">
+    <dl class="old-indicator-card__content">
+      <div class="old-indicator-card__title">
         <dt>{{@title}}</dt>
         {{#if @info}}
-          <PixTooltip @id={{@title}} @position="top" @isWide={{true}} class="indicator-card__tooltip hide-on-mobile">
+          <PixTooltip
+            @id={{@title}}
+            @position="top"
+            @isWide={{true}}
+            class="old-indicator-card__tooltip hide-on-mobile"
+          >
             <:triggerElement>
               <FaIcon
                 @icon="circle-question"
-                class="indicator-card__tooltip-icon"
+                class="old-indicator-card__tooltip-icon"
                 tabindex="0"
                 aria-describedby={{@title}}
               />
@@ -26,7 +31,7 @@
           </PixTooltip>
         {{/if}}
       </div>
-      <dd class="indicator-card__value">
+      <dd class="old-indicator-card__value">
         {{yield}}
       </dd>
     </dl>

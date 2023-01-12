@@ -3,7 +3,7 @@
   background-color: lighten($color, $percentageLightenForBackground);
 }
 
-.indicator-card {
+.old-indicator-card {
   display: flex;
   width: 100%;
   background-color: $pix-neutral-0;
@@ -25,9 +25,11 @@
     &--blue {
       @include colorize($pix-primary, 0%, 32%);
     }
+
     &--purple {
       @include colorize($purple, 6%, 32%);
     }
+
     &--green {
       @include colorize($pix-success-70, 0%, 70%);
     }
