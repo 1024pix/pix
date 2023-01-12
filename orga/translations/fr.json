@@ -43,7 +43,8 @@
       "invalid-file-extension": "Extension {fileExtension} non supportée.",
       "payload-too-large": "La taille du fichier doit être inférieure à {maxSize}Mo.",
       "uai-mismatched": "L’UAI du fichier SIECLE ne correspond pas à celui de votre établissement.",
-      "sex-code-required": "Le champ SEXE_CODE est obligatoire pour chaque élève."
+      "sex-code-required": "Le champ SEXE_CODE est obligatoire pour chaque élève.",
+      "birth-city-code-required-for-french-student": "Le champ CODE_COMMUNE_INSEE_NAISS est obligatoire pour chaque élève née en France."
     }
   },
   "banners": {

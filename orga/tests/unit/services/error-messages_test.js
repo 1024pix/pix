@@ -44,6 +44,20 @@ module('Unit | Service | Error messages', function (hooks) {
     });
   });
 
+  module('BIRTH_CITY_CODE_REQUIRED_FOR_FR_STUDENT', function () {
+    test('should return the message when error code is found', function (assert) {
+      // Given
+      const errorMessages = this.owner.lookup('service:errorMessages');
+      // When
+      const message = errorMessages.getErrorMessage('BIRTH_CITY_CODE_REQUIRED_FOR_FR_STUDENT');
+      // Then
+      assert.strictEqual(
+        message,
+        t('api-errors-messages.student-xml-import.birth-city-code-required-for-french-student')
+      );
+    });
+  });
+
   test('should return the message with parameters', function (assert) {
     // Given
     const errorMessages = this.owner.lookup('service:errorMessages');
