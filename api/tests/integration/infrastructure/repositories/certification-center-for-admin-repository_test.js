@@ -25,7 +25,6 @@ describe('Integration | Repository | certification-center-for-admin', function (
           createdAt: new Date('2018-01-01T05:43:10Z'),
           type: CertificationCenterForAdmin.types.SUP,
           externalId: 'externalId',
-          isSupervisorAccessEnabled: true,
           updatedAt: now,
         });
         databaseBuilder.factory.buildCertificationCenter({ id: 2 });
@@ -43,7 +42,6 @@ describe('Integration | Repository | certification-center-for-admin', function (
           externalId: 'externalId',
           createdAt: new Date('2018-01-01T05:43:10Z'),
           complementaryCertifications: [],
-          isSupervisorAccessEnabled: true,
           dataProtectionOfficerFirstName: dataProtectionOfficer.firstName,
           dataProtectionOfficerLastName: dataProtectionOfficer.lastName,
           dataProtectionOfficerEmail: dataProtectionOfficer.email,
@@ -145,7 +143,6 @@ describe('Integration | Repository | certification-center-for-admin', function (
       const certificationCenter = new CertificationCenterForAdmin({
         name: 'CertificationCenterName',
         type: 'SCO',
-        isSupervisorAccessEnabled: true,
       });
 
       // when
@@ -156,7 +153,6 @@ describe('Integration | Repository | certification-center-for-admin', function (
       expect(savedCertificationCenter.id).to.exist;
       expect(savedCertificationCenter.name).to.equal('CertificationCenterName');
       expect(savedCertificationCenter.type).to.equal('SCO');
-      expect(savedCertificationCenter.isSupervisorAccessEnabled).to.be.true;
     });
   });
 
@@ -165,7 +161,7 @@ describe('Integration | Repository | certification-center-for-admin', function (
 
     before(async function () {
       // given
-      certificationCenter = databaseBuilder.factory.buildCertificationCenter({ isSupervisorAccessEnabled: true });
+      certificationCenter = databaseBuilder.factory.buildCertificationCenter();
       await databaseBuilder.commit();
     });
 
@@ -174,7 +170,6 @@ describe('Integration | Repository | certification-center-for-admin', function (
       const updatedCertificationCenter = await certificationCenterForAdminRepository.update({
         id: certificationCenter.id,
         name: 'Great Oak Certification Center',
-        isSupervisorAccessEnabled: false,
         updatedAt: now,
       });
 
@@ -184,7 +179,6 @@ describe('Integration | Repository | certification-center-for-admin', function (
         new CertificationCenterForAdmin({
           ...certificationCenter,
           name: 'Great Oak Certification Center',
-          isSupervisorAccessEnabled: false,
           updatedAt: updatedCertificationCenter.updatedAt,
         })
       );

@@ -21,7 +21,7 @@ describe('Acceptance | Controller | session-for-supervising-controller-supervise
   it('should return a HTTP 204 No Content', async function () {
     // given
 
-    const certificationCenter = databaseBuilder.factory.buildCertificationCenter({ isSupervisorAccessEnabled: true });
+    const certificationCenter = databaseBuilder.factory.buildCertificationCenter({});
     const session = domainBuilder.buildSession({ id: 121, certificationCenterId: certificationCenter.id });
     session.generateSupervisorPassword();
     const supervisorPassword = session.supervisorPassword;
