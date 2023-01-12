@@ -1,6 +1,7 @@
 class SimulationResult {
-  constructor({ pixScore } = {}) {
+  constructor({ pixScore, error } = {}) {
     this.pixScore = pixScore;
+    this.error = error;
   }
 }
 
