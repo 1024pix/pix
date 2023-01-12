@@ -1,5 +1,6 @@
 const logger = require('../../logger');
 const { FileValidationError } = require('../../../../lib/domain/errors');
+const { convertDateValue } = require('../../utils/date-utils');
 
 function _csvFormulaEscapingPrefix(data) {
   const mayBeInterpretedAsFormula = /^[-@=+]/.test(data);
@@ -75,7 +76,15 @@ function deserializeForSessionsImport(parsedCsvData) {
 function getDataFromColumnNames({ csvLineKeys, headers, line }) {
   const data = {};
   csvLineKeys.forEach((key) => {
-    data[key] = line[headers[key]];
+    if (key === 'birthdate') {
+      data[key] = convertDateValue({
+        dateString: line[headers[key]],
+        inputFormat: 'DD/MM/YYYY',
+        outputFormat: 'YYYY-MM-DD',
+      });
+    } else {
+      data[key] = line[headers[key]];
+    }
   });
   return data;
 }

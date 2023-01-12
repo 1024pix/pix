@@ -175,7 +175,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                 {
                   lastName: 'Candidat 1',
                   firstName: 'Candidat 1',
-                  birthdate: '01/03/1981',
+                  birthdate: '1981-03-01',
                   sex: 'M',
                   birthINSEECode: '75015',
                   birthPostalCode: '',
@@ -191,7 +191,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                 {
                   lastName: 'Candidat 2',
                   firstName: 'Candidat 2',
-                  birthdate: '01/03/1981',
+                  birthdate: '1981-03-01',
                   sex: 'M',
                   birthINSEECode: '75015',
                   birthPostalCode: '',
@@ -217,7 +217,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                 {
                   lastName: 'Candidat 1',
                   firstName: 'Candidat 1',
-                  birthdate: '01/03/1981',
+                  birthdate: '1981-03-01',
                   sex: 'M',
                   birthINSEECode: '75015',
                   birthPostalCode: '',
@@ -260,7 +260,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
               {
                 lastName: 'Pennyworth',
                 firstName: 'Alfred',
-                birthdate: '02/03/1951',
+                birthdate: '1951-03-02',
                 sex: 'M',
                 birthINSEECode: '75015',
                 birthPostalCode: '',
