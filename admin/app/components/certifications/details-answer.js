@@ -36,10 +36,9 @@ export default class CertificationDetailsAnswer extends Component {
   }
 
   @action
-  selectOption(event) {
+  selectOption(newResult) {
     const answer = this.args.answer;
     const answerResult = this._answerResultValue();
-    const newResult = event.target.value;
     answer.jury = answerResult !== newResult ? newResult : null;
     this.selectedOption = newResult ?? answerResult;
     this.hasJuryResult = !!newResult;

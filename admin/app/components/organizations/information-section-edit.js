@@ -158,15 +158,9 @@ export default class OrganizationInformationSectionEditionMode extends Component
   }
 
   @action
-  onChangeIdentityProvider(eventOnChange) {
-    const selectedIndex = eventOnChange.target.selectedIndex;
-    if (selectedIndex >= 0) {
-      const identityProviderForCampaignsValue = eventOnChange.target.options[selectedIndex].value;
-      this.form.identityProviderForCampaigns =
-        identityProviderForCampaignsValue === this.noIdentityProviderOption.value
-          ? null
-          : identityProviderForCampaignsValue;
-    }
+  onChangeIdentityProvider(newIdentityProvider) {
+    this.form.identityProviderForCampaigns =
+      newIdentityProvider === this.noIdentityProviderOption.value ? null : newIdentityProvider;
   }
 
   @action
