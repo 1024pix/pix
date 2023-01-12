@@ -93,8 +93,8 @@ export default class InformationEdit extends Component {
   }
 
   @action
-  selectCertificationCenterType(event) {
-    this.form.type = event.target.value;
+  selectCertificationCenterType(value) {
+    this.form.type = value;
   }
 
   @action
