@@ -82,6 +82,8 @@ function getDataFromColumnNames({ csvLineKeys, headers, line }) {
         inputFormat: 'DD/MM/YYYY',
         outputFormat: 'YYYY-MM-DD',
       });
+    } else if (key === 'extraTimePercentage') {
+      data[key] = line[headers[key]] !== '' ? parseInt(line[headers[key]]) : null;
     } else {
       data[key] = line[headers[key]];
     }
