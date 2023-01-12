@@ -11,7 +11,6 @@ module.exports = {
       externalId: data.attributes['external-id'],
       habilitations: [],
       id: data.id,
-      isSupervisorAccessEnabled: data.attributes['is-supervisor-access-enabled'],
       name: data.attributes.name,
       type: data.attributes.type,
     });
@@ -24,7 +23,6 @@ module.exports = {
         'externalId',
         'createdAt',
         'certificationCenterMemberships',
-        'isSupervisorAccessEnabled',
         'dataProtectionOfficerFirstName',
         'dataProtectionOfficerLastName',
         'dataProtectionOfficerEmail',
