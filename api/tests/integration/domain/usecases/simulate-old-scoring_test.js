@@ -4,8 +4,7 @@ const SimulationResult = require('../../../../lib/domain/models/SimulationResult
 const usecases = require('../../../../lib/domain/usecases/');
 
 describe('Integration | UseCases | simulateOldScoring', function () {
-  it('should return 10001 as a direct scoring result', async function () {
-    // given
+  beforeEach(function () {
     const learningContent = {
       competences: [
         {
@@ -46,11 +45,15 @@ describe('Integration | UseCases | simulateOldScoring', function () {
         { id: 'challenge2', skillId: 'skill3', status: 'validé' },
         { id: 'challenge3', skillId: 'skill4', status: 'validé' },
         { id: 'challenge4', skillId: 'skill5', status: 'validé' },
+        { id: 'challenge5', skillId: 'skill5', status: 'validé' },
       ],
     };
 
     mockLearningContent(learningContent);
+  });
 
+  it('should return 10001 as a direct scoring result', async function () {
+    // given
     const answers = [
       domainBuilder.buildAnswer.ok({
         challengeId: 'challenge1',
@@ -75,5 +78,29 @@ describe('Integration | UseCases | simulateOldScoring', function () {
     expect(simulationResults).to.have.lengthOf(1);
     expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
     expect(simulationResults[0]).to.have.property('pixScore', 10001);
+  });
+
+  describe('when there are more than one answer on the same skill', function () {
+    it('should return an error', async function () {
+      // given
+      const answers = [
+        domainBuilder.buildAnswer.ko({
+          challengeId: 'challenge4',
+        }),
+        domainBuilder.buildAnswer.ok({
+          challengeId: 'challenge5',
+        }),
+      ];
+
+      const simulation = new OldScoringSimulation({ answers });
+
+      // when
+      const simulationResults = await usecases.simulateOldScoring({ simulations: [simulation] });
+
+      // then
+      expect(simulationResults).to.have.lengthOf(1);
+      expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
+      expect(simulationResults[0]).to.have.property('error', 'Answer for skill skill5 was already given or inferred');
+    });
   });
 });

@@ -10,8 +10,14 @@ module.exports = async function simulateOldScoring({ challengeRepository, simula
     for (const answer of answers) {
       const challenge = challengesById.get(answer.challengeId);
 
+      if (scoreBySkillId[challenge.skill.id] !== undefined) {
+        return new SimulationResult({ error: `Answer for skill ${challenge.skill.id} was already given or inferred` });
+      }
+
       if (answer.isOk()) {
         scoreBySkillId[challenge.skill.id] = challenge.skill.pixValue;
+      } else {
+        scoreBySkillId[challenge.skill.id] = 0;
       }
     }
 
