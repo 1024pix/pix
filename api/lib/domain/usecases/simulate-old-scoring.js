@@ -12,14 +12,17 @@ module.exports = async function simulateOldScoring({ challengeRepository, simula
     fp.groupBy('tubeId'),
   )(challenges);
 
-  const simulationResults = simulations.map(({ answers }) => {
+  const simulationResults = simulations.map(({ id, answers }) => {
     const scoreBySkillId = {};
 
     for (const answer of answers) {
       const challenge = challengesById.get(answer.challengeId);
 
       if (scoreBySkillId[challenge.skill.id] !== undefined) {
-        return new SimulationResult({ error: `Answer for skill ${challenge.skill.id} was already given or inferred` });
+        return new SimulationResult({
+          id,
+          error: `Answer for skill ${challenge.skill.id} was already given or inferred`,
+        });
       }
 
       const tubeSkills = skillsByTubeId[challenge.skill.tubeId];
@@ -41,7 +44,7 @@ module.exports = async function simulateOldScoring({ challengeRepository, simula
 
     const pixScore = Object.values(scoreBySkillId).reduce((sum, pixValue) => sum + pixValue, 0);
 
-    return new SimulationResult({ pixScore });
+    return new SimulationResult({ id, pixScore });
   });
 
   return simulationResults;

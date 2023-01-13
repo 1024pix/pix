@@ -97,6 +97,7 @@ describe('Acceptance | Controller | scoring-simulator-controller', function () {
             ],
           },
           {
+            id: 'simulationWithError',
             answers: [
               { challengeId: 'challenge2', result: 'ok' },
               { challengeId: 'challenge1', result: 'ok' },
@@ -113,10 +114,12 @@ describe('Acceptance | Controller | scoring-simulator-controller', function () {
       expect(response.result).to.deep.equal({
         results: [
           {
+            id: undefined,
             error: undefined,
             pixScore: 11111,
           },
           {
+            id: 'simulationWithError',
             error: 'Answer for skill skill1 was already given or inferred',
             pixScore: undefined,
           },

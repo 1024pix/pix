@@ -1,5 +1,6 @@
 class OldScoringSimulation {
-  constructor({ answers = [] } = {}) {
+  constructor({ id, answers = [] } = {}) {
+    this.id = id;
     this.answers = answers;
   }
 }
