@@ -8,6 +8,11 @@ module.exports = {
       url: lcms.url + '/releases/latest',
       headers: { Authorization: `Bearer ${lcms.apiKey}` },
     });
+
+    if (!response.isSuccessful) {
+      throw new Error(`An error occurred while fetching ${lcms.url}`);
+    }
+
     return response.data.content;
   },
 
