@@ -570,14 +570,9 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     test('it should set selectedJuryLevel', function (assert) {
       // given
       controller.selectedJuryLevel = '';
-      const event = {
-        target: {
-          value: 'REJECTED',
-        },
-      };
 
       // when
-      controller.selectJuryLevel(event);
+      controller.selectJuryLevel('REJECTED');
 
       // then
       assert.strictEqual(controller.selectedJuryLevel, 'REJECTED');

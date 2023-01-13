@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { click, currentURL } from '@ember/test-helpers';
-import { fillByLabel, clickByName, visit, selectByLabelAndOption, within } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName, visit, within } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { authenticateAdminMemberWithRole } from '../../../../helpers/test-init';
 
@@ -330,10 +330,15 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
           // when
           await click(screen.getByRole('button', { name: 'Modifier le volet jury' }));
-          await selectByLabelAndOption('Sélectionner un niveau', 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME');
+
+          await click(screen.getByRole('button', { name: 'Sélectionner un niveau' }));
+          await screen.findByRole('listbox');
+          await click(screen.getByRole('option', { name: 'Pix+ Édu Initiale 1er degré Confirmé' }));
+
           await click(screen.getByRole('button', { name: 'Modifier le niveau du jury' }));
 
           const finalResult = within(screen.getByText('NIVEAU FINAL').parentElement);
+
           // then
           assert.dom(screen.getByText('Pix+ Édu Initiale 1er degré Confirmé')).exists();
 
@@ -412,10 +417,14 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           await _switchCertificationDetail(screen, session.id, certification2.id);
 
           // when
-          await selectByLabelAndOption('Sélectionner un niveau', 'Choisir un niveau');
+          await click(screen.getByRole('button', { name: 'Sélectionner un niveau' }));
+          await screen.findByRole('listbox');
+          await click(screen.getByRole('option', { name: 'Pix+ Édu Initiale 2nd degré Confirmé' }));
 
           // then
-          assert.dom(screen.getByText('Pix+ Édu Initiale 2nd degré Confirmé')).exists();
+          assert
+            .dom(screen.getByRole('button', { name: 'Sélectionner un niveau' }))
+            .containsText('Pix+ Édu Initiale 2nd degré Confirmé');
         });
       });
 
