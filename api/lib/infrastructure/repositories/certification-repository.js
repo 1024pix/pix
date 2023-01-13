@@ -12,13 +12,15 @@ module.exports = {
       })
       .where('certification-courses.sessionId', sessionId)
       .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
-      .leftJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
-      .whereNotExists(
-        knex
-          .select(1)
-          .from({ 'last-assessment-results': 'assessment-results' })
-          .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
-          .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"')
+      .leftJoin(
+        'certification-courses-last-assessment-results',
+        'certification-courses.id',
+        'certification-courses-last-assessment-results.certificationCourseId'
+      )
+      .leftJoin(
+        'assessment-results',
+        'assessment-results.id',
+        'certification-courses-last-assessment-results.lastAssessmentResultId'
       );
 
     const hasCertificationInError = _hasCertificationInError(certificationDTOs);

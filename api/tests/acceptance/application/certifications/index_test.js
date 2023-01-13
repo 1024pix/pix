@@ -37,7 +37,8 @@ describe('Acceptance | API | Certifications', function () {
       type: Assessment.types.CERTIFICATION,
       state: 'completed',
     });
-    assessmentResult = databaseBuilder.factory.buildAssessmentResult({
+    assessmentResult = databaseBuilder.factory.buildAssessmentResult.last({
+      certificationCourseId: certificationCourse.id,
       assessmentId: assessment.id,
       level: 1,
       pixScore: 23,

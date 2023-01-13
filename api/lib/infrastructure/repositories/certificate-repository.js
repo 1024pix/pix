@@ -14,10 +14,10 @@ module.exports = {
   async getPrivateCertificate(id, { locale } = {}) {
     const certificationCourseDTO = await _selectPrivateCertificates()
       .where('certification-courses.id', '=', id)
-      .groupBy('certification-courses.id', 'sessions.id', 'assessments.id', 'assessment-results.id')
+      .groupBy('certification-courses.id', 'sessions.id', 'assessment-results.id')
       .where('certification-courses.isPublished', true)
       .where('certification-courses.isCancelled', false)
-      .modify(_filterMostRecentValidatedAssessmentResult)
+      .where('assessment-results.status', AssessmentResult.status.VALIDATED)
       .first();
 
     if (!certificationCourseDTO) {
@@ -38,8 +38,7 @@ module.exports = {
   async findPrivateCertificatesByUserId({ userId }) {
     const certificationCourseDTOs = await _selectPrivateCertificates()
       .where('certification-courses.userId', '=', userId)
-      .modify(_filterMostRecentAssessmentResult)
-      .groupBy('certification-courses.id', 'sessions.id', 'assessments.id', 'assessment-results.id')
+      .groupBy('certification-courses.id', 'sessions.id', 'assessment-results.id')
       .orderBy('certification-courses.createdAt', 'DESC');
 
     const privateCertificates = certificationCourseDTOs.map((certificationCourseDTO) =>
@@ -52,7 +51,7 @@ module.exports = {
 
   async getShareableCertificateByVerificationCode(verificationCode, { locale } = {}) {
     const shareableCertificateDTO = await _selectShareableCertificates()
-      .groupBy('certification-courses.id', 'sessions.id', 'assessments.id', 'assessment-results.id')
+      .groupBy('certification-courses.id', 'sessions.id', 'assessment-results.id')
       .where({ verificationCode })
       .first();
 
@@ -70,7 +69,7 @@ module.exports = {
   async getCertificationAttestation(id) {
     const certificationCourseDTO = await _selectCertificationAttestations()
       .where('certification-courses.id', '=', id)
-      .groupBy('certification-courses.id', 'sessions.id', 'assessments.id', 'assessment-results.id')
+      .groupBy('certification-courses.id', 'sessions.id', 'assessment-results.id')
       .first();
 
     if (!certificationCourseDTO) {
@@ -101,13 +100,7 @@ module.exports = {
       .whereRaw('"certification-candidates"."userId" = "certification-courses"."userId"')
       .whereRaw('"certification-candidates"."sessionId" = "certification-courses"."sessionId"')
       .modify(_checkOrganizationIsScoIsManagingStudents)
-      .groupBy(
-        'organization-learners.id',
-        'certification-courses.id',
-        'sessions.id',
-        'assessments.id',
-        'assessment-results.id'
-      )
+      .groupBy('organization-learners.id', 'certification-courses.id', 'sessions.id', 'assessment-results.id')
       .orderBy('certification-courses.createdAt', 'DESC');
 
     const competenceTree = await competenceTreeRepository.get();
@@ -206,7 +199,8 @@ function _selectShareableCertificates() {
           ORDER BY "competence-marks"."competence_code" asc
         )`),
     })
-    .modify(_filterMostRecentValidatedAssessmentResult)
+
+    .where('assessment-results.status', AssessmentResult.status.VALIDATED)
     .where('certification-courses.isPublished', true)
     .where('certification-courses.isCancelled', false);
 }
@@ -234,7 +228,7 @@ function _selectCertificationAttestations() {
           ORDER BY "competence-marks"."competence_code" asc
         )`),
     })
-    .modify(_filterMostRecentValidatedAssessmentResult)
+    .where('assessment-results.status', AssessmentResult.status.VALIDATED)
     .where('certification-courses.isPublished', true)
     .where('certification-courses.isCancelled', false);
 }
@@ -242,32 +236,18 @@ function _selectCertificationAttestations() {
 function _getCertificateQuery() {
   return knex
     .from('certification-courses')
-    .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
-    .join('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
-    .leftJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
-    .join('sessions', 'sessions.id', 'certification-courses.sessionId');
-}
-
-function _filterMostRecentValidatedAssessmentResult(qb) {
-  return qb
-    .whereNotExists(
-      knex
-        .select(1)
-        .from({ 'last-assessment-results': 'assessment-results' })
-        .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
-        .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"')
+    .join('sessions', 'sessions.id', 'certification-courses.sessionId')
+    .join(
+      'certification-courses-last-assessment-results',
+      'certification-courses.id',
+      'certification-courses-last-assessment-results.certificationCourseId'
     )
-    .where('assessment-results.status', AssessmentResult.status.VALIDATED);
-}
-
-function _filterMostRecentAssessmentResult(qb) {
-  return qb.whereNotExists(
-    knex
-      .select(1)
-      .from({ 'last-assessment-results': 'assessment-results' })
-      .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
-      .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"')
-  );
+    .join(
+      'assessment-results',
+      'assessment-results.id',
+      'certification-courses-last-assessment-results.lastAssessmentResultId'
+    )
+    .leftJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id');
 }
 
 function _checkOrganizationIsScoIsManagingStudents(qb) {

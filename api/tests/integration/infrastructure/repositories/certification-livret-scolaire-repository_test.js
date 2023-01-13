@@ -32,6 +32,7 @@ describe('Integration | Repository | Certification-ls ', function () {
   afterEach(async function () {
     await knex('competence-marks').delete();
     await knex('certification-candidates').delete();
+    await knex('certification-courses-last-assessment-results').delete();
     await knex('complementary-certification-course-results').delete();
     await knex('assessment-results').delete();
     await knex('assessments').delete();
