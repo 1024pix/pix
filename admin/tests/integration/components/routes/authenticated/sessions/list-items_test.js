@@ -138,7 +138,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       // given
       this.set('certificationCenterType', 'SCO');
       this.set('updateCertificationCenterTypeFilter', (newValue) => this.set('certificationCenterType', newValue));
-      await render(
+      const screen = await render(
         hbs`<Sessions::ListItems
   @certificationCenterType={{this.certificationCenterType}}
   @onChangeCertificationCenterType={{this.updateCertificationCenterTypeFilter}}
@@ -146,17 +146,9 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       );
 
       // when
-      await click(
-        screen.getByRole('button', {
-          name: 'Sco',
-        })
-      );
+      await click(screen.getByRole('button', { name: 'Sco' }));
       await screen.findByRole('listbox');
-      await click(
-        screen.getByRole('option', {
-          name: 'Pro',
-        })
-      );
+      await click(screen.getByRole('option', { name: 'Pro' }));
 
       // then
       assert.strictEqual(this.certificationCenterType, 'PRO');
@@ -188,22 +180,14 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       // given
       this.set('status', 'finalized');
       this.set('updateSessionStatusFilter', (newValue) => this.set('status', newValue));
-      await render(
+      const screen = await render(
         hbs`<Sessions::ListItems @status={{this.status}} @onChangeSessionStatus={{this.updateSessionStatusFilter}} />`
       );
 
       // when
-      await click(
-        screen.getByRole('button', {
-          name: 'Finalisée',
-        })
-      );
+      await click(screen.getByRole('button', { name: 'Finalisée' }));
       await screen.findByRole('listbox');
-      await click(
-        screen.getByRole('option', {
-          name: 'Créée',
-        })
-      );
+      await click(screen.getByRole('option', { name: 'Créée' }));
 
       // then
       assert.strictEqual(this.status, 'created');
@@ -235,7 +219,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       this.set('updateSessionResultsSentToPrescriberFilter', (newValue) =>
         this.set('resultsSentToPrescriberAt', newValue)
       );
-      await render(
+      const screen = await render(
         hbs`<Sessions::ListItems
   @resultsSentToPrescriberAt={{this.resultsSentToPrescriberAt}}
   @onChangeSessionResultsSent={{this.updateSessionResultsSentToPrescriberFilter}}
@@ -243,17 +227,9 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       );
 
       // when
-      await click(
-        screen.getByRole('button', {
-          name: 'Résultats diffusés',
-        })
-      );
+      await click(screen.getByRole('button', { name: 'Résultats diffusés' }));
       await screen.findByRole('listbox');
-      await click(
-        screen.getByRole('option', {
-          name: 'Résultats non diffusés',
-        })
-      );
+      await click(screen.getByRole('option', { name: 'Résultats non diffusés' }));
 
       // then
       assert.strictEqual(this.resultsSentToPrescriberAt, 'false');
