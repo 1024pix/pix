@@ -11,11 +11,9 @@ module('Unit | Component | organizations/information-section-edit', function (ho
       const component = createGlimmerComponent('component:organizations/information-section-edit', {
         organization: { id: 1 },
       });
-      const target = { selectedIndex: 0, options: { 0: { value: 'None' } } };
-      const eventOnChange = { target };
 
       // when
-      component.onChangeIdentityProvider(eventOnChange);
+      component.onChangeIdentityProvider('None');
 
       // then
       assert.strictEqual(component.form.identityProviderForCampaigns, null);
