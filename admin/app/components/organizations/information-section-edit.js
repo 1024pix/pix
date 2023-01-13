@@ -152,11 +152,6 @@ export default class OrganizationInformationSectionEditionMode extends Component
     return [this.noIdentityProviderOption, this.garIdentityProviderOption, ...oidcIdentityProvidersOptions];
   }
 
-  get currentIdentityProvider() {
-    const currentIdentityProvider = this.args.organization.identityProviderForCampaigns;
-    return currentIdentityProvider ?? this.noIdentityProviderOption.value;
-  }
-
   @action
   onChangeIdentityProvider(newIdentityProvider) {
     this.form.identityProviderForCampaigns =
@@ -207,5 +202,7 @@ export default class OrganizationInformationSectionEditionMode extends Component
     this.form.isManagingStudents = this.args.organization.isManagingStudents;
     this.form.documentationUrl = this.args.organization.documentationUrl;
     this.form.showSkills = this.args.organization.showSkills;
+    this.form.identityProviderForCampaigns =
+      this.args.organization.identityProviderForCampaigns ?? this.noIdentityProviderOption.value;
   }
 }
