@@ -72,7 +72,7 @@ module('Unit | Component | certification-centers/information-edit', function (ho
   module('#selectCertificationCenterType', function () {
     test('it should update the certification center type', function (assert) {
       // given & when
-      component.selectCertificationCenterType({ target: { value: 'My Super Duper Type' } });
+      component.selectCertificationCenterType('My Super Duper Type');
 
       // then
       assert.strictEqual(component.form.type, 'My Super Duper Type');
