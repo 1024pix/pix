@@ -16,17 +16,17 @@ describe('Test helpers', function () {
       expect(result).to.deepEqualInstance(errorToThrow);
     });
 
-    it('returns a string if no error was thrown', async function () {
+    it('throws a specific error if no error was thrown', async function () {
       // given
       const functionToTest = function () {
         return 'All went well';
       };
 
       // when
-      const result = await catchErr(functionToTest)();
+      const promise = catchErr(functionToTest)();
 
       // then
-      expect(result).to.deepEqualInstance('should have thrown an error');
+      await expect(promise).to.be.rejectedWith('Expected an error, but none was thrown.');
     });
   });
 });
