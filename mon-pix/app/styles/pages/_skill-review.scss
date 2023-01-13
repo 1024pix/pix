@@ -184,6 +184,7 @@
   &__item {
     width: 100%;
     padding: 0;
+    overflow: hidden;
     transition: all 0.2s ease-in-out;
 
     &:hover {

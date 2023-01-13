@@ -27,8 +27,10 @@ module('Integration | Component | Training | Card', function (hooks) {
     assert.strictEqual(find('.training-card__content').href, 'https://training.net/');
     assert.strictEqual(find('.training-card-content__title').textContent.trim(), 'Mon super training');
     assert.dom('.training-card-content__infos').exists();
-    assert.strictEqual(find('.training-card-content-infos-list__type').textContent.trim(), 'Webinaire');
-    assert.strictEqual(find('.training-card-content-infos-list__duration').textContent.trim(), '6h');
+    assert.strictEqual(find('.training-card-content__infos').title, 'Webinaire - 6h');
+    assert.dom('.training-card-content-infos__tag').exists();
+    assert.strictEqual(find('.training-card-content-infos-tag-list__type').textContent.trim(), 'Webinaire');
+    assert.strictEqual(find('.training-card-content-infos-tag-list__duration').textContent.trim(), '6h');
     assert.notOk(find('.training-card-content-illustration__image').alt);
     assert.strictEqual(
       find('.training-card-content-illustration__logo').alt,
