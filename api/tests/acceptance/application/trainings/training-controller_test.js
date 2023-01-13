@@ -78,6 +78,11 @@ describe('Acceptance | Controller | training-controller', function () {
           title: 'new title',
           editorName: 'editor name',
           editorLogoUrl: 'https://images.pix.fr/contenu-formatif/editeur/logo.svg',
+          duration: {
+            days: 2,
+            hours: 2,
+            minutes: 2,
+          },
         };
 
         options = {
@@ -93,6 +98,11 @@ describe('Acceptance | Controller | training-controller', function () {
                 title: updatedTraining.title,
                 editorName: updatedTraining.editorName,
                 editorLogoUrl: updatedTraining.editorLogoUrl,
+                duration: {
+                  days: 2,
+                  hours: 2,
+                  minutes: 2,
+                },
               },
             },
           },
