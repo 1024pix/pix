@@ -57,7 +57,6 @@ module('Acceptance | Session List', function (hooks) {
           const screen = await visit('/sessions/list');
 
           // then
-          assert.dom(screen.getByRole('combobox', { name: "Nombre d'élément à afficher par page" })).hasValue('10');
           const sessionCount = screen.getAllByLabelText('Informations de la session de certification', {
             exact: false,
           }).length;
@@ -73,7 +72,6 @@ module('Acceptance | Session List', function (hooks) {
           await click(screen.getByLabelText('Aller à la page suivante'));
 
           // then
-          assert.dom(screen.getByRole('combobox', { name: "Nombre d'élément à afficher par page" })).hasValue('10');
           const sessionCount = screen.getAllByLabelText('Informations de la session de certification', {
             exact: false,
           }).length;
@@ -86,10 +84,11 @@ module('Acceptance | Session List', function (hooks) {
         test('it should display all the finalized sessions', async function (assert) {
           // when
           const screen = await visit('/sessions/list');
-          await selectByLabelAndOption("Nombre d'élément à afficher par page", '25');
+          await click(screen.getByRole('button', { name: "Nombre d'élément à afficher par page" }));
+          await screen.findByRole('listbox');
+          await click(screen.getByRole('option', { name: '25' }));
 
           // then
-          assert.dom(screen.getByRole('combobox', { name: "Nombre d'élément à afficher par page" })).hasValue('25');
           const sessionCount = screen.getAllByLabelText('Informations de la session de certification', {
             exact: false,
           }).length;
