@@ -123,7 +123,11 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
       // when
       await fillByLabel('Nom du centre', 'nouveau nom');
-      await fillByLabel('Type', 'SUP');
+
+      await click(screen.getByRole('button', { name: 'Type' }));
+      await screen.findByRole('listbox');
+      await click(screen.getByRole('option', { name: 'Établissement supérieur' }));
+
       await fillByLabel('Identifiant externe', 'nouvel identifiant externe');
       await fillByLabel('Prénom du DPO', 'Justin');
       await fillByLabel('Nom du DPO', 'Ptipeu');
