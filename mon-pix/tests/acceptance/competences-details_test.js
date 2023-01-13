@@ -109,7 +109,7 @@ module("Acceptance | Competence details | Afficher la page de détails d'une co
         );
         assert.ok(
           find('.scorecard-details-content-right__level-info').textContent.includes(
-            `${8 - scorecardWithPoints.pixScoreAheadOfNextLevel} pix avant le niveau ${scorecardWithPoints.level + 1}`
+            `${scorecardWithPoints.remainingPixToNextLevel} pix avant le niveau ${scorecardWithPoints.level + 1}`
           )
         );
       });

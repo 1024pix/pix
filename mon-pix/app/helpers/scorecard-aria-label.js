@@ -7,18 +7,18 @@ export default class ScorecardAriaLabel extends Helper {
   compute([scorecard]) {
     const isNotStarted = scorecard.isNotStarted;
     const currentLevel = isNotStarted ? null : scorecard.level;
-    const percentageAheadOfNextLevel = scorecard.percentageAheadOfNextLevel;
+    const capedPercentageAheadOfNextLevel = scorecard.capedPercentageAheadOfNextLevel;
 
     if (isNotStarted) {
       return this.intl.t('pages.profile.competence-card.image-info.no-level');
     } else if (currentLevel == 0) {
       return this.intl.t('pages.profile.competence-card.image-info.first-level', {
-        percentageAheadOfNextLevel,
+        percentageAheadOfNextLevel: capedPercentageAheadOfNextLevel,
       });
     }
     return this.intl.t('pages.profile.competence-card.image-info.level', {
       currentLevel,
-      percentageAheadOfNextLevel,
+      percentageAheadOfNextLevel: capedPercentageAheadOfNextLevel,
     });
   }
 }

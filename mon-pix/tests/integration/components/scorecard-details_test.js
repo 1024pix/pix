@@ -69,7 +69,9 @@ module('Integration | Component | scorecard-details', function (hooks) {
         level: 2,
         earnedPix: 22,
         pixScoreAheadOfNextLevel: 6,
-        status: 'STARTED',
+        remainingPixToNextLevel: 2,
+        isStarted: true,
+        isProgressable: true,
       });
 
       this.set('scorecard', scorecard);
@@ -93,7 +95,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
       const scorecard = store.createRecord('scorecard', {
         level: 0,
         earnedPix: 0,
-        status: 'COMPLETED',
+        isFinished: true,
       });
 
       this.set('scorecard', scorecard);
@@ -115,7 +117,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
         scorecard = store.createRecord('scorecard', {
           pixScoreAheadOfNextLevel: 7,
           level: 3,
-          status: 'COMPLETED',
+          isFinished: true,
           tutorials: [],
         });
       });
@@ -140,6 +142,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
 
       test('should show the improving button if the remaining days before improving are equal to 0', async function (assert) {
         // given
+        scorecard.isImprovable = true;
         scorecard.remainingDaysBeforeImproving = 0;
         scorecard.pixScoreAheadOfNextLevel = 8;
 
@@ -172,7 +175,8 @@ module('Integration | Component | scorecard-details', function (hooks) {
           const scorecard = store.createRecord('scorecard', {
             pixScoreAheadOfNextLevel: 7,
             level: 5,
-            status: 'COMPLETED',
+            isFinished: true,
+            isFinishedWithMaxLevel: true,
             tutorials: [],
           });
 
@@ -205,7 +209,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
         const store = this.owner.lookup('service:store');
         const scorecard = store.createRecord('scorecard', {
           pixScoreAheadOfNextLevel: 7,
-          status: 'NOT_STARTED',
+          isNotStarted: true,
         });
 
         this.set('scorecard', scorecard);
@@ -224,7 +228,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
         const scorecard = store.createRecord('scorecard', {
           name: 'competence1',
           competenceId: 1,
-          status: 'NOT_STARTED',
+          isNotStarted: true,
         });
 
         this.set('scorecard', scorecard);
@@ -251,7 +255,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
         const scorecard = store.createRecord('scorecard', {
           name: 'competence1',
           competenceId: 1,
-          status: 'STARTED',
+          isStarted: true,
         });
 
         this.set('scorecard', scorecard);
@@ -275,7 +279,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
         const store = this.owner.lookup('service:store');
         const scorecard = store.createRecord('scorecard', {
           competenceId: 1,
-          status: 'STARTED',
+          isStarted: true,
         });
 
         this.set('scorecard', scorecard);
@@ -314,7 +318,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
 
           const scorecard = store.createRecord('scorecard', {
             competenceId: 1,
-            status: 'STARTED',
+            isStarted: true,
             tutorials,
           });
 
