@@ -187,10 +187,7 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
       const headers = ['uai', 'name'];
 
       // when
-      const error = await catchErr(checkCsvHeader)({ filePath: withHeaderFilePath, requiredFieldNames: headers });
-
-      // then
-      expect(error).to.be.equal('should have thrown an error');
+      await checkCsvHeader({ filePath: withHeaderFilePath, requiredFieldNames: headers });
     });
 
     it('should not throw if headers empty', async function () {
