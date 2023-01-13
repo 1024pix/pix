@@ -36,9 +36,7 @@ export default class Tube extends Component {
   }
 
   @action
-  setLevelTube(event) {
-    const select = event.currentTarget;
-    const level = select.value;
+  setLevelTube(level) {
     const tubeId = this.args.tube.id;
     this.args.setLevelTube(tubeId, level);
   }

@@ -322,7 +322,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
       });
 
-      test('it should create a badge', async function (assert) {
+      test.only('it should create a badge', async function (assert) {
         // given
         const tubeThematicDeux = server.create('new-tube', {
           id: 'tubeThematicDeuxNiveauQuatre',
@@ -336,7 +336,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         const tubeThematicUn = server.create('new-tube', {
           id: 'tubeThematicUnNiveauDeux',
           name: '@tubeThematicUnNiveauDeux',
-          practicalTitle: 'Mon tube thématiqe 1 de niveau deux',
+          practicalTitle: 'Mon tube thématique 1 de niveau deux',
           mobile: false,
           tablet: false,
           level: 2,
@@ -405,12 +405,20 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         const thematicDeuxButtons = screen.getAllByText('thematicDeux');
         await click(thematicDeuxButtons[1]);
 
-        const selectLevelTubeThematicUnNiveauDeux = screen.getAllByTestId('select-level-tube-tubeThematicUnNiveauDeux');
-        const selectLevelTubeThematicDeuxNiveauQuatre = screen.getAllByTestId(
-          'select-level-tube-tubeThematicDeuxNiveauQuatre'
-        );
-        await fillIn(selectLevelTubeThematicUnNiveauDeux[0], 2);
-        await fillIn(selectLevelTubeThematicDeuxNiveauQuatre[1], 3);
+        const selectLevelTubeThematicUnNiveauDeux = screen.getAllByRole('button', {
+          name: 'Sélection du niveau du sujet suivant : Mon tube thématique 1 de niveau deux',
+        });
+        await click(selectLevelTubeThematicUnNiveauDeux[0]);
+        await screen.findByRole('listbox');
+        await click(screen.getByRole('option', { name: 2 }));
+
+        const selectLevelTubeThematicDeuxNiveauQuatre = screen.getAllByRole('button', {
+          name: 'Sélection du niveau du sujet suivant : Mon tube thématique 2 de niveau quatre',
+        });
+        await click(selectLevelTubeThematicDeuxNiveauQuatre[1]);
+        await screen.findByRole('listbox');
+        // fail ici, il ne trouve pas cette option alors qu'on clique sur le bon élément
+        await click(screen.getByRole('option', { name: 3 }));
 
         await clickByName('Enregistrer le RT');
         await clickByName('Détails du badge Mon nouveau RT');
