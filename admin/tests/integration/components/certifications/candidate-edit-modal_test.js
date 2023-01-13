@@ -6,6 +6,7 @@ import sinon from 'sinon';
 import EmberObject from '@ember/object';
 import { run } from '@ember/runloop';
 import { setFlatpickrDate } from 'ember-flatpickr/test-support/helpers';
+import { click } from '@ember/test-helpers';
 
 module('Integration | Component | certifications/candidate-edit-modal', function (hooks) {
   setupRenderingTest(hooks);
@@ -149,7 +150,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         // then
         assert.dom(screen.queryByRole('textbox', { name: 'Code Insee de naissance' })).doesNotExist();
         assert.dom(screen.queryByRole('textbox', { name: 'Code postal de naissance' })).doesNotExist();
-        assert.dom(screen.getByRole('combobox', { name: 'Pays de naissance' })).containsText('DANEMARK');
+        assert.dom(screen.getByRole('button', { name: 'Pays de naissance' })).containsText('DANEMARK');
         assert.dom(screen.getByRole('textbox', { name: 'Commune de naissance' })).hasValue('Copenhague');
       });
     });
@@ -183,7 +184,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         assert.dom(screen.getByRole('textbox', { name: 'Code postal de naissance' })).hasValue('66440');
         assert.dom(screen.queryByRole('textbox', { name: 'Code Insee de naissance' })).doesNotExist();
         assert.dom(screen.getByRole('textbox', { name: 'Commune de naissance' })).hasValue('Torreilles');
-        assert.dom(screen.getByRole('combobox', { name: 'Pays de naissance' })).containsText('FRANCE');
+        assert.dom(screen.getByRole('button', { name: 'Pays de naissance' })).containsText('FRANCE');
       });
     });
 
@@ -216,7 +217,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         assert.dom(screen.queryByRole('textbox', { name: 'Code postal de naissance' })).doesNotExist();
         assert.dom(screen.getByRole('textbox', { name: 'Code Insee de naissance' })).hasValue('66212');
         assert.dom(screen.queryByRole('textbox', { name: 'Commune de naissance' })).doesNotExist();
-        assert.dom(screen.getByRole('combobox', { name: 'Pays de naissance' })).containsText('FRANCE');
+        assert.dom(screen.getByRole('button', { name: 'Pays de naissance' })).containsText('FRANCE');
       });
     });
   });
@@ -253,7 +254,11 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       await fillByLabel('Prénom', 'Gideona');
       setFlatpickrDate('#birthdate', new Date('1861-03-17'));
       await clickByName('Femme');
-      await fillByLabel('Pays de naissance', '99100');
+
+      await click(screen.getByRole('button', { name: 'Pays de naissance' }));
+      await screen.findByRole('listbox');
+      await click(screen.getByRole('option', { name: 'FRANCE' }));
+
       await clickByName('Code postal');
       await fillByLabel('Code postal de naissance', '75001');
       await fillByLabel('Commune de naissance', 'PARIS 01');
@@ -269,7 +274,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       assert.dom(screen.queryByRole('textbox', { name: 'Code Insee de naissance' })).doesNotExist();
       assert.dom(screen.queryByRole('textbox', { name: 'Code postal de naissance' })).doesNotExist();
       assert.dom(screen.getByRole('textbox', { name: 'Commune de naissance' })).hasValue('Copenhague');
-      assert.dom(screen.getByRole('combobox', { name: 'Pays de naissance' })).containsText('DANEMARK');
+      assert.dom(screen.getByRole('button', { name: 'Pays de naissance' })).containsText('DANEMARK');
     });
 
     test('it should not alter candidate information', async function (assert) {
@@ -291,7 +296,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         run(() => store.createRecord('country', { code: '99100', name: 'FRANCE' })),
       ];
       this.onCancelButtonsClickedStub = sinon.stub();
-      await render(
+      const screen = await render(
         hbs`<Certifications::CandidateEditModal
   @isDisplayed={{true}}
   @candidate={{this.candidate}}
@@ -303,7 +308,11 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       await fillByLabel('Prénom', 'Gideona');
       setFlatpickrDate('#birthdate', new Date('1861-03-17'));
       await clickByName('Femme');
-      await fillByLabel('Pays de naissance', '99100');
+
+      await click(screen.getByRole('button', { name: 'Pays de naissance' }));
+      await screen.findByRole('listbox');
+      await click(screen.getByRole('option', { name: 'FRANCE' }));
+
       await clickByName('Code postal');
       await fillByLabel('Code postal de naissance', '75001');
       await fillByLabel('Commune de naissance', 'PARIS 01');
@@ -378,7 +387,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         EmberObject.create({ code: '99100', name: 'FRANCE' }),
       ];
       this.onFormSubmitStub = sinon.stub();
-      await render(
+      const screen = await render(
         hbs`<Certifications::CandidateEditModal
   @isDisplayed={{true}}
   @candidate={{this.candidate}}
@@ -390,7 +399,11 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       await fillByLabel('Prénom', 'Gideon');
       setFlatpickrDate('#birthdate', new Date('1861-03-17'));
       await clickByName('Homme');
-      await fillByLabel('Pays de naissance', '99100');
+
+      await click(screen.getByRole('button', { name: 'Pays de naissance' }));
+      await screen.findByRole('listbox');
+      await click(screen.getByRole('option', { name: 'FRANCE' }));
+
       await clickByName('Code postal');
       await fillByLabel('Code postal de naissance', '75001');
       await fillByLabel('Commune de naissance', 'PARIS 01');
@@ -423,7 +436,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         ];
         this.onFormSubmitStub = sinon.stub();
         this.onFormSubmitStub.resolves();
-        await render(
+        const screen = await render(
           hbs`<Certifications::CandidateEditModal
   @isDisplayed={{true}}
   @candidate={{this.candidate}}
@@ -433,7 +446,10 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         );
 
         // when
-        await fillByLabel('Pays de naissance', '99101');
+        await click(screen.getByRole('button', { name: 'Pays de naissance' }));
+        await screen.findByRole('listbox');
+        await click(screen.getByRole('option', { name: 'DANEMARK' }));
+
         await fillByLabel('Commune de naissance', 'Copenhague');
         await clickByName('Enregistrer');
 
@@ -472,7 +488,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         ];
         this.onFormSubmitStub = sinon.stub();
         this.onFormSubmitStub.resolves();
-        await render(
+        const screen = await render(
           hbs`<Certifications::CandidateEditModal
   @isDisplayed={{true}}
   @candidate={{this.candidate}}
@@ -482,7 +498,10 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         );
 
         // when
-        await fillByLabel('Pays de naissance', '99100');
+        await click(screen.getByRole('button', { name: 'Pays de naissance' }));
+        await screen.findByRole('listbox');
+        await click(screen.getByRole('option', { name: 'FRANCE' }));
+
         await clickByName('Code INSEE');
         await fillByLabel('Code Insee de naissance', '66212');
         await clickByName('Enregistrer');
@@ -522,7 +541,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         ];
         this.onFormSubmitStub = sinon.stub();
         this.onFormSubmitStub.resolves();
-        await render(
+        const screen = await render(
           hbs`<Certifications::CandidateEditModal
   @isDisplayed={{true}}
   @candidate={{this.candidate}}
@@ -532,7 +551,10 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         );
 
         // when
-        await fillByLabel('Pays de naissance', '99100');
+        await click(screen.getByRole('button', { name: 'Pays de naissance' }));
+        await screen.findByRole('listbox');
+        await click(screen.getByRole('option', { name: 'FRANCE' }));
+
         await clickByName('Code postal');
         await fillByLabel('Code postal de naissance', '66440');
         await fillByLabel('Commune de naissance', 'Torreilles');
@@ -577,7 +599,9 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         );
 
         // when
-        await fillByLabel('Pays de naissance', '99101');
+        await click(screen.getByRole('button', { name: 'Pays de naissance' }));
+        await screen.findByRole('listbox');
+        await click(screen.getByRole('option', { name: 'DANEMARK' }));
 
         // then
         assert.dom(screen.queryByText('Code Insee de naissance')).doesNotExist();
