@@ -27,8 +27,8 @@ export default class List extends Component {
   }
 
   @action
-  setAdminRoleSelection(event) {
-    this.newRole = event.target.value;
+  setAdminRoleSelection(value) {
+    this.newRole = value;
   }
 
   @action
