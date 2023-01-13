@@ -180,15 +180,11 @@ module('Unit | Controller | authenticated/team', function (hooks) {
   module('#onSelectReferer', function () {
     test('should select the id of a selected member', function (assert) {
       // given
-      const event = {
-        target: {
-          value: 102,
-        },
-      };
+      const optionSelected = 102;
       const controller = this.owner.lookup('controller:authenticated/team');
 
       // when
-      controller.onSelectReferer(event);
+      controller.onSelectReferer(optionSelected);
 
       // then
       assert.strictEqual(controller.selectedReferer, 102);
