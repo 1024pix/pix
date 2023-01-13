@@ -106,7 +106,7 @@ module('Unit | Component | toggable-login-form', (hooks) => {
             await component.authenticate(eventStub);
 
             // then
-            assert.strictEqual(component.errorMessage, this.intl.t('common.api-errors-messages.bad-request'));
+            assert.strictEqual(component.errorMessage, this.intl.t('common.api-error-messages.bad-request-error'));
             assert.false(component.isLoading);
             assert.true(component.isErrorMessagePresent);
           });
@@ -144,7 +144,10 @@ module('Unit | Component | toggable-login-form', (hooks) => {
                 await component.authenticate(eventStub);
 
                 // then
-                assert.strictEqual(component.errorMessage, this.intl.t('common.api-errors-messages.default'));
+                assert.strictEqual(
+                  component.errorMessage,
+                  this.intl.t('common.api-error-messages.internal-server-error')
+                );
                 assert.false(component.isLoading);
                 assert.true(component.isErrorMessagePresent);
               });

@@ -1,7 +1,6 @@
 {
   "current-lang": "en",
-  "api-errors-messages": {
-    "bad-request": "The data entered was not in the correct format.",
+  "api-error-messages": {
     "campaign-creation": {
       "external-user-id-required": "Please specify the type of external user ID which the participants will be required to fill when starting the customised test.",
       "name-required": "Please name your campaign.",
@@ -144,6 +143,14 @@
       "cancel": "Cancel",
       "close": "Close",
       "global": "Actions"
+    },
+    "api-error-messages": {
+      "bad-request-error": "The data entered was not in the correct format.",
+      "internal-server-error": "An error occurred, our teams are working on finding a solution. Please try again later.",
+      "login-unauthorized-error": "There was an error in the email address or username/password entered.",
+      "login-user-temporary-blocked-error": "You have reached too many failed login attempts. Please try again later or <a href=\"{url}\">reset your password here</a>.",
+      "login-user-blocked-error": "Your account has reached the maximum number of failed login attempts and has been temporarily blocked. Please <a href=\"{url}\">contact us</a> to unblock it.",
+      "gateway-timeout-error": "The service is being slow. Please try again later."
     },
     "filters": {
       "loading": "Loading...",
@@ -585,10 +592,9 @@
       "errors": {
         "invalid-email": "Your email address is invalid.",
         "empty-password": "Your password can't be empty.",
+        "should-change-password": "You currently have a temporary password. <a href=\"{url}\">Reset your password here</a>.",
         "status": {
-          "401": "Missing or invalid credentials",
-          "403": "Access to this Pix Orga space is limited to invited members. Each Pix Orga space is managed by an administrator specific to the organisation using it. Please contact your administrator to get invited.",
-          "401-should-change-password": "An error occurred. Please change your password."
+          "403": "Access to this Pix Orga space is limited to invited members. Each Pix Orga space is managed by an administrator specific to the organisation using it. Please contact your administrator to get invited."
         }
       },
       "forgot-password": "Forgot your password?",

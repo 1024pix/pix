@@ -14,12 +14,12 @@ import hbs from 'htmlbars-inline-precompile';
 import ENV from '../../../config/environment';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
+const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
+
 const FORM_TITLE = '.sign-form-title';
 const INPUT_TEXT_FIELD_CLASS_DEFAULT = 'form-textfield__input-container--default';
 
 const userEmpty = EmberObject.create({});
-
-const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
 
 module('Integration | Component | SignupForm', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -44,9 +44,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         await render(hbs`<SignupForm @user={{this.user}} />`);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(find(FORM_TITLE).textContent, expectedTitle);
+        assert.strictEqual(find(FORM_TITLE).textContent, expectedTitle);
       });
     });
   });
@@ -64,9 +62,7 @@ module('Integration | Component | SignupForm', function (hooks) {
 
     test('should return correct form title', function (assert) {
       const formTitle = this.intl.t('pages.sign-up.first-title');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find(FORM_TITLE).textContent, formTitle);
+      assert.strictEqual(find(FORM_TITLE).textContent, formTitle);
     });
 
     test('should display form elements', async function (assert) {
@@ -117,7 +113,6 @@ module('Integration | Component | SignupForm', function (hooks) {
 
     test('should display an error if api cannot be reached', async function (assert) {
       // given
-      const expectedErrorMessage = ApiErrorMessages.INTERNAL_SERVER_ERROR.MESSAGE;
       const stubCatchedApiErrorInternetDisconnected = undefined;
 
       const user = EmberObject.create({
@@ -135,19 +130,16 @@ module('Integration | Component | SignupForm', function (hooks) {
 
       // then
       assert.dom('div[id="sign-up-error-message"]').exists();
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find('div[id="sign-up-error-message"]').textContent.trim(), this.intl.t(expectedErrorMessage));
+      const expectedErrorMessage = this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY);
+      assert.strictEqual(find('div[id="sign-up-error-message"]').textContent.trim(), expectedErrorMessage);
     });
 
     test('should display related error message if internal server error', async function (assert) {
       // given
-      const expectedErrorMessage = ApiErrorMessages.INTERNAL_SERVER_ERROR.MESSAGE;
       const apiReturn = {
         errors: [
           {
             status: 500,
-            detail: expectedErrorMessage,
             title: 'Internal server error',
           },
         ],
@@ -168,19 +160,16 @@ module('Integration | Component | SignupForm', function (hooks) {
 
       // then
       assert.dom('div[id="sign-up-error-message"]').exists();
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find('div[id="sign-up-error-message"]').textContent.trim(), this.intl.t(expectedErrorMessage));
+      const expectedErrorMessage = this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY);
+      assert.strictEqual(find('div[id="sign-up-error-message"]').textContent.trim(), expectedErrorMessage);
     });
 
     test('should display related error message if bad gateway error', async function (assert) {
       // given
-      const expectedErrorMessage = ApiErrorMessages.BAD_GATEWAY.MESSAGE;
       const apiReturn = {
         errors: [
           {
             status: 502,
-            detail: expectedErrorMessage,
             title: 'Bad gateway error',
           },
         ],
@@ -200,19 +189,16 @@ module('Integration | Component | SignupForm', function (hooks) {
 
       // then
       assert.dom('div[id="sign-up-error-message"]').exists();
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find('div[id="sign-up-error-message"]').textContent.trim(), this.intl.t(expectedErrorMessage));
+      const expectedErrorMessage = this.intl.t(ApiErrorMessages.BAD_GATEWAY.I18N_KEY);
+      assert.strictEqual(find('div[id="sign-up-error-message"]').textContent.trim(), expectedErrorMessage);
     });
 
     test('should display related error message if gateway timeout error', async function (assert) {
       // given
-      const expectedErrorMessage = ApiErrorMessages.GATEWAY_TIMEOUT.MESSAGE;
       const apiReturn = {
         errors: [
           {
             status: 504,
-            detail: expectedErrorMessage,
             title: 'Gateway timeout error',
           },
         ],
@@ -232,14 +218,12 @@ module('Integration | Component | SignupForm', function (hooks) {
 
       // then
       assert.dom('div[id="sign-up-error-message"]').exists();
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find('div[id="sign-up-error-message"]').textContent.trim(), this.intl.t(expectedErrorMessage));
+      const expectedErrorMessage = this.intl.t(ApiErrorMessages.GATEWAY_TIMEOUT.I18N_KEY);
+      assert.strictEqual(find('div[id="sign-up-error-message"]').textContent.trim(), expectedErrorMessage);
     });
 
     test('should display related error message if not implemented error', async function (assert) {
       // given
-      const expectedErrorMessage = ApiErrorMessages.INTERNAL_SERVER_ERROR.MESSAGE;
       const apiReturn = {
         errors: [
           {
@@ -264,9 +248,8 @@ module('Integration | Component | SignupForm', function (hooks) {
 
       // then
       assert.dom('div[id="sign-up-error-message"]').exists();
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find('div[id="sign-up-error-message"]').textContent.trim(), this.intl.t(expectedErrorMessage));
+      const expectedErrorMessage = this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY);
+      assert.strictEqual(find('div[id="sign-up-error-message"]').textContent.trim(), expectedErrorMessage);
     });
   });
 
@@ -364,9 +347,7 @@ module('Integration | Component | SignupForm', function (hooks) {
           assert.ok(
             find('#validationMessage-firstName').getAttribute('class').includes('form-textfield__message--error')
           );
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(find('.form-textfield__message--error').textContent.trim(), emptyFirstnameErrorMessage);
+          assert.strictEqual(find('.form-textfield__message--error').textContent.trim(), emptyFirstnameErrorMessage);
           assert.ok(find('#firstName').getAttribute('class').includes('form-textfield__input--error'));
           assert.dom('.form-textfield-icon__state--error').exists();
         });
@@ -389,9 +370,7 @@ module('Integration | Component | SignupForm', function (hooks) {
           assert.ok(
             find('#validationMessage-lastName').getAttribute('class').includes('form-textfield__message--error')
           );
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(find('.form-textfield__message--error').textContent.trim(), emptyLastnameErrorMessage);
+          assert.strictEqual(find('.form-textfield__message--error').textContent.trim(), emptyLastnameErrorMessage);
           assert.ok(find('#lastName').getAttribute('class').includes('form-textfield__input--error'));
           assert.dom('.form-textfield-icon__state--error').exists();
         });
@@ -414,9 +393,7 @@ module('Integration | Component | SignupForm', function (hooks) {
           assert.ok(
             find('.form-textfield__message-email').getAttribute('class').includes('form-textfield__message--error')
           );
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(find('.form-textfield__message--error').textContent.trim(), emptyEmailErrorMessage);
+          assert.strictEqual(find('.form-textfield__message--error').textContent.trim(), emptyEmailErrorMessage);
           assert.ok(find('#email').getAttribute('class').includes('form-textfield__input--error'));
           assert.dom('.form-textfield-icon__state--error').exists();
         });
@@ -439,9 +416,7 @@ module('Integration | Component | SignupForm', function (hooks) {
           assert.ok(
             find('.form-textfield__message-password').getAttribute('class').includes('form-textfield__message--error')
           );
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(find('.form-textfield__message--error').textContent.trim(), incorrectPasswordErrorMessage);
+          assert.strictEqual(find('.form-textfield__message--error').textContent.trim(), incorrectPasswordErrorMessage);
           assert.ok(find('#password').getAttribute('class').includes('form-textfield__input--error'));
           assert.dom('.form-textfield-icon__state--error').exists();
         });
@@ -482,9 +457,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         // then
         return settled().then(() => {
           assert.dom('.sign-form__validation-error').exists();
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(find('.sign-form__validation-error').textContent.trim(), uncheckedCheckboxCguErrorMessage);
+          assert.strictEqual(find('.sign-form__validation-error').textContent.trim(), uncheckedCheckboxCguErrorMessage);
         });
       });
 
@@ -518,9 +491,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(find('#validationMessage-email').textContent, expectedMaxLengthEmailError);
+        assert.strictEqual(find('#validationMessage-email').textContent, expectedMaxLengthEmailError);
       });
 
       test('should not display success notification message when an error occurred during the form submission', async function (assert) {

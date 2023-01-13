@@ -21,9 +21,9 @@ export default class ToggableLoginForm extends Component {
   @tracked emailValidationMessage = null;
 
   ERROR_MESSAGES = {
-    DEFAULT: this.intl.t('common.api-errors-messages.default'),
-    STATUS_400: this.intl.t('common.api-errors-messages.bad-request'),
-    STATUS_401: this.intl.t('pages.login-or-register.login-form.errors.status.401'),
+    DEFAULT: this.intl.t('common.api-error-messages.internal-server-error'),
+    STATUS_400: this.intl.t('common.api-error-messages.bad-request-error'),
+    STATUS_401: this.intl.t('common.api-error-messages.login-unauthorized-error'),
     STATUS_403: this.intl.t('pages.login-or-register.login-form.errors.status.403'),
     STATUS_404: this.intl.t('pages.login-or-register.login-form.errors.status.404'),
     STATUS_409: this.intl.t('pages.login-or-register.login-form.errors.status.409'),

@@ -20,7 +20,7 @@ export default class TeamInvitationsListComponent extends Component {
 
       this.notifications.success(this.intl.t('pages.team-invitations.invitation-cancelled-succeed-message'));
     } catch (e) {
-      this.notifications.error(this.intl.t('api-errors-messages.global'));
+      this.notifications.error(this.intl.t('api-error-messages.global'));
     }
   }
 }

@@ -42,19 +42,42 @@ module.exports = function (environment) {
         CONTENT: process.env.BANNER_CONTENT || '',
         TYPE: process.env.BANNER_TYPE || '',
       },
+      PIX_APP_URL_WITHOUT_EXTENSION: process.env.PIX_APP_URL_WITHOUT_EXTENSION || 'https://app.pix.',
       API_ERROR_MESSAGES: {
-        BAD_REQUEST: { CODE: '400', MESSAGE: 'Les données envoyées ne sont pas au bon format.' },
+        BAD_REQUEST: {
+          CODE: '400',
+          I18N_KEY: 'common.api-error-messages.bad-request-error',
+        },
+        LOGIN_UNAUTHORIZED: {
+          CODE: '401',
+          I18N_KEY: 'common.api-error-messages.login-unauthorized-error',
+        },
+        SHOULD_CHANGE_PASSWORD: {
+          CODE: '401',
+          I18N_KEY: 'pages.login-form.errors.should-change-password',
+        },
+        USER_IS_TEMPORARY_BLOCKED: {
+          CODE: '403',
+          I18N_KEY: 'common.api-error-messages.login-user-temporary-blocked-error',
+        },
+        USER_IS_BLOCKED: {
+          CODE: '403',
+          I18N_KEY: 'common.api-error-messages.login-user-blocked-error',
+        },
+        NOT_LINKED_CERTIFICATION: {
+          CODE: '403',
+          I18N_KEY: 'pages.login-or-register.login-form.errors.status.403',
+        },
+        FORBIDDEN: '403',
+        NOT_FOUND: '404',
         INTERNAL_SERVER_ERROR: {
           CODE: '500',
-          MESSAGE: 'Le service est momentanément indisponible. Veuillez réessayer ultérieurement.',
+          I18N_KEY: 'common.api-error-messages.internal-server-error',
         },
         GATEWAY_TIMEOUT: {
           CODE: '504',
-          MESSAGE: 'Le service subit des ralentissements. Veuillez réessayer ultérieurement.',
+          I18N_KEY: 'common.api-error-messages.gateway-timeout-error',
         },
-        UNAUTHORIZED: { CODE: '401', MESSAGE: "L'adresse e-mail et/ou le mot de passe saisis sont incorrects." },
-        FORBIDDEN: '403',
-        NOT_FOUND: '404',
       },
       MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({
         environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS',

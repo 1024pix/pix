@@ -4,13 +4,14 @@ import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
+import ENV from 'pix-orga/config/environment';
 import isEmailValid from '../../utils/email-validator';
 
 export default class LoginForm extends Component {
+  @service url;
   @service intl;
   @service session;
   @service store;
-  @service url;
 
   @tracked errorMessage = null;
   @tracked isErrorMessagePresent = false;
@@ -19,8 +20,6 @@ export default class LoginForm extends Component {
   @tracked email = null;
   @tracked passwordValidationMessage = null;
   @tracked emailValidationMessage = null;
-
-  ERROR_MESSAGES;
 
   get displayRecoveryLink() {
     if (this.intl.t('current-lang') === 'en' || !this.url.isFrenchDomainExtension) {
@@ -49,8 +48,8 @@ export default class LoginForm extends Component {
           this.args.organizationInvitationCode,
           email
         );
-      } catch (errorResponse) {
-        errorResponse.errors.forEach((error) => {
+      } catch (responseError) {
+        responseError.errors.forEach((error) => {
           if (error.status === '412') {
             return this._authenticate(password, email);
           }
@@ -99,12 +98,11 @@ export default class LoginForm extends Component {
     this.isErrorMessagePresent = false;
     this.errorMessage = '';
 
-    this._initErrorMessages();
     try {
       await this.session.authenticate('authenticator:oauth2', email, password, scope);
-    } catch (errorResponse) {
-      this.errorMessage = this._handleResponseError(errorResponse);
+    } catch (responseError) {
       this.isErrorMessagePresent = true;
+      this._handleApiError(responseError);
     } finally {
       this.isLoading = false;
     }
@@ -120,35 +118,48 @@ export default class LoginForm extends Component {
       .save({ adapterOptions: { organizationInvitationId } });
   }
 
-  _handleResponseError(errorResponse) {
-    const errors = get(errorResponse, 'responseJSON.errors');
-
-    if (Array.isArray(errors)) {
-      const error = errors[0];
-      switch (error.status) {
-        case '400':
-          return this.ERROR_MESSAGES.STATUS_400;
-        case '401':
-          return error.code === 'SHOULD_CHANGE_PASSWORD'
-            ? this.ERROR_MESSAGES.STATUS_401_SHOULD_CHANGE_PASSWORD
-            : this.ERROR_MESSAGES.STATUS_401;
-        case '403':
-          return this.ERROR_MESSAGES.STATUS_403;
-        default:
-          return this.ERROR_MESSAGES.DEFAULT;
-      }
-    } else {
-      return this.ERROR_MESSAGES.DEFAULT;
+  _handleApiError(responseError) {
+    const errors = get(responseError, 'responseJSON.errors');
+    const error = Array.isArray(errors) && errors.length > 0 && errors[0];
+    switch (error?.code) {
+      case 'SHOULD_CHANGE_PASSWORD':
+        this.errorMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.SHOULD_CHANGE_PASSWORD.I18N_KEY, {
+          url: this.url.forgottenPasswordUrl,
+          htmlSafe: true,
+        });
+        break;
+      case 'USER_IS_TEMPORARY_BLOCKED':
+        this.errorMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.USER_IS_TEMPORARY_BLOCKED.I18N_KEY, {
+          url: this.url.forgottenPasswordUrl,
+          htmlSafe: true,
+        });
+        break;
+      case 'USER_IS_BLOCKED':
+        this.errorMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.USER_IS_BLOCKED.I18N_KEY, {
+          url: 'https://support.pix.org/support/tickets/new',
+          htmlSafe: true,
+        });
+        break;
+      default:
+        this.errorMessage = this.intl.t(this._getI18nKeyByStatus(responseError.status));
     }
   }
 
-  _initErrorMessages() {
-    this.ERROR_MESSAGES = {
-      DEFAULT: this.intl.t('api-errors-messages.default'),
-      STATUS_400: this.intl.t('api-errors-messages.bad-request'),
-      STATUS_401: this.intl.t('pages.login-form.errors.status.401'),
-      STATUS_401_SHOULD_CHANGE_PASSWORD: this.intl.t('pages.login-form.errors.status.401-should-change-password'),
-      STATUS_403: this.intl.t('pages.login-form.errors.status.403'),
-    };
+  _getI18nKeyByStatus(status) {
+    switch (status) {
+      case 400:
+        return ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.I18N_KEY;
+      case 401:
+        return ENV.APP.API_ERROR_MESSAGES.LOGIN_UNAUTHORIZED.I18N_KEY;
+      // TODO: This case should be handled with a specific error code like USER_IS_TEMPORARY_BLOCKED or USER_IS_BLOCKED
+      case 403:
+        return ENV.APP.API_ERROR_MESSAGES.NOT_LINKED_ORGANIZATION.I18N_KEY;
+      case 422:
+        return ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.I18N_KEY;
+      case 504:
+        return ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.I18N_KEY;
+      default:
+        return ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY;
+    }
   }
 }
