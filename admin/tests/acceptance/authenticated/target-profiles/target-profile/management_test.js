@@ -1,9 +1,9 @@
-import { clickByName, visit, fillByLabel, selectByLabelAndOption } from '@1024pix/ember-testing-library';
+import { clickByName, visit, fillByLabel } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { module, test } from 'qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
-import { currentURL } from '@ember/test-helpers';
+import { click, currentURL } from '@ember/test-helpers';
 
 module('Acceptance | Target Profile Management', function (hooks) {
   setupApplicationTest(hooks);
@@ -101,7 +101,9 @@ module('Acceptance | Target Profile Management', function (hooks) {
       const screen = await visit('/target-profiles/1');
       await clickByName('Éditer');
       await fillByLabel('* Nom', 'nom modifié');
-      await selectByLabelAndOption('Catégorie :', 'SUBJECT');
+      await click(screen.getByRole('button', { name: 'Catégorie :' }));
+      await screen.findByRole('listbox');
+      await click(screen.getByRole('option', { name: 'Thématiques' }));
       await fillByLabel('Description', 'description modifiée');
       await fillByLabel('Commentaire (usage interne)', 'commentaire modifié');
       await clickByName('Enregistrer');
@@ -113,7 +115,7 @@ module('Acceptance | Target Profile Management', function (hooks) {
       await clickByName('Éditer');
       assert.dom(screen.getByDisplayValue('description modifiée')).exists();
       assert.dom(screen.getByDisplayValue('commentaire modifié')).exists();
-      assert.dom(screen.getByDisplayValue('Thématiques')).exists();
+      assert.dom(screen.getByRole('button', { name: 'Catégorie :' })).containsText('Thématiques');
     });
 
     test('it should cancel target profile information edition', async function (assert) {
