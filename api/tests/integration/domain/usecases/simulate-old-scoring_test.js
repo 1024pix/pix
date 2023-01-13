@@ -98,7 +98,7 @@ describe('Integration | UseCases | simulateOldScoring', function () {
         }),
       ];
 
-      const simulation = new OldScoringSimulation({ answers });
+      const simulation = new OldScoringSimulation({ id: 'simulation1', answers });
 
       // when
       const simulationResults = await usecases.simulateOldScoring({ simulations: [simulation] });
@@ -106,6 +106,7 @@ describe('Integration | UseCases | simulateOldScoring', function () {
       // then
       expect(simulationResults).to.have.lengthOf(1);
       expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
+      expect(simulationResults[0]).to.have.property('id', 'simulation1');
       expect(simulationResults[0]).to.have.property('pixScore', 11111);
     });
   });
@@ -122,7 +123,7 @@ describe('Integration | UseCases | simulateOldScoring', function () {
         }),
       ];
 
-      const simulation = new OldScoringSimulation({ answers });
+      const simulation = new OldScoringSimulation({ id: 'simulation1', answers });
 
       // when
       const simulationResults = await usecases.simulateOldScoring({ simulations: [simulation] });
@@ -130,6 +131,7 @@ describe('Integration | UseCases | simulateOldScoring', function () {
       // then
       expect(simulationResults).to.have.lengthOf(1);
       expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
+      expect(simulationResults[0]).to.have.property('id', 'simulation1');
       expect(simulationResults[0]).to.have.property('error', 'Answer for skill skill5 was already given or inferred');
     });
   });

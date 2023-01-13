@@ -7,6 +7,7 @@ module.exports = {
     const simulations = request.payload.simulations.map(
       (simulation) =>
         new OldScoringSimulation({
+          id: simulation.id,
           answers: simulation.answers.map((answer) => new Answer(answer)),
         })
     );
