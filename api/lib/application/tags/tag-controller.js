@@ -12,4 +12,10 @@ module.exports = {
     const organizationsTags = await usecases.findAllTags();
     return tagSerializer.serialize(organizationsTags);
   },
+
+  async getRecentlyUsedTags(request) {
+    const tagId = request.params.id;
+    const recentlyUsedTags = await usecases.getRecentlyUsedTags({ tagId });
+    return tagSerializer.serialize(recentlyUsedTags);
+  },
 };

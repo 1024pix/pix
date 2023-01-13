@@ -1,6 +1,7 @@
 const securityPreHandlers = require('../security-pre-handlers');
 const tagController = require('./tag-controller');
 const Joi = require('joi');
+const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async (server) => {
   server.route([
@@ -55,6 +56,34 @@ exports.register = async (server) => {
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             '- Renvoie tous les tags.',
+        ],
+        tags: ['api', 'tags'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/admin/tags/{id}/recently-used',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        handler: tagController.getRecentlyUsedTags,
+        validate: {
+          params: Joi.object({
+            id: identifiersType.tagId,
+          }),
+        },
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            '- Renvoie les 10 tags les plus utilisés par rapport au tag sélectionné',
         ],
         tags: ['api', 'tags'],
       },
