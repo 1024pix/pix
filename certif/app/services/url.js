@@ -1,12 +1,13 @@
 import Service, { inject as service } from '@ember/service';
 
-import config from 'pix-certif/config/environment';
+import ENV from 'pix-certif/config/environment';
 
 export default class Url extends Service {
-  definedHomeUrl = config.rootURL;
-
   @service currentDomain;
   @service intl;
+
+  definedHomeUrl = ENV.rootURL;
+  pixAppUrlWithoutExtension = ENV.APP.PIX_APP_URL_WITHOUT_EXTENSION;
 
   get homeUrl() {
     return this.definedHomeUrl;
@@ -26,7 +27,10 @@ export default class Url extends Service {
 
   get forgottenPasswordUrl() {
     const currentLanguage = this.intl.t('current-lang');
-    if (currentLanguage === 'en') return 'https://app.pix.org/mot-de-passe-oublie?lang=en';
-    return `https://app.pix.${this.currentDomain.getExtension()}/mot-de-passe-oublie`;
+    let url = `${this.pixAppUrlWithoutExtension}${this.currentDomain.getExtension()}/mot-de-passe-oublie`;
+    if (currentLanguage === 'en') {
+      url += '?lang=en';
+    }
+    return url;
   }
 }

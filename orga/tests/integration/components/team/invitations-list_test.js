@@ -103,7 +103,7 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
     await clickByName(this.intl.t('pages.team-invitations.cancel-invitation'));
 
     // then
-    sinon.assert.calledWith(notifications.error, this.intl.t('api-errors-messages.global'));
+    sinon.assert.calledWith(notifications.error, this.intl.t('api-error-messages.global'));
     assert.ok(true);
   });
 });

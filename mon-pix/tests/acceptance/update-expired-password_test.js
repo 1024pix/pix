@@ -10,6 +10,9 @@ import setupIntl from '../helpers/setup-intl';
 import { clickByLabel } from '../helpers/click-by-label';
 import { visit } from '@1024pix/ember-testing-library';
 
+import ENV from '../../config/environment';
+const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
+
 module('Acceptance | Update Expired Password', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -85,11 +88,8 @@ module('Acceptance | Update Expired Password', function (hooks) {
     await clickByLabel(this.intl.t('pages.update-expired-password.button'));
     // then
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(currentURL(), '/mise-a-jour-mot-de-passe-expire');
-    const expectedErrorMessage = this.intl.t('api-error-messages.login-unauthorized-error');
-    assert.ok(screen.getByText(expectedErrorMessage));
+    assert.strictEqual(currentURL(), '/mise-a-jour-mot-de-passe-expire');
+    assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.LOGIN_UNAUTHORIZED.I18N_KEY))).exists();
   });
 
   test('should display error message when update password fails with http 404 error', async function (assert) {
@@ -130,10 +130,7 @@ module('Acceptance | Update Expired Password', function (hooks) {
     await clickByLabel(this.intl.t('pages.update-expired-password.button'));
 
     // then
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(currentURL(), '/mise-a-jour-mot-de-passe-expire');
-    const expectedErrorMessage = this.intl.t('api-error-messages.internal-server-error');
-    assert.ok(screen.getByText(expectedErrorMessage));
+    assert.strictEqual(currentURL(), '/mise-a-jour-mot-de-passe-expire');
+    assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY))).exists();
   });
 });

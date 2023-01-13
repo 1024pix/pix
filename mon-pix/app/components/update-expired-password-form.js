@@ -115,8 +115,8 @@ export default class UpdateExpiredPasswordForm extends Component {
 
   _showErrorMessages(statusCode) {
     const httpStatusCodeMessages = {
-      401: ENV.APP.API_ERROR_MESSAGES.LOGIN_UNAUTHORIZED.MESSAGE,
-      default: ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE,
+      401: ENV.APP.API_ERROR_MESSAGES.LOGIN_UNAUTHORIZED.I18N_KEY,
+      default: ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY,
     };
     return this.intl.t(httpStatusCodeMessages[statusCode] || httpStatusCodeMessages['default']);
   }

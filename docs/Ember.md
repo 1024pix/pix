@@ -83,7 +83,7 @@ module('Unit | Service | Error messages', function(hooks) {
     const message = errorMessages.getErrorMessage('CAMPAIGN_NAME_IS_REQUIRED');
     
     // then
-    assert.equal(message, t('api-errors-messages.campaign-creation.name-required'));
+    assert.equal(message, t('api-error-messages.campaign-creation.name-required'));
   });
 });
 ```

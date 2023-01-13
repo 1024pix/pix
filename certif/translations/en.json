@@ -7,9 +7,13 @@
       "quit": "Quitter",
       "update": "Modifier"
     },
-    "api-errors-messages": {
-      "bad-request": "The data entered was not in the correct format.",
-      "default": "The service is temporarily unavailable. Please try again later."
+    "api-error-messages": {
+      "bad-request-error": "The data entered was not in the correct format.",
+      "internal-server-error": "An error occurred, our teams are working on finding a solution. Please try again later.",
+      "login-unauthorized-error": "There was an error in the email address or username/password entered.",
+      "login-user-temporary-blocked-error": "You have reached too many failed login attempts. Please try again later or <a href=\"{url}\">reset your password here</a>.",
+      "login-user-blocked-error": "Your account has reached the maximum number of failed login attempts and has been temporarily blocked. Please <a href=\"{url}\">contact us</a> to unblock it.",
+      "gateway-timeout-error": "The service is being slow. Please try again later."
     },
     "form": {
       "mandatory-all-fields": "All fields are required."
@@ -27,6 +31,7 @@
     "login": {
       "title": "Login",
       "errors": {
+        "should-change-password": "You currently have a temporary password. <a href=\"{url}\">Reset your password here</a>.",
         "invitation-was-cancelled": "This invitation is no longer valid.<br/>Please contact the administrator of your Pix Certif space.",
         "invitation-already-accepted": "This invitation has already been accepted.<br/>Please log in or contact the administrator of your Pix Certif space."
       }
@@ -36,7 +41,6 @@
       "login-form": {
         "errors": {
           "status": {
-            "401": "Missing or invalid credentials",
             "403": "Access to this Pix Certif space is limited to invited members. Each Pix Certif space is managed by an administrator specific to the organisation using it. Please contact your administrator to get invited.",
             "404": "This email address doesn't match any Pix user.",
             "409": "This invitation has been already accepted or cancelled.",
