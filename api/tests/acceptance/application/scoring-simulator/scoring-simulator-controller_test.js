@@ -84,18 +84,6 @@ describe('Acceptance | Controller | scoring-simulator-controller', function () {
       };
     });
 
-    it('should return status code 200', async function () {
-      // given
-      options.headers.authorization = adminAuthorization;
-      options.payload.simulations = [];
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response).to.have.property('statusCode', 200);
-    });
-
     it('should return a payload with simulation results', async function () {
       // given
       options.headers.authorization = adminAuthorization;
@@ -121,6 +109,7 @@ describe('Acceptance | Controller | scoring-simulator-controller', function () {
       const response = await server.inject(options);
 
       // then
+      expect(response).to.have.property('statusCode', 200);
       expect(response.result).to.deep.equal({
         results: [
           {
@@ -152,14 +141,37 @@ describe('Acceptance | Controller | scoring-simulator-controller', function () {
       it('should return status code 403', async function () {
         // given
         const { id: userId } = databaseBuilder.factory.buildUser();
-        options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
         await databaseBuilder.commit();
+        options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
+        options.payload = {
+          simulations: [{ answers: [{ challengeId: 'test', result: 'ok' }] }],
+        };
 
         // when
         const response = await server.inject(options);
 
         // then
         expect(response).to.have.property('statusCode', 403);
+      });
+    });
+
+    describe('when request payload is invalid', function () {
+      it('should return status code 400', async function () {
+        // given
+        options.headers.authorization = adminAuthorization;
+        options.payload = {
+          wrongField: [
+            {
+              answers: [],
+            },
+          ],
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response).to.have.property('statusCode', 400);
       });
     });
   });

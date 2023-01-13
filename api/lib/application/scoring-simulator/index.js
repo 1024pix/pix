@@ -1,3 +1,4 @@
+const Joi = require('joi');
 const securityPreHandlers = require('../security-pre-handlers');
 const scoringSimulatorController = require('./scoring-simulator-controller');
 
@@ -13,6 +14,29 @@ exports.register = async (server) => {
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
+        validate: {
+          options: {
+            allowUnknown: true,
+          },
+          payload: Joi.object({
+            simulations: Joi.array()
+              .required()
+              .items(
+                Joi.object({
+                  answers: Joi.array()
+                    .required()
+                    .items(
+                      Joi.object({
+                        challengeId: Joi.string().required(),
+                        result: Joi.string().required(),
+                      })
+                    )
+                    .min(1),
+                }).required()
+              )
+              .min(1),
+          }).required(),
+        },
         handler: scoringSimulatorController.calculateOldScores,
         tags: ['api'],
         notes: [
