@@ -141,6 +141,11 @@ function _buildCertification({
       status: status.VALIDATED,
     });
     // the latest
-    databaseBuilder.factory.buildAssessmentResult({ assessmentId: id, createdAt: new Date('2021-01-01'), status });
+    databaseBuilder.factory.buildAssessmentResult.last({
+      certificationCourseId: id,
+      assessmentId: id,
+      createdAt: new Date('2021-01-01'),
+      status,
+    });
   }
 }

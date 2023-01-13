@@ -77,8 +77,10 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
           partnerKey: badge.key,
           acquired: true,
         });
-        const assessmentId1 = dbf.buildAssessment({ certificationCourseId: certif1.id }).id;
-        asr1 = dbf.buildAssessmentResult({ assessmentId: assessmentId1, createdAt: new Date('2018-04-15T00:00:00Z') });
+        asr1 = dbf.buildAssessmentResult.last({
+          certificationCourseId: certif1.id,
+          createdAt: new Date('2018-04-15T00:00:00Z'),
+        });
 
         certif2 = dbf.buildCertificationCourse({ sessionId, lastName: 'CCC' });
         dbf.buildAssessment({ certificationCourseId: certif2.id });
@@ -137,10 +139,10 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
         const response = await server.inject(request);
 
         // then
-        expect(response.result.data[0].attributes).to.deep.equal(expectedJuryCertifSumm1);
-        expect(response.result.data[0].id).to.deep.equal(certif1.id.toString());
-        expect(response.result.data[1].attributes).to.deep.equal(expectedJuryCertifSumm2);
-        expect(response.result.data[1].id).to.deep.equal(certif2.id.toString());
+        expect(response.result.data).to.deep.equal([
+          { type: 'jury-certification-summaries', id: certif1.id.toString(), attributes: expectedJuryCertifSumm1 },
+          { type: 'jury-certification-summaries', id: certif2.id.toString(), attributes: expectedJuryCertifSumm2 },
+        ]);
       });
     });
   });

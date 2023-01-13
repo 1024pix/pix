@@ -42,30 +42,21 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         sessionId,
       }).id;
       const certificationCourseIdNotInSession = databaseBuilder.factory.buildCertificationCourse().id;
-      const assessmentId1 = databaseBuilder.factory.buildAssessment({
-        certificationCourseId: certificationCourseId1,
-      }).id;
-      const assessmentId2 = databaseBuilder.factory.buildAssessment({
-        certificationCourseId: certificationCourseId2,
-      }).id;
-      databaseBuilder.factory.buildAssessment({
-        certificationCourseId: certificationCourseId3,
-      });
       databaseBuilder.factory.buildAssessment({
         certificationCourseId: certificationCourseIdNotInSession,
       });
-      const assessmentResultId1 = databaseBuilder.factory.buildAssessmentResult({
-        assessmentId: assessmentId1,
+      const assessmentResultId1 = databaseBuilder.factory.buildAssessmentResult.last({
+        certificationCourseId: certificationCourseId1,
         pixScore: 123,
         status: CertificationResult.status.VALIDATED,
         commentForOrganization: 'Un commentaire orga 1',
       }).id;
-      databaseBuilder.factory.buildAssessmentResult({
-        assessmentId: assessmentId2,
+      databaseBuilder.factory.buildAssessmentResult.last({
+        certificationCourseId: certificationCourseId2,
         pixScore: 0,
         status: CertificationResult.status.REJECTED,
         commentForOrganization: 'Un commentaire orga 2',
-      });
+      }).id;
       databaseBuilder.factory.buildCompetenceMark({
         id: 123,
         score: 10,
@@ -573,27 +564,20 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         sessionId,
         userId: userId3,
       }).id;
-      const assessmentId1 = databaseBuilder.factory.buildAssessment({
+
+      const assessmentResultId1 = databaseBuilder.factory.buildAssessmentResult.last({
         certificationCourseId: certificationCourseId1,
-      }).id;
-      const assessmentId2 = databaseBuilder.factory.buildAssessment({
-        certificationCourseId: certificationCourseId2,
-      }).id;
-      databaseBuilder.factory.buildAssessment({
-        certificationCourseId: certificationCourseId3,
-      });
-      const assessmentResultId1 = databaseBuilder.factory.buildAssessmentResult({
-        assessmentId: assessmentId1,
         pixScore: 123,
         status: CertificationResult.status.VALIDATED,
         commentForOrganization: 'Un commentaire orga 1',
       }).id;
-      databaseBuilder.factory.buildAssessmentResult({
-        assessmentId: assessmentId2,
+      databaseBuilder.factory.buildAssessmentResult.last({
+        certificationCourseId: certificationCourseId2,
         pixScore: 0,
         status: CertificationResult.status.REJECTED,
         commentForOrganization: 'Un commentaire orga 2',
-      });
+      }).id;
+
       databaseBuilder.factory.buildCompetenceMark({
         id: 123,
         score: 10,
@@ -758,15 +742,13 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         sessionId,
         userId,
       }).id;
-      const assessmentId = databaseBuilder.factory.buildAssessment({
+      const assessmentResultId = databaseBuilder.factory.buildAssessmentResult.last({
         certificationCourseId,
-      }).id;
-      const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
-        assessmentId,
         pixScore: 123,
         status: CertificationResult.status.VALIDATED,
         commentForOrganization: 'Un commentaire orga 1',
       }).id;
+
       databaseBuilder.factory.buildCompetenceMark({
         id: 123,
         score: 10,
@@ -931,12 +913,10 @@ async function _buildCertificationResultInSession(sessionId) {
     sessionId,
     isPublished: true,
   }).id;
-  const assessmentId = databaseBuilder.factory.buildAssessment({
+  const assessmentResultId = databaseBuilder.factory.buildAssessmentResult.last({
     certificationCourseId,
   }).id;
-  const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
-    assessmentId,
-  }).id;
+
   const competenceMarkId = databaseBuilder.factory.buildCompetenceMark({
     assessmentResultId,
   }).id;
@@ -951,11 +931,9 @@ async function _buildCertificationResultWithCandidate(sessionId) {
     userId,
     isPublished: true,
   }).id;
-  const assessmentId = databaseBuilder.factory.buildAssessment({
+
+  const assessmentResultId = databaseBuilder.factory.buildAssessmentResult.last({
     certificationCourseId,
-  }).id;
-  const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
-    assessmentId,
   }).id;
   const competenceMarkId = databaseBuilder.factory.buildCompetenceMark({
     assessmentResultId,

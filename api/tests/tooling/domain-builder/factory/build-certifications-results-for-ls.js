@@ -103,6 +103,8 @@ function _createAssessmentResultWithCompetenceMarks({
       level: cm.level,
     });
   });
+
+  return assessmentResult;
 }
 
 function buildOrganization(uai) {
@@ -189,16 +191,23 @@ function _buildValidatedCertificationData({
     certificationCreatedDate,
   });
 
-  _createAssessmentResultWithCompetenceMarks({
+  const { id: lastAssessmentResultId } = _createAssessmentResultWithCompetenceMarks({
     assessmentId,
+    certificationCourseId: certificationCourse.id,
     pixScore,
     status: certificationStatus,
     createdAt: assessmentCreatedDate,
     competenceMarks,
   });
 
+  databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+    certificationCourseId: certificationCourse.id,
+    lastAssessmentResultId,
+  });
+
   _createAssessmentResultWithCompetenceMarks({
     assessmentId,
+    certificationCourseId: certificationCourse.id,
     pixScore,
     status: certificationStatus,
     createdAt: assessmentBeforeCreatedDate,
@@ -224,40 +233,50 @@ function buildRejectedPublishedCertificationData({
   certificationCreationDate,
 }) {
   const certificationStatus = status.REJECTED;
-  const { assessmentId } = _buildCertificationData({
+  const { assessmentId, certificationCourse } = _buildCertificationData({
     user,
     organizationLearner,
     isPublished: true,
     createdAt: certificationCreationDate,
   });
 
-  _createAssessmentResultWithCompetenceMarks({
+  const { id: lastAssessmentResultId } = _createAssessmentResultWithCompetenceMarks({
     assessmentId,
     status: certificationStatus,
     createdAt: assessmentCreatedDate,
     competenceMarks,
+  });
+
+  databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+    certificationCourseId: certificationCourse.id,
+    lastAssessmentResultId,
   });
 }
 
 function buildErrorUnpublishedCertificationData({ user, organizationLearner, competenceMarks }) {
   const certificationStatus = status.REJECTED;
-  const { assessmentId } = _buildCertificationData({
+  const { assessmentId, certificationCourse } = _buildCertificationData({
     user,
     organizationLearner,
     isPublished: false,
   });
 
-  _createAssessmentResultWithCompetenceMarks({
+  const { id: lastAssessmentResultId } = _createAssessmentResultWithCompetenceMarks({
     assessmentId,
     status: certificationStatus,
     createdAt: assessmentCreatedDate,
     competenceMarks,
   });
+
+  databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+    certificationCourseId: certificationCourse.id,
+    lastAssessmentResultId,
+  });
 }
 
 function buildCertificationDataWithNoCompetenceMarks({ user, organizationLearner }) {
   const certificationStatus = status.REJECTED;
-  const { assessmentId } = _buildCertificationData({
+  const { assessmentId, certificationCourse } = _buildCertificationData({
     user,
     organizationLearner,
     publicationDate: null,
@@ -265,6 +284,7 @@ function buildCertificationDataWithNoCompetenceMarks({ user, organizationLearner
 
   databaseBuilder.factory.buildAssessmentResult({
     assessmentId,
+    certificationCourseId: certificationCourse.id,
     status: certificationStatus,
     createdAt: assessmentBeforeBeforeCreatedDate,
   });

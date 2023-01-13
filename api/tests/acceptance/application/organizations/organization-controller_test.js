@@ -2006,9 +2006,9 @@ describe('Acceptance | Application | organization-controller', function () {
         isPublished: true,
       });
 
-      const assessment = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificationCourse.id });
-      databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment.id });
-
+      databaseBuilder.factory.buildAssessmentResult.last({
+        certificationCourseId: certificationCourse.id,
+      });
       await databaseBuilder.commit();
 
       const options = {
@@ -2084,7 +2084,8 @@ describe('Acceptance | Application | organization-controller', function () {
         state: 'completed',
       });
 
-      const assessmentResult = databaseBuilder.factory.buildAssessmentResult({
+      const assessmentResult = databaseBuilder.factory.buildAssessmentResult.last({
+        certificationCourseId: certificationCourse.id,
         assessmentId: assessment.id,
         status: AssessmentResult.status.VALIDATED,
       });

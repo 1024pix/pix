@@ -66,7 +66,10 @@ describe('Acceptance | API | Certification Course', function () {
           certificationCourseId: 1234,
           competenceId: 'competence_id',
         }).id;
-        const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({ assessmentId }).id;
+        const assessmentResultId = databaseBuilder.factory.buildAssessmentResult.last({
+          assessmentId,
+          certificationCourseId: 1234,
+        }).id;
         databaseBuilder.factory.buildCompetenceMark({ assessmentResultId, competenceId: 'competence_id' });
 
         databaseBuilder.factory.buildCertificationChallenge({
@@ -279,7 +282,8 @@ describe('Acceptance | API | Certification Course', function () {
       });
       databaseBuilder.factory.buildAssessment({ id: 159, certificationCourseId: 123 });
       databaseBuilder.factory.buildUser({ id: 66 });
-      databaseBuilder.factory.buildAssessmentResult({
+      databaseBuilder.factory.buildAssessmentResult.last({
+        certificationCourseId: 123,
         id: 456,
         assessmentId: 159,
         pixScore: 55,

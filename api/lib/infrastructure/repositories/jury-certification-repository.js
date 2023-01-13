@@ -91,19 +91,17 @@ function _selectJuryCertifications() {
     })
     .from('certification-courses')
     .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
-    .leftJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
-    .modify(_filterMostRecentAssessmentResult)
+    .leftJoin(
+      'certification-courses-last-assessment-results',
+      'certification-courses.id',
+      'certification-courses-last-assessment-results.certificationCourseId'
+    )
+    .leftJoin(
+      'assessment-results',
+      'assessment-results.id',
+      'certification-courses-last-assessment-results.lastAssessmentResultId'
+    )
     .groupBy('certification-courses.id', 'assessments.id', 'assessment-results.id');
-}
-
-function _filterMostRecentAssessmentResult(qb) {
-  return qb.whereNotExists(
-    knex
-      .select(1)
-      .from({ 'last-assessment-results': 'assessment-results' })
-      .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
-      .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"')
-  );
 }
 
 async function _toDomainWithComplementaryCertifications({

@@ -57,7 +57,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
         certificationCenter: shareableCertificateData.certificationCenter,
         certificationCenterId,
       }).id;
-      const certificateId = databaseBuilder.factory.buildCertificationCourse({
+      const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
         firstName: shareableCertificateData.firstName,
         lastName: shareableCertificateData.lastName,
         birthdate: shareableCertificateData.birthdate,
@@ -70,7 +70,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
         sessionId,
         userId,
       }).id;
-      databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
+      databaseBuilder.factory.buildAssessment({ certificationCourseId });
       await databaseBuilder.commit();
 
       // when
@@ -104,7 +104,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
         certificationCenter: shareableCertificateData.certificationCenter,
         certificationCenterId,
       }).id;
-      const certificateId = databaseBuilder.factory.buildCertificationCourse({
+      const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
         firstName: shareableCertificateData.firstName,
         lastName: shareableCertificateData.lastName,
         birthdate: shareableCertificateData.birthdate,
@@ -117,7 +117,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
         sessionId,
         userId,
       }).id;
-      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
+      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
       databaseBuilder.factory.buildAssessmentResult({
         assessmentId,
         pixScore: shareableCertificateData.pixScore,
@@ -156,7 +156,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
         certificationCenter: shareableCertificateData.certificationCenter,
         certificationCenterId,
       }).id;
-      const certificateId = databaseBuilder.factory.buildCertificationCourse({
+      const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
         firstName: shareableCertificateData.firstName,
         lastName: shareableCertificateData.lastName,
         birthdate: shareableCertificateData.birthdate,
@@ -169,7 +169,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
         sessionId,
         userId,
       }).id;
-      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
+      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
       databaseBuilder.factory.buildAssessmentResult({
         assessmentId,
         pixScore: shareableCertificateData.pixScore,
@@ -208,7 +208,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
         certificationCenter: shareableCertificateData.certificationCenter,
         certificationCenterId,
       }).id;
-      const certificateId = databaseBuilder.factory.buildCertificationCourse({
+      const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
         firstName: shareableCertificateData.firstName,
         lastName: shareableCertificateData.lastName,
         birthdate: shareableCertificateData.birthdate,
@@ -221,7 +221,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
         sessionId,
         userId,
       }).id;
-      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
+      const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
       databaseBuilder.factory.buildAssessmentResult({
         assessmentId,
         pixScore: shareableCertificateData.pixScore,
@@ -257,7 +257,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
           pixScore: 51,
         };
 
-        const { certificateId, assessmentResultId } = await _buildValidShareableCertificate(
+        const { certificationCourseId, assessmentResultId } = await _buildValidShareableCertificate(
           shareableCertificateData,
           false
         );
@@ -341,12 +341,12 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
 
         // then
         const resultCompetenceTree = domainBuilder.buildResultCompetenceTree({
-          id: `${certificateId}-${assessmentResultId}`,
+          id: `${certificationCourseId}-${assessmentResultId}`,
           competenceMarks: [competenceMarks1, competenceMarks2],
           competenceTree: domainBuilder.buildCompetenceTree({ areas: [area1] }),
         });
         const expectedShareableCertificate = domainBuilder.buildShareableCertificate({
-          id: certificateId,
+          id: certificationCourseId,
           ...shareableCertificateData,
           resultCompetenceTree,
         });
@@ -374,7 +374,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
           pixScore: 51,
         };
 
-        const { certificateId, assessmentResultId } = await _buildValidShareableCertificate(
+        const { certificationCourseId, assessmentResultId } = await _buildValidShareableCertificate(
           shareableCertificateData,
           false
         );
@@ -458,7 +458,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
 
         // then
         const resultCompetenceTree = domainBuilder.buildResultCompetenceTree({
-          id: `${certificateId}-${assessmentResultId}`,
+          id: `${certificationCourseId}-${assessmentResultId}`,
           competenceMarks: [competenceMarks1, competenceMarks2],
           competenceTree: domainBuilder.buildCompetenceTree({
             areas: [
@@ -474,7 +474,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
           }),
         });
         const expectedShareableCertificate = domainBuilder.buildShareableCertificate({
-          id: certificateId,
+          id: certificationCourseId,
           ...shareableCertificateData,
           resultCompetenceTree,
         });
@@ -531,7 +531,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
           ],
         };
 
-        const { certificateId } = await _buildValidShareableCertificateWithAcquiredBadges({
+        const { certificationCourseId } = await _buildValidShareableCertificateWithAcquiredBadges({
           shareableCertificateData,
           acquiredBadges: [
             {
@@ -562,7 +562,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
 
         // then
         const expectedShareableCertificate = domainBuilder.buildShareableCertificate({
-          id: certificateId,
+          id: certificationCourseId,
           ...shareableCertificateData,
         });
         expect(shareableCertificate).to.deepEqualInstanceOmitting(expectedShareableCertificate, [
@@ -581,7 +581,7 @@ async function _buildValidShareableCertificate(shareableCertificateData, buildCo
     certificationCenter: shareableCertificateData.certificationCenter,
     certificationCenterId,
   }).id;
-  const certificateId = databaseBuilder.factory.buildCertificationCourse({
+  const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
     id: shareableCertificateData.id,
     firstName: shareableCertificateData.firstName,
     lastName: shareableCertificateData.lastName,
@@ -595,11 +595,9 @@ async function _buildValidShareableCertificate(shareableCertificateData, buildCo
     sessionId,
     userId: shareableCertificateData.userId,
   }).id;
-  const assessmentId = databaseBuilder.factory.buildAssessment({
+
+  const assessmentResultId = databaseBuilder.factory.buildAssessmentResult.last({
     certificationCourseId: shareableCertificateData.id,
-  }).id;
-  const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
-    assessmentId,
     pixScore: shareableCertificateData.pixScore,
     status: 'validated',
     createdAt: new Date('2020-01-02'),
@@ -613,7 +611,7 @@ async function _buildValidShareableCertificate(shareableCertificateData, buildCo
 
   await databaseBuilder.commit();
 
-  return { certificateId, assessmentResultId };
+  return { certificationCourseId, assessmentResultId };
 }
 
 async function _buildValidShareableCertificateWithAcquiredBadges({ shareableCertificateData, acquiredBadges }) {
@@ -623,7 +621,7 @@ async function _buildValidShareableCertificateWithAcquiredBadges({ shareableCert
     certificationCenter: shareableCertificateData.certificationCenter,
     certificationCenterId,
   }).id;
-  const certificateId = databaseBuilder.factory.buildCertificationCourse({
+  const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
     id: shareableCertificateData.id,
     firstName: shareableCertificateData.firstName,
     lastName: shareableCertificateData.lastName,
@@ -637,9 +635,8 @@ async function _buildValidShareableCertificateWithAcquiredBadges({ shareableCert
     sessionId,
     userId: shareableCertificateData.userId,
   }).id;
-  const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
-  const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
-    assessmentId,
+  const assessmentResultId = databaseBuilder.factory.buildAssessmentResult.last({
+    certificationCourseId,
     pixScore: shareableCertificateData.pixScore,
     status: 'validated',
   }).id;
@@ -666,7 +663,7 @@ async function _buildValidShareableCertificateWithAcquiredBadges({ shareableCert
         temporaryCertificateMessage,
       }).id;
       const { id: complementaryCertificationCourseId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
-        certificationCourseId: certificateId,
+        certificationCourseId,
         complementaryCertificationId,
         complementaryCertificationBadgeId,
       });
@@ -682,5 +679,5 @@ async function _buildValidShareableCertificateWithAcquiredBadges({ shareableCert
     assessmentResultId,
   });
   await databaseBuilder.commit();
-  return { certificateId };
+  return { certificationCourseId };
 }

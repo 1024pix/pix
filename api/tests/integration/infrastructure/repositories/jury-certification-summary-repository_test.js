@@ -64,7 +64,8 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
 
         dbf.buildAssessmentResult({ assessmentId: manyAsrAssessmentId, createdAt: new Date('2018-02-15T00:00:00Z') });
         dbf.buildAssessmentResult({ assessmentId: manyAsrAssessmentId, createdAt: new Date('2018-03-15T00:00:00Z') });
-        latestAssessmentResult = dbf.buildAssessmentResult({
+        latestAssessmentResult = dbf.buildAssessmentResult.last({
+          certificationCourseId: manyAsrCertification.id,
           assessmentId: manyAsrAssessmentId,
           createdAt: new Date('2018-04-15T00:00:00Z'),
           status: assessmentResultStatuses.VALIDATED,
@@ -331,7 +332,8 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
 
         dbf.buildAssessmentResult({ assessmentId: manyAsrAssessmentId, createdAt: new Date('2018-02-15T00:00:00Z') });
         dbf.buildAssessmentResult({ assessmentId: manyAsrAssessmentId, createdAt: new Date('2018-03-15T00:00:00Z') });
-        const latestAssessmentResult = dbf.buildAssessmentResult({
+        const latestAssessmentResult = dbf.buildAssessmentResult.last({
+          certificationCourseId: manyAsrCertification.id,
           assessmentId: manyAsrAssessmentId,
           createdAt: new Date('2018-04-15T00:00:00Z'),
           status: assessmentResultStatuses.VALIDATED,

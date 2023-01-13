@@ -75,11 +75,11 @@ describe('PATCH /api/admin/sessions/:id/publish', function () {
           databaseBuilder.factory.buildFinalizedSession({ sessionId });
           options.url = `/api/admin/sessions/${sessionId}/publish`;
           certificationId = databaseBuilder.factory.buildCertificationCourse({ sessionId, isPublished: false }).id;
-          databaseBuilder.factory.buildAssessment({ id: 123, certificationCourseId: certificationId });
-          databaseBuilder.factory.buildAssessmentResult({
+          databaseBuilder.factory.buildAssessmentResult.last({
+            certificationCourseId: certificationId,
             status: status.VALIDATED,
-            assessmentId: 123,
           });
+
           return databaseBuilder.commit();
         });
 

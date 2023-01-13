@@ -7,9 +7,8 @@ const {
   mockLearningContent,
 } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
-const CertificationAttestation = require('../../../../lib/domain/models/CertificationAttestation');
-const _ = require('lodash');
 const certificationRepository = require('../../../../lib/infrastructure/repositories/certificate-repository');
+const { status } = require('../../../../lib/domain/models/AssessmentResult');
 
 describe('Integration | Infrastructure | Repository | Certification Attestation', function () {
   const minimalLearningContent = [
@@ -55,7 +54,14 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         certifiedBadges: [],
         sessionId: 789,
       };
-      await _buildIncomplete(certificationAttestationData);
+      _buildSession({
+        userId: certificationAttestationData.userId,
+        sessionId: certificationAttestationData.sessionId,
+        publishedAt: certificationAttestationData.deliveredAt,
+        certificationCenter: certificationAttestationData.certificationCenter,
+      });
+      _buildIncomplete(certificationAttestationData);
+      await databaseBuilder.commit();
 
       // when
       const error = await catchErr(certificationRepository.getCertificationAttestation)(
@@ -86,7 +92,14 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         certifiedBadges: [],
         sessionId: 789,
       };
-      await _buildCancelled(certificationAttestationData);
+      _buildSession({
+        userId: certificationAttestationData.userId,
+        sessionId: certificationAttestationData.sessionId,
+        publishedAt: certificationAttestationData.deliveredAt,
+        certificationCenter: certificationAttestationData.certificationCenter,
+      });
+      _buildCancelled(certificationAttestationData);
+      await databaseBuilder.commit();
 
       // when
       const error = await catchErr(certificationRepository.getCertificationAttestation)(
@@ -117,7 +130,14 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         certifiedBadges: [],
         sessionId: 789,
       };
-      await _buildValidCertificationAttestation(certificationAttestationData);
+      _buildSession({
+        userId: certificationAttestationData.userId,
+        sessionId: certificationAttestationData.sessionId,
+        publishedAt: certificationAttestationData.deliveredAt,
+        certificationCenter: certificationAttestationData.certificationCenter,
+      });
+      _buildValidCertificationAttestation(certificationAttestationData);
+      await databaseBuilder.commit();
 
       // when
       const error = await catchErr(certificationRepository.getCertificationAttestation)(
@@ -148,7 +168,13 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         certifiedBadges: [],
         sessionId: 789,
       };
-      await _buildRejected(certificationAttestationData);
+      _buildSession({
+        userId: certificationAttestationData.userId,
+        sessionId: certificationAttestationData.sessionId,
+        publishedAt: certificationAttestationData.deliveredAt,
+        certificationCenter: certificationAttestationData.certificationCenter,
+      });
+      _buildRejected(certificationAttestationData);
       await databaseBuilder.commit();
 
       // when
@@ -183,7 +209,14 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         certifiedBadges: [],
         sessionId: 789,
       };
-      await _buildValidCertificationAttestation(certificationAttestationData);
+      _buildSession({
+        userId: certificationAttestationData.userId,
+        sessionId: certificationAttestationData.sessionId,
+        publishedAt: certificationAttestationData.deliveredAt,
+        certificationCenter: certificationAttestationData.certificationCenter,
+      });
+      _buildValidCertificationAttestation(certificationAttestationData);
+      await databaseBuilder.commit();
 
       // when
       const certificationAttestation = await certificationRepository.getCertificationAttestation(123);
@@ -191,10 +224,9 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       // then
       const expectedCertificationAttestation =
         domainBuilder.buildCertificationAttestation(certificationAttestationData);
-      expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
-      expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedCertificationAttestation, ['resultCompetenceTree'])
-      );
+      expect(certificationAttestation).to.deepEqualInstanceOmitting(expectedCertificationAttestation, [
+        'resultCompetenceTree',
+      ]);
     });
 
     it('should return a CertificationAttestation with appropriate result competence tree', async function () {
@@ -216,8 +248,13 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         certifiedBadges: [],
         sessionId: 789,
       };
-
-      const assessmentResultId = await _buildValidCertificationAttestation(certificationAttestationData, false);
+      _buildSession({
+        userId: certificationAttestationData.userId,
+        sessionId: certificationAttestationData.sessionId,
+        publishedAt: certificationAttestationData.deliveredAt,
+        certificationCenter: certificationAttestationData.certificationCenter,
+      });
+      const assessmentResultId = _buildValidCertificationAttestation(certificationAttestationData, false);
 
       const competenceMarks1 = domainBuilder.buildCompetenceMark({
         id: 1234,
@@ -275,7 +312,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         competenceMarks: [competenceMarks1, competenceMarks2],
         competenceTree: domainBuilder.buildCompetenceTree({ areas: [area1] }),
       });
-      expect(certificationAttestation.resultCompetenceTree).to.deep.equal(expectedResultCompetenceTree);
+      expect(certificationAttestation.resultCompetenceTree).to.deepEqualInstance(expectedResultCompetenceTree);
     });
 
     it('should take into account the latest validated assessment result of a student', async function () {
@@ -299,7 +336,14 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         certifiedBadges: [],
         sessionId: 789,
       };
-      await _buildValidCertificationAttestationWithSeveralResults(certificationAttestationData);
+
+      _buildSession({
+        userId: certificationAttestationData.userId,
+        sessionId: certificationAttestationData.sessionId,
+        publishedAt: certificationAttestationData.deliveredAt,
+        certificationCenter: certificationAttestationData.certificationCenter,
+      });
+      _buildCertificationAttestationWithSeveralResults(certificationAttestationData);
       await databaseBuilder.commit();
 
       // when
@@ -310,7 +354,6 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       // then
       const expectedCertificationAttestation =
         domainBuilder.buildCertificationAttestation(certificationAttestationData);
-      expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
       expect(certificationAttestation).to.deepEqualInstanceOmitting(expectedCertificationAttestation, [
         'resultCompetenceTree',
       ]);
@@ -355,7 +398,14 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
           ],
           sessionId: 789,
         };
-        await _buildValidCertificationAttestation(certificationAttestationData);
+
+        _buildSession({
+          userId: certificationAttestationData.userId,
+          sessionId: certificationAttestationData.sessionId,
+          publishedAt: certificationAttestationData.deliveredAt,
+          certificationCenter: certificationAttestationData.certificationCenter,
+        });
+        _buildValidCertificationAttestation(certificationAttestationData);
         const badge1Id = databaseBuilder.factory.buildBadge({ key: 'PIX_TEST_1' }).id;
         const badge2Id = databaseBuilder.factory.buildBadge({ key: 'PIX_TEST_2' }).id;
         const complementaryCertification1Id = databaseBuilder.factory.buildComplementaryCertification({
@@ -415,10 +465,9 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         // then
         const expectedCertificationAttestation =
           domainBuilder.buildCertificationAttestation(certificationAttestationData);
-        expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
-        expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(
-          _.omit(expectedCertificationAttestation, ['resultCompetenceTree'])
-        );
+        expect(certificationAttestation).deepEqualInstanceOmitting(expectedCertificationAttestation, [
+          'resultCompetenceTree',
+        ]);
       });
     });
   });
@@ -430,7 +479,6 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       mockLearningContent(learningContentObjects);
       databaseBuilder.factory.buildOrganization({ id: 123, type: 'SCO', isManagingStudents: true });
       databaseBuilder.factory.buildOrganization({ id: 456, type: 'SCO', isManagingStudents: true });
-      await databaseBuilder.commit();
       const certificationAttestationData = {
         id: 123,
         firstName: 'Sarah Michelle',
@@ -449,12 +497,19 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         pixPlusDroitCertificationImagePath: null,
         sessionId: 789,
       };
-      await _buildValidCertificationAttestation(certificationAttestationData);
-      await _linkCertificationAttestationToOrganization({
+      _buildSession({
+        userId: certificationAttestationData.userId,
+        sessionId: certificationAttestationData.sessionId,
+        publishedAt: certificationAttestationData.deliveredAt,
+        certificationCenter: certificationAttestationData.certificationCenter,
+      });
+      _buildValidCertificationAttestation(certificationAttestationData);
+      _linkCertificationAttestationToOrganization({
         certificationAttestationData,
         organizationId: 456,
         division: '3emeB',
       });
+      await databaseBuilder.commit();
 
       // when
       const certificationAttestations =
@@ -472,7 +527,6 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(minimalLearningContent);
       mockLearningContent(learningContentObjects);
       databaseBuilder.factory.buildOrganization({ id: 123, type: 'SUP', isManagingStudents: false });
-      await databaseBuilder.commit();
       const certificationAttestationData = {
         id: 123,
         firstName: 'Sarah Michelle',
@@ -491,12 +545,19 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         pixPlusDroitCertificationImagePath: null,
         sessionId: 789,
       };
-      await _buildValidCertificationAttestation(certificationAttestationData);
-      await _linkCertificationAttestationToOrganization({
+      _buildSession({
+        userId: 456,
+        sessionId: 789,
+        publishedAt: new Date('2021-05-05'),
+        certificationCenter: 'Centre des poules bien dodues',
+      });
+      _buildValidCertificationAttestation(certificationAttestationData);
+      _linkCertificationAttestationToOrganization({
         certificationAttestationData,
         organizationId: 123,
         division: '3emeB',
       });
+      await databaseBuilder.commit();
 
       // when
       const certificationAttestations =
@@ -514,7 +575,6 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(minimalLearningContent);
       mockLearningContent(learningContentObjects);
       databaseBuilder.factory.buildOrganization({ id: 123, type: 'SCO', isManagingStudents: true });
-      await databaseBuilder.commit();
       const certificationAttestationData = {
         id: 123,
         firstName: 'Sarah Michelle',
@@ -533,12 +593,19 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         pixPlusDroitCertificationImagePath: null,
         sessionId: 789,
       };
-      await _buildValidCertificationAttestation(certificationAttestationData);
-      await _linkCertificationAttestationToOrganization({
+      _buildSession({
+        userId: certificationAttestationData.userId,
+        sessionId: certificationAttestationData.sessionId,
+        publishedAt: certificationAttestationData.deliveredAt,
+        certificationCenter: certificationAttestationData.certificationCenter,
+      });
+      _buildValidCertificationAttestation(certificationAttestationData);
+      _linkCertificationAttestationToOrganization({
         certificationAttestationData,
         organizationId: 123,
         division: '5emeG',
       });
+      await databaseBuilder.commit();
 
       // when
       const certificationAttestations =
@@ -556,7 +623,6 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(minimalLearningContent);
       mockLearningContent(learningContentObjects);
       databaseBuilder.factory.buildOrganization({ id: 123, type: 'SCO', isManagingStudents: true });
-      await databaseBuilder.commit();
       const certificationAttestationData = {
         id: 123,
         firstName: 'Sarah Michelle',
@@ -575,12 +641,19 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         pixPlusDroitCertificationImagePath: null,
         sessionId: 789,
       };
-      await _buildRejected(certificationAttestationData);
-      await _linkCertificationAttestationToOrganization({
+      _buildSession({
+        userId: certificationAttestationData.userId,
+        sessionId: certificationAttestationData.sessionId,
+        publishedAt: certificationAttestationData.deliveredAt,
+        certificationCenter: certificationAttestationData.certificationCenter,
+      });
+      _buildRejected(certificationAttestationData);
+      _linkCertificationAttestationToOrganization({
         certificationAttestationData,
         organizationId: 123,
         division: '3emeB',
       });
+      await databaseBuilder.commit();
 
       // when
       const certificationAttestations =
@@ -598,7 +671,6 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(minimalLearningContent);
       mockLearningContent(learningContentObjects);
       databaseBuilder.factory.buildOrganization({ id: 123, type: 'SCO', isManagingStudents: true });
-      await databaseBuilder.commit();
       const certificationAttestationData = {
         id: 123,
         firstName: 'Sarah Michelle',
@@ -617,12 +689,19 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         pixPlusDroitCertificationImagePath: null,
         sessionId: 789,
       };
-      await _buildCancelled(certificationAttestationData);
-      await _linkCertificationAttestationToOrganization({
+      _buildSession({
+        userId: certificationAttestationData.userId,
+        sessionId: certificationAttestationData.sessionId,
+        publishedAt: certificationAttestationData.deliveredAt,
+        certificationCenter: certificationAttestationData.certificationCenter,
+      });
+      _buildCancelled(certificationAttestationData);
+      _linkCertificationAttestationToOrganization({
         certificationAttestationData,
         organizationId: 123,
         division: '3emeB',
       });
+      await databaseBuilder.commit();
 
       // when
       const certificationAttestations =
@@ -640,7 +719,6 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(minimalLearningContent);
       mockLearningContent(learningContentObjects);
       databaseBuilder.factory.buildOrganization({ id: 123, type: 'SCO', isManagingStudents: true });
-      await databaseBuilder.commit();
       const certificationAttestationData = {
         id: 123,
         firstName: 'Sarah Michelle',
@@ -659,12 +737,19 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         pixPlusDroitCertificationImagePath: null,
         sessionId: 789,
       };
-      await _buildValidCertificationAttestation(certificationAttestationData);
-      await _linkCertificationAttestationToOrganization({
+      _buildSession({
+        userId: certificationAttestationData.userId,
+        sessionId: certificationAttestationData.sessionId,
+        publishedAt: certificationAttestationData.deliveredAt,
+        certificationCenter: certificationAttestationData.certificationCenter,
+      });
+      _buildValidCertificationAttestation(certificationAttestationData);
+      _linkCertificationAttestationToOrganization({
         certificationAttestationData,
         organizationId: 123,
         division: '3emeB',
       });
+      await databaseBuilder.commit();
 
       // when
       const certificationAttestations =
@@ -682,7 +767,6 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(minimalLearningContent);
       mockLearningContent(learningContentObjects);
       databaseBuilder.factory.buildOrganization({ id: 123, type: 'SCO', isManagingStudents: true });
-      await databaseBuilder.commit();
       const certificationAttestationDataA = {
         id: 456,
         firstName: 'James',
@@ -737,24 +821,43 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         pixPlusDroitCertificationImagePath: null,
         sessionId: 888,
       };
-      await _buildValidCertificationAttestation(certificationAttestationDataA);
-      await _buildValidCertificationAttestation(certificationAttestationDataB);
-      await _buildValidCertificationAttestation(certificationAttestationDataC);
-      await _linkCertificationAttestationToOrganization({
+      _buildSession({
+        userId: certificationAttestationDataA.userId,
+        sessionId: certificationAttestationDataA.sessionId,
+        publishedAt: certificationAttestationDataA.deliveredAt,
+        certificationCenter: certificationAttestationDataA.certificationCenter,
+      });
+      _buildSession({
+        userId: certificationAttestationDataC.userId,
+        sessionId: certificationAttestationDataC.sessionId,
+        publishedAt: certificationAttestationDataC.deliveredAt,
+        certificationCenter: certificationAttestationDataC.certificationCenter,
+      });
+      _buildSession({
+        userId: certificationAttestationDataB.userId,
+        sessionId: certificationAttestationDataB.sessionId,
+        publishedAt: certificationAttestationDataB.deliveredAt,
+        certificationCenter: certificationAttestationDataB.certificationCenter,
+      });
+      _buildValidCertificationAttestation(certificationAttestationDataA);
+      _buildValidCertificationAttestation(certificationAttestationDataB);
+      _buildValidCertificationAttestation(certificationAttestationDataC);
+      _linkCertificationAttestationToOrganization({
         certificationAttestationData: certificationAttestationDataA,
         organizationId: 123,
         division: '3emeB',
       });
-      await _linkCertificationAttestationToOrganization({
+      _linkCertificationAttestationToOrganization({
         certificationAttestationData: certificationAttestationDataB,
         organizationId: 123,
         division: '3emeB',
       });
-      await _linkCertificationAttestationToOrganization({
+      _linkCertificationAttestationToOrganization({
         certificationAttestationData: certificationAttestationDataC,
         organizationId: 123,
         division: '3emeB',
       });
+      await databaseBuilder.commit();
 
       // when
       const certificationAttestations =
@@ -771,18 +874,16 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       const expectedCertificationAttestationC =
         domainBuilder.buildCertificationAttestation(certificationAttestationDataC);
       expect(certificationAttestations).to.have.length(3);
-      expect(certificationAttestations[0]).to.be.instanceOf(CertificationAttestation);
-      expect(_.omit(certificationAttestations[0], ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedCertificationAttestationB, ['resultCompetenceTree'])
-      );
-      expect(certificationAttestations[1]).to.be.instanceOf(CertificationAttestation);
-      expect(_.omit(certificationAttestations[1], ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedCertificationAttestationC, ['resultCompetenceTree'])
-      );
-      expect(certificationAttestations[2]).to.be.instanceOf(CertificationAttestation);
-      expect(_.omit(certificationAttestations[2], ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedCertificationAttestationA, ['resultCompetenceTree'])
-      );
+
+      expect(certificationAttestations[0]).deepEqualInstanceOmitting(expectedCertificationAttestationB, [
+        'resultCompetenceTree',
+      ]);
+      expect(certificationAttestations[1]).deepEqualInstanceOmitting(expectedCertificationAttestationC, [
+        'resultCompetenceTree',
+      ]);
+      expect(certificationAttestations[2]).deepEqualInstanceOmitting(expectedCertificationAttestationA, [
+        'resultCompetenceTree',
+      ]);
     });
 
     it('should ignore disabled shooling-registrations', async function () {
@@ -790,7 +891,6 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(minimalLearningContent);
       mockLearningContent(learningContentObjects);
       databaseBuilder.factory.buildOrganization({ id: 123, type: 'SCO', isManagingStudents: true });
-      await databaseBuilder.commit();
       const certificationAttestationDataA = {
         id: 456,
         firstName: 'James',
@@ -845,25 +945,44 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         pixPlusDroitCertificationImagePath: null,
         sessionId: 888,
       };
-      await _buildValidCertificationAttestation(certificationAttestationDataA);
-      await _buildValidCertificationAttestation(certificationAttestationDataB);
-      await _buildValidCertificationAttestation(certificationAttestationDataC);
-      await _linkCertificationAttestationToOrganization({
+      _buildSession({
+        userId: certificationAttestationDataA.userId,
+        sessionId: certificationAttestationDataA.sessionId,
+        publishedAt: certificationAttestationDataA.deliveredAt,
+        certificationCenter: certificationAttestationDataA.certificationCenter,
+      });
+      _buildSession({
+        userId: certificationAttestationDataC.userId,
+        sessionId: certificationAttestationDataC.sessionId,
+        publishedAt: certificationAttestationDataC.deliveredAt,
+        certificationCenter: certificationAttestationDataC.certificationCenter,
+      });
+      _buildSession({
+        userId: certificationAttestationDataB.userId,
+        sessionId: certificationAttestationDataB.sessionId,
+        publishedAt: certificationAttestationDataB.deliveredAt,
+        certificationCenter: certificationAttestationDataB.certificationCenter,
+      });
+      _buildValidCertificationAttestation(certificationAttestationDataA);
+      _buildValidCertificationAttestation(certificationAttestationDataB);
+      _buildValidCertificationAttestation(certificationAttestationDataC);
+      _linkCertificationAttestationToOrganization({
         certificationAttestationData: certificationAttestationDataA,
         organizationId: 123,
         division: '3emeB',
       });
-      await _linkCertificationAttestationToOrganization({
+      _linkCertificationAttestationToOrganization({
         certificationAttestationData: certificationAttestationDataB,
         organizationId: 123,
         division: '3emeB',
       });
-      await _linkCertificationAttestationToOrganization({
+      _linkCertificationAttestationToOrganization({
         certificationAttestationData: certificationAttestationDataC,
         organizationId: 123,
         division: '3emeB',
         isDisabled: true,
       });
+      await databaseBuilder.commit();
 
       // when
       const certificationAttestations =
@@ -883,58 +1002,93 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         'resultCompetenceTree',
       ]);
 
-      expect(certificationAttestations[1]).to.be.instanceOf(CertificationAttestation);
       expect(certificationAttestations[1]).to.deepEqualInstanceOmitting(expectedCertificationAttestationA, [
         'resultCompetenceTree',
       ]);
     });
 
-    it('should take into account the latest validated assessment result of the certification', async function () {
-      // given
-      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(minimalLearningContent);
-      mockLearningContent(learningContentObjects);
-      databaseBuilder.factory.buildOrganization({ id: 123, type: 'SCO', isManagingStudents: true });
-      await databaseBuilder.commit();
-      const certificationAttestationData = {
-        id: 123,
-        firstName: 'Sarah Michelle',
-        lastName: 'Gellar',
-        birthdate: '1977-04-14',
-        birthplace: 'Saint-Ouen',
-        isPublished: true,
-        userId: 456,
-        date: new Date('2020-01-01'),
-        verificationCode: 'P-SOMECODE',
-        maxReachableLevelOnCertificationDate: 5,
-        deliveredAt: new Date('2021-05-05'),
-        certificationCenter: 'Centre des poules bien dodues',
-        pixScore: 51,
-        cleaCertificationImagePath: null,
-        pixPlusDroitCertificationImagePath: null,
-        sessionId: 789,
-      };
-      await _buildValidCertificationAttestationWithSeveralResults(certificationAttestationData);
-      await _linkCertificationAttestationToOrganization({
-        certificationAttestationData,
-        organizationId: 123,
-        division: '3emeB',
-      });
-
-      // when
-      const certificationAttestations =
-        await certificationRepository.findByDivisionForScoIsManagingStudentsOrganization({
+    describe('when the last certification is rejected', function () {
+      it('should take into account the latest valid certification', async function () {
+        // given
+        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(minimalLearningContent);
+        mockLearningContent(learningContentObjects);
+        databaseBuilder.factory.buildOrganization({ id: 123, type: 'SCO', isManagingStudents: true });
+        const certificationAttestationData = {
+          id: 123,
+          firstName: 'Sarah Michelle',
+          lastName: 'Gellar',
+          birthdate: '1977-04-14',
+          birthplace: 'Saint-Ouen',
+          isPublished: true,
+          userId: 456,
+          date: new Date('2020-01-01'),
+          verificationCode: 'P-SOMECODE',
+          maxReachableLevelOnCertificationDate: 5,
+          deliveredAt: new Date('2021-05-05'),
+          certificationCenter: 'Centre des poules bien dodues',
+          pixScore: 51,
+          cleaCertificationImagePath: null,
+          pixPlusDroitCertificationImagePath: null,
+          sessionId: 789,
+        };
+        databaseBuilder.factory.buildUser({ id: 456 });
+        databaseBuilder.factory.buildOrganizationLearner({
+          id: 55,
           organizationId: 123,
+          userId: 456,
           division: '3emeB',
+        }).id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        databaseBuilder.factory.buildSession({
+          id: 789,
+          publishedAt: new Date('2021-05-05'),
+          certificationCenter: 'Centre des poules bien dodues',
+          certificationCenterId,
         });
 
-      // then
-      const expectedCertificationAttestation =
-        domainBuilder.buildCertificationAttestation(certificationAttestationData);
-      expect(certificationAttestations).to.have.length(1);
-      expect(certificationAttestations[0]).to.be.instanceOf(CertificationAttestation);
-      expect(certificationAttestations[0]).to.deepEqualInstanceOmitting(expectedCertificationAttestation, [
-        'resultCompetenceTree',
-      ]);
+        _buildCertificationAttestationWithSeveralResults(certificationAttestationData, status.VALIDATED);
+        _linkCertificationAttestationToOrganization({
+          certificationAttestationData,
+          organizationLearnerId: 55,
+        });
+
+        const certificationAttestationDataRejected = {
+          ...certificationAttestationData,
+          id: 124,
+          date: new Date('2020-01-03'),
+          sessionId: 790,
+          verificationCode: 'P-SOM3COD3',
+        };
+        databaseBuilder.factory.buildSession({
+          id: 790,
+          publishedAt: new Date('2021-05-07'),
+          certificationCenter: 'Centre des poules bien dodues',
+          certificationCenterId,
+        });
+        _buildCertificationAttestationWithSeveralResults(certificationAttestationDataRejected, status.REJECTED);
+        databaseBuilder.factory.buildCertificationCandidate({
+          userId: 456,
+          sessionId: certificationAttestationDataRejected.sessionId,
+          organizationLearnerId: 55,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const certificationAttestations =
+          await certificationRepository.findByDivisionForScoIsManagingStudentsOrganization({
+            organizationId: 123,
+            division: '3emeB',
+          });
+
+        // then
+        const expectedCertificationAttestation =
+          domainBuilder.buildCertificationAttestation(certificationAttestationData);
+        expect(certificationAttestations).to.have.length(1);
+        expect(certificationAttestations[0]).to.deepEqualInstanceOmitting(expectedCertificationAttestation, [
+          'resultCompetenceTree',
+        ]);
+      });
     });
 
     it('should take into account the latest certification of an organization learner', async function () {
@@ -946,7 +1100,6 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         organizationId: 123,
         division: '3emeb',
       }).id;
-      await databaseBuilder.commit();
       const certificationAttestationDataOldest = {
         id: 123,
         firstName: 'Sarah Michelle',
@@ -983,18 +1136,31 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         pixPlusDroitCertificationImagePath: null,
         sessionId: 999,
       };
-      await _buildValidCertificationAttestation(certificationAttestationDataOldest);
-      await _buildValidCertificationAttestation(certificationAttestationDataNewest);
-      await _linkCertificationAttestationToOrganization({
+      _buildSession({
+        userId: certificationAttestationDataOldest.userId,
+        sessionId: certificationAttestationDataOldest.sessionId,
+        publishedAt: certificationAttestationDataOldest.deliveredAt,
+        certificationCenter: certificationAttestationDataOldest.certificationCenter,
+      });
+      _buildSession({
+        userId: certificationAttestationDataNewest.userId,
+        sessionId: certificationAttestationDataNewest.sessionId,
+        publishedAt: certificationAttestationDataNewest.deliveredAt,
+        certificationCenter: certificationAttestationDataNewest.certificationCenter,
+      });
+      _buildValidCertificationAttestation(certificationAttestationDataOldest);
+      _buildValidCertificationAttestation(certificationAttestationDataNewest);
+      _linkCertificationAttestationToOrganization({
         certificationAttestationData: certificationAttestationDataOldest,
         organizationId: 123,
         organizationLearnerId,
       });
-      await _linkCertificationAttestationToOrganization({
+      _linkCertificationAttestationToOrganization({
         certificationAttestationData: certificationAttestationDataNewest,
         organizationId: 123,
         organizationLearnerId,
       });
+      await databaseBuilder.commit();
 
       // when
       const certificationAttestations =
@@ -1008,23 +1174,14 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         certificationAttestationDataNewest
       );
       expect(certificationAttestations).to.have.length(1);
-      expect(certificationAttestations[0]).to.be.instanceOf(CertificationAttestation);
-      expect(_.omit(certificationAttestations[0], ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedCertificationAttestation, ['resultCompetenceTree'])
-      );
+      expect(certificationAttestations[0]).to.deepEqualInstanceOmitting(expectedCertificationAttestation, [
+        'resultCompetenceTree',
+      ]);
     });
   });
 });
 
-async function _buildIncomplete(certificationAttestationData) {
-  databaseBuilder.factory.buildUser({ id: certificationAttestationData.userId });
-  const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-  databaseBuilder.factory.buildSession({
-    id: certificationAttestationData.sessionId,
-    publishedAt: certificationAttestationData.deliveredAt,
-    certificationCenter: certificationAttestationData.certificationCenter,
-    certificationCenterId,
-  });
+function _buildIncomplete(certificationAttestationData) {
   databaseBuilder.factory.buildCertificationCourse({
     id: certificationAttestationData.id,
     firstName: certificationAttestationData.firstName,
@@ -1040,18 +1197,9 @@ async function _buildIncomplete(certificationAttestationData) {
     userId: certificationAttestationData.userId,
   });
   databaseBuilder.factory.buildAssessment({ certificationCourseId: certificationAttestationData.id });
-  await databaseBuilder.commit();
 }
 
-async function _buildRejected(certificationAttestationData) {
-  databaseBuilder.factory.buildUser({ id: certificationAttestationData.userId });
-  const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-  databaseBuilder.factory.buildSession({
-    id: certificationAttestationData.sessionId,
-    publishedAt: certificationAttestationData.deliveredAt,
-    certificationCenter: certificationAttestationData.certificationCenter,
-    certificationCenterId,
-  });
+function _buildRejected(certificationAttestationData) {
   databaseBuilder.factory.buildCertificationCourse({
     id: certificationAttestationData.id,
     firstName: certificationAttestationData.firstName,
@@ -1066,26 +1214,15 @@ async function _buildRejected(certificationAttestationData) {
     sessionId: certificationAttestationData.sessionId,
     userId: certificationAttestationData.userId,
   });
-  const assessmentId = databaseBuilder.factory.buildAssessment({
+
+  databaseBuilder.factory.buildAssessmentResult.last({
     certificationCourseId: certificationAttestationData.id,
-  }).id;
-  databaseBuilder.factory.buildAssessmentResult({
-    assessmentId,
     pixScore: certificationAttestationData.pixScore,
     status: 'rejected',
   });
-  await databaseBuilder.commit();
 }
 
-async function _buildCancelled(certificationAttestationData) {
-  databaseBuilder.factory.buildUser({ id: certificationAttestationData.userId });
-  const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-  databaseBuilder.factory.buildSession({
-    id: certificationAttestationData.sessionId,
-    publishedAt: certificationAttestationData.deliveredAt,
-    certificationCenter: certificationAttestationData.certificationCenter,
-    certificationCenterId,
-  });
+function _buildCancelled(certificationAttestationData) {
   databaseBuilder.factory.buildCertificationCourse({
     id: certificationAttestationData.id,
     firstName: certificationAttestationData.firstName,
@@ -1100,26 +1237,14 @@ async function _buildCancelled(certificationAttestationData) {
     sessionId: certificationAttestationData.sessionId,
     userId: certificationAttestationData.userId,
   });
-  const assessmentId = databaseBuilder.factory.buildAssessment({
+  databaseBuilder.factory.buildAssessmentResult.last({
     certificationCourseId: certificationAttestationData.id,
-  }).id;
-  databaseBuilder.factory.buildAssessmentResult({
-    assessmentId,
     pixScore: certificationAttestationData.pixScore,
     status: 'validated',
   });
-  await databaseBuilder.commit();
 }
 
-async function _buildValidCertificationAttestation(certificationAttestationData, buildCompetenceMark = true) {
-  databaseBuilder.factory.buildUser({ id: certificationAttestationData.userId });
-  const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-  databaseBuilder.factory.buildSession({
-    id: certificationAttestationData.sessionId,
-    publishedAt: certificationAttestationData.deliveredAt,
-    certificationCenter: certificationAttestationData.certificationCenter,
-    certificationCenterId,
-  });
+function _buildValidCertificationAttestation(certificationAttestationData, buildCompetenceMark = true) {
   databaseBuilder.factory.buildCertificationCourse({
     id: certificationAttestationData.id,
     firstName: certificationAttestationData.firstName,
@@ -1134,11 +1259,8 @@ async function _buildValidCertificationAttestation(certificationAttestationData,
     sessionId: certificationAttestationData.sessionId,
     userId: certificationAttestationData.userId,
   });
-  const assessmentId = databaseBuilder.factory.buildAssessment({
+  const assessmentResultId = databaseBuilder.factory.buildAssessmentResult.last({
     certificationCourseId: certificationAttestationData.id,
-  }).id;
-  const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
-    assessmentId,
     pixScore: certificationAttestationData.pixScore,
     status: 'validated',
     createdAt: new Date('2020-01-02'),
@@ -1150,26 +1272,22 @@ async function _buildValidCertificationAttestation(certificationAttestationData,
     });
   }
 
-  await databaseBuilder.commit();
-
   return assessmentResultId;
 }
 
-async function _buildValidCertificationAttestationWithSeveralResults(certificationAttestationData) {
-  databaseBuilder.factory.buildUser({ id: certificationAttestationData.userId });
+function _buildSession({ userId, sessionId, publishedAt, certificationCenter }) {
+  databaseBuilder.factory.buildUser({ id: userId });
   const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
   databaseBuilder.factory.buildSession({
-    id: certificationAttestationData.sessionId,
-    publishedAt: certificationAttestationData.deliveredAt,
-    certificationCenter: certificationAttestationData.certificationCenter,
+    id: sessionId,
+    publishedAt,
+    certificationCenter: certificationCenter,
     certificationCenterId,
   });
-  const mostRecentSessionId = databaseBuilder.factory.buildSession({
-    publishedAt: certificationAttestationData.deliveredAt,
-    certificationCenter: certificationAttestationData.certificationCenter,
-    certificationCenterId,
-  }).id;
-  const mostRecentCertificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+}
+
+function _buildCertificationAttestationWithSeveralResults(certificationAttestationData, status = 'validated') {
+  databaseBuilder.factory.buildCertificationCourse({
     id: certificationAttestationData.id,
     firstName: certificationAttestationData.firstName,
     lastName: certificationAttestationData.lastName,
@@ -1183,64 +1301,32 @@ async function _buildValidCertificationAttestationWithSeveralResults(certificati
     sessionId: certificationAttestationData.sessionId,
     userId: certificationAttestationData.userId,
   }).id;
-  databaseBuilder.factory.buildCertificationCourse({ sessionId: mostRecentSessionId });
   const assessmentId = databaseBuilder.factory.buildAssessment({
     certificationCourseId: certificationAttestationData.id,
   }).id;
   const assessmentResultId1 = databaseBuilder.factory.buildAssessmentResult({
     assessmentId,
     pixScore: certificationAttestationData.pixScore,
-    status: 'validated',
+    status: 'rejected',
     createdAt: new Date('2019-01-01'),
   }).id;
-  const assessmentResultId2 = databaseBuilder.factory.buildAssessmentResult({
+  const assessmentResultId2 = databaseBuilder.factory.buildAssessmentResult.last({
+    certificationCourseId: certificationAttestationData.id,
     assessmentId,
     pixScore: certificationAttestationData.pixScore,
-    status: 'validated',
+    status,
     createdAt: new Date('2019-01-02'),
   }).id;
+
   databaseBuilder.factory.buildCompetenceMark({
     assessmentResultId: assessmentResultId1,
   });
   databaseBuilder.factory.buildCompetenceMark({
     assessmentResultId: assessmentResultId2,
   });
-
-  const mostRecentAssessmentId = databaseBuilder.factory.buildAssessment({
-    certificationCourseId: mostRecentCertificationCourseId,
-  }).id;
-  const mostRecentAssessmentResultId1 = databaseBuilder.factory.buildAssessmentResult({
-    assessmentId: mostRecentAssessmentId,
-    pixScore: certificationAttestationData.pixScore,
-    status: 'validated',
-    createdAt: new Date('2020-01-02'),
-  }).id;
-  const mostRecentAssessmentResultId2 = databaseBuilder.factory.buildAssessmentResult({
-    assessmentId: mostRecentAssessmentId,
-    pixScore: certificationAttestationData.pixScore + 20,
-    status: 'validated',
-    createdAt: new Date('2020-01-01'),
-  }).id;
-  const mostRecentAssessmentResultId3 = databaseBuilder.factory.buildAssessmentResult({
-    assessmentId: mostRecentAssessmentId,
-    pixScore: 0,
-    status: 'rejected',
-    createdAt: new Date('2020-01-03'),
-  }).id;
-  databaseBuilder.factory.buildCompetenceMark({
-    assessmentResultId: mostRecentAssessmentResultId1,
-  });
-  databaseBuilder.factory.buildCompetenceMark({
-    assessmentResultId: mostRecentAssessmentResultId2,
-  });
-  databaseBuilder.factory.buildCompetenceMark({
-    assessmentResultId: mostRecentAssessmentResultId3,
-  });
-
-  await databaseBuilder.commit();
 }
 
-async function _linkCertificationAttestationToOrganization({
+function _linkCertificationAttestationToOrganization({
   certificationAttestationData,
   organizationId,
   division,
@@ -1260,5 +1346,4 @@ async function _linkCertificationAttestationToOrganization({
     sessionId: certificationAttestationData.sessionId,
     organizationLearnerId: srId,
   });
-  await databaseBuilder.commit();
 }
