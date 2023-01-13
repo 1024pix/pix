@@ -2,6 +2,7 @@
   {{#if this.isEditionMode}}
     <PixSelect
       @onChange={{this.setRoleSelection}}
+      @value={{this.selectedNewRole}}
       @options={{this.organizationRoles}}
       @placeholder="Rôle"
       @label="Sélectionner un rôle"
