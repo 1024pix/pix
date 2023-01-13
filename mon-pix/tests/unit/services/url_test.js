@@ -43,9 +43,7 @@ module('Unit | Service | locale', function (hooks) {
 
       // then
       const expectedDefinedHomeUrl = `${service.definedHomeUrl}?lang=${this.intl.t('current-lang')}`;
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(homeUrl, expectedDefinedHomeUrl);
+      assert.strictEqual(homeUrl, expectedDefinedHomeUrl);
     });
   });
 
@@ -61,10 +59,30 @@ module('Unit | Service | locale', function (hooks) {
     });
 
     [
-      { language: 'fr', currentDomainExtension: 'fr', expectedShowcaseUrl: 'https://pix.fr' },
-      { language: 'fr', currentDomainExtension: 'org', expectedShowcaseUrl: 'https://pix.org' },
-      { language: 'en', currentDomainExtension: 'fr', expectedShowcaseUrl: 'https://pix.fr/en-gb' },
-      { language: 'en', currentDomainExtension: 'org', expectedShowcaseUrl: 'https://pix.org/en-gb' },
+      {
+        language: 'fr',
+        currentDomainExtension: 'fr',
+        expectedShowcaseUrl: 'https://pix.fr',
+        expectedShowcaseLinkText: "Page d'accueil de Pix.fr",
+      },
+      {
+        language: 'fr',
+        currentDomainExtension: 'org',
+        expectedShowcaseUrl: 'https://pix.org',
+        expectedShowcaseLinkText: "Page d'accueil de Pix.org",
+      },
+      {
+        language: 'en',
+        currentDomainExtension: 'fr',
+        expectedShowcaseUrl: 'https://pix.fr/en-gb',
+        expectedShowcaseLinkText: "Pix.fr's Homepage",
+      },
+      {
+        language: 'en',
+        currentDomainExtension: 'org',
+        expectedShowcaseUrl: 'https://pix.org/en-gb',
+        expectedShowcaseLinkText: "Pix.org's Homepage",
+      },
     ].forEach(function (testCase) {
       test(`should get "${testCase.expectedShowcaseUrl}" when current domain="${testCase.currentDomainExtension}" and lang="${testCase.language}"`, function (assert) {
         // given
@@ -74,12 +92,11 @@ module('Unit | Service | locale', function (hooks) {
         this.intl.setLocale([testCase.language]);
 
         // when
-        const showcaseUrl = service.showcaseUrl;
+        const showcase = service.showcase;
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(showcaseUrl, testCase.expectedShowcaseUrl);
+        assert.strictEqual(showcase.url, testCase.expectedShowcaseUrl);
+        assert.strictEqual(showcase.linkText, testCase.expectedShowcaseLinkText);
       });
     });
   });
@@ -95,9 +112,7 @@ module('Unit | Service | locale', function (hooks) {
       const cguUrl = service.cguUrl;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(cguUrl, expectedCguUrl);
+      assert.strictEqual(cguUrl, expectedCguUrl);
     });
 
     test('should get "pix.org" english url when current language is en', function (assert) {
@@ -111,9 +126,7 @@ module('Unit | Service | locale', function (hooks) {
       const cguUrl = service.cguUrl;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(cguUrl, expectedCguUrl);
+      assert.strictEqual(cguUrl, expectedCguUrl);
     });
 
     test('should get "pix.org" french url when current language is fr', function (assert) {
@@ -127,9 +140,7 @@ module('Unit | Service | locale', function (hooks) {
       const cguUrl = service.cguUrl;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(cguUrl, expectedCguUrl);
+      assert.strictEqual(cguUrl, expectedCguUrl);
     });
   });
 
@@ -144,9 +155,7 @@ module('Unit | Service | locale', function (hooks) {
       const cguUrl = service.dataProtectionPolicyUrl;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(cguUrl, expectedCguUrl);
+      assert.strictEqual(cguUrl, expectedCguUrl);
     });
 
     test('should get "pix.org" english url when current language is en', function (assert) {
@@ -160,9 +169,7 @@ module('Unit | Service | locale', function (hooks) {
       const cguUrl = service.dataProtectionPolicyUrl;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(cguUrl, expectedCguUrl);
+      assert.strictEqual(cguUrl, expectedCguUrl);
     });
 
     test('should get "pix.org" french url when current language is fr', function (assert) {
@@ -176,9 +183,7 @@ module('Unit | Service | locale', function (hooks) {
       const cguUrl = service.dataProtectionPolicyUrl;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(cguUrl, expectedCguUrl);
+      assert.strictEqual(cguUrl, expectedCguUrl);
     });
   });
 });

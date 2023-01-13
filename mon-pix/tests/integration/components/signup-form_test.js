@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { clickByLabel } from '../../helpers/click-by-label';
 import Service from '@ember/service';
 
-import { fillIn, find, findAll, settled, triggerEvent } from '@ember/test-helpers';
+import { fillIn, find, findAll, triggerEvent } from '@ember/test-helpers';
 import { render } from '@1024pix/ember-testing-library';
 
 import ArrayProxy from '@ember/array/proxy';
@@ -70,7 +70,7 @@ module('Integration | Component | SignupForm', function (hooks) {
       const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
       // then
-      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.homepage') }));
+      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.showcase-homepage', { tld: 'localhost' }) }));
       assert.ok(screen.getByRole('heading', { name: this.intl.t('pages.sign-up.first-title') }));
       assert.ok(screen.getByRole('link', { name: this.intl.t('pages.sign-up.subtitle.link') }));
       assert.ok(screen.getByRole('textbox', { name: this.intl.t('pages.sign-up.fields.firstname.label') }));
@@ -264,8 +264,6 @@ module('Integration | Component | SignupForm', function (hooks) {
       session = this.owner.lookup('service:session', sessionService);
     });
     module('behavior when signup successful (test external calls)', function () {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/require-expect
       test('should return true if action <Signup> is handled', async function (assert) {
         // given
         let isFormSubmitted = false;
@@ -290,13 +288,9 @@ module('Integration | Component | SignupForm', function (hooks) {
         await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
         // then
-        return settled().then(() => {
-          assert.true(isFormSubmitted);
-        });
+        assert.true(isFormSubmitted);
       });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/require-expect
       test('should authenticate the user and empty the password', async function (assert) {
         // given
         const authenticateUserStub = sinon.stub();
@@ -320,18 +314,14 @@ module('Integration | Component | SignupForm', function (hooks) {
         await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
         // then
-        return settled().then(() => {
-          sinon.assert.calledOnce(session.authenticateUser);
-          sinon.assert.calledWith(session.authenticateUser, 'toto@pix.fr', 'gipix2017');
-          assert.notOk(user.password);
-          assert.ok(true);
-        });
+        sinon.assert.calledOnce(session.authenticateUser);
+        sinon.assert.calledWith(session.authenticateUser, 'toto@pix.fr', 'gipix2017');
+        assert.notOk(user.password);
+        assert.ok(true);
       });
     });
 
     module('Errors management', function () {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/require-expect
       test('should display an error message on first name field, when field is empty and focus-out', async function (assert) {
         // given
         const emptyFirstnameErrorMessage = this.intl.t('pages.sign-up.fields.firstname.error');
@@ -343,18 +333,14 @@ module('Integration | Component | SignupForm', function (hooks) {
         await triggerEvent('#firstName', 'focusout');
 
         // then
-        return settled().then(() => {
-          assert.ok(
-            find('#validationMessage-firstName').getAttribute('class').includes('form-textfield__message--error')
-          );
-          assert.strictEqual(find('.form-textfield__message--error').textContent.trim(), emptyFirstnameErrorMessage);
-          assert.ok(find('#firstName').getAttribute('class').includes('form-textfield__input--error'));
-          assert.dom('.form-textfield-icon__state--error').exists();
-        });
+        assert.ok(
+          find('#validationMessage-firstName').getAttribute('class').includes('form-textfield__message--error')
+        );
+        assert.strictEqual(find('.form-textfield__message--error').textContent.trim(), emptyFirstnameErrorMessage);
+        assert.ok(find('#firstName').getAttribute('class').includes('form-textfield__input--error'));
+        assert.dom('.form-textfield-icon__state--error').exists();
       });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/require-expect
       test('should display an error message on last name field, when field is empty and focus-out', async function (assert) {
         // given
         const emptyLastnameErrorMessage = this.intl.t('pages.sign-up.fields.lastname.error');
@@ -366,18 +352,12 @@ module('Integration | Component | SignupForm', function (hooks) {
         await triggerEvent('#lastName', 'focusout');
 
         // then
-        return settled().then(() => {
-          assert.ok(
-            find('#validationMessage-lastName').getAttribute('class').includes('form-textfield__message--error')
-          );
-          assert.strictEqual(find('.form-textfield__message--error').textContent.trim(), emptyLastnameErrorMessage);
-          assert.ok(find('#lastName').getAttribute('class').includes('form-textfield__input--error'));
-          assert.dom('.form-textfield-icon__state--error').exists();
-        });
+        assert.ok(find('#validationMessage-lastName').getAttribute('class').includes('form-textfield__message--error'));
+        assert.strictEqual(find('.form-textfield__message--error').textContent.trim(), emptyLastnameErrorMessage);
+        assert.ok(find('#lastName').getAttribute('class').includes('form-textfield__input--error'));
+        assert.dom('.form-textfield-icon__state--error').exists();
       });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/require-expect
       test('should display an error message on email field, when field is empty and focus-out', async function (assert) {
         // given
         const emptyEmailErrorMessage = this.intl.t('pages.sign-up.fields.email.error');
@@ -389,18 +369,14 @@ module('Integration | Component | SignupForm', function (hooks) {
         await triggerEvent('#email', 'focusout');
 
         // then
-        return settled().then(() => {
-          assert.ok(
-            find('.form-textfield__message-email').getAttribute('class').includes('form-textfield__message--error')
-          );
-          assert.strictEqual(find('.form-textfield__message--error').textContent.trim(), emptyEmailErrorMessage);
-          assert.ok(find('#email').getAttribute('class').includes('form-textfield__input--error'));
-          assert.dom('.form-textfield-icon__state--error').exists();
-        });
+        assert.ok(
+          find('.form-textfield__message-email').getAttribute('class').includes('form-textfield__message--error')
+        );
+        assert.strictEqual(find('.form-textfield__message--error').textContent.trim(), emptyEmailErrorMessage);
+        assert.ok(find('#email').getAttribute('class').includes('form-textfield__input--error'));
+        assert.dom('.form-textfield-icon__state--error').exists();
       });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/require-expect
       test('should display an error message on password field, when field is empty and focus-out', async function (assert) {
         // given
         const incorrectPasswordErrorMessage = this.intl.t('pages.sign-up.fields.password.error');
@@ -412,18 +388,14 @@ module('Integration | Component | SignupForm', function (hooks) {
         await triggerEvent('#password', 'focusout');
 
         // then
-        return settled().then(() => {
-          assert.ok(
-            find('.form-textfield__message-password').getAttribute('class').includes('form-textfield__message--error')
-          );
-          assert.strictEqual(find('.form-textfield__message--error').textContent.trim(), incorrectPasswordErrorMessage);
-          assert.ok(find('#password').getAttribute('class').includes('form-textfield__input--error'));
-          assert.dom('.form-textfield-icon__state--error').exists();
-        });
+        assert.ok(
+          find('.form-textfield__message-password').getAttribute('class').includes('form-textfield__message--error')
+        );
+        assert.strictEqual(find('.form-textfield__message--error').textContent.trim(), incorrectPasswordErrorMessage);
+        assert.ok(find('#password').getAttribute('class').includes('form-textfield__input--error'));
+        assert.dom('.form-textfield-icon__state--error').exists();
       });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/require-expect
       test("should display an error message on cgu field, when cgu isn't accepted and form is submitted", async function (assert) {
         // given
         const uncheckedCheckboxCguErrorMessage = this.intl.t('common.cgu.error');
@@ -455,10 +427,8 @@ module('Integration | Component | SignupForm', function (hooks) {
         await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
         // then
-        return settled().then(() => {
-          assert.dom('.sign-form__validation-error').exists();
-          assert.strictEqual(find('.sign-form__validation-error').textContent.trim(), uncheckedCheckboxCguErrorMessage);
-        });
+        assert.dom('.sign-form__validation-error').exists();
+        assert.strictEqual(find('.sign-form__validation-error').textContent.trim(), uncheckedCheckboxCguErrorMessage);
       });
 
       test('should display an error message on email field, when email above a maximum length of 255 and focus-out', async function (assert) {
@@ -516,15 +486,11 @@ module('Integration | Component | SignupForm', function (hooks) {
         await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
         // then
-        return settled().then(() => {
-          assert.dom('.signup-form__notification-message').doesNotExist();
-        });
+        assert.dom('.signup-form__notification-message').doesNotExist();
       });
     });
 
     module('Successfull cases', function () {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/require-expect
       test('should display first name field as validated without error message, when field is filled and focus-out', async function (assert) {
         // given
         this.set('user', userEmpty);
@@ -535,18 +501,14 @@ module('Integration | Component | SignupForm', function (hooks) {
         await triggerEvent('#firstName', 'focusout');
 
         // then
-        return settled().then(() => {
-          assert.ok(
-            find('#validationMessage-firstName').getAttribute('class').includes('form-textfield__message--success')
-          );
-          assert.dom('.form-textfield__message--error').doesNotExist();
-          assert.ok(find('#firstName').getAttribute('class').includes('form-textfield__input--success'));
-          assert.dom('.form-textfield-icon__state--success').exists();
-        });
+        assert.ok(
+          find('#validationMessage-firstName').getAttribute('class').includes('form-textfield__message--success')
+        );
+        assert.dom('.form-textfield__message--error').doesNotExist();
+        assert.ok(find('#firstName').getAttribute('class').includes('form-textfield__input--success'));
+        assert.dom('.form-textfield-icon__state--success').exists();
       });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/require-expect
       test('should display last name field as validated without error message, when field is filled and focus-out', async function (assert) {
         // given
         this.set('user', userEmpty);
@@ -557,18 +519,14 @@ module('Integration | Component | SignupForm', function (hooks) {
         await triggerEvent('#lastName', 'focusout');
 
         // then
-        return settled().then(() => {
-          assert.ok(
-            find('#validationMessage-lastName').getAttribute('class').includes('form-textfield__message--success')
-          );
-          assert.dom('.form-textfield__message--error').doesNotExist();
-          assert.ok(find('#lastName').getAttribute('class').includes('form-textfield__input--success'));
-          assert.dom('.form-textfield-icon__state--success').exists();
-        });
+        assert.ok(
+          find('#validationMessage-lastName').getAttribute('class').includes('form-textfield__message--success')
+        );
+        assert.dom('.form-textfield__message--error').doesNotExist();
+        assert.ok(find('#lastName').getAttribute('class').includes('form-textfield__input--success'));
+        assert.dom('.form-textfield-icon__state--success').exists();
       });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/require-expect
       test('should display email field as validated without error message, when field is filled and focus-out', async function (assert) {
         // given
         this.set('user', userEmpty);
@@ -579,18 +537,14 @@ module('Integration | Component | SignupForm', function (hooks) {
         await triggerEvent('#email', 'focusout');
 
         // then
-        return settled().then(() => {
-          assert.ok(
-            find('.form-textfield__message-email').getAttribute('class').includes('form-textfield__message--success')
-          );
-          assert.dom('.form-textfield__message--error').doesNotExist();
-          assert.ok(find('#email').getAttribute('class').includes('form-textfield__input--success'));
-          assert.dom('.form-textfield-icon__state--success').exists();
-        });
+        assert.ok(
+          find('.form-textfield__message-email').getAttribute('class').includes('form-textfield__message--success')
+        );
+        assert.dom('.form-textfield__message--error').doesNotExist();
+        assert.ok(find('#email').getAttribute('class').includes('form-textfield__input--success'));
+        assert.dom('.form-textfield-icon__state--success').exists();
       });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/require-expect
       test('should display password field as validated without error message, when field is filled and focus-out', async function (assert) {
         // given
         this.set('user', userEmpty);
@@ -601,14 +555,12 @@ module('Integration | Component | SignupForm', function (hooks) {
         await triggerEvent('#password', 'focusout');
 
         // then
-        return settled().then(() => {
-          assert.ok(
-            find('.form-textfield__message-password').getAttribute('class').includes('form-textfield__message--success')
-          );
-          assert.dom('.form-textfield__message--error').doesNotExist();
-          assert.ok(find('#password').getAttribute('class').includes('form-textfield__input--success'));
-          assert.dom('.form-textfield-icon__state--success').exists();
-        });
+        assert.ok(
+          find('.form-textfield__message-password').getAttribute('class').includes('form-textfield__message--success')
+        );
+        assert.dom('.form-textfield__message--error').doesNotExist();
+        assert.ok(find('#password').getAttribute('class').includes('form-textfield__input--success'));
+        assert.dom('.form-textfield-icon__state--success').exists();
       });
 
       test('should not display an error message on cgu field, when cgu is accepted and form is submitted', async function (assert) {
@@ -628,13 +580,9 @@ module('Integration | Component | SignupForm', function (hooks) {
         await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
         // then
-        return settled().then(() => {
-          assert.dom('.sign-form__validation-error').doesNotExist();
-        });
+        assert.dom('.sign-form__validation-error').doesNotExist();
       });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/require-expect
       test('should reset validation property, when all things are ok and form is submitted', async function (assert) {
         // given
         const validUser = EmberObject.create({
@@ -656,13 +604,11 @@ module('Integration | Component | SignupForm', function (hooks) {
         await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
         // then
-        return settled().then(() => {
-          assert.ok(
-            findAll('.form-textfield__input-field-container')[0]
-              .getAttribute('class')
-              .includes(INPUT_TEXT_FIELD_CLASS_DEFAULT)
-          );
-        });
+        assert.ok(
+          findAll('.form-textfield__input-field-container')[0]
+            .getAttribute('class')
+            .includes(INPUT_TEXT_FIELD_CLASS_DEFAULT)
+        );
       });
     });
   });

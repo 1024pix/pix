@@ -58,8 +58,8 @@ export default class SignupForm extends Component {
   @tracked validation = new SignupFormValidation();
   _tokenHasBeenUsed = null;
 
-  get showcaseUrl() {
-    return this.url.showcaseUrl;
+  get showcase() {
+    return this.url.showcase;
   }
 
   get cguUrl() {
