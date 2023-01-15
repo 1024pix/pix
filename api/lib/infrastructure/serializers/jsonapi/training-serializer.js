@@ -15,10 +15,7 @@ module.exports = {
         const duration = deserializedTraining.duration;
         if (!duration) return deserializedTraining;
 
-        const days = duration?.days || 0;
-        const hours = duration?.hours || 0;
-        const minutes = duration?.minutes || 0;
-
+        const { days, hours, minutes } = duration;
         const formattedDuration = `${days}d${hours}h${minutes}m`;
 
         return {
