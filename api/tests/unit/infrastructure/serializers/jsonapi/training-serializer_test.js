@@ -105,7 +105,7 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
 
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      { duration: {}, expectedDuration: '0d0h0m' },
+      { duration: { days: 0, hours: 0, minutes: 0 }, expectedDuration: '0d0h0m' },
       {
         duration: {
           days: 1,
