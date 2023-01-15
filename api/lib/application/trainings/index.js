@@ -103,9 +103,9 @@ exports.register = async (server) => {
                 link: Joi.string().allow(null),
                 title: Joi.string().allow(null),
                 duration: Joi.object({
-                  days: Joi.number().min(0),
-                  hours: Joi.number().min(0).max(23),
-                  minutes: Joi.number().min(0).max(59),
+                  days: Joi.number().min(0).required(),
+                  hours: Joi.number().min(0).max(23).required(),
+                  minutes: Joi.number().min(0).max(59).required(),
                 }).allow(null),
                 type: Joi.string().valid('autoformation', 'webinaire').allow(null),
                 locale: Joi.string().valid('fr-fr', 'fr', 'en-gb').allow(null),

@@ -595,17 +595,51 @@ describe('Unit | Router | training-router', function () {
           });
         });
 
-        describe('success', function () {
+        describe('incomplete', function () {
           [
-            { days: 2, hours: 2, minutes: 2 },
             { days: 2, hours: 2 },
             { days: 2, minutes: 2 },
             { hours: 2, minutes: 2 },
             { days: 2 },
             { hours: 2 },
             { minutes: 2 },
-            { days: 0, hours: 0, minutes: 0 },
             {},
+          ].forEach((duration) => {
+            it(`should return 400 if the payload.duration is ${JSON.stringify(duration)}`, async function () {
+              // given
+              const securityPreHandlersResponses = {
+                checkAdminMemberHasRoleSuperAdmin: (request, h) => h.response(true),
+                checkAdminMemberHasRoleMetier: (request, h) => h.response({ errors: new Error('forbidden') }).code(403),
+              };
+
+              sinon.stub(trainingController, 'update').returns('ok');
+              sinon
+                .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+                .callsFake(securityPreHandlersResponses.checkAdminMemberHasRoleSuperAdmin);
+              sinon
+                .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
+                .callsFake(securityPreHandlersResponses.checkAdminMemberHasRoleMetier);
+              const invalidPayload = {
+                data: {
+                  attributes: { duration },
+                },
+              };
+              const httpTestServer = new HttpTestServer();
+              await httpTestServer.register(moduleUnderTest);
+
+              // when
+              const result = await httpTestServer.request('PATCH', '/api/admin/trainings/1', invalidPayload);
+
+              // then
+              expect(result.statusCode).to.equal(400);
+            });
+          });
+        });
+
+        describe('success', function () {
+          [
+            { days: 2, hours: 2, minutes: 2 },
+            { days: 0, hours: 0, minutes: 0 },
           ].forEach((duration) => {
             it(`should return 200 if the payload.duration is ${JSON.stringify(duration)}`, async function () {
               // given
