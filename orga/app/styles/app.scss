@@ -4,7 +4,6 @@
 @import 'pix-design-tokens';
 
 // global
-@import 'globals/a11y';
 @import 'globals/colors';
 @import 'globals/layout';
 @import 'globals/competences';
@@ -82,18 +81,9 @@
 @import 'pages/authenticated/team/new';
 @import 'pages/authenticated/terms-of-service';
 
-body,
-html {
-  margin: 0;
-  height: 100%;
-  font-family: $font-roboto;
-  font-size: 100%;
+body {
   background-color: $pix-neutral-10;
   color: $pix-neutral-110;
-}
-
-body > .ember-view {
-  height: 100%;
 }
 
 input:invalid {

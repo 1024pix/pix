@@ -5,7 +5,7 @@
   font-size: 0.875rem;
 
   &--open {
-    margin-left: 16px;
+    margin-left: $spacing-s;
     color: $pix-neutral-100;
     font-weight: 700;
   }
@@ -24,9 +24,11 @@
 
 .tube-recommendation-tutorial {
   height: 0;
+  display: none;
   border-top: none;
 
   &--open {
+    display: table-row;
     height: 100%;
   }
 
@@ -34,19 +36,21 @@
     font-family: $font-open-sans;
     color: $pix-neutral-60;
     font-size: 0.875rem;
+    margin-bottom: $spacing-s;
   }
 
   &__column {
     position: relative;
-    padding-left: 32px;
-    padding-right: 52px;
+    padding-left: $spacing-l;
+    padding-right: $spacing-xl;
   }
 
   &__title {
     font-weight: 400;
+    margin-bottom: $spacing-s;
     font-family: $font-open-sans;
     font-size: 1rem;
-    padding-left: 20px;
+    padding-left: $spacing-m;
   }
 }
 
@@ -63,8 +67,8 @@
 }
 
 .tube-recommendation-tutorial-table {
-  margin-bottom: 10px;
-  margin-left: 20px;
+  margin-bottom: $spacing-xs;
+  margin-left: $spacing-m;
 
   &__row {
     padding-left: 0;
