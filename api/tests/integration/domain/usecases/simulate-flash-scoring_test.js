@@ -129,7 +129,26 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
     });
   });
 
-  describe('when a simulation does NOT have any simulated level', function() {
+  describe('when there are NO answers', function () {
+    it('should return a total score with inferred challenges values', async function () {
+      // given
+
+      const estimatedLevel = 2;
+
+      const simulation = new ScoringSimulation({ id: 'simulation1', estimatedLevel });
+
+      // when
+      const simulationResults = await usecases.simulateFlashScoring({ simulations: [simulation] });
+
+      // then
+      expect(simulationResults).to.have.lengthOf(1);
+      expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
+      expect(simulationResults[0]).to.have.property('id', 'simulation1');
+      expect(simulationResults[0]).to.have.property('pixScore', 111000);
+    });
+  });
+
+  describe('when a simulation does NOT have any simulated level', function () {
     it('should return an error', async function () {
       // given
       const answers = [
