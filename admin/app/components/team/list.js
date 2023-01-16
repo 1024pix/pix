@@ -9,7 +9,6 @@ export default class List extends Component {
   @service errorResponseHandler;
   @tracked displayConfirm = false;
   @tracked editionMode = false;
-  @tracked newRole;
   @tracked confirmPopUpMessage;
 
   CUSTOM_ERROR_STATUS_MESSAGES = {
@@ -27,20 +26,20 @@ export default class List extends Component {
   }
 
   @action
-  setAdminRoleSelection(value) {
-    this.newRole = value;
+  setAdminRoleSelection(adminMember, value) {
+    adminMember.updatedRole = value;
   }
 
   @action
   async updateMemberRole(adminMember) {
     const previousRole = adminMember.role;
 
-    if (!this.newRole || this.newRole === previousRole) {
+    if (!adminMember.updatedRole || adminMember.updatedRole === previousRole) {
       adminMember.isInEditionMode = false;
       return;
     }
 
-    adminMember.role = this.newRole;
+    adminMember.role = adminMember.updatedRole;
     try {
       await adminMember.save();
       this.notifications.success(
