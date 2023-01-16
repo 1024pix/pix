@@ -9,10 +9,11 @@ module.exports = async function simulateNewScoring({
   const challenges = await challengeRepository.findFlashCompatible({ locale });
   const challengeIds = new Set(challenges.map(({ id }) => id));
 
-  return simulations.map(({ estimatedLevel, answers: allAnswers }) => {
+  return simulations.map(({ id, estimatedLevel, answers: allAnswers }) => {
     for (const answer of allAnswers) {
       if (!challengeIds.has(answer.challengeId)) {
         return new SimulationResult({
+          id,
           error: `Challenge ID ${answer.challengeId} is unknown or not compatible with flash algorithm`,
         });
       }
@@ -24,6 +25,6 @@ module.exports = async function simulateNewScoring({
       allAnswers,
     });
 
-    return new SimulationResult({ estimatedLevel, pixScore });
+    return new SimulationResult({ id, estimatedLevel, pixScore });
   });
 };
