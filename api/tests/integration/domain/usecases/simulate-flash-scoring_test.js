@@ -71,7 +71,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
 
       const estimatedLevel = 2;
 
-      const simulation = new ScoringSimulation({ answers, estimatedLevel });
+      const simulation = new ScoringSimulation({ id: 'simulation1', answers, estimatedLevel });
 
       // when
       const simulationResults = await usecases.simulateFlashScoring({ simulations: [simulation] });
@@ -79,6 +79,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
       // then
       expect(simulationResults).to.have.lengthOf(1);
       expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
+      expect(simulationResults[0]).to.have.property('id', 'simulation1');
       expect(simulationResults[0]).to.have.property('pixScore', 110011);
     });
 
@@ -89,7 +90,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
 
         const estimatedLevel = 2;
 
-        const simulation = new ScoringSimulation({ answers, estimatedLevel });
+        const simulation = new ScoringSimulation({ id: 'simulation1', answers, estimatedLevel });
 
         // when
         const simulationResults = await usecases.simulateFlashScoring({ simulations: [simulation] });
@@ -97,6 +98,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
         // then
         expect(simulationResults).to.have.lengthOf(1);
         expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
+        expect(simulationResults[0]).to.have.property('id', 'simulation1');
         expect(simulationResults[0]).to.have.property(
           'error',
           'Challenge ID unknownChallenge is unknown or not compatible with flash algorithm'
