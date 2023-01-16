@@ -9,7 +9,7 @@ export default class ListController extends Controller {
   @service router;
 
   @tracked pageNumber = 1;
-  @tracked pageSize = 25;
+  @tracked pageSize = 50;
   @tracked fullName = null;
   @tracked certificability = [];
 
