@@ -52,6 +52,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
         { id: 'challenge5', skillId: 'skill5', status: 'validé', alpha: 3, delta: 1, locales: ['fr'] },
         { id: 'challenge6', skillId: 'skill6', status: 'validé', alpha: 1.7, delta: -1, locales: ['fr'] },
         { id: 'challenge7', skillId: 'skill7', status: 'validé', alpha: 2.5, delta: 5, locales: ['fr'] },
+        { id: 'challenge8', skillId: 'skill7', status: 'validé', locales: ['fr'] },
       ],
     };
 
@@ -79,6 +80,50 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
       expect(simulationResults).to.have.lengthOf(1);
       expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
       expect(simulationResults[0]).to.have.property('pixScore', 110011);
+    });
+
+    describe('when an answer on an unknown challenge is received', function () {
+      it('should return an error', async function () {
+        // given
+        const answers = [domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: 'unknownChallenge' })];
+
+        const estimatedLevel = 2;
+
+        const simulation = new ScoringSimulation({ answers, estimatedLevel });
+
+        // when
+        const simulationResults = await usecases.simulateFlashScoring({ simulations: [simulation] });
+
+        // then
+        expect(simulationResults).to.have.lengthOf(1);
+        expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
+        expect(simulationResults[0]).to.have.property(
+          'error',
+          'Challenge ID unknownChallenge is unknown or not compatible with flash algorithm'
+        );
+      });
+    });
+
+    describe('when an answer on a non flash compatible challenge is received', function () {
+      it('should return an error', async function () {
+        // given
+        const answers = [domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: 'challenge8' })];
+
+        const estimatedLevel = 2;
+
+        const simulation = new ScoringSimulation({ answers, estimatedLevel });
+
+        // when
+        const simulationResults = await usecases.simulateFlashScoring({ simulations: [simulation] });
+
+        // then
+        expect(simulationResults).to.have.lengthOf(1);
+        expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
+        expect(simulationResults[0]).to.have.property(
+          'error',
+          'Challenge ID challenge8 is unknown or not compatible with flash algorithm'
+        );
+      });
     });
   });
 });
