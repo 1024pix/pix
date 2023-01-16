@@ -1,62 +1,72 @@
 const { expect, catchErr, sinon } = require('../../../test-helper');
 const createSessions = require('../../../../lib/domain/usecases/create-sessions');
-const { EntityValidationError, ForbiddenAccess } = require('../../../../lib/domain/errors');
+const { EntityValidationError, InvalidCertificationCandidate } = require('../../../../lib/domain/errors');
 const { UnprocessableEntityError } = require('../../../../lib/application/http-errors');
-const sessionValidator = require('../../../../lib/domain/validators/session-validator');
 const sessionCodeService = require('../../../../lib/domain/services/session-code-service');
 const Session = require('../../../../lib/domain/models/Session');
-const createSession = require('../../../../lib/domain/usecases/create-session');
+const certificationCpfService = require('../../../../lib/domain/services/certification-cpf-service');
+const { CpfBirthInformationValidation } = require('../../../../lib/domain/services/certification-cpf-service');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Unit | UseCase | create-sessions', function () {
-  let userId;
   let accessCode;
   let certificationCenterId;
   let certificationCenterName;
   let certificationCenter;
   let certificationCenterRepository;
   let sessionRepository;
-  let userRepository;
-  let userWithMemberships;
 
   beforeEach(function () {
-    userId = 'userId';
     accessCode = 'accessCode';
     certificationCenterId = '123';
     certificationCenterName = 'certificationCenterName';
     certificationCenter = { id: certificationCenterId, name: certificationCenterName };
     certificationCenterRepository = { get: sinon.stub() };
-    sessionRepository = { saveSessions: sinon.stub() };
-    userRepository = { getWithCertificationCenterMemberships: sinon.stub() };
-    userWithMemberships = { hasAccessToCertificationCenter: sinon.stub() };
-    sinon.stub(sessionValidator, 'validate');
+    sessionRepository = { save: sinon.stub() };
     sinon.stub(sessionCodeService, 'getNewSessionCodeWithoutAvailabilityCheck');
+    sinon.stub(certificationCpfService, 'getBirthInformation');
     sessionCodeService.getNewSessionCodeWithoutAvailabilityCheck.returns(accessCode);
     certificationCenterRepository.get.withArgs(certificationCenterId).resolves({ name: certificationCenter.name });
   });
 
   context('when sessions are valid', function () {
     context('when user has certification center membership', function () {
-      it('should save the sessions', async function () {
+      it('should save every session one by one', async function () {
         // given
-        const sessionsToSave = [{ certificationCenterId }];
-        userWithMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(true);
-        userRepository.getWithCertificationCenterMemberships.withArgs(userId).returns(userWithMemberships);
-        sessionRepository.saveSessions.resolves();
-        sessionValidator.validate.returns();
+        const validSessionData = createValidSessionData();
+        const sessions = [
+          {
+            ...validSessionData,
+            room: 'Salle 1',
+          },
+          {
+            ...validSessionData,
+            room: 'Salle 2',
+          },
+        ];
+
+        const domainTransaction = Symbol('trx');
+        sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
 
         // when
         await createSessions({
-          data: sessionsToSave,
+          sessions,
           certificationCenterId,
-          userId,
           certificationCenterRepository,
           sessionRepository,
-          userRepository,
         });
 
         // then
         const expectedSessions = [
           new Session({
+            ...sessions[0],
+            certificationCenterId,
+            certificationCenter: certificationCenterName,
+            accessCode,
+            supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
+          }),
+          new Session({
+            ...sessions[1],
             certificationCenterId,
             certificationCenter: certificationCenterName,
             accessCode,
@@ -64,28 +74,110 @@ describe('Unit | UseCase | create-sessions', function () {
           }),
         ];
 
-        expect(sessionRepository.saveSessions).to.have.been.calledWithExactly(expectedSessions);
+        expect(sessionRepository.save).to.have.been.calledTwice;
+        expect(sessionRepository.save.firstCall).to.have.been.calledWithExactly(expectedSessions[0], domainTransaction);
+        expect(sessionRepository.save.secondCall).to.have.been.calledWithExactly(
+          expectedSessions[1],
+          domainTransaction
+        );
       });
     });
 
-    context('when user has no certification center membership', function () {
-      it('should throw a forbidden error', async function () {
-        // given
-        const sessionsToSave = [{ certificationCenterId }];
-        userRepository.getWithCertificationCenterMemberships.withArgs(userId).returns(userWithMemberships);
-        userWithMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(false);
+    context('when the session has candidates', function () {
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      [{ firstName: '' }, { firstName: null }].forEach((wrondCandidateProperty) => {
+        context(
+          // eslint-disable-next-line mocha/no-setup-in-describe
+          `when the candidate has at least one wrong information: ${JSON.stringify(wrondCandidateProperty)}`,
+          function () {
+            it('should throw a validation error', async function () {
+              // given
+              const validSessionData = createValidSessionData();
+              const validCandidateData = createValidCandidateData();
+              const sessions = [
+                {
+                  ...validSessionData,
+                  certificationCandidates: [{ ...validCandidateData, ...wrondCandidateProperty }],
+                },
+              ];
+              sessionRepository.save.resolves({ id: 99 });
 
-        // when
-        const error = await catchErr(createSession)({
-          userId,
-          session: sessionsToSave,
-          certificationCenterRepository,
-          sessionRepository,
-          userRepository,
+              // when
+              const error = await catchErr(createSessions)({
+                sessions,
+                certificationCenterId,
+                certificationCenterRepository,
+                sessionRepository,
+              });
+
+              // then
+              expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+            });
+          }
+        );
+
+        context('when the candidate has at least one wrong cpf birth information', function () {
+          it('should throw a validation error', async function () {
+            // given
+            const cpfBirthInformationValidation = CpfBirthInformationValidation.failure(
+              'Seul l\'un des champs "Code postal" ou "Code Insee" doit être renseigné.'
+            );
+            certificationCpfService.getBirthInformation.resolves(cpfBirthInformationValidation);
+            const validSessionData = createValidSessionData();
+            const validCandidateData = createValidCandidateData();
+
+            const sessions = [
+              {
+                ...validSessionData,
+                certificationCandidates: [
+                  {
+                    ...validCandidateData,
+                    birthINSEECode: '134',
+                    birthPostalCode: '3456',
+                  },
+                ],
+              },
+            ];
+            sessionRepository.save.resolves({ id: 99 });
+
+            // when
+            const error = await catchErr(createSessions)({
+              sessions,
+              certificationCenterId,
+              certificationCenterRepository,
+              sessionRepository,
+            });
+
+            // then
+            expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+          });
         });
 
-        // then
-        expect(error).to.be.instanceOf(ForbiddenAccess);
+        context('when the candidate has correct information', function () {
+          it('should not throw an error', async function () {
+            // given
+            const validSessionData = createValidSessionData();
+            const validCandidateData = createValidCandidateData();
+            const sessions = [
+              {
+                ...validSessionData,
+                certificationCandidates: [{ ...validCandidateData }],
+              },
+            ];
+            sessionRepository.save.resolves({ id: 99 });
+
+            // when
+            // then
+            expect(() =>
+              createSessions({
+                sessions,
+                certificationCenterId,
+                certificationCenterRepository,
+                sessionRepository,
+              })
+            ).not.to.throw();
+          });
+        });
       });
     });
   });
@@ -93,19 +185,21 @@ describe('Unit | UseCase | create-sessions', function () {
   context('when at least one of the sessions is not valid', function () {
     it('should throw an error', async function () {
       // given
-      const sessionsToSave = [{ date: "Ceci n'est pas une date" }];
-      userWithMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(true);
-      userRepository.getWithCertificationCenterMemberships.withArgs(userId).returns(userWithMemberships);
-      sessionValidator.validate.throws();
+      const validSessionData = createValidSessionData();
+
+      const sessions = [
+        {
+          ...validSessionData,
+          address: null,
+        },
+      ];
 
       // when
       const err = await catchErr(createSessions)({
-        data: sessionsToSave,
-        userId,
+        sessions,
         certificationCenterId,
         certificationCenterRepository,
         sessionRepository,
-        userRepository,
       });
 
       // then
@@ -116,13 +210,42 @@ describe('Unit | UseCase | create-sessions', function () {
   context('when there is no session data', function () {
     it('should throw an error', async function () {
       // given
-      const data = [];
+      const sessions = [];
 
       // when
-      const err = await catchErr(createSessions)({ data, certificationCenterId });
+      const err = await catchErr(createSessions)({ sessions, certificationCenterId });
 
       // then
       expect(err).to.be.instanceOf(UnprocessableEntityError);
     });
   });
 });
+
+function createValidSessionData() {
+  return {
+    address: 'Site 1',
+    room: 'Salle 1',
+    date: '2022-03-12',
+    time: '01:00',
+    examiner: 'Pierre',
+    description: 'desc',
+    certificationCandidates: [],
+  };
+}
+function createValidCandidateData() {
+  return {
+    lastName: 'Candidat 2',
+    firstName: 'Candidat 2',
+    birthdate: '1981-03-12',
+    sex: 'M',
+    birthINSEECode: '134',
+    birthPostalCode: null, //'3456',
+    birthCity: '',
+    birthCountry: 'France',
+    resultRecipientEmail: 'robindahood@email.fr',
+    email: 'robindahood2@email.fr',
+    externalId: 'htehte',
+    extraTimePercentage: '20',
+    billingMode: 'FREE',
+  };
+}

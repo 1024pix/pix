@@ -350,6 +350,9 @@ class InvalidCertificationCandidate extends DomainError {
     if (type === 'any.required' && error.key === 'prepaymentCode') {
       error.why = 'prepayment_code_null';
     }
+    if (type === 'object.assert' && errorDetail.context.subject.key === 'birthPostalCode') {
+      error.why = 'birthPostalCode_birthINSEECode_invalid';
+    }
     return new InvalidCertificationCandidate({ error });
   }
 }

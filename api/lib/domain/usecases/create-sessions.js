@@ -1,47 +1,70 @@
 const sessionValidator = require('../validators/session-validator');
-const { EntityValidationError } = require('../errors');
 const { UnprocessableEntityError } = require('../../application/http-errors');
 const Session = require('../models/Session');
 const sessionCodeService = require('../services/session-code-service');
-const certificationSessionsService = require('../services/certification-sessions-service');
+const certificationCpfService = require('../services/certification-cpf-service');
+const CertificationCandidate = require('../models/CertificationCandidate');
+const bluebird = require('bluebird');
+const { InvalidCertificationCandidate } = require('../errors');
+const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = async function createSessions({
-  data,
+  sessions,
   certificationCenterId,
   certificationCenterRepository,
   sessionRepository,
+  certificationCpfCountryRepository,
+  certificationCpfCityRepository,
 }) {
-  if (data.length === 0) {
-    throw new UnprocessableEntityError('No data in table');
+  if (sessions.length === 0) {
+    throw new UnprocessableEntityError('No session data in csv');
   }
 
   const { name: certificationCenter } = await certificationCenterRepository.get(certificationCenterId);
 
-  const groupedSessions = certificationSessionsService.groupBySessions(data);
-
-  try {
-    const domainSessions = groupedSessions.map((data) => {
+  await DomainTransaction.execute(async (domainTransaction) => {
+    await bluebird.mapSeries(sessions, async (session) => {
       const accessCode = sessionCodeService.getNewSessionCodeWithoutAvailabilityCheck();
       const domainSession = new Session({
+        ...session,
         certificationCenterId,
         certificationCenter,
-        address: data['* Nom du site'],
-        room: data['* Nom de la salle'],
-        date: data['* Date de début'],
-        time: data['* Heure de début (heure locale)'],
-        examiner: data['* Surveillant(s)'],
-        description: data['Observations (optionnel)'],
         accessCode,
       });
 
       domainSession.generateSupervisorPassword();
       sessionValidator.validate(domainSession);
-      return domainSession;
-    });
+      const savedSession = await sessionRepository.save(domainSession, domainTransaction);
 
-    await sessionRepository.saveSessions(domainSessions);
-  } catch (e) {
-    throw new EntityValidationError(e);
-  }
-  return;
+      await bluebird.mapSeries(domainSession.certificationCandidates, async (certificationCandidate) => {
+        const billingMode = CertificationCandidate.translateBillingMode(certificationCandidate.billingMode);
+        const domainCertificationCandidate = new CertificationCandidate({
+          ...certificationCandidate,
+          sessionId: savedSession.id,
+          billingMode,
+        });
+
+        if (domainCertificationCandidate.billingMode === 'FREE') {
+          domainCertificationCandidate.prepaymentCode = null;
+        }
+
+        domainCertificationCandidate.validate();
+
+        const cpfBirthInformation = await certificationCpfService.getBirthInformation({
+          birthCountry: domainCertificationCandidate.birthCountry,
+          birthCity: domainCertificationCandidate.birthCity,
+          birthPostalCode: domainCertificationCandidate.birthPostalCode,
+          birthINSEECode: domainCertificationCandidate.birthINSEECode,
+          certificationCpfCountryRepository,
+          certificationCpfCityRepository,
+        });
+
+        if (cpfBirthInformation.hasFailed()) {
+          throw new InvalidCertificationCandidate({ message: cpfBirthInformation.message, error: {} });
+        }
+      });
+
+      return savedSession;
+    });
+  });
 };

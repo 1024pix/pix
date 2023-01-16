@@ -24,6 +24,30 @@ function certificationCpfCityBuilder({ databaseBuilder }) {
   });
 
   databaseBuilder.factory.buildCertificationCpfCity({
+    name: 'PARIS',
+    postalCode: '75001',
+    INSEECode: '75101',
+  });
+
+  databaseBuilder.factory.buildCertificationCpfCity({
+    name: 'PARIS',
+    postalCode: '75012',
+    INSEECode: '75112',
+  });
+
+  databaseBuilder.factory.buildCertificationCpfCity({
+    name: 'PARIS',
+    postalCode: '75015',
+    INSEECode: '75115',
+  });
+
+  databaseBuilder.factory.buildCertificationCpfCity({
+    name: 'PARIS',
+    postalCode: '75019',
+    INSEECode: '75119',
+  });
+
+  databaseBuilder.factory.buildCertificationCpfCity({
     name: 'PERPIGNAN',
     postalCode: '66000',
     INSEECode: '66136',
