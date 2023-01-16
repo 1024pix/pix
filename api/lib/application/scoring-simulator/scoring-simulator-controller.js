@@ -18,6 +18,17 @@ module.exports = {
   },
 
   async calculateFlashScores(request, h) {
-    return h.response({}).code(200);
+    const simulations = request.payload.simulations.map(
+      (simulation) =>
+        new ScoringSimulation({
+          id: simulation.id,
+          estimatedLevel: simulation.estimatedLevel,
+          answers: simulation.answers.map((answer) => new Answer(answer)),
+        })
+    );
+
+    const results = await usecases.simulateFlashScoring({ simulations });
+
+    return h.response({ results });
   },
 };

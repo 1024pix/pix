@@ -60,12 +60,12 @@ describe('Acceptance | Controller | scoring-simulator-controller', function () {
         { id: 'skill6', status: 'périmé', tubeId: 'recTube2', competenceId: 'rec2', level: 6, pixValue: 100000 },
       ],
       challenges: [
-        { id: 'challenge1', skillId: 'skill1', status: 'validé' },
-        { id: 'challenge2', skillId: 'skill2', status: 'validé' },
-        { id: 'challenge3', skillId: 'skill3', status: 'validé' },
-        { id: 'challenge4', skillId: 'skill4', status: 'validé' },
-        { id: 'challenge5', skillId: 'skill5', status: 'validé' },
-        { id: 'challenge6', skillId: 'skill5', status: 'validé' },
+        { id: 'challenge1', skillId: 'skill1', status: 'validé', alpha: 0.16, delta: -2, locales: ['fr'] },
+        { id: 'challenge2', skillId: 'skill2', status: 'validé', alpha: 3, delta: 6, locales: ['fr'] },
+        { id: 'challenge3', skillId: 'skill3', status: 'validé', alpha: 1.587, delta: 8.5, locales: ['fr'] },
+        { id: 'challenge4', skillId: 'skill4', status: 'validé', alpha: 2.86789, delta: 0.145, locales: ['fr'] },
+        { id: 'challenge5', skillId: 'skill5', status: 'validé', alpha: 3, delta: 1, locales: ['fr'] },
+        { id: 'challenge6', skillId: 'skill5', status: 'validé', alpha: 1.7, delta: -1, locales: ['fr'] },
       ],
     };
 
@@ -193,15 +193,66 @@ describe('Acceptance | Controller | scoring-simulator-controller', function () {
       };
     });
 
-    it('should return status code 200', async function () {
+    it('should return a payload with simulation results', async function () {
       // given
       options.headers.authorization = adminAuthorization;
+      options.payload = {
+        simulations: [
+          {
+            id: 'simulation1',
+            estimatedLevel: 2.5769829347,
+            answers: [
+              {
+                challengeId: 'challenge3',
+                result: 'ok',
+              },
+              {
+                challengeId: 'challenge2',
+                result: 'ok',
+              },
+              {
+                challengeId: 'challenge5',
+                result: 'ok',
+              },
+            ],
+          },
+          {
+            id: 'simulation2',
+            answers: [
+              {
+                challengeId: 'challenge2',
+                result: 'ok',
+              },
+              {
+                challengeId: 'challenge1',
+                result: 'ok',
+              },
+            ],
+          },
+        ],
+      };
 
       // when
       const response = await server.inject(options);
 
       // then
       expect(response).to.have.property('statusCode', 200);
+      expect(response.result).to.deep.equal({
+        results: [
+          {
+            id: 'simulation1',
+            estimatedLevel: 2.5769829347,
+            pixScore: 11110,
+            error: undefined,
+          },
+          {
+            id: 'simulation2',
+            error: 'Simulation should have an estimated level',
+            estimatedLevel: undefined,
+            pixScore: undefined,
+          },
+        ],
+      });
     });
 
     describe('when there is no connected user', function () {
