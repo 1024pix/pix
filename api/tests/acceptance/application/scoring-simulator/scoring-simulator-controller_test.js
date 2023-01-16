@@ -274,12 +274,39 @@ describe('Acceptance | Controller | scoring-simulator-controller', function () {
         const { id: userId } = databaseBuilder.factory.buildUser();
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
         await databaseBuilder.commit();
+        options.payload = {
+          simulations: [
+            {
+              estimatedLevel: 1,
+            },
+          ],
+        };
 
         // when
         const response = await server.inject(options);
 
         // then
         expect(response).to.have.property('statusCode', 403);
+      });
+    });
+
+    describe('when request payload is invalid', function () {
+      it('should return status code 400', async function () {
+        // given
+        options.headers.authorization = adminAuthorization;
+        options.payload = {
+          wrongField: [
+            {
+              answers: [],
+            },
+          ],
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response).to.have.property('statusCode', 400);
       });
     });
   });
