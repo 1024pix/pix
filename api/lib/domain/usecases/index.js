@@ -415,6 +415,7 @@ module.exports = injectDependencies(
     sendSharedParticipationResultsToPoleEmploi: require('./send-shared-participation-results-to-pole-emploi'),
     sendVerificationCode: require('./send-verification-code'),
     shareCampaignResult: require('./share-campaign-result'),
+    simulateOldScoring: require('./simulate-old-scoring'),
     startCampaignParticipation: require('./start-campaign-participation'),
     startOrResumeCompetenceEvaluation: require('./start-or-resume-competence-evaluation'),
     startWritingCampaignAssessmentResultsToStream: require('./start-writing-campaign-assessment-results-to-stream'),
