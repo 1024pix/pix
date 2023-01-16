@@ -563,7 +563,8 @@ describe('Unit | Router | training-router', function () {
 
       describe('duration', function () {
         describe('out of range', function () {
-          [({ days: -1 }, { hours: -1 }, { hours: 24 }, { minutes: -1 }, { minutes: 60 })].forEach((duration) => {
+          // eslint-disable-next-line mocha/no-setup-in-describe
+          [{ days: -1 }, { hours: -1 }, { hours: 24 }, { minutes: -1 }, { minutes: 60 }].forEach((duration) => {
             it(`should return 400 if the payload.duration is ${JSON.stringify(duration)}`, async function () {
               // given
               const securityPreHandlersResponses = {
@@ -596,6 +597,7 @@ describe('Unit | Router | training-router', function () {
         });
 
         describe('incomplete', function () {
+          // eslint-disable-next-line mocha/no-setup-in-describe
           [
             { days: 2, hours: 2 },
             { days: 2, minutes: 2 },
@@ -637,6 +639,7 @@ describe('Unit | Router | training-router', function () {
         });
 
         describe('success', function () {
+          // eslint-disable-next-line mocha/no-setup-in-describe
           [
             { days: 2, hours: 2, minutes: 2 },
             { days: 0, hours: 0, minutes: 0 },
