@@ -45,6 +45,9 @@ const poleEmploiSendingsBuilder = require('./data/pole-emploi-sendings-builder')
 const { trainingBuilder } = require('./data/trainings-builder');
 const { richTargetProfilesBuilder } = require('./data/learning-content/target-profiles-builder');
 const { fillCampaignSkills } = require('./data/fill-campaign-skills');
+const {
+  addLastAssessmentResultCertificationCourse,
+} = require('../../scripts/certification/fill-last-assessment-result-certification-course-table');
 
 exports.seed = async (knex) => {
   const databaseBuilder = new DatabaseBuilder({ knex });
@@ -105,6 +108,7 @@ exports.seed = async (knex) => {
   await databaseBuilder.commit();
   await databaseBuilder.fixSequences();
   await fillCampaignSkills();
+  await addLastAssessmentResultCertificationCourse();
   const campaignParticipationData = await getEligibleCampaignParticipations(50000);
   await generateKnowledgeElementSnapshots(campaignParticipationData, 1);
   await computeParticipationsResults(10, false);
