@@ -35,7 +35,7 @@ class CpfCertificationResult {
 
   get inseeCode() {
     if (!this.birthINSEECode) return null;
-    if (this.birthINSEECode === 'NULL' || this.birthINSEECode.length !== 5) return null;
+    if (this.birthINSEECode.length !== 5) return null;
     return this.birthINSEECode;
   }
 
@@ -47,7 +47,7 @@ class CpfCertificationResult {
 
   get postalCode() {
     if (!this.birthPostalCode) return null;
-    if (this.birthPostalCode === 'NULL' || this.birthPostalCode.length !== 5) return null;
+    if (this.birthPostalCode.length !== 5) return null;
     return this.birthPostalCode;
   }
 }

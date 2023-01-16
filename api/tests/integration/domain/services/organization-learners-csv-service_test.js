@@ -27,7 +27,7 @@ describe('Integration | Services | organization-learners-csv-service', function 
           status: 'AP',
           nationalStudentId: '4581234567F',
           division: 'Division 2',
-          sex: null,
+          sex: 'M',
         },
         {
           lastName: 'Corse',
@@ -44,7 +44,7 @@ describe('Integration | Services | organization-learners-csv-service', function 
           status: 'ST',
           nationalStudentId: '4581234567G',
           division: 'Division 1',
-          sex: null,
+          sex: 'F',
         },
       ];
 
