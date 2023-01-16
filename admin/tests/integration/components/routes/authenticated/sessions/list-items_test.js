@@ -146,8 +146,13 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       );
 
       // when
-      await click(screen.getByRole('button', { name: 'Sco' }));
+      await click(
+        screen.getByRole('button', {
+          name: 'Filtrer les sessions en sélectionnant un type de centre de certification',
+        })
+      );
       await screen.findByRole('listbox');
+
       await click(screen.getByRole('option', { name: 'Pro' }));
 
       // then
@@ -185,7 +190,11 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       );
 
       // when
-      await click(screen.getByRole('button', { name: 'Finalisée' }));
+      await click(
+        screen.getByRole('button', {
+          name: 'Filtrer les sessions en sélectionnant un statut',
+        })
+      );
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'Créée' }));
 
@@ -227,7 +236,11 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       );
 
       // when
-      await click(screen.getByRole('button', { name: 'Résultats diffusés' }));
+      await click(
+        screen.getByRole('button', {
+          name: 'Filtrer les sessions par leurs résultats diffusés ou non diffusés',
+        })
+      );
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'Résultats non diffusés' }));
 
