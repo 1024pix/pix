@@ -9,6 +9,20 @@ module.exports = {
   },
 
   deserialize(payload) {
-    return new Deserializer({ keyForAttribute: 'camelCase' }).deserialize(payload);
+    return new Deserializer({
+      keyForAttribute: 'camelCase',
+      transform(deserializedTraining) {
+        const duration = deserializedTraining.duration;
+        if (!duration) return deserializedTraining;
+
+        const { days, hours, minutes } = duration;
+        const formattedDuration = `${days}d${hours}h${minutes}m`;
+
+        return {
+          ...deserializedTraining,
+          duration: formattedDuration,
+        };
+      },
+    }).deserialize(payload);
   },
 };
