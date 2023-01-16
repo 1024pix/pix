@@ -33,7 +33,7 @@ class OrganizationLearnerColumns {
       new CsvColumn({
         name: 'sex',
         label: this.translate('csv-template.organization-learners.sex'),
-        isRequired: false,
+        isRequired: true,
       }),
       new CsvColumn({
         name: 'birthdate',

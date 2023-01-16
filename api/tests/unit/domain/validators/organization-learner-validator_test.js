@@ -10,6 +10,7 @@ describe('Unit | Domain | Organization Learner validator', function () {
       nationalIdentifier: '12345',
       firstName: 'Ellen',
       lastName: 'Ripley',
+      sex: 'F',
       birthdate: '1979-05-25',
       organizationId: 1,
       birthCity: 'city1',
@@ -36,6 +37,7 @@ describe('Unit | Domain | Organization Learner validator', function () {
       [
         'firstName',
         'lastName',
+        'sex',
         'birthdate',
         'nationalIdentifier',
         'birthProvinceCode',
@@ -166,6 +168,47 @@ describe('Unit | Domain | Organization Learner validator', function () {
           checkValidation({ ...validAttributes, nationalIdentifier: '0123456789F', status: 'AP' });
         } catch (e) {
           expect.fail("OrganizationLearner is valid when status is 'AP'");
+        }
+      });
+    });
+
+    context('sex', function () {
+      it("throw an error when status is not 'F', 'f', 'M' or 'm'", async function () {
+        const error = await catchErr(checkValidation)({ ...validAttributes, sex: 'AA' });
+
+        expect(error.key).to.equal('sex');
+        expect(error.why).to.equal('bad_values');
+      });
+
+      it("is valid when status is 'F'", async function () {
+        try {
+          checkValidation({ ...validAttributes, sex: 'F' });
+        } catch (e) {
+          expect.fail("OrganizationLearner is valid when status is 'F'");
+        }
+      });
+
+      it("is valid when status is 'f'", async function () {
+        try {
+          checkValidation({ ...validAttributes, sex: 'f' });
+        } catch (e) {
+          expect.fail("OrganizationLearner is valid when status is 'f'");
+        }
+      });
+
+      it("is valid when status is 'M'", async function () {
+        try {
+          checkValidation({ ...validAttributes, sex: 'M' });
+        } catch (e) {
+          expect.fail("OrganizationLearner is valid when status is 'M'");
+        }
+      });
+
+      it("is valid when status is 'm'", async function () {
+        try {
+          checkValidation({ ...validAttributes, sex: 'm' });
+        } catch (e) {
+          expect.fail("OrganizationLearner is valid when status is 'm'");
         }
       });
     });

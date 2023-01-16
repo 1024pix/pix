@@ -33,6 +33,17 @@ module('Unit | Service | Error messages', function (hooks) {
     assert.strictEqual(message, t('api-error-messages.campaign-creation.name-required'));
   });
 
+  module('SEX_CODE_REQUIRED', function () {
+    test('should return the message when error code is found', function (assert) {
+      // Given
+      const errorMessages = this.owner.lookup('service:errorMessages');
+      // When
+      const message = errorMessages.getErrorMessage('SEX_CODE_REQUIRED');
+      // Then
+      assert.strictEqual(message, t('api-errors-messages.student-xml-import.sex-code-required'));
+    });
+  });
+
   test('should return the message with parameters', function (assert) {
     // Given
     const errorMessages = this.owner.lookup('service:errorMessages');

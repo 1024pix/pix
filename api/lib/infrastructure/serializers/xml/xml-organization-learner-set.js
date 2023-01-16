@@ -5,6 +5,7 @@ const { SiecleXmlImportError } = require('../../../domain/errors');
 const ERRORS = {
   INE_REQUIRED: 'INE_REQUIRED',
   INE_UNIQUE: 'INE_UNIQUE',
+  SEX_CODE_REQUIRED: 'SEX_CODE_REQUIRED',
 };
 const DIVISION = 'D';
 
@@ -16,7 +17,8 @@ class XMLOrganizationLearnersSet {
 
   add(id, xmlNode) {
     const nationalStudentId = _getValueFromParsedElement(xmlNode.ID_NATIONAL);
-    this._checkNationalStudentIdUniqueness(nationalStudentId);
+
+    this._check(xmlNode);
     this.studentIds.push(nationalStudentId);
 
     this.organizationLearnersByStudentId.set(id, _mapStudentInformationToOrganizationLearner(xmlNode));
@@ -33,7 +35,13 @@ class XMLOrganizationLearnersSet {
     });
   }
 
-  _checkNationalStudentIdUniqueness(nationalStudentId) {
+  _check(xmlNode) {
+    const nationalStudentId = _getValueFromParsedElement(xmlNode.ID_NATIONAL);
+    const sexCode = _getValueFromParsedElement(xmlNode.CODE_SEXE);
+
+    if (isEmpty(sexCode)) {
+      throw new SiecleXmlImportError(ERRORS.SEX_CODE_REQUIRED);
+    }
     if (isEmpty(nationalStudentId)) {
       throw new SiecleXmlImportError(ERRORS.INE_REQUIRED);
     }
