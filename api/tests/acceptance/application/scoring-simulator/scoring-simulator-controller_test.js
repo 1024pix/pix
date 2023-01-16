@@ -116,11 +116,13 @@ describe('Acceptance | Controller | scoring-simulator-controller', function () {
           {
             id: undefined,
             error: undefined,
+            estimatedLevel: undefined,
             pixScore: 11111,
           },
           {
             id: 'simulationWithError',
             error: 'Answer for skill skill1 was already given or inferred',
+            estimatedLevel: undefined,
             pixScore: undefined,
           },
         ],
