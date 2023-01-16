@@ -1,4 +1,4 @@
-const OldScoringSimulation = require('../../domain/models/OldScoringSimulation');
+const ScoringSimulation = require('../../domain/models/ScoringSimulation');
 const Answer = require('../../domain/models/Answer');
 const usecases = require('../../domain/usecases');
 
@@ -6,7 +6,7 @@ module.exports = {
   async calculateOldScores(request, h) {
     const simulations = request.payload.simulations.map(
       (simulation) =>
-        new OldScoringSimulation({
+        new ScoringSimulation({
           id: simulation.id,
           answers: simulation.answers.map((answer) => new Answer(answer)),
         })
