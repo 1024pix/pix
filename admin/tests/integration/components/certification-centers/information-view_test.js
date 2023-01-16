@@ -26,7 +26,6 @@ module('Integration | Component | certification-centers/information-view', funct
       name: 'Centre SCO',
       type: 'SCO',
       externalId: 'AX129',
-      isSupervisorAccessEnabled: false,
       dataProtectionOfficerFirstName: 'Lucky',
       dataProtectionOfficerLastName: 'Number',
       dataProtectionOfficerEmail: 'lucky@example.net',
@@ -47,7 +46,6 @@ module('Integration | Component | certification-centers/information-view', funct
     assert.dom(screen.getByText('Identifiant externe :')).exists();
     assert.dom(screen.getByText('Centre SCO')).exists();
     assert.dom(screen.getByText('AX129')).exists();
-    assert.strictEqual(screen.getByLabelText('Espace surveillant').textContent, 'non');
     assert.dom(screen.getByText('Nom du : Lucky Number')).exists();
     assert.dom(screen.getByText('Adresse e-mail du : lucky@example.net')).exists();
     assert.strictEqual(screen.getAllByTitle('Délégué à la protection des données').length, 2);

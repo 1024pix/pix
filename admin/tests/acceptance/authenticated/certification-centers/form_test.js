@@ -27,8 +27,8 @@ module('Acceptance | Certification Centers | Form', function (hooks) {
     const type = { label: 'Organisation professionnelle', value: 'PRO' };
     const externalId = 'externalId';
     this.server.post('/admin/certification-centers', (schema, request) => {
-      const { name, type, externalId, isSupervisorAccessEnabled } = JSON.parse(request.requestBody).data.attributes;
-      return schema.certificationCenters.create({ id: 99, name, type, externalId, isSupervisorAccessEnabled });
+      const { name, type, externalId } = JSON.parse(request.requestBody).data.attributes;
+      return schema.certificationCenters.create({ id: 99, name, type, externalId });
     });
 
     // when
@@ -50,7 +50,6 @@ module('Acceptance | Certification Centers | Form', function (hooks) {
     assert.dom(screen.getByRole('heading', { name })).exists();
     assert.dom(screen.getByText(type.label)).exists();
     assert.dom(screen.getByText(externalId)).exists();
-    assert.strictEqual(screen.getByLabelText('Espace surveillant').textContent, 'oui');
 
     //assert.dom(screen.getByRole('listitem', { name: 'Non-habilité pour Pix+Autre' })).exists();
     //assert.dom(screen.getByRole('listitem', { name: 'Habilité pour Pix+Surf' })).exists();

@@ -16,11 +16,6 @@ export default class CertificationCenterForm extends Component {
   }
 
   @action
-  toggleSupervisorAccess() {
-    this.args.certificationCenter.isSupervisorAccessEnabled = !this.args.certificationCenter.isSupervisorAccessEnabled;
-  }
-
-  @action
   handleDataProtectionOfficerFirstNameChange(event) {
     this.args.certificationCenter.dataProtectionOfficerFirstName = event.target.value;
   }

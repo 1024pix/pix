@@ -115,7 +115,6 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         name: 'Center 1',
         externalId: 'ABCDEF',
         type: 'SCO',
-        isSupervisorAccessEnabled: false,
       });
       const screen = await visit(`/certification-centers/${certificationCenter.id}`);
       await clickByName('Editer les informations');
@@ -132,7 +131,6 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       await fillByLabel('Prénom du DPO', 'Justin');
       await fillByLabel('Nom du DPO', 'Ptipeu');
       await fillByLabel('Adresse e-mail du DPO', 'justin.ptipeu@example.net');
-      await clickByName('Espace surveillant');
       await clickByName('Enregistrer');
 
       // then
@@ -143,7 +141,6 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       assert.dom(screen.getByText('Nom du : Justin Ptipeu')).exists();
       assert.dom(screen.getByText('Adresse e-mail du : justin.ptipeu@example.net')).exists();
       assert.strictEqual(screen.getAllByTitle('Délégué à la protection des données').length, 2);
-      assert.dom(screen.getByLabelText('Espace surveillant')).hasText('oui');
     });
 
     test('should display a success notification when the certification has been successfully updated', async function (assert) {

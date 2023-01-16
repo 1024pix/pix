@@ -10,7 +10,6 @@ export default class CertificationCenter extends Model {
   @attr() name;
   @attr() type;
   @attr() externalId;
-  @attr('boolean') isSupervisorAccessEnabled;
   @attr() dataProtectionOfficerFirstName;
   @attr() dataProtectionOfficerLastName;
   @attr() dataProtectionOfficerEmail;
@@ -19,10 +18,6 @@ export default class CertificationCenter extends Model {
 
   get typeLabel() {
     return types.find((type) => type.value === this.type).label;
-  }
-
-  get supervisorAccessLabel() {
-    return this.isSupervisorAccessEnabled ? 'oui' : 'non';
   }
 
   get dataProtectionOfficerFullName() {
