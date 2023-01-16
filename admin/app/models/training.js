@@ -24,7 +24,7 @@ export default class Training extends Model {
   @attr('string') editorName;
   @attr('string') editorLogoUrl;
 
-  @attr('interval', {
+  @attr({
     defaultValue: () => ({
       days: 0,
       hours: 0,

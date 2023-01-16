@@ -45,7 +45,9 @@ describe('Acceptance | Controller | training-controller', function () {
               title: 'Titre du training',
               link: 'https://training-link.org',
               type: 'webinaire',
-              duration: '6h',
+              duration: {
+                hours: 6,
+              },
               locale: 'fr',
               'editor-logo-url': 'https://mon-logo.svg',
               'editor-name': 'Un ministère',
@@ -76,6 +78,11 @@ describe('Acceptance | Controller | training-controller', function () {
           title: 'new title',
           editorName: 'editor name',
           editorLogoUrl: 'https://images.pix.fr/contenu-formatif/editeur/logo.svg',
+          duration: {
+            days: 2,
+            hours: 2,
+            minutes: 2,
+          },
         };
 
         options = {
@@ -91,6 +98,11 @@ describe('Acceptance | Controller | training-controller', function () {
                 title: updatedTraining.title,
                 editorName: updatedTraining.editorName,
                 editorLogoUrl: updatedTraining.editorLogoUrl,
+                duration: {
+                  days: 2,
+                  hours: 2,
+                  minutes: 2,
+                },
               },
             },
           },
