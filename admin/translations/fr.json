@@ -15,5 +15,12 @@
         "login-no-permission": "Vous n'avez pas les droits pour vous connecter."
       }
     }
+  },
+  "components": {
+    "organizations": {
+      "all-tags": {
+        "recently-used-tags": "Liste de tags récemment utilisés avec {tagName}"
+      }
+    }
   }
 }

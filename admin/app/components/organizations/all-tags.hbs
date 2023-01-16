@@ -1,5 +1,42 @@
 <section class="page-section">
 
+  {{#if this.recentlyUsedTags}}
+    <h2 class="pix-text--bold pix-text--small">{{t
+        "components.organizations.all-tags.recently-used-tags"
+        tagName=this.selectedTag.name
+      }}</h2>
+    <ul class="organization-recently-used-tags-list">
+      {{#each this.recentlyUsedTags as |tag|}}
+        <li class="organization-recently-used-tags-list__tag">
+
+          {{#if tag.isTagAssignedToOrganization}}
+            <button
+              type="button"
+              onClick={{fn this.removeTagToOrganization tag}}
+              aria-label="Tag {{tag.name}} assigné à l'organisation"
+            >
+              <PixTag @compact="true" @color="purple-light">
+                {{tag.name}}
+              </PixTag>
+            </button>
+          {{else}}
+            <button
+              type="button"
+              onClick={{fn this.addRecentlyUsedTagToOrganization tag}}
+              aria-label="Tag {{tag.name}} non assigné à l'organisation"
+            >
+              <PixTag @compact="true" @color="grey-light">
+                {{tag.name}}
+              </PixTag>
+            </button>
+          {{/if}}
+
+        </li>
+      {{/each}}
+    </ul>
+    <hr class="organization-tags-lists-separator" />
+  {{/if}}
+
   {{#if this.allTags}}
     <ul class="organization-all-tags-list">
       {{#each this.allTags as |tag|}}
