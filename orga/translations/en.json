@@ -43,7 +43,8 @@
       "invalid-file-extension": "File with extension {fileExtension} not supported.",
       "payload-too-large": "The file must be less than {maxSize}MB.",
       "uai-mismatched": "The UAI of your SIECLE file does not match your school.",
-      "sex-code-required": "SEXE_CODE is mandatory for each student."
+      "sex-code-required": "SEXE_CODE is mandatory for each student.",
+      "birth-city-code-required-for-french-student": "CODE_COMMUNE_INSEE_NAISS is mandatory for each student born in France."
     }
   },
   "banners": {
