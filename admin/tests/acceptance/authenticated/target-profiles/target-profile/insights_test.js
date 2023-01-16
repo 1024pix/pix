@@ -322,7 +322,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
       });
 
-      test.only('it should create a badge', async function (assert) {
+      test('it should create a badge', async function (assert) {
         // given
         const tubeThematicDeux = server.create('new-tube', {
           id: 'tubeThematicDeuxNiveauQuatre',

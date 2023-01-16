@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { currentURL, click } from '@ember/test-helpers';
-import { visit, fillByLabel, selectByLabelAndOption } from '@1024pix/ember-testing-library';
+import { visit, fillByLabel } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 
