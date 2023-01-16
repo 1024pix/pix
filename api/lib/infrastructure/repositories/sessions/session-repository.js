@@ -8,20 +8,15 @@ const Session = require('../../../domain/models/Session');
 const CertificationCenter = require('../../../domain/models/CertificationCenter');
 const CertificationCandidate = require('../../../domain/models/CertificationCandidate');
 const ComplementaryCertification = require('../../../domain/models/ComplementaryCertification');
+const DomainTransaction = require('../../DomainTransaction');
 
 module.exports = {
-  async save(sessionData) {
+  async save(sessionData, { knexTransaction } = DomainTransaction.emptyTransaction()) {
+    const knexConn = knexTransaction ?? knex;
     sessionData = _.omit(sessionData, ['certificationCandidates']);
+    const [savedSession] = await knexConn('sessions').insert(sessionData).returning('*');
 
-    const newSession = await new BookshelfSession(sessionData).save();
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, newSession);
-  },
-
-  async saveSessions(sessionsData) {
-    const sessions = sessionsData.map((session) => {
-      return _.omit(session, ['certificationCandidates']);
-    });
-    return knex.batchInsert('sessions', sessions);
+    return new Session(savedSession);
   },
 
   async isSessionCodeAvailable(accessCode) {

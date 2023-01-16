@@ -58,52 +58,6 @@ describe('Integration | Repository | Session', function () {
     });
   });
 
-  describe('#saveSessions', function () {
-    afterEach(function () {
-      return knex('sessions').delete();
-    });
-
-    it('should persist the sessions in the database', async function () {
-      // given
-      const certificationCenter = databaseBuilder.factory.buildCertificationCenter({});
-      const firstSession = new Session({
-        certificationCenter: certificationCenter.name,
-        certificationCenterId: certificationCenter.id,
-        address: 'Nice',
-        room: '28D',
-        examiner: 'Michel Essentiel',
-        date: '2017-12-08',
-        time: '14:30:00',
-        description: 'Première certification EVER !!!',
-        accessCode: 'XXXX',
-        supervisorPassword: 'AB2C7',
-      });
-      const secondSession = new Session({
-        certificationCenter: certificationCenter.name,
-        certificationCenterId: certificationCenter.id,
-        address: 'Paris',
-        room: '13P',
-        examiner: 'Jean Neymar',
-        date: '2018-11-05',
-        time: '15:00:00',
-        description: 'Seconde certification',
-        accessCode: 'YYYY',
-        supervisorPassword: 'DEGYC',
-      });
-
-      const sessions = [firstSession, secondSession];
-
-      await databaseBuilder.commit();
-
-      // when
-      await sessionRepository.saveSessions(sessions);
-
-      // then
-      const sessionSaved = await knex('sessions').select();
-      expect(sessionSaved).to.have.lengthOf(2);
-    });
-  });
-
   describe('#isSessionCodeAvailable', function () {
     beforeEach(function () {
       databaseBuilder.factory.buildSession({

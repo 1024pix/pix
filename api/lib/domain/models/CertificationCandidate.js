@@ -16,16 +16,16 @@ const BILLING_MODES = {
 const certificationCandidateValidationJoiSchema_v1_5 = Joi.object({
   firstName: Joi.string().required().empty(null),
   lastName: Joi.string().required().empty(null),
-  sex: Joi.string().valid('M', 'F').required().empty(null),
-  birthPostalCode: Joi.string().empty(null),
-  birthINSEECode: Joi.string().empty(null),
+  sex: Joi.string().valid('M', 'F').required(),
+  birthPostalCode: Joi.string().empty(['', null]),
+  birthINSEECode: Joi.string().empty(['', null]),
   birthCountry: Joi.string().required().empty(null),
-  email: Joi.string().email().allow(null).optional(),
-  resultRecipientEmail: Joi.string().email().allow(null).optional(),
-  externalId: Joi.string().allow(null).optional(),
+  email: Joi.string().email().allow(null).empty('').optional(),
+  resultRecipientEmail: Joi.string().email().empty(['', null]).optional(),
+  externalId: Joi.string().allow(null).empty(['', null]).optional(),
   birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required().empty(null),
   extraTimePercentage: Joi.number().allow(null).optional(),
-  sessionId: Joi.number().required().empty(null),
+  sessionId: Joi.number().required().empty(['', null]),
   complementaryCertifications: Joi.array().max(1).required(),
   billingMode: Joi.when('$isSco', {
     is: false,
@@ -35,10 +35,17 @@ const certificationCandidateValidationJoiSchema_v1_5 = Joi.object({
   }),
   prepaymentCode: Joi.when('billingMode', {
     is: 'PREPAID',
-    then: Joi.string().required().empty(null),
+    then: Joi.string().required().empty(['', null]),
     otherwise: Joi.valid(null),
   }),
-});
+}).assert(
+  '.birthPostalCode',
+  Joi.when('..birthINSEECode', {
+    is: Joi.exist(),
+    then: Joi.string().forbidden(),
+    otherwise: Joi.string().required(),
+  })
+);
 
 const certificationCandidateParticipationJoiSchema = Joi.object({
   id: Joi.any().allow(null).optional(),
