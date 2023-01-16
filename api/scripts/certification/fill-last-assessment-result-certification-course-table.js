@@ -1,36 +1,23 @@
 require('dotenv').config();
-const { performance } = require('perf_hooks');
 const logger = require('../../lib/infrastructure/logger');
 const cache = require('../../lib/infrastructure/caches/learning-content-cache');
 const { knex, disconnect } = require('../../db/knex-database-connection');
-const yargs = require('yargs');
 const bluebird = require('bluebird');
-const DEFAULT_COUNT = 20000;
-const DEFAULT_CONCURRENCY = 2;
 
 const ASSOC_TABLE_NAME = 'certification-courses-last-assessment-results';
 
-const addLastAssessmentResultCertificationCourse = async ({ count, concurrency }) => {
-  logger.info('\tRécupération des certifications éligibles...');
-  const eligibleCertificationIds = await _findEligibleCertifications(count);
-  logger.info(`\tOK : ${eligibleCertificationIds.length} certifications récupérées`);
+const addLastAssessmentResultCertificationCourse = async () => {
+  const eligibleCertificationIds = await _findEligibleCertifications();
 
-  logger.info('\tInscription du status dans la certification...');
-  let failedGenerations = 0;
   const data = await bluebird
-    .mapSeries(
-      eligibleCertificationIds,
-      async (certificationCourseId) => {
-        try {
-          const lastAssessmentResultId = await _getLatestAssessmentResultId(certificationCourseId);
-          if (lastAssessmentResultId) return { certificationCourseId, lastAssessmentResultId };
-        } catch (err) {
-          ++failedGenerations;
-          logger.error(`Went wrong for certification ${certificationCourseId}`);
-        }
-      },
-      { concurrency }
-    )
+    .mapSeries(eligibleCertificationIds, async (certificationCourseId) => {
+      try {
+        const lastAssessmentResultId = await _getLatestAssessmentResultId(certificationCourseId);
+        if (lastAssessmentResultId) return { certificationCourseId, lastAssessmentResultId };
+      } catch (err) {
+        logger.error(`Went wrong for certification ${certificationCourseId}`);
+      }
+    })
     .filter(Boolean);
 
   try {
@@ -38,33 +25,12 @@ const addLastAssessmentResultCertificationCourse = async ({ count, concurrency }
   } catch (e) {
     logger.error(e);
   }
-  logger.info(`\n\tOK, ${failedGenerations} générations de codes échouées pour cause de code en doublon`);
 };
 
 const isLaunchedFromCommandLine = require.main === module;
 
-async function main() {
-  const startTime = performance.now();
-  logger.info(`Script ${__filename} est lancé !`);
-  logger.info('Validation des arguments...');
-  const commandLineArgs = yargs
-    .option('count', {
-      description: 'Nombre de certificats pour lesquels on remplit la colonne',
-      type: 'number',
-      default: DEFAULT_COUNT,
-    })
-    .option('concurrency', {
-      description: 'Concurrence',
-      type: 'number',
-      default: DEFAULT_CONCURRENCY,
-    })
-    .help().argv;
-  const { count, concurrency } = _validateAndNormalizeArgs(commandLineArgs);
-  logger.info(`OK : Nombre de certificats - ${count} / Concurrence - ${concurrency}`);
-  await addLastAssessmentResultCertificationCourse({ count, concurrency });
-  const endTime = performance.now();
-  const duration = Math.round(endTime - startTime);
-  logger.info(`Script fini en ${duration * 1000} secondes.`);
+function main() {
+  return addLastAssessmentResultCertificationCourse();
 }
 
 (async () => {
@@ -81,39 +47,7 @@ async function main() {
   }
 })();
 
-function _validateAndNormalizeArgs({ count, concurrency }) {
-  const finalCount = _validateAndNormalizeCount(count);
-  const finalConcurrency = _validateAndNormalizeConcurrency(concurrency);
-
-  return {
-    count: finalCount,
-    concurrency: finalConcurrency,
-  };
-}
-
-function _validateAndNormalizeCount(count) {
-  if (isNaN(count)) {
-    count = DEFAULT_COUNT;
-  }
-  if (count <= 0 || count > 50000) {
-    throw new Error(`Nombre de certifications à traiter ${count} ne peut pas être inférieur à 1 ni supérieur à 50000.`);
-  }
-
-  return count;
-}
-
-function _validateAndNormalizeConcurrency(concurrency) {
-  if (isNaN(concurrency)) {
-    concurrency = DEFAULT_CONCURRENCY;
-  }
-  if (concurrency <= 0 || concurrency > 5) {
-    throw new Error(`La concurrence ${concurrency} ne peut pas être inférieure à 1 ni supérieure à 5.`);
-  }
-
-  return concurrency;
-}
-
-function _findEligibleCertifications(count) {
+function _findEligibleCertifications() {
   return knex
     .pluck('id')
     .from('certification-courses')
@@ -122,8 +56,7 @@ function _findEligibleCertifications(count) {
         .select(1)
         .from({ 'last-assessment-results': ASSOC_TABLE_NAME })
         .whereRaw('"certification-courses".id = "certificationCourseId"')
-    )
-    .limit(count);
+    );
 }
 
 async function _getLatestAssessmentResultId(certificationCourseId) {

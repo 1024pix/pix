@@ -47,7 +47,7 @@ describe('Integration | Scripts | Certification | fill-latest-assessment-result-
         });
 
         // when
-        await addLastAssessmentResultCertificationCourse({ count: 10, concurrency: 1 });
+        await addLastAssessmentResultCertificationCourse();
 
         // then
         const certificationDTOs = await knex(ASSOC_TABLE_NAME).orderBy('certificationCourseId');
@@ -72,7 +72,7 @@ describe('Integration | Scripts | Certification | fill-latest-assessment-result-
         await databaseBuilder.commit();
 
         // when
-        await addLastAssessmentResultCertificationCourse({ count: 10, concurrency: 1 });
+        await addLastAssessmentResultCertificationCourse();
 
         // then
         const certificationDTOs = await knex(ASSOC_TABLE_NAME).orderBy('certificationCourseId');
