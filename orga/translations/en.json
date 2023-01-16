@@ -247,7 +247,7 @@
           "competences": "Competences ({count, plural, =0 {-} other {{count}}})",
           "results": {
             "label": "Results",
-            "tooltip": "<span class=\"sr-only\">This participant has validated</span> {result, number, ::percent} <span class=\"sr-only\">of the competence {competence}.</span>"
+            "tooltip": "<span class=\"screen-reader-only\">This participant has validated</span> {result, number, ::percent} <span class=\"screen-reader-only\">of the competence {competence}.</span>"
           }
         },
         "empty": "Pending results",
@@ -523,7 +523,7 @@
             "competences": "Competences ({count})",
             "results": {
               "label": "Results",
-              "tooltip": "<span class=\"sr-only\">Participants have validated</span> {result} % <span class=\"sr-only\">of the competence {competence}.</span>"
+              "tooltip": "<span class=\"screen-reader-only\">Participants have validated</span> {result} % <span class=\"screen-reader-only\">of the competence {competence}.</span>"
             }
           },
           "row-title": "Competence"
