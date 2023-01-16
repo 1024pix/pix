@@ -49,7 +49,7 @@ module('Integration | Component | TargetProfiles:TubesSelection::Tube', function
   @tubeLevels={{this.tubeLevels}}
 />`
     );
-    const select = screen.getByRole('button', { name: 'Sélection du niveau du sujet' });
+    const select = screen.getByRole('button', { name: 'Sélection du niveau du sujet suivant : Tube 1' });
 
     // then
     assert.dom(select).hasAttribute('aria-disabled', '');
@@ -71,7 +71,7 @@ module('Integration | Component | TargetProfiles:TubesSelection::Tube', function
   @tubeLevels={{this.tubeLevels}}
 />`
     );
-    const select = screen.getByRole('button', { name: 'Sélection du niveau du sujet' });
+    const select = screen.getByRole('button', { name: 'Sélection du niveau du sujet suivant : Tube 1' });
 
     // then
     assert.dom(select).doesNotHaveAttribute('aria-disabled');
