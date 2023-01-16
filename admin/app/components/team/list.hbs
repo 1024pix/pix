@@ -19,8 +19,8 @@
             <td>
               {{#if member.isInEditionMode}}
                 <PixSelect
-                  @onChange={{this.setAdminRoleSelection}}
-                  @value={{member.role}}
+                  @onChange={{fn this.setAdminRoleSelection member}}
+                  @value={{or member.updatedRole member.role}}
                   @options={{@roles}}
                   @label="Sélectionner un rôle"
                   @screenReaderOnly={{true}}

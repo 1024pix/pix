@@ -7,6 +7,7 @@ export default class AdminMember extends Model {
   @attr('string') firstName;
   @attr('string') email;
   @attr('string') role;
+  @attr('string') updatedRole;
   @attr('string') disabledAt;
   @attr() isSuperAdmin;
   @attr() isCertif;
