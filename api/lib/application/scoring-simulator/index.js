@@ -23,6 +23,7 @@ exports.register = async (server) => {
               .required()
               .items(
                 Joi.object({
+                  id: Joi.string(),
                   answers: Joi.array()
                     .required()
                     .items(
