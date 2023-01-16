@@ -15,5 +15,12 @@
         "login-no-permission": "You don't have the permission to connect."
       }
     }
+  },
+  "components": {
+    "organizations": {
+      "all-tags": {
+        "recently-used-tags": "List of tags recently used with {tagName}"
+      }
+    }
   }
 }
