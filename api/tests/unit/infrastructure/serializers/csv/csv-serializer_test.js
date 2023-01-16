@@ -318,6 +318,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
 
 function _lineWithSessionAndNoCandidate(sessionNumber) {
   return {
+    'N° de session': '',
     '* Nom du site': `Site ${sessionNumber}`,
     '* Nom de la salle': `Salle ${sessionNumber}`,
     '* Date de début': '12/05/2023',
@@ -343,6 +344,7 @@ function _lineWithSessionAndNoCandidate(sessionNumber) {
 
 function _lineWithCandidateAndNoSession() {
   return {
+    'N° de session': '',
     '* Nom du site': '',
     '* Nom de la salle': '',
     '* Date de début': '',
@@ -368,6 +370,7 @@ function _lineWithCandidateAndNoSession() {
 
 function _lineWithSessionAndCandidate({ sessionNumber, candidateNumber }) {
   return {
+    'N° de session': '',
     '* Nom du site': `Site ${sessionNumber}`,
     '* Nom de la salle': `Salle ${sessionNumber}`,
     '* Date de début': '12/05/2023',
