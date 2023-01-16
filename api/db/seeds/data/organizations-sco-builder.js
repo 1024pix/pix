@@ -2,6 +2,14 @@ const Membership = require('../../../lib/domain/models/Membership');
 const { DEFAULT_PASSWORD, PIX_ALL_ORGA_ID } = require('./users-builder');
 const { SamlIdentityProviders } = require('../../../lib/domain/constants/saml-identity-providers');
 const { ROLES } = require('../../../lib/domain/constants').PIX_ADMIN;
+const {
+  SCO_COLLEGE_EXTERNAL_ID,
+  SCO_LYCEE_EXTERNAL_ID,
+  SCO_AGRI_EXTERNAL_ID,
+  SCO_NO_MANAGING_STUDENTS_EXTERNAL_ID,
+  SCO_COLLEGE_WITHOUT_STUDENT_EXTERNAL_ID,
+  GREAT_OAK_CERTIF_CENTER_EXTERNAL_ID,
+} = require('../data/certification/certification-centers-builder');
 
 const SCO_MIDDLE_SCHOOL_ID = 3;
 const SCO_HIGH_SCHOOL_ID = 6;
@@ -25,8 +33,6 @@ function organizationsScoBuilder({ databaseBuilder }) {
 }
 
 function _buildMiddleSchools({ databaseBuilder }) {
-  const SCO_COLLEGE_EXTERNAL_ID = '1237457A';
-
   databaseBuilder.factory.buildUser.withRawPassword({
     id: SCO_ADMIN_ID,
     firstName: 'Jon',
@@ -74,7 +80,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
     name: 'Collège de la vie',
     isManagingStudents: true,
     email: 'sco.generic.account@example.net',
-    externalId: SCO_COLLEGE_EXTERNAL_ID,
+    externalId: SCO_COLLEGE_WITHOUT_STUDENT_EXTERNAL_ID,
     documentationUrl: 'https://pix.fr/',
     provinceCode: '12',
     identityProviderForCampaigns: SamlIdentityProviders.GAR.code,
@@ -327,7 +333,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
     name: 'Great Oak School',
     isManagingStudents: true,
     email: 'great.oak.school@example.net',
-    externalId: SCO_COLLEGE_EXTERNAL_ID,
+    externalId: GREAT_OAK_CERTIF_CENTER_EXTERNAL_ID,
     documentationUrl: 'https://pix.fr/',
     provinceCode: '12',
     identityProviderForCampaigns: SamlIdentityProviders.GAR.code,
@@ -364,7 +370,6 @@ function _buildMiddleSchools({ databaseBuilder }) {
 }
 
 function _buildHighSchools({ databaseBuilder }) {
-  const SCO_LYCEE_EXTERNAL_ID = '1237457B';
   const highSchoolsCreator = databaseBuilder.factory.buildUser.withRawPassword({
     firstName: 'France',
     lastName: 'Guernon',
@@ -467,8 +472,6 @@ function _buildHighSchools({ databaseBuilder }) {
 }
 
 function _buildFarmingSchools({ databaseBuilder }) {
-  const SCO_AGRI_EXTERNAL_ID = '1237457C';
-
   const farmingSchoolsCreator = databaseBuilder.factory.buildUser.withRawPassword({
     firstName: 'Maryse',
     lastName: 'Marceau',
@@ -510,8 +513,6 @@ function _buildFarmingSchools({ databaseBuilder }) {
 }
 
 function _buildAEFE({ databaseBuilder }) {
-  const SCO_NO_MANAGING_STUDENTS_EXTERNAL_ID = '1237457E';
-
   const aefeCreator = databaseBuilder.factory.buildUser.withRawPassword({
     firstName: 'Bevis',
     lastName: 'Bellefeuille',

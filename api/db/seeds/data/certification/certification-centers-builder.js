@@ -2,7 +2,10 @@ const _ = require('lodash');
 const { DEFAULT_PASSWORD } = require('../users-builder');
 
 const SCO_COLLEGE_CERTIF_CENTER_ID = 1;
+const GREAT_OAK_CERTIF_CENTER_ID = 23;
 const SCO_COLLEGE_CERTIF_CENTER_NAME = 'Centre SCO Collège des Anne-Étoiles';
+const SCO_COLLEGE_CERTIF_CENTER_WITHOUT_STUDENT_ID = 8;
+const SCO_COLLEGE_CERTIF_CENTER_WITHOUT_STUDENT_NAME = 'Centre SCO Collège sans étudiant';
 const SCO_LYCEE_CERTIF_CENTER_ID = 13;
 const SCO_LYCEE_CERTIF_CENTER_NAME = 'Centre SCO Lycée des Anne-Étoiles';
 const PRO_CERTIF_CENTER_ID = 2;
@@ -14,9 +17,11 @@ const DROIT_CERTIF_CENTER_NAME = 'Centre DROIT des Anne-Étoiles';
 const SCO_NO_MANAGING_STUDENTS_CERTIF_CENTER_ID = 6;
 const SCO_NO_MANAGING_STUDENTS_CERTIF_CENTER_NAME = 'Centre AEFE SCO NO MANAGING STUDENTS des Anne-Étoiles';
 const SCO_COLLEGE_EXTERNAL_ID = '1237457A';
+const SCO_COLLEGE_WITHOUT_STUDENT_EXTERNAL_ID = '1237457G';
 const SCO_LYCEE_EXTERNAL_ID = '1237457B';
 const SCO_AGRI_EXTERNAL_ID = '1237457C';
 const SCO_NO_MANAGING_STUDENTS_EXTERNAL_ID = '1237457E';
+const GREAT_OAK_CERTIF_CENTER_EXTERNAL_ID = '1237457M';
 const AGRI_SCO_MANAGING_STUDENT_ID = 9;
 const AGRI_SCO_MANAGING_STUDENT_NAME = 'Centre AGRI des Anne-Etoiles';
 const CLEA_COMPLEMENTARY_CERTIFICATION_ID = 52;
@@ -210,6 +215,12 @@ function certificationCentersBuilder({ databaseBuilder }) {
     externalId: SCO_COLLEGE_EXTERNAL_ID,
     type: 'SCO',
   });
+  databaseBuilder.factory.buildCertificationCenter({
+    id: SCO_COLLEGE_CERTIF_CENTER_WITHOUT_STUDENT_ID,
+    name: SCO_COLLEGE_CERTIF_CENTER_WITHOUT_STUDENT_NAME,
+    externalId: SCO_COLLEGE_WITHOUT_STUDENT_EXTERNAL_ID,
+    type: 'SCO',
+  });
   databaseBuilder.factory.buildDataProtectionOfficer.withCertificationCenterId({
     firstName: 'Yukiko',
     lastName: 'Tsubaki',
@@ -285,6 +296,7 @@ function certificationCentersBuilder({ databaseBuilder }) {
 
   // Great Oak Certification Center - anonymization purpose
   const greatOakCertificationCenter = databaseBuilder.factory.buildCertificationCenter({
+    id: GREAT_OAK_CERTIF_CENTER_ID,
     name: 'Great Oak Certification Center',
     type: 'SCO',
   });
@@ -326,4 +338,10 @@ module.exports = {
   PIX_CLEA_V3_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   PIX_DROIT_MAITRE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   PIX_EDU_1ER_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
+  SCO_COLLEGE_EXTERNAL_ID,
+  SCO_COLLEGE_WITHOUT_STUDENT_EXTERNAL_ID,
+  SCO_LYCEE_EXTERNAL_ID,
+  SCO_AGRI_EXTERNAL_ID,
+  SCO_NO_MANAGING_STUDENTS_EXTERNAL_ID,
+  GREAT_OAK_CERTIF_CENTER_EXTERNAL_ID,
 };
