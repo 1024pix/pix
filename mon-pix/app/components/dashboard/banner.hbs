@@ -1,5 +1,5 @@
 {{#if @show}}
-  <section class="dashboard-banner" data-test-new-dashboard-info>
+  <section class="dashboard-banner">
     {{#unless @hasSeenNewDashboardInfo}}
       <NewInformation
         @information="{{t 'pages.dashboard.presentation.message' firstname=@userFirstname}}"

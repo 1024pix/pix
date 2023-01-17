@@ -1,58 +1,68 @@
 import Service from '@ember/service';
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import { setBreakpoint } from 'ember-responsive/test-support';
-
-import { contains } from '../../helpers/contains';
 
 module('Integration | Component | navbar-desktop-header', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   module('when user is not logged', function (hooks) {
-    hooks.beforeEach(async function () {
+    hooks.beforeEach(function () {
+      // given
       class sessionService extends Service {
         isAuthenticated = false;
       }
       this.owner.register('service:session', sessionService);
       setBreakpoint('desktop');
-      await render(hbs`<NavbarDesktopHeader/>`);
     });
 
-    test('should be rendered', function (assert) {
+    test('should display the Pix logo', async function (assert) {
+      // when
+      const screen = await render(hbs`<NavbarDesktopHeader/>`);
+
       // then
-      assert.dom('.navbar-desktop-header__container').exists();
+      assert.dom(screen.getByRole('img', { name: this.intl.t('navigation.homepage') })).exists();
+      assert.dom(screen.getByRole('link', { name: this.intl.t('navigation.homepage') })).exists();
     });
 
-    test('should display the Pix logo', function (assert) {
+    test('should not display the navigation menu', async function (assert) {
+      // when
+      const screen = await render(hbs`<NavbarDesktopHeader/>`);
+
       // then
-      assert.dom('.navbar-desktop-header-logo').exists();
-      assert.dom('.pix-logo').exists();
+      assert.dom(screen.queryByRole('navigation', { name: this.intl.t('navigation.main.label') })).doesNotExist();
     });
 
-    test('should not display the navigation menu', function (assert) {
+    test('should display link to signup page', async function (assert) {
+      // when
+      const screen = await render(hbs`<NavbarDesktopHeader/>`);
+
       // then
-      assert.dom('.navbar-desktop-header-container__menu').doesNotExist();
+      assert.dom(screen.getByRole('link', { name: this.intl.t('navigation.not-logged.sign-up') })).exists();
     });
 
-    test('should display link to signup page', function (assert) {
+    test('should display link to login page', async function (assert) {
+      // when
+      const screen = await render(hbs`<NavbarDesktopHeader/>`);
+
       // then
-      assert.dom('.navbar-menu-signup-link').exists();
+      assert.dom(screen.getByRole('link', { name: this.intl.t('navigation.not-logged.sign-in') })).exists();
     });
 
-    test('should display link to login page', function (assert) {
+    test('should not display the link "J\'ai un code"', async function (assert) {
+      // when
+      const screen = await render(hbs`<NavbarDesktopHeader/>`);
+
       // then
-      assert.dom('.navbar-menu-signin-link').exists();
-    });
-
-    test('should not display the link "J\'ai un code"', function (assert) {
-      assert.notOk(contains("J'ai un code"));
+      assert.notOk(screen.queryByRole('link', { name: this.intl.t('navigation.main.code') }));
     });
   });
 
   module('When user is logged', function (hooks) {
-    hooks.beforeEach(async function () {
+    hooks.beforeEach(function () {
+      // given
       class sessionService extends Service {
         isAuthenticated = true;
         data = {
@@ -65,57 +75,71 @@ module('Integration | Component | navbar-desktop-header', function (hooks) {
       }
       this.owner.register('service:session', sessionService);
       class currentUserService extends Service {
-        user = { isAnonymous: false };
+        user = { isAnonymous: false, firstName: 'Judy' };
       }
       this.owner.register('service:currentUser', currentUserService);
       setBreakpoint('desktop');
-      await render(hbs`<NavbarDesktopHeader/>}`);
     });
 
-    test('should be rendered', function (assert) {
-      assert.dom('.navbar-desktop-header').exists();
-    });
+    test('should display the link "J\'ai un code"', async function (assert) {
+      // when
+      const screen = await render(hbs`<NavbarDesktopHeader/>`);
 
-    test('should display the link "J\'ai un code"', function (assert) {
-      assert.ok(contains("J'ai un code"));
-    });
-
-    test('should display the Pix logo', function (assert) {
       // then
-      assert.dom('.navbar-desktop-header-logo').exists();
-      assert.dom('.pix-logo').exists();
+      assert.dom(screen.getByRole('link', { name: this.intl.t('navigation.main.code') })).exists();
     });
 
-    test('should display logged user details informations', function (assert) {
+    test('should display the Pix logo', async function (assert) {
+      // when
+      const screen = await render(hbs`<NavbarDesktopHeader/>`);
+
       // then
-      assert.dom('.logged-user-details').exists();
+      assert.dom(screen.getByRole('img', { name: this.intl.t('navigation.homepage') })).exists();
+      assert.dom(screen.getByRole('link', { name: this.intl.t('navigation.homepage') })).exists();
     });
 
-    test('should not display link to signup page', function (assert) {
+    test('should display logged user details informations', async function (assert) {
+      // when
+      const screen = await render(hbs`<NavbarDesktopHeader/>`);
+
       // then
-      assert.dom('.navbar-menu-signup-link').doesNotExist();
+      assert.dom(screen.getByRole('button', { name: 'Judy Consulter mes informations' })).exists();
     });
 
-    test('should not display link to login page', function (assert) {
+    test('should not display link to signup page', async function (assert) {
+      // when
+      const screen = await render(hbs`<NavbarDesktopHeader/>`);
+
       // then
-      assert.dom('.navbar-menu-signin-link').doesNotExist();
+      assert.dom(screen.queryByRole('link', { name: this.intl.t('navigation.not-logged.sign-up') })).doesNotExist();
     });
 
-    test('should display the navigation menu with expected elements', function (assert) {
+    test('should not display link to login page', async function (assert) {
+      // when
+      const screen = await render(hbs`<NavbarDesktopHeader/>`);
+
       // then
-      assert.dom('.navbar-desktop-header-container__menu').exists();
-      assert.dom('.navbar-desktop-header-menu__item').exists({ count: 5 });
-      assert.ok(contains('Accueil'));
-      assert.ok(contains('Compétences'));
-      assert.ok(contains('Mes tutos'));
-      assert.ok(contains('Certification'));
-      assert.ok(contains("J'ai un code"));
-      assert.notOk(contains('Mes formations'));
+      assert.dom(screen.queryByRole('link', { name: this.intl.t('navigation.not-logged.sign-in') })).doesNotExist();
+    });
+
+    test('should display the navigation menu with expected elements', async function (assert) {
+      // when
+      const screen = await render(hbs`<NavbarDesktopHeader/>`);
+
+      // then
+      assert.dom(screen.getByRole('navigation', { name: this.intl.t('navigation.main.label') })).exists();
+      assert.dom(screen.getByRole('link', { name: this.intl.t('navigation.main.dashboard') })).exists();
+      assert.dom(screen.getByRole('link', { name: this.intl.t('navigation.main.skills') })).exists();
+      assert.dom(screen.getByRole('link', { name: this.intl.t('navigation.main.start-certification') })).exists();
+      assert.dom(screen.getByRole('link', { name: this.intl.t('navigation.main.tutorials') })).exists();
+      assert.dom(screen.getByRole('link', { name: this.intl.t('navigation.main.code') })).exists();
+      assert.dom(screen.queryByRole('link', { name: this.intl.t('navigation.main.trainings') })).doesNotExist();
     });
   });
 
   module('when user has recommended trainings', function (hooks) {
-    hooks.beforeEach(async function () {
+    hooks.beforeEach(function () {
+      // given
       class sessionService extends Service {
         isAuthenticated = true;
         data = {
@@ -135,17 +159,20 @@ module('Integration | Component | navbar-desktop-header', function (hooks) {
       }
       this.owner.register('service:currentUser', currentUser);
       setBreakpoint('desktop');
-      await render(hbs`<NavbarDesktopHeader/>}`);
     });
 
     test('should display "My trainings" link', async function (assert) {
-      assert.dom('.navbar-desktop-header-menu__item').exists({ count: 6 });
-      assert.ok(contains('Mes formations'));
+      // when
+      const screen = await render(hbs`<NavbarDesktopHeader/>`);
+
+      // then
+      assert.dom(screen.getByRole('link', { name: this.intl.t('navigation.main.trainings') })).exists();
     });
   });
 
   module('when user comes from external platform', function (hooks) {
-    hooks.beforeEach(async function () {
+    hooks.beforeEach(function () {
+      // given
       class sessionService extends Service {
         isAuthenticated = false;
         data = {
@@ -153,44 +180,54 @@ module('Integration | Component | navbar-desktop-header', function (hooks) {
         };
       }
       this.owner.register('service:session', sessionService);
-
       setBreakpoint('desktop');
-      await render(hbs`<NavbarDesktopHeader/>`);
     });
 
-    test('should be rendered', function (assert) {
+    test('should display the Pix logo', async function (assert) {
+      // when
+      const screen = await render(hbs`<NavbarDesktopHeader/>`);
+
       // then
-      assert.dom('.navbar-desktop-header__container').exists();
+      assert.dom(screen.getByRole('img', { name: this.intl.t('navigation.homepage') })).exists();
+      assert.dom(screen.getByRole('link', { name: this.intl.t('navigation.homepage') })).exists();
     });
 
-    test('should display the Pix logo', function (assert) {
+    test('should not display the navigation menu', async function (assert) {
+      // when
+      const screen = await render(hbs`<NavbarDesktopHeader/>`);
+
       // then
-      assert.dom('.navbar-desktop-header-logo').exists();
-      assert.dom('.pix-logo').exists();
+      assert.dom(screen.queryByRole('navigation', { name: this.intl.t('navigation.main.label') })).doesNotExist();
     });
 
-    test('should not display the navigation menu', function (assert) {
+    test('should not display link to signup page', async function (assert) {
+      // when
+      const screen = await render(hbs`<NavbarDesktopHeader/>`);
+
       // then
-      assert.dom('.navbar-desktop-header-container__menu').doesNotExist();
+      assert.dom(screen.queryByRole('link', { name: this.intl.t('navigation.not-logged.sign-up') })).doesNotExist();
     });
 
-    test('should not display link to signup page', function (assert) {
+    test('should not display link to login page', async function (assert) {
+      // when
+      const screen = await render(hbs`<NavbarDesktopHeader/>`);
+
       // then
-      assert.dom('.navbar-menu-signup-link').doesNotExist();
+      assert.dom(screen.queryByRole('link', { name: this.intl.t('navigation.not-logged.sign-in') })).doesNotExist();
     });
 
-    test('should not display link to login page', function (assert) {
+    test('should not display the join campaign link', async function (assert) {
+      // when
+      const screen = await render(hbs`<NavbarDesktopHeader/>`);
+
       // then
-      assert.dom('.navbar-menu-signin-link').doesNotExist();
-    });
-
-    test('should not display the join campaign link', function (assert) {
-      assert.notOk(contains("J'ai un code"));
+      assert.dom(screen.queryByRole('link', { name: this.intl.t('navigation.main.code') })).doesNotExist();
     });
   });
 
   module('when logged user is anonymous', function (hooks) {
     hooks.beforeEach(async function () {
+      // given
       class sessionService extends Service {
         isAuthenticated = true;
       }
@@ -201,37 +238,47 @@ module('Integration | Component | navbar-desktop-header', function (hooks) {
       this.owner.register('service:currentUser', currentUserService);
 
       setBreakpoint('desktop');
-      await render(hbs`<NavbarDesktopHeader/>`);
     });
 
-    test('should be rendered', function (assert) {
+    test('should display the Pix logo', async function (assert) {
+      // when
+      const screen = await render(hbs`<NavbarDesktopHeader/>`);
+
       // then
-      assert.dom('.navbar-desktop-header__container').exists();
+      assert.dom(screen.getByRole('img', { name: this.intl.t('navigation.homepage') })).exists();
+      assert.dom(screen.getByRole('link', { name: this.intl.t('navigation.homepage') })).exists();
     });
 
-    test('should display the Pix logo', function (assert) {
+    test('should not display the navigation menu', async function (assert) {
+      // when
+      const screen = await render(hbs`<NavbarDesktopHeader/>`);
+
       // then
-      assert.dom('.navbar-desktop-header-logo').exists();
-      assert.dom('.pix-logo').exists();
+      assert.dom(screen.queryByRole('navigation', { name: this.intl.t('navigation.main.label') })).doesNotExist();
     });
 
-    test('should not display the navigation menu', function (assert) {
+    test('should not display link to signup page', async function (assert) {
+      // when
+      const screen = await render(hbs`<NavbarDesktopHeader/>`);
+
       // then
-      assert.dom('.navbar-desktop-header-container__menu').doesNotExist();
+      assert.dom(screen.queryByRole('link', { name: this.intl.t('navigation.not-logged.sign-up') })).doesNotExist();
     });
 
-    test('should not display link to signup page', function (assert) {
+    test('should not display link to login page', async function (assert) {
+      // when
+      const screen = await render(hbs`<NavbarDesktopHeader/>`);
+
       // then
-      assert.dom('.navbar-menu-signup-link').doesNotExist();
+      assert.dom(screen.queryByRole('link', { name: this.intl.t('navigation.not-logged.sign-in') })).doesNotExist();
     });
 
-    test('should not display link to login page', function (assert) {
+    test('should not display the join campaign link', async function (assert) {
+      // when
+      const screen = await render(hbs`<NavbarDesktopHeader/>`);
+
       // then
-      assert.dom('.navbar-menu-signin-link').doesNotExist();
-    });
-
-    test('should not display the join campaign link', function (assert) {
-      assert.notOk(contains("J'ai un code"));
+      assert.dom(screen.queryByRole('link', { name: this.intl.t('navigation.main.code') })).doesNotExist();
     });
   });
 
@@ -240,10 +287,10 @@ module('Integration | Component | navbar-desktop-header', function (hooks) {
     this.set('isFrenchDomainUrl', false);
 
     // when
-    await render(hbs`<NavbarDesktopHeader @shouldShowTheMarianneLogo={{this.isFrenchDomainUrl}} />`);
+    const screen = await render(hbs`<NavbarDesktopHeader @shouldShowTheMarianneLogo={{this.isFrenchDomainUrl}} />`);
 
     // then
-    assert.dom('.navbar-desktop-header-logo__marianne').doesNotExist();
+    assert.dom(screen.queryByRole('img', { name: this.intl.t('common.french-republic') })).doesNotExist();
   });
 
   test('should display marianne logo when url does have frenchDomainExtension', async function (assert) {
@@ -251,9 +298,9 @@ module('Integration | Component | navbar-desktop-header', function (hooks) {
     this.set('isFrenchDomainUrl', true);
 
     // when
-    await render(hbs`<NavbarDesktopHeader @shouldShowTheMarianneLogo={{this.isFrenchDomainUrl}} />`);
+    const screen = await render(hbs`<NavbarDesktopHeader @shouldShowTheMarianneLogo={{this.isFrenchDomainUrl}} />`);
 
     // then
-    assert.dom('.navbar-desktop-header-logo__marianne').exists();
+    assert.dom(screen.getByRole('img', { name: this.intl.t('common.french-republic') })).exists();
   });
 });
