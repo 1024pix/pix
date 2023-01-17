@@ -76,7 +76,7 @@ function deserializeForSessionsImport(parsedCsvData) {
 function getDataFromColumnNames({ csvLineKeys, headers, line }) {
   const data = {};
   csvLineKeys.forEach((key) => {
-    if (key === 'birthdate') {
+    if (key === 'birthdate' || key === 'date') {
       data[key] = convertDateValue({
         dateString: line[headers[key]],
         inputFormat: 'DD/MM/YYYY',
