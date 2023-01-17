@@ -23,11 +23,14 @@ module.exports = {
         new ScoringSimulation({
           id: simulation.id,
           estimatedLevel: simulation.estimatedLevel,
-          answers: simulation.answers.map((answer) => new Answer(answer)),
+          answers: simulation.answers?.map((answer) => new Answer(answer)),
         })
     );
 
-    const results = await usecases.simulateFlashScoring({ simulations });
+    const results = await usecases.simulateFlashScoring({
+      successProbabilityThreshold: request.payload.successProbabilityThreshold,
+      simulations,
+    });
 
     return h.response({ results });
   },

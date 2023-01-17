@@ -61,6 +61,7 @@ exports.register = async (server) => {
             allowUnknown: true,
           },
           payload: Joi.object({
+            successProbabilityThreshold: Joi.number(),
             simulations: Joi.array()
               .required()
               .items(
