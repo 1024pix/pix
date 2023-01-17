@@ -1,6 +1,7 @@
 class SimulationResult {
-  constructor({ id, pixScore, error } = {}) {
+  constructor({ id, estimatedLevel, pixScore, error } = {}) {
     this.id = id;
+    this.estimatedLevel = estimatedLevel;
     this.pixScore = pixScore;
     this.error = error;
   }
