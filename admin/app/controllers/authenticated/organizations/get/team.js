@@ -40,8 +40,8 @@ export default class GetTeamController extends Controller {
   }
 
   @action
-  selectRoleForSearch(newValue) {
-    this.organizationRole = newValue || null;
+  selectRoleForSearch(value) {
+    this.organizationRole = value;
   }
 
   async _getUser(email) {

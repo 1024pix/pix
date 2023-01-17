@@ -1,10 +1,11 @@
 <td>
   {{#if this.isEditionMode}}
     <PixSelect
+      style="width:100%"
       @onChange={{this.setRoleSelection}}
       @value={{this.selectedNewRole}}
       @options={{this.organizationRoles}}
-      @placeholder="Rôle"
+      @placeholder="- Rôle -"
       @label="Sélectionner un rôle"
       @screenReaderOnly={{true}}
       as |organizationRole|
