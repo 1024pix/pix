@@ -21,8 +21,17 @@ module.exports = async function simulateFlashScoring({
       });
     }
 
+    for (const answer of allAnswers) {
+      if (!challengeIds.has(answer.challengeId)) {
+        return new SimulationResult({
+          id,
+          error: `Challenge ID ${answer.challengeId} is unknown or not compatible with flash algorithm`,
+        });
+      }
+    }
+
     if (calculateEstimatedLevel) {
-      if (!allAnswers || allAnswers.length === 0) {
+      if (allAnswers.length === 0) {
         return new SimulationResult({
           id,
           error: 'Simulation should have answers in order to calculate estimated level',
@@ -33,6 +42,7 @@ module.exports = async function simulateFlashScoring({
         allAnswers,
         challenges,
       });
+
       if (givenEstimatedLevel != undefined && calculatedEstimatedLevel !== givenEstimatedLevel) {
         return new SimulationResult({
           id,
@@ -40,16 +50,8 @@ module.exports = async function simulateFlashScoring({
           error: `Calculated estimated level ${calculatedEstimatedLevel} is different from expected given estimated level ${givenEstimatedLevel}`,
         });
       }
-      finalEstimatedLevel = calculatedEstimatedLevel;
-    }
 
-    for (const answer of allAnswers) {
-      if (!challengeIds.has(answer.challengeId)) {
-        return new SimulationResult({
-          id,
-          error: `Challenge ID ${answer.challengeId} is unknown or not compatible with flash algorithm`,
-        });
-      }
+      finalEstimatedLevel = calculatedEstimatedLevel;
     }
 
     const pixScore = flashAlgorithmService.calculateTotalPixScore({
