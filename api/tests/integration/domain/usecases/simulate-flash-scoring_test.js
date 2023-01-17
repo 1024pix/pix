@@ -84,6 +84,33 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
         );
       });
     });
+
+    describe('when there are answers AND there is NO estimated level', function () {
+      it('should calculate estimated level AND total score', async function () {
+        // given
+        const answers = [
+          domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: 'challenge1' }),
+          domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: 'challenge2' }),
+          domainBuilder.buildAnswer({ result: AnswerStatus.KO, challengeId: 'challenge3' }),
+          domainBuilder.buildAnswer({ result: AnswerStatus.SKIPPED, challengeId: 'challenge4' }),
+        ];
+
+        const simulation = new ScoringSimulation({ id: 'simulation1', answers });
+
+        // when
+        const simulationResults = await usecases.simulateFlashScoring({
+          simulations: [simulation],
+          calculateEstimatedLevel,
+        });
+
+        // then
+        expect(simulationResults).to.have.lengthOf(1);
+        expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
+        expect(simulationResults[0]).to.have.property('id', 'simulation1');
+        expect(simulationResults[0]).to.have.property('estimatedLevel', 5.309899756825917);
+        expect(simulationResults[0]).to.have.property('pixScore', 110011);
+      });
+    });
   });
 
   describe('when NOT calculating estimated level', function () {
