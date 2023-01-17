@@ -32,6 +32,7 @@ describe('Integration | Application | Scoring-simulator | scoring-simulator-cont
         const response = await httpTestServer.request('POST', '/api/scoring-simulator/flash', {
           simulations: [{ estimatedLevel: 2, answers: [{ challengeId: 'okChallengeId', result: 'ok' }] }],
           successProbabilityThreshold: 0.8,
+          calculateEstimatedLevel: true,
         });
 
         // then
@@ -44,6 +45,7 @@ describe('Integration | Application | Scoring-simulator | scoring-simulator-cont
             }),
           ],
           successProbabilityThreshold: 0.8,
+          calculateEstimatedLevel: true,
         });
       });
     });
