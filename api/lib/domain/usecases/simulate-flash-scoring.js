@@ -3,10 +3,11 @@ const SimulationResult = require('../models/SimulationResult');
 module.exports = async function simulateFlashScoring({
   challengeRepository,
   flashAlgorithmService,
+  successProbabilityThreshold,
   simulations,
   locale = 'fr',
 }) {
-  const challenges = await challengeRepository.findFlashCompatible({ locale });
+  const challenges = await challengeRepository.findFlashCompatible({ locale, successProbabilityThreshold });
   const challengeIds = new Set(challenges.map(({ id }) => id));
 
   return simulations.map(({ id, estimatedLevel, answers: allAnswers }) => {

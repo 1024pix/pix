@@ -132,7 +132,6 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
   describe('when there are NO answers', function () {
     it('should return a total score with inferred challenges values', async function () {
       // given
-
       const estimatedLevel = 2;
 
       const simulation = new ScoringSimulation({ id: 'simulation1', estimatedLevel });
@@ -145,6 +144,28 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
       expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
       expect(simulationResults[0]).to.have.property('id', 'simulation1');
       expect(simulationResults[0]).to.have.property('pixScore', 111000);
+    });
+  });
+
+  describe('when there is a custom success probability threshold', function () {
+    it('should return a different total score', async function () {
+      // given
+      const estimatedLevel = 2;
+      const successProbabilityThreshold = 0.65;
+
+      const simulation = new ScoringSimulation({ id: 'simulation1', estimatedLevel });
+
+      // when
+      const simulationResults = await usecases.simulateFlashScoring({
+        simulations: [simulation],
+        successProbabilityThreshold,
+      });
+
+      // then
+      expect(simulationResults).to.have.lengthOf(1);
+      expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
+      expect(simulationResults[0]).to.have.property('id', 'simulation1');
+      expect(simulationResults[0]).to.have.property('pixScore', 111001);
     });
   });
 
