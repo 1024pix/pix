@@ -1,5 +1,5 @@
 const { expect, mockLearningContent, domainBuilder } = require('../../../test-helper');
-const OldScoringSimulation = require('../../../../lib/domain/models/OldScoringSimulation');
+const ScoringSimulation = require('../../../../lib/domain/models/ScoringSimulation');
 const SimulationResult = require('../../../../lib/domain/models/SimulationResult');
 const usecases = require('../../../../lib/domain/usecases/');
 
@@ -72,7 +72,7 @@ describe('Integration | UseCases | simulateOldScoring', function () {
       }),
     ];
 
-    const simulation = new OldScoringSimulation({ answers });
+    const simulation = new ScoringSimulation({ answers });
 
     // when
     const simulationResults = await usecases.simulateOldScoring({ simulations: [simulation] });
@@ -98,7 +98,7 @@ describe('Integration | UseCases | simulateOldScoring', function () {
         }),
       ];
 
-      const simulation = new OldScoringSimulation({ id: 'simulation1', answers });
+      const simulation = new ScoringSimulation({ id: 'simulation1', answers });
 
       // when
       const simulationResults = await usecases.simulateOldScoring({ simulations: [simulation] });
@@ -123,7 +123,7 @@ describe('Integration | UseCases | simulateOldScoring', function () {
         }),
       ];
 
-      const simulation = new OldScoringSimulation({ id: 'simulation1', answers });
+      const simulation = new ScoringSimulation({ id: 'simulation1', answers });
 
       // when
       const simulationResults = await usecases.simulateOldScoring({ simulations: [simulation] });
@@ -148,7 +148,7 @@ describe('Integration | UseCases | simulateOldScoring', function () {
         }),
       ];
 
-      const simulation = new OldScoringSimulation({ answers });
+      const simulation = new ScoringSimulation({ answers });
 
       // when
       const simulationResults = await usecases.simulateOldScoring({ simulations: [simulation] });
@@ -172,7 +172,7 @@ describe('Integration | UseCases | simulateOldScoring', function () {
         }),
       ];
 
-      const simulation = new OldScoringSimulation({ answers });
+      const simulation = new ScoringSimulation({ answers });
 
       // when
       const simulationResults = await usecases.simulateOldScoring({ simulations: [simulation] });

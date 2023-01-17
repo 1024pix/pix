@@ -56,6 +56,31 @@ exports.register = async (server) => {
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
+        validate: {
+          options: {
+            allowUnknown: true,
+          },
+          payload: Joi.object({
+            successProbabilityThreshold: Joi.number(),
+            simulations: Joi.array()
+              .required()
+              .items(
+                Joi.object({
+                  id: Joi.string(),
+                  estimatedLevel: Joi.number(),
+                  answers: Joi.array()
+                    .items(
+                      Joi.object({
+                        challengeId: Joi.string().required(),
+                        result: Joi.string().required(),
+                      })
+                    )
+                    .min(1),
+                }).required()
+              )
+              .min(1),
+          }).required(),
+        },
         handler: scoringSimulatorController.calculateFlashScores,
         tags: ['api'],
         notes: [
