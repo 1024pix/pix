@@ -38,9 +38,9 @@ const XML_IMPORT_ERRORS = {
   INVALID_FILE_EXTENSION: 'api-error-messages.student-xml-import.invalid-file-extension',
   PAYLOAD_TOO_LARGE: 'api-error-messages.student-xml-import.payload-too-large',
   UAI_MISMATCHED: 'api-error-messages.student-xml-import.uai-mismatched',
-  SEX_CODE_REQUIRED: 'api-errors-messages.student-xml-import.sex-code-required',
+  SEX_CODE_REQUIRED: 'api-error-messages.student-xml-import.sex-code-required',
   BIRTH_CITY_CODE_REQUIRED_FOR_FR_STUDENT:
-    'api-errors-messages.student-xml-import.birth-city-code-required-for-french-student',
+    'api-error-messages.student-xml-import.birth-city-code-required-for-french-student',
 };
 
 const ERROR_MESSAGES = {
