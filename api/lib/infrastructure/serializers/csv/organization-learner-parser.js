@@ -10,6 +10,11 @@ const ERRORS = {
   INSEE_CODE_INVALID: 'INSEE_CODE_INVALID',
 };
 
+const sexPossibleValues = {
+  M: 'M',
+  F: 'F',
+};
+
 class OrganizationLearnerSet {
   constructor() {
     this.learners = [];
@@ -27,13 +32,13 @@ class OrganizationLearnerSet {
 
   _transform(learnerAttributes) {
     const { birthCountryCode, nationalIdentifier, division } = learnerAttributes;
-    const sex = learnerAttributes.sex.toUpperCase();
+
     return {
       ...learnerAttributes,
       birthCountryCode: birthCountryCode.slice(-3),
       nationalStudentId: nationalIdentifier,
       division: division?.trim().replace(/\s+/g, ' '),
-      sex,
+      sex: _convertSexCodeToLabel(learnerAttributes.sex),
     };
   }
 
@@ -50,6 +55,10 @@ class OrganizationLearnerSet {
     }
     this.existingNationalStudentIds.push(organizationLearner.nationalStudentId);
   }
+}
+
+function _convertSexCodeToLabel(sexCode) {
+  return sexPossibleValues[sexCode.toUpperCase().charAt(0)];
 }
 
 class OrganizationLearnerParser extends CsvOrganizationLearnerParser {
