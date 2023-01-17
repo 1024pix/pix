@@ -17,6 +17,10 @@
     "indentation": [2, { "indentInsideParens": "once-at-root-twice-in-block" }],
     "rule-empty-line-before": ["always-multi-line", { "ignore": ["after-comment"] }],
     "value-keyword-case": ["lower", { "ignoreKeywords": ["Arial"] }],
-    "string-quotes": "single"
+    "string-quotes": "single",
+    "declaration-colon-space-after": "always-single-line",
+    "declaration-colon-space-before": "never",
+    "scss/dollar-variable-colon-space-after": "always",
+    "scss/dollar-variable-colon-space-before": "never"
   }
 }
