@@ -18,6 +18,13 @@ module.exports = async function simulateFlashScoring({
       });
     }
 
+    if (!allAnswers || allAnswers.length === 0) {
+      return new SimulationResult({
+        id,
+        error: 'Simulation should have answers in order to calculate estimated level',
+      });
+    }
+
     for (const answer of allAnswers) {
       if (!challengeIds.has(answer.challengeId)) {
         return new SimulationResult({
