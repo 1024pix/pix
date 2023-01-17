@@ -33,6 +33,13 @@ module.exports = async function simulateFlashScoring({
         allAnswers,
         challenges,
       });
+      if (givenEstimatedLevel != undefined && calculatedEstimatedLevel !== givenEstimatedLevel) {
+        return new SimulationResult({
+          id,
+          estimatedLevel: calculatedEstimatedLevel,
+          error: `Calculated estimated level ${calculatedEstimatedLevel} is different from expected given estimated level ${givenEstimatedLevel}`,
+        });
+      }
       finalEstimatedLevel = calculatedEstimatedLevel;
     }
 
