@@ -43,13 +43,15 @@ export default class List extends Component {
     try {
       await adminMember.save();
       this.notifications.success(
-        `L'agent ${adminMember.firstName} ${adminMember.lastName} a désormais le rôle ${this.newRole}`
+        `L'agent ${adminMember.firstName} ${adminMember.lastName} a désormais le rôle ${adminMember.updatedRole}`
       );
     } catch (errorResponse) {
       this.errorResponseHandler.notify(errorResponse, this.CUSTOM_ERROR_STATUS_MESSAGES.UPDATE);
       adminMember.role = previousRole;
+      adminMember.updatedRole = null;
     } finally {
       adminMember.isInEditionMode = false;
+      adminMember.updatedRole = null;
     }
   }
 
