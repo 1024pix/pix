@@ -10,7 +10,7 @@ describe('Unit | Domain | Organization Learner validator', function () {
       nationalIdentifier: '12345',
       firstName: 'Ellen',
       lastName: 'Ripley',
-      sex: 'F',
+      sex: 'Féminin',
       birthdate: '1979-05-25',
       organizationId: 1,
       birthCity: 'city1',
@@ -173,42 +173,42 @@ describe('Unit | Domain | Organization Learner validator', function () {
     });
 
     context('sex', function () {
-      it("throw an error when status is not 'F', 'f', 'M' or 'm'", async function () {
+      it("throw an error when status is not 'Féminin', 'féminin', 'Masculin' or 'masculin'", async function () {
         const error = await catchErr(checkValidation)({ ...validAttributes, sex: 'AA' });
 
         expect(error.key).to.equal('sex');
         expect(error.why).to.equal('bad_values');
       });
 
-      it("is valid when status is 'F'", async function () {
+      it("is valid when status is 'Féminin'", async function () {
         try {
-          checkValidation({ ...validAttributes, sex: 'F' });
+          checkValidation({ ...validAttributes, sex: 'Féminin' });
         } catch (e) {
-          expect.fail("OrganizationLearner is valid when status is 'F'");
+          expect.fail("OrganizationLearner is valid when status is 'Féminin'");
         }
       });
 
-      it("is valid when status is 'f'", async function () {
+      it("is valid when status is 'féminin'", async function () {
         try {
-          checkValidation({ ...validAttributes, sex: 'f' });
+          checkValidation({ ...validAttributes, sex: 'féminin' });
         } catch (e) {
-          expect.fail("OrganizationLearner is valid when status is 'f'");
+          expect.fail("OrganizationLearner is valid when status is 'féminin'");
         }
       });
 
-      it("is valid when status is 'M'", async function () {
+      it("is valid when status is 'Masculin'", async function () {
         try {
-          checkValidation({ ...validAttributes, sex: 'M' });
+          checkValidation({ ...validAttributes, sex: 'Masculin' });
         } catch (e) {
-          expect.fail("OrganizationLearner is valid when status is 'M'");
+          expect.fail("OrganizationLearner is valid when status is 'Masculin'");
         }
       });
 
-      it("is valid when status is 'm'", async function () {
+      it("is valid when status is 'masculin'", async function () {
         try {
-          checkValidation({ ...validAttributes, sex: 'm' });
+          checkValidation({ ...validAttributes, sex: 'masculin' });
         } catch (e) {
-          expect.fail("OrganizationLearner is valid when status is 'm'");
+          expect.fail("OrganizationLearner is valid when status is 'masculin'");
         }
       });
     });
