@@ -1,13 +1,12 @@
 import sinon from 'sinon';
 import { module, test } from 'qunit';
-import { fillIn, find, render, triggerEvent } from '@ember/test-helpers';
+import { fillIn } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import { render, clickByName } from '@1024pix/ember-testing-library';
 
 import Service from '@ember/service';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { contains } from '../../helpers/contains';
-import { clickByLabel } from '../../helpers/click-by-label';
 
 import ENV from '../../../config/environment';
 const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
@@ -16,40 +15,50 @@ module('Integration | Component | signin form', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   module('Rendering', function () {
-    test('should display an input for identifiant field', async function (assert) {
-      // when
-      await render(hbs`<SigninForm />`);
+    test('[a11y] it should display a message that all inputs are required', async function (assert) {
+      // given & when
+      const screen = await render(hbs`<SigninForm />`);
 
       // then
-      assert.ok(document.querySelector('input#login'));
+      assert.dom(screen.getByText(this.intl.t('common.form.mandatory-all-fields'))).exists();
     });
 
-    test('should display an input for password field', async function (assert) {
-      // when
-      await render(hbs`<SigninForm />`);
+    test('should display a required input for username field', async function (assert) {
+      // given & when
+      const screen = await render(hbs`<SigninForm />`);
 
       // then
-      assert.ok(document.querySelector('input#password'));
+      assert
+        .dom(screen.getByRole('textbox', { name: this.intl.t('pages.sign-in.fields.login.label') }))
+        .hasAttribute('required');
+    });
+
+    test('should display a required input for password field', async function (assert) {
+      // given & when
+      const screen = await render(hbs`<SigninForm />`);
+
+      // then
+      assert.dom(screen.getByLabelText(this.intl.t('pages.sign-in.fields.password.label'))).hasAttribute('required');
     });
 
     test('should display a submit button to authenticate', async function (assert) {
-      // when
-      await render(hbs`<SigninForm />`);
+      // given & when
+      const screen = await render(hbs`<SigninForm />`);
 
       // then
-      assert.ok(contains(this.intl.t('pages.sign-in.actions.submit')));
+      assert.dom(screen.getByRole('button', { name: this.intl.t('pages.sign-in.actions.submit') })).exists();
     });
 
     test('should display a link to password reset view', async function (assert) {
-      // when
-      await render(hbs`<SigninForm />`);
+      // given & when
+      const screen = await render(hbs`<SigninForm />`);
 
       // then
-      assert.ok(document.querySelector('a.sign-form-body__forgotten-password-link'));
+      assert.dom(screen.getByRole('link', { name: this.intl.t('pages.sign-in.forgotten-password') })).exists();
     });
 
     test('should not display any error by default', async function (assert) {
-      // when
+      // given & when
       await render(hbs`<SigninForm />`);
 
       // then
@@ -63,16 +72,18 @@ module('Integration | Component | signin form', function (hooks) {
           authenticateUser = sinon.stub().rejects({ status: 401 });
         }
         this.owner.register('service:session', sessionService);
-        await render(hbs`<SigninForm />`);
+        const screen = await render(hbs`<SigninForm />`);
 
         // when
-        await fillIn('input#login', 'usernotexist@example.net');
-        await fillIn('input#password', 'password');
-        await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
+        await fillIn(
+          screen.getByRole('textbox', { name: this.intl.t('pages.sign-in.fields.login.label') }),
+          'usernotexist@example.net'
+        );
+        await fillIn(screen.getByLabelText(this.intl.t('pages.sign-in.fields.password.label')), 'password');
+        await clickByName(this.intl.t('pages.sign-in.actions.submit'));
 
         // then
-        const expectedErrorMessage = this.intl.t(ApiErrorMessages.LOGIN_UNAUTHORIZED.I18N_KEY);
-        assert.strictEqual(find('div[id="sign-in-error-message"]').textContent.trim(), expectedErrorMessage);
+        assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.LOGIN_UNAUTHORIZED.I18N_KEY))).exists();
       });
 
       test('should display related error message if bad request error', async function (assert) {
@@ -81,16 +92,18 @@ module('Integration | Component | signin form', function (hooks) {
           authenticateUser = sinon.stub().rejects({ status: 400 });
         }
         this.owner.register('service:session', sessionService);
-        await render(hbs`<SigninForm />`);
+        const screen = await render(hbs`<SigninForm />`);
 
         // when
-        await fillIn('input#login', 'usernotexist@example.net');
-        await fillIn('input#password', 'password');
-        await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
+        await fillIn(
+          screen.getByRole('textbox', { name: this.intl.t('pages.sign-in.fields.login.label') }),
+          'usernotexist@example.net'
+        );
+        await fillIn(screen.getByLabelText(this.intl.t('pages.sign-in.fields.password.label')), 'password');
+        await clickByName(this.intl.t('pages.sign-in.actions.submit'));
 
         // then
-        const expectedErrorMessage = this.intl.t(ApiErrorMessages.BAD_REQUEST.I18N_KEY);
-        assert.strictEqual(find('div[id="sign-in-error-message"]').textContent.trim(), expectedErrorMessage);
+        assert.ok(screen.getByText(this.intl.t(ApiErrorMessages.BAD_REQUEST.I18N_KEY)));
       });
 
       test('should display an error if api cannot be reached', async function (assert) {
@@ -100,19 +113,18 @@ module('Integration | Component | signin form', function (hooks) {
           authenticateUser = sinon.stub().rejects({ status: stubCatchedApiErrorInternetDisconnected });
         }
         this.owner.register('service:session', sessionService);
-        await render(hbs`<SigninForm />`);
+        const screen = await render(hbs`<SigninForm />`);
 
         // when
-        await fillIn('input#login', 'johnharry@example.net');
-        await fillIn('input#password', 'password123');
-        await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
+        await fillIn(
+          screen.getByRole('textbox', { name: this.intl.t('pages.sign-in.fields.login.label') }),
+          'johnharry@example.net'
+        );
+        await fillIn(screen.getByLabelText(this.intl.t('pages.sign-in.fields.password.label')), 'password123');
+        await clickByName(this.intl.t('pages.sign-in.actions.submit'));
 
         // then
-        assert.ok(document.querySelector('div.sign-form__notification-message--error'));
-        assert.strictEqual(
-          find('div[id="sign-in-error-message"]').textContent.trim(),
-          this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY)
-        );
+        assert.dom(screen.getByText(this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.I18N_KEY))).exists();
       });
 
       module('blocking', function () {
@@ -125,22 +137,29 @@ module('Integration | Component | signin form', function (hooks) {
                 .rejects({ status: 403, responseJSON: { errors: [{ code: 'USER_IS_TEMPORARY_BLOCKED' }] } });
             }
             this.owner.register('service:session', sessionService);
-            await render(hbs`<SigninForm />`);
+            const screen = await render(hbs`<SigninForm />`);
 
             // when
-            await fillIn('input#login', 'user.temporary-blocked@example.net');
-            await fillIn('input#password', 'password');
-            await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
+            await fillIn(
+              screen.getByRole('textbox', { name: this.intl.t('pages.sign-in.fields.login.label') }),
+              'user.temporary-blocked@example.net'
+            );
+            await fillIn(screen.getByLabelText(this.intl.t('pages.sign-in.fields.password.label')), 'password123');
+            await clickByName(this.intl.t('pages.sign-in.actions.submit'));
 
             // then
-            const expectedErrorMessage = this.intl.t(ApiErrorMessages.USER_IS_TEMPORARY_BLOCKED.I18N_KEY, {
-              url: '/mot-de-passe-oublie',
-              htmlSafe: true,
-            });
-            assert.deepEqual(find('div[id="sign-in-error-message"]').innerHTML.trim(), expectedErrorMessage.string);
+            const errorMessage = screen.getByText(
+              (content) =>
+                content.startsWith(
+                  'Vous avez effectué trop de tentatives de connexion. Réessayez plus tard ou cliquez sur'
+                ) && content.endsWith('pour le réinitialiser.')
+            );
+            const errorMessageLink = screen.getByRole('link', { name: 'mot de passe oublié' });
+
+            assert.dom(errorMessage).exists();
+            assert.dom(errorMessageLink).hasAttribute('href', '/mot-de-passe-oublie');
           });
         });
-
         module('when is user blocked', function () {
           test('displays a specific error', async function (assert) {
             // given
@@ -150,19 +169,26 @@ module('Integration | Component | signin form', function (hooks) {
                 .rejects({ status: 403, responseJSON: { errors: [{ code: 'USER_IS_BLOCKED' }] } });
             }
             this.owner.register('service:session', sessionService);
-            await render(hbs`<SigninForm />`);
+            const screen = await render(hbs`<SigninForm />`);
 
             // when
-            await fillIn('input#login', 'user.blocked@example.net');
-            await fillIn('input#password', 'password');
-            await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
+            await fillIn(
+              screen.getByRole('textbox', { name: this.intl.t('pages.sign-in.fields.login.label') }),
+              'user.blocked@example.net'
+            );
+            await fillIn(screen.getByLabelText(this.intl.t('pages.sign-in.fields.password.label')), 'password123');
+            await clickByName(this.intl.t('pages.sign-in.actions.submit'));
 
             // then
-            const expectedErrorMessage = this.intl.t(ApiErrorMessages.USER_IS_BLOCKED.I18N_KEY, {
-              url: 'https://support.pix.org/support/tickets/new',
-              htmlSafe: true,
-            });
-            assert.deepEqual(find('div[id="sign-in-error-message"]').innerHTML.trim(), expectedErrorMessage.string);
+            const errorMessage = screen.getByText((content) =>
+              content.startsWith(
+                'Votre compte est bloqué car vous avez effectué trop de tentatives de connexion. Pour le débloquer,'
+              )
+            );
+            const errorMessageLink = screen.getByRole('link', { name: 'contactez-nous' });
+
+            assert.dom(errorMessage).exists();
+            assert.dom(errorMessageLink).hasAttribute('href', 'https://support.pix.org/support/tickets/new');
           });
         });
       });
@@ -171,8 +197,6 @@ module('Integration | Component | signin form', function (hooks) {
     module('when domain is pix.org', function () {
       test('should not display Pole Emploi button', async function (assert) {
         // given
-        const linkText = this.intl.t('pages.sign-in.pole-emploi.title');
-
         class UrlServiceStub extends Service {
           get isFrenchDomainExtension() {
             return false;
@@ -182,10 +206,18 @@ module('Integration | Component | signin form', function (hooks) {
         this.owner.register('service:url', UrlServiceStub);
 
         // when
-        await render(hbs`<SigninForm />`);
+        const screen = await render(hbs`<SigninForm />`);
 
         // then
-        assert.notOk(contains(linkText));
+        assert
+          .dom(
+            screen.queryByRole('link', {
+              name: `${this.intl.t('pages.sign-in.pole-emploi.link.img')} ${this.intl.t(
+                'pages.sign-in.pole-emploi.title'
+              )}`,
+            })
+          )
+          .doesNotExist();
       });
     });
 
@@ -199,13 +231,19 @@ module('Integration | Component | signin form', function (hooks) {
         }
         this.owner.register('service:url', UrlServiceStub);
 
-        const linkText = this.intl.t('pages.sign-in.pole-emploi.title');
-
         // when
-        await render(hbs`<SigninForm />`);
+        const screen = await render(hbs`<SigninForm />`);
 
         // then
-        assert.ok(contains(linkText));
+        assert
+          .dom(
+            screen.getByRole('link', {
+              name: `${this.intl.t('pages.sign-in.pole-emploi.link.img')} ${this.intl.t(
+                'pages.sign-in.pole-emploi.title'
+              )}`,
+            })
+          )
+          .exists();
       });
     });
   });
@@ -219,15 +257,16 @@ module('Integration | Component | signin form', function (hooks) {
       this.owner.register('service:session', sessionService);
       const session = this.owner.lookup('service:session', sessionService);
 
-      await render(hbs`<SigninForm />`);
+      const screen = await render(hbs`<SigninForm />`);
 
-      await fillIn('input#login', 'email@example.fr');
-      await triggerEvent('input#login', 'change');
-      await fillIn('input#password', 'azerty');
-      await triggerEvent('input#password', 'change');
+      await fillIn(
+        screen.getByRole('textbox', { name: this.intl.t('pages.sign-in.fields.login.label') }),
+        'johnharry@example.net'
+      );
+      await fillIn(screen.getByLabelText(this.intl.t('pages.sign-in.fields.password.label')), 'password123');
 
       // when
-      await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
+      await clickByName(this.intl.t('pages.sign-in.actions.submit'));
 
       // Then
       sinon.assert.calledOnce(session.authenticateUser);

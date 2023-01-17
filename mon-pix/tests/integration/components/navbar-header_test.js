@@ -1,72 +1,74 @@
-/* eslint ember/no-classic-classes: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
 import Service from '@ember/service';
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { setBreakpoint } from 'ember-responsive/test-support';
-import { contains } from '../../helpers/contains';
+import { render } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | navbar-header', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  module('when user is on desktop', function (hooks) {
-    hooks.beforeEach(async function () {
-      setBreakpoint('desktop');
-      await render(hbs`<NavbarHeader/>`);
-    });
-
-    test('should be rendered in desktop mode', function (assert) {
-      // then
-      assert.dom('.navbar-desktop-header__container').exists();
-    });
-
+  module('when user is on desktop', function () {
     test('should render skip links', async function (assert) {
-      assert.ok(contains(this.intl.t('common.skip-links.skip-to-content')));
-      assert.ok(contains(this.intl.t('common.skip-links.skip-to-footer')));
+      // given
+      setBreakpoint('desktop');
+
+      // when
+      const screen = await render(hbs`<NavbarHeader/>`);
+
+      // then
+      assert.ok(screen.getByRole('link', { name: this.intl.t('common.skip-links.skip-to-content') }));
+      assert.ok(screen.getByRole('link', { name: this.intl.t('common.skip-links.skip-to-footer') }));
     });
   });
 
-  module('When user is not on desktop ', function (hooks) {
-    hooks.beforeEach(function () {
-      setBreakpoint('tablet');
-    });
-
+  module('When user is not on desktop ', function () {
     test('should be rendered in mobile/tablet mode with a burger', async function (assert) {
+      // given
+      setBreakpoint('tablet');
+      class SessionStub extends Service {
+        isAuthenticated = true;
+      }
+      this.owner.register('service:session', SessionStub);
+      class CurrentUserStub extends Service {
+        user = { fullName: 'John Doe' };
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+
       // when
-      this.owner.register('service:session', Service.extend({ isAuthenticated: true }));
-      this.owner.register('service:currentUser', Service.extend({ user: { fullName: 'John Doe' } }));
-      this.set('burger', {
-        state: {
-          actions: {
-            toggle: () => true,
-          },
-        },
-      });
-      await render(hbs`<NavbarHeader @burger={{this.burger}} />`);
+      const screen = await render(hbs`<NavbarHeader />`);
+
       // then
-      assert.dom('.navbar-mobile-header__container').exists();
-      assert.dom('.navbar-mobile-header__burger-icon').exists();
+      assert.ok(screen.getByRole('navigation', { name: this.intl.t('navigation.main.label') }));
+      assert.ok(screen.getByRole('button', { name: this.intl.t('navigation.mobile-button-title') }));
     });
 
     test('should be rendered in mobile/tablet mode without burger', async function (assert) {
+      // given
+      setBreakpoint('tablet');
+      class SessionStub extends Service {
+        isAuthenticated = false;
+      }
+      this.owner.register('service:session', SessionStub);
+
       // when
-      await render(hbs`<NavbarHeader/>`);
+      const screen = await render(hbs`<NavbarHeader/>`);
 
       // then
-      assert.dom('.navbar-mobile-header__container').exists();
-      assert.dom('.navbar-mobile-header__burger-icon').doesNotExist();
+      assert.dom(screen.queryByRole('navigation', { name: this.intl.t('navigation.main.label') })).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: this.intl.t('navigation.mobile-button-title') })).doesNotExist();
     });
 
     test('should render skip links', async function (assert) {
-      this.owner.register('service:currentUser', Service.extend({ user: { fullName: 'John Doe' } }));
+      // given
+      setBreakpoint('tablet');
 
-      await render(hbs`<NavbarHeader/>`);
+      // when
+      const screen = await render(hbs`<NavbarHeader/>`);
 
-      assert.ok(contains(this.intl.t('common.skip-links.skip-to-content')));
-      assert.ok(contains(this.intl.t('common.skip-links.skip-to-footer')));
+      // then
+      assert.ok(screen.getByRole('link', { name: this.intl.t('common.skip-links.skip-to-content') }));
+      assert.ok(screen.getByRole('link', { name: this.intl.t('common.skip-links.skip-to-footer') }));
     });
   });
 });
