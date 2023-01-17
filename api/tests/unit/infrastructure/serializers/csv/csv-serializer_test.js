@@ -1,4 +1,4 @@
-const { expect, catchErr, sinon } = require('../../../../test-helper');
+const { expect, sinon, catchErr } = require('../../../../test-helper');
 const csvSerializer = require('../../../../../lib/infrastructure/serializers/csv/csv-serializer');
 const logger = require('../../../../../lib/infrastructure/logger');
 const _ = require('lodash');
@@ -45,11 +45,11 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
       expect(csv).to.equal(csvExpected);
     });
 
-    context('should throw exceptions invalid format', function () {
+    context('should log errors for invalid format', function () {
       it('given object', async function () {
         // when
         sinon.stub(logger, 'error');
-        await catchErr(csvSerializer.serializeLine)([{}]);
+        csvSerializer.serializeLine([{}]);
         // then
         expect(logger.error).to.have.been.calledWith(
           'Unknown value type in _csvSerializeValue: object: [object Object]'
@@ -59,7 +59,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
       it('given null', async function () {
         // when
         sinon.stub(logger, 'error');
-        await catchErr(csvSerializer.serializeLine)([null]);
+        csvSerializer.serializeLine([null]);
         // then
         expect(logger.error).to.have.been.calledWith('Unknown value type in _csvSerializeValue: object: null');
       });
@@ -67,7 +67,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
       it('given undefined', async function () {
         // when
         sinon.stub(logger, 'error');
-        await catchErr(csvSerializer.serializeLine)([undefined]);
+        csvSerializer.serializeLine([undefined]);
         // then
         expect(logger.error).to.have.been.calledWith('Unknown value type in _csvSerializeValue: undefined: undefined');
       });
