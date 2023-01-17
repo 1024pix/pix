@@ -29,6 +29,7 @@ module.exports = {
 
     const results = await usecases.simulateFlashScoring({
       successProbabilityThreshold: request.payload.successProbabilityThreshold,
+      calculateEstimatedLevel: request.payload.calculateEstimatedLevel,
       simulations,
     });
 
