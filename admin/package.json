@@ -100,7 +100,6 @@
     "npm-run-all": "^4.1.5",
     "p-queue": "^6.6.1",
     "popper.js": "^1.16.1",
-    "postcss-scss": "^4.0.6",
     "prettier": "^2.8.0",
     "query-string": "^7.1.1",
     "qunit": "^2.17.2",
@@ -108,7 +107,8 @@
     "sass": "^1.56.1",
     "sinon": "^14.0.2",
     "stylelint": "^14.15.0",
-    "stylelint-config-standard": "^29.0.0",
+    "stylelint-config-prettier": "^9.0.4",
+    "stylelint-config-standard-scss": "^6.1.0",
     "webpack": "^5.65.0"
   }
 }

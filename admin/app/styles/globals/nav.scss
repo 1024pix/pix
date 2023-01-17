@@ -63,7 +63,7 @@
 }
 
 .navbar + section {
-  @include whiteBlock();
+  @include whiteBlock;
 
   padding: 20px;
 }
