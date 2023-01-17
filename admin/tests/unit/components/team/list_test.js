@@ -11,10 +11,10 @@ module('Unit | Component | team | list', function (hooks) {
       // given
       const adminMember = {
         role: 'SUPER_ADMIN',
+        updatedRole: 'CERTIF',
         save: sinon.stub(),
       };
       const component = createGlimmerComponent('component:team/list');
-      component.newRole = 'CERTIF';
 
       // when
       await component.updateMemberRole(adminMember);
@@ -28,10 +28,10 @@ module('Unit | Component | team | list', function (hooks) {
         // given
         const adminMember = {
           role: 'SUPER_ADMIN',
+          updatedRole: null,
           save: sinon.stub(),
         };
         const component = createGlimmerComponent('component:team/list');
-        component.newRole = undefined;
 
         // when
         await component.updateMemberRole(adminMember);
