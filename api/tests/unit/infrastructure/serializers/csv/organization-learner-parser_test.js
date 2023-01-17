@@ -72,8 +72,8 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
       context('when the data are correct', function () {
         it('returns an organization learner for each line', function () {
           const input = `${organizationLearnerCsvColumns}
-          123F;Beatrix;The;Bride;Kiddo;Black Mamba;F;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
-          456F;O-Ren;;;Ishii;Cottonmouth;M;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
+          123F;Beatrix;The;Bride;Kiddo;Black Mamba;Féminin;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
+          456F;O-Ren;;;Ishii;Cottonmouth;Masculin;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
           `;
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new OrganizationLearnerParser(encodedInput, 456, i18n);
@@ -84,8 +84,8 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
 
         it('returns an organization learner for each line using the CSV column', function () {
           const input = `${organizationLearnerCsvColumns}
-          123F;Beatrix;The;Bride;Kiddo;Black Mamba;f;01/01/1970;97422;;974;99100;ST;MEF1;Division 1;
-          0123456789F;O-Ren;;;Ishii;Cottonmouth;m;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;
+          123F;Beatrix;The;Bride;Kiddo;Black Mamba;féminin;01/01/1970;97422;;974;99100;ST;MEF1;Division 1;
+          0123456789F;O-Ren;;;Ishii;Cottonmouth;masculin;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;
           `;
           const organizationId = 789;
           const encodedInput = iconv.encode(input, 'utf8');
@@ -130,7 +130,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
         context('when division has spaces', function () {
           it('should trim division', function () {
             const input = `${organizationLearnerCsvColumns}
-            123F;Beatrix;The;Bride;Kiddo;Black Mamba;F;01/01/1970;97422;;200;99100;ST;MEF1;  Division 1 ;
+            123F;Beatrix;The;Bride;Kiddo;Black Mamba;Féminin;01/01/1970;97422;;200;99100;ST;MEF1;  Division 1 ;
             `;
             const encodedInput = iconv.encode(input, 'utf8');
             const parser = new OrganizationLearnerParser(encodedInput, 456, i18n);
@@ -141,7 +141,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
 
           it('should remove extra space on division', function () {
             const input = `${organizationLearnerCsvColumns}
-            123F;Beatrix;The;Bride;Kiddo;Black Mamba;F;01/01/1970;97422;;200;99100;ST;MEF1;Division     1;
+            123F;Beatrix;The;Bride;Kiddo;Black Mamba;Féminin;01/01/1970;97422;;200;99100;ST;MEF1;Division     1;
             `;
             const encodedInput = iconv.encode(input, 'utf8');
             const parser = new OrganizationLearnerParser(encodedInput, 456, i18n);
@@ -154,7 +154,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
         context('When the organization is Agriculture and file contain status AP', function () {
           it('should return organization learner with nationalStudentId', function () {
             const input = `${organizationLearnerCsvColumns}
-            0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;F;01/01/1970;97422;;974;99100;AP;MEF1;Division 1;
+            0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;Féminin;01/01/1970;97422;;974;99100;AP;MEF1;Division 1;
             `;
             const encodedInput = iconv.encode(input, 'utf8');
             const parser = new OrganizationLearnerParser(encodedInput, 123, i18n);
@@ -173,7 +173,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
           //given
           const wrongData = 'FRANC';
           const input = `${organizationLearnerCsvColumns}
-          123F;Beatrix;The;Bride;Kiddo;Black Mamba;F;01/01/1980;97422;;200;${wrongData};ST;MEF1;Division 1;
+          123F;Beatrix;The;Bride;Kiddo;Black Mamba;Féminin;01/01/1980;97422;;200;${wrongData};ST;MEF1;Division 1;
           `;
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new OrganizationLearnerParser(encodedInput, 123, i18n);
@@ -189,7 +189,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
           //given
           const wrongData = 'A1234';
           const input = `${organizationLearnerCsvColumns}
-          123F;Beatrix;The;Bride;Kiddo;Black Mamba;F;01/01/1980;${wrongData};;974;99100;ST;MEF1;Division 1;
+          123F;Beatrix;The;Bride;Kiddo;Black Mamba;Féminin;01/01/1980;${wrongData};;974;99100;ST;MEF1;Division 1;
           `;
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new OrganizationLearnerParser(encodedInput, 123, i18n);
@@ -205,7 +205,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
         context('When the organization is Agriculture and file contain status AP', function () {
           it('should return organization learner with nationalStudentId', function () {
             const input = `${organizationLearnerCsvColumns}
-            0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;F;01/01/1970;97422;;974;99100;AP;MEF1;Division 1;
+            0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;Féminin;01/01/1970;97422;;974;99100;AP;MEF1;Division 1;
             `;
             const encodedInput = iconv.encode(input, 'utf8');
             const parser = new OrganizationLearnerParser(encodedInput, 123, i18n);
@@ -222,8 +222,8 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
           context('when organization is SCO', function () {
             it('should throw an CsvImportError even with different status', async function () {
               const input = `${organizationLearnerCsvColumns}
-              0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;F;01/05/1986;97422;;200;99100;ST;MEF1;Division 1;
-              0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;F;01/05/1986;97422;;200;99100;AP;MEF1;Division 1;
+              0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;Féminin;01/05/1986;97422;;200;99100;ST;MEF1;Division 1;
+              0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;Féminin;01/05/1986;97422;;200;99100;AP;MEF1;Division 1;
               `;
 
               const encodedInput = iconv.encode(input, 'utf8');

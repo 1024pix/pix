@@ -30,7 +30,7 @@ const validationSchema = Joi.object({
   MEFCode: Joi.string().max(MAX_LENGTH).required(),
   division: Joi.string().max(MAX_LENGTH).required(),
   organizationId: Joi.number().integer().required(),
-  sex: Joi.string().valid('F', 'f', 'M', 'm').required(),
+  sex: Joi.string().valid('Féminin', 'féminin', 'Masculin', 'masculin').required(),
   birthCity: Joi.alternatives().conditional('birthCountryCode', {
     is: FRANCE_COUNTRY_CODE,
     then: Joi.string().max(MAX_LENGTH).optional(),

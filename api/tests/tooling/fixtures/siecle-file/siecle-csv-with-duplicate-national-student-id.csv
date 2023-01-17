@@ -1,3 +1,3 @@
 Identifiant unique*;Premier prénom*;Deuxième prénom;Troisième prénom;Nom de famille*;Nom d'usage;Code sexe*;Date de naissance (jj/mm/aaaa)*;Code commune naissance**;Libellé commune naissance**;Code département naissance*;Code pays naissance*;Statut*;Code MEF*;Division*
-4581234567F;Léa;Jeannette;Klervi;Corse;Cottonmouth;F;01/01/1990;2A214;;2A;99100;ST;MEF1;Division 2
-4581234567F;Léo;;;Corse;;M;01/01/1990;;Plymouth;99;99132;ST;MEF1;Division 1
+4581234567F;Léa;Jeannette;Klervi;Corse;Cottonmouth;Féminin;01/01/1990;2A214;;2A;99100;ST;MEF1;Division 2
+4581234567F;Léo;;;Corse;;Masculin;01/01/1990;;Plymouth;99;99132;ST;MEF1;Division 1
