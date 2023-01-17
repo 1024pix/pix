@@ -59,30 +59,203 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
     mockLearningContent(learningContent);
   });
 
-  describe('when there are answers', function () {
-    it('should return a total score that combines inferred and direct challenges values', async function () {
-      // given
-      const answers = [
-        domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: 'challenge1' }),
-        domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: 'challenge2' }),
-        domainBuilder.buildAnswer({ result: AnswerStatus.KO, challengeId: 'challenge3' }),
-        domainBuilder.buildAnswer({ result: AnswerStatus.SKIPPED, challengeId: 'challenge4' }),
-      ];
+  describe('when calculating estimated level', function () {
+    const calculateEstimatedLevel = true;
 
-      const estimatedLevel = 2;
+    describe('when there are NO answers', function () {
+      it('should return an error', async function () {
+        // given
+        const estimatedLevel = 2;
 
-      const simulation = new ScoringSimulation({ id: 'simulation1', answers, estimatedLevel });
+        const simulation = new ScoringSimulation({ id: 'simulation1', estimatedLevel });
 
-      // when
-      const simulationResults = await usecases.simulateFlashScoring({ simulations: [simulation] });
+        // when
+        const simulationResults = await usecases.simulateFlashScoring({
+          simulations: [simulation],
+          calculateEstimatedLevel,
+        });
 
-      // then
-      expect(simulationResults).to.have.lengthOf(1);
-      expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
-      expect(simulationResults[0]).to.have.property('id', 'simulation1');
-      expect(simulationResults[0]).to.have.property('pixScore', 110011);
+        // then
+        expect(simulationResults).to.have.lengthOf(1);
+        expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
+        expect(simulationResults[0]).to.have.property(
+          'error',
+          'Simulation should have answers in order to calculate estimated level'
+        );
+      });
     });
 
+    describe('when there are answers AND there is NO estimated level', function () {
+      it('should calculate estimated level AND total score', async function () {
+        // given
+        const answers = [
+          domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: 'challenge1' }),
+          domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: 'challenge2' }),
+          domainBuilder.buildAnswer({ result: AnswerStatus.KO, challengeId: 'challenge3' }),
+          domainBuilder.buildAnswer({ result: AnswerStatus.SKIPPED, challengeId: 'challenge4' }),
+        ];
+
+        const simulation = new ScoringSimulation({ id: 'simulation1', answers });
+
+        // when
+        const simulationResults = await usecases.simulateFlashScoring({
+          simulations: [simulation],
+          calculateEstimatedLevel,
+        });
+
+        // then
+        expect(simulationResults).to.have.lengthOf(1);
+        expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
+        expect(simulationResults[0]).to.have.property('id', 'simulation1');
+        expect(simulationResults[0]).to.have.property('estimatedLevel', 5.309899756825917);
+        expect(simulationResults[0]).to.have.property('pixScore', 110011);
+      });
+    });
+
+    describe('when there are answers and an estimated level', function () {
+      describe('when the calculated and given estimated levels are the same', function () {
+        it('should calculate estimated level AND total score', async function () {
+          // given
+          const answers = [
+            domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: 'challenge1' }),
+            domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: 'challenge2' }),
+            domainBuilder.buildAnswer({ result: AnswerStatus.KO, challengeId: 'challenge3' }),
+            domainBuilder.buildAnswer({ result: AnswerStatus.SKIPPED, challengeId: 'challenge4' }),
+          ];
+
+          const simulation = new ScoringSimulation({ id: 'simulation1', answers, estimatedLevel: 5.309899756825917 });
+
+          // when
+          const simulationResults = await usecases.simulateFlashScoring({
+            simulations: [simulation],
+            calculateEstimatedLevel,
+          });
+
+          // then
+          expect(simulationResults).to.have.lengthOf(1);
+          expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
+          expect(simulationResults[0]).to.have.property('id', 'simulation1');
+          expect(simulationResults[0]).to.have.property('estimatedLevel', 5.309899756825917);
+          expect(simulationResults[0]).to.have.property('pixScore', 110011);
+        });
+      });
+
+      describe('when the calculated and given estimated levels are different', function () {
+        it('should return an error', async function () {
+          // given
+          const answers = [
+            domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: 'challenge1' }),
+            domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: 'challenge2' }),
+            domainBuilder.buildAnswer({ result: AnswerStatus.KO, challengeId: 'challenge3' }),
+            domainBuilder.buildAnswer({ result: AnswerStatus.SKIPPED, challengeId: 'challenge4' }),
+          ];
+
+          const simulation = new ScoringSimulation({ id: 'simulation1', answers, estimatedLevel: 1 });
+
+          // when
+          const simulationResults = await usecases.simulateFlashScoring({
+            simulations: [simulation],
+            calculateEstimatedLevel,
+          });
+
+          // then
+          expect(simulationResults).to.have.lengthOf(1);
+          expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
+          expect(simulationResults[0]).to.have.property('id', 'simulation1');
+          expect(simulationResults[0]).to.have.property('estimatedLevel', 5.309899756825917);
+          expect(simulationResults[0]).to.have.property(
+            'error',
+            'Calculated estimated level 5.309899756825917 is different from expected given estimated level 1'
+          );
+        });
+      });
+    });
+  });
+
+  describe('when NOT calculating estimated level', function () {
+    const calculateEstimatedLevel = false;
+
+    describe('when there are answers', function () {
+      it('should return a total score that combines inferred and direct challenges values', async function () {
+        // given
+        const answers = [
+          domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: 'challenge1' }),
+          domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: 'challenge2' }),
+          domainBuilder.buildAnswer({ result: AnswerStatus.KO, challengeId: 'challenge3' }),
+          domainBuilder.buildAnswer({ result: AnswerStatus.SKIPPED, challengeId: 'challenge4' }),
+        ];
+
+        const estimatedLevel = 2;
+
+        const simulation = new ScoringSimulation({
+          id: 'simulation1',
+          answers,
+          estimatedLevel,
+          calculateEstimatedLevel,
+        });
+
+        // when
+        const simulationResults = await usecases.simulateFlashScoring({
+          simulations: [simulation],
+          calculateEstimatedLevel,
+        });
+
+        // then
+        expect(simulationResults).to.have.lengthOf(1);
+        expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
+        expect(simulationResults[0]).to.have.property('id', 'simulation1');
+        expect(simulationResults[0]).to.have.property('pixScore', 110011);
+      });
+    });
+
+    describe('when there are NO answers', function () {
+      it('should return a total score with inferred challenges values', async function () {
+        // given
+        const estimatedLevel = 2;
+
+        const simulation = new ScoringSimulation({ id: 'simulation1', estimatedLevel });
+
+        // when
+        const simulationResults = await usecases.simulateFlashScoring({
+          simulations: [simulation],
+          calculateEstimatedLevel,
+        });
+
+        // then
+        expect(simulationResults).to.have.lengthOf(1);
+        expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
+        expect(simulationResults[0]).to.have.property('id', 'simulation1');
+        expect(simulationResults[0]).to.have.property('pixScore', 111000);
+      });
+    });
+
+    describe('when a simulation does NOT have any estimated level', function () {
+      it('should return an error', async function () {
+        // given
+        const answers = [
+          domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: 'challenge1' }),
+          domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: 'challenge2' }),
+          domainBuilder.buildAnswer({ result: AnswerStatus.KO, challengeId: 'challenge3' }),
+          domainBuilder.buildAnswer({ result: AnswerStatus.SKIPPED, challengeId: 'challenge4' }),
+        ];
+
+        const simulation = new ScoringSimulation({ id: 'simulation1', answers });
+
+        // when
+        const simulationResults = await usecases.simulateFlashScoring({
+          simulations: [simulation],
+          calculateEstimatedLevel,
+        });
+
+        // then
+        expect(simulationResults).to.have.lengthOf(1);
+        expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
+        expect(simulationResults[0]).to.have.property('error', 'Simulation should have an estimated level');
+      });
+    });
+  });
+
+  describe('when there are answers', function () {
     describe('when an answer on an unknown challenge is received', function () {
       it('should return an error', async function () {
         // given
@@ -129,24 +302,6 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
     });
   });
 
-  describe('when there are NO answers', function () {
-    it('should return a total score with inferred challenges values', async function () {
-      // given
-      const estimatedLevel = 2;
-
-      const simulation = new ScoringSimulation({ id: 'simulation1', estimatedLevel });
-
-      // when
-      const simulationResults = await usecases.simulateFlashScoring({ simulations: [simulation] });
-
-      // then
-      expect(simulationResults).to.have.lengthOf(1);
-      expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
-      expect(simulationResults[0]).to.have.property('id', 'simulation1');
-      expect(simulationResults[0]).to.have.property('pixScore', 111000);
-    });
-  });
-
   describe('when there is a custom success probability threshold', function () {
     it('should return a different total score', async function () {
       // given
@@ -166,28 +321,6 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
       expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
       expect(simulationResults[0]).to.have.property('id', 'simulation1');
       expect(simulationResults[0]).to.have.property('pixScore', 111001);
-    });
-  });
-
-  describe('when a simulation does NOT have any simulated level', function () {
-    it('should return an error', async function () {
-      // given
-      const answers = [
-        domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: 'challenge1' }),
-        domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: 'challenge2' }),
-        domainBuilder.buildAnswer({ result: AnswerStatus.KO, challengeId: 'challenge3' }),
-        domainBuilder.buildAnswer({ result: AnswerStatus.SKIPPED, challengeId: 'challenge4' }),
-      ];
-
-      const simulation = new ScoringSimulation({ id: 'simulation1', answers });
-
-      // when
-      const simulationResults = await usecases.simulateFlashScoring({ simulations: [simulation] });
-
-      // then
-      expect(simulationResults).to.have.lengthOf(1);
-      expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
-      expect(simulationResults[0]).to.have.property('error', 'Simulation should have an estimated level');
     });
   });
 });
