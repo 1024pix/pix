@@ -45,12 +45,12 @@ export default class OrganizationInvitationsAction extends Component {
   }
 
   @action
-  changeOrganizationInvitationRole(event) {
-    this.organizationInvitationRole = event.target.value ? event.target.value : null;
+  changeOrganizationInvitationRole(value) {
+    this.organizationInvitationRole = value;
   }
 
   @action
-  changeOrganizationInvitationLang(event) {
-    this.organizationInvitationLang = event.target.value;
+  changeOrganizationInvitationLang(value) {
+    this.organizationInvitationLang = value;
   }
 }

@@ -53,8 +53,8 @@ export default class AddMember extends Component {
   }
 
   @action
-  roleChanged(event) {
-    this.role = event?.target?.value ?? null;
+  roleChanged(value) {
+    this.role = value ?? null;
   }
 
   _isEmailValid() {
