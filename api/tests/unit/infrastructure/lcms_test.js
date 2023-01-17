@@ -44,7 +44,8 @@ describe('Unit | Infrastructure | LCMS', function () {
       const error = await catchErr(lcms.getLatestRelease)();
 
       // then
-      expect(error).to.be.not.null;
+      expect(error).to.be.instanceOf(Error);
+      expect(error.message).to.equal(`An error occurred while fetching https://lcms-test.pix.fr/api`);
     });
   });
 
