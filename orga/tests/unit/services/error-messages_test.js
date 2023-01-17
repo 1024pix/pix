@@ -40,7 +40,7 @@ module('Unit | Service | Error messages', function (hooks) {
       // When
       const message = errorMessages.getErrorMessage('SEX_CODE_REQUIRED');
       // Then
-      assert.strictEqual(message, t('api-errors-messages.student-xml-import.sex-code-required'));
+      assert.strictEqual(message, t('api-error-messages.student-xml-import.sex-code-required'));
     });
   });
 
@@ -53,7 +53,7 @@ module('Unit | Service | Error messages', function (hooks) {
       // Then
       assert.strictEqual(
         message,
-        t('api-errors-messages.student-xml-import.birth-city-code-required-for-french-student')
+        t('api-error-messages.student-xml-import.birth-city-code-required-for-french-student')
       );
     });
   });

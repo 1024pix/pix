@@ -884,8 +884,8 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
       context('SCO : when no organization learner has been imported yet, and the file is well formatted', function () {
         beforeEach(function () {
           const input = `${organizationLearnerCsvColumns}
-          123F;Beatrix;The;Bride;Kiddo;Black Mamba;F;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
-          456F;O-Ren;;;Ishii;Cottonmouth;F;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
+          123F;Beatrix;The;Bride;Kiddo;Black Mamba;Féminin;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
+          456F;O-Ren;;;Ishii;Cottonmouth;Féminin;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
           `;
           const buffer = iconv.encode(input, 'UTF-8');
 
@@ -915,8 +915,8 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
       context('SCO : when no organization learner has been imported yet', function () {
         beforeEach(function () {
           const input = `${organizationLearnerCsvColumns}
-            123F;Beatrix;The;Bride;Kiddo;Black Mamba;F;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
-            456F;O-Ren;;;Ishii;Cottonmouth;M;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
+            123F;Beatrix;The;Bride;Kiddo;Black Mamba;Féminin;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
+            456F;O-Ren;;;Ishii;Cottonmouth;Masculin;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
             `;
           const buffer = iconv.encode(input, 'UTF-8');
 
@@ -948,8 +948,8 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
         it('should not save any organization learner with missing family name', async function () {
           // given
           const input = `${organizationLearnerCsvColumns}
-           123F;Beatrix;The;Bride;Kiddo;Black Mamba;F;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
-           456F;O-Ren;;;;Cottonmouth;F;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
+           123F;Beatrix;The;Bride;Kiddo;Black Mamba;Féminin;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
+           456F;O-Ren;;;;Cottonmouth;Féminin;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
            `;
           const buffer = iconv.encode(input, 'UTF-8');
 
@@ -971,7 +971,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
           const wrongData = 'FRANC';
           // given
           const input = `${organizationLearnerCsvColumns}
-           123F;Beatrix;The;Bride;Kiddo;Black Mamba;F;01/01/1970;51430;Reims;200;${wrongData};ST;MEF1;Division 1;
+           123F;Beatrix;The;Bride;Kiddo;Black Mamba;Féminin;01/01/1970;51430;Reims;200;${wrongData};ST;MEF1;Division 1;
            `;
           const buffer = iconv.encode(input, 'UTF-8');
 
@@ -994,7 +994,7 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
           const wrongData = 'A1234';
           // given
           const input = `${organizationLearnerCsvColumns}
-           123F;Beatrix;The;Bride;Kiddo;Black Mamba;F;01/01/1970;${wrongData};Reims;200;99100;ST;MEF1;Division 1;
+           123F;Beatrix;The;Bride;Kiddo;Black Mamba;Féminin;01/01/1970;${wrongData};Reims;200;99100;ST;MEF1;Division 1;
            `;
           const buffer = iconv.encode(input, 'UTF-8');
 
@@ -1019,8 +1019,8 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
         function () {
           beforeEach(function () {
             const input = `${organizationLearnerCsvColumns}
-          123F;Beatrix;The;Bride;Kiddo;Black Mamba;F;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
-          123F;O-Ren;;;Ishii;Cottonmouth;F;01/01/1980;99;Shangai;200;99132;ST;MEF1;Division 2;
+          123F;Beatrix;The;Bride;Kiddo;Black Mamba;Féminin;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
+          123F;O-Ren;;;Ishii;Cottonmouth;Féminin;01/01/1980;99;Shangai;200;99132;ST;MEF1;Division 2;
           `;
             const buffer = iconv.encode(input, 'UTF-8');
 
