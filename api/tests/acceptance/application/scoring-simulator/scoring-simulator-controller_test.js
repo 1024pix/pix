@@ -112,20 +112,31 @@ describe('Acceptance | Controller | scoring-simulator-controller', function () {
       // then
       expect(response).to.have.property('statusCode', 200);
       expect(response.result.results).to.have.lengthOf(2);
-      expect(response.result.results[0]).to.deep.include({
-        id: undefined,
-        estimatedLevel: undefined,
-        pixScore: 11111,
-        pixScoreByCompetence: [],
-        error: undefined,
-      });
-      expect(response.result.results[1]).to.deep.include({
-        id: 'simulationWithError',
-        estimatedLevel: undefined,
-        pixScore: undefined,
-        pixScoreByCompetence: [],
-        error: 'Answer for skill skill1 was already given or inferred',
-      });
+      expect(response.result.results).to.exactlyContain([
+        {
+          id: undefined,
+          estimatedLevel: undefined,
+          pixScore: 11111,
+          error: undefined,
+          pixScoreByCompetence: [
+            {
+              competenceId: 'rec1',
+              pixScore: 11,
+            },
+            {
+              competenceId: 'rec2',
+              pixScore: 11100,
+            },
+          ],
+        },
+        {
+          id: 'simulationWithError',
+          estimatedLevel: undefined,
+          pixScore: undefined,
+          pixScoreByCompetence: [],
+          error: 'Answer for skill skill1 was already given or inferred',
+        },
+      ]);
     });
 
     describe('when there is no connected user', function () {

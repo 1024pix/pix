@@ -1,8 +1,9 @@
 const SimulationResult = require('../models/SimulationResult');
 const fp = require('lodash/fp');
+const { sortBy } = require('lodash');
 
 module.exports = async function simulateOldScoring({ challengeRepository, simulations }) {
-  const challenges = await challengeRepository.findValidated();
+  const challenges = await challengeRepository.findOperative();
   const challengesById = new Map(challenges.map((challenge) => [challenge.id, challenge]));
 
   // prettier-ignore
@@ -13,38 +14,56 @@ module.exports = async function simulateOldScoring({ challengeRepository, simula
   )(challenges);
 
   const simulationResults = simulations.map(({ id, answers }) => {
-    const scoreBySkillId = {};
+    let pixScore = 0;
+    const scoredSkillIds = new Set();
+    const scoreByCompetenceId = {};
+
+    const isSkillAnswered = (skill) => scoredSkillIds.has(skill.id);
 
     for (const answer of answers) {
-      const challenge = challengesById.get(answer.challengeId);
+      const { skill: answeredSkill } = challengesById.get(answer.challengeId);
 
-      if (scoreBySkillId[challenge.skill.id] !== undefined) {
+      if (isSkillAnswered(answeredSkill)) {
         return new SimulationResult({
           id,
-          error: `Answer for skill ${challenge.skill.id} was already given or inferred`,
+          error: `Answer for skill ${answeredSkill.id} was already given or inferred`,
         });
       }
 
-      const tubeSkills = skillsByTubeId[challenge.skill.tubeId];
+      const { competenceId, tubeId } = answeredSkill;
+
+      if (scoreByCompetenceId[competenceId] === undefined) {
+        scoreByCompetenceId[competenceId] = 0;
+      }
+
+      const unscoredTubeSkills = skillsByTubeId[tubeId].filter((skill) => !isSkillAnswered(skill));
 
       if (answer.isOk()) {
-        for (const tubeSkill of tubeSkills) {
-          if (tubeSkill.difficulty <= challenge.skill.difficulty) {
-            scoreBySkillId[tubeSkill.id] = tubeSkill.pixValue;
-          }
+        const succeededSkills = unscoredTubeSkills.filter((skill) => skill.difficulty <= answeredSkill.difficulty);
+
+        for (const succeededSkill of succeededSkills) {
+          pixScore += succeededSkill.pixValue;
+          scoreByCompetenceId[competenceId] += succeededSkill.pixValue;
+          scoredSkillIds.add(succeededSkill.id);
         }
       } else {
-        for (const tubeSkill of tubeSkills) {
-          if (tubeSkill.difficulty >= challenge.skill.difficulty) {
-            scoreBySkillId[tubeSkill.id] = 0;
-          }
+        const failedSkills = unscoredTubeSkills.filter((skill) => skill.difficulty >= answeredSkill.difficulty);
+
+        for (const failedSkill of failedSkills) {
+          scoredSkillIds.add(failedSkill.id);
         }
       }
     }
 
-    const pixScore = Object.values(scoreBySkillId).reduce((sum, pixValue) => sum + pixValue, 0);
+    const pixScoreByCompetence = sortBy(
+      Object.entries(scoreByCompetenceId).map(([competenceId, pixScore]) => ({
+        competenceId,
+        pixScore,
+      })),
+      'competenceId'
+    );
 
-    return new SimulationResult({ id, pixScore });
+    return new SimulationResult({ id, pixScore, pixScoreByCompetence });
   });
 
   return simulationResults;
