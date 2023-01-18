@@ -6,7 +6,7 @@ module.exports = async function simulateFlashScoring({
   successProbabilityThreshold,
   simulations,
   calculateEstimatedLevel = false,
-  locale = 'fr',
+  locale,
 }) {
   const challenges = await challengeRepository.findFlashCompatible({ locale, successProbabilityThreshold });
   const challengeIds = new Set(challenges.map(({ id }) => id));
