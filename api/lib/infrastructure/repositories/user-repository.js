@@ -108,7 +108,11 @@ module.exports = {
     }
 
     const authenticationMethodsDTO = await knex('authentication-methods')
-      .select(['authentication-methods.id', 'identityProvider'])
+      .select([
+        'authentication-methods.id',
+        'authentication-methods.identityProvider',
+        'authentication-methods.authenticationComplement',
+      ])
       .join('users', 'users.id', 'authentication-methods.userId')
       .where({ userId });
 
@@ -433,6 +437,16 @@ function _fromKnexDTOToUserDetailsForAdmin({ userDTO, organizationLearnersDTO, a
     temporaryBlockedUntil: userDTO.temporaryBlockedUntil,
     blockedAt: userDTO.blockedAt,
   });
+
+  const authenticationMethods = authenticationMethodsDTO.map((authenticationMethod) => {
+    // eslint-disable-next-line no-unused-vars
+    const { password, ...authenticationComplement } = authenticationMethod.authenticationComplement;
+    return {
+      ...authenticationMethod,
+      authenticationComplement,
+    };
+  });
+
   return new UserDetailsForAdmin({
     id: userDTO.id,
     firstName: userDTO.firstName,
@@ -449,7 +463,7 @@ function _fromKnexDTOToUserDetailsForAdmin({ userDTO, organizationLearnersDTO, a
     lastLoggedAt: userDTO.lastLoggedAt,
     emailConfirmedAt: userDTO.emailConfirmedAt,
     organizationLearners,
-    authenticationMethods: authenticationMethodsDTO,
+    authenticationMethods,
     userLogin,
     hasBeenAnonymised: userDTO.hasBeenAnonymised,
     updatedAt: userDTO.updatedAt,
