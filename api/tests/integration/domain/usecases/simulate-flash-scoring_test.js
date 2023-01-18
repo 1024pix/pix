@@ -5,6 +5,8 @@ const usecases = require('../../../../lib/domain/usecases/');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 
 describe('Integration | UseCases | simulateFlashScoring', function () {
+  const locale = 'fr-fr';
+
   beforeEach(function () {
     const learningContent = {
       competences: [
@@ -45,14 +47,14 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
         { id: 'skill7', status: 'actif', tubeId: 'recTube2', competenceId: 'rec2', pixValue: 1000000 },
       ],
       challenges: [
-        { id: 'challenge1', skillId: 'skill1', status: 'validé', alpha: 0.16, delta: -2, locales: ['fr'] },
-        { id: 'challenge2', skillId: 'skill2', status: 'validé', alpha: 3, delta: 6, locales: ['fr'] },
-        { id: 'challenge3', skillId: 'skill3', status: 'validé', alpha: 1.587, delta: 8.5, locales: ['fr'] },
-        { id: 'challenge4', skillId: 'skill4', status: 'validé', alpha: 2.86789, delta: 0.145, locales: ['fr'] },
-        { id: 'challenge5', skillId: 'skill5', status: 'validé', alpha: 3, delta: 1, locales: ['fr'] },
-        { id: 'challenge6', skillId: 'skill6', status: 'validé', alpha: 1.7, delta: -1, locales: ['fr'] },
-        { id: 'challenge7', skillId: 'skill7', status: 'validé', alpha: 2.5, delta: 5, locales: ['fr'] },
-        { id: 'challenge8', skillId: 'skill7', status: 'validé', locales: ['fr'] },
+        { id: 'challenge1', skillId: 'skill1', status: 'validé', alpha: 0.16, delta: -2, locales: [locale] },
+        { id: 'challenge2', skillId: 'skill2', status: 'validé', alpha: 3, delta: 6, locales: [locale] },
+        { id: 'challenge3', skillId: 'skill3', status: 'validé', alpha: 1.587, delta: 8.5, locales: [locale] },
+        { id: 'challenge4', skillId: 'skill4', status: 'validé', alpha: 2.86789, delta: 0.145, locales: [locale] },
+        { id: 'challenge5', skillId: 'skill5', status: 'validé', alpha: 3, delta: 1, locales: [locale] },
+        { id: 'challenge6', skillId: 'skill6', status: 'validé', alpha: 1.7, delta: -1, locales: [locale] },
+        { id: 'challenge7', skillId: 'skill7', status: 'validé', alpha: 2.5, delta: 5, locales: [locale] },
+        { id: 'challenge8', skillId: 'skill7', status: 'validé', locales: [locale] },
       ],
     };
 
@@ -73,6 +75,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
         const simulationResults = await usecases.simulateFlashScoring({
           simulations: [simulation],
           calculateEstimatedLevel,
+          locale,
         });
 
         // then
@@ -101,6 +104,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
         const simulationResults = await usecases.simulateFlashScoring({
           simulations: [simulation],
           calculateEstimatedLevel,
+          locale,
         });
 
         // then
@@ -129,6 +133,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
           const simulationResults = await usecases.simulateFlashScoring({
             simulations: [simulation],
             calculateEstimatedLevel,
+            locale,
           });
 
           // then
@@ -156,6 +161,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
           const simulationResults = await usecases.simulateFlashScoring({
             simulations: [simulation],
             calculateEstimatedLevel,
+            locale,
           });
 
           // then
@@ -198,6 +204,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
         const simulationResults = await usecases.simulateFlashScoring({
           simulations: [simulation],
           calculateEstimatedLevel,
+          locale,
         });
 
         // then
@@ -219,6 +226,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
         const simulationResults = await usecases.simulateFlashScoring({
           simulations: [simulation],
           calculateEstimatedLevel,
+          locale,
         });
 
         // then
@@ -245,6 +253,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
         const simulationResults = await usecases.simulateFlashScoring({
           simulations: [simulation],
           calculateEstimatedLevel,
+          locale,
         });
 
         // then
@@ -266,7 +275,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
         const simulation = new ScoringSimulation({ id: 'simulation1', answers, estimatedLevel });
 
         // when
-        const simulationResults = await usecases.simulateFlashScoring({ simulations: [simulation] });
+        const simulationResults = await usecases.simulateFlashScoring({ simulations: [simulation], locale });
 
         // then
         expect(simulationResults).to.have.lengthOf(1);
@@ -289,7 +298,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
         const simulation = new ScoringSimulation({ answers, estimatedLevel });
 
         // when
-        const simulationResults = await usecases.simulateFlashScoring({ simulations: [simulation] });
+        const simulationResults = await usecases.simulateFlashScoring({ simulations: [simulation], locale });
 
         // then
         expect(simulationResults).to.have.lengthOf(1);
@@ -314,6 +323,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
       const simulationResults = await usecases.simulateFlashScoring({
         simulations: [simulation],
         successProbabilityThreshold,
+        locale,
       });
 
       // then
