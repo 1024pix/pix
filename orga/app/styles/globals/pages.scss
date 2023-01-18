@@ -2,7 +2,7 @@
   padding: 0 $spacing-m;
 
   @include device-is('tablet') {
-    padding: $spacing-l $spacing-xl;
+    padding: 0 $spacing-xl;
   }
 
   &__title {
