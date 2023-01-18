@@ -119,16 +119,6 @@
     font-style: italic;
   }
 
-  &__radio-button {
-    margin-bottom: 16px;
-    input[type='radio'] {
-      margin-right: 16px;
-    }
-    label {
-      font-size: 0.875rem;
-    }
-  }
-
   &__mandatory-fields-information {
     font-size: 0.875rem;
     margin: 0 0 35px 0;
@@ -183,44 +173,4 @@ p.label {
   color: $pix-error-70;
   font-family: $font-roboto;
   font-size: 0.75rem;
-}
-
-input[type='radio']::before,
-input[type='radio']:checked::after {
-  display: block;
-  position: relative;
-  content: '';
-  border-radius: 100%;
-}
-
-input[type='radio']::before {
-  height: 17px;
-  width: 17px;
-  top: -3px;
-  left: -5px;
-  border: solid 2px $pix-neutral-30;
-  border-radius: 10px;
-  background-color: $pix-neutral-0;
-}
-
-input[type='radio']:checked::after {
-  height: 9px;
-  width: 9px;
-  top: -18px;
-  left: 1px;
-  background-color: $pix-primary;
-}
-
-input[type='radio']:checked::before {
-  border-color: $pix-primary;
-}
-
-input[type='radio']:focus::before,
-input[type='radio']:hover::before {
-  box-shadow: 0 0 0 8px rgba($pix-primary, 0.1);
-  border-color: $pix-primary;
-}
-
-input[type='radio']:active::before {
-  box-shadow: 0 0 0 8px rgba($pix-primary, 0.3);
 }
