@@ -54,31 +54,21 @@
       {{t "pages.campaign-creation.purpose.label"}}
     </p>
     <div class="form__field-with-info">
-      <div class="form__radio-button">
-        <input
-          type="radio"
-          id="assess-participants"
-          name="campaign-goal"
-          value="assess-participants"
-          aria-describedby="campaign-goal-assessment-info"
-          {{on "change" this.setCampaignGoal}}
-          required={{true}}
-          aria-required={{true}}
-        />
-        <label for="assess-participants">{{t "pages.campaign-creation.purpose.assessment"}}</label>
-      </div>
+      <PixRadioButton
+        name="campaign-goal"
+        @label={{t "pages.campaign-creation.purpose.assessment"}}
+        @value="assess-participants"
+        {{on "change" this.setCampaignGoal}}
+        aria-describedby="campaign-goal-assessment-info"
+      />
 
-      <div class="form__radio-button">
-        <input
-          type="radio"
-          id="collect-participants-profile"
-          name="campaign-goal"
-          value="collect-participants-profile"
-          aria-describedby="campaign-goal-profiles-collection-info"
-          {{on "change" this.setCampaignGoal}}
-        />
-        <label for="collect-participants-profile">{{t "pages.campaign-creation.purpose.profiles-collection"}}</label>
-      </div>
+      <PixRadioButton
+        name="campaign-goal"
+        @label={{t "pages.campaign-creation.purpose.profiles-collection"}}
+        @value="collect-participants-profile"
+        {{on "change" this.setCampaignGoal}}
+        aria-describedby="campaign-goal-profiles-collection-info"
+      />
       {{#if @errors.type}}
         <div class="form__error error-message">
           {{display-campaign-errors @errors.type}}
@@ -149,29 +139,22 @@
         {{t "pages.campaign-creation.multiple-sendings.question-label"}}
       </p>
       <div class="form__field-with-info" aria-labelledby="multiple-sendings-label" role="radiogroup">
-        <div class="form__radio-button">
-          <input
-            type="radio"
-            checked={{this.multipleSendingsEnabled}}
-            id="multiple-sendings-enabled"
-            aria-describedby="multiple-sendings-info"
-            name="multiple-sendings-label"
-            value="true"
-            {{on "change" this.selectMultipleSendingsStatus}}
-          />
-          <label for="multiple-sendings-enabled">{{t "pages.campaign-creation.yes"}}</label>
-        </div>
-        <div class="form__radio-button">
-          <input
-            type="radio"
-            checked={{not this.multipleSendingsEnabled}}
-            id="multiple-sendings-disabled"
-            name="multiple-sendings-label"
-            value=""
-            {{on "change" this.selectMultipleSendingsStatus}}
-          />
-          <label for="multiple-sendings-disabled">{{t "pages.campaign-creation.no"}}</label>
-        </div>
+        <PixRadioButton
+          name="multiple-sendings-label"
+          @label={{t "pages.campaign-creation.no"}}
+          @value="false"
+          {{on "change" this.selectMultipleSendingsStatus}}
+          aria-describedby="multiple-sendings-info"
+        />
+
+        <PixRadioButton
+          name="multiple-sendings-label"
+          @label={{t "pages.campaign-creation.yes"}}
+          @value="true"
+          {{on "change" this.selectMultipleSendingsStatus}}
+          aria-describedby="multiple-sendings-info"
+        />
+
         <div class="form__field-info" id="multiple-sendings-info">
           <span class="form__field-info-title">
             <FaIcon @icon="circle-info" class="form__field-info-icon" />
@@ -188,28 +171,20 @@
       <abbr title={{t "common.form.mandatory-fields-title"}} class="mandatory-mark" aria-hidden="true">*</abbr>
       {{t "pages.campaign-creation.external-id-label.question-label"}}
     </p>
-    <div class="form__radio-button">
-      <input
-        type="radio"
-        checked={{not this.wantIdPix}}
-        id="no-external-id"
-        name="external-id-label"
-        {{on "change" this.doNotAskLabelIdPix}}
-        required={{true}}
-        aria-required={{true}}
-      />
-      <label for="no-external-id">{{t "pages.campaign-creation.no"}}</label>
-    </div>
-    <div class="form__radio-button">
-      <input
-        type="radio"
-        checked={{this.wantIdPix}}
-        id="ask-external-id"
-        name="external-id-label"
-        {{on "change" this.askLabelIdPix}}
-      />
-      <label for="ask-external-id">{{t "pages.campaign-creation.yes"}}</label>
-    </div>
+
+    <PixRadioButton
+      name="external-id-label"
+      @label={{t "pages.campaign-creation.no"}}
+      @value="false"
+      {{on "change" this.doNotAskLabelIdPix}}
+    />
+
+    <PixRadioButton
+      name="external-id-label"
+      @label={{t "pages.campaign-creation.yes"}}
+      @value="true"
+      {{on "change" this.askLabelIdPix}}
+    />
   </div>
 
   {{#if this.wantIdPix}}
