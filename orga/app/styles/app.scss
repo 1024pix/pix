@@ -81,6 +81,10 @@
 @import 'pages/authenticated/team/new';
 @import 'pages/authenticated/terms-of-service';
 
+body, html {
+  height: 100%;
+}
+
 body {
   background-color: $pix-neutral-10;
   color: $pix-neutral-110;

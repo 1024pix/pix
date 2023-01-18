@@ -3,6 +3,7 @@
   flex-direction: column;
   width: $app-sidebar-width;
   min-width: 100px;
+  height: 100%;
   background-color: $dark-blue-orga;
 
   &__logo {
