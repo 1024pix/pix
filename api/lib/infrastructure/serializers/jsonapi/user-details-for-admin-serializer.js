@@ -56,7 +56,7 @@ module.exports = {
       authenticationMethods: {
         ref: 'id',
         includes: true,
-        attributes: ['identityProvider'],
+        attributes: ['identityProvider', 'authenticationComplement'],
       },
       userLogin: {
         ref: 'id',
