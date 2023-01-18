@@ -1119,12 +1119,13 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
       });
 
       context('when user has authentication methods', function () {
-        it('should return the user with his authentication methods', async function () {
+        it('returns the user with his authentication methods', async function () {
           // given
           const userInDB = databaseBuilder.factory.buildUser(userToInsert);
-          databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
-            userId: userInDB.id,
-          });
+          const expectedPixAuthenticationMethod =
+            databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+              userId: userInDB.id,
+            });
           databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({ userId: userInDB.id });
           await databaseBuilder.commit();
 
@@ -1132,7 +1133,17 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
           const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
 
           // then
+          const pixAuthenticationMethod = userDetailsForAdmin.authenticationMethods.find(
+            ({ identityProvider }) => identityProvider === AuthenticationMethod.identityProviders.PIX
+          );
           expect(userDetailsForAdmin.authenticationMethods.length).to.equal(2);
+          expect(pixAuthenticationMethod).to.deep.equal({
+            authenticationComplement: {
+              shouldChangePassword: false,
+            },
+            id: expectedPixAuthenticationMethod.id,
+            identityProvider: AuthenticationMethod.identityProviders.PIX,
+          });
         });
       });
 
