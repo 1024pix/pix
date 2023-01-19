@@ -88,7 +88,7 @@
             @triggerAction={{this.openModal}}
           >
             {{t "pages.competence-details.actions.reset.label"}}
-            <div class="sr-only">{{t "pages.competence-details.for-competence" competence=@scorecard.name}}</div>
+            <span class="sr-only">{{t "pages.competence-details.for-competence" competence=@scorecard.name}}</span>
           </PixButton>
         {{/if}}
 
@@ -138,7 +138,7 @@
           class="button button--big button--thin button--round button--link button--green scorecard-details__resume-or-start-button"
         >
           {{t "pages.competence-details.actions.continue.label"}}
-          <div class="sr-only">{{t "pages.competence-details.for-competence" competence=@scorecard.name}}</div>
+          <span class="sr-only">{{t "pages.competence-details.for-competence" competence=@scorecard.name}}</span>
         </LinkTo>
 
         {{#if this.displayResetButton}}
@@ -151,7 +151,7 @@
             @triggerAction={{this.openModal}}
           >
             {{t "pages.competence-details.actions.reset.label"}}
-            <div class="sr-only">{{t "pages.competence-details.for-competence" competence=@scorecard.name}}</div>
+            <span class="sr-only">{{t "pages.competence-details.for-competence" competence=@scorecard.name}}</span>
           </PixButton>
         {{/if}}
 
@@ -170,7 +170,7 @@
           class="button button--big button--thin button--round button--link button--green scorecard-details__resume-or-start-button"
         >
           {{t "pages.competence-details.actions.start.label"}}
-          <div class="sr-only">{{t "pages.competence-details.for-competence" competence=@scorecard.name}}</div>
+          <span class="sr-only">{{t "pages.competence-details.for-competence" competence=@scorecard.name}}</span>
         </LinkTo>
       {{/if}}
     </div>
