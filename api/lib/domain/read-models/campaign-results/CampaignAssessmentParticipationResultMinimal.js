@@ -7,7 +7,8 @@ class CampaignAssessmentParticipationResultMinimal {
     this.lastName = lastName;
     this.participantExternalId = participantExternalId;
     this.masteryRate = !_.isNil(masteryRate) ? Number(masteryRate) : null;
-    this.badges = badges;
+    //TODO REMOVE WHEN https://1024pix.atlassian.net/browse/PIX-6849 IS DONE
+    this.badges = _.uniqBy(badges, 'id');
   }
 }
 
