@@ -110,5 +110,8 @@
     "sass": "^1.56.1",
     "sinon": "^14.0.2",
     "webpack": "^5.75.0"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.2.1"
   }
 }
