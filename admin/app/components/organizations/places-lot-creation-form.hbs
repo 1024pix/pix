@@ -57,26 +57,15 @@
         {{/if}}
       </div>
       <div class="form-field">
-        <label for="category" class="form-field__label">
-          <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-          Catégorie :
-        </label>
         <PixSelect
-          name="category"
-          id="category"
-          class={{if @errors.category "form-control is-invalid" "form-control"}}
+          @label="Catégorie :"
           @options={{this.categories}}
+          @placeholder="Sélectionnez une catégorie"
           @onChange={{this.selectCategory}}
-          @selectedOption={{this.selectedCategory}}
-          @isValidationActive={{true}}
-          @emptyOptionNotSelectable={{true}}
+          @value={{this.category}}
+          @errorMessage={{get @errors.category "0.message"}}
+          @requiredText="Champs obligatoire"
         />
-
-        {{#if @errors.category}}
-          <div class="form-field__error">
-            {{get @errors.category "0.message"}}
-          </div>
-        {{/if}}
       </div>
       <div class="form-field">
         <label for="reference" class="form-field__label">

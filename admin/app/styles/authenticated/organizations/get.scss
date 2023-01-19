@@ -52,6 +52,7 @@
         padding: 0;
         display: flex;
         flex-wrap: wrap;
+        margin-bottom: $spacing-m;
 
         &__tag {
           margin-right: 6px;

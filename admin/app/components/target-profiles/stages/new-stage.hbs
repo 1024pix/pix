@@ -12,7 +12,7 @@
           @onChange={{@setLevel}}
           class={{if @errors.level "form-control is-invalid" "form-control"}}
           required="true"
-          aria-label="Niveau du palier"
+          @label="Niveau du palier"
         />
       {{else}}
         <Input

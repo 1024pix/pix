@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
-import { currentURL } from '@ember/test-helpers';
-import { visit, clickByName, selectByLabelAndOption } from '@1024pix/ember-testing-library';
+import { currentURL, click } from '@ember/test-helpers';
+import { visit, clickByName } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
@@ -52,7 +52,9 @@ module('Acceptance | Team | List', function (hooks) {
       // when
       const screen = await visit('/equipe');
       await clickByName("Modifier le rôle de l'agent Anne Estésie");
-      await selectByLabelAndOption('Sélectionner un rôle', 'CERTIF');
+      await click(screen.getByRole('button', { name: 'Sélectionner un rôle' }));
+      await screen.findByRole('listbox');
+      await click(screen.getByRole('option', { name: 'CERTIF' }));
       await clickByName('Valider la modification de rôle');
 
       // then
@@ -129,7 +131,9 @@ module('Acceptance | Team | List', function (hooks) {
       // when
       const screen = await visit('/equipe');
       await clickByName("Modifier le rôle de l'agent Anne Estésie");
-      await selectByLabelAndOption('Sélectionner un rôle', 'CERTIF');
+      await click(screen.getByRole('button', { name: 'Sélectionner un rôle' }));
+      await screen.findByRole('listbox');
+      await click(screen.getByRole('option', { name: 'CERTIF' }));
       await clickByName('Valider la modification de rôle');
 
       // then

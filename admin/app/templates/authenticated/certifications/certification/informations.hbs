@@ -126,13 +126,13 @@
                   <div class="certification-informations__pix-edu__row__jury-level-editor">
                     <section>
                       <PixSelect
-                        aria-label="Sélectionner un niveau"
+                        @label="Sélectionner un niveau"
+                        @screenReaderOnly={{true}}
                         @options={{this.juryLevelOptions}}
-                        @selectedOption={{this.selectedJuryLevel}}
-                        @emptyOptionNotSelectable={{true}}
+                        @value={{this.selectedJuryLevel}}
+                        @hideDefaultOption={{true}}
                         @onChange={{this.selectJuryLevel}}
-                        @emptyOptionLabel="Choisir un niveau"
-                        @size="small"
+                        @placeholder="Choisir un niveau"
                       />
                     </section>
                     <section>

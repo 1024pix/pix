@@ -1,7 +1,6 @@
 import CertificationInfoField from './info-field';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import find from 'lodash/find';
 import { certificationStatuses } from 'pix-admin/models/certification';
 
 export default class CertificationStatusSelect extends CertificationInfoField {
@@ -15,13 +14,8 @@ export default class CertificationStatusSelect extends CertificationInfoField {
   }
 
   @action
-  selectOption(event) {
-    const selectedOptionValue = event.target.value || null;
+  selectOption(selectedOptionValue) {
     this.args.certification.status = selectedOptionValue;
-    this.selectedOption = this.getOptionByValue(selectedOptionValue);
-  }
-
-  getOptionByValue(value) {
-    return find(this.options, { value });
+    this.selectedOption = selectedOptionValue;
   }
 }

@@ -16,8 +16,8 @@ export default class CreateTargetProfileForm extends Component {
   }
 
   @action
-  onCategoryChange(event) {
-    this.args.targetProfile.category = event.target.value;
+  onCategoryChange(value) {
+    this.args.targetProfile.category = value;
   }
 
   @action

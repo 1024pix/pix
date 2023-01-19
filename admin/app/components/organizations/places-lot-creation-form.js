@@ -5,7 +5,6 @@ import { tracked } from '@glimmer/tracking';
 import dayjs from 'dayjs';
 
 const categories = [
-  { value: '', label: 'sélectionnez une catégorie' },
   { value: 'FULL_RATE', label: 'Tarif plein' },
   { value: 'SPECIAL_REDUCE_RATE', label: 'Tarif réduit spécial' },
   { value: 'REDUCE_RATE', label: 'Tarif réduit' },
@@ -45,9 +44,8 @@ export default class PlacesLotCreationForm extends Component {
   }
 
   @action
-  selectCategory(event) {
-    const newValue = event.target.value || null;
-    this.selectedCategory = this.getCategoryByValue(newValue);
+  selectCategory(value) {
+    const newValue = value || null;
     this.category = newValue;
   }
 

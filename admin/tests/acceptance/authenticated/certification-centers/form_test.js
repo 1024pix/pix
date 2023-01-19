@@ -35,7 +35,11 @@ module('Acceptance | Certification Centers | Form', function (hooks) {
     const screen = await visit('/certification-centers/new');
 
     await fillIn(screen.getByRole('textbox', { name: 'Nom du centre' }), name);
-    await fillIn(screen.getByRole('combobox', { name: "Type d'établissement" }), type.value);
+
+    await click(screen.getByRole('button', { name: "Type d'établissement" }));
+    await screen.findByRole('listbox');
+    await click(screen.getByRole('option', { name: type.label }));
+
     await fillIn(screen.getByRole('textbox', { name: 'Identifiant externe' }), externalId);
 
     await click(screen.getByRole('checkbox', { name: 'Pix+Surf' }));

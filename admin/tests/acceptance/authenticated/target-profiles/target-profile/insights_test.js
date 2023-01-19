@@ -1,5 +1,5 @@
 import { currentURL, fillIn, click } from '@ember/test-helpers';
-import { visit, clickByName, fillByLabel } from '@1024pix/ember-testing-library';
+import { visit, clickByName, fillByLabel, waitForElementToBeRemoved } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { module, test } from 'qunit';
@@ -336,7 +336,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         const tubeThematicUn = server.create('new-tube', {
           id: 'tubeThematicUnNiveauDeux',
           name: '@tubeThematicUnNiveauDeux',
-          practicalTitle: 'Mon tube thématiqe 1 de niveau deux',
+          practicalTitle: 'Mon tube thématique 1 de niveau deux',
           mobile: false,
           tablet: false,
           level: 2,
@@ -405,12 +405,22 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         const thematicDeuxButtons = screen.getAllByText('thematicDeux');
         await click(thematicDeuxButtons[1]);
 
-        const selectLevelTubeThematicUnNiveauDeux = screen.getAllByTestId('select-level-tube-tubeThematicUnNiveauDeux');
-        const selectLevelTubeThematicDeuxNiveauQuatre = screen.getAllByTestId(
-          'select-level-tube-tubeThematicDeuxNiveauQuatre'
-        );
-        await fillIn(selectLevelTubeThematicUnNiveauDeux[0], 2);
-        await fillIn(selectLevelTubeThematicDeuxNiveauQuatre[1], 3);
+        const selectLevelTubeThematicUnNiveauDeux = screen.getAllByRole('button', {
+          name: 'Sélection du niveau du sujet suivant : Mon tube thématique 1 de niveau deux',
+        });
+        await click(selectLevelTubeThematicUnNiveauDeux[0]);
+        await screen.findByRole('listbox');
+        await click(screen.getByRole('option', { name: '2' }));
+        await waitForElementToBeRemoved(() => screen.queryByRole('listbox'));
+
+        const selectLevelTubeThematicDeuxNiveauQuatre = screen.getAllByRole('button', {
+          name: 'Sélection du niveau du sujet suivant : Mon tube thématique 2 de niveau quatre',
+        });
+
+        await click(selectLevelTubeThematicDeuxNiveauQuatre[1]);
+        await screen.findByRole('listbox');
+        await click(screen.getByRole('option', { name: '3' }));
+        await waitForElementToBeRemoved(() => screen.queryByRole('listbox'));
 
         await clickByName('Enregistrer le RT');
         await clickByName('Détails du badge Mon nouveau RT');

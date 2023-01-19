@@ -18,6 +18,10 @@
   height: 129px;
   margin-top: 48px;
   text-align: center;
+
+  &__title {
+    margin-bottom: $spacing-s;
+  }
 }
 
 .login-page__section--login-form {

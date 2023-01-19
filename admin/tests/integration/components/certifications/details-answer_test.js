@@ -1,8 +1,9 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, selectByLabelAndOption } from '@1024pix/ember-testing-library';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import { resolve } from 'rsvp';
+import { click } from '@ember/test-helpers';
 
 module('Integration | Component | certifications/details-answer', function (hooks) {
   setupRenderingTest(hooks);
@@ -29,7 +30,7 @@ module('Integration | Component | certifications/details-answer', function (hook
     );
 
     // then
-    assert.dom(screen.getByRole('combobox', { name: 'Sélectionner un résultat' })).containsText('Succès partiel');
+    assert.dom(screen.getByRole('button', { name: 'Sélectionner un résultat' })).containsText('Succès partiel');
   });
 
   test('init answer displayed status with neutralized label when challenge is neutralized', async function (assert) {
@@ -45,7 +46,7 @@ module('Integration | Component | certifications/details-answer', function (hook
     );
 
     // then
-    assert.dom(screen.getByRole('combobox', { name: 'Sélectionner un résultat' })).containsText('Neutralisée');
+    assert.dom(screen.getByRole('button', { name: 'Sélectionner un résultat' })).containsText('Neutralisée');
   });
 
   test('info are correctly displayed', async function (assert) {
@@ -65,7 +66,7 @@ module('Integration | Component | certifications/details-answer', function (hook
     assert.dom(screen.getByText('@skill6')).exists();
     assert.dom(screen.getByText('rec1234')).exists();
     assert.dom(screen.getByText('coucou')).exists();
-    assert.dom(screen.getByRole('combobox', { name: 'Sélectionner un résultat' })).containsText('Succès partiel');
+    assert.dom(screen.getByRole('button', { name: 'Sélectionner un résultat' })).containsText('Succès partiel');
   });
 
   module('when chalenge has been skipped automatically', function () {
@@ -90,7 +91,7 @@ module('Integration | Component | certifications/details-answer', function (hook
       assert.dom(screen.getByText('@skill6')).exists();
       assert.dom(screen.getByText('rec1234')).exists();
       assert.dom(screen.getByText('coucou')).exists();
-      assert.dom(screen.getByRole('combobox', { name: 'Sélectionner un résultat' })).containsText('Abandon');
+      assert.dom(screen.getByRole('button', { name: 'Sélectionner un résultat' })).containsText('Abandon');
     });
   });
 
@@ -103,11 +104,14 @@ module('Integration | Component | certifications/details-answer', function (hook
     const screen = await render(
       hbs`<Certifications::DetailsAnswer @answer={{this.answer}} @onUpdateRate={{this.onUpdateRate}} />`
     );
+
     // when
-    await selectByLabelAndOption('Sélectionner un résultat', 'ok');
+    await click(screen.getByText('Sélectionner un résultat'));
+    await screen.findByRole('listbox');
+    await click(screen.getByRole('option', { name: 'Temps écoulé' }));
 
     // then
-    assert.dom(screen.getByRole('combobox', { name: 'Sélectionner un résultat' })).hasAttribute('class', 'jury');
+    assert.dom('.pix-select.jury').exists();
   });
 
   test('update rate function is called when answer is modified and jury is set', async function (assert) {
@@ -117,16 +121,18 @@ module('Integration | Component | certifications/details-answer', function (hook
       answer: answerData,
       onUpdateRate: () => {
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(answerData.jury, 'ok');
+        assert.strictEqual(answerData.jury, 'timedout');
         return resolve();
       },
     });
-    await render(hbs`<Certifications::DetailsAnswer @answer={{this.answer}} @onUpdateRate={{this.onUpdateRate}} />`);
+    const screen = await render(
+      hbs`<Certifications::DetailsAnswer @answer={{this.answer}} @onUpdateRate={{this.onUpdateRate}} />`
+    );
 
     // when
-    await selectByLabelAndOption('Sélectionner un résultat', 'ok');
+    await click(screen.getByText('Sélectionner un résultat'));
+    await screen.findByRole('listbox');
+    await click(screen.getByRole('option', { name: 'Temps écoulé' }));
   });
 
   test('jury is set back to false when answer is set to default value', async function (assert) {
@@ -135,16 +141,18 @@ module('Integration | Component | certifications/details-answer', function (hook
       answer: answerData,
       onUpdateRate: () => resolve(),
     });
-    await render(hbs`<Certifications::DetailsAnswer @answer={{this.answer}} @onUpdateRate={{this.onUpdateRate}} />`);
+    const screen = await render(
+      hbs`<Certifications::DetailsAnswer @answer={{this.answer}} @onUpdateRate={{this.onUpdateRate}} />`
+    );
 
     // when
-    await selectByLabelAndOption('Sélectionner un résultat', 'ok');
-    await selectByLabelAndOption('Sélectionner un résultat', 'partially');
+    await click(screen.getByText('Sélectionner un résultat'));
+    await screen.findByRole('listbox');
+    await click(screen.getByRole('option', { name: 'Temps écoulé' }));
+    await click(screen.getByRole('option', { name: 'Succès partiel' }));
 
     // then
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(answerData.jury, null);
+    assert.strictEqual(answerData.jury, null);
   });
 
   test('it should render links to challenge preview and info', async function (assert) {
