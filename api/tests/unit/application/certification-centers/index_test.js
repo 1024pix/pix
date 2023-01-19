@@ -361,4 +361,20 @@ describe('Unit | Router | certification-center-router', function () {
       expect(response.statusCode).to.equal(200);
     });
   });
+
+  describe('GET /api/certification-centers/{certificationCenterId}/import', function () {
+    it('should exist', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenter').callsFake((_, h) => h.response(true));
+      sinon.stub(certificationCenterController, 'getSessionsImportTemplate').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('GET', '/api/certification-centers/123/import');
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
 });
