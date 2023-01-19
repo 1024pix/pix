@@ -1,5 +1,5 @@
 <div class="campaign-filters">
-  <div>
+  <div class="campaign-filters__filter">
     <span class="screen-reader-only">{{t "pages.campaigns-list.filter.legend"}}</span>
     <label class="campaign-filters__title">{{t "pages.campaigns-list.filter.title"}}</label>
     <Ui::SearchInputFilter
@@ -44,10 +44,11 @@
       </label>
     </div>
   </div>
-  <div>
+  <div class="campaign-filters__action">
     <p class="campaign-filters__results">
       {{t "pages.campaigns-list.filter.results" total=@numResults}}
     </p>
+    <div class="campaign-filters__action-separator"></div>
     <div class="campaign-filters__clear">
       <PixButton @triggerAction={{@onClearFilters}} @isDisabled={{@isClearFiltersButtonDisabled}}>
         {{t "pages.campaigns-list.filter.clear"}}

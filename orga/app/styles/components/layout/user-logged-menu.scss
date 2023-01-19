@@ -33,6 +33,7 @@
     height: 100%;
     text-transform: capitalize;
     line-height: 1.1rem;
+    padding-right: $spacing-xs;
   }
 
   &__text > *:last-child {

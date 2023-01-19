@@ -1,7 +1,6 @@
 .app {
   display: flex;
-  min-height: 100vh;
-  overflow: hidden;
+  height: 100%;
 }
 
 .main-content {
@@ -9,12 +8,7 @@
   flex-direction: column;
   width: 100%;
   background-color: $pix-neutral-10;
-  overflow: auto;
-  scrollbar-width: none;
-
-  &::-webkit-scrollbar { 
-    display: none;
-  }
+  overflow-y: auto;
 
   &__body {
     flex: 1 0 auto;
