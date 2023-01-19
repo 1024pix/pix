@@ -15,6 +15,7 @@ export default function (schema, request) {
       earnedPix: 26,
       level: 3,
       pixScoreAheadOfNextLevel: 2,
+      percentageAheadOfNextLevel: 90,
     });
   }
 

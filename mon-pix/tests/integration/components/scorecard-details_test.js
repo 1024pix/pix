@@ -69,7 +69,9 @@ module('Integration | Component | scorecard-details', function (hooks) {
         level: 2,
         earnedPix: 22,
         pixScoreAheadOfNextLevel: 6,
-        status: 'STARTED',
+        remainingPixToNextLevel: 2,
+        isStarted: true,
+        isProgressable: true,
       });
 
       this.set('scorecard', scorecard);
@@ -93,7 +95,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
       const scorecard = store.createRecord('scorecard', {
         level: 0,
         earnedPix: 0,
-        status: 'COMPLETED',
+        isFinished: true,
       });
 
       this.set('scorecard', scorecard);
@@ -106,9 +108,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
       assert.ok(find('.score-value').textContent.includes('–'));
     });
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-async-module-callbacks
-    module('When the user has finished a competence', async function (hooks) {
+    module('When the user has finished a competence', function (hooks) {
       let scorecard;
 
       hooks.beforeEach(function () {
@@ -117,7 +117,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
         scorecard = store.createRecord('scorecard', {
           pixScoreAheadOfNextLevel: 7,
           level: 3,
-          status: 'COMPLETED',
+          isFinished: true,
           tutorials: [],
         });
       });
@@ -142,6 +142,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
 
       test('should show the improving button if the remaining days before improving are equal to 0', async function (assert) {
         // given
+        scorecard.isImprovable = true;
         scorecard.remainingDaysBeforeImproving = 0;
         scorecard.pixScoreAheadOfNextLevel = 8;
 
@@ -167,16 +168,15 @@ module('Integration | Component | scorecard-details', function (hooks) {
         assert.ok(find('.scorecard-details__improvement-countdown').textContent.includes('3 jours'));
       });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-async-module-callbacks
-      module('and the user has reached the max level', async function (hooks) {
+      module('and the user has reached the max level', function (hooks) {
         hooks.beforeEach(async function () {
           // given
           const store = this.owner.lookup('service:store');
           const scorecard = store.createRecord('scorecard', {
             pixScoreAheadOfNextLevel: 7,
             level: 5,
-            status: 'COMPLETED',
+            isFinished: true,
+            isFinishedWithMaxLevel: true,
             tutorials: [],
           });
 
@@ -209,7 +209,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
         const store = this.owner.lookup('service:store');
         const scorecard = store.createRecord('scorecard', {
           pixScoreAheadOfNextLevel: 7,
-          status: 'NOT_STARTED',
+          isNotStarted: true,
         });
 
         this.set('scorecard', scorecard);
@@ -228,7 +228,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
         const scorecard = store.createRecord('scorecard', {
           name: 'competence1',
           competenceId: 1,
-          status: 'NOT_STARTED',
+          isNotStarted: true,
         });
 
         this.set('scorecard', scorecard);
@@ -248,16 +248,14 @@ module('Integration | Component | scorecard-details', function (hooks) {
       });
     });
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-async-module-callbacks
-    module('When the user has started a competence', async function () {
+    module('When the user has started a competence', function () {
       test('should display a button stating "Reprendre"', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const scorecard = store.createRecord('scorecard', {
           name: 'competence1',
           competenceId: 1,
-          status: 'STARTED',
+          isStarted: true,
         });
 
         this.set('scorecard', scorecard);
@@ -281,7 +279,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
         const store = this.owner.lookup('service:store');
         const scorecard = store.createRecord('scorecard', {
           competenceId: 1,
-          status: 'STARTED',
+          isStarted: true,
         });
 
         this.set('scorecard', scorecard);
@@ -293,9 +291,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
         assert.dom('.tutorials').doesNotExist();
       });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-async-module-callbacks
-      module('and the user has some tutorials', async function () {
+      module('and the user has some tutorials', function () {
         test('should display the tutorial section and the related tutorials', async function (assert) {
           // given
           const store = this.owner.lookup('service:store');
@@ -322,7 +318,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
 
           const scorecard = store.createRecord('scorecard', {
             competenceId: 1,
-            status: 'STARTED',
+            isStarted: true,
             tutorials,
           });
 

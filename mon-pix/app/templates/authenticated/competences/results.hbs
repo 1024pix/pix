@@ -9,7 +9,7 @@
 
   <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner">
     <div class="competence-results-panel__header">
-      {{#if @model.scorecard.hasNotEarnAnything}}
+      {{#if @model.scorecard.hasNotEarnedAnything}}
         <div class="competence-results-panel-header__banner competence-results-panel-header__banner--too-bad">
           <p class="competence-results-panel-header__banner-result-comment">{{t
               "pages.competence-result.header.too-bad"
@@ -18,7 +18,7 @@
             {{t "pages.competence-result.header.too-bad-subtitle"}}
           </div>
         </div>
-      {{else if @model.scorecard.hasNotReachLevelOne}}
+      {{else if @model.scorecard.hasNotReachedLevelOne}}
         <div class="competence-results-panel-header__banner competence-results-panel-header__banner--not-bad">
           <p class="competence-results-panel-header__banner-result-comment">{{t
               "pages.competence-result.header.not-bad"
@@ -36,7 +36,7 @@
             </div>
           </div>
         </div>
-      {{else if @model.scorecard.hasReachAtLeastLevelOne}}
+      {{else if @model.scorecard.hasReachedAtLeastLevelOne}}
         <div class="competence-results-panel-header__banner competence-results-panel-header__banner--congrats">
           <p class="competence-results-panel-header__banner-result-comment">{{t
               "pages.competence-result.header.congratulations"
