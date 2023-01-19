@@ -9,7 +9,7 @@ describe('Acceptance | Controller | certification-center-controller-get-import-t
   });
 
   describe('GET /api/certification-centers/{certificationCenterId}/import', function () {
-    context('when user requests sessions import template', function () {
+    describe('when user requests sessions import template', function () {
       it('should return a csv file', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;

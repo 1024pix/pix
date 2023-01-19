@@ -172,8 +172,12 @@ module.exports = {
     return h.response(serializedCertificationCenterInvitation);
   },
 
-  getSessionsImportTemplate(_, h) {
-    const headers = getHeaders();
+  async getSessionsImportTemplate(request, h) {
+    const certificationCenterId = request.params.certificationCenterId;
+    const habilitationLabels = await usecases.getImportSessionComplementaryCertificationHabilitationsLabels({
+      certificationCenterId,
+    });
+    const headers = getHeaders(habilitationLabels);
     return h
       .response(headers)
       .header('Content-Type', 'text/csv; charset=utf-8')
