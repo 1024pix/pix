@@ -72,4 +72,16 @@ describe('Unit | Domain | Read-Models | CampaignResults | CampaignAssessmentPart
       });
     });
   });
+
+  describe('badges', function () {
+    it('keeps only once each badge', function () {
+      // when
+      const campaignAssessmentParticipationResultMinimal = new CampaignAssessmentParticipationResultMinimal({
+        badges: [{ id: 1 }, { id: 1 }, { id: 2 }, { id: 2 }, { id: 3 }, { id: 3 }, { id: 3 }],
+      });
+
+      // then
+      expect(campaignAssessmentParticipationResultMinimal.badges).to.exactlyContain([{ id: 1 }, { id: 2 }, { id: 3 }]);
+    });
+  });
 });
