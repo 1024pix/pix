@@ -1,3 +1,13 @@
-.session-delete-confirmation-modal span {
-  font-weight: bold;
+/* stylelint-disable no-descending-specificity */
+
+.session-delete-confirmation-modal-warning {
+  margin-bottom: 14px;
+
+  &__content {
+    margin-bottom: 14px;
+
+    span {
+      font-weight: 700;
+    }
+  }
 }

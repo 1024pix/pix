@@ -218,7 +218,8 @@
         "select-referer-button": "Désigner un référent"
       },
       "select-referer-modal" : {
-        "title": "Sélectionner le référent Pix",
+        "title": "Sélection du référent Pix",
+        "label": "Sélectionner le référent Pix",
         "empty-option": "--Sélectionner--",
         "cancel": "Annuler",
         "validate": "Valider",

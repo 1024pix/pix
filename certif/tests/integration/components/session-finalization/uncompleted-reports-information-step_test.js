@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-import { click, render, find, fillIn } from '@ember/test-helpers';
+import { click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 import { certificationIssueReportCategories } from 'pix-certif/models/certification-issue-report';
@@ -111,15 +111,19 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
     this.set('abort', abortStub);
 
     // when
-    await render(hbs`
+    const screen = await renderScreen(hbs`
         <SessionFinalization::UncompletedReportsInformationStep
           @certificationReports={{this.certificationReports}}
           @onChangeAbortReason = {{this.abort}}
         />
       `);
 
-    const select = await find(`#finalization-report-abort-reason__select${certificationReport.id}`);
-    await fillIn(select, 'technical');
+    await click(screen.getByRole('button', { name: '-- Choisissez --' }));
+    await click(
+      await screen.findByRole('option', {
+        name: 'Problème technique',
+      })
+    );
 
     // then
     sinon.assert.called(abortStub);

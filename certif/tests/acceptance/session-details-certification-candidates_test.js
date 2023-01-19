@@ -299,7 +299,12 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           await fillIn(screen.getByLabelText('Identifiant externe'), '44AA3355');
           await fillIn(screen.getByLabelText('* Code INSEE de naissance'), '75100');
           await fillIn(screen.getByLabelText('Temps majoré (%)'), '20');
-          await fillIn(screen.getByLabelText('* Tarification part Pix'), 'PREPAID');
+          await click(screen.getByLabelText('* Tarification part Pix'));
+          await click(
+            await screen.findByRole('option', {
+              name: 'Prépayée',
+            })
+          );
           await fillIn(screen.getByLabelText('Code de prépaiement'), '12345');
           await fillIn(
             screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)'),
@@ -402,7 +407,13 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
               await click(screen.getByLabelText('Code INSEE'));
               await fillIn(screen.getByLabelText('Identifiant externe'), '44AA3355');
               await fillIn(screen.getByLabelText('* Code INSEE de naissance'), '75100');
-              await fillIn(screen.getByLabelText('* Tarification part Pix'), 'PREPAID');
+              await click(screen.getByLabelText('* Tarification part Pix'));
+              await click(
+                await screen.findByRole('option', {
+                  name: 'Prépayée',
+                })
+              );
+
               await fillIn(screen.getByLabelText('Code de prépaiement'), '12345');
 
               // when
@@ -428,7 +439,12 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
     await fillIn(screen.getByLabelText('Identifiant externe'), '44AA3355');
     await fillIn(screen.getByLabelText('* Code INSEE de naissance'), '75100');
     await fillIn(screen.getByLabelText('Temps majoré (%)'), '20');
-    await fillIn(screen.getByLabelText('* Tarification part Pix'), 'FREE');
+    await click(screen.getByLabelText('* Tarification part Pix'));
+    await click(
+      await screen.findByRole('option', {
+        name: 'Gratuite',
+      })
+    );
     await fillIn(
       screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)'),
       'guybrush.threepwood@example.net'

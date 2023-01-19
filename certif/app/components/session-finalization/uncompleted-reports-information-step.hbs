@@ -93,11 +93,11 @@
           </td>
           <td class="finalization-report-abort-reason">
             <PixSelect
-              id={{concat "finalization-report-abort-reason__select" report.id}}
-              @emptyOptionLabel={{"-- Choisissez --"}}
+              @id={{concat "finalization-report-abort-reason__select" report.id}}
+              @placeholder={{"-- Choisissez --"}}
               @onChange={{fn @onChangeAbortReason report}}
-              @emptyOptionNotSelectable={{true}}
-              @selectedOption={{report.abortReason}}
+              @hideDefaultOption={{true}}
+              @value={{report.abortReason}}
               required="required"
               @options={{this.abortOptions}}
             />

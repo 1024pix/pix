@@ -7,13 +7,15 @@
   <:content>
     <div class="select-referer-modal__referer-selector">
       <label for="referer" class="select-referer-modal__label">
-        {{t "pages.team.select-referer-modal.title"}}
+        {{t "pages.team.select-referer-modal.label"}}
       </label>
       <PixSelect
-        id="referer"
+        @id="referer"
         @options={{@options}}
+        @value={{@selectedReferer}}
+        @placeholder={{(t "pages.team.select-referer-modal.empty-option")}}
+        @hideDefaultOption={{true}}
         @onChange={{@onSelectReferer}}
-        @emptyOptionLabel={{(t "pages.team.select-referer-modal.empty-option")}}
         @emptyOptionNotSelectable={{true}}
       />
     </div>
