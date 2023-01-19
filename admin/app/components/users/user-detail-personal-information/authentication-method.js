@@ -22,6 +22,12 @@ export default class AuthenticationMethod extends Component {
     );
   }
 
+  get pixAuthenticationMethod() {
+    return this.args.user.authenticationMethods.find(
+      (authenticationMethod) => authenticationMethod.identityProvider === 'PIX'
+    );
+  }
+
   get hasEmailAuthenticationMethod() {
     return (
       this.args.user.email &&

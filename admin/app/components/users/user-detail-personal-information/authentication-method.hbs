@@ -19,6 +19,19 @@
       Adresse e-mail non confirmée
     </div>
   {{/if}}
+  {{#if this.hasPixAuthenticationMethod}}
+    <br />
+    <div class="authentication-method__connexions-information">
+      <dt>{{t
+          "components.users.user-detail-personal-information.authentication-method.should-change-password-status"
+        }}</dt>
+      {{#if this.pixAuthenticationMethod.authenticationComplement.shouldChangePassword}}
+        <dd>{{t "common.words.yes"}}</dd>
+      {{else}}
+        <dd>{{t "common.words.no"}}</dd>
+      {{/if}}
+    </div>
+  {{/if}}
 
 </dl>
 

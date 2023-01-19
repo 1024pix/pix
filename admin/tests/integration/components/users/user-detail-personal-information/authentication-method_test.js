@@ -1,12 +1,12 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { hbs } from 'ember-cli-htmlbars';
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import sinon from 'sinon';
 
 module('Integration | Component | users | user-detail-personal-information/authentication-method', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   module('When the admin member has access to users actions scope', function () {
     class AccessControlStub extends Service {
@@ -77,6 +77,35 @@ module('Integration | Component | users | user-detail-personal-information/authe
           // then
           assert.dom(screen.getByText('Date de dernière connexion :')).exists();
           assert.dom(screen.queryByText('Invalid date')).doesNotExist();
+        });
+      });
+
+      module('when user has a PIX authentication method', function () {
+        test('it displays the should change password status', async function (assert) {
+          // given
+          this.set('user', {
+            authenticationMethods: [
+              {
+                identityProvider: 'PIX',
+                authenticationComplement: { shouldChangePassword: true },
+              },
+            ],
+          });
+          this.owner.register('service:access-control', AccessControlStub);
+
+          // when
+          const screen = await render(
+            hbs`<Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`
+          );
+
+          // then
+          const shouldChangePasswordLabelElement = screen.getByText(
+            `${this.intl.t(
+              'components.users.user-detail-personal-information.authentication-method.should-change-password-status'
+            )}`
+          );
+          assert.dom(shouldChangePasswordLabelElement).exists();
+          assert.dom(shouldChangePasswordLabelElement.nextElementSibling).hasText(this.intl.t('common.words.yes'));
         });
       });
 

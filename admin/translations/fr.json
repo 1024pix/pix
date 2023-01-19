@@ -7,6 +7,10 @@
       "login-user-blocked-error": "Votre compte est bloqué car vous avez effectué trop de tentatives de connexion. Pour le débloquer, <a href=\"{url}\">contactez-nous</a>.",
     "internal-server-error": "Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.",
       "gateway-timeout-error": "Le service subit des ralentissements. Veuillez réessayer ultérieurement."
+    },
+    "words": {
+      "yes": "Oui",
+      "no": "Non"
     }
   },
   "pages": {
@@ -20,6 +24,13 @@
     "organizations": {
       "all-tags": {
         "recently-used-tags": "Liste de tags récemment utilisés avec {tagName}"
+      }
+    },
+    "users": {
+      "user-detail-personal-information": {
+        "authentication-method": {
+          "should-change-password-status": "Mot de passe temporaire :"
+        }
       }
     }
   }
