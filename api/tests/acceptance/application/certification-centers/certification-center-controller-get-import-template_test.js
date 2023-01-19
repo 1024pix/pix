@@ -1,14 +1,14 @@
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | session-controller-get-import-template', function () {
+describe('Acceptance | Controller | certification-center-controller-get-import-template', function () {
   let server;
 
   beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('GET /api/sessions/import', function () {
+  describe('GET /api/certification-centers/import', function () {
     context('when user requests sessions import template', function () {
       it('should return a csv file', async function () {
         // given
@@ -18,7 +18,7 @@ describe('Acceptance | Controller | session-controller-get-import-template', fun
         // when
         const response = await server.inject({
           method: 'GET',
-          url: '/api/sessions/import',
+          url: '/api/certification-centers/import',
           payload: {},
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         });

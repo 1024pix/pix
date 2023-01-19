@@ -171,6 +171,18 @@ exports.register = async function (server) {
       },
     },
     {
+      method: 'GET',
+      path: '/api/certification-centers/import',
+      config: {
+        handler: certificationCenterController.getSessionsImportTemplate,
+        tags: ['api', 'sessions'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            '- Elle permet de récupérer le fichier de création de sessions de certification',
+        ],
+      },
+    },
+    {
       method: 'POST',
       path: '/api/certification-centers/{certificationCenterId}/sessions/import',
       config: {

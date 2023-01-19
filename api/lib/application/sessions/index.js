@@ -785,18 +785,6 @@ exports.register = async (server) => {
         ],
       },
     },
-    {
-      method: 'GET',
-      path: '/api/sessions/import',
-      config: {
-        handler: sessionController.getSessionsImportTemplate,
-        tags: ['api', 'sessions'],
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            '- Elle permet de récupérer le fichier de création de sessions de certification',
-        ],
-      },
-    },
   ]);
 };
 
