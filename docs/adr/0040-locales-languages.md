@@ -147,7 +147,7 @@ Dans le cas de Pix c'est la notion de *locale* qui est la plus importante car un
 On souhaite donc :
 
 * associer à chaque utilisateur une *locale* (et non plus un *language*) au format BCP 47 avec persistance de ce choix en base de données
-* avoir les différentes versions des sites web identifiées par une *locale* au format BCP 47 (`fr`, `fr-FR`, `fr-BE`, `en`) et non plus des identifiants non-canoniques (`fr`, `fr-fr`, `fr-be`, `en` ont la partie `region` en minuscules)
+* avoir les différentes versions des sites web identifiées par une *locale* au format BCP 47 (`fr`, `fr-FR`, `fr-BE`, `en`) et non plus des identifiants non-canoniques (les identifiants `fr`, `fr-fr`, `fr-be`, `en` ont la partie `region` en minuscules)
 * utiliser le builtin JavaScript [`Intl.Locale`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale) chaque fois que c'est possible
 
 **Avantage(s) :**
@@ -161,16 +161,13 @@ On souhaite donc :
 
 ## Décision
 
-* Recueillir les avis et commentaires de tous les développeurs Pix. Ces avis et commentaires, s'il y en a, seront à centraliser dans un ticket Jira à créer et qui sera indépendant de la PR qui a servi à créer cet ADR.
-* Mettre en oeuvre cet ADR dans *pix-site*, le faire évoluer si besoin en fonction de l'expérience acquise
+* Mettre en oeuvre cet ADR sur *pix-site* et le faire évoluer si besoin en fonction de l'expérience acquise.
 
    Concrètement :
 
    * On ne change pas l'identifiant de la locale `fr` déjà existant car c'est un identifiant de locale valide. Cette locale propose une version internationale sans cibler une région particulière.
-   * On changera l'identifiant `fr-fr`, qui n'est pas un identifiant recommandé (car la région doit être en majuscules), en `fr-FR`.
-   * On changera `en-us` et `en-gb`, qui ne sont pas des identifiants recommandés (car la région doit être en majuscules), en simplement `en` car on souhaite proposer une version en anglais de manière internationale, sans cibler cette version pour une région particulière.
+   * On changera l'identifiant `fr-fr` en `fr-FR`, car l'identifiant `fr-fr` n'a pas la forme recommandée (car la région doit être en majuscules).
+   * On changera `en-us` et `en-gb` en simplement `en` car on souhaite proposer une version en anglais de manière internationale, sans cibler une région particulière.
    * On changera les potentiels noms de propriétés et noms de colonnes qui seraient nommés `language` ou `lang` pour les nommer `locale`
 
-   Cela ne devrait pas faire beaucoup de changements et cela devrait être des changements simples. C'est surtout que cela permettra de normer tout ce qu'on fait et de ne pas être dans l'arbitraire toujours à se demander quel nom donner à une variable et quelle valeur mettre dans cette variable.
-
-* Enfin, une fois que cet ADR aura été utilisé sur *pix-site*, un point d'étape sera fait, avec d'éventuelles modifications. On lui retirera alors son statut *En cours* avant de le mettre en oeuvre dans tout le code de pix.
+* Une fois que l'expérience acquise sur l'utilisation de cet ADR dans *pix-site* sera suffisante, on retirera alors le statut *En cours* à cet ADR et on pourra commencer à le mettre en oeuvre dans tout le code de pix.
