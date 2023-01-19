@@ -17,24 +17,19 @@
   }
 }
 .form__field-with-info {
-  .pix-filterable-and-searchable-select {
-    @include device-is('desktop') {
-      width: 500px;
-    }
-  }
-  
+
   .pix-multi-select {
     @include device-is('desktop') {
       width: 140px;
     }
   }
-  
-  
+
+
   .pix-select {
     @include device-is('desktop') {
       width: 360px !important;
     }
-  
+
     &__dropdown {
       overflow-x: hidden;
     }
