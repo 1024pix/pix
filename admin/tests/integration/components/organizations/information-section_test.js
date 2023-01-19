@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, clickByName, fillByLabel, selectByLabelAndOption } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
+import { render, clickByName, fillByLabel } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
@@ -117,7 +118,9 @@ module('Integration | Component | organizations/information-section', function (
       await fillByLabel('Crédits', 50);
       await clickByName('Gestion d’élèves/étudiants');
       await fillByLabel('Lien vers la documentation', 'https://pix.fr/');
-      await selectByLabelAndOption('SSO', 'OIDC-2');
+      await clickByName('SSO');
+      await screen.findByRole('listbox');
+      await click(screen.getByRole('option', { name: 'organization 2' }));
 
       // when
       await clickByName('Enregistrer');

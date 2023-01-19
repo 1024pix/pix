@@ -78,8 +78,11 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
       // when
       const screen = await visit(`/organizations/${organization.id}/team`);
 
+      await click(screen.getByRole('button', { name: 'Rechercher par rôle' }));
+      await screen.findByRole('listbox');
       // then
-      assert.dom(screen.getByRole('combobox', { name: 'Rechercher par rôle' })).hasValue('');
+      assert.dom(screen.getByRole('option', { name: 'Tous' })).exists();
+
       assert.dom(screen.getByText('user@example.com')).exists();
       assert.dom(screen.queryByText('user2@example.com')).exists();
     });
@@ -88,8 +91,10 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
       // when
       const screen = await visit(`/organizations/${organization.id}/team?organizationRole=ADMIN`);
 
+      await click(screen.getByRole('button', { name: 'Rechercher par rôle' }));
+      await screen.findByRole('listbox');
       // then
-      assert.dom(screen.getByRole('combobox', { name: 'Rechercher par rôle' })).hasValue('ADMIN');
+      assert.dom(screen.getByRole('option', { name: 'Administrateur' })).exists();
       assert.dom(screen.getByText('user@example.com')).exists();
       assert.dom(screen.queryByText('user2@example.com')).doesNotExist();
     });

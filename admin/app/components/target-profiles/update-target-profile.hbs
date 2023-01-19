@@ -28,14 +28,13 @@
 
         <PixSelect
           class="form-control"
-          @id="targetProfileCategory"
-          @label={{"Catégorie :"}}
+          @label="Catégorie :"
           @onChange={{this.onCategoryChange}}
-          @selectedOption={{@model.category}}
+          @value={{@model.category}}
           @options={{this.optionsList}}
-          @emptyOptionLabel={{"-"}}
-          @emptyOptionNotSelectable={{true}}
-          required={{true}}
+          @placeholder={{"-"}}
+          @hideDefaultOption={{true}}
+          required
         />
 
         <label for="targetProfileDescription" class="form-field__label">

@@ -1,9 +1,10 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { render, clickByName, selectByLabelAndOption } from '@1024pix/ember-testing-library';
+import { render, clickByName } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import sinon from 'sinon';
+import { click } from '@ember/test-helpers';
 
 module('Integration | Component | actions-on-users-role-in-organization', function (hooks) {
   setupRenderingTest(hooks);
@@ -34,7 +35,10 @@ module('Integration | Component | actions-on-users-role-in-organization', functi
         hbs`<ActionsOnUsersRoleInOrganization @organizationMembership={{this.organizationMembership}} />`
       );
       await clickByName('Modifier le rôle');
-      await selectByLabelAndOption('Sélectionner un rôle', 'MEMBER');
+
+      await click(screen.getByRole('button', { name: 'Sélectionner un rôle' }));
+      await screen.findByRole('listbox');
+      await click(screen.getByRole('option', { name: 'Membre' }));
       await clickByName('Enregistrer');
 
       // then

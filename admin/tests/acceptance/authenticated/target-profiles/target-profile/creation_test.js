@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { currentURL, fillIn, click } from '@ember/test-helpers';
+import { currentURL, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -134,7 +134,13 @@ async function _selectLearningContent(screen) {
   await clickByName('area_f1_a2 code · area_f1_a2 title');
   await clickByName('competence_f1_a2_c1 index competence_f1_a2_c1 name');
   await clickByName('tube_f1_a2_c1_th1_tu1 name : tube_f1_a2_c1_th1_tu1 practicalTitle');
-  await fillIn(screen.getByTestId('select-level-tube-tube_f1_a2_c1_th1_tu1'), 2);
+
+  await click(
+    screen.getByRole('button', { name: 'Sélection du niveau du sujet suivant : tube_f1_a2_c1_th1_tu1 practicalTitle' })
+  );
+  await screen.findByRole('listbox');
+  await click(screen.getByRole('option', { name: '2' }));
+
   await clickByName('area_f2_a1 code · area_f2_a1 title');
   await clickByName('competence_f2_a1_c1 index competence_f2_a1_c1 name');
   await clickByName('thematic_f2_a1_c1_th1 name');

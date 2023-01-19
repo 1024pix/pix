@@ -1,13 +1,13 @@
 <td>
   {{#if this.isEditionMode}}
     <PixSelect
+      class="pix-select-in-table"
       @onChange={{this.setRoleSelection}}
+      @value={{this.selectedNewRole}}
       @options={{this.organizationRoles}}
-      placeholder="Sélectionner"
-      aria-label="Sélectionner un rôle"
-      @isSearchable={{false}}
-      @emptyOptionNotSelectable={{true}}
-      @emptyOptionLabel=""
+      @placeholder="- Rôle -"
+      @label="Sélectionner un rôle"
+      @screenReaderOnly={{true}}
       as |organizationRole|
     >
       {{organizationRole.label}}

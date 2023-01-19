@@ -19,21 +19,13 @@
     </div>
 
     <div class="form-field">
-      <label for="certification-center-type" class="field__label">Type</label>
-      {{#if (v-get this.form "type" "isInvalid")}}
-        <div class="form-field__error" aria-label="Message d'erreur du champ type">
-          {{v-get this.form "type" "message"}}
-        </div>
-      {{/if}}
       <PixSelect
-        id="certification-center-type"
+        @label="Type"
         @options={{this.certificationCenterTypes}}
-        @isSearchable={{false}}
-        @emptyOptionNotSelectable={{true}}
-        @emptyOptionLabel={{"-- Choisissez --"}}
-        @selectedOption={{this.form.type}}
+        @placeholder="-- Choisissez --"
+        @value={{this.form.type}}
         @onChange={{this.selectCertificationCenterType}}
-        class={{if (v-get this.form "type" "isInvalid") "is-invalid"}}
+        @errorMessage={{v-get this.form "type" "message"}}
       />
     </div>
 

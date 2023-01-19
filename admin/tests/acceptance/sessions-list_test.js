@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { currentURL, click } from '@ember/test-helpers';
-import { visit, fillByLabel, selectByLabelAndOption } from '@1024pix/ember-testing-library';
+import { visit, fillByLabel } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 
@@ -57,7 +57,6 @@ module('Acceptance | Session List', function (hooks) {
           const screen = await visit('/sessions/list');
 
           // then
-          assert.dom(screen.getByRole('combobox', { name: "Nombre d'élément à afficher par page" })).hasValue('10');
           const sessionCount = screen.getAllByLabelText('Informations de la session de certification', {
             exact: false,
           }).length;
@@ -73,7 +72,6 @@ module('Acceptance | Session List', function (hooks) {
           await click(screen.getByLabelText('Aller à la page suivante'));
 
           // then
-          assert.dom(screen.getByRole('combobox', { name: "Nombre d'élément à afficher par page" })).hasValue('10');
           const sessionCount = screen.getAllByLabelText('Informations de la session de certification', {
             exact: false,
           }).length;
@@ -86,10 +84,11 @@ module('Acceptance | Session List', function (hooks) {
         test('it should display all the finalized sessions', async function (assert) {
           // when
           const screen = await visit('/sessions/list');
-          await selectByLabelAndOption("Nombre d'élément à afficher par page", '25');
+          await click(screen.getByRole('button', { name: "Nombre d'élément à afficher par page" }));
+          await screen.findByRole('listbox');
+          await click(screen.getByRole('option', { name: '25' }));
 
           // then
-          assert.dom(screen.getByRole('combobox', { name: "Nombre d'élément à afficher par page" })).hasValue('25');
           const sessionCount = screen.getAllByLabelText('Informations de la session de certification', {
             exact: false,
           }).length;
@@ -166,7 +165,17 @@ module('Acceptance | Session List', function (hooks) {
         test('it should display the session with status as specified in the dropdown', async function (assert) {
           // when
           const screen = await visit('/sessions/list');
-          await selectByLabelAndOption('Filtrer les sessions en sélectionnant un statut', 'processed');
+          await click(
+            screen.getByRole('button', {
+              name: 'Filtrer les sessions en sélectionnant un statut',
+            })
+          );
+          await screen.findByRole('listbox');
+          await click(
+            screen.getByRole('option', {
+              name: 'Résultats transmis par Pix',
+            })
+          );
 
           // then
           const sessionProcessedCount = screen.getAllByLabelText('Informations de la session de certification', {
@@ -196,7 +205,17 @@ module('Acceptance | Session List', function (hooks) {
         test('it should only display sessions which results have been sent', async function (assert) {
           // when
           const screen = await visit('/sessions/list');
-          await selectByLabelAndOption('Filtrer les sessions par leurs résultats diffusés ou non diffusés', 'true');
+          await click(
+            screen.getByRole('button', {
+              name: 'Filtrer les sessions par leurs résultats diffusés ou non diffusés',
+            })
+          );
+          await screen.findByRole('listbox');
+          await click(
+            screen.getByRole('option', {
+              name: 'Résultats diffusés',
+            })
+          );
 
           // then
           const sessionWithResultSentCount = screen.getAllByLabelText('Informations de la session de certification', {
@@ -208,7 +227,17 @@ module('Acceptance | Session List', function (hooks) {
         test('it should only display sessions which results have not been sent', async function (assert) {
           // when
           const screen = await visit('/sessions/list');
-          await selectByLabelAndOption('Filtrer les sessions par leurs résultats diffusés ou non diffusés', 'false');
+          await click(
+            screen.getByRole('button', {
+              name: 'Filtrer les sessions par leurs résultats diffusés ou non diffusés',
+            })
+          );
+          await screen.findByRole('listbox');
+          await click(
+            screen.getByRole('option', {
+              name: 'Résultats non diffusés',
+            })
+          );
 
           // then
           const sessionCount = screen.getAllByLabelText('Informations de la session de certification', {

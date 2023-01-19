@@ -19,8 +19,8 @@ export default class ActionsOnUsersRoleInOrganization extends Component {
   }
 
   @action
-  setRoleSelection(event) {
-    this.selectedNewRole = event.target.value;
+  setRoleSelection(value) {
+    this.selectedNewRole = value;
     this.isEditionMode = true;
   }
 

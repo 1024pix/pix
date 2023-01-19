@@ -10,20 +10,16 @@
         aria-required={{true}}
         {{on "change" this.updateTargetProfileName}}
       />
-      <div class="form-field form-group">
-        <PixSelect
-          class="form-control"
-          @id="targetProfileCategory"
-          @label="Catégorie :"
-          @onChange={{this.onCategoryChange}}
-          @selectedOption={{@targetProfile.category}}
-          @options={{this.optionsList}}
-          @emptyOptionLabel={{"-"}}
-          @emptyOptionNotSelectable={{true}}
-          required={{true}}
-          aria-required={{true}}
-        />
-      </div>
+      <PixSelect
+        @label="Catégorie :"
+        @onChange={{this.onCategoryChange}}
+        @value={{@targetProfile.category}}
+        @options={{this.optionsList}}
+        @placeholder="-"
+        @hideDefaultOption={{true}}
+        required={{true}}
+        aria-required={{true}}
+      />
 
       <div class="form-field form-group create-target-profile__checkbox-container">
         <label class="create-target-profile__is-public-label" for="isPublic">Public : </label>

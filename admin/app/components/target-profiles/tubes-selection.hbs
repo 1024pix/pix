@@ -9,13 +9,13 @@
         class="tubes-selection__multi-select"
         @label="Référentiel :"
         @screenReaderOnly={{true}}
-        @innerText="Séléctionner les référentiels souhaités"
+        @placeholder="Séléctionner les référentiels souhaités"
         @id="framework-list"
         @isSearchable={{true}}
         @showOptionsOnInput={{true}}
-        @onSelect={{this.setSelectedFrameworkIds}}
+        @onChange={{this.setSelectedFrameworkIds}}
         @emptyMessage={{"Pas de résultat"}}
-        @selected={{this.selectedFrameworkIds}}
+        @values={{this.selectedFrameworkIds}}
         @options={{this.frameworkOptions}}
         as |option|
       >

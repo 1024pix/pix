@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { click, find } from '@ember/test-helpers';
-import { render, selectByLabelAndOption, fillByLabel } from '@1024pix/ember-testing-library';
+import { render, fillByLabel } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import { A as EmberArray } from '@ember/array';
 
@@ -38,7 +38,7 @@ module('Integration | Component | certification-centers/creation-form', function
       this.onSubmit = () => {};
       this.onCancel = () => {};
       this.certificationCenter = {};
-      await render(
+      const screen = await render(
         hbs`<CertificationCenters::CreationForm
           @certificationCenter={{this.certificationCenter}}
           @onSubmit={{this.onSubmit}}
@@ -47,7 +47,9 @@ module('Integration | Component | certification-centers/creation-form', function
       );
 
       // when
-      await selectByLabelAndOption("Type d'établissement", 'SCO');
+      await click(screen.getByRole('button', { name: "Type d'établissement" }));
+      await screen.findByRole('listbox');
+      await click(screen.getByRole('option', { name: 'Établissement scolaire' }));
 
       // then
       assert.strictEqual(this.certificationCenter.type, 'SCO');

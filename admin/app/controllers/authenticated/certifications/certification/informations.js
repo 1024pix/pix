@@ -263,8 +263,8 @@ export default class CertificationInformationsController extends Controller {
   }
 
   @action
-  selectJuryLevel(event) {
-    this.selectedJuryLevel = event.target.value;
+  selectJuryLevel(value) {
+    this.selectedJuryLevel = value;
   }
 
   @action

@@ -39,7 +39,7 @@ module('Integration | Component | TargetProfiles:TubesSelection::Tube', function
     this.set('selectedTubeIds', selectedTubeIds);
 
     // when
-    await render(
+    const screen = await render(
       hbs`<TargetProfiles::TubesSelection::Tube
   @competence={{this.competence}}
   @thematic={{this.thematic}}
@@ -49,10 +49,10 @@ module('Integration | Component | TargetProfiles:TubesSelection::Tube', function
   @tubeLevels={{this.tubeLevels}}
 />`
     );
-    const select = document.getElementById('select-level-tube-tubeId1');
+    const select = screen.getByRole('button', { name: 'Sélection du niveau du sujet suivant : Tube 1' });
 
     // then
-    assert.dom(select).isDisabled();
+    assert.dom(select).hasAttribute('aria-disabled', '');
   });
 
   test('it should not disable level select is tubes is selected', async function (assert) {
@@ -61,7 +61,7 @@ module('Integration | Component | TargetProfiles:TubesSelection::Tube', function
     this.set('selectedTubeIds', selectedTubeIds);
 
     // when
-    await render(
+    const screen = await render(
       hbs`<TargetProfiles::TubesSelection::Tube
   @competence={{this.competence}}
   @thematic={{this.thematic}}
@@ -71,9 +71,9 @@ module('Integration | Component | TargetProfiles:TubesSelection::Tube', function
   @tubeLevels={{this.tubeLevels}}
 />`
     );
-    const select = document.getElementById('select-level-tube-tubeId1');
+    const select = screen.getByRole('button', { name: 'Sélection du niveau du sujet suivant : Tube 1' });
 
     // then
-    assert.dom(select).isNotDisabled();
+    assert.dom(select).doesNotHaveAttribute('aria-disabled');
   });
 });

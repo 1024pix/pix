@@ -15,17 +15,12 @@ module('Unit | Component | authenticated/target-profiles/tubes-selection/tube', 
   module('#setLevelTube', function () {
     test('it should set a level on tube', function (assert) {
       // given
-      const event = {
-        currentTarget: {
-          value: '5',
-        },
-      };
       const setLevelTubeStub = sinon.stub();
       component.args.tube = { id: 'tubeId1' };
       component.args.setLevelTube = setLevelTubeStub;
 
       // when
-      component.setLevelTube(event);
+      component.setLevelTube('5');
 
       // then
       assert.ok(setLevelTubeStub.calledWith('tubeId1', '5'));

@@ -6,7 +6,7 @@
       </label>
       {{#if @isTypeLevel}}
         <Stages::StageLevelSelect
-          id="threshold-or-level"
+          @id="threshold-or-level"
           @maxLevel={{@maxLevel}}
           @onChange={{this.setLevel}}
           @value={{this.form.level}}

@@ -122,8 +122,8 @@ export default class CandidateEditModal extends Component {
   }
 
   @action
-  selectBirthCountry(event) {
-    this.selectedCountryInseeCode = event.target.value;
+  selectBirthCountry(value) {
+    this.selectedCountryInseeCode = value;
     this.birthCountry = this._getCountryName();
     this.birthCity = '';
     this.birthPostalCode = '';

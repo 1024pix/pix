@@ -19,11 +19,12 @@
             <td>
               {{#if member.isInEditionMode}}
                 <PixSelect
-                  @onChange={{this.setAdminRoleSelection}}
-                  @selectedOption={{member.role}}
+                  @onChange={{fn this.setAdminRoleSelection member}}
+                  @value={{or member.updatedRole member.role}}
                   @options={{@roles}}
-                  aria-label="Sélectionner un rôle"
-                  @isSearchable={{false}}
+                  @label="Sélectionner un rôle"
+                  @screenReaderOnly={{true}}
+                  @hideDefaultOption={{true}}
                   as |role|
                 >
                   {{role.label}}

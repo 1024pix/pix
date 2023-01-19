@@ -36,8 +36,8 @@ export default class CertificationCenterForm extends Component {
   }
 
   @action
-  selectCertificationCenterType(event) {
-    this.args.certificationCenter.type = event.target.value;
+  selectCertificationCenterType(value) {
+    this.args.certificationCenter.type = value;
   }
 
   @action

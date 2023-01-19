@@ -9,7 +9,6 @@ export default class List extends Component {
   @service errorResponseHandler;
   @tracked displayConfirm = false;
   @tracked editionMode = false;
-  @tracked newRole;
   @tracked confirmPopUpMessage;
 
   CUSTOM_ERROR_STATUS_MESSAGES = {
@@ -27,30 +26,32 @@ export default class List extends Component {
   }
 
   @action
-  setAdminRoleSelection(event) {
-    this.newRole = event.target.value;
+  setAdminRoleSelection(adminMember, value) {
+    adminMember.updatedRole = value;
   }
 
   @action
   async updateMemberRole(adminMember) {
     const previousRole = adminMember.role;
 
-    if (!this.newRole || this.newRole === previousRole) {
+    if (!adminMember.updatedRole || adminMember.updatedRole === previousRole) {
       adminMember.isInEditionMode = false;
       return;
     }
 
-    adminMember.role = this.newRole;
+    adminMember.role = adminMember.updatedRole;
     try {
       await adminMember.save();
       this.notifications.success(
-        `L'agent ${adminMember.firstName} ${adminMember.lastName} a désormais le rôle ${this.newRole}`
+        `L'agent ${adminMember.firstName} ${adminMember.lastName} a désormais le rôle ${adminMember.updatedRole}`
       );
     } catch (errorResponse) {
       this.errorResponseHandler.notify(errorResponse, this.CUSTOM_ERROR_STATUS_MESSAGES.UPDATE);
       adminMember.role = previousRole;
+      adminMember.updatedRole = null;
     } finally {
       adminMember.isInEditionMode = false;
+      adminMember.updatedRole = null;
     }
   }
 

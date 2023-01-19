@@ -4,6 +4,7 @@ import { render, clickByName, fillByLabel } from '@1024pix/ember-testing-library
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
+import { click } from '@ember/test-helpers';
 
 module('Integration | Component | UpdateStage', function (hooks) {
   setupRenderingTest(hooks);
@@ -74,18 +75,15 @@ module('Integration | Component | UpdateStage', function (hooks) {
 
       // then
       assert.dom(screen.queryByRole('spinbutton', { name: 'Seuil' })).doesNotExist();
-      assert
-        .dom(screen.queryByRole('combobox', { name: 'Niveau' }))
-        .exists()
-        .hasValue('1');
-      const options = screen.getByRole('combobox', { name: 'Niveau' }).children;
+
+      const selectItem = screen.getByRole('button', { name: 'Niveau' });
+      assert.dom(selectItem).exists();
+
+      click(selectItem);
+      await screen.findByRole('listbox');
+
+      const options = screen.getAllByRole('option');
       assert.strictEqual(options.length, 3);
-      assert.strictEqual(options[0].value, '0');
-      assert.strictEqual(options[0].label, '0');
-      assert.strictEqual(options[1].value, '1');
-      assert.strictEqual(options[1].label, '1');
-      assert.strictEqual(options[2].value, '2');
-      assert.strictEqual(options[2].label, '2');
     });
   });
 

@@ -27,11 +27,10 @@
     <PixSelect
       @onChange={{this.selectOption}}
       @options={{this.resultOptions}}
-      @selectedOption={{this.selectedOption}}
-      @emptyOptionLabel=""
-      @emptyOptionNotSelectable="true"
-      aria-label="Sélectionner un résultat"
-      @isSearchable={{false}}
+      @value={{this.selectedOption}}
+      @hideDefaultOption={{true}}
+      @label="Sélectionner un résultat"
+      @screenReaderOnly={{true}}
       class={{this.resultClass}}
       as |result|
     >

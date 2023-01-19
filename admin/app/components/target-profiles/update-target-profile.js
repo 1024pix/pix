@@ -73,8 +73,8 @@ export default class UpdateTargetProfile extends Component {
   }
 
   @action
-  onCategoryChange(event) {
-    this.form.category = event.target.value;
+  onCategoryChange(value) {
+    this.form.category = value;
   }
 
   async _updateTargetProfile() {
