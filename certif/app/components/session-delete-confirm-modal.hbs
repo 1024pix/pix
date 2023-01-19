@@ -1,12 +1,17 @@
 <PixModal
+  class="session-delete-confirmation-modal-warning"
   @title={{t "pages.sessions.list.delete-modal.title"}}
   @onCloseButtonClick={{@close}}
   @showModal={{@showModal}}
 >
   <:content>
-    <p>{{t "pages.sessions.list.delete-modal.label" sessionId=@sessionId htmlSafe=true}}</p>
+    <p class="session-delete-confirmation-modal-warning__content">{{t
+        "pages.sessions.list.delete-modal.label"
+        sessionId=@sessionId
+        htmlSafe=true
+      }}</p>
     {{#if (gt @enrolledCandidatesCount 0)}}
-      <p class="session-delete-confirmation-modal">{{t
+      <p class="session-delete-confirmation-modal-warning__content">{{t
           "pages.sessions.list.delete-modal.enrolled-candidates"
           enrolledCandidatesCount=@enrolledCandidatesCount
           htmlSafe=true
