@@ -6,7 +6,12 @@ export default class CampaignType extends Component {
 
   get picto() {
     const { campaignType } = this.args;
-    return campaignType === 'ASSESSMENT' ? 'assessment.svg' : 'profiles-collection.svg';
+    return campaignType === 'ASSESSMENT' ? 'tachometer' : 'person-export';
+  }
+
+  get pictoCssClass() {
+    const { campaignType } = this.args;
+    return campaignType === 'ASSESSMENT' ? 'campaign-type__icon-assessment' : 'campaign-type__icon-profile-collection';
   }
 
   get label() {
