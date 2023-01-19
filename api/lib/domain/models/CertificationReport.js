@@ -70,7 +70,7 @@ class CertificationReport {
   }
 
   static idFromCertificationCourseId(certificationCourseId) {
-    return `CertificationReport:${certificationCourseId}`;
+    return `CertificationReport-${certificationCourseId}`;
   }
 }
 

@@ -46,8 +46,8 @@ export default class SessionsFinalizeController extends Controller {
   }
 
   @action
-  async abort(certificationReport, event) {
-    const { value: abortReason } = event.target;
+  async abort(certificationReport, option) {
+    const abortReason = option;
 
     try {
       await certificationReport.abort(abortReason);

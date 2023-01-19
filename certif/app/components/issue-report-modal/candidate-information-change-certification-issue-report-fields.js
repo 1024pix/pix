@@ -8,14 +8,15 @@ import {
   subcategoryToLabel,
   subcategoryToTextareaLabel,
 } from 'pix-certif/models/certification-issue-report';
+
 export default class CandidateInformationChangeCertificationIssueReportFieldsComponent extends Component {
   @tracked
   subcategoryTextAreaLabel = subcategoryToTextareaLabel[this.args.candidateInformationChangeCategory.subcategory];
 
   @action
-  onChangeSubcategory(event) {
-    this.args.candidateInformationChangeCategory.subcategory = event.target.value;
-    this.subcategoryTextAreaLabel = subcategoryToTextareaLabel[event.target.value];
+  onChangeSubcategory(option) {
+    this.args.candidateInformationChangeCategory.subcategory = option;
+    this.subcategoryTextAreaLabel = subcategoryToTextareaLabel[option];
   }
 
   options = [

@@ -98,11 +98,12 @@
           Pays de naissance
         </label>
         <PixSelect
-          id="birth-country"
+          @id="birth-country"
           class="birth-country-selector"
           @options={{this.countryOptions}}
           @onChange={{this.selectBirthCountry}}
-          @selectedOption={{this.defaultCountryOption}}
+          @value={{this.selectedCountryInseeCode}}
+          @hideDefaultOption={{true}}
           required
         />
       </div>
@@ -253,12 +254,13 @@
             <span class="required-field-indicator">*</span>
             Tarification part Pix</label>
           <PixSelect
-            id="billing-mode"
+            @id="billing-mode"
             class="birth-country-selector"
             @options={{this.billingModeOptions}}
-            @onChange={{fn @updateCandidateData @candidateData "billingMode"}}
-            @emptyOptionLabel={{"-- Choisissez --"}}
-            @emptyOptionNotSelectable={{true}}
+            @onChange={{fn @updateCandidateDataFromValue @candidateData "billingMode"}}
+            @value={{@candidateData.billingMode}}
+            @placeholder={{"-- Choisissez --"}}
+            @hideDefaultOption={{true}}
             required
           />
         </div>
@@ -332,6 +334,7 @@
       aria-label="Fermer la modale d'ajout de candidat"
       @triggerAction={{@closeModal}}
       @backgroundColor="transparent-light"
+      @isBorderVisible="true"
     >
       Fermer
     </PixButton>

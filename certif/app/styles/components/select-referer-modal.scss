@@ -15,6 +15,12 @@
 
   &__referer-selector {
     margin: 0 24px;
+    display: flex;
+    flex-direction: column;
+
+    .pix-select {
+      width: 100%;
+    }
   }
 
   &__actions {

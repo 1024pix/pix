@@ -7,11 +7,11 @@
         @label="Filtrer la liste des élèves en cochant la ou les classes souhaitées"
         @emptyMessage={{this.emptyMessage}}
         @id={{"add-student-list__multi-select"}}
-        @onSelect={{this.selectDivision}}
-        @innerText={{"Chercher une classe ..."}}
+        @onChange={{this.selectDivision}}
+        @placeholder={{"Chercher une classe ..."}}
         @isSearchable={{true}}
         @screenReaderOnly={{true}}
-        @selected={{this.selectedDivisions}}
+        @values={{this.selectedDivisions}}
         @options={{@certificationCenterDivisions}}
         as |option|
       >

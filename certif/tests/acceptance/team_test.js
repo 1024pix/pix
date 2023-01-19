@@ -1,13 +1,13 @@
 import { module, test } from 'qunit';
-import { currentURL, click, fillIn } from '@ember/test-helpers';
+import { click, currentURL } from '@ember/test-helpers';
 import { visit as visitScreen } from '@1024pix/ember-testing-library';
 
 import { setupApplicationTest } from 'ember-qunit';
 import {
-  createCertificationPointOfContactWithTermsOfServiceAccepted,
   authenticateSession,
   createAllowedCertificationCenterAccess,
   createCertificationPointOfContactWithCustomCenters,
+  createCertificationPointOfContactWithTermsOfServiceAccepted,
 } from '../helpers/test-init';
 import setupIntl from '../helpers/setup-intl';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -67,9 +67,11 @@ module('Acceptance | authenticated | team', function (hooks) {
                 screen.getByRole('button', { name: this.intl.t('pages.team.no-referer-section.select-referer-button') })
               );
               await screen.findByRole('dialog');
-              await fillIn(
-                screen.getByRole('combobox', { name: this.intl.t('pages.team.select-referer-modal.title') }),
-                '102'
+              await click(screen.getByLabelText(this.intl.t('pages.team.select-referer-modal.label')));
+              await click(
+                await screen.findByRole('option', {
+                  name: 'Lili Dupont',
+                })
               );
               await click(screen.getByRole('button', { name: 'Valider la sélection de référent' }));
               await waitForDialogClose();

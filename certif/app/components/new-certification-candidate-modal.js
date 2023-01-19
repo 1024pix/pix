@@ -43,8 +43,8 @@ export default class NewCertificationCandidateModal extends Component {
   }
 
   @action
-  selectBirthCountry(event) {
-    this.selectedCountryInseeCode = event.target.value;
+  selectBirthCountry(option) {
+    this.selectedCountryInseeCode = option;
     const countryName = this._getCountryName();
     this.args.updateCandidateDataFromValue(this.args.candidateData, 'birthCountry', countryName);
     this.args.updateCandidateDataFromValue(this.args.candidateData, 'birthCity', '');
@@ -131,10 +131,6 @@ export default class NewCertificationCandidateModal extends Component {
     return this.args.countries?.map((country) => {
       return { label: country.name, value: country.code };
     });
-  }
-
-  get defaultCountryOption() {
-    return FRANCE_INSEE_CODE;
   }
 
   get billingModeOptions() {
