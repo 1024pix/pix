@@ -1,16 +1,16 @@
 import Service, { inject as service } from '@ember/service';
-import Module1Level1 from '../utils/PIX1D/module1/campaign-level-1';
-import Module1Level2 from '../utils/PIX1D/module1/campaign-level-2';
-import Module1Level3 from '../utils/PIX1D/module1/campaign-level-3';
-import Module1Level4 from '../utils/PIX1D/module1/campaign-level-4';
-import Module2Level1 from '../utils/PIX1D/module2/campaign-level-1';
-import Module2Level2 from '../utils/PIX1D/module2/campaign-level-2';
-import Module2Level3 from '../utils/PIX1D/module2/campaign-level-3';
-import Module2Level4 from '../utils/PIX1D/module2/campaign-level-4';
-import Module3Level1 from '../utils/PIX1D/module3/campaign-level-1';
-import Module3Level2 from '../utils/PIX1D/module3/campaign-level-2';
-import Module3Level3 from '../utils/PIX1D/module3/campaign-level-3';
-import Module3Level4 from '../utils/PIX1D/module3/campaign-level-4';
+import souris_didacticiel from '../utils/PIX1D/souris/souris-level-1';
+import souris_N1 from '../utils/PIX1D/souris/souris-level-2';
+import souris_N2 from '../utils/PIX1D/souris/souris-level-3';
+import souris_N3 from '../utils/PIX1D/souris/souris-level-4';
+import rechercher_didacticiel from '../utils/PIX1D/rechercher/rechercher-level-1';
+import rechercher_N1 from '../utils/PIX1D/rechercher/rechercher-level-2';
+import rechercher_N2 from '../utils/PIX1D/rechercher/rechercher-level-3';
+import rechercher_N3 from '../utils/PIX1D/rechercher/rechercher-level-4';
+import gestion_fichier_didacticiel from '../utils/PIX1D/gestion_fichier/fichier-level-1';
+import gestion_fichier_N1 from '../utils/PIX1D/gestion_fichier/fichier-level-2';
+import gestion_fichier_N2 from '../utils/PIX1D/gestion_fichier/fichier-level-3';
+import gestion_fichier_N3 from '../utils/PIX1D/gestion_fichier/fichier-level-4';
 
 export default class Pix1dService extends Service {
   @service router;
@@ -18,29 +18,29 @@ export default class Pix1dService extends Service {
   state(campaignCode, masteryPercentage) {
     switch (campaignCode) {
       case 'KLWLLY575':
-        return new Module1Level1(masteryPercentage);
+        return new souris_didacticiel(masteryPercentage);
       case 'NTNSFE441':
-        return new Module1Level2(masteryPercentage);
+        return new souris_N1(masteryPercentage);
       case 'SOURISPAD':
-        return new Module1Level3(masteryPercentage);
+        return new souris_N2(masteryPercentage);
       case 'SBESVL926':
-        return new Module1Level4(masteryPercentage);
+        return new souris_N3(masteryPercentage);
       case 'XGHTSP168':
-        return new Module2Level1(masteryPercentage);
+        return new rechercher_didacticiel(masteryPercentage);
       case 'XVQGBB493':
-        return new Module2Level2(masteryPercentage);
+        return new rechercher_N1(masteryPercentage);
       case 'RECHERCHE':
-        return new Module2Level3(masteryPercentage);
+        return new rechercher_N2(masteryPercentage);
       case 'KGQSRG668':
-        return new Module2Level4(masteryPercentage);
+        return new rechercher_N3(masteryPercentage);
       case 'SDDPGG528':
-        return new Module3Level1(masteryPercentage);
+        return new gestion_fichier_didacticiel(masteryPercentage);
       case 'GRFSLV922':
-        return new Module3Level2(masteryPercentage);
+        return new gestion_fichier_N1(masteryPercentage);
       case 'DOCUMENTS':
-        return new Module3Level3(masteryPercentage);
+        return new gestion_fichier_N2(masteryPercentage);
       case 'GMQFNC812':
-        return new Module3Level4(masteryPercentage);
+        return new gestion_fichier_N3(masteryPercentage);
       default:
         return null;
     }

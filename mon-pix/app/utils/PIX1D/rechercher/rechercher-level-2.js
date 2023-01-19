@@ -1,12 +1,12 @@
-export default class CampaignModule1Level3 {
+export default class RechercherLevel2 {
   constructor(masteryPercentage) {
     this.masteryPercentage = masteryPercentage;
   }
   next() {
     if (this.masteryPercentage < 70) {
-      return 'NTNSFE441';
+      return 'XGHTSP168';
     } else {
-      return 'SBESVL926';
+      return 'RECHERCHE';
     }
   }
 }

@@ -1,8 +1,8 @@
-export default class CampaignLevel1 {
+export default class SourisLevel1 {
   constructor(masteryPercentage) {
     this.masteryPercentage = masteryPercentage;
   }
   next() {
-    return 'XVQGBB493';
+    return 'NTNSFE441';
   }
 }

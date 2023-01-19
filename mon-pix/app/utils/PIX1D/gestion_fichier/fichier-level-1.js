@@ -1,8 +1,8 @@
-export default class CampaignLevel1 {
+export default class FichierLevel1 {
   constructor(masteryPercentage) {
     this.masteryPercentage = masteryPercentage;
   }
   next() {
-    return 'NTNSFE441';
+    return 'GRFSLV922';
   }
 }
