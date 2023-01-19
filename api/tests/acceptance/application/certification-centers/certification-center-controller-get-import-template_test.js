@@ -8,17 +8,19 @@ describe('Acceptance | Controller | certification-center-controller-get-import-t
     server = await createServer();
   });
 
-  describe('GET /api/certification-centers/import', function () {
+  describe('GET /api/certification-centers/{certificationCenterId}/import', function () {
     context('when user requests sessions import template', function () {
       it('should return a csv file', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
         await databaseBuilder.commit();
 
         // when
         const response = await server.inject({
           method: 'GET',
-          url: '/api/certification-centers/import',
+          url: `/api/certification-centers/${certificationCenterId}/import`,
           payload: {},
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         });
