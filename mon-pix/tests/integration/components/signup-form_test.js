@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
-import { fillIn, findAll, triggerEvent } from '@ember/test-helpers';
+import { fillIn, findAll, triggerEvent, click } from '@ember/test-helpers';
 import { render, clickByName } from '@1024pix/ember-testing-library';
 
 import ArrayProxy from '@ember/array/proxy';
@@ -614,6 +614,27 @@ module('Integration | Component | SignupForm', function (hooks) {
             .getAttribute('class')
             .includes(INPUT_TEXT_FIELD_CLASS_DEFAULT)
         );
+      });
+
+      module('when the password visibility button is clicked', function () {
+        test('it should focus on input', async function (assert) {
+          // given
+          const screen = await render(hbs`<SignupForm />`);
+
+          // when
+          await click(screen.getByRole('button', { name: this.intl.t('common.form.visible-password') }));
+
+          // then
+          assert
+            .dom(
+              screen.getByRole('textbox', {
+                name: `${this.intl.t('pages.sign-up.fields.password.label')} ${this.intl.t(
+                  'pages.sign-up.fields.password.help'
+                )}`,
+              })
+            )
+            .isFocused();
+        });
       });
     });
   });
