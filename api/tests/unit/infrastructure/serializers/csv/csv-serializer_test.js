@@ -154,6 +154,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
         });
       });
+
       describe('when there is different session information on consecutive lines', function () {
         it('should return a full session object per line', function () {
           // given
@@ -316,79 +317,107 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
   });
 });
 
-function _lineWithSessionAndNoCandidate(sessionNumber) {
+function _line({
+  sessionId = '',
+  address = '',
+  room = '',
+  date = '',
+  time = '',
+  examiner = '',
+  description = '',
+  lastName = '',
+  firstName = '',
+  birthdate = '',
+  sex = '',
+  birthINSEECode = '',
+  birthPostalCode = '',
+  birthCity = '',
+  birthCountry = '',
+  resultRecipientEmail = '',
+  email = '',
+  externalId = '',
+  extraTimePercentage = '',
+  billingMode = '',
+  prepaymentCode = '',
+}) {
   return {
-    '* Nom du site': `Site ${sessionNumber}`,
-    '* Nom de la salle': `Salle ${sessionNumber}`,
-    '* Date de début': '12/05/2023',
-    '* Heure de début (heure locale)': '01:00',
-    '* Surveillant(s)': 'Paul',
-    'Observations (optionnel)': '',
-    '* Nom de naissance': '',
-    '* Prénom': '',
-    '* Date de naissance (format: jj/mm/aaaa)': '',
-    '* Sexe (M ou F)': '',
-    'Code Insee': '',
-    'Code postal': '',
-    'Nom de la commune': '',
-    '* Pays': '',
-    'E-mail du destinataire des résultats (formateur, enseignant…)': '',
-    'E-mail de convocation': '',
-    'Identifiant local': '',
-    'Temps majoré ?': '',
-    'Tarification part Pix': '',
-    'Code de prépaiement': '',
+    'N° de session': sessionId,
+    '* Nom du site': address,
+    '* Nom de la salle': room,
+    '* Date de début': date,
+    '* Heure de début (heure locale)': time,
+    '* Surveillant(s)': examiner,
+    'Observations (optionnel)': description,
+    '* Nom de naissance': lastName,
+    '* Prénom': firstName,
+    '* Date de naissance (format: jj/mm/aaaa)': birthdate,
+    '* Sexe (M ou F)': sex,
+    'Code Insee': birthINSEECode,
+    'Code postal': birthPostalCode,
+    'Nom de la commune': birthCity,
+    '* Pays': birthCountry,
+    'E-mail du destinataire des résultats (formateur, enseignant…)': resultRecipientEmail,
+    'E-mail de convocation': email,
+    'Identifiant local': externalId,
+    'Temps majoré ?': extraTimePercentage,
+    'Tarification part Pix': billingMode,
+    'Code de prépaiement': prepaymentCode,
   };
+}
+
+function _lineWithSessionAndNoCandidate(sessionNumber) {
+  return _line({
+    address: `Site ${sessionNumber}`,
+    room: `Salle ${sessionNumber}`,
+    date: '12/05/2023',
+    time: '01:00',
+    examiner: 'Paul',
+    description: '',
+  });
 }
 
 function _lineWithCandidateAndNoSession() {
-  return {
-    '* Nom du site': '',
-    '* Nom de la salle': '',
-    '* Date de début': '',
-    '* Heure de début (heure locale)': '',
-    '* Surveillant(s)': '',
-    'Observations (optionnel)': '',
-    '* Nom de naissance': 'Pennyworth',
-    '* Prénom': 'Alfred',
-    '* Date de naissance (format: jj/mm/aaaa)': '02/03/1951',
-    '* Sexe (M ou F)': 'M',
-    'Code Insee': '75015',
-    'Code postal': '',
-    'Nom de la commune': '',
-    '* Pays': 'France',
-    'E-mail du destinataire des résultats (formateur, enseignant…)': 'alfredOfficial@email.fr',
-    'E-mail de convocation': '',
-    'Identifiant local': '',
-    'Temps majoré ?': '',
-    'Tarification part Pix': 'Prépayée',
-    'Code de prépaiement': '43',
-  };
+  return _line({
+    lastName: 'Pennyworth',
+    firstName: 'Alfred',
+    birthdate: '02/03/1951',
+    sex: 'M',
+    birthINSEECode: '75015',
+    birthPostalCode: '',
+    birthCity: '',
+    birthCountry: 'France',
+    resultRecipientEmail: 'alfredOfficial@email.fr',
+    email: '',
+    externalId: '',
+    extraTimePercentage: '',
+    billingMode: 'Prépayée',
+    prepaymentCode: '43',
+  });
 }
 
 function _lineWithSessionAndCandidate({ sessionNumber, candidateNumber }) {
-  return {
-    '* Nom du site': `Site ${sessionNumber}`,
-    '* Nom de la salle': `Salle ${sessionNumber}`,
-    '* Date de début': '12/05/2023',
-    '* Heure de début (heure locale)': '01:00',
-    '* Surveillant(s)': 'Paul',
-    'Observations (optionnel)': '',
-    '* Nom de naissance': `Candidat ${candidateNumber}`,
-    '* Prénom': `Candidat ${candidateNumber}`,
-    '* Date de naissance (format: jj/mm/aaaa)': '01/03/1981',
-    '* Sexe (M ou F)': 'M',
-    'Code Insee': '75015',
-    'Code postal': '',
-    'Nom de la commune': '',
-    '* Pays': 'France',
-    'E-mail du destinataire des résultats (formateur, enseignant…)': 'robindahood@email.fr',
-    'E-mail de convocation': '',
-    'Identifiant local': '',
-    'Temps majoré ?': '',
-    'Tarification part Pix': 'Prépayée',
-    'Code de prépaiement': '43',
-  };
+  return _line({
+    address: `Site ${sessionNumber}`,
+    room: `Salle ${sessionNumber}`,
+    date: '12/05/2023',
+    time: '01:00',
+    examiner: 'Paul',
+    description: '',
+    lastName: `Candidat ${candidateNumber}`,
+    firstName: `Candidat ${candidateNumber}`,
+    birthdate: '01/03/1981',
+    sex: 'M',
+    birthINSEECode: '75015',
+    birthPostalCode: '',
+    birthCity: '',
+    birthCountry: 'France',
+    resultRecipientEmail: 'robindahood@email.fr',
+    email: '',
+    externalId: '',
+    extraTimePercentage: '',
+    billingMode: 'Prépayée',
+    prepaymentCode: '43',
+  });
 }
 
 function _omitUniqueKey(result) {
