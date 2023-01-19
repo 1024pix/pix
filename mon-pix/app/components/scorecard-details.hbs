@@ -31,7 +31,7 @@
             </div>
           {{else}}
             <CircleChart
-              @value={{@scorecard.percentageAheadOfNextLevel}}
+              @value={{@scorecard.capedPercentageAheadOfNextLevel}}
               @sliceColor={{@scorecard.area.color}}
               @chartClass="circle-chart__content--big"
               @thicknessClass="circle--thick"
@@ -103,7 +103,7 @@
       {{#if @scorecard.isStarted}}
         <div class="scorecard-details-content-right__score-container">
           <CircleChart
-            @value={{@scorecard.percentageAheadOfNextLevel}}
+            @value={{@scorecard.capedPercentageAheadOfNextLevel}}
             @sliceColor={{@scorecard.area.color}}
             @chartClass="circle-chart__content--big"
             @thicknessClass="circle--thick"
@@ -205,13 +205,13 @@
 >
   <:content>
     <h2 class="scorecard-details-reset-modal__important-message">
-      {{#if @scorecard.hasNotReachLevelOne}}
+      {{#if @scorecard.hasNotReachedLevelOne}}
         {{t
           "pages.competence-details.actions.reset.modal.important-message"
           earnedPix=@scorecard.earnedPix
           scoreCardName=@scorecard.name
         }}
-      {{else if @scorecard.hasReachAtLeastLevelOne}}
+      {{else if @scorecard.hasReachedAtLeastLevelOne}}
         {{t
           "pages.competence-details.actions.reset.modal.important-message-above-level-one"
           level=@scorecard.level
