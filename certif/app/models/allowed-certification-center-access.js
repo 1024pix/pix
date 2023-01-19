@@ -11,7 +11,6 @@ export default class AllowedCertificationCenterAccess extends Model {
   @attr() isAccessBlockedAgri;
   @attr() relatedOrganizationTags;
   @attr() habilitations;
-  @attr() isEndTestScreenRemovalEnabled;
   @attr() pixCertifScoBlockedAccessDateLycee;
   @attr() pixCertifScoBlockedAccessDateCollege;
 

@@ -20,10 +20,6 @@ export default class SessionParametersController extends Controller {
     return this.certificationCandidates.isAny('isLinked');
   }
 
-  get supervisorPasswordShouldBeDisplayed() {
-    return this.currentUser.currentAllowedCertificationCenterAccess.isEndTestScreenRemovalEnabled;
-  }
-
   @action
   async showSessionIdTooltip() {
     this.sessionNumberTooltipText = 'Copié !';

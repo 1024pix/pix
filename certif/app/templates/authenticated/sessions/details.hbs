@@ -54,21 +54,19 @@
         <FaIcon @icon="file-download" class="session-details__controls-icon" />
         PV d'incident
       </PixButtonLink>
-      {{#if this.shouldDisplaySupervisorKitButton}}
-        <PixButtonLink
-          class="session-details__controls-download-button"
-          @href="{{this.session.urlToDownloadSupervisorKitPdf}}"
-          @backgroundColor="transparent"
-          @size="small"
-          target="_blank"
-          aria-label="Télécharger le kit surveillant"
-          rel="noopener noreferrer"
-          download
-        >
-          <FaIcon @icon="file-download" class="session-details__controls-icon" />
-          Kit surveillant
-        </PixButtonLink>
-      {{/if}}
+      <PixButtonLink
+        class="session-details__controls-download-button"
+        @href="{{this.session.urlToDownloadSupervisorKitPdf}}"
+        @backgroundColor="transparent"
+        @size="small"
+        target="_blank"
+        aria-label="Télécharger le kit surveillant"
+        rel="noopener noreferrer"
+        download
+      >
+        <FaIcon @icon="file-download" class="session-details__controls-icon" />
+        Kit surveillant
+      </PixButtonLink>
       {{#if this.shouldDisplayDownloadButton}}
         <PixButtonLink
           class="session-details__controls-download-button"

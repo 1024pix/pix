@@ -152,36 +152,6 @@ module('Acceptance | Session Details', function (hooks) {
     });
 
     module('when looking at the session details controls', function () {
-      module('when current certification center has access to supervisor space', function (hooks) {
-        hooks.afterEach(function () {
-          allowedCertificationCenterAccess.update({ isEndTestScreenRemovalEnabled: false });
-        });
-
-        test('it should display the supervisor kit download button', async function (assert) {
-          // given
-          allowedCertificationCenterAccess.update({ isEndTestScreenRemovalEnabled: true });
-
-          // when
-          const screen = await visit(`/sessions/${session.id}`);
-
-          // then
-          assert.dom(screen.getByRole('link', { name: 'Télécharger le kit surveillant' })).exists();
-        });
-      });
-
-      module('when current certification center has not access to supervisor space', function () {
-        test('it should not display the supervisor kit download button', async function (assert) {
-          // given
-          allowedCertificationCenterAccess.update({ isEndTestScreenRemovalEnabled: false });
-
-          // when
-          const screen = await visit(`/sessions/${session.id}`);
-
-          // then
-          assert.dom(screen.queryByRole('link', { name: 'Télécharger le kit surveillant' })).doesNotExist();
-        });
-      });
-
       module('when FT_CLEA_RESULTS_RETRIEVAL_BY_HABILITATED_CERTIFICATION_CENTERS is enabled', function () {
         module('when session has clea results and session is published', function () {
           test('it should show the clea result download section', async function (assert) {
