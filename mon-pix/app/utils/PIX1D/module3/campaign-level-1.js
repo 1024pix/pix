@@ -1,8 +1,8 @@
-export default class CampaignModule1Level4 {
+export default class CampaignLevel1 {
   constructor(masteryPercentage) {
     this.masteryPercentage = masteryPercentage;
   }
   next() {
-    return 'RECHERCHE';
+    return 'GRFSLV922';
   }
 }

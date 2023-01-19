@@ -4,9 +4,9 @@ export default class CampaignLevel2 {
   }
   next() {
     if (this.masteryPercentage < 70) {
-      return 'MGBFUS272';
+      return 'XGHTSP168';
     } else {
-      return 'PROCOMP51';
+      return 'RECHERCHE';
     }
   }
 }

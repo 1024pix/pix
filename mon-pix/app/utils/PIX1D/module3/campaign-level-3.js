@@ -4,9 +4,9 @@ export default class CampaignModule1Level3 {
   }
   next() {
     if (this.masteryPercentage < 70) {
-      return 'NTNSFE441';
+      return 'GRFSLV922';
     } else {
-      return 'SBESVL926';
+      return 'GMQFNC812';
     }
   }
 }

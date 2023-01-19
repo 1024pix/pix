@@ -3,6 +3,6 @@ export default class CampaignModule1Level4 {
     this.masteryPercentage = masteryPercentage;
   }
   next() {
-    return 'RECHERCHE';
+    return null;
   }
 }

@@ -7,28 +7,40 @@ import Module2Level1 from '../utils/PIX1D/module2/campaign-level-1';
 import Module2Level2 from '../utils/PIX1D/module2/campaign-level-2';
 import Module2Level3 from '../utils/PIX1D/module2/campaign-level-3';
 import Module2Level4 from '../utils/PIX1D/module2/campaign-level-4';
+import Module3Level1 from '../utils/PIX1D/module3/campaign-level-1';
+import Module3Level2 from '../utils/PIX1D/module3/campaign-level-2';
+import Module3Level3 from '../utils/PIX1D/module3/campaign-level-3';
+import Module3Level4 from '../utils/PIX1D/module3/campaign-level-4';
 
 export default class Pix1dService extends Service {
   @service router;
 
   state(campaignCode, masteryPercentage) {
     switch (campaignCode) {
-      case 'XTBFHW392':
+      case 'KLWLLY575':
         return new Module1Level1(masteryPercentage);
-      case 'EAADBL798':
+      case 'NTNSFE441':
         return new Module1Level2(masteryPercentage);
-      case 'LPLQSP272':
+      case 'SOURISPAD':
         return new Module1Level3(masteryPercentage);
-      case 'CHANGE3':
+      case 'SBESVL926':
         return new Module1Level4(masteryPercentage);
-      case 'CHANGE4':
+      case 'XGHTSP168':
         return new Module2Level1(masteryPercentage);
-      case 'CHANGE5':
+      case 'XVQGBB493':
         return new Module2Level2(masteryPercentage);
-      case 'CHANGE6':
+      case 'RECHERCHE':
         return new Module2Level3(masteryPercentage);
-      case 'CHANGE7':
+      case 'KGQSRG668':
         return new Module2Level4(masteryPercentage);
+      case 'SDDPGG528':
+        return new Module3Level1(masteryPercentage);
+      case 'GRFSLV922':
+        return new Module3Level2(masteryPercentage);
+      case 'DOCUMENTS':
+        return new Module3Level3(masteryPercentage);
+      case 'GMQFNC812':
+        return new Module3Level4(masteryPercentage);
       default:
         return null;
     }
