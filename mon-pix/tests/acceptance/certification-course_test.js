@@ -252,19 +252,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
                 }
 
                 // then
-                // TODO: Fix this the next time the file is edited.
-                // eslint-disable-next-line qunit/no-assert-equal
-                assert.equal(currentURL(), `/certifications/${certificationCourse.id}/results`);
-              });
-
-              test('should display the "presque terminé" message', async function (assert) {
-                // when
-                for (let i = 0; i < NB_CHALLENGES; ++i) {
-                  await click('.challenge-actions__action-skip');
-                }
-
-                // then
-                assert.ok(contains('Vous avez presque terminé'));
+                assert.strictEqual(currentURL(), `/certifications/${certificationCourse.id}/results`);
               });
             });
           });
@@ -295,61 +283,56 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
         });
       });
 
-      module('when is isEndTestScreenRemovalEnabled is true', function () {
-        test('should display "Test terminé !"', async function (assert) {
-          assert.timeout(5000);
-          // given
-          user = server.create('user', 'withEmail', 'certifiable', { hasSeenOtherChallengesTooltip: true });
+      test('should display "Test terminé !"', async function (assert) {
+        assert.timeout(5000);
+        // given
+        user = server.create('user', 'withEmail', 'certifiable', { hasSeenOtherChallengesTooltip: true });
 
-          const NB_CHALLENGES = 3;
-          for (let i = 0; i < NB_CHALLENGES; ++i) {
-            server.create('challenge', 'forCertification');
-          }
-          this.server.create('certification-course', {
-            accessCode: 'ABCD12',
-            sessionId: 1,
-            nbChallenges: NB_CHALLENGES,
-            firstName: 'Laura',
-            lastName: 'Bravo',
-            isEndTestScreenRemovalEnabled: true,
-          });
-          this.server.create('certification-candidate-subscription', {
-            id: 2,
-            sessionId: 1,
-            eligibleSubscriptions: [],
-            nonEligibleSubscriptions: [],
-          });
-
-          await authenticate(user);
-          await visit('/certifications');
-          await fillCertificationJoiner({
-            sessionId: '1',
-            firstName: 'Laura',
-            lastName: 'Bravo',
-            dayOfBirth: '04',
-            monthOfBirth: '01',
-            yearOfBirth: '1990',
-            intl: this.intl,
-          });
-          await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
-
-          // when
-          for (let i = 0; i < NB_CHALLENGES; ++i) {
-            await click('.challenge-actions__action-skip');
-          }
-
-          // then
-          assert.ok(contains('Test terminé !'));
+        const NB_CHALLENGES = 3;
+        for (let i = 0; i < NB_CHALLENGES; ++i) {
+          server.create('challenge', 'forCertification');
+        }
+        this.server.create('certification-course', {
+          accessCode: 'ABCD12',
+          sessionId: 1,
+          nbChallenges: NB_CHALLENGES,
+          firstName: 'Laura',
+          lastName: 'Bravo',
         });
+        this.server.create('certification-candidate-subscription', {
+          id: 2,
+          sessionId: 1,
+          eligibleSubscriptions: [],
+          nonEligibleSubscriptions: [],
+        });
+
+        await authenticate(user);
+        await visit('/certifications');
+        await fillCertificationJoiner({
+          sessionId: '1',
+          firstName: 'Laura',
+          lastName: 'Bravo',
+          dayOfBirth: '04',
+          monthOfBirth: '01',
+          yearOfBirth: '1990',
+          intl: this.intl,
+        });
+        await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
+
+        // when
+        for (let i = 0; i < NB_CHALLENGES; ++i) {
+          await click('.challenge-actions__action-skip');
+        }
+
+        // then
+        assert.ok(contains('Test terminé !'));
       });
 
       module('when test was ended by supervisor', function () {
         test('should display "Votre surveillant a mis fin…"', async function (assert) {
           // given
           const user = server.create('user', 'withEmail', 'certifiable', { hasSeenOtherChallengesTooltip: true });
-          const certificationCourse = this.server.create('certification-course', {
-            isEndTestScreenRemovalEnabled: true,
-          });
+          const certificationCourse = this.server.create('certification-course', {});
           this.server.create('assessment', {
             type: 'CERTIFICATION',
             certificationCourseId: certificationCourse.id,
@@ -383,7 +366,6 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
               nbChallenges: 2,
               firstName: 'Laura',
               lastName: 'Bravo',
-              isEndTestScreenRemovalEnabled: true,
             });
             const assessment = server.create('assessment', {
               certificationCourseId: 99,
@@ -429,9 +411,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
         test('should display "La session a été finalisée par votre centre de certification..."', async function (assert) {
           // given
           const user = server.create('user', 'withEmail', 'certifiable', { hasSeenOtherChallengesTooltip: true });
-          const certificationCourse = this.server.create('certification-course', {
-            isEndTestScreenRemovalEnabled: false,
-          });
+          const certificationCourse = this.server.create('certification-course', {});
           this.server.create('assessment', {
             certificationCourseId: certificationCourse.id,
             state: assessmentStates.ENDED_DUE_TO_FINALIZATION,
