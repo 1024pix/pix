@@ -320,7 +320,7 @@ function _lineWithSessionAndNoCandidate(sessionNumber) {
   return {
     '* Nom du site': `Site ${sessionNumber}`,
     '* Nom de la salle': `Salle ${sessionNumber}`,
-    '* Date de début': '2023-05-12',
+    '* Date de début': '12/05/2023',
     '* Heure de début (heure locale)': '01:00',
     '* Surveillant(s)': 'Paul',
     'Observations (optionnel)': '',
@@ -370,7 +370,7 @@ function _lineWithSessionAndCandidate({ sessionNumber, candidateNumber }) {
   return {
     '* Nom du site': `Site ${sessionNumber}`,
     '* Nom de la salle': `Salle ${sessionNumber}`,
-    '* Date de début': '2023-05-12',
+    '* Date de début': '12/05/2023',
     '* Heure de début (heure locale)': '01:00',
     '* Surveillant(s)': 'Paul',
     'Observations (optionnel)': '',
