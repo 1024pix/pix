@@ -75,7 +75,9 @@ module('Integration | Component | User-Tutorials | Filters | Sidebar', function 
           await click(checkbox);
 
           // when
-          await click(screen.getByRole('button', { name: 'Réinitialiser' }));
+          await click(
+            screen.getByRole('button', { name: this.intl.t('pages.user-tutorials.sidebar.reset-aria-label') })
+          );
 
           // then
           assert.false(checkbox.checked);
