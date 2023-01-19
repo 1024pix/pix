@@ -37,7 +37,7 @@ module('Unit | Component | panel-header', function (hooks) {
       assert.ok(
         component.fileSaver.save.calledWith({
           token,
-          url: `/api/sessions/import`,
+          url: '/api/certification-centers/import',
         })
       );
     });
