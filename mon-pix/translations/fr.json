@@ -1577,6 +1577,7 @@
       "label": "tutoriels",
       "sidebar": {
         "reset": "Réinitialiser",
+        "reset-aria-label": "Réinitialiser et désélectionner tous les filtres",
         "see-results": "Voir les résultats"
       },
       "list": {

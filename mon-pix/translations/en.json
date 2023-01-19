@@ -1576,6 +1576,7 @@
       "filter": "Filter",
       "sidebar": {
         "reset": "Reset",
+        "reset-aria-label": "Reset and deselect all filters",
         "see-results": "See the results"
       },
       "label": "Tutorials",
