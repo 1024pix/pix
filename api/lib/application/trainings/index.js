@@ -109,15 +109,12 @@ exports.register = async (server) => {
                 }).allow(null),
                 type: Joi.string().valid('autoformation', 'webinaire').allow(null),
                 locale: Joi.string().valid('fr-fr', 'fr', 'en-gb').allow(null),
-                editorName: Joi.string().allow(null),
-                editorLogoUrl: Joi.string().allow(null),
+                'editor-name': Joi.string().allow(null),
+                'editor-logo-url': Joi.string().allow(null),
               }),
               type: Joi.string().valid('trainings'),
             }).required(),
           }).required(),
-          options: {
-            allowUnknown: true,
-          },
         },
         tags: ['api', 'admin', 'trainings'],
         notes: [
