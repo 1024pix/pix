@@ -307,6 +307,8 @@ describe('Integration | Repository | training-repository', function () {
         link: 'https://example.net/mon-nouveau-lien',
         editorName: 'Mon nouvel editeur',
         editorLogoUrl: 'https://images.pix.fr/contenu-formatif/editeur/nouveau-logo.svg',
+        prerequisiteThreshold: 10,
+        goalThreshold: 20,
       };
 
       // when
@@ -320,6 +322,7 @@ describe('Integration | Repository | training-repository', function () {
       expect(updatedTraining.type).to.equal(training.type);
       expect(updatedTraining.editorName).to.be.equal(attributesToUpdate.editorName);
       expect(updatedTraining.editorLogoUrl).to.be.equal(attributesToUpdate.editorLogoUrl);
+      expect(updatedTraining.prerequisiteThreshold).to.be.equal(attributesToUpdate.prerequisiteThreshold);
       expect(updatedTraining.updatedAt).to.be.above(currentTraining.updatedAt);
     });
 
@@ -338,6 +341,8 @@ describe('Integration | Repository | training-repository', function () {
         link: 'https://example.net/mon-nouveau-lien',
         editorName: 'Mon nouvel editeur',
         editorLogoUrl: 'https://images.pix.fr/contenu-formatif/editeur/nouveau-logo.svg',
+        prerequisiteThreshold: 10,
+        goalThreshold: 20,
       };
 
       // when
@@ -349,6 +354,8 @@ describe('Integration | Repository | training-repository', function () {
       expect(updatedTraining.link).to.equal(attributesToUpdate.link);
       expect(updatedTraining.editorName).to.be.equal(attributesToUpdate.editorName);
       expect(updatedTraining.editorLogoUrl).to.be.equal(attributesToUpdate.editorLogoUrl);
+      expect(updatedTraining.prerequisiteThreshold).to.be.equal(attributesToUpdate.prerequisiteThreshold);
+      expect(updatedTraining.goalThreshold).to.be.equal(attributesToUpdate.goalThreshold);
       expect(updatedTraining.targetProfileIds).to.deep.equal([targetProfile.id]);
     });
 
@@ -363,6 +370,8 @@ describe('Integration | Repository | training-repository', function () {
         link: 'https://example.net/mon-nouveau-lien',
         editorName: 'Mon nouvel editeur',
         editorLogoUrl: 'https://images.pix.fr/contenu-formatif/editeur/nouveau-logo.svg',
+        prerequisiteThreshold: 10,
+        goalThreshold: 20,
       };
 
       // when
@@ -370,13 +379,15 @@ describe('Integration | Repository | training-repository', function () {
 
       // then
       const trainingNotUpdated = await knex('trainings')
-        .select('title', 'link', 'editorName', 'editorLogoUrl')
+        .select('title', 'link', 'editorName', 'editorLogoUrl', 'prerequisiteThreshold', 'goalThreshold')
         .where({ id: trainingNotToBeUpdated.id })
         .first();
       expect(trainingNotUpdated.title).to.equal(trainingNotToBeUpdated.title);
       expect(trainingNotUpdated.link).to.equal(trainingNotToBeUpdated.link);
       expect(trainingNotUpdated.editorName).to.equal(trainingNotToBeUpdated.editorName);
       expect(trainingNotUpdated.editorLogoUrl).to.equal(trainingNotToBeUpdated.editorLogoUrl);
+      expect(trainingNotUpdated.prerequisiteThreshold).to.equal(trainingNotToBeUpdated.prerequisiteThreshold);
+      expect(trainingNotUpdated.goalThreshold).to.equal(trainingNotToBeUpdated.goalThreshold);
     });
   });
 

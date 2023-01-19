@@ -31,6 +31,8 @@ describe('Acceptance | Controller | training-controller', function () {
           locale: 'fr',
           'editor-name': 'Un ministère',
           'editor-logo-url': 'https://mon-logo.svg',
+          'prerequisite-threshold': null,
+          'goal-threshold': null,
         },
       };
 
@@ -96,8 +98,8 @@ describe('Acceptance | Controller | training-controller', function () {
               type: 'trainings',
               attributes: {
                 title: updatedTraining.title,
-                editorName: updatedTraining.editorName,
-                editorLogoUrl: updatedTraining.editorLogoUrl,
+                'editor-name': updatedTraining.editorName,
+                'editor-logo-url': updatedTraining.editorLogoUrl,
                 duration: {
                   days: 2,
                   hours: 2,
