@@ -32,10 +32,6 @@ export default class AuthenticatedController extends Controller {
     return !this.currentUser.currentAllowedCertificationCenterAccess.isAccessRestricted;
   }
 
-  get isEndTestScreenRemovalEnabled() {
-    return this.currentUser.currentAllowedCertificationCenterAccess.isEndTestScreenRemovalEnabled;
-  }
-
   @action
   async changeCurrentCertificationCenterAccess(certificationCenterAccess) {
     this.currentUser.currentAllowedCertificationCenterAccess = certificationCenterAccess;

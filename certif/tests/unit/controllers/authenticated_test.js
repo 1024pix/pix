@@ -243,47 +243,4 @@ module('Unit | Controller | authenticated', function (hooks) {
       assert.true(showLinkToSessions);
     });
   });
-
-  module('#get isEndTestScreenRemovalEnabled', function () {
-    test('should return true when current allowed certification center has end test screen removal enabled', function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        id: 123,
-        isEndTestScreenRemovalEnabled: true,
-      });
-      class CurrentUserStub extends Service {
-        currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
-      }
-      this.owner.register('service:current-user', CurrentUserStub);
-
-      const controller = this.owner.lookup('controller:authenticated');
-
-      // when
-      const isEndTestScreenRemovalEnabled = controller.isEndTestScreenRemovalEnabled;
-
-      // then
-      assert.true(isEndTestScreenRemovalEnabled);
-    });
-
-    test('should return true when current allowed certification center has end test screen removal disabled', function (assert) {
-      const store = this.owner.lookup('service:store');
-      const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        id: 123,
-        isEndTestScreenRemovalEnabled: false,
-      });
-      class CurrentUserStub extends Service {
-        currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
-      }
-      this.owner.register('service:current-user', CurrentUserStub);
-
-      const controller = this.owner.lookup('controller:authenticated');
-
-      // when
-      const isEndTestScreenRemovalEnabled = controller.isEndTestScreenRemovalEnabled;
-
-      // then
-      assert.false(isEndTestScreenRemovalEnabled);
-    });
-  });
 });

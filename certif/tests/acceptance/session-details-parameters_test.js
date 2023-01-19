@@ -29,7 +29,6 @@ module('Acceptance | Session Details Parameters', function (hooks) {
         isAccessBlockedLycee: false,
         isAccessBlockedAEFE: false,
         isAccessBlockedAgri: false,
-        isEndTestScreenRemovalEnabled: false,
       });
       certificationPointOfContact = server.create('certification-point-of-contact', {
         firstName: 'Buffy',
@@ -91,41 +90,19 @@ module('Acceptance | Session Details Parameters', function (hooks) {
             assert.strictEqual(currentURL(), `/sessions/${sessionCreatedAndStarted.id}/finalisation`);
           });
 
-          module('when the certification center is not in the end test screen removal whitelist', function () {
-            test('it should not display supervisor password', async function (assert) {
-              // given
-              const sessionWithSupervisorPassword = server.create('session', {
-                supervisorPassword: 'SOWHAT',
-                status: CREATED,
-              });
-
-              // when
-              const screen = await visit(`/sessions/${sessionWithSupervisorPassword.id}`);
-
-              // then
-              const supervisorPasswordElement = screen.queryByText(
-                t('pages.sessions.detail.parameters.session-password')
-              );
-              assert.dom(supervisorPasswordElement).doesNotExist();
+          test('it should display supervisor password', async function (assert) {
+            // given
+            const sessionWithSupervisorPassword = server.create('session', {
+              supervisorPassword: 'SOWHAT',
+              status: CREATED,
             });
-          });
 
-          module('when the certification center is in the end test screen removal whitelist', function () {
-            test('it should display supervisor password', async function (assert) {
-              // given
-              allowedCertificationCenterAccess.update({ isEndTestScreenRemovalEnabled: true });
-              const sessionWithSupervisorPassword = server.create('session', {
-                supervisorPassword: 'SOWHAT',
-                status: CREATED,
-              });
+            // when
+            const screen = await visit(`/sessions/${sessionWithSupervisorPassword.id}`);
 
-              // when
-              const screen = await visit(`/sessions/${sessionWithSupervisorPassword.id}`);
-
-              // then
-              const supervisorPasswordElement = screen.getByText('C-SOWHAT');
-              assert.dom(supervisorPasswordElement).exists();
-            });
+            // then
+            const supervisorPasswordElement = screen.getByText('C-SOWHAT');
+            assert.dom(supervisorPasswordElement).exists();
           });
         });
       });
