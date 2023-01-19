@@ -47,8 +47,10 @@ export default class Pix1dService extends Service {
   }
   async transition(campaignCode, masteryPercentage) {
     const state = this.state(campaignCode, masteryPercentage);
+    console.log('state', state);
     if (state) {
       const nextCampaignCode = state.next();
+      console.log('nextCampaignCode', nextCampaignCode);
       this.router.transitionTo('campaigns', nextCampaignCode);
     } else {
       this.router.transitionTo('fill-in-campaign-code');
