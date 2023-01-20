@@ -34,14 +34,13 @@
         {{#if @organization.targetProfileSummaries}}
           <tbody>
             {{#each @organization.sortedTargetProfileSummaries as |summary|}}
-              {{! template-lint-disable no-invalid-interactive }}
-              <tr
-                aria-label="Profil cible"
-                {{on "click" (fn this.goToTargetProfilePage summary.id)}}
-                class="tr--clickable"
-              >
+              <tr aria-label="Profil cible">
                 <td class="table__column table__column--id">{{summary.id}}</td>
-                <td>{{summary.name}}</td>
+                <td headers="target-profile-name">
+                  <LinkTo @route="authenticated.target-profiles.target-profile" @model={{summary.id}}>
+                    {{summary.name}}
+                  </LinkTo>
+                </td>
               </tr>
             {{/each}}
           </tbody>
