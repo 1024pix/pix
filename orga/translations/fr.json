@@ -665,10 +665,11 @@
         },
         "empty-state": "Aucune activité pour l’instant ! Envoyez une campagne à {organizationLearnerFirstName} {organizationLearnerLastName} et commencez à suivre sa progression.",
         "title": "Activité",
+        "assessment-summary": "Résumé des participations aux campagnes d'évaluation",
+        "profile-collection-summary": "Résumé des participations aux campagnes de collection de profil",
         "participations-title": "Participations",
         "participation-list": {
           "table": {
-            "description": "Participations",
             "column": {
               "campaign-name": "Campagne",
               "campaign-type": "Type",
