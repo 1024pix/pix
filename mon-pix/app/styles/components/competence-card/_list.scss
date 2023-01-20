@@ -3,7 +3,9 @@ $scorecard-width: 212px;
 .competence-card-list {
   display: flex;
   flex-direction: column;
+  margin: 0;
   padding: 0;
+  list-style: none;
 
   &__competence-card {
     margin-bottom: 37px;
@@ -28,7 +30,6 @@ $scorecard-width: 212px;
   }
 
   @media (min-width: 1056px) {
-
     &__competence-card,
     &__competence-card:nth-child(3n) {
       margin-right: calc((100% - #{$scorecard-width} * 4) / 3);
