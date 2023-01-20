@@ -34,7 +34,6 @@
 }
 
 .competence-card__wrapper {
-
   &::after {
     position: absolute;
     top: -90px;
@@ -79,8 +78,12 @@
 
 .competence-card__competence-name {
   position: relative;
+  color: inherit;
   font-weight: $font-medium;
   font-size: 1.125rem;
+  font-family: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
 }
 
 .competence-card__body {
