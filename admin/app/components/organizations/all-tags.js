@@ -39,5 +39,7 @@ export default class OrganizationAllTags extends Component {
   async removeTagToOrganization(tagToRemove) {
     this.args.model.organization.tags.removeObject(tagToRemove);
     await this.args.model.organization.save();
+    this.selectedTag = null;
+    this.recentlyUsedTags = null;
   }
 }
