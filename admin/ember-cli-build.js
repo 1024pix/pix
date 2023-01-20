@@ -24,6 +24,9 @@ module.exports = function (defaults) {
     },
   });
 
+  app.import('node_modules/lodash.debounce/index.js', {
+    using: [{ transformation: 'cjs', as: 'lodash.debounce' }],
+  });
   // Use `app.import` to add additional libraries to the generated
   // output files.
   //
