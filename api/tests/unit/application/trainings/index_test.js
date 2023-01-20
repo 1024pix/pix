@@ -5,6 +5,113 @@ const trainingController = require('../../../../lib/application/trainings/traini
 const moduleUnderTest = require('../../../../lib/application/trainings');
 
 describe('Unit | Router | training-router', function () {
+  describe('GET /api/admin/trainings/${trainingId}', function () {
+    describe('Security Prehandlers', function () {
+      it('should allow user if its role is SUPER_ADMIN', async function () {
+        // given
+        sinon.stub(trainingController, 'getById').returns('ok');
+        sinon
+          .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+          .callsFake((request, h) => h.response(true));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        await httpTestServer.request('GET', '/api/admin/trainings/1');
+
+        // then
+        sinon.assert.calledOnce(trainingController.getById);
+      });
+
+      it('should allow user if the role is METIER', async function () {
+        // given
+        sinon.stub(trainingController, 'getById').returns('ok');
+        sinon
+          .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        await httpTestServer.request('GET', '/api/admin/trainings/1');
+
+        // then
+        sinon.assert.calledOnce(trainingController.getById);
+      });
+
+      it('should return 403 it if the role is not allowed', async function () {
+        // given
+        sinon.stub(trainingController, 'getById').returns('not ok');
+        sinon
+          .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('GET', '/api/admin/trainings/1');
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        sinon.assert.notCalled(trainingController.getById);
+      });
+    });
+
+    describe('Param validation', function () {
+      let httpTestServer;
+
+      beforeEach(function () {
+        sinon.stub(trainingController, 'getById').callsFake((request, h) => h.response('ok'));
+
+        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport').callsFake((request, h) => h.response(false));
+        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(false));
+        sinon
+          .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+          .callsFake((request, h) => h.response(true));
+
+        httpTestServer = new HttpTestServer();
+      });
+
+      it('should return 200 if the trainingId param is a number', async function () {
+        // given
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('GET', '/api/admin/trainings/1');
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+
+      it('should return 400 if the trainingId param is not a number', async function () {
+        // given
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('GET', '/api/admin/trainings/toto');
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+  });
+
   describe('POST /api/admin/trainings', function () {
     let validPayload;
     beforeEach(function () {

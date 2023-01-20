@@ -13,6 +13,49 @@ describe('Acceptance | Controller | training-controller', function () {
     server = await createServer();
   });
 
+  describe('GET /api/admin/trainings/{trainingId}', function () {
+    it('should get a training with the specific id', async function () {
+      // given
+      const superAdmin = await insertUserWithRoleSuperAdmin();
+      databaseBuilder.factory.buildTraining();
+      const { id: trainingId, ...trainingAttributes } = databaseBuilder.factory.buildTraining();
+      await databaseBuilder.commit();
+
+      const expectedResponse = {
+        type: 'trainings',
+        id: `${trainingId}`,
+        attributes: {
+          title: trainingAttributes.title,
+          type: trainingAttributes.type,
+          link: trainingAttributes.link,
+          locale: trainingAttributes.locale,
+          duration: {
+            hours: 6,
+          },
+          'editor-logo-url': trainingAttributes.editorLogoUrl,
+          'editor-name': trainingAttributes.editorName,
+          'goal-threshold': trainingAttributes.goalThreshold,
+          'prerequisite-threshold': trainingAttributes.prerequisiteThreshold,
+        },
+      };
+
+      // when
+      const response = await server.inject({
+        method: 'GET',
+        url: `/api/admin/trainings/${trainingId}`,
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
+        },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data.type).to.equal(expectedResponse.type);
+      expect(response.result.data.id).to.equal(expectedResponse.id);
+      expect(response.result.data.attributes).to.deep.equal(expectedResponse.attributes);
+    });
+  });
+
   describe('POST /api/admin/trainings', function () {
     it('should create a new training and response with a 201', async function () {
       // given
