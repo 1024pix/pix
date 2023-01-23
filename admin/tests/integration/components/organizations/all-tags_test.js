@@ -4,6 +4,8 @@ import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import sinon from 'sinon';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import { fillIn } from '@ember/test-helpers';
+import ENV from 'pix-admin/config/environment';
 
 module('Integration | Component | organizations/all-tags', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -23,6 +25,29 @@ module('Integration | Component | organizations/all-tags', function (hooks) {
     // then
     assert.dom(screen.getByRole('button', { name: "Tag MEDNUM assigné à l'organisation" })).exists();
     assert.dom(screen.getByRole('button', { name: "Tag AEFE non assigné à l'organisation" })).exists();
+  });
+
+  test('it should be possible to search a specific tag by name', async function (assert) {
+    // given
+    ENV.pagination.debounce = 0;
+    const store = this.owner.lookup('service:store');
+    const tag1 = store.createRecord('tag', { name: 'SCO' });
+    const tag2 = store.createRecord('tag', { name: 'AEFE' });
+    const tag3 = store.createRecord('tag', { name: 'CFA' });
+    const tag4 = store.createRecord('tag', { name: 'POLE EMPLOI' });
+    const organization = store.createRecord('organization');
+
+    this.set('model', { organization, allTags: [tag1, tag2, tag3, tag4] });
+
+    // when
+    const screen = await render(hbs`<Organizations::AllTags @model={{this.model}} />`);
+    await fillIn(screen.getByRole('searchbox', { name: 'Filtrer les tags' }), 'e');
+
+    // then
+    assert.dom(screen.queryByText('SCO')).doesNotExist();
+    assert.dom(screen.queryByText('CFA')).doesNotExist();
+    assert.dom(screen.getByText('AEFE')).exists();
+    assert.dom(screen.getByText('POLE EMPLOI')).exists();
   });
 
   module('when clicking on a tag', () => {

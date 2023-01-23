@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
+import ENV from 'pix-admin/config/environment';
 
 export default class OrganizationAllTags extends Component {
   @service store;
@@ -10,6 +11,18 @@ export default class OrganizationAllTags extends Component {
   @tracked recentlyUsedTags = null;
   @tracked allTags = this.args.model.allTags;
   @tracked tagsToShow = this.args.model.allTags;
+
+  get debounceTimeInMs() {
+    return ENV.pagination.debounce;
+  }
+
+  @action
+  async triggerFiltering(value) {
+    const searchInputElement = document.getElementById(value);
+    this.tagsToShow = this.allTags.filter((tag) =>
+      tag.name.toUpperCase().includes(searchInputElement.value.toUpperCase())
+    );
+  }
 
   @action
   async addTagToOrganization(tagToAdd) {
