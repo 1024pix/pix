@@ -48,7 +48,7 @@ module.exports = {
   async getCertificationCenterDetails(request) {
     const certificationCenterId = request.params.id;
 
-    const certificationCenterDetails = await usecases.getCertificationCenter({ id: certificationCenterId });
+    const certificationCenterDetails = await usecases.getCertificationCenterForAdmin({ id: certificationCenterId });
     return certificationCenterForAdminSerializer.serialize(certificationCenterDetails);
   },
 
