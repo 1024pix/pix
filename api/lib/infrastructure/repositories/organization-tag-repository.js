@@ -6,6 +6,8 @@ const { AlreadyExistingEntityError, OrganizationTagNotFound } = require('../../d
 const { omit } = require('lodash');
 const DomainTransaction = require('../DomainTransaction');
 const OrganizationTagBookshelf = require('../orm-models/OrganizationTag');
+const { knex } = require('../../../db/knex-database-connection');
+const Tag = require('../../domain/models/Tag');
 
 module.exports = {
   async create(organizationTag) {
@@ -52,5 +54,21 @@ module.exports = {
     const organizationTag = await BookshelfOrganizationTag.where({ organizationId, tagId }).fetch({ require: false });
 
     return !!organizationTag;
+  },
+
+  async getRecentlyUsedTags({ tagId, numberOfRecentTags }) {
+    const organizationIds = (
+      await knex.select('organizationId').from('organization-tags').where('tagId', '=', tagId)
+    ).map(({ organizationId }) => organizationId);
+    const tags = await knex
+      .select(knex.raw('"organization-tags"."tagId", "tags"."name", COUNT("organization-tags"."tagId") AS "usedCount"'))
+      .from('organization-tags')
+      .join('tags', 'tags.id', '=', 'organization-tags.tagId')
+      .whereIn('organization-tags.organizationId', organizationIds)
+      .andWhere('organization-tags.tagId', '!=', tagId)
+      .groupByRaw('"organization-tags"."tagId", "tags"."name"')
+      .orderByRaw('"usedCount" DESC, "tags"."name" ASC')
+      .limit(numberOfRecentTags);
+    return tags.map(({ tagId: id, name }) => new Tag({ id, name }));
   },
 };
