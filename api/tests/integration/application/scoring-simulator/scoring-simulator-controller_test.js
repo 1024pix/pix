@@ -7,9 +7,8 @@ const moduleUnderTest = require('../../../../lib/application/scoring-simulator')
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 
 describe('Integration | Application | Scoring-simulator | scoring-simulator-controller', function () {
-  let simulationResults;
-
   let httpTestServer;
+  let simulationResults;
 
   beforeEach(async function () {
     sinon.stub(usecases, 'simulateFlashScoring');
@@ -24,9 +23,7 @@ describe('Integration | Application | Scoring-simulator | scoring-simulator-cont
       it('should resolve a 200 HTTP response', async function () {
         // given
         usecases.simulateFlashScoring.resolves({ results: simulationResults });
-        securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => {
-          return true;
-        });
+        securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
 
         // when
         const response = await httpTestServer.request('POST', '/api/scoring-simulator/flash', {
@@ -46,7 +43,33 @@ describe('Integration | Application | Scoring-simulator | scoring-simulator-cont
           ],
           successProbabilityThreshold: 0.8,
           calculateEstimatedLevel: true,
+          locale: 'fr-fr',
         });
+      });
+    });
+  });
+
+  context('When the route is called with Accept-Language', function () {
+    it('should be used as locale', async function () {
+      // given
+      usecases.simulateFlashScoring.resolves({ results: simulationResults });
+      securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
+
+      // when
+      const response = await httpTestServer.request(
+        'POST',
+        '/api/scoring-simulator/flash',
+        {
+          simulations: [{ answers: [{ challengeId: 'okChallengeId', result: 'ok' }] }],
+        },
+        null,
+        { 'accept-language': 'en' }
+      );
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(usecases.simulateFlashScoring).to.have.been.calledWithMatch({
+        locale: 'en',
       });
     });
   });
