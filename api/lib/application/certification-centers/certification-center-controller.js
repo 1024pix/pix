@@ -177,7 +177,9 @@ module.exports = {
     const habilitationLabels = await usecases.getImportSessionComplementaryCertificationHabilitationsLabels({
       certificationCenterId,
     });
-    const headers = getHeaders(habilitationLabels);
+    const headers = getHeaders({
+      habilitationLabels,
+    });
     return h
       .response(headers)
       .header('Content-Type', 'text/csv; charset=utf-8')
