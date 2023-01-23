@@ -177,8 +177,10 @@ module.exports = {
     const habilitationLabels = await usecases.getImportSessionComplementaryCertificationHabilitationsLabels({
       certificationCenterId,
     });
+    const certificationCenter = await usecases.getCertificationCenter({ id: certificationCenterId });
     const headers = getHeaders({
       habilitationLabels,
+      shouldDisplayBillingModeColumns: certificationCenter.hasBillingMode,
     });
     return h
       .response(headers)
