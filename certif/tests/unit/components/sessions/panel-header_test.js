@@ -13,7 +13,19 @@ module('Unit | Component | panel-header', function (hooks) {
     component = createGlimmerComponent('component:sessions/panel-header');
   });
 
-  module('#downloadSessionImportTemplate', function () {
+  module('#downloadSessionImportTemplate', function (hooks) {
+    hooks.beforeEach(function () {
+      const store = this.owner.lookup('service:store');
+      const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+        id: 123,
+      });
+      class CurrentUserStub extends Service {
+        currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
+      }
+
+      this.owner.register('service:current-user', CurrentUserStub);
+    });
+
     test('should call the file-saver service for downloadSessionImportTemplate with the right parameters', async function (assert) {
       // given
       const token = 'a token';
@@ -37,7 +49,7 @@ module('Unit | Component | panel-header', function (hooks) {
       assert.ok(
         component.fileSaver.save.calledWith({
           token,
-          url: `/api/sessions/import`,
+          url: '/api/certification-centers/123/import',
         })
       );
     });

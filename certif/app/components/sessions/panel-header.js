@@ -17,7 +17,8 @@ export default class PanelHeader extends Component {
 
   @action
   async downloadSessionImportTemplate() {
-    const url = '/api/sessions/import';
+    const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;
+    const url = `/api/certification-centers/${certificationCenterId}/import`;
     const token = this.session.data.authenticated.access_token;
     try {
       await this.fileSaver.save({ url, token });

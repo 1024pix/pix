@@ -13,6 +13,7 @@ const queryParamsUtils = require('../../infrastructure/utils/query-params-utils'
 const map = require('lodash/map');
 const csvHelpers = require('../../../scripts/helpers/csvHelpers');
 const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
+const { getHeaders } = require('../../infrastructure/files/sessions-import');
 
 module.exports = {
   async saveSession(request) {
@@ -169,6 +170,19 @@ module.exports = {
       return h.response(serializedCertificationCenterInvitation).created();
     }
     return h.response(serializedCertificationCenterInvitation);
+  },
+
+  async getSessionsImportTemplate(request, h) {
+    const certificationCenterId = request.params.certificationCenterId;
+    const habilitationLabels = await usecases.getImportSessionComplementaryCertificationHabilitationsLabels({
+      certificationCenterId,
+    });
+    const headers = getHeaders(habilitationLabels);
+    return h
+      .response(headers)
+      .header('Content-Type', 'text/csv; charset=utf-8')
+      .header('content-disposition', 'filename=import-sessions')
+      .code(200);
   },
 
   async importSessions(request, h) {

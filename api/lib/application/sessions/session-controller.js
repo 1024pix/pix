@@ -17,7 +17,6 @@ const queryParamsUtils = require('../../infrastructure/utils/query-params-utils'
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
 const certificationResultUtils = require('../../infrastructure/utils/csv/certification-results');
 const fillCandidatesImportSheet = require('../../infrastructure/files/candidates-import/fill-candidates-import-sheet');
-const { getHeaders } = require('../../infrastructure/files/sessions-import');
 const supervisorKitPdf = require('../../infrastructure/utils/pdf/supervisor-kit-pdf');
 const trim = require('lodash/trim');
 const UserLinkedToCertificationCandidate = require('../../domain/events/UserLinkedToCertificationCandidate');
@@ -338,15 +337,6 @@ module.exports = {
     await usecases.deleteSessionJuryComment({ sessionId });
 
     return h.response().code(204);
-  },
-
-  getSessionsImportTemplate(_, h) {
-    const headers = getHeaders();
-    return h
-      .response(headers)
-      .header('Content-Type', 'text/csv; charset=utf-8')
-      .header('content-disposition', 'filename=import-sessions')
-      .code(200);
   },
 };
 
