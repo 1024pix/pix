@@ -16,9 +16,6 @@ module.exports = {
         'pixCertifTermsOfServiceAccepted',
         'lang',
         'isAnonymous',
-        'certificationCenterMemberships',
-        'pixScore',
-        'scorecards',
         'profile',
         'campaignParticipations',
         'hasSeenAssessmentInstructions',
@@ -30,33 +27,6 @@ module.exports = {
         'lastDataProtectionPolicySeenAt',
         'shouldSeeDataProtectionPolicyInformationBanner',
       ],
-      certificationCenterMemberships: {
-        ref: 'id',
-        ignoreRelationshipData: true,
-        relationshipLinks: {
-          related: function (record, current, parent) {
-            return `/api/users/${parent.id}/certification-center-memberships`;
-          },
-        },
-      },
-      pixScore: {
-        ref: 'id',
-        ignoreRelationshipData: true,
-        relationshipLinks: {
-          related: function (record, current, parent) {
-            return `/api/users/${parent.id}/pixscore`;
-          },
-        },
-      },
-      scorecards: {
-        ref: 'id',
-        ignoreRelationshipData: true,
-        relationshipLinks: {
-          related: function (record, current, parent) {
-            return `/api/users/${parent.id}/scorecards`;
-          },
-        },
-      },
       profile: {
         ref: 'id',
         ignoreRelationshipData: true,
