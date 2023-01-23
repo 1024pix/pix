@@ -3,7 +3,7 @@
     <span class="competence-card__wrapper competence-card__wrapper--{{@scorecard.area.color}}"></span>
     <div class="competence-card__title">
       <span class="competence-card__area-name">{{@scorecard.area.title}}</span>
-      <span class="competence-card__competence-name">{{@scorecard.name}}</span>
+      <h4 class="competence-card__competence-name">{{@scorecard.name}}</h4>
     </div>
     <div class="competence-card__body" role="img" aria-label="{{scorecard-aria-label @scorecard}}">
       {{#if @scorecard.isFinishedWithMaxLevel}}
