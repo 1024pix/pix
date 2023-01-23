@@ -95,7 +95,10 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
       describe('when session information is identical on consecutive lines', function () {
         it('should return a full session object per line', function () {
           // given
-          const parsedCsvData = [_lineWithSessionAndNoCandidate(1), _lineWithSessionAndNoCandidate(1)];
+          const parsedCsvData = [
+            _lineWithSessionAndNoCandidate({ sessionNumber: 1 }),
+            _lineWithSessionAndNoCandidate({ sessionNumber: 1 }),
+          ];
 
           const expectedResult = [
             {
@@ -121,9 +124,9 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
         it('should return a full session object per line', function () {
           // given
           const parsedCsvData = [
-            _lineWithSessionAndNoCandidate(1),
-            _lineWithSessionAndNoCandidate(2),
-            _lineWithSessionAndNoCandidate(1),
+            _lineWithSessionAndNoCandidate({ sessionNumber: 1 }),
+            _lineWithSessionAndNoCandidate({ sessionNumber: 2 }),
+            _lineWithSessionAndNoCandidate({ sessionNumber: 1 }),
           ];
 
           const expectedResult = [
@@ -247,7 +250,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
     describe('when there is no session information', function () {
       it('should return a full session object with previous session information and current candidate information if any', function () {
         // given
-        const parsedCsvData = [_lineWithSessionAndNoCandidate(1), _lineWithCandidateAndNoSession()];
+        const parsedCsvData = [_lineWithSessionAndNoCandidate({ sessionNumber: 1 }), _lineWithCandidateAndNoSession()];
 
         const expectedResult = [
           {
@@ -291,7 +294,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
     describe('when there is no candidate information', function () {
       it('should return a session object with empty candidate information per csv line', function () {
         // given
-        const parsedCsvData = [_lineWithSessionAndNoCandidate(1)];
+        const parsedCsvData = [_lineWithSessionAndNoCandidate({ sessionNumber: 1 })];
 
         const expectedResult = [
           {
@@ -365,13 +368,13 @@ function _line({
   };
 }
 
-function _lineWithSessionAndNoCandidate(sessionNumber) {
+function _lineWithSessionAndNoCandidate({ sessionNumber, examiner = 'Paul' }) {
   return _line({
     address: `Site ${sessionNumber}`,
     room: `Salle ${sessionNumber}`,
     date: '12/05/2023',
     time: '01:00',
-    examiner: 'Paul',
+    examiner,
     description: '',
   });
 }
