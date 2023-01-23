@@ -76,7 +76,19 @@
         </PixTooltip>
       </li>
     {{/if}}
-    {{#if this.currentUser.adminMember.isSuperAdmin}}
+    {{#if this.accessControl.hasAccessToTrainingsActionsScope}}
+      <li class="menu-bar__entry">
+        <PixTooltip @position="right">
+          <:triggerElement>
+            <LinkTo @route="authenticated.trainings.list" class="menu-bar__link">
+              <FaIcon @icon="book-open" @title="Contenus formatifs" />
+            </LinkTo>
+          </:triggerElement>
+          <:tooltip>Contenus formatifs</:tooltip>
+        </PixTooltip>
+      </li>
+    {{/if}}
+    {{#if (or this.currentUser.adminMember.isSuperAdmin this.currentUser.adminMember.isMetier)}}
       <li class="menu-bar__entry">
         <PixTooltip @position="right">
           <:triggerElement>
@@ -88,15 +100,15 @@
         </PixTooltip>
       </li>
     {{/if}}
-    {{#if this.accessControl.hasAccessToTrainingsActionsScope}}
+    {{#if this.currentUser.adminMember.isSuperAdmin}}
       <li class="menu-bar__entry">
         <PixTooltip @position="right">
           <:triggerElement>
-            <LinkTo @route="authenticated.trainings.list" class="menu-bar__link">
-              <FaIcon @icon="book-open" @title="Contenus formatifs" />
+            <LinkTo @route="authenticated.administration" class="menu-bar__link">
+              <FaIcon @icon="network-wired" @title="Administration" />
             </LinkTo>
           </:triggerElement>
-          <:tooltip>Contenus formatifs</:tooltip>
+          <:tooltip>Administration</:tooltip>
         </PixTooltip>
       </li>
     {{/if}}
