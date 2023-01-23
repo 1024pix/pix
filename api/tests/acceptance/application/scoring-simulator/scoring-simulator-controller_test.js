@@ -60,12 +60,12 @@ describe('Acceptance | Controller | scoring-simulator-controller', function () {
         { id: 'skill6', status: 'périmé', tubeId: 'recTube2', competenceId: 'rec2', level: 6, pixValue: 100000 },
       ],
       challenges: [
-        { id: 'challenge1', skillId: 'skill1', status: 'validé', alpha: 0.16, delta: -2, locales: ['fr'] },
-        { id: 'challenge2', skillId: 'skill2', status: 'validé', alpha: 3, delta: 6, locales: ['fr'] },
-        { id: 'challenge3', skillId: 'skill3', status: 'validé', alpha: 1.587, delta: 8.5, locales: ['fr'] },
-        { id: 'challenge4', skillId: 'skill4', status: 'validé', alpha: 2.86789, delta: 0.145, locales: ['fr'] },
-        { id: 'challenge5', skillId: 'skill5', status: 'validé', alpha: 3, delta: 1, locales: ['fr'] },
-        { id: 'challenge6', skillId: 'skill5', status: 'validé', alpha: 1.7, delta: -1, locales: ['fr'] },
+        { id: 'challenge1', skillId: 'skill1', status: 'validé', alpha: 0.16, delta: -2, locales: ['fr-fr'] },
+        { id: 'challenge2', skillId: 'skill2', status: 'validé', alpha: 3, delta: 6, locales: ['fr-fr'] },
+        { id: 'challenge3', skillId: 'skill3', status: 'validé', alpha: 1.587, delta: 8.5, locales: ['fr-fr'] },
+        { id: 'challenge4', skillId: 'skill4', status: 'validé', alpha: 2.86789, delta: 0.145, locales: ['fr-fr'] },
+        { id: 'challenge5', skillId: 'skill5', status: 'validé', alpha: 3, delta: 1, locales: ['fr-fr'] },
+        { id: 'challenge6', skillId: 'skill5', status: 'validé', alpha: 1.7, delta: -1, locales: ['fr-fr'] },
       ],
     };
 

@@ -1,6 +1,7 @@
 const ScoringSimulation = require('../../domain/models/ScoringSimulation');
 const Answer = require('../../domain/models/Answer');
 const usecases = require('../../domain/usecases');
+const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
 module.exports = {
   async calculateOldScores(request, h) {
@@ -27,10 +28,13 @@ module.exports = {
         })
     );
 
+    const locale = extractLocaleFromRequest(request);
+
     const results = await usecases.simulateFlashScoring({
       successProbabilityThreshold: request.payload.successProbabilityThreshold,
       calculateEstimatedLevel: request.payload.calculateEstimatedLevel,
       simulations,
+      locale,
     });
 
     return h.response({ results });
