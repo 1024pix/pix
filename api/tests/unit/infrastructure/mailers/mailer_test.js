@@ -5,8 +5,11 @@ const logger = require('../../../../lib/infrastructure/logger');
 const mailer = require('../../../../lib/infrastructure/mailers/mailer');
 const EmailingAttempt = require('../../../../lib/domain/models/EmailingAttempt');
 
+let mailCheckDomainIsValidStub;
+
 describe('Unit | Infrastructure | Mailers | mailer', function () {
   beforeEach(function () {
+    mailCheckDomainIsValidStub = sinon.stub(mailCheck, 'checkDomainIsValid');
     sinon.stub(mailing, 'provider').value('sendinblue');
   });
 
@@ -136,11 +139,11 @@ function _enableMailing() {
 }
 
 function _mailAddressIsValid(recipient) {
-  sinon.stub(mailCheck, 'checkDomainIsValid').withArgs(recipient).resolves();
+  mailCheckDomainIsValidStub.withArgs(recipient).resolves();
 }
 
 function _mailAddressIsInvalid(recipient, expectedError) {
-  sinon.stub(mailCheck, 'checkDomainIsValid').withArgs(recipient).rejects(expectedError);
+  mailCheckDomainIsValidStub.withArgs(recipient).rejects(expectedError);
 }
 
 function _mockMailingProvider() {
