@@ -67,24 +67,9 @@ describe('Acceptance | Controller | users-controller-get-current-user', function
             'last-data-protection-policy-seen-at': null,
           },
           relationships: {
-            'certification-center-memberships': {
-              links: {
-                related: `/api/users/${user.id}/certification-center-memberships`,
-              },
-            },
-            'pix-score': {
-              links: {
-                related: `/api/users/${user.id}/pixscore`,
-              },
-            },
             profile: {
               links: {
                 related: `/api/users/${user.id}/profile`,
-              },
-            },
-            scorecards: {
-              links: {
-                related: `/api/users/${user.id}/scorecards`,
               },
             },
             'is-certifiable': {
