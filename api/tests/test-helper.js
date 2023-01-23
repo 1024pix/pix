@@ -26,6 +26,8 @@ const tokenService = require('../lib/domain/services/token-service');
 const Membership = require('../lib/domain/models/Membership');
 const EMPTY_BLANK_AND_NULL = ['', '\t \n', null];
 
+const { ROLES } = require('../lib/domain/constants').PIX_ADMIN;
+
 /* eslint-disable mocha/no-top-level-hooks */
 afterEach(function () {
   sinon.restore();
@@ -68,6 +70,21 @@ async function insertUserWithRoleSuperAdmin() {
     lastName: 'Papa',
     email: 'super.papa@example.net',
     password: 'Password123',
+  });
+
+  await databaseBuilder.commit();
+
+  return user;
+}
+
+async function insertUserWithRoleCertif() {
+  const user = databaseBuilder.factory.buildUser.withRole({
+    id: 1234,
+    firstName: 'Certif',
+    lastName: 'Power',
+    email: 'certif.power@example.net',
+    password: 'Pix123',
+    role: ROLES.CERTIF,
   });
 
   await databaseBuilder.commit();
@@ -224,6 +241,7 @@ module.exports = {
   HttpTestServer: require('./tooling/server/http-test-server'),
   insertOrganizationUserWithRoleAdmin,
   insertUserWithRoleSuperAdmin,
+  insertUserWithRoleCertif,
   knex,
   nock,
   sinon,

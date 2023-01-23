@@ -360,6 +360,7 @@ module.exports = injectDependencies(
     getPrescriber: require('./get-prescriber'),
     getPrivateCertificate: require('./certificate/get-private-certificate'),
     getProgression: require('./get-progression'),
+    getRecentlyUsedTags: require('./get-recently-used-tags'),
     getScoCertificationResultsByDivision: require('./get-sco-certification-results-by-division'),
     getScorecard: require('./get-scorecard'),
     getSession: require('./get-session'),
