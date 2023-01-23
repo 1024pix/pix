@@ -62,6 +62,7 @@
     "ember-cli": "^4.8.0",
     "ember-cli-app-version": "^5.0.0",
     "ember-cli-babel": "^7.26.11",
+    "ember-cli-cjs-transform": "^2.0.0",
     "ember-cli-clipboard": "^0.16.0",
     "ember-cli-dependency-checker": "^3.3.1",
     "ember-cli-htmlbars": "^6.1.1",
@@ -109,5 +110,8 @@
     "sass": "^1.56.1",
     "sinon": "^14.0.2",
     "webpack": "^5.75.0"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.2.1"
   }
 }

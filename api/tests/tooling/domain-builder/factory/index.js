@@ -91,6 +91,7 @@ module.exports = {
   buildOrganizationInvitation: require('./build-organization-invitation'),
   buildOrganizationLearner: require('./build-organization-learner'),
   buildOrganizationLearnerForAdmin: require('./build-organization-learner-for-admin'),
+  buildOrganizationLearnerParticipation: require('./build-organization-learner-participation'),
   buildOrganizationTag: require('./build-organization-tag'),
   buildParticipationForCampaignManagement: require('./build-participation-for-campaign-management'),
   buildComplementaryCertificationCourseResult: require('./build-complementary-certification-course-result'),

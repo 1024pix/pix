@@ -27,6 +27,21 @@ describe('Unit | Serializer | JSONAPI | organization-learner-participation-seria
             status: 'STARTED',
           }),
         ],
+        statistics: [
+          {
+            campaignType: 'ASSESSMENT',
+            shared: 0,
+            started: 1,
+            to_share: 0,
+            total: 1,
+          },
+          {
+            campaignType: 'PROFILES_COLLECTION',
+            shared: 1,
+            to_share: 0,
+            total: 1,
+          },
+        ],
       });
       // when
       const json = serializer.serialize(organizationLearnerActivity);
@@ -47,6 +62,18 @@ describe('Unit | Serializer | JSONAPI | organization-learner-participation-seria
                 {
                   id: '100000',
                   type: 'organizationLearnerParticipations',
+                },
+              ],
+            },
+            'organization-learner-statistics': {
+              data: [
+                {
+                  id: 'ASSESSMENT',
+                  type: 'organizationLearnerStatistics',
+                },
+                {
+                  id: 'PROFILES_COLLECTION',
+                  type: 'organizationLearnerStatistics',
                 },
               ],
             },
@@ -73,6 +100,25 @@ describe('Unit | Serializer | JSONAPI | organization-learner-participation-seria
               'created-at': '2000-03-01T10:00:00Z',
               'shared-at': '2000-04-01T10:00:00Z',
               status: 'STARTED',
+            },
+          },
+          {
+            id: 'ASSESSMENT',
+            type: 'organizationLearnerStatistics',
+            attributes: {
+              shared: 0,
+              'to-share': 0,
+              total: 1,
+              started: 1,
+            },
+          },
+          {
+            id: 'PROFILES_COLLECTION',
+            type: 'organizationLearnerStatistics',
+            attributes: {
+              shared: 1,
+              'to-share': 0,
+              total: 1,
             },
           },
         ],
