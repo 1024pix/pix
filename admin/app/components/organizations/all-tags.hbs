@@ -37,9 +37,9 @@
     <hr class="organization-tags-lists-separator" />
   {{/if}}
 
-  {{#if this.allTags}}
+  {{#if this.tagsToShow}}
     <ul class="organization-all-tags-list">
-      {{#each this.allTags as |tag|}}
+      {{#each this.tagsToShow as |tag|}}
         <li class="organization-all-tags-list__tag">
 
           {{#if tag.isTagAssignedToOrganization}}

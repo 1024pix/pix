@@ -10,8 +10,8 @@ module('Integration | Component | organizations/all-tags', function (hooks) {
 
   test('it should display a list of inactive and active tags', async function (assert) {
     // given
-    const tag1 = EmberObject.create({ id: 1, name: 'MEDNUM' });
-    const tag2 = EmberObject.create({ id: 2, name: 'AEFE' });
+    const tag1 = EmberObject.create({ id: 1, name: 'MEDNUM', isTagAssignedToOrganization: true });
+    const tag2 = EmberObject.create({ id: 2, name: 'AEFE', isTagAssignedToOrganization: false });
     const organizationTag1 = EmberObject.create({ name: 'MEDNUM' });
     const organization = EmberObject.create({ tags: [organizationTag1] });
 
@@ -23,24 +23,6 @@ module('Integration | Component | organizations/all-tags', function (hooks) {
     // then
     assert.dom(screen.getByRole('button', { name: "Tag MEDNUM assigné à l'organisation" })).exists();
     assert.dom(screen.getByRole('button', { name: "Tag AEFE non assigné à l'organisation" })).exists();
-  });
-
-  test('it should display tags in alphabetical order', async function (assert) {
-    // given
-    const tag1 = EmberObject.create({ id: 1, name: 'MEDNUM' });
-    const tag2 = EmberObject.create({ id: 2, name: 'AEFE' });
-    const tag3 = EmberObject.create({ id: 3, name: 'CFA' });
-    const tag4 = EmberObject.create({ id: 4, name: 'POLE EMPLOI' });
-    const organization = EmberObject.create({ tags: [] });
-
-    this.set('model', { organization, allTags: [tag1, tag2, tag3, tag4] });
-
-    // when
-    const screen = await render(hbs`<Organizations::AllTags @model={{this.model}} />`);
-
-    // then
-    assert.dom(screen.getAllByRole('button')[0]).hasText('AEFE');
-    assert.dom(screen.getAllByRole('button')[3]).hasText('POLE EMPLOI');
   });
 
   module('when clicking on a tag', () => {

@@ -7,6 +7,7 @@ export default class TagAdapter extends ApplicationAdapter {
     const { tagId, recentlyUsedTags } = query;
     delete query.tagId;
     delete query.recentlyUsedTags;
+    delete query.getAllTags;
 
     if (recentlyUsedTags) {
       return `${this.host}/${this.namespace}/tags/${tagId}/recently-used`;
