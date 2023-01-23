@@ -26,7 +26,17 @@ module('Integration | Component | users | user-detail-personal-information/authe
           );
 
           // then
-          assert.dom(screen.getByText('30/10/2020')).exists();
+          assert
+            .dom(
+              screen.getAllByRole('listitem').find((listItem) => {
+                const childrenText = listItem.textContent.trim().split('\n');
+                return (
+                  childrenText[0]?.trim() === 'Adresse e-mail confirmée le :' &&
+                  childrenText[1]?.trim() === '30/10/2020'
+                );
+              })
+            )
+            .exists();
         });
       });
 
@@ -42,7 +52,13 @@ module('Integration | Component | users | user-detail-personal-information/authe
           );
 
           // then
-          assert.dom(screen.getByText('Adresse e-mail non confirmée')).exists();
+          assert
+            .dom(
+              screen
+                .getAllByRole('listitem')
+                .find((listItem) => listItem.textContent?.trim() === 'Adresse e-mail non confirmée')
+            )
+            .exists();
         });
       });
 
@@ -58,8 +74,16 @@ module('Integration | Component | users | user-detail-personal-information/authe
           );
 
           // then
-          assert.dom(screen.getByText('Date de dernière connexion :')).exists();
-          assert.dom(screen.getByText('01/07/2022')).exists();
+          assert
+            .dom(
+              screen.getAllByRole('listitem').find((listItem) => {
+                const childrenText = listItem.textContent.trim().split('\n');
+                return (
+                  childrenText[0]?.trim() === 'Date de dernière connexion :' && childrenText[1]?.trim() === '01/07/2022'
+                );
+              })
+            )
+            .exists();
         });
       });
 
@@ -75,8 +99,13 @@ module('Integration | Component | users | user-detail-personal-information/authe
           );
 
           // then
-          assert.dom(screen.getByText('Date de dernière connexion :')).exists();
-          assert.dom(screen.queryByText('Invalid date')).doesNotExist();
+          assert
+            .dom(
+              screen
+                .getAllByRole('listitem')
+                .find((listItem) => listItem.textContent?.trim() === 'Date de dernière connexion :')
+            )
+            .exists();
         });
       });
 
@@ -99,13 +128,18 @@ module('Integration | Component | users | user-detail-personal-information/authe
           );
 
           // then
-          const shouldChangePasswordLabelElement = screen.getByText(
-            `${this.intl.t(
-              'components.users.user-detail-personal-information.authentication-method.should-change-password-status'
-            )}`
+          const expectedLabel = this.intl.t(
+            'components.users.user-detail-personal-information.authentication-method.should-change-password-status'
           );
-          assert.dom(shouldChangePasswordLabelElement).exists();
-          assert.dom(shouldChangePasswordLabelElement.nextElementSibling).hasText(this.intl.t('common.words.yes'));
+          const expectedValue = this.intl.t('common.words.yes');
+          assert
+            .dom(
+              screen.getAllByRole('listitem').find((listItem) => {
+                const childrenText = listItem.textContent.trim().split('\n');
+                return childrenText[0]?.trim() === expectedLabel && childrenText[1]?.trim() === expectedValue;
+              })
+            )
+            .exists();
         });
       });
 
