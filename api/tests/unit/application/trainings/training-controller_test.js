@@ -37,6 +37,30 @@ describe('Unit | Controller | training-controller', function () {
     });
   });
 
+  describe('#getById', function () {
+    it('should get training by id', async function () {
+      // given
+      const expectedResult = Symbol('serialized-trainings');
+      const training = Symbol('training');
+      const trainingId = 1;
+
+      sinon.stub(usecases, 'getTraining').resolves(training);
+      sinon.stub(trainingSerializer, 'serialize').returns(expectedResult);
+
+      // when
+      const response = await trainingController.getById({
+        params: {
+          trainingId,
+        },
+      });
+
+      // then
+      expect(usecases.getTraining).to.have.been.calledWith({ trainingId });
+      expect(trainingSerializer.serialize).to.have.been.calledOnce;
+      expect(response).to.deep.equal(expectedResult);
+    });
+  });
+
   describe('#create', function () {
     const deserializedTraining = {
       title: 'Training title',

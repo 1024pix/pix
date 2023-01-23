@@ -374,6 +374,7 @@ module.exports = injectDependencies(
     getSupervisorKitSessionInfo: require('./get-supervisor-kit-session-info'),
     getTargetProfileContentAsJson: require('./get-target-profile-content-as-json'),
     getTargetProfileForAdmin: require('./get-target-profile-for-admin'),
+    getTraining: require('./get-training'),
     getUserByResetPasswordDemand: require('./get-user-by-reset-password-demand'),
     getUserCampaignAssessmentResult: require('./get-user-campaign-assessment-result'),
     getUserCampaignParticipationToCampaign: require('./get-user-campaign-participation-to-campaign'),
