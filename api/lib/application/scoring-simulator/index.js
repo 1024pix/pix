@@ -19,23 +19,26 @@ exports.register = async (server) => {
             allowUnknown: true,
           },
           payload: Joi.object({
-            simulations: Joi.array()
-              .required()
-              .items(
-                Joi.object({
-                  id: Joi.string(),
-                  answers: Joi.array()
-                    .required()
-                    .items(
-                      Joi.object({
-                        challengeId: Joi.string().required(),
-                        result: Joi.string().required(),
-                      })
-                    )
-                    .min(1),
-                }).required()
-              )
-              .min(1),
+            dataset: Joi.object({
+              id: Joi.string(),
+              simulations: Joi.array()
+                .required()
+                .items(
+                  Joi.object({
+                    id: Joi.string(),
+                    answers: Joi.array()
+                      .required()
+                      .items(
+                        Joi.object({
+                          challengeId: Joi.string().required(),
+                          result: Joi.string().required(),
+                        })
+                      )
+                      .min(1),
+                  }).required()
+                )
+                .min(1),
+            }).required(),
           }).required(),
         },
         handler: scoringSimulatorController.calculateOldScores,
@@ -66,23 +69,26 @@ exports.register = async (server) => {
               successProbabilityThreshold: Joi.number(),
               calculateEstimatedLevel: Joi.boolean(),
             }),
-            simulations: Joi.array()
-              .required()
-              .items(
-                Joi.object({
-                  id: Joi.string(),
-                  estimatedLevel: Joi.number(),
-                  answers: Joi.array()
-                    .items(
-                      Joi.object({
-                        challengeId: Joi.string().required(),
-                        result: Joi.string().required(),
-                      })
-                    )
-                    .min(1),
-                }).required()
-              )
-              .min(1),
+            dataset: Joi.object({
+              id: Joi.string(),
+              simulations: Joi.array()
+                .required()
+                .items(
+                  Joi.object({
+                    id: Joi.string(),
+                    estimatedLevel: Joi.number(),
+                    answers: Joi.array()
+                      .items(
+                        Joi.object({
+                          challengeId: Joi.string().required(),
+                          result: Joi.string().required(),
+                        })
+                      )
+                      .min(1),
+                  }).required()
+                )
+                .min(1),
+            }).required(),
           }).required(),
         },
         handler: scoringSimulatorController.calculateFlashScores,

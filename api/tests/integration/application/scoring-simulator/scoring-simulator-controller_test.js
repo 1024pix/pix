@@ -13,68 +13,142 @@ describe('Integration | Application | Scoring-simulator | scoring-simulator-cont
 
   beforeEach(async function () {
     sinon.stub(usecases, 'simulateFlashScoring');
+    sinon.stub(usecases, 'simulateOldScoring');
     sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin');
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
-    simulationResults = [new SimulationResult({ pixScore: 10 })];
   });
 
-  describe('#post', function () {
-    context('When the route is called with correct arguments', function () {
-      it('should resolve a 200 HTTP response', async function () {
-        // given
-        usecases.simulateFlashScoring.resolves({ results: simulationResults });
-        securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
-
-        // when
-        const response = await httpTestServer.request('POST', '/api/scoring-simulator/flash', {
-          simulations: [{ estimatedLevel: 2, answers: [{ challengeId: 'okChallengeId', result: 'ok' }] }],
-          context: {
-            successProbabilityThreshold: 0.8,
-            calculateEstimatedLevel: true,
-          },
-        });
-
-        // then
-        expect(response.statusCode).to.equal(200);
-        expect(usecases.simulateFlashScoring).to.have.been.calledWith({
-          simulations: [
-            new ScoringSimulation({
-              estimatedLevel: 2,
-              answers: [new Answer({ challengeId: 'okChallengeId', result: 'ok' })],
-            }),
-          ],
-          context: new ScoringSimulationContext({
-            successProbabilityThreshold: 0.8,
-            calculateEstimatedLevel: true,
+  describe('/api/scoring-simulator/old', function () {
+    describe('#post', function () {
+      beforeEach(async function () {
+        simulationResults = [
+          new SimulationResult({
+            id: 'resultId',
+            pixScore: 123,
+            pixScoreByCompetence: [
+              {
+                competenceId: 'competenceId',
+                pixScore: 123,
+              },
+            ],
           }),
-          locale: 'fr-fr',
+        ];
+      });
+
+      context('When the route is called with correct arguments', function () {
+        it('should call simulateOldScoring usecase with correct arguments', async function () {
+          // given
+          usecases.simulateOldScoring.resolves(simulationResults);
+          securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
+
+          // when
+          const response = await httpTestServer.request('POST', '/api/scoring-simulator/old', {
+            dataset: {
+              id: 'datasetId',
+              simulations: [{ answers: [{ challengeId: 'okChallengeId', result: 'ok' }] }],
+            },
+          });
+
+          // then
+          expect(response.statusCode).to.equal(200);
+          expect(response.result).to.deep.equal({ datasetId: 'datasetId', results: simulationResults });
+          expect(usecases.simulateOldScoring).to.have.been.calledWith({
+            simulations: [
+              new ScoringSimulation({
+                answers: [new Answer({ challengeId: 'okChallengeId', result: 'ok' })],
+              }),
+            ],
+          });
         });
       });
     });
   });
 
-  context('When the route is called with Accept-Language', function () {
-    it('should be used as locale', async function () {
-      // given
-      usecases.simulateFlashScoring.resolves({ results: simulationResults });
-      securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
+  describe('/api/scoring-simulator/flash', function () {
+    describe('#post', function () {
+      beforeEach(async function () {
+        simulationResults = [
+          new SimulationResult({
+            id: 'resultId',
+            estimatedLevel: 2.2498723,
+            pixScore: 123,
+            pixScoreByCompetence: [
+              {
+                competenceId: 'competenceId',
+                pixScore: 123,
+              },
+            ],
+          }),
+        ];
+      });
 
-      // when
-      const response = await httpTestServer.request(
-        'POST',
-        '/api/scoring-simulator/flash',
-        {
-          simulations: [{ answers: [{ challengeId: 'okChallengeId', result: 'ok' }] }],
-        },
-        null,
-        { 'accept-language': 'en' }
-      );
+      context('When the route is called with correct arguments', function () {
+        it('should call simulateFlashScoring usecase with correct arguments', async function () {
+          // given
+          usecases.simulateFlashScoring.resolves(simulationResults);
+          securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
 
-      // then
-      expect(response.statusCode).to.equal(200);
-      expect(usecases.simulateFlashScoring).to.have.been.calledWithMatch({
-        locale: 'en',
+          // when
+          const response = await httpTestServer.request('POST', '/api/scoring-simulator/flash', {
+            context: {
+              id: 'contextId',
+              successProbabilityThreshold: 0.8,
+              calculateEstimatedLevel: true,
+            },
+            dataset: {
+              id: 'datasetId',
+              simulations: [{ estimatedLevel: 2, answers: [{ challengeId: 'okChallengeId', result: 'ok' }] }],
+            },
+          });
+
+          // then
+          expect(response.statusCode).to.equal(200);
+          expect(response.result).to.deep.equal({
+            contextId: 'contextId',
+            datasetId: 'datasetId',
+            results: simulationResults,
+          });
+          expect(usecases.simulateFlashScoring).to.have.been.calledWith({
+            simulations: [
+              new ScoringSimulation({
+                estimatedLevel: 2,
+                answers: [new Answer({ challengeId: 'okChallengeId', result: 'ok' })],
+              }),
+            ],
+            context: new ScoringSimulationContext({
+              id: 'contextId',
+              successProbabilityThreshold: 0.8,
+              calculateEstimatedLevel: true,
+            }),
+            locale: 'fr-fr',
+          });
+        });
+      });
+
+      context('When the route is called with Accept-Language', function () {
+        it('should be used as locale', async function () {
+          // given
+          usecases.simulateFlashScoring.resolves({ results: simulationResults });
+          securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
+
+          // when
+          const response = await httpTestServer.request(
+            'POST',
+            '/api/scoring-simulator/flash',
+            {
+              dataset: { simulations: [{ answers: [{ challengeId: 'okChallengeId', result: 'ok' }] }] },
+            },
+            null,
+            { 'accept-language': 'en' }
+          );
+
+          // then
+          expect(response.statusCode).to.equal(200);
+          expect(usecases.simulateFlashScoring).to.have.been.calledWithMatch({
+            locale: 'en',
+          });
+        });
       });
     });
   });
