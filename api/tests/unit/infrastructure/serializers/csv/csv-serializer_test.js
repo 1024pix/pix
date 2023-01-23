@@ -118,6 +118,34 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           // then
           expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
         });
+
+        describe('when the are multiple different supervisors per session', function () {
+          it('should return the session with an array of supervisors', function () {
+            // given
+            const parsedCsvData = [
+              _lineWithSessionAndNoCandidate({ sessionNumber: 1, examiner: 'Big' }),
+              _lineWithSessionAndNoCandidate({ sessionNumber: 1, examiner: 'Jim' }),
+            ];
+
+            const expectedResult = [
+              {
+                address: 'Site 1',
+                room: 'Salle 1',
+                date: '2023-05-12',
+                time: '01:00',
+                examiner: 'Big, Jim',
+                description: '',
+                certificationCandidates: [],
+              },
+            ];
+
+            // when
+            const result = csvSerializer.deserializeForSessionsImport(parsedCsvData);
+
+            // then
+            expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
+          });
+        });
       });
 
       describe('when session information is identical on none consecutive lines', function () {
