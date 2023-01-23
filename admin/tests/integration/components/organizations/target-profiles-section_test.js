@@ -9,12 +9,15 @@ import sinon from 'sinon';
 module('Integration | Component | organizations/target-profiles-section', function (hooks) {
   setupRenderingTest(hooks);
 
+  let store;
+
   module('when user has access', function (hooks) {
     hooks.beforeEach(function () {
       class AccessControlStub extends Service {
         hasAccessToOrganizationActionsScope = true;
       }
       this.owner.register('service:access-control', AccessControlStub);
+      store = this.owner.lookup('service:store');
     });
 
     test('it disables the button when the input is empty', async function (assert) {
@@ -24,6 +27,7 @@ module('Integration | Component | organizations/target-profiles-section', functi
         targetProfiles: [],
         attachTargetProfiles: sinon.stub(),
       });
+
       this.set('organization', organization);
 
       // when
@@ -52,6 +56,27 @@ module('Integration | Component | organizations/target-profiles-section', functi
 
       // then
       assert.ok(organization.attachTargetProfiles.calledWith({ 'target-profile-ids': ['1'] }));
+    });
+
+    test('it should have a link to redirect on target profile page', async function (assert) {
+      const targetProfileSummary = store.createRecord('target-profile-summary', {
+        id: 666,
+        name: 'Number of The Beast',
+      });
+      const organization = store.createRecord('organization', {
+        id: 1,
+        targetProfiles: [],
+        targetProfileSummaries: [targetProfileSummary],
+      });
+
+      this.set('organization', organization);
+
+      // when
+      const screen = await render(hbs`<Organizations::TargetProfilesSection @organization={{this.organization}} />`);
+
+      assert
+        .dom(screen.getByRole('link', { name: 'Number of The Beast' }))
+        .hasAttribute('href', '/target-profiles/666');
     });
   });
 
