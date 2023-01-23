@@ -137,6 +137,10 @@
 
 .skill-review-retry {
 
+  &__message {
+    margin-bottom: $spacing-s;
+  }
+
   &__button {
     padding: 10px;
     font-size: 0.875rem;
