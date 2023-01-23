@@ -62,6 +62,7 @@ exports.register = async (server) => {
           },
           payload: Joi.object({
             context: Joi.object({
+              id: Joi.string(),
               successProbabilityThreshold: Joi.number(),
               calculateEstimatedLevel: Joi.boolean(),
             }),
