@@ -71,4 +71,24 @@ module('Unit | Component | organizations/all-tags', function (hooks) {
       });
     });
   });
+
+  test('it should be possible to search with accents', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const tag1 = store.createRecord('tag', { name: 'ELEMENTAIRE' });
+    const tag2 = store.createRecord('tag', { name: 'PRIMAIRE' });
+    const tag3 = store.createRecord('tag', { name: 'ELECTRIQUE' });
+    const tag4 = store.createRecord('tag', { name: 'SUPERIEUR' });
+    const component = createGlimmerComponent('component:organizations/all-tags', {
+      model: { organization: { tags: [tag1] }, allTags: [tag1, tag2, tag3, tag4] },
+    });
+    component.searchInputElementValue = sinon.stub().returns('élé');
+
+    // when
+    await component.triggerFiltering('elementId');
+
+    // then
+    assert.ok(component.tagsToShow.includes(tag1));
+    assert.ok(component.tagsToShow.includes(tag3));
+  });
 });

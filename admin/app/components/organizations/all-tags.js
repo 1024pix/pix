@@ -16,12 +16,17 @@ export default class OrganizationAllTags extends Component {
     return ENV.pagination.debounce;
   }
 
+  searchInputElementValue(elementId) {
+    return document.getElementById(elementId).value;
+  }
+
   @action
-  async triggerFiltering(value) {
-    const searchInputElement = document.getElementById(value);
-    this.tagsToShow = this.allTags.filter((tag) =>
-      tag.name.toUpperCase().includes(searchInputElement.value.toUpperCase())
-    );
+  async triggerFiltering(elementId) {
+    const valueToSearch = this.searchInputElementValue(elementId)
+      .toUpperCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+    this.tagsToShow = this.allTags.filter((tag) => tag.name.toUpperCase().includes(valueToSearch));
   }
 
   @action
