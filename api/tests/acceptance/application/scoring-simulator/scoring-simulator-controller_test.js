@@ -207,6 +207,9 @@ describe('Acceptance | Controller | scoring-simulator-controller', function () {
       // given
       options.headers.authorization = adminAuthorization;
       options.payload = {
+        context: {
+          id: 'superContext',
+        },
         simulations: [
           {
             id: 'simulation1',
@@ -247,6 +250,7 @@ describe('Acceptance | Controller | scoring-simulator-controller', function () {
 
       // then
       expect(response).to.have.property('statusCode', 200);
+      expect(response.result).to.have.property('contextId', 'superContext');
       expect(response.result.results).to.have.lengthOf(2);
       expect(response.result.results[0]).to.deep.include({
         id: 'simulation1',

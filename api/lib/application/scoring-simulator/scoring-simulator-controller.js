@@ -39,7 +39,7 @@ module.exports = {
       locale,
     });
 
-    return h.response({ results });
+    return h.response({ contextId: context.id, results });
   },
 };
 
