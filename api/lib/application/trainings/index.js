@@ -39,6 +39,34 @@ exports.register = async (server) => {
       },
     },
     {
+      method: 'GET',
+      path: '/api/admin/trainings/{trainingId}',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            trainingId: identifiersType.trainingId,
+          }),
+        },
+        handler: trainingsController.getById,
+        tags: ['api', 'admin', 'trainings'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            '- Elle permet de récupérer un contenu formatif spécifique',
+        ],
+      },
+    },
+    {
       method: 'POST',
       path: '/api/admin/trainings',
       config: {

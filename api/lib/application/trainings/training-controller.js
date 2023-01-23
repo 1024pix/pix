@@ -9,6 +9,11 @@ module.exports = {
     const { trainings, meta } = await usecases.findPaginatedTrainingSummaries({ page });
     return trainingSummarySerializer.serialize(trainings, meta);
   },
+  async getById(request) {
+    const { trainingId } = request.params;
+    const training = await usecases.getTraining({ trainingId });
+    return trainingSerializer.serialize(training);
+  },
   async create(request, h) {
     const deserializedTraining = await trainingSerializer.deserialize(request.payload);
     const createdTraining = await usecases.createTraining({ training: deserializedTraining });
