@@ -1,4 +1,47 @@
 {{#if @participations}}
+  <div class="cards">
+    <div class="cards__content">
+      <h2 class="screen-reader-only">{{t "pages.organization-learner.activity.assessment-summary"}}</h2>
+      <PixIndicatorCard
+        @title={{t "pages.organization-learner.activity.cards.title.assessment"}}
+        @color="#8A49FF"
+        @icon="tachometer"
+        @iconPrefix="fapix"
+      >
+        <:default>{{this.assessmentStatistics.total}}</:default>
+        <:sub>
+          <ul class="cards__stats">
+            <li>{{t "pages.organization-learner.activity.cards.started" count=this.assessmentStatistics.started}}</li>
+            <li>{{t "pages.organization-learner.activity.cards.to-share" count=this.assessmentStatistics.to_share}}</li>
+            <li>{{t "pages.organization-learner.activity.cards.shared" count=this.assessmentStatistics.shared}}</li>
+          </ul>
+        </:sub>
+      </PixIndicatorCard>
+    </div>
+    <div class="cards__content">
+      <h2 class="screen-reader-only">{{t "pages.organization-learner.activity.profile-collection-summary"}}</h2>
+      <PixIndicatorCard
+        @title={{t "pages.organization-learner.activity.cards.title.profiles-collection"}}
+        @color="#3D68FF"
+        @icon="person-export"
+        @iconPrefix="fapix"
+      >
+        <:default>{{this.profileCollectionsStatistics.total}}</:default>
+        <:sub>
+          <ul class="cards__stats">
+            <li>{{t
+                "pages.organization-learner.activity.cards.to-share"
+                count=this.profileCollectionsStatistics.to_share
+              }}</li>
+            <li>{{t
+                "pages.organization-learner.activity.cards.shared"
+                count=this.profileCollectionsStatistics.shared
+              }}</li>
+          </ul>
+        </:sub>
+      </PixIndicatorCard>
+    </div>
+  </div>
   <h2 class="screen-reader-only">{{t "pages.organization-learner.activity.participations-title"}}</h2>
   <OrganizationLearner::Activity::ParticipationList
     @participations={{@participations}}
