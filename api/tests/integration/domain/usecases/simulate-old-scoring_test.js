@@ -81,6 +81,16 @@ describe('Integration | UseCases | simulateOldScoring', function () {
     expect(simulationResults).to.have.lengthOf(1);
     expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
     expect(simulationResults[0]).to.have.property('pixScore', 101);
+    expect(simulationResults[0].pixScoreByCompetence).to.exactlyContain([
+      {
+        competenceId: 'rec1',
+        pixScore: 1,
+      },
+      {
+        competenceId: 'rec2',
+        pixScore: 100,
+      },
+    ]);
   });
 
   describe('when there are many challenges on the same tube', function () {
@@ -108,6 +118,16 @@ describe('Integration | UseCases | simulateOldScoring', function () {
       expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
       expect(simulationResults[0]).to.have.property('id', 'simulation1');
       expect(simulationResults[0]).to.have.property('pixScore', 11111);
+      expect(simulationResults[0].pixScoreByCompetence).to.exactlyContain([
+        {
+          competenceId: 'rec1',
+          pixScore: 11,
+        },
+        {
+          competenceId: 'rec2',
+          pixScore: 11100,
+        },
+      ]);
     });
   });
 

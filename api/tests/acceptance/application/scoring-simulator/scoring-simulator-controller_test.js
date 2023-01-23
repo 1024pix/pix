@@ -111,22 +111,32 @@ describe('Acceptance | Controller | scoring-simulator-controller', function () {
 
       // then
       expect(response).to.have.property('statusCode', 200);
-      expect(response.result).to.deep.equal({
-        results: [
-          {
-            id: undefined,
-            error: undefined,
-            estimatedLevel: undefined,
-            pixScore: 11111,
-          },
-          {
-            id: 'simulationWithError',
-            error: 'Answer for skill skill1 was already given or inferred',
-            estimatedLevel: undefined,
-            pixScore: undefined,
-          },
-        ],
-      });
+      expect(response.result.results).to.have.lengthOf(2);
+      expect(response.result.results).to.exactlyContain([
+        {
+          id: undefined,
+          estimatedLevel: undefined,
+          pixScore: 11111,
+          error: undefined,
+          pixScoreByCompetence: [
+            {
+              competenceId: 'rec1',
+              pixScore: 11,
+            },
+            {
+              competenceId: 'rec2',
+              pixScore: 11100,
+            },
+          ],
+        },
+        {
+          id: 'simulationWithError',
+          estimatedLevel: undefined,
+          pixScore: undefined,
+          pixScoreByCompetence: [],
+          error: 'Answer for skill skill1 was already given or inferred',
+        },
+      ]);
     });
 
     describe('when there is no connected user', function () {
@@ -237,21 +247,20 @@ describe('Acceptance | Controller | scoring-simulator-controller', function () {
 
       // then
       expect(response).to.have.property('statusCode', 200);
-      expect(response.result).to.deep.equal({
-        results: [
-          {
-            id: 'simulation1',
-            estimatedLevel: 2.5769829347,
-            pixScore: 11110,
-            error: undefined,
-          },
-          {
-            id: 'simulation2',
-            error: 'Simulation should have an estimated level',
-            estimatedLevel: undefined,
-            pixScore: undefined,
-          },
-        ],
+      expect(response.result.results).to.have.lengthOf(2);
+      expect(response.result.results[0]).to.deep.include({
+        id: 'simulation1',
+        estimatedLevel: 2.5769829347,
+        pixScore: 11110,
+        pixScoreByCompetence: [],
+        error: undefined,
+      });
+      expect(response.result.results[1]).to.deep.include({
+        id: 'simulation2',
+        error: 'Simulation should have an estimated level',
+        estimatedLevel: undefined,
+        pixScore: undefined,
+        pixScoreByCompetence: [],
       });
     });
 
