@@ -2,6 +2,7 @@ const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 const SimulationResult = require('../../../../lib/domain/models/SimulationResult');
 const ScoringSimulation = require('../../../../lib/domain/models/ScoringSimulation');
 const Answer = require('../../../../lib/domain/models/Answer');
+const ScoringSimulationContext = require('../../../../lib/domain/models/ScoringSimulationContext');
 const usecases = require('../../../../lib/domain/usecases');
 const moduleUnderTest = require('../../../../lib/application/scoring-simulator');
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
@@ -28,8 +29,10 @@ describe('Integration | Application | Scoring-simulator | scoring-simulator-cont
         // when
         const response = await httpTestServer.request('POST', '/api/scoring-simulator/flash', {
           simulations: [{ estimatedLevel: 2, answers: [{ challengeId: 'okChallengeId', result: 'ok' }] }],
-          successProbabilityThreshold: 0.8,
-          calculateEstimatedLevel: true,
+          context: {
+            successProbabilityThreshold: 0.8,
+            calculateEstimatedLevel: true,
+          },
         });
 
         // then
@@ -41,8 +44,10 @@ describe('Integration | Application | Scoring-simulator | scoring-simulator-cont
               answers: [new Answer({ challengeId: 'okChallengeId', result: 'ok' })],
             }),
           ],
-          successProbabilityThreshold: 0.8,
-          calculateEstimatedLevel: true,
+          context: new ScoringSimulationContext({
+            successProbabilityThreshold: 0.8,
+            calculateEstimatedLevel: true,
+          }),
           locale: 'fr-fr',
         });
       });

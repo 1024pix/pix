@@ -1,4 +1,5 @@
 const ScoringSimulation = require('../../domain/models/ScoringSimulation');
+const ScoringSimulationContext = require('../../domain/models/ScoringSimulationContext');
 const Answer = require('../../domain/models/Answer');
 const usecases = require('../../domain/usecases');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
@@ -28,11 +29,12 @@ module.exports = {
         })
     );
 
+    const context = deserializeScoringSimulationContext(request);
+
     const locale = extractLocaleFromRequest(request);
 
     const results = await usecases.simulateFlashScoring({
-      successProbabilityThreshold: request.payload.successProbabilityThreshold,
-      calculateEstimatedLevel: request.payload.calculateEstimatedLevel,
+      context,
       simulations,
       locale,
     });
@@ -40,3 +42,7 @@ module.exports = {
     return h.response({ results });
   },
 };
+
+function deserializeScoringSimulationContext(request) {
+  return new ScoringSimulationContext(request.payload.context);
+}

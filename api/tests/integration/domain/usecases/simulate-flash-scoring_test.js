@@ -1,4 +1,5 @@
 const { expect, mockLearningContent, domainBuilder } = require('../../../test-helper');
+const ScoringSimulationContext = require('../../../../lib/domain/models/ScoringSimulationContext');
 const ScoringSimulation = require('../../../../lib/domain/models/ScoringSimulation');
 const SimulationResult = require('../../../../lib/domain/models/SimulationResult');
 const usecases = require('../../../../lib/domain/usecases/');
@@ -74,7 +75,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
         // when
         const simulationResults = await usecases.simulateFlashScoring({
           simulations: [simulation],
-          calculateEstimatedLevel,
+          context: new ScoringSimulationContext({ calculateEstimatedLevel }),
           locale,
         });
 
@@ -103,7 +104,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
         // when
         const simulationResults = await usecases.simulateFlashScoring({
           simulations: [simulation],
-          calculateEstimatedLevel,
+          context: new ScoringSimulationContext({ calculateEstimatedLevel }),
           locale,
         });
 
@@ -132,7 +133,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
           // when
           const simulationResults = await usecases.simulateFlashScoring({
             simulations: [simulation],
-            calculateEstimatedLevel,
+            context: new ScoringSimulationContext({ calculateEstimatedLevel }),
             locale,
           });
 
@@ -160,7 +161,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
           // when
           const simulationResults = await usecases.simulateFlashScoring({
             simulations: [simulation],
-            calculateEstimatedLevel,
+            context: new ScoringSimulationContext({ calculateEstimatedLevel }),
             locale,
           });
 
@@ -197,13 +198,12 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
           id: 'simulation1',
           answers,
           estimatedLevel,
-          calculateEstimatedLevel,
         });
 
         // when
         const simulationResults = await usecases.simulateFlashScoring({
           simulations: [simulation],
-          calculateEstimatedLevel,
+          context: new ScoringSimulationContext({ calculateEstimatedLevel }),
           locale,
         });
 
@@ -225,7 +225,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
         // when
         const simulationResults = await usecases.simulateFlashScoring({
           simulations: [simulation],
-          calculateEstimatedLevel,
+          context: new ScoringSimulationContext({ calculateEstimatedLevel }),
           locale,
         });
 
@@ -252,7 +252,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
         // when
         const simulationResults = await usecases.simulateFlashScoring({
           simulations: [simulation],
-          calculateEstimatedLevel,
+          context: new ScoringSimulationContext({ calculateEstimatedLevel }),
           locale,
         });
 
@@ -275,7 +275,11 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
         const simulation = new ScoringSimulation({ id: 'simulation1', answers, estimatedLevel });
 
         // when
-        const simulationResults = await usecases.simulateFlashScoring({ simulations: [simulation], locale });
+        const simulationResults = await usecases.simulateFlashScoring({
+          simulations: [simulation],
+          context: new ScoringSimulationContext(),
+          locale,
+        });
 
         // then
         expect(simulationResults).to.have.lengthOf(1);
@@ -298,7 +302,11 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
         const simulation = new ScoringSimulation({ answers, estimatedLevel });
 
         // when
-        const simulationResults = await usecases.simulateFlashScoring({ simulations: [simulation], locale });
+        const simulationResults = await usecases.simulateFlashScoring({
+          simulations: [simulation],
+          context: new ScoringSimulationContext(),
+          locale,
+        });
 
         // then
         expect(simulationResults).to.have.lengthOf(1);
@@ -322,7 +330,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
       // when
       const simulationResults = await usecases.simulateFlashScoring({
         simulations: [simulation],
-        successProbabilityThreshold,
+        context: new ScoringSimulationContext({ successProbabilityThreshold }),
         locale,
       });
 
