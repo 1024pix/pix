@@ -14,7 +14,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
     const certificationCourseRepository = {
       get: sinon.stub(),
       update: sinon.stub(),
-      saveLastAssessmentResultId: sinon.stub(),
     };
     const assessmentResultRepository = { save: sinon.stub() };
     const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
@@ -71,7 +70,9 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       juryId: 7,
     });
     const savedAssessmentResult = new AssessmentResult({ ...assessmentResultToBeSaved, id: 4 });
-    assessmentResultRepository.save.withArgs(assessmentResultToBeSaved).resolves(savedAssessmentResult);
+    assessmentResultRepository.save
+      .withArgs({ certificationCourseId: 123, assessmentResult: assessmentResultToBeSaved })
+      .resolves(savedAssessmentResult);
 
     const dependendencies = {
       assessmentResultRepository,
@@ -88,10 +89,9 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
     });
 
     // then
-    expect(assessmentResultRepository.save).to.have.been.calledWith(assessmentResultToBeSaved);
-    expect(certificationCourseRepository.saveLastAssessmentResultId).to.have.been.calledOnceWith({
+    expect(assessmentResultRepository.save).to.have.been.calledWith({
       certificationCourseId: 123,
-      lastAssessmentResultId: 4,
+      assessmentResult: assessmentResultToBeSaved,
     });
     competenceMark1.assessmentResultId = savedAssessmentResult.id;
     competenceMark2.assessmentResultId = savedAssessmentResult.id;
@@ -106,7 +106,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       const certificationCourseRepository = {
         get: sinon.stub(),
         update: sinon.stub(),
-        saveLastAssessmentResultId: sinon.stub(),
       };
       const assessmentResultRepository = { save: sinon.stub() };
       const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
@@ -155,7 +154,9 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         juryId: 7,
       });
       const savedAssessmentResult = new AssessmentResult({ ...assessmentResultToBeSaved, id: 4 });
-      assessmentResultRepository.save.resolves(savedAssessmentResult);
+      assessmentResultRepository.save
+        .withArgs({ certificationCourseId: 789, assessmentResult: assessmentResultToBeSaved })
+        .resolves(savedAssessmentResult);
 
       const dependendencies = {
         assessmentResultRepository,
@@ -172,10 +173,10 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       });
 
       // then
-      expect(assessmentResultRepository.save).to.have.been.calledWithExactly(assessmentResultToBeSaved);
-      expect(certificationCourseRepository.saveLastAssessmentResultId).to.have.been.calledOnceWith({
+
+      expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
         certificationCourseId: 789,
-        lastAssessmentResultId: 4,
+        assessmentResult: assessmentResultToBeSaved,
       });
       expect(certificationCourse.cancel).to.have.been.calledOnce;
       expect(certificationCourseRepository.update).to.have.been.calledWithExactly(certificationCourse);
@@ -188,7 +189,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       const certificationCourseRepository = {
         get: sinon.stub(),
         update: sinon.stub(),
-        saveLastAssessmentResultId: sinon.stub(),
       };
       const assessmentResultRepository = { save: sinon.stub() };
       const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
@@ -237,7 +237,10 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         juryId: 7,
       });
       const savedAssessmentResult = new AssessmentResult({ ...assessmentResultToBeSaved, id: 4 });
-      assessmentResultRepository.save.resolves(savedAssessmentResult);
+      assessmentResultRepository.save.resolves({
+        certificationCourseId: 789,
+        assessmentResult: savedAssessmentResult,
+      });
 
       const dependendencies = {
         assessmentResultRepository,
@@ -254,10 +257,9 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       });
 
       // then
-      expect(assessmentResultRepository.save).to.have.been.calledWithExactly(assessmentResultToBeSaved);
-      expect(certificationCourseRepository.saveLastAssessmentResultId).to.have.been.calledOnceWith({
+      expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
         certificationCourseId: 789,
-        lastAssessmentResultId: 4,
+        assessmentResult: assessmentResultToBeSaved,
       });
       expect(certificationCourse.uncancel).to.have.been.calledOnce;
       expect(certificationCourseRepository.update).to.have.been.calledWithExactly(certificationCourse);
@@ -269,7 +271,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
     const certificationCourseRepository = {
       get: sinon.stub(),
       update: sinon.stub(),
-      saveLastAssessmentResultId: sinon.stub(),
     };
     const assessmentResultRepository = { save: sinon.stub() };
     const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
@@ -325,7 +326,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
     const assessmentResultRepository = { save: sinon.stub() };
     const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
     const competenceMarkRepository = { save: sinon.stub() };
-    const certificationCourseRepository = { saveLastAssessmentResultId: sinon.stub() };
     const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
 
     const event = new ChallengeNeutralized({ certificationCourseId: 1, juryId: 7 });
@@ -362,14 +362,18 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       juryId: 7,
     });
     const savedAssessmentResult = new AssessmentResult({ ...assessmentResultToBeSaved, id: 4 });
-    assessmentResultRepository.save.withArgs(assessmentResultToBeSaved).resolves(savedAssessmentResult);
+    assessmentResultRepository.save
+      .withArgs({
+        certificationCourseId: 123,
+        assessmentResult: assessmentResultToBeSaved,
+      })
+      .resolves(savedAssessmentResult);
 
     const dependendencies = {
       assessmentResultRepository,
       certificationAssessmentRepository,
       competenceMarkRepository,
       scoringCertificationService,
-      certificationCourseRepository,
     };
 
     // when
@@ -379,11 +383,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
     });
 
     // then
-    expect(assessmentResultRepository.save).to.have.been.calledOnceWith(assessmentResultToBeSaved);
-    expect(certificationCourseRepository.saveLastAssessmentResultId).to.have.been.calledOnceWith({
-      certificationCourseId: 789,
-      lastAssessmentResultId: 4,
-    });
+    expect(assessmentResultRepository.save).to.have.been.calledOnce;
   });
 
   // eslint-disable-next-line mocha/no-setup-in-describe
@@ -410,7 +410,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         const certificationCourseRepository = {
           get: sinon.stub(),
           update: sinon.stub(),
-          saveLastAssessmentResultId: sinon.stub(),
         };
         const assessmentResultRepository = { save: sinon.stub() };
         const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
@@ -482,10 +481,9 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         });
 
         // then
-        expect(assessmentResultRepository.save).to.have.been.calledWith(assessmentResultToBeSaved);
-        expect(certificationCourseRepository.saveLastAssessmentResultId).to.have.been.calledOnceWith({
+        expect(assessmentResultRepository.save).to.have.been.calledWith({
           certificationCourseId: 789,
-          lastAssessmentResultId: 4,
+          assessmentResult: assessmentResultToBeSaved,
         });
       });
     });

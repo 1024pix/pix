@@ -26,8 +26,8 @@ function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {
 }
 
 module.exports = {
-  async save(
-    {
+  async save({ certificationCourseId, assessmentResult, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const {
       pixScore,
       reproducibilityRate,
       status,
@@ -38,15 +38,14 @@ module.exports = {
       id,
       juryId,
       assessmentId,
-    },
-    domainTransaction = DomainTransaction.emptyTransaction()
-  ) {
+    } = assessmentResult;
+
     const knexConn = domainTransaction.knexTransaction || knex;
     if (_.isNil(assessmentId)) {
       throw new MissingAssessmentId();
     }
     try {
-      const [assessmentResult] = await knexConn('assessment-results')
+      const [savedAssessmentResultData] = await knexConn('assessment-results')
         .insert({
           pixScore,
           reproducibilityRate,
@@ -60,9 +59,15 @@ module.exports = {
           assessmentId,
         })
         .returning('*');
+
+      await knex('certification-courses-last-assessment-results')
+        .insert({ certificationCourseId, lastAssessmentResultId: savedAssessmentResultData.id })
+        .onConflict('certificationCourseId')
+        .merge(['lastAssessmentResultId']);
+
       const savedAssessmentResult = new AssessmentResult({
-        ...assessmentResult,
-        reproducibilityRate: _.toNumber(assessmentResult.reproducibilityRate) ?? null,
+        ...savedAssessmentResultData,
+        reproducibilityRate: _.toNumber(savedAssessmentResultData.reproducibilityRate) ?? null,
       });
       return savedAssessmentResult;
     } catch (error) {
