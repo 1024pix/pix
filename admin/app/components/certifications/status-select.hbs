@@ -1,11 +1,11 @@
-<div class="certification-status-select">
+<div class="certification-info-field certification-status-select">
   {{#if @edition}}
     <PixSelect
       @label="Statut :"
       class="certification-status-select__select"
       @options={{this.options}}
       @onChange={{this.selectOption}}
-      @selectedOption={{@certification.status}}
+      @value={{@certification.status}}
       @hideDefaultOption={{true}}
     />
   {{else}}
