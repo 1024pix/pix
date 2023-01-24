@@ -127,7 +127,9 @@ function calculateTotalPixScore({ allAnswers, challenges, estimatedLevel }) {
     estimatedLevel,
   });
 
-  return _sumSkillsChallengesPixScore([...succeededChallenges, ...inferredChallenges]);
+  const pixScore = _sumSkillsChallengesPixScore([...succeededChallenges, ...inferredChallenges]);
+
+  return { pixScore };
 }
 
 function _getDirectSucceededChallenges({ allAnswers, challenges }) {
