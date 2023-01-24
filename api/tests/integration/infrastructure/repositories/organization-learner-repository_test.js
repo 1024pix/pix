@@ -1492,6 +1492,8 @@ describe.only('Integration | Infrastructure | Repository | organization-learner-
       const otherUser = databaseBuilder.factory.buildUser();
       const userIdToDissociate = databaseBuilder.factory.buildUser().id;
 
+      const initialDate = new Date('2023-01-01');
+
       const otherOrganizationLearnerToNotDissociate = databaseBuilder.factory.buildOrganizationLearner({
         userId: otherUser.id,
         organizationId: managingStudentOrganization.id,
@@ -1503,10 +1505,12 @@ describe.only('Integration | Infrastructure | Repository | organization-learner-
       const firstOrganizationLearnerToDissociate = databaseBuilder.factory.buildOrganizationLearner({
         userId: userIdToDissociate,
         organizationId: managingStudentOrganization.id,
+        updatedAt: initialDate,
       });
       const secondOrganizationLearnerToDissociate = databaseBuilder.factory.buildOrganizationLearner({
         userId: userIdToDissociate,
         organizationId: otherManagingStudentOrganization.id,
+        updatedAt: initialDate,
       });
       await databaseBuilder.commit();
 
@@ -1518,10 +1522,12 @@ describe.only('Integration | Infrastructure | Repository | organization-learner-
         .where({ id: firstOrganizationLearnerToDissociate.id })
         .first();
       expect(firstOrganizationLearnerDissociated.userId).to.equal(null);
+      expect(firstOrganizationLearnerDissociated.updatedAt).to.be.above(initialDate);
       const secondOrganizationLearnerDissociated = await knex('organization-learners')
         .where({ id: secondOrganizationLearnerToDissociate.id })
         .first();
       expect(secondOrganizationLearnerDissociated.userId).to.equal(null);
+      expect(secondOrganizationLearnerDissociated.updatedAt).to.be.above(initialDate);
 
       const otherOrganizationLearnerInDb = await knex('organization-learners')
         .where({ id: otherOrganizationLearnerToNotDissociate.id })
@@ -1542,14 +1548,17 @@ describe.only('Integration | Infrastructure | Repository | organization-learner-
     let organization;
     let organizationLearner;
     let user;
+    let initialDate;
 
     beforeEach(async function () {
+      initialDate = new Date('2023-01-01');
       organization = databaseBuilder.factory.buildOrganization();
       organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         userId: null,
         firstName: 'Steeve',
         lastName: 'Roger',
+        updatedAt: initialDate,
       });
       user = databaseBuilder.factory.buildUser({ firstName: 'Steeve', lastName: 'Roger' });
       await databaseBuilder.commit();
@@ -1564,6 +1573,7 @@ describe.only('Integration | Infrastructure | Repository | organization-learner-
 
       // then
       expect(organizationLearnerPatched).to.be.instanceof(OrganizationLearner);
+      expect(organizationLearnerPatched.updatedAt).to.be.above(initialDate);
       expect(organizationLearnerPatched.userId).to.equal(user.id);
     });
 
@@ -1623,8 +1633,10 @@ describe.only('Integration | Infrastructure | Repository | organization-learner-
       let organization;
       let organizationLearner;
       let user;
+      let initialDate;
 
       beforeEach(async function () {
+        initialDate = new Date('2023-01-01');
         organization = databaseBuilder.factory.buildOrganization();
         organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
           organizationId: organization.id,
@@ -1648,6 +1660,7 @@ describe.only('Integration | Infrastructure | Repository | organization-learner-
 
         // then
         expect(organizationLearnerPatched).to.be.instanceof(OrganizationLearner);
+        expect(organizationLearnerPatched.updatedAt).to.be.above(initialDate);
         expect(organizationLearnerPatched.userId).to.equal(user.id);
       });
 
