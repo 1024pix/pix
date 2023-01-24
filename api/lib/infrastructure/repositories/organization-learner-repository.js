@@ -190,15 +190,13 @@ module.exports = {
 
   async reconcileUserToOrganizationLearner({ userId, organizationLearnerId }) {
     try {
-      const organizationLearner = await BookshelfOrganizationLearner.where({ id: organizationLearnerId })
+      const [rawOrganizationLearner] = await knex('organization-learners')
+        .where({ id: organizationLearnerId })
         .where('isDisabled', false)
-        .save(
-          { userId },
-          {
-            patch: true,
-          }
-        );
-      return bookshelfToDomainConverter.buildDomainObject(BookshelfOrganizationLearner, organizationLearner);
+        .update({ userId })
+        .returning('*');
+      if (!rawOrganizationLearner) throw new Error();
+      return new OrganizationLearner(rawOrganizationLearner);
     } catch (error) {
       throw new UserCouldNotBeReconciledError();
     }
