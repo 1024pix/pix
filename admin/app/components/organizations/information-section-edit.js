@@ -154,8 +154,7 @@ export default class OrganizationInformationSectionEditionMode extends Component
 
   @action
   onChangeIdentityProvider(newIdentityProvider) {
-    this.form.identityProviderForCampaigns =
-      newIdentityProvider === this.noIdentityProviderOption.value ? null : newIdentityProvider;
+    this.form.identityProviderForCampaigns = newIdentityProvider;
   }
 
   @action
@@ -171,6 +170,10 @@ export default class OrganizationInformationSectionEditionMode extends Component
     const { validations } = await this.form.validate();
     if (!validations.isValid) {
       return;
+    }
+
+    if (this.form.identityProviderForCampaigns === 'None') {
+      this.form.identityProviderForCampaigns = null;
     }
 
     this.args.organization.set('name', this.form.name);
