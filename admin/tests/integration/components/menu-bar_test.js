@@ -183,6 +183,36 @@ module('Integration | Component | menu-bar', function (hooks) {
     assert.dom(screen.getByRole('link', { name: 'Centres de certification' })).exists();
   });
 
+  module('Administration tab', function () {
+    module('when user is Super Admin', function () {
+      test('should contain link to "Administration" management page', async function (assert) {
+        // given
+        const currentUser = this.owner.lookup('service:currentUser');
+        currentUser.adminMember = { isSuperAdmin: true };
+
+        // when
+        const screen = await render(hbs`<MenuBar />`);
+
+        // then
+        assert.dom(screen.getByRole('link', { name: 'Administration' })).exists();
+      });
+    });
+
+    module('when user is Certif, Metier or Support', function () {
+      test('should not contain link to "Administration" management page', async function (assert) {
+        // given
+        const currentUser = this.owner.lookup('service:currentUser');
+        currentUser.adminMember = { isSuperAdmin: false };
+
+        // when
+        const screen = await render(hbs`<MenuBar />`);
+
+        // then
+        assert.dom(screen.queryByRole('link', { name: 'Administration' })).doesNotExist();
+      });
+    });
+  });
+
   module('Tools tab', function () {
     module('when user is Super Admin', function () {
       test('should contain link to "tools" management page', async function (assert) {
@@ -198,11 +228,25 @@ module('Integration | Component | menu-bar', function (hooks) {
       });
     });
 
-    module('when user is Certif, Metier or Support', function () {
+    module('when user is Metier', function () {
       test('should not contain link to "tools" management page', async function (assert) {
         // given
         const currentUser = this.owner.lookup('service:currentUser');
-        currentUser.adminMember = { isSuperAdmin: false };
+        currentUser.adminMember = { isMetier: true };
+
+        // when
+        const screen = await render(hbs`<MenuBar />`);
+
+        // then
+        assert.dom(screen.queryByRole('link', { name: 'Outils' })).exists();
+      });
+    });
+
+    module('when user is Certif or Support', function () {
+      test('should not contain link to "tools" management page', async function (assert) {
+        // given
+        const currentUser = this.owner.lookup('service:currentUser');
+        currentUser.adminMember = { isSuperAdmin: false, isMetier: false };
 
         // when
         const screen = await render(hbs`<MenuBar />`);

@@ -111,6 +111,7 @@ Router.map(function () {
       this.route('new');
     });
 
+    this.route('administration');
     this.route('tools');
   });
 });
