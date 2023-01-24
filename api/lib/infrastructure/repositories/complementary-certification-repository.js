@@ -13,4 +13,10 @@ module.exports = {
 
     return result.map(_toDomain);
   },
+
+  async getByLabel({ label }) {
+    const result = await knex.from('complementary-certifications').where({ label }).first();
+
+    return _toDomain(result);
+  },
 };
