@@ -23,6 +23,7 @@
       }
     },
     "register-error": {
+      "s50": "This username already exists.",
       "s51": "{ value }",
       "s52": "You already have a Pix account under the username '<br>'{ value }.'<br>'To continue, log in with this account or ask for help from a teacher.'<br>'(Code S52)",
       "s53": "You already have a Pix account through your virtual learning environment (\"ENT\"). Log in with this account to take your customised test.",
@@ -906,7 +907,6 @@
         "title": "Sign up",
         "button": "Sign up",
         "button-form": "Sign up",
-        "error": "An error has occured. Please try again or contact the support.",
         "fields": {
           "birthdate": {
             "label": "Date of birth (DD/MM/YYYY)",
