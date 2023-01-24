@@ -219,6 +219,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   extraTimePercentage: null,
                   billingMode: 'Prépayée',
                   prepaymentCode: '43',
+                  complementaryCertifications: [],
                 },
                 {
                   lastName: 'Candidat 2',
@@ -235,6 +236,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   extraTimePercentage: null,
                   billingMode: 'Prépayée',
                   prepaymentCode: '43',
+                  complementaryCertifications: [],
                 },
               ],
             },
@@ -261,6 +263,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   extraTimePercentage: null,
                   billingMode: 'Prépayée',
                   prepaymentCode: '43',
+                  complementaryCertifications: [],
                 },
               ],
             },
@@ -304,6 +307,58 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                 extraTimePercentage: null,
                 billingMode: 'Prépayée',
                 prepaymentCode: '43',
+                complementaryCertifications: [],
+              },
+            ],
+          },
+        ];
+
+        // when
+        const result = csvSerializer
+          .deserializeForSessionsImport(parsedCsvData)
+          .map((session) => _.omit(session, 'uniqueKey'));
+
+        // then
+        expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
+      });
+    });
+
+    describe('when there is candidate information', function () {
+      it('should return a session object with candidate information per csv line', function () {
+        // given
+        const parsedCsvData = [
+          _lineWithSessionAndCandidateWithComplementaryCertification({
+            sessionNumber: 1,
+            candidateNumber: 1,
+            complementaryCertifications: ['Pix Toto', 'Pix Tata'],
+          }),
+        ];
+
+        const expectedResult = [
+          {
+            address: 'Site 1',
+            room: 'Salle 1',
+            date: '2023-05-12',
+            time: '01:00',
+            examiner: 'Paul',
+            description: '',
+            certificationCandidates: [
+              {
+                lastName: 'Candidat 1',
+                firstName: 'Candidat 1',
+                birthdate: '1981-03-01',
+                birthINSEECode: '75015',
+                birthPostalCode: '',
+                billingMode: 'Prépayée',
+                birthCity: '',
+                birthCountry: 'France',
+                email: '',
+                externalId: '',
+                extraTimePercentage: null,
+                prepaymentCode: '43',
+                resultRecipientEmail: 'robindahood@email.fr',
+                sex: 'M',
+                complementaryCertifications: ['Pix Toto', 'Pix Tata'],
               },
             ],
           },
@@ -370,7 +425,14 @@ function _line({
   extraTimePercentage = '',
   billingMode = '',
   prepaymentCode = '',
+  complementaryCertifications = [],
 }) {
+  const candidateComplementaryCertifications = {};
+
+  complementaryCertifications.forEach((cc) => {
+    candidateComplementaryCertifications[`${cc} ('oui' ou laisser vide)`] = 'oui';
+  });
+
   return {
     'N° de session': sessionId,
     '* Nom du site': address,
@@ -393,6 +455,7 @@ function _line({
     'Temps majoré ?': extraTimePercentage,
     'Tarification part Pix': billingMode,
     'Code de prépaiement': prepaymentCode,
+    ...candidateComplementaryCertifications,
   };
 }
 
@@ -448,6 +511,36 @@ function _lineWithSessionAndCandidate({ sessionNumber, candidateNumber }) {
     extraTimePercentage: '',
     billingMode: 'Prépayée',
     prepaymentCode: '43',
+  });
+}
+
+function _lineWithSessionAndCandidateWithComplementaryCertification({
+  sessionNumber,
+  candidateNumber,
+  complementaryCertifications,
+}) {
+  return _line({
+    address: `Site ${sessionNumber}`,
+    room: `Salle ${sessionNumber}`,
+    date: '12/05/2023',
+    time: '01:00',
+    examiner: 'Paul',
+    description: '',
+    lastName: `Candidat ${candidateNumber}`,
+    firstName: `Candidat ${candidateNumber}`,
+    birthdate: '01/03/1981',
+    sex: 'M',
+    birthINSEECode: '75015',
+    birthPostalCode: '',
+    birthCity: '',
+    birthCountry: 'France',
+    resultRecipientEmail: 'robindahood@email.fr',
+    email: '',
+    externalId: '',
+    extraTimePercentage: '',
+    billingMode: 'Prépayée',
+    prepaymentCode: '43',
+    complementaryCertifications,
   });
 }
 
