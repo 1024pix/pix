@@ -277,6 +277,7 @@ export default class RegisterForm extends Component {
     this.matchingStudentFound = false;
     this.loginWithUsername = true;
     this.validation = new FormValidation();
+    this.errorMessage = null;
   }
 
   _executeFieldValidation(key, value, isValid) {
