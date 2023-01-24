@@ -302,27 +302,23 @@ module.exports = {
     return organizationLearner;
   },
 
-  updateUserIdWhereNull({ organizationLearnerId, userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    return BookshelfOrganizationLearner.where({ id: organizationLearnerId, userId: null })
-      .save(
-        { userId },
-        {
-          transacting: domainTransaction.knexTransaction,
-          patch: true,
-          method: 'update',
-        }
-      )
-      .then((organizationLearner) =>
-        bookshelfToDomainConverter.buildDomainObject(BookshelfOrganizationLearner, organizationLearner)
-      )
-      .catch((err) => {
-        if (err instanceof BookshelfOrganizationLearner.NoRowsUpdatedError) {
-          throw new OrganizationLearnerNotFound(
-            `OrganizationLearner not found for ID ${organizationLearnerId} and user ID null.`
-          );
-        }
-        throw err;
-      });
+  async updateUserIdWhereNull({
+    organizationLearnerId,
+    userId,
+    domainTransaction = DomainTransaction.emptyTransaction(),
+  }) {
+    const knexConn = domainTransaction.knexTransaction || knex;
+    const [rawOrganizationLearner] = await knexConn('organization-learners')
+      .where({ id: organizationLearnerId, userId: null })
+      .update({ userId, updatedAt: knex.fn.now() })
+      .returning('*');
+
+    if (!rawOrganizationLearner)
+      throw new OrganizationLearnerNotFound(
+        `OrganizationLearner not found for ID ${organizationLearnerId} and user ID null.`
+      );
+
+    return new OrganizationLearner(rawOrganizationLearner);
   },
 
   async isActive({ userId, campaignId }) {
