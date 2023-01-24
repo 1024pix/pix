@@ -44,10 +44,10 @@ function _shouldStudentToImportBeReconciled(
 }
 
 module.exports = {
-  findByIds({ ids }) {
-    const organizationLearners = BookshelfOrganizationLearner.where('id', 'in', ids).fetchAll();
+  async findByIds({ ids }) {
+    const rawOrganizationLearners = await knex.select('*').from('organization-learners').whereIn('id', ids);
 
-    return bookshelfToDomainConverter.buildDomainObjects(BookshelfOrganizationLearner, organizationLearners);
+    return rawOrganizationLearners.map((rawOrganizationLearner) => new OrganizationLearner(rawOrganizationLearner));
   },
 
   findByOrganizationId({ organizationId }, transaction = DomainTransaction.emptyTransaction()) {
