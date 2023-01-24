@@ -13,6 +13,7 @@ const mailService = require('../../../../lib/domain/services/mail-service');
 const obfuscationService = require('../../../../lib/domain/services/obfuscation-service');
 const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
 const userService = require('../../../../lib/domain/services/user-service');
+const createAndReconcileUserToOrganizationLearner = require('../../../../lib/domain/usecases/create-and-reconcile-user-to-organization-learner');
 
 const {
   CampaignCodeError,
@@ -20,8 +21,6 @@ const {
   NotFoundError,
   OrganizationLearnerAlreadyLinkedToUserError,
 } = require('../../../../lib/domain/errors');
-
-const createAndReconcileUserToOrganizationLearner = require('../../../../lib/domain/usecases/create-and-reconcile-user-to-organization-learner');
 
 describe('Integration | UseCases | create-and-reconcile-user-to-organization-learner', function () {
   const pickUserAttributes = ['firstName', 'lastName', 'email', 'username', 'cgu'];
@@ -143,6 +142,8 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
 
         // then
         expect(error).to.be.instanceOf(OrganizationLearnerAlreadyLinkedToUserError);
+        expect(error.code).to.equal('ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION');
+        expect(error.meta.shortCode).to.equal('S52');
       });
     });
 
