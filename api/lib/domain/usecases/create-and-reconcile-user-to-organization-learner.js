@@ -14,6 +14,7 @@ const passwordValidator = require('../validators/password-validator');
 const userValidator = require('../validators/user-validator');
 
 const { getCampaignUrl } = require('../../infrastructure/utils/url-builder');
+const { STUDENT_RECONCILIATION_ERRORS } = require('../constants');
 
 function _encryptPassword(userPassword, encryptionService) {
   const encryptedPassword = encryptionService.hashPassword(userPassword);
@@ -137,10 +138,14 @@ module.exports = async function createAndReconcileUserToOrganizationLearner({
       obfuscationService,
     });
 
-  if (!isNil(matchedOrganizationLearner.userId)) {
-    throw new OrganizationLearnerAlreadyLinkedToUserError(
-      'Un compte existe déjà pour l‘élève dans le même établissement.'
-    );
+  const organizationLearnerFound = !isNil(matchedOrganizationLearner.userId);
+  if (organizationLearnerFound) {
+    const detail = 'Un compte existe déjà pour l‘élève dans le même établissement.';
+    const error = STUDENT_RECONCILIATION_ERRORS.LOGIN_OR_REGISTER.IN_SAME_ORGANIZATION.username;
+    const meta = {
+      shortCode: error.shortCode,
+    };
+    throw new OrganizationLearnerAlreadyLinkedToUserError(detail, error.code, meta);
   }
 
   const isUsernameMode = userAttributes.withUsername;
