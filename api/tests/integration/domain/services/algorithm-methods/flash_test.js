@@ -754,7 +754,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         const result = flash.calculateTotalPixScore({ allAnswers, challenges, estimatedLevel });
 
         // then
-        expect(result).to.equal(101);
+        expect(result).to.deep.equal({ pixScore: 101 });
       });
       it("should not count a skill's score more than once", function () {
         // given
@@ -817,7 +817,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         const result = flash.calculateTotalPixScore({ allAnswers, challenges, estimatedLevel });
 
         // then
-        expect(result).to.equal(101);
+        expect(result).to.deep.equal({ pixScore: 101 });
       });
     });
 
@@ -917,7 +917,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         const result = flash.calculateTotalPixScore({ allAnswers, challenges, estimatedLevel });
 
         // then
-        expect(result).to.equal(110011);
+        expect(result).to.deep.equal({ pixScore: 110011 });
       });
 
       it('should not count a skill more than once in direct score', function () {
@@ -952,7 +952,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         const result = flash.calculateTotalPixScore({ allAnswers, challenges });
 
         // then
-        expect(result).to.equal(1);
+        expect(result).to.deep.equal({ pixScore: 1 });
       });
     });
   });
