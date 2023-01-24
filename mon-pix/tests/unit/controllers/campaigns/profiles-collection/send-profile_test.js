@@ -63,17 +63,25 @@ module('Unit | Controller | campaigns/profiles-collection/send-profile', functio
   });
 
   module('#sendProfile', function () {
-    test('should set isShared to true', function (assert) {
+    test('should set isShared to true', async function (assert) {
+      const event = {
+        preventDefault: () => {},
+      };
+
       // when
-      controller.actions.sendProfile.call(controller);
+      await controller.actions.sendProfile.call(controller, event);
 
       // then
       assert.true(controller.model.campaignParticipation.isShared);
     });
 
     test('should call load from currentUser', async function (assert) {
+      const event = {
+        preventDefault: () => {},
+      };
+
       // when
-      await controller.actions.sendProfile.call(controller);
+      await controller.actions.sendProfile.call(controller, event);
 
       // then
       sinon.assert.called(currentUserStub.load);
@@ -81,13 +89,15 @@ module('Unit | Controller | campaigns/profiles-collection/send-profile', functio
     });
 
     test('should not be loading nor in error', async function (assert) {
+      const event = {
+        preventDefault: () => {},
+      };
+
       // when
-      await controller.actions.sendProfile.call(controller);
+      await controller.actions.sendProfile.call(controller, event);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(controller.errorMessage, null);
+      assert.strictEqual(controller.errorMessage, null);
     });
   });
 });
