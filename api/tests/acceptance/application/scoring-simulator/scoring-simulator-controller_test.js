@@ -9,6 +9,8 @@ const {
   ROLES: { SUPER_ADMIN },
 } = require('../../../../lib/domain/constants').PIX_ADMIN;
 
+const isoDateFormat = /^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\.\d\d\d.*$/;
+
 describe('Acceptance | Controller | scoring-simulator-controller', function () {
   let server;
   let adminAuthorization;
@@ -88,22 +90,24 @@ describe('Acceptance | Controller | scoring-simulator-controller', function () {
       // given
       options.headers.authorization = adminAuthorization;
       options.payload = {
-        simulations: [
-          {
-            answers: [
-              { challengeId: 'challenge3', result: 'ok' },
-              { challengeId: 'challenge2', result: 'ok' },
-              { challengeId: 'challenge5', result: 'ok' },
-            ],
-          },
-          {
-            id: 'simulationWithError',
-            answers: [
-              { challengeId: 'challenge2', result: 'ok' },
-              { challengeId: 'challenge1', result: 'ok' },
-            ],
-          },
-        ],
+        dataset: {
+          simulations: [
+            {
+              answers: [
+                { challengeId: 'challenge3', result: 'ok' },
+                { challengeId: 'challenge2', result: 'ok' },
+                { challengeId: 'challenge5', result: 'ok' },
+              ],
+            },
+            {
+              id: 'simulationWithError',
+              answers: [
+                { challengeId: 'challenge2', result: 'ok' },
+                { challengeId: 'challenge1', result: 'ok' },
+              ],
+            },
+          ],
+        },
       };
 
       // when
@@ -111,7 +115,6 @@ describe('Acceptance | Controller | scoring-simulator-controller', function () {
 
       // then
       expect(response).to.have.property('statusCode', 200);
-      expect(response.result.results).to.have.lengthOf(2);
       expect(response.result.results).to.exactlyContain([
         {
           id: undefined,
@@ -137,6 +140,7 @@ describe('Acceptance | Controller | scoring-simulator-controller', function () {
           error: 'Answer for skill skill1 was already given or inferred',
         },
       ]);
+      expect(response.result.date).to.match(isoDateFormat);
     });
 
     describe('when there is no connected user', function () {
@@ -159,7 +163,9 @@ describe('Acceptance | Controller | scoring-simulator-controller', function () {
         await databaseBuilder.commit();
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
         options.payload = {
-          simulations: [{ answers: [{ challengeId: 'test', result: 'ok' }] }],
+          dataset: {
+            simulations: [{ answers: [{ challengeId: 'test', result: 'ok' }] }],
+          },
         };
 
         // when
@@ -177,7 +183,7 @@ describe('Acceptance | Controller | scoring-simulator-controller', function () {
         options.payload = {
           wrongField: [
             {
-              answers: [],
+              simulations: [],
             },
           ],
         };
@@ -210,39 +216,42 @@ describe('Acceptance | Controller | scoring-simulator-controller', function () {
         context: {
           id: 'superContext',
         },
-        simulations: [
-          {
-            id: 'simulation1',
-            estimatedLevel: 2.5769829347,
-            answers: [
-              {
-                challengeId: 'challenge3',
-                result: 'ok',
-              },
-              {
-                challengeId: 'challenge2',
-                result: 'ok',
-              },
-              {
-                challengeId: 'challenge5',
-                result: 'ok',
-              },
-            ],
-          },
-          {
-            id: 'simulation2',
-            answers: [
-              {
-                challengeId: 'challenge2',
-                result: 'ok',
-              },
-              {
-                challengeId: 'challenge1',
-                result: 'ok',
-              },
-            ],
-          },
-        ],
+        dataset: {
+          id: 'awesomeDataset',
+          simulations: [
+            {
+              id: 'simulation1',
+              estimatedLevel: 2.5769829347,
+              answers: [
+                {
+                  challengeId: 'challenge3',
+                  result: 'ok',
+                },
+                {
+                  challengeId: 'challenge2',
+                  result: 'ok',
+                },
+                {
+                  challengeId: 'challenge5',
+                  result: 'ok',
+                },
+              ],
+            },
+            {
+              id: 'simulation2',
+              answers: [
+                {
+                  challengeId: 'challenge2',
+                  result: 'ok',
+                },
+                {
+                  challengeId: 'challenge1',
+                  result: 'ok',
+                },
+              ],
+            },
+          ],
+        },
       };
 
       // when
@@ -251,21 +260,24 @@ describe('Acceptance | Controller | scoring-simulator-controller', function () {
       // then
       expect(response).to.have.property('statusCode', 200);
       expect(response.result).to.have.property('contextId', 'superContext');
-      expect(response.result.results).to.have.lengthOf(2);
-      expect(response.result.results[0]).to.deep.include({
-        id: 'simulation1',
-        estimatedLevel: 2.5769829347,
-        pixScore: 11110,
-        pixScoreByCompetence: [],
-        error: undefined,
-      });
-      expect(response.result.results[1]).to.deep.include({
-        id: 'simulation2',
-        error: 'Simulation should have an estimated level',
-        estimatedLevel: undefined,
-        pixScore: undefined,
-        pixScoreByCompetence: [],
-      });
+      expect(response.result).to.have.property('datasetId', 'awesomeDataset');
+      expect(response.result.results).to.exactlyContain([
+        {
+          id: 'simulation1',
+          estimatedLevel: 2.5769829347,
+          pixScore: 11110,
+          pixScoreByCompetence: [],
+          error: undefined,
+        },
+        {
+          id: 'simulation2',
+          error: 'Simulation should have an estimated level',
+          estimatedLevel: undefined,
+          pixScore: undefined,
+          pixScoreByCompetence: [],
+        },
+      ]);
+      expect(response.result.date).to.match(isoDateFormat);
     });
 
     describe('when there is no connected user', function () {
@@ -288,11 +300,13 @@ describe('Acceptance | Controller | scoring-simulator-controller', function () {
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
         await databaseBuilder.commit();
         options.payload = {
-          simulations: [
-            {
-              estimatedLevel: 1,
-            },
-          ],
+          dataset: {
+            simulations: [
+              {
+                estimatedLevel: 1,
+              },
+            ],
+          },
         };
 
         // when
@@ -310,7 +324,7 @@ describe('Acceptance | Controller | scoring-simulator-controller', function () {
         options.payload = {
           wrongField: [
             {
-              answers: [],
+              simulations: [],
             },
           ],
         };
