@@ -13,9 +13,8 @@ const OrganizationLearnerForAdmin = require('../../domain/read-models/Organizati
 const studentRepository = require('./student-repository');
 
 const { knex } = require('../../../db/knex-database-connection');
-const BookshelfOrganizationLearner = require('../orm-models/OrganizationLearner');
+const { fetchPage } = require('../utils/knex-utils');
 
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const DomainTransaction = require('../DomainTransaction');
 
 function _shouldStudentToImportBeReconciled(
@@ -61,26 +60,22 @@ module.exports = {
 
   async findByOrganizationIdAndUpdatedAtOrderByDivision({ organizationId, page, filter }) {
     const BEGINNING_OF_THE_2020_SCHOOL_YEAR = '2020-08-15';
-    const query = BookshelfOrganizationLearner.where((qb) => {
-      qb.where({ organizationId });
-      qb.where('updatedAt', '>', BEGINNING_OF_THE_2020_SCHOOL_YEAR);
-      qb.where('isDisabled', false);
-    })
-      .query((qb) => {
-        qb.orderByRaw('LOWER("division") ASC, LOWER("lastName") ASC, LOWER("firstName") ASC');
-        if (filter.divisions) {
-          qb.whereIn('division', filter.divisions);
-        }
+    const query = knex('organization-learners')
+      .where({
+        organizationId,
+        isDisabled: false,
       })
-      .fetchPage({
-        page: page.number,
-        pageSize: page.size,
-      });
+      .where('updatedAt', '>', BEGINNING_OF_THE_2020_SCHOOL_YEAR)
+      .orderByRaw('LOWER("division") ASC, LOWER("lastName") ASC, LOWER("firstName") ASC');
 
-    const { models, pagination } = await query;
+    if (filter.divisions) {
+      query.whereIn('division', filter.divisions);
+    }
+
+    const { results, pagination } = await fetchPage(query, page);
 
     return {
-      data: bookshelfToDomainConverter.buildDomainObjects(BookshelfOrganizationLearner, models),
+      data: results.map((result) => new OrganizationLearner(result)),
       pagination,
     };
   },
