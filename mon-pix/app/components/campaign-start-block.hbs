@@ -18,7 +18,9 @@
   <form {{on "submit" this.start}}>
     <div class="campaign-landing-page__start__text">
       <h1 class="campaign-landing-page__start__text__title">{{this.titleText}}</h1>
-      <h2 class="campaign-landing-page__start__text__announcement">{{{this.announcementText}}}</h2>
+      {{#unless this.session.isAuthenticated}}
+        <h2 class="campaign-landing-page__start__text__announcement">{{{this.announcementText}}}</h2>
+      {{/unless}}
       <PixButton
         @type="submit"
         class="campaign-landing-page__start-button"
