@@ -4,12 +4,7 @@
       <span><FaIcon @icon="circle-check" class="badge-card-status__acquired-icon" /></span>
       {{t "pages.skill-review.already-shared"}}
     </div>
-    <a
-      href="#"
-      {{on "click" @redirectToSignupIfUserIsAnonymous}}
-      class="skill-review-share__back-to-home link"
-      data-link-to-continue-pix
-    >
+    <a href="#" {{on "click" @redirectToSignupIfUserIsAnonymous}} class="skill-review-share__back-to-home link">
       <FaIcon @icon="arrow-right" aria-hidden="true" />
       {{t "pages.skill-review.actions.continue"}}
     </a>
