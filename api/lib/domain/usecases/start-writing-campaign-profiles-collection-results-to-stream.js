@@ -1,4 +1,9 @@
-const moment = require('moment');
+const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
+const timezone = require('dayjs/plugin/timezone');
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 const { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } = require('../errors');
 const CampaignProfilesCollectionExport = require('../../infrastructure/serializers/csv/campaign-profiles-collection-export');
 
@@ -64,7 +69,7 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
   const fileName = translate('campaign-export.common.file-name', {
     name: campaign.name,
     id: campaign.id,
-    date: moment.utc().format('YYYY-MM-DD-hhmm'),
+    date: dayjs().tz('Europe/Berlin').format('YYYY-MM-DD-HHmm'),
   });
 
   return { fileName };
