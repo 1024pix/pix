@@ -37,6 +37,7 @@ module('Unit | Component | register-form', function (hooks) {
         assert.strictEqual(component.email, null);
         assert.strictEqual(component.username, null);
         assert.strictEqual(component.password, null);
+        assert.strictEqual(component.errorMessage, null);
         assert.false(component.matchingStudentFound);
         assert.true(component.loginWithUsername);
       });
