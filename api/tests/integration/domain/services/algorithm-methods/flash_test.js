@@ -689,9 +689,9 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
       it('should return a total score with only inferred challenges scores', function () {
         // given
         const skills = [
-          domainBuilder.buildSkill({ id: 'Skill1', pixValue: 1 }),
-          domainBuilder.buildSkill({ id: 'Skill2', pixValue: 10 }),
-          domainBuilder.buildSkill({ id: 'Skill3', pixValue: 100 }),
+          domainBuilder.buildSkill({ id: 'Skill1', pixValue: 1, competenceId: 'FirstCompetence' }),
+          domainBuilder.buildSkill({ id: 'Skill2', pixValue: 10, competenceId: 'FirstCompetence' }),
+          domainBuilder.buildSkill({ id: 'Skill3', pixValue: 100, competenceId: 'SecondCompetence' }),
         ];
 
         const successProbabilityThreshold = 0.95;
@@ -754,14 +754,27 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         const result = flash.calculateTotalPixScore({ allAnswers, challenges, estimatedLevel });
 
         // then
-        expect(result).to.deep.equal({ pixScore: 101 });
+        expect(result).to.deep.equal({
+          pixScore: 101,
+          pixScoreByCompetence: [
+            {
+              competenceId: 'FirstCompetence',
+              pixScore: 1,
+            },
+            {
+              competenceId: 'SecondCompetence',
+              pixScore: 100,
+            },
+          ],
+        });
       });
+
       it("should not count a skill's score more than once", function () {
         // given
         const skills = [
-          domainBuilder.buildSkill({ id: 'Skill1', pixValue: 1 }),
-          domainBuilder.buildSkill({ id: 'Skill2', pixValue: 10 }),
-          domainBuilder.buildSkill({ id: 'Skill3', pixValue: 100 }),
+          domainBuilder.buildSkill({ id: 'Skill1', pixValue: 1, competenceId: 'FirstCompetence' }),
+          domainBuilder.buildSkill({ id: 'Skill2', pixValue: 10, competenceId: 'FirstCompetence' }),
+          domainBuilder.buildSkill({ id: 'Skill3', pixValue: 100, competenceId: 'SecondCompetence' }),
         ];
 
         const successProbabilityThreshold = 0.95;
@@ -817,7 +830,19 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         const result = flash.calculateTotalPixScore({ allAnswers, challenges, estimatedLevel });
 
         // then
-        expect(result).to.deep.equal({ pixScore: 101 });
+        expect(result).to.deep.equal({
+          pixScore: 101,
+          pixScoreByCompetence: [
+            {
+              competenceId: 'FirstCompetence',
+              pixScore: 1,
+            },
+            {
+              competenceId: 'SecondCompetence',
+              pixScore: 100,
+            },
+          ],
+        });
       });
     });
 
@@ -825,13 +850,13 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
       it('should return a total score that combines inferred and direct challenges values', function () {
         // given
         const skills = [
-          domainBuilder.buildSkill({ id: 'FirstSkill', pixValue: 1 }),
-          domainBuilder.buildSkill({ id: 'SecondSkill', pixValue: 10 }),
-          domainBuilder.buildSkill({ id: 'ThirdSkill', pixValue: 100 }),
-          domainBuilder.buildSkill({ id: 'FourthSkill', pixValue: 1000 }),
-          domainBuilder.buildSkill({ id: 'FifthSkill', pixValue: 10000 }),
-          domainBuilder.buildSkill({ id: 'SixthSkill', pixValue: 100000 }),
-          domainBuilder.buildSkill({ id: 'SeventhSkill', pixValue: 1000000 }),
+          domainBuilder.buildSkill({ id: 'FirstSkill', pixValue: 1, competenceId: 'FirstCompetence' }),
+          domainBuilder.buildSkill({ id: 'SecondSkill', pixValue: 10, competenceId: 'FirstCompetence' }),
+          domainBuilder.buildSkill({ id: 'ThirdSkill', pixValue: 100, competenceId: 'FirstCompetence' }),
+          domainBuilder.buildSkill({ id: 'FourthSkill', pixValue: 1000, competenceId: 'SecondCompetence' }),
+          domainBuilder.buildSkill({ id: 'FifthSkill', pixValue: 10000, competenceId: 'SecondCompetence' }),
+          domainBuilder.buildSkill({ id: 'SixthSkill', pixValue: 100000, competenceId: 'SecondCompetence' }),
+          domainBuilder.buildSkill({ id: 'SeventhSkill', pixValue: 1000000, competenceId: 'SecondCompetence' }),
         ];
 
         const successProbabilityThreshold = 0.95;
@@ -917,12 +942,24 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         const result = flash.calculateTotalPixScore({ allAnswers, challenges, estimatedLevel });
 
         // then
-        expect(result).to.deep.equal({ pixScore: 110011 });
+        expect(result).to.deep.equal({
+          pixScore: 110011,
+          pixScoreByCompetence: [
+            {
+              competenceId: 'FirstCompetence',
+              pixScore: 11,
+            },
+            {
+              competenceId: 'SecondCompetence',
+              pixScore: 110000,
+            },
+          ],
+        });
       });
 
       it('should not count a skill more than once in direct score', function () {
         // given
-        const skill = domainBuilder.buildSkill({ id: 'FirstSkill', pixValue: 1 });
+        const skill = domainBuilder.buildSkill({ id: 'FirstSkill', pixValue: 1, competenceId: 'FirstCompetence' });
 
         const successProbabilityThreshold = 0.95;
 
@@ -952,7 +989,15 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         const result = flash.calculateTotalPixScore({ allAnswers, challenges });
 
         // then
-        expect(result).to.deep.equal({ pixScore: 1 });
+        expect(result).to.deep.equal({
+          pixScore: 1,
+          pixScoreByCompetence: [
+            {
+              competenceId: 'FirstCompetence',
+              pixScore: 1,
+            },
+          ],
+        });
       });
     });
   });

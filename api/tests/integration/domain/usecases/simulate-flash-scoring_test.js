@@ -114,6 +114,10 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
         expect(simulationResults[0]).to.have.property('id', 'simulation1');
         expect(simulationResults[0]).to.have.property('estimatedLevel', 5.309899756825917);
         expect(simulationResults[0]).to.have.property('pixScore', 110011);
+        expect(simulationResults[0].pixScoreByCompetence).to.deep.equal([
+          { competenceId: 'rec1', pixScore: 11 },
+          { competenceId: 'rec2', pixScore: 110000 },
+        ]);
       });
     });
 
@@ -143,6 +147,10 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
           expect(simulationResults[0]).to.have.property('id', 'simulation1');
           expect(simulationResults[0]).to.have.property('estimatedLevel', 5.309899756825917);
           expect(simulationResults[0]).to.have.property('pixScore', 110011);
+          expect(simulationResults[0].pixScoreByCompetence).to.deep.equal([
+            { competenceId: 'rec1', pixScore: 11 },
+            { competenceId: 'rec2', pixScore: 110000 },
+          ]);
         });
       });
 
@@ -212,6 +220,10 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
         expect(simulationResults[0]).to.be.instanceOf(ScoringSimulationResult);
         expect(simulationResults[0]).to.have.property('id', 'simulation1');
         expect(simulationResults[0]).to.have.property('pixScore', 110011);
+        expect(simulationResults[0].pixScoreByCompetence).to.deep.equal([
+          { competenceId: 'rec1', pixScore: 11 },
+          { competenceId: 'rec2', pixScore: 110000 },
+        ]);
       });
     });
 
@@ -234,6 +246,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
         expect(simulationResults[0]).to.be.instanceOf(ScoringSimulationResult);
         expect(simulationResults[0]).to.have.property('id', 'simulation1');
         expect(simulationResults[0]).to.have.property('pixScore', 111000);
+        expect(simulationResults[0].pixScoreByCompetence).to.deep.equal([{ competenceId: 'rec2', pixScore: 111000 }]);
       });
     });
 
@@ -339,6 +352,10 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
       expect(simulationResults[0]).to.be.instanceOf(ScoringSimulationResult);
       expect(simulationResults[0]).to.have.property('id', 'simulation1');
       expect(simulationResults[0]).to.have.property('pixScore', 111001);
+      expect(simulationResults[0].pixScoreByCompetence).to.deep.equal([
+        { competenceId: 'rec1', pixScore: 1 },
+        { competenceId: 'rec2', pixScore: 111000 },
+      ]);
     });
   });
 });

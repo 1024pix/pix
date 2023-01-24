@@ -127,9 +127,12 @@ function calculateTotalPixScore({ allAnswers, challenges, estimatedLevel }) {
     estimatedLevel,
   });
 
-  const pixScore = _sumSkillsChallengesPixScore([...succeededChallenges, ...inferredChallenges]);
+  const pixScoreAndScoreByCompetence = _sumPixScoreAndScoreByCompetence([
+    ...succeededChallenges,
+    ...inferredChallenges,
+  ]);
 
-  return { pixScore };
+  return pixScoreAndScoreByCompetence;
 }
 
 function _getDirectSucceededChallenges({ allAnswers, challenges }) {
@@ -160,17 +163,39 @@ function _findChallengeForAnswer(challenges, answer) {
   return challenges.find((challenge) => challenge.id === answer.challengeId);
 }
 
-function _sumSkillsChallengesPixScore(challenges) {
-  const scoreBySkillId = challenges.reduce((acc, challenge) => {
-    if (acc[challenge.skill.id]) return acc;
+function _sumPixScoreAndScoreByCompetence(challenges) {
+  const { scoreBySkillId, scoreByCompetenceId } = challenges.reduce(
+    (acc, challenge) => {
+      const skillId = challenge.skill.id;
+      const competenceId = challenge.skill.competenceId;
+      if (acc.scoreBySkillId[skillId]) return acc;
 
-    return {
-      ...acc,
-      [challenge.skill.id]: challenge.skill.pixValue,
-    };
-  }, {});
+      const scoreBySkillId = {
+        ...acc.scoreBySkillId,
+        [skillId]: challenge.skill.pixValue,
+      };
 
-  return Object.values(scoreBySkillId).reduce((sum, pixValue) => sum + pixValue, 0);
+      const previousCompetenceScore = acc.scoreByCompetenceId[competenceId] ?? 0;
+      const scoreByCompetenceId = {
+        ...acc.scoreByCompetenceId,
+        [competenceId]: challenge.skill.pixValue + previousCompetenceScore,
+      };
+
+      return { scoreBySkillId, scoreByCompetenceId };
+    },
+    { scoreBySkillId: {}, scoreByCompetenceId: {} }
+  );
+
+  const pixScore = Object.values(scoreBySkillId).reduce((sum, pixValue) => sum + pixValue, 0);
+  const pixScoreByCompetence = _.sortBy(
+    Object.entries(scoreByCompetenceId).map(([competenceId, pixScore]) => ({
+      competenceId,
+      pixScore,
+    })),
+    'competenceId'
+  );
+
+  return { pixScore, pixScoreByCompetence };
 }
 
 function _getReward({ estimatedLevel, discriminant, difficulty }) {
