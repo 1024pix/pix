@@ -48,7 +48,7 @@ module.exports = {
   async getCertificationCenterDetails(request) {
     const certificationCenterId = request.params.id;
 
-    const certificationCenterDetails = await usecases.getCertificationCenter({ id: certificationCenterId });
+    const certificationCenterDetails = await usecases.getCertificationCenterForAdmin({ id: certificationCenterId });
     return certificationCenterForAdminSerializer.serialize(certificationCenterDetails);
   },
 
@@ -177,7 +177,11 @@ module.exports = {
     const habilitationLabels = await usecases.getImportSessionComplementaryCertificationHabilitationsLabels({
       certificationCenterId,
     });
-    const headers = getHeaders(habilitationLabels);
+    const certificationCenter = await usecases.getCertificationCenter({ id: certificationCenterId });
+    const headers = getHeaders({
+      habilitationLabels,
+      shouldDisplayBillingModeColumns: certificationCenter.hasBillingMode,
+    });
     return h
       .response(headers)
       .header('Content-Type', 'text/csv; charset=utf-8')

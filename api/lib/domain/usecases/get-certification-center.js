@@ -1,3 +1,3 @@
-module.exports = function getCertificationCenter({ id, certificationCenterForAdminRepository }) {
-  return certificationCenterForAdminRepository.get(id);
+module.exports = function getCertificationCenter({ id, certificationCenterRepository }) {
+  return certificationCenterRepository.get(id);
 };

@@ -1,9 +1,10 @@
 const { Parser } = require('json2csv');
 const { headers } = require('../utils/csv/sessions-import');
+const omit = require('lodash/omit');
 
-function getHeaders(habilitationLabels) {
+function getHeaders({ habilitationLabels, shouldDisplayBillingModeColumns = true }) {
   const complementaryCertificationsHeaders = _getComplementaryCertificationsHeaders(habilitationLabels);
-  const fields = _getHeadersAsArray(complementaryCertificationsHeaders);
+  const fields = _getHeadersAsArray(complementaryCertificationsHeaders, shouldDisplayBillingModeColumns);
   const json2csvParser = new Parser({
     withBOM: true,
     includeEmptyRows: false,
@@ -17,8 +18,12 @@ function _getComplementaryCertificationsHeaders(habilitationLabels) {
   return habilitationLabels?.map((habilitationLabel) => `${habilitationLabel} ('oui' ou laisser vide)`);
 }
 
-function _getHeadersAsArray(complementaryCertificationsHeaders = []) {
-  const csvHeaders = Object.keys(headers).reduce((arr, key) => [...arr, headers[key]], []);
+function _getHeadersAsArray(complementaryCertificationsHeaders = [], shouldDisplayBillingModeColumns) {
+  const certificationCenterCsvHeaders = shouldDisplayBillingModeColumns
+    ? headers
+    : omit(headers, ['billingMode', 'prepaymentCode']);
+
+  const csvHeaders = Object.keys(certificationCenterCsvHeaders).reduce((arr, key) => [...arr, headers[key]], []);
   return [...csvHeaders, ...complementaryCertificationsHeaders];
 }
 
