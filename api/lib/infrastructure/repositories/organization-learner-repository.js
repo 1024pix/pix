@@ -193,7 +193,7 @@ module.exports = {
       const [rawOrganizationLearner] = await knex('organization-learners')
         .where({ id: organizationLearnerId })
         .where('isDisabled', false)
-        .update({ userId })
+        .update({ userId, updatedAt: knex.fn.now() })
         .returning('*');
       if (!rawOrganizationLearner) throw new Error();
       return new OrganizationLearner(rawOrganizationLearner);
@@ -210,7 +210,7 @@ module.exports = {
           nationalStudentId,
           isDisabled: false,
         })
-        .update({ userId })
+        .update({ userId, updatedAt: knex.fn.now() })
         .returning('*');
       if (!rawOrganizationLearner) throw new Error();
       return new OrganizationLearner(rawOrganizationLearner);
@@ -252,7 +252,7 @@ module.exports = {
   async dissociateAllStudentsByUserId({ userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const knexConn = domainTransaction.knexTransaction ?? knex;
     await knexConn('organization-learners')
-      .update({ userId: null })
+      .update({ userId: null, updatedAt: knex.fn.now() })
       .where({ userId })
       .whereIn(
         'organization-learners.organizationId',
