@@ -86,9 +86,13 @@ module.exports = {
   },
 
   async findByUserId({ userId }) {
-    const organizationLearners = await BookshelfOrganizationLearner.where({ userId }).orderBy('id').fetchAll();
+    const rawOrganizationLearners = await knex
+      .select('*')
+      .from('organization-learners')
+      .where({ userId })
+      .orderBy('id');
 
-    return bookshelfToDomainConverter.buildDomainObjects(BookshelfOrganizationLearner, organizationLearners);
+    return rawOrganizationLearners.map((rawOrganizationLearner) => new OrganizationLearner(rawOrganizationLearner));
   },
 
   async isOrganizationLearnerIdLinkedToUserAndSCOOrganization({ userId, organizationLearnerId }) {
