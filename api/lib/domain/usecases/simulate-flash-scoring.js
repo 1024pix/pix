@@ -1,4 +1,4 @@
-const SimulationResult = require('../models/SimulationResult');
+const ScoringSimulationResult = require('../models/ScoringSimulationResult');
 
 module.exports = async function simulateFlashScoring({
   challengeRepository,
@@ -14,7 +14,7 @@ module.exports = async function simulateFlashScoring({
     let finalEstimatedLevel = givenEstimatedLevel;
 
     if (!calculateEstimatedLevel && givenEstimatedLevel == undefined) {
-      return new SimulationResult({
+      return new ScoringSimulationResult({
         id,
         error: 'Simulation should have an estimated level',
       });
@@ -22,7 +22,7 @@ module.exports = async function simulateFlashScoring({
 
     for (const answer of allAnswers) {
       if (!challengeIds.has(answer.challengeId)) {
-        return new SimulationResult({
+        return new ScoringSimulationResult({
           id,
           error: `Challenge ID ${answer.challengeId} is unknown or not compatible with flash algorithm`,
         });
@@ -31,7 +31,7 @@ module.exports = async function simulateFlashScoring({
 
     if (calculateEstimatedLevel) {
       if (allAnswers.length === 0) {
-        return new SimulationResult({
+        return new ScoringSimulationResult({
           id,
           error: 'Simulation should have answers in order to calculate estimated level',
         });
@@ -43,7 +43,7 @@ module.exports = async function simulateFlashScoring({
       });
 
       if (givenEstimatedLevel != undefined && calculatedEstimatedLevel !== givenEstimatedLevel) {
-        return new SimulationResult({
+        return new ScoringSimulationResult({
           id,
           estimatedLevel: calculatedEstimatedLevel,
           error: `Calculated estimated level ${calculatedEstimatedLevel} is different from expected given estimated level ${givenEstimatedLevel}`,
@@ -59,6 +59,6 @@ module.exports = async function simulateFlashScoring({
       allAnswers,
     });
 
-    return new SimulationResult({ id, estimatedLevel: finalEstimatedLevel, pixScore });
+    return new ScoringSimulationResult({ id, estimatedLevel: finalEstimatedLevel, pixScore });
   });
 };

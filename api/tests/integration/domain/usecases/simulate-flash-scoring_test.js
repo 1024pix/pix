@@ -1,7 +1,7 @@
 const { expect, mockLearningContent, domainBuilder } = require('../../../test-helper');
 const ScoringSimulationContext = require('../../../../lib/domain/models/ScoringSimulationContext');
 const ScoringSimulation = require('../../../../lib/domain/models/ScoringSimulation');
-const SimulationResult = require('../../../../lib/domain/models/SimulationResult');
+const ScoringSimulationResult = require('../../../../lib/domain/models/ScoringSimulationResult');
 const usecases = require('../../../../lib/domain/usecases/');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 
@@ -81,7 +81,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
 
         // then
         expect(simulationResults).to.have.lengthOf(1);
-        expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
+        expect(simulationResults[0]).to.be.instanceOf(ScoringSimulationResult);
         expect(simulationResults[0]).to.have.property(
           'error',
           'Simulation should have answers in order to calculate estimated level'
@@ -110,7 +110,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
 
         // then
         expect(simulationResults).to.have.lengthOf(1);
-        expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
+        expect(simulationResults[0]).to.be.instanceOf(ScoringSimulationResult);
         expect(simulationResults[0]).to.have.property('id', 'simulation1');
         expect(simulationResults[0]).to.have.property('estimatedLevel', 5.309899756825917);
         expect(simulationResults[0]).to.have.property('pixScore', 110011);
@@ -139,7 +139,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
 
           // then
           expect(simulationResults).to.have.lengthOf(1);
-          expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
+          expect(simulationResults[0]).to.be.instanceOf(ScoringSimulationResult);
           expect(simulationResults[0]).to.have.property('id', 'simulation1');
           expect(simulationResults[0]).to.have.property('estimatedLevel', 5.309899756825917);
           expect(simulationResults[0]).to.have.property('pixScore', 110011);
@@ -167,7 +167,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
 
           // then
           expect(simulationResults).to.have.lengthOf(1);
-          expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
+          expect(simulationResults[0]).to.be.instanceOf(ScoringSimulationResult);
           expect(simulationResults[0]).to.have.property('id', 'simulation1');
           expect(simulationResults[0]).to.have.property('estimatedLevel', 5.309899756825917);
           expect(simulationResults[0]).to.have.property(
@@ -209,7 +209,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
 
         // then
         expect(simulationResults).to.have.lengthOf(1);
-        expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
+        expect(simulationResults[0]).to.be.instanceOf(ScoringSimulationResult);
         expect(simulationResults[0]).to.have.property('id', 'simulation1');
         expect(simulationResults[0]).to.have.property('pixScore', 110011);
       });
@@ -231,7 +231,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
 
         // then
         expect(simulationResults).to.have.lengthOf(1);
-        expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
+        expect(simulationResults[0]).to.be.instanceOf(ScoringSimulationResult);
         expect(simulationResults[0]).to.have.property('id', 'simulation1');
         expect(simulationResults[0]).to.have.property('pixScore', 111000);
       });
@@ -258,7 +258,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
 
         // then
         expect(simulationResults).to.have.lengthOf(1);
-        expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
+        expect(simulationResults[0]).to.be.instanceOf(ScoringSimulationResult);
         expect(simulationResults[0]).to.have.property('error', 'Simulation should have an estimated level');
       });
     });
@@ -283,7 +283,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
 
         // then
         expect(simulationResults).to.have.lengthOf(1);
-        expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
+        expect(simulationResults[0]).to.be.instanceOf(ScoringSimulationResult);
         expect(simulationResults[0]).to.have.property('id', 'simulation1');
         expect(simulationResults[0]).to.have.property(
           'error',
@@ -310,7 +310,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
 
         // then
         expect(simulationResults).to.have.lengthOf(1);
-        expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
+        expect(simulationResults[0]).to.be.instanceOf(ScoringSimulationResult);
         expect(simulationResults[0]).to.have.property(
           'error',
           'Challenge ID challenge8 is unknown or not compatible with flash algorithm'
@@ -336,7 +336,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
 
       // then
       expect(simulationResults).to.have.lengthOf(1);
-      expect(simulationResults[0]).to.be.instanceOf(SimulationResult);
+      expect(simulationResults[0]).to.be.instanceOf(ScoringSimulationResult);
       expect(simulationResults[0]).to.have.property('id', 'simulation1');
       expect(simulationResults[0]).to.have.property('pixScore', 111001);
     });
