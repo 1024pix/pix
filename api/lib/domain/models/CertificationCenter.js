@@ -25,6 +25,10 @@ class CertificationCenter {
     return this.type === CERTIFICATION_CENTER_TYPES.SCO;
   }
 
+  get hasBillingMode() {
+    return this.type !== CERTIFICATION_CENTER_TYPES.SCO;
+  }
+
   isHabilitated(key) {
     return this.habilitations.some((habilitation) => habilitation.key === key);
   }

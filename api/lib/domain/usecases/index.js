@@ -323,6 +323,7 @@ module.exports = injectDependencies(
     getCertificationCandidate: require('./get-certification-candidate'),
     getCertificationCandidateSubscription: require('./get-certification-candidate-subscription'),
     getCertificationCenter: require('./get-certification-center'),
+    getCertificationCenterForAdmin: require('./get-certification-center-for-admin'),
     getCertificationCenterInvitation: require('./get-certification-center-invitation'),
     getCertificationCourse: require('./get-certification-course'),
     getCertificationDetails: require('./get-certification-details'),
