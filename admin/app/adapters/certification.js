@@ -5,8 +5,8 @@ export default class Certification extends ApplicationAdapter {
     return `${this.host}/${this.namespace}/admin/certifications/${id}`;
   }
 
-  urlForUpdateMarks() {
-    return `${this.host}/${this.namespace}/admin/assessment-results/`;
+  urlForUpdateMarks(id) {
+    return `${this.host}/${this.namespace}/admin/certification-courses/${id}/assessment-results/`;
   }
 
   urlForUpdateRecord(id) {
@@ -21,7 +21,7 @@ export default class Certification extends ApplicationAdapter {
       data.data.type = 'results';
       data.data.attributes['jury-id'] = null;
       data.data.attributes['emitter'] = 'Jury Pix';
-      return this.ajax(this.urlForUpdateMarks(), 'POST', { data: data });
+      return this.ajax(this.urlForUpdateMarks(snapshot.id), 'POST', { data: data });
     } else {
       serializer.serializeIntoHash(data, type, snapshot, { includeId: true, onlyInformation: true });
       return this.ajax(this.buildURL(type.modelName, snapshot.id, snapshot, 'updateRecord'), 'PATCH', { data: data });

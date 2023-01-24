@@ -26,7 +26,7 @@ describe('Acceptance | Controller | assessment-results-controller', function () 
 
       options = {
         method: 'POST',
-        url: '/api/admin/assessment-results',
+        url: `/api/admin/certification-courses/${certificationCourseId}/assessment-results`,
         headers: { authorization: generateValidRequestAuthorizationHeader() },
         payload: {
           data: {
@@ -155,7 +155,7 @@ describe('Acceptance | Controller | assessment-results-controller', function () 
 
         const options = {
           method: 'POST',
-          url: '/api/admin/assessment-results',
+          url: `/api/admin/certification-courses/${certificationCourseId}/assessment-results`,
           headers: { authorization: generateValidRequestAuthorizationHeader() },
           payload: {
             data: {
