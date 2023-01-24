@@ -9,7 +9,7 @@ export default class TrainingRoute extends Route {
     this.accessControl.restrictAccessTo(['isSuperAdmin', 'isSupport', 'isMetier'], 'authenticated');
   }
 
-  // model(params) {
-  //   return this.store.findRecord('target-profile', params.target_profile_id);
-  // }
+  model(params) {
+    return this.store.findRecord('training', params.training_id);
+  }
 }

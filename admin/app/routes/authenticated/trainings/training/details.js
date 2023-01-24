@@ -9,5 +9,7 @@ export default class TrainingDetailsRoute extends Route {
     this.accessControl.restrictAccessTo(['isSuperAdmin', 'isSupport', 'isMetier'], 'authenticated');
   }
 
-  async model() {}
+  async model() {
+    return this.modelFor('authenticated.trainings.training');
+  }
 }
