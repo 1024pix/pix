@@ -4,7 +4,6 @@ const service = require('../../../../lib/domain/services/assessment-result-servi
 
 const assessmentResultRepository = require('../../../../lib/infrastructure/repositories/assessment-result-repository');
 const competenceMarkRepository = require('../../../../lib/infrastructure/repositories/competence-mark-repository');
-const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
@@ -39,7 +38,6 @@ describe('Unit | Domain | Services | assessment-results', function () {
     beforeEach(function () {
       sinon.stub(assessmentResultRepository, 'save').resolves({ id: 1 });
       sinon.stub(competenceMarkRepository, 'save').resolves();
-      sinon.stub(certificationCourseRepository, 'saveLastAssessmentResultId').resolves();
     });
 
     it('should save the assessment results', async function () {
@@ -48,10 +46,9 @@ describe('Unit | Domain | Services | assessment-results', function () {
 
       // then
       expect(assessmentResultRepository.save).to.have.been.calledOnce;
-      expect(assessmentResultRepository.save).to.have.been.calledWithMatch(assessmentResult);
-      expect(certificationCourseRepository.saveLastAssessmentResultId).to.have.been.calledWith({
+      expect(assessmentResultRepository.save).to.have.been.calledOnceWith({
         certificationCourseId: 99,
-        lastAssessmentResultId: 1,
+        assessmentResult,
       });
     });
 

@@ -74,6 +74,7 @@ describe('Acceptance | Controller | assessment-results-controller', function () 
     afterEach(async function () {
       await knex('authentication-methods').delete();
       await knex('competence-marks').delete();
+      await knex('certification-courses-last-assessment-results').delete();
       await knex('assessment-results').delete();
       await knex('assessments').delete();
       await knex('certification-courses').delete();

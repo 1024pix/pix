@@ -27,7 +27,6 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
       get: sinon.stub(),
       update: sinon.stub(),
       getCreationDate: sinon.stub(),
-      saveLastAssessmentResultId: sinon.stub(),
     };
     competenceMarkRepository = { save: sinon.stub() };
   });
@@ -95,7 +94,6 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
         // then
         expect(AssessmentResult.buildAlgoErrorResult).to.not.have.been.called;
         expect(assessmentResultRepository.save).to.not.have.been.called;
-        expect(certificationCourseRepository.saveLastAssessmentResultId).to.not.have.been.called;
         expect(certificationCourseRepository.update).to.not.have.been.called;
       });
     });
@@ -156,10 +154,9 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           assessmentId: certificationAssessment.id,
           emitter: 'PIX-ALGO',
         });
-        expect(assessmentResultRepository.save).to.have.been.calledWithExactly(errorAssessmentResult);
-        expect(certificationCourseRepository.saveLastAssessmentResultId).to.have.been.calledOnceWith({
+        expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
           certificationCourseId: 1234,
-          lastAssessmentResultId: 98,
+          assessmentResult: errorAssessmentResult,
         });
         expect(certificationCourseRepository.update).to.have.been.calledWithExactly(
           new CertificationCourse({
@@ -224,10 +221,9 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           assessmentId: certificationAssessment.id,
           emitter: 'PIX-ALGO',
         });
-        expect(assessmentResultRepository.save).to.have.been.calledWithExactly(assessmentResult);
-        expect(certificationCourseRepository.saveLastAssessmentResultId).to.have.been.calledOnceWith({
+        expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
           certificationCourseId: 1234,
-          lastAssessmentResultId: 99,
+          assessmentResult,
         });
         expect(certificationCourseRepository.update).to.have.been.calledWithExactly(
           new CertificationCourse({
