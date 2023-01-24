@@ -17,7 +17,7 @@ function issueReportCategoriesBuilder({ databaseBuilder }) {
   });
   databaseBuilder.factory.buildIssueReportCategory({
     name: 'CONNECTION_OR_END_SCREEN',
-    isDeprecated: false,
+    isDeprecated: true,
     isImpactful: false,
   });
   const inChallengeId = databaseBuilder.factory.buildIssueReportCategory({
