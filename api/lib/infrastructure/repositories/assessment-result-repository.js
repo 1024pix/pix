@@ -1,6 +1,4 @@
 const _ = require('lodash');
-const BookshelfAssessmentResult = require('../orm-models/AssessmentResult');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../../../db/knex-database-connection');
 const { MissingAssessmentId, AssessmentResultNotCreatedError } = require('../../domain/errors');
 const DomainTransaction = require('../DomainTransaction');
@@ -43,28 +41,29 @@ module.exports = {
     },
     domainTransaction = DomainTransaction.emptyTransaction()
   ) {
+    const knexConn = domainTransaction.knexTransaction || knex;
     if (_.isNil(assessmentId)) {
       throw new MissingAssessmentId();
     }
     try {
-      const savedAssessmentResultBookshelf = await new BookshelfAssessmentResult({
-        pixScore,
-        reproducibilityRate,
-        status,
-        emitter,
-        commentForJury,
-        commentForCandidate,
-        commentForOrganization,
-        id,
-        juryId,
-        assessmentId,
-      }).save(null, { require: true, transacting: domainTransaction.knexTransaction });
-
-      const savedAssessmentResult = bookshelfToDomainConverter.buildDomainObject(
-        BookshelfAssessmentResult,
-        savedAssessmentResultBookshelf
-      );
-      savedAssessmentResult.reproducibilityRate = _.toNumber(savedAssessmentResult.reproducibilityRate) ?? null;
+      const [assessmentResult] = await knexConn('assessment-results')
+        .insert({
+          pixScore,
+          reproducibilityRate,
+          status,
+          emitter,
+          commentForJury,
+          commentForCandidate,
+          commentForOrganization,
+          id,
+          juryId,
+          assessmentId,
+        })
+        .returning('*');
+      const savedAssessmentResult = new AssessmentResult({
+        ...assessmentResult,
+        reproducibilityRate: _.toNumber(assessmentResult.reproducibilityRate) ?? null,
+      });
       return savedAssessmentResult;
     } catch (error) {
       throw new AssessmentResultNotCreatedError();
