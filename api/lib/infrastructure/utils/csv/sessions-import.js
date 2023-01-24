@@ -22,6 +22,9 @@ const headers = {
   prepaymentCode: 'Code de prépaiement',
 };
 
+const COMPLEMENTARY_CERTIFICATION_SUFFIX = "('oui' ou laisser vide)";
+
 module.exports = {
   headers,
+  COMPLEMENTARY_CERTIFICATION_SUFFIX,
 };
