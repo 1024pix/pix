@@ -38,6 +38,11 @@ const JOIN_ERRORS = [
 
 const REGISTER_ERRORS = [
   {
+    shortCode: 'S50',
+    message: 'api-error-messages.register-error.s50',
+    code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_IN_DB',
+  },
+  {
     shortCode: 'S51',
     message: 'api-error-messages.register-error.s51',
     code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_SAME_ORGANIZATION',
