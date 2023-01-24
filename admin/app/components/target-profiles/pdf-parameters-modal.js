@@ -26,8 +26,8 @@ export default class PdfParametersModal extends Component {
   }
 
   @action
-  onChangeLanguage(event) {
-    this.language = event.target.value;
+  onChangeLanguage(language) {
+    this.language = language;
   }
 
   _isInvalid() {
