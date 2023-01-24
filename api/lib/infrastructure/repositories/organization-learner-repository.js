@@ -179,13 +179,13 @@ module.exports = {
   },
 
   async findByOrganizationIdAndBirthdate({ organizationId, birthdate }) {
-    const organizationLearners = await BookshelfOrganizationLearner.query((qb) => {
-      qb.where('organizationId', organizationId);
-      qb.where('birthdate', birthdate);
-      qb.where('isDisabled', false);
-    }).fetchAll();
+    const rawOrganizationLearners = await knex
+      .select('*')
+      .from('organization-learners')
+      .where({ organizationId, birthdate, isDisabled: false })
+      .orderBy('id');
 
-    return bookshelfToDomainConverter.buildDomainObjects(BookshelfOrganizationLearner, organizationLearners);
+    return rawOrganizationLearners.map((rawOrganizationLearner) => new OrganizationLearner(rawOrganizationLearner));
   },
 
   async reconcileUserToOrganizationLearner({ userId, organizationLearnerId }) {
