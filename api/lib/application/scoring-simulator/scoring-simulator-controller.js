@@ -14,6 +14,7 @@ module.exports = {
     return h.response({
       datasetId: dataset.id,
       results,
+      date: new Date().toISOString(),
     });
   },
 
@@ -32,6 +33,7 @@ module.exports = {
       contextId: context.id,
       datasetId: dataset.id,
       results,
+      date: new Date().toISOString(),
     });
   },
 };

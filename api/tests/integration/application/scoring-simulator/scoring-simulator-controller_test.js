@@ -52,7 +52,10 @@ describe('Integration | Application | Scoring-simulator | scoring-simulator-cont
 
           // then
           expect(response.statusCode).to.equal(200);
-          expect(response.result).to.deep.equal({ datasetId: 'datasetId', results: simulationResults });
+          expect(response.result).to.deep.include({
+            datasetId: 'datasetId',
+            results: simulationResults,
+          });
           expect(usecases.simulateOldScoring).to.have.been.calledWith({
             simulations: [
               new ScoringSimulation({
@@ -104,7 +107,7 @@ describe('Integration | Application | Scoring-simulator | scoring-simulator-cont
 
           // then
           expect(response.statusCode).to.equal(200);
-          expect(response.result).to.deep.equal({
+          expect(response.result).to.deep.include({
             contextId: 'contextId',
             datasetId: 'datasetId',
             results: simulationResults,
