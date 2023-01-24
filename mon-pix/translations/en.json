@@ -906,7 +906,6 @@
         "title": "Sign up",
         "button": "Sign up",
         "button-form": "Sign up",
-        "error": "An error has occured. Please try again or contact the support.",
         "fields": {
           "birthdate": {
             "label": "Date of birth (DD/MM/YYYY)",

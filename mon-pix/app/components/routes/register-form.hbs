@@ -126,9 +126,8 @@
       </div>
 
       {{#if this.displayRegisterErrorMessage}}
-        <div class="register-form__error" aria-live="polite" id="register-display-error-message">{{t
-            "pages.login-or-register.register-form.error"
-          }}
+        <div class="register-form__error" aria-live="polite" id="register-display-error-message">
+          {{{this.registerErrorMessage}}}
         </div>
       {{/if}}
 

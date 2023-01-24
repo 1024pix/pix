@@ -906,7 +906,6 @@
         "title": "Je m’inscris sur Pix",
         "button": "S'inscrire",
         "button-form": "Je m'inscris",
-        "error": "Une erreur est survenue. Veuillez recommencer ou contacter le support.",
         "fields": {
           "birthdate": {
             "label": "Date de naissance (JJ/MM/AAAA)",

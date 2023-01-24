@@ -171,17 +171,13 @@ export default class RegisterForm extends Component {
             const message = this._showErrorMessageByShortCode(error.meta);
             return (this.errorMessage = message);
           }
+          if (error.status === '500') {
+            return (this.errorMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY));
+          }
           const defaultMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY);
           return (this.errorMessage = error.detail ? error.detail : defaultMessage);
         });
       }
-    );
-  }
-
-  _showErrorMessageByShortCode(meta) {
-    const defaultMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY);
-    return (
-      this.intl.t(getRegisterErrorsMessageByShortCode(meta), { value: meta.value, htlmSafe: true }) || defaultMessage
     );
   }
 
@@ -195,20 +191,33 @@ export default class RegisterForm extends Component {
     if (this.isCreationFormNotValid) {
       return (this.isLoading = false);
     }
+
+    this.dependentUser.password = this.password;
+    this.dependentUser.withUsername = this.loginWithUsername;
+    if (this.loginWithUsername) {
+      this.dependentUser.username = this.username;
+      this.dependentUser.email = undefined;
+    } else {
+      this.dependentUser.email = this.email;
+      this.dependentUser.username = undefined;
+    }
+
     try {
-      this.dependentUser.password = this.password;
-      this.dependentUser.withUsername = this.loginWithUsername;
-      if (this.loginWithUsername) {
-        this.dependentUser.username = this.username;
-        this.dependentUser.email = undefined;
-      } else {
-        this.dependentUser.email = this.email;
-        this.dependentUser.username = undefined;
-      }
       await this.dependentUser.save();
-    } catch (error) {
+    } catch (responseError) {
       this.isLoading = false;
-      return this._updateInputsStatus();
+      responseError.errors.forEach((error) => {
+        if (error.status === '500' || error.status === '400' || error.status === '409') {
+          let defaultMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY);
+          if (error.status === '409') {
+            defaultMessage = this._showErrorMessageByShortCode(error.meta);
+          }
+          this.displayRegisterErrorMessage = true;
+          this.registerErrorMessage = defaultMessage;
+        }
+      });
+
+      return this._displayErrorsRelatedToInputs();
     }
 
     if (this.loginWithUsername) {
@@ -224,6 +233,7 @@ export default class RegisterForm extends Component {
   @action
   onToggle(data) {
     this.loginWithUsername = data;
+    this.displayRegisterErrorMessage = false;
   }
 
   @action
@@ -289,9 +299,8 @@ export default class RegisterForm extends Component {
     this.validation[key].message = message;
   }
 
-  _updateInputsStatus() {
+  _displayErrorsRelatedToInputs() {
     const errors = this.dependentUser.errors;
-
     if (errors) {
       errors.forEach(({ attribute, message }) => {
         this.validation[attribute].status = 'error';
@@ -335,5 +344,12 @@ export default class RegisterForm extends Component {
   _authenticate(login, password) {
     const scope = 'mon-pix';
     return this.session.authenticate('authenticator:oauth2', { login, password, scope });
+  }
+
+  _showErrorMessageByShortCode(meta) {
+    const defaultMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY);
+    return (
+      this.intl.t(getRegisterErrorsMessageByShortCode(meta), { value: meta.value, htlmSafe: true }) || defaultMessage
+    );
   }
 }

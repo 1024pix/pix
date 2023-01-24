@@ -9,6 +9,8 @@ import sinon from 'sinon';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { clickByLabel } from '../../../helpers/click-by-label';
 
+import ENV from '../../../../config/environment';
+
 const EMPTY_FIRSTNAME_ERROR_MESSAGE = 'Votre prénom n’est pas renseigné.';
 const EMPTY_LASTNAME_ERROR_MESSAGE = 'Votre nom n’est pas renseigné.';
 const INVALID_DAY_OF_BIRTH_ERROR_MESSAGE = 'Votre jour de naissance n’est pas valide.';
@@ -122,149 +124,166 @@ module('Integration | Component | routes/register-form', function (hooks) {
   });
 
   module('errors management', function () {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-async-module-callbacks
-    module('When authentication service fails', async function () {
-      test('Should display registerErrorMessage when authentication service fails with username error', async function (assert) {
-        // given
-        const expectedRegisterErrorMessage = this.intl.t('pages.login-or-register.register-form.error');
-        saveDependentUserStub.rejects({ errors: [{ status: '400' }] });
-        // when
-        const screen = await render(hbs`<Routes::RegisterForm />`);
+    module('input errors on reconciliation form', function () {
+      [{ stringFilledIn: '' }, { stringFilledIn: ' ' }].forEach(function ({ stringFilledIn }) {
+        test(`should display an error message on firstName field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
+          // given
+          await render(hbs`<Routes::RegisterForm />`);
 
-        await fillInputReconciliationForm({ screen, intl: this.intl });
-        await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
+          // when
+          await fillIn('#firstName', stringFilledIn);
+          await triggerEvent('#firstName', 'focusout');
 
-        await fillIn('#password', 'Mypassword1');
-        await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
-        // then
-        assert.dom('div[id="register-display-error-message"').exists();
-        assert.ok(find('div[id="register-display-error-message"').innerHTML.includes(expectedRegisterErrorMessage));
+          // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(
+            find('#register-firstName-container #validationMessage-firstName').textContent,
+            EMPTY_FIRSTNAME_ERROR_MESSAGE
+          );
+          assert.dom('#register-firstName-container .form-textfield__input-container--error').exists();
+        });
+      });
+
+      [{ stringFilledIn: '' }, { stringFilledIn: ' ' }].forEach(function ({ stringFilledIn }) {
+        test(`should display an error message on lastName field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
+          // given
+          await render(hbs`<Routes::RegisterForm />`);
+
+          // when
+          await fillIn('#lastName', stringFilledIn);
+          await triggerEvent('#lastName', 'focusout');
+
+          // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(
+            find('#register-lastName-container #validationMessage-lastName').textContent,
+            EMPTY_LASTNAME_ERROR_MESSAGE
+          );
+          assert.dom('#register-lastName-container .form-textfield__input-container--error').exists();
+        });
+      });
+
+      [{ stringFilledIn: '' }, { stringFilledIn: 'a' }, { stringFilledIn: '32' }].forEach(function ({
+        stringFilledIn,
+      }) {
+        test(`should display an error message on dayOfBirth field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
+          // given
+          await render(hbs`<Routes::RegisterForm />`);
+
+          // when
+          await fillIn('#dayOfBirth', stringFilledIn);
+          await triggerEvent('#dayOfBirth', 'focusout');
+
+          // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(
+            find('#register-birthdate-container #dayValidationMessage').textContent,
+            INVALID_DAY_OF_BIRTH_ERROR_MESSAGE
+          );
+          assert.dom('#register-birthdate-container .form-textfield__input-container--error').exists();
+        });
+      });
+
+      [{ stringFilledIn: '' }, { stringFilledIn: 'a' }, { stringFilledIn: '13' }].forEach(function ({
+        stringFilledIn,
+      }) {
+        test(`should display an error message on monthOfBirth field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
+          // given
+          await render(hbs`<Routes::RegisterForm />`);
+
+          // when
+          await fillIn('#monthOfBirth', stringFilledIn);
+          await triggerEvent('#monthOfBirth', 'focusout');
+
+          // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(
+            find('#register-birthdate-container #monthValidationMessage').textContent,
+            INVALID_MONTH_OF_BIRTH_ERROR_MESSAGE
+          );
+          assert.dom('#register-birthdate-container .form-textfield__input-container--error').exists();
+        });
+      });
+
+      [{ stringFilledIn: '' }, { stringFilledIn: 'a' }, { stringFilledIn: '10000' }].forEach(function ({
+        stringFilledIn,
+      }) {
+        test(`should display an error message on yearOfBirth field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
+          // given
+          await render(hbs`<Routes::RegisterForm />`);
+
+          // when
+          await fillIn('#yearOfBirth', stringFilledIn);
+          await triggerEvent('#yearOfBirth', 'focusout');
+
+          // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(
+            find('#register-birthdate-container #yearValidationMessage').textContent,
+            INVALID_YEAR_OF_BIRTH_ERROR_MESSAGE
+          );
+          assert.dom('#register-birthdate-container .form-textfield__input-container--error').exists();
+        });
+      });
+
+      [{ stringFilledIn: ' ' }, { stringFilledIn: 'a' }, { stringFilledIn: 'shi.fu' }].forEach(function ({
+        stringFilledIn,
+      }) {
+        test(`should display an error message on email field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
+          // given
+          const screen = await render(hbs`<Routes::RegisterForm /> `);
+
+          await fillInputReconciliationForm({ screen, intl: this.intl });
+          await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
+
+          // when
+          await click('.pix-toggle-deprecated__off');
+          await fillIn('#email', stringFilledIn);
+          await triggerEvent('#email', 'focusout');
+
+          // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(
+            find('#register-email-container #validationMessage-email').textContent,
+            EMPTY_EMAIL_ERROR_MESSAGE
+          );
+          assert.dom('#register-email-container .form-textfield__input-container--error').exists();
+        });
       });
     });
+    module('input errors on create account form', function () {
+      [
+        { stringFilledIn: ' ' },
+        { stringFilledIn: 'password' },
+        { stringFilledIn: 'password1' },
+        { stringFilledIn: 'Password' },
+      ].forEach(function ({ stringFilledIn }) {
+        test(`should display an error message on password field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
+          // given
+          const screen = await render(hbs`<Routes::RegisterForm /> `);
 
-    [{ stringFilledIn: '' }, { stringFilledIn: ' ' }].forEach(function ({ stringFilledIn }) {
-      test(`should display an error message on firstName field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
-        // given
-        await render(hbs`<Routes::RegisterForm />`);
+          await fillInputReconciliationForm({ screen, intl: this.intl });
+          await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
-        // when
-        await fillIn('#firstName', stringFilledIn);
-        await triggerEvent('#firstName', 'focusout');
+          // when
+          await fillIn('#password', stringFilledIn);
+          await triggerEvent('#password', 'focusout');
 
-        // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(
-          find('#register-firstName-container #validationMessage-firstName').textContent,
-          EMPTY_FIRSTNAME_ERROR_MESSAGE
-        );
-        assert.dom('#register-firstName-container .form-textfield__input-container--error').exists();
-      });
-    });
-
-    [{ stringFilledIn: '' }, { stringFilledIn: ' ' }].forEach(function ({ stringFilledIn }) {
-      test(`should display an error message on lastName field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
-        // given
-        await render(hbs`<Routes::RegisterForm />`);
-
-        // when
-        await fillIn('#lastName', stringFilledIn);
-        await triggerEvent('#lastName', 'focusout');
-
-        // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(
-          find('#register-lastName-container #validationMessage-lastName').textContent,
-          EMPTY_LASTNAME_ERROR_MESSAGE
-        );
-        assert.dom('#register-lastName-container .form-textfield__input-container--error').exists();
-      });
-    });
-
-    [{ stringFilledIn: '' }, { stringFilledIn: 'a' }, { stringFilledIn: '32' }].forEach(function ({ stringFilledIn }) {
-      test(`should display an error message on dayOfBirth field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
-        // given
-        await render(hbs`<Routes::RegisterForm />`);
-
-        // when
-        await fillIn('#dayOfBirth', stringFilledIn);
-        await triggerEvent('#dayOfBirth', 'focusout');
-
-        // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(
-          find('#register-birthdate-container #dayValidationMessage').textContent,
-          INVALID_DAY_OF_BIRTH_ERROR_MESSAGE
-        );
-        assert.dom('#register-birthdate-container .form-textfield__input-container--error').exists();
-      });
-    });
-
-    [{ stringFilledIn: '' }, { stringFilledIn: 'a' }, { stringFilledIn: '13' }].forEach(function ({ stringFilledIn }) {
-      test(`should display an error message on monthOfBirth field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
-        // given
-        await render(hbs`<Routes::RegisterForm />`);
-
-        // when
-        await fillIn('#monthOfBirth', stringFilledIn);
-        await triggerEvent('#monthOfBirth', 'focusout');
-
-        // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(
-          find('#register-birthdate-container #monthValidationMessage').textContent,
-          INVALID_MONTH_OF_BIRTH_ERROR_MESSAGE
-        );
-        assert.dom('#register-birthdate-container .form-textfield__input-container--error').exists();
-      });
-    });
-
-    [{ stringFilledIn: '' }, { stringFilledIn: 'a' }, { stringFilledIn: '10000' }].forEach(function ({
-      stringFilledIn,
-    }) {
-      test(`should display an error message on yearOfBirth field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
-        // given
-        await render(hbs`<Routes::RegisterForm />`);
-
-        // when
-        await fillIn('#yearOfBirth', stringFilledIn);
-        await triggerEvent('#yearOfBirth', 'focusout');
-
-        // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(
-          find('#register-birthdate-container #yearValidationMessage').textContent,
-          INVALID_YEAR_OF_BIRTH_ERROR_MESSAGE
-        );
-        assert.dom('#register-birthdate-container .form-textfield__input-container--error').exists();
-      });
-    });
-
-    [{ stringFilledIn: ' ' }, { stringFilledIn: 'a' }, { stringFilledIn: 'shi.fu' }].forEach(function ({
-      stringFilledIn,
-    }) {
-      test(`should display an error message on email field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
-        // given
-        const screen = await render(hbs`<Routes::RegisterForm /> `);
-
-        await fillInputReconciliationForm({ screen, intl: this.intl });
-        await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
-
-        // when
-        await click('.pix-toggle-deprecated__off');
-        await fillIn('#email', stringFilledIn);
-        await triggerEvent('#email', 'focusout');
-
-        // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(find('#register-email-container #validationMessage-email').textContent, EMPTY_EMAIL_ERROR_MESSAGE);
-        assert.dom('#register-email-container .form-textfield__input-container--error').exists();
+          // then
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line qunit/no-assert-equal
+          assert.equal(
+            find('#register-password-container #validationMessage-password').textContent,
+            INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE
+          );
+          assert.dom('#register-password-container .form-textfield__input-container--error').exists();
+        });
       });
     });
 
@@ -290,31 +309,26 @@ module('Integration | Component | routes/register-form', function (hooks) {
       assert.ok(true);
     });
 
-    [
-      { stringFilledIn: ' ' },
-      { stringFilledIn: 'password' },
-      { stringFilledIn: 'password1' },
-      { stringFilledIn: 'Password' },
-    ].forEach(function ({ stringFilledIn }) {
-      test(`should display an error message on password field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line qunit/no-async-module-callbacks
+    module('When create and reconcile service fails', async function () {
+      test('Should display registerErrorMessage when authentication service fails with username error', async function (assert) {
         // given
-        const screen = await render(hbs`<Routes::RegisterForm /> `);
+        const expectedRegisterErrorMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY);
+        saveDependentUserStub.rejects({ errors: [{ status: '400' }] });
+
+        // when
+        const screen = await render(hbs`<Routes::RegisterForm />`);
 
         await fillInputReconciliationForm({ screen, intl: this.intl });
         await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
-        // when
-        await fillIn('#password', stringFilledIn);
-        await triggerEvent('#password', 'focusout');
+        await fillIn('#password', 'Mypassword1');
+        await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(
-          find('#register-password-container #validationMessage-password').textContent,
-          INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE
-        );
-        assert.dom('#register-password-container .form-textfield__input-container--error').exists();
+        assert.dom('div[id="register-display-error-message"').exists();
+        assert.ok(find('div[id="register-display-error-message"').innerHTML.includes(expectedRegisterErrorMessage));
       });
     });
 
