@@ -10,7 +10,7 @@ module.exports = async function simulateFlashScoring({
   const challenges = await challengeRepository.findFlashCompatible({ locale, successProbabilityThreshold });
   const challengeIds = new Set(challenges.map(({ id }) => id));
 
-  return simulations.map(({ id, estimatedLevel: givenEstimatedLevel, answers: allAnswers }) => {
+  return simulations.map(({ id, user: { estimatedLevel: givenEstimatedLevel }, answers: allAnswers }) => {
     let finalEstimatedLevel = givenEstimatedLevel;
 
     if (!calculateEstimatedLevel && givenEstimatedLevel == undefined) {

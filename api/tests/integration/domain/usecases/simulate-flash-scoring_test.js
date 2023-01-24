@@ -70,7 +70,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
         // given
         const estimatedLevel = 2;
 
-        const simulation = new ScoringSimulation({ id: 'simulation1', estimatedLevel });
+        const simulation = new ScoringSimulation({ id: 'simulation1', user: { estimatedLevel } });
 
         // when
         const simulationResults = await usecases.simulateFlashScoring({
@@ -156,7 +156,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
             domainBuilder.buildAnswer({ result: AnswerStatus.SKIPPED, challengeId: 'challenge4' }),
           ];
 
-          const simulation = new ScoringSimulation({ id: 'simulation1', answers, estimatedLevel: 1 });
+          const simulation = new ScoringSimulation({ id: 'simulation1', answers, user: { estimatedLevel: 1 } });
 
           // when
           const simulationResults = await usecases.simulateFlashScoring({
@@ -197,7 +197,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
         const simulation = new ScoringSimulation({
           id: 'simulation1',
           answers,
-          estimatedLevel,
+          user: { estimatedLevel },
         });
 
         // when
@@ -220,7 +220,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
         // given
         const estimatedLevel = 2;
 
-        const simulation = new ScoringSimulation({ id: 'simulation1', estimatedLevel });
+        const simulation = new ScoringSimulation({ id: 'simulation1', user: { estimatedLevel } });
 
         // when
         const simulationResults = await usecases.simulateFlashScoring({
@@ -272,7 +272,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
 
         const estimatedLevel = 2;
 
-        const simulation = new ScoringSimulation({ id: 'simulation1', answers, estimatedLevel });
+        const simulation = new ScoringSimulation({ id: 'simulation1', answers, user: { estimatedLevel } });
 
         // when
         const simulationResults = await usecases.simulateFlashScoring({
@@ -299,7 +299,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
 
         const estimatedLevel = 2;
 
-        const simulation = new ScoringSimulation({ answers, estimatedLevel });
+        const simulation = new ScoringSimulation({ answers, user: { estimatedLevel } });
 
         // when
         const simulationResults = await usecases.simulateFlashScoring({
@@ -325,7 +325,7 @@ describe('Integration | UseCases | simulateFlashScoring', function () {
       const estimatedLevel = 2;
       const successProbabilityThreshold = 0.65;
 
-      const simulation = new ScoringSimulation({ id: 'simulation1', estimatedLevel });
+      const simulation = new ScoringSimulation({ id: 'simulation1', user: { estimatedLevel } });
 
       // when
       const simulationResults = await usecases.simulateFlashScoring({

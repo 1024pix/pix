@@ -221,7 +221,10 @@ describe('Acceptance | Controller | scoring-simulator-controller', function () {
           simulations: [
             {
               id: 'simulation1',
-              estimatedLevel: 2.5769829347,
+              user: {
+                id: '101',
+                estimatedLevel: 2.5769829347,
+              },
               answers: [
                 {
                   challengeId: 'challenge3',

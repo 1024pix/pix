@@ -101,7 +101,15 @@ describe('Integration | Application | Scoring-simulator | scoring-simulator-cont
             },
             dataset: {
               id: 'datasetId',
-              simulations: [{ estimatedLevel: 2, answers: [{ challengeId: 'okChallengeId', result: 'ok' }] }],
+              simulations: [
+                {
+                  user: {
+                    id: '101',
+                    estimatedLevel: 2,
+                  },
+                  answers: [{ challengeId: 'okChallengeId', result: 'ok' }],
+                },
+              ],
             },
           });
 
@@ -115,7 +123,10 @@ describe('Integration | Application | Scoring-simulator | scoring-simulator-cont
           expect(usecases.simulateFlashScoring).to.have.been.calledWith({
             simulations: [
               new ScoringSimulation({
-                estimatedLevel: 2,
+                user: {
+                  id: '101',
+                  estimatedLevel: 2,
+                },
                 answers: [new Answer({ challengeId: 'okChallengeId', result: 'ok' })],
               }),
             ],
