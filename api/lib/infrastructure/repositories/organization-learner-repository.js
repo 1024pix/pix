@@ -12,7 +12,6 @@ const OrganizationLearner = require('../../domain/models/OrganizationLearner');
 const OrganizationLearnerForAdmin = require('../../domain/read-models/OrganizationLearnerForAdmin');
 const studentRepository = require('./student-repository');
 
-const Bookshelf = require('../bookshelf');
 const { knex } = require('../../../db/knex-database-connection');
 const BookshelfOrganizationLearner = require('../orm-models/OrganizationLearner');
 
@@ -93,7 +92,7 @@ module.exports = {
   },
 
   async isOrganizationLearnerIdLinkedToUserAndSCOOrganization({ userId, organizationLearnerId }) {
-    const exist = await Bookshelf.knex('organization-learners')
+    const exist = await knex('organization-learners')
       .select('organization-learners.id')
       .join('organizations', 'organization-learners.organizationId', 'organizations.id')
       .where({ userId, type: 'SCO', 'organization-learners.id': organizationLearnerId })
