@@ -53,31 +53,12 @@ module.exports = async function simulateFlashScoring({
       finalEstimatedLevel = calculatedEstimatedLevel;
     }
 
-    const { pixScore } = flashAlgorithmService.calculateTotalPixScore({
+    const { pixScore, pixScoreByCompetence } = flashAlgorithmService.calculateTotalPixScore({
       challenges,
       estimatedLevel: finalEstimatedLevel,
       allAnswers,
     });
 
-    return new ScoringSimulationResult({ id, estimatedLevel: finalEstimatedLevel, pixScore });
+    return new ScoringSimulationResult({ id, estimatedLevel: finalEstimatedLevel, pixScore, pixScoreByCompetence });
   });
 };
-
-// "results": [
-//   {
-//     "id": "simulation1",
-//     "pixScore": 11111,
-//     "estimatedLevel": -2.5769829347,
-//     "pixScoreByCompetence": [
-//       {
-//         "competenceId": "competence1",
-//         "pixScore": 11100
-//       },
-//       {
-//         "competenceId": "competence2",
-//         "pixScore": 11
-//       }
-//     ],
-//     "error": undefined
-//   },
-// }

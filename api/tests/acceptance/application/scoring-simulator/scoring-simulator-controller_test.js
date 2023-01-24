@@ -269,7 +269,10 @@ describe('Acceptance | Controller | scoring-simulator-controller', function () {
           id: 'simulation1',
           estimatedLevel: 2.5769829347,
           pixScore: 11110,
-          pixScoreByCompetence: [],
+          pixScoreByCompetence: [
+            { competenceId: 'rec1', pixScore: 10 },
+            { competenceId: 'rec2', pixScore: 11100 },
+          ],
           error: undefined,
         },
         {
