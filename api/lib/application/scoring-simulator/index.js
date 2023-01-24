@@ -76,7 +76,10 @@ exports.register = async (server) => {
                 .items(
                   Joi.object({
                     id: Joi.string(),
-                    estimatedLevel: Joi.number(),
+                    user: Joi.object({
+                      id: Joi.string(),
+                      estimatedLevel: Joi.number(),
+                    }),
                     answers: Joi.array()
                       .items(
                         Joi.object({
