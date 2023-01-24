@@ -89,10 +89,15 @@ module.exports = {
 
   async saveAssessmentResult(request) {
     const jsonResult = request.payload.data.attributes;
+    const certificationCourseId = request.params.id;
     const { assessmentResult, competenceMarks } = _deserializeResultsAdd(jsonResult);
     const juryId = request.auth.credentials.userId;
     // FIXME (re)calculate partner certifications which may be invalidated/validated
-    await assessmentResultService.save({ ...assessmentResult, juryId }, competenceMarks);
+    await assessmentResultService.save({
+      certificationCourseId,
+      assessmentResult: { ...assessmentResult, juryId },
+      competenceMarks,
+    });
     return null;
   },
 };
