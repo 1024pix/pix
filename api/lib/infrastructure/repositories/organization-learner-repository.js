@@ -204,12 +204,16 @@ module.exports = {
 
   async reconcileUserByNationalStudentIdAndOrganizationId({ nationalStudentId, userId, organizationId }) {
     try {
-      const organizationLearner = await BookshelfOrganizationLearner.where({
-        organizationId,
-        nationalStudentId,
-        isDisabled: false,
-      }).save({ userId }, { patch: true });
-      return bookshelfToDomainConverter.buildDomainObject(BookshelfOrganizationLearner, organizationLearner);
+      const [rawOrganizationLearner] = await knex('organization-learners')
+        .where({
+          organizationId,
+          nationalStudentId,
+          isDisabled: false,
+        })
+        .update({ userId })
+        .returning('*');
+      if (!rawOrganizationLearner) throw new Error();
+      return new OrganizationLearner(rawOrganizationLearner);
     } catch (error) {
       throw new UserCouldNotBeReconciledError();
     }
