@@ -32,4 +32,10 @@ function createTraining(schema, request) {
   });
 }
 
-export { findPaginatedTrainingSummaries, createTraining };
+function getTraining(schema, request) {
+  const trainingId = request.params.id;
+
+  return schema.trainings.find(trainingId);
+}
+
+export { findPaginatedTrainingSummaries, createTraining, getTraining };
