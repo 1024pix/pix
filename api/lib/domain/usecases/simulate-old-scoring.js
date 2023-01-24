@@ -1,4 +1,4 @@
-const SimulationResult = require('../models/SimulationResult');
+const ScoringSimulationResult = require('../models/ScoringSimulationResult');
 const fp = require('lodash/fp');
 const { sortBy } = require('lodash');
 
@@ -24,7 +24,7 @@ module.exports = async function simulateOldScoring({ challengeRepository, simula
       const { skill: answeredSkill } = challengesById.get(answer.challengeId);
 
       if (isSkillAnswered(answeredSkill)) {
-        return new SimulationResult({
+        return new ScoringSimulationResult({
           id,
           error: `Answer for skill ${answeredSkill.id} was already given or inferred`,
         });
@@ -63,7 +63,7 @@ module.exports = async function simulateOldScoring({ challengeRepository, simula
       'competenceId'
     );
 
-    return new SimulationResult({ id, pixScore, pixScoreByCompetence });
+    return new ScoringSimulationResult({ id, pixScore, pixScoreByCompetence });
   });
 
   return simulationResults;
