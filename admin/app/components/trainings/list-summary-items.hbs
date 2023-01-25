@@ -13,7 +13,11 @@
           {{#each @summaries as |summary|}}
             <tr aria-label="Contenu formatif">
               <td headers="training-id" class="table__column table__column--id">{{summary.id}}</td>
-              <td headers="training-title">{{summary.title}}</td>
+              <td headers="training-title">
+                <LinkTo @route="authenticated.trainings.training" @model={{summary.id}}>
+                  {{summary.title}}
+                </LinkTo>
+              </td>
             </tr>
           {{/each}}
         </tbody>
