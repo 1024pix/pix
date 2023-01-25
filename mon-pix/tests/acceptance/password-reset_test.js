@@ -1,4 +1,5 @@
-import { fillIn, currentURL, visit } from '@ember/test-helpers';
+import { fillIn, currentURL } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -58,15 +59,14 @@ module('Acceptance | Reset Password', function (hooks) {
       email: 'brandone.martins@pix.com',
       password: '1024pix!',
     });
-    await visit('/mot-de-passe-oublie');
+    const screen = await visit('/mot-de-passe-oublie');
     await fillIn('#email', 'unexisting@user.com');
 
     // when
     await clickByLabel(this.intl.t('pages.password-reset-demand.actions.reset'));
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(currentURL(), '/mot-de-passe-oublie');
-    assert.dom('.sign-form__notification-message--error').exists();
+    // then
+    assert.strictEqual(currentURL(), '/mot-de-passe-oublie');
+    assert.dom(screen.getByText(this.intl.t('pages.password-reset-demand.error.message'))).exists();
   });
 });

@@ -11,21 +11,9 @@
     </div>
   </div>
 
-  {{#if this.errorMessage}}
-    <div
-      class="sign-form__notification-message sign-form__notification-message--error"
-      aria-live="polite"
-      id="sign-up-error-message"
-    >
-      {{this.errorMessage}}
-    </div>
-  {{/if}}
-
-  {{#if this.notificationMessage}}
-    <div class="sign-form__notification-message sign-form__notification-message--success" aria-live="polite">
-      {{this.notificationMessage}}
-    </div>
-  {{/if}}
+  <p class="sign-form__notification-message--error" aria-live="polite" role="alert" id="sign-up-error-message">
+    {{this.errorMessage}}
+  </p>
 
   <form {{on "submit" this.signup}} class="sign-form__body">
     <p class="sign-form-body__instruction">{{t "common.form.mandatory-all-fields" htmlSafe=true}}</p>
@@ -115,23 +103,18 @@
           {{t "common.cgu.label"}}
         </PixCheckbox>
       </div>
-      {{#if @user.errors.cgu}}
-        <div class="sign-form__validation-error" aria-live="polite" id="sign-up-cgu-error-message">
+      <p class="sign-form__validation-error" aria-live="polite" role="alert" id="sign-up-cgu-error-message">
+        {{#if @user.errors.cgu}}
           {{t "common.cgu.error"}}
-        </div>
-      {{/if}}
+        {{/if}}
+      </p>
 
     </fieldset>
+
     <div class="sign-form-body__bottom-button">
-      {{#if this.isLoading}}
-        <button type="button" disabled class="button button--thin button--big button--round button--border-focus">
-          <span class="loader-in-button">&nbsp;</span>
-        </button>
-      {{else}}
-        <PixButton @type="submit" @shape="rounded">
-          {{t "pages.sign-up.actions.submit"}}
-        </PixButton>
-      {{/if}}
+      <PixButton @type="submit" @shape="rounded" @isLoading={{this.isLoading}}>
+        {{t "pages.sign-up.actions.submit"}}
+      </PixButton>
     </div>
   </form>
 </main>
