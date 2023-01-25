@@ -87,5 +87,9 @@ export default class FormTextfield extends Component {
   @action
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible;
+    const InputElement = document.getElementById('password');
+    if (InputElement) {
+      InputElement.focus();
+    }
   }
 }
