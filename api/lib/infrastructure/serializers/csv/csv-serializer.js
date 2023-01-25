@@ -42,13 +42,20 @@ function deserializeForSessionsImport(parsedCsvData) {
     } else {
       existingSession = sessions.at(-1);
     }
+    const examiner = data.examiner.trim();
+    if (examiner.length && !existingSession.examiner.includes(examiner)) {
+      existingSession.examiner.push(examiner);
+    }
 
     if (_hasCandidateInformation(data)) {
       existingSession.certificationCandidates.push(_createCandidate(data));
     }
   });
 
-  return sessions;
+  return sessions.map((session) => ({
+    ...session,
+    examiner: session.examiner.join(', '),
+  }));
 }
 
 function getDataFromColumnNames({ csvLineKeys, headers, line }) {
@@ -86,7 +93,7 @@ function _hasCandidateInformation({ lastName }) {
 }
 
 function _createSession({ address, room, date, time, examiner, description }) {
-  const uniqueKey = _generateUniqueKey({ address, room, date, time, examiner });
+  const uniqueKey = _generateUniqueKey({ address, room, date, time });
 
   return {
     uniqueKey,
@@ -94,7 +101,7 @@ function _createSession({ address, room, date, time, examiner, description }) {
     room,
     date,
     time,
-    examiner,
+    examiner: examiner ? [examiner] : [],
     description,
     certificationCandidates: [],
   };
@@ -134,8 +141,8 @@ function _createCandidate({
   };
 }
 
-function _generateUniqueKey({ address, room, date, time, examiner }) {
-  return address + room + date + time + examiner;
+function _generateUniqueKey({ address, room, date, time }) {
+  return address + room + date + time;
 }
 
 module.exports = {

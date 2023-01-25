@@ -95,7 +95,10 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
       describe('when session information is identical on consecutive lines', function () {
         it('should return a full session object per line', function () {
           // given
-          const parsedCsvData = [_lineWithSessionAndNoCandidate(1), _lineWithSessionAndNoCandidate(1)];
+          const parsedCsvData = [
+            _lineWithSessionAndNoCandidate({ sessionNumber: 1 }),
+            _lineWithSessionAndNoCandidate({ sessionNumber: 1 }),
+          ];
 
           const expectedResult = [
             {
@@ -115,15 +118,43 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           // then
           expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
         });
+
+        describe('when the are multiple different supervisors per session', function () {
+          it('should return the session with an array of supervisors', function () {
+            // given
+            const parsedCsvData = [
+              _lineWithSessionAndNoCandidate({ sessionNumber: 1, examiner: 'Big' }),
+              _lineWithSessionAndNoCandidate({ sessionNumber: 1, examiner: 'Jim' }),
+            ];
+
+            const expectedResult = [
+              {
+                address: 'Site 1',
+                room: 'Salle 1',
+                date: '2023-05-12',
+                time: '01:00',
+                examiner: 'Big, Jim',
+                description: '',
+                certificationCandidates: [],
+              },
+            ];
+
+            // when
+            const result = csvSerializer.deserializeForSessionsImport(parsedCsvData);
+
+            // then
+            expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
+          });
+        });
       });
 
       describe('when session information is identical on none consecutive lines', function () {
         it('should return a full session object per line', function () {
           // given
           const parsedCsvData = [
-            _lineWithSessionAndNoCandidate(1),
-            _lineWithSessionAndNoCandidate(2),
-            _lineWithSessionAndNoCandidate(1),
+            _lineWithSessionAndNoCandidate({ sessionNumber: 1 }),
+            _lineWithSessionAndNoCandidate({ sessionNumber: 2 }),
+            _lineWithSessionAndNoCandidate({ sessionNumber: 1 }),
           ];
 
           const expectedResult = [
@@ -247,7 +278,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
     describe('when there is no session information', function () {
       it('should return a full session object with previous session information and current candidate information if any', function () {
         // given
-        const parsedCsvData = [_lineWithSessionAndNoCandidate(1), _lineWithCandidateAndNoSession()];
+        const parsedCsvData = [_lineWithSessionAndNoCandidate({ sessionNumber: 1 }), _lineWithCandidateAndNoSession()];
 
         const expectedResult = [
           {
@@ -291,7 +322,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
     describe('when there is no candidate information', function () {
       it('should return a session object with empty candidate information per csv line', function () {
         // given
-        const parsedCsvData = [_lineWithSessionAndNoCandidate(1)];
+        const parsedCsvData = [_lineWithSessionAndNoCandidate({ sessionNumber: 1 })];
 
         const expectedResult = [
           {
@@ -365,13 +396,13 @@ function _line({
   };
 }
 
-function _lineWithSessionAndNoCandidate(sessionNumber) {
+function _lineWithSessionAndNoCandidate({ sessionNumber, examiner = 'Paul' }) {
   return _line({
     address: `Site ${sessionNumber}`,
     room: `Salle ${sessionNumber}`,
     date: '12/05/2023',
     time: '01:00',
-    examiner: 'Paul',
+    examiner,
     description: '',
   });
 }
