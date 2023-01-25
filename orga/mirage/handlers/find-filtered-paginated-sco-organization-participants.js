@@ -34,13 +34,14 @@ function _filtersFromQueryParams(schema, organizationId, queryParams) {
     return schema.scoOrganizationParticipants.where(({ firstName }) => firstName.includes(firstNameFilter));
   }
 
-  const connexionTypeFilter = queryParams['filter[connexionType]'];
-  if (connexionTypeFilter) {
+  const connectionTypeFilter = queryParams['filter[connectionTypes]'];
+  if (connectionTypeFilter) {
     return schema.scoOrganizationParticipants.where((scoOrganizationParticipant) => {
-      if (connexionTypeFilter === '') return true;
-      if (connexionTypeFilter.includes('identifiant') && scoOrganizationParticipant.hasUsername) return true;
-      if (connexionTypeFilter.includes('email') && scoOrganizationParticipant.hasEmail) return true;
-      if (connexionTypeFilter.includes('mediacentre') && scoOrganizationParticipant.isAuthenticatedFromGar) return true;
+      if (connectionTypeFilter === '') return true;
+      if (connectionTypeFilter.includes('identifiant') && scoOrganizationParticipant.hasUsername) return true;
+      if (connectionTypeFilter.includes('email') && scoOrganizationParticipant.hasEmail) return true;
+      if (connectionTypeFilter.includes('mediacentre') && scoOrganizationParticipant.isAuthenticatedFromGar)
+        return true;
       return false;
     });
   }

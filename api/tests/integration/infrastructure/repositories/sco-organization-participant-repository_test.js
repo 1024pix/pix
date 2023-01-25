@@ -260,7 +260,7 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
             data: [{ lastName }],
           } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
             organizationId,
-            filter: { connexionType: ['none'] },
+            filter: { connectionTypes: ['none'] },
           });
 
           // then
@@ -273,7 +273,7 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
             data: [{ lastName }],
           } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
             organizationId,
-            filter: { connexionType: ['identifiant'] },
+            filter: { connectionTypes: ['identifiant'] },
           });
 
           // then
@@ -286,7 +286,7 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
             data: [{ lastName }],
           } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
             organizationId,
-            filter: { connexionType: ['email'] },
+            filter: { connectionTypes: ['email'] },
           });
 
           // then
@@ -299,7 +299,7 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
             data: [{ lastName }],
           } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
             organizationId,
-            filter: { connexionType: ['mediacentre'] },
+            filter: { connectionTypes: ['mediacentre'] },
           });
 
           // then
@@ -309,7 +309,7 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
           // when
           const { data } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
             organizationId,
-            filter: { connexionType: ['mediacentre', 'none'] },
+            filter: { connectionTypes: ['mediacentre', 'none'] },
           });
 
           // then

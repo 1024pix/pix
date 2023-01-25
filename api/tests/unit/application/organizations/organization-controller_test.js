@@ -645,7 +645,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
         query: {
           'filter[lastName]': 'Bob',
           'filter[firstName]': 'Tom',
-          'filter[connexionType]': 'email',
+          'filter[connectionTypes]': 'email',
           'filter[divisions][]': 'D1',
         },
       };
@@ -657,7 +657,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       // then
       expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWith({
         organizationId,
-        filter: { lastName: 'Bob', firstName: 'Tom', connexionType: ['email'], divisions: ['D1'] },
+        filter: { lastName: 'Bob', firstName: 'Tom', connectionTypes: ['email'], divisions: ['D1'] },
         page: {},
       });
     });

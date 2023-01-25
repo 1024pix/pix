@@ -1119,7 +1119,7 @@ describe('Acceptance | Application | organization-controller', function () {
           // given
           options = {
             method: 'GET',
-            url: `/api/organizations/${organization.id}/sco-participants?filter[connexionType][]=none`,
+            url: `/api/organizations/${organization.id}/sco-participants?filter[connectionTypes][]=none`,
             headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
           };
 
@@ -1134,7 +1134,7 @@ describe('Acceptance | Application | organization-controller', function () {
           // given
           options = {
             method: 'GET',
-            url: `/api/organizations/${organization.id}/sco-participants?filter[connexionType][]=none&filter[connexionType][]=email`,
+            url: `/api/organizations/${organization.id}/sco-participants?filter[connectionTypes][]=none&filter[connectionTypes][]=email`,
             headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
           };
 

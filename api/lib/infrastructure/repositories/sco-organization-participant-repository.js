@@ -8,16 +8,16 @@ const ScoOrganizationParticipant = require('../../domain/read-models/ScoOrganiza
 const CampaignTypes = require('../../domain/models/CampaignTypes');
 const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
 
-function _setFilters(qb, { search, divisions, connexionType, certificability } = {}) {
+function _setFilters(qb, { search, divisions, connectionTypes, certificability } = {}) {
   if (search) {
     filterByFullName(qb, search, 'organization-learners.firstName', 'organization-learners.lastName');
   }
   if (!_.isEmpty(divisions)) {
     qb.whereIn('division', divisions);
   }
-  if (!_.isEmpty(connexionType)) {
+  if (!_.isEmpty(connectionTypes)) {
     qb.where(function () {
-      if (connexionType.includes('none')) {
+      if (connectionTypes.includes('none')) {
         this.orWhere(function () {
           this.whereRaw('"users"."username" IS NULL');
           this.whereRaw('"users"."email" IS NULL');
@@ -25,13 +25,13 @@ function _setFilters(qb, { search, divisions, connexionType, certificability } =
           this.whereRaw('"authentication-methods"."externalIdentifier" IS NULL');
         });
       }
-      if (connexionType.includes('identifiant')) {
+      if (connectionTypes.includes('identifiant')) {
         this.orWhereRaw('"users"."username" IS NOT NULL');
       }
-      if (connexionType.includes('email')) {
+      if (connectionTypes.includes('email')) {
         this.orWhereRaw('"users"."email" IS NOT NULL');
       }
-      if (connexionType.includes('mediacentre')) {
+      if (connectionTypes.includes('mediacentre')) {
         // we only retrieve GAR authentication method in join clause
         this.orWhereRaw('"authentication-methods"."externalIdentifier" IS NOT NULL');
       }
