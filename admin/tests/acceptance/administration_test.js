@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { clickByName, visit } from '@1024pix/ember-testing-library';
+import { clickByName, visit, fillByLabel } from '@1024pix/ember-testing-library';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -75,5 +75,18 @@ module('Acceptance | administration', function (hooks) {
         )
         .exists();
     });
+  });
+
+  test('it should be possible to create a new tag', async function (assert) {
+    // given
+    const screen = await visit('/administration');
+
+    // when
+    await fillByLabel('Nom du tag', 'Mon super tag');
+    await clickByName('Créer le tag');
+
+    // then
+    assert.dom(screen.getByText('Le tag a bien été créé !')).exists();
+    assert.dom(screen.getByRole('textbox', { name: 'Nom du tag' })).hasNoValue();
   });
 });
