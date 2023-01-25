@@ -43,7 +43,11 @@ function _shouldStudentToImportBeReconciled(
 
 module.exports = {
   async findByIds({ ids }) {
-    const rawOrganizationLearners = await knex.select('*').from('organization-learners').whereIn('id', ids);
+    const rawOrganizationLearners = await knex
+      .select('*')
+      .from('organization-learners')
+      .whereIn('id', ids)
+      .orderBy('id');
 
     return rawOrganizationLearners.map((rawOrganizationLearner) => new OrganizationLearner(rawOrganizationLearner));
   },
@@ -262,8 +266,8 @@ module.exports = {
   }) {
     const organizationLearner = await knex('organization-learners')
       .transacting(domainTransaction)
-      .first('*')
-      .where({ userId, organizationId });
+      .where({ userId, organizationId })
+      .first('*');
     if (!organizationLearner) return null;
     return new OrganizationLearner(organizationLearner);
   },
