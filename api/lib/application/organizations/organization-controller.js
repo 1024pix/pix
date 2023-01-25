@@ -237,8 +237,8 @@ module.exports = {
     if (filter.divisions && !Array.isArray(filter.divisions)) {
       filter.divisions = [filter.divisions];
     }
-    if (filter.connexionType && !Array.isArray(filter.connexionType)) {
-      filter.connexionType = [filter.connexionType];
+    if (filter.connectionTypes && !Array.isArray(filter.connectionTypes)) {
+      filter.connectionTypes = [filter.connectionTypes];
     }
     if (filter.certificability) {
       filter.certificability = mapCertificabilityByLabel(filter.certificability);

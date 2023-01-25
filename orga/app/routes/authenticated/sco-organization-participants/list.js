@@ -22,7 +22,7 @@ export default class ListRoute extends Route {
         organizationId: this.currentUser.organization.id,
         search: params.search,
         divisions: params.divisions,
-        connexionType: params.connectionTypes,
+        connectionTypes: params.connectionTypes,
         certificability: params.certificability,
       },
       page: {
