@@ -14,13 +14,13 @@ class BadgeResult {
     this.isCertifiable = badge.isCertifiable;
     this.isValid = badge.isValid;
 
-    this.skillSetResults = badge.badgeCompetences.map((competence) =>
-      _buildCompetenceResults(competence, knowledgeElements)
+    this.skillSetResults = badge.badgeCompetences.map((badgeCompetence) =>
+      _buildSkillSetResult(badgeCompetence, knowledgeElements)
     );
   }
 }
 
-function _buildCompetenceResults(badgeCompetence, knowledgeElements) {
+function _buildSkillSetResult(badgeCompetence, knowledgeElements) {
   const skillIds = badgeCompetence.skillIds;
   const competenceKnowledgeElements = knowledgeElements.filter(({ skillId }) => skillIds.includes(skillId));
 
