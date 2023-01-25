@@ -27,11 +27,11 @@
   }
 
   &:hover {
-    color: $pix-primary-40;
+    color: $pix-primary-60;
     text-decoration: none;
 
     > .caret {
-      border-color: $pix-primary-40 transparent transparent transparent;
+      border-color: $pix-primary-60 transparent transparent transparent;
     }
   }
 }
