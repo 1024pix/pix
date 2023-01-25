@@ -97,7 +97,10 @@ class AssessmentResult {
 
 function _buildCompetenceResults(competence, knowledgeElements) {
   const competenceKnowledgeElements = knowledgeElements.filter(({ skillId }) => competence.skillIds.includes(skillId));
-  return new CompetenceResult(competence, competenceKnowledgeElements);
+  return new CompetenceResult({
+    competence,
+    knowledgeElements: competenceKnowledgeElements,
+  });
 }
 
 module.exports = AssessmentResult;
