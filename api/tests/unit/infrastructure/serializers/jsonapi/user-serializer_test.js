@@ -56,24 +56,9 @@ describe('Unit | Serializer | JSONAPI | user-serializer', function () {
                 userModelObject.shouldSeeDataProtectionPolicyInformationBanner,
             },
             relationships: {
-              'certification-center-memberships': {
-                links: {
-                  related: `/api/users/${userModelObject.id}/certification-center-memberships`,
-                },
-              },
-              'pix-score': {
-                links: {
-                  related: `/api/users/${userModelObject.id}/pixscore`,
-                },
-              },
               profile: {
                 links: {
                   related: `/api/users/${userModelObject.id}/profile`,
-                },
-              },
-              scorecards: {
-                links: {
-                  related: `/api/users/${userModelObject.id}/scorecards`,
                 },
               },
               'campaign-participations': {
