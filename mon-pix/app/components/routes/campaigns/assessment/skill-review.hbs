@@ -94,8 +94,8 @@
                   href="#"
                   {{on "click" this.redirectToSignupIfUserIsAnonymous}}
                   class="skill-review-share__back-to-home link"
-                  data-link-to-continue-pix
                 >
+                  <FaIcon @icon="arrow-right" aria-hidden="true" />
                   {{t "pages.skill-review.actions.continue"}}
                 </a>
               {{else}}
