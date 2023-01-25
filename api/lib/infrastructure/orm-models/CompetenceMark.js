@@ -1,8 +1,6 @@
 const Bookshelf = require('../bookshelf');
 const CompetenceMark = require('../../domain/models/CompetenceMark');
 
-require('./AssessmentResult');
-
 const modelName = 'CompetenceMark';
 
 module.exports = Bookshelf.model(
