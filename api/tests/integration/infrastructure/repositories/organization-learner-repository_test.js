@@ -16,7 +16,7 @@ const {
 const organizationLearnerRepository = require('../../../../lib/infrastructure/repositories/organization-learner-repository');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
-describe.only('Integration | Infrastructure | Repository | organization-learner-repository', function () {
+describe('Integration | Infrastructure | Repository | organization-learner-repository', function () {
   describe('#findByIds', function () {
     it('should return all the organizationLearners for given organizationLearner IDs', async function () {
       // given
