@@ -22,12 +22,6 @@ export default ApplicationSerializer.extend({
       isCertifiable: {
         related: `${userBaseUrl}/is-certifiable`,
       },
-      pixScore: {
-        related: `${userBaseUrl}/pixscore`,
-      },
-      scorecards: {
-        related: `${userBaseUrl}/scorecards`,
-      },
       profile: {
         related: `${userBaseUrl}/profile`,
       },
@@ -36,9 +30,6 @@ export default ApplicationSerializer.extend({
       },
       campaignParticipationOverviews: {
         related: `${userBaseUrl}/campaign-participation-overviews`,
-      },
-      certificationCenterMemberships: {
-        related: `${userBaseUrl}/certification-center-memberships`,
       },
       memberships: {
         related: `${userBaseUrl}/memberships`,
