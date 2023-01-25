@@ -32,8 +32,6 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
         acquiredBadgeIds: [3],
         participantExternalId: 'greg@lafleche.fr',
         masteryRate: 0.5,
-        estimatedFlashLevel: -2.4672347856,
-        flashPixScore: 374.3438957781,
         isDeleted: false,
       };
 
@@ -68,6 +66,11 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
         },
       ];
 
+      const flashScoringResults = {
+        estimatedFlashLevel: -2.4672347856,
+        flashPixScore: 374.3438957781,
+      };
+
       assessmentResult = new AssessmentResult({
         participationResults,
         competences,
@@ -76,6 +79,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
         isCampaignMultipleSendings,
         isOrganizationLearnerActive,
         isCampaignArchived,
+        flashScoringResults,
       });
     });
 

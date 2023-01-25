@@ -16,6 +16,10 @@ const { NotFoundError } = require('../../domain/errors');
 const ParticipantResultRepository = {
   async getByUserIdAndCampaignId({ userId, campaignId, badges, locale }) {
     const participationResults = await _getParticipationResults(userId, campaignId, locale);
+    let flashScoringResults;
+    if (participationResults.isFlash) {
+      flashScoringResults = await _getFlashScoringResults(participationResults.assessmentId, locale);
+    }
     const isCampaignMultipleSendings = await _isCampaignMultipleSendings(campaignId);
     const isOrganizationLearnerActive = await _isOrganizationLearnerActive(userId, campaignId);
     const isCampaignArchived = await _isCampaignArchived(campaignId);
@@ -31,11 +35,12 @@ const ParticipantResultRepository = {
       isCampaignMultipleSendings,
       isOrganizationLearnerActive,
       isCampaignArchived,
+      flashScoringResults,
     });
   },
 };
 
-async function _getParticipationResults(userId, campaignId, locale) {
+async function _getParticipationResults(userId, campaignId) {
   const {
     isCompleted,
     campaignParticipationId,
@@ -52,24 +57,6 @@ async function _getParticipationResults(userId, campaignId, locale) {
 
   const acquiredBadgeIds = await _getAcquiredBadgeIds(userId, campaignParticipationId);
 
-  let estimatedFlashLevel;
-  let flashPixScore;
-  if (isFlash) {
-    const { allAnswers, challenges, estimatedLevel } = await dataFetcher.fetchForFlashCampaigns({
-      assessmentId,
-      locale,
-      answerRepository,
-      challengeRepository,
-      flashAssessmentResultRepository,
-    });
-    estimatedFlashLevel = estimatedLevel;
-    flashPixScore = flash.calculateTotalPixScoreAndScoreByCompetence({
-      allAnswers,
-      challenges,
-      estimatedLevel,
-    }).pixScore;
-  }
-
   return {
     campaignParticipationId,
     isCompleted,
@@ -79,10 +66,28 @@ async function _getParticipationResults(userId, campaignId, locale) {
     knowledgeElements,
     masteryRate,
     acquiredBadgeIds: acquiredBadgeIds.map(({ badgeId }) => badgeId),
-    estimatedFlashLevel,
     isDeleted,
-    flashPixScore,
+    assessmentId,
+    isFlash,
   };
+}
+
+async function _getFlashScoringResults(assessmentId, locale) {
+  const { allAnswers, challenges, estimatedLevel } = await dataFetcher.fetchForFlashCampaigns({
+    assessmentId,
+    locale,
+    answerRepository,
+    challengeRepository,
+    flashAssessmentResultRepository,
+  });
+  const estimatedFlashLevel = estimatedLevel;
+  const flashPixScore = flash.calculateTotalPixScoreAndScoreByCompetence({
+    allAnswers,
+    challenges,
+    estimatedLevel,
+  }).pixScore;
+
+  return { estimatedFlashLevel, flashPixScore };
 }
 
 async function _getParticipationAttributes(userId, campaignId) {
