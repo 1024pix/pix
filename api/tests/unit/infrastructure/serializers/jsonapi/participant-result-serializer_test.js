@@ -5,12 +5,15 @@ const KnowledgeElement = require('../../../../../lib/domain/models/KnowledgeElem
 
 describe('Unit | Serializer | JSON API | participant-result-serializer', function () {
   describe('#serialize', function () {
-    let assessmentResult;
+    const isCampaignMultipleSendings = true;
+    const isOrganizationLearnerActive = true;
+    const isCampaignArchived = false;
+    let participationResults;
+    let competences;
+    let stages;
+    let badgeResultsDTO;
 
     beforeEach(function () {
-      const isCampaignMultipleSendings = true;
-      const isOrganizationLearnerActive = true;
-      const isCampaignArchived = false;
       const knowledgeElements = [
         domainBuilder.buildKnowledgeElement({
           skillId: 'skill1',
@@ -24,7 +27,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
         }),
       ];
 
-      const participationResults = {
+      participationResults = {
         campaignParticipationId: 1,
         isCompleted: true,
         sharedAt: new Date('2020-01-01'),
@@ -35,7 +38,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
         isDeleted: false,
       };
 
-      const competences = [
+      competences = [
         {
           competence: domainBuilder.buildCompetence({
             id: 'C1',
@@ -50,12 +53,13 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
         },
       ];
 
-      const stages = [
+      stages = [
         { id: 2, title: 'Stage1', message: 'Message1', threshold: 0 },
         { id: 3, title: 'Stage2', message: 'Message2', threshold: 50 },
         { id: 4, title: 'Stage1', message: 'Message1', threshold: 100 },
       ];
-      const badgeResultsDTO = [
+
+      badgeResultsDTO = [
         {
           id: 3,
           altMessage: 'Badge2 AltMessage',
@@ -69,13 +73,11 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
           isValid: true,
         },
       ];
+    });
 
-      const flashScoringResults = {
-        estimatedFlashLevel: -2.4672347856,
-        flashPixScore: 374.3438957781,
-      };
-
-      assessmentResult = new AssessmentResult({
+    it('should convert a CampaignParticipationResult model object into JSON API data', function () {
+      // given
+      const assessmentResult = new AssessmentResult({
         participationResults,
         competences,
         stages,
@@ -83,11 +85,8 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
         isCampaignMultipleSendings,
         isOrganizationLearnerActive,
         isCampaignArchived,
-        flashScoringResults,
       });
-    });
 
-    it('should convert a CampaignParticipationResult model object into JSON API data', function () {
       const expectedSerializedCampaignParticipationResult = {
         data: {
           attributes: {
@@ -102,8 +101,6 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
             'can-improve': false,
             'is-disabled': false,
             'participant-external-id': 'greg@lafleche.fr',
-            'estimated-flash-level': -2.4672347856,
-            'flash-pix-score': 374.3438957781,
           },
           id: '1',
           relationships: {
@@ -218,8 +215,38 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
 
       // when
       const json = serializer.serialize(assessmentResult);
+
       // then
       expect(json).to.deep.equal(expectedSerializedCampaignParticipationResult);
+    });
+
+    context('when campaign is FLASH', function () {
+      it('should return flash results', async function () {
+        // given
+        const flashScoringResults = {
+          estimatedLevel: -2.4672347856,
+          pixScore: 374.3438957781,
+          competencesWithPixScore: [],
+        };
+
+        const assessmentResult = new AssessmentResult({
+          participationResults,
+          competences: [],
+          stages,
+          badgeResultsDTO,
+          isCampaignMultipleSendings,
+          isOrganizationLearnerActive,
+          isCampaignArchived,
+          flashScoringResults,
+        });
+
+        // when
+        const json = serializer.serialize(assessmentResult);
+
+        // then
+        expect(json.data.attributes).to.have.property('estimated-flash-level', -2.4672347856);
+        expect(json.data.attributes).to.have.property('flash-pix-score', 374.3438957781);
+      });
     });
   });
 });

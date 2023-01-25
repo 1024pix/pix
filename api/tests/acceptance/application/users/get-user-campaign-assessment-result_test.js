@@ -203,8 +203,6 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
             'can-improve': false,
             'is-disabled': false,
             'participant-external-id': 'participantExternalId',
-            'estimated-flash-level': undefined,
-            'flash-pix-score': undefined,
           },
           relationships: {
             'campaign-participation-badges': {
@@ -308,6 +306,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
               'tested-skills-count': 0,
               'validated-skills-count': 0,
               'area-color': JAFFA_COLOR,
+              'flash-pix-score': undefined,
             },
           },
           {
@@ -321,6 +320,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
               'tested-skills-count': 2,
               'validated-skills-count': 2,
               'area-color': EMERALD_COLOR,
+              'flash-pix-score': undefined,
             },
           },
           {
@@ -334,6 +334,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
               'tested-skills-count': 3,
               'validated-skills-count': 1,
               'area-color': EMERALD_COLOR,
+              'flash-pix-score': undefined,
             },
           },
           {

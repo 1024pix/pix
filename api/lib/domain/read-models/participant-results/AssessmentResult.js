@@ -50,8 +50,20 @@ class AssessmentResult {
       this.isDisabled
     );
 
-    this.estimatedFlashLevel = flashScoringResults?.estimatedFlashLevel;
-    this.flashPixScore = flashScoringResults?.flashPixScore;
+    if (flashScoringResults) {
+      this.estimatedFlashLevel = flashScoringResults.estimatedLevel;
+      this.flashPixScore = flashScoringResults.pixScore;
+      this.competenceResults = flashScoringResults.competencesWithPixScore.map(
+        ({ competence, area, pixScore }) =>
+          new CompetenceResult({
+            competence,
+            area,
+            totalSkillsCount: competence.skillIds.length,
+            knowledgeElements: [],
+            flashPixScore: pixScore,
+          })
+      );
+    }
   }
 
   _computeMasteryRate(masteryRate, isShared, totalSkillsCount, validatedSkillsCount) {

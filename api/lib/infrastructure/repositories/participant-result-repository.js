@@ -80,14 +80,35 @@ async function _getFlashScoringResults(assessmentId, locale) {
     challengeRepository,
     flashAssessmentResultRepository,
   });
-  const estimatedFlashLevel = estimatedLevel;
-  const flashPixScore = flash.calculateTotalPixScoreAndScoreByCompetence({
+
+  const { pixScore, pixScoreByCompetence } = flash.calculateTotalPixScoreAndScoreByCompetence({
     allAnswers,
     challenges,
     estimatedLevel,
-  }).pixScore;
+  });
 
-  return { estimatedFlashLevel, flashPixScore };
+  const competences = await competenceRepository.findByRecordIds({
+    competenceIds: pixScoreByCompetence.map(({ competenceId }) => competenceId),
+    locale,
+  });
+
+  const areas = await areaRepository.list({ locale });
+
+  const competencesWithPixScore = _.sortBy(
+    pixScoreByCompetence.map(({ competenceId, pixScore }) => {
+      const competence = competences.find(({ id }) => id === competenceId);
+      const area = areas.find(({ id }) => id === competence.areaId);
+
+      return {
+        competence,
+        area,
+        pixScore,
+      };
+    }),
+    'competence.index'
+  );
+
+  return { estimatedLevel, pixScore, competencesWithPixScore };
 }
 
 async function _getParticipationAttributes(userId, campaignId) {
