@@ -18,7 +18,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | CompetenceResult', f
       domainBuilder.buildKnowledgeElement({ status: KnowledgeElement.StatusType.INVALIDATED }),
     ];
 
-    const competenceResult = new CompetenceResult(competence, knowledgeElements);
+    const competenceResult = new CompetenceResult({ competence, knowledgeElements });
 
     expect(competenceResult).to.deep.equal({
       id: 'rec1',

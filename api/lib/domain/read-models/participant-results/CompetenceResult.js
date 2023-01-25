@@ -1,5 +1,5 @@
 class CompetenceResult {
-  constructor(competence, knowledgeElements) {
+  constructor({ competence, knowledgeElements }) {
     const totalSkillsCount = competence.skillIds.length;
     const validatedSkillsCount = knowledgeElements.filter(({ isValidated }) => isValidated).length;
 
