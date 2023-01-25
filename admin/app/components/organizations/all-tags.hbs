@@ -34,12 +34,20 @@
         </li>
       {{/each}}
     </ul>
-    <hr class="organization-tags-lists-separator" />
   {{/if}}
 
-  {{#if this.allTags}}
+  <div class="organization-recently-used-tags-list__search-input-container">
+    <PixSearchInput
+      @ariaLabel="Filtrer les tags"
+      @placeholder="Filtrer les tags"
+      @debounceTimeInMs={{this.debounceTimeInMs}}
+      @triggerFiltering={{this.triggerFiltering}}
+    />
+  </div>
+
+  {{#if this.tagsToShow}}
     <ul class="organization-all-tags-list">
-      {{#each this.allTags as |tag|}}
+      {{#each this.tagsToShow as |tag|}}
         <li class="organization-all-tags-list__tag">
 
           {{#if tag.isTagAssignedToOrganization}}
@@ -67,6 +75,8 @@
         </li>
       {{/each}}
     </ul>
+  {{else}}
+    <p>Aucun résultat.</p>
   {{/if}}
 
 </section>
