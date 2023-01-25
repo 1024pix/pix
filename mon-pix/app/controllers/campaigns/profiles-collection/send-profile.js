@@ -14,7 +14,8 @@ export default class SendProfileController extends Controller {
   }
 
   @action
-  async sendProfile() {
+  async sendProfile(event) {
+    event.preventDefault();
     this.errorMessage = null;
 
     const campaignParticipation = this.model.campaignParticipation;

@@ -1,5 +1,4 @@
-{{! template-lint-disable no-action }}
-<form {{action @sendProfile on="submit"}} class="send-profile-header__form">
+<form {{on "submit" @sendProfile}} class="send-profile-header__form">
   <p class="send-profile-header__recipient">
     {{t "pages.send-profile.form.recipient" recipient=@campaign.organizationName}}
   </p>
@@ -9,6 +8,7 @@
       {{t "pages.send-profile.form.shared"}}
     </p>
     <LinkTo @route="authenticated" class="skill-review-share__back-to-home link">
+      <FaIcon @icon="arrow-right" aria-hidden="true" />
       {{t "pages.send-profile.form.continue"}}
     </LinkTo>
   {{else if @errorMessage}}
@@ -21,5 +21,4 @@
       {{t "pages.send-profile.form.send"}}
     </PixButton>
   {{/if}}
-
 </form>
