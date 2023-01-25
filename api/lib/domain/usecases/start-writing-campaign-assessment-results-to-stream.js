@@ -1,6 +1,11 @@
 const _ = require('lodash');
-const moment = require('moment');
 const bluebird = require('bluebird');
+
+const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
+const timezone = require('dayjs/plugin/timezone');
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const constants = require('../../infrastructure/constants');
 const { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } = require('../errors');
@@ -134,7 +139,7 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream({
   const fileName = translate('campaign-export.common.file-name', {
     name: campaign.name,
     id: campaign.id,
-    date: moment.utc().format('YYYY-MM-DD-hhmm'),
+    date: dayjs().tz('Europe/Berlin').format('YYYY-MM-DD-HHmm'),
   });
   return { fileName };
 };
