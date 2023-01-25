@@ -545,6 +545,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
         totalSkillsCount: 2,
         validatedSkillsCount: 2,
         masteryPercentage: 100,
+        flashPixScore: undefined,
       });
       expect(competenceResult2).to.deep.equal({
         id: 'rec2',
@@ -556,6 +557,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
         totalSkillsCount: 2,
         validatedSkillsCount: 1,
         masteryPercentage: 50,
+        flashPixScore: undefined,
       });
     });
 
