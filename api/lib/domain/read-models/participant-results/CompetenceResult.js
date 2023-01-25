@@ -1,5 +1,5 @@
 class CompetenceResult {
-  constructor({ competence, area, totalSkillsCount, knowledgeElements }) {
+  constructor({ competence, area, totalSkillsCount, knowledgeElements, flashPixScore }) {
     const validatedSkillsCount = knowledgeElements.filter(({ isValidated }) => isValidated).length;
 
     this.id = competence.id;
@@ -11,6 +11,7 @@ class CompetenceResult {
     this.testedSkillsCount = knowledgeElements.length;
     this.validatedSkillsCount = validatedSkillsCount;
     this.masteryPercentage = Math.round((validatedSkillsCount / totalSkillsCount) * 100);
+    this.flashPixScore = flashPixScore;
   }
 }
 

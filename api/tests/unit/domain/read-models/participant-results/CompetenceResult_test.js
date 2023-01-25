@@ -22,7 +22,15 @@ describe('Unit | Domain | Read-Models | ParticipantResult | CompetenceResult', f
       domainBuilder.buildKnowledgeElement({ status: KnowledgeElement.StatusType.INVALIDATED }),
     ];
 
-    const competenceResult = new CompetenceResult({ competence, area, totalSkillsCount, knowledgeElements });
+    const flashPixScore = 123.456;
+
+    const competenceResult = new CompetenceResult({
+      competence,
+      area,
+      totalSkillsCount,
+      knowledgeElements,
+      flashPixScore,
+    });
 
     expect(competenceResult).to.deep.equal({
       id: 'rec1',
@@ -34,6 +42,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | CompetenceResult', f
       totalSkillsCount: 3,
       validatedSkillsCount: 1,
       masteryPercentage: 33,
+      flashPixScore: 123.456,
     });
   });
 });
