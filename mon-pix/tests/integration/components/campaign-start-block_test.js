@@ -29,6 +29,7 @@ module('Integration | Component | campaign-start-block', function (hooks) {
 
       // then
       assert.dom('[src="http://orga.com/logo.png"][alt="My organisation"]').exists();
+      assert.ok(contains(this.intl.t('pages.campaign-landing.profiles-collection.announcement')));
       assert.ok(contains('My campaign text'));
     });
   });
@@ -101,7 +102,7 @@ module('Integration | Component | campaign-start-block', function (hooks) {
             @startCampaignParticipation={{this.startCampaignParticipation}}
           />`);
         // then
-        assert.ok(contains(this.intl.t('pages.campaign-landing.profiles-collection.announcement')));
+        assert.notOk(contains(this.intl.t('pages.campaign-landing.profiles-collection.announcement')));
         assert.ok(contains(this.intl.t('pages.campaign-landing.profiles-collection.action')));
         assert.ok(contains(this.intl.t('pages.campaign-landing.profiles-collection.legal')));
       });
@@ -132,7 +133,7 @@ module('Integration | Component | campaign-start-block', function (hooks) {
             @startCampaignParticipation={{this.startCampaignParticipation}}
           />`);
         // then
-        assert.ok(contains(this.intl.t('pages.campaign-landing.assessment.announcement')));
+        assert.notOk(contains(this.intl.t('pages.campaign-landing.profiles-collection.announcement')));
         assert.ok(contains(this.intl.t('pages.campaign-landing.assessment.action')));
         assert.ok(contains(this.intl.t('pages.campaign-landing.assessment.legal')));
       });
