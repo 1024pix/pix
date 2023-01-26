@@ -3,7 +3,7 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 
 describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', function () {
   describe('#serialize', function () {
-    it('should serialize user details for Pix Admin', function () {
+    it('serializes user details for Pix Admin', function () {
       // given
       const now = new Date();
       const userDetailsForAdmin = domainBuilder.buildUserDetailsForAdmin({
@@ -17,7 +17,9 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
         hasBeenAnonymised: false,
         anonymisedByFullName: null,
         organizationLearners: [domainBuilder.buildOrganizationLearnerForAdmin()],
-        authenticationMethods: [{ id: 1, identityProvider: 'PIX' }],
+        authenticationMethods: [
+          { id: 1, identityProvider: 'PIX', authenticationComplement: { shouldChangePassword: true } },
+        ],
         userLogin: [{ id: 123, failureCount: 8 }],
       });
 
@@ -115,6 +117,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
           {
             attributes: {
               'identity-provider': userDetailsForAdmin.authenticationMethods[0].identityProvider,
+              'authentication-complement': { shouldChangePassword: true },
             },
             id: `${userDetailsForAdmin.authenticationMethods[0].id}`,
             type: 'authenticationMethods',
