@@ -1,12 +1,8 @@
 const _ = require('lodash');
-
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const { PIX_ORIGIN } = require('../../../../lib/domain/constants');
-
 const PlacementProfile = require('../../../../lib/domain/models/PlacementProfile');
-
 const certificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
-
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
@@ -97,25 +93,21 @@ describe('Unit | Service | Certification Challenge Service', function () {
       id: 'competenceRecordIdOne',
       index: '1.1',
       name: '1.1 Construire un flipper',
-      area: '1',
     });
     competenceRemplir = domainBuilder.buildCompetence({
       id: 'competenceRecordIdTwo',
       index: '1.2',
       name: '1.2 Adopter un dauphin',
-      area: '1',
     });
     competenceRequin = domainBuilder.buildCompetence({
       id: 'competenceRecordIdThree',
       index: '1.3',
       name: '1.3 Se faire manger par un requin',
-      area: '1',
     });
     competenceKoala = domainBuilder.buildCompetence({
       id: 'competenceRecordIdKoala',
       index: '1.3',
       name: '1.3 Se faire manger par un koala',
-      area: '1',
     });
 
     skillCitation4 = domainBuilder.buildSkill({
@@ -295,7 +287,6 @@ describe('Unit | Service | Certification Challenge Service', function () {
       userCompetence1 = domainBuilder.buildUserCompetence({
         id: 'competenceRecordIdOne',
         index: '1.1',
-        area: { code: '1' },
         name: '1.1 Construire un flipper',
         pixScore: 12,
         estimatedLevel: 1,
@@ -303,7 +294,6 @@ describe('Unit | Service | Certification Challenge Service', function () {
       userCompetence2 = domainBuilder.buildUserCompetence({
         id: 'competenceRecordIdTwo',
         index: '1.2',
-        area: { code: '1' },
         name: '1.2 Adopter un dauphin',
         pixScore: 23,
         estimatedLevel: 2,
@@ -1004,6 +994,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
       const competence = domainBuilder.buildCompetence({
         id: `comp_${areaName}_id`,
         name: `comp_${areaName}`,
+        areaId,
         tubes,
         origin,
       });

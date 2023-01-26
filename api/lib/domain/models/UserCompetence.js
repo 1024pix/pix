@@ -3,11 +3,11 @@ const { MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY } = require('../constants');
 const _ = require('lodash');
 
 class UserCompetence {
-  constructor({ id, index, name, area, pixScore, estimatedLevel, skills = [] } = {}) {
+  constructor({ id, index, name, areaId, pixScore, estimatedLevel, skills = [] } = {}) {
     this.id = id;
     this.index = index;
     this.name = name;
-    this.area = area;
+    this.areaId = areaId;
     this.pixScore = pixScore;
     this.estimatedLevel = estimatedLevel;
     this.skills = skills;

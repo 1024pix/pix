@@ -17,11 +17,11 @@ describe('Unit | Domain | Models | Scorecard', function () {
     let actualScorecard;
 
     const userId = '123';
+    const area = { id: 'area' };
     const competence = {
       id: 1,
       name: 'Évaluer',
       description: 'Les compétences numériques',
-      area: 'area',
       index: 'index',
     };
 
@@ -41,7 +41,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
         ];
         computeDaysSinceLastKnowledgeElementStub.withArgs(knowledgeElements).returns(0);
         // when
-        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
+        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence, area });
       });
       // then
       it('should build an object of Scorecard type', function () {
@@ -53,7 +53,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
       it('should competence datas to the scorecard object', function () {
         expect(actualScorecard.name).to.equal(competence.name);
         expect(actualScorecard.competenceId).to.equal(competence.id);
-        expect(actualScorecard.area).to.equal(competence.area);
+        expect(actualScorecard.area).to.deep.equal(area);
         expect(actualScorecard.index).to.equal(competence.index);
         expect(actualScorecard.description).to.equal(competence.description);
       });

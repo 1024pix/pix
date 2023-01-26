@@ -11,7 +11,6 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result
     let expectedJsonApi;
 
     beforeEach(function () {
-      const area = domainBuilder.buildArea({ id: 'area1' });
       const tube = domainBuilder.buildTube({
         id: 'recTube1',
         skills: ['oneSkill'],
@@ -19,8 +18,12 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result
       const competence = domainBuilder.buildCompetence({
         id: 'competence1',
         tubes: [tube],
-        area,
+        areaId: 'area1',
       });
+      const area = domainBuilder.buildArea({ id: 'area1', competences: [competence] });
+      const framework = domainBuilder.buildFramework({ areas: [area] });
+      const campaignLearningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
+
       expectedJsonApi = {
         data: {
           type: 'campaign-assessment-participation-results',
@@ -54,7 +57,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result
       };
 
       modelCampaignAssessmentParticipationResult = new CampaignAssessmentParticipationResult({
-        competences: [competence],
+        campaignLearningContent,
         campaignParticipationId: 1,
         campaignId: 2,
         validatedTargetedKnowledgeElementsCountByCompetenceId: { [competence.id]: 1 },

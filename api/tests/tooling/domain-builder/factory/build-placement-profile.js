@@ -14,11 +14,7 @@ const buildPlacementProfile = function buildPlacementProfile({
   });
 };
 
-buildPlacementProfile.buildForCompetences = function buildForCompetences({
-  profileDate,
-  userId,
-  competencesData, // [{competence, level, score}, ...]
-}) {
+buildPlacementProfile.buildForCompetences = function buildForCompetences({ profileDate, userId, competencesData }) {
   const userCompetences = _.map(competencesData, (competenceData) => {
     return buildUserCompetence({
       id: competenceData.id,

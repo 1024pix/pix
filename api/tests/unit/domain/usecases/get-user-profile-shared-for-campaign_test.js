@@ -1,4 +1,4 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
+const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const getUserProfileSharedForCampaign = require('../../../../lib/domain/usecases/get-user-profile-shared-for-campaign');
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
 const { NoCampaignParticipationForUserAndCampaign } = require('../../../../lib/domain/errors');
@@ -11,6 +11,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function () {
   let campaignParticipationRepository;
   let knowledgeElementRepository;
   let competenceRepository;
+  let areaRepository;
   let campaignRepository;
   let organizationLearnerRepository;
   let userId;
@@ -23,6 +24,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function () {
       campaignParticipationRepository = { findOneByCampaignIdAndUserId: sinon.stub() };
       knowledgeElementRepository = { findUniqByUserIdGroupedByCompetenceId: sinon.stub() };
       competenceRepository = { listPixCompetencesOnly: sinon.stub() };
+      areaRepository = { list: sinon.stub() };
       campaignRepository = { get: sinon.stub() };
       organizationLearnerRepository = { isActive: sinon.stub() };
       sinon.stub(Scorecard, 'buildFrom');
@@ -34,7 +36,11 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function () {
 
     it('should return the shared profile for campaign', async function () {
       const knowledgeElements = { competence1: [], competence2: [] };
-      const competences = [{ id: 'competence1' }, { id: 'competence2' }];
+      const competences = [
+        { id: 'competence1', areaId: 'area' },
+        { id: 'competence2', areaId: 'area' },
+      ];
+      const area = domainBuilder.buildArea({ id: 'area' });
       const campaign = { multipleSendings: false };
       // given
       campaignParticipationRepository.findOneByCampaignIdAndUserId
@@ -44,13 +50,14 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function () {
         .withArgs({ userId, limitDate: sharedAt })
         .resolves(knowledgeElements);
       competenceRepository.listPixCompetencesOnly.withArgs({ locale: 'fr' }).resolves(competences);
+      areaRepository.list.withArgs({ locale: 'fr' }).resolves([area]);
       campaignRepository.get.withArgs(campaignId).resolves(campaign);
       organizationLearnerRepository.isActive.withArgs({ campaignId, userId }).resolves(false);
       Scorecard.buildFrom
-        .withArgs({ userId, knowledgeElements: knowledgeElements['competence1'], competence: competences[0] })
+        .withArgs({ userId, knowledgeElements: knowledgeElements['competence1'], competence: competences[0], area })
         .returns({ id: 'Score1', earnedPix: 10 });
       Scorecard.buildFrom
-        .withArgs({ userId, knowledgeElements: knowledgeElements['competence2'], competence: competences[1] })
+        .withArgs({ userId, knowledgeElements: knowledgeElements['competence2'], competence: competences[1], area })
         .returns({ id: 'Score2', earnedPix: 5 });
 
       // when
@@ -60,6 +67,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function () {
         campaignParticipationRepository,
         knowledgeElementRepository,
         competenceRepository,
+        areaRepository,
         campaignRepository,
         organizationLearnerRepository,
         locale,

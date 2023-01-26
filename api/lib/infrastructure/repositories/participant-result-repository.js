@@ -5,6 +5,7 @@ const AssessmentResult = require('../../domain/read-models/participant-results/A
 const competenceRepository = require('./competence-repository');
 const answerRepository = require('./answer-repository');
 const challengeRepository = require('./challenge-repository');
+const areaRepository = require('./area-repository');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 const flashAssessmentResultRepository = require('./flash-assessment-result-repository');
 const campaignRepository = require('./campaign-repository');
@@ -171,20 +172,20 @@ async function _findTargetedCompetences(campaignId, locale) {
   const competences = await competenceRepository.list({ locale });
   const targetedCompetences = [];
 
-  competences.forEach((competence) => {
+  for (const competence of competences) {
     const matchingSkills = _.intersection(competence.skillIds, skillIds);
-
+    const area = await areaRepository.get({ id: competence.areaId, locale });
     if (matchingSkills.length > 0) {
       targetedCompetences.push({
         id: competence.id,
         name: competence.name,
         index: competence.index,
-        areaName: competence.area.name,
-        areaColor: competence.area.color,
+        areaName: area.name,
+        areaColor: area.color,
         skillIds: matchingSkills,
       });
     }
-  });
+  }
 
   return targetedCompetences;
 }

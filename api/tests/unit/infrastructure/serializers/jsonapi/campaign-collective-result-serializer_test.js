@@ -19,6 +19,7 @@ describe('Unit | Serializer | JSONAPI | campaign-collective-results-serializer',
             index: '1.2',
             name: 'Cuisson des legumes d’automne',
             tubes: [targetedTube1],
+            areaId: 'area1',
           }),
         ],
       });
@@ -34,16 +35,17 @@ describe('Unit | Serializer | JSONAPI | campaign-collective-results-serializer',
             index: '3.4',
             name: 'Tourner un champignon',
             tubes: [targetedTube2],
+            areaId: 'area2',
           }),
         ],
       });
 
       const framework = domainBuilder.buildFramework({ areas: [area1, area2] });
-      const learningContent = domainBuilder.buildLearningContent([framework]);
+      const campaignLearningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
 
       const campaignCollectiveResult = domainBuilder.buildCampaignCollectiveResult({
         id: campaignId,
-        learningContent,
+        campaignLearningContent,
         participantCount: 1,
         participantsValidatedKECountByCompetenceId: [
           {

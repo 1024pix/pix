@@ -1,12 +1,11 @@
 const Competence = require('../../../../lib/domain/models/Competence');
-const buildArea = require('./build-area');
 
-module.exports = function buildCompetence({
+const buildCompetence = function ({
   id = 'recCOMP1',
   name = 'Manger des fruits',
   index = '1.1',
   description = 'Teste les qualités de mangeage de fruits',
-  area = buildArea(),
+  areaId = 'area123',
   skillIds = [],
   thematicIds = [],
   tubes = [],
@@ -18,9 +17,11 @@ module.exports = function buildCompetence({
     index,
     description,
     origin,
-    area,
+    areaId,
     skillIds,
     thematicIds,
     tubes,
   });
 };
+
+module.exports = buildCompetence;

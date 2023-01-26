@@ -115,4 +115,9 @@ module.exports = class CampaignLearningContent {
     if (!tubeId) return null;
     return this.findTube(tubeId).competenceId;
   }
+
+  findAreaOfCompetence(competence) {
+    const area = this.findArea(competence.areaId);
+    return area || null;
+  }
 };
