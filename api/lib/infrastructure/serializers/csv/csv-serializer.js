@@ -30,7 +30,7 @@ function deserializeForSessionsImport(parsedCsvData) {
   _verifyHeaders({ csvLineKeys, headers, parsedCsvLine: parsedCsvData[0] });
 
   parsedCsvData.forEach((line) => {
-    const data = getDataFromColumnNames({ csvLineKeys, headers, line });
+    const data = _getDataFromColumnNames({ csvLineKeys, headers, line });
 
     let existingSession;
     if (_hasSessionInformation(data)) {
@@ -58,7 +58,7 @@ function deserializeForSessionsImport(parsedCsvData) {
   }));
 }
 
-function getDataFromColumnNames({ csvLineKeys, headers, line }) {
+function _getDataFromColumnNames({ csvLineKeys, headers, line }) {
   const data = {};
   data.complementaryCertifications = _extractComplementaryCertificationLabelsFromLine(line);
 
