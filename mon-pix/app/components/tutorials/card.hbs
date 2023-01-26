@@ -1,15 +1,11 @@
 <li>
   <article class="tutorial-card" role="article">
     <div class="tutorial-card__content">
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="{{@tutorial.link}}"
-        class="tutorial-card-content__link"
-        title="{{@tutorial.title}}"
-      >
-        {{@tutorial.title}}
-      </a>
+      <h4 class="tutorial-card-content__title">
+        <a target="_blank" rel="noopener noreferrer" href="{{@tutorial.link}}" title="{{@tutorial.title}}">
+          {{@tutorial.title}}
+        </a>
+      </h4>
       <p class="tutorial-card-content__details">
         {{@tutorial.source}}
         •
