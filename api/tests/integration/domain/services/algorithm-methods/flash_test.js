@@ -684,7 +684,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
     });
   });
 
-  describe('#calculateTotalPixScore', function () {
+  describe('#calculateTotalPixScoreAndScoreByCompetence', function () {
     describe('when there is no answer', function () {
       it('should return a total score with only inferred challenges scores', function () {
         // given
@@ -751,7 +751,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         const allAnswers = [];
 
         // when
-        const result = flash.calculateTotalPixScore({ allAnswers, challenges, estimatedLevel });
+        const result = flash.calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, estimatedLevel });
 
         // then
         expect(result).to.deep.equal({
@@ -827,7 +827,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         const allAnswers = [];
 
         // when
-        const result = flash.calculateTotalPixScore({ allAnswers, challenges, estimatedLevel });
+        const result = flash.calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, estimatedLevel });
 
         // then
         expect(result).to.deep.equal({
@@ -939,7 +939,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         const estimatedLevel = 2;
 
         // when
-        const result = flash.calculateTotalPixScore({ allAnswers, challenges, estimatedLevel });
+        const result = flash.calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, estimatedLevel });
 
         // then
         expect(result).to.deep.equal({
@@ -986,7 +986,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         ];
 
         // when
-        const result = flash.calculateTotalPixScore({ allAnswers, challenges });
+        const result = flash.calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges });
 
         // then
         expect(result).to.deep.equal({

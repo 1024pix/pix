@@ -53,7 +53,7 @@ module.exports = async function simulateFlashScoring({
       finalEstimatedLevel = calculatedEstimatedLevel;
     }
 
-    const { pixScore, pixScoreByCompetence } = flashAlgorithmService.calculateTotalPixScore({
+    const { pixScore, pixScoreByCompetence } = flashAlgorithmService.calculateTotalPixScoreAndScoreByCompetence({
       challenges,
       estimatedLevel: finalEstimatedLevel,
       allAnswers,

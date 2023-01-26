@@ -62,7 +62,11 @@ async function _getParticipationResults(userId, campaignId, locale) {
       flashAssessmentResultRepository,
     });
     estimatedFlashLevel = estimatedLevel;
-    flashPixScore = flash.calculateTotalPixScore({ allAnswers, challenges, estimatedLevel }).pixScore;
+    flashPixScore = flash.calculateTotalPixScoreAndScoreByCompetence({
+      allAnswers,
+      challenges,
+      estimatedLevel,
+    }).pixScore;
   }
 
   return {
