@@ -7,7 +7,6 @@ const finalizedSessionController = require('./finalized-session-controller');
 const authorization = require('../preHandlers/authorization');
 const identifiersType = require('../../domain/types/identifiers-type');
 const { sendJsonApiError, UnprocessableEntityError } = require('../http-errors');
-const endTestScreenRemovalEnabled = require('../preHandlers/end-test-screen-removal-enabled');
 const assessmentSupervisorAuthorization = require('../preHandlers/session-supervisor-authorization');
 
 exports.register = async (server) => {
@@ -411,10 +410,6 @@ exports.register = async (server) => {
         },
         pre: [
           {
-            method: endTestScreenRemovalEnabled.verifyBySessionId,
-            assign: 'endTestScreenRemovalEnabledCheck',
-          },
-          {
             method: assessmentSupervisorAuthorization.verifyBySessionId,
             assign: 'isSupervisorForSession',
           },
@@ -446,12 +441,6 @@ exports.register = async (server) => {
             return sendJsonApiError(new UnprocessableEntityError('Un des champs saisis n’est pas valide.'), h);
           },
         },
-        pre: [
-          {
-            method: endTestScreenRemovalEnabled.verifyBySessionId,
-            assign: 'endTestScreenRemovalEnabledCheck',
-          },
-        ],
         handler: sessionForSupervisingController.supervise,
         tags: ['api', 'sessions', 'supervising'],
         notes: [

@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, find } from '@ember/test-helpers';
 import { render, fillByLabel } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { A as EmberArray } from '@ember/array';
 
@@ -27,7 +27,6 @@ module('Integration | Component | certification-centers/creation-form', function
     assert.dom(screen.getByText('Nom du centre')).exists();
     assert.dom(screen.getByText("Type d'établissement")).exists();
     assert.dom(screen.getByText('Identifiant externe')).exists();
-    assert.false(find('#supervisor-portal').checked);
     assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
     assert.dom(screen.getByText('Ajouter')).exists();
   });

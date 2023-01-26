@@ -15,15 +15,7 @@ function _toDomain(bookshelfCertificationCenter) {
     });
   });
   return new CertificationCenter({
-    ..._.pick(dbCertificationCenter, [
-      'id',
-      'name',
-      'type',
-      'externalId',
-      'isSupervisorAccessEnabled',
-      'createdAt',
-      'updatedAt',
-    ]),
+    ..._.pick(dbCertificationCenter, ['id', 'name', 'type', 'externalId', 'createdAt', 'updatedAt']),
     habilitations,
   });
 }
@@ -47,16 +39,18 @@ function _setSearchFiltersForQueryBuilder(filters, qb) {
 
 module.exports = {
   async get(id) {
-    const certificationCenterBookshelf = await BookshelfCertificationCenter.where({ id }).fetch({
-      require: false,
-      withRelated: [
-        {
-          habilitations: function (query) {
-            query.orderBy('id');
+    const certificationCenterBookshelf = await BookshelfCertificationCenter.query((q) => q.orderBy('id', 'desc'))
+      .where({ id })
+      .fetch({
+        require: false,
+        withRelated: [
+          {
+            habilitations: function (query) {
+              query.orderBy('id');
+            },
           },
-        },
-      ],
-    });
+        ],
+      });
 
     if (certificationCenterBookshelf) {
       return _toDomain(certificationCenterBookshelf);
@@ -85,33 +79,6 @@ module.exports = {
     }
     throw new NotFoundError(`Could not find certification center for sessionId ${sessionId}.`);
   },
-
-  //to delete when feature toggleisEndTestScreenRemovalEnabled is removed
-  async getByCertificationCourseId(certificationCourseId) {
-    const certificationCenterBookshelf = await BookshelfCertificationCenter.where({
-      'certification-courses.id': certificationCourseId,
-    })
-      .query((qb) => {
-        qb.innerJoin('sessions', 'sessions.certificationCenterId', 'certification-centers.id');
-        qb.innerJoin('certification-courses', 'certification-courses.sessionId', 'sessions.id');
-      })
-      .fetch({
-        require: false,
-        withRelated: [
-          {
-            habilitations: function (query) {
-              query.orderBy('id');
-            },
-          },
-        ],
-      });
-
-    if (certificationCenterBookshelf) {
-      return _toDomain(certificationCenterBookshelf);
-    }
-    throw new NotFoundError(`Could not find certification center for certificationCourseId ${certificationCourseId}.`);
-  },
-
   async save(certificationCenter) {
     const cleanedCertificationCenter = _.omit(certificationCenter, ['createdAt', 'habilitations']);
     const certificationCenterBookshelf = await new BookshelfCertificationCenter(cleanedCertificationCenter).save();
@@ -120,9 +87,10 @@ module.exports = {
   },
 
   async findPaginatedFiltered({ filter, page }) {
-    const certificationCenterBookshelf = await BookshelfCertificationCenter.query((qb) =>
-      _setSearchFiltersForQueryBuilder(filter, qb)
-    ).fetchPage({
+    const certificationCenterBookshelf = await BookshelfCertificationCenter.query((qb) => {
+      _setSearchFiltersForQueryBuilder(filter, qb);
+      qb.orderBy('id');
+    }).fetchPage({
       page: page.number,
       pageSize: page.size,
       withRelated: [

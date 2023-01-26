@@ -75,7 +75,6 @@ describe('Unit | Controller | certifications-point-of-contact-controller', funct
               'pix-certif-sco-blocked-access-date-lycee': null,
               'related-organization-tags': [],
               habilitations: [],
-              'is-end-test-screen-removal-enabled': false,
             },
           },
         ],

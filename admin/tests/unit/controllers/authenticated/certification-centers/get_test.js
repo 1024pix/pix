@@ -14,7 +14,6 @@ module('Unit | Controller | authenticated/certification-centers/get', function (
         name: 'Certification center one',
         externalId: 'BBBBBBB',
         type: 'SCO',
-        isSupervisorAccessEnabled: false,
         habilitations: ['an habilitation'],
         save: sinon.stub(),
       };
@@ -29,7 +28,6 @@ module('Unit | Controller | authenticated/certification-centers/get', function (
       controller.model.certificationCenter.name = 'New Ton';
       controller.model.certificationCenter.externalId = '123456ABC';
       controller.model.certificationCenter.type = 'PRO';
-      controller.model.certificationCenter.isSupervisorAccessEnabled = true;
       controller.model.certificationCenter.habilitations = [];
       await controller.updateCertificationCenter();
 
@@ -38,7 +36,6 @@ module('Unit | Controller | authenticated/certification-centers/get', function (
       assert.strictEqual(controller.model.certificationCenter.name, 'New Ton');
       assert.strictEqual(controller.model.certificationCenter.externalId, '123456ABC');
       assert.strictEqual(controller.model.certificationCenter.type, 'PRO');
-      assert.true(controller.model.certificationCenter.isSupervisorAccessEnabled);
       assert.deepEqual(controller.model.certificationCenter.habilitations, []);
       sinon.assert.calledWith(controller.notifications.success, 'Centre de certification mis à jour avec succès.');
     });

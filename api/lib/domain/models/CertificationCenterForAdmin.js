@@ -9,7 +9,6 @@ class CertificationCenterForAdmin {
     createdAt,
     updatedAt,
     habilitations = [],
-    isSupervisorAccessEnabled = false,
     dataProtectionOfficerFirstName,
     dataProtectionOfficerLastName,
     dataProtectionOfficerEmail,
@@ -21,7 +20,6 @@ class CertificationCenterForAdmin {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.habilitations = habilitations;
-    this.isSupervisorAccessEnabled = isSupervisorAccessEnabled;
     this.dataProtectionOfficerFirstName = dataProtectionOfficerFirstName;
     this.dataProtectionOfficerLastName = dataProtectionOfficerLastName;
     this.dataProtectionOfficerEmail = dataProtectionOfficerEmail;

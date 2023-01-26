@@ -7,7 +7,6 @@ const {
 } = require('../../domain/errors');
 
 const apps = require('../constants');
-const endTestScreenRemovalService = require('../../domain/services/end-test-screen-removal-service');
 
 async function _checkUserAccessScope(scope, user, adminMemberRepository) {
   if (scope === apps.PIX_ORGA.SCOPE && !user.isLinkedToOrganizations()) {
@@ -18,14 +17,6 @@ async function _checkUserAccessScope(scope, user, adminMemberRepository) {
     const adminMember = await adminMemberRepository.get({ userId: user.id });
     if (!adminMember?.hasAccessToAdminScope) {
       throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
-    }
-  }
-
-  if (scope === apps.PIX_CERTIF.SCOPE && !user.isLinkedToCertificationCenters()) {
-    const isEndTestScreenRemovalEnabled =
-      await endTestScreenRemovalService.isEndTestScreenRemovalEnabledForSomeCertificationCenter();
-    if (!isEndTestScreenRemovalEnabled) {
-      throw new ForbiddenAccess(apps.PIX_CERTIF.NOT_LINKED_CERTIFICATION_MSG);
     }
   }
 }

@@ -19,7 +19,6 @@ describe('Integration | UseCases | update-certification-center', function () {
       id: certificationCenterId,
       name: 'Pix Super Center',
       type: 'PRO',
-      isSupervisorAccessEnabled: true,
       habilitations: [],
       dataProtectionOfficerFirstName: 'Justin',
       dataProtectionOfficerLastName: 'Ptipeu',

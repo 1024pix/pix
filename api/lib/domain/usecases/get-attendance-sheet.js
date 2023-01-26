@@ -16,23 +16,16 @@ module.exports = async function getAttendanceSheet({
   sessionId,
   sessionRepository,
   sessionForAttendanceSheetRepository,
-  endTestScreenRemovalService,
 }) {
   const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(userId, sessionId);
   if (!hasMembership) {
     throw new UserNotAuthorizedToAccessEntityError('User is not allowed to access session.');
   }
 
-  const isEndTestScreenRemovalEnabled = await endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId(
-    sessionId
-  );
-  const addEndTestScreenColumn = !isEndTestScreenRemovalEnabled;
-
   const session = await sessionForAttendanceSheetRepository.getWithCertificationCandidates(sessionId);
   const odsFilePath = _getAttendanceSheetTemplatePath(
     session.certificationCenterType,
-    session.isOrganizationManagingStudents,
-    addEndTestScreenColumn
+    session.isOrganizationManagingStudents
   );
 
   const stringifiedXml = await readOdsUtils.getContentXml({
@@ -120,15 +113,10 @@ function _transformCandidateIntoAttendanceSheetCandidateData(attendanceSheetData
   }
 }
 
-function _getAttendanceSheetTemplatePath(
-  certificationCenterType,
-  isOrganizationManagingStudents,
-  addEndTestScreenColumn
-) {
-  const suffix = addEndTestScreenColumn ? '_with_fdt' : '';
+function _getAttendanceSheetTemplatePath(certificationCenterType, isOrganizationManagingStudents) {
   const templatePath = __dirname + '/../../infrastructure/files/attendance-sheet';
   if (certificationCenterType === 'SCO' && isOrganizationManagingStudents) {
-    return `${templatePath}/sco_attendance_sheet_template${suffix}.ods`;
+    return `${templatePath}/sco_attendance_sheet_template.ods`;
   }
-  return `${templatePath}/non_sco_attendance_sheet_template${suffix}.ods`;
+  return `${templatePath}/non_sco_attendance_sheet_template.ods`;
 }

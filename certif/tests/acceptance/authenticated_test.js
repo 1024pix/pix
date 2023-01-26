@@ -48,75 +48,47 @@ module('Acceptance | authenticated', function (hooks) {
       assert.strictEqual(currentURL(), '/sessions/liste');
     });
 
-    module('when end test screen removal is enabled', function () {
-      test('it should show a "Espace surveillant" button', async function (assert) {
-        // given
-        const currentAllowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
-          name: 'Bibiche',
-          externalId: 'ABC123',
-          isEndTestScreenRemovalEnabled: true,
-        });
-        const certificationPointOfContact = server.create('certification-point-of-contact', {
-          firstName: 'Buffy',
-          lastName: 'Summers',
-          pixCertifTermsOfServiceAccepted: true,
-          allowedCertificationCenterAccesses: [currentAllowedCertificationCenterAccess],
-        });
-        await authenticateSession(certificationPointOfContact.id);
-
-        // when
-        const screen = await visitScreen('/sessions/liste');
-
-        // then
-        assert.dom(screen.getByRole('link', { name: 'Espace surveillant' })).exists();
+    test('it should show a "Espace surveillant" button', async function (assert) {
+      // given
+      const currentAllowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
+        name: 'Bibiche',
+        externalId: 'ABC123',
       });
-
-      test('it should redirect to the login session supervisor', async function (assert) {
-        // given
-        const currentAllowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
-          name: 'Bibiche',
-          externalId: 'ABC123',
-          isEndTestScreenRemovalEnabled: true,
-        });
-        const certificationPointOfContact = server.create('certification-point-of-contact', {
-          firstName: 'Buffy',
-          lastName: 'Summers',
-          pixCertifTermsOfServiceAccepted: true,
-          allowedCertificationCenterAccesses: [currentAllowedCertificationCenterAccess],
-        });
-        await authenticateSession(certificationPointOfContact.id);
-
-        // when
-        const screen = await visitScreen('/sessions/liste');
-        await click(screen.getByRole('link', { name: 'Espace surveillant' }));
-
-        // then
-        assert.strictEqual(currentURL(), '/connexion-espace-surveillant');
+      const certificationPointOfContact = server.create('certification-point-of-contact', {
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        pixCertifTermsOfServiceAccepted: true,
+        allowedCertificationCenterAccesses: [currentAllowedCertificationCenterAccess],
       });
+      await authenticateSession(certificationPointOfContact.id);
+
+      // when
+      const screen = await visitScreen('/sessions/liste');
+
+      // then
+      assert.dom(screen.getByRole('link', { name: 'Espace surveillant' })).exists();
     });
 
-    module('when end test screen removal is not enabled', function () {
-      test('it should not show a "Espace surveillant" button', async function (assert) {
-        // given
-        const currentAllowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
-          name: 'Bibiche',
-          externalId: 'ABC123',
-          isEndTestScreenRemovalEnabled: false,
-        });
-        const certificationPointOfContact = server.create('certification-point-of-contact', {
-          firstName: 'Buffy',
-          lastName: 'Summers',
-          pixCertifTermsOfServiceAccepted: true,
-          allowedCertificationCenterAccesses: [currentAllowedCertificationCenterAccess],
-        });
-        await authenticateSession(certificationPointOfContact.id);
-
-        // when
-        const screen = await visitScreen('/sessions/liste');
-
-        // then
-        assert.dom(screen.queryByRole('link', { name: 'Espace surveillant' })).doesNotExist();
+    test('it should redirect to the login session supervisor', async function (assert) {
+      // given
+      const currentAllowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
+        name: 'Bibiche',
+        externalId: 'ABC123',
       });
+      const certificationPointOfContact = server.create('certification-point-of-contact', {
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        pixCertifTermsOfServiceAccepted: true,
+        allowedCertificationCenterAccesses: [currentAllowedCertificationCenterAccess],
+      });
+      await authenticateSession(certificationPointOfContact.id);
+
+      // when
+      const screen = await visitScreen('/sessions/liste');
+      await click(screen.getByRole('link', { name: 'Espace surveillant' }));
+
+      // then
+      assert.strictEqual(currentURL(), '/connexion-espace-surveillant');
     });
   });
 

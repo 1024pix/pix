@@ -5,56 +5,52 @@ const ComplementaryCertification = require('../../../../lib/domain/models/Comple
 describe('Acceptance | API | Certifications candidates', function () {
   describe('POST /api/certification-candidates/:id/authorize-to-start', function () {
     context('when user is authenticated', function () {
-      describe('when the certification center has the supervisor access enabled', function () {
-        context('when the user is the supervisor of the session', function () {
-          it('should return a 204 status code', async function () {
-            // given
-            const server = await createServer();
-            const candidateUserId = databaseBuilder.factory.buildUser({}).id;
-            const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
-              isSupervisorAccessEnabled: true,
-            });
-            const sessionId = databaseBuilder.factory.buildSession({
-              publishedAt: null,
-              certificationCenterId: certificationCenter.id,
-            }).id;
-            const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
-              sessionId,
-              userId: candidateUserId,
-            }).id;
-            const candidate = databaseBuilder.factory.buildCertificationCandidate({
-              id: 1001,
-              sessionId,
-              userId: candidateUserId,
-            });
-            databaseBuilder.factory.buildAssessment({
-              state: 'started',
-              userId: candidateUserId,
-              type: 'CERTIFICATION',
-              certificationCourseId,
-            });
-
-            const supervisorUserId = databaseBuilder.factory.buildUser({}).id;
-            databaseBuilder.factory.buildSupervisorAccess({
-              userId: supervisorUserId,
-              sessionId,
-            });
-
-            await databaseBuilder.commit();
-
-            const options = {
-              method: 'POST',
-              url: `/api/certification-candidates/${candidate.id}/authorize-to-start`,
-              headers: { authorization: generateValidRequestAuthorizationHeader(supervisorUserId, 'pix-certif') },
-              payload: { 'authorized-to-start': true },
-            };
-
-            // when
-            const response = await server.inject(options);
-
-            // then
-            expect(response.statusCode).to.equal(204);
+      context('when the user is the supervisor of the session', function () {
+        it('should return a 204 status code', async function () {
+          // given
+          const server = await createServer();
+          const candidateUserId = databaseBuilder.factory.buildUser({}).id;
+          const certificationCenter = databaseBuilder.factory.buildCertificationCenter({});
+          const sessionId = databaseBuilder.factory.buildSession({
+            publishedAt: null,
+            certificationCenterId: certificationCenter.id,
+          }).id;
+          const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+            sessionId,
+            userId: candidateUserId,
+          }).id;
+          const candidate = databaseBuilder.factory.buildCertificationCandidate({
+            id: 1001,
+            sessionId,
+            userId: candidateUserId,
           });
+          databaseBuilder.factory.buildAssessment({
+            state: 'started',
+            userId: candidateUserId,
+            type: 'CERTIFICATION',
+            certificationCourseId,
+          });
+
+          const supervisorUserId = databaseBuilder.factory.buildUser({}).id;
+          databaseBuilder.factory.buildSupervisorAccess({
+            userId: supervisorUserId,
+            sessionId,
+          });
+
+          await databaseBuilder.commit();
+
+          const options = {
+            method: 'POST',
+            url: `/api/certification-candidates/${candidate.id}/authorize-to-start`,
+            headers: { authorization: generateValidRequestAuthorizationHeader(supervisorUserId, 'pix-certif') },
+            payload: { 'authorized-to-start': true },
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(204);
         });
       });
     });
@@ -62,55 +58,51 @@ describe('Acceptance | API | Certifications candidates', function () {
 
   describe('POST /api/certification-candidates/:id/authorize-to-resume', function () {
     context('when user is authenticated', function () {
-      describe('when the certification center has the supervisor access enabled', function () {
-        context('when the user is the supervisor of the session', function () {
-          it('should return a 204 status code', async function () {
-            // given
-            const server = await createServer();
-            const candidateUserId = databaseBuilder.factory.buildUser().id;
-            const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
-              isSupervisorAccessEnabled: true,
-            });
-            const sessionId = databaseBuilder.factory.buildSession({
-              publishedAt: null,
-              certificationCenterId: certificationCenter.id,
-            }).id;
-            const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
-              sessionId,
-              userId: candidateUserId,
-            }).id;
-            const candidate = databaseBuilder.factory.buildCertificationCandidate({
-              id: 1001,
-              sessionId,
-              userId: candidateUserId,
-            });
-            databaseBuilder.factory.buildAssessment({
-              state: 'started',
-              userId: candidateUserId,
-              type: 'CERTIFICATION',
-              certificationCourseId,
-            });
-
-            const supervisorUserId = databaseBuilder.factory.buildUser({}).id;
-            databaseBuilder.factory.buildSupervisorAccess({
-              userId: supervisorUserId,
-              sessionId,
-            });
-
-            await databaseBuilder.commit();
-
-            const options = {
-              method: 'POST',
-              url: `/api/certification-candidates/${candidate.id}/authorize-to-resume`,
-              headers: { authorization: generateValidRequestAuthorizationHeader(supervisorUserId, 'pix-certif') },
-            };
-
-            // when
-            const response = await server.inject(options);
-
-            // then
-            expect(response.statusCode).to.equal(204);
+      context('when the user is the supervisor of the session', function () {
+        it('should return a 204 status code', async function () {
+          // given
+          const server = await createServer();
+          const candidateUserId = databaseBuilder.factory.buildUser().id;
+          const certificationCenter = databaseBuilder.factory.buildCertificationCenter({});
+          const sessionId = databaseBuilder.factory.buildSession({
+            publishedAt: null,
+            certificationCenterId: certificationCenter.id,
+          }).id;
+          const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+            sessionId,
+            userId: candidateUserId,
+          }).id;
+          const candidate = databaseBuilder.factory.buildCertificationCandidate({
+            id: 1001,
+            sessionId,
+            userId: candidateUserId,
           });
+          databaseBuilder.factory.buildAssessment({
+            state: 'started',
+            userId: candidateUserId,
+            type: 'CERTIFICATION',
+            certificationCourseId,
+          });
+
+          const supervisorUserId = databaseBuilder.factory.buildUser({}).id;
+          databaseBuilder.factory.buildSupervisorAccess({
+            userId: supervisorUserId,
+            sessionId,
+          });
+
+          await databaseBuilder.commit();
+
+          const options = {
+            method: 'POST',
+            url: `/api/certification-candidates/${candidate.id}/authorize-to-resume`,
+            headers: { authorization: generateValidRequestAuthorizationHeader(supervisorUserId, 'pix-certif') },
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(204);
         });
       });
     });
@@ -118,53 +110,49 @@ describe('Acceptance | API | Certifications candidates', function () {
 
   describe('PATCH /api/certification-candidates/{id}/end-assessment-by-supervisor', function () {
     context('when user is authenticated', function () {
-      describe('when the certification center has the supervisor access enabled', function () {
-        context('when the user is the supervisor of the session', function () {
-          it('should return a 204 status code', async function () {
-            // given
-            const server = await createServer();
-            const candidateUserId = databaseBuilder.factory.buildUser({}).id;
-            const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
-              isSupervisorAccessEnabled: true,
-            });
-            const sessionId = databaseBuilder.factory.buildSession({
-              certificationCenterId: certificationCenter.id,
-            }).id;
-            const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
-              sessionId,
-              userId: candidateUserId,
-            }).id;
-            databaseBuilder.factory.buildCertificationCandidate({
-              id: 1001,
-              sessionId,
-              userId: candidateUserId,
-            });
-            databaseBuilder.factory.buildAssessment({
-              state: 'started',
-              userId: candidateUserId,
-              type: 'CERTIFICATION',
-              certificationCourseId,
-            });
-
-            const supervisorUserId = databaseBuilder.factory.buildUser({}).id;
-            databaseBuilder.factory.buildSupervisorAccess({
-              userId: supervisorUserId,
-              sessionId,
-            });
-
-            await databaseBuilder.commit();
-            const options = {
-              method: 'PATCH',
-              url: `/api/certification-candidates/1001/end-assessment-by-supervisor`,
-              headers: { authorization: generateValidRequestAuthorizationHeader(supervisorUserId, 'pix-certif') },
-            };
-
-            // when
-            const response = await server.inject(options);
-
-            // then
-            expect(response.statusCode).to.equal(204);
+      context('when the user is the supervisor of the session', function () {
+        it('should return a 204 status code', async function () {
+          // given
+          const server = await createServer();
+          const candidateUserId = databaseBuilder.factory.buildUser({}).id;
+          const certificationCenter = databaseBuilder.factory.buildCertificationCenter({});
+          const sessionId = databaseBuilder.factory.buildSession({
+            certificationCenterId: certificationCenter.id,
+          }).id;
+          const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+            sessionId,
+            userId: candidateUserId,
+          }).id;
+          databaseBuilder.factory.buildCertificationCandidate({
+            id: 1001,
+            sessionId,
+            userId: candidateUserId,
           });
+          databaseBuilder.factory.buildAssessment({
+            state: 'started',
+            userId: candidateUserId,
+            type: 'CERTIFICATION',
+            certificationCourseId,
+          });
+
+          const supervisorUserId = databaseBuilder.factory.buildUser({}).id;
+          databaseBuilder.factory.buildSupervisorAccess({
+            userId: supervisorUserId,
+            sessionId,
+          });
+
+          await databaseBuilder.commit();
+          const options = {
+            method: 'PATCH',
+            url: `/api/certification-candidates/1001/end-assessment-by-supervisor`,
+            headers: { authorization: generateValidRequestAuthorizationHeader(supervisorUserId, 'pix-certif') },
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(204);
         });
       });
     });

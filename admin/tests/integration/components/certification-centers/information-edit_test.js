@@ -14,7 +14,6 @@ module('Integration | Component | certification-centers/information-edit', funct
       name: 'Centre SCO',
       type: 'SCO',
       externalId: 'AX129',
-      isSupervisorAccessEnabled: false,
       dataProtectionOfficerFirstName: 'Justin',
       dataProtectionOfficerLastName: 'Ptipeu',
       dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
