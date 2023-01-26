@@ -1,4 +1,4 @@
-class SimulationResult {
+class ScoringSimulationResult {
   constructor({ id, estimatedLevel, pixScore, pixScoreByCompetence = [], error } = {}) {
     this.id = id;
     this.estimatedLevel = estimatedLevel;
@@ -17,4 +17,4 @@ class SimulationCompetenceResult {
   }
 }
 
-module.exports = SimulationResult;
+module.exports = ScoringSimulationResult;

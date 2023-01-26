@@ -1,5 +1,5 @@
 const { expect, sinon, HttpTestServer } = require('../../../test-helper');
-const SimulationResult = require('../../../../lib/domain/models/SimulationResult');
+const ScoringSimulationResult = require('../../../../lib/domain/models/ScoringSimulationResult');
 const ScoringSimulation = require('../../../../lib/domain/models/ScoringSimulation');
 const Answer = require('../../../../lib/domain/models/Answer');
 const ScoringSimulationContext = require('../../../../lib/domain/models/ScoringSimulationContext');
@@ -23,7 +23,7 @@ describe('Integration | Application | Scoring-simulator | scoring-simulator-cont
     describe('#post', function () {
       beforeEach(async function () {
         simulationResults = [
-          new SimulationResult({
+          new ScoringSimulationResult({
             id: 'resultId',
             pixScore: 123,
             pixScoreByCompetence: [
@@ -72,7 +72,7 @@ describe('Integration | Application | Scoring-simulator | scoring-simulator-cont
     describe('#post', function () {
       beforeEach(async function () {
         simulationResults = [
-          new SimulationResult({
+          new ScoringSimulationResult({
             id: 'resultId',
             estimatedLevel: 2.2498723,
             pixScore: 123,
