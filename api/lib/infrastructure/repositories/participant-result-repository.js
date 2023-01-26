@@ -178,16 +178,13 @@ async function _findTargetedCompetences(campaignId, locale) {
   const targetedCompetences = [];
 
   for (const competence of competences) {
-    const matchingSkills = _.intersection(competence.skillIds, skillIds);
+    const targetedSkillIds = _.intersection(competence.skillIds, skillIds);
     const area = await areaRepository.get({ id: competence.areaId, locale });
-    if (matchingSkills.length > 0) {
+    if (targetedSkillIds.length > 0) {
       targetedCompetences.push({
-        id: competence.id,
-        name: competence.name,
-        index: competence.index,
-        areaName: area.name,
-        areaColor: area.color,
-        skillIds: matchingSkills,
+        competence,
+        area,
+        targetedSkillIds,
       });
     }
   }
