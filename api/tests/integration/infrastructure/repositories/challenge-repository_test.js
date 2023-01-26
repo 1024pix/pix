@@ -449,31 +449,48 @@ describe('Integration | Repository | challenge-repository', function () {
     beforeEach(function () {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
-      const flashCompatibleChallenge = domainBuilder.buildChallenge({
+      const locales = ['fr-fr'];
+      const activeChallenge = domainBuilder.buildChallenge({
+        id: 'activeChallenge',
         skill,
         status: 'validé',
-        locales: ['fr-fr'],
+        locales,
       });
-      const nonFlashCompatibleChallenge = domainBuilder.buildChallenge({ skill, status: 'PAS validé' });
+      const archivedChallenge = domainBuilder.buildChallenge({
+        id: 'archivedChallenge',
+        skill,
+        status: 'archivé',
+        locales,
+      });
+      const outdatedChallenge = domainBuilder.buildChallenge({
+        id: 'outdatedChallenge',
+        skill,
+        status: 'périmé',
+        locales,
+      });
       const learningContent = {
         skills: [{ ...skill, status: 'actif', level: skill.difficulty }],
         challenges: [
-          { ...flashCompatibleChallenge, skillId: 'recSkill1', alpha: 3.57, delta: -8.99 },
-          { ...nonFlashCompatibleChallenge, skillId: 'recSkill1' },
+          { ...activeChallenge, skillId: 'recSkill1', alpha: 3.57, delta: -8.99 },
+          { ...archivedChallenge, skillId: 'recSkill1' },
+          { ...outdatedChallenge, skillId: 'recSkill1' },
         ],
       };
       mockLearningContent(learningContent);
     });
 
     it('should return only flash compatible challenges with skills', async function () {
+      // given
+      const locale = 'fr-fr';
+
       // when
-      const actualChallenges = await challengeRepository.findActiveFlashCompatible({ locale: 'fr-fr' });
+      const actualChallenges = await challengeRepository.findActiveFlashCompatible({ locale });
 
       // then
       expect(actualChallenges).to.have.lengthOf(1);
       expect(actualChallenges[0]).to.be.instanceOf(Challenge);
-      expect(_.omit(actualChallenges[0], 'validator')).to.deep.contain({
-        id: 'recCHAL1',
+      expect(actualChallenges[0]).to.deep.contain({
+        id: 'activeChallenge',
         status: 'validé',
         locales: ['fr-fr'],
         difficulty: -8.99,
@@ -499,6 +516,92 @@ describe('Integration | Repository | challenge-repository', function () {
       expect(actualChallenges).to.have.lengthOf(1);
       expect(actualChallenges[0]).to.be.instanceOf(Challenge);
       expect(actualChallenges[0].minimumCapability).to.equal(-8.682265465359073);
+    });
+  });
+
+  describe('#findOperativeFlashCompatible', function () {
+    beforeEach(function () {
+      // given
+      const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
+      const locales = ['fr-fr'];
+      const activeChallenge = domainBuilder.buildChallenge({
+        id: 'activeChallenge',
+        skill,
+        status: 'validé',
+        locales,
+      });
+      const archivedChallenge = domainBuilder.buildChallenge({
+        id: 'archivedChallenge',
+        skill,
+        status: 'archivé',
+        locales,
+      });
+      const outdatedChallenge = domainBuilder.buildChallenge({
+        id: 'outdatedChallenge',
+        skill,
+        status: 'périmé',
+        locales,
+      });
+      const learningContent = {
+        skills: [{ ...skill, status: 'actif', level: skill.difficulty }],
+        challenges: [
+          { ...activeChallenge, skillId: 'recSkill1', alpha: 3.57, delta: -8.99 },
+          { ...archivedChallenge, skillId: 'recSkill1', alpha: 1.98723, delta: 5.42183 },
+          { ...outdatedChallenge, skillId: 'recSkill1' },
+        ],
+      };
+      mockLearningContent(learningContent);
+    });
+
+    it('should return only flash compatible challenges with skills', async function () {
+      // given
+      const locale = 'fr-fr';
+
+      // when
+      const actualChallenges = await challengeRepository.findOperativeFlashCompatible({ locale });
+
+      // then
+      expect(actualChallenges).to.have.lengthOf(2);
+      expect(actualChallenges[1]).to.be.instanceOf(Challenge);
+      expect(actualChallenges[0]).to.deep.contain({
+        id: 'activeChallenge',
+        status: 'validé',
+        locales: ['fr-fr'],
+        difficulty: -8.99,
+        discriminant: 3.57,
+        minimumCapability: -8.165227176704079,
+      });
+      expect(actualChallenges[0].skill).to.contain({
+        id: 'recSkill1',
+      });
+      expect(actualChallenges[1]).to.deep.contain({
+        id: 'archivedChallenge',
+        status: 'archivé',
+        locales: ['fr-fr'],
+        difficulty: 5.42183,
+        discriminant: 1.98723,
+        minimumCapability: 6.9035100164885,
+      });
+      expect(actualChallenges[1].skill).to.contain({
+        id: 'recSkill1',
+      });
+    });
+
+    it('should allow overriding success probability threshold default value', async function () {
+      // given
+      const successProbabilityThreshold = 0.75;
+
+      // when
+      const actualChallenges = await challengeRepository.findOperativeFlashCompatible({
+        locale: 'fr-fr',
+        successProbabilityThreshold,
+      });
+
+      // then
+      expect(actualChallenges).to.have.lengthOf(2);
+      expect(actualChallenges[0]).to.be.instanceOf(Challenge);
+      expect(actualChallenges[0].minimumCapability).to.equal(-8.682265465359073);
+      expect(actualChallenges[1].minimumCapability).to.equal(5.974666002208154);
     });
   });
 
