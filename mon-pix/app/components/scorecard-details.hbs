@@ -179,13 +179,13 @@
     <div class="scorecard-details__content">
       <div class="tutorials">
         <div class="tutorials__header">
-          <h3 class="tutorials-header__title">{{t "pages.competence-details.tutorials.title"}}</h3>
+          <h2 class="tutorials-header__title">{{t "pages.competence-details.tutorials.title"}}</h2>
           <p class="tutorials-header__description">{{t "pages.competence-details.tutorials.description"}}</p>
         </div>
         <div>
           {{#each this.tutorialsGroupedByTubeName as |tube|}}
             <div class="tube">
-              <h4 class="tube__title">{{tube.practicalTitle}}</h4>
+              <h3 class="tube__title">{{tube.practicalTitle}}</h3>
               <ul class="tube__content">
                 {{#each tube.tutorials as |tutorial|}}
                   <Tutorials::Card @tutorial={{tutorial}} />
