@@ -37,12 +37,16 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
 
       const competences = [
         {
-          id: 'C1',
-          name: 'Competence1',
-          index: '1.1',
-          areaName: 'AreaName',
-          areaColor: 'AreaColor',
-          skillIds: ['skill1', 'skill2'],
+          competence: domainBuilder.buildCompetence({
+            id: 'C1',
+            name: 'Competence1',
+            index: '1.1',
+          }),
+          area: domainBuilder.buildArea({
+            name: 'AreaName',
+            color: 'AreaColor',
+          }),
+          targetedSkillIds: ['skill1', 'skill2'],
         },
       ];
 
