@@ -71,6 +71,8 @@ function _getDataFromColumnNames({ csvLineKeys, headers, line }) {
       });
     } else if (key === 'extraTimePercentage') {
       data[key] = line[headers[key]] !== '' ? parseInt(line[headers[key]]) : null;
+    } else if (key === 'prepaymentCode') {
+      data[key] = line[headers[key]] !== '' ? line[headers[key]] : null;
     } else {
       data[key] = line[headers[key]];
     }

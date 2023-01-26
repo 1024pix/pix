@@ -324,6 +324,56 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
     });
 
     describe('when there is candidate information', function () {
+      describe('when there is prepayment code information', function () {
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        [
+          { prepaymentCode: '', expectedParsedPrepaymentCode: null },
+          { prepaymentCode: '1234', expectedParsedPrepaymentCode: '1234' },
+        ].forEach(({ prepaymentCode, expectedParsedPrepaymentCode }) => {
+          it(`should return ${expectedParsedPrepaymentCode} when prepaymenCode is ${prepaymentCode}`, function () {
+            // given
+            const csvLine = [_lineWithCandidateAndBillingInformation({ prepaymentCode })];
+
+            // when
+            const result = csvSerializer
+              .deserializeForSessionsImport(csvLine)
+              .map((session) => _.omit(session, 'uniqueKey'));
+
+            // then
+            const expectedResult = [
+              {
+                address: 'Site toto',
+                room: 'Salle toto',
+                date: '2023-05-12',
+                time: '01:00',
+                examiner: '',
+                description: '',
+                certificationCandidates: [
+                  {
+                    lastName: 'Pennyworth',
+                    firstName: 'Alfred',
+                    birthdate: '1951-03-02',
+                    birthINSEECode: '',
+                    birthPostalCode: '',
+                    birthCity: '',
+                    birthCountry: '',
+                    resultRecipientEmail: '',
+                    email: '',
+                    externalId: '',
+                    extraTimePercentage: null,
+                    billingMode: '',
+                    prepaymentCode: expectedParsedPrepaymentCode,
+                    sex: '',
+                    complementaryCertifications: [],
+                  },
+                ],
+              },
+            ];
+            expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
+          });
+        });
+      });
+
       it('should return a session object with candidate information per csv line', function () {
         // given
         const parsedCsvData = [
@@ -467,6 +517,19 @@ function _lineWithSessionAndNoCandidate({ sessionNumber, examiner = 'Paul' }) {
     time: '01:00',
     examiner,
     description: '',
+  });
+}
+
+function _lineWithCandidateAndBillingInformation({ prepaymentCode }) {
+  return _line({
+    address: `Site toto`,
+    room: `Salle toto`,
+    date: '12/05/2023',
+    time: '01:00',
+    lastName: 'Pennyworth',
+    firstName: 'Alfred',
+    birthdate: '02/03/1951',
+    prepaymentCode,
   });
 }
 
