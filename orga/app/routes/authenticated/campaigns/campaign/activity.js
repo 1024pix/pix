@@ -61,7 +61,7 @@ export default class ActivityRoute extends Route {
   resetController(controller, isExiting) {
     if (isExiting) {
       controller.pageNumber = 1;
-      controller.pageSize = 25;
+      controller.pageSize = 50;
       controller.divisions = [];
       controller.status = null;
       controller.groups = [];

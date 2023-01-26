@@ -4,7 +4,7 @@ import { tracked } from '@glimmer/tracking';
 
 export default class ProfilesController extends Controller {
   @tracked pageNumber = 1;
-  @tracked pageSize = 25;
+  @tracked pageSize = 50;
   @tracked divisions = [];
   @tracked groups = [];
   @tracked search = null;
