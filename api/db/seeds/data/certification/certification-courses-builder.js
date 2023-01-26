@@ -198,7 +198,7 @@ async function _buildCertificationCourse(databaseBuilder, {
     });
     databaseBuilder.factory.buildCertificationIssueReport({
       certificationCourseId,
-      category: CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN,
+      category: CertificationIssueReportCategories.SIGNATURE_ISSUE,
       description: examinerComment,
     });
   }

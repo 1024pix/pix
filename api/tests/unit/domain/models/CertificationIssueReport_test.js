@@ -389,7 +389,9 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
             description: 'toto',
           },
           { certificationCourseId: 42, category: 'SIGNATURE_ISSUE' },
-          { certificationCourseId: 42, category: 'CONNECTION_OR_END_SCREEN' },
+          { certificationCourseId: 42, category: 'IN_CHALLENGE' },
+          { certificationCourseId: 42, category: 'NON_BLOCKING_CANDIDATE_ISSUE' },
+          { certificationCourseId: 42, category: 'NON_BLOCKING_TECHNICAL_ISSUE' },
         ].forEach((certificationIssueReportDTO) => {
           it(`for ${certificationIssueReportDTO.category} ${
             certificationIssueReportDTO.subcategory ? certificationIssueReportDTO.subcategory : ''
