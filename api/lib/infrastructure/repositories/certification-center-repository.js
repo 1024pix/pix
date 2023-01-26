@@ -39,16 +39,18 @@ function _setSearchFiltersForQueryBuilder(filters, qb) {
 
 module.exports = {
   async get(id) {
-    const certificationCenterBookshelf = await BookshelfCertificationCenter.where({ id }).fetch({
-      require: false,
-      withRelated: [
-        {
-          habilitations: function (query) {
-            query.orderBy('id');
+    const certificationCenterBookshelf = await BookshelfCertificationCenter.query((q) => q.orderBy('id', 'desc'))
+      .where({ id })
+      .fetch({
+        require: false,
+        withRelated: [
+          {
+            habilitations: function (query) {
+              query.orderBy('id');
+            },
           },
-        },
-      ],
-    });
+        ],
+      });
 
     if (certificationCenterBookshelf) {
       return _toDomain(certificationCenterBookshelf);
@@ -85,9 +87,10 @@ module.exports = {
   },
 
   async findPaginatedFiltered({ filter, page }) {
-    const certificationCenterBookshelf = await BookshelfCertificationCenter.query((qb) =>
-      _setSearchFiltersForQueryBuilder(filter, qb)
-    ).fetchPage({
+    const certificationCenterBookshelf = await BookshelfCertificationCenter.query((qb) => {
+      _setSearchFiltersForQueryBuilder(filter, qb);
+      qb.orderBy('id');
+    }).fetchPage({
       page: page.number,
       pageSize: page.size,
       withRelated: [

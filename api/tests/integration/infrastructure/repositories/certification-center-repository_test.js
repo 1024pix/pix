@@ -333,6 +333,38 @@ describe('Integration | Repository | Certification Center', function () {
       it('should return an Array of CertificationCenters and their habilitations', async function () {
         // given
         databaseBuilder.factory.buildCertificationCenter({
+          id: 3,
+          name: 'Third certification center',
+          externalId: '3',
+          type: 'PRO',
+          createdAt: new Date('2018-04-01T05:43:10Z'),
+          updatedAt: now,
+        });
+        databaseBuilder.factory.buildComplementaryCertification({
+          id: 33,
+          label: 'Complementary certification name',
+          key: 'COMP',
+        });
+        databaseBuilder.factory.buildComplementaryCertificationHabilitation({
+          certificationCenterId: 3,
+          complementaryCertificationId: 33,
+        });
+        const expectedComplementaryCertification3 = domainBuilder.buildComplementaryCertification({
+          id: 33,
+          label: 'Complementary certification name',
+          key: 'COMP',
+        });
+        const expectedCertificationCenter3 = domainBuilder.buildCertificationCenter({
+          id: 3,
+          name: 'Third certification center',
+          type: CertificationCenter.types.PRO,
+          externalId: '3',
+          createdAt: new Date('2018-04-01T05:43:10Z'),
+          habilitations: [expectedComplementaryCertification3],
+          updatedAt: now,
+        });
+
+        databaseBuilder.factory.buildCertificationCenter({
           id: 1,
           name: 'First certification center',
           externalId: '1',
@@ -394,37 +426,7 @@ describe('Integration | Repository | Certification Center', function () {
           habilitations: [expectedComplementaryCertification2],
           updatedAt: now,
         });
-        databaseBuilder.factory.buildCertificationCenter({
-          id: 3,
-          name: 'Third certification center',
-          externalId: '3',
-          type: 'PRO',
-          createdAt: new Date('2018-04-01T05:43:10Z'),
-          updatedAt: now,
-        });
-        databaseBuilder.factory.buildComplementaryCertification({
-          id: 33,
-          label: 'Complementary certification name',
-          key: 'COMP',
-        });
-        databaseBuilder.factory.buildComplementaryCertificationHabilitation({
-          certificationCenterId: 3,
-          complementaryCertificationId: 33,
-        });
-        const expectedComplementaryCertification3 = domainBuilder.buildComplementaryCertification({
-          id: 33,
-          label: 'Complementary certification name',
-          key: 'COMP',
-        });
-        const expectedCertificationCenter3 = domainBuilder.buildCertificationCenter({
-          id: 3,
-          name: 'Third certification center',
-          type: CertificationCenter.types.PRO,
-          externalId: '3',
-          createdAt: new Date('2018-04-01T05:43:10Z'),
-          habilitations: [expectedComplementaryCertification3],
-          updatedAt: now,
-        });
+
         await databaseBuilder.commit();
 
         const filter = {};
