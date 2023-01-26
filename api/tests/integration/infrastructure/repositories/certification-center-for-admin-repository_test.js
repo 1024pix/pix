@@ -138,6 +138,10 @@ describe('Integration | Repository | certification-center-for-admin', function (
   });
 
   describe('#save', function () {
+    afterEach(async function () {
+      await databaseBuilder.knex('certification-centers').delete();
+    });
+
     it('should save the given certification center', async function () {
       // given
       const certificationCenter = new CertificationCenterForAdmin({

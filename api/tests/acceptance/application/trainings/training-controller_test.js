@@ -57,6 +57,10 @@ describe('Acceptance | Controller | training-controller', function () {
   });
 
   describe('POST /api/admin/trainings', function () {
+    afterEach(async function () {
+      await databaseBuilder.knex('account-recovery-demands').delete();
+    });
+
     it('should create a new training and response with a 201', async function () {
       // given
       const superAdmin = await insertUserWithRoleSuperAdmin();
