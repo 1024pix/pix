@@ -4,20 +4,15 @@ const resetScorecard = require('../../../../lib/domain/usecases/reset-scorecard'
 const { CompetenceResetError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | reset-scorecard', function () {
-  let knowledgeElements;
+  let knowledgeElements, resetScorecardResult, scorecard;
   const locale = 'fr-fr';
 
   const competenceId = 123;
   const userId = 456;
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const resetScorecardResult = Symbol('reset scorecard result');
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const scorecard = Symbol('Scorecard');
   const competenceEvaluationRepository = {};
   const knowledgeElementRepository = {};
   const competenceRepository = {};
+  const areaRepository = {};
   const assessmentRepository = {};
   const campaignParticipationRepository = {};
   const campaignRepository = {};
@@ -25,6 +20,8 @@ describe('Unit | UseCase | reset-scorecard', function () {
   let getRemainingDaysBeforeResetStub;
 
   beforeEach(function () {
+    resetScorecardResult = Symbol('reset scorecard result');
+    scorecard = Symbol('Scorecard');
     competenceEvaluationRepository.existsByCompetenceIdAndUserId = sinon.stub();
     knowledgeElementRepository.findUniqByUserIdAndCompetenceId = sinon.stub();
     scorecardService.resetScorecard = sinon.stub();
@@ -62,6 +59,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
           userId,
           competenceId,
           competenceRepository,
+          areaRepository,
           competenceEvaluationRepository,
           knowledgeElementRepository,
           locale,
@@ -82,6 +80,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
         assessmentRepository,
         campaignParticipationRepository,
         competenceRepository,
+        areaRepository,
         competenceEvaluationRepository,
         knowledgeElementRepository,
         campaignRepository,
@@ -128,6 +127,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
           userId,
           competenceId,
           competenceRepository,
+          areaRepository,
           competenceEvaluationRepository,
           knowledgeElementRepository,
           locale,
@@ -142,6 +142,7 @@ describe('Unit | UseCase | reset-scorecard', function () {
         competenceId,
         scorecardService,
         competenceRepository,
+        areaRepository,
         competenceEvaluationRepository,
         knowledgeElementRepository,
         locale,

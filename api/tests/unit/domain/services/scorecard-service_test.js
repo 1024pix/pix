@@ -10,6 +10,7 @@ const { STARTED, SHARED } = CampaignParticipationStatuses;
 describe('Unit | Service | ScorecardService', function () {
   describe('#computeScorecard', function () {
     let competenceRepository;
+    let areaRepository;
     let knowledgeElementRepository;
     let competenceEvaluationRepository;
     let buildFromStub;
@@ -20,6 +21,7 @@ describe('Unit | Service | ScorecardService', function () {
       competenceId = 1;
       authenticatedUserId = 1;
       competenceRepository = { get: sinon.stub() };
+      areaRepository = { get: sinon.stub() };
       knowledgeElementRepository = { findUniqByUserIdAndCompetenceId: sinon.stub() };
       competenceEvaluationRepository = { findByUserId: sinon.stub() };
       buildFromStub = sinon.stub(Scorecard, 'buildFrom');
@@ -36,9 +38,11 @@ describe('Unit | Service | ScorecardService', function () {
         const levelForCompetenceId1 = 1;
         const pixScoreAheadOfNextLevelForCompetenceId1 = 0;
 
-        const competence = domainBuilder.buildCompetence({ id: 1 });
+        const competence = domainBuilder.buildCompetence({ id: 1, areaId: 'area' });
+        const area = domainBuilder.buildArea({ id: 'area' });
 
         competenceRepository.get.resolves(competence);
+        areaRepository.get.resolves(area);
 
         const knowledgeElementList = [
           domainBuilder.buildKnowledgeElement({ competenceId: 1 }),
@@ -68,6 +72,7 @@ describe('Unit | Service | ScorecardService', function () {
             userId: authenticatedUserId,
             knowledgeElements: knowledgeElementList,
             competence,
+            area,
             competenceEvaluation,
             allowExcessLevel: false,
             allowExcessPix: false,
@@ -78,6 +83,7 @@ describe('Unit | Service | ScorecardService', function () {
         const userScorecard = await scorecardService.computeScorecard({
           userId: authenticatedUserId,
           competenceId,
+          areaRepository,
           competenceRepository,
           competenceEvaluationRepository,
           knowledgeElementRepository,

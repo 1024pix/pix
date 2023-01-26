@@ -87,6 +87,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
           tubes: [tubeUrl, tubeFile],
           name: 'The C',
           index: '2.3',
+          areaId: 'recArea',
         });
         const area = domainBuilder.buildArea({ id: 'recArea', color: 'jaffa', competences: [competence] });
         const framework = domainBuilder.buildFramework({ areas: [area] });
@@ -467,6 +468,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
           tubes: [tubeUrl, tubeFile],
           name: 'The C',
           index: '2.3',
+          areaId: 'recArea',
         });
         const area = domainBuilder.buildArea({ id: 'recArea', color: 'jaffa', competences: [competence] });
         const framework = domainBuilder.buildFramework({ areas: [area] });

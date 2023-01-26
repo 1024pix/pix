@@ -15,6 +15,7 @@ class CampaignProfile {
     status,
     createdAt,
     pixScore,
+    allAreas,
   }) {
     this.firstName = firstName;
     this.lastName = lastName;
@@ -26,6 +27,7 @@ class CampaignProfile {
     this.createdAt = createdAt;
     this.placementProfile = placementProfile;
     this.pixScore = pixScore;
+    this.allAreas = allAreas;
   }
 
   get isCertifiable() {
@@ -52,7 +54,15 @@ class CampaignProfile {
   get competences() {
     if (this.isShared) {
       return this.placementProfile.userCompetences.map((competence) => {
-        return new CampaignProfileCompetence(competence);
+        const area = this.allAreas.find((area) => area.id === competence.areaId);
+        return new CampaignProfileCompetence({
+          id: competence.id,
+          index: competence.index,
+          name: competence.name,
+          pixScore: competence.pixScore,
+          estimatedLevel: competence.estimatedLevel,
+          areaColor: area.color,
+        });
       });
     }
     return [];

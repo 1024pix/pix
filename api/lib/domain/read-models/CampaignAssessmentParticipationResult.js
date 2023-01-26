@@ -8,7 +8,7 @@ class CampaignAssessmentParticipationResult {
     campaignParticipationId,
     campaignId,
     status,
-    competences,
+    campaignLearningContent,
     validatedTargetedKnowledgeElementsCountByCompetenceId = {},
   }) {
     this.campaignParticipationId = campaignParticipationId;
@@ -18,8 +18,8 @@ class CampaignAssessmentParticipationResult {
     if (status !== SHARED) {
       this.competenceResults = [];
     } else {
-      this.competenceResults = competences.map((competence) => {
-        const area = competence.area;
+      this.competenceResults = campaignLearningContent.competences.map((competence) => {
+        const area = campaignLearningContent.findAreaOfCompetence(competence);
         return new CampaignAssessmentParticipationCompetenceResult({
           campaignParticipationId,
           area,

@@ -3,11 +3,11 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../../test-hel
 const scoringCertificationService = require('../../../../../lib/domain/services/scoring/scoring-certification-service');
 const { states } = require('../../../../../lib/domain/models/CertificationAssessment');
 const placementProfileService = require('../../../../../lib/domain/services/placement-profile-service');
-const UserCompetence = require('../../../../../lib/domain/models/UserCompetence');
+const areaRepository = require('../../../../../lib/infrastructure/repositories/area-repository');
 const { CertificationComputeError } = require('../../../../../lib/domain/errors');
 
 function _buildUserCompetence(competence, pixScore, estimatedLevel) {
-  return new UserCompetence({ ...competence, estimatedLevel, pixScore });
+  return domainBuilder.buildUserCompetence({ ...competence, estimatedLevel, pixScore });
 }
 
 const pixForCompetence1 = 10;
@@ -173,37 +173,37 @@ const challenges = _.map(
 const competence_1 = domainBuilder.buildCompetence({
   id: 'competence_1',
   index: '1.1',
-  area: { code: '1' },
+  areaId: 'area1',
   name: 'Mener une recherche',
 });
 const competence_2 = domainBuilder.buildCompetence({
   id: 'competence_2',
   index: '2.2',
-  area: { code: '2' },
+  areaId: 'area2',
   name: 'Partager',
 });
 const competence_3 = domainBuilder.buildCompetence({
   id: 'competence_3',
   index: '3.3',
-  area: { code: '3' },
+  areaId: 'area3',
   name: 'Adapter',
 });
 const competence_4 = domainBuilder.buildCompetence({
   id: 'competence_4',
   index: '4.4',
-  area: { code: '4' },
+  areaId: 'area4',
   name: 'Résoudre',
 });
 const competence_5 = domainBuilder.buildCompetence({
   id: 'competence_5',
   index: '5.5',
-  area: { code: '5' },
+  areaId: 'area5',
   name: 'Chercher',
 });
 const competence_6 = domainBuilder.buildCompetence({
   id: 'competence_6',
   index: '6.6',
-  area: { code: '6' },
+  areaId: 'area6',
   name: 'Trouver',
 });
 
@@ -218,8 +218,11 @@ describe('Unit | Service | Certification Result Service', function () {
   context('#calculateCertificationAssessmentScore', function () {
     let certificationAssessment, certificationAssessmentData, expectedCertifiedCompetences;
     let competenceWithMarks_1_1, competenceWithMarks_2_2, competenceWithMarks_3_3, competenceWithMarks_4_4;
+    let areaRepositoryListStub;
 
     beforeEach(function () {
+      areaRepositoryListStub = sinon.stub(areaRepository, 'list');
+      areaRepositoryListStub.resolves(['1', '2', '3', '4', '5', '6'].map((code) => ({ id: `area${code}`, code })));
       certificationAssessmentData = {
         id: 1,
         userId: 11,

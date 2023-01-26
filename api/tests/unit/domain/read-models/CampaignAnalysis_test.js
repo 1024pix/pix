@@ -10,15 +10,16 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
       const competence = domainBuilder.buildCompetence({
         id: 'recCompetenceId',
         tubes: [tube1, tube2],
+        areaId: 'recAreaId',
       });
       const area = domainBuilder.buildArea({ id: 'recAreaId', competences: [competence] });
       const framework = domainBuilder.buildFramework({ areas: [area] });
-      const learningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
+      const campaignLearningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
 
       // when
       const campaignAnalysis = new CampaignAnalysis({
         campaignId: 123,
-        learningContent,
+        campaignLearningContent,
         tutorials: [],
       });
 
@@ -36,17 +37,18 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
       const competence = domainBuilder.buildCompetence({
         id: 'recCompetence',
         tubes: [tube],
+        areaId: 'recAreaId',
       });
       const area = domainBuilder.buildArea({ id: 'recAreaId', competences: [competence] });
       const framework = domainBuilder.buildFramework({ areas: [area] });
-      const learningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
+      const campaignLearningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
 
       const campaignId = 123;
 
       // when
       const campaignAnalysis = new CampaignAnalysis({
         campaignId,
-        learningContent,
+        campaignLearningContent,
         tutorials: [],
       });
 
@@ -60,7 +62,7 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
       expect(campaignAnalysis.campaignTubeRecommendations[0].tubeDescription).to.equal(tube.practicalDescription);
       expect(campaignAnalysis.campaignTubeRecommendations[0].areaColor).to.equal(area.color);
       expect(campaignAnalysis.campaignTubeRecommendations[0].maxSkillLevel).to.equal(
-        learningContent.maxSkillDifficulty
+        campaignLearningContent.maxSkillDifficulty
       );
     });
 
@@ -84,10 +86,11 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
       const competence = domainBuilder.buildCompetence({
         id: 'recCompetence',
         tubes: [tube],
+        areaId: 'recAreaId',
       });
       const area = domainBuilder.buildArea({ id: 'recAreaId', competences: [competence] });
       const framework = domainBuilder.buildFramework({ areas: [area] });
-      const learningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
+      const campaignLearningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
       const campaignId = 123;
       const tutorial1 = domainBuilder.buildTutorial({ id: 'tutorial1' });
       const tutorial2 = domainBuilder.buildTutorial({ id: 'tutorial2' });
@@ -96,7 +99,7 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
       // when
       const campaignAnalysis = new CampaignAnalysis({
         campaignId,
-        learningContent,
+        campaignLearningContent,
         tutorials,
       });
 
@@ -131,13 +134,14 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
         name: 'CompetenceName',
         id: 'recCompetenceId',
         tubes: [tube],
+        areaId: 'recAreaId',
       });
       const area = domainBuilder.buildArea({ id: 'recAreaId', competences: [competence], color: 'black' });
       const framework = domainBuilder.buildFramework({ areas: [area] });
-      const learningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
+      const campaignLearningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
       const campaignAnalysis = new CampaignAnalysis({
         campaignId: 123,
-        learningContent,
+        campaignLearningContent,
         tutorials: [],
         participantCount,
       });
@@ -182,13 +186,14 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
         name: 'CompetenceName',
         id: 'recCompetenceId',
         tubes: [tube],
+        areaId: 'recAreaId',
       });
       const area = domainBuilder.buildArea({ id: 'recAreaId', competences: [competence], color: 'black' });
       const framework = domainBuilder.buildFramework({ areas: [area] });
-      const learningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
+      const campaignLearningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
       const campaignAnalysis = new CampaignAnalysis({
         campaignId: 123,
-        learningContent,
+        campaignLearningContent,
         tutorials: [],
         participantCount,
       });
@@ -228,13 +233,14 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
         name: 'CompetenceName',
         id: 'recCompetenceId',
         tubes: [tube],
+        areaId: 'recAreaId',
       });
       const area = domainBuilder.buildArea({ id: 'recAreaId', competences: [competence], color: 'black' });
       const framework = domainBuilder.buildFramework({ areas: [area] });
-      const learningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
+      const campaignLearningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
       const campaignAnalysis = new CampaignAnalysis({
         campaignId: 123,
-        learningContent,
+        campaignLearningContent,
         tutorials: [],
       });
 
@@ -281,13 +287,14 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
         name: 'CompetenceName',
         id: 'recCompetenceId',
         tubes: [tube1, tube2],
+        areaId: 'recAreaId',
       });
       const area = domainBuilder.buildArea({ id: 'recAreaId', competences: [competence], color: 'black' });
       const framework = domainBuilder.buildFramework({ areas: [area] });
-      const learningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
+      const campaignLearningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
       const campaignAnalysis = new CampaignAnalysis({
         campaignId: 123,
-        learningContent,
+        campaignLearningContent,
         tutorials: [],
         participantCount,
       });
@@ -329,13 +336,14 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
         name: 'CompetenceName',
         id: 'recCompetenceId',
         tubes: [tube1, tube2],
+        areaId: 'recAreaId',
       });
       const area = domainBuilder.buildArea({ id: 'recAreaId', competences: [competence], color: 'black' });
       const framework = domainBuilder.buildFramework({ areas: [area] });
-      const learningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
+      const campaignLearningContent = domainBuilder.buildCampaignLearningContent.fromFrameworks([framework]);
       const campaignAnalysis = new CampaignAnalysis({
         campaignId: 123,
-        learningContent,
+        campaignLearningContent,
         tutorials: [],
         participantCount,
       });

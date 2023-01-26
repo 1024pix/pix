@@ -45,7 +45,7 @@ async function _createUserCompetencesV1({ competences, userLastAssessments, limi
     }
     return new UserCompetence({
       id: competence.id,
-      area: competence.area,
+      areaId: competence.areaId,
       index: competence.index,
       name: competence.name,
       estimatedLevel,
@@ -93,10 +93,9 @@ function _createUserCompetencesV2({
       knowledgeElementsForCompetence,
       skillMap
     );
-
     return new UserCompetence({
       id: competence.id,
-      area: competence.area,
+      areaId: competence.areaId,
       index: competence.index,
       name: competence.name,
       estimatedLevel: currentLevel,

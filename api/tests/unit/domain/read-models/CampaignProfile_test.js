@@ -1,4 +1,4 @@
-const { expect } = require('../../../test-helper');
+const { expect, domainBuilder } = require('../../../test-helper');
 const CampaignProfile = require('../../../../lib/domain/read-models/CampaignProfile');
 const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 
@@ -73,17 +73,18 @@ describe('Unit | Domain | Read-Models | CampaignProfile', function () {
   describe('#competences', function () {
     context('when the campaign participation is shared', function () {
       it('returns user competences', function () {
+        const area = domainBuilder.buildArea({ id: 'recArea', color: 'blue' });
         const competence = {
           id: 1,
           name: 'competence1',
           pixScore: 1,
           estimatedLevel: 1,
-          area: { color: 'blue' },
+          areaId: 'recArea',
           index: '1.1',
         };
         const placementProfile = { userCompetences: [competence] };
 
-        const campaignProfile = new CampaignProfile({ status: SHARED, placementProfile });
+        const campaignProfile = new CampaignProfile({ status: SHARED, placementProfile, allAreas: [area] });
 
         expect(campaignProfile.competences).to.deep.equal([
           {

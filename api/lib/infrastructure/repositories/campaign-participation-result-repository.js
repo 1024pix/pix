@@ -2,6 +2,7 @@ const CampaignParticipationResult = require('../../domain/models/CampaignPartici
 const campaignParticipationRepository = require('./campaign-participation-repository');
 const campaignRepository = require('./campaign-repository');
 const competenceRepository = require('./competence-repository');
+const areaRepository = require('./area-repository');
 const assessmentRepository = require('./assessment-repository');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 
@@ -18,6 +19,7 @@ const campaignParticipationResultRepository = {
         [campaignParticipation.userId]: campaignParticipation.sharedAt,
       }),
     ]);
+    const allAreas = await areaRepository.list();
 
     return CampaignParticipationResult.buildFrom({
       campaignParticipationId,
@@ -26,6 +28,7 @@ const campaignParticipationResultRepository = {
       stages,
       skillIds,
       knowledgeElements: snapshots[campaignParticipation.userId],
+      allAreas,
     });
   },
 };

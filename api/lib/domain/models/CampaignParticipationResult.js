@@ -28,10 +28,23 @@ class CampaignParticipationResult {
     this.stageCount = stageCount;
   }
 
-  static buildFrom({ campaignParticipationId, assessment, competences, stages, skillIds, knowledgeElements }) {
+  static buildFrom({
+    campaignParticipationId,
+    assessment,
+    competences,
+    stages,
+    skillIds,
+    knowledgeElements,
+    allAreas,
+  }) {
     const targetedKnowledgeElements = _removeUntargetedKnowledgeElements(knowledgeElements, skillIds);
 
-    const targetedCompetenceResults = _computeCompetenceResults(competences, skillIds, targetedKnowledgeElements);
+    const targetedCompetenceResults = _computeCompetenceResults(
+      competences,
+      skillIds,
+      targetedKnowledgeElements,
+      allAreas
+    );
 
     const validatedSkillsCount = _.sumBy(targetedCompetenceResults, 'validatedSkillsCount');
     const totalSkillsCount = _.sumBy(targetedCompetenceResults, 'totalSkillsCount');
@@ -86,12 +99,13 @@ function _removeUntargetedKnowledgeElements(knowledgeElements, skillIds) {
   return _.filter(knowledgeElements, (ke) => skillIds.some((skillId) => skillId === ke.skillId));
 }
 
-function _computeCompetenceResults(competences, skillIds, targetedKnowledgeElements) {
+function _computeCompetenceResults(competences, skillIds, targetedKnowledgeElements, allAreas) {
   let targetedCompetences = _removeUntargetedSkillIdsFromCompetences(competences, skillIds);
   targetedCompetences = _removeCompetencesWithoutAnyTargetedSkillsLeft(targetedCompetences);
-  const targetedCompetenceResults = _.map(targetedCompetences, (competence) =>
-    _getTestedCompetenceResults(competence, targetedKnowledgeElements)
-  );
+  const targetedCompetenceResults = _.map(targetedCompetences, (competence) => {
+    const area = allAreas.find((area) => area.id === competence.areaId);
+    return _getTestedCompetenceResults(competence, area, targetedKnowledgeElements);
+  });
   return targetedCompetenceResults;
 }
 
@@ -106,7 +120,7 @@ function _removeCompetencesWithoutAnyTargetedSkillsLeft(competences) {
   return _.filter(competences, (competence) => !_.isEmpty(competence.skillIds));
 }
 
-function _getTestedCompetenceResults(competence, targetedKnowledgeElements) {
+function _getTestedCompetenceResults(competence, area, targetedKnowledgeElements) {
   const targetedKnowledgeElementsForCompetence = _.filter(targetedKnowledgeElements, (ke) =>
     _.includes(competence.skillIds, ke.skillId)
   );
@@ -115,25 +129,18 @@ function _getTestedCompetenceResults(competence, targetedKnowledgeElements) {
   const testedSkillsCount = targetedKnowledgeElementsForCompetence.length;
   const validatedSkillsCount = validatedKnowledgeElementsForCompetence.length;
   const totalSkillsCount = competence.skillIds.length;
-  const areaColor = competence.area ? competence.area.color : null;
-  const areaName = _getAreaName(competence);
 
   return new CompetenceResult({
     id: competence.id,
     name: competence.name,
     index: competence.index,
-    areaColor,
-    areaName,
+    areaColor: area.color,
+    areaName: area.name,
     totalSkillsCount,
     testedSkillsCount,
     validatedSkillsCount,
     badgeId: competence.badgeId,
   });
-}
-
-function _getAreaName(competence) {
-  if (!competence.area) return;
-  return competence.area.name;
 }
 
 module.exports = CampaignParticipationResult;

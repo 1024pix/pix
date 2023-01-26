@@ -8,6 +8,7 @@ module.exports = async function getUserProfileSharedForCampaign({
   campaignRepository,
   knowledgeElementRepository,
   competenceRepository,
+  areaRepository,
   organizationLearnerRepository,
   locale,
 }) {
@@ -32,14 +33,16 @@ module.exports = async function getUserProfileSharedForCampaign({
       limitDate: campaignParticipation.sharedAt,
     }),
   ]);
-  const competencesWithArea = await competenceRepository.listPixCompetencesOnly({ locale });
+  const competences = await competenceRepository.listPixCompetencesOnly({ locale });
+  const allAreas = await areaRepository.list({ locale });
 
   return new SharedProfileForCampaign({
     campaignParticipation,
     campaignAllowsRetry,
     isOrganizationLearnerActive,
-    competencesWithArea,
+    competences,
     knowledgeElementsGroupedByCompetenceId,
     userId,
+    allAreas,
   });
 };

@@ -14,7 +14,7 @@ describe('Unit | Domain | Models | PlacementProfile', function () {
             id: 1,
             index: '1',
             name: 'UCName',
-            area: 'area',
+            areaId: 'area',
             pixScore: 10,
             estimatedLevel: 5,
           }),
