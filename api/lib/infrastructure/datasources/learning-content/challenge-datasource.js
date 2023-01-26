@@ -40,7 +40,7 @@ module.exports = datasource.extend({
     return validatedChallenges.filter((challenge) => challenge.skillId === id);
   },
 
-  async findFlashCompatible(locale) {
+  async findActiveFlashCompatible(locale) {
     const challenges = await this.list();
     return challenges.filter(
       (challengeData) =>

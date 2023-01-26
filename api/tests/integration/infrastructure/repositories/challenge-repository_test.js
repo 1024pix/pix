@@ -445,7 +445,7 @@ describe('Integration | Repository | challenge-repository', function () {
     });
   });
 
-  describe('#findFlashCompatible', function () {
+  describe('#findActiveFlashCompatible', function () {
     beforeEach(function () {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
@@ -467,7 +467,7 @@ describe('Integration | Repository | challenge-repository', function () {
 
     it('should return only flash compatible challenges with skills', async function () {
       // when
-      const actualChallenges = await challengeRepository.findFlashCompatible({ locale: 'fr-fr' });
+      const actualChallenges = await challengeRepository.findActiveFlashCompatible({ locale: 'fr-fr' });
 
       // then
       expect(actualChallenges).to.have.lengthOf(1);
@@ -490,7 +490,7 @@ describe('Integration | Repository | challenge-repository', function () {
       const successProbabilityThreshold = 0.75;
 
       // when
-      const actualChallenges = await challengeRepository.findFlashCompatible({
+      const actualChallenges = await challengeRepository.findActiveFlashCompatible({
         locale: 'fr-fr',
         successProbabilityThreshold,
       });

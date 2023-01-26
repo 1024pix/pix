@@ -178,7 +178,7 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
 
       answerRepository = { findByAssessment: sinon.stub().resolves([lastAnswer]) };
       challenges = [];
-      challengeRepository = { findFlashCompatible: sinon.stub().resolves(challenges) };
+      challengeRepository = { findActiveFlashCompatible: sinon.stub().resolves(challenges) };
       const campaign = domainBuilder.buildCampaign({ assessmentMethod: 'FLASH' });
       domainBuilder.buildCampaignParticipation({ campaign, id: campaignParticipationId });
       assessment = domainBuilder.buildAssessment.ofTypeCampaign({
@@ -237,7 +237,7 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
 
     it('should have fetched the challenges', function () {
       // then
-      expect(challengeRepository.findFlashCompatible).to.have.been.called;
+      expect(challengeRepository.findActiveFlashCompatible).to.have.been.called;
     });
 
     it('should have fetched the next challenge with only most recent knowledge elements', function () {
