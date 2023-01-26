@@ -15,7 +15,7 @@ module('Acceptance | Campaign Profiles', function (hooks) {
 
   let user;
 
-  const pageSize = 25;
+  const pageSize = 50;
   const rowCount = 100;
   hooks.beforeEach(async () => {
     user = createUserWithMembershipAndTermsOfServiceAccepted();
@@ -33,8 +33,8 @@ module('Acceptance | Campaign Profiles', function (hooks) {
 
       // then
       assert.dom('table tbody tr').exists({ count: pageSize });
-      assert.contains('Page 1 / 4');
-      assert.dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size'))).hasText('25');
+      assert.contains('Page 1 / 2');
+      assert.dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size'))).hasText('50');
     });
 
     test('it should display profile list with settings in url for pagination', async function (assert) {

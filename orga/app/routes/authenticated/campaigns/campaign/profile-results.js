@@ -57,7 +57,7 @@ export default class ProfilesRoute extends Route {
   resetController(controller, isExiting) {
     if (isExiting) {
       controller.pageNumber = 1;
-      controller.pageSize = 25;
+      controller.pageSize = 50;
       controller.divisions = [];
       controller.groups = [];
       controller.search = null;
