@@ -13,6 +13,7 @@ class AssessmentResult {
     competences,
     badgeResultsDTO,
     stages,
+    flashScoringResults,
   }) {
     const { knowledgeElements, sharedAt, assessmentCreatedAt } = participationResults;
 
@@ -20,9 +21,6 @@ class AssessmentResult {
     this.isCompleted = participationResults.isCompleted;
     this.isShared = Boolean(participationResults.sharedAt);
     this.participantExternalId = participationResults.participantExternalId;
-    this.estimatedFlashLevel = participationResults.estimatedFlashLevel;
-    this.flashPixScore = participationResults.flashPixScore;
-
     this.totalSkillsCount = competences.flatMap(({ skillIds }) => skillIds).length;
     this.testedSkillsCount = knowledgeElements.length;
     this.validatedSkillsCount = knowledgeElements.filter(({ isValidated }) => isValidated).length;
@@ -49,6 +47,9 @@ class AssessmentResult {
       this.masteryRate,
       this.isDisabled
     );
+
+    this.estimatedFlashLevel = flashScoringResults?.estimatedFlashLevel;
+    this.flashPixScore = flashScoringResults?.flashPixScore;
   }
 
   _computeMasteryRate(masteryRate, isShared, totalSkillsCount, validatedSkillsCount) {
