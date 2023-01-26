@@ -2,25 +2,36 @@
   <h2 class="page-section__title">Méthodes de connexion</h2>
 </header>
 
-<dl>
-  <div class="authentication-method__connexions-information">
-    <dt>Date de dernière connexion :</dt>
-    {{#if @user.lastLoggedAt}}
-      <dd>{{dayjs-format @user.lastLoggedAt "DD/MM/YYYY"}}</dd>
-    {{/if}}
-  </div>
+<ul>
+  <li class="authentication-method__connexions-information">
+    Date de dernière connexion :
+    {{#if @user.lastLoggedAt}}{{dayjs-format @user.lastLoggedAt "DD/MM/YYYY"}}{{/if}}
+  </li>
   {{#if @user.emailConfirmedAt}}
-    <div class="authentication-method__connexions-information">
-      <dt>Adresse e-mail confirmée le :</dt>
-      <dd>{{dayjs-format @user.emailConfirmedAt "DD/MM/YYYY"}}</dd>
-    </div>
+    <li class="authentication-method__connexions-information">
+      Adresse e-mail confirmée le :
+      {{dayjs-format @user.emailConfirmedAt "DD/MM/YYYY"}}
+    </li>
   {{else}}
-    <div class="authentication-method__connexions-information">
+    <li class="authentication-method__connexions-information">
       Adresse e-mail non confirmée
-    </div>
+    </li>
   {{/if}}
+</ul>
 
-</dl>
+{{#if this.hasPixAuthenticationMethod}}
+  <br />
+  <ul>
+    <li class="authentication-method__connexions-information">
+      {{t "components.users.user-detail-personal-information.authentication-method.should-change-password-status"}}
+      {{#if this.pixAuthenticationMethod.authenticationComplement.shouldChangePassword}}{{t
+          "common.words.yes"
+        }}{{else}}{{t "common.words.no"}}{{/if}}
+    </li>
+  </ul>
+{{/if}}
+
+<br />
 
 <table class="authentication-method-table">
 
