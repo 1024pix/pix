@@ -15,7 +15,7 @@ module.exports = {
   getPossibleNextChallenges,
   getEstimatedLevelAndErrorRate,
   getChallengesForNonAnsweredSkills,
-  calculateTotalPixScore,
+  calculateTotalPixScoreAndScoreByCompetence,
 };
 
 function getPossibleNextChallenges({ allAnswers, challenges, estimatedLevel = DEFAULT_ESTIMATED_LEVEL } = {}) {
@@ -119,33 +119,30 @@ function getChallengesForNonAnsweredSkills({ allAnswers, challenges }) {
   return challengesForNonAnsweredSkills;
 }
 
-function calculateTotalPixScore({ allAnswers, challenges, estimatedLevel }) {
-  const directPixScore = _getDirectPixScore({ allAnswers, challenges });
+function calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, estimatedLevel }) {
+  const succeededChallenges = _getDirectSucceededChallenges({ allAnswers, challenges });
 
-  const inferredPixScore = _getInferredPixScore({
+  const inferredChallenges = _getInferredChallenges({
     challenges: getChallengesForNonAnsweredSkills({ allAnswers, challenges }),
     estimatedLevel,
   });
 
-  const totalPixScore = directPixScore + inferredPixScore;
+  const pixScoreAndScoreByCompetence = _sumPixScoreAndScoreByCompetence([
+    ...succeededChallenges,
+    ...inferredChallenges,
+  ]);
 
-  return totalPixScore;
+  return pixScoreAndScoreByCompetence;
 }
 
-function _getDirectPixScore({ allAnswers, challenges }) {
+function _getDirectSucceededChallenges({ allAnswers, challenges }) {
   const correctAnswers = allAnswers.filter((answer) => answer.isOk());
-  const succeededChallenges = correctAnswers.map((answer) => _findChallengeForAnswer(challenges, answer));
-  const directPixScore = _sumSkillsChallengesPixScore(succeededChallenges);
-  return directPixScore;
+  return correctAnswers.map((answer) => _findChallengeForAnswer(challenges, answer));
 }
 
-function _getInferredPixScore({ challenges, estimatedLevel }) {
+function _getInferredChallenges({ challenges, estimatedLevel }) {
   const lowestCapabilityChallengesBySkill = _findLowestCapabilityChallengesBySkill(challenges);
-  const inferredChallenges = lowestCapabilityChallengesBySkill.filter(
-    (challenge) => estimatedLevel >= challenge.minimumCapability
-  );
-  const inferredPixScore = _sumSkillsChallengesPixScore(inferredChallenges);
-  return inferredPixScore;
+  return lowestCapabilityChallengesBySkill.filter((challenge) => estimatedLevel >= challenge.minimumCapability);
 }
 
 function _findLowestCapabilityChallengesBySkill(challenges) {
@@ -166,17 +163,32 @@ function _findChallengeForAnswer(challenges, answer) {
   return challenges.find((challenge) => challenge.id === answer.challengeId);
 }
 
-function _sumSkillsChallengesPixScore(challenges) {
-  const scoreBySkillId = challenges.reduce((acc, challenge) => {
-    if (acc[challenge.skill.id]) return acc;
+function _sumPixScoreAndScoreByCompetence(challenges) {
+  const scoreBySkillId = {};
+  const scoreByCompetenceId = {};
 
-    return {
-      ...acc,
-      [challenge.skill.id]: challenge.skill.pixValue,
-    };
-  }, {});
+  for (const challenge of challenges) {
+    const { id: skillId, competenceId, pixValue } = challenge.skill;
 
-  return Object.values(scoreBySkillId).reduce((sum, pixValue) => sum + pixValue, 0);
+    if (scoreBySkillId[skillId]) continue;
+
+    scoreBySkillId[skillId] = pixValue;
+
+    const previousCompetenceScore = scoreByCompetenceId[competenceId] ?? 0;
+
+    scoreByCompetenceId[competenceId] = pixValue + previousCompetenceScore;
+  }
+
+  const pixScore = Object.values(scoreBySkillId).reduce((sum, pixValue) => sum + pixValue, 0);
+  const pixScoreByCompetence = _.sortBy(
+    Object.entries(scoreByCompetenceId).map(([competenceId, pixScore]) => ({
+      competenceId,
+      pixScore,
+    })),
+    'competenceId'
+  );
+
+  return { pixScore, pixScoreByCompetence };
 }
 
 function _getReward({ estimatedLevel, discriminant, difficulty }) {
