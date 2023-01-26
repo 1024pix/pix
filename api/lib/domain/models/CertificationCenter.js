@@ -1,16 +1,7 @@
 const { CERTIFICATION_CENTER_TYPES } = require('../constants');
 
 class CertificationCenter {
-  constructor({
-    id,
-    name,
-    externalId,
-    type,
-    createdAt,
-    updatedAt,
-    habilitations = [],
-    isSupervisorAccessEnabled = false,
-  } = {}) {
+  constructor({ id, name, externalId, type, createdAt, updatedAt, habilitations = [] } = {}) {
     this.id = id;
     this.name = name;
     this.externalId = externalId;
@@ -18,7 +9,6 @@ class CertificationCenter {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.habilitations = habilitations;
-    this.isSupervisorAccessEnabled = isSupervisorAccessEnabled;
   }
 
   get isSco() {

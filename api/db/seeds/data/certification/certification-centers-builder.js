@@ -255,7 +255,6 @@ function certificationCentersBuilder({ databaseBuilder }) {
     id: PRO_CERTIF_CENTER_ID,
     name: PRO_CERTIF_CENTER_NAME,
     type: 'PRO',
-    isSupervisorAccessEnabled: 'true',
   });
   databaseBuilder.factory.buildComplementaryCertificationHabilitation({
     certificationCenterId: PRO_CERTIF_CENTER_ID,

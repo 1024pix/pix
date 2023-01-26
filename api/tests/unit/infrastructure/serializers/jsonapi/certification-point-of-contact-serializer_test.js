@@ -31,7 +31,6 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
         relatedOrganizationTags: ['tag1'],
         habilitations: [],
       });
-      allowedCertificationCenterAccess2.isEndTestScreenRemovalEnabled = sinon.stub().returns(true);
       const certificationPointOfContact = domainBuilder.buildCertificationPointOfContact({
         id: 789,
         firstName: 'Buffy',
@@ -90,7 +89,6 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
                 { id: 1, name: 'Certif comp 1' },
                 { id: 2, name: 'Certif comp 2' },
               ],
-              'is-end-test-screen-removal-enabled': false,
             },
           },
           {
@@ -109,7 +107,6 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
               'pix-certif-sco-blocked-access-date-lycee': '2022-08-01',
               'related-organization-tags': ['tag1'],
               habilitations: [],
-              'is-end-test-screen-removal-enabled': true,
             },
           },
         ],

@@ -47,39 +47,37 @@
       </div>
     </div>
 
-    {{#if this.supervisorPasswordShouldBeDisplayed}}
-      <div class="session-details-content session-details-content--multiple session-details-content--copyable">
-        <h3 class="label-text session-details-content__label">
-          {{t "pages.sessions.detail.parameters.session-password"}}
-          <div class="session-details-content__sub-label">{{t "pages.session-supervising.header.supervisor"}}</div>
-        </h3>
-        <div class="session-details-content__clipboard" {{on "mouseout" this.removeSupervisorPasswordTooltip}}>
-          <span class="content-text content-text--bold session-details-content__text">
-            C-{{this.session.supervisorPassword}}
-          </span>
-          {{! template-lint-disable no-duplicate-id }}
-          {{#if (is-clipboard-supported)}}
-            <PixTooltip
-              @id="tooltip-clipboard-button"
-              @isInline={{true}}
-              @hide={{this.isSupervisorPasswordTooltipTextEmpty}}
-            >
-              <:triggerElement>
-                <CopyButton
-                  @clipboardText={{this.session.supervisorPassword}}
-                  @success={{this.showSupervisorPasswordTooltip}}
-                  @classNames="icon-button session-details-content__clipboard-button"
-                  aria-label={{t "pages.sessions.detail.parameters.copy-session-password-supervisor"}}
-                >
-                  <FaIcon @icon="copy" prefix="fas" />
-                </CopyButton>
-              </:triggerElement>
-              <:tooltip>{{this.supervisorPasswordTooltipText}}</:tooltip>
-            </PixTooltip>
-          {{/if}}
-        </div>
+    <div class="session-details-content session-details-content--multiple session-details-content--copyable">
+      <h3 class="label-text session-details-content__label">
+        {{t "pages.sessions.detail.parameters.session-password"}}
+        <div class="session-details-content__sub-label">{{t "pages.session-supervising.header.supervisor"}}</div>
+      </h3>
+      <div class="session-details-content__clipboard" {{on "mouseout" this.removeSupervisorPasswordTooltip}}>
+        <span class="content-text content-text--bold session-details-content__text">
+          C-{{this.session.supervisorPassword}}
+        </span>
+        {{! template-lint-disable no-duplicate-id }}
+        {{#if (is-clipboard-supported)}}
+          <PixTooltip
+            @id="tooltip-clipboard-button"
+            @isInline={{true}}
+            @hide={{this.isSupervisorPasswordTooltipTextEmpty}}
+          >
+            <:triggerElement>
+              <CopyButton
+                @clipboardText={{this.session.supervisorPassword}}
+                @success={{this.showSupervisorPasswordTooltip}}
+                @classNames="icon-button session-details-content__clipboard-button"
+                aria-label={{t "pages.sessions.detail.parameters.copy-session-password-supervisor"}}
+              >
+                <FaIcon @icon="copy" prefix="fas" />
+              </CopyButton>
+            </:triggerElement>
+            <:tooltip>{{this.supervisorPasswordTooltipText}}</:tooltip>
+          </PixTooltip>
+        {{/if}}
       </div>
-    {{/if}}
+    </div>
 
     <div class="session-details-content session-details-content--multiple">
       <h3 class="label-text session-details-content__label">

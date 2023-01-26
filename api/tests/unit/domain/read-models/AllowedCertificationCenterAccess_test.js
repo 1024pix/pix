@@ -702,36 +702,6 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
     });
   });
 
-  context('#isEndTestScreenRemovalEnabled', function () {
-    it('should return true when whitelisted', function () {
-      // given
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-        id: 1,
-        isSupervisorAccessEnabled: true,
-      });
-
-      // when
-      const result = allowedCertificationCenterAccess.isEndTestScreenRemovalEnabled();
-
-      // then
-      expect(result).to.be.true;
-    });
-
-    it('should return false when not whitelisted', function () {
-      // given
-      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-        id: 1,
-        isSupervisorAccessEnabled: false,
-      });
-
-      // when
-      const result = allowedCertificationCenterAccess.isEndTestScreenRemovalEnabled();
-
-      // then
-      expect(result).to.be.false;
-    });
-  });
-
   context('#pixCertifScoBlockedAccessDateLycee', function () {
     describe('when pixCertifScoBlockedAccessDateLycee is defined', function () {
       it('should return the french formated pixCertifScoBlockedAccessDateLycee', function () {

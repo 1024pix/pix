@@ -75,7 +75,6 @@ class Form extends Object.extend(Validations) {
   @tracked name;
   @tracked externalId;
   @tracked type;
-  @tracked isSupervisorAccessEnabled;
   @tracked habilitations;
 }
 
@@ -119,7 +118,6 @@ export default class InformationEdit extends Component {
     this.args.certificationCenter.set('name', this.form.name.trim());
     this.args.certificationCenter.set('externalId', !this.form.externalId ? null : this.form.externalId.trim());
     this.args.certificationCenter.set('type', this.form.type.trim());
-    this.args.certificationCenter.set('isSupervisorAccessEnabled', this.form.isSupervisorAccessEnabled);
     this.args.certificationCenter.set('habilitations', this.form.habilitations);
     this.args.certificationCenter.set('dataProtectionOfficerFirstName', this.form.dataProtectionOfficerFirstName);
     this.args.certificationCenter.set('dataProtectionOfficerLastName', this.form.dataProtectionOfficerLastName);
@@ -135,7 +133,6 @@ export default class InformationEdit extends Component {
       name,
       externalId,
       type,
-      isSupervisorAccessEnabled,
       dataProtectionOfficerFirstName,
       dataProtectionOfficerLastName,
       dataProtectionOfficerEmail,
@@ -144,7 +141,6 @@ export default class InformationEdit extends Component {
       'name',
       'externalId',
       'type',
-      'isSupervisorAccessEnabled',
       'dataProtectionOfficerFirstName',
       'dataProtectionOfficerLastName',
       'dataProtectionOfficerEmail'
@@ -154,7 +150,6 @@ export default class InformationEdit extends Component {
     this.form.habilitations = habilitations ? habilitations.toArray() : [];
     this.form.externalId = externalId;
     this.form.type = type;
-    this.form.isSupervisorAccessEnabled = isSupervisorAccessEnabled;
     this.form.dataProtectionOfficerFirstName = dataProtectionOfficerFirstName;
     this.form.dataProtectionOfficerLastName = dataProtectionOfficerLastName;
     this.form.dataProtectionOfficerEmail = dataProtectionOfficerEmail;

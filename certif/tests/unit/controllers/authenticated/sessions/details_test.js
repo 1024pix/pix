@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import Service from '@ember/service';
 
 module('Unit | Controller | authenticated/sessions/details', function (hooks) {
   setupTest(hooks);
@@ -54,44 +53,6 @@ module('Unit | Controller | authenticated/sessions/details', function (hooks) {
 
       // then
       assert.notOk(hasOneOrMoreCandidates);
-    });
-  });
-
-  module('#shouldDisplaySupervisorKitButton', function () {
-    test('should return true if current certification center is allowed to access supervisor space', function (assert) {
-      // given
-      const controller = this.owner.lookup('controller:authenticated/sessions/details');
-      class currentUserStub extends Service {
-        currentAllowedCertificationCenterAccess = {
-          isEndTestScreenRemovalEnabled: true,
-        };
-      }
-
-      this.owner.register('service:currentUser', currentUserStub);
-
-      // when
-      const shouldDisplaySupervisorKitButton = controller.shouldDisplaySupervisorKitButton;
-
-      // then
-      assert.true(shouldDisplaySupervisorKitButton);
-    });
-
-    test('should return false if current certification center is allowed to access supervisor space', function (assert) {
-      // given
-      const controller = this.owner.lookup('controller:authenticated/sessions/details');
-      class currentUserStub extends Service {
-        currentAllowedCertificationCenterAccess = {
-          isEndTestScreenRemovalEnabled: false,
-        };
-      }
-
-      this.owner.register('service:currentUser', currentUserStub);
-
-      // when
-      const shouldDisplaySupervisorKitButton = controller.shouldDisplaySupervisorKitButton;
-
-      // then
-      assert.false(shouldDisplaySupervisorKitButton);
     });
   });
 

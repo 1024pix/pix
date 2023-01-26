@@ -314,13 +314,7 @@
         "description": "Vos résultats seront prochainement disponibles depuis votre compte.",
         "warning-text": "Si cet ordinateur n’est pas le vôtre, pensez à vous déconnecter."
       },
-      "flag-alt": "Drapeau",
-      "not-finished": {
-        "title": "Vous avez presque terminé",
-        "supervisor": "Appelez le surveillant : '<br>'Il doit impérativement voir cet écran pour finaliser votre certification.",
-        "warning-text": "Le surveillant a bien vu cet écran.",
-        "checkbox-label": "Le surveillant doit cliquer ici."
-      }
+      "flag-alt": "Drapeau"
     },
     "certification-ender": {
       "candidate": {

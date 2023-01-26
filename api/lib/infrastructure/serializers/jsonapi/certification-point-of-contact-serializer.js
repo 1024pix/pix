@@ -25,7 +25,6 @@ module.exports = {
           'isAccessBlockedAgri',
           'relatedOrganizationTags',
           'habilitations',
-          'isEndTestScreenRemovalEnabled',
           'pixCertifScoBlockedAccessDateLycee',
           'pixCertifScoBlockedAccessDateCollege',
         ],
@@ -48,7 +47,6 @@ module.exports = {
               isAccessBlockedLycee: access.isAccessBlockedLycee(),
               isAccessBlockedAEFE: access.isAccessBlockedAEFE(),
               isAccessBlockedAgri: access.isAccessBlockedAgri(),
-              isEndTestScreenRemovalEnabled: access.isEndTestScreenRemovalEnabled(),
               pixCertifScoBlockedAccessDateCollege: access.pixCertifScoBlockedAccessDateCollege,
               pixCertifScoBlockedAccessDateLycee: access.pixCertifScoBlockedAccessDateLycee,
             };

@@ -27,7 +27,6 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   placementProfileService,
   certificationBadgesService,
   verifyCertificateCodeService,
-  endTestScreenRemovalService,
 }) {
   const session = await sessionRepository.get(sessionId);
   if (session.accessCode !== accessCode) {
@@ -42,10 +41,6 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     sessionId,
   });
 
-  const isEndTestRemovalEnabled = await endTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId(
-    session.id
-  );
-
   const existingCertificationCourse =
     await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
       userId,
@@ -53,7 +48,7 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
       domainTransaction,
     });
 
-  if (isEndTestRemovalEnabled && !certificationCandidate.isAuthorizedToStart()) {
+  if (!certificationCandidate.isAuthorizedToStart()) {
     if (existingCertificationCourse) {
       throw new CandidateNotAuthorizedToResumeCertificationTestError();
     } else {
@@ -61,10 +56,8 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     }
   }
 
-  if (isEndTestRemovalEnabled) {
-    certificationCandidate.authorizedToStart = false;
-    certificationCandidateRepository.update(certificationCandidate);
-  }
+  certificationCandidate.authorizedToStart = false;
+  certificationCandidateRepository.update(certificationCandidate);
 
   if (existingCertificationCourse) {
     return {

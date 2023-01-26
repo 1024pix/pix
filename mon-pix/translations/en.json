@@ -314,13 +314,7 @@
         "description": "Your results will be available in your account shortly.",
         "warning-text": "If you are not using your own computer, remember to log out."
       },
-      "flag-alt": "Flag",
-      "not-finished": {
-        "title": "You’ve almost finished",
-        "supervisor": "Call the invigilator: '<br>'They must see this screen to be able to finalise your certification.",
-        "warning-text": "The invigilator has seen this screen.",
-        "checkbox-label": "The invigilator must click here."
-      }
+      "flag-alt": "Flag"
     },
     "certification-ender": {
       "candidate": {

@@ -30,7 +30,6 @@ describe('Acceptance | Route | CertificationPointOfContact', function () {
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.result.data.id).to.equal(userId.toString());
-      expect(response.result.included[0].attributes['is-end-test-screen-removal-enabled']).to.be.false;
     });
   });
 });

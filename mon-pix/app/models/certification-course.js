@@ -6,7 +6,6 @@ export default class CertificationCourse extends Model {
   @attr('number') nbChallenges;
   @attr('string') firstName;
   @attr('string') lastName;
-  @attr('boolean') isEndTestScreenRemovalEnabled;
 
   // references
   @attr('number') sessionId;

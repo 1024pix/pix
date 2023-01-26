@@ -26,19 +26,17 @@
               Sessions
             </LinkTo>
           </li>
-          {{#if this.isEndTestScreenRemovalEnabled}}
-            <li>
-              <LinkTo
-                @route="login-session-supervisor"
-                class="sidebar-menu__item"
-                type="button"
-                aria-label="Espace surveillant"
-              >
-                <FaIcon @icon="eye" class="sidebar-menu__item-icon" />
-                Espace surveillant
-              </LinkTo>
-            </li>
-          {{/if}}
+          <li>
+            <LinkTo
+              @route="login-session-supervisor"
+              class="sidebar-menu__item"
+              type="button"
+              aria-label="Espace surveillant"
+            >
+              <FaIcon @icon="eye" class="sidebar-menu__item-icon" />
+              Espace surveillant
+            </LinkTo>
+          </li>
         {{/if}}
         <li>
           <LinkTo @route="authenticated.team" class="sidebar-menu__item" type="button" aria-label="Équipe">

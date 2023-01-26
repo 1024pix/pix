@@ -77,7 +77,6 @@ const dependencies = {
   dataProtectionOfficerRepository: require('../../infrastructure/repositories/data-protection-officer-repository'),
   divisionRepository: require('../../infrastructure/repositories/division-repository'),
   encryptionService: require('../../domain/services/encryption-service'),
-  endTestScreenRemovalService: require('../services/end-test-screen-removal-service'),
   flashAssessmentResultRepository: require('../../infrastructure/repositories/flash-assessment-result-repository'),
   flashAlgorithmService: require('../../domain/services/algorithm-methods/flash'),
   frameworkRepository: require('../../infrastructure/repositories/framework-repository'),
