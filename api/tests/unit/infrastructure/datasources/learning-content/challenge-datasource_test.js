@@ -208,7 +208,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     });
   });
 
-  describe('#findFlashCompatible', function () {
+  describe('#findActiveFlashCompatible', function () {
     beforeEach(function () {
       sinon.stub(lcms, 'getLatestRelease').resolves({
         challenges: [
@@ -227,7 +227,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     it('should resolve an array of matching Challenges from learning content', async function () {
       // when
       const locale = 'fr-fr';
-      const result = await challengeDatasource.findFlashCompatible(locale);
+      const result = await challengeDatasource.findActiveFlashCompatible(locale);
 
       // then
       expect(lcms.getLatestRelease).to.have.been.called;

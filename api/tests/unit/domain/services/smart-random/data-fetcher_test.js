@@ -160,7 +160,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function () {
         findByAssessment: sinon.stub(),
       };
       challengeRepository = {
-        findFlashCompatible: sinon.stub(),
+        findActiveFlashCompatible: sinon.stub(),
       };
       flashAssessmentResultRepository = {
         getLatestByAssessmentId: sinon.stub(),
@@ -180,7 +180,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function () {
       const estimatedLevel = Symbol('estimatedLevel');
 
       answerRepository.findByAssessment.withArgs(assessmentId).resolves([answer]);
-      challengeRepository.findFlashCompatible.withArgs().resolves(challenges);
+      challengeRepository.findActiveFlashCompatible.withArgs().resolves(challenges);
       flashAssessmentResultRepository.getLatestByAssessmentId.withArgs(assessmentId).resolves({ estimatedLevel });
 
       // when
