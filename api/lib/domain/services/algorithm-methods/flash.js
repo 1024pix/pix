@@ -15,7 +15,7 @@ module.exports = {
   getPossibleNextChallenges,
   getEstimatedLevelAndErrorRate,
   getChallengesForNonAnsweredSkills,
-  calculateTotalPixScore,
+  calculateTotalPixScoreAndScoreByCompetence,
 };
 
 function getPossibleNextChallenges({ allAnswers, challenges, estimatedLevel = DEFAULT_ESTIMATED_LEVEL } = {}) {
@@ -119,7 +119,7 @@ function getChallengesForNonAnsweredSkills({ allAnswers, challenges }) {
   return challengesForNonAnsweredSkills;
 }
 
-function calculateTotalPixScore({ allAnswers, challenges, estimatedLevel }) {
+function calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, estimatedLevel }) {
   const succeededChallenges = _getDirectSucceededChallenges({ allAnswers, challenges });
 
   const inferredChallenges = _getInferredChallenges({
