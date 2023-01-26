@@ -82,6 +82,15 @@ module.exports = {
     return _toDomainCollection({ challengeDataObjects, skills: activeSkills, successProbabilityThreshold });
   },
 
+  async findOperativeFlashCompatible({
+    locale,
+    successProbabilityThreshold = config.features.successProbabilityThreshold,
+  } = {}) {
+    const challengeDataObjects = await challengeDatasource.findOperativeFlashCompatible(locale);
+    const skills = await skillDatasource.list();
+    return _toDomainCollection({ challengeDataObjects, skills, successProbabilityThreshold });
+  },
+
   async findValidatedBySkillId(skillId) {
     const challengeDataObjects = await challengeDatasource.findValidatedBySkillId(skillId);
     const activeSkills = await skillDatasource.findActive();

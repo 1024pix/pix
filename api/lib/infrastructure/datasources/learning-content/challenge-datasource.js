@@ -51,4 +51,16 @@ module.exports = datasource.extend({
         challengeData.delta != null
     );
   },
+
+  async findOperativeFlashCompatible(locale) {
+    const challenges = await this.list();
+    return challenges.filter(
+      (challengeData) =>
+        _.includes(OPERATIVE_CHALLENGES, challengeData.status) &&
+        challengeData.skillId &&
+        _.includes(challengeData.locales, locale) &&
+        challengeData.alpha != null &&
+        challengeData.delta != null
+    );
+  },
 });
