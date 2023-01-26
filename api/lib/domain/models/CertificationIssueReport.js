@@ -113,17 +113,12 @@ class CertificationIssueReport {
 
     if (
       [
-        CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN,
         CertificationIssueReportCategories.NON_BLOCKING_CANDIDATE_ISSUE,
         CertificationIssueReportCategories.NON_BLOCKING_TECHNICAL_ISSUE,
         CertificationIssueReportCategories.SIGNATURE_ISSUE,
       ].includes(this.category)
     ) {
       this.subcategory = null;
-    }
-
-    if (this.category === CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN) {
-      this.description = null;
     }
 
     if (this.category !== CertificationIssueReportCategories.IN_CHALLENGE) {

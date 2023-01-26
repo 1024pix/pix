@@ -72,7 +72,7 @@ buildCertificationIssueReport.notImpactful = function ({
     resolvedAt,
     resolution,
     categoryId,
-    category: CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN,
+    category: CertificationIssueReportCategories.SIGNATURE_ISSUE,
     subcategory: null,
     hasBeenAutomaticallyResolved,
   });
