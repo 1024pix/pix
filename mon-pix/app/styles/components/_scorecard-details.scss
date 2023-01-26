@@ -70,12 +70,12 @@
 
   &__resume-or-start-button,
   &__improve-button {
-    margin-top: 30px;
+    margin: $spacing-m 0;
   }
 
   &__reset-button {
     width: 180px;
-    margin-top: 24px;
+    margin-top: $spacing-m;
   }
 
   &__reset-modal {
@@ -162,6 +162,7 @@
   &__name {
     margin: 15px 0;
     font-weight: $font-light;
+    font-size: 2rem;
     font-family: $font-open-sans;
   }
 
