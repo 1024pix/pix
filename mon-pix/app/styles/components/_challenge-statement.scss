@@ -27,7 +27,6 @@
 }
 
 .challenge-statement-instruction {
-
   &__text {
     width: 100%;
 
@@ -169,6 +168,7 @@
 .challenge-statement__action-link {
   width: 156px;
   height: 46px;
+  margin-bottom: $spacing-m;
   color: $pix-neutral-0;
   text-align: center;
   background-color: $pix-primary;
@@ -182,8 +182,6 @@
 }
 
 .challenge-statement__action-help {
-  position: relative;
-  top: 16px;
   font-size: 0.825rem;
 
   &--link {
