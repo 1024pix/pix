@@ -93,7 +93,7 @@ export default class Stages extends Component {
   }
 
   @action
-  onStageLevelChange(stage, event) {
-    stage.level = event.target.value;
+  onStageLevelChange(stage, level) {
+    stage.level = level;
   }
 }

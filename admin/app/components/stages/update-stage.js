@@ -73,9 +73,10 @@ export default class UpdateStage extends Component {
       await this._updateStage();
     }
   }
-
+  // TODO ICI
   @action
-  setLevel(event) {
-    this.form.level = event.target.value;
+  setLevel(level) {
+    this.form.level = level;
+    console.log(this.form);
   }
 }

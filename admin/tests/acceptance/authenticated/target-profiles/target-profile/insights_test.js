@@ -1,4 +1,4 @@
-import { currentURL, fillIn, click } from '@ember/test-helpers';
+import { currentURL, fillIn, select, click, triggerEvent } from '@ember/test-helpers';
 import { visit, clickByName, fillByLabel, waitForElementToBeRemoved } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -128,41 +128,6 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         assert.strictEqual(currentURL(), '/target-profiles/1/insights');
       });
 
-      test('it should edit the stage information', async function (assert) {
-        // given
-        server.create('stage', {
-          id: 100,
-          threshold: 10,
-          title: 'ancien titre',
-          message: 'ancien message',
-          prescriberTitle: 'ancien titre prescripteur',
-          prescriberDescription: 'ancienne description prescripteur',
-          targetProfile,
-        });
-
-        // when
-        const screen = await visit('/target-profiles/1');
-        await clickByName('Clés de lecture');
-        await clickByName('Voir détail');
-        await clickByName('Éditer');
-        await fillByLabel('Seuil', 20);
-        await fillByLabel('Titre', 'nouveau titre');
-        await fillByLabel('Message', 'nouveau message');
-        await fillByLabel('Titre pour le prescripteur', 'nouveau titre prescripteur');
-        await fillByLabel('Description pour le prescripteur', 'nouvelle description prescripteur');
-        await clickByName('Enregistrer');
-
-        // then
-        assert.strictEqual(currentURL(), '/target-profiles/1/stages/100');
-        assert.dom(screen.getByText('ID : 100')).exists();
-        assert.dom(screen.getByText('Seuil : 20')).exists();
-        assert.dom(screen.getByText('Titre : nouveau titre')).exists();
-        assert.dom(screen.getByText('Message : nouveau message')).exists();
-        assert.dom(screen.getByText('Titre pour le prescripteur : nouveau titre prescripteur')).exists();
-        assert.dom(screen.getByText('Description pour le prescripteur : nouvelle description prescripteur')).exists();
-        assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
-      });
-
       test('it should cancel stage edition', async function (assert) {
         // given
         server.create('stage', { id: 100, title: 'titre initial', targetProfile });
@@ -181,18 +146,141 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
       });
 
-      test('it should add a new stage', async function (assert) {
-        // when
-        const screen = await visit('/target-profiles/1');
-        await clickByName('Clés de lecture');
-        await clickByName('Palier par niveau');
-        await clickByName('Nouveau palier');
-        await fillByLabel('Titre du palier', 'mon super palier');
-        await clickByName('Enregistrer');
+      module('Stage level', function () {
+        test('it should add new stages', async function (assert) {
+          // when
+          const screen = await visit('/target-profiles/1');
+          await clickByName('Clés de lecture');
+          await clickByName('Palier par niveau');
+          await clickByName('Nouveau palier');
+          await clickByName('Nouveau palier');
 
-        // then
-        assert.dom(screen.getByText('mon super palier')).exists();
-        assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
+          const [firstStageTitleInput, secondStageTitleInput] = screen.getAllByLabelText('Titre du palier');
+          const [firstStageLevelButton] = screen.getAllByLabelText('Niveau du palier');
+          const [firstStageLevelMessage, secondStageLevelMessage] = screen.getAllByLabelText('Message du palier');
+          await fillIn(firstStageTitleInput, 'mon premier palier');
+          await fillIn(secondStageTitleInput, 'mon deuxième palier');
+          await click(firstStageLevelButton);
+          await screen.findByRole('listbox');
+          await click(screen.getByRole('option', { name: '3' }));
+          await fillIn(firstStageLevelMessage, 'mon message un');
+          await fillIn(secondStageLevelMessage, 'mon message deux');
+          await this.pauseTest();
+          await clickByName('Enregistrer');
+
+          // then
+          assert.dom(screen.getByText('mon premier palier')).exists();
+          assert.dom(screen.getByText('mon deuxième palier')).exists();
+          assert.dom(screen.getByText('3')).exists();
+          assert.dom(screen.getByText('0')).exists();
+          assert.dom(screen.getByText('mon message un')).exists();
+          assert.dom(screen.getByText('mon message deux')).exists();
+          assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
+        });
+
+        test('it should edit the stage information', async function (assert) {
+          // given
+          server.create('stage', {
+            id: 100,
+            level: 2,
+            title: 'ancien titre',
+            message: 'ancien message',
+            prescriberTitle: 'ancien titre prescripteur',
+            prescriberDescription: 'ancienne description prescripteur',
+            targetProfile,
+          });
+
+          // when
+          const screen = await visit('/target-profiles/1');
+          await clickByName('Clés de lecture');
+          await clickByName('Voir détail');
+          await clickByName('Éditer');
+          await click(screen.getByRole('button', { name: 'Niveau' }));
+          await screen.findByRole('listbox');
+          await click(screen.getByRole('option', { name: '1' }));
+          await fillByLabel('Titre', 'nouveau titre');
+          await fillByLabel('Message', 'nouveau message');
+          await fillByLabel('Titre pour le prescripteur', 'nouveau titre prescripteur');
+          await fillByLabel('Description pour le prescripteur', 'nouvelle description prescripteur');
+          await clickByName('Enregistrer');
+
+          // then
+          assert.strictEqual(currentURL(), '/target-profiles/1/stages/100');
+          assert.dom(screen.getByText('ID : 100')).exists();
+          assert.dom(screen.getByText('Niveau : 1')).exists();
+          assert.dom(screen.getByText('Titre : nouveau titre')).exists();
+          assert.dom(screen.getByText('Message : nouveau message')).exists();
+          assert.dom(screen.getByText('Titre pour le prescripteur : nouveau titre prescripteur')).exists();
+          assert.dom(screen.getByText('Description pour le prescripteur : nouvelle description prescripteur')).exists();
+          assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
+        });
+      });
+
+      module('Stage threshold', function () {
+        test('it should add new stages', async function (assert) {
+          // when
+          const screen = await visit('/target-profiles/1');
+          await clickByName('Clés de lecture');
+          await clickByName('Palier par seuil');
+          await clickByName('Nouveau palier');
+          await clickByName('Nouveau palier');
+
+          const [firstStageTitleInput, secondStageTitleInput] = screen.getAllByLabelText('Titre du palier');
+          const [firstStageThresholdInput, secondStageThresholdInput] = screen.getAllByLabelText('Seuil du palier');
+          const [firstStageLevelMessage, secondStageLevelMessage] = screen.getAllByLabelText('Message du palier');
+          await fillIn(firstStageTitleInput, 'mon premier palier');
+          await fillIn(secondStageTitleInput, 'mon deuxième palier');
+          await fillIn(firstStageThresholdInput, 20);
+          await fillIn(secondStageThresholdInput, 50);
+          await fillIn(firstStageLevelMessage, 'mon message 1');
+          await fillIn(secondStageLevelMessage, 'mon message 2');
+          await clickByName('Enregistrer');
+          await this.pauseTest();
+
+          // then
+          assert.dom(screen.getByText('mon premier palier')).exists();
+          assert.dom(screen.getByText('mon deuxième palier')).exists();
+          assert.dom(screen.getByText(20)).exists();
+          assert.dom(screen.getByText(50)).exists();
+          assert.dom(screen.getByText('mon message 1')).exists();
+          assert.dom(screen.getByText('mon message 2')).exists();
+          assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
+        });
+
+        test('it should edit the stage information', async function (assert) {
+          // given
+          server.create('stage', {
+            id: 100,
+            threshold: 10,
+            title: 'ancien titre',
+            message: 'ancien message',
+            prescriberTitle: 'ancien titre prescripteur',
+            prescriberDescription: 'ancienne description prescripteur',
+            targetProfile,
+          });
+
+          // when
+          const screen = await visit('/target-profiles/1');
+          await clickByName('Clés de lecture');
+          await clickByName('Voir détail');
+          await clickByName('Éditer');
+          await fillByLabel('Seuil', 20);
+          await fillByLabel('Titre', 'nouveau titre');
+          await fillByLabel('Message', 'nouveau message');
+          await fillByLabel('Titre pour le prescripteur', 'nouveau titre prescripteur');
+          await fillByLabel('Description pour le prescripteur', 'nouvelle description prescripteur');
+          await clickByName('Enregistrer');
+
+          // then
+          assert.strictEqual(currentURL(), '/target-profiles/1/stages/100');
+          assert.dom(screen.getByText('ID : 100')).exists();
+          assert.dom(screen.getByText('Seuil : 20')).exists();
+          assert.dom(screen.getByText('Titre : nouveau titre')).exists();
+          assert.dom(screen.getByText('Message : nouveau message')).exists();
+          assert.dom(screen.getByText('Titre pour le prescripteur : nouveau titre prescripteur')).exists();
+          assert.dom(screen.getByText('Description pour le prescripteur : nouvelle description prescripteur')).exists();
+          assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
+        });
       });
     });
 
