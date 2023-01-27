@@ -24,6 +24,8 @@ describe('Unit | Serializer | JSONAPI | profile', function () {
       const profile = {
         scorecards: expectedScorecards,
         pixScore: 45,
+        maxReachableLevel: 6,
+        maxReachablePixScore: 768,
       };
 
       const expectedSerializedProfile = {
@@ -31,6 +33,8 @@ describe('Unit | Serializer | JSONAPI | profile', function () {
           type: 'Profiles',
           attributes: {
             'pix-score': 45,
+            'max-reachable-level': 6,
+            'max-reachable-pix-score': 768,
           },
           relationships: {
             scorecards: {

@@ -14,7 +14,7 @@ module.exports = {
           return scorecard;
         }),
       }),
-      attributes: ['pixScore', 'scorecards'],
+      attributes: ['pixScore', 'maxReachableLevel', 'maxReachablePixScore', 'scorecards'],
       scorecards: {
         ref: 'id',
         attributes: [
