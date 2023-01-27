@@ -1341,6 +1341,7 @@
       "badges-title": "Vos résultats thématiques",
       "details": {
         "title": "Vos résultats par compétence",
+        "flash-pix-score": "{score, number, ::.} Pix",
         "header-result": "Résultats",
         "header-skill": "Compétences testées",
         "result": "Résultat global",
