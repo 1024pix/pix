@@ -61,8 +61,6 @@ module('Unit | Component | organizations/all-tags', function (hooks) {
         // when
         await component.removeTagToOrganization(tag2);
 
-        console.log(component);
-
         // then
         sinon.assert.calledOnce(saveStub);
         assert.strictEqual(component.args.model.organization.tags.length, 1);
