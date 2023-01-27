@@ -38,23 +38,12 @@
       <label for="prescriberTitle" class="form-field__label">
         Titre pour le prescripteur
       </label>
-      <Input
-        id="prescriberTitle"
-        @type="text"
-        class="form-control"
-        @value={{this.prescriberTitle}}
-        maxlength="255"
-      />
+      <Input id="prescriberTitle" @type="text" class="form-control" @value={{this.prescriberTitle}} maxlength="255" />
 
       <label for="prescriberDescription" class="form-field__label">
         Description pour le prescripteur
       </label>
-      <Textarea
-        id="prescriberDescription"
-        class="form-control"
-        @value={{this.prescriberDescription}}
-        rows="4"
-      />
+      <Textarea id="prescriberDescription" class="form-control" @value={{this.prescriberDescription}} rows="4" />
     </div>
     <div class="form-actions">
       <PixButton
