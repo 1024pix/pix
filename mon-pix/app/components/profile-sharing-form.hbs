@@ -1,4 +1,4 @@
-<form {{on "submit" @sendProfile}} class="send-profile-header__form">
+<form {{on "submit" this.sendProfile}} class="send-profile-header__form">
   <p class="send-profile-header__recipient">
     {{t "pages.send-profile.form.recipient" recipient=@campaign.organizationName}}
   </p>
