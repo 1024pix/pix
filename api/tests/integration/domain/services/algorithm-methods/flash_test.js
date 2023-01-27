@@ -768,82 +768,6 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
           ],
         });
       });
-
-      it("should not count a skill's score more than once", function () {
-        // given
-        const skills = [
-          domainBuilder.buildSkill({ id: 'Skill1', pixValue: 1, competenceId: 'FirstCompetence' }),
-          domainBuilder.buildSkill({ id: 'Skill2', pixValue: 10, competenceId: 'FirstCompetence' }),
-          domainBuilder.buildSkill({ id: 'Skill3', pixValue: 100, competenceId: 'SecondCompetence' }),
-        ];
-
-        const successProbabilityThreshold = 0.95;
-
-        const inferredChallenges = [
-          domainBuilder.buildChallenge({
-            id: 'Skill1Challenge',
-            skill: skills[0],
-            discriminant: 1.86350005965093,
-            difficulty: 0.194712138508747,
-            successProbabilityThreshold,
-          }), // minimumCapability: 1.7747705688358126
-          domainBuilder.buildChallenge({
-            id: 'Skill3LowestChallenge',
-            skill: skills[2],
-            discriminant: 2.65,
-            difficulty: -1.2,
-            successProbabilityThreshold,
-          }), // minimumCapability: -0.08889095125794655
-          domainBuilder.buildChallenge({
-            id: 'Skill3MediumChallenge',
-            skill: skills[2],
-            discriminant: 2.65,
-            difficulty: 0.9,
-            successProbabilityThreshold,
-          }), // minimumCapability: 1.9111090487420535
-        ];
-
-        const notInferredChallenges = [
-          domainBuilder.buildChallenge({
-            id: 'Skill2Challenge',
-            skill: skills[1],
-            discriminant: 2.25422414740233,
-            difficulty: 0.823376599163319,
-            successProbabilityThreshold,
-          }), // minimumCapability: 2.1295639109084643
-          domainBuilder.buildChallenge({
-            id: 'Skill3HighestChallenge1',
-            skill: skills[2],
-            discriminant: 1.4,
-            difficulty: 0.9,
-            successProbabilityThreshold,
-          }), // minimumCapability: 3.0031706994046012
-        ];
-
-        const challenges = [...inferredChallenges, ...notInferredChallenges];
-
-        const estimatedLevel = 2;
-
-        const allAnswers = [];
-
-        // when
-        const result = flash.calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, estimatedLevel });
-
-        // then
-        expect(result).to.deep.equal({
-          pixScore: 101,
-          pixScoreByCompetence: [
-            {
-              competenceId: 'FirstCompetence',
-              pixScore: 1,
-            },
-            {
-              competenceId: 'SecondCompetence',
-              pixScore: 100,
-            },
-          ],
-        });
-      });
     });
 
     describe('when there are answers', function () {
@@ -956,47 +880,141 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
           ],
         });
       });
+    });
 
-      it('should not count a skill more than once in direct score', function () {
+    describe('when there are several challenges for the same skill', function () {
+      it("should not count a skill's score more than once", function () {
         // given
-        const skill = domainBuilder.buildSkill({ id: 'FirstSkill', pixValue: 1, competenceId: 'FirstCompetence' });
+        const skills = [
+          domainBuilder.buildSkill({ id: 'Skill1', pixValue: 1, competenceId: 'FirstCompetence' }),
+          domainBuilder.buildSkill({ id: 'Skill2', pixValue: 10, competenceId: 'FirstCompetence' }),
+          domainBuilder.buildSkill({ id: 'Skill3', pixValue: 100, competenceId: 'SecondCompetence' }),
+        ];
 
         const successProbabilityThreshold = 0.95;
 
-        const challenges = [
+        const succeededChallenges = [
           domainBuilder.buildChallenge({
-            id: 'First',
-            skill,
-            discriminant: 0.16,
-            difficulty: -2,
+            id: 'Skill1Challenge1',
+            skill: skills[0],
+            discriminant: 1.86350005965093,
+            difficulty: 0.194712138508747,
             successProbabilityThreshold,
-          }),
+          }), // minimumCapability: 1.7747705688358126
           domainBuilder.buildChallenge({
-            id: 'Second',
-            skill,
-            discriminant: 3,
-            difficulty: 6,
+            id: 'Skill1Challenge2',
+            skill: skills[0],
+            discriminant: 1.86350005965093,
+            difficulty: 0.194712138508747,
             successProbabilityThreshold,
-          }),
+          }), // minimumCapability: 1.7747705688358126
+          domainBuilder.buildChallenge({
+            id: 'Skill1Challenge3',
+            skill: skills[0],
+            discriminant: 1.86350005965093,
+            difficulty: 0.194712138508747,
+            successProbabilityThreshold,
+          }), // minimumCapability: 1.7747705688358126
         ];
 
+        const inferredChallenges = [
+          domainBuilder.buildChallenge({
+            id: 'Skill3LowestChallenge',
+            skill: skills[2],
+            discriminant: 2.65,
+            difficulty: -1.2,
+            successProbabilityThreshold,
+          }), // minimumCapability: -0.08889095125794655
+          domainBuilder.buildChallenge({
+            id: 'Skill3MediumChallenge',
+            skill: skills[2],
+            discriminant: 2.65,
+            difficulty: 0.9,
+            successProbabilityThreshold,
+          }), // minimumCapability: 1.9111090487420535
+        ];
+
+        const notInferredChallenges = [
+          domainBuilder.buildChallenge({
+            id: 'Skill2Challenge',
+            skill: skills[1],
+            discriminant: 2.25422414740233,
+            difficulty: 0.823376599163319,
+            successProbabilityThreshold,
+          }), // minimumCapability: 2.1295639109084643
+          domainBuilder.buildChallenge({
+            id: 'Skill3HighestChallenge1',
+            skill: skills[2],
+            discriminant: 1.4,
+            difficulty: 0.9,
+            successProbabilityThreshold,
+          }), // minimumCapability: 3.0031706994046012
+        ];
+
+        const challenges = [...succeededChallenges, ...inferredChallenges, ...notInferredChallenges];
+
+        const estimatedLevel = 2;
+
         const allAnswers = [
-          domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[0].id }),
-          domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[1].id }),
+          domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: succeededChallenges[0].id }),
+          domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: succeededChallenges[1].id }),
         ];
 
         // when
-        const result = flash.calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges });
+        const result = flash.calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, estimatedLevel });
 
         // then
         expect(result).to.deep.equal({
-          pixScore: 1,
+          pixScore: 101,
           pixScoreByCompetence: [
             {
               competenceId: 'FirstCompetence',
               pixScore: 1,
             },
+            {
+              competenceId: 'SecondCompetence',
+              pixScore: 100,
+            },
           ],
+        });
+      });
+
+      it('should prioritize validated challenges for inferrence', async function () {
+        // given
+        const skills = [domainBuilder.buildSkill({ id: 'Skill1', pixValue: 1, competenceId: 'FirstCompetence' })];
+
+        const successProbabilityThreshold = 0.95;
+
+        const challenges = [
+          domainBuilder.buildChallenge({
+            id: 'ArchivedChallenge',
+            status: 'archivé',
+            skill: skills[0],
+            discriminant: 1.86350005965093,
+            difficulty: 0.194712138508747,
+            successProbabilityThreshold,
+          }), // minimumCapability: 1.7747705688358126
+          domainBuilder.buildChallenge({
+            id: 'ValidatedChallenge',
+            status: 'validé',
+            skill: skills[0],
+            discriminant: 2.25422414740233,
+            difficulty: 0.823376599163319,
+            successProbabilityThreshold,
+          }), // minimumCapability: 2.1295639109084643
+        ];
+
+        const estimatedLevel = 2;
+
+        const allAnswers = [];
+
+        // when
+        const result = flash.calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, estimatedLevel });
+
+        // then
+        expect(result).to.deep.equal({
+          pixScore: 0,
+          pixScoreByCompetence: [],
         });
       });
     });
