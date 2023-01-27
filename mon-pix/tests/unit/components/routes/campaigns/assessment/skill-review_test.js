@@ -756,22 +756,4 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       assert.ok(true);
     });
   });
-
-  module('#showDetail', function () {
-    test('should be true when campaign is not FLASH', async function (assert) {
-      // given
-      component.args.model.campaign.isFlash = false;
-
-      // then
-      assert.true(component.showDetail);
-    });
-
-    test('should be false when campaign is FLASH', async function (assert) {
-      // given
-      component.args.model.campaign.isFlash = true;
-
-      // then
-      assert.false(component.showDetail);
-    });
-  });
 });

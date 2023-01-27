@@ -112,10 +112,6 @@ export default class SkillReview extends Component {
     return this.args.model.campaign.isFlash;
   }
 
-  get showDetail() {
-    return !this.isFlashCampaign;
-  }
-
   get masteryRate() {
     return this.args.model.campaignParticipationResult.masteryRate;
   }
