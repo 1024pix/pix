@@ -17,7 +17,6 @@ export default class FileSaverService extends Service {
     }
 
     const fileName = _getFileNameFromHeader(response.headers);
-    console.log(response);
     const fileContent = await response.blob();
 
     const browserIsInternetExplorer = window.document.documentMode;
