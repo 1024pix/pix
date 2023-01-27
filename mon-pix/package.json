@@ -82,7 +82,7 @@
     "ember-data": "^4.0.2",
     "ember-dayjs": "^0.10.3",
     "ember-decorators": "^6.1.1",
-    "ember-exam": "^6.0.1",
+    "ember-exam": "^8.0.0",
     "ember-export-application-global": "^2.0.1",
     "ember-fetch": "^8.1.2",
     "ember-intl": "^5.7.2",
