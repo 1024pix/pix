@@ -234,7 +234,6 @@ module('Acceptance | Target Profile Insights', function (hooks) {
           await fillIn(firstStageLevelMessage, 'mon message 1');
           await fillIn(secondStageLevelMessage, 'mon message 2');
           await clickByName('Enregistrer');
-          await this.pauseTest();
 
           // then
           assert.dom(screen.getByText('mon premier palier')).exists();
