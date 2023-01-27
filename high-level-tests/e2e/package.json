@@ -1,6 +1,6 @@
 {
   "name": "pix-e2e",
-  "version": "0.421.0",
+  "version": "0.422.0",
   "description": "Permet d'exécuter des tests de bout en bout sur la plateforme Pix",
   "homepage": "https://github.com/1024pix/pix#readme",
   "author": "GIP Pix",
