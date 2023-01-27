@@ -1,6 +1,7 @@
 const { sinon, expect, domainBuilder } = require('../../../test-helper');
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
 const getUserProfile = require('../../../../lib/domain/usecases/get-user-profile');
+const constants = require('../../../../lib/domain/constants');
 const _ = require('lodash');
 
 function assertScorecard(userScorecard, expectedUserScorecard) {
@@ -146,6 +147,11 @@ describe('Unit | UseCase | get-user-profile', function () {
           })
           .returns(expectedUserScorecard[2]);
 
+        const expectedMaxReachableLevel = Symbol('maxReachableLevel');
+        const expectedMaxReachablePixScore = Symbol('maxReachablePixCount');
+        sinon.stub(constants, 'MAX_REACHABLE_LEVEL').value(expectedMaxReachableLevel);
+        sinon.stub(constants, 'MAX_REACHABLE_PIX_SCORE').value(expectedMaxReachablePixScore);
+
         const expectedPixScore = _.sumBy(expectedUserScorecard, 'earnedPix');
 
         // when
@@ -160,6 +166,8 @@ describe('Unit | UseCase | get-user-profile', function () {
 
         //then
         expect(userProfile.pixScore).to.equal(expectedPixScore);
+        expect(userProfile.maxReachableLevel).to.equal(expectedMaxReachableLevel);
+        expect(userProfile.maxReachablePixScore).to.equal(expectedMaxReachablePixScore);
         assertScorecard(userProfile.scorecards[0], expectedUserScorecard[0]);
         assertScorecard(userProfile.scorecards[1], expectedUserScorecard[1]);
         assertScorecard(userProfile.scorecards[2], expectedUserScorecard[2]);

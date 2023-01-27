@@ -1,4 +1,5 @@
 const Scorecard = require('../models/Scorecard');
+const constants = require('../constants');
 const _ = require('lodash');
 
 module.exports = async function getUserProfile({
@@ -31,10 +32,14 @@ module.exports = async function getUserProfile({
   });
 
   const pixScore = _.sumBy(scorecards, 'earnedPix');
+  const maxReachableLevel = constants.MAX_REACHABLE_LEVEL;
+  const maxReachablePixScore = constants.MAX_REACHABLE_PIX_SCORE;
 
   return {
     id: userId,
     pixScore,
     scorecards,
+    maxReachablePixScore,
+    maxReachableLevel,
   };
 };
