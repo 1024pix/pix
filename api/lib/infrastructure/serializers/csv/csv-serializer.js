@@ -2,6 +2,8 @@ const logger = require('../../logger');
 const { FileValidationError } = require('../../../../lib/domain/errors');
 const { convertDateValue } = require('../../utils/date-utils');
 const { headers, COMPLEMENTARY_CERTIFICATION_SUFFIX } = require('../../utils/csv/sessions-import');
+const { isEmpty } = require('lodash');
+const csvHelpers = require('../../../../scripts/helpers/csvHelpers');
 
 function _csvFormulaEscapingPrefix(data) {
   const mayBeInterpretedAsFormula = /^[-@=+]/.test(data);
@@ -62,6 +64,77 @@ function deserializeForSessionsImport(parsedCsvData) {
     ...session,
     examiner: session.examiner?.join(', '),
   }));
+}
+
+async function deserializeForOrganizationsImport(file) {
+  const requiredFieldNames = [
+    'type',
+    'externalId',
+    'name',
+    'provinceCode',
+    'credit',
+    'emailInvitations',
+    'emailForSCOActivation',
+    'identityProviderForCampaigns',
+    'organizationInvitationRole',
+    'locale',
+    'tags',
+    'createdBy',
+    'documentationUrl',
+    'targetProfiles',
+    'isManagingStudents',
+    'DPOFirstName',
+    'DPOLastName',
+    'DPOEmail',
+  ];
+  const batchOrganizationOptionsWithHeader = {
+    skipEmptyLines: true,
+    header: true,
+    transformHeader: (header) => header?.trim(),
+    transform: (value, columnName) => {
+      if (typeof value === 'string') {
+        value = value.trim();
+      }
+      if (columnName === 'isManagingStudents') {
+        value = value?.toLowerCase() === 'true';
+      }
+      if (!isEmpty(value)) {
+        if (
+          columnName === 'type' ||
+          columnName === 'organizationInvitationRole' ||
+          columnName === 'identityProviderForCampaigns'
+        ) {
+          value = value.toUpperCase();
+        }
+        if (columnName === 'createdBy') {
+          value = parseInt(value, 10);
+        }
+        if (columnName === 'emailInvitations' || columnName === 'emailForSCOActivation' || columnName === 'DPOEmail') {
+          value = value.replaceAll(' ', '').toLowerCase();
+        }
+      } else {
+        if (columnName === 'credit') {
+          value = 0;
+        }
+        if (
+          columnName === 'identityProviderForCampaigns' ||
+          columnName === 'DPOFirstName' ||
+          columnName === 'DPOLastName' ||
+          columnName === 'DPOEmail'
+        ) {
+          value = null;
+        }
+        if (columnName === 'locale') {
+          value = 'fr-fr';
+        }
+      }
+      return value;
+    },
+  };
+
+  await csvHelpers.checkCsvHeader({ filePath: file, requiredFieldNames });
+
+  return await csvHelpers.parseCsvWithHeader(file, batchOrganizationOptionsWithHeader);
 }
 
 function _hasSessionIdAndCandidateInformation(data) {
@@ -200,4 +273,5 @@ module.exports = {
     return lineArray.map(_csvSerializeValue).join(';') + '\n';
   },
   deserializeForSessionsImport,
+  deserializeForOrganizationsImport,
 };

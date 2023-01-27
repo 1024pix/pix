@@ -8,6 +8,7 @@ const identifiersType = require('../../domain/types/identifiers-type');
 const ERRORS = {
   PAYLOAD_TOO_LARGE: 'PAYLOAD_TOO_LARGE',
 };
+const TWENTY_MEGABYTES = 1048576 * 20;
 
 exports.register = async (server) => {
   const adminRoutes = [
@@ -32,6 +33,39 @@ exports.register = async (server) => {
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             '- SUPER_ADMIN, SUPPORT ou METIER\n' +
             '- Elle permet de créer une nouvelle organisation',
+        ],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/admin/organizations/import-csv',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        payload: {
+          maxBytes: TWENTY_MEGABYTES,
+          output: 'file',
+          failAction: (request, h) => {
+            return sendJsonApiError(
+              new PayloadTooLargeError('An error occurred, payload is too large', ERRORS.PAYLOAD_TOO_LARGE, {
+                maxSize: '20',
+              }),
+              h
+            );
+          },
+        },
+        handler: organizationController.createInBatch,
+        tags: ['api', 'organizations'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            '- Elle permet de créer de nouvelles organisations en masse.',
         ],
       },
     },
@@ -864,7 +898,7 @@ exports.register = async (server) => {
           }),
         },
         payload: {
-          maxBytes: 1048576 * 20, // 20MB
+          maxBytes: TWENTY_MEGABYTES,
           output: 'file',
           failAction: (request, h) => {
             return sendJsonApiError(
