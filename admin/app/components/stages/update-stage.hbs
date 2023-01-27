@@ -9,14 +9,14 @@
           @id="threshold-or-level"
           @maxLevel={{@maxLevel}}
           @onChange={{this.setLevel}}
-          @value={{this.form.level}}
+          @value={{this.level}}
         />
       {{else}}
         <Input
           id="threshold-or-level"
           @type="number"
           class="form-control"
-          @value={{this.form.threshold}}
+          @value={{this.threshold}}
           min="0"
           max="100"
         />
@@ -26,41 +26,24 @@
       <label for="title" class="form-field__label">
         Titre
       </label>
-      <Input id="title" @type="text" class="form-control" @value={{this.form.title}} />
+      <Input id="title" @type="text" class="form-control" @value={{this.title}} />
       <br />
 
       <label for="message" class="form-field__label">
         Message
       </label>
-      <Textarea id="message" class="form-control" @value={{this.form.message}} rows="4" />
+      <Textarea id="message" class="form-control" @value={{this.message}} rows="4" />
       <br />
 
       <label for="prescriberTitle" class="form-field__label">
         Titre pour le prescripteur
       </label>
-      <Input
-        id="prescriberTitle"
-        @type="text"
-        class="form-control {{if (v-get this.form 'prescriberTitle' 'isInvalid') 'is-invalid'}}"
-        @value={{this.form.prescriberTitle}}
-      />
-
-      {{#if (v-get this.form "prescriberTitle" "isInvalid")}}
-        <div class="form-field__error">
-          {{v-get this.form "prescriberTitle" "message"}}
-        </div>
-      {{/if}}
-      <br />
+      <Input id="prescriberTitle" @type="text" class="form-control" @value={{this.prescriberTitle}} maxlength="255" />
 
       <label for="prescriberDescription" class="form-field__label">
         Description pour le prescripteur
       </label>
-      <Textarea
-        id="prescriberDescription"
-        class="form-control {{if (v-get this.form 'prescriberDescription' 'isInvalid') 'is-invalid'}}"
-        @value={{this.form.prescriberDescription}}
-        rows="4"
-      />
+      <Textarea id="prescriberDescription" class="form-control" @value={{this.prescriberDescription}} rows="4" />
     </div>
     <div class="form-actions">
       <PixButton

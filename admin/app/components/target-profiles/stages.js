@@ -50,7 +50,7 @@ export default class Stages extends Component {
   addStage() {
     this.store.createRecord('stage', {
       targetProfile: this.args.targetProfile,
-      level: this.isTypeLevel ? 0 : undefined,
+      level: this.isTypeLevel ? '0' : undefined,
     });
   }
 
@@ -93,7 +93,7 @@ export default class Stages extends Component {
   }
 
   @action
-  onStageLevelChange(stage, event) {
-    stage.level = event.target.value;
+  onStageLevelChange(stage, level) {
+    stage.level = level;
   }
 }

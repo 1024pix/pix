@@ -24,11 +24,11 @@ module('Unit | Component | update-stage', function (hooks) {
       const event = {
         preventDefault: sinon.stub(),
       };
-      component.form.threshold = 42;
-      component.form.title = 'titre modifié';
-      component.form.message = 'message modifié';
-      component.form.prescriberTitle = 'palier intermédiaire';
-      component.form.prescriberDescription = 'le niveau est moyen';
+      component.threshold = 42;
+      component.title = 'titre modifié';
+      component.message = 'message modifié';
+      component.prescriberTitle = 'palier intermédiaire';
+      component.prescriberDescription = 'le niveau est moyen';
 
       component.notifications = { success: sinon.stub(), error: sinon.stub() };
 
@@ -64,9 +64,9 @@ module('Unit | Component | update-stage', function (hooks) {
       };
       component.threshold = 50;
       component.title = 'titre du palier';
-      component.form.message = '';
-      component.form.prescriberDescription = 'Ceci est une description';
-      component.form.prescriberTitle = '';
+      component.message = '';
+      component.prescriberDescription = 'Ceci est une description';
+      component.prescriberTitle = '';
 
       // when
       await component.updateStage(event);
@@ -97,11 +97,11 @@ module('Unit | Component | update-stage', function (hooks) {
       const event = {
         preventDefault: sinon.stub(),
       };
-      component.form.threshold = 50;
-      component.form.title = '';
-      component.form.message = '';
-      component.form.prescriberTitle = 'palier intermédiaire';
-      component.form.prescriberDescription = 'le niveau est moyen';
+      component.threshold = 50;
+      component.title = '';
+      component.message = '';
+      component.prescriberTitle = 'palier intermédiaire';
+      component.prescriberDescription = 'le niveau est moyen';
 
       component.notifications = { success: sinon.stub(), error: sinon.stub() };
 
