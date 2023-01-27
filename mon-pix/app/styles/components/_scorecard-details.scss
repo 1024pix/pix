@@ -8,8 +8,9 @@
 }
 
 .tutorials-header {
-
   &__title {
+    @extend h3;
+
     margin-bottom: 4px;
   }
 
@@ -33,6 +34,7 @@
     font-size: 1.25rem;
     font-family: $font-open-sans;
     line-height: 2.125rem;
+    letter-spacing: 0;
   }
 
   &__content {
@@ -47,7 +49,6 @@
 }
 
 .scorecard-details {
-
   &__content {
     display: flex;
     flex-direction: column;
@@ -101,7 +102,6 @@
 }
 
 .scorecard-details-content {
-
   &__left {
     display: flex;
     flex-direction: column;
@@ -133,7 +133,6 @@
 }
 
 .scorecard-details-content-left {
-
   &__area {
     font-size: 0.875rem;
     letter-spacing: 0.125rem;
@@ -175,7 +174,6 @@
 }
 
 .scorecard-details-content-right {
-
   &__score-container {
     display: flex;
     flex-direction: row;
@@ -200,7 +198,6 @@
 }
 
 .scorecard-details-content-right-score-container {
-
   &__pix-earned {
     display: flex;
     flex-direction: column;
@@ -212,7 +209,6 @@
 }
 
 .scorecard-details-reset-modal {
-
   &__important-message {
     margin-bottom: $spacing-s;
     color: $pix-neutral-110;
@@ -249,7 +245,6 @@
 }
 
 .scorecard-details-improvement-countdown {
-
   &__label {
     color: $pix-neutral-60;
     font-size: 0.6875rem;

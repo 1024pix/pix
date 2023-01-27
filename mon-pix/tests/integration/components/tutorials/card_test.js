@@ -35,8 +35,8 @@ module('Integration | Component | Tutorials | Card', function (hooks) {
       // then
       assert.dom('.tutorial-card').exists();
       assert.dom('.tutorial-card__content').exists();
-      assert.ok(find('.tutorial-card-content__link').textContent.includes('Mon super tutoriel'));
-      assert.strictEqual(find('.tutorial-card-content__link').href, 'https://exemple.net/');
+      assert.ok(find('.tutorial-card-content__title a').textContent.includes('Mon super tutoriel'));
+      assert.strictEqual(find('.tutorial-card-content__title a').href, 'https://exemple.net/');
       assert.ok(find('.tutorial-card-content__details').textContent.includes('mon-tuto'));
       assert.ok(find('.tutorial-card-content__details').textContent.includes('vidéo'));
       assert.ok(find('.tutorial-card-content__details').textContent.includes('une minute'));
@@ -75,8 +75,8 @@ module('Integration | Component | Tutorials | Card', function (hooks) {
       // then
       assert.dom('.tutorial-card').exists();
       assert.dom('.tutorial-card__content').exists();
-      assert.ok(find('.tutorial-card-content__link').textContent.includes('Mon super tutoriel'));
-      assert.strictEqual(find('.tutorial-card-content__link').href, 'https://exemple.net/');
+      assert.ok(find('.tutorial-card-content__title a').textContent.includes('Mon super tutoriel'));
+      assert.strictEqual(find('.tutorial-card-content__title a').href, 'https://exemple.net/');
       assert.ok(find('.tutorial-card-content__details').textContent.includes('mon-tuto'));
       assert.ok(find('.tutorial-card-content__details').textContent.includes('vidéo'));
       assert.ok(find('.tutorial-card-content__details').textContent.includes('une minute'));

@@ -15,13 +15,10 @@
 }
 
 .tutorial-card-content {
-
-  &__link {
+  &__title {
     display: -webkit-box;
-    width: 100%;
     margin-bottom: 4px;
     overflow: hidden;
-    color: $pix-neutral-90;
     font-weight: $font-semi-bold;
     font-size: 1.25rem;
     font-family: $font-open-sans;
@@ -30,9 +27,13 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 
-    &:hover,
-    &:focus {
-      color: $pix-primary;
+    a {
+      color: $pix-neutral-90;
+
+      &:hover,
+      &:focus {
+        color: $pix-primary;
+      }
     }
   }
 
