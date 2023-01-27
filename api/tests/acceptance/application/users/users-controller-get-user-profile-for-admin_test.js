@@ -7,6 +7,7 @@ const {
 } = require('../../../test-helper');
 
 const createServer = require('../../../../server');
+const constants = require('../../../../lib/domain/constants');
 
 describe('Acceptance | Controller | users-controller-get-user-profile-for-admin', function () {
   let options;
@@ -133,6 +134,8 @@ describe('Acceptance | Controller | users-controller-get-user-profile-for-admin'
             type: 'Profiles',
             attributes: {
               'pix-score': knowledgeElement.earnedPix,
+              'max-reachable-level': constants.MAX_REACHABLE_LEVEL,
+              'max-reachable-pix-score': constants.MAX_REACHABLE_PIX_SCORE,
             },
             relationships: {
               scorecards: {
