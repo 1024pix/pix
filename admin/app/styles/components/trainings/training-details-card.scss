@@ -1,0 +1,27 @@
+.training-details-card {
+  display: grid;
+  grid-template-columns: 1fr 180px;
+  gap: 2rem;
+
+  &__title {
+    @include h3;
+  }
+
+  &__details {
+    margin-top: 1.5rem;
+  }
+
+  &__details-label {
+    float: left;
+  }
+
+  &__details-value {
+    margin-bottom: 0.5rem;
+
+    &::after {
+      content: '';
+      display: table;
+      clear: left;
+    }
+  }
+}

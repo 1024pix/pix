@@ -57,6 +57,20 @@ module('Acceptance | Trainings | List', function (hooks) {
         // then
         assert.strictEqual(currentURL(), '/trainings/new');
       });
+
+      test('it should redirect to training details page when clicking on training name in the list', async function (assert) {
+        // given
+        server.create('training-summary', { id: 1, title: 'Formation 1' });
+        server.create('training', { id: 1, title: 'Formation 1' });
+        const screen = await visit('/trainings/list');
+
+        // when
+        await clickByName('Formation 1');
+
+        // then
+        assert.strictEqual(currentURL(), '/trainings/1');
+        assert.dom(screen.getByText('Formation 1')).exists();
+      });
     });
   });
 });

@@ -32,4 +32,6 @@ export default class Training extends Model {
     }),
   })
   duration;
+  @attr('number') prerequisiteThreshold;
+  @attr('number') goalThreshold;
 }
