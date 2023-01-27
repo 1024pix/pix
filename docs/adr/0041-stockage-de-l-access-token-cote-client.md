@@ -25,15 +25,18 @@ de l'access token avant expiration (expires_in, refresh_token)
 
 **Description :**
 
-Utilisation du store CookieStore de EmberSimpleAuth à la place de AdaptiveStore
+Configurer EmberSimpleAuth pour utiliser le CookieStorage à la place du LocalStorage qui est le stockage par défaut.
 
 **Avantage(s) :**
 
-- Stockage de l'access token dans un cookie sécurisé (httpOnly, isSecure)
+- Stockage de l'access token dans un cookie sécurisé (httpOnly, isSecure), donc non visible par du code JavaScript.
+- Le navigateur gère automatiquement l'envoi des cookies dans chacune des requêtes.
+- Le back sera la seule entité à pouvoir utiliser les informations du cookie
 
 **Inconvénient(s) :**
 
-- Quitter le flow OAuth 2 : https://github.com/mainmatter/ember-simple-auth/issues/1907
+- Incompatibilité entre l'utilisation des cookies et du flow OAuth2 par le fonctionnement d'EmberSimpleAuth. Ce qui nous pousserait à ne plus utiliser le flow OAuth2 (voir https://github.com/mainmatter/ember-simple-auth/issues/1907).
+- Tout l'objet de session EmberSimpleAuth sera ajouté sur toutes les requêtes
 
 ## Décision
 
