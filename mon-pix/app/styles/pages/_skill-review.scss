@@ -137,6 +137,10 @@
 
 .skill-review-retry {
 
+  &__message {
+    margin: 1em 0;
+  }
+
   &__button {
     padding: 10px;
     font-size: 0.875rem;
@@ -184,6 +188,7 @@
   &__item {
     width: 100%;
     padding: 0;
+    overflow: hidden;
     transition: all 0.2s ease-in-out;
 
     &:hover {

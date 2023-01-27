@@ -22,6 +22,9 @@ export default class Card extends Component {
     return this.intl.t(`pages.training.type.${this.args.training.type}`);
   }
 
+  get tagTitle() {
+    return `${this.type} - ${this.durationFormatted}`;
+  }
   get tagColor() {
     if (this.args.training.isAutoformation) {
       return 'blue-light';

@@ -107,9 +107,11 @@
 
   &__title {
     font-weight: $font-normal;
+    font-size: 1.5rem;
   }
 
   &__description {
+    margin: 1.2rem 0;
     font-size: 1.2rem;
   }
 
