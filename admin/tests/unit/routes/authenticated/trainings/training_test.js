@@ -9,7 +9,7 @@ module('Unit | Route | authenticated/trainings/{id}/', function (hooks) {
   module('#beforeModel', function () {
     test('it should check if current user is "SUPER_ADMIN", "METIER" or "SUPPORT"', function (assert) {
       // given
-      const route = this.owner.lookup('route:authenticated/trainings/training/details');
+      const route = this.owner.lookup('route:authenticated/trainings/training');
 
       const restrictAccessToStub = sinon.stub().returns();
       class AccessControlStub extends Service {
