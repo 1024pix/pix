@@ -8,6 +8,9 @@
       "internal-server-error": "An error occurred, our teams are working on finding a solution. Please try again later.",
       "gateway-timeout-error": "The service is being slow. Please try again later."
     },
+    "notifications": {
+      "generic-error": "An error occurred."
+    },
     "words": {
       "yes": "Yes",
       "no": "No"
@@ -37,6 +40,16 @@
     }
   },
   "components": {
+    "administration": {
+      "organizations-import": {
+        "title": "Mass creation of organizations",
+        "description": "Existing organizations will not be changed.",
+        "upload-button": "Import CSV file",
+        "notifications": {
+          "success": "The organizations have been created."
+        }
+      }
+    },
     "organizations": {
       "all-tags": {
         "recently-used-tags": "List of tags recently used with {tagName}"
