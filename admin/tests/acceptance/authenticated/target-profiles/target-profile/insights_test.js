@@ -1,4 +1,4 @@
-import { currentURL, fillIn, select, click, triggerEvent } from '@ember/test-helpers';
+import { currentURL, fillIn, click } from '@ember/test-helpers';
 import { visit, clickByName, fillByLabel, waitForElementToBeRemoved } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -165,7 +165,6 @@ module('Acceptance | Target Profile Insights', function (hooks) {
           await click(screen.getByRole('option', { name: '3' }));
           await fillIn(firstStageLevelMessage, 'mon message un');
           await fillIn(secondStageLevelMessage, 'mon message deux');
-          await this.pauseTest();
           await clickByName('Enregistrer');
 
           // then
