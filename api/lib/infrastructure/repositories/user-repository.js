@@ -439,12 +439,10 @@ function _fromKnexDTOToUserDetailsForAdmin({ userDTO, organizationLearnersDTO, a
   });
 
   const authenticationMethods = authenticationMethodsDTO.map((authenticationMethod) => {
-    // eslint-disable-next-line no-unused-vars
-    const { password, ...authenticationComplement } = authenticationMethod.authenticationComplement;
-    return {
-      ...authenticationMethod,
-      authenticationComplement,
-    };
+    if (authenticationMethod.identityProvider === AuthenticationMethod.identityProviders.PIX) {
+      delete authenticationMethod.authenticationComplement.password;
+    }
+    return authenticationMethod;
   });
 
   return new UserDetailsForAdmin({
