@@ -8,18 +8,16 @@ Confirmé
 
 ## Contexte
 
-Dans le cadre de l'augmentation globale de la sécurité, nous avons cherché à améliorer la sécurité 
-du stockage de l'access token conformément aux bonnes pratiques en remplaçant l'usage du 
-localStorage par le cookieStorage (voir lien : https://dev.to/rdegges/please-stop-using-local-storage-1i04).
+Dans le cadre de l'augmentation globale de la sécurité, nous avons cherché à améliorer la sécurité du stockage de l'access token conformément aux bonnes pratiques en remplaçant l'usage du LocalStorage par le CookieStorage (voir lien : https://dev.to/rdegges/please-stop-using-local-storage-1i04).
 
-De base EmberSimpleAuth utilise le localstorage pour gérer la session de l'utilisateur.
+Par défaut, EmberSimpleAuth utilise le Localstorage pour gérer la session de l'utilisateur via la classe [AdaptiveStore](https://ember-simple-auth.com/api/classes/AdaptiveStore.html).
 
 Nous utilisons le flow OAuth2 (custom) pour l'authentification des utilisateurs.
 
-Cet authenticator est fortement lié à la gestion de la session par EmberSimpleAuth.
+Il existe une liaison assez forte entre le stockage de la session et le flow d'authentification utilisé.
 
-Ce dernier utilise les informations stockées dans la session pour gérer le rafraichissement
-de l'access token avant expiration (expires_in, refresh_token)
+L'authenticator utilise les informations stockées dans la session pour gérer le rafraichissement
+de l'access token avant expiration (expires_in, refresh_token).
 
 ## Solution : Cookie
 
@@ -35,10 +33,10 @@ Configurer EmberSimpleAuth pour utiliser le CookieStorage à la place du LocalSt
 
 **Inconvénient(s) :**
 
-- Incompatibilité entre l'utilisation des cookies et du flow OAuth2 par le fonctionnement d'EmberSimpleAuth. Ce qui nous pousserait à ne plus utiliser le flow OAuth2 (voir https://github.com/mainmatter/ember-simple-auth/issues/1907).
+- Incompatibilité entre l'utilisation des cookies et du flow OAuth2 par le fonctionnement d'EmberSimpleAuth. Ce qui nous pousserait à ne plus utiliser le flow OAuth2 (voir lien : https://github.com/mainmatter/ember-simple-auth/issues/1907).
 - Tout l'objet de session EmberSimpleAuth sera ajouté sur toutes les requêtes
 
 ## Décision
 
-En l'état on garde ce l'on a.
-Pas de solutions qui changerait le flow d'authentification OAuth2
+Aucune solution a été trouvée qui éviterait le changement du flow d'authentification actuellement utilisé (OAuth2 custom).
+Nous gardons la solution actuelle, c'est-à-dire l'utilisation du LocalStorage.
