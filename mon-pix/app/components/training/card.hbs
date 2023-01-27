@@ -1,16 +1,18 @@
 <PixBlock class="training-card" @shadow="light">
   <a class="training-card__content" href={{@training.link}} target="_blank" rel="noopener noreferrer">
     <h3 class="training-card-content__title">{{@training.title}}</h3>
-    <PixTag @color={{this.tagColor}} class="training-card-content__infos">
-      <ul class="training-card-content-infos__list">
-        <li class="training-card-content-infos-list__type">
-          {{this.type}}
-        </li>
-        <li class="training-card-content-infos-list__duration">
-          <time>{{this.durationFormatted}}</time>
-        </li>
-      </ul>
-    </PixTag>
+    <div class="training-card-content__infos" title="{{this.tagTitle}}">
+      <PixTag @color={{this.tagColor}} class="training-card-content-infos__tag">
+        <ul class="training-card-content-infos-tag__list">
+          <li class="training-card-content-infos-tag-list__type">
+            {{this.type}}
+          </li>
+          <li class="training-card-content-infos-tag-list__duration">
+            <time>{{this.durationFormatted}}</time>
+          </li>
+        </ul>
+      </PixTag>
+    </div>
     <div class="training-card-content__illustration">
       <img
         class="training-card-content-illustration__logo"
