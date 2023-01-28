@@ -63,18 +63,19 @@ function _getDataFromColumnNames({ csvLineKeys, headers, line }) {
   data.complementaryCertifications = _extractComplementaryCertificationLabelsFromLine(line);
 
   csvLineKeys.forEach((key) => {
+    const headerKeyInCurrentLine = line[headers[key]];
     if (key === 'birthdate' || key === 'date') {
       data[key] = convertDateValue({
-        dateString: line[headers[key]],
+        dateString: headerKeyInCurrentLine,
         inputFormat: 'DD/MM/YYYY',
         outputFormat: 'YYYY-MM-DD',
       });
     } else if (key === 'extraTimePercentage') {
-      data[key] = line[headers[key]] !== '' ? parseInt(line[headers[key]]) : null;
+      data[key] = headerKeyInCurrentLine !== '' ? parseInt(headerKeyInCurrentLine) : null;
     } else if (key === 'prepaymentCode') {
-      data[key] = line[headers[key]] !== '' ? line[headers[key]] : null;
+      data[key] = headerKeyInCurrentLine !== '' ? headerKeyInCurrentLine : null;
     } else {
-      data[key] = line[headers[key]];
+      data[key] = headerKeyInCurrentLine;
     }
   });
   return data;
