@@ -96,7 +96,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-qunit": "^7.3.4",
-    "eslint-plugin-yml": "^1.2.0",
+    "eslint-plugin-yml": "^1.4.0",
     "faker": "^5.5.2",
     "loader.js": "^4.7.0",
     "lodash": "^4.17.21",
