@@ -33,12 +33,6 @@ $margin-right: 32px;
 }
 
 .zone-edit-role {
-  align-items: center;
-  box-sizing: border-box;
-  display: flex;
-  height: inherit;
-  justify-content: flex-end;
-  padding-right: 25px;
 
   &__dropdown-button {
     margin-right: $margin-right;

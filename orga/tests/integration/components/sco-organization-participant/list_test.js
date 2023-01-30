@@ -32,16 +32,16 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
     this.set('students', []);
 
     // when
-    await render(
+    const screen = await render(
       hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}}/>`
     );
 
     // then
-    assert.contains('Nom');
-    assert.contains('Prénom');
-    assert.contains('Date de naissance');
-    assert.contains('Classe');
-    assert.contains('Méthode(s) de connexion');
+    assert.dom(screen.getByRole('columnheader', { name: 'Nom' })).exists();
+    assert.dom(screen.getByRole('columnheader', { name: 'Prénom' })).exists();
+    assert.dom(screen.getByRole('columnheader', { name: 'Date de naissance' })).exists();
+    assert.dom(screen.getByRole('columnheader', { name: 'Méthode(s) de connexion' })).exists();
+    assert.dom(screen.getByRole('columnheader', { name: 'Actions' })).exists();
   });
 
   test('it should display a list of students', async function (assert) {

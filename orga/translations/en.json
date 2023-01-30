@@ -919,7 +919,7 @@
           "login-method": "Log in method(s)",
           "participation-count": "Number of participations"
         },
-        "description": "Table of students, sorted by name. For students who have provided an email address or a username, you can manage the allowed login modes and reset the student's password through a menu in an additional column",
+        "description": "Table of students, sorted by name. For students who have provided an authentication method, you can manage the allowed login modes and reset the student's password through a menu in 'Actions' column",
         "empty": "No students.",
         "row-title": "Student"
       }
