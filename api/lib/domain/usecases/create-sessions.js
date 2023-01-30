@@ -26,60 +26,112 @@ module.exports = async function createSessions({
 
   await DomainTransaction.execute(async (domainTransaction) => {
     await bluebird.mapSeries(sessions, async (session) => {
-      const accessCode = sessionCodeService.getNewSessionCodeWithoutAvailabilityCheck();
-      const domainSession = new Session({
-        ...session,
-        certificationCenterId,
-        certificationCenter,
-        accessCode,
-      });
+      let { sessionId } = session;
+      let domainSession;
 
-      domainSession.generateSupervisorPassword();
-      sessionValidator.validate(domainSession);
-      const savedSession = await sessionRepository.save(domainSession, domainTransaction);
-
-      await bluebird.mapSeries(domainSession.certificationCandidates, async (certificationCandidate) => {
-        const billingMode = CertificationCandidate.translateBillingMode(certificationCandidate.billingMode);
-
-        const domainCertificationCandidate = new CertificationCandidate({
-          ...certificationCandidate,
-          sessionId: savedSession.id,
-          billingMode,
+      if (sessionId) {
+        domainSession = new Session({
+          ...session,
+          certificationCenterId,
+          certificationCenter,
         });
 
-        domainCertificationCandidate.validate(isSco);
+        await _deleteExistingCandidatesInSession(certificationCandidateRepository, sessionId);
+      }
 
-        const cpfBirthInformation = await certificationCpfService.getBirthInformation({
-          birthCountry: domainCertificationCandidate.birthCountry,
-          birthCity: domainCertificationCandidate.birthCity,
-          birthPostalCode: domainCertificationCandidate.birthPostalCode,
-          birthINSEECode: domainCertificationCandidate.birthINSEECode,
+      if (!sessionId) {
+        domainSession = _createAndValidateNewSessionToSave(session, certificationCenterId, certificationCenter);
+        const { id } = await _saveNewSessionReturningId(sessionRepository, domainSession, domainTransaction);
+        sessionId = id;
+      }
+
+      if (domainSession.certificationCandidates.length) {
+        await _createCertificationCandidates({
+          domainSession,
+          sessionId,
+          isSco,
           certificationCpfCountryRepository,
           certificationCpfCityRepository,
-        });
-
-        if (cpfBirthInformation.hasFailed()) {
-          throw new InvalidCertificationCandidate({ message: cpfBirthInformation.message, error: {} });
-        }
-
-        domainCertificationCandidate.updateBirthInformation(cpfBirthInformation);
-
-        if (domainCertificationCandidate.complementaryCertifications.length) {
-          const complementaryCertification = await complementaryCertificationRepository.getByLabel({
-            label: domainCertificationCandidate.complementaryCertifications[0],
-          });
-
-          domainCertificationCandidate.complementaryCertifications = [complementaryCertification];
-        }
-
-        await certificationCandidateRepository.saveInSession({
-          sessionId: savedSession.id,
-          certificationCandidate: domainCertificationCandidate,
+          complementaryCertificationRepository,
+          certificationCandidateRepository,
           domainTransaction,
         });
-      });
+      }
 
-      return savedSession;
+      return true;
     });
   });
 };
+async function _saveNewSessionReturningId(sessionRepository, domainSession, domainTransaction) {
+  return await sessionRepository.save(domainSession, domainTransaction);
+}
+
+function _createAndValidateNewSessionToSave(session, certificationCenterId, certificationCenter) {
+  const accessCode = sessionCodeService.getNewSessionCodeWithoutAvailabilityCheck();
+  const domainSession = new Session({
+    ...session,
+    certificationCenterId,
+    certificationCenter,
+    accessCode,
+  });
+
+  domainSession.generateSupervisorPassword();
+  sessionValidator.validate(domainSession);
+  return domainSession;
+}
+
+async function _deleteExistingCandidatesInSession(certificationCandidateRepository, sessionId) {
+  await certificationCandidateRepository.deleteBySessionId({ sessionId });
+}
+
+async function _createCertificationCandidates({
+  domainSession,
+  sessionId,
+  isSco,
+  certificationCpfCountryRepository,
+  certificationCpfCityRepository,
+  complementaryCertificationRepository,
+  certificationCandidateRepository,
+  domainTransaction,
+}) {
+  await bluebird.mapSeries(domainSession.certificationCandidates, async (certificationCandidate) => {
+    const billingMode = CertificationCandidate.translateBillingMode(certificationCandidate.billingMode);
+
+    const domainCertificationCandidate = new CertificationCandidate({
+      ...certificationCandidate,
+      sessionId,
+      billingMode,
+    });
+
+    domainCertificationCandidate.validate(isSco);
+
+    const cpfBirthInformation = await certificationCpfService.getBirthInformation({
+      birthCountry: domainCertificationCandidate.birthCountry,
+      birthCity: domainCertificationCandidate.birthCity,
+      birthPostalCode: domainCertificationCandidate.birthPostalCode,
+      birthINSEECode: domainCertificationCandidate.birthINSEECode,
+      certificationCpfCountryRepository,
+      certificationCpfCityRepository,
+    });
+
+    if (cpfBirthInformation.hasFailed()) {
+      throw new InvalidCertificationCandidate({ message: cpfBirthInformation.message, error: {} });
+    }
+
+    domainCertificationCandidate.updateBirthInformation(cpfBirthInformation);
+
+    if (domainCertificationCandidate.complementaryCertifications.length) {
+      const complementaryCertification = await complementaryCertificationRepository.getByLabel({
+        label: domainCertificationCandidate.complementaryCertifications[0],
+      });
+
+      domainCertificationCandidate.complementaryCertifications = [complementaryCertification];
+    }
+
+    await certificationCandidateRepository.saveInSession({
+      sessionId,
+      certificationCandidate: domainCertificationCandidate,
+      domainTransaction,
+    });
+  });
+}
