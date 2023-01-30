@@ -21,7 +21,7 @@ class AssessmentResult {
     this.isCompleted = participationResults.isCompleted;
     this.isShared = Boolean(participationResults.sharedAt);
     this.participantExternalId = participationResults.participantExternalId;
-    this.totalSkillsCount = competences.flatMap(({ skillIds }) => skillIds).length;
+    this.totalSkillsCount = competences.flatMap(({ targetedSkillIds }) => targetedSkillIds).length;
     this.testedSkillsCount = knowledgeElements.length;
     this.validatedSkillsCount = knowledgeElements.filter(({ isValidated }) => isValidated).length;
     this.masteryRate = this._computeMasteryRate(
@@ -31,7 +31,9 @@ class AssessmentResult {
       this.validatedSkillsCount
     );
 
-    this.competenceResults = competences.map((competence) => _buildCompetenceResults(competence, knowledgeElements));
+    this.competenceResults = competences.map(({ competence, area, targetedSkillIds }) =>
+      _buildCompetenceResult({ competence, area, targetedSkillIds, knowledgeElements })
+    );
     this.badgeResults = badgeResultsDTO.map((badge) => new BadgeResult(badge, participationResults));
 
     this.stageCount = stages.length;
@@ -48,8 +50,20 @@ class AssessmentResult {
       this.isDisabled
     );
 
-    this.estimatedFlashLevel = flashScoringResults?.estimatedFlashLevel;
-    this.flashPixScore = flashScoringResults?.flashPixScore;
+    if (flashScoringResults) {
+      this.estimatedFlashLevel = flashScoringResults.estimatedLevel;
+      this.flashPixScore = flashScoringResults.pixScore;
+      this.competenceResults = flashScoringResults.competencesWithPixScore.map(
+        ({ competence, area, pixScore }) =>
+          new CompetenceResult({
+            competence,
+            area,
+            totalSkillsCount: competence.skillIds.length,
+            knowledgeElements: [],
+            flashPixScore: pixScore,
+          })
+      );
+    }
   }
 
   _computeMasteryRate(masteryRate, isShared, totalSkillsCount, validatedSkillsCount) {
@@ -95,9 +109,14 @@ class AssessmentResult {
   }
 }
 
-function _buildCompetenceResults(competence, knowledgeElements) {
-  const competenceKnowledgeElements = knowledgeElements.filter(({ skillId }) => competence.skillIds.includes(skillId));
-  return new CompetenceResult(competence, competenceKnowledgeElements);
+function _buildCompetenceResult({ competence, area, targetedSkillIds, knowledgeElements }) {
+  const competenceKnowledgeElements = knowledgeElements.filter(({ skillId }) => targetedSkillIds.includes(skillId));
+  return new CompetenceResult({
+    competence,
+    area,
+    totalSkillsCount: targetedSkillIds.length,
+    knowledgeElements: competenceKnowledgeElements,
+  });
 }
 
 module.exports = AssessmentResult;

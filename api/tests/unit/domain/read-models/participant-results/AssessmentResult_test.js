@@ -7,20 +7,28 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
   it('computes the number of skills, the number of skill tested and the number of skill validated', function () {
     const competences = [
       {
-        id: 'rec1',
-        name: 'C1',
-        index: '1.1',
-        areaName: 'Domaine1',
-        areaColor: 'Couleur1',
-        skillIds: ['skill1', 'skill2'],
+        competence: domainBuilder.buildCompetence({
+          id: 'rec1',
+          name: 'C1',
+          index: '1.1',
+        }),
+        area: domainBuilder.buildArea({
+          name: 'Domaine1',
+          color: 'Couleur1',
+        }),
+        targetedSkillIds: ['skill1', 'skill2'],
       },
       {
-        id: 'rec2',
-        name: 'C2',
-        index: '2.1',
-        areaName: 'Domaine2',
-        areaColor: 'Couleur2',
-        skillIds: ['skill3', 'skill4'],
+        competence: domainBuilder.buildCompetence({
+          id: 'rec2',
+          name: 'C2',
+          index: '2.1',
+        }),
+        area: domainBuilder.buildArea({
+          name: 'Domaine2',
+          color: 'Couleur2',
+        }),
+        targetedSkillIds: ['skill3', 'skill4'],
       },
     ];
 
@@ -65,20 +73,28 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         it('computes the mastery rate using knowledge elements', function () {
           const competences = [
             {
-              id: 'rec1',
-              name: 'C1',
-              index: '1.1',
-              areaName: 'Domaine1',
-              areaColor: 'Couleur1',
-              skillIds: ['skill1', 'skill2', 'skill3'],
+              competence: domainBuilder.buildCompetence({
+                id: 'rec1',
+                name: 'C1',
+                index: '1.1',
+              }),
+              area: domainBuilder.buildArea({
+                name: 'Domaine1',
+                color: 'Couleur1',
+              }),
+              targetedSkillIds: ['skill1', 'skill2', 'skill3'],
             },
             {
-              id: 'rec2',
-              name: 'C2',
-              index: '2.1',
-              areaName: 'Domaine2',
-              areaColor: 'Couleur2',
-              skillIds: ['skill4', 'skill5', 'skill6'],
+              competence: domainBuilder.buildCompetence({
+                id: 'rec2',
+                name: 'C2',
+                index: '2.1',
+              }),
+              area: domainBuilder.buildArea({
+                name: 'Domaine2',
+                color: 'Couleur2',
+              }),
+              targetedSkillIds: ['skill4', 'skill5', 'skill6'],
             },
           ];
 
@@ -149,12 +165,16 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
       it('return the mastery rate of the participation', function () {
         const competences = [
           {
-            id: 'rec1',
-            name: 'C1',
-            index: '1.1',
-            areaName: 'Domaine1',
-            areaColor: 'Couleur1',
-            skillIds: ['skill1', 'skill2', 'skill2'],
+            competence: domainBuilder.buildCompetence({
+              id: 'rec1',
+              name: 'C1',
+              index: '1.1',
+            }),
+            area: domainBuilder.buildArea({
+              name: 'Domaine1',
+              color: 'Couleur1',
+            }),
+            targetedSkillIds: ['skill1', 'skill2', 'skill2'],
           },
         ];
 
@@ -184,14 +204,29 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
   it('computes the result by competences', function () {
     const competences = [
       {
-        id: 'rec1',
-        name: 'C1',
-        index: '1.1',
-        areaName: 'Domaine1',
-        areaColor: 'Couleur1',
-        skillIds: ['skill1', 'skill2', 'skill3'],
+        competence: domainBuilder.buildCompetence({
+          id: 'rec1',
+          name: 'C1',
+          index: '1.1',
+        }),
+        area: domainBuilder.buildArea({
+          name: 'Domaine1',
+          color: 'Couleur1',
+        }),
+        targetedSkillIds: ['skill1', 'skill2', 'skill3'],
       },
-      { id: 'rec2', name: 'C2', index: '2.1', areaName: 'Domaine2', areaColor: 'Couleur2', skillIds: ['skill4'] },
+      {
+        competence: domainBuilder.buildCompetence({
+          id: 'rec2',
+          name: 'C2',
+          index: '2.1',
+        }),
+        area: domainBuilder.buildArea({
+          name: 'Domaine2',
+          color: 'Couleur2',
+        }),
+        targetedSkillIds: ['skill4'],
+      },
     ];
 
     const knowledgeElements = [
@@ -212,8 +247,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
       isCampaignArchived: false,
     });
 
-    const competenceResults1 = assessmentResult.competenceResults.find(({ id }) => competences[0].id === id);
-    const competenceResults2 = assessmentResult.competenceResults.find(({ id }) => competences[1].id === id);
+    const competenceResults1 = assessmentResult.competenceResults.find(({ id }) => competences[0].competence.id === id);
+    const competenceResults2 = assessmentResult.competenceResults.find(({ id }) => competences[1].competence.id === id);
 
     expect(competenceResults1).to.deep.include({ name: 'C1', masteryPercentage: 33 });
     expect(competenceResults2).to.deep.include({ name: 'C2', masteryPercentage: 100 });
@@ -223,12 +258,16 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
     it('gives the reached stage', function () {
       const competences = [
         {
-          id: 'rec1',
-          name: 'C1',
-          index: '1.1',
-          areaName: 'Domaine1',
-          areaColor: 'Couleur1',
-          skillIds: ['skill1', 'skill2', 'skill3'],
+          competence: domainBuilder.buildCompetence({
+            id: 'rec1',
+            name: 'C1',
+            index: '1.1',
+          }),
+          area: domainBuilder.buildArea({
+            name: 'Domaine1',
+            color: 'Couleur1',
+          }),
+          targetedSkillIds: ['skill1', 'skill2', 'skill3'],
         },
       ];
 
@@ -263,12 +302,16 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
     it('computes results for each badge', function () {
       const competences = [
         {
-          id: 'rec1',
-          name: 'C1',
-          index: '1.1',
-          areaName: 'Domaine1',
-          areaColor: 'Couleur1',
-          skillIds: ['skill1', 'skill2', 'skill3'],
+          competence: domainBuilder.buildCompetence({
+            id: 'rec1',
+            name: 'C1',
+            index: '1.1',
+          }),
+          area: domainBuilder.buildArea({
+            name: 'Domaine1',
+            color: 'Couleur1',
+          }),
+          targetedSkillIds: ['skill1', 'skill2', 'skill3'],
         },
       ];
       const participationResults = { knowledgeElements: [], acquiredBadgeIds: [1] };

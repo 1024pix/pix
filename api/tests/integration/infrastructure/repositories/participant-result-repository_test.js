@@ -545,6 +545,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
         totalSkillsCount: 2,
         validatedSkillsCount: 2,
         masteryPercentage: 100,
+        flashPixScore: undefined,
       });
       expect(competenceResult2).to.deep.equal({
         id: 'rec2',
@@ -556,6 +557,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
         totalSkillsCount: 2,
         validatedSkillsCount: 1,
         masteryPercentage: 50,
+        flashPixScore: undefined,
       });
     });
 
@@ -1032,13 +1034,12 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
     });
 
     context('when campaign is flash', function () {
-      it('returns the estimated flash level and calculated pix score', async function () {
+      it('returns the estimated flash level and calculated pix score (total and by competence)', async function () {
         // given
         const { id: userId } = databaseBuilder.factory.buildUser();
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({
           assessmentMethod: Assessment.methods.FLASH,
         });
-        _buildCampaignSkills(campaignId);
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId,
@@ -1075,6 +1076,33 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
           estimatedFlashLevel: estimatedLevel,
           flashPixScore: 202,
         });
+
+        expect(participantResult.competenceResults).to.deep.equal([
+          {
+            id: 'rec1',
+            name: 'comp1Fr',
+            index: '1.1',
+            areaName: 'area1',
+            areaColor: 'colorArea1',
+            testedSkillsCount: 0,
+            totalSkillsCount: 2,
+            validatedSkillsCount: 0,
+            masteryPercentage: 0,
+            flashPixScore: 2,
+          },
+          {
+            id: 'rec2',
+            name: 'comp2Fr',
+            index: '2.1',
+            areaName: 'area2',
+            areaColor: 'colorArea2',
+            testedSkillsCount: 0,
+            totalSkillsCount: 3,
+            validatedSkillsCount: 0,
+            masteryPercentage: 0,
+            flashPixScore: 200,
+          },
+        ]);
       });
     });
   });
