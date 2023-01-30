@@ -26,32 +26,23 @@ module.exports = async function createSessions({
 
   await DomainTransaction.execute(async (domainTransaction) => {
     await bluebird.mapSeries(sessions, async (session) => {
-      let sessionId;
+      let { sessionId } = session;
       let domainSession;
-      if (!session.sessionId) {
-        const accessCode = sessionCodeService.getNewSessionCodeWithoutAvailabilityCheck();
+
+      if (sessionId) {
         domainSession = new Session({
           ...session,
           certificationCenterId,
           certificationCenter,
-          accessCode,
         });
 
-        domainSession.generateSupervisorPassword();
-        sessionValidator.validate(domainSession);
-        const { id } = await sessionRepository.save(domainSession, domainTransaction);
-        sessionId = id;
+        await _deleteExistingCandidatesInSession(certificationCandidateRepository, sessionId);
       }
 
-      if (session.sessionId) {
-        sessionId = session.sessionId;
-        domainSession = new Session({
-          ...session,
-          certificationCenterId,
-          certificationCenter,
-        });
-
-        await certificationCandidateRepository.deleteBySessionId({ sessionId });
+      if (!sessionId) {
+        domainSession = _createAndValidateNewSessionToSave(session, certificationCenterId, certificationCenter);
+        const { id } = await _saveNewSessionReturningId(sessionRepository, domainSession, domainTransaction);
+        sessionId = id;
       }
 
       if (domainSession.certificationCandidates.length) {
@@ -71,6 +62,28 @@ module.exports = async function createSessions({
     });
   });
 };
+async function _saveNewSessionReturningId(sessionRepository, domainSession, domainTransaction) {
+  return await sessionRepository.save(domainSession, domainTransaction);
+}
+
+function _createAndValidateNewSessionToSave(session, certificationCenterId, certificationCenter) {
+  const accessCode = sessionCodeService.getNewSessionCodeWithoutAvailabilityCheck();
+  const domainSession = new Session({
+    ...session,
+    certificationCenterId,
+    certificationCenter,
+    accessCode,
+  });
+
+  domainSession.generateSupervisorPassword();
+  sessionValidator.validate(domainSession);
+  return domainSession;
+}
+
+async function _deleteExistingCandidatesInSession(certificationCandidateRepository, sessionId) {
+  await certificationCandidateRepository.deleteBySessionId({ sessionId });
+}
+
 async function _createCertificationCandidates({
   domainSession,
   sessionId,
