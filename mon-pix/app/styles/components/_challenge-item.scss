@@ -40,11 +40,6 @@
     }
   }
 
-  &__instructions {
-    font-weight: $font-normal;
-    font-size: 1rem;
-  }
-
   &__proposal {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -91,7 +86,6 @@
 }
 
 form .challenge-response {
-
   &--locked {
     position: relative;
   }
@@ -102,6 +96,12 @@ form .challenge-response {
     left: 50%;
     transform: translate(-50%, -50%);
     opacity: 0;
+  }
+
+  .challenge-response__instructions {
+    margin-top: 0;
+    font-weight: $font-normal;
+    font-size: 1rem;
   }
 
   .qroc-proposal {
@@ -123,9 +123,7 @@ form .challenge-response {
 }
 
 form .challenge-response.challenge-response--locked {
-
   &:hover {
-
     .challenge-response__locked-overlay {
       opacity: 1;
       transition: 0.9s ease;
@@ -134,7 +132,6 @@ form .challenge-response.challenge-response--locked {
 }
 
 form .challenge-response-locked {
-
   &__icon {
     font-size: 3.125rem;
     opacity: 1;
