@@ -10,7 +10,7 @@ import setupIntl from '../helpers/setup-intl';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-const pageSize = 25;
+const pageSize = 50;
 const rowCount = 100;
 
 module('Acceptance | Campaign Assessment Results', function (hooks) {
@@ -42,8 +42,8 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
 
       // then
       assert.dom(`[aria-label="${this.intl.t('pages.campaign-results.table.row-title')}"]`).exists({ count: pageSize });
-      assert.contains('Page 1 / 4');
-      assert.dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size'))).hasText('25');
+      assert.contains('Page 1 / 2');
+      assert.dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size'))).hasText('50');
     });
 
     test('it should display participant list with settings in url for pagination', async function (assert) {
@@ -117,11 +117,12 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
 
     test('it should go back to first page when user changes page size', async function (assert) {
       // given
-      const changedPageSize = 50;
-      const startPage = 3;
+      const changedPageSize = 25;
+      const startPage = 2;
 
       // when
       const screen = await visit(`/campagnes/1/resultats-evaluation?pageNumber=${startPage}`);
+
       await click(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size')));
       await click(await screen.findByRole('option', { name: changedPageSize }));
 
@@ -129,7 +130,7 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
       assert
         .dom(`[aria-label="${this.intl.t('pages.campaign-results.table.row-title')}"]`)
         .exists({ count: changedPageSize });
-      assert.contains('Page 1 / 2');
+      assert.contains('Page 1 / 4');
       assert
         .dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size')))
         .hasText(changedPageSize.toString());
