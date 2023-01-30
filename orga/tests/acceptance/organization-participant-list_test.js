@@ -55,10 +55,10 @@ module('Acceptance | Organization Participant List', function (hooks) {
         server.create('organization-participant', { organizationId, firstName: 'Jean', lastName: 'Charles' });
 
         await authenticateSession(user.id);
-        const { getByPlaceholderText } = await visit('/participants');
+        const { getByLabelText } = await visit('/participants');
 
         // when
-        const select = getByPlaceholderText(
+        const select = getByLabelText(
           this.intl.t('pages.organization-participants.filters.type.certificability.label')
         );
         await click(select);

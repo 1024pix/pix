@@ -285,12 +285,12 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       this.set('students', []);
       this.set('certificability', []);
 
-      const { getByPlaceholderText, findByRole } = await render(
+      const { getByLabelText, findByRole } = await render(
         hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.triggerFiltering}} @certificability={{this.certificability}} @onClickLearner={{this.noop}}/>`
       );
 
       // when
-      const select = await getByPlaceholderText('Rechercher par certificabilité');
+      const select = await getByLabelText('Rechercher par certificabilité');
       await click(select);
 
       await findByRole('menu');

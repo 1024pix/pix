@@ -230,12 +230,12 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     this.set('certificabilityOptions', [{ value: 'eligible', label: 'Certifiable' }]);
     this.set('certificability', []);
 
-    const { getByPlaceholderText, findByRole } = await render(
+    const { getByLabelText, findByRole } = await render(
       hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.triggerFiltering}} @certificabilityOptions={{this.certificabilityOptions}} @certificability={{this.certificability}} @onClickLearner={{this.noop}}/>`
     );
 
     // when
-    const select = await getByPlaceholderText(
+    const select = await getByLabelText(
       this.intl.t('pages.organization-participants.filters.type.certificability.label')
     );
     await click(select);
