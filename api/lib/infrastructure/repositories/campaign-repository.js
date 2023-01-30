@@ -11,15 +11,8 @@ const Stage = require('../../domain/models/Stage');
 const CAMPAIGNS_TABLE = 'campaigns';
 
 module.exports = {
-  isCodeAvailable(code) {
-    return BookshelfCampaign.where({ code })
-      .fetch({ require: false })
-      .then((campaign) => {
-        if (campaign) {
-          return false;
-        }
-        return true;
-      });
+  async isCodeAvailable(code) {
+    return !Boolean(await knex('campaigns').first('id').where({ code }));
   },
 
   async getByCode(code) {
