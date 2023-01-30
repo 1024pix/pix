@@ -32,30 +32,40 @@ function deserializeForSessionsImport(parsedCsvData) {
   parsedCsvData.forEach((line) => {
     const data = _getDataFromColumnNames({ csvLineKeys, headers, line });
 
-    let existingSession;
+    let currentParsedSession;
     if (_hasSessionInformation(data)) {
-      existingSession = sessions.find((session) => session.uniqueKey === _generateUniqueKey(data));
-      if (!existingSession) {
-        existingSession = _createSession(data);
-        sessions.push(existingSession);
+      currentParsedSession = sessions.find((session) => session.uniqueKey === _generateUniqueKey(data));
+      if (!currentParsedSession) {
+        currentParsedSession = _createSession(data);
+        sessions.push(currentParsedSession);
       }
+    } else if (_hasSessionIdAndCandidateInformation(data)) {
+      currentParsedSession = {
+        sessionId: data.sessionId,
+        certificationCandidates: [],
+      };
+      sessions.push(currentParsedSession);
     } else {
-      existingSession = sessions.at(-1);
+      currentParsedSession = sessions.at(-1);
     }
     const examiner = data.examiner.trim();
-    if (examiner.length && !existingSession.examiner.includes(examiner)) {
-      existingSession.examiner.push(examiner);
+    if (examiner.length && !currentParsedSession.examiner.includes(examiner)) {
+      currentParsedSession.examiner.push(examiner);
     }
 
     if (_hasCandidateInformation(data)) {
-      existingSession.certificationCandidates.push(_createCandidate(data));
+      currentParsedSession.certificationCandidates.push(_createCandidate(data));
     }
   });
 
   return sessions.map((session) => ({
     ...session,
-    examiner: session.examiner.join(', '),
+    examiner: session.examiner?.join(', '),
   }));
+}
+
+function _hasSessionIdAndCandidateInformation(data) {
+  return _hasCandidateInformation(data) && data.sessionId;
 }
 
 function _getDataFromColumnNames({ csvLineKeys, headers, line }) {

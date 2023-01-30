@@ -28,7 +28,7 @@ describe('Unit | UseCase | create-sessions', function () {
       name: certificationCenterName,
     });
     certificationCenterRepository = { get: sinon.stub() };
-    certificationCandidateRepository = { saveInSession: sinon.stub() };
+    certificationCandidateRepository = { saveInSession: sinon.stub(), deleteBySessionId: sinon.stub() };
     complementaryCertificationRepository = { getByLabel: sinon.stub() };
     sessionRepository = { save: sinon.stub() };
     sinon.stub(sessionCodeService, 'getNewSessionCodeWithoutAvailabilityCheck');
@@ -53,18 +53,6 @@ describe('Unit | UseCase | create-sessions', function () {
           },
         ];
 
-        const domainTransaction = Symbol('trx');
-        sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
-
-        // when
-        await createSessions({
-          sessions,
-          certificationCenterId,
-          certificationCenterRepository,
-          sessionRepository,
-        });
-
-        // then
         const expectedSessions = [
           new Session({
             ...sessions[0],
@@ -81,13 +69,64 @@ describe('Unit | UseCase | create-sessions', function () {
             supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
           }),
         ];
+        const domainTransaction = Symbol('trx');
+        sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
+        sessionRepository.save
+          .onCall(0)
+          .resolves(domainBuilder.buildSession({ ...expectedSessions[0], id: 1234 }))
+          .onCall(1)
+          .resolves(domainBuilder.buildSession({ ...expectedSessions[1], id: 567 }));
+
+        // when
+        await createSessions({
+          sessions,
+          certificationCenterId,
+          certificationCenterRepository,
+          sessionRepository,
+        });
+
+        // then
 
         expect(sessionRepository.save).to.have.been.calledTwice;
-        expect(sessionRepository.save.firstCall).to.have.been.calledWithExactly(expectedSessions[0], domainTransaction);
-        expect(sessionRepository.save.secondCall).to.have.been.calledWithExactly(
-          expectedSessions[1],
-          domainTransaction
-        );
+      });
+
+      context('when there is only sessionId and candidate information', function () {
+        it('should only save candidate in session', async function () {
+          // given
+          const candidate1 = createValidCandidateData(1);
+          const candidate2 = createValidCandidateData(2);
+          const sessions = [
+            {
+              sessionId: 1234,
+              certificationCandidates: [candidate1, candidate2],
+            },
+          ];
+
+          const cpfBirthInformationValidation1 = CpfBirthInformationValidation.success({ ...candidate1 });
+          const cpfBirthInformationValidation2 = CpfBirthInformationValidation.success({ ...candidate2 });
+          certificationCpfService.getBirthInformation.onCall(0).resolves(cpfBirthInformationValidation1);
+          certificationCpfService.getBirthInformation.onCall(1).resolves(cpfBirthInformationValidation2);
+
+          const domainTransaction = Symbol('trx');
+          sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
+
+          // when
+          await createSessions({
+            sessions,
+            certificationCenterId,
+            certificationCenterRepository,
+            certificationCandidateRepository,
+            sessionRepository,
+          });
+
+          // then
+
+          expect(sessionRepository.save).to.not.have.been.called;
+          expect(certificationCandidateRepository.deleteBySessionId).to.have.been.calledOnceWithExactly({
+            sessionId: 1234,
+          });
+          expect(certificationCandidateRepository.saveInSession).to.have.been.calledTwice;
+        });
       });
     });
 
@@ -336,10 +375,10 @@ function createValidSessionData() {
     certificationCandidates: [],
   };
 }
-function createValidCandidateData() {
+function createValidCandidateData(candidateNumber = 2) {
   return {
-    lastName: 'Candidat 2',
-    firstName: 'Candidat 2',
+    lastName: `Candidat ${candidateNumber}`,
+    firstName: `Candidat ${candidateNumber}`,
     birthdate: '1981-03-12',
     sex: 'M',
     birthINSEECode: '134',
