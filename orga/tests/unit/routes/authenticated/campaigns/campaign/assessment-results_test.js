@@ -69,7 +69,7 @@ module('Unit | Route | authenticated/campaigns/campaign/assessment-results', fun
       test('it reset pageSize', function (assert) {
         const controller = { pageSize: 10 };
         route.resetController(controller, true);
-        assert.strictEqual(controller.pageSize, 25);
+        assert.strictEqual(controller.pageSize, 50);
       });
 
       test('it reset divisions', function (assert) {

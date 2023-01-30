@@ -9,7 +9,7 @@ export default class ActivityController extends Controller {
   @service intl;
 
   @tracked pageNumber = 1;
-  @tracked pageSize = 25;
+  @tracked pageSize = 50;
   @tracked divisions = [];
   @tracked status = null;
   @tracked groups = [];
