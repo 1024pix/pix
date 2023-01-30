@@ -28,33 +28,36 @@ module('Unit | Component | Trainings | CreateTrainingForm', function (hooks) {
     });
   });
 
-  module('#updateEditorLogoUrl', function () {
-    test('it should update EditorLogoUrl form attribute with appropriate base URL', function (assert) {
+  module('#onSubmit', function (hooks) {
+    let submitEvent;
+
+    hooks.beforeEach(function () {
       // given
-      const baseURL = 'https://images.pix.fr/contenu-formatif/editeur/';
-      const formEvent = { target: { value: 'new-logo.svg' } };
-
-      // when
-      component.updateEditorLogoUrl(formEvent);
-
-      // then
-      assert.strictEqual(component.form.editorLogoUrl, `${baseURL}new-logo.svg`);
-    });
-  });
-
-  module('#onSubmit', function () {
-    test('is should call the onSubmit method', function (assert) {
-      // given
-      const submitEvent = {
+      submitEvent = {
         preventDefault: sinon.stub(),
       };
+    });
 
+    test('is should call the onSubmit method', async function (assert) {
       // when
-      component.onSubmit(submitEvent);
+      await component.onSubmit(submitEvent);
 
       // then
       assert.ok(submitEvent.preventDefault.called);
       assert.ok(component.args.onSubmit.called);
+    });
+
+    test('it should update EditorLogoUrl form attribute with appropriate base URL', async function (assert) {
+      // given
+      const baseURL = 'https://images.pix.fr/contenu-formatif/editeur/';
+      const formEvent = { target: { value: 'new-logo.svg' } };
+      component.updateForm('editorLogoUrl', formEvent);
+
+      // when
+      await component.onSubmit(submitEvent);
+
+      // then
+      assert.deepEqual(component.args.onSubmit.getCall(0).firstArg.editorLogoUrl, `${baseURL}new-logo.svg`);
     });
   });
 });

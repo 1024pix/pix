@@ -28,7 +28,7 @@
         @options={{this.optionsTypeList}}
         required={{true}}
         aria-required={{true}}
-        {{on "change" (fn this.updateForm "type")}}
+        @onChange={{(fn this.updateSelect "type")}}
       />
       <div class="create-training-form-card__duration">
         <PixInput
@@ -70,12 +70,12 @@
       <PixSelect
         @id="trainingLocale"
         @label="Langue localisée"
-        @emptyOptionLabel={{"-- Sélectionnez une langue --"}}
-        @selectedOption={{this.form.locale}}
+        @placeholder={{"-- Sélectionnez une langue --"}}
         @options={{this.optionsLocaleList}}
+        @value={{this.form.locale}}
+        @onChange={{(fn this.updateSelect "locale")}}
         required={{true}}
         aria-required={{true}}
-        {{on "change" (fn this.updateForm "locale")}}
       />
       <div class="training-editor-logo-url-input">
         <label for="trainingEditorLogoUrl-name">Nom du fichier du logo éditeur (.svg)
@@ -96,7 +96,7 @@
           @ariaLabel="Nom du fichier du logo éditeur"
           placeholder="logo-ministere-education-nationale-et-jeunesse.svg"
           @value={{this.form.editorLogoUrl}}
-          {{on "change" this.updateEditorLogoUrl}}
+          {{on "change" (fn this.updateForm "editorLogoUrl")}}
         />
       </div>
       <PixInput
