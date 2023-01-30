@@ -30,10 +30,14 @@
             <span>{{competence.name}}</span>
           </th>
           <td>
-            <PixProgressGauge
-              @value={{competence.masteryPercentage}}
-              @tooltipText="{{competence.masteryPercentage}}%"
-            />
+            {{#if competence.flashPixScore}}
+              {{t "pages.skill-review.details.flash-pix-score" score=competence.flashPixScore}}
+            {{else}}
+              <PixProgressGauge
+                @value={{competence.masteryPercentage}}
+                @tooltipText="{{competence.masteryPercentage}}%"
+              />
+            {{/if}}
           </td>
         </tr>
       {{/each}}
