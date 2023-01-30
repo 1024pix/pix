@@ -15,12 +15,14 @@ module.exports = async function createSessions({
   sessionRepository,
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
+  certificationCandidateRepository,
+  complementaryCertificationRepository,
 }) {
   if (sessions.length === 0) {
     throw new UnprocessableEntityError('No session data in csv');
   }
 
-  const { name: certificationCenter } = await certificationCenterRepository.get(certificationCenterId);
+  const { name: certificationCenter, isSco } = await certificationCenterRepository.get(certificationCenterId);
 
   await DomainTransaction.execute(async (domainTransaction) => {
     await bluebird.mapSeries(sessions, async (session) => {
@@ -38,17 +40,14 @@ module.exports = async function createSessions({
 
       await bluebird.mapSeries(domainSession.certificationCandidates, async (certificationCandidate) => {
         const billingMode = CertificationCandidate.translateBillingMode(certificationCandidate.billingMode);
+
         const domainCertificationCandidate = new CertificationCandidate({
           ...certificationCandidate,
           sessionId: savedSession.id,
           billingMode,
         });
 
-        if (domainCertificationCandidate.billingMode === 'FREE') {
-          domainCertificationCandidate.prepaymentCode = null;
-        }
-
-        domainCertificationCandidate.validate();
+        domainCertificationCandidate.validate(isSco);
 
         const cpfBirthInformation = await certificationCpfService.getBirthInformation({
           birthCountry: domainCertificationCandidate.birthCountry,
@@ -62,6 +61,22 @@ module.exports = async function createSessions({
         if (cpfBirthInformation.hasFailed()) {
           throw new InvalidCertificationCandidate({ message: cpfBirthInformation.message, error: {} });
         }
+
+        domainCertificationCandidate.updateBirthInformation(cpfBirthInformation);
+
+        if (domainCertificationCandidate.complementaryCertifications.length) {
+          const complementaryCertification = await complementaryCertificationRepository.getByLabel({
+            label: domainCertificationCandidate.complementaryCertifications[0],
+          });
+
+          domainCertificationCandidate.complementaryCertifications = [complementaryCertification];
+        }
+
+        await certificationCandidateRepository.saveInSession({
+          sessionId: savedSession.id,
+          certificationCandidate: domainCertificationCandidate,
+          domainTransaction,
+        });
       });
 
       return savedSession;

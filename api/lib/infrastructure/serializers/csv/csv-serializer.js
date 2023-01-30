@@ -1,7 +1,7 @@
 const logger = require('../../logger');
 const { FileValidationError } = require('../../../../lib/domain/errors');
 const { convertDateValue } = require('../../utils/date-utils');
-const { headers } = require('../../utils/csv/sessions-import');
+const { headers, COMPLEMENTARY_CERTIFICATION_SUFFIX } = require('../../utils/csv/sessions-import');
 
 function _csvFormulaEscapingPrefix(data) {
   const mayBeInterpretedAsFormula = /^[-@=+]/.test(data);
@@ -30,7 +30,7 @@ function deserializeForSessionsImport(parsedCsvData) {
   _verifyHeaders({ csvLineKeys, headers, parsedCsvLine: parsedCsvData[0] });
 
   parsedCsvData.forEach((line) => {
-    const data = getDataFromColumnNames({ csvLineKeys, headers, line });
+    const data = _getDataFromColumnNames({ csvLineKeys, headers, line });
 
     let existingSession;
     if (_hasSessionInformation(data)) {
@@ -58,22 +58,60 @@ function deserializeForSessionsImport(parsedCsvData) {
   }));
 }
 
-function getDataFromColumnNames({ csvLineKeys, headers, line }) {
+function _getDataFromColumnNames({ csvLineKeys, headers, line }) {
   const data = {};
+  data.complementaryCertifications = _extractComplementaryCertificationLabelsFromLine(line);
+
   csvLineKeys.forEach((key) => {
+    const headerKeyInCurrentLine = line[headers[key]];
     if (key === 'birthdate' || key === 'date') {
       data[key] = convertDateValue({
-        dateString: line[headers[key]],
+        dateString: headerKeyInCurrentLine,
         inputFormat: 'DD/MM/YYYY',
         outputFormat: 'YYYY-MM-DD',
       });
     } else if (key === 'extraTimePercentage') {
-      data[key] = line[headers[key]] !== '' ? parseInt(line[headers[key]]) : null;
+      data[key] = headerKeyInCurrentLine !== '' ? parseInt(headerKeyInCurrentLine) : null;
+    } else if (key === 'prepaymentCode') {
+      data[key] = headerKeyInCurrentLine !== '' ? headerKeyInCurrentLine : null;
     } else {
-      data[key] = line[headers[key]];
+      data[key] = headerKeyInCurrentLine;
     }
   });
   return data;
+}
+
+function _extractComplementaryCertificationLabelsFromLine(line) {
+  const complementaryCertificationLabels = [];
+
+  Object.keys(line).map((header) => {
+    if (_isComplementaryCertification(header)) {
+      const complementaryCertificationValue = line[header];
+      if (_isTrueValue(complementaryCertificationValue)) {
+        const complementaryCertificationLabel = _getComplementaryCertificationLabel(
+          header,
+          COMPLEMENTARY_CERTIFICATION_SUFFIX
+        );
+
+        complementaryCertificationLabels.push(complementaryCertificationLabel);
+      }
+    }
+  });
+
+  return complementaryCertificationLabels;
+}
+
+function _isTrueValue(complementaryCertificationValue) {
+  const TRUE_VALUE = 'OUI';
+  return complementaryCertificationValue.trim().toUpperCase() === TRUE_VALUE;
+}
+
+function _isComplementaryCertification(header) {
+  return header.endsWith(COMPLEMENTARY_CERTIFICATION_SUFFIX);
+}
+
+function _getComplementaryCertificationLabel(key, COMPLEMENTARY_CERTIFICATION_SUFFIX) {
+  return key.replace(COMPLEMENTARY_CERTIFICATION_SUFFIX, '').trim();
 }
 
 function _verifyHeaders({ csvLineKeys, parsedCsvLine, headers }) {
@@ -122,6 +160,7 @@ function _createCandidate({
   billingMode,
   prepaymentCode,
   sex,
+  complementaryCertifications,
 }) {
   return {
     lastName,
@@ -138,6 +177,7 @@ function _createCandidate({
     billingMode,
     prepaymentCode,
     sex,
+    complementaryCertifications,
   };
 }
 
