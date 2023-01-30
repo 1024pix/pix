@@ -1,4 +1,4 @@
-const { expect, catchErr, sinon } = require('../../../test-helper');
+const { domainBuilder, expect, catchErr, sinon } = require('../../../test-helper');
 const createSessions = require('../../../../lib/domain/usecases/create-sessions');
 const { EntityValidationError, InvalidCertificationCandidate } = require('../../../../lib/domain/errors');
 const { UnprocessableEntityError } = require('../../../../lib/application/http-errors');
@@ -7,6 +7,7 @@ const Session = require('../../../../lib/domain/models/Session');
 const certificationCpfService = require('../../../../lib/domain/services/certification-cpf-service');
 const { CpfBirthInformationValidation } = require('../../../../lib/domain/services/certification-cpf-service');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+const CertificationCandidate = require('../../../../lib/domain/models/CertificationCandidate');
 
 describe('Unit | UseCase | create-sessions', function () {
   let accessCode;
@@ -14,19 +15,26 @@ describe('Unit | UseCase | create-sessions', function () {
   let certificationCenterName;
   let certificationCenter;
   let certificationCenterRepository;
+  let certificationCandidateRepository;
+  let complementaryCertificationRepository;
   let sessionRepository;
 
   beforeEach(function () {
     accessCode = 'accessCode';
     certificationCenterId = '123';
     certificationCenterName = 'certificationCenterName';
-    certificationCenter = { id: certificationCenterId, name: certificationCenterName };
+    certificationCenter = domainBuilder.buildCertificationCenter({
+      id: certificationCenterId,
+      name: certificationCenterName,
+    });
     certificationCenterRepository = { get: sinon.stub() };
+    certificationCandidateRepository = { saveInSession: sinon.stub() };
+    complementaryCertificationRepository = { getByLabel: sinon.stub() };
     sessionRepository = { save: sinon.stub() };
     sinon.stub(sessionCodeService, 'getNewSessionCodeWithoutAvailabilityCheck');
     sinon.stub(certificationCpfService, 'getBirthInformation');
     sessionCodeService.getNewSessionCodeWithoutAvailabilityCheck.returns(accessCode);
-    certificationCenterRepository.get.withArgs(certificationCenterId).resolves({ name: certificationCenter.name });
+    certificationCenterRepository.get.withArgs(certificationCenterId).resolves(certificationCenter);
   });
 
   context('when sessions are valid', function () {
@@ -84,11 +92,107 @@ describe('Unit | UseCase | create-sessions', function () {
     });
 
     context('when the session has candidates', function () {
+      context('when certification center is not managing students', function () {
+        context('when certification candidate has complementary certification', function () {
+          it('should save certificationCandidate with complementary certification', async function () {
+            // given
+            const validSessionData = createValidSessionData();
+            const validCandidateData = createValidCandidateData();
+            const complementaryCertification = domainBuilder.buildComplementaryCertification({ label: 'Pix Toto' });
+            validCandidateData.complementaryCertifications = ['Pix Toto'];
+            const cpfBirthInformationValidation = CpfBirthInformationValidation.success({ ...validCandidateData });
+            certificationCpfService.getBirthInformation.resolves(cpfBirthInformationValidation);
+            const scoCertificationCenter = domainBuilder.buildCertificationCenter({
+              id: certificationCenterId,
+              type: 'SUP',
+            });
+            complementaryCertificationRepository.getByLabel
+              .withArgs({ label: 'Pix Toto' })
+              .resolves(complementaryCertification);
+            certificationCenterRepository.get.withArgs(certificationCenterId).resolves(scoCertificationCenter);
+
+            const sessions = [
+              {
+                ...validSessionData,
+                certificationCandidates: [{ ...validCandidateData }],
+              },
+            ];
+            sessionRepository.save.resolves({ id: 99 });
+            const domainTransaction = Symbol('trx');
+            sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
+
+            // when
+            await createSessions({
+              sessions,
+              certificationCenterId,
+              certificationCandidateRepository,
+              certificationCenterRepository,
+              complementaryCertificationRepository,
+              sessionRepository,
+            });
+
+            // then
+            expect(certificationCandidateRepository.saveInSession).to.have.been.calledOnceWith({
+              sessionId: 99,
+              certificationCandidate: new CertificationCandidate({
+                ...validCandidateData,
+                sessionId: 99,
+                billingMode: 'FREE',
+                complementaryCertifications: [complementaryCertification],
+              }),
+              domainTransaction,
+            });
+          });
+        });
+
+        it('should save certificationCandidate', async function () {
+          // given
+          const validSessionData = createValidSessionData();
+          const validCandidateData = createValidCandidateData();
+          const cpfBirthInformationValidation = CpfBirthInformationValidation.success({ ...validCandidateData });
+          certificationCpfService.getBirthInformation.resolves(cpfBirthInformationValidation);
+          const scoCertificationCenter = domainBuilder.buildCertificationCenter({
+            id: certificationCenterId,
+            type: 'SUP',
+          });
+          certificationCenterRepository.get.withArgs(certificationCenterId).resolves(scoCertificationCenter);
+
+          const sessions = [
+            {
+              ...validSessionData,
+              certificationCandidates: [{ ...validCandidateData }],
+            },
+          ];
+          sessionRepository.save.resolves({ id: 99 });
+          const domainTransaction = Symbol('trx');
+          sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
+
+          // when
+          await createSessions({
+            sessions,
+            certificationCenterId,
+            certificationCandidateRepository,
+            certificationCenterRepository,
+            sessionRepository,
+          });
+
+          // then
+          expect(certificationCandidateRepository.saveInSession).to.have.been.calledOnceWith({
+            sessionId: 99,
+            certificationCandidate: new CertificationCandidate({
+              ...validCandidateData,
+              sessionId: 99,
+              billingMode: 'FREE',
+            }),
+            domainTransaction,
+          });
+        });
+      });
       // eslint-disable-next-line mocha/no-setup-in-describe
-      [{ firstName: '' }, { firstName: null }].forEach((wrondCandidateProperty) => {
+      [{ firstName: '' }, { firstName: null }].forEach((wrongCandidateProperty) => {
         context(
           // eslint-disable-next-line mocha/no-setup-in-describe
-          `when the candidate has at least one wrong information: ${JSON.stringify(wrondCandidateProperty)}`,
+          `when the candidate has at least one wrong information: ${JSON.stringify(wrongCandidateProperty)}`,
           function () {
             it('should throw a validation error', async function () {
               // given
@@ -97,7 +201,7 @@ describe('Unit | UseCase | create-sessions', function () {
               const sessions = [
                 {
                   ...validSessionData,
-                  certificationCandidates: [{ ...validCandidateData, ...wrondCandidateProperty }],
+                  certificationCandidates: [{ ...validCandidateData, ...wrongCandidateProperty }],
                 },
               ];
               sessionRepository.save.resolves({ id: 99 });
@@ -246,6 +350,6 @@ function createValidCandidateData() {
     email: 'robindahood2@email.fr',
     externalId: 'htehte',
     extraTimePercentage: '20',
-    billingMode: 'FREE',
+    billingMode: 'Gratuite',
   };
 }
