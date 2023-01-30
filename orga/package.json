@@ -57,7 +57,7 @@
     "chart.js": "^3.9.1",
     "chartjs-adapter-date-fns": "^2.0.1",
     "date-fns": "^2.29.3",
-    "dayjs": "^1.11.6",
+    "dayjs": "^1.11.7",
     "ember-auto-import": "^2.4.3",
     "ember-cli": "^4.8.0",
     "ember-cli-app-version": "^5.0.0",
