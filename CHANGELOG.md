@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v3.316.1 (30/01/2023)
+
+
+### :bug: Correction
+- [#5571](https://github.com/1024pix/pix/pull/5571) [BUGFIX] corriger une régression visuelle des intitulées de réponse dans les QCM et SCU
+
 ## v3.316.0 (30/01/2023)
 
 
