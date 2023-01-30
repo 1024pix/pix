@@ -45,7 +45,7 @@
     "@ember/optional-features": "^2.0.0",
     "@ember/render-modifiers": "^2.0.5",
     "@ember/test-helpers": "^2.9.3",
-    "@formatjs/intl-getcanonicallocales": "^2.0.4",
+    "@formatjs/intl-getcanonicallocales": "^2.0.5",
     "@formatjs/intl-locale": "^3.0.7",
     "@formatjs/intl-pluralrules": "^5.1.4",
     "@fortawesome/ember-fontawesome": "^0.4.1",
