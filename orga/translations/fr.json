@@ -919,7 +919,7 @@
           "login-method": "Méthode(s) de connexion",
           "participation-count": "Nombre de participations"
         },
-        "description": "Tableau des élèves trié par nom. Pour les élèves ayant fourni une adresse e-mail ou un identifiant, vous pouvez, via un menu situé dans une colonne supplémentaire, gérer les modes de connexion autorisés et réinitialiser le mot de passe de l'élève",
+        "description": "Tableau des élèves trié par nom. Pour les élèves ayant fourni une méthode de connexion, vous pouvez, via un menu situé dans la colonne 'Actions', gérer les modes de connexion autorisés et réinitialiser le mot de passe de l'élève",
         "empty": "Aucun élève.",
         "row-title": "Élève"
       }
