@@ -1,8 +1,8 @@
 <form {{on "submit" this.validateAnswer}}>
 
   <div class="rounded-panel__row challenge-response {{if @answer 'challenge-response--locked'}}">
-    <h2 class="challenge-response__instructions">{{t "pages.challenge.parts.answer-instructions.qcu"}}</h2>
     <h2 class="sr-only">{{t "pages.challenge.parts.answer-input"}}</h2>
+    <p class="challenge-response__instructions">{{t "pages.challenge.parts.answer-instructions.qcu"}}</p>
     <div class="challenge-proposals">
       <QcuProposals
         @answer={{@answer}}
