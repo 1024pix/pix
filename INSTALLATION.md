@@ -222,3 +222,15 @@ Elle est obtenue avec la commande suivante.
 cd api
 npm run local:test:coverage
 ```
+
+#### Tracer de manière détaillée l'envoi d'email
+
+On peut tracer de manière détaillée (debug) l'appel de l'API d'email avec la
+configuration d'une variable d'environnement :
+
+```shell
+export DEBUG="pix:mailer:email"
+```
+
+Cette variable d'environnement peut également être configurée dans le fichier [.env](api/.env).
+
