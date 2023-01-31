@@ -96,16 +96,12 @@ module.exports = {
   },
 
   async checkIfUserOrganizationHasAccessToCampaign(campaignId, userId) {
-    try {
-      await BookshelfCampaign.query((qb) => {
-        qb.where({ 'campaigns.id': campaignId, 'memberships.userId': userId, 'memberships.disabledAt': null });
-        qb.innerJoin('memberships', 'memberships.organizationId', 'campaigns.organizationId');
-        qb.innerJoin('organizations', 'organizations.id', 'campaigns.organizationId');
-      }).fetch();
-    } catch (e) {
-      return false;
-    }
-    return true;
+    const campaign = await knex('campaigns')
+      .innerJoin('memberships', 'memberships.organizationId', 'campaigns.organizationId')
+      .innerJoin('organizations', 'organizations.id', 'campaigns.organizationId')
+      .where({ 'campaigns.id': campaignId, 'memberships.userId': userId, 'memberships.disabledAt': null })
+      .first('campaigns.id');
+    return Boolean(campaign);
   },
 
   async checkIfCampaignIsArchived(campaignId) {
