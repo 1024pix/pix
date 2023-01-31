@@ -21,7 +21,7 @@ describe('Acceptance | Scripts | convert-target-profiles-into-new-format', funct
     _buildTargetProfileAlreadyConverted(targetProfileAlreadyConvertedId);
     _buildTargetProfileToConvert(targetProfileToConvertId, learningContent);
     _buildTargetProfileConversionErrorNoSkills(targetProfileConversionErrorNoSkillsId);
-    _buildTargetProfileConversionErrorUnknownSkills(targetProfileConversionErrorUnknownSkillsId);
+    _buildTargetProfileConversionErrorUnknownSkills(targetProfileConversionErrorUnknownSkillsId, learningContent);
     _buildTargetProfileConversionErrorNoCorrespondingTube(
       targetProfileConversionErrorNoCorrespondingTubeId,
       learningContent
@@ -54,14 +54,11 @@ describe('Acceptance | Scripts | convert-target-profiles-into-new-format', funct
     expect(migrationStatusToConvert).to.equal('AUTO');
     expect(tubesForErrorNoSkills).to.deep.equal([]);
     expect(migrationStatusErrorNoSkillId).to.equal('NOT_MIGRATED');
-    expect(tubesForErrorUnknownSkills).to.deep.equal([]);
-    expect(migrationStatusUnknownSkills).to.equal('NOT_MIGRATED');
+    expect(tubesForErrorUnknownSkills).to.deep.equal([{ tubeId: 'recTubeD', level: 1 }]);
+    expect(migrationStatusUnknownSkills).to.equal('AUTO');
     expect(tubesForErrorNoCorrespondingTube).to.deep.equal([]);
     expect(migrationStatusNoCorrespondingTube).to.equal('NOT_MIGRATED');
     expect(loggerErrorStub).to.have.been.calledWith("3 Echec. Raison : Error: Le profil cible n'a pas d'acquis.");
-    expect(loggerErrorStub).to.have.been.calledWith(
-      `4 Echec. Raison : Error: L'acquis "recSomeUnknownSkill" n'existe pas dans le référentiel.`
-    );
     expect(loggerErrorStub).to.have.been.calledWith(
       `5 Echec. Raison : Error: Le sujet "recSomeUnknownTube" n'existe pas dans le référentiel.`
     );
@@ -164,12 +161,29 @@ function _buildTargetProfileConversionErrorNoSkills(id) {
   databaseBuilder.factory.buildTargetProfile({ id, migration_status: 'NOT_MIGRATED' });
 }
 
-function _buildTargetProfileConversionErrorUnknownSkills(id) {
+function _buildTargetProfileConversionErrorUnknownSkills(id, learningContent) {
   databaseBuilder.factory.buildTargetProfile({ id, migration_status: 'NOT_MIGRATED' });
   databaseBuilder.factory.buildTargetProfileSkill({
     skillId: 'recSomeUnknownSkill',
     targetProfileId: id,
   });
+  databaseBuilder.factory.buildTargetProfileSkill({
+    skillId: 'recSkill1TubeD',
+    targetProfileId: id,
+  });
+
+  const skill1TubeD = {
+    id: 'recSkill1TubeD',
+    name: '@skill1TubeD',
+    tubeId: 'recTubeD',
+    level: 1,
+  };
+  const tubeD = {
+    id: 'recTubeD',
+    skills: [skill1TubeD],
+  };
+  learningContent.skills.push(skill1TubeD);
+  learningContent.tubes.push(tubeD);
 }
 
 function _buildTargetProfileConversionErrorNoCorrespondingTube(id, learningContent) {
