@@ -16,11 +16,9 @@ module.exports = {
   },
 
   async getByCode(code) {
-    const bookshelfCampaign = await BookshelfCampaign.where({ code }).fetch({
-      require: false,
-      withRelated: ['organization'],
-    });
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaign, bookshelfCampaign);
+    const campaign = await knex('campaigns').first().where({ code });
+    if (!campaign) return null;
+    return new Campaign({ ...campaign, organization: { id: campaign.organizationId } });
   },
 
   async get(id) {
