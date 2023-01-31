@@ -99,6 +99,8 @@ describe('Acceptance | Route | GET /users/{userId}/campaigns/{campaignId}/profil
               'pix-score': 2,
               'shared-at': sharedAt,
               'can-retry': false,
+              'max-reachable-level': 5,
+              'max-reachable-pix-score': 640,
             },
             relationships: {
               scorecards: {

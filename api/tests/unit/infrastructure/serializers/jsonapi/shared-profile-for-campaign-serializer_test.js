@@ -50,6 +50,8 @@ describe('Unit | Serializer | JSONAPI | shared-profile-for-campaign-serializer',
         competences,
         allAreas: [area1, area2],
         knowledgeElementsGroupedByCompetenceId,
+        maxReachableLevel: 8,
+        maxReachablePixScore: 768,
       });
     });
 
@@ -62,6 +64,8 @@ describe('Unit | Serializer | JSONAPI | shared-profile-for-campaign-serializer',
             'pix-score': profileSharedForCampaign.pixScore,
             'shared-at': profileSharedForCampaign.sharedAt,
             'can-retry': true,
+            'max-reachable-level': 8,
+            'max-reachable-pix-score': 768,
           },
           relationships: {
             scorecards: {
