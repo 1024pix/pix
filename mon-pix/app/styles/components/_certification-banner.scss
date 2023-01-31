@@ -1,9 +1,8 @@
 .blur-banner {
-  filter: $blur-30;
+  filter: blur(30px);
 }
 
 .assessment-banner {
-
   &--certification {
     display: flex;
     align-items: flex-start;
@@ -17,9 +16,7 @@
 }
 
 @include device-is('tablet') {
-
   .assessment-banner {
-
     &__title {
       display: block;
       width: 250px;
