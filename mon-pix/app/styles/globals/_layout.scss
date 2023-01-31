@@ -7,6 +7,10 @@ body {
   margin: 0 auto;
 }
 
+.main {
+  min-height: calc(100vh - 101px - 100px);
+}
+
 .pix-communication-banner {
   position: relative;
   top: 0;
