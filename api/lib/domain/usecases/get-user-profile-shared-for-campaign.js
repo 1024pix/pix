@@ -1,5 +1,6 @@
 const SharedProfileForCampaign = require('../read-models/SharedProfileForCampaign');
 const { NoCampaignParticipationForUserAndCampaign } = require('../errors');
+const constants = require('../constants');
 
 module.exports = async function getUserProfileSharedForCampaign({
   userId,
@@ -35,6 +36,8 @@ module.exports = async function getUserProfileSharedForCampaign({
   ]);
   const competences = await competenceRepository.listPixCompetencesOnly({ locale });
   const allAreas = await areaRepository.list({ locale });
+  const maxReachableLevel = constants.MAX_REACHABLE_LEVEL;
+  const maxReachablePixScore = constants.MAX_REACHABLE_PIX_SCORE;
 
   return new SharedProfileForCampaign({
     campaignParticipation,
@@ -44,5 +47,7 @@ module.exports = async function getUserProfileSharedForCampaign({
     knowledgeElementsGroupedByCompetenceId,
     userId,
     allAreas,
+    maxReachableLevel,
+    maxReachablePixScore,
   });
 };
