@@ -22,15 +22,8 @@
     "first-deploy": "./scripts/scalingo-post-ra-creation.sh"
   },
   "addons": [
-    {
-      "plan": "postgresql:postgresql-sandbox",
-      "options": {
-        "version": "14"
-      }
-    },
-    {
-      "plan": "redis:redis-sandbox"
-    }
+    "postgresql:postgresql-sandbox",
+    "redis:redis-sandbox"
   ],
   "formation": {
     "web": {
