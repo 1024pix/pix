@@ -48,6 +48,7 @@ module.exports = {
         url: settings.poleEmploi.tokenUrl,
         payload: querystring.stringify(data),
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        timeout: settings.partner.fetchTimeOut,
       });
 
       if (!tokenResponse.isSuccessful) {
@@ -85,7 +86,12 @@ module.exports = {
       'Service-source': 'Pix',
     };
 
-    const httpResponse = await httpAgent.post({ url, payload, headers });
+    const httpResponse = await httpAgent.post({
+      url,
+      payload,
+      headers,
+      timeout: settings.partner.fetchTimeOut,
+    });
 
     if (!httpResponse.isSuccessful) {
       const serializedError = httpErrorsHelper.serializeHttpErrorResponse(httpResponse);
