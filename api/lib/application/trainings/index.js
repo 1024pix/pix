@@ -150,6 +150,63 @@ exports.register = async (server) => {
         ],
       },
     },
+    {
+      method: 'PUT',
+      path: '/api/admin/trainings/{trainingId}/triggers',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+          },
+        ],
+        handler: trainingsController.createOrUpdateTrigger,
+        validate: {
+          params: Joi.object({
+            trainingId: identifiersType.trainingId,
+          }),
+          payload: Joi.object({
+            data: Joi.object({
+              attributes: Joi.object({
+                type: Joi.string().valid('prerequisite', 'goal').required(),
+                threshold: Joi.number().min(0).max(100).required(),
+              }),
+              relationships: Joi.object({
+                tubes: Joi.object({
+                  data: Joi.array().items(
+                    Joi.object({
+                      id: identifiersType.tubeId.required(),
+                      type: Joi.string().valid('tubes').required(),
+                    })
+                  ),
+                }),
+              }),
+              type: Joi.string().valid('training-triggers'),
+            }).required(),
+            included: Joi.array()
+              .items(
+                Joi.object({
+                  attributes: Joi.object({
+                    id: identifiersType.tubeId.required(),
+                    level: Joi.number().min(0).max(8).required(),
+                  }),
+                }).required()
+              )
+              .required(),
+          }).required(),
+          options: {
+            allowUnknown: true,
+          },
+        },
+        tags: ['api', 'admin', 'trainings'],
+        notes: [
+          "- Permet à un administrateur de créer ou de mettre à jour le déclencheur d'un contenu formatif par son identifiant",
+        ],
+      },
+    },
   ]);
 };
 
