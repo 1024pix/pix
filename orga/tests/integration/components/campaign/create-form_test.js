@@ -300,13 +300,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           options = options.map((option) => {
             return option.innerText;
           });
-          assert.deepEqual(options, [
-            t('pages.campaign-creation.target-profiles-label'),
-            'targetProfile1',
-            'targetProfile2',
-            'targetProfile3',
-            'targetProfile4',
-          ]);
+          assert.deepEqual(options, ['targetProfile1', 'targetProfile2', 'targetProfile3', 'targetProfile4']);
         });
 
         test('it should display options with OTHER category at last position', async function (assert) {
@@ -351,11 +345,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
           options = options.map((option) => {
             return option.innerText;
           });
-          assert.deepEqual(options, [
-            t('pages.campaign-creation.target-profiles-label'),
-            'targetProfile4',
-            'targetProfile3',
-          ]);
+          assert.deepEqual(options, ['targetProfile4', 'targetProfile3']);
         });
       });
     });
