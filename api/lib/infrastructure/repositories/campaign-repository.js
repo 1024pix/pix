@@ -1,7 +1,5 @@
 const _ = require('lodash');
-const BookshelfCampaign = require('../orm-models/Campaign');
 const { NotFoundError } = require('../../domain/errors');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../../../db/knex-database-connection');
 const Campaign = require('../../domain/models/Campaign');
 const targetProfileRepository = require('./target-profile-repository');
@@ -12,7 +10,7 @@ const CAMPAIGNS_TABLE = 'campaigns';
 
 module.exports = {
   async isCodeAvailable(code) {
-    return !Boolean(await knex('campaigns').first('id').where({ code }));
+    return !(await knex('campaigns').first('id').where({ code }));
   },
 
   async getByCode(code) {
@@ -105,10 +103,8 @@ module.exports = {
   },
 
   async checkIfCampaignIsArchived(campaignId) {
-    const bookshelfCampaign = await BookshelfCampaign.where({ id: campaignId }).fetch();
-
-    const campaign = bookshelfToDomainConverter.buildDomainObject(BookshelfCampaign, bookshelfCampaign);
-    return campaign.isArchived();
+    const { archivedAt } = await knex('campaigns').where({ id: campaignId }).first('archivedAt');
+    return Boolean(archivedAt);
   },
 
   async getCampaignTitleByCampaignParticipationId(campaignParticipationId) {
