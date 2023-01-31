@@ -4,15 +4,7 @@ const _ = require('lodash');
 const { knex, disconnect } = require('../../../db/knex-database-connection');
 const logger = require('../../../lib/infrastructure/logger');
 const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
-
-let allSkills;
-let allTubes;
-async function _cacheLearningContentData() {
-  const skillRepository = require('../../../lib/infrastructure/repositories/skill-repository');
-  allSkills = await skillRepository.list();
-  const tubeRepository = require('../../../lib/infrastructure/repositories/tube-repository');
-  allTubes = await tubeRepository.list();
-}
+const { autoMigrateTargetProfile } = require('./common');
 
 async function main() {
   try {
@@ -27,7 +19,6 @@ async function main() {
 }
 
 async function doJob() {
-  await _cacheLearningContentData();
   const targetProfileIds = await _findTargetProfileIdsToConvert();
   if (targetProfileIds.length === 0) {
     logger.info('Aucun profil cible à convertir.');
@@ -56,54 +47,7 @@ async function _findTargetProfileIdsToConvert() {
 }
 
 async function _convertTargetProfile(targetProfileId, trx) {
-  const skillIds = await _findSkillIds(targetProfileId, trx);
-  if (skillIds.length === 0) throw new Error("Le profil cible n'a pas d'acquis.");
-
-  const tubes = await _computeTubeIdsAndLevelsForSkills(skillIds);
-
-  await _createTargetProfileTubes(targetProfileId, tubes, trx);
-  await trx('target-profiles').update({ migration_status: 'AUTO' }).where({ id: targetProfileId });
-  logger.info(`${targetProfileId} OK. ${tubes.length} tubes créés.`);
-}
-
-async function _findSkillIds(targetProfileId, trx) {
-  return trx('target-profiles_skills').pluck('skillId').where('targetProfileId', targetProfileId);
-}
-
-async function _computeTubeIdsAndLevelsForSkills(skillIds) {
-  const skills = _findSkills(skillIds);
-  const skillsGroupedByTubeId = _.groupBy(skills, 'tubeId');
-  const tubes = [];
-  for (const [tubeId, skills] of Object.entries(skillsGroupedByTubeId)) {
-    const skillWithHighestDifficulty = _.maxBy(skills, 'difficulty');
-    tubes.push({
-      tubeId,
-      level: skillWithHighestDifficulty.difficulty,
-    });
-  }
-  return tubes;
-}
-
-function _findSkills(skillIds) {
-  return skillIds.map((skillId) => {
-    const foundSkill = allSkills.find((skill) => skill.id === skillId);
-    if (!foundSkill) throw new Error(`L'acquis "${skillId}" n'existe pas dans le référentiel.`);
-    if (!foundSkill.tubeId) throw new Error(`L'acquis "${skillId}" n'appartient à aucun sujet.`);
-    const tubeExists = _doesTubeExist(foundSkill.tubeId);
-    if (!tubeExists) throw new Error(`Le sujet "${foundSkill.tubeId}" n'existe pas dans le référentiel.`);
-    return foundSkill;
-  });
-}
-
-function _doesTubeExist(tubeId) {
-  return Boolean(allTubes.find((tube) => tube.id === tubeId));
-}
-
-async function _createTargetProfileTubes(targetProfileId, tubes, trx) {
-  const completeTubes = tubes.map((tube) => {
-    return { ...tube, targetProfileId };
-  });
-  await trx.batchInsert('target-profile_tubes', completeTubes);
+  return autoMigrateTargetProfile(targetProfileId, trx);
 }
 
 if (require.main === module) {
