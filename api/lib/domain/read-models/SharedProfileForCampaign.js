@@ -11,6 +11,8 @@ class SharedProfileForCampaign {
     knowledgeElementsGroupedByCompetenceId,
     userId,
     allAreas,
+    maxReachableLevel,
+    maxReachablePixScore,
   }) {
     this.id = campaignParticipation?.id;
     this.sharedAt = campaignParticipation?.sharedAt;
@@ -22,6 +24,8 @@ class SharedProfileForCampaign {
       isOrganizationLearnerActive,
       campaignParticipation?.deletedAt
     );
+    this.maxReachableLevel = maxReachableLevel;
+    this.maxReachablePixScore = maxReachablePixScore;
   }
 
   _buildScorecards(userId, competences, allAreas, knowledgeElementsGroupedByCompetenceId) {

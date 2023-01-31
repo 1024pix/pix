@@ -2,6 +2,7 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 const getUserProfileSharedForCampaign = require('../../../../lib/domain/usecases/get-user-profile-shared-for-campaign');
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
 const { NoCampaignParticipationForUserAndCampaign } = require('../../../../lib/domain/errors');
+const constants = require('../../../../lib/domain/constants');
 
 describe('Unit | UseCase | get-user-profile-shared-for-campaign', function () {
   const sharedAt = new Date('2020-02-01');
@@ -16,6 +17,13 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function () {
   let organizationLearnerRepository;
   let userId;
   let campaignId;
+  let expectedMaxReachableLevel;
+  let expectedMaxReachablePixScore;
+
+  beforeEach(function () {
+    expectedMaxReachableLevel = Symbol('maxReachableLevel');
+    expectedMaxReachablePixScore = Symbol('maxReachablePixCount');
+  });
 
   context('When user has shared its profile for the campaign', function () {
     beforeEach(function () {
@@ -28,6 +36,8 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function () {
       campaignRepository = { get: sinon.stub() };
       organizationLearnerRepository = { isActive: sinon.stub() };
       sinon.stub(Scorecard, 'buildFrom');
+      sinon.stub(constants, 'MAX_REACHABLE_LEVEL').value(expectedMaxReachableLevel);
+      sinon.stub(constants, 'MAX_REACHABLE_PIX_SCORE').value(expectedMaxReachablePixScore);
     });
 
     afterEach(function () {
@@ -83,6 +93,8 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function () {
           { id: 'Score1', earnedPix: 10 },
           { id: 'Score2', earnedPix: 5 },
         ],
+        maxReachableLevel: expectedMaxReachableLevel,
+        maxReachablePixScore: expectedMaxReachablePixScore,
       });
     });
   });
