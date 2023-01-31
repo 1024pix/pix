@@ -34,7 +34,11 @@ module('Integration | Component | Tables | header-sort', function (hooks) {
     test('should inverse arrow on click', async function (assert) {
       // when
       await render(
-        hbs`<Table::HeaderSort @isDisabled={{false}} @onSort={{this.onSort}} @ariaLabel="Trier par pertinence">Header</Table::HeaderSort>`
+        hbs`<Table::HeaderSort
+  @isDisabled={{false}}
+  @onSort={{this.onSort}}
+  @ariaLabel='Trier par pertinence'
+>Header</Table::HeaderSort>`
       );
       await click('[aria-label="Trier par pertinence"]');
 
@@ -48,7 +52,7 @@ module('Integration | Component | Tables | header-sort', function (hooks) {
     test('should not display arrow', async function (assert) {
       // when
       await render(
-        hbs`<Table::HeaderSort @isDisabled={{true}} @ariaLabel="Trier par pertinence">Header</Table::HeaderSort>`
+        hbs`<Table::HeaderSort @isDisabled={{true}} @ariaLabel='Trier par pertinence'>Header</Table::HeaderSort>`
       );
 
       // then

@@ -78,7 +78,7 @@ module('Integration | Component | Layout::UserLoggedMenu', function (hooks) {
 
   test('should display the organizations name and externalId when menu is open', async function (assert) {
     // when
-    await render(hbs`<Layout::UserLoggedMenu  />`);
+    await render(hbs`<Layout::UserLoggedMenu />`);
     await clickByName('Ouvrir le menu utilisateur');
 
     // then

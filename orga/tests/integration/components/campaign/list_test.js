@@ -252,7 +252,12 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
         // when
         const screen = await renderScreen(
-          hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} @listOnlyCampaignsOfCurrentUser={{this.listOnlyCampaignsOfCurrentUser}} />`
+          hbs`<Campaign::List
+  @campaigns={{this.campaigns}}
+  @onFilter={{this.noop}}
+  @onClickCampaign={{this.noop}}
+  @listOnlyCampaignsOfCurrentUser={{this.listOnlyCampaignsOfCurrentUser}}
+/>`
         );
 
         // then
@@ -278,7 +283,13 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
         // when
         const screen = await renderScreen(
-          hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} @listOnlyCampaignsOfCurrentUser={{this.listOnlyCampaignsOfCurrentUser}} @isClearFiltersButtonDisabled={{this.isClearFiltersButtonDisabled}}/>`
+          hbs`<Campaign::List
+  @campaigns={{this.campaigns}}
+  @onFilter={{this.noop}}
+  @onClickCampaign={{this.noop}}
+  @listOnlyCampaignsOfCurrentUser={{this.listOnlyCampaignsOfCurrentUser}}
+  @isClearFiltersButtonDisabled={{this.isClearFiltersButtonDisabled}}
+/>`
         );
 
         // then
@@ -301,7 +312,13 @@ module('Integration | Component | Campaign::List', function (hooks) {
 
         // when
         const screen = await renderScreen(
-          hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} @listOnlyCampaignsOfCurrentUser={{this.listOnlyCampaignsOfCurrentUser}} @isClearFiltersButtonDisabled={{this.isClearFiltersButtonDisabled}} />`
+          hbs`<Campaign::List
+  @campaigns={{this.campaigns}}
+  @onFilter={{this.noop}}
+  @onClickCampaign={{this.noop}}
+  @listOnlyCampaignsOfCurrentUser={{this.listOnlyCampaignsOfCurrentUser}}
+  @isClearFiltersButtonDisabled={{this.isClearFiltersButtonDisabled}}
+/>`
         );
 
         // then

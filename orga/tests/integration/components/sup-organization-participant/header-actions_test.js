@@ -50,7 +50,7 @@ module('Integration | Component | SupOrganizationParticipant::HeaderActions', fu
 
     test('it should display download template button', async function (assert) {
       // when
-      await render(hbs`<SupOrganizationParticipant::HeaderActions/>`);
+      await render(hbs`<SupOrganizationParticipant::HeaderActions />`);
 
       // then
       assert.contains('Télécharger le modèle');
@@ -58,7 +58,7 @@ module('Integration | Component | SupOrganizationParticipant::HeaderActions', fu
 
     test('it displays the import button', async function (assert) {
       // when
-      await render(hbs`<SupOrganizationParticipant::HeaderActions/>`);
+      await render(hbs`<SupOrganizationParticipant::HeaderActions />`);
 
       // then
       assert.contains('Importer');
@@ -75,7 +75,7 @@ module('Integration | Component | SupOrganizationParticipant::HeaderActions', fu
 
     test('it should not display download template button', async function (assert) {
       // when
-      await render(hbs`<SupOrganizationParticipant::HeaderActions/>`);
+      await render(hbs`<SupOrganizationParticipant::HeaderActions />`);
 
       // then
       assert.notContains('Télécharger le modèle');
@@ -83,7 +83,7 @@ module('Integration | Component | SupOrganizationParticipant::HeaderActions', fu
 
     test('it should not display import button', async function (assert) {
       // when
-      await render(hbs`<SupOrganizationParticipant::HeaderActions/>`);
+      await render(hbs`<SupOrganizationParticipant::HeaderActions />`);
 
       // then
       assert.notContains('Importer (.csv)');

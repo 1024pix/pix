@@ -34,7 +34,12 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
     ]);
 
     await render(
-      hbs`<Campaign::Activity::ParticipantsList @campaign={{this.campaign}} @participations={{this.participations}} @onClickParticipant={{this.noop}} @onFilter={{this.noop}} />`
+      hbs`<Campaign::Activity::ParticipantsList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.noop}}
+/>`
     );
 
     assert.contains('Joe');
@@ -56,7 +61,12 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
     ]);
 
     const screen = await render(
-      hbs`<Campaign::Activity::ParticipantsList @campaign={{this.campaign}} @participations={{this.participations}} @onClickParticipant={{this.noop}} @onFilter={{this.noop}} />`
+      hbs`<Campaign::Activity::ParticipantsList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.noop}}
+/>`
     );
 
     assert
@@ -86,8 +96,12 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
           },
         ];
 
-        await render(hbs`<Campaign::Activity::ParticipantsList @campaign={{this.campaign}} @participations={{this.participations}} @onClickParticipant={{this.noop}} @onFilter={{this.noop}}
-          />`);
+        await render(hbs`<Campaign::Activity::ParticipantsList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.noop}}
+/>`);
 
         assert.dom('[aria-label="Supprimer la participation"]').exists();
       });
@@ -111,8 +125,12 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
           },
         ];
 
-        await render(hbs`<Campaign::Activity::ParticipantsList @campaign={{this.campaign}} @participations={{this.participations}} @onClickParticipant={{this.noop}} @onFilter={{this.noop}}
-          />`);
+        await render(hbs`<Campaign::Activity::ParticipantsList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.noop}}
+/>`);
 
         assert.dom('[aria-label="Supprimer la participation"]').exists();
       });
@@ -136,8 +154,12 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
           },
         ];
 
-        await render(hbs`<Campaign::Activity::ParticipantsList @campaign={{this.campaign}} @participations={{this.participations}} @onClickParticipant={{this.noop}} @onFilter={{this.noop}}
-          />`);
+        await render(hbs`<Campaign::Activity::ParticipantsList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.noop}}
+/>`);
 
         assert.dom('[aria-label="Supprimer la participation"]').doesNotExist();
       });
@@ -155,9 +177,13 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
       this.participations = [];
       this.selectedStatus = 'TO_SHARE';
 
-      const screen =
-        await render(hbs`<Campaign::Activity::ParticipantsList @campaign={{this.campaign}} @participations={{this.participations}} @selectedStatus={{this.selectedStatus}} @onClickParticipant={{this.noop}} @onFilter={{this.noop}}
-      />`);
+      const screen = await render(hbs`<Campaign::Activity::ParticipantsList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @selectedStatus={{this.selectedStatus}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.noop}}
+/>`);
       click(screen.getByLabelText('Statut'));
       assert.ok(await screen.findByRole('option', { name: "En attente d'envoi", selected: true }));
     });
@@ -172,9 +198,12 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
       this.participations = [];
       this.onFilter = sinon.stub();
 
-      const screen =
-        await render(hbs`<Campaign::Activity::ParticipantsList @campaign={{this.campaign}} @participations={{this.participations}} @onClickParticipant={{this.noop}} @onFilter={{this.onFilter}}
-        />`);
+      const screen = await render(hbs`<Campaign::Activity::ParticipantsList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.onFilter}}
+/>`);
 
       await click(screen.getByLabelText('Statut'));
       await click(await screen.findByRole('option', { name: 'Résultats reçus' }));
@@ -201,8 +230,12 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
       this.participations = [];
       this.onFilter = sinon.stub();
 
-      await render(hbs`<Campaign::Activity::ParticipantsList @campaign={{this.campaign}} @participations={{this.participations}} @onClickParticipant={{this.noop}} @onFilter={{this.onFilter}}
-        />`);
+      await render(hbs`<Campaign::Activity::ParticipantsList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.onFilter}}
+/>`);
 
       await clickByText('Classes');
       await clickByText('3A');
@@ -228,8 +261,12 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
       this.participations = [];
       this.onFilter = sinon.stub();
 
-      await render(hbs`<Campaign::Activity::ParticipantsList @campaign={{this.campaign}} @participations={{this.participations}} @onClickParticipant={{this.noop}} @onFilter={{this.onFilter}}
-        />`);
+      await render(hbs`<Campaign::Activity::ParticipantsList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.onFilter}}
+/>`);
 
       await clickByText('Groupes');
       await clickByText('M2');
@@ -245,8 +282,12 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
       this.participations = [];
       this.onFilter = sinon.stub();
 
-      await render(hbs`<Campaign::Activity::ParticipantsList @campaign={{this.campaign}} @participations={{this.participations}} @onClickParticipant={{this.noop}} @onFilter={{this.onFilter}}
-        />`);
+      await render(hbs`<Campaign::Activity::ParticipantsList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.onFilter}}
+/>`);
 
       await fillByLabel('Recherche sur le nom et prénom', 'Jean');
 

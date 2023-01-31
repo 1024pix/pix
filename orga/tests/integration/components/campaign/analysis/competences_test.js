@@ -32,8 +32,7 @@ module('Integration | Component | Campaign::Analysis::Competences', function (ho
     this.set('campaignCollectiveResult', campaignCollectiveResult);
 
     // when
-    await render(hbs`<Campaign::Analysis::Competences
-      @campaignCollectiveResult={{this.campaignCollectiveResult}}/>`);
+    await render(hbs`<Campaign::Analysis::Competences @campaignCollectiveResult={{this.campaignCollectiveResult}} />`);
 
     // then
     const firstCompetence = '[aria-label="Compétence"]:first-child';

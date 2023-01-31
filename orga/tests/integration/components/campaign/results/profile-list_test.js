@@ -42,11 +42,11 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
 
       // when
       await render(hbs`<Campaign::Results::ProfileList
-        @campaign={{this.campaign}}
-        @profiles={{this.profiles}}
-        @onClickParticipant={{this.noop}}
-        @onFilter={{this.noop}}
-      />`);
+  @campaign={{this.campaign}}
+  @profiles={{this.profiles}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.noop}}
+/>`);
 
       // then
       assert.notContains('En attente de profils');
@@ -69,11 +69,11 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
 
       // when
       await render(hbs`<Campaign::Results::ProfileList
-        @campaign={{this.campaign}}
-        @profiles={{this.profiles}}
-        @onClickParticipant={{this.noop}}
-        @onFilter={{this.noop}}
-      />`);
+  @campaign={{this.campaign}}
+  @profiles={{this.profiles}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.noop}}
+/>`);
 
       // then
       assert.contains('identifiant externe');
@@ -102,11 +102,11 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
 
       // when
       await render(hbs`<Campaign::Results::ProfileList
-        @campaign={{this.campaign}}
-        @profiles={{this.profiles}}
-        @onClickParticipant={{this.noop}}
-        @onFilter={{this.noop}}
-      />`);
+  @campaign={{this.campaign}}
+  @profiles={{this.profiles}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.noop}}
+/>`);
 
       // then
       assert.contains('01/02/2020');
@@ -134,11 +134,11 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
 
       // when
       await render(hbs`<Campaign::Results::ProfileList
-        @campaign={{this.campaign}}
-        @profiles={{this.profiles}}
-        @onClickParticipant={{this.noop}}
-        @onFilter={{this.noop}}
-      />`);
+  @campaign={{this.campaign}}
+  @profiles={{this.profiles}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.noop}}
+/>`);
 
       // then
       assert.dom('a[href="/campagnes/1/profils/7"]').exists();
@@ -158,11 +158,11 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
 
       // when
       await render(hbs`<Campaign::Results::ProfileList
-        @campaign={{this.campaign}}
-        @profiles={{this.profiles}}
-        @onClickParticipant={{this.noop}}
-        @onFilter={{this.noop}}
-      />`);
+  @campaign={{this.campaign}}
+  @profiles={{this.profiles}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.noop}}
+/>`);
 
       // then
       assert.contains('En attente de profils');
@@ -194,11 +194,11 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
 
       // when
       const screen = await render(hbs`<Campaign::Results::ProfileList
-        @campaign={{this.campaign}}
-        @profiles={{this.profiles}}
-        @onClickParticipant={{this.noop}}
-        @onFilter={{this.onFilter}}
-      />`);
+  @campaign={{this.campaign}}
+  @profiles={{this.profiles}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.onFilter}}
+/>`);
       await click(screen.getByLabelText('Classes'));
       await click(await screen.findByRole('checkbox', { name: 'd1' }));
 
@@ -217,7 +217,11 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
         this.set('campaign', campaign);
         this.set('searchFilter', 'chichi');
         const screen = await render(
-          hbs`<Campaign::Results::ProfileList  @campaign={{this.campaign}} @searchFilter={{this.searchFilter}} @onFilter={{this.noop}}/>`
+          hbs`<Campaign::Results::ProfileList
+  @campaign={{this.campaign}}
+  @searchFilter={{this.searchFilter}}
+  @onFilter={{this.noop}}
+/>`
         );
 
         // then
@@ -235,7 +239,7 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
         this.set('campaign', campaign);
         this.set('triggerFiltering', triggerFiltering);
         await render(
-          hbs`<Campaign::Results::ProfileList  @campaign={{this.campaign}} @onFilter={{this.triggerFiltering}} />`
+          hbs`<Campaign::Results::ProfileList @campaign={{this.campaign}} @onFilter={{this.triggerFiltering}} />`
         );
         await fillByLabel('Recherche sur le nom et prénom', 'Chichi');
 

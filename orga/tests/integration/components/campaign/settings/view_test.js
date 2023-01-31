@@ -32,7 +32,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
         assert.contains(`Campagne d'évaluation`);
@@ -46,7 +46,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
         assert.contains('Campagne de collecte de profils');
@@ -64,7 +64,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
         assert.contains('profil cible de la campagne 1');
@@ -78,7 +78,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
         assert.contains('Description du profile cible');
@@ -92,7 +92,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
         assert.contains('Sujets : 3');
@@ -107,7 +107,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
           });
 
           // when
-          await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}}/>`);
+          await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
           // then
           assert.notContains('Résultats thématiques :');
@@ -121,7 +121,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
           });
 
           // when
-          await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}}/>`);
+          await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
           // then
           assert.contains('Résultats thématiques : 1');
@@ -137,7 +137,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
           });
 
           // when
-          await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}}/>`);
+          await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
           // then
           assert.dom(`[aria-label="${this.intl.t('common.target-profile-details.results.star')}"]`).exists();
@@ -151,7 +151,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
           });
 
           // when
-          await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}}/>`);
+          await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
           // then
           assert.dom(`[aria-label="${this.intl.t('common.target-profile-details.results.percent')}"]`).exists();
@@ -166,7 +166,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
         assert.notContains('Profil cible');
@@ -183,7 +183,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
         assert.contains('idPixLabel');
@@ -198,7 +198,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
         assert.notContains("Libellé de l'identifiant");
@@ -225,7 +225,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         this.campaign = store.createRecord('campaign', { code: '1234' });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
         assert.contains('root-url/1234');
@@ -252,7 +252,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         this.campaign = store.createRecord('campaign', { code: '1234' });
 
         // when
-        await renderScreen(hbs`<Campaign::Settings::View @campaign={{this.campaign}}/>`);
+        await renderScreen(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
         assert.notContains('root-url/1234');
@@ -270,7 +270,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
         assert.contains('Mon titre de Campagne');
@@ -285,7 +285,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
         assert.notContains('Titre du parcours');
@@ -299,7 +299,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
       this.campaign = store.createRecord('campaign', { isArchived: false });
 
       // when
-      await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}}/>`);
+      await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
       // then
       assert.contains('Archiver');
@@ -317,7 +317,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         this.campaign = store.createRecord('campaign', { isArchived: false, ownerId: 1 });
 
         // when
-        const screen = await renderScreen(hbs`<Campaign::Settings::View @campaign={{this.campaign}}/>`);
+        const screen = await renderScreen(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
         assert.dom(screen.queryByText('Modifier')).doesNotExist();
@@ -334,7 +334,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         this.campaign = store.createRecord('campaign', { isArchived: false });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
         assert.contains('Modifier');
@@ -347,7 +347,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         this.campaign = store.createRecord('campaign', { isArchived: true });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
         assert.notContains('Modifier');
@@ -362,7 +362,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         type: 'PROFILES_COLLECTION',
       });
       // when
-      await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}}/>`);
+      await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
       // then
       assert.contains('Envoi multiple');
     });
@@ -376,7 +376,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
         assert.contains('Oui');
@@ -390,7 +390,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
         assert.contains(
@@ -408,7 +408,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
         assert.contains('Non');
@@ -422,7 +422,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
         });
 
         // when
-        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}}/>`);
+        await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
         // then
         assert.contains(
@@ -440,7 +440,7 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
       });
 
       // when
-      await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}}/>`);
+      await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
 
       // then
       assert.notContains('Envoi multiple');

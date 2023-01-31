@@ -7,4 +7,5 @@ module.exports = {
     'no-duplicate-landmark-elements': false,
     'no-invalid-interactive': false,
   },
+  ignore: ['blueprints/**'],
 };

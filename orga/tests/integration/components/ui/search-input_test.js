@@ -10,7 +10,7 @@ module('Integration | Component | Ui::SearchInput', function (hooks) {
 
   test('should render component', async function (assert) {
     // when
-    await render(hbs`<Ui::SearchInput @inputName="inputName" />`);
+    await render(hbs`<Ui::SearchInput @inputName='inputName' />`);
 
     // then
     assert.dom('input#inputName').exists();
@@ -47,7 +47,7 @@ module('Integration | Component | Ui::SearchInput', function (hooks) {
     this.set('onSearch', onSearch);
 
     // when
-    await render(hbs`<Ui::SearchInput @ariaLabel="search" @onSearch={{this.onSearch}} />`);
+    await render(hbs`<Ui::SearchInput @ariaLabel='search' @onSearch={{this.onSearch}} />`);
     await fillByLabel('search', 'Text to search');
 
     // then

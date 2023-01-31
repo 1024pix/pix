@@ -31,7 +31,7 @@ module('Integration | Component | Team::InvitationsListItem', function (hooks) {
 
     // when
     await render(
-      hbs`<Team::InvitationsListItem @invitation={{this.invitation}} @cancelInvitation={{this.cancelInvitation}}/>`
+      hbs`<Team::InvitationsListItem @invitation={{this.invitation}} @cancelInvitation={{this.cancelInvitation}} />`
     );
     await clickByName(this.intl.t('pages.team-invitations.resend-invitation'));
 

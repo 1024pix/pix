@@ -9,7 +9,7 @@ module('Integration | Component | Campaign::EmptyState', function (hooks) {
   setupIntl(hooks);
 
   test('it displays the empty message', async function (assert) {
-    await render(hbs`<Campaign::EmptyState @campaignCode='ABDC123'/>`);
+    await render(hbs`<Campaign::EmptyState @campaignCode='ABDC123' />`);
 
     assert.contains(t('pages.campaign.empty-state'));
   });

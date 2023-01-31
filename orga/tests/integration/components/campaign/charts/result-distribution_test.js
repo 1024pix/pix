@@ -27,7 +27,7 @@ module('Integration | Component | Campaign::Charts::ResultDistribution', functio
       this.campaign = { id: 12, hasStages: false };
       dataFetcher.resolves({ data: { attributes: { 'result-distribution': [] } } });
 
-      await render(hbs`<Campaign::Charts::ResultDistribution @campaign={{this.campaign}}/>`);
+      await render(hbs`<Campaign::Charts::ResultDistribution @campaign={{this.campaign}} />`);
 
       assert.contains('Répartition des participants par résultat');
     });
@@ -44,7 +44,7 @@ module('Integration | Component | Campaign::Charts::ResultDistribution', functio
       dataFetcher.resolves({ data: { attributes: { data: [{ id: 100498, value: 0 }] } } });
 
       await render(
-        hbs`<Campaign::Charts::ResultDistribution @campaign={{this.campaign}} @onSelectStage={{this.onSelectStage}}/>`
+        hbs`<Campaign::Charts::ResultDistribution @campaign={{this.campaign}} @onSelectStage={{this.onSelectStage}} />`
       );
       assert.contains('Répartition des participants par paliers');
     });
