@@ -78,11 +78,15 @@ async function createAndReconcileUserToOrganizationLearner({
   organizationLearnerRepository,
   userToCreateRepository,
 }) {
+  // On créé un utilisateur
   const userToAdd = UserToCreate.create(user);
+
+  userToAdd.username = 'brother.little1010';
 
   return DomainTransaction.execute(async (domainTransaction) => {
     let authenticationMethod;
 
+    // On recrée un nouvel utilisateur à partir des données de l'organisation learner
     const createdUser = await userToCreateRepository.create({
       user: userToAdd,
       domainTransaction,
@@ -100,11 +104,13 @@ async function createAndReconcileUserToOrganizationLearner({
       });
     }
 
+    // On lui ajoute ses méthodes d'authentification
     await authenticationMethodRepository.create({
       authenticationMethod,
       domainTransaction,
     });
 
+    // ON met à jour l'organisation learner avec id de l'user id rattaché
     await organizationLearnerRepository.updateUserIdWhereNull({
       organizationLearnerId,
       userId: createdUser.id,

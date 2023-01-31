@@ -138,15 +138,16 @@ module.exports = async function createAndReconcileUserToOrganizationLearner({
       obfuscationService,
     });
 
-  const organizationLearnerFound = !isNil(matchedOrganizationLearner.userId);
-  if (organizationLearnerFound) {
-    const detail = 'Un compte existe déjà pour l‘élève dans le même établissement.';
-    const error = STUDENT_RECONCILIATION_ERRORS.LOGIN_OR_REGISTER.IN_SAME_ORGANIZATION.username;
-    const meta = {
-      shortCode: error.shortCode,
-    };
-    throw new OrganizationLearnerAlreadyLinkedToUserError(detail, error.code, meta);
-  }
+  // TODO Décommenter cette partie pour afficher une erreur et voir que le css est pas adhoc
+  // const organizationLearnerFound = !isNil(matchedOrganizationLearner.userId);
+  // if (organizationLearnerFound) {
+  //   const detail = 'Un compte existe déjà pour l‘élève dans le même établissement.';
+  //   const error = STUDENT_RECONCILIATION_ERRORS.LOGIN_OR_REGISTER.IN_SAME_ORGANIZATION.username;
+  //   const meta = {
+  //     shortCode: error.shortCode,
+  //   };
+  //   throw new OrganizationLearnerAlreadyLinkedToUserError(detail, error.code, meta);
+  // }
 
   const isUsernameMode = userAttributes.withUsername;
   const cleanedUserAttributes = _emptyOtherMode(isUsernameMode, userAttributes);

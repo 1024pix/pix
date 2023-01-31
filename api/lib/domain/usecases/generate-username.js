@@ -28,16 +28,16 @@ module.exports = async function generateUsername({
     userReconciliationService,
     obfuscationService,
   });
-  await checkIfStudentIsAlreadyReconciledOnTheSameOrganization(
-    matchedOrganizationLearner,
-    userRepository,
-    obfuscationService
-  );
+  // await checkIfStudentIsAlreadyReconciledOnTheSameOrganization(
+  //   matchedOrganizationLearner,
+  //   userRepository,
+  //   obfuscationService
+  // );
 
   const student = await studentRepository.getReconciledStudentByNationalStudentId(
     matchedOrganizationLearner.nationalStudentId
   );
-  await checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(student, userRepository, obfuscationService);
+  // await checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(student, userRepository, obfuscationService);
 
   studentInformation = {
     firstName: matchedOrganizationLearner.firstName,
@@ -77,38 +77,40 @@ async function findMatchedOrganizationLearnerForGivenOrganizationIdAndStudentInf
   return find(organizationLearners, { id: organizationLearnerId });
 }
 
-async function checkIfStudentIsAlreadyReconciledOnTheSameOrganization(
-  matchingOrganizationLearner,
-  userRepository,
-  obfuscationService
-) {
-  if (get(matchingOrganizationLearner, 'userId')) {
-    const userId = matchingOrganizationLearner.userId;
-    const user = await userRepository.getForObfuscation(userId);
-    const authenticationMethod = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
+// Used in /possibilities api call, done before trying to reconciliate user
 
-    const detail = 'Un compte existe déjà pour l‘élève dans le même établissement.';
-    const error =
-      STUDENT_RECONCILIATION_ERRORS.LOGIN_OR_REGISTER.IN_SAME_ORGANIZATION[authenticationMethod.authenticatedBy];
-    const meta = { shortCode: error.shortCode, value: authenticationMethod.value };
-    throw new OrganizationLearnerAlreadyLinkedToUserError(detail, error.code, meta);
-  }
-}
+// async function checkIfStudentIsAlreadyReconciledOnTheSameOrganization(
+//   matchingOrganizationLearner,
+//   userRepository,
+//   obfuscationService
+// ) {
+//   if (get(matchingOrganizationLearner, 'userId')) {
+//     const userId = matchingOrganizationLearner.userId;
+//     const user = await userRepository.getForObfuscation(userId);
+//     const authenticationMethod = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
+//
+//     const detail = 'Un compte existe déjà pour l‘élève dans le même établissement.';
+//     const error =
+//       STUDENT_RECONCILIATION_ERRORS.LOGIN_OR_REGISTER.IN_SAME_ORGANIZATION[authenticationMethod.authenticatedBy];
+//     const meta = { shortCode: error.shortCode, value: authenticationMethod.value };
+//     throw new OrganizationLearnerAlreadyLinkedToUserError(detail, error.code, meta);
+//   }
+// }
 
-async function checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(
-  student,
-  userRepository,
-  obfuscationService
-) {
-  if (get(student, 'account')) {
-    const userId = student.account.userId;
-    const user = await userRepository.getForObfuscation(userId);
-    const authenticationMethod = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
-
-    const detail = 'Un compte existe déjà pour l‘élève dans un autre établissement.';
-    const error =
-      STUDENT_RECONCILIATION_ERRORS.LOGIN_OR_REGISTER.IN_OTHER_ORGANIZATION[authenticationMethod.authenticatedBy];
-    const meta = { shortCode: error.shortCode, value: authenticationMethod.value };
-    throw new OrganizationLearnerAlreadyLinkedToUserError(detail, error.code, meta);
-  }
-}
+// async function checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(
+//   student,
+//   userRepository,
+//   obfuscationService
+// ) {
+//   if (get(student, 'account')) {
+//     const userId = student.account.userId;
+//     const user = await userRepository.getForObfuscation(userId);
+//     const authenticationMethod = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
+//
+//     const detail = 'Un compte existe déjà pour l‘élève dans un autre établissement.';
+//     const error =
+//       STUDENT_RECONCILIATION_ERRORS.LOGIN_OR_REGISTER.IN_OTHER_ORGANIZATION[authenticationMethod.authenticatedBy];
+//     const meta = { shortCode: error.shortCode, value: authenticationMethod.value };
+//     throw new OrganizationLearnerAlreadyLinkedToUserError(detail, error.code, meta);
+//   }
+// }
