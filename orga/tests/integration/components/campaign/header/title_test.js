@@ -16,7 +16,7 @@ module('Integration | Component | Campaign::Header::Title', function (hooks) {
     };
 
     // when
-    await render(hbs`<Campaign::Header::Title @campaign={{this.campaign}}/>`);
+    await render(hbs`<Campaign::Header::Title @campaign={{this.campaign}} />`);
 
     // then
     assert.contains('campagne 1');

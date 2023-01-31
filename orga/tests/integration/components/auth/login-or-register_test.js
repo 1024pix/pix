@@ -15,7 +15,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
 
   test('it renders', async function (assert) {
     // when
-    await render(hbs`<Auth::LoginOrRegister/>`);
+    await render(hbs`<Auth::LoginOrRegister />`);
 
     // then
     assert.dom('.login-or-register').exists();
@@ -25,7 +25,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
     // when
     const invitationMessage = this.intl.t('pages.login-or-register.title', { organizationName: 'Organization Aztec' });
 
-    await render(hbs`<Auth::LoginOrRegister @organizationName='Organization Aztec'/>`);
+    await render(hbs`<Auth::LoginOrRegister @organizationName='Organization Aztec' />`);
 
     // then
     assert.dom('.login-or-register-panel__invitation').hasText(`${invitationMessage}`);
@@ -33,7 +33,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
 
   test('it toggle the register form by default', async function (assert) {
     // when
-    await render(hbs`<Auth::LoginOrRegister/>`);
+    await render(hbs`<Auth::LoginOrRegister />`);
 
     // then
     assert.dom('.register-form').exists();
@@ -41,7 +41,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
 
   test('it toggle the login form on click on login button', async function (assert) {
     // given
-    await render(hbs`<Auth::LoginOrRegister/>`);
+    await render(hbs`<Auth::LoginOrRegister />`);
 
     // when
     await clickByName(loginButton);
@@ -54,7 +54,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
     // given
     const registerButtonLabel = this.intl.t('pages.login-or-register.register-form.button');
 
-    await render(hbs`<Auth::LoginOrRegister/>`);
+    await render(hbs`<Auth::LoginOrRegister />`);
 
     // when
     await clickByName(loginButton);

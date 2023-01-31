@@ -28,7 +28,7 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
     ]);
 
     // when
-    await render(hbs`<Team::InvitationsList @invitations={{this.invitations}}/>`);
+    await render(hbs`<Team::InvitationsList @invitations={{this.invitations}} />`);
 
     // then
     assert.dom(`[aria-label="${this.intl.t('pages.team-invitations.table.row.aria-label')}"]`).exists({ count: 2 });
@@ -41,7 +41,7 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
     this.set('invitations', [{ email: 'gigi@example.net', isPending: true, updatedAt: pendingInvitationDate }]);
 
     // when
-    await render(hbs`<Team::InvitationsList @invitations={{this.invitations}}/>`);
+    await render(hbs`<Team::InvitationsList @invitations={{this.invitations}} />`);
 
     // then
     assert.contains('gigi@example.net');
@@ -67,7 +67,7 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
     this.set('invitations', [invitation]);
 
     // when
-    await render(hbs`<Team::InvitationsList @invitations={{this.invitations}}/>`);
+    await render(hbs`<Team::InvitationsList @invitations={{this.invitations}} />`);
 
     await clickByName(this.intl.t('pages.team-invitations.cancel-invitation'));
 
@@ -99,7 +99,7 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
     this.set('invitations', [invitation]);
 
     // when
-    await render(hbs`<Team::InvitationsList @invitations={{this.invitations}}/>`);
+    await render(hbs`<Team::InvitationsList @invitations={{this.invitations}} />`);
     await clickByName(this.intl.t('pages.team-invitations.cancel-invitation'));
 
     // then

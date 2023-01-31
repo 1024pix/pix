@@ -56,7 +56,7 @@ module('Integration | Component | Campaign::StageStars', function (hooks) {
     this.stages = [{ threshold: 20 }, { threshold: 70 }];
 
     // when
-    await render(hbs`<Campaign::StageStars @result={{this.result}} @stages={{this.stages}}/>`);
+    await render(hbs`<Campaign::StageStars @result={{this.result}} @stages={{this.stages}} />`);
 
     // then
     assert.dom('[role="tooltip"]').doesNotExist();
@@ -68,7 +68,7 @@ module('Integration | Component | Campaign::StageStars', function (hooks) {
     this.stages = [{ threshold: 20 }, { threshold: 70 }];
 
     // when
-    await render(hbs`<Campaign::StageStars @result={{this.result}} @stages={{this.stages}}/>`);
+    await render(hbs`<Campaign::StageStars @result={{this.result}} @stages={{this.stages}} />`);
 
     // then
     assert.dom('[role="tooltip"]').doesNotExist();
@@ -80,7 +80,7 @@ module('Integration | Component | Campaign::StageStars', function (hooks) {
     this.stages = [{ threshold: 20, prescriberTitle: 'title' }, { threshold: 70 }];
 
     // when
-    await render(hbs`<Campaign::StageStars @result={{this.result}} @stages={{this.stages}} @withTooltip={{true}}/>`);
+    await render(hbs`<Campaign::StageStars @result={{this.result}} @stages={{this.stages}} @withTooltip={{true}} />`);
 
     // then
     assert.dom('[role="tooltip"]').hasText('title');
@@ -92,7 +92,7 @@ module('Integration | Component | Campaign::StageStars', function (hooks) {
     this.stages = [{ threshold: 20, prescriberDescription: 'description' }, { threshold: 70 }];
 
     // when
-    await render(hbs`<Campaign::StageStars @result={{this.result}} @stages={{this.stages}} @withTooltip={{true}}/>`);
+    await render(hbs`<Campaign::StageStars @result={{this.result}} @stages={{this.stages}} @withTooltip={{true}} />`);
 
     // then
     assert.dom('[role="tooltip"]').hasText('description');
@@ -107,7 +107,7 @@ module('Integration | Component | Campaign::StageStars', function (hooks) {
     ];
 
     // when
-    await render(hbs`<Campaign::StageStars @result={{this.result}} @stages={{this.stages}} @withTooltip={{true}}/>`);
+    await render(hbs`<Campaign::StageStars @result={{this.result}} @stages={{this.stages}} @withTooltip={{true}} />`);
 
     // then
     assert.dom('[role="tooltip"]').hasText('titledescription');
@@ -119,7 +119,7 @@ module('Integration | Component | Campaign::StageStars', function (hooks) {
     this.stages = [{ threshold: 20 }, { threshold: 70 }];
 
     // when
-    await render(hbs`<Campaign::StageStars @result={{this.result}} @stages={{this.stages}} @withTooltip={{true}}/>`);
+    await render(hbs`<Campaign::StageStars @result={{this.result}} @stages={{this.stages}} @withTooltip={{true}} />`);
 
     // then
     assert.dom('[role="tooltip"]').doesNotExist();

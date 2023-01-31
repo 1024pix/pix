@@ -48,7 +48,10 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
       test('should render component with username field', async function (assert) {
         // when
         await render(
-          hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`
+          hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal
+  @student={{this.studentWithUsernameAndEmail}}
+  @display={{this.display}}
+/>`
         );
 
         // then
@@ -61,7 +64,10 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
       test('should render clipboard to copy username', async function (assert) {
         // when
         await render(
-          hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`
+          hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal
+  @student={{this.studentWithUsernameAndEmail}}
+  @display={{this.display}}
+/>`
         );
 
         // then
@@ -80,7 +86,10 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
       test('should display tooltip when username copy button is clicked', async function (assert) {
         // given
         await render(
-          hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`
+          hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal
+  @student={{this.studentWithUsernameAndEmail}}
+  @display={{this.display}}
+/>`
         );
 
         // when
@@ -99,7 +108,10 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
       test('should render component with email field', async function (assert) {
         // when
         await render(
-          hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`
+          hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal
+  @student={{this.studentWithUsernameAndEmail}}
+  @display={{this.display}}
+/>`
         );
 
         // then
@@ -109,7 +121,10 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
       test('should render clipboard to copy email', async function (assert) {
         // when
         await render(
-          hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`
+          hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal
+  @student={{this.studentWithUsernameAndEmail}}
+  @display={{this.display}}
+/>`
         );
 
         // then
@@ -128,7 +143,10 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
       test('should display tooltip when email copy button is clicked', async function (assert) {
         // given
         await render(
-          hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`
+          hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal
+  @student={{this.studentWithUsernameAndEmail}}
+  @display={{this.display}}
+/>`
         );
 
         // when
@@ -147,7 +165,10 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
       test('should render add username authentication method', async function (assert) {
         // when
         await render(
-          hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal @student={{this.studentWithEmailOnly}} @display={{this.display}} />`
+          hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal
+  @student={{this.studentWithEmailOnly}}
+  @display={{this.display}}
+/>`
         );
 
         // then
@@ -185,7 +206,10 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
       test('should display unique password input when reset password button is clicked', async function (assert) {
         // given
         await render(
-          hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`
+          hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal
+  @student={{this.studentWithUsernameAndEmail}}
+  @display={{this.display}}
+/>`
         );
 
         // when
@@ -202,7 +226,10 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
       test('should render clipboard to copy unique password', async function (assert) {
         // given
         await render(
-          hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`
+          hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal
+  @student={{this.studentWithUsernameAndEmail}}
+  @display={{this.display}}
+/>`
         );
 
         // when
@@ -228,7 +255,10 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
       test('should display tooltip when generated password copy button is clicked', async function (assert) {
         // given
         await render(
-          hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`
+          hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal
+  @student={{this.studentWithUsernameAndEmail}}
+  @display={{this.display}}
+/>`
         );
 
         // when
@@ -250,7 +280,10 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
       test('should generate unique password each time the modal is used', async function (assert) {
         // given
         await render(
-          hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`
+          hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal
+  @student={{this.studentWithUsernameAndEmail}}
+  @display={{this.display}}
+/>`
         );
         await clickByName(
           this.intl.t(
@@ -261,7 +294,10 @@ module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticati
 
         // when
         await render(
-          hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`
+          hbs`<ScoOrganizationParticipant::ManageAuthenticationMethodModal
+  @student={{this.studentWithUsernameAndEmail}}
+  @display={{this.display}}
+/>`
         );
         await clickByName(
           this.intl.t(

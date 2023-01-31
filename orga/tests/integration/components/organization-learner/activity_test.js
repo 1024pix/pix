@@ -18,7 +18,11 @@ module('Integration | Component | OrganizationLearner::Activity', function (hook
 
       // when
       const screen = await render(
-        hbs`<OrganizationLearner::Activity @participations={{this.participations}} @statistics={{this.statistics}} @learner={{this.learner}}/>`
+        hbs`<OrganizationLearner::Activity
+  @participations={{this.participations}}
+  @statistics={{this.statistics}}
+  @learner={{this.learner}}
+/>`
       );
 
       // then
@@ -52,7 +56,11 @@ module('Integration | Component | OrganizationLearner::Activity', function (hook
 
       // when
       const screen = await render(
-        hbs`<OrganizationLearner::Activity @participations={{this.participations}} @statistics={{this.statistics}} @learner={{this.learner}}/>`
+        hbs`<OrganizationLearner::Activity
+  @participations={{this.participations}}
+  @statistics={{this.statistics}}
+  @learner={{this.learner}}
+/>`
       );
 
       // then
@@ -93,7 +101,11 @@ module('Integration | Component | OrganizationLearner::Activity', function (hook
 
       // when
       const screen = await render(
-        hbs`<OrganizationLearner::Activity @participations={{this.participations}} @statistics={{this.statistics}} @learner={{this.learner}}/>`
+        hbs`<OrganizationLearner::Activity
+  @participations={{this.participations}}
+  @statistics={{this.statistics}}
+  @learner={{this.learner}}
+/>`
       );
 
       // then
@@ -138,7 +150,11 @@ module('Integration | Component | OrganizationLearner::Activity', function (hook
 
       // when
       const screen = await render(
-        hbs`<OrganizationLearner::Activity @participations={{this.participations}} @statistics={{this.statistics}} @learner={{this.learner}}/>`
+        hbs`<OrganizationLearner::Activity
+  @participations={{this.participations}}
+  @statistics={{this.statistics}}
+  @learner={{this.learner}}
+/>`
       );
 
       // then

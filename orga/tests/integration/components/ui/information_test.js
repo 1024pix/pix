@@ -11,11 +11,10 @@ module('Integration | Component | Ui | Information', function (hooks) {
       this.set('title', 'Title');
       this.set('content', 'Content');
 
-      await render(hbs`
-            <Ui::Information>
-              <:title>{{this.title}}</:title>
-              <:content>{{this.content}}</:content>
-            </Ui::Information>`);
+      await render(hbs`<Ui::Information>
+  <:title>{{this.title}}</:title>
+  <:content>{{this.content}}</:content>
+</Ui::Information>`);
 
       assert.contains(this.title);
       assert.contains(this.content);

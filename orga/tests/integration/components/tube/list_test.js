@@ -53,7 +53,7 @@ module('Integration | Component | tube:list', function (hooks) {
     this.set('areas', areas);
 
     // when
-    const screen = await render(hbs`<Tube::list @areas={{this.areas}}/>`);
+    const screen = await render(hbs`<Tube::list @areas={{this.areas}} />`);
     await clickByName('1 · Titre domaine');
     // then
 
@@ -66,7 +66,7 @@ module('Integration | Component | tube:list', function (hooks) {
     this.set('areas', areas);
 
     // when
-    const screen = await render(hbs`<Tube::list @areas={{this.areas}}/>`);
+    const screen = await render(hbs`<Tube::list @areas={{this.areas}} />`);
 
     // then
     assert.dom(screen.getByText('Télécharger la sélection des sujets (JSON, 0.00ko)')).hasClass('pix-button--disabled');
@@ -78,7 +78,7 @@ module('Integration | Component | tube:list', function (hooks) {
     this.set('organization', { name: 'mon orga' });
 
     // when
-    const screen = await render(hbs`<Tube::list @areas={{this.areas}} @organization={{this.organization}}/>`);
+    const screen = await render(hbs`<Tube::list @areas={{this.areas}} @organization={{this.organization}} />`);
 
     await clickByName('1 · Titre domaine');
     await clickByName('Titre 1 : Description 1');
@@ -98,7 +98,7 @@ module('Integration | Component | tube:list', function (hooks) {
     this.set('areas', areas);
 
     // when
-    await render(hbs`<Tube::list @areas={{this.areas}}/>`);
+    await render(hbs`<Tube::list @areas={{this.areas}} />`);
 
     await clickByName('1 · Titre domaine');
     await clickByName('thematic1');
@@ -112,7 +112,7 @@ module('Integration | Component | tube:list', function (hooks) {
     this.set('areas', areas);
 
     // when
-    const screen = await render(hbs`<Tube::list @areas={{this.areas}}/>`);
+    const screen = await render(hbs`<Tube::list @areas={{this.areas}} />`);
 
     await clickByName('1 · Titre domaine');
     await clickByName('thematic1');
@@ -127,7 +127,7 @@ module('Integration | Component | tube:list', function (hooks) {
     this.set('areas', areas);
 
     // when
-    const screen = await render(hbs`<Tube::list @areas={{this.areas}}/>`);
+    const screen = await render(hbs`<Tube::list @areas={{this.areas}} />`);
 
     await clickByName('1 · Titre domaine');
     await clickByName('Titre 1 : Description 1');

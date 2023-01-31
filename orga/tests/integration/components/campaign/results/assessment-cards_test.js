@@ -30,7 +30,11 @@ module('Integration | Component | Campaign::Results::AssessmentCards', function 
 
       //when
       await render(
-        hbs`<Campaign::Results::AssessmentCards @averageResult={{this.averageResult}} @hasStages={this.hasStages}} @stages={{this.stages}} />`
+        hbs`<Campaign::Results::AssessmentCards
+  @averageResult={{this.averageResult}}
+  @hasStages={{this.hasStages}}
+  @stages={{this.stages}}
+/>`
       );
 
       //then

@@ -33,7 +33,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
     // when
     const screen = await render(
-      hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}}/>`
+      hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} />`
     );
 
     // then
@@ -55,7 +55,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
     // when
     await render(
-      hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}}/>`
+      hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} />`
     );
 
     // then
@@ -83,7 +83,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
     // when
     const screen = await render(
-      hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}}/>`
+      hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} />`
     );
     // then
     assert.dom(screen.getByRole('link', { name: 'Michel' })).hasProperty('href', /\/eleves\/22/g);
@@ -106,7 +106,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
     // when
     const screen = await render(
-      hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}}/>`
+      hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} />`
     );
 
     // then
@@ -132,7 +132,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
     // when
     await render(
-      hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}}/>`
+      hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} />`
     );
 
     // then
@@ -149,7 +149,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
     // when
     await render(
-      hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}}/>`
+      hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} />`
     );
 
     // then
@@ -164,7 +164,11 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.set('students', []);
 
       await render(
-        hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.triggerFiltering}} @onClickLearner={{this.noop}}/>`
+        hbs`<ScoOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.triggerFiltering}}
+  @onClickLearner={{this.noop}}
+/>`
       );
 
       // when
@@ -182,10 +186,10 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.set('students', []);
 
       const { getByPlaceholderText, findByRole } = await render(hbs`<ScoOrganizationParticipant::List
-        @students={{this.students}}
-        @onFilter={{this.triggerFiltering}}
-        @onClickLearner={{this.noop}}
-      />`);
+  @students={{this.students}}
+  @onFilter={{this.triggerFiltering}}
+  @onClickLearner={{this.noop}}
+/>`);
 
       // when
       const select = await getByPlaceholderText('Rechercher par classe');
@@ -207,7 +211,11 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.set('students', []);
 
       const screen = await render(
-        hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.triggerFiltering}} @onClickLearner={{this.noop}}/>`
+        hbs`<ScoOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.triggerFiltering}}
+  @onClickLearner={{this.noop}}
+/>`
       );
 
       // when
@@ -227,7 +235,12 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.set('certificability', []);
 
       const { getByLabelText, findByRole } = await render(
-        hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.triggerFiltering}} @certificability={{this.certificability}} @onClickLearner={{this.noop}}/>`
+        hbs`<ScoOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.triggerFiltering}}
+  @certificability={{this.certificability}}
+  @onClickLearner={{this.noop}}
+/>`
       );
 
       // when
@@ -258,7 +271,12 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       ]);
 
       await render(
-        hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.triggerFiltering}} @onResetFilter={{this.resetFiltered}} @onClickLearner={{this.noop}}/>`
+        hbs`<ScoOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.triggerFiltering}}
+  @onResetFilter={{this.resetFiltered}}
+  @onClickLearner={{this.noop}}
+/>`
       );
 
       // when
@@ -281,7 +299,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         }),
       ]);
       return render(
-        hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}}/>`
+        hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} />`
       );
     });
 
@@ -309,13 +327,13 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         }),
       ]);
       return render(
-        hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}}/>`
+        hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} />`
       );
     });
     test('it should display the manage account entry menu', async function (assert) {
       // given
       await render(
-        hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}}/>`
+        hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} />`
       );
 
       // when
@@ -339,7 +357,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         }),
       ]);
       return render(
-        hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}}/>`
+        hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} />`
       );
     });
 
@@ -365,7 +383,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
         }),
       ]);
       return render(
-        hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}}/>`
+        hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} />`
       );
     });
 
@@ -396,7 +414,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
     test('it should display "Mediacentre" as authentication method', async function (assert) {
       // when
       await render(
-        hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}}/>`
+        hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} />`
       );
 
       // then
@@ -406,7 +424,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
     test('it should display the action menu', async function (assert) {
       // when
       await render(
-        hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}}/>`
+        hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} />`
       );
 
       // then
@@ -423,7 +441,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
       // when
       const screen = await render(
-        hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}}/>`
+        hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} />`
       );
 
       // then
@@ -445,7 +463,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.set('students', students);
       // when
       await render(
-        hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}}/>`
+        hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} />`
       );
 
       // then
@@ -461,7 +479,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.set('students', students);
       // when
       await render(
-        hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}}/>`
+        hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} />`
       );
 
       // then

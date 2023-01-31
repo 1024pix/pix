@@ -15,7 +15,7 @@ module('Integration | Component | Ui::Chevron', function (hooks) {
 
   test('it renders', async function (assert) {
     // when
-    await render(hbs`<Ui::Chevron @isOpen={{this.isOpen}} @onClick={{this.click}}/>`);
+    await render(hbs`<Ui::Chevron @isOpen={{this.isOpen}} @onClick={{this.click}} />`);
 
     // then
     assert.dom('button[type=button]').exists();
@@ -24,7 +24,7 @@ module('Integration | Component | Ui::Chevron', function (hooks) {
 
   test('it should open the accordion when it is closed', async function (assert) {
     // given
-    await render(hbs`<Ui::Chevron @isOpen={{this.isOpen}} @onClick={{this.click}}/>`);
+    await render(hbs`<Ui::Chevron @isOpen={{this.isOpen}} @onClick={{this.click}} />`);
 
     // when
     await click('[data-icon="chevron-down"]');
@@ -36,7 +36,7 @@ module('Integration | Component | Ui::Chevron', function (hooks) {
 
   test('it should close the accordion when it already open', async function (assert) {
     // given
-    await render(hbs`<Ui::Chevron @isOpen={{this.isOpen}} @onClick={{this.click}}/>`);
+    await render(hbs`<Ui::Chevron @isOpen={{this.isOpen}} @onClick={{this.click}} />`);
     this.set('isOpen', true);
 
     // when

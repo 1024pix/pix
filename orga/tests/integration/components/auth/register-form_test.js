@@ -40,7 +40,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
 
   test('it renders', async function (assert) {
     // when
-    await renderScreen(hbs`<Auth::RegisterForm/>`);
+    await renderScreen(hbs`<Auth::RegisterForm />`);
 
     //then
     assert.dom('.register-form').exists();
@@ -48,7 +48,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
 
   test('[a11y] it should display a message that all inputs are required', async function (assert) {
     // when
-    const screen = await renderScreen(hbs`<Auth::RegisterForm/>`);
+    const screen = await renderScreen(hbs`<Auth::RegisterForm />`);
 
     // then
     assert.dom(screen.getByText('Tous les champs sont obligatoires.')).exists();
@@ -60,7 +60,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
     service.currentDomain = { getExtension: sinon.stub().returns('fr') };
 
     // when
-    const screen = await renderScreen(hbs`<Auth::RegisterForm/>`);
+    const screen = await renderScreen(hbs`<Auth::RegisterForm />`);
 
     // then
     assert
@@ -107,7 +107,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
     test('it should call authentication service with appropriate parameters, when all things are ok and form is submitted', async function (assert) {
       // given
       const sessionServiceObserver = this.owner.lookup('service:session');
-      await renderScreen(hbs`<Auth::RegisterForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
+      await renderScreen(hbs`<Auth::RegisterForm @organizationInvitationId='1' @organizationInvitationCode='C0D3' />`);
       await fillByLabel(firstNameInputLabel, 'pix');
       await fillByLabel(lastNameInputLabel, 'pix');
       await fillByLabel(emailInputLabel, 'SHI@fu.me');
@@ -141,7 +141,7 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
       });
 
       screen = await renderScreen(
-        hbs`<Auth::RegisterForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`
+        hbs`<Auth::RegisterForm @organizationInvitationId='1' @organizationInvitationCode='C0D3' />`
       );
     });
 

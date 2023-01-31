@@ -12,7 +12,7 @@ module('Integration | Component | Ui::EmptyState', function (hooks) {
     this.set('actionText', 'L’administrateur doit importer la base élèves en cliquant sur le bouton importer.');
 
     //when
-    await render(hbs`<Ui::EmptyState @infoText={{this.infoText}} @actionText={{this.actionText}}/>`);
+    await render(hbs`<Ui::EmptyState @infoText={{this.infoText}} @actionText={{this.actionText}} />`);
 
     //then
     assert.contains("Aucun participant pour l'instant !");

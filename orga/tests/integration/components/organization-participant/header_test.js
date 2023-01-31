@@ -13,7 +13,7 @@ module('Integration | Component | OrganizationParticipant::header', function (ho
 
       // when
       const screen = await renderScreen(
-        hbs`<OrganizationParticipant::Header @participantCount={{this.participantCount}}/>`
+        hbs`<OrganizationParticipant::Header @participantCount={{this.participantCount}} />`
       );
 
       // then
@@ -26,7 +26,7 @@ module('Integration | Component | OrganizationParticipant::header', function (ho
 
       // when
       const screen = await renderScreen(
-        hbs`<OrganizationParticipant::Header @participantCount={{this.participantCount}}/>`
+        hbs`<OrganizationParticipant::Header @participantCount={{this.participantCount}} />`
       );
 
       // then
