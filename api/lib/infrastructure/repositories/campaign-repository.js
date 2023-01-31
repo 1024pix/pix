@@ -22,17 +22,16 @@ module.exports = {
   },
 
   async get(id) {
-    const bookshelfCampaign = await BookshelfCampaign.where({ id })
-      .fetch({
-        withRelated: ['creator', 'organization', 'targetProfile'],
-      })
-      .catch((err) => {
-        if (err instanceof BookshelfCampaign.NotFoundError) {
-          throw new NotFoundError(`Not found campaign for ID ${id}`);
-        }
-        throw err;
-      });
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaign, bookshelfCampaign);
+    const campaign = await knex('campaigns').where({ id }).first();
+    if (!campaign) {
+      throw new NotFoundError(`Not found campaign for ID ${id}`);
+    }
+    return new Campaign({
+      ...campaign,
+      organization: { id: campaign.organizationId },
+      targetProfile: { id: campaign.targetProfileId },
+      creator: { id: campaign.creatorId },
+    });
   },
 
   async save(campaign) {
