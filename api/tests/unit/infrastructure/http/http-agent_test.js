@@ -3,9 +3,6 @@ const axios = require('axios');
 const { post, get } = require('../../../../lib/infrastructure/http/http-agent');
 const monitoringTools = require('../../../../lib/infrastructure/monitoring-tools');
 
-const config = require('../../../../lib/config');
-const TIMEOUT_MILLISECONDS = config.partner.fetchTimeOut;
-
 describe('Unit | Infrastructure | http | http-agent', function () {
   describe('#post', function () {
     afterEach(function () {
@@ -21,16 +18,17 @@ describe('Unit | Infrastructure | http | http-agent', function () {
         data: Symbol('data'),
         status: 'someStatus',
       };
+      const timeout = 'someTimeout';
       sinon
         .stub(axios, 'post')
         .withArgs(url, payload, {
           headers,
-          timeout: TIMEOUT_MILLISECONDS,
+          timeout,
         })
         .resolves(axiosResponse);
 
       // when
-      const actualResponse = await post({ url, payload, headers });
+      const actualResponse = await post({ url, payload, headers, timeout });
 
       // then
       expect(actualResponse).to.deep.equal({
@@ -55,10 +53,7 @@ describe('Unit | Infrastructure | http | http-agent', function () {
             status: 400,
           },
         };
-        sinon
-          .stub(axios, 'post')
-          .withArgs(url, payload, { headers, timeout: TIMEOUT_MILLISECONDS })
-          .rejects(axiosError);
+        sinon.stub(axios, 'post').withArgs(url, payload, { headers }).rejects(axiosError);
 
         // when
         await post({ url, payload, headers });
@@ -82,13 +77,7 @@ describe('Unit | Infrastructure | http | http-agent', function () {
               status: 'someStatus',
             },
           };
-          sinon
-            .stub(axios, 'post')
-            .withArgs(url, payload, {
-              headers,
-              timeout: TIMEOUT_MILLISECONDS,
-            })
-            .rejects(axiosError);
+          sinon.stub(axios, 'post').withArgs(url, payload, { headers }).rejects(axiosError);
 
           // when
           const actualResponse = await post({ url, payload, headers });
@@ -115,13 +104,7 @@ describe('Unit | Infrastructure | http | http-agent', function () {
               status: 400,
             },
           };
-          sinon
-            .stub(axios, 'post')
-            .withArgs(url, payload, {
-              headers,
-              timeout: TIMEOUT_MILLISECONDS,
-            })
-            .rejects(axiosError);
+          sinon.stub(axios, 'post').withArgs(url, payload, { headers }).rejects(axiosError);
 
           const expectedResponse = {
             isSuccessful: false,
@@ -151,10 +134,7 @@ describe('Unit | Infrastructure | http | http-agent', function () {
         data: Symbol('data'),
         status: 'someStatus',
       };
-      sinon
-        .stub(axios, 'get')
-        .withArgs(url, { data: payload, headers, timeout: TIMEOUT_MILLISECONDS })
-        .resolves(axiosResponse);
+      sinon.stub(axios, 'get').withArgs(url, { data: payload, headers }).resolves(axiosResponse);
 
       // when
       const actualResponse = await get({ url, payload, headers });
@@ -182,10 +162,7 @@ describe('Unit | Infrastructure | http | http-agent', function () {
             status: 400,
           },
         };
-        sinon
-          .stub(axios, 'get')
-          .withArgs(url, { data: payload, headers, timeout: TIMEOUT_MILLISECONDS })
-          .rejects(axiosError);
+        sinon.stub(axios, 'get').withArgs(url, { data: payload, headers }).rejects(axiosError);
 
         // when
         await get({ url, payload, headers });
@@ -209,10 +186,7 @@ describe('Unit | Infrastructure | http | http-agent', function () {
               status: 'someStatus',
             },
           };
-          sinon
-            .stub(axios, 'get')
-            .withArgs(url, { data: payload, headers, timeout: TIMEOUT_MILLISECONDS })
-            .rejects(axiosError);
+          sinon.stub(axios, 'get').withArgs(url, { data: payload, headers }).rejects(axiosError);
 
           // when
           const actualResponse = await get({ url, payload, headers });
