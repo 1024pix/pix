@@ -1,5 +1,6 @@
 const trainingSerializer = require('../../infrastructure/serializers/jsonapi/training-serializer');
 const trainingSummarySerializer = require('../../infrastructure/serializers/jsonapi/training-summary-serializer');
+const trainingTriggerSerializer = require('../../infrastructure/serializers/jsonapi/training-trigger-serializer');
 const usecases = require('../../domain/usecases');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 
@@ -24,5 +25,16 @@ module.exports = {
     const training = await trainingSerializer.deserialize(request.payload);
     const updatedTraining = await usecases.updateTraining({ training: { ...training, id: trainingId } });
     return trainingSerializer.serialize(updatedTraining);
+  },
+  async createOrUpdateTrigger(request) {
+    const { trainingId } = request.params;
+    const { threshold, tubes, type } = await trainingTriggerSerializer.deserialize(request.payload);
+    const createdOrUpdatedTrainingTrigger = await usecases.createOrUpdateTrainingTrigger({
+      trainingId,
+      threshold,
+      tubes,
+      type,
+    });
+    return trainingTriggerSerializer.serialize(createdOrUpdatedTrainingTrigger);
   },
 };
