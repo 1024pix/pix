@@ -75,12 +75,10 @@ module('Acceptance | Sup Organization Participant List', function (hooks) {
         server.create('organization-participant', { organizationId, firstName: 'Jean', lastName: 'Charles' });
 
         await authenticateSession(user.id);
-        const { getByPlaceholderText } = await visit('/etudiants');
+        const { getByLabelText } = await visit('/etudiants');
 
         // when
-        const select = getByPlaceholderText(
-          this.intl.t('pages.sup-organization-participants.filter.certificability.label')
-        );
+        const select = getByLabelText(this.intl.t('pages.sup-organization-participants.filter.certificability.label'));
         await click(select);
         await clickByText(this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'));
 

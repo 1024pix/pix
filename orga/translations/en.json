@@ -704,7 +704,7 @@
         "participations-count": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count} participants}}",
         "type": {
           "certificability": {
-            "aria-label": "Enter a status for certificability",
+            "placeholder": "Search by certificability",
             "label": "Search by certificability"
           },
           "fullName": {
@@ -868,7 +868,7 @@
       "no-participants-action": "The administrator must import the students database by clicking on the import button.",
       "filter": {
         "certificability": {
-          "aria-label": "Enter a status for certificability",
+          "placeholder": "Search by certificability",
           "label": "Search by certificability"
         },
         "division": {
@@ -976,7 +976,7 @@
         },
         "aria-label": "Filters on students",
         "certificability": {
-          "aria-label": "Enter a status for certificability",
+          "placeholder": "Search by certificability",
           "label": "Search by certificability"
         },
         "group": {
