@@ -8,12 +8,10 @@ const logger = require('../../../lib/infrastructure/logger');
 const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
 const { knex, disconnect } = require('../../../db/knex-database-connection');
 const { normalizeAndRemoveAccents } = require('../../../lib/domain/services/validation-treatments');
+const { autoMigrateTargetProfile } = require('./common');
 
-let allSkills;
 let allTubes;
 async function _cacheLearningContentData() {
-  const skillRepository = require('../../../lib/infrastructure/repositories/skill-repository');
-  allSkills = await skillRepository.list();
   const tubeRepository = require('../../../lib/infrastructure/repositories/tube-repository');
   const tubes = await tubeRepository.list();
   allTubes = tubes.map((tube) => ({ ...tube, normalizedName: normalizeAndRemoveAccents(tube.name) }));
@@ -227,29 +225,7 @@ async function _checkIfTPAlreadyHasTubes(id, trx) {
 }
 
 async function _doAutomaticMigration(id, trx) {
-  const skillIds = await trx('target-profiles_skills').pluck('skillId').where({ targetProfileId: id });
-  const skills = skillIds.map((skillId) => {
-    const foundSkill = allSkills.find((skill) => skill.id === skillId);
-    if (!foundSkill) throw new Error(`L'acquis "${skillId}" n'existe pas dans le référentiel.`);
-    if (!foundSkill.tubeId) throw new Error(`L'acquis "${skillId}" n'appartient à aucun sujet.`);
-    const tubeExists = Boolean(allTubes.find((tube) => tube.id === foundSkill.tubeId));
-    if (!tubeExists) throw new Error(`Le sujet "${foundSkill.tubeId}" n'existe pas dans le référentiel.`);
-    return foundSkill;
-  });
-  const skillsGroupedByTubeId = _.groupBy(skills, 'tubeId');
-  const tubes = [];
-  for (const [tubeId, skills] of Object.entries(skillsGroupedByTubeId)) {
-    const skillWithHighestDifficulty = _.maxBy(skills, 'difficulty');
-    tubes.push({
-      tubeId,
-      level: skillWithHighestDifficulty.difficulty,
-    });
-  }
-  const completeTubes = tubes.map((tube) => {
-    return { ...tube, targetProfileId: id };
-  });
-  await trx('target-profiles').update({ migration_status: 'AUTO' }).where({ id });
-  await trx.batchInsert('target-profile_tubes', completeTubes);
+  return autoMigrateTargetProfile(id, trx);
 }
 
 async function _outdate(id, trx) {
