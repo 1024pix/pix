@@ -143,6 +143,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         url: 'http://oidc.net/api/token',
         payload: expectedData,
         headers: expectedHeaders,
+        timeout: settings.partner.fetchTimeOut,
       });
       expect(result).to.be.an.instanceOf(AuthenticationSessionContent);
       expect(result).to.deep.equal(oidcAuthenticationSessionContent);
@@ -307,7 +308,11 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       // given
       sinon
         .stub(httpAgent, 'get')
-        .withArgs({ url: userInfoUrl, headers: { Authorization: `Bearer ${accessToken}` } })
+        .withArgs({
+          url: userInfoUrl,
+          headers: { Authorization: `Bearer ${accessToken}` },
+          timeout: settings.partner.fetchTimeOut,
+        })
         .resolves({
           isSuccessful: true,
           data: {
@@ -350,7 +355,11 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         };
         sinon
           .stub(httpAgent, 'get')
-          .withArgs({ url: userInfoUrl, headers: { Authorization: `Bearer ${accessToken}` } })
+          .withArgs({
+            url: userInfoUrl,
+            headers: { Authorization: `Bearer ${accessToken}` },
+            timeout: settings.partner.fetchTimeOut,
+          })
           .resolves({ isSuccessful: false, code: axiosError.response.status, data: axiosError.response.data });
         // See api/lib/infrastructure/http/http-agent.js to understand, axios can throw an error but httpAgent.get map it into an http response
         const oidcAuthenticationService = new OidcAuthenticationService({ userInfoUrl, accessToken });
@@ -386,7 +395,11 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
         sinon
           .stub(httpAgent, 'get')
-          .withArgs({ url: userInfoUrl, headers: { Authorization: `Bearer ${accessToken}` } })
+          .withArgs({
+            url: userInfoUrl,
+            headers: { Authorization: `Bearer ${accessToken}` },
+            timeout: settings.partner.fetchTimeOut,
+          })
           .resolves({
             isSuccessful: true,
             data: '',
@@ -418,7 +431,11 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
         sinon
           .stub(httpAgent, 'get')
-          .withArgs({ url: userInfoUrl, headers: { Authorization: `Bearer ${accessToken}` } })
+          .withArgs({
+            url: userInfoUrl,
+            headers: { Authorization: `Bearer ${accessToken}` },
+            timeout: settings.partner.fetchTimeOut,
+          })
           .resolves({
             isSuccessful: true,
             data: {

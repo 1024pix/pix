@@ -68,6 +68,7 @@ class OidcAuthenticationService {
       url: this.tokenUrl,
       payload: querystring.stringify(data),
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      timeout: settings.partner.fetchTimeOut,
     });
 
     if (!response.isSuccessful) {
@@ -108,6 +109,7 @@ class OidcAuthenticationService {
     const response = await httpAgent.get({
       url: userInfoUrl,
       headers: { Authorization: `Bearer ${accessToken}` },
+      timeout: settings.partner.fetchTimeOut,
     });
 
     if (!response.isSuccessful) {

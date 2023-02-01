@@ -2,11 +2,7 @@
 const axios = require('axios');
 const { performance } = require('perf_hooks');
 
-const config = require('../../config');
-
 const monitoringTools = require('../monitoring-tools');
-
-const TIMEOUT_MILLISECONDS = config.partner.fetchTimeOut;
 
 class HttpResponse {
   constructor({ code, data, isSuccessful }) {
@@ -17,14 +13,17 @@ class HttpResponse {
 }
 
 module.exports = {
-  async post({ url, payload, headers }) {
+  async post({ url, payload, headers, timeout }) {
     const startTime = performance.now();
     let responseTime = null;
     try {
-      const httpResponse = await axios.post(url, payload, {
+      const config = {
         headers,
-        timeout: TIMEOUT_MILLISECONDS,
-      });
+      };
+      if (timeout != undefined) {
+        config.timeout = timeout;
+      }
+      const httpResponse = await axios.post(url, payload, config);
       responseTime = performance.now() - startTime;
       monitoringTools.logInfoWithCorrelationIds({
         metrics: { responseTime },
@@ -63,11 +62,17 @@ module.exports = {
       });
     }
   },
-  async get({ url, payload, headers }) {
+  async get({ url, payload, headers, timeout }) {
     const startTime = performance.now();
     let responseTime = null;
     try {
-      const config = { data: payload, headers, timeout: TIMEOUT_MILLISECONDS };
+      const config = {
+        data: payload,
+        headers,
+      };
+      if (timeout != undefined) {
+        config.timeout = timeout;
+      }
       const httpResponse = await axios.get(url, config);
       responseTime = performance.now() - startTime;
       monitoringTools.logInfoWithCorrelationIds({
