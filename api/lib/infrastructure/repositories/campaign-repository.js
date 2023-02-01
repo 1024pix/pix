@@ -1,7 +1,5 @@
 const _ = require('lodash');
-const BookshelfCampaign = require('../orm-models/Campaign');
 const { NotFoundError } = require('../../domain/errors');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../../../db/knex-database-connection');
 const Campaign = require('../../domain/models/Campaign');
 const targetProfileRepository = require('./target-profile-repository');
@@ -11,37 +9,27 @@ const Stage = require('../../domain/models/Stage');
 const CAMPAIGNS_TABLE = 'campaigns';
 
 module.exports = {
-  isCodeAvailable(code) {
-    return BookshelfCampaign.where({ code })
-      .fetch({ require: false })
-      .then((campaign) => {
-        if (campaign) {
-          return false;
-        }
-        return true;
-      });
+  async isCodeAvailable(code) {
+    return !(await knex('campaigns').first('id').where({ code }));
   },
 
   async getByCode(code) {
-    const bookshelfCampaign = await BookshelfCampaign.where({ code }).fetch({
-      require: false,
-      withRelated: ['organization'],
-    });
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaign, bookshelfCampaign);
+    const campaign = await knex('campaigns').first().where({ code });
+    if (!campaign) return null;
+    return new Campaign({ ...campaign, organization: { id: campaign.organizationId } });
   },
 
   async get(id) {
-    const bookshelfCampaign = await BookshelfCampaign.where({ id })
-      .fetch({
-        withRelated: ['creator', 'organization', 'targetProfile'],
-      })
-      .catch((err) => {
-        if (err instanceof BookshelfCampaign.NotFoundError) {
-          throw new NotFoundError(`Not found campaign for ID ${id}`);
-        }
-        throw err;
-      });
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaign, bookshelfCampaign);
+    const campaign = await knex('campaigns').where({ id }).first();
+    if (!campaign) {
+      throw new NotFoundError(`Not found campaign for ID ${id}`);
+    }
+    return new Campaign({
+      ...campaign,
+      organization: { id: campaign.organizationId },
+      targetProfile: { id: campaign.targetProfileId },
+      creator: { id: campaign.creatorId },
+    });
   },
 
   async save(campaign) {
@@ -106,23 +94,17 @@ module.exports = {
   },
 
   async checkIfUserOrganizationHasAccessToCampaign(campaignId, userId) {
-    try {
-      await BookshelfCampaign.query((qb) => {
-        qb.where({ 'campaigns.id': campaignId, 'memberships.userId': userId, 'memberships.disabledAt': null });
-        qb.innerJoin('memberships', 'memberships.organizationId', 'campaigns.organizationId');
-        qb.innerJoin('organizations', 'organizations.id', 'campaigns.organizationId');
-      }).fetch();
-    } catch (e) {
-      return false;
-    }
-    return true;
+    const campaign = await knex('campaigns')
+      .innerJoin('memberships', 'memberships.organizationId', 'campaigns.organizationId')
+      .innerJoin('organizations', 'organizations.id', 'campaigns.organizationId')
+      .where({ 'campaigns.id': campaignId, 'memberships.userId': userId, 'memberships.disabledAt': null })
+      .first('campaigns.id');
+    return Boolean(campaign);
   },
 
   async checkIfCampaignIsArchived(campaignId) {
-    const bookshelfCampaign = await BookshelfCampaign.where({ id: campaignId }).fetch();
-
-    const campaign = bookshelfToDomainConverter.buildDomainObject(BookshelfCampaign, bookshelfCampaign);
-    return campaign.isArchived();
+    const { archivedAt } = await knex('campaigns').where({ id: campaignId }).first('archivedAt');
+    return Boolean(archivedAt);
   },
 
   async getCampaignTitleByCampaignParticipationId(campaignParticipationId) {
