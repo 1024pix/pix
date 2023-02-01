@@ -1,7 +1,10 @@
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 
 export default class IndexRoute extends Route {
+  @service router;
+
   beforeModel() {
-    this.replaceWith('authenticated.trainings.training.details');
+    this.router.replaceWith('authenticated.trainings.training.details');
   }
 }
