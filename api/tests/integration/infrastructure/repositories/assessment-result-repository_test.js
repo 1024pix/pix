@@ -2,11 +2,12 @@ const { expect, knex, databaseBuilder, domainBuilder, catchErr } = require('../.
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const assessmentResultRepository = require('../../../../lib/infrastructure/repositories/assessment-result-repository');
-const { MissingAssessmentId, AssessmentResultNotCreatedError } = require('../../../../lib/domain/errors');
+const { MissingAssessmentId } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | AssessmentResult', function () {
   describe('#save', function () {
-    afterEach(function () {
+    afterEach(async function () {
+      await knex('certification-courses-last-assessment-results').delete();
       return knex('assessment-results').delete();
     });
 
@@ -33,11 +34,15 @@ describe('Integration | Repository | AssessmentResult', function () {
         assessmentResultToSave.id = undefined;
 
         // when
-        const savedAssessmentResult = await assessmentResultRepository.save(assessmentResultToSave);
+        const savedAssessmentResult = await assessmentResultRepository.save({
+          certificationCourseId: 1,
+          assessmentResult: assessmentResultToSave,
+        });
 
         // then
         expect(savedAssessmentResult).to.deepEqualInstanceOmitting(assessmentResultToSave, ['id', 'createdAt']);
       });
+
       it('should persist the assessment result in DB', async function () {
         // given
         databaseBuilder.factory.buildCertificationCourse({ id: 1 });
@@ -60,7 +65,7 @@ describe('Integration | Repository | AssessmentResult', function () {
         assessmentResultToSave.id = undefined;
 
         // when
-        await assessmentResultRepository.save(assessmentResultToSave);
+        await assessmentResultRepository.save({ certificationCourseId: 1, assessmentResult: assessmentResultToSave });
 
         // then
         const actualAssessmentResult = await assessmentResultRepository.getByCertificationCourseId({
@@ -70,7 +75,81 @@ describe('Integration | Repository | AssessmentResult', function () {
         expect(actualAssessmentResult.id).to.exist;
         expect(actualAssessmentResult.createdAt).to.exist;
       });
+
+      context('when there is no assessment result for the certification course yet', function () {
+        it('should persist the link between the assessment result and the certification course in DB', async function () {
+          // given
+          databaseBuilder.factory.buildCertificationCourse({ id: 1 });
+          databaseBuilder.factory.buildUser({ id: 100 });
+          databaseBuilder.factory.buildAssessment({ id: 2, certificationCourseId: 1 });
+          await databaseBuilder.commit();
+          const assessmentResultToSave = domainBuilder.buildAssessmentResult({
+            pixScore: 33,
+            reproducibilityRate: 29.1,
+            status: AssessmentResult.status.VALIDATED,
+            emitter: 'some-emitter',
+            commentForCandidate: 'candidate',
+            commentForJury: 'jury',
+            commentForOrganization: 'orga',
+            createdAt: new Date('2021-10-29T03:06:00Z'),
+            juryId: 100,
+            assessmentId: 2,
+            competenceMarks: [],
+          });
+          assessmentResultToSave.id = undefined;
+
+          // when
+          const assessmentResult = await assessmentResultRepository.save({
+            certificationCourseId: 1,
+            assessmentResult: assessmentResultToSave,
+          });
+
+          // then
+          const result = await knex('certification-courses-last-assessment-results').select('*');
+          expect(result).to.deep.equal([{ lastAssessmentResultId: assessmentResult.id, certificationCourseId: 1 }]);
+        });
+      });
+
+      context('when there is already an assessment result for the certification course', function () {
+        it('should update the link between the assessment result and the certification course in DB', async function () {
+          // given
+          databaseBuilder.factory.buildCertificationCourse({ id: 1 });
+          databaseBuilder.factory.buildUser({ id: 100 });
+          databaseBuilder.factory.buildAssessment({ id: 2, certificationCourseId: 1 });
+          databaseBuilder.factory.buildAssessmentResult({ id: 99, assessmentId: 2 });
+          databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+            certificationCourseId: 1,
+            lastAssessmentResultId: 99,
+          });
+          await databaseBuilder.commit();
+          const assessmentResultToSave = domainBuilder.buildAssessmentResult({
+            pixScore: 33,
+            reproducibilityRate: 29.1,
+            status: AssessmentResult.status.VALIDATED,
+            emitter: 'some-emitter',
+            commentForCandidate: 'candidate',
+            commentForJury: 'jury',
+            commentForOrganization: 'orga',
+            createdAt: new Date('2021-10-29T03:06:00Z'),
+            juryId: 100,
+            assessmentId: 2,
+            competenceMarks: [],
+          });
+          assessmentResultToSave.id = undefined;
+
+          // when
+          const assessmentResult = await assessmentResultRepository.save({
+            certificationCourseId: 1,
+            assessmentResult: assessmentResultToSave,
+          });
+
+          // then
+          const result = await knex('certification-courses-last-assessment-results').select('*');
+          expect(result).to.deep.equal([{ lastAssessmentResultId: assessmentResult.id, certificationCourseId: 1 }]);
+        });
+      });
     });
+
     context('when assessmentId attribute is not valid', function () {
       it('should throw a MissingAssessmentId error', async function () {
         // given
@@ -94,42 +173,17 @@ describe('Integration | Repository | AssessmentResult', function () {
         assessmentResultToSave.id = undefined;
 
         // when
-        const result = await catchErr(assessmentResultRepository.save)(assessmentResultToSave);
+        const result = await catchErr(assessmentResultRepository.save)({
+          certificationCourseId: 1,
+          assessmentResult: assessmentResultToSave,
+        });
 
         // then
         expect(result).to.be.instanceOf(MissingAssessmentId);
       });
     });
-    context('when assessment result status attribute is not valid', function () {
-      it('should throw a AssessmentResultNotCreatedError error', async function () {
-        // given
-        databaseBuilder.factory.buildCertificationCourse({ id: 1 });
-        databaseBuilder.factory.buildUser({ id: 100 });
-        databaseBuilder.factory.buildAssessment({ id: 2, certificationCourseId: 1 });
-        await databaseBuilder.commit();
-        const assessmentResultToSave = domainBuilder.buildAssessmentResult({
-          pixScore: 33,
-          reproducibilityRate: 29.1,
-          status: 'kikou',
-          emitter: 'some-emitter',
-          commentForCandidate: 'candidate',
-          commentForJury: 'jury',
-          commentForOrganization: 'orga',
-          createdAt: new Date('2021-10-29T03:06:00Z'),
-          juryId: 100,
-          assessmentId: 2,
-          competenceMarks: [],
-        });
-        assessmentResultToSave.id = undefined;
-
-        // when
-        const result = await catchErr(assessmentResultRepository.save)(assessmentResultToSave);
-
-        // then
-        expect(result).to.be.instanceOf(AssessmentResultNotCreatedError);
-      });
-    });
   });
+
   describe('#findLatestLevelAndPixScoreByAssessmentId', function () {
     context('when assessment has one assessment result', function () {
       it('should return the level and pixScore', async function () {

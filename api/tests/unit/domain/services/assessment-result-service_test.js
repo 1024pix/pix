@@ -42,16 +42,19 @@ describe('Unit | Domain | Services | assessment-results', function () {
 
     it('should save the assessment results', async function () {
       // when
-      await service.save(assessmentResult, competenceMarks);
+      await service.save({ certificationCourseId: 99, assessmentResult, competenceMarks });
 
       // then
       expect(assessmentResultRepository.save).to.have.been.calledOnce;
-      expect(assessmentResultRepository.save).to.have.been.calledWithMatch(assessmentResult);
+      expect(assessmentResultRepository.save).to.have.been.calledOnceWith({
+        certificationCourseId: 99,
+        assessmentResult,
+      });
     });
 
     it('should save all competenceMarks', async function () {
       // when
-      await service.save(assessmentResult, competenceMarks);
+      await service.save({ certificationCourseId: 99, assessmentResult, competenceMarks });
 
       // then
       expect(competenceMarkRepository.save).to.have.been.calledTwice;

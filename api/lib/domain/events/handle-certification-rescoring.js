@@ -37,12 +37,6 @@ async function handleCertificationRescoring({
       event,
       assessmentResultRepository
     );
-
-    await certificationCourseRepository.saveLastAssessmentResultId({
-      certificationCourseId: certificationAssessment.certificationCourseId,
-      lastAssessmentResultId: assessmentResultId,
-    });
-
     await _saveCompetenceMarks(certificationAssessmentScore, assessmentResultId, competenceMarkRepository);
 
     await _cancelCertificationCourseIfHasNotEnoughNonNeutralizedChallengesToBeTrusted({
@@ -91,7 +85,6 @@ async function _saveResultAfterCertificationComputeError({
   certificationAssessment,
   assessmentResultRepository,
   certificationComputeError,
-  certificationCourseRepository,
   juryId,
   event,
 }) {
@@ -102,10 +95,9 @@ async function _saveResultAfterCertificationComputeError({
     juryId,
     emitter,
   });
-  const { id: assessmentResultId } = await assessmentResultRepository.save(assessmentResult);
-  await certificationCourseRepository.saveLastAssessmentResultId({
+  await assessmentResultRepository.save({
     certificationCourseId: certificationAssessment.certificationCourseId,
-    lastAssessmentResultId: assessmentResultId,
+    assessmentResult,
   });
 }
 
@@ -136,7 +128,10 @@ async function _saveAssessmentResult(
       juryId: event.juryId,
     });
   }
-  const { id: assessmentResultId } = await assessmentResultRepository.save(assessmentResult);
+  const { id: assessmentResultId } = await assessmentResultRepository.save({
+    certificationCourseId: certificationAssessment.certificationCourseId,
+    assessmentResult,
+  });
   return assessmentResultId;
 }
 
