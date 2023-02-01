@@ -9,11 +9,11 @@ async function _validatedDataForAllCompetenceMark(competenceMarks) {
   }
 }
 
-async function save(assessmentResult, competenceMarks) {
+async function save({ certificationCourseId, assessmentResult, competenceMarks }) {
   await _validatedDataForAllCompetenceMark(competenceMarks);
-  const { id } = await assessmentResultRepository.save(assessmentResult);
+  const { id: assessmentResultId } = await assessmentResultRepository.save({ certificationCourseId, assessmentResult });
   return bluebird.mapSeries(competenceMarks, (competenceMark) =>
-    competenceMarkRepository.save(new CompetenceMark({ ...competenceMark, assessmentResultId: id }))
+    competenceMarkRepository.save(new CompetenceMark({ ...competenceMark, assessmentResultId }))
   );
 }
 

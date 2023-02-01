@@ -1,6 +1,4 @@
 const _ = require('lodash');
-const BookshelfAssessmentResult = require('../orm-models/AssessmentResult');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../../../db/knex-database-connection');
 const { MissingAssessmentId, AssessmentResultNotCreatedError } = require('../../domain/errors');
 const DomainTransaction = require('../DomainTransaction');
@@ -28,8 +26,8 @@ function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {
 }
 
 module.exports = {
-  async save(
-    {
+  async save({ certificationCourseId, assessmentResult, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const {
       pixScore,
       reproducibilityRate,
       status,
@@ -40,31 +38,37 @@ module.exports = {
       id,
       juryId,
       assessmentId,
-    },
-    domainTransaction = DomainTransaction.emptyTransaction()
-  ) {
+    } = assessmentResult;
+
+    const knexConn = domainTransaction.knexTransaction || knex;
     if (_.isNil(assessmentId)) {
       throw new MissingAssessmentId();
     }
     try {
-      const savedAssessmentResultBookshelf = await new BookshelfAssessmentResult({
-        pixScore,
-        reproducibilityRate,
-        status,
-        emitter,
-        commentForJury,
-        commentForCandidate,
-        commentForOrganization,
-        id,
-        juryId,
-        assessmentId,
-      }).save(null, { require: true, transacting: domainTransaction.knexTransaction });
+      const [savedAssessmentResultData] = await knexConn('assessment-results')
+        .insert({
+          pixScore,
+          reproducibilityRate,
+          status,
+          emitter,
+          commentForJury,
+          commentForCandidate,
+          commentForOrganization,
+          id,
+          juryId,
+          assessmentId,
+        })
+        .returning('*');
 
-      const savedAssessmentResult = bookshelfToDomainConverter.buildDomainObject(
-        BookshelfAssessmentResult,
-        savedAssessmentResultBookshelf
-      );
-      savedAssessmentResult.reproducibilityRate = _.toNumber(savedAssessmentResult.reproducibilityRate) ?? null;
+      await knex('certification-courses-last-assessment-results')
+        .insert({ certificationCourseId, lastAssessmentResultId: savedAssessmentResultData.id })
+        .onConflict('certificationCourseId')
+        .merge(['lastAssessmentResultId']);
+
+      const savedAssessmentResult = new AssessmentResult({
+        ...savedAssessmentResultData,
+        reproducibilityRate: _.toNumber(savedAssessmentResultData.reproducibilityRate) ?? null,
+      });
       return savedAssessmentResult;
     } catch (error) {
       throw new AssessmentResultNotCreatedError();
