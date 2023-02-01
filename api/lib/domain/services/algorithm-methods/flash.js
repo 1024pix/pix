@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const { orderBy, range, sortBy, sortedUniqBy, sumBy } = require('lodash');
 
 const config = require('../../../config');
 
@@ -6,7 +6,7 @@ const DEFAULT_ESTIMATED_LEVEL = 0;
 const START_OF_SAMPLES = -9;
 const STEP_OF_SAMPLES = 18 / 80;
 const END_OF_SAMPLES = 9 + STEP_OF_SAMPLES;
-const samples = _.range(START_OF_SAMPLES, END_OF_SAMPLES, STEP_OF_SAMPLES);
+const samples = range(START_OF_SAMPLES, END_OF_SAMPLES, STEP_OF_SAMPLES);
 const DEFAULT_PROBABILITY_TO_ANSWER = 1;
 const DEFAULT_ERROR_RATE = 5;
 const ERROR_RATE_CLASS_INTERVAL = 9 / 80;
@@ -67,7 +67,7 @@ function getEstimatedLevelAndErrorRate({ allAnswers, challenges }) {
   }));
 
   for (const answer of allAnswers) {
-    const answeredChallenge = _.find(challenges, ['id', answer.challengeId]);
+    const answeredChallenge = challenges.find(({ id }) => id === answer.challengeId);
 
     for (const sampleWithResults of samplesWithResults) {
       sampleWithResults.gaussian = _getGaussianValue({
@@ -141,22 +141,30 @@ function _getDirectSucceededChallenges({ allAnswers, challenges }) {
 }
 
 function _getInferredChallenges({ challenges, estimatedLevel }) {
-  const lowestCapabilityChallengesBySkill = _findLowestCapabilityChallengesBySkill(challenges);
-  return lowestCapabilityChallengesBySkill.filter((challenge) => estimatedLevel >= challenge.minimumCapability);
+  const challengesForInferrence = _findChallengesForInferrence(challenges);
+  return challengesForInferrence.filter((challenge) => estimatedLevel >= challenge.minimumCapability);
 }
 
-function _findLowestCapabilityChallengesBySkill(challenges) {
-  const challengesBySkillId = challenges.reduce((acc, challenge) => {
-    if (acc[challenge.skill.id] && acc[challenge.skill.id].minimumCapability < challenge.minimumCapability) {
-      return acc;
-    }
+/**
+ * Returns a list of challenges containing for each skill
+ * the challenge with the lowest minimum capability,
+ * prioritizing validated challenges over archived ones.
+ *
+ * @param {import('../../models/Challenge')[]} challenges
+ * @returns A list of challenges for scoring inferrence
+ */
+function _findChallengesForInferrence(challenges) {
+  return sortedUniqBy(
+    orderBy(challenges, ['skill.id', getChallengePriorityForInferrence, 'minimumCapability']),
+    'skill.id'
+  );
+}
 
-    return {
-      ...acc,
-      [challenge.skill.id]: challenge,
-    };
-  }, {});
-  return Object.values(challengesBySkillId);
+const challengeStatusPriorityForInferrence = ['validé', 'archivé'];
+
+function getChallengePriorityForInferrence(challenge) {
+  const priority = challengeStatusPriorityForInferrence.indexOf(challenge.status);
+  return priority === -1 ? 100 : priority;
 }
 
 function _findChallengeForAnswer(challenges, answer) {
@@ -180,7 +188,7 @@ function _sumPixScoreAndScoreByCompetence(challenges) {
   }
 
   const pixScore = Object.values(scoreBySkillId).reduce((sum, pixValue) => sum + pixValue, 0);
-  const pixScoreByCompetence = _.sortBy(
+  const pixScoreByCompetence = sortBy(
     Object.entries(scoreByCompetenceId).map(([competenceId, pixScore]) => ({
       competenceId,
       pixScore,
@@ -206,7 +214,7 @@ function _getGaussianValue({ gaussianMean, value }) {
 }
 
 function _normalizeFieldDistribution(data, field) {
-  const sum = _.sumBy(data, field);
+  const sum = sumBy(data, field);
   for (const item of data) {
     item[field] /= sum;
   }

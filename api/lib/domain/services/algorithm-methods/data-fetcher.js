@@ -85,7 +85,7 @@ async function fetchForFlashCampaigns({
 }) {
   const [allAnswers, challenges, { estimatedLevel } = {}] = await Promise.all([
     answerRepository.findByAssessment(assessmentId),
-    challengeRepository.findFlashCompatible({ locale }),
+    challengeRepository.findActiveFlashCompatible({ locale }),
     flashAssessmentResultRepository.getLatestByAssessmentId(assessmentId),
   ]);
 
