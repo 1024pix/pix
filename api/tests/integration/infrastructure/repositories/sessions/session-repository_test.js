@@ -901,4 +901,43 @@ describe('Integration | Repository | Session', function () {
       });
     });
   });
+
+  describe('#getExistingSessionByInformation', function () {
+    it('should return true if the session already exists', async function () {
+      // given
+      const session = {
+        address: 'rue de Bercy',
+        room: 'Salle A',
+        examiner: 'madame examinatrice',
+        date: '2018-02-23',
+        time: '12:00:00',
+      };
+      databaseBuilder.factory.buildSession({ ...session, examiner: 'Monsieur Examinateur, Madame Examinatrice' });
+
+      await databaseBuilder.commit();
+
+      // when
+      const result = await sessionRepository.getExistingSessionByInformation({ ...session });
+
+      // then
+      expect(result).to.equal(true);
+    });
+
+    it('should return false if the session does not already exist', async function () {
+      // given
+      const session = {
+        address: 'rue de Bercy',
+        room: 'Salle A',
+        examiner: 'Monsieur Examinateur',
+        date: '2018-02-23',
+        time: '12:00:00',
+      };
+
+      // when
+      const result = await sessionRepository.getExistingSessionByInformation({ ...session });
+
+      // then
+      expect(result).to.equal(false);
+    });
+  });
 });
