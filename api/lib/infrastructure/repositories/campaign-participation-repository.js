@@ -6,6 +6,8 @@ const { knex } = require('../../../db/knex-database-connection');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 const knowledgeElementSnapshotRepository = require('./knowledge-element-snapshot-repository');
 const CampaignParticipation = require('../../domain/models/CampaignParticipation');
+const Assessment = require('../../domain/models/Assessment');
+const Campaign = require('../../domain/models/Campaign');
 const DomainTransaction = require('../DomainTransaction');
 const { NotFoundError } = require('../../domain/errors');
 
@@ -35,11 +37,15 @@ module.exports = {
     return result?.code || null;
   },
   async get(id, domainTransaction = DomainTransaction.emptyTransaction()) {
-    const campaignParticipation = await BookshelfCampaignParticipation.where({ id }).fetch({
-      withRelated: ['campaign', 'assessments'],
-      transacting: domainTransaction.knexTransaction,
+    const knexConn = domainTransaction.knexTransaction || knex;
+    const campaignParticipation = await knexConn('campaign-participations').where({ id }).first();
+    const campaign = await knexConn('campaigns').where({ id: campaignParticipation.campaignId }).first();
+    const assessments = await knexConn('assessments').where({ campaignParticipationId: id });
+    return new CampaignParticipation({
+      ...campaignParticipation,
+      campaign: new Campaign(campaign),
+      assessments: assessments.map((assessment) => new Assessment(assessment)),
     });
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaignParticipation, campaignParticipation);
   },
 
   async update(campaignParticipation, domainTransaction = DomainTransaction.emptyTransaction()) {
