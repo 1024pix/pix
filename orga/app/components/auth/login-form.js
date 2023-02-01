@@ -14,7 +14,6 @@ export default class LoginForm extends Component {
   @service store;
 
   @tracked errorMessage = null;
-  @tracked isErrorMessagePresent = false;
   @tracked isLoading = false;
   @tracked password = null;
   @tracked email = null;
@@ -95,13 +94,10 @@ export default class LoginForm extends Component {
   async _authenticate(password, email) {
     const scope = 'pix-orga';
 
-    this.isErrorMessagePresent = false;
-    this.errorMessage = '';
-
+    this.errorMessage = null;
     try {
       await this.session.authenticate('authenticator:oauth2', email, password, scope);
     } catch (responseError) {
-      this.isErrorMessagePresent = true;
       this._handleApiError(responseError);
     } finally {
       this.isLoading = false;

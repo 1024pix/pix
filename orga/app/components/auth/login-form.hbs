@@ -12,7 +12,7 @@
     <p class="login-form__invitation-error">{{t "pages.login-form.invitation-was-cancelled"}}</p>
   {{/if}}
 
-  {{#if this.isErrorMessagePresent}}
+  {{#if this.errorMessage}}
     <div id="login-form-error-message" class="login-form__error-message error-message" role="alert">
       {{this.errorMessage}}
     </div>
