@@ -596,7 +596,8 @@
         "empty-password": "Le champ mot de passe est obligatoire.",
         "should-change-password": "Vous avez actuellement un mot de passe temporaire. Cliquez sur <a href=\"{url}\">mot de passe oublié</a> pour le réinitialiser.",
         "status": {
-          "403": "L'accès à Pix Orga est limité aux membres invités. Chaque espace est géré par un administrateur Pix Orga propre à l'organisation qui l'utilise. Contactez-le pour qu'il vous y invite."
+          "403": "L'accès à Pix Orga est limité aux membres invités. Chaque espace est géré par un administrateur Pix Orga propre à l'organisation qui l'utilise. Contactez-le pour qu'il vous y invite.",
+          "409": "Cette invitation a déjà été acceptée par un autre compte ou elle a été annulée."
         }
       },
       "forgot-password": "Mot de passe oublié ?",

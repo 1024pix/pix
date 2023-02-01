@@ -87,6 +87,9 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
 
   module('When there is an invitation', function (hooks) {
     hooks.beforeEach(function () {
+      StoreStub.prototype.peekRecord = () => {
+        return null;
+      };
       StoreStub.prototype.createRecord = () => {
         return EmberObject.create({
           save() {

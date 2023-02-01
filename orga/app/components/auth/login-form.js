@@ -47,12 +47,20 @@ export default class LoginForm extends Component {
           this.args.organizationInvitationCode,
           email
         );
-      } catch (responseError) {
-        responseError.errors.forEach((error) => {
-          if (error.status === '412') {
-            return this._authenticate(password, email);
-          }
-        });
+      } catch (err) {
+        const error = Array.isArray(err.errors) && err.errors.length > 0 && err.errors[0];
+        const isInvitationAlreadyAcceptedByAnotherUser = error && error.status === '409';
+        if (isInvitationAlreadyAcceptedByAnotherUser) {
+          this.errorMessage = this.intl.t('pages.login-form.errors.status.409');
+          this.isLoading = false;
+          return;
+        }
+        const isUserAlreadyOrganizationMember = error && error.status === '412';
+        if (!isUserAlreadyOrganizationMember) {
+          this.errorMessage = this.intl.t(this._getI18nKeyByStatus(error.status));
+          this.isLoading = false;
+          return;
+        }
       }
     }
 
@@ -104,14 +112,15 @@ export default class LoginForm extends Component {
     }
   }
 
-  _acceptOrganizationInvitation(organizationInvitationId, organizationInvitationCode, email) {
-    return this.store
-      .createRecord('organization-invitation-response', {
-        id: organizationInvitationId + '_' + organizationInvitationCode,
-        code: organizationInvitationCode,
-        email,
-      })
-      .save({ adapterOptions: { organizationInvitationId } });
+  async _acceptOrganizationInvitation(organizationInvitationId, organizationInvitationCode, email) {
+    const type = 'organization-invitation-response';
+    const id = `${organizationInvitationId}_${organizationInvitationCode}`;
+    const record = this.store.peekRecord(type, id);
+    if (!record) {
+      await this.store
+        .createRecord(type, { id, code: organizationInvitationCode, email })
+        .save({ adapterOptions: { organizationInvitationId } });
+    }
   }
 
   _handleApiError(responseError) {
