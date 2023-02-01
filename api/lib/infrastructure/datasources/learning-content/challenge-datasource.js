@@ -40,11 +40,23 @@ module.exports = datasource.extend({
     return validatedChallenges.filter((challenge) => challenge.skillId === id);
   },
 
-  async findFlashCompatible(locale) {
+  async findActiveFlashCompatible(locale) {
     const challenges = await this.list();
     return challenges.filter(
       (challengeData) =>
         challengeData.status === VALIDATED_CHALLENGE &&
+        challengeData.skillId &&
+        _.includes(challengeData.locales, locale) &&
+        challengeData.alpha != null &&
+        challengeData.delta != null
+    );
+  },
+
+  async findOperativeFlashCompatible(locale) {
+    const challenges = await this.list();
+    return challenges.filter(
+      (challengeData) =>
+        _.includes(OPERATIVE_CHALLENGES, challengeData.status) &&
         challengeData.skillId &&
         _.includes(challengeData.locales, locale) &&
         challengeData.alpha != null &&
