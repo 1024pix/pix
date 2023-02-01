@@ -56,21 +56,17 @@ module.exports = {
   },
 
   async findProfilesCollectionResultDataByCampaignId(campaignId) {
-    const results = await knex
-      .with('campaignParticipationWithUser', (qb) => {
-        qb.select([
-          'campaign-participations.*',
-          'organization-learners.studentNumber',
-          'organization-learners.division',
-          'organization-learners.group',
-          'organization-learners.firstName',
-          'organization-learners.lastName',
-        ])
-          .from('campaign-participations')
-          .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
-          .where({ campaignId, isImproved: false, deletedAt: null });
-      })
-      .from('campaignParticipationWithUser');
+    const results = await knex('campaign-participations')
+      .select([
+        'campaign-participations.*',
+        'organization-learners.studentNumber',
+        'organization-learners.division',
+        'organization-learners.group',
+        'organization-learners.firstName',
+        'organization-learners.lastName',
+      ])
+      .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
+      .where({ campaignId, isImproved: false, deletedAt: null });
 
     return results.map(_rowToResult);
   },
