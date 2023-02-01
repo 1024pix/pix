@@ -5,7 +5,7 @@ import { visit, screen } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 
-module('Acceptance | Trainings | Detail', function (hooks) {
+module('Acceptance | Trainings | Training', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
