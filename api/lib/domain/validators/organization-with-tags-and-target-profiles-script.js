@@ -52,8 +52,9 @@ const schema = Joi.object({
     .messages({
       'any.only': "Le rôle fourni doit avoir l'une des valeurs suivantes : ADMIN ou MEMBER",
     }),
-  createdBy: Joi.number().required().messages({
-    'number.base': "L'id du créateur doit être un nombre",
+  createdBy: Joi.number().empty('').required().messages({
+    'any.required': "L'id du créateur est manquant",
+    'number.base': "L'id du créateur n'est pas un nombre",
   }),
 });
 

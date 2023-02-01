@@ -127,7 +127,9 @@ function _checkIfOrganizationsDataAreUnique(organizations) {
   const uniqOrganizations = uniqBy(organizations, 'externalId');
 
   if (uniqOrganizations.length !== organizations.length) {
-    throw new ManyOrganizationsFoundError('Une organisation apparaît plusieurs fois.');
+    throw new ManyOrganizationsFoundError(
+      `Plusieurs organisations (${uniqOrganizations.length}) ont le même externalId.`
+    );
   }
 }
 
