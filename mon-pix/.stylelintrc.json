@@ -1,8 +1,7 @@
 {
-  "extends": ["stylelint-config-standard-scss", "stylelint-config-rational-order", "stylelint-config-prettier"],
+  "extends": ["@1024pix/stylelint-config", "stylelint-config-rational-order"],
   "rules": {
     "scss/operator-no-unspaced": null,
-    "selector-class-pattern": null,
     "scss/no-global-function-names": null,
     "declaration-block-no-redundant-longhand-properties": null,
     "scss/at-mixin-pattern": null,
@@ -11,16 +10,6 @@
     "selector-pseudo-class-no-unknown": null,
     "scss/double-slash-comment-whitespace-inside": null,
     "scss/double-slash-comment-empty-line-before": null,
-    "at-rule-no-unknown": [true, { "ignoreAtRules": ["else", "extend", "if", "include", "mixin", "warn"] }],
-    "color-hex-case": "upper",
-    "color-hex-length": "long",
-    "indentation": [2, { "indentInsideParens": "once-at-root-twice-in-block" }],
-    "rule-empty-line-before": ["always-multi-line", { "ignore": ["after-comment", "first-nested"] }],
-    "value-keyword-case": ["lower", { "ignoreKeywords": ["Arial"] }],
-    "string-quotes": "single",
-    "declaration-colon-space-after": "always-single-line",
-    "declaration-colon-space-before": "never",
-    "declaration-block-semicolon-space-before": "never",
-    "block-opening-brace-space-before": "always"
+    "string-quotes": "single"
   }
 }
