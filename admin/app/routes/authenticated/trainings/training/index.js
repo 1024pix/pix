@@ -5,6 +5,6 @@ export default class IndexRoute extends Route {
   @service router;
 
   beforeModel() {
-    this.router.replaceWith('authenticated.trainings.training.details');
+    this.router.replaceWith('authenticated.trainings.training.triggers');
   }
 }
