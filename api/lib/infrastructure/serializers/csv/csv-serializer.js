@@ -3,7 +3,7 @@ const { FileValidationError } = require('../../../../lib/domain/errors');
 const { convertDateValue } = require('../../utils/date-utils');
 const { headers, COMPLEMENTARY_CERTIFICATION_SUFFIX } = require('../../utils/csv/sessions-import');
 const { isEmpty } = require('lodash');
-const csvHelpers = require('../../../../scripts/helpers/csvHelpers');
+const { checkCsvHeader, parseCsvWithHeader } = require('../../helpers/csv');
 
 function _csvFormulaEscapingPrefix(data) {
   const mayBeInterpretedAsFormula = /^[-@=+]/.test(data);
@@ -132,9 +132,9 @@ async function deserializeForOrganizationsImport(file) {
     },
   };
 
-  await csvHelpers.checkCsvHeader({ filePath: file, requiredFieldNames });
+  await checkCsvHeader({ filePath: file, requiredFieldNames });
 
-  return await csvHelpers.parseCsvWithHeader(file, batchOrganizationOptionsWithHeader);
+  return await parseCsvWithHeader(file, batchOrganizationOptionsWithHeader);
 }
 
 function _hasSessionIdAndCandidateInformation(data) {
