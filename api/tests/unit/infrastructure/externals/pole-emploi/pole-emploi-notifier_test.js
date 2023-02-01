@@ -102,6 +102,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           url: settings.poleEmploi.sendingUrl,
           payload,
           headers: expectedHearders,
+          timeout: settings.partner.fetchTimeOut,
         });
       });
 
@@ -150,6 +151,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           url: settings.poleEmploi.tokenUrl,
           payload: querystring.stringify(params),
           headers: expectedHeaders,
+          timeout: settings.partner.fetchTimeOut,
         });
       });
 
@@ -235,6 +237,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
             url: settings.poleEmploi.sendingUrl,
             payload,
             headers: expectedHeaders,
+            timeout: settings.partner.fetchTimeOut,
           });
         });
       });
@@ -259,6 +262,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
               url: settings.poleEmploi.tokenUrl,
               headers: sinon.match.any,
               payload: sinon.match.any,
+              timeout: settings.partner.fetchTimeOut,
             })
             .resolves(tokenResponse);
 
@@ -307,12 +311,14 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
               url: settings.poleEmploi.tokenUrl,
               headers: sinon.match.any,
               payload: sinon.match.any,
+              timeout: settings.partner.fetchTimeOut,
             })
             .resolves(tokenResponse)
             .withArgs({
               url: settings.poleEmploi.sendingUrl,
               headers: sinon.match.any,
               payload: sinon.match.any,
+              timeout: settings.partner.fetchTimeOut,
             })
             .resolves(httpResponse);
 
