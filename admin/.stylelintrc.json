@@ -1,22 +1,12 @@
 {
-  "extends": ["stylelint-config-standard-scss", "stylelint-config-prettier"],
+  "extends": ["@1024pix/stylelint-config"],
   "rules": {
     "scss/no-global-function-names": null,
     "scss/at-mixin-pattern": null,
-    "selector-class-pattern": null,
-    "at-rule-no-unknown": [true, { "ignoreAtRules": ["else", "extend", "if", "include", "mixin", "warn"] }],
-    "color-hex-case": "upper",
-    "color-hex-length": "long",
-    "indentation": [2, { "indentInsideParens": "once-at-root-twice-in-block" }],
+    "import-notation": "string",
     "rule-empty-line-before": [
       "always-multi-line",
       { "except": ["after-single-line-comment"], "ignore": ["first-nested"] }
-    ],
-    "value-keyword-case": ["lower", { "ignoreKeywords": ["Arial"] }],
-    "import-notation": "string",
-    "declaration-colon-space-after": "always-single-line",
-    "declaration-colon-space-before": "never",
-    "declaration-block-semicolon-space-before": "never",
-    "block-opening-brace-space-before": "always"
+      ]
   }
 }
