@@ -13,7 +13,9 @@ module.exports = async function planner({ job, pgBoss, cpfCertificationResultRep
   const certificationCourseIds = await cpfCertificationResultRepository.getIdsByTimeRange({ startDate, endDate });
   const certificationCourseIdChunks = _.chunk(certificationCourseIds, plannerJob.chunkSize);
   logger.info(
-    `CpfExportPlannerJob start from ${startDate} to ${endDate}, plan ${certificationCourseIdChunks.length} job(s) for ${certificationCourseIds.length} certifications`
+    `CpfExportPlannerJob start from ${startDate.toLocaleDateString()} to ${endDate.toLocaleDateString()}, plan ${
+      certificationCourseIdChunks.length
+    } job(s) for ${certificationCourseIds.length} certifications`
   );
   for (const [index, certificationCourseIds] of certificationCourseIdChunks.entries()) {
     const batchId = `${job.id}#${index}`;
