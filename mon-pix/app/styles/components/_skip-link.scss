@@ -5,7 +5,7 @@
   padding: 0.5em;
   color: $pix-neutral-0;
   background-color: $pix-primary;
-  transform: translateY(calc(-100% - 8px));
+  transform: translateY(calc(-100% - 16px));
   transition: transform 0.3s;
 
   &:focus,
