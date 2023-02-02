@@ -36,13 +36,12 @@
   outline: none;
   border: none;
   background-color: inherit;
-  color: $pix-primary;
-  text-decoration: none;
+  color: $pix-primary-60;
+  text-decoration: underline;
 
   &:hover,
   &:focus,
   &:active {
-    text-decoration: underline;
-    color: $pix-primary-60;
+    color: $pix-tertiary-80;
   }
 }
