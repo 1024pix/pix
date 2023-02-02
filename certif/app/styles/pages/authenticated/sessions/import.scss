@@ -1,0 +1,41 @@
+.import-page {
+  &__section--download {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+  }
+
+  &__section--download__button {
+    align-items: center;
+    background-color: $pix-neutral-5;
+    border: 1px solid $pix-neutral-10;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    padding: 24px 16px;
+  }
+
+  &__section--download__button:first-of-type {
+    margin-bottom: 16px;
+  }
+
+  &__section--download__button p {
+    align-items: center;
+    color: $pix-neutral-90;
+    display: flex;
+  }
+
+  &__section--download__button .download-icon {
+    color: $pix-neutral-25;
+    margin-right: 24px;
+  }
+
+  &__section--link-buttons {
+    display: flex;
+    margin-top: 24px;
+  }
+
+  &__section--link-buttons a:first-of-type {
+    margin-right: 16px;
+  }
+}

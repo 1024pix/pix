@@ -1,9 +1,14 @@
-<main>
-  <h1>Créer/éditer plusieurs sessions</h1>
-  <section>
-    <div>
-      <p>Télécharger le modèle vierge</p>
+<main class="import-page">
+  <h1 class="page-title">Créer/éditer plusieurs sessions</h1>
+  <section class="import-page__section--download panel">
+    <div class="import-page__section--download__button">
+      <p>
+        <FaIcon @icon="file-arrow-down" class="fa-2x download-icon" />
+        Télécharger le modèle vierge
+      </p>
       <PixButton
+        @backgroundColor="transparent-light"
+        @isBorderVisible="{{true}}"
         aria-label={{t "pages.sessions.list.header.session-import-template-label"}}
         @triggerAction={{this.downloadSessionImportTemplate}}
       >
@@ -11,11 +16,33 @@
       </PixButton>
     </div>
 
-    <div>
-      <p>Importer le modèle <complété></complété></p>
-      <PixButtonUpload @id="file-upload" @onChange={{this.importSessions}} accept=".csv">
+    <div class="import-page__section--download__button">
+      <p>
+        <FaIcon @icon="cloud-arrow-up" class="fa-2x download-icon" />
+        Importer le modèle complété
+      </p>
+      <PixButtonUpload
+        @backgroundColor="transparent-light"
+        @isBorderVisible="{{true}}"
+        @id="file-upload"
+        @onChange={{this.importSessions}}
+        accept=".csv"
+      >
         {{t "pages.sessions.list.header.session-import-upload"}}
       </PixButtonUpload>
+    </div>
+
+    <div class="import-page__section--link-buttons">
+      <PixButtonLink
+        @route="authenticated.sessions.list"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+      >
+        {{t "common.actions.cancel"}}
+      </PixButtonLink>
+      <PixButtonLink>
+        {{t "common.actions.continue"}}
+      </PixButtonLink>
     </div>
   </section>
 </main>
