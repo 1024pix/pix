@@ -4,11 +4,6 @@ const frameworkSerializer = require('../../infrastructure/serializers/jsonapi/fr
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
 module.exports = {
-  async getPixFramework(request) {
-    const locale = extractLocaleFromRequest(request);
-    const framework = await usecases.getFrameworkAreas({ frameworkName: 'Pix', locale });
-    return frameworkAreasSerializer.serialize(framework);
-  },
   async getFrameworks() {
     const frameworks = await usecases.getFrameworks();
     return frameworkSerializer.serialize(frameworks);
@@ -22,5 +17,10 @@ module.exports = {
     const locale = extractLocaleFromRequest(request);
     const framework = await usecases.getFrameworkAreas({ frameworkName: 'Pix', locale });
     return frameworkAreasSerializer.serialize(framework, { withoutThematics: true });
+  },
+  async getFrameworksForTargetProfileSubmission(request) {
+    const locale = extractLocaleFromRequest(request);
+    const learningContent = await usecases.getLearningContentForTargetProfileSubmission({ locale });
+    return frameworkSerializer.serializeDeepWithoutSkills(learningContent.frameworks);
   },
 };

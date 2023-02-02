@@ -58,13 +58,6 @@ describe('Unit | Serializer | JSONAPI | pix-framework-serializer', function () {
               mobile: true,
               tablet: false,
             },
-            relationships: {
-              skills: {
-                links: {
-                  related: '/api/admin/tubes/tubeId/skills',
-                },
-              },
-            },
           },
           {
             type: 'thematics',
