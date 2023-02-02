@@ -28,7 +28,7 @@ describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload',
 
   it('should build an xml export file and upload it to an external storage', async function () {
     // given
-    const jobId = '555-444#01';
+    const batchId = '555-444#01';
 
     const cpfCertificationResults = [
       domainBuilder.buildCpfCertificationResult({ id: 12 }),
@@ -44,7 +44,7 @@ describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload',
       upload: sinon.stub(),
     };
 
-    cpfCertificationResultRepository.findByBatchId.withArgs(jobId).resolves(cpfCertificationResults);
+    cpfCertificationResultRepository.findByBatchId.withArgs(batchId).resolves(cpfCertificationResults);
 
     const cpfCertificationXmlExportService = proxyquire(
       '../../../../../../lib/domain/services/cpf-certification-xml-export-service',
@@ -69,7 +69,7 @@ describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload',
 
     // when
     await createAndUpload({
-      data: { jobId },
+      data: { batchId },
       cpfCertificationResultRepository,
       cpfCertificationXmlExportService,
       cpfExternalStorage,
