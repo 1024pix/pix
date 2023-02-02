@@ -1277,7 +1277,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
     });
 
     it('should call the usecase to get the participants of the organization', async function () {
-      const parameters = { page: 2, filter: { fullName: 'name' } };
+      const parameters = { page: 2, filter: { fullName: 'name' }, sort: {} };
       const organizationLearner = domainBuilder.buildOrganizationLearner();
       domainBuilder.buildCampaignParticipation({ organizationLearnerId: organizationLearner.id });
 
@@ -1302,7 +1302,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       sinon.stub(queryParamsUtils, 'extractParameters').withArgs(request.query).returns(parameters);
 
       usecases.getPaginatedParticipantsForAnOrganization
-        .withArgs({ organizationId, page: 2, filters: parameters.filter })
+        .withArgs({ organizationId, page: 2, filters: parameters.filter, sort: {} })
         .returns({
           organizationParticipants: [participant],
           pagination: expectedPagination,
@@ -1321,6 +1321,29 @@ describe('Unit | Application | Organizations | organization-controller', functio
       expect(response).to.deep.equal(expectedResponse);
     });
 
+    it('should call the usecase to find sco participants with users infos related to sort', async function () {
+      // given
+      request = {
+        ...request,
+        query: {
+          'sort[participationCount]': 'asc',
+        },
+      };
+      usecases.getPaginatedParticipantsForAnOrganization.resolves({});
+
+      // when
+      await organizationController.getPaginatedParticipantsForAnOrganization(request, hFake);
+
+      // then
+      expect(usecases.getPaginatedParticipantsForAnOrganization).to.have.been.calledWith({
+        organizationId,
+        filters: {},
+        page: {},
+        sort: {
+          participationCount: 'asc',
+        },
+      });
+    });
     it('map all certificability values', async function () {
       // given
       request = {
@@ -1341,6 +1364,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
         organizationId,
         filters: { certificability: [true, false, null] },
         page: {},
+        sort: {},
       });
     });
   });

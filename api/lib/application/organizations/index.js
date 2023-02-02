@@ -1010,6 +1010,7 @@ exports.register = async (server) => {
             'page[number]': Joi.number().integer().empty(''),
             'filter[fullName]': Joi.string().empty(''),
             'filter[certificability][]': [Joi.string(), Joi.array().items(Joi.string())],
+            'sort[participationCount]': Joi.string().empty(''),
           }),
         },
         handler: organizationController.getPaginatedParticipantsForAnOrganization,

@@ -352,6 +352,155 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
           expect(organizationParticipants.map(({ id }) => id)).to.exactlyContainInOrder([1, 2]);
         });
       });
+
+      context('When participants are sorted', function () {
+        it('should return participants sorted by ascendant participation count', async function () {
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
+          const campaignId1 = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+          const campaignId2 = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+          const campaignId3 = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+          const organizationLearnerId1 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+          const organizationLearnerId2 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+          const organizationLearnerId3 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId1,
+            organizationLearnerId: organizationLearnerId1,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId2,
+            organizationLearnerId: organizationLearnerId1,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId3,
+            organizationLearnerId: organizationLearnerId1,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId1,
+            organizationLearnerId: organizationLearnerId3,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId2,
+            organizationLearnerId: organizationLearnerId3,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId1,
+            organizationLearnerId: organizationLearnerId2,
+          });
+          await databaseBuilder.commit();
+          // when
+          const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+            organizationId,
+            sort: {
+              participationCount: 'asc',
+            },
+          });
+
+          // then
+          expect(organizationParticipants.length).to.equal(3);
+          expect(organizationParticipants[0].id).to.equal(organizationLearnerId2);
+          expect(organizationParticipants[1].id).to.equal(organizationLearnerId3);
+          expect(organizationParticipants[2].id).to.equal(organizationLearnerId1);
+        });
+
+        it('should return participants sorted by descendant participation count', async function () {
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
+          const campaignId1 = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+          const campaignId2 = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+          const campaignId3 = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+          const organizationLearnerId1 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+          const organizationLearnerId2 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+          const organizationLearnerId3 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId1,
+            organizationLearnerId: organizationLearnerId1,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId2,
+            organizationLearnerId: organizationLearnerId1,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId3,
+            organizationLearnerId: organizationLearnerId1,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId1,
+            organizationLearnerId: organizationLearnerId3,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId2,
+            organizationLearnerId: organizationLearnerId3,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId1,
+            organizationLearnerId: organizationLearnerId2,
+          });
+          await databaseBuilder.commit();
+          // when
+          const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+            organizationId,
+            sort: {
+              participationCount: 'desc',
+            },
+          });
+
+          // then
+          expect(organizationParticipants.length).to.equal(3);
+          expect(organizationParticipants[0].id).to.equal(organizationLearnerId1);
+          expect(organizationParticipants[1].id).to.equal(organizationLearnerId3);
+          expect(organizationParticipants[2].id).to.equal(organizationLearnerId2);
+        });
+
+        it('should return participants sorted by name if participation count are identical', async function () {
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
+          const campaignId1 = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+          const campaignId2 = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+          const organizationLearnerId1 = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            lastName: 'Aaaah',
+          }).id;
+          const organizationLearnerId2 = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            lastName: 'Dupont',
+          }).id;
+          const organizationLearnerId3 = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            lastName: 'Dupond',
+          }).id;
+
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId1,
+            organizationLearnerId: organizationLearnerId1,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId2,
+            organizationLearnerId: organizationLearnerId1,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId1,
+            organizationLearnerId: organizationLearnerId2,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId1,
+            organizationLearnerId: organizationLearnerId3,
+          });
+          await databaseBuilder.commit();
+          // when
+          const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+            organizationId,
+            sort: {
+              participationCount: 'asc',
+            },
+          });
+
+          // then
+          expect(organizationParticipants.length).to.equal(3);
+          expect(organizationParticipants[0].id).to.equal(organizationLearnerId3);
+          expect(organizationParticipants[1].id).to.equal(organizationLearnerId2);
+          expect(organizationParticipants[2].id).to.equal(organizationLearnerId1);
+        });
+      });
     });
 
     context('meta', function () {

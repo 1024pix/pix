@@ -23,6 +23,7 @@ describe('Integration | UseCases | get-paginated-participants-for-an-organizatio
       organizationId,
       filters: { fullName: 'Ah' },
       page: { number: 1, size: 10 },
+      sort: { participationCount: 'asc' },
       organizationParticipantRepository,
     });
 
