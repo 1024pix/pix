@@ -11,7 +11,7 @@ module.exports = {
         ...profile,
         scorecards: profile.scorecards.map((scorecard) => ({ ...scorecard, area: { ...scorecard.area } })),
       }),
-      attributes: ['pixScore', 'sharedAt', 'scorecards', 'canRetry'],
+      attributes: ['pixScore', 'sharedAt', 'scorecards', 'canRetry', 'maxReachableLevel', 'maxReachablePixScore'],
       scorecards: {
         ref: 'id',
         attributes: [
