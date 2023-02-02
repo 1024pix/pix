@@ -8,9 +8,9 @@ Confirmé
 
 ## Contexte
 
-Dans le cadre de l'augmentation globale de la sécurité, nous avons cherché à améliorer la sécurité du stockage de l'access token conformément aux bonnes pratiques en remplaçant l'usage du LocalStorage par le CookieStorage (voir lien : https://dev.to/rdegges/please-stop-using-local-storage-1i04).
+Dans le cadre de l'augmentation globale de la sécurité, nous avons cherché à améliorer la sécurité du stockage de l'access token conformément aux bonnes pratiques en remplaçant l'usage du [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) par l'utilisation d'un [cookie](https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie) (voir lien : https://dev.to/rdegges/please-stop-using-local-storage-1i04).
 
-Par défaut, EmberSimpleAuth utilise le Localstorage pour gérer la session de l'utilisateur via la classe [AdaptiveStore](https://ember-simple-auth.com/api/classes/AdaptiveStore.html).
+Par défaut, EmberSimpleAuth utilise le localStorage pour gérer la session de l'utilisateur via la classe [AdaptiveStore](https://ember-simple-auth.com/api/classes/AdaptiveStore.html).
 
 Nous utilisons le flow OAuth2 (custom) pour l'authentification des utilisateurs.
 
@@ -23,12 +23,12 @@ de l'access token avant expiration (expires_in, refresh_token).
 
 **Description :**
 
-Configurer EmberSimpleAuth pour utiliser le CookieStorage à la place du LocalStorage qui est le stockage par défaut.
+Configurer EmberSimpleAuth pour utiliser un cookie à la place du localStorage qui est le stockage par défaut.
 
 **Avantage(s) :**
 
-- Stockage de l'access token dans un cookie sécurisé (httpOnly, isSecure), donc non visible par du code JavaScript.
-- Le navigateur gère automatiquement l'envoi des cookies dans chacune des requêtes.
+- Stockage de l'access token dans un cookie sécurisé (httpOnly, isSecure), donc non visible par du code JavaScript
+- Le navigateur gère automatiquement l'envoi des cookies dans chacune des requêtes
 - Le back sera la seule entité à pouvoir utiliser les informations du cookie
 
 **Inconvénient(s) :**
@@ -38,5 +38,5 @@ Configurer EmberSimpleAuth pour utiliser le CookieStorage à la place du LocalSt
 
 ## Décision
 
-Aucune solution a été trouvée qui éviterait le changement du flow d'authentification actuellement utilisé (OAuth2 custom).
-Nous gardons la solution actuelle, c'est-à-dire l'utilisation du LocalStorage.
+Aucune solution n'a été trouvée qui éviterait le changement du flow d'authentification actuellement utilisé (OAuth2 custom).
+Nous gardons la solution actuelle, c'est-à-dire l'utilisation du localStorage.
