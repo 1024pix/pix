@@ -17,6 +17,20 @@ $margin-right: 32px;
     justify-content: center;
   }
 
+  &__actions-header {
+    width: 10%;
+
+    @include device-is('tablet') {
+      text-align: right;
+      padding-right: 12px;
+      padding-left: 0;
+    }
+  }
+
+  &__participant-count {
+    padding-left: 0;
+  }
+
   &__certifiable-at {
     display: block;
     margin-top: $spacing-xxs;
@@ -47,10 +61,18 @@ $margin-right: 32px;
 
   &__dropdown-button {
     margin-right: $margin-right;
+
+    @include device-is('tablet') {
+      margin-right: 12px;
+    }
   }
 
   &__dropdown-content {
     width: 200px;
     right: $margin-right;
+  }
+
+  &__tag {
+    white-space: normal;
   }
 }
