@@ -77,11 +77,9 @@
 }
 
 .user-trainings-content-list {
-
   &__item {
-
     &:hover {
-      box-shadow: $box-shadow-competence-cards-hover;
+      box-shadow: 0 7px 14px 0 rgb(12 22 58 / 20%), 0 3px 6px 0 rgba($pix-neutral-110, 0.2);
     }
   }
 }

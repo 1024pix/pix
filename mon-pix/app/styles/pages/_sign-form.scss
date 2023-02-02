@@ -11,10 +11,13 @@
   abbr {
     text-decoration: none;
   }
+
+  fieldset {
+    width: 100%;
+  }
 }
 
 .sign-form {
-
   &__container {
     display: flex;
     flex-direction: column;
@@ -68,7 +71,6 @@
 }
 
 .sign-form-header {
-
   &__subtitle {
     display: flex;
     flex-direction: column;
@@ -101,7 +103,6 @@
 }
 
 .sign-form-body {
-
   &__instruction {
     margin: 10px 0;
     font-size: 0.875rem;

@@ -14,7 +14,7 @@
   overflow: hidden;
   word-break: break-word;
   border-radius: 10px;
-  box-shadow: $box-shadow-competence-cards;
+  box-shadow: 0 3px 4px 0 rgb(12 22 58 / 10%), 0 1px 3px 0 rgba($pix-neutral-110, 0.1);
 
   @include device-is('desktop') {
     flex: 1 1 40%;
@@ -24,7 +24,6 @@
   }
 
   &__status {
-
     p {
       margin-top: 0;
     }
@@ -45,7 +44,6 @@
   }
 
   &-text {
-
     &__title {
       margin: 0;
       color: $pix-neutral-100;
@@ -86,7 +84,6 @@
 }
 
 .badge-card-status {
-
   &__acquired-icon {
     margin-right: 4px;
     color: $pix-success-50;

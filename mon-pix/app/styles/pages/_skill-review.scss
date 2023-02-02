@@ -1,5 +1,4 @@
 .skill-review {
-
   &__banner {
     display: flex;
     flex-direction: column;
@@ -136,7 +135,6 @@
 }
 
 .skill-review-retry {
-
   &__message {
     margin: 1em 0;
   }
@@ -148,7 +146,6 @@
 }
 
 .skill-review-trainings {
-
   &__title {
     color: $pix-neutral-100;
     font-size: 1.5rem;
@@ -184,7 +181,6 @@
 }
 
 .skill-review-trainings-list {
-
   &__item {
     width: 100%;
     padding: 0;
@@ -192,13 +188,12 @@
     transition: all 0.2s ease-in-out;
 
     &:hover {
-      box-shadow: $box-shadow-competence-cards-hover;
+      box-shadow: 0 7px 14px 0 rgb(12 22 58 / 20%), 0 3px 6px 0 rgba($pix-neutral-110, 0.2);
     }
   }
 }
 
 .skill-review-information {
-
   &__info-icon {
     float: left;
     color: $pix-neutral-60;
@@ -215,9 +210,7 @@
 }
 
 .skill-review-competence {
-
   &__table {
-
     tr {
       height: 76px;
     }
@@ -258,7 +251,6 @@
 }
 
 .skill-review-table-header {
-
   &__circle-chart-value {
     color: $pix-neutral-100;
     font-size: 1.938rem;
@@ -267,7 +259,6 @@
 }
 
 .skill-review-organization-message {
-
   &__logo {
     margin-bottom: 16px;
     text-align: center;
@@ -328,7 +319,6 @@
 }
 
 .skill-review-result-abstract {
-
   &__text {
     margin: 16px 0;
     color: $pix-neutral-90;
@@ -371,7 +361,6 @@
     padding: 16px 40px 0;
 
     @include device-is('tablet') {
-
       &--left {
         align-items: flex-start;
       }
@@ -386,7 +375,6 @@
 }
 
 .skill-review-result-detail {
-
   &__badge-subtitle {
     margin: 0 0 24px;
     color: $pix-neutral-100;
@@ -435,7 +423,6 @@
 }
 
 .skill-review-share {
-
   &__stage-congrats {
     padding: 20px 40px 0;
     text-align: center;
@@ -530,7 +517,6 @@
 }
 
 .skill-review-share-error {
-
   &__message {
     padding-bottom: 10px;
     color: #F45C00;
@@ -550,7 +536,6 @@
 }
 
 .skill-review-disabled-share {
-
   &__image {
     margin-top: -50px;
   }
@@ -567,7 +552,6 @@
 }
 
 .stage-congrats {
-
   &__title {
     padding-bottom: 10px;
     color: $pix-neutral-100;
@@ -590,7 +574,6 @@
 }
 
 @media print {
-
   a[href]::after {
     content: none;
   }
