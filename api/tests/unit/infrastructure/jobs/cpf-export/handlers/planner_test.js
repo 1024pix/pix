@@ -3,6 +3,7 @@ const planner = require('../../../../../../lib/infrastructure/jobs/cpf-export/ha
 const dayjs = require('dayjs');
 const { cpf } = require('../../../../../../lib/config');
 const utc = require('dayjs/plugin/utc');
+const { noop } = require('lodash');
 dayjs.extend(utc);
 
 describe('Unit | Infrastructure | jobs | cpf-export | planner', function () {
@@ -23,6 +24,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | planner', function () {
   it('should send to CpfExportBuilderJob chunks of certification course ids', async function () {
     // given
     const job = { id: '237584-7648' };
+    const logger = { info: noop };
     sinon.stub(cpf.plannerJob, 'chunkSize').value(2);
     sinon.stub(cpf.plannerJob, 'monthsToProcess').value(2);
     sinon.stub(cpf.plannerJob, 'minimumReliabilityPeriod').value(2);
@@ -33,7 +35,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | planner', function () {
     cpfCertificationResultRepository.getIdsByTimeRange.resolves(['1', '2', '3', '4', '5']);
 
     // when
-    await planner({ pgBoss, cpfCertificationResultRepository, job });
+    await planner({ pgBoss, cpfCertificationResultRepository, logger, job });
 
     // then
     expect(cpfCertificationResultRepository.markCertificationToExport).to.have.been.callCount(3);

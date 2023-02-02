@@ -1,5 +1,4 @@
 const { createGzip } = require('node:zlib');
-const logger = require('../../../logger');
 const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
 const timezone = require('dayjs/plugin/timezone');
@@ -8,6 +7,7 @@ dayjs.extend(timezone);
 
 module.exports = async function createAndUpload({
   data,
+  logger,
   cpfCertificationResultRepository,
   cpfCertificationXmlExportService,
   cpfExternalStorage,

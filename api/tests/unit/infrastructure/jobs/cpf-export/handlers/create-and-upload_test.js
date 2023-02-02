@@ -1,12 +1,12 @@
 const { domainBuilder, expect, sinon } = require('../../../../../test-helper');
 const createAndUpload = require('../../../../../../lib/infrastructure/jobs/cpf-export/handlers/create-and-upload');
 const { PassThrough, Readable } = require('stream');
+const noop = require('lodash/noop');
 const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
 const timezone = require('dayjs/plugin/timezone');
 dayjs.extend(utc);
 dayjs.extend(timezone);
-const logger = require('../../../../../../lib/infrastructure/logger');
 
 describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', function () {
   let cpfCertificationResultRepository;
@@ -14,6 +14,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
   let cpfExternalStorage;
   let loggerSpy;
   let clock;
+  let logger;
 
   beforeEach(function () {
     const now = dayjs('2022-01-01T10:43:27Z').tz('Europe/Paris').toDate();
@@ -29,7 +30,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
     cpfExternalStorage = {
       upload: sinon.stub(),
     };
-
+    logger = { error: noop, info: noop };
     loggerSpy = sinon.spy(logger, 'error');
   });
 
@@ -58,6 +59,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
         cpfCertificationResultRepository,
         cpfCertificationXmlExportService,
         cpfExternalStorage,
+        logger,
       });
 
       // then
@@ -91,6 +93,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
         cpfCertificationResultRepository,
         cpfCertificationXmlExportService,
         cpfExternalStorage,
+        logger,
       });
 
       // then

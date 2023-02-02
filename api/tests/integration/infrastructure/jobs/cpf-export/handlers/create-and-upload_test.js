@@ -2,6 +2,7 @@ const { domainBuilder, expect, sinon } = require('../../../../../test-helper');
 const createAndUpload = require('../../../../../../lib/infrastructure/jobs/cpf-export/handlers/create-and-upload');
 const { createUnzip } = require('node:zlib');
 const fs = require('fs');
+const noop = require('lodash/noop');
 const proxyquire = require('proxyquire');
 const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
@@ -16,10 +17,12 @@ describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload',
   let cpfExternalStorage;
   let clock;
   const expectedFileName = 'pix-cpf-export-20220102-114327.xml.gz';
+  let logger;
 
   beforeEach(function () {
     const now = dayjs('2022-01-02T10:43:27Z').tz('Europe/Paris').toDate();
     clock = sinon.useFakeTimers(now);
+    logger = { error: noop, info: noop };
   });
 
   afterEach(function () {
@@ -73,6 +76,7 @@ describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload',
       cpfCertificationResultRepository,
       cpfCertificationXmlExportService,
       cpfExternalStorage,
+      logger,
     });
 
     // then
