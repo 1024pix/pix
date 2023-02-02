@@ -1,7 +1,7 @@
 const usecases = require('../../domain/usecases');
 const organizationLearnerIdentitySerializer = require('../../infrastructure/serializers/jsonapi/organization-learner-identity-serializer');
 const organizationLearnerActivitySerializer = require('../../infrastructure/serializers/jsonapi/organization-learner-activity-serializer');
-const organizationLearnerSerializer = require('../../infrastructure/serializers/jsonapi/organization-learner-serializer');
+const organizationLearnerSerializer = require('../../infrastructure/serializers/jsonapi/organization-learner-follow-up/organization-learner-serializer');
 
 module.exports = {
   async dissociate(request, h) {
