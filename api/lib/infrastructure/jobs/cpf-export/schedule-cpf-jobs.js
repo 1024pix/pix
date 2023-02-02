@@ -1,4 +1,5 @@
 const handlers = require('./');
+const logger = require('../../logger');
 const { plannerJob, sendEmailJob } = require('../../../config').cpf;
 
 module.exports = async function scheduleCpfJobs(pgBoss) {
@@ -20,9 +21,18 @@ module.exports = async function scheduleCpfJobs(pgBoss) {
 
 async function _processJob(job, handler, params) {
   try {
-    await handler({ ...params, job });
+    await handler({ ...params, job, logger: buildLogger(job) });
     job.done();
   } catch (error) {
     job.done(error);
   }
+}
+
+function buildLogger(job) {
+  const handlerName = job.name;
+  const jobId = job.id;
+  return {
+    info: (message, ...args) => logger.info({ ...args, handlerName, jobId, type: 'JOB_LOG', message }),
+    error: (message, ...args) => logger.error({ ...args, handlerName, jobId, type: 'JOB_ERROR', message }),
+  };
 }
