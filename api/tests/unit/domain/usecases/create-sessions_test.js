@@ -30,7 +30,7 @@ describe('Unit | UseCase | create-sessions', function () {
     certificationCenterRepository = { get: sinon.stub() };
     certificationCandidateRepository = { saveInSession: sinon.stub(), deleteBySessionId: sinon.stub() };
     complementaryCertificationRepository = { getByLabel: sinon.stub() };
-    sessionRepository = { save: sinon.stub() };
+    sessionRepository = { save: sinon.stub(), getExistingSessionByInformation: sinon.stub() };
     sinon.stub(sessionCodeService, 'getNewSessionCodeWithoutAvailabilityCheck');
     sinon.stub(certificationCpfService, 'getBirthInformation');
     sessionCodeService.getNewSessionCodeWithoutAvailabilityCheck.returns(accessCode);
@@ -360,6 +360,29 @@ describe('Unit | UseCase | create-sessions', function () {
 
       // then
       expect(err).to.be.instanceOf(UnprocessableEntityError);
+    });
+  });
+
+  context('when there already is an existing session with the same data as a newly imported one', function () {
+    it('should throw an error', async function () {
+      // given
+      const sessions = [{ ...createValidSessionData(), examiner: 'Paul' }];
+      sessionRepository.getExistingSessionByInformation.withArgs({ ...sessions[0] }).resolves(true);
+
+      const domainTransaction = Symbol('trx');
+      sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
+
+      // when
+      const err = await catchErr(createSessions)({
+        sessions,
+        certificationCenterId,
+        certificationCenterRepository,
+        sessionRepository,
+      });
+
+      // then
+      expect(err).to.be.instanceOf(UnprocessableEntityError);
+      expect(sessionRepository.save).not.to.have.been.called;
     });
   });
 });
