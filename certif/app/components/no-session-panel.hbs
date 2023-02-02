@@ -5,9 +5,13 @@
 
     <div class="no-session-panel__link-to-create">
       <PixButtonLink @route="authenticated.sessions.new">
-        Créer une session&nbsp;
-        <FaIcon @icon="plus" />
+        {{t "pages.sessions.list.empty.session-creation"}}
       </PixButtonLink>
+      {{#if this.shouldRenderImportTemplateButton}}
+        <PixButtonLink @route="authenticated.sessions.import">
+          {{t "pages.sessions.list.empty.session-multiple-creation"}}
+        </PixButtonLink>
+      {{/if}}
     </div>
   </div>
 </div>

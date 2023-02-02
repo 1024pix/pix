@@ -166,6 +166,10 @@
           "tooltip-label": "Au moins un candidat a rejoint la session, vous ne pouvez pas la supprimer.",
           "empty-table": "Aucune session trouvée",
           "session-and-id": "Session {sessionId}"
+        },
+        "empty": {
+          "session-creation": "Créer une session",
+          "session-multiple-creation": "Créer plusieurs sessions"
         }
       },
       "detail": {
