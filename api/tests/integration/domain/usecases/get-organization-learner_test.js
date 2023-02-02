@@ -1,7 +1,7 @@
 const { expect, databaseBuilder } = require('../../../test-helper');
 
-const organizationLearnerRepository = require('../../../../lib/infrastructure/repositories/organization-learner-repository');
-const OrganizationLearner = require('../../../../lib/domain/models/OrganizationLearner');
+const organizationLearnerRepository = require('../../../../lib/infrastructure/repositories/organization-learner-follow-up/organization-learner-repository');
+const OrganizationLearner = require('../../../../lib/domain/read-models/organization-learner-follow-up/OrganizationLearner');
 const getOrganizationLearner = require('../../../../lib/domain/usecases/get-organization-learner');
 
 describe('Integration | UseCases | get-organization-learner', function () {
@@ -20,7 +20,7 @@ describe('Integration | UseCases | get-organization-learner', function () {
     // when
     const organizationLearner = await getOrganizationLearner({
       organizationLearnerId: learner.id,
-      organizationLearnerRepository,
+      organizationLearnerFollowUpRepository: organizationLearnerRepository,
     });
 
     // then

@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const getOrganizationLearner = require('../../../../lib/domain/usecases/get-organization-learner');
-const OrganizationLearner = require('../../../../lib/domain/models/OrganizationLearner');
+const OrganizationLearner = require('../../../../lib/domain/read-models/organization-learner-follow-up/OrganizationLearner');
 
 describe('Unit | UseCase | get-organisation-learner', function () {
   it('should return organization learner matching the given organizationLearnerId', async function () {
@@ -19,7 +19,7 @@ describe('Unit | UseCase | get-organisation-learner', function () {
     // when
     const organizationLearner = await getOrganizationLearner({
       organizationLearnerId,
-      organizationLearnerRepository,
+      organizationLearnerFollowUpRepository: organizationLearnerRepository,
     });
 
     // then
