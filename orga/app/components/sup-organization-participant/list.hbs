@@ -56,7 +56,7 @@
           {{t "pages.sup-organization-participants.table.column.date-of-birth"}}
         </Table::Header>
         <Table::Header @size="wide">{{t "pages.sup-organization-participants.table.column.group"}}</Table::Header>
-        <Table::Header @size="medium" @align="right">
+        <Table::Header @size="medium" @align="right" class="organization-participant-list-page__participant-count">
           {{t "pages.sup-organization-participants.table.column.participation-count"}}
         </Table::Header>
         <Table::Header @size="medium" @align="center">
@@ -71,7 +71,9 @@
             />
           </div>
         </Table::Header>
-        <Table::Header @size="medium" class="hide-on-mobile" />
+        <Table::Header class="hide-on-mobile organization-participant-list-page__actions-header">
+          {{t "common.actions.global"}}
+        </Table::Header>
       </tr>
     </thead>
 
@@ -95,7 +97,9 @@
             <td class="ellipsis">{{student.firstName}}</td>
             <td class="table__column--center">{{dayjs-format student.birthdate "DD/MM/YYYY"}}</td>
             <td class="ellipsis">{{student.group}}</td>
-            <td class="table__column--right">{{student.participationCount}}</td>
+            <td
+              class="table__column--right organization-participant-list-page__participant-count"
+            >{{student.participationCount}}</td>
             <td class="table__column--center">
               {{#if student.lastParticipationDate}}
                 <div class="organization-participant-list-page__last-participation">

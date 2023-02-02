@@ -67,11 +67,11 @@
         <Table::Header @size="medium" @align="center">
           {{t "pages.sco-organization-participants.table.column.date-of-birth"}}
         </Table::Header>
-        <Table::Header @size="wide">{{t "pages.sco-organization-participants.table.column.division"}}</Table::Header>
-        <Table::Header @size="wide">
+        <Table::Header @size="medium">{{t "pages.sco-organization-participants.table.column.division"}}</Table::Header>
+        <Table::Header @size="medium">
           {{t "pages.sco-organization-participants.table.column.login-method"}}
         </Table::Header>
-        <Table::Header @size="medium" @align="right">
+        <Table::Header @size="medium" @align="right" class="organization-participant-list-page__participant-count">
           {{t "pages.sco-organization-participants.table.column.participation-count"}}
         </Table::Header>
         <Table::Header @size="medium" @align="center">
@@ -86,8 +86,8 @@
             />
           </div>
         </Table::Header>
-        <Table::Header @size="small" class="hide-on-mobile">
-          <span>{{t "common.actions.global"}}</span>
+        <Table::Header class="hide-on-mobile organization-participant-list-page__actions-header">
+          {{t "common.actions.global"}}
         </Table::Header>
       </tr>
     </thead>
@@ -116,7 +116,9 @@
                 <p>{{t authenticationMethod}}</p>
               {{/each}}
             </td>
-            <td class="table__column--right">{{student.participationCount}}</td>
+            <td
+              class="table__column--right organization-participant-list-page__participant-count"
+            >{{student.participationCount}}</td>
             <td class="table__column--center">
               {{#if student.lastParticipationDate}}
                 <div class="organization-participant-list-page__last-participation">
