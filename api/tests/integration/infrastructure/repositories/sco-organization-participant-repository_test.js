@@ -834,6 +834,116 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
       });
     });
 
+    describe('When sco participants are sorted', function () {
+      it('should return sco participants sorted by ascendant participation count', async function () {
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+        const otherCampaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+        const organizationLearnerId1 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+        const organizationLearnerId2 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+        const organizationLearnerId3 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaignId,
+          organizationLearnerId: organizationLearnerId1,
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: otherCampaignId,
+          organizationLearnerId: organizationLearnerId1,
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaignId,
+          organizationLearnerId: organizationLearnerId3,
+        });
+        await databaseBuilder.commit();
+        // when
+        const { data: participants } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
+          organizationId,
+          sort: {
+            participationCount: 'asc',
+          },
+        });
+
+        // then
+        expect(participants.length).to.equal(3);
+        expect(participants[0].id).to.equal(organizationLearnerId2);
+        expect(participants[1].id).to.equal(organizationLearnerId3);
+        expect(participants[2].id).to.equal(organizationLearnerId1);
+      });
+
+      it('should return sco participants sorted by descendant participation count', async function () {
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+        const otherCampaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+        const organizationLearnerId1 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+        const organizationLearnerId2 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+        const organizationLearnerId3 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaignId,
+          organizationLearnerId: organizationLearnerId1,
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: otherCampaignId,
+          organizationLearnerId: organizationLearnerId1,
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaignId,
+          organizationLearnerId: organizationLearnerId3,
+        });
+        await databaseBuilder.commit();
+        // when
+        const { data: participants } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
+          organizationId,
+          sort: {
+            participationCount: 'desc',
+          },
+        });
+
+        // then
+        expect(participants.length).to.equal(3);
+        expect(participants[0].id).to.equal(organizationLearnerId1);
+        expect(participants[1].id).to.equal(organizationLearnerId3);
+        expect(participants[2].id).to.equal(organizationLearnerId2);
+      });
+
+      it('should return sco participants sorted by name if participation count are identical', async function () {
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+        const organizationLearnerId1 = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          lastName: 'Aaaah',
+        }).id;
+        const organizationLearnerId2 = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          lastName: 'Dupont',
+        }).id;
+        const organizationLearnerId3 = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          lastName: 'Dupond',
+        }).id;
+
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaignId,
+          organizationLearnerId: organizationLearnerId1,
+        });
+        await databaseBuilder.commit();
+        // when
+        const { data: participants } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
+          organizationId,
+          sort: {
+            participationCount: 'asc',
+          },
+        });
+
+        // then
+        expect(participants.length).to.equal(3);
+        expect(participants[0].id).to.equal(organizationLearnerId3);
+        expect(participants[1].id).to.equal(organizationLearnerId2);
+        expect(participants[2].id).to.equal(organizationLearnerId1);
+      });
+    });
+
     context('#lastParticipationDate', function () {
       it('should take the last participation date', async function () {
         // given

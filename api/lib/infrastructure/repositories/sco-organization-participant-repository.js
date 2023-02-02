@@ -70,12 +70,24 @@ function _buildIsCertifiable(queryBuilder, organizationId) {
 }
 
 module.exports = {
-  async findPaginatedFilteredScoParticipants({ organizationId, filter, page = {} }) {
+  async findPaginatedFilteredScoParticipants({ organizationId, filter, page = {}, sort = {} }) {
     const { totalScoParticipants } = await knex
       .count('id', { as: 'totalScoParticipants' })
       .from('organization-learners')
       .where({ organizationId: organizationId, isDisabled: false })
       .first();
+
+    const orderByClause = [
+      'organization-learners.lastName',
+      'organization-learners.firstName',
+      'organization-learners.id',
+    ];
+    if (sort?.participationCount) {
+      orderByClause.unshift({
+        column: 'participationCount',
+        order: sort.participationCount == 'desc' ? 'desc' : 'asc',
+      });
+    }
 
     const query = knex
       .with('subquery', (qb) => _buildIsCertifiable(qb, organizationId))
@@ -134,7 +146,7 @@ module.exports = {
       .where('organization-learners.isDisabled', false)
       .where('organization-learners.organizationId', organizationId)
       .modify(_setFilters, filter)
-      .orderByRaw('?? ASC, ?? ASC', ['lowerLastName', 'lowerFirstName']);
+      .orderBy(orderByClause);
 
     const { results, pagination } = await fetchPage(query, page);
 

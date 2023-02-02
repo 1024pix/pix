@@ -848,6 +848,7 @@ exports.register = async (server) => {
             'filter[connectionTypes][]': [Joi.string(), Joi.array().items(Joi.string())],
             'filter[search]': Joi.string().empty(''),
             'filter[certificability][]': [Joi.string(), Joi.array().items(Joi.string())],
+            'sort[participationCount]': Joi.string().empty(''),
           }),
         },
         handler: organizationController.findPaginatedFilteredScoParticipants,
