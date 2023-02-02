@@ -113,6 +113,7 @@
         "header": {
           "title": "Sessions de certification",
           "session-creation": "Créer une session",
+          "session-multiple-creation-edition": "Créer/éditer plusieurs sessions",
           "session-import-template": "Template d'import de sessions",
           "session-import-template-dl-error": "Une erreur s'est produite pendant le téléchargement",
           "session-import-template-label": "Télécharger le template d'import en masse",
