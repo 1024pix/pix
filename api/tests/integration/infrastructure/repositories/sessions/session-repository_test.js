@@ -863,7 +863,7 @@ describe('Integration | Repository | Session', function () {
     });
   });
 
-  describe('#getExistingSessionByInformation', function () {
+  describe('#isSessionsExisting', function () {
     it('should return true if the session already exists', async function () {
       // given
       const session = {
@@ -878,7 +878,7 @@ describe('Integration | Repository | Session', function () {
       await databaseBuilder.commit();
 
       // when
-      const result = await sessionRepository.getExistingSessionByInformation({ ...session });
+      const result = await sessionRepository.isSessionExisting({ ...session });
 
       // then
       expect(result).to.equal(true);
@@ -895,7 +895,7 @@ describe('Integration | Repository | Session', function () {
       };
 
       // when
-      const result = await sessionRepository.getExistingSessionByInformation({ ...session });
+      const result = await sessionRepository.isSessionExisting({ ...session });
 
       // then
       expect(result).to.equal(false);

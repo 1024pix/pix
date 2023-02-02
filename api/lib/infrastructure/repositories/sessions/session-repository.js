@@ -37,7 +37,7 @@ module.exports = {
     return new Session({ ...foundSession });
   },
 
-  async getExistingSessionByInformation({ address, room, date, time }) {
+  async isSessionExisting({ address, room, date, time }) {
     const sessions = await knex('sessions').where({ address, room, date, time });
     return sessions.length > 0;
   },
