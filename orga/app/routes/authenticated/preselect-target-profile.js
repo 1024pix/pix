@@ -8,13 +8,9 @@ export default class PreselectTargetProfileRoute extends Route {
   async model() {
     const organization = this.currentUser.organization;
     const frameworks = await this.store.query('framework', {});
-    const sortedAreas = frameworks
-      .map((framework) => framework.areas.toArray())
-      .flat()
-      .sortBy('code');
     return {
       organization,
-      sortedAreas,
+      frameworks,
     };
   }
 }

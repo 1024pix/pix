@@ -53,6 +53,13 @@ export default class TubeList extends Component {
     return this.selectedTubeIds.includes(tube.id);
   };
 
+  get sortedAreas() {
+    return this.args.frameworks
+      .map((framework) => framework.areas.toArray())
+      .flat()
+      .sortBy('code');
+  }
+
   get haveNoTubeSelected() {
     return this.selectedTubeIds.length === 0;
   }
@@ -62,7 +69,21 @@ export default class TubeList extends Component {
   }
 
   get file() {
-    const json = JSON.stringify(this.selectedTubeIds);
+    const selectedTubes = this.args.frameworks.toArray().flatMap((framework) => {
+      return framework.areas.toArray().flatMap((area) => {
+        return area.competences.toArray().flatMap((competence) => {
+          return competence.thematics.toArray().flatMap((thematic) => {
+            return thematic.tubes
+              .filter((tube) => this.isTubeSelected(tube))
+              .map((tube) => ({
+                id: tube.id,
+                frameworkId: framework.id,
+              }));
+          });
+        });
+      });
+    });
+    const json = JSON.stringify(selectedTubes);
     return new Blob([json], { type: 'application/json' });
   }
 
@@ -76,9 +97,5 @@ export default class TubeList extends Component {
 
   get downloadURL() {
     return URL.createObjectURL(this.file);
-  }
-
-  get sortedAreas() {
-    return this.args.areas.sortBy('code');
   }
 }
