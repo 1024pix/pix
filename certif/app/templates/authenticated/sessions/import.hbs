@@ -1,0 +1,21 @@
+<main>
+  <h1>Créer/éditer plusieurs sessions</h1>
+  <section>
+    <div>
+      <p>Télécharger le modèle vierge</p>
+      <PixButton
+        aria-label={{t "pages.sessions.list.header.session-import-template-label"}}
+        @triggerAction={{this.downloadSessionImportTemplate}}
+      >
+        {{t "pages.sessions.list.header.session-import-template"}}
+      </PixButton>
+    </div>
+
+    <div>
+      <p>Importer le modèle <complété></complété></p>
+      <PixButtonUpload @id="file-upload" @onChange={{this.importSessions}} accept=".csv">
+        {{t "pages.sessions.list.header.session-import-upload"}}
+      </PixButtonUpload>
+    </div>
+  </section>
+</main>
