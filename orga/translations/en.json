@@ -720,8 +720,13 @@
         "column": {
           "first-name": "First name",
           "last-name": "Last name",
-          "lastest-participation": "Lastest participation",
-          "participation-count": "Number of participations",
+          "latest-participation": "Latest participation",
+          "participation-count": {
+            "label": "Number of participations",
+            "ariaLabelDefaultSort": "The array is not yet sorted by number of participations. Click to sort ascending.",
+            "ariaLabelSortUp": "The array is sorted by ascending number of participations. Click to sort descending.",
+            "ariaLabelSortDown": "The array is sorted by descending number of participations. Click to sort ascending."
+          },
           "is-certifiable": {
             "label": "Eligibility for certification",
             "tooltip": {
