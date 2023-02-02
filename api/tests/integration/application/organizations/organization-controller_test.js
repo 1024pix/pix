@@ -501,7 +501,7 @@ describe('Integration | Application | Organizations | organization-controller', 
       it('returns organization participants', async function () {
         const organizationId = 5678;
         usecases.getPaginatedParticipantsForAnOrganization
-          .withArgs({ organizationId, page: {}, filters: {} })
+          .withArgs({ organizationId, page: {}, filters: {}, sort: {} })
           .resolves({
             organizationParticipants: [
               {

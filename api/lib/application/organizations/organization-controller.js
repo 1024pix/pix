@@ -394,7 +394,7 @@ module.exports = {
 
   async getPaginatedParticipantsForAnOrganization(request) {
     const organizationId = request.params.id;
-    const { page, filter: filters } = queryParamsUtils.extractParameters(request.query);
+    const { page, filter: filters, sort } = queryParamsUtils.extractParameters(request.query);
 
     if (filters.certificability) {
       filters.certificability = mapCertificabilityByLabel(filters.certificability);
@@ -404,6 +404,7 @@ module.exports = {
       organizationId,
       page,
       filters,
+      sort,
     });
 
     return organizationParticipantsSerializer.serialize(results);
