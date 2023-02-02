@@ -74,7 +74,7 @@ async function _saveNewSessionReturningId(sessionRepository, domainSession, doma
 }
 
 function _createAndValidateNewSessionToSave(session, certificationCenterId, certificationCenter) {
-  const accessCode = sessionCodeService.getNewSessionCodeWithoutAvailabilityCheck();
+  const accessCode = sessionCodeService.getNewSessionCode();
   const domainSession = new Session({
     ...session,
     certificationCenterId,

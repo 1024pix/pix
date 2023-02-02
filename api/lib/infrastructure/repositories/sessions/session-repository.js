@@ -24,11 +24,6 @@ module.exports = {
     return knex.batchInsert('sessions', sessions);
   },
 
-  async isSessionCodeAvailable(accessCode) {
-    const sessionWithAccessCode = await knex('sessions').where({ accessCode }).returning('id');
-    return !sessionWithAccessCode.length;
-  },
-
   async isFinalized(id) {
     const session = await knex('sessions').where({ id }).whereNotNull('finalizedAt').returning('id');
     return Boolean(session.length);
