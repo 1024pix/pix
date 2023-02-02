@@ -1,3 +1,6 @@
-module.exports = async function getOrganizationLearner({ organizationLearnerId, organizationLearnerRepository }) {
-  return organizationLearnerRepository.get(organizationLearnerId);
+module.exports = async function getOrganizationLearner({
+  organizationLearnerId,
+  organizationLearnerFollowUpRepository,
+}) {
+  return organizationLearnerFollowUpRepository.get(organizationLearnerId);
 };
