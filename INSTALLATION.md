@@ -232,5 +232,5 @@ configuration d'une variable d'environnement :
 export DEBUG="pix:mailer:email"
 ```
 
-Cette variable d'environnement peut également être configurée dans le fichier [.env](api/.env).
+Cette variable d'environnement peut également être alimentée dans le fichier [.env](api/.env).
 
