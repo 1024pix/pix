@@ -888,6 +888,12 @@ class SessionAlreadyFinalizedError extends DomainError {
   }
 }
 
+class SessionWithIdAndInformationOnMassImportError extends DomainError {
+  constructor(message = 'Merci de ne pas renseigner les informations de session') {
+    super(message);
+  }
+}
+
 class SessionWithoutStartedCertificationError extends DomainError {
   constructor(
     message = "Cette session n'a pas débuté, vous ne pouvez pas la finaliser. Vous pouvez néanmoins la supprimer."
@@ -1382,6 +1388,7 @@ module.exports = {
   SessionStartedDeletionError,
   SessionWithoutStartedCertificationError,
   SessionWithAbortReasonOnCompletedCertificationCourseError,
+  SessionWithIdAndInformationOnMassImportError,
   SessionWithMissingAbortReasonError,
   SiecleXmlImportError,
   SupervisorAccessNotAuthorizedError,
