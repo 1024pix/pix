@@ -497,7 +497,12 @@
           "caption": "Tableau des sujets à travailler, certains présentent des colonnes supplémentaires indiquant le nombre de tutoriels existant en lien avec le sujet et un accès à ces tutoriels",
           "title": "Analyse par sujet",
           "column": {
-            "relevance": "Pertinence",
+            "relevance": {
+              "label": "Pertinence",
+              "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par pertinence. Cliquez pour trier par ordre croissant.",
+              "ariaLabelSortUp": "Le tableau est trié par pertinence croissante. Cliquez pour trier en ordre décroissant.",
+              "ariaLabelSortDown": "Le tableau est trié par pertinence décroissante. Cliquez pour trier en ordre croissant."
+            },
             "subjects": "Sujets ({count, plural, =0 {-} other {{count}}})",
             "tutorial": {
               "aria-label": "Afficher la liste des tutos"
@@ -513,10 +518,7 @@
             "strongly-recommended": "Fortement recommandé",
             "very-strongly-recommended": "Très recommandé"
           },
-          "row-title": "Sujet",
-          "sort": {
-            "relevance": "Trier par pertinence"
-          }
+          "row-title": "Sujet"
         },
         "competences": {
           "title": "Résultats par compétence",

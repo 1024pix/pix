@@ -59,14 +59,24 @@ module('Integration | Component | Campaign::Analysis::Recommendations', function
     });
 
     test('it should order by recommendation asc', async function (assert) {
-      await click(screen.getByLabelText('Trier par pertinence'));
+      await click(
+        screen.getByLabelText(
+          "Le tableau n'est actuellement pas trié par pertinence. Cliquez pour trier par ordre croissant."
+        )
+      );
 
       assert.dom(screen.getAllByLabelText('Sujet')[0]).containsText('Tube B');
     });
 
     test('it should order by recommendation desc', async function (assert) {
-      await click(screen.getByLabelText('Trier par pertinence'));
-      await click(screen.getByLabelText('Trier par pertinence'));
+      await click(
+        screen.getByLabelText(
+          "Le tableau n'est actuellement pas trié par pertinence. Cliquez pour trier par ordre croissant."
+        )
+      );
+      await click(
+        screen.getByLabelText('Le tableau est trié par pertinence croissante. Cliquez pour trier en ordre décroissant.')
+      );
 
       assert.dom(screen.getAllByLabelText('Sujet')[0]).containsText('Tube A');
     });
