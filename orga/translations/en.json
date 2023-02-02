@@ -920,7 +920,12 @@
           "last-name": "Last name",
           "last-participation-date": "Latest participation",
           "login-method": "Log in method(s)",
-          "participation-count": "Number of participations"
+          "participation-count": {
+            "label": "Number of participations",
+            "ariaLabelDefaultSort": "The array is not yet sorted by number of participations. Click to sort ascending.",
+            "ariaLabelSortUp": "The array is sorted by ascending number of participations. Click to sort descending.",
+            "ariaLabelSortDown": "The array is sorted by descending number of participations. Click to sort ascending."
+          }
         },
         "description": "Table of students, sorted by name. For students who have provided an authentication method, you can manage the allowed login modes and reset the student's password through a menu in 'Actions' column",
         "empty": "No students.",
