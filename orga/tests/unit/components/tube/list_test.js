@@ -9,12 +9,12 @@ module('Unit | Component | Tube::List', function (hooks) {
     // given
     const component = await createGlimmerComponent('component:tube/list');
     const expectedFile = JSON.stringify(['tubeId1']);
+    component.selectedTubeIds = ['tubeId1'];
 
     // when
-    component.tubesSelected = ['tubeId1'];
+    const text = await component.file.text();
 
     // then
-    const text = await component.file.text();
     assert.strictEqual(text, expectedFile);
   });
 });

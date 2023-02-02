@@ -52,78 +52,21 @@
             <tbody>
               {{#each competence.sortedThematics as |thematic|}}
                 {{#each thematic.tubes as |tube index|}}
-                  <tr
-                    {{on "click" this.toggleTubeInput}}
-                    class="row-tube"
-                    aria-label={{t "pages.preselect-target-profile.table.row-title"}}
-                  >
+                  <tr class="row-tube" aria-label={{t "pages.preselect-target-profile.table.row-title"}}>
                     {{#if (eq index 0)}}
-                      <th
-                        scope="row"
-                        class="th--clickable"
-                        rowspan={{thematic.tubes.length}}
-                        {{on "click" this.toggleThematicInput}}
-                      >
-                        <Input
-                          {{on "input" (fn this.updateSelectedThematics thematic.id)}}
-                          id="thematic-{{thematic.id}}"
-                          @type="checkbox"
-                        />
-                        <label for="thematic-{{thematic.id}}">
-                          {{thematic.name}}
-                        </label>
-                      </th>
-                    {{/if}}
-                    <td class="table__column--center">
-                      <Input
-                        {{on "input" (fn this.updateSelectedTubes tube.id)}}
-                        data-thematic={{thematic.id}}
-                        data-tube={{tube.id}}
-                        id="tube-{{tube.id}}"
-                        @type="checkbox"
+                      <Tube::Thematic
+                        @thematic={{thematic}}
+                        @getThematicState={{this.getThematicState}}
+                        @selectThematic={{this.selectThematic}}
+                        @unselectThematic={{this.unselectThematic}}
                       />
-                    </td>
-                    <td>
-                      <label for="tube-{{tube.id}}">
-                        {{tube.practicalTitle}}
-                        :
-                        {{tube.practicalDescription}}
-                      </label>
-                    </td>
-                    <td class="table__column--center">
-                      <div
-                        aria-label="{{if
-                          tube.isMobileCompliant
-                          (t 'pages.preselect-target-profile.table.is-responsive')
-                          (t 'pages.preselect-target-profile.table.not-responsive')
-                        }}"
-                      >
-                        <FaIcon
-                          @icon="mobile-screen-button"
-                          class="fa-2x {{if tube.isMobileCompliant 'is-responsive'}}"
-                        />
-                        {{#unless tube.isMobileCompliant}}
-                          <FaIcon @icon="slash" class="fa-2x not-responsive" />
-                        {{/unless}}
-                      </div>
-                    </td>
-                    <td class="table__column--center">
-                      <div
-                        aria-label="{{if
-                          tube.isTabletCompliant
-                          (t 'pages.preselect-target-profile.table.is-responsive')
-                          (t 'pages.preselect-target-profile.table.not-responsive')
-                        }}"
-                      >
-                        <FaIcon
-                          @icon="tablet-screen-button"
-                          class="fa-2x {{if tube.isTabletCompliant 'is-responsive'}}"
-                        />
-                        {{#unless tube.isTabletCompliant}}
-                          <FaIcon @icon="slash" class="fa-2x not-responsive" />
-                        {{/unless}}
-                      </div>
-                    </td>
+                    {{/if}}
+                    <Tube::Tube
+                      @tube={{tube}}
+                      @isTubeSelected={{this.isTubeSelected}}
+                      @selectTube={{this.selectTube}}
+                      @unselectTube={{this.unselectTube}}
+                    />
                   </tr>
                 {{/each}}
               {{/each}}
