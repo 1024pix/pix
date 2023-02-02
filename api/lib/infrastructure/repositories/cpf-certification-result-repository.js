@@ -6,6 +6,7 @@ const { cpfImportStatus } = require('../../domain/models/CertificationCourse');
 module.exports = {
   async getIdsByTimeRange({ startDate, endDate }) {
     const ids = await _selectCpfCertificationResults({ startDate, endDate })
+      .select('certification-courses.id')
       .where('certification-courses.isPublished', true)
       .where('certification-courses.isCancelled', false)
       .whereNotNull('certification-courses.sex')
@@ -20,10 +21,17 @@ module.exports = {
   },
 
   async findByBatchId(jobId) {
-    const cpfCertificationResults = await _selectCpfCertificationResults().where(
-      'certification-courses.cpfFilename',
-      jobId
-    );
+    const cpfCertificationResults = await _selectCpfCertificationResults()
+      .select('certification-courses.*', 'assessment-results.pixScore', 'sessions.publishedAt')
+      .select(
+        knex.raw(`
+        json_agg(json_build_object(
+          'competenceCode', "competence-marks"."competence_code",
+          'areaCode', "competence-marks"."area_code",
+          'level', "competence-marks"."level"
+        ) ORDER BY "competence-marks"."competence_code" asc) as "competenceMarks"`)
+      )
+      .where('certification-courses.cpfFilename', jobId);
     return cpfCertificationResults.map((certificationCourse) => new CpfCertificationResult(certificationCourse));
   },
 
@@ -54,15 +62,6 @@ module.exports = {
 
 function _selectCpfCertificationResults() {
   return knex('certification-courses')
-    .select('certification-courses.*', 'assessment-results.pixScore', 'sessions.publishedAt')
-    .select(
-      knex.raw(`
-        json_agg(json_build_object(
-          'competenceCode', "competence-marks"."competence_code",
-          'areaCode', "competence-marks"."area_code",
-          'level', "competence-marks"."level"
-        ) ORDER BY "competence-marks"."competence_code" asc) as "competenceMarks"`)
-    )
     .innerJoin('sessions', 'sessions.id', 'certification-courses.sessionId')
     .innerJoin(
       'certification-courses-last-assessment-results',
