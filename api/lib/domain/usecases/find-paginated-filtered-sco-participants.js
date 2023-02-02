@@ -3,10 +3,12 @@ module.exports = function findPaginatedFilteredScoParticipants({
   filter,
   page,
   scoOrganizationParticipantRepository,
+  sort,
 }) {
   return scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
     organizationId,
     filter,
     page,
+    sort,
   });
 };

@@ -242,7 +242,7 @@ module.exports = {
 
   async findPaginatedFilteredScoParticipants(request) {
     const organizationId = request.params.id;
-    const { filter, page } = queryParamsUtils.extractParameters(request.query);
+    const { filter, page, sort } = queryParamsUtils.extractParameters(request.query);
     if (filter.divisions && !Array.isArray(filter.divisions)) {
       filter.divisions = [filter.divisions];
     }
@@ -256,6 +256,7 @@ module.exports = {
       organizationId,
       filter,
       page,
+      sort,
     });
     return scoOrganizationParticipantsSerializer.serialize({
       scoOrganizationParticipants,

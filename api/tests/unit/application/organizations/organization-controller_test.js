@@ -635,6 +635,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
         organizationId,
         filter: {},
         page: {},
+        sort: {},
       });
     });
 
@@ -659,6 +660,30 @@ describe('Unit | Application | Organizations | organization-controller', functio
         organizationId,
         filter: { lastName: 'Bob', firstName: 'Tom', connectionTypes: ['email'], divisions: ['D1'] },
         page: {},
+        sort: {},
+      });
+    });
+    it('should call the usecase to find sco participants with users infos related to sort', async function () {
+      // given
+      request = {
+        ...request,
+        query: {
+          'sort[participationCount]': 'asc',
+        },
+      };
+      usecases.findPaginatedFilteredScoParticipants.resolves({});
+
+      // when
+      await organizationController.findPaginatedFilteredScoParticipants(request, hFake);
+
+      // then
+      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWith({
+        organizationId,
+        filter: {},
+        page: {},
+        sort: {
+          participationCount: 'asc',
+        },
       });
     });
 
@@ -675,6 +700,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
         organizationId,
         filter: {},
         page: { size: 10, number: 1 },
+        sort: {},
       });
     });
 
@@ -713,6 +739,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
         organizationId,
         filter: { certificability: [true, false, null] },
         page: {},
+        sort: {},
       });
     });
   });
