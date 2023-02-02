@@ -920,7 +920,12 @@
           "last-name": "Nom",
           "last-participation-date": "Dernière participation",
           "login-method": "Méthode(s) de connexion",
-          "participation-count": "Nombre de participations"
+          "participation-count": {
+            "label": "Nombre de participations",
+            "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par nombre de participations. Cliquez pour trier par ordre croissant.",
+            "ariaLabelSortUp": "Le tableau est trié par nombre de participation croissant. Cliquez pour trier en ordre décroissant.",
+            "ariaLabelSortDown": "Le tableau est trié par nombre de participation décroissant. Cliquez pour trier en ordre croissant."
+          }
         },
         "description": "Tableau des élèves trié par nom. Pour les élèves ayant fourni une méthode de connexion, vous pouvez, via un menu situé dans la colonne 'Actions', gérer les modes de connexion autorisés et réinitialiser le mot de passe de l'élève",
         "empty": "Aucun élève.",
