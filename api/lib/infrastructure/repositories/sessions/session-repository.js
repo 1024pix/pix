@@ -25,8 +25,8 @@ module.exports = {
   },
 
   async isFinalized(id) {
-    const session = await knex('sessions').where({ id }).whereNotNull('finalizedAt').returning('id');
-    return Boolean(session.length);
+    const session = await knex.select('id').from('sessions').where({ id }).whereNotNull('finalizedAt').first();
+    return Boolean(session);
   },
 
   async get(sessionId) {
@@ -93,8 +93,9 @@ module.exports = {
   },
 
   async doesUserHaveCertificationCenterMembershipForSession(userId, sessionId) {
-    const session = await knex('sessions')
+    const sessions = await knex
       .select('sessions.id')
+      .from('sessions')
       .where({
         'sessions.id': sessionId,
         'certification-center-memberships.userId': userId,
@@ -106,7 +107,7 @@ module.exports = {
         'certification-center-memberships.certificationCenterId',
         'certification-centers.id'
       );
-    return Boolean(session.length);
+    return Boolean(sessions.length);
   },
 
   async finalize({ id, examinerGlobalComment, hasIncident, hasJoiningIssue, finalizedAt }) {
