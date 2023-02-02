@@ -1,0 +1,12 @@
+<th scope="row" rowspan={{@thematic.tubes.length}}>
+  <Input
+    {{did-insert this.updateState}}
+    {{did-update this.updateState this.state}}
+    id="thematic-{{@thematic.id}}"
+    @type="checkbox"
+    @checked={{this.checked}}
+  />
+  <label for="thematic-{{@thematic.id}}">
+    {{@thematic.name}}
+  </label>
+</th>
