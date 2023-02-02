@@ -1,4 +1,24 @@
+body {
+  background-color: $pix-neutral-10;
+}
+
 .page-container {
   max-width: 1240px;
   margin: 0 auto;
+}
+
+.main {
+  min-height: calc(100vh - 101px - 100px);
+}
+
+.pix-communication-banner {
+  position: relative;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 2;
+}
+
+img {
+  max-width: 100%;
 }

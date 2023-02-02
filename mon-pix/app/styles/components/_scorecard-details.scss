@@ -9,9 +9,10 @@
 
 .tutorials-header {
   &__title {
-    @extend h3;
-
-    margin-bottom: 4px;
+    margin-bottom: $spacing-s;
+    font-weight: $font-light;
+    font-size: 2rem;
+    font-family: $font-open-sans;
   }
 
   &__description {

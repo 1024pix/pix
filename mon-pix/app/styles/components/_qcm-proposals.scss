@@ -1,4 +1,9 @@
 .proposal-paragraph {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-left: 7px;
 
   input[type='checkbox'] {
     flex-shrink: 0;
@@ -44,4 +49,14 @@
   input[type='checkbox']:active::before {
     box-shadow: 0 0 0 8px rgba($pix-primary, 0.3);
   }
+}
+
+.label-checkbox-proposal {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  padding-left: 20px;
+  font-weight: $font-normal;
+  line-height: 21px;
+  cursor: pointer;
 }

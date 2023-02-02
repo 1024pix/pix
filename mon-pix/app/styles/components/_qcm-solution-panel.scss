@@ -1,5 +1,4 @@
 .qcm-panel {
-
   &__proposals {
     margin: 0 0 15px;
     font-size: 1rem;
@@ -14,9 +13,12 @@
   }
 
   &__proposal-label {
+    position: relative;
+    display: inline-block;
     align-items: center;
     width: 100%;
     font-weight: $font-normal;
+    line-height: 21px;
 
     p {
       display: inline;
@@ -25,7 +27,6 @@
 }
 
 .qcm-proposal-label {
-
   & a,
   a:visited {
     color: inherit;
@@ -44,6 +45,12 @@
 
   &__answer-details[data-goodness='bad'][data-checked='no'] {
     display: inline;
+  }
+
+  &__checkbox-picture {
+    position: absolute;
+    top: 3px;
+    left: -11px;
   }
 
   .qcm-panel__proposal-checkbox {
