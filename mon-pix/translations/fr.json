@@ -107,6 +107,7 @@
     "back-to-profile": "Revenir au profil",
     "copyrights": "©",
     "error": "Erreur",
+    "external-link-title": "Ouverture dans une nouvelle fenêtre",
     "footer": {
       "label": "Menu secondaire",
       "a11y": "Accessibilité : partiellement conforme",
@@ -557,7 +558,6 @@
             "hide": "Cacher l'alternative textuelle"
           }
         },
-        "external-link-title": "nouvelle fenêtre",
         "file-download": {
           "actions": {
             "choose-type": "Choisissez le type de fichier que vous voulez utiliser",
