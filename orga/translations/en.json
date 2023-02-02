@@ -959,7 +959,12 @@
           "group": "Groups",
           "last-name": "Last name",
           "last-participation-date": "Latest participation",
-          "participation-count": "Number of participations",
+          "participation-count": {
+            "label": "Number of participations",
+            "ariaLabelDefaultSort": "The array is not yet sorted by number of participations. Click to sort ascending.",
+            "ariaLabelSortUp": "The array is sorted by ascending number of participations. Click to sort descending.",
+            "ariaLabelSortDown": "The array is sorted by descending number of participations. Click to sort ascending."
+          },
           "student-number": "Student number",
           "is-certifiable": {
             "label": "Certificabilité",
