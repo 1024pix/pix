@@ -3,6 +3,7 @@
     "actions": {
       "cancel": "Annuler",
       "close": "Fermer",
+      "continue": "Continuer",
       "delete": "Supprimer",
       "quit": "Quitter",
       "update": "Modifier"
@@ -108,6 +109,14 @@
       "finalize": {
         "finished-test-list-description": "Liste des candidats qui ont fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant et une liste déroulante permettant de sélectionner la raison de l’abandon.",
         "unfinished-test-list-description": "Liste des candidats qui n’ont pas fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant et une liste déroulante permettant de sélectionner la raison de l’abandon."
+      },
+      "import": {
+        "title": "Créer/éditer plusieurs sessions",
+        "session-import-template": "Télécharger (.csv)",
+        "session-import-template-dl-error": "Une erreur s'est produite pendant le téléchargement",
+        "session-import-template-label": "Télécharger le modèle vierge",
+        "session-import-upload": "Importer (.csv)",
+        "session-import-upload-label": "Importer le modèle complété"
       },
       "list": {
         "header": {

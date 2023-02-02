@@ -1,34 +1,36 @@
+{{page-title (t "pages.sessions.import.title")}}
 <main class="import-page">
-  <h1 class="page-title">Créer/éditer plusieurs sessions</h1>
+  <h1 class="page-title">{{t "pages.sessions.import.title"}}</h1>
   <section class="import-page__section--download panel">
     <div class="import-page__section--download__button">
       <p>
         <FaIcon @icon="file-arrow-down" class="fa-2x download-icon" />
-        Télécharger le modèle vierge
+        {{t "pages.sessions.import.session-import-template-label"}}
       </p>
       <PixButton
         @backgroundColor="transparent-light"
         @isBorderVisible="{{true}}"
-        aria-label={{t "pages.sessions.list.header.session-import-template-label"}}
+        aria-label={{t "pages.sessions.import.session-import-template-label"}}
         @triggerAction={{this.downloadSessionImportTemplate}}
       >
-        {{t "pages.sessions.list.header.session-import-template"}}
+        {{t "pages.sessions.import.session-import-template"}}
       </PixButton>
     </div>
 
     <div class="import-page__section--download__button">
       <p>
         <FaIcon @icon="cloud-arrow-up" class="fa-2x download-icon" />
-        Importer le modèle complété
+        {{t "pages.sessions.import.session-import-upload-label"}}
       </p>
       <PixButtonUpload
         @backgroundColor="transparent-light"
         @isBorderVisible="{{true}}"
         @id="file-upload"
         @onChange={{this.importSessions}}
+        aria-label={{t "pages.sessions.import.session-import-upload-label"}}
         accept=".csv"
       >
-        {{t "pages.sessions.list.header.session-import-upload"}}
+        {{t "pages.sessions.import.session-import-upload"}}
       </PixButtonUpload>
     </div>
 

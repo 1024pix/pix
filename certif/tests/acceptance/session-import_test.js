@@ -71,7 +71,7 @@ module('Acceptance | Session Import', function (hooks) {
           const file = new Blob(['foo'], { type: 'valid-file' });
 
           // when
-          const input = await screen.findByLabelText('Importer en masse');
+          const input = await screen.findByLabelText('Importer le modèle complété');
           await triggerEvent(input, 'change', { files: [file] });
 
           // then
@@ -87,7 +87,7 @@ module('Acceptance | Session Import', function (hooks) {
           const file = new Blob(['foo'], { type: 'invalid-file' });
 
           // when
-          const input = await screen.findByLabelText('Importer en masse');
+          const input = await screen.findByLabelText('Importer le modèle complété');
           await triggerEvent(input, 'change', { files: [file] });
 
           // then
