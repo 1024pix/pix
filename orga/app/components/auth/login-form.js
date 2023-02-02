@@ -48,14 +48,14 @@ export default class LoginForm extends Component {
           email
         );
       } catch (err) {
-        const error = Array.isArray(err.errors) && err.errors.length > 0 && err.errors[0];
-        const isInvitationAlreadyAcceptedByAnotherUser = error && error.status === '409';
+        const error = err.errors[0];
+        const isInvitationAlreadyAcceptedByAnotherUser = error.status === '409';
         if (isInvitationAlreadyAcceptedByAnotherUser) {
           this.errorMessage = this.intl.t('pages.login-form.errors.status.409');
           this.isLoading = false;
           return;
         }
-        const isUserAlreadyOrganizationMember = error && error.status === '412';
+        const isUserAlreadyOrganizationMember = error.status === '412';
         if (!isUserAlreadyOrganizationMember) {
           this.errorMessage = this.intl.t(this._getI18nKeyByStatus(error.status));
           this.isLoading = false;
