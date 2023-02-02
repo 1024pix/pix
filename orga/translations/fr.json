@@ -1131,6 +1131,10 @@
       "SHARED-ASSESSMENT": "Résultats reçus",
       "TO_SHARE-PROFILES_COLLECTION": "En attente d'envoi",
       "SHARED-PROFILES_COLLECTION": "Profil reçu"
+    },
+    "group": {
+      "SCO": "Classe",
+      "SUP": "Groupe"
     }
   }
 }

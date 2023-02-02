@@ -1131,6 +1131,10 @@
       "SHARED-ASSESSMENT": "Submitted results",
       "TO_SHARE-PROFILES_COLLECTION": "Pending profile",
       "SHARED-PROFILES_COLLECTION": "Submitted profile"
+    },
+    "group": {
+      "SCO": "Class",
+      "SUP": "Group"
     }
   }
 }
