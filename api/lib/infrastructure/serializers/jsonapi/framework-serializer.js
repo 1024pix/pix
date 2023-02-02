@@ -19,7 +19,7 @@ module.exports = {
     }).serialize(frameworks);
   },
 
-  serializeDeep(frameworks) {
+  serializeDeepWithoutSkills(frameworks) {
     return new Serializer('framework', {
       ref: 'id',
       attributes: ['name', 'areas'],
