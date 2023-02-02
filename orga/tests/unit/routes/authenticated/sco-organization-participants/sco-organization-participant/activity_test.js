@@ -16,7 +16,7 @@ module(
         'route:authenticated/sco-organization-participants/sco-organization-participant/activity'
       );
       store = this.owner.lookup('service:store');
-      route.modelFor = sinon.stub().returns({ id: '123' });
+      route.modelFor = sinon.stub().returns({ organizationLearner: { id: '123' } });
       sinon.stub(route.router, 'replaceWith');
       sinon.stub(store, 'queryRecord');
     });
