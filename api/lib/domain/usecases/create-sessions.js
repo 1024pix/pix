@@ -5,7 +5,7 @@ const sessionCodeService = require('../services/session-code-service');
 const certificationCpfService = require('../services/certification-cpf-service');
 const CertificationCandidate = require('../models/CertificationCandidate');
 const bluebird = require('bluebird');
-const { InvalidCertificationCandidate } = require('../errors');
+const { InvalidCertificationCandidate, SessionWithIdAndInformationOnMassImportError } = require('../errors');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = async function createSessions({
@@ -37,13 +37,19 @@ module.exports = async function createSessions({
       let domainSession;
 
       if (sessionId) {
-        domainSession = new Session({
-          ...session,
-          certificationCenterId,
-          certificationCenter,
-        });
+        if (_hasSessionInfo(session)) {
+          throw new SessionWithIdAndInformationOnMassImportError(
+            `Merci de ne pas renseigner les informations de session pour la session: ${sessionId}`
+          );
+        } else {
+          domainSession = new Session({
+            ...session,
+            certificationCenterId,
+            certificationCenter,
+          });
 
-        await _deleteExistingCandidatesInSession(certificationCandidateRepository, sessionId);
+          await _deleteExistingCandidatesInSession(certificationCandidateRepository, sessionId);
+        }
       }
 
       if (!sessionId) {
@@ -69,6 +75,11 @@ module.exports = async function createSessions({
     });
   });
 };
+
+function _hasSessionInfo(session) {
+  return session.address || session.room || session.date || session.time || session.examiner;
+}
+
 async function _saveNewSessionReturningId(sessionRepository, domainSession, domainTransaction) {
   return await sessionRepository.save(domainSession, domainTransaction);
 }
