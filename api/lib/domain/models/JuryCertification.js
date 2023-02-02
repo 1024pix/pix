@@ -1,9 +1,5 @@
 const CompetenceMark = require('./CompetenceMark');
 
-const status = {
-  CANCELLED: 'cancelled',
-};
-
 class JuryCertification {
   constructor({
     certificationCourseId,
@@ -21,6 +17,7 @@ class JuryCertification {
     createdAt,
     completedAt,
     status,
+    isCancelled,
     isPublished,
     juryId,
     pixScore,
@@ -47,6 +44,7 @@ class JuryCertification {
     this.createdAt = createdAt;
     this.completedAt = completedAt;
     this.status = status;
+    this.isCancelled = isCancelled;
     this.isPublished = isPublished;
     this.juryId = juryId;
     this.pixScore = pixScore;
@@ -88,7 +86,8 @@ class JuryCertification {
       birthPostalCode: juryCertificationDTO.birthPostalCode,
       createdAt: juryCertificationDTO.createdAt,
       completedAt: juryCertificationDTO.completedAt,
-      status: _getStatus(juryCertificationDTO.assessmentResultStatus, juryCertificationDTO.isCancelled),
+      status: juryCertificationDTO.assessmentResultStatus,
+      isCancelled: juryCertificationDTO.isCancelled,
       isPublished: juryCertificationDTO.isPublished,
       juryId: juryCertificationDTO.juryId,
       pixScore: juryCertificationDTO.pixScore,
@@ -101,11 +100,6 @@ class JuryCertification {
       commonComplementaryCertificationCourseResults,
     });
   }
-}
-
-function _getStatus(assessmentResultStatus, isCourseCancelled) {
-  if (isCourseCancelled) return status.CANCELLED;
-  return assessmentResultStatus;
 }
 
 module.exports = JuryCertification;
