@@ -45,6 +45,11 @@ module.exports = {
     }
   },
 
+  async getExistingSessionByInformation({ address, room, date, time }) {
+    const sessions = await knex('sessions').where({ address, room, date, time });
+    return sessions.length > 0;
+  },
+
   async getWithCertificationCandidates(sessionId) {
     const session = await knex.from('sessions').where({ 'sessions.id': sessionId }).first();
 
