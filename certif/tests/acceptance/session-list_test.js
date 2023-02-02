@@ -3,9 +3,9 @@ import { click, currentURL } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import {
-  createCertificationPointOfContactWithCustomCenters,
-  createAllowedCertificationCenterAccess,
   authenticateSession,
+  createAllowedCertificationCenterAccess,
+  createCertificationPointOfContactWithCustomCenters,
 } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -73,7 +73,7 @@ module('Acceptance | Session List', function (hooks) {
       const screen = await visit('/sessions/liste');
 
       // then
-      assert.dom(screen.getByRole('heading', { name: 'Créez votre première session de certification' })).exists();
+      assert.dom(screen.getByRole('heading', { name: 'Créer ma première session de certification' })).exists();
     });
 
     module('isMassiveSessionManagementEnabled feature toggle is true', function () {
