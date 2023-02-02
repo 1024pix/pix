@@ -19,7 +19,7 @@ export default class ImportController extends Controller {
     try {
       await this.fileSaver.save({ url, token });
     } catch (e) {
-      this.notifications.error(this.intl.t('pages.sessions.list.header.session-import-template-dl-error'));
+      this.notifications.error(this.intl.t('pages.sessions.sessions.session-import-template-dl-error'));
     }
   }
 
