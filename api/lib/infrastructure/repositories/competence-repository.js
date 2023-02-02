@@ -63,6 +63,13 @@ module.exports = {
       .filter(({ id }) => competenceIds.includes(id))
       .map((competenceData) => _toDomain({ competenceData, locale }));
   },
+
+  async findByAreaId({ areaId, locale }) {
+    const competenceDatas = await competenceDatasource.list();
+    return competenceDatas
+      .filter((competenceData) => competenceData.areaId === areaId)
+      .map((competenceData) => _toDomain({ competenceData, locale }));
+  },
 };
 
 async function _list({ locale }) {

@@ -26,7 +26,8 @@ module('Acceptance | preselect-target-profile', function (hooks) {
       tubeIds: ['recTube1', 'recTube2', 'recTube3'],
     });
     server.create('competence', { id: 'recCompetence1', name: 'Competence 1', thematicIds: ['recThematic1'] });
-    server.create('area', { title: 'Area 1', competenceIds: ['recCompetence1'] });
+    server.create('area', { id: 'area1', title: 'Area 1', competenceIds: ['recCompetence1'] });
+    server.create('framework', { id: 'framework1', areaIds: ['area1'] });
 
     // when
     const screen = await visit('/selection-sujets');
@@ -34,7 +35,6 @@ module('Acceptance | preselect-target-profile', function (hooks) {
     await clickByName('· Area 1');
 
     // then
-
     assert.dom(screen.getByLabelText('Tube 1 :')).exists();
     assert.dom(screen.getByLabelText('Tube 2 :')).exists();
     assert.dom(screen.getByLabelText('Tube 3 :')).exists();

@@ -22,38 +22,6 @@ describe('Unit | Controller | frameworks-controller', function () {
     sinon.stub(usecases, 'getFrameworkAreas').returns(areas);
   });
 
-  describe('#getPixFramework', function () {
-    it('should fetch and return pix framework, serialized as JSONAPI', async function () {
-      // given
-      const request = {};
-
-      // when
-      const result = await frameworksController.getPixFramework(request);
-
-      // then
-      expect(result).to.equal(serializedAreas);
-      expect(usecases.getFrameworkAreas).to.have.been.calledWith({ frameworkName: 'Pix', locale: 'fr-fr' });
-      expect(frameworkAreasSerializer.serialize).to.have.been.calledWithExactly(areas);
-    });
-
-    it('should extract the locale and pass it to the usecases', async function () {
-      // given
-      const request = {
-        headers: {
-          'accept-language': 'en',
-        },
-      };
-
-      // when
-      const result = await frameworksController.getPixFramework(request);
-
-      // then
-      expect(result).to.equal(serializedAreas);
-      expect(usecases.getFrameworkAreas).to.have.been.calledWithExactly({ frameworkName: 'Pix', locale: 'en' });
-      expect(frameworkAreasSerializer.serialize).to.have.been.calledWithExactly(areas);
-    });
-  });
-
   describe('#getFrameworks', function () {
     it('should fetch and return frameworks, serialized as JSONAPI', async function () {
       // when
