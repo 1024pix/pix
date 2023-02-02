@@ -26,6 +26,7 @@ Router.map(function () {
     this.route('sessions', function () {
       this.route('list', { path: '/liste' });
       this.route('new', { path: '/creation' });
+      this.route('import');
       this.route('update', { path: '/:session_id/modification' });
       this.route('finalize', { path: '/:session_id/finalisation' });
       this.route('details', { path: '/:session_id' }, function () {
