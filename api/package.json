@@ -34,6 +34,7 @@
     "boom": "^7.3.0",
     "cron-parser": "^4.6.0",
     "dayjs": "^1.11.5",
+    "debug": "^4.3.4",
     "dotenv": "^16.0.1",
     "fast-levenshtein": "^3.0.0",
     "file-type": "^16.5.3",
