@@ -14,9 +14,11 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     const group = store.createRecord('group', { name: 'L1' });
     const organization = store.createRecord('organization', { groups: [group] });
     this.set('noop', sinon.stub());
+
     class CurrentUserStub extends Service {
       organization = organization;
     }
+
     this.owner.register('service:current-user', CurrentUserStub);
   });
 
@@ -339,6 +341,91 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
       // then
       sinon.assert.calledWithExactly(triggerFiltering, 'certificability', ['eligible']);
+      assert.ok(true);
+    });
+  });
+
+  module('when user is sorting the table', function () {
+    test('it should trigger ascending sort on participation count column', async function (assert) {
+      // given
+      this.set('triggerFiltering', () => {});
+      this.set('students', []);
+      this.set('certificabilityOptions', [{ value: 'eligible', label: 'Certifiable' }]);
+      this.set('certificability', []);
+      this.set('participationCountOrder', null);
+
+      const sortByParticipationCount = sinon.spy();
+
+      this.set('sortByParticipationCount', sortByParticipationCount);
+
+      const screen = await render(
+        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} @participationCountOrder={{this.participationCountOrder}} @sortByParticipationCount={{this.sortByParticipationCount}}/>`
+      );
+
+      // when
+      await click(
+        screen.getByLabelText(
+          this.intl.t('pages.sup-organization-participants.table.column.participation-count.ariaLabelDefaultSort')
+        )
+      );
+
+      // then
+      sinon.assert.calledWithExactly(sortByParticipationCount, 'asc');
+      assert.ok(true);
+    });
+
+    test('it should trigger ascending sort on participation count column when it is already sort descending', async function (assert) {
+      // given
+      this.set('triggerFiltering', () => {});
+      this.set('students', []);
+      this.set('certificabilityOptions', [{ value: 'eligible', label: 'Certifiable' }]);
+      this.set('certificability', []);
+      this.set('participationCountOrder', 'desc');
+
+      const sortByParticipationCount = sinon.spy();
+
+      this.set('sortByParticipationCount', sortByParticipationCount);
+
+      const screen = await render(
+        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} @participationCountOrder={{this.participationCountOrder}} @sortByParticipationCount={{this.sortByParticipationCount}}/>`
+      );
+      // when
+      await click(
+        screen.getByLabelText(
+          this.intl.t('pages.sup-organization-participants.table.column.participation-count.ariaLabelSortDown')
+        )
+      );
+
+      // then
+      sinon.assert.calledWithExactly(sortByParticipationCount, 'asc');
+      assert.ok(true);
+    });
+
+    test('it should trigger descending sort on participation count column when it is already sort ascending', async function (assert) {
+      // given
+      this.set('triggerFiltering', () => {});
+      this.set('students', []);
+      this.set('certificabilityOptions', [{ value: 'eligible', label: 'Certifiable' }]);
+      this.set('certificability', []);
+      this.set('participationCountOrder', 'asc');
+
+      const sortByParticipationCount = sinon.spy();
+
+      this.set('sortByParticipationCount', sortByParticipationCount);
+
+      const screen = await render(
+        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} @participationCountOrder={{this.participationCountOrder}} @sortByParticipationCount={{this.sortByParticipationCount}}/>`
+      );
+
+      // when
+      await click(
+        screen.getByLabelText(
+          this.intl.t('pages.sup-organization-participants.table.column.participation-count.ariaLabelSortUp')
+        )
+      );
+
+      // then
+      sinon.assert.calledWithExactly(sortByParticipationCount, 'desc');
       assert.ok(true);
     });
   });
