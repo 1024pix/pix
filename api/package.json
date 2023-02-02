@@ -89,6 +89,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.18.2",
     "@ls-lint/ls-lint": "^1.11.2",
+    "@types/jscodeshift": "^0.11.6",
     "chai": "^4.3.6",
     "chai-as-promised": "^7.1.1",
     "chai-sorted": "^0.2.0",
@@ -106,6 +107,7 @@
     "flush-write-stream": "^2.0.0",
     "form-data": "^4.0.0",
     "inquirer": "^8.2.4",
+    "jscodeshift": "^0.14.0",
     "mocha": "^10.0.0",
     "mocha-junit-reporter": "^2.0.2",
     "mockdate": "^3.0.5",
@@ -165,7 +167,8 @@
     "test:api:debug": "NODE_ENV=test mocha --inspect-brk=9229 --recursive --exit --reporter dot tests",
     "test:api:watch": "NODE_ENV=test mocha --recursive tests --watch --reporter dot",
     "test:api:bail": "npm run test:api:unit -- --bail && npm run test:api:integration -- --bail && npm run test:api:acceptance -- --bail",
-    "test:lint": "npm test && npm run lint"
+    "test:lint": "npm test && npm run lint",
+    "migrate-to-esm": "jscodeshift --transform ./codemods/migrate-cjs-to-esm/transforms/index.js --extensions js --ignore-config=.esmignore"
   },
   "optionalDependencies": {
     "nyc": "^15.1.0"

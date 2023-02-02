@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['../.eslintrc.yaml', 'plugin:node/recommended-script'],
+  extends: ['../.eslintrc.yaml'],
   rules: {
     'no-restricted-modules': [
       'error',

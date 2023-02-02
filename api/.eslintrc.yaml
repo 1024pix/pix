@@ -4,11 +4,12 @@ extends:
   - 'plugin:mocha/recommended'
   - 'plugin:prettier/recommended'
   - 'plugin:chai-expect/recommended'
+  - 'plugin:node/recommended-module'
 parserOptions:
   ecmaVersion: 2020
   requireConfigFile: false
 
-parser: "@babel/eslint-parser"
+parser: '@babel/eslint-parser'
 
 globals:
   include: true
