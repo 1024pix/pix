@@ -12,10 +12,17 @@ export default class ListController extends Controller {
   @tracked pageSize = 50;
   @tracked fullName = null;
   @tracked certificability = [];
+  @tracked participationCountOrder = null;
 
   @action
   triggerFiltering(fieldName, value) {
     this[fieldName] = value || undefined;
+    this.pageNumber = null;
+  }
+
+  @action
+  sortByParticipationCount(value) {
+    this.participationCountOrder = value || null;
     this.pageNumber = null;
   }
 

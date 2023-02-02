@@ -7,6 +7,7 @@ export default class ListRoute extends Route {
     pageSize: { refreshModel: true },
     fullName: { refreshModel: true },
     certificability: { refreshModel: true },
+    participationCountOrder: { refreshModel: true },
   };
 
   @service currentUser;
@@ -18,6 +19,9 @@ export default class ListRoute extends Route {
         organizationId: this.currentUser.organization.id,
         fullName: params.fullName,
         certificability: params.certificability,
+      },
+      sort: {
+        participationCount: params.participationCountOrder,
       },
       page: {
         number: params.pageNumber,
@@ -32,6 +36,7 @@ export default class ListRoute extends Route {
       controller.pageSize = 50;
       controller.fullName = null;
       controller.certificability = [];
+      controller.participationCountOrder = null;
     }
   }
 }
