@@ -20,7 +20,7 @@ module.exports = {
     return ids;
   },
 
-  async findByBatchId(jobId) {
+  async findByBatchId(batchId) {
     const cpfCertificationResults = await _selectCpfCertificationResults()
       .select('certification-courses.*', 'assessment-results.pixScore', 'sessions.publishedAt')
       .select(
@@ -31,7 +31,7 @@ module.exports = {
           'level', "competence-marks"."level"
         ) ORDER BY "competence-marks"."competence_code" asc) as "competenceMarks"`)
       )
-      .where('certification-courses.cpfFilename', jobId);
+      .where('certification-courses.cpfFilename', batchId);
     return cpfCertificationResults.map((certificationCourse) => new CpfCertificationResult(certificationCourse));
   },
 

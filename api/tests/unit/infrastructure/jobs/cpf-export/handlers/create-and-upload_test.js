@@ -40,7 +40,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
   describe('when there are data to export', function () {
     it('should build an xml export file and upload it to an external storage', async function () {
       // given
-      const jobId = '555-444#01';
+      const batchId = '555-444#01';
 
       const cpfCertificationResults = [
         domainBuilder.buildCpfCertificationResult({ id: 12 }),
@@ -50,11 +50,11 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
         domainBuilder.buildCpfCertificationResult({ id: 114 }),
       ];
 
-      cpfCertificationResultRepository.findByBatchId.withArgs(jobId).resolves(cpfCertificationResults);
+      cpfCertificationResultRepository.findByBatchId.withArgs(batchId).resolves(cpfCertificationResults);
 
       // when
       await createAndUpload({
-        data: { jobId },
+        data: { batchId },
         cpfCertificationResultRepository,
         cpfCertificationXmlExportService,
         cpfExternalStorage,
@@ -81,13 +81,13 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
   describe('when there are no data to export', function () {
     it('should not build export file and output an error message', async function () {
       // given
-      const jobId = '555-444#01';
+      const batchId = '555-444#01';
 
-      cpfCertificationResultRepository.findByBatchId.withArgs(jobId).resolves([]);
+      cpfCertificationResultRepository.findByBatchId.withArgs(batchId).resolves([]);
 
       // when
       await createAndUpload({
-        data: { jobId },
+        data: { batchId },
         cpfCertificationResultRepository,
         cpfCertificationXmlExportService,
         cpfExternalStorage,
