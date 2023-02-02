@@ -30,13 +30,8 @@ export default class ListRoute extends Route {
       { reload: true }
     );
 
-    const refreshModel = () => {
-      this.refresh();
-    };
-
     return {
       sessionSummaries,
-      refreshModel,
     };
   }
 

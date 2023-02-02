@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { click, currentURL, triggerEvent } from '@ember/test-helpers';
+import { click, currentURL } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import {
@@ -299,59 +299,6 @@ module('Acceptance | Session List', function (hooks) {
         // then
         assert.contains('Page 2 / 2');
         assert.strictEqual(currentURL(), '/sessions/liste?pageNumber=2');
-      });
-    });
-
-    module('when importing multiple sessions', function (hooks) {
-      let screen;
-
-      hooks.beforeEach(async function () {
-        const certificationCenter = createAllowedCertificationCenterAccess({
-          certificationCenterName: 'Centre SUP',
-          certificationCenterType: 'SUP',
-        });
-        certificationPointOfContact = createCertificationPointOfContactWithCustomCenters({
-          pixCertifTermsOfServiceAccepted: true,
-          allowedCertificationCenterAccesses: [certificationCenter],
-        });
-        await authenticateSession(certificationPointOfContact.id);
-        server.create('session-summary', { certificationCenterId: certificationCenter.id });
-        server.create('feature-toggle', { id: 0, isMassiveSessionManagementEnabled: true });
-        screen = await visit('/sessions/liste');
-      });
-
-      module('when the file is valid', function () {
-        test('it should display success message and reload sessions', async function (assert) {
-          // given
-          const file = new Blob(['foo'], { type: 'valid-file' });
-
-          // when
-          const input = await screen.findByLabelText('Importer en masse');
-          await triggerEvent(input, 'change', { files: [file] });
-
-          // then
-          const sessionSummariesCount = await screen.findAllByLabelText('Session de certification');
-          assert
-            .dom('[data-test-notification-message="success"]')
-            .hasText('La liste des sessions a été importée avec succès.');
-          assert.strictEqual(sessionSummariesCount.length, 3);
-        });
-      });
-
-      module('when the file is not valid', function () {
-        test('it should display an error message and not upload any session', async function (assert) {
-          //given
-          const file = new Blob(['foo'], { type: 'invalid-file' });
-
-          // when
-          const input = await screen.findByLabelText('Importer en masse');
-          await triggerEvent(input, 'change', { files: [file] });
-
-          // then
-          const sessionSummariesCount = await screen.findAllByLabelText('Session de certification');
-          assert.dom('[data-test-notification-message="error"]').hasText("Aucune session n'a été importée");
-          assert.strictEqual(sessionSummariesCount.length, 1);
-        });
       });
     });
   });
