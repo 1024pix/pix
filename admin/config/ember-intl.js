@@ -12,7 +12,7 @@ module.exports = function (/* environment */) {
      * @type {String?}
      * @default "null"
      */
-    fallbackLocale: null,
+    fallbackLocale: 'fr',
 
     /**
      * Path where translations are kept.  This is relative to the project root.
@@ -67,7 +67,12 @@ module.exports = function (/* environment */) {
      * @type {Function}
      * @default "function(key,locale){return true}"
      */
-    requiresTranslation(/* key, locale */) {
+    requiresTranslation(key, locale) {
+      if (locale !== 'fr') {
+        // Ignore any non-French missing translations while Admin is not used in other languages than French
+        return false;
+      }
+
       return true;
     },
 
