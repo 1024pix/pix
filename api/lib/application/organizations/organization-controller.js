@@ -265,7 +265,7 @@ module.exports = {
 
   async findPaginatedFilteredSupParticipants(request) {
     const organizationId = request.params.id;
-    const { filter, page } = queryParamsUtils.extractParameters(request.query);
+    const { filter, page, sort } = queryParamsUtils.extractParameters(request.query);
     if (filter.groups && !Array.isArray(filter.groups)) {
       filter.groups = [filter.groups];
     }
@@ -278,6 +278,7 @@ module.exports = {
       organizationId,
       filter,
       page,
+      sort,
     });
     return supOrganizationParticipantsSerializer.serialize({ supOrganizationParticipants, meta });
   },

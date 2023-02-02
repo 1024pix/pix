@@ -816,6 +816,7 @@ exports.register = async (server) => {
             'filter[groups][]': [Joi.string(), Joi.array().items(Joi.string())],
             'filter[search]': Joi.string().empty(''),
             'filter[studentNumber]': Joi.string().empty(''),
+            'sort[participationCount]': Joi.string().empty(''),
           }),
         },
         handler: organizationController.findPaginatedFilteredSupParticipants,
