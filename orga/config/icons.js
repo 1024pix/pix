@@ -2,10 +2,8 @@ module.exports = function () {
   return {
     'free-solid-svg-icons': [
       'box-archive',
-      'arrow-down',
       'arrow-left',
       'arrow-right',
-      'arrow-up',
       'award',
       'book',
       'bullhorn',
@@ -30,6 +28,9 @@ module.exports = function () {
       'magnifying-glass',
       'share',
       'slash',
+      'sort',
+      'sort-up',
+      'sort-down',
       'star',
       'tablet-screen-button',
       'xmark',

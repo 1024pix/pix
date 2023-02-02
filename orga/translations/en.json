@@ -497,7 +497,12 @@
           "caption": "Table of topics to work on, sorted by relevance. Some have additional columns showing the number of tutorials that exist related to the topic and how to access these tutorials",
           "title": "Review by topic",
           "column": {
-            "relevance": "Relevance",
+            "relevance": {
+              "label": "Relevance",
+              "ariaLabelDefaultSort": "The array is not yet sorted by relevance. Click to sort ascending.",
+              "ariaLabelSortUp": "The array is sorted by ascending relevance. Click to sort descending.",
+              "ariaLabelSortDown": "The array is sorted by descending relevance. Click to sort ascending."
+            },
             "subjects": "Topics ({count, plural, =0 {-} other {{count}}})",
             "tutorial": {
               "aria-label": "Show all tutorials"
@@ -513,10 +518,7 @@
             "strongly-recommended": "Strongly recommended",
             "very-strongly-recommended": "Very strongly recommended"
           },
-          "row-title": "Topic",
-          "sort": {
-            "relevance": "Sort by relevance"
-          }
+          "row-title": "Topic"
         },
         "competences": {
           "title": "Results by competence",

@@ -3,12 +3,12 @@
     {{yield}}
     {{#unless @isDisabled}}
       <PixIconButton
-        @icon="{{if (eq this.order 'asc') 'arrow-up' 'arrow-down'}}"
+        @icon={{this.icon}}
         @triggerAction={{this.toggleSort}}
         @withBackground={{false}}
         @size="small"
         @color="dark-grey"
-        aria-label={{@ariaLabel}}
+        aria-label={{this.ariaLabel}}
       />
     {{/unless}}
   </span>

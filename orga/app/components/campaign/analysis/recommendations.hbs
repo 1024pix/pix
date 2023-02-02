@@ -21,9 +21,11 @@
           @align="center"
           @onSort={{this.sortRecommendationOrder}}
           @isDisabled={{not @displayAnalysis}}
-          @ariaLabel={{t "pages.campaign-review.table.analysis.sort.relevance"}}
+          @ariaLabelDefaultSort={{t "pages.campaign-review.table.analysis.column.relevance.ariaLabelDefaultSort"}}
+          @ariaLabelSortUp={{t "pages.campaign-review.table.analysis.column.relevance.ariaLabelSortUp"}}
+          @ariaLabelSortDown={{t "pages.campaign-review.table.analysis.column.relevance.ariaLabelSortDown"}}
         >
-          {{t "pages.campaign-review.table.analysis.column.relevance"}}
+          {{t "pages.campaign-review.table.analysis.column.relevance.label"}}
         </Table::HeaderSort>
         <Table::Header
           @size="small"
