@@ -1,8 +1,11 @@
+const Debug = require('debug');
 const SendinblueProvider = require('./SendinblueProvider');
 const { mailing } = require('../../config');
 const logger = require('../logger');
 const mailCheck = require('../mail-check');
 const EmailingAttempt = require('../../domain/models/EmailingAttempt');
+
+const debugEmail = Debug('pix:mailer:email');
 
 class Mailer {
   constructor() {
@@ -18,6 +21,7 @@ class Mailer {
   }
 
   async sendEmail(options) {
+    debugEmail(options);
     try {
       await mailCheck.checkDomainIsValid(options.to);
     } catch (err) {
