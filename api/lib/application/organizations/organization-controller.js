@@ -32,6 +32,7 @@ const certificationAttestationPdf = require('../../infrastructure/utils/pdf/cert
 const organizationForAdminSerializer = require('../../infrastructure/serializers/jsonapi/organization-for-admin-serializer');
 
 const { mapCertificabilityByLabel } = require('./helpers');
+const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
 
 module.exports = {
   async getOrganizationDetails(request) {
@@ -51,6 +52,14 @@ module.exports = {
     const serializedOrganization = organizationForAdminSerializer.serialize(createdOrganization);
 
     return serializedOrganization;
+  },
+
+  async createInBatch(request, h) {
+    const organizations = await csvSerializer.deserializeForOrganizationsImport(request.payload.path);
+
+    const createdOrganizations = await usecases.createOrganizationsWithTagsAndTargetProfiles({ organizations });
+
+    return h.response(organizationForAdminSerializer.serialize(createdOrganizations)).code(204);
   },
 
   async updateOrganizationInformation(request) {
