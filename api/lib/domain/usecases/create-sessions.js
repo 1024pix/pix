@@ -24,13 +24,6 @@ module.exports = async function createSessions({
 
   const { name: certificationCenter, isSco } = await certificationCenterRepository.get(certificationCenterId);
 
-  for (const session of sessions) {
-    const sessionAlreadyExisting = await sessionRepository.isSessionExisting({ ...session });
-    if (sessionAlreadyExisting) {
-      throw new UnprocessableEntityError(`Session happening on ${session.date} at ${session.time} already exists`);
-    }
-  }
-
   await DomainTransaction.execute(async (domainTransaction) => {
     await bluebird.mapSeries(sessions, async (session) => {
       let { sessionId } = session;
@@ -52,7 +45,12 @@ module.exports = async function createSessions({
         }
       }
 
-      if (!sessionId) {
+      if (!sessionId && _hasSessionInfo(session)) {
+        const isSessionExisting = await sessionRepository.isSessionExisting({ ...session });
+        if (isSessionExisting) {
+          throw new UnprocessableEntityError(`Session happening on ${session.date} at ${session.time} already exists`);
+        }
+
         domainSession = _createAndValidateNewSessionToSave(session, certificationCenterId, certificationCenter);
         const { id } = await _saveNewSessionReturningId(sessionRepository, domainSession, domainTransaction);
         sessionId = id;
