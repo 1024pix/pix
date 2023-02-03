@@ -937,4 +937,137 @@ describe('Unit | Router | training-router', function () {
       });
     });
   });
+
+  describe('PUT /api/admin/trainings/:id/triggers', function () {
+    let validPayload;
+
+    beforeEach(function () {
+      validPayload = {
+        data: {
+          type: 'training-triggers',
+          attributes: {
+            trainingId: 123,
+            type: 'prerequisite',
+            threshold: 30,
+          },
+          relationships: {
+            tubes: {
+              data: [
+                {
+                  id: 'recTube123',
+                  type: 'tubes',
+                },
+              ],
+            },
+          },
+        },
+        included: [
+          {
+            attributes: {
+              id: 'recTube123',
+              level: 2,
+            },
+            id: 'recTube123',
+            type: 'tubes',
+          },
+        ],
+      };
+    });
+
+    describe('Security Prehandlers', function () {
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      [
+        {
+          role: 'SUPER_ADMIN',
+          securityPreHandlersResponses: {
+            checkAdminMemberHasRoleSuperAdmin: (request, h) => h.response(true),
+            checkAdminMemberHasRoleMetier: (request, h) => h.response({ errors: new Error('forbidden') }).code(403),
+          },
+        },
+        {
+          role: 'METIER',
+          securityPreHandlersResponses: {
+            checkAdminMemberHasRoleSuperAdmin: (request, h) => h.response({ errors: new Error('forbidden') }).code(403),
+            checkAdminMemberHasRoleMetier: (request, h) => h.response(true),
+          },
+        },
+      ].forEach(({ role, securityPreHandlersResponses }) => {
+        it(`should verify user identity and return success update when user role is "${role}"`, async function () {
+          // given
+          sinon.stub(trainingController, 'createOrUpdateTrigger').returns('ok');
+          sinon
+            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+            .callsFake(securityPreHandlersResponses.checkAdminMemberHasRoleSuperAdmin);
+          sinon
+            .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
+            .callsFake(securityPreHandlersResponses.checkAdminMemberHasRoleMetier);
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          const payload = validPayload;
+
+          // when
+          const result = await httpTestServer.request('PUT', '/api/admin/trainings/12344/triggers', payload);
+
+          // then
+          sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
+          sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleMetier);
+          sinon.assert.calledOnce(trainingController.createOrUpdateTrigger);
+          expect(result.statusCode).to.equal(200);
+        });
+      });
+
+      it(`should return 403 when user does not have access METIER`, async function () {
+        // given
+        sinon.stub(trainingController, 'createOrUpdateTrigger').returns('ok');
+        sinon
+          .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const payload = validPayload;
+
+        // when
+        const result = await httpTestServer.request('PUT', '/api/admin/trainings/12344/triggers', payload);
+
+        // then
+        sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
+        sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleMetier);
+        sinon.assert.notCalled(trainingController.createOrUpdateTrigger);
+        expect(result.statusCode).to.equal(403);
+      });
+    });
+
+    describe('Data validation', function () {
+      it('should return bad request when param id is not numeric', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const payload = validPayload;
+
+        // when
+        const result = await httpTestServer.request('PUT', '/api/admin/trainings/not_number/triggers', payload);
+
+        // then
+        expect(result.statusCode).to.equal(400);
+      });
+
+      it('should return bad request when payload is not provided', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const result = await httpTestServer.request('PUT', '/api/admin/trainings/12344/triggers');
+
+        // then
+        expect(result.statusCode).to.equal(400);
+      });
+    });
+  });
 });

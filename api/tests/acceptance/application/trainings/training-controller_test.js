@@ -3,6 +3,7 @@ const {
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
+  knex,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
@@ -230,6 +231,87 @@ describe('Acceptance | Controller | training-controller', function () {
         expect(response.result.data[0].attributes.title).to.deep.equal(expectedResponse.data.attributes.title);
         expect(response.result.meta.pagination).to.deep.equal(expectedPagination);
       });
+    });
+  });
+
+  describe('PUT /api/admin/trainings/{trainingId}/triggers', function () {
+    afterEach(async function () {
+      await knex('training-trigger-tubes').delete();
+      await knex('training-triggers').delete();
+    });
+
+    it('should update training trigger', async function () {
+      // given
+      const superAdmin = await insertUserWithRoleSuperAdmin();
+      const trainingId = databaseBuilder.factory.buildTraining().id;
+      const tube = { id: 'recTube123', level: 2 };
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'PUT',
+        url: `/api/admin/trainings/${trainingId}/triggers`,
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
+        },
+        payload: {
+          data: {
+            type: 'training-triggers',
+            attributes: {
+              trainingId: `${trainingId}`,
+              type: 'prerequisite',
+              threshold: 30,
+            },
+            relationships: {
+              tubes: {
+                data: [
+                  {
+                    id: `${tube.id}`,
+                    type: 'tubes',
+                  },
+                ],
+              },
+            },
+          },
+          included: [
+            {
+              attributes: {
+                id: `${tube.id}`,
+                level: `${tube.level}`,
+              },
+              id: `${tube.id}`,
+              type: 'tubes',
+            },
+          ],
+        },
+      };
+
+      const expectedResponse = {
+        data: {
+          type: 'training-triggers',
+          id: `${trainingId}`,
+          attributes: {
+            type: 'prerequisite',
+            threshold: 30,
+          },
+          relationships: {
+            tubes: { data: [{ id: 'recTube123', level: 2 }] },
+          },
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data.type).to.deep.equal(expectedResponse.data.type);
+      expect(response.result.data.id).to.exist;
+      expect(response.result.data.attributes.type).to.deep.equal(expectedResponse.data.attributes.type);
+      expect(response.result.data.attributes.threshold).to.deep.equal(expectedResponse.data.attributes.threshold);
+      expect(response.result.data.relationships.tubes.data[0].id).to.deep.equal(
+        expectedResponse.data.relationships.tubes.data[0].id
+      );
+      expect(response.result.data.attributes.level).to.deep.equal(expectedResponse.data.attributes.level);
     });
   });
 });

@@ -127,6 +127,7 @@ module.exports = {
   buildThematic: require('./build-thematic'),
   buildTraining: require('./build-training'),
   buildTrainingSummary: require('./build-training-summary'),
+  buildTrainingTrigger: require('./build-training-trigger'),
   buildTube: require('./build-tube'),
   buildTutorial: require('./build-tutorial'),
   buildTutorialForUser: require('./build-tutorial-for-user'),
