@@ -12,7 +12,7 @@ Dans le cadre de l'augmentation globale de la sécurité, nous avons cherché à
 
 Par défaut, EmberSimpleAuth utilise le localStorage pour gérer la session de l'utilisateur via la classe [AdaptiveStore](https://ember-simple-auth.com/api/classes/AdaptiveStore.html).
 
-Nous utilisons le flow OAuth2 (custom) pour l'authentification des utilisateurs.
+Nous utilisons le flow OAuth2 (custom) pour l'authentification des utilisateurs. Ce flow nous permet de définir des endpoints différents de ceux par défaut fourni par ESA (Ember Simple Auth). La subtilité sur PixApp, c'est que nous devons également gérer les connexions via le GAR. 
 
 Il existe une liaison assez forte entre le stockage de la session et le flow d'authentification utilisé.
 
