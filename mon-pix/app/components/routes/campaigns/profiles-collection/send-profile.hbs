@@ -13,7 +13,11 @@
     </LinkTo>
   </div>
   <div class="send-profile-header__profile send-profile-header__profile--with-border-bottom">
-    <HexagonScore @pixScore={{@user.profile.pixScore}} />
+    <HexagonScore
+      @pixScore={{@user.profile.pixScore}}
+      @maxReachablePixScore={{@user.profile.maxReachablePixScore}}
+      @maxReachableLevel={{@user.profile.maxReachableLevel}}
+    />
     <div class="send-profile-header__profile__cards">
       <ProfileScorecards
         @interactive={{false}}
@@ -39,7 +43,11 @@
     @errorMessage={{@errorMessage}}
   />
   <div class="send-profile-header__profile send-profile-header__profile--with-border-bottom">
-    <HexagonScore @pixScore={{@user.profile.pixScore}} />
+    <HexagonScore
+      @pixScore={{@user.profile.pixScore}}
+      @maxReachablePixScore={{@user.profile.maxReachablePixScore}}
+      @maxReachableLevel={{@user.profile.maxReachableLevel}}
+    />
     <div class="send-profile-header__profile__cards">
       <ProfileScorecards
         @interactive={{false}}
