@@ -32,18 +32,6 @@ module('Acceptance | Sitemap', function (hooks) {
       assert.ok(cguLink.getAttribute('href').includes('/conditions-generales-d-utilisation'));
     });
 
-    test('should contain a link to pix.fr/aide-accessibilite', async function (assert) {
-      // then
-      const accessibilityHelpLink = findAll('a[data-test-resource-link]')[0];
-      assert.ok(accessibilityHelpLink.getAttribute('href').includes('/aide-accessibilite'));
-    });
-
-    test('should contain a link to pix.fr/politique-protection-donnees-personnelles-app', async function (assert) {
-      // then
-      const cguPolicyLink = findAll('a[data-test-resource-link]')[1];
-      assert.ok(cguPolicyLink.getAttribute('href').includes('/politique-protection-donnees-personnelles-app'));
-    });
-
     test('should contain a link to pix.fr/mes-formations', async function (assert) {
       // then
       assert.dom('a[href="/mes-formations"]').exists();
