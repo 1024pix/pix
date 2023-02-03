@@ -1,6 +1,5 @@
 const _ = require('lodash');
 const config = require('../../config');
-const sessionRepository = require('../../infrastructure/repositories/sessions/session-repository');
 
 function _randomLetter() {
   const letters = config.availableCharacterForCode.letters.split('');
@@ -26,12 +25,6 @@ function _generateSessionCode() {
 
 module.exports = {
   async getNewSessionCode() {
-    const newSessionCode = _generateSessionCode();
-    const codeAvailable = await sessionRepository.isSessionCodeAvailable(newSessionCode);
-    return codeAvailable ? newSessionCode : this.getNewSessionCode();
-  },
-
-  getNewSessionCodeWithoutAvailabilityCheck() {
     return _generateSessionCode();
   },
 };

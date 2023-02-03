@@ -31,9 +31,9 @@ describe('Unit | UseCase | create-sessions', function () {
     certificationCandidateRepository = { saveInSession: sinon.stub(), deleteBySessionId: sinon.stub() };
     complementaryCertificationRepository = { getByLabel: sinon.stub() };
     sessionRepository = { save: sinon.stub(), getExistingSessionByInformation: sinon.stub() };
-    sinon.stub(sessionCodeService, 'getNewSessionCodeWithoutAvailabilityCheck');
+    sinon.stub(sessionCodeService, 'getNewSessionCode');
     sinon.stub(certificationCpfService, 'getBirthInformation');
-    sessionCodeService.getNewSessionCodeWithoutAvailabilityCheck.returns(accessCode);
+    sessionCodeService.getNewSessionCode.returns(accessCode);
     certificationCenterRepository.get.withArgs(certificationCenterId).resolves(certificationCenter);
   });
 
