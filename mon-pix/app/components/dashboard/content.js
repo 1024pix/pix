@@ -73,6 +73,14 @@ export default class Content extends Component {
     return this.currentUser.user.profile.get('pixScore');
   }
 
+  get maxReachablePixScore() {
+    return this.currentUser.user.profile.get('maxReachablePixScore');
+  }
+
+  get maxReachableLevel() {
+    return this.currentUser.user.profile.get('maxReachableLevel');
+  }
+
   @action
   async closeInformationAboutNewDashboard() {
     await this.currentUser.user.save({ adapterOptions: { rememberUserHasSeenNewDashboardInfo: true } });
