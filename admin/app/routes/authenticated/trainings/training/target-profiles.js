@@ -1,9 +1,6 @@
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
 
-export default class TrainingDetailsRoute extends Route {
-  @service store;
-
+export default class TrainingDetailsTargetProfilesRoute extends Route {
   async model() {
     return this.modelFor('authenticated.trainings.training');
   }

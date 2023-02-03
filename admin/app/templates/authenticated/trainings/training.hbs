@@ -1,1 +1,29 @@
-{{outlet}}
+{{page-title "Détail du contenu formatif " @model.id}}
+
+{{! template-lint-disable no-redundant-landmark-role }}
+<header class="page-header" role="banner">
+  <div class="page-title">
+    Contenus Formatifs
+    <FaIcon @icon="chevron-right" />
+    Détail du contenu formatif
+    {{@model.id}}
+  </div>
+</header>
+
+{{! template-lint-disable no-redundant-landmark-role }}
+<main class="page-body" role="main">
+  <section class="page-section">
+    <Trainings::TrainingDetailsCard @training={{@model}} />
+  </section>
+
+  <nav class="navbar">
+    <LinkTo @route="authenticated.trainings.training.triggers" @model={{@model}} class="navbar-item">
+      {{t "pages.trainings.training.triggers.tabName"}}
+    </LinkTo>
+    <LinkTo @route="authenticated.trainings.training.target-profiles" @model={{@model}} class="navbar-item">
+      {{t "pages.trainings.training.targetProfiles.tabName"}}
+    </LinkTo>
+  </nav>
+
+  {{outlet}}
+</main>

@@ -5,7 +5,7 @@
       "login-unauthorized-error": "There was an error in the email address or username/password entered.",
       "login-user-temporary-blocked-error": "You have reached too many failed login attempts. Please try again later or <a href=\"{url}\">reset your password here</a>.",
       "login-user-blocked-error": "Your account has reached the maximum number of failed login attempts and has been temporarily blocked. Please <a href=\"{url}\">contact us</a> to unblock it.",
-    "internal-server-error": "An error occurred, our teams are working on finding a solution. Please try again later.",
+      "internal-server-error": "An error occurred, our teams are working on finding a solution. Please try again later.",
       "gateway-timeout-error": "The service is being slow. Please try again later."
     },
     "words": {
@@ -17,6 +17,22 @@
     "login": {
       "api-error-messages": {
         "login-no-permission": "You don't have the permission to connect."
+      }
+    },
+    "trainings": {
+      "training": {
+        "triggers": {
+          "tabName": "Triggers",
+          "prerequisite": {
+            "title": "Prerequisite"
+          },
+          "goal": {
+            "title": "Goal"
+          }
+        },
+        "targetProfiles": {
+          "tabName": "Target Profiles"
+        }
       }
     }
   },
