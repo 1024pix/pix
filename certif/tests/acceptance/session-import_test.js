@@ -62,7 +62,6 @@ module('Acceptance | Session Import', function (hooks) {
         await authenticateSession(certificationPointOfContact.id);
         server.create('session-summary', { certificationCenterId: certificationCenter.id });
         server.create('feature-toggle', { id: 0, isMassiveSessionManagementEnabled: true });
-        screen = await visit('/sessions/import');
       });
 
       module('when the file is valid', function () {
@@ -71,6 +70,7 @@ module('Acceptance | Session Import', function (hooks) {
           const file = new Blob(['foo'], { type: 'valid-file' });
 
           // when
+          screen = await visit('/sessions/import');
           const input = await screen.findByLabelText('Importer le modèle complété');
           await triggerEvent(input, 'change', { files: [file] });
 
@@ -87,6 +87,7 @@ module('Acceptance | Session Import', function (hooks) {
           const file = new Blob(['foo'], { type: 'invalid-file' });
 
           // when
+          screen = await visit('/sessions/import');
           const input = await screen.findByLabelText('Importer le modèle complété');
           await triggerEvent(input, 'change', { files: [file] });
 
