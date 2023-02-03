@@ -26,8 +26,8 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
   });
 
   test('should display the sitemap menu with expected elements', async function (assert) {
-    // when
-    await render(hbs`<Sitemap::Content />`);
+    // given & when
+    const screen = await render(hbs`<Sitemap::Content />`);
 
     // then
     assert.dom('.sitemap-content-items__link').exists({ count: 11 });
@@ -41,6 +41,9 @@ module('Integration | Component | Sitemap::Content', function (hooks) {
     assert.ok(contains(this.intl.t('navigation.user.tests')));
     assert.ok(contains(this.intl.t('navigation.user.certifications')));
     assert.ok(contains(this.intl.t('pages.sitemap.resources')));
+    assert
+      .dom(screen.getByRole('link', { name: this.intl.t('navigation.main.trainings') }))
+      .hasAttribute('href', '/mes-formations');
   });
 
   test('should display a sublist within skills containing a link to each skill', async function (assert) {
