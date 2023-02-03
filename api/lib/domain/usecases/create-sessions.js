@@ -41,7 +41,7 @@ module.exports = async function createSessions({
             certificationCenter,
           });
 
-          await _deleteExistingCandidatesInSession(certificationCandidateRepository, sessionId);
+          await _deleteExistingCandidatesInSession({ certificationCandidateRepository, sessionId, domainTransaction });
         }
       }
 
@@ -96,8 +96,8 @@ function _createAndValidateNewSessionToSave(session, certificationCenterId, cert
   return domainSession;
 }
 
-async function _deleteExistingCandidatesInSession(certificationCandidateRepository, sessionId) {
-  await certificationCandidateRepository.deleteBySessionId({ sessionId });
+async function _deleteExistingCandidatesInSession({ certificationCandidateRepository, sessionId, domainTransaction }) {
+  await certificationCandidateRepository.deleteBySessionId({ sessionId, domainTransaction });
 }
 
 async function _createCertificationCandidates({
