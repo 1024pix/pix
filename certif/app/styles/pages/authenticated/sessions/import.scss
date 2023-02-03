@@ -1,7 +1,48 @@
 .import-page {
+  > p {
+    color: $pix-neutral-60;
+    font-weight: 300;
+    margin-bottom: 8px;
+  }
+
+  .pix-collapsible {
+    margin-bottom: 8px;
+  }
+
+  .pix-collapsible,
+  .pix-collapsible__title {
+    border-radius: 8px;
+    color: $pix-neutral-70;
+    font-size: 14px;
+    font-weight: 300;
+  }
+
+  .pix-collapsible__title--uncollapsed {
+    border-radius: 8px 8px 0 0;
+  }
+
+  .pix-collapsible__content {
+    line-height: 20px;
+    padding: 14px 16px;
+  }
+
+  .pix-collapsible ul {
+    list-style: disc;
+    margin-top: 6px;
+    margin-left: 24px;
+  }
+
+  .pix-collapsible .pix-banner {
+    border-radius: 4px;
+    box-shadow: none;
+    margin-top: 8px;
+    padding: 12px 16px;
+  }
+
   &__section--download {
     display: flex;
     flex-direction: column;
+    margin-top: 2rem;
     padding: 24px;
   }
 
