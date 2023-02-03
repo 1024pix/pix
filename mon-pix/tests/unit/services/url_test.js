@@ -102,88 +102,136 @@ module('Unit | Service | locale', function (hooks) {
   });
 
   module('#cguUrl', function () {
-    test('should get "pix.fr" url when current domain contains pix.fr', function (assert) {
-      // given
-      const service = this.owner.lookup('service:url');
-      const expectedCguUrl = 'https://pix.fr/conditions-generales-d-utilisation';
-      service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+    module('when website is pix.fr', function () {
+      test('returns the French page URL', function (assert) {
+        // given
+        const service = this.owner.lookup('service:url');
+        const expectedCguUrl = 'https://pix.fr/conditions-generales-d-utilisation';
+        service.currentDomain = { getExtension: sinon.stub().returns('fr') };
 
-      // when
-      const cguUrl = service.cguUrl;
+        // when
+        const cguUrl = service.cguUrl;
 
-      // then
-      assert.strictEqual(cguUrl, expectedCguUrl);
+        // then
+        assert.strictEqual(cguUrl, expectedCguUrl);
+      });
+
+      module('when current language is "en"', function () {
+        test('returns the French page URL', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          const expectedCguUrl = 'https://pix.fr/conditions-generales-d-utilisation';
+          service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+          service.intl = { t: sinon.stub().returns('en') };
+
+          // when
+          const cguUrl = service.cguUrl;
+
+          // then
+          assert.strictEqual(cguUrl, expectedCguUrl);
+        });
+      });
     });
 
-    test('should get "pix.org" english url when current language is en', function (assert) {
-      // given
-      const service = this.owner.lookup('service:url');
-      const expectedCguUrl = 'https://pix.org/en-gb/terms-and-conditions';
-      service.currentDomain = { getExtension: sinon.stub().returns('org') };
-      service.intl = { t: sinon.stub().returns('en') };
+    module('when website is pix.org', function () {
+      module('when current language is "fr"', function () {
+        test('returns the French page URL', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          const expectedCguUrl = 'https://pix.org/fr/conditions-generales-d-utilisation';
+          service.currentDomain = { getExtension: sinon.stub().returns('org') };
+          service.intl = { t: sinon.stub().returns('fr') };
 
-      // when
-      const cguUrl = service.cguUrl;
+          // when
+          const cguUrl = service.cguUrl;
 
-      // then
-      assert.strictEqual(cguUrl, expectedCguUrl);
-    });
+          // then
+          assert.strictEqual(cguUrl, expectedCguUrl);
+        });
+      });
 
-    test('should get "pix.org" french url when current language is fr', function (assert) {
-      // given
-      const service = this.owner.lookup('service:url');
-      const expectedCguUrl = 'https://pix.org/conditions-generales-d-utilisation';
-      service.currentDomain = { getExtension: sinon.stub().returns('org') };
-      service.intl = { t: sinon.stub().returns('fr') };
+      module('when current language is "en"', function () {
+        test('returns the English page URL', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          const expectedCguUrl = 'https://pix.org/en-gb/terms-and-conditions';
+          service.currentDomain = { getExtension: sinon.stub().returns('org') };
+          service.intl = { t: sinon.stub().returns('en') };
 
-      // when
-      const cguUrl = service.cguUrl;
+          // when
+          const cguUrl = service.cguUrl;
 
-      // then
-      assert.strictEqual(cguUrl, expectedCguUrl);
+          // then
+          assert.strictEqual(cguUrl, expectedCguUrl);
+        });
+      });
     });
   });
 
   module('#dataProtectionPolicyUrl', function () {
-    test('should get "pix.fr" url when current domain contains pix.fr', function (assert) {
-      // given
-      const service = this.owner.lookup('service:url');
-      const expectedCguUrl = 'https://pix.fr/politique-protection-donnees-personnelles-app';
-      service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+    module('when website is pix.fr', function () {
+      test('returns the French page URL', function (assert) {
+        // given
+        const service = this.owner.lookup('service:url');
+        const expectedCguUrl = 'https://pix.fr/politique-protection-donnees-personnelles-app';
+        service.currentDomain = { getExtension: sinon.stub().returns('fr') };
 
-      // when
-      const cguUrl = service.dataProtectionPolicyUrl;
+        // when
+        const cguUrl = service.dataProtectionPolicyUrl;
 
-      // then
-      assert.strictEqual(cguUrl, expectedCguUrl);
+        // then
+        assert.strictEqual(cguUrl, expectedCguUrl);
+      });
+
+      module('when current language is "en"', function () {
+        test('returns the French page URL', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          const expectedCguUrl = 'https://pix.fr/politique-protection-donnees-personnelles-app';
+          service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+          service.intl = { t: sinon.stub().returns('en') };
+
+          // when
+          const cguUrl = service.dataProtectionPolicyUrl;
+
+          // then
+          assert.strictEqual(cguUrl, expectedCguUrl);
+        });
+      });
     });
 
-    test('should get "pix.org" english url when current language is en', function (assert) {
-      // given
-      const service = this.owner.lookup('service:url');
-      const expectedCguUrl = 'https://pix.org/en-gb/personal-data-protection-policy';
-      service.currentDomain = { getExtension: sinon.stub().returns('org') };
-      service.intl = { t: sinon.stub().returns('en') };
+    module('when website is pix.org', function () {
+      module('when current language is "fr"', function () {
+        test('returns the French page URL', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          const expectedCguUrl = 'https://pix.org/fr/politique-protection-donnees-personnelles-app';
+          service.currentDomain = { getExtension: sinon.stub().returns('org') };
+          service.intl = { t: sinon.stub().returns('fr') };
 
-      // when
-      const cguUrl = service.dataProtectionPolicyUrl;
+          // when
+          const cguUrl = service.dataProtectionPolicyUrl;
 
-      // then
-      assert.strictEqual(cguUrl, expectedCguUrl);
-    });
+          // then
+          assert.strictEqual(cguUrl, expectedCguUrl);
+        });
+      });
 
-    test('should get "pix.org" french url when current language is fr', function (assert) {
-      // given
-      const service = this.owner.lookup('service:url');
-      const expectedCguUrl = 'https://pix.org/politique-protection-donnees-personnelles-app';
-      service.currentDomain = { getExtension: sinon.stub().returns('org') };
-      service.intl = { t: sinon.stub().returns('fr') };
+      module('when current language is "en"', function () {
+        test('returns the English page URL', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          const expectedCguUrl = 'https://pix.org/en-gb/personal-data-protection-policy';
+          service.currentDomain = { getExtension: sinon.stub().returns('org') };
+          service.intl = { t: sinon.stub().returns('en') };
 
-      // when
-      const cguUrl = service.dataProtectionPolicyUrl;
+          // when
+          const cguUrl = service.dataProtectionPolicyUrl;
 
-      // then
-      assert.strictEqual(cguUrl, expectedCguUrl);
+          // then
+          assert.strictEqual(cguUrl, expectedCguUrl);
+        });
+      });
     });
   });
 });
