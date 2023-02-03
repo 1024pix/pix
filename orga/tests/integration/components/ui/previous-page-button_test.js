@@ -20,7 +20,7 @@ module('Integration | Component | Ui::PreviousPageButton', function (hooks) {
 
   test('it should render previous page button', async function (assert) {
     // when
-    await render(hbs`<Ui::PreviousPageButton @backButtonAriaLabel="Une instruction"/>`);
+    await render(hbs`<Ui::PreviousPageButton @backButtonAriaLabel='Une instruction' />`);
 
     // then
     assert.dom('[aria-label="Une instruction"]').exists();
@@ -28,7 +28,7 @@ module('Integration | Component | Ui::PreviousPageButton', function (hooks) {
 
   test('it should render with yielded content', async function (assert) {
     // when
-    await render(hbs`<Ui::PreviousPageButton aria-label="Nom de la campagne">Coucou</Ui::PreviousPageButton>`);
+    await render(hbs`<Ui::PreviousPageButton aria-label='Nom de la campagne'>Coucou</Ui::PreviousPageButton>`);
 
     // then
     assert.dom('[aria-label="Nom de la campagne"]').containsText('Coucou');
@@ -41,7 +41,7 @@ module('Integration | Component | Ui::PreviousPageButton', function (hooks) {
       this.route = 'someRoute';
       this.routeId = 'someRouteId';
       await render(
-        hbs`<Ui::PreviousPageButton @route={{this.route}} @routeId={{this.routeId}} @backButtonAriaLabel="Une instruction"></Ui::PreviousPageButton>`
+        hbs`<Ui::PreviousPageButton @route={{this.route}} @routeId={{this.routeId}} @backButtonAriaLabel='Une instruction' />`
       );
 
       // when
@@ -55,9 +55,7 @@ module('Integration | Component | Ui::PreviousPageButton', function (hooks) {
       // given
       this.route = 'someRoute';
       this.routeId = 'someRouteId';
-      await render(
-        hbs`<Ui::PreviousPageButton @route={{this.route}} @backButtonAriaLabel="Une instruction"></Ui::PreviousPageButton>`
-      );
+      await render(hbs`<Ui::PreviousPageButton @route={{this.route}} @backButtonAriaLabel='Une instruction' />`);
 
       // when
       await clickByName('Une instruction');

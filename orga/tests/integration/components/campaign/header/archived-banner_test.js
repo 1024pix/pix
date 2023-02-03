@@ -28,7 +28,7 @@ module('Integration | Component | Campaign::Header::ArchivedBanner', function (h
       });
 
       // when
-      const screen = await renderScreen(hbs`<Campaign::Header::ArchivedBanner @campaign={{this.campaign}}/>`);
+      const screen = await renderScreen(hbs`<Campaign::Header::ArchivedBanner @campaign={{this.campaign}} />`);
 
       // then
       assert.dom(screen.queryByText(this.intl.t('pages.campaign.archived'))).doesNotExist();
@@ -50,7 +50,7 @@ module('Integration | Component | Campaign::Header::ArchivedBanner', function (h
         });
 
         // when
-        const screen = await renderScreen(hbs`<Campaign::Header::ArchivedBanner @campaign={{this.campaign}}/>`);
+        const screen = await renderScreen(hbs`<Campaign::Header::ArchivedBanner @campaign={{this.campaign}} />`);
 
         // then
         assert.dom(screen.getByText(this.intl.t('pages.campaign.archived'))).exists();
@@ -70,7 +70,7 @@ module('Integration | Component | Campaign::Header::ArchivedBanner', function (h
         });
 
         // when
-        await renderScreen(hbs`<Campaign::Header::ArchivedBanner @campaign={{this.campaign}}/>`);
+        await renderScreen(hbs`<Campaign::Header::ArchivedBanner @campaign={{this.campaign}} />`);
         await clickByName('Désarchiver la campagne');
 
         // then
@@ -92,7 +92,7 @@ module('Integration | Component | Campaign::Header::ArchivedBanner', function (h
         });
 
         // when
-        const screen = await renderScreen(hbs`<Campaign::Header::ArchivedBanner @campaign={{this.campaign}}/>`);
+        const screen = await renderScreen(hbs`<Campaign::Header::ArchivedBanner @campaign={{this.campaign}} />`);
 
         // then
         assert.dom(screen.getByText(this.intl.t('pages.campaign.archived'))).exists();
@@ -113,7 +113,7 @@ module('Integration | Component | Campaign::Header::ArchivedBanner', function (h
         });
 
         // when
-        await renderScreen(hbs`<Campaign::Header::ArchivedBanner @campaign={{this.campaign}}/>`);
+        await renderScreen(hbs`<Campaign::Header::ArchivedBanner @campaign={{this.campaign}} />`);
         await clickByName('Désarchiver la campagne');
 
         // then
@@ -134,7 +134,7 @@ module('Integration | Component | Campaign::Header::ArchivedBanner', function (h
         });
 
         // when
-        const screen = await renderScreen(hbs`<Campaign::Header::ArchivedBanner @campaign={{this.campaign}}/>`);
+        const screen = await renderScreen(hbs`<Campaign::Header::ArchivedBanner @campaign={{this.campaign}} />`);
 
         // then
         assert.dom(screen.getByText(this.intl.t('pages.campaign.archived'))).exists();
@@ -152,7 +152,7 @@ module('Integration | Component | Campaign::Header::ArchivedBanner', function (h
         });
 
         // when
-        const screen = await renderScreen(hbs`<Campaign::Header::ArchivedBanner @campaign={{this.campaign}}/>`);
+        const screen = await renderScreen(hbs`<Campaign::Header::ArchivedBanner @campaign={{this.campaign}} />`);
 
         // then
         assert.dom(screen.queryByText(this.intl.t('pages.campaign.actions.unarchive'))).doesNotExist();

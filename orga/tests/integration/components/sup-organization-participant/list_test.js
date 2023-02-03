@@ -27,7 +27,12 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
     // when
     const screen = await render(
-      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @groups={{this.groups}} @onClickLearner={{this.noop}}/>`
+      hbs`<SupOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.noop}}
+  @groups={{this.groups}}
+  @onClickLearner={{this.noop}}
+/>`
     );
 
     // then
@@ -50,7 +55,12 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
     // when
     await render(
-      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @groups={{this.groups}} @onClickLearner={{this.noop}}/>`
+      hbs`<SupOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.noop}}
+  @groups={{this.groups}}
+  @onClickLearner={{this.noop}}
+/>`
     );
 
     // then
@@ -79,7 +89,12 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
     // when
     const screen = await render(
-      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @groups={{this.groups}} @onClickLearner={{this.noop}}/>`
+      hbs`<SupOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.noop}}
+  @groups={{this.groups}}
+  @onClickLearner={{this.noop}}
+/>`
     );
     // then
     assert.dom(screen.getByRole('link', { name: 'Kenobi' })).hasProperty('href', /\/etudiants\/33/g);
@@ -104,7 +119,12 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
     // when
     await render(
-      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @groups={{this.groups}} @onClickLearner={{this.noop}}/>`
+      hbs`<SupOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.noop}}
+  @groups={{this.groups}}
+  @onClickLearner={{this.noop}}
+/>`
     );
 
     // then
@@ -132,7 +152,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
     // when
     await render(
-      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}}/>`
+      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} />`
     );
 
     // then
@@ -157,7 +177,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
     // when
     await render(
-      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}}/>`
+      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} />`
     );
 
     // then
@@ -181,7 +201,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
     // when
     await render(
-      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}}/>`
+      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} />`
     );
 
     // then
@@ -205,7 +225,12 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
     // when
     const screen = await render(
-      hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.triggerFiltering}} @groups={{this.groups}} @onClickLearner={{this.noop}}/>`
+      hbs`<SupOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.triggerFiltering}}
+  @groups={{this.groups}}
+  @onClickLearner={{this.noop}}
+/>`
     );
 
     // then
@@ -226,7 +251,11 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       this.set('students', []);
 
       await render(
-        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.triggerFiltering}} @onClickLearner={{this.noop}}/>`
+        hbs`<SupOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.triggerFiltering}}
+  @onClickLearner={{this.noop}}
+/>`
       );
 
       // when
@@ -245,7 +274,12 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
       // when
       await render(
-        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.triggerFiltering}} @groups={{this.groups}} @onClickLearner={{this.noop}}/>`
+        hbs`<SupOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.triggerFiltering}}
+  @groups={{this.groups}}
+  @onClickLearner={{this.noop}}
+/>`
       );
 
       await fillByLabel('Entrer un numéro étudiant', 'LATERREURGIGI123');
@@ -287,7 +321,12 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       this.set('certificability', []);
 
       const { getByLabelText, findByRole } = await render(
-        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.triggerFiltering}} @certificability={{this.certificability}} @onClickLearner={{this.noop}}/>`
+        hbs`<SupOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.triggerFiltering}}
+  @certificability={{this.certificability}}
+  @onClickLearner={{this.noop}}
+/>`
       );
 
       // when
@@ -313,7 +352,12 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       this.set('groups', []);
       // when
       await render(
-        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @groups={{this.groups}} @onClickLearner={{this.noop}}/>`
+        hbs`<SupOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.noop}}
+  @groups={{this.groups}}
+  @onClickLearner={{this.noop}}
+/>`
       );
 
       // then
@@ -330,7 +374,12 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       this.set('groups', []);
       // when
       await render(
-        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @groups={{this.groups}} @onClickLearner={{this.noop}}/>`
+        hbs`<SupOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.noop}}
+  @groups={{this.groups}}
+  @onClickLearner={{this.noop}}
+/>`
       );
 
       // then

@@ -39,9 +39,7 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
 
   test('it should display tube details', async function (assert) {
     // when
-    await render(hbs`<Campaign::Analysis::TubeRecommendationRow
-      @tubeRecommendation={{this.tubeRecommendation}}
-    />`);
+    await render(hbs`<Campaign::Analysis::TubeRecommendationRow @tubeRecommendation={{this.tubeRecommendation}} />`);
 
     // then
     const firstTube = '[aria-label="Sujet"]';
@@ -53,9 +51,7 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
     // given
     this.tubeRecommendation.tutorials = [tutorial1];
 
-    await render(hbs`<Campaign::Analysis::TubeRecommendationRow
-      @tubeRecommendation={{this.tubeRecommendation}}
-    />`);
+    await render(hbs`<Campaign::Analysis::TubeRecommendationRow @tubeRecommendation={{this.tubeRecommendation}} />`);
 
     // when
     await click('[data-icon="chevron-down"]');
@@ -74,9 +70,7 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
     // given
     this.tubeRecommendation.tutorials = [tutorial1];
 
-    await render(hbs`<Campaign::Analysis::TubeRecommendationRow
-      @tubeRecommendation={{this.tubeRecommendation}}
-    />`);
+    await render(hbs`<Campaign::Analysis::TubeRecommendationRow @tubeRecommendation={{this.tubeRecommendation}} />`);
 
     // then
     assert.dom('tr[aria-hidden="true"]').containsText('1 tuto recommandé par la communauté Pix');
@@ -89,9 +83,7 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
     // given
     this.tubeRecommendation.tutorials = [tutorial1, tutorial2];
 
-    await render(hbs`<Campaign::Analysis::TubeRecommendationRow
-      @tubeRecommendation={{this.tubeRecommendation}}
-    />`);
+    await render(hbs`<Campaign::Analysis::TubeRecommendationRow @tubeRecommendation={{this.tubeRecommendation}} />`);
 
     // when
     await click('[data-icon="chevron-down"]');
@@ -104,9 +96,7 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
     // given
     this.tubeRecommendation.tutorials = [tutorial1, tutorial2];
 
-    await render(hbs`<Campaign::Analysis::TubeRecommendationRow
-      @tubeRecommendation={{this.tubeRecommendation}}
-    />`);
+    await render(hbs`<Campaign::Analysis::TubeRecommendationRow @tubeRecommendation={{this.tubeRecommendation}} />`);
     await click('[data-icon="chevron-down"]');
 
     // when
@@ -123,9 +113,7 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
       this.tubeRecommendation.tutorials = [tutorial1];
 
       //when
-      await render(hbs`<Campaign::Analysis::TubeRecommendationRow
-        @tubeRecommendation={{this.tubeRecommendation}}
-      />`);
+      await render(hbs`<Campaign::Analysis::TubeRecommendationRow @tubeRecommendation={{this.tubeRecommendation}} />`);
 
       // then
       assert.dom('[aria-label="Sujet"]').containsText('1 tuto');
@@ -136,9 +124,7 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
       this.tubeRecommendation.tutorials = [tutorial1, tutorial2];
 
       //when
-      await render(hbs`<Campaign::Analysis::TubeRecommendationRow
-        @tubeRecommendation={{this.tubeRecommendation}}
-      />`);
+      await render(hbs`<Campaign::Analysis::TubeRecommendationRow @tubeRecommendation={{this.tubeRecommendation}} />`);
 
       // then
       assert.dom('[aria-label="Sujet"]').containsText('2 tutos');

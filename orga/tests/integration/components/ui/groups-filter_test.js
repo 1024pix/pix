@@ -40,7 +40,7 @@ module('Integration | Component | Ui::GroupsFilter', function (hooks) {
       this.onSelect = sinon.stub();
 
       const screen = await render(
-        hbs`<Ui::GroupsFilter @campaign={{this.campaign}} @onSelect={{this.onSelect}} @placeholder="Groupes" />`
+        hbs`<Ui::GroupsFilter @campaign={{this.campaign}} @onSelect={{this.onSelect}} @placeholder='Groupes' />`
       );
       await click(screen.getByLabelText('Groupes'));
       await click(await screen.findByRole('checkbox', { name: 'L1' }));
@@ -58,7 +58,7 @@ module('Integration | Component | Ui::GroupsFilter', function (hooks) {
       this.selected = ['L1', 'L2'];
 
       const screen = await render(
-        hbs`<Ui::GroupsFilter @campaign={{this.campaign}} @selectedGroups={{this.selected}} @placeholder="Groupes" />`
+        hbs`<Ui::GroupsFilter @campaign={{this.campaign}} @selectedGroups={{this.selected}} @placeholder='Groupes' />`
       );
 
       assert.ok(screen.getByPlaceholderText('L1, L2'));

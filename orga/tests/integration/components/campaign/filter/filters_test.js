@@ -17,9 +17,10 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
     // when
     const screen = await renderScreen(
       hbs`<Campaign::Filter::Filters
-        @onFilter={{this.triggerFilteringSpy}}
-        @onClearFilters={{this.onClickClearFiltersSpy}}
-        @numResults={{1}} />`
+  @onFilter={{this.triggerFilteringSpy}}
+  @onClearFilters={{this.onClickClearFiltersSpy}}
+  @numResults={{1}}
+/>`
     );
 
     // then
@@ -36,9 +37,10 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
       // when
       await renderScreen(
         hbs`<Campaign::Filter::Filters
-        @onFilter={{this.triggerFilteringSpy}}
-        @onClearFilters={{this.onClickClearFiltersSpy}}
-        @numResults={{1}} />`
+  @onFilter={{this.triggerFilteringSpy}}
+  @onClearFilters={{this.onClickClearFiltersSpy}}
+  @numResults={{1}}
+/>`
       );
 
       // When
@@ -55,10 +57,11 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
       // given / when
       const screen = await renderScreen(
         hbs`<Campaign::Filter::Filters
-        @onFilter={{this.triggerFilteringSpy}}
-        @onClearFilters={{this.onClickClearFiltersSpy}}
-        @numResults={{1}}
-        @listOnlyCampaignsOfCurrentUser={{true}} />`
+  @onFilter={{this.triggerFilteringSpy}}
+  @onClearFilters={{this.onClickClearFiltersSpy}}
+  @numResults={{1}}
+  @listOnlyCampaignsOfCurrentUser={{true}}
+/>`
       );
 
       // then
@@ -74,9 +77,10 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
     // when
     await renderScreen(
       hbs`<Campaign::Filter::Filters
-        @onFilter={{this.triggerFiltering}}
-        @onClearFilters={{this.onClickClearFiltersSpy}}
-        @numResults={{1}} />`
+  @onFilter={{this.triggerFiltering}}
+  @onClearFilters={{this.onClickClearFiltersSpy}}
+  @numResults={{1}}
+/>`
     );
 
     await fillByLabel(t('pages.campaigns-list.filter.by-name'), 'Sal');
@@ -93,9 +97,10 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
     // when
     await renderScreen(
       hbs`<Campaign::Filter::Filters
-        @onFilter={{this.triggerFiltering}}
-        @onClearFilters={{this.onClickClearFiltersSpy}}
-        @numResults={{1}} />`
+  @onFilter={{this.triggerFiltering}}
+  @onClearFilters={{this.onClickClearFiltersSpy}}
+  @numResults={{1}}
+/>`
     );
 
     await fillByLabel(t('pages.campaigns-list.filter.by-owner'), 'Sal');
@@ -108,9 +113,10 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
     // when
     const screen = await renderScreen(
       hbs`<Campaign::Filter::Filters
-        @onFilter={{this.triggerFilteringSpy}}
-        @onClearFilters={{this.onClickClearFiltersSpy}}
-        @numResults={{1}} />`
+  @onFilter={{this.triggerFilteringSpy}}
+  @onClearFilters={{this.onClickClearFiltersSpy}}
+  @numResults={{1}}
+/>`
     );
 
     // then

@@ -34,7 +34,12 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
 
     // when
     await render(
-      hbs`<Campaign::Results::AssessmentList @campaign={{this.campaign}} @participations={{this.participations}} @onClickParticipant={{this.noop}} @onFilter={{this.noop}}/>`
+      hbs`<Campaign::Results::AssessmentList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.noop}}
+/>`
     );
 
     // then
@@ -67,7 +72,12 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
 
       // when
       await render(
-        hbs`<Campaign::Results::AssessmentList @campaign={{this.campaign}} @participations={{this.participations}} @onClickParticipant={{this.noop}} @onFilter={{this.noop}}/>`
+        hbs`<Campaign::Results::AssessmentList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.noop}}
+/>`
       );
 
       // then
@@ -93,7 +103,12 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
 
       // when
       await render(
-        hbs`<Campaign::Results::AssessmentList @campaign={{this.campaign}} @participations={{this.participations}} @onClickParticipant={{this.noop}} @onFilter={{this.noop}}/>`
+        hbs`<Campaign::Results::AssessmentList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.noop}}
+/>`
       );
 
       // then
@@ -119,7 +134,12 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
 
       // when
       await render(
-        hbs`<Campaign::Results::AssessmentList @campaign={{this.campaign}} @participations={{this.participations}} @onClickParticipant={{this.noop}} @onFilter={{this.noop}}/>`
+        hbs`<Campaign::Results::AssessmentList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.noop}}
+/>`
       );
 
       // then
@@ -145,7 +165,11 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
 
       // when
       await render(
-        hbs`<Campaign::Results::AssessmentList @campaign={{this.campaign}} @participations={{this.participations}} @onFilter={{this.noop}}/>`
+        hbs`<Campaign::Results::AssessmentList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @onFilter={{this.noop}}
+/>`
       );
 
       // then
@@ -169,7 +193,12 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
 
       // when
       await render(
-        hbs`<Campaign::Results::AssessmentList @campaign={{this.campaign}} @participations={{this.participations}} @onClickParticipant={{this.noop}} @onFilter={{this.noop}}/>`
+        hbs`<Campaign::Results::AssessmentList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.noop}}
+/>`
       );
 
       // then
@@ -194,7 +223,12 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
 
       // when
       await render(
-        hbs`<Campaign::Results::AssessmentList @campaign={{this.campaign}} @participations={{this.participations}} @onClickParticipant={{this.noop}} @onFilter={{this.noop}}/>`
+        hbs`<Campaign::Results::AssessmentList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.noop}}
+/>`
       );
 
       // then
@@ -219,7 +253,12 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
 
       // when
       const screen = await render(
-        hbs`<Campaign::Results::AssessmentList @campaign={{this.campaign}} @participations={{this.participations}} @onClickParticipant={{this.noop}} @onFilter={{this.triggerFiltering}}/>`
+        hbs`<Campaign::Results::AssessmentList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.triggerFiltering}}
+/>`
       );
 
       await click(screen.getByLabelText(this.intl.t('pages.campaign-results.filters.type.badges')));
@@ -247,7 +286,12 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
 
       // when
       await render(
-        hbs`<Campaign::Results::AssessmentList @campaign={{this.campaign}} @participations={{this.participations}} @onClickParticipant={{this.noop}} @onFilter={{this.noop}}/>`
+        hbs`<Campaign::Results::AssessmentList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.noop}}
+/>`
       );
 
       // then
@@ -284,7 +328,12 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
 
       // when
       const screen = await render(
-        hbs`<Campaign::Results::AssessmentList @campaign={{this.campaign}} @participations={{this.participations}} @onClickParticipant={{this.noop}} @onFilter={{this.triggerFiltering}}/>`
+        hbs`<Campaign::Results::AssessmentList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.triggerFiltering}}
+/>`
       );
 
       await click(screen.getByLabelText(this.intl.t('pages.campaign-results.filters.type.divisions.placeholder')));
@@ -323,7 +372,13 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
 
       // when
       await render(
-        hbs`<Campaign::Results::AssessmentList @campaign={{this.campaign}} @participations={{this.participations}} @onClickParticipant={{this.noop}} @onFilter={{this.noop}} @onResetFilter={{this.resetFilters}}/>`
+        hbs`<Campaign::Results::AssessmentList
+  @campaign={{this.campaign}}
+  @participations={{this.participations}}
+  @onClickParticipant={{this.noop}}
+  @onFilter={{this.noop}}
+  @onResetFilter={{this.resetFilters}}
+/>`
       );
       await clickByName('Effacer les filtres');
 
@@ -341,7 +396,11 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       this.set('campaign', campaign);
       this.set('searchFilter', 'chichi');
       const screen = await render(
-        hbs`<Campaign::Results::AssessmentList  @campaign={{this.campaign}} @searchFilter={{this.searchFilter}} @onFilter={{this.noop}}/>`
+        hbs`<Campaign::Results::AssessmentList
+  @campaign={{this.campaign}}
+  @searchFilter={{this.searchFilter}}
+  @onFilter={{this.noop}}
+/>`
       );
 
       // then
@@ -357,7 +416,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       this.set('campaign', campaign);
       this.set('triggerFiltering', triggerFiltering);
       await render(
-        hbs`<Campaign::Results::AssessmentList  @campaign={{this.campaign}} @onFilter={{this.triggerFiltering}} />`
+        hbs`<Campaign::Results::AssessmentList @campaign={{this.campaign}} @onFilter={{this.triggerFiltering}} />`
       );
       await fillByLabel('Recherche sur le nom et prénom', 'Chichi');
       // then

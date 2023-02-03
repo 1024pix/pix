@@ -12,7 +12,7 @@ module('Integration | Component | Ui::CertificabilityTooltip', function (hooks) 
     this.content = 'Amazing content';
 
     // when
-    await render(hbs`<Ui::CertificabilityTooltip @aria-label={{this.label}} @content={{this.content}}/>`);
+    await render(hbs`<Ui::CertificabilityTooltip @aria-label={{this.label}} @content={{this.content}} />`);
 
     // then
     assert.contains('Amazing content');
