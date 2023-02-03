@@ -3,7 +3,9 @@ const trainingController = require('../../../../lib/application/trainings/traini
 const usecases = require('../../../../lib/domain/usecases');
 const trainingSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/training-serializer');
 const trainingSummarySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/training-summary-serializer');
+const trainingTriggerSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/training-trigger-serializer');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
+const TrainingTrigger = require('../../../../lib/domain/models/TrainingTrigger');
 
 describe('Unit | Controller | training-controller', function () {
   describe('#findPaginatedTrainingSummaries', function () {
@@ -206,6 +208,71 @@ describe('Unit | Controller | training-controller', function () {
         expect(trainingSerializer.serialize).to.have.been.calledWith(updatedTraining);
         expect(response).to.deep.equal(expectedSerializedUser);
       });
+    });
+  });
+
+  describe('#createOrUpdateTrigger', function () {
+    it('should call the createOrUpdateTrigger use-case', async function () {
+      // given
+      const payload = {
+        data: {
+          attributes: {
+            type: TrainingTrigger.types.PREREQUISITE,
+            threshold: 45,
+          },
+          relationships: {
+            tubes: {
+              data: [
+                {
+                  id: 'recTube123',
+                  type: 'tubes',
+                },
+              ],
+            },
+          },
+        },
+        included: [
+          {
+            attributes: {
+              id: 'recTube123',
+              level: 2,
+            },
+            id: 'recTube123',
+            type: 'tubes',
+          },
+        ],
+      };
+
+      const deserializedTrigger = {
+        trainingId: Symbol('trainingId'),
+        threshold: Symbol('threshold'),
+        type: Symbol('type'),
+        tubes: Symbol('tubes'),
+      };
+
+      const createdTrigger = Symbol('createdTrigger');
+      const serializedTrigger = Symbol('serializedTrigger');
+      sinon.stub(trainingTriggerSerializer, 'deserialize').withArgs(payload).returns(deserializedTrigger);
+      sinon.stub(usecases, 'createOrUpdateTrainingTrigger').resolves(createdTrigger);
+      sinon.stub(trainingTriggerSerializer, 'serialize').withArgs(createdTrigger).returns(serializedTrigger);
+
+      // when
+      const result = await trainingController.createOrUpdateTrigger(
+        {
+          params: { trainingId: 145 },
+          payload,
+        },
+        hFake
+      );
+
+      // then
+      expect(usecases.createOrUpdateTrainingTrigger).to.have.been.calledWith({
+        trainingId: 145,
+        threshold: deserializedTrigger.threshold,
+        type: deserializedTrigger.type,
+        tubes: deserializedTrigger.tubes,
+      });
+      expect(result).to.be.equal(serializedTrigger);
     });
   });
 });

@@ -65,6 +65,8 @@ module.exports = {
   buildTargetProfileTraining: require('./build-target-profile-training'),
   buildTargetProfileTube: require('./build-target-profile-tube'),
   buildTraining: require('./build-training'),
+  buildTrainingTrigger: require('./build-training-trigger'),
+  buildTrainingTriggerTube: require('./build-training-trigger-tube'),
   buildTutorialEvaluation: require('./build-tutorial-evaluation'),
   buildUser: require('./build-user'),
   buildUserLogin: require('./build-user-login'),
