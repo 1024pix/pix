@@ -162,6 +162,7 @@ describe('Unit | UseCase | create-sessions', function () {
           expect(sessionRepository.save).to.not.have.been.called;
           expect(certificationCandidateRepository.deleteBySessionId).to.have.been.calledOnceWithExactly({
             sessionId: 1234,
+            domainTransaction,
           });
           expect(certificationCandidateRepository.saveInSession).to.have.been.calledTwice;
         });
