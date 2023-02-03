@@ -1,13 +1,14 @@
 const jsonwebtoken = require('jsonwebtoken');
+const querystring = require('querystring');
+const { v4: uuidv4 } = require('uuid');
+
+const { InvalidExternalAPIResponseError } = require('../../errors');
+const AuthenticationMethod = require('../../models/AuthenticationMethod');
+const AuthenticationSessionContent = require('../../models/AuthenticationSessionContent');
 const settings = require('../../../config');
 const httpAgent = require('../../../infrastructure/http/http-agent');
 const httpErrorsHelper = require('../../../infrastructure/http/errors-helper');
-const querystring = require('querystring');
-const { InvalidExternalAPIResponseError } = require('../../errors');
-const AuthenticationSessionContent = require('../../models/AuthenticationSessionContent');
-const { v4: uuidv4 } = require('uuid');
 const DomainTransaction = require('../../../infrastructure/DomainTransaction');
-const AuthenticationMethod = require('../../models/AuthenticationMethod');
 const monitoringTools = require('../../../infrastructure/monitoring-tools');
 
 class OidcAuthenticationService {
