@@ -179,12 +179,13 @@ module.exports = {
     }
   },
 
-  async deleteBySessionId({ sessionId }) {
-    await knex('complementary-certification-subscriptions')
-      .whereIn('certificationCandidateId', knex.select('id').from('certification-candidates').where({ sessionId }))
+  async deleteBySessionId({ sessionId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const knexConn = domainTransaction.knexTransaction ?? knex;
+    await knexConn('complementary-certification-subscriptions')
+      .whereIn('certificationCandidateId', knexConn.select('id').from('certification-candidates').where({ sessionId }))
       .del();
 
-    await knex('certification-candidates').where({ sessionId }).del();
+    await knexConn('certification-candidates').where({ sessionId }).del();
   },
 
   async getWithComplementaryCertifications(id) {
