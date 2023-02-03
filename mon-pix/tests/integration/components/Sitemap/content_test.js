@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { contains } from '../../../helpers/contains';
 import sinon from 'sinon';
 
-module('Integration | Component | Content', function (hooks) {
+module('Integration | Component | Sitemap::Content', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   let model;
@@ -41,9 +41,6 @@ module('Integration | Component | Content', function (hooks) {
     assert.ok(contains(this.intl.t('navigation.user.tests')));
     assert.ok(contains(this.intl.t('navigation.user.certifications')));
     assert.ok(contains(this.intl.t('pages.sitemap.resources')));
-    assert.ok(contains(this.intl.t('pages.sitemap.accessibility.title')));
-    assert.ok(contains(this.intl.t('navigation.footer.eula')));
-    assert.ok(contains(this.intl.t('pages.sitemap.cgu.policy')));
   });
 
   test('should display a sublist within skills containing a link to each skill', async function (assert) {
@@ -105,5 +102,59 @@ module('Integration | Component | Content', function (hooks) {
         })
       )
       .hasAttribute('href', 'https://support.pix.org/fr/support/home');
+  });
+
+  test('should contain an external link to accessibility page', async function (assert) {
+    // given
+    const service = this.owner.lookup('service:url');
+    service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+
+    // when
+    const screen = await render(hbs`<Sitemap::Content />`);
+
+    // then
+    assert
+      .dom(
+        screen.getByRole('link', {
+          name: `${this.intl.t('pages.sitemap.accessibility.title')} ${this.intl.t('navigation.external-link-title')}`,
+        })
+      )
+      .hasAttribute('href', 'https://pix.fr/accessibilite');
+  });
+
+  test('should contain an external link to cgu page', async function (assert) {
+    // given
+    const service = this.owner.lookup('service:url');
+    service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+
+    // when
+    const screen = await render(hbs`<Sitemap::Content />`);
+
+    // then
+    assert
+      .dom(
+        screen.getByRole('link', {
+          name: `${this.intl.t('navigation.footer.eula')} ${this.intl.t('navigation.external-link-title')}`,
+        })
+      )
+      .hasAttribute('href', 'https://pix.fr/conditions-generales-d-utilisation');
+  });
+
+  test('should contain an external link to data protection policy page', async function (assert) {
+    // given
+    const service = this.owner.lookup('service:url');
+    service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+
+    // when
+    const screen = await render(hbs`<Sitemap::Content />`);
+
+    // then
+    assert
+      .dom(
+        screen.getByRole('link', {
+          name: `${this.intl.t('pages.sitemap.cgu.policy')} ${this.intl.t('navigation.external-link-title')}`,
+        })
+      )
+      .hasAttribute('href', 'https://pix.fr/politique-protection-donnees-personnelles-app');
   });
 });
