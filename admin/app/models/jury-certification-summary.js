@@ -2,7 +2,7 @@
 import { computed } from '@ember/object';
 import Model, { attr } from '@ember-data/model';
 import find from 'lodash/find';
-import { certificationStatuses } from 'pix-admin/models/certification';
+import { certificationStatuses } from './certification';
 import dayjs from 'dayjs';
 
 export const ENDED_BY_SUPERVISOR = 'endedBySupervisor';
@@ -17,6 +17,7 @@ export default class JuryCertificationSummary extends Model {
   @attr() createdAt;
   @attr() completedAt;
   @attr() isPublished;
+  @attr() isCancelled;
   @attr() examinerComment;
   @attr() hasSeenEndTestScreen;
   @attr() complementaryCertificationTakenLabels;
@@ -50,8 +51,9 @@ export default class JuryCertificationSummary extends Model {
     return this.hasSeenEndTestScreen ? '' : 'non';
   }
 
-  @computed('status')
+  @computed('status', 'isCancelled')
   get statusLabel() {
+    if (this.isCancelled) return 'Annulée';
     const statusWithLabel = find(statuses, { value: this.status });
     return statusWithLabel?.label;
   }

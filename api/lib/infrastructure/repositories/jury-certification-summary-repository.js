@@ -32,7 +32,6 @@ module.exports = {
     const orderedResults = orderedCertificationCourseIds.map((id) => results.find((result) => result.id === id));
 
     const juryCertificationSummaryDTOs = await _getJuryCertificationSummaries(orderedResults);
-
     const juryCertificationSummaries = _.map(juryCertificationSummaryDTOs, _toDomain);
     return {
       pagination,
@@ -145,7 +144,6 @@ function _toDomain(juryCertificationSummaryDTO) {
   return new JuryCertificationSummary({
     ...juryCertificationSummaryDTO,
     status: juryCertificationSummaryDTO.assessmentResultStatus,
-    isCourseCancelled: juryCertificationSummaryDTO.isCancelled,
     isEndedBySupervisor: juryCertificationSummaryDTO.assessmentState === Assessment.states.ENDED_BY_SUPERVISOR,
     certificationIssueReports,
     complementaryCertificationTakenLabels: _.compact(juryCertificationSummaryDTO.complementaryCertificationTakenLabels),

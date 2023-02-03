@@ -145,7 +145,6 @@ module.exports = {
         sessionId,
         page,
       });
-
     return juryCertificationSummarySerializer.serialize(juryCertificationSummaries, pagination);
   },
 
