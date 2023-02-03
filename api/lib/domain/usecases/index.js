@@ -342,6 +342,7 @@ module.exports = injectDependencies(
     getExternalAuthenticationRedirectionUrl: require('./get-external-authentication-redirection-url'),
     getFrameworkAreas: require('./get-framework-areas'),
     getFrameworks: require('./get-frameworks'),
+    getIdentityProviders: require('./get-identity-providers'),
     getImportSessionComplementaryCertificationHabilitationsLabels: require('./get-import-session-complementary-certification-habilitations-labels'),
     getJuryCertification: require('./get-jury-certification'),
     getJurySession: require('./get-jury-session'),
