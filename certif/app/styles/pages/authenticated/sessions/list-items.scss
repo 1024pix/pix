@@ -30,7 +30,7 @@
 .session-list-header__actions {
   display: flex;
 
-  & button {
+  & .pix-button:not(:last-child) {
     margin-right: 12px;
   }
 }

@@ -25,7 +25,7 @@ module.exports = async function createSessions({
   const { name: certificationCenter, isSco } = await certificationCenterRepository.get(certificationCenterId);
 
   for (const session of sessions) {
-    const sessionAlreadyExisting = await sessionRepository.getExistingSessionByInformation({ ...session });
+    const sessionAlreadyExisting = await sessionRepository.isSessionExisting({ ...session });
     if (sessionAlreadyExisting) {
       throw new UnprocessableEntityError(`Session happening on ${session.date} at ${session.time} already exists`);
     }

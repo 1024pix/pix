@@ -23,7 +23,7 @@ module('Integration | Component | panel-header', function (hooks) {
 
   module('isMassiveSessionManagementEnabled feature toggle', function () {
     module('isMassiveSessionManagementEnabled feature toggle is true', function () {
-      test('it renders a download button for the mass import template', async function (assert) {
+      test('it renders a link to the session import page', async function (assert) {
         // given
         class FeatureTogglesStub extends Service {
           featureToggles = { isMassiveSessionManagementEnabled: true };
@@ -31,29 +31,15 @@ module('Integration | Component | panel-header', function (hooks) {
         this.owner.register('service:featureToggles', FeatureTogglesStub);
 
         // when
-        const { getByLabelText } = await render(hbs`<Sessions::PanelHeader />`);
+        const { getByRole } = await render(hbs`<Sessions::PanelHeader />`);
 
         // then
-        assert.dom(getByLabelText("Télécharger le template d'import en masse")).exists();
-      });
-
-      test('it renders an import button for the session mass import', async function (assert) {
-        // given
-        class FeatureTogglesStub extends Service {
-          featureToggles = { isMassiveSessionManagementEnabled: true };
-        }
-        this.owner.register('service:featureToggles', FeatureTogglesStub);
-
-        // when
-        const screen = await render(hbs`<Sessions::PanelHeader />`);
-
-        // then
-        assert.dom(screen.getByRole('button', { name: 'Importer en masse' })).exists();
+        assert.dom(getByRole('link', { name: 'Créer/éditer plusieurs sessions' })).exists();
       });
     });
 
     module('isMassiveSessionManagementEnabled feature toggle is false', function () {
-      test('it does not render a download button for the mass import template', async function (assert) {
+      test('it does not render a link to the session import page', async function (assert) {
         // given
         class FeatureTogglesStub extends Service {
           featureToggles = { isMassiveSessionManagementEnabled: false };
@@ -61,24 +47,10 @@ module('Integration | Component | panel-header', function (hooks) {
         this.owner.register('service:featureToggles', FeatureTogglesStub);
 
         // when
-        const { queryByLabelText } = await render(hbs`<Sessions::PanelHeader />`);
+        const { queryByRole } = await render(hbs`<Sessions::PanelHeader />`);
 
         // then
-        assert.dom(queryByLabelText("Télécharger le template d'import en masse")).doesNotExist();
-      });
-
-      test('it does not render an import button for the session mass import', async function (assert) {
-        // given
-        class FeatureTogglesStub extends Service {
-          featureToggles = { isMassiveSessionManagementEnabled: false };
-        }
-        this.owner.register('service:featureToggles', FeatureTogglesStub);
-
-        // when
-        const { queryByLabelText } = await render(hbs`<Sessions::PanelHeader />`);
-
-        // then
-        assert.dom(queryByLabelText('Importer en masse')).doesNotExist();
+        assert.dom(queryByRole('link', { name: 'Créer/éditer plusieurs sessions' })).doesNotExist();
       });
     });
   });
