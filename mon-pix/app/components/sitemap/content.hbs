@@ -68,6 +68,7 @@
         <a href="{{this.supportHomeUrl}}" target="_blank" rel="noopener noreferrer">
           {{t "navigation.main.help"}}
           <FaIcon @icon="up-right-from-square" aria-hidden="true" />
+          <span class="sr-only">{{t "navigation.external-link-title"}}</span>
         </a>
       </li>
 
@@ -79,9 +80,10 @@
               }}</a>
             <ul>
               <li>
-                <a href={{this.accessibilityHelpUrl}} target="_blank" rel="noopener noreferrer" data-test-resource-link>
+                <a href={{this.accessibilityHelpUrl}} target="_blank" rel="noopener noreferrer">
                   {{t "pages.sitemap.accessibility.help"}}
                   <FaIcon @icon="up-right-from-square" aria-hidden="true" />
+                  <span class="sr-only">{{t "navigation.external-link-title"}}</span>
                 </a>
               </li>
             </ul>
@@ -99,13 +101,10 @@
             </a>
             <ul>
               <li>
-                <a
-                  href={{this.dataProtectionPolicyUrl}}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-test-resource-link
-                >{{t "pages.sitemap.cgu.subcontractors"}}
+                <a href={{this.dataProtectionPolicyUrl}} target="_blank" rel="noopener noreferrer">
+                  {{t "pages.sitemap.cgu.subcontractors"}}
                   <FaIcon @icon="up-right-from-square" aria-hidden="true" />
+                  <span class="sr-only">{{t "navigation.external-link-title"}}</span>
                 </a>
               </li>
             </ul>
