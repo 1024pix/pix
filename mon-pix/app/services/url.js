@@ -24,19 +24,26 @@ export default class Url extends Service {
   }
 
   get cguUrl() {
+    const tld = this.currentDomain.getExtension();
     const currentLanguage = this.intl.t('current-lang');
-    if (currentLanguage === 'en') {
-      return 'https://pix.org/en-gb/terms-and-conditions';
+    if (tld === 'fr') {
+      return `https://pix.fr/conditions-generales-d-utilisation`;
     }
-    return `https://pix.${this.currentDomain.getExtension()}/conditions-generales-d-utilisation`;
+    return currentLanguage === 'fr'
+      ? 'https://pix.org/fr/conditions-generales-d-utilisation'
+      : 'https://pix.org/en-gb/terms-and-conditions';
   }
 
   get dataProtectionPolicyUrl() {
+    const tld = this.currentDomain.getExtension();
     const currentLanguage = this.intl.t('current-lang');
-    if (currentLanguage === 'en') {
-      return 'https://pix.org/en-gb/personal-data-protection-policy';
+    if (tld === 'fr') {
+      return `https://pix.fr/politique-protection-donnees-personnelles-app`;
     }
-    return `https://pix.${this.currentDomain.getExtension()}/politique-protection-donnees-personnelles-app`;
+
+    return currentLanguage === 'fr'
+      ? 'https://pix.org/fr/politique-protection-donnees-personnelles-app'
+      : 'https://pix.org/en-gb/personal-data-protection-policy';
   }
 
   get _showcaseWebsiteUrl() {
