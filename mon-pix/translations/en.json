@@ -1062,8 +1062,8 @@
       "total-score-helper": {
         "label": "Open tooltip",
         "icon": "Pix information",
-        "title": "Why 1,024 pix?",
-        "explanation": "<p>That’s the maximum number of pix you can get when the 8 levels of the Pix framework will be available.'</p><p>'Today, '<span class=\"hexagon-score-information__text--strong\">'the maximum number available is {maxReachablePixCount} pix'</span>', corresponding to level {maxReachableLevel}.'</p>'"
+        "title": "Why {maxReachablePixScore} pix?",
+        "explanation": "<p>That’s the maximum number of pix you can get when the 8 levels of the Pix framework will be available.'</p><p>'Today, '<span class=\"hexagon-score-information__text--strong\">'the maximum number available is {maxReachablePixScore} pix'</span>', corresponding to level {maxReachableLevel}.'</p>'"
       }
     },
     "profile-already-shared": {
