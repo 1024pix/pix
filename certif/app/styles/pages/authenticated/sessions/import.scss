@@ -10,24 +10,19 @@
     background-color: $pix-neutral-5;
     border: 1px solid $pix-neutral-10;
     border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    padding: 24px 16px;
+    color: $pix-neutral-90;
+    display: grid;
+    grid-template-columns: 1fr 10fr 2fr;
+    padding: 24px 16px 24px 0;
   }
 
   &__section--download__button:first-of-type {
     margin-bottom: 16px;
   }
 
-  &__section--download__button p {
-    align-items: center;
-    color: $pix-neutral-90;
-    display: flex;
-  }
-
   &__section--download__button .download-icon {
     color: $pix-neutral-25;
-    margin-right: 24px;
+    margin: auto;
   }
 
   &__section--link-buttons {

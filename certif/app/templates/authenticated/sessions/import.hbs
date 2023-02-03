@@ -3,43 +3,23 @@
   <h1 class="page-title">{{t "pages.sessions.import.title"}}</h1>
   <section class="import-page__section--download panel">
     <div class="import-page__section--download__button">
-      <p>
-        <FaIcon @icon="file-arrow-down" class="fa-2x download-icon" />
-        {{t "pages.sessions.import.session-import-template-label"}}
-      </p>
-      <PixButton
-        @backgroundColor="transparent-light"
-        @isBorderVisible="{{true}}"
-        aria-label={{t "pages.sessions.import.session-import-template-label"}}
-        @triggerAction={{this.downloadSessionImportTemplate}}
-      >
+      <FaIcon @icon="file-arrow-down" class="fa-2x download-icon" />
+      {{t "pages.sessions.import.session-import-template-label"}}
+      <PixButton @backgroundColor="transparent-light" @isBorderVisible="{{true}}" aria-label={{t "pages.sessions.import.session-import-template-label"}} @triggerAction={{this.downloadSessionImportTemplate}}>
         {{t "pages.sessions.import.session-import-template"}}
       </PixButton>
     </div>
 
     <div class="import-page__section--download__button">
-      <p>
-        <FaIcon @icon="cloud-arrow-up" class="fa-2x download-icon" />
-        {{t "pages.sessions.import.session-import-upload-label"}}
-      </p>
-      <PixButtonUpload
-        @backgroundColor="transparent-light"
-        @isBorderVisible="{{true}}"
-        @id="file-upload"
-        @onChange={{this.importSessions}}
-        aria-label={{t "pages.sessions.import.session-import-upload-label"}}
-        accept=".csv"
-      >
+      <FaIcon @icon="cloud-arrow-up" class="fa-2x download-icon" />
+      {{t "pages.sessions.import.session-import-upload-label"}}
+      <PixButtonUpload @backgroundColor="transparent-light" @isBorderVisible="{{true}}" @id="file-upload" @onChange={{this.importSessions}} aria-label={{t "pages.sessions.import.session-import-upload-label"}} accept=".csv">
         {{t "pages.sessions.import.session-import-upload"}}
       </PixButtonUpload>
     </div>
 
     <div class="import-page__section--link-buttons">
-      <PixButtonLink
-        @route="authenticated.sessions.list"
-        @backgroundColor="transparent-light"
-        @isBorderVisible={{true}}
-      >
+      <PixButtonLink @route="authenticated.sessions.list" @backgroundColor="transparent-light" @isBorderVisible={{true}}>
         {{t "common.actions.cancel"}}
       </PixButtonLink>
       <PixButtonLink>
