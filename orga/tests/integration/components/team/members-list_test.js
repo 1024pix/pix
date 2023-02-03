@@ -33,7 +33,7 @@ module('Integration | Component | Team::MembersList', function (hooks) {
     this.set('members', members);
 
     // when
-    await render(hbs`<Team::MembersList @members={{this.members}}/>`);
+    await render(hbs`<Team::MembersList @members={{this.members}} />`);
 
     // then
     assert.contains('Gigi');
@@ -45,7 +45,7 @@ module('Integration | Component | Team::MembersList', function (hooks) {
     this.set('members', []);
 
     // when
-    await render(hbs`<Team::MembersList @members={{this.members}}/>`);
+    await render(hbs`<Team::MembersList @members={{this.members}} />`);
 
     // then
     assert.contains('En attente de membres');

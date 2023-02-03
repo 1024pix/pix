@@ -17,7 +17,7 @@ module('Integration | Component | Ui::DivisionsFilter', function (hooks) {
     const division = store.createRecord('division', { id: 'd1', name: 'd1' });
     this.campaign = store.createRecord('campaign', { id: 1, divisions: [division] });
 
-    await render(hbs`<Ui::DivisionsFilter @model={{this.campaign}} @placeholder="Classes" />`);
+    await render(hbs`<Ui::DivisionsFilter @model={{this.campaign}} @placeholder='Classes' />`);
 
     assert.contains('d1');
   });
@@ -26,7 +26,7 @@ module('Integration | Component | Ui::DivisionsFilter', function (hooks) {
     const division = store.createRecord('division', { id: 'd1', name: 'd1' });
     this.organization = store.createRecord('organization', { id: 1, divisions: [division] });
 
-    await render(hbs`<Ui::DivisionsFilter @model={{this.organization}} @placeholder="Classes" />`);
+    await render(hbs`<Ui::DivisionsFilter @model={{this.organization}} @placeholder='Classes' />`);
 
     assert.contains('d1');
   });
@@ -35,7 +35,7 @@ module('Integration | Component | Ui::DivisionsFilter', function (hooks) {
     test('it should not display the filter', async function (assert) {
       this.campaign = store.createRecord('campaign', { id: 1, divisions: [] });
 
-      await render(hbs`<Ui::DivisionsFilter @model={{this.campaign}} @placeholder="Classes" />`);
+      await render(hbs`<Ui::DivisionsFilter @model={{this.campaign}} @placeholder='Classes' />`);
 
       assert.contains('Aucune classe');
     });
@@ -46,7 +46,7 @@ module('Integration | Component | Ui::DivisionsFilter', function (hooks) {
       const division = store.createRecord('division', { id: 'd1', name: 'd1' });
       this.campaign = store.createRecord('campaign', { id: 1, divisions: [division] });
 
-      const screen = await render(hbs`<Ui::DivisionsFilter @model={{this.campaign}} @placeholder="Classes" />`);
+      const screen = await render(hbs`<Ui::DivisionsFilter @model={{this.campaign}} @placeholder='Classes' />`);
 
       assert.ok(screen.getByLabelText(this.intl.t('pages.campaign-results.filters.type.divisions.placeholder')));
       assert.contains('d1');
@@ -58,7 +58,7 @@ module('Integration | Component | Ui::DivisionsFilter', function (hooks) {
       this.onSelect = sinon.stub();
 
       const screen = await render(
-        hbs`<Ui::DivisionsFilter @model={{this.campaign}} @onSelect={{this.onSelect}} @placeholder="Classes" />`
+        hbs`<Ui::DivisionsFilter @model={{this.campaign}} @onSelect={{this.onSelect}} @placeholder='Classes' />`
       );
       await click(screen.getByLabelText(this.intl.t('pages.campaign-results.filters.type.divisions.placeholder')));
       await click(await screen.findByRole('checkbox', { name: 'd1' }));
@@ -76,7 +76,7 @@ module('Integration | Component | Ui::DivisionsFilter', function (hooks) {
       this.selected = ['d1', 'd2'];
 
       const { getByPlaceholderText } = await render(
-        hbs`<Ui::DivisionsFilter @model={{this.campaign}} @selected={{this.selected}} @placeholder="Classes" />`
+        hbs`<Ui::DivisionsFilter @model={{this.campaign}} @selected={{this.selected}} @placeholder='Classes' />`
       );
 
       assert.ok(getByPlaceholderText('d1, d2'));

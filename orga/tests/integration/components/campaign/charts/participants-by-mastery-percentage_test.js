@@ -29,7 +29,7 @@ module('Integration | Component | Campaign::Charts::ParticipantsByMasteryPercent
     });
 
     // when
-    await render(hbs`<Campaign::Charts::ParticipantsByMasteryPercentage @campaignId={{this.campaignId}}/>`);
+    await render(hbs`<Campaign::Charts::ParticipantsByMasteryPercentage @campaignId={{this.campaignId}} />`);
 
     assert.contains('Répartition des participants par résultat');
   });

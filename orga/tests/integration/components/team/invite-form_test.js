@@ -28,7 +28,7 @@ module('Integration | Component | Team::InviteForm', function (hooks) {
     // given
     this.set('email', 'toto@org.fr');
     await render(
-      hbs`<Team::InviteForm @email={{this.email}} @onSubmit={{this.inviteSpy}} @onCancel={{this.cancelSpy}}/>`
+      hbs`<Team::InviteForm @email={{this.email}} @onSubmit={{this.inviteSpy}} @onCancel={{this.cancelSpy}} />`
     );
 
     // when

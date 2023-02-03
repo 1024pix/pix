@@ -32,12 +32,12 @@ module('Integration | Component | Campaign::Activity::DeleteParticipationModal',
         this.isModalOpen = true;
 
         await render(hbs`<Campaign::Activity::DeleteParticipationModal
-            @campaign={{this.campaign}}
-            @participation={{this.participation}}
-            @isModalOpen={{this.isModalOpen}}
-            @closeModal={{this.closeModal}}
-            @deleteCampaignParticipant={{this.deleteCampaignParticipant}}
-          />`);
+  @campaign={{this.campaign}}
+  @participation={{this.participation}}
+  @isModalOpen={{this.isModalOpen}}
+  @closeModal={{this.closeModal}}
+  @deleteCampaignParticipant={{this.deleteCampaignParticipant}}
+/>`);
       });
 
       test('it displays the modal to confirm the deletion', async function (assert) {

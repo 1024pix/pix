@@ -8,10 +8,9 @@ module('Integration | Component | Ui | Information Wrapper', function (hooks) {
 
   module('yield', function () {
     test('should display yield content', async function (assert) {
-      await render(hbs`
-            <Ui::InformationWrapper>
-              toto
-            </Ui::InformationWrapper>`);
+      await render(hbs`<Ui::InformationWrapper>
+  toto
+</Ui::InformationWrapper>`);
 
       assert.contains('toto');
     });

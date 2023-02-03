@@ -14,7 +14,10 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStatus', funct
     ];
 
     await render(
-      hbs`<Campaign::Charts::ParticipantsByStatus @participantCountByStatus={{this.participantCountByStatus}} @isTypeAssessment={{true}} />`
+      hbs`<Campaign::Charts::ParticipantsByStatus
+  @participantCountByStatus={{this.participantCountByStatus}}
+  @isTypeAssessment={{true}}
+/>`
     );
 
     assert.contains('En cours (1)');
@@ -30,7 +33,10 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStatus', funct
     ];
 
     await render(
-      hbs`<Campaign::Charts::ParticipantsByStatus @participantCountByStatus={{this.participantCountByStatus}} @isTypeAssessment={{true}} />`
+      hbs`<Campaign::Charts::ParticipantsByStatus
+  @participantCountByStatus={{this.participantCountByStatus}}
+  @isTypeAssessment={{true}}
+/>`
     );
 
     assert.contains('En cours : Ces participants n’ont pas encore terminé leur parcours.');
@@ -47,7 +53,10 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStatus', funct
     ];
 
     await render(
-      hbs`<Campaign::Charts::ParticipantsByStatus @participantCountByStatus={{this.participantCountByStatus}} @isTypeAssessment={{false}} />`
+      hbs`<Campaign::Charts::ParticipantsByStatus
+  @participantCountByStatus={{this.participantCountByStatus}}
+  @isTypeAssessment={{false}}
+/>`
     );
 
     assert.notContains('En cours (1)');
@@ -62,7 +71,10 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStatus', funct
     ];
 
     await render(
-      hbs`<Campaign::Charts::ParticipantsByStatus @participantCountByStatus={{this.participantCountByStatus}} @isTypeAssessment={{false}} />`
+      hbs`<Campaign::Charts::ParticipantsByStatus
+  @participantCountByStatus={{this.participantCountByStatus}}
+  @isTypeAssessment={{false}}
+/>`
     );
 
     assert.contains('En attente d’envoi : Ces participants n’ont pas encore envoyé leurs profils.');

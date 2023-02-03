@@ -26,7 +26,11 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     // when
     await render(
-      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.noop}} @onClickLearner={{this.noop}}/>`
+      hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.noop}}
+  @onClickLearner={{this.noop}}
+/>`
     );
 
     // then
@@ -54,7 +58,11 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     // when
     await render(
-      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.noop}} @onClickLearner={{this.noop}}/>`
+      hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.noop}}
+  @onClickLearner={{this.noop}}
+/>`
     );
 
     // then
@@ -82,7 +90,11 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     // when
     const screen = await render(
-      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.noop}} @onClickLearner={{this.noop}}/>`
+      hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.noop}}
+  @onClickLearner={{this.noop}}
+/>`
     );
     // then
     assert.dom(screen.getByRole('link', { name: 'Ruben' })).hasProperty('href', /\/participants\/56/g);
@@ -101,7 +113,11 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     // when
     await render(
-      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.noop}} @onClickLearner={{this.noop}}/>`
+      hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.noop}}
+  @onClickLearner={{this.noop}}
+/>`
     );
 
     // then
@@ -130,7 +146,11 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     // when
     const screen = await render(
-      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.noop}} @onClickLearner={{this.noop}}/>`
+      hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.noop}}
+  @onClickLearner={{this.noop}}
+/>`
     );
     const allRows = screen.getAllByLabelText(this.intl.t('pages.organization-participants.table.row-title'));
 
@@ -160,7 +180,11 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     // when
     const screen = await render(
-      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.noop}} @onClickLearner={{this.noop}}/>`
+      hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.noop}}
+  @onClickLearner={{this.noop}}
+/>`
     );
     const allRows = screen.getAllByLabelText(this.intl.t('pages.organization-participants.table.row-title'));
 
@@ -192,7 +216,11 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     // when
     await render(
-      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.noop}} @onClickLearner={{this.noop}}/>`
+      hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.noop}}
+  @onClickLearner={{this.noop}}
+/>`
     );
 
     // then
@@ -214,7 +242,11 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     // when
     await render(
-      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.triggerFiltering}} @onClickLearner={{this.noop}}/>`
+      hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @onClickLearner={{this.noop}}
+/>`
     );
     await fillByLabel('Recherche sur le nom et prénom', 'Karam');
     // then
@@ -231,7 +263,13 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     this.set('certificability', []);
 
     const { getByLabelText, findByRole } = await render(
-      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.triggerFiltering}} @certificabilityOptions={{this.certificabilityOptions}} @certificability={{this.certificability}} @onClickLearner={{this.noop}}/>`
+      hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @certificabilityOptions={{this.certificabilityOptions}}
+  @certificability={{this.certificability}}
+  @onClickLearner={{this.noop}}
+/>`
     );
 
     // when
@@ -256,7 +294,11 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     // when
     await render(
-      hbs`<OrganizationParticipant::List @participants={{this.participants}}  @triggerFiltering={{this.triggerFiltering}} @onClickLearner={{this.noop}}/>`
+      hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @onClickLearner={{this.noop}}
+/>`
     );
     await fillByLabel('Recherche sur le nom et prénom', 'Karam');
 
@@ -279,7 +321,11 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     // when
     const screen = await render(
-      hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.triggerFiltering}} @onClickLearner={{this.noop}}/>`
+      hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @onClickLearner={{this.noop}}
+/>`
     );
     assert
       .dom(
