@@ -1,14 +1,14 @@
 const authenticationServiceRegistry = require('../../../domain/services/authentication/authentication-service-registry');
 const authenticationRegistry = require('../../../domain/services/authentication/authentication-service-registry');
 const serializer = require('../../../infrastructure/serializers/jsonapi/oidc-identity-providers-serializer');
-const OidcIdentityProviders = require('../../../domain/constants/oidc-identity-providers');
 const usecases = require('../../../domain/usecases');
 const { UnauthorizedError } = require('../../http-errors');
 const oidcSerializer = require('../../../infrastructure/serializers/jsonapi/oidc-serializer');
 
 module.exports = {
   async getIdentityProviders(request, h) {
-    return h.response(serializer.serialize(Object.values(OidcIdentityProviders))).code(200);
+    const identityProviders = usecases.getIdentityProviders();
+    return h.response(serializer.serialize(identityProviders)).code(200);
   },
 
   async getRedirectLogoutUrl(request, h) {
