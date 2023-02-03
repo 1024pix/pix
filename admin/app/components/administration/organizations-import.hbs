@@ -1,0 +1,17 @@
+<section class="page-section">
+  <header class="page-section__header">
+    <h2 class="page-section__title">{{t "components.administration.organizations-import.title"}}</h2>
+  </header>
+  <p>{{t "components.administration.organizations-import.description"}}</p>
+  <br />
+  <PixButtonUpload
+    @id="orga-file-upload"
+    @onChange={{this.importOrganizations}}
+    @backgroundColor="transparent-light"
+    @isBorderVisible={{true}}
+    @size="small"
+    accept=".csv"
+  >
+    {{t "components.administration.organizations-import.upload-button"}}
+  </PixButtonUpload>
+</section>

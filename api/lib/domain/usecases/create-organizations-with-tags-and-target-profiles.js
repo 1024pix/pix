@@ -3,6 +3,7 @@ const bluebird = require('bluebird');
 const Organization = require('../models/Organization');
 const OrganizationTag = require('../models/OrganizationTag');
 const organizationValidator = require('../validators/organization-with-tags-and-target-profiles-script');
+const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 const {
   ManyOrganizationsFoundError,
@@ -17,7 +18,7 @@ const organizationInvitationService = require('../../domain/services/organizatio
 
 module.exports = async function createOrganizationsWithTagsAndTargetProfiles({
   organizations,
-  domainTransaction,
+  domainTransaction = DomainTransaction,
   organizationRepository,
   tagRepository,
   targetProfileShareRepository,
@@ -126,7 +127,9 @@ function _checkIfOrganizationsDataAreUnique(organizations) {
   const uniqOrganizations = uniqBy(organizations, 'externalId');
 
   if (uniqOrganizations.length !== organizations.length) {
-    throw new ManyOrganizationsFoundError('Une organisation apparaît plusieurs fois.');
+    throw new ManyOrganizationsFoundError(
+      `Plusieurs organisations (${uniqOrganizations.length}) ont le même externalId.`
+    );
   }
 }
 

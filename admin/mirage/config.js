@@ -267,6 +267,7 @@ export default function () {
 
     return schema.create('organization', organization);
   });
+  this.post('/admin/organizations/import-csv', async () => new Response(204));
   this.get('/admin/organizations/:id');
   this.get('/admin/organizations/:id/memberships', findPaginatedOrganizationMemberships);
   this.get('/admin/organizations/:id/target-profile-summaries', findOrganizationTargetProfileSummaries);

@@ -152,6 +152,81 @@ describe('Acceptance | Application | organization-controller', function () {
     });
   });
 
+  describe('POST /api/admin/organizations/import-csv', function () {
+    afterEach(async function () {
+      await knex('data-protection-officers').delete();
+      await knex('target-profile-shares').delete();
+      await knex('target-profiles').delete();
+      await knex('organization-tags').delete();
+      await knex('tags').delete();
+      await knex('organizations').delete();
+    });
+
+    it('create organizations for the given csv file', async function () {
+      // given
+      const superAdminUserId = databaseBuilder.factory.buildUser.withRole().id;
+      databaseBuilder.factory.buildTag({ name: 'GRAS' });
+      databaseBuilder.factory.buildTag({ name: 'GARGOUILLE' });
+      databaseBuilder.factory.buildTag({ name: 'GARBURE' });
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId }).id;
+      await databaseBuilder.commit();
+
+      const buffer =
+        'type,externalId,name,provinceCode,credit,createdBy,documentationUrl,identityProviderForCampaigns,isManagingStudents,emailForSCOActivation,DPOFirstName,DPOLastName,DPOEmail,emailInvitations,organizationInvitationRole,locale,tags,targetProfiles\n' +
+        `SCO,ANNEGRAELLE,Orga des Anne-Graelle,33700,666,${superAdminUserId},url.com,,true,,Anne,Graelle,anne-graelle@example.net,,ADMIN,fr,GRAS_GARGOUILLE,${targetProfileId}\n` +
+        `PRO,ANNEGARBURE,Orga des Anne-Garbure,33700,999,${superAdminUserId},,,,,Anne,Garbure,anne-garbure@example.net,,ADMIN,fr,GARBURE,${targetProfileId}`;
+
+      // when
+      const response = await server.inject({
+        method: 'POST',
+        url: `/api/admin/organizations/import-csv`,
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(superAdminUserId),
+        },
+        payload: buffer,
+      });
+
+      // then
+      expect(response.statusCode).to.equal(204);
+
+      const organizations = await knex('organizations');
+      expect(organizations).to.have.lengthOf(3);
+
+      const firstOrganizationCreated = organizations.find((organization) => organization.externalId === 'ANNEGRAELLE');
+      expect(firstOrganizationCreated).to.deep.include({
+        type: 'SCO',
+        externalId: 'ANNEGRAELLE',
+        name: 'Orga des Anne-Graelle',
+        provinceCode: '33700',
+        credit: 666,
+        createdBy: superAdminUserId,
+        documentationUrl: 'url.com',
+        identityProviderForCampaigns: null,
+        isManagingStudents: true,
+      });
+
+      const dataProtectionOfficers = await knex('data-protection-officers');
+      expect(dataProtectionOfficers).to.have.lengthOf(2);
+
+      const targetProfileShares = await knex('target-profile-shares');
+      expect(targetProfileShares).to.have.lengthOf(2);
+
+      const firstTargetProfileShare = targetProfileShares.find(
+        (targetProfileShare) => targetProfileShare.organizationId === firstOrganizationCreated.id
+      );
+      expect(firstTargetProfileShare).to.deep.include({
+        organizationId: firstOrganizationCreated.id,
+        targetProfileId,
+      });
+
+      const firstOrganizationTags = await knex('organization-tags').where({
+        organizationId: firstOrganizationCreated.id,
+      });
+      expect(firstOrganizationTags).to.have.lengthOf(2);
+    });
+  });
+
   describe('PATCH /api/admin/organizations/{id}', function () {
     afterEach(async function () {
       await knex('organization-tags').delete();
