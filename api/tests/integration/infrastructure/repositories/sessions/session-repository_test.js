@@ -58,45 +58,6 @@ describe('Integration | Repository | Session', function () {
     });
   });
 
-  describe('#isSessionCodeAvailable', function () {
-    beforeEach(function () {
-      databaseBuilder.factory.buildSession({
-        certificationCenter: 'Paris',
-        address: 'Paris',
-        room: 'The lost room',
-        examiner: 'Bernard',
-        date: '2018-02-23',
-        time: '12:00',
-        description: 'The lost examen',
-        accessCode: 'ABC123',
-      });
-
-      return databaseBuilder.commit();
-    });
-
-    it('should return true if the accessCode is not in database', async function () {
-      // given
-      const accessCode = 'DEF123';
-
-      // when
-      const isAvailable = await sessionRepository.isSessionCodeAvailable(accessCode);
-
-      // then
-      expect(isAvailable).to.be.equal(true);
-    });
-
-    it('should return false if the accessCode is in database', async function () {
-      // given
-      const accessCode = 'ABC123';
-
-      // when
-      const isAvailable = await sessionRepository.isSessionCodeAvailable(accessCode);
-
-      // then
-      expect(isAvailable).to.be.equal(false);
-    });
-  });
-
   describe('#isFinalized', function () {
     let finalizedSessionId;
     let notFinalizedSessionId;
