@@ -863,7 +863,7 @@ describe('Integration | Repository | Session', function () {
     });
   });
 
-  describe('#isSessionsExisting', function () {
+  describe('#isSessionExisting', function () {
     it('should return true if the session already exists', async function () {
       // given
       const session = {
