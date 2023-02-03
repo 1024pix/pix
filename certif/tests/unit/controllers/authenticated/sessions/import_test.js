@@ -1,16 +1,15 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
-module('Unit | Component | panel-header', function (hooks) {
+module('Unit | Controller | authenticated/sessions/import', function (hooks) {
   setupTest(hooks);
 
-  let component;
+  let controller;
 
   hooks.beforeEach(function () {
-    component = createGlimmerComponent('component:sessions/panel-header');
+    controller = this.owner.lookup('controller:authenticated/sessions/import');
   });
 
   module('#downloadSessionImportTemplate', function (hooks) {
@@ -30,7 +29,7 @@ module('Unit | Component | panel-header', function (hooks) {
       // given
       const token = 'a token';
 
-      component.session = {
+      controller.session = {
         isAuthenticated: true,
         data: {
           authenticated: {
@@ -38,16 +37,16 @@ module('Unit | Component | panel-header', function (hooks) {
           },
         },
       };
-      component.fileSaver = {
+      controller.fileSaver = {
         save: sinon.stub(),
       };
 
       // when
-      await component.downloadSessionImportTemplate(event);
+      await controller.downloadSessionImportTemplate(event);
 
       // then
       assert.ok(
-        component.fileSaver.save.calledWith({
+        controller.fileSaver.save.calledWith({
           token,
           url: '/api/certification-centers/123/import',
         })
@@ -56,7 +55,7 @@ module('Unit | Component | panel-header', function (hooks) {
 
     test('should call the notifications service in case of an error', async function (assert) {
       // given
-      component.session = {
+      controller.session = {
         isAuthenticated: true,
         data: {
           authenticated: {
@@ -64,15 +63,15 @@ module('Unit | Component | panel-header', function (hooks) {
           },
         },
       };
-      component.fileSaver = { save: sinon.stub().rejects() };
-      component.notifications = { error: sinon.spy() };
+      controller.fileSaver = { save: sinon.stub().rejects() };
+      controller.notifications = { error: sinon.spy() };
 
       // when
-      await component.downloadSessionImportTemplate(event);
+      await controller.downloadSessionImportTemplate(event);
 
       // then
-      sinon.assert.calledOnce(component.notifications.error);
-      assert.ok(component);
+      sinon.assert.calledOnce(controller.notifications.error);
+      assert.ok(controller);
     });
   });
 
@@ -94,7 +93,7 @@ module('Unit | Component | panel-header', function (hooks) {
       this.owner.register('service:current-user', CurrentUserStub);
       const token = 'a token';
 
-      component.session = {
+      controller.session = {
         isAuthenticated: true,
         data: {
           authenticated: {
@@ -103,17 +102,13 @@ module('Unit | Component | panel-header', function (hooks) {
         },
       };
 
-      component.args = {
-        reloadSessionSummaries: sinon.stub(),
-      };
-      component.notifications = { success: sinon.stub(), clearAll: sinon.stub() };
+      controller.notifications = { success: sinon.stub(), clearAll: sinon.stub() };
 
       // when
-      await component.importSessions(files);
+      await controller.importSessions(files);
 
       // then
-      sinon.assert.calledOnce(component.notifications.success);
-      sinon.assert.calledOnce(component.args.reloadSessionSummaries);
+      sinon.assert.calledOnce(controller.notifications.success);
       assert.ok(sessionsImportStub.calledWith(files, currentAllowedCertificationCenterAccess.id));
     });
 
@@ -135,7 +130,7 @@ module('Unit | Component | panel-header', function (hooks) {
       this.owner.register('service:current-user', CurrentUserStub);
       const token = 'a token';
 
-      component.session = {
+      controller.session = {
         isAuthenticated: true,
         data: {
           authenticated: {
@@ -144,14 +139,14 @@ module('Unit | Component | panel-header', function (hooks) {
         },
       };
 
-      component.notifications = { error: sinon.stub(), clearAll: sinon.stub() };
+      controller.notifications = { error: sinon.stub(), clearAll: sinon.stub() };
 
       // when
-      await component.importSessions(files);
+      await controller.importSessions(files);
 
       // then
-      sinon.assert.calledOnce(component.notifications.error);
-      assert.ok(component);
+      sinon.assert.calledOnce(controller.notifications.error);
+      assert.ok(controller);
     });
   });
 });

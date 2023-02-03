@@ -1,22 +1,14 @@
 <div class="session-list__header">
   <h1 class="page-title">{{t "pages.sessions.list.header.title"}}</h1>
   <div class="session-list-header__actions">
-    {{#if this.shouldRenderImportTemplateButton}}
-      <PixButton
-        aria-label={{t "pages.sessions.list.header.session-import-template-label"}}
-        @triggerAction={{this.downloadSessionImportTemplate}}
-      >
-        {{t "pages.sessions.list.header.session-import-template"}}
-      </PixButton>
-
-      <PixButtonUpload @id="file-upload" @onChange={{this.importSessions}} accept=".csv">
-        {{t "pages.sessions.list.header.session-import-upload"}}
-      </PixButtonUpload>
-
-    {{/if}}
     <PixButtonLink @route="authenticated.sessions.new">
       {{t "pages.sessions.list.header.session-creation"}}
       <FaIcon @icon="plus" class="new-session-icon" />
     </PixButtonLink>
+    {{#if this.shouldRenderImportTemplateButton}}
+      <PixButtonLink @route="authenticated.sessions.import">
+        {{t "pages.sessions.list.header.session-multiple-creation-edition"}}
+      </PixButtonLink>
+    {{/if}}
   </div>
 </div>

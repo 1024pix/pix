@@ -30,7 +30,7 @@ describe('Unit | UseCase | create-sessions', function () {
     certificationCenterRepository = { get: sinon.stub() };
     certificationCandidateRepository = { saveInSession: sinon.stub(), deleteBySessionId: sinon.stub() };
     complementaryCertificationRepository = { getByLabel: sinon.stub() };
-    sessionRepository = { save: sinon.stub(), getExistingSessionByInformation: sinon.stub() };
+    sessionRepository = { save: sinon.stub(), isSessionExisting: sinon.stub() };
     sinon.stub(sessionCodeService, 'getNewSessionCode');
     sinon.stub(certificationCpfService, 'getBirthInformation');
     sessionCodeService.getNewSessionCode.returns(accessCode);
@@ -367,7 +367,7 @@ describe('Unit | UseCase | create-sessions', function () {
     it('should throw an error', async function () {
       // given
       const sessions = [{ ...createValidSessionData(), examiner: 'Paul' }];
-      sessionRepository.getExistingSessionByInformation.withArgs({ ...sessions[0] }).resolves(true);
+      sessionRepository.isSessionExisting.withArgs({ ...sessions[0] }).resolves(true);
 
       const domainTransaction = Symbol('trx');
       sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
