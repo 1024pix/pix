@@ -32,6 +32,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       birthplace: 'Sorpen',
       userId: 888,
       sex: 'M',
+      isCancelled: false,
       birthCountry: 'JAPON',
       birthInseeCode: '99217',
       birthPostalCode: null,
@@ -793,7 +794,6 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           await clickByName('Fermer');
 
           // then
-          assert.dom(screen.getByText('Validée')).exists();
           assert.dom(screen.getByRole('button', { name: 'Annuler la certification' })).exists();
         });
 
@@ -809,14 +809,13 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           await clickByName('Confirmer');
 
           // then
-          assert.dom(screen.getByText('Annulée')).exists();
           assert.dom(screen.getByRole('button', { name: 'Désannuler la certification' })).exists();
         });
       });
 
       module('Uncancel', function (hooks) {
         hooks.beforeEach(async function () {
-          certification.update({ status: 'cancelled' });
+          certification.update({ isCancelled: true });
         });
 
         test('should display confirmation popup for uncancellation when certification is cancelled and uncancellation button is clicked', async function (assert) {
@@ -849,7 +848,6 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           await clickByName('Fermer');
 
           // then
-          assert.dom(screen.getByText('Annulée')).exists();
           assert.dom(screen.getByRole('button', { name: 'Désannuler la certification' })).exists();
         });
 
@@ -864,7 +862,6 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           await clickByName('Confirmer');
 
           // then
-          assert.dom(screen.getByText('Validée')).exists();
           assert.dom(screen.getByRole('button', { name: 'Annuler la certification' })).exists();
         });
       });

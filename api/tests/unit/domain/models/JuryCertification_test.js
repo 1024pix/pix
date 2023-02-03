@@ -21,6 +21,7 @@ describe('Unit | Domain | Models | JuryCertification', function () {
         birthPostalCode: null,
         createdAt: new Date('2020-02-20T10:30:00Z'),
         completedAt: new Date('2020-02-20T11:00:00Z'),
+        isCancelled: true,
         isPublished: true,
         assessmentResultStatus: 'rejected',
         juryId: 1,
@@ -36,7 +37,6 @@ describe('Unit | Domain | Models | JuryCertification', function () {
       const certificationIssueReport = domainBuilder.buildCertificationIssueReport({ id: 555 });
       const juryCertificationDTO = {
         ...juryCertificationBaseDTO,
-        isCancelled: false,
       };
       const certificationIssueReports = [certificationIssueReport];
       const commonComplementaryCertificationCourseResults = [
@@ -101,6 +101,7 @@ describe('Unit | Domain | Models | JuryCertification', function () {
         birthPostalCode: null,
         createdAt: new Date('2020-02-20T10:30:00Z'),
         completedAt: new Date('2020-02-20T11:00:00Z'),
+        isCancelled: true,
         isPublished: true,
         status: 'rejected',
         juryId: 1,
@@ -114,48 +115,6 @@ describe('Unit | Domain | Models | JuryCertification', function () {
         complementaryCertificationCourseResultsWithExternal,
       });
       expect(juryCertification).to.deepEqualInstance(expectedJuryCertification);
-    });
-
-    context('status', function () {
-      it('should return a cancelled juryCertification regardless of assessment result status if certif is cancelled', function () {
-        // given
-        const juryCertificationDTO = {
-          ...juryCertificationBaseDTO,
-          isCancelled: true,
-          assessmentResultStatus: 'WHATEVERIWANT',
-        };
-
-        // when
-        const juryCertification = JuryCertification.from({
-          juryCertificationDTO,
-          certificationIssueReports: [],
-          complementaryCertificationCourseResults: [],
-          competenceMarkDTOs: [],
-        });
-
-        // then
-        expect(juryCertification.status).to.equal('cancelled');
-      });
-
-      it('should set the status of the juryCertification as the assessmentResultStatus otherwise', function () {
-        // given
-        const juryCertificationDTO = {
-          ...juryCertificationBaseDTO,
-          isCancelled: false,
-          assessmentResultStatus: 'WHATEVERIWANT',
-        };
-
-        // when
-        const juryCertification = JuryCertification.from({
-          juryCertificationDTO,
-          certificationIssueReports: [],
-          complementaryCertificationCourseResults: [],
-          competenceMarkDTOs: [],
-        });
-
-        // then
-        expect(juryCertification.status).to.equal('WHATEVERIWANT');
-      });
     });
   });
 });
