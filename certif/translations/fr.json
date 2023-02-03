@@ -35,6 +35,15 @@
         "should-change-password": "Vous avez actuellement un mot de passe temporaire. Cliquez sur <a href=\"{url}\">mot de passe oublié</a> pour le réinitialiser.",
         "invitation-was-cancelled": "Cette invitation n’est plus valide.<br/>Contactez l’administrateur de votre espace Pix Certif.",
         "invitation-already-accepted": "Cette invitation a déjà été acceptée.<br/>Connectez-vous ou contactez l’administrateur de votre espace Pix Certif."
+      },
+      "login": "Connectez-vous",
+      "accessible-to": "L'accès à Pix Certif est limité aux centres de certification Pix.",
+      "form": {
+        "mandatory-fields": "Tous les champs sont obligatoires.",
+        "email-address": "Adresse e-mail",
+        "password": "Mot de passe",
+        "button": "Je me connecte",
+        "forgotten-password": "Mot de passe oublié ?"
       }
     },
     "login-or-register": {
