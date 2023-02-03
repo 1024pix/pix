@@ -101,8 +101,8 @@ describe('Unit | UseCase | create-sessions', function () {
           const candidate2 = createValidCandidateData(2);
           const sessions = [
             {
-              sessionId: 1234,
               ...createValidSessionData(),
+              sessionId: 1234,
 
               certificationCandidates: [candidate1, candidate2],
             },
@@ -427,6 +427,7 @@ describe('Unit | UseCase | create-sessions', function () {
 
 function createValidSessionData() {
   return {
+    sessionId: undefined,
     address: 'Site 1',
     room: 'Salle 1',
     date: '2022-03-12',
