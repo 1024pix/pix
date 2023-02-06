@@ -359,7 +359,13 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       this.set('sortByParticipationCount', sortByParticipationCount);
 
       const screen = await render(
-        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} @participationCountOrder={{this.participationCountOrder}} @sortByParticipationCount={{this.sortByParticipationCount}}/>`
+        hbs`<SupOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @participationCountOrder={{this.participationCountOrder}}
+  @sortByParticipationCount={{this.sortByParticipationCount}}
+/>`
       );
 
       // when
@@ -387,7 +393,13 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       this.set('sortByParticipationCount', sortByParticipationCount);
 
       const screen = await render(
-        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} @participationCountOrder={{this.participationCountOrder}} @sortByParticipationCount={{this.sortByParticipationCount}}/>`
+        hbs`<SupOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @participationCountOrder={{this.participationCountOrder}}
+  @sortByParticipationCount={{this.sortByParticipationCount}}
+/>`
       );
       // when
       await click(
@@ -414,7 +426,13 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       this.set('sortByParticipationCount', sortByParticipationCount);
 
       const screen = await render(
-        hbs`<SupOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} @participationCountOrder={{this.participationCountOrder}} @sortByParticipationCount={{this.sortByParticipationCount}}/>`
+        hbs`<SupOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @participationCountOrder={{this.participationCountOrder}}
+  @sortByParticipationCount={{this.sortByParticipationCount}}
+/>`
       );
 
       // when

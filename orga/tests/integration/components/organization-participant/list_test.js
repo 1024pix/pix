@@ -300,7 +300,15 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
       this.set('sortByParticipationCount', sortByParticipationCount);
 
       const screen = await render(
-        hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.triggerFiltering}} @certificabilityOptions={{this.certificabilityOptions}} @certificability={{this.certificability}} @onClickLearner={{this.noop}} @participationCountOrder={{this.participationCountOrder}} @sortByParticipationCount={{this.sortByParticipationCount}}/>`
+        hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @certificabilityOptions={{this.certificabilityOptions}}
+  @certificability={{this.certificability}}
+  @onClickLearner={{this.noop}}
+  @participationCountOrder={{this.participationCountOrder}}
+  @sortByParticipationCount={{this.sortByParticipationCount}}
+/>`
       );
 
       // when
@@ -326,7 +334,15 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
       const sortByParticipationCount = sinon.spy();
       this.set('sortByParticipationCount', sortByParticipationCount);
       const screen = await render(
-        hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.triggerFiltering}} @certificabilityOptions={{this.certificabilityOptions}} @certificability={{this.certificability}} @onClickLearner={{this.noop}} @participationCountOrder={{this.participationCountOrder}} @sortByParticipationCount={{this.sortByParticipationCount}}/>`
+        hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @certificabilityOptions={{this.certificabilityOptions}}
+  @certificability={{this.certificability}}
+  @onClickLearner={{this.noop}}
+  @participationCountOrder={{this.participationCountOrder}}
+  @sortByParticipationCount={{this.sortByParticipationCount}}
+/>`
       );
 
       // when
@@ -353,7 +369,15 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
       this.set('sortByParticipationCount', sortByParticipationCount);
 
       const screen = await render(
-        hbs`<OrganizationParticipant::List @participants={{this.participants}} @triggerFiltering={{this.triggerFiltering}} @certificabilityOptions={{this.certificabilityOptions}} @certificability={{this.certificability}} @onClickLearner={{this.noop}} @participationCountOrder={{this.participationCountOrder}} @sortByParticipationCount={{this.sortByParticipationCount}}/>`
+        hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @certificabilityOptions={{this.certificabilityOptions}}
+  @certificability={{this.certificability}}
+  @onClickLearner={{this.noop}}
+  @participationCountOrder={{this.participationCountOrder}}
+  @sortByParticipationCount={{this.sortByParticipationCount}}
+/>`
       );
 
       // when

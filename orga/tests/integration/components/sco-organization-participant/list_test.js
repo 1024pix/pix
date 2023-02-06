@@ -306,7 +306,13 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.set('sortByParticipationCount', sortByParticipationCount);
 
       const screen = await render(
-        hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} @participationCountOrder={{this.participationCountOrder}} @sortByParticipationCount={{this.sortByParticipationCount}}/>`
+        hbs`<ScoOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @participationCountOrder={{this.participationCountOrder}}
+  @sortByParticipationCount={{this.sortByParticipationCount}}
+/>`
       );
 
       // when
@@ -334,7 +340,13 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.set('sortByParticipationCount', sortByParticipationCount);
 
       const screen = await render(
-        hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} @participationCountOrder={{this.participationCountOrder}} @sortByParticipationCount={{this.sortByParticipationCount}}/>`
+        hbs`<ScoOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @participationCountOrder={{this.participationCountOrder}}
+  @sortByParticipationCount={{this.sortByParticipationCount}}
+/>`
       );
 
       // when
@@ -362,7 +374,13 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
       this.set('sortByParticipationCount', sortByParticipationCount);
 
       const screen = await render(
-        hbs`<ScoOrganizationParticipant::List @students={{this.students}} @onFilter={{this.noop}} @onClickLearner={{this.noop}} @participationCountOrder={{this.participationCountOrder}} @sortByParticipationCount={{this.sortByParticipationCount}}/>`
+        hbs`<ScoOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @participationCountOrder={{this.participationCountOrder}}
+  @sortByParticipationCount={{this.sortByParticipationCount}}
+/>`
       );
 
       // when
