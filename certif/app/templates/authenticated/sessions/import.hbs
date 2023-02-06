@@ -2,24 +2,27 @@
 <main class="import-page">
   <h1 class="page-title">{{t "pages.sessions.import.title"}}</h1>
   <p>Comment ça marche ?</p>
-  <PixCollapsible @title="Pour créer des sessions ?" @iconTitle="plus" class="import-page_section--instructions">
-    Vous pouvez créer des sessions
+  <PixCollapsible
+    @title={{t "pages.sessions.import.instructions-creation-title"}}
+    @iconTitle="plus"
+    class="import-page_section--instructions"
+  >
+    {{t "pages.sessions.import.instructions-creation-list"}}
     <ul>
-      <li><strong>Avec candidats</strong>, complétez le modèle dans son intégralité,</li>
-      <li><strong>Sans candidat</strong>, complétez uniquement les informations des sessions.</li>
+      <li>{{t "pages.sessions.import.instructions-creation-list-with-candidates" htmlSafe=true}}</li>
+      <li>{{t "pages.sessions.import.instructions-creation-list-without-candidates" htmlSafe=true}}</li>
     </ul>
   </PixCollapsible>
   <PixCollapsible
-    @title="Pour éditer la liste des candidats de sessions déjà créées ?"
+    @title={{t "pages.sessions.import.instructions-edition-title"}}
     @iconTitle="plus"
     class="import-page__section--instructions"
   >
     <ul>
-      <li><strong>Pour remplacer</strong> une liste pré-existante dans le fichier modèle,</li>
-      <li><strong>Pour inscrire</strong> des candidats dans une session vide.</li>
+      <li>{{t "pages.sessions.import.instructions-edition-replace" htmlSafe=true}}</li>
+      <li>{{t "pages.sessions.import.instructions-edition-subscription" htmlSafe=true}}</li>
     </ul>
-    <PixBanner @type="warning">Attention à renseigner le numéro de session sans les autres informations de sessions (ex
-      : date, heure, etc.) pour éviter les doublons lors de la création.</PixBanner>
+    <PixBanner @type="warning">{{t "pages.sessions.import.instructions-edition-warning"}}</PixBanner>
   </PixCollapsible>
   <section class="import-page__section--download panel">
     <div class="import-page__section--download__button">
