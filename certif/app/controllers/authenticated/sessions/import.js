@@ -41,11 +41,17 @@ export default class ImportController extends Controller {
     const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;
     this.notifications.clearAll();
     try {
-      await adapter.importSessions(this.files, certificationCenterId);
-      this.files = null;
+      await adapter.importSessions(this.file, certificationCenterId);
       this.notifications.success('La liste des sessions a été importée avec succès.');
     } catch (err) {
       this.notifications.error("Aucune session n'a été importée");
+    } finally {
+      this.removeImport();
     }
+  }
+
+  @action
+  removeImport() {
+    this.files = null;
   }
 }
