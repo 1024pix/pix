@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v3.320.0 (06/02/2023)
+
+
+### :rocket: Amélioration
+- [#5593](https://github.com/1024pix/pix/pull/5593) [FEATURE] Création de la nouvelle page d'import de sessions en masse (PIX-6947).
+- [#5568](https://github.com/1024pix/pix/pull/5568) [FEATURE] Permettre de créer des organisations via import CSV depuis Pix Admin (PIX-6839)
+
 ## v3.319.0 (03/02/2023)
 
 
