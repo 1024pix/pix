@@ -11,6 +11,8 @@ export default class ImportController extends Controller {
   @service currentUser;
   @service store;
 
+  files = null;
+
   @action
   async downloadSessionImportTemplate() {
     const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;
@@ -24,12 +26,17 @@ export default class ImportController extends Controller {
   }
 
   @action
-  async importSessions(files) {
+  preImportSessions() {
+    this.files = document.getElementById('file-upload').files;
+  }
+
+  @action
+  async importSessions() {
     const adapter = this.store.adapterFor('sessions-import');
     const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;
     this.notifications.clearAll();
     try {
-      await adapter.importSessions(files, certificationCenterId);
+      await adapter.importSessions(this.files, certificationCenterId);
       this.notifications.success('La liste des sessions a été importée avec succès.');
     } catch (err) {
       this.notifications.error("Aucune session n'a été importée");
