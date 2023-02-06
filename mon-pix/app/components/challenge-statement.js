@@ -27,7 +27,7 @@ export default class ChallengeStatement extends Component {
   }
 
   get linkTitle() {
-    return this.intl.t('pages.challenge.statement.external-link-title');
+    return this.intl.t('navigation.external-link-title');
   }
 
   get challengeEmbedDocument() {
