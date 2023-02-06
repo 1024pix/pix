@@ -60,13 +60,13 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
     });
   });
 
-  describe('#isUserInfoContentContainsMissingFields', function () {
+  describe('#userInfoMissingFields', function () {
     it('should return a message with missing fields list', async function () {
       // given
       const oidcAuthenticationService = new OidcAuthenticationService({});
 
       // when
-      const response = await oidcAuthenticationService.isUserInfoContentContainsMissingFields({
+      const response = await oidcAuthenticationService.userInfoMissingFields({
         userInfoContent: {
           given_name: 'givenName',
           family_name: undefined,
@@ -84,7 +84,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       const oidcAuthenticationService = new OidcAuthenticationService({});
 
       // when
-      const response = await oidcAuthenticationService.isUserInfoContentContainsMissingFields({
+      const response = await oidcAuthenticationService.userInfoMissingFields({
         userInfoContent: {
           given_name: 'givenName',
           family_name: 'familyName',
@@ -275,6 +275,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
             'secret'
           );
         }
+
         const idToken = generateIdToken({
           nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
           sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
