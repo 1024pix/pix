@@ -1,7 +1,5 @@
-const BookshelfCampaignParticipation = require('../orm-models/CampaignParticipation');
 const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
 const CampaignTypes = require('../../domain/models/CampaignTypes');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../../../db/knex-database-connection');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 const knowledgeElementSnapshotRepository = require('./knowledge-element-snapshot-repository');
@@ -101,12 +99,15 @@ module.exports = {
   },
 
   async findOneByCampaignIdAndUserId({ campaignId, userId }) {
-    const campaignParticipation = await BookshelfCampaignParticipation.where({
-      campaignId,
-      userId,
-      isImproved: false,
-    }).fetch({ require: false, withRelated: ['assessments'] });
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaignParticipation, campaignParticipation);
+    const campaignParticipation = await knex('campaign-participations')
+      .where({ userId, isImproved: false, campaignId })
+      .first();
+    if (!campaignParticipation) return null;
+    const assessments = await knex('assessments').where({ campaignParticipationId: campaignParticipation.id });
+    return new CampaignParticipation({
+      ...campaignParticipation,
+      assessments: assessments.map((assessment) => new Assessment(assessment)),
+    });
   },
 
   async updateWithSnapshot(campaignParticipation, domainTransaction = DomainTransaction.emptyTransaction()) {
