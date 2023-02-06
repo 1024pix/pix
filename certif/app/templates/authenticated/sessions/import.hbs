@@ -30,6 +30,12 @@
       </PixButtonUpload>
     </div>
 
+    {{#if this.files}}
+      <div class="import-page__file-name" aria-label="Nom du fichier importé">
+        {{this.fileName}}
+      </div>
+    {{/if}}
+
     <div class="import-page__section--link-buttons">
       <PixButtonLink
         @route="authenticated.sessions.list"
