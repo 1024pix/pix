@@ -1,0 +1,12 @@
+.trigger-card {
+  &__title {
+    @include subheading;
+
+    font-weight: 500;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__description {
+    @include text-small;
+  }
+}
