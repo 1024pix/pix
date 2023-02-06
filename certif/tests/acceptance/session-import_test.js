@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { currentURL, triggerEvent } from '@ember/test-helpers';
+import { currentURL, triggerEvent, click } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import {
@@ -73,6 +73,8 @@ module('Acceptance | Session Import', function (hooks) {
           screen = await visit('/sessions/import');
           const input = await screen.findByLabelText('Importer le modèle complété');
           await triggerEvent(input, 'change', { files: [file] });
+          const importButton = await screen.findByText('Continuer');
+          await click(importButton);
 
           // then
           assert
@@ -90,6 +92,8 @@ module('Acceptance | Session Import', function (hooks) {
           screen = await visit('/sessions/import');
           const input = await screen.findByLabelText('Importer le modèle complété');
           await triggerEvent(input, 'change', { files: [file] });
+          const importButton = await screen.findByText('Continuer');
+          await click(importButton);
 
           // then
           assert.dom('[data-test-notification-message="error"]').hasText("Aucune session n'a été importée");

@@ -22,7 +22,7 @@
         @backgroundColor="transparent-light"
         @isBorderVisible="{{true}}"
         @id="file-upload"
-        @onChange={{this.importSessions}}
+        @onChange={{this.preImportSessions}}
         aria-label={{t "pages.sessions.import.session-import-upload-label"}}
         accept=".csv"
       >
@@ -38,7 +38,7 @@
       >
         {{t "common.actions.cancel"}}
       </PixButtonLink>
-      <PixButtonLink>
+      <PixButtonLink onclick={{this.importSessions}}>
         {{t "common.actions.continue"}}
       </PixButtonLink>
     </div>
