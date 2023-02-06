@@ -75,7 +75,25 @@ module('Acceptance | Session Import', function (hooks) {
         await triggerEvent(input, 'change', { files: [file] });
 
         // then
-        assert.dom(await screen.getByLabelText('Nom du fichier importé')).hasText('fichier.csv');
+        assert.dom(await screen.getByLabelText('fichier.csv')).hasText('fichier.csv');
+      });
+
+      module('when cancelling the import', function () {
+        test("it should remove the file's name", async function (assert) {
+          // given
+          const blob = new Blob(['foo']);
+          const file = new File([blob], 'fichier.csv');
+
+          // when
+          screen = await visit('/sessions/import');
+          const input = await screen.findByLabelText('Importer le modèle complété');
+          await triggerEvent(input, 'change', { files: [file] });
+          const cancelButton = await screen.findByLabelText("Annuler l'import");
+          await click(cancelButton);
+
+          // then
+          assert.dom(await screen.queryByLabelText('fichier.csv')).doesNotExist();
+        });
       });
 
       module('when the file is valid', function () {

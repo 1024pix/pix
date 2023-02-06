@@ -31,8 +31,14 @@
     </div>
 
     {{#if this.files}}
-      <div class="import-page__file-name" aria-label="Nom du fichier importé">
+      <div class="import-page__file-name" aria-label={{this.fileName}}>
         {{this.fileName}}
+        <PixIconButton
+          @ariaLabel={{t "pages.sessions.import.cancel"}}
+          @icon="circle-xmark"
+          @triggerAction={{this.removeImport}}
+          class="import-page-file-name__cancel"
+        />
       </div>
     {{/if}}
 
