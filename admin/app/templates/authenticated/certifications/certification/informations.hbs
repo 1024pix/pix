@@ -18,7 +18,7 @@
   <div class="certification-informations__row">
     <div class="certification-informations__card {{if this.editingCandidateResults 'border-primary'}}">
       <h2 class="certification-informations__card__title">
-        <Certifications::InfoPublished @record={{this.certification}} @float={{true}} />État
+        <Certifications::InfoTag @record={{this.certification}} @float={{true}} />État
       </h2>
       <Certifications::InfoField
         @value={{this.certification.sessionId}}
