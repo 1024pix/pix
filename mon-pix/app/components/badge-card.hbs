@@ -1,18 +1,14 @@
 <div id="{{@title}}" class="badge-card">
   <div class="badge-card__text">
-    <div class="badge-card__status">
+    <p class="badge-card__status">
       {{#if @isAcquired}}
-        <p>
-          <span><FaIcon @icon="circle-check" class="badge-card-status__acquired-icon" /></span>
-          {{t "pages.skill-review.badge-card.acquired"}}
-        </p>
+        <FaIcon @icon="circle-check" class="badge-card-status__acquired-icon" />
+        {{t "pages.skill-review.badge-card.acquired"}}
       {{else}}
-        <p>
-          <span><FaIcon @icon="circle-xmark" class="badge-card-status__not-acquired-icon" /></span>
-          {{t "pages.skill-review.badge-card.not-acquired"}}
-        </p>
+        <FaIcon @icon="circle-xmark" class="badge-card-status__not-acquired-icon" />
+        {{t "pages.skill-review.badge-card.not-acquired"}}
       {{/if}}
-    </div>
+    </p>
     <p class="badge-card-text__title">{{@title}}</p>
     <p class="badge-card-text__message"><MarkdownToHtml @markdown={{@message}} /></p>
   </div>
