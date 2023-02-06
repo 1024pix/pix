@@ -134,7 +134,9 @@
         "instructions-edition-title": "Pour éditer la liste des candidats de sessions déjà créées ?",
         "instructions-edition-replace": "<strong>Pour remplacer</strong> une liste pré-existante dans le fichier modèle,",
         "instructions-edition-subscription": "<strong>Pour inscrire</strong> des candidats dans une session vide.",
-        "instructions-edition-warning": "Attention à renseigner le numéro de session sans les autres informations de sessions (ex: date, heure, etc.) pour éviter les doublons lors de la création."
+        "instructions-edition-warning": "Attention à renseigner le numéro de session sans les autres informations de sessions (ex: date, heure, etc.) pour éviter les doublons lors de la création.",
+        "breadcrumb-import": "Import du modèle",
+        "breadcrumb-summary": "Récapitulatif"
       },
       "list": {
         "header": {
