@@ -171,6 +171,42 @@ describe('Unit | UseCase | create-sessions', function () {
 
     context('when the session has candidates', function () {
       context('when certification center is not managing students', function () {
+        context('when a candidate is registered more than once in the same session', function () {
+          it('should throw', async function () {
+            // given
+            const validSessionData = createValidSessionData();
+            const validCandidateData = createValidCandidateData(1);
+            const validCandidateDataDuplicate = createValidCandidateData(1);
+            const scoCertificationCenter = domainBuilder.buildCertificationCenter({
+              id: certificationCenterId,
+              type: 'SUP',
+            });
+            certificationCenterRepository.get.withArgs(certificationCenterId).resolves(scoCertificationCenter);
+
+            const sessions = [
+              {
+                ...validSessionData,
+                certificationCandidates: [{ ...validCandidateData }, { ...validCandidateDataDuplicate }],
+              },
+            ];
+            sessionRepository.save.resolves({ id: 99 });
+            const domainTransaction = Symbol('trx');
+            sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
+
+            // when
+            const error = await catchErr(createSessions)({
+              sessions,
+              certificationCenterId,
+              certificationCandidateRepository,
+              certificationCenterRepository,
+              sessionRepository,
+            });
+
+            // then
+            expect(error.message).to.equal('Une session contient au moins un élève en double.');
+          });
+        });
+
         context('when certification candidate has complementary certification', function () {
           it('should save certificationCandidate with complementary certification', async function () {
             // given
