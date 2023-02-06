@@ -44,7 +44,8 @@
   align-items: center;
 
   @include device-is('tablet') {
-    display: block;
+    flex-direction: row;
+    align-items: flex-end;
   }
 }
 
@@ -55,15 +56,11 @@
   font-size: 0.938rem;
 }
 
-.fill-in-participant-external-id__form-field {
-  display: inline-block;
-  text-align: left;
-}
-
 .fill-in-participant-external-id__form-field input {
   width: 232px;
-  height: 50px;
-  margin-right: 5px;
+  height: 43px;
+  margin-right: $spacing-xs;
+  padding: 4px 8px;
   border: solid 2px $pix-neutral-20;
   border-radius: 3px;
   outline: none;
