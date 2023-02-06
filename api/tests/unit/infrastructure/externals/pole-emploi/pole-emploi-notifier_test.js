@@ -65,7 +65,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
     it('should throw an error if the user is not known as PoleEmploi user', async function () {
       // given
       authenticationMethodRepository.findOneByUserIdAndIdentityProvider
-        .withArgs({ userId, identityProvider: OidcIdentityProviders.POLE_EMPLOI.code })
+        .withArgs({ userId, identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code })
         .resolves(null);
 
       // when
@@ -90,7 +90,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         };
 
         authenticationMethodRepository.findOneByUserIdAndIdentityProvider
-          .withArgs({ userId, identityProvider: OidcIdentityProviders.POLE_EMPLOI.code })
+          .withArgs({ userId, identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code })
           .resolves(authenticationMethod);
         httpAgent.post.resolves({ isSuccessful: true, code });
 
@@ -113,7 +113,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         const authenticationMethod = { authenticationComplement: { accessToken, expiredDate, refreshToken } };
 
         authenticationMethodRepository.findOneByUserIdAndIdentityProvider
-          .withArgs({ userId, identityProvider: OidcIdentityProviders.POLE_EMPLOI.code })
+          .withArgs({ userId, identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code })
           .resolves(authenticationMethod);
         httpAgent.post.resolves({ isSuccessful: true, code });
         // when
@@ -133,7 +133,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         // given
         const expectedHeaders = { 'content-type': 'application/x-www-form-urlencoded' };
         authenticationMethodRepository.findOneByUserIdAndIdentityProvider
-          .withArgs({ userId, identityProvider: OidcIdentityProviders.POLE_EMPLOI.code })
+          .withArgs({ userId, identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code })
           .resolves(authenticationMethod);
         const params = {
           grant_type: 'refresh_token',
@@ -158,7 +158,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
       it('logs the attempt to refresh the access token', async function () {
         // given
         authenticationMethodRepository.findOneByUserIdAndIdentityProvider
-          .withArgs({ userId, identityProvider: OidcIdentityProviders.POLE_EMPLOI.code })
+          .withArgs({ userId, identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code })
           .resolves(authenticationMethod);
         httpAgent.post.resolves({ isSuccessful: true, code, data });
 
@@ -178,7 +178,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         it('should update the authentication method', async function () {
           // given
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider
-            .withArgs({ userId, identityProvider: OidcIdentityProviders.POLE_EMPLOI.code })
+            .withArgs({ userId, identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code })
             .resolves(authenticationMethod);
           httpAgent.post.resolves({ isSuccessful: true, code, data });
           const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
@@ -196,7 +196,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           ).to.have.been.calledWith({
             authenticationComplement,
             userId,
-            identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+            identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code,
           });
         });
 
@@ -220,7 +220,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
             .resolves();
 
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider
-            .withArgs({ userId, identityProvider: OidcIdentityProviders.POLE_EMPLOI.code })
+            .withArgs({ userId, identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code })
             .resolves(authenticationMethod);
 
           httpAgent.post

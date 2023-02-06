@@ -15,7 +15,7 @@ describe('Acceptance | Route | oidc authentication url', function () {
       it('should return the authentication url for cnav', async function () {
         // given
         const query = querystring.stringify({
-          identity_provider: OidcIdentityProviders.CNAV.code,
+          identity_provider: OidcIdentityProviders.CNAV.service.code,
           redirect_uri: 'http://app.pix.fr/connexion/cnav',
         });
 
@@ -48,7 +48,7 @@ describe('Acceptance | Route | oidc authentication url', function () {
       it('should return the authentication url for pole emploi', async function () {
         // given
         const query = querystring.stringify({
-          identity_provider: OidcIdentityProviders.POLE_EMPLOI.code,
+          identity_provider: OidcIdentityProviders.POLE_EMPLOI.service.code,
           redirect_uri: 'http://app.pix.fr/connexion/pole-emploi',
         });
 

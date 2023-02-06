@@ -123,7 +123,7 @@ function usersBuilder({ databaseBuilder }) {
   });
   databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
     userId: pixUserWithPoleEmploiAuthenticationMethod.id,
-    identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+    identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code,
   });
 
   const userWithPoleEmploiAuthenticationMethod = databaseBuilder.factory.buildUser.withoutPixAuthenticationMethod({
@@ -133,7 +133,7 @@ function usersBuilder({ databaseBuilder }) {
   });
   databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
     userId: userWithPoleEmploiAuthenticationMethod.id,
-    identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+    identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code,
   });
 
   const pixUserWithCnavAuthenticationMethod = databaseBuilder.factory.buildUser.withRawPassword({
@@ -146,7 +146,7 @@ function usersBuilder({ databaseBuilder }) {
   });
   databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
     userId: pixUserWithCnavAuthenticationMethod.id,
-    identityProvider: OidcIdentityProviders.CNAV.code,
+    identityProvider: OidcIdentityProviders.CNAV.service.code,
   });
 
   const userWithCnavAuthenticationMethod = databaseBuilder.factory.buildUser.withoutPixAuthenticationMethod({
@@ -156,7 +156,7 @@ function usersBuilder({ databaseBuilder }) {
   });
   databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
     userId: userWithCnavAuthenticationMethod.id,
-    identityProvider: OidcIdentityProviders.CNAV.code,
+    identityProvider: OidcIdentityProviders.CNAV.service.code,
   });
 
   const userWithMultiplesAuthenticationMethods = databaseBuilder.factory.buildUser.withRawPassword({
@@ -169,11 +169,11 @@ function usersBuilder({ databaseBuilder }) {
   });
   databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
     userId: userWithMultiplesAuthenticationMethods.id,
-    identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+    identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code,
   });
   databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
     userId: userWithMultiplesAuthenticationMethods.id,
-    identityProvider: OidcIdentityProviders.CNAV.code,
+    identityProvider: OidcIdentityProviders.CNAV.service.code,
   });
   databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
     externalIdentifier: `${userWithMultiplesAuthenticationMethods.firstName}.${userWithMultiplesAuthenticationMethods.lastName}.${userWithMultiplesAuthenticationMethods.id}`,

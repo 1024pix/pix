@@ -2,7 +2,7 @@ const Joi = require('joi');
 const OidcIdentityProviders = require('../../../domain/constants/oidc-identity-providers');
 const oidcController = require('./oidc-controller');
 
-const validProviders = Object.values(OidcIdentityProviders).map((provider) => provider.code);
+const validProviders = Object.values(OidcIdentityProviders).map((provider) => provider.service.code);
 
 exports.register = async (server) => {
   server.route([
@@ -24,7 +24,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           query: Joi.object({
-            identity_provider: Joi.string().required().valid(OidcIdentityProviders.POLE_EMPLOI.code),
+            identity_provider: Joi.string().required().valid(OidcIdentityProviders.POLE_EMPLOI.service.code),
             logout_url_uuid: Joi.string()
               .regex(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i)
               .required(),

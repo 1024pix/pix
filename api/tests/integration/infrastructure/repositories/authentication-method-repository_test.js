@@ -352,7 +352,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         // when
         const pixAuthenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
           userId: user.id,
-          identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+          identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code,
         });
 
         // then
@@ -794,7 +794,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         const userId = databaseBuilder.factory.buildUser().id;
         authenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
           id: 123,
-          identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+          identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code,
           externalIdentifier: 'identifier',
           accessToken: 'to_be_updated',
           refreshToken: 'to_be_updated',
@@ -822,7 +822,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
           authenticationComplement,
           userId,
-          identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+          identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code,
         });
 
         // then
@@ -849,7 +849,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
           await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
             authenticationComplement,
             userId,
-            identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+            identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code,
           });
 
         // then
@@ -878,7 +878,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         )({
           authenticationComplement,
           userId,
-          identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+          identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code,
         });
 
         // then

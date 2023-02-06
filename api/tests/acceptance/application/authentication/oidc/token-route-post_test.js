@@ -29,7 +29,7 @@ describe('Acceptance | Route | oidc | token', function () {
       payload = {
         data: {
           attributes: {
-            identity_provider: OidcIdentityProviders.POLE_EMPLOI.code,
+            identity_provider: OidcIdentityProviders.POLE_EMPLOI.service.code,
             code: 'code',
             redirect_uri: 'redirect_uri',
             state_sent: 'state',
@@ -110,7 +110,7 @@ describe('Acceptance | Route | oidc | token', function () {
       }).id;
 
       databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
-        identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+        identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code,
         externalIdentifier,
         accessToken: 'access_token',
         refreshToken: 'refresh_token',
@@ -164,7 +164,7 @@ describe('Acceptance | Route | oidc | token', function () {
         }).id;
 
         databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
-          identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+          identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code,
           externalIdentifier,
           accessToken: 'access_token',
           refreshToken: 'refresh_token',
@@ -258,7 +258,7 @@ describe('Acceptance | Route | oidc | token', function () {
             }).id;
 
             databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
-              identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+              identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code,
               externalIdentifier,
               accessToken: 'access_token',
               refreshToken: 'refresh_token',

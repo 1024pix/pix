@@ -47,7 +47,7 @@ describe('Acceptance | Application | Oidc | Routes', function () {
         payload: {
           data: {
             attributes: {
-              identity_provider: OidcIdentityProviders.CNAV.code,
+              identity_provider: OidcIdentityProviders.CNAV.service.code,
               authentication_key: userAuthenticationKey,
             },
           },
