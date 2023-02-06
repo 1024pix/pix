@@ -5,11 +5,34 @@
 
   &__item {
     display: flex;
-    gap: 20%;
+    flex-direction: row;
+
+    > *:not(:last-of-type) {
+      min-width: 6em;
+    }
+
+    margin-bottom: 0.5em;
+    padding-bottom: 0.5em;
+    flex-wrap: wrap;
+    border-bottom: 1px solid $pix-neutral-20;
+
+    &:last-of-type {
+      border-bottom: none;
+    }
   }
 }
 
-.competence-list-edited {
+div.competence-list-edited {
   display: flex;
   gap: 150px;
+
+  .certification-info-field {
+    &:last-of-type {
+      border-bottom: 1px solid $pix-neutral-20;
+    }
+
+    > *:first-child {
+      min-width: 6em;
+    }
+  }
 }
