@@ -1,7 +1,8 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import Service from '@ember/service';
-import { click, find, findAll, render } from '@ember/test-helpers';
+import { click, find, findAll } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | ChallengeStatement', function (hooks) {
@@ -100,7 +101,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
       assert.dom('.challenge-statement-instruction__text').doesNotExist();
     });
 
-    test('should add title "destination (nouvelle fenêtre)" to external links', async function (assert) {
+    test('should add title "destination (Ouverture d\'une nouvelle fenêtre)" to external links', async function (assert) {
       // given
       addAssessmentToContext(this, { id: '267845' });
       addChallengeToContext(this, {
@@ -109,11 +110,17 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
       });
 
       // when
-      await renderChallengeStatement(this);
+      const screen = await render(
+        hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}}/>`
+      );
 
       // then
-      assert.dom('.challenge-statement-instruction__text a[title="lien 1 (nouvelle fenêtre)"]').exists();
-      assert.dom('.challenge-statement-instruction__text a[title="lien 2 (nouvelle fenêtre)"]').exists();
+      assert
+        .dom(screen.getByRole('link', { name: `lien 1 (${this.intl.t('navigation.external-link-title')})` }))
+        .exists();
+      assert
+        .dom(screen.getByRole('link', { name: `lien 2 (${this.intl.t('navigation.external-link-title')})` }))
+        .exists();
     });
 
     test('should display a specific style', async function (assert) {

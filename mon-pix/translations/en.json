@@ -107,6 +107,7 @@
     "back-to-profile": "Return to profile",
     "copyrights": "©",
     "error": "Error",
+    "external-link-title": "Open in a new window",
     "footer": {
       "label": "Secondary navigation",
       "a11y": "Accessibility",
@@ -557,7 +558,6 @@
             "hide": "Hide alternative text"
           }
         },
-        "external-link-title": "new window",
         "file-download": {
           "actions": {
             "choose-type": "Select the type of file you would like to use",

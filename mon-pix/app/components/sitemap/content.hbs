@@ -68,20 +68,24 @@
         <a href="{{this.supportHomeUrl}}" target="_blank" rel="noopener noreferrer">
           {{t "navigation.main.help"}}
           <FaIcon @icon="up-right-from-square" aria-hidden="true" />
+          <span class="sr-only">{{t "navigation.external-link-title"}}</span>
         </a>
       </li>
 
       <li class="sitemap-content-items__link sitemap-items__link--title">{{t "pages.sitemap.resources"}}
         <ul class="sitemap-content-items-link__resources">
           <li class="sitemap-content-items-link-resources__resource">
-            <a href={{this.accessibilityUrl}} target="_blank" rel="noopener noreferrer">{{t
-                "pages.sitemap.accessibility.title"
-              }}</a>
+            <a href={{this.accessibilityUrl}} target="_blank" rel="noopener noreferrer">
+              {{t "pages.sitemap.accessibility.title"}}
+              <FaIcon @icon="up-right-from-square" aria-hidden="true" />
+              <span class="sr-only">{{t "navigation.external-link-title"}}</span>
+            </a>
             <ul>
               <li>
-                <a href={{this.accessibilityHelpUrl}} target="_blank" rel="noopener noreferrer" data-test-resource-link>
+                <a href={{this.accessibilityHelpUrl}} target="_blank" rel="noopener noreferrer">
                   {{t "pages.sitemap.accessibility.help"}}
                   <FaIcon @icon="up-right-from-square" aria-hidden="true" />
+                  <span class="sr-only">{{t "navigation.external-link-title"}}</span>
                 </a>
               </li>
             </ul>
@@ -90,22 +94,23 @@
           <li class="sitemap-content-items-link-resources__resource">
             <a href={{this.cguUrl}} target="_blank" rel="noopener noreferrer">
               {{t "navigation.footer.eula"}}
+              <FaIcon @icon="up-right-from-square" aria-hidden="true" />
+              <span class="sr-only">{{t "navigation.external-link-title"}}</span>
             </a>
           </li>
 
           <li class="sitemap-content-items-link-resources__resource">
             <a href={{this.dataProtectionPolicyUrl}} target="_blank" rel="noopener noreferrer">
               {{t "pages.sitemap.cgu.policy"}}
+              <FaIcon @icon="up-right-from-square" aria-hidden="true" />
+              <span class="sr-only">{{t "navigation.external-link-title"}}</span>
             </a>
             <ul>
               <li>
-                <a
-                  href={{this.dataProtectionPolicyUrl}}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-test-resource-link
-                >{{t "pages.sitemap.cgu.subcontractors"}}
+                <a href={{this.dataProtectionPolicyUrl}} target="_blank" rel="noopener noreferrer">
+                  {{t "pages.sitemap.cgu.subcontractors"}}
                   <FaIcon @icon="up-right-from-square" aria-hidden="true" />
+                  <span class="sr-only">{{t "navigation.external-link-title"}}</span>
                 </a>
               </li>
             </ul>
