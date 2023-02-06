@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
 export default class ImportController extends Controller {
   @service fileSaver;
@@ -11,7 +12,11 @@ export default class ImportController extends Controller {
   @service currentUser;
   @service store;
 
-  files = null;
+  @tracked files = null;
+
+  get fileName() {
+    return this.files[0].name;
+  }
 
   @action
   async downloadSessionImportTemplate() {
@@ -37,6 +42,7 @@ export default class ImportController extends Controller {
     this.notifications.clearAll();
     try {
       await adapter.importSessions(this.files, certificationCenterId);
+      this.files = null;
       this.notifications.success('La liste des sessions a été importée avec succès.');
     } catch (err) {
       this.notifications.error("Aucune session n'a été importée");

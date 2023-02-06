@@ -64,10 +64,25 @@ module('Acceptance | Session Import', function (hooks) {
         server.create('feature-toggle', { id: 0, isMassiveSessionManagementEnabled: true });
       });
 
+      test("it should display the file's name once pre-imported", async function (assert) {
+        // given
+        const blob = new Blob(['foo']);
+        const file = new File([blob], 'fichier.csv');
+
+        // when
+        screen = await visit('/sessions/import');
+        const input = await screen.findByLabelText('Importer le modèle complété');
+        await triggerEvent(input, 'change', { files: [file] });
+
+        // then
+        assert.dom(await screen.getByLabelText('Nom du fichier importé')).hasText('fichier.csv');
+      });
+
       module('when the file is valid', function () {
-        test('it should display success message and reload sessions', async function (assert) {
+        test('it should display success message', async function (assert) {
           // given
-          const file = new Blob(['foo'], { type: 'valid-file' });
+          const blob = new Blob(['foo']);
+          const file = new File([blob], 'fichier.csv');
 
           // when
           screen = await visit('/sessions/import');
@@ -80,6 +95,7 @@ module('Acceptance | Session Import', function (hooks) {
           assert
             .dom('[data-test-notification-message="success"]')
             .hasText('La liste des sessions a été importée avec succès.');
+          assert.dom(await screen.queryByLabelText('fichier.csv')).doesNotExist();
         });
       });
 
