@@ -26,7 +26,7 @@ function _toAuthenticationComplement(identityProvider, bookshelfAuthenticationCo
     return new AuthenticationMethod.PixAuthenticationComplement(bookshelfAuthenticationComplement);
   }
 
-  if (identityProvider === OidcIdentityProviders.POLE_EMPLOI.code) {
+  if (identityProvider === OidcIdentityProviders.POLE_EMPLOI.service.code) {
     return new AuthenticationMethod.OidcAuthenticationComplement(bookshelfAuthenticationComplement);
   }
 

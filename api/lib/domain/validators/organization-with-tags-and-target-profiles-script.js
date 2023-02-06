@@ -4,7 +4,7 @@ const Organization = require('../models/Organization');
 const Membership = require('../models/Membership');
 const OidcIdentityProviders = require('../../../lib/domain/constants/oidc-identity-providers');
 
-const validProviders = Object.values(OidcIdentityProviders).map((provider) => provider.code);
+const validProviders = Object.values(OidcIdentityProviders).map((provider) => provider.service.code);
 
 const schema = Joi.object({
   type: Joi.string()

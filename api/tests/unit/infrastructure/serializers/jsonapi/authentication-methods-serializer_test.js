@@ -20,7 +20,7 @@ describe('Unit | Serializer | JSONAPI | authentication-methods-serializer', func
           {
             type: 'authentication-methods',
             attributes: {
-              'identity-provider': OidcIdentityProviders.POLE_EMPLOI.code,
+              'identity-provider': OidcIdentityProviders.POLE_EMPLOI.service.code,
             },
           },
         ],

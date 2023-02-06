@@ -40,7 +40,7 @@ describe('Unit | UseCase | update-organization-information', function () {
       const givenOrganization = _buildOrganizationWithNullAttributes({
         id: organizationId,
         name: newName,
-        identityProviderForCampaigns: OidcIdentityProviders.CNAV.code,
+        identityProviderForCampaigns: OidcIdentityProviders.CNAV.service.code,
       });
       const originalOrganization = _buildOriginalOrganization(organizationId);
 
@@ -60,7 +60,7 @@ describe('Unit | UseCase | update-organization-information', function () {
       expect(organizationForAdminRepository.update).to.have.been.calledWithMatch({
         ...originalOrganization,
         name: newName,
-        identityProviderForCampaigns: OidcIdentityProviders.CNAV.code,
+        identityProviderForCampaigns: OidcIdentityProviders.CNAV.service.code,
       });
     });
 

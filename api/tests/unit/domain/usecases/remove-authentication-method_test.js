@@ -26,7 +26,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({ userId }),
       domainBuilder.buildAuthenticationMethod.withIdentityProvider({
         userId,
-        identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+        identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code,
       }),
     ];
   }
@@ -37,11 +37,11 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({ userId }),
       domainBuilder.buildAuthenticationMethod.withIdentityProvider({
         userId,
-        identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+        identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code,
       }),
       domainBuilder.buildAuthenticationMethod.withIdentityProvider({
         userId,
-        identityProvider: OidcIdentityProviders.CNAV.code,
+        identityProvider: OidcIdentityProviders.CNAV.service.code,
       }),
     ];
   }
@@ -176,7 +176,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
   context('When type is POLE_EMPLOI', function () {
     it('should remove POLE_EMPLOI authentication method', async function () {
       // given
-      const type = OidcIdentityProviders.POLE_EMPLOI.code;
+      const type = OidcIdentityProviders.POLE_EMPLOI.service.code;
       const user = domainBuilder.buildUser();
       userRepository.get.resolves(user);
       const authenticationMethods = buildPIXAndGARAndPoleEmploiAuthenticationMethod(user.id);
@@ -188,7 +188,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       // then
       expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWith({
         userId: user.id,
-        identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+        identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code,
       });
     });
   });
@@ -196,7 +196,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
   context('When type is CNAV', function () {
     it('should remove CNAV authentication method', async function () {
       // given
-      const type = OidcIdentityProviders.CNAV.code;
+      const type = OidcIdentityProviders.CNAV.service.code;
       const user = domainBuilder.buildUser();
       userRepository.get.resolves(user);
       const authenticationMethods = buildAllAuthenticationMethodsForUser(user.id);
@@ -208,7 +208,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       // then
       expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWith({
         userId: user.id,
-        identityProvider: OidcIdentityProviders.CNAV.code,
+        identityProvider: OidcIdentityProviders.CNAV.service.code,
       });
     });
   });

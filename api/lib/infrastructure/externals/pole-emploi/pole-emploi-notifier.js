@@ -19,7 +19,7 @@ module.exports = {
     });
     const authenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
       userId,
-      identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+      identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code,
     });
     let accessToken = get(authenticationMethod, 'authenticationComplement.accessToken');
     if (!accessToken) {
@@ -74,7 +74,7 @@ module.exports = {
       await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
         authenticationComplement,
         userId,
-        identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+        identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code,
       });
     }
 
