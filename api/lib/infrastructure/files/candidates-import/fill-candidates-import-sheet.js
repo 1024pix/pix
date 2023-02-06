@@ -99,7 +99,7 @@ function _addComplementaryCertificationColumns({ odsBuilder, certificationCenter
       placeholder: [key],
     }));
     odsBuilder.withColumnGroup({
-      groupHeaderLabels: ['Certification(s)', 'complémentaire(s)'],
+      groupHeaderLabels: ['Certification', 'complémentaire', '(une seule par candidat)'],
       columns: habilitationColumns,
       startsAt: INFORMATIVE_HEADER_ROW,
       headerRowSpan: HEADER_ROW_SPAN,
