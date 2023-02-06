@@ -24,6 +24,21 @@
     </ul>
     <PixBanner @type="warning">{{t "pages.sessions.import.instructions-edition-warning"}}</PixBanner>
   </PixCollapsible>
+  <nav aria-label="Fil d'Ariane" class="import-page__section--breadcrumb panel">
+    <ol>
+      <li class="active">
+        <a href="">
+          Import du modèle
+        </a>
+      </li>
+      <FaIcon @icon="chevron-right" class="breadcrumb-icon" />
+      <li>
+        <a href="">
+          Récapitulatif
+        </a>
+      </li>
+    </ol>
+  </nav>
   <section class="import-page__section--download panel">
     <div class="import-page__section--download__button">
       <FaIcon @icon="file-arrow-down" class="fa-2x download-icon" />
