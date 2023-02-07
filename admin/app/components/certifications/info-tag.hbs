@@ -1,9 +1,8 @@
-<div class="certification-informations__published--float">
+<div class="certification-informations__tag--float">
   {{#if @record.isPublished}}
     <PixTag @compact="{{true}}" @color="green">Publiée</PixTag>
   {{/if}}
-  {{@certification.isCancelled}}
   {{#if @record.isCancelled}}
-    <PixTag @compact="{{true}}" @color="orange">Annulée</PixTag>
+    <PixTag @compact="{{true}}" class="cancelled">Annulée</PixTag>
   {{/if}}
 </div>
