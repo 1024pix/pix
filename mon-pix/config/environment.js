@@ -43,9 +43,6 @@ module.exports = function (environment) {
       // when it is created
       API_HOST: process.env.API_HOST || '',
       FT_FOCUS_CHALLENGE_ENABLED: _isFeatureEnabled(process.env.FT_FOCUS_CHALLENGE_ENABLED) || false,
-      isChallengeTimerEnable: true,
-      MESSAGE_DISPLAY_DURATION: 1500,
-      isMobileSimulationEnabled: false,
       isTimerCountdownEnabled: true,
       isMessageStatusTogglingEnabled: true,
       LOAD_EXTERNAL_SCRIPT: true,
@@ -164,9 +161,6 @@ module.exports = function (environment) {
     ENV.APP.autoboot = false;
 
     ENV.APP.API_HOST = 'http://localhost:3000';
-    ENV.APP.isChallengeTimerEnable = false;
-    ENV.APP.MESSAGE_DISPLAY_DURATION = 0;
-    ENV.APP.isMobileSimulationEnabled = true;
     ENV.APP.isTimerCountdownEnabled = false;
     ENV.APP.isMessageStatusTogglingEnabled = false;
     ENV.APP.LOAD_EXTERNAL_SCRIPT = false;
