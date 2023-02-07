@@ -7,7 +7,7 @@ module('Integration | Component | certifications/info-tag', function (hooks) {
   setupRenderingTest(hooks);
 
   module('when certification is published', function () {
-    test('it renders', async function (assert) {
+    test('it renders published tag', async function (assert) {
       // given
       this.set('certification', { isPublished: true });
 
@@ -20,9 +20,9 @@ module('Integration | Component | certifications/info-tag', function (hooks) {
   });
 
   module('when certification is not published', function () {
-    test('it renders', async function (assert) {
+    test('it does not render published tag', async function (assert) {
       // given
-      this.set('certification', { isPublished: true });
+      this.set('certification', { isPublished: false });
 
       // when
       const screen = await render(hbs`<Certifications::InfoTag @record={{this.certification}} />`);
@@ -33,7 +33,7 @@ module('Integration | Component | certifications/info-tag', function (hooks) {
   });
 
   module('when certification is cancelled', function () {
-    test('it renders', async function (assert) {
+    test('it renders cancelled tag', async function (assert) {
       // given
       this.set('certification', { isCancelled: true });
 
@@ -46,7 +46,7 @@ module('Integration | Component | certifications/info-tag', function (hooks) {
   });
 
   module('when certification is not cancelled', function () {
-    test('it renders', async function (assert) {
+    test('it does not render cancelled tag', async function (assert) {
       // given
       this.set('certification', { isCancelled: false });
 
