@@ -53,10 +53,10 @@
     margin-bottom: 39px;
     padding-top: 36px;
     padding-bottom: 22px;
-    border-top: 1px dashed  $pix-neutral-22;
+    border-top: 1px dashed $pix-neutral-22;
 
     &--with-border-bottom {
-      border-bottom: 1px dashed  $pix-neutral-22;
+      border-bottom: 1px dashed $pix-neutral-22;
     }
 
     &__cards {
@@ -66,7 +66,7 @@
   }
 
   &__recipient {
-    margin-top: 0;
+    margin-bottom: 1em;
     color: $pix-neutral-90;
     font-weight: $font-medium;
     font-size: 1.25rem;
@@ -75,7 +75,6 @@
 }
 
 .send-profile-disabled-share {
-
   &__text {
     max-width: 640px;
     margin: 30px auto 60px;

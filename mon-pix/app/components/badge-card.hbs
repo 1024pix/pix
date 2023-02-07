@@ -1,23 +1,20 @@
 <div id="{{@title}}" class="badge-card">
   <div class="badge-card__text">
-    <div class="badge-card__status">
+    <p class="badge-card__status">
       {{#if @isAcquired}}
-        <p>
-          <span><FaIcon @icon="circle-check" class="badge-card-status__acquired-icon" /></span>
-          {{t "pages.skill-review.badge-card.acquired"}}
-        </p>
+        <FaIcon @icon="circle-check" class="badge-card-status__acquired-icon" />
+        {{t "pages.skill-review.badge-card.acquired"}}
       {{else}}
-        <p>
-          <span><FaIcon @icon="circle-xmark" class="badge-card-status__not-acquired-icon" /></span>
-          {{t "pages.skill-review.badge-card.not-acquired"}}
-        </p>
+        <FaIcon @icon="circle-xmark" class="badge-card-status__not-acquired-icon" />
+        {{t "pages.skill-review.badge-card.not-acquired"}}
       {{/if}}
-    </div>
-    <p class="badge-card-text__title">{{@title}}</p>
-    <p class="badge-card-text__message"><MarkdownToHtml @markdown={{@message}} /></p>
+    </p>
+    <h3 class="badge-card-text__title">{{@title}}</h3>
+    <p class="badge-card-text__message">
+      <MarkdownToHtml @markdown={{@message}} />
+    </p>
   </div>
-  <div class="badge-card__image {{unless @isAcquired 'badge-card__image--not-acquired'}}"><img
-      src="{{@imageUrl}}"
-      alt="{{@altMessage}}"
-    /></div>
+  <div class="badge-card__image {{unless @isAcquired 'badge-card__image--not-acquired'}}">
+    <img src="{{@imageUrl}}" alt="{{@altMessage}}" />
+  </div>
 </div>

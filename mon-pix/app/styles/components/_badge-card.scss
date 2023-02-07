@@ -23,12 +23,6 @@
     min-height: 200px;
   }
 
-  &__status {
-    p {
-      margin-top: 0;
-    }
-  }
-
   &__text {
     display: flex;
     flex-direction: column;
@@ -45,7 +39,7 @@
 
   &-text {
     &__title {
-      margin: 0;
+      margin: 1em 0;
       color: $pix-neutral-100;
       font-weight: $font-medium;
       font-size: 1.12rem;
