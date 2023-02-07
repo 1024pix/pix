@@ -41,3 +41,5 @@ Configurer EmberSimpleAuth pour utiliser un cookie à la place du localStorage q
 Aucune solution n'a été trouvée qui éviterait le changement du flow d'authentification actuellement utilisé (OAuth2 custom) tout en gardant EmberSimpleAuth qui automatise pour nous toute la gestion des refresh tokens.
 Aussi nous gardons pour l'instant la solution actuelle, c'est-à-dire l'utilisation du localStorage.
 Une potentielle solution à plus long terme serait de faire une contribution à EmberSimpleAuth faisant l'utilisation de cookie pour le stockage de l'access token, mais il faudrait déjà réaliser ce développement puis qu'il soit accepté ce qui n'a rien de certain.
+
+Nous avons choisi d'entériner cette non décision par une ADR pour sauvegarder le fruit de nos réflexions au cas où, à l'avenir, d'autres développeurs considérait la possibilité d'utiliser un cookie plutôt que le localStorage pour stocker le token d'accès.
