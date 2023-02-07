@@ -28,11 +28,17 @@
           "tabName": "Déclencheurs",
           "prerequisite": {
             "title": "Objectif à atteindre",
-            "alternative-title": "Ajouter un objectif à atteindre"
+            "alternative-title": "Ajouter un objectif à atteindre",
+            "edit": {
+              "description": "Si l’apprenant réussit tous les acquis des sujets sélectionnés alors le contenu formatif ne lui sera pas proposé."
+            }
           },
           "goal": {
             "title": "Objectif à ne pas dépasser",
-            "alternative-title": "Ajouter un objectif à ne pas dépasser"
+            "alternative-title": "Ajouter un objectif à ne pas dépasser",
+            "edit": {
+              "description": "Si l’apprenant réussit les acquis des sujets sélectionnés alors le contenu formatif lui sera proposé."
+            }
           }
         },
         "targetProfiles": {

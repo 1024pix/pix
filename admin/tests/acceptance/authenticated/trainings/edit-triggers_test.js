@@ -68,5 +68,16 @@ module('Acceptance | Trainings | Triggers edit', function (hooks) {
       // then
       assert.strictEqual(currentURL(), `/trainings/${trainingId}/triggers/edit?type=goal`);
     });
+
+    test('it should be able to cancel the edit form', async function (assert) {
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+      // when
+      const screen = await visit(`/trainings/${trainingId}/triggers/edit?type=prerequisite`);
+      await click(screen.getByRole('button', { name: 'Annuler' }));
+
+      // then
+      assert.strictEqual(currentURL(), `/trainings/${trainingId}/triggers`);
+    });
   });
 });

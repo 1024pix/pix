@@ -1,0 +1,13 @@
+<Card class="edit-training-trigger__threshold" @title={{@title}}>
+  <p class="edit-training-trigger-threshold__description">{{@description}}</p>
+  <PixInput
+    class="edit-training-trigger-threshold__input"
+    name="threshold"
+    type="number"
+    @id="thresholdInput"
+    @label="Seuil en % :"
+    @placeholder="Exemple : 16"
+    min="0"
+    max="100"
+  />
+</Card>
