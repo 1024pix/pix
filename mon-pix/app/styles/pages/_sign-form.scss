@@ -115,6 +115,8 @@
   }
 
   &__input {
+    display: flex;
+    flex-direction: column;
     width: 100%;
     max-width: 450px;
     padding: 0 20px;
