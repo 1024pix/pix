@@ -5,7 +5,7 @@
 
   > p {
     color: $pix-neutral-60;
-    font-weight: 300;
+    font-weight: $font-light;
     margin-bottom: 8px;
   }
 
@@ -18,7 +18,7 @@
     border-radius: 8px;
     color: $pix-neutral-70;
     font-size: 14px;
-    font-weight: 300;
+    font-weight: $font-light;
   }
 
   .pix-collapsible__title--uncollapsed {
@@ -77,7 +77,7 @@
       color: $pix-neutral-0;
       content: "" counter(import-breadcrumb);
       font-size: 1.1rem;
-      font-weight: 500;
+      font-weight: $font-medium;
       display: flex;
       height: 30px;
       justify-content: center;
