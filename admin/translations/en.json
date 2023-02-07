@@ -27,10 +27,12 @@
         "triggers": {
           "tabName": "Triggers",
           "prerequisite": {
-            "title": "Prerequisite"
+            "title": "Prerequisite",
+            "alternative-title": "Add a prerequisite threshold to reach"
           },
           "goal": {
-            "title": "Goal"
+            "title": "Goal",
+            "alternative-title": "Add a goal threshold to not exceed"
           }
         },
         "targetProfiles": {
