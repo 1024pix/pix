@@ -1,4 +1,4 @@
-const AUTHORIZED_FRAMEWORKS = ['Pix', 'France'];
+const AUTHORIZED_FRAMEWORKS = ['Pix'];
 
 module.exports = async function getLearningContentForTargetProfileSubmission({ learningContentRepository, locale }) {
   return learningContentRepository.findByFrameworkNames({
