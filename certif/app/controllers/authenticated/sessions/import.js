@@ -12,10 +12,10 @@ export default class ImportController extends Controller {
   @service currentUser;
   @service store;
 
-  @tracked files = null;
+  @tracked file = null;
 
   get fileName() {
-    return this.files[0].name;
+    return this.file.name;
   }
 
   @action
@@ -32,7 +32,7 @@ export default class ImportController extends Controller {
 
   @action
   preImportSessions() {
-    this.files = document.getElementById('file-upload').files;
+    this.file = document.getElementById('file-upload').files[0];
   }
 
   @action
@@ -52,6 +52,6 @@ export default class ImportController extends Controller {
 
   @action
   removeImport() {
-    this.files = null;
+    this.file = null;
   }
 }
