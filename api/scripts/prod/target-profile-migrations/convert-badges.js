@@ -116,8 +116,7 @@ function _checkBadgeCriterionCappedTubesWithinTargetProfileCappedTubes(badgeCapp
     const tubeInTargetProfile = targetProfileCappedTubes.find((cappedTube) => cappedTube.id === badgeCappedTube.id);
     if (!tubeInTargetProfile)
       throw new Error('Le RT contient des acquis qui ne sont pas compris dans le profil cible.');
-    if (badgeCappedTube.level > tubeInTargetProfile.level)
-      throw new Error('Le RT contient des acquis avec un niveau supérieur au profil cible.');
+    badgeCappedTube.level = Math.min(badgeCappedTube.level, tubeInTargetProfile.level);
   }
 }
 
