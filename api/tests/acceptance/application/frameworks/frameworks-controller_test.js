@@ -309,23 +309,6 @@ describe('Acceptance | Controller | frameworks-controller', function () {
               },
             },
           },
-          {
-            type: 'frameworks',
-            id: 'frameworkFrance',
-            attributes: {
-              name: 'France',
-            },
-            relationships: {
-              areas: {
-                data: [
-                  {
-                    type: 'areas',
-                    id: 'areaFrance1',
-                  },
-                ],
-              },
-            },
-          },
         ],
         included: [
           {
@@ -389,72 +372,6 @@ describe('Acceptance | Controller | frameworks-controller', function () {
                   {
                     type: 'competences',
                     id: 'competencePix1_1',
-                  },
-                ],
-              },
-            },
-          },
-          {
-            type: 'tubes',
-            id: 'tubeFrance1_1_1_1',
-            attributes: {
-              name: '@tubeFrance1_1_1_1',
-              'is-mobile-compliant': true,
-              'is-tablet-compliant': false,
-              'practical-description': 'tubeFrance1_1_1_1 practicalDescription fr',
-              'practical-title': 'tubeFrance1_1_1_1 practicalTitle fr',
-            },
-          },
-          {
-            type: 'thematics',
-            id: 'thematicFrance1_1_1',
-            attributes: {
-              index: 0,
-              name: 'thematicFrance1_1_1 name fr',
-            },
-            relationships: {
-              tubes: {
-                data: [
-                  {
-                    type: 'tubes',
-                    id: 'tubeFrance1_1_1_1',
-                  },
-                ],
-              },
-            },
-          },
-          {
-            type: 'competences',
-            id: 'competenceFrance1_1',
-            attributes: {
-              index: 0,
-              name: 'competenceFrance1_1 name fr',
-            },
-            relationships: {
-              thematics: {
-                data: [
-                  {
-                    type: 'thematics',
-                    id: 'thematicFrance1_1_1',
-                  },
-                ],
-              },
-            },
-          },
-          {
-            type: 'areas',
-            id: 'areaFrance1',
-            attributes: {
-              code: 1,
-              color: 'areaFrance1 color',
-              title: 'areaFrance1 title fr',
-            },
-            relationships: {
-              competences: {
-                data: [
-                  {
-                    type: 'competences',
-                    id: 'competenceFrance1_1',
                   },
                 ],
               },
