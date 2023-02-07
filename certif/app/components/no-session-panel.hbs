@@ -1,7 +1,7 @@
 <div class="no-session-panel">
   <div class="no-session-panel__explain-create-session">
-    <img src="{{this.rootURL}}/icons/empty-list-session.svg" alt="Vous pouvez créer des sessions de certifications." />
-    <h1 class="page-title">Créer ma première session de certification</h1>
+    <img src="{{this.rootURL}}/icons/empty-list-session.svg" alt={{t "pages.sessions.list.empty.header-alt"}} />
+    <h1 class="page-title">{{t "pages.sessions.list.empty.header"}}</h1>
 
     <div class="no-session-panel__link-to-create">
       <PixButtonLink @route="authenticated.sessions.new">

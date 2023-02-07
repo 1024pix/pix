@@ -178,6 +178,8 @@
           "session-and-id": "Session {sessionId}"
         },
         "empty": {
+          "header": "Créer ma première session de certification",
+          "header-alt": "Je peux créer des sessions de certifications",
           "session-creation": "Créer une session",
           "session-multiple-creation": "Créer plusieurs sessions"
         }

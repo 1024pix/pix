@@ -150,40 +150,38 @@
       },
       "list": {
         "header": {
-          "title": "Sessions de certification",
-          "session-creation": "Créer une session",
-          "session-multiple-creation-edition": "Créer/éditer plusieurs sessions",
-          "session-import-template": "Template d'import de sessions",
-          "session-import-template-dl-error": "Une erreur s'est produite pendant le téléchargement",
-          "session-import-template-label": "Télécharger le template d'import en masse",
-          "session-import-upload": "Importer en masse"
+          "title": "Certification sessions",
+          "session-creation": "Create a session",
+          "session-multiple-creation-edition": "Create/edit several sessions"
         },
         "delete-modal": {
-          "title": "Supprimer la session",
-          "label": "Souhaitez-vous supprimer la session <span>{sessionId}</span> ?",
-          "enrolled-candidates": "<span>{enrolledCandidatesCount} candidats</span> sont inscrits à cette session",
-          "disclaimer": "Attention, cette action est irréversible."
+          "title": "Delete the session",
+          "label": "Do you want to delete the session <span>{sessionId}</span> ?",
+          "enrolled-candidates": "<span>{enrolledCandidatesCount} candidates</span> are enrolled in this session",
+          "disclaimer": "Warning, this action is irreversible."
         },
         "session-summary": {
-          "session-number": "N° de session",
-          "center-name": "Nom du site",
-          "room": "Salle",
+          "session-number": "Session No.",
+          "center-name": "Location name",
+          "room": "Room",
           "date": "Date",
-          "time": "Heure",
-          "supervisor": "Surveillant(s)",
-          "enrolled-candidates": "Candidats inscrits",
-          "effective-candidates": "Certifications passées",
-          "status": "Statut",
+          "time": "Time",
+          "supervisor": "Invigilator(s)",
+          "enrolled-candidates": "Signed up candidates",
+          "effective-candidates": "Certifications taken",
+          "status": "Status",
           "actions": "Actions",
-          "certification-session": "Session de certification",
-          "delete-session": "Supprimer la session {sessionSummaryId}",
-          "tooltip-label": "Au moins un candidat a rejoint la session, vous ne pouvez pas la supprimer.",
-          "empty-table": "Aucune session trouvée",
+          "certification-session": "Certification session",
+          "delete-session": "Delete the session {sessionSummaryId}",
+          "tooltip-label": "At least one candidate has joined the session, you can’t delete it.",
+          "empty-table": "No session found",
           "session-and-id": "Session {sessionId}"
         },
         "empty": {
-          "session-creation": "Créer une session",
-          "session-multiple-creation": "Créer plusieurs sessionsx"
+          "header": "Create my first certification session",
+          "header-alt": "I can create certification sessions",
+          "session-creation": "Create a session",
+          "session-multiple-creation": "Create several sessions"
         }
       },
       "detail": {
