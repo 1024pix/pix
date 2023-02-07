@@ -46,13 +46,13 @@
           required
           autocomplete="current-password"
         />
+        <LinkTo
+          @route="password-reset-demand"
+          class="link link--grey sign-form-link sign-form-body__forgotten-password-link"
+        >
+          {{t "pages.sign-in.forgotten-password"}}</LinkTo>
       </div>
     </fieldset>
-    <LinkTo
-      @route="password-reset-demand"
-      class="link link--grey sign-form-link sign-form-body__forgotten-password-link"
-    >
-      {{t "pages.sign-in.forgotten-password"}}</LinkTo>
 
     <div class="sign-form-body__bottom-button">
       <PixButton @type="submit" @shape="rounded">
