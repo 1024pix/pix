@@ -5,6 +5,8 @@ import { computed } from '@ember/object';
 
 export default class SharedProfileForCampaign extends Model {
   @attr('number') pixScore;
+  @attr('number') maxReachablePixScore;
+  @attr('number') maxReachableLevel;
   @attr('date') sharedAt;
   @attr('boolean') canRetry;
   @hasMany('scorecard') scorecards;

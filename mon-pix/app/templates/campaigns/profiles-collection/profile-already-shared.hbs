@@ -39,7 +39,11 @@
       </div>
     {{/if}}
     <div class="send-profile-header__profile">
-      <HexagonScore @pixScore={{this.model.sharedProfile.pixScore}} />
+      <HexagonScore
+        @pixScore={{this.model.sharedProfile.pixScore}}
+        @maxReachablePixScore={{this.model.sharedProfile.maxReachablePixScore}}
+        @maxReachableLevel={{this.model.sharedProfile.maxReachableLevel}}
+      />
       <div class="send-profile-header__profile__cards">
         <ProfileScorecards
           class="send-profile-header__profile__cards"

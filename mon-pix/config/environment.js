@@ -65,11 +65,6 @@ module.exports = function (environment) {
       FRENCH_NEW_LEVEL_MESSAGE: process.env.FRENCH_NEW_LEVEL_MESSAGE || '',
       ENGLISH_NEW_LEVEL_MESSAGE: process.env.ENGLISH_NEW_LEVEL_MESSAGE || '',
       IS_PROD_ENVIRONMENT: (process.env.REVIEW_APP === 'false' && environment === 'production') || false,
-      MAX_REACHABLE_LEVEL: _getEnvironmentVariableAsNumber({
-        environmentVariableName: 'MAX_REACHABLE_LEVEL',
-        defaultValue: 5,
-        minValue: 5,
-      }),
       EMBED_ALLOWED_ORIGINS: (
         process.env.EMBED_ALLOWED_ORIGINS || 'https://epreuves.pix.fr,https://1024pix.github.io'
       ).split(','),
