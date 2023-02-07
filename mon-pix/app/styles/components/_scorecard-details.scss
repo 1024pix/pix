@@ -242,6 +242,10 @@
   &__footer {
     @include device-is('tablet') {
       display: flex;
+
+      li + li {
+        margin-left: 1rem;
+      }
     }
   }
 }
