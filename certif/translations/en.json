@@ -35,6 +35,15 @@
         "should-change-password": "You currently have a temporary password. <a href=\"{url}\">Reset your password here</a>.",
         "invitation-was-cancelled": "This invitation is no longer valid.<br/>Please contact the administrator of your Pix Certif space.",
         "invitation-already-accepted": "This invitation has already been accepted.<br/>Please log in or contact the administrator of your Pix Certif space."
+      },
+      "login": "Log in",
+      "accessible-to": "Pix Certif is only accessible to Pix certification centres.",
+      "form": {
+        "mandatory-fields": "All fields are required.",
+        "email-address": "Email address",
+        "password": "Password",
+        "button": "Log in",
+        "forgotten-password": "Forgot your password?"
       }
     },
     "login-or-register": {
