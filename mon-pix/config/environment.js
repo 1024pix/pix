@@ -58,8 +58,6 @@ module.exports = function (environment) {
       }),
       BANNER_CONTENT: process.env.BANNER_CONTENT || '',
       BANNER_TYPE: process.env.BANNER_TYPE || '',
-      FRENCH_NEW_LEVEL_MESSAGE: process.env.FRENCH_NEW_LEVEL_MESSAGE || '',
-      ENGLISH_NEW_LEVEL_MESSAGE: process.env.ENGLISH_NEW_LEVEL_MESSAGE || '',
       IS_PROD_ENVIRONMENT: (process.env.REVIEW_APP === 'false' && environment === 'production') || false,
       EMBED_ALLOWED_ORIGINS: (
         process.env.EMBED_ALLOWED_ORIGINS || 'https://epreuves.pix.fr,https://1024pix.github.io'
