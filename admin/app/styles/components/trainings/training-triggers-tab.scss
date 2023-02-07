@@ -9,4 +9,13 @@
   &__description {
     @include text-small;
   }
+
+  &__toggler {
+    display: inline-flex;
+    margin-top: $spacing-s;
+
+    svg {
+      margin-right: $spacing-xs;
+    }
+  }
 }
