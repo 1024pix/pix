@@ -16,7 +16,7 @@ export default class UpdateStage extends Component {
   constructor() {
     super(...arguments);
     this.threshold = this.args.stage.threshold;
-    this.level = this.args.stage.level;
+    this.level = this.args.stage.level?.toString();
     this.title = this.args.stage.title;
     this.message = this.args.stage.message;
     this.prescriberTitle = this.args.stage.prescriberTitle;
