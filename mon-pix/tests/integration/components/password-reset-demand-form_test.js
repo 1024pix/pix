@@ -8,29 +8,27 @@ import hbs from 'htmlbars-inline-precompile';
 import { resolve, reject } from 'rsvp';
 import Service from '@ember/service';
 import { clickByLabel } from '../../helpers/click-by-label';
-import { contains } from '../../helpers/contains';
 import { render } from '@1024pix/ember-testing-library';
+import sinon from 'sinon';
 
 module('Integration | Component | password reset demand form', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('renders', async function (assert) {
-    await render(hbs`<PasswordResetDemandForm />`);
-    assert.dom('.sign-form__container').exists();
-  });
+  test('renders all the necessary elements of the form', async function (assert) {
+    // given
+    const service = this.owner.lookup('service:url');
+    service.currentDomain = { getExtension: sinon.stub().returns('org') };
 
-  test('renders all the necessary elements of the form ', async function (assert) {
     // when
-    await render(hbs`<PasswordResetDemandForm />`);
-
+    const screen = await render(hbs`<PasswordResetDemandForm />`);
     // then
-    assert.dom('.pix-logo__link').exists();
-    assert.dom('.sign-form-title').exists();
-    assert.dom('.sign-form-header__instruction').exists();
-    assert.dom('.sign-form__body').exists();
-    assert.dom('.form-textfield__label').exists();
-    assert.dom('.form-textfield__input-field-container').exists();
-    assert.ok(contains(this.intl.t('pages.password-reset-demand.actions.reset')));
+    assert.dom(screen.getByRole('img', { name: "Page d'accueil de Pix.org" })).exists();
+    assert.dom(screen.getByRole('link', { name: "Page d'accueil de Pix.org" })).hasProperty('href', 'https://pix.org/');
+    assert.dom(screen.getByRole('heading', { name: 'Mot de passe oublié ?' })).exists();
+    assert.dom(screen.getByText("Entrez votre adresse e-mail ci-dessous, et c'est repartix")).exists();
+    assert.dom(screen.getByRole('textbox', { name: 'obligatoire Adresse e-mail' })).exists();
+    assert.dom(screen.getByRole('button', { name: 'Réinitialiser mon mot de passe' })).exists();
+    assert.dom(screen.getByRole('link', { name: 'Retour à la page de connexion' })).exists();
   });
 
   test('should display error message when there is an error on password reset demand', async function (assert) {

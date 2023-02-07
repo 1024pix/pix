@@ -6,7 +6,7 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';
 
-module('Acceptance | Reset Password', function (hooks) {
+module('Acceptance | Password reset demand form', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
   setupIntl(hooks);
@@ -19,14 +19,6 @@ module('Acceptance | Reset Password', function (hooks) {
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(currentURL(), '/mot-de-passe-oublie');
-  });
-
-  test('display a form to reset the email', async function (assert) {
-    // when
-    await visit('/mot-de-passe-oublie');
-
-    // then
-    assert.dom('.sign-form__container').exists();
   });
 
   test('should stay on mot de passe oublié page, and show success message, when email sent correspond to an existing user', async function (assert) {
