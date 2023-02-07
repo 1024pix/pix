@@ -3,10 +3,10 @@
   <header class="login__header">
     <img src="/pix-certif-logo.svg" alt="Pix Certif" />
 
-    <h1 class="login-header__title">Connectez-vous</h1>
+    <h1 class="login-header__title">{{t "pages.login.login"}}</h1>
 
     <p class="login-header__information paragraph">
-      L'accès à Pix Certif est limité aux centres de certification Pix.
+      {{t "pages.login.accessible-to"}}
     </p>
 
     {{#if @hasInvitationAlreadyBeenAccepted}}
@@ -23,13 +23,13 @@
     <form class="login-main__form" {{on "submit" this.authenticate}}>
 
       <p class="login-main-form__mandatory-information paragraph">
-        Tous les champs sont obligatoires.
+        {{t "pages.login.form.mandatory-fields"}}
       </p>
 
       <PixInput
         @id="login-email"
         name="login"
-        @label="Adresse e-mail"
+        @label={{t "pages.login.form.email-address"}}
         autocomplete="email"
         type="email"
         required="true"
@@ -39,7 +39,7 @@
       <PixInputPassword
         @id="login-password"
         name="password"
-        @label="Mot de passe"
+        @label={{t "pages.login.form.password"}}
         autocomplete="current-password"
         required="true"
         {{on "input" this.setPassword}}
@@ -52,11 +52,13 @@
       {{/if}}
 
       <PixButton @type="submit">
-        Je me connecte
+        {{t "pages.login.form.button"}}
       </PixButton>
 
       <div class="login-main-form__forgotten-password">
-        <a href="https://app.pix.fr/mot-de-passe-oublie" target="_blank" rel="noopener noreferrer">Mot de passe oublié ?</a>
+        <a href="https://app.pix.fr/mot-de-passe-oublie" target="_blank" rel="noopener noreferrer">{{t
+            "pages.login.form.forgotten-password"
+          }}</a>
       </div>
     </form>
   </main>
