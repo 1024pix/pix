@@ -27,10 +27,12 @@
         "triggers": {
           "tabName": "Déclencheurs",
           "prerequisite": {
-            "title": "Objectifs à atteindre"
+            "title": "Objectif à atteindre",
+            "alternative-title": "Ajouter un objectif à atteindre"
           },
           "goal": {
-            "title": "Objectif à ne pas dépasser"
+            "title": "Objectif à ne pas dépasser",
+            "alternative-title": "Ajouter un objectif à ne pas dépasser"
           }
         },
         "targetProfiles": {

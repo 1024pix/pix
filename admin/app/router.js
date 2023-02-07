@@ -110,7 +110,9 @@ Router.map(function () {
       this.route('list');
       this.route('new');
       this.route('training', { path: '/:training_id' }, function () {
-        this.route('triggers');
+        this.route('triggers', function () {
+          this.route('edit');
+        });
         this.route('target-profiles');
       });
     });
