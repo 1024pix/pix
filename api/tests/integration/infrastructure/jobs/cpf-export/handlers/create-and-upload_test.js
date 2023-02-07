@@ -2,6 +2,7 @@ const { domainBuilder, expect, sinon } = require('../../../../../test-helper');
 const createAndUpload = require('../../../../../../lib/infrastructure/jobs/cpf-export/handlers/create-and-upload');
 const { createUnzip } = require('node:zlib');
 const fs = require('fs');
+const noop = require('lodash/noop');
 const proxyquire = require('proxyquire');
 const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
@@ -16,10 +17,12 @@ describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload',
   let cpfExternalStorage;
   let clock;
   const expectedFileName = 'pix-cpf-export-20220102-114327.xml.gz';
+  let logger;
 
   beforeEach(function () {
     const now = dayjs('2022-01-02T10:43:27Z').tz('Europe/Paris').toDate();
     clock = sinon.useFakeTimers(now);
+    logger = { error: noop, info: noop };
   });
 
   afterEach(function () {
@@ -28,7 +31,7 @@ describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload',
 
   it('should build an xml export file and upload it to an external storage', async function () {
     // given
-    const jobId = '555-444#01';
+    const batchId = '555-444#01';
 
     const cpfCertificationResults = [
       domainBuilder.buildCpfCertificationResult({ id: 12 }),
@@ -44,7 +47,7 @@ describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload',
       upload: sinon.stub(),
     };
 
-    cpfCertificationResultRepository.findByBatchId.withArgs(jobId).resolves(cpfCertificationResults);
+    cpfCertificationResultRepository.findByBatchId.withArgs(batchId).resolves(cpfCertificationResults);
 
     const cpfCertificationXmlExportService = proxyquire(
       '../../../../../../lib/domain/services/cpf-certification-xml-export-service',
@@ -69,10 +72,11 @@ describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload',
 
     // when
     await createAndUpload({
-      data: { jobId },
+      data: { batchId },
       cpfCertificationResultRepository,
       cpfCertificationXmlExportService,
       cpfExternalStorage,
+      logger,
     });
 
     // then

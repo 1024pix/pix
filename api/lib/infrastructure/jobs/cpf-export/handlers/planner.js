@@ -1,9 +1,8 @@
 const dayjs = require('dayjs');
 const { plannerJob } = require('../../../../config').cpf;
-const logger = require('../../../logger');
 const _ = require('lodash');
 
-module.exports = async function planner({ pgBoss, cpfCertificationResultRepository, jobId }) {
+module.exports = async function planner({ job, pgBoss, cpfCertificationResultRepository, logger }) {
   const startDate = dayjs()
     .utc()
     .subtract(plannerJob.minimumReliabilityPeriod + (plannerJob.monthsToProcess - 1), 'months')
@@ -14,17 +13,19 @@ module.exports = async function planner({ pgBoss, cpfCertificationResultReposito
   const certificationCourseIds = await cpfCertificationResultRepository.getIdsByTimeRange({ startDate, endDate });
   const certificationCourseIdChunks = _.chunk(certificationCourseIds, plannerJob.chunkSize);
   logger.info(
-    `CpfExportPlannerJob start from ${startDate} to ${endDate}, plan ${certificationCourseIdChunks.length} job(s) for ${certificationCourseIds.length} certifications`
+    `CpfExportPlannerJob start from ${startDate.toLocaleDateString()} to ${endDate.toLocaleDateString()}, plan ${
+      certificationCourseIdChunks.length
+    } job(s) for ${certificationCourseIds.length} certifications`
   );
   for (const [index, certificationCourseIds] of certificationCourseIdChunks.entries()) {
-    const batchId = `${jobId}#${index}`;
+    const batchId = `${job.id}#${index}`;
     await cpfCertificationResultRepository.markCertificationToExport({
       certificationCourseIds,
       batchId,
     });
 
     pgBoss.send('CpfExportBuilderJob', {
-      jobId: batchId,
+      batchId,
     });
   }
 };

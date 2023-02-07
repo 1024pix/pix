@@ -1,5 +1,4 @@
 const { createGzip } = require('node:zlib');
-const logger = require('../../../logger');
 const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
 const timezone = require('dayjs/plugin/timezone');
@@ -8,16 +7,17 @@ dayjs.extend(timezone);
 
 module.exports = async function createAndUpload({
   data,
+  logger,
   cpfCertificationResultRepository,
   cpfCertificationXmlExportService,
   cpfExternalStorage,
 }) {
+  const { batchId } = data;
   const start = new Date();
-  const { jobId } = data;
-  const cpfCertificationResults = await cpfCertificationResultRepository.findByBatchId(jobId);
+  const cpfCertificationResults = await cpfCertificationResultRepository.findByBatchId(batchId);
 
   if (cpfCertificationResults.length == 0) {
-    logger.error(`CpfExportBuilderJob: create CPF results, with no certification found (jobId ${jobId})`);
+    logger.error(`CpfExportBuilderJob: create CPF results, with no certification found (batchId ${batchId})`);
     return;
   }
 

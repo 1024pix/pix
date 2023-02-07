@@ -1,12 +1,12 @@
 const { domainBuilder, expect, sinon } = require('../../../../../test-helper');
 const createAndUpload = require('../../../../../../lib/infrastructure/jobs/cpf-export/handlers/create-and-upload');
 const { PassThrough, Readable } = require('stream');
+const noop = require('lodash/noop');
 const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
 const timezone = require('dayjs/plugin/timezone');
 dayjs.extend(utc);
 dayjs.extend(timezone);
-const logger = require('../../../../../../lib/infrastructure/logger');
 
 describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', function () {
   let cpfCertificationResultRepository;
@@ -14,6 +14,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
   let cpfExternalStorage;
   let loggerSpy;
   let clock;
+  let logger;
 
   beforeEach(function () {
     const now = dayjs('2022-01-01T10:43:27Z').tz('Europe/Paris').toDate();
@@ -29,7 +30,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
     cpfExternalStorage = {
       upload: sinon.stub(),
     };
-
+    logger = { error: noop, info: noop };
     loggerSpy = sinon.spy(logger, 'error');
   });
 
@@ -40,7 +41,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
   describe('when there are data to export', function () {
     it('should build an xml export file and upload it to an external storage', async function () {
       // given
-      const jobId = '555-444#01';
+      const batchId = '555-444#01';
 
       const cpfCertificationResults = [
         domainBuilder.buildCpfCertificationResult({ id: 12 }),
@@ -50,14 +51,15 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
         domainBuilder.buildCpfCertificationResult({ id: 114 }),
       ];
 
-      cpfCertificationResultRepository.findByBatchId.withArgs(jobId).resolves(cpfCertificationResults);
+      cpfCertificationResultRepository.findByBatchId.withArgs(batchId).resolves(cpfCertificationResults);
 
       // when
       await createAndUpload({
-        data: { jobId },
+        data: { batchId },
         cpfCertificationResultRepository,
         cpfCertificationXmlExportService,
         cpfExternalStorage,
+        logger,
       });
 
       // then
@@ -81,16 +83,17 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
   describe('when there are no data to export', function () {
     it('should not build export file and output an error message', async function () {
       // given
-      const jobId = '555-444#01';
+      const batchId = '555-444#01';
 
-      cpfCertificationResultRepository.findByBatchId.withArgs(jobId).resolves([]);
+      cpfCertificationResultRepository.findByBatchId.withArgs(batchId).resolves([]);
 
       // when
       await createAndUpload({
-        data: { jobId },
+        data: { batchId },
         cpfCertificationResultRepository,
         cpfCertificationXmlExportService,
         cpfExternalStorage,
+        logger,
       });
 
       // then
