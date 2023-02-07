@@ -3,7 +3,6 @@
   <div class="session-list-header__actions">
     <PixButtonLink @route="authenticated.sessions.new">
       {{t "pages.sessions.list.header.session-creation"}}
-      <FaIcon @icon="plus" class="new-session-icon" />
     </PixButtonLink>
     {{#if this.shouldRenderImportTemplateButton}}
       <PixButtonLink @route="authenticated.sessions.import">
