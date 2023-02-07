@@ -8,8 +8,16 @@ module('Integration | Component | hexagon-score', function (hooks) {
 
   module('Component rendering', function () {
     test('should display two dashes, when no pixScore provided', async function (assert) {
-      // given & when
-      const screen = await render(hbs`<HexagonScore />`);
+      // given
+      const maxReachablePixScore = 100;
+      const maxReachableLevel = 5;
+      this.set('maxReachablePixScore', maxReachablePixScore);
+      this.set('maxReachableLevel', maxReachableLevel);
+
+      // when
+      const screen = await render(
+        hbs`<HexagonScore @maxReachablePixScore={{this.maxReachablePixScore}} @maxReachableLevel={{this.maxReachableLevel}} />`
+      );
 
       // then
       assert.ok(screen.getByText('–'));
@@ -21,18 +29,44 @@ module('Integration | Component | hexagon-score', function (hooks) {
       this.set('pixScore', pixScore);
 
       // when
-      const screen = await render(hbs`<HexagonScore @pixScore={{this.pixScore}} />`);
+      const screen = await render(
+        hbs`<HexagonScore @pixScore={{this.pixScore}} @maxReachablePixScore={{this.maxReachablePixScore}} @maxReachableLevel={{this.maxReachableLevel}} />`
+      );
 
       // then
       assert.ok(screen.getByText(pixScore));
     });
 
     test('should display an information tooltip', async function (assert) {
-      // given & when
-      const screen = await render(hbs`<HexagonScore />`);
+      // given
+      const maxReachablePixScore = 100;
+      const maxReachableLevel = 5;
+      this.set('maxReachablePixScore', maxReachablePixScore);
+      this.set('maxReachableLevel', maxReachableLevel);
+
+      // when
+      const screen = await render(
+        hbs`<HexagonScore @maxReachablePixScore={{this.maxReachablePixScore}} @maxReachableLevel={{this.maxReachableLevel}} />`
+      );
 
       // then
       assert.ok(screen.getByRole('button', { name: this.intl.t('pages.profile.total-score-helper.label') }));
+    });
+
+    test('should display maxReachablePixScore', async function (assert) {
+      // given
+      const maxReachablePixScore = 100;
+      const maxReachableLevel = 5;
+      this.set('maxReachablePixScore', maxReachablePixScore);
+      this.set('maxReachableLevel', maxReachableLevel);
+
+      // when
+      const screen = await render(
+        hbs`<HexagonScore @maxReachableLevel={{this.maxReachableLevel}} @maxReachablePixScore={{this.maxReachablePixScore}}/>`
+      );
+
+      // then
+      assert.ok(screen.getByText(maxReachablePixScore));
     });
   });
 });

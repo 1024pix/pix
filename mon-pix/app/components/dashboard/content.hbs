@@ -13,7 +13,11 @@
 
   <section class="dashboard-content__score">
     <div class="dashboard-content-score__wrapper">
-      <HexagonScore @pixScore={{this.userScore}} />
+      <HexagonScore
+        @pixScore={{this.userScore}}
+        @maxReachablePixScore={{this.maxReachablePixScore}}
+        @maxReachableLevel={{this.maxReachableLevel}}
+      />
       <LinkTo @route="authenticated.profile" class="dashboard-content-score-wrapper__button">{{t
           "pages.dashboard.score.profile-link"
         }}</LinkTo>
