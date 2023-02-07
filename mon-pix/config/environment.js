@@ -44,7 +44,6 @@ module.exports = function (environment) {
       API_HOST: process.env.API_HOST || '',
       FT_FOCUS_CHALLENGE_ENABLED: _isFeatureEnabled(process.env.FT_FOCUS_CHALLENGE_ENABLED) || false,
       isTimerCountdownEnabled: true,
-      isMessageStatusTogglingEnabled: true,
       LOAD_EXTERNAL_SCRIPT: true,
       NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS: 5,
       MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({
@@ -162,7 +161,6 @@ module.exports = function (environment) {
 
     ENV.APP.API_HOST = 'http://localhost:3000';
     ENV.APP.isTimerCountdownEnabled = false;
-    ENV.APP.isMessageStatusTogglingEnabled = false;
     ENV.APP.LOAD_EXTERNAL_SCRIPT = false;
     ENV.APP.FT_FOCUS_CHALLENGE_ENABLED = true;
   }
