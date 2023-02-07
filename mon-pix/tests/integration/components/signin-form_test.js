@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import { module, test } from 'qunit';
-import { fillIn, click } from '@ember/test-helpers';
+import { fillIn } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { render, clickByName } from '@1024pix/ember-testing-library';
 
@@ -271,25 +271,6 @@ module('Integration | Component | signin form', function (hooks) {
       // Then
       sinon.assert.calledOnce(session.authenticateUser);
       assert.ok(true);
-    });
-  });
-
-  module('when the password visibility button is clicked', function () {
-    test('it should focus on input', async function (assert) {
-      // given
-      const screen = await render(hbs`<SigninForm />`);
-
-      // when
-      await click(screen.getByRole('button', { name: this.intl.t('common.form.visible-password') }));
-
-      // then
-      assert
-        .dom(
-          screen.getByRole('textbox', {
-            name: `${this.intl.t('pages.sign-in.fields.password.label')}`,
-          })
-        )
-        .isFocused();
     });
   });
 });

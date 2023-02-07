@@ -16,9 +16,8 @@ export default class SigninForm extends Component {
 
   @tracked hasFailed = false;
   @tracked errorMessage;
-
-  login = '';
-  password = '';
+  @tracked password = null;
+  @tracked login = null;
 
   get showcase() {
     return this.url.showcase;
@@ -38,6 +37,16 @@ export default class SigninForm extends Component {
       this.hasFailed = true;
       this._handleApiError(responseError);
     }
+  }
+
+  @action
+  updateLogin(event) {
+    this.login = event.target.value?.trim();
+  }
+
+  @action
+  updatePassword(event) {
+    this.password = event.target.value?.trim();
   }
 
   async _handleApiError(responseError) {
