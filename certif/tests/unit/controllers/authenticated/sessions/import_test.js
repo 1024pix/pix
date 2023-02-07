@@ -93,7 +93,7 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
       this.owner.register('service:current-user', CurrentUserStub);
       const token = 'a token';
 
-      controller.files = [Symbol('file 1')];
+      controller.file = Symbol('file 1');
 
       controller.session = {
         isAuthenticated: true,
@@ -131,7 +131,7 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
       this.owner.register('service:current-user', CurrentUserStub);
       const token = 'a token';
 
-      controller.files = [Symbol('file 1')];
+      controller.file = Symbol('file 1');
 
       controller.session = {
         isAuthenticated: true,
