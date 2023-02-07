@@ -13,7 +13,7 @@ describe('Acceptance | Scripts | convert-badges', function () {
     const badgeAlreadyConvertedId = 1;
     const badgeToConvertId = 2;
     const badgeWithNoSkillSetsId = 3;
-    const badgeConversionErrorTargetProfileTubesTooLowLevelId = 4;
+    const badgeLevelFlooredToTubeLevelId = 4;
     const badgeConversionErrorTubeNotInTargetProfile = 5;
     const badgeConversionErrorUnknownSkillId = 6;
     const badgeConversionErrorNoCorrespondingTubeId = 7;
@@ -24,10 +24,7 @@ describe('Acceptance | Scripts | convert-badges', function () {
     _buildBadgeAlreadyConverted(badgeAlreadyConvertedId);
     _buildBadgeToConvert(badgeToConvertId, learningContent);
     _buildBadgeWithNoSkillSets(badgeWithNoSkillSetsId);
-    _buildBadgeWithConversionErrorTargetProfileTubesTooLowLevel(
-      badgeConversionErrorTargetProfileTubesTooLowLevelId,
-      learningContent
-    );
+    _buildBadgeFlooredToTubeLevel(badgeLevelFlooredToTubeLevelId, learningContent);
     _buildBadgeWithConversionErrorTubeNotInTargetProfile(badgeConversionErrorTubeNotInTargetProfile, learningContent);
     _buildBadgeWithConversionErrorUnknownSkillId(badgeConversionErrorUnknownSkillId);
     _buildBadgeWithConversionErrorNoCorrespondingTubeId(badgeConversionErrorNoCorrespondingTubeId, learningContent);
@@ -42,7 +39,7 @@ describe('Acceptance | Scripts | convert-badges', function () {
     const criteriaForAlreadyConverted = await _getCriteria(badgeAlreadyConvertedId);
     const criteriaForToConvert = await _getCriteria(badgeToConvertId);
     const criteriaForNoSkillSets = await _getCriteria(badgeWithNoSkillSetsId);
-    const criteriaForErrorLowerLevel = await _getCriteria(badgeConversionErrorTargetProfileTubesTooLowLevelId);
+    const criteriaForFlooredToTubeLevel = await _getCriteria(badgeLevelFlooredToTubeLevelId);
     const criteriaForErrorTubeNotInTargetProfile = await _getCriteria(badgeConversionErrorTubeNotInTargetProfile);
     const criteriaForErrorUnknownSkill = await _getCriteria(badgeConversionErrorUnknownSkillId);
     const criteriaForErrorNoCorrespondingTube = await _getCriteria(badgeConversionErrorNoCorrespondingTubeId);
@@ -96,13 +93,13 @@ describe('Acceptance | Scripts | convert-badges', function () {
       [{ scope: 'CampaignParticipation', threshold: 40, name: null }],
       'Echec RT sans skill sets'
     );
-    expect(criteriaForErrorLowerLevel).to.deep.equal(
+    expect(criteriaForFlooredToTubeLevel).to.deep.equal(
       [
         {
-          scope: 'SkillSet',
-          name: null,
+          scope: 'CappedTubes',
+          name: 'OnlyCriterion',
           threshold: 50,
-          skillSets: [{ name: 'OnlyCriterion', skillIds: ['skill2TubeD', 'skill4TubeD'] }],
+          cappedTubes: [{ id: 'tubeD', level: 3 }],
         },
       ],
       'Echec RT avec niveau supérieur au profil cible'
@@ -139,9 +136,6 @@ describe('Acceptance | Scripts | convert-badges', function () {
         },
       ],
       'Echec RT acquis sans sujet'
-    );
-    expect(loggerErrorStub).to.have.been.calledWith(
-      '4 Echec. Raison : Error: Le RT contient des acquis avec un niveau supérieur au profil cible.'
     );
     expect(loggerErrorStub).to.have.been.calledWith(
       '5 Echec. Raison : Error: Le RT contient des acquis qui ne sont pas compris dans le profil cible.'
@@ -251,7 +245,7 @@ function _buildBadgeWithNoSkillSets(badgeId) {
   databaseBuilder.factory.buildBadgeCriterion.scopeCampaignParticipation({ threshold: 40, badgeId });
 }
 
-function _buildBadgeWithConversionErrorTargetProfileTubesTooLowLevel(badgeId, learningContent) {
+function _buildBadgeFlooredToTubeLevel(badgeId, learningContent) {
   const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
   databaseBuilder.factory.buildTargetProfileTube({ tubeId: 'tubeD', level: 3, targetProfileId });
   databaseBuilder.factory.buildBadge({ id: badgeId, targetProfileId, key: `badge_${badgeId}` });
