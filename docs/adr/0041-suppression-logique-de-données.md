@@ -24,6 +24,8 @@ Nous devons donc trouver une solution temporaire satisfaisante qui répond à pl
 - demande un effort minimum
 - facile à refactorer
 
+La solution choisie sera temporaire et il y aura un travail de refactoring à faire sur la fonctionnalité de suppression d'un prescrit lorsque la solution d'archivage intermédiaire aura été déterminée.
+
 Voici les règles métiers qui s'appliquent aux données des prescrits qui sont supprimées :
 
 - Les données des prescrits supprimés ne seront plus utilisées dans aucun contrôle métier dans l'application.
