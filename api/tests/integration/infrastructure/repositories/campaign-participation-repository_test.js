@@ -545,6 +545,27 @@ describe('Integration | Repository | Campaign Participation', function () {
       userId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
     });
+    it('should only retrieve participations from user', async function () {
+      const campaignId = databaseBuilder.factory.buildCampaign({
+        createdAt: new Date('2000-01-01T10:00:00Z'),
+        archivedAt: null,
+      }).id;
+      const otherUserId = databaseBuilder.factory.buildUser().id;
+
+      databaseBuilder.factory.buildCampaignParticipation({
+        userId,
+        campaignId,
+      });
+      databaseBuilder.factory.buildCampaignParticipation({
+        userId: otherUserId,
+        campaignId,
+      });
+      await databaseBuilder.commit();
+
+      const latestCampaignParticipations = await campaignParticipationRepository.findLatestOngoingByUserId(userId);
+
+      expect(latestCampaignParticipations.length).to.equal(1);
+    });
 
     it('should retrieve the most recent campaign participations where the campaign is not archived', async function () {
       const campaignId = databaseBuilder.factory.buildCampaign({
