@@ -102,7 +102,7 @@ module('Unit | Component | reset password form', function (hooks) {
         },
         {
           status: '500',
-          message: 'api-error-messages.internal-server-error',
+          message: 'common.api-error-messages.internal-server-error',
         },
       ].forEach((testCase) => {
         test(`it should display ${testCase.message} when http status is ${testCase.status}`, async function (assert) {
