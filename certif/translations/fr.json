@@ -188,6 +188,21 @@
           "session-password": "Mot de passe de session",
           "session-update": "Modifier les informations de la session {sessionId}"
         }
+      },
+      "new": {
+        "title": "Création d’une session de certification",
+        "actions": {
+          "cancel-extra-information": "Annuler la création de session et retourner vers la page précédente",
+          "create-session": "Créer la session"
+        },
+        "address": "Nom du site",
+        "date": "Date de début",
+        "description": "Observations",
+        "examiner": "Surveillant(s)",
+        "extra-information": "Planification d’une session | Pix Certif",
+        "required-fields": "Les champs marqués de <abbr title=\"obligatoire\" class=\"mandatory-mark\">*</abbr> sont obligatoires.",
+        "room": "Nom de la salle",
+        "time": "Heure de début (heure locale)"
       }
     },
     "session-supervising": {

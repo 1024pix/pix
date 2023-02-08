@@ -1,18 +1,16 @@
 {{page-title this.pageTitle replace=true}}
 <div>
-  <h1 class="page__title page-title">Création d'une session de certification</h1>
+  <h1 class="page__title page-title">{{t "pages.sessions.new.title"}}</h1>
 
   <form {{on "submit" this.createSession}} class="session-form">
     <p class="session-form__mandatory-information">
-      Les champs marqués de
-      <abbr title="obligatoire" class="mandatory-mark">*</abbr>
-      sont obligatoires.
+      {{t "pages.sessions.new.required-fields" htmlSafe=true}}
     </p>
 
     <div class="session-form__field">
       <label for="session-address" class="label">
         <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-        Nom du site
+        {{t "pages.sessions.new.address"}}
       </label>
       <Input
         id="session-address"
@@ -32,7 +30,7 @@
     <div class="session-form__field">
       <label for="session-room" class="label">
         <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-        Nom de la salle
+        {{t "pages.sessions.new.room"}}
       </label>
       <Input
         id="session-room"
@@ -52,7 +50,7 @@
     <div class="session-form__field">
       <label for="session-date" class="label">
         <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-        Date de début
+        {{t "pages.sessions.new.date"}}
       </label>
       <EmberFlatpickr
         id="session-date"
@@ -76,7 +74,7 @@
     <div class="session-form__field">
       <label for="session-time" class="label">
         <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-        Heure de début (heure locale)
+        {{t "pages.sessions.new.time"}}
       </label>
       <EmberFlatpickr
         id="session-time"
@@ -101,7 +99,7 @@
     <div class="session-form__field">
       <label for="session-examiner" class="label">
         <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-        Surveillant(s)
+        {{t "pages.sessions.new.examiner"}}
       </label>
       <Input
         id="session-examiner"
@@ -119,7 +117,7 @@
     </div>
 
     <div class="session-form__field">
-      <label for="session-description" class="label">Observations</label>
+      <label for="session-description" class="label">{{t "pages.sessions.new.description"}}</label>
       <Textarea
         id="session-description"
         name="session-description"
@@ -137,14 +135,14 @@
           @backgroundColor="transparent-light"
           @triggerAction={{this.cancel}}
           @isBorderVisible="true"
-          aria-label="Annuler la création de session et retourner vers la page précédente"
+          aria-label={{t "pages.sessions.new.actions.cancel-extra-information"}}
         >
-          Annuler
+          {{t "common.actions.cancel"}}
         </PixButton>
       </li>
       <li>
         <PixButton @type="submit">
-          Créer la session
+          {{t "pages.sessions.new.actions.create-session"}}
         </PixButton>
       </li>
     </ul>
