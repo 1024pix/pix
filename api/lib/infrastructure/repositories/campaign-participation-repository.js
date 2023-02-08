@@ -1,11 +1,11 @@
-const BookshelfCampaignParticipation = require('../orm-models/CampaignParticipation');
 const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
 const CampaignTypes = require('../../domain/models/CampaignTypes');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../../../db/knex-database-connection');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 const knowledgeElementSnapshotRepository = require('./knowledge-element-snapshot-repository');
 const CampaignParticipation = require('../../domain/models/CampaignParticipation');
+const Assessment = require('../../domain/models/Assessment');
+const Campaign = require('../../domain/models/Campaign');
 const DomainTransaction = require('../DomainTransaction');
 const { NotFoundError } = require('../../domain/errors');
 
@@ -35,11 +35,15 @@ module.exports = {
     return result?.code || null;
   },
   async get(id, domainTransaction = DomainTransaction.emptyTransaction()) {
-    const campaignParticipation = await BookshelfCampaignParticipation.where({ id }).fetch({
-      withRelated: ['campaign', 'assessments'],
-      transacting: domainTransaction.knexTransaction,
+    const knexConn = domainTransaction.knexTransaction || knex;
+    const campaignParticipation = await knexConn('campaign-participations').where({ id }).first();
+    const campaign = await knexConn('campaigns').where({ id: campaignParticipation.campaignId }).first();
+    const assessments = await knexConn('assessments').where({ campaignParticipationId: id });
+    return new CampaignParticipation({
+      ...campaignParticipation,
+      campaign: new Campaign(campaign),
+      assessments: assessments.map((assessment) => new Assessment(assessment)),
     });
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaignParticipation, campaignParticipation);
   },
 
   async update(campaignParticipation, domainTransaction = DomainTransaction.emptyTransaction()) {
@@ -50,48 +54,60 @@ module.exports = {
   },
 
   async findProfilesCollectionResultDataByCampaignId(campaignId) {
-    const results = await knex
-      .with('campaignParticipationWithUser', (qb) => {
-        qb.select([
-          'campaign-participations.*',
-          'organization-learners.studentNumber',
-          'organization-learners.division',
-          'organization-learners.group',
-          'organization-learners.firstName',
-          'organization-learners.lastName',
-        ])
-          .from('campaign-participations')
-          .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
-          .where({ campaignId, isImproved: false, deletedAt: null });
-      })
-      .from('campaignParticipationWithUser');
+    const results = await knex('campaign-participations')
+      .select([
+        'campaign-participations.*',
+        'organization-learners.studentNumber',
+        'organization-learners.division',
+        'organization-learners.group',
+        'organization-learners.firstName',
+        'organization-learners.lastName',
+      ])
+      .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
+      .where({ campaignId, isImproved: false, deletedAt: null });
 
     return results.map(_rowToResult);
   },
 
-  findLatestOngoingByUserId(userId) {
-    return BookshelfCampaignParticipation.query((qb) => {
-      qb.innerJoin('campaigns', 'campaign-participations.campaignId', 'campaigns.id');
-      qb.whereNull('campaigns.archivedAt');
-      qb.orderBy('campaign-participations.createdAt', 'DESC');
-    })
+  async findLatestOngoingByUserId(userId) {
+    const campaignParticipations = await knex('campaign-participations')
+      .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
+      .whereNull('campaigns.archivedAt')
       .where({ userId })
-      .fetchAll({
-        required: false,
-        withRelated: ['campaign', 'assessments'],
-      })
-      .then((campaignParticipations) =>
-        bookshelfToDomainConverter.buildDomainObjects(BookshelfCampaignParticipation, campaignParticipations)
-      );
+      .orderBy('campaign-participations.createdAt', 'DESC')
+      .select('campaign-participations.*');
+    const campaigns = await knex('campaigns').whereIn(
+      'id',
+      campaignParticipations.map((campaignParticipation) => campaignParticipation.campaignId)
+    );
+    const assessments = await knex('assessments')
+      .whereIn(
+        'campaignParticipationId',
+        campaignParticipations.map((campaignParticipation) => campaignParticipation.id)
+      )
+      .orderBy('createdAt');
+    return campaignParticipations.map((campaignParticipation) => {
+      const campaign = campaigns.find((campaign) => campaign.id === campaignParticipation.campaignId);
+      return new CampaignParticipation({
+        ...campaignParticipation,
+        campaign: new Campaign(campaign),
+        assessments: assessments
+          .filter((assessment) => assessment.campaignParticipationId === campaignParticipation.id)
+          .map((assessment) => new Assessment(assessment)),
+      });
+    });
   },
 
   async findOneByCampaignIdAndUserId({ campaignId, userId }) {
-    const campaignParticipation = await BookshelfCampaignParticipation.where({
-      campaignId,
-      userId,
-      isImproved: false,
-    }).fetch({ require: false, withRelated: ['assessments'] });
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaignParticipation, campaignParticipation);
+    const campaignParticipation = await knex('campaign-participations')
+      .where({ userId, isImproved: false, campaignId })
+      .first();
+    if (!campaignParticipation) return null;
+    const assessments = await knex('assessments').where({ campaignParticipationId: campaignParticipation.id });
+    return new CampaignParticipation({
+      ...campaignParticipation,
+      assessments: assessments.map((assessment) => new Assessment(assessment)),
+    });
   },
 
   async updateWithSnapshot(campaignParticipation, domainTransaction = DomainTransaction.emptyTransaction()) {
