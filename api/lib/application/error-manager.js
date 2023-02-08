@@ -332,6 +332,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.SessionWithoutStartedCertificationError) {
     return new HttpErrors.BadRequestError(error.message);
   }
+  if (error instanceof DomainErrors.SessionWithIdAndInformationOnMassImportError) {
+    return new HttpErrors.BadRequestError(error.message);
+  }
   if (error instanceof DomainErrors.SessionWithAbortReasonOnCompletedCertificationCourseError) {
     return new HttpErrors.ConflictError(error.message);
   }

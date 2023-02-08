@@ -594,6 +594,14 @@ describe('Integration | API | Controller Error', function () {
         'Erreur lors de la création des paramètres utilisateur relatifs à Pix Orga.'
       );
     });
+
+    it('responds Bad Request when a SessionWithIdAndInformationOnMassImportError error occurs', async function () {
+      routeHandler.throws(new DomainErrors.SessionWithIdAndInformationOnMassImportError());
+      const response = await server.requestObject(request);
+
+      expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);
+      expect(responseDetail(response)).to.equal('Merci de ne pas renseigner les informations de session');
+    });
   });
 
   context('422 Unprocessable Entity', function () {

@@ -102,6 +102,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
 
           const expectedResult = [
             {
+              sessionId: undefined,
               address: 'Site 1',
               room: 'Salle 1',
               date: '2023-05-12',
@@ -129,6 +130,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
 
             const expectedResult = [
               {
+                sessionId: undefined,
                 address: 'Site 1',
                 room: 'Salle 1',
                 date: '2023-05-12',
@@ -159,6 +161,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
 
           const expectedResult = [
             {
+              sessionId: undefined,
               address: 'Site 1',
               room: 'Salle 1',
               date: '2023-05-12',
@@ -168,6 +171,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
               certificationCandidates: [],
             },
             {
+              sessionId: undefined,
               address: 'Site 2',
               room: 'Salle 2',
               date: '2023-05-12',
@@ -197,6 +201,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
 
           const expectedResult = [
             {
+              sessionId: undefined,
               address: 'Site 1',
               room: 'Salle 1',
               date: '2023-05-12',
@@ -241,6 +246,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
               ],
             },
             {
+              sessionId: undefined,
               address: 'Site 2',
               room: 'Salle 2',
               date: '2023-05-12',
@@ -337,6 +343,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
 
           const expectedResult = [
             {
+              sessionId: undefined,
               address: 'Site 1',
               room: 'Salle 1',
               date: '2023-05-12',
@@ -395,6 +402,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
             // then
             const expectedResult = [
               {
+                sessionId: undefined,
                 address: 'Site toto',
                 room: 'Salle toto',
                 date: '2023-05-12',
@@ -439,6 +447,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
 
         const expectedResult = [
           {
+            sessionId: undefined,
             address: 'Site 1',
             room: 'Salle 1',
             date: '2023-05-12',
@@ -484,6 +493,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
 
         const expectedResult = [
           {
+            sessionId: undefined,
             address: 'Site 1',
             room: 'Salle 1',
             date: '2023-05-12',

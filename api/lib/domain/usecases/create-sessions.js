@@ -5,7 +5,7 @@ const sessionCodeService = require('../services/session-code-service');
 const certificationCpfService = require('../services/certification-cpf-service');
 const CertificationCandidate = require('../models/CertificationCandidate');
 const bluebird = require('bluebird');
-const { InvalidCertificationCandidate } = require('../errors');
+const { InvalidCertificationCandidate, SessionWithIdAndInformationOnMassImportError } = require('../errors');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = async function createSessions({
@@ -24,29 +24,33 @@ module.exports = async function createSessions({
 
   const { name: certificationCenter, isSco } = await certificationCenterRepository.get(certificationCenterId);
 
-  for (const session of sessions) {
-    const sessionAlreadyExisting = await sessionRepository.isSessionExisting({ ...session });
-    if (sessionAlreadyExisting) {
-      throw new UnprocessableEntityError(`Session happening on ${session.date} at ${session.time} already exists`);
-    }
-  }
-
   await DomainTransaction.execute(async (domainTransaction) => {
     await bluebird.mapSeries(sessions, async (session) => {
       let { sessionId } = session;
       let domainSession;
 
       if (sessionId) {
-        domainSession = new Session({
-          ...session,
-          certificationCenterId,
-          certificationCenter,
-        });
+        if (_hasSessionInfo(session)) {
+          throw new SessionWithIdAndInformationOnMassImportError(
+            `Merci de ne pas renseigner les informations de session pour la session: ${sessionId}`
+          );
+        } else {
+          domainSession = new Session({
+            ...session,
+            certificationCenterId,
+            certificationCenter,
+          });
 
-        await _deleteExistingCandidatesInSession(certificationCandidateRepository, sessionId);
+          await _deleteExistingCandidatesInSession({ certificationCandidateRepository, sessionId, domainTransaction });
+        }
       }
 
-      if (!sessionId) {
+      if (!sessionId && _hasSessionInfo(session)) {
+        const isSessionExisting = await sessionRepository.isSessionExisting({ ...session });
+        if (isSessionExisting) {
+          throw new UnprocessableEntityError(`Session happening on ${session.date} at ${session.time} already exists`);
+        }
+
         domainSession = _createAndValidateNewSessionToSave(session, certificationCenterId, certificationCenter);
         const { id } = await _saveNewSessionReturningId(sessionRepository, domainSession, domainTransaction);
         sessionId = id;
@@ -69,6 +73,11 @@ module.exports = async function createSessions({
     });
   });
 };
+
+function _hasSessionInfo(session) {
+  return session.address || session.room || session.date || session.time || session.examiner;
+}
+
 async function _saveNewSessionReturningId(sessionRepository, domainSession, domainTransaction) {
   return await sessionRepository.save(domainSession, domainTransaction);
 }
@@ -87,8 +96,8 @@ function _createAndValidateNewSessionToSave(session, certificationCenterId, cert
   return domainSession;
 }
 
-async function _deleteExistingCandidatesInSession(certificationCandidateRepository, sessionId) {
-  await certificationCandidateRepository.deleteBySessionId({ sessionId });
+async function _deleteExistingCandidatesInSession({ certificationCandidateRepository, sessionId, domainTransaction }) {
+  await certificationCandidateRepository.deleteBySessionId({ sessionId, domainTransaction });
 }
 
 async function _createCertificationCandidates({

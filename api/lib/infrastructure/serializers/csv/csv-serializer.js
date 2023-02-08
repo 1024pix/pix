@@ -213,10 +213,11 @@ function _hasCandidateInformation({ lastName }) {
   return Boolean(lastName);
 }
 
-function _createSession({ address, room, date, time, examiner, description }) {
+function _createSession({ sessionId, address, room, date, time, examiner, description }) {
   const uniqueKey = _generateUniqueKey({ address, room, date, time });
 
   return {
+    sessionId: sessionId ? sessionId : undefined,
     uniqueKey,
     address,
     room,
