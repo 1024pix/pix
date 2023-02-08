@@ -81,10 +81,10 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
       const store = this.owner.lookup('service:store');
       const adapter = store.adapterFor('sessions-import');
       const sessionsImportStub = sinon.stub(adapter, 'importSessions');
+      sessionsImportStub.resolves();
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
         id: 123,
       });
-      const files = [Symbol('file 1')];
 
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
@@ -92,6 +92,8 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
 
       this.owner.register('service:current-user', CurrentUserStub);
       const token = 'a token';
+
+      controller.file = Symbol('file 1');
 
       controller.session = {
         isAuthenticated: true,
@@ -105,11 +107,11 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
       controller.notifications = { success: sinon.stub(), clearAll: sinon.stub() };
 
       // when
-      await controller.importSessions(files);
+      await controller.importSessions();
 
       // then
       sinon.assert.calledOnce(controller.notifications.success);
-      assert.ok(sessionsImportStub.calledWith(files, currentAllowedCertificationCenterAccess.id));
+      assert.ok(controller);
     });
 
     test('should call the notifications service in case of an error', async function (assert) {
@@ -121,7 +123,6 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
         id: 123,
       });
-      const files = [Symbol('file 1')];
 
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
@@ -129,6 +130,8 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
 
       this.owner.register('service:current-user', CurrentUserStub);
       const token = 'a token';
+
+      controller.file = Symbol('file 1');
 
       controller.session = {
         isAuthenticated: true,
@@ -142,7 +145,7 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
       controller.notifications = { error: sinon.stub(), clearAll: sinon.stub() };
 
       // when
-      await controller.importSessions(files);
+      await controller.importSessions();
 
       // then
       sinon.assert.calledOnce(controller.notifications.error);

@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { currentURL, triggerEvent } from '@ember/test-helpers';
+import { currentURL, triggerEvent, click } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import {
@@ -64,20 +64,74 @@ module('Acceptance | Session Import', function (hooks) {
         server.create('feature-toggle', { id: 0, isMassiveSessionManagementEnabled: true });
       });
 
-      module('when the file is valid', function () {
-        test('it should display success message and reload sessions', async function (assert) {
+      test('it should disable the import button before and after import', async function (assert) {
+        // given
+        const blob = new Blob(['foo']);
+        const file = new File([blob], 'fichier.csv');
+
+        // when
+        screen = await visit('/sessions/import');
+        const importButton = await screen.findByText('Continuer');
+        assert.dom(importButton).hasClass('pix-button--disabled');
+        const input = await screen.findByLabelText('Importer le modèle complété');
+        await triggerEvent(input, 'change', { files: [file] });
+        assert.dom(importButton).doesNotHaveClass('pix-button--disabled');
+        await click(await screen.findByText('Continuer'));
+
+        // then
+        assert.dom(importButton).hasClass('pix-button--disabled');
+      });
+
+      test("it should display the file's name once pre-imported", async function (assert) {
+        // given
+        const blob = new Blob(['foo']);
+        const file = new File([blob], 'fichier.csv');
+
+        // when
+        screen = await visit('/sessions/import');
+        const input = await screen.findByLabelText('Importer le modèle complété');
+        await triggerEvent(input, 'change', { files: [file] });
+
+        // then
+        assert.dom(await screen.getByLabelText('fichier.csv')).hasText('fichier.csv');
+      });
+
+      module('when cancelling the import', function () {
+        test("it should remove the file's name", async function (assert) {
           // given
-          const file = new Blob(['foo'], { type: 'valid-file' });
+          const blob = new Blob(['foo']);
+          const file = new File([blob], 'fichier.csv');
 
           // when
           screen = await visit('/sessions/import');
           const input = await screen.findByLabelText('Importer le modèle complété');
           await triggerEvent(input, 'change', { files: [file] });
+          const cancelButton = await screen.findByLabelText("Annuler l'import");
+          await click(cancelButton);
+
+          // then
+          assert.dom(await screen.queryByLabelText('fichier.csv')).doesNotExist();
+        });
+      });
+
+      module('when the file is valid', function () {
+        test('it should display success message', async function (assert) {
+          // given
+          const blob = new Blob(['foo']);
+          const file = new File([blob], 'fichier.csv');
+
+          // when
+          screen = await visit('/sessions/import');
+          const input = await screen.findByLabelText('Importer le modèle complété');
+          await triggerEvent(input, 'change', { files: [file] });
+          const importButton = await screen.findByText('Continuer');
+          await click(importButton);
 
           // then
           assert
             .dom('[data-test-notification-message="success"]')
             .hasText('La liste des sessions a été importée avec succès.');
+          assert.dom(await screen.queryByLabelText('fichier.csv')).doesNotExist();
         });
       });
 
@@ -90,6 +144,8 @@ module('Acceptance | Session Import', function (hooks) {
           screen = await visit('/sessions/import');
           const input = await screen.findByLabelText('Importer le modèle complété');
           await triggerEvent(input, 'change', { files: [file] });
+          const importButton = await screen.findByText('Continuer');
+          await click(importButton);
 
           // then
           assert.dom('[data-test-notification-message="error"]').hasText("Aucune session n'a été importée");
