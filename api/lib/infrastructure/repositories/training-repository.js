@@ -8,22 +8,6 @@ const { fetchPage } = require('../utils/knex-utils');
 const TABLE_NAME = 'trainings';
 
 module.exports = {
-  async findByTargetProfileIdAndLocale({ targetProfileId, locale = 'fr-fr' }) {
-    const trainingsDTO = await knex(TABLE_NAME)
-      .select('trainings.*')
-      .join('target-profile-trainings', `${TABLE_NAME}.id`, 'trainingId')
-      .where({ targetProfileId })
-      .where({ locale })
-      .orderBy('trainings.id', 'asc');
-
-    const targetProfileTrainings = await knex('target-profile-trainings').whereIn(
-      'trainingId',
-      trainingsDTO.map(({ id }) => id)
-    );
-
-    return trainingsDTO.map((training) => _toDomain(training, targetProfileTrainings));
-  },
-
   async get(id) {
     const training = await knex(TABLE_NAME).where({ id }).first();
     if (!training) {
