@@ -8,10 +8,11 @@
         name="firstName"
         type="firstName"
         {{on "focusout" this.validateFirstName}}
-        @errorMessage={{this.firstNameValidationMessage}}
         required={{true}}
         aria-required={{true}}
         autocomplete="given-name"
+        @validationStatus={{this.validation.firstName.status}}
+        @errorMessage={{this.validation.firstName.message}}
       />
     </div>
 
@@ -22,10 +23,11 @@
         name="lastName"
         type="lastName"
         {{on "focusout" this.validateLastName}}
-        @errorMessage={{this.lastNameValidationMessage}}
         required={{true}}
         aria-required={{true}}
         autocomplete="family-name"
+        @validationStatus={{this.validation.lastName.status}}
+        @errorMessage={{this.validation.lastName.message}}
       />
     </div>
 
@@ -36,10 +38,11 @@
         name="email"
         type="email"
         {{on "focusout" this.validateEmail}}
-        @errorMessage={{this.emailValidationMessage}}
         required={{true}}
         aria-required={{true}}
         autocomplete="email"
+        @validationStatus={{this.validation.email.status}}
+        @errorMessage={{this.validation.email.message}}
       />
     </div>
 
@@ -53,7 +56,8 @@
         aria-required={{true}}
         {{on "input" this.validatePassword}}
         {{on "focusout" this.validatePassword}}
-        @errorMessage={{this.passwordValidationMessage}}
+        @validationStatus={{this.validation.password.status}}
+        @errorMessage={{this.validation.password.message}}
       />
     </div>
 

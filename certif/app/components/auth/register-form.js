@@ -7,6 +7,39 @@ import isEmailValid from '../../utils/email-validator';
 import isPasswordValid from '../../utils/password-validator';
 import get from 'lodash/get';
 
+const STATUSES = {
+  DEFAULT: 'default',
+  SUCCESS: 'success',
+  ERROR: 'error',
+};
+
+class LastName {
+  @tracked status = STATUSES.DEFAULT;
+  @tracked message = null;
+}
+
+class FirstName {
+  @tracked status = STATUSES.DEFAULT;
+  @tracked message = null;
+}
+
+class Email {
+  @tracked status = STATUSES.DEFAULT;
+  @tracked message = null;
+}
+
+class Password {
+  @tracked status = STATUSES.DEFAULT;
+  @tracked message = null;
+}
+
+class SignupFormValidation {
+  lastName = new LastName();
+  firstName = new FirstName();
+  email = new Email();
+  password = new Password();
+}
+
 export default class RegisterForm extends Component {
   @service intl;
   @service url;
@@ -18,12 +51,9 @@ export default class RegisterForm extends Component {
   @tracked lastName = null;
   @tracked email = null;
   @tracked password = null;
-  @tracked passwordValidationMessage = null;
-  @tracked emailValidationMessage = null;
-  @tracked firstNameValidationMessage = null;
-  @tracked lastNameValidationMessage = null;
   @tracked cguValidationMessage = null;
   @tracked errorMessage = null;
+  @tracked validation = new SignupFormValidation();
 
   get cguUrl() {
     return this.url.cguUrl;
@@ -86,45 +116,61 @@ export default class RegisterForm extends Component {
 
   @action
   validatePassword(event) {
-    this.passwordValidationMessage = null;
+    this.validation.password.status = STATUSES.DEFAULT;
+    this.validation.password.message = null;
     this.password = event.target.value;
     const isInvalidInput = !isPasswordValid(this.password);
 
     if (isInvalidInput) {
-      this.passwordValidationMessage = this.intl.t('pages.login-or-register.register-form.fields.password.error');
+      this.validation.password.status = STATUSES.ERROR;
+      this.validation.password.message = this.intl.t('pages.login-or-register.register-form.fields.password.error');
+    } else {
+      this.validation.password.status = STATUSES.SUCCESS;
     }
   }
 
   @action
   validateEmail(event) {
-    this.emailValidationMessage = null;
+    this.validation.email.status = STATUSES.DEFAULT;
+    this.validation.email.message = null;
     this.email = event.target.value?.trim().toLowerCase();
     const isInvalidInput = !isEmailValid(this.email);
 
     if (isInvalidInput) {
-      this.emailValidationMessage = this.intl.t('pages.login-or-register.register-form.fields.email.error');
+      this.validation.email.status = STATUSES.ERROR;
+      this.validation.email.message = this.intl.t('pages.login-or-register.register-form.fields.email.error');
+    } else {
+      this.validation.email.status = STATUSES.SUCCESS;
     }
   }
 
   @action
   validateFirstName(event) {
-    this.firstNameValidationMessage = null;
+    this.validation.firstName.status = STATUSES.DEFAULT;
+    this.validation.firstName.message = null;
     this.firstName = event.target.value?.trim();
     const isInvalidInput = isEmpty(this.firstName);
 
     if (isInvalidInput) {
-      this.firstNameValidationMessage = this.intl.t('pages.login-or-register.register-form.fields.first-name.error');
+      this.validation.firstName.status = STATUSES.ERROR;
+      this.validation.firstName.message = this.intl.t('pages.login-or-register.register-form.fields.first-name.error');
+    } else {
+      this.validation.firstName.status = STATUSES.SUCCESS;
     }
   }
 
   @action
   validateLastName(event) {
-    this.lastNameValidationMessage = null;
+    this.validation.lastName.status = STATUSES.DEFAULT;
+    this.validation.lastName.message = null;
     this.lastName = event.target.value?.trim();
     const isInvalidInput = isEmpty(this.lastName);
 
     if (isInvalidInput) {
-      this.lastNameValidationMessage = this.intl.t('pages.login-or-register.register-form.fields.last-name.error');
+      this.validation.lastName.status = STATUSES.ERROR;
+      this.validation.lastName.message = this.intl.t('pages.login-or-register.register-form.fields.last-name.error');
+    } else {
+      this.validation.lastName.status = STATUSES.SUCCESS;
     }
   }
 
