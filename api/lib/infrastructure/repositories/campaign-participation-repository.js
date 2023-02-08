@@ -71,20 +71,33 @@ module.exports = {
     return results.map(_rowToResult);
   },
 
-  findLatestOngoingByUserId(userId) {
-    return BookshelfCampaignParticipation.query((qb) => {
-      qb.innerJoin('campaigns', 'campaign-participations.campaignId', 'campaigns.id');
-      qb.whereNull('campaigns.archivedAt');
-      qb.orderBy('campaign-participations.createdAt', 'DESC');
-    })
+  async findLatestOngoingByUserId(userId) {
+    const campaignParticipations = await knex('campaign-participations')
+      .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
+      .whereNull('campaigns.archivedAt')
       .where({ userId })
-      .fetchAll({
-        required: false,
-        withRelated: ['campaign', 'assessments'],
-      })
-      .then((campaignParticipations) =>
-        bookshelfToDomainConverter.buildDomainObjects(BookshelfCampaignParticipation, campaignParticipations)
-      );
+      .orderBy('campaign-participations.createdAt', 'DESC')
+      .select('campaign-participations.*');
+    const campaigns = await knex('campaigns').whereIn(
+      'id',
+      campaignParticipations.map((campaignParticipation) => campaignParticipation.campaignId)
+    );
+    const assessments = await knex('assessments')
+      .whereIn(
+        'campaignParticipationId',
+        campaignParticipations.map((campaignParticipation) => campaignParticipation.id)
+      )
+      .orderBy('createdAt');
+    return campaignParticipations.map((campaignParticipation) => {
+      const campaign = campaigns.find((campaign) => campaign.id === campaignParticipation.campaignId);
+      return new CampaignParticipation({
+        ...campaignParticipation,
+        campaign: new Campaign(campaign),
+        assessments: assessments
+          .filter((assessment) => assessment.campaignParticipationId === campaignParticipation.id)
+          .map((assessment) => new Assessment(assessment)),
+      });
+    });
   },
 
   async findOneByCampaignIdAndUserId({ campaignId, userId }) {
