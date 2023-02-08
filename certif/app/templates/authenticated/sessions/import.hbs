@@ -22,13 +22,25 @@
         @backgroundColor="transparent-light"
         @isBorderVisible="{{true}}"
         @id="file-upload"
-        @onChange={{this.importSessions}}
+        @onChange={{this.preImportSessions}}
         aria-label={{t "pages.sessions.import.session-import-upload-label"}}
         accept=".csv"
       >
         {{t "pages.sessions.import.session-import-upload"}}
       </PixButtonUpload>
     </div>
+
+    {{#if this.file}}
+      <div class="import-page__file-name" aria-label={{this.fileName}}>
+        {{this.fileName}}
+        <PixIconButton
+          @ariaLabel={{t "pages.sessions.import.cancel"}}
+          @icon="circle-xmark"
+          @triggerAction={{this.removeImport}}
+          class="import-page-file-name__cancel"
+        />
+      </div>
+    {{/if}}
 
     <div class="import-page__section--link-buttons">
       <PixButtonLink
@@ -38,7 +50,7 @@
       >
         {{t "common.actions.cancel"}}
       </PixButtonLink>
-      <PixButtonLink>
+      <PixButtonLink onclick={{this.importSessions}} @isDisabled={{this.isImportDisabled}}>
         {{t "common.actions.continue"}}
       </PixButtonLink>
     </div>

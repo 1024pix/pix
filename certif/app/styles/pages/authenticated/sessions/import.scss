@@ -33,4 +33,26 @@
   &__section--link-buttons a:first-of-type {
     margin-right: 16px;
   }
+
+  &__file-name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 24px;
+    margin-top: 24px;
+    width: fit-content;
+    border: 1px solid $pix-neutral-15;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px 0px rgba(7, 20, 46, 0.08);
+    background-color: $pix-neutral-10;
+    color: $pix-neutral-70;
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+}
+
+.import-page-file-name {
+  &__cancel {
+    margin-left: 8px;
+  }
 }
