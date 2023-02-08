@@ -57,6 +57,8 @@ La gestion de ces impacts fait que cette solution dans son ensemble est longue �
 Elle est également source de régression sur les fonctionnalités existantes en cas d'oubli, et de bugs sur les futures
 fonctionnalités pour la même raison.
 
+Il faudra modifier les index existants pour exclure les prescrits supprimés.
+
 ### Solution n°2 : Déplacement des données dans une copie de la table d'origine pour d'archivage
 
 **Description**
