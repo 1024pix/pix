@@ -3,6 +3,7 @@ import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from '../helpers/test-init';
+import { setupIntl, t } from 'ember-intl/test-support';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setFlatpickrDate } from 'ember-flatpickr/test-support/helpers';
@@ -10,6 +11,7 @@ import { setFlatpickrDate } from 'ember-flatpickr/test-support/helpers';
 module('Acceptance | Session creation', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks);
 
   test('it should not be accessible by an unauthenticated user', async function (assert) {
     // when
@@ -58,26 +60,21 @@ module('Acceptance | Session creation', function (hooks) {
       const sessionTime = '13:45';
 
       const screen = await visit('/sessions/creation');
-      assert.dom(screen.getByRole('textbox', { name: 'Nom de la salle' })).exists();
-      assert.dom(screen.getByRole('textbox', { name: 'Surveillant(s)' })).exists();
-      assert.dom(screen.getByRole('textbox', { name: 'Nom du site' })).exists();
-      assert.dom(screen.getByRole('textbox', { name: 'Observations' })).hasAttribute('maxLength', '350');
-      assert.dom(screen.getByText('Heure de début (heure locale)')).exists();
-      assert.dom(screen.getByText('Date de début')).exists();
-      assert.dom(screen.getByRole('button', { name: 'Créer la session' })).exists();
+      assert.dom(screen.getByRole('heading', { name: t('pages.sessions.new.title') })).exists();
       assert
-        .dom(
-          screen.getByRole('button', { name: 'Annuler la création de session et retourner vers la page précédente' })
-        )
+        .dom(screen.getByRole('textbox', { name: t('pages.sessions.new.description') }))
+        .hasAttribute('maxLength', '350');
+      assert
+        .dom(screen.getByRole('button', { name: t('pages.sessions.new.actions.cancel-extra-information') }))
         .exists();
 
-      await fillIn(screen.getByRole('textbox', { name: 'Nom du site' }), 'My address');
-      await fillIn(screen.getByRole('textbox', { name: 'Nom de la salle' }), 'My room');
-      await fillIn(screen.getByRole('textbox', { name: 'Surveillant(s)' }), 'My examiner');
-      await fillIn(screen.getByRole('textbox', { name: 'Observations' }), 'My description');
+      await fillIn(screen.getByRole('textbox', { name: t('pages.sessions.new.address') }), 'My address');
+      await fillIn(screen.getByRole('textbox', { name: t('pages.sessions.new.room') }), 'My room');
+      await fillIn(screen.getByRole('textbox', { name: t('pages.sessions.new.examiner') }), 'My examiner');
+      await fillIn(screen.getByRole('textbox', { name: t('pages.sessions.new.description') }), 'My description');
       await setFlatpickrDate('#session-date', sessionDate);
       await setFlatpickrDate('#session-time', sessionTime);
-      await click(screen.getByRole('button', { name: 'Créer la session' }));
+      await click(screen.getByRole('button', { name: t('pages.sessions.new.actions.create-session') }));
 
       // then
       const session = server.schema.sessions.findBy({ date: sessionDate });
@@ -96,9 +93,7 @@ module('Acceptance | Session creation', function (hooks) {
       const screen = await visit('/sessions/creation');
 
       // when
-      await click(
-        screen.getByRole('button', { name: 'Annuler la création de session et retourner vers la page précédente' })
-      );
+      await click(screen.getByRole('button', { name: t('pages.sessions.new.actions.cancel-extra-information') }));
 
       // then
       const actualSessionsCount = server.schema.sessions.all().length;
