@@ -314,4 +314,47 @@ describe('Acceptance | Controller | training-controller', function () {
       expect(response.result.data.attributes.level).to.deep.equal(expectedResponse.data.attributes.level);
     });
   });
+
+  describe('GET /api/admin/trainings/{trainingId}/target-profile-summaries', function () {
+    it('should get target-profile-summaries related to training id', async function () {
+      // given
+      const superAdmin = await insertUserWithRoleSuperAdmin();
+      const training = databaseBuilder.factory.buildTraining();
+      const targetProfile = databaseBuilder.factory.buildTargetProfile({
+        id: 1,
+        name: 'Super profil cible',
+        isPublic: true,
+        outdated: false,
+      });
+      databaseBuilder.factory.buildTargetProfileTraining({
+        trainingId: training.id,
+        targetProfileId: targetProfile.id,
+      });
+      await databaseBuilder.commit();
+
+      const expectedResponse = {
+        type: 'target-profile-summaries',
+        id: `${targetProfile.id}`,
+        attributes: {
+          name: targetProfile.name,
+          outdated: false,
+        },
+      };
+
+      // when
+      const response = await server.inject({
+        method: 'GET',
+        url: `/api/admin/trainings/${training.id}/target-profile-summaries`,
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
+        },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data[0].type).to.equal(expectedResponse.type);
+      expect(response.result.data[0].id).to.equal(expectedResponse.id);
+      expect(response.result.data[0].attributes).to.deep.equal(expectedResponse.attributes);
+    });
+  });
 });

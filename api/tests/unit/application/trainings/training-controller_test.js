@@ -4,6 +4,7 @@ const usecases = require('../../../../lib/domain/usecases');
 const trainingSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/training-serializer');
 const trainingSummarySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/training-summary-serializer');
 const trainingTriggerSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/training-trigger-serializer');
+const targetProfileSummaryForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 const TrainingTrigger = require('../../../../lib/domain/models/TrainingTrigger');
 
@@ -273,6 +274,27 @@ describe('Unit | Controller | training-controller', function () {
         tubes: deserializedTrigger.tubes,
       });
       expect(result).to.be.equal(serializedTrigger);
+    });
+  });
+
+  describe('#findTargetProfileSummaries', function () {
+    it('should call the findTargetProfileSummaries use-case', async function () {
+      // given
+      const trainingId = 145;
+      const targetProfileSummaries = Symbol('targetProfileSummaries');
+      const serializedTargetProfileSummaries = Symbol('serializedTargetProfileSummaries');
+      sinon.stub(usecases, 'findTargetProfileSummariesForTraining').resolves(targetProfileSummaries);
+      sinon
+        .stub(targetProfileSummaryForAdminSerializer, 'serialize')
+        .withArgs(targetProfileSummaries)
+        .returns(serializedTargetProfileSummaries);
+
+      // when
+      const result = await trainingController.findTargetProfileSummaries({ params: { trainingId } }, hFake);
+
+      // then
+      expect(usecases.findTargetProfileSummariesForTraining).to.have.been.calledWith({ trainingId });
+      expect(result).to.be.equal(serializedTargetProfileSummaries);
     });
   });
 });
