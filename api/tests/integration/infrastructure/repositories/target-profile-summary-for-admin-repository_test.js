@@ -434,4 +434,60 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
       });
     });
   });
+
+  describe('#findByTraining', function () {
+    it('should return summaries related to given training', async function () {
+      // given
+      const training = databaseBuilder.factory.buildTraining();
+      const targetProfile1 = databaseBuilder.factory.buildTargetProfile();
+      const targetProfile2 = databaseBuilder.factory.buildTargetProfile();
+      databaseBuilder.factory.buildTargetProfileTraining({
+        trainingId: training.id,
+        targetProfileId: targetProfile1.id,
+      });
+      databaseBuilder.factory.buildTargetProfileTraining({
+        trainingId: training.id,
+        targetProfileId: targetProfile2.id,
+      });
+
+      const anotherTraining = databaseBuilder.factory.buildTraining();
+      const targetProfileLinkedToAnotherTraining = databaseBuilder.factory.buildTargetProfile();
+      databaseBuilder.factory.buildTargetProfileTraining({
+        trainingId: anotherTraining.id,
+        targetProfileId: targetProfileLinkedToAnotherTraining.id,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const targetProfileSummaries = await targetProfileSummaryForAdminRepository.findByTraining({
+        trainingId: training.id,
+      });
+
+      // then
+      const expectedTargetProfileSummaries = [
+        domainBuilder.buildTargetProfileSummaryForAdmin({ ...targetProfile1 }),
+        domainBuilder.buildTargetProfileSummaryForAdmin({ ...targetProfile2 }),
+      ];
+      expect(targetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
+    });
+
+    it('should return empty array when no target profile is linked to given training', async function () {
+      const training = databaseBuilder.factory.buildTraining();
+      await databaseBuilder.commit();
+
+      const targetProfileSummaries = await targetProfileSummaryForAdminRepository.findByTraining({
+        trainingId: training.id,
+      });
+
+      expect(targetProfileSummaries).to.be.empty;
+    });
+
+    it('should return empty array when no training is found', async function () {
+      const targetProfileSummaries = await targetProfileSummaryForAdminRepository.findByTraining({
+        trainingId: 123,
+      });
+
+      expect(targetProfileSummaries).to.be.empty;
+    });
+  });
 });
