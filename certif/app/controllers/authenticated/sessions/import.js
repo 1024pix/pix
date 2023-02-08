@@ -13,6 +13,7 @@ export default class ImportController extends Controller {
   @service store;
 
   @tracked file = null;
+  @tracked isImportDisabled = true;
 
   get fileName() {
     return this.file.name;
@@ -33,6 +34,7 @@ export default class ImportController extends Controller {
   @action
   preImportSessions() {
     this.file = document.getElementById('file-upload').files[0];
+    this.isImportDisabled = false;
   }
 
   @action
@@ -40,7 +42,11 @@ export default class ImportController extends Controller {
     const adapter = this.store.adapterFor('sessions-import');
     const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;
     this.notifications.clearAll();
+    this.isImportDisabled = true;
     try {
+      if (!this.file) {
+        return;
+      }
       await adapter.importSessions(this.file, certificationCenterId);
       this.notifications.success('La liste des sessions a été importée avec succès.');
     } catch (err) {
@@ -53,5 +59,6 @@ export default class ImportController extends Controller {
   @action
   removeImport() {
     this.file = null;
+    this.isImportDisabled = true;
   }
 }

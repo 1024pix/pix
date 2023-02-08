@@ -50,7 +50,7 @@
       >
         {{t "common.actions.cancel"}}
       </PixButtonLink>
-      <PixButtonLink onclick={{this.importSessions}}>
+      <PixButtonLink onclick={{this.importSessions}} @isDisabled={{this.isImportDisabled}}>
         {{t "common.actions.continue"}}
       </PixButtonLink>
     </div>

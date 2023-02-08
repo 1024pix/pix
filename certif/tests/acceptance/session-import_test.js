@@ -64,6 +64,24 @@ module('Acceptance | Session Import', function (hooks) {
         server.create('feature-toggle', { id: 0, isMassiveSessionManagementEnabled: true });
       });
 
+      test('it should disable the import button before and after import', async function (assert) {
+        // given
+        const blob = new Blob(['foo']);
+        const file = new File([blob], 'fichier.csv');
+
+        // when
+        screen = await visit('/sessions/import');
+        const importButton = await screen.findByText('Continuer');
+        assert.dom(importButton).hasClass('pix-button--disabled');
+        const input = await screen.findByLabelText('Importer le modèle complété');
+        await triggerEvent(input, 'change', { files: [file] });
+        assert.dom(importButton).doesNotHaveClass('pix-button--disabled');
+        await click(await screen.findByText('Continuer'));
+
+        // then
+        assert.dom(importButton).hasClass('pix-button--disabled');
+      });
+
       test("it should display the file's name once pre-imported", async function (assert) {
         // given
         const blob = new Blob(['foo']);
