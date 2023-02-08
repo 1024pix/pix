@@ -1,5 +1,6 @@
 .learner-header {
-    margin-bottom: $spacing-m;
+    display: flex;
+    margin: $spacing-m 0;
 
     &-title {
         text-transform: capitalize;

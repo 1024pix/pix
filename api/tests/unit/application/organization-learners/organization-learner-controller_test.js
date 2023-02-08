@@ -1,7 +1,7 @@
 const { sinon, expect, hFake } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const organizationLearnerParticipationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-learner-activity-serializer');
-const organizationLearnerSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-learner-serializer');
+const organizationLearnerSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-learner-follow-up/organization-learner-serializer');
 const organizationLearnerController = require('../../../../lib/application/organization-learners/organization-learner-controller');
 
 describe('Unit | Application | Organization-Learner | organization-learner-controller', function () {

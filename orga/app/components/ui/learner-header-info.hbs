@@ -1,0 +1,22 @@
+<Ui::InformationWrapper>
+  <:default>
+    {{#if @groupName}}
+      <Ui::Information>
+        <:title>
+          {{@groupName}}
+        </:title>
+        <:content>
+          {{this.group}}
+        </:content>
+      </Ui::Information>
+    {{/if}}
+    <Ui::Information>
+      <:title>
+        {{t "pages.sco-organization-participants.table.column.login-method"}}
+      </:title>
+      <:content>
+        {{this.connectionMethods}}
+      </:content>
+    </Ui::Information>
+  </:default>
+</Ui::InformationWrapper>

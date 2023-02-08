@@ -7,7 +7,7 @@ export default class ActivityRoute extends Route {
   @service router;
 
   async model() {
-    const organizationLearner = this.modelFor(
+    const { organizationLearner } = this.modelFor(
       'authenticated.sco-organization-participants.sco-organization-participant'
     );
     try {
