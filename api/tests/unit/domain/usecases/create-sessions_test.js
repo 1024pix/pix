@@ -1,6 +1,10 @@
 const { domainBuilder, expect, catchErr, sinon } = require('../../../test-helper');
 const createSessions = require('../../../../lib/domain/usecases/create-sessions');
-const { EntityValidationError, InvalidCertificationCandidate } = require('../../../../lib/domain/errors');
+const {
+  EntityValidationError,
+  InvalidCertificationCandidate,
+  SessionWithIdAndInformationOnMassImportError,
+} = require('../../../../lib/domain/errors');
 const { UnprocessableEntityError } = require('../../../../lib/application/http-errors');
 const sessionCodeService = require('../../../../lib/domain/services/session-code-service');
 const Session = require('../../../../lib/domain/models/Session');
@@ -90,6 +94,40 @@ describe('Unit | UseCase | create-sessions', function () {
         expect(sessionRepository.save).to.have.been.calledTwice;
       });
 
+      context('when there is a sessionId and session information', function () {
+        it('should throw', async function () {
+          // given
+          const candidate1 = createValidCandidateData(1);
+          const candidate2 = createValidCandidateData(2);
+          const sessions = [
+            {
+              ...createValidSessionData(),
+              sessionId: 1234,
+
+              certificationCandidates: [candidate1, candidate2],
+            },
+          ];
+
+          const domainTransaction = Symbol('trx');
+          sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
+
+          // when
+          const error = await catchErr(createSessions)({
+            sessions,
+            certificationCenterId,
+            certificationCenterRepository,
+            certificationCandidateRepository,
+            sessionRepository,
+          });
+
+          // then
+          expect(error).to.be.an.instanceOf(SessionWithIdAndInformationOnMassImportError);
+          expect(error.message).to.equal(
+            'Merci de ne pas renseigner les informations de session pour la session: 1234'
+          );
+        });
+      });
+
       context('when there is only sessionId and candidate information', function () {
         it('should only save candidate in session', async function () {
           // given
@@ -124,6 +162,7 @@ describe('Unit | UseCase | create-sessions', function () {
           expect(sessionRepository.save).to.not.have.been.called;
           expect(certificationCandidateRepository.deleteBySessionId).to.have.been.calledOnceWithExactly({
             sessionId: 1234,
+            domainTransaction,
           });
           expect(certificationCandidateRepository.saveInSession).to.have.been.calledTwice;
         });
@@ -389,6 +428,7 @@ describe('Unit | UseCase | create-sessions', function () {
 
 function createValidSessionData() {
   return {
+    sessionId: undefined,
     address: 'Site 1',
     room: 'Salle 1',
     date: '2022-03-12',
