@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v3.321.1 (08/02/2023)
+
+
+### :bug: Correction
+- [#5626](https://github.com/1024pix/pix/pull/5626) [BUGFIX] Utiliser les champs provenant du modèle passé en argument pour le pixScore (PIX-7055).
+
+### :coffee: Autre
+- [#5558](https://github.com/1024pix/pix/pull/5558) [ADR] Stockage du token d'accès de l'utilisateur côté client (PIX-6923)
+
 ## v3.321.0 (07/02/2023)
 
 
