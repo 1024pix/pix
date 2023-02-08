@@ -401,7 +401,7 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
             name: this.intl.t('pages.account-recovery.errors.title'),
           })
         );
-        assert.ok(screen.getByText(this.intl.t('api-error-messages.internal-server-error')));
+        assert.ok(screen.getByText(this.intl.t('common.api-error-messages.internal-server-error')));
         assert.ok(
           screen.getByRole('link', {
             name: this.intl.t('navigation.back-to-homepage'),

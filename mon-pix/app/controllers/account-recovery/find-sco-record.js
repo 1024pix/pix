@@ -140,7 +140,7 @@ export default class FindScoRecordController extends Controller {
     };
 
     const internalError = {
-      message: this.intl.t('api-error-messages.internal-server-error'),
+      message: this.intl.t('common.api-error-messages.internal-server-error'),
       title: this.intl.t('pages.account-recovery.errors.title'),
       showBackToHomeButton: true,
     };
