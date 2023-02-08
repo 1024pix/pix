@@ -13,7 +13,18 @@ module.exports = {
         'editorLogoUrl',
         'prerequisiteThreshold',
         'goalThreshold',
+        'targetProfileSummaries',
       ],
+      targetProfileSummaries: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        nullIfMissing: true,
+        relationshipLinks: {
+          related: function (record, current, parent) {
+            return `/api/admin/trainings/${parent.id}/target-profile-summaries`;
+          },
+        },
+      },
       meta,
     }).serialize(training);
   },

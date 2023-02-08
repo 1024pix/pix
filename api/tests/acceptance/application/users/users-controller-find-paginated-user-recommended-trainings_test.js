@@ -48,6 +48,13 @@ describe('Acceptance | Controller | users-controller-find-paginated-user-recomme
             'editor-logo-url':
               'https://images.pix.fr/contenu-formatif/editeur/logo-ministere-education-nationale-et-jeunesse.svg',
           },
+          relationships: {
+            'target-profile-summaries': {
+              links: {
+                related: `/api/admin/trainings/${trainingId}/target-profile-summaries`,
+              },
+            },
+          },
         },
       ]);
       expect(response.result.meta).to.deep.equal({
