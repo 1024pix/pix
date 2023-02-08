@@ -25,7 +25,7 @@ export default class UpdateScoRecordRoute extends Route {
     };
 
     const internalError = {
-      errorMessage: this.intl.t('api-error-messages.internal-server-error'),
+      errorMessage: this.intl.t('common.api-error-messages.internal-server-error'),
       showBackToHomeButton: true,
     };
 
