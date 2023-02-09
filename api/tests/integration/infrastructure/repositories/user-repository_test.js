@@ -1118,7 +1118,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         });
       });
 
-      context('when user has authentication methods', function () {
+      context('when user has authentication methods (PIX + GAR)', function () {
         it('returns the user with his authentication methods', async function () {
           // given
           const userInDB = databaseBuilder.factory.buildUser(userToInsert);
