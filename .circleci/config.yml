@@ -57,7 +57,12 @@ workflows:
           requires:
             - checkout
 
-      - e2e_test:
+      - e2e_test_app:
+          context: Pix
+          requires:
+            - checkout
+
+      - e2e_test_orga:
           context: Pix
           requires:
             - checkout
@@ -240,7 +245,7 @@ jobs:
           name: Test
           command: npm run test:ci
 
-  e2e_test:
+  e2e_test_app:
     docker:
       - image: cimg/node:16.19.0-browsers
       - image: postgres:14.6-alpine
@@ -249,7 +254,7 @@ jobs:
           POSTGRES_HOST_AUTH_METHOD: trust
       - image: redis:6.2.7-alpine
     resource_class: medium+
-    parallelism: 5
+    parallelism: 4
     working_directory: ~/pix/high-level-tests/e2e
     steps:
       - browser-tools/install-chrome
@@ -294,18 +299,6 @@ jobs:
           command: npm ci
 
       - run:
-          working_directory: ~/pix/orga
-          command: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-orga-npm-{{ checksum "~/pix/orga/cachekey" }}
-      - run:
-          name: Install Pix Orga
-          environment:
-            JOBS: 2
-          working_directory: ~/pix/orga
-          command: npm ci
-      - run:
           name: Start Pix API
           working_directory: ~/pix/api
           environment:
@@ -323,6 +316,75 @@ jobs:
           command: npm start
 
       - run:
+          name: Run tests
+          environment:
+            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
+          command: npm run test:ci:app
+      - store_test_results:
+          path: /home/circleci/test-results
+
+  e2e_test_orga:
+    docker:
+      - image: cimg/node:16.19.0-browsers
+      - image: postgres:14.6-alpine
+        environment:
+          POSTGRES_USER: circleci
+          POSTGRES_HOST_AUTH_METHOD: trust
+      - image: redis:6.2.7-alpine
+    resource_class: medium+
+    working_directory: ~/pix/high-level-tests/e2e
+    steps:
+      - browser-tools/install-chrome
+      - attach_workspace:
+          at: ~/pix
+      - run: cat package*.json > cachekey
+      - restore_cache:
+          keys:
+            - v7-e2e-npm-{{ checksum "cachekey" }}
+      - run: npm ci
+      - save_cache:
+          key: v7-e2e-npm-{{ checksum "cachekey" }}
+          paths:
+            - ~/.npm
+
+      - run:
+          name: Lint
+          command: npm run lint
+
+      - run:
+          working_directory: ~/pix/api
+          command: cat package*.json > cachekey
+      - restore_cache:
+          keys:
+            - v7-api-npm-{{ checksum "~/pix/api/cachekey" }}
+      - run:
+          name: Install Pix API
+          working_directory: ~/pix/api
+          command: npm ci --no-optional
+
+      - run:
+          working_directory: ~/pix/orga
+          command: cat package*.json > cachekey
+      - restore_cache:
+          keys:
+            - v7-orga-npm-{{ checksum "~/pix/orga/cachekey" }}
+      - run:
+          name: Install Pix Orga
+          environment:
+            JOBS: 2
+          working_directory: ~/pix/orga
+          command: npm ci
+
+      - run:
+          name: Start Pix API
+          working_directory: ~/pix/api
+          environment:
+            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
+            REDIS_URL: 'redis://localhost:6379'
+          background: true
+          command: npm start
+
+      - run:
           name: Start Pix Orga
           working_directory: ~/pix/orga
           environment:
@@ -334,7 +396,7 @@ jobs:
           name: Run tests
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-          command: npm run test:ci
+          command: npm run test:ci:orga
       - store_test_results:
           path: /home/circleci/test-results
 

@@ -18,7 +18,8 @@
     "cy:open": "npm run db:initialize && cypress open",
     "cy:open:local": "DATABASE_URL=postgresql://postgres@localhost/pix_test npm run cy:open",
     "cy:run": "npm run db:initialize && cypress run --browser=chrome && exit",
-    "cy:run:ci": "npm run db:initialize && npx cypress run --browser=chrome --parallel --record --group e2e-tests --reporter junit --reporter-options 'mochaFile=/home/circleci/test-results/cypress.xml' && exit",
+    "cy:run:ci:app": "npm run db:initialize && npx cypress run --browser=chrome --spec cypress/integration/pix-app/**/* --parallel --record --group e2e-tests-app --reporter junit --reporter-options 'mochaFile=/home/circleci/test-results/cypress.xml' && exit",
+    "cy:run:ci:orga": "npm run db:initialize && npx cypress run --browser=chrome --spec cypress/integration/pix-orga/**/* --record --group e2e-tests-orga --reporter junit --reporter-options 'mochaFile=/home/circleci/test-results/cypress.xml' && exit",
     "cy:run:local": "DATABASE_URL=postgresql://postgres@localhost/pix_test npm run cy:run",
     "cy:run:base": "cypress run --env type=base --config screenshotsFolder=cypress/snapshots/base",
     "cy:test": "run-p start:api start:mon-pix start:orga cy:run",
@@ -31,7 +32,8 @@
     "start:api": "cd ../../api && DATABASE_URL=postgresql://postgres@localhost/pix_test npm run start:watch",
     "start:mon-pix": "cd ../../mon-pix && npm start",
     "start:orga": "cd ../../orga && npm start",
-    "test:ci": "npx wait-on http://localhost:3000/api http://localhost:4200 http://localhost:4201 && npm run cy:run:ci"
+    "test:ci:app": "npx wait-on http://localhost:3000/api http://localhost:4200 && npm run cy:run:ci:app",
+    "test:ci:orga": "npx wait-on http://localhost:3000/api http://localhost:4201 && npm run cy:run:ci:orga"
   },
   "devDependencies": {
     "axe-core": "^4.4.3",
