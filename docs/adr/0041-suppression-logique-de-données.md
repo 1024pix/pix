@@ -37,8 +37,10 @@ Voici les règles métiers qui s'appliquent aux données des prescrits qui sont 
 
 **Description :**
 
-L'ajout d'une colonne de date ou de statut de suppression dans la table des prescrits permet d'indiquer que le prescrit
-a été supprimé.
+L'ajout d'informations dans la table contenant les prescrits indiquant si ils sont supprimés :
+
+- date de suppression
+- utilisateur ayant réalisé la suppression
 
 **Avantages :**
 
@@ -67,6 +69,11 @@ Cette solution implique aussi des inconvénients techniques :
 
 Le déplacement de l'enregistrement du prescrit vers une table d'archivage permet d'extraire les prescrits supprimés. Création d'une copie de la table d'origine avec les mêmes colonnes.
 
+La table d'archivage contiendra les deux colonnes suivantes en supplément :
+
+- date de suppression
+- utilisateur ayant réalisé la suppression
+
 **Avantages :**
 
 - Aucune incidence sur les fonctionnalités existantes concernant les prescrits actifs ;
@@ -84,6 +91,11 @@ Il y aura un travail à faire pour rendre ces données de nouveau utilisables si
 
 Le déplacement de l'enregistrement du prescrit vers une table d'archivage permet d'extraire les prescrits supprimés.
 Il est possible de sérialiser les données dans une colonne de la table d'archivage.
+
+La table d'archivage contiendra aussi les deux colonnes suivantes :
+
+- date de suppression
+- utilisateur ayant réalisé la suppression
 
 **Avantages :**
 
