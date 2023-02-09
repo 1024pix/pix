@@ -22,7 +22,9 @@
       <li>{{t "pages.sessions.import.instructions-edition-replace" htmlSafe=true}}</li>
       <li>{{t "pages.sessions.import.instructions-edition-subscription" htmlSafe=true}}</li>
     </ul>
-    <PixBanner @type="warning">{{t "pages.sessions.import.instructions-edition-warning"}}</PixBanner>
+    <PixMessage @type="warning" @withIcon={{true}}>
+      {{t "pages.sessions.import.instructions-edition-warning"}}
+    </PixMessage>
   </PixCollapsible>
   <nav aria-label="Fil d'Ariane" class="import-page__section--breadcrumb panel">
     <ol>

@@ -128,7 +128,7 @@
         "session-import-upload": "Importer (.csv)",
         "session-import-upload-label": "Importer le modèle complété",
         "instructions-creation-title": "Pour créer des sessions ?",
-        "instructions-creation-list": "Vous pouvez créer des sessions",
+        "instructions-creation-list": "Vous pouvez créer des sessions :",
         "instructions-creation-list-with-candidates": "<strong>Avec candidats</strong>, complétez le modèle dans son intégralité,",
         "instructions-creation-list-without-candidates": "<strong>Sans candidat</strong>, complétez uniquement les informations des sessions.",
         "instructions-edition-title": "Pour éditer la liste des candidats de sessions déjà créées ?",
