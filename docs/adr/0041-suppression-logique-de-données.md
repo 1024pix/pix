@@ -33,7 +33,7 @@ Voici les règles métiers qui s'appliquent aux données des prescrits qui sont 
 - La date et l'auteur de la suppression sont enregistrés ;
 - Un utilisateur peut réintégrer l'organisation, mais en tant que nouveau prescrit (les anciennes participations ne sont plus visibles de l'organisation) ;
 
-### Solution n°1 : Ajout d'un indicateur "supprimé"
+### Solution n°1 : Ajout d'un indicateur de suppression sur la table des prescrits
 
 **Description :**
 
@@ -55,7 +55,7 @@ Cette solution introduit un couplage fort entre la suppression d'un prescrit et 
 - Risque de régression en cas d'oubli ;
 - Risque d'afficher des données que les utilisateurs ne doivent plus voir ;
 
-La notion de prescrit englobe un nombre important cas d'usages par conséquent les travaux engendrés par cette solution seront longs et fastidieux
+La notion de prescrit englobe un nombre important cas d'usages par conséquent les travaux engendrés par cette solution seront longs et fastidieux.
 
 Cette solution implique aussi des inconvénients techniques :
 
@@ -67,9 +67,11 @@ Cette solution implique aussi des inconvénients techniques :
 
 **Description :**
 
-Le déplacement de l'enregistrement du prescrit vers une table d'archivage permet d'extraire les prescrits supprimés. Création d'une copie de la table d'origine avec les mêmes colonnes.
+Déplacer les prescrits vers une table dédiée (archivage) lors de leur suppression.
+Cette table ne contiendra que les prescrits supprimés.
+La table des prescrits ne contiendra que les prescrits actifs.
 
-La table d'archivage contiendra les deux colonnes suivantes en supplément :
+La table d'archivage contiendra les deux colonnes suivantes en supplément de celles présentes dans la table d'origine :
 
 - date de suppression
 - utilisateur ayant réalisé la suppression
@@ -89,10 +91,11 @@ Il y aura un travail à faire pour rendre ces données de nouveau utilisables si
 
 **Description :**
 
-Le déplacement de l'enregistrement du prescrit vers une table d'archivage permet d'extraire les prescrits supprimés.
-Il est possible de sérialiser les données dans une colonne de la table d'archivage.
+Déplacer les prescrits vers une table dédiée (archivage) lors de leur suppression.
+Cette table ne contiendra que les prescrits supprimés.
+La table des prescrits ne contiendra que les prescrits actifs.
 
-La table d'archivage contiendra aussi les deux colonnes suivantes :
+La table d'archivage contiendra les données sérialisées des prescrits supprimés aussi les deux colonnes suivantes :
 
 - date de suppression
 - utilisateur ayant réalisé la suppression
