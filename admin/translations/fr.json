@@ -42,7 +42,7 @@
           }
         },
         "targetProfiles": {
-          "tabName": "Profils Cibles",
+          "tabName": "Profils cibles associés",
           "title": "Rattacher un ou plusieurs profils cibles"
         }
       }
