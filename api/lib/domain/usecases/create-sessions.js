@@ -57,8 +57,14 @@ module.exports = async function createSessions({
       }
 
       if (domainSession.certificationCandidates.length) {
+        const { certificationCandidates } = domainSession;
+
+        if (_hasDuplicateCertificationCandidates(certificationCandidates)) {
+          throw new UnprocessableEntityError(`Une session contient au moins un élève en double.`);
+        }
+
         await _createCertificationCandidates({
-          domainSession,
+          certificationCandidates,
           sessionId,
           isSco,
           certificationCpfCountryRepository,
@@ -96,12 +102,20 @@ function _createAndValidateNewSessionToSave(session, certificationCenterId, cert
   return domainSession;
 }
 
+function _hasDuplicateCertificationCandidates(certificationCandidates) {
+  const uniqCertificationCandidates = new Set(
+    certificationCandidates.map(({ lastName, firstName, birthdate }) => `${lastName}${firstName}${birthdate}`)
+  );
+
+  return uniqCertificationCandidates.size < certificationCandidates.length;
+}
+
 async function _deleteExistingCandidatesInSession({ certificationCandidateRepository, sessionId, domainTransaction }) {
   await certificationCandidateRepository.deleteBySessionId({ sessionId, domainTransaction });
 }
 
 async function _createCertificationCandidates({
-  domainSession,
+  certificationCandidates,
   sessionId,
   isSco,
   certificationCpfCountryRepository,
@@ -110,7 +124,7 @@ async function _createCertificationCandidates({
   certificationCandidateRepository,
   domainTransaction,
 }) {
-  await bluebird.mapSeries(domainSession.certificationCandidates, async (certificationCandidate) => {
+  await bluebird.mapSeries(certificationCandidates, async (certificationCandidate) => {
     const billingMode = CertificationCandidate.translateBillingMode(certificationCandidate.billingMode);
 
     const domainCertificationCandidate = new CertificationCandidate({

@@ -42,11 +42,14 @@ function deserializeForSessionsImport(parsedCsvData) {
         sessions.push(currentParsedSession);
       }
     } else if (_hasSessionIdAndCandidateInformation(data)) {
-      currentParsedSession = {
-        sessionId: data.sessionId,
-        certificationCandidates: [],
-      };
-      sessions.push(currentParsedSession);
+      currentParsedSession = sessions.find((session) => session.sessionId === data.sessionId);
+      if (!currentParsedSession) {
+        currentParsedSession = {
+          sessionId: data.sessionId,
+          certificationCandidates: [],
+        };
+        sessions.push(currentParsedSession);
+      }
     } else {
       currentParsedSession = sessions.at(-1);
     }
