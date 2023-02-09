@@ -14,7 +14,6 @@ export default class LoginForm extends Component {
   @service store;
 
   @tracked errorMessage = null;
-  @tracked isErrorMessagePresent = false;
   @tracked isLoading = false;
   @tracked password = null;
   @tracked email = null;
@@ -48,12 +47,20 @@ export default class LoginForm extends Component {
           this.args.organizationInvitationCode,
           email
         );
-      } catch (responseError) {
-        responseError.errors.forEach((error) => {
-          if (error.status === '412') {
-            return this._authenticate(password, email);
-          }
-        });
+      } catch (err) {
+        const error = err.errors[0];
+        const isInvitationAlreadyAcceptedByAnotherUser = error.status === '409';
+        if (isInvitationAlreadyAcceptedByAnotherUser) {
+          this.errorMessage = this.intl.t('pages.login-form.errors.status.409');
+          this.isLoading = false;
+          return;
+        }
+        const isUserAlreadyOrganizationMember = error.status === '412';
+        if (!isUserAlreadyOrganizationMember) {
+          this.errorMessage = this.intl.t(this._getI18nKeyByStatus(error.status));
+          this.isLoading = false;
+          return;
+        }
       }
     }
 
@@ -95,27 +102,25 @@ export default class LoginForm extends Component {
   async _authenticate(password, email) {
     const scope = 'pix-orga';
 
-    this.isErrorMessagePresent = false;
-    this.errorMessage = '';
-
+    this.errorMessage = null;
     try {
       await this.session.authenticate('authenticator:oauth2', email, password, scope);
     } catch (responseError) {
-      this.isErrorMessagePresent = true;
       this._handleApiError(responseError);
     } finally {
       this.isLoading = false;
     }
   }
 
-  _acceptOrganizationInvitation(organizationInvitationId, organizationInvitationCode, email) {
-    return this.store
-      .createRecord('organization-invitation-response', {
-        id: organizationInvitationId + '_' + organizationInvitationCode,
-        code: organizationInvitationCode,
-        email,
-      })
-      .save({ adapterOptions: { organizationInvitationId } });
+  async _acceptOrganizationInvitation(organizationInvitationId, organizationInvitationCode, email) {
+    const type = 'organization-invitation-response';
+    const id = `${organizationInvitationId}_${organizationInvitationCode}`;
+    const record = this.store.peekRecord(type, id);
+    if (!record) {
+      await this.store
+        .createRecord(type, { id, code: organizationInvitationCode, email })
+        .save({ adapterOptions: { organizationInvitationId } });
+    }
   }
 
   _handleApiError(responseError) {
