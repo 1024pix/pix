@@ -118,9 +118,12 @@ Cypress.Commands.add('visitOrga', (url) => {
 
 Cypress.Commands.overwrite('visit', (originalFn, url, options) => {
   const ORGA_URL = Cypress.env('ORGA_URL');
+  const APP_URL = Cypress.env('APP_URL');
 
   if (options.app === 'orga') {
     url = ORGA_URL + url;
+  } else {
+    url = APP_URL + url;
   }
 
   return originalFn(url, options);

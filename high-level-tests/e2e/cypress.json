@@ -1,11 +1,14 @@
 {
-  "baseUrl": "http://localhost:4200",
   "env": {
+    "APP_URL": "http://localhost:4200",
     "API_URL": "http://localhost:3000",
     "ORGA_URL": "http://localhost:4201"
   },
   "video": false,
-  "blockHosts": ["*stats.pix.fr*", "*analytics.pix.fr*"],
+  "blockHosts": [
+    "*stats.pix.fr*",
+    "*analytics.pix.fr*"
+  ],
   "screenshotsFolder": "cypress/snapshots/actual",
   "trashAssetsBeforeRuns": true,
   "projectId": "3cjm89",
