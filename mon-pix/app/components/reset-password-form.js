@@ -56,10 +56,10 @@ export default class ResetPasswordForm extends Component {
           this.validation.message = this.intl.t('pages.reset-password.error.expired-demand');
           break;
         case '500':
-          this.validation.message = this.intl.t('api-error-messages.internal-server-error');
+          this.validation.message = this.intl.t('common.api-error-messages.internal-server-error');
           break;
         default:
-          this.validation.message = this.intl.t('api-error-messages.internal-server-error');
+          this.validation.message = this.intl.t('common.api-error-messages.internal-server-error');
           break;
       }
     }
