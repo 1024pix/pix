@@ -1,1 +1,21 @@
-<p>1. Objectif à atteindre</p>
+<form class="form edit-training-trigger" {{on "submit" this.onSubmit}}>
+  <Trainings::EditTriggerThreshold @title={{this.thresholdTitle}} @description={{this.thresholdDescription}} />
+
+  <ul class="edit-training-trigger__actions">
+    <li>
+      <PixButton
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        @size="big"
+        @triggerAction={{this.onCancel}}
+      >
+        Annuler
+      </PixButton>
+    </li>
+    <li>
+      <PixButton @backgroundColor="green" @size="big" @type="submit" @isLoading={{this.submitting}}>
+        Créer le contenu formatif
+      </PixButton>
+    </li>
+  </ul>
+</form>
