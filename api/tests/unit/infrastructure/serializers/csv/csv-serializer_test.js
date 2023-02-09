@@ -293,6 +293,10 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
               sessionId: 1,
               candidateNumber: 1,
             }),
+            _lineWithSessionIdAndCandidate({
+              sessionId: 1,
+              candidateNumber: 2,
+            }),
           ];
 
           const expectedResult = [
@@ -303,6 +307,23 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                 {
                   lastName: 'Candidat 1',
                   firstName: 'Candidat 1',
+                  birthdate: '1981-03-01',
+                  birthINSEECode: '75015',
+                  birthPostalCode: '',
+                  billingMode: 'Prépayée',
+                  birthCity: '',
+                  birthCountry: 'France',
+                  email: '',
+                  externalId: '',
+                  extraTimePercentage: null,
+                  prepaymentCode: '43',
+                  resultRecipientEmail: 'robindahood@email.fr',
+                  sex: 'M',
+                  complementaryCertifications: [],
+                },
+                {
+                  lastName: 'Candidat 2',
+                  firstName: 'Candidat 2',
                   birthdate: '1981-03-01',
                   birthINSEECode: '75015',
                   birthPostalCode: '',
