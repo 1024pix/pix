@@ -27,6 +27,13 @@ module.exports = async function createSessions({
   await DomainTransaction.execute(async (domainTransaction) => {
     await bluebird.mapSeries(sessions, async (session) => {
       let { sessionId } = session;
+      const { date, time } = session;
+      const sessionDate = new Date(`${date}T${time}`);
+
+      if (_isSessionScheduledInThePast(sessionDate)) {
+        throw new UnprocessableEntityError(`Une session ne peut pas être programmée dans le passé`);
+      }
+
       let domainSession;
 
       if (sessionId) {
@@ -48,7 +55,7 @@ module.exports = async function createSessions({
       if (!sessionId && _hasSessionInfo(session)) {
         const isSessionExisting = await sessionRepository.isSessionExisting({ ...session });
         if (isSessionExisting) {
-          throw new UnprocessableEntityError(`Session happening on ${session.date} at ${session.time} already exists`);
+          throw new UnprocessableEntityError(`Session happening on ${date} at ${time} already exists`);
         }
 
         domainSession = _createAndValidateNewSessionToSave(session, certificationCenterId, certificationCenter);
@@ -79,6 +86,10 @@ module.exports = async function createSessions({
     });
   });
 };
+
+function _isSessionScheduledInThePast(sessionDate) {
+  return sessionDate < new Date();
+}
 
 function _hasSessionInfo(session) {
   return session.address || session.room || session.date || session.time || session.examiner;
