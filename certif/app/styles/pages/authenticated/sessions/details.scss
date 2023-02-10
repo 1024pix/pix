@@ -157,11 +157,14 @@
     font-weight: 500;
     font-size: 20px;
     color: $pix-neutral-90;
-    margin: 0 0 4px;
+    margin: 0 0 8px;
+    font-family: $font-open-sans;
   }
 
   &__clea-results-download-description {
-    color: $pix-neutral-50;
+    color: $pix-neutral-60;
+    font-size: 0.875rem;
+    margin-bottom: 12px;
   }
 
   &__clea-results-download-icon {
@@ -174,7 +177,7 @@
 
     svg {
       font-size: 40px;
-      color: $pix-neutral-50;
+      color: $pix-neutral-40;
     }
   }
 
