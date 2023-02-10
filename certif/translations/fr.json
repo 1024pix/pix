@@ -126,7 +126,17 @@
         "session-import-template-dl-error": "Une erreur s'est produite pendant le téléchargement",
         "session-import-template-label": "Télécharger le modèle vierge",
         "session-import-upload": "Importer (.csv)",
-        "session-import-upload-label": "Importer le modèle complété"
+        "session-import-upload-label": "Importer le modèle complété",
+        "instructions-creation-title": "Pour créer des sessions ?",
+        "instructions-creation-list": "Vous pouvez créer des sessions :",
+        "instructions-creation-list-with-candidates": "<strong>Avec candidats</strong>, complétez le modèle dans son intégralité,",
+        "instructions-creation-list-without-candidates": "<strong>Sans candidat</strong>, complétez uniquement les informations des sessions.",
+        "instructions-edition-title": "Pour éditer la liste des candidats de sessions déjà créées ?",
+        "instructions-edition-replace": "<strong>Pour remplacer</strong> une liste pré-existante dans le fichier modèle,",
+        "instructions-edition-subscription": "<strong>Pour inscrire</strong> des candidats dans une session vide.",
+        "instructions-edition-warning": "Attention à renseigner le numéro de session sans les autres informations de sessions (ex: date, heure, etc.) pour éviter les doublons lors de la création.",
+        "breadcrumb-import": "Import du modèle",
+        "breadcrumb-summary": "Récapitulatif"
       },
       "list": {
         "header": {
