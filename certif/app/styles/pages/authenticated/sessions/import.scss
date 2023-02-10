@@ -21,6 +21,10 @@
     font-weight: $font-light;
   }
 
+  .pix-collapsible__title:not(.pix-collapsible__title--uncollapsed):focus {
+    background-color: inherit;
+  }
+
   .pix-collapsible__title--uncollapsed {
     border-radius: 8px 8px 0 0;
   }
