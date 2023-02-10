@@ -89,6 +89,15 @@ async function fetchForFlashCampaigns({
     flashAssessmentResultRepository.getLatestByAssessmentId(assessmentId),
   ]);
 
+  const challengeIds = new Set(challenges.map(({ id }) => id));
+  const missingChallengeIds = allAnswers
+    .map(({ challengeId }) => challengeId)
+    .filter((challengeId) => !challengeIds.has(challengeId));
+  if (missingChallengeIds.length > 0) {
+    const missingChallenges = await challengeRepository.getMany(missingChallengeIds);
+    challenges.push(...missingChallenges);
+  }
+
   return {
     allAnswers,
     challenges,

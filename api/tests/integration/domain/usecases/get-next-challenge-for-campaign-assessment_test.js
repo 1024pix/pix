@@ -159,7 +159,6 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
       assessmentId,
       campaignParticipationId,
       assessment,
-      lastAnswer,
       answerRepository,
       challengeRepository,
       challenges,
@@ -178,9 +177,8 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
       userId = 'dummyUserId';
       assessmentId = 21;
       campaignParticipationId = 456;
-      lastAnswer = null;
 
-      answerRepository = { findByAssessment: sinon.stub().resolves([lastAnswer]) };
+      answerRepository = { findByAssessment: sinon.stub().resolves([]) };
       challenges = [];
       challengeRepository = { findActiveFlashCompatible: sinon.stub().resolves(challenges) };
       const campaign = domainBuilder.buildCampaign({ assessmentMethod: 'FLASH' });
@@ -249,7 +247,7 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
 
     it('should have fetched the next challenge with only most recent knowledge elements', function () {
       // then
-      const allAnswers = [lastAnswer];
+      const allAnswers = [];
       expect(flash.getPossibleNextChallenges).to.have.been.calledWithExactly({
         allAnswers,
         challenges,
