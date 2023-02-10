@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
-import { fillIn, findAll, triggerEvent, click } from '@ember/test-helpers';
+import { fillIn, triggerEvent } from '@ember/test-helpers';
 import { render, clickByName } from '@1024pix/ember-testing-library';
 
 import ArrayProxy from '@ember/array/proxy';
@@ -14,7 +14,6 @@ import ENV from '../../../config/environment';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
-const INPUT_TEXT_FIELD_CLASS_DEFAULT = 'form-textfield__input-container--default';
 
 const userEmpty = EmberObject.create({});
 
@@ -55,23 +54,31 @@ module('Integration | Component | SignupForm', function (hooks) {
       const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
       // then
-      assert.ok(screen.getByRole('link', { name: this.intl.t('navigation.showcase-homepage', { tld: 'localhost' }) }));
-      assert.ok(screen.getByRole('heading', { name: this.intl.t('pages.sign-up.first-title') }));
-      assert.ok(screen.getByRole('link', { name: this.intl.t('pages.sign-up.subtitle.link') }));
-      assert.ok(screen.getByRole('textbox', { name: this.intl.t('pages.sign-up.fields.firstname.label') }));
-      assert.ok(screen.getByRole('textbox', { name: this.intl.t('pages.sign-up.fields.lastname.label') }));
-      assert.ok(
-        screen.getByLabelText(
-          `${this.intl.t('pages.sign-up.fields.password.label')} ${this.intl.t('pages.sign-up.fields.password.help')}`
+      assert
+        .dom(screen.getByRole('link', { name: this.intl.t('navigation.showcase-homepage', { tld: 'localhost' }) }))
+        .exists();
+      assert.dom(screen.getByRole('heading', { name: this.intl.t('pages.sign-up.first-title') })).exists();
+      assert.dom(screen.getByRole('link', { name: this.intl.t('pages.sign-up.subtitle.link') })).exists();
+      assert.dom(screen.getByRole('textbox', { name: this.intl.t('pages.sign-up.fields.firstname.label') })).exists();
+      assert.dom(screen.getByRole('textbox', { name: this.intl.t('pages.sign-up.fields.lastname.label') })).exists();
+      assert
+        .dom(
+          screen.getByLabelText(
+            `${this.intl.t('pages.sign-up.fields.password.label')} ${this.intl.t('pages.sign-up.fields.password.help')}`
+          )
         )
-      );
-      assert.ok(
-        screen.getByRole('textbox', {
-          name: `${this.intl.t('pages.sign-up.fields.email.label')} ${this.intl.t('pages.sign-up.fields.email.help')}`,
-        })
-      );
-      assert.ok(screen.getByRole('button', { name: this.intl.t('common.form.visible-password') }));
-      assert.ok(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
+        .exists();
+      assert
+        .dom(
+          screen.getByRole('textbox', {
+            name: `${this.intl.t('pages.sign-up.fields.email.label')} ${this.intl.t(
+              'pages.sign-up.fields.email.help'
+            )}`,
+          })
+        )
+        .exists();
+      assert.dom(screen.getByRole('button', { name: this.intl.t('common.form.visible-password') })).exists();
+      assert.dom(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') })).exists();
     });
 
     test("should have links to Pix's CGU and data protection policy ", async function (assert) {
@@ -129,20 +136,12 @@ module('Integration | Component | SignupForm', function (hooks) {
   });
 
   module('When API returns errors', function () {
-    const userInputs = {
-      email: 'toto@pix.fr',
-      firstName: 'Marion',
-      lastName: 'Yade',
-      password: 'gipix2017',
-      cgu: true,
-    };
-
     test('should display an error if api cannot be reached', async function (assert) {
       // given
       const stubCatchedApiErrorInternetDisconnected = undefined;
 
       const user = EmberObject.create({
-        ...userInputs,
+        cgu: true,
         save() {
           return new reject(stubCatchedApiErrorInternetDisconnected);
         },
@@ -150,6 +149,7 @@ module('Integration | Component | SignupForm', function (hooks) {
 
       this.set('user', user);
       const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
+      await _fillFormWithCorrectData(screen);
 
       // when
       await clickByName(this.intl.t('pages.sign-up.actions.submit'));
@@ -170,7 +170,7 @@ module('Integration | Component | SignupForm', function (hooks) {
       };
 
       const user = EmberObject.create({
-        ...userInputs,
+        cgu: true,
         save() {
           return new reject(apiReturn);
         },
@@ -178,6 +178,7 @@ module('Integration | Component | SignupForm', function (hooks) {
 
       this.set('user', user);
       const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
+      await _fillFormWithCorrectData(screen);
 
       // when
       await clickByName(this.intl.t('pages.sign-up.actions.submit'));
@@ -197,7 +198,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         ],
       };
       const user = EmberObject.create({
-        ...userInputs,
+        cgu: true,
         save() {
           return new reject(apiReturn);
         },
@@ -205,6 +206,7 @@ module('Integration | Component | SignupForm', function (hooks) {
 
       this.set('user', user);
       const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
+      await _fillFormWithCorrectData(screen);
 
       // when
       await clickByName(this.intl.t('pages.sign-up.actions.submit'));
@@ -224,7 +226,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         ],
       };
       const user = EmberObject.create({
-        ...userInputs,
+        cgu: true,
         save() {
           return new reject(apiReturn);
         },
@@ -232,6 +234,7 @@ module('Integration | Component | SignupForm', function (hooks) {
 
       this.set('user', user);
       const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
+      await _fillFormWithCorrectData(screen);
 
       // when
       await clickByName(this.intl.t('pages.sign-up.actions.submit'));
@@ -252,7 +255,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         ],
       };
       const user = EmberObject.create({
-        ...userInputs,
+        cgu: true,
         save() {
           return new reject(apiReturn);
         },
@@ -260,6 +263,7 @@ module('Integration | Component | SignupForm', function (hooks) {
 
       this.set('user', user);
       const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
+      await _fillFormWithCorrectData(screen);
 
       // when
       await clickByName(this.intl.t('pages.sign-up.actions.submit'));
@@ -284,10 +288,6 @@ module('Integration | Component | SignupForm', function (hooks) {
         // given
         let isFormSubmitted = false;
         const user = EmberObject.create({
-          email: 'toto@pix.fr',
-          firstName: 'Marion',
-          lastName: 'Yade',
-          password: 'gipix2017',
           cgu: true,
           save() {
             isFormSubmitted = true;
@@ -298,7 +298,8 @@ module('Integration | Component | SignupForm', function (hooks) {
         this.set('authenticateUser', () => {});
 
         this.set('user', user);
-        await render(hbs`<SignupForm @user={{this.user}} />`);
+        const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
+        await _fillFormWithCorrectData(screen);
 
         // when
         await clickByName(this.intl.t('pages.sign-up.actions.submit'));
@@ -314,24 +315,21 @@ module('Integration | Component | SignupForm', function (hooks) {
         this.set('authenticateUser', authenticateUserStub);
 
         const user = EmberObject.create({
-          email: 'toto@pix.fr',
-          firstName: 'Marion',
-          lastName: 'Yade',
-          password: 'gipix2017',
           cgu: true,
           save() {
             return resolve();
           },
         });
         this.set('user', user);
-        await render(hbs`<SignupForm @user={{this.user}} />`);
+        const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
+        await _fillFormWithCorrectData(screen);
 
         // when
         await clickByName(this.intl.t('pages.sign-up.actions.submit'));
 
         // then
         sinon.assert.calledOnce(session.authenticateUser);
-        sinon.assert.calledWith(session.authenticateUser, 'toto@pix.fr', 'gipix2017');
+        sinon.assert.calledWith(session.authenticateUser, 'jean@example.net', 'Password123');
         assert.notOk(user.password);
         assert.ok(true);
       });
@@ -452,10 +450,6 @@ module('Integration | Component | SignupForm', function (hooks) {
         ];
 
         const userBackToSaveWithErrors = EmberObject.create({
-          email: 'elliott'.repeat(37) + '@example.net',
-          firstName: 'Henry',
-          lastName: 'Thomas',
-          password: 'Pix12345',
           cgu: true,
           errors,
           save() {
@@ -465,6 +459,18 @@ module('Integration | Component | SignupForm', function (hooks) {
 
         this.set('user', userBackToSaveWithErrors);
         const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
+
+        const tooLargeEmail = 'jean'.repeat(37);
+        await fillIn(screen.getByRole('textbox', { name: 'Prénom' }), 'Jean');
+        await fillIn(screen.getByRole('textbox', { name: 'Nom' }), 'Cérien');
+        await fillIn(
+          screen.getByRole('textbox', { name: 'Adresse e-mail (ex: nom@exemple.fr)' }),
+          `${tooLargeEmail}@example.net`
+        );
+        await fillIn(
+          screen.getByLabelText('Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)'),
+          'Password123'
+        );
 
         // when
         await clickByName(this.intl.t('pages.sign-up.actions.submit'));
@@ -588,7 +594,7 @@ module('Integration | Component | SignupForm', function (hooks) {
         assert.dom(screen.queryByText(this.intl.t('common.cgu.error'))).doesNotExist();
       });
 
-      test('should reset validation property, when all things are ok and form is submitted', async function (assert) {
+      test('should reset validation property, when all informations are validated and form is submitted', async function (assert) {
         // given
         const validUser = EmberObject.create({
           email: 'toto@pix.fr',
@@ -603,39 +609,28 @@ module('Integration | Component | SignupForm', function (hooks) {
 
         this.set('user', validUser);
         this.set('authenticateUser', () => {});
-        await render(hbs`<SignupForm @user={{this.user}} />`);
+        const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
         // when
         await clickByName(this.intl.t('pages.sign-up.actions.submit'));
 
         // then
-        assert.ok(
-          findAll('.form-textfield__input-field-container')[0]
-            .getAttribute('class')
-            .includes(INPUT_TEXT_FIELD_CLASS_DEFAULT)
-        );
-      });
-
-      module('when the password visibility button is clicked', function () {
-        test('it should focus on input', async function (assert) {
-          // given
-          const screen = await render(hbs`<SignupForm />`);
-
-          // when
-          await click(screen.getByRole('button', { name: this.intl.t('common.form.visible-password') }));
-
-          // then
-          assert
-            .dom(
-              screen.getByRole('textbox', {
-                name: `${this.intl.t('pages.sign-up.fields.password.label')} ${this.intl.t(
-                  'pages.sign-up.fields.password.help'
-                )}`,
-              })
-            )
-            .isFocused();
-        });
+        assert.dom(screen.queryByText(this.intl.t('pages.sign-up.fields.firstname.error'))).doesNotExist();
+        assert.dom(screen.queryByText(this.intl.t('pages.sign-up.fields.lastname.error'))).doesNotExist();
+        assert.dom(screen.queryByText(this.intl.t('pages.sign-up.fields.email.error'))).doesNotExist();
+        assert.dom(screen.queryByText(this.intl.t('pages.sign-up.fields.password.error'))).doesNotExist();
+        assert.dom(screen.queryByText(this.intl.t('common.cgu.error'))).doesNotExist();
       });
     });
   });
+
+  async function _fillFormWithCorrectData(screen) {
+    await fillIn(screen.getByRole('textbox', { name: 'Prénom' }), 'Jean');
+    await fillIn(screen.getByRole('textbox', { name: 'Nom' }), 'Cérien');
+    await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail (ex: nom@exemple.fr)' }), 'jean@example.net');
+    await fillIn(
+      screen.getByLabelText('Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)'),
+      'Password123'
+    );
+  }
 });

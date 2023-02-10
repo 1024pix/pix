@@ -11,12 +11,13 @@
     padding: 0 15px;
 
     @include device-is('tablet') {
-      margin: 15px 0 5px;
+      margin: 8px 0 5px;
       padding: 0;
     }
   }
 
   &__cgu-label {
-    margin: 3px 0 3px 15px;
+    margin: 3px 0 3px 5px;
+    font-size: 0.875rem;
   }
 }
