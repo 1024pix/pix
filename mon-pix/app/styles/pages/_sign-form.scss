@@ -21,7 +21,7 @@
   &__container {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: $spacing-m;
     align-items: center;
     width: 95%;
     max-width: 609px;
@@ -39,7 +39,7 @@
   &__header {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: $spacing-s;
     align-items: center;
   }
 
@@ -103,14 +103,14 @@
 
 .sign-form-body {
   &__instruction {
-    margin: 10px 0 30px;
+    margin: 10px 0 24px;
     font-size: 0.875rem;
   }
 
   &__inputs {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: $spacing-s;
     align-items: center;
   }
 
@@ -190,5 +190,6 @@
   &__forgotten-password-link {
     align-self: flex-end;
     margin: 5px 0 20px;
+    font-size: 0.875rem;
   }
 }

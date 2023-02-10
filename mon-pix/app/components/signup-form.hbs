@@ -1,84 +1,80 @@
 <main class="sign-form__container" role="main">
+
   <a href={{this.showcase.url}} class="pix-logo__link">
     <img class="pix-logo__image" src="/images/pix-logo.svg" alt="{{this.showcase.linkText}}" />
   </a>
 
   <div class="sign-form__header">
-    <h1 class="sign-form-title">{{t "pages.sign-up.first-title"}}</h1>
+    <h1 class="sign-form-header__title">{{t "pages.sign-up.first-title"}}</h1>
     <div class="sign-form-header__subtitle">
       <span class="sign-form-header-subtitle">{{t "common.or"}}</span>
       <LinkTo @route="authentication.login" class="link">{{t "pages.sign-up.subtitle.link"}}</LinkTo>
     </div>
   </div>
 
-  <p class="sign-form__notification-message--error" aria-live="polite" role="alert" id="sign-up-error-message">
-    {{this.errorMessage}}
-  </p>
+  {{#if this.errorMessage}}
+    <p class="sign-form__notification-message--error" aria-live="polite" role="alert" id="sign-up-error-message">
+      {{this.errorMessage}}
+    </p>
+  {{/if}}
 
   <form {{on "submit" this.signup}} class="sign-form__body">
     <p class="sign-form-body__instruction">{{t "common.form.mandatory-all-fields" htmlSafe=true}}</p>
 
-    <fieldset>
+    <fieldset class="sign-form-body__inputs">
       <legend class="sr-only">{{t "pages.sign-up.fields.legend"}}</legend>
       <div class="sign-form-body__input">
-        <FormTextfield
-          @label="{{t 'pages.sign-up.fields.firstname.label'}}"
-          @textfieldName="firstName"
-          @inputBindingValue={{@user.firstName}}
-          @onValidate={{this.validateInput}}
+        <PixInput
+          @id="firstName"
+          name="firstName"
+          @label={{t "pages.sign-up.fields.firstname.label"}}
+          {{on "focusout" this.validateFirstName}}
           @validationStatus={{this.validation.firstName.status}}
-          @validationMessage={{this.validation.firstName.message}}
-          @autocomplete="given-name"
-          @hideRequired={{true}}
-          @require={{true}}
-          @aria-describedby="sign-up-error-message"
+          @errorMessage={{this.validation.firstName.message}}
+          required
+          autocomplete="given-name"
         />
       </div>
 
       <div class="sign-form-body__input">
-        <FormTextfield
-          @label="{{t 'pages.sign-up.fields.lastname.label'}}"
-          @textfieldName="lastName"
-          @inputBindingValue={{@user.lastName}}
-          @onValidate={{this.validateInput}}
+        <PixInput
+          @id="lastName"
+          name="lastName"
+          @label={{t "pages.sign-up.fields.lastname.label"}}
+          {{on "focusout" this.validateLastName}}
           @validationStatus={{this.validation.lastName.status}}
-          @validationMessage={{this.validation.lastName.message}}
-          @autocomplete="family-name"
-          @hideRequired={{true}}
-          @require={{true}}
-          @aria-describedby="sign-up-error-message"
+          @errorMessage={{this.validation.lastName.message}}
+          required
+          autocomplete="family-name"
         />
       </div>
 
       <div class="sign-form-body__input">
-        <FormTextfield
+        <PixInput
+          @id="email"
+          name="email"
           @label="{{t 'pages.sign-up.fields.email.label'}}"
-          @help="{{t 'pages.sign-up.fields.email.help'}}"
-          @textfieldName="email"
+          @information="{{t 'pages.sign-up.fields.email.help'}}"
+          {{on "focusout" this.validateEmail}}
           @validationStatus={{this.validation.email.status}}
-          @onValidate={{this.validateInputEmail}}
-          @inputBindingValue={{@user.email}}
-          @validationMessage={{this.validation.email.message}}
-          @autocomplete="email"
-          @hideRequired={{true}}
-          @require={{true}}
-          @aria-describedby="sign-up-error-message"
+          @errorMessage={{this.validation.email.message}}
+          required
+          autocomplete="email"
         />
       </div>
 
       <div class="sign-form-body__input">
-        <FormTextfield
+        <PixInputPassword
+          @id="password"
+          name="password"
           @label="{{t 'pages.sign-up.fields.password.label'}}"
-          @help="{{t 'pages.sign-up.fields.password.help'}}"
-          @textfieldName="password"
+          @information="{{t 'pages.sign-up.fields.password.help'}}"
+          @value={{this.password}}
+          {{on "focusout" this.validatePassword}}
           @validationStatus={{this.validation.password.status}}
-          @onValidate={{this.validateInputPassword}}
-          @inputBindingValue={{@user.password}}
-          @validationMessage={{this.validation.password.message}}
-          @autocomplete="new-password"
-          @hideRequired={{true}}
-          @require={{true}}
-          @aria-describedby="sign-up-error-message"
+          @errorMessage={{this.validation.password.message}}
+          required
+          autocomplete="new-password"
         />
       </div>
 
