@@ -297,4 +297,26 @@ describe('Unit | Controller | training-controller', function () {
       expect(result).to.be.equal(serializedTargetProfileSummaries);
     });
   });
+
+  describe('attachTargetProfiles', function () {
+    it('should call the attachTargetProfilesTraining use-case', async function () {
+      // given
+      const trainingId = 145;
+      const targetProfileIds = [1, 2, 3];
+      sinon.stub(usecases, 'attachTargetProfilesToTraining').resolves(targetProfileIds);
+
+      // when
+      const response = await trainingController.attachTargetProfiles(
+        {
+          params: { id: trainingId },
+          payload: { 'target-profile-ids': targetProfileIds },
+        },
+        hFake
+      );
+
+      // then
+      expect(response.statusCode).to.equal(204);
+      expect(usecases.attachTargetProfilesToTraining).to.have.been.calledWith({ trainingId, targetProfileIds });
+    });
+  });
 });
