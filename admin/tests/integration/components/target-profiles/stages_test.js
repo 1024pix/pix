@@ -118,8 +118,6 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       assert.dom('table').exists();
       assert.dom('thead').exists();
       assert.dom('tbody').exists();
-      assert.dom(screen.getByText('ID')).exists();
-      assert.dom(screen.getByText('Image')).exists();
       assert.dom(screen.getByText('Seuil')).exists();
       assert.dom(screen.getByText('Titre')).exists();
       assert.dom(screen.getByText('Message')).exists();
@@ -127,13 +125,10 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       assert.dom(screen.getByText('Description prescripteur')).exists();
       assert.dom(screen.getByText('Actions')).exists();
       assert.dom('tbody tr').exists({ count: 1 });
-      assert.strictEqual(find('tbody tr td:first-child').textContent.trim(), '1');
-      assert.dom('tbody tr td:nth-child(2) img').exists();
-      assert.strictEqual(find('tbody tr td:nth-child(2) img').getAttribute('src'), 'data:,');
-      assert.strictEqual(find('tbody tr td:nth-child(3)').textContent.trim(), '100');
-      assert.strictEqual(find('tbody tr td:nth-child(4)').textContent.trim(), 'My title');
-      assert.strictEqual(find('tbody tr td:nth-child(5)').textContent.trim(), 'My message');
-      assert.strictEqual(find('tbody tr td:nth-child(8)').textContent.trim(), 'Voir détail');
+      assert.strictEqual(find('tbody tr td:nth-child(1)').textContent.trim(), '100');
+      assert.strictEqual(find('tbody tr td:nth-child(2)').textContent.trim(), 'My title');
+      assert.strictEqual(find('tbody tr td:nth-child(3)').textContent.trim(), 'My message');
+      assert.strictEqual(find('tbody tr td:nth-child(6)').textContent.trim(), 'Voir détail');
       assert.dom(screen.queryByText('Aucun résultat thématique associé')).doesNotExist();
     });
 
@@ -239,8 +234,6 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       assert.dom('table').exists();
       assert.dom('thead').exists();
       assert.dom('tbody').exists();
-      assert.dom(screen.getByText('ID')).exists();
-      assert.dom(screen.getByText('Image')).exists();
       assert.dom(screen.getByText('Niveau')).exists();
       assert.dom(screen.getByText('Titre')).exists();
       assert.dom(screen.getByText('Message')).exists();
@@ -248,13 +241,10 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       assert.dom(screen.getByText('Description prescripteur')).exists();
       assert.dom(screen.getByText('Actions')).exists();
       assert.dom('tbody tr').exists({ count: 1 });
-      assert.strictEqual(find('tbody tr td:first-child').textContent.trim(), '1');
-      assert.dom('tbody tr td:nth-child(2) img').exists();
-      assert.strictEqual(find('tbody tr td:nth-child(2) img').getAttribute('src'), 'data:,');
-      assert.strictEqual(find('tbody tr td:nth-child(3)').textContent.trim(), '6');
-      assert.strictEqual(find('tbody tr td:nth-child(4)').textContent.trim(), 'My title');
-      assert.strictEqual(find('tbody tr td:nth-child(5)').textContent.trim(), 'My message');
-      assert.strictEqual(find('tbody tr td:nth-child(8)').textContent.trim(), 'Voir détail');
+      assert.strictEqual(find('tbody tr td:nth-child(1)').textContent.trim(), '6');
+      assert.strictEqual(find('tbody tr td:nth-child(2)').textContent.trim(), 'My title');
+      assert.strictEqual(find('tbody tr td:nth-child(3)').textContent.trim(), 'My message');
+      assert.strictEqual(find('tbody tr td:nth-child(6)').textContent.trim(), 'Voir détail');
       assert.dom(screen.queryByText('Aucun résultat thématique associé')).doesNotExist();
     });
 
