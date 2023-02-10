@@ -70,7 +70,7 @@ function _addColumns({ odsBuilder, certificationCenterHabilitations, isScoCertif
         tooltipContentLines: ['Options possibles :', ...billingValidatorList.map((option) => `- ${option}`)],
       })
       .withColumnGroup({
-        groupHeaderLabel: 'Tarification',
+        groupHeaderLabels: ['Tarification'],
         columns: [
           {
             headerLabel: ['Tarification part Pix'],
@@ -99,7 +99,7 @@ function _addComplementaryCertificationColumns({ odsBuilder, certificationCenter
       placeholder: [key],
     }));
     odsBuilder.withColumnGroup({
-      groupHeaderLabel: 'Certification(s) complémentaire(s)',
+      groupHeaderLabels: ['Certification', 'complémentaire', '(une seule par candidat)'],
       columns: habilitationColumns,
       startsAt: INFORMATIVE_HEADER_ROW,
       headerRowSpan: HEADER_ROW_SPAN,
