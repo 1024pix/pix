@@ -1,6 +1,6 @@
 const { expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
 
-const { AlreadyRegisteredUsernameError } = require('../../../../lib/domain/errors');
+const { OrganizationLearnerAlreadyLinkedToUserError } = require('../../../../lib/domain/errors');
 
 const User = require('../../../../lib/domain/models/User');
 const UserToCreateRepository = require('../../../../lib/infrastructure/repositories/user-to-create-repository');
@@ -70,7 +70,7 @@ describe('Integration | Infrastructure | Repository | UserToCreateRepository', f
       const error = await catchErr(UserToCreateRepository.create)({ user });
 
       // then
-      expect(error).to.be.instanceOf(AlreadyRegisteredUsernameError);
+      expect(error).to.be.instanceOf(OrganizationLearnerAlreadyLinkedToUserError);
     });
   });
 });
