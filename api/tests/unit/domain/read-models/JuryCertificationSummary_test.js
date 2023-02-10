@@ -22,6 +22,7 @@ describe('Unit | Domain | Models | JuryCertificationSummary', function () {
         id: 100001,
         isFlaggedAborted: false,
         isPublished: false,
+        isCancelled: false,
         pixScore: 751,
         status: 'started',
       };
@@ -43,6 +44,7 @@ describe('Unit | Domain | Models | JuryCertificationSummary', function () {
         hasSeenEndTestScreen: 'true',
         id: 100001,
         isFlaggedAborted: false,
+        isCancelled: false,
         isPublished: false,
         pixScore: 751,
         status: 'started',
@@ -60,16 +62,6 @@ describe('Unit | Domain | Models | JuryCertificationSummary', function () {
           // then
           expect(juryCertificationSummary.status).equal(JuryCertificationSummary.statuses[key]);
         });
-      });
-    });
-
-    context('when course is cancelled', function () {
-      it(`should returns "cancelled" status`, function () {
-        // when
-        const juryCertificationSummary = new JuryCertificationSummary({ isCourseCancelled: true });
-
-        // then
-        expect(juryCertificationSummary.status).equal(JuryCertificationSummary.statuses['CANCELLED']);
       });
     });
 

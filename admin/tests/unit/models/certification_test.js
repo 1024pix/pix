@@ -188,7 +188,6 @@ module('Unit | Model | certification', function (hooks) {
       { value: 'error', label: 'En erreur' },
       { value: 'validated', label: 'Validée' },
       { value: 'rejected', label: 'Rejetée' },
-      { value: 'cancelled', label: 'Annulée' },
     ].forEach((certificationStatus) => {
       test('it should return the right pair of label and value', function (assert) {
         // given

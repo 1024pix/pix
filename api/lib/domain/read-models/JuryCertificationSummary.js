@@ -1,6 +1,5 @@
 const { status: assessmentResultStatuses } = require('../models/AssessmentResult');
 const STARTED = 'started';
-const CANCELLED = 'cancelled';
 const ENDED_BY_SUPERVISOR = 'endedBySupervisor';
 
 class JuryCertificationSummary {
@@ -14,7 +13,7 @@ class JuryCertificationSummary {
     completedAt,
     abortReason,
     isPublished,
-    isCourseCancelled,
+    isCancelled,
     isEndedBySupervisor,
     hasSeenEndTestScreen,
     complementaryCertificationTakenLabels,
@@ -23,7 +22,8 @@ class JuryCertificationSummary {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
-    this.status = _getStatus(status, isCourseCancelled, isEndedBySupervisor);
+    this.status = _getStatus({ status, isEndedBySupervisor });
+    this.isCancelled = isCancelled;
     this.pixScore = pixScore;
     this.isFlaggedAborted = Boolean(abortReason) && !completedAt;
     this.complementaryCertificationTakenLabels = complementaryCertificationTakenLabels;
@@ -47,11 +47,7 @@ class JuryCertificationSummary {
   }
 }
 
-function _getStatus(status, isCourseCancelled, isEndedBySupervisor) {
-  if (isCourseCancelled) {
-    return CANCELLED;
-  }
-
+function _getStatus({ status, isEndedBySupervisor }) {
   if (isEndedBySupervisor) {
     return ENDED_BY_SUPERVISOR;
   }

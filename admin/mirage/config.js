@@ -405,7 +405,7 @@ export default function () {
   this.post('/admin/certification-courses/:id/cancel', (schema, request) => {
     const certificationId = request.params.id;
     const certificationToUpdate = schema.certifications.find(certificationId);
-    certificationToUpdate.update({ status: 'cancelled' });
+    certificationToUpdate.update({ isCancelled: true });
 
     return new Response(200);
   });
@@ -413,7 +413,7 @@ export default function () {
   this.post('/admin/certification-courses/:id/uncancel', (schema, request) => {
     const certificationId = request.params.id;
     const certificationToUpdate = schema.certifications.find(certificationId);
-    certificationToUpdate.update({ status: 'validated' });
+    certificationToUpdate.update({ isCancelled: false });
 
     return new Response(200);
   });

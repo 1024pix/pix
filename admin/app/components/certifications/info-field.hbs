@@ -12,17 +12,15 @@
       <span class="certification-info-field__suffix">{{@suffix}}</span>
     {{/if}}
   {{else}}
-    <p>
-      {{@label}}
-      {{#if @linkRoute}}
-        <LinkTo @route={{@linkRoute}} @model={{@value}}>
-          {{this.valueWithSuffix}}
-        </LinkTo>
-      {{else}}
-        <span class={{@class}}>
-          {{if this.valueWithSuffix this.valueWithSuffix " - "}}
-        </span>
-      {{/if}}
-    </p>
+    <p>{{@label}}</p>
+    {{#if @linkRoute}}
+      <LinkTo @route={{@linkRoute}} @model={{@value}}>
+        {{this.valueWithSuffix}}
+      </LinkTo>
+    {{else}}
+      <p class={{@class}}>
+        {{if this.valueWithSuffix this.valueWithSuffix " - "}}
+      </p>
+    {{/if}}
   {{/if}}
 </div>

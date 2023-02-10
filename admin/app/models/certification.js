@@ -18,7 +18,6 @@ export const certificationStatuses = [
   { value: ERROR, label: 'En erreur' },
   { value: 'validated', label: 'Validée' },
   { value: 'rejected', label: 'Rejetée' },
-  { value: 'cancelled', label: 'Annulée' },
 ];
 
 export default class Certification extends Model {
@@ -35,6 +34,7 @@ export default class Certification extends Model {
   @attr() birthPostalCode;
   @attr() createdAt;
   @attr() completedAt;
+  @attr() isCancelled;
   @attr() status;
   @attr() juryId;
   @attr('string') commentForCandidate;
