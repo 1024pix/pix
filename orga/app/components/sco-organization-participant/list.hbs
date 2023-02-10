@@ -71,9 +71,21 @@
         <Table::Header @size="medium">
           {{t "pages.sco-organization-participants.table.column.login-method"}}
         </Table::Header>
-        <Table::Header @size="medium" @align="right" class="organization-participant-list-page__participant-count">
-          {{t "pages.sco-organization-participants.table.column.participation-count"}}
-        </Table::Header>
+        <Table::HeaderSort
+          @size="medium"
+          @onSort={{@sortByParticipationCount}}
+          @defaultOrder={{@participationCountOrder}}
+          @ariaLabelDefaultSort={{t
+            "pages.sco-organization-participants.table.column.participation-count.ariaLabelDefaultSort"
+          }}
+          @ariaLabelSortUp={{t "pages.sco-organization-participants.table.column.participation-count.ariaLabelSortUp"}}
+          @ariaLabelSortDown={{t
+            "pages.sco-organization-participants.table.column.participation-count.ariaLabelSortDown"
+          }}
+          class="organization-participant-list-page__participant-count"
+        >
+          {{t "pages.sco-organization-participants.table.column.participation-count.label"}}
+        </Table::HeaderSort>
         <Table::Header @size="medium" @align="center">
           {{t "pages.sco-organization-participants.table.column.last-participation-date"}}
         </Table::Header>

@@ -16,6 +16,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     class CurrentUserStub extends Service {
       organization = organization;
     }
+
     this.owner.register('service:current-user', CurrentUserStub);
     this.set('noop', sinon.stub());
   });
@@ -283,6 +284,113 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     // then
     sinon.assert.calledWithExactly(triggerFiltering, 'certificability', ['eligible']);
     assert.ok(true);
+  });
+
+  module('when user is sorting the table', function () {
+    test('it should trigger ascending sort on participation count column', async function (assert) {
+      // given
+      this.set('triggerFiltering', () => {});
+      this.set('participants', []);
+      this.set('certificabilityOptions', [{ value: 'eligible', label: 'Certifiable' }]);
+      this.set('certificability', []);
+      this.set('participationCountOrder', null);
+
+      const sortByParticipationCount = sinon.spy();
+
+      this.set('sortByParticipationCount', sortByParticipationCount);
+
+      const screen = await render(
+        hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @certificabilityOptions={{this.certificabilityOptions}}
+  @certificability={{this.certificability}}
+  @onClickLearner={{this.noop}}
+  @participationCountOrder={{this.participationCountOrder}}
+  @sortByParticipationCount={{this.sortByParticipationCount}}
+/>`
+      );
+
+      // when
+      await click(
+        screen.getByLabelText(
+          this.intl.t('pages.organization-participants.table.column.participation-count.ariaLabelDefaultSort')
+        )
+      );
+
+      // then
+      sinon.assert.calledWithExactly(sortByParticipationCount, 'asc');
+      assert.ok(true);
+    });
+
+    test('it should trigger ascending sort on participation count column when it is already sort descending', async function (assert) {
+      // given
+      this.set('triggerFiltering', () => {});
+      this.set('participants', []);
+      this.set('certificabilityOptions', [{ value: 'eligible', label: 'Certifiable' }]);
+      this.set('certificability', []);
+
+      this.set('participationCountOrder', 'desc');
+      const sortByParticipationCount = sinon.spy();
+      this.set('sortByParticipationCount', sortByParticipationCount);
+      const screen = await render(
+        hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @certificabilityOptions={{this.certificabilityOptions}}
+  @certificability={{this.certificability}}
+  @onClickLearner={{this.noop}}
+  @participationCountOrder={{this.participationCountOrder}}
+  @sortByParticipationCount={{this.sortByParticipationCount}}
+/>`
+      );
+
+      // when
+      await click(
+        screen.getByLabelText(
+          this.intl.t('pages.organization-participants.table.column.participation-count.ariaLabelSortDown')
+        )
+      );
+
+      // then
+      sinon.assert.calledWithExactly(sortByParticipationCount, 'asc');
+      assert.ok(true);
+    });
+
+    test('it should trigger descending sort on participation count column when it is already sort ascending', async function (assert) {
+      // given
+      this.set('triggerFiltering', () => {});
+      this.set('participants', []);
+      this.set('certificabilityOptions', [{ value: 'eligible', label: 'Certifiable' }]);
+      this.set('certificability', []);
+
+      this.set('participationCountOrder', 'asc');
+      const sortByParticipationCount = sinon.spy();
+      this.set('sortByParticipationCount', sortByParticipationCount);
+
+      const screen = await render(
+        hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.triggerFiltering}}
+  @certificabilityOptions={{this.certificabilityOptions}}
+  @certificability={{this.certificability}}
+  @onClickLearner={{this.noop}}
+  @participationCountOrder={{this.participationCountOrder}}
+  @sortByParticipationCount={{this.sortByParticipationCount}}
+/>`
+      );
+
+      // when
+      await click(
+        screen.getByLabelText(
+          this.intl.t('pages.organization-participants.table.column.participation-count.ariaLabelSortUp')
+        )
+      );
+
+      // then
+      sinon.assert.calledWithExactly(sortByParticipationCount, 'desc');
+      assert.ok(true);
+    });
   });
 
   test('it should display the empty state when no participants', async function (assert) {

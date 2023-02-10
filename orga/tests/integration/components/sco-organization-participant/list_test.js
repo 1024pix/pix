@@ -16,6 +16,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
     store = this.owner.lookup('service:store');
 
     const division = store.createRecord('division', { id: '3A', name: '3A' });
+
     class CurrentUserStub extends Service {
       isSCOManagingStudents = true;
       organization = store.createRecord('organization', {
@@ -41,6 +42,9 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
     assert.dom(screen.getByRole('columnheader', { name: 'Prénom' })).exists();
     assert.dom(screen.getByRole('columnheader', { name: 'Date de naissance' })).exists();
     assert.dom(screen.getByRole('columnheader', { name: 'Méthode(s) de connexion' })).exists();
+    assert.dom(screen.getByRole('columnheader', { name: 'Nombre de participations' })).exists();
+    assert.dom(screen.getByRole('columnheader', { name: 'Dernière participation' })).exists();
+    assert.dom(screen.getByRole('columnheader', { name: 'Certificabilité' })).exists();
     assert.dom(screen.getByRole('columnheader', { name: 'Actions' })).exists();
   });
 
@@ -284,6 +288,110 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
       // then
       sinon.assert.called(resetFiltered);
+      assert.ok(true);
+    });
+  });
+
+  module('when user is sorting the table', function () {
+    test('it should trigger ascending sort on participation count column', async function (assert) {
+      // given
+      this.set('triggerFiltering', () => {});
+      this.set('participants', []);
+      this.set('certificabilityOptions', [{ value: 'eligible', label: 'Certifiable' }]);
+      this.set('certificability', []);
+      this.set('participationCountOrder', null);
+
+      const sortByParticipationCount = sinon.spy();
+
+      this.set('sortByParticipationCount', sortByParticipationCount);
+
+      const screen = await render(
+        hbs`<ScoOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @participationCountOrder={{this.participationCountOrder}}
+  @sortByParticipationCount={{this.sortByParticipationCount}}
+/>`
+      );
+
+      // when
+      await click(
+        screen.getByLabelText(
+          this.intl.t('pages.sco-organization-participants.table.column.participation-count.ariaLabelDefaultSort')
+        )
+      );
+
+      // then
+      sinon.assert.calledWithExactly(sortByParticipationCount, 'asc');
+      assert.ok(true);
+    });
+
+    test('it should trigger ascending sort on participation count column when it is already sort descending', async function (assert) {
+      // given
+      this.set('triggerFiltering', () => {});
+      this.set('participants', []);
+      this.set('certificabilityOptions', [{ value: 'eligible', label: 'Certifiable' }]);
+      this.set('certificability', []);
+      this.set('participationCountOrder', 'desc');
+
+      const sortByParticipationCount = sinon.spy();
+
+      this.set('sortByParticipationCount', sortByParticipationCount);
+
+      const screen = await render(
+        hbs`<ScoOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @participationCountOrder={{this.participationCountOrder}}
+  @sortByParticipationCount={{this.sortByParticipationCount}}
+/>`
+      );
+
+      // when
+      await click(
+        screen.getByLabelText(
+          this.intl.t('pages.sco-organization-participants.table.column.participation-count.ariaLabelSortDown')
+        )
+      );
+
+      // then
+      sinon.assert.calledWithExactly(sortByParticipationCount, 'asc');
+      assert.ok(true);
+    });
+
+    test('it should trigger descending sort on participation count column when it is already sort ascending', async function (assert) {
+      // given
+      this.set('triggerFiltering', () => {});
+      this.set('participants', []);
+      this.set('certificabilityOptions', [{ value: 'eligible', label: 'Certifiable' }]);
+      this.set('certificability', []);
+      this.set('participationCountOrder', 'asc');
+
+      const sortByParticipationCount = sinon.spy();
+
+      this.set('sortByParticipationCount', sortByParticipationCount);
+
+      const screen = await render(
+        hbs`<ScoOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @participationCountOrder={{this.participationCountOrder}}
+  @sortByParticipationCount={{this.sortByParticipationCount}}
+/>`
+      );
+
+      // when
+      await click(
+        screen.getByLabelText(
+          this.intl.t('pages.sco-organization-participants.table.column.participation-count.ariaLabelSortUp')
+        )
+      );
+
+      // then
+      sinon.assert.calledWithExactly(sortByParticipationCount, 'desc');
       assert.ok(true);
     });
   });

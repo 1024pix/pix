@@ -5,7 +5,7 @@ const { filterByFullName } = require('../utils/filter-utils');
 const CampaignTypes = require('../../domain/models/CampaignTypes');
 const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
 
-async function getParticipantsByOrganizationId({ organizationId, page, filters = {} }) {
+async function getParticipantsByOrganizationId({ organizationId, page, filters = {}, sort = {} }) {
   const { count } = await knex
     .select(knex.raw('COUNT(DISTINCT "organization-learners"."id")'))
     .from('organization-learners')
@@ -17,6 +17,18 @@ async function getParticipantsByOrganizationId({ organizationId, page, filters =
     .where({ 'campaign-participations.deletedAt': null })
     .first();
   const totalParticipants = count ?? 0;
+
+  const orderByClause = [
+    'organization-learners.lastName',
+    'organization-learners.firstName',
+    'organization-learners.id',
+  ];
+  if (sort?.participationCount) {
+    orderByClause.unshift({
+      column: 'participationCount',
+      order: sort.participationCount == 'desc' ? 'desc' : 'asc',
+    });
+  }
 
   const query = knex
     .with('subquery', (qb) => _buildIsCertifiable(qb, organizationId))
@@ -54,7 +66,7 @@ async function getParticipantsByOrganizationId({ organizationId, page, filters =
     .where('users.isAnonymous', '=', false)
     .whereNull('campaign-participations.deletedAt')
     .where('campaign-participations.isImproved', '=', false)
-    .orderBy(['organization-learners.lastName', 'organization-learners.firstName', 'organization-learners.id'])
+    .orderBy(orderByClause)
     .distinct('organization-learners.id')
     .modify(_filterBySearch, filters)
     .modify(_filterByCertificability, filters);

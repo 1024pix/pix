@@ -10,7 +10,7 @@ describe('Unit | Utils | Query Params Utils', function () {
         'filter[userId]': '1',
         'page[number]': '1',
         'page[size]': '200',
-        sort: '-createdAt,id',
+        'sort[participationCount]': 'asc',
         include: 'user,organization',
       };
 
@@ -27,7 +27,9 @@ describe('Unit | Utils | Query Params Utils', function () {
           number: 1,
           size: 200,
         },
-        sort: ['-createdAt', 'id'],
+        sort: {
+          participationCount: 'asc',
+        },
         include: ['user', 'organization'],
       });
     });
@@ -46,7 +48,7 @@ describe('Unit | Utils | Query Params Utils', function () {
       expect(result).to.deep.equal({
         filter: {},
         page: {},
-        sort: [],
+        sort: {},
         include: [],
       });
     });

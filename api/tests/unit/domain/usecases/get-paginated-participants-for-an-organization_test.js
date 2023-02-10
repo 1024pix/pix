@@ -6,6 +6,7 @@ describe('Unit | UseCase | get-participants-by-organization-id', function () {
     // given
     const organizationId = 90000;
     const page = {};
+    const sort = { participationCount: 'asc' };
     const organizationParticipantRepository = {
       getParticipantsByOrganizationId: sinon.stub(),
     };
@@ -18,6 +19,7 @@ describe('Unit | UseCase | get-participants-by-organization-id', function () {
       organizationId,
       filters,
       page,
+      sort,
       organizationParticipantRepository,
     });
 
@@ -25,6 +27,7 @@ describe('Unit | UseCase | get-participants-by-organization-id', function () {
     expect(organizationParticipantRepository.getParticipantsByOrganizationId).to.have.been.calledWithExactly({
       organizationId,
       page,
+      sort,
       filters,
     });
   });

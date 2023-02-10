@@ -20,6 +20,7 @@ describe('Unit | UseCase | findPaginatedFilteredSupParticipants', function () {
     foundSupParticipants = await findPaginatedFilteredSupParticipants({
       organizationId,
       filter: { search: 'Arm', group: 'L1' },
+      sort: { participationCount: 'asc' },
       page: { size: 10, number: 1 },
       supOrganizationParticipantRepository,
     });
@@ -27,6 +28,7 @@ describe('Unit | UseCase | findPaginatedFilteredSupParticipants', function () {
     expect(supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants).to.have.been.calledWithExactly({
       organizationId,
       filter: { search: 'Arm', group: 'L1' },
+      sort: { participationCount: 'asc' },
       page: { size: 10, number: 1 },
     });
     expect(foundSupParticipants).to.deep.equal(expectedSupParticipants);

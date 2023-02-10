@@ -242,7 +242,7 @@ module.exports = {
 
   async findPaginatedFilteredScoParticipants(request) {
     const organizationId = request.params.id;
-    const { filter, page } = queryParamsUtils.extractParameters(request.query);
+    const { filter, page, sort } = queryParamsUtils.extractParameters(request.query);
     if (filter.divisions && !Array.isArray(filter.divisions)) {
       filter.divisions = [filter.divisions];
     }
@@ -256,6 +256,7 @@ module.exports = {
       organizationId,
       filter,
       page,
+      sort,
     });
     return scoOrganizationParticipantsSerializer.serialize({
       scoOrganizationParticipants,
@@ -265,7 +266,7 @@ module.exports = {
 
   async findPaginatedFilteredSupParticipants(request) {
     const organizationId = request.params.id;
-    const { filter, page } = queryParamsUtils.extractParameters(request.query);
+    const { filter, page, sort } = queryParamsUtils.extractParameters(request.query);
     if (filter.groups && !Array.isArray(filter.groups)) {
       filter.groups = [filter.groups];
     }
@@ -278,6 +279,7 @@ module.exports = {
       organizationId,
       filter,
       page,
+      sort,
     });
     return supOrganizationParticipantsSerializer.serialize({ supOrganizationParticipants, meta });
   },
@@ -392,7 +394,7 @@ module.exports = {
 
   async getPaginatedParticipantsForAnOrganization(request) {
     const organizationId = request.params.id;
-    const { page, filter: filters } = queryParamsUtils.extractParameters(request.query);
+    const { page, filter: filters, sort } = queryParamsUtils.extractParameters(request.query);
 
     if (filters.certificability) {
       filters.certificability = mapCertificabilityByLabel(filters.certificability);
@@ -402,6 +404,7 @@ module.exports = {
       organizationId,
       page,
       filters,
+      sort,
     });
 
     return organizationParticipantsSerializer.serialize(results);
