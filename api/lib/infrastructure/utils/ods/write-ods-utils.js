@@ -76,9 +76,9 @@ class OdsUtilsBuilder {
     return this;
   }
 
-  withColumnGroup({ groupHeaderLabel, columns, startsAt, headerRowSpan, tableHeaderRow, tableFirstRow }) {
+  withColumnGroup({ groupHeaderLabels, columns, startsAt, headerRowSpan, tableHeaderRow, tableFirstRow }) {
     this.withColumnGroupHeader({
-      headerLabel: groupHeaderLabel,
+      headerLabels: groupHeaderLabels,
       numberOfColumns: columns.length,
       lineNumber: startsAt,
       rowspan: headerRowSpan,
@@ -111,24 +111,13 @@ class OdsUtilsBuilder {
     return this;
   }
 
-  withColumnGroupHeader({ headerLabel, numberOfColumns, lineNumber, rowspan }) {
-    const headerLabelWords = headerLabel.split(' ');
-
-    let addedCellOption = new AddedCellOption({
-      labels: [headerLabel],
+  withColumnGroupHeader({ headerLabels, numberOfColumns, lineNumber, rowspan }) {
+    const addedCellOption = new AddedCellOption({
+      labels: headerLabels,
       rowspan,
       colspan: numberOfColumns,
       positionOffset: 2,
     });
-
-    if (numberOfColumns === 1) {
-      addedCellOption = new AddedCellOption({
-        labels: headerLabelWords,
-        rowspan,
-        colspan: numberOfColumns,
-        positionOffset: 2,
-      });
-    }
 
     this._withCellToEndOfLineWithStyleOfCellLabelled({
       lineNumber,
