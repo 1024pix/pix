@@ -1,6 +1,46 @@
 {{page-title (t "pages.sessions.import.title")}}
 <main class="import-page">
   <h1 class="page-title">{{t "pages.sessions.import.title"}}</h1>
+  <p>Comment ça marche ?</p>
+  <PixCollapsible
+    @title={{t "pages.sessions.import.instructions-creation-title"}}
+    @iconTitle="plus"
+    class="import-page_section--instructions"
+  >
+    {{t "pages.sessions.import.instructions-creation-list"}}
+    <ul>
+      <li>{{t "pages.sessions.import.instructions-creation-list-with-candidates" htmlSafe=true}}</li>
+      <li>{{t "pages.sessions.import.instructions-creation-list-without-candidates" htmlSafe=true}}</li>
+    </ul>
+  </PixCollapsible>
+  <PixCollapsible
+    @title={{t "pages.sessions.import.instructions-edition-title"}}
+    @iconTitle="plus"
+    class="import-page__section--instructions"
+  >
+    <ul>
+      <li>{{t "pages.sessions.import.instructions-edition-replace" htmlSafe=true}}</li>
+      <li>{{t "pages.sessions.import.instructions-edition-subscription" htmlSafe=true}}</li>
+    </ul>
+    <PixMessage @type="warning" @withIcon={{true}}>
+      {{t "pages.sessions.import.instructions-edition-warning"}}
+    </PixMessage>
+  </PixCollapsible>
+  <nav aria-label="Fil d'Ariane" class="import-page__section--breadcrumb panel">
+    <ol>
+      <li class="active">
+        <a href="">
+          {{t "pages.sessions.import.breadcrumb-import"}}
+        </a>
+      </li>
+      <FaIcon @icon="chevron-right" class="breadcrumb-icon" />
+      <li>
+        <a href="">
+          {{t "pages.sessions.import.breadcrumb-summary"}}
+        </a>
+      </li>
+    </ol>
+  </nav>
   <section class="import-page__section--download panel">
     <div class="import-page__section--download__button">
       <FaIcon @icon="file-arrow-down" class="fa-2x download-icon" />
