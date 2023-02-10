@@ -497,7 +497,12 @@
           "caption": "Tableau des sujets à travailler, certains présentent des colonnes supplémentaires indiquant le nombre de tutoriels existant en lien avec le sujet et un accès à ces tutoriels",
           "title": "Analyse par sujet",
           "column": {
-            "relevance": "Pertinence",
+            "relevance": {
+              "label": "Pertinence",
+              "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par pertinence. Cliquez pour trier par ordre croissant.",
+              "ariaLabelSortUp": "Le tableau est trié par pertinence croissante. Cliquez pour trier en ordre décroissant.",
+              "ariaLabelSortDown": "Le tableau est trié par pertinence décroissante. Cliquez pour trier en ordre croissant."
+            },
             "subjects": "Sujets ({count, plural, =0 {-} other {{count}}})",
             "tutorial": {
               "aria-label": "Afficher la liste des tutos"
@@ -513,10 +518,7 @@
             "strongly-recommended": "Fortement recommandé",
             "very-strongly-recommended": "Très recommandé"
           },
-          "row-title": "Sujet",
-          "sort": {
-            "relevance": "Trier par pertinence"
-          }
+          "row-title": "Sujet"
         },
         "competences": {
           "title": "Résultats par compétence",
@@ -718,8 +720,13 @@
         "column": {
           "first-name": "Prénom",
           "last-name": "Nom",
-          "lastest-participation": "Dernière participation",
-          "participation-count": "Nombre de participations",
+          "latest-participation": "Dernière participation",
+          "participation-count": {
+            "label": "Nombre de participations",
+            "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par nombre de participations. Cliquez pour trier par ordre croissant.",
+            "ariaLabelSortUp": "Le tableau est trié par nombre de participation croissant. Cliquez pour trier en ordre décroissant.",
+            "ariaLabelSortDown": "Le tableau est trié par nombre de participation décroissant. Cliquez pour trier en ordre croissant."
+          },
           "is-certifiable": {
             "label": "Certificabilité",
             "tooltip": {
@@ -918,7 +925,12 @@
           "last-name": "Nom",
           "last-participation-date": "Dernière participation",
           "login-method": "Méthode(s) de connexion",
-          "participation-count": "Nombre de participations"
+          "participation-count": {
+            "label": "Nombre de participations",
+            "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par nombre de participations. Cliquez pour trier par ordre croissant.",
+            "ariaLabelSortUp": "Le tableau est trié par nombre de participation croissant. Cliquez pour trier en ordre décroissant.",
+            "ariaLabelSortDown": "Le tableau est trié par nombre de participation décroissant. Cliquez pour trier en ordre croissant."
+          }
         },
         "description": "Tableau des élèves trié par nom. Pour les élèves ayant fourni une méthode de connexion, vous pouvez, via un menu situé dans la colonne 'Actions', gérer les modes de connexion autorisés et réinitialiser le mot de passe de l'élève",
         "empty": "Aucun élève.",
@@ -957,7 +969,12 @@
           "group": "Groupes",
           "last-name": "Nom",
           "last-participation-date": "Dernière participation",
-          "participation-count": "Nombre de participations",
+          "participation-count": {
+            "label": "Nombre de participations",
+            "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par nombre de participations. Cliquez pour trier par ordre croissant.",
+            "ariaLabelSortUp": "Le tableau est trié par nombre de participation croissant. Cliquez pour trier en ordre décroissant.",
+            "ariaLabelSortDown": "Le tableau est trié par nombre de participation décroissant. Cliquez pour trier en ordre croissant."
+          },
           "student-number": "Numéro étudiant",
           "is-certifiable": {
             "label": "Certificabilité",

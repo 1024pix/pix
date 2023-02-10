@@ -29,12 +29,21 @@
       <tr>
         <Table::Header>{{t "pages.organization-participants.table.column.last-name"}}</Table::Header>
         <Table::Header>{{t "pages.organization-participants.table.column.first-name"}}</Table::Header>
-        <Table::Header @size="medium" @align="right">{{t
-            "pages.organization-participants.table.column.participation-count"
-          }}</Table::Header>
-        <Table::Header @size="medium">{{t
-            "pages.organization-participants.table.column.lastest-participation"
-          }}</Table::Header>
+        <Table::HeaderSort
+          @size="medium"
+          @onSort={{@sortByParticipationCount}}
+          @defaultOrder={{@participationCountOrder}}
+          @ariaLabelDefaultSort={{t
+            "pages.organization-participants.table.column.participation-count.ariaLabelDefaultSort"
+          }}
+          @ariaLabelSortUp={{t "pages.organization-participants.table.column.participation-count.ariaLabelSortUp"}}
+          @ariaLabelSortDown={{t "pages.organization-participants.table.column.participation-count.ariaLabelSortDown"}}
+        >
+          {{t "pages.organization-participants.table.column.participation-count.label"}}
+        </Table::HeaderSort>
+        <Table::Header @size="medium" @align="right">
+          {{t "pages.organization-participants.table.column.latest-participation"}}
+        </Table::Header>
         <Table::Header @size="medium" @align="center">
           <div class="organization-participant-list-page__certificability-header">
             {{t "pages.organization-participants.table.column.is-certifiable.label"}}

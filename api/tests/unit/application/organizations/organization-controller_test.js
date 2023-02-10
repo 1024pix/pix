@@ -635,6 +635,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
         organizationId,
         filter: {},
         page: {},
+        sort: {},
       });
     });
 
@@ -659,6 +660,30 @@ describe('Unit | Application | Organizations | organization-controller', functio
         organizationId,
         filter: { lastName: 'Bob', firstName: 'Tom', connectionTypes: ['email'], divisions: ['D1'] },
         page: {},
+        sort: {},
+      });
+    });
+    it('should call the usecase to find sco participants with users infos related to sort', async function () {
+      // given
+      request = {
+        ...request,
+        query: {
+          'sort[participationCount]': 'asc',
+        },
+      };
+      usecases.findPaginatedFilteredScoParticipants.resolves({});
+
+      // when
+      await organizationController.findPaginatedFilteredScoParticipants(request, hFake);
+
+      // then
+      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWith({
+        organizationId,
+        filter: {},
+        page: {},
+        sort: {
+          participationCount: 'asc',
+        },
       });
     });
 
@@ -675,6 +700,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
         organizationId,
         filter: {},
         page: { size: 10, number: 1 },
+        sort: {},
       });
     });
 
@@ -713,6 +739,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
         organizationId,
         filter: { certificability: [true, false, null] },
         page: {},
+        sort: {},
       });
     });
   });
@@ -757,6 +784,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
         organizationId,
         filter: {},
         page: {},
+        sort: {},
       });
     });
 
@@ -780,9 +808,33 @@ describe('Unit | Application | Organizations | organization-controller', functio
         organizationId,
         filter: { lastName: 'Bob', firstName: 'Tom', group: 'L1' },
         page: {},
+        sort: {},
       });
     });
 
+    it('should call the usecase to find sup participants with users infos related to sort', async function () {
+      // given
+      request = {
+        ...request,
+        query: {
+          'sort[participationCount]': 'asc',
+        },
+      };
+      usecases.findPaginatedFilteredSupParticipants.resolves({});
+
+      // when
+      await organizationController.findPaginatedFilteredSupParticipants(request, hFake);
+
+      // then
+      expect(usecases.findPaginatedFilteredSupParticipants).to.have.been.calledWith({
+        organizationId,
+        filter: {},
+        page: {},
+        sort: {
+          participationCount: 'asc',
+        },
+      });
+    });
     it('should call the usecase to find sup participants with users infos related to pagination', async function () {
       // given
       request = { ...request, query: { 'page[size]': 10, 'page[number]': 1 } };
@@ -796,6 +848,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
         organizationId,
         filter: {},
         page: { size: 10, number: 1 },
+        sort: {},
       });
     });
 
@@ -835,6 +888,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
         organizationId,
         filter: { certificability: [true, false, null] },
         page: {},
+        sort: {},
       });
     });
   });
@@ -1223,7 +1277,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
     });
 
     it('should call the usecase to get the participants of the organization', async function () {
-      const parameters = { page: 2, filter: { fullName: 'name' } };
+      const parameters = { page: 2, filter: { fullName: 'name' }, sort: {} };
       const organizationLearner = domainBuilder.buildOrganizationLearner();
       domainBuilder.buildCampaignParticipation({ organizationLearnerId: organizationLearner.id });
 
@@ -1248,7 +1302,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       sinon.stub(queryParamsUtils, 'extractParameters').withArgs(request.query).returns(parameters);
 
       usecases.getPaginatedParticipantsForAnOrganization
-        .withArgs({ organizationId, page: 2, filters: parameters.filter })
+        .withArgs({ organizationId, page: 2, filters: parameters.filter, sort: {} })
         .returns({
           organizationParticipants: [participant],
           pagination: expectedPagination,
@@ -1267,6 +1321,29 @@ describe('Unit | Application | Organizations | organization-controller', functio
       expect(response).to.deep.equal(expectedResponse);
     });
 
+    it('should call the usecase to find sco participants with users infos related to sort', async function () {
+      // given
+      request = {
+        ...request,
+        query: {
+          'sort[participationCount]': 'asc',
+        },
+      };
+      usecases.getPaginatedParticipantsForAnOrganization.resolves({});
+
+      // when
+      await organizationController.getPaginatedParticipantsForAnOrganization(request, hFake);
+
+      // then
+      expect(usecases.getPaginatedParticipantsForAnOrganization).to.have.been.calledWith({
+        organizationId,
+        filters: {},
+        page: {},
+        sort: {
+          participationCount: 'asc',
+        },
+      });
+    });
     it('map all certificability values', async function () {
       // given
       request = {
@@ -1287,6 +1364,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
         organizationId,
         filters: { certificability: [true, false, null] },
         page: {},
+        sort: {},
       });
     });
   });

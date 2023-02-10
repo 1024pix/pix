@@ -18,11 +18,18 @@ export default class ListController extends Controller {
   @tracked certificability = [];
   @tracked pageNumber = null;
   @tracked pageSize = 50;
+  @tracked participationCountOrder = null;
 
   @action
   goToLearnerPage(learnerId, event) {
     event.preventDefault();
     this.router.transitionTo('authenticated.sco-organization-participants.sco-organization-participant', learnerId);
+  }
+
+  @action
+  sortByParticipationCount(value) {
+    this.participationCountOrder = value || null;
+    this.pageNumber = null;
   }
 
   @action
