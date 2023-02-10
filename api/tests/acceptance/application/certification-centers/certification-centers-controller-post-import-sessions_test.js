@@ -1,4 +1,10 @@
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../../test-helper');
+const {
+  expect,
+  databaseBuilder,
+  generateValidRequestAuthorizationHeader,
+  knex,
+  sinon,
+} = require('../../../test-helper');
 const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | certification-centers-controller-post-import-sessions', function () {
@@ -16,6 +22,19 @@ describe('Acceptance | Controller | certification-centers-controller-post-import
   });
 
   describe('POST /api/certification-centers/{certificationCenterId}/sessions/import', function () {
+    let clock;
+
+    beforeEach(async function () {
+      clock = sinon.useFakeTimers({
+        now: new Date('2023-01-01'),
+        toFake: ['Date'],
+      });
+    });
+
+    afterEach(async function () {
+      clock.restore();
+    });
+
     context('when user imports sessions', function () {
       it('should return status 200', async function () {
         // given
@@ -25,7 +44,7 @@ describe('Acceptance | Controller | certification-centers-controller-post-import
         await databaseBuilder.commit();
 
         const newBuffer = `N° de session;* Nom du site;* Nom de la salle;* Date de début;* Heure de début (heure locale);* Surveillant(s);Observations (optionnel);* Nom de naissance;* Prénom;* Date de naissance (format: jj/mm/aaaa);* Sexe (M ou F);Code Insee;Code postal;Nom de la commune;* Pays;E-mail du destinataire des résultats (formateur, enseignant…);E-mail de convocation;Identifiant local;Temps majoré ?;Tarification part Pix;Code de prépaiement
-        ;site1;salle1;19/10/2022;12:00;surveillant;non;;;;;;;;;;;;;;`;
+        ;site1;salle1;19/10/2023;12:00;surveillant;non;;;;;;;;;;;;;;`;
 
         const options = {
           method: 'POST',
@@ -71,7 +90,7 @@ describe('Acceptance | Controller | certification-centers-controller-post-import
 
             const newBuffer = `N° de session;* Nom du site;* Nom de la salle;* Date de début;* Heure de début (heure locale);* Surveillant(s);Observations (optionnel);* Nom de naissance;* Prénom;* Date de naissance (format: jj/mm/aaaa);* Sexe (M ou F);Code Insee;Code postal;Nom de la commune;* Pays;E-mail du destinataire des résultats (formateur, enseignant…);E-mail de convocation;Identifiant local;Temps majoré ?;Tarification part Pix;Code de prépaiement
           ${sessionId};;;;;;;Tutu;Jean-Paul;01/01/2000;M;75115;;;FRANCE;;;;;Gratuite;;
-          ${sessionId};site1;salle1;19/10/2022;12:00;surveillant;non;Tata;Corinne;01/01/2000;M;75115;;;FRANCE;;;;;Gratuite;;`;
+          ${sessionId};site1;salle1;19/10/2023;12:00;surveillant;non;Tata;Corinne;01/01/2000;M;75115;;;FRANCE;;;;;Gratuite;;`;
 
             const options = {
               method: 'POST',
