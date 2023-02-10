@@ -43,4 +43,13 @@ module.exports = {
     });
     return trainingTriggerSerializer.serialize(createdOrUpdatedTrainingTrigger);
   },
+  async attachTargetProfiles(request, h) {
+    const { id: trainingId } = request.params;
+    const targetProfileIds = request.payload['target-profile-ids'];
+    await usecases.attachTargetProfilesToTraining({
+      trainingId,
+      targetProfileIds,
+    });
+    return h.response({}).code(204);
+  },
 };
