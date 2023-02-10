@@ -4,7 +4,7 @@
     <PixButton @route="authenticated.users.get" @size="small" @model={{this.certification.userId}}>
       Voir les détails de l'utilisateur
     </PixButton>
-    {{#if this.isCertificationCancelled}}
+    {{#if this.certification.isCancelled}}
       <PixButton @backgroundColor="red" @size="small" @triggerAction={{this.onUncancelCertificationButtonClick}}>
         Désannuler la certification
       </PixButton>
@@ -18,7 +18,7 @@
   <div class="certification-informations__row">
     <div class="certification-informations__card {{if this.editingCandidateResults 'border-primary'}}">
       <h2 class="certification-informations__card__title">
-        <Certifications::InfoPublished @record={{this.certification}} @float={{true}} />État
+        <Certifications::InfoTag @record={{this.certification}} @float={{true}} />État
       </h2>
       <Certifications::InfoField
         @value={{this.certification.sessionId}}
@@ -38,37 +38,37 @@
 
     <div class="certification-informations__card {{if this.editingCandidateInformations 'border-primary'}}">
       <h2 class="certification-informations__card__title">Candidat</h2>
-      <div>
-        Prénom :
-        {{this.certification.firstName}}
+      <div class="certification-info-field">
+        <span>Prénom :</span>
+        <span>{{this.certification.firstName}}</span>
       </div>
-      <div>
-        Nom de famille :
-        {{this.certification.lastName}}
+      <div class="certification-info-field">
+        <span>Nom de famille :</span>
+        <span>{{this.certification.lastName}}</span>
       </div>
-      <div>
-        Date de naissance :
-        {{dayjs-format this.certification.birthdate "DD/MM/YYYY" allow-empty=true}}
+      <div class="certification-info-field">
+        <span>Date de naissance :</span>
+        <span>{{dayjs-format this.certification.birthdate "DD/MM/YYYY" allow-empty=true}}</span>
       </div>
-      <div>
-        Sexe :
-        {{this.certification.sex}}
+      <div class="certification-info-field">
+        <span>Sexe :</span>
+        <span>{{this.certification.sex}}</span>
       </div>
-      <div>
-        Commune de naissance :
-        {{this.certification.birthplace}}
+      <div class="certification-info-field">
+        <span>Commune de naissance :</span>
+        <span>{{this.certification.birthplace}}</span>
       </div>
-      <div>
-        Code postal de naissance :
-        {{this.certification.birthPostalCode}}
+      <div class="certification-info-field">
+        <span>Code postal de naissance :</span>
+        <span>{{this.certification.birthPostalCode}}</span>
       </div>
-      <div>
-        Code INSEE de naissance :
-        {{this.certification.birthInseeCode}}
+      <div class="certification-info-field">
+        <span>Code INSEE de naissance :</span>
+        <span>{{this.certification.birthInseeCode}}</span>
       </div>
-      <div>
-        Pays de naissance :
-        {{this.certification.birthCountry}}
+      <div class="certification-info-field">
+        <span>Pays de naissance :</span>
+        <span>{{this.certification.birthCountry}}</span>
       </div>
 
       <div class="candidate-informations__actions">

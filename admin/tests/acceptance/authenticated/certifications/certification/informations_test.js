@@ -32,6 +32,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       birthplace: 'Sorpen',
       userId: 888,
       sex: 'M',
+      isCancelled: false,
       birthCountry: 'JAPON',
       birthInseeCode: '99217',
       birthPostalCode: null,
@@ -50,14 +51,14 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       const screen = await visit(`/certifications/${certification.id}`);
 
       // then
-      assert.dom(screen.getByText('Prénom : Bora Horza')).exists();
-      assert.dom(screen.getByText('Nom de famille : Gobuchul')).exists();
-      assert.dom(screen.getByText('Date de naissance : 24/07/1987')).exists();
-      assert.dom(screen.getByText('Sexe : M')).exists();
-      assert.dom(screen.getByText('Commune de naissance : Sorpen')).exists();
-      assert.dom(screen.getByText('Code INSEE de naissance : 99217')).exists();
-      assert.dom(screen.getByText('Code postal de naissance :')).exists();
-      assert.dom(screen.getByText('Pays de naissance : JAPON')).exists();
+      assert.dom(_getInfoNodeFromLabel(screen, 'Prénom :').getByText('Bora Horza')).exists();
+      assert.dom(_getInfoNodeFromLabel(screen, 'Nom de famille :').getByText('Gobuchul')).exists();
+      assert.dom(_getInfoNodeFromLabel(screen, 'Date de naissance :').getByText('24/07/1987')).exists();
+      assert.dom(_getInfoNodeFromLabel(screen, 'Sexe :').getByText('M')).exists();
+      assert.dom(_getInfoNodeFromLabel(screen, 'Commune de naissance :').getByText('Sorpen')).exists();
+      assert.dom(_getInfoNodeFromLabel(screen, 'Code INSEE de naissance :').getByText('99217')).exists();
+      assert.dom(_getInfoNodeFromLabel(screen, 'Code postal de naissance :').getByText('')).exists();
+      assert.dom(_getInfoNodeFromLabel(screen, 'Pays de naissance :').getByText('JAPON')).exists();
     });
 
     module('Certification issue reports section', function () {
@@ -505,14 +506,13 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             await clickByName('Enregistrer');
 
             // then
-            assert.dom(screen.getByText('Prénom : Bora Horza')).exists();
-            assert.dom(screen.getByText('Nom de famille : Summers')).exists();
-            assert.dom(screen.getByText('Date de naissance : 24/07/1987')).exists();
-            assert.dom(screen.getByText('Sexe : M')).exists();
-            assert.dom(screen.getByText('Commune de naissance : Sunnydale')).exists();
-            assert.dom(screen.getByText('Code INSEE de naissance : 99217')).exists();
-            assert.dom(screen.getByText('Code postal de naissance :')).exists();
-            assert.dom(screen.getByText('Pays de naissance : JAPON')).exists();
+            assert.dom(_getInfoNodeFromLabel(screen, 'Prénom :').getByText('Bora Horza')).exists();
+            assert.dom(_getInfoNodeFromLabel(screen, 'Nom de famille :').getByText('Summers')).exists();
+            assert.dom(_getInfoNodeFromLabel(screen, 'Date de naissance :').getByText('24/07/1987')).exists();
+            assert.dom(_getInfoNodeFromLabel(screen, 'Sexe :').getByText('M')).exists();
+            assert.dom(_getInfoNodeFromLabel(screen, 'Commune de naissance :').getByText('Sunnydale')).exists();
+            assert.dom(_getInfoNodeFromLabel(screen, 'Code INSEE de naissance :').getByText('99217')).exists();
+            assert.dom(_getInfoNodeFromLabel(screen, 'Pays de naissance :').getByText('JAPON')).exists();
           });
 
           test('should display a success notification', async function (assert) {
@@ -615,14 +615,13 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             await clickByName('Fermer');
 
             // then
-            assert.dom(screen.getByText('Prénom : Bora Horza')).exists();
-            assert.dom(screen.getByText('Nom de famille : Gobuchul')).exists();
-            assert.dom(screen.getByText('Date de naissance : 24/07/1987')).exists();
-            assert.dom(screen.getByText('Sexe : M')).exists();
-            assert.dom(screen.getByText('Commune de naissance : Sorpen')).exists();
-            assert.dom(screen.getByText('Code INSEE de naissance : 99217')).exists();
-            assert.dom(screen.getByText('Code postal de naissance :')).exists();
-            assert.dom(screen.getByText('Pays de naissance : JAPON')).exists();
+            assert.dom(_getInfoNodeFromLabel(screen, 'Prénom :').getByText('Bora Horza')).exists();
+            assert.dom(_getInfoNodeFromLabel(screen, 'Nom de famille :').getByText('Gobuchul')).exists();
+            assert.dom(_getInfoNodeFromLabel(screen, 'Date de naissance :').getByText('24/07/1987')).exists();
+            assert.dom(_getInfoNodeFromLabel(screen, 'Sexe :').getByText('M')).exists();
+            assert.dom(_getInfoNodeFromLabel(screen, 'Commune de naissance :').getByText('Sorpen')).exists();
+            assert.dom(_getInfoNodeFromLabel(screen, 'Code INSEE de naissance :').getByText('99217')).exists();
+            assert.dom(_getInfoNodeFromLabel(screen, 'Pays de naissance :').getByText('JAPON')).exists();
           });
         });
       });
@@ -793,7 +792,6 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           await clickByName('Fermer');
 
           // then
-          assert.dom(screen.getByText('Validée')).exists();
           assert.dom(screen.getByRole('button', { name: 'Annuler la certification' })).exists();
         });
 
@@ -809,14 +807,13 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           await clickByName('Confirmer');
 
           // then
-          assert.dom(screen.getByText('Annulée')).exists();
           assert.dom(screen.getByRole('button', { name: 'Désannuler la certification' })).exists();
         });
       });
 
       module('Uncancel', function (hooks) {
         hooks.beforeEach(async function () {
-          certification.update({ status: 'cancelled' });
+          certification.update({ isCancelled: true });
         });
 
         test('should display confirmation popup for uncancellation when certification is cancelled and uncancellation button is clicked', async function (assert) {
@@ -849,7 +846,6 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           await clickByName('Fermer');
 
           // then
-          assert.dom(screen.getByText('Annulée')).exists();
           assert.dom(screen.getByRole('button', { name: 'Désannuler la certification' })).exists();
         });
 
@@ -864,7 +860,6 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           await clickByName('Confirmer');
 
           // then
-          assert.dom(screen.getByText('Validée')).exists();
           assert.dom(screen.getByRole('button', { name: 'Annuler la certification' })).exists();
         });
       });
@@ -876,4 +871,8 @@ async function _switchCertificationDetail(screen, sessionId, certificationId) {
   await click(screen.getByRole('link', { name: sessionId }));
   await click(screen.getByLabelText('Liste des certifications de la session'));
   await click(screen.getByRole('link', { name: certificationId }));
+}
+
+function _getInfoNodeFromLabel(screen, label) {
+  return within(screen.getByText(label).nextElementSibling);
 }

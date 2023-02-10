@@ -333,6 +333,7 @@ describe('Acceptance | API | Certification Course', function () {
           'birth-postal-code': null,
           'birth-country': 'France',
           status: 'rejected',
+          'is-cancelled': false,
           'is-published': true,
           'created-at': new Date('2020-01-01'),
           'completed-at': new Date('2020-02-01'),

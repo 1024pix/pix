@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@1024pix/ember-testing-library';
+import { render, within } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | certifications/info-field', function (hooks) {
@@ -20,7 +20,7 @@ module('Integration | Component | certifications/info-field', function (hooks) {
       const screen = await render(hbs`<Certifications::InfoField @label='Session:' @value='commencé' />`);
 
       // then
-      assert.dom(screen.getByText('Session:')).containsText('commencé');
+      assert.dom(_getInfoNodeFromLabel(screen, 'Session:').getByText('commencé')).exists();
     });
 
     test('it should render field value with suffix when @suffix (optional) argument is provided', async function (assert) {
@@ -30,7 +30,7 @@ module('Integration | Component | certifications/info-field', function (hooks) {
       );
 
       // then
-      assert.dom(screen.getByText('Session:')).containsText('commencé unit(s)');
+      assert.dom(_getInfoNodeFromLabel(screen, 'Session:').getByText('commencé unit(s)')).exists();
     });
 
     test('it should display value as link when @linkRoute (optional) argument is provided', async function (assert) {
@@ -40,7 +40,7 @@ module('Integration | Component | certifications/info-field', function (hooks) {
       );
 
       // then
-      assert.dom(screen.getByText('Session:')).containsText('1234');
+      assert.dom(_getInfoNodeFromLabel(screen, 'Session:').getByText('1234')).exists();
       assert.dom(screen.getByRole('link', { name: '1234' })).exists();
     });
   });
@@ -67,3 +67,7 @@ module('Integration | Component | certifications/info-field', function (hooks) {
     });
   });
 });
+
+function _getInfoNodeFromLabel(screen, label) {
+  return within(screen.getByText(label).nextElementSibling);
+}

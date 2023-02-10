@@ -86,6 +86,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
           hasSeenEndTestScreen: manyAsrCertification.hasSeenEndTestScreen,
           id: manyAsrCertification.id,
           isPublished: manyAsrCertification.isPublished,
+          isCancelled: false,
           lastName: 'AAA',
           pixScore: latestAssessmentResult.pixScore,
           status: latestAssessmentResult.status,
@@ -141,31 +142,6 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
           expect(juryCertificationSummaries[2].id).to.equal(otherStartedCertification.id);
           expect(juryCertificationSummaries[2].status).to.equal(JuryCertificationSummary.statuses.STARTED);
         });
-      });
-    });
-
-    context('when the session has a cancelled certification course', function () {
-      it('should return a JuryCertificationSummary with a cancelled status', async function () {
-        // given
-        const dbf = databaseBuilder.factory;
-        const sessionId = dbf.buildSession().id;
-        const cancelledCertification = dbf.buildCertificationCourse({
-          sessionId,
-          lastName: 'DDD',
-          isCancelled: true,
-        });
-
-        const assessmentId = dbf.buildAssessment({ certificationCourseId: cancelledCertification.id }).id;
-
-        dbf.buildAssessmentResult({ assessmentId, createdAt: new Date('2018-02-15T00:00:00Z') });
-
-        await databaseBuilder.commit();
-
-        // when
-        const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
-
-        // then
-        expect(juryCertificationSummaries[0].status).to.equal('cancelled');
       });
     });
 

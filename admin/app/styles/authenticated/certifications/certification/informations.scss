@@ -34,6 +34,25 @@
     padding: 1rem;
     flex-grow: 1;
 
+    .certification-info-field {
+      display: flex;
+      margin-bottom: 0.5em;
+      padding-bottom: 0.5em;
+      flex-wrap: wrap;
+      border-bottom: 1px solid $pix-neutral-20;
+      
+    
+      &:last-of-type {
+        border-bottom: none;
+      }
+    
+      :first-child:not(button) {
+        font-weight: bold;
+        min-width: 16em;
+        color: $pix-neutral-50;
+      }
+    }
+
     &:first-child {
       margin-left: 0;
     }

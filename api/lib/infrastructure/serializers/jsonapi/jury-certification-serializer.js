@@ -25,6 +25,7 @@ module.exports = {
         'createdAt',
         'completedAt',
         'status',
+        'isCancelled',
         'isPublished',
         'juryId',
         'pixScore',

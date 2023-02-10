@@ -24,6 +24,7 @@ module.exports = {
         'createdAt',
         'completedAt',
         'isPublished',
+        'isCancelled',
         'examinerComment',
         'numberOfCertificationIssueReports',
         'numberOfCertificationIssueReportsWithRequiredAction',
