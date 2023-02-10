@@ -1,18 +1,13 @@
-html,
-body {
-  height: 100%;
-  width: 100%;
-  font-size: 16px;
-  line-height: 1.5;
-}
-
 html {
   font-family: Roboto, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
   color: $pix-neutral-90;
 }
 
 body {
   margin: 0;
+  background-color: $pix-neutral-15;
 }
 
 h1,
@@ -56,7 +51,6 @@ a {
 }
 
 a.pix-button {
-
   &:hover {
     color: $pix-neutral-0;
     text-decoration: none;
