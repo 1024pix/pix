@@ -19,6 +19,7 @@ describe('Unit | UseCase | create-sessions', function () {
   let certificationCenterName;
   let certificationCenter;
   let certificationCenterRepository;
+  let certificationCourseRepository;
   let certificationCandidateRepository;
   let complementaryCertificationRepository;
   let sessionRepository;
@@ -33,6 +34,7 @@ describe('Unit | UseCase | create-sessions', function () {
       name: certificationCenterName,
     });
     certificationCenterRepository = { get: sinon.stub() };
+    certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
     certificationCandidateRepository = { saveInSession: sinon.stub(), deleteBySessionId: sinon.stub() };
     complementaryCertificationRepository = { getByLabel: sinon.stub() };
     sessionRepository = { save: sinon.stub(), isSessionExisting: sinon.stub() };
@@ -149,6 +151,8 @@ describe('Unit | UseCase | create-sessions', function () {
 
           const domainTransaction = Symbol('trx');
           sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
+          certificationCourseRepository.findCertificationCoursesBySessionId.onCall(0).resolves([]);
+          certificationCourseRepository.findCertificationCoursesBySessionId.onCall(1).resolves([]);
 
           // when
           const error = await catchErr(createSessions)({
@@ -156,6 +160,7 @@ describe('Unit | UseCase | create-sessions', function () {
             certificationCenterId,
             certificationCenterRepository,
             certificationCandidateRepository,
+            certificationCourseRepository,
             sessionRepository,
           });
 
@@ -168,6 +173,35 @@ describe('Unit | UseCase | create-sessions', function () {
       });
 
       context('when there is only sessionId and candidate information', function () {
+        context('when a session has already started', function () {
+          it('should throw', async function () {
+            const candidate = createValidCandidateData(1);
+            const sessions = [
+              {
+                sessionId: 1234,
+                certificationCandidates: [candidate],
+              },
+            ];
+
+            certificationCourseRepository.findCertificationCoursesBySessionId
+              .withArgs({ sessionId: sessions[0].sessionId })
+              .resolves([domainBuilder.buildCertificationCourse({ sessionId: 1234 })]);
+
+            // when
+            const error = await catchErr(createSessions)({
+              sessions,
+              certificationCenterId,
+              certificationCenterRepository,
+              certificationCourseRepository,
+              sessionRepository,
+            });
+
+            // then
+            expect(error).to.be.instanceOf(UnprocessableEntityError);
+            expect(error.message).to.equal("Impossible d'ajouter un candidat à une session qui a déjà commencé.");
+          });
+        });
+
         it('should only save candidate in session', async function () {
           // given
           const candidate1 = createValidCandidateData(1);
@@ -183,6 +217,7 @@ describe('Unit | UseCase | create-sessions', function () {
           const cpfBirthInformationValidation2 = CpfBirthInformationValidation.success({ ...candidate2 });
           certificationCpfService.getBirthInformation.onCall(0).resolves(cpfBirthInformationValidation1);
           certificationCpfService.getBirthInformation.onCall(1).resolves(cpfBirthInformationValidation2);
+          certificationCourseRepository.findCertificationCoursesBySessionId.resolves([]);
 
           const domainTransaction = Symbol('trx');
           sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
@@ -193,6 +228,7 @@ describe('Unit | UseCase | create-sessions', function () {
             certificationCenterId,
             certificationCenterRepository,
             certificationCandidateRepository,
+            certificationCourseRepository,
             sessionRepository,
           });
 
@@ -513,6 +549,7 @@ function createValidSessionData() {
     certificationCandidates: [],
   };
 }
+
 function createValidCandidateData(candidateNumber = 2) {
   return {
     lastName: `Candidat ${candidateNumber}`,
