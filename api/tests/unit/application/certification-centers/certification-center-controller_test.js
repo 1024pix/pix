@@ -1,4 +1,4 @@
-const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
+const { expect, sinon, domainBuilder, hFake, catchErr } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const certificationCenterMembershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-center-membership-serializer');
 const certificationCenterInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-center-invitation-serializer');
@@ -8,6 +8,7 @@ const Session = require('../../../../lib/domain/models/Session');
 const certificationCenterController = require('../../../../lib/application/certification-centers/certification-center-controller');
 const csvHelpers = require('../../../../scripts/helpers/csvHelpers');
 const csvSerializer = require('../../../../lib/infrastructure/serializers/csv/csv-serializer');
+const { UnprocessableEntityError } = require('../../../../lib/application/http-errors');
 
 describe('Unit | Controller | certifications-center-controller', function () {
   describe('#saveSession', function () {
@@ -499,6 +500,27 @@ describe('Unit | Controller | certifications-center-controller', function () {
       expect(usecases.createSessions).to.have.been.calledWith({
         sessions: ['session'],
         certificationCenterId: request.params.certificationCenterId,
+      });
+    });
+
+    describe('when the import session file contains only the header line', function () {
+      it(' should return an unprocessable entity error', async function () {
+        // given
+        const request = {
+          payload: { file: { path: 'csv-path' } },
+          params: { certificationCenterId: 123 },
+        };
+
+        sinon.stub(csvHelpers, 'parseCsvWithHeader');
+
+        csvHelpers.parseCsvWithHeader.resolves([]);
+
+        // when
+        const error = await catchErr(certificationCenterController.importSessions)(request, hFake);
+
+        // then
+        expect(error).to.be.instanceOf(UnprocessableEntityError);
+        expect(error.message).to.equal(`No session data in csv`);
       });
     });
   });

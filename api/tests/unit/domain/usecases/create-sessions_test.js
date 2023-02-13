@@ -500,19 +500,6 @@ describe('Unit | UseCase | create-sessions', function () {
     });
   });
 
-  context('when there is no session data', function () {
-    it('should throw an error', async function () {
-      // given
-      const sessions = [];
-
-      // when
-      const err = await catchErr(createSessions)({ sessions, certificationCenterId });
-
-      // then
-      expect(err).to.be.instanceOf(UnprocessableEntityError);
-    });
-  });
-
   context('when there already is an existing session with the same data as a newly imported one', function () {
     it('should throw an error', async function () {
       // given
