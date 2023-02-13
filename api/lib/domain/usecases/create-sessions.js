@@ -60,8 +60,8 @@ module.exports = async function createSessions({
           throw new UnprocessableEntityError(`Session happening on ${date} at ${time} already exists`);
         }
 
-        _validateNewSessionToSave(domainSession, certificationCenterId, certificationCenter);
-        const { id } = await _saveNewSessionReturningId(sessionRepository, domainSession, domainTransaction);
+        _validateNewSessionToSave({ domainSession, certificationCenterId, certificationCenter });
+        const { id } = await _saveNewSessionReturningId({ sessionRepository, domainSession, domainTransaction });
         sessionId = id;
       }
 
@@ -93,11 +93,11 @@ function _hasSessionInfo(session) {
   return session.address || session.room || session.date || session.time || session.examiner;
 }
 
-async function _saveNewSessionReturningId(sessionRepository, domainSession, domainTransaction) {
+async function _saveNewSessionReturningId({ sessionRepository, domainSession, domainTransaction }) {
   return await sessionRepository.save(domainSession, domainTransaction);
 }
 
-function _validateNewSessionToSave(domainSession, certificationCenterId, certificationCenter) {
+function _validateNewSessionToSave({ domainSession, certificationCenterId, certificationCenter }) {
   domainSession.accessCode = sessionCodeService.getNewSessionCode();
   domainSession.certificationCenterId = certificationCenterId;
   domainSession.certificationCenter = certificationCenter;
