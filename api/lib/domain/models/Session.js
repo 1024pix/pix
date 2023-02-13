@@ -98,6 +98,11 @@ class Session {
   canEnrollCandidate() {
     return _.isNull(this.finalizedAt);
   }
+
+  isSessionScheduledInThePast() {
+    const sessionDate = new Date(`${this.date}T${this.time}`);
+    return sessionDate < new Date();
+  }
 }
 
 module.exports = Session;
