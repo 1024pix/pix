@@ -118,7 +118,7 @@ La table d'archivage contiendra les données sérialisées des prescrits supprim
 C'est le déplacement des données dans une table d'archivage (solution 2) qui a été choisie pour les raisons suivantes :
 
 - Pas d'impact sur les fonctionnalités existantes et futures ;
-- Solution qui restreint pas les choix possibles pour la réalisation de l'archivage intermédiaire ;
+- Solution qui ne restreint pas les choix possibles pour la réalisation de l'archivage intermédiaire ;
 - Permet à l'équipe Accès d'avancer sur l'exploration de l'archivage intermédiaire et en parallèle à l'équipe Prescription d'avancer sur la suppression de prescrits ;
 
 ## Conséquences
