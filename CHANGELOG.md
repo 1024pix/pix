@@ -1,5 +1,31 @@
 # Pix Changelog
 
+## v3.323.0 (13/02/2023)
+
+
+### :rocket: Amélioration
+- [#5632](https://github.com/1024pix/pix/pull/5632) [FEATURE] Afficher les profils cibles associés à un contenu formatif dans Pix Admin (PIX-7071).
+- [#5608](https://github.com/1024pix/pix/pull/5608) [FEATURE] Ajout des instructions et du fil d'Ariane sur la page d'import des sessions (PIX-6949).
+- [#5643](https://github.com/1024pix/pix/pull/5643) [FEATURE] Supprimer les colonnes inutiles du tableau de paliers dans pix admin (PIX-7102)
+- [#5599](https://github.com/1024pix/pix/pull/5599) [FEATURE] Ajout d'un tri sur le tableau de participants par nombre de participations (PIX-6627)
+- [#5618](https://github.com/1024pix/pix/pull/5618) [FEATURE] Mettre à jour le header des certifications complementaires pour l'import ODS (PIX-6577)
+- [#5640](https://github.com/1024pix/pix/pull/5640) [FEATURE] Empêcher la programmation de session dans le passé via import en masse (PIX-7086)
+- [#5537](https://github.com/1024pix/pix/pull/5537) [FEATURE] Mettre en place la gestion des erreurs à la connexion aussi sur la double mire invitation Pix Orga (PIX-6823)
+
+### :building_construction: Tech
+- [#5619](https://github.com/1024pix/pix/pull/5619) [TECH] Supprimer les variables d'environnement non utile dans Pix App (PIX-7034)
+- [#5639](https://github.com/1024pix/pix/pull/5639) [TECH] Ajouter un index sur la date de création dans la table pole-emploi-sendings
+- [#5231](https://github.com/1024pix/pix/pull/5231) [TECH] Refactorisation du traitement des réponses aux questions
+- [#5605](https://github.com/1024pix/pix/pull/5605) [TECH] Supprimer le statut "annulée" des certifications (PIX-7002)
+- [#5641](https://github.com/1024pix/pix/pull/5641) [TECH] Améliorations du temps d'exécution des tests E2E sur CircleCI
+- [#5611](https://github.com/1024pix/pix/pull/5611) [TECH] Affichage bandeau téléchargement résultats CléA numérique (PIX-6988)
+
+### :bug: Correction
+- [#5642](https://github.com/1024pix/pix/pull/5642) [BUGFIX] Résoudre le problème de double scroll dans Pix Admin
+
+### :coffee: Autre
+- [#5612](https://github.com/1024pix/pix/pull/5612) [BUFGIX] Renommer userInfoContentContainsMissingFields en userInfoMissingField (PIX-7018)
+
 ## v3.322.0 (09/02/2023)
 
 
