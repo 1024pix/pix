@@ -136,12 +136,12 @@ class OidcAuthenticationService {
       throw new InvalidExternalAPIResponseError(message);
     }
 
-    const userInfoContentContainsMissingFields = this.isUserInfoContentContainsMissingFields({ userInfoContent });
+    const userInfoMissingFields = this.userInfoMissingFields({ userInfoContent });
 
-    if (userInfoContentContainsMissingFields) {
+    if (userInfoMissingFields) {
       monitoringTools.logErrorWithCorrelationIds({
         message: "Un des champs obligatoires n'a pas été renvoyé",
-        missingFields: userInfoContentContainsMissingFields,
+        missingFields: userInfoMissingFields,
       });
       throw new InvalidExternalAPIResponseError('Les informations utilisateurs récupérées sont incorrectes.');
     }
@@ -154,7 +154,7 @@ class OidcAuthenticationService {
     };
   }
 
-  isUserInfoContentContainsMissingFields({ userInfoContent }) {
+  userInfoMissingFields({ userInfoContent }) {
     const missingFields = [];
     if (!userInfoContent.family_name) {
       missingFields.push('family_name');
