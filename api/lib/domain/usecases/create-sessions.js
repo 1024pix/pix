@@ -19,10 +19,6 @@ module.exports = async function createSessions({
   complementaryCertificationRepository,
   certificationCourseRepository,
 }) {
-  if (sessions.length === 0) {
-    throw new UnprocessableEntityError('No session data in csv');
-  }
-
   const { name: certificationCenter, isSco } = await certificationCenterRepository.get(certificationCenterId);
 
   await DomainTransaction.execute(async (domainTransaction) => {
