@@ -19,6 +19,7 @@ const sessionValidationJoiSchema = Joi.object({
   }),
 
   date: Joi.string().isoDate().required().messages({
+    'string.isoDate': 'Veuillez indiquer une date de début au format JJ/MM/AAA.',
     'string.empty': 'Veuillez indiquer une date de début.',
   }),
 
@@ -28,7 +29,7 @@ const sessionValidationJoiSchema = Joi.object({
     .messages({
       'string.base': 'Veuillez indiquer une heure de début.',
       'string.empty': 'Veuillez indiquer une heure de début.',
-      'string.pattern.base': 'Veuillez indiquer une heure de début.',
+      'string.pattern.base': 'Veuillez indiquer une heure de début au format HH:MM.',
     }),
 
   examiner: Joi.string().required().messages({
@@ -54,6 +55,13 @@ module.exports = {
     const { error } = sessionValidationJoiSchema.validate(session, validationConfiguration);
     if (error) {
       throw EntityValidationError.fromJoiErrors(error.details);
+    }
+  },
+
+  validateForMassSessionImport(session) {
+    const { error } = sessionValidationJoiSchema.validate(session, validationConfiguration);
+    if (error) {
+      return error.details.map(({ message }) => message);
     }
   },
 

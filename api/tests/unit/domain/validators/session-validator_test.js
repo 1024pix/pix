@@ -118,7 +118,7 @@ describe('Unit | Domain | Validators | session-validator', function () {
           const expectedErrors = [
             {
               attribute: 'time',
-              message: 'Veuillez indiquer une heure de début.',
+              message: 'Veuillez indiquer une heure de début au format HH:MM.',
             },
           ];
           session.time = '14:23:30';
@@ -153,6 +153,103 @@ describe('Unit | Domain | Validators | session-validator', function () {
             // then
             expect(entityValidationErrors).with.deep.property('invalidAttributes', expectedErrors);
           }
+        });
+      });
+    });
+  });
+
+  describe('#validateForMassSessionImport', function () {
+    context('when validation is successful', function () {
+      it('should return nothing', function () {
+        expect(sessionValidator.validateForMassSessionImport(session)).to.be.undefined;
+      });
+    });
+
+    context('when session data validation fails', function () {
+      context('on address attribute', function () {
+        it('should return a report when address is missing', function () {
+          // given
+          session.address = MISSING_VALUE;
+
+          // when
+          const report = sessionValidator.validateForMassSessionImport(session);
+
+          // then
+          expect(report).to.deep.equal(['Veuillez indiquer un nom de site.']);
+        });
+      });
+
+      context('on room attribute', function () {
+        it('should return a report when room is missing', async function () {
+          // given
+          session.room = MISSING_VALUE;
+
+          // when
+          const report = sessionValidator.validateForMassSessionImport(session);
+
+          // then
+          expect(report).to.deep.equal(['Veuillez indiquer un nom de salle.']);
+        });
+      });
+
+      context('on date attribute', function () {
+        it('should return a report when date is missing', function () {
+          // given
+          session.date = MISSING_VALUE;
+
+          // when
+          const report = sessionValidator.validateForMassSessionImport(session);
+
+          // then
+          expect(report).to.deep.equal(['Veuillez indiquer une date de début.']);
+        });
+
+        it('should return a report when date is not an iso date', function () {
+          // given
+          session.date = 'WRONG_FORMAT';
+
+          // when
+          const report = sessionValidator.validateForMassSessionImport(session);
+
+          // then
+          expect(report).to.deep.equal(['Veuillez indiquer une date de début au format JJ/MM/AAA.']);
+        });
+      });
+
+      context('on time attribute', function () {
+        it('should return a report when time is an empty string', function () {
+          // given
+          session.time = '';
+
+          // when
+          const report = sessionValidator.validateForMassSessionImport(session);
+
+          // then
+          expect(report).to.deep.equal(['Veuillez indiquer une heure de début.']);
+        });
+
+        it('should return a report when time has a format different than HH:MM', function () {
+          // given
+          session.time = '14:23:30';
+
+          // when
+          const report = sessionValidator.validateForMassSessionImport(session);
+
+          // then
+          expect(report).to.deep.equal(['Veuillez indiquer une heure de début au format HH:MM.']);
+        });
+      });
+
+      context('on examiner attribute', function () {
+        it('should return a report when examiner is missing', function () {
+          // given
+          session.examiner = MISSING_VALUE;
+
+          // when
+          const report = sessionValidator.validateForMassSessionImport(session);
+
+          // then
+          expect(report).to.deep.equal(['Veuillez indiquer un(e) surveillant(e).']);
         });
       });
     });
