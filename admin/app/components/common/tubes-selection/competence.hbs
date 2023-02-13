@@ -1,12 +1,19 @@
 <div class="competence-container">
-  <PixCollapsible @title="{{@title}}">
+  <PixCollapsible @title="{{@competence.index}} {{@competence.name}}">
     <div class="panel">
       <table class="table content-text content-text--small select-tube-table">
         <caption class="sr-only">Sélection des sujets</caption>
         <thead>
           <tr>
             <Table::Header @size="medium" scope="col">
-              <p>Thématiques</p>
+              <label>
+                <Common::TubesSelection::Checkbox
+                  id="competence-{{@competence.id}}"
+                  @state={{this.state}}
+                  {{on "change" this.onChange}}
+                />
+                Thématiques
+              </label>
             </Table::Header>
             <Table::Header @size="wide" scope="col">
               <p>Sujets</p>
@@ -21,18 +28,24 @@
         </thead>
 
         <tbody>
-          {{#each @thematics as |thematic|}}
+          {{#each @competence.sortedThematics as |thematic|}}
             {{#each thematic.tubes as |tube index|}}
               <tr class="row-tube" aria-label="Sujet">
                 {{#if (eq index 0)}}
-                  <TargetProfiles::TubesDetails::Thematic @name={{thematic.name}} @nbTubes={{thematic.nbTubes}} />
+                  <Common::TubesSelection::Thematic
+                    @thematic={{thematic}}
+                    @selectedTubeIds={{@selectedTubeIds}}
+                    @checkTube={{@checkTube}}
+                    @uncheckTube={{@uncheckTube}}
+                  />
                 {{/if}}
-                <TargetProfiles::TubesDetails::Tube
-                  @id={{tube.id}}
-                  @title={{tube.title}}
-                  @level={{tube.level}}
-                  @mobile={{tube.mobile}}
-                  @tablet={{tube.tablet}}
+                <Common::TubesSelection::Tube
+                  @tube={{tube}}
+                  @setLevelTube={{@setLevelTube}}
+                  @selectedTubeIds={{@selectedTubeIds}}
+                  @checkTube={{@checkTube}}
+                  @uncheckTube={{@uncheckTube}}
+                  @tubeLevels={{@tubeLevels}}
                 />
               </tr>
             {{/each}}

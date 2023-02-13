@@ -4,13 +4,13 @@ import createComponent from '../../../helpers/create-glimmer-component';
 import sinon from 'sinon';
 import { A as EmberArray } from '@ember/array';
 
-module('Unit | Component | target-profiles/tubes-selection', function (hooks) {
+module('Unit | Component | common/tubes-selection', function (hooks) {
   setupTest(hooks);
 
   let component;
 
   hooks.beforeEach(function () {
-    component = createComponent('component:target-profiles/tubes-selection', {
+    component = createComponent('component:common/tubes-selection', {
       frameworks: [
         { name: 'Pix', id: 'id1' },
         { name: 'framework2', id: 'id2' },
