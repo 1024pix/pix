@@ -43,11 +43,7 @@ module.exports = function (environment) {
       // when it is created
       API_HOST: process.env.API_HOST || '',
       FT_FOCUS_CHALLENGE_ENABLED: _isFeatureEnabled(process.env.FT_FOCUS_CHALLENGE_ENABLED) || false,
-      isChallengeTimerEnable: true,
-      MESSAGE_DISPLAY_DURATION: 1500,
-      isMobileSimulationEnabled: false,
       isTimerCountdownEnabled: true,
-      isMessageStatusTogglingEnabled: true,
       LOAD_EXTERNAL_SCRIPT: true,
       NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS: 5,
       MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({
@@ -62,8 +58,6 @@ module.exports = function (environment) {
       }),
       BANNER_CONTENT: process.env.BANNER_CONTENT || '',
       BANNER_TYPE: process.env.BANNER_TYPE || '',
-      FRENCH_NEW_LEVEL_MESSAGE: process.env.FRENCH_NEW_LEVEL_MESSAGE || '',
-      ENGLISH_NEW_LEVEL_MESSAGE: process.env.ENGLISH_NEW_LEVEL_MESSAGE || '',
       IS_PROD_ENVIRONMENT: (process.env.REVIEW_APP === 'false' && environment === 'production') || false,
       EMBED_ALLOWED_ORIGINS: (
         process.env.EMBED_ALLOWED_ORIGINS || 'https://epreuves.pix.fr,https://1024pix.github.io'
@@ -164,11 +158,7 @@ module.exports = function (environment) {
     ENV.APP.autoboot = false;
 
     ENV.APP.API_HOST = 'http://localhost:3000';
-    ENV.APP.isChallengeTimerEnable = false;
-    ENV.APP.MESSAGE_DISPLAY_DURATION = 0;
-    ENV.APP.isMobileSimulationEnabled = true;
     ENV.APP.isTimerCountdownEnabled = false;
-    ENV.APP.isMessageStatusTogglingEnabled = false;
     ENV.APP.LOAD_EXTERNAL_SCRIPT = false;
     ENV.APP.FT_FOCUS_CHALLENGE_ENABLED = true;
   }
