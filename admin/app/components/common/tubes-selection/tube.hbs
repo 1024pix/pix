@@ -1,10 +1,6 @@
 <td>
   <label>
-    <TargetProfiles::TubesSelection::Checkbox
-      id="tube-{{@tube.id}}"
-      @state={{this.state}}
-      {{on "change" this.onChange}}
-    />
+    <Common::TubesSelection::Checkbox id="tube-{{@tube.id}}" @state={{this.state}} {{on "change" this.onChange}} />
     {{@tube.name}}
     :
     {{@tube.practicalTitle}}

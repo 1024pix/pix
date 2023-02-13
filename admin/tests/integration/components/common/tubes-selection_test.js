@@ -4,7 +4,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { setupRenderingTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Integration | Component | TargetProfiles::TubesSelection', function (hooks) {
+module('Integration | Component | Common::TubesSelection', function (hooks) {
   setupRenderingTest(hooks);
   let screen;
 
@@ -68,7 +68,7 @@ module('Integration | Component | TargetProfiles::TubesSelection', function (hoo
     this.set('onChangeFunction', onChangeFunction);
 
     screen = await render(
-      hbs`<TargetProfiles::TubesSelection @frameworks={{this.frameworks}} @onChange={{this.onChangeFunction}} />`
+      hbs`<Common::TubesSelection @frameworks={{this.frameworks}} @onChange={{this.onChangeFunction}} />`
     );
   });
 

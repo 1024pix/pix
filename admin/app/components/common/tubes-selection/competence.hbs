@@ -7,7 +7,7 @@
           <tr>
             <Table::Header @size="medium" scope="col">
               <label>
-                <TargetProfiles::TubesSelection::Checkbox
+                <Common::TubesSelection::Checkbox
                   id="competence-{{@competence.id}}"
                   @state={{this.state}}
                   {{on "change" this.onChange}}
@@ -32,14 +32,14 @@
             {{#each thematic.tubes as |tube index|}}
               <tr class="row-tube" aria-label="Sujet">
                 {{#if (eq index 0)}}
-                  <TargetProfiles::TubesSelection::Thematic
+                  <Common::TubesSelection::Thematic
                     @thematic={{thematic}}
                     @selectedTubeIds={{@selectedTubeIds}}
                     @checkTube={{@checkTube}}
                     @uncheckTube={{@uncheckTube}}
                   />
                 {{/if}}
-                <TargetProfiles::TubesSelection::Tube
+                <Common::TubesSelection::Tube
                   @tube={{tube}}
                   @setLevelTube={{@setLevelTube}}
                   @selectedTubeIds={{@selectedTubeIds}}
