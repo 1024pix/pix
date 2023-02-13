@@ -4,13 +4,13 @@ import { setupTest } from 'ember-qunit';
 
 import createComponent from '../../../../helpers/create-glimmer-component';
 
-module('Unit | Component | authenticated/target-profiles/tubes-selection/tube', function (hooks) {
+module('Unit | Component | common/tubes-selection/tube', function (hooks) {
   setupTest(hooks);
 
   let component;
 
   hooks.beforeEach(function () {
-    component = createComponent('component:target-profiles/tubes-selection/tube');
+    component = createComponent('component:common/tubes-selection/tube');
   });
   module('#setLevelTube', function () {
     test('it should set a level on tube', function (assert) {

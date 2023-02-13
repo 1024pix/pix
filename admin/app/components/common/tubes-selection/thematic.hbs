@@ -1,6 +1,6 @@
 <th rowspan={{@thematic.tubes.length}}>
   <label>
-    <TargetProfiles::TubesSelection::Checkbox
+    <Common::TubesSelection::Checkbox
       id="thematic-{{@thematic.id}}"
       @state={{this.state}}
       {{on "change" this.onChange}}
