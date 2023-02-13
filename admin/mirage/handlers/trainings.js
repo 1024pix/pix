@@ -49,4 +49,29 @@ function getTargetProfileSummariesForTraining(schema, request) {
   );
 }
 
-export { findPaginatedTrainingSummaries, createTraining, getTraining, getTargetProfileSummariesForTraining };
+function attachTargetProfilesToTraining(schema, request) {
+  const trainingId = request.params.id;
+  const targetProfileIdsToAttach = JSON.parse(request.requestBody)['target-profile-ids'];
+  const availableTargetProfiles = schema.targetProfileSummaries.all().models;
+
+  const matchingTargetProfiles = availableTargetProfiles.filter((targetProfile) =>
+    targetProfileIdsToAttach.some((targetProfileId) => targetProfileId === targetProfile.attrs.id)
+  );
+
+  const training = schema.trainings.find(trainingId);
+
+  const newTargetProfileIdsToAttach = matchingTargetProfiles
+    .filter((matchingTargetProfile) => training.targetProfileSummaryIds.indexOf(matchingTargetProfile.attrs.id) === -1)
+    .map((matchingTargetProfile) => matchingTargetProfile.attrs.id);
+
+  training.update({ targetProfileSummaryIds: training.targetProfileSummaryIds.concat(newTargetProfileIdsToAttach) });
+  return new Response(204);
+}
+
+export {
+  attachTargetProfilesToTraining,
+  findPaginatedTrainingSummaries,
+  createTraining,
+  getTraining,
+  getTargetProfileSummariesForTraining,
+};
