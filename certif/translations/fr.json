@@ -175,7 +175,12 @@
           "delete-session": "Supprimer la session {sessionSummaryId}",
           "tooltip-label": "Au moins un candidat a rejoint la session, vous ne pouvez pas la supprimer.",
           "empty-table": "Aucune session trouvée",
-          "session-and-id": "Session {sessionId}"
+          "session-and-id": "Session {sessionId}",
+          "status-label": {
+            "created": "Créée",
+            "finalized": "Finalisée",
+            "processed": "Résultats transmis par Pix"
+          }
         },
         "empty": {
           "header": "Créer ma première session de certification",
