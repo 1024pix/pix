@@ -3,7 +3,7 @@
     <div class="area-border {{area.color}}"></div>
     <PixCollapsible @title="{{area.code}} · {{area.title}}" class="{{area.color}} list-competences">
       {{#each area.sortedCompetences as |competence|}}
-        <TargetProfiles::TubesSelection::Competence
+        <Common::TubesSelection::Competence
           @competence={{competence}}
           @setLevelTube={{@setLevelTube}}
           @selectedTubeIds={{@selectedTubeIds}}
