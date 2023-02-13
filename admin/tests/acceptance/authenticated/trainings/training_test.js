@@ -16,16 +16,16 @@ module('Acceptance | Trainings | Training', function (hooks) {
     let targetProfilesTabName;
     let prerequisiteTriggerHeading;
     let goalTriggerHeading;
-    let targetProfileTabTitle;
     let trainingId;
+    let targetProfileName;
 
     hooks.beforeEach(async function () {
       triggersTabName = this.intl.t('pages.trainings.training.triggers.tabName');
       targetProfilesTabName = this.intl.t('pages.trainings.training.targetProfiles.tabName');
       prerequisiteTriggerHeading = this.intl.t('pages.trainings.training.triggers.prerequisite.title');
       goalTriggerHeading = this.intl.t('pages.trainings.training.triggers.goal.title');
-      targetProfileTabTitle = this.intl.t('pages.trainings.training.targetProfiles.title');
       trainingId = 2;
+      targetProfileName = 'Profile Cible 1';
 
       await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
@@ -53,6 +53,13 @@ module('Acceptance | Trainings | Training', function (hooks) {
         editorLogoUrl: 'https://mon-logo.svg',
         prerequisiteThreshold: null,
         goalThreshold: null,
+        targetProfileSummaries: [
+          server.create('target-profile-summary', {
+            id: 1,
+            name: targetProfileName,
+            outdated: true,
+          }),
+        ],
       });
     });
 
@@ -76,11 +83,12 @@ module('Acceptance | Trainings | Training', function (hooks) {
 
       // then
       assert.strictEqual(currentURL(), `/trainings/${trainingId}/target-profiles`);
-      assert.dom(screen.getByRole('heading', { name: 'Apprendre à piloter des chauves-souris' })).exists();
       assert.dom(screen.getByRole('link', { name: triggersTabName })).exists();
       assert.dom(screen.getByRole('link', { name: targetProfilesTabName })).exists();
       assert.dom(screen.getByRole('link', { name: targetProfilesTabName })).hasClass('active');
-      assert.dom(screen.getByRole('heading', { name: targetProfileTabTitle })).exists();
+      assert.dom(screen.getByRole('heading', { name: targetProfilesTabName })).exists();
+      assert.dom(screen.getByRole('link', { name: targetProfileName })).exists();
+      assert.ok(screen.getByText('Obsolète'));
     });
   });
 });

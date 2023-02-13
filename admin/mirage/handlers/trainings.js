@@ -34,8 +34,19 @@ function createTraining(schema, request) {
 
 function getTraining(schema, request) {
   const trainingId = request.params.id;
-
   return schema.trainings.find(trainingId);
 }
 
-export { findPaginatedTrainingSummaries, createTraining, getTraining };
+function getTargetProfileSummariesForTraining(schema, request) {
+  const trainingId = request.params.id;
+  const training = schema.trainings.find(trainingId);
+
+  const targetProfileSummaries = training.targetProfileSummaries.models;
+
+  return this.serialize(
+    { modelName: 'target-profile-summary', models: targetProfileSummaries },
+    'target-profile-summary'
+  );
+}
+
+export { findPaginatedTrainingSummaries, createTraining, getTraining, getTargetProfileSummariesForTraining };
