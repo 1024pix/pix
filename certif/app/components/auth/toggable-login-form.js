@@ -6,6 +6,27 @@ import { tracked } from '@glimmer/tracking';
 import isEmailValid from '../../utils/email-validator';
 import get from 'lodash/get';
 
+const STATUSES = {
+  DEFAULT: 'default',
+  SUCCESS: 'success',
+  ERROR: 'error',
+};
+
+class Email {
+  @tracked status = STATUSES.DEFAULT;
+  @tracked message = null;
+}
+
+class Password {
+  @tracked status = STATUSES.DEFAULT;
+  @tracked message = null;
+}
+
+class SignupFormValidation {
+  email = new Email();
+  password = new Password();
+}
+
 export default class ToggableLoginForm extends Component {
   @service intl;
   @service url;
@@ -19,6 +40,7 @@ export default class ToggableLoginForm extends Component {
   @tracked email = null;
   @tracked passwordValidationMessage = null;
   @tracked emailValidationMessage = null;
+  @tracked validation = new SignupFormValidation();
 
   ERROR_MESSAGES = {
     DEFAULT: this.intl.t('common.api-error-messages.internal-server-error'),
@@ -83,24 +105,31 @@ export default class ToggableLoginForm extends Component {
 
   @action
   validatePassword(event) {
+    this.validation.password.status = STATUSES.DEFAULT;
+    this.validation.password.message = null;
     this.password = event.target.value;
     const isInvalidInput = isEmpty(this.password);
-    this.passwordValidationMessage = null;
 
     if (isInvalidInput) {
-      this.passwordValidationMessage = this.intl.t('pages.login-or-register.login-form.fields.password.error');
+      this.validation.password.status = STATUSES.ERROR;
+      this.validation.password.message = this.intl.t('pages.login-or-register.login-form.fields.password.error');
+    } else {
+      this.validation.password.status = STATUSES.SUCCESS;
     }
   }
 
   @action
   validateEmail(event) {
+    this.validation.email.status = STATUSES.DEFAULT;
+    this.validation.email.message = null;
     this.email = event.target.value?.trim();
     const isInvalidInput = !isEmailValid(this.email);
 
-    this.emailValidationMessage = null;
-
     if (isInvalidInput) {
-      this.emailValidationMessage = this.intl.t('pages.login-or-register.login-form.fields.email.error');
+      this.validation.email.status = STATUSES.ERROR;
+      this.validation.email.message = this.intl.t('pages.login-or-register.login-form.fields.email.error');
+    } else {
+      this.validation.email.status = STATUSES.SUCCESS;
     }
   }
 
