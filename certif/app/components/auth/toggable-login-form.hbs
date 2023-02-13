@@ -8,10 +8,11 @@
     type="email"
     {{on "focusout" this.validateEmail}}
     {{on "input" this.updateEmail}}
-    @errorMessage={{this.emailValidationMessage}}
     required={{true}}
     aria-required={{true}}
     autocomplete="email"
+    @validationStatus={{this.validation.email.status}}
+    @errorMessage={{this.validation.email.message}}
   />
 
   <PixInputPassword
@@ -23,7 +24,8 @@
     aria-required={{true}}
     {{on "focusout" this.validatePassword}}
     {{on "input" this.validatePassword}}
-    @errorMessage={{this.passwordValidationMessage}}
+    @validationStatus={{this.validation.password.status}}
+    @errorMessage={{this.validation.password.message}}
   />
 
   {{#if this.isErrorMessagePresent}}
