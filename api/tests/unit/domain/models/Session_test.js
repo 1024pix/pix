@@ -1,5 +1,5 @@
 const Session = require('../../../../lib/domain/models/Session');
-const { expect } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const _ = require('lodash');
 const { domainBuilder } = require('../../../test-helper');
 
@@ -259,15 +259,57 @@ describe('Unit | Domain | Models | Session', function () {
       expect(result).to.be.false;
     });
   });
-});
 
-context('#generateSupervisorPassword', function () {
-  it('should return a supervisor password containing 5 digits/letters except 0, 1 and vowels', async function () {
-    // when
-    const session = domainBuilder.buildSession();
-    session.generateSupervisorPassword();
+  context('#generateSupervisorPassword', function () {
+    it('should return a supervisor password containing 5 digits/letters except 0, 1 and vowels', async function () {
+      // given
+      const session = domainBuilder.buildSession();
 
-    // then
-    expect(session.supervisorPassword).to.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/);
+      // when
+      session.generateSupervisorPassword();
+
+      // then
+      expect(session.supervisorPassword).to.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/);
+    });
+  });
+
+  context('#isSessionScheduledInThePast', function () {
+    let clock;
+    beforeEach(function () {
+      clock = sinon.useFakeTimers({
+        now: new Date('2023-01-01'),
+        toFake: ['Date'],
+      });
+    });
+
+    afterEach(async function () {
+      clock.restore();
+    });
+
+    context('when session is scheduled in the past', function () {
+      it('should return true', async function () {
+        // given
+        const session = domainBuilder.buildSession({ date: '2022-01-01' });
+
+        // when
+        const isSessionScheduledInThePast = session.isSessionScheduledInThePast();
+
+        // then
+        expect(isSessionScheduledInThePast).to.be.true;
+      });
+    });
+
+    context('when session is not scheduled in the past', function () {
+      it('should return false', async function () {
+        // given
+        const session = domainBuilder.buildSession({ date: '2024-01-01' });
+
+        // when
+        const isSessionScheduledInThePast = session.isSessionScheduledInThePast();
+
+        // then
+        expect(isSessionScheduledInThePast).to.be.false;
+      });
+    });
   });
 });
