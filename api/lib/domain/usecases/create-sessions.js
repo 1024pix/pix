@@ -35,7 +35,11 @@ module.exports = async function createSessions({
         throw new UnprocessableEntityError('Une session ne peut pas être programmée dans le passé');
       }
 
-      let domainSession;
+      const domainSession = new Session({
+        ...session,
+        certificationCenterId,
+        certificationCenter,
+      });
 
       if (sessionId) {
         if (await _isSessionStarted({ certificationCourseRepository, sessionId })) {
@@ -46,15 +50,9 @@ module.exports = async function createSessions({
           throw new SessionWithIdAndInformationOnMassImportError(
             `Merci de ne pas renseigner les informations de session pour la session: ${sessionId}`
           );
-        } else {
-          domainSession = new Session({
-            ...session,
-            certificationCenterId,
-            certificationCenter,
-          });
-
-          await _deleteExistingCandidatesInSession({ certificationCandidateRepository, sessionId, domainTransaction });
         }
+
+        await _deleteExistingCandidatesInSession({ certificationCandidateRepository, sessionId, domainTransaction });
       }
 
       if (!sessionId && _hasSessionInfo(session)) {
@@ -63,7 +61,7 @@ module.exports = async function createSessions({
           throw new UnprocessableEntityError(`Session happening on ${date} at ${time} already exists`);
         }
 
-        domainSession = _createAndValidateNewSessionToSave(session, certificationCenterId, certificationCenter);
+        _validateNewSessionToSave(domainSession, certificationCenterId, certificationCenter);
         const { id } = await _saveNewSessionReturningId(sessionRepository, domainSession, domainTransaction);
         sessionId = id;
       }
@@ -104,18 +102,13 @@ async function _saveNewSessionReturningId(sessionRepository, domainSession, doma
   return await sessionRepository.save(domainSession, domainTransaction);
 }
 
-function _createAndValidateNewSessionToSave(session, certificationCenterId, certificationCenter) {
-  const accessCode = sessionCodeService.getNewSessionCode();
-  const domainSession = new Session({
-    ...session,
-    certificationCenterId,
-    certificationCenter,
-    accessCode,
-  });
+function _validateNewSessionToSave(domainSession, certificationCenterId, certificationCenter) {
+  domainSession.accessCode = sessionCodeService.getNewSessionCode();
+  domainSession.certificationCenterId = certificationCenterId;
+  domainSession.certificationCenter = certificationCenter;
 
   domainSession.generateSupervisorPassword();
   sessionValidator.validate(domainSession);
-  return domainSession;
 }
 
 function _hasDuplicateCertificationCandidates(certificationCandidates) {
