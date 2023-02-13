@@ -29,17 +29,16 @@ module.exports = async function createSessions({
     await bluebird.mapSeries(sessions, async (session) => {
       let { sessionId } = session;
       const { date, time } = session;
-      const sessionDate = new Date(`${date}T${time}`);
-
-      if (_isSessionScheduledInThePast(sessionDate)) {
-        throw new UnprocessableEntityError('Une session ne peut pas être programmée dans le passé');
-      }
 
       const domainSession = new Session({
         ...session,
         certificationCenterId,
         certificationCenter,
       });
+
+      if (domainSession.isSessionScheduledInThePast()) {
+        throw new UnprocessableEntityError(`Une session ne peut pas être programmée dans le passé`);
+      }
 
       if (sessionId) {
         if (await _isSessionStarted({ certificationCourseRepository, sessionId })) {
@@ -89,10 +88,6 @@ module.exports = async function createSessions({
     });
   });
 };
-
-function _isSessionScheduledInThePast(sessionDate) {
-  return sessionDate < new Date();
-}
 
 function _hasSessionInfo(session) {
   return session.address || session.room || session.date || session.time || session.examiner;
