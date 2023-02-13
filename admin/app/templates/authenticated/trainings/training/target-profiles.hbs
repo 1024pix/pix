@@ -1,3 +1,37 @@
 <section class="page-section">
-  <h2>{{t "pages.trainings.training.targetProfiles.title"}}</h2>
+  <header class="page-section__header">
+    <h2 id="page-section-title" class="page-section__title">{{t "pages.trainings.training.targetProfiles.tabName"}}</h2>
+  </header>
+  <div class="content-text content-text--small">
+    <div class="table-admin">
+      <table aria-labelledby="page-section-title">
+        <thead>
+          <tr>
+            <th scope="col" class="table__column table__column--id">ID</th>
+            <th scope="col">Nom du profil cible</th>
+            <th scope="col">Statut</th>
+          </tr>
+        </thead>
+        {{#if @model.targetProfileSummaries}}
+          <tbody>
+            {{#each @model.sortedTargetProfileSummaries as |summary|}}
+              <tr aria-label="Profil cible">
+                <td class="table__column table__column--id">{{summary.id}}</td>
+                <td headers="target-profile-name">
+                  <LinkTo @route="authenticated.target-profiles.target-profile" @model={{summary.id}}>
+                    {{summary.name}}
+                  </LinkTo>
+                </td>
+                <td>{{if summary.outdated "Obsolète" "Actif"}}</td>
+              </tr>
+            {{/each}}
+          </tbody>
+        {{/if}}
+      </table>
+
+      {{#unless @model.targetProfileSummaries}}
+        <div class="table__empty">Aucun profil cible associé à ce contenu formatif</div>
+      {{/unless}}
+    </div>
+  </div>
 </section>

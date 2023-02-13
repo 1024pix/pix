@@ -1,6 +1,7 @@
 const { knex } = require('../../../db/knex-database-connection');
 const { fetchPage } = require('../utils/knex-utils');
 const TargetProfileSummaryForAdmin = require('../../domain/models/TargetProfileSummaryForAdmin');
+const DomainTransaction = require('../DomainTransaction');
 
 module.exports = {
   async findPaginatedFiltered({ filter, page }) {
@@ -36,6 +37,18 @@ module.exports = {
           subQb.whereNotNull('target-profile-shares.id');
         });
       })
+      .orderBy('id', 'ASC');
+
+    return results.map((attributes) => new TargetProfileSummaryForAdmin(attributes));
+  },
+
+  async findByTraining({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const knexConn = domainTransaction?.knexTransaction || knex;
+
+    const results = await knexConn('target-profiles')
+      .select({ id: 'target-profiles.id', name: 'target-profiles.name', outdated: 'target-profiles.outdated' })
+      .innerJoin('target-profile-trainings', 'target-profiles.id', 'target-profile-trainings.targetProfileId')
+      .where({ trainingId })
       .orderBy('id', 'ASC');
 
     return results.map((attributes) => new TargetProfileSummaryForAdmin(attributes));

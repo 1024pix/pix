@@ -1,7 +1,7 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/training-trigger-serializer');
 
-describe('Unit | Serializer | JSONAPI | training-serializer', function () {
+describe('Unit | Serializer | JSONAPI | training-trigger-serializer', function () {
   describe('#serialize', function () {
     it('should convert a training trigger model to JSON', function () {
       // given

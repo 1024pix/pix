@@ -1,6 +1,7 @@
 const trainingSerializer = require('../../infrastructure/serializers/jsonapi/training-serializer');
 const trainingSummarySerializer = require('../../infrastructure/serializers/jsonapi/training-summary-serializer');
 const trainingTriggerSerializer = require('../../infrastructure/serializers/jsonapi/training-trigger-serializer');
+const targetProfileSummaryForAdminSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer');
 const usecases = require('../../domain/usecases');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 
@@ -9,6 +10,11 @@ module.exports = {
     const { page } = queryParamsUtils.extractParameters(request.query);
     const { trainings, meta } = await usecases.findPaginatedTrainingSummaries({ page });
     return trainingSummarySerializer.serialize(trainings, meta);
+  },
+  async findTargetProfileSummaries(request) {
+    const { trainingId } = request.params;
+    const targetProfileSummaries = await usecases.findTargetProfileSummariesForTraining({ trainingId });
+    return targetProfileSummaryForAdminSerializer.serialize(targetProfileSummaries);
   },
   async getById(request) {
     const { trainingId } = request.params;

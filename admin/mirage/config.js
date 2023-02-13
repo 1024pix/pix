@@ -28,7 +28,12 @@ import {
 } from './handlers/organizations';
 import { getPaginatedJuryCertificationSummariesBySessionId } from './handlers/get-jury-certification-summaries-by-session-id';
 import { createAdminMember } from './handlers/admin-members';
-import { findPaginatedTrainingSummaries, createTraining, getTraining } from './handlers/trainings';
+import {
+  findPaginatedTrainingSummaries,
+  createTraining,
+  getTraining,
+  getTargetProfileSummariesForTraining,
+} from './handlers/trainings';
 
 export default function () {
   this.logging = true;
@@ -303,6 +308,7 @@ export default function () {
   this.get('/admin/training-summaries', findPaginatedTrainingSummaries);
   this.post('/admin/trainings', createTraining);
   this.get('/admin/trainings/:id', getTraining);
+  this.get('/admin/trainings/:id/target-profile-summaries', getTargetProfileSummariesForTraining);
 
   this.get('/admin/certifications/:id');
   this.get('/admin/certifications/:id/certified-profile', (schema, request) => {

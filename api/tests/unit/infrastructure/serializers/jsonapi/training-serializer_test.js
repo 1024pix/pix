@@ -22,6 +22,13 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
             'prerequisite-threshold': 30,
             'goal-threshold': 70,
           },
+          relationships: {
+            'target-profile-summaries': {
+              links: {
+                related: `/api/admin/trainings/${training.id}/target-profile-summaries`,
+              },
+            },
+          },
           id: training.id.toString(),
           type: 'trainings',
         },
@@ -59,6 +66,13 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
             'editor-logo-url': 'https://images.pix.fr/contenu-formatif/editeur/editor_logo_url.svg',
             'prerequisite-threshold': 30,
             'goal-threshold': 70,
+          },
+          relationships: {
+            'target-profile-summaries': {
+              links: {
+                related: `/api/admin/trainings/${training.id}/target-profile-summaries`,
+              },
+            },
           },
           id: training.id.toString(),
           type: 'trainings',

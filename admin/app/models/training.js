@@ -1,4 +1,4 @@
-import Model, { attr } from '@ember-data/model';
+import Model, { attr, hasMany } from '@ember-data/model';
 import formatList from '../utils/format-select-options';
 
 export const typeCategories = {
@@ -34,4 +34,10 @@ export default class Training extends Model {
   duration;
   @attr('number') prerequisiteThreshold;
   @attr('number') goalThreshold;
+
+  @hasMany('target-profile-summary') targetProfileSummaries;
+
+  get sortedTargetProfileSummaries() {
+    return this.targetProfileSummaries.sortBy('id');
+  }
 }
