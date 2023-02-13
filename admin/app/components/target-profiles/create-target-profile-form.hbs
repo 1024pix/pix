@@ -48,7 +48,12 @@
       </div>
     </Card>
 
-    <Common::TubesSelection @frameworks={{@frameworks}} @onChange={{this.updateTubes}} />
+    <Common::TubesSelection
+      @frameworks={{@frameworks}}
+      @onChange={{this.updateTubes}}
+      @displayJsonImportButton={{true}}
+      @displayDeviceCompatibility={{true}}
+    />
 
     <Card class="create-target-profile__card" @title="3. Personnalisation">
       <PixInput
@@ -82,7 +87,8 @@
       @isBorderVisible={{true}}
       @size="big"
       @triggerAction={{@onCancel}}
-    >Annuler</PixButton>
+    >Annuler
+    </PixButton>
     <PixButton
       @backgroundColor="green"
       @size="big"
