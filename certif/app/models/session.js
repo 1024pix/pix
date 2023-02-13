@@ -8,12 +8,6 @@ export const CREATED = 'created';
 export const FINALIZED = 'finalized';
 export const IN_PROCESS = 'in_process';
 export const PROCESSED = 'processed';
-export const statusToDisplayName = {
-  [CREATED]: 'Créée',
-  [FINALIZED]: 'Finalisée',
-  [IN_PROCESS]: 'Finalisée', // we don't want to show "En cours de traitement" status in Pix Certif
-  [PROCESSED]: 'Résultats transmis par Pix',
-};
 
 export default class Session extends Model {
   @service session;
@@ -59,11 +53,6 @@ export default class Session extends Model {
   @computed('id')
   get urlToUpload() {
     return `${ENV.APP.API_HOST}/api/sessions/${this.id}/certification-candidates/import`;
-  }
-
-  @computed('status')
-  get displayStatus() {
-    return statusToDisplayName[this.status];
   }
 
   get urlToDownloadSessionIssueReportSheet() {
