@@ -155,6 +155,22 @@ class CertificationCandidate {
     }
   }
 
+  validateForMassSessionImport(isSco = false) {
+    const { error } = certificationCandidateValidationJoiSchema_v1_5.validate(this, {
+      abortEarly: false,
+      allowUnknown: true,
+      context: {
+        isSco,
+      },
+    });
+    if (error) {
+      return error.details.map((detail) => {
+        const { key, why } = InvalidCertificationCandidate.fromJoiErrorDetail(detail);
+        return key ? `${key} ${why}` : `${why}`;
+      });
+    }
+  }
+
   validateParticipation() {
     const { error } = certificationCandidateParticipationJoiSchema.validate(this);
     if (error) {
