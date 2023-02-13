@@ -33,6 +33,7 @@ import {
   createTraining,
   getTraining,
   getTargetProfileSummariesForTraining,
+  attachTargetProfilesToTraining,
 } from './handlers/trainings';
 
 export default function () {
@@ -309,6 +310,7 @@ export default function () {
   this.post('/admin/trainings', createTraining);
   this.get('/admin/trainings/:id', getTraining);
   this.get('/admin/trainings/:id/target-profile-summaries', getTargetProfileSummariesForTraining);
+  this.post('/admin/trainings/:id/attach-target-profiles', attachTargetProfilesToTraining);
 
   this.get('/admin/certifications/:id');
   this.get('/admin/certifications/:id/certified-profile', (schema, request) => {
