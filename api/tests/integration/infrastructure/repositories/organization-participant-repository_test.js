@@ -500,6 +500,94 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
           expect(organizationParticipants[1].id).to.equal(organizationLearnerId2);
           expect(organizationParticipants[2].id).to.equal(organizationLearnerId1);
         });
+
+        it('should return participants sorted by ascendant lastname', async function () {
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
+          const campaignId1 = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+          const jacksonId = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            lastName: 'Jackson',
+          }).id;
+          const eminemId = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            lastName: 'Eminem',
+          }).id;
+          const timberlakeId = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            lastName: 'Timberlake',
+          }).id;
+
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId1,
+            organizationLearnerId: jacksonId,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId1,
+            organizationLearnerId: timberlakeId,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId1,
+            organizationLearnerId: eminemId,
+          });
+          await databaseBuilder.commit();
+          // when
+          const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+            organizationId,
+            sort: {
+              lastnameSort: 'asc',
+            },
+          });
+
+          // then
+          expect(organizationParticipants.length).to.equal(3);
+          expect(organizationParticipants[0].id).to.equal(eminemId);
+          expect(organizationParticipants[1].id).to.equal(jacksonId);
+          expect(organizationParticipants[2].id).to.equal(timberlakeId);
+        });
+
+        it('should return participants sorted by descendant lastname', async function () {
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
+          const campaignId1 = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+          const jacksonId = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            lastName: 'Jackson',
+          }).id;
+          const eminemId = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            lastName: 'Eminem',
+          }).id;
+          const timberlakeId = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            lastName: 'Timberlake',
+          }).id;
+
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId1,
+            organizationLearnerId: jacksonId,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId1,
+            organizationLearnerId: timberlakeId,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId1,
+            organizationLearnerId: eminemId,
+          });
+          await databaseBuilder.commit();
+          // when
+          const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+            organizationId,
+            sort: {
+              lastnameSort: 'desc',
+            },
+          });
+
+          // then
+          expect(organizationParticipants.length).to.equal(3);
+          expect(organizationParticipants[0].id).to.equal(timberlakeId);
+          expect(organizationParticipants[1].id).to.equal(jacksonId);
+          expect(organizationParticipants[2].id).to.equal(eminemId);
+        });
       });
     });
 
