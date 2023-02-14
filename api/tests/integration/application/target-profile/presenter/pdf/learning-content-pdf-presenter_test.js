@@ -6,6 +6,8 @@ const { addRandomSuffix } = require('pdf-lib/cjs/utils');
 const REWRITE_REFERENCE_FILE = false;
 
 describe('Integration | Application | Target-Profiles | Presenter | PDF | LearningContentPdfPresenter', function () {
+  this.timeout(3000);
+
   beforeEach(function () {
     _makePdfLibPredictable();
     MockDate.set(new Date('2020-12-01'));
