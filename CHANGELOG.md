@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## v3.324.0 (14/02/2023)
+
+
+### :rocket: Amélioration
+- [#5598](https://github.com/1024pix/pix/pull/5598) [FEATURE] Ajout du bouton de création en masse lorsqu'il n'y a pas de sessions (PIX-6848)
+- [#5644](https://github.com/1024pix/pix/pull/5644) [FEATURE] Permettre de rattacher une liste de profils cible à un contenu formatif dans Pix Admin (PIX-7072)
+- [#5631](https://github.com/1024pix/pix/pull/5631) [FEATURE] Traduire la page de création d'une session (PIX-6667)
+- [#5651](https://github.com/1024pix/pix/pull/5651) [FEATURE] Mise en commun des composants de sélection de sujets
+
+### :building_construction: Tech
+- [#5584](https://github.com/1024pix/pix/pull/5584) [TECH] Amélioration de la gestion des erreurs lors d'une erreur 500 pendant la réconciliation(PIX-6371)
+- [#5654](https://github.com/1024pix/pix/pull/5654) [TECH] Remplace Bookshelf dans le repository pole-emploi-sending-repository
+- [#5628](https://github.com/1024pix/pix/pull/5628) [TECH] Rendre le test de la génération de PDF côté API moins fragile (PIX-7070)
+- [#5638](https://github.com/1024pix/pix/pull/5638) [TECH][API] Améliorer le code transformant un DTO de type User vers le modèle User du domaine pour Pix Admin (PIX-6943)
+- [#5630](https://github.com/1024pix/pix/pull/5630) [TECH] Mise à jour de Pix-Ui sur Pix-Certif vers 26.0.0 (PIX-7029).
+
+### :coffee: Autre
+- [#5554](https://github.com/1024pix/pix/pull/5554) [ADR] Suppression logique de données (PIX-6634).
+
 ## v3.323.0 (13/02/2023)
 
 
