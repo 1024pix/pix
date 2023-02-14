@@ -1,6 +1,5 @@
 const { knex } = require('../../../db/knex-database-connection');
 const settings = require('../../../lib/config');
-const Bookshelf = require('../bookshelf');
 const OidcIdentityProviders = require('../../domain/constants/oidc-identity-providers');
 
 module.exports = {
@@ -11,7 +10,7 @@ module.exports = {
   async find(sending, filters) {
     const POLE_EMPLOI_SENDINGS_LIMIT = settings.poleEmploi.poleEmploiSendingsLimit;
 
-    const rawSendings = await Bookshelf.knex('pole-emploi-sendings')
+    const rawSendings = await knex('pole-emploi-sendings')
       .select(
         'pole-emploi-sendings.id AS idEnvoi',
         'pole-emploi-sendings.createdAt AS dateEnvoi',
