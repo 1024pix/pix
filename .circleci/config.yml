@@ -67,6 +67,11 @@ workflows:
           requires:
             - checkout
 
+      - e2e_test_admin:
+          context: Pix
+          requires:
+            - checkout
+
       - algo_test:
           context: Pix
           requires:
@@ -399,6 +404,69 @@ jobs:
           command: npm run test:ci:orga
       - store_test_results:
           path: /home/circleci/test-results
+
+  e2e_test_admin:
+    docker:
+      - image: mcr.microsoft.com/playwright:v1.30.0-focal
+      - image: postgres:14.6-alpine
+        environment:
+          POSTGRES_USER: circleci
+          POSTGRES_HOST_AUTH_METHOD: trust
+      - image: redis:6.2.7-alpine
+    resource_class: medium
+    working_directory: ~/pix/admin
+    steps:
+      - attach_workspace:
+          at: ~/pix
+
+      - run:
+          name: Compute cachekey for Pix API
+          working_directory: ~/pix/api
+          command: cat package.json package-lock.json > cachekey
+      - restore_cache:
+          name: Restore cache for Pix API
+          keys:
+            - v7-api-npm-{{ checksum "~/pix/api/cachekey" }}
+      - run:
+          name: Install and start Pix API
+          environment:
+            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
+            REDIS_URL: 'redis://localhost:6379'
+          background: true
+          working_directory: ~/pix/api
+          command: npm ci --no-optional && npm run db:reset && npm start
+
+      - run:
+          name: Compute cachekey for Pix Admin
+          command: cat package.json package-lock.json > cachekey
+      - restore_cache:
+          name: Restore cache for Pix Admin
+          keys:
+            - v7-admin-npm-{{ checksum "cachekey" }}
+      - run:
+          name: Install Pix Admin
+          command: npm ci
+
+      - run:
+          name: Start Pix Admin
+          environment:
+            JOBS: 2
+          command: npm start
+          background: true
+
+      - run:
+          name: Wait for Pix Admin to be ready...
+          command: curl --fail --ipv4 --retry 6 --retry-connrefused --retry-delay 10 --silent http://localhost:4202/api > /dev/null
+
+      - run:
+          name: Run E2E tests
+          environment:
+            PLAYWRIGHT_JUNIT_OUTPUT_NAME: e2e-junit-results.xml
+          command: npx playwright test --reporter=junit
+      - store_test_results:
+          path: e2e-junit-results.xml
+      - store_artifacts:
+          path: test-results/
 
   algo_test:
     docker:
