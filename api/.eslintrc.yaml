@@ -37,7 +37,7 @@ rules:
   mocha/no-pending-tests: error
   mocha/no-skipped-tests: error
   mocha/no-top-level-hooks: error
-  no-empty-function: warn
+  no-empty-function: error
   # Refer to scripts/_template.js for reliable alternatives to process.exit()
   node/no-process-exit: error
   unicorn/no-empty-file: error
