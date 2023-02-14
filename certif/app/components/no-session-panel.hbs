@@ -1,13 +1,17 @@
 <div class="no-session-panel">
   <div class="no-session-panel__explain-create-session">
-    <img src="{{this.rootURL}}/icons/icon-session-start.svg" alt="Vous pouvez créer des sessions de certifications." />
-    <h1 class="page-title">Créez votre première session de certification</h1>
+    <img src="{{this.rootURL}}/icons/empty-list-session.svg" alt="Vous pouvez créer des sessions de certifications." />
+    <h1 class="page-title">Créer ma première session de certification</h1>
 
     <div class="no-session-panel__link-to-create">
       <PixButtonLink @route="authenticated.sessions.new">
-        Créer une session&nbsp;
-        <FaIcon @icon="plus" />
+        {{t "pages.sessions.list.empty.session-creation"}}
       </PixButtonLink>
+      {{#if this.shouldRenderImportTemplateButton}}
+        <PixButtonLink @route="authenticated.sessions.import">
+          {{t "pages.sessions.list.empty.session-multiple-creation"}}
+        </PixButtonLink>
+      {{/if}}
     </div>
   </div>
 </div>
