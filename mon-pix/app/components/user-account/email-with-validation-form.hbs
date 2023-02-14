@@ -4,12 +4,13 @@
     <PixInput
       @id="newEmail"
       @label={{t "pages.user-account.account-update-email-with-validation.fields.new-email.label"}}
+      @validationStatus={{this.newEmailValidationStatus}}
       @errorMessage={{this.newEmailValidationMessage}}
       @value={{this.newEmail}}
       type="email"
       {{on "change" this.validateNewEmail}}
-      autocomplete="off"
       required
+      autocomplete="off"
     />
   </div>
   <div class="update-email-with-validation__informations">
@@ -20,8 +21,8 @@
       @id="update-email-with-validation__password"
       @label={{t "pages.user-account.account-update-email-with-validation.fields.password.label"}}
       {{on "change" this.passwordChanged}}
-      autocomplete="off"
       required
+      autocomplete="off"
     />
   </div>
   {{#if this.errorMessage}}
