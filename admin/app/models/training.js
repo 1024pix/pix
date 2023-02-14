@@ -1,5 +1,6 @@
 import Model, { attr, hasMany } from '@ember-data/model';
 import formatList from '../utils/format-select-options';
+import { memberAction } from 'ember-api-actions';
 
 export const typeCategories = {
   webinaire: 'Webinaire',
@@ -40,4 +41,9 @@ export default class Training extends Model {
   get sortedTargetProfileSummaries() {
     return this.targetProfileSummaries.sortBy('id');
   }
+
+  attachTargetProfiles = memberAction({
+    path: 'attach-target-profiles',
+    type: 'post',
+  });
 }

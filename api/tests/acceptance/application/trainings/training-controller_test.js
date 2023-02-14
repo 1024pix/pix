@@ -357,4 +357,53 @@ describe('Acceptance | Controller | training-controller', function () {
       expect(response.result.data[0].attributes).to.deep.equal(expectedResponse.attributes);
     });
   });
+
+  describe('POST /api/admin/trainings/{id}/attach-target-profiles', function () {
+    let userId;
+    let trainingId;
+    let alreadyAttachedTargetProfileId;
+    let toAttachTargetProfileId;
+
+    beforeEach(async function () {
+      const adminUser = await insertUserWithRoleSuperAdmin();
+      userId = adminUser.id;
+      trainingId = databaseBuilder.factory.buildTraining().id;
+      alreadyAttachedTargetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      toAttachTargetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      databaseBuilder.factory.buildTargetProfileTraining({
+        trainingId,
+        targetProfileId: alreadyAttachedTargetProfileId,
+      });
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async function () {
+      await knex('target-profile-trainings').delete();
+    });
+
+    context('when target profiles to attach exists', function () {
+      it('should attach target profiles to given training', async function () {
+        // given
+        const options = {
+          method: 'POST',
+          url: `/api/admin/trainings/${trainingId}/attach-target-profiles`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+          payload: {
+            'target-profile-ids': [alreadyAttachedTargetProfileId, toAttachTargetProfileId],
+          },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        const attachedTargetProfileIds = await knex('target-profile-trainings')
+          .pluck('targetProfileId')
+          .where({ trainingId })
+          .orderBy('targetProfileId', 'ASC');
+        expect(response.statusCode).to.equal(204);
+        expect(attachedTargetProfileIds).to.deepEqualArray([alreadyAttachedTargetProfileId, toAttachTargetProfileId]);
+      });
+    });
+  });
 });

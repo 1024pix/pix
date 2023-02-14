@@ -3,6 +3,7 @@ const Joi = require('joi');
 const trainingsController = require('./training-controller');
 const identifiersType = require('../../domain/types/identifiers-type');
 const securityPreHandlers = require('../security-pre-handlers');
+const { sendJsonApiError, NotFoundError } = require('../http-errors');
 
 exports.register = async (server) => {
   server.route([
@@ -232,6 +233,42 @@ exports.register = async (server) => {
         tags: ['api', 'admin', 'trainings'],
         notes: [
           "- Permet à un administrateur de créer ou de mettre à jour le déclencheur d'un contenu formatif par son identifiant",
+        ],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/admin/trainings/{id}/attach-target-profiles',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          payload: Joi.object({
+            'target-profile-ids': Joi.array().items(Joi.number().integer()).required(),
+          }),
+          params: Joi.object({
+            id: identifiersType.trainingId,
+          }),
+          failAction: (_request, h) => {
+            return sendJsonApiError(
+              new NotFoundError("L'id d'un des profils cible ou du contenu formatif n'est pas valide"),
+              h
+            );
+          },
+        },
+        handler: trainingsController.attachTargetProfiles,
+        tags: ['api', 'admin', 'target-profiles', 'trainings'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            '- Elle permet de rattacher des profil cibles à un contenu formatif',
         ],
       },
     },
