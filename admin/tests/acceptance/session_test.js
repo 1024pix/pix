@@ -118,6 +118,35 @@ module('Acceptance | Session pages', function (hooks) {
       });
 
       module('Buttons section', function () {
+        module('When the session has not been published', function () {
+          test('it show the disabled certificates download button', async function (assert) {
+            // given
+            this.server.create('session');
+
+            // when
+            const screen = await visit('/sessions/2');
+
+            // then
+            assert.dom(screen.getByText('Télécharger les attestations')).hasAttribute('disabled');
+          });
+        });
+
+        module('When the session has been published', function () {
+          test('it shows the certificates download button', async function (assert) {
+            // given
+            const juryCertificationSummary = this.server.create('jury-certification-summary', {
+              isPublished: true,
+            });
+            this.server.create('session', { juryCertificationSummaries: [juryCertificationSummary] });
+
+            // when
+            const screen = await visit('/sessions/2');
+
+            // then
+            assert.dom(screen.getByText('Télécharger les attestations')).doesNotHaveAttribute('disabled');
+          });
+        });
+
         test('it shows all buttons', async function (assert) {
           // when
           const screen = await visit('/sessions/1');
