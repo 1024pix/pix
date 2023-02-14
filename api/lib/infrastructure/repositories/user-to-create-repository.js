@@ -2,9 +2,11 @@ const { knex } = require('../../../db/knex-database-connection');
 
 const DomainTransaction = require('../DomainTransaction');
 
-const { AlreadyRegisteredUsernameError } = require('../../domain/errors');
+const { OrganizationLearnerAlreadyLinkedToUserError } = require('../../domain/errors');
+const { STUDENT_RECONCILIATION_ERRORS } = require('../../domain/constants');
 
 const User = require('../../domain/models/User');
+const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../db/pgsql-errors');
 
 module.exports = {
   async create({ user, domainTransaction = DomainTransaction.emptyTransaction() }) {
@@ -19,20 +21,18 @@ module.exports = {
 };
 
 async function _createWithUsername({ knexConnection, user }) {
-  const result = await knexConnection(
-    knex.raw('?? (??, ??, ??, ??, ??, ??, ??, ??, ??, ??, ??, ??, ??, ??, ??)', ['users', ...Object.keys(user)])
-  )
-    .insert(
-      knex
-        .select(knex.raw('?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?', Object.values(user)))
-        .whereNotExists(knex('users').where({ username: user.username }))
-    )
-    .returning('*');
+  const detail = 'Un compte avec cet identifiant existe déjà.';
+  const error = STUDENT_RECONCILIATION_ERRORS.LOGIN_OR_REGISTER.IN_DB.username;
+  const meta = { shortCode: error.shortCode, value: user.userName };
 
-  if (result.length < 1) {
-    throw new AlreadyRegisteredUsernameError();
+  try {
+    const result = await knexConnection('users').insert(user).returning('*');
+    return _toUserDomain(result[0]);
+  } catch (error) {
+    if (error.constraint === 'users_username_unique' && error.code === PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR) {
+      throw new OrganizationLearnerAlreadyLinkedToUserError(detail, error.code, meta);
+    }
   }
-  return _toUserDomain(result[0]);
 }
 
 async function _createWithoutUsername({ knexConnection, user }) {
