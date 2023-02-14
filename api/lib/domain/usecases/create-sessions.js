@@ -6,7 +6,7 @@ const certificationCpfService = require('../services/certification-cpf-service')
 const sessionsImportValidationService = require('../services/sessions-import-validation-service');
 const CertificationCandidate = require('../models/CertificationCandidate');
 const bluebird = require('bluebird');
-const { InvalidCertificationCandidate, SessionWithIdAndInformationOnMassImportError } = require('../errors');
+const { InvalidCertificationCandidate } = require('../errors');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = async function createSessions({
@@ -39,13 +39,6 @@ module.exports = async function createSessions({
         if (await _isSessionStarted({ certificationCourseRepository, sessionId })) {
           throw new UnprocessableEntityError("Impossible d'ajouter un candidat à une session qui a déjà commencé.");
         }
-
-        if (_hasSessionInfo(session)) {
-          throw new SessionWithIdAndInformationOnMassImportError(
-            `Merci de ne pas renseigner les informations de session pour la session: ${sessionId}`
-          );
-        }
-
         await _deleteExistingCandidatesInSession({ certificationCandidateRepository, sessionId, domainTransaction });
       }
 
