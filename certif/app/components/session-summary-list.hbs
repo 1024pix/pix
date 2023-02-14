@@ -58,7 +58,7 @@
   </div>
 </div>
 
-<PixPagination @pagination={{@sessionSummaries.meta}} />
+<PixPagination @pagination={{@sessionSummaries.meta}} @locale={{this.currentLocale}} />
 
 <SessionDeleteConfirmModal
   @showModal={{this.shouldDisplaySessionDeletionModal}}

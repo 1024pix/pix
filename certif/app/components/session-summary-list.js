@@ -10,6 +10,7 @@ export default class SessionSummaryList extends Component {
   @tracked currentEnrolledCandidatesCount = null;
   @service store;
   @service notifications;
+  @service intl;
 
   @action
   openSessionDeletionConfirmModal(sessionId, enrolledCandidatesCount, event) {
@@ -17,6 +18,11 @@ export default class SessionSummaryList extends Component {
     this.currentSessionToBeDeletedId = sessionId;
     this.currentEnrolledCandidatesCount = enrolledCandidatesCount;
     this.shouldDisplaySessionDeletionModal = true;
+  }
+
+  get currentLocale() {
+    const [currentLocale] = this.intl.get('locale');
+    return currentLocale;
   }
 
   @action
