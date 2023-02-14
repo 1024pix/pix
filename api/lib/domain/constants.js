@@ -75,6 +75,9 @@ module.exports = {
       ACCOUNT_BELONGING_TO_ANOTHER_USER: { shortCode: 'R90', code: 'ACCOUNT_SEEMS_TO_BELONGS_TO_ANOTHER_USER' },
     },
     LOGIN_OR_REGISTER: {
+      IN_DB: {
+        username: { shortCode: 'S50', code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_IN_DB' },
+      },
       IN_SAME_ORGANIZATION: {
         email: { shortCode: 'S51', code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION' },
         username: { shortCode: 'S52', code: 'ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION' },

@@ -23,6 +23,7 @@
       }
     },
     "register-error": {
+      "s50": "Cet identifiant existe déjà",
       "s51": "Vous possédez déjà un compte Pix avec l’adresse e-mail'<br>'{ value }'<br><br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br><br>'(Pour l’enseignant : voir le ’Kit de dépannage’ dans Pix Orga &gt; Documentation - Code R51)",
       "s52": "Vous possédez déjà un compte Pix utilisé avec l’identifiant sous la forme prénom.nom suivi de 4 chiffres:'<br>'{ value }'<br><br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br><br>'(Pour l’enseignant : voir le ’Kit de dépannage’ dans Pix Orga &gt; Documentation - Code R52)",
       "s53": "Vous possédez déjà un compte Pix via l’ENT.'<br>'Utilisez-le pour rejoindre le parcours.",
@@ -906,7 +907,6 @@
         "title": "Je m’inscris sur Pix",
         "button": "S'inscrire",
         "button-form": "Je m'inscris",
-        "error": "Une erreur est survenue. Veuillez recommencer ou contacter le support.",
         "fields": {
           "birthdate": {
             "label": "Date de naissance (JJ/MM/AAAA)",
