@@ -29,6 +29,9 @@
       "team": "Équipe",
       "documentation": "Documentation"
     },
+    "user-logged-menu": {
+      "logout": "Se déconnecter"
+    },
     "footer": {
       "a11y": "Accessibilité : partiellement conforme",
       "legal-notice": "Mentions légales",
