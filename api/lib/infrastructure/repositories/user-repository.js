@@ -1,11 +1,10 @@
 const moment = require('moment');
-const { knex } = require('../../../db/knex-database-connection');
 
+const { knex } = require('../../../db/knex-database-connection');
 const DomainTransaction = require('../DomainTransaction');
 const BookshelfUser = require('../orm-models/User');
 const { isUniqConstraintViolated } = require('../utils/knex-utils');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-
 const {
   AlreadyExistingEntityError,
   AlreadyRegisteredEmailError,
@@ -439,9 +438,18 @@ function _fromKnexDTOToUserDetailsForAdmin({ userDTO, organizationLearnersDTO, a
   });
 
   const authenticationMethods = authenticationMethodsDTO.map((authenticationMethod) => {
-    if (authenticationMethod.identityProvider === AuthenticationMethod.identityProviders.PIX) {
-      delete authenticationMethod.authenticationComplement.password;
+    const isPixAuthenticationMethodWithAuthenticationComplement =
+      authenticationMethod.identityProvider === AuthenticationMethod.identityProviders.PIX &&
+      authenticationMethod.authenticationComplement;
+    if (isPixAuthenticationMethodWithAuthenticationComplement) {
+      // eslint-disable-next-line no-unused-vars
+      const { password, ...authenticationComplement } = authenticationMethod.authenticationComplement;
+      return {
+        ...authenticationMethod,
+        authenticationComplement,
+      };
     }
+
     return authenticationMethod;
   });
 
