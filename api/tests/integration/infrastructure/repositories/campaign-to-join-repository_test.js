@@ -70,7 +70,7 @@ describe('Integration | Repository | CampaignToJoin', function () {
       const code = 'LAURA123';
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       const organization = databaseBuilder.factory.buildOrganization({
-        identityProviderForCampaigns: OidcIdentityProviders.POLE_EMPLOI.code,
+        identityProviderForCampaigns: OidcIdentityProviders.POLE_EMPLOI.service.code,
       });
       const expectedCampaign = databaseBuilder.factory.buildCampaign({
         code,
@@ -106,7 +106,7 @@ describe('Integration | Repository | CampaignToJoin', function () {
       expect(actualCampaign.targetProfileName).to.equal(targetProfile.name);
       expect(actualCampaign.targetProfileImageUrl).to.equal(targetProfile.imageUrl);
       expect(actualCampaign.isSimplifiedAccess).to.equal(targetProfile.isSimplifiedAccess);
-      expect(actualCampaign.identityProvider).to.equal(OidcIdentityProviders.POLE_EMPLOI.code);
+      expect(actualCampaign.identityProvider).to.equal(OidcIdentityProviders.POLE_EMPLOI.service.code);
     });
 
     it('should throw a NotFoundError when no campaign exists with given code', async function () {

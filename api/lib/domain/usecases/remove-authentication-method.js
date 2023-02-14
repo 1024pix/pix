@@ -40,12 +40,16 @@ module.exports = async function removeAuthenticationMethod({
     );
   }
 
-  if (type === OidcIdentityProviders.POLE_EMPLOI.code) {
-    await _removeAuthenticationMethod(userId, OidcIdentityProviders.POLE_EMPLOI.code, authenticationMethodRepository);
+  if (type === OidcIdentityProviders.POLE_EMPLOI.service.code) {
+    await _removeAuthenticationMethod(
+      userId,
+      OidcIdentityProviders.POLE_EMPLOI.service.code,
+      authenticationMethodRepository
+    );
   }
 
-  if (type === OidcIdentityProviders.CNAV.code) {
-    await _removeAuthenticationMethod(userId, OidcIdentityProviders.CNAV.code, authenticationMethodRepository);
+  if (type === OidcIdentityProviders.CNAV.service.code) {
+    await _removeAuthenticationMethod(userId, OidcIdentityProviders.CNAV.service.code, authenticationMethodRepository);
   }
 };
 

@@ -52,7 +52,7 @@ describe('Unit | Domain | Services | pole-emploi-oidc-authentication-service', f
       userToCreateRepository.create.withArgs({ user, domainTransaction }).resolves({ id: userId });
 
       const expectedAuthenticationMethod = new AuthenticationMethod({
-        identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+        identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code,
         externalIdentifier: externalIdentityId,
         authenticationComplement: new AuthenticationMethod.OidcAuthenticationComplement({
           accessToken: sessionContent.accessToken,

@@ -158,7 +158,9 @@ exports.register = async function (server) {
             data: {
               attributes: {
                 'user-id': identifiersType.userId,
-                'identity-provider': Joi.string().valid('GAR', OidcIdentityProviders.POLE_EMPLOI.code).required(),
+                'identity-provider': Joi.string()
+                  .valid('GAR', OidcIdentityProviders.POLE_EMPLOI.service.code)
+                  .required(),
               },
             },
           }),
@@ -202,8 +204,8 @@ exports.register = async function (server) {
                     'GAR',
                     'EMAIL',
                     'USERNAME',
-                    OidcIdentityProviders.POLE_EMPLOI.code,
-                    OidcIdentityProviders.CNAV.code
+                    OidcIdentityProviders.POLE_EMPLOI.service.code,
+                    OidcIdentityProviders.CNAV.service.code
                   )
                   .required(),
               },
