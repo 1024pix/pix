@@ -50,6 +50,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@glimmer/component": "^1.1.2",
+    "@playwright/test": "^1.30.0",
     "broccoli-asset-rev": "^3.0.0",
     "dayjs": "^1.11.6",
     "ember-api-actions": "^0.2.9",
