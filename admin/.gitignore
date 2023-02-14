@@ -41,6 +41,9 @@ jsconfig.json
 # Visual Studio Code
 .vscode
 .history
+
+# Playwright
 /test-results/
 /playwright-report/
 /playwright/.cache/
+*.storageState.json
