@@ -15,13 +15,16 @@
   align-items: normal;
   display: flex;
 
-  a { text-decoration: none; }
+  a {
+    text-decoration: none;
+  }
 
   &-item {
-    width: 150px;
+    min-width: 150px;
     align-items: center;
     display: flex;
     justify-content: center;
+    padding: 0 $spacing-xs;
     cursor: pointer;
     color: $pix-neutral-45;
     font-weight: 500;
@@ -62,7 +65,7 @@
   }
 }
 
-.navbar + section {
+.navbar+section {
   @include whiteBlock;
 
   padding: 20px;
