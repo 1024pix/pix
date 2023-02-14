@@ -3,6 +3,7 @@ const { UnprocessableEntityError } = require('../../application/http-errors');
 const Session = require('../models/Session');
 const sessionCodeService = require('../services/session-code-service');
 const certificationCpfService = require('../services/certification-cpf-service');
+const sessionsImportValidationService = require('../services/sessions-import-validation-service');
 const CertificationCandidate = require('../models/CertificationCandidate');
 const bluebird = require('bluebird');
 const { InvalidCertificationCandidate, SessionWithIdAndInformationOnMassImportError } = require('../errors');
@@ -21,6 +22,8 @@ module.exports = async function createSessions({
 }) {
   const { name: certificationCenter, isSco } = await certificationCenterRepository.get(certificationCenterId);
 
+  sessionsImportValidationService.validate({ sessions });
+
   await DomainTransaction.execute(async (domainTransaction) => {
     await bluebird.mapSeries(sessions, async (session) => {
       let { sessionId } = session;
@@ -31,10 +34,6 @@ module.exports = async function createSessions({
         certificationCenterId,
         certificationCenter,
       });
-
-      if (domainSession.isSessionScheduledInThePast()) {
-        throw new UnprocessableEntityError(`Une session ne peut pas être programmée dans le passé`);
-      }
 
       if (sessionId) {
         if (await _isSessionStarted({ certificationCourseRepository, sessionId })) {

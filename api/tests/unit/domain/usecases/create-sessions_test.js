@@ -23,7 +23,6 @@ describe('Unit | UseCase | create-sessions', function () {
   let certificationCandidateRepository;
   let complementaryCertificationRepository;
   let sessionRepository;
-  let clock;
 
   beforeEach(function () {
     accessCode = 'accessCode';
@@ -42,44 +41,6 @@ describe('Unit | UseCase | create-sessions', function () {
     sinon.stub(certificationCpfService, 'getBirthInformation');
     sessionCodeService.getNewSessionCode.returns(accessCode);
     certificationCenterRepository.get.withArgs(certificationCenterId).resolves(certificationCenter);
-
-    clock = sinon.useFakeTimers({
-      now: new Date('2023-01-01'),
-      toFake: ['Date'],
-    });
-  });
-
-  afterEach(async function () {
-    clock.restore();
-  });
-
-  context('when session is scheduled in the past', function () {
-    it('should throw', async function () {
-      // given
-      const sessionScheduledInThePastData = {
-        sessionId: undefined,
-        address: 'Site 1',
-        room: 'Salle 1',
-        date: '2020-03-12',
-        time: '01:00',
-        examiner: 'Pierre',
-        description: 'desc',
-        certificationCandidates: [],
-      };
-
-      const sessions = [sessionScheduledInThePastData];
-
-      // when
-      const error = await catchErr(createSessions)({
-        sessions,
-        certificationCenterId,
-        certificationCenterRepository,
-        sessionRepository,
-      });
-
-      // then
-      expect(error.message).to.equal('Une session ne peut pas être programmée dans le passé');
-    });
   });
 
   context('when sessions are valid', function () {
