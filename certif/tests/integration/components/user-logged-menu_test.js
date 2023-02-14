@@ -1,14 +1,14 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { setupRenderingTest } from 'ember-qunit';
 import { click } from '@ember/test-helpers';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { run } from '@ember/runloop';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | user-logged-menu', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
   let store;
   let certificationPointOfContact;
   let currentAllowedCertificationCenterAccess;

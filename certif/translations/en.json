@@ -29,6 +29,9 @@
       "team": "Team",
       "documentation": "Documentation"
     },
+    "user-logged-menu": {
+      "logout": "Log out"
+    },
     "footer": {
       "a11y": "Accessibility",
       "legal-notice": "Legal notice",
