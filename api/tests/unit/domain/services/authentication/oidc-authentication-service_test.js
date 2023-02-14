@@ -497,7 +497,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         const userId = 1;
         userToCreateRepository.create.withArgs({ user, domainTransaction }).resolves({ id: userId });
 
-        const identityProvider = OidcIdentityProviders.CNAV.code;
+        const identityProvider = OidcIdentityProviders.CNAV.service.code;
         const expectedAuthenticationMethod = new AuthenticationMethod({
           identityProvider,
           externalIdentifier: externalIdentityId,

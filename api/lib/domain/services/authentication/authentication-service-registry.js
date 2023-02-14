@@ -3,12 +3,12 @@ const { InvalidIdentityProviderError } = require('../../errors');
 
 function lookupAuthenticationService(identityProvider) {
   const identityProviderService = Object.values(OidcIdentityProviders).find(
-    (oidcIdentityProvider) => oidcIdentityProvider.code === identityProvider
+    (oidcIdentityProvider) => oidcIdentityProvider.service.code === identityProvider
   );
 
   if (!identityProviderService) throw new InvalidIdentityProviderError(identityProvider);
 
-  return identityProviderService;
+  return identityProviderService.service;
 }
 
 module.exports = {

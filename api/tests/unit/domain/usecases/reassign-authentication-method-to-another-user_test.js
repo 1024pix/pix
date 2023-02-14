@@ -147,7 +147,7 @@ describe('Unit | UseCase | reassign-authentication-method-to-another-user', func
     // then
     expect(authenticationMethodRepository.updateAuthenticationMethodUserId).to.have.been.calledOnceWith({
       originUserId,
-      identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+      identityProvider: OidcIdentityProviders.POLE_EMPLOI.service.code,
       targetUserId,
     });
   });
