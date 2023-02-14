@@ -1,11 +1,11 @@
+const { knex } = require('../../../db/knex-database-connection');
 const settings = require('../../../lib/config');
 const Bookshelf = require('../bookshelf');
-const BookshelfPoleEmploiSending = require('../orm-models/PoleEmploiSending');
 const OidcIdentityProviders = require('../../domain/constants/oidc-identity-providers');
 
 module.exports = {
   create({ poleEmploiSending }) {
-    return new BookshelfPoleEmploiSending(poleEmploiSending).save();
+    return knex('pole-emploi-sendings').insert({ ...poleEmploiSending });
   },
 
   async find(sending, filters) {
