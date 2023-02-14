@@ -71,5 +71,32 @@ test.describe('Profils cibles', () => {
     await expect.soft(page.getByText('Nom du résultat thématique : Mon super RT')).toBeVisible();
 
     // Création des paliers
+    await page.getByRole('link', { name: 'Mon profil cible' }).click();
+    await page.getByLabel('Palier par niveau').check();
+    await page.getByRole('button', { name: 'Nouveau palier' }).click();
+    await page.getByRole('button', { name: 'Nouveau palier' }).click();
+    await page.getByRole('textbox', { name: 'Titre du palier' }).nth(0).fill('Titre palier 0');
+    await page.getByRole('textbox', { name: 'Message du palier' }).nth(0).fill('Message palier 0');
+    await page.getByRole('button', { name: '0' }).nth(1).click();
+    await page.getByRole('option', { name: '2' }).click();
+    await page.getByRole('textbox', { name: 'Titre du palier' }).nth(1).fill('Titre palier 2');
+    await page.getByRole('textbox', { name: 'Message du palier' }).nth(1).fill('Message palier 2');
+    await page.getByRole('button', { name: 'Enregistrer' }).click();
+    await expect.soft(page.getByText('Titre palier 0')).toBeVisible();
+    await expect.soft(page.getByText('Titre palier 2')).toBeVisible();
+    await page
+      .getByRole('row', { name: 'Informations sur le palier Titre palier 2' })
+      .getByRole('link', { name: 'Voir détail' })
+      .click();
+    await expect.soft(page.getByText('Titre : Titre palier 2')).toBeVisible();
+    await expect.soft(page.getByText('Message : Message palier 2')).toBeVisible();
+    await page.getByRole('button', { name: 'Éditer' }).click();
+    await page.getByLabel('Titre pour le prescripteur').fill('Titre prescripteur palier 2');
+    await page.getByLabel('Description pour le prescripteur').fill('Description prescripteur palier 2');
+    await page.getByRole('button', { name: 'Enregistrer' }).click();
+    await expect.soft(page.getByText('Titre pour le prescripteur : Titre prescripteur palier 2')).toBeVisible();
+    await expect
+      .soft(page.getByText('Description pour le prescripteur : Description prescripteur palier 2'))
+      .toBeVisible();
   });
 });
