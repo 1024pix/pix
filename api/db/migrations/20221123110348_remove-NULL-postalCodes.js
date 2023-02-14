@@ -3,4 +3,6 @@ exports.up = async function (knex) {
   await knex('certification-candidates').where({ birthINSEECode: 'NULL' }).update({ birthINSEECode: null });
 };
 
-exports.down = function () {};
+exports.down = function () {
+  // do nothing.
+};

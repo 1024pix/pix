@@ -8,4 +8,6 @@ exports.up = function (knex) {
     .andWhere('updatedAt', '<', dayjs().subtract(1, 'year'));
 };
 
-exports.down = function () {};
+exports.down = function () {
+  // do nothing.
+};
