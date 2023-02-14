@@ -1,0 +1,23 @@
+{
+  "extends": ["@1024pix/stylelint-config"],
+  "rules": {
+    "block-opening-brace-space-before": null,
+    "declaration-block-no-duplicate-properties": null,
+    "declaration-block-no-redundant-longhand-properties": null,
+    "declaration-block-single-line-max-declarations": null,
+    "declaration-colon-space-after": null,
+    "declaration-empty-line-before": null,
+    "indentation": null,
+    "length-zero-no-unit": null,
+    "no-descending-specificity": null,
+    "number-max-precision": null,
+    "property-no-vendor-prefix": null,
+    "rule-empty-line-before": null,
+    "scss/at-import-partial-extension": null,
+    "scss/double-slash-comment-whitespace-inside": null,
+    "scss/no-global-function-names": null,
+    "selector-no-vendor-prefix": null,
+    "selector-pseudo-element-colon-notation": null,
+    "shorthand-property-no-redundant-values": null
+  }
+}
