@@ -5,7 +5,7 @@ import { render, clickByName } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | Trainings::CreateTrainingForm', function (hooks) {
+module('Integration | Component | Trainings::CreateOrUpdateTrainingForm', function (hooks) {
   setupRenderingTest(hooks);
 
   let form;
@@ -33,7 +33,7 @@ module('Integration | Component | Trainings::CreateTrainingForm', function (hook
 
   test('it should display the items', async function (assert) {
     // when
-    const screen = await render(hbs`<Trainings::CreateTrainingForm
+    const screen = await render(hbs`<Trainings::CreateOrUpdateTrainingForm
   @onSubmit={{this.onSubmit}}
   @onCancel={{this.onCancel}}
 />`);
@@ -56,7 +56,7 @@ module('Integration | Component | Trainings::CreateTrainingForm', function (hook
 
   test('it should call onSubmit when form is valid', async function (assert) {
     // when
-    await render(hbs`<Trainings::CreateTrainingForm
+    await render(hbs`<Trainings::CreateOrUpdateTrainingForm
   @onSubmit={{this.onSubmit}}
   @onCancel={{this.onCancel}}
 />`);
@@ -69,7 +69,7 @@ module('Integration | Component | Trainings::CreateTrainingForm', function (hook
 
   test('it should call onCancel when form is cancel', async function (assert) {
     // when
-    await render(hbs`<Trainings::CreateTrainingForm
+    await render(hbs`<Trainings::CreateOrUpdateTrainingForm
   @onSubmit={{this.onSubmit}}
   @onCancel={{this.onCancel}}
 />`);
