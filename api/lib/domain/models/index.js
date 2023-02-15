@@ -1,10 +1,11 @@
 const path = require('path');
 
 /* eslint-disable-next-line no-sync */
-require('fs')
-  .readdirSync(__dirname)
-  .forEach(function (file) {
-    if (file === 'index.js') return;
+const dirents = require('fs').readdirSync(__dirname, { withFileTypes: true });
+dirents
+  .filter((dirent) => dirent.isFile())
+  .forEach(function (dirent) {
+    if (dirent.name === 'index.js') return;
 
-    module.exports[path.basename(file, '.js')] = require(path.join(__dirname, file));
+    module.exports[path.basename(dirent.name, '.js')] = require(path.join(__dirname, dirent.name));
   });
