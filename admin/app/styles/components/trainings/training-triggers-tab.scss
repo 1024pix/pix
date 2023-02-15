@@ -33,6 +33,10 @@
     gap: $spacing-m;
     margin: $spacing-m 0;
   }
+
+  &__threshold {
+    margin-bottom: $spacing-m;
+  }
 }
 
 .edit-training-trigger-threshold {
