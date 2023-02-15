@@ -1,4 +1,4 @@
-const { catchErr, expect, sinon } = require('../../../test-helper');
+const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
 const sessionsImportValidationService = require('../../../../lib/domain/services/sessions-import-validation-service');
 const { SessionWithIdAndInformationOnMassImportError } = require('../../../../lib/domain/errors');
 const { UnprocessableEntityError } = require('../../../../lib/application/http-errors');
@@ -7,6 +7,7 @@ describe('Unit | Service | sessions import validation Service', function () {
   describe('#validate', function () {
     let clock;
     let sessionRepository;
+    let certificationCourseRepository;
 
     beforeEach(function () {
       clock = sinon.useFakeTimers({
@@ -14,6 +15,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         toFake: ['Date'],
       });
       sessionRepository = { isSessionExisting: sinon.stub() };
+      certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
     });
 
     afterEach(async function () {
@@ -21,43 +23,89 @@ describe('Unit | Service | sessions import validation Service', function () {
     });
 
     context('when the parsed data is valid', function () {
-      context('when there is no sessionId', function () {
-        it('should not throw', async function () {
-          // given
-          const sessionScheduledInThePastData = {
-            sessionId: undefined,
-            address: 'Site 1',
-            room: 'Salle 1',
-            date: '2024-03-12',
-            time: '01:00',
-            examiner: 'Pierre',
-            description: 'desc',
-            certificationCandidates: [],
-          };
+      context('when the session has not started yet', function () {
+        context('when there is no sessionId', function () {
+          it('should not throw', async function () {
+            // given
+            const sessionScheduledInThePastData = {
+              sessionId: undefined,
+              address: 'Site 1',
+              room: 'Salle 1',
+              date: '2024-03-12',
+              time: '01:00',
+              examiner: 'Pierre',
+              description: 'desc',
+              certificationCandidates: [],
+            };
 
-          const sessions = [sessionScheduledInThePastData];
+            const sessions = [sessionScheduledInThePastData];
 
-          // when
-          // then
-          expect(await sessionsImportValidationService.validate({ sessions })).to.not.throw;
+            // when
+            // then
+            expect(
+              await sessionsImportValidationService.validate({
+                sessions,
+                sessionRepository,
+                certificationCourseRepository,
+              })
+            ).to.not.throw;
+          });
+        });
+
+        context('when there is a sessionId', function () {
+          it('should not throw', async function () {
+            // given
+            const sessionId = 1;
+            const sessionScheduledInThePastData = {
+              sessionId,
+              certificationCandidates: [],
+            };
+
+            const sessions = [sessionScheduledInThePastData];
+            sessionRepository.isSessionExisting.withArgs({ ...sessions[0] }).resolves(false);
+            certificationCourseRepository.findCertificationCoursesBySessionId
+              .withArgs({
+                sessionId,
+              })
+              .resolves([]);
+
+            // when
+            // then
+            expect(
+              await sessionsImportValidationService.validate({
+                sessions,
+                sessionRepository,
+                certificationCourseRepository,
+              })
+            ).to.not.throw;
+          });
         });
       });
+    });
 
-      context('when there is a sessionId', function () {
-        it('should not throw', async function () {
-          // given
-          const sessionScheduledInThePastData = {
-            sessionId: 1,
+    context('when the session has already started', function () {
+      it('should throw an UnprocessableEntityError', async function () {
+        const sessions = [
+          {
+            sessionId: 1234,
             certificationCandidates: [],
-          };
+          },
+        ];
 
-          const sessions = [sessionScheduledInThePastData];
-          sessionRepository.isSessionExisting.withArgs({ ...sessions[0] }).resolves(false);
+        certificationCourseRepository.findCertificationCoursesBySessionId
+          .withArgs({ sessionId: 1234 })
+          .resolves([domainBuilder.buildCertificationCourse({ sessionId: 1234 })]);
 
-          // when
-          // then
-          expect(await sessionsImportValidationService.validate({ sessions, sessionRepository })).to.not.throw;
+        // when
+        const error = await catchErr(sessionsImportValidationService.validate)({
+          sessions,
+          sessionRepository,
+          certificationCourseRepository,
         });
+
+        // then
+        expect(error).to.be.instanceOf(UnprocessableEntityError);
+        expect(error.message).to.equal("Impossible d'ajouter un candidat à une session qui a déjà commencé.");
       });
     });
 
@@ -81,6 +129,8 @@ describe('Unit | Service | sessions import validation Service', function () {
           // when
           const error = await catchErr(sessionsImportValidationService.validate)({
             sessions,
+            sessionRepository,
+            certificationCourseRepository,
           });
 
           // then
@@ -89,7 +139,7 @@ describe('Unit | Service | sessions import validation Service', function () {
       });
     });
 
-    context('unnecessary session information validation', function () {
+    context('conflicting session information validation', function () {
       context('when there is a sessionId and session information', function () {
         it('should throw', async function () {
           const sessions = [
@@ -103,6 +153,8 @@ describe('Unit | Service | sessions import validation Service', function () {
           // when
           const error = await catchErr(sessionsImportValidationService.validate)({
             sessions,
+            sessionRepository,
+            certificationCourseRepository,
           });
 
           // then
@@ -124,22 +176,9 @@ describe('Unit | Service | sessions import validation Service', function () {
 
           // when
           // then
-          expect(sessionsImportValidationService.validate({ sessions })).not.to.throw;
-        });
-      });
-
-      context('when there is a sessionId but no session information', function () {
-        it('should not throw', async function () {
-          const sessions = [
-            {
-              certificationCandidates: [],
-              sessionId: 123,
-            },
-          ];
-
-          // when
-          // then
-          expect(sessionsImportValidationService.validate({ sessions })).not.to.throw;
+          expect(
+            sessionsImportValidationService.validate({ sessions, sessionRepository, certificationCourseRepository })
+          ).not.to.throw;
         });
       });
     });
@@ -154,6 +193,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         const err = await catchErr(sessionsImportValidationService.validate)({
           sessions,
           sessionRepository,
+          certificationCourseRepository,
         });
 
         // then
