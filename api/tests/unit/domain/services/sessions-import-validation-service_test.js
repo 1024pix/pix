@@ -27,24 +27,13 @@ describe('Unit | Service | sessions import validation Service', function () {
         context('when there is no sessionId', function () {
           it('should not throw', async function () {
             // given
-            const sessionScheduledInThePastData = {
-              sessionId: undefined,
-              address: 'Site 1',
-              room: 'Salle 1',
-              date: '2024-03-12',
-              time: '01:00',
-              examiner: 'Pierre',
-              description: 'desc',
-              certificationCandidates: [],
-            };
-
-            const sessions = [sessionScheduledInThePastData];
+            const session = _buildValidSessionWithoutId();
 
             // when
             // then
             expect(
               await sessionsImportValidationService.validate({
-                sessions,
+                session,
                 sessionRepository,
                 certificationCourseRepository,
               })
@@ -56,13 +45,9 @@ describe('Unit | Service | sessions import validation Service', function () {
           it('should not throw', async function () {
             // given
             const sessionId = 1;
-            const sessionScheduledInThePastData = {
-              sessionId,
-              certificationCandidates: [],
-            };
+            const session = _buildValidSessionWithId(sessionId);
 
-            const sessions = [sessionScheduledInThePastData];
-            sessionRepository.isSessionExisting.withArgs({ ...sessions[0] }).resolves(false);
+            sessionRepository.isSessionExisting.withArgs({ ...session }).resolves(false);
             certificationCourseRepository.findCertificationCoursesBySessionId
               .withArgs({
                 sessionId,
@@ -73,7 +58,7 @@ describe('Unit | Service | sessions import validation Service', function () {
             // then
             expect(
               await sessionsImportValidationService.validate({
-                sessions,
+                session,
                 sessionRepository,
                 certificationCourseRepository,
               })
@@ -85,20 +70,14 @@ describe('Unit | Service | sessions import validation Service', function () {
 
     context('when the session has already started', function () {
       it('should throw an UnprocessableEntityError', async function () {
-        const sessions = [
-          {
-            sessionId: 1234,
-            certificationCandidates: [],
-          },
-        ];
-
+        const session = _buildValidSessionWithId(1234);
         certificationCourseRepository.findCertificationCoursesBySessionId
           .withArgs({ sessionId: 1234 })
           .resolves([domainBuilder.buildCertificationCourse({ sessionId: 1234 })]);
 
         // when
         const error = await catchErr(sessionsImportValidationService.validate)({
-          sessions,
+          session,
           sessionRepository,
           certificationCourseRepository,
         });
@@ -113,7 +92,7 @@ describe('Unit | Service | sessions import validation Service', function () {
       context('when at least one session is scheduled in the past', function () {
         it('should throw', async function () {
           // given
-          const sessionScheduledInThePastData = {
+          const session = domainBuilder.buildSession({
             sessionId: undefined,
             address: 'Site 1',
             room: 'Salle 1',
@@ -122,13 +101,11 @@ describe('Unit | Service | sessions import validation Service', function () {
             examiner: 'Pierre',
             description: 'desc',
             certificationCandidates: [],
-          };
-
-          const sessions = [sessionScheduledInThePastData];
+          });
 
           // when
           const error = await catchErr(sessionsImportValidationService.validate)({
-            sessions,
+            session,
             sessionRepository,
             certificationCourseRepository,
           });
@@ -142,17 +119,13 @@ describe('Unit | Service | sessions import validation Service', function () {
     context('conflicting session information validation', function () {
       context('when there is a sessionId and session information', function () {
         it('should throw', async function () {
-          const sessions = [
-            {
-              ..._createValidSessionData(),
-              sessionId: 1234,
-              certificationCandidates: [],
-            },
-          ];
+          // given
+          const session = _buildValidSessionWithoutId();
+          session.id = 1234;
 
           // when
           const error = await catchErr(sessionsImportValidationService.validate)({
-            sessions,
+            session,
             sessionRepository,
             certificationCourseRepository,
           });
@@ -167,17 +140,15 @@ describe('Unit | Service | sessions import validation Service', function () {
 
       context('when there is session information but no sessionId', function () {
         it('should not throw', async function () {
-          const sessions = [
-            {
-              ..._createValidSessionData(),
-              certificationCandidates: [],
-            },
-          ];
+          const session = domainBuilder.buildSession({
+            ..._createValidSessionData(),
+            certificationCandidates: [],
+          });
 
           // when
           // then
           expect(
-            sessionsImportValidationService.validate({ sessions, sessionRepository, certificationCourseRepository })
+            sessionsImportValidationService.validate({ session, sessionRepository, certificationCourseRepository })
           ).not.to.throw;
         });
       });
@@ -186,12 +157,12 @@ describe('Unit | Service | sessions import validation Service', function () {
     context('when there already is an existing session with the same data as a newly imported one', function () {
       it('should throw an error', async function () {
         // given
-        const sessions = [{ sessionId: 1234 }];
-        sessionRepository.isSessionExisting.withArgs({ ...sessions[0] }).resolves(true);
+        const session = domainBuilder.buildSession({ sessionId: 1234 });
+        sessionRepository.isSessionExisting.withArgs({ ...session }).resolves(true);
 
         // when
         const err = await catchErr(sessionsImportValidationService.validate)({
-          sessions,
+          session,
           sessionRepository,
           certificationCourseRepository,
         });
@@ -214,4 +185,23 @@ function _createValidSessionData() {
     description: 'desc',
     certificationCandidates: [],
   };
+}
+
+function _buildValidSessionWithId(sessionId) {
+  return domainBuilder.buildSession({
+    id: sessionId,
+    address: null,
+    room: null,
+    date: null,
+    time: null,
+    examiner: null,
+    description: null,
+    certificationCandidates: null,
+  });
+}
+function _buildValidSessionWithoutId() {
+  return domainBuilder.buildSession({
+    id: null,
+    date: '2024-03-12',
+  });
 }

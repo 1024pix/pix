@@ -1,50 +1,33 @@
 const { UnprocessableEntityError } = require('../../application/http-errors');
-const Session = require('../models/Session');
 const { SessionWithIdAndInformationOnMassImportError } = require('../errors');
-const { mapSeries } = require('bluebird');
-const sessionCodeService = require('./session-code-service');
+const sessionValidator = require('../validators/session-validator');
 
 module.exports = {
-  async validate({
-    sessions,
-    certificationCenterId,
-    certificationCenter,
-    sessionRepository,
-    certificationCourseRepository,
-  }) {
-    return mapSeries(sessions, async (session) => {
-      const { sessionId } = session;
+  async validate({ session, sessionRepository, certificationCourseRepository }) {
+    const sessionId = session.id;
 
-      const accessCode = sessionCodeService.getNewSessionCode();
-      const supervisorPassword = Session.generateSupervisorPassword();
-      const domainSession = new Session({
-        ...session,
-        certificationCenterId,
-        certificationCenter,
-        accessCode,
-        supervisorPassword,
-      });
-      if (domainSession.isSessionScheduledInThePast()) {
-        throw new UnprocessableEntityError(`Une session ne peut pas être programmée dans le passé`);
-      }
+    if (session.isSessionScheduledInThePast()) {
+      throw new UnprocessableEntityError(`Une session ne peut pas être programmée dans le passé`);
+    }
 
-      if (sessionId) {
-        if (_hasSessionInfo(domainSession)) {
-          throw new SessionWithIdAndInformationOnMassImportError(
-            `Merci de ne pas renseigner les informations de session pour la session: ${sessionId}`
-          );
-        }
+    if (!sessionId) {
+      return sessionValidator.validate(session);
+    }
 
-        const isSessionExisting = await sessionRepository.isSessionExisting({ ...session });
-        if (isSessionExisting) {
-          throw new UnprocessableEntityError(`Session happening on ${session.date} at ${session.time} already exists`);
-        }
+    if (_hasSessionInfo(session)) {
+      throw new SessionWithIdAndInformationOnMassImportError(
+        `Merci de ne pas renseigner les informations de session pour la session: ${sessionId}`
+      );
+    }
 
-        if (await _isSessionStarted({ certificationCourseRepository, sessionId })) {
-          throw new UnprocessableEntityError("Impossible d'ajouter un candidat à une session qui a déjà commencé.");
-        }
-      }
-    });
+    const isSessionExisting = await sessionRepository.isSessionExisting({ ...session });
+    if (isSessionExisting) {
+      throw new UnprocessableEntityError(`Session happening on ${session.date} at ${session.time} already exists`);
+    }
+
+    if (await _isSessionStarted({ certificationCourseRepository, sessionId })) {
+      throw new UnprocessableEntityError("Impossible d'ajouter un candidat à une session qui a déjà commencé.");
+    }
   },
 };
 
