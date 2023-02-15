@@ -23,6 +23,14 @@ export default class TrainingEditTriggersController extends Controller {
   }
 
   @action
+  updateTubes(tubesWithLevel) {
+    this.selectedTubes = tubesWithLevel.map(({ id, level }) => ({
+      id,
+      level,
+    }));
+  }
+
+  @action
   goBackToTraining() {
     this.router.transitionTo('authenticated.trainings.training');
   }
