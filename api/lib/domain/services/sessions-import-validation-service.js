@@ -5,7 +5,13 @@ const { mapSeries } = require('bluebird');
 const sessionCodeService = require('./session-code-service');
 
 module.exports = {
-  async validate({ sessions, certificationCenterId, certificationCenter, sessionRepository }) {
+  async validate({
+    sessions,
+    certificationCenterId,
+    certificationCenter,
+    sessionRepository,
+    certificationCourseRepository,
+  }) {
     return mapSeries(sessions, async (session) => {
       const { sessionId } = session;
 
@@ -33,6 +39,10 @@ module.exports = {
         if (isSessionExisting) {
           throw new UnprocessableEntityError(`Session happening on ${session.date} at ${session.time} already exists`);
         }
+
+        if (await _isSessionStarted({ certificationCourseRepository, sessionId })) {
+          throw new UnprocessableEntityError("Impossible d'ajouter un candidat à une session qui a déjà commencé.");
+        }
       }
     });
   },
@@ -40,4 +50,11 @@ module.exports = {
 
 function _hasSessionInfo(session) {
   return session.address || session.room || session.date || session.time || session.examiner;
+}
+
+async function _isSessionStarted({ certificationCourseRepository, sessionId }) {
+  const foundCertificationCourses = await certificationCourseRepository.findCertificationCoursesBySessionId({
+    sessionId,
+  });
+  return foundCertificationCourses.length > 0;
 }
