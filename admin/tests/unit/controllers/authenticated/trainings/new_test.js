@@ -11,13 +11,13 @@ module('Unit | Controller | authenticated/trainings/new', function (hooks) {
     controller = this.owner.lookup('controller:authenticated/trainings/new');
   });
 
-  module('#goBackToTrainingList', function () {
-    test('should go back to training list page', async function (assert) {
+  module('#goToTrainingDetails', function () {
+    test('should go to training details page', async function (assert) {
       controller.router.transitionTo = sinon.stub();
 
-      controller.goBackToTrainingList();
+      controller.goToTrainingDetails();
 
-      assert.ok(controller.router.transitionTo.calledWith('authenticated.trainings.list'));
+      assert.ok(controller.router.transitionTo.calledWith('authenticated.trainings.training'));
     });
   });
 
@@ -34,7 +34,7 @@ module('Unit | Controller | authenticated/trainings/new', function (hooks) {
         duration: '6h',
       };
 
-      const saveStub = sinon.stub();
+      const saveStub = sinon.stub().resolves({ id: trainingData.id });
 
       controller.store.createRecord = sinon.stub().withArgs('training', trainingData).returns({ save: saveStub });
 
@@ -50,7 +50,7 @@ module('Unit | Controller | authenticated/trainings/new', function (hooks) {
       // then
       assert.ok(saveStub.called);
       assert.ok(controller.notifications.success.calledWith('Le contenu formatif a été créé avec succès.'));
-      assert.ok(controller.router.transitionTo.calledWith('authenticated.trainings.list'));
+      assert.ok(controller.router.transitionTo.calledWith('authenticated.trainings.training', trainingData.id));
     });
 
     test('it should display error notification when training cannot be saved', async function (assert) {
