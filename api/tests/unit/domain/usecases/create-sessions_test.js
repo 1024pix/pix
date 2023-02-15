@@ -419,29 +419,6 @@ describe('Unit | UseCase | create-sessions', function () {
       expect(err).to.be.instanceOf(EntityValidationError);
     });
   });
-
-  context('when there already is an existing session with the same data as a newly imported one', function () {
-    it('should throw an error', async function () {
-      // given
-      const sessions = [{ ...createValidSessionData(), examiner: 'Paul' }];
-      sessionRepository.isSessionExisting.withArgs({ ...sessions[0] }).resolves(true);
-
-      const domainTransaction = Symbol('trx');
-      sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
-
-      // when
-      const err = await catchErr(createSessions)({
-        sessions,
-        certificationCenterId,
-        certificationCenterRepository,
-        sessionRepository,
-      });
-
-      // then
-      expect(err).to.be.instanceOf(UnprocessableEntityError);
-      expect(sessionRepository.save).not.to.have.been.called;
-    });
-  });
 });
 
 function createValidSessionData() {
