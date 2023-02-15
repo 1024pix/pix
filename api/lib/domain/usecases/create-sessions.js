@@ -17,6 +17,7 @@ module.exports = async function createSessions({
   certificationCpfCityRepository,
   certificationCandidateRepository,
   complementaryCertificationRepository,
+  certificationCourseRepository,
 }) {
   if (sessions.length === 0) {
     throw new UnprocessableEntityError('No session data in csv');
@@ -31,12 +32,16 @@ module.exports = async function createSessions({
       const sessionDate = new Date(`${date}T${time}`);
 
       if (_isSessionScheduledInThePast(sessionDate)) {
-        throw new UnprocessableEntityError(`Une session ne peut pas être programmée dans le passé`);
+        throw new UnprocessableEntityError('Une session ne peut pas être programmée dans le passé');
       }
 
       let domainSession;
 
       if (sessionId) {
+        if (await _isSessionStarted({ certificationCourseRepository, sessionId })) {
+          throw new UnprocessableEntityError("Impossible d'ajouter un candidat à une session qui a déjà commencé.");
+        }
+
         if (_hasSessionInfo(session)) {
           throw new SessionWithIdAndInformationOnMassImportError(
             `Merci de ne pas renseigner les informations de session pour la session: ${sessionId}`
@@ -119,6 +124,13 @@ function _hasDuplicateCertificationCandidates(certificationCandidates) {
   );
 
   return uniqCertificationCandidates.size < certificationCandidates.length;
+}
+
+async function _isSessionStarted({ certificationCourseRepository, sessionId }) {
+  const foundCertificationCourses = await certificationCourseRepository.findCertificationCoursesBySessionId({
+    sessionId,
+  });
+  return foundCertificationCourses.length > 0;
 }
 
 async function _deleteExistingCandidatesInSession({ certificationCandidateRepository, sessionId, domainTransaction }) {
