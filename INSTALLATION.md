@@ -188,9 +188,11 @@ Ce repository est configuré pour indiquer aux IDE Webstorm et Vscode la configu
 Malgré cela, il peut arriver que des erreurs de lint soient introduites.
 
 Pour tenter de les corriger automatiquement lors du commit, installer un hook de pre-commit.
-Pour cela, exécuter `npm run local:trigger-lint-on-commit`
+```
+npm run local:trigger-lint-on-commit
+```
 
-Désactiver
+Si vous souhaitez désactiver
 
 ```
 npm run local:prevent-trigger-lint-on-commit
