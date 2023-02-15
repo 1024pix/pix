@@ -31,7 +31,9 @@ describe('Acceptance | Controller | training-controller', function () {
           link: trainingAttributes.link,
           locale: trainingAttributes.locale,
           duration: {
+            days: 0,
             hours: 6,
+            minutes: 0,
           },
           'editor-logo-url': trainingAttributes.editorLogoUrl,
           'editor-name': trainingAttributes.editorName,
@@ -74,7 +76,9 @@ describe('Acceptance | Controller | training-controller', function () {
           link: 'https://training-link.org',
           type: 'webinaire',
           duration: {
+            days: 0,
             hours: 6,
+            minutes: 0,
           },
           locale: 'fr',
           'editor-name': 'Un ministère',
