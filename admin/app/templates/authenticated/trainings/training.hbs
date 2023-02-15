@@ -13,7 +13,22 @@
 {{! template-lint-disable no-redundant-landmark-role }}
 <main class="page-body" role="main">
   <section class="page-section">
-    <Trainings::TrainingDetailsCard @training={{@model}} />
+    {{#if this.isEditMode}}
+      <Trainings::CreateOrUpdateTrainingForm
+        @model={{@model}}
+        @onSubmit={{this.updateTraining}}
+        @onCancel={{this.toggleEditMode}}
+      />
+    {{else}}
+      <Trainings::TrainingDetailsCard @training={{@model}} />
+      <PixButton
+        @size="small"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        @triggerAction={{this.toggleEditMode}}
+      >Editer
+      </PixButton>
+    {{/if}}
   </section>
 
   <nav class="navbar">
