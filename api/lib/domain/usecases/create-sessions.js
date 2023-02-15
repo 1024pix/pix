@@ -17,6 +17,7 @@ module.exports = async function createSessions({
   certificationCpfCityRepository,
   certificationCandidateRepository,
   complementaryCertificationRepository,
+  certificationCourseRepository,
 }) {
   const { name: certificationCenter, isSco } = await certificationCenterRepository.get(certificationCenterId);
 
@@ -35,7 +36,7 @@ module.exports = async function createSessions({
         supervisorPassword,
       });
 
-      await sessionsImportValidationService.validate({ session, certificationCenterId, certificationCenter });
+      await sessionsImportValidationService.validate({ session, sessionRepository, certificationCourseRepository });
 
       if (sessionId) {
         await _deleteExistingCandidatesInSession({ certificationCandidateRepository, sessionId, domainTransaction });
