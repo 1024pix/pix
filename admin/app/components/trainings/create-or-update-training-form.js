@@ -19,7 +19,7 @@ class Form {
   @tracked editorName;
 }
 
-export default class CreateTrainingForm extends Component {
+export default class CreateOrUpdateTrainingForm extends Component {
   @service notifications;
 
   @tracked submitting = false;

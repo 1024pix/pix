@@ -4,12 +4,12 @@ import sinon from 'sinon';
 
 import createComponent from '../../../helpers/create-glimmer-component';
 
-module('Unit | Component | Trainings | CreateTrainingForm', function (hooks) {
+module('Unit | Component | Trainings | CreateOrUpdateTrainingForm', function (hooks) {
   setupTest(hooks);
   let component;
 
   hooks.beforeEach(function () {
-    component = createComponent('component:trainings/create-training-form', {
+    component = createComponent('component:trainings/create-or-update-training-form', {
       onSubmit: sinon.stub(),
     });
   });
