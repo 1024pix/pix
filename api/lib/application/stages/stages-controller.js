@@ -1,17 +1,21 @@
 const usecases = require('../../domain/usecases');
 const stageSerializer = require('../../infrastructure/serializers/jsonapi/stage-serializer');
+const stageCollectionRepository = require('../../infrastructure/repositories/target-profile-management/stage-collection-repository');
 
 module.exports = {
   async create(request, h) {
     const stage = stageSerializer.deserialize(request.payload);
-    const newStage = await usecases.createStage({ stage });
-    return h.response(stageSerializer.serialize(newStage)).created();
+    const stageCollection = await stageCollectionRepository.getByTargetProfileId(stage.targetProfileId);
+    const updatedStageCollection = usecases.createStage({ stageCollection, stage });
+    await stageCollectionRepository.save(updatedStageCollection);
+    return h.response({}).created();
   },
 
-  async updateStage(request, h) {
-    const stageId = request.params.id;
+  async update(request, h) {
     const stage = stageSerializer.deserialize(request.payload);
-    await usecases.updateStage({ ...stage, stageId });
+    const stageCollection = await stageCollectionRepository.getByTargetProfileId(stage.targetProfileId);
+    const updatedStageCollection = usecases.updateStage({ stageCollection, stage });
+    await stageCollectionRepository.save(updatedStageCollection);
     return h.response({}).code(204);
   },
 
