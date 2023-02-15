@@ -1,4 +1,3 @@
-const sessionValidator = require('../validators/session-validator');
 const { UnprocessableEntityError } = require('../../application/http-errors');
 const Session = require('../models/Session');
 const sessionCodeService = require('../services/session-code-service');
@@ -21,30 +20,38 @@ module.exports = async function createSessions({
 }) {
   const { name: certificationCenter, isSco } = await certificationCenterRepository.get(certificationCenterId);
 
-  sessionsImportValidationService.validate({ sessions, certificationCenterId, certificationCenter });
-
   await DomainTransaction.execute(async (domainTransaction) => {
-    await bluebird.mapSeries(sessions, async (session) => {
-      let { sessionId } = session;
+    await bluebird.mapSeries(sessions, async (sessionDTO) => {
+      let { sessionId } = sessionDTO;
 
-      const domainSession = new Session({
-        ...session,
+      const accessCode = sessionCodeService.getNewSessionCode();
+      const supervisorPassword = Session.generateSupervisorPassword();
+      const session = new Session({
+        ...sessionDTO,
+        id: sessionId,
         certificationCenterId,
         certificationCenter,
+        accessCode,
+        supervisorPassword,
       });
+
+      await sessionsImportValidationService.validate({ session, certificationCenterId, certificationCenter });
 
       if (sessionId) {
         await _deleteExistingCandidatesInSession({ certificationCandidateRepository, sessionId, domainTransaction });
       }
 
-      if (!sessionId && _hasSessionInfo(session)) {
-        _validateNewSessionToSave({ domainSession, certificationCenterId, certificationCenter });
-        const { id } = await _saveNewSessionReturningId({ sessionRepository, domainSession, domainTransaction });
+      if (!sessionId && _hasSessionInfo(sessionDTO)) {
+        const { id } = await _saveNewSessionReturningId({
+          sessionRepository,
+          domainSession: session,
+          domainTransaction,
+        });
         sessionId = id;
       }
 
-      if (domainSession.certificationCandidates.length) {
-        const { certificationCandidates } = domainSession;
+      if (session.certificationCandidates.length) {
+        const { certificationCandidates } = session;
 
         if (_hasDuplicateCertificationCandidates(certificationCandidates)) {
           throw new UnprocessableEntityError(`Une session contient au moins un élève en double.`);
@@ -73,15 +80,6 @@ function _hasSessionInfo(session) {
 
 async function _saveNewSessionReturningId({ sessionRepository, domainSession, domainTransaction }) {
   return await sessionRepository.save(domainSession, domainTransaction);
-}
-
-function _validateNewSessionToSave({ domainSession, certificationCenterId, certificationCenter }) {
-  domainSession.accessCode = sessionCodeService.getNewSessionCode();
-  domainSession.certificationCenterId = certificationCenterId;
-  domainSession.certificationCenter = certificationCenter;
-
-  domainSession.generateSupervisorPassword();
-  sessionValidator.validate(domainSession);
 }
 
 function _hasDuplicateCertificationCandidates(certificationCandidates) {

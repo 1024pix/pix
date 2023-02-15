@@ -1,9 +1,10 @@
 const { domainBuilder, expect, catchErr, sinon } = require('../../../test-helper');
 const createSessions = require('../../../../lib/domain/usecases/create-sessions');
-const { EntityValidationError, InvalidCertificationCandidate } = require('../../../../lib/domain/errors');
+const { InvalidCertificationCandidate } = require('../../../../lib/domain/errors');
 const sessionCodeService = require('../../../../lib/domain/services/session-code-service');
 const Session = require('../../../../lib/domain/models/Session');
 const certificationCpfService = require('../../../../lib/domain/services/certification-cpf-service');
+const sessionsImportValidationService = require('../../../../lib/domain/services/sessions-import-validation-service');
 const { CpfBirthInformationValidation } = require('../../../../lib/domain/services/certification-cpf-service');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const CertificationCandidate = require('../../../../lib/domain/models/CertificationCandidate');
@@ -34,6 +35,7 @@ describe('Unit | UseCase | create-sessions', function () {
     sinon.stub(certificationCpfService, 'getBirthInformation');
     sessionCodeService.getNewSessionCode.returns(accessCode);
     certificationCenterRepository.get.withArgs(certificationCenterId).resolves(certificationCenter);
+    sessionsImportValidationService.validate = sinon.stub();
   });
 
   context('when sessions are valid', function () {
@@ -373,8 +375,10 @@ describe('Unit | UseCase | create-sessions', function () {
         },
       ];
 
+      sessionsImportValidationService.validate.rejects();
+
       // when
-      const err = await catchErr(createSessions)({
+      await catchErr(createSessions)({
         sessions,
         certificationCenterId,
         certificationCenterRepository,
@@ -382,7 +386,7 @@ describe('Unit | UseCase | create-sessions', function () {
       });
 
       // then
-      expect(err).to.be.instanceOf(EntityValidationError);
+      expect(sessionRepository.save).not.to.have.been.called;
     });
   });
 });
