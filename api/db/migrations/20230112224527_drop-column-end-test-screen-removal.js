@@ -7,4 +7,6 @@ exports.up = async function (knex) {
   });
 };
 
-exports.down = async function () {};
+exports.down = async function () {
+  // do nothing.
+};
