@@ -118,6 +118,7 @@ module.exports = {
   buildSkillCollection: require('./build-skill-collection'),
   buildSolution: require('./build-solution'),
   buildStage: require('./build-stage'),
+  buildStageCollection: require('./target-profile-management/build-stage-collection'),
   buildTag: require('./build-tag'),
   buildTargetProfile: require('./build-target-profile'),
   buildTargetProfileForAdmin: require('./build-target-profile-for-admin'),
