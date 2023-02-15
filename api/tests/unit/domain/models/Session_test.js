@@ -261,7 +261,7 @@ describe('Unit | Domain | Models | Session', function () {
   });
 
   context('#generateSupervisorPassword', function () {
-    it('should return a supervisor password containing 5 digits/letters except 0, 1 and vowels', async function () {
+    it('should assign a supervisor password to supervisorPassword property containing 5 digits/letters except 0, 1 and vowels', async function () {
       // given
       const session = domainBuilder.buildSession();
 
@@ -270,6 +270,17 @@ describe('Unit | Domain | Models | Session', function () {
 
       // then
       expect(session.supervisorPassword).to.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/);
+    });
+  });
+
+  context('static #generateSupervisorPassword', function () {
+    it('should return a supervisor password containing 5 digits/letters except 0, 1 and vowels', async function () {
+      // given
+      // when
+      const supervisorPassword = Session.generateSupervisorPassword();
+
+      // then
+      expect(supervisorPassword).to.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/);
     });
   });
 
