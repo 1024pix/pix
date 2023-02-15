@@ -120,7 +120,8 @@
       @triggerAction={{@onCancel}}
     >Annuler</PixButton>
     <PixButton @backgroundColor="green" @size="big" @type="submit" @isLoading={{this.submitting}}>
-      Créer le contenu formatif
+      {{if @model "Modifier" "Créer"}}
+      le contenu formatif
     </PixButton>
   </section>
 </form>
