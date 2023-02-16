@@ -5,7 +5,7 @@ const { InvalidStageError } = require('../../../../lib/domain/errors');
 describe('Unit | UseCases | create-stage', function () {
   let stageCollection;
 
-  context('When stageCollection is empty', function () {
+  context('When stage collection is empty', function () {
     beforeEach(function () {
       stageCollection = domainBuilder.buildStageCollection({
         id: 100,

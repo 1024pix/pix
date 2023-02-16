@@ -8,8 +8,9 @@ module.exports = {
     }).serialize(stage);
   },
   deserialize(json) {
+    const stringId = json.data?.id;
     return {
-      id: json.data?.id,
+      id: stringId ? parseInt(stringId) : stringId,
       title: json.data.attributes.title,
       message: json.data.attributes.message,
       threshold: json.data.attributes.threshold,
