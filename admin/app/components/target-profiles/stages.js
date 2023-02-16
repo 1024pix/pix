@@ -16,7 +16,7 @@ export default class Stages extends Component {
 
   get availableLevels() {
     const unavailableLevels = this.args.targetProfile.stages.map((stage) => (stage.isNew ? null : stage.level));
-    const allLevels = Array.from({ length: 7 }, (_, i) => i + 1);
+    const allLevels = Array.from({ length: this.args.targetProfile.maxLevel }, (_, i) => i + 1);
     return difference(allLevels, unavailableLevels);
   }
 
@@ -49,6 +49,12 @@ export default class Stages extends Component {
     return this.isTypeLevel ? LEVEL_COLUMN_NAME : THRESHOLD_COLUMN_NAME;
   }
 
+  get hasAvailableStages() {
+    const allNewStages = this.args.targetProfile.stages.filter((stage) => stage.isNew);
+
+    return (this.isTypeLevel && this.availableLevels.length > allNewStages.length) || !this.isTypeLevel;
+  }
+
   get mustChooseStageStype() {
     return !this.hasStages && this.args.targetProfile.isNewFormat;
   }
@@ -76,7 +82,7 @@ export default class Stages extends Component {
   }
 
   get isAddStageDisabled() {
-    return this.mustChooseStageStype && this.firstStageType == null;
+    return (this.mustChooseStageStype && this.firstStageType == null) || !this.hasAvailableStages;
   }
 
   @action
