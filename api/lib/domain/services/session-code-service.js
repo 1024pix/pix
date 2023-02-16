@@ -24,7 +24,7 @@ function _generateSessionCode() {
 }
 
 module.exports = {
-  async getNewSessionCode() {
+  getNewSessionCode() {
     return _generateSessionCode();
   },
 };
