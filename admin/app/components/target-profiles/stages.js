@@ -1,3 +1,4 @@
+import difference from 'lodash/difference';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
@@ -13,29 +14,35 @@ export default class Stages extends Component {
   @tracked
   firstStageType = undefined;
 
+  get availableLevels() {
+    const unavailableLevels = this.args.targetProfile.stages.map((stage) => (stage.isNew ? null : stage.level));
+    const allLevels = Array.from({ length: 7 }, (_, i) => i + 1);
+    return difference(allLevels, unavailableLevels);
+  }
+
   get isTypeLevel() {
-    return this.args.stages?.firstObject?.isTypeLevel ?? this.firstStageType == 'level';
+    return this.args.targetProfile.stages?.firstObject?.isTypeLevel ?? this.firstStageType == 'level';
   }
 
   get hasStages() {
-    const stages = this.args.stages;
+    const stages = this.args.targetProfile.stages;
     return stages && stages.length > 0;
   }
 
   get hasNewStage() {
-    return this.args.stages.any((stage) => stage.isNew);
+    return this.args.targetProfile.stages.any((stage) => stage.isNew);
   }
 
   get newStages() {
-    return this.args.stages.filter((stage) => stage.isNew);
+    return this.args.targetProfile.stages.filter((stage) => stage.isNew);
   }
 
   get displayNoZeroStage() {
     if (!this.hasStages) return false;
     if (this.isTypeLevel) {
-      return !this.args.stages.any((stage) => stage.level === 0);
+      return !this.args.targetProfile.stages.any((stage) => stage.level === 0);
     }
-    return !this.args.stages.any((stage) => stage.threshold === 0);
+    return !this.args.targetProfile.stages.any((stage) => stage.threshold === 0);
   }
 
   get columnNameByStageType() {
@@ -48,9 +55,10 @@ export default class Stages extends Component {
 
   @action
   addStage() {
+    const nextLowestLevelAvailable = this.isTypeLevel ? this.availableLevels?.[0] : undefined;
     this.store.createRecord('stage', {
       targetProfile: this.args.targetProfile,
-      level: this.isTypeLevel ? '0' : undefined,
+      level: this.isTypeLevel ? nextLowestLevelAvailable.toString() : undefined,
     });
   }
 

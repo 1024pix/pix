@@ -4,6 +4,7 @@
       {{#if @isTypeLevel}}
         <Stages::StageLevelSelect
           @maxLevel={{@maxLevel}}
+          @availableLevels={{@availableLevels}}
           @value={{@level}}
           @onChange={{@setLevel}}
           class="stages-table__level-select"
