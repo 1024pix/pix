@@ -35,9 +35,9 @@ export default class UpdateStage extends Component {
       await model.save();
       await this.notifications.success('Les modifications ont bien été enregistrées.');
       this.args.toggleEditMode();
-    } catch (error) {
+    } catch (e) {
       model.rollbackAttributes();
-      this.notifications.error('Une erreur est survenue.');
+      this.notifications.error(e.errors?.[0]?.detail ?? 'Une erreur est survenue.');
     }
   }
 
