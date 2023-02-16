@@ -20,7 +20,7 @@ module.exports = async function createSession({
     );
   }
 
-  const accessCode = await sessionCodeService.getNewSessionCode();
+  const accessCode = sessionCodeService.getNewSessionCode();
   const { name: certificationCenter } = await certificationCenterRepository.get(certificationCenterId);
   const domainSession = new Session({
     ...session,

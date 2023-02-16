@@ -73,7 +73,7 @@ describe('Unit | UseCase | create-session', function () {
           sessionRepository.save = sinon.stub();
           userWithMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(true);
           userRepository.getWithCertificationCenterMemberships.withArgs(userId).returns(userWithMemberships);
-          sessionCodeService.getNewSessionCode.resolves(accessCode);
+          sessionCodeService.getNewSessionCode.returns(accessCode);
           certificationCenterRepository.get.withArgs(certificationCenterId).resolves(certificationCenter);
           sessionRepository.save.resolves();
           sessionValidator.validate.returns();
