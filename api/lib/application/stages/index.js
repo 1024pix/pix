@@ -25,35 +25,6 @@ exports.register = async function (server) {
       },
     },
     {
-      method: 'GET',
-      path: '/api/admin/stages/{id}',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.stageId,
-          }),
-        },
-        handler: stagesController.getStageDetails,
-        tags: ['api', 'stages'],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Elle permet de récupérer un palier.',
-        ],
-      },
-    },
-    {
       method: 'PATCH',
       path: '/api/admin/stages/{id}',
       config: {
