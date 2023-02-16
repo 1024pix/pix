@@ -2,7 +2,7 @@
 
   <section class="insights__section">
     <h2 class="insights-section__title">Résultats thématiques</h2>
-    <TargetProfiles::Badges @badges={{@model.targetProfile.badges}} />
+    <TargetProfiles::Badges @badges={{@targetProfile.badges}} />
     <div class="insights-section__button">
       <PixButtonLink
         @backgroundColor="transparent-light"
@@ -18,7 +18,7 @@
 
   <section class="insights__section">
     <h2 class="insights-section__title">Paliers</h2>
-    <TargetProfiles::Stages @stages={{@model.stages}} @targetProfile={{@model.targetProfile}} />
+    <TargetProfiles::Stages @targetProfile={{@targetProfile}} />
   </section>
 
 </section>
