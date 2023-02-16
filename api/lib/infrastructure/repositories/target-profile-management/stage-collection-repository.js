@@ -12,7 +12,8 @@ module.exports = {
     return new StageCollection({ id: targetProfileId, stages, maxLevel });
   },
 
-  save(stageCollection) {
-    return knex('stages').insert(stageCollection.stages).onConflict('id').merge();
+  async save(stageCollection) {
+    const rawIds = await knex('stages').insert(stageCollection.stages).onConflict('id').merge().returning('id');
+    return rawIds.map((rawId) => rawId.id);
   },
 };

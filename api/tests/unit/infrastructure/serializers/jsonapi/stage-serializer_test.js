@@ -1,5 +1,4 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
-const Stage = require('../../../../../lib/domain/models/Stage');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/stage-serializer');
 
 describe('Unit | Serializer | JSONAPI | stage-serializer', function () {
@@ -36,46 +35,6 @@ describe('Unit | Serializer | JSONAPI | stage-serializer', function () {
 
       // then
       expect(json).to.deep.equal(expectedSerializedStage);
-    });
-  });
-
-  describe('#deserialize', function () {
-    it('should create JSON API date into a Stage model', function () {
-      // given
-      const targetProfileId = 43;
-      const jsonStage = {
-        data: {
-          type: 'stages',
-          attributes: {
-            title: 'My stage title',
-            message: 'My stage message',
-            threshold: 42,
-            level: 6,
-            'prescriber-title': 'Palier intermédiaire',
-            'prescriber-description': 'Le participant a un niveau moyen',
-          },
-          relationships: {
-            'target-profile': {
-              data: {
-                type: 'target-profiles',
-                id: targetProfileId,
-              },
-            },
-          },
-        },
-      };
-      // when
-      const stage = serializer.deserialize(jsonStage);
-
-      // then
-      expect(stage).to.be.an.instanceOf(Stage);
-      expect(stage.title).to.equal('My stage title');
-      expect(stage.message).to.equal('My stage message');
-      expect(stage.threshold).to.equal(42);
-      expect(stage.level).to.equal(6);
-      expect(stage.targetProfileId).to.equal(targetProfileId);
-      expect(stage.prescriberTitle).to.equal('Palier intermédiaire');
-      expect(stage.prescriberDescription).to.equal('Le participant a un niveau moyen');
     });
   });
 });

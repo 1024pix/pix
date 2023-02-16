@@ -44,27 +44,36 @@ describe('Integration | Application | Stages | stages-controller', function () {
 
       // then
       const stageCollection = await stageCollectionRepository.getByTargetProfileId(targetProfileId);
+      const [createdStageId] = _.difference(
+        stageCollection.stages.map((stage) => stage.id),
+        [1]
+      );
       expect(response.statusCode).to.equal(201);
-      expect(stageCollection.stages[0]).to.deep.equal({
-        id: 1,
-        level: 0,
-        targetProfileId,
-        threshold: null,
-        title: 'palier titre',
-        message: 'palier message',
-        prescriberTitle: 'palier prescripteur titre',
-        prescriberDescription: 'palier prescripteur description',
-      });
-      expect(_.omit(stageCollection.stages[1], ['id'])).to.deep.equal({
-        level: 3,
-        threshold: null,
-        targetProfileId,
-        title: 'nouveau palier titre',
-        message: 'nouveau palier message',
-        prescriberTitle: null,
-        prescriberDescription: null,
-      });
+      expect(response.source.data).to.deep.equal({ type: 'stages', id: createdStageId.toString() });
+      expect(stageCollection.stages).to.deep.equal([
+        {
+          id: 1,
+          level: 0,
+          targetProfileId,
+          threshold: null,
+          title: 'palier titre',
+          message: 'palier message',
+          prescriberTitle: 'palier prescripteur titre',
+          prescriberDescription: 'palier prescripteur description',
+        },
+        {
+          id: createdStageId,
+          level: 3,
+          threshold: null,
+          targetProfileId,
+          title: 'nouveau palier titre',
+          message: 'nouveau palier message',
+          prescriberTitle: null,
+          prescriberDescription: null,
+        },
+      ]);
     });
+
     it('should add a stage threshold type to target profile', async function () {
       // given
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
@@ -100,26 +109,34 @@ describe('Integration | Application | Stages | stages-controller', function () {
 
       // then
       const stageCollection = await stageCollectionRepository.getByTargetProfileId(targetProfileId);
+      const [createdStageId] = _.difference(
+        stageCollection.stages.map((stage) => stage.id),
+        [1]
+      );
       expect(response.statusCode).to.equal(201);
-      expect(stageCollection.stages[0]).to.deep.equal({
-        id: 1,
-        level: null,
-        targetProfileId,
-        threshold: 80,
-        title: 'palier titre',
-        message: 'palier message',
-        prescriberTitle: 'palier prescripteur titre',
-        prescriberDescription: 'palier prescripteur description',
-      });
-      expect(_.omit(stageCollection.stages[1], ['id'])).to.deep.equal({
-        level: null,
-        threshold: 65,
-        targetProfileId,
-        title: 'nouveau palier titre',
-        message: 'nouveau palier message',
-        prescriberTitle: null,
-        prescriberDescription: null,
-      });
+      expect(response.source.data).to.deep.equal({ type: 'stages', id: createdStageId.toString() });
+      expect(stageCollection.stages).to.deep.equal([
+        {
+          id: 1,
+          level: null,
+          targetProfileId,
+          threshold: 80,
+          title: 'palier titre',
+          message: 'palier message',
+          prescriberTitle: 'palier prescripteur titre',
+          prescriberDescription: 'palier prescripteur description',
+        },
+        {
+          id: createdStageId,
+          level: null,
+          threshold: 65,
+          targetProfileId,
+          title: 'nouveau palier titre',
+          message: 'nouveau palier message',
+          prescriberTitle: null,
+          prescriberDescription: null,
+        },
+      ]);
     });
   });
 
