@@ -1,5 +1,26 @@
 # Pix Changelog
 
+## v3.325.0 (16/02/2023)
+
+
+### :rocket: Amélioration
+- [#5653](https://github.com/1024pix/pix/pull/5653) [FEATURE] Rendre composant de sélection de sujets générique sur Pix-Admin (PIX-7025)
+- [#5663](https://github.com/1024pix/pix/pull/5663) [FEATURE] Rediriger vers la page de détails après la création d'un contenu formatif (PIX-6956)
+- [#5646](https://github.com/1024pix/pix/pull/5646) [FEATURE] Empêcher d'ajouter des candidats à une session déjà démarrée (PIX-7087).
+
+### :building_construction: Tech
+- [#5655](https://github.com/1024pix/pix/pull/5655) [TECH] Mise en place de Stylelint sur Pix Orga
+- [#5659](https://github.com/1024pix/pix/pull/5659) [TECH] Corriger les derniers warnings ESLint et éviter qu'ils reviennent
+- [#5662](https://github.com/1024pix/pix/pull/5662) [TECH] Supprimer le script de création de lien entre les contenus formatifs et les profils cibles (PIX-6760).
+
+### :bug: Correction
+- [#5625](https://github.com/1024pix/pix/pull/5625) [BUGFIX][MON-PIX] Éviter la redirection vers la page de connexion d'un utilisateur anonyme déjà authentifié désirant relancer le parcours simplifié  (PIX-7010)
+- [#5610](https://github.com/1024pix/pix/pull/5610) [BUGFIX][MON-PIX] Rediriger l'utilisateur vers la page de connexion si un identity provider n'est pas configuré (PIX-6997)
+
+### :coffee: Autre
+- [#5649](https://github.com/1024pix/pix/pull/5649) [BUMP] Update redis Docker tag to v6.2.10
+- [#5660](https://github.com/1024pix/pix/pull/5660) [DOCS] 📝 Mise à jour de la documentation du hook git
+
 ## v3.324.0 (14/02/2023)
 
 
