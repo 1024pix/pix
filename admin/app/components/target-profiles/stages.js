@@ -84,7 +84,10 @@ export default class Stages extends Component {
     event.preventDefault();
 
     try {
-      await Promise.all(this.newStages.map((stage) => stage.save()));
+      for (const stage of this.newStages) {
+        await stage.save();
+      }
+      await this.args.targetProfile.stages.reload();
     } catch (e) {
       this.notifications.error(e.errors?.[0]?.detail ?? 'Une erreur est survenue.');
     }
