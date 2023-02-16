@@ -1,4 +1,5 @@
-import { Factory } from 'ember-cli-mirage';
+import { Factory, trait } from 'ember-cli-mirage';
+import { createLearningContent } from '../helpers/create-learning-content';
 
 export default Factory.extend({
   name() {
@@ -108,4 +109,10 @@ export default Factory.extend({
       if (targetProfile.oldAreas.length !== 0) targetProfile.update({ isNewFormat: false });
     }
   },
+
+  withFramework: trait({
+    afterCreate(training, server) {
+      createLearningContent(server);
+    },
+  }),
 });
