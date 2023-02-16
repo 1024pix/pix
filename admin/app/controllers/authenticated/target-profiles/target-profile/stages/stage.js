@@ -10,7 +10,7 @@ export default class StageController extends Controller {
     const unavailableLevels = this.model.targetProfile.stages.map((stage) =>
       stage.id === this.model.stage.id ? null : stage.level
     );
-    const allLevels = Array.from({ length: this.model.targetProfile.maxLevel }, (_, i) => i + 1);
+    const allLevels = Array.from({ length: this.model.targetProfile.maxLevel + 1 }, (_, i) => i);
     return difference(allLevels, unavailableLevels);
   }
 

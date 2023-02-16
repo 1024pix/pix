@@ -16,7 +16,7 @@ export default class Stages extends Component {
 
   get availableLevels() {
     const unavailableLevels = this.args.targetProfile.stages.map((stage) => (stage.isNew ? null : stage.level));
-    const allLevels = Array.from({ length: this.args.targetProfile.maxLevel }, (_, i) => i + 1);
+    const allLevels = Array.from({ length: this.args.targetProfile.maxLevel + 1 }, (_, i) => i);
     return difference(allLevels, unavailableLevels);
   }
 
@@ -50,7 +50,7 @@ export default class Stages extends Component {
   }
 
   get hasAvailableStages() {
-    const allNewStages = this.args.targetProfile.stages.filter((stage) => stage.isNew);
+    const allNewStages = this.args.targetProfile.stages.filter((stage) => stage.isNew) || [];
 
     return (this.isTypeLevel && this.availableLevels.length > allNewStages.length) || !this.isTypeLevel;
   }

@@ -10,7 +10,6 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
     let model;
     hooks.beforeEach(() => {
       model = {
-        targetProfile: {},
         badges: [],
         stages: [],
       };
@@ -21,7 +20,7 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
       this.set('model', model);
 
       // when
-      const screen = await render(hbs`<TargetProfiles::Insights @model={{this.model}} />`);
+      const screen = await render(hbs`<TargetProfiles::Insights @targetProfile={{this.model}} />`);
 
       // then
       assert.dom(screen.getByText('Résultats thématiques')).exists();
@@ -33,7 +32,7 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
       this.set('model', model);
 
       // when
-      const screen = await render(hbs`<TargetProfiles::Insights @model={{this.model}} />`);
+      const screen = await render(hbs`<TargetProfiles::Insights @targetProfile={{this.model}} />`);
 
       // then
       assert.dom(screen.getByText('Paliers')).exists();
