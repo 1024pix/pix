@@ -68,7 +68,12 @@ module('Integration | Component | Common::TubesSelection', function (hooks) {
     this.set('onChangeFunction', onChangeFunction);
 
     screen = await render(
-      hbs`<Common::TubesSelection @frameworks={{this.frameworks}} @onChange={{this.onChangeFunction}} />`
+      hbs`<Common::TubesSelection
+          @frameworks={{this.frameworks}}
+          @onChange={{this.onChangeFunction}}
+          @displayJsonImportButton={{true}}
+          @displayDeviceCompatibility={{true}}
+          />`
     );
   });
 
@@ -176,5 +181,14 @@ module('Integration | Component | Common::TubesSelection', function (hooks) {
 
     // then
     assert.dom(screen.getByText('1/3')).exists();
+  });
+
+  test('it should show compatibility column ', async function (assert) {
+    // when
+    await clickByName('1 · Titre domaine');
+    await clickByName('1 Titre competence');
+
+    // then
+    assert.dom(screen.getByText('Compatibilité')).exists();
   });
 });

@@ -21,9 +21,11 @@
             <Table::Header @size="small" scope="col">
               <p>Niveau</p>
             </Table::Header>
-            <Table::Header @size="medium" @align="center" scope="col">
-              <p>Compatibilité</p>
-            </Table::Header>
+            {{#if @displayDeviceCompatibility}}
+              <Table::Header @size="medium" @align="center" scope="col">
+                <p>Compatibilité</p>
+              </Table::Header>
+            {{/if}}
           </tr>
         </thead>
 
@@ -46,6 +48,7 @@
                   @checkTube={{@checkTube}}
                   @uncheckTube={{@uncheckTube}}
                   @tubeLevels={{@tubeLevels}}
+                  @displayDeviceCompatibility={{@displayDeviceCompatibility}}
                 />
               </tr>
             {{/each}}
