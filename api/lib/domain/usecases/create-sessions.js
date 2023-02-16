@@ -1,4 +1,3 @@
-const { UnprocessableEntityError } = require('../../application/http-errors');
 const Session = require('../models/Session');
 const sessionCodeService = require('../services/session-code-service');
 const certificationCpfService = require('../services/certification-cpf-service');
@@ -54,10 +53,6 @@ module.exports = async function createSessions({
       if (session.certificationCandidates.length) {
         const { certificationCandidates } = session;
 
-        if (_hasDuplicateCertificationCandidates(certificationCandidates)) {
-          throw new UnprocessableEntityError(`Une session contient au moins un élève en double.`);
-        }
-
         await _createCertificationCandidates({
           certificationCandidates,
           sessionId,
@@ -81,14 +76,6 @@ function _hasSessionInfo(session) {
 
 async function _saveNewSessionReturningId({ sessionRepository, domainSession, domainTransaction }) {
   return await sessionRepository.save(domainSession, domainTransaction);
-}
-
-function _hasDuplicateCertificationCandidates(certificationCandidates) {
-  const uniqCertificationCandidates = new Set(
-    certificationCandidates.map(({ lastName, firstName, birthdate }) => `${lastName}${firstName}${birthdate}`)
-  );
-
-  return uniqCertificationCandidates.size < certificationCandidates.length;
 }
 
 async function _deleteExistingCandidatesInSession({ certificationCandidateRepository, sessionId, domainTransaction }) {
