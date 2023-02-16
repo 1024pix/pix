@@ -7,6 +7,7 @@ module.exports = function () {
       'arrow-up',
       'bars',
       'bookmark',
+      'check',
       'chevron-up',
       'chevron-down',
       'circle-check',
