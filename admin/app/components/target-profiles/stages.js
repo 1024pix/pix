@@ -94,6 +94,7 @@ export default class Stages extends Component {
         await stage.save();
       }
       await this.args.targetProfile.stages.reload();
+      this.notifications.success('Palier(s) ajouté(s) avec succès.');
     } catch (e) {
       this.notifications.error(e.errors?.[0]?.detail ?? 'Une erreur est survenue.');
     }
