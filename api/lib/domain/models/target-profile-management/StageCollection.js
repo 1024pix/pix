@@ -71,15 +71,16 @@ class StageCollection {
 
     if (this._stages.length > 0 || stage.id) {
       if (this._canAddStageTypeOfLevel) {
-        if (!stage.level) {
+        if (!stage.level && stage.level !== 0) {
           throw new InvalidStageError('Niveau obligatoire.');
         }
+
         if (this._hasLevel(stage.level)) {
           throw new InvalidStageError('Niveau déjà utilisé.');
         }
       }
       if (!this._canAddStageTypeOfLevel) {
-        if (!stage.threshold) {
+        if (!stage.threshold && stage.threshold !== 0) {
           throw new InvalidStageError('Seuil obligatoire.');
         }
         if (this._hasThreshold(stage.threshold)) {

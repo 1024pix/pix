@@ -143,7 +143,7 @@ describe('Unit | UseCases | create-stage', function () {
     it('should create a stage by level', function () {
       // given
       const stageWithLevel = {
-        level: 2,
+        level: 0,
         threshold: null,
         message: 'message nouveau palier',
         title: 'titre nouveau palier',
@@ -159,7 +159,7 @@ describe('Unit | UseCases | create-stage', function () {
         {
           id: undefined,
           targetProfileId: 100,
-          level: 2,
+          level: 0,
           threshold: null,
           message: 'message nouveau palier',
           title: 'titre nouveau palier',
@@ -173,7 +173,7 @@ describe('Unit | UseCases | create-stage', function () {
       // given
       const stageWithThreshold = {
         level: null,
-        threshold: 60,
+        threshold: 0,
         message: 'message nouveau palier',
         title: 'titre nouveau palier',
         prescriberDescription: 'ignored',
@@ -189,7 +189,7 @@ describe('Unit | UseCases | create-stage', function () {
           id: undefined,
           targetProfileId: 100,
           level: null,
-          threshold: 60,
+          threshold: 0,
           message: 'message nouveau palier',
           title: 'titre nouveau palier',
           prescriberDescription: null,
