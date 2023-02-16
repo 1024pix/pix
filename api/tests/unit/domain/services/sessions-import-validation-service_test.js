@@ -28,6 +28,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           it('should not throw', async function () {
             // given
             const session = _buildValidSessionWithoutId();
+            sessionRepository.isSessionExisting.withArgs({ ...session }).resolves(false);
 
             // when
             // then
@@ -46,13 +47,7 @@ describe('Unit | Service | sessions import validation Service', function () {
             // given
             const sessionId = 1;
             const session = _buildValidSessionWithId(sessionId);
-
-            sessionRepository.isSessionExisting.withArgs({ ...session }).resolves(false);
-            certificationCourseRepository.findCertificationCoursesBySessionId
-              .withArgs({
-                sessionId,
-              })
-              .resolves([]);
+            certificationCourseRepository.findCertificationCoursesBySessionId.resolves([]);
 
             // when
             // then
@@ -142,6 +137,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         it('should not throw', async function () {
           const session = domainBuilder.buildSession({
             ..._createValidSessionData(),
+            id: null,
             certificationCandidates: [],
           });
 
@@ -169,6 +165,32 @@ describe('Unit | Service | sessions import validation Service', function () {
 
         // then
         expect(err).to.be.instanceOf(UnprocessableEntityError);
+      });
+    });
+
+    context('when session has certification candidates', function () {
+      context('when at least one candidate is duplicated', function () {
+        it('should throw', async function () {
+          // given
+          const validCandidateData = _createValidCandidateData(1);
+          const validCandidateDataDuplicate = _createValidCandidateData(1);
+          const session = domainBuilder.buildSession({
+            ..._createValidSessionData(),
+            id: null,
+            certificationCandidates: [validCandidateData, validCandidateDataDuplicate],
+          });
+
+          // when
+          // when
+          const error = await catchErr(sessionsImportValidationService.validate)({
+            session,
+            sessionRepository,
+            certificationCourseRepository,
+          });
+
+          // then
+          expect(error.message).to.equal('Une session contient au moins un élève en double.');
+        });
       });
     });
   });
@@ -199,9 +221,28 @@ function _buildValidSessionWithId(sessionId) {
     certificationCandidates: null,
   });
 }
+
 function _buildValidSessionWithoutId() {
   return domainBuilder.buildSession({
     id: null,
     date: '2024-03-12',
   });
+}
+
+function _createValidCandidateData(candidateNumber = 2) {
+  return {
+    lastName: `Candidat ${candidateNumber}`,
+    firstName: `Candidat ${candidateNumber}`,
+    birthdate: '1981-03-12',
+    sex: 'M',
+    birthINSEECode: '134',
+    birthPostalCode: null, //'3456',
+    birthCity: '',
+    birthCountry: 'France',
+    resultRecipientEmail: 'robindahood@email.fr',
+    email: 'robindahood2@email.fr',
+    externalId: 'htehte',
+    extraTimePercentage: '20',
+    billingMode: 'Gratuite',
+  };
 }
