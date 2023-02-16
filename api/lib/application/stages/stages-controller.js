@@ -18,10 +18,4 @@ module.exports = {
     await stageCollectionRepository.save(updatedStageCollection);
     return h.response({}).code(204);
   },
-
-  async getStageDetails(request) {
-    const stageId = request.params.id;
-    const stage = await usecases.getStageDetails({ stageId });
-    return stageSerializer.serialize(stage);
-  },
 };

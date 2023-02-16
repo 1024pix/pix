@@ -52,7 +52,6 @@ class StageCollection {
     if (!oldStage) {
       throw new InvalidStageError(`Le palier ${stage.id} n'appartient pas à ce profil cible.`);
     }
-    // code add
     this._checkStageValidity(stage);
 
     this._stages.push({
