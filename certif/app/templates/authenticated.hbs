@@ -15,7 +15,7 @@
               @route="authenticated.sessions.list"
               class="sidebar-menu__item"
               type="button"
-              aria-label="Sessions de certification"
+              aria-label={{t "navigation.main.sessions-label"}}
             >
               <img
                 src="{{this.rootURL}}/icons/chevron-square-right.svg"
@@ -23,31 +23,26 @@
                 role="presentation"
                 class="sidebar-menu__item-icon"
               />
-              Sessions
+              {{t "navigation.main.sessions"}}
             </LinkTo>
           </li>
           <li>
-            <LinkTo
-              @route="login-session-supervisor"
-              class="sidebar-menu__item"
-              type="button"
-              aria-label="Espace surveillant"
-            >
+            <LinkTo @route="login-session-supervisor" class="sidebar-menu__item" type="button">
               <FaIcon @icon="eye" class="sidebar-menu__item-icon" />
-              Espace surveillant
+              {{t "navigation.main.supervisor"}}
             </LinkTo>
           </li>
         {{/if}}
         <li>
-          <LinkTo @route="authenticated.team" class="sidebar-menu__item" type="button" aria-label="Équipe">
+          <LinkTo @route="authenticated.team" class="sidebar-menu__item" type="button">
             <FaIcon @icon="users" class="sidebar-menu__item-icon" />
-            Équipe
+            {{t "navigation.main.team"}}
           </LinkTo>
         </li>
         <li>
           <a class="sidebar-menu__item" href="{{this.documentationLink}}" target="_blank" rel="noopener noreferrer">
             <FaIcon @icon="book" class="sidebar-menu__item-icon" />
-            Documentation
+            {{t "navigation.main.documentation"}}
           </a>
         </li>
       </ul>
