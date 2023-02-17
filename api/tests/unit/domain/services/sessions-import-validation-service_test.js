@@ -1,7 +1,13 @@
 const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
 const sessionsImportValidationService = require('../../../../lib/domain/services/sessions-import-validation-service');
-const { SessionWithIdAndInformationOnMassImportError } = require('../../../../lib/domain/errors');
+const {
+  SessionWithIdAndInformationOnMassImportError,
+  EntityValidationError,
+  InvalidCertificationCandidate,
+} = require('../../../../lib/domain/errors');
 const { UnprocessableEntityError } = require('../../../../lib/application/http-errors');
+const { CpfBirthInformationValidation } = require('../../../../lib/domain/services/certification-cpf-service');
+const certificationCpfService = require('../../../../lib/domain/services/certification-cpf-service');
 
 describe('Unit | Service | sessions import validation Service', function () {
   describe('#validateSession', function () {
@@ -168,8 +174,8 @@ describe('Unit | Service | sessions import validation Service', function () {
       context('when at least one candidate is duplicated', function () {
         it('should throw', async function () {
           // given
-          const validCandidateData = _createValidCandidateData(1);
-          const validCandidateDataDuplicate = _createValidCandidateData(1);
+          const validCandidateData = _buildValidCandidateData(1);
+          const validCandidateDataDuplicate = _buildValidCandidateData(1);
           const session = _buildValidSessionWithoutId();
           session.certificationCandidates = [validCandidateData, validCandidateDataDuplicate];
 
@@ -183,6 +189,156 @@ describe('Unit | Service | sessions import validation Service', function () {
           // then
           expect(error.message).to.equal('Une session contient au moins un élève en double.');
         });
+      });
+    });
+
+    context('when session has at least one invalid field', function () {
+      it('should throw an EntityValidationError', async function () {
+        // given
+        const session = _buildValidSessionWithoutId();
+        session.room = null;
+
+        // when
+        const error = await catchErr(sessionsImportValidationService.validateSession)({
+          session,
+          sessionRepository,
+          certificationCourseRepository,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(EntityValidationError);
+        expect(error.message).to.equal("Échec de validation de l'entité.");
+      });
+    });
+  });
+
+  describe('#getValidatedCandidateBirthInformation', function () {
+    beforeEach(function () {
+      sinon.stub(certificationCpfService, 'getBirthInformation');
+    });
+
+    context('when the parsed data is valid', function () {
+      it('should not throw', async function () {
+        // given
+        const candidateInformation = {
+          birthCountry: 'Pérou',
+          birthCity: 'Pétaouchnok',
+          birthPostalCode: '44329',
+          birthINSEECode: '67890',
+        };
+        const candidate = _buildValidCandidateData();
+
+        certificationCpfService.getBirthInformation.resolves(
+          CpfBirthInformationValidation.success(candidateInformation)
+        );
+
+        // when
+        const cpfBirthInformation = await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+          candidate,
+          isSco: false,
+        });
+
+        // then
+        expect(cpfBirthInformation).not.to.throw;
+        expect(cpfBirthInformation).to.deep.equal({ ...candidateInformation });
+      });
+    });
+
+    context('when candidate parsed data is invalid', function () {
+      it('should throw an InvalidCertificationCandidate', async function () {
+        // given
+        const isSco = false;
+        const candidate = _buildValidCandidateData();
+        candidate.firstName = null;
+
+        // when
+        const error = await catchErr(sessionsImportValidationService.getValidatedCandidateBirthInformation)({
+          candidate,
+          isSco,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+        expect(error.message).to.equal('Candidat de certification invalide.');
+      });
+    });
+
+    context('when candidate has missing billing information', function () {
+      context('when the parsed candidate is not sco', function () {
+        it('should throw an InvalidCertificationCandidate', async function () {
+          // given
+          const isSco = false;
+          const candidate = _buildValidCandidateData();
+          candidate.billingMode = null;
+
+          // when
+          const error = await catchErr(sessionsImportValidationService.getValidatedCandidateBirthInformation)({
+            candidate,
+            isSco,
+          });
+
+          // then
+          expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+          expect(error.message).to.equal('Candidat de certification invalide.');
+        });
+      });
+
+      context('when the parsed candidate is sco', function () {
+        it('should not throw an InvalidCertificationCandidate', async function () {
+          // given
+          const isSco = true;
+          const candidateInformation = {
+            birthCountry: 'Pérou',
+            birthCity: 'Pétaouchnok',
+            birthPostalCode: '44329',
+            birthINSEECode: '67890',
+          };
+          const candidate = _buildValidCandidateData();
+          candidate.billingMode = null;
+
+          certificationCpfService.getBirthInformation.resolves(
+            CpfBirthInformationValidation.success(candidateInformation)
+          );
+
+          // when
+          // then
+          expect(
+            await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+              candidate,
+              isSco,
+            })
+          ).not.to.throw;
+        });
+      });
+    });
+
+    context('when the parsed candidate data has invalid CPF information', function () {
+      it('should throw an InvalidCertificationCandidate', async function () {
+        // given
+        const candidate = _buildValidCandidateData();
+        const certificationCpfCountryRepository = Symbol();
+        const certificationCpfCityRepository = Symbol();
+        certificationCpfService.getBirthInformation
+          .withArgs({
+            birthCountry: candidate.birthCountry,
+            birthCity: candidate.birthCity,
+            birthPostalCode: candidate.birthPostalCode,
+            birthINSEECode: candidate.birthINSEECode,
+            certificationCpfCountryRepository,
+            certificationCpfCityRepository,
+          })
+          .resolves(CpfBirthInformationValidation.failure());
+
+        // when
+        const error = await catchErr(sessionsImportValidationService.getValidatedCandidateBirthInformation)({
+          candidate,
+          isSco: false,
+          certificationCpfCountryRepository,
+          certificationCpfCityRepository,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
       });
     });
   });
@@ -221,8 +377,8 @@ function _buildValidSessionWithoutId() {
   });
 }
 
-function _createValidCandidateData(candidateNumber = 2) {
-  return {
+function _buildValidCandidateData(candidateNumber = 2) {
+  return domainBuilder.buildCertificationCandidate({
     lastName: `Candidat ${candidateNumber}`,
     firstName: `Candidat ${candidateNumber}`,
     birthdate: '1981-03-12',
@@ -235,6 +391,6 @@ function _createValidCandidateData(candidateNumber = 2) {
     email: 'robindahood2@email.fr',
     externalId: 'htehte',
     extraTimePercentage: '20',
-    billingMode: 'Gratuite',
-  };
+    billingMode: 'PAID',
+  });
 }

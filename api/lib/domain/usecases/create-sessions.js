@@ -1,10 +1,8 @@
 const Session = require('../models/Session');
 const sessionCodeService = require('../services/session-code-service');
-const certificationCpfService = require('../services/certification-cpf-service');
 const sessionsImportValidationService = require('../services/sessions-import-validation-service');
 const CertificationCandidate = require('../models/CertificationCandidate');
 const bluebird = require('bluebird');
-const { InvalidCertificationCandidate } = require('../errors');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = async function createSessions({
@@ -103,20 +101,12 @@ async function _createCertificationCandidates({
       billingMode,
     });
 
-    domainCertificationCandidate.validate(isSco);
-
-    const cpfBirthInformation = await certificationCpfService.getBirthInformation({
-      birthCountry: domainCertificationCandidate.birthCountry,
-      birthCity: domainCertificationCandidate.birthCity,
-      birthPostalCode: domainCertificationCandidate.birthPostalCode,
-      birthINSEECode: domainCertificationCandidate.birthINSEECode,
+    const cpfBirthInformation = await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+      candidate: domainCertificationCandidate,
+      isSco,
       certificationCpfCountryRepository,
       certificationCpfCityRepository,
     });
-
-    if (cpfBirthInformation.hasFailed()) {
-      throw new InvalidCertificationCandidate({ message: cpfBirthInformation.message, error: {} });
-    }
 
     domainCertificationCandidate.updateBirthInformation(cpfBirthInformation);
 

@@ -1,6 +1,7 @@
 const { UnprocessableEntityError } = require('../../application/http-errors');
-const { SessionWithIdAndInformationOnMassImportError } = require('../errors');
+const { SessionWithIdAndInformationOnMassImportError, InvalidCertificationCandidate } = require('../errors');
 const sessionValidator = require('../validators/session-validator');
+const certificationCpfService = require('./certification-cpf-service');
 
 module.exports = {
   async validateSession({ session, sessionRepository, certificationCourseRepository }) {
@@ -36,6 +37,35 @@ module.exports = {
     }
 
     return;
+  },
+
+  async getValidatedCandidateBirthInformation({
+    candidate,
+    isSco,
+    certificationCpfCountryRepository,
+    certificationCpfCityRepository,
+  }) {
+    candidate.validate(isSco);
+
+    const cpfBirthInformation = await certificationCpfService.getBirthInformation({
+      birthCountry: candidate.birthCountry,
+      birthCity: candidate.birthCity,
+      birthPostalCode: candidate.birthPostalCode,
+      birthINSEECode: candidate.birthINSEECode,
+      certificationCpfCountryRepository,
+      certificationCpfCityRepository,
+    });
+
+    if (cpfBirthInformation.hasFailed()) {
+      throw new InvalidCertificationCandidate({ message: cpfBirthInformation.message, error: {} });
+    }
+
+    return {
+      birthCountry: cpfBirthInformation.birthCountry,
+      birthCity: cpfBirthInformation.birthCity,
+      birthPostalCode: cpfBirthInformation.birthPostalCode,
+      birthINSEECode: cpfBirthInformation.birthINSEECode,
+    };
   },
 };
 
