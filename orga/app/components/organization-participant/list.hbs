@@ -27,12 +27,22 @@
   <table class="table content-text content-text--small">
     <thead>
       <tr>
-        <Table::Header>{{t "pages.organization-participants.table.column.last-name"}}</Table::Header>
+        <Table::HeaderSort
+          @display="left"
+          @size="medium"
+          @onSort={{@sortByLastname}}
+          @order={{@lastnameSort}}
+          @ariaLabelDefaultSort={{t "pages.organization-participants.table.column.last-name.ariaLabelDefaultSort"}}
+          @ariaLabelSortUp={{t "pages.organization-participants.table.column.last-name.ariaLabelSortUp"}}
+          @ariaLabelSortDown={{t "pages.organization-participants.table.column.last-name.ariaLabelSortDown"}}
+        >
+          {{t "pages.organization-participants.table.column.last-name.label"}}
+        </Table::HeaderSort>
         <Table::Header>{{t "pages.organization-participants.table.column.first-name"}}</Table::Header>
         <Table::HeaderSort
           @size="medium"
           @onSort={{@sortByParticipationCount}}
-          @defaultOrder={{@participationCountOrder}}
+          @order={{@participationCountOrder}}
           @ariaLabelDefaultSort={{t
             "pages.organization-participants.table.column.participation-count.ariaLabelDefaultSort"
           }}
