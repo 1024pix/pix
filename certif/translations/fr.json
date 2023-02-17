@@ -149,44 +149,63 @@
         "breadcrumb-summary": "Récapitulatif"
       },
       "list": {
-        "header": {
-          "title": "Sessions de certification",
-          "session-creation": "Créer une session",
-          "session-multiple-creation-edition": "Créer/éditer plusieurs sessions"
+        "title": "Sessions de certification",
+        "actions": {
+          "creation": {
+            "label": "Créer une session"
+          },
+          "delete-session": {
+            "disabled": "Au moins un candidat a rejoint la session, vous ne pouvez pas la supprimer.",
+            "label": "Supprimer la session {sessionSummaryId}"
+          },
+          "multiple-creation": {
+            "label": "Créer plusieurs sessions"
+          },
+          "multiple-creation-edition": {
+            "label": "Créer/éditer plusieurs sessions"
+          }
         },
         "delete-modal": {
           "title": "Supprimer la session",
-          "label": "Souhaitez-vous supprimer la session <span>{sessionId}</span> ?",
+          "actions": {
+            "cancel": {
+              "extra-information": "Annuler la suppression de la session"
+            },
+            "confirm": {
+              "extra-information": "Supprimer la session"
+            }
+          },
+          "content": "Souhaitez-vous supprimer la session <span>{sessionId}</span> ?",
           "enrolled-candidates": "<span>{enrolledCandidatesCount} {enrolledCandidatesCount, plural,one {candidat} other {candidats}}</span> {enrolledCandidatesCount, plural,one {est inscrit} other {sont inscrits}} à cette session",
-          "disclaimer": "Attention, cette action est irréversible."
-        },
-        "session-summary": {
-          "session-number": "N° de session",
-          "center-name": "Nom du site",
-          "room": "Salle",
-          "date": "Date",
-          "time": "Heure",
-          "supervisor": "Surveillant(s)",
-          "enrolled-candidates": "Candidats inscrits",
-          "effective-candidates": "Certifications passées",
-          "status": "Statut",
-          "actions": "Actions",
-          "certification-session": "Session de certification",
-          "delete-session": "Supprimer la session {sessionSummaryId}",
-          "tooltip-label": "Au moins un candidat a rejoint la session, vous ne pouvez pas la supprimer.",
-          "empty-table": "Aucune session trouvée",
-          "session-and-id": "Session {sessionId}",
-          "status-label": {
-            "created": "Créée",
-            "finalized": "Finalisée",
-            "processed": "Résultats transmis par Pix"
-          }
+          "success": "La session a été supprimée avec succès.",
+          "warning": "Attention, cette action est irréversible."
         },
         "empty": {
-          "header": "Créer ma première session de certification",
-          "header-alt": "Je peux créer des sessions de certifications",
-          "session-creation": "Créer une session",
-          "session-multiple-creation": "Créer plusieurs sessions"
+          "title": "Créer ma première session de certification"
+        },
+        "status": {
+          "created": "Créée",
+          "finalized": "Finalisée",
+          "processed": "Résultats transmis par Pix"
+        },
+        "table": {
+          "empty": "Aucune session trouvée",
+          "header": {
+            "actions": "Actions",
+            "center-name": "Nom du site",
+            "date": "Date",
+            "effective-candidates": "Certifications passées",
+            "enrolled-candidates": "Candidats inscrits",
+            "room": "Salle",
+            "session-number": "N° de session",
+            "status": "Statut",
+            "supervisor": "Surveillant(s)",
+            "time": "Heure"
+          },
+          "row": {
+            "label": "Session de certification",
+            "session-and-id": "Session {sessionId}"
+          }
         }
       },
       "detail": {

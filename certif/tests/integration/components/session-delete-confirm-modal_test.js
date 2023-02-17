@@ -23,7 +23,7 @@ module('Integration | Component | session-delete-confirm-modal', function (hooks
     />`);
 
       // then
-      assert.dom(screen.getByRole('heading', { name: this.intl.t('pages.sessions.list.delete-modal.title') })).exists();
+      assert.dom(screen.getByRole('heading', { name: 'Supprimer la session' })).exists();
       assert
         .dom(screen.getByText('Souhaitez-vous supprimer la session', { exact: false }))
         .hasText('Souhaitez-vous supprimer la session 123 ?');
@@ -45,9 +45,7 @@ module('Integration | Component | session-delete-confirm-modal', function (hooks
     />`);
 
       // then
-      assert
-        .dom(screen.queryByRole('heading', { name: this.intl.t('pages.sessions.list.delete-modal.title') }))
-        .doesNotExist();
+      assert.dom(screen.queryByRole('heading', { name: 'Supprimer la session' })).doesNotExist();
     });
   });
 

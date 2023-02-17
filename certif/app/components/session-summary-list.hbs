@@ -5,35 +5,35 @@
         <thead>
           <tr>
             <th class="table__column table__column--small" scope="col">
-              {{t "pages.sessions.list.session-summary.session-number"}}
+              {{t "pages.sessions.list.table.header.session-number"}}
             </th>
             <th class="table__column table__column--small" scope="col">
-              {{t "pages.sessions.list.session-summary.center-name"}}
+              {{t "pages.sessions.list.table.header.center-name"}}
             </th>
             <th class="table__column table__column--small" scope="col">
-              {{t "pages.sessions.list.session-summary.room"}}
+              {{t "pages.sessions.list.table.header.room"}}
             </th>
             <th class="table__column table__column--small" scope="col">
-              {{t "pages.sessions.list.session-summary.date"}}
+              {{t "pages.sessions.list.table.header.date"}}
             </th>
             <th class="table__column table__column--small" scope="col">
-              {{t "pages.sessions.list.session-summary.time"}}
+              {{t "pages.sessions.list.table.header.time"}}
             </th>
             <th class="table__column table__column--small" scope="col">
-              {{t "pages.sessions.list.session-summary.supervisor"}}
+              {{t "pages.sessions.list.table.header.supervisor"}}
             </th>
             <th class="table__column table__column" scope="col">
-              {{t "pages.sessions.list.session-summary.enrolled-candidates"}}
+              {{t "pages.sessions.list.table.header.enrolled-candidates"}}
             </th>
             <th class="table__column table__column" scope="col">
-              {{t "pages.sessions.list.session-summary.effective-candidates"}}
+              {{t "pages.sessions.list.table.header.effective-candidates"}}
             </th>
             <th class="table__column table__column--small" scope="col">
-              {{t "pages.sessions.list.session-summary.status"}}
+              {{t "pages.sessions.list.table.header.status"}}
             </th>
             <th class="table__column table__column--small" scope="col">
               <span class="sr-only">
-                {{t "pages.sessions.list.session-summary.actions"}}
+                {{t "pages.sessions.list.table.header.actions"}}
               </span>
             </th>
           </tr>
@@ -51,7 +51,7 @@
       </table>
       {{#if (eq @sessionSummaries.length 0)}}
         <div class="table__empty content-text">
-          {{t "pages.sessions.list.session-summary.empty-table"}}
+          {{t "pages.sessions.list.table.empty"}}
         </div>
       {{/if}}
     </div>

@@ -1,5 +1,5 @@
 <tr
-  aria-label="{{t 'pages.sessions.list.session-summary.certification-session'}}"
+  aria-label="{{t 'pages.sessions.list.table.row.label'}}"
   {{on "click" (fn @goToSessionDetails @sessionSummary.id)}}
   class="tr--clickable"
 >
@@ -8,7 +8,7 @@
       @route="authenticated.sessions.details"
       @model={{@sessionSummary.id}}
       class="session-summary-list__link"
-      aria-label="{{t 'pages.sessions.list.session-summary.session-and-id' sessionId=@sessionSummary.id}}"
+      aria-label="{{t 'pages.sessions.list.table.row.session-and-id' sessionId=@sessionSummary.id}}"
     >
       {{@sessionSummary.id}}
     </LinkTo>
@@ -28,18 +28,18 @@
           <:triggerElement>
             <PixIconButton
               @icon="trash-alt"
-              aria-label={{t "pages.sessions.list.session-summary.delete-session" sessionSummaryId=@sessionSummary.id}}
+              aria-label={{t "pages.sessions.list.actions.delete-session.label" sessionSummaryId=@sessionSummary.id}}
               disabled={{true}}
               aria-describedby="tooltip-delete-session-button"
               @withBackground={{true}}
             />
           </:triggerElement>
-          <:tooltip>{{t "pages.sessions.list.session-summary.tooltip-label"}}</:tooltip>
+          <:tooltip>{{t "pages.sessions.list.actions.delete-session.disabled"}}</:tooltip>
         </PixTooltip>
       {{else}}
         <PixIconButton
           @icon="trash-alt"
-          aria-label={{t "pages.sessions.list.session-summary.delete-session" sessionSummaryId=@sessionSummary.id}}
+          aria-label={{t "pages.sessions.list.actions.delete-session.label" sessionSummaryId=@sessionSummary.id}}
           disabled={{false}}
           @withBackground={{true}}
           @triggerAction={{fn

@@ -20,11 +20,6 @@ export default class SessionSummaryList extends Component {
     this.shouldDisplaySessionDeletionModal = true;
   }
 
-  get currentLocale() {
-    const [currentLocale] = this.intl.get('locale');
-    return currentLocale;
-  }
-
   @action
   closeSessionDeletionConfirmModal() {
     this.shouldDisplaySessionDeletionModal = false;
@@ -36,7 +31,7 @@ export default class SessionSummaryList extends Component {
     const sessionSummary = this.store.peekRecord('session-summary', this.currentSessionToBeDeletedId);
     try {
       await sessionSummary.destroyRecord();
-      this.notifications.success('La session a été supprimée avec succès.');
+      this.notifications.success(this.intl.t('pages.sessions.list.delete-modal.success'));
     } catch (err) {
       if (this._doesNotExist(err)) {
         this._handleSessionDoesNotExistsError();
