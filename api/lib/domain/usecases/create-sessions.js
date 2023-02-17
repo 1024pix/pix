@@ -1,11 +1,10 @@
-const sessionValidator = require('../validators/session-validator');
-const { UnprocessableEntityError } = require('../../application/http-errors');
 const Session = require('../models/Session');
 const sessionCodeService = require('../services/session-code-service');
 const certificationCpfService = require('../services/certification-cpf-service');
+const sessionsImportValidationService = require('../services/sessions-import-validation-service');
 const CertificationCandidate = require('../models/CertificationCandidate');
 const bluebird = require('bluebird');
-const { InvalidCertificationCandidate, SessionWithIdAndInformationOnMassImportError } = require('../errors');
+const { InvalidCertificationCandidate } = require('../errors');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = async function createSessions({
@@ -19,61 +18,40 @@ module.exports = async function createSessions({
   complementaryCertificationRepository,
   certificationCourseRepository,
 }) {
-  if (sessions.length === 0) {
-    throw new UnprocessableEntityError('No session data in csv');
-  }
-
   const { name: certificationCenter, isSco } = await certificationCenterRepository.get(certificationCenterId);
 
   await DomainTransaction.execute(async (domainTransaction) => {
-    await bluebird.mapSeries(sessions, async (session) => {
-      let { sessionId } = session;
-      const { date, time } = session;
-      const sessionDate = new Date(`${date}T${time}`);
+    await bluebird.mapSeries(sessions, async (sessionDTO) => {
+      let { sessionId } = sessionDTO;
 
-      if (_isSessionScheduledInThePast(sessionDate)) {
-        throw new UnprocessableEntityError('Une session ne peut pas être programmée dans le passé');
-      }
+      const accessCode = sessionCodeService.getNewSessionCode();
+      const supervisorPassword = Session.generateSupervisorPassword();
+      const session = new Session({
+        ...sessionDTO,
+        id: sessionId,
+        certificationCenterId,
+        certificationCenter,
+        accessCode,
+        supervisorPassword,
+      });
 
-      let domainSession;
+      await sessionsImportValidationService.validate({ session, sessionRepository, certificationCourseRepository });
 
       if (sessionId) {
-        if (await _isSessionStarted({ certificationCourseRepository, sessionId })) {
-          throw new UnprocessableEntityError("Impossible d'ajouter un candidat à une session qui a déjà commencé.");
-        }
-
-        if (_hasSessionInfo(session)) {
-          throw new SessionWithIdAndInformationOnMassImportError(
-            `Merci de ne pas renseigner les informations de session pour la session: ${sessionId}`
-          );
-        } else {
-          domainSession = new Session({
-            ...session,
-            certificationCenterId,
-            certificationCenter,
-          });
-
-          await _deleteExistingCandidatesInSession({ certificationCandidateRepository, sessionId, domainTransaction });
-        }
+        await _deleteExistingCandidatesInSession({ certificationCandidateRepository, sessionId, domainTransaction });
       }
 
-      if (!sessionId && _hasSessionInfo(session)) {
-        const isSessionExisting = await sessionRepository.isSessionExisting({ ...session });
-        if (isSessionExisting) {
-          throw new UnprocessableEntityError(`Session happening on ${date} at ${time} already exists`);
-        }
-
-        domainSession = _createAndValidateNewSessionToSave(session, certificationCenterId, certificationCenter);
-        const { id } = await _saveNewSessionReturningId(sessionRepository, domainSession, domainTransaction);
+      if (!sessionId && _hasSessionInfo(sessionDTO)) {
+        const { id } = await _saveNewSessionReturningId({
+          sessionRepository,
+          domainSession: session,
+          domainTransaction,
+        });
         sessionId = id;
       }
 
-      if (domainSession.certificationCandidates.length) {
-        const { certificationCandidates } = domainSession;
-
-        if (_hasDuplicateCertificationCandidates(certificationCandidates)) {
-          throw new UnprocessableEntityError(`Une session contient au moins un élève en double.`);
-        }
+      if (session.certificationCandidates.length) {
+        const { certificationCandidates } = session;
 
         await _createCertificationCandidates({
           certificationCandidates,
@@ -92,45 +70,12 @@ module.exports = async function createSessions({
   });
 };
 
-function _isSessionScheduledInThePast(sessionDate) {
-  return sessionDate < new Date();
-}
-
 function _hasSessionInfo(session) {
   return session.address || session.room || session.date || session.time || session.examiner;
 }
 
-async function _saveNewSessionReturningId(sessionRepository, domainSession, domainTransaction) {
+async function _saveNewSessionReturningId({ sessionRepository, domainSession, domainTransaction }) {
   return await sessionRepository.save(domainSession, domainTransaction);
-}
-
-function _createAndValidateNewSessionToSave(session, certificationCenterId, certificationCenter) {
-  const accessCode = sessionCodeService.getNewSessionCode();
-  const domainSession = new Session({
-    ...session,
-    certificationCenterId,
-    certificationCenter,
-    accessCode,
-  });
-
-  domainSession.generateSupervisorPassword();
-  sessionValidator.validate(domainSession);
-  return domainSession;
-}
-
-function _hasDuplicateCertificationCandidates(certificationCandidates) {
-  const uniqCertificationCandidates = new Set(
-    certificationCandidates.map(({ lastName, firstName, birthdate }) => `${lastName}${firstName}${birthdate}`)
-  );
-
-  return uniqCertificationCandidates.size < certificationCandidates.length;
-}
-
-async function _isSessionStarted({ certificationCourseRepository, sessionId }) {
-  const foundCertificationCourses = await certificationCourseRepository.findCertificationCoursesBySessionId({
-    sessionId,
-  });
-  return foundCertificationCourses.length > 0;
 }
 
 async function _deleteExistingCandidatesInSession({ certificationCandidateRepository, sessionId, domainTransaction }) {

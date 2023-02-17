@@ -131,6 +131,7 @@ const dependencies = {
   scoringCertificationService: require('../../domain/services/scoring/scoring-certification-service'),
   supOrganizationParticipantRepository: require('../../infrastructure/repositories/sup-organization-participant-repository'),
   sessionForAttendanceSheetRepository: require('../../infrastructure/repositories/sessions/session-for-attendance-sheet-repository'),
+  sessionsImportValidationService: require('../../domain/services/sessions-import-validation-service'),
   sessionPublicationService: require('../../domain/services/session-publication-service'),
   sessionRepository: require('../../infrastructure/repositories/sessions/session-repository'),
   sessionForSupervisingRepository: require('../../infrastructure/repositories/sessions/session-for-supervising-repository'),

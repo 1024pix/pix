@@ -88,7 +88,11 @@ class Session {
   }
 
   generateSupervisorPassword() {
-    this.supervisorPassword = _.times(NB_CHAR, _randomCharacter).join('');
+    this.supervisorPassword = Session.generateSupervisorPassword();
+  }
+
+  static generateSupervisorPassword() {
+    return _.times(NB_CHAR, _randomCharacter).join('');
   }
 
   isSupervisable(supervisorPassword) {
@@ -97,6 +101,11 @@ class Session {
 
   canEnrollCandidate() {
     return _.isNull(this.finalizedAt);
+  }
+
+  isSessionScheduledInThePast() {
+    const sessionDate = new Date(`${this.date}T${this.time}`);
+    return sessionDate < new Date();
   }
 }
 

@@ -184,7 +184,7 @@ async function _createComplementaryCertificationHabilitations(
 }
 
 async function _createSessionAndReturnId(certificationCenterId, databaseBuilder) {
-  const sessionCode = await getNewSessionCode();
+  const sessionCode = getNewSessionCode();
   const { id } = databaseBuilder.factory.buildSession({
     certificationCenterId,
     accessCode: sessionCode,

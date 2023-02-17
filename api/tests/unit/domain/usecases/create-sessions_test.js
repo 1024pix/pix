@@ -1,14 +1,10 @@
 const { domainBuilder, expect, catchErr, sinon } = require('../../../test-helper');
 const createSessions = require('../../../../lib/domain/usecases/create-sessions');
-const {
-  EntityValidationError,
-  InvalidCertificationCandidate,
-  SessionWithIdAndInformationOnMassImportError,
-} = require('../../../../lib/domain/errors');
-const { UnprocessableEntityError } = require('../../../../lib/application/http-errors');
+const { InvalidCertificationCandidate } = require('../../../../lib/domain/errors');
 const sessionCodeService = require('../../../../lib/domain/services/session-code-service');
 const Session = require('../../../../lib/domain/models/Session');
 const certificationCpfService = require('../../../../lib/domain/services/certification-cpf-service');
+const sessionsImportValidationService = require('../../../../lib/domain/services/sessions-import-validation-service');
 const { CpfBirthInformationValidation } = require('../../../../lib/domain/services/certification-cpf-service');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const CertificationCandidate = require('../../../../lib/domain/models/CertificationCandidate');
@@ -19,11 +15,9 @@ describe('Unit | UseCase | create-sessions', function () {
   let certificationCenterName;
   let certificationCenter;
   let certificationCenterRepository;
-  let certificationCourseRepository;
   let certificationCandidateRepository;
   let complementaryCertificationRepository;
   let sessionRepository;
-  let clock;
 
   beforeEach(function () {
     accessCode = 'accessCode';
@@ -34,7 +28,6 @@ describe('Unit | UseCase | create-sessions', function () {
       name: certificationCenterName,
     });
     certificationCenterRepository = { get: sinon.stub() };
-    certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
     certificationCandidateRepository = { saveInSession: sinon.stub(), deleteBySessionId: sinon.stub() };
     complementaryCertificationRepository = { getByLabel: sinon.stub() };
     sessionRepository = { save: sinon.stub(), isSessionExisting: sinon.stub() };
@@ -42,44 +35,7 @@ describe('Unit | UseCase | create-sessions', function () {
     sinon.stub(certificationCpfService, 'getBirthInformation');
     sessionCodeService.getNewSessionCode.returns(accessCode);
     certificationCenterRepository.get.withArgs(certificationCenterId).resolves(certificationCenter);
-
-    clock = sinon.useFakeTimers({
-      now: new Date('2023-01-01'),
-      toFake: ['Date'],
-    });
-  });
-
-  afterEach(async function () {
-    clock.restore();
-  });
-
-  context('when session is scheduled in the past', function () {
-    it('should throw', async function () {
-      // given
-      const sessionScheduledInThePastData = {
-        sessionId: undefined,
-        address: 'Site 1',
-        room: 'Salle 1',
-        date: '2020-03-12',
-        time: '01:00',
-        examiner: 'Pierre',
-        description: 'desc',
-        certificationCandidates: [],
-      };
-
-      const sessions = [sessionScheduledInThePastData];
-
-      // when
-      const error = await catchErr(createSessions)({
-        sessions,
-        certificationCenterId,
-        certificationCenterRepository,
-        sessionRepository,
-      });
-
-      // then
-      expect(error.message).to.equal('Une session ne peut pas être programmée dans le passé');
-    });
+    sessionsImportValidationService.validate = sinon.stub();
   });
 
   context('when sessions are valid', function () {
@@ -135,73 +91,7 @@ describe('Unit | UseCase | create-sessions', function () {
         expect(sessionRepository.save).to.have.been.calledTwice;
       });
 
-      context('when there is a sessionId and session information', function () {
-        it('should throw', async function () {
-          // given
-          const candidate1 = createValidCandidateData(1);
-          const candidate2 = createValidCandidateData(2);
-          const sessions = [
-            {
-              ...createValidSessionData(),
-              sessionId: 1234,
-
-              certificationCandidates: [candidate1, candidate2],
-            },
-          ];
-
-          const domainTransaction = Symbol('trx');
-          sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
-          certificationCourseRepository.findCertificationCoursesBySessionId.onCall(0).resolves([]);
-          certificationCourseRepository.findCertificationCoursesBySessionId.onCall(1).resolves([]);
-
-          // when
-          const error = await catchErr(createSessions)({
-            sessions,
-            certificationCenterId,
-            certificationCenterRepository,
-            certificationCandidateRepository,
-            certificationCourseRepository,
-            sessionRepository,
-          });
-
-          // then
-          expect(error).to.be.an.instanceOf(SessionWithIdAndInformationOnMassImportError);
-          expect(error.message).to.equal(
-            'Merci de ne pas renseigner les informations de session pour la session: 1234'
-          );
-        });
-      });
-
       context('when there is only sessionId and candidate information', function () {
-        context('when a session has already started', function () {
-          it('should throw', async function () {
-            const candidate = createValidCandidateData(1);
-            const sessions = [
-              {
-                sessionId: 1234,
-                certificationCandidates: [candidate],
-              },
-            ];
-
-            certificationCourseRepository.findCertificationCoursesBySessionId
-              .withArgs({ sessionId: sessions[0].sessionId })
-              .resolves([domainBuilder.buildCertificationCourse({ sessionId: 1234 })]);
-
-            // when
-            const error = await catchErr(createSessions)({
-              sessions,
-              certificationCenterId,
-              certificationCenterRepository,
-              certificationCourseRepository,
-              sessionRepository,
-            });
-
-            // then
-            expect(error).to.be.instanceOf(UnprocessableEntityError);
-            expect(error.message).to.equal("Impossible d'ajouter un candidat à une session qui a déjà commencé.");
-          });
-        });
-
         it('should only save candidate in session', async function () {
           // given
           const candidate1 = createValidCandidateData(1);
@@ -217,7 +107,6 @@ describe('Unit | UseCase | create-sessions', function () {
           const cpfBirthInformationValidation2 = CpfBirthInformationValidation.success({ ...candidate2 });
           certificationCpfService.getBirthInformation.onCall(0).resolves(cpfBirthInformationValidation1);
           certificationCpfService.getBirthInformation.onCall(1).resolves(cpfBirthInformationValidation2);
-          certificationCourseRepository.findCertificationCoursesBySessionId.resolves([]);
 
           const domainTransaction = Symbol('trx');
           sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
@@ -228,7 +117,6 @@ describe('Unit | UseCase | create-sessions', function () {
             certificationCenterId,
             certificationCenterRepository,
             certificationCandidateRepository,
-            certificationCourseRepository,
             sessionRepository,
           });
 
@@ -246,42 +134,6 @@ describe('Unit | UseCase | create-sessions', function () {
 
     context('when the session has candidates', function () {
       context('when certification center is not managing students', function () {
-        context('when a candidate is registered more than once in the same session', function () {
-          it('should throw', async function () {
-            // given
-            const validSessionData = createValidSessionData();
-            const validCandidateData = createValidCandidateData(1);
-            const validCandidateDataDuplicate = createValidCandidateData(1);
-            const scoCertificationCenter = domainBuilder.buildCertificationCenter({
-              id: certificationCenterId,
-              type: 'SUP',
-            });
-            certificationCenterRepository.get.withArgs(certificationCenterId).resolves(scoCertificationCenter);
-
-            const sessions = [
-              {
-                ...validSessionData,
-                certificationCandidates: [{ ...validCandidateData }, { ...validCandidateDataDuplicate }],
-              },
-            ];
-            sessionRepository.save.resolves({ id: 99 });
-            const domainTransaction = Symbol('trx');
-            sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
-
-            // when
-            const error = await catchErr(createSessions)({
-              sessions,
-              certificationCenterId,
-              certificationCandidateRepository,
-              certificationCenterRepository,
-              sessionRepository,
-            });
-
-            // then
-            expect(error.message).to.equal('Une session contient au moins un élève en double.');
-          });
-        });
-
         context('when certification candidate has complementary certification', function () {
           it('should save certificationCandidate with complementary certification', async function () {
             // given
@@ -487,8 +339,10 @@ describe('Unit | UseCase | create-sessions', function () {
         },
       ];
 
+      sessionsImportValidationService.validate.rejects();
+
       // when
-      const err = await catchErr(createSessions)({
+      await catchErr(createSessions)({
         sessions,
         certificationCenterId,
         certificationCenterRepository,
@@ -496,42 +350,6 @@ describe('Unit | UseCase | create-sessions', function () {
       });
 
       // then
-      expect(err).to.be.instanceOf(EntityValidationError);
-    });
-  });
-
-  context('when there is no session data', function () {
-    it('should throw an error', async function () {
-      // given
-      const sessions = [];
-
-      // when
-      const err = await catchErr(createSessions)({ sessions, certificationCenterId });
-
-      // then
-      expect(err).to.be.instanceOf(UnprocessableEntityError);
-    });
-  });
-
-  context('when there already is an existing session with the same data as a newly imported one', function () {
-    it('should throw an error', async function () {
-      // given
-      const sessions = [{ ...createValidSessionData(), examiner: 'Paul' }];
-      sessionRepository.isSessionExisting.withArgs({ ...sessions[0] }).resolves(true);
-
-      const domainTransaction = Symbol('trx');
-      sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
-
-      // when
-      const err = await catchErr(createSessions)({
-        sessions,
-        certificationCenterId,
-        certificationCenterRepository,
-        sessionRepository,
-      });
-
-      // then
-      expect(err).to.be.instanceOf(UnprocessableEntityError);
       expect(sessionRepository.save).not.to.have.been.called;
     });
   });
