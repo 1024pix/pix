@@ -1,23 +1,24 @@
+const _ = require('lodash');
 const usecases = require('../../domain/usecases');
 const stageSerializer = require('../../infrastructure/serializers/jsonapi/stage-serializer');
+const stageCollectionRepository = require('../../infrastructure/repositories/target-profile-management/stage-collection-repository');
 
 module.exports = {
   async create(request, h) {
     const stage = stageSerializer.deserialize(request.payload);
-    const newStage = await usecases.createStage({ stage });
-    return h.response(stageSerializer.serialize(newStage)).created();
+    const stageCollection = await stageCollectionRepository.getByTargetProfileId(stage.targetProfileId);
+    const stageIdsBefore = stageCollection.stages.map((stage) => stage.id);
+    const updatedStageCollection = usecases.createStage({ stageCollection, stage });
+    const stageIdsAfter = await stageCollectionRepository.save(updatedStageCollection);
+    const [createdStageId] = _.difference(stageIdsAfter, stageIdsBefore);
+    return h.response(stageSerializer.serialize({ id: createdStageId })).created();
   },
 
-  async updateStage(request, h) {
-    const stageId = request.params.id;
+  async update(request, h) {
     const stage = stageSerializer.deserialize(request.payload);
-    await usecases.updateStage({ ...stage, stageId });
+    const stageCollection = await stageCollectionRepository.getByTargetProfileId(stage.targetProfileId);
+    const updatedStageCollection = usecases.updateStage({ stageCollection, stage });
+    await stageCollectionRepository.save(updatedStageCollection);
     return h.response({}).code(204);
-  },
-
-  async getStageDetails(request) {
-    const stageId = request.params.id;
-    const stage = await usecases.getStageDetails({ stageId });
-    return stageSerializer.serialize(stage);
   },
 };

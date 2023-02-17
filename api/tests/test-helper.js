@@ -175,6 +175,17 @@ function catchErr(promiseFn, ctx) {
   };
 }
 
+function catchErrSync(fn, ctx) {
+  return (...args) => {
+    try {
+      fn.call(ctx, ...args);
+    } catch (err) {
+      return err;
+    }
+    throw new Error('Expected an error, but none was thrown.');
+  };
+}
+
 chai.use(function (chai) {
   const Assertion = chai.Assertion;
 
@@ -248,6 +259,7 @@ module.exports = {
   MockDate,
   streamToPromise,
   catchErr,
+  catchErrSync,
   testErr: new Error('Fake Error'),
   mockLearningContent,
   learningContentBuilder,

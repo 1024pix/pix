@@ -303,7 +303,6 @@ export default function () {
   this.patch('/admin/badges/:id');
 
   this.post('/admin/stages', createStage);
-  this.get('/admin/stages/:id');
   this.patch('/admin/stages/:id');
 
   this.get('/admin/training-summaries', findPaginatedTrainingSummaries);
