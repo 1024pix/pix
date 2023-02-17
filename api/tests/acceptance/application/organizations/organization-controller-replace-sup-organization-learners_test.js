@@ -1,13 +1,13 @@
 const { expect, knex, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const Membership = require('../../../../lib/domain/models/Membership');
-const SupOrganizationLearnerColumns = require('../../../../lib/infrastructure/serializers/csv/sup-organization-learner-columns');
+const SupOrganizationLearnerImportHeader = require('../../../../lib/infrastructure/serializers/csv/sup-organization-learner-import-header');
 
 const { getI18n } = require('../../../../tests/tooling/i18n/i18n');
 const createServer = require('../../../../server');
 
 const i18n = getI18n();
-const supOrganizationLearnerColumns = new SupOrganizationLearnerColumns(i18n).columns
-  .map((column) => column.label)
+const supOrganizationLearnerImportHeader = new SupOrganizationLearnerImportHeader(i18n).columns
+  .map((column) => column.name)
   .join(';');
 
 let server;
@@ -43,7 +43,7 @@ describe('Acceptance | Application | organization-controller-replace-sup-organiz
         });
         await databaseBuilder.commit();
         const buffer =
-          `${supOrganizationLearnerColumns}\n` +
+          `${supOrganizationLearnerImportHeader}\n` +
           'Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1990;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend\n';
         const options = {
           method: 'POST',
