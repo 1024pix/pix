@@ -22,9 +22,19 @@
   },
   "current-lang": "en",
   "navigation": {
+    "main": {
+      "sessions": "Sessions",
+      "sessions-label": "Certification sessions",
+      "supervisor": "Invigilator’s Portal",
+      "team": "Team",
+      "documentation": "Documentation"
+    },
+    "user-logged-menu": {
+      "logout": "Log out"
+    },
     "footer": {
-      "a11y": "Accessibilité : partiellement conforme",
-      "legal-notice": "Mentions légales",
+      "a11y": "Accessibility",
+      "legal-notice": "Legal notice",
       "current-year": "© {currentYear} Pix"
     }
   },
