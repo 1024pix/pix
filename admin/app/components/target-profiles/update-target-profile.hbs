@@ -25,18 +25,20 @@
           @value={{this.form.name}}
           required={{true}}
         />
-
+      </div>
+      <div class="form-field">
         <PixSelect
-          class="form-control"
           @label="Catégorie :"
           @onChange={{this.onCategoryChange}}
-          @value={{@model.category}}
+          @value={{this.form.category}}
           @options={{this.optionsList}}
-          @placeholder={{"-"}}
+          @placeholder="-- Sélectionnez une catégorie --"
           @hideDefaultOption={{true}}
-          required
+          required={{true}}
+          aria-required={{true}}
         />
-
+      </div>
+      <div class="form-field">
         <label for="targetProfileDescription" class="form-field__label">
           Description
         </label>
@@ -52,6 +54,8 @@
           class={{if (v-get this.form "description" "isInvalid") "form-control is-invalid" "form-control"}}
           @value={{this.form.description}}
         />
+      </div>
+      <div class="form-field">
         <label for="targetProfileComment" class="form-field__label">
           Commentaire (usage interne)
         </label>
