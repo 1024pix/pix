@@ -90,11 +90,11 @@ class StageCollection {
     }
 
     if (stage.level != null) {
-      if (stage.level > this._maxLevel || stage.level < 0) {
+      if (!_.isInteger(stage.level) || stage.level > this._maxLevel || stage.level < 0) {
         throw new InvalidStageError(`Niveau doit être compris entre 0 et ${this._maxLevel}.`);
       }
     } else {
-      if (stage.threshold > 100 || stage.threshold < 0) {
+      if (!_.isInteger(stage.threshold) || stage.threshold > 100 || stage.threshold < 0) {
         throw new InvalidStageError('Seuil doit être compris entre 0 et 100.');
       }
     }

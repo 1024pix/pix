@@ -24,6 +24,76 @@ describe('Unit | UseCases | update-stage', function () {
       });
     });
 
+    it('should throw InvalidStageError for a level that is not a number', function () {
+      // given
+      stageCollection = domainBuilder.buildStageCollection({
+        id: 100,
+        stages: [
+          {
+            id: 51,
+            level: 3,
+            threshold: null,
+            message: 'ancien message palier',
+            title: 'ancien titre palier',
+            prescriberDescription: 'ancienne description prescripteur palier',
+            prescriberTitle: 'ancien titre prescripteur palier',
+          },
+        ],
+        maxLevel: 5,
+      });
+      const stageToUpdate = {
+        id: 51,
+        level: 'toto',
+        threshold: null,
+        message: 'nouveau message palier',
+        title: 'nouveau titre palier',
+        prescriberDescription: 'nouvelle description prescripteur palier',
+        prescriberTitle: 'nouveau titre prescripteur palier',
+      };
+
+      // when
+      const error = catchErrSync(usecases.updateStage)({ stageCollection, stage: stageToUpdate });
+
+      // then
+      expect(error).to.be.an.instanceof(InvalidStageError);
+      expect(error.message).to.equal('Palier non valide : Niveau doit être compris entre 0 et 5.');
+    });
+
+    it('should throw InvalidStageError for a level that is not an integer', function () {
+      // given
+      stageCollection = domainBuilder.buildStageCollection({
+        id: 100,
+        stages: [
+          {
+            id: 51,
+            level: 3,
+            threshold: null,
+            message: 'ancien message palier',
+            title: 'ancien titre palier',
+            prescriberDescription: 'ancienne description prescripteur palier',
+            prescriberTitle: 'ancien titre prescripteur palier',
+          },
+        ],
+        maxLevel: 5,
+      });
+      const stageToUpdate = {
+        id: 51,
+        level: 4.5,
+        threshold: null,
+        message: 'nouveau message palier',
+        title: 'nouveau titre palier',
+        prescriberDescription: 'nouvelle description prescripteur palier',
+        prescriberTitle: 'nouveau titre prescripteur palier',
+      };
+
+      // when
+      const error = catchErrSync(usecases.updateStage)({ stageCollection, stage: stageToUpdate });
+
+      // then
+      expect(error).to.be.an.instanceof(InvalidStageError);
+      expect(error.message).to.equal('Palier non valide : Niveau doit être compris entre 0 et 5.');
+    });
+
     it('should throw InvalidStageError for a level that exceed max level ', function () {
       // given
       stageCollection = domainBuilder.buildStageCollection({
@@ -386,6 +456,46 @@ describe('Unit | UseCases | update-stage', function () {
       // then
       expect(error).to.be.an.instanceof(InvalidStageError);
       expect(error.message).to.equal('Palier non valide : Seuil ou niveau obligatoire.');
+    });
+
+    it('should throw InvalidStageError for a threshold that is not a number', function () {
+      // given
+      const stageToUpdate = {
+        id: 51,
+        level: null,
+        threshold: 'toto',
+        message: 'nouveau message palier',
+        title: 'nouveau titre palier',
+        prescriberDescription: 'nouvelle description prescripteur palier',
+        prescriberTitle: 'nouveau titre prescripteur palier',
+      };
+
+      // when
+      const error = catchErrSync(usecases.updateStage)({ stageCollection, stage: stageToUpdate });
+
+      // then
+      expect(error).to.be.an.instanceof(InvalidStageError);
+      expect(error.message).to.equal('Palier non valide : Seuil doit être compris entre 0 et 100.');
+    });
+
+    it('should throw InvalidStageError for a threshold that is not an integer', function () {
+      // given
+      const stageToUpdate = {
+        id: 51,
+        level: null,
+        threshold: 40.5,
+        message: 'nouveau message palier',
+        title: 'nouveau titre palier',
+        prescriberDescription: 'nouvelle description prescripteur palier',
+        prescriberTitle: 'nouveau titre prescripteur palier',
+      };
+
+      // when
+      const error = catchErrSync(usecases.updateStage)({ stageCollection, stage: stageToUpdate });
+
+      // then
+      expect(error).to.be.an.instanceof(InvalidStageError);
+      expect(error.message).to.equal('Palier non valide : Seuil doit être compris entre 0 et 100.');
     });
 
     it('should throw InvalidStageError for a threshold that exceeds 100', function () {

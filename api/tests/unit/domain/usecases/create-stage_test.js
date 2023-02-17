@@ -38,6 +38,40 @@ describe('Unit | UseCases | create-stage', function () {
       expect(error.message).to.equal('Palier non valide : Seuil ou niveau obligatoire.');
     });
 
+    it('should throw InvalidStageError for a level that is not a number', function () {
+      // given
+      const stageWithLevel = {
+        level: 5,
+        threshold: null,
+        title: 'title',
+        message: 'message',
+      };
+
+      // when
+      const error = catchErrSync(usecases.createStage)({ stageCollection, stage: stageWithLevel });
+
+      // then
+      expect(error).to.be.an.instanceof(InvalidStageError);
+      expect(error.message).to.equal('Palier non valide : Niveau doit être compris entre 0 et 2.');
+    });
+
+    it('should throw InvalidStageError for a level that is not an integer', function () {
+      // given
+      const stageWithLevel = {
+        level: 3.5,
+        threshold: null,
+        title: 'title',
+        message: 'message',
+      };
+
+      // when
+      const error = catchErrSync(usecases.createStage)({ stageCollection, stage: stageWithLevel });
+
+      // then
+      expect(error).to.be.an.instanceof(InvalidStageError);
+      expect(error.message).to.equal('Palier non valide : Niveau doit être compris entre 0 et 2.');
+    });
+
     it('should throw InvalidStageError for a level that exceeds max level', function () {
       // given
       const stageWithLevel = {
@@ -70,6 +104,40 @@ describe('Unit | UseCases | create-stage', function () {
       // then
       expect(error).to.be.an.instanceof(InvalidStageError);
       expect(error.message).to.equal('Palier non valide : Niveau doit être compris entre 0 et 2.');
+    });
+
+    it('should throw InvalidStageError for a threshold that is not  number', function () {
+      // given
+      const stageWithThreshold = {
+        level: null,
+        threshold: 'toto',
+        title: 'title',
+        message: 'message',
+      };
+
+      // when
+      const error = catchErrSync(usecases.createStage)({ stageCollection, stage: stageWithThreshold });
+
+      // then
+      expect(error).to.be.an.instanceof(InvalidStageError);
+      expect(error.message).to.equal('Palier non valide : Seuil doit être compris entre 0 et 100.');
+    });
+
+    it('should throw InvalidStageError for a threshold that is not an integer', function () {
+      // given
+      const stageWithThreshold = {
+        level: null,
+        threshold: 101.5,
+        title: 'title',
+        message: 'message',
+      };
+
+      // when
+      const error = catchErrSync(usecases.createStage)({ stageCollection, stage: stageWithThreshold });
+
+      // then
+      expect(error).to.be.an.instanceof(InvalidStageError);
+      expect(error.message).to.equal('Palier non valide : Seuil doit être compris entre 0 et 100.');
     });
 
     it('should throw InvalidStageError for a threshold that exceeds 100', function () {
@@ -274,6 +342,40 @@ describe('Unit | UseCases | create-stage', function () {
       expect(error.message).to.equal('Palier non valide : Niveau obligatoire.');
     });
 
+    it('should throw InvalidStageError for a level that is not a number', function () {
+      // given
+      const stageWithLevel = {
+        level: 'toto',
+        threshold: null,
+        title: 'title',
+        message: 'message',
+      };
+
+      // when
+      const error = catchErrSync(usecases.createStage)({ stageCollection, stage: stageWithLevel });
+
+      // then
+      expect(error).to.be.an.instanceof(InvalidStageError);
+      expect(error.message).to.equal('Palier non valide : Niveau doit être compris entre 0 et 5.');
+    });
+
+    it('should throw InvalidStageError for a level that is not an integer', function () {
+      // given
+      const stageWithLevel = {
+        level: 4.5,
+        threshold: null,
+        title: 'title',
+        message: 'message',
+      };
+
+      // when
+      const error = catchErrSync(usecases.createStage)({ stageCollection, stage: stageWithLevel });
+
+      // then
+      expect(error).to.be.an.instanceof(InvalidStageError);
+      expect(error.message).to.equal('Palier non valide : Niveau doit être compris entre 0 et 5.');
+    });
+
     it('should throw InvalidStageError for a level that exceeds max level', function () {
       // given
       const stageWithLevel = {
@@ -433,6 +535,40 @@ describe('Unit | UseCases | create-stage', function () {
       // then
       expect(error).to.be.an.instanceof(InvalidStageError);
       expect(error.message).to.equal('Palier non valide : Seuil obligatoire.');
+    });
+
+    it('should throw InvalidStageError for a threshold that is not a number', function () {
+      // given
+      const stageWithThreshold = {
+        level: null,
+        threshold: 'toto',
+        title: 'title',
+        message: 'message',
+      };
+
+      // when
+      const error = catchErrSync(usecases.createStage)({ stageCollection, stage: stageWithThreshold });
+
+      // then
+      expect(error).to.be.an.instanceof(InvalidStageError);
+      expect(error.message).to.equal('Palier non valide : Seuil doit être compris entre 0 et 100.');
+    });
+
+    it('should throw InvalidStageError for a threshold that is not an integer', function () {
+      // given
+      const stageWithThreshold = {
+        level: null,
+        threshold: 40.5,
+        title: 'title',
+        message: 'message',
+      };
+
+      // when
+      const error = catchErrSync(usecases.createStage)({ stageCollection, stage: stageWithThreshold });
+
+      // then
+      expect(error).to.be.an.instanceof(InvalidStageError);
+      expect(error.message).to.equal('Palier non valide : Seuil doit être compris entre 0 et 100.');
     });
 
     it('should throw InvalidStageError for a threshold that exceeds 100', function () {
