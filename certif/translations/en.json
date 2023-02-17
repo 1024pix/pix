@@ -149,44 +149,63 @@
         "breadcrumb-summary": "Récapitulatif"
       },
       "list": {
-        "header": {
-          "title": "Certification sessions",
-          "session-creation": "Create a session",
-          "session-multiple-creation-edition": "Create/edit several sessions"
+        "title": "Certification sessions",
+        "actions": {
+          "creation": {
+            "label": "Create a session"
+          },
+          "delete-session": {
+            "disabled": "At least one candidate has joined the session, you can’t delete it.",
+            "label": "Delete the session {sessionSummaryId}"
+          },
+          "multiple-creation": {
+            "label": "Create several sessions"
+          },
+          "multiple-creation-edition": {
+            "label": "Create/edit several sessions"
+          }
         },
         "delete-modal": {
           "title": "Delete the session",
-          "label": "Do you want to delete the session <span>{sessionId}</span> ?",
+          "actions": {
+            "cancel": {
+              "extra-information": "Cancel the session's deletion."
+            },
+            "confirm": {
+              "extra-information": "Delete the session"
+            }
+          },
+          "content": "Do you want to delete the session <span>{sessionId}</span> ?",
           "enrolled-candidates": "<span>{enrolledCandidatesCount} candidates</span> are enrolled in this session",
-          "disclaimer": "Warning, this action is irreversible."
-        },
-        "session-summary": {
-          "session-number": "Session No.",
-          "center-name": "Location name",
-          "room": "Room",
-          "date": "Date",
-          "time": "Time",
-          "supervisor": "Invigilator(s)",
-          "enrolled-candidates": "Signed up candidates",
-          "effective-candidates": "Certifications taken",
-          "status": "Status",
-          "actions": "Actions",
-          "certification-session": "Certification session",
-          "delete-session": "Delete the session {sessionSummaryId}",
-          "tooltip-label": "At least one candidate has joined the session, you can’t delete it.",
-          "empty-table": "No session found",
-          "session-and-id": "Session {sessionId}",
-          "status-label": {
-            "created": "Created",
-            "finalized": "Finalised",
-            "processed": "Results transmitted by Pix"
-          }
+          "success": "The session has been successfully deleted.",
+          "warning": "Warning, this action is irreversible."
         },
         "empty": {
-          "header": "Create my first certification session",
-          "header-alt": "I can create certification sessions",
-          "session-creation": "Create a session",
-          "session-multiple-creation": "Create several sessions"
+          "title": "Create my first certification session"
+        },
+        "status": {
+          "created": "Created",
+          "finalized": "Finalised",
+          "processed": "Results transmitted by Pix"
+        },
+        "table": {
+          "empty": "No session found",
+          "header": {
+            "actions": "Actions",
+            "center-name": "Location name",
+            "date": "Date",
+            "effective-candidates": "Certifications taken",
+            "enrolled-candidates": "Signed up candidates",
+            "room": "Room",
+            "session-number": "Session No.",
+            "status": "Status",
+            "supervisor": "Invigilator(s)",
+            "time": "Time"
+          },
+          "row": {
+            "label": "Certification session",
+            "session-and-id": "Session {sessionId}"
+          }
         }
       },
       "detail": {

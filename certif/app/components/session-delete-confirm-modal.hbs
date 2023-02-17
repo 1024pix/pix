@@ -6,7 +6,7 @@
 >
   <:content>
     <p class="session-delete-confirmation-modal-warning__content">{{t
-        "pages.sessions.list.delete-modal.label"
+        "pages.sessions.list.delete-modal.content"
         sessionId=@sessionId
         htmlSafe=true
       }}</p>
@@ -18,12 +18,12 @@
         }}</p>
     {{/if}}
     <PixMessage @type="warning" @withIcon={{true}}>
-      {{t "pages.sessions.list.delete-modal.disclaimer"}}
+      {{t "pages.sessions.list.delete-modal.warning"}}
     </PixMessage>
   </:content>
   <:footer>
     <PixButton
-      aria-label="Annuler la suppression de la session"
+      aria-label={{t "pages.sessions.list.delete-modal.actions.cancel.extra-information"}}
       @backgroundColor="transparent-light"
       @isBorderVisible={{true}}
       @triggerAction={{@close}}
@@ -32,7 +32,7 @@
     </PixButton>
 
     <PixButton
-      aria-label="Supprimer la session"
+      aria-label={{t "pages.sessions.list.delete-modal.actions.confirm.extra-information"}}
       @triggerAction={{@confirm}}
       @loadingColor="white"
       @backgroundColor="blue"
