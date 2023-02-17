@@ -33,7 +33,11 @@ module.exports = async function createSessions({
         accessCode,
       });
 
-      await sessionsImportValidationService.validate({ session, sessionRepository, certificationCourseRepository });
+      await sessionsImportValidationService.validateSession({
+        session,
+        sessionRepository,
+        certificationCourseRepository,
+      });
 
       if (sessionId) {
         await _deleteExistingCandidatesInSession({ certificationCandidateRepository, sessionId, domainTransaction });
