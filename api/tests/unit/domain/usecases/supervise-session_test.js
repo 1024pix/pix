@@ -42,7 +42,6 @@ describe('Unit | UseCase | supervise-session', function () {
     const sessionId = 123;
     const userId = 434;
     const session = domainBuilder.buildSession.processed({ id: sessionId });
-    session.generateSupervisorPassword();
     sessionRepository.get.resolves(session);
 
     // when
@@ -63,7 +62,6 @@ describe('Unit | UseCase | supervise-session', function () {
     const sessionId = 123;
     const userId = 434;
     const session = domainBuilder.buildSession.created({ id: sessionId });
-    session.generateSupervisorPassword();
     sessionRepository.get.resolves(session);
 
     // when

@@ -39,7 +39,7 @@ class Session {
     certificationCandidates,
     certificationCenterId,
     assignedCertificationOfficerId,
-    supervisorPassword,
+    supervisorPassword = Session.generateSupervisorPassword(),
   } = {}) {
     this.id = id;
     this.accessCode = accessCode;
@@ -85,10 +85,6 @@ class Session {
 
   isAccessible() {
     return this.status === statuses.CREATED;
-  }
-
-  generateSupervisorPassword() {
-    this.supervisorPassword = Session.generateSupervisorPassword();
   }
 
   static generateSupervisorPassword() {
