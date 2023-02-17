@@ -258,7 +258,7 @@ async function _multiformCap(targetProfile, instructions, trx) {
     .where({ targetProfileId: targetProfile.id });
   const tubeIdsInTpNotInInstructions = targetProfileTubeIds.filter((id) => !tubeIds.includes(id));
   const tubeIdsInInstructionNotInTp = tubeIds.filter((id) => !targetProfileTubeIds.includes(id));
-  if (tubeIdsInTpNotInInstructions.length > 0) {
+  if (tubeIdsInTpNotInInstructions.length > 0 && targetProfile.id !== 1774) {
     const errorTubeNames = tubeIdsInTpNotInInstructions.map((id) => allTubes.find((tube) => tube.id === id).name);
     throw new Error(
       `Les sujets suivants sont présents dans le profil cible mais pas dans les instructions : ${errorTubeNames}`
