@@ -7,7 +7,7 @@
       {{#if @isTypeLevel}}
         <Stages::StageLevelSelect
           @id="threshold-or-level"
-          @maxLevel={{@maxLevel}}
+          @availableLevels={{@availableLevels}}
           @onChange={{this.setLevel}}
           @value={{this.level}}
         />

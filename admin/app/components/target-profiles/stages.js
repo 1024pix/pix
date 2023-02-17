@@ -1,3 +1,4 @@
+import difference from 'lodash/difference';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
@@ -13,33 +14,45 @@ export default class Stages extends Component {
   @tracked
   firstStageType = undefined;
 
+  get availableLevels() {
+    const unavailableLevels = this.args.targetProfile.stages.map((stage) => (stage.isNew ? null : stage.level));
+    const allLevels = Array.from({ length: this.args.targetProfile.maxLevel + 1 }, (_, i) => i);
+    return difference(allLevels, unavailableLevels);
+  }
+
   get isTypeLevel() {
-    return this.args.stages?.firstObject?.isTypeLevel ?? this.firstStageType == 'level';
+    return this.args.targetProfile.stages?.firstObject?.isTypeLevel ?? this.firstStageType == 'level';
   }
 
   get hasStages() {
-    const stages = this.args.stages;
+    const stages = this.args.targetProfile.stages;
     return stages && stages.length > 0;
   }
 
   get hasNewStage() {
-    return this.args.stages.any((stage) => stage.isNew);
+    return this.args.targetProfile.stages.any((stage) => stage.isNew);
   }
 
   get newStages() {
-    return this.args.stages.filter((stage) => stage.isNew);
+    return this.args.targetProfile.stages.filter((stage) => stage.isNew);
   }
 
   get displayNoZeroStage() {
     if (!this.hasStages) return false;
     if (this.isTypeLevel) {
-      return !this.args.stages.any((stage) => stage.level === 0);
+      return !this.args.targetProfile.stages.any((stage) => stage.level === 0);
     }
-    return !this.args.stages.any((stage) => stage.threshold === 0);
+    return !this.args.targetProfile.stages.any((stage) => stage.threshold === 0);
   }
 
   get columnNameByStageType() {
     return this.isTypeLevel ? LEVEL_COLUMN_NAME : THRESHOLD_COLUMN_NAME;
+  }
+
+  get hasAvailableStages() {
+    const allNewStages = this.args.targetProfile.stages.filter((stage) => stage.isNew) || [];
+
+    return (this.isTypeLevel && this.availableLevels.length > allNewStages.length) || !this.isTypeLevel;
   }
 
   get mustChooseStageStype() {
@@ -48,9 +61,10 @@ export default class Stages extends Component {
 
   @action
   addStage() {
+    const nextLowestLevelAvailable = this.isTypeLevel ? this.availableLevels?.[0] : undefined;
     this.store.createRecord('stage', {
       targetProfile: this.args.targetProfile,
-      level: this.isTypeLevel ? '0' : undefined,
+      level: this.isTypeLevel ? nextLowestLevelAvailable.toString() : undefined,
     });
   }
 
@@ -68,7 +82,7 @@ export default class Stages extends Component {
   }
 
   get isAddStageDisabled() {
-    return this.mustChooseStageStype && this.firstStageType == null;
+    return (this.mustChooseStageStype && this.firstStageType == null) || !this.hasAvailableStages;
   }
 
   @action
@@ -76,7 +90,11 @@ export default class Stages extends Component {
     event.preventDefault();
 
     try {
-      await Promise.all(this.newStages.map((stage) => stage.save()));
+      for (const stage of this.newStages) {
+        await stage.save();
+      }
+      await this.args.targetProfile.stages.reload();
+      this.notifications.success('Palier(s) ajouté(s) avec succès.');
     } catch (e) {
       this.notifications.error(e.errors?.[0]?.detail ?? 'Une erreur est survenue.');
     }
