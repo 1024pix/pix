@@ -35,7 +35,7 @@ describe('Unit | UseCase | create-sessions', function () {
     sinon.stub(certificationCpfService, 'getBirthInformation');
     sessionCodeService.getNewSessionCode.returns(accessCode);
     certificationCenterRepository.get.withArgs(certificationCenterId).resolves(certificationCenter);
-    sessionsImportValidationService.validate = sinon.stub();
+    sessionsImportValidationService.validateSession = sinon.stub();
   });
 
   context('when sessions are valid', function () {
@@ -339,7 +339,7 @@ describe('Unit | UseCase | create-sessions', function () {
         },
       ];
 
-      sessionsImportValidationService.validate.rejects();
+      sessionsImportValidationService.validateSession.rejects();
 
       // when
       await catchErr(createSessions)({

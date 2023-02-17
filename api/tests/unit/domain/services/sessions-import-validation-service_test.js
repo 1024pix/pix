@@ -4,7 +4,7 @@ const { SessionWithIdAndInformationOnMassImportError } = require('../../../../li
 const { UnprocessableEntityError } = require('../../../../lib/application/http-errors');
 
 describe('Unit | Service | sessions import validation Service', function () {
-  describe('#validate', function () {
+  describe('#validateSession', function () {
     let clock;
     let sessionRepository;
     let certificationCourseRepository;
@@ -33,7 +33,7 @@ describe('Unit | Service | sessions import validation Service', function () {
             // when
             // then
             expect(
-              await sessionsImportValidationService.validate({
+              await sessionsImportValidationService.validateSession({
                 session,
                 sessionRepository,
                 certificationCourseRepository,
@@ -52,7 +52,7 @@ describe('Unit | Service | sessions import validation Service', function () {
             // when
             // then
             expect(
-              await sessionsImportValidationService.validate({
+              await sessionsImportValidationService.validateSession({
                 session,
                 sessionRepository,
                 certificationCourseRepository,
@@ -71,7 +71,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           .resolves([domainBuilder.buildCertificationCourse({ sessionId: 1234 })]);
 
         // when
-        const error = await catchErr(sessionsImportValidationService.validate)({
+        const error = await catchErr(sessionsImportValidationService.validateSession)({
           session,
           sessionRepository,
           certificationCourseRepository,
@@ -91,7 +91,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           session.date = '2020-03-12';
 
           // when
-          const error = await catchErr(sessionsImportValidationService.validate)({
+          const error = await catchErr(sessionsImportValidationService.validateSession)({
             session,
             sessionRepository,
             certificationCourseRepository,
@@ -111,7 +111,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           session.id = 1234;
 
           // when
-          const error = await catchErr(sessionsImportValidationService.validate)({
+          const error = await catchErr(sessionsImportValidationService.validateSession)({
             session,
             sessionRepository,
             certificationCourseRepository,
@@ -136,7 +136,11 @@ describe('Unit | Service | sessions import validation Service', function () {
           // when
           // then
           expect(
-            sessionsImportValidationService.validate({ session, sessionRepository, certificationCourseRepository })
+            sessionsImportValidationService.validateSession({
+              session,
+              sessionRepository,
+              certificationCourseRepository,
+            })
           ).not.to.throw;
         });
       });
@@ -149,7 +153,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         sessionRepository.isSessionExisting.withArgs({ ...session }).resolves(true);
 
         // when
-        const err = await catchErr(sessionsImportValidationService.validate)({
+        const err = await catchErr(sessionsImportValidationService.validateSession)({
           session,
           sessionRepository,
           certificationCourseRepository,
@@ -170,7 +174,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           session.certificationCandidates = [validCandidateData, validCandidateDataDuplicate];
 
           // when
-          const error = await catchErr(sessionsImportValidationService.validate)({
+          const error = await catchErr(sessionsImportValidationService.validateSession)({
             session,
             sessionRepository,
             certificationCourseRepository,

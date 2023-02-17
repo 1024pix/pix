@@ -3,7 +3,7 @@ const { SessionWithIdAndInformationOnMassImportError } = require('../errors');
 const sessionValidator = require('../validators/session-validator');
 
 module.exports = {
-  async validate({ session, sessionRepository, certificationCourseRepository }) {
+  async validateSession({ session, sessionRepository, certificationCourseRepository }) {
     const sessionId = session.id;
 
     if (sessionId) {
