@@ -10,6 +10,7 @@ module.exports = [
   require('./application/cache'),
   require('./application/campaign-participations'),
   require('./application/campaigns'),
+  require('./application/campaigns-administration'),
   require('./application/certification-candidates'),
   require('./application/certification-centers'),
   require('./application/certification-center-invitations'),
