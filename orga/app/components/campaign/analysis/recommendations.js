@@ -7,6 +7,7 @@ import { htmlSafe } from '@ember/template';
 export default class Recommendations extends Component {
   @service intl;
   @tracked sortedRecommendations;
+  @tracked order;
 
   constructor() {
     super(...arguments);
@@ -26,6 +27,7 @@ export default class Recommendations extends Component {
 
   @action
   sortRecommendationOrder(order) {
+    this.order = order;
     if (!this.sortedRecommendations) {
       return null;
     } else if (order === 'desc') {

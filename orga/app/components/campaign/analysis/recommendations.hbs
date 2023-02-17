@@ -19,6 +19,7 @@
         <Table::HeaderSort
           @size="small"
           @align="center"
+          @order={{this.order}}
           @onSort={{this.sortRecommendationOrder}}
           @isDisabled={{not @displayAnalysis}}
           @ariaLabelDefaultSort={{t "pages.campaign-review.table.analysis.column.relevance.ariaLabelDefaultSort"}}
