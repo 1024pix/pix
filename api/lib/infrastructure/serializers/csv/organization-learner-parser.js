@@ -3,7 +3,7 @@ const { checkValidation } = require('../../../domain/validators/organization-lea
 
 const { CsvOrganizationLearnerParser } = require('./csv-learner-parser');
 const { CsvImportError, DomainError } = require('../../../domain/errors');
-const OrganizationLearnerColumns = require('./organization-learner-columns');
+const OrganizationLearnerImportHeader = require('./organization-learner-import-header');
 
 const ERRORS = {
   IDENTIFIER_UNIQUE: 'IDENTIFIER_UNIQUE',
@@ -65,15 +65,15 @@ class OrganizationLearnerParser extends CsvOrganizationLearnerParser {
   constructor(input, organizationId, i18n) {
     const learnerSet = new OrganizationLearnerSet();
 
-    const columns = new OrganizationLearnerColumns(i18n).columns;
+    const columns = new OrganizationLearnerImportHeader(i18n).columns;
 
     super(input, organizationId, columns, learnerSet);
   }
 
   _handleError(err, index) {
-    const column = this._columns.find((column) => column.name === err.key);
+    const column = this._columns.find((column) => column.property === err.key);
     const line = index + 2;
-    const field = column.label;
+    const field = column.name;
 
     if (err.why === 'uniqueness' && err.key === 'nationalIdentifier') {
       throw new CsvImportError(ERRORS.IDENTIFIER_UNIQUE, { line, field });

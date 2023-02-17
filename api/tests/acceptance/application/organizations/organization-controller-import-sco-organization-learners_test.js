@@ -6,12 +6,12 @@ const createServer = require('../../../../server');
 require('events').EventEmitter.defaultMaxListeners = 60;
 
 const Membership = require('../../../../lib/domain/models/Membership');
-const OrganizationLearnerColumns = require('../../../../lib/infrastructure/serializers/csv/organization-learner-columns');
+const OrganizationLearnerImportHeader = require('../../../../lib/infrastructure/serializers/csv/organization-learner-import-header');
 const { getI18n } = require('../../../tooling/i18n/i18n');
 const i18n = getI18n();
 
-const organizationLearnerCsvColumns = new OrganizationLearnerColumns(i18n).columns
-  .map((column) => column.label)
+const organizationLearnerCsvColumns = new OrganizationLearnerImportHeader(i18n).columns
+  .map((column) => column.name)
   .join(';');
 
 describe('Acceptance | Application | organization-controller-import-sco-organization-learners', function () {

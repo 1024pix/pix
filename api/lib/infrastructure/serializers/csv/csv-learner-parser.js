@@ -29,16 +29,6 @@ const PARSING_OPTIONS = {
   },
 };
 
-class CsvColumn {
-  constructor({ name, label, isRequired = false, isDate = false, checkEncoding = false }) {
-    this.name = name;
-    this.label = label;
-    this.isRequired = isRequired;
-    this.isDate = isDate;
-    this.checkEncoding = checkEncoding;
-  }
-}
-
 class CsvOrganizationLearnerParser {
   constructor(input, organizationId, columns, learnerSet) {
     this._input = input;
@@ -87,9 +77,9 @@ class CsvOrganizationLearnerParser {
   }
 
   _getEncodingColumns() {
-    const checkedColumns = this._columns.filter((c) => c.checkEncoding).map((c) => c.label);
+    const checkedColumns = this._columns.filter((c) => c.checkEncoding).map((c) => c.name);
     if (checkedColumns.length === 0) {
-      return this._columns.map((c) => c.label);
+      return this._columns.map((c) => c.name);
     }
     return checkedColumns;
   }
@@ -118,11 +108,11 @@ class CsvOrganizationLearnerParser {
     };
 
     this._columns.forEach((column) => {
-      const value = line[column.label];
+      const value = line[column.name];
       if (column.isDate) {
-        learnerAttributes[column.name] = this._buildDateAttribute(value);
+        learnerAttributes[column.property] = this._buildDateAttribute(value);
       } else {
-        learnerAttributes[column.name] = value;
+        learnerAttributes[column.property] = value;
       }
     });
 
@@ -133,14 +123,14 @@ class CsvOrganizationLearnerParser {
     // Required columns
     const missingMandatoryColumn = this._columns
       .filter((c) => c.isRequired)
-      .find((c) => !parsedColumns.includes(c.label));
+      .find((c) => !parsedColumns.includes(c.name));
 
     if (missingMandatoryColumn) {
-      throw new CsvImportError(ERRORS.HEADER_REQUIRED, { field: missingMandatoryColumn.label });
+      throw new CsvImportError(ERRORS.HEADER_REQUIRED, { field: missingMandatoryColumn.name });
     }
 
     // Expected columns
-    const acceptedColumns = this._columns.map((column) => column.label);
+    const acceptedColumns = this._columns.map((column) => column.name);
 
     if (_atLeastOneParsedColumnDoesNotMatchAcceptedColumns(parsedColumns, acceptedColumns)) {
       throw new CsvImportError(ERRORS.HEADER_UNKNOWN);
@@ -158,9 +148,9 @@ class CsvOrganizationLearnerParser {
   }
 
   _handleError(err, index) {
-    const column = this._columns.find((column) => column.name === err.key);
+    const column = this._columns.find((column) => column.property === err.key);
     const line = index + 2;
-    const field = column.label;
+    const field = column.name;
     if (err.why === 'min_length') {
       throw new CsvImportError(ERRORS.FIELD_MIN_LENGTH, { line, field, limit: err.limit });
     }
@@ -195,6 +185,5 @@ function _atLeastOneParsedColumnDoesNotMatchAcceptedColumns(parsedColumns, accep
 }
 
 module.exports = {
-  CsvColumn,
   CsvOrganizationLearnerParser,
 };
