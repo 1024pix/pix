@@ -13,6 +13,7 @@ export default class ListController extends Controller {
   @tracked fullName = null;
   @tracked certificability = [];
   @tracked participationCountOrder = null;
+  @tracked lastnameSort = 'asc';
 
   @action
   triggerFiltering(fieldName, value) {
@@ -23,6 +24,14 @@ export default class ListController extends Controller {
   @action
   sortByParticipationCount(value) {
     this.participationCountOrder = value || null;
+    this.pageNumber = null;
+    this.lastnameSort = null;
+  }
+
+  @action
+  sortByLastname(value) {
+    this.lastnameSort = value || null;
+    this.participationCountOrder = null;
     this.pageNumber = null;
   }
 
