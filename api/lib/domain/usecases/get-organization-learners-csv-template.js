@@ -1,6 +1,6 @@
 const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
 const { UserNotAuthorizedToAccessEntityError } = require('../errors');
-const SupOrganizationLearnerColumns = require('../../infrastructure/serializers/csv/sup-organization-learner-columns');
+const SupOrganizationLearnerImportHeader = require('../../infrastructure/serializers/csv/sup-organization-learner-import-header');
 
 module.exports = async function getOrganizationLearnersCsvTemplate({
   userId,
@@ -18,13 +18,13 @@ module.exports = async function getOrganizationLearnersCsvTemplate({
     throw new UserNotAuthorizedToAccessEntityError('User is not allowed to download csv template.');
   }
 
-  const header = _getCsvColumns(new SupOrganizationLearnerColumns(i18n).columns);
+  const header = _getCsvColumns(new SupOrganizationLearnerImportHeader(i18n).columns);
 
   return _createHeaderOfCSV(header);
 };
 
 function _getCsvColumns(columns) {
-  return columns.map((column) => column.label);
+  return columns.map((column) => column.name);
 }
 
 function _createHeaderOfCSV(header) {
