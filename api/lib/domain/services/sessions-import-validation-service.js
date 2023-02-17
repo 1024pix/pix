@@ -6,10 +6,6 @@ module.exports = {
   async validate({ session, sessionRepository, certificationCourseRepository }) {
     const sessionId = session.id;
 
-    if (session.isSessionScheduledInThePast()) {
-      throw new UnprocessableEntityError(`Une session ne peut pas être programmée dans le passé`);
-    }
-
     if (sessionId) {
       if (_hasSessionInfo(session)) {
         throw new SessionWithIdAndInformationOnMassImportError(
@@ -20,15 +16,17 @@ module.exports = {
       if (await _isSessionStarted({ certificationCourseRepository, sessionId })) {
         throw new UnprocessableEntityError("Impossible d'ajouter un candidat à une session qui a déjà commencé.");
       }
-    }
-
-    if (!sessionId) {
-      sessionValidator.validate(session);
-
+    } else {
       const isSessionExisting = await sessionRepository.isSessionExisting({ ...session });
       if (isSessionExisting) {
         throw new UnprocessableEntityError(`Session happening on ${session.date} at ${session.time} already exists`);
       }
+
+      if (session.isSessionScheduledInThePast()) {
+        throw new UnprocessableEntityError(`Une session ne peut pas être programmée dans le passé`);
+      }
+
+      sessionValidator.validate(session);
     }
 
     if (session.certificationCandidates?.length) {

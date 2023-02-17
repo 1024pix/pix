@@ -87,16 +87,8 @@ describe('Unit | Service | sessions import validation Service', function () {
       context('when at least one session is scheduled in the past', function () {
         it('should throw', async function () {
           // given
-          const session = domainBuilder.buildSession({
-            sessionId: undefined,
-            address: 'Site 1',
-            room: 'Salle 1',
-            date: '2020-03-12',
-            time: '01:00',
-            examiner: 'Pierre',
-            description: 'desc',
-            certificationCandidates: [],
-          });
+          const session = _buildValidSessionWithoutId();
+          session.date = '2020-03-12';
 
           // when
           const error = await catchErr(sessionsImportValidationService.validate)({
@@ -153,7 +145,7 @@ describe('Unit | Service | sessions import validation Service', function () {
     context('when there already is an existing session with the same data as a newly imported one', function () {
       it('should throw an error', async function () {
         // given
-        const session = domainBuilder.buildSession({ sessionId: 1234 });
+        const session = _buildValidSessionWithoutId();
         sessionRepository.isSessionExisting.withArgs({ ...session }).resolves(true);
 
         // when
@@ -174,13 +166,9 @@ describe('Unit | Service | sessions import validation Service', function () {
           // given
           const validCandidateData = _createValidCandidateData(1);
           const validCandidateDataDuplicate = _createValidCandidateData(1);
-          const session = domainBuilder.buildSession({
-            ..._createValidSessionData(),
-            id: null,
-            certificationCandidates: [validCandidateData, validCandidateDataDuplicate],
-          });
+          const session = _buildValidSessionWithoutId();
+          session.certificationCandidates = [validCandidateData, validCandidateDataDuplicate];
 
-          // when
           // when
           const error = await catchErr(sessionsImportValidationService.validate)({
             session,
