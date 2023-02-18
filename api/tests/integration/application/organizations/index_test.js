@@ -1,10 +1,116 @@
-const { expect, sinon, HttpTestServer } = require('../../../test-helper');
+const {
+  expect,
+  sinon,
+  HttpTestServer,
+  generateValidRequestAuthorizationHeader,
+  databaseBuilder,
+} = require('../../../test-helper');
 
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
 const moduleUnderTest = require('../../../../lib/application/organizations');
 
 describe('Integration | Application | Organizations | Routes', function () {
+  describe('POST /api/admin2/organizations - authentication and authorization', function () {
+    const method = 'POST';
+    const url = '/api/admin2/organizations';
+    let headers, httpTestServer;
+    beforeEach(async function () {
+      sinon.stub(organizationController, 'create_v2').returns('ok');
+      httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+      httpTestServer.setupAuthentication();
+    });
+
+    it('should return a 401 status code when trying to call route unauthenticated', async function () {
+      // given
+      headers = {
+        authorization: null,
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, null, null, headers);
+
+      // then
+      expect(response.statusCode).to.equal(401);
+    });
+
+    it('should return a 403 status code when trying to call route with a user with no admin role', async function () {
+      // given
+      const simpleUserId = databaseBuilder.factory.buildUser().id;
+      await databaseBuilder.commit();
+      headers = {
+        authorization: generateValidRequestAuthorizationHeader(simpleUserId),
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, null, null, headers);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+
+    it('should return a 403 status code when trying to call route with an admin user with role certif', async function () {
+      // given
+      const certifUserId = databaseBuilder.factory.buildUser.withRole({ role: 'CERTIF' }).id;
+      await databaseBuilder.commit();
+      headers = {
+        authorization: generateValidRequestAuthorizationHeader(certifUserId),
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, null, null, headers);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+
+    it('should reach handler when trying to call route with an admin user with role super admin', async function () {
+      // given
+      const adminUserId = databaseBuilder.factory.buildUser.withRole({ role: 'SUPER_ADMIN' }).id;
+      await databaseBuilder.commit();
+      headers = {
+        authorization: generateValidRequestAuthorizationHeader(adminUserId),
+      };
+
+      // when
+      await httpTestServer.request(method, url, null, null, headers);
+
+      // then
+      expect(organizationController.create_v2).to.have.been.calledOnce;
+    });
+
+    it('should reach handler when trying to call route with an admin user with role support', async function () {
+      // given
+      const adminUserId = databaseBuilder.factory.buildUser.withRole({ role: 'SUPPORT' }).id;
+      await databaseBuilder.commit();
+      headers = {
+        authorization: generateValidRequestAuthorizationHeader(adminUserId),
+      };
+
+      // when
+      await httpTestServer.request(method, url, null, null, headers);
+
+      // then
+      expect(organizationController.create_v2).to.have.been.calledOnce;
+    });
+
+    it('should reach handler when trying to call route with an admin user with role metier', async function () {
+      // given
+      const adminUserId = databaseBuilder.factory.buildUser.withRole({ role: 'METIER' }).id;
+      await databaseBuilder.commit();
+      headers = {
+        authorization: generateValidRequestAuthorizationHeader(adminUserId),
+      };
+
+      // when
+      await httpTestServer.request(method, url, null, null, headers);
+
+      // then
+      expect(organizationController.create_v2).to.have.been.calledOnce;
+    });
+  });
+
   describe('POST /api/admin/organizations', function () {
     it('should exist', async function () {
       // given

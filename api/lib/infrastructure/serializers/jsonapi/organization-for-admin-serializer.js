@@ -92,4 +92,18 @@ module.exports = {
 
     return organization;
   },
+
+  deserializeCreationCommand(creatorId, payload) {
+    const attributes = payload.data.attributes;
+    return {
+      name: attributes.name,
+      type: attributes.type,
+      documentationUrl: attributes['documentation-url'],
+      credit: attributes.credit,
+      dataProtectionOfficerFirstName: attributes['data-protection-officer-first-name'],
+      dataProtectionOfficerLastName: attributes['data-protection-officer-last-name'],
+      dataProtectionOfficerEmail: attributes['data-protection-officer-email'],
+      createdBy: creatorId,
+    };
+  },
 };

@@ -38,6 +38,30 @@ exports.register = async (server) => {
     },
     {
       method: 'POST',
+      path: '/api/admin2/organizations',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        handler: organizationController.create_v2,
+        tags: ['api', 'organizations'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            '- SUPER_ADMIN, SUPPORT ou METIER\n' +
+            '- Elle permet de créer une nouvelle organisation',
+        ],
+      },
+    },
+    {
+      method: 'POST',
       path: '/api/admin/organizations/import-csv',
       config: {
         pre: [

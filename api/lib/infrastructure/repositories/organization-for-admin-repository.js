@@ -6,6 +6,7 @@ const OrganizationInvitation = require('../../domain/models/OrganizationInvitati
 const _ = require('lodash');
 
 const ORGANIZATIONS_TABLE_NAME = 'organizations';
+const DATA_PROTECTION_OFFICERS_TABLE_NAME = 'data-protection-officers';
 
 function _toDomain(rawOrganization) {
   const organization = new OrganizationForAdmin({
@@ -159,5 +160,38 @@ module.exports = {
     const data = _.pick(organization, ['name', 'type', 'documentationUrl', 'credit', 'createdBy']);
     const [organizationCreated] = await knex(ORGANIZATIONS_TABLE_NAME).returning('*').insert(data);
     return _toDomain(organizationCreated);
+  },
+
+  async save_v2(organization) {
+    const organizationDTO = organization.toDTO();
+    const organizationDataToSave = _.pick(organizationDTO, [
+      'id',
+      'name',
+      'type',
+      'documentationUrl',
+      'credit',
+      'createdBy',
+      'isManagingStudents',
+      'showNPS',
+      'showSkills',
+    ]);
+    const [{ id }] = await knex(ORGANIZATIONS_TABLE_NAME)
+      .insert(organizationDataToSave)
+      .onConflict(['id'])
+      .merge()
+      .returning('id');
+    const DPODataToSave = {
+      firstName: organizationDTO.dataProtectionOfficerFirstName,
+      lastName: organizationDTO.dataProtectionOfficerLastName,
+      email: organizationDTO.dataProtectionOfficerEmail,
+      organizationId: id,
+    };
+    const existingDPO = await knex(DATA_PROTECTION_OFFICERS_TABLE_NAME).where({ organizationId: id }).first();
+    const mergedDPOData = {
+      ...existingDPO,
+      ...DPODataToSave,
+    };
+    await knex(DATA_PROTECTION_OFFICERS_TABLE_NAME).insert(mergedDPOData).onConflict(['id']).merge();
+    return id;
   },
 };

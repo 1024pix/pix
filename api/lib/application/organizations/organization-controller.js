@@ -1,6 +1,8 @@
 const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
 
+const createOrganization = require('../../domain/usecases/organization-management/create-organization-v2');
+const organizationForAdminRepository = require('../../infrastructure/repositories/organization-for-admin-repository');
 const campaignManagementSerializer = require('../../infrastructure/serializers/jsonapi/campaign-management-serializer');
 const campaignReportSerializer = require('../../infrastructure/serializers/jsonapi/campaign-report-serializer');
 const divisionSerializer = require('../../infrastructure/serializers/jsonapi/division-serializer');
@@ -52,6 +54,18 @@ module.exports = {
     const serializedOrganization = organizationForAdminSerializer.serialize(createdOrganization);
 
     return serializedOrganization;
+  },
+
+  async create_v2(request, h) {
+    const superAdminUserId = extractUserIdFromRequest(request);
+    const organizationCreationCommand = organizationForAdminSerializer.deserializeCreationCommand(
+      +superAdminUserId,
+      request.payload
+    );
+    const organizationToCreate = createOrganization({ organizationCreationCommand });
+    const id = await organizationForAdminRepository.save_v2(organizationToCreate);
+    const createdOrganization = await organizationForAdminRepository.get(id);
+    return h.response(organizationForAdminSerializer.serialize(createdOrganization)).created();
   },
 
   async createInBatch(request, h) {
