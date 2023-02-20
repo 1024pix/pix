@@ -16,18 +16,22 @@ module('Acceptance | Trainings | Triggers edit', function (hooks) {
   hooks.beforeEach(async function () {
     trainingId = 2;
 
-    server.create('training', {
-      id: 2,
-      title: 'Devenir tailleur de citrouille',
-      link: 'http://www.example2.net',
-      type: 'autoformation',
-      duration: '10:00:00',
-      locale: 'fr-fr',
-      editorName: "Ministère de l'éducation nationale et de la jeunesse",
-      editorLogoUrl: 'https://mon-logo.svg',
-      prerequisiteThreshold: null,
-      goalThreshold: null,
-    });
+    server.create(
+      'training',
+      {
+        id: 2,
+        title: 'Devenir tailleur de citrouille',
+        link: 'http://www.example2.net',
+        type: 'autoformation',
+        duration: '10:00:00',
+        locale: 'fr-fr',
+        editorName: "Ministère de l'éducation nationale et de la jeunesse",
+        editorLogoUrl: 'https://mon-logo.svg',
+        prerequisiteThreshold: null,
+        goalThreshold: null,
+      },
+      'withFramework'
+    );
   });
 
   module('When admin member is not logged in', function () {
@@ -54,6 +58,11 @@ module('Acceptance | Trainings | Triggers edit', function (hooks) {
 
       // then
       assert.strictEqual(currentURL(), `/trainings/${trainingId}/triggers/edit?type=prerequisite`);
+      assert.dom(screen.getByText('Sélection des sujets', { exact: false })).exists();
+      await click(screen.getByText('area_f1_a1 code', { exact: false }));
+      await click(screen.getByText('competence_f1_a1_c1 index', { exact: false }));
+      await click(screen.getByText('thematic_f1_a1_c1_th1 name', { exact: false }));
+      assert.dom(screen.getByText('2/5')).exists();
     });
 
     test('it should be accessible by an authenticated user : goal edit', async function (assert) {
