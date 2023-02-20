@@ -30,3 +30,4 @@ ignore:
   - db/seeds
   - scripts
   - nyc.config.js
+  - codemods
