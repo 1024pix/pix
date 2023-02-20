@@ -1,6 +1,5 @@
 /* stylelint-disable selector-class-pattern */
 .btn-refresh-cache {
-
   svg {
     margin-right: 6px;
   }
@@ -17,5 +16,15 @@
 
   button {
     max-height: 36px;
+  }
+}
+
+.tools {
+  &__warning {
+    margin-bottom: $spacing-s;
+  }
+
+  .pix-button {
+    display: inline-flex;
   }
 }

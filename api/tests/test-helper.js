@@ -27,6 +27,7 @@ const Membership = require('../lib/domain/models/Membership');
 const EMPTY_BLANK_AND_NULL = ['', '\t \n', null];
 
 const { ROLES } = require('../lib/domain/constants').PIX_ADMIN;
+const { createTempFile, removeTempFile } = require('./tooling/temporary-file');
 
 /* eslint-disable mocha/no-top-level-hooks */
 afterEach(function () {
@@ -263,4 +264,6 @@ module.exports = {
   testErr: new Error('Fake Error'),
   mockLearningContent,
   learningContentBuilder,
+  createTempFile,
+  removeTempFile,
 };

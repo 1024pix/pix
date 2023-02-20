@@ -4,13 +4,13 @@ const iconv = require('iconv-lite');
 const importSupOrganizationLearner = require('../../../../lib/domain/usecases/import-sup-organization-learners');
 const supOrganizationLearnerRepository = require('../../../../lib/infrastructure/repositories/sup-organization-learner-repository');
 const SupOrganizationLearnerParser = require('../../../../lib/infrastructure/serializers/csv/sup-organization-learner-parser');
-const SupOrganizationLearnerColumns = require('../../../../lib/infrastructure/serializers/csv/sup-organization-learner-columns');
+const SupOrganizationLearnerImportHeader = require('../../../../lib/infrastructure/serializers/csv/sup-organization-learner-import-header');
 const { getI18n } = require('../../../tooling/i18n/i18n');
 
 const i18n = getI18n();
 
-const supOrganizationLearnerColumns = new SupOrganizationLearnerColumns(i18n).columns
-  .map((column) => column.label)
+const supOrganizationLearnerImportHeader = new SupOrganizationLearnerImportHeader(i18n).columns
+  .map((column) => column.name)
   .join(';');
 
 describe('Integration | UseCase | ImportSupOrganizationLearner', function () {
@@ -20,7 +20,7 @@ describe('Integration | UseCase | ImportSupOrganizationLearner', function () {
 
   context('when there is no organization learners for the organization', function () {
     it('parses the csv received and creates the SupOrganizationLearner', async function () {
-      const input = `${supOrganizationLearnerColumns}
+      const input = `${supOrganizationLearnerImportHeader}
           Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
           O-Ren;;;Ishii;Cottonmouth;01/01/1980;ishii@example.net;789;Assassination Squad;Bill;Deadly Viper Assassination Squad;DUT;;
       `.trim();
@@ -43,7 +43,7 @@ describe('Integration | UseCase | ImportSupOrganizationLearner', function () {
   context('when there is an organization learner for the organization', function () {
     context('which matches by student number', function () {
       it('updates the existing organization learner which have matched with csv data', async function () {
-        const input = `${supOrganizationLearnerColumns}
+        const input = `${supOrganizationLearnerImportHeader}
             Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
         `.trim();
 
@@ -73,7 +73,7 @@ describe('Integration | UseCase | ImportSupOrganizationLearner', function () {
   });
 
   it('should return warnings about the import', async function () {
-    const input = `${supOrganizationLearnerColumns}
+    const input = `${supOrganizationLearnerImportHeader}
             Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;BAD;BAD;
         `.trim();
 

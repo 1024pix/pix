@@ -2,12 +2,12 @@ const iconv = require('iconv-lite');
 const { expect, catchErr } = require('../../../../test-helper');
 const OrganizationLearnerParser = require('../../../../../lib/infrastructure/serializers/csv/organization-learner-parser');
 const { CsvImportError } = require('../../../../../lib/domain/errors');
-const OrganizationLearnerColumns = require('../../../../../lib/infrastructure/serializers/csv/organization-learner-columns');
+const OrganizationLearnerImportHeader = require('../../../../../lib/infrastructure/serializers/csv/organization-learner-import-header');
 const { getI18n } = require('../../../../tooling/i18n/i18n');
 const i18n = getI18n();
 
-const organizationLearnerCsvColumns = new OrganizationLearnerColumns(i18n).columns
-  .map((column) => column.label)
+const organizationLearnerCsvColumns = new OrganizationLearnerImportHeader(i18n).columns
+  .map((column) => column.name)
   .join(';');
 
 describe('Unit | Infrastructure | OrganizationLearnerParser', function () {

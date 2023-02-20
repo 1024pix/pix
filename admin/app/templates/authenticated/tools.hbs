@@ -1,5 +1,5 @@
 {{page-title "Outils"}}
-<div class="page">
+<div class="page tools">
   <header class="page-header">
     <h1 class="page-title">Outils</h1>
     <div class="page-actions">
@@ -7,7 +7,17 @@
   </header>
 
   <main class="page-body">
-
+    <section class="page-section">
+      <header class="page-section__header">
+        <h2 class="page-section__title">Archiver des campagnes en masse</h2>
+      </header>
+      <PixMessage class="tools__warning" @type="warning" @withIcon={{true}}>
+        L'envoi du fichier (format .csv) va archiver toutes les campagnes. Le fichier ne doit comporter qu'une seule
+        colonne à renseigner correspondant aux id des campagnes.
+      </PixMessage>
+      <PixButtonUpload @id="file-upload" @onChange={{this.archiveCampaigns}} accept=".csv">
+        Envoyer le fichier des campagnes à archiver
+      </PixButtonUpload>
+    </section>
   </main>
-
 </div>
