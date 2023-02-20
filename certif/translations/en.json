@@ -151,10 +151,12 @@
               "replace": "<strong>Pour remplacer</strong> une liste pré-existante dans le fichier modèle,",
               "subscription": "<strong>Pour inscrire</strong> des candidats dans une session vide.",
               "warning": "Attention à renseigner le numéro de session sans les autres informations de sessions (ex: date, heure, etc.) pour éviter les doublons lors de la création."
-            }
+            },
+            "title": "Comment ça marche ?"
           }
         },
         "breadcrumb": {
+          "extra-information": "Fil d'Arianne",
           "import": "Import du modèle",
           "summary": "Récapitulatif"
         }
