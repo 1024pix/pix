@@ -1,7 +1,6 @@
 {
   "extends": ["@1024pix/stylelint-config", "stylelint-config-rational-order"],
   "rules": {
-    "scss/operator-no-unspaced": null,
     "scss/no-global-function-names": null,
     "declaration-block-no-redundant-longhand-properties": null,
     "scss/at-mixin-pattern": null,
