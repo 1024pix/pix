@@ -42,10 +42,11 @@ module.exports = {
   async getValidatedCandidateBirthInformation({
     candidate,
     isSco,
+    isSessionsMassImport,
     certificationCpfCountryRepository,
     certificationCpfCityRepository,
   }) {
-    candidate.validate(isSco);
+    candidate.validate(isSco, isSessionsMassImport);
 
     const cpfBirthInformation = await certificationCpfService.getBirthInformation({
       birthCountry: candidate.birthCountry,
