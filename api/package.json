@@ -9,6 +9,7 @@
     "node": "16",
     "npm": ">=8.13.2 <9"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/1024pix/pix.git"

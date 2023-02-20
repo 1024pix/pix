@@ -4,11 +4,12 @@ extends:
   - 'plugin:mocha/recommended'
   - 'plugin:prettier/recommended'
   - 'plugin:chai-expect/recommended'
+  - 'plugin:node/recommended-module'
 parserOptions:
   ecmaVersion: 2020
   requireConfigFile: false
 
-parser: "@babel/eslint-parser"
+parser: '@babel/eslint-parser'
 
 globals:
   include: true
@@ -41,3 +42,16 @@ rules:
   # Refer to scripts/_template.js for reliable alternatives to process.exit()
   node/no-process-exit: error
   unicorn/no-empty-file: error
+  node/no-unpublished-import:
+    - error
+    - allowModules:
+        - chai
+        - flush-write-stream
+        - form-data
+        - mockdate
+        - nock
+        - proxyquire
+        - sinon
+        - split2
+        - stream-to-promise
+        - pino-pretty
