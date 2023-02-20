@@ -205,29 +205,15 @@ exports.register = async (server) => {
               attributes: Joi.object({
                 type: Joi.string().valid('prerequisite', 'goal').required(),
                 threshold: Joi.number().min(0).max(100).required(),
-              }),
-              relationships: Joi.object({
-                tubes: Joi.object({
-                  data: Joi.array().items(
-                    Joi.object({
-                      id: identifiersType.tubeId.required(),
-                      type: Joi.string().valid('tubes').required(),
-                    })
-                  ),
-                }),
+                tubes: Joi.array().items(
+                  Joi.object({
+                    id: identifiersType.tubeId.required(),
+                    level: Joi.number().min(0).max(8).required(),
+                  })
+                ),
               }),
               type: Joi.string().valid('training-triggers'),
             }).required(),
-            included: Joi.array()
-              .items(
-                Joi.object({
-                  attributes: Joi.object({
-                    id: identifiersType.tubeId.required(),
-                    level: Joi.number().min(0).max(8).required(),
-                  }),
-                }).required()
-              )
-              .required(),
           }).required(),
           options: {
             allowUnknown: true,

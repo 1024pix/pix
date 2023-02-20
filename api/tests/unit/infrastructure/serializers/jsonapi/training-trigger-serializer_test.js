@@ -57,28 +57,9 @@ describe('Unit | Serializer | JSONAPI | training-trigger-serializer', function (
             trainingId: 123,
             type: 'prerequisite',
             threshold: 30,
-          },
-          relationships: {
-            tubes: {
-              data: [
-                {
-                  id: 'recTube123',
-                  type: 'tubes',
-                },
-              ],
-            },
+            tubes: [{ id: 'recTube123', level: 2 }],
           },
         },
-        included: [
-          {
-            attributes: {
-              id: 'recTube123',
-              level: 2,
-            },
-            id: 'recTube123',
-            type: 'tubes',
-          },
-        ],
       };
 
       // when
