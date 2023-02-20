@@ -249,44 +249,88 @@ describe('Unit | UseCases | update-stage', function () {
       expect(error.message).to.equal('Palier non valide : Niveau doit être compris entre 0 et 5.');
     });
 
-    it('should throw InvalidStageError when title not provided', function () {
-      // given
-      const stageToUpdate = {
-        id: 51,
-        level: 4,
-        threshold: null,
-        message: 'nouveau message palier',
-        title: null,
-        prescriberDescription: 'nouvelle description prescripteur palier',
-        prescriberTitle: 'nouveau titre prescripteur palier',
-      };
+    context('title', function () {
+      it('should throw InvalidStageError when not provided', function () {
+        // given
+        const stageToUpdate = {
+          id: 51,
+          level: 4,
+          threshold: null,
+          message: 'nouveau message palier',
+          title: null,
+          prescriberDescription: 'nouvelle description prescripteur palier',
+          prescriberTitle: 'nouveau titre prescripteur palier',
+        };
 
-      // when
-      const error = catchErrSync(usecases.updateStage)({ stageCollection, stage: stageToUpdate });
+        // when
+        const error = catchErrSync(usecases.updateStage)({ stageCollection, stage: stageToUpdate });
 
-      // then
-      expect(error).to.be.an.instanceof(InvalidStageError);
-      expect(error.message).to.equal('Palier non valide : Titre obligatoire.');
+        // then
+        expect(error).to.be.an.instanceof(InvalidStageError);
+        expect(error.message).to.equal('Palier non valide : Titre obligatoire.');
+      });
+
+      it('should throw InvalidStageError when empty', function () {
+        // given
+        const stageToUpdate = {
+          id: 51,
+          level: 4,
+          threshold: null,
+          message: 'nouveau message palier',
+          title: ' ',
+          prescriberDescription: 'nouvelle description prescripteur palier',
+          prescriberTitle: 'nouveau titre prescripteur palier',
+        };
+
+        // when
+        const error = catchErrSync(usecases.updateStage)({ stageCollection, stage: stageToUpdate });
+
+        // then
+        expect(error).to.be.an.instanceof(InvalidStageError);
+        expect(error.message).to.equal('Palier non valide : Titre obligatoire.');
+      });
     });
 
-    it('should throw InvalidStageError when message not provided', function () {
-      // given
-      const stageToUpdate = {
-        id: 51,
-        level: 4,
-        threshold: null,
-        message: '',
-        title: 'nouveau titre palier',
-        prescriberDescription: 'nouvelle description prescripteur palier',
-        prescriberTitle: 'nouveau titre prescripteur palier',
-      };
+    context('message', function () {
+      it('should throw InvalidStageError when not provided', function () {
+        // given
+        const stageToUpdate = {
+          id: 51,
+          level: 4,
+          threshold: null,
+          message: null,
+          title: 'nouveau titre palier',
+          prescriberDescription: 'nouvelle description prescripteur palier',
+          prescriberTitle: 'nouveau titre prescripteur palier',
+        };
 
-      // when
-      const error = catchErrSync(usecases.updateStage)({ stageCollection, stage: stageToUpdate });
+        // when
+        const error = catchErrSync(usecases.updateStage)({ stageCollection, stage: stageToUpdate });
 
-      // then
-      expect(error).to.be.an.instanceof(InvalidStageError);
-      expect(error.message).to.equal('Palier non valide : Message obligatoire.');
+        // then
+        expect(error).to.be.an.instanceof(InvalidStageError);
+        expect(error.message).to.equal('Palier non valide : Message obligatoire.');
+      });
+
+      it('should throw InvalidStageError when empty', function () {
+        // given
+        const stageToUpdate = {
+          id: 51,
+          level: 4,
+          threshold: null,
+          message: ' ',
+          title: 'nouveau titre palier',
+          prescriberDescription: 'nouvelle description prescripteur palier',
+          prescriberTitle: 'nouveau titre prescripteur palier',
+        };
+
+        // when
+        const error = catchErrSync(usecases.updateStage)({ stageCollection, stage: stageToUpdate });
+
+        // then
+        expect(error).to.be.an.instanceof(InvalidStageError);
+        expect(error.message).to.equal('Palier non valide : Message obligatoire.');
+      });
     });
 
     context('Multiple stage collection', function () {
@@ -545,7 +589,27 @@ describe('Unit | UseCases | update-stage', function () {
         level: null,
         threshold: 33,
         message: 'nouveau message palier',
-        title: '',
+        title: null,
+        prescriberDescription: 'nouvelle description prescripteur palier',
+        prescriberTitle: 'nouveau titre prescripteur palier',
+      };
+
+      // when
+      const error = catchErrSync(usecases.updateStage)({ stageCollection, stage: stageToUpdate });
+
+      // then
+      expect(error).to.be.an.instanceof(InvalidStageError);
+      expect(error.message).to.equal('Palier non valide : Titre obligatoire.');
+    });
+
+    it('should throw InvalidStageError when empty title', function () {
+      // given
+      const stageToUpdate = {
+        id: 51,
+        level: null,
+        threshold: 33,
+        message: 'nouveau message palier',
+        title: ' ',
         prescriberDescription: 'nouvelle description prescripteur palier',
         prescriberTitle: 'nouveau titre prescripteur palier',
       };
@@ -565,6 +629,26 @@ describe('Unit | UseCases | update-stage', function () {
         level: null,
         threshold: 33,
         message: null,
+        title: 'nouveau titre palier',
+        prescriberDescription: 'nouvelle description prescripteur palier',
+        prescriberTitle: 'nouveau titre prescripteur palier',
+      };
+
+      // when
+      const error = catchErrSync(usecases.updateStage)({ stageCollection, stage: stageToUpdate });
+
+      // then
+      expect(error).to.be.an.instanceof(InvalidStageError);
+      expect(error.message).to.equal('Palier non valide : Message obligatoire.');
+    });
+
+    it('should throw InvalidStageError when empty message', function () {
+      // given
+      const stageToUpdate = {
+        id: 51,
+        level: null,
+        threshold: 33,
+        message: ' ',
         title: 'nouveau titre palier',
         prescriberDescription: 'nouvelle description prescripteur palier',
         prescriberTitle: 'nouveau titre prescripteur palier',

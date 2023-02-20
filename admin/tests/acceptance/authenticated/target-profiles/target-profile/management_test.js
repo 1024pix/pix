@@ -32,7 +32,7 @@ module('Acceptance | Target Profile Management', function (hooks) {
           await visit('/target-profiles/1');
 
           // then
-          assert.strictEqual(currentURL(), '/target-profiles/1');
+          assert.strictEqual(currentURL(), '/target-profiles/1/details');
         });
       });
 
@@ -109,7 +109,7 @@ module('Acceptance | Target Profile Management', function (hooks) {
       await clickByName('Enregistrer');
 
       // then
-      assert.strictEqual(currentURL(), '/target-profiles/1');
+      assert.strictEqual(currentURL(), '/target-profiles/1/details');
       assert.dom(screen.getByRole('heading', { name: 'nom modifié' })).exists();
       assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
       await clickByName('Éditer');
@@ -133,7 +133,7 @@ module('Acceptance | Target Profile Management', function (hooks) {
       await clickByName('Annuler');
 
       // then
-      assert.strictEqual(currentURL(), '/target-profiles/1');
+      assert.strictEqual(currentURL(), '/target-profiles/1/details');
       assert.dom(screen.getByRole('heading', { name: 'Nom à éditer' })).exists();
       assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
     });

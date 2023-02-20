@@ -1,50 +1,48 @@
 <tr aria-label="Informations sur le palier {{@title}}">
   <td>
-    <div class="form-field">
-      {{#if @isTypeLevel}}
-        <Stages::StageLevelSelect
-          @availableLevels={{@availableLevels}}
-          @value={{@level}}
-          @onChange={{@setLevel}}
-          class="stages-table__level-select"
-          required="true"
-          @label="Niveau du palier"
-        />
-      {{else}}
-        <Input
-          class={{if @errors.threshold "form-control is-invalid" "form-control"}}
-          @type="number"
-          required="true"
-          @value={{@threshold}}
-          aria-label="Seuil du palier"
-        />
-        {{#if @errors.threshold}}
-          <div class="form-field__error">
-            {{get @errors.threshold "0.message"}}
-          </div>
-        {{/if}}
-      {{/if}}
-    </div>
-  </td>
-  <td>
-    <div class="form-field">
-      <Input
-        class={{if @errors.title "form-field__text form-control is-invalid" "form-field__text form-control"}}
+    {{#if @isTypeLevel}}
+      <Stages::StageLevelSelect
+        @availableLevels={{@availableLevels}}
+        @value={{@level}}
+        @onChange={{@setLevel}}
+        class="stages-table__level-select"
         required="true"
-        @value={{@title}}
-        aria-label="Titre du palier"
+        @label="Niveau du palier"
       />
-      {{#if @errors.title}}
-        <div class="form-field__error">
-          {{get @errors.title "0.message"}}
-        </div>
-      {{/if}}
-    </div>
+    {{else}}
+      <PixInput
+        @id="threshold"
+        @errorMessage="Le seuil est invalide"
+        @validationStatus={{this.thresholdStatus}}
+        @requiredLabel="Champ obligatoire"
+        type="number"
+        @value={{@threshold}}
+        @ariaLabel="Seuil du palier"
+        {{on "focusout" this.checkThresholdValidity}}
+      />
+    {{/if}}
   </td>
   <td>
-    <div class="form-field">
-      <Input class="form-control" required="true" @value={{@message}} aria-label="Message du palier" />
-    </div>
+    <PixInput
+      @id="title"
+      @errorMessage="Le titre est vide"
+      @validationStatus={{this.titleStatus}}
+      @requiredLabel="Champ obligatoire"
+      @value={{@title}}
+      @ariaLabel="Titre du palier"
+      {{on "focusout" this.checkTitleValidity}}
+    />
+  </td>
+  <td>
+    <PixInput
+      @id="message"
+      @errorMessage="Le message est vide"
+      @validationStatus={{this.messageStatus}}
+      @requiredLabel="Champ obligatoire"
+      @value={{@message}}
+      @ariaLabel="Message du palier"
+      {{on "focusout" this.checkMessageValidity}}
+    />
   </td>
   <td>
     À renseigner ultérieurement
