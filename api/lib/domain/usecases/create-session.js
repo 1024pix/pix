@@ -28,7 +28,5 @@ module.exports = async function createSession({
     certificationCenter,
   });
 
-  domainSession.generateSupervisorPassword();
-
   return sessionRepository.save(domainSession);
 };

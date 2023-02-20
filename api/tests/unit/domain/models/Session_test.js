@@ -61,6 +61,15 @@ describe('Unit | Domain | Models | Session', function () {
     expect(_.keys(session)).to.have.deep.members(SESSION_PROPS);
   });
 
+  it('should default a supervisor password property containing 5 digits/letters except 0, 1 and vowels', async function () {
+    // given
+    // when
+    const session = new Session();
+
+    // then
+    expect(session.supervisorPassword).to.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/);
+  });
+
   context('#areResultsFlaggedAsSent', function () {
     context('when session resultsSentToPrescriberAt timestamp is defined', function () {
       it('should return true', function () {
@@ -74,6 +83,7 @@ describe('Unit | Domain | Models | Session', function () {
         expect(areResultsFlaggedAsSent).to.be.true;
       });
     });
+
     context('when session resultsSentToPrescriberAt timestamp is falsy', function () {
       it('should return false', function () {
         // given
@@ -215,7 +225,6 @@ describe('Unit | Domain | Models | Session', function () {
     it('should return true when the supervisor password match', function () {
       // given
       const session = domainBuilder.buildSession.created();
-      session.generateSupervisorPassword();
 
       // when
       const isSupervisable = session.isSupervisable(session.supervisorPassword);
@@ -257,19 +266,6 @@ describe('Unit | Domain | Models | Session', function () {
 
       // then
       expect(result).to.be.false;
-    });
-  });
-
-  context('#generateSupervisorPassword', function () {
-    it('should assign a supervisor password to supervisorPassword property containing 5 digits/letters except 0, 1 and vowels', async function () {
-      // given
-      const session = domainBuilder.buildSession();
-
-      // when
-      session.generateSupervisorPassword();
-
-      // then
-      expect(session.supervisorPassword).to.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/);
     });
   });
 

@@ -25,14 +25,12 @@ module.exports = async function createSessions({
       let { sessionId } = sessionDTO;
 
       const accessCode = sessionCodeService.getNewSessionCode();
-      const supervisorPassword = Session.generateSupervisorPassword();
       const session = new Session({
         ...sessionDTO,
         id: sessionId,
         certificationCenterId,
         certificationCenter,
         accessCode,
-        supervisorPassword,
       });
 
       await sessionsImportValidationService.validate({ session, sessionRepository, certificationCourseRepository });
