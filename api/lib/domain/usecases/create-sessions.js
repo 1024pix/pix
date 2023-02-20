@@ -18,8 +18,8 @@ module.exports = async function createSessions({
 }) {
   const { name: certificationCenter, isSco } = await certificationCenterRepository.get(certificationCenterId);
 
-  await DomainTransaction.execute(async (domainTransaction) => {
-    await bluebird.mapSeries(sessions, async (sessionDTO) => {
+  return await DomainTransaction.execute(async (domainTransaction) => {
+    return await bluebird.mapSeries(sessions, async (sessionDTO) => {
       let { sessionId } = sessionDTO;
 
       const accessCode = sessionCodeService.getNewSessionCode();
@@ -37,23 +37,23 @@ module.exports = async function createSessions({
         certificationCourseRepository,
       });
 
-      if (sessionId) {
-        await _deleteExistingCandidatesInSession({ certificationCandidateRepository, sessionId, domainTransaction });
-      }
+      // if (sessionId) {
+      //   await _deleteExistingCandidatesInSession({ certificationCandidateRepository, sessionId, domainTransaction });
+      // }
 
       if (!sessionId && _hasSessionInfo(sessionDTO)) {
-        const { id } = await _saveNewSessionReturningId({
-          sessionRepository,
-          domainSession: session,
-          domainTransaction,
-        });
-        sessionId = id;
+        //   const { id } = await _saveNewSessionReturningId({
+        //     sessionRepository,
+        //     domainSession: session,
+        //     domainTransaction,
+        //   });
+        //   sessionId = id;
       }
 
       if (session.certificationCandidates.length) {
         const { certificationCandidates } = session;
 
-        await _createCertificationCandidates({
+        const certificationCandidatesUpdated = await _createCertificationCandidates({
           certificationCandidates,
           sessionId,
           isSco,
@@ -65,7 +65,7 @@ module.exports = async function createSessions({
         });
       }
 
-      return true;
+      return session;
     });
   });
 };
@@ -118,10 +118,12 @@ async function _createCertificationCandidates({
       domainCertificationCandidate.complementaryCertifications = [complementaryCertification];
     }
 
-    await certificationCandidateRepository.saveInSession({
-      sessionId,
-      certificationCandidate: domainCertificationCandidate,
-      domainTransaction,
-    });
+    return domainCertificationCandidate;
+
+    // await certificationCandidateRepository.saveInSession({
+    //   sessionId,
+    //   certificationCandidate: domainCertificationCandidate,
+    //   domainTransaction,
+    // });
   });
 }
