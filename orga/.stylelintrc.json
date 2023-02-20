@@ -5,7 +5,6 @@
     "declaration-block-no-duplicate-properties": null,
     "declaration-block-no-redundant-longhand-properties": null,
     "declaration-block-single-line-max-declarations": null,
-    "declaration-colon-space-after": null,
     "declaration-empty-line-before": null,
     "length-zero-no-unit": null,
     "no-descending-specificity": null,
