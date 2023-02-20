@@ -63,7 +63,7 @@ module('Acceptance | Target Profiles | List', function (hooks) {
         await clickByName('Profil Cible');
 
         // then
-        assert.strictEqual(currentURL(), '/target-profiles/1');
+        assert.strictEqual(currentURL(), '/target-profiles/1/details');
         assert.dom(screen.getByText('1 · Area 1')).exists();
       });
 
