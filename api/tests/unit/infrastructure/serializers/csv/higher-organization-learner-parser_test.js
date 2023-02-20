@@ -1,20 +1,20 @@
 const iconv = require('iconv-lite');
 const { expect, catchErr } = require('../../../../test-helper');
 const SupOrganizationLearnerParser = require('../../../../../lib/infrastructure/serializers/csv/sup-organization-learner-parser');
-const SupOrganizationLearnerColumns = require('../../../../../lib/infrastructure/serializers/csv/sup-organization-learner-columns');
+const SupOrganizationLearnerImportHeader = require('../../../../../lib/infrastructure/serializers/csv/sup-organization-learner-import-header');
 const _ = require('lodash');
 const { getI18n } = require('../../../../tooling/i18n/i18n');
 const i18n = getI18n();
 
-const supOrganizationLearnerColumns = new SupOrganizationLearnerColumns(i18n).columns
-  .map((column) => column.label)
+const supOrganizationLearnerImportHeader = new SupOrganizationLearnerImportHeader(i18n).columns
+  .map((column) => column.name)
   .join(';');
 
 describe('Unit | Infrastructure | SupOrganizationLearnerParser', function () {
   context('when the header is correctly formed', function () {
     context('when there is no line', function () {
       it('returns an empty SupOrganizationLearnerSet', function () {
-        const input = supOrganizationLearnerColumns;
+        const input = supOrganizationLearnerImportHeader;
         const encodedInput = iconv.encode(input, 'utf8');
         const parser = new SupOrganizationLearnerParser(encodedInput, 123, i18n);
 
@@ -25,7 +25,7 @@ describe('Unit | Infrastructure | SupOrganizationLearnerParser', function () {
     });
     context('when there are lines', function () {
       it('returns a SupOrganizationLearnerSet with organization learner for each line', function () {
-        const input = `${supOrganizationLearnerColumns}
+        const input = `${supOrganizationLearnerImportHeader}
         Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
         O-Ren;;;Ishii;Cottonmouth;01/01/1980;ishii@example.net;789;Assassination Squad;Bill;Deadly Viper Assassination Squad;DUT;;
         `;
@@ -38,7 +38,7 @@ describe('Unit | Infrastructure | SupOrganizationLearnerParser', function () {
       });
 
       it('returns a SupOrganizationLearnerSet with an organization learner for each line using the CSV column', function () {
-        const input = `${supOrganizationLearnerColumns}
+        const input = `${supOrganizationLearnerImportHeader}
         Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Autre;Autre;
         O-Ren;;;Ishii;Cottonmouth;01/01/1980;ishii@example.net;789;Assassination Squad;Bill;Deadly Viper Assassination Squad;DUT contrôlé par l'Etat;Autre;
         `;
@@ -87,7 +87,7 @@ describe('Unit | Infrastructure | SupOrganizationLearnerParser', function () {
     const organizationId = 123;
 
     it('should throw an error if the student number is not unique', async function () {
-      const input = `${supOrganizationLearnerColumns}
+      const input = `${supOrganizationLearnerImportHeader}
       Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
       Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;`;
       const encodedInput = iconv.encode(input, 'utf8');
@@ -100,7 +100,7 @@ describe('Unit | Infrastructure | SupOrganizationLearnerParser', function () {
     });
 
     it('should throw an error if the student number is has an incorrect  format', async function () {
-      const input = `${supOrganizationLearnerColumns}
+      const input = `${supOrganizationLearnerImportHeader}
       Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123@;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
       Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1971;thebride@example.net;1234;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;`;
       const encodedInput = iconv.encode(input, 'utf8');
