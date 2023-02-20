@@ -1,7 +1,6 @@
 {
   "extends": ["@1024pix/stylelint-config"],
   "rules": {
-    "block-opening-brace-space-before": null,
     "declaration-block-no-duplicate-properties": null,
     "declaration-block-no-redundant-longhand-properties": null,
     "declaration-block-single-line-max-declarations": null,
