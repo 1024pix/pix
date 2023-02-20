@@ -5,8 +5,15 @@
 }
 
 @keyframes placeholder-background-color {
-  from { background-color: $pix-neutral-10; border-color: $pix-neutral-10;  }
-  to { background-color: $pix-neutral-20; border-color: $pix-neutral-20; }
+  from {
+    background-color: $pix-neutral-10;
+    border-color: $pix-neutral-10;
+  }
+
+  to {
+    background-color: $pix-neutral-20;
+    border-color: $pix-neutral-20;
+  }
 }
 
 .placeholder-doughnut {
@@ -17,7 +24,11 @@
 }
 
 @keyframes placeholder-border-color {
-  from { border-color: $pix-neutral-10;  }
-  to { border-color: $pix-neutral-20; }
-}
+  from {
+    border-color: $pix-neutral-10;
+  }
 
+  to {
+    border-color: $pix-neutral-20;
+  }
+}
