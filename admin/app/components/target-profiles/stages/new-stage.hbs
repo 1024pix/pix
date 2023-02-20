@@ -55,13 +55,14 @@
   <td>
     {{#unless @setFirstStage}}
       <PixButton
-        @backgroundColor="transparent-light"
+        @backgroundColor="red"
         @size="small"
         @isBorderVisible={{true}}
         aria-label="Supprimer palier"
         @triggerAction={{@remove}}
       >
-        <FaIcon @icon="minus" />
+        <FaIcon @icon="trash" />
+        Supprimer
       </PixButton>
     {{/unless}}
   </td>
