@@ -1,55 +1,55 @@
 <p>Comment ça marche ?</p>
 <PixCollapsible
-  @title={{t "pages.sessions.import.instructions-creation-title"}}
+  @title={{t "pages.sessions.import.step-one.instructions.creation.title"}}
   @iconTitle="plus"
   class="import-page_section--instructions"
 >
-  {{t "pages.sessions.import.instructions-creation-list"}}
+  {{t "pages.sessions.import.step-one.instructions.creation.list"}}
   <ul>
-    <li>{{t "pages.sessions.import.instructions-creation-list-with-candidates" htmlSafe=true}}</li>
-    <li>{{t "pages.sessions.import.instructions-creation-list-without-candidates" htmlSafe=true}}</li>
+    <li>{{t "pages.sessions.import.step-one.instructions.creation.list-with-candidates" htmlSafe=true}}</li>
+    <li>{{t "pages.sessions.import.step-one.instructions.creation.list-without-candidates" htmlSafe=true}}</li>
   </ul>
 </PixCollapsible>
 <PixCollapsible
-  @title={{t "pages.sessions.import.instructions-edition-title"}}
+  @title={{t "pages.sessions.import.step-one.instructions.edition.title"}}
   @iconTitle="plus"
   class="import-page__section--instructions"
 >
   <ul>
-    <li>{{t "pages.sessions.import.instructions-edition-replace" htmlSafe=true}}</li>
-    <li>{{t "pages.sessions.import.instructions-edition-subscription" htmlSafe=true}}</li>
+    <li>{{t "pages.sessions.import.step-one.instructions.edition.replace" htmlSafe=true}}</li>
+    <li>{{t "pages.sessions.import.step-one.instructions.edition.subscription" htmlSafe=true}}</li>
   </ul>
   <PixMessage @type="warning" @withIcon={{true}}>
-    {{t "pages.sessions.import.instructions-edition-warning"}}
+    {{t "pages.sessions.import.step-one.instructions.edition.warning"}}
   </PixMessage>
 </PixCollapsible>
 
 <section class="import-page__section--download panel">
   <div class="import-page__section--download__button">
     <FaIcon @icon="file-arrow-down" class="fa-2x download-icon" />
-    {{t "pages.sessions.import.session-import-template-label"}}
+    {{t "pages.sessions.import.step-one.session-import-template-label"}}
     <PixButton
       @backgroundColor="transparent-light"
       @isBorderVisible="{{true}}"
-      aria-label={{t "pages.sessions.import.session-import-template-label"}}
+      aria-label={{t "pages.sessions.import.step-one.session-import-template-label"}}
       @triggerAction={{@downloadSessionImportTemplate}}
     >
-      {{t "pages.sessions.import.session-import-template"}}
+      {{t "pages.sessions.import.step-one.session-import-template"}}
     </PixButton>
   </div>
 
   <div tabindex="0" class="import-page__section--download__button">
     <FaIcon @icon="cloud-arrow-up" class="fa-2x download-icon" />
-    {{t "pages.sessions.import.session-import-upload-label"}}
+    {{t "pages.sessions.import.step-one.session-import-upload-label"}}
     <PixButtonUpload
       @backgroundColor="transparent-light"
       @isBorderVisible="{{true}}"
       @id="file-upload"
       @onChange={{@preImportSessions}}
-      aria-label={{t "pages.sessions.import.session-import-upload-label"}}
+      aria-label={{t "pages.sessions.import.step-one.session-import-upload-label"}}
       accept=".csv"
     >
-      {{t "pages.sessions.import.session-import-upload"}}
+      {{t "pages.sessions.import.step-one.session-import-upload"}}
     </PixButtonUpload>
   </div>
 
@@ -57,7 +57,7 @@
     <div class="import-page__file-name" aria-label={{@fileName}}>
       {{@fileName}}
       <PixIconButton
-        @ariaLabel={{t "pages.sessions.import.cancel"}}
+        @ariaLabel={{t "pages.sessions.import.step-one.cancel"}}
         @icon="circle-xmark"
         @triggerAction={{@removeImport}}
         class="import-page-file-name__cancel"
