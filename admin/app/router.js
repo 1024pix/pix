@@ -93,7 +93,7 @@ Router.map(function () {
       this.route('list');
       this.route('new');
       this.route('target-profile', { path: '/:target_profile_id' }, function () {
-        this.route('details', { path: '/' });
+        this.route('details');
         this.route('organizations');
         this.route('insights');
         this.route('badges', function () {
