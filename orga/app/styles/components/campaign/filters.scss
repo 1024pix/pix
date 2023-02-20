@@ -71,6 +71,8 @@
   }
 
   &__results {
+    display: flex;
+    align-items: center;
     color: $pix-neutral-60;
     font-size: 0.875em;
     font-weight: 500;
