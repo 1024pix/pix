@@ -4,6 +4,6 @@ export default class IndexRoute extends Route {
   @service router;
 
   beforeModel() {
-    this.router.replaceWith('authenticated.target-profiles.target-profile.details');
+    this.router.transitionTo('authenticated.target-profiles.list');
   }
 }
