@@ -174,38 +174,76 @@ describe('Unit | UseCases | create-stage', function () {
       expect(error.message).to.equal('Palier non valide : Seuil doit être compris entre 0 et 100.');
     });
 
-    it('should throw InvalidStageError when title not provided', function () {
-      // given
-      const stageWithThreshold = {
-        level: null,
-        threshold: 50,
-        title: null,
-        message: 'message',
-      };
+    context('title', function () {
+      it('should throw InvalidStageError when title not provided', function () {
+        // given
+        const stageWithThreshold = {
+          level: null,
+          threshold: 50,
+          title: null,
+          message: 'message',
+        };
 
-      // when
-      const error = catchErrSync(usecases.createStage)({ stageCollection, stage: stageWithThreshold });
+        // when
+        const error = catchErrSync(usecases.createStage)({ stageCollection, stage: stageWithThreshold });
 
-      // then
-      expect(error).to.be.an.instanceof(InvalidStageError);
-      expect(error.message).to.equal('Palier non valide : Titre obligatoire.');
+        // then
+        expect(error).to.be.an.instanceof(InvalidStageError);
+        expect(error.message).to.equal('Palier non valide : Titre obligatoire.');
+      });
+
+      it('should throw InvalidStageError when empty title', function () {
+        // given
+        const stageWithThreshold = {
+          level: null,
+          threshold: 50,
+          title: ' ',
+          message: 'message',
+        };
+
+        // when
+        const error = catchErrSync(usecases.createStage)({ stageCollection, stage: stageWithThreshold });
+
+        // then
+        expect(error).to.be.an.instanceof(InvalidStageError);
+        expect(error.message).to.equal('Palier non valide : Titre obligatoire.');
+      });
     });
 
-    it('should throw InvalidStageError when message not provided', function () {
-      // given
-      const stageWithThreshold = {
-        level: null,
-        threshold: 50,
-        title: 'title',
-        message: '',
-      };
+    context('message', function () {
+      it('should throw InvalidStageError when not provided', function () {
+        // given
+        const stageWithThreshold = {
+          level: null,
+          threshold: 50,
+          title: 'title',
+          message: null,
+        };
 
-      // when
-      const error = catchErrSync(usecases.createStage)({ stageCollection, stage: stageWithThreshold });
+        // when
+        const error = catchErrSync(usecases.createStage)({ stageCollection, stage: stageWithThreshold });
 
-      // then
-      expect(error).to.be.an.instanceof(InvalidStageError);
-      expect(error.message).to.equal('Palier non valide : Message obligatoire.');
+        // then
+        expect(error).to.be.an.instanceof(InvalidStageError);
+        expect(error.message).to.equal('Palier non valide : Message obligatoire.');
+      });
+
+      it('should throw InvalidStageError when empty', function () {
+        // given
+        const stageWithThreshold = {
+          level: null,
+          threshold: 50,
+          title: 'title',
+          message: ' ',
+        };
+
+        // when
+        const error = catchErrSync(usecases.createStage)({ stageCollection, stage: stageWithThreshold });
+
+        // then
+        expect(error).to.be.an.instanceof(InvalidStageError);
+        expect(error.message).to.equal('Palier non valide : Message obligatoire.');
+      });
     });
 
     it('should create a stage by level', function () {
@@ -427,38 +465,76 @@ describe('Unit | UseCases | create-stage', function () {
       expect(error.message).to.equal('Palier non valide : Niveau déjà utilisé.');
     });
 
-    it('should throw InvalidStageError when title not provided', function () {
-      // given
-      const stageWithLevel = {
-        level: 4,
-        threshold: null,
-        title: null,
-        message: 'message',
-      };
+    context('title', function () {
+      it('should throw InvalidStageError when not provided', function () {
+        // given
+        const stageWithLevel = {
+          level: 4,
+          threshold: null,
+          title: null,
+          message: 'message',
+        };
 
-      // when
-      const error = catchErrSync(usecases.createStage)({ stageCollection, stage: stageWithLevel });
+        // when
+        const error = catchErrSync(usecases.createStage)({ stageCollection, stage: stageWithLevel });
 
-      // then
-      expect(error).to.be.an.instanceof(InvalidStageError);
-      expect(error.message).to.equal('Palier non valide : Titre obligatoire.');
+        // then
+        expect(error).to.be.an.instanceof(InvalidStageError);
+        expect(error.message).to.equal('Palier non valide : Titre obligatoire.');
+      });
+
+      it('should throw InvalidStageError when empty', function () {
+        // given
+        const stageWithLevel = {
+          level: 4,
+          threshold: null,
+          title: ' ',
+          message: 'message',
+        };
+
+        // when
+        const error = catchErrSync(usecases.createStage)({ stageCollection, stage: stageWithLevel });
+
+        // then
+        expect(error).to.be.an.instanceof(InvalidStageError);
+        expect(error.message).to.equal('Palier non valide : Titre obligatoire.');
+      });
     });
 
-    it('should throw InvalidStageError when message not provided', function () {
-      // given
-      const stageWithLevel = {
-        level: 4,
-        threshold: null,
-        title: 'title',
-        message: '',
-      };
+    context('message', function () {
+      it('should throw InvalidStageError when not provided', function () {
+        // given
+        const stageWithLevel = {
+          level: 4,
+          threshold: null,
+          title: 'title',
+          message: null,
+        };
 
-      // when
-      const error = catchErrSync(usecases.createStage)({ stageCollection, stage: stageWithLevel });
+        // when
+        const error = catchErrSync(usecases.createStage)({ stageCollection, stage: stageWithLevel });
 
-      // then
-      expect(error).to.be.an.instanceof(InvalidStageError);
-      expect(error.message).to.equal('Palier non valide : Message obligatoire.');
+        // then
+        expect(error).to.be.an.instanceof(InvalidStageError);
+        expect(error.message).to.equal('Palier non valide : Message obligatoire.');
+      });
+
+      it('should throw InvalidStageError when empty', function () {
+        // given
+        const stageWithLevel = {
+          level: 4,
+          threshold: null,
+          title: 'title',
+          message: ' ',
+        };
+
+        // when
+        const error = catchErrSync(usecases.createStage)({ stageCollection, stage: stageWithLevel });
+
+        // then
+        expect(error).to.be.an.instanceof(InvalidStageError);
+        expect(error.message).to.equal('Palier non valide : Message obligatoire.');
+      });
     });
   });
 
@@ -622,38 +698,76 @@ describe('Unit | UseCases | create-stage', function () {
       expect(error.message).to.equal('Palier non valide : Seuil déjà utilisé.');
     });
 
-    it('should throw InvalidStageError when title not provided', function () {
-      // given
-      const stageWithThreshold = {
-        level: null,
-        threshold: 65,
-        title: null,
-        message: 'message',
-      };
+    context('title', function () {
+      it('should throw InvalidStageError when title not provided', function () {
+        // given
+        const stageWithThreshold = {
+          level: null,
+          threshold: 65,
+          title: null,
+          message: 'message',
+        };
 
-      // when
-      const error = catchErrSync(usecases.createStage)({ stageCollection, stage: stageWithThreshold });
+        // when
+        const error = catchErrSync(usecases.createStage)({ stageCollection, stage: stageWithThreshold });
 
-      // then
-      expect(error).to.be.an.instanceof(InvalidStageError);
-      expect(error.message).to.equal('Palier non valide : Titre obligatoire.');
+        // then
+        expect(error).to.be.an.instanceof(InvalidStageError);
+        expect(error.message).to.equal('Palier non valide : Titre obligatoire.');
+      });
+
+      it('should throw InvalidStageError when empty title', function () {
+        // given
+        const stageWithThreshold = {
+          level: null,
+          threshold: 65,
+          title: ' ',
+          message: 'message',
+        };
+
+        // when
+        const error = catchErrSync(usecases.createStage)({ stageCollection, stage: stageWithThreshold });
+
+        // then
+        expect(error).to.be.an.instanceof(InvalidStageError);
+        expect(error.message).to.equal('Palier non valide : Titre obligatoire.');
+      });
     });
 
-    it('should throw InvalidStageError when message not provided', function () {
-      // given
-      const stageWithThreshold = {
-        level: null,
-        threshold: 65,
-        title: 'title',
-        message: '',
-      };
+    context('message', function () {
+      it('should throw InvalidStageError when not provided', function () {
+        // given
+        const stageWithThreshold = {
+          level: null,
+          threshold: 65,
+          title: 'title',
+          message: null,
+        };
 
-      // when
-      const error = catchErrSync(usecases.createStage)({ stageCollection, stage: stageWithThreshold });
+        // when
+        const error = catchErrSync(usecases.createStage)({ stageCollection, stage: stageWithThreshold });
 
-      // then
-      expect(error).to.be.an.instanceof(InvalidStageError);
-      expect(error.message).to.equal('Palier non valide : Message obligatoire.');
+        // then
+        expect(error).to.be.an.instanceof(InvalidStageError);
+        expect(error.message).to.equal('Palier non valide : Message obligatoire.');
+      });
+
+      it('should throw InvalidStageError when empty', function () {
+        // given
+        const stageWithThreshold = {
+          level: null,
+          threshold: 65,
+          title: 'title',
+          message: ' ',
+        };
+
+        // when
+        const error = catchErrSync(usecases.createStage)({ stageCollection, stage: stageWithThreshold });
+
+        // then
+        expect(error).to.be.an.instanceof(InvalidStageError);
+        expect(error.message).to.equal('Palier non valide : Message obligatoire.');
+      });
     });
   });
 });

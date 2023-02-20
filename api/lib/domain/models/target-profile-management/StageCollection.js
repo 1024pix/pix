@@ -98,8 +98,8 @@ class StageCollection {
         throw new InvalidStageError('Seuil doit être compris entre 0 et 100.');
       }
     }
-    if (_.isEmpty(stage.title)) throw new InvalidStageError('Titre obligatoire.');
-    if (_.isEmpty(stage.message)) throw new InvalidStageError('Message obligatoire.');
+    if (_.isEmpty(stage.title?.trim())) throw new InvalidStageError('Titre obligatoire.');
+    if (_.isEmpty(stage.message?.trim())) throw new InvalidStageError('Message obligatoire.');
   }
 
   _hasLevel(level) {
