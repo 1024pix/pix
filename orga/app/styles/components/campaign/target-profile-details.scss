@@ -1,32 +1,32 @@
 .target-profile-details {
-    &__description {
-        margin-bottom: 8px;
-    }
+  &__description {
+    margin-bottom: 8px;
+  }
 
-    &__specificity {
-        display: flex;
-        flex-wrap: wrap;
-        padding: 0;
-        margin: 0;
+  &__specificity {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0;
 
-        &__row {
-            font-size: 0.875rem;
-            margin-bottom: 8px;
-            list-style: none;
+    &__row {
+      font-size: 0.875rem;
+      margin-bottom: 8px;
+      list-style: none;
 
-            &--break-line {
-                flex-basis: 100%;
-                margin-bottom: 0;
-            }
+      &--break-line {
+        flex-basis: 100%;
+        margin-bottom: 0;
+      }
 
-            &--add-separator {
-                &::before {
-                    content: "";
-                    height: 0.3125rem;
-                    border-left: 1px solid $pix-neutral-25;
-                    margin: auto 10px;
-                }
-            }
+      &--add-separator {
+        &::before {
+          content: "";
+          height: 0.3125rem;
+          border-left: 1px solid $pix-neutral-25;
+          margin: auto 10px;
         }
+      }
     }
+  }
 }
