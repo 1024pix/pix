@@ -122,16 +122,14 @@ module('Acceptance | Session Import', function (hooks) {
 
           // when
           screen = await visit('/sessions/import');
-          const input = await screen.findByLabelText('Importer le modèle complété');
+          const input = screen.getByLabelText('Importer le modèle complété');
           await triggerEvent(input, 'change', { files: [file] });
           const importButton = await screen.findByText('Continuer');
           await click(importButton);
 
           // then
-          assert
-            .dom('[data-test-notification-message="success"]')
-            .hasText('La liste des sessions a été importée avec succès.');
-          assert.dom(await screen.queryByLabelText('fichier.csv')).doesNotExist();
+          assert.dom(screen.getByText('La liste des sessions a été importée avec succès.')).exists();
+          assert.dom(screen.queryByLabelText('fichier.csv')).doesNotExist();
         });
       });
 
