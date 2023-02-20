@@ -4,7 +4,7 @@
 }
 
 .information {
-  padding:0 $spacing-xs;
+  padding: 0 $spacing-xs;
   border-left: 1px solid $pix-neutral-22;
   font-size: 0.875rem;
 
@@ -20,6 +20,6 @@
 
   &:first-of-type {
     padding-left: 0;
-    border:none;
+    border: none;
   }
 }
