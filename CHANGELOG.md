@@ -1,5 +1,38 @@
 # Pix Changelog
 
+## v3.326.0 (20/02/2023)
+
+
+### :rocket: Amélioration
+- [#5684](https://github.com/1024pix/pix/pull/5684) [FEATURE] Ajout de validation par champ lors de l'ajout de palier (PIX-7100)
+- [#5679](https://github.com/1024pix/pix/pull/5679) [FEATURE] Refacto validation de session pour import en masse partie 2 (PIX-7186)
+- [#5529](https://github.com/1024pix/pix/pull/5529) [FEATURE] Permettre l'archivage en masse des campagnes côté Pix Admin (Pix-6879)
+- [#5669](https://github.com/1024pix/pix/pull/5669) [FEATURE] Permettre la sélection de sujets pour les contenus formatifs sur Pix-Admin (PIX-7166)
+- [#5656](https://github.com/1024pix/pix/pull/5656) [FEATURE] Traduire les menus et le layout en anglais (PIX-6668)
+- [#5677](https://github.com/1024pix/pix/pull/5677) [FEATURE] Afficher de meilleurs messages d'erreurs lorsque l'utilisateur saisit un nombre décimal en seuil de palier sur PixAdmin (PIX-7077)
+- [#5673](https://github.com/1024pix/pix/pull/5673) [FEATURE] Refacto validation de session pour import en masse partie 1 (PIX-7185)
+- [#5668](https://github.com/1024pix/pix/pull/5668) [FEATURE] Mettre un message plus explicite sur les champs de titre et description prescripteur lors de la création d'un palier (PIX-6171)
+
+### :building_construction: Tech
+- [#5694](https://github.com/1024pix/pix/pull/5694) [TECH] Active la règle de lint SCSS d'ajout d'espace après les `:` sur Pix Orga
+- [#5693](https://github.com/1024pix/pix/pull/5693) [TECH] Active la règle de lint SCSS d'intentation sur Pix Orga
+- [#5676](https://github.com/1024pix/pix/pull/5676) [TECH] Generer le mot de passe surveillant au plus tôt (PIX-7195)
+- [#5670](https://github.com/1024pix/pix/pull/5670) [TECH] Refonte API de la création/mise à jour de paliers + limiter le choix de sélection de niveau d'un palier aux niveaux disponibles (PIX-7099)
+
+### :bug: Correction
+- [#5681](https://github.com/1024pix/pix/pull/5681) [BUGFIX] Correction de l'emplacement du total des campagnes (PIX-7145)
+- [#5678](https://github.com/1024pix/pix/pull/5678) [BUGFIX] La dropdown de changement d'orga dans PixOrga ne s'affichait pas correctement sur la page de sélection de sujets (PIX-7198)
+- [#5665](https://github.com/1024pix/pix/pull/5665) [BUGFIX] Réparation du dropdown de l édition du profil cible (PIX-7127)
+- [#5671](https://github.com/1024pix/pix/pull/5671) [BUGFIX] Ajout de l'icône "check" de Font Awesome (PIX-7182)
+
+### :coffee: Autre
+- [#5691](https://github.com/1024pix/pix/pull/5691) [BUMP] Update dependency ember-qunit to v6 (mon-pix)
+- [#5682](https://github.com/1024pix/pix/pull/5682) [BUMP] Update dependency ember-cli to v4 (mon-pix)
+- [#5685](https://github.com/1024pix/pix/pull/5685) [BUMP] Update dependency @1024pix/ember-testing-library to ^0.6.0 (mon-pix)
+- [#5636](https://github.com/1024pix/pix/pull/5636) [BUMP] Update dependency minimatch to 3.0.5 [SECURITY]
+- [#5648](https://github.com/1024pix/pix/pull/5648) [BUMP] Update redis Docker tag to v5.0.14 (docker)
+- [#5634](https://github.com/1024pix/pix/pull/5634) [BUMP] Update dependency jsonwebtoken to 9.0.0 [SECURITY]
+
 ## v3.325.0 (16/02/2023)
 
 
