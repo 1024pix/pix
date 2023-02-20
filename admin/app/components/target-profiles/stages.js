@@ -20,6 +20,10 @@ export default class Stages extends Component {
     return difference(allLevels, unavailableLevels);
   }
 
+  get unavailableThresholds() {
+    return this.args.targetProfile.stages.map((stage) => (stage.isNew ? null : stage.threshold));
+  }
+
   get isTypeLevel() {
     return this.args.targetProfile.stages?.firstObject?.isTypeLevel ?? this.firstStageType == 'level';
   }
