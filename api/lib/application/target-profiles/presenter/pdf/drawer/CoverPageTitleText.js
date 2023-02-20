@@ -1,9 +1,9 @@
-const Text = require('./Text');
-const ColorManager = require('../manager/color-manager');
-const FontManager = require('../manager/font-manager');
-const PositionManager = require('../manager/position-manager');
+import Text from './Text';
+import ColorManager from '../manager/color-manager';
+import FontManager from '../manager/font-manager';
+import PositionManager from '../manager/position-manager';
 
-module.exports = class CoverPageTitleText extends Text {
+export default class CoverPageTitleText extends Text {
   constructor({ title, page }) {
     const text = title;
     const font = FontManager.coverPageTitleFont;
@@ -19,4 +19,4 @@ module.exports = class CoverPageTitleText extends Text {
       maxWidth: PositionManager.coverPageTitleWidth,
     });
   }
-};
+}

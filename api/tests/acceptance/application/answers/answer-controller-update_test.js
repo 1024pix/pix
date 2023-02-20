@@ -1,5 +1,5 @@
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const createServer = require('../../../../server');
+import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper';
+import createServer from '../../../../server';
 
 describe('Acceptance | Controller | answer-controller-update', function () {
   describe('PATCH /api/answers/:id', function () {

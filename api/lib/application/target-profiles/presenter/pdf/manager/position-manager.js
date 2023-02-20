@@ -13,7 +13,7 @@ const THEMATIC_HORIZONTAL_START = 10;
 const THEMATIC_WIDTH = 70;
 const TUBES_FIRST_PART_WIDTH = 140;
 
-module.exports = {
+export default {
   maxWidth: null,
   /**
    * @param page{PDFPage}

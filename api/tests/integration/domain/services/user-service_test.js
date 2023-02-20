@@ -1,16 +1,12 @@
-const pick = require('lodash/pick');
-
-const { catchErr, domainBuilder, databaseBuilder, expect, knex } = require('../../../test-helper');
-
-const authenticationMethodRepository = require('../../../../lib/infrastructure/repositories/authentication-method-repository');
-const organizationLearnerRepository = require('../../../../lib/infrastructure/repositories/organization-learner-repository');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const userToCreateRepository = require('../../../../lib/infrastructure/repositories/user-to-create-repository');
-
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const { OrganizationLearnerNotFound } = require('../../../../lib/domain/errors');
-
-const userService = require('../../../../lib/domain/services/user-service');
+import pick from 'lodash/pick';
+import { catchErr, domainBuilder, databaseBuilder, expect, knex } from '../../../test-helper';
+import authenticationMethodRepository from '../../../../lib/infrastructure/repositories/authentication-method-repository';
+import organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository';
+import userRepository from '../../../../lib/infrastructure/repositories/user-repository';
+import userToCreateRepository from '../../../../lib/infrastructure/repositories/user-to-create-repository';
+import AuthenticationMethod from '../../../../lib/domain/models/AuthenticationMethod';
+import { OrganizationLearnerNotFound } from '../../../../lib/domain/errors';
+import userService from '../../../../lib/domain/services/user-service';
 
 describe('Integration | Domain | Services | user-service', function () {
   const hashedPassword = 'Abcdef1234';

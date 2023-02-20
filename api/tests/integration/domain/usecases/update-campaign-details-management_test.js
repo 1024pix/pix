@@ -1,9 +1,8 @@
-const { expect, databaseBuilder, mockLearningContent, knex, catchErr } = require('../../../test-helper');
-
-const campaignManagementRepository = require('../../../../lib/infrastructure/repositories/campaign-management-repository');
-const updateCampaignDetailsManagement = require('../../../../lib/domain/usecases/update-campaign-details-management');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
-const { EntityValidationError } = require('../../../../lib/domain/errors');
+import { expect, databaseBuilder, mockLearningContent, knex, catchErr } from '../../../test-helper';
+import campaignManagementRepository from '../../../../lib/infrastructure/repositories/campaign-management-repository';
+import updateCampaignDetailsManagement from '../../../../lib/domain/usecases/update-campaign-details-management';
+import CampaignParticipationStatuses from '../../../../lib/domain/models/CampaignParticipationStatuses';
+import { EntityValidationError } from '../../../../lib/domain/errors';
 
 const { SHARED } = CampaignParticipationStatuses;
 

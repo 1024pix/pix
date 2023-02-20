@@ -1,12 +1,12 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
 const { handleCertificationRescoring } = require('../../../../lib/domain/events')._forTestOnly.handlers;
-const ChallengeNeutralized = require('../../../../lib/domain/events/ChallengeNeutralized');
-const ChallengeDeneutralized = require('../../../../lib/domain/events/ChallengeDeneutralized');
-const CertificationJuryDone = require('../../../../lib/domain/events/CertificationJuryDone');
-const CertificationAssessment = require('../../../../lib/domain/models/CertificationAssessment');
-const CertificationResult = require('../../../../lib/domain/models/CertificationResult');
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const { CertificationComputeError } = require('../../../../lib/domain/errors');
+import ChallengeNeutralized from '../../../../lib/domain/events/ChallengeNeutralized';
+import ChallengeDeneutralized from '../../../../lib/domain/events/ChallengeDeneutralized';
+import CertificationJuryDone from '../../../../lib/domain/events/CertificationJuryDone';
+import CertificationAssessment from '../../../../lib/domain/models/CertificationAssessment';
+import CertificationResult from '../../../../lib/domain/models/CertificationResult';
+import AssessmentResult from '../../../../lib/domain/models/AssessmentResult';
+import { CertificationComputeError } from '../../../../lib/domain/errors';
 
 describe('Unit | Domain | Events | handle-certification-rescoring', function () {
   it('computes and persists the assessment result and competence marks when computation succeeds', async function () {

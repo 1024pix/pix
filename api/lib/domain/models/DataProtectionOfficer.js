@@ -20,4 +20,4 @@ class DataProtectionOfficer {
   }
 }
 
-module.exports = DataProtectionOfficer;
+export default DataProtectionOfficer;

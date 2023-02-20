@@ -1,4 +1,4 @@
-module.exports = [
+export default [
   require('./application/account-recovery'),
   require('./application/admin-members'),
   require('./application/answers'),

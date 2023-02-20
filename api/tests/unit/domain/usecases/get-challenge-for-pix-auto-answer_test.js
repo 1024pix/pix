@@ -1,7 +1,7 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const getChallengeForPixAutoAnswer = require('../../../../lib/domain/usecases/get-challenge-for-pix-auto-answer');
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const challengeForPixAutoAnswerRepository = require('../../../../lib/infrastructure/repositories/challenge-for-pix-auto-answer-repository');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import getChallengeForPixAutoAnswer from '../../../../lib/domain/usecases/get-challenge-for-pix-auto-answer';
+import assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository';
+import challengeForPixAutoAnswerRepository from '../../../../lib/infrastructure/repositories/challenge-for-pix-auto-answer-repository';
 
 describe('Unit | UseCase | get-challenge-answer-for-pix-button', function () {
   let assessment;

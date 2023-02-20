@@ -1,14 +1,14 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
-const {
+import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
   knex,
-} = require('../../../test-helper');
+} from '../../../test-helper';
 
-const createServer = require('../../../../server');
+import createServer from '../../../../server';
 
 describe('Acceptance | API | Certification Center', function () {
   let server, request;

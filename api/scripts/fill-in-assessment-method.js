@@ -1,7 +1,7 @@
 require('dotenv').config();
 
-const { knex } = require('../db/knex-database-connection');
-const logger = require('../lib/infrastructure/logger');
+import { knex } from '../db/knex-database-connection';
+import logger from '../lib/infrastructure/logger';
 
 async function fillInAssessmentMethod() {
   const chunkSize = 50000;

@@ -1,4 +1,4 @@
-module.exports = async function getAccountRecoveryDetails({
+export default async function getAccountRecoveryDetails({
   temporaryKey,
   accountRecoveryDemandRepository,
   organizationLearnerRepository,
@@ -19,4 +19,4 @@ module.exports = async function getAccountRecoveryDetails({
     email: newEmail,
     firstName,
   };
-};
+}

@@ -1,4 +1,4 @@
-module.exports = function tutorialLearningContentDataObjectFixture({
+export default function tutorialLearningContentDataObjectFixture({
   id = 'receomyzL0AmpMFGw',
   duration = '00:01:30',
   format = 'video',
@@ -16,4 +16,4 @@ module.exports = function tutorialLearningContentDataObjectFixture({
     title,
     locale,
   };
-};
+}

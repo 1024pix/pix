@@ -1,5 +1,5 @@
-const constants = require('../constants');
-const moment = require('moment');
+import constants from '../constants';
+import moment from 'moment';
 
 function _keepKnowledgeElementsRecentOrValidated({ currentUserKnowledgeElements, assessment, minimumDelayInDays }) {
   const startedDateOfAssessment = assessment.createdAt;
@@ -26,6 +26,6 @@ function filterKnowledgeElementsIfImproving({ knowledgeElements, assessment, isR
   return knowledgeElements;
 }
 
-module.exports = {
+export default {
   filterKnowledgeElementsIfImproving,
 };

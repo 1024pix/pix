@@ -1,8 +1,8 @@
-const { expect } = require('../../../test-helper');
-const buildEventDispatcherAndHandlersForTest = require('../../../tooling/events/event-dispatcher-builder');
-const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
-const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
-const CertificationRescoringCompleted = require('../../../../lib/domain/events/CertificationRescoringCompleted');
+import { expect } from '../../../test-helper';
+import buildEventDispatcherAndHandlersForTest from '../../../tooling/events/event-dispatcher-builder';
+import AssessmentCompleted from '../../../../lib/domain/events/AssessmentCompleted';
+import CertificationScoringCompleted from '../../../../lib/domain/events/CertificationScoringCompleted';
+import CertificationRescoringCompleted from '../../../../lib/domain/events/CertificationRescoringCompleted';
 
 describe('Event Choreography | Score Pix+ Certification', function () {
   it('chains Certification Scoring and Pix+ Certification Scoring on Certification Scoring Completed', async function () {

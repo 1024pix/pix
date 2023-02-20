@@ -1,4 +1,4 @@
-const Tutorial = require('../models/Tutorial');
+import Tutorial from '../models/Tutorial';
 
 class TutorialForUser extends Tutorial {
   constructor({ userSavedTutorial, tutorialEvaluation, skillId, ...tutorial }) {
@@ -9,4 +9,4 @@ class TutorialForUser extends Tutorial {
   }
 }
 
-module.exports = TutorialForUser;
+export default TutorialForUser;

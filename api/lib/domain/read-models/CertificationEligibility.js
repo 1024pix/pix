@@ -10,4 +10,4 @@ class CertificationEligibility {
   }
 }
 
-module.exports = CertificationEligibility;
+export default CertificationEligibility;

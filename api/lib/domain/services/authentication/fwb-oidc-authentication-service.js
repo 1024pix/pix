@@ -1,5 +1,5 @@
-const settings = require('../../../config');
-const OidcAuthenticationService = require('./oidc-authentication-service');
+import settings from '../../../config';
+import OidcAuthenticationService from './oidc-authentication-service';
 
 class FwbOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
@@ -20,4 +20,4 @@ class FwbOidcAuthenticationService extends OidcAuthenticationService {
   }
 }
 
-module.exports = FwbOidcAuthenticationService;
+export default FwbOidcAuthenticationService;

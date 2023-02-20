@@ -3,15 +3,14 @@
 
 'use strict';
 require('dotenv').config();
-const request = require('request-promise-native');
-
-const logoUrl = require('./logo/default-sco-organization-logo-base64');
-const {
+import request from 'request-promise-native';
+import logoUrl from './logo/default-sco-organization-logo-base64';
+import {
   findOrganizationsByExternalIds,
   organizeOrganizationsByExternalId,
-} = require('./helpers/organizations-by-external-id-helper');
-const { parseCsv } = require('./helpers/csvHelpers');
-const { disconnect } = require('../db/knex-database-connection');
+} from './helpers/organizations-by-external-id-helper';
+import { parseCsv } from './helpers/csvHelpers';
+import { disconnect } from '../db/knex-database-connection';
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
 
@@ -168,7 +167,7 @@ async function main() {
   }
 })();
 
-module.exports = {
+export default {
   checkData,
   createOrUpdateOrganizations,
 };

@@ -1,8 +1,8 @@
-const _ = require('lodash');
-const { OrganizationLearnersCouldNotBeSavedError } = require('../../domain/errors');
-const { knex } = require('../../../db/knex-database-connection');
-const BookshelfOrganizationLearner = require('../orm-models/OrganizationLearner');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+import _ from 'lodash';
+import { OrganizationLearnersCouldNotBeSavedError } from '../../domain/errors';
+import { knex } from '../../../db/knex-database-connection';
+import BookshelfOrganizationLearner from '../orm-models/OrganizationLearner';
+import bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter';
 
 const ATTRIBUTES_TO_SAVE = [
   'firstName',
@@ -21,7 +21,7 @@ const ATTRIBUTES_TO_SAVE = [
   'organizationId',
 ];
 
-module.exports = {
+export default {
   async updateStudentNumber(studentId, studentNumber) {
     await BookshelfOrganizationLearner.where('id', studentId).save(
       { studentNumber },

@@ -1,5 +1,5 @@
-const { CertificationComputeError } = require('../../../lib/domain/errors');
-const _ = require('lodash');
+import { CertificationComputeError } from '../../../lib/domain/errors';
+import _ from 'lodash';
 
 class CertificationContract {
   /* PUBLIC INTERFACE */
@@ -56,4 +56,4 @@ class CertificationContract {
   }
 }
 
-module.exports = CertificationContract;
+export default CertificationContract;

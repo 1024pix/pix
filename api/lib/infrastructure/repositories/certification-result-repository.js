@@ -1,9 +1,9 @@
-const { knex } = require('../../../db/knex-database-connection');
-const ComplementaryCertificationCourseResult = require('../../domain/models/ComplementaryCertificationCourseResult');
-const CertificationResult = require('../../domain/models/CertificationResult');
-const isEmpty = require('lodash/isEmpty');
+import { knex } from '../../../db/knex-database-connection';
+import ComplementaryCertificationCourseResult from '../../domain/models/ComplementaryCertificationCourseResult';
+import CertificationResult from '../../domain/models/CertificationResult';
+import isEmpty from 'lodash/isEmpty';
 
-module.exports = {
+export default {
   async findBySessionId({ sessionId }) {
     const certificationResultDTOs = await _selectCertificationResults()
       .where('certification-courses.sessionId', sessionId)

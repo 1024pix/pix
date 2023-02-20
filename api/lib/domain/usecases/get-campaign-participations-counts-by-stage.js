@@ -1,7 +1,7 @@
-const { UserNotAuthorizedToAccessEntityError, NoStagesForCampaign } = require('../errors');
-const CampaignStages = require('../read-models/campaign/CampaignStages');
+import { UserNotAuthorizedToAccessEntityError, NoStagesForCampaign } from '../errors';
+import CampaignStages from '../read-models/campaign/CampaignStages';
 
-module.exports = async function getCampaignParticipationsCountByStage({
+export default async function getCampaignParticipationsCountByStage({
   userId,
   campaignId,
   campaignRepository,
@@ -27,4 +27,4 @@ module.exports = async function getCampaignParticipationsCountByStage({
     title: stage.prescriberTitle,
     description: stage.prescriberDescription,
   }));
-};
+}

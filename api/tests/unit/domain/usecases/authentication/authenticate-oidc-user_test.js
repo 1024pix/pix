@@ -1,11 +1,10 @@
-const { expect, sinon, catchErr } = require('../../../../test-helper');
-const { UnexpectedOidcStateError } = require('../../../../../lib/domain/errors');
-const logger = require('../../../../../lib/infrastructure/logger');
-
-const authenticateOidcUser = require('../../../../../lib/domain/usecases/authentication/authenticate-oidc-user');
-const AuthenticationSessionContent = require('../../../../../lib/domain/models/AuthenticationSessionContent');
-const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
-const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
+import { expect, sinon, catchErr } from '../../../../test-helper';
+import { UnexpectedOidcStateError } from '../../../../../lib/domain/errors';
+import logger from '../../../../../lib/infrastructure/logger';
+import authenticateOidcUser from '../../../../../lib/domain/usecases/authentication/authenticate-oidc-user';
+import AuthenticationSessionContent from '../../../../../lib/domain/models/AuthenticationSessionContent';
+import AuthenticationMethod from '../../../../../lib/domain/models/AuthenticationMethod';
+import OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers';
 
 describe('Unit | UseCase | authenticate-oidc-user', function () {
   let oidcAuthenticationService;

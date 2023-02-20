@@ -1,13 +1,12 @@
-const _ = require('lodash');
-const { NotFoundError } = require('../../../lib/domain/errors');
-const CampaignAssessmentParticipation = require('../../../lib/domain/read-models/CampaignAssessmentParticipation');
-const { knex } = require('../../../db/knex-database-connection');
-const knowledgeElementRepository = require('./knowledge-element-repository');
-const campaignRepository = require('./campaign-repository');
+import _ from 'lodash';
+import { NotFoundError } from '../../../lib/domain/errors';
+import CampaignAssessmentParticipation from '../../../lib/domain/read-models/CampaignAssessmentParticipation';
+import { knex } from '../../../db/knex-database-connection';
+import knowledgeElementRepository from './knowledge-element-repository';
+import campaignRepository from './campaign-repository';
+import Assessment from '../../../lib/domain/models/Assessment';
 
-const Assessment = require('../../../lib/domain/models/Assessment');
-
-module.exports = {
+export default {
   async getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId }) {
     const result = await _fetchCampaignAssessmentAttributesFromCampaignParticipation(
       campaignId,

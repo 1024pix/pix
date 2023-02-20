@@ -1,4 +1,4 @@
-module.exports = function buildAreaLearningContentDataObject({
+export default function buildAreaLearningContentDataObject({
   id = 'recvoGdo7z2z7pXWa',
   code = '1',
   name = '1. Information et données',
@@ -18,4 +18,4 @@ module.exports = function buildAreaLearningContentDataObject({
     competenceIds,
     color,
   };
-};
+}

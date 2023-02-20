@@ -1,13 +1,9 @@
-const databaseBuffer = require('../database-buffer');
-const buildUser = require('./build-user');
-const buildOrganization = require('./build-organization');
-const _ = require('lodash');
+import databaseBuffer from '../database-buffer';
+import buildUser from './build-user';
+import buildOrganization from './build-organization';
+import _ from 'lodash';
 
-module.exports = function buildUserOrgaSettings({
-  id = databaseBuffer.getNextId(),
-  currentOrganizationId,
-  userId,
-} = {}) {
+export default function buildUserOrgaSettings({ id = databaseBuffer.getNextId(), currentOrganizationId, userId } = {}) {
   userId = _.isUndefined(userId) ? buildUser().id : userId;
   currentOrganizationId = _.isUndefined(currentOrganizationId) ? buildOrganization().id : currentOrganizationId;
 
@@ -20,4 +16,4 @@ module.exports = function buildUserOrgaSettings({
     tableName: 'user-orga-settings',
     values,
   });
-};
+}

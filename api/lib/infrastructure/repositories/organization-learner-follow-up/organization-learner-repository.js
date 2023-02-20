@@ -1,6 +1,6 @@
-const { knex } = require('../../../../db/knex-database-connection');
-const { NotFoundError } = require('../../../domain/errors');
-const OrganizationLearner = require('../../../domain/read-models/organization-learner-follow-up/OrganizationLearner');
+import { knex } from '../../../../db/knex-database-connection';
+import { NotFoundError } from '../../../domain/errors';
+import OrganizationLearner from '../../../domain/read-models/organization-learner-follow-up/OrganizationLearner';
 
 async function get(organizationLearnerId) {
   const row = await knex('organization-learners')
@@ -26,4 +26,4 @@ async function get(organizationLearnerId) {
   throw new NotFoundError(`Student not found for ID ${organizationLearnerId}`);
 }
 
-module.exports = { get };
+export default { get };

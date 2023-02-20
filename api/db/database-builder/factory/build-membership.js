@@ -1,10 +1,10 @@
-const databaseBuffer = require('../database-buffer');
-const buildUser = require('./build-user');
-const buildOrganization = require('./build-organization');
-const Membership = require('../../../lib/domain/models/Membership');
-const _ = require('lodash');
+import databaseBuffer from '../database-buffer';
+import buildUser from './build-user';
+import buildOrganization from './build-organization';
+import Membership from '../../../lib/domain/models/Membership';
+import _ from 'lodash';
 
-module.exports = function buildMembership({
+export default function buildMembership({
   id = databaseBuffer.getNextId(),
   organizationRole = Membership.roles.MEMBER,
   organizationId,
@@ -29,4 +29,4 @@ module.exports = function buildMembership({
     tableName: 'memberships',
     values,
   });
-};
+}

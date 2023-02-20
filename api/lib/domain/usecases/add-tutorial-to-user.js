@@ -1,4 +1,4 @@
-module.exports = async function addTutorialToUser({
+export default async function addTutorialToUser({
   tutorialRepository,
   skillRepository,
   userSavedTutorialRepository,
@@ -10,4 +10,4 @@ module.exports = async function addTutorialToUser({
   if (skillId != null) await skillRepository.get(skillId);
 
   return userSavedTutorialRepository.addTutorial({ userId, tutorialId, skillId });
-};
+}

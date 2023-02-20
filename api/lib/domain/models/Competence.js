@@ -37,4 +37,4 @@ class Competence {
   }
 }
 
-module.exports = Competence;
+export default Competence;

@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../../test-helper');
-const getAccountRecoveryDetails = require('../../../../../lib/domain/usecases/account-recovery/get-account-recovery-details');
+import { expect, sinon } from '../../../../test-helper';
+import getAccountRecoveryDetails from '../../../../../lib/domain/usecases/account-recovery/get-account-recovery-details';
 
 describe('Unit | UseCase | get-account-recovery-details', function () {
   it('should return new email and firstName of account recovery demand', async function () {

@@ -1,7 +1,7 @@
-const { databaseBuilder, expect, knex, domainBuilder } = require('../../../test-helper');
-const cpfCertificationResultRepository = require('../../../../lib/infrastructure/repositories/cpf-certification-result-repository');
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const { cpfImportStatus } = require('../../../../lib/domain/models/CertificationCourse');
+import { databaseBuilder, expect, knex, domainBuilder } from '../../../test-helper';
+import cpfCertificationResultRepository from '../../../../lib/infrastructure/repositories/cpf-certification-result-repository';
+import AssessmentResult from '../../../../lib/domain/models/AssessmentResult';
+import { cpfImportStatus } from '../../../../lib/domain/models/CertificationCourse';
 
 describe('Integration | Repository | CpfCertificationResult', function () {
   describe('#getIdsByTimeRange', function () {

@@ -1,6 +1,6 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const { ForbiddenAccess } = require('../../../../lib/domain/errors');
-const findPaginatedCertificationCenterSessionSummaries = require('../../../../lib/domain/usecases/find-paginated-certification-center-session-summaries');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper';
+import { ForbiddenAccess } from '../../../../lib/domain/errors';
+import findPaginatedCertificationCenterSessionSummaries from '../../../../lib/domain/usecases/find-paginated-certification-center-session-summaries';
 
 describe('Unit | Domain | Use Cases | find-paginated-certification-center-session-summaries', function () {
   const sessionSummaryRepository = {

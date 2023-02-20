@@ -1,9 +1,9 @@
-const { expect, databaseBuilder, domainBuilder, catchErr, knex } = require('../../../test-helper');
-const trainingRepository = require('../../../../lib/infrastructure/repositories/training-repository');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const TrainingSummary = require('../../../../lib/domain/read-models/TrainingSummary');
-const Training = require('../../../../lib/domain/models/Training');
-const UserRecommendedTraining = require('../../../../lib/domain/read-models/UserRecommendedTraining');
+import { expect, databaseBuilder, domainBuilder, catchErr, knex } from '../../../test-helper';
+import trainingRepository from '../../../../lib/infrastructure/repositories/training-repository';
+import { NotFoundError } from '../../../../lib/domain/errors';
+import TrainingSummary from '../../../../lib/domain/read-models/TrainingSummary';
+import Training from '../../../../lib/domain/models/Training';
+import UserRecommendedTraining from '../../../../lib/domain/read-models/UserRecommendedTraining';
 
 describe('Integration | Repository | training-repository', function () {
   describe('#get', function () {

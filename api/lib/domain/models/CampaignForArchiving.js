@@ -1,4 +1,4 @@
-const { ArchivedCampaignError, ObjectValidationError } = require('../errors');
+import { ArchivedCampaignError, ObjectValidationError } from '../errors';
 
 class CampaignForArchiving {
   constructor({ id, code, archivedAt, archivedBy } = {}) {
@@ -29,4 +29,4 @@ class CampaignForArchiving {
   }
 }
 
-module.exports = CampaignForArchiving;
+export default CampaignForArchiving;

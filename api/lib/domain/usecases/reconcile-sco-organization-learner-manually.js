@@ -1,12 +1,13 @@
-const {
+import {
   CampaignCodeError,
   OrganizationLearnerAlreadyLinkedToUserError,
   UserShouldNotBeReconciledOnAnotherAccountError,
-} = require('../errors');
-const { STUDENT_RECONCILIATION_ERRORS } = require('../constants');
-const isEmpty = require('lodash/isEmpty');
+} from '../errors';
 
-module.exports = async function reconcileScoOrganizationLearnerManually({
+import { STUDENT_RECONCILIATION_ERRORS } from '../constants';
+import isEmpty from 'lodash/isEmpty';
+
+export default async function reconcileScoOrganizationLearnerManually({
   campaignCode,
   reconciliationInfo,
   withReconciliation,
@@ -54,7 +55,7 @@ module.exports = async function reconcileScoOrganizationLearnerManually({
       organizationLearnerId: organizationLearnerOfUserAccessingCampaign.id,
     });
   }
-};
+}
 
 async function _checkIfAnotherStudentIsAlreadyReconciledWithTheSameOrganizationAndUser(
   userId,

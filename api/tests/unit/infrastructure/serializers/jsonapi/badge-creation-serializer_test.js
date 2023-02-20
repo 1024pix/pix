@@ -1,5 +1,5 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/badge-creation-serializer');
+import { expect } from '../../../../test-helper';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/badge-creation-serializer';
 
 describe('Unit | Serializer | JSONAPI | badge-creation-serializer', function () {
   describe('#deserialize', function () {

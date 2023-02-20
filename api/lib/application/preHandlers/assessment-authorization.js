@@ -1,8 +1,8 @@
-const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
-const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
-const { extractUserIdFromRequest } = require('../../infrastructure/utils/request-response-utils');
+import assessmentRepository from '../../infrastructure/repositories/assessment-repository';
+import validationErrorSerializer from '../../infrastructure/serializers/jsonapi/validation-error-serializer';
+import { extractUserIdFromRequest } from '../../infrastructure/utils/request-response-utils';
 
-module.exports = {
+export default {
   verify(request, h) {
     const userId = extractUserIdFromRequest(request);
     // eslint-disable-next-line no-restricted-syntax

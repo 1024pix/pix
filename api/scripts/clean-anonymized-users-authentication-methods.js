@@ -1,11 +1,11 @@
 'use strict';
 require('dotenv').config();
 
-const _ = require('lodash');
-const bluebird = require('bluebird');
-const { disconnect } = require('../db/knex-database-connection');
-const { parseCsvWithHeader } = require('./helpers/csvHelpers');
-const authenticationMethodRepository = require('../lib/infrastructure/repositories/authentication-method-repository');
+import _ from 'lodash';
+import bluebird from 'bluebird';
+import { disconnect } from '../db/knex-database-connection';
+import { parseCsvWithHeader } from './helpers/csvHelpers';
+import authenticationMethodRepository from '../lib/infrastructure/repositories/authentication-method-repository';
 
 async function cleanAnonymizedAuthenticationMethods({ arrayOfAnonymizedUsersIds }) {
   const anonymizedUserIdsWithAuthenticationMethodsDeleted = [];
@@ -59,4 +59,4 @@ async function main() {
   }
 })();
 
-module.exports = { cleanAnonymizedAuthenticationMethods };
+export default { cleanAnonymizedAuthenticationMethods };

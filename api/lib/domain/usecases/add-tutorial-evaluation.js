@@ -1,4 +1,4 @@
-module.exports = async function addTutorialEvaluation({
+export default async function addTutorialEvaluation({
   tutorialRepository,
   tutorialEvaluationRepository,
   userId,
@@ -8,4 +8,4 @@ module.exports = async function addTutorialEvaluation({
   await tutorialRepository.get(tutorialId);
 
   return tutorialEvaluationRepository.createOrUpdate({ userId, tutorialId, status });
-};
+}

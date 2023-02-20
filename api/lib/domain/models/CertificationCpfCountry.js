@@ -16,4 +16,4 @@ class CertificationCpfCountry {
   }
 }
 
-module.exports = CertificationCpfCountry;
+export default CertificationCpfCountry;

@@ -1,7 +1,6 @@
-const AnswerStatusJsonApiAdapter = require('../../../../lib/infrastructure/adapters/answer-status-json-api-adapter');
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-
-const { expect } = require('chai');
+import AnswerStatusJsonApiAdapter from '../../../../lib/infrastructure/adapters/answer-status-json-api-adapter';
+import AnswerStatus from '../../../../lib/domain/models/AnswerStatus';
+import { expect } from 'chai';
 
 describe('AnswerStatusJsonApiAdapter', function () {
   describe('#adapt', function () {

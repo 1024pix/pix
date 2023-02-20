@@ -1,7 +1,7 @@
 const TAGS_TABLE_NAME = 'tags';
 const ORGANIZATION_TAGS_TABLE_NAME = 'organization-tags';
 
-exports.up = async (knex) => {
+export const up = async (knex) => {
   await knex.schema.createTable(TAGS_TABLE_NAME, (t) => {
     t.increments().primary();
     t.string('name').notNullable().unique();
@@ -19,7 +19,7 @@ exports.up = async (knex) => {
   });
 };
 
-exports.down = async (knex) => {
+export const down = async (knex) => {
   await knex.schema.dropTable(ORGANIZATION_TAGS_TABLE_NAME);
   return knex.schema.dropTable(TAGS_TABLE_NAME);
 };

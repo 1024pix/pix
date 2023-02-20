@@ -1,7 +1,9 @@
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
+import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper';
+import createServer from '../../../../server';
+import { PIX_ADMIN } from '../../../../lib/domain/constants';
 
-const createServer = require('../../../../server');
-const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
+const { ROLES: ROLES } = PIX_ADMIN;
+
 let server;
 
 describe('Acceptance | Application | campaign-controller-archive-campaigns', function () {

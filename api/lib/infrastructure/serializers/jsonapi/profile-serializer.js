@@ -1,6 +1,6 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
+export default {
   serialize(profile = {}) {
     return new Serializer('Profile', {
       // Transform is necessary due to a bug with 'jsonapi-serializer'

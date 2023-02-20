@@ -1,7 +1,7 @@
-const usecases = require('../../domain/usecases');
-const badgeSerializer = require('../../infrastructure/serializers/jsonapi/badge-serializer');
+import usecases from '../../domain/usecases';
+import badgeSerializer from '../../infrastructure/serializers/jsonapi/badge-serializer';
 
-module.exports = {
+export default {
   async updateBadge(request, h) {
     const badgeId = request.params.id;
     const badge = badgeSerializer.deserialize(request.payload);

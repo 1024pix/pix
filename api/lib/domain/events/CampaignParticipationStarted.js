@@ -4,4 +4,4 @@ class CampaignParticipationStarted {
   }
 }
 
-module.exports = CampaignParticipationStarted;
+export default CampaignParticipationStarted;

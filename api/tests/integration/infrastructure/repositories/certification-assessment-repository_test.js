@@ -1,10 +1,10 @@
-const { expect, databaseBuilder, mockLearningContent, catchErr } = require('../../../test-helper');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const certificationAssessmentRepository = require('../../../../lib/infrastructure/repositories/certification-assessment-repository');
-const CertificationAssessment = require('../../../../lib/domain/models/CertificationAssessment');
-const Challenge = require('../../../../lib/domain/models/Challenge');
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const _ = require('lodash');
+import { expect, databaseBuilder, mockLearningContent, catchErr } from '../../../test-helper';
+import { NotFoundError } from '../../../../lib/domain/errors';
+import certificationAssessmentRepository from '../../../../lib/infrastructure/repositories/certification-assessment-repository';
+import CertificationAssessment from '../../../../lib/domain/models/CertificationAssessment';
+import Challenge from '../../../../lib/domain/models/Challenge';
+import AnswerStatus from '../../../../lib/domain/models/AnswerStatus';
+import _ from 'lodash';
 
 describe('Integration | Infrastructure | Repositories | certification-assessment-repository', function () {
   beforeEach(function () {

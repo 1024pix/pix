@@ -1,8 +1,8 @@
-const { knex } = require('../../bookshelf');
-const { fetchPage } = require('../../utils/knex-utils');
-const SessionSummary = require('../../../domain/read-models/SessionSummary');
+import { knex } from '../../bookshelf';
+import { fetchPage } from '../../utils/knex-utils';
+import SessionSummary from '../../../domain/read-models/SessionSummary';
 
-module.exports = {
+export default {
   async findPaginatedByCertificationCenterId({ certificationCenterId, page }) {
     const query = knex('sessions')
       .distinct('sessions.id')

@@ -1,9 +1,9 @@
-const { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } = require('../../../test-helper');
-const { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } = require('../../../../lib/domain/errors');
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const OidcIdentityProviders = require('../../../../lib/domain/constants/oidc-identity-providers');
-const authenticationMethodRepository = require('../../../../lib/infrastructure/repositories/authentication-method-repository');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../test-helper';
+import { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } from '../../../../lib/domain/errors';
+import AuthenticationMethod from '../../../../lib/domain/models/AuthenticationMethod';
+import OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers';
+import authenticationMethodRepository from '../../../../lib/infrastructure/repositories/authentication-method-repository';
+import DomainTransaction from '../../../../lib/infrastructure/DomainTransaction';
 
 describe('Integration | Repository | AuthenticationMethod', function () {
   const hashedPassword = 'ABCDEF1234';

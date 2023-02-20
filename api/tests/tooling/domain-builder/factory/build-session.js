@@ -1,4 +1,4 @@
-const Session = require('../../../../lib/domain/models/Session');
+import Session from '../../../../lib/domain/models/Session';
 
 const buildSession = function ({
   id = 123,
@@ -184,4 +184,4 @@ buildSession.processed = function ({
   });
 };
 
-module.exports = buildSession;
+export default buildSession;

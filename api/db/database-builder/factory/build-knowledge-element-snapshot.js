@@ -1,9 +1,9 @@
-const buildKnowledgeElement = require('./build-knowledge-element');
-const buildUser = require('./build-user');
-const databaseBuffer = require('../database-buffer');
-const _ = require('lodash');
+import buildKnowledgeElement from './build-knowledge-element';
+import buildUser from './build-user';
+import databaseBuffer from '../database-buffer';
+import _ from 'lodash';
 
-module.exports = function buildKnowledgeElementSnapshot({
+export default function buildKnowledgeElementSnapshot({
   id = databaseBuffer.getNextId(),
   userId,
   snappedAt = new Date('2020-01-01'),
@@ -29,4 +29,4 @@ module.exports = function buildKnowledgeElementSnapshot({
     tableName: 'knowledge-element-snapshots',
     values,
   });
-};
+}

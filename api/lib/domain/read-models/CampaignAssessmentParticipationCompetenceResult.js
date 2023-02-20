@@ -14,4 +14,4 @@ class CampaignAssessmentParticipationCompetenceResult {
   }
 }
 
-module.exports = CampaignAssessmentParticipationCompetenceResult;
+export default CampaignAssessmentParticipationCompetenceResult;

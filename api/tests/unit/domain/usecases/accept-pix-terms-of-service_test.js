@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
-const acceptPixLastTermsOfService = require('../../../../lib/domain/usecases/accept-pix-last-terms-of-service');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+import { expect, sinon } from '../../../test-helper';
+import acceptPixLastTermsOfService from '../../../../lib/domain/usecases/accept-pix-last-terms-of-service';
+import userRepository from '../../../../lib/infrastructure/repositories/user-repository';
 
 describe('Unit | UseCase | accept-pix-last-terms-of-service', function () {
   beforeEach(function () {

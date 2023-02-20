@@ -1,7 +1,6 @@
-const { expect, catchErr } = require('../../../test-helper');
-const { EntityValidationError } = require('../../../../lib/domain/errors');
-
-const { prepareOrganizationPlacesLot } = require('../../../../scripts/prod/create-organization-places-lot');
+import { expect, catchErr } from '../../../test-helper';
+import { EntityValidationError } from '../../../../lib/domain/errors';
+import { prepareOrganizationPlacesLot } from '../../../../scripts/prod/create-organization-places-lot';
 
 describe('Integration | Scripts | create-organization-places-lot', function () {
   describe('#prepareOrganizationPlacesLot', function () {

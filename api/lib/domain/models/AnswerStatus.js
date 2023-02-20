@@ -92,4 +92,4 @@ class AnswerStatus {
   }
 }
 
-module.exports = AnswerStatus;
+export default AnswerStatus;

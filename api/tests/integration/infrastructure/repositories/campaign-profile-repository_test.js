@@ -1,8 +1,10 @@
-const { expect, databaseBuilder, mockLearningContent, catchErr } = require('../../../test-helper');
-const CampaignProfileRepository = require('../../../../lib/infrastructure/repositories/campaign-profile-repository');
-const { PIX_COUNT_BY_LEVEL } = require('../../../../lib/domain/constants');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const { ENGLISH_SPOKEN, FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
+import { expect, databaseBuilder, mockLearningContent, catchErr } from '../../../test-helper';
+import CampaignProfileRepository from '../../../../lib/infrastructure/repositories/campaign-profile-repository';
+import { PIX_COUNT_BY_LEVEL } from '../../../../lib/domain/constants';
+import { NotFoundError } from '../../../../lib/domain/errors';
+import { LOCALE } from '../../../../lib/domain/constants';
+
+const { ENGLISH_SPOKEN: ENGLISH_SPOKEN, FRENCH_SPOKEN: FRENCH_SPOKEN } = LOCALE;
 
 describe('Integration | Repository | CampaignProfileRepository', function () {
   const locale = FRENCH_SPOKEN;

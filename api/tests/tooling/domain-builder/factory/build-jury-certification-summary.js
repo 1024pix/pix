@@ -1,5 +1,5 @@
-const JuryCertificationSummary = require('../../../../lib/domain/read-models/JuryCertificationSummary');
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
+import JuryCertificationSummary from '../../../../lib/domain/read-models/JuryCertificationSummary';
+import AssessmentResult from '../../../../lib/domain/models/AssessmentResult';
 
 const buildJuryCertificationSummary = function ({
   id = 123,
@@ -35,4 +35,4 @@ const buildJuryCertificationSummary = function ({
   });
 };
 
-module.exports = buildJuryCertificationSummary;
+export default buildJuryCertificationSummary;

@@ -1,7 +1,7 @@
-const usecases = require('../../domain/usecases');
-const logger = require('../../infrastructure/logger');
+import usecases from '../../domain/usecases';
+import logger from '../../infrastructure/logger';
 
-module.exports = {
+export default {
   async createRelease(request, h) {
     usecases
       .createLcmsRelease()

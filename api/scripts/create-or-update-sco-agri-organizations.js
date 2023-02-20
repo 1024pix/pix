@@ -4,19 +4,19 @@
 'use strict';
 require('dotenv').config();
 
-const logoUrl = require('./logo/default-sco-agri-organization-logo-base64');
-const {
+import logoUrl from './logo/default-sco-agri-organization-logo-base64';
+import {
   findOrganizationsByExternalIds,
   organizeOrganizationsByExternalId,
-} = require('./helpers/organizations-by-external-id-helper');
-const { parseCsv } = require('./helpers/csvHelpers');
-const Organization = require('../lib/domain/models/Organization');
-const Tag = require('../lib/domain/models/Tag');
-const OrganizationTag = require('../lib/domain/models/OrganizationTag');
-const organizationRepository = require('../lib/infrastructure/repositories/organization-repository');
-const tagRepository = require('../lib/infrastructure/repositories/tag-repository');
-const organizationTagRepository = require('../lib/infrastructure/repositories/organization-tag-repository');
-const { disconnect } = require('../db/knex-database-connection');
+} from './helpers/organizations-by-external-id-helper';
+import { parseCsv } from './helpers/csvHelpers';
+import Organization from '../lib/domain/models/Organization';
+import Tag from '../lib/domain/models/Tag';
+import OrganizationTag from '../lib/domain/models/OrganizationTag';
+import organizationRepository from '../lib/infrastructure/repositories/organization-repository';
+import tagRepository from '../lib/infrastructure/repositories/tag-repository';
+import organizationTagRepository from '../lib/infrastructure/repositories/organization-tag-repository';
+import { disconnect } from '../db/knex-database-connection';
 
 const TAG_NAME = 'AGRICULTURE';
 
@@ -146,7 +146,7 @@ async function main() {
   }
 })();
 
-module.exports = {
+export default {
   addTag,
   checkData,
   createOrUpdateOrganizations,

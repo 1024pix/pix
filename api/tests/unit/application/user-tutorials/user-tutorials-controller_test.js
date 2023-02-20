@@ -1,11 +1,11 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
-const userTutorialsController = require('../../../../lib/application/user-tutorials/user-tutorials-controller');
-const usecases = require('../../../../lib/domain/usecases');
-const userSavedTutorialSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-saved-tutorial-serializer');
-const userSavedTutorialRepository = require('../../../../lib/infrastructure/repositories/user-saved-tutorial-repository');
-const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
-const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
-const tutorialSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/tutorial-serializer');
+import { sinon, expect, hFake } from '../../../test-helper';
+import userTutorialsController from '../../../../lib/application/user-tutorials/user-tutorials-controller';
+import usecases from '../../../../lib/domain/usecases';
+import userSavedTutorialSerializer from '../../../../lib/infrastructure/serializers/jsonapi/user-saved-tutorial-serializer';
+import userSavedTutorialRepository from '../../../../lib/infrastructure/repositories/user-saved-tutorial-repository';
+import queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils';
+import requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils';
+import tutorialSerializer from '../../../../lib/infrastructure/serializers/jsonapi/tutorial-serializer';
 
 describe('Unit | Controller | User-tutorials', function () {
   describe('#add', function () {

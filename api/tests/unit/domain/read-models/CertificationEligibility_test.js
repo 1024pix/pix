@@ -1,5 +1,5 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const CertificationEligibility = require('../../../../lib/domain/read-models/CertificationEligibility');
+import { expect, domainBuilder } from '../../../test-helper';
+import CertificationEligibility from '../../../../lib/domain/read-models/CertificationEligibility';
 
 describe('Unit | Domain | Read-models | CertificationEligibility', function () {
   describe('static #notCertifiable', function () {

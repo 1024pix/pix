@@ -1,11 +1,9 @@
-const {
-  expect,
-  generateValidRequestAuthorizationHeader,
-  databaseBuilder,
-  HttpTestServer,
-} = require('../../test-helper');
-const securityPreHandlers = require('../../../lib/application/security-pre-handlers');
-const { ROLES } = require('../../../lib/domain/constants').PIX_ADMIN;
+import { expect, generateValidRequestAuthorizationHeader, databaseBuilder, HttpTestServer } from '../../test-helper';
+
+import securityPreHandlers from '../../../lib/application/security-pre-handlers';
+import { PIX_ADMIN } from '../../../lib/domain/constants';
+
+const { ROLES: ROLES } = PIX_ADMIN;
 
 describe('Integration | Application | SecurityPreHandlers', function () {
   describe('check admin member roles for pix admin routes', function () {

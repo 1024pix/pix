@@ -1,14 +1,15 @@
-const {
+import {
   expect,
   databaseBuilder,
   domainBuilder,
   catchErr,
   learningContentBuilder,
   mockLearningContent,
-} = require('../../../test-helper');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const certificationRepository = require('../../../../lib/infrastructure/repositories/certificate-repository');
-const { status } = require('../../../../lib/domain/models/AssessmentResult');
+} from '../../../test-helper';
+
+import { NotFoundError } from '../../../../lib/domain/errors';
+import certificationRepository from '../../../../lib/infrastructure/repositories/certificate-repository';
+import { status } from '../../../../lib/domain/models/AssessmentResult';
 
 describe('Integration | Infrastructure | Repository | Certification Attestation', function () {
   const minimalLearningContent = [

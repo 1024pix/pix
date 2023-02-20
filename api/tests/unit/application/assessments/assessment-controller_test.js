@@ -1,10 +1,10 @@
-const { sinon, expect, hFake, domainBuilder } = require('../../../test-helper');
-const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
-const usecases = require('../../../../lib/domain/usecases');
-const events = require('../../../../lib/domain/events');
-const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
-const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+import { sinon, expect, hFake, domainBuilder } from '../../../test-helper';
+import assessmentController from '../../../../lib/application/assessments/assessment-controller';
+import usecases from '../../../../lib/domain/usecases';
+import events from '../../../../lib/domain/events';
+import assessmentSerializer from '../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer';
+import AssessmentCompleted from '../../../../lib/domain/events/AssessmentCompleted';
+import DomainTransaction from '../../../../lib/infrastructure/DomainTransaction';
 
 describe('Unit | Controller | assessment-controller', function () {
   describe('#get', function () {

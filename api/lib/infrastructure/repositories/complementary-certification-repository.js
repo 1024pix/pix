@@ -1,5 +1,5 @@
-const ComplementaryCertification = require('../../domain/models/ComplementaryCertification');
-const { knex } = require('../../../db/knex-database-connection');
+import ComplementaryCertification from '../../domain/models/ComplementaryCertification';
+import { knex } from '../../../db/knex-database-connection';
 
 function _toDomain(row) {
   return new ComplementaryCertification({
@@ -7,7 +7,7 @@ function _toDomain(row) {
   });
 }
 
-module.exports = {
+export default {
   async findAll() {
     const result = await knex.from('complementary-certifications').select('id', 'label', 'key').orderBy('id', 'asc');
 

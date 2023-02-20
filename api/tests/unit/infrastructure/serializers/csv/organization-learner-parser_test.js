@@ -1,9 +1,9 @@
-const iconv = require('iconv-lite');
-const { expect, catchErr } = require('../../../../test-helper');
-const OrganizationLearnerParser = require('../../../../../lib/infrastructure/serializers/csv/organization-learner-parser');
-const { CsvImportError } = require('../../../../../lib/domain/errors');
-const OrganizationLearnerImportHeader = require('../../../../../lib/infrastructure/serializers/csv/organization-learner-import-header');
-const { getI18n } = require('../../../../tooling/i18n/i18n');
+import iconv from 'iconv-lite';
+import { expect, catchErr } from '../../../../test-helper';
+import OrganizationLearnerParser from '../../../../../lib/infrastructure/serializers/csv/organization-learner-parser';
+import { CsvImportError } from '../../../../../lib/domain/errors';
+import OrganizationLearnerImportHeader from '../../../../../lib/infrastructure/serializers/csv/organization-learner-import-header';
+import { getI18n } from '../../../../tooling/i18n/i18n';
 const i18n = getI18n();
 
 const organizationLearnerCsvColumns = new OrganizationLearnerImportHeader(i18n).columns

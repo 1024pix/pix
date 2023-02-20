@@ -1,14 +1,13 @@
-const _ = require('lodash');
+import _ from 'lodash';
+import { knex } from '../../../../db/knex-database-connection';
+import { NotFoundError } from '../../../domain/errors';
+import Session from '../../../domain/models/Session';
+import CertificationCenter from '../../../domain/models/CertificationCenter';
+import CertificationCandidate from '../../../domain/models/CertificationCandidate';
+import ComplementaryCertification from '../../../domain/models/ComplementaryCertification';
+import DomainTransaction from '../../DomainTransaction';
 
-const { knex } = require('../../../../db/knex-database-connection');
-const { NotFoundError } = require('../../../domain/errors');
-const Session = require('../../../domain/models/Session');
-const CertificationCenter = require('../../../domain/models/CertificationCenter');
-const CertificationCandidate = require('../../../domain/models/CertificationCandidate');
-const ComplementaryCertification = require('../../../domain/models/ComplementaryCertification');
-const DomainTransaction = require('../../DomainTransaction');
-
-module.exports = {
+export default {
   async save(sessionData, { knexTransaction } = DomainTransaction.emptyTransaction()) {
     const knexConn = knexTransaction ?? knex;
     sessionData = _.omit(sessionData, ['certificationCandidates']);

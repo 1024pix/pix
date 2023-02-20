@@ -1,5 +1,5 @@
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const createServer = require('../../../../server');
+import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper';
+import createServer from '../../../../server';
 
 describe('Acceptance | Controller | certification-center-controller-get-import-template', function () {
   let server;

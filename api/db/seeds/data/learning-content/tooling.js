@@ -1,7 +1,7 @@
-const _ = require('lodash');
-const bluebird = require('bluebird');
-const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
-const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
+import _ from 'lodash';
+import bluebird from 'bluebird';
+import skillRepository from '../../../../lib/infrastructure/repositories/skill-repository';
+import competenceRepository from '../../../../lib/infrastructure/repositories/competence-repository';
 
 const tubeIdsByFramework = {};
 let frameworkNames;
@@ -174,7 +174,7 @@ function _pickRandomAmong(collection, howMuch) {
   return _.slice(shuffledCollection, 0, howMuch);
 }
 
-module.exports = {
+export default {
   createTargetProfile,
   createBadge,
   createStages,

@@ -1,10 +1,10 @@
-const settings = require('../config');
+import settings from '../config';
 
 const PIX_COUNT_BY_LEVEL = 8;
 const COMPETENCES_COUNT = 16;
 const MAX_REACHABLE_PIX_BY_COMPETENCE = settings.features.maxReachableLevel * PIX_COUNT_BY_LEVEL;
 
-module.exports = {
+export default {
   PIX_COUNT_BY_LEVEL,
   COMPETENCES_COUNT,
   MAX_REACHABLE_LEVEL: settings.features.maxReachableLevel,

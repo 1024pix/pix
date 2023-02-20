@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   buildAccountRecoveryDemand: require('./build-account-recovery-demand'),
   buildAdminMember: require('./build-admin-member'),
   buildAllowedCertificationCenterAccess: require('./build-allowed-certification-center-access'),

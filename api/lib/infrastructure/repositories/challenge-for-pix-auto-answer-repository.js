@@ -1,7 +1,7 @@
-const ChallengeForPixAutoAnswer = require('../../domain/read-models/ChallengeForPixAutoAnswer');
-const challengeDatasource = require('../datasources/learning-content/challenge-datasource');
+import ChallengeForPixAutoAnswer from '../../domain/read-models/ChallengeForPixAutoAnswer';
+import challengeDatasource from '../datasources/learning-content/challenge-datasource';
 
-module.exports = {
+export default {
   async get(challengeId) {
     const challenge = await challengeDatasource.get(challengeId);
     return new ChallengeForPixAutoAnswer({

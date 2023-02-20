@@ -1,33 +1,33 @@
-const _ = require('lodash');
-const {
+import _ from 'lodash';
+
+import {
   CERTIF_SUCCESS_USER_ID,
   CERTIF_SCO_STUDENT_ID,
   CERTIF_FAILURE_USER_ID,
   CERTIF_REGULAR_USER5_ID,
   CERTIF_EDU_FORMATION_INITIALE_1ER_DEGRE_USER_ID,
-} = require('./users');
-const {
+} from './users';
+
+import {
   TO_FINALIZE_SESSION_ID,
   NO_PROBLEM_FINALIZED_SESSION_ID,
   PROBLEMS_FINALIZED_SESSION_ID,
   PUBLISHED_SESSION_ID,
   PUBLISHED_SCO_SESSION_ID,
-} = require('./certification-sessions-builder');
-const {
+} from './certification-sessions-builder';
+
+import {
   CANDIDATE_DATA_SUCCESS,
   CANDIDATE_DATA_FAILURE,
   CANDIDATE_DATA_STARTED,
   CANDIDATE_SCO_DATA_SUCCESS,
   CANDIDATE_DATA_EDU,
-} = require('./certification-candidates-builder');
-const { CERTIFICATION_CHALLENGES_DATA } = require('./certification-data');
-const {
-  CertificationIssueReportCategories,
-} = require('./../../../../lib/domain/models/CertificationIssueReportCategory');
-const {
-  generateCertificateVerificationCode,
-} = require('../../../../lib/domain/services/verify-certificate-code-service');
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
+} from './certification-candidates-builder';
+
+import { CERTIFICATION_CHALLENGES_DATA } from './certification-data';
+import { CertificationIssueReportCategories } from './../../../../lib/domain/models/CertificationIssueReportCategory';
+import { generateCertificateVerificationCode } from '../../../../lib/domain/services/verify-certificate-code-service';
+import AssessmentResult from '../../../../lib/domain/models/AssessmentResult';
 
 const ASSESSMENT_SUCCESS_IN_SESSION_TO_FINALIZE_ID = 100;
 const ASSESSMENT_FAILURE_IN_SESSION_TO_FINALIZE_ID = 101;
@@ -227,7 +227,7 @@ async function _buildCertificationCourse(databaseBuilder, {
   });
 }
 
-module.exports = {
+export default {
   certificationCoursesBuilder,
   ASSESSMENT_SUCCESS_IN_SESSION_TO_FINALIZE_ID,
   ASSESSMENT_FAILURE_IN_SESSION_TO_FINALIZE_ID,

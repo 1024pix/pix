@@ -1,5 +1,5 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/group-serializer');
+import { expect } from '../../../../test-helper';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/group-serializer';
 
 describe('Unit | Serializer | JSONAPI | group-serializer', function () {
   describe('#serialize', function () {

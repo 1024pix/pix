@@ -1,5 +1,5 @@
-const { sinon } = require('../../../test-helper');
-const findUserCampaignParticipationOverviews = require('../../../../lib/domain/usecases/find-user-campaign-participation-overviews');
+import { sinon } from '../../../test-helper';
+import findUserCampaignParticipationOverviews from '../../../../lib/domain/usecases/find-user-campaign-participation-overviews';
 describe('Unit | UseCase | find-user-campaign-participation-overviews', function () {
   let campaignParticipationOverviewRepository;
 

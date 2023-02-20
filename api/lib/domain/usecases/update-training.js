@@ -1,4 +1,4 @@
-module.exports = async function updateTraining({ training, trainingRepository }) {
+export default async function updateTraining({ training, trainingRepository }) {
   const trainingId = training.id;
   await trainingRepository.get(trainingId);
 
@@ -6,4 +6,4 @@ module.exports = async function updateTraining({ training, trainingRepository })
     id: trainingId,
     attributesToUpdate: training,
   });
-};
+}

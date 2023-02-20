@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const ParticipationForCampaignManagement = require('../../../../lib/domain/models/ParticipationForCampaignManagement');
+import { expect } from '../../../test-helper';
+import ParticipationForCampaignManagement from '../../../../lib/domain/models/ParticipationForCampaignManagement';
 
 describe('Unit | Domain | Models | ParticipationForCampaignManagement', function () {
   context('#userFullName', function () {

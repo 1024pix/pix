@@ -1,6 +1,6 @@
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const createServer = require('../../../../server');
-const { CLEA } = require('../../../../lib/domain/models/ComplementaryCertification');
+import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper';
+import createServer from '../../../../server';
+import { CLEA } from '../../../../lib/domain/models/ComplementaryCertification';
 
 describe('Acceptance | Controller | session-controller-get-jury-certification-summaries', function () {
   let server;

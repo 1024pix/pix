@@ -1,9 +1,9 @@
-const Bookshelf = require('../bookshelf');
-require('./CertificationCandidate');
+import Bookshelf from '../bookshelf';
+import './CertificationCandidate';
 
 const modelName = 'Session';
 
-module.exports = Bookshelf.model(
+export default Bookshelf.model(
   modelName,
   {
     tableName: 'sessions',

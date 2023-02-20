@@ -1,4 +1,4 @@
-module.exports = function getPaginatedParticipantsForAnOrganization({
+export default function getPaginatedParticipantsForAnOrganization({
   organizationId,
   filters,
   page,
@@ -11,4 +11,4 @@ module.exports = function getPaginatedParticipantsForAnOrganization({
     sort,
     page,
   });
-};
+}

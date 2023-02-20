@@ -1,7 +1,7 @@
-const yargs = require('yargs');
-const _ = require('lodash');
-const { knex, disconnect } = require('../../db/knex-database-connection');
-const competenceDatasource = require('../../lib/infrastructure/datasources/learning-content/competence-datasource');
+import yargs from 'yargs';
+import _ from 'lodash';
+import { knex, disconnect } from '../../db/knex-database-connection';
+import competenceDatasource from '../../lib/infrastructure/datasources/learning-content/competence-datasource';
 
 const CERTIF_ERROR_RATE = 0.05;
 const CERTIF_REJECTED_RATE = 0.15;

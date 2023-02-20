@@ -1,4 +1,4 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
 const CAMPAIGN_TYPES = ['EVALUATION', 'COLLECTE_PROFILS'];
 const TEST_STATUS = [2, 3, 4];
@@ -139,7 +139,7 @@ const test = Joi.object({
   elementsEvalues: Joi.array().items(elementEvalue).description('Vide si pas de partage de résultats'),
 }).required();
 
-module.exports = Joi.array()
+export default Joi.array()
   .items(
     Joi.object({
       idEnvoi: Joi.number().required().example(1234).description("Identifiant unique de l'envoi"),

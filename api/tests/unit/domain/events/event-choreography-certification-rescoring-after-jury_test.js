@@ -1,6 +1,6 @@
-const { expect } = require('../../../test-helper');
-const buildEventDispatcherAndHandlersForTest = require('../../../tooling/events/event-dispatcher-builder');
-const CertificationJuryDone = require('../../../../lib/domain/events/CertificationJuryDone');
+import { expect } from '../../../test-helper';
+import buildEventDispatcherAndHandlersForTest from '../../../tooling/events/event-dispatcher-builder';
+import CertificationJuryDone from '../../../../lib/domain/events/CertificationJuryDone';
 
 describe('Event Choreography | CertificationJuryDone', function () {
   it('Should trigger the certification rescoring', async function () {

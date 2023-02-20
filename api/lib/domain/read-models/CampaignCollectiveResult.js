@@ -1,4 +1,4 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
 class CampaignCollectiveResult {
   constructor({ id, campaignLearningContent } = {}) {
@@ -54,4 +54,4 @@ class CampaignCompetenceCollectiveResult {
   }
 }
 
-module.exports = CampaignCollectiveResult;
+export default CampaignCollectiveResult;

@@ -1,12 +1,12 @@
-const Bookshelf = require('../bookshelf');
+import Bookshelf from '../bookshelf';
 
-require('./Badge');
-require('./Stage');
-require('./Organization');
+import './Badge';
+import './Stage';
+import './Organization';
 
 const modelName = 'TargetProfile';
 
-module.exports = Bookshelf.model(
+export default Bookshelf.model(
   modelName,
   {
     tableName: 'target-profiles',

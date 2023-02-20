@@ -1,4 +1,4 @@
-const Competence = require('../../../../lib/domain/models/Competence');
+import Competence from '../../../../lib/domain/models/Competence';
 
 const buildCompetence = function ({
   id = 'recCOMP1',
@@ -24,4 +24,4 @@ const buildCompetence = function ({
   });
 };
 
-module.exports = buildCompetence;
+export default buildCompetence;

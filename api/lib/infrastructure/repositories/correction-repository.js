@@ -1,14 +1,13 @@
-const _ = require('lodash');
-
-const Correction = require('../../domain/models/Correction');
-const Hint = require('../../domain/models/Hint');
-const challengeDatasource = require('../datasources/learning-content/challenge-datasource');
-const skillDatasource = require('../datasources/learning-content/skill-datasource');
-const tutorialRepository = require('./tutorial-repository');
+import _ from 'lodash';
+import Correction from '../../domain/models/Correction';
+import Hint from '../../domain/models/Hint';
+import challengeDatasource from '../datasources/learning-content/challenge-datasource';
+import skillDatasource from '../datasources/learning-content/skill-datasource';
+import tutorialRepository from './tutorial-repository';
 const VALIDATED_HINT_STATUSES = ['Validé', 'pré-validé'];
-const { getTranslatedKey } = require('../../domain/services/get-translated-text');
+import { getTranslatedKey } from '../../domain/services/get-translated-text';
 
-module.exports = {
+export default {
   async getByChallengeId({ challengeId, userId, locale }) {
     const challenge = await challengeDatasource.get(challengeId);
     const skill = await _getSkill(challenge);

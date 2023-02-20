@@ -1,7 +1,7 @@
-const { Serializer } = require('jsonapi-serializer');
-const _ = require('lodash');
+import { Serializer } from 'jsonapi-serializer';
+import _ from 'lodash';
 
-module.exports = {
+export default {
   serialize(challenges) {
     return new Serializer('challenge', {
       attributes: [

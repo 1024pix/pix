@@ -7,4 +7,4 @@ function findAssessmentParticipationResultList({
   return campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({ campaignId, filters, page });
 }
 
-module.exports = findAssessmentParticipationResultList;
+export default findAssessmentParticipationResultList;

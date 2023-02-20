@@ -1,6 +1,6 @@
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/skill-set-serializer');
-const { expect } = require('../../../../test-helper');
-const SkillSet = require('../../../../../lib/domain/models/SkillSet');
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/skill-set-serializer';
+import { expect } from '../../../../test-helper';
+import SkillSet from '../../../../../lib/domain/models/SkillSet';
 
 describe('Unit | Serializer | JSONAPI | skill-set-serializer', function () {
   describe('#serialize', function () {

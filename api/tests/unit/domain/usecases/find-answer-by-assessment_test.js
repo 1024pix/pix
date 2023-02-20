@@ -1,6 +1,6 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const findAnswerByAssessment = require('../../../../lib/domain/usecases/find-answer-by-assessment');
-const { UserNotAuthorizedToAccessEntityError, EntityValidationError } = require('../../../../lib/domain/errors');
+import { expect, sinon, catchErr } from '../../../test-helper';
+import findAnswerByAssessment from '../../../../lib/domain/usecases/find-answer-by-assessment';
+import { UserNotAuthorizedToAccessEntityError, EntityValidationError } from '../../../../lib/domain/errors';
 
 describe('Unit | UseCase | find-answer-by-challenge-and-assessment', function () {
   const assessmentId = 123;

@@ -17,4 +17,4 @@ function paginate(data, { number = DEFAULT_PAGINATION.PAGE, size = DEFAULT_PAGIN
   };
 }
 
-module.exports = { paginate };
+export default { paginate };

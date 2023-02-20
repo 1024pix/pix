@@ -1,5 +1,5 @@
-const { expect, mockLearningContent, domainBuilder } = require('../../../test-helper');
-const tubeRepository = require('../../../../lib/infrastructure/repositories/tube-repository');
+import { expect, mockLearningContent, domainBuilder } from '../../../test-helper';
+import tubeRepository from '../../../../lib/infrastructure/repositories/tube-repository';
 
 describe('Integration | Repository | tube-repository', function () {
   describe('#get', function () {

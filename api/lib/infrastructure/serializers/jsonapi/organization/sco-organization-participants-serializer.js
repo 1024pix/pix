@@ -1,6 +1,6 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
+export default {
   serialize({ scoOrganizationParticipants, meta }) {
     return new Serializer('sco-organization-participants', {
       id: 'id',

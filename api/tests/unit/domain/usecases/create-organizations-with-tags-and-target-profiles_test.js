@@ -1,19 +1,18 @@
-const { expect, catchErr, sinon, domainBuilder } = require('../../../test-helper');
-const Membership = require('../../../../lib/domain/models/Membership');
-const Organization = require('../../../../lib/domain/models/Organization');
-const OrganizationTag = require('../../../../lib/domain/models/OrganizationTag');
-const domainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
-const createOrganizationsWithTagsAndTargetProfiles = require('../../../../lib/domain/usecases/create-organizations-with-tags-and-target-profiles');
-const organizationInvitationService = require('../../../../lib/domain/services/organization-invitation-service');
+import { expect, catchErr, sinon, domainBuilder } from '../../../test-helper';
+import Membership from '../../../../lib/domain/models/Membership';
+import Organization from '../../../../lib/domain/models/Organization';
+import OrganizationTag from '../../../../lib/domain/models/OrganizationTag';
+import domainTransaction from '../../../../lib/infrastructure/DomainTransaction';
+import createOrganizationsWithTagsAndTargetProfiles from '../../../../lib/domain/usecases/create-organizations-with-tags-and-target-profiles';
+import organizationInvitationService from '../../../../lib/domain/services/organization-invitation-service';
+import organizationValidator from '../../../../lib/domain/validators/organization-with-tags-and-target-profiles-script';
 
-const organizationValidator = require('../../../../lib/domain/validators/organization-with-tags-and-target-profiles-script');
-
-const {
+import {
   ManyOrganizationsFoundError,
   ObjectValidationError,
   OrganizationAlreadyExistError,
   OrganizationTagNotFound,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors';
 
 describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', function () {
   let organizationRepositoryStub;

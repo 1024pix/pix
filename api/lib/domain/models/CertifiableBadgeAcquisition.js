@@ -20,4 +20,4 @@ class CertifiableBadgeAcquisition {
   }
 }
 
-module.exports = CertifiableBadgeAcquisition;
+export default CertifiableBadgeAcquisition;

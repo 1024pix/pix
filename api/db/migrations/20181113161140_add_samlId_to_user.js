@@ -1,12 +1,12 @@
 const TABLE_NAME = 'users';
 
-exports.up = (knex) => {
+export const up = (knex) => {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.string('samlId').unique();
   });
 };
 
-exports.down = (knex) => {
+export const down = (knex) => {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.dropColumn('samlId');
   });

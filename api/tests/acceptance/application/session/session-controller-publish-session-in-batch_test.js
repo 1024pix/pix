@@ -1,5 +1,5 @@
-const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
-const createServer = require('../../../../server');
+import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../test-helper';
+import createServer from '../../../../server';
 
 describe('POST /api/admin/sessions/publish-in-batch', function () {
   let server;

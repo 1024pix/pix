@@ -1,9 +1,9 @@
-const _ = require('lodash');
-const { expect, mockLearningContent, domainBuilder, catchErr } = require('../../../test-helper');
-const Challenge = require('../../../../lib/domain/models/Challenge');
-const Validator = require('../../../../lib/domain/models/Validator');
-const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+import _ from 'lodash';
+import { expect, mockLearningContent, domainBuilder, catchErr } from '../../../test-helper';
+import Challenge from '../../../../lib/domain/models/Challenge';
+import Validator from '../../../../lib/domain/models/Validator';
+import challengeRepository from '../../../../lib/infrastructure/repositories/challenge-repository';
+import { NotFoundError } from '../../../../lib/domain/errors';
 
 describe('Integration | Repository | challenge-repository', function () {
   describe('#get', function () {

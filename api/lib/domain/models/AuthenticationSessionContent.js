@@ -7,4 +7,4 @@ class AuthenticationSessionContent {
   }
 }
 
-module.exports = AuthenticationSessionContent;
+export default AuthenticationSessionContent;

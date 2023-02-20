@@ -1,5 +1,5 @@
-const AnswerStatus = require('./AnswerStatus');
-const Validation = require('./Validation');
+import AnswerStatus from './AnswerStatus';
+import Validation from './Validation';
 
 /**
  * Traduction: Vérificateur de réponse par défaut
@@ -17,4 +17,4 @@ class Validator {
   }
 }
 
-module.exports = Validator;
+export default Validator;

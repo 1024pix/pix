@@ -1,11 +1,11 @@
-const trainingSerializer = require('../../infrastructure/serializers/jsonapi/training-serializer');
-const trainingSummarySerializer = require('../../infrastructure/serializers/jsonapi/training-summary-serializer');
-const trainingTriggerSerializer = require('../../infrastructure/serializers/jsonapi/training-trigger-serializer');
-const targetProfileSummaryForAdminSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer');
-const usecases = require('../../domain/usecases');
-const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
+import trainingSerializer from '../../infrastructure/serializers/jsonapi/training-serializer';
+import trainingSummarySerializer from '../../infrastructure/serializers/jsonapi/training-summary-serializer';
+import trainingTriggerSerializer from '../../infrastructure/serializers/jsonapi/training-trigger-serializer';
+import targetProfileSummaryForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer';
+import usecases from '../../domain/usecases';
+import queryParamsUtils from '../../infrastructure/utils/query-params-utils';
 
-module.exports = {
+export default {
   async findPaginatedTrainingSummaries(request) {
     const { page } = queryParamsUtils.extractParameters(request.query);
     const { trainings, meta } = await usecases.findPaginatedTrainingSummaries({ page });

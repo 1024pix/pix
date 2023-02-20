@@ -1,16 +1,16 @@
-const get = require('lodash/get');
-const moment = require('moment');
-const querystring = require('querystring');
-const monitoringTools = require('../../monitoring-tools');
-const authenticationMethodRepository = require('../../repositories/authentication-method-repository');
-const AuthenticationMethod = require('../../../domain/models/AuthenticationMethod');
-const OidcIdentityProviders = require('../../../domain/constants/oidc-identity-providers');
-const httpAgent = require('../../http/http-agent');
-const settings = require('../../../config');
-const { UnexpectedUserAccountError } = require('../../../domain/errors');
-const httpErrorsHelper = require('../../../infrastructure/http/errors-helper');
+import get from 'lodash/get';
+import moment from 'moment';
+import querystring from 'querystring';
+import monitoringTools from '../../monitoring-tools';
+import authenticationMethodRepository from '../../repositories/authentication-method-repository';
+import AuthenticationMethod from '../../../domain/models/AuthenticationMethod';
+import OidcIdentityProviders from '../../../domain/constants/oidc-identity-providers';
+import httpAgent from '../../http/http-agent';
+import settings from '../../../config';
+import { UnexpectedUserAccountError } from '../../../domain/errors';
+import httpErrorsHelper from '../../../infrastructure/http/errors-helper';
 
-module.exports = {
+export default {
   async notify(userId, payload) {
     monitoringTools.logInfoWithCorrelationIds({
       event: 'participation-send-pole-emploi',

@@ -63,4 +63,4 @@ class CampaignManagement {
   }
 }
 
-module.exports = CampaignManagement;
+export default CampaignManagement;

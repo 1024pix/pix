@@ -18,9 +18,9 @@ const {
   PIX_EMPLOI_CLEA_V3,
 } = require('../constants').badges.keys;
 
-const bluebird = require('bluebird');
+import bluebird from 'bluebird';
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.schema.table(TABLE_NAME, function (table) {
     table.string(COLUMN_NAME);
   });
@@ -95,7 +95,7 @@ exports.up = async function (knex) {
   }
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   await knex.schema.table(TABLE_NAME, function (table) {
     table.dropColumn(COLUMN_NAME);
   });

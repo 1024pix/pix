@@ -1,7 +1,7 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
-const TargetProfile = require('../../../../../lib/domain/models/TargetProfile');
-const skillsFilter = require('../../../../../lib/domain/services/algorithm-methods/skills-filter');
-const Tube = require('../../../../../lib/domain/models/Tube');
+import { expect, domainBuilder } from '../../../../test-helper';
+import TargetProfile from '../../../../../lib/domain/models/TargetProfile';
+import skillsFilter from '../../../../../lib/domain/services/algorithm-methods/skills-filter';
+import Tube from '../../../../../lib/domain/models/Tube';
 
 const KNOWLEDGE_ELEMENT_STATUS = {
   VALIDATED: 'validated',

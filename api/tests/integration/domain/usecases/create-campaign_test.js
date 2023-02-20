@@ -1,13 +1,10 @@
-const { expect, databaseBuilder, mockLearningContent, knex } = require('../../../test-helper');
-const _ = require('lodash');
-
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const campaignCreatorRepository = require('../../../../lib/infrastructure/repositories/campaign-creator-repository');
-
-const createCampaign = require('../../../../lib/domain/usecases/create-campaign');
-
-const Campaign = require('../../../../lib/domain/models/Campaign');
-const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
+import { expect, databaseBuilder, mockLearningContent, knex } from '../../../test-helper';
+import _ from 'lodash';
+import campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository';
+import campaignCreatorRepository from '../../../../lib/infrastructure/repositories/campaign-creator-repository';
+import createCampaign from '../../../../lib/domain/usecases/create-campaign';
+import Campaign from '../../../../lib/domain/models/Campaign';
+import CampaignTypes from '../../../../lib/domain/models/CampaignTypes';
 
 describe('Integration | UseCases | create-campaign', function () {
   let userId;

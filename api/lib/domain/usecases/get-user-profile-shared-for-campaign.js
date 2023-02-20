@@ -1,8 +1,8 @@
-const SharedProfileForCampaign = require('../read-models/SharedProfileForCampaign');
-const { NoCampaignParticipationForUserAndCampaign } = require('../errors');
-const constants = require('../constants');
+import SharedProfileForCampaign from '../read-models/SharedProfileForCampaign';
+import { NoCampaignParticipationForUserAndCampaign } from '../errors';
+import constants from '../constants';
 
-module.exports = async function getUserProfileSharedForCampaign({
+export default async function getUserProfileSharedForCampaign({
   userId,
   campaignId,
   campaignParticipationRepository,
@@ -50,4 +50,4 @@ module.exports = async function getUserProfileSharedForCampaign({
     maxReachableLevel,
     maxReachablePixScore,
   });
-};
+}

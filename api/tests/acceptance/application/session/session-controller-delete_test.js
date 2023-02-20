@@ -1,5 +1,5 @@
-const { knex, expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const createServer = require('../../../../server');
+import { knex, expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper';
+import createServer from '../../../../server';
 
 describe('Acceptance | Controller | sessions-controller', function () {
   describe('DELETE /sessions/{id}', function () {

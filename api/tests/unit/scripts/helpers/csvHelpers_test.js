@@ -1,15 +1,15 @@
-const { expect, catchErr } = require('../../../test-helper');
-const { NotFoundError, FileValidationError } = require('../../../../lib/domain/errors');
-const {
+import { expect, catchErr } from '../../../test-helper';
+import { NotFoundError, FileValidationError } from '../../../../lib/domain/errors';
+
+import {
   parseCsv,
   readCsvFile,
   parseCsvWithHeader,
   checkCsvHeader,
   parseCsvWithHeaderAndRequiredFields,
-} = require('../../../../scripts/helpers/csvHelpers');
-const {
-  batchOrganizationOptionsWithHeader,
-} = require('../../../../scripts/create-organizations-with-tags-and-target-profiles');
+} from '../../../../scripts/helpers/csvHelpers';
+
+import { batchOrganizationOptionsWithHeader } from '../../../../scripts/create-organizations-with-tags-and-target-profiles';
 
 describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
   const notExistFilePath = 'notExist.csv';

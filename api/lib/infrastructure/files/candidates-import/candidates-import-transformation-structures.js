@@ -1,11 +1,11 @@
-const _ = require('lodash');
-const { convertDateValue } = require('../../utils/date-utils');
-const {
+import _ from 'lodash';
+import { convertDateValue } from '../../utils/date-utils';
+import {
   CLEA,
   PIX_PLUS_DROIT,
   PIX_PLUS_EDU_1ER_DEGRE,
   PIX_PLUS_EDU_2ND_DEGRE,
-} = require('../../../domain/models/ComplementaryCertification');
+} from '../../../domain/models/ComplementaryCertification';
 
 // These are transformation structures. They provide all the necessary info
 // on how to transform cell values in an attendance sheet into a target JS object.
@@ -175,6 +175,6 @@ function _toBooleanIfValueEqualsOuiOrNull(val) {
   return _.toUpper(val) === 'OUI' ? true : null;
 }
 
-module.exports = {
+export default {
   getTransformationStructsForPixCertifCandidatesImport,
 };

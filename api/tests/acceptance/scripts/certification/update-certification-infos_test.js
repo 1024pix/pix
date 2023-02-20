@@ -1,8 +1,8 @@
-const { expect, databaseBuilder, knex, sinon } = require('../../../test-helper');
-const { writeFile, rm } = require('fs/promises');
-const values = require('lodash/values');
-const logger = require('../../../../lib/infrastructure/logger');
-const { updateCertificationInfos, headers } = require('../../../../scripts/certification/update-certification-infos');
+import { expect, databaseBuilder, knex, sinon } from '../../../test-helper';
+import { writeFile, rm } from 'fs/promises';
+import values from 'lodash/values';
+import logger from '../../../../lib/infrastructure/logger';
+import { updateCertificationInfos, headers } from '../../../../scripts/certification/update-certification-infos';
 const dataFile = `${__dirname}/data.csv`;
 const sessionIdsFile = `${__dirname}/sessionIds.csv`;
 

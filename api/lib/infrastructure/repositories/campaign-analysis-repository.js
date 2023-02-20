@@ -1,14 +1,14 @@
-const _ = require('lodash');
-const bluebird = require('bluebird');
-const { knex } = require('../../../db/knex-database-connection');
-const knowledgeElementRepository = require('./knowledge-element-repository');
-const CampaignAnalysis = require('../../domain/read-models/CampaignAnalysis');
-const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
-const constants = require('../constants');
+import _ from 'lodash';
+import bluebird from 'bluebird';
+import { knex } from '../../../db/knex-database-connection';
+import knowledgeElementRepository from './knowledge-element-repository';
+import CampaignAnalysis from '../../domain/read-models/CampaignAnalysis';
+import CampaignParticipationStatuses from '../../domain/models/CampaignParticipationStatuses';
+import constants from '../constants';
 
 const { SHARED } = CampaignParticipationStatuses;
 
-module.exports = {
+export default {
   async getCampaignAnalysis(campaignId, campaignLearningContent, tutorials) {
     const userIdsAndSharedDates = await _getSharedParticipationsWithUserIdsAndDates(campaignId);
     const userIdsAndSharedDatesChunks = _.chunk(userIdsAndSharedDates, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);

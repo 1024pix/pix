@@ -1,15 +1,11 @@
-#! /usr/bin/env node
-require('dotenv').config();
-const bluebird = require('bluebird');
-const groupBy = require('lodash/groupBy');
-const sum = require('lodash/sum');
-const has = require('lodash/has');
-const partition = require('lodash/partition');
-const negate = require('lodash/negate');
-
-const { readCsvFile, parseCsvData } = require('../helpers/csvHelpers');
-const { categories } = require('../../lib/domain/models/TargetProfile');
-const { knex, disconnect } = require('../../db/knex-database-connection');
+import groupBy from 'lodash/groupBy';
+import sum from 'lodash/sum';
+import has from 'lodash/has';
+import partition from 'lodash/partition';
+import negate from 'lodash/negate';
+import { readCsvFile, parseCsvData } from '../helpers/csvHelpers';
+import { categories } from '../../lib/domain/models/TargetProfile';
+import { knex, disconnect } from '../../db/knex-database-connection';
 
 const TARGET_PROFILE_ID_COLUMN = 'targetProfileId';
 const CATEGORY_COLUMN = 'category';
@@ -94,7 +90,7 @@ async function main() {
   }
 })();
 
-module.exports = {
+export default {
   setCategoriesToTargetProfiles,
   setCategoryToTargetProfiles,
 };

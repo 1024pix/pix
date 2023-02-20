@@ -191,4 +191,4 @@ class TP_Tube {
   }
 }
 
-module.exports = TargetProfileForAdminNewFormat;
+export default TargetProfileForAdminNewFormat;

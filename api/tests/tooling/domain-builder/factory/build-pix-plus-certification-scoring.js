@@ -1,7 +1,7 @@
-const ComplementaryCertificationScoringWithComplementaryReferential = require('../../../../lib/domain/models/ComplementaryCertificationScoringWithComplementaryReferential');
-const buildReproducibilityRate = require('./build-reproducibility-rate');
+import ComplementaryCertificationScoringWithComplementaryReferential from '../../../../lib/domain/models/ComplementaryCertificationScoringWithComplementaryReferential';
+import buildReproducibilityRate from './build-reproducibility-rate';
 
-module.exports = function buildComplementaryCertificationScoringWithComplementaryReferential({
+export default function buildComplementaryCertificationScoringWithComplementaryReferential({
   complementaryCertificationCourseId = 999,
   complementaryCertificationBadgeKey = 'PIX_PLUS_TEST',
   reproducibilityRate = buildReproducibilityRate({ value: 100 }),
@@ -15,4 +15,4 @@ module.exports = function buildComplementaryCertificationScoringWithComplementar
     hasAcquiredPixCertification,
     minimumReproducibilityRate,
   });
-};
+}

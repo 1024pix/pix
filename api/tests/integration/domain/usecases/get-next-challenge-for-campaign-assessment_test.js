@@ -1,9 +1,10 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import getNextChallengeForCampaignAssessment from '../../../../lib/domain/usecases/get-next-challenge-for-campaign-assessment';
+import flash from '../../../../lib/domain/services/algorithm-methods/flash';
+import smartRandom from '../../../../lib/domain/services/algorithm-methods/smart-random';
+import { LOCALE } from '../../../../lib/domain/constants';
 
-const getNextChallengeForCampaignAssessment = require('../../../../lib/domain/usecases/get-next-challenge-for-campaign-assessment');
-const flash = require('../../../../lib/domain/services/algorithm-methods/flash');
-const smartRandom = require('../../../../lib/domain/services/algorithm-methods/smart-random');
-const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
+const { FRENCH_SPOKEN: FRENCH_SPOKEN } = LOCALE;
 
 describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-assessment', function () {
   describe('#getNextChallengeForCampaignAssessment : case for SMART RANDOM', function () {

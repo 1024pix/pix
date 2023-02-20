@@ -1,8 +1,10 @@
-const accept = require('@hapi/accept');
-const tokenService = require('../../domain/services/token-service');
-const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../domain/constants').LOCALE;
+import accept from '@hapi/accept';
+import tokenService from '../../domain/services/token-service';
+import { LOCALE } from '../../domain/constants';
 
-module.exports = { escapeFileName, extractUserIdFromRequest, extractLocaleFromRequest };
+const { ENGLISH_SPOKEN: ENGLISH_SPOKEN, FRENCH_FRANCE: FRENCH_FRANCE, FRENCH_SPOKEN: FRENCH_SPOKEN } = LOCALE;
+
+export default { escapeFileName, extractUserIdFromRequest, extractLocaleFromRequest };
 
 function escapeFileName(fileName) {
   return fileName.replace(/[^_. A-Za-z0-9-]/g, '_');

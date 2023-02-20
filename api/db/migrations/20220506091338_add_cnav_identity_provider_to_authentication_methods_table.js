@@ -1,4 +1,4 @@
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.raw(
     'ALTER TABLE "authentication-methods" DROP CONSTRAINT "authentication_methods_identityProvider_check" '
   );
@@ -7,7 +7,7 @@ exports.up = async function (knex) {
   );
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   await knex.raw(
     'ALTER TABLE "authentication-methods" DROP CONSTRAINT "authentication_methods_identityProvider_check" '
   );

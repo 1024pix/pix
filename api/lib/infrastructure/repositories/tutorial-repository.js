@@ -1,16 +1,19 @@
-const _ = require('lodash');
-const Tutorial = require('../../domain/models/Tutorial');
-const userSavedTutorialRepository = require('./user-saved-tutorial-repository');
-const tutorialEvaluationRepository = require('./tutorial-evaluation-repository');
-const tutorialDatasource = require('../datasources/learning-content/tutorial-datasource');
-const { NotFoundError } = require('../../domain/errors');
-const TutorialForUser = require('../../domain/read-models/TutorialForUser');
-const { FRENCH_FRANCE } = require('../../domain/constants').LOCALE;
-const knowledgeElementRepository = require('./knowledge-element-repository');
-const skillRepository = require('./skill-repository');
-const paginateModule = require('../utils/paginate');
+import _ from 'lodash';
+import Tutorial from '../../domain/models/Tutorial';
+import userSavedTutorialRepository from './user-saved-tutorial-repository';
+import tutorialEvaluationRepository from './tutorial-evaluation-repository';
+import tutorialDatasource from '../datasources/learning-content/tutorial-datasource';
+import { NotFoundError } from '../../domain/errors';
+import TutorialForUser from '../../domain/read-models/TutorialForUser';
+import { LOCALE } from '../../domain/constants';
 
-module.exports = {
+const { FRENCH_FRANCE: FRENCH_FRANCE } = LOCALE;
+
+import knowledgeElementRepository from './knowledge-element-repository';
+import skillRepository from './skill-repository';
+import paginateModule from '../utils/paginate';
+
+export default {
   async findByRecordIdsForCurrentUser({ ids, userId, locale }) {
     const tutorials = await _findByRecordIds({ ids, locale });
     const userSavedTutorials = await userSavedTutorialRepository.find({ userId });

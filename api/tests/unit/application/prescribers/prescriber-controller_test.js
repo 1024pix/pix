@@ -1,9 +1,7 @@
-const { sinon, expect } = require('../../../test-helper');
-
-const usecases = require('../../../../lib/domain/usecases');
-const prescriberSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/prescriber-serializer');
-
-const prescriberController = require('../../../../lib/application/prescribers/prescriber-controller');
+import { sinon, expect } from '../../../test-helper';
+import usecases from '../../../../lib/domain/usecases';
+import prescriberSerializer from '../../../../lib/infrastructure/serializers/jsonapi/prescriber-serializer';
+import prescriberController from '../../../../lib/application/prescribers/prescriber-controller';
 
 describe('Unit | Controller | prescriber-controller', function () {
   describe('#get', function () {

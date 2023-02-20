@@ -1,9 +1,7 @@
-const { pick } = require('lodash');
-
-const { expect, hFake } = require('../test-helper');
-const { BadRequestError } = require('../../lib/application/http-errors');
-
-const { handleFailAction } = require('../../lib/validate');
+import { pick } from 'lodash';
+import { expect, hFake } from '../test-helper';
+import { BadRequestError } from '../../lib/application/http-errors';
+import { handleFailAction } from '../../lib/validate';
 
 describe('Unit | Validate', function () {
   let expectedResponse;

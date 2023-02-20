@@ -1,6 +1,6 @@
-const { sinon, expect } = require('../../../test-helper');
-const findPaginatedFilteredTutorials = require('../../../../lib/domain/usecases/find-paginated-filtered-tutorials');
-const Tutorial = require('../../../../lib/domain/models/Tutorial');
+import { sinon, expect } from '../../../test-helper';
+import findPaginatedFilteredTutorials from '../../../../lib/domain/usecases/find-paginated-filtered-tutorials';
+import Tutorial from '../../../../lib/domain/models/Tutorial';
 
 describe('Unit | UseCase | find-paginated-filtered-tutorials', function () {
   let tutorialRepository;

@@ -1,8 +1,8 @@
 require('dotenv').config();
-const _ = require('lodash');
-const { knex, disconnect } = require('../../../db/knex-database-connection');
-const logger = require('../../../lib/infrastructure/logger');
-const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
+import _ from 'lodash';
+import { knex, disconnect } from '../../../db/knex-database-connection';
+import logger from '../../../lib/infrastructure/logger';
+import cache from '../../../lib/infrastructure/caches/learning-content-cache';
 
 let allSkills;
 let allTubes;
@@ -108,6 +108,6 @@ if (require.main === module) {
   main();
 }
 
-module.exports = {
+export default {
   doJob,
 };

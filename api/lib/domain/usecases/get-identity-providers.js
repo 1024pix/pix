@@ -1,8 +1,8 @@
-const { isEmpty, isNil, pick } = require('lodash');
-const OidcIdentityProviders = require('../constants/oidc-identity-providers');
-const config = require('../../config');
+import { isEmpty, isNil, pick } from 'lodash';
+import OidcIdentityProviders from '../constants/oidc-identity-providers';
+import config from '../../config';
 
-module.exports = function getIdentityProviders() {
+export default function getIdentityProviders() {
   return Object.keys(OidcIdentityProviders)
     .map((oidcIdentityProviderKey) => {
       const { configKey, propertyPathsToPick, service } = OidcIdentityProviders[oidcIdentityProviderKey];
@@ -23,4 +23,4 @@ module.exports = function getIdentityProviders() {
       }
     })
     .filter((identityProvider) => !isEmpty(identityProvider));
-};
+}

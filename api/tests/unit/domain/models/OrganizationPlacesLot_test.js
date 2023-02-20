@@ -1,8 +1,7 @@
-/* eslint-disable mocha/no-setup-in-describe */
-const { expect } = require('../../../test-helper');
-const categories = require('../../../../lib/domain/constants/organization-places-categories');
-const OrganizationPlacesLot = require('../../../../lib/domain/models/OrganizationPlacesLot');
-const { EntityValidationError } = require('../../../../lib/domain/errors');
+import { expect } from '../../../test-helper';
+import categories from '../../../../lib/domain/constants/organization-places-categories';
+import OrganizationPlacesLot from '../../../../lib/domain/models/OrganizationPlacesLot';
+import { EntityValidationError } from '../../../../lib/domain/errors';
 
 describe('Unit | Domain | Models | OrganizationPlaces', function () {
   describe('#constructor', function () {

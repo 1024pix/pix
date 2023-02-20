@@ -1,6 +1,6 @@
-const ComplementaryCertificationCourseResultForJuryCertification = require('../../../../lib/domain/read-models/ComplementaryCertificationCourseResultsForJuryCertification');
+import ComplementaryCertificationCourseResultForJuryCertification from '../../../../lib/domain/read-models/ComplementaryCertificationCourseResultsForJuryCertification';
 
-module.exports = function buildComplementaryCertificationCourseResultForJuryCertification({
+export default function buildComplementaryCertificationCourseResultForJuryCertification({
   id = 1234,
   partnerKey = 'PARTNER_KEY',
   acquired = true,
@@ -12,4 +12,4 @@ module.exports = function buildComplementaryCertificationCourseResultForJuryCert
     acquired,
     label,
   });
-};
+}

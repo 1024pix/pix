@@ -1,8 +1,5 @@
-const { expect, catchErr } = require('../../../test-helper');
-const {
-  checkValidation,
-  FRANCE_COUNTRY_CODE,
-} = require('../../../../lib/domain/validators/organization-learner-validator');
+import { expect, catchErr } from '../../../test-helper';
+import { checkValidation, FRANCE_COUNTRY_CODE } from '../../../../lib/domain/validators/organization-learner-validator';
 
 describe('Unit | Domain | Organization Learner validator', function () {
   context('#checkValidation', function () {

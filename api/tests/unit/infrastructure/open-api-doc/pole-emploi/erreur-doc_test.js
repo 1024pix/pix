@@ -1,5 +1,5 @@
-const ErreurDoc = require('../../../../../lib/infrastructure/open-api-doc/pole-emploi/erreur-doc');
-const { expect } = require('../../../../test-helper');
+import ErreurDoc from '../../../../../lib/infrastructure/open-api-doc/pole-emploi/erreur-doc';
+import { expect } from '../../../../test-helper';
 
 describe('Unit | Infrastructure | Open API Doc | Pole Emploi | Erreur Documentation', function () {
   it('should validate payload for a campaign participation', function () {

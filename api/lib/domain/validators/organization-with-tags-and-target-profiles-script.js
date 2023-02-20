@@ -1,8 +1,8 @@
-const Joi = require('joi');
-const { EntityValidationError } = require('../errors');
-const Organization = require('../models/Organization');
-const Membership = require('../models/Membership');
-const OidcIdentityProviders = require('../../../lib/domain/constants/oidc-identity-providers');
+import Joi from 'joi';
+import { EntityValidationError } from '../errors';
+import Organization from '../models/Organization';
+import Membership from '../models/Membership';
+import OidcIdentityProviders from '../../../lib/domain/constants/oidc-identity-providers';
 
 const validProviders = Object.values(OidcIdentityProviders).map((provider) => provider.service.code);
 
@@ -58,7 +58,7 @@ const schema = Joi.object({
   }),
 });
 
-module.exports = {
+export default {
   validate(organization) {
     const { error } = schema.validate(organization, { abortEarly: false, allowUnknown: true });
     if (error) {

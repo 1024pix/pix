@@ -1,4 +1,4 @@
-exports.up = function (knex) {
+export const up = function (knex) {
   // eslint-disable-next-line knex/avoid-injections
   return knex.raw(
     'UPDATE "certification-candidates"' +
@@ -8,6 +8,6 @@ exports.up = function (knex) {
   );
 };
 
-exports.down = function () {
+export const down = function () {
   return;
 };

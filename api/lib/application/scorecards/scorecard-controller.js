@@ -1,9 +1,9 @@
-const scorecardSerializer = require('../../infrastructure/serializers/jsonapi/scorecard-serializer');
-const tutorialSerializer = require('../../infrastructure/serializers/jsonapi/tutorial-serializer');
-const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
-const usecases = require('../../domain/usecases');
+import scorecardSerializer from '../../infrastructure/serializers/jsonapi/scorecard-serializer';
+import tutorialSerializer from '../../infrastructure/serializers/jsonapi/tutorial-serializer';
+import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils';
+import usecases from '../../domain/usecases';
 
-module.exports = {
+export default {
   getScorecard(request) {
     const locale = extractLocaleFromRequest(request);
     const authenticatedUserId = request.auth.credentials.userId;

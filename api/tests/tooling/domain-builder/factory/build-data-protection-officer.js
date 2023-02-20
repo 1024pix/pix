@@ -1,4 +1,4 @@
-const DataProtectionOfficer = require('../../../../lib/domain/models/DataProtectionOfficer');
+import DataProtectionOfficer from '../../../../lib/domain/models/DataProtectionOfficer';
 
 function _buildDataProtectionOfficer({
   id = 10001,
@@ -62,7 +62,7 @@ function buildDataProtectionOfficerWithOrganizationId({
   });
 }
 
-module.exports = {
+export default {
   withCertificationCenterId: buildDataProtectionOfficerWithCertificationCenterId,
   withOrganizationId: buildDataProtectionOfficerWithOrganizationId,
 };

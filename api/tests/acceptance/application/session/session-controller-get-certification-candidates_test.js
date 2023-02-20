@@ -1,6 +1,6 @@
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const createServer = require('../../../../server');
-const _ = require('lodash');
+import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper';
+import createServer from '../../../../server';
+import _ from 'lodash';
 
 describe('Acceptance | Controller | session-controller-get-certification-candidates', function () {
   let server;

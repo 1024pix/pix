@@ -1,9 +1,9 @@
-const Bookshelf = require('../bookshelf');
-const CompetenceMark = require('../../domain/models/CompetenceMark');
+import Bookshelf from '../bookshelf';
+import CompetenceMark from '../../domain/models/CompetenceMark';
 
 const modelName = 'CompetenceMark';
 
-module.exports = Bookshelf.model(
+export default Bookshelf.model(
   modelName,
   {
     tableName: 'competence-marks',

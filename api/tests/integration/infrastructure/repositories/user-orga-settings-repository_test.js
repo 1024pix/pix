@@ -1,12 +1,9 @@
-const _ = require('lodash');
-
-const { catchErr, expect, knex, databaseBuilder } = require('../../../test-helper');
-
-const UserOrgaSettings = require('../../../../lib/domain/models/UserOrgaSettings');
-const BookshelfUserOrgaSettings = require('../../../../lib/infrastructure/orm-models/UserOrgaSettings');
-const { UserOrgaSettingsCreationError } = require('../../../../lib/domain/errors');
-
-const userOrgaSettingsRepository = require('../../../../lib/infrastructure/repositories/user-orga-settings-repository');
+import _ from 'lodash';
+import { catchErr, expect, knex, databaseBuilder } from '../../../test-helper';
+import UserOrgaSettings from '../../../../lib/domain/models/UserOrgaSettings';
+import BookshelfUserOrgaSettings from '../../../../lib/infrastructure/orm-models/UserOrgaSettings';
+import { UserOrgaSettingsCreationError } from '../../../../lib/domain/errors';
+import userOrgaSettingsRepository from '../../../../lib/infrastructure/repositories/user-orga-settings-repository';
 
 describe('Integration | Repository | UserOrgaSettings', function () {
   const USER_PICKED_PROPERTIES = [

@@ -1,6 +1,6 @@
-const Inert = require('@hapi/inert');
-const Vision = require('@hapi/vision');
-const config = require('../../config');
+import Inert from '@hapi/inert';
+import Vision from '@hapi/vision';
+import config from '../../config';
 
 const plugins = [
   Inert,
@@ -10,4 +10,4 @@ const plugins = [
   ...(config.sentry.enabled ? [require('./sentry')] : []),
 ];
 
-module.exports = plugins;
+export default plugins;

@@ -1,4 +1,4 @@
-const { CertifiedTube } = require('../../../../lib/domain/read-models/CertifiedProfile');
+import { CertifiedTube } from '../../../../lib/domain/read-models/CertifiedProfile';
 
 const buildCertifiedTube = function buildCertifiedTube({
   id = 'someTubeId',
@@ -12,4 +12,4 @@ const buildCertifiedTube = function buildCertifiedTube({
   });
 };
 
-module.exports = buildCertifiedTube;
+export default buildCertifiedTube;

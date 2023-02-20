@@ -4,4 +4,4 @@ class CompetenceResults {
   }
 }
 
-module.exports = CompetenceResults;
+export default CompetenceResults;

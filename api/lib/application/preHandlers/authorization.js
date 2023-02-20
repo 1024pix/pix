@@ -1,15 +1,15 @@
-const { NotFoundError } = require('../http-errors');
-const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
-const sessionRepository = require('../../infrastructure/repositories/sessions/session-repository');
+import { NotFoundError } from '../http-errors';
+import certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository';
+import sessionRepository from '../../infrastructure/repositories/sessions/session-repository';
 
-module.exports.verifySessionAuthorization = async (request) => {
+export const verifySessionAuthorization = async (request) => {
   const userId = request.auth.credentials.userId;
   const sessionId = request.params.id;
 
   return await _isAuthorizedToAccessSession({ userId, sessionId });
 };
 
-module.exports.verifyCertificationSessionAuthorization = async (request) => {
+export const verifyCertificationSessionAuthorization = async (request) => {
   const userId = request.auth.credentials.userId;
   const certificationCourseId = request.params.id;
 

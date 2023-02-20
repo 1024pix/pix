@@ -1,14 +1,14 @@
-const _ = require('lodash');
-const { NotFoundError } = require('../../domain/errors');
-const { knex } = require('../../../db/knex-database-connection');
-const Campaign = require('../../domain/models/Campaign');
-const targetProfileRepository = require('./target-profile-repository');
-const skillRepository = require('./skill-repository');
-const Stage = require('../../domain/models/Stage');
+import _ from 'lodash';
+import { NotFoundError } from '../../domain/errors';
+import { knex } from '../../../db/knex-database-connection';
+import Campaign from '../../domain/models/Campaign';
+import targetProfileRepository from './target-profile-repository';
+import skillRepository from './skill-repository';
+import Stage from '../../domain/models/Stage';
 
 const CAMPAIGNS_TABLE = 'campaigns';
 
-module.exports = {
+export default {
   async isCodeAvailable(code) {
     return !(await knex('campaigns').first('id').where({ code }));
   },

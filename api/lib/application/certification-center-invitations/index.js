@@ -1,10 +1,9 @@
-const Joi = require('joi');
+import Joi from 'joi';
+import certificationCenterInvitationController from './certification-center-invitation-controller';
+import identifiersType from '../../domain/types/identifiers-type';
+import securityPreHandlers from '../security-pre-handlers';
 
-const certificationCenterInvitationController = require('./certification-center-invitation-controller');
-const identifiersType = require('../../domain/types/identifiers-type');
-const securityPreHandlers = require('../security-pre-handlers');
-
-exports.register = async function (server) {
+export const register = async function (server) {
   server.route([
     {
       method: 'POST',
@@ -81,4 +80,4 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'certification-center-invitations-api';
+export const name = 'certification-center-invitations-api';

@@ -1,15 +1,15 @@
-const { knex } = require('../../../db/knex-database-connection');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const BookshelfBadge = require('../orm-models/Badge');
-const Badge = require('../../domain/models/Badge');
-const omit = require('lodash/omit');
-const bookshelfUtils = require('../utils/knex-utils');
-const { AlreadyExistingEntityError } = require('../../domain/errors');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
+import { knex } from '../../../db/knex-database-connection';
+import bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter';
+import BookshelfBadge from '../orm-models/Badge';
+import Badge from '../../domain/models/Badge';
+import omit from 'lodash/omit';
+import bookshelfUtils from '../utils/knex-utils';
+import { AlreadyExistingEntityError } from '../../domain/errors';
+import DomainTransaction from '../../infrastructure/DomainTransaction';
 
 const TABLE_NAME = 'badges';
 
-module.exports = {
+export default {
   findByCampaignId(campaignId) {
     return BookshelfBadge.query((qb) => {
       qb.join('target-profiles', 'target-profiles.id', 'badges.targetProfileId');

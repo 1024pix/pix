@@ -1,9 +1,9 @@
-const { sinon, expect, hFake, catchErr, domainBuilder } = require('../../../../test-helper');
-const authenticationServiceRegistry = require('../../../../../lib/domain/services/authentication/authentication-service-registry');
-const oidcController = require('../../../../../lib/application/authentication/oidc/oidc-controller');
-const oidcSerializer = require('../../../../../lib/infrastructure/serializers/jsonapi/oidc-serializer');
-const usecases = require('../../../../../lib/domain/usecases');
-const { UnauthorizedError } = require('../../../../../lib/application/http-errors');
+import { sinon, expect, hFake, catchErr, domainBuilder } from '../../../../test-helper';
+import authenticationServiceRegistry from '../../../../../lib/domain/services/authentication/authentication-service-registry';
+import oidcController from '../../../../../lib/application/authentication/oidc/oidc-controller';
+import oidcSerializer from '../../../../../lib/infrastructure/serializers/jsonapi/oidc-serializer';
+import usecases from '../../../../../lib/domain/usecases';
+import { UnauthorizedError } from '../../../../../lib/application/http-errors';
 
 describe('Unit | Application | Controller | Authentication | OIDC', function () {
   const identityProvider = 'OIDC';

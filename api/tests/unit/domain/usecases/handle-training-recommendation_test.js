@@ -1,7 +1,7 @@
-const handleTrainingRecommendation = require('../../../../lib/domain/usecases/handle-training-recommendation');
-const trainingRepository = require('../../../../lib/infrastructure/repositories/training-repository');
-const userRecommendedTrainingRepository = require('../../../../lib/infrastructure/repositories/user-recommended-training-repository');
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+import handleTrainingRecommendation from '../../../../lib/domain/usecases/handle-training-recommendation';
+import trainingRepository from '../../../../lib/infrastructure/repositories/training-repository';
+import userRecommendedTrainingRepository from '../../../../lib/infrastructure/repositories/user-recommended-training-repository';
+import { expect, sinon, domainBuilder } from '../../../test-helper';
 
 describe('Unit | UseCase | handle-training-recommendation', function () {
   let findByCampaignParticipationIdAndLocaleStub;

@@ -1,10 +1,10 @@
-const Boom = require('boom');
-const packageJSON = require('../../../package.json');
-const settings = require('../../config');
-const redisMonitor = require('../../infrastructure/utils/redis-monitor');
-const { knex } = require('../../../db/knex-database-connection');
+import Boom from 'boom';
+import packageJSON from '../../../package.json';
+import settings from '../../config';
+import redisMonitor from '../../infrastructure/utils/redis-monitor';
+import { knex } from '../../../db/knex-database-connection';
 
-module.exports = {
+export default {
   get(request) {
     return {
       name: packageJSON.name,

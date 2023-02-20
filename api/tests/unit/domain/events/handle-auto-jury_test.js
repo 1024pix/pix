@@ -1,13 +1,13 @@
-const { sinon, expect, catchErr, domainBuilder } = require('../../../test-helper');
-const handleAutoJury = require('../../../../lib/domain/events/handle-auto-jury');
-const SessionFinalized = require('../../../../lib/domain/events/SessionFinalized');
-const AutoJuryDone = require('../../../../lib/domain/events/AutoJuryDone');
-const CertificationJuryDone = require('../../../../lib/domain/events/CertificationJuryDone');
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const {
+import { sinon, expect, catchErr, domainBuilder } from '../../../test-helper';
+import handleAutoJury from '../../../../lib/domain/events/handle-auto-jury';
+import SessionFinalized from '../../../../lib/domain/events/SessionFinalized';
+import AutoJuryDone from '../../../../lib/domain/events/AutoJuryDone';
+import CertificationJuryDone from '../../../../lib/domain/events/CertificationJuryDone';
+import AnswerStatus from '../../../../lib/domain/models/AnswerStatus';
+import {
   CertificationIssueReportSubcategories,
   CertificationIssueReportCategories,
-} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
+} from '../../../../lib/domain/models/CertificationIssueReportCategory';
 
 describe('Unit | Domain | Events | handle-auto-jury', function () {
   it('fails when event is not of correct type', async function () {

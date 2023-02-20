@@ -1,9 +1,9 @@
-const settings = require('../../../config');
+import settings from '../../../config';
 const temporaryStorage = require('../../../infrastructure/temporary-storage').withPrefix('authentication-session:');
 
 const EXPIRATION_DELAY_SECONDS = settings.authenticationSession.temporaryStorage.expirationDelaySeconds;
 
-module.exports = {
+export default {
   getByKey(key) {
     return temporaryStorage.get(key);
   },

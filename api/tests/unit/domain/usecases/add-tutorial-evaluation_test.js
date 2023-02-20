@@ -1,7 +1,7 @@
-const { sinon, expect, domainBuilder, catchErr } = require('../../../test-helper');
-const addTutorialEvaluation = require('../../../../lib/domain/usecases/add-tutorial-evaluation');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const TutorialEvaluation = require('../../../../lib/domain/models/TutorialEvaluation');
+import { sinon, expect, domainBuilder, catchErr } from '../../../test-helper';
+import addTutorialEvaluation from '../../../../lib/domain/usecases/add-tutorial-evaluation';
+import { NotFoundError } from '../../../../lib/domain/errors';
+import TutorialEvaluation from '../../../../lib/domain/models/TutorialEvaluation';
 
 describe('Unit | UseCase | add-tutorial-evaluation', function () {
   let tutorialRepository;

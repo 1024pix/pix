@@ -1,6 +1,6 @@
 const TABLE_NAME = 'users';
 
-exports.up = async (knex) => {
+export const up = async (knex) => {
   // SQLite does not support altering columns, so we do not try to alter
   // the column if it is already nullable, and we have modified the column
   // creation in the original migration to create it as nullable.
@@ -13,7 +13,7 @@ exports.up = async (knex) => {
   }
 };
 
-exports.down = (knex) => {
+export const down = (knex) => {
   return knex.schema.alterTable(TABLE_NAME, (table) => {
     table.string('email').notNullable().alter();
   });

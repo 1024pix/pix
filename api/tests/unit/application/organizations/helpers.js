@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const { mapCertificabilityByLabel } = require('../../../../lib/application/organizations/helpers');
+import { expect } from '../../../test-helper';
+import { mapCertificabilityByLabel } from '../../../../lib/application/organizations/helpers';
 
 describe('Unit | Application | Organizations | helpers', function () {
   it('map the certificability eligible value', async function () {

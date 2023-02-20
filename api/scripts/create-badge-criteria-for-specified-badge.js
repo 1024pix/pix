@@ -1,13 +1,13 @@
 ('use strict');
-const Joi = require('joi');
-const bluebird = require('bluebird');
-const { NotFoundError } = require('../lib/domain/errors');
-const BadgeCriterion = require('../lib/domain/models/BadgeCriterion');
-const badgeRepository = require('../lib/infrastructure/repositories/badge-repository');
-const badgeCriteriaRepository = require('../lib/infrastructure/repositories/badge-criteria-repository');
-const skillSetRepository = require('../lib/infrastructure/repositories/skill-set-repository');
-const DomainTransaction = require('../lib/infrastructure/DomainTransaction');
-const { knex, disconnect } = require('../db/knex-database-connection');
+import Joi from 'joi';
+import bluebird from 'bluebird';
+import { NotFoundError } from '../lib/domain/errors';
+import BadgeCriterion from '../lib/domain/models/BadgeCriterion';
+import badgeRepository from '../lib/infrastructure/repositories/badge-repository';
+import badgeCriteriaRepository from '../lib/infrastructure/repositories/badge-criteria-repository';
+import skillSetRepository from '../lib/infrastructure/repositories/skill-set-repository';
+import DomainTransaction from '../lib/infrastructure/DomainTransaction';
+import { knex, disconnect } from '../db/knex-database-connection';
 
 // Usage: node scripts/create-badge-criteria-for-specified-badge path/data.json
 // data.json
@@ -133,4 +133,4 @@ async function main() {
   }
 })();
 
-module.exports = { checkBadgeExistence, checkCriteriaFormat, checkSkillSetIds, copySkillSets };
+export default { checkBadgeExistence, checkCriteriaFormat, checkSkillSetIds, copySkillSets };

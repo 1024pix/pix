@@ -1,6 +1,5 @@
-const { expect, nock, catchErr } = require('../../test-helper');
-
-const lcms = require('../../../lib/infrastructure/lcms');
+import { expect, nock, catchErr } from '../../test-helper';
+import lcms from '../../../lib/infrastructure/lcms';
 
 describe('Unit | Infrastructure | LCMS', function () {
   describe('#getLatestRelease', function () {

@@ -1,18 +1,21 @@
-const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection');
-const { NotFoundError, TargetProfileInvalidError } = require('../../domain/errors');
-const { FRENCH_FRANCE } = require('../../domain/constants').LOCALE;
-const areaRepository = require('./area-repository');
-const competenceRepository = require('./competence-repository');
-const targetProfileRepository = require('./target-profile-repository');
-const thematicRepository = require('./thematic-repository');
-const tubeRepository = require('./tube-repository');
-const skillRepository = require('./skill-repository');
-const TargetProfileForAdminOldFormat = require('../../domain/models/TargetProfileForAdminOldFormat');
-const TargetProfileForAdminNewFormat = require('../../domain/models/TargetProfileForAdminNewFormat');
-const { BadgeDetails, BadgeCriterion, SkillSet, CappedTube, SCOPES } = require('../../domain/models/BadgeDetails');
+import _ from 'lodash';
+import { knex } from '../../../db/knex-database-connection';
+import { NotFoundError, TargetProfileInvalidError } from '../../domain/errors';
+import { LOCALE } from '../../domain/constants';
 
-module.exports = {
+const { FRENCH_FRANCE: FRENCH_FRANCE } = LOCALE;
+
+import areaRepository from './area-repository';
+import competenceRepository from './competence-repository';
+import targetProfileRepository from './target-profile-repository';
+import thematicRepository from './thematic-repository';
+import tubeRepository from './tube-repository';
+import skillRepository from './skill-repository';
+import TargetProfileForAdminOldFormat from '../../domain/models/TargetProfileForAdminOldFormat';
+import TargetProfileForAdminNewFormat from '../../domain/models/TargetProfileForAdminNewFormat';
+import { BadgeDetails, BadgeCriterion, SkillSet, CappedTube, SCOPES } from '../../domain/models/BadgeDetails';
+
+export default {
   async get({ id, locale = FRENCH_FRANCE }) {
     const targetProfileDTO = await knex('target-profiles')
       .select(

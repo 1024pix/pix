@@ -1,9 +1,9 @@
-const { expect, sinon } = require('../../../test-helper');
-const createCampaign = require('../../../../lib/domain/usecases/create-campaign');
-const campaignCodeGenerator = require('../../../../lib/domain/services/campaigns/campaign-code-generator');
-const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
-const CampaignCreator = require('../../../../lib/domain/models/CampaignCreator');
-const CampaignForCreation = require('../../../../lib/domain/models/CampaignForCreation');
+import { expect, sinon } from '../../../test-helper';
+import createCampaign from '../../../../lib/domain/usecases/create-campaign';
+import campaignCodeGenerator from '../../../../lib/domain/services/campaigns/campaign-code-generator';
+import CampaignTypes from '../../../../lib/domain/models/CampaignTypes';
+import CampaignCreator from '../../../../lib/domain/models/CampaignCreator';
+import CampaignForCreation from '../../../../lib/domain/models/CampaignForCreation';
 
 describe('Unit | UseCase | create-campaign', function () {
   let campaignRepository;

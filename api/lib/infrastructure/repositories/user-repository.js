@@ -1,29 +1,30 @@
-const moment = require('moment');
+import moment from 'moment';
+import { knex } from '../../../db/knex-database-connection';
+import DomainTransaction from '../DomainTransaction';
+import BookshelfUser from '../orm-models/User';
+import { isUniqConstraintViolated } from '../utils/knex-utils';
+import bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter';
 
-const { knex } = require('../../../db/knex-database-connection');
-const DomainTransaction = require('../DomainTransaction');
-const BookshelfUser = require('../orm-models/User');
-const { isUniqConstraintViolated } = require('../utils/knex-utils');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const {
+import {
   AlreadyExistingEntityError,
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
   UserNotFoundError,
-} = require('../../domain/errors');
-const User = require('../../domain/models/User');
-const UserDetailsForAdmin = require('../../domain/models/UserDetailsForAdmin');
-const Membership = require('../../domain/models/Membership');
-const CertificationCenter = require('../../domain/models/CertificationCenter');
-const CertificationCenterMembership = require('../../domain/models/CertificationCenterMembership');
-const Organization = require('../../domain/models/Organization');
-const OrganizationLearnerForAdmin = require('../../domain/read-models/OrganizationLearnerForAdmin');
-const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
-const OidcIdentityProviders = require('../../domain/constants/oidc-identity-providers');
-const UserLogin = require('../../domain/models/UserLogin');
-const { fetchPage } = require('../utils/knex-utils');
+} from '../../domain/errors';
 
-module.exports = {
+import User from '../../domain/models/User';
+import UserDetailsForAdmin from '../../domain/models/UserDetailsForAdmin';
+import Membership from '../../domain/models/Membership';
+import CertificationCenter from '../../domain/models/CertificationCenter';
+import CertificationCenterMembership from '../../domain/models/CertificationCenterMembership';
+import Organization from '../../domain/models/Organization';
+import OrganizationLearnerForAdmin from '../../domain/read-models/OrganizationLearnerForAdmin';
+import AuthenticationMethod from '../../domain/models/AuthenticationMethod';
+import OidcIdentityProviders from '../../domain/constants/oidc-identity-providers';
+import UserLogin from '../../domain/models/UserLogin';
+import { fetchPage } from '../utils/knex-utils';
+
+export default {
   async getByEmail(email) {
     const foundUser = await knex.from('users').whereRaw('LOWER("email") = ?', email.toLowerCase()).first();
     if (!foundUser) {

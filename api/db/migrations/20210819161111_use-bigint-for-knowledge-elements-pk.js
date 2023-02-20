@@ -1,6 +1,6 @@
 const MAX_ROW_COUNT_FOR_CREATING_BACK_PK_IN_DEPLOYMENT = 500000;
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.raw('LOCK TABLE "knowledge-elements" IN ACCESS EXCLUSIVE MODE');
   await knex.raw('DROP TRIGGER "trg_knowledge-elements" ON "knowledge-elements"');
   await knex.raw('DROP FUNCTION copy_int_id_to_bigint_id');
@@ -19,7 +19,7 @@ exports.up = async function (knex) {
   await knex.raw('ALTER TABLE "knowledge-elements" RENAME COLUMN "bigintId" TO "id"');
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   const nbRows = (await knex('knowledge-elements').max('id').first()).max;
 
   if (nbRows < MAX_ROW_COUNT_FOR_CREATING_BACK_PK_IN_DEPLOYMENT) {

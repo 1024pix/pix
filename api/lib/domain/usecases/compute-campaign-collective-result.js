@@ -1,7 +1,7 @@
-const { UserNotAuthorizedToAccessEntityError } = require('../errors');
-const CampaignLearningContent = require('../models/CampaignLearningContent');
+import { UserNotAuthorizedToAccessEntityError } from '../errors';
+import CampaignLearningContent from '../models/CampaignLearningContent';
 
-module.exports = async function computeCampaignCollectiveResult({
+export default async function computeCampaignCollectiveResult({
   userId,
   campaignId,
   campaignRepository,
@@ -18,4 +18,4 @@ module.exports = async function computeCampaignCollectiveResult({
   const learningContent = await learningContentRepository.findByCampaignId(campaignId, locale);
   const campaignLearningContent = new CampaignLearningContent(learningContent);
   return campaignCollectiveResultRepository.getCampaignCollectiveResult(campaignId, campaignLearningContent);
-};
+}

@@ -1,12 +1,12 @@
-const pdfLibFontKit = require('@pdf-lib/fontkit');
-require('dayjs/locale/fr');
-const FontManager = require('./manager/font-manager');
-const TemplatePageManager = require('./manager/template-page-manager');
-const learningContentBuilder = require('./builder/learning-content-builder');
-const coverPageBuilder = require('./builder/cover-page-builder');
-const { PDFDocument } = require('pdf-lib');
+import pdfLibFontKit from '@pdf-lib/fontkit';
+import 'dayjs/locale/fr';
+import FontManager from './manager/font-manager';
+import TemplatePageManager from './manager/template-page-manager';
+import learningContentBuilder from './builder/learning-content-builder';
+import coverPageBuilder from './builder/cover-page-builder';
+import { PDFDocument } from 'pdf-lib';
 
-module.exports = {
+export default {
   /**
    * @param learningContent{LearningContent}
    * @param title{string}

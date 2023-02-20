@@ -1,6 +1,6 @@
-const StudentInformationForAccountRecovery = require('../read-models/StudentInformationForAccountRecovery');
+import StudentInformationForAccountRecovery from '../read-models/StudentInformationForAccountRecovery';
 
-module.exports = async function checkScoAccountRecovery({
+export default async function checkScoAccountRecovery({
   studentInformation,
   organizationLearnerRepository,
   organizationRepository,
@@ -27,4 +27,4 @@ module.exports = async function checkScoAccountRecovery({
     email,
     latestOrganizationName,
   });
-};
+}

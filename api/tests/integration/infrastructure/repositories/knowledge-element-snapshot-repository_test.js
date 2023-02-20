@@ -1,8 +1,8 @@
-const { knex, expect, databaseBuilder, catchErr } = require('../../../test-helper');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const knowledgeElementSnapshotRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
-const { AlreadyExistingEntityError } = require('../../../../lib/domain/errors');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+import { knex, expect, databaseBuilder, catchErr } from '../../../test-helper';
+import KnowledgeElement from '../../../../lib/domain/models/KnowledgeElement';
+import knowledgeElementSnapshotRepository from '../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository';
+import { AlreadyExistingEntityError } from '../../../../lib/domain/errors';
+import DomainTransaction from '../../../../lib/infrastructure/DomainTransaction';
 
 describe('Integration | Repository | KnowledgeElementSnapshotRepository', function () {
   describe('#save', function () {

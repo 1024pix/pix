@@ -1,7 +1,7 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/organization-learner-activity-serializer');
-const OrganizationLearnerParticipation = require('../../../../../lib/domain/read-models/OrganizationLearnerParticipation');
-const OrganizationLearnerActivity = require('../../../../../lib/domain/read-models/OrganizationLearnerActivity');
+import { expect } from '../../../../test-helper';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/organization-learner-activity-serializer';
+import OrganizationLearnerParticipation from '../../../../../lib/domain/read-models/OrganizationLearnerParticipation';
+import OrganizationLearnerActivity from '../../../../../lib/domain/read-models/OrganizationLearnerActivity';
 
 describe('Unit | Serializer | JSONAPI | organization-learner-participation-serialize', function () {
   describe('#serialize', function () {

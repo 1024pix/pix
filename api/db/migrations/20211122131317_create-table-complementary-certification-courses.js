@@ -1,6 +1,6 @@
 const TABLE_NAME = 'complementary-certification-courses';
 
-exports.up = (knex) => {
+export const up = (knex) => {
   return knex.schema.createTable(TABLE_NAME, (t) => {
     t.integer('complementaryCertificationId').references('complementary-certifications.id').notNullable();
     t.integer('certificationCourseId').references('certification-courses.id').notNullable();
@@ -8,6 +8,6 @@ exports.up = (knex) => {
   });
 };
 
-exports.down = (knex) => {
+export const down = (knex) => {
   return knex.schema.dropTable(TABLE_NAME);
 };

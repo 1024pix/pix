@@ -1,13 +1,14 @@
-const {
+import {
   expect,
   databaseBuilder,
   knex,
   mockLearningContent,
   learningContentBuilder,
   sinon,
-} = require('../../../test-helper');
-const useCases = require('../../../../lib/domain/usecases');
-const poleEmploiNotifier = require('../../../../lib/infrastructure/externals/pole-emploi/pole-emploi-notifier');
+} from '../../../test-helper';
+
+import useCases from '../../../../lib/domain/usecases';
+import poleEmploiNotifier from '../../../../lib/infrastructure/externals/pole-emploi/pole-emploi-notifier';
 
 describe('Integration | Domain | UseCases | send-shared-participation-results-to-pole-emploi', function () {
   let campaignParticipationId, userId, responseCode;

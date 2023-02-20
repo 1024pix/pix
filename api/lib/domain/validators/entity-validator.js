@@ -1,6 +1,6 @@
-const { ObjectValidationError } = require('../errors');
+import { ObjectValidationError } from '../errors';
 
-module.exports = {
+export default {
   validateEntity(schema, entity) {
     const { error } = schema.validate(entity);
     if (error) {

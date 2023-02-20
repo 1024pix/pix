@@ -1,8 +1,8 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const removeAuthenticationMethod = require('../../../../lib/domain/usecases/remove-authentication-method');
-const { UserNotAuthorizedToRemoveAuthenticationMethod } = require('../../../../lib/domain/errors');
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const OidcIdentityProviders = require('../../../../lib/domain/constants/oidc-identity-providers');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper';
+import removeAuthenticationMethod from '../../../../lib/domain/usecases/remove-authentication-method';
+import { UserNotAuthorizedToRemoveAuthenticationMethod } from '../../../../lib/domain/errors';
+import AuthenticationMethod from '../../../../lib/domain/models/AuthenticationMethod';
+import OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers';
 
 describe('Unit | UseCase | remove-authentication-method', function () {
   let userRepository;

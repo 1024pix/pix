@@ -1,6 +1,6 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const deleteSession = require('../../../../lib/domain/usecases/delete-session');
-const { SessionStartedDeletionError } = require('../../../../lib/domain/errors');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper';
+import deleteSession from '../../../../lib/domain/usecases/delete-session';
+import { SessionStartedDeletionError } from '../../../../lib/domain/errors';
 
 describe('Unit | UseCase | delete-session', function () {
   context('when there are no certification courses', function () {

@@ -1,11 +1,10 @@
-const jsYaml = require('js-yaml');
-const _ = require('../../infrastructure/utils/lodash-utils');
-const { applyPreTreatments, applyTreatments } = require('./validation-treatments');
-const { YamlParsingError } = require('../../domain/errors');
-const { getEnabledTreatments, useLevenshteinRatio } = require('./services-utils');
-const { validateAnswer } = require('./string-comparison-service');
-
-const AnswerStatus = require('../models/AnswerStatus');
+import jsYaml from 'js-yaml';
+import _ from '../../infrastructure/utils/lodash-utils';
+import { applyPreTreatments, applyTreatments } from './validation-treatments';
+import { YamlParsingError } from '../../domain/errors';
+import { getEnabledTreatments, useLevenshteinRatio } from './services-utils';
+import { validateAnswer } from './string-comparison-service';
+import AnswerStatus from '../models/AnswerStatus';
 
 function _applyTreatmentsToSolutions(solutions, enabledTreatments) {
   return _.mapValues(solutions, (validSolutions) => {
@@ -59,7 +58,7 @@ function _getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatm
   );
 }
 
-module.exports = {
+export default {
   match({ answerValue, solution }) {
     const yamlSolution = solution.value;
     const yamlScoring = solution.scoring;

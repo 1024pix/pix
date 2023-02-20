@@ -3,13 +3,13 @@
 
 'use strict';
 require('dotenv').config();
-const { disconnect } = require('../db/knex-database-connection');
-const request = require('request-promise-native');
-const {
+import { disconnect } from '../db/knex-database-connection';
+import request from 'request-promise-native';
+import {
   findOrganizationsByExternalIds,
   organizeOrganizationsByExternalId,
-} = require('./helpers/organizations-by-external-id-helper');
-const { parseCsv } = require('./helpers/csvHelpers');
+} from './helpers/organizations-by-external-id-helper';
+import { parseCsv } from './helpers/csvHelpers';
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
 
@@ -122,7 +122,7 @@ async function main() {
   }
 })();
 
-module.exports = {
+export default {
   checkData,
   updateOrganizations,
 };

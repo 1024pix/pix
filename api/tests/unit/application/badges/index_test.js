@@ -1,7 +1,7 @@
-const { expect, sinon, HttpTestServer } = require('../../../test-helper');
-const badgesController = require('../../../../lib/application/badges/badges-controller');
-const badgesRouter = require('../../../../lib/application/badges');
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
+import { expect, sinon, HttpTestServer } from '../../../test-helper';
+import badgesController from '../../../../lib/application/badges/badges-controller';
+import badgesRouter from '../../../../lib/application/badges';
+import securityPreHandlers from '../../../../lib/application/security-pre-handlers';
 
 describe('Unit | Application | Badges | Routes', function () {
   describe('DELETE /api/admin/badges/{id}', function () {

@@ -1,7 +1,6 @@
-const { expect, databaseBuilder, knex, mockLearningContent } = require('../../../test-helper');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
-
-const usecases = require('../../../../lib/domain/usecases/');
+import { expect, databaseBuilder, knex, mockLearningContent } from '../../../test-helper';
+import DomainTransaction from '../../../../lib/infrastructure/DomainTransaction';
+import usecases from '../../../../lib/domain/usecases/';
 
 describe('Integration | UseCases | startCampaignParticipation', function () {
   afterEach(async function () {

@@ -1,9 +1,9 @@
-const certificationCandidatesController = require('./certification-candidates-controller');
-const assessmentSupervisorAuthorization = require('../preHandlers/session-supervisor-authorization');
-const Joi = require('joi');
-const identifiersType = require('../../domain/types/identifiers-type');
+import certificationCandidatesController from './certification-candidates-controller';
+import assessmentSupervisorAuthorization from '../preHandlers/session-supervisor-authorization';
+import Joi from 'joi';
+import identifiersType from '../../domain/types/identifiers-type';
 
-exports.register = async function (server) {
+export const register = async function (server) {
   server.route([
     {
       method: 'POST',
@@ -93,4 +93,4 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'certification-candidates-api';
+export const name = 'certification-candidates-api';

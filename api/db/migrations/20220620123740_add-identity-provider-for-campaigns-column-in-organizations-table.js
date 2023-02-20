@@ -1,7 +1,7 @@
 const TABLE_NAME = 'organizations';
 const COLUMN_NAME = 'identityProviderForCampaigns';
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.schema.table(TABLE_NAME, async (table) => {
     table.string(COLUMN_NAME).nullable();
   });
@@ -11,7 +11,7 @@ exports.up = async function (knex) {
   );
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.dropColumn(COLUMN_NAME);
   });

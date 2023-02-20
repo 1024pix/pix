@@ -1,6 +1,6 @@
-const _ = require('lodash');
-const moment = require('moment');
-const { getCsvContent } = require('./write-csv-utils');
+import _ from 'lodash';
+import moment from 'moment';
+import { getCsvContent } from './write-csv-utils';
 
 const REJECTED_AUTOMATICALLY_COMMENT =
   "Le candidat a répondu faux à plus de 50% des questions posées, cela a invalidé l'ensemble de sa certification, et a donc entraîné un score de 0 pix";
@@ -343,7 +343,7 @@ const _headers = {
   FIRST_SHOT: 'Obtention après la première évaluation ?',
 };
 
-module.exports = {
+export default {
   getSessionCertificationResultsCsv,
   getDivisionCertificationResultsCsv,
   getCleaCertifiedCandidateCsv,

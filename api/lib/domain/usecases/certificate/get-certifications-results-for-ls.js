@@ -1,8 +1,8 @@
-const CertificationsResults = require('../../read-models/livret-scolaire/CertificationsResults');
-const Competence = require('../../read-models/livret-scolaire/Competence');
-const sortBy = require('lodash/sortBy');
+import CertificationsResults from '../../read-models/livret-scolaire/CertificationsResults';
+import Competence from '../../read-models/livret-scolaire/Competence';
+import sortBy from 'lodash/sortBy';
 
-module.exports = async function getCertificationsResultsForLS({
+export default async function getCertificationsResultsForLS({
   uai,
   certificationLsRepository,
   competenceTreeRepository,
@@ -22,4 +22,4 @@ module.exports = async function getCertificationsResultsForLS({
   const sortedCompetences = sortBy(competences, 'id');
 
   return new CertificationsResults({ certifications, competences: sortedCompetences });
-};
+}

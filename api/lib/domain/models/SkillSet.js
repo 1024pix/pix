@@ -7,4 +7,4 @@ class SkillSet {
   }
 }
 
-module.exports = SkillSet;
+export default SkillSet;

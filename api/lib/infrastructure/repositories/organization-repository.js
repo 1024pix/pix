@@ -1,10 +1,10 @@
-const _ = require('lodash');
-const { NotFoundError } = require('../../domain/errors');
-const Organization = require('../../domain/models/Organization');
-const DomainTransaction = require('../DomainTransaction');
-const { knex } = require('../../../db/knex-database-connection');
-const Tag = require('../../domain/models/Tag');
-const { fetchPage } = require('../utils/knex-utils');
+import _ from 'lodash';
+import { NotFoundError } from '../../domain/errors';
+import Organization from '../../domain/models/Organization';
+import DomainTransaction from '../DomainTransaction';
+import { knex } from '../../../db/knex-database-connection';
+import Tag from '../../domain/models/Tag';
+import { fetchPage } from '../utils/knex-utils';
 
 function _toDomain(rawOrganization) {
   const organization = new Organization({
@@ -48,7 +48,7 @@ function _setSearchFiltersForQueryBuilder(qb, filter) {
   }
 }
 
-module.exports = {
+export default {
   create(organization) {
     const organizationRawData = _.pick(organization, [
       'name',

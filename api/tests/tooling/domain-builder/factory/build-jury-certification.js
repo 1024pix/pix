@@ -1,6 +1,6 @@
-const JuryCertification = require('../../../../lib/domain/models/JuryCertification');
-const buildCertificationIssueReport = require('./build-certification-issue-report');
-const buildCompetenceMark = require('./build-competence-mark');
+import JuryCertification from '../../../../lib/domain/models/JuryCertification';
+import buildCertificationIssueReport from './build-certification-issue-report';
+import buildCompetenceMark from './build-competence-mark';
 
 const buildJuryCertification = function ({
   certificationCourseId = 123,
@@ -60,4 +60,4 @@ const buildJuryCertification = function ({
   });
 };
 
-module.exports = buildJuryCertification;
+export default buildJuryCertification;

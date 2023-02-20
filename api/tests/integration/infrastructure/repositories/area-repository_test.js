@@ -1,8 +1,8 @@
-const _ = require('lodash');
-const { expect, domainBuilder, mockLearningContent, catchErr } = require('../../../test-helper');
-const Area = require('../../../../lib/domain/models/Area');
-const areaRepository = require('../../../../lib/infrastructure/repositories/area-repository');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+import _ from 'lodash';
+import { expect, domainBuilder, mockLearningContent, catchErr } from '../../../test-helper';
+import Area from '../../../../lib/domain/models/Area';
+import areaRepository from '../../../../lib/infrastructure/repositories/area-repository';
+import { NotFoundError } from '../../../../lib/domain/errors';
 
 describe('Integration | Repository | area-repository', function () {
   describe('#list', function () {

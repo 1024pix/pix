@@ -1,6 +1,6 @@
-const { knex } = require('../../../db/knex-database-connection');
+import { knex } from '../../../db/knex-database-connection';
 
-module.exports = {
+export default {
   async save(complementaryCertificationSubscription) {
     return knex('complementary-certification-subscriptions').insert(complementaryCertificationSubscription);
   },

@@ -1,11 +1,11 @@
 const Joi = require('joi').extend(require('@joi/date'));
 
-const { sendJsonApiError, UnprocessableEntityError, NotFoundError } = require('../http-errors');
-const supOrganizationLearnerController = require('./sup-organization-learner-controller');
-const securityPreHandlers = require('../security-pre-handlers');
-const identifiersType = require('../../domain/types/identifiers-type');
+import { sendJsonApiError, UnprocessableEntityError, NotFoundError } from '../http-errors';
+import supOrganizationLearnerController from './sup-organization-learner-controller';
+import securityPreHandlers from '../security-pre-handlers';
+import identifiersType from '../../domain/types/identifiers-type';
 
-exports.register = async function (server) {
+export const register = async function (server) {
   server.route([
     {
       method: 'POST',
@@ -82,4 +82,4 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'sup-organization-learners-api';
+export const name = 'sup-organization-learners-api';

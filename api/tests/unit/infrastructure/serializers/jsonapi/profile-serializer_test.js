@@ -1,5 +1,5 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/profile-serializer');
+import { expect, domainBuilder } from '../../../../test-helper';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/profile-serializer';
 
 describe('Unit | Serializer | JSONAPI | profile', function () {
   describe('#serialize()', function () {

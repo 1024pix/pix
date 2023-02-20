@@ -1,6 +1,5 @@
-const { sinon, expect } = require('../../../test-helper');
-
-const publishSession = require('../../../../lib/domain/usecases/publish-session');
+import { sinon, expect } from '../../../test-helper';
+import publishSession from '../../../../lib/domain/usecases/publish-session';
 
 describe('Unit | UseCase | publish-session', function () {
   it('delegates the action to the session-publication-service and return the session', async function () {

@@ -1,9 +1,9 @@
-const { PassThrough } = require('stream');
-const { expect, sinon, domainBuilder, streamToPromise, catchErr } = require('../../../test-helper');
-const startWritingCampaignProfilesCollectionResultsToStream = require('../../../../lib/domain/usecases/start-writing-campaign-profiles-collection-results-to-stream');
-const { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } = require('../../../../lib/domain/errors');
-const CampaignProfilesCollectionExport = require('../../../../lib/infrastructure/serializers/csv/campaign-profiles-collection-export');
-const { getI18n } = require('../../../tooling/i18n/i18n');
+import { PassThrough } from 'stream';
+import { expect, sinon, domainBuilder, streamToPromise, catchErr } from '../../../test-helper';
+import startWritingCampaignProfilesCollectionResultsToStream from '../../../../lib/domain/usecases/start-writing-campaign-profiles-collection-results-to-stream';
+import { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } from '../../../../lib/domain/errors';
+import CampaignProfilesCollectionExport from '../../../../lib/infrastructure/serializers/csv/campaign-profiles-collection-export';
+import { getI18n } from '../../../tooling/i18n/i18n';
 
 describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collection-results-to-stream', function () {
   const campaignRepository = { get: () => undefined };

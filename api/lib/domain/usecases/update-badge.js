@@ -1,4 +1,4 @@
-module.exports = async function updateBadge({ badgeId, badge, badgeRepository }) {
+export default async function updateBadge({ badgeId, badge, badgeRepository }) {
   const existingBadge = await badgeRepository.get(badgeId);
 
   if (badge.message) existingBadge.message = badge.message;
@@ -10,4 +10,4 @@ module.exports = async function updateBadge({ badgeId, badge, badgeRepository })
   if (badge.imageUrl) existingBadge.imageUrl = badge.imageUrl;
 
   return badgeRepository.update(existingBadge);
-};
+}

@@ -1,4 +1,4 @@
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.raw(`
       UPDATE "public"."certification-candidates"
       SET "firstName" = trim("firstName"),
@@ -15,6 +15,6 @@ exports.up = async function (knex) {
     `);
 };
 
-exports.down = function () {
+export const down = function () {
   // no rollback for this case
 };

@@ -1,4 +1,4 @@
-const { knex } = require('../../../db/knex-database-connection');
+import { knex } from '../../../db/knex-database-connection';
 
 const DEFAULT_PAGINATION = {
   PAGE: 1,
@@ -57,7 +57,7 @@ function getChunkSizeForParameterBinding(objectAboutToBeBinded) {
   return MAX_BINDED_PARAMS_PG;
 }
 
-module.exports = {
+export default {
   fetchPage,
   isUniqConstraintViolated,
   foreignKeyConstraintViolated,

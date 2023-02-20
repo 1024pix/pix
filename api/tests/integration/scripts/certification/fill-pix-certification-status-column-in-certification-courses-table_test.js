@@ -1,8 +1,6 @@
-const { expect, databaseBuilder, knex, sinon } = require('../../../test-helper');
-const {
-  updatePixCertificationStatus,
-} = require('../../../../scripts/certification/fill-pix-certification-status-column-in-certification-courses-table');
-const { status } = require('../../../../lib/domain/models/AssessmentResult');
+import { expect, databaseBuilder, knex, sinon } from '../../../test-helper';
+import { updatePixCertificationStatus } from '../../../../scripts/certification/fill-pix-certification-status-column-in-certification-courses-table';
+import { status } from '../../../../lib/domain/models/AssessmentResult';
 
 const OLD_UPDATED_AT = new Date('2020-01-01');
 const NEW_UPDATED_AT = new Date('2022-02-02');

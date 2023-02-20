@@ -1,7 +1,7 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const { NotFoundError, UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
-const CampaignReport = require('../../../../lib/domain/read-models/CampaignReport');
-const getCampaign = require('../../../../lib/domain/usecases/get-campaign');
+import { expect, sinon, catchErr } from '../../../test-helper';
+import { NotFoundError, UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors';
+import CampaignReport from '../../../../lib/domain/read-models/CampaignReport';
+import getCampaign from '../../../../lib/domain/usecases/get-campaign';
 
 describe('Unit | UseCase | get-campaign', function () {
   let userId, campaignId, campaign, stages, badges, masteryRates;

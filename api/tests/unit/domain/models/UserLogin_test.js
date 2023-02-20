@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const UserLogin = require('../../../../lib/domain/models/UserLogin');
+import { expect, sinon } from '../../../test-helper';
+import UserLogin from '../../../../lib/domain/models/UserLogin';
 describe('Unit | Domain | Models | UserLogin', function () {
   let clock;
   const now = new Date('2022-11-28T12:00:00Z');

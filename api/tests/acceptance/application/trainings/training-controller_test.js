@@ -1,11 +1,12 @@
-const {
+import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
   knex,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
+} from '../../../test-helper';
+
+import createServer from '../../../../server';
 
 describe('Acceptance | Controller | training-controller', function () {
   let server;

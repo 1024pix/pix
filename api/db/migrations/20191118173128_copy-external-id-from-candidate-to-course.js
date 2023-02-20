@@ -1,4 +1,4 @@
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.raw(`
       UPDATE "public"."certification-courses" as cc
       SET "externalId" = joinCcAndCca."externalIdCertificationCandidate"
@@ -17,6 +17,6 @@ exports.up = async function (knex) {
     `);
 };
 
-exports.down = function () {
+export const down = function () {
   // no rollback for this case
 };

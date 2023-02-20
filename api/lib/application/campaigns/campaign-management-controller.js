@@ -1,10 +1,10 @@
-const usecases = require('../../domain/usecases');
-const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
-const campaignDetailsManagementSerializer = require('../../infrastructure/serializers/jsonapi/campaign-details-management-serializer');
-const participationForCampaignManagementSerializer = require('../../infrastructure/serializers/jsonapi/participation-for-campaign-management-serializer');
-const commonDeserializer = require('../../infrastructure/serializers/jsonapi/deserializer');
+import usecases from '../../domain/usecases';
+import queryParamsUtils from '../../infrastructure/utils/query-params-utils';
+import campaignDetailsManagementSerializer from '../../infrastructure/serializers/jsonapi/campaign-details-management-serializer';
+import participationForCampaignManagementSerializer from '../../infrastructure/serializers/jsonapi/participation-for-campaign-management-serializer';
+import commonDeserializer from '../../infrastructure/serializers/jsonapi/deserializer';
 
-module.exports = {
+export default {
   async getCampaignDetails(request) {
     const campaignId = request.params.id;
     const campaign = await usecases.getCampaignDetailsManagement({ campaignId });

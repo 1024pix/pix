@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
-const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
+import { expect, sinon } from '../../../test-helper';
+import usecases from '../../../../lib/domain/usecases';
+import CertificationCenter from '../../../../lib/domain/models/CertificationCenter';
 
 describe('Unit | UseCase | find-paginated-filtered-certification-centers', function () {
   it('should result certification-centers with filtering and pagination', async function () {

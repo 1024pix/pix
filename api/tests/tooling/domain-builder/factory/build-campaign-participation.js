@@ -1,9 +1,9 @@
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
-const buildCampaign = require('./build-campaign');
+import CampaignParticipation from '../../../../lib/domain/models/CampaignParticipation';
+import CampaignParticipationStatuses from '../../../../lib/domain/models/CampaignParticipationStatuses';
+import buildCampaign from './build-campaign';
 const { SHARED } = CampaignParticipationStatuses;
 
-module.exports = function buildCampaignParticipation({
+export default function buildCampaignParticipation({
   id = 1,
   campaign = buildCampaign(),
   sharedAt = new Date('2020-02-01'),
@@ -32,4 +32,4 @@ module.exports = function buildCampaignParticipation({
     organizationLearnerId,
     deletedBy,
   });
-};
+}

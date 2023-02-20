@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const OrganizationPlacesLotManagement = require('../../../../lib/domain/read-models/OrganizationPlacesLotManagement');
+import { expect, sinon } from '../../../test-helper';
+import OrganizationPlacesLotManagement from '../../../../lib/domain/read-models/OrganizationPlacesLotManagement';
 
 describe('Unit | Domain | ReadModels | organizationPlacesLotManagement', function () {
   describe('constructor', function () {

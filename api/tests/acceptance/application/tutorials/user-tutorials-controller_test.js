@@ -1,15 +1,16 @@
-const {
+import {
   expect,
   generateValidRequestAuthorizationHeader,
   mockLearningContent,
   learningContentBuilder,
   databaseBuilder,
   knex,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const nock = require('nock');
+} from '../../../test-helper';
+
+import createServer from '../../../../server';
+import cache from '../../../../lib/infrastructure/caches/learning-content-cache';
+import KnowledgeElement from '../../../../lib/domain/models/KnowledgeElement';
+import nock from 'nock';
 
 describe('Acceptance | Controller | user-tutorial-controller', function () {
   let server;

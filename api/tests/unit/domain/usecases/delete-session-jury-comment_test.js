@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const deleteSessionJuryComment = require('../../../../lib/domain/usecases/delete-session-jury-comment');
+import { expect, sinon } from '../../../test-helper';
+import deleteSessionJuryComment from '../../../../lib/domain/usecases/delete-session-jury-comment';
 
 describe('Unit | UseCase | delete-session-jury-comment', function () {
   it('should delete the session jury comment', async function () {

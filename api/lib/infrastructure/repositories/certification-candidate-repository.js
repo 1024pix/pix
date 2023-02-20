@@ -1,20 +1,22 @@
-const _ = require('lodash');
-const { normalize } = require('../utils/string-utils');
-const logger = require('../../infrastructure/logger');
-const CertificationCandidateBookshelf = require('../orm-models/CertificationCandidate');
-const bookshelfToDomainConverter = require('../../infrastructure/utils/bookshelf-to-domain-converter');
-const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../db/pgsql-errors');
-const {
+import _ from 'lodash';
+import { normalize } from '../utils/string-utils';
+import logger from '../../infrastructure/logger';
+import CertificationCandidateBookshelf from '../orm-models/CertificationCandidate';
+import bookshelfToDomainConverter from '../../infrastructure/utils/bookshelf-to-domain-converter';
+import { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } from '../../../db/pgsql-errors';
+
+import {
   NotFoundError,
   CertificationCandidateCreationOrUpdateError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
-} = require('../../domain/errors');
-const { knex } = require('../../../db/knex-database-connection');
-const CertificationCandidate = require('../../domain/models/CertificationCandidate');
-const ComplementaryCertification = require('../../domain/models/ComplementaryCertification');
-const DomainTransaction = require('../DomainTransaction');
+} from '../../domain/errors';
 
-module.exports = {
+import { knex } from '../../../db/knex-database-connection';
+import CertificationCandidate from '../../domain/models/CertificationCandidate';
+import ComplementaryCertification from '../../domain/models/ComplementaryCertification';
+import DomainTransaction from '../DomainTransaction';
+
+export default {
   async linkToUser({ id, userId }) {
     try {
       const certificationCandidateBookshelf = new CertificationCandidateBookshelf({ id });

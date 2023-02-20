@@ -32,4 +32,4 @@ class Certificate {
   }
 }
 
-module.exports = Certificate;
+export default Certificate;

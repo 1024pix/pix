@@ -1,13 +1,13 @@
-const _ = require('lodash');
-const { sinon, expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
-const Campaign = require('../../../../lib/domain/models/Campaign');
-const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
-const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+import _ from 'lodash';
+import { sinon, expect, knex, databaseBuilder, catchErr } from '../../../test-helper';
+import Campaign from '../../../../lib/domain/models/Campaign';
+import CampaignTypes from '../../../../lib/domain/models/CampaignTypes';
+import Assessment from '../../../../lib/domain/models/Assessment';
+import CampaignParticipation from '../../../../lib/domain/models/CampaignParticipation';
+import CampaignParticipationStatuses from '../../../../lib/domain/models/CampaignParticipationStatuses';
+import campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository';
+import DomainTransaction from '../../../../lib/infrastructure/DomainTransaction';
+import { NotFoundError } from '../../../../lib/domain/errors';
 
 const { STARTED, SHARED, TO_SHARE } = CampaignParticipationStatuses;
 

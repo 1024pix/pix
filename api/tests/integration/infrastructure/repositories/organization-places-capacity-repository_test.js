@@ -1,7 +1,7 @@
-const sinon = require('sinon');
-const { expect, databaseBuilder } = require('../../../test-helper');
-const organizationPlacesCapacityRepository = require('../../../../lib/infrastructure/repositories/organization-places-capacity-repository');
-const categories = require('../../../../lib/domain/constants/organization-places-categories');
+import sinon from 'sinon';
+import { expect, databaseBuilder } from '../../../test-helper';
+import organizationPlacesCapacityRepository from '../../../../lib/infrastructure/repositories/organization-places-capacity-repository';
+import categories from '../../../../lib/domain/constants/organization-places-categories';
 
 describe('Integration | Infrastructure | Repository | OrganizationPlacesCapacityRepository', function () {
   describe('#findByOrganizationId', function () {

@@ -1,12 +1,7 @@
-const databaseBuffer = require('../database-buffer');
-const _ = require('lodash');
+import databaseBuffer from '../database-buffer';
+import _ from 'lodash';
 
-module.exports = function buildSkillSet({
-  id = databaseBuffer.getNextId(),
-  name = 'name',
-  skillIds = [],
-  badgeId,
-} = {}) {
+export default function buildSkillSet({ id = databaseBuffer.getNextId(), name = 'name', skillIds = [], badgeId } = {}) {
   if (_.isEmpty(skillIds)) {
     skillIds = ['recABC123', 'recDEF456'];
   }
@@ -22,4 +17,4 @@ module.exports = function buildSkillSet({
     tableName: 'skill-sets',
     values,
   });
-};
+}

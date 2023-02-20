@@ -1,4 +1,4 @@
-module.exports = function findPaginatedFilteredScoParticipants({
+export default function findPaginatedFilteredScoParticipants({
   organizationId,
   filter,
   page,
@@ -11,4 +11,4 @@ module.exports = function findPaginatedFilteredScoParticipants({
     page,
     sort,
   });
-};
+}

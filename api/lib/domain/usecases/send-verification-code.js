@@ -1,9 +1,9 @@
-const codeUtils = require('../../infrastructure/utils/code-utils');
-const AuthenticationMethod = require('../models/AuthenticationMethod');
-const { InvalidPasswordForUpdateEmailError, UserNotAuthorizedToUpdateEmailError } = require('../errors');
-const get = require('lodash/get');
+import codeUtils from '../../infrastructure/utils/code-utils';
+import AuthenticationMethod from '../models/AuthenticationMethod';
+import { InvalidPasswordForUpdateEmailError, UserNotAuthorizedToUpdateEmailError } from '../errors';
+import get from 'lodash/get';
 
-module.exports = async function sendVerificationCode({
+export default async function sendVerificationCode({
   i18n,
   locale,
   newEmail,
@@ -42,4 +42,4 @@ module.exports = async function sendVerificationCode({
 
   await userEmailRepository.saveEmailModificationDemand({ userId, code, newEmail });
   await mailService.sendVerificationCodeEmail({ code, locale, translate: i18n.__, email: newEmail });
-};
+}

@@ -1,7 +1,7 @@
-const PoleEmploiPayload = require('../../infrastructure/externals/pole-emploi/PoleEmploiPayload');
-const PoleEmploiSending = require('../models/PoleEmploiSending');
+import PoleEmploiPayload from '../../infrastructure/externals/pole-emploi/PoleEmploiPayload';
+import PoleEmploiSending from '../models/PoleEmploiSending';
 
-module.exports = async function sendSharedParticipationResultsToPoleEmploi({
+export default async function sendSharedParticipationResultsToPoleEmploi({
   campaignParticipationId,
   campaignParticipationRepository,
   campaignParticipationResultRepository,
@@ -42,4 +42,4 @@ module.exports = async function sendSharedParticipationResultsToPoleEmploi({
 
     return poleEmploiSendingRepository.create({ poleEmploiSending });
   }
-};
+}

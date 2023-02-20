@@ -1,9 +1,9 @@
-const buildAssessment = require('./build-assessment');
-const buildCertificationCourseLastAssessmentResult = require('./build-certification-course-last-assessment-result');
-const buildUser = require('./build-user');
-const databaseBuffer = require('../database-buffer');
-const AssessmentResult = require('../../../lib/domain/models/AssessmentResult');
-const _ = require('lodash');
+import buildAssessment from './build-assessment';
+import buildCertificationCourseLastAssessmentResult from './build-certification-course-last-assessment-result';
+import buildUser from './build-user';
+import databaseBuffer from '../database-buffer';
+import AssessmentResult from '../../../lib/domain/models/AssessmentResult';
+import _ from 'lodash';
 
 function buildAssessmentResult({
   id = databaseBuffer.getNextId(),
@@ -43,7 +43,7 @@ function buildAssessmentResult({
   });
 }
 
-module.exports = buildAssessmentResult;
+export default buildAssessmentResult;
 
 buildAssessmentResult.last = function ({
   certificationCourseId,

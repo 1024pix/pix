@@ -1,6 +1,6 @@
 const TABLE_NAME = 'sessions';
 
-exports.up = function (knex) {
+export const up = function (knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.text('juryComment').defaultsTo(null);
     table.integer('juryCommentAuthorId').unsigned().references('users.id').defaultsTo(null);
@@ -8,7 +8,7 @@ exports.up = function (knex) {
   });
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return knex.schema.alterTable(TABLE_NAME, (table) => {
     table.dropColumn('juryComment');
     table.dropColumn('juryCommentAuthorId');

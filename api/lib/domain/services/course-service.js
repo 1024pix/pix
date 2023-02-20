@@ -1,10 +1,9 @@
-const _ = require('lodash');
-const Course = require('../models/Course');
-const { NotFoundError } = require('../../domain/errors');
+import _ from 'lodash';
+import Course from '../models/Course';
+import { NotFoundError } from '../../domain/errors';
+import courseRepository from '../../infrastructure/repositories/course-repository';
 
-const courseRepository = require('../../infrastructure/repositories/course-repository');
-
-module.exports = {
+export default {
   async getCourse({ courseId }) {
     // TODO: delete when campaign assessment does not have courses anymore
     if (_.startsWith(courseId, '[NOT USED] Campaign')) {

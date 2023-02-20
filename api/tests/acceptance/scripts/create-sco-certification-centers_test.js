@@ -1,8 +1,6 @@
-const { expect, knex } = require('../../test-helper');
-
-const BookshelfCertificationCenter = require('../../../lib/infrastructure/orm-models/CertificationCenter');
-
-const { createScoCertificationCenters } = require('../../../scripts/create-sco-certification-centers');
+import { expect, knex } from '../../test-helper';
+import BookshelfCertificationCenter from '../../../lib/infrastructure/orm-models/CertificationCenter';
+import { createScoCertificationCenters } from '../../../scripts/create-sco-certification-centers';
 
 describe('Acceptance | Scripts | create-sco-certification-centers.js', function () {
   describe('#createScoCertificationCenters', function () {

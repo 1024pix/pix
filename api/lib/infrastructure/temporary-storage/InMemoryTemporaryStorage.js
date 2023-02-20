@@ -1,7 +1,7 @@
-const NodeCache = require('node-cache');
-const trim = require('lodash/trim');
-const TemporaryStorage = require('./TemporaryStorage');
-const { noop } = require('lodash');
+import NodeCache from 'node-cache';
+import trim from 'lodash/trim';
+import TemporaryStorage from './TemporaryStorage';
+import { noop } from 'lodash';
 
 class InMemoryTemporaryStorage extends TemporaryStorage {
   constructor() {
@@ -62,4 +62,4 @@ class InMemoryTemporaryStorage extends TemporaryStorage {
   }
 }
 
-module.exports = InMemoryTemporaryStorage;
+export default InMemoryTemporaryStorage;

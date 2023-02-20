@@ -1,6 +1,6 @@
-const { PasswordNotMatching } = require('../../errors');
-const encryptionService = require('../encryption-service');
-const userLoginRepository = require('../../../infrastructure/repositories/user-login-repository');
+import { PasswordNotMatching } from '../../errors';
+import encryptionService from '../encryption-service';
+import userLoginRepository from '../../../infrastructure/repositories/user-login-repository';
 
 async function getUserByUsernameAndPassword({ username, password, userRepository }) {
   const foundUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(username);
@@ -40,6 +40,6 @@ async function getUserByUsernameAndPassword({ username, password, userRepository
   return foundUser;
 }
 
-module.exports = {
+export default {
   getUserByUsernameAndPassword,
 };

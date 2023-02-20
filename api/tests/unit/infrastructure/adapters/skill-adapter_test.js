@@ -1,6 +1,6 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const skillAdapter = require('../../../../lib/infrastructure/adapters/skill-adapter');
-const Skill = require('../../../../lib/domain/models/Skill');
+import { expect, domainBuilder } from '../../../test-helper';
+import skillAdapter from '../../../../lib/infrastructure/adapters/skill-adapter';
+import Skill from '../../../../lib/domain/models/Skill';
 
 describe('Unit | Infrastructure | Adapter | skillAdapter', function () {
   describe('#fromDatasourceObject', function () {

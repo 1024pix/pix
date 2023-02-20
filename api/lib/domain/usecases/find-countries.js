@@ -1,3 +1,3 @@
-module.exports = function findCountries({ countryRepository }) {
+export default function findCountries({ countryRepository }) {
   return countryRepository.findAll();
-};
+}

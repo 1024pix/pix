@@ -1,7 +1,7 @@
-const { expect, catchErr } = require('../../../../test-helper');
-const authenticationRegistry = require('../../../../../lib/domain/services/authentication/authentication-service-registry');
-const PoleEmploiOidcAuthenticationService = require('../../../../../lib/domain/services/authentication/pole-emploi-oidc-authentication-service');
-const { InvalidIdentityProviderError } = require('../../../../../lib/domain/errors');
+import { expect, catchErr } from '../../../../test-helper';
+import authenticationRegistry from '../../../../../lib/domain/services/authentication/authentication-service-registry';
+import PoleEmploiOidcAuthenticationService from '../../../../../lib/domain/services/authentication/pole-emploi-oidc-authentication-service';
+import { InvalidIdentityProviderError } from '../../../../../lib/domain/errors';
 
 describe('Unit | Domain | Services | authentication registry', function () {
   describe('#lookupAuthenticationService', function () {

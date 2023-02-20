@@ -1,16 +1,18 @@
-const bookshelfUtils = require('../utils/knex-utils');
-const BookshelfCertificationCenterMembership = require('../orm-models/CertificationCenterMembership');
-const bookshelfToDomainConverter = require('../../infrastructure/utils/bookshelf-to-domain-converter');
-const {
+import bookshelfUtils from '../utils/knex-utils';
+import BookshelfCertificationCenterMembership from '../orm-models/CertificationCenterMembership';
+import bookshelfToDomainConverter from '../../infrastructure/utils/bookshelf-to-domain-converter';
+
+import {
   CertificationCenterMembershipCreationError,
   AlreadyExistingMembershipError,
   CertificationCenterMembershipDisableError,
-} = require('../../domain/errors');
-const { knex } = require('../../../db/knex-database-connection');
-const CertificationCenter = require('../../domain/models/CertificationCenter');
-const User = require('../../domain/models/User');
-const CertificationCenterMembership = require('../../domain/models/CertificationCenterMembership');
-const DomainTransaction = require('../DomainTransaction');
+} from '../../domain/errors';
+
+import { knex } from '../../../db/knex-database-connection';
+import CertificationCenter from '../../domain/models/CertificationCenter';
+import User from '../../domain/models/User';
+import CertificationCenterMembership from '../../domain/models/CertificationCenterMembership';
+import DomainTransaction from '../DomainTransaction';
 
 function _toDomain(certificationCenterMembershipDTO) {
   let user, certificationCenter;
@@ -41,7 +43,7 @@ function _toDomain(certificationCenterMembershipDTO) {
   });
 }
 
-module.exports = {
+export default {
   async findByUserId(userId) {
     const certificationCenterMemberships = await knex
       .select(

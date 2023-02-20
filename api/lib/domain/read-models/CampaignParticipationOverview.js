@@ -1,5 +1,5 @@
-const _ = require('lodash');
-const CampaignParticipationStatuses = require('../models/CampaignParticipationStatuses');
+import _ from 'lodash';
+import CampaignParticipationStatuses from '../models/CampaignParticipationStatuses';
 
 const { SHARED } = CampaignParticipationStatuses;
 
@@ -47,4 +47,4 @@ class CampaignParticipationOverview {
   }
 }
 
-module.exports = CampaignParticipationOverview;
+export default CampaignParticipationOverview;

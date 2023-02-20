@@ -1,6 +1,6 @@
-const databaseBuffer = require('../database-buffer');
-const buildOrganization = require('./build-organization');
-const buildUser = require('./build-user');
+import databaseBuffer from '../database-buffer';
+import buildOrganization from './build-organization';
+import buildUser from './build-user';
 
 const buildOrganizationPlace = function buildOrganizationPlace({
   id = databaseBuffer.getNextId(),
@@ -38,4 +38,4 @@ const buildOrganizationPlace = function buildOrganizationPlace({
   });
 };
 
-module.exports = buildOrganizationPlace;
+export default buildOrganizationPlace;

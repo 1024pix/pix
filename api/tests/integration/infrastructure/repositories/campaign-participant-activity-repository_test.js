@@ -1,6 +1,6 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
-const campaignParticipantActivityRepository = require('../../../../lib/infrastructure/repositories/campaign-participant-activity-repository');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+import { expect, databaseBuilder } from '../../../test-helper';
+import campaignParticipantActivityRepository from '../../../../lib/infrastructure/repositories/campaign-participant-activity-repository';
+import CampaignParticipationStatuses from '../../../../lib/domain/models/CampaignParticipationStatuses';
 
 const { STARTED, SHARED, TO_SHARE } = CampaignParticipationStatuses;
 

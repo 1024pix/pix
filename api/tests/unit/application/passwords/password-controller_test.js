@@ -1,11 +1,8 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
-
-const passwordResetSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/password-reset-serializer');
-const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
-
-const usecases = require('../../../../lib/domain/usecases');
-
-const passwordController = require('../../../../lib/application/passwords/password-controller');
+import { sinon, expect, hFake } from '../../../test-helper';
+import passwordResetSerializer from '../../../../lib/infrastructure/serializers/jsonapi/password-reset-serializer';
+import userSerializer from '../../../../lib/infrastructure/serializers/jsonapi/user-serializer';
+import usecases from '../../../../lib/domain/usecases';
+import passwordController from '../../../../lib/application/passwords/password-controller';
 
 describe('Unit | Controller | PasswordController', function () {
   describe('#createResetDemand', function () {

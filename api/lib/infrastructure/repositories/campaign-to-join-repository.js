@@ -1,9 +1,9 @@
-const { knex } = require('../../../db/knex-database-connection');
-const CampaignToJoin = require('../../domain/read-models/CampaignToJoin');
-const { NotFoundError } = require('../../domain/errors');
-const DomainTransaction = require('../DomainTransaction');
+import { knex } from '../../../db/knex-database-connection';
+import CampaignToJoin from '../../domain/read-models/CampaignToJoin';
+import { NotFoundError } from '../../domain/errors';
+import DomainTransaction from '../DomainTransaction';
 
-module.exports = {
+export default {
   async get(id, domainTransaction = DomainTransaction.emptyTransaction()) {
     const knexConn = domainTransaction.knexTransaction || knex;
     const result = await knexConn('campaigns')

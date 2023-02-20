@@ -1,14 +1,13 @@
-const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection');
-const CampaignManagement = require('../../domain/read-models/CampaignManagement');
-const { fetchPage } = require('../utils/knex-utils');
-const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');
-
-const CampaignTypes = require('../../domain/models/CampaignTypes');
+import _ from 'lodash';
+import { knex } from '../../../db/knex-database-connection';
+import CampaignManagement from '../../domain/read-models/CampaignManagement';
+import { fetchPage } from '../utils/knex-utils';
+import CampaignParticipationStatuses from '../../../lib/domain/models/CampaignParticipationStatuses';
+import CampaignTypes from '../../domain/models/CampaignTypes';
 
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
-module.exports = {
+export default {
   async get(campaignId) {
     let campaign = await knex('campaigns')
       .select({

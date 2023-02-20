@@ -1,4 +1,4 @@
-const { BadgeCriterion } = require('../../../../lib/domain/models/BadgeForCalculation');
+import { BadgeCriterion } from '../../../../lib/domain/models/BadgeForCalculation';
 
 const buildBadgeCriterionForCalculation = function buildBadgeCriterionForCalculation({
   threshold = 80,
@@ -10,4 +10,4 @@ const buildBadgeCriterionForCalculation = function buildBadgeCriterionForCalcula
   });
 };
 
-module.exports = buildBadgeCriterionForCalculation;
+export default buildBadgeCriterionForCalculation;

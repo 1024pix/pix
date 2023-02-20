@@ -1,5 +1,5 @@
-const SupOrganizationLearner = require('../../../../lib/domain/models/SupOrganizationLearner');
-const buildOrganization = require('./build-organization');
+import SupOrganizationLearner from '../../../../lib/domain/models/SupOrganizationLearner';
+import buildOrganization from './build-organization';
 
 function buildSupOrganizationLearner({
   organization = buildOrganization({ isManagingStudents: true }),
@@ -35,4 +35,4 @@ function buildSupOrganizationLearner({
   });
 }
 
-module.exports = buildSupOrganizationLearner;
+export default buildSupOrganizationLearner;

@@ -1,6 +1,6 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
+export default {
   serialize(usersAnonymizedDetailsForAdmin) {
     return new Serializer('user-login', {
       attributes: ['userId', 'failureCount', 'temporaryBlockedUntil', 'blockedAt'],

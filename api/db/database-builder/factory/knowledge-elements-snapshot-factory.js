@@ -1,5 +1,5 @@
-const buildKnowledgeElement = require('./build-knowledge-element');
-const databaseBuffer = require('../database-buffer');
+import buildKnowledgeElement from './build-knowledge-element';
+import databaseBuffer from '../database-buffer';
 
 function buildSnapshot({ id, userId, snappedAt, knowledgeElementsAttributes }) {
   const knowledgeElements = knowledgeElementsAttributes.map((attributes) => buildKnowledgeElement(attributes));
@@ -17,6 +17,6 @@ function buildSnapshot({ id, userId, snappedAt, knowledgeElementsAttributes }) {
   });
 }
 
-module.exports = {
+export default {
   buildSnapshot,
 };

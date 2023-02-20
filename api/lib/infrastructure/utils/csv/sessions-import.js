@@ -24,7 +24,7 @@ const headers = {
 
 const COMPLEMENTARY_CERTIFICATION_SUFFIX = "('oui' ou laisser vide)";
 
-module.exports = {
+export default {
   headers,
   COMPLEMENTARY_CERTIFICATION_SUFFIX,
 };

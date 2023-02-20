@@ -1,8 +1,8 @@
-const _ = require('lodash');
-const Assessment = require('../../../lib/domain/models/Assessment');
-const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');
-const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
-const { PIX_SUPER_ADMIN_ID } = require('./users-builder');
+import _ from 'lodash';
+import Assessment from '../../../lib/domain/models/Assessment';
+import CampaignParticipationStatuses from '../../../lib/domain/models/CampaignParticipationStatuses';
+import KnowledgeElement from '../../../lib/domain/models/KnowledgeElement';
+import { PIX_SUPER_ADMIN_ID } from './users-builder';
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;
 
@@ -161,7 +161,7 @@ function participateToProfilesCollectionCampaign({ databaseBuilder, campaignId, 
   }
 }
 
-module.exports = {
+export default {
   participateToAssessmentCampaign,
   participateToProfilesCollectionCampaign,
 };

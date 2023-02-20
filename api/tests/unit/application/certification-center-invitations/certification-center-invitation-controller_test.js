@@ -1,8 +1,8 @@
-const { expect, sinon, hFake, domainBuilder } = require('../../../test-helper');
-const certificationCenterInvitationController = require('../../../../lib/application/certification-center-invitations/certification-center-invitation-controller');
-const usecases = require('../../../../lib/domain/usecases');
-const CertificationCenterInvitation = require('../../../../lib/domain/models/CertificationCenterInvitation');
-const certificationCenterInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-center-invitation-serializer');
+import { expect, sinon, hFake, domainBuilder } from '../../../test-helper';
+import certificationCenterInvitationController from '../../../../lib/application/certification-center-invitations/certification-center-invitation-controller';
+import usecases from '../../../../lib/domain/usecases';
+import CertificationCenterInvitation from '../../../../lib/domain/models/CertificationCenterInvitation';
+import certificationCenterInvitationSerializer from '../../../../lib/infrastructure/serializers/jsonapi/certification-center-invitation-serializer';
 
 describe('Unit | Application | Certification-center-Invitations | Certification-center-invitation-controller', function () {
   describe('#acceptCertificationCenterInvitation', function () {

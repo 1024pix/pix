@@ -1,7 +1,7 @@
-const { expect } = require('../../../test-helper');
-const Area = require('../../../../lib/domain/models/Area');
-const CampaignParticipationResult = require('../../../../lib/domain/models/CampaignParticipationResult');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
+import { expect } from '../../../test-helper';
+import Area from '../../../../lib/domain/models/Area';
+import CampaignParticipationResult from '../../../../lib/domain/models/CampaignParticipationResult';
+import KnowledgeElement from '../../../../lib/domain/models/KnowledgeElement';
 
 describe('Unit | Domain | Models | CampaignParticipationResult', function () {
   describe('#buildFrom', function () {

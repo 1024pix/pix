@@ -1,7 +1,7 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const createTargetProfile = require('../../../../lib/domain/usecases/create-target-profile');
-const { categories } = require('../../../../lib/domain/models/TargetProfile');
-const learningContentConversionService = require('../../../../lib/domain/services/learning-content/learning-content-conversion-service');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import createTargetProfile from '../../../../lib/domain/usecases/create-target-profile';
+import { categories } from '../../../../lib/domain/models/TargetProfile';
+import learningContentConversionService from '../../../../lib/domain/services/learning-content/learning-content-conversion-service';
 
 describe('Unit | UseCase | create-target-profile', function () {
   let targetProfileRepositoryStub;

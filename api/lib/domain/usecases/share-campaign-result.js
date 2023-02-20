@@ -1,7 +1,7 @@
-const { UserNotAuthorizedToAccessEntityError } = require('../errors');
-const CampaignParticipationResultsShared = require('../events/CampaignParticipationResultsShared');
+import { UserNotAuthorizedToAccessEntityError } from '../errors';
+import CampaignParticipationResultsShared from '../events/CampaignParticipationResultsShared';
 
-module.exports = async function shareCampaignResult({
+export default async function shareCampaignResult({
   userId,
   campaignParticipationId,
   campaignParticipationRepository,
@@ -17,7 +17,7 @@ module.exports = async function shareCampaignResult({
   return new CampaignParticipationResultsShared({
     campaignParticipationId: campaignParticipation.id,
   });
-};
+}
 
 function _checkUserIsOwnerOfCampaignParticipation(campaignParticipation, userId) {
   if (campaignParticipation.userId !== userId) {

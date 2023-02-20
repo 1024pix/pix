@@ -1,8 +1,6 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const manuallyResolveCertificationIssueReport = require('../../../../lib/domain/usecases/manually-resolve-certification-issue-report');
-const {
-  CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually,
-} = require('../../../../lib/domain/errors');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper';
+import manuallyResolveCertificationIssueReport from '../../../../lib/domain/usecases/manually-resolve-certification-issue-report';
+import { CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually } from '../../../../lib/domain/errors';
 
 describe('Unit | UseCase | manually-resolve-certification-issue-report', function () {
   describe('when certification issue report is not resolved', function () {

@@ -16,7 +16,7 @@ const pixEduBadges = [
   .map((badge) => `'${badge}'`)
   .join(',');
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.schema.alterTable('partner-certifications', function (table) {
     table.string('partnerKey').nullable().alter();
     table.string('temporaryPartnerKey').references('badges.key').nullable();
@@ -28,7 +28,7 @@ exports.up = async function (knex) {
   );
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   // eslint-disable-next-line knex/avoid-injections
   await knex.raw(
     `UPDATE "partner-certifications" SET "partnerKey" = "temporaryPartnerKey" WHERE "temporaryPartnerKey" IN (${pixEduBadges})`

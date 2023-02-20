@@ -1,6 +1,6 @@
-const { expect, databaseBuilder, catchErr } = require('../../../test-helper');
-const prescriberRoleRepository = require('../../../../lib/infrastructure/repositories/prescriber-role-repository');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+import { expect, databaseBuilder, catchErr } from '../../../test-helper';
+import prescriberRoleRepository from '../../../../lib/infrastructure/repositories/prescriber-role-repository';
+import { NotFoundError } from '../../../../lib/domain/errors';
 
 describe('Integration | Repository | Campaign', function () {
   describe('#getForCampaign', function () {

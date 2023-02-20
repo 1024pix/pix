@@ -1,19 +1,16 @@
 require('dotenv').config();
-const Hapi = require('@hapi/hapi');
-const Oppsy = require('oppsy');
-
-const settings = require('./lib/config');
-const preResponseUtils = require('./lib/application/pre-response-utils');
-
-const routes = require('./lib/routes');
-const plugins = require('./lib/infrastructure/plugins');
-const swaggers = require('./lib/swaggers');
-const authentication = require('./lib/infrastructure/authentication');
-
-const { handleFailAction } = require('./lib/validate');
-const monitoringTools = require('./lib/infrastructure/monitoring-tools');
-const deserializer = require('./lib/infrastructure/serializers/jsonapi/deserializer');
-const { knex } = require('./db/knex-database-connection');
+import Hapi from '@hapi/hapi';
+import Oppsy from 'oppsy';
+import settings from './lib/config';
+import preResponseUtils from './lib/application/pre-response-utils';
+import routes from './lib/routes';
+import plugins from './lib/infrastructure/plugins';
+import swaggers from './lib/swaggers';
+import authentication from './lib/infrastructure/authentication';
+import { handleFailAction } from './lib/validate';
+import monitoringTools from './lib/infrastructure/monitoring-tools';
+import deserializer from './lib/infrastructure/serializers/jsonapi/deserializer';
+import { knex } from './db/knex-database-connection';
 
 monitoringTools.installHapiHook();
 
@@ -121,4 +118,4 @@ const setupOpenApiSpecification = async function (server) {
   }
 };
 
-module.exports = createServer;
+export default createServer;

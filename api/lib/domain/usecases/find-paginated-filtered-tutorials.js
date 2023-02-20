@@ -1,6 +1,6 @@
-const Tutorial = require('../models/Tutorial');
+import Tutorial from '../models/Tutorial';
 
-module.exports = async function findPaginatedFilteredTutorials({ userId, filters, page, locale, tutorialRepository }) {
+export default async function findPaginatedFilteredTutorials({ userId, filters, page, locale, tutorialRepository }) {
   if (filters?.type === Tutorial.TYPES.RECOMMENDED) {
     const { results: tutorials, pagination } = await tutorialRepository.findPaginatedFilteredRecommendedByUserId({
       userId,
@@ -17,4 +17,4 @@ module.exports = async function findPaginatedFilteredTutorials({ userId, filters
     page,
   });
   return { tutorials, meta: { pagination } };
-};
+}

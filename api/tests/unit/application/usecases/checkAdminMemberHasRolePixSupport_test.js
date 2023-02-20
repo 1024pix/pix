@@ -1,7 +1,7 @@
-const { expect, sinon } = require('../../../test-helper');
-const useCase = require('../../../../lib/application/usecases/checkAdminMemberHasRoleSupport');
-const tokenService = require('../../../../lib/domain/services/token-service');
-const adminMemberRepository = require('../../../../lib/infrastructure/repositories/admin-member-repository');
+import { expect, sinon } from '../../../test-helper';
+import useCase from '../../../../lib/application/usecases/checkAdminMemberHasRoleSupport';
+import tokenService from '../../../../lib/domain/services/token-service';
+import adminMemberRepository from '../../../../lib/infrastructure/repositories/admin-member-repository';
 
 describe('Unit | Application | Use Case | checkAdminMemberHasRoleSupport', function () {
   const userId = '1234';

@@ -1,13 +1,11 @@
-const { expect } = require('chai');
-const createServer = require('../../../../server');
-const {
-  databaseBuilder,
-  generateValidRequestAuthorizationHeader,
-  mockLearningContent,
-} = require('../../../test-helper');
-const {
-  ROLES: { SUPER_ADMIN },
-} = require('../../../../lib/domain/constants').PIX_ADMIN;
+import { expect } from 'chai';
+import createServer from '../../../../server';
+
+import { databaseBuilder, generateValidRequestAuthorizationHeader, mockLearningContent } from '../../../test-helper';
+
+import { PIX_ADMIN } from '../../../../lib/domain/constants';
+
+const { ROLES: ROLES } = PIX_ADMIN;
 
 const isoDateFormat = /^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\.\d\d\d.*$/;
 

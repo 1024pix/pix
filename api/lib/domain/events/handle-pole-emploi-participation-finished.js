@@ -1,7 +1,7 @@
-const { checkEventTypes } = require('./check-event-types');
-const PoleEmploiPayload = require('../../infrastructure/externals/pole-emploi/PoleEmploiPayload');
-const AssessmentCompleted = require('./AssessmentCompleted');
-const PoleEmploiSending = require('../models/PoleEmploiSending');
+import { checkEventTypes } from './check-event-types';
+import PoleEmploiPayload from '../../infrastructure/externals/pole-emploi/PoleEmploiPayload';
+import AssessmentCompleted from './AssessmentCompleted';
+import PoleEmploiSending from '../models/PoleEmploiSending';
 
 const eventTypes = [AssessmentCompleted];
 
@@ -52,4 +52,4 @@ async function handlePoleEmploiParticipationFinished({
 }
 
 handlePoleEmploiParticipationFinished.eventTypes = eventTypes;
-module.exports = handlePoleEmploiParticipationFinished;
+export default handlePoleEmploiParticipationFinished;

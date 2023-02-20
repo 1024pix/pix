@@ -5,4 +5,4 @@ class EmailModificationDemand {
   }
 }
 
-module.exports = EmailModificationDemand;
+export default EmailModificationDemand;

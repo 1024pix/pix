@@ -1,8 +1,8 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const settings = require('../../../../lib/config');
-const tokenService = require('../../../../lib/domain/services/token-service');
-const refreshTokenService = require('../../../../lib/domain/services/refresh-token-service');
-const { UnauthorizedError } = require('../../../../lib/application/http-errors');
+import { expect, sinon, catchErr } from '../../../test-helper';
+import settings from '../../../../lib/config';
+import tokenService from '../../../../lib/domain/services/token-service';
+import refreshTokenService from '../../../../lib/domain/services/refresh-token-service';
+import { UnauthorizedError } from '../../../../lib/application/http-errors';
 const refreshTokenTemporaryStorage = refreshTokenService.refreshTokenTemporaryStorageForTests;
 const userRefreshTokensTemporaryStorage = refreshTokenService.userRefreshTokensTemporaryStorageForTests;
 

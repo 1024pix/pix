@@ -1,15 +1,17 @@
-const _ = require('lodash');
-const { pipe } = require('lodash/fp');
-const randomString = require('randomstring');
-const { STUDENT_RECONCILIATION_ERRORS } = require('../constants');
-const {
+import _ from 'lodash';
+import { pipe } from 'lodash/fp';
+import randomString from 'randomstring';
+import { STUDENT_RECONCILIATION_ERRORS } from '../constants';
+
+import {
   AlreadyRegisteredUsernameError,
   NotFoundError,
   OrganizationLearnerAlreadyLinkedToUserError,
   OrganizationLearnerAlreadyLinkedToInvalidUserError,
-} = require('../errors');
-const { areTwoStringsCloseEnough, isOneStringCloseEnoughFromMultipleStrings } = require('./string-comparison-service');
-const { normalizeAndRemoveAccents, removeSpecialCharacters } = require('./validation-treatments');
+} from '../errors';
+
+import { areTwoStringsCloseEnough, isOneStringCloseEnoughFromMultipleStrings } from './string-comparison-service';
+import { normalizeAndRemoveAccents, removeSpecialCharacters } from './validation-treatments';
 
 const MAX_ACCEPTABLE_RATIO = 0.25;
 const STRICT_MATCH_RATIO = 0;
@@ -224,7 +226,7 @@ async function createUsernameByUser({ user: { firstName, lastName, birthdate }, 
   return await generateUsernameUntilAvailable({ firstPart, secondPart, userRepository });
 }
 
-module.exports = {
+export default {
   generateUsernameUntilAvailable,
   createUsernameByUser,
   findMatchingCandidateIdForGivenUser,

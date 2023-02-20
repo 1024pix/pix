@@ -1,5 +1,5 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const Assessment = require('../../../../lib/domain/models/Assessment');
+import { expect, domainBuilder } from '../../../test-helper';
+import Assessment from '../../../../lib/domain/models/Assessment';
 
 describe('Unit | Domain | Models | Assessment', function () {
   describe('#constuctor', function () {

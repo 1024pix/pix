@@ -1,4 +1,4 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
 class Tube {
   constructor({
@@ -59,4 +59,4 @@ class Tube {
   }
 }
 
-module.exports = Tube;
+export default Tube;

@@ -1,8 +1,8 @@
-const Joi = require('joi');
-const certificationStatus = require('../../../../lib/domain/read-models/livret-scolaire/CertificateStatus');
-const competenceResultDoc = require('./competence-result-doc');
+import Joi from 'joi';
+import certificationStatus from '../../../../lib/domain/read-models/livret-scolaire/CertificateStatus';
+import competenceResultDoc from './competence-result-doc';
 
-module.exports = Joi.object({
+export default Joi.object({
   id: Joi.number().required().description('ID de la certification pour l’élève'),
   firstName: Joi.string().example('Anne').required().description('Prénom de l’élève'),
   middleName: Joi.string().example('Sophie').required().description('Deuxième nom de l’élève'),

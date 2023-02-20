@@ -1,8 +1,7 @@
-const { expect, sinon, HttpTestServer } = require('../../../test-helper');
-const { NotFoundError, UserNotFoundError } = require('../../../../lib/domain/errors');
-const usecases = require('../../../../lib/domain/usecases');
-
-const moduleUnderTest = require('../../../../lib/application/account-recovery');
+import { expect, sinon, HttpTestServer } from '../../../test-helper';
+import { NotFoundError, UserNotFoundError } from '../../../../lib/domain/errors';
+import usecases from '../../../../lib/domain/usecases';
+import moduleUnderTest from '../../../../lib/application/account-recovery';
 
 describe('Integration | Application | Account-Recovery | account-recovery-controller', function () {
   let httpTestServer;

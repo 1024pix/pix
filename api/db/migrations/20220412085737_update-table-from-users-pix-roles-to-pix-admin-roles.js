@@ -8,7 +8,7 @@ const OLD_COLUMN_NAME = 'user_id';
 const NEW_COLUMN_NAME = 'userId';
 const COLUMN_TO_DELETE = 'pix_role_id';
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.schema.renameTable(OLD_TABLE_NAME, NEW_TABLE_NAME);
   await knex.schema.table(NEW_TABLE_NAME, (table) => {
     table.string(ROLE_COLUMN);
@@ -31,7 +31,7 @@ exports.up = async function (knex) {
   });
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   await knex.schema.renameTable(NEW_TABLE_NAME, OLD_TABLE_NAME);
 
   await knex.schema.table(OLD_TABLE_NAME, (table) => {

@@ -1,6 +1,6 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const getSession = require('../../../../lib/domain/usecases/get-session');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper';
+import getSession from '../../../../lib/domain/usecases/get-session';
+import { NotFoundError } from '../../../../lib/domain/errors';
 
 describe('Unit | UseCase | get-session', function () {
   let sessionRepository;

@@ -1,6 +1,6 @@
-const moment = require('moment');
+import moment from 'moment';
 
-module.exports = class SessionData {
+export default class SessionData {
   constructor({
     id,
     accessCode,
@@ -41,4 +41,4 @@ module.exports = class SessionData {
   static fromSession(session) {
     return new SessionData(session);
   }
-};
+}

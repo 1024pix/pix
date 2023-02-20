@@ -1,13 +1,12 @@
-const usecases = require('../../domain/usecases');
-const events = require('../../domain/events');
-const privateCertificateSerializer = require('../../infrastructure/serializers/jsonapi/private-certificate-serializer');
-const shareableCertificateSerializer = require('../../infrastructure/serializers/jsonapi/shareable-certificate-serializer');
-const certificationAttestationPdf = require('../../infrastructure/utils/pdf/certification-attestation-pdf');
-const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
+import usecases from '../../domain/usecases';
+import events from '../../domain/events';
+import privateCertificateSerializer from '../../infrastructure/serializers/jsonapi/private-certificate-serializer';
+import shareableCertificateSerializer from '../../infrastructure/serializers/jsonapi/shareable-certificate-serializer';
+import certificationAttestationPdf from '../../infrastructure/utils/pdf/certification-attestation-pdf';
+import requestResponseUtils from '../../infrastructure/utils/request-response-utils';
+import moment from 'moment';
 
-const moment = require('moment');
-
-module.exports = {
+export default {
   async findUserCertifications(request) {
     const userId = request.auth.credentials.userId;
 

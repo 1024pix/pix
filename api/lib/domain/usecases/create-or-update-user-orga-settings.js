@@ -1,7 +1,7 @@
-const { UserNotMemberOfOrganizationError } = require('../errors');
-const _ = require('lodash');
+import { UserNotMemberOfOrganizationError } from '../errors';
+import _ from 'lodash';
 
-module.exports = async function createOrUpdateUserOrgaSettings({
+export default async function createOrUpdateUserOrgaSettings({
   userId,
   organizationId,
   userOrgaSettingsRepository,
@@ -16,4 +16,4 @@ module.exports = async function createOrUpdateUserOrgaSettings({
   }
 
   return userOrgaSettingsRepository.createOrUpdate({ userId, organizationId });
-};
+}

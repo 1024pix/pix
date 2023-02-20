@@ -1,5 +1,5 @@
-const { sinon } = require('../../test-helper');
-const { _forTestOnly } = require('../../../lib/domain/events');
+import { sinon } from '../../test-helper';
+import { _forTestOnly } from '../../../lib/domain/events';
 
 function buildEventDispatcherAndHandlersForTest() {
   const handlerStubs = {};
@@ -13,4 +13,4 @@ function buildEventDispatcherAndHandlersForTest() {
   };
 }
 
-module.exports = buildEventDispatcherAndHandlersForTest;
+export default buildEventDispatcherAndHandlersForTest;

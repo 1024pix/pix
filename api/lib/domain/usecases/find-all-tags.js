@@ -1,3 +1,3 @@
-module.exports = function findAllTags({ tagRepository }) {
+export default function findAllTags({ tagRepository }) {
   return tagRepository.findAll();
-};
+}

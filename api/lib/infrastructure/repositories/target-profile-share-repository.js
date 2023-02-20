@@ -1,7 +1,7 @@
-const { knex } = require('../../../db/knex-database-connection');
-const DomainTransaction = require('../DomainTransaction');
+import { knex } from '../../../db/knex-database-connection';
+import DomainTransaction from '../DomainTransaction';
 
-module.exports = {
+export default {
   async addTargetProfilesToOrganization({ organizationId, targetProfileIdList }) {
     const targetProfileShareToAdd = targetProfileIdList.map((targetProfileId) => {
       return { organizationId, targetProfileId };

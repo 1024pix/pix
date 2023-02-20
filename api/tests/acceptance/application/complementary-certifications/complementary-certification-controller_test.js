@@ -1,11 +1,12 @@
-const {
+import {
   expect,
   databaseBuilder,
   insertUserWithRoleSuperAdmin,
   generateValidRequestAuthorizationHeader,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
-const { CLEA, PIX_PLUS_EDU_1ER_DEGRE } = require('../../../../lib/domain/models/ComplementaryCertification');
+} from '../../../test-helper';
+
+import createServer from '../../../../server';
+import { CLEA, PIX_PLUS_EDU_1ER_DEGRE } from '../../../../lib/domain/models/ComplementaryCertification';
 
 describe('Acceptance | API | complementary-certification-controller', function () {
   let server;

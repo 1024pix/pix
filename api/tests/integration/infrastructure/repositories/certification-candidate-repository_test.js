@@ -1,12 +1,12 @@
-const { databaseBuilder, expect, knex, domainBuilder, catchErr } = require('../../../test-helper');
-const BookshelfCertificationCandidate = require('../../../../lib/infrastructure/orm-models/CertificationCandidate');
-const certificationCandidateRepository = require('../../../../lib/infrastructure/repositories/certification-candidate-repository');
-const {
+import { databaseBuilder, expect, knex, domainBuilder, catchErr } from '../../../test-helper';
+import BookshelfCertificationCandidate from '../../../../lib/infrastructure/orm-models/CertificationCandidate';
+import certificationCandidateRepository from '../../../../lib/infrastructure/repositories/certification-candidate-repository';
+import {
   NotFoundError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
-} = require('../../../../lib/domain/errors');
-const ComplementaryCertification = require('../../../../lib/domain/models/ComplementaryCertification');
-const _ = require('lodash');
+} from '../../../../lib/domain/errors';
+import ComplementaryCertification from '../../../../lib/domain/models/ComplementaryCertification';
+import _ from 'lodash';
 
 describe('Integration | Repository | CertificationCandidate', function () {
   describe('#saveInSession', function () {

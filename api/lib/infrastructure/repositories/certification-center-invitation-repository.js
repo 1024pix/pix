@@ -1,6 +1,6 @@
-const CertificationCenterInvitation = require('../../domain/models/CertificationCenterInvitation');
-const { knex } = require('../../../db/knex-database-connection');
-const { NotFoundError } = require('../../domain/errors');
+import CertificationCenterInvitation from '../../domain/models/CertificationCenterInvitation';
+import { knex } from '../../../db/knex-database-connection';
+import { NotFoundError } from '../../domain/errors';
 
 const CERTIFICATION_CENTER_INVITATIONS = 'certification-center-invitations';
 
@@ -16,7 +16,7 @@ function _toDomain(invitationDTO) {
   });
 }
 
-module.exports = {
+export default {
   async findPendingByCertificationCenterId({ certificationCenterId }) {
     const pendingCertificationCenterInvitations = await knex(CERTIFICATION_CENTER_INVITATIONS)
       .select('id', 'email', 'certificationCenterId', 'updatedAt')

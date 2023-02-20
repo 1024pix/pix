@@ -1,10 +1,12 @@
-const { expect } = require('../../../../../test-helper');
-const serializer = require('../../../../../../lib/infrastructure/serializers/jsonapi/certifications-livret-scolaire/certification-ls-serializer.js');
-const {
+import { expect } from '../../../../../test-helper';
+import serializer from '../../../../../../lib/infrastructure/serializers/jsonapi/certifications-livret-scolaire/certification-ls-serializer.js';
+
+import {
   buildCertificateForLS,
   buildReferentialOfCompetences,
   buildCertificationsResults,
-} = require('../../../../../../lib/infrastructure/serializers/jsonapi/certifications-livret-scolaire/factory/build-certification-result-for-ls');
+} from '../../../../../../lib/infrastructure/serializers/jsonapi/certifications-livret-scolaire/factory/build-certification-result-for-ls';
+
 const VALIDATED_CERTIFICATION = 'validated';
 const REJECTED_CERTIFICATION = 'rejected';
 

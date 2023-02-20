@@ -1,8 +1,7 @@
-const { databaseBuilder, expect, catchErr } = require('../../../test-helper');
-const certificationOfficerRepository = require('../../../../lib/infrastructure/repositories/certification-officer-repository');
-
-const { UserNotFoundError } = require('../../../../lib/domain/errors');
-const CertificationOfficer = require('../../../../lib/domain/models/CertificationOfficer');
+import { databaseBuilder, expect, catchErr } from '../../../test-helper';
+import certificationOfficerRepository from '../../../../lib/infrastructure/repositories/certification-officer-repository';
+import { UserNotFoundError } from '../../../../lib/domain/errors';
+import CertificationOfficer from '../../../../lib/domain/models/CertificationOfficer';
 
 describe('Integration | Repository | CertificationOfficer', function () {
   describe('#get', function () {

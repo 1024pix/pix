@@ -1,10 +1,10 @@
-const Bookshelf = require('../bookshelf');
+import Bookshelf from '../bookshelf';
 
-require('./Tag');
+import './Tag';
 
 const modelName = 'Organization';
 
-module.exports = Bookshelf.model(
+export default Bookshelf.model(
   modelName,
   {
     tableName: 'organizations',

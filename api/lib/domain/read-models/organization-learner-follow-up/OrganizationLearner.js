@@ -11,4 +11,4 @@ class OrganizationLearner {
   }
 }
 
-module.exports = OrganizationLearner;
+export default OrganizationLearner;

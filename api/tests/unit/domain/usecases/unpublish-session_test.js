@@ -1,6 +1,6 @@
-const { domainBuilder, sinon, expect } = require('../../../test-helper');
-const unpublishSession = require('../../../../lib/domain/usecases/unpublish-session');
-const FinalizedSession = require('../../../../lib/domain/models/FinalizedSession');
+import { domainBuilder, sinon, expect } from '../../../test-helper';
+import unpublishSession from '../../../../lib/domain/usecases/unpublish-session';
+import FinalizedSession from '../../../../lib/domain/models/FinalizedSession';
 
 describe('Unit | UseCase | unpublish-session', function () {
   let certificationRepository;

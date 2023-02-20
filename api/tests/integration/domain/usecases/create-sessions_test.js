@@ -1,5 +1,5 @@
-const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
+import { expect, databaseBuilder, knex, catchErr } from '../../../test-helper';
+import usecases from '../../../../lib/domain/usecases';
 
 describe('Integration | UseCases | create-sessions', function () {
   describe('When there is a validation error', function () {

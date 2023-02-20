@@ -1,6 +1,6 @@
-const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
-const certificationPointOfContactController = require('../../../../lib/application/certification-point-of-contacts/certification-point-of-contact-controller');
-const usecases = require('../../../../lib/domain/usecases');
+import { expect, sinon, domainBuilder, hFake } from '../../../test-helper';
+import certificationPointOfContactController from '../../../../lib/application/certification-point-of-contacts/certification-point-of-contact-controller';
+import usecases from '../../../../lib/domain/usecases';
 
 describe('Unit | Controller | certifications-point-of-contact-controller', function () {
   describe('#get', function () {

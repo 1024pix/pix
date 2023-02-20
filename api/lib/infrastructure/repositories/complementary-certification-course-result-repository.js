@@ -1,7 +1,7 @@
-const ComplementaryCertificationCourseResult = require('../../domain/models/ComplementaryCertificationCourseResult');
-const { knex } = require('../../../db/knex-database-connection');
+import ComplementaryCertificationCourseResult from '../../domain/models/ComplementaryCertificationCourseResult';
+import { knex } from '../../../db/knex-database-connection';
 
-module.exports = {
+export default {
   async getPixSourceResultByComplementaryCertificationCourseId({ complementaryCertificationCourseId }) {
     const result = await knex
       .select('*')

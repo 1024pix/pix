@@ -6,7 +6,7 @@ const ORGANIZATIONLEARNERID_COLUMN = 'organizationLearnerId';
 const CAMPAIGNID_COLUMN = 'campaignId';
 const NEW_CONSTRAINT_NAME = 'one_active_participation_by_learner';
 
-exports.up = async (knex) => {
+export const up = async (knex) => {
   await knex.schema.alterTable(CAMPAIGN_PARTICIPATIONS_TABLE, function (table) {
     table.integer(ORGANIZATIONLEARNERID_COLUMN).notNullable().alter();
   });
@@ -25,7 +25,7 @@ exports.up = async (knex) => {
   );
 };
 
-exports.down = async (knex) => {
+export const down = async (knex) => {
   await knex.schema.alterTable(CAMPAIGN_PARTICIPATIONS_TABLE, function (table) {
     table.integer(ORGANIZATIONLEARNERID_COLUMN).nullable().alter();
   });

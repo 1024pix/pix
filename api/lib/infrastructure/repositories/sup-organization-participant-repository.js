@@ -1,9 +1,9 @@
-const { knex } = require('../../../db/knex-database-connection');
-const { fetchPage } = require('../utils/knex-utils');
-const SupOrganizationParticipant = require('../../domain/read-models/SupOrganizationParticipant');
-const CampaignTypes = require('../../domain/models/CampaignTypes');
-const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
-const { filterByFullName } = require('../utils/filter-utils');
+import { knex } from '../../../db/knex-database-connection';
+import { fetchPage } from '../utils/knex-utils';
+import SupOrganizationParticipant from '../../domain/read-models/SupOrganizationParticipant';
+import CampaignTypes from '../../domain/models/CampaignTypes';
+import CampaignParticipationStatuses from '../../domain/models/CampaignParticipationStatuses';
+import { filterByFullName } from '../utils/filter-utils';
 
 function _setFilters(qb, { search, studentNumber, groups, certificability } = {}) {
   if (search) {
@@ -50,7 +50,7 @@ function _buildIsCertifiable(queryBuilder, organizationId) {
     .where('campaign-participations.deletedAt', null);
 }
 
-module.exports = {
+export default {
   async findPaginatedFilteredSupParticipants({ organizationId, filter, page = {}, sort = {} }) {
     const { totalSupParticipants } = await knex
       .count('id', { as: 'totalSupParticipants' })

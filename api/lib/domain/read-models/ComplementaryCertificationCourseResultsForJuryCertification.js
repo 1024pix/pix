@@ -22,4 +22,4 @@ class ComplementaryCertificationCourseResultsForJuryCertification {
 
 ComplementaryCertificationCourseResultsForJuryCertification.statuses = complementaryCertificationStatus;
 
-module.exports = ComplementaryCertificationCourseResultsForJuryCertification;
+export default ComplementaryCertificationCourseResultsForJuryCertification;

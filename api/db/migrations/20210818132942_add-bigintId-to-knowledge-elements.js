@@ -2,7 +2,7 @@ const TABLE_NAME = 'knowledge-elements';
 const COLUMN_NAME = 'bigintId';
 const FAKE_VALUE_TO_COMPLY_WITH_NOT_NULL_CONSTRAINT_MANDATORY_FOR_FUTURE_PK = -1;
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.schema.table(TABLE_NAME, function (table) {
     table
       .bigInteger(COLUMN_NAME)
@@ -25,7 +25,7 @@ exports.up = async function (knex) {
   EXECUTE FUNCTION copy_int_id_to_bigint_id();`);
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   await knex.raw('DROP TRIGGER "trg_knowledge-elements" ON "knowledge-elements"');
   await knex.raw('DROP FUNCTION copy_int_id_to_bigint_id');
 

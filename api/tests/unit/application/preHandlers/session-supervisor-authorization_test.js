@@ -1,7 +1,7 @@
-const { expect, sinon, hFake } = require('../../../test-helper');
-const sessionSupervisorAuthorization = require('../../../../lib/application/preHandlers/session-supervisor-authorization');
-const supervisorAccessRepository = require('../../../../lib/infrastructure/repositories/supervisor-access-repository');
-const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
+import { expect, sinon, hFake } from '../../../test-helper';
+import sessionSupervisorAuthorization from '../../../../lib/application/preHandlers/session-supervisor-authorization';
+import supervisorAccessRepository from '../../../../lib/infrastructure/repositories/supervisor-access-repository';
+import requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils';
 
 describe('Unit | Pre-handler | Supervisor Authorization', function () {
   describe('#verifyByCertificationCandidateId', function () {

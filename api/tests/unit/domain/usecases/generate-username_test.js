@@ -1,12 +1,12 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const { generateUsername } = require('../../../../lib/domain/usecases');
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper';
+import { generateUsername } from '../../../../lib/domain/usecases';
+import Student from '../../../../lib/domain/models/Student';
 
-const Student = require('../../../../lib/domain/models/Student');
-const {
+import {
   CampaignCodeError,
   OrganizationLearnerNotFound,
   OrganizationLearnerAlreadyLinkedToUserError,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors';
 
 describe('Unit | UseCase | generate-username', function () {
   const organizationId = 1;

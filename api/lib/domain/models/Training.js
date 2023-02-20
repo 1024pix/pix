@@ -26,4 +26,4 @@ class Training {
   }
 }
 
-module.exports = Training;
+export default Training;

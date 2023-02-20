@@ -1,5 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const getAdminMembers = require('../../../../lib/domain/usecases/get-admin-members');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import getAdminMembers from '../../../../lib/domain/usecases/get-admin-members';
 
 describe('Unit | UseCase | get-admin-members', function () {
   it('should return all admin members', async function () {

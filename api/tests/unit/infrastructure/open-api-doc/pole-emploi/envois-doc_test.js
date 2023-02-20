@@ -1,5 +1,5 @@
-const EnvoiDoc = require('../../../../../lib/infrastructure/open-api-doc/pole-emploi/envois-doc');
-const { expect } = require('../../../../test-helper');
+import EnvoiDoc from '../../../../../lib/infrastructure/open-api-doc/pole-emploi/envois-doc';
+import { expect } from '../../../../test-helper';
 
 describe('Unit | Infrastructure | Open API Doc | Pole Emploi | Envois Documentation', function () {
   it('should validate payload for a campaign participation', function () {

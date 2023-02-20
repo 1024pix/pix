@@ -1,4 +1,4 @@
-const AllowedCertificationCenterAccess = require('../../../../lib/domain/read-models/AllowedCertificationCenterAccess');
+import AllowedCertificationCenterAccess from '../../../../lib/domain/read-models/AllowedCertificationCenterAccess';
 
 function buildAllowedCertificationCenterAccess({
   id = 123,
@@ -30,4 +30,4 @@ buildAllowedCertificationCenterAccess.notSco = function ({
   });
 };
 
-module.exports = buildAllowedCertificationCenterAccess;
+export default buildAllowedCertificationCenterAccess;

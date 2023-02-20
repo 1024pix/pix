@@ -1,8 +1,8 @@
-const { BadRequestError } = require('../http-errors');
-const _ = require('../../infrastructure/utils/lodash-utils');
-const serializer = require('../../infrastructure/serializers/jsonapi/feedback-serializer');
+import { BadRequestError } from '../http-errors';
+import _ from '../../infrastructure/utils/lodash-utils';
+import serializer from '../../infrastructure/serializers/jsonapi/feedback-serializer';
 
-module.exports = {
+export default {
   async save(request, h) {
     const newUserAgent = request.headers['user-agent'].slice(0, 255);
     const feedback = await serializer.deserialize(request.payload, newUserAgent);

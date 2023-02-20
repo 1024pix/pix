@@ -1,4 +1,4 @@
-const databaseBuffer = require('../database-buffer');
+import databaseBuffer from '../database-buffer';
 
 function buildStage({
   id = databaseBuffer.getNextId(),
@@ -47,4 +47,4 @@ buildStage.withLevel = function ({
   });
 };
 
-module.exports = buildStage;
+export default buildStage;

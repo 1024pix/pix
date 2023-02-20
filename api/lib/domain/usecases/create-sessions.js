@@ -1,11 +1,11 @@
-const Session = require('../models/Session');
-const sessionCodeService = require('../services/session-code-service');
-const sessionsImportValidationService = require('../services/sessions-import-validation-service');
-const CertificationCandidate = require('../models/CertificationCandidate');
-const bluebird = require('bluebird');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
+import Session from '../models/Session';
+import sessionCodeService from '../services/session-code-service';
+import sessionsImportValidationService from '../services/sessions-import-validation-service';
+import CertificationCandidate from '../models/CertificationCandidate';
+import bluebird from 'bluebird';
+import DomainTransaction from '../../infrastructure/DomainTransaction';
 
-module.exports = async function createSessions({
+export default async function createSessions({
   sessions,
   certificationCenterId,
   certificationCenterRepository,
@@ -68,7 +68,7 @@ module.exports = async function createSessions({
       return true;
     });
   });
-};
+}
 
 function _hasSessionInfo(session) {
   return session.address || session.room || session.date || session.time || session.examiner;

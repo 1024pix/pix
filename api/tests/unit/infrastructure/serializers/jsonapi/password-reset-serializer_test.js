@@ -1,5 +1,5 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/password-reset-serializer');
+import { expect } from '../../../../test-helper';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/password-reset-serializer';
 
 describe('Unit | Serializer | JSONAPI | password-reset-serializer', function () {
   describe('#serialize', function () {

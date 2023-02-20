@@ -1,11 +1,11 @@
-const CertifiableBadgeAcquisition = require('../../domain/models/CertifiableBadgeAcquisition');
-const { knex } = require('../../../db/knex-database-connection');
-const DomainTransaction = require('../DomainTransaction');
-const _ = require('lodash');
+import CertifiableBadgeAcquisition from '../../domain/models/CertifiableBadgeAcquisition';
+import { knex } from '../../../db/knex-database-connection';
+import DomainTransaction from '../DomainTransaction';
+import _ from 'lodash';
 
 const BADGE_ACQUISITIONS_TABLE = 'badge-acquisitions';
 
-module.exports = {
+export default {
   async findHighestCertifiable({ userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const knexConn = domainTransaction.knexTransaction || knex;
     const certifiableBadgeAcquisitions = await knexConn(BADGE_ACQUISITIONS_TABLE)

@@ -1,18 +1,16 @@
-const {
+import {
   isNumeric,
   splitIntoWordsAndRemoveBackspaces,
   cleanStringAndParseFloat,
-} = require('../../../lib/infrastructure/utils/string-utils');
-const { every, isEmpty, isString, map } = require('lodash');
-const { applyTreatments, applyPreTreatments } = require('./validation-treatments');
-const { validateAnswer } = require('./string-comparison-service');
-
-const AnswerStatus = require('../models/AnswerStatus');
-
-const { getEnabledTreatments, useLevenshteinRatio } = require('./services-utils');
+} from '../../../lib/infrastructure/utils/string-utils';
+import { every, isEmpty, isString, map } from 'lodash';
+import { applyTreatments, applyPreTreatments } from './validation-treatments';
+import { validateAnswer } from './string-comparison-service';
+import AnswerStatus from '../models/AnswerStatus';
+import { getEnabledTreatments, useLevenshteinRatio } from './services-utils';
 const CHALLENGE_NUMBER_FORMAT = 'nombre';
 
-module.exports = {
+export default {
   match({ answer, challengeFormat, solution }) {
     const solutionValue = solution.value;
     const deactivations = solution.deactivations;

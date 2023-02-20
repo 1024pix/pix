@@ -1,7 +1,9 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const { computeCampaignAnalysis } = require('../../../../lib/domain/usecases');
-const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
-const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper';
+import { computeCampaignAnalysis } from '../../../../lib/domain/usecases';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors';
+import { LOCALE } from '../../../../lib/domain/constants';
+
+const { FRENCH_SPOKEN: FRENCH_SPOKEN } = LOCALE;
 
 describe('Unit | UseCase | compute-campaign-analysis', function () {
   let campaignRepository;

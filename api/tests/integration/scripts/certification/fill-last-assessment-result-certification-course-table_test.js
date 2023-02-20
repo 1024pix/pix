@@ -1,7 +1,5 @@
-const { expect, databaseBuilder, knex, sinon } = require('../../../test-helper');
-const {
-  addLastAssessmentResultCertificationCourse,
-} = require('../../../../scripts/certification/fill-last-assessment-result-certification-course-table');
+import { expect, databaseBuilder, knex, sinon } from '../../../test-helper';
+import { addLastAssessmentResultCertificationCourse } from '../../../../scripts/certification/fill-last-assessment-result-certification-course-table';
 
 const ASSOC_TABLE_NAME = 'certification-courses-last-assessment-results';
 

@@ -1,14 +1,15 @@
-const {
+import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   knex,
   mockLearningContent,
   learningContentBuilder,
-} = require('../../../test-helper');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
-const createServer = require('../../../../server');
+} from '../../../test-helper';
+
+import Assessment from '../../../../lib/domain/models/Assessment';
+import badgeAcquisitionRepository from '../../../../lib/infrastructure/repositories/badge-acquisition-repository';
+import createServer from '../../../../server';
 
 describe('Acceptance | Controller | assessment-controller-complete-assessment', function () {
   let options;

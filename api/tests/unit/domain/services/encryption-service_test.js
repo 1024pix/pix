@@ -1,8 +1,7 @@
-const { catchErr, expect } = require('../../../test-helper');
-
-const bcrypt = require('bcrypt');
-const encryptionService = require('../../../../lib/domain/services/encryption-service');
-const PasswordNotMatching = require('../../../../lib/domain/errors').PasswordNotMatching;
+import { catchErr, expect } from '../../../test-helper';
+import bcrypt from 'bcrypt';
+import encryptionService from '../../../../lib/domain/services/encryption-service';
+import { PasswordNotMatching } from '../../../../lib/domain/errors';
 
 describe('Unit | Service | Encryption', function () {
   describe('#checkPassword', function () {

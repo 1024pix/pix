@@ -1,13 +1,12 @@
-const _ = require('lodash');
-const iconv = require('iconv-lite');
-const { expect, knex, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-
-const createServer = require('../../../../server');
+import _ from 'lodash';
+import iconv from 'iconv-lite';
+import { expect, knex, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper';
+import createServer from '../../../../server';
 require('events').EventEmitter.defaultMaxListeners = 60;
 
-const Membership = require('../../../../lib/domain/models/Membership');
-const OrganizationLearnerImportHeader = require('../../../../lib/infrastructure/serializers/csv/organization-learner-import-header');
-const { getI18n } = require('../../../tooling/i18n/i18n');
+import Membership from '../../../../lib/domain/models/Membership';
+import OrganizationLearnerImportHeader from '../../../../lib/infrastructure/serializers/csv/organization-learner-import-header';
+import { getI18n } from '../../../tooling/i18n/i18n';
 const i18n = getI18n();
 
 const organizationLearnerCsvColumns = new OrganizationLearnerImportHeader(i18n).columns

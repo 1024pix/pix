@@ -1,6 +1,6 @@
-const { expect, domainBuilder, databaseBuilder, knex, catchErr } = require('../../../test-helper');
-const organizationsToAttachToTargetProfileRepository = require('../../../../lib/infrastructure/repositories/organizations-to-attach-to-target-profile-repository');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+import { expect, domainBuilder, databaseBuilder, knex, catchErr } from '../../../test-helper';
+import organizationsToAttachToTargetProfileRepository from '../../../../lib/infrastructure/repositories/organizations-to-attach-to-target-profile-repository';
+import { NotFoundError } from '../../../../lib/domain/errors';
 
 describe('Integration | Repository | Organizations-to-attach-to-target-profile', function () {
   describe('#attachOrganizations', function () {

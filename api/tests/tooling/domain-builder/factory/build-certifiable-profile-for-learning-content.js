@@ -1,4 +1,4 @@
-const CertifiableProfileForLearningContent = require('../../../../lib/domain/models/CertifiableProfileForLearningContent');
+import CertifiableProfileForLearningContent from '../../../../lib/domain/models/CertifiableProfileForLearningContent';
 
 const buildCertifiableProfileForLearningContent = function ({
   learningContent,
@@ -12,4 +12,4 @@ const buildCertifiableProfileForLearningContent = function ({
   });
 };
 
-module.exports = buildCertifiableProfileForLearningContent;
+export default buildCertifiableProfileForLearningContent;

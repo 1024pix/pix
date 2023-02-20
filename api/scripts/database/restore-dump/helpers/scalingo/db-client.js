@@ -1,6 +1,6 @@
-const axios = require('axios');
-const util = require('util');
-const fs = require('fs');
+import axios from 'axios';
+import util from 'util';
+import fs from 'fs';
 const streamPipeline = util.promisify(require('stream').pipeline);
 
 class ScalingoDBClient {
@@ -52,4 +52,4 @@ class ScalingoDBClient {
   }
 }
 
-module.exports = ScalingoDBClient;
+export default ScalingoDBClient;

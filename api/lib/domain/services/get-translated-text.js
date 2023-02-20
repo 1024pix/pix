@@ -1,7 +1,9 @@
-const { FRENCH_SPOKEN } = require('../../domain/constants').LOCALE;
+import { LOCALE } from '../../domain/constants';
+
+const { FRENCH_SPOKEN: FRENCH_SPOKEN } = LOCALE;
 
 function getTranslatedKey(key, locale) {
   return key?.[locale] || key?.[FRENCH_SPOKEN];
 }
 
-module.exports = { getTranslatedKey };
+export default { getTranslatedKey };

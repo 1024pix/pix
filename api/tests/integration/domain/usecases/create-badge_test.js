@@ -1,19 +1,18 @@
-const _ = require('lodash');
+import _ from 'lodash';
+import { expect, databaseBuilder, mockLearningContent, knex, catchErr, sinon } from '../../../test-helper';
+import badgeRepository from '../../../../lib/infrastructure/repositories/badge-repository';
+import badgeCriteriaRepository from '../../../../lib/infrastructure/repositories/badge-criteria-repository';
+import skillSetRepository from '../../../../lib/infrastructure/repositories/skill-set-repository';
+import targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository';
+import createBadge from '../../../../lib/domain/usecases/create-badge';
+import Badge from '../../../../lib/domain/models/Badge';
 
-const { expect, databaseBuilder, mockLearningContent, knex, catchErr, sinon } = require('../../../test-helper');
-
-const badgeRepository = require('../../../../lib/infrastructure/repositories/badge-repository');
-const badgeCriteriaRepository = require('../../../../lib/infrastructure/repositories/badge-criteria-repository');
-const skillSetRepository = require('../../../../lib/infrastructure/repositories/skill-set-repository');
-const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
-const createBadge = require('../../../../lib/domain/usecases/create-badge');
-const Badge = require('../../../../lib/domain/models/Badge');
-const {
+import {
   AlreadyExistingEntityError,
   NotFoundError,
   InvalidSkillSetError,
   MissingBadgeCriterionError,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors';
 
 describe('Integration | UseCases | create-badge', function () {
   let targetProfileId;

@@ -1,8 +1,7 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-
-const enrollStudentsToSession = require('../../../../lib/domain/usecases/enroll-students-to-session');
-const SCOCertificationCandidate = require('../../../../lib/domain/models/SCOCertificationCandidate');
-const { ForbiddenAccess, UnknownCountryForStudentEnrollmentError } = require('../../../../lib/domain/errors');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper';
+import enrollStudentsToSession from '../../../../lib/domain/usecases/enroll-students-to-session';
+import SCOCertificationCandidate from '../../../../lib/domain/models/SCOCertificationCandidate';
+import { ForbiddenAccess, UnknownCountryForStudentEnrollmentError } from '../../../../lib/domain/errors';
 
 describe('Unit | UseCase | enroll-students-to-session', function () {
   context('when referent is allowed to Pix Certif', function () {

@@ -1,8 +1,8 @@
-const _ = require('lodash');
-const membershipRepository = require('../../infrastructure/repositories/membership-repository');
-const organizationLearnerRepository = require('../../infrastructure/repositories/organization-learner-repository');
+import _ from 'lodash';
+import membershipRepository from '../../infrastructure/repositories/membership-repository';
+import organizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository';
 
-module.exports = {
+export default {
   async execute(userId, organizationLearnerId) {
     const organizationLearner = await organizationLearnerRepository.get(organizationLearnerId);
     const memberships = await membershipRepository.findByUserIdAndOrganizationId({

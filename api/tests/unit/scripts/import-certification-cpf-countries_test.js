@@ -1,9 +1,9 @@
-const { expect, catchErr, sinon } = require('../../test-helper');
-const {
+import { expect, catchErr, sinon } from '../../test-helper';
+import {
   buildCountries,
   checkTransformUnicity,
-} = require('../../../scripts/certification/import-certification-cpf-countries');
-const { noop } = require('lodash/noop');
+} from '../../../scripts/certification/import-certification-cpf-countries';
+import { noop } from 'lodash/noop';
 
 describe('Unit | Scripts | import-certification-cpf-countries.js', function () {
   beforeEach(function () {

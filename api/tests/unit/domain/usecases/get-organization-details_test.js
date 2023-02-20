@@ -1,6 +1,6 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const getOrganizationDetails = require('../../../../lib/domain/usecases/get-organization-details');
-const Organization = require('../../../../lib/domain/models/Organization');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import getOrganizationDetails from '../../../../lib/domain/usecases/get-organization-details';
+import Organization from '../../../../lib/domain/models/Organization';
 
 describe('Unit | UseCase | get-organization-details', function () {
   it('should return the Organization matching the given organization ID', async function () {

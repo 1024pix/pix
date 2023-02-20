@@ -1,16 +1,16 @@
-const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection');
-const PrivateCertificate = require('../../domain/models/PrivateCertificate');
-const ShareableCertificate = require('../../domain/models/ShareableCertificate');
-const CertificationAttestation = require('../../domain/models/CertificationAttestation');
-const CertifiedBadge = require('../../../lib/domain/read-models/CertifiedBadge');
-const { NotFoundError } = require('../../../lib/domain/errors');
-const competenceTreeRepository = require('./competence-tree-repository');
-const ResultCompetenceTree = require('../../domain/models/ResultCompetenceTree');
-const CompetenceMark = require('../../domain/models/CompetenceMark');
-const AssessmentResult = require('../../domain/models/AssessmentResult');
+import _ from 'lodash';
+import { knex } from '../../../db/knex-database-connection';
+import PrivateCertificate from '../../domain/models/PrivateCertificate';
+import ShareableCertificate from '../../domain/models/ShareableCertificate';
+import CertificationAttestation from '../../domain/models/CertificationAttestation';
+import CertifiedBadge from '../../../lib/domain/read-models/CertifiedBadge';
+import { NotFoundError } from '../../../lib/domain/errors';
+import competenceTreeRepository from './competence-tree-repository';
+import ResultCompetenceTree from '../../domain/models/ResultCompetenceTree';
+import CompetenceMark from '../../domain/models/CompetenceMark';
+import AssessmentResult from '../../domain/models/AssessmentResult';
 
-module.exports = {
+export default {
   async getPrivateCertificate(id, { locale } = {}) {
     const certificationCourseDTO = await _selectPrivateCertificates()
       .where('certification-courses.id', '=', id)

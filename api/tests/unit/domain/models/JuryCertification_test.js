@@ -1,5 +1,5 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const JuryCertification = require('../../../../lib/domain/models/JuryCertification');
+import { expect, domainBuilder } from '../../../test-helper';
+import JuryCertification from '../../../../lib/domain/models/JuryCertification';
 
 describe('Unit | Domain | Models | JuryCertification', function () {
   describe('#from', function () {

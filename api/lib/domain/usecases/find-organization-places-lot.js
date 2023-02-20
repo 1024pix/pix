@@ -1,3 +1,3 @@
-module.exports = async function findOrganizationPlacesLot({ organizationId, organizationPlacesLotRepository }) {
+export default async function findOrganizationPlacesLot({ organizationId, organizationPlacesLotRepository }) {
   return organizationPlacesLotRepository.findByOrganizationId(organizationId);
-};
+}

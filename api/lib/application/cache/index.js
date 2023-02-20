@@ -1,7 +1,7 @@
-const securityPreHandlers = require('../security-pre-handlers');
-const CacheController = require('./cache-controller');
+import securityPreHandlers from '../security-pre-handlers';
+import CacheController from './cache-controller';
 
-exports.register = async function (server) {
+export const register = async function (server) {
   server.route([
     {
       method: 'PATCH',
@@ -43,4 +43,4 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'cache-api';
+export const name = 'cache-api';

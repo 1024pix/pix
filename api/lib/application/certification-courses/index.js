@@ -1,11 +1,9 @@
-const Joi = require('joi');
+import Joi from 'joi';
+import securityPreHandlers from '../security-pre-handlers';
+import certificationCourseController from './certification-course-controller';
+import identifiersType from '../../domain/types/identifiers-type';
 
-const securityPreHandlers = require('../security-pre-handlers');
-const certificationCourseController = require('./certification-course-controller');
-
-const identifiersType = require('../../domain/types/identifiers-type');
-
-exports.register = async function (server) {
+export const register = async function (server) {
   server.route([
     {
       method: 'GET',
@@ -225,4 +223,4 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'certification-courses-api';
+export const name = 'certification-courses-api';

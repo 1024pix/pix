@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
-const unarchiveCampaign = require('../../../../lib/domain/usecases/unarchive-campaign');
-const Campaign = require('../../../../lib/domain/models/CampaignForArchiving');
+import { expect, sinon } from '../../../test-helper';
+import unarchiveCampaign from '../../../../lib/domain/usecases/unarchive-campaign';
+import Campaign from '../../../../lib/domain/models/CampaignForArchiving';
 
 describe('Unit | UseCase | unarchive-campaign', function () {
   let campaignForArchivingRepository;

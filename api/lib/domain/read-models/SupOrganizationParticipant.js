@@ -30,4 +30,4 @@ class SupOrganizationParticipant {
   }
 }
 
-module.exports = SupOrganizationParticipant;
+export default SupOrganizationParticipant;

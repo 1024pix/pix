@@ -1,6 +1,6 @@
-const { expect, catchErr } = require('../../../test-helper');
-const SCOCertificationCandidate = require('../../../../lib/domain/models/SCOCertificationCandidate');
-const { InvalidCertificationCandidate } = require('../../../../lib/domain/errors');
+import { expect, catchErr } from '../../../test-helper';
+import SCOCertificationCandidate from '../../../../lib/domain/models/SCOCertificationCandidate';
+import { InvalidCertificationCandidate } from '../../../../lib/domain/errors';
 
 describe('Unit | Domain | Models | SCO Certification Candidate', function () {
   describe('validate', function () {

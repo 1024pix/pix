@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../test-helper');
-const EventDispatcherLogger = require('../../../lib/infrastructure/events/EventDispatcherLogger');
+import { expect, sinon } from '../../test-helper';
+import EventDispatcherLogger from '../../../lib/infrastructure/events/EventDispatcherLogger';
 
 describe('Integration | Infrastructure | EventHandlerLogger', function () {
   context('when logging on event dispatch start is enabled', function () {

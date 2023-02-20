@@ -1,6 +1,6 @@
-const _ = require('lodash');
-const verifyCertificationCodeService = require('../../lib/domain/services/verify-certificate-code-service');
-const verifyCertificateCodeRepository = require('../../../../lib/infrastructure/repositories/verify-certificate-code-repository');
+import _ from 'lodash';
+import verifyCertificationCodeService from '../../lib/domain/services/verify-certificate-code-service';
+import verifyCertificateCodeRepository from '../../../../lib/infrastructure/repositories/verify-certificate-code-repository';
 
 const addCertification = async () => {
   const code = await verifyCertificationCodeService.getNewVerifyCertificationCode();

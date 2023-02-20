@@ -1,13 +1,13 @@
-const { domainBuilder, expect, catchErr, sinon } = require('../../../test-helper');
-const createSessions = require('../../../../lib/domain/usecases/create-sessions');
-const { InvalidCertificationCandidate } = require('../../../../lib/domain/errors');
-const sessionCodeService = require('../../../../lib/domain/services/session-code-service');
-const Session = require('../../../../lib/domain/models/Session');
-const certificationCpfService = require('../../../../lib/domain/services/certification-cpf-service');
-const sessionsImportValidationService = require('../../../../lib/domain/services/sessions-import-validation-service');
-const { CpfBirthInformationValidation } = require('../../../../lib/domain/services/certification-cpf-service');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
-const CertificationCandidate = require('../../../../lib/domain/models/CertificationCandidate');
+import { domainBuilder, expect, catchErr, sinon } from '../../../test-helper';
+import createSessions from '../../../../lib/domain/usecases/create-sessions';
+import { InvalidCertificationCandidate } from '../../../../lib/domain/errors';
+import sessionCodeService from '../../../../lib/domain/services/session-code-service';
+import Session from '../../../../lib/domain/models/Session';
+import certificationCpfService from '../../../../lib/domain/services/certification-cpf-service';
+import sessionsImportValidationService from '../../../../lib/domain/services/sessions-import-validation-service';
+import { CpfBirthInformationValidation } from '../../../../lib/domain/services/certification-cpf-service';
+import DomainTransaction from '../../../../lib/infrastructure/DomainTransaction';
+import CertificationCandidate from '../../../../lib/domain/models/CertificationCandidate';
 
 describe('Unit | UseCase | create-sessions', function () {
   let accessCode;

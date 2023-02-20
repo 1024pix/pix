@@ -1,10 +1,9 @@
-const _ = require('lodash');
-const bluebird = require('bluebird');
-const Tube = require('../../domain/models/Tube');
-const tubeDatasource = require('../datasources/learning-content/tube-datasource');
-const skillDatasource = require('../datasources/learning-content/skill-datasource');
-
-const { getTranslatedKey } = require('../../domain/services/get-translated-text');
+import _ from 'lodash';
+import bluebird from 'bluebird';
+import Tube from '../../domain/models/Tube';
+import tubeDatasource from '../datasources/learning-content/tube-datasource';
+import skillDatasource from '../datasources/learning-content/skill-datasource';
+import { getTranslatedKey } from '../../domain/services/get-translated-text';
 
 function _toDomain({ tubeData, locale }) {
   const translatedPracticalTitle = getTranslatedKey(tubeData.practicalTitle_i18n, locale);
@@ -32,7 +31,7 @@ async function _findActive(tubes) {
   });
 }
 
-module.exports = {
+export default {
   async get(id) {
     const tubeData = await tubeDatasource.get(id);
     return _toDomain({ tubeData });

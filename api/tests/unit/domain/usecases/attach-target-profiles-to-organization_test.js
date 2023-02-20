@@ -1,6 +1,6 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const attachTargetProfilesToOrganization = require('../../../../lib/domain/usecases/attach-target-profiles-to-organization');
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper';
+import { NotFoundError } from '../../../../lib/domain/errors';
+import attachTargetProfilesToOrganization from '../../../../lib/domain/usecases/attach-target-profiles-to-organization';
 
 describe('Unit | UseCase | attach-target-profiles-to-organization', function () {
   let targetProfileRepository;

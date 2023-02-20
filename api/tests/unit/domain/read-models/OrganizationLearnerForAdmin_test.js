@@ -1,6 +1,6 @@
-const { expect } = require('../../../test-helper');
-const OrganizationLearnerForAdmin = require('../../../../lib/domain/read-models/OrganizationLearnerForAdmin');
-const { ObjectValidationError } = require('../../../../lib/domain/errors');
+import { expect } from '../../../test-helper';
+import OrganizationLearnerForAdmin from '../../../../lib/domain/read-models/OrganizationLearnerForAdmin';
+import { ObjectValidationError } from '../../../../lib/domain/errors';
 
 describe('Unit | Domain | Read-models | OrganizationLearnerForAdmin', function () {
   describe('#constructor', function () {

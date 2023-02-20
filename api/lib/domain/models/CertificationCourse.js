@@ -1,6 +1,6 @@
-const _ = require('lodash');
+import _ from 'lodash';
 const Joi = require('joi').extend(require('@joi/date'));
-const { EntityValidationError } = require('../errors');
+import { EntityValidationError } from '../errors';
 
 const ABORT_REASONS = ['candidate', 'technical'];
 const cpfImportStatus = {
@@ -258,4 +258,4 @@ function _sanitizedString(string) {
 
 CertificationCourse.cpfImportStatus = cpfImportStatus;
 
-module.exports = CertificationCourse;
+export default CertificationCourse;

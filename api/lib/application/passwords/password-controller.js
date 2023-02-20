@@ -1,11 +1,9 @@
-const usecases = require('../../domain/usecases');
+import usecases from '../../domain/usecases';
+import passwordResetSerializer from '../../infrastructure/serializers/jsonapi/password-reset-serializer';
+import userSerializer from '../../infrastructure/serializers/jsonapi/user-serializer';
+import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils';
 
-const passwordResetSerializer = require('../../infrastructure/serializers/jsonapi/password-reset-serializer');
-const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
-
-const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
-
-module.exports = {
+export default {
   async createResetDemand(request, h) {
     const { email } = request.payload.data.attributes;
     const locale = extractLocaleFromRequest(request);

@@ -1,6 +1,6 @@
-const { expect } = require('../../../test-helper');
-const campaignValidator = require('../../../../lib/domain/validators/campaign-validator');
-const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
+import { expect } from '../../../test-helper';
+import campaignValidator from '../../../../lib/domain/validators/campaign-validator';
+import CampaignTypes from '../../../../lib/domain/models/CampaignTypes';
 
 const MISSING_VALUE = null;
 const EMPTY_VALUE = '';

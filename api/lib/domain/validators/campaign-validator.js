@@ -1,7 +1,7 @@
-const Joi = require('joi');
-const { first } = require('lodash');
-const { EntityValidationError } = require('../errors');
-const CampaignTypes = require('../models/CampaignTypes');
+import Joi from 'joi';
+import { first } from 'lodash';
+import { EntityValidationError } from '../errors';
+import CampaignTypes from '../models/CampaignTypes';
 
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
 
@@ -103,7 +103,7 @@ const campaignValidationJoiSchema = Joi.object({
   }),
 });
 
-module.exports = {
+export default {
   validate(campaign) {
     const { error } = campaignValidationJoiSchema.validate(campaign, validationConfiguration);
     if (error) {

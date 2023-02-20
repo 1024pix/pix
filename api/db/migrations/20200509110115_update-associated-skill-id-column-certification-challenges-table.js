@@ -1,6 +1,6 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   return knex.transaction(async (trx) => {
     const valuesTable = _.map(skills_at_2020_04_30, (skillId, skillName) => `('${skillId}', '${skillName}')`);
     const valuesString = _.join(valuesTable, ',');
@@ -23,7 +23,7 @@ exports.up = async function (knex) {
   });
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return knex.raw('UPDATE ?? SET ?? = NULL', ['certification-challenges', 'associatedSkillId']);
 };
 

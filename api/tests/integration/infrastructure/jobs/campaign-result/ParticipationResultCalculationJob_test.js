@@ -1,5 +1,5 @@
-const { expect, knex } = require('../../../../test-helper');
-const ParticipationResultCalculationJob = require('../../../../../lib/infrastructure/jobs/campaign-result/ParticipationResultCalculationJob');
+import { expect, knex } from '../../../../test-helper';
+import ParticipationResultCalculationJob from '../../../../../lib/infrastructure/jobs/campaign-result/ParticipationResultCalculationJob';
 
 describe('Integration | Infrastructure | Jobs | CampaignResult | ParticipationResultCalculation', function () {
   afterEach(async function () {

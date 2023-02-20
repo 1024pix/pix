@@ -1,6 +1,6 @@
-const ScoringSimulationContext = require('../../../../domain/models/ScoringSimulationContext');
+import ScoringSimulationContext from '../../../../domain/models/ScoringSimulationContext';
 
-module.exports = {
+export default {
   deserialize(request) {
     return new ScoringSimulationContext(request.payload.context);
   },

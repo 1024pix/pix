@@ -1,5 +1,5 @@
-const CampaignTypes = require('../models/CampaignTypes');
-const countBy = require('lodash/countBy');
+import CampaignTypes from '../models/CampaignTypes';
+import countBy from 'lodash/countBy';
 
 class OrganizationLearnerActivity {
   constructor({ organizationLearnerId, participations }) {
@@ -36,4 +36,4 @@ function _statistics(participations) {
   return Object.values(CampaignTypes).map((campaignType) => _getStatisticsForType(participations, campaignType));
 }
 
-module.exports = OrganizationLearnerActivity;
+export default OrganizationLearnerActivity;

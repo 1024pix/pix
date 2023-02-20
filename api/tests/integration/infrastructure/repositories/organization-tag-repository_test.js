@@ -1,9 +1,9 @@
-const { expect, knex, domainBuilder, databaseBuilder, catchErr } = require('../../../test-helper');
-const OrganizationTag = require('../../../../lib/domain/models/OrganizationTag');
-const { AlreadyExistingEntityError, OrganizationTagNotFound } = require('../../../../lib/domain/errors');
-const organizationTagRepository = require('../../../../lib/infrastructure/repositories/organization-tag-repository');
-const omit = require('lodash/omit');
-const BookshelfOrganizationTag = require('../../../../lib/infrastructure/orm-models/OrganizationTag');
+import { expect, knex, domainBuilder, databaseBuilder, catchErr } from '../../../test-helper';
+import OrganizationTag from '../../../../lib/domain/models/OrganizationTag';
+import { AlreadyExistingEntityError, OrganizationTagNotFound } from '../../../../lib/domain/errors';
+import organizationTagRepository from '../../../../lib/infrastructure/repositories/organization-tag-repository';
+import omit from 'lodash/omit';
+import BookshelfOrganizationTag from '../../../../lib/infrastructure/orm-models/OrganizationTag';
 
 describe('Integration | Repository | OrganizationTagRepository', function () {
   describe('#create', function () {

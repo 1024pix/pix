@@ -1,8 +1,6 @@
-const { expect, sinon, knex, databaseBuilder, catchErr } = require('../../test-helper');
-const {
-  addManyMembersToExistingOrganization,
-} = require('../../../scripts/data-generation/add-many-fake-members-related-to-one-organization');
-const { ForbiddenAccess } = require('../../../lib/domain/errors');
+import { expect, sinon, knex, databaseBuilder, catchErr } from '../../test-helper';
+import { addManyMembersToExistingOrganization } from '../../../scripts/data-generation/add-many-fake-members-related-to-one-organization';
+import { ForbiddenAccess } from '../../../lib/domain/errors';
 
 describe('Acceptance | Scripts | add-many-divisions-and-students-to-sco-organization', function () {
   it('should throw an error when env is production', async function () {

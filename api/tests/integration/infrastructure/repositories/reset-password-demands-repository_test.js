@@ -1,6 +1,6 @@
-const { expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
-const resetPasswordDemandsRepository = require('../../../../lib/infrastructure/repositories/reset-password-demands-repository');
-const { PasswordResetDemandNotFoundError } = require('../../../../lib/domain/errors');
+import { expect, knex, databaseBuilder, catchErr } from '../../../test-helper';
+import resetPasswordDemandsRepository from '../../../../lib/infrastructure/repositories/reset-password-demands-repository';
+import { PasswordResetDemandNotFoundError } from '../../../../lib/domain/errors';
 
 describe('Integration | Infrastructure | Repository | reset-password-demands-repository', function () {
   afterEach(function () {

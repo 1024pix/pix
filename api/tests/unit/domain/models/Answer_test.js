@@ -1,6 +1,6 @@
-const Answer = require('../../../../lib/domain/models/Answer');
-const Skill = require('../../../../lib/domain/models/Skill');
-const { expect, domainBuilder } = require('../../../test-helper');
+import Answer from '../../../../lib/domain/models/Answer';
+import Skill from '../../../../lib/domain/models/Skill';
+import { expect, domainBuilder } from '../../../test-helper';
 
 describe('Unit | Domain | Models | Answer', function () {
   describe('constructor', function () {

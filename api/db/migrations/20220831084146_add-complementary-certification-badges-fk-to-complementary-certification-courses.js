@@ -1,8 +1,8 @@
-const bluebird = require('bluebird');
+import bluebird from 'bluebird';
 const TABLE_NAME = 'complementary-certification-courses';
 const COLUMN = 'complementaryCertificationBadgeId';
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.schema.table(TABLE_NAME, async (table) => {
     await table.integer(COLUMN).references('complementary-certification-badges.id');
   });
@@ -24,7 +24,7 @@ exports.up = async function (knex) {
   });
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   await knex.schema.table(TABLE_NAME, async (table) => {
     table.dropColumn(COLUMN);
   });

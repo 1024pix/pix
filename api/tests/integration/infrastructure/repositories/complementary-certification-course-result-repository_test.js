@@ -1,8 +1,8 @@
-const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper');
-const { knex } = require('../../../../lib/infrastructure/bookshelf');
-const _ = require('lodash');
-const complementaryCertificationCourseResultRepository = require('../../../../lib/infrastructure/repositories/complementary-certification-course-result-repository');
-const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
+import { expect, databaseBuilder, domainBuilder } from '../../../test-helper';
+import { knex } from '../../../../lib/infrastructure/bookshelf';
+import _ from 'lodash';
+import complementaryCertificationCourseResultRepository from '../../../../lib/infrastructure/repositories/complementary-certification-course-result-repository';
+import ComplementaryCertificationCourseResult from '../../../../lib/domain/models/ComplementaryCertificationCourseResult';
 
 describe('Integration | Repository | complementary-certification-courses-result-repository', function () {
   describe('#getPixSourceResultByComplementaryCertificationCourseId', function () {

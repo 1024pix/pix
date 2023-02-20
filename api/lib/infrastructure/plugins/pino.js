@@ -1,5 +1,5 @@
-const config = require('../../config');
-const monitoringTools = require('../monitoring-tools');
+import config from '../../config';
+import monitoringTools from '../monitoring-tools';
 
 function logObjectSerializer(req) {
   const enhancedReq = {
@@ -18,7 +18,7 @@ function logObjectSerializer(req) {
   };
 }
 
-module.exports = {
+export default {
   plugin: require('hapi-pino'),
   options: {
     serializers: {

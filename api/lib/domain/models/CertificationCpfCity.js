@@ -8,4 +8,4 @@ class CertificationCpfCity {
   }
 }
 
-module.exports = CertificationCpfCity;
+export default CertificationCpfCity;

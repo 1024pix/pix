@@ -1,9 +1,9 @@
-const _ = require('lodash');
-const Student = require('../../domain/models/Student');
-const { knex } = require('../../../db/knex-database-connection');
-const DomainTransaction = require('../DomainTransaction');
+import _ from 'lodash';
+import Student from '../../domain/models/Student';
+import { knex } from '../../../db/knex-database-connection';
+import DomainTransaction from '../DomainTransaction';
 
-module.exports = {
+export default {
   _toStudents(results) {
     const students = [];
     const resultsGroupedByNatId = _.groupBy(results, 'nationalStudentId');

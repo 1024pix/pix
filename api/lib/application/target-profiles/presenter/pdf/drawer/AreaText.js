@@ -1,12 +1,12 @@
-const Text = require('./Text');
-const ColorManager = require('../manager/color-manager');
-const FontManager = require('../manager/font-manager');
-const TemplatePageManager = require('../manager/template-page-manager');
+import Text from './Text';
+import ColorManager from '../manager/color-manager';
+import FontManager from '../manager/font-manager';
+import TemplatePageManager from '../manager/template-page-manager';
 
 const MARGIN_TOP_AREA = 5;
 const MARGIN_BOTTOM_AREA = 50;
 
-module.exports = class AreaText extends Text {
+export default class AreaText extends Text {
   /**
    *
    * @param text {string}
@@ -48,4 +48,4 @@ module.exports = class AreaText extends Text {
     super.drawAlignCenter(page, dryRun);
     return this.positionYAfter;
   }
-};
+}

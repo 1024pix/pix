@@ -1,6 +1,6 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
-const complementaryCertificationCourseRepository = require('../../../../lib/infrastructure/repositories/complementary-certification-course-repository');
-const { PIX_PLUS_DROIT, PIX_PLUS_EDU_1ER_DEGRE } = require('../../../../lib/domain/models/ComplementaryCertification');
+import { expect, databaseBuilder } from '../../../test-helper';
+import complementaryCertificationCourseRepository from '../../../../lib/infrastructure/repositories/complementary-certification-course-repository';
+import { PIX_PLUS_DROIT, PIX_PLUS_EDU_1ER_DEGRE } from '../../../../lib/domain/models/ComplementaryCertification';
 
 describe('Integration | Repository | complementary-certification-courses-repository', function () {
   describe('#getComplementaryCertificationCourseId', function () {

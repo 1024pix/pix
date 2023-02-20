@@ -1,8 +1,6 @@
-const { sinon, expect, catchErr, domainBuilder } = require('../../../test-helper');
-
-const { UserNotAuthorizedToGenerateUsernamePasswordError } = require('../../../../lib/domain/errors');
-
-const generateUsernameWithTemporaryPassword = require('../../../../lib/domain/usecases/generate-username-with-temporary-password.js');
+import { sinon, expect, catchErr, domainBuilder } from '../../../test-helper';
+import { UserNotAuthorizedToGenerateUsernamePasswordError } from '../../../../lib/domain/errors';
+import generateUsernameWithTemporaryPassword from '../../../../lib/domain/usecases/generate-username-with-temporary-password.js';
 
 describe('Unit | UseCase | generate-username-with-temporary-password', function () {
   const expectedUsername = 'john.harry0207';

@@ -1,6 +1,6 @@
-const Skill = require('../models/Skill');
-const _ = require('lodash');
-const moment = require('moment');
+import Skill from '../models/Skill';
+import _ from 'lodash';
+import moment from 'moment';
 
 const statuses = {
   VALIDATED: 'validated',
@@ -201,4 +201,4 @@ function _createKnowledgeElement({ answer, skill, userId, status, source }) {
   });
 }
 
-module.exports = KnowledgeElement;
+export default KnowledgeElement;

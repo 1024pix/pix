@@ -1,8 +1,8 @@
-const { knex } = require('../../../db/knex-database-connection');
-const settings = require('../../../lib/config');
-const OidcIdentityProviders = require('../../domain/constants/oidc-identity-providers');
+import { knex } from '../../../db/knex-database-connection';
+import settings from '../../../lib/config';
+import OidcIdentityProviders from '../../domain/constants/oidc-identity-providers';
 
-module.exports = {
+export default {
   create({ poleEmploiSending }) {
     return knex('pole-emploi-sendings').insert({ ...poleEmploiSending });
   },

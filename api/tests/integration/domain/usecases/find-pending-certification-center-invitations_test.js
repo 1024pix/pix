@@ -1,6 +1,6 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
-const useCases = require('../../../../lib/domain/usecases');
-const CertificationCenterInvitation = require('../../../../lib/domain/models/CertificationCenterInvitation');
+import { expect, databaseBuilder } from '../../../test-helper';
+import useCases from '../../../../lib/domain/usecases';
+import CertificationCenterInvitation from '../../../../lib/domain/models/CertificationCenterInvitation';
 
 describe('Integration | UseCase | find-pending-certification-center-invitations', function () {
   it('should find only pending certification center invitations for a given certification center', async function () {

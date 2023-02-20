@@ -1,6 +1,6 @@
-const { expect, sinon, hFake } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
-const certificationCandidateController = require('../../../../lib/application/certification-candidates/certification-candidates-controller');
+import { expect, sinon, hFake } from '../../../test-helper';
+import usecases from '../../../../lib/domain/usecases';
+import certificationCandidateController from '../../../../lib/application/certification-candidates/certification-candidates-controller';
 
 describe('Unit | Controller | certifications-candidate-controller', function () {
   describe('#authorizeToStart', function () {

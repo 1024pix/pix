@@ -1,6 +1,6 @@
-const CertificationEligibility = require('../read-models/CertificationEligibility');
+import CertificationEligibility from '../read-models/CertificationEligibility';
 
-module.exports = async function getUserCertificationEligibility({
+export default async function getUserCertificationEligibility({
   userId,
   placementProfileService,
   certificationBadgesService,
@@ -29,4 +29,4 @@ module.exports = async function getUserCertificationEligibility({
     pixCertificationEligible,
     eligibleComplementaryCertifications,
   });
-};
+}

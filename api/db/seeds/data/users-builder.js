@@ -1,4 +1,4 @@
-const OidcIdentityProviders = require('../../../lib/domain/constants/oidc-identity-providers');
+import OidcIdentityProviders from '../../../lib/domain/constants/oidc-identity-providers';
 
 const PIX_SUPER_ADMIN_ID = 199;
 const PIX_SUPPORT_ID = 200;
@@ -205,7 +205,7 @@ function usersBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildUser.withRawPassword(userWithLastTermsOfServiceNotValidated);
 }
 
-module.exports = {
+export default {
   usersBuilder,
   PIX_SUPER_ADMIN_ID,
   PIX_SUPPORT_ID,

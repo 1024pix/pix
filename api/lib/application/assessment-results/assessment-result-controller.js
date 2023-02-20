@@ -1,6 +1,6 @@
-const AssessmentResult = require('../../domain/models/AssessmentResult');
-const CompetenceMark = require('../../domain/models/CompetenceMark');
-const assessmentResultService = require('../../domain/services/assessment-result-service');
+import AssessmentResult from '../../domain/models/AssessmentResult';
+import CompetenceMark from '../../domain/models/CompetenceMark';
+import assessmentResultService from '../../domain/services/assessment-result-service';
 
 // TODO: Should be removed and replaced by a real serializer
 function _deserializeResultsAdd(json) {
@@ -26,7 +26,7 @@ function _deserializeResultsAdd(json) {
   return { assessmentResult, competenceMarks };
 }
 
-module.exports = {
+export default {
   async save(request) {
     const jsonResult = request.payload.data.attributes;
     const { assessmentResult, competenceMarks } = _deserializeResultsAdd(jsonResult);

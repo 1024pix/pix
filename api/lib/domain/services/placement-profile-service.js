@@ -1,14 +1,13 @@
-const _ = require('lodash');
-const bluebird = require('bluebird');
-
-const UserCompetence = require('../models/UserCompetence');
-const PlacementProfile = require('../models/PlacementProfile');
-const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
-const skillRepository = require('../../infrastructure/repositories/skill-repository');
-const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
-const knowledgeElementRepository = require('../../infrastructure/repositories/knowledge-element-repository');
-const competenceRepository = require('../../infrastructure/repositories/competence-repository');
-const scoringService = require('./scoring/scoring-service');
+import _ from 'lodash';
+import bluebird from 'bluebird';
+import UserCompetence from '../models/UserCompetence';
+import PlacementProfile from '../models/PlacementProfile';
+import assessmentRepository from '../../infrastructure/repositories/assessment-repository';
+import skillRepository from '../../infrastructure/repositories/skill-repository';
+import assessmentResultRepository from '../../infrastructure/repositories/assessment-result-repository';
+import knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository';
+import competenceRepository from '../../infrastructure/repositories/competence-repository';
+import scoringService from './scoring/scoring-service';
 
 async function getPlacementProfile({
   userId,
@@ -181,7 +180,7 @@ function _matchingDirectlyValidatedSkillsForCompetence(knowledgeElementsForCompe
   return _.compact(competenceSkills);
 }
 
-module.exports = {
+export default {
   getPlacementProfile,
   getPlacementProfilesWithSnapshotting,
   getPlacementProfileWithSnapshotting,

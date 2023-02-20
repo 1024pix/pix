@@ -1,10 +1,9 @@
-const { expect, sinon } = require('../../../test-helper');
-
-const {
+import { expect, sinon } from '../../../test-helper';
+import {
   findOrganizationsByExternalIds,
   organizeOrganizationsByExternalId,
-} = require('../../../../scripts/helpers/organizations-by-external-id-helper');
-const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
+} from '../../../../scripts/helpers/organizations-by-external-id-helper';
+import organizationRepository from '../../../../lib/infrastructure/repositories/organization-repository';
 
 describe('Unit | Scripts | organizations-by-external-id-helper.js', function () {
   describe('#organizeOrganizationsByExternalId', function () {

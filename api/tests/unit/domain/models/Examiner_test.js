@@ -1,8 +1,7 @@
-const Answer = require('../../../../lib/domain/models/Answer');
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const Examiner = require('../../../../lib/domain/models/Examiner');
-
-const { expect, domainBuilder, sinon } = require('../../../test-helper');
+import Answer from '../../../../lib/domain/models/Answer';
+import AnswerStatus from '../../../../lib/domain/models/AnswerStatus';
+import Examiner from '../../../../lib/domain/models/Examiner';
+import { expect, domainBuilder, sinon } from '../../../test-helper';
 
 describe('Unit | Domain | Models | Examiner', function () {
   const challengeFormat = 'nombre';

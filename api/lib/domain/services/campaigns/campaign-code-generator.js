@@ -1,4 +1,4 @@
-const randomString = require('randomstring');
+import randomString from 'randomstring';
 
 function generate(campaignRepository, pendingList = []) {
   const letters = randomString.generate({
@@ -23,6 +23,6 @@ function generate(campaignRepository, pendingList = []) {
   });
 }
 
-module.exports = {
+export default {
   generate,
 };

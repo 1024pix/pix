@@ -13,4 +13,4 @@ class SessionJuryComment {
   }
 }
 
-module.exports = SessionJuryComment;
+export default SessionJuryComment;

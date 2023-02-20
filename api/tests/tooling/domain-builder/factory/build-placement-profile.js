@@ -1,6 +1,6 @@
-const _ = require('lodash');
-const PlacementProfile = require('../../../../lib/domain/models/PlacementProfile');
-const buildUserCompetence = require('./build-user-competence');
+import _ from 'lodash';
+import PlacementProfile from '../../../../lib/domain/models/PlacementProfile';
+import buildUserCompetence from './build-user-competence';
 
 const buildPlacementProfile = function buildPlacementProfile({
   profileDate = new Date('2020-01-01'),
@@ -32,4 +32,4 @@ buildPlacementProfile.buildForCompetences = function buildForCompetences({ profi
   });
 };
 
-module.exports = buildPlacementProfile;
+export default buildPlacementProfile;

@@ -1,8 +1,8 @@
-const omit = require('lodash/omit');
-const { knex } = require('../../../db/knex-database-connection');
-const CertificationIssueReport = require('../../domain/models/CertificationIssueReport');
+import omit from 'lodash/omit';
+import { knex } from '../../../db/knex-database-connection';
+import CertificationIssueReport from '../../domain/models/CertificationIssueReport';
 
-module.exports = {
+export default {
   async save(certificationIssueReport) {
     const [data] = await knex
       .from('certification-issue-reports')

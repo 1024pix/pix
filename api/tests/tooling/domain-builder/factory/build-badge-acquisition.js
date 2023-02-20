@@ -1,5 +1,5 @@
-const buildBadge = require('./build-badge');
-const BadgeAcquisition = require('../../../../lib/domain/models/BadgeAcquisition');
+import buildBadge from './build-badge';
+import BadgeAcquisition from '../../../../lib/domain/models/BadgeAcquisition';
 
 const buildBadgeAcquisition = function buildBadgeAcquisition({
   id = 123,
@@ -18,4 +18,4 @@ const buildBadgeAcquisition = function buildBadgeAcquisition({
   });
 };
 
-module.exports = buildBadgeAcquisition;
+export default buildBadgeAcquisition;

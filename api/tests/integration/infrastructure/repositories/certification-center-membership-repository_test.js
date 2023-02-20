@@ -1,19 +1,15 @@
-const pick = require('lodash/pick');
-const omit = require('lodash/omit');
-
-const { expect, knex, databaseBuilder, catchErr, sinon, domainBuilder } = require('../../../test-helper');
-
-const BookshelfCertificationCenterMembership = require('../../../../lib/infrastructure/orm-models/CertificationCenterMembership');
-const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
-const CertificationCenterMembership = require('../../../../lib/domain/models/CertificationCenterMembership');
-const User = require('../../../../lib/domain/models/User');
-
-const {
+import pick from 'lodash/pick';
+import omit from 'lodash/omit';
+import { expect, knex, databaseBuilder, catchErr, sinon, domainBuilder } from '../../../test-helper';
+import BookshelfCertificationCenterMembership from '../../../../lib/infrastructure/orm-models/CertificationCenterMembership';
+import CertificationCenter from '../../../../lib/domain/models/CertificationCenter';
+import CertificationCenterMembership from '../../../../lib/domain/models/CertificationCenterMembership';
+import User from '../../../../lib/domain/models/User';
+import {
   CertificationCenterMembershipDisableError,
   AlreadyExistingMembershipError,
-} = require('../../../../lib/domain/errors');
-
-const certificationCenterMembershipRepository = require('../../../../lib/infrastructure/repositories/certification-center-membership-repository');
+} from '../../../../lib/domain/errors';
+import certificationCenterMembershipRepository from '../../../../lib/infrastructure/repositories/certification-center-membership-repository';
 
 describe('Integration | Repository | Certification Center Membership', function () {
   describe('#save', function () {

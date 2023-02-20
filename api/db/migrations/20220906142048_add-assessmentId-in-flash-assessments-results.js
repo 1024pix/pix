@@ -1,8 +1,8 @@
-const bluebird = require('bluebird');
+import bluebird from 'bluebird';
 const TABLE_NAME = 'flash-assessment-results';
 const COLUMN_NAME = 'assessmentId';
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.schema.table(TABLE_NAME, async (table) => table.integer(COLUMN_NAME).references('assessments.id'));
 
   const flashAssessmentResults = await knex(TABLE_NAME)
@@ -18,6 +18,6 @@ exports.up = async function (knex) {
   });
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return knex.schema.table(TABLE_NAME, async (table) => table.dropColumn(COLUMN_NAME));
 };

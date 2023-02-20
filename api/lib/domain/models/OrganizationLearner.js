@@ -50,4 +50,4 @@ class OrganizationLearner {
 
 OrganizationLearner.STATUS = STATUS;
 
-module.exports = OrganizationLearner;
+export default OrganizationLearner;

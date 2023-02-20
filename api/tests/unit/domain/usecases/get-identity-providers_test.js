@@ -1,7 +1,7 @@
-const { expect, sinon } = require('../../../test-helper');
-const getIdentityProviders = require('../../../../lib/domain/usecases/get-identity-providers');
-const OidcIdentityProviders = require('../../../../lib/domain/constants/oidc-identity-providers');
-const config = require('../../../../lib/config');
+import { expect, sinon } from '../../../test-helper';
+import getIdentityProviders from '../../../../lib/domain/usecases/get-identity-providers';
+import OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers';
+import config from '../../../../lib/config';
 
 describe('Unit | UseCase | get-identity-providers', function () {
   beforeEach(function () {

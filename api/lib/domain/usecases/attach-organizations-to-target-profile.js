@@ -1,6 +1,6 @@
-const { OrganizationsToAttachToTargetProfile } = require('../models');
+import { OrganizationsToAttachToTargetProfile } from '../models';
 
-module.exports = async function attachOrganizationsToTargetProfile({
+export default async function attachOrganizationsToTargetProfile({
   targetProfileId,
   organizationIds,
   organizationsToAttachToTargetProfileRepository,
@@ -10,4 +10,4 @@ module.exports = async function attachOrganizationsToTargetProfile({
   targetProfileOrganizations.attach(organizationIds);
 
   return organizationsToAttachToTargetProfileRepository.attachOrganizations(targetProfileOrganizations);
-};
+}

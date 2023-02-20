@@ -1,8 +1,8 @@
-const { knex } = require('../../../db/knex-database-connection');
-const { CertificationCourseNotPublishableError } = require('../../../lib/domain/errors');
-const { status } = require('../../../lib/domain/models/AssessmentResult');
+import { knex } from '../../../db/knex-database-connection';
+import { CertificationCourseNotPublishableError } from '../../../lib/domain/errors';
+import { status } from '../../../lib/domain/models/AssessmentResult';
 
-module.exports = {
+export default {
   async publishCertificationCoursesBySessionId(sessionId) {
     const certificationDTOs = await knex('certification-courses')
       .select({

@@ -1,8 +1,8 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const {
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import {
   CpfBirthInformationValidation,
   getBirthInformation,
-} = require('../../../../lib/domain/services/certification-cpf-service');
+} from '../../../../lib/domain/services/certification-cpf-service';
 
 describe('Unit | Service | Certification CPF service', function () {
   let certificationCpfCountryRepository;

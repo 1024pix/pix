@@ -1,13 +1,13 @@
-const BookshelfCompetenceMark = require('../orm-models/CompetenceMark');
-const CompetenceMark = require('../../domain/models/CompetenceMark');
-const { knex } = require('../../../db/knex-database-connection');
-const DomainTransaction = require('../DomainTransaction');
+import BookshelfCompetenceMark from '../orm-models/CompetenceMark';
+import CompetenceMark from '../../domain/models/CompetenceMark';
+import { knex } from '../../../db/knex-database-connection';
+import DomainTransaction from '../DomainTransaction';
 
 function _toDomain(competenceMark) {
   return new CompetenceMark(competenceMark);
 }
 
-module.exports = {
+export default {
   async save(competenceMark, domainTransaction = DomainTransaction.emptyTransaction()) {
     await competenceMark.validate();
     const savedCompetenceMark = await new BookshelfCompetenceMark(competenceMark).save(null, {

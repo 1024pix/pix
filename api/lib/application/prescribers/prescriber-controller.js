@@ -1,8 +1,7 @@
-const prescriberSerializer = require('../../infrastructure/serializers/jsonapi/prescriber-serializer');
+import prescriberSerializer from '../../infrastructure/serializers/jsonapi/prescriber-serializer';
+import usecases from '../../domain/usecases';
 
-const usecases = require('../../domain/usecases');
-
-module.exports = {
+export default {
   get(request) {
     const authenticatedUserId = request.auth.credentials.userId;
 

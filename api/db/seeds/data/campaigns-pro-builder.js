@@ -1,4 +1,4 @@
-const {
+import {
   TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
   TARGET_PROFILE_STAGES_BADGES_ID,
   TARGET_PROFILE_ONE_COMPETENCE_ID,
@@ -6,27 +6,26 @@ const {
   TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V3,
   TARGET_PROFILE_PIX_DROIT_ID,
   TARGET_PROFILE_CNAV_ID,
-} = require('./target-profiles-builder');
-const {
+} from './target-profiles-builder';
+
+import {
   CERTIF_REGULAR_USER1_ID,
   CERTIF_REGULAR_USER2_ID,
   CERTIF_REGULAR_USER3_ID,
   CERTIF_REGULAR_USER4_ID,
   CERTIF_REGULAR_USER5_ID,
-} = require('./certification/users');
-const { PRO_BASICS_BADGE_ID, PRO_TOOLS_BADGE_ID } = require('./badges-builder');
-const { PRO_COMPANY_ID, PRO_POLE_EMPLOI_ID, PRO_MED_NUM_ID, PRO_CNAV_ID } = require('./organizations-pro-builder');
-const { DEFAULT_PASSWORD } = require('./users-builder');
-const {
-  participateToAssessmentCampaign,
-  participateToProfilesCollectionCampaign,
-} = require('./campaign-participations-builder');
-const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');
+} from './certification/users';
+
+import { PRO_BASICS_BADGE_ID, PRO_TOOLS_BADGE_ID } from './badges-builder';
+import { PRO_COMPANY_ID, PRO_POLE_EMPLOI_ID, PRO_MED_NUM_ID, PRO_CNAV_ID } from './organizations-pro-builder';
+import { DEFAULT_PASSWORD } from './users-builder';
+import { participateToAssessmentCampaign, participateToProfilesCollectionCampaign } from './campaign-participations-builder';
+import CampaignParticipationStatuses from '../../../lib/domain/models/CampaignParticipationStatuses';
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
 const POLE_EMPLOI_CAMPAIGN_ID = 5;
 
-module.exports = {
+export default {
   campaignsProBuilder,
   POLE_EMPLOI_CAMPAIGN_ID,
 };

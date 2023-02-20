@@ -1,7 +1,6 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-
-const moduleUnderTest = require('../../../../lib/application/certification-point-of-contacts');
-const certificationPointOfContactController = require('../../../../lib/application/certification-point-of-contacts/certification-point-of-contact-controller');
+import { expect, HttpTestServer, sinon } from '../../../test-helper';
+import moduleUnderTest from '../../../../lib/application/certification-point-of-contacts';
+import certificationPointOfContactController from '../../../../lib/application/certification-point-of-contacts/certification-point-of-contact-controller';
 
 describe('Unit | Router | certification-point-of-contact-router', function () {
   describe('GET /api/certification-point-of-contacts/me', function () {

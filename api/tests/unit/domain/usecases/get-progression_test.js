@@ -1,9 +1,7 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const getProgression = require('../../../../lib/domain/usecases/get-progression');
-
-const Assessment = require('../../../../lib/domain/models/Assessment');
-
-const { NotFoundError } = require('../../../../lib/domain/errors');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper';
+import getProgression from '../../../../lib/domain/usecases/get-progression';
+import Assessment from '../../../../lib/domain/models/Assessment';
+import { NotFoundError } from '../../../../lib/domain/errors';
 
 describe('Unit | Domain | Use Cases | get-progression', function () {
   const assessmentId = 1234;

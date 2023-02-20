@@ -1,9 +1,9 @@
-const { UserNotAuthorizedToAccessEntityError } = require('../errors');
-const Scorecard = require('../models/Scorecard');
-const KnowledgeElement = require('../models/KnowledgeElement');
-const _ = require('lodash');
+import { UserNotAuthorizedToAccessEntityError } from '../errors';
+import Scorecard from '../models/Scorecard';
+import KnowledgeElement from '../models/KnowledgeElement';
+import _ from 'lodash';
 
-module.exports = async function findTutorials({
+export default async function findTutorials({
   authenticatedUserId,
   scorecardId,
   knowledgeElementRepository,
@@ -41,7 +41,7 @@ module.exports = async function findTutorials({
     locale
   );
   return _.orderBy(_.flatten(tutorialsWithTubesList), 'tubeName');
-};
+}
 
 async function _getTutorialsWithTubesList(easiestSkills, tubes, tutorialRepository, userId, locale) {
   return await Promise.all(

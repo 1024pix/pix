@@ -1,8 +1,7 @@
-const { Serializer, Deserializer } = require('jsonapi-serializer');
+import { Serializer, Deserializer } from 'jsonapi-serializer';
+import CertificationReport from '../../../domain/models/CertificationReport';
 
-const CertificationReport = require('../../../domain/models/CertificationReport');
-
-module.exports = {
+export default {
   serialize(certificationReports) {
     return new Serializer('certification-report', {
       attributes: [

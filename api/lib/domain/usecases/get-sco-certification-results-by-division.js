@@ -1,7 +1,7 @@
-const isEmpty = require('lodash/isEmpty');
-const { NoCertificationResultForDivision } = require('../errors');
+import isEmpty from 'lodash/isEmpty';
+import { NoCertificationResultForDivision } from '../errors';
 
-module.exports = async function getScoCertificationResultsByDivision({
+export default async function getScoCertificationResultsByDivision({
   organizationId,
   division,
   scoCertificationCandidateRepository,
@@ -23,4 +23,4 @@ module.exports = async function getScoCertificationResultsByDivision({
   }
 
   return certificationResults;
-};
+}

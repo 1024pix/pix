@@ -1,5 +1,5 @@
-const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper');
-const complementaryCertificationRepository = require('../../../../lib/infrastructure/repositories/complementary-certification-repository');
+import { expect, databaseBuilder, domainBuilder } from '../../../test-helper';
+import complementaryCertificationRepository from '../../../../lib/infrastructure/repositories/complementary-certification-repository';
 
 describe('Integration | Repository | complementary-certification-repository', function () {
   describe('#findAll', function () {

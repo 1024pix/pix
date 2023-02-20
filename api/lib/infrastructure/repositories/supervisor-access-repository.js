@@ -1,6 +1,6 @@
-const { knex } = require('../../../db/knex-database-connection');
+import { knex } from '../../../db/knex-database-connection';
 
-module.exports = {
+export default {
   async create({ sessionId, userId }) {
     await knex('supervisor-accesses').insert({ sessionId, userId });
   },

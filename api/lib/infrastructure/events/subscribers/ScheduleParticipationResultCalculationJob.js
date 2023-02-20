@@ -1,4 +1,4 @@
-const Event = require('../../../domain/events/CampaignParticipationResultsShared');
+import Event from '../../../domain/events/CampaignParticipationResultsShared';
 
 class ScheduleParticipationResultCalculationJob {
   constructor({ participationResultCalculationJob }) {
@@ -16,4 +16,4 @@ class ScheduleParticipationResultCalculationJob {
 
 ScheduleParticipationResultCalculationJob.event = Event;
 
-module.exports = ScheduleParticipationResultCalculationJob;
+export default ScheduleParticipationResultCalculationJob;

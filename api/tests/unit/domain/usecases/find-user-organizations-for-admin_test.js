@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const findUserOrganizationsForAdmin = require('../../../../lib/domain/usecases/find-user-organizations-for-admin');
+import { expect, sinon } from '../../../test-helper';
+import findUserOrganizationsForAdmin from '../../../../lib/domain/usecases/find-user-organizations-for-admin';
 
 describe('Unit | UseCase | findUserOrganizationsForAdmin', function () {
   it('should fetch user’s organization memberships', async function () {

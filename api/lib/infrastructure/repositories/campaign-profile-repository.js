@@ -1,11 +1,11 @@
-const CampaignProfile = require('../../../lib/domain/read-models/CampaignProfile');
-const placementProfileService = require('../../domain/services/placement-profile-service');
-const { NotFoundError } = require('../../../lib/domain/errors');
-const { knex } = require('../../../db/knex-database-connection');
-const competenceRepository = require('./competence-repository');
-const areaRepository = require('./area-repository');
+import CampaignProfile from '../../../lib/domain/read-models/CampaignProfile';
+import placementProfileService from '../../domain/services/placement-profile-service';
+import { NotFoundError } from '../../../lib/domain/errors';
+import { knex } from '../../../db/knex-database-connection';
+import competenceRepository from './competence-repository';
+import areaRepository from './area-repository';
 
-module.exports = {
+export default {
   async findProfile({ campaignId, campaignParticipationId, locale }) {
     const profile = await _fetchCampaignProfileAttributesFromCampaignParticipation(campaignId, campaignParticipationId);
     const competences = await competenceRepository.listPixCompetencesOnly({ locale });

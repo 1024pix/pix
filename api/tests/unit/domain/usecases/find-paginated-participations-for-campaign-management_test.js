@@ -1,5 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const findPaginatedParticipationsForCampaignManagement = require('../../../../lib/domain/usecases/find-paginated-participations-for-campaign-management');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import findPaginatedParticipationsForCampaignManagement from '../../../../lib/domain/usecases/find-paginated-participations-for-campaign-management';
 
 describe('Unit | UseCase | findPaginatedParticipationsForCampaignManagement', function () {
   const campaignId = 1;

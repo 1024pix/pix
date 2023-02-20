@@ -1,8 +1,6 @@
-const { expect, sinon, databaseBuilder, knex } = require('../../test-helper');
-const logger = require('../../../lib/infrastructure/logger');
-const {
-  toggleIsForAbsoluteNoviceCampaignAttribute,
-} = require('../../../scripts/toggle-is-for-absolute-novice-campaign-attribute');
+import { expect, sinon, databaseBuilder, knex } from '../../test-helper';
+import logger from '../../../lib/infrastructure/logger';
+import { toggleIsForAbsoluteNoviceCampaignAttribute } from '../../../scripts/toggle-is-for-absolute-novice-campaign-attribute';
 
 describe('Toggle isForAbsoluteNovice campaign attribute', function () {
   describe('#toggleIsForAbsoluteNoviceCampaignAttribute', function () {

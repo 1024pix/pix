@@ -15,4 +15,4 @@ class AssessmentCompleted {
   }
 }
 
-module.exports = AssessmentCompleted;
+export default AssessmentCompleted;

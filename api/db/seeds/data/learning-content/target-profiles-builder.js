@@ -1,12 +1,12 @@
-const { createTargetProfile, createBadge, createStages } = require('./tooling');
-const { PRO_COMPANY_ID } = require('../organizations-pro-builder');
+import { createTargetProfile, createBadge, createStages } from './tooling';
+import { PRO_COMPANY_ID } from '../organizations-pro-builder';
 
 async function richTargetProfilesBuilder({ databaseBuilder }) {
   await _createTargetProfile500(databaseBuilder);
   await _createTargetProfile501(databaseBuilder);
 }
 
-module.exports = {
+export default {
   richTargetProfilesBuilder,
 };
 

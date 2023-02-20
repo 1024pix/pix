@@ -1,4 +1,4 @@
-const JSONAPIError = require('jsonapi-serializer').Error;
+import { Error as JSONAPIError } from 'jsonapi-serializer';
 
 class BaseHttpError extends Error {
   constructor(message) {
@@ -155,7 +155,7 @@ function sendJsonApiError(httpError, h) {
   return h.response(jsonApiError).code(httpError.status).takeover();
 }
 
-module.exports = {
+export default {
   BadRequestError,
   BaseHttpError,
   ConflictError,

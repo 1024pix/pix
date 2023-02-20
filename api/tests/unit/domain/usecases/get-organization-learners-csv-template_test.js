@@ -1,8 +1,8 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const getOrganizationLearnersCsvTemplate = require('../../../../lib/domain/usecases/get-organization-learners-csv-template');
-const _ = require('lodash');
-const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
-const { getI18n } = require('../../../tooling/i18n/i18n');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper';
+import getOrganizationLearnersCsvTemplate from '../../../../lib/domain/usecases/get-organization-learners-csv-template';
+import _ from 'lodash';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors';
+import { getI18n } from '../../../tooling/i18n/i18n';
 
 describe('Unit | UseCase | get-organization-learners-csv-template', function () {
   // TODO: Fix this the next time the file is edited.

@@ -1,8 +1,8 @@
-const usecases = require('../../domain/usecases');
-const tutorialEvaluationSerializer = require('../../infrastructure/serializers/jsonapi/tutorial-evaluation-serializer');
-const TutorialEvaluation = require('../../../lib/domain/models/TutorialEvaluation');
+import usecases from '../../domain/usecases';
+import tutorialEvaluationSerializer from '../../infrastructure/serializers/jsonapi/tutorial-evaluation-serializer';
+import TutorialEvaluation from '../../../lib/domain/models/TutorialEvaluation';
 
-module.exports = {
+export default {
   async evaluate(request, h) {
     const { userId } = request.auth.credentials;
     const { tutorialId } = request.params;

@@ -1,4 +1,4 @@
-module.exports = function buildChallengeLearningContentDataObject({
+export default function buildChallengeLearningContentDataObject({
   id = 'recwWzTquPlvIl4So',
   instruction = "Les moteurs de recherche affichent certains liens en raison d'un accord commercial.\n\nDans quels encadrés se trouvent ces liens ?",
   proposals = '- 1\n- 2\n- 3\n- 4\n- 5',
@@ -47,4 +47,4 @@ module.exports = function buildChallengeLearningContentDataObject({
     format,
     locales,
   };
-};
+}

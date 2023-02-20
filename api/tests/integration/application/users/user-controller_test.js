@@ -1,10 +1,9 @@
-const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-helper');
-
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const usecases = require('../../../../lib/domain/usecases');
-const { UserNotAuthorizedToRemoveAuthenticationMethod } = require('../../../../lib/domain/errors');
-const AssessmentResult = require('../../../../lib/domain/read-models/participant-results/AssessmentResult');
-const moduleUnderTest = require('../../../../lib/application/users');
+import { expect, sinon, domainBuilder, HttpTestServer } from '../../../test-helper';
+import securityPreHandlers from '../../../../lib/application/security-pre-handlers';
+import usecases from '../../../../lib/domain/usecases';
+import { UserNotAuthorizedToRemoveAuthenticationMethod } from '../../../../lib/domain/errors';
+import AssessmentResult from '../../../../lib/domain/read-models/participant-results/AssessmentResult';
+import moduleUnderTest from '../../../../lib/application/users';
 
 describe('Integration | Application | Users | user-controller', function () {
   let sandbox;

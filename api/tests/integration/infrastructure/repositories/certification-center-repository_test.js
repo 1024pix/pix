@@ -1,8 +1,8 @@
-const { expect, knex, databaseBuilder, domainBuilder, catchErr, sinon } = require('../../../test-helper');
-const certificationCenterRepository = require('../../../../lib/infrastructure/repositories/certification-center-repository');
-const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const _ = require('lodash');
+import { expect, knex, databaseBuilder, domainBuilder, catchErr, sinon } from '../../../test-helper';
+import certificationCenterRepository from '../../../../lib/infrastructure/repositories/certification-center-repository';
+import CertificationCenter from '../../../../lib/domain/models/CertificationCenter';
+import { NotFoundError } from '../../../../lib/domain/errors';
+import _ from 'lodash';
 
 describe('Integration | Repository | Certification Center', function () {
   let clock, now;

@@ -1,5 +1,5 @@
 const Joi = require('joi').extend(require('@joi/date'));
-const { InvalidCertificationCandidate } = require('../errors');
+import { InvalidCertificationCandidate } from '../errors';
 
 const scoCertificationCandidateValidationJoiSchema = Joi.object({
   firstName: Joi.string().required().empty(null),
@@ -47,4 +47,4 @@ class SCOCertificationCandidate {
   }
 }
 
-module.exports = SCOCertificationCandidate;
+export default SCOCertificationCandidate;

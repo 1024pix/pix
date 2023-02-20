@@ -1,6 +1,6 @@
-const sortBy = require('lodash/sortBy');
+import sortBy from 'lodash/sortBy';
 
-module.exports = class CampaignStages {
+export default class CampaignStages {
   constructor({ stages }) {
     this.stages = stages;
   }
@@ -38,4 +38,4 @@ module.exports = class CampaignStages {
       return { id: currentStage.id, from, to };
     });
   }
-};
+}

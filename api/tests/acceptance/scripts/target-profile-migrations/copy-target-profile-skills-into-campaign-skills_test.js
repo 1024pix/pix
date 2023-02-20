@@ -1,10 +1,8 @@
-const { expect, databaseBuilder, sinon } = require('../../../test-helper');
-const { knex } = require('../../../../db/knex-database-connection');
-const logger = require('../../../../lib/infrastructure/logger');
-const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
-const {
-  copySkills,
-} = require('../../../../scripts/prod/target-profile-migrations/copy-target-profile-skills-into-campaign-skills');
+import { expect, databaseBuilder, sinon } from '../../../test-helper';
+import { knex } from '../../../../db/knex-database-connection';
+import logger from '../../../../lib/infrastructure/logger';
+import CampaignTypes from '../../../../lib/domain/models/CampaignTypes';
+import { copySkills } from '../../../../scripts/prod/target-profile-migrations/copy-target-profile-skills-into-campaign-skills';
 
 describe('Acceptance | Scripts | copy-target-profile-skills-into-campaign-skills', function () {
   afterEach(function () {

@@ -1,9 +1,8 @@
-const _ = require('lodash');
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const StudentForEnrollment = require('../../../../lib/domain/read-models/StudentForEnrollment');
-
-const findStudentsForEnrollment = require('../../../../lib/domain/usecases/find-students-for-enrollment');
+import _ from 'lodash';
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import { NotFoundError } from '../../../../lib/domain/errors';
+import StudentForEnrollment from '../../../../lib/domain/read-models/StudentForEnrollment';
+import findStudentsForEnrollment from '../../../../lib/domain/usecases/find-students-for-enrollment';
 
 describe('Unit | UseCase | find-students-for-enrollment', function () {
   const certificationCenterId = 1;

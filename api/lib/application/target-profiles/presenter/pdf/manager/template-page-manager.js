@@ -1,4 +1,4 @@
-const { readFile } = require('fs/promises');
+import { readFile } from 'fs/promises';
 
 const embeddedTemplatePages = {};
 
@@ -11,7 +11,7 @@ const templatesPages = {
   'cover-page': 'cover-page.pdf',
 };
 
-module.exports = {
+export default {
   /**
    * @param areaColor {string}
    * @returns {PDFEmbeddedPage}

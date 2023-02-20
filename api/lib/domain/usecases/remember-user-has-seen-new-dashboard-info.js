@@ -1,3 +1,3 @@
-module.exports = function rememberUserHasSeenNewDashboardInfo({ userId, userRepository }) {
+export default function rememberUserHasSeenNewDashboardInfo({ userId, userRepository }) {
   return userRepository.updateHasSeenNewDashboardInfoToTrue(userId);
-};
+}

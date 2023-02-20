@@ -1,4 +1,4 @@
-const { CERTIFICATION_CENTER_TYPES } = require('../constants');
+import { CERTIFICATION_CENTER_TYPES } from '../constants';
 
 class CertificationCenter {
   constructor({ id, name, externalId, type, createdAt, updatedAt, habilitations = [] } = {}) {
@@ -24,5 +24,5 @@ class CertificationCenter {
   }
 }
 
-module.exports = CertificationCenter;
-module.exports.types = CERTIFICATION_CENTER_TYPES;
+export default CertificationCenter;
+export { CERTIFICATION_CENTER_TYPES as types };

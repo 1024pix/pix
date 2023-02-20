@@ -1,13 +1,15 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
-const OrganizationLearner = require('../../../../lib/domain/models/OrganizationLearner');
-const {
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper';
+import usecases from '../../../../lib/domain/usecases';
+import OrganizationLearner from '../../../../lib/domain/models/OrganizationLearner';
+
+import {
   CampaignCodeError,
   UserNotAuthorizedToAccessEntityError,
   OrganizationLearnerDisabledError,
-} = require('../../../../lib/domain/errors');
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const organizationLearnerRepository = require('../../../../lib/infrastructure/repositories/organization-learner-repository');
+} from '../../../../lib/domain/errors';
+
+import campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository';
+import organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository';
 
 describe('Unit | UseCase | find-association-between-user-and-organization-learner', function () {
   let organizationLearnerReceivedStub;

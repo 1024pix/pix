@@ -1,7 +1,7 @@
-const papa = require('papaparse');
-const iconv = require('iconv-lite');
-const { convertDateValue } = require('../../utils/date-utils');
-const { CsvImportError } = require('../../../domain/errors');
+import papa from 'papaparse';
+import iconv from 'iconv-lite';
+import { convertDateValue } from '../../utils/date-utils';
+import { CsvImportError } from '../../../domain/errors';
 
 const ERRORS = {
   ENCODING_NOT_SUPPORTED: 'ENCODING_NOT_SUPPORTED',
@@ -184,6 +184,6 @@ function _atLeastOneParsedColumnDoesNotMatchAcceptedColumns(parsedColumns, accep
   });
 }
 
-module.exports = {
+export default {
   CsvOrganizationLearnerParser,
 };

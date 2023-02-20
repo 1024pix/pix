@@ -1,8 +1,8 @@
-const usecases = require('../../domain/usecases');
-const serializer = require('../../infrastructure/serializers/jsonapi/competence-evaluation-serializer');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
+import usecases from '../../domain/usecases';
+import serializer from '../../infrastructure/serializers/jsonapi/competence-evaluation-serializer';
+import DomainTransaction from '../../infrastructure/DomainTransaction';
 
-module.exports = {
+export default {
   async startOrResume(request, h) {
     const userId = request.auth.credentials.userId;
     const competenceId = request.payload.competenceId;

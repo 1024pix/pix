@@ -1,7 +1,7 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-const tutorialEvaluationsController = require('../../../../lib/application/tutorial-evaluations/tutorial-evaluations-controller');
-const moduleUnderTest = require('../../../../lib/application/tutorial-evaluations');
-const TutorialEvaluation = require('../../../../lib/domain/models/TutorialEvaluation');
+import { expect, HttpTestServer, sinon } from '../../../test-helper';
+import tutorialEvaluationsController from '../../../../lib/application/tutorial-evaluations/tutorial-evaluations-controller';
+import moduleUnderTest from '../../../../lib/application/tutorial-evaluations';
+import TutorialEvaluation from '../../../../lib/domain/models/TutorialEvaluation';
 
 describe('Unit | Router | tutorial-evaluations-router', function () {
   describe('PUT /api/users/tutorials/{tutorialId}/evaluate', function () {

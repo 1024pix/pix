@@ -1,7 +1,7 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const _ = require('lodash');
-const improvementService = require('../../../../lib/domain/services/improvement-service');
-const constants = require('../../../../lib/domain/constants');
+import { expect, domainBuilder } from '../../../test-helper';
+import _ from 'lodash';
+import improvementService from '../../../../lib/domain/services/improvement-service';
+import constants from '../../../../lib/domain/constants';
 
 describe('Unit | Service | ImprovementService', function () {
   describe('#filterKnowledgeElementsIfImproving', function () {

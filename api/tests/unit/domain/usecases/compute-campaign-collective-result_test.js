@@ -1,6 +1,6 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const { computeCampaignCollectiveResult } = require('../../../../lib/domain/usecases');
-const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper';
+import { computeCampaignCollectiveResult } from '../../../../lib/domain/usecases';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors';
 
 describe('Unit | UseCase | compute-campaign-collective-result', function () {
   const userId = 1;

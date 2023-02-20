@@ -1,13 +1,13 @@
-const { sendJsonApiError, PayloadTooLargeError } = require('../http-errors');
-
-const campaignController = require('./campaign-controller');
-const securityPreHandlers = require('../security-pre-handlers');
+import { sendJsonApiError, PayloadTooLargeError } from '../http-errors';
+import campaignController from './campaign-controller';
+import securityPreHandlers from '../security-pre-handlers';
 const TWENTY_MEGABYTES = 1048576 * 20;
 
 const ERRORS = {
   PAYLOAD_TOO_LARGE: 'PAYLOAD_TOO_LARGE',
 };
-exports.register = async function (server) {
+
+export const register = async function (server) {
   server.route([
     {
       method: 'POST',
@@ -47,4 +47,4 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'campaigns-administration-api';
+export const name = 'campaigns-administration-api';

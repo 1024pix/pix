@@ -1,13 +1,15 @@
-const _ = require('lodash');
-const { expect, mockLearningContent, databaseBuilder, catchErr, domainBuilder } = require('../../../test-helper');
-const Tutorial = require('../../../../lib/domain/models/Tutorial');
-const TutorialEvaluation = require('../../../../lib/domain/models/TutorialEvaluation');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const tutorialRepository = require('../../../../lib/infrastructure/repositories/tutorial-repository');
-const TutorialForUser = require('../../../../lib/domain/read-models/TutorialForUser');
-const UserSavedTutorial = require('../../../../lib/domain/models/UserSavedTutorial');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const { ENGLISH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
+import _ from 'lodash';
+import { expect, mockLearningContent, databaseBuilder, catchErr, domainBuilder } from '../../../test-helper';
+import Tutorial from '../../../../lib/domain/models/Tutorial';
+import TutorialEvaluation from '../../../../lib/domain/models/TutorialEvaluation';
+import { NotFoundError } from '../../../../lib/domain/errors';
+import tutorialRepository from '../../../../lib/infrastructure/repositories/tutorial-repository';
+import TutorialForUser from '../../../../lib/domain/read-models/TutorialForUser';
+import UserSavedTutorial from '../../../../lib/domain/models/UserSavedTutorial';
+import KnowledgeElement from '../../../../lib/domain/models/KnowledgeElement';
+import { LOCALE } from '../../../../lib/domain/constants';
+
+const { ENGLISH_SPOKEN: ENGLISH_SPOKEN } = LOCALE;
 
 describe('Integration | Repository | tutorial-repository', function () {
   describe('#findByRecordIdsForCurrentUser', function () {

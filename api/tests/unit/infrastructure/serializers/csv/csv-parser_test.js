@@ -1,7 +1,7 @@
-const iconv = require('iconv-lite');
-const { expect, catchErr } = require('../../../../test-helper');
-const { CsvParser } = require('../../../../../lib/infrastructure/serializers/csv/csv-parser');
-const { CsvColumn } = require('../../../../../lib/infrastructure/serializers/csv/csv-column');
+import iconv from 'iconv-lite';
+import { expect, catchErr } from '../../../../test-helper';
+import { CsvParser } from '../../../../../lib/infrastructure/serializers/csv/csv-parser';
+import { CsvColumn } from '../../../../../lib/infrastructure/serializers/csv/csv-column';
 
 describe('Unit | Infrastructure | CsvParser', function () {
   context('The header is correctly formed', function () {

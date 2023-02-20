@@ -1,8 +1,8 @@
-const _ = require('lodash');
-const { expect, catchErr } = require('../../../test-helper');
-const { CsvImportError } = require('../../../../lib/domain/errors');
-const organizationLearnersCsvService = require('../../../../lib/domain/services/organization-learners-csv-service');
-const { getI18n } = require('../../../tooling/i18n/i18n');
+import _ from 'lodash';
+import { expect, catchErr } from '../../../test-helper';
+import { CsvImportError } from '../../../../lib/domain/errors';
+import organizationLearnersCsvService from '../../../../lib/domain/services/organization-learners-csv-service';
+import { getI18n } from '../../../tooling/i18n/i18n';
 const i18n = getI18n();
 
 describe('Integration | Services | organization-learners-csv-service', function () {

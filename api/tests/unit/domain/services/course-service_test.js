@@ -1,8 +1,7 @@
-const courseService = require('../../../../lib/domain/services/course-service');
-
-const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
-const logger = require('../../../../lib/infrastructure/logger');
-const { expect, sinon } = require('../../../test-helper');
+import courseService from '../../../../lib/domain/services/course-service';
+import courseRepository from '../../../../lib/infrastructure/repositories/course-repository';
+import logger from '../../../../lib/infrastructure/logger';
+import { expect, sinon } from '../../../test-helper';
 
 describe('Unit | Service | Course Service', function () {
   describe('#getCourse', function () {

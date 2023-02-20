@@ -1,13 +1,13 @@
-const {
+import {
   expect,
   databaseBuilder,
   mockLearningContent,
   learningContentBuilder,
   domainBuilder,
-} = require('../../../test-helper');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+} from '../../../test-helper';
 
-const certificationBadgesService = require('../../../../lib/domain/services/certification-badges-service');
+import DomainTransaction from '../../../../lib/infrastructure/DomainTransaction';
+import certificationBadgesService from '../../../../lib/domain/services/certification-badges-service';
 
 const listSkill = ['web1', 'web2', 'web3', 'web4'];
 const learningContent = [

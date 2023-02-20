@@ -1,8 +1,8 @@
-const getCorrectionForAnswer = require('../../../../lib/domain/usecases/get-correction-for-answer');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const Answer = require('../../../../lib/domain/models/Answer');
-const { AssessmentNotCompletedError, NotFoundError } = require('../../../../lib/domain/errors');
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
+import getCorrectionForAnswer from '../../../../lib/domain/usecases/get-correction-for-answer';
+import Assessment from '../../../../lib/domain/models/Assessment';
+import Answer from '../../../../lib/domain/models/Answer';
+import { AssessmentNotCompletedError, NotFoundError } from '../../../../lib/domain/errors';
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper';
 
 describe('Unit | UseCase | getCorrectionForAnswer', function () {
   const assessmentRepository = { get: () => undefined };

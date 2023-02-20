@@ -1,9 +1,9 @@
-const split = require('split2');
-const writeStream = require('flush-write-stream');
-const config = require('../../../../lib/config');
-const { expect, HttpTestServer, generateValidRequestAuthorizationHeader, sinon } = require('../../../test-helper');
-const pinoPlugin = require('../../../../lib/infrastructure/plugins/pino');
-const monitoringTools = require('../../../../lib/infrastructure/monitoring-tools');
+import split from 'split2';
+import writeStream from 'flush-write-stream';
+import config from '../../../../lib/config';
+import { expect, HttpTestServer, generateValidRequestAuthorizationHeader, sinon } from '../../../test-helper';
+import pinoPlugin from '../../../../lib/infrastructure/plugins/pino';
+import monitoringTools from '../../../../lib/infrastructure/monitoring-tools';
 
 function sink(func) {
   const result = split(JSON.parse);

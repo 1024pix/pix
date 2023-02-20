@@ -1,6 +1,6 @@
-const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
+import CertificationCenter from '../../../../lib/domain/models/CertificationCenter';
 
-module.exports = function buildCertificationCenter({
+export default function buildCertificationCenter({
   id = 1,
   name = 'name',
   type = CertificationCenter.types.SUP,
@@ -18,4 +18,4 @@ module.exports = function buildCertificationCenter({
     createdAt,
     habilitations,
   });
-};
+}

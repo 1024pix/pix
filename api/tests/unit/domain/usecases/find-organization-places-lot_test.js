@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const findOrganizationPlaceLot = require('../../../../lib/domain/usecases/find-organization-places-lot');
+import { expect, sinon } from '../../../test-helper';
+import findOrganizationPlaceLot from '../../../../lib/domain/usecases/find-organization-places-lot';
 
 describe('Unit | Domain | Use Cases | find-organization-places', function () {
   it('should get the organization places', async function () {

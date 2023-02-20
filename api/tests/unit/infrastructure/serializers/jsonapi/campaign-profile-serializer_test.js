@@ -1,9 +1,9 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-profile-serializer');
-const CampaignProfile = require('../../../../../lib/domain/read-models/CampaignProfile');
-const PlacementProfile = require('../../../../../lib/domain/models/PlacementProfile');
-const UserCompetence = require('../../../../../lib/domain/models/UserCompetence');
-const CampaignParticipationStatuses = require('../../../../../lib/domain/models/CampaignParticipationStatuses');
+import { expect, domainBuilder } from '../../../../test-helper';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/campaign-profile-serializer';
+import CampaignProfile from '../../../../../lib/domain/read-models/CampaignProfile';
+import PlacementProfile from '../../../../../lib/domain/models/PlacementProfile';
+import UserCompetence from '../../../../../lib/domain/models/UserCompetence';
+import CampaignParticipationStatuses from '../../../../../lib/domain/models/CampaignParticipationStatuses';
 
 const { SHARED } = CampaignParticipationStatuses;
 

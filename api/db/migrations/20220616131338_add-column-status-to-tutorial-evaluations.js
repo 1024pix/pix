@@ -4,13 +4,14 @@ const EVALUATION_STATUS = {
   LIKED: 'LIKED',
   NEUTRAL: 'NEUTRAL',
 };
-exports.up = async function (knex) {
+
+export const up = async function (knex) {
   await knex.schema.table(TABLE_NAME, function (table) {
     table.enu(COLUMN_NAME, [EVALUATION_STATUS.LIKED, EVALUATION_STATUS.NEUTRAL]).defaultTo('LIKED');
   });
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   await knex.schema.table(TABLE_NAME, function (table) {
     table.dropColumn(COLUMN_NAME);
   });

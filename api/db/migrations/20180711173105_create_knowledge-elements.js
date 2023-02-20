@@ -1,6 +1,6 @@
 const KNOWLEDGE_ELEMENTS_TABLE_NAME = 'knowledge-elements';
 
-exports.up = (knex) => {
+export const up = (knex) => {
   return knex.schema.createTable(KNOWLEDGE_ELEMENTS_TABLE_NAME, (table) => {
     table.increments('id').primary();
     table.string('source');
@@ -13,6 +13,6 @@ exports.up = (knex) => {
   });
 };
 
-exports.down = (knex) => {
+export const down = (knex) => {
   return knex.schema.dropTable(KNOWLEDGE_ELEMENTS_TABLE_NAME);
 };

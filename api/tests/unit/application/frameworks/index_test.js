@@ -1,8 +1,7 @@
-const { expect, HttpTestServer, sinon, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const frameworksController = require('../../../../lib/application/frameworks/frameworks-controller');
-const moduleUnderTest = require('../../../../lib/application/frameworks');
+import { expect, HttpTestServer, sinon, generateValidRequestAuthorizationHeader } from '../../../test-helper';
+import securityPreHandlers from '../../../../lib/application/security-pre-handlers';
+import frameworksController from '../../../../lib/application/frameworks/frameworks-controller';
+import moduleUnderTest from '../../../../lib/application/frameworks';
 
 describe('Unit | Application | Frameworks | Routes', function () {
   describe('GET /api/admin/frameworks', function () {

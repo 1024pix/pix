@@ -1,7 +1,7 @@
-const usecases = require('../../domain/usecases');
-const certificationCenterInvitationSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-invitation-serializer');
+import usecases from '../../domain/usecases';
+import certificationCenterInvitationSerializer from '../../infrastructure/serializers/jsonapi/certification-center-invitation-serializer';
 
-module.exports = {
+export default {
   async acceptCertificationCenterInvitation(request, h) {
     const certificationCenterInvitationId = request.params.id;
     const { code, email: rawEmail } = request.deserializedPayload;

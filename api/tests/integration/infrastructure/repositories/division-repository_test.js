@@ -1,5 +1,5 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
-const divisionRepository = require('../../../../lib/infrastructure/repositories/division-repository');
+import { expect, databaseBuilder } from '../../../test-helper';
+import divisionRepository from '../../../../lib/infrastructure/repositories/division-repository';
 
 describe('Integration | Repository | Division', function () {
   describe('#findByCampaignId', function () {

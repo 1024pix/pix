@@ -1,7 +1,7 @@
-const { expect, sinon } = require('../../../../test-helper');
-const CampaignParticipationResultsShared = require('../../../../../lib/domain/events/CampaignParticipationResultsShared');
-const SendSharedParticipationResultsToPoleEmploiHandler = require('../../../../../lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiHandler');
-const usecases = require('../../../../../lib/domain/usecases');
+import { expect, sinon } from '../../../../test-helper';
+import CampaignParticipationResultsShared from '../../../../../lib/domain/events/CampaignParticipationResultsShared';
+import SendSharedParticipationResultsToPoleEmploiHandler from '../../../../../lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiHandler';
+import usecases from '../../../../../lib/domain/usecases';
 
 describe('Unit | Infrastructure | Jobs | SendSharedParticipationResultsToPoleEmploiHandler', function () {
   let event;

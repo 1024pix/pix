@@ -1,7 +1,7 @@
-const settings = require('../../config');
-const serializer = require('../../infrastructure/serializers/jsonapi/feature-toggle-serializer');
+import settings from '../../config';
+import serializer from '../../infrastructure/serializers/jsonapi/feature-toggle-serializer';
 
-module.exports = {
+export default {
   getActiveFeatures() {
     return serializer.serialize(settings.featureToggles);
   },

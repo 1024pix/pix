@@ -1,8 +1,8 @@
-const buildComplementaryCertification = require('./build-complementary-certification');
-const buildComplementaryCertificationBadge = require('./build-complementary-certification-badge');
-const databaseBuffer = require('../database-buffer');
+import buildComplementaryCertification from './build-complementary-certification';
+import buildComplementaryCertificationBadge from './build-complementary-certification-badge';
+import databaseBuffer from '../database-buffer';
 
-module.exports = function buildComplementaryCertificationCourse({
+export default function buildComplementaryCertificationCourse({
   id = databaseBuffer.getNextId(),
   complementaryCertificationId,
   certificationCourseId,
@@ -27,4 +27,4 @@ module.exports = function buildComplementaryCertificationCourse({
     tableName: 'complementary-certification-courses',
     values,
   });
-};
+}

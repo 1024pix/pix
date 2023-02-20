@@ -1,10 +1,10 @@
-const { knex } = require('../../../db/knex-database-connection');
-const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
+import { knex } from '../../../db/knex-database-connection';
+import BadgeCriterion from '../../../lib/domain/models/BadgeCriterion';
+import DomainTransaction from '../../infrastructure/DomainTransaction';
 
 const TABLE_NAME = 'badge-criteria';
 
-module.exports = {
+export default {
   async save({ badgeCriterion }, { knexTransaction } = DomainTransaction.emptyTransaction()) {
     const data = {
       ...badgeCriterion,

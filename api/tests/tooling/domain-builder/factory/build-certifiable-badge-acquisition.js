@@ -1,4 +1,4 @@
-const CertifiableBadgeAcquisition = require('../../../../lib/domain/models/CertifiableBadgeAcquisition');
+import CertifiableBadgeAcquisition from '../../../../lib/domain/models/CertifiableBadgeAcquisition';
 
 const buildCertifiableBadgeAcquisition = function ({
   badgeId = 123,
@@ -22,4 +22,4 @@ const buildCertifiableBadgeAcquisition = function ({
   });
 };
 
-module.exports = buildCertifiableBadgeAcquisition;
+export default buildCertifiableBadgeAcquisition;

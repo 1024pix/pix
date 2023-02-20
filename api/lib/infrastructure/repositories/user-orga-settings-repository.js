@@ -1,11 +1,11 @@
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const BookshelfUserOrgaSettings = require('../orm-models/UserOrgaSettings');
-const bookshelfUtils = require('../utils/knex-utils');
-const { UserOrgaSettingsCreationError } = require('../../domain/errors');
-const { knex } = require('../../../db/knex-database-connection');
-const UserOrgaSettings = require('../../domain/models/UserOrgaSettings');
+import bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter';
+import BookshelfUserOrgaSettings from '../orm-models/UserOrgaSettings';
+import bookshelfUtils from '../utils/knex-utils';
+import { UserOrgaSettingsCreationError } from '../../domain/errors';
+import { knex } from '../../../db/knex-database-connection';
+import UserOrgaSettings from '../../domain/models/UserOrgaSettings';
 
-module.exports = {
+export default {
   findOneByUserId(userId) {
     return BookshelfUserOrgaSettings.where({ userId })
       .fetch({ require: true, withRelated: ['user', 'currentOrganization'] })

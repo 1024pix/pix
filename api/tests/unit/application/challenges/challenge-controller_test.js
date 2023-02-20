@@ -1,9 +1,7 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-
-const ChallengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
-const ChallengeSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/challenge-serializer');
-
-const moduleUnderTest = require('../../../../lib/application/challenges');
+import { expect, HttpTestServer, sinon } from '../../../test-helper';
+import ChallengeRepository from '../../../../lib/infrastructure/repositories/challenge-repository';
+import ChallengeSerializer from '../../../../lib/infrastructure/serializers/jsonapi/challenge-serializer';
+import moduleUnderTest from '../../../../lib/application/challenges';
 
 describe('Unit | Controller | challenge-controller', function () {
   let httpTestServer;

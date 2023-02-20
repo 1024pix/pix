@@ -1,7 +1,7 @@
-const { Serializer } = require('jsonapi-serializer');
-const tutorialAttributes = require('./tutorial-attributes');
+import { Serializer } from 'jsonapi-serializer';
+import tutorialAttributes from './tutorial-attributes';
 
-module.exports = {
+export default {
   serialize(correction) {
     return new Serializer('corrections', {
       transform: (record) => ({

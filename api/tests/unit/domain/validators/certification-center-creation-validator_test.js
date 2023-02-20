@@ -1,6 +1,6 @@
-const { expect } = require('../../../test-helper');
-const certificationCenterCreationValidator = require('../../../../lib/domain/validators/certification-center-creation-validator');
-const { EntityValidationError } = require('../../../../lib/domain/errors');
+import { expect } from '../../../test-helper';
+import certificationCenterCreationValidator from '../../../../lib/domain/validators/certification-center-creation-validator';
+import { EntityValidationError } from '../../../../lib/domain/errors';
 
 const MISSING_VALUE = '';
 

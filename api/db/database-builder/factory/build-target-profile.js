@@ -1,8 +1,8 @@
-const buildOrganization = require('./build-organization');
-const databaseBuffer = require('../database-buffer');
-const _ = require('lodash');
+import buildOrganization from './build-organization';
+import databaseBuffer from '../database-buffer';
+import _ from 'lodash';
 
-module.exports = function buildTargetProfile({
+export default function buildTargetProfile({
   id = databaseBuffer.getNextId(),
   name = 'Remplir un tableur',
   imageUrl = 'https://images.pix.fr/profil-cible/Illu_GEN.svg',
@@ -34,4 +34,4 @@ module.exports = function buildTargetProfile({
     tableName: 'target-profiles',
     values,
   });
-};
+}

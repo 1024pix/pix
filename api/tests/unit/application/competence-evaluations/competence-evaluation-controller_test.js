@@ -1,7 +1,7 @@
-const { sinon, expect, domainBuilder, hFake } = require('../../../test-helper');
-const competenceEvaluationController = require('../../../../lib/application/competence-evaluations/competence-evaluation-controller');
-const serializer = require('../../../../lib/infrastructure/serializers/jsonapi/competence-evaluation-serializer');
-const usecases = require('../../../../lib/domain/usecases');
+import { sinon, expect, domainBuilder, hFake } from '../../../test-helper';
+import competenceEvaluationController from '../../../../lib/application/competence-evaluations/competence-evaluation-controller';
+import serializer from '../../../../lib/infrastructure/serializers/jsonapi/competence-evaluation-serializer';
+import usecases from '../../../../lib/domain/usecases';
 
 describe('Unit | Application | Controller | Competence-Evaluation', function () {
   describe('#start', function () {

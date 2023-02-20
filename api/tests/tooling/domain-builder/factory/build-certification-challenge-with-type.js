@@ -1,7 +1,7 @@
-const CertificationChallengeWithType = require('../../../../lib/domain/models/CertificationChallengeWithType');
-const Challenge = require('../../../../lib/domain/models/Challenge');
+import CertificationChallengeWithType from '../../../../lib/domain/models/CertificationChallengeWithType';
+import Challenge from '../../../../lib/domain/models/Challenge';
 
-module.exports = function buildCertificationChallengeWithType({
+export default function buildCertificationChallengeWithType({
   id = 123,
   challengeId = 'recCHAL',
   competenceId = 'recCOMP',
@@ -21,4 +21,4 @@ module.exports = function buildCertificationChallengeWithType({
     hasBeenSkippedAutomatically,
     certifiableBadgeKey,
   });
-};
+}

@@ -1,23 +1,19 @@
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
+import DomainTransaction from '../../infrastructure/DomainTransaction';
 
-const JSONAPISerializer = require('jsonapi-serializer').Serializer;
-const { AssessmentEndedError } = require('../../domain/errors');
-const usecases = require('../../domain/usecases');
-const events = require('../../domain/events');
-const logger = require('../../infrastructure/logger');
-const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
-const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
-const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
-const competenceEvaluationSerializer = require('../../infrastructure/serializers/jsonapi/competence-evaluation-serializer');
-const {
-  extractLocaleFromRequest,
-  extractUserIdFromRequest,
-} = require('../../infrastructure/utils/request-response-utils');
+import { Serializer as JSONAPISerializer } from 'jsonapi-serializer';
+import { AssessmentEndedError } from '../../domain/errors';
+import usecases from '../../domain/usecases';
+import events from '../../domain/events';
+import logger from '../../infrastructure/logger';
+import assessmentRepository from '../../infrastructure/repositories/assessment-repository';
+import assessmentSerializer from '../../infrastructure/serializers/jsonapi/assessment-serializer';
+import challengeSerializer from '../../infrastructure/serializers/jsonapi/challenge-serializer';
+import competenceEvaluationSerializer from '../../infrastructure/serializers/jsonapi/competence-evaluation-serializer';
+import { extractLocaleFromRequest, extractUserIdFromRequest } from '../../infrastructure/utils/request-response-utils';
+import Examiner from '../../domain/models/Examiner';
+import ValidatorAlwaysOK from '../../domain/models/ValidatorAlwaysOK';
 
-const Examiner = require('../../domain/models/Examiner');
-const ValidatorAlwaysOK = require('../../domain/models/ValidatorAlwaysOK');
-
-module.exports = {
+export default {
   async save(request, h) {
     const assessment = assessmentSerializer.deserialize(request.payload);
     assessment.userId = extractUserIdFromRequest(request);

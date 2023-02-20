@@ -1,10 +1,8 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
-
-const prescriberRepository = require('../../../../lib/infrastructure/repositories/prescriber-repository');
-const membershipRepository = require('../../../../lib/infrastructure/repositories/membership-repository');
-const userOrgaSettingsRepository = require('../../../../lib/infrastructure/repositories/user-orga-settings-repository');
-
-const getPrescriber = require('../../../../lib/domain/usecases/get-prescriber');
+import { expect, databaseBuilder, knex } from '../../../test-helper';
+import prescriberRepository from '../../../../lib/infrastructure/repositories/prescriber-repository';
+import membershipRepository from '../../../../lib/infrastructure/repositories/membership-repository';
+import userOrgaSettingsRepository from '../../../../lib/infrastructure/repositories/user-orga-settings-repository';
+import getPrescriber from '../../../../lib/domain/usecases/get-prescriber';
 
 describe('Integration | UseCases | get-prescriber', function () {
   context('When prescriber does not have a userOrgaSettings', function () {

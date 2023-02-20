@@ -1,7 +1,7 @@
-const { Deserializer } = require('jsonapi-serializer');
+import { Deserializer } from 'jsonapi-serializer';
 
 const deserializer = new Deserializer({
   keyForAttribute: 'camelCase',
 });
 
-module.exports = deserializer;
+export default deserializer;

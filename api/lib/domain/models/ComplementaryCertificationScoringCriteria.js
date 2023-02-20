@@ -14,4 +14,4 @@ class ComplementaryCertificationScoringCriteria {
   }
 }
 
-module.exports = ComplementaryCertificationScoringCriteria;
+export default ComplementaryCertificationScoringCriteria;

@@ -1,13 +1,13 @@
 const TABLE_NAME = 'organization-invitations';
 const COLUMN_NAME = 'code';
 
-exports.up = function (knex) {
+export const up = function (knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.string(COLUMN_NAME).notNullable();
   });
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.dropColumn(COLUMN_NAME);
   });

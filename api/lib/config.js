@@ -1,9 +1,7 @@
-/* eslint-disable node/no-process-env*/
-const path = require('path');
-const moment = require('moment');
-const ms = require('ms');
-
-const { getArrayOfStrings } = require('../lib/infrastructure/utils/string-utils');
+import path from 'path';
+import moment from 'moment';
+import ms from 'ms';
+import { getArrayOfStrings } from '../lib/infrastructure/utils/string-utils';
 
 function parseJSONEnv(varName) {
   if (process.env[varName]) {
@@ -47,7 +45,7 @@ function _getLogForHumans() {
   return processOutputingToTerminal && !forceJSONLogs;
 }
 
-module.exports = (function () {
+export default (function () {
   const config = {
     rootPath: path.normalize(__dirname + '/..'),
 
@@ -436,4 +434,3 @@ module.exports = (function () {
 
   return config;
 })();
-/* eslint-enable node/no-process-env*/

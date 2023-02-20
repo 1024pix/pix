@@ -1,5 +1,5 @@
-const { expect, knex, databaseBuilder } = require('../../../test-helper');
-const flashAssessmentResultRepository = require('../../../../lib/infrastructure/repositories/flash-assessment-result-repository');
+import { expect, knex, databaseBuilder } from '../../../test-helper';
+import flashAssessmentResultRepository from '../../../../lib/infrastructure/repositories/flash-assessment-result-repository';
 
 describe('Integration | Infrastructure | Repository | FlashAssessmentResultRepository', function () {
   afterEach(async function () {

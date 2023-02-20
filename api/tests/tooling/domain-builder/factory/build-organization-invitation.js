@@ -1,6 +1,6 @@
-const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
+import OrganizationInvitation from '../../../../lib/domain/models/OrganizationInvitation';
 
-module.exports = function buildOrganizationInvitation({
+export default function buildOrganizationInvitation({
   id = 123,
   organizationId = 456,
   organizationName = 'orgaName',
@@ -22,4 +22,4 @@ module.exports = function buildOrganizationInvitation({
     createdAt,
     updatedAt,
   });
-};
+}

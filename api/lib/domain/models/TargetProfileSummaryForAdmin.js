@@ -6,4 +6,4 @@ class TargetProfileSummaryForAdmin {
   }
 }
 
-module.exports = TargetProfileSummaryForAdmin;
+export default TargetProfileSummaryForAdmin;

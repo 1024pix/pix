@@ -1,8 +1,8 @@
-const userOrgaSettingsSerializer = require('../../infrastructure/serializers/jsonapi/user-orga-settings-serializer');
-const { UserNotAuthorizedToCreateResourceError } = require('../../domain/errors');
-const usecases = require('../../domain/usecases');
+import userOrgaSettingsSerializer from '../../infrastructure/serializers/jsonapi/user-orga-settings-serializer';
+import { UserNotAuthorizedToCreateResourceError } from '../../domain/errors';
+import usecases from '../../domain/usecases';
 
-module.exports = {
+export default {
   async createOrUpdate(request) {
     const authenticatedUserId = request.auth.credentials.userId;
     const userId = request.params.id;

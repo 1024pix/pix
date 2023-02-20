@@ -1,8 +1,8 @@
-const { CertificationIssueReportCategories } = require('../../lib/domain/models/CertificationIssueReportCategory');
+import { CertificationIssueReportCategories } from '../../lib/domain/models/CertificationIssueReportCategory';
 const CERTIFICATION_COURSES = 'certification-courses';
 const CERTIFICATION_ISSUE_REPORTS = 'certification-issue-reports';
 
-exports.up = async (knex) => {
+export const up = async (knex) => {
   const certificationCoursesWithExaminerComment = await knex(CERTIFICATION_COURSES)
     .select('id', 'examinerComment')
     .whereNotNull('examinerComment');
@@ -18,7 +18,7 @@ exports.up = async (knex) => {
   return knex.batchInsert(CERTIFICATION_ISSUE_REPORTS, reportsToInsert);
 };
 
-exports.down = async (knex) => {
+export const down = async (knex) => {
   const certificationCoursesWithExaminerComment = await knex(CERTIFICATION_COURSES)
     .select('id')
     .whereNotNull('examinerComment');

@@ -1,5 +1,5 @@
-const path = require('path');
-const i18n = require('i18n');
+import path from 'path';
+import i18n from 'i18n';
 
 function getI18n() {
   const directory = path.resolve(path.join(__dirname, '../../../translations'));
@@ -13,4 +13,4 @@ function getI18n() {
   return i18n;
 }
 
-module.exports = { getI18n };
+export default { getI18n };

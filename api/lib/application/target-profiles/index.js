@@ -1,11 +1,10 @@
-const Joi = require('joi');
+import Joi from 'joi';
+import { sendJsonApiError, BadRequestError } from '../http-errors';
+import securityPreHandlers from '../security-pre-handlers';
+import targetProfileController from './target-profile-controller';
+import identifiersType from '../../domain/types/identifiers-type';
 
-const { sendJsonApiError, BadRequestError } = require('../http-errors');
-const securityPreHandlers = require('../security-pre-handlers');
-const targetProfileController = require('./target-profile-controller');
-const identifiersType = require('../../domain/types/identifiers-type');
-
-exports.register = async (server) => {
+export const register = async (server) => {
   server.route([
     {
       method: 'GET',
@@ -445,4 +444,4 @@ exports.register = async (server) => {
   ]);
 };
 
-exports.name = 'target-profiles-api';
+export const name = 'target-profiles-api';

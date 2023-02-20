@@ -1,4 +1,4 @@
-const {
+import {
   PIX_EMPLOI_CLEA_BADGE_ID_V1,
   PIX_EMPLOI_CLEA_BADGE_ID_V2,
   PIX_EMPLOI_CLEA_BADGE_ID_V3,
@@ -6,8 +6,9 @@ const {
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE_BADGE_ID,
   PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME_BADGE_ID,
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE_BADGE_ID,
-} = require('../badges-builder');
-const {
+} from '../badges-builder';
+
+import {
   CERTIF_REGULAR_USER1_ID,
   CERTIF_SUCCESS_USER_ID,
   CERTIF_FAILURE_USER_ID,
@@ -15,10 +16,11 @@ const {
   CERTIF_EDU_FORMATION_CONTINUE_2ND_DEGRE_USER_ID,
   CERTIF_EDU_FORMATION_INITIALE_1ER_DEGRE_USER_ID,
   CERTIF_EDU_FORMATION_CONTINUE_1ER_DEGRE_USER_ID,
-} = require('./users');
+} from './users';
 
-const { participateToAssessmentCampaign } = require('../campaign-participations-builder');
-const {
+import { participateToAssessmentCampaign } from '../campaign-participations-builder';
+
+import {
   TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
   TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V2,
   TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V3,
@@ -26,9 +28,10 @@ const {
   TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE,
   TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_1ER_DEGRE,
   TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE,
-} = require('../target-profiles-builder');
-const { PRO_COMPANY_ID, PRO_LEARNER_ASSOCIATED_ID } = require('../organizations-pro-builder');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+} from '../target-profiles-builder';
+
+import { PRO_COMPANY_ID, PRO_LEARNER_ASSOCIATED_ID } from '../organizations-pro-builder';
+import CampaignParticipationStatuses from '../../../../lib/domain/models/CampaignParticipationStatuses';
 const { SHARED } = CampaignParticipationStatuses;
 
 function badgeAcquisitionBuilder({ databaseBuilder }) {
@@ -90,7 +93,7 @@ function badgeAcquisitionBuilder({ databaseBuilder }) {
   });
 }
 
-module.exports = {
+export default {
   badgeAcquisitionBuilder,
 };
 

@@ -1,11 +1,12 @@
-const has = require('lodash/has');
-const {
+import has from 'lodash/has';
+
+import {
   AlreadyRegisteredEmailAndUsernameError,
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
-} = require('../errors');
+} from '../errors';
 
-module.exports = async function updateUserDetailsForAdministration({
+export default async function updateUserDetailsForAdministration({
   userId,
   userDetailsForAdministration,
   userRepository,
@@ -29,7 +30,7 @@ module.exports = async function updateUserDetailsForAdministration({
   await userRepository.updateUserDetailsForAdministration({ id: userId, userAttributes: userDetailsForAdministration });
 
   return userRepository.getUserDetailsForAdmin(userId);
-};
+}
 
 async function _checkEmailAndUsernameAreAvailable({ usersWithEmail, usersWithUsername }) {
   const isEmailAlreadyUsed = has(usersWithEmail, '[0].email');

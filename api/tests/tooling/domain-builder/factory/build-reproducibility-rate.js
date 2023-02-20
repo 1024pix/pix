@@ -1,5 +1,5 @@
-const { ReproducibilityRate } = require('../../../../lib/domain/models/ReproducibilityRate');
+import { ReproducibilityRate } from '../../../../lib/domain/models/ReproducibilityRate';
 
-module.exports = function buildReproducibilityRate({ value = 10 } = {}) {
+export default function buildReproducibilityRate({ value = 10 } = {}) {
   return new ReproducibilityRate(value);
-};
+}

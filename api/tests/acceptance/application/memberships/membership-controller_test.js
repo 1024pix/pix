@@ -1,8 +1,7 @@
-const _ = require('lodash');
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../../test-helper');
-
-const createServer = require('../../../../server');
-const Membership = require('../../../../lib/domain/models/Membership');
+import _ from 'lodash';
+import { expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } from '../../../test-helper';
+import createServer from '../../../../server';
+import Membership from '../../../../lib/domain/models/Membership';
 
 describe('Acceptance | Controller | membership-controller', function () {
   let server;

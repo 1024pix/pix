@@ -1,10 +1,9 @@
-const User = require('../../../../lib/domain/models/User');
+import User from '../../../../lib/domain/models/User';
+import buildMembership from './build-membership';
+import buildCertificationCenterMembership from './build-certification-center-membership';
+import buildAuthenticationMethod from './build-authentication-method';
 
-const buildMembership = require('./build-membership');
-const buildCertificationCenterMembership = require('./build-certification-center-membership');
-const buildAuthenticationMethod = require('./build-authentication-method');
-
-module.exports = function buildUser({
+export default function buildUser({
   id = 123,
   firstName = 'Lorie',
   lastName = 'MeilleureAmie',
@@ -48,4 +47,4 @@ module.exports = function buildUser({
     hasBeenAnonymised,
     hasBeenAnonymisedBy,
   });
-};
+}

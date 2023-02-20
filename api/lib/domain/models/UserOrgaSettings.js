@@ -6,4 +6,4 @@ class UserOrgaSettings {
   }
 }
 
-module.exports = UserOrgaSettings;
+export default UserOrgaSettings;

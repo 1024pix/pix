@@ -1,7 +1,7 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
-const AnswerStatus = require('../../../../../lib/domain/models/AnswerStatus');
-const SmartRandom = require('../../../../../lib/domain/services/algorithm-methods/smart-random');
-const _ = require('lodash');
+import { expect, domainBuilder } from '../../../../test-helper';
+import AnswerStatus from '../../../../../lib/domain/models/AnswerStatus';
+import SmartRandom from '../../../../../lib/domain/services/algorithm-methods/smart-random';
+import _ from 'lodash';
 
 const KNOWLEDGE_ELEMENT_STATUS = {
   VALIDATED: 'validated',

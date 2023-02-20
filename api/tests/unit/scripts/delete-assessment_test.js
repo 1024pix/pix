@@ -1,6 +1,5 @@
-const { expect, sinon } = require('../../test-helper');
-
-const { ScriptQueryBuilder, AssessmentEraser } = require('../../../scripts/delete-assessment');
+import { expect, sinon } from '../../test-helper';
+import { ScriptQueryBuilder, AssessmentEraser } from '../../../scripts/delete-assessment';
 
 describe('Delete Assessment Script', function () {
   describe('ScriptQueryBuilder', function () {

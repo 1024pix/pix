@@ -1,6 +1,6 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
-const complementaryCertificationHabilitationRepository = require('../../../../lib/infrastructure/repositories/complementary-certification-habilitation-repository');
-const { knex } = require('../../../../lib/infrastructure/bookshelf');
+import { expect, databaseBuilder } from '../../../test-helper';
+import complementaryCertificationHabilitationRepository from '../../../../lib/infrastructure/repositories/complementary-certification-habilitation-repository';
+import { knex } from '../../../../lib/infrastructure/bookshelf';
 
 describe('Integration | Infrastructure | Repository | complementary-certification-habilitation-repository', function () {
   context('#save', function () {

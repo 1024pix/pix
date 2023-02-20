@@ -42,4 +42,4 @@ class GeneralCertificationInformation {
   }
 }
 
-module.exports = GeneralCertificationInformation;
+export default GeneralCertificationInformation;

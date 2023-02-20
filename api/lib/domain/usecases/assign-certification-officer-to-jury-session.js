@@ -1,4 +1,4 @@
-module.exports = async function assignCertificationOfficerToJurySession({
+export default async function assignCertificationOfficerToJurySession({
   sessionId,
   certificationOfficerId,
   jurySessionRepository,
@@ -16,4 +16,4 @@ module.exports = async function assignCertificationOfficerToJurySession({
     id: finalizedSession.sessionId,
     assignedCertificationOfficerId: certificationOfficer.id,
   });
-};
+}

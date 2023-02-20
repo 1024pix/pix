@@ -1,7 +1,7 @@
-const buildTube = require('./build-tube');
-const TrainingTrigger = require('../../../../lib/domain/models/TrainingTrigger');
+import buildTube from './build-tube';
+import TrainingTrigger from '../../../../lib/domain/models/TrainingTrigger';
 
-module.exports = function buildTrainingTrigger({
+export default function buildTrainingTrigger({
   id = 1000,
   trainingId = 156,
   tubesWithLevel = [{ ...buildTube(), level: 2 }],
@@ -15,4 +15,4 @@ module.exports = function buildTrainingTrigger({
     type,
     threshold,
   });
-};
+}

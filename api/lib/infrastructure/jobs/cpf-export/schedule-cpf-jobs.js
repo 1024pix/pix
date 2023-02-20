@@ -1,8 +1,10 @@
-const handlers = require('./');
-const logger = require('../../logger');
-const { plannerJob, sendEmailJob } = require('../../../config').cpf;
+import handlers from './';
+import logger from '../../logger';
+import { cpf } from '../../../config';
 
-module.exports = async function scheduleCpfJobs(pgBoss) {
+const { plannerJob: plannerJob, sendEmailJob: sendEmailJob } = cpf;
+
+export default async function scheduleCpfJobs(pgBoss) {
   await pgBoss.schedule('CpfExportPlannerJob', plannerJob.cron, null, { tz: 'Europe/Paris' });
 
   await pgBoss.work('CpfExportPlannerJob', async (job) => {
@@ -17,7 +19,7 @@ module.exports = async function scheduleCpfJobs(pgBoss) {
   await pgBoss.work('CpfExportSenderJob', async (job) => {
     await _processJob(job, handlers.sendEmail, {});
   });
-};
+}
 
 async function _processJob(job, handler, params) {
   try {

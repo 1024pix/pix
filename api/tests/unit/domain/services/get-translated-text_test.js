@@ -1,6 +1,5 @@
-const { expect } = require('../../../test-helper');
-
-const service = require('../../../../lib/domain/services/get-translated-text');
+import { expect } from '../../../test-helper';
+import service from '../../../../lib/domain/services/get-translated-text';
 describe('Unit | Domain | Services | get-translated-text', function () {
   describe('#getTranslatedKey', function () {
     const translatedKey = {

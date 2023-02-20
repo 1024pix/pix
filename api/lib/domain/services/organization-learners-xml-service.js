@@ -1,6 +1,6 @@
-const SiecleParser = require('../../infrastructure/serializers/xml/siecle-parser');
+import SiecleParser from '../../infrastructure/serializers/xml/siecle-parser';
 
-module.exports = {
+export default {
   extractOrganizationLearnersInformationFromSIECLE,
 };
 

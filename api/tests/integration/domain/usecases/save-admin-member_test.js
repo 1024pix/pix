@@ -1,8 +1,11 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
-const saveAdminMember = require('../../../../lib/domain/usecases/save-admin-member');
-const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
-const adminMemberRepository = require('../../../../lib/infrastructure/repositories/admin-member-repository');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+import { expect, databaseBuilder } from '../../../test-helper';
+import saveAdminMember from '../../../../lib/domain/usecases/save-admin-member';
+import { PIX_ADMIN } from '../../../../lib/domain/constants';
+
+const { ROLES: ROLES } = PIX_ADMIN;
+
+import adminMemberRepository from '../../../../lib/infrastructure/repositories/admin-member-repository';
+import userRepository from '../../../../lib/infrastructure/repositories/user-repository';
 
 describe('Integration | UseCases | save-admin-member', function () {
   context('when admin member exists and is disabled', function () {

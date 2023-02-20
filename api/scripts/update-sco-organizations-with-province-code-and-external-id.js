@@ -1,11 +1,14 @@
 'use strict';
 require('dotenv').config();
-const path = require('path');
-const fs = require('fs');
-const { access } = require('fs').promises;
-const request = require('request-promise-native');
-const papa = require('papaparse');
-const { disconnect } = require('../db/knex-database-connection');
+import path from 'path';
+import fs from 'fs';
+import { promises } from 'fs';
+
+const { access: access } = promises;
+
+import request from 'request-promise-native';
+import papa from 'papaparse';
+import { disconnect } from '../db/knex-database-connection';
 
 const CSV_HEADERS = {
   ID: 'Orga_ID',
@@ -154,7 +157,7 @@ async function main() {
   }
 })();
 
-module.exports = {
+export default {
   assertFileValidity,
   convertCSVDataIntoOrganizations,
   saveOrganizations,

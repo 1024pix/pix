@@ -1,8 +1,8 @@
-const { sinon, databaseBuilder, expect, domainBuilder } = require('../../../test-helper');
-const BookshelfTargetProfile = require('../../../../lib/infrastructure/orm-models/TargetProfile');
-const BookshelfTargetProfileShare = require('../../../../lib/infrastructure/orm-models/TargetProfileShare');
-const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
-const targetProfileAdapter = require('../../../../lib/infrastructure/adapters/target-profile-adapter');
+import { sinon, databaseBuilder, expect, domainBuilder } from '../../../test-helper';
+import BookshelfTargetProfile from '../../../../lib/infrastructure/orm-models/TargetProfile';
+import BookshelfTargetProfileShare from '../../../../lib/infrastructure/orm-models/TargetProfileShare';
+import TargetProfile from '../../../../lib/domain/models/TargetProfile';
+import targetProfileAdapter from '../../../../lib/infrastructure/adapters/target-profile-adapter';
 
 describe('Unit | Infrastructure | Adapter | targetProfileAdapter', function () {
   it('should adapt TargetProfile object to domain', function () {

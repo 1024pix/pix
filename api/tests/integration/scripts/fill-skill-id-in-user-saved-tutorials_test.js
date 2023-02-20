@@ -1,4 +1,4 @@
-const {
+import {
   expect,
   databaseBuilder,
   learningContentBuilder,
@@ -6,8 +6,9 @@ const {
   domainBuilder,
   knex,
   sinon,
-} = require('../../test-helper');
-const {
+} from '../../test-helper';
+
+import {
   getAllUserSavedTutorialsWithoutSkillId,
   getAllTutorials,
   getAllSkills,
@@ -15,10 +16,11 @@ const {
   associateSkillsToTutorial,
   getMostRelevantSkillId,
   main,
-} = require('../../../scripts/fill-skill-id-in-user-saved-tutorials');
-const UserSavedTutorial = require('../../../lib/domain/models/UserSavedTutorial');
-const UserSavedTutorialWithTutorial = require('../../../lib/domain/models/UserSavedTutorialWithTutorial');
-const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
+} from '../../../scripts/fill-skill-id-in-user-saved-tutorials';
+
+import UserSavedTutorial from '../../../lib/domain/models/UserSavedTutorial';
+import UserSavedTutorialWithTutorial from '../../../lib/domain/models/UserSavedTutorialWithTutorial';
+import KnowledgeElement from '../../../lib/domain/models/KnowledgeElement';
 
 describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', function () {
   describe('#main', function () {

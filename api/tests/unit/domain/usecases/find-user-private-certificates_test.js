@@ -1,5 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const findUserPrivateCertificates = require('../../../../lib/domain/usecases/find-user-private-certificates');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import findUserPrivateCertificates from '../../../../lib/domain/usecases/find-user-private-certificates';
 
 describe('Unit | UseCase | find-user-private-certificates', function () {
   const certificateRepository = {};

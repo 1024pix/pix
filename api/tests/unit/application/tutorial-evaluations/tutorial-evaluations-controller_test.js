@@ -1,8 +1,8 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
-const tutorialEvaluationsController = require('../../../../lib/application/tutorial-evaluations/tutorial-evaluations-controller');
-const usecases = require('../../../../lib/domain/usecases');
-const TutorialEvaluation = require('../../../../lib/domain/models/TutorialEvaluation');
-const tutorialEvaluationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/tutorial-evaluation-serializer');
+import { sinon, expect, hFake } from '../../../test-helper';
+import tutorialEvaluationsController from '../../../../lib/application/tutorial-evaluations/tutorial-evaluations-controller';
+import usecases from '../../../../lib/domain/usecases';
+import TutorialEvaluation from '../../../../lib/domain/models/TutorialEvaluation';
+import tutorialEvaluationSerializer from '../../../../lib/infrastructure/serializers/jsonapi/tutorial-evaluation-serializer';
 
 describe('Unit | Controller | Tutorial-evaluations', function () {
   describe('#evaluate', function () {

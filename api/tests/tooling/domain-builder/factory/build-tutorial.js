@@ -1,6 +1,6 @@
-const Tutorial = require('../../../../lib/domain/models/Tutorial');
+import Tutorial from '../../../../lib/domain/models/Tutorial';
 
-module.exports = function buildTutorial({
+export default function buildTutorial({
   id = 'recTuto1',
   duration = '00:01:30',
   format = 'video',
@@ -16,4 +16,4 @@ module.exports = function buildTutorial({
     source,
     title,
   });
-};
+}

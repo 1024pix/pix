@@ -1,10 +1,10 @@
-const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection');
-const BookshelfKnowledgeElementSnapshot = require('../orm-models/KnowledgeElementSnapshot');
-const KnowledgeElement = require('../../domain/models/KnowledgeElement');
-const { AlreadyExistingEntityError } = require('../../domain/errors');
-const bookshelfUtils = require('../utils/knex-utils');
-const DomainTransaction = require('../DomainTransaction');
+import _ from 'lodash';
+import { knex } from '../../../db/knex-database-connection';
+import BookshelfKnowledgeElementSnapshot from '../orm-models/KnowledgeElementSnapshot';
+import KnowledgeElement from '../../domain/models/KnowledgeElement';
+import { AlreadyExistingEntityError } from '../../domain/errors';
+import bookshelfUtils from '../utils/knex-utils';
+import DomainTransaction from '../DomainTransaction';
 
 function _toKnowledgeElementCollection({ snapshot } = {}) {
   if (!snapshot) return null;
@@ -17,7 +17,7 @@ function _toKnowledgeElementCollection({ snapshot } = {}) {
   );
 }
 
-module.exports = {
+export default {
   async save({ userId, snappedAt, knowledgeElements, domainTransaction = DomainTransaction.emptyTransaction() }) {
     try {
       await new BookshelfKnowledgeElementSnapshot({

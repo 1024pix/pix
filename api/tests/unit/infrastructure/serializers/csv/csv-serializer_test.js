@@ -1,8 +1,8 @@
-const { expect, sinon, catchErr } = require('../../../../test-helper');
-const csvSerializer = require('../../../../../lib/infrastructure/serializers/csv/csv-serializer');
-const logger = require('../../../../../lib/infrastructure/logger');
-const _ = require('lodash');
-const { FileValidationError } = require('../../../../../lib/domain/errors');
+import { expect, sinon, catchErr } from '../../../../test-helper';
+import csvSerializer from '../../../../../lib/infrastructure/serializers/csv/csv-serializer';
+import logger from '../../../../../lib/infrastructure/logger';
+import _ from 'lodash';
+import { FileValidationError } from '../../../../../lib/domain/errors';
 
 describe('Unit | Serializer | CSV | csv-serializer', function () {
   describe('#serializeLine', function () {

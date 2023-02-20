@@ -1,6 +1,6 @@
-const Training = require('../../../../lib/domain/models/Training');
+import Training from '../../../../lib/domain/models/Training';
 
-module.exports = function buildTraining({
+export default function buildTraining({
   id = 'training1',
   title = 'Training 1',
   link = 'https://example.net',
@@ -28,4 +28,4 @@ module.exports = function buildTraining({
     goalThreshold,
     prerequisiteThreshold,
   });
-};
+}

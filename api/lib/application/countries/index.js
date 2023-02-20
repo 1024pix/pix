@@ -1,6 +1,6 @@
-const countryController = require('./country-controller');
+import countryController from './country-controller';
 
-exports.register = async function (server) {
+export const register = async function (server) {
   server.route([
     {
       method: 'GET',
@@ -17,4 +17,4 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'certification-cpf-countries';
+export const name = 'certification-cpf-countries';

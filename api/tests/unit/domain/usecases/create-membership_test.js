@@ -1,7 +1,7 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const createMembership = require('../../../../lib/domain/usecases/create-membership');
-const Membership = require('../../../../lib/domain/models/Membership');
-const { OrganizationArchivedError } = require('../../../../lib/domain/errors');
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper';
+import createMembership from '../../../../lib/domain/usecases/create-membership';
+import Membership from '../../../../lib/domain/models/Membership';
+import { OrganizationArchivedError } from '../../../../lib/domain/errors';
 
 describe('Unit | UseCase | create-membership', function () {
   it('should insert a new membership with role ADMIN', async function () {

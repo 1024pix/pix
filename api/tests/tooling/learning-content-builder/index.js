@@ -1,3 +1,3 @@
-module.exports = {
+export default {
   buildLearningContent: require('./build-learning-content'),
 };

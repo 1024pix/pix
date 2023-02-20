@@ -1,6 +1,6 @@
-const CleaCertifiedCandidate = require('../../../../lib/domain/read-models/CleaCertifiedCandidate');
+import CleaCertifiedCandidate from '../../../../lib/domain/read-models/CleaCertifiedCandidate';
 
-module.exports = function buildCleaCertifiedCandidate({
+export default function buildCleaCertifiedCandidate({
   firstName = 'Gandhi',
   lastName = 'Matmatah',
   resultRecipientEmail = 'matmatahGdu75@dhi.fr',
@@ -24,4 +24,4 @@ module.exports = function buildCleaCertifiedCandidate({
     sex,
     createdAt,
   });
-};
+}

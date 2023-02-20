@@ -1,11 +1,11 @@
-const redis = require('redis');
-const Redlock = require('redlock');
-const { promisify } = require('util');
-const logger = require('../logger');
+import redis from 'redis';
+import Redlock from 'redlock';
+import { promisify } from 'util';
+import logger from '../logger';
 
 const REDIS_CLIENT_OPTIONS = {};
 
-module.exports = class RedisClient {
+export default class RedisClient {
   constructor(redisUrl, { name, prefix } = {}) {
     this._clientName = name;
 
@@ -63,4 +63,4 @@ module.exports = class RedisClient {
   async quit() {
     await this._client.quit();
   }
-};
+}

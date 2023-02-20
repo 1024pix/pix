@@ -1,8 +1,6 @@
-const { catchErr, expect, sinon } = require('../../../test-helper');
-
-const { AlreadyExistingEntityError, UserNotFoundError } = require('../../../../lib/domain/errors');
-
-const createCertificationCenterMembershipByEmail = require('../../../../lib/domain/usecases/create-certification-center-membership-by-email');
+import { catchErr, expect, sinon } from '../../../test-helper';
+import { AlreadyExistingEntityError, UserNotFoundError } from '../../../../lib/domain/errors';
+import createCertificationCenterMembershipByEmail from '../../../../lib/domain/usecases/create-certification-center-membership-by-email';
 
 describe('Unit | UseCase | create-certification-center-membership-by-email', function () {
   const certificationCenterId = 1;

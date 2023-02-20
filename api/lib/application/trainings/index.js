@@ -1,11 +1,10 @@
-const Joi = require('joi');
+import Joi from 'joi';
+import trainingsController from './training-controller';
+import identifiersType from '../../domain/types/identifiers-type';
+import securityPreHandlers from '../security-pre-handlers';
+import { sendJsonApiError, NotFoundError } from '../http-errors';
 
-const trainingsController = require('./training-controller');
-const identifiersType = require('../../domain/types/identifiers-type');
-const securityPreHandlers = require('../security-pre-handlers');
-const { sendJsonApiError, NotFoundError } = require('../http-errors');
-
-exports.register = async (server) => {
+export const register = async (server) => {
   server.route([
     {
       method: 'GET',
@@ -275,4 +274,4 @@ exports.register = async (server) => {
   ]);
 };
 
-exports.name = 'trainings-api';
+export const name = 'trainings-api';

@@ -1,5 +1,7 @@
-const AdminMember = require('../../../../lib/domain/models/AdminMember');
-const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
+import AdminMember from '../../../../lib/domain/models/AdminMember';
+import { PIX_ADMIN } from '../../../../lib/domain/constants';
+
+const { ROLES: ROLES } = PIX_ADMIN;
 
 const buildAdminMember = function ({
   id = 1,
@@ -107,4 +109,4 @@ buildAdminMember.withRoleSuperAdmin = function ({
   });
 };
 
-module.exports = buildAdminMember;
+export default buildAdminMember;

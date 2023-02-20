@@ -16,4 +16,4 @@ const keys = {
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT',
 };
 
-module.exports.badges = { keys };
+export const badges = { keys };

@@ -1,22 +1,20 @@
-const usecases = require('../../domain/usecases');
+import usecases from '../../domain/usecases';
+import certificationCenterSerializer from '../../infrastructure/serializers/jsonapi/certification-center-serializer';
+import certificationCenterForAdminSerializer from '../../infrastructure/serializers/jsonapi/certification-center-for-admin-serializer';
+import certificationCenterMembershipSerializer from '../../infrastructure/serializers/jsonapi/certification-center-membership-serializer';
+import divisionSerializer from '../../infrastructure/serializers/jsonapi/division-serializer';
+import studentCertificationSerializer from '../../infrastructure/serializers/jsonapi/student-certification-serializer';
+import sessionSummarySerializer from '../../infrastructure/serializers/jsonapi/session-summary-serializer';
+import certificationCenterInvitationSerializer from '../../infrastructure/serializers/jsonapi/certification-center-invitation-serializer';
+import sessionSerializer from '../../infrastructure/serializers/jsonapi/session-serializer';
+import queryParamsUtils from '../../infrastructure/utils/query-params-utils';
+import map from 'lodash/map';
+import csvHelpers from '../../../scripts/helpers/csvHelpers';
+import csvSerializer from '../../infrastructure/serializers/csv/csv-serializer';
+import { getHeaders } from '../../infrastructure/files/sessions-import';
+import { UnprocessableEntityError } from '../../application/http-errors';
 
-const certificationCenterSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-serializer');
-const certificationCenterForAdminSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-for-admin-serializer');
-const certificationCenterMembershipSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-membership-serializer');
-const divisionSerializer = require('../../infrastructure/serializers/jsonapi/division-serializer');
-const studentCertificationSerializer = require('../../infrastructure/serializers/jsonapi/student-certification-serializer');
-const sessionSummarySerializer = require('../../infrastructure/serializers/jsonapi/session-summary-serializer');
-const certificationCenterInvitationSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-invitation-serializer');
-const sessionSerializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
-
-const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
-const map = require('lodash/map');
-const csvHelpers = require('../../../scripts/helpers/csvHelpers');
-const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
-const { getHeaders } = require('../../infrastructure/files/sessions-import');
-const { UnprocessableEntityError } = require('../../application/http-errors');
-
-module.exports = {
+export default {
   async saveSession(request) {
     const userId = request.auth.credentials.userId;
     const session = sessionSerializer.deserialize(request.payload);

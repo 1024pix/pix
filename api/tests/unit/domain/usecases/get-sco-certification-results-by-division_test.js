@@ -1,6 +1,6 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const getScoCertificationResultsByDivision = require('../../../../lib/domain/usecases/get-sco-certification-results-by-division');
-const { NoCertificationResultForDivision } = require('../../../../lib/domain/errors');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper';
+import getScoCertificationResultsByDivision from '../../../../lib/domain/usecases/get-sco-certification-results-by-division';
+import { NoCertificationResultForDivision } from '../../../../lib/domain/errors';
 
 describe('Unit | UseCase | get-sco-certification-results-by-division', function () {
   const scoCertificationCandidateRepository = { findIdsByOrganizationIdAndDivision: null };

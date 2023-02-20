@@ -1,7 +1,6 @@
-const { parseCsvWithHeader } = require('./helpers/csvHelpers');
-
-const Bookshelf = require('../lib/infrastructure/bookshelf');
-const { disconnect } = require('../db/knex-database-connection');
+import { parseCsvWithHeader } from './helpers/csvHelpers';
+import Bookshelf from '../lib/infrastructure/bookshelf';
+import { disconnect } from '../db/knex-database-connection';
 
 function prepareDataForInsert(rawCertificationCenters) {
   return rawCertificationCenters.map(({ name, uai }) => {
@@ -50,7 +49,7 @@ async function main() {
   }
 })();
 
-module.exports = {
+export default {
   prepareDataForInsert,
   createScoCertificationCenters,
 };

@@ -1,7 +1,7 @@
-const { catchErr, databaseBuilder, expect, knex, domainBuilder } = require('../../../test-helper');
-const certificationCandidateForSupervisingRepository = require('../../../../lib/infrastructure/repositories/certification-candidate-for-supervising-repository');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const Assessment = require('../../../../lib/domain/models/Assessment');
+import { catchErr, databaseBuilder, expect, knex, domainBuilder } from '../../../test-helper';
+import certificationCandidateForSupervisingRepository from '../../../../lib/infrastructure/repositories/certification-candidate-for-supervising-repository';
+import { NotFoundError } from '../../../../lib/domain/errors';
+import Assessment from '../../../../lib/domain/models/Assessment';
 
 describe('Integration | Repository | certification candidate for supervising', function () {
   describe('#get', function () {

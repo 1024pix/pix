@@ -1,6 +1,6 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const attachTargetProfilesToTraining = require('../../../../lib/domain/usecases/attach-target-profiles-to-training');
+import { expect, sinon, catchErr } from '../../../test-helper';
+import { NotFoundError } from '../../../../lib/domain/errors';
+import attachTargetProfilesToTraining from '../../../../lib/domain/usecases/attach-target-profiles-to-training';
 
 describe('Unit | UseCase | attach-target-profiles-to-training', function () {
   let targetProfileRepository;

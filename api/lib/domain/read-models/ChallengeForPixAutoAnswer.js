@@ -25,4 +25,4 @@ class ChallengeForPixAutoAnswer {
 
 ChallengeForPixAutoAnswer.Type = ChallengeType;
 
-module.exports = ChallengeForPixAutoAnswer;
+export default ChallengeForPixAutoAnswer;

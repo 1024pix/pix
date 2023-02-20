@@ -1,6 +1,6 @@
-const Skill = require('../../domain/models/Skill');
+import Skill from '../../domain/models/Skill';
 
-module.exports = {
+export default {
   fromDatasourceObject(datasourceObject) {
     return new Skill({
       id: datasourceObject.id,

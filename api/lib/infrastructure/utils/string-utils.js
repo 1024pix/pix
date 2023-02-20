@@ -1,4 +1,4 @@
-const _ = require('../../infrastructure/utils/lodash-utils');
+import _ from '../../infrastructure/utils/lodash-utils';
 
 function getArrayOfStrings(commaSeparatedStrings) {
   if (!commaSeparatedStrings) return [];
@@ -66,7 +66,7 @@ function toArrayOfFixedLengthStringsConservingWords(str, maxLength) {
   return result.map((str) => str.trim());
 }
 
-module.exports = {
+export default {
   isNumeric,
   splitIntoWordsAndRemoveBackspaces,
   cleanStringAndParseFloat,

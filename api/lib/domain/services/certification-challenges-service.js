@@ -1,22 +1,21 @@
-const _ = require('lodash');
+import _ from 'lodash';
+import CertificationChallenge from '../models/CertificationChallenge';
 
-const CertificationChallenge = require('../models/CertificationChallenge');
-
-const {
+import {
   MAX_CHALLENGES_PER_COMPETENCE_FOR_CERTIFICATION,
   MAX_CHALLENGES_PER_AREA_FOR_CERTIFICATION_PLUS,
   PIX_ORIGIN,
-} = require('../constants');
+} from '../constants';
 
-const KnowledgeElement = require('../models/KnowledgeElement');
-const Challenge = require('../models/Challenge');
-const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
-const answerRepository = require('../../infrastructure/repositories/answer-repository');
-const knowledgeElementRepository = require('../../infrastructure/repositories/knowledge-element-repository');
-const learningContentRepository = require('../../infrastructure/repositories/learning-content-repository');
-const certifiableProfileForLearningContentRepository = require('../../infrastructure/repositories/certifiable-profile-for-learning-content-repository');
+import KnowledgeElement from '../models/KnowledgeElement';
+import Challenge from '../models/Challenge';
+import challengeRepository from '../../infrastructure/repositories/challenge-repository';
+import answerRepository from '../../infrastructure/repositories/answer-repository';
+import knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository';
+import learningContentRepository from '../../infrastructure/repositories/learning-content-repository';
+import certifiableProfileForLearningContentRepository from '../../infrastructure/repositories/certifiable-profile-for-learning-content-repository';
 
-module.exports = {
+export default {
   async pickCertificationChallenges(placementProfile, locale) {
     const certifiableUserCompetences = placementProfile.getCertifiableUserCompetences();
 

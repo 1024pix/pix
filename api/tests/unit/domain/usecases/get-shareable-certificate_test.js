@@ -1,5 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const getCertificationByVerificationCode = require('../../../../lib/domain/usecases/certificate/get-shareable-certificate');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import getCertificationByVerificationCode from '../../../../lib/domain/usecases/certificate/get-shareable-certificate';
 
 describe('Unit | UseCase | get-shareable-certificate', function () {
   const certificateRepository = {

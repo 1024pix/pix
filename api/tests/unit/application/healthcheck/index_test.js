@@ -1,7 +1,6 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-
-const moduleUnderTest = require('../../../../lib/application/healthcheck');
-const healthcheckController = require('../../../../lib/application/healthcheck/healthcheck-controller');
+import { expect, HttpTestServer, sinon } from '../../../test-helper';
+import moduleUnderTest from '../../../../lib/application/healthcheck';
+import healthcheckController from '../../../../lib/application/healthcheck/healthcheck-controller';
 
 describe('Unit | Router | HealthcheckRouter', function () {
   describe('GET /api', function () {

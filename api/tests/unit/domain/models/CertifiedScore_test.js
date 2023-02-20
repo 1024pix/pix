@@ -1,8 +1,7 @@
-const { expect } = require('../../../test-helper');
-const { CertifiedScore } = require('../../../../lib/domain/models/CertifiedScore');
-const { CertifiedLevel } = require('../../../../lib/domain/models/CertifiedLevel');
-
-const { PIX_COUNT_BY_LEVEL } = require('../../../../lib/domain/constants');
+import { expect } from '../../../test-helper';
+import { CertifiedScore } from '../../../../lib/domain/models/CertifiedScore';
+import { CertifiedLevel } from '../../../../lib/domain/models/CertifiedLevel';
+import { PIX_COUNT_BY_LEVEL } from '../../../../lib/domain/constants';
 
 describe('Unit | Domain | Models | CertifiedScore', function () {
   it('is equal to the estimated score if the estimated level is certified', function () {

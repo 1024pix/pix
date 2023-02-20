@@ -1,12 +1,12 @@
-const {
+import {
   databaseBuilder,
   expect,
   insertUserWithRoleSuperAdmin,
   generateValidRequestAuthorizationHeader,
-} = require('../../../test-helper');
+} from '../../../test-helper';
 
-const createServer = require('../../../../server');
-const Membership = require('../../../../lib/domain/models/Membership');
+import createServer from '../../../../server';
+import Membership from '../../../../lib/domain/models/Membership';
 
 describe('Acceptance | Controller | organization-learner', function () {
   let server;

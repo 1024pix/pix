@@ -1,6 +1,8 @@
-const { expect, sinon } = require('../../../test-helper');
-const updateAdminMember = require('../../../../lib/domain/usecases/update-admin-member');
-const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
+import { expect, sinon } from '../../../test-helper';
+import updateAdminMember from '../../../../lib/domain/usecases/update-admin-member';
+import { PIX_ADMIN } from '../../../../lib/domain/constants';
+
+const { ROLES: ROLES } = PIX_ADMIN;
 
 describe('Unit | UseCase | update-admin-member', function () {
   it('should update the given admin member', async function () {

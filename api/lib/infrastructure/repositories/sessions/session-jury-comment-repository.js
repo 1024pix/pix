@@ -1,8 +1,8 @@
-const { knex } = require('../../../../db/knex-database-connection');
-const { NotFoundError } = require('../../../domain/errors');
-const SessionJuryComment = require('../../../domain/models/SessionJuryComment');
+import { knex } from '../../../../db/knex-database-connection';
+import { NotFoundError } from '../../../domain/errors';
+import SessionJuryComment from '../../../domain/models/SessionJuryComment';
 
-module.exports = {
+export default {
   async get(sessionId) {
     const result = await knex
       .select({

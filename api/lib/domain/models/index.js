@@ -1,4 +1,4 @@
-const path = require('path');
+import path from 'path';
 
 /* eslint-disable-next-line no-sync */
 const dirents = require('fs').readdirSync(__dirname, { withFileTypes: true });

@@ -1,6 +1,6 @@
-const { expect, databaseBuilder, catchErr } = require('../../../test-helper');
-const campaignCreatorRepository = require('../../../../lib/infrastructure/repositories/campaign-creator-repository');
-const { UserNotAuthorizedToCreateCampaignError } = require('../../../../lib/domain/errors');
+import { expect, databaseBuilder, catchErr } from '../../../test-helper';
+import campaignCreatorRepository from '../../../../lib/infrastructure/repositories/campaign-creator-repository';
+import { UserNotAuthorizedToCreateCampaignError } from '../../../../lib/domain/errors';
 
 describe('Integration | Repository | CampaignCreatorRepository', function () {
   describe('#get', function () {

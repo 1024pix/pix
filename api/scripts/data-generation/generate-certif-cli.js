@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 'use strict';
 const inquirer = require('inquirer');
 require('dotenv').config({ path: `${__dirname}/../../.env` });

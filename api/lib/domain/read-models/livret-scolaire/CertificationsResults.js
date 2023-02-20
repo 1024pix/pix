@@ -5,4 +5,4 @@ class CertificationsResults {
   }
 }
 
-module.exports = CertificationsResults;
+export default CertificationsResults;

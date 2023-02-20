@@ -1,4 +1,4 @@
-module.exports = async function findDivisionsByOrganization({ organizationId, divisionRepository }) {
+export default async function findDivisionsByOrganization({ organizationId, divisionRepository }) {
   const divisionsOrderedByPostgres = await divisionRepository.findByOrganizationIdForCurrentSchoolYear({
     organizationId,
   });
@@ -6,4 +6,4 @@ module.exports = async function findDivisionsByOrganization({ organizationId, di
     divisionA.name.localeCompare(divisionB.name, 'fr')
   );
   return divisionsOrderedByName;
-};
+}

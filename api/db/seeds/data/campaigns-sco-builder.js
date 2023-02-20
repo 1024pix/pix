@@ -1,15 +1,29 @@
-const {
+import {
   TARGET_PROFILE_STAGES_BADGES_ID,
   TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE,
   TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE,
-} = require('./target-profiles-builder');
-const { PRO_BASICS_BADGE_ID, PRO_TOOLS_BADGE_ID } = require('./badges-builder');
-const { SCO_MIDDLE_SCHOOL_ID, SCO_HIGH_SCHOOL_ID, SCO_AGRI_ID, SCO_AEFE_ID, SCO_STUDENT_ID, SCO_FRENCH_USER_ID, SCO_FOREIGNER_USER_ID, SCO_FOREIGNER_USER_ID_IN_ANOTHER_ORGANIZATION, SCO_DISABLED_USER_ID, SCO_STUDENT_NOT_CERTIFIABLE_ID } = require('./organizations-sco-builder');
-const { participateToAssessmentCampaign, participateToProfilesCollectionCampaign } = require('./campaign-participations-builder');
-const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');
+} from './target-profiles-builder';
+
+import { PRO_BASICS_BADGE_ID, PRO_TOOLS_BADGE_ID } from './badges-builder';
+
+import {
+  SCO_MIDDLE_SCHOOL_ID,
+  SCO_HIGH_SCHOOL_ID,
+  SCO_AGRI_ID,
+  SCO_AEFE_ID,
+  SCO_STUDENT_ID,
+  SCO_FRENCH_USER_ID,
+  SCO_FOREIGNER_USER_ID,
+  SCO_FOREIGNER_USER_ID_IN_ANOTHER_ORGANIZATION,
+  SCO_DISABLED_USER_ID,
+  SCO_STUDENT_NOT_CERTIFIABLE_ID,
+} from './organizations-sco-builder';
+
+import { participateToAssessmentCampaign, participateToProfilesCollectionCampaign } from './campaign-participations-builder';
+import CampaignParticipationStatuses from '../../../lib/domain/models/CampaignParticipationStatuses';
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
-module.exports = {
+export default {
   campaignsScoBuilder,
 };
 

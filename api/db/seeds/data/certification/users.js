@@ -15,9 +15,8 @@ const CERTIF_EDU_FORMATION_INITIALE_2ND_DEGRE_USER_ID = 113;
 const CERTIF_EDU_FORMATION_CONTINUE_2ND_DEGRE_USER_ID = 114;
 const CERTIF_EDU_FORMATION_INITIALE_1ER_DEGRE_USER_ID = 115;
 const CERTIF_EDU_FORMATION_CONTINUE_1ER_DEGRE_USER_ID = 116;
-const { DEFAULT_PASSWORD } = require('../users-builder');
-
-const { SCO_STUDENT_ID } = require('../organizations-sco-builder');
+import { DEFAULT_PASSWORD } from '../users-builder';
+import { SCO_STUDENT_ID } from '../organizations-sco-builder';
 
 function certificationUsersBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildUser.withRawPassword({
@@ -174,7 +173,7 @@ function certificationUsersBuilder({ databaseBuilder }) {
   });
 }
 
-module.exports = {
+export default {
   certificationUsersBuilder,
   PIX_SCO_CERTIF_USER_ID,
   CERTIF_SCO_STUDENT_ID: SCO_STUDENT_ID,

@@ -1,12 +1,13 @@
-const { catchErr, domainBuilder, expect, sinon } = require('../../../test-helper');
-const {
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper';
+
+import {
   AlreadyRegisteredEmailAndUsernameError,
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
-} = require('../../../../lib/domain/errors');
-const User = require('../../../../lib/domain/models/User');
+} from '../../../../lib/domain/errors';
 
-const updateUserDetailsForAdministration = require('../../../../lib/domain/usecases/update-user-details-for-administration');
+import User from '../../../../lib/domain/models/User';
+import updateUserDetailsForAdministration from '../../../../lib/domain/usecases/update-user-details-for-administration';
 
 describe('Unit | UseCase | update-user-details-for-administration', function () {
   const userId = 1;

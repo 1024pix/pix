@@ -1,5 +1,5 @@
-const { PRO_COMPANY_ID } = require('./organizations-pro-builder');
-const { PIX_SUPER_ADMIN_ID } = require('./users-builder');
+import { PRO_COMPANY_ID } from './organizations-pro-builder';
+import { PIX_SUPER_ADMIN_ID } from './users-builder';
 function organizationPlacesProBuilder({ databaseBuilder }) {
   const activationDate = new Date();
   const expirationDate = new Date();
@@ -91,6 +91,6 @@ function organizationPlacesProBuilder({ databaseBuilder }) {
   });
 }
 
-module.exports = {
+export default {
   organizationPlacesProBuilder,
 };

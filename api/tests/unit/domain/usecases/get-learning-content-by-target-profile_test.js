@@ -1,5 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const getLearningContentByTargetProfile = require('../../../../lib/domain/usecases/get-learning-content-by-target-profile');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import getLearningContentByTargetProfile from '../../../../lib/domain/usecases/get-learning-content-by-target-profile';
 
 describe('Unit | UseCase | get-learning-content-by-target-profile', function () {
   const learningContentRepository = {};

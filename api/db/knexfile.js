@@ -19,7 +19,7 @@ function localPostgresEnv(databaseUrl, knexAsyncStacktraceEnabled) {
   };
 }
 
-module.exports = {
+export default {
   development: localPostgresEnv(process.env.DATABASE_URL, process.env.KNEX_ASYNC_STACKTRACE_ENABLED),
 
   test: localPostgresEnv(process.env.TEST_DATABASE_URL, process.env.KNEX_ASYNC_STACKTRACE_ENABLED),

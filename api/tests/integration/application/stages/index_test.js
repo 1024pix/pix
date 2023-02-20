@@ -1,12 +1,13 @@
-const {
+import {
   expect,
   sinon,
   HttpTestServer,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
-} = require('../../../test-helper');
-const stagesController = require('../../../../lib/application/stages/stages-controller');
-const moduleUnderTest = require('../../../../lib/application/stages');
+} from '../../../test-helper';
+
+import stagesController from '../../../../lib/application/stages/stages-controller';
+import moduleUnderTest from '../../../../lib/application/stages';
 
 describe('Integration | Application | Stages | Routes', function () {
   describe('POST /api/admin/stages', function () {

@@ -1,9 +1,9 @@
 const TABLE_NAME = 'organizations-accesses';
 
-exports.up = (knex) => {
+export const up = (knex) => {
   return knex.schema.renameTable(TABLE_NAME, 'memberships');
 };
 
-exports.down = (knex) => {
+export const down = (knex) => {
   return knex.schema.renameTable('memberships', TABLE_NAME);
 };

@@ -1,4 +1,4 @@
-module.exports = async function commentSessionAsJury({
+export default async function commentSessionAsJury({
   sessionId,
   juryComment,
   juryCommentAuthorId,
@@ -12,4 +12,4 @@ module.exports = async function commentSessionAsJury({
   });
 
   await sessionJuryCommentRepository.save(sessionJuryComment);
-};
+}

@@ -1,6 +1,5 @@
-const { expect } = require('../../../test-helper');
-
-const EmailingAttempt = require('../../../../lib/domain/models/EmailingAttempt');
+import { expect } from '../../../test-helper';
+import EmailingAttempt from '../../../../lib/domain/models/EmailingAttempt';
 
 describe('Unit | Domain | Models | EmailingAttempt', function () {
   describe('#hasFailed', function () {

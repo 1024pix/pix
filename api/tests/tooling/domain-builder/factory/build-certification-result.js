@@ -1,4 +1,4 @@
-const CertificationResult = require('../../../../lib/domain/models/CertificationResult');
+import CertificationResult from '../../../../lib/domain/models/CertificationResult';
 
 const buildCertificationResult = function ({
   id = 123,
@@ -166,4 +166,4 @@ buildCertificationResult.error = function ({
   });
 };
 
-module.exports = buildCertificationResult;
+export default buildCertificationResult;

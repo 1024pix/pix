@@ -1,9 +1,8 @@
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const solutionServiceQcm = require('../../../../lib/domain/services/solution-service-qcm');
-const Validation = require('../../../../lib/domain/models/Validation');
-const ValidatorQCM = require('../../../../lib/domain/models/ValidatorQCM');
-
-const { expect, domainBuilder, sinon } = require('../../../test-helper');
+import AnswerStatus from '../../../../lib/domain/models/AnswerStatus';
+import solutionServiceQcm from '../../../../lib/domain/services/solution-service-qcm';
+import Validation from '../../../../lib/domain/models/Validation';
+import ValidatorQCM from '../../../../lib/domain/models/ValidatorQCM';
+import { expect, domainBuilder, sinon } from '../../../test-helper';
 
 describe('Unit | Domain | Models | ValidatorQCM', function () {
   beforeEach(function () {

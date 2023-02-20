@@ -1,9 +1,7 @@
-const { expect, knex, databaseBuilder } = require('../../../test-helper');
-
-const Membership = require('../../../../lib/domain/models/Membership');
-const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
-
-const createServer = require('../../../../server');
+import { expect, knex, databaseBuilder } from '../../../test-helper';
+import Membership from '../../../../lib/domain/models/Membership';
+import OrganizationInvitation from '../../../../lib/domain/models/OrganizationInvitation';
+import createServer from '../../../../server';
 
 describe('Acceptance | Application | organization-invitation-controller', function () {
   let server;

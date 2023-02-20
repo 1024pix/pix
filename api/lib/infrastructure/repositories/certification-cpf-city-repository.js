@@ -1,9 +1,9 @@
-const { knex } = require('../../../db/knex-database-connection');
-const CertificationCpfCity = require('../../domain/models/CertificationCpfCity');
+import { knex } from '../../../db/knex-database-connection';
+import CertificationCpfCity from '../../domain/models/CertificationCpfCity';
 
 const COLUMNS = ['id', 'name', 'postalCode', 'INSEECode', 'isActualName'];
 
-module.exports = {
+export default {
   async findByINSEECode({ INSEECode }) {
     const result = await knex
       .select(COLUMNS)

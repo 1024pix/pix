@@ -1,9 +1,8 @@
-const toLower = require('lodash/toLower');
-const isNil = require('lodash/isNil');
-const dayjs = require('dayjs');
-const config = require('../../config');
-
-const AuthenticationMethod = require('./AuthenticationMethod');
+import toLower from 'lodash/toLower';
+import isNil from 'lodash/isNil';
+import dayjs from 'dayjs';
+import config from '../../config';
+import AuthenticationMethod from './AuthenticationMethod';
 
 class User {
   constructor({
@@ -103,4 +102,4 @@ class User {
   }
 }
 
-module.exports = User;
+export default User;

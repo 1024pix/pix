@@ -1,11 +1,10 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const getAssessment = require('../../../../lib/domain/usecases/get-assessment');
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
-const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
-
-const Assessment = require('../../../../lib/domain/models/Assessment');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import getAssessment from '../../../../lib/domain/usecases/get-assessment';
+import assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository';
+import campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository';
+import competenceRepository from '../../../../lib/infrastructure/repositories/competence-repository';
+import courseRepository from '../../../../lib/infrastructure/repositories/course-repository';
+import Assessment from '../../../../lib/domain/models/Assessment';
 
 describe('Unit | UseCase | get-assessment', function () {
   let assessment;

@@ -19,9 +19,10 @@ const PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE_BADGE_ID = 127;
 const PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT_BADGE_ID = 128;
 const PIX_EMPLOI_CLEA_BADGE_ID_V3 = 129;
 
-const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
-const { badges } = require('../../constants');
-const {
+import BadgeCriterion from '../../../lib/domain/models/BadgeCriterion';
+import { badges } from '../../constants';
+
+import {
   targetProfileSkillIdsForCleaBadgeV1,
   targetProfileSkillIdsForCleaBadgeV2,
   targetProfileSkillIdsForCleaBadgeV3,
@@ -35,7 +36,7 @@ const {
   TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE,
   TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_1ER_DEGRE,
   TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE,
-} = require('./target-profiles-builder');
+} from './target-profiles-builder';
 
 function badgesBuilder({ databaseBuilder }) {
   _createBasicsBadge(databaseBuilder);
@@ -919,7 +920,7 @@ function _associatePixEduFormationContinueSkillSets(databaseBuilder, skillIdsFor
   );
 }
 
-module.exports = {
+export default {
   badgesBuilder,
   PIX_EMPLOI_CLEA_BADGE_ID_V1,
   PIX_EMPLOI_CLEA_BADGE_ID_V2,

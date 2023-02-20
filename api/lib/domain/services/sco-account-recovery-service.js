@@ -1,11 +1,13 @@
-const { features } = require('../../config');
-const {
+import { features } from '../../config';
+
+import {
   AccountRecoveryDemandExpired,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   UserNotFoundError,
   UserHasAlreadyLeftSCO,
-} = require('../errors');
-const { uniqBy } = require('lodash');
+} from '../errors';
+
+import { uniqBy } from 'lodash';
 
 async function retrieveOrganizationLearner({
   accountRecoveryDemandRepository,
@@ -100,7 +102,7 @@ async function _checkIfThereAreMultipleUserForTheSameAccount({ userId, organizat
   }
 }
 
-module.exports = {
+export default {
   retrieveOrganizationLearner,
   retrieveAndValidateAccountRecoveryDemand,
 };

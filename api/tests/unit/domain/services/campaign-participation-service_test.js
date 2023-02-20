@@ -1,6 +1,5 @@
-const { expect } = require('../../../test-helper');
-
-const campaignParticipationService = require('./../../../../lib/domain/services/campaign-participation-service');
+import { expect } from '../../../test-helper';
+import campaignParticipationService from './../../../../lib/domain/services/campaign-participation-service';
 
 describe('Unit | Service | Campaign Participation Service', function () {
   describe('progress', function () {

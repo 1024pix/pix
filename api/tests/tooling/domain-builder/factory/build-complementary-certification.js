@@ -1,6 +1,6 @@
-const ComplementaryCertification = require('../../../../lib/domain/models/ComplementaryCertification');
+import ComplementaryCertification from '../../../../lib/domain/models/ComplementaryCertification';
 
-module.exports = function buildComplementaryCertification({
+export default function buildComplementaryCertification({
   id = 1,
   label = 'Complementary certification name',
   key = 'COMPLEMENTARY_CERTIFICATION_KEY',
@@ -10,4 +10,4 @@ module.exports = function buildComplementaryCertification({
     label,
     key,
   });
-};
+}

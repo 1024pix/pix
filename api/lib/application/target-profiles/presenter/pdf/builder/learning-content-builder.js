@@ -1,7 +1,7 @@
-const sortBy = require('lodash/sortBy');
-const areaBuilder = require('./area-builder');
+import sortBy from 'lodash/sortBy';
+import areaBuilder from './area-builder';
 
-module.exports = {
+export default {
   /**
    * @param pdfDocument{PDFDocument}
    * @param learningContent{LearningContent}

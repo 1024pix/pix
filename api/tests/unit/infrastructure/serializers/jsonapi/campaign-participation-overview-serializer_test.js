@@ -1,9 +1,9 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-overview-serializer');
-const CampaignParticipationOverview = require('../../../../../lib/domain/read-models/CampaignParticipationOverview');
-const CampaignParticipationStatuses = require('../../../../../lib/domain/models/CampaignParticipationStatuses');
-const Stage = require('../../../../../lib/domain/models/Stage');
-const CampaignStages = require('../../../../../lib/domain/read-models/campaign/CampaignStages');
+import { expect } from '../../../../test-helper';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-overview-serializer';
+import CampaignParticipationOverview from '../../../../../lib/domain/read-models/CampaignParticipationOverview';
+import CampaignParticipationStatuses from '../../../../../lib/domain/models/CampaignParticipationStatuses';
+import Stage from '../../../../../lib/domain/models/Stage';
+import CampaignStages from '../../../../../lib/domain/read-models/campaign/CampaignStages';
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;
 

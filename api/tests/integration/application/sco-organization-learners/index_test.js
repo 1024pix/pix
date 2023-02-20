@@ -1,8 +1,7 @@
-const { expect, sinon, HttpTestServer } = require('../../../test-helper');
-
-const scoOrganizationLearnerController = require('../../../../lib/application/sco-organization-learners/sco-organization-learner-controller');
-const moduleUnderTest = require('../../../../lib/application/sco-organization-learners');
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
+import { expect, sinon, HttpTestServer } from '../../../test-helper';
+import scoOrganizationLearnerController from '../../../../lib/application/sco-organization-learners/sco-organization-learner-controller';
+import moduleUnderTest from '../../../../lib/application/sco-organization-learners';
+import securityPreHandlers from '../../../../lib/application/security-pre-handlers';
 
 describe('Integration | Application | Route | sco-organization-learners', function () {
   let httpTestServer;

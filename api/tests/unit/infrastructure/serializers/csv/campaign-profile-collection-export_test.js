@@ -1,8 +1,7 @@
-const { PassThrough } = require('stream');
-const { domainBuilder, expect, sinon, streamToPromise } = require('../../../../test-helper');
-
-const CampaignProfilesCollectionExport = require('../../../../../lib/infrastructure/serializers/csv/campaign-profiles-collection-export');
-const { getI18n } = require('../../../../tooling/i18n/i18n');
+import { PassThrough } from 'stream';
+import { domainBuilder, expect, sinon, streamToPromise } from '../../../../test-helper';
+import CampaignProfilesCollectionExport from '../../../../../lib/infrastructure/serializers/csv/campaign-profiles-collection-export';
+import { getI18n } from '../../../../tooling/i18n/i18n';
 
 describe('Unit | Serializer | CSV | campaign-profiles-collection-export', function () {
   describe('#export', function () {

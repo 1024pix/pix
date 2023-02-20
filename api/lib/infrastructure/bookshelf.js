@@ -1,7 +1,6 @@
-const validator = require('validator');
-const _ = require('lodash');
-
-const { knex } = require('../../db/knex-database-connection');
+import validator from 'validator';
+import _ from 'lodash';
+import { knex } from '../../db/knex-database-connection';
 const bookshelf = require('bookshelf')(knex);
 
 validator.isRequired = function (value) {
@@ -17,4 +16,4 @@ bookshelf.plugin('bookshelf-validate', {
   validator: validator,
 });
 
-module.exports = bookshelf;
+export default bookshelf;

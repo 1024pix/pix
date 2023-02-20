@@ -1,9 +1,9 @@
-const types = require('pg').types;
-const { get } = require('lodash');
-const logger = require('../lib/infrastructure/logger');
-const monitoringTools = require('../lib/infrastructure/monitoring-tools');
-const { logging } = require('../lib/config');
-const { performance } = require('perf_hooks');
+import { types } from 'pg';
+import { get } from 'lodash';
+import logger from '../lib/infrastructure/logger';
+import monitoringTools from '../lib/infrastructure/monitoring-tools';
+import { logging } from '../lib/config';
+import { performance } from 'perf_hooks';
 /*
 By default, node-postgres casts a DATE value (PostgreSQL type) as a Date Object (JS type).
 But, when dealing with dates with no time (such as birthdate for example), we want to
@@ -23,14 +23,11 @@ Links :
  */
 types.setTypeParser(types.builtins.INT8, (value) => parseInt(value));
 
-const _ = require('lodash');
-
-const knexConfigs = require('./knexfile');
-const { environment } = require('../lib/config');
-
-/* QueryBuilder Extension */
-const Knex = require('knex');
-const QueryBuilder = require('knex/lib/query/querybuilder');
+import _ from 'lodash';
+import knexConfigs from './knexfile';
+import { environment } from '../lib/config';
+import Knex from 'knex';
+import QueryBuilder from 'knex/lib/query/querybuilder';
 
 try {
   Knex.QueryBuilder.extend('whereInArray', function (column, values) {
@@ -108,7 +105,7 @@ async function emptyAllTables() {
   return knex.raw(`${query}${tables}`);
 }
 
-module.exports = {
+export default {
   knex,
   disconnect,
   emptyAllTables,

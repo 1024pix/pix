@@ -14,4 +14,4 @@ class UserWithActivity {
   }
 }
 
-module.exports = UserWithActivity;
+export default UserWithActivity;

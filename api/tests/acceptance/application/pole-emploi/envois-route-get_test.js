@@ -1,13 +1,14 @@
-const {
+import {
   expect,
   databaseBuilder,
   generateValidRequestAuthorizationHeaderForApplication,
   generateValidRequestAuthorizationHeader,
-} = require('../../../test-helper');
+} from '../../../test-helper';
+
 const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;
 
-const createServer = require('../../../../server');
-const settings = require('../../../../lib/config');
+import createServer from '../../../../server';
+import settings from '../../../../lib/config';
 
 describe('Acceptance | API | Pole Emploi envois', function () {
   let server, options;

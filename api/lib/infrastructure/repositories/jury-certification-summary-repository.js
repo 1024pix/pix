@@ -1,12 +1,12 @@
-const _ = require('lodash');
-const { fetchPage } = require('../utils/knex-utils');
-const { knex } = require('../../../db/knex-database-connection');
-const JuryCertificationSummary = require('../../domain/read-models/JuryCertificationSummary');
-const CertificationIssueReport = require('../../domain/models/CertificationIssueReport');
-const Assessment = require('../../domain/models/Assessment');
-const ComplementaryCertificationCourseResult = require('../../domain/models/ComplementaryCertificationCourseResult');
+import _ from 'lodash';
+import { fetchPage } from '../utils/knex-utils';
+import { knex } from '../../../db/knex-database-connection';
+import JuryCertificationSummary from '../../domain/read-models/JuryCertificationSummary';
+import CertificationIssueReport from '../../domain/models/CertificationIssueReport';
+import Assessment from '../../domain/models/Assessment';
+import ComplementaryCertificationCourseResult from '../../domain/models/ComplementaryCertificationCourseResult';
 
-module.exports = {
+export default {
   async findBySessionId(sessionId) {
     const result = await _getCertificationCoursesIdBySessionIdQuery(sessionId);
 

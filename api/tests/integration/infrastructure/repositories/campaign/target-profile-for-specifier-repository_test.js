@@ -1,7 +1,7 @@
-const { expect, databaseBuilder, domainBuilder, mockLearningContent } = require('../../../../test-helper');
-const TargetProfileForSpecifierRepository = require('../../../../../lib/infrastructure/repositories/campaign/target-profile-for-specifier-repository');
-const TargetProfileForSpecifier = require('../../../../../lib/domain/read-models/campaign/TargetProfileForSpecifier');
-const { categories } = require('../../../../../lib/domain/models/TargetProfile');
+import { expect, databaseBuilder, domainBuilder, mockLearningContent } from '../../../../test-helper';
+import TargetProfileForSpecifierRepository from '../../../../../lib/infrastructure/repositories/campaign/target-profile-for-specifier-repository';
+import TargetProfileForSpecifier from '../../../../../lib/domain/read-models/campaign/TargetProfileForSpecifier';
+import { categories } from '../../../../../lib/domain/models/TargetProfile';
 
 describe('Integration | Infrastructure | Repository | target-profile-for-campaign-repository', function () {
   describe('#availableForOrganization', function () {

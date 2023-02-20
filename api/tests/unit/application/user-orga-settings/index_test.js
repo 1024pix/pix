@@ -1,6 +1,6 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-const userOrgaSettingsController = require('../../../../lib/application/user-orga-settings/user-orga-settings-controller');
-const moduleUnderTest = require('../../../../lib/application/user-orga-settings');
+import { expect, HttpTestServer, sinon } from '../../../test-helper';
+import userOrgaSettingsController from '../../../../lib/application/user-orga-settings/user-orga-settings-controller';
+import moduleUnderTest from '../../../../lib/application/user-orga-settings';
 
 describe('Unit | Router | user-orga-settings-router', function () {
   describe('PUT /api/user-orga-settings/{id}', function () {

@@ -1,7 +1,6 @@
-const trim = require('lodash/trim');
-
-const TemporaryStorage = require('./TemporaryStorage');
-const RedisClient = require('../utils/RedisClient');
+import trim from 'lodash/trim';
+import TemporaryStorage from './TemporaryStorage';
+import RedisClient from '../utils/RedisClient';
 
 const EXPIRATION_PARAMETER = 'ex';
 const KEEPTTL_PARAMETER = 'keepttl';
@@ -65,4 +64,4 @@ class RedisTemporaryStorage extends TemporaryStorage {
   }
 }
 
-module.exports = RedisTemporaryStorage;
+export default RedisTemporaryStorage;

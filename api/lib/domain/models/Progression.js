@@ -1,4 +1,4 @@
-const _ = require('lodash');
+import _ from 'lodash';
 const PROGRESSION_ID_PREFIX = 'progression-';
 
 const ONE_HUNDRED_PERCENT = 1;
@@ -38,4 +38,4 @@ class Progression {
   }
 }
 
-module.exports = Progression;
+export default Progression;

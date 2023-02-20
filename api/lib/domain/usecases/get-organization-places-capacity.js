@@ -1,3 +1,3 @@
-module.exports = function getOrganizationPlacesCapacity({ organizationId, organizationPlacesCapacityRepository }) {
+export default function getOrganizationPlacesCapacity({ organizationId, organizationPlacesCapacityRepository }) {
   return organizationPlacesCapacityRepository.findByOrganizationId(organizationId);
-};
+}

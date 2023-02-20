@@ -1,7 +1,7 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const startCampaignParticipation = require('../../../../lib/domain/usecases/start-campaign-participation');
-const CampaignParticipationStarted = require('../../../../lib/domain/events/CampaignParticipationStarted');
-const CampaignParticipant = require('../../../../lib/domain/models/CampaignParticipant');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import startCampaignParticipation from '../../../../lib/domain/usecases/start-campaign-participation';
+import CampaignParticipationStarted from '../../../../lib/domain/events/CampaignParticipationStarted';
+import CampaignParticipant from '../../../../lib/domain/models/CampaignParticipant';
 
 describe('Unit | UseCase | start-campaign-participation', function () {
   const userId = 19837482;

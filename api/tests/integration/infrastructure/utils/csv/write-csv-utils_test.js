@@ -1,6 +1,6 @@
-const { expect, catchErr } = require('../../../../test-helper');
-const { getCsvContent } = require('../../../../../lib/infrastructure/utils/csv/write-csv-utils');
-const { CsvParsingError } = require('../../../../../lib/domain/errors');
+import { expect, catchErr } from '../../../../test-helper';
+import { getCsvContent } from '../../../../../lib/infrastructure/utils/csv/write-csv-utils';
+import { CsvParsingError } from '../../../../../lib/domain/errors';
 
 describe('Integration | Infrastructure | Utils | csv | write-csv-utils', function () {
   it('should return a csv content according to fileHeaders data', async function () {

@@ -1,6 +1,6 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-const challengeController = require('../../../../lib/application/challenges/challenge-controller');
-const moduleUnderTest = require('../../../../lib/application/challenges');
+import { expect, HttpTestServer, sinon } from '../../../test-helper';
+import challengeController from '../../../../lib/application/challenges/challenge-controller';
+import moduleUnderTest from '../../../../lib/application/challenges';
 
 describe('Unit | Router | challenge-router', function () {
   describe('GET /api/challenges/{id}', function () {

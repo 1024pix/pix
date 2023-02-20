@@ -1,11 +1,11 @@
-const { injectDefaults, injectDependencies } = require('../../infrastructure/utils/dependency-injection');
-const EventDispatcher = require('../../infrastructure/events/EventDispatcher');
-const EventDispatcherLogger = require('../../infrastructure/events/EventDispatcherLogger');
-const MonitoringTools = require('../../infrastructure/monitoring-tools');
-const settings = require('../../config');
-const _ = require('lodash');
-const { performance } = require('perf_hooks');
-const eventBusBuilder = require('../../infrastructure/events/EventBusBuilder');
+import { injectDefaults, injectDependencies } from '../../infrastructure/utils/dependency-injection';
+import EventDispatcher from '../../infrastructure/events/EventDispatcher';
+import EventDispatcherLogger from '../../infrastructure/events/EventDispatcherLogger';
+import MonitoringTools from '../../infrastructure/monitoring-tools';
+import settings from '../../config';
+import _ from 'lodash';
+import { performance } from 'perf_hooks';
+import eventBusBuilder from '../../infrastructure/events/EventBusBuilder';
 
 const dependencies = {
   assessmentRepository: require('../../infrastructure/repositories/assessment-repository'),
@@ -80,7 +80,7 @@ function buildEventDispatcher(handlersStubs) {
   return eventDispatcher;
 }
 
-module.exports = {
+export default {
   eventDispatcher: buildEventDispatcher({}),
   eventBus: eventBusBuilder.build(),
   _forTestOnly: {

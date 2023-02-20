@@ -1,6 +1,6 @@
 const TABLE_NAME = 'assessments';
 
-exports.up = function (knex) {
+export const up = function (knex) {
   return knex(TABLE_NAME)
     .where({
       type: 'PLACEMENT',
@@ -28,7 +28,7 @@ exports.up = function (knex) {
     });
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return knex(TABLE_NAME)
     .where({
       type: 'PLACEMENT',

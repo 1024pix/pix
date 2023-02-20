@@ -1,4 +1,7 @@
-const { teamSize, teamConcurrency } = require('../../config').pgBoss;
+import { pgBoss } from '../../config';
+
+const { teamSize: teamSize, teamConcurrency: teamConcurrency } = pgBoss;
+
 class JobQueue {
   constructor(pgBoss, dependenciesBuilder) {
     this.pgBoss = pgBoss;
@@ -21,4 +24,4 @@ class JobQueue {
   }
 }
 
-module.exports = JobQueue;
+export default JobQueue;

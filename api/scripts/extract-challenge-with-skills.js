@@ -1,7 +1,7 @@
-const _ = require('lodash');
-const challengeRepository = require('../lib/infrastructure/repositories/challenge-repository');
-const skillsRepository = require('../lib/infrastructure/repositories/skill-repository');
-const competencesRepository = require('../lib/infrastructure/repositories/competence-repository');
+import _ from 'lodash';
+import challengeRepository from '../lib/infrastructure/repositories/challenge-repository';
+import skillsRepository from '../lib/infrastructure/repositories/skill-repository';
+import competencesRepository from '../lib/infrastructure/repositories/competence-repository';
 
 async function findChallengesWithSkills() {
   const [challenges, skillsFromDb] = await _getReferentialData();
@@ -144,4 +144,4 @@ function _createObjectInvalidatedInferred(skill) {
   };
 }
 
-module.exports = findChallengesWithSkills;
+export default findChallengesWithSkills;

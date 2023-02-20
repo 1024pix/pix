@@ -1,6 +1,6 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/session-for-supervising-serializer');
-const Assessment = require('../../../../../lib/domain/models/Assessment');
+import { expect, domainBuilder } from '../../../../test-helper';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/session-for-supervising-serializer';
+import Assessment from '../../../../../lib/domain/models/Assessment';
 
 describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', function () {
   describe('#serialize()', function () {

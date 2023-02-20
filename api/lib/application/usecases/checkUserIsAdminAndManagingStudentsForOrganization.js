@@ -1,7 +1,7 @@
-const membershipRepository = require('../../infrastructure/repositories/membership-repository');
-const Membership = require('../../domain/models/Membership');
+import membershipRepository from '../../infrastructure/repositories/membership-repository';
+import Membership from '../../domain/models/Membership';
 
-module.exports = {
+export default {
   async execute(userId, organizationId, type) {
     const memberships = await membershipRepository.findByUserIdAndOrganizationId({
       userId,

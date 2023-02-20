@@ -1,11 +1,14 @@
-const {
+import {
   expect,
   generateValidRequestAuthorizationHeader,
   databaseBuilder,
   mockLearningContent,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
-const { FRENCH_FRANCE } = require('../../../../lib/domain/constants').LOCALE;
+} from '../../../test-helper';
+
+import createServer from '../../../../server';
+import { LOCALE } from '../../../../lib/domain/constants';
+
+const { FRENCH_FRANCE: FRENCH_FRANCE } = LOCALE;
 
 describe('Acceptance | Controller | answer-controller-get-correction', function () {
   let server;

@@ -1,6 +1,6 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-module.exports = Joi.object({
+export default Joi.object({
   code: Joi.string().required().description('An application-specific error code.'),
   title: Joi.string().required().description('A short, human-readable summary of the problem'),
   status: Joi.string().required().description('the HTTP status code applicable of the problem'),

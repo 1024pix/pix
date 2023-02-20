@@ -1,5 +1,5 @@
-const categories = require('../constants/organization-places-categories');
-const validate = require('../validators/organization-places-lot-validator');
+import categories from '../constants/organization-places-categories';
+import validate from '../validators/organization-places-lot-validator';
 
 const codeByCategories = {
   [categories.FREE_RATE]: categories.T0,
@@ -23,4 +23,4 @@ class OrganizationPlacesLot {
 
 OrganizationPlacesLot.categories = categories;
 
-module.exports = OrganizationPlacesLot;
+export default OrganizationPlacesLot;

@@ -1,6 +1,6 @@
-const { expect, domainBuilder, sinon } = require('../../../../test-helper');
-const SharedProfileForCampaign = require('../../../../../lib/domain/read-models/SharedProfileForCampaign');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/shared-profile-for-campaign-serializer');
+import { expect, domainBuilder, sinon } from '../../../../test-helper';
+import SharedProfileForCampaign from '../../../../../lib/domain/read-models/SharedProfileForCampaign';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/shared-profile-for-campaign-serializer';
 
 describe('Unit | Serializer | JSONAPI | shared-profile-for-campaign-serializer', function () {
   let clock;

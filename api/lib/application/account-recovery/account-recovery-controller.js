@@ -1,8 +1,8 @@
-const usecases = require('../../domain/usecases');
-const studentInformationForAccountRecoverySerializer = require('../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
+import usecases from '../../domain/usecases';
+import studentInformationForAccountRecoverySerializer from '../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer';
+import DomainTransaction from '../../infrastructure/DomainTransaction';
 
-module.exports = {
+export default {
   async sendEmailForAccountRecovery(request, h) {
     const studentInformation = await studentInformationForAccountRecoverySerializer.deserialize(request.payload);
 

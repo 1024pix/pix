@@ -1,13 +1,12 @@
-const _ = require('lodash');
-
-const { knex } = require('../../../db/knex-database-connection');
-const CertificationCenterForAdmin = require('../../domain/models/CertificationCenterForAdmin');
-const ComplementaryCertification = require('../../domain/models/ComplementaryCertification');
-const { NotFoundError } = require('../../domain/errors');
+import _ from 'lodash';
+import { knex } from '../../../db/knex-database-connection';
+import CertificationCenterForAdmin from '../../domain/models/CertificationCenterForAdmin';
+import ComplementaryCertification from '../../domain/models/ComplementaryCertification';
+import { NotFoundError } from '../../domain/errors';
 
 const CERTIFICATION_CENTERS_TABLE_NAME = 'certification-centers';
 
-module.exports = {
+export default {
   async get(id) {
     const certificationCenter = await knex(CERTIFICATION_CENTERS_TABLE_NAME)
       .select({

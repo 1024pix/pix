@@ -1,14 +1,16 @@
-const {
+import {
   learningContentBuilder,
   mockLearningContent,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
+} from '../../../test-helper';
 
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const { FRENCH_FRANCE } = require('../../../../lib/domain/constants').LOCALE;
+import createServer from '../../../../server';
+import Assessment from '../../../../lib/domain/models/Assessment';
+import { LOCALE } from '../../../../lib/domain/constants';
+
+const { FRENCH_FRANCE: FRENCH_FRANCE } = LOCALE;
 
 const competenceId = 'recCompetence';
 const frenchSpokenChallengeId = 'recFrenchSpokenChallengeId';

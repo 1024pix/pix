@@ -1,3 +1,3 @@
-module.exports = async function findUserPrivateCertificates({ userId, certificateRepository }) {
+export default async function findUserPrivateCertificates({ userId, certificateRepository }) {
   return certificateRepository.findPrivateCertificatesByUserId({ userId });
-};
+}

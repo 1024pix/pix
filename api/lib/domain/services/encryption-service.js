@@ -1,8 +1,8 @@
-const bcrypt = require('bcrypt');
-const { bcryptNumberOfSaltRounds } = require('../../config');
-const PasswordNotMatching = require('../errors').PasswordNotMatching;
+import bcrypt from 'bcrypt';
+import { bcryptNumberOfSaltRounds } from '../../config';
+import { PasswordNotMatching } from '../errors';
 
-module.exports = {
+export default {
   hashPassword: (password) => bcrypt.hash(password, bcryptNumberOfSaltRounds),
 
   /* eslint-disable-next-line no-sync */

@@ -1,6 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-
-const UserToCreate = require('../../../../lib/domain/models/UserToCreate');
+import { expect, sinon } from '../../../test-helper';
+import UserToCreate from '../../../../lib/domain/models/UserToCreate';
 
 describe('Unit | Domain | Models | UserToCreate', function () {
   describe('constructor', function () {

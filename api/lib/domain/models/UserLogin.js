@@ -1,4 +1,4 @@
-const settings = require('../../config');
+import settings from '../../config';
 
 class UserLogin {
   constructor({ id, userId, failureCount = 0, temporaryBlockedUntil, blockedAt, createdAt, updatedAt } = {}) {
@@ -57,4 +57,4 @@ class UserLogin {
   }
 }
 
-module.exports = UserLogin;
+export default UserLogin;

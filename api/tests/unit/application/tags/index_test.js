@@ -1,8 +1,7 @@
-const { domainBuilder, expect, sinon, HttpTestServer } = require('../../../test-helper');
-
-const moduleUnderTest = require('../../../../lib/application/tags');
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const tagController = require('../../../../lib/application/tags/tag-controller');
+import { domainBuilder, expect, sinon, HttpTestServer } from '../../../test-helper';
+import moduleUnderTest from '../../../../lib/application/tags';
+import securityPreHandlers from '../../../../lib/application/security-pre-handlers';
+import tagController from '../../../../lib/application/tags/tag-controller';
 
 describe('Unit | Application | Router | tag-router', function () {
   describe('GET /api/admin/tags', function () {

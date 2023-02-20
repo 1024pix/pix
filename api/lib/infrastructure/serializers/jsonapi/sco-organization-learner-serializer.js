@@ -1,6 +1,6 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
+export default {
   serializeIdentity(scoOrganizationLearner) {
     return new Serializer('sco-organization-learner', {
       attributes: ['lastName', 'firstName', 'birthdate'],

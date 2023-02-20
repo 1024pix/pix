@@ -1,6 +1,6 @@
 const TABLE_NAME = 'data-protection-officers';
 
-exports.up = function (knex) {
+export const up = function (knex) {
   return knex.schema.createTable(TABLE_NAME, (t) => {
     t.bigIncrements().primary();
     t.string('firstName').nullable();
@@ -19,6 +19,6 @@ exports.up = function (knex) {
   });
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return knex.schema.dropTable(TABLE_NAME);
 };

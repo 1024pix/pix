@@ -8,4 +8,4 @@ class UserSavedTutorial {
   }
 }
 
-module.exports = UserSavedTutorial;
+export default UserSavedTutorial;

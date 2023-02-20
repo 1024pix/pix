@@ -1,4 +1,4 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
 class UserToCreate {
   constructor({
@@ -67,4 +67,4 @@ class UserToCreate {
   }
 }
 
-module.exports = UserToCreate;
+export default UserToCreate;

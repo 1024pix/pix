@@ -20,4 +20,4 @@ class CompetenceEvaluation {
 
 CompetenceEvaluation.statuses = statuses;
 
-module.exports = CompetenceEvaluation;
+export default CompetenceEvaluation;

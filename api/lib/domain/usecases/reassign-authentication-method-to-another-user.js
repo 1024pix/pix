@@ -1,6 +1,6 @@
-const { AuthenticationMethodAlreadyExistsError } = require('../errors');
+import { AuthenticationMethodAlreadyExistsError } from '../errors';
 
-module.exports = async function reassignAuthenticationMethodToAnotherUser({
+export default async function reassignAuthenticationMethodToAnotherUser({
   originUserId,
   targetUserId,
   authenticationMethodId,
@@ -26,7 +26,7 @@ module.exports = async function reassignAuthenticationMethodToAnotherUser({
     identityProvider: identityProviderToReassign,
     targetUserId,
   });
-};
+}
 
 async function _checkIfTargetUserExists({ targetUserId, userRepository }) {
   await userRepository.get(targetUserId);

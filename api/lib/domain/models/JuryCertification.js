@@ -1,4 +1,4 @@
-const CompetenceMark = require('./CompetenceMark');
+import CompetenceMark from './CompetenceMark';
 
 class JuryCertification {
   constructor({
@@ -102,4 +102,4 @@ class JuryCertification {
   }
 }
 
-module.exports = JuryCertification;
+export default JuryCertification;

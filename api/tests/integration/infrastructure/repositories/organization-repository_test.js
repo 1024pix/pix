@@ -1,9 +1,9 @@
-const _ = require('lodash');
-const { catchErr, expect, knex, domainBuilder, databaseBuilder } = require('../../../test-helper');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const Organization = require('../../../../lib/domain/models/Organization');
-const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
-const { SamlIdentityProviders } = require('../../../../lib/domain/constants/saml-identity-providers');
+import _ from 'lodash';
+import { catchErr, expect, knex, domainBuilder, databaseBuilder } from '../../../test-helper';
+import { NotFoundError } from '../../../../lib/domain/errors';
+import Organization from '../../../../lib/domain/models/Organization';
+import organizationRepository from '../../../../lib/infrastructure/repositories/organization-repository';
+import { SamlIdentityProviders } from '../../../../lib/domain/constants/saml-identity-providers';
 
 describe('Integration | Repository | Organization', function () {
   describe('#create', function () {

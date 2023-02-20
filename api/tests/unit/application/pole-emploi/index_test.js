@@ -1,11 +1,12 @@
-const {
+import {
   expect,
   HttpTestServer,
   sinon,
   generateValidRequestAuthorizationHeaderForApplication,
-} = require('../../../test-helper');
-const poleEmploiController = require('../../../../lib/application/pole-emploi/pole-emploi-controller');
-const moduleUnderTest = require('../../../../lib/application/pole-emploi');
+} from '../../../test-helper';
+
+import poleEmploiController from '../../../../lib/application/pole-emploi/pole-emploi-controller';
+import moduleUnderTest from '../../../../lib/application/pole-emploi';
 
 describe('Unit | Router | pole-emploi-router', function () {
   describe('GET /api/pole-emploi/envois', function () {

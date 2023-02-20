@@ -1,14 +1,14 @@
 'use strict';
 require('dotenv').config({ path: `${__dirname}/../.env` });
 
-const fs = require('fs');
-const bluebird = require('bluebird');
-const isEmpty = require('lodash/isEmpty');
-const logger = require('../../lib/infrastructure/logger');
-const certificationResultUtils = require('../../lib/infrastructure/utils/csv/certification-results');
-const usecases = require('../../lib/domain/usecases');
-const temporaryStorage = require('../../lib/infrastructure/temporary-storage/index');
-const { disconnect } = require('../../db/knex-database-connection');
+import fs from 'fs';
+import bluebird from 'bluebird';
+import isEmpty from 'lodash/isEmpty';
+import logger from '../../lib/infrastructure/logger';
+import certificationResultUtils from '../../lib/infrastructure/utils/csv/certification-results';
+import usecases from '../../lib/domain/usecases';
+import temporaryStorage from '../../lib/infrastructure/temporary-storage/index';
+import { disconnect } from '../../db/knex-database-connection';
 
 /**
  * Avant de lancer le script, remplacer la variable DATABASE_URL par l'url de la base de réplication

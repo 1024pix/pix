@@ -1,10 +1,12 @@
-const { expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const {
+import { expect, generateValidRequestAuthorizationHeader } from '../../../test-helper';
+import {
   escapeFileName,
   extractUserIdFromRequest,
   extractLocaleFromRequest,
-} = require('../../../../lib/infrastructure/utils/request-response-utils');
-const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
+} from '../../../../lib/infrastructure/utils/request-response-utils';
+import { LOCALE } from '../../../../lib/domain/constants';
+
+const { ENGLISH_SPOKEN: ENGLISH_SPOKEN, FRENCH_FRANCE: FRENCH_FRANCE, FRENCH_SPOKEN: FRENCH_SPOKEN } = LOCALE;
 
 describe('Unit | Utils | Request Utils', function () {
   describe('#extractUserIdFromRequest', function () {

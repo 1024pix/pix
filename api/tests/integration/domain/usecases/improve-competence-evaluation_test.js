@@ -1,9 +1,8 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
-const improveCompetenceEvaluation = require('../../../../lib/domain/usecases/improve-competence-evaluation');
-
-const competenceEvaluationRepository = require('../../../../lib/infrastructure/repositories/competence-evaluation-repository');
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const getCompetenceLevel = require('../../../../lib/domain/services/get-competence-level');
+import { expect, databaseBuilder, knex } from '../../../test-helper';
+import improveCompetenceEvaluation from '../../../../lib/domain/usecases/improve-competence-evaluation';
+import competenceEvaluationRepository from '../../../../lib/infrastructure/repositories/competence-evaluation-repository';
+import assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository';
+import getCompetenceLevel from '../../../../lib/domain/services/get-competence-level';
 
 describe('Integration | UseCase | Improve Competence Evaluation', function () {
   const competenceId = 'recCompetenceId';

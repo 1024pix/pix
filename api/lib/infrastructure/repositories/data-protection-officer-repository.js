@@ -1,6 +1,6 @@
-const { knex } = require('../../../db/knex-database-connection');
-const DataProtectionOfficer = require('../../domain/models/DataProtectionOfficer');
-const DomainTransaction = require('../DomainTransaction');
+import { knex } from '../../../db/knex-database-connection';
+import DataProtectionOfficer from '../../domain/models/DataProtectionOfficer';
+import DomainTransaction from '../DomainTransaction';
 
 const DATA_PROTECTION_OFFICERS_TABLE_NAME = 'data-protection-officers';
 
@@ -59,7 +59,7 @@ async function update(dataProtectionOfficer) {
   return new DataProtectionOfficer(dataProtectionOfficerRow);
 }
 
-module.exports = {
+export default {
   batchAddDataProtectionOfficerToOrganization,
   create,
   get,

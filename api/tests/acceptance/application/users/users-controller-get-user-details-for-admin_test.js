@@ -1,12 +1,12 @@
-const {
+import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
   sinon,
-} = require('../../../test-helper');
+} from '../../../test-helper';
 
-const createServer = require('../../../../server');
+import createServer from '../../../../server';
 
 describe('Acceptance | Controller | users-controller-get-user-details-for-admin', function () {
   let clock;

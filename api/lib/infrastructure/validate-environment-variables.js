@@ -1,4 +1,4 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
 const schema = Joi.object({
   REDIS_URL: Joi.string().uri().optional(),
@@ -64,4 +64,4 @@ const validateEnvironmentVariables = function () {
   }
 };
 
-module.exports = validateEnvironmentVariables;
+export default validateEnvironmentVariables;

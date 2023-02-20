@@ -1,16 +1,16 @@
-const _ = require('lodash');
-const BookshelfTargetProfile = require('../orm-models/TargetProfile');
-const targetProfileAdapter = require('../adapters/target-profile-adapter');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const { knex } = require('../../../db/knex-database-connection');
-const { NotFoundError, ObjectValidationError, InvalidSkillSetError } = require('../../domain/errors');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
-const TargetProfile = require('../../domain/models/TargetProfile');
-const Stage = require('../../domain/models/Stage');
+import _ from 'lodash';
+import BookshelfTargetProfile from '../orm-models/TargetProfile';
+import targetProfileAdapter from '../adapters/target-profile-adapter';
+import bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter';
+import { knex } from '../../../db/knex-database-connection';
+import { NotFoundError, ObjectValidationError, InvalidSkillSetError } from '../../domain/errors';
+import DomainTransaction from '../../infrastructure/DomainTransaction';
+import TargetProfile from '../../domain/models/TargetProfile';
+import Stage from '../../domain/models/Stage';
 
 const TARGET_PROFILE_TABLE = 'target-profiles';
 
-module.exports = {
+export default {
   async createWithTubes({ targetProfileForCreation, domainTransaction }) {
     const knexConn = domainTransaction.knexTransaction;
     const targetProfileRawData = _.pick(targetProfileForCreation, [

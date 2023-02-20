@@ -1,7 +1,6 @@
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
-
-const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
-const UserToCreate = require('../models/UserToCreate');
+import DomainTransaction from '../../infrastructure/DomainTransaction';
+import AuthenticationMethod from '../../domain/models/AuthenticationMethod';
+import UserToCreate from '../models/UserToCreate';
 
 function _buildPasswordAuthenticationMethod({ userId, hashedPassword }) {
   return new AuthenticationMethod({
@@ -115,7 +114,7 @@ async function createAndReconcileUserToOrganizationLearner({
   });
 }
 
-module.exports = {
+export default {
   createAndReconcileUserToOrganizationLearner,
   createUserWithPassword,
   updateUsernameAndAddPassword,

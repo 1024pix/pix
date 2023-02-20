@@ -1,7 +1,7 @@
-const _ = require('lodash');
-const lcms = require('../../lcms');
-const LearningContentResourceNotFound = require('./LearningContentResourceNotFound');
-const cache = require('../../caches/learning-content-cache');
+import _ from 'lodash';
+import lcms from '../../lcms';
+import LearningContentResourceNotFound from './LearningContentResourceNotFound';
+import cache from '../../caches/learning-content-cache';
 
 const _DatasourcePrototype = {
   async get(id) {
@@ -51,7 +51,7 @@ const _DatasourcePrototype = {
   },
 };
 
-module.exports = {
+export default {
   extend(props) {
     const result = Object.assign({}, _DatasourcePrototype, props);
     _.bindAll(result, _.functions(result));

@@ -1,10 +1,9 @@
-const { expect, sinon, HttpTestServer } = require('../../../test-helper');
+import { expect, sinon, HttpTestServer } from '../../../test-helper';
+import usecases from '../../../../lib/domain/usecases';
+import scoOrganizationInvitationSerializer from '../../../../lib/infrastructure/serializers/jsonapi/sco-organization-invitation-serializer';
+import moduleUnderTest from '../../../../lib/application/organization-invitations';
 
-const usecases = require('../../../../lib/domain/usecases');
-const scoOrganizationInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/sco-organization-invitation-serializer');
-const moduleUnderTest = require('../../../../lib/application/organization-invitations');
-
-const {
+import {
   AlreadyExistingInvitationError,
   NotFoundError,
   UserNotFoundError,
@@ -12,7 +11,7 @@ const {
   OrganizationNotFoundError,
   ManyOrganizationsFoundError,
   OrganizationArchivedError,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors';
 
 describe('Integration | Application | Organization-invitations | organization-invitation-controller', function () {
   let sandbox;

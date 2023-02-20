@@ -1,6 +1,6 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const getParticipationsCountByMasteryRate = require('../../../../lib/domain/usecases/get-participations-count-by-mastery-rate');
-const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
+import { expect, sinon, catchErr } from '../../../test-helper';
+import getParticipationsCountByMasteryRate from '../../../../lib/domain/usecases/get-participations-count-by-mastery-rate';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors';
 
 describe('Unit | UseCase | getParticipationsCountByMasteryRate', function () {
   context('when the user has access to the campaign', function () {

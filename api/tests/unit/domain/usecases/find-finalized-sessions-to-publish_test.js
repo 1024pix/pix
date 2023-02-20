@@ -1,5 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const findFinalizedSessionsToPublish = require('../../../../lib/domain/usecases/find-finalized-sessions-to-publish');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import findFinalizedSessionsToPublish from '../../../../lib/domain/usecases/find-finalized-sessions-to-publish';
 
 describe('Unit | UseCase | findFinalizedSessionsToPublish', function () {
   let finalizedSessionRepository;

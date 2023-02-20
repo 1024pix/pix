@@ -1,4 +1,4 @@
-module.exports = class SessionFinalized {
+export default class SessionFinalized {
   constructor({ sessionId, finalizedAt, hasExaminerGlobalComment, sessionDate, sessionTime, certificationCenterName }) {
     this.sessionId = sessionId;
     this.finalizedAt = finalizedAt;
@@ -7,4 +7,4 @@ module.exports = class SessionFinalized {
     this.sessionTime = sessionTime;
     this.certificationCenterName = certificationCenterName;
   }
-};
+}

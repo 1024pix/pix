@@ -1,4 +1,4 @@
-module.exports = async function createCertificationCenterMembershipForScoOrganizationMember({
+export default async function createCertificationCenterMembershipForScoOrganizationMember({
   membership,
   membershipRepository,
   certificationCenterRepository,
@@ -26,4 +26,4 @@ module.exports = async function createCertificationCenterMembershipForScoOrganiz
       }
     }
   }
-};
+}

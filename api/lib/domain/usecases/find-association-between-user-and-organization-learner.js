@@ -1,10 +1,6 @@
-const {
-  CampaignCodeError,
-  UserNotAuthorizedToAccessEntityError,
-  OrganizationLearnerDisabledError,
-} = require('../errors');
+import { CampaignCodeError, UserNotAuthorizedToAccessEntityError, OrganizationLearnerDisabledError } from '../errors';
 
-module.exports = async function findAssociationBetweenUserAndOrganizationLearner({
+export default async function findAssociationBetweenUserAndOrganizationLearner({
   authenticatedUserId,
   requestedUserId,
   campaignCode,
@@ -30,4 +26,4 @@ module.exports = async function findAssociationBetweenUserAndOrganizationLearner
   }
 
   return organizationLearner;
-};
+}

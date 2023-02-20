@@ -1,10 +1,10 @@
-const _ = require('lodash');
-const Validator = require('./Validator');
-const ValidatorQCM = require('./ValidatorQCM');
-const ValidatorQCU = require('./ValidatorQCU');
-const ValidatorQROC = require('./ValidatorQROC');
-const ValidatorQROCMDep = require('./ValidatorQROCMDep');
-const ValidatorQROCMInd = require('./ValidatorQROCMInd');
+import _ from 'lodash';
+import Validator from './Validator';
+import ValidatorQCM from './ValidatorQCM';
+import ValidatorQCU from './ValidatorQCU';
+import ValidatorQROC from './ValidatorQROC';
+import ValidatorQROCMDep from './ValidatorQROCMDep';
+import ValidatorQROCMInd from './ValidatorQROCMInd';
 
 const ChallengeType = Object.freeze({
   QCU: 'QCU',
@@ -165,4 +165,4 @@ class Challenge {
 
 Challenge.Type = ChallengeType;
 
-module.exports = Challenge;
+export default Challenge;

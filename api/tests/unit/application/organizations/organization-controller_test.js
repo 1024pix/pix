@@ -1,38 +1,29 @@
-const {
-  domainBuilder,
-  expect,
-  generateValidRequestAuthorizationHeader,
-  hFake,
-  sinon,
-} = require('../../../test-helper');
+import { domainBuilder, expect, generateValidRequestAuthorizationHeader, hFake, sinon } from '../../../test-helper';
 
-const Organization = require('../../../../lib/domain/models/Organization');
-const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
-const Membership = require('../../../../lib/domain/models/Membership');
-const ScoOrganizationParticipant = require('../../../../lib/domain/read-models/ScoOrganizationParticipant');
-const SupOrganizationParticipant = require('../../../../lib/domain/read-models/SupOrganizationParticipant');
-
-const organizationController = require('../../../../lib/application/organizations/organization-controller');
-const usecases = require('../../../../lib/domain/usecases');
-const tokenService = require('../../../../lib/domain/services/token-service');
-
-const campaignManagementSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-management-serializer');
-const campaignReportSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-report-serializer');
-const organizationInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-invitation-serializer');
-const organizationParticipantsSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization/organization-participants-serializer');
-const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
-const organizationPlacesLotManagementSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization/organization-places-lot-management-serializer');
-const organizationPlacesLotSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization/organization-places-lot-serializer');
-const organizationForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-for-admin-serializer');
-const TargetProfileForSpecifierSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer');
-const organizationMemberIdentitySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-member-identity-serializer');
-const certificationResultUtils = require('../../../../lib/infrastructure/utils/csv/certification-results');
-const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
-const certificationAttestationPdf = require('../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
-
-const { getI18n } = require('../../../tooling/i18n/i18n');
-const scoOrganizationParticipantsSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization/sco-organization-participants-serializer');
-const supOrganizationParticipantsSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization/sup-organization-participants-serializer');
+import Organization from '../../../../lib/domain/models/Organization';
+import OrganizationInvitation from '../../../../lib/domain/models/OrganizationInvitation';
+import Membership from '../../../../lib/domain/models/Membership';
+import ScoOrganizationParticipant from '../../../../lib/domain/read-models/ScoOrganizationParticipant';
+import SupOrganizationParticipant from '../../../../lib/domain/read-models/SupOrganizationParticipant';
+import organizationController from '../../../../lib/application/organizations/organization-controller';
+import usecases from '../../../../lib/domain/usecases';
+import tokenService from '../../../../lib/domain/services/token-service';
+import campaignManagementSerializer from '../../../../lib/infrastructure/serializers/jsonapi/campaign-management-serializer';
+import campaignReportSerializer from '../../../../lib/infrastructure/serializers/jsonapi/campaign-report-serializer';
+import organizationInvitationSerializer from '../../../../lib/infrastructure/serializers/jsonapi/organization-invitation-serializer';
+import organizationParticipantsSerializer from '../../../../lib/infrastructure/serializers/jsonapi/organization/organization-participants-serializer';
+import organizationSerializer from '../../../../lib/infrastructure/serializers/jsonapi/organization-serializer';
+import organizationPlacesLotManagementSerializer from '../../../../lib/infrastructure/serializers/jsonapi/organization/organization-places-lot-management-serializer';
+import organizationPlacesLotSerializer from '../../../../lib/infrastructure/serializers/jsonapi/organization/organization-places-lot-serializer';
+import organizationForAdminSerializer from '../../../../lib/infrastructure/serializers/jsonapi/organization-for-admin-serializer';
+import TargetProfileForSpecifierSerializer from '../../../../lib/infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer';
+import organizationMemberIdentitySerializer from '../../../../lib/infrastructure/serializers/jsonapi/organization-member-identity-serializer';
+import certificationResultUtils from '../../../../lib/infrastructure/utils/csv/certification-results';
+import queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils';
+import certificationAttestationPdf from '../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf';
+import { getI18n } from '../../../tooling/i18n/i18n';
+import scoOrganizationParticipantsSerializer from '../../../../lib/infrastructure/serializers/jsonapi/organization/sco-organization-participants-serializer';
+import supOrganizationParticipantsSerializer from '../../../../lib/infrastructure/serializers/jsonapi/organization/sup-organization-participants-serializer';
 
 describe('Unit | Application | Organizations | organization-controller', function () {
   let request;

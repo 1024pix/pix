@@ -1,6 +1,6 @@
 const TABLE_NAME = 'organization-invitations';
 
-exports.up = function (knex) {
+export const up = function (knex) {
   return knex.schema.createTable(TABLE_NAME, (table) => {
     table.increments('id').primary();
     table.integer('organizationId').unsigned().references('organizations.id').index();
@@ -11,6 +11,6 @@ exports.up = function (knex) {
   });
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return knex.schema.dropTable(TABLE_NAME);
 };

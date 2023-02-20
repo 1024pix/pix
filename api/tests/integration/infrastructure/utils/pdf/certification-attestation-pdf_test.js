@@ -1,13 +1,10 @@
-const { domainBuilder, expect, nock, catchErr } = require('../../../../test-helper');
-const dayjs = require('dayjs');
-const { isSameBinary } = require('../../../../tooling/binary-comparator');
-const {
-  getCertificationAttestationsPdfBuffer,
-} = require('../../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
-const { CertificationAttestationGenerationError } = require('../../../../../lib/domain/errors');
-const fs = require('fs');
-
-const { addRandomSuffix } = require('pdf-lib/cjs/utils');
+import { domainBuilder, expect, nock, catchErr } from '../../../../test-helper';
+import dayjs from 'dayjs';
+import { isSameBinary } from '../../../../tooling/binary-comparator';
+import { getCertificationAttestationsPdfBuffer } from '../../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf';
+import { CertificationAttestationGenerationError } from '../../../../../lib/domain/errors';
+import fs from 'fs';
+import { addRandomSuffix } from 'pdf-lib/cjs/utils';
 
 describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation Pdf', function () {
   beforeEach(async function () {

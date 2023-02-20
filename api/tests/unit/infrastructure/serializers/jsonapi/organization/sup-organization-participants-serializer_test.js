@@ -1,7 +1,7 @@
-const { expect } = require('../../../../../test-helper');
-const SupOrganizationParticipant = require('../../../../../../lib/domain/read-models/SupOrganizationParticipant');
-const serializer = require('../../../../../../lib/infrastructure/serializers/jsonapi/organization/sup-organization-participants-serializer');
-const campaignParticipationsStatuses = require('../../../../../../lib/domain/models/CampaignParticipationStatuses');
+import { expect } from '../../../../../test-helper';
+import SupOrganizationParticipant from '../../../../../../lib/domain/read-models/SupOrganizationParticipant';
+import serializer from '../../../../../../lib/infrastructure/serializers/jsonapi/organization/sup-organization-participants-serializer';
+import campaignParticipationsStatuses from '../../../../../../lib/domain/models/CampaignParticipationStatuses';
 
 describe('Unit | Serializer | JSONAPI | sup-organization-participants-serializer', function () {
   describe('#serialize', function () {

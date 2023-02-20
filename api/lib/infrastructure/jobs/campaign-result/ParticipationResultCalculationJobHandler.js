@@ -1,4 +1,4 @@
-const Job = require('./ParticipationResultCalculationJob');
+import Job from './ParticipationResultCalculationJob';
 
 class ParticipationResultCalculationJobHandler {
   constructor({ participantResultsSharedRepository, campaignParticipationRepository }) {
@@ -17,4 +17,4 @@ class ParticipationResultCalculationJobHandler {
   }
 }
 
-module.exports = ParticipationResultCalculationJobHandler;
+export default ParticipationResultCalculationJobHandler;

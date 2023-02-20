@@ -1,12 +1,11 @@
-const _ = require('lodash');
-const { filterByFullName } = require('../utils/filter-utils');
-
-const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
-const { knex } = require('../../../db/knex-database-connection');
-const { fetchPage } = require('../utils/knex-utils');
-const ScoOrganizationParticipant = require('../../domain/read-models/ScoOrganizationParticipant');
-const CampaignTypes = require('../../domain/models/CampaignTypes');
-const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
+import _ from 'lodash';
+import { filterByFullName } from '../utils/filter-utils';
+import AuthenticationMethod from '../../domain/models/AuthenticationMethod';
+import { knex } from '../../../db/knex-database-connection';
+import { fetchPage } from '../utils/knex-utils';
+import ScoOrganizationParticipant from '../../domain/read-models/ScoOrganizationParticipant';
+import CampaignTypes from '../../domain/models/CampaignTypes';
+import CampaignParticipationStatuses from '../../domain/models/CampaignParticipationStatuses';
 
 function _setFilters(qb, { search, divisions, connectionTypes, certificability } = {}) {
   if (search) {
@@ -69,7 +68,7 @@ function _buildIsCertifiable(queryBuilder, organizationId) {
     .where('campaign-participations.deletedAt', null);
 }
 
-module.exports = {
+export default {
   async findPaginatedFilteredScoParticipants({ organizationId, filter, page = {}, sort = {} }) {
     const { totalScoParticipants } = await knex
       .count('id', { as: 'totalScoParticipants' })

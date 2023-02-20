@@ -1,7 +1,7 @@
-const { expect, databaseBuilder, catchErr } = require('../../../../test-helper');
-const campaignForArchivingRepository = require('../../../../../lib/infrastructure/repositories/campaign/campaign-for-archiving-repository');
-const Campaign = require('../../../../../lib/domain/models/CampaignForArchiving');
-const { NotFoundError, UserNotFoundError } = require('../../../../../lib/domain/errors');
+import { expect, databaseBuilder, catchErr } from '../../../../test-helper';
+import campaignForArchivingRepository from '../../../../../lib/infrastructure/repositories/campaign/campaign-for-archiving-repository';
+import Campaign from '../../../../../lib/domain/models/CampaignForArchiving';
+import { NotFoundError, UserNotFoundError } from '../../../../../lib/domain/errors';
 
 describe('Integration | Infrastructure | Repository | campaign-for-archiving-repository', function () {
   describe('#save', function () {

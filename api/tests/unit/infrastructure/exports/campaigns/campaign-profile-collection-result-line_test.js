@@ -1,8 +1,7 @@
-const { domainBuilder, expect, sinon } = require('../../../../test-helper');
-
-const CampaignProfilesCollectionResultLine = require('../../../../../lib/infrastructure/exports/campaigns/campaign-profiles-collection-result-line');
-const PlacementProfile = require('../../../../../lib/domain/models/PlacementProfile');
-const { getI18n } = require('../../../../tooling/i18n/i18n');
+import { domainBuilder, expect, sinon } from '../../../../test-helper';
+import CampaignProfilesCollectionResultLine from '../../../../../lib/infrastructure/exports/campaigns/campaign-profiles-collection-result-line';
+import PlacementProfile from '../../../../../lib/domain/models/PlacementProfile';
+import { getI18n } from '../../../../tooling/i18n/i18n';
 
 describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', function () {
   describe('#toCsvLine', function () {

@@ -1,3 +1,3 @@
-module.exports = function findFinalizedSessionsWithRequiredAction({ finalizedSessionRepository }) {
+export default function findFinalizedSessionsWithRequiredAction({ finalizedSessionRepository }) {
   return finalizedSessionRepository.findFinalizedSessionsWithRequiredAction();
-};
+}

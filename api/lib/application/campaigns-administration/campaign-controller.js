@@ -1,7 +1,7 @@
-const usecases = require('../../domain/usecases');
-const csvCampaingsIdsParser = require('../../infrastructure/serializers/csv/campaigns-administration/csv-campaigns-ids-parser');
+import usecases from '../../domain/usecases';
+import csvCampaingsIdsParser from '../../infrastructure/serializers/csv/campaigns-administration/csv-campaigns-ids-parser';
 
-module.exports = {
+export default {
   async archiveCampaigns(request, h) {
     const { userId } = request.auth.credentials;
     const campaignIds = await csvCampaingsIdsParser.extractCampaignsIds(request.payload.path);

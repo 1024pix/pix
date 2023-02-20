@@ -1,9 +1,9 @@
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const Validation = require('../../../../lib/domain/models/Validation');
+import AnswerStatus from '../../../../lib/domain/models/AnswerStatus';
+import Validation from '../../../../lib/domain/models/Validation';
 
-module.exports = function ({ result = AnswerStatus.OK, resultDetails = 'Bravo' } = {}) {
+export default function ({ result = AnswerStatus.OK, resultDetails = 'Bravo' } = {}) {
   return new Validation({
     result,
     resultDetails,
   });
-};
+}

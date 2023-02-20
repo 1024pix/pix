@@ -1,6 +1,6 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/organization-member-identity-serializer');
-const OrganizationMemberIdentity = require('../../../../../lib/domain/models/OrganizationMemberIdentity');
+import { expect } from '../../../../test-helper';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/organization-member-identity-serializer';
+import OrganizationMemberIdentity from '../../../../../lib/domain/models/OrganizationMemberIdentity';
 
 describe('Unit | Serializer | organization-members-serializer', function () {
   describe('#serialize', function () {

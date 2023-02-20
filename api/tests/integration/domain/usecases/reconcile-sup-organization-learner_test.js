@@ -1,11 +1,10 @@
-const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
-const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const supOrganizationLearnerRepository = require('../../../../lib/infrastructure/repositories/sup-organization-learner-repository');
-const organizationLearnerRepository = require('../../../../lib/infrastructure/repositories/organization-learner-repository');
-const { NotFoundError, OrganizationLearnerAlreadyLinkedToUserError } = require('../../../../lib/domain/errors');
-
-const reconcileSupOrganizationLearner = require('../../../../lib/domain/usecases/reconcile-sup-organization-learner');
+import { expect, databaseBuilder, knex, catchErr } from '../../../test-helper';
+import userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service';
+import campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository';
+import supOrganizationLearnerRepository from '../../../../lib/infrastructure/repositories/sup-organization-learner-repository';
+import organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository';
+import { NotFoundError, OrganizationLearnerAlreadyLinkedToUserError } from '../../../../lib/domain/errors';
+import reconcileSupOrganizationLearner from '../../../../lib/domain/usecases/reconcile-sup-organization-learner';
 
 describe('Integration | UseCases | reconcile-sup-organization-learner', function () {
   let userId;

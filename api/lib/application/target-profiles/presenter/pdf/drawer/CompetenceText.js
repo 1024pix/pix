@@ -1,9 +1,9 @@
-const Text = require('./Text');
-const ColorManager = require('../manager/color-manager');
-const FontManager = require('../manager/font-manager');
-const PositionManager = require('../manager/position-manager');
+import Text from './Text';
+import ColorManager from '../manager/color-manager';
+import FontManager from '../manager/font-manager';
+import PositionManager from '../manager/position-manager';
 
-module.exports = class CompetenceText extends Text {
+export default class CompetenceText extends Text {
   constructor({ text, positionY, areaColor }) {
     super({
       text,
@@ -14,4 +14,4 @@ module.exports = class CompetenceText extends Text {
       fontColor: ColorManager.findLighterShadeRGBColor(areaColor),
     });
   }
-};
+}

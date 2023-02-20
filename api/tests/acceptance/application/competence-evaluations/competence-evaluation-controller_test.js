@@ -1,13 +1,15 @@
-const createServer = require('../../../../server');
-const {
+import createServer from '../../../../server';
+
+import {
   expect,
   generateValidRequestAuthorizationHeader,
   databaseBuilder,
   knex,
   mockLearningContent,
   learningContentBuilder,
-} = require('../../../test-helper');
-const { MAX_REACHABLE_PIX_BY_COMPETENCE } = require('../../../../lib/domain/constants');
+} from '../../../test-helper';
+
+import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../lib/domain/constants';
 
 describe('Acceptance | API | Competence Evaluations', function () {
   let server;

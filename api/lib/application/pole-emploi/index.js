@@ -1,9 +1,9 @@
-const Joi = require('joi');
-const poleEmploiController = require('./pole-emploi-controller');
-const poleEmploiErreurDoc = require('../../infrastructure/open-api-doc/pole-emploi/erreur-doc');
-const poleEmploiEnvoisDoc = require('../../infrastructure/open-api-doc/pole-emploi/envois-doc');
+import Joi from 'joi';
+import poleEmploiController from './pole-emploi-controller';
+import poleEmploiErreurDoc from '../../infrastructure/open-api-doc/pole-emploi/erreur-doc';
+import poleEmploiEnvoisDoc from '../../infrastructure/open-api-doc/pole-emploi/envois-doc';
 
-exports.register = async function (server) {
+export const register = async function (server) {
   server.route([
     {
       method: 'GET',
@@ -55,4 +55,4 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'pole-emploi-api';
+export const name = 'pole-emploi-api';

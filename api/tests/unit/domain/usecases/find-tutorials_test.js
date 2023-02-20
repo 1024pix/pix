@@ -1,8 +1,8 @@
-const { sinon, expect, domainBuilder } = require('../../../test-helper');
-const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const Scorecard = require('../../../../lib/domain/models/Scorecard');
-const findTutorials = require('../../../../lib/domain/usecases/find-tutorials');
+import { sinon, expect, domainBuilder } from '../../../test-helper';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors';
+import KnowledgeElement from '../../../../lib/domain/models/KnowledgeElement';
+import Scorecard from '../../../../lib/domain/models/Scorecard';
+import findTutorials from '../../../../lib/domain/usecases/find-tutorials';
 
 describe('Unit | UseCase | find-tutorials', function () {
   let authenticatedUserId;

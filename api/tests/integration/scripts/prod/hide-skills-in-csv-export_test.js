@@ -1,5 +1,5 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
-const { hideSkills } = require('../../../../scripts/prod/hide-skills-in-csv-export');
+import { expect, databaseBuilder, knex } from '../../../test-helper';
+import { hideSkills } from '../../../../scripts/prod/hide-skills-in-csv-export';
 
 describe('hideSkills', function () {
   it('should update showSkills to false', async function () {

@@ -1,9 +1,8 @@
-const { expect, sinon, hFake } = require('../../test-helper');
-const errorManager = require('../../../lib/application/error-manager');
-const { BaseHttpError } = require('../../../lib/application/http-errors');
-const { handleDomainAndHttpErrors } = require('../../../lib/application/pre-response-utils');
-
-const { DomainError } = require('../../../lib/domain/errors');
+import { expect, sinon, hFake } from '../../test-helper';
+import errorManager from '../../../lib/application/error-manager';
+import { BaseHttpError } from '../../../lib/application/http-errors';
+import { handleDomainAndHttpErrors } from '../../../lib/application/pre-response-utils';
+import { DomainError } from '../../../lib/domain/errors';
 
 describe('Unit | Application | PreResponse-utils', function () {
   describe('#handleDomainAndHttpErrors', function () {

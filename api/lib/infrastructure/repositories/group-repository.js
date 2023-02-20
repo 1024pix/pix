@@ -1,5 +1,5 @@
-const Group = require('../../domain/models/Group');
-const { knex } = require('../../../db/knex-database-connection');
+import Group from '../../domain/models/Group';
+import { knex } from '../../../db/knex-database-connection';
 
 async function findByCampaignId(campaignId) {
   const groups = await knex('organization-learners')
@@ -27,7 +27,7 @@ function _toDomain(group) {
   return new Group({ name: group });
 }
 
-module.exports = {
+export default {
   findByCampaignId,
   findByOrganizationId,
 };

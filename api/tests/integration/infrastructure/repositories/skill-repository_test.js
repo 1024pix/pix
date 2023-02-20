@@ -1,7 +1,7 @@
-const { expect, mockLearningContent, domainBuilder, catchErr } = require('../../../test-helper');
-const Skill = require('../../../../lib/domain/models/Skill');
-const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+import { expect, mockLearningContent, domainBuilder, catchErr } from '../../../test-helper';
+import Skill from '../../../../lib/domain/models/Skill';
+import skillRepository from '../../../../lib/infrastructure/repositories/skill-repository';
+import { NotFoundError } from '../../../../lib/domain/errors';
 
 describe('Integration | Repository | skill-repository', function () {
   describe('#list', function () {

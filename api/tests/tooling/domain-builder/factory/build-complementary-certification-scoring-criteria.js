@@ -1,4 +1,4 @@
-const ComplementaryCertificationScoringCriteria = require('../../../../lib/domain/models/ComplementaryCertificationScoringCriteria');
+import ComplementaryCertificationScoringCriteria from '../../../../lib/domain/models/ComplementaryCertificationScoringCriteria';
 
 function buildComplementaryCertificationScoringCriteria({
   complementaryCertificationCourseId = 123,
@@ -16,4 +16,4 @@ function buildComplementaryCertificationScoringCriteria({
   });
 }
 
-module.exports = buildComplementaryCertificationScoringCriteria;
+export default buildComplementaryCertificationScoringCriteria;

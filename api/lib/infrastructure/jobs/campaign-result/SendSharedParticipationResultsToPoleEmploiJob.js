@@ -1,4 +1,4 @@
-const Job = require('../JobPgBoss');
+import Job from '../JobPgBoss';
 
 class SendSharedParticipationResultsToPoleEmploi extends Job {
   constructor(queryBuilder) {
@@ -8,4 +8,4 @@ class SendSharedParticipationResultsToPoleEmploi extends Job {
 
 SendSharedParticipationResultsToPoleEmploi.name = 'SendSharedParticipationResultsToPoleEmploi';
 
-module.exports = SendSharedParticipationResultsToPoleEmploi;
+export default SendSharedParticipationResultsToPoleEmploi;

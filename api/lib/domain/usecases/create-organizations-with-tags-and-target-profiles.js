@@ -1,22 +1,22 @@
-const { isEmpty, uniqBy } = require('lodash');
-const bluebird = require('bluebird');
-const Organization = require('../models/Organization');
-const OrganizationTag = require('../models/OrganizationTag');
-const organizationValidator = require('../validators/organization-with-tags-and-target-profiles-script');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
+import { isEmpty, uniqBy } from 'lodash';
+import bluebird from 'bluebird';
+import Organization from '../models/Organization';
+import OrganizationTag from '../models/OrganizationTag';
+import organizationValidator from '../validators/organization-with-tags-and-target-profiles-script';
+import DomainTransaction from '../../infrastructure/DomainTransaction';
 
-const {
+import {
   ManyOrganizationsFoundError,
   OrganizationAlreadyExistError,
   OrganizationTagNotFound,
   ObjectValidationError,
   TargetProfileInvalidError,
-} = require('../errors');
+} from '../errors';
 
 const SEPARATOR = '_';
-const organizationInvitationService = require('../../domain/services/organization-invitation-service');
+import organizationInvitationService from '../../domain/services/organization-invitation-service';
 
-module.exports = async function createOrganizationsWithTagsAndTargetProfiles({
+export default async function createOrganizationsWithTagsAndTargetProfiles({
   organizations,
   domainTransaction = DomainTransaction,
   organizationRepository,
@@ -121,7 +121,7 @@ module.exports = async function createOrganizationsWithTagsAndTargetProfiles({
   );
 
   return createdOrganizations;
-};
+}
 
 function _checkIfOrganizationsDataAreUnique(organizations) {
   const uniqOrganizations = uniqBy(organizations, 'externalId');

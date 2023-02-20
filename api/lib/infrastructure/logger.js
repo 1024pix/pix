@@ -1,9 +1,8 @@
-const pino = require('pino');
-const { logging: logSettings } = require('../config');
+import pino from 'pino';
+import { logging as logSettings } from '../config';
 
 let prettyPrint;
 if (logSettings.logForHumans) {
-  // eslint-disable-next-line node/no-unpublished-require
   const pretty = require('pino-pretty');
   const omitDay = 'HH:MM:ss';
   prettyPrint = pretty({
@@ -23,4 +22,4 @@ const logger = pino(
   prettyPrint
 );
 
-module.exports = logger;
+export default logger;

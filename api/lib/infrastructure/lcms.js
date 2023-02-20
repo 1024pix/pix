@@ -1,8 +1,7 @@
-const httpAgent = require('./http/http-agent');
+import httpAgent from './http/http-agent';
+import { lcms } from '../config';
 
-const { lcms } = require('../config');
-
-module.exports = {
+export default {
   async getLatestRelease() {
     const response = await httpAgent.get({
       url: lcms.url + '/releases/latest',

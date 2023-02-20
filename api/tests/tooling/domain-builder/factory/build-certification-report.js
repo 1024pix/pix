@@ -1,7 +1,7 @@
-const CertificationReport = require('../../../../lib/domain/models/CertificationReport');
-const buildCertificationIssueReport = require('./build-certification-issue-report');
+import CertificationReport from '../../../../lib/domain/models/CertificationReport';
+import buildCertificationIssueReport from './build-certification-issue-report';
 
-module.exports = function buildCertificationReport({
+export default function buildCertificationReport({
   id = 'CertificationReport:456',
   firstName = 'Tiffany',
   lastName = 'Schwarzenegger',
@@ -25,4 +25,4 @@ module.exports = function buildCertificationReport({
       : [buildCertificationIssueReport({ certificationCourseId })],
     abortReason,
   });
-};
+}

@@ -1,10 +1,10 @@
-const _ = require('lodash');
-const datasource = require('./datasource');
+import _ from 'lodash';
+import datasource from './datasource';
 
 const ACTIVE_STATUS = 'actif';
 const OPERATIVE_STATUSES = ['actif', 'archivé'];
 
-module.exports = datasource.extend({
+export default datasource.extend({
   modelName: 'skills',
 
   async findActive() {

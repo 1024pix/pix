@@ -1,9 +1,9 @@
-const _ = require('lodash');
-const BookshelfCertificationCenter = require('../orm-models/CertificationCenter');
-const { knex } = require('../../../db/knex-database-connection');
-const CertificationCenter = require('../../domain/models/CertificationCenter');
-const ComplementaryCertification = require('../../domain/models/ComplementaryCertification');
-const { NotFoundError } = require('../../domain/errors');
+import _ from 'lodash';
+import BookshelfCertificationCenter from '../orm-models/CertificationCenter';
+import { knex } from '../../../db/knex-database-connection';
+import CertificationCenter from '../../domain/models/CertificationCenter';
+import ComplementaryCertification from '../../domain/models/ComplementaryCertification';
+import { NotFoundError } from '../../domain/errors';
 
 function _toDomain(bookshelfCertificationCenter) {
   const dbCertificationCenter = bookshelfCertificationCenter.toJSON();
@@ -37,7 +37,7 @@ function _setSearchFiltersForQueryBuilder(filters, qb) {
   }
 }
 
-module.exports = {
+export default {
   async get(id) {
     const certificationCenterBookshelf = await BookshelfCertificationCenter.query((q) => q.orderBy('id', 'desc'))
       .where({ id })

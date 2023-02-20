@@ -16,4 +16,4 @@ class Tutorial {
 
 Tutorial.TYPES = TYPES;
 
-module.exports = Tutorial;
+export default Tutorial;

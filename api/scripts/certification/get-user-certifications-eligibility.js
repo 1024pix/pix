@@ -1,14 +1,14 @@
 require('dotenv').config({ path: `${__dirname}/../.env` });
-const logger = require('../../lib/infrastructure/logger');
-const usecases = require('../../lib/domain/usecases');
-const cache = require('../../lib/infrastructure/caches/learning-content-cache');
-const placementProfileService = require('../../lib/domain/services/placement-profile-service');
-const certificationBadgesService = require('../../lib/domain/services/certification-badges-service');
+import logger from '../../lib/infrastructure/logger';
+import usecases from '../../lib/domain/usecases';
+import cache from '../../lib/infrastructure/caches/learning-content-cache';
+import placementProfileService from '../../lib/domain/services/placement-profile-service';
+import certificationBadgesService from '../../lib/domain/services/certification-badges-service';
 // Usage: node scripts/get-certifications-eligibility 1234
 
 ('use strict');
-const { disconnect } = require('../../db/knex-database-connection');
-const temporaryStorage = require('../../lib/infrastructure/temporary-storage/index');
+import { disconnect } from '../../db/knex-database-connection';
+import temporaryStorage from '../../lib/infrastructure/temporary-storage/index';
 
 async function getUserCertificationsEligibility(userId) {
   logger.info('Starting script get-user-certifications-eligibility');
@@ -48,6 +48,6 @@ async function main() {
   }
 })();
 
-module.exports = {
+export default {
   getUserCertificationsEligibility,
 };

@@ -1,10 +1,10 @@
-const _ = require('lodash');
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const completeAssessment = require('../../../../lib/domain/usecases/complete-assessment');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const { AlreadyRatedAssessmentError } = require('../../../../lib/domain/errors');
-const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+import _ from 'lodash';
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper';
+import completeAssessment from '../../../../lib/domain/usecases/complete-assessment';
+import Assessment from '../../../../lib/domain/models/Assessment';
+import { AlreadyRatedAssessmentError } from '../../../../lib/domain/errors';
+import AssessmentCompleted from '../../../../lib/domain/events/AssessmentCompleted';
+import CampaignParticipationStatuses from '../../../../lib/domain/models/CampaignParticipationStatuses';
 
 describe('Unit | UseCase | complete-assessment', function () {
   let assessmentRepository;

@@ -1,13 +1,15 @@
-const _ = require('lodash');
-const {
+import _ from 'lodash';
+
+import {
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
   insertUserWithRoleCertif,
   databaseBuilder,
   knex,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
+} from '../../../test-helper';
+
+import createServer from '../../../../server';
 
 describe('Acceptance | Route | tag-router', function () {
   describe('POST /api/admin/tags', function () {

@@ -1,10 +1,10 @@
-const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection');
-const bookshelfUtils = require('../utils/knex-utils');
-const DomainTransaction = require('../DomainTransaction');
-const { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } = require('../../domain/errors');
-const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
-const OidcIdentityProviders = require('../../domain/constants/oidc-identity-providers');
+import _ from 'lodash';
+import { knex } from '../../../db/knex-database-connection';
+import bookshelfUtils from '../utils/knex-utils';
+import DomainTransaction from '../DomainTransaction';
+import { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } from '../../domain/errors';
+import AuthenticationMethod from '../../domain/models/AuthenticationMethod';
+import OidcIdentityProviders from '../../domain/constants/oidc-identity-providers';
 
 function _toDomain(authenticationMethodDTO) {
   if (authenticationMethodDTO.identityProvider === AuthenticationMethod.identityProviders.PIX) {
@@ -53,7 +53,7 @@ const COLUMNS = Object.freeze([
   'updatedAt',
 ]);
 
-module.exports = {
+export default {
   async create({ authenticationMethod, domainTransaction = DomainTransaction.emptyTransaction() }) {
     try {
       const knexConn = domainTransaction.knexTransaction ?? knex;

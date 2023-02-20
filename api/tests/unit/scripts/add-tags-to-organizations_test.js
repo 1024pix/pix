@@ -1,7 +1,7 @@
-const { expect, sinon } = require('../../test-helper');
-const { addTagsToOrganizations } = require('../../../scripts/add-tags-to-organizations');
-const organizationTagRepository = require('../../../lib/infrastructure/repositories/organization-tag-repository');
-const Tag = require('../../../lib/domain/models/Tag');
+import { expect, sinon } from '../../test-helper';
+import { addTagsToOrganizations } from '../../../scripts/add-tags-to-organizations';
+import organizationTagRepository from '../../../lib/infrastructure/repositories/organization-tag-repository';
+import Tag from '../../../lib/domain/models/Tag';
 
 describe('Unit | Scripts | add-tags-to-organizations.js', function () {
   context('When tag already exists for an organization', function () {

@@ -1,5 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const assignCertificationOfficerToJurySession = require('../../../../lib/domain/usecases/assign-certification-officer-to-jury-session');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import assignCertificationOfficerToJurySession from '../../../../lib/domain/usecases/assign-certification-officer-to-jury-session';
 
 describe('Unit | UseCase | assign-certification-officer-to-session', function () {
   it('should return the session id after assigningUser to it', async function () {

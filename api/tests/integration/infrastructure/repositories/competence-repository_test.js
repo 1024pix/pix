@@ -1,5 +1,5 @@
-const { expect, mockLearningContent, domainBuilder } = require('../../../test-helper');
-const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
+import { expect, mockLearningContent, domainBuilder } from '../../../test-helper';
+import competenceRepository from '../../../../lib/infrastructure/repositories/competence-repository';
 
 describe('Integration | Repository | competence-repository', function () {
   describe('#get', function () {

@@ -1,6 +1,6 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
-const UserOrganizationForAdmin = require('../../../../lib/domain/read-models/UserOrganizationForAdmin');
-const userOrganizationsForAdminRepository = require('../../../../lib/infrastructure/repositories/user-organizations-for-admin-repository');
+import { expect, databaseBuilder } from '../../../test-helper';
+import UserOrganizationForAdmin from '../../../../lib/domain/read-models/UserOrganizationForAdmin';
+import userOrganizationsForAdminRepository from '../../../../lib/infrastructure/repositories/user-organizations-for-admin-repository';
 
 describe('Integration | Repository | user-organizations-for-admin', function () {
   context('#findByUserId', function () {

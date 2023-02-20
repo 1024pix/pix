@@ -55,4 +55,4 @@ class ComplementaryCertificationCourseResult {
 
 ComplementaryCertificationCourseResult.sources = sources;
 
-module.exports = ComplementaryCertificationCourseResult;
+export default ComplementaryCertificationCourseResult;

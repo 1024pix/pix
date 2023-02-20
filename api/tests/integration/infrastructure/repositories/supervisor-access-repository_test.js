@@ -1,5 +1,5 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
-const supervisorAccessRepository = require('../../../../lib/infrastructure/repositories/supervisor-access-repository');
+import { expect, databaseBuilder, knex } from '../../../test-helper';
+import supervisorAccessRepository from '../../../../lib/infrastructure/repositories/supervisor-access-repository';
 
 describe('Integration | Repository | supervisor-access-repository', function () {
   describe('#create', function () {

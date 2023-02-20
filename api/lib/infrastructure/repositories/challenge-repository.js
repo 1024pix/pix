@@ -1,15 +1,14 @@
-const _ = require('lodash');
-const Challenge = require('../../domain/models/Challenge');
+import _ from 'lodash';
+import Challenge from '../../domain/models/Challenge';
+import challengeDatasource from '../datasources/learning-content/challenge-datasource';
+import skillDatasource from '../datasources/learning-content/skill-datasource';
+import skillAdapter from '../adapters/skill-adapter';
+import solutionAdapter from '../adapters/solution-adapter';
+import LearningContentResourceNotFound from '../datasources/learning-content/LearningContentResourceNotFound';
+import { NotFoundError } from '../../domain/errors';
+import config from '../../config';
 
-const challengeDatasource = require('../datasources/learning-content/challenge-datasource');
-const skillDatasource = require('../datasources/learning-content/skill-datasource');
-const skillAdapter = require('../adapters/skill-adapter');
-const solutionAdapter = require('../adapters/solution-adapter');
-const LearningContentResourceNotFound = require('../datasources/learning-content/LearningContentResourceNotFound');
-const { NotFoundError } = require('../../domain/errors');
-const config = require('../../config');
-
-module.exports = {
+export default {
   async get(id) {
     try {
       const challenge = await challengeDatasource.get(id);

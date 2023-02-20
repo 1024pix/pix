@@ -1,7 +1,7 @@
-const { expect, sinon } = require('../../../../../test-helper');
-const sendEmail = require('../../../../../../lib/infrastructure/jobs/cpf-export/handlers/send-email');
-const cronParser = require('cron-parser');
-const { cpf } = require('../../../../../../lib/config');
+import { expect, sinon } from '../../../../../test-helper';
+import sendEmail from '../../../../../../lib/infrastructure/jobs/cpf-export/handlers/send-email';
+import cronParser from 'cron-parser';
+import { cpf } from '../../../../../../lib/config';
 
 describe('Unit | Infrastructure | jobs | cpf-export | send-email', function () {
   let cpfExternalStorage;

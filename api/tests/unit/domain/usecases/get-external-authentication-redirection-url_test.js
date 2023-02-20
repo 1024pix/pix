@@ -1,7 +1,7 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const User = require('../../../../lib/domain/models/User');
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const getExternalAuthenticationRedirectionUrl = require('../../../../lib/domain/usecases/get-external-authentication-redirection-url');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import User from '../../../../lib/domain/models/User';
+import AuthenticationMethod from '../../../../lib/domain/models/AuthenticationMethod';
+import getExternalAuthenticationRedirectionUrl from '../../../../lib/domain/usecases/get-external-authentication-redirection-url';
 
 describe('Unit | UseCase | get-external-authentication-redirection-url', function () {
   let userRepository;

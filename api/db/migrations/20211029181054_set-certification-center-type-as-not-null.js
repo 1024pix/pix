@@ -1,7 +1,7 @@
-exports.up = function (knex) {
+export const up = function (knex) {
   return knex.raw('ALTER TABLE "certification-centers" ALTER COLUMN "type" SET NOT NULL');
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return knex.raw('ALTER TABLE "certification-centers" ALTER COLUMN "type" DROP NOT NULL');
 };

@@ -18,4 +18,4 @@ class TrainingTrigger {
 
 TrainingTrigger.types = types;
 
-module.exports = TrainingTrigger;
+export default TrainingTrigger;

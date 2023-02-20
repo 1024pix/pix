@@ -1,9 +1,8 @@
-const Joi = require('joi');
+import Joi from 'joi';
+import challengeController from './challenge-controller';
+import identifiersType from '../../domain/types/identifiers-type';
 
-const challengeController = require('./challenge-controller');
-const identifiersType = require('../../domain/types/identifiers-type');
-
-exports.register = async function (server) {
+export const register = async function (server) {
   server.route([
     {
       method: 'GET',
@@ -22,4 +21,4 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'challenges-api';
+export const name = 'challenges-api';

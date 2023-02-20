@@ -1,8 +1,7 @@
-const { expect, sinon, HttpTestServer } = require('../../../test-helper');
-
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const prescriberController = require('../../../../lib/application/prescribers/prescriber-controller');
-const moduleUnderTest = require('../../../../lib/application/prescribers');
+import { expect, sinon, HttpTestServer } from '../../../test-helper';
+import securityPreHandlers from '../../../../lib/application/security-pre-handlers';
+import prescriberController from '../../../../lib/application/prescribers/prescriber-controller';
+import moduleUnderTest from '../../../../lib/application/prescribers';
 
 describe('Integration | Application | Prescribers | Routes', function () {
   let httpTestServer;

@@ -1,7 +1,7 @@
-const supervisorAccessRepository = require('../../infrastructure/repositories/supervisor-access-repository');
-const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
+import supervisorAccessRepository from '../../infrastructure/repositories/supervisor-access-repository';
+import requestResponseUtils from '../../infrastructure/utils/request-response-utils';
 
-module.exports = {
+export default {
   async verifyByCertificationCandidateId(request, h) {
     const supervisorUserId = requestResponseUtils.extractUserIdFromRequest(request);
     const candidateId = request.params.id;

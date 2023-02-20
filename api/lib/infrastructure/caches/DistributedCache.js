@@ -1,5 +1,5 @@
-const Cache = require('./Cache');
-const RedisClient = require('../utils/RedisClient');
+import Cache from './Cache';
+import RedisClient from '../utils/RedisClient';
 
 class DistributedCache extends Cache {
   constructor(underlyingCache, redisUrl, channel) {
@@ -40,4 +40,4 @@ class DistributedCache extends Cache {
   }
 }
 
-module.exports = DistributedCache;
+export default DistributedCache;

@@ -1,3 +1,3 @@
-module.exports = function findUserAuthenticationMethods({ userId, authenticationMethodRepository }) {
+export default function findUserAuthenticationMethods({ userId, authenticationMethodRepository }) {
   return authenticationMethodRepository.findByUserId({ userId });
-};
+}

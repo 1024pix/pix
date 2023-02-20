@@ -1,5 +1,5 @@
-const _ = require('lodash');
-const config = require('../../../config');
+import _ from 'lodash';
+import config from '../../../config';
 
 const CAMPAIGN_TYPE = 'EVALUATION';
 const STRUCTURE_NAME = 'Pix';
@@ -134,4 +134,4 @@ function _getTypeTest(targetProfileName) {
   return PROFILE_TYPES.CP;
 }
 
-module.exports = PoleEmploiPayload;
+export default PoleEmploiPayload;

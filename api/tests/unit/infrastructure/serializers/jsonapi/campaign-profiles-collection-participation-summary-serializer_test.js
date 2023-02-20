@@ -1,6 +1,6 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-profiles-collection-participation-summary-serializer');
-const CampaignProfilesCollectionParticipationSummary = require('../../../../../lib/domain/read-models/CampaignProfilesCollectionParticipationSummary');
+import { expect } from '../../../../test-helper';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/campaign-profiles-collection-participation-summary-serializer';
+import CampaignProfilesCollectionParticipationSummary from '../../../../../lib/domain/read-models/CampaignProfilesCollectionParticipationSummary';
 
 describe('Unit | Serializer | JSONAPI | campaign-profiles-collection-participation-summary-serializer', function () {
   describe('#serialize', function () {

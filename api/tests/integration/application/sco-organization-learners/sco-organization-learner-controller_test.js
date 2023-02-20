@@ -1,14 +1,13 @@
-const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-helper');
+import { expect, sinon, domainBuilder, HttpTestServer } from '../../../test-helper';
+import moduleUnderTest from '../../../../lib/application/sco-organization-learners';
+import usecases from '../../../../lib/domain/usecases';
+import securityPreHandlers from '../../../../lib/application/security-pre-handlers';
 
-const moduleUnderTest = require('../../../../lib/application/sco-organization-learners');
-
-const usecases = require('../../../../lib/domain/usecases');
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const {
+import {
   NotFoundError,
   UserNotAuthorizedToUpdatePasswordError,
   UserNotAuthorizedToGenerateUsernamePasswordError,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors';
 
 describe('Integration | Application | sco-organization-learners | sco-organization-learner-controller', function () {
   let sandbox;

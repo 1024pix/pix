@@ -1,5 +1,5 @@
-const { expect, domainBuilder, catchErr } = require('../../../test-helper');
-const TrainingTrigger = require('../../../../lib/domain/models/TrainingTrigger');
+import { expect, domainBuilder, catchErr } from '../../../test-helper';
+import TrainingTrigger from '../../../../lib/domain/models/TrainingTrigger';
 
 describe('Unit | Domain | Models | TrainingTrigger', function () {
   describe('#constructor', function () {

@@ -1,7 +1,7 @@
-const CertificationCandidateSubscription = require('../read-models/CertificationCandidateSubscription');
-const _ = require('lodash');
+import CertificationCandidateSubscription from '../read-models/CertificationCandidateSubscription';
+import _ from 'lodash';
 
-module.exports = async function getCertificationCandidateSubscription({
+export default async function getCertificationCandidateSubscription({
   certificationCandidateId,
   certificationBadgesService,
   certificationCandidateRepository,
@@ -49,4 +49,4 @@ module.exports = async function getCertificationCandidateSubscription({
     eligibleSubscriptions,
     nonEligibleSubscriptions,
   });
-};
+}

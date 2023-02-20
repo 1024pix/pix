@@ -1,6 +1,6 @@
-const ComplementaryCertificationScoringWithoutComplementaryReferential = require('../../../../lib/domain/models/ComplementaryCertificationScoringWithoutComplementaryReferential');
+import ComplementaryCertificationScoringWithoutComplementaryReferential from '../../../../lib/domain/models/ComplementaryCertificationScoringWithoutComplementaryReferential';
 
-module.exports = function buildComplementaryCertificationScoringWithoutComplementaryReferential({
+export default function buildComplementaryCertificationScoringWithoutComplementaryReferential({
   complementaryCertificationCourseId = 99,
   certificationCourseId = 42,
   reproducibilityRate = 50,
@@ -18,4 +18,4 @@ module.exports = function buildComplementaryCertificationScoringWithoutComplemen
     minimumEarnedPix,
     minimumReproducibilityRate,
   });
-};
+}

@@ -1,8 +1,8 @@
-const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection');
-const AccountRecoveryDemand = require('../../domain/models/AccountRecoveryDemand');
-const { NotFoundError } = require('../../domain/errors');
-const DomainTransaction = require('../DomainTransaction');
+import _ from 'lodash';
+import { knex } from '../../../db/knex-database-connection';
+import AccountRecoveryDemand from '../../domain/models/AccountRecoveryDemand';
+import { NotFoundError } from '../../domain/errors';
+import DomainTransaction from '../DomainTransaction';
 
 const _toDomain = (accountRecoveryDemandDTO) => {
   return new AccountRecoveryDemand(accountRecoveryDemandDTO);
@@ -12,7 +12,7 @@ const _toDomainArray = (accountRecoveryDemandsDTOs) => {
   return _.map(accountRecoveryDemandsDTOs, _toDomain);
 };
 
-module.exports = {
+export default {
   async findByTemporaryKey(temporaryKey) {
     const accountRecoveryDemandDTO = await knex
       .where({ temporaryKey })

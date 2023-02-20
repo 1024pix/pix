@@ -1,8 +1,7 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
-
-const csvCampaingsIdsParser = require('../../../../lib/infrastructure/serializers/csv/campaigns-administration/csv-campaigns-ids-parser');
-const campaignController = require('../../../../lib/application/campaigns-administration/campaign-controller');
-const usecases = require('../../../../lib/domain/usecases');
+import { sinon, expect, hFake } from '../../../test-helper';
+import csvCampaingsIdsParser from '../../../../lib/infrastructure/serializers/csv/campaigns-administration/csv-campaigns-ids-parser';
+import campaignController from '../../../../lib/application/campaigns-administration/campaign-controller';
+import usecases from '../../../../lib/domain/usecases';
 
 describe('Unit | Application | Controller | Campaign Administration', function () {
   describe('#archiveCampaigns', function () {

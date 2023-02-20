@@ -1,9 +1,9 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const obfuscationService = require('../../../../lib/domain/services/obfuscation-service');
-const authenticationMethodRepository = require('../../../../lib/infrastructure/repositories/authentication-method-repository');
-const User = require('../../../../lib/domain/models/User');
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper';
+import obfuscationService from '../../../../lib/domain/services/obfuscation-service';
+import authenticationMethodRepository from '../../../../lib/infrastructure/repositories/authentication-method-repository';
+import User from '../../../../lib/domain/models/User';
+import AuthenticationMethod from '../../../../lib/domain/models/AuthenticationMethod';
+import { NotFoundError } from '../../../../lib/domain/errors';
 
 describe('Unit | Service | user-authentication-method-obfuscation-service', function () {
   beforeEach(function () {

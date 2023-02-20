@@ -1,4 +1,4 @@
-module.exports = async function getFrameworkAreas({
+export default async function getFrameworkAreas({
   frameworkId,
   frameworkName,
   locale,
@@ -23,4 +23,4 @@ module.exports = async function getFrameworkAreas({
   const tubes = await tubeRepository.findActiveByRecordIds(tubeIds, locale);
 
   return { areas: areasWithCompetences, thematics, tubes };
-};
+}

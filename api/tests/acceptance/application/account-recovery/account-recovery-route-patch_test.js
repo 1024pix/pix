@@ -1,5 +1,5 @@
-const { databaseBuilder, expect, knex } = require('../../../test-helper');
-const createServer = require('../../../../server');
+import { databaseBuilder, expect, knex } from '../../../test-helper';
+import createServer from '../../../../server';
 
 describe('Acceptance | Route | Account-recovery', function () {
   describe('PATCH /api/account-recovery', function () {

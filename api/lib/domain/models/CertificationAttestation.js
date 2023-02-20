@@ -46,4 +46,4 @@ class CertificationAttestation {
   }
 }
 
-module.exports = CertificationAttestation;
+export default CertificationAttestation;

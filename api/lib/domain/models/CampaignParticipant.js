@@ -1,7 +1,8 @@
-const { EntityValidationError, ForbiddenAccess, AlreadyExistingCampaignParticipationError } = require('../errors');
-const CampaignParticipation = require('./CampaignParticipation');
-const Assessment = require('./Assessment');
-const OrganizationLearner = require('./OrganizationLearner');
+import { EntityValidationError, ForbiddenAccess, AlreadyExistingCampaignParticipationError } from '../errors';
+
+import CampaignParticipation from './CampaignParticipation';
+import Assessment from './Assessment';
+import OrganizationLearner from './OrganizationLearner';
 const couldNotJoinCampaignErrorMessage = "Vous n'êtes pas autorisé à rejoindre la campagne";
 const couldNotImproveCampaignErrorMessage = 'Vous ne pouvez pas repasser la campagne';
 
@@ -118,4 +119,4 @@ class CampaignParticipant {
   }
 }
 
-module.exports = CampaignParticipant;
+export default CampaignParticipant;

@@ -1,6 +1,6 @@
-const solutionServiceQCU = require('../services/solution-service-qcu');
-const Validation = require('./Validation');
-const Validator = require('./Validator');
+import solutionServiceQCU from '../services/solution-service-qcu';
+import Validation from './Validation';
+import Validator from './Validator';
 
 /**
  * Traduction: Vérificateur de réponse pour un QCU
@@ -20,4 +20,4 @@ class ValidatorQCU extends Validator {
   }
 }
 
-module.exports = ValidatorQCU;
+export default ValidatorQCU;

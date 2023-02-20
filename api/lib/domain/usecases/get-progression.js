@@ -1,6 +1,6 @@
-const Progression = require('../../../lib/domain/models/Progression');
+import Progression from '../../../lib/domain/models/Progression';
 
-module.exports = async function getProgression({
+export default async function getProgression({
   progressionId,
   userId,
   assessmentRepository,
@@ -64,4 +64,4 @@ module.exports = async function getProgression({
   }
 
   return progression;
-};
+}

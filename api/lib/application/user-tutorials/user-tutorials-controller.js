@@ -1,11 +1,11 @@
-const usecases = require('../../domain/usecases');
-const userSavedTutorialSerializer = require('../../infrastructure/serializers/jsonapi/user-saved-tutorial-serializer');
-const tutorialSerializer = require('../../infrastructure/serializers/jsonapi/tutorial-serializer');
-const userSavedTutorialRepository = require('../../infrastructure/repositories/user-saved-tutorial-repository');
-const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
-const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
+import usecases from '../../domain/usecases';
+import userSavedTutorialSerializer from '../../infrastructure/serializers/jsonapi/user-saved-tutorial-serializer';
+import tutorialSerializer from '../../infrastructure/serializers/jsonapi/tutorial-serializer';
+import userSavedTutorialRepository from '../../infrastructure/repositories/user-saved-tutorial-repository';
+import queryParamsUtils from '../../infrastructure/utils/query-params-utils';
+import requestResponseUtils from '../../infrastructure/utils/request-response-utils';
 
-module.exports = {
+export default {
   async add(request, h) {
     const { userId } = request.auth.credentials;
     const { tutorialId } = request.params;

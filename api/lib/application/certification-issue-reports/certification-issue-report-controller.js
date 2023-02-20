@@ -1,6 +1,6 @@
-const usecases = require('../../domain/usecases');
+import usecases from '../../domain/usecases';
 
-module.exports = {
+export default {
   async deleteCertificationIssueReport(request) {
     const certificationIssueReportId = request.params.id;
     await usecases.deleteCertificationIssueReport({ certificationIssueReportId });

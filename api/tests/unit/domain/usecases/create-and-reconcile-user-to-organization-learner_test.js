@@ -1,18 +1,17 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper';
+import passwordValidator from '../../../../lib/domain/validators/password-validator';
+import userValidator from '../../../../lib/domain/validators/user-validator';
 
-const passwordValidator = require('../../../../lib/domain/validators/password-validator');
-const userValidator = require('../../../../lib/domain/validators/user-validator');
-
-const {
+import {
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
   CampaignCodeError,
   EntityValidationError,
   OrganizationLearnerAlreadyLinkedToUserError,
   NotFoundError,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors';
 
-const usecases = require('../../../../lib/domain/usecases');
+import usecases from '../../../../lib/domain/usecases';
 
 describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', function () {
   const organizationId = 1;

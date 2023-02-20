@@ -1,10 +1,10 @@
-const { NotFoundError } = require('../errors');
+import { NotFoundError } from '../errors';
 
-module.exports = async function getLastChallengeIdFromAssessmentId({ assessmentId, assessmentRepository }) {
+export default async function getLastChallengeIdFromAssessmentId({ assessmentId, assessmentRepository }) {
   const assessment = await assessmentRepository.get(assessmentId);
   if (!assessment) {
     throw new NotFoundError(`Assessment not found for ID ${assessmentId}`);
   }
 
   return assessment.lastChallengeId;
-};
+}

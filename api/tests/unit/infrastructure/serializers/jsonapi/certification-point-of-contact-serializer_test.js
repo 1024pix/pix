@@ -1,6 +1,6 @@
-const { expect, domainBuilder, sinon } = require('../../../../test-helper');
-const settings = require('../../../../../lib/config');
-const certificationPointOfContactSerializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-point-of-contact-serializer');
+import { expect, domainBuilder, sinon } from '../../../../test-helper';
+import settings from '../../../../../lib/config';
+import certificationPointOfContactSerializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-point-of-contact-serializer';
 
 describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serializer', function () {
   describe('#serialize()', function () {

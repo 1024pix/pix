@@ -1,7 +1,7 @@
-const crypto = require('crypto');
-const AccountRecoveryDemand = require('../../models/AccountRecoveryDemand');
+import crypto from 'crypto';
+import AccountRecoveryDemand from '../../models/AccountRecoveryDemand';
 
-module.exports = async function sendEmailForAccountRecovery({
+export default async function sendEmailForAccountRecovery({
   studentInformation,
   temporaryKey,
   organizationLearnerRepository,
@@ -44,4 +44,4 @@ module.exports = async function sendEmailForAccountRecovery({
     email: newEmail,
     temporaryKey: encodedTemporaryKey,
   });
-};
+}

@@ -1,19 +1,19 @@
 require('dotenv').config({ path: `${__dirname}/../../.env` });
 
-const _ = require('lodash');
-const { knex, disconnect } = require('../../db/knex-database-connection');
-const cache = require('../../lib/infrastructure/caches/learning-content-cache');
-const moment = require('moment');
-const competenceRepository = require('../../lib/infrastructure/repositories/competence-repository');
-const skillRepository = require('../../lib/infrastructure/repositories/skill-repository');
-const targetProfileRepository = require('../../lib/infrastructure/repositories/target-profile-repository');
-const campaignRepository = require('../../lib/infrastructure/repositories/campaign-repository');
-const CampaignParticipationStatuses = require('../../lib/domain/models/CampaignParticipationStatuses');
-const computeParticipationResults = require('../prod/compute-participation-results');
-const {
+import _ from 'lodash';
+import { knex, disconnect } from '../../db/knex-database-connection';
+import cache from '../../lib/infrastructure/caches/learning-content-cache';
+import moment from 'moment';
+import competenceRepository from '../../lib/infrastructure/repositories/competence-repository';
+import skillRepository from '../../lib/infrastructure/repositories/skill-repository';
+import targetProfileRepository from '../../lib/infrastructure/repositories/target-profile-repository';
+import campaignRepository from '../../lib/infrastructure/repositories/campaign-repository';
+import CampaignParticipationStatuses from '../../lib/domain/models/CampaignParticipationStatuses';
+import computeParticipationResults from '../prod/compute-participation-results';
+import {
   getEligibleCampaignParticipations,
   generateKnowledgeElementSnapshots,
-} = require('../prod/generate-knowledge-element-snapshots-for-campaigns');
+} from '../prod/generate-knowledge-element-snapshots-for-campaigns';
 
 const { SHARED, TO_SHARE } = CampaignParticipationStatuses;
 

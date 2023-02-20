@@ -1,6 +1,6 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const findPendingOrganizationInvitations = require('../../../../lib/domain/usecases/find-pending-organization-invitations');
-const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import findPendingOrganizationInvitations from '../../../../lib/domain/usecases/find-pending-organization-invitations';
+import OrganizationInvitation from '../../../../lib/domain/models/OrganizationInvitation';
 
 describe('Unit | UseCase | find-pending-organization-invitations', function () {
   it('should succeed', async function () {

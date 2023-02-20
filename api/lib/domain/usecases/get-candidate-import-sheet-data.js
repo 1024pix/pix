@@ -1,6 +1,6 @@
-const { UserNotAuthorizedToAccessEntityError } = require('../errors');
+import { UserNotAuthorizedToAccessEntityError } from '../errors';
 
-module.exports = async function getCandidateImportSheetData({
+export default async function getCandidateImportSheetData({
   userId,
   sessionId,
   sessionRepository,
@@ -19,4 +19,4 @@ module.exports = async function getCandidateImportSheetData({
     certificationCenterHabilitations: certificationCenter.habilitations,
     isScoCertificationCenter: certificationCenter.isSco,
   };
-};
+}

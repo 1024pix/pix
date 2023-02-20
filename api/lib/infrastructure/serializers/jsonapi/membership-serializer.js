@@ -1,7 +1,7 @@
-const { Serializer } = require('jsonapi-serializer');
-const Membership = require('../../../domain/models/Membership');
+import { Serializer } from 'jsonapi-serializer';
+import Membership from '../../../domain/models/Membership';
 
-module.exports = {
+export default {
   serialize(membership, meta) {
     return new Serializer('memberships', {
       transform(record) {

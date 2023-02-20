@@ -1,9 +1,9 @@
-const { expect, sinon } = require('../../../../test-helper');
-const UserToCreate = require('../../../../../lib/domain/models/UserToCreate');
-const DomainTransaction = require('../../../../../lib/infrastructure/DomainTransaction');
-const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
-const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
-const PoleEmploiOidcAuthenticationService = require('../../../../../lib/domain/services/authentication/pole-emploi-oidc-authentication-service');
+import { expect, sinon } from '../../../../test-helper';
+import UserToCreate from '../../../../../lib/domain/models/UserToCreate';
+import DomainTransaction from '../../../../../lib/infrastructure/DomainTransaction';
+import AuthenticationMethod from '../../../../../lib/domain/models/AuthenticationMethod';
+import OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers';
+import PoleEmploiOidcAuthenticationService from '../../../../../lib/domain/services/authentication/pole-emploi-oidc-authentication-service';
 const logoutUrlTemporaryStorage = require('../../../../../lib/infrastructure/temporary-storage').withPrefix(
   'logout-url:'
 );

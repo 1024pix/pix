@@ -32,4 +32,4 @@ class ParticipationForCampaignManagement {
   }
 }
 
-module.exports = ParticipationForCampaignManagement;
+export default ParticipationForCampaignManagement;

@@ -1,13 +1,13 @@
-const { knex } = require('../../../db/knex-database-connection');
-const CampaignTypes = require('../../domain/models/CampaignTypes');
-const CampaignParticipationOverview = require('../../domain/read-models/CampaignParticipationOverview');
-const { fetchPage } = require('../utils/knex-utils');
-const bluebird = require('bluebird');
-const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
-const campaignRepository = require('./campaign-repository');
-const CampaignStages = require('../../domain/read-models/campaign/CampaignStages');
+import { knex } from '../../../db/knex-database-connection';
+import CampaignTypes from '../../domain/models/CampaignTypes';
+import CampaignParticipationOverview from '../../domain/read-models/CampaignParticipationOverview';
+import { fetchPage } from '../utils/knex-utils';
+import bluebird from 'bluebird';
+import CampaignParticipationStatuses from '../../domain/models/CampaignParticipationStatuses';
+import campaignRepository from './campaign-repository';
+import CampaignStages from '../../domain/read-models/campaign/CampaignStages';
 
-module.exports = {
+export default {
   async findByUserIdWithFilters({ userId, states, page }) {
     const queryBuilder = _findByUserId({ userId });
 

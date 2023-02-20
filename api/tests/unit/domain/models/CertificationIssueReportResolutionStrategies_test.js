@@ -1,20 +1,19 @@
-const { expect, domainBuilder, sinon } = require('../../../test-helper');
-const {
+import { expect, domainBuilder, sinon } from '../../../test-helper';
+import {
   CertificationIssueReportCategories,
   CertificationIssueReportSubcategories,
-} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
-const CertificationIssueReportResolutionAttempt = require('../../../../lib/domain/models/CertificationIssueReportResolutionAttempt');
-const {
-  CertificationIssueReportResolutionStrategies,
-} = require('../../../../lib/domain/models/CertificationIssueReportResolutionStrategies');
-const {
+} from '../../../../lib/domain/models/CertificationIssueReportCategory';
+import CertificationIssueReportResolutionAttempt from '../../../../lib/domain/models/CertificationIssueReportResolutionAttempt';
+import { CertificationIssueReportResolutionStrategies } from '../../../../lib/domain/models/CertificationIssueReportResolutionStrategies';
+
+import {
   neutralizeWithoutCheckingStrategy,
   neutralizeIfImageOrEmbedStrategy,
   neutralizeIfAttachmentStrategy,
   neutralizeIfTimedChallengeStrategy,
   neutralizeOrValidateIfFocusedChallengeStrategy,
   doNotResolveStrategy,
-} = require('../../../../lib/domain/models/CertificationIssueReportResolutionStrategies');
+} from '../../../../lib/domain/models/CertificationIssueReportResolutionStrategies';
 
 describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies', function () {
   context('#NEUTRALIZE_WITHOUT_CHECKING', function () {

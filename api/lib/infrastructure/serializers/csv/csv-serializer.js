@@ -1,9 +1,9 @@
-const logger = require('../../logger');
-const { FileValidationError } = require('../../../../lib/domain/errors');
-const { convertDateValue } = require('../../utils/date-utils');
-const { headers, COMPLEMENTARY_CERTIFICATION_SUFFIX } = require('../../utils/csv/sessions-import');
-const { isEmpty } = require('lodash');
-const { checkCsvHeader, parseCsvWithHeader } = require('../../helpers/csv');
+import logger from '../../logger';
+import { FileValidationError } from '../../../../lib/domain/errors';
+import { convertDateValue } from '../../utils/date-utils';
+import { headers, COMPLEMENTARY_CERTIFICATION_SUFFIX } from '../../utils/csv/sessions-import';
+import { isEmpty } from 'lodash';
+import { checkCsvHeader, parseCsvWithHeader } from '../../helpers/csv';
 
 function _csvFormulaEscapingPrefix(data) {
   const mayBeInterpretedAsFormula = /^[-@=+]/.test(data);
@@ -272,7 +272,7 @@ function _generateUniqueKey({ address, room, date, time }) {
   return address + room + date + time;
 }
 
-module.exports = {
+export default {
   serializeLine(lineArray) {
     return lineArray.map(_csvSerializeValue).join(';') + '\n';
   },

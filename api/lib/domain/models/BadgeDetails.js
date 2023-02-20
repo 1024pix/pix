@@ -1,4 +1,4 @@
-const { SCOPES } = require('./BadgeCriterion');
+import { SCOPES } from './BadgeCriterion';
 
 class BadgeDetails {
   constructor({ id, key, altMessage, imageUrl, message, title, isCertifiable, isAlwaysVisible, criteria }) {
@@ -70,4 +70,4 @@ BadgeCriterion.SCOPES = {
   CAPPED_TUBES: 'CappedTubes',
 };
 
-module.exports = { BadgeDetails, BadgeCriterion, SkillSet, CappedTube, SCOPES };
+export default { BadgeDetails, BadgeCriterion, SkillSet, CappedTube, SCOPES };

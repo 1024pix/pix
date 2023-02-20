@@ -1,4 +1,4 @@
-module.exports = async function getCleaCertifiedCandidateBySession({
+export default async function getCleaCertifiedCandidateBySession({
   sessionId,
   cleaCertifiedCandidateRepository,
   sessionRepository,
@@ -7,4 +7,4 @@ module.exports = async function getCleaCertifiedCandidateBySession({
   const session = await sessionRepository.get(sessionId);
 
   return { session, cleaCertifiedCandidateData };
-};
+}

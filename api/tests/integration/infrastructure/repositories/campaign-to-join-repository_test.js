@@ -1,9 +1,9 @@
-const { expect, databaseBuilder, catchErr } = require('../../../test-helper');
-const campaignToJoinRepository = require('../../../../lib/infrastructure/repositories/campaign-to-join-repository');
-const CampaignToJoin = require('../../../../lib/domain/read-models/CampaignToJoin');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
-const OidcIdentityProviders = require('../../../../lib/domain/constants/oidc-identity-providers');
+import { expect, databaseBuilder, catchErr } from '../../../test-helper';
+import campaignToJoinRepository from '../../../../lib/infrastructure/repositories/campaign-to-join-repository';
+import CampaignToJoin from '../../../../lib/domain/read-models/CampaignToJoin';
+import { NotFoundError } from '../../../../lib/domain/errors';
+import DomainTransaction from '../../../../lib/infrastructure/DomainTransaction';
+import OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers';
 
 describe('Integration | Repository | CampaignToJoin', function () {
   describe('#get', function () {

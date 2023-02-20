@@ -1,6 +1,6 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const getJurySession = require('../../../../lib/domain/usecases/get-jury-session');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper';
+import getJurySession from '../../../../lib/domain/usecases/get-jury-session';
+import { NotFoundError } from '../../../../lib/domain/errors';
 
 describe('Unit | UseCase | get-jury-session', function () {
   let jurySessionRepository;

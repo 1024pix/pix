@@ -1,11 +1,7 @@
 const TABLE_NAME = 'complementary-certifications';
 const COLUMN = 'minimumReproducibilityRate';
 
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
- */
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex(TABLE_NAME).update({ minimumReproducibilityRate: 50.0, minimumEarnedPix: 70 }).where({ key: 'CLEA' });
 
   await knex(TABLE_NAME).update(COLUMN, 75.0).where({ key: 'DROIT' });
@@ -17,11 +13,7 @@ exports.up = async function (knex) {
   });
 };
 
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
- */
-exports.down = async function (knex) {
+export const down = async function (knex) {
   await knex.schema.alterTable(TABLE_NAME, async (table) => {
     await table.decimal(COLUMN, 5, 2).nullable().alter();
   });

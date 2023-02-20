@@ -1,8 +1,8 @@
-const TargetProfile = require('../../domain/models/TargetProfile');
-const Badge = require('../../domain/models/Badge');
-const skillAdapter = require('./skill-adapter');
+import TargetProfile from '../../domain/models/TargetProfile';
+import Badge from '../../domain/models/Badge';
+import skillAdapter from './skill-adapter';
 
-module.exports = {
+export default {
   fromDatasourceObjects({ bookshelfTargetProfile, associatedSkillDatasourceObjects = [] }) {
     const skills = associatedSkillDatasourceObjects.map(skillAdapter.fromDatasourceObject);
     const targetProfileBadges = bookshelfTargetProfile.related('badges');

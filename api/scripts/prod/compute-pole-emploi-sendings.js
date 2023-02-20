@@ -1,13 +1,12 @@
-// Usage: node compute-pole-emploi-sendings PIXEMPLOI 10
-const campaignRepository = require('../../lib/infrastructure/repositories/campaign-repository');
-const campaignParticipationResultRepository = require('../../lib/infrastructure/repositories/campaign-participation-result-repository');
-const targetProfileRepository = require('../../lib/infrastructure/repositories/target-profile-repository');
-const poleEmploiSendingRepository = require('../../lib/infrastructure/repositories/pole-emploi-sending-repository');
-const userRepository = require('../../lib/infrastructure/repositories/user-repository');
-const PoleEmploiPayload = require('../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload');
-const PoleEmploiSending = require('../../lib/domain/models/PoleEmploiSending');
-const { knex, disconnect } = require('../../db/knex-database-connection');
-const bluebird = require('bluebird');
+import campaignRepository from '../../lib/infrastructure/repositories/campaign-repository';
+import campaignParticipationResultRepository from '../../lib/infrastructure/repositories/campaign-participation-result-repository';
+import targetProfileRepository from '../../lib/infrastructure/repositories/target-profile-repository';
+import poleEmploiSendingRepository from '../../lib/infrastructure/repositories/pole-emploi-sending-repository';
+import userRepository from '../../lib/infrastructure/repositories/user-repository';
+import PoleEmploiPayload from '../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload';
+import PoleEmploiSending from '../../lib/domain/models/PoleEmploiSending';
+import { knex, disconnect } from '../../db/knex-database-connection';
+import bluebird from 'bluebird';
 let count;
 let total;
 
@@ -192,4 +191,4 @@ async function main() {
   }
 })();
 
-module.exports = computePoleEmploiSendings;
+export default computePoleEmploiSendings;

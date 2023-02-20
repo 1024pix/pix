@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const UserDetailsForAdmin = require('../../../../lib/domain/models/UserDetailsForAdmin');
+import { expect } from '../../../test-helper';
+import UserDetailsForAdmin from '../../../../lib/domain/models/UserDetailsForAdmin';
 
 describe('Unit | Domain | Models | UserDetailsForAdmin', function () {
   describe('#anonymisedByFullName', function () {

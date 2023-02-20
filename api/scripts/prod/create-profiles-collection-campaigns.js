@@ -1,12 +1,10 @@
-// Usage: node create-profile-collection-campaigns.js path/file.csv <creatorId>
-// To use on file with columns |name, organizationId, customLandingPageText, creatorId|, those headers included
-const bluebird = require('bluebird');
-const { knex, disconnect } = require('../../db/knex-database-connection');
-const CampaignTypes = require('../../lib/domain/models/CampaignTypes');
-const campaignCodeGenerator = require('../../lib/domain/services/campaigns/campaign-code-generator');
-const campaignValidator = require('../../lib/domain/validators/campaign-validator');
-const campaignRepository = require('../../lib/infrastructure/repositories/campaign-repository');
-const { parseCsvWithHeader } = require('../helpers/csvHelpers');
+import bluebird from 'bluebird';
+import { knex, disconnect } from '../../db/knex-database-connection';
+import CampaignTypes from '../../lib/domain/models/CampaignTypes';
+import campaignCodeGenerator from '../../lib/domain/services/campaigns/campaign-code-generator';
+import campaignValidator from '../../lib/domain/validators/campaign-validator';
+import campaignRepository from '../../lib/infrastructure/repositories/campaign-repository';
+import { parseCsvWithHeader } from '../helpers/csvHelpers';
 
 function checkData(campaignData) {
   return campaignData.map(({ name, organizationId, customLandingPageText, creatorId }, index) => {
@@ -93,7 +91,7 @@ async function main() {
   }
 })();
 
-module.exports = {
+export default {
   prepareCampaigns,
   checkData,
 };

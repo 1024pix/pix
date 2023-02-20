@@ -1,13 +1,13 @@
-const _ = require('lodash');
-const yargs = require('yargs');
-const unpublishSession = require('../../lib/domain/usecases/unpublish-session');
-const publishSession = require('../../lib/domain/usecases/publish-session');
-const finalizedSessionRepository = require('../../lib/infrastructure/repositories/sessions/finalized-session-repository');
-const sessionRepository = require('../../lib/infrastructure/repositories/sessions/session-repository');
-const certificationRepository = require('../../lib/infrastructure/repositories/certification-repository');
-const sessionPublicationService = require('../../lib/domain/services/session-publication-service');
-const { parseCsvWithHeader } = require('../helpers/csvHelpers');
-const { knex, disconnect } = require('../../db/knex-database-connection');
+import _ from 'lodash';
+import yargs from 'yargs';
+import unpublishSession from '../../lib/domain/usecases/unpublish-session';
+import publishSession from '../../lib/domain/usecases/publish-session';
+import finalizedSessionRepository from '../../lib/infrastructure/repositories/sessions/finalized-session-repository';
+import sessionRepository from '../../lib/infrastructure/repositories/sessions/session-repository';
+import certificationRepository from '../../lib/infrastructure/repositories/certification-repository';
+import sessionPublicationService from '../../lib/domain/services/session-publication-service';
+import { parseCsvWithHeader } from '../helpers/csvHelpers';
+import { knex, disconnect } from '../../db/knex-database-connection';
 
 let progression = 0;
 function _logProgression(totalCount) {

@@ -1,7 +1,7 @@
-const { knex } = require('../../../db/knex-database-connection');
-const CampaignParticipationForUserManagement = require('../../domain/read-models/CampaignParticipationForUserManagement');
+import { knex } from '../../../db/knex-database-connection';
+import CampaignParticipationForUserManagement from '../../domain/read-models/CampaignParticipationForUserManagement';
 
-module.exports = {
+export default {
   async findByUserId(userId) {
     const campaignParticipations = await knex('campaign-participations')
       .select({

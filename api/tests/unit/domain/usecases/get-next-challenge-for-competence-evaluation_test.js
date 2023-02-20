@@ -1,7 +1,7 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
-const getNextChallengeForCompetenceEvaluation = require('../../../../lib/domain/usecases/get-next-challenge-for-competence-evaluation');
-const smartRandom = require('../../../../lib/domain/services/algorithm-methods/smart-random');
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors';
+import getNextChallengeForCompetenceEvaluation from '../../../../lib/domain/usecases/get-next-challenge-for-competence-evaluation';
+import smartRandom from '../../../../lib/domain/services/algorithm-methods/smart-random';
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluation', function () {
   describe('#getNextChallengeForCompetenceEvaluation', function () {

@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
-const Event = require('../../../../lib/domain/events/Event');
-const EventBus = require('../../../../lib/infrastructure/events/EventBus');
+import { expect, sinon } from '../../../test-helper';
+import Event from '../../../../lib/domain/events/Event';
+import EventBus from '../../../../lib/infrastructure/events/EventBus';
 
 describe('Unit | Infrastructure | Events | EventBus', function () {
   describe('#publish', function () {

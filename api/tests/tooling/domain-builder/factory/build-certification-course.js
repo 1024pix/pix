@@ -1,9 +1,7 @@
-const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
-const buildAssessment = require('./build-assessment');
-const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
-const {
-  CertificationIssueReportCategories,
-} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
+import CertificationCourse from '../../../../lib/domain/models/CertificationCourse';
+import buildAssessment from './build-assessment';
+import CertificationIssueReport from '../../../../lib/domain/models/CertificationIssueReport';
+import { CertificationIssueReportCategories } from '../../../../lib/domain/models/CertificationIssueReportCategory';
 
 function buildCertificationCourse({
   id = 123,
@@ -126,4 +124,4 @@ buildCertificationCourse.unpersisted = function ({
   });
 };
 
-module.exports = buildCertificationCourse;
+export default buildCertificationCourse;

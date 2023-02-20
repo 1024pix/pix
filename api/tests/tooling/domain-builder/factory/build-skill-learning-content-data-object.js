@@ -9,7 +9,7 @@ const DEFAULT_ID = 'recSK0X22abcdefgh',
   DEFAULT_VERSION = 1,
   DEFAULT_LEVEL = 1;
 
-module.exports = function ({
+export default function ({
   id = DEFAULT_ID,
   name = DEFAULT_NAME,
   hint = DEFAULT_HINT,
@@ -33,4 +33,4 @@ module.exports = function ({
     version,
     level,
   };
-};
+}

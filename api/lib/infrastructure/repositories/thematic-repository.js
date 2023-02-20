@@ -1,8 +1,10 @@
-const _ = require('lodash');
-const Thematic = require('../../domain/models/Thematic');
-const thematicDatasource = require('../datasources/learning-content/thematic-datasource');
-const { getTranslatedKey } = require('../../domain/services/get-translated-text');
-const { FRENCH_FRANCE } = require('../../domain/constants').LOCALE;
+import _ from 'lodash';
+import Thematic from '../../domain/models/Thematic';
+import thematicDatasource from '../datasources/learning-content/thematic-datasource';
+import { getTranslatedKey } from '../../domain/services/get-translated-text';
+import { LOCALE } from '../../domain/constants';
+
+const { FRENCH_FRANCE: FRENCH_FRANCE } = LOCALE;
 
 function _toDomain(thematicData, locale) {
   const translatedName = getTranslatedKey(thematicData.name_i18n, locale);
@@ -15,7 +17,7 @@ function _toDomain(thematicData, locale) {
   });
 }
 
-module.exports = {
+export default {
   async list({ locale } = { locale: FRENCH_FRANCE }) {
     const thematicDatas = await thematicDatasource.list();
     return thematicDatas.map((thematicData) => _toDomain(thematicData, locale));

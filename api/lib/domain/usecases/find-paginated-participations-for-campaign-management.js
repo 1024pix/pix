@@ -1,4 +1,4 @@
-module.exports = function findPaginatedParticipationsForCampaignManagement({
+export default function findPaginatedParticipationsForCampaignManagement({
   campaignId,
   page,
   participationsForCampaignManagementRepository,
@@ -7,4 +7,4 @@ module.exports = function findPaginatedParticipationsForCampaignManagement({
     campaignId,
     page,
   });
-};
+}

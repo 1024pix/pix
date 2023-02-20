@@ -1,6 +1,6 @@
-const ShareableCertificate = require('../../../../lib/domain/models/ShareableCertificate');
+import ShareableCertificate from '../../../../lib/domain/models/ShareableCertificate';
 
-module.exports = function buildShareableCertificate({
+export default function buildShareableCertificate({
   id = 1,
   firstName = 'Jean',
   lastName = 'Bon',
@@ -32,4 +32,4 @@ module.exports = function buildShareableCertificate({
     resultCompetenceTree,
     certifiedBadgeImages,
   });
-};
+}

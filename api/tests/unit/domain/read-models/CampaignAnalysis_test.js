@@ -1,5 +1,5 @@
-const CampaignAnalysis = require('../../../../lib/domain/read-models/CampaignAnalysis');
-const { expect, domainBuilder } = require('../../../test-helper');
+import CampaignAnalysis from '../../../../lib/domain/read-models/CampaignAnalysis';
+import { expect, domainBuilder } from '../../../test-helper';
 
 describe('Unit | Domain | Read-Models | CampaignAnalysis', function () {
   describe('constructor', function () {

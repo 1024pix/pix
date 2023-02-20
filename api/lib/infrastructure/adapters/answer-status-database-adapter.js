@@ -1,4 +1,4 @@
-const AnswerStatus = require('../../domain/models/AnswerStatus');
+import AnswerStatus from '../../domain/models/AnswerStatus';
 
 const UNIMPLEMENTED = 'unimplemented';
 const TIMEDOUT = 'timedout';
@@ -8,7 +8,7 @@ const FOCUSEDOUT = 'focusedOut';
 const OK = 'ok';
 const KO = 'ko';
 
-module.exports = {
+export default {
   /**
    * @deprecated use toSQLString instead
    */

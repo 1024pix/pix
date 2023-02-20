@@ -1,6 +1,6 @@
-const { knex } = require('../../../db/knex-database-connection');
+import { knex } from '../../../db/knex-database-connection';
 
-module.exports = {
+export default {
   async getComplementaryCertificationCourseId({ certificationCourseId, complementaryCertificationKey }) {
     const result = await knex
       .from('complementary-certification-courses')

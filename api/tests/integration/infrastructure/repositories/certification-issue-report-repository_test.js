@@ -1,11 +1,11 @@
-const _ = require('lodash');
-const { expect, domainBuilder, databaseBuilder, knex } = require('../../../test-helper');
-const certificationIssueReportRepository = require('../../../../lib/infrastructure/repositories/certification-issue-report-repository');
-const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
-const {
+import _ from 'lodash';
+import { expect, domainBuilder, databaseBuilder, knex } from '../../../test-helper';
+import certificationIssueReportRepository from '../../../../lib/infrastructure/repositories/certification-issue-report-repository';
+import CertificationIssueReport from '../../../../lib/domain/models/CertificationIssueReport';
+import {
   CertificationIssueReportCategories,
   CertificationIssueReportSubcategories,
-} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
+} from '../../../../lib/domain/models/CertificationIssueReportCategory';
 
 describe('Integration | Repository | Certification Issue Report', function () {
   afterEach(async function () {

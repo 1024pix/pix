@@ -10,4 +10,4 @@ Tag.MEDIATION_NUMERIQUE = 'MEDNUM';
 Tag.CFA = 'CFA';
 Tag.AEFE = 'AEFE';
 Tag.MLF = 'MLF';
-module.exports = Tag;
+export default Tag;

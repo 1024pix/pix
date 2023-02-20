@@ -1,6 +1,6 @@
 const TABLE_NAME = 'badge-criteria';
 
-exports.up = function (knex) {
+export const up = function (knex) {
   return knex.schema.createTable(TABLE_NAME, (table) => {
     table.increments('id').primary();
     table.string('scope').notNullable();
@@ -9,6 +9,6 @@ exports.up = function (knex) {
   });
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return knex.schema.dropTable(TABLE_NAME);
 };

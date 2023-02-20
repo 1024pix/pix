@@ -1,15 +1,14 @@
-const jsonwebtoken = require('jsonwebtoken');
-const querystring = require('querystring');
-const { v4: uuidv4 } = require('uuid');
-
-const { InvalidExternalAPIResponseError } = require('../../errors');
-const AuthenticationMethod = require('../../models/AuthenticationMethod');
-const AuthenticationSessionContent = require('../../models/AuthenticationSessionContent');
-const settings = require('../../../config');
-const httpAgent = require('../../../infrastructure/http/http-agent');
-const httpErrorsHelper = require('../../../infrastructure/http/errors-helper');
-const DomainTransaction = require('../../../infrastructure/DomainTransaction');
-const monitoringTools = require('../../../infrastructure/monitoring-tools');
+import jsonwebtoken from 'jsonwebtoken';
+import querystring from 'querystring';
+import { v4 as uuidv4 } from 'uuid';
+import { InvalidExternalAPIResponseError } from '../../errors';
+import AuthenticationMethod from '../../models/AuthenticationMethod';
+import AuthenticationSessionContent from '../../models/AuthenticationSessionContent';
+import settings from '../../../config';
+import httpAgent from '../../../infrastructure/http/http-agent';
+import httpErrorsHelper from '../../../infrastructure/http/errors-helper';
+import DomainTransaction from '../../../infrastructure/DomainTransaction';
+import monitoringTools from '../../../infrastructure/monitoring-tools';
 
 class OidcAuthenticationService {
   constructor({
@@ -205,4 +204,4 @@ class OidcAuthenticationService {
   }
 }
 
-module.exports = OidcAuthenticationService;
+export default OidcAuthenticationService;

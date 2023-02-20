@@ -1,8 +1,8 @@
-const { knex } = require('../../../db/knex-database-connection');
+import { knex } from '../../../db/knex-database-connection';
 
 const COMPLEMENTARY_CERTIFICATION_HABILITATIONS_TABLE_NAME = 'complementary-certification-habilitations';
 
-module.exports = {
+export default {
   async save(complementaryCertification) {
     const columnsToSave = {
       complementaryCertificationId: complementaryCertification.complementaryCertificationId,

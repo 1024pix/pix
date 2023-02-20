@@ -1,9 +1,9 @@
-const _ = require('lodash');
-const hashInt = require('hash-int');
+import _ from 'lodash';
+import hashInt from 'hash-int';
 const NON_EXISTING_ITEM = null;
 const VALIDATED_STATUS = 'validé';
 
-module.exports = {
+export default {
   pickChallenge({ skills, randomSeed, locale }) {
     if (skills.length === 0) {
       return NON_EXISTING_ITEM;

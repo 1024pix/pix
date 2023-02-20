@@ -1,10 +1,9 @@
-const Joi = require('joi');
+import Joi from 'joi';
+import securityPreHandlers from '../security-pre-handlers';
+import prescriberController from './prescriber-controller';
+import identifiersType from '../../domain/types/identifiers-type';
 
-const securityPreHandlers = require('../security-pre-handlers');
-const prescriberController = require('./prescriber-controller');
-const identifiersType = require('../../domain/types/identifiers-type');
-
-exports.register = async function (server) {
+export const register = async function (server) {
   server.route([
     {
       method: 'GET',
@@ -33,4 +32,4 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'prescribers-api';
+export const name = 'prescribers-api';

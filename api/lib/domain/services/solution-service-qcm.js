@@ -1,8 +1,7 @@
-const _ = require('../../infrastructure/utils/lodash-utils');
+import _ from '../../infrastructure/utils/lodash-utils';
+import AnswerStatus from '../models/AnswerStatus';
 
-const AnswerStatus = require('../models/AnswerStatus');
-
-module.exports = {
+export default {
   match(answer, solution) {
     if (_.areCSVequivalent(answer, solution)) {
       return AnswerStatus.OK;

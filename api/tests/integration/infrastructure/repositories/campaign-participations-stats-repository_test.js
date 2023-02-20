@@ -1,6 +1,6 @@
-const campaignParticipationsStatsRepository = require('../../../../lib/infrastructure/repositories/campaign-participations-stats-repository');
-const { expect, databaseBuilder } = require('../../../test-helper');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+import campaignParticipationsStatsRepository from '../../../../lib/infrastructure/repositories/campaign-participations-stats-repository';
+import { expect, databaseBuilder } from '../../../test-helper';
+import CampaignParticipationStatuses from '../../../../lib/domain/models/CampaignParticipationStatuses';
 
 const { STARTED } = CampaignParticipationStatuses;
 

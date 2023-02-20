@@ -1,4 +1,4 @@
-const moment = require('moment-timezone');
+import moment from 'moment-timezone';
 
 moment.parseTwoDigitYear = function (yearString) {
   const year = parseInt(yearString);
@@ -23,7 +23,7 @@ function getNowDate() {
   return new Date();
 }
 
-module.exports = {
+export default {
   isValidDate,
   convertDateValue,
   getNowDate,

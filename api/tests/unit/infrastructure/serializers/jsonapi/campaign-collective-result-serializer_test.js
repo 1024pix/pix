@@ -1,6 +1,6 @@
-const _ = require('lodash');
-const { expect, domainBuilder } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-collective-result-serializer');
+import _ from 'lodash';
+import { expect, domainBuilder } from '../../../../test-helper';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/campaign-collective-result-serializer';
 
 describe('Unit | Serializer | JSONAPI | campaign-collective-results-serializer', function () {
   describe('#serialize', function () {

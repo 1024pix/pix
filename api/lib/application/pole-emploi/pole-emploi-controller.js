@@ -1,6 +1,6 @@
-const usecases = require('../../domain/usecases');
+import usecases from '../../domain/usecases';
 
-module.exports = {
+export default {
   async getSendings(request, h) {
     const cursor = request.query.curseur;
     const filters = _extractFilters(request);

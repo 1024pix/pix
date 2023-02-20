@@ -3,4 +3,4 @@ const CampaignTypes = {
   PROFILES_COLLECTION: 'PROFILES_COLLECTION',
 };
 
-module.exports = CampaignTypes;
+export default CampaignTypes;

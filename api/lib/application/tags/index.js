@@ -1,9 +1,9 @@
-const securityPreHandlers = require('../security-pre-handlers');
-const tagController = require('./tag-controller');
-const Joi = require('joi');
-const identifiersType = require('../../domain/types/identifiers-type');
+import securityPreHandlers from '../security-pre-handlers';
+import tagController from './tag-controller';
+import Joi from 'joi';
+import identifiersType from '../../domain/types/identifiers-type';
 
-exports.register = async (server) => {
+export const register = async (server) => {
   server.route([
     {
       method: 'POST',
@@ -91,4 +91,4 @@ exports.register = async (server) => {
   ]);
 };
 
-exports.name = 'tags-api';
+export const name = 'tags-api';

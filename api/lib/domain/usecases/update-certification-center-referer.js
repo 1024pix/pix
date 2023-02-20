@@ -1,4 +1,4 @@
-module.exports = async function updateCertificationCenterReferer({
+export default async function updateCertificationCenterReferer({
   userId,
   isReferer,
   certificationCenterId,
@@ -21,4 +21,4 @@ module.exports = async function updateCertificationCenterReferer({
     certificationCenterId,
     isReferer,
   });
-};
+}

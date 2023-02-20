@@ -1,8 +1,7 @@
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const Validator = require('../../../../lib/domain/models/Validator');
-const Validation = require('../../../../lib/domain/models/Validation');
-
-const { expect, domainBuilder } = require('../../../test-helper');
+import AnswerStatus from '../../../../lib/domain/models/AnswerStatus';
+import Validator from '../../../../lib/domain/models/Validator';
+import Validation from '../../../../lib/domain/models/Validation';
+import { expect, domainBuilder } from '../../../test-helper';
 
 describe('Unit | Domain | Models | Validator', function () {
   describe('#assess', function () {

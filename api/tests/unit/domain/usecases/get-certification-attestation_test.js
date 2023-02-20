@@ -1,6 +1,6 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const get = require('../../../../lib/domain/usecases/certificate/get-certification-attestation');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper';
+import { NotFoundError } from '../../../../lib/domain/errors';
+import get from '../../../../lib/domain/usecases/certificate/get-certification-attestation';
 
 describe('Unit | UseCase | get-certification-attestation', function () {
   const certificateRepository = {

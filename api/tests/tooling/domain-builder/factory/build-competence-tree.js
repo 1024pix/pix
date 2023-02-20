@@ -1,9 +1,8 @@
-const CompetenceTree = require('../../../../lib/domain/models/CompetenceTree');
+import CompetenceTree from '../../../../lib/domain/models/CompetenceTree';
+import buildArea from './build-area';
+import buildCompetence from './build-competence';
 
-const buildArea = require('./build-area');
-const buildCompetence = require('./build-competence');
-
-module.exports = function buildCompetenceTree({
+export default function buildCompetenceTree({
   id = 1,
   areas = [
     buildArea({
@@ -41,4 +40,4 @@ module.exports = function buildCompetenceTree({
     id,
     areas,
   });
-};
+}

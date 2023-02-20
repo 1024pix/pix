@@ -1,5 +1,5 @@
-const { knex, disconnect } = require('../db/knex-database-connection');
-const bluebird = require('bluebird');
+import { knex, disconnect } from '../db/knex-database-connection';
+import bluebird from 'bluebird';
 
 async function getAllBadgeAcquistionsWithoutCampaignParticipationId() {
   return knex('badge-acquisitions').select().where({ campaignParticipationId: null });
@@ -85,7 +85,7 @@ async function main() {
   }
 })();
 
-module.exports = {
+export default {
   main,
   getAllBadgeAcquistionsWithoutCampaignParticipationId,
   getCampaignParticipationFromBadgeAcquisition,

@@ -1,6 +1,6 @@
-const ComplementaryCertificationCourseResultsForJuryCertificationWithExternal = require('../../../../lib/domain/read-models/ComplementaryCertificationCourseResultsForJuryCertificationWithExternal');
+import ComplementaryCertificationCourseResultsForJuryCertificationWithExternal from '../../../../lib/domain/read-models/ComplementaryCertificationCourseResultsForJuryCertificationWithExternal';
 
-module.exports = function buildPixEduComplementaryCertificationCourseResultsForJuryCertificationWithExternal({
+export default function buildPixEduComplementaryCertificationCourseResultsForJuryCertificationWithExternal({
   complementaryCertificationCourseId = 456,
   pixPartnerKey = 'PIX_PARTNER_KEY',
   pixLabel = 'Pix+ Édu 1er degré Avancé',
@@ -24,4 +24,4 @@ module.exports = function buildPixEduComplementaryCertificationCourseResultsForJ
     externalLevel,
     allowedExternalLevels,
   });
-};
+}

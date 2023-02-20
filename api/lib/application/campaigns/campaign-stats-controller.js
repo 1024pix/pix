@@ -1,10 +1,10 @@
-const usecases = require('../../domain/usecases');
-const participationsByStageSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participations-count-by-stage-serializer');
-const participationsByStatusSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participations-counts-by-status-serializer');
-const participationsByDaySerializer = require('../../infrastructure/serializers/jsonapi/campaign-participations-counts-by-day-serializer');
-const participationsCountByMasteryRateSerializer = require('../../infrastructure/serializers/jsonapi/participations-count-by-mastery-rate');
+import usecases from '../../domain/usecases';
+import participationsByStageSerializer from '../../infrastructure/serializers/jsonapi/campaign-participations-count-by-stage-serializer';
+import participationsByStatusSerializer from '../../infrastructure/serializers/jsonapi/campaign-participations-counts-by-status-serializer';
+import participationsByDaySerializer from '../../infrastructure/serializers/jsonapi/campaign-participations-counts-by-day-serializer';
+import participationsCountByMasteryRateSerializer from '../../infrastructure/serializers/jsonapi/participations-count-by-mastery-rate';
 
-module.exports = {
+export default {
   async getParticipationsByStage(request) {
     const { userId } = request.auth.credentials;
     const campaignId = request.params.id;

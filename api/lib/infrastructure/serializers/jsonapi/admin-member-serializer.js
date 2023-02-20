@@ -1,6 +1,6 @@
-const { Serializer, Deserializer } = require('jsonapi-serializer');
+import { Serializer, Deserializer } from 'jsonapi-serializer';
 
-module.exports = {
+export default {
   serialize(adminMembers, meta) {
     return new Serializer('admin-member', {
       attributes: [

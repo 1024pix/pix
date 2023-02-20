@@ -1,6 +1,6 @@
-const Stage = require('../../../../lib/domain/models/Stage');
+import Stage from '../../../../lib/domain/models/Stage';
 
-module.exports = function buildStage({
+export default function buildStage({
   id = 123,
   title = 'Courage',
   message = 'Insister',
@@ -20,4 +20,4 @@ module.exports = function buildStage({
     prescriberDescription,
     targetProfileId,
   });
-};
+}

@@ -1,5 +1,5 @@
-const { expect, catchErr, databaseBuilder } = require('../../test-helper');
-const { doSomething } = require('../../../scripts/_template');
+import { expect, catchErr, databaseBuilder } from '../../test-helper';
+import { doSomething } from '../../../scripts/_template';
 
 describe('#doSomething', function () {
   describe('#if throwError is false', function () {

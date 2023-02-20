@@ -1,5 +1,5 @@
-const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
-const createServer = require('../../../../server');
+import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../test-helper';
+import createServer from '../../../../server';
 
 describe('Acceptance | API | assessment-controller-find-competence-evaluations', function () {
   let server;

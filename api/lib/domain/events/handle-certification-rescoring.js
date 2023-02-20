@@ -1,13 +1,13 @@
-const AssessmentResult = require('../models/AssessmentResult');
-const CertificationResult = require('../models/CertificationResult');
-const CompetenceMark = require('../models/CompetenceMark');
-const CertificationRescoringCompleted = require('./CertificationRescoringCompleted.js');
-const bluebird = require('bluebird');
-const { CertificationComputeError } = require('../errors');
-const ChallengeNeutralized = require('./ChallengeNeutralized');
-const ChallengeDeneutralized = require('./ChallengeDeneutralized');
-const CertificationJuryDone = require('./CertificationJuryDone');
-const { checkEventTypes } = require('./check-event-types');
+import AssessmentResult from '../models/AssessmentResult';
+import CertificationResult from '../models/CertificationResult';
+import CompetenceMark from '../models/CompetenceMark';
+import CertificationRescoringCompleted from './CertificationRescoringCompleted.js';
+import bluebird from 'bluebird';
+import { CertificationComputeError } from '../errors';
+import ChallengeNeutralized from './ChallengeNeutralized';
+import ChallengeDeneutralized from './ChallengeDeneutralized';
+import CertificationJuryDone from './CertificationJuryDone';
+import { checkEventTypes } from './check-event-types';
 
 const eventTypes = [ChallengeNeutralized, ChallengeDeneutralized, CertificationJuryDone];
 
@@ -157,4 +157,4 @@ function _getEmitterFromEvent(event) {
 }
 
 handleCertificationRescoring.eventTypes = eventTypes;
-module.exports = handleCertificationRescoring;
+export default handleCertificationRescoring;

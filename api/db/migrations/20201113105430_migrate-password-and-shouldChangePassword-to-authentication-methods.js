@@ -1,4 +1,4 @@
-exports.up = async (knex) => {
+export const up = async (knex) => {
   // eslint-disable-next-line knex/avoid-injections
   return knex.raw(
     'INSERT INTO "authentication-methods" ("userId", "identityProvider", "authenticationComplement") ' +
@@ -9,7 +9,7 @@ exports.up = async (knex) => {
   );
 };
 
-exports.down = async (knex) => {
+export const down = async (knex) => {
   const sqlRequest =
     'UPDATE users ' +
     'SET password = subquery.password, ' +

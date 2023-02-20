@@ -1,9 +1,7 @@
-// Usage: node create-organization-places-lot.js path/file.csv
-// To use on file with columns |createdBy, organizationId, count, category, reference, activationDate, expirationDate|, those headers included
-const { knex, disconnect } = require('../../db/knex-database-connection');
-const { parseCsvWithHeader } = require('../helpers/csvHelpers');
-const OrganizationPlacesLot = require('../../lib/domain/models/OrganizationPlacesLot');
-const categories = require('../../lib/domain/constants/organization-places-categories');
+import { knex, disconnect } from '../../db/knex-database-connection';
+import { parseCsvWithHeader } from '../helpers/csvHelpers';
+import OrganizationPlacesLot from '../../lib/domain/models/OrganizationPlacesLot';
+import categories from '../../lib/domain/constants/organization-places-categories';
 const categoriesByCode = {
   [categories.T0]: categories.FREE_RATE,
   [categories.T1]: categories.PUBLIC_RATE,
@@ -85,6 +83,6 @@ function _log(message) {
   }
 }
 
-module.exports = {
+export default {
   prepareOrganizationPlacesLot,
 };

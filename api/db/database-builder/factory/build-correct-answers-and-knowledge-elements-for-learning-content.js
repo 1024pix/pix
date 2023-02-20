@@ -1,5 +1,5 @@
-const buildCorrectAnswerAndKnowledgeElement = require('./build-correct-answer-and-knowledge-element');
-const _ = require('lodash');
+import buildCorrectAnswerAndKnowledgeElement from './build-correct-answer-and-knowledge-element';
+import _ from 'lodash';
 
 const buildCorrectAnswersAndKnowledgeElementsForLearningContent = function ({
   learningContent,
@@ -57,4 +57,4 @@ buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas = function (
   });
 };
 
-module.exports = buildCorrectAnswersAndKnowledgeElementsForLearningContent;
+export default buildCorrectAnswersAndKnowledgeElementsForLearningContent;

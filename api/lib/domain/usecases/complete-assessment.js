@@ -1,9 +1,8 @@
-const AssessmentCompleted = require('../events/AssessmentCompleted');
-const CampaignParticipationStatuses = require('../models/CampaignParticipationStatuses');
+import AssessmentCompleted from '../events/AssessmentCompleted';
+import CampaignParticipationStatuses from '../models/CampaignParticipationStatuses';
+import { AlreadyRatedAssessmentError } from '../errors';
 
-const { AlreadyRatedAssessmentError } = require('../errors');
-
-module.exports = async function completeAssessment({
+export default async function completeAssessment({
   assessmentId,
   domainTransaction,
   campaignParticipationRepository,
@@ -37,4 +36,4 @@ module.exports = async function completeAssessment({
     event: assessmentCompleted,
     assessment,
   };
-};
+}

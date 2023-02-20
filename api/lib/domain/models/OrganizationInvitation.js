@@ -1,5 +1,5 @@
 const Joi = require('joi').extend(require('@joi/date'));
-const { validateEntity } = require('../validators/entity-validator');
+import { validateEntity } from '../validators/entity-validator';
 
 const statuses = {
   PENDING: 'pending',
@@ -69,4 +69,4 @@ class OrganizationInvitation {
 
 OrganizationInvitation.StatusType = statuses;
 
-module.exports = OrganizationInvitation;
+export default OrganizationInvitation;

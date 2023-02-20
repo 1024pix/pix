@@ -1,9 +1,9 @@
-const buildAssessment = require('./build-assessment');
-const buildUser = require('./build-user');
-const buildCampaignParticipation = require('./build-campaign-participation');
-const buildOrganizationLearner = require('./build-organization-learner');
+import buildAssessment from './build-assessment';
+import buildUser from './build-user';
+import buildCampaignParticipation from './build-campaign-participation';
+import buildOrganizationLearner from './build-organization-learner';
 
-module.exports = function buildAssessmentFromParticipation(campaignParticipation, organizationLearner, user) {
+export default function buildAssessmentFromParticipation(campaignParticipation, organizationLearner, user) {
   const userId = buildUser(user).id;
   const organizationLearnerId = buildOrganizationLearner(organizationLearner).id;
   const campaignParticipationId = buildCampaignParticipation({
@@ -13,4 +13,4 @@ module.exports = function buildAssessmentFromParticipation(campaignParticipation
   }).id;
 
   return buildAssessment({ userId, campaignParticipationId });
-};
+}

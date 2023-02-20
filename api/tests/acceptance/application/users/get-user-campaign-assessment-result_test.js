@@ -1,13 +1,15 @@
-const createServer = require('../../../../server');
-const {
+import createServer from '../../../../server';
+
+import {
   expect,
   databaseBuilder,
   mockLearningContent,
   learningContentBuilder,
   generateValidRequestAuthorizationHeader,
-} = require('../../../test-helper');
-const _ = require('lodash');
-const BadgeCriterion = require('../../../../lib/domain/models/BadgeCriterion');
+} from '../../../test-helper';
+
+import _ from 'lodash';
+import BadgeCriterion from '../../../../lib/domain/models/BadgeCriterion';
 
 describe('Acceptance | API | Campaign Assessment Result', function () {
   const JAFFA_COLOR = 'jaffa';

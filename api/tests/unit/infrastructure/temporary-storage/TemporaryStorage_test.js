@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const TemporaryStorage = require('../../../../lib/infrastructure/temporary-storage/TemporaryStorage');
+import { expect } from '../../../test-helper';
+import TemporaryStorage from '../../../../lib/infrastructure/temporary-storage/TemporaryStorage';
 
 describe('Unit | Infrastructure | temporary-storage | TemporaryStorage', function () {
   describe('#save', function () {

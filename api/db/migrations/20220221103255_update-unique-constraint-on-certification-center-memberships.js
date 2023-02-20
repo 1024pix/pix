@@ -1,4 +1,4 @@
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.schema.table('certification-center-memberships', function (table) {
     table.dropUnique(['userId', 'certificationCenterId']);
   });
@@ -7,7 +7,7 @@ exports.up = async function (knex) {
   );
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return knex.schema.table('certification-center-memberships', function (table) {
     table.dropUnique(null, 'certification-center-memberships_userid_certificationcenterid_disabledAt_unique');
     table.unique(['userId', 'certificationCenterId']);

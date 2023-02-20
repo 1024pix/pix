@@ -1,7 +1,7 @@
-const { sinon, expect } = require('../../../test-helper');
-const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
-const Scorecard = require('../../../../lib/domain/models/Scorecard');
-const getScorecard = require('../../../../lib/domain/usecases/get-scorecard');
+import { sinon, expect } from '../../../test-helper';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors';
+import Scorecard from '../../../../lib/domain/models/Scorecard';
+import getScorecard from '../../../../lib/domain/usecases/get-scorecard';
 
 describe('Unit | UseCase | get-scorecard', function () {
   let scorecardService;

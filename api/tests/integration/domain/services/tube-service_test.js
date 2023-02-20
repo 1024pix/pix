@@ -1,7 +1,7 @@
-const { expect } = require('../../../test-helper');
-const Skill = require('../../../../lib/domain/models/Skill');
-const Tube = require('../../../../lib/domain/models/Tube');
-const { computeTubesFromSkills } = require('../../../../lib/domain/services/tube-service');
+import { expect } from '../../../test-helper';
+import Skill from '../../../../lib/domain/models/Skill';
+import Tube from '../../../../lib/domain/models/Tube';
+import { computeTubesFromSkills } from '../../../../lib/domain/services/tube-service';
 
 describe('Integration | Domain | Services | TubeService', function () {
   describe('#computeTubesFromSkills', function () {

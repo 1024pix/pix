@@ -1,4 +1,4 @@
-module.exports = async function importSupOrganizationLearners({
+export default async function importSupOrganizationLearners({
   supOrganizationLearnerRepository,
   supOrganizationLearnerParser,
 }) {
@@ -7,4 +7,4 @@ module.exports = async function importSupOrganizationLearners({
   await supOrganizationLearnerRepository.addStudents(learners);
 
   return warnings;
-};
+}

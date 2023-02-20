@@ -4,4 +4,4 @@ class LearningContentResourceNotFound extends Error {
   }
 }
 
-module.exports = LearningContentResourceNotFound;
+export default LearningContentResourceNotFound;

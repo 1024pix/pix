@@ -1,8 +1,7 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
-const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
-
-const deleteCampaignParticipation = require('../../../../lib/domain/usecases/delete-campaign-participation');
+import { expect, databaseBuilder, knex } from '../../../test-helper';
+import DomainTransaction from '../../../../lib/infrastructure/DomainTransaction';
+import campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository';
+import deleteCampaignParticipation from '../../../../lib/domain/usecases/delete-campaign-participation';
 
 describe('Integration | UseCases | delete-campaign-participation', function () {
   it('should delete all campaignParticipations', async function () {

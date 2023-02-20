@@ -5,4 +5,4 @@ class ChallengeNeutralized {
   }
 }
 
-module.exports = ChallengeNeutralized;
+export default ChallengeNeutralized;

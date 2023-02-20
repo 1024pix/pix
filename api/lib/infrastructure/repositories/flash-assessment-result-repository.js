@@ -1,9 +1,9 @@
-const { knex } = require('../../../db/knex-database-connection');
-const DomainTransaction = require('../DomainTransaction');
+import { knex } from '../../../db/knex-database-connection';
+import DomainTransaction from '../DomainTransaction';
 
 const TABLE_NAME = 'flash-assessment-results';
 
-module.exports = {
+export default {
   async save({
     answerId,
     estimatedLevel,

@@ -1,5 +1,5 @@
-const { sinon, expect } = require('../../../test-helper');
-const findTargetProfileSummariesForTraining = require('../../../../lib/domain/usecases/find-target-profile-summaries-for-training');
+import { sinon, expect } from '../../../test-helper';
+import findTargetProfileSummariesForTraining from '../../../../lib/domain/usecases/find-target-profile-summaries-for-training';
 
 describe('Unit | UseCase | find-target-profile-summaries-for-training', function () {
   it('should call the repository with the right arguments and return summaries', async function () {

@@ -1,17 +1,18 @@
-const { sinon, expect } = require('../../../test-helper');
-
-const mailService = require('../../../../lib/domain/services/mail-service');
-const mailer = require('../../../../lib/infrastructure/mailers/mailer');
-const tokenService = require('../../../../lib/domain/services/token-service');
-const settings = require('../../../../lib/config');
-const { getI18n } = require('../../../tooling/i18n/i18n');
+import { sinon, expect } from '../../../test-helper';
+import mailService from '../../../../lib/domain/services/mail-service';
+import mailer from '../../../../lib/infrastructure/mailers/mailer';
+import tokenService from '../../../../lib/domain/services/token-service';
+import settings from '../../../../lib/config';
+import { getI18n } from '../../../tooling/i18n/i18n';
 
 const mainTranslationsMapping = {
   fr: require('../../../../translations/fr'),
   en: require('../../../../translations/en'),
 };
 
-const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
+import { LOCALE } from '../../../../lib/domain/constants';
+
+const { ENGLISH_SPOKEN: ENGLISH_SPOKEN, FRENCH_FRANCE: FRENCH_FRANCE, FRENCH_SPOKEN: FRENCH_SPOKEN } = LOCALE;
 
 describe('Unit | Service | MailService', function () {
   const senderEmailAddress = 'ne-pas-repondre@pix.fr';

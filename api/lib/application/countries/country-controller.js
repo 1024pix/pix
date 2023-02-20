@@ -1,7 +1,7 @@
-const usecases = require('../../domain/usecases');
-const countrySerializer = require('../../infrastructure/serializers/jsonapi/country-serializer');
+import usecases from '../../domain/usecases';
+import countrySerializer from '../../infrastructure/serializers/jsonapi/country-serializer';
 
-module.exports = {
+export default {
   async findCountries() {
     const countries = await usecases.findCountries();
     return countrySerializer.serialize(countries);

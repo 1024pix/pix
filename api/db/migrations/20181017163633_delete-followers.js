@@ -1,10 +1,10 @@
 const TABLE_NAME = 'followers';
 
-exports.up = (knex) => {
+export const up = (knex) => {
   return knex.schema.dropTable(TABLE_NAME);
 };
 
-exports.down = (knex) => {
+export const down = (knex) => {
   function table(t) {
     t.increments().primary();
     t.string('email').unique().notNullable();

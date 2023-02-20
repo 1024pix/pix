@@ -1,9 +1,9 @@
-const _ = require('lodash');
-const { SCO_MIDDLE_SCHOOL_ID } = require('../../db/seeds/data/organizations-sco-builder');
-const OrganizationLearner = require('../../lib/domain/models/OrganizationLearner');
-const { OrganizationLearnersCouldNotBeSavedError } = require('../../lib/domain/errors');
-const DomainTransaction = require('../../lib/infrastructure/DomainTransaction');
-const { knex, disconnect } = require('../../db/knex-database-connection');
+import _ from 'lodash';
+import { SCO_MIDDLE_SCHOOL_ID } from '../../db/seeds/data/organizations-sco-builder';
+import OrganizationLearner from '../../lib/domain/models/OrganizationLearner';
+import { OrganizationLearnersCouldNotBeSavedError } from '../../lib/domain/errors';
+import DomainTransaction from '../../lib/infrastructure/DomainTransaction';
+import { knex, disconnect } from '../../db/knex-database-connection';
 
 function _buildOrganizationLearner(iteration) {
   const birthdates = ['2001-01-05', '2002-11-15', '1995-06-25'];
@@ -53,6 +53,6 @@ async function main() {
   }
 })();
 
-module.exports = {
+export default {
   addManyStudentsToScoCertificationCenter,
 };

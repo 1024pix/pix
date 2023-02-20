@@ -1,9 +1,7 @@
-const iconv = require('iconv-lite');
-const { sinon, expect, catchErr } = require('../../../../test-helper');
-const {
-  CsvOrganizationLearnerParser,
-} = require('../../../../../lib/infrastructure/serializers/csv/csv-learner-parser');
-const { CsvColumn } = require('../../../../../lib/infrastructure/serializers/csv/csv-column');
+import iconv from 'iconv-lite';
+import { sinon, expect, catchErr } from '../../../../test-helper';
+import { CsvOrganizationLearnerParser } from '../../../../../lib/infrastructure/serializers/csv/csv-learner-parser';
+import { CsvColumn } from '../../../../../lib/infrastructure/serializers/csv/csv-column';
 
 class FakeLearnerSet {
   constructor() {

@@ -1,6 +1,6 @@
-const { expect } = require('../../../test-helper');
-const service = require('../../../../lib/domain/services/solution-service-qcm');
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
+import { expect } from '../../../test-helper';
+import service from '../../../../lib/domain/services/solution-service-qcm';
+import AnswerStatus from '../../../../lib/domain/models/AnswerStatus';
 
 describe('Unit | Service | SolutionServiceQCM ', function () {
   describe('if solution type is QCM', function () {

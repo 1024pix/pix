@@ -1,7 +1,7 @@
-const Pack = require('../../../package');
-const config = require('../../config');
+import Pack from '../../../package';
+import config from '../../config';
 
-module.exports = {
+export default {
   plugin: require('hapi-sentry'),
   options: {
     client: {

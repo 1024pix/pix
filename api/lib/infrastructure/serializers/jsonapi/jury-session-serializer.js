@@ -1,6 +1,6 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
+export default {
   serializeForPaginatedList(jurySessionsForPaginatedList) {
     const { jurySessions, pagination } = jurySessionsForPaginatedList;
     return this.serialize(jurySessions, undefined, pagination);

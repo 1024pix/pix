@@ -1,8 +1,7 @@
-const { domainBuilder, expect } = require('../../../../test-helper');
-const { isSameBinary } = require('../../../../tooling/binary-comparator');
-const { getSupervisorKitPdfBuffer } = require('../../../../../lib/infrastructure/utils/pdf/supervisor-kit-pdf');
-
-const { addRandomSuffix } = require('pdf-lib/cjs/utils');
+import { domainBuilder, expect } from '../../../../test-helper';
+import { isSameBinary } from '../../../../tooling/binary-comparator';
+import { getSupervisorKitPdfBuffer } from '../../../../../lib/infrastructure/utils/pdf/supervisor-kit-pdf';
+import { addRandomSuffix } from 'pdf-lib/cjs/utils';
 
 describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor kit Pdf', function () {
   beforeEach(function () {

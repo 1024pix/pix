@@ -137,4 +137,4 @@ function issueReportCategoriesBuilder({ databaseBuilder }) {
   });
 }
 
-module.exports = { issueReportCategoriesBuilder };
+export default { issueReportCategoriesBuilder };

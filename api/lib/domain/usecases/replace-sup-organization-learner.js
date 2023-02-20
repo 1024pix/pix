@@ -1,4 +1,4 @@
-module.exports = async function replaceSupOrganizationLearners({
+export default async function replaceSupOrganizationLearners({
   organizationId,
   supOrganizationLearnerRepository,
   supOrganizationLearnerParser,
@@ -8,4 +8,4 @@ module.exports = async function replaceSupOrganizationLearners({
   await supOrganizationLearnerRepository.replaceStudents(organizationId, learners);
 
   return warnings;
-};
+}

@@ -1,4 +1,4 @@
-const CertificationCpfCountry = require('../../../../lib/domain/models/CertificationCpfCountry');
+import CertificationCpfCountry from '../../../../lib/domain/models/CertificationCpfCountry';
 
 function buildCertificationCpfCountry({
   id = 123,
@@ -32,4 +32,4 @@ buildCertificationCpfCountry.FRANCE = function ({
   });
 };
 
-module.exports = buildCertificationCpfCountry;
+export default buildCertificationCpfCountry;

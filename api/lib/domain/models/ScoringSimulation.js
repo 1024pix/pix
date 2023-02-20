@@ -13,4 +13,4 @@ class ScoringSimulationUser {
   }
 }
 
-module.exports = ScoringSimulation;
+export default ScoringSimulation;

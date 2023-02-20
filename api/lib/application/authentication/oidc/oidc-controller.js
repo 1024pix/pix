@@ -1,11 +1,11 @@
-const authenticationServiceRegistry = require('../../../domain/services/authentication/authentication-service-registry');
-const authenticationRegistry = require('../../../domain/services/authentication/authentication-service-registry');
-const serializer = require('../../../infrastructure/serializers/jsonapi/oidc-identity-providers-serializer');
-const usecases = require('../../../domain/usecases');
-const { UnauthorizedError } = require('../../http-errors');
-const oidcSerializer = require('../../../infrastructure/serializers/jsonapi/oidc-serializer');
+import authenticationServiceRegistry from '../../../domain/services/authentication/authentication-service-registry';
+import authenticationRegistry from '../../../domain/services/authentication/authentication-service-registry';
+import serializer from '../../../infrastructure/serializers/jsonapi/oidc-identity-providers-serializer';
+import usecases from '../../../domain/usecases';
+import { UnauthorizedError } from '../../http-errors';
+import oidcSerializer from '../../../infrastructure/serializers/jsonapi/oidc-serializer';
 
-module.exports = {
+export default {
   async getIdentityProviders(request, h) {
     const identityProviders = usecases.getIdentityProviders();
     return h.response(serializer.serialize(identityProviders)).code(200);

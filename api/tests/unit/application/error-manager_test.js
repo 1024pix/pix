@@ -1,6 +1,6 @@
-const { expect, hFake, sinon } = require('../../test-helper');
+import { expect, hFake, sinon } from '../../test-helper';
 
-const {
+import {
   AccountRecoveryDemandExpired,
   AdminMemberError,
   AlreadyRegisteredEmailAndUsernameError,
@@ -33,10 +33,10 @@ const {
   UnexpectedOidcStateError,
   InvalidIdentityProviderError,
   SendingEmailToInvalidDomainError,
-} = require('../../../lib/domain/errors');
-const HttpErrors = require('../../../lib/application/http-errors.js');
+} from '../../../lib/domain/errors';
 
-const { handle } = require('../../../lib/application/error-manager');
+import HttpErrors from '../../../lib/application/http-errors.js';
+import { handle } from '../../../lib/application/error-manager';
 
 describe('Unit | Application | ErrorManager', function () {
   describe('#handle', function () {

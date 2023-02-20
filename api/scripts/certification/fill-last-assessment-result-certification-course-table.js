@@ -1,8 +1,8 @@
 require('dotenv').config();
-const logger = require('../../lib/infrastructure/logger');
-const cache = require('../../lib/infrastructure/caches/learning-content-cache');
-const { knex, disconnect } = require('../../db/knex-database-connection');
-const bluebird = require('bluebird');
+import logger from '../../lib/infrastructure/logger';
+import cache from '../../lib/infrastructure/caches/learning-content-cache';
+import { knex, disconnect } from '../../db/knex-database-connection';
+import bluebird from 'bluebird';
 
 const ASSOC_TABLE_NAME = 'certification-courses-last-assessment-results';
 
@@ -83,4 +83,4 @@ async function _getLatestAssessmentResultId(certificationCourseId) {
   return certificationDTO?.lastAssessmentResultId;
 }
 
-module.exports = { addLastAssessmentResultCertificationCourse };
+export default { addLastAssessmentResultCertificationCourse };

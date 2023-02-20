@@ -1,11 +1,11 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const { NotFoundError } = require('../../../../lib/application/http-errors');
-const {
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper';
+import { NotFoundError } from '../../../../lib/application/http-errors';
+import {
   verifyCertificationSessionAuthorization,
   verifySessionAuthorization,
-} = require('../../../../lib/application/preHandlers/authorization');
-const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
-const sessionRepository = require('../../../../lib/infrastructure/repositories/sessions/session-repository');
+} from '../../../../lib/application/preHandlers/authorization';
+import certificationCourseRepository from '../../../../lib/infrastructure/repositories/certification-course-repository';
+import sessionRepository from '../../../../lib/infrastructure/repositories/sessions/session-repository';
 
 describe('Unit | Pre-handler | Authorization', function () {
   const userId = 1;

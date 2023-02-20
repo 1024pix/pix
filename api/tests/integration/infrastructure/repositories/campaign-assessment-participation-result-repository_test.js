@@ -1,8 +1,11 @@
-const { expect, databaseBuilder, mockLearningContent, knex, catchErr } = require('../../../test-helper');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const campaignAssessmentParticipationResultRepository = require('../../../../lib/infrastructure/repositories/campaign-assessment-participation-result-repository');
-const { ENGLISH_SPOKEN, FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
-const { NotFoundError } = require('../../../../lib/domain/errors');
+import { expect, databaseBuilder, mockLearningContent, knex, catchErr } from '../../../test-helper';
+import KnowledgeElement from '../../../../lib/domain/models/KnowledgeElement';
+import campaignAssessmentParticipationResultRepository from '../../../../lib/infrastructure/repositories/campaign-assessment-participation-result-repository';
+import { LOCALE } from '../../../../lib/domain/constants';
+
+const { ENGLISH_SPOKEN: ENGLISH_SPOKEN, FRENCH_SPOKEN: FRENCH_SPOKEN } = LOCALE;
+
+import { NotFoundError } from '../../../../lib/domain/errors';
 
 describe('Integration | Repository | Campaign Assessment Participation Result', function () {
   describe('#getByCampaignIdAndCampaignParticipationId', function () {

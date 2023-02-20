@@ -1,9 +1,9 @@
-const databaseBuffer = require('../database-buffer');
-const buildOrganization = require('./build-organization');
-const buildTag = require('./build-tag');
-const _ = require('lodash');
+import databaseBuffer from '../database-buffer';
+import buildOrganization from './build-organization';
+import buildTag from './build-tag';
+import _ from 'lodash';
 
-module.exports = function buildOrganizationTag({ id = databaseBuffer.getNextId(), organizationId, tagId } = {}) {
+export default function buildOrganizationTag({ id = databaseBuffer.getNextId(), organizationId, tagId } = {}) {
   tagId = _.isUndefined(tagId) ? buildTag().id : tagId;
   organizationId = _.isUndefined(organizationId) ? buildOrganization().id : organizationId;
 
@@ -16,4 +16,4 @@ module.exports = function buildOrganizationTag({ id = databaseBuffer.getNextId()
     tableName: 'organization-tags',
     values,
   });
-};
+}

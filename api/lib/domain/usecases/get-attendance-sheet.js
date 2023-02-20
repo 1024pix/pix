@@ -1,17 +1,18 @@
-const _ = require('lodash');
-const moment = require('moment');
-const writeOdsUtils = require('../../infrastructure/utils/ods/write-ods-utils');
-const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils');
-const sessionXmlService = require('../services/session-xml-service');
-const { UserNotAuthorizedToAccessEntityError } = require('../errors');
-const {
+import _ from 'lodash';
+import moment from 'moment';
+import writeOdsUtils from '../../infrastructure/utils/ods/write-ods-utils';
+import readOdsUtils from '../../infrastructure/utils/ods/read-ods-utils';
+import sessionXmlService from '../services/session-xml-service';
+import { UserNotAuthorizedToAccessEntityError } from '../errors';
+
+import {
   EXTRA_EMPTY_CANDIDATE_ROWS,
   NON_SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
   SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
   ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES,
-} = require('./../../infrastructure/files/attendance-sheet/attendance-sheet-placeholders');
+} from './../../infrastructure/files/attendance-sheet/attendance-sheet-placeholders';
 
-module.exports = async function getAttendanceSheet({
+export default async function getAttendanceSheet({
   userId,
   sessionId,
   sessionRepository,
@@ -38,7 +39,7 @@ module.exports = async function getAttendanceSheet({
     stringifiedXml: updatedStringifiedXml,
     odsFilePath,
   });
-};
+}
 
 function _updateXmlWithSession(stringifiedXml, session) {
   const sessionData = _.transform(session, _transformSessionIntoAttendanceSheetSessionData);

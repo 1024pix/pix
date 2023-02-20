@@ -1,6 +1,6 @@
-const Assessment = require('../models/Assessment');
+import Assessment from '../models/Assessment';
 
-module.exports = async function getAssessment({
+export default async function getAssessment({
   assessmentId,
   locale,
   assessmentRepository,
@@ -24,7 +24,7 @@ module.exports = async function getAssessment({
     );
   }
   return assessment;
-};
+}
 
 function _fetchAssessmentTitle({ assessment, locale, competenceRepository, courseRepository, campaignRepository }) {
   switch (assessment.type) {

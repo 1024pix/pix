@@ -1,8 +1,8 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const improveCompetenceEvaluation = require('../../../../lib/domain/usecases/improve-competence-evaluation');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const { MAX_REACHABLE_LEVEL } = require('../../../../lib/domain/constants');
-const { ImproveCompetenceEvaluationForbiddenError } = require('../../../../lib/domain/errors');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper';
+import improveCompetenceEvaluation from '../../../../lib/domain/usecases/improve-competence-evaluation';
+import Assessment from '../../../../lib/domain/models/Assessment';
+import { MAX_REACHABLE_LEVEL } from '../../../../lib/domain/constants';
+import { ImproveCompetenceEvaluationForbiddenError } from '../../../../lib/domain/errors';
 
 const domainTransaction = Symbol('DomainTransaction');
 

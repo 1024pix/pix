@@ -1,7 +1,7 @@
-const { knex, expect, databaseBuilder } = require('../../../test-helper');
-const skillSetRepository = require('../../../../lib/infrastructure/repositories/skill-set-repository');
-const omit = require('lodash/omit');
-const SkillSet = require('../../../../lib/domain/models/SkillSet');
+import { knex, expect, databaseBuilder } from '../../../test-helper';
+import skillSetRepository from '../../../../lib/infrastructure/repositories/skill-set-repository';
+import omit from 'lodash/omit';
+import SkillSet from '../../../../lib/domain/models/SkillSet';
 
 describe('Integration | Repository | Skill Set Repository', function () {
   afterEach(async function () {

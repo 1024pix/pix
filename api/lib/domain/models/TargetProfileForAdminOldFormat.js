@@ -85,4 +85,4 @@ class TP_Skill {
   }
 }
 
-module.exports = TargetProfileForAdminOldFormat;
+export default TargetProfileForAdminOldFormat;

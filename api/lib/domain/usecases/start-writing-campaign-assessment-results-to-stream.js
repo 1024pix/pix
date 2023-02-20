@@ -1,19 +1,18 @@
-const _ = require('lodash');
-const bluebird = require('bluebird');
-
-const dayjs = require('dayjs');
-const utc = require('dayjs/plugin/utc');
-const timezone = require('dayjs/plugin/timezone');
+import _ from 'lodash';
+import bluebird from 'bluebird';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-const constants = require('../../infrastructure/constants');
-const { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } = require('../errors');
-const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
-const CampaignLearningContent = require('../models/CampaignLearningContent');
-const CampaignStages = require('../read-models/campaign/CampaignStages');
+import constants from '../../infrastructure/constants';
+import { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } from '../errors';
+import csvSerializer from '../../infrastructure/serializers/csv/csv-serializer';
+import CampaignLearningContent from '../models/CampaignLearningContent';
+import CampaignStages from '../read-models/campaign/CampaignStages';
 
-module.exports = async function startWritingCampaignAssessmentResultsToStream({
+export default async function startWritingCampaignAssessmentResultsToStream({
   userId,
   campaignId,
   writableStream,
@@ -142,7 +141,7 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream({
     date: dayjs().tz('Europe/Berlin').format('YYYY-MM-DD-HHmm'),
   });
   return { fileName };
-};
+}
 
 async function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
   const user = await userRepository.getWithMemberships(userId);

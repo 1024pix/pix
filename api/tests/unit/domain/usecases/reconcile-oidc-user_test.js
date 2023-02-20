@@ -1,7 +1,7 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const reconcileOidcUser = require('../../../../lib/domain/usecases/reconcile-oidc-user');
-const { AuthenticationKeyExpired, MissingUserAccountError } = require('../../../../lib/domain/errors');
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
+import { expect, sinon, catchErr } from '../../../test-helper';
+import reconcileOidcUser from '../../../../lib/domain/usecases/reconcile-oidc-user';
+import { AuthenticationKeyExpired, MissingUserAccountError } from '../../../../lib/domain/errors';
+import AuthenticationMethod from '../../../../lib/domain/models/AuthenticationMethod';
 
 describe('Unit | UseCase | reconcile-oidc-user', function () {
   let authenticationMethodRepository, userRepository, authenticationSessionService, oidcAuthenticationService;

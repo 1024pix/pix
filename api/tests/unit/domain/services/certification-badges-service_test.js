@@ -1,8 +1,8 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const certificationBadgesService = require('../../../../lib/domain/services/certification-badges-service');
-const certifiableBadgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/certifiable-badge-acquisition-repository');
-const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
-const badgeForCalculationRepository = require('../../../../lib/infrastructure/repositories/badge-for-calculation-repository');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import certificationBadgesService from '../../../../lib/domain/services/certification-badges-service';
+import certifiableBadgeAcquisitionRepository from '../../../../lib/infrastructure/repositories/certifiable-badge-acquisition-repository';
+import knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository';
+import badgeForCalculationRepository from '../../../../lib/infrastructure/repositories/badge-for-calculation-repository';
 
 describe('Unit | Service | certification-badges-service', function () {
   describe('#findStillValidBadgeAcquisitions', function () {

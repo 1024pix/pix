@@ -1,8 +1,8 @@
-const targetProfileForUpdate = require('../../domain/models/TargetProfileForUpdate');
-const { knex } = require('../../../db/knex-database-connection');
-const { NotFoundError } = require('../../domain/errors');
+import targetProfileForUpdate from '../../domain/models/TargetProfileForUpdate';
+import { knex } from '../../../db/knex-database-connection';
+import { NotFoundError } from '../../domain/errors';
 
-module.exports = {
+export default {
   async get(id) {
     const row = await knex('target-profiles')
       .select('id', 'name', 'description', 'comment', 'category')

@@ -1,10 +1,11 @@
-const { expect } = require('../../../test-helper');
-const {
+import { expect } from '../../../test-helper';
+
+import {
   normalizeAndRemoveAccents,
   removeSpecialCharacters,
   applyPreTreatments,
   applyTreatments,
-} = require('../../../../lib/domain/services/validation-treatments');
+} from '../../../../lib/domain/services/validation-treatments';
 
 describe('Unit | Service | Validation Treatments', function () {
   describe('#normalizeAndRemoveAccents', function () {

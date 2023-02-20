@@ -1,5 +1,5 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
-const checkAuthorizationToManageCampaign = require('../../../../lib/application/usecases/checkAuthorizationToManageCampaign');
+import { expect, databaseBuilder } from '../../../test-helper';
+import checkAuthorizationToManageCampaign from '../../../../lib/application/usecases/checkAuthorizationToManageCampaign';
 
 describe('Integration | API | checkAuthorizationToManageCampaign', function () {
   describe('when the user is member in organization and owner of the campaign', function () {

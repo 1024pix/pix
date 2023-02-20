@@ -1,7 +1,7 @@
-const { expect, domainBuilder } = require('../../../../../test-helper');
-const organizationPlaceLotManagementSerializer = require('../../../../../../lib/infrastructure/serializers/jsonapi/organization/organization-places-lot-management-serializer');
-const OrganizationPlacesLotManagement = require('../../../../../../lib/domain/read-models/OrganizationPlacesLotManagement');
-const organizationPlacesLotCategories = require('../../../../../../lib/domain/constants/organization-places-categories');
+import { expect, domainBuilder } from '../../../../../test-helper';
+import organizationPlaceLotManagementSerializer from '../../../../../../lib/infrastructure/serializers/jsonapi/organization/organization-places-lot-management-serializer';
+import OrganizationPlacesLotManagement from '../../../../../../lib/domain/read-models/OrganizationPlacesLotManagement';
+import organizationPlacesLotCategories from '../../../../../../lib/domain/constants/organization-places-categories';
 
 describe('Unit | Serializer | JSONAPI | organization-places-lot-serializer', function () {
   describe('#serialize', function () {

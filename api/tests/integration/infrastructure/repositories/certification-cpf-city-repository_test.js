@@ -1,6 +1,6 @@
-const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper');
-const certificationCpfCityRepository = require('../../../../lib/infrastructure/repositories/certification-cpf-city-repository');
-const CertificationCpfCity = require('../../../../lib/domain/models/CertificationCpfCity');
+import { expect, databaseBuilder, domainBuilder } from '../../../test-helper';
+import certificationCpfCityRepository from '../../../../lib/infrastructure/repositories/certification-cpf-city-repository';
+import CertificationCpfCity from '../../../../lib/domain/models/CertificationCpfCity';
 
 describe('Integration | Repository | certificationCpfCityRepository', function () {
   describe('#findByINSEECode', function () {

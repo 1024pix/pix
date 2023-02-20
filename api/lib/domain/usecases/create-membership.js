@@ -1,7 +1,7 @@
-const { roles } = require('../models/Membership');
-const { OrganizationArchivedError } = require('../errors');
+import { roles } from '../models/Membership';
+import { OrganizationArchivedError } from '../errors';
 
-module.exports = async function createMembership({
+export default async function createMembership({
   userId,
   organizationId,
   membershipRepository,
@@ -17,4 +17,4 @@ module.exports = async function createMembership({
   const organizationRole = memberships.length ? roles.MEMBER : roles.ADMIN;
 
   return membershipRepository.create(userId, organizationId, organizationRole);
-};
+}

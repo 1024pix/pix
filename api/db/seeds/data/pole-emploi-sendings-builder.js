@@ -1,8 +1,8 @@
-const _ = require('lodash');
-const { POLE_EMPLOI_CAMPAIGN_ID } = require('./campaigns-pro-builder');
-const { PRO_POLE_EMPLOI_ID } = require('./organizations-pro-builder');
+import _ from 'lodash';
+import { POLE_EMPLOI_CAMPAIGN_ID } from './campaigns-pro-builder';
+import { PRO_POLE_EMPLOI_ID } from './organizations-pro-builder';
 
-module.exports = function poleEmploiSendingsBuilder({ databaseBuilder }) {
+export default function poleEmploiSendingsBuilder({ databaseBuilder }) {
   const _generateStatus = () => {
     const possibleChoices = [{ isSuccessful: true, responseCode: '200' }, { isSuccessful: false, responseCode: '400' }];
     return _.sample(possibleChoices);
@@ -64,4 +64,4 @@ module.exports = function poleEmploiSendingsBuilder({ databaseBuilder }) {
       },
     } });
   });
-};
+}

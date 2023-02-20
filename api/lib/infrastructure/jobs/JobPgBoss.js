@@ -20,4 +20,4 @@ class JobPgBoss {
   }
 }
 
-module.exports = JobPgBoss;
+export default JobPgBoss;

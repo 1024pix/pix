@@ -1,9 +1,11 @@
-const { writeFile, unlink } = require('fs').promises;
+import { promises } from 'fs';
 
-const { expect } = require('../../../../test-helper');
+const { writeFile: writeFile, unlink: unlink } = promises;
 
-const { getContentXml } = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
-const {
+import { expect } from '../../../../test-helper';
+import { getContentXml } from '../../../../../lib/infrastructure/utils/ods/read-ods-utils';
+
+import {
   makeUpdatedOdsByContentXml,
   updateXmlRows,
   updateXmlSparseValues,
@@ -11,8 +13,9 @@ const {
   incrementRowsColumnSpan,
   addValidatorRestrictedList,
   addTooltipOnCell,
-} = require('../../../../../lib/infrastructure/utils/ods/write-ods-utils');
-const AddedCellOption = require('../../../../../lib/infrastructure/utils/ods/added-cell-option');
+} from '../../../../../lib/infrastructure/utils/ods/write-ods-utils';
+
+import AddedCellOption from '../../../../../lib/infrastructure/utils/ods/added-cell-option';
 
 describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', function () {
   const GET_CONTENT_ODS_FILE_PATH = `${__dirname}/files/get-content-xml_test.ods`;

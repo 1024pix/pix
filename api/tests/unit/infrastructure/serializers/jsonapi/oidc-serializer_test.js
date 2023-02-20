@@ -1,5 +1,5 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/oidc-serializer');
+import { expect } from '../../../../test-helper';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/oidc-serializer';
 
 describe('Unit | Serializer | JSONAPI | oidc-serializer', function () {
   describe('#serialize()', function () {

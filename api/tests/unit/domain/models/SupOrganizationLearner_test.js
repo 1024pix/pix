@@ -1,5 +1,5 @@
-const SupOrganizationLearner = require('../../../../lib/domain/models/SupOrganizationLearner');
-const { expect, catchErr } = require('../../../test-helper');
+import SupOrganizationLearner from '../../../../lib/domain/models/SupOrganizationLearner';
+import { expect, catchErr } from '../../../test-helper';
 
 describe('Unit | Domain | Models | SupOrganizationLearner', function () {
   describe('#validate', function () {

@@ -1,3 +1,3 @@
-module.exports = function changeUserLang({ userId, lang, userRepository }) {
+export default function changeUserLang({ userId, lang, userRepository }) {
   return userRepository.updateUserAttributes(userId, { lang });
-};
+}

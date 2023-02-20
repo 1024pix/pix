@@ -1,10 +1,8 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-
-const organizationInvitationService = require('../../../../lib/domain/services/organization-invitation-service');
-const Membership = require('../../../../lib/domain/models/Membership');
-
-const createOrganizationInvitationByAdmin = require('../../../../lib/domain/usecases/create-organization-invitation-by-admin');
-const { OrganizationArchivedError } = require('../../../../lib/domain/errors');
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper';
+import organizationInvitationService from '../../../../lib/domain/services/organization-invitation-service';
+import Membership from '../../../../lib/domain/models/Membership';
+import createOrganizationInvitationByAdmin from '../../../../lib/domain/usecases/create-organization-invitation-by-admin';
+import { OrganizationArchivedError } from '../../../../lib/domain/errors';
 
 describe('Unit | UseCase | create-organization-invitation-by-admin', function () {
   describe('#createOrganizationInvitationByAdmin', function () {

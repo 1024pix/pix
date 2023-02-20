@@ -1,11 +1,12 @@
-const { expect } = require('../../../test-helper');
-const {
+import { expect } from '../../../test-helper';
+
+import {
   areTwoStringsCloseEnough,
   getSmallestLevenshteinDistance,
   getSmallestLevenshteinRatio,
   getLevenshteinRatio,
   isOneStringCloseEnoughFromMultipleStrings,
-} = require('../../../../lib/domain/services/string-comparison-service');
+} from '../../../../lib/domain/services/string-comparison-service';
 
 describe('Unit | Service | Validation Comparison', function () {
   describe('getSmallestLevenshteinDistance', function () {

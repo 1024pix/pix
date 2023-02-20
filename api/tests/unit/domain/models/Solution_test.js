@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const Solution = require('../../../../lib/domain/models/Solution');
+import { expect } from '../../../test-helper';
+import Solution from '../../../../lib/domain/models/Solution';
 
 describe('Unit | Domain | Models | Solution', function () {
   describe('#enabledTreatments', function () {

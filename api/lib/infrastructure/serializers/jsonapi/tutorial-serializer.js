@@ -1,8 +1,8 @@
-const { Serializer } = require('jsonapi-serializer');
-const tutorialEvaluationAttributes = require('./tutorial-evaluation-attributes');
-const userSavedTutorialAttributes = require('./user-saved-tutorial-attributes');
+import { Serializer } from 'jsonapi-serializer';
+import tutorialEvaluationAttributes from './tutorial-evaluation-attributes';
+import userSavedTutorialAttributes from './user-saved-tutorial-attributes';
 
-module.exports = {
+export default {
   serialize(tutorial = {}, pagination) {
     return new Serializer('tutorials', {
       attributes: [

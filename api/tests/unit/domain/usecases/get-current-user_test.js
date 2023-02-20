@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const getCurrentUser = require('../../../../lib/domain/usecases/get-current-user');
+import { expect, sinon } from '../../../test-helper';
+import getCurrentUser from '../../../../lib/domain/usecases/get-current-user';
 
 describe('Unit | UseCase | get-current-user', function () {
   let userRepository;

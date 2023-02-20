@@ -1,5 +1,5 @@
-const _ = require('lodash');
-const recommendationService = require('../services/recommendation-service');
+import _ from 'lodash';
+import recommendationService from '../services/recommendation-service';
 
 class CampaignAnalysis {
   constructor({ campaignId, campaignLearningContent, tutorials, participantCount = 0 } = {}) {
@@ -92,4 +92,4 @@ class CampaignTubeRecommendation {
   }
 }
 
-module.exports = CampaignAnalysis;
+export default CampaignAnalysis;

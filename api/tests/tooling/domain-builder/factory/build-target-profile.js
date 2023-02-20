@@ -1,7 +1,7 @@
-const buildSkill = require('./build-skill');
-const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
+import buildSkill from './build-skill';
+import TargetProfile from '../../../../lib/domain/models/TargetProfile';
 
-module.exports = function buildTargetProfile({
+export default function buildTargetProfile({
   id = 123,
   name = 'Profil cible super cool',
   imageUrl = 'ImageURL',
@@ -25,4 +25,4 @@ module.exports = function buildTargetProfile({
     stages,
     badges,
   });
-};
+}

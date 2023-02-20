@@ -12,4 +12,4 @@ class SkillSetResult {
   }
 }
 
-module.exports = SkillSetResult;
+export default SkillSetResult;

@@ -1,8 +1,8 @@
-const Joi = require('joi');
-const securityPreHandlers = require('../security-pre-handlers');
-const scoringSimulatorController = require('./scoring-simulator-controller');
+import Joi from 'joi';
+import securityPreHandlers from '../security-pre-handlers';
+import scoringSimulatorController from './scoring-simulator-controller';
 
-exports.register = async (server) => {
+export const register = async (server) => {
   server.route([
     {
       method: 'POST',
@@ -105,4 +105,4 @@ exports.register = async (server) => {
   ]);
 };
 
-exports.name = 'scoring-simulator-api';
+export const name = 'scoring-simulator-api';

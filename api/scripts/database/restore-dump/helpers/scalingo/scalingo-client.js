@@ -1,5 +1,5 @@
-const scalingo = require('scalingo');
-const ScalingoDBClient = require('./db-client');
+import scalingo from 'scalingo';
+import ScalingoDBClient from './db-client';
 
 class ScalingoClient {
   constructor({ client, application, region }) {
@@ -39,4 +39,4 @@ class ScalingoClient {
   }
 }
 
-module.exports = ScalingoClient;
+export default ScalingoClient;

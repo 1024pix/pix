@@ -1,6 +1,6 @@
 const TABLE_NAME = 'authentication-methods';
 
-exports.up = async (knex) => {
+export const up = async (knex) => {
   await knex.schema.createTable(TABLE_NAME, (t) => {
     t.increments('id').primary();
     t.integer('userId').references('users.id').index();
@@ -19,6 +19,6 @@ exports.up = async (knex) => {
   );
 };
 
-exports.down = (knex) => {
+export const down = (knex) => {
   return knex.schema.dropTable(TABLE_NAME);
 };

@@ -1,5 +1,6 @@
-const { expect } = require('../../../test-helper');
-const {
+import { expect } from '../../../test-helper';
+
+import {
   isNumeric,
   cleanStringAndParseFloat,
   getArrayOfStrings,
@@ -7,7 +8,7 @@ const {
   normalizeAndSortChars,
   normalize,
   toArrayOfFixedLengthStringsConservingWords,
-} = require('../../../../lib/infrastructure/utils/string-utils');
+} from '../../../../lib/infrastructure/utils/string-utils';
 
 describe('Unit | Utils | string-utils', function () {
   const zeroWidthSpaceChar = '​';

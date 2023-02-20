@@ -1,11 +1,11 @@
-const { Serializer } = require('jsonapi-serializer');
-const kebabCase = require('lodash/kebabCase');
+import { Serializer } from 'jsonapi-serializer';
+import kebabCase from 'lodash/kebabCase';
 
 const typeForAttribute = (attribute) => {
   return kebabCase(attribute);
 };
 
-module.exports = {
+export default {
   serialize(certifiedProfile) {
     return new Serializer('certified-profiles', {
       typeForAttribute,

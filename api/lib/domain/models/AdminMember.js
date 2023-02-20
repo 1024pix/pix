@@ -1,9 +1,11 @@
 const Joi = require('joi').extend(require('@joi/date'));
-const { validateEntity } = require('../validators/entity-validator');
-const isNil = require('lodash/isNil');
-const { ROLES } = require('../constants').PIX_ADMIN;
+import { validateEntity } from '../validators/entity-validator';
+import isNil from 'lodash/isNil';
+import { PIX_ADMIN } from '../constants';
 
-module.exports = class AdminMember {
+const { ROLES: ROLES } = PIX_ADMIN;
+
+export default class AdminMember {
   constructor({ id, userId, firstName, lastName, email, role, createdAt, updatedAt, disabledAt }) {
     this.id = id;
     this.userId = userId;
@@ -50,4 +52,4 @@ module.exports = class AdminMember {
   get isSupport() {
     return this.role === ROLES.SUPPORT && isNil(this.disabledAt);
   }
-};
+}

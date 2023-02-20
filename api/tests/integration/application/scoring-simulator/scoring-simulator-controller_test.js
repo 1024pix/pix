@@ -1,11 +1,11 @@
-const { expect, sinon, HttpTestServer } = require('../../../test-helper');
-const ScoringSimulationResult = require('../../../../lib/domain/models/ScoringSimulationResult');
-const ScoringSimulation = require('../../../../lib/domain/models/ScoringSimulation');
-const Answer = require('../../../../lib/domain/models/Answer');
-const ScoringSimulationContext = require('../../../../lib/domain/models/ScoringSimulationContext');
-const usecases = require('../../../../lib/domain/usecases');
-const moduleUnderTest = require('../../../../lib/application/scoring-simulator');
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
+import { expect, sinon, HttpTestServer } from '../../../test-helper';
+import ScoringSimulationResult from '../../../../lib/domain/models/ScoringSimulationResult';
+import ScoringSimulation from '../../../../lib/domain/models/ScoringSimulation';
+import Answer from '../../../../lib/domain/models/Answer';
+import ScoringSimulationContext from '../../../../lib/domain/models/ScoringSimulationContext';
+import usecases from '../../../../lib/domain/usecases';
+import moduleUnderTest from '../../../../lib/application/scoring-simulator';
+import securityPreHandlers from '../../../../lib/application/security-pre-handlers';
 
 describe('Integration | Application | Scoring-simulator | scoring-simulator-controller', function () {
   let httpTestServer;

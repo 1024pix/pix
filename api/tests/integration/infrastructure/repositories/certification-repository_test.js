@@ -1,7 +1,7 @@
-const { expect, databaseBuilder, catchErr, knex } = require('../../../test-helper');
-const certificationRepository = require('../../../../lib/infrastructure/repositories/certification-repository');
-const { CertificationCourseNotPublishableError } = require('../../../../lib/domain/errors');
-const { status } = require('../../../../lib/domain/models/AssessmentResult');
+import { expect, databaseBuilder, catchErr, knex } from '../../../test-helper';
+import certificationRepository from '../../../../lib/infrastructure/repositories/certification-repository';
+import { CertificationCourseNotPublishableError } from '../../../../lib/domain/errors';
+import { status } from '../../../../lib/domain/models/AssessmentResult';
 
 describe('Integration | Repository | Certification', function () {
   describe('#publishCertificationCoursesBySessionId', function () {

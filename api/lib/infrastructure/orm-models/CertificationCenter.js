@@ -1,10 +1,10 @@
-const Bookshelf = require('../bookshelf');
+import Bookshelf from '../bookshelf';
 
-require('./ComplementaryCertification');
+import './ComplementaryCertification';
 
 const modelName = 'CertificationCenter';
 
-module.exports = Bookshelf.model(
+export default Bookshelf.model(
   modelName,
   {
     tableName: 'certification-centers',

@@ -1,4 +1,4 @@
-const CampaignTypes = require('../models/CampaignTypes');
+import CampaignTypes from '../models/CampaignTypes';
 
 class CampaignToStartParticipation {
   constructor({
@@ -32,4 +32,4 @@ class CampaignToStartParticipation {
   }
 }
 
-module.exports = CampaignToStartParticipation;
+export default CampaignToStartParticipation;

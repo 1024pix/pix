@@ -1,5 +1,5 @@
-const { expect, domainBuilder, sinon } = require('../../../test-helper');
-const settings = require('../../../../lib/config');
+import { expect, domainBuilder, sinon } from '../../../test-helper';
+import settings from '../../../../lib/config';
 
 describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', function () {
   context('#isInWhitelist', function () {

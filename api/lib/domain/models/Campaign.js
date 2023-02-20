@@ -1,5 +1,5 @@
-const _ = require('lodash');
-const CampaignTypes = require('./CampaignTypes');
+import _ from 'lodash';
+import CampaignTypes from './CampaignTypes';
 
 class Campaign {
   constructor({
@@ -71,4 +71,4 @@ class Campaign {
   }
 }
 
-module.exports = Campaign;
+export default Campaign;

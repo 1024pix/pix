@@ -1,9 +1,9 @@
 const TABLE_NAME = 'users';
 
-exports.up = function (knex) {
+export const up = function (knex) {
   return knex(TABLE_NAME).whereILike('email', 'email\\_%@example.net').update({ hasBeenAnonymised: true });
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return knex(TABLE_NAME).whereILike('email', 'email\\_%@example.net').update({ hasBeenAnonymised: false });
 };

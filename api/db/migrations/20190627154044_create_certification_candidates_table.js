@@ -1,6 +1,6 @@
 const TABLE_NAME = 'certification-candidates';
 
-exports.up = async (knex) => {
+export const up = async (knex) => {
   await knex.schema.createTable(TABLE_NAME, (t) => {
     t.increments().primary();
     t.string('firstName').notNullable();
@@ -14,6 +14,6 @@ exports.up = async (knex) => {
   });
 };
 
-exports.down = async (knex) => {
+export const down = async (knex) => {
   await knex.schema.dropTable(TABLE_NAME);
 };

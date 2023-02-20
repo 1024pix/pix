@@ -1,8 +1,8 @@
-const { expect, knex, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const assessmentResultRepository = require('../../../../lib/infrastructure/repositories/assessment-result-repository');
-const { MissingAssessmentId } = require('../../../../lib/domain/errors');
+import { expect, knex, databaseBuilder, domainBuilder, catchErr } from '../../../test-helper';
+import Assessment from '../../../../lib/domain/models/Assessment';
+import AssessmentResult from '../../../../lib/domain/models/AssessmentResult';
+import assessmentResultRepository from '../../../../lib/infrastructure/repositories/assessment-result-repository';
+import { MissingAssessmentId } from '../../../../lib/domain/errors';
 
 describe('Integration | Repository | AssessmentResult', function () {
   describe('#save', function () {

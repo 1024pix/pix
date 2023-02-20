@@ -1,11 +1,14 @@
-const _ = require('lodash');
-const LearningContentResourceNotFound = require('../datasources/learning-content/LearningContentResourceNotFound');
-const Competence = require('../../domain/models/Competence');
-const competenceDatasource = require('../datasources/learning-content/competence-datasource');
-const { NotFoundError } = require('../../domain/errors');
-const { FRENCH_FRANCE } = require('../../domain/constants').LOCALE;
-const { PIX_ORIGIN } = require('../../domain/constants');
-const { getTranslatedKey } = require('../../domain/services/get-translated-text');
+import _ from 'lodash';
+import LearningContentResourceNotFound from '../datasources/learning-content/LearningContentResourceNotFound';
+import Competence from '../../domain/models/Competence';
+import competenceDatasource from '../datasources/learning-content/competence-datasource';
+import { NotFoundError } from '../../domain/errors';
+import { LOCALE } from '../../domain/constants';
+
+const { FRENCH_FRANCE: FRENCH_FRANCE } = LOCALE;
+
+import { PIX_ORIGIN } from '../../domain/constants';
+import { getTranslatedKey } from '../../domain/services/get-translated-text';
 
 function _toDomain({ competenceData, locale }) {
   const translatedCompetenceName = getTranslatedKey(competenceData.name_i18n, locale);
@@ -23,7 +26,7 @@ function _toDomain({ competenceData, locale }) {
   });
 }
 
-module.exports = {
+export default {
   list({ locale } = { locale: FRENCH_FRANCE }) {
     return _list({ locale: locale || FRENCH_FRANCE });
   },

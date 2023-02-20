@@ -1,8 +1,8 @@
-const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
-const CampaignToJoin = require('../../../../lib/domain/read-models/CampaignToJoin');
-const { types } = require('../../../../lib/domain/models/Organization');
+import CampaignTypes from '../../../../lib/domain/models/CampaignTypes';
+import CampaignToJoin from '../../../../lib/domain/read-models/CampaignToJoin';
+import { types } from '../../../../lib/domain/models/Organization';
 
-module.exports = function buildCampaignToJoin({
+export default function buildCampaignToJoin({
   id = 1,
   code = 'AZERTY123',
   title = 'Un titre de campagne',
@@ -50,4 +50,4 @@ module.exports = function buildCampaignToJoin({
     multipleSendings,
     assessmentMethod,
   });
-};
+}

@@ -1,6 +1,6 @@
-const Assessment = require('../models/Assessment');
-const CampaignParticipationStatuses = require('../models/CampaignParticipationStatuses');
-const _ = require('lodash');
+import Assessment from '../models/Assessment';
+import CampaignParticipationStatuses from '../models/CampaignParticipationStatuses';
+import _ from 'lodash';
 
 const { SHARED } = CampaignParticipationStatuses;
 
@@ -45,4 +45,4 @@ class CampaignAssessmentParticipation {
   }
 }
 
-module.exports = CampaignAssessmentParticipation;
+export default CampaignAssessmentParticipation;

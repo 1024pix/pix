@@ -1,12 +1,8 @@
-const get = require('lodash/get');
+import get from 'lodash/get';
 
-const {
-  ForbiddenAccess,
-  MissingOrInvalidCredentialsError,
-  UserShouldChangePasswordError,
-} = require('../../domain/errors');
+import { ForbiddenAccess, MissingOrInvalidCredentialsError, UserShouldChangePasswordError } from '../../domain/errors';
 
-const apps = require('../constants');
+import apps from '../constants';
 
 async function _checkUserAccessScope(scope, user, adminMemberRepository) {
   if (scope === apps.PIX_ORGA.SCOPE && !user.isLinkedToOrganizations()) {
@@ -21,7 +17,7 @@ async function _checkUserAccessScope(scope, user, adminMemberRepository) {
   }
 }
 
-module.exports = async function authenticateUser({
+export default async function authenticateUser({
   password,
   scope,
   source,
@@ -63,4 +59,4 @@ module.exports = async function authenticateUser({
     }
     throw new MissingOrInvalidCredentialsError();
   }
-};
+}

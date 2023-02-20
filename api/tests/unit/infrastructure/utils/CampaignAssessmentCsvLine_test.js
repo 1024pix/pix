@@ -1,8 +1,8 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const CampaignAssessmentCsvLine = require('../../../../lib/infrastructure/utils/CampaignAssessmentCsvLine');
-const campaignParticipationService = require('../../../../lib/domain/services/campaign-participation-service');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const { getI18n } = require('../../../tooling/i18n/i18n');
+import { expect, domainBuilder } from '../../../test-helper';
+import CampaignAssessmentCsvLine from '../../../../lib/infrastructure/utils/CampaignAssessmentCsvLine';
+import campaignParticipationService from '../../../../lib/domain/services/campaign-participation-service';
+import KnowledgeElement from '../../../../lib/domain/models/KnowledgeElement';
+import { getI18n } from '../../../tooling/i18n/i18n';
 
 function _computeExpectedColumnsIndex(campaign, organization, badges, stages) {
   const studentNumberPresenceModifier = organization.type === 'SUP' && organization.isManagingStudents ? 1 : 0;

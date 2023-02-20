@@ -6,4 +6,4 @@ class ScoringSimulationContext {
   }
 }
 
-module.exports = ScoringSimulationContext;
+export default ScoringSimulationContext;

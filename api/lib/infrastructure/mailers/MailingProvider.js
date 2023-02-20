@@ -4,4 +4,4 @@ class MailingProvider {
   }
 }
 
-module.exports = MailingProvider;
+export default MailingProvider;

@@ -1,14 +1,14 @@
-const _ = require('lodash');
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const { PIX_ORIGIN } = require('../../../../lib/domain/constants');
-const PlacementProfile = require('../../../../lib/domain/models/PlacementProfile');
-const certificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
-const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
-const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
-const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
-const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
-const learningContentRepository = require('../../../../lib/infrastructure/repositories/learning-content-repository');
-const certifiableProfileForLearningContentRepository = require('../../../../lib/infrastructure/repositories/certifiable-profile-for-learning-content-repository');
+import _ from 'lodash';
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import { PIX_ORIGIN } from '../../../../lib/domain/constants';
+import PlacementProfile from '../../../../lib/domain/models/PlacementProfile';
+import certificationChallengesService from '../../../../lib/domain/services/certification-challenges-service';
+import answerRepository from '../../../../lib/infrastructure/repositories/answer-repository';
+import challengeRepository from '../../../../lib/infrastructure/repositories/challenge-repository';
+import knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository';
+import skillRepository from '../../../../lib/infrastructure/repositories/skill-repository';
+import learningContentRepository from '../../../../lib/infrastructure/repositories/learning-content-repository';
+import certifiableProfileForLearningContentRepository from '../../../../lib/infrastructure/repositories/certifiable-profile-for-learning-content-repository';
 
 describe('Unit | Service | Certification Challenge Service', function () {
   const userId = 63731;

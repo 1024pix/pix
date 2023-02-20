@@ -1,6 +1,6 @@
-const JSONAPIError = require('jsonapi-serializer').Error;
+import { Error as JSONAPIError } from 'jsonapi-serializer';
 
-module.exports = {
+export default {
   serialize(infrastructureError) {
     return JSONAPIError({
       status: `${infrastructureError.status}`,

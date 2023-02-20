@@ -1,5 +1,5 @@
-const _ = require('lodash');
-const config = require('../../config');
+import _ from 'lodash';
+import config from '../../config';
 
 const CREATED = 'created';
 const FINALIZED = 'finalized';
@@ -105,9 +105,9 @@ class Session {
   }
 }
 
-module.exports = Session;
-module.exports.statuses = statuses;
-module.exports.NO_EXAMINER_GLOBAL_COMMENT = NO_EXAMINER_GLOBAL_COMMENT;
+export default Session;
+export { statuses };
+export { NO_EXAMINER_GLOBAL_COMMENT };
 
 function _randomCharacter() {
   return _.sample(availableCharactersForPasswordGeneration);

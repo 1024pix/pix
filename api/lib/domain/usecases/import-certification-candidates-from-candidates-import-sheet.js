@@ -1,8 +1,8 @@
-const { CertificationCandidateAlreadyLinkedToUserError } = require('../../domain/errors');
-const bluebird = require('bluebird');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
+import { CertificationCandidateAlreadyLinkedToUserError } from '../../domain/errors';
+import bluebird from 'bluebird';
+import DomainTransaction from '../../infrastructure/DomainTransaction';
 
-module.exports = async function importCertificationCandidatesFromCandidatesImportSheet({
+export default async function importCertificationCandidatesFromCandidatesImportSheet({
   sessionId,
   odsBuffer,
   certificationCandidatesOdsService,
@@ -46,4 +46,4 @@ module.exports = async function importCertificationCandidatesFromCandidatesImpor
       });
     });
   });
-};
+}

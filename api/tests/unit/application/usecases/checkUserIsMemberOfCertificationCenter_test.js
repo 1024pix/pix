@@ -1,6 +1,6 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const usecase = require('../../../../lib/application/usecases/checkUserIsMemberOfCertificationCenter');
-const certificationCenterMembershipRepository = require('../../../../lib/infrastructure/repositories/certification-center-membership-repository');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import usecase from '../../../../lib/application/usecases/checkUserIsMemberOfCertificationCenter';
+import certificationCenterMembershipRepository from '../../../../lib/infrastructure/repositories/certification-center-membership-repository';
 
 describe('Unit | Application | Use Case | CheckUserIsMemberOfCertificationCenter', function () {
   beforeEach(function () {

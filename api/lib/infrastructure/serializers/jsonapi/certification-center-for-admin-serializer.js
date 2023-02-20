@@ -1,7 +1,7 @@
-const { Serializer } = require('jsonapi-serializer');
-const CertificationCenterForAdmin = require('../../../domain/models/CertificationCenterForAdmin');
+import { Serializer } from 'jsonapi-serializer';
+import CertificationCenterForAdmin from '../../../domain/models/CertificationCenterForAdmin';
 
-module.exports = {
+export default {
   deserialize({ data }) {
     return new CertificationCenterForAdmin({
       createdAt: null,

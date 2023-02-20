@@ -8,4 +8,4 @@ class StudentInformationForAccountRecovery {
   }
 }
 
-module.exports = StudentInformationForAccountRecovery;
+export default StudentInformationForAccountRecovery;

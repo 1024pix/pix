@@ -1,12 +1,12 @@
-const { UserNotMemberOfOrganizationError } = require('../errors');
-const _ = require('lodash');
+import { UserNotMemberOfOrganizationError } from '../errors';
+import _ from 'lodash';
 
 function _isCurrentOrganizationInMemberships(userOrgaSettings, memberships) {
   const currentOrganizationId = userOrgaSettings.currentOrganization.id;
   return _.find(memberships, { organization: { id: currentOrganizationId } });
 }
 
-module.exports = async function getPrescriber({
+export default async function getPrescriber({
   userId,
   prescriberRepository,
   membershipRepository,
@@ -30,4 +30,4 @@ module.exports = async function getPrescriber({
   }
 
   return prescriberRepository.getPrescriber(userId);
-};
+}

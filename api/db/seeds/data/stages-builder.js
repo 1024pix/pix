@@ -1,10 +1,14 @@
-const { TARGET_PROFILE_STAGES_BADGES_ID, TARGET_PROFILE_STAGES_LEVEL_ID, TARGET_PROFILE_ONE_COMPETENCE_ID } = require('./target-profiles-builder');
+import {
+  TARGET_PROFILE_STAGES_BADGES_ID,
+  TARGET_PROFILE_STAGES_LEVEL_ID,
+  TARGET_PROFILE_ONE_COMPETENCE_ID,
+} from './target-profiles-builder';
 
-module.exports = function stagesBuilder({ databaseBuilder }) {
+export default function stagesBuilder({ databaseBuilder }) {
   _buildStagesForTargetProfileId(databaseBuilder, TARGET_PROFILE_ONE_COMPETENCE_ID);
   _buildStagesForTargetProfileId(databaseBuilder, TARGET_PROFILE_STAGES_BADGES_ID);
   _buildStagesWithLevelForTargetProfileId(databaseBuilder, TARGET_PROFILE_STAGES_LEVEL_ID);
-};
+}
 
 function _buildStagesForTargetProfileId(databaseBuilder, targetProfileId) {
   const stages = [

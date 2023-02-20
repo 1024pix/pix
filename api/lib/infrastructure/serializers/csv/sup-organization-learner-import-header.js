@@ -1,4 +1,4 @@
-const { CsvColumn } = require('./csv-column');
+import { CsvColumn } from './csv-column';
 
 class SupOrganizationLearnerImportHeader {
   constructor(i18n) {
@@ -62,4 +62,4 @@ class SupOrganizationLearnerImportHeader {
   }
 }
 
-module.exports = SupOrganizationLearnerImportHeader;
+export default SupOrganizationLearnerImportHeader;

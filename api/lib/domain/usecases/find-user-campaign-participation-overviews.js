@@ -1,4 +1,4 @@
-module.exports = async function findUserCampaignParticipationOverviews({
+export default async function findUserCampaignParticipationOverviews({
   userId,
   states,
   page,
@@ -13,4 +13,4 @@ module.exports = async function findUserCampaignParticipationOverviews({
   });
 
   return campaignParticipationOverviews;
-};
+}

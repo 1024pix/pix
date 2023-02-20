@@ -1,4 +1,4 @@
-const { validate } = require('../validators/target-profile/creation-command-validation');
+import { validate } from '../validators/target-profile/creation-command-validation';
 const DEFAULT_IMAGE_URL = 'https://images.pix.fr/profil-cible/Illu_GEN.svg';
 
 class TargetProfileForCreation {
@@ -28,4 +28,4 @@ class TargetProfileForCreation {
   }
 }
 
-module.exports = TargetProfileForCreation;
+export default TargetProfileForCreation;

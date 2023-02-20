@@ -1,7 +1,7 @@
-const { domainBuilder, sinon, hFake, expect } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
-const certificationResultUtils = require('../../../../lib/infrastructure/utils/csv/certification-results');
-const sessionWithCleaCertifiedCandidateController = require('../../../../lib/application/sessions/session-with-clea-certified-candidate-controller');
+import { domainBuilder, sinon, hFake, expect } from '../../../test-helper';
+import usecases from '../../../../lib/domain/usecases';
+import certificationResultUtils from '../../../../lib/infrastructure/utils/csv/certification-results';
+import sessionWithCleaCertifiedCandidateController from '../../../../lib/application/sessions/session-with-clea-certified-candidate-controller';
 
 describe('Unit | Controller | session-with-clea-certified-candidate', function () {
   describe('#getCleaCertifiedCandidateDataCsv', function () {

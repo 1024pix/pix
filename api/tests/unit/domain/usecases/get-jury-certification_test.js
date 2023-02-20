@@ -1,5 +1,5 @@
-const { sinon, expect, domainBuilder } = require('../../../test-helper');
-const getJuryCertification = require('../../../../lib/domain/usecases/get-jury-certification');
+import { sinon, expect, domainBuilder } from '../../../test-helper';
+import getJuryCertification from '../../../../lib/domain/usecases/get-jury-certification';
 
 describe('Unit | Usecase | get-jury-certification', function () {
   it('should return the jury certification', async function () {

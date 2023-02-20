@@ -1,10 +1,10 @@
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const BookshelfCompetenceEvaluation = require('../orm-models/CompetenceEvaluation');
-const _ = require('lodash');
-const { NotFoundError } = require('../../domain/errors');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
+import bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter';
+import BookshelfCompetenceEvaluation from '../orm-models/CompetenceEvaluation';
+import _ from 'lodash';
+import { NotFoundError } from '../../domain/errors';
+import DomainTransaction from '../../infrastructure/DomainTransaction';
 
-module.exports = {
+export default {
   async save({ competenceEvaluation, domainTransaction = DomainTransaction.emptyTransaction() }) {
     let competenceEvaluationCreated = await _getByCompetenceIdAndUserId({
       competenceId: competenceEvaluation.competenceId,

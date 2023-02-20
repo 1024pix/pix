@@ -1,6 +1,6 @@
-const { catchErr, expect, sinon } = require('../../../test-helper');
-const updateTraining = require('../../../../lib/domain/usecases/update-training');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+import { catchErr, expect, sinon } from '../../../test-helper';
+import updateTraining from '../../../../lib/domain/usecases/update-training';
+import { NotFoundError } from '../../../../lib/domain/errors';
 
 describe('Unit | UseCase | update-training', function () {
   let trainingRepository;

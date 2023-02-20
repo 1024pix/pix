@@ -1,7 +1,7 @@
-const { expect } = require('../../../test-helper');
-const buildEventDispatcherAndHandlersForTest = require('../../../tooling/events/event-dispatcher-builder');
-const SessionFinalized = require('../../../../lib/domain/events/SessionFinalized');
-const AutoJuryDone = require('../../../../lib/domain/events/AutoJuryDone');
+import { expect } from '../../../test-helper';
+import buildEventDispatcherAndHandlersForTest from '../../../tooling/events/event-dispatcher-builder';
+import SessionFinalized from '../../../../lib/domain/events/SessionFinalized';
+import AutoJuryDone from '../../../../lib/domain/events/AutoJuryDone';
 
 describe('Event Choreography | Finalized session', function () {
   it('Should trigger the automated jury', async function () {

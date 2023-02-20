@@ -1,4 +1,4 @@
-module.exports = function assessmentsBuilder({ databaseBuilder }) {
+export default function assessmentsBuilder({ databaseBuilder }) {
 
   // PLACEMENT
   databaseBuilder.factory.buildAssessment({

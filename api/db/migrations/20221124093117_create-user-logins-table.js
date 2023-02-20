@@ -1,6 +1,6 @@
 const TABLE_NAME = 'user-logins';
 
-exports.up = (knex) => {
+export const up = (knex) => {
   return knex.schema.createTable(TABLE_NAME, (t) => {
     t.bigIncrements().primary();
     t.bigInteger('userId').references('users.id').notNullable().unique();
@@ -12,6 +12,6 @@ exports.up = (knex) => {
   });
 };
 
-exports.down = (knex) => {
+export const down = (knex) => {
   return knex.schema.dropTable(TABLE_NAME);
 };

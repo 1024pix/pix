@@ -1,6 +1,6 @@
 const Joi = require('joi').extend(require('@joi/date'));
-const { validateEntity } = require('../validators/entity-validator');
-const { NotImplementedError } = require('../errors');
+import { validateEntity } from '../validators/entity-validator';
+import { NotImplementedError } from '../errors';
 
 const SOURCES = {
   PIX: 'PIX',
@@ -27,4 +27,4 @@ class PartnerCertificationScoring {
   }
 }
 
-module.exports = PartnerCertificationScoring;
+export default PartnerCertificationScoring;

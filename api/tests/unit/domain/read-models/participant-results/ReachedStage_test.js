@@ -1,5 +1,5 @@
-const { expect } = require('../../../../test-helper');
-const ReachedStage = require('../../../../../lib/domain/read-models/participant-results/ReachedStage');
+import { expect } from '../../../../test-helper';
+import ReachedStage from '../../../../../lib/domain/read-models/participant-results/ReachedStage';
 
 describe('Unit | Domain | Read-Models | ParticipantResults | ReachedStage', function () {
   it('gives the stage reached and the number of stars', function () {

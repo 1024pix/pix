@@ -4,19 +4,18 @@
 'use strict';
 require('dotenv').config();
 
-const { checkCsvHeader, parseCsvWithHeader } = require('./helpers/csvHelpers');
-
-const temporaryStorage = require('../lib/infrastructure/temporary-storage');
-const createOrganizationsWithTagsAndTargetProfiles = require('../lib/domain/usecases/create-organizations-with-tags-and-target-profiles');
-const domainTransaction = require('../lib/infrastructure/DomainTransaction');
-const organizationInvitationRepository = require('../lib/infrastructure/repositories/organization-invitation-repository');
-const organizationRepository = require('../lib/infrastructure/repositories/organization-repository');
-const dataProtectionOfficerRepository = require('../lib/infrastructure/repositories/data-protection-officer-repository');
-const organizationTagRepository = require('../lib/infrastructure/repositories/organization-tag-repository');
-const tagRepository = require('../lib/infrastructure/repositories/tag-repository');
-const targetProfileShareRepository = require('../lib/infrastructure/repositories/target-profile-share-repository');
-const { disconnect } = require('../db/knex-database-connection');
-const { isEmpty } = require('lodash');
+import { checkCsvHeader, parseCsvWithHeader } from './helpers/csvHelpers';
+import temporaryStorage from '../lib/infrastructure/temporary-storage';
+import createOrganizationsWithTagsAndTargetProfiles from '../lib/domain/usecases/create-organizations-with-tags-and-target-profiles';
+import domainTransaction from '../lib/infrastructure/DomainTransaction';
+import organizationInvitationRepository from '../lib/infrastructure/repositories/organization-invitation-repository';
+import organizationRepository from '../lib/infrastructure/repositories/organization-repository';
+import dataProtectionOfficerRepository from '../lib/infrastructure/repositories/data-protection-officer-repository';
+import organizationTagRepository from '../lib/infrastructure/repositories/organization-tag-repository';
+import tagRepository from '../lib/infrastructure/repositories/tag-repository';
+import targetProfileShareRepository from '../lib/infrastructure/repositories/target-profile-share-repository';
+import { disconnect } from '../db/knex-database-connection';
+import { isEmpty } from 'lodash';
 
 const REQUIRED_FIELD_NAMES = [
   'type',
@@ -136,7 +135,7 @@ async function main() {
   }
 })();
 
-module.exports = {
+export default {
   createOrganizationWithTagsAndTargetProfiles,
   batchOrganizationOptionsWithHeader,
 };

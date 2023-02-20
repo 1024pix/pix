@@ -1,10 +1,10 @@
-const { expect, databaseBuilder, mockLearningContent, learningContentBuilder } = require('../../../test-helper');
+import { expect, databaseBuilder, mockLearningContent, learningContentBuilder } from '../../../test-helper';
 const { campaignParticipationOverviewFactory } = databaseBuilder.factory;
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const campaignParticipationOverviewRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-overview-repository');
-const _ = require('lodash');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
-const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
+import Assessment from '../../../../lib/domain/models/Assessment';
+import campaignParticipationOverviewRepository from '../../../../lib/infrastructure/repositories/campaign-participation-overview-repository';
+import _ from 'lodash';
+import CampaignParticipationStatuses from '../../../../lib/domain/models/CampaignParticipationStatuses';
+import CampaignTypes from '../../../../lib/domain/models/CampaignTypes';
 
 let userId;
 

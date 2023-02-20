@@ -1,14 +1,16 @@
-const { databaseBuilder, domainBuilder, expect } = require('../../../test-helper');
-const JuryCertificationSummary = require('../../../../lib/domain/read-models/JuryCertificationSummary');
-const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
-const {
+import { databaseBuilder, domainBuilder, expect } from '../../../test-helper';
+import JuryCertificationSummary from '../../../../lib/domain/read-models/JuryCertificationSummary';
+import CertificationIssueReport from '../../../../lib/domain/models/CertificationIssueReport';
+
+import {
   CertificationIssueReportCategories,
   CertificationIssueReportSubcategories,
   ImpactfulSubcategories,
-} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
-const { status: assessmentResultStatuses } = require('../../../../lib/domain/models/AssessmentResult');
-const juryCertificationSummaryRepository = require('../../../../lib/infrastructure/repositories/jury-certification-summary-repository');
-const Assessment = require('../../../../lib/domain/models/Assessment');
+} from '../../../../lib/domain/models/CertificationIssueReportCategory';
+
+import { status as assessmentResultStatuses } from '../../../../lib/domain/models/AssessmentResult';
+import juryCertificationSummaryRepository from '../../../../lib/infrastructure/repositories/jury-certification-summary-repository';
+import Assessment from '../../../../lib/domain/models/Assessment';
 
 describe('Integration | Repository | JuryCertificationSummary', function () {
   describe('#findBySessionId', function () {

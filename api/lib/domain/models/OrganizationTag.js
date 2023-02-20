@@ -6,4 +6,4 @@ class OrganizationTag {
   }
 }
 
-module.exports = OrganizationTag;
+export default OrganizationTag;

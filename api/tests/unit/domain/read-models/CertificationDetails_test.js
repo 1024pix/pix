@@ -1,6 +1,6 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const CertificationDetails = require('../../../../lib/domain/read-models/CertificationDetails');
-const { states } = require('../../../../lib/domain/models/CertificationAssessment');
+import { expect, domainBuilder } from '../../../test-helper';
+import CertificationDetails from '../../../../lib/domain/read-models/CertificationDetails';
+import { states } from '../../../../lib/domain/models/CertificationAssessment';
 
 describe('Unit | Domain | Read-models | CertificationDetails', function () {
   describe('static #from', function () {

@@ -1,7 +1,7 @@
-const prescriberRoleRepository = require('../../infrastructure/repositories/prescriber-role-repository');
-const CampaignAuthorization = require('../preHandlers/models/CampaignAuthorization');
+import prescriberRoleRepository from '../../infrastructure/repositories/prescriber-role-repository';
+import CampaignAuthorization from '../preHandlers/models/CampaignAuthorization';
 
-module.exports = {
+export default {
   async execute({ userId, campaignId }) {
     const prescriberRole = await prescriberRoleRepository.getForCampaign({ userId, campaignId });
     return CampaignAuthorization.isAllowedToManage({ prescriberRole });

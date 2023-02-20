@@ -13,4 +13,4 @@ class ReachedStage {
   }
 }
 
-module.exports = ReachedStage;
+export default ReachedStage;

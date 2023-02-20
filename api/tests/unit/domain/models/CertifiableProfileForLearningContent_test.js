@@ -1,6 +1,5 @@
-const CertifiableProfileForLearningContent = require('../../../../lib/domain/models/CertifiableProfileForLearningContent');
-
-const { expect, domainBuilder } = require('../../../test-helper');
+import CertifiableProfileForLearningContent from '../../../../lib/domain/models/CertifiableProfileForLearningContent';
+import { expect, domainBuilder } from '../../../test-helper';
 
 describe('Unit | Domain | Models | CertifiableProfileForLearningContent', function () {
   describe('#constructor', function () {

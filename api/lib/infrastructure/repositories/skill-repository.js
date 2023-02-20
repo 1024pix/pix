@@ -1,6 +1,6 @@
-const { NotFoundError } = require('../../domain/errors');
-const Skill = require('../../domain/models/Skill');
-const skillDatasource = require('../datasources/learning-content/skill-datasource');
+import { NotFoundError } from '../../domain/errors';
+import Skill from '../../domain/models/Skill';
+import skillDatasource from '../datasources/learning-content/skill-datasource';
 
 function _toDomain(skillData) {
   return new Skill({
@@ -16,7 +16,7 @@ function _toDomain(skillData) {
   });
 }
 
-module.exports = {
+export default {
   async get(id) {
     try {
       return _toDomain(await skillDatasource.get(id));

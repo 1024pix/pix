@@ -1,5 +1,5 @@
-const _ = require('lodash');
-const KnowledgeElement = require('./KnowledgeElement');
+import _ from 'lodash';
+import KnowledgeElement from './KnowledgeElement';
 
 class CertifiableProfileForLearningContent {
   constructor({ learningContent, knowledgeElements, answerAndChallengeIdsByAnswerId }) {
@@ -144,4 +144,4 @@ class ResultByArea {
   }
 }
 
-module.exports = CertifiableProfileForLearningContent;
+export default CertifiableProfileForLearningContent;

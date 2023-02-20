@@ -1,10 +1,10 @@
-const {
+import {
   UserNotAuthorizedToUpdateEmailError,
   InvalidVerificationCodeError,
   EmailModificationDemandNotFoundOrExpiredError,
-} = require('../errors');
+} from '../errors';
 
-module.exports = async function updateUserEmailWithValidation({ code, userId, userEmailRepository, userRepository }) {
+export default async function updateUserEmailWithValidation({ code, userId, userEmailRepository, userRepository }) {
   const user = await userRepository.get(userId);
   if (!user.email) {
     throw new UserNotAuthorizedToUpdateEmailError();
@@ -30,4 +30,4 @@ module.exports = async function updateUserEmailWithValidation({ code, userId, us
   });
 
   return { email: emailModificationDemand.newEmail };
-};
+}

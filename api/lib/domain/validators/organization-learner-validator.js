@@ -1,6 +1,6 @@
 const Joi = require('joi').extend(require('@joi/date'));
-const { EntityValidationError } = require('../errors');
-const OrganizationLearner = require('../models/OrganizationLearner');
+import { EntityValidationError } from '../errors';
+import OrganizationLearner from '../models/OrganizationLearner';
 
 const { STUDENT, APPRENTICE } = OrganizationLearner.STATUS;
 const validationConfiguration = { allowUnknown: true };
@@ -43,7 +43,7 @@ const validationSchema = Joi.object({
   }),
 });
 
-module.exports = {
+export default {
   FRANCE_COUNTRY_CODE,
   checkValidation(organizationLearner) {
     const { error } = validationSchema.validate(organizationLearner, validationConfiguration);

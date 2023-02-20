@@ -1,14 +1,15 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const {
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper';
+
+import {
   AlreadyRegisteredEmailError,
   InvalidPasswordForUpdateEmailError,
   UserNotAuthorizedToUpdateEmailError,
-} = require('../../../../lib/domain/errors');
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const codeUtils = require('../../../../lib/infrastructure/utils/code-utils');
-const { getI18n } = require('../../../tooling/i18n/i18n');
+} from '../../../../lib/domain/errors';
 
-const usecases = require('../../../../lib/domain/usecases');
+import AuthenticationMethod from '../../../../lib/domain/models/AuthenticationMethod';
+import codeUtils from '../../../../lib/infrastructure/utils/code-utils';
+import { getI18n } from '../../../tooling/i18n/i18n';
+import usecases from '../../../../lib/domain/usecases';
 
 describe('Unit | UseCase | send-verification-code', function () {
   let authenticationMethodRepository;

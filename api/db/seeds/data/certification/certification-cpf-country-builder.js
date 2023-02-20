@@ -31,4 +31,4 @@ function certificationCpfCountryBuilder({ databaseBuilder }) {
   });
 }
 
-module.exports = { certificationCpfCountryBuilder };
+export default { certificationCpfCountryBuilder };

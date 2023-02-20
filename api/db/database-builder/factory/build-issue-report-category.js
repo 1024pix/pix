@@ -1,6 +1,6 @@
-const databaseBuffer = require('../database-buffer');
+import databaseBuffer from '../database-buffer';
 
-module.exports = function buildIssueReportCategory({
+export default function buildIssueReportCategory({
   id = databaseBuffer.getNextId(),
   name = 'Some problem',
   isDeprecated = false,
@@ -18,4 +18,4 @@ module.exports = function buildIssueReportCategory({
     tableName: 'issue-report-categories',
     values,
   });
-};
+}

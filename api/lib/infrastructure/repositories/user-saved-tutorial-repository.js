@@ -1,9 +1,9 @@
-const { knex } = require('../../../db/knex-database-connection');
-const UserSavedTutorial = require('../../domain/models/UserSavedTutorial');
+import { knex } from '../../../db/knex-database-connection';
+import UserSavedTutorial from '../../domain/models/UserSavedTutorial';
 
 const TABLE_NAME = 'user-saved-tutorials';
 
-module.exports = {
+export default {
   async addTutorial({ userId, tutorialId, skillId }) {
     const userSavedTutorials = await knex(TABLE_NAME).where({ userId, tutorialId });
     if (userSavedTutorials.length) {

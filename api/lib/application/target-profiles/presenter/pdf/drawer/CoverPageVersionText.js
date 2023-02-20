@@ -1,17 +1,17 @@
-const dayjs = require('dayjs');
-const localizedFormat = require('dayjs/plugin/localizedFormat');
+import dayjs from 'dayjs';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
 dayjs.extend(localizedFormat);
-const Text = require('./Text');
-const ColorManager = require('../manager/color-manager');
-const FontManager = require('../manager/font-manager');
-const PositionManager = require('../manager/position-manager');
+import Text from './Text';
+import ColorManager from '../manager/color-manager';
+import FontManager from '../manager/font-manager';
+import PositionManager from '../manager/position-manager';
 
 const textByLang = {
   en: 'Version {date}',
   fr: 'Version du {date}',
 };
 
-module.exports = class CoverPageVersionText extends Text {
+export default class CoverPageVersionText extends Text {
   constructor({ language, page }) {
     let text = textByLang[language];
     const todayDateString = dayjs().locale(language).format('LL');
@@ -28,4 +28,4 @@ module.exports = class CoverPageVersionText extends Text {
       fontColor: ColorManager.coverPageVersionColor,
     });
   }
-};
+}

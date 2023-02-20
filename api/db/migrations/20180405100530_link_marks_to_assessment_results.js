@@ -1,9 +1,9 @@
-const { batch } = require('../batch-processing');
+import { batch } from '../batch-processing';
 
 const TABLE_NAME_ASSESSMENT_RESULTS = 'assessment-results';
 const TABLE_NAME_MARKS = 'marks';
 
-exports.up = function (knex) {
+export const up = function (knex) {
   return knex.schema
     .table(TABLE_NAME_MARKS, function (table) {
       table.integer('assessmentResultId').unsigned();
@@ -22,7 +22,7 @@ exports.up = function (knex) {
     });
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return knex.schema.table(TABLE_NAME_MARKS, function (table) {
     table.dropColumn('assessmentResultId');
   });

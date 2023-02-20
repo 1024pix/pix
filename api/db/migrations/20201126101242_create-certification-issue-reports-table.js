@@ -1,6 +1,6 @@
 const TABLE_NAME = 'certification-issue-reports';
 
-exports.up = async (knex) => {
+export const up = async (knex) => {
   await knex.schema.createTable(TABLE_NAME, (t) => {
     t.increments('id').primary();
     t.integer('certificationCourseId').references('certification-courses.id').index();
@@ -11,6 +11,6 @@ exports.up = async (knex) => {
   });
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return knex.schema.dropTable(TABLE_NAME);
 };

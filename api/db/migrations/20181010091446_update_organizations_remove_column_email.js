@@ -1,12 +1,12 @@
 const TABLE_NAME = 'organizations';
 
-exports.up = (knex) => {
+export const up = (knex) => {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.dropColumn('email');
   });
 };
 
-exports.down = (knex) => {
+export const down = (knex) => {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.string('email');
   });

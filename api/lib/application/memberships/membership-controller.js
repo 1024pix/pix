@@ -1,9 +1,9 @@
-const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
-const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
-const usecases = require('../../domain/usecases');
-const { BadRequestError } = require('../http-errors');
+import membershipSerializer from '../../infrastructure/serializers/jsonapi/membership-serializer';
+import requestResponseUtils from '../../infrastructure/utils/request-response-utils';
+import usecases from '../../domain/usecases';
+import { BadRequestError } from '../http-errors';
 
-module.exports = {
+export default {
   async create(request, h) {
     const userId = request.payload.data.relationships.user.data.id;
     const organizationId = request.payload.data.relationships.organization.data.id;

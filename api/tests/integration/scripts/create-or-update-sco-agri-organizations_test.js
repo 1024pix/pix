@@ -1,10 +1,10 @@
-const { expect, databaseBuilder, knex } = require('../../test-helper');
-const {
+import { expect, databaseBuilder, knex } from '../../test-helper';
+import {
   addTag,
   checkData,
   createOrUpdateOrganizations,
-} = require('../../../scripts/create-or-update-sco-agri-organizations');
-const logoUrl = require('../../../scripts/logo/default-sco-agri-organization-logo-base64');
+} from '../../../scripts/create-or-update-sco-agri-organizations';
+import logoUrl from '../../../scripts/logo/default-sco-agri-organization-logo-base64';
 
 describe('Integration | Scripts | create-or-update-sco-agri-organizations', function () {
   describe('#checkData', function () {

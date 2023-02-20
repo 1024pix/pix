@@ -1,6 +1,6 @@
-const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
-const { expect } = require('../../../test-helper');
-const { EntityValidationError } = require('../../../../lib/domain/errors');
+import OrganizationInvitation from '../../../../lib/domain/models/OrganizationInvitation';
+import { expect } from '../../../test-helper';
+import { EntityValidationError } from '../../../../lib/domain/errors';
 
 describe('Unit | Domain | Models | OrganizationInvitation', function () {
   describe('constructor', function () {

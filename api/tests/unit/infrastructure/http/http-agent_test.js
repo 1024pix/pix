@@ -1,7 +1,7 @@
-const { expect, sinon } = require('../../../test-helper');
-const axios = require('axios');
-const { post, get } = require('../../../../lib/infrastructure/http/http-agent');
-const monitoringTools = require('../../../../lib/infrastructure/monitoring-tools');
+import { expect, sinon } from '../../../test-helper';
+import axios from 'axios';
+import { post, get } from '../../../../lib/infrastructure/http/http-agent';
+import monitoringTools from '../../../../lib/infrastructure/monitoring-tools';
 
 describe('Unit | Infrastructure | http | http-agent', function () {
   describe('#post', function () {

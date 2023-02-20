@@ -1,9 +1,9 @@
-const { knex } = require('../../../db/knex-database-connection');
-const DomainTransaction = require('../DomainTransaction');
-const ComplementaryCertificationCourseResultBookshelf = require('../orm-models/ComplementaryCertificationCourseResult');
-const ComplementaryCertificationCourseResult = require('../../domain/models/ComplementaryCertificationCourseResult');
+import { knex } from '../../../db/knex-database-connection';
+import DomainTransaction from '../DomainTransaction';
+import ComplementaryCertificationCourseResultBookshelf from '../orm-models/ComplementaryCertificationCourseResult';
+import ComplementaryCertificationCourseResult from '../../domain/models/ComplementaryCertificationCourseResult';
 
-module.exports = {
+export default {
   async save({ partnerCertificationScoring, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const partnerCertificationToSave = new ComplementaryCertificationCourseResultBookshelf(
       _adaptModelToDB({

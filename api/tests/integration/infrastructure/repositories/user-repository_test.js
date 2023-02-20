@@ -1,30 +1,28 @@
-const each = require('lodash/each');
-const map = require('lodash/map');
-const times = require('lodash/times');
-const pick = require('lodash/pick');
+import each from 'lodash/each';
+import map from 'lodash/map';
+import times from 'lodash/times';
+import pick from 'lodash/pick';
+import { expect, knex, databaseBuilder, catchErr, sinon } from '../../../test-helper';
 
-const { expect, knex, databaseBuilder, catchErr, sinon } = require('../../../test-helper');
-
-const {
+import {
   AlreadyExistingEntityError,
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
   NotFoundError,
   UserNotFoundError,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors';
 
-const User = require('../../../../lib/domain/models/User');
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const UserDetailsForAdmin = require('../../../../lib/domain/models/UserDetailsForAdmin');
-const Membership = require('../../../../lib/domain/models/Membership');
-const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
-const CertificationCenterMembership = require('../../../../lib/domain/models/CertificationCenterMembership');
-const Organization = require('../../../../lib/domain/models/Organization');
-const OrganizationLearnerForAdmin = require('../../../../lib/domain/read-models/OrganizationLearnerForAdmin');
-const OidcIdentityProviders = require('../../../../lib/domain/constants/oidc-identity-providers');
-
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+import User from '../../../../lib/domain/models/User';
+import AuthenticationMethod from '../../../../lib/domain/models/AuthenticationMethod';
+import UserDetailsForAdmin from '../../../../lib/domain/models/UserDetailsForAdmin';
+import Membership from '../../../../lib/domain/models/Membership';
+import CertificationCenter from '../../../../lib/domain/models/CertificationCenter';
+import CertificationCenterMembership from '../../../../lib/domain/models/CertificationCenterMembership';
+import Organization from '../../../../lib/domain/models/Organization';
+import OrganizationLearnerForAdmin from '../../../../lib/domain/read-models/OrganizationLearnerForAdmin';
+import OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers';
+import DomainTransaction from '../../../../lib/infrastructure/DomainTransaction';
+import userRepository from '../../../../lib/infrastructure/repositories/user-repository';
 
 const expectedUserDetailsForAdminAttributes = [
   'id',

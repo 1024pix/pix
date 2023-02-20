@@ -1,8 +1,8 @@
-const { expect, databaseBuilder, catchErr, mockLearningContent, domainBuilder } = require('../../../test-helper');
-const { NotFoundError, TargetProfileInvalidError } = require('../../../../lib/domain/errors');
-const targetProfileForAdminRepository = require('../../../../lib/infrastructure/repositories/target-profile-for-admin-repository');
-const TargetProfileForAdminOldFormat = require('../../../../lib/domain/models/TargetProfileForAdminOldFormat');
-const TargetProfileForAdminNewFormat = require('../../../../lib/domain/models/TargetProfileForAdminNewFormat');
+import { expect, databaseBuilder, catchErr, mockLearningContent, domainBuilder } from '../../../test-helper';
+import { NotFoundError, TargetProfileInvalidError } from '../../../../lib/domain/errors';
+import targetProfileForAdminRepository from '../../../../lib/infrastructure/repositories/target-profile-for-admin-repository';
+import TargetProfileForAdminOldFormat from '../../../../lib/domain/models/TargetProfileForAdminOldFormat';
+import TargetProfileForAdminNewFormat from '../../../../lib/domain/models/TargetProfileForAdminNewFormat';
 
 describe('Integration | Repository | target-profile-for-admin', function () {
   describe('#getAsOldFormat', function () {

@@ -1,6 +1,6 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
+export default {
   serialize(results) {
     return new Serializer('campaign-collective-result', {
       attributes: ['campaignCompetenceCollectiveResults'],

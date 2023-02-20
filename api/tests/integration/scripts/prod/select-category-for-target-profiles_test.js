@@ -1,9 +1,9 @@
-const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
-const {
+import { expect, databaseBuilder, knex, catchErr } from '../../../test-helper';
+import {
   setCategoriesToTargetProfiles,
   setCategoryToTargetProfiles,
-} = require('../../../../scripts/prod/select-category-for-target-profiles');
-const { categories } = require('../../../../lib/domain/models/TargetProfile');
+} from '../../../../scripts/prod/select-category-for-target-profiles';
+import { categories } from '../../../../lib/domain/models/TargetProfile';
 
 describe('Integration | Scripts | select-category-for-target-profiles.js', function () {
   let firstTargetProfileId;

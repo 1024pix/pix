@@ -1,7 +1,7 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const JuryCertificationSummary = require('../../../../lib/domain/read-models/JuryCertificationSummary');
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const forIn = require('lodash/forIn');
+import { expect, domainBuilder } from '../../../test-helper';
+import JuryCertificationSummary from '../../../../lib/domain/read-models/JuryCertificationSummary';
+import AssessmentResult from '../../../../lib/domain/models/AssessmentResult';
+import forIn from 'lodash/forIn';
 
 describe('Unit | Domain | Models | JuryCertificationSummary', function () {
   describe('#constructor', function () {

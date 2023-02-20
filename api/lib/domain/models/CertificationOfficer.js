@@ -10,4 +10,4 @@ class CertificationOfficer {
   }
 }
 
-module.exports = CertificationOfficer;
+export default CertificationOfficer;

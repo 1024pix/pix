@@ -1,15 +1,8 @@
-const {
-  expect,
-  hFake,
-  sinon,
-  generateValidRequestAuthorizationHeader,
-  domainBuilder,
-} = require('../../../test-helper');
+import { expect, hFake, sinon, generateValidRequestAuthorizationHeader, domainBuilder } from '../../../test-helper';
 
-const usecases = require('../../../../lib/domain/usecases');
-const countrySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/country-serializer');
-
-const countryController = require('../../../../lib/application/countries/country-controller');
+import usecases from '../../../../lib/domain/usecases';
+import countrySerializer from '../../../../lib/infrastructure/serializers/jsonapi/country-serializer';
+import countryController from '../../../../lib/application/countries/country-controller';
 
 describe('Unit | Controller | country-controller', function () {
   describe('#findCountries', function () {

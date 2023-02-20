@@ -1,12 +1,7 @@
-const {
-  expect,
-  catchErr,
-  databaseBuilder,
-  learningContentBuilder,
-  mockLearningContent,
-} = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
-const { UserNotAuthorizedToAccessEntityError, NoStagesForCampaign } = require('../../../../lib/domain/errors');
+import { expect, catchErr, databaseBuilder, learningContentBuilder, mockLearningContent } from '../../../test-helper';
+
+import usecases from '../../../../lib/domain/usecases';
+import { UserNotAuthorizedToAccessEntityError, NoStagesForCampaign } from '../../../../lib/domain/errors';
 
 describe('Integration | UseCase | get-campaign-participations-counts-by-stage', function () {
   let organizationId;

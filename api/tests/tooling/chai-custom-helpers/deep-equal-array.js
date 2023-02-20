@@ -1,4 +1,4 @@
-module.exports = function (chai, _utils) {
+export default function (chai, _utils) {
   chai.Assertion.addMethod('deepEqualArray', function (referenceArray) {
     const assertedArray = this._obj;
 
@@ -10,7 +10,7 @@ module.exports = function (chai, _utils) {
       _assertDeepEqualInstance(chai, assertedArray[i], referenceArray[i]);
     }
   });
-};
+}
 
 function _assertIsArray(chai, value) {
   const instanceClassName = value.constructor.name;

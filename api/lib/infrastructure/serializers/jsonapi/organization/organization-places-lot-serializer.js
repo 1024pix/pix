@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   deserialize(json) {
     return {
       organizationId: json.data.attributes['organization-id'],

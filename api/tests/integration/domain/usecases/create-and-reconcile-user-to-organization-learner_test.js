@@ -1,26 +1,23 @@
-const pick = require('lodash/pick');
+import pick from 'lodash/pick';
+import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper';
+import authenticationMethodRepository from '../../../../lib/infrastructure/repositories/authentication-method-repository';
+import campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository';
+import organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository';
+import userRepository from '../../../../lib/infrastructure/repositories/user-repository';
+import userToCreateRepository from '../../../../lib/infrastructure/repositories/user-to-create-repository';
+import encryptionService from '../../../../lib/domain/services/encryption-service';
+import mailService from '../../../../lib/domain/services/mail-service';
+import obfuscationService from '../../../../lib/domain/services/obfuscation-service';
+import userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service';
+import userService from '../../../../lib/domain/services/user-service';
+import createAndReconcileUserToOrganizationLearner from '../../../../lib/domain/usecases/create-and-reconcile-user-to-organization-learner';
 
-const { catchErr, databaseBuilder, expect, knex } = require('../../../test-helper');
-
-const authenticationMethodRepository = require('../../../../lib/infrastructure/repositories/authentication-method-repository');
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const organizationLearnerRepository = require('../../../../lib/infrastructure/repositories/organization-learner-repository');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const userToCreateRepository = require('../../../../lib/infrastructure/repositories/user-to-create-repository');
-
-const encryptionService = require('../../../../lib/domain/services/encryption-service');
-const mailService = require('../../../../lib/domain/services/mail-service');
-const obfuscationService = require('../../../../lib/domain/services/obfuscation-service');
-const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
-const userService = require('../../../../lib/domain/services/user-service');
-const createAndReconcileUserToOrganizationLearner = require('../../../../lib/domain/usecases/create-and-reconcile-user-to-organization-learner');
-
-const {
+import {
   CampaignCodeError,
   EntityValidationError,
   NotFoundError,
   OrganizationLearnerAlreadyLinkedToUserError,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors';
 
 describe('Integration | UseCases | create-and-reconcile-user-to-organization-learner', function () {
   const pickUserAttributes = ['firstName', 'lastName', 'email', 'username', 'cgu'];

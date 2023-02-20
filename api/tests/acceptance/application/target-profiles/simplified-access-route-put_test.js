@@ -1,10 +1,11 @@
-const {
+import {
   databaseBuilder,
   expect,
   insertUserWithRoleSuperAdmin,
   generateValidRequestAuthorizationHeader,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
+} from '../../../test-helper';
+
+import createServer from '../../../../server';
 
 describe('Acceptance | Route | Target-profiles', function () {
   describe('PUT /api/admin/target-profiles/{id}/simplified-access', function () {

@@ -1,12 +1,12 @@
-const buildOrganization = require('./build-organization');
-const buildTargetProfile = require('./build-target-profile');
-const buildUser = require('./build-user');
-const CampaignTypes = require('../../../lib/domain/models/CampaignTypes');
-const Assessment = require('../../../lib/domain/models/Assessment');
-const databaseBuffer = require('../database-buffer');
-const _ = require('lodash');
+import buildOrganization from './build-organization';
+import buildTargetProfile from './build-target-profile';
+import buildUser from './build-user';
+import CampaignTypes from '../../../lib/domain/models/CampaignTypes';
+import Assessment from '../../../lib/domain/models/Assessment';
+import databaseBuffer from '../database-buffer';
+import _ from 'lodash';
 
-module.exports = function buildCampaign({
+export default function buildCampaign({
   id = databaseBuffer.getNextId(),
   name = 'Name',
   code = 'ABC456TTY',
@@ -69,4 +69,4 @@ module.exports = function buildCampaign({
     tableName: 'campaigns',
     values,
   });
-};
+}

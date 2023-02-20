@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const findPaginatedFilteredScoParticipants = require('../../../../lib/domain/usecases/find-paginated-filtered-sco-participants');
+import { expect, sinon } from '../../../test-helper';
+import findPaginatedFilteredScoParticipants from '../../../../lib/domain/usecases/find-paginated-filtered-sco-participants';
 
 describe('Unit | UseCase | findPaginatedFilteredScoParticipants', function () {
   let scoOrganizationParticipantRepository;

@@ -6,4 +6,4 @@ class CertificationRescoringCompleted {
   }
 }
 
-module.exports = CertificationRescoringCompleted;
+export default CertificationRescoringCompleted;

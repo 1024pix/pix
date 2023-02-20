@@ -1,13 +1,13 @@
-const dayjs = require('dayjs');
+import dayjs from 'dayjs';
+import tokenService from './token-service';
+import mailer from '../../infrastructure/mailers/mailer';
+import settings from '../../config';
+import frTranslations from '../../../translations/fr';
+import enTranslations from '../../../translations/en';
 
-const tokenService = require('./token-service');
-const mailer = require('../../infrastructure/mailers/mailer');
-const settings = require('../../config');
+import { LOCALE } from '../../domain/constants';
 
-const frTranslations = require('../../../translations/fr');
-const enTranslations = require('../../../translations/en');
-
-const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../domain/constants').LOCALE;
+const { ENGLISH_SPOKEN: ENGLISH_SPOKEN, FRENCH_FRANCE: FRENCH_FRANCE, FRENCH_SPOKEN: FRENCH_SPOKEN } = LOCALE;
 
 const EMAIL_ADDRESS_NO_RESPONSE = 'ne-pas-repondre@pix.fr';
 const PIX_ORGA_NAME_FR = 'Pix Orga - Ne pas répondre';
@@ -430,7 +430,7 @@ function sendNotificationToCertificationCenterRefererForCleaResults({ email, ses
   return mailer.sendEmail(options);
 }
 
-module.exports = {
+export default {
   sendAccountCreationEmail,
   sendAccountRecoveryEmail,
   sendCertificationResultEmail,

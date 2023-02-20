@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const AuthenticationSessionContent = require('../../../../lib/domain/models/AuthenticationSessionContent');
+import { expect } from '../../../test-helper';
+import AuthenticationSessionContent from '../../../../lib/domain/models/AuthenticationSessionContent';
 
 describe('Unit | Domain | Models | AuthenticationSessionContent', function () {
   describe('#constructor', function () {

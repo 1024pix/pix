@@ -1,7 +1,7 @@
-const Course = require('../../domain/models/Course');
-const courseDatasource = require('../datasources/learning-content/course-datasource');
-const LearningContentResourceNotFound = require('../datasources/learning-content/LearningContentResourceNotFound');
-const { NotFoundError } = require('../../domain/errors');
+import Course from '../../domain/models/Course';
+import courseDatasource from '../datasources/learning-content/course-datasource';
+import LearningContentResourceNotFound from '../datasources/learning-content/LearningContentResourceNotFound';
+import { NotFoundError } from '../../domain/errors';
 
 function _toDomain(courseDataObject) {
   return new Course({
@@ -26,7 +26,7 @@ async function _get(id) {
   }
 }
 
-module.exports = {
+export default {
   async get(id) {
     return _get(id);
   },

@@ -1,7 +1,7 @@
-const { expect, sinon } = require('../../../../test-helper');
-const competenceDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/competence-datasource');
-const lcms = require('../../../../../lib/infrastructure/lcms');
-const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
+import { expect, sinon } from '../../../../test-helper';
+import competenceDatasource from '../../../../../lib/infrastructure/datasources/learning-content/competence-datasource';
+import lcms from '../../../../../lib/infrastructure/lcms';
+import cache from '../../../../../lib/infrastructure/caches/learning-content-cache';
 
 describe('Unit | Infrastructure | Datasource | Learning Content | CompetenceDatasource', function () {
   beforeEach(function () {

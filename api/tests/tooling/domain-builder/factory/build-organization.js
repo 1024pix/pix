@@ -1,4 +1,4 @@
-const Organization = require('../../../../lib/domain/models/Organization');
+import Organization from '../../../../lib/domain/models/Organization';
 
 function buildOrganization({
   id = 123,
@@ -44,4 +44,4 @@ function buildOrganization({
   });
 }
 
-module.exports = buildOrganization;
+export default buildOrganization;

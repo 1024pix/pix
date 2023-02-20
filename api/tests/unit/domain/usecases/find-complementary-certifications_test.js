@@ -1,5 +1,5 @@
-const { expect, domainBuilder, sinon } = require('../../../test-helper');
-const findComplementaryCertifications = require('../../../../lib/domain/usecases/find-complementary-certifications');
+import { expect, domainBuilder, sinon } from '../../../test-helper';
+import findComplementaryCertifications from '../../../../lib/domain/usecases/find-complementary-certifications';
 
 describe('Unit | UseCase | find-complementary-certifications', function () {
   let complementaryCertificationRepository;

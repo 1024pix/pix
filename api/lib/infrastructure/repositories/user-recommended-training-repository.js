@@ -1,10 +1,10 @@
-const { knex } = require('../../../db/knex-database-connection');
-const DomainTransaction = require('../DomainTransaction');
-const UserRecommendedTraining = require('../../domain/read-models/UserRecommendedTraining');
+import { knex } from '../../../db/knex-database-connection';
+import DomainTransaction from '../DomainTransaction';
+import UserRecommendedTraining from '../../domain/read-models/UserRecommendedTraining';
 
 const TABLE_NAME = 'user-recommended-trainings';
 
-module.exports = {
+export default {
   save({ userId, trainingId, campaignParticipationId, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const knexConn = domainTransaction?.knexTransaction || knex;
     return knexConn(TABLE_NAME)

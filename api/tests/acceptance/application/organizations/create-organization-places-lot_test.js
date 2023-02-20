@@ -1,12 +1,13 @@
-const {
+import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
   knex,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
-const organizationPlacesCategories = require('../../../../lib/domain/constants/organization-places-categories');
+} from '../../../test-helper';
+
+import createServer from '../../../../server';
+import organizationPlacesCategories from '../../../../lib/domain/constants/organization-places-categories';
 
 describe('Acceptance | Route | Organizations', function () {
   describe('POST /api/admin/organizations/{id}/places', function () {

@@ -1,3 +1,3 @@
-module.exports = function ({ organizationId, TargetProfileForSpecifierRepository }) {
+export default function ({ organizationId, TargetProfileForSpecifierRepository }) {
   return TargetProfileForSpecifierRepository.availableForOrganization(organizationId);
-};
+}

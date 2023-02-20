@@ -1,6 +1,5 @@
-const { expect } = require('../../test-helper');
-
-const createServer = require('../../../server');
+import { expect } from '../../test-helper';
+import createServer from '../../../server';
 
 describe('Unit | Server | server', function () {
   describe('#createServer', function () {

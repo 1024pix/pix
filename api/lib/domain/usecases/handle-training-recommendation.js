@@ -1,4 +1,4 @@
-module.exports = async function handleTrainingRecommendation({
+export default async function handleTrainingRecommendation({
   locale,
   assessment,
   trainingRepository,
@@ -22,4 +22,4 @@ module.exports = async function handleTrainingRecommendation({
       domainTransaction,
     });
   }
-};
+}

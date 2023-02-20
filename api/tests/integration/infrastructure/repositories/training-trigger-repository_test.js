@@ -1,8 +1,8 @@
-const { expect, databaseBuilder, knex, sinon } = require('../../../test-helper');
-const trainingTriggerRepository = require('../../../../lib/infrastructure/repositories/training-trigger-repository');
-const TrainingTrigger = require('../../../../lib/domain/models/TrainingTrigger');
-const TrainingTriggerTube = require('../../../../lib/domain/models/TrainingTriggerTube');
-const _ = require('lodash');
+import { expect, databaseBuilder, knex, sinon } from '../../../test-helper';
+import trainingTriggerRepository from '../../../../lib/infrastructure/repositories/training-trigger-repository';
+import TrainingTrigger from '../../../../lib/domain/models/TrainingTrigger';
+import TrainingTriggerTube from '../../../../lib/domain/models/TrainingTriggerTube';
+import _ from 'lodash';
 
 describe('Integration | Repository | training-trigger-repository', function () {
   describe('#createOrUpdate', function () {

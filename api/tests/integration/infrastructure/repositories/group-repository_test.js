@@ -1,5 +1,5 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
-const groupRepository = require('../../../../lib/infrastructure/repositories/group-repository');
+import { expect, databaseBuilder } from '../../../test-helper';
+import groupRepository from '../../../../lib/infrastructure/repositories/group-repository';
 
 describe('Integration | Repository | Group', function () {
   describe('#findByCampaignId', function () {

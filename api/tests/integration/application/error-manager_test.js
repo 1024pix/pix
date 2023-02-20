@@ -1,5 +1,5 @@
-const { expect, sinon, HttpTestServer } = require('../../test-helper');
-const DomainErrors = require('../../../lib/domain/errors');
+import { expect, sinon, HttpTestServer } from '../../test-helper';
+import DomainErrors from '../../../lib/domain/errors';
 
 describe('Integration | API | Controller Error', function () {
   let server;

@@ -1,25 +1,4 @@
-/*
- * IF message title:
- * > Doesn't start with square brackets []
- * > Doesn't start with Merge branch
- * > Doesn't start with Merge pull request
- * > Doesn't start with #
- *
- * AND
- * > branch name starts with AA-XXX-something (e.g. pi-123-branch-description)
- * > branch name is not:
- * > - dev
- * > - master
- * > - gh-pages
- * > - release-xxx
- *
- * THEN
- * > prepend the issue tag to the commit message
- *
- * My awesome commit -> [pi-123] My awesome commit
- */
-
-module.exports = function getNextCommitSubject(messageTitle, branchName) {
+export default function getNextCommitSubject(messageTitle, branchName) {
   const startsWithBraces = (str) => str.match(/^\[[^\]]/);
   const startsWithMergeBranch = (str) => str.indexOf('Merge branch') === 0;
   const startsWithMergePR = (str) => str.indexOf('Merge pull request') === 0;
@@ -56,4 +35,4 @@ module.exports = function getNextCommitSubject(messageTitle, branchName) {
     }
     return messageTitle;
   }
-};
+}

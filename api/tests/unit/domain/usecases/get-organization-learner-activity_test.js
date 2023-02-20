@@ -1,7 +1,7 @@
-const { expect, sinon } = require('../../../test-helper');
-const getOrganizationLearnerActivity = require('../../../../lib/domain/usecases/get-organization-learner-activity');
-const OrganizationLearnerParticipation = require('../../../../lib/domain/read-models/OrganizationLearnerParticipation');
-const OrganizationLearnerActivity = require('../../../../lib/domain/read-models/OrganizationLearnerActivity');
+import { expect, sinon } from '../../../test-helper';
+import getOrganizationLearnerActivity from '../../../../lib/domain/usecases/get-organization-learner-activity';
+import OrganizationLearnerParticipation from '../../../../lib/domain/read-models/OrganizationLearnerParticipation';
+import OrganizationLearnerActivity from '../../../../lib/domain/read-models/OrganizationLearnerActivity';
 
 describe('Unit | UseCase | get-organisation-learner-activity', function () {
   it('should return activity for the organization learner matching the given organizationLearnerId', async function () {

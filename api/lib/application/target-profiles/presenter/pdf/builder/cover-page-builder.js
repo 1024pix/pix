@@ -1,10 +1,10 @@
-const TemplatePageManager = require('../manager/template-page-manager');
-const CoverPageVersionText = require('../drawer/CoverPageVersionText');
-const CoverPageLegalMentionText = require('../drawer/CoverPageLegalMentionText');
-const CoverPageTitleText = require('../drawer/CoverPageTitleText');
-const PositionManager = require('../manager/position-manager');
+import TemplatePageManager from '../manager/template-page-manager';
+import CoverPageVersionText from '../drawer/CoverPageVersionText';
+import CoverPageLegalMentionText from '../drawer/CoverPageLegalMentionText';
+import CoverPageTitleText from '../drawer/CoverPageTitleText';
+import PositionManager from '../manager/position-manager';
 
-module.exports = {
+export default {
   /**
    * @param pdfDocument{PDFDocument}
    * @param title {string}

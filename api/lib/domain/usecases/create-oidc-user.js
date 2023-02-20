@@ -1,7 +1,7 @@
-const UserToCreate = require('../models/UserToCreate');
-const { AuthenticationKeyExpired, UserAlreadyExistsWithAuthenticationMethodError } = require('../errors');
+import UserToCreate from '../models/UserToCreate';
+import { AuthenticationKeyExpired, UserAlreadyExistsWithAuthenticationMethodError } from '../errors';
 
-module.exports = async function createOidcUser({
+export default async function createOidcUser({
   identityProvider,
   authenticationKey,
   authenticationSessionService,
@@ -46,4 +46,4 @@ module.exports = async function createOidcUser({
   await userRepository.updateLastLoggedAt({ userId });
 
   return { accessToken, logoutUrlUUID };
-};
+}

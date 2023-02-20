@@ -1,6 +1,7 @@
-const { tmpdir } = require('node:os');
+import { tmpdir } from 'node:os';
 const baseDirectory = `${tmpdir()}/pix-api-test-coverage`;
-module.exports = {
+
+export default {
   all: true,
   reporter: ['html'],
   include: ['lib/**/*.js'],

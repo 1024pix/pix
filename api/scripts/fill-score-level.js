@@ -1,7 +1,3 @@
-#! /usr/bin/env node
-
-const request = require('request-promise-native');
-
 function parseArgs(argv) {
   return argv.slice(3);
 }

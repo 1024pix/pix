@@ -1,5 +1,5 @@
-const NodeCache = require('node-cache');
-const Cache = require('./Cache');
+import NodeCache from 'node-cache';
+import Cache from './Cache';
 
 class InMemoryCache extends Cache {
   constructor() {
@@ -54,4 +54,4 @@ class InMemoryCache extends Cache {
   }
 }
 
-module.exports = InMemoryCache;
+export default InMemoryCache;

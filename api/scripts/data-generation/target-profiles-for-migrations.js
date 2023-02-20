@@ -1,9 +1,9 @@
 require('dotenv').config();
-const { performance } = require('perf_hooks');
-const logger = require('../../lib/infrastructure/logger');
-const cache = require('../../lib/infrastructure/caches/learning-content-cache');
-const { knex, disconnect } = require('../../db/knex-database-connection');
-const DatabaseBuilder = require('../../db/database-builder/database-builder');
+import { performance } from 'perf_hooks';
+import logger from '../../lib/infrastructure/logger';
+import cache from '../../lib/infrastructure/caches/learning-content-cache';
+import { knex, disconnect } from '../../db/knex-database-connection';
+import DatabaseBuilder from '../../db/database-builder/database-builder';
 
 const TARGET_PROFILE_ID_TO_OUTDATE = 2001;
 const TARGET_PROFILE_ID_AUTO = 2002;
@@ -132,4 +132,4 @@ async function main() {
   }
 })();
 
-module.exports = { doSomething };
+export default { doSomething };

@@ -1,9 +1,6 @@
-// https://jsonapi.org/
-// https://github.com/SeyZ/jsonapi-serializer
+import { expect } from '../test-helper';
 
-const { expect } = require('../test-helper');
-
-const Serializer = require('jsonapi-serializer').Serializer;
+import { Serializer } from 'jsonapi-serializer';
 const resourceType = 'users';
 
 describe('Docs | jsonapi-serializer', function () {

@@ -1,7 +1,7 @@
-const ProgressionSerializer = require('../../infrastructure/serializers/jsonapi/progression-serializer');
-const usecases = require('../../domain/usecases');
+import ProgressionSerializer from '../../infrastructure/serializers/jsonapi/progression-serializer';
+import usecases from '../../domain/usecases';
 
-module.exports = {
+export default {
   get(request) {
     const userId = request.auth.credentials.userId;
 

@@ -1,9 +1,9 @@
-const usecases = require('../../domain/usecases');
-const frameworkAreasSerializer = require('../../infrastructure/serializers/jsonapi/framework-areas-serializer');
-const frameworkSerializer = require('../../infrastructure/serializers/jsonapi/framework-serializer');
-const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
+import usecases from '../../domain/usecases';
+import frameworkAreasSerializer from '../../infrastructure/serializers/jsonapi/framework-areas-serializer';
+import frameworkSerializer from '../../infrastructure/serializers/jsonapi/framework-serializer';
+import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils';
 
-module.exports = {
+export default {
   async getFrameworks() {
     const frameworks = await usecases.getFrameworks();
     return frameworkSerializer.serialize(frameworks);

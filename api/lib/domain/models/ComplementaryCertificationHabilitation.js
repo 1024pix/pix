@@ -6,4 +6,4 @@ class ComplementaryCertificationHabilitation {
   }
 }
 
-module.exports = ComplementaryCertificationHabilitation;
+export default ComplementaryCertificationHabilitation;

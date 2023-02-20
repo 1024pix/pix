@@ -1,9 +1,9 @@
-const { NotFoundError, MissingAttributesError } = require('../../domain/errors');
-const OrganizationForAdmin = require('../../domain/models/OrganizationForAdmin');
-const Tag = require('../../domain/models/Tag');
-const { knex } = require('../../../db/knex-database-connection');
-const OrganizationInvitation = require('../../domain/models/OrganizationInvitation');
-const _ = require('lodash');
+import { NotFoundError, MissingAttributesError } from '../../domain/errors';
+import OrganizationForAdmin from '../../domain/models/OrganizationForAdmin';
+import Tag from '../../domain/models/Tag';
+import { knex } from '../../../db/knex-database-connection';
+import OrganizationInvitation from '../../domain/models/OrganizationInvitation';
+import _ from 'lodash';
 
 const ORGANIZATIONS_TABLE_NAME = 'organizations';
 
@@ -40,7 +40,7 @@ function _toDomain(rawOrganization) {
   return organization;
 }
 
-module.exports = {
+export default {
   async get(id) {
     const organization = await knex(ORGANIZATIONS_TABLE_NAME)
       .select({

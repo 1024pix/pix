@@ -1,6 +1,6 @@
-const { NotFoundError } = require('../errors');
+import { NotFoundError } from '../errors';
 
-module.exports = async function reconcileSupOrganizationLearner({
+export default async function reconcileSupOrganizationLearner({
   campaignCode,
   reconciliationInfo: { userId, studentNumber, firstName, lastName, birthdate },
   campaignRepository,
@@ -24,4 +24,4 @@ module.exports = async function reconcileSupOrganizationLearner({
     userId,
     organizationLearnerId: matchedOrganizationLearner.id,
   });
-};
+}

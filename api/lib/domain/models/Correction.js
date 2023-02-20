@@ -9,4 +9,4 @@ class Correction {
   }
 }
 
-module.exports = Correction;
+export default Correction;

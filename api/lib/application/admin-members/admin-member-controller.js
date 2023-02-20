@@ -1,7 +1,7 @@
-const adminMemberSerializer = require('../../infrastructure/serializers/jsonapi/admin-member-serializer');
-const usecases = require('../../domain/usecases');
+import adminMemberSerializer from '../../infrastructure/serializers/jsonapi/admin-member-serializer';
+import usecases from '../../domain/usecases';
 
-module.exports = {
+export default {
   async findAll() {
     const adminMembers = await usecases.getAdminMembers();
     return adminMemberSerializer.serialize(adminMembers);

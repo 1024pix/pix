@@ -1,4 +1,4 @@
-module.exports = function buildCompetenceLearningContentDataObject({
+export default function buildCompetenceLearningContentDataObject({
   id = 'recsvLz0W2ShyfD63',
   name = 'Mener une recherche et une veille d’information',
   nameFrFr = 'Mener une recherche et une veille d’information',
@@ -38,4 +38,4 @@ module.exports = function buildCompetenceLearningContentDataObject({
       en: descriptionEnUs,
     },
   };
-};
+}

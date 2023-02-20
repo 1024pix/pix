@@ -1,12 +1,12 @@
-const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection');
-const settings = require('../../config');
-const BookshelfUser = require('../orm-models/User');
-const BookshelfMembership = require('../orm-models/Membership');
-const BookshelfUserOrgaSettings = require('../orm-models/UserOrgaSettings');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const { ForbiddenAccess, UserNotFoundError } = require('../../domain/errors');
-const Prescriber = require('../../domain/read-models/Prescriber');
+import _ from 'lodash';
+import { knex } from '../../../db/knex-database-connection';
+import settings from '../../config';
+import BookshelfUser from '../orm-models/User';
+import BookshelfMembership from '../orm-models/Membership';
+import BookshelfUserOrgaSettings from '../orm-models/UserOrgaSettings';
+import bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter';
+import { ForbiddenAccess, UserNotFoundError } from '../../domain/errors';
+import Prescriber from '../../domain/read-models/Prescriber';
 
 function _toPrescriberDomain(bookshelfUser) {
   const { id, firstName, lastName, pixOrgaTermsOfServiceAccepted, lang } = bookshelfUser.toJSON();
@@ -57,7 +57,7 @@ async function _getParticipantCount(prescriber) {
   prescriber.participantCount = allCounts;
 }
 
-module.exports = {
+export default {
   async getPrescriber(userId) {
     try {
       const prescriberFromDB = await BookshelfUser.where({ id: userId }).fetch({

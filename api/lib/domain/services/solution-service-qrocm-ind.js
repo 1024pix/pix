@@ -1,13 +1,12 @@
-const jsYaml = require('js-yaml');
-const levenshtein = require('fast-levenshtein');
-const _ = require('../../infrastructure/utils/lodash-utils');
-const logger = require('../../infrastructure/logger');
-const { applyPreTreatments, applyTreatments } = require('./validation-treatments');
-const { YamlParsingError } = require('../../domain/errors');
-const { LEVENSHTEIN_DISTANCE_MAX_RATE } = require('../constants');
-const { useLevenshteinRatio } = require('./services-utils');
-
-const AnswerStatus = require('../models/AnswerStatus');
+import jsYaml from 'js-yaml';
+import levenshtein from 'fast-levenshtein';
+import _ from '../../infrastructure/utils/lodash-utils';
+import logger from '../../infrastructure/logger';
+import { applyPreTreatments, applyTreatments } from './validation-treatments';
+import { YamlParsingError } from '../../domain/errors';
+import { LEVENSHTEIN_DISTANCE_MAX_RATE } from '../constants';
+import { useLevenshteinRatio } from './services-utils';
+import AnswerStatus from '../models/AnswerStatus';
 
 function _applyTreatmentsToSolutions(solutions, enabledTreatments, qrocBlocksTypes = {}) {
   return _.forEach(solutions, (solution, solutionKey) => {
@@ -70,7 +69,7 @@ function _formatResult(resultDetails) {
   return result;
 }
 
-module.exports = {
+export default {
   _applyTreatmentsToSolutions,
   _applyTreatmentsToAnswers,
   _compareAnswersAndSolutions,

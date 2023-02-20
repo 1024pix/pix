@@ -1,6 +1,6 @@
-const { expect, knex } = require('../../test-helper');
-const { createUsers } = require('../../../scripts/create-users-accounts-for-contest');
-const sinon = require('sinon');
+import { expect, knex } from '../../test-helper';
+import { createUsers } from '../../../scripts/create-users-accounts-for-contest';
+import sinon from 'sinon';
 
 describe('Acceptance | Scripts | create-users-accounts-for-contest', function () {
   describe('#createUsers', function () {

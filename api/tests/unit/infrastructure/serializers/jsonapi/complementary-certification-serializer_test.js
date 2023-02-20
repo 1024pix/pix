@@ -1,5 +1,5 @@
-const { domainBuilder, expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/complementary-certification-serializer');
+import { domainBuilder, expect } from '../../../../test-helper';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/complementary-certification-serializer';
 
 describe('Unit | Serializer | JSONAPI | complementary-certification-serializer', function () {
   describe('#serialize', function () {

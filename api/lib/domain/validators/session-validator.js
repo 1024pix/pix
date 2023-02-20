@@ -1,9 +1,8 @@
-const Joi = require('joi');
-const { statuses } = require('../models/Session');
-const { types } = require('../models/CertificationCenter');
-
-const { EntityValidationError } = require('../errors');
-const identifiersType = require('../../domain/types/identifiers-type');
+import Joi from 'joi';
+import { statuses } from '../models/Session';
+import { types } from '../models/CertificationCenter';
+import { EntityValidationError } from '../errors';
+import identifiersType from '../../domain/types/identifiers-type';
 
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
 
@@ -49,7 +48,7 @@ const sessionFiltersValidationSchema = Joi.object({
   certificationCenterType: Joi.string().trim().valid(types.SUP, types.SCO, types.PRO).optional(),
 });
 
-module.exports = {
+export default {
   validate(session) {
     const { error } = sessionValidationJoiSchema.validate(session, validationConfiguration);
     if (error) {

@@ -1,5 +1,5 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const DatabaseBuilder = require('../../../../db/database-builder/database-builder');
+import { expect, sinon, catchErr } from '../../../test-helper';
+import DatabaseBuilder from '../../../../db/database-builder/database-builder';
 
 describe('Unit | Tooling | DatabaseBuilder | database-builder', function () {
   describe('#clean', function () {

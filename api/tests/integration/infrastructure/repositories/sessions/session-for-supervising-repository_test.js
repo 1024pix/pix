@@ -1,9 +1,9 @@
-const { databaseBuilder, expect, catchErr } = require('../../../../test-helper');
-const _ = require('lodash');
-const { NotFoundError } = require('../../../../../lib/domain/errors');
-const SessionForSupervising = require('../../../../../lib/domain/read-models/SessionForSupervising');
-const sessionForSupervisingRepository = require('../../../../../lib/infrastructure/repositories/sessions/session-for-supervising-repository');
-const Assessment = require('../../../../../lib/domain/models/Assessment');
+import { databaseBuilder, expect, catchErr } from '../../../../test-helper';
+import _ from 'lodash';
+import { NotFoundError } from '../../../../../lib/domain/errors';
+import SessionForSupervising from '../../../../../lib/domain/read-models/SessionForSupervising';
+import sessionForSupervisingRepository from '../../../../../lib/infrastructure/repositories/sessions/session-for-supervising-repository';
+import Assessment from '../../../../../lib/domain/models/Assessment';
 
 describe('Integration | Repository | SessionForSupervising', function () {
   describe('#get', function () {

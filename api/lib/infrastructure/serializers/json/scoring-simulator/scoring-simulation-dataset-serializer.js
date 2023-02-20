@@ -1,8 +1,8 @@
-const ScoringSimulation = require('../../../../domain/models/ScoringSimulation');
-const ScoringSimulationDataset = require('../../../../domain/models/ScoringSimulationDataset');
-const Answer = require('../../../../domain/models/Answer');
+import ScoringSimulation from '../../../../domain/models/ScoringSimulation';
+import ScoringSimulationDataset from '../../../../domain/models/ScoringSimulationDataset';
+import Answer from '../../../../domain/models/Answer';
 
-module.exports = {
+export default {
   deserialize(request) {
     const simulations = request.payload.dataset.simulations.map(
       (simulation) =>

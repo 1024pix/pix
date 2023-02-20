@@ -1,10 +1,10 @@
-const { knex } = require('../../../db/knex-database-connection');
-const AdminMember = require('../../domain/models/AdminMember');
-const { AdminMemberError } = require('../../domain/errors');
+import { knex } from '../../../db/knex-database-connection';
+import AdminMember from '../../domain/models/AdminMember';
+import { AdminMemberError } from '../../domain/errors';
 
 const TABLE_NAME = 'pix-admin-roles';
 
-module.exports = {
+export default {
   findAll: async function () {
     const members = await knex
       .select(`${TABLE_NAME}.id`, 'users.id as userId', 'firstName', 'lastName', 'email', 'role')

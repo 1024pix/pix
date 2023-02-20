@@ -24,4 +24,4 @@ class OrganizationParticipant {
   }
 }
 
-module.exports = OrganizationParticipant;
+export default OrganizationParticipant;

@@ -1,10 +1,10 @@
 const Joi = require('joi').extend(require('@joi/date'));
 
-const securityPreHandlers = require('../security-pre-handlers');
-const organizationLearnerController = require('./organization-learner-controller');
-const identifiersType = require('../../domain/types/identifiers-type');
+import securityPreHandlers from '../security-pre-handlers';
+import organizationLearnerController from './organization-learner-controller';
+import identifiersType from '../../domain/types/identifiers-type';
 
-exports.register = async function (server) {
+export const register = async function (server) {
   const adminRoutes = [
     {
       method: 'DELETE',
@@ -99,4 +99,4 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'organization-learners-api';
+export const name = 'organization-learners-api';

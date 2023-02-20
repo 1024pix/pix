@@ -1,10 +1,10 @@
-const _ = require('lodash');
-const { expect, knex, databaseBuilder, catchErr, sinon } = require('../../../test-helper');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const Membership = require('../../../../lib/domain/models/Membership');
-const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
-const organizationInvitationRepository = require('../../../../lib/infrastructure/repositories/organization-invitation-repository');
-const BookshelfOrganizationInvitation = require('../../../../lib/infrastructure/orm-models/OrganizationInvitation');
+import _ from 'lodash';
+import { expect, knex, databaseBuilder, catchErr, sinon } from '../../../test-helper';
+import { NotFoundError } from '../../../../lib/domain/errors';
+import Membership from '../../../../lib/domain/models/Membership';
+import OrganizationInvitation from '../../../../lib/domain/models/OrganizationInvitation';
+import organizationInvitationRepository from '../../../../lib/infrastructure/repositories/organization-invitation-repository';
+import BookshelfOrganizationInvitation from '../../../../lib/infrastructure/orm-models/OrganizationInvitation';
 
 describe('Integration | Repository | OrganizationInvitationRepository', function () {
   describe('#create', function () {

@@ -1,11 +1,11 @@
 const Joi = require('joi').extend(require('@joi/date'));
-const { EntityValidationError } = require('../errors');
+import { EntityValidationError } from '../errors';
 
 const validationConfiguration = { allowUnknown: true };
 
 const validationSchema = Joi.array().unique('studentNumber');
 
-module.exports = {
+export default {
   checkValidation(organizationLearnerSet) {
     const { error } = validationSchema.validate(organizationLearnerSet.learners, validationConfiguration);
 

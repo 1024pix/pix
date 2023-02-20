@@ -1,9 +1,9 @@
-const { ForbiddenAccess } = require('../errors');
-const sessionValidator = require('../validators/session-validator');
-const sessionCodeService = require('../services/session-code-service');
-const Session = require('../models/Session');
+import { ForbiddenAccess } from '../errors';
+import sessionValidator from '../validators/session-validator';
+import sessionCodeService from '../services/session-code-service';
+import Session from '../models/Session';
 
-module.exports = async function createSession({
+export default async function createSession({
   userId,
   session,
   certificationCenterRepository,
@@ -29,4 +29,4 @@ module.exports = async function createSession({
   });
 
   return sessionRepository.save(domainSession);
-};
+}

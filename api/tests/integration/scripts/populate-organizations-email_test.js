@@ -1,6 +1,5 @@
-const { expect, databaseBuilder, knex, sinon } = require('../../test-helper');
-
-const populateOrganizations = require('../../../scripts/populate-organizations-email');
+import { expect, databaseBuilder, knex, sinon } from '../../test-helper';
+import populateOrganizations from '../../../scripts/populate-organizations-email';
 
 describe('Integration | Scripts | populate-organizations-email.js', function () {
   describe('#populateOrganizations', function () {

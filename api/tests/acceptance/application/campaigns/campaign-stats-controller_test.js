@@ -1,12 +1,12 @@
-const {
+import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   learningContentBuilder,
   mockLearningContent,
-} = require('../../../test-helper');
+} from '../../../test-helper';
 
-const createServer = require('../../../../server');
+import createServer from '../../../../server';
 
 describe('Acceptance | API | Campaign Stats Controller', function () {
   let server;

@@ -1,5 +1,5 @@
-const { databaseBuilder, expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const createServer = require('../../../../server');
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper';
+import createServer from '../../../../server';
 
 describe('Acceptance | Route | Users', function () {
   describe('GET /api/admin/users/{id}/organizations', function () {

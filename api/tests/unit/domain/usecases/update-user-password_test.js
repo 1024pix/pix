@@ -1,14 +1,11 @@
-const { catchErr, expect, sinon } = require('../../../test-helper');
-
-const User = require('../../../../lib/domain/models/User');
-const {
+import { catchErr, expect, sinon } from '../../../test-helper';
+import User from '../../../../lib/domain/models/User';
+import {
   PasswordResetDemandNotFoundError,
   UserNotAuthorizedToUpdatePasswordError,
-} = require('../../../../lib/domain/errors');
-
-const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
-
-const updateUserPassword = require('../../../../lib/domain/usecases/update-user-password');
+} from '../../../../lib/domain/errors';
+import validationErrorSerializer from '../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer';
+import updateUserPassword from '../../../../lib/domain/usecases/update-user-password';
 
 describe('Unit | UseCase | update-user-password', function () {
   const userId = 1;

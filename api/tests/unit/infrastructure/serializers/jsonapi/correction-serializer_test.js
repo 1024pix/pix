@@ -1,10 +1,10 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/correction-serializer');
-const Correction = require('../../../../../lib/domain/models/Correction');
-const Hint = require('../../../../../lib/domain/models/Hint');
-const TutorialForUser = require('../../../../../lib/domain/read-models/TutorialForUser');
-const UserSavedTutorial = require('../../../../../lib/domain/models/UserSavedTutorial');
-const TutorialEvaluation = require('../../../../../lib/domain/models/TutorialEvaluation');
+import { expect } from '../../../../test-helper';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/correction-serializer';
+import Correction from '../../../../../lib/domain/models/Correction';
+import Hint from '../../../../../lib/domain/models/Hint';
+import TutorialForUser from '../../../../../lib/domain/read-models/TutorialForUser';
+import UserSavedTutorial from '../../../../../lib/domain/models/UserSavedTutorial';
+import TutorialEvaluation from '../../../../../lib/domain/models/TutorialEvaluation';
 
 describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
   describe('#serialize()', function () {

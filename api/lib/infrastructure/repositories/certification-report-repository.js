@@ -1,14 +1,12 @@
-const _ = require('lodash');
-const bluebird = require('bluebird');
+import _ from 'lodash';
+import bluebird from 'bluebird';
+import Bookshelf from '../bookshelf';
+import CertificationReport from '../../domain/models/CertificationReport';
+import CertificationCourseBookshelf from '../orm-models/CertificationCourse';
+import { CertificationCourseUpdateError } from '../../domain/errors';
+import { toDomain } from './certification-course-repository';
 
-const Bookshelf = require('../bookshelf');
-const CertificationReport = require('../../domain/models/CertificationReport');
-
-const CertificationCourseBookshelf = require('../orm-models/CertificationCourse');
-const { CertificationCourseUpdateError } = require('../../domain/errors');
-const { toDomain } = require('./certification-course-repository');
-
-module.exports = {
+export default {
   async findBySessionId(sessionId) {
     const results = await CertificationCourseBookshelf.where({ sessionId })
       .query((qb) => {

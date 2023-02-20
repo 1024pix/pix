@@ -1,5 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import usecases from '../../../../lib/domain/usecases';
 
 describe('Unit | UseCase | find-paginated-filtered-target-profile-summaries-for-admin', function () {
   it('should return the result of the repository call', async function () {

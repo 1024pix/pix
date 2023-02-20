@@ -1,5 +1,5 @@
-const { expect } = require('../../../../test-helper');
-const CampaignAuthorization = require('../../../../../lib/application/preHandlers/models/CampaignAuthorization');
+import { expect } from '../../../../test-helper';
+import CampaignAuthorization from '../../../../../lib/application/preHandlers/models/CampaignAuthorization';
 
 describe('Unit | Domain | models | CampaignAuthorization', function () {
   describe('#isAllowedToManage', function () {

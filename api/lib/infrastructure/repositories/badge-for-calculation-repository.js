@@ -1,11 +1,11 @@
-const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection');
-const { BadgeForCalculation, BadgeCriterion } = require('../../domain/models/BadgeForCalculation');
-const { SCOPES } = require('../../domain/models/BadgeCriterion');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
-const campaignRepository = require('./campaign-repository');
+import _ from 'lodash';
+import { knex } from '../../../db/knex-database-connection';
+import { BadgeForCalculation, BadgeCriterion } from '../../domain/models/BadgeForCalculation';
+import { SCOPES } from '../../domain/models/BadgeCriterion';
+import DomainTransaction from '../../infrastructure/DomainTransaction';
+import campaignRepository from './campaign-repository';
 
-module.exports = {
+export default {
   async findByCampaignParticipationId({
     campaignParticipationId,
     domainTransaction = DomainTransaction.emptyTransaction(),

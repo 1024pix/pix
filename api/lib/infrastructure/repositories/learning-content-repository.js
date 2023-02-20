@@ -1,16 +1,15 @@
-const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection');
-const { NoSkillsInCampaignError, NotFoundError } = require('../../domain/errors');
-const tubeRepository = require('./tube-repository');
-const thematicRepository = require('./thematic-repository');
-const campaignRepository = require('./campaign-repository');
-const competenceRepository = require('./competence-repository');
-const areaRepository = require('./area-repository');
-const frameworkRepository = require('./framework-repository');
-const skillRepository = require('./skill-repository');
-const LearningContent = require('../../domain/models/LearningContent');
-// TODO pas satisfaisant comme dépendance
-const learningContentConversionService = require('../../domain/services/learning-content/learning-content-conversion-service');
+import _ from 'lodash';
+import { knex } from '../../../db/knex-database-connection';
+import { NoSkillsInCampaignError, NotFoundError } from '../../domain/errors';
+import tubeRepository from './tube-repository';
+import thematicRepository from './thematic-repository';
+import campaignRepository from './campaign-repository';
+import competenceRepository from './competence-repository';
+import areaRepository from './area-repository';
+import frameworkRepository from './framework-repository';
+import skillRepository from './skill-repository';
+import LearningContent from '../../domain/models/LearningContent';
+import learningContentConversionService from '../../domain/services/learning-content/learning-content-conversion-service';
 
 async function findByCampaignId(campaignId, locale) {
   const skills = await campaignRepository.findSkills({ campaignId });
@@ -149,7 +148,7 @@ async function _getLearningContentByFrameworks(frameworks, locale) {
   return frameworks;
 }
 
-module.exports = {
+export default {
   findByCampaignId,
   findByTargetProfileId,
   findByCampaignParticipationId,

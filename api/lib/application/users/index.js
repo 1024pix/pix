@@ -1,15 +1,18 @@
-const Joi = require('joi');
-const XRegExp = require('xregexp');
-const securityPreHandlers = require('../security-pre-handlers');
-const userController = require('./user-controller');
-const { sendJsonApiError, BadRequestError } = require('../http-errors');
-const userVerification = require('../preHandlers/user-existence-verification');
-const { passwordValidationPattern } = require('../../config').account;
-const { EntityValidationError } = require('../../domain/errors');
-const identifiersType = require('../../domain/types/identifiers-type');
-const OidcIdentityProviders = require('../../domain/constants/oidc-identity-providers');
+import Joi from 'joi';
+import XRegExp from 'xregexp';
+import securityPreHandlers from '../security-pre-handlers';
+import userController from './user-controller';
+import { sendJsonApiError, BadRequestError } from '../http-errors';
+import userVerification from '../preHandlers/user-existence-verification';
+import { account } from '../../config';
 
-exports.register = async function (server) {
+const { passwordValidationPattern: passwordValidationPattern } = account;
+
+import { EntityValidationError } from '../../domain/errors';
+import identifiersType from '../../domain/types/identifiers-type';
+import OidcIdentityProviders from '../../domain/constants/oidc-identity-providers';
+
+export const register = async function (server) {
   const adminRoutes = [
     {
       method: 'GET',
@@ -968,4 +971,4 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'users-api';
+export const name = 'users-api';

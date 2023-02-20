@@ -1,7 +1,7 @@
-const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
-const CampaignToStartParticipation = require('../../../../lib/domain/models/CampaignToStartParticipation');
+import CampaignTypes from '../../../../lib/domain/models/CampaignTypes';
+import CampaignToStartParticipation from '../../../../lib/domain/models/CampaignToStartParticipation';
 
-module.exports = function buildCampaignToStartParticipation({
+export default function buildCampaignToStartParticipation({
   id = 1,
   idPixLabel = 'Un id pix label',
   archivedAt = null,
@@ -23,4 +23,4 @@ module.exports = function buildCampaignToStartParticipation({
     skillCount: type === CampaignTypes.ASSESSMENT ? skillCount : null,
     organizationId,
   });
-};
+}

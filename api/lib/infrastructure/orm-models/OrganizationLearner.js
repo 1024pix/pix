@@ -1,11 +1,11 @@
-const Bookshelf = require('../bookshelf');
+import Bookshelf from '../bookshelf';
 
-require('./User');
-require('./Organization');
+import './User';
+import './Organization';
 
 const modelName = 'OrganizationLearner';
 
-module.exports = Bookshelf.model(
+export default Bookshelf.model(
   modelName,
   {
     tableName: 'organization-learners',

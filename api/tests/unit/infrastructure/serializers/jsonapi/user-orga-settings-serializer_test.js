@@ -1,6 +1,6 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-orga-settings-serializer');
-const UserOrgaSettings = require('../../../../../lib/domain/models/UserOrgaSettings');
+import { expect, domainBuilder } from '../../../../test-helper';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/user-orga-settings-serializer';
+import UserOrgaSettings from '../../../../../lib/domain/models/UserOrgaSettings';
 
 describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', function () {
   describe('#serialize', function () {

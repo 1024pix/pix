@@ -1,6 +1,6 @@
-const { expect } = require('../../../test-helper');
-const buildEventDispatcherAndHandlersForTest = require('../../../tooling/events/event-dispatcher-builder');
-const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
+import { expect } from '../../../test-helper';
+import buildEventDispatcherAndHandlersForTest from '../../../tooling/events/event-dispatcher-builder';
+import AssessmentCompleted from '../../../../lib/domain/events/AssessmentCompleted';
 
 describe('Event Choreography | Score Certification', function () {
   it('Should trigger Certification Scoring handler on Assessment Completed event', async function () {

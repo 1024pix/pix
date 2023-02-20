@@ -1,11 +1,11 @@
-const { createGzip } = require('node:zlib');
-const dayjs = require('dayjs');
-const utc = require('dayjs/plugin/utc');
-const timezone = require('dayjs/plugin/timezone');
+import { createGzip } from 'node:zlib';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-module.exports = async function createAndUpload({
+export default async function createAndUpload({
   data,
   logger,
   cpfCertificationResultRepository,
@@ -43,7 +43,7 @@ module.exports = async function createAndUpload({
   });
 
   logger.info(`${filename} generated in ${_getTimeInSec(start)}s.`);
-};
+}
 
 function _getTimeInSec(start) {
   return Math.floor((new Date().getTime() - start) / 1024);

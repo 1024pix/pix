@@ -1,13 +1,13 @@
 const TABLE_NAME = 'sessions';
 const COLUMN_NAME = 'status';
 
-exports.up = function (knex) {
+export const up = function (knex) {
   return knex.schema.table(TABLE_NAME, async (table) => {
     table.dropColumn(COLUMN_NAME);
   });
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   await knex.schema.table(TABLE_NAME, (table) => {
     table.string(COLUMN_NAME).defaultTo('created');
   });

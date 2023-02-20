@@ -1,8 +1,7 @@
-const { expect, knex, domainBuilder, databaseBuilder } = require('../../../test-helper');
-const _ = require('lodash');
-
-const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
-const competenceMarkRepository = require('../../../../lib/infrastructure/repositories/competence-mark-repository');
+import { expect, knex, domainBuilder, databaseBuilder } from '../../../test-helper';
+import _ from 'lodash';
+import CompetenceMark from '../../../../lib/domain/models/CompetenceMark';
+import competenceMarkRepository from '../../../../lib/infrastructure/repositories/competence-mark-repository';
 
 describe('Integration | Repository | CompetenceMark', function () {
   describe('#save', function () {

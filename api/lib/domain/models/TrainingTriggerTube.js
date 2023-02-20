@@ -6,4 +6,4 @@ class TrainingTriggerTube {
   }
 }
 
-module.exports = TrainingTriggerTube;
+export default TrainingTriggerTube;

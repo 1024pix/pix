@@ -1,8 +1,8 @@
-const { expect, databaseBuilder, catchErr, knex } = require('../../../test-helper');
-const TargetProfileForUpdate = require('../../../../lib/domain/models/TargetProfileForUpdate');
-const { categories } = require('../../../../lib/domain/models/TargetProfile');
-const targetProfileForUpdateRepository = require('../../../../lib/infrastructure/repositories/target-profile-for-update-repository');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+import { expect, databaseBuilder, catchErr, knex } from '../../../test-helper';
+import TargetProfileForUpdate from '../../../../lib/domain/models/TargetProfileForUpdate';
+import { categories } from '../../../../lib/domain/models/TargetProfile';
+import targetProfileForUpdateRepository from '../../../../lib/infrastructure/repositories/target-profile-for-update-repository';
+import { NotFoundError } from '../../../../lib/domain/errors';
 
 describe('Integration | Repository | Target-profile-for-update', function () {
   describe('#get', function () {

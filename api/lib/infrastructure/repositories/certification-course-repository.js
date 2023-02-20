@@ -1,18 +1,18 @@
-const { _ } = require('lodash');
-const { knex } = require('../../../db/knex-database-connection');
-const bluebird = require('bluebird');
-const CertificationCourseBookshelf = require('../orm-models/CertificationCourse');
-const AssessmentBookshelf = require('../orm-models/Assessment');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const DomainTransaction = require('../DomainTransaction');
-const CertificationCourse = require('../../domain/models/CertificationCourse');
-const { NotFoundError } = require('../../domain/errors');
-const certificationChallengeRepository = require('./certification-challenge-repository');
-const CertificationIssueReport = require('../../domain/models/CertificationIssueReport');
-const ComplementaryCertificationCourse = require('../../domain/models/ComplementaryCertificationCourse');
-const Bookshelf = require('../bookshelf');
+import { _ } from 'lodash';
+import { knex } from '../../../db/knex-database-connection';
+import bluebird from 'bluebird';
+import CertificationCourseBookshelf from '../orm-models/CertificationCourse';
+import AssessmentBookshelf from '../orm-models/Assessment';
+import bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter';
+import DomainTransaction from '../DomainTransaction';
+import CertificationCourse from '../../domain/models/CertificationCourse';
+import { NotFoundError } from '../../domain/errors';
+import certificationChallengeRepository from './certification-challenge-repository';
+import CertificationIssueReport from '../../domain/models/CertificationIssueReport';
+import ComplementaryCertificationCourse from '../../domain/models/ComplementaryCertificationCourse';
+import Bookshelf from '../bookshelf';
 
-module.exports = {
+export default {
   async save({ certificationCourse, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const knexConn = domainTransaction.knexTransaction || Bookshelf.knex;
     const certificationCourseToSaveDTO = _adaptModelToDb(certificationCourse);

@@ -1,6 +1,6 @@
-const databaseBuffer = require('../database-buffer');
+import databaseBuffer from '../database-buffer';
 
-module.exports = function buildUserSavedTutorial({
+export default function buildUserSavedTutorial({
   id = databaseBuffer.getNextId(),
   tutorialId,
   userId,
@@ -11,4 +11,4 @@ module.exports = function buildUserSavedTutorial({
     tableName: 'user-saved-tutorials',
     values: { id, userId, tutorialId, skillId, createdAt },
   });
-};
+}

@@ -1,9 +1,9 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/organization-for-admin-serializer');
-const Organization = require('../../../../../lib/domain/models/Organization');
-const OrganizationForAdmin = require('../../../../../lib/domain/models/OrganizationForAdmin');
-const Tag = require('../../../../../lib/domain/models/Tag');
-const { SamlIdentityProviders } = require('../../../../../lib/domain/constants/saml-identity-providers');
+import { expect, domainBuilder } from '../../../../test-helper';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/organization-for-admin-serializer';
+import Organization from '../../../../../lib/domain/models/Organization';
+import OrganizationForAdmin from '../../../../../lib/domain/models/OrganizationForAdmin';
+import Tag from '../../../../../lib/domain/models/Tag';
+import { SamlIdentityProviders } from '../../../../../lib/domain/constants/saml-identity-providers';
 
 describe('Unit | Serializer | organization-for-admin-serializer', function () {
   describe('#serialize', function () {

@@ -1,11 +1,10 @@
-const _ = require('lodash');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-
-const buildAnswer = require('./build-answer');
-const buildCourse = require('./build-course');
-const buildKnowledgeElement = require('./build-knowledge-element');
-const buildTargetProfile = require('./build-target-profile');
-const buildCampaignParticipation = require('./build-campaign-participation');
+import _ from 'lodash';
+import Assessment from '../../../../lib/domain/models/Assessment';
+import buildAnswer from './build-answer';
+import buildCourse from './build-course';
+import buildKnowledgeElement from './build-knowledge-element';
+import buildTargetProfile from './build-target-profile';
+import buildCampaignParticipation from './build-campaign-participation';
 
 function buildAssessment({
   id = 123,
@@ -154,4 +153,4 @@ buildAssessment.ofTypeCompetenceEvaluation = function ({
 
 buildAssessment.ofTypeCertification = buildAssessment;
 
-module.exports = buildAssessment;
+export default buildAssessment;

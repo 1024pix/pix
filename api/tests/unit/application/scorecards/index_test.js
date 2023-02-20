@@ -1,6 +1,6 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-const scorecardController = require('../../../../lib/application/scorecards/scorecard-controller');
-const moduleUnderTest = require('../../../../lib/application/scorecards');
+import { expect, HttpTestServer, sinon } from '../../../test-helper';
+import scorecardController from '../../../../lib/application/scorecards/scorecard-controller';
+import moduleUnderTest from '../../../../lib/application/scorecards';
 
 describe('Unit | Router | scorecard-router', function () {
   describe('GET /api/scorecards/{id}', function () {

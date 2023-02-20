@@ -1,7 +1,7 @@
-const certificationPointOfContactSerializer = require('../../infrastructure/serializers/jsonapi/certification-point-of-contact-serializer');
-const usecases = require('../../domain/usecases');
+import certificationPointOfContactSerializer from '../../infrastructure/serializers/jsonapi/certification-point-of-contact-serializer';
+import usecases from '../../domain/usecases';
 
-module.exports = {
+export default {
   async get(request) {
     const authenticatedUserId = request.auth.credentials.userId;
     const certificationPointOfContact = await usecases.getCertificationPointOfContact({ userId: authenticatedUserId });

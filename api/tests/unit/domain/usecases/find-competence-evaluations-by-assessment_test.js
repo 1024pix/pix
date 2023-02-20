@@ -1,7 +1,7 @@
-const _ = require('lodash');
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const findCompetenceEvaluationsByAssessment = require('../../../../lib/domain/usecases/find-competence-evaluations-by-assessment');
-const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
+import _ from 'lodash';
+import { expect, sinon, catchErr } from '../../../test-helper';
+import findCompetenceEvaluationsByAssessment from '../../../../lib/domain/usecases/find-competence-evaluations-by-assessment';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors';
 
 describe('Unit | UseCase | find-competence-evaluations-by-assessment', function () {
   const userId = 1;

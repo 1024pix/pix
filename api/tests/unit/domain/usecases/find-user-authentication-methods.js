@@ -1,5 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const findUserAuthenticationMethods = require('../../../../lib/domain/usecases/find-user-authentication-methods');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import findUserAuthenticationMethods from '../../../../lib/domain/usecases/find-user-authentication-methods';
 
 describe('Unit | UseCase | find-user-authentication-methods', function () {
   it('should find user authentication methods', async function () {

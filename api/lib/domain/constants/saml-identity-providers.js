@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   SamlIdentityProviders: {
     GAR: {
       code: 'GAR',

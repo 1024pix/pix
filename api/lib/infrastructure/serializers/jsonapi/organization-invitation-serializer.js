@@ -1,6 +1,6 @@
-const { Serializer, Deserializer } = require('jsonapi-serializer');
+import { Serializer, Deserializer } from 'jsonapi-serializer';
 
-module.exports = {
+export default {
   serialize(invitations) {
     return new Serializer('organization-invitations', {
       attributes: ['organizationId', 'organizationName', 'email', 'status', 'updatedAt', 'role'],

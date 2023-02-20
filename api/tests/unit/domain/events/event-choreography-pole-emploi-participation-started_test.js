@@ -1,6 +1,6 @@
-const { expect } = require('../../../test-helper');
-const buildEventDispatcherAndHandlersForTest = require('../../../tooling/events/event-dispatcher-builder');
-const CampaignParticipationStarted = require('../../../../lib/domain/events/CampaignParticipationStarted');
+import { expect } from '../../../test-helper';
+import buildEventDispatcherAndHandlersForTest from '../../../tooling/events/event-dispatcher-builder';
+import CampaignParticipationStarted from '../../../../lib/domain/events/CampaignParticipationStarted';
 
 describe('Event Choreography | Pole Emploi Participation Started', function () {
   it('Should trigger Pole Emploi participation started handler on CampaignParticipationStarted event', async function () {

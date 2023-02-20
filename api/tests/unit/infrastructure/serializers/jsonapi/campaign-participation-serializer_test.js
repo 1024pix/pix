@@ -1,7 +1,7 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer');
-const CampaignParticipation = require('../../../../../lib/domain/models/CampaignParticipation');
-const CampaignParticipationStatuses = require('../../../../../lib/domain/models/CampaignParticipationStatuses');
+import { expect } from '../../../../test-helper';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer';
+import CampaignParticipation from '../../../../../lib/domain/models/CampaignParticipation';
+import CampaignParticipationStatuses from '../../../../../lib/domain/models/CampaignParticipationStatuses';
 const { SHARED } = CampaignParticipationStatuses;
 
 describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', function () {

@@ -1,6 +1,6 @@
-module.exports = async function findCertificationCenterMembershipsByUser({
+export default async function findCertificationCenterMembershipsByUser({
   userId,
   certificationCenterMembershipRepository,
 }) {
   return certificationCenterMembershipRepository.findByUserId(userId);
-};
+}

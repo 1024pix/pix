@@ -1,11 +1,11 @@
-module.exports = function (chai, _utils) {
+export default function (chai, _utils) {
   chai.Assertion.addMethod('deepEqualInstance', function (referenceInstance) {
     const assertedInstance = this._obj;
 
     _assertAreSameType(chai, assertedInstance, referenceInstance);
     _assertHaveSameContent(chai, assertedInstance, referenceInstance);
   });
-};
+}
 
 function _assertAreSameType(chai, value1, value2) {
   const instanceClassName1 = value1.constructor.name;

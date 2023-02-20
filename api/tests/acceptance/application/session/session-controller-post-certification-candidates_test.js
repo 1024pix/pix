@@ -1,12 +1,14 @@
-const _ = require('lodash');
-const {
+import _ from 'lodash';
+
+import {
   expect,
   databaseBuilder,
   domainBuilder,
   generateValidRequestAuthorizationHeader,
   knex,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
+} from '../../../test-helper';
+
+import createServer from '../../../../server';
 
 describe('Acceptance | Controller | session-controller-post-certification-candidates', function () {
   let server;

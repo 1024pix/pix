@@ -1,4 +1,4 @@
-module.exports = async function authorizeCertificationCandidateToStart({
+export default async function authorizeCertificationCandidateToStart({
   certificationCandidateForSupervisingId,
   authorizedToStart,
   certificationCandidateForSupervisingRepository,
@@ -7,4 +7,4 @@ module.exports = async function authorizeCertificationCandidateToStart({
     id: certificationCandidateForSupervisingId,
     authorizedToStart,
   });
-};
+}

@@ -1,28 +1,28 @@
-const moment = require('moment');
-const { BadRequestError, SessionPublicationBatchError } = require('../http-errors');
-const usecases = require('../../domain/usecases');
-const tokenService = require('../../domain/services/token-service');
-const sessionResultsLinkService = require('../../domain/services/session-results-link-service');
-const sessionValidator = require('../../domain/validators/session-validator');
-const events = require('../../domain/events');
-const { CertificationCandidateAlreadyLinkedToUserError } = require('../../domain/errors');
-const sessionSerializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
-const jurySessionSerializer = require('../../infrastructure/serializers/jsonapi/jury-session-serializer');
-const certificationCandidateSerializer = require('../../infrastructure/serializers/jsonapi/certification-candidate-serializer');
-const certificationReportSerializer = require('../../infrastructure/serializers/jsonapi/certification-report-serializer');
-const juryCertificationSummarySerializer = require('../../infrastructure/serializers/jsonapi/jury-certification-summary-serializer');
-const juryCertificationSummaryRepository = require('../../infrastructure/repositories/jury-certification-summary-repository');
-const jurySessionRepository = require('../../infrastructure/repositories/sessions/jury-session-repository');
-const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
-const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
-const certificationResultUtils = require('../../infrastructure/utils/csv/certification-results');
-const fillCandidatesImportSheet = require('../../infrastructure/files/candidates-import/fill-candidates-import-sheet');
-const supervisorKitPdf = require('../../infrastructure/utils/pdf/supervisor-kit-pdf');
-const trim = require('lodash/trim');
-const UserLinkedToCertificationCandidate = require('../../domain/events/UserLinkedToCertificationCandidate');
-const logger = require('../../infrastructure/logger');
+import moment from 'moment';
+import { BadRequestError, SessionPublicationBatchError } from '../http-errors';
+import usecases from '../../domain/usecases';
+import tokenService from '../../domain/services/token-service';
+import sessionResultsLinkService from '../../domain/services/session-results-link-service';
+import sessionValidator from '../../domain/validators/session-validator';
+import events from '../../domain/events';
+import { CertificationCandidateAlreadyLinkedToUserError } from '../../domain/errors';
+import sessionSerializer from '../../infrastructure/serializers/jsonapi/session-serializer';
+import jurySessionSerializer from '../../infrastructure/serializers/jsonapi/jury-session-serializer';
+import certificationCandidateSerializer from '../../infrastructure/serializers/jsonapi/certification-candidate-serializer';
+import certificationReportSerializer from '../../infrastructure/serializers/jsonapi/certification-report-serializer';
+import juryCertificationSummarySerializer from '../../infrastructure/serializers/jsonapi/jury-certification-summary-serializer';
+import juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository';
+import jurySessionRepository from '../../infrastructure/repositories/sessions/jury-session-repository';
+import queryParamsUtils from '../../infrastructure/utils/query-params-utils';
+import requestResponseUtils from '../../infrastructure/utils/request-response-utils';
+import certificationResultUtils from '../../infrastructure/utils/csv/certification-results';
+import fillCandidatesImportSheet from '../../infrastructure/files/candidates-import/fill-candidates-import-sheet';
+import supervisorKitPdf from '../../infrastructure/utils/pdf/supervisor-kit-pdf';
+import trim from 'lodash/trim';
+import UserLinkedToCertificationCandidate from '../../domain/events/UserLinkedToCertificationCandidate';
+import logger from '../../infrastructure/logger';
 
-module.exports = {
+export default {
   async findPaginatedFilteredJurySessions(request) {
     const { filter, page } = queryParamsUtils.extractParameters(request.query);
     const normalizedFilters = sessionValidator.validateAndNormalizeFilters(filter);

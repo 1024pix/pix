@@ -1,4 +1,4 @@
-const PartnerCertificationScoring = require('./PartnerCertificationScoring');
+import PartnerCertificationScoring from './PartnerCertificationScoring';
 
 class ComplementaryCertificationScoringWithoutComplementaryReferential extends PartnerCertificationScoring {
   constructor({
@@ -34,4 +34,4 @@ class ComplementaryCertificationScoringWithoutComplementaryReferential extends P
   }
 }
 
-module.exports = ComplementaryCertificationScoringWithoutComplementaryReferential;
+export default ComplementaryCertificationScoringWithoutComplementaryReferential;

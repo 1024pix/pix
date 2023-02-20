@@ -1,5 +1,5 @@
-const Tube = require('../../../../lib/domain/models/Tube');
-const { expect, domainBuilder } = require('../../../test-helper');
+import Tube from '../../../../lib/domain/models/Tube';
+import { expect, domainBuilder } from '../../../test-helper';
 
 describe('Unit | Domain | Models | Tube', function () {
   describe('#constructor', function () {

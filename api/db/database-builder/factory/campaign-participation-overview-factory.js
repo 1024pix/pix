@@ -1,14 +1,14 @@
-const buildAssessment = require('./build-assessment');
-const buildCampaign = require('./build-campaign');
-const buildCampaignParticipation = require('./build-campaign-participation');
-const buildCampaignSkill = require('./build-campaign-skill');
-const buildUser = require('./build-user');
-const Assessment = require('../../../lib/domain/models/Assessment');
-const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');
+import buildAssessment from './build-assessment';
+import buildCampaign from './build-campaign';
+import buildCampaignParticipation from './build-campaign-participation';
+import buildCampaignSkill from './build-campaign-skill';
+import buildUser from './build-user';
+import Assessment from '../../../lib/domain/models/Assessment';
+import CampaignParticipationStatuses from '../../../lib/domain/models/CampaignParticipationStatuses';
 
 const { STARTED, SHARED, TO_SHARE } = CampaignParticipationStatuses;
 
-module.exports = {
+export default {
   build({
     userId,
     createdAt,

@@ -1,7 +1,7 @@
-const _ = require('lodash');
+import _ from 'lodash';
 const qrocmDepChallenge = 'QROCM-dep';
 
-module.exports = class AnswerCollectionForScoring {
+export default class AnswerCollectionForScoring {
   constructor(challengesWithAnswers) {
     this.challengesWithAnswers = challengesWithAnswers;
   }
@@ -96,7 +96,7 @@ module.exports = class AnswerCollectionForScoring {
       })
       .sum();
   }
-};
+}
 
 class ChallengeWithAnswer {
   constructor(answer, challenge) {

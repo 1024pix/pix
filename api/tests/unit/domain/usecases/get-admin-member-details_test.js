@@ -1,6 +1,6 @@
-const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const getAdminMemberDetails = require('../../../../lib/domain/usecases/get-admin-member-details');
+import { catchErr, expect, sinon, domainBuilder } from '../../../test-helper';
+import { NotFoundError } from '../../../../lib/domain/errors';
+import getAdminMemberDetails from '../../../../lib/domain/usecases/get-admin-member-details';
 
 describe('Unit | UseCase | get-admin-member-details', function () {
   context('when it exists', function () {

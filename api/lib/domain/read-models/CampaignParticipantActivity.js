@@ -10,4 +10,4 @@ class CampaignParticipantActivity {
   }
 }
 
-module.exports = CampaignParticipantActivity;
+export default CampaignParticipantActivity;

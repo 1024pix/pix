@@ -1,9 +1,12 @@
-const sinon = require('sinon');
-const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
-const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
-const adminMemberRepository = require('../../../../lib/infrastructure/repositories/admin-member-repository');
-const AdminMember = require('../../../../lib/domain/models/AdminMember');
-const { AdminMemberError } = require('../../../../lib/domain/errors');
+import sinon from 'sinon';
+import { expect, databaseBuilder, knex, catchErr } from '../../../test-helper';
+import { PIX_ADMIN } from '../../../../lib/domain/constants';
+
+const { ROLES: ROLES } = PIX_ADMIN;
+
+import adminMemberRepository from '../../../../lib/infrastructure/repositories/admin-member-repository';
+import AdminMember from '../../../../lib/domain/models/AdminMember';
+import { AdminMemberError } from '../../../../lib/domain/errors';
 
 describe('Integration | Infrastructure | Repository | adminMemberRepository', function () {
   describe('#findAll', function () {

@@ -1,4 +1,4 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
 function normalizeAndRemoveAccents(value) {
   // Remove uppercase/spaces/accents/diacritics, see http://stackoverflow.com/a/37511463/827989
@@ -45,7 +45,7 @@ function applyTreatments(string, enabledTreatments) {
   return result;
 }
 
-module.exports = {
+export default {
   normalizeAndRemoveAccents,
   removeSpecialCharacters,
   applyPreTreatments,

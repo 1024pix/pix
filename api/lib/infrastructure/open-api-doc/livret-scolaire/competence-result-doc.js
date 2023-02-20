@@ -1,6 +1,6 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-module.exports = Joi.object({
+export default Joi.object({
   level: Joi.number().example('4').required().description('Niveau obtenu pour la compétence'),
   competenceId: Joi.string()
     .example('1.1')

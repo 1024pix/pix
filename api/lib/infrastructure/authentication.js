@@ -1,8 +1,7 @@
-const { find } = require('lodash');
-const boom = require('boom');
-
-const tokenService = require('../domain/services/token-service');
-const config = require('../../lib/config');
+import { find } from 'lodash';
+import boom from 'boom';
+import tokenService from '../domain/services/token-service';
+import config from '../../lib/config';
 
 async function _checkIsAuthenticated(request, h, { key, validate }) {
   if (!request.headers.authorization) {
@@ -49,7 +48,7 @@ function validateClientApplication(decoded) {
   return { isValid: true, credentials: { client_id: decoded.clientId, scope: decoded.scope, source: decoded.source } };
 }
 
-module.exports = {
+export default {
   schemeName: 'jwt-scheme',
 
   scheme(_, { key, validate }) {

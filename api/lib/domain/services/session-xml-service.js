@@ -1,4 +1,4 @@
-const writeOdsUtils = require('../../infrastructure/utils/ods/write-ods-utils');
+import writeOdsUtils from '../../infrastructure/utils/ods/write-ods-utils';
 // Placeholder in the template ODS file that helps us find the template candidate row in the file.
 const CANDIDATE_ROW_MARKER_PLACEHOLDER = 'COUNT';
 
@@ -19,7 +19,7 @@ function getUpdatedXmlWithCertificationCandidatesData({ stringifiedXml, candidat
   });
 }
 
-module.exports = {
+export default {
   getUpdatedXmlWithSessionData,
   getUpdatedXmlWithCertificationCandidatesData,
 };

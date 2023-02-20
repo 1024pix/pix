@@ -54,4 +54,4 @@ class UserDetailsForAdmin {
   }
 }
 
-module.exports = UserDetailsForAdmin;
+export default UserDetailsForAdmin;

@@ -1,6 +1,6 @@
-const { NotFoundError, UserNotAuthorizedToAccessEntityError } = require('../../domain/errors');
+import { NotFoundError, UserNotAuthorizedToAccessEntityError } from '../../domain/errors';
 
-module.exports = async function getCampaign({
+export default async function getCampaign({
   campaignId,
   userId,
   badgeRepository,
@@ -33,4 +33,4 @@ module.exports = async function getCampaign({
     campaignReport.computeAverageResult(masteryRates);
   }
   return campaignReport;
-};
+}

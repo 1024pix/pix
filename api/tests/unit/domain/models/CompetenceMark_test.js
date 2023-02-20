@@ -1,6 +1,6 @@
-const { catchErr, expect, domainBuilder } = require('../../../test-helper');
-const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
-const { ObjectValidationError } = require('../../../../lib/domain/errors');
+import { catchErr, expect, domainBuilder } from '../../../test-helper';
+import CompetenceMark from '../../../../lib/domain/models/CompetenceMark';
+import { ObjectValidationError } from '../../../../lib/domain/errors';
 
 describe('Unit | Domain | Models | Competence Mark', function () {
   describe('constructor', function () {

@@ -1,7 +1,6 @@
-const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
-
-const usecases = require('../../../../lib/domain/usecases');
-const progressionController = require('../../../../lib/application/progressions/progression-controller');
+import { expect, sinon, domainBuilder, hFake } from '../../../test-helper';
+import usecases from '../../../../lib/domain/usecases';
+import progressionController from '../../../../lib/application/progressions/progression-controller';
 
 describe('Unit | Controller | progression-controller', function () {
   const userId = 60;

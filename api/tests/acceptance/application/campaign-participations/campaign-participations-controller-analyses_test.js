@@ -1,12 +1,13 @@
-const createServer = require('../../../../server');
-const Membership = require('../../../../lib/domain/models/Membership');
-const {
+import createServer from '../../../../server';
+import Membership from '../../../../lib/domain/models/Membership';
+
+import {
   expect,
   databaseBuilder,
   mockLearningContent,
   learningContentBuilder,
   generateValidRequestAuthorizationHeader,
-} = require('../../../test-helper');
+} from '../../../test-helper';
 
 describe('Acceptance | API | Campaign Participations | Analyses', function () {
   let server, options, userId, organization, campaign, campaignParticipation;

@@ -1,6 +1,6 @@
-const { databaseBuilder, learningContentBuilder, mockLearningContent } = require('../../../test-helper');
-const { status } = require('../../../../lib/domain/models/AssessmentResult');
-const Assessment = require('../../../../lib/domain/models/Assessment');
+import { databaseBuilder, learningContentBuilder, mockLearningContent } from '../../../test-helper';
+import { status } from '../../../../lib/domain/models/AssessmentResult';
+import Assessment from '../../../../lib/domain/models/Assessment';
 
 const assessmentCreatedDate = new Date('2020-04-19');
 const assessmentBeforeCreatedDate = new Date('2020-04-18');
@@ -361,7 +361,7 @@ function mockLearningContentCompetences() {
   mockLearningContent(learningContentObjects);
 }
 
-module.exports = {
+export default {
   buildValidatedPublishedCertificationData,
   buildValidatedUnpublishedCertificationData,
   buildCancelledCertificationData,

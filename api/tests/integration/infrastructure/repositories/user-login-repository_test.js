@@ -1,6 +1,6 @@
-const { databaseBuilder, expect, knex, sinon } = require('../../../test-helper');
-const userLoginRepository = require('../../../../lib/infrastructure/repositories/user-login-repository');
-const UserLogin = require('../../../../lib/domain/models/UserLogin');
+import { databaseBuilder, expect, knex, sinon } from '../../../test-helper';
+import userLoginRepository from '../../../../lib/infrastructure/repositories/user-login-repository';
+import UserLogin from '../../../../lib/domain/models/UserLogin';
 
 describe('Integration | Repository | UserLoginRepository', function () {
   describe('#findByUserId', function () {

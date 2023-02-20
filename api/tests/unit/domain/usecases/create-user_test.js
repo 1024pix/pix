@@ -1,13 +1,9 @@
-const { catchErr, expect, sinon } = require('../../../test-helper');
-
-const { AlreadyRegisteredEmailError, EntityValidationError } = require('../../../../lib/domain/errors');
-
-const passwordValidator = require('../../../../lib/domain/validators/password-validator');
-const userValidator = require('../../../../lib/domain/validators/user-validator');
-
-const User = require('../../../../lib/domain/models/User');
-
-const createUser = require('../../../../lib/domain/usecases/create-user');
+import { catchErr, expect, sinon } from '../../../test-helper';
+import { AlreadyRegisteredEmailError, EntityValidationError } from '../../../../lib/domain/errors';
+import passwordValidator from '../../../../lib/domain/validators/password-validator';
+import userValidator from '../../../../lib/domain/validators/user-validator';
+import User from '../../../../lib/domain/models/User';
+import createUser from '../../../../lib/domain/usecases/create-user';
 
 describe('Unit | UseCase | create-user', function () {
   const userId = 123;

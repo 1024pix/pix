@@ -1,6 +1,6 @@
-const { NotFoundError, NoCampaignParticipationForUserAndCampaign } = require('../errors');
+import { NotFoundError, NoCampaignParticipationForUserAndCampaign } from '../errors';
 
-module.exports = async function getUserCampaignAssessmentResult({
+export default async function getUserCampaignAssessmentResult({
   userId,
   campaignId,
   locale,
@@ -32,7 +32,7 @@ module.exports = async function getUserCampaignAssessmentResult({
     if (error instanceof NotFoundError) throw new NoCampaignParticipationForUserAndCampaign();
     throw error;
   }
-};
+}
 
 async function _checkStillValidBadges(campaignId, userId, knowledgeElementRepository, badgeForCalculationRepository) {
   const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });

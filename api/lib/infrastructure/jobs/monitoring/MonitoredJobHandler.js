@@ -36,4 +36,4 @@ class MonitoredJobHandler {
   }
 }
 
-module.exports = MonitoredJobHandler;
+export default MonitoredJobHandler;

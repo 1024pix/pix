@@ -1,6 +1,6 @@
-const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper');
-const certifiableBadgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/certifiable-badge-acquisition-repository');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+import { expect, databaseBuilder, domainBuilder } from '../../../test-helper';
+import certifiableBadgeAcquisitionRepository from '../../../../lib/infrastructure/repositories/certifiable-badge-acquisition-repository';
+import DomainTransaction from '../../../../lib/infrastructure/DomainTransaction';
 
 describe('Integration | Repository | Certifiable Badge Acquisition', function () {
   describe('#findHighestCertifiable', function () {

@@ -5,4 +5,4 @@ class ScoringSimulationDataset {
   }
 }
 
-module.exports = ScoringSimulationDataset;
+export default ScoringSimulationDataset;

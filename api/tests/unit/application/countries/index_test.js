@@ -1,7 +1,6 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-
-const moduleUnderTest = require('../../../../lib/application/countries');
-const countryController = require('../../../../lib/application/countries/country-controller');
+import { expect, HttpTestServer, sinon } from '../../../test-helper';
+import moduleUnderTest from '../../../../lib/application/countries';
+import countryController from '../../../../lib/application/countries/country-controller';
 
 describe('Unit | Router | country-router', function () {
   describe('GET /api/countries', function () {

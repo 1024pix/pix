@@ -1,13 +1,11 @@
-const fs = require('fs');
-const sax = require('sax');
-const saxPath = require('saxpath');
-const logger = require('../../lib/infrastructure/logger');
-
-const xml2js = require('xml2js');
-
-const { disconnect } = require('../../db/knex-database-connection');
-const cpfCertificationResultRepository = require('../../lib/infrastructure/repositories/cpf-certification-result-repository');
-const { cpfImportStatus } = require('../../lib/domain/models/CertificationCourse');
+import fs from 'fs';
+import sax from 'sax';
+import saxPath from 'saxpath';
+import logger from '../../lib/infrastructure/logger';
+import xml2js from 'xml2js';
+import { disconnect } from '../../db/knex-database-connection';
+import cpfCertificationResultRepository from '../../lib/infrastructure/repositories/cpf-certification-result-repository';
+import { cpfImportStatus } from '../../lib/domain/models/CertificationCourse';
 
 const isLaunchedFromCommandLine = require.main === module;
 
@@ -90,7 +88,7 @@ function getCpfImportResults(filePath) {
   });
 }
 
-module.exports = {
+export default {
   getCpfImportResults,
   main,
 };

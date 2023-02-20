@@ -1,9 +1,8 @@
-const settings = require('../config');
-const { get, set, update, omit } = require('lodash');
-const logger = require('../infrastructure/logger');
-const requestUtils = require('../infrastructure/utils/request-response-utils');
-
-const { AsyncLocalStorage } = require('async_hooks');
+import settings from '../config';
+import { get, set, update, omit } from 'lodash';
+import logger from '../infrastructure/logger';
+import requestUtils from '../infrastructure/utils/request-response-utils';
+import { AsyncLocalStorage } from 'async_hooks';
 const asyncLocalStorage = new AsyncLocalStorage();
 
 function getCorrelationContext() {
@@ -98,7 +97,7 @@ function installHapiHook() {
   };
 }
 
-module.exports = {
+export default {
   extractUserIdFromRequest,
   getContext,
   getInContext,

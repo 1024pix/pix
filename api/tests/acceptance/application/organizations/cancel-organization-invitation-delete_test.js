@@ -1,12 +1,13 @@
-const {
+import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   insertOrganizationUserWithRoleAdmin,
   insertUserWithRoleSuperAdmin,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
-const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
+} from '../../../test-helper';
+
+import createServer from '../../../../server';
+import OrganizationInvitation from '../../../../lib/domain/models/OrganizationInvitation';
 
 describe('Acceptance | Route | Organizations', function () {
   describe('DELETE /api/organizations/{id}/invitations/{invitationId}', function () {

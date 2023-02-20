@@ -7,4 +7,4 @@ class ComplementaryCertificationCourse {
   }
 }
 
-module.exports = ComplementaryCertificationCourse;
+export default ComplementaryCertificationCourse;

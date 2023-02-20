@@ -1,7 +1,7 @@
-const { knex, expect, databaseBuilder } = require('../../../test-helper');
-const DataProtectionOfficer = require('../../../../lib/domain/models/DataProtectionOfficer');
-const updateCertificationCenterDataProtectionOfficerInformation = require('../../../../lib/domain/usecases/update-certification-center-data-protection-officer-information');
-const dataProtectionOfficerRepository = require('../../../../lib/infrastructure/repositories/data-protection-officer-repository');
+import { knex, expect, databaseBuilder } from '../../../test-helper';
+import DataProtectionOfficer from '../../../../lib/domain/models/DataProtectionOfficer';
+import updateCertificationCenterDataProtectionOfficerInformation from '../../../../lib/domain/usecases/update-certification-center-data-protection-officer-information';
+import dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository';
 
 describe('Integration | UseCases | update-certification-center-data-protection-officer-information', function () {
   afterEach(async function () {

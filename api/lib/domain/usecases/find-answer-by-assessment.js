@@ -1,6 +1,6 @@
-const { UserNotAuthorizedToAccessEntityError, EntityValidationError } = require('../errors');
+import { UserNotAuthorizedToAccessEntityError, EntityValidationError } from '../errors';
 
-module.exports = async function findAnswerByAssessment({
+export default async function findAnswerByAssessment({
   assessmentId,
   userId,
   answerRepository,
@@ -18,4 +18,4 @@ module.exports = async function findAnswerByAssessment({
     throw new UserNotAuthorizedToAccessEntityError('User does not have an access to this assessment.');
   }
   return answerRepository.findByAssessment(integerAssessmentId);
-};
+}

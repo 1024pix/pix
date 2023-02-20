@@ -1,9 +1,8 @@
-const omit = require('lodash/omit');
-const get = require('lodash/get');
+import omit from 'lodash/omit';
+import get from 'lodash/get';
+import { Serializer } from 'jsonapi-serializer';
 
-const { Serializer } = require('jsonapi-serializer');
-
-module.exports = {
+export default {
   serialize(juryCertificationSummary, meta) {
     return new Serializer('jury-certification-summary', {
       transform(juryCertificationSummary) {

@@ -1,8 +1,7 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const moduleUnderTest = require('../../../../lib/application/certification-courses');
-const certificationCoursesController = require('../../../../lib/application/certification-courses/certification-course-controller');
+import { expect, HttpTestServer, sinon } from '../../../test-helper';
+import securityPreHandlers from '../../../../lib/application/security-pre-handlers';
+import moduleUnderTest from '../../../../lib/application/certification-courses';
+import certificationCoursesController from '../../../../lib/application/certification-courses/certification-course-controller';
 
 describe('Unit | Application | Certifications Course | Route', function () {
   describe('GET /api/admin/certifications/{id}/details', function () {

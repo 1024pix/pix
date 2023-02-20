@@ -1,13 +1,9 @@
-const { catchErr, databaseBuilder, expect, knex } = require('../../../test-helper');
-
-const { UserNotFoundError, AlreadyExistingEntityError } = require('../../../../lib/domain/errors');
-
-const CertificationCenterMembership = require('../../../../lib/domain/models/CertificationCenterMembership');
-
-const certificationCenterMembershipRepository = require('../../../../lib/infrastructure/repositories/certification-center-membership-repository');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-
-const createCertificationCenterMembershipByEmail = require('../../../../lib/domain/usecases/create-certification-center-membership-by-email');
+import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper';
+import { UserNotFoundError, AlreadyExistingEntityError } from '../../../../lib/domain/errors';
+import CertificationCenterMembership from '../../../../lib/domain/models/CertificationCenterMembership';
+import certificationCenterMembershipRepository from '../../../../lib/infrastructure/repositories/certification-center-membership-repository';
+import userRepository from '../../../../lib/infrastructure/repositories/user-repository';
+import createCertificationCenterMembershipByEmail from '../../../../lib/domain/usecases/create-certification-center-membership-by-email';
 
 describe('Integration | UseCases | create-certification-center-membership-by-email', function () {
   let certificationCenterId;

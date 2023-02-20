@@ -1,7 +1,7 @@
-const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
-const competenceMarkRepository = require('../../infrastructure/repositories/competence-mark-repository');
-const CompetenceMark = require('../models/CompetenceMark');
-const bluebird = require('bluebird');
+import assessmentResultRepository from '../../infrastructure/repositories/assessment-result-repository';
+import competenceMarkRepository from '../../infrastructure/repositories/competence-mark-repository';
+import CompetenceMark from '../models/CompetenceMark';
+import bluebird from 'bluebird';
 
 async function _validatedDataForAllCompetenceMark(competenceMarks) {
   for (const competenceMark of competenceMarks) {
@@ -17,6 +17,6 @@ async function save({ certificationCourseId, assessmentResult, competenceMarks }
   );
 }
 
-module.exports = {
+export default {
   save,
 };

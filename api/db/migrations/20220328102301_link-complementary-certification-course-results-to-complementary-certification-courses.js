@@ -3,8 +3,8 @@ const COMPLEMENTARY_CERTIFICATION_COURSES_TABLE = 'complementary-certification-c
 const COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE = 'complementary-certification-course-results';
 const COMPLEMENTARY_CERTIFICATION_COURSE_ID_COLUMN = 'complementaryCertificationCourseId';
 const CERTIFICATION_COURSE_ID = 'certificationCourseId';
-const uniqBy = require('lodash/uniqBy');
-const bluebird = require('bluebird');
+import uniqBy from 'lodash/uniqBy';
+import bluebird from 'bluebird';
 const {
   PIX_EMPLOI_CLEA,
   PIX_EMPLOI_CLEA_V2,
@@ -21,7 +21,7 @@ const PIX_PLUS_EDU = 'Pix+ Édu';
 const PIX_PLUS_DROIT = 'Pix+ Droit';
 const CLEA = 'CléA Numérique';
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   const complementaryCertifications = await knex(COMPLEMENTARY_CERTIFICATIONS_TABLE).select('*');
   await _alterComplementaryCertificationCourseResultsForeignKey();
   await _addMissingComplementaryCertificationCourses();
@@ -151,7 +151,7 @@ exports.up = async function (knex) {
   }
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   await knex.schema.table(COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE, async (table) => {
     table
       .dropColumn(COMPLEMENTARY_CERTIFICATION_COURSE_ID_COLUMN)

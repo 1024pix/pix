@@ -1,5 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const getSessionResults = require('../../../../lib/domain/usecases/get-session-results');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import getSessionResults from '../../../../lib/domain/usecases/get-session-results';
 
 describe('Unit | Domain | Use Cases | get-session-results', function () {
   const sessionRepository = { get: null };

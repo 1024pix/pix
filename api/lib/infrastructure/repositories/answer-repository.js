@@ -1,9 +1,9 @@
-const _ = require('lodash');
-const jsYaml = require('js-yaml');
-const { knex } = require('../../../db/knex-database-connection');
-const { ChallengeAlreadyAnsweredError, NotFoundError } = require('../../domain/errors');
-const Answer = require('../../domain/models/Answer');
-const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-adapter');
+import _ from 'lodash';
+import jsYaml from 'js-yaml';
+import { knex } from '../../../db/knex-database-connection';
+import { ChallengeAlreadyAnsweredError, NotFoundError } from '../../domain/errors';
+import Answer from '../../domain/models/Answer';
+import answerStatusDatabaseAdapter from '../adapters/answer-status-database-adapter';
 
 function _adaptAnswerToDb(answer) {
   return {
@@ -48,7 +48,7 @@ const COLUMNS = Object.freeze([
   'timeSpent',
 ]);
 
-module.exports = {
+export default {
   async get(id) {
     const answerDTO = await knex.select(COLUMNS).from('answers').where({ id }).first();
 

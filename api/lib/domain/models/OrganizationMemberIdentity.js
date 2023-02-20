@@ -6,4 +6,4 @@ class OrganizationMemberIdentity {
   }
 }
 
-module.exports = OrganizationMemberIdentity;
+export default OrganizationMemberIdentity;

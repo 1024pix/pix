@@ -1,9 +1,9 @@
-const usecases = require('../../domain/usecases');
-const organizationLearnerIdentitySerializer = require('../../infrastructure/serializers/jsonapi/organization-learner-identity-serializer');
-const organizationLearnerActivitySerializer = require('../../infrastructure/serializers/jsonapi/organization-learner-activity-serializer');
-const organizationLearnerSerializer = require('../../infrastructure/serializers/jsonapi/organization-learner-follow-up/organization-learner-serializer');
+import usecases from '../../domain/usecases';
+import organizationLearnerIdentitySerializer from '../../infrastructure/serializers/jsonapi/organization-learner-identity-serializer';
+import organizationLearnerActivitySerializer from '../../infrastructure/serializers/jsonapi/organization-learner-activity-serializer';
+import organizationLearnerSerializer from '../../infrastructure/serializers/jsonapi/organization-learner-follow-up/organization-learner-serializer';
 
-module.exports = {
+export default {
   async dissociate(request, h) {
     const organizationLearnerId = request.params.id;
     await usecases.dissociateUserFromOrganizationLearner({ organizationLearnerId });

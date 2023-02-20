@@ -1,13 +1,13 @@
-const Training = require('../../domain/models/Training');
-const TrainingSummary = require('../../domain/read-models/TrainingSummary');
-const { knex } = require('../../../db/knex-database-connection');
-const { NotFoundError } = require('../../domain/errors');
-const DomainTransaction = require('../DomainTransaction');
-const UserRecommendedTraining = require('../../domain/read-models/UserRecommendedTraining');
-const { fetchPage } = require('../utils/knex-utils');
+import Training from '../../domain/models/Training';
+import TrainingSummary from '../../domain/read-models/TrainingSummary';
+import { knex } from '../../../db/knex-database-connection';
+import { NotFoundError } from '../../domain/errors';
+import DomainTransaction from '../DomainTransaction';
+import UserRecommendedTraining from '../../domain/read-models/UserRecommendedTraining';
+import { fetchPage } from '../utils/knex-utils';
 const TABLE_NAME = 'trainings';
 
-module.exports = {
+export default {
   async get(id) {
     const training = await knex(TABLE_NAME).where({ id }).first();
     if (!training) {

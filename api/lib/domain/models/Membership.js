@@ -1,4 +1,4 @@
-const { InvalidMembershipOrganizationRoleError } = require('../errors');
+import { InvalidMembershipOrganizationRoleError } from '../errors';
 const roles = {
   ADMIN: 'ADMIN',
   MEMBER: 'MEMBER',
@@ -27,4 +27,4 @@ class Membership {
 
 Membership.roles = roles;
 
-module.exports = Membership;
+export default Membership;

@@ -11,4 +11,4 @@ class UserRecommendedTraining {
   }
 }
 
-module.exports = UserRecommendedTraining;
+export default UserRecommendedTraining;

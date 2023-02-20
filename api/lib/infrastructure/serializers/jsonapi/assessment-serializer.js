@@ -1,8 +1,8 @@
-const Assessment = require('../../../domain/models/Assessment');
-const Progression = require('../../../domain/models/Progression');
-const { Serializer } = require('jsonapi-serializer');
+import Assessment from '../../../domain/models/Assessment';
+import Progression from '../../../domain/models/Progression';
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
+export default {
   serialize(assessments) {
     return new Serializer('assessment', {
       transform(currentAssessment) {

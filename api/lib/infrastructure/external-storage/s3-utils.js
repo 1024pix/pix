@@ -1,9 +1,9 @@
-const { S3Client, ListObjectsV2Command, GetObjectCommand } = require('@aws-sdk/client-s3');
-const { Upload } = require('@aws-sdk/lib-storage');
-const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
-const bluebird = require('bluebird');
+import { S3Client, ListObjectsV2Command, GetObjectCommand } from '@aws-sdk/client-s3';
+import { Upload } from '@aws-sdk/lib-storage';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import bluebird from 'bluebird';
 
-module.exports = {
+export default {
   getS3Client({ accessKeyId, secretAccessKey, endpoint, region }) {
     return new S3Client({
       credentials: { accessKeyId, secretAccessKey },

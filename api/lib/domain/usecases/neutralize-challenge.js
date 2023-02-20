@@ -1,6 +1,6 @@
-const ChallengeNeutralized = require('../events/ChallengeNeutralized');
+import ChallengeNeutralized from '../events/ChallengeNeutralized';
 
-module.exports = async function neutralizeChallenge({
+export default async function neutralizeChallenge({
   certificationAssessmentRepository,
   certificationCourseId,
   challengeRecId,
@@ -12,4 +12,4 @@ module.exports = async function neutralizeChallenge({
   certificationAssessment.neutralizeChallengeByRecId(challengeRecId);
   await certificationAssessmentRepository.save(certificationAssessment);
   return new ChallengeNeutralized({ certificationCourseId, juryId });
-};
+}

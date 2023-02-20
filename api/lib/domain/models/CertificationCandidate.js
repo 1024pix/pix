@@ -1,11 +1,12 @@
-const isNil = require('lodash/isNil');
-const endsWith = require('lodash/endsWith');
+import isNil from 'lodash/isNil';
+import endsWith from 'lodash/endsWith';
 const Joi = require('joi').extend(require('@joi/date'));
-const {
+
+import {
   InvalidCertificationCandidate,
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
-} = require('../errors');
+} from '../errors';
 
 const BILLING_MODES = {
   FREE: 'FREE',
@@ -203,4 +204,4 @@ class CertificationCandidate {
 
 CertificationCandidate.BILLING_MODES = BILLING_MODES;
 
-module.exports = CertificationCandidate;
+export default CertificationCandidate;

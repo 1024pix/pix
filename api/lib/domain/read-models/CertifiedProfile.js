@@ -44,7 +44,7 @@ class CertifiedProfile {
   }
 }
 
-module.exports = {
+export default {
   CertifiedProfile,
   CertifiedArea,
   CertifiedCompetence,

@@ -1,7 +1,7 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const dayjs = require('dayjs');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import AnswerStatus from '../../../../lib/domain/models/AnswerStatus';
+import KnowledgeElement from '../../../../lib/domain/models/KnowledgeElement';
+import dayjs from 'dayjs';
 
 describe('Unit | Domain | Models | KnowledgeElement', function () {
   describe('#isValidated', function () {

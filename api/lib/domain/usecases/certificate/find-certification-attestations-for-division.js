@@ -1,6 +1,6 @@
-const { NoCertificationAttestationForDivisionError } = require('../../errors');
+import { NoCertificationAttestationForDivisionError } from '../../errors';
 
-module.exports = async function findCertificationAttestationsForDivision({
+export default async function findCertificationAttestationsForDivision({
   organizationId,
   division,
   certificateRepository,
@@ -14,4 +14,4 @@ module.exports = async function findCertificationAttestationsForDivision({
     throw new NoCertificationAttestationForDivisionError(division);
   }
   return certificationAttestations;
-};
+}

@@ -1,7 +1,7 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const getSupervisorKitSessionInfo = require('../../../../lib/domain/usecases/get-supervisor-kit-session-info');
-const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
-const SessionForSupervisorKit = require('../../../../lib/domain/read-models/SessionForSupervisorKit');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper';
+import getSupervisorKitSessionInfo from '../../../../lib/domain/usecases/get-supervisor-kit-session-info';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors';
+import SessionForSupervisorKit from '../../../../lib/domain/read-models/SessionForSupervisorKit';
 
 describe('Unit | UseCase | get-supervisor-kit-main-info', function () {
   describe('getSupervisorKitSessionInfo', function () {

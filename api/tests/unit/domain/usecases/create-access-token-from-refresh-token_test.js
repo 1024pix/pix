@@ -1,5 +1,5 @@
-const createAccessTokenFromRefreshToken = require('../../../../lib/domain/usecases/create-access-token-from-refresh-token');
-const { expect, sinon } = require('../../../test-helper');
+import createAccessTokenFromRefreshToken from '../../../../lib/domain/usecases/create-access-token-from-refresh-token';
+import { expect, sinon } from '../../../test-helper';
 
 describe('Unit | UseCase | create-access-token-from-refresh-token', function () {
   context('when refresh token is provided', function () {

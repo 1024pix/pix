@@ -1,5 +1,5 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const ComplementaryCertificationScoringWithComplementaryReferential = require('../../../../lib/domain/models/ComplementaryCertificationScoringWithComplementaryReferential');
+import { expect, domainBuilder } from '../../../test-helper';
+import ComplementaryCertificationScoringWithComplementaryReferential from '../../../../lib/domain/models/ComplementaryCertificationScoringWithComplementaryReferential';
 
 describe('Unit | Domain | Models | ComplementaryCertificationScoringWithComplementaryReferential', function () {
   context('#constructor', function () {

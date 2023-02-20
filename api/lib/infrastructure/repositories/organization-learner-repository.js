@@ -1,21 +1,19 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
-const {
+import {
   NotFoundError,
   OrganizationLearnerNotFound,
   OrganizationLearnersCouldNotBeSavedError,
   UserCouldNotBeReconciledError,
   UserNotFoundError,
-} = require('../../domain/errors');
+} from '../../domain/errors';
 
-const OrganizationLearner = require('../../domain/models/OrganizationLearner');
-const OrganizationLearnerForAdmin = require('../../domain/read-models/OrganizationLearnerForAdmin');
-const studentRepository = require('./student-repository');
-
-const { knex } = require('../../../db/knex-database-connection');
-const { fetchPage } = require('../utils/knex-utils');
-
-const DomainTransaction = require('../DomainTransaction');
+import OrganizationLearner from '../../domain/models/OrganizationLearner';
+import OrganizationLearnerForAdmin from '../../domain/read-models/OrganizationLearnerForAdmin';
+import studentRepository from './student-repository';
+import { knex } from '../../../db/knex-database-connection';
+import { fetchPage } from '../utils/knex-utils';
+import DomainTransaction from '../DomainTransaction';
 
 function _shouldStudentToImportBeReconciled(
   allOrganizationLearnersInSameOrganization,
@@ -41,7 +39,7 @@ function _shouldStudentToImportBeReconciled(
   return isFromSameOrganization || isFromDifferentOrganizationWithSameBirthday;
 }
 
-module.exports = {
+export default {
   async findByIds({ ids }) {
     const rawOrganizationLearners = await knex
       .select('*')

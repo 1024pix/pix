@@ -1,10 +1,10 @@
-const buildArea = require('./build-area');
-const buildCompetence = require('./build-competence');
-const buildThematic = require('./build-thematic');
-const buildTube = require('./build-tube');
-const TargetProfileForAdmin = require('../../../../lib/domain/models/TargetProfileForAdminNewFormat');
+import buildArea from './build-area';
+import buildCompetence from './build-competence';
+import buildThematic from './build-thematic';
+import buildTube from './build-tube';
+import TargetProfileForAdmin from '../../../../lib/domain/models/TargetProfileForAdminNewFormat';
 
-module.exports = function buildTargetProfileForAdmin({
+export default function buildTargetProfileForAdmin({
   id = 123,
   name = 'Profil cible super cool',
   outdated = false,
@@ -42,4 +42,4 @@ module.exports = function buildTargetProfileForAdmin({
     thematics,
     tubes: tubesWithLevelThematicMobileAndTablet,
   });
-};
+}

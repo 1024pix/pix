@@ -1,6 +1,6 @@
-const { expect, sinon, hFake } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
-const lcmsController = require('../../../../lib/application/lcms/lcms-controller');
+import { expect, sinon, hFake } from '../../../test-helper';
+import usecases from '../../../../lib/domain/usecases';
+import lcmsController from '../../../../lib/application/lcms/lcms-controller';
 
 describe('Unit | Controller | lcms-controller', function () {
   describe('#createRelease', function () {

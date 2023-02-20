@@ -1,4 +1,4 @@
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.schema.createTable('complementary-certification-habilitations', (t) => {
     t.increments().primary();
     t.dateTime('createdAt').notNullable().defaultTo(knex.fn.now());
@@ -30,6 +30,6 @@ exports.up = async function (knex) {
   }
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return knex.schema.dropTable('complementary-certification-habilitations');
 };

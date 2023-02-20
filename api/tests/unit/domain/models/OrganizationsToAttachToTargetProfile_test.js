@@ -1,4 +1,4 @@
-const { expect, domainBuilder, catchErr } = require('../../../test-helper');
+import { expect, domainBuilder, catchErr } from '../../../test-helper';
 
 const id = 1;
 describe('Unit | Domain | Models | OrganizationsToAttachToTargetProfile', function () {

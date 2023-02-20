@@ -1,6 +1,6 @@
-const buildAssessment = require('./build-assessment');
-const buildAnswer = require('./build-answer');
-const buildKnowledgeElement = require('./build-knowledge-element');
+import buildAssessment from './build-assessment';
+import buildAnswer from './build-answer';
+import buildKnowledgeElement from './build-knowledge-element';
 
 const buildCorrectAnswerAndKnowledgeElement = async function ({
   userId,
@@ -26,4 +26,4 @@ const buildCorrectAnswerAndKnowledgeElement = async function ({
   });
 };
 
-module.exports = buildCorrectAnswerAndKnowledgeElement;
+export default buildCorrectAnswerAndKnowledgeElement;

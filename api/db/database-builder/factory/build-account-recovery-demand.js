@@ -1,8 +1,8 @@
-const databaseBuffer = require('../database-buffer');
-const buildOrganizationLearner = require('./build-organization-learner');
-const buildUser = require('./build-user');
+import databaseBuffer from '../database-buffer';
+import buildOrganizationLearner from './build-organization-learner';
+import buildUser from './build-user';
 
-module.exports = function buildAccountRecoveryDemand({
+export default function buildAccountRecoveryDemand({
   id = databaseBuffer.getNextId(),
   userId,
   firstName,
@@ -61,4 +61,4 @@ module.exports = function buildAccountRecoveryDemand({
     createdAt,
     updatedAt,
   };
-};
+}

@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
-const service = require('../../../../lib/domain/services/password-generator');
-const randomString = require('randomstring');
+import { expect, sinon } from '../../../test-helper';
+import service from '../../../../lib/domain/services/password-generator';
+import randomString from 'randomstring';
 
 describe('Unit | Service | password-generator', function () {
   let generatedPassword;

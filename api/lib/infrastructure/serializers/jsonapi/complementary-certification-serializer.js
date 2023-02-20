@@ -1,7 +1,7 @@
-const { Serializer } = require('jsonapi-serializer');
-const ComplementaryCertification = require('../../../domain/models/ComplementaryCertification');
+import { Serializer } from 'jsonapi-serializer';
+import ComplementaryCertification from '../../../domain/models/ComplementaryCertification';
 
-module.exports = {
+export default {
   serialize(habilitation) {
     return new Serializer('habilitation', {
       attributes: ['label', 'key'],

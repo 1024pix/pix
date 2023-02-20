@@ -13,6 +13,6 @@ class SessionPublicationBatchResult {
   }
 }
 
-module.exports = {
+export default {
   SessionPublicationBatchResult,
 };

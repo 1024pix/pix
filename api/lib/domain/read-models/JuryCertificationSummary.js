@@ -1,4 +1,4 @@
-const { status: assessmentResultStatuses } = require('../models/AssessmentResult');
+import { status as assessmentResultStatuses } from '../models/AssessmentResult';
 const STARTED = 'started';
 const ENDED_BY_SUPERVISOR = 'endedBySupervisor';
 
@@ -59,5 +59,5 @@ function _getStatus({ status, isEndedBySupervisor }) {
   return status;
 }
 
-module.exports = JuryCertificationSummary;
-module.exports.statuses = { ...assessmentResultStatuses, STARTED, ENDED_BY_SUPERVISOR };
+export default JuryCertificationSummary;
+export const statuses = { ...assessmentResultStatuses, STARTED, ENDED_BY_SUPERVISOR };

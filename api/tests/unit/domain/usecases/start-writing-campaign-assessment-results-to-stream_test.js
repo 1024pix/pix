@@ -1,9 +1,9 @@
-const { PassThrough } = require('stream');
-const { expect, sinon, domainBuilder, streamToPromise, catchErr } = require('../../../test-helper');
-const startWritingCampaignAssessmentResultsToStream = require('../../../../lib/domain/usecases/start-writing-campaign-assessment-results-to-stream');
-const { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } = require('../../../../lib/domain/errors');
-const campaignCsvExportService = require('../../../../lib/domain/services/campaign-csv-export-service');
-const { getI18n } = require('../../../tooling/i18n/i18n');
+import { PassThrough } from 'stream';
+import { expect, sinon, domainBuilder, streamToPromise, catchErr } from '../../../test-helper';
+import startWritingCampaignAssessmentResultsToStream from '../../../../lib/domain/usecases/start-writing-campaign-assessment-results-to-stream';
+import { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } from '../../../../lib/domain/errors';
+import campaignCsvExportService from '../../../../lib/domain/services/campaign-csv-export-service';
+import { getI18n } from '../../../tooling/i18n/i18n';
 
 describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', function () {
   const campaignRepository = { get: () => undefined, findStages: () => undefined };

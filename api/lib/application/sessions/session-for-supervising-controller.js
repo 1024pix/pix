@@ -1,7 +1,7 @@
-const usecases = require('../../domain/usecases');
-const sessionForSupervisingSerializer = require('../../infrastructure/serializers/jsonapi/session-for-supervising-serializer');
+import usecases from '../../domain/usecases';
+import sessionForSupervisingSerializer from '../../infrastructure/serializers/jsonapi/session-for-supervising-serializer';
 
-module.exports = {
+export default {
   async get(request) {
     const sessionId = request.params.id;
     const session = await usecases.getSessionForSupervising({ sessionId });

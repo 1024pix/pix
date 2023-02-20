@@ -8,4 +8,4 @@ class Thematic {
   }
 }
 
-module.exports = Thematic;
+export default Thematic;

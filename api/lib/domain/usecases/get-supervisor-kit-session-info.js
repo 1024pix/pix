@@ -1,6 +1,6 @@
-const { UserNotAuthorizedToAccessEntityError } = require('../errors');
+import { UserNotAuthorizedToAccessEntityError } from '../errors';
 
-module.exports = async function getSupervisorKitSessionInfo({
+export default async function getSupervisorKitSessionInfo({
   userId,
   sessionId,
   sessionRepository,
@@ -14,4 +14,4 @@ module.exports = async function getSupervisorKitSessionInfo({
   const sessionForSupervisorKit = await sessionForSupervisorKitRepository.get(sessionId);
 
   return sessionForSupervisorKit;
-};
+}

@@ -1,16 +1,16 @@
 // Usage: node compute-participation-results.js
 require('dotenv').config({ path: `${__dirname}/../../.env` });
-const knowlegeElementSnapshotRepository = require('../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
-const campaignRepository = require('../../lib/infrastructure/repositories/campaign-repository');
-const ParticipantResultsShared = require('../../lib/domain/models/ParticipantResultsShared');
-const CampaignParticipationStatuses = require('../../lib/domain/models/CampaignParticipationStatuses');
+import knowlegeElementSnapshotRepository from '../../lib/infrastructure/repositories/knowledge-element-snapshot-repository';
+import campaignRepository from '../../lib/infrastructure/repositories/campaign-repository';
+import ParticipantResultsShared from '../../lib/domain/models/ParticipantResultsShared';
+import CampaignParticipationStatuses from '../../lib/domain/models/CampaignParticipationStatuses';
 const { SHARED } = CampaignParticipationStatuses;
-const { knex, disconnect } = require('../../db/knex-database-connection');
-const _ = require('lodash');
-const bluebird = require('bluebird');
-const constants = require('../../lib/infrastructure/constants');
-const placementProfileService = require('../../lib/domain/services/placement-profile-service');
-const competenceRepository = require('../../lib/infrastructure/repositories/competence-repository');
+import { knex, disconnect } from '../../db/knex-database-connection';
+import _ from 'lodash';
+import bluebird from 'bluebird';
+import constants from '../../lib/infrastructure/constants';
+import placementProfileService from '../../lib/domain/services/placement-profile-service';
+import competenceRepository from '../../lib/infrastructure/repositories/competence-repository';
 
 const concurrency = parseInt(process.argv[2]);
 let count;
@@ -161,4 +161,4 @@ async function main() {
   }
 })();
 
-module.exports = computeParticipantResultsShared;
+export default computeParticipantResultsShared;

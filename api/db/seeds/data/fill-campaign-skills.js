@@ -1,5 +1,5 @@
-const { knex } = require('../../../db/knex-database-connection');
-const skillRepository = require('../../../lib/infrastructure/repositories/skill-repository');
+import { knex } from '../../../db/knex-database-connection';
+import skillRepository from '../../../lib/infrastructure/repositories/skill-repository';
 
 async function fillCampaignSkills() {
   const campaigns = await knex('campaigns')
@@ -35,6 +35,6 @@ async function fillCampaignSkills() {
   }
 }
 
-module.exports = {
+export default {
   fillCampaignSkills,
 };

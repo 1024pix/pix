@@ -1,8 +1,8 @@
-const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
-const {
+import CertificationIssueReport from '../../../../lib/domain/models/CertificationIssueReport';
+import {
   CertificationIssueReportCategories,
   CertificationIssueReportSubcategories,
-} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
+} from '../../../../lib/domain/models/CertificationIssueReportCategory';
 
 const buildCertificationIssueReport = function ({
   id = 123,
@@ -78,4 +78,4 @@ buildCertificationIssueReport.notImpactful = function ({
   });
 };
 
-module.exports = buildCertificationIssueReport;
+export default buildCertificationIssueReport;

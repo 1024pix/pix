@@ -1,5 +1,5 @@
-const Joi = require('joi');
-const { validateEntity } = require('../validators/entity-validator');
+import Joi from 'joi';
+import { validateEntity } from '../validators/entity-validator';
 
 const schema = Joi.object({
   id: Joi.number().integer().optional(),
@@ -27,4 +27,4 @@ class CompetenceMark {
   }
 }
 
-module.exports = CompetenceMark;
+export default CompetenceMark;

@@ -1,4 +1,4 @@
-const CertificationCpfCity = require('../../../../lib/domain/models/CertificationCpfCity');
+import CertificationCpfCity from '../../../../lib/domain/models/CertificationCpfCity';
 
 function buildCertificationCpfCity({
   id = 123,
@@ -16,4 +16,4 @@ function buildCertificationCpfCity({
   });
 }
 
-module.exports = buildCertificationCpfCity;
+export default buildCertificationCpfCity;

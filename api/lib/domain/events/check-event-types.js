@@ -1,5 +1,6 @@
-const _ = require('lodash');
-module.exports = {
+import _ from 'lodash';
+
+export default {
   checkEventTypes(receivedEvent, acceptedEventTypes) {
     if (
       !_.some(acceptedEventTypes, (acceptedEventType) => {

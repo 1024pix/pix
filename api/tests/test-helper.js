@@ -1,33 +1,33 @@
 require('dotenv').config({ path: `${__dirname}/../.env` });
-const _ = require('lodash');
-const MockDate = require('mockdate');
-const chai = require('chai');
+import _ from 'lodash';
+import MockDate from 'mockdate';
+import chai from 'chai';
 const expect = chai.expect;
-const sinon = require('sinon');
+import sinon from 'sinon';
 chai.use(require('chai-as-promised'));
 chai.use(require('chai-sorted'));
 chai.use(require('sinon-chai'));
-const customChaiHelpers = require('./tooling/chai-custom-helpers/index');
+import customChaiHelpers from './tooling/chai-custom-helpers/index';
 _.each(customChaiHelpers, chai.use);
-const cache = require('../lib/infrastructure/caches/learning-content-cache');
-const { graviteeRegisterApplicationsCredentials, jwtConfig } = require('../lib/config');
-
-const { knex, disconnect } = require('../db/knex-database-connection');
-
-const DatabaseBuilder = require('../db/database-builder/database-builder');
+import cache from '../lib/infrastructure/caches/learning-content-cache';
+import { graviteeRegisterApplicationsCredentials, jwtConfig } from '../lib/config';
+import { knex, disconnect } from '../db/knex-database-connection';
+import DatabaseBuilder from '../db/database-builder/database-builder';
 const databaseBuilder = new DatabaseBuilder({ knex });
 
-const nock = require('nock');
+import nock from 'nock';
 nock.disableNetConnect();
 
-const learningContentBuilder = require('./tooling/learning-content-builder');
-
-const tokenService = require('../lib/domain/services/token-service');
-const Membership = require('../lib/domain/models/Membership');
+import learningContentBuilder from './tooling/learning-content-builder';
+import tokenService from '../lib/domain/services/token-service';
+import Membership from '../lib/domain/models/Membership';
 const EMPTY_BLANK_AND_NULL = ['', '\t \n', null];
 
-const { ROLES } = require('../lib/domain/constants').PIX_ADMIN;
-const { createTempFile, removeTempFile } = require('./tooling/temporary-file');
+import { PIX_ADMIN } from '../lib/domain/constants';
+
+const { ROLES: ROLES } = PIX_ADMIN;
+
+import { createTempFile, removeTempFile } from './tooling/temporary-file';
 
 /* eslint-disable mocha/no-top-level-hooks */
 afterEach(function () {
@@ -240,8 +240,7 @@ global.chaiErr = function globalErr(fn, val) {
   throw new chai.AssertionError('Expected an error');
 };
 
-// eslint-disable-next-line mocha/no-exports
-module.exports = {
+export default {
   EMPTY_BLANK_AND_NULL,
   expect,
   domainBuilder: require('./tooling/domain-builder/factory'),

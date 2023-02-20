@@ -1,4 +1,4 @@
-const { VALIDATED, PENDING } = require('./CertificateStatus');
+import { VALIDATED, PENDING } from './CertificateStatus';
 
 class Certificate {
   constructor({
@@ -76,7 +76,7 @@ class Certificate {
   }
 }
 
-module.exports = Certificate;
+export default Certificate;
 
 function _isValidated(status) {
   return status === VALIDATED;

@@ -8,6 +8,6 @@ class CsvColumn {
   }
 }
 
-module.exports = {
+export default {
   CsvColumn,
 };

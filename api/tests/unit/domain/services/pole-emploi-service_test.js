@@ -1,6 +1,6 @@
-const { expect } = require('../../../test-helper');
-const poleEmploiService = require('../../../../lib/domain/services/pole-emploi-service');
-const settings = require('../../../../lib/config');
+import { expect } from '../../../test-helper';
+import poleEmploiService from '../../../../lib/domain/services/pole-emploi-service';
+import settings from '../../../../lib/config';
 
 describe('Unit | Service | Pole Emploi Service', function () {
   describe('#generateLink', function () {

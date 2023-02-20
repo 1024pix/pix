@@ -11,4 +11,4 @@ class EuropeanNumericLevel {
   }
 }
 
-module.exports = EuropeanNumericLevel;
+export default EuropeanNumericLevel;

@@ -1,7 +1,3 @@
-#! /usr/bin/env node
-/* eslint no-console: ["off"] */
-const PgClient = require('./PgClient');
-
 async function initialize() {
   const client = await PgClient.getClient(process.env.DATABASE_URL);
 
@@ -171,7 +167,7 @@ if (require.main === module) {
   main();
 }
 
-module.exports = {
+export default {
   ScriptQueryBuilder,
   ClientQueryAdapter,
   UserEraser,

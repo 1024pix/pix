@@ -1,9 +1,9 @@
-const { expect, sinon } = require('../../../test-helper');
-const { mailing } = require('../../../../lib/config');
-const mailCheck = require('../../../../lib/infrastructure/mail-check');
-const logger = require('../../../../lib/infrastructure/logger');
-const mailer = require('../../../../lib/infrastructure/mailers/mailer');
-const EmailingAttempt = require('../../../../lib/domain/models/EmailingAttempt');
+import { expect, sinon } from '../../../test-helper';
+import { mailing } from '../../../../lib/config';
+import mailCheck from '../../../../lib/infrastructure/mail-check';
+import logger from '../../../../lib/infrastructure/logger';
+import mailer from '../../../../lib/infrastructure/mailers/mailer';
+import EmailingAttempt from '../../../../lib/domain/models/EmailingAttempt';
 
 let mailCheckDomainIsValidStub;
 

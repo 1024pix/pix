@@ -1,8 +1,6 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-
-const { AssessmentEndedError } = require('../../../../lib/domain/errors');
-
-const getNextChallengeForDemo = require('../../../../lib/domain/usecases/get-next-challenge-for-demo');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import { AssessmentEndedError } from '../../../../lib/domain/errors';
+import getNextChallengeForDemo from '../../../../lib/domain/usecases/get-next-challenge-for-demo';
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-demo', function () {
   describe('#get-next-challenge-for-demo', function () {

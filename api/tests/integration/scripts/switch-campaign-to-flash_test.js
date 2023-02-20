@@ -1,6 +1,5 @@
-const { expect, databaseBuilder, knex } = require('../../test-helper');
-
-const { switchCampaignToFlash } = require('../../../scripts/switch-campaign-to-flash.js');
+import { expect, databaseBuilder, knex } from '../../test-helper';
+import { switchCampaignToFlash } from '../../../scripts/switch-campaign-to-flash.js';
 
 describe('Integration | Scripts | switch-campaign-to-flash.js', function () {
   describe('#switchCampaignToFlash', function () {

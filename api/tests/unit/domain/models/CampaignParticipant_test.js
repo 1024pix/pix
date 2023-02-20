@@ -1,10 +1,11 @@
-const CampaignParticipant = require('../../../../lib/domain/models/CampaignParticipant');
-const { expect, domainBuilder, catchErr } = require('../../../test-helper');
-const {
+import CampaignParticipant from '../../../../lib/domain/models/CampaignParticipant';
+import { expect, domainBuilder, catchErr } from '../../../test-helper';
+
+import {
   EntityValidationError,
   ForbiddenAccess,
   AlreadyExistingCampaignParticipationError,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors';
 
 describe('Unit | Domain | Models | CampaignParticipant', function () {
   describe('#start', function () {

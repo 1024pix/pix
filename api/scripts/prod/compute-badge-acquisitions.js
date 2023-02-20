@@ -1,16 +1,16 @@
 require('dotenv').config();
-const _ = require('lodash');
-const bluebird = require('bluebird');
-const { performance } = require('perf_hooks');
-const yargs = require('yargs/yargs');
-const { hideBin } = require('yargs/helpers');
-const { knex, disconnect } = require('../../db/knex-database-connection');
-const CampaignParticipation = require('../../lib/domain/models/CampaignParticipation');
-const logger = require('../../lib/infrastructure/logger');
-const badgeAcquisitionRepository = require('../../lib/infrastructure/repositories/badge-acquisition-repository');
-const badgeForCalculationRepository = require('../../lib/infrastructure/repositories/badge-for-calculation-repository');
-const knowledgeElementRepository = require('../../lib/infrastructure/repositories/knowledge-element-repository');
-const cache = require('../../lib/infrastructure/caches/learning-content-cache');
+import _ from 'lodash';
+import bluebird from 'bluebird';
+import { performance } from 'perf_hooks';
+import yargs from 'yargs/yargs';
+import { hideBin } from 'yargs/helpers';
+import { knex, disconnect } from '../../db/knex-database-connection';
+import CampaignParticipation from '../../lib/domain/models/CampaignParticipation';
+import logger from '../../lib/infrastructure/logger';
+import badgeAcquisitionRepository from '../../lib/infrastructure/repositories/badge-acquisition-repository';
+import badgeForCalculationRepository from '../../lib/infrastructure/repositories/badge-for-calculation-repository';
+import knowledgeElementRepository from '../../lib/infrastructure/repositories/knowledge-element-repository';
+import cache from '../../lib/infrastructure/caches/learning-content-cache';
 
 const MAX_RANGE_SIZE = 100_000;
 
@@ -148,7 +148,7 @@ const isLaunchedFromCommandLine = require.main === module;
   }
 })();
 
-module.exports = {
+export default {
   normalizeRange,
   computeAllBadgeAcquisitions,
   computeBadgeAcquisition,

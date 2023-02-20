@@ -1,17 +1,12 @@
-const bluebird = require('bluebird');
-
-const { NotFoundError } = require('../lib/domain/errors');
-
-const { parseCsvWithHeader } = require('../scripts/helpers/csvHelpers');
-const { disconnect } = require('../db/knex-database-connection');
-
-const bookshelfToDomainConverter = require('../lib/infrastructure/utils/bookshelf-to-domain-converter');
-const BookshelfOrganization = require('../lib/infrastructure/orm-models/Organization');
-
-const organizationInvitationService = require('../lib/domain/services/organization-invitation-service');
-
-const organizationRepository = require('../lib/infrastructure/repositories/organization-repository');
-const organizationInvitationRepository = require('../lib/infrastructure/repositories/organization-invitation-repository');
+import bluebird from 'bluebird';
+import { NotFoundError } from '../lib/domain/errors';
+import { parseCsvWithHeader } from '../scripts/helpers/csvHelpers';
+import { disconnect } from '../db/knex-database-connection';
+import bookshelfToDomainConverter from '../lib/infrastructure/utils/bookshelf-to-domain-converter';
+import BookshelfOrganization from '../lib/infrastructure/orm-models/Organization';
+import organizationInvitationService from '../lib/domain/services/organization-invitation-service';
+import organizationRepository from '../lib/infrastructure/repositories/organization-repository';
+import organizationInvitationRepository from '../lib/infrastructure/repositories/organization-invitation-repository';
 
 const TAGS = ['JOIN_ORGA'];
 
@@ -89,7 +84,7 @@ async function main() {
   }
 })();
 
-module.exports = {
+export default {
   getOrganizationByExternalId,
   buildInvitation,
   prepareDataForSending,

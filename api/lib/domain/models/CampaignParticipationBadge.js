@@ -1,4 +1,4 @@
-const Badge = require('./Badge.js');
+import Badge from './Badge.js';
 
 class CampaignParticipationBadge extends Badge {
   constructor({
@@ -40,4 +40,4 @@ class CampaignParticipationBadge extends Badge {
   }
 }
 
-module.exports = CampaignParticipationBadge;
+export default CampaignParticipationBadge;

@@ -1,6 +1,6 @@
-const { Deserializer } = require('jsonapi-serializer');
+import { Deserializer } from 'jsonapi-serializer';
 
-module.exports = {
+export default {
   deserialize(payload) {
     return new Deserializer().deserialize(payload).then((record) => {
       return {

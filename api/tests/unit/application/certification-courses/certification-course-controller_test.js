@@ -1,17 +1,11 @@
-const {
-  sinon,
-  expect,
-  hFake,
-  generateValidRequestAuthorizationHeader,
-  domainBuilder,
-} = require('../../../test-helper');
-const certificationCourseController = require('../../../../lib/application/certification-courses/certification-course-controller');
-const usecases = require('../../../../lib/domain/usecases');
-const certifiedProfileRepository = require('../../../../lib/infrastructure/repositories/certified-profile-repository');
-const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+import { sinon, expect, hFake, generateValidRequestAuthorizationHeader, domainBuilder } from '../../../test-helper';
 
-const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
+import certificationCourseController from '../../../../lib/application/certification-courses/certification-course-controller';
+import usecases from '../../../../lib/domain/usecases';
+import certifiedProfileRepository from '../../../../lib/infrastructure/repositories/certified-profile-repository';
+import certificationCourseSerializer from '../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer';
+import DomainTransaction from '../../../../lib/infrastructure/DomainTransaction';
+import CertificationCourse from '../../../../lib/domain/models/CertificationCourse';
 
 describe('Unit | Controller | certification-course-controller', function () {
   describe('#getCertificationDetails', function () {

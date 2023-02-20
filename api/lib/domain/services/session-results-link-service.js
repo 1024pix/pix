@@ -1,7 +1,7 @@
-const tokenService = require('./token-service');
-const settings = require('../../config');
+import tokenService from './token-service';
+import settings from '../../config';
 
-module.exports = {
+export default {
   generateResultsLink(sessionId) {
     const daysBeforeExpiration = 30;
 

@@ -1,10 +1,10 @@
-const buildCertificationCourse = require('./build-certification-course');
-const buildAssessment = require('./build-assessment');
-const Assessment = require('../../../lib/domain/models/Assessment');
-const buildCertificationChallenge = require('./build-certification-challenge');
-const buildAnswer = require('./build-answer');
+import buildCertificationCourse from './build-certification-course';
+import buildAssessment from './build-assessment';
+import Assessment from '../../../lib/domain/models/Assessment';
+import buildCertificationChallenge from './build-certification-challenge';
+import buildAnswer from './build-answer';
 
-module.exports = function buildAnsweredNotCompletedCertificationAssessment({
+export default function buildAnsweredNotCompletedCertificationAssessment({
   certifiableUserId,
   competenceIdSkillIdPairs,
   limitDate,
@@ -28,4 +28,4 @@ module.exports = function buildAnsweredNotCompletedCertificationAssessment({
   });
 
   return certificationAssessment;
-};
+}

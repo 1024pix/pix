@@ -1,7 +1,8 @@
-const createServer = require('../../../../server');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
-const {
+import createServer from '../../../../server';
+import Assessment from '../../../../lib/domain/models/Assessment';
+import CampaignParticipationStatuses from '../../../../lib/domain/models/CampaignParticipationStatuses';
+
+import {
   expect,
   databaseBuilder,
   mockLearningContent,
@@ -9,7 +10,7 @@ const {
   generateValidRequestAuthorizationHeader,
   knex,
   insertUserWithRoleSuperAdmin,
-} = require('../../../test-helper');
+} from '../../../test-helper';
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;
 

@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
-const rememberUserHasSeenLastDataProtectionPolicyInformation = require('../../../../lib/domain/usecases/remember-user-has-seen-last-data-protection-policy-information');
-const User = require('../../../../lib/domain/models/User');
+import { expect, sinon } from '../../../test-helper';
+import rememberUserHasSeenLastDataProtectionPolicyInformation from '../../../../lib/domain/usecases/remember-user-has-seen-last-data-protection-policy-information';
+import User from '../../../../lib/domain/models/User';
 
 describe('Unit | UseCase | remember-user-has-seen-data-protection-policy-information', function () {
   let userRepository;

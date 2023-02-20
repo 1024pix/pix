@@ -11,4 +11,4 @@ class SessionForSupervising {
   }
 }
 
-module.exports = SessionForSupervising;
+export default SessionForSupervising;

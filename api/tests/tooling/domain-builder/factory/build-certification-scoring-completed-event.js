@@ -1,4 +1,4 @@
-const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
+import CertificationScoringCompleted from '../../../../lib/domain/events/CertificationScoringCompleted';
 
 const buildCertificationScoringCompletedEvent = function ({
   certificationCourseId = 123,
@@ -12,4 +12,4 @@ const buildCertificationScoringCompletedEvent = function ({
   });
 };
 
-module.exports = buildCertificationScoringCompletedEvent;
+export default buildCertificationScoringCompletedEvent;

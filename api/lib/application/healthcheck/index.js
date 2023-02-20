@@ -1,6 +1,6 @@
-const healthcheckController = require('./healthcheck-controller');
+import healthcheckController from './healthcheck-controller';
 
-exports.register = async function (server) {
+export const register = async function (server) {
   server.route([
     {
       method: 'GET',
@@ -32,4 +32,4 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'healthcheck-api';
+export const name = 'healthcheck-api';

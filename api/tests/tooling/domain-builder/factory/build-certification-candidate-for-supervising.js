@@ -1,6 +1,6 @@
-const CertificationCandidateForSupervising = require('../../../../lib/domain/models/CertificationCandidateForSupervising');
+import CertificationCandidateForSupervising from '../../../../lib/domain/models/CertificationCandidateForSupervising';
 
-module.exports = function buildCertificationCandidateForSupervising({
+export default function buildCertificationCandidateForSupervising({
   id = 123,
   firstName = 'Monkey',
   lastName = 'D Luffy',
@@ -20,4 +20,4 @@ module.exports = function buildCertificationCandidateForSupervising({
     assessmentStatus,
     startDateTime,
   });
-};
+}

@@ -1,11 +1,11 @@
-const samlify = require('samlify');
+import samlify from 'samlify';
 samlify.setSchemaValidator({
   validate: () => {
     return true;
   },
 });
-const logger = require('./logger');
-const samlSettings = require('../config').saml;
+import logger from './logger';
+import { saml as samlSettings } from '../config';
 
 let _serviceProvider, _identityProvider;
 
@@ -42,7 +42,7 @@ async function parsePostResponse(payload) {
   return extract.attributes;
 }
 
-module.exports = {
+export default {
   getServiceProviderMetadata() {
     return _getServiceProvider().getMetadata();
   },

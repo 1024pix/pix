@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
-const sessionResultsLinkService = require('../../../../lib/domain/services/session-results-link-service');
-const tokenService = require('../../../../lib/domain/services/token-service');
+import { expect, sinon } from '../../../test-helper';
+import sessionResultsLinkService from '../../../../lib/domain/services/session-results-link-service';
+import tokenService from '../../../../lib/domain/services/token-service';
 
 describe('Unit | Domain | Service | Session Results Link Service', function () {
   describe('#generateResultsLink', function () {

@@ -1,8 +1,8 @@
-const _ = require('lodash');
-const { expect, databaseBuilder, domainBuilder, knex } = require('../../../test-helper');
-const campaignCollectiveResultRepository = require('../../../../lib/infrastructure/repositories/campaign-collective-result-repository');
-const CampaignCollectiveResult = require('../../../../lib/domain/read-models/CampaignCollectiveResult');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+import _ from 'lodash';
+import { expect, databaseBuilder, domainBuilder, knex } from '../../../test-helper';
+import campaignCollectiveResultRepository from '../../../../lib/infrastructure/repositories/campaign-collective-result-repository';
+import CampaignCollectiveResult from '../../../../lib/domain/read-models/CampaignCollectiveResult';
+import CampaignParticipationStatuses from '../../../../lib/domain/models/CampaignParticipationStatuses';
 
 const { STARTED } = CampaignParticipationStatuses;
 

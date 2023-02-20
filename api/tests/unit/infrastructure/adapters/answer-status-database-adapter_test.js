@@ -1,7 +1,6 @@
-const AnswerStatusDatabaseAdapter = require('../../../../lib/infrastructure/adapters/answer-status-database-adapter');
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-
-const { expect } = require('chai');
+import AnswerStatusDatabaseAdapter from '../../../../lib/infrastructure/adapters/answer-status-database-adapter';
+import AnswerStatus from '../../../../lib/domain/models/AnswerStatus';
+import { expect } from 'chai';
 
 describe('AnswerStatusDatabaseAdapter', function () {
   describe('#adapt', function () {

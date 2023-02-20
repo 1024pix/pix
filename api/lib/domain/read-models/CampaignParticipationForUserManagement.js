@@ -30,4 +30,4 @@ class CampaignParticipationForUserManagement {
   }
 }
 
-module.exports = CampaignParticipationForUserManagement;
+export default CampaignParticipationForUserManagement;

@@ -1,11 +1,12 @@
-const {
+import {
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
   databaseBuilder,
   sinon,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
+} from '../../../test-helper';
+
+import createServer from '../../../../server';
 
 describe('Acceptance | API | Certification Center Membership', function () {
   let server;

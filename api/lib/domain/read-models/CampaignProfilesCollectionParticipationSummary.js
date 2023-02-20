@@ -20,4 +20,4 @@ class CampaignProfilesCollectionParticipationSummary {
   }
 }
 
-module.exports = CampaignProfilesCollectionParticipationSummary;
+export default CampaignProfilesCollectionParticipationSummary;

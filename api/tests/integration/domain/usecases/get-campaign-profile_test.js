@@ -1,6 +1,8 @@
-const { expect, databaseBuilder, mockLearningContent } = require('../../../test-helper');
-const useCases = require('../../../../lib/domain/usecases');
-const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
+import { expect, databaseBuilder, mockLearningContent } from '../../../test-helper';
+import useCases from '../../../../lib/domain/usecases';
+import { LOCALE } from '../../../../lib/domain/constants';
+
+const { FRENCH_SPOKEN: FRENCH_SPOKEN } = LOCALE;
 
 describe('Integration | UseCase | get-campaign-profile', function () {
   const locale = FRENCH_SPOKEN;

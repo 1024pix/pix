@@ -1,6 +1,6 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
+export default {
   serialize(userOrgaSettings) {
     return new Serializer('user-orga-settings', {
       transform(record) {

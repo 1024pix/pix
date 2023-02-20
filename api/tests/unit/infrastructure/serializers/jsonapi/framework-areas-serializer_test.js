@@ -1,5 +1,5 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/framework-areas-serializer');
+import { expect, domainBuilder } from '../../../../test-helper';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/framework-areas-serializer';
 
 describe('Unit | Serializer | JSONAPI | pix-framework-serializer', function () {
   describe('#serialize', function () {

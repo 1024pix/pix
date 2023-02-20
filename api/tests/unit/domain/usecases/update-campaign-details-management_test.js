@@ -1,8 +1,8 @@
-const { expect, catchErr, domainBuilder } = require('../../../test-helper');
-const updateCampaignDetailsManagement = require('../../../../lib/domain/usecases/update-campaign-details-management');
-const { EntityValidationError } = require('../../../../lib/domain/errors');
-const campaignValidator = require('../../../../lib/domain/validators/campaign-validator');
-const sinon = require('sinon');
+import { expect, catchErr, domainBuilder } from '../../../test-helper';
+import updateCampaignDetailsManagement from '../../../../lib/domain/usecases/update-campaign-details-management';
+import { EntityValidationError } from '../../../../lib/domain/errors';
+import campaignValidator from '../../../../lib/domain/validators/campaign-validator';
+import sinon from 'sinon';
 
 describe('Unit | UseCase | update-campaign-details-management', function () {
   let campaignManagementRepository;

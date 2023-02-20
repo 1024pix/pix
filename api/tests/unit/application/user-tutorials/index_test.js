@@ -1,7 +1,7 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const userTutorialsController = require('../../../../lib/application/user-tutorials/user-tutorials-controller');
-const moduleUnderTest = require('../../../../lib/application/user-tutorials');
+import { expect, HttpTestServer, sinon } from '../../../test-helper';
+import securityPreHandlers from '../../../../lib/application/security-pre-handlers';
+import userTutorialsController from '../../../../lib/application/user-tutorials/user-tutorials-controller';
+import moduleUnderTest from '../../../../lib/application/user-tutorials';
 
 describe('Unit | Router | user-tutorials-router', function () {
   describe('GET /api/users/{userId}/tutorials', function () {

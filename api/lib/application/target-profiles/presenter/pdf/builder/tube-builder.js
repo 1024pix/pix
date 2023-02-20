@@ -1,11 +1,11 @@
-const TubeText = require('../drawer/TubeText');
-const PositionManager = require('../manager/position-manager');
-const FontManager = require('../manager/font-manager');
-const ColorManager = require('../manager/color-manager');
+import TubeText from '../drawer/TubeText';
+import PositionManager from '../manager/position-manager';
+import FontManager from '../manager/font-manager';
+import ColorManager from '../manager/color-manager';
 
 const START_BORDER = 2;
 
-module.exports = {
+export default {
   /**
    *
    * @param positionY{number}
@@ -28,6 +28,7 @@ module.exports = {
     return tubeText.draw(page, dryRun);
   },
 };
+
 /**
  *
  * @param positionY{number}

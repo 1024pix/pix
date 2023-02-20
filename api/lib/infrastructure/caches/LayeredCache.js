@@ -1,4 +1,4 @@
-const Cache = require('./Cache');
+import Cache from './Cache';
 
 class LayeredCache extends Cache {
   constructor(firstLevelCache, secondLevelCache) {
@@ -29,4 +29,4 @@ class LayeredCache extends Cache {
   }
 }
 
-module.exports = LayeredCache;
+export default LayeredCache;

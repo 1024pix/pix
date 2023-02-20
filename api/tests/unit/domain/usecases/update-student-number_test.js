@@ -1,8 +1,6 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-
-const { AlreadyExistingEntityError } = require('../../../../lib/domain/errors');
-
-const updateStudentNumber = require('../../../../lib/domain/usecases/update-student-number');
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper';
+import { AlreadyExistingEntityError } from '../../../../lib/domain/errors';
+import updateStudentNumber from '../../../../lib/domain/usecases/update-student-number';
 
 describe('Unit | UseCase | update-student-number', function () {
   const organizationId = 2;

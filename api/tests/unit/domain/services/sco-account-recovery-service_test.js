@@ -1,17 +1,19 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const {
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper';
+import {
   retrieveOrganizationLearner,
   retrieveAndValidateAccountRecoveryDemand,
-} = require('../../../../lib/domain/services/sco-account-recovery-service');
-const {
+} from '../../../../lib/domain/services/sco-account-recovery-service';
+
+import {
   AccountRecoveryDemandExpired,
   AlreadyRegisteredEmailError,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   UserNotFoundError,
   UserHasAlreadyLeftSCO,
-} = require('../../../../lib/domain/errors');
-const { features } = require('../../../../lib/config');
-const dayjs = require('dayjs');
+} from '../../../../lib/domain/errors';
+
+import { features } from '../../../../lib/config';
+import dayjs from 'dayjs';
 
 describe('Unit | Service | sco-account-recovery-service', function () {
   describe('#retrieveOrganizationLearner', function () {

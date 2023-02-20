@@ -1,6 +1,6 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
+export default {
   serialize(campaignAssessmentParticipationResult) {
     return new Serializer('campaign-assessment-participation-results', {
       id: 'campaignParticipationId',

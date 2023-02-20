@@ -1,6 +1,6 @@
-const { sinon, expect, hFake, domainBuilder } = require('../../../test-helper');
-const certificationReportController = require('../../../../lib/application/certification-reports/certification-report-controller');
-const usecases = require('../../../../lib/domain/usecases');
+import { sinon, expect, hFake, domainBuilder } from '../../../test-helper';
+import certificationReportController from '../../../../lib/application/certification-reports/certification-report-controller';
+import usecases from '../../../../lib/domain/usecases';
 
 describe('Unit | Controller | certification-report-controller', function () {
   describe('#saveCertificationIssueReport', function () {

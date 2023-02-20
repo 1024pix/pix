@@ -1,13 +1,13 @@
 require('dotenv').config();
-const validateEnvironmentVariables = require('./lib/infrastructure/validate-environment-variables');
+import validateEnvironmentVariables from './lib/infrastructure/validate-environment-variables';
 validateEnvironmentVariables();
 
-const createServer = require('./server');
-const logger = require('./lib/infrastructure/logger');
-const { disconnect } = require('./db/knex-database-connection');
-const cache = require('./lib/infrastructure/caches/learning-content-cache');
-const temporaryStorage = require('./lib/infrastructure/temporary-storage/index');
-const redisMonitor = require('./lib/infrastructure/utils/redis-monitor');
+import createServer from './server';
+import logger from './lib/infrastructure/logger';
+import { disconnect } from './db/knex-database-connection';
+import cache from './lib/infrastructure/caches/learning-content-cache';
+import temporaryStorage from './lib/infrastructure/temporary-storage/index';
+import redisMonitor from './lib/infrastructure/utils/redis-monitor';
 
 let server;
 

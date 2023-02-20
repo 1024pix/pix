@@ -1,10 +1,10 @@
-const { knex } = require('../../bookshelf');
-const { fetchPage } = require('../../utils/knex-utils');
-const { NotFoundError } = require('../../../domain/errors');
-const JurySession = require('../../../domain/models/JurySession');
-const { statuses } = require('../../../domain/models/JurySession');
-const CertificationOfficer = require('../../../domain/models/CertificationOfficer');
-const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../../db/pgsql-errors');
+import { knex } from '../../bookshelf';
+import { fetchPage } from '../../utils/knex-utils';
+import { NotFoundError } from '../../../domain/errors';
+import JurySession from '../../../domain/models/JurySession';
+import { statuses } from '../../../domain/models/JurySession';
+import CertificationOfficer from '../../../domain/models/CertificationOfficer';
+import { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } from '../../../../db/pgsql-errors';
 
 const COLUMNS = Object.freeze([
   'sessions.*',
@@ -18,7 +18,7 @@ const ALIASED_COLUMNS = Object.freeze({
   juryCommentAuthorLastName: 'jury-comment-authors.lastName',
 });
 
-module.exports = {
+export default {
   async get(id) {
     const jurySessionDTO = await knex
       .select(COLUMNS)

@@ -1,8 +1,8 @@
-const { expect, sinon } = require('../../../../test-helper');
-const dataSource = require('../../../../../lib/infrastructure/datasources/learning-content/datasource');
-const lcms = require('../../../../../lib/infrastructure/lcms');
-const LearningContentResourceNotFound = require('../../../../../lib/infrastructure/datasources/learning-content/LearningContentResourceNotFound');
-const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
+import { expect, sinon } from '../../../../test-helper';
+import dataSource from '../../../../../lib/infrastructure/datasources/learning-content/datasource';
+import lcms from '../../../../../lib/infrastructure/lcms';
+import LearningContentResourceNotFound from '../../../../../lib/infrastructure/datasources/learning-content/LearningContentResourceNotFound';
+import cache from '../../../../../lib/infrastructure/caches/learning-content-cache';
 
 describe('Unit | Infrastructure | Datasource | Learning Content | datasource', function () {
   let someDatasource;

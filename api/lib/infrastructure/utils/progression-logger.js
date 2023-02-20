@@ -20,4 +20,4 @@ class ProgressionLogger {
   }
 }
 
-module.exports = ProgressionLogger;
+export default ProgressionLogger;

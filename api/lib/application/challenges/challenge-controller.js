@@ -1,7 +1,7 @@
-const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
-const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
+import challengeRepository from '../../infrastructure/repositories/challenge-repository';
+import challengeSerializer from '../../infrastructure/serializers/jsonapi/challenge-serializer';
 
-module.exports = {
+export default {
   get(request) {
     return challengeRepository.get(request.params.id).then((challenge) => challengeSerializer.serialize(challenge));
   },

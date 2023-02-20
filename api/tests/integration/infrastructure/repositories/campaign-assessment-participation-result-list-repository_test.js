@@ -1,6 +1,6 @@
-const { expect, databaseBuilder, knex, mockLearningContent, learningContentBuilder } = require('../../../test-helper');
-const campaignAssessmentParticipationResultListRepository = require('../../../../lib/infrastructure/repositories/campaign-assessment-participation-result-list-repository');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+import { expect, databaseBuilder, knex, mockLearningContent, learningContentBuilder } from '../../../test-helper';
+import campaignAssessmentParticipationResultListRepository from '../../../../lib/infrastructure/repositories/campaign-assessment-participation-result-list-repository';
+import CampaignParticipationStatuses from '../../../../lib/domain/models/CampaignParticipationStatuses';
 
 const { STARTED } = CampaignParticipationStatuses;
 

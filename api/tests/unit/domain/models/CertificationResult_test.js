@@ -1,5 +1,5 @@
-const CertificationResult = require('../../../../lib/domain/models/CertificationResult');
-const { expect, domainBuilder } = require('../../../test-helper');
+import CertificationResult from '../../../../lib/domain/models/CertificationResult';
+import { expect, domainBuilder } from '../../../test-helper';
 
 describe('Unit | Domain | Models | CertificationResult', function () {
   context('#static from', function () {

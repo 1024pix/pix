@@ -7,4 +7,4 @@ class UserSavedTutorialWithTutorial {
   }
 }
 
-module.exports = UserSavedTutorialWithTutorial;
+export default UserSavedTutorialWithTutorial;

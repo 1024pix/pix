@@ -16,4 +16,4 @@ ComplementaryCertification.CLEA = CLEA;
 ComplementaryCertification.PIX_PLUS_EDU_1ER_DEGRE = PIX_PLUS_EDU_1ER_DEGRE;
 ComplementaryCertification.PIX_PLUS_EDU_2ND_DEGRE = PIX_PLUS_EDU_2ND_DEGRE;
 
-module.exports = ComplementaryCertification;
+export default ComplementaryCertification;

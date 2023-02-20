@@ -1,7 +1,7 @@
-const TargetProfileForCreation = require('../models/TargetProfileForCreation');
-const learningContentConversionService = require('../services/learning-content/learning-content-conversion-service');
+import TargetProfileForCreation from '../models/TargetProfileForCreation';
+import learningContentConversionService from '../services/learning-content/learning-content-conversion-service';
 
-module.exports = async function createTargetProfile({
+export default async function createTargetProfile({
   targetProfileCreationCommand,
   domainTransaction,
   targetProfileRepository,
@@ -18,4 +18,4 @@ module.exports = async function createTargetProfile({
     domainTransaction,
   });
   return targetProfileId;
-};
+}

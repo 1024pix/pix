@@ -1,10 +1,12 @@
 const Joi = require('joi').extend(require('@joi/date'));
-const { validateEntity } = require('../validators/entity-validator');
-const _ = require('lodash');
-const { ChallengeToBeNeutralizedNotFoundError, ChallengeToBeDeneutralizedNotFoundError } = require('../errors');
-const AnswerStatus = require('./AnswerStatus');
-const NeutralizationAttempt = require('./NeutralizationAttempt');
-const CertificationAnswerStatusChangeAttempt = require('./CertificationAnswerStatusChangeAttempt');
+import { validateEntity } from '../validators/entity-validator';
+import _ from 'lodash';
+
+import { ChallengeToBeNeutralizedNotFoundError, ChallengeToBeDeneutralizedNotFoundError } from '../errors';
+
+import AnswerStatus from './AnswerStatus';
+import NeutralizationAttempt from './NeutralizationAttempt';
+import CertificationAnswerStatusChangeAttempt from './CertificationAnswerStatusChangeAttempt';
 
 const states = {
   COMPLETED: 'completed',
@@ -167,4 +169,4 @@ function _isAnswerKoOrSkippedOrPartially(answerStatus) {
 
 CertificationAssessment.states = states;
 
-module.exports = CertificationAssessment;
+export default CertificationAssessment;

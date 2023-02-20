@@ -1,4 +1,4 @@
-module.exports = async function getImportSessionComplementaryCertificationHabilitationsLabels({
+export default async function getImportSessionComplementaryCertificationHabilitationsLabels({
   certificationCenterId,
   complementaryCertificationHabilitationRepository,
 }) {
@@ -9,4 +9,4 @@ module.exports = async function getImportSessionComplementaryCertificationHabili
   const habilitationsLabels = habilitations.map((habilitation) => habilitation.label);
 
   return habilitationsLabels;
-};
+}

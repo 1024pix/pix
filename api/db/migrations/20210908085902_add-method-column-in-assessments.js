@@ -1,7 +1,7 @@
 const TABLE_NAME = 'assessments';
 const COLUMN_NAME = 'method';
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.schema.table(TABLE_NAME, (table) => {
     table.text(COLUMN_NAME);
   });
@@ -26,7 +26,7 @@ exports.up = async function (knex) {
   }
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return knex.schema.alterTable(TABLE_NAME, (table) => {
     table.dropColumn(COLUMN_NAME);
   });

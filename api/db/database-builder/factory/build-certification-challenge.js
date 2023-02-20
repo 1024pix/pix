@@ -1,8 +1,8 @@
-const buildCertificationCourse = require('./build-certification-course');
-const databaseBuffer = require('../database-buffer');
-const _ = require('lodash');
+import buildCertificationCourse from './build-certification-course';
+import databaseBuffer from '../database-buffer';
+import _ from 'lodash';
 
-module.exports = function buildCertificationChallenge({
+export default function buildCertificationChallenge({
   id = databaseBuffer.getNextId(),
   associatedSkillName = '@twi8',
   associatedSkillId = 'recSKIL123',
@@ -34,4 +34,4 @@ module.exports = function buildCertificationChallenge({
     tableName: 'certification-challenges',
     values,
   });
-};
+}

@@ -1,6 +1,6 @@
-const Area = require('../../../../lib/domain/models/Area');
+import Area from '../../../../lib/domain/models/Area';
 
-module.exports = function buildArea({
+export default function buildArea({
   id = 'recArea123',
   code = 5,
   title = 'Super domaine',
@@ -23,4 +23,4 @@ module.exports = function buildArea({
     competence.area = area;
   });
   return area;
-};
+}

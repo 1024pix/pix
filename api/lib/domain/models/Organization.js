@@ -1,4 +1,4 @@
-const Tag = require('./Tag');
+import Tag from './Tag';
 
 const types = {
   SCO: 'SCO',
@@ -88,4 +88,4 @@ class Organization {
 
 Organization.types = types;
 Organization.defaultValues = defaultValues;
-module.exports = Organization;
+export default Organization;

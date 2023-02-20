@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const getPaginatedParticipantsForAnOrganization = require('../../../../lib/domain/usecases/get-paginated-participants-for-an-organization');
+import { expect, sinon } from '../../../test-helper';
+import getPaginatedParticipantsForAnOrganization from '../../../../lib/domain/usecases/get-paginated-participants-for-an-organization';
 
 describe('Unit | UseCase | get-participants-by-organization-id', function () {
   it('should call organizationParticipantRepository', async function () {

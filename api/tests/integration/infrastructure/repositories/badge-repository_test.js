@@ -1,10 +1,10 @@
-const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
-const badgeRepository = require('../../../../lib/infrastructure/repositories/badge-repository');
-const Badge = require('../../../../lib/domain/models/Badge');
-const BadgeCriterion = require('../../../../lib/domain/models/BadgeCriterion');
-const SkillSet = require('../../../../lib/domain/models/SkillSet');
-const omit = require('lodash/omit');
-const { AlreadyExistingEntityError } = require('../../../../lib/domain/errors');
+import { expect, databaseBuilder, knex, catchErr } from '../../../test-helper';
+import badgeRepository from '../../../../lib/infrastructure/repositories/badge-repository';
+import Badge from '../../../../lib/domain/models/Badge';
+import BadgeCriterion from '../../../../lib/domain/models/BadgeCriterion';
+import SkillSet from '../../../../lib/domain/models/SkillSet';
+import omit from 'lodash/omit';
+import { AlreadyExistingEntityError } from '../../../../lib/domain/errors';
 
 describe('Integration | Repository | Badge', function () {
   let targetProfileWithSkillSets;

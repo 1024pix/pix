@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
-const changeUserLang = require('../../../../lib/domain/usecases/change-user-lang');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+import { expect, sinon } from '../../../test-helper';
+import changeUserLang from '../../../../lib/domain/usecases/change-user-lang';
+import userRepository from '../../../../lib/infrastructure/repositories/user-repository';
 
 describe('Unit | UseCase | change-user-lang', function () {
   beforeEach(function () {

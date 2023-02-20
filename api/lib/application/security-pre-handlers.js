@@ -1,29 +1,28 @@
-/* eslint-disable  no-restricted-syntax */
-const bluebird = require('bluebird');
-const checkIfUserIsBlockedUseCase = require('./usecases/checkIfUserIsBlocked');
-const checkAdminMemberHasRoleSuperAdminUseCase = require('./usecases/checkAdminMemberHasRoleSuperAdmin');
-const checkAdminMemberHasRoleCertifUseCase = require('./usecases/checkAdminMemberHasRoleCertif');
-const checkAdminMemberHasRoleSupportUseCase = require('./usecases/checkAdminMemberHasRoleSupport');
-const checkAdminMemberHasRoleMetierUseCase = require('./usecases/checkAdminMemberHasRoleMetier');
-const checkUserIsAdminInOrganizationUseCase = require('./usecases/checkUserIsAdminInOrganization');
-const checkUserBelongsToOrganizationManagingStudentsUseCase = require('./usecases/checkUserBelongsToOrganizationManagingStudents');
-const checkUserBelongsToLearnersOrganizationUseCase = require('./usecases/checkUserBelongsToLearnersOrganization');
-const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('./usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
-const checkUserBelongsToSupOrganizationAndManagesStudentsUseCase = require('./usecases/checkUserBelongsToSupOrganizationAndManagesStudents');
-const checkUserOwnsCertificationCourseUseCase = require('./usecases/checkUserOwnsCertificationCourse');
-const checkUserBelongsToOrganizationUseCase = require('./usecases/checkUserBelongsToOrganization');
-const checkUserIsAdminAndManagingStudentsForOrganization = require('./usecases/checkUserIsAdminAndManagingStudentsForOrganization');
-const checkUserIsMemberOfAnOrganizationUseCase = require('./usecases/checkUserIsMemberOfAnOrganization');
-const checkUserIsMemberOfCertificationCenterUsecase = require('./usecases/checkUserIsMemberOfCertificationCenter');
-const checkUserIsMemberOfCertificationCenterSessionUsecase = require('./usecases/checkUserIsMemberOfCertificationCenterSession');
-const checkAuthorizationToManageCampaignUsecase = require('./usecases/checkAuthorizationToManageCampaign');
-const certificationIssueReportRepository = require('../infrastructure/repositories/certification-issue-report-repository');
-const Organization = require('../../lib/domain/models/Organization');
-const { ForbiddenAccess } = require('../..//lib/domain/errors');
-const apps = require('../..//lib/domain/constants');
+import bluebird from 'bluebird';
+import checkIfUserIsBlockedUseCase from './usecases/checkIfUserIsBlocked';
+import checkAdminMemberHasRoleSuperAdminUseCase from './usecases/checkAdminMemberHasRoleSuperAdmin';
+import checkAdminMemberHasRoleCertifUseCase from './usecases/checkAdminMemberHasRoleCertif';
+import checkAdminMemberHasRoleSupportUseCase from './usecases/checkAdminMemberHasRoleSupport';
+import checkAdminMemberHasRoleMetierUseCase from './usecases/checkAdminMemberHasRoleMetier';
+import checkUserIsAdminInOrganizationUseCase from './usecases/checkUserIsAdminInOrganization';
+import checkUserBelongsToOrganizationManagingStudentsUseCase from './usecases/checkUserBelongsToOrganizationManagingStudents';
+import checkUserBelongsToLearnersOrganizationUseCase from './usecases/checkUserBelongsToLearnersOrganization';
+import checkUserBelongsToScoOrganizationAndManagesStudentsUseCase from './usecases/checkUserBelongsToScoOrganizationAndManagesStudents';
+import checkUserBelongsToSupOrganizationAndManagesStudentsUseCase from './usecases/checkUserBelongsToSupOrganizationAndManagesStudents';
+import checkUserOwnsCertificationCourseUseCase from './usecases/checkUserOwnsCertificationCourse';
+import checkUserBelongsToOrganizationUseCase from './usecases/checkUserBelongsToOrganization';
+import checkUserIsAdminAndManagingStudentsForOrganization from './usecases/checkUserIsAdminAndManagingStudentsForOrganization';
+import checkUserIsMemberOfAnOrganizationUseCase from './usecases/checkUserIsMemberOfAnOrganization';
+import checkUserIsMemberOfCertificationCenterUsecase from './usecases/checkUserIsMemberOfCertificationCenter';
+import checkUserIsMemberOfCertificationCenterSessionUsecase from './usecases/checkUserIsMemberOfCertificationCenterSession';
+import checkAuthorizationToManageCampaignUsecase from './usecases/checkAuthorizationToManageCampaign';
+import certificationIssueReportRepository from '../infrastructure/repositories/certification-issue-report-repository';
+import Organization from '../../lib/domain/models/Organization';
+import { ForbiddenAccess } from '../..//lib/domain/errors';
+import apps from '../..//lib/domain/constants';
 
-const JSONAPIError = require('jsonapi-serializer').Error;
-const has = require('lodash/has');
+import { Error as JSONAPIError } from 'jsonapi-serializer';
+import has from 'lodash/has';
 
 function _replyForbiddenError(h) {
   const errorHttpStatusCode = 403;
@@ -399,9 +398,7 @@ async function checkUserOwnsCertificationCourse(request, h) {
   }
 }
 
-/* eslint-enable no-restricted-syntax */
-
-module.exports = {
+export default {
   checkIfUserIsBlocked,
   checkRequestedUserIsAuthenticatedUser,
   checkUserBelongsToOrganizationManagingStudents,

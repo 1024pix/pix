@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   emailIsValid(email) {
     if (!email) {
       return false;

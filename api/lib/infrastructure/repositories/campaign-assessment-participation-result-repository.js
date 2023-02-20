@@ -1,11 +1,11 @@
-const CampaignAssessmentParticipationResult = require('../../../lib/domain/read-models/CampaignAssessmentParticipationResult');
-const { NotFoundError } = require('../../../lib/domain/errors');
-const { knex } = require('../../../db/knex-database-connection');
-const knowledgeElementRepository = require('./knowledge-element-repository');
-const learningContentRepository = require('./learning-content-repository');
-const CampaignLearningContent = require('../../domain/models/CampaignLearningContent');
+import CampaignAssessmentParticipationResult from '../../../lib/domain/read-models/CampaignAssessmentParticipationResult';
+import { NotFoundError } from '../../../lib/domain/errors';
+import { knex } from '../../../db/knex-database-connection';
+import knowledgeElementRepository from './knowledge-element-repository';
+import learningContentRepository from './learning-content-repository';
+import CampaignLearningContent from '../../domain/models/CampaignLearningContent';
 
-module.exports = {
+export default {
   async getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId, locale }) {
     const learningContent = await learningContentRepository.findByCampaignId(campaignId, locale);
     const campaignLearningContent = new CampaignLearningContent(learningContent);

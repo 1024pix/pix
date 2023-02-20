@@ -1,6 +1,6 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const getTraining = require('../../../../lib/domain/usecases/get-training');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+import { expect, sinon, catchErr } from '../../../test-helper';
+import getTraining from '../../../../lib/domain/usecases/get-training';
+import { NotFoundError } from '../../../../lib/domain/errors';
 
 describe('Unit | UseCase | get-training', function () {
   let trainingRepository;

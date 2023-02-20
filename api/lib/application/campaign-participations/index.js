@@ -1,9 +1,9 @@
-const Joi = require('joi');
-const campaignParticipationController = require('./campaign-participation-controller');
-const securityPreHandlers = require('../security-pre-handlers');
-const identifiersType = require('../../domain/types/identifiers-type');
+import Joi from 'joi';
+import campaignParticipationController from './campaign-participation-controller';
+import securityPreHandlers from '../security-pre-handlers';
+import identifiersType from '../../domain/types/identifiers-type';
 
-exports.register = async function (server) {
+export const register = async function (server) {
   server.route([
     {
       method: 'PATCH',
@@ -256,4 +256,4 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'campaign-participations-api';
+export const name = 'campaign-participations-api';

@@ -12,4 +12,4 @@ class BadgeAcquisition {
   }
 }
 
-module.exports = BadgeAcquisition;
+export default BadgeAcquisition;

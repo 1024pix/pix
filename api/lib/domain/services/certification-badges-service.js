@@ -1,10 +1,10 @@
-const _ = require('lodash');
-const bluebird = require('bluebird');
-const certifiableBadgeAcquisitionRepository = require('../../infrastructure/repositories/certifiable-badge-acquisition-repository');
-const knowledgeElementRepository = require('../../infrastructure/repositories/knowledge-element-repository');
-const badgeForCalculationRepository = require('../../infrastructure/repositories/badge-for-calculation-repository');
+import _ from 'lodash';
+import bluebird from 'bluebird';
+import certifiableBadgeAcquisitionRepository from '../../infrastructure/repositories/certifiable-badge-acquisition-repository';
+import knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository';
+import badgeForCalculationRepository from '../../infrastructure/repositories/badge-for-calculation-repository';
 
-module.exports = {
+export default {
   async findStillValidBadgeAcquisitions({ userId, domainTransaction }) {
     const highestCertifiableBadgeAcquisitions = await certifiableBadgeAcquisitionRepository.findHighestCertifiable({
       userId,

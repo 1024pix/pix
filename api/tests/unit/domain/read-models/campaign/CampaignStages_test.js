@@ -1,5 +1,5 @@
-const CampaignStages = require('../../../../../lib/domain/read-models/campaign/CampaignStages');
-const { expect, domainBuilder } = require('../../../../test-helper');
+import CampaignStages from '../../../../../lib/domain/read-models/campaign/CampaignStages';
+import { expect, domainBuilder } from '../../../../test-helper';
 
 describe('Unit | Domain | Read Models | CampaignStages', function () {
   describe('#stageThresholdBoundaries', function () {

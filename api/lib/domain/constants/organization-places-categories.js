@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   T0: 'T0',
   T1: 'T1',
   T2: 'T2',

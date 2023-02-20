@@ -1,6 +1,6 @@
-const logger = require('../../lib/infrastructure/logger');
-const { knex, disconnect } = require('../../db/knex-database-connection');
-const bluebird = require('bluebird');
+import logger from '../../lib/infrastructure/logger';
+import { knex, disconnect } from '../../db/knex-database-connection';
+import bluebird from 'bluebird';
 
 const isLaunchedFromCommandLine = require.main === module;
 
@@ -43,7 +43,7 @@ async function main() {
   }
 })();
 
-module.exports = { main };
+export default { main };
 
 async function _updateIssueReportsWithCategoryId(certificationIssueReports, categories) {
   let count = 0;

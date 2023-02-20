@@ -1,7 +1,7 @@
-const { UnexpectedOidcStateError } = require('../../errors');
-const logger = require('../../../infrastructure/logger');
+import { UnexpectedOidcStateError } from '../../errors';
+import logger from '../../../infrastructure/logger';
 
-module.exports = async function authenticateOidcUser({
+export default async function authenticateOidcUser({
   stateReceived,
   stateSent,
   code,
@@ -48,7 +48,7 @@ module.exports = async function authenticateOidcUser({
   userRepository.updateLastLoggedAt({ userId: user.id });
 
   return { pixAccessToken, logoutUrlUUID, isAuthenticationComplete: true };
-};
+}
 
 async function _updateAuthenticationMethodWithComplement({
   userId,

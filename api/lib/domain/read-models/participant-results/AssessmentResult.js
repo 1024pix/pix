@@ -1,8 +1,8 @@
-const BadgeResult = require('./BadgeResult');
-const ReachedStage = require('./ReachedStage');
-const CompetenceResult = require('./CompetenceResult');
-const constants = require('../../constants');
-const moment = require('moment');
+import BadgeResult from './BadgeResult';
+import ReachedStage from './ReachedStage';
+import CompetenceResult from './CompetenceResult';
+import constants from '../../constants';
+import moment from 'moment';
 
 class AssessmentResult {
   constructor({
@@ -119,4 +119,4 @@ function _buildCompetenceResult({ competence, area, targetedSkillIds, knowledgeE
   });
 }
 
-module.exports = AssessmentResult;
+export default AssessmentResult;

@@ -1,10 +1,10 @@
-const bluebird = require('bluebird');
-const { knex } = require('../../../db/knex-database-connection');
-const { fetchPage } = require('../utils/knex-utils');
-const campaignRepository = require('./campaign-repository');
-const CampaignStages = require('../../domain/read-models/campaign/CampaignStages');
-const CampaignAssessmentParticipationResultMinimal = require('../../domain/read-models/campaign-results/CampaignAssessmentParticipationResultMinimal');
-const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
+import bluebird from 'bluebird';
+import { knex } from '../../../db/knex-database-connection';
+import { fetchPage } from '../utils/knex-utils';
+import campaignRepository from './campaign-repository';
+import CampaignStages from '../../domain/read-models/campaign/CampaignStages';
+import CampaignAssessmentParticipationResultMinimal from '../../domain/read-models/campaign-results/CampaignAssessmentParticipationResultMinimal';
+import CampaignParticipationStatuses from '../../domain/models/CampaignParticipationStatuses';
 
 const { SHARED } = CampaignParticipationStatuses;
 
@@ -137,6 +137,6 @@ async function getAcquiredBadges(campaignParticipationId) {
     .where({ campaignParticipationId: campaignParticipationId });
 }
 
-module.exports = {
+export default {
   findPaginatedByCampaignId,
 };

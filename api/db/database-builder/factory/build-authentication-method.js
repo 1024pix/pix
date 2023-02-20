@@ -1,9 +1,9 @@
-const isUndefined = require('lodash/isUndefined');
-const databaseBuffer = require('../database-buffer');
-const buildUser = require('./build-user');
-const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
-const OidcIdentityProviders = require('../../../lib/domain/constants/oidc-identity-providers');
-const encrypt = require('../../../lib/domain/services/encryption-service');
+import isUndefined from 'lodash/isUndefined';
+import databaseBuffer from '../database-buffer';
+import buildUser from './build-user';
+import AuthenticationMethod from '../../../lib/domain/models/AuthenticationMethod';
+import OidcIdentityProviders from '../../../lib/domain/constants/oidc-identity-providers';
+import encrypt from '../../../lib/domain/services/encryption-service';
 
 const buildAuthenticationMethod = {};
 
@@ -166,4 +166,4 @@ buildAuthenticationMethod.withIdentityProvider = function ({
   });
 };
 
-module.exports = buildAuthenticationMethod;
+export default buildAuthenticationMethod;

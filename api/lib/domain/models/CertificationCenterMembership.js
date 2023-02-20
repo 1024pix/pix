@@ -9,4 +9,4 @@ class CertificationCenterMembership {
   }
 }
 
-module.exports = CertificationCenterMembership;
+export default CertificationCenterMembership;

@@ -1,7 +1,7 @@
-const { expect, sinon } = require('../../../test-helper');
-const getCompetenceLevel = require('../../../../lib/domain/services/get-competence-level');
-const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
-const scoringService = require('../../../../lib/domain/services/scoring/scoring-service');
+import { expect, sinon } from '../../../test-helper';
+import getCompetenceLevel from '../../../../lib/domain/services/get-competence-level';
+import knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository';
+import scoringService from '../../../../lib/domain/services/scoring/scoring-service';
 
 describe('Unit | Domain | Service | Get Competence Level', function () {
   describe('#getCompetenceLevel', function () {

@@ -1,9 +1,8 @@
-const BookshelfUser = require('../orm-models/User');
+import BookshelfUser from '../orm-models/User';
+import { UserNotFoundError } from '../../domain/errors';
+import CertificationOfficer from '../../domain/models/CertificationOfficer';
 
-const { UserNotFoundError } = require('../../domain/errors');
-const CertificationOfficer = require('../../domain/models/CertificationOfficer');
-
-module.exports = {
+export default {
   async get(certificationOfficerId) {
     try {
       const certificationOfficer = await BookshelfUser.where({ id: certificationOfficerId }).fetch({

@@ -1,8 +1,11 @@
-const fs = require('fs');
-const { readFile, access } = require('fs').promises;
-const { isEmpty, difference } = require('lodash');
-const { FileValidationError, NotFoundError } = require('../../domain/errors');
-const papa = require('papaparse');
+import fs from 'fs';
+import { promises } from 'fs';
+
+const { readFile: readFile, access: access } = promises;
+
+import { isEmpty, difference } from 'lodash';
+import { FileValidationError, NotFoundError } from '../../domain/errors';
+import papa from 'papaparse';
 
 const ERRORS = {
   MISSING_REQUIRED_FIELD_NAMES: 'MISSING_REQUIRED_FIELD_NAMES',
@@ -81,7 +84,7 @@ async function _parseCsvData(cleanedData, options) {
   return data;
 }
 
-module.exports = {
+export default {
   checkCsvHeader,
   parseCsvWithHeader,
 };

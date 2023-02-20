@@ -1,5 +1,5 @@
-const { emptyAllTables, disconnect } = require('../../db/knex-database-connection');
-const logger = require('../../lib/infrastructure/logger');
+import { emptyAllTables, disconnect } from '../../db/knex-database-connection';
+import logger from '../../lib/infrastructure/logger';
 
 const main = async () => {
   logger.info('Emptying all tables...');

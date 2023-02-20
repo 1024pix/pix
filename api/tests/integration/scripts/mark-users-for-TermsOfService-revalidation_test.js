@@ -1,8 +1,5 @@
-const { expect, databaseBuilder } = require('../../test-helper');
-
-const {
-  markUsersRequiringTermsOfServiceValidationForRevalidation,
-} = require('../../../scripts/mark-users-for-TermsOfService-revalidation');
+import { expect, databaseBuilder } from '../../test-helper';
+import { markUsersRequiringTermsOfServiceValidationForRevalidation } from '../../../scripts/mark-users-for-TermsOfService-revalidation';
 
 describe('Integration | Scripts | mark-users-for-TermsOfService-revalidation_test', function () {
   describe('#markUsersRequiringTermsOfServiceValidationForRevalidation', function () {

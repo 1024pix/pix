@@ -1,6 +1,6 @@
-const { expect, knex, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
-const createServer = require('../../../../server');
-const BookshelfAssessment = require('../../../../lib/infrastructure/orm-models/Assessment');
+import { expect, knex, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../test-helper';
+import createServer from '../../../../server';
+import BookshelfAssessment from '../../../../lib/infrastructure/orm-models/Assessment';
 
 describe('Acceptance | API | Assessments POST', function () {
   let server;

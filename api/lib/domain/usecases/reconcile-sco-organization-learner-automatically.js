@@ -1,7 +1,7 @@
-const { CampaignCodeError, UserCouldNotBeReconciledError } = require('../../domain/errors');
-const _ = require('lodash');
+import { CampaignCodeError, UserCouldNotBeReconciledError } from '../../domain/errors';
+import _ from 'lodash';
 
-module.exports = async function reconcileScoOrganizationLearnerAutomatically({
+export default async function reconcileScoOrganizationLearnerAutomatically({
   campaignCode,
   userId,
   campaignRepository,
@@ -26,4 +26,4 @@ module.exports = async function reconcileScoOrganizationLearnerAutomatically({
     nationalStudentId: nationalStudentIdForReconcile,
     organizationId: campaign.organizationId,
   });
-};
+}

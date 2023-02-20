@@ -1,8 +1,8 @@
-const { ForbiddenAccess } = require('../errors');
+import { ForbiddenAccess } from '../errors';
 
-module.exports = async function getParticipantsGroup({ userId, campaignId, campaignRepository, groupRepository }) {
+export default async function getParticipantsGroup({ userId, campaignId, campaignRepository, groupRepository }) {
   if (!(await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, userId))) {
     throw new ForbiddenAccess();
   }
   return groupRepository.findByCampaignId(campaignId);
-};
+}

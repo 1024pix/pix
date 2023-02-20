@@ -1,7 +1,7 @@
-const { expect } = require('../../../test-helper');
-const buildEventDispatcherAndHandlersForTest = require('../../../tooling/events/event-dispatcher-builder');
-const ChallengeNeutralized = require('../../../../lib/domain/events/ChallengeNeutralized');
-const ChallengeDeneutralized = require('../../../../lib/domain/events/ChallengeDeneutralized');
+import { expect } from '../../../test-helper';
+import buildEventDispatcherAndHandlersForTest from '../../../tooling/events/event-dispatcher-builder';
+import ChallengeNeutralized from '../../../../lib/domain/events/ChallengeNeutralized';
+import ChallengeDeneutralized from '../../../../lib/domain/events/ChallengeDeneutralized';
 
 describe('Event Choreography | Rescore Certification', function () {
   it('Should trigger Certification Rescoring handler on ChallengeNeutralized event', async function () {

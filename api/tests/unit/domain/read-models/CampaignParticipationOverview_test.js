@@ -1,8 +1,8 @@
-const Stage = require('../../../../lib/domain/models/Stage');
-const CampaignParticipationOverview = require('../../../../lib/domain/read-models/CampaignParticipationOverview');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
-const { expect } = require('../../../test-helper');
-const CampaignStages = require('../../../../lib/domain/read-models/campaign/CampaignStages');
+import Stage from '../../../../lib/domain/models/Stage';
+import CampaignParticipationOverview from '../../../../lib/domain/read-models/CampaignParticipationOverview';
+import CampaignParticipationStatuses from '../../../../lib/domain/models/CampaignParticipationStatuses';
+import { expect } from '../../../test-helper';
+import CampaignStages from '../../../../lib/domain/read-models/campaign/CampaignStages';
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;
 

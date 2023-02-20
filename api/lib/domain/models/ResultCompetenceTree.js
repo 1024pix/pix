@@ -1,5 +1,5 @@
-const Area = require('./Area');
-const ResultCompetence = require('./ResultCompetence');
+import Area from './Area';
+import ResultCompetence from './ResultCompetence';
 
 const NOT_PASSED_LEVEL = -1;
 const NOT_PASSED_SCORE = 0;
@@ -42,4 +42,4 @@ class ResultCompetenceTree {
   }
 }
 
-module.exports = ResultCompetenceTree;
+export default ResultCompetenceTree;

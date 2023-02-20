@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
+import { expect } from '../../../test-helper';
+import AssessmentCompleted from '../../../../lib/domain/events/AssessmentCompleted';
 
 describe('Unit | Domain | Events | AssessmentCompleted', function () {
   describe('#isCertificationType', function () {

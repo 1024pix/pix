@@ -1,8 +1,8 @@
-const Challenge = require('../../../../lib/domain/models/Challenge');
-const Validator = require('../../../../lib/domain/models/Validator');
-const buildSkill = require('./build-skill');
+import Challenge from '../../../../lib/domain/models/Challenge';
+import Validator from '../../../../lib/domain/models/Validator';
+import buildSkill from './build-skill';
 
-module.exports = function buildChallenge({
+export default function buildChallenge({
   id = 'recCHAL1',
   // attributes
   attachments = ['URL pièce jointe'],
@@ -62,4 +62,4 @@ module.exports = function buildChallenge({
     competenceId,
     illustrationAlt,
   });
-};
+}

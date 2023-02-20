@@ -1,8 +1,8 @@
-const { expect, sinon, hFake } = require('../../../test-helper');
-const userVerification = require('../../../../lib/application/preHandlers/user-existence-verification');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const errorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
-const { UserNotFoundError } = require('../../../../lib/domain/errors');
+import { expect, sinon, hFake } from '../../../test-helper';
+import userVerification from '../../../../lib/application/preHandlers/user-existence-verification';
+import userRepository from '../../../../lib/infrastructure/repositories/user-repository';
+import errorSerializer from '../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer';
+import { UserNotFoundError } from '../../../../lib/domain/errors';
 
 describe('Unit | Pre-handler | User Verification', function () {
   describe('#verifyById', function () {

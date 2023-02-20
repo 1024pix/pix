@@ -1,17 +1,17 @@
 'use strict';
 require('dotenv').config();
 
-const fs = require('fs');
-const bluebird = require('bluebird');
-const isEmpty = require('lodash/isEmpty');
-const compact = require('lodash/compact');
-const logger = require('../../lib/infrastructure/logger');
-const certificateRepository = require('../../lib/infrastructure/repositories/certificate-repository');
-const certificationCourseRepository = require('../../lib/infrastructure/repositories/certification-course-repository');
-const certificationAttestationPdf = require('../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
-const { NotFoundError } = require('../../lib/domain/errors');
-const cache = require('../../lib/infrastructure/caches/learning-content-cache');
-const { disconnect } = require('../../db/knex-database-connection');
+import fs from 'fs';
+import bluebird from 'bluebird';
+import isEmpty from 'lodash/isEmpty';
+import compact from 'lodash/compact';
+import logger from '../../lib/infrastructure/logger';
+import certificateRepository from '../../lib/infrastructure/repositories/certificate-repository';
+import certificationCourseRepository from '../../lib/infrastructure/repositories/certification-course-repository';
+import certificationAttestationPdf from '../../lib/infrastructure/utils/pdf/certification-attestation-pdf';
+import { NotFoundError } from '../../lib/domain/errors';
+import cache from '../../lib/infrastructure/caches/learning-content-cache';
+import { disconnect } from '../../db/knex-database-connection';
 
 /**
  * Avant de lancer le script, remplacer la variable DATABASE_URL par l'url de la base de réplication

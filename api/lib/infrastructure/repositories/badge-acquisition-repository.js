@@ -1,10 +1,10 @@
-const bluebird = require('bluebird');
-const { knex } = require('../../../db/knex-database-connection');
-const DomainTransaction = require('../DomainTransaction');
+import bluebird from 'bluebird';
+import { knex } from '../../../db/knex-database-connection';
+import DomainTransaction from '../DomainTransaction';
 
 const BADGE_ACQUISITIONS_TABLE = 'badge-acquisitions';
 
-module.exports = {
+export default {
   async createOrUpdate({ badgeAcquisitionsToCreate = [], domainTransaction = DomainTransaction.emptyTransaction() }) {
     const knexConn = domainTransaction.knexTransaction || knex;
     return bluebird.mapSeries(badgeAcquisitionsToCreate, async ({ badgeId, userId, campaignParticipationId }) => {

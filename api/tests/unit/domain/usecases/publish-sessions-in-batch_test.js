@@ -1,6 +1,5 @@
-const { sinon, expect } = require('../../../test-helper');
-
-const publishSessionsInBatch = require('../../../../lib/domain/usecases/publish-sessions-in-batch');
+import { sinon, expect } from '../../../test-helper';
+import publishSessionsInBatch from '../../../../lib/domain/usecases/publish-sessions-in-batch';
 
 describe('Unit | UseCase | publish-sessions-in-batch', function () {
   let sessionPublicationService;

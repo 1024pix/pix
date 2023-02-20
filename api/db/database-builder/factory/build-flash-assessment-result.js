@@ -1,7 +1,7 @@
-const databaseBuffer = require('../database-buffer');
-const buildAnswer = require('./build-answer');
+import databaseBuffer from '../database-buffer';
+import buildAnswer from './build-answer';
 
-module.exports = function buildFlashAssessmentResult({
+export default function buildFlashAssessmentResult({
   id = databaseBuffer.getNextId(),
   answerId,
   assessmentId,
@@ -20,4 +20,4 @@ module.exports = function buildFlashAssessmentResult({
       assessmentId,
     },
   });
-};
+}

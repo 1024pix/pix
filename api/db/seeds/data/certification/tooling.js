@@ -1,12 +1,12 @@
-const _ = require('lodash');
-const bluebird = require('bluebird');
-const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
-const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
-const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
-const badgeRepository = require('../../../../lib/infrastructure/repositories/badge-repository');
-const logger = require('../../../../lib/infrastructure/logger');
-const { knex } = require('../../../../db/knex-database-connection');
-const ComplementaryCertification = require('../../../../lib/domain/models/ComplementaryCertification');
+import _ from 'lodash';
+import bluebird from 'bluebird';
+import skillRepository from '../../../../lib/infrastructure/repositories/skill-repository';
+import competenceRepository from '../../../../lib/infrastructure/repositories/competence-repository';
+import challengeRepository from '../../../../lib/infrastructure/repositories/challenge-repository';
+import badgeRepository from '../../../../lib/infrastructure/repositories/badge-repository';
+import logger from '../../../../lib/infrastructure/logger';
+import { knex } from '../../../../db/knex-database-connection';
+import ComplementaryCertification from '../../../../lib/domain/models/ComplementaryCertification';
 
 let allChallenges = [];
 let allPixCompetences = [];
@@ -154,7 +154,7 @@ function _findFirstChallengeValidatedBySkillId(skillId) {
   return _.find(allChallenges, { status: 'validé', skill: { id: skillId } });
 }
 
-module.exports = {
+export default {
   makeUserPixCertifiable,
   makeUserPixDroitCertifiable,
   makeUserCleaCertifiable,

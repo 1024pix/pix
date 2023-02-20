@@ -1,6 +1,6 @@
-const { UserNotAuthorizedToFindTrainings } = require('../errors');
+import { UserNotAuthorizedToFindTrainings } from '../errors';
 
-module.exports = async function findCampaignParticipationTrainings({
+export default async function findCampaignParticipationTrainings({
   userId,
   locale,
   campaignParticipationId,
@@ -14,4 +14,4 @@ module.exports = async function findCampaignParticipationTrainings({
   }
 
   return userRecommendedTrainingRepository.findByCampaignParticipationId({ campaignParticipationId, locale });
-};
+}

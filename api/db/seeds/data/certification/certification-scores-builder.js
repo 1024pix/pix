@@ -1,5 +1,6 @@
-const _ = require('lodash');
-const {
+import _ from 'lodash';
+
+import {
   ASSESSMENT_SUCCESS_IN_SESSION_TO_FINALIZE_ID,
   ASSESSMENT_FAILURE_IN_SESSION_TO_FINALIZE_ID,
   ASSESSMENT_SUCCESS_IN_NO_PROBLEM_FINALIZED_SESSION_ID,
@@ -11,13 +12,14 @@ const {
   ASSESSMENT_SUCCESS_PUBLISHED_SESSION_SCO_ID,
   ASSESSMENT_FAILURE_PUBLISHED_SESSION_ID,
   ASSESSMENT_SUCCESS_EDU_PUBLISHED_SESSION_ID,
-} = require('./certification-courses-builder');
-const {
+} from './certification-courses-builder';
+
+import {
   CERTIFICATION_FAILURE_ANSWERS_DATA,
   CERTIFICATION_SUCCESS_ANSWERS_DATA,
   CERTIFICATION_FAILURE_COMPETENCE_MARKS_DATA,
   CERTIFICATION_SUCCESS_COMPETENCE_MARKS_DATA,
-} = require('./certification-data');
+} from './certification-data';
 
 function certificationScoresBuilder({ databaseBuilder }) {
   // Each certification present the same scores per user.
@@ -93,4 +95,4 @@ function _buildFailureScore(databaseBuilder, createdAt, assessmentId) {
   });
 }
 
-module.exports = certificationScoresBuilder;
+export default certificationScoresBuilder;

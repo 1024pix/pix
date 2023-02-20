@@ -1,19 +1,17 @@
-const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils');
-const {
-  getTransformationStructsForPixCertifCandidatesImport,
-} = require('../../infrastructure/files/candidates-import/candidates-import-transformation-structures');
-const CertificationCandidate = require('../models/CertificationCandidate');
-const {
+import readOdsUtils from '../../infrastructure/utils/ods/read-ods-utils';
+import { getTransformationStructsForPixCertifCandidatesImport } from '../../infrastructure/files/candidates-import/candidates-import-transformation-structures';
+import CertificationCandidate from '../models/CertificationCandidate';
+import {
   CLEA,
   PIX_PLUS_DROIT,
   PIX_PLUS_EDU_1ER_DEGRE,
   PIX_PLUS_EDU_2ND_DEGRE,
-} = require('../models/ComplementaryCertification');
-const { CertificationCandidatesImportError } = require('../errors');
-const _ = require('lodash');
-const bluebird = require('bluebird');
+} from '../models/ComplementaryCertification';
+import { CertificationCandidatesImportError } from '../errors';
+import _ from 'lodash';
+import bluebird from 'bluebird';
 
-module.exports = {
+export default {
   extractCertificationCandidatesFromCandidatesImportSheet,
 };
 

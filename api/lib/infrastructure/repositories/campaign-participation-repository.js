@@ -1,17 +1,17 @@
-const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
-const CampaignTypes = require('../../domain/models/CampaignTypes');
-const { knex } = require('../../../db/knex-database-connection');
-const knowledgeElementRepository = require('./knowledge-element-repository');
-const knowledgeElementSnapshotRepository = require('./knowledge-element-snapshot-repository');
-const CampaignParticipation = require('../../domain/models/CampaignParticipation');
-const Assessment = require('../../domain/models/Assessment');
-const Campaign = require('../../domain/models/Campaign');
-const DomainTransaction = require('../DomainTransaction');
-const { NotFoundError } = require('../../domain/errors');
+import CampaignParticipationStatuses from '../../domain/models/CampaignParticipationStatuses';
+import CampaignTypes from '../../domain/models/CampaignTypes';
+import { knex } from '../../../db/knex-database-connection';
+import knowledgeElementRepository from './knowledge-element-repository';
+import knowledgeElementSnapshotRepository from './knowledge-element-snapshot-repository';
+import CampaignParticipation from '../../domain/models/CampaignParticipation';
+import Assessment from '../../domain/models/Assessment';
+import Campaign from '../../domain/models/Campaign';
+import DomainTransaction from '../DomainTransaction';
+import { NotFoundError } from '../../domain/errors';
 
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
-module.exports = {
+export default {
   async hasAssessmentParticipations(userId) {
     const { count } = await knex('campaign-participations')
       .count('campaign-participations.id')

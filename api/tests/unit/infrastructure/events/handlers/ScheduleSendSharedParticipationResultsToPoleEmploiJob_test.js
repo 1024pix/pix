@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../../test-helper');
-const Event = require('../../../../../lib/domain/events/Event');
-const ScheduleSendSharedParticipationResultsToPoleEmploiJob = require('../../../../../lib/infrastructure/events/subscribers/ScheduleSendSharedParticipationResultsToPoleEmploiJob');
+import { expect, sinon } from '../../../../test-helper';
+import Event from '../../../../../lib/domain/events/Event';
+import ScheduleSendSharedParticipationResultsToPoleEmploiJob from '../../../../../lib/infrastructure/events/subscribers/ScheduleSendSharedParticipationResultsToPoleEmploiJob';
 
 describe('Unit | Infrastructure | Events | Handler | SharedParticipationResultsToPoleEmploi', function () {
   describe('#handle', function () {

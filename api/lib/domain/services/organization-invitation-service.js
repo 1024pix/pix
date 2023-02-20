@@ -1,7 +1,7 @@
-const randomString = require('randomstring');
-const Membership = require('../models/Membership');
-const mailService = require('../../domain/services/mail-service');
-const { SendingEmailError, SendingEmailToInvalidDomainError } = require('../errors');
+import randomString from 'randomstring';
+import Membership from '../models/Membership';
+import mailService from '../../domain/services/mail-service';
+import { SendingEmailError, SendingEmailToInvalidDomainError } from '../errors';
 
 const _generateCode = () => {
   return randomString.generate({ length: 10, capitalization: 'uppercase' });
@@ -124,7 +124,7 @@ const createScoOrganizationInvitation = async ({
   return organizationInvitation;
 };
 
-module.exports = {
+export default {
   createOrUpdateOrganizationInvitation,
   createScoOrganizationInvitation,
   createProOrganizationInvitation,

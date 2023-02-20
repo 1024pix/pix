@@ -1,8 +1,8 @@
-const { knex } = require('../../../db/knex-database-connection');
-const CertificationCenterInvitedUser = require('../../domain/models/CertificationCenterInvitedUser');
-const { NotFoundError } = require('../../domain/errors');
+import { knex } from '../../../db/knex-database-connection';
+import CertificationCenterInvitedUser from '../../domain/models/CertificationCenterInvitedUser';
+import { NotFoundError } from '../../domain/errors';
 
-module.exports = {
+export default {
   async get({ certificationCenterInvitationId, email }) {
     const invitation = await knex('certification-center-invitations')
       .select('id', 'certificationCenterId', 'code', 'status')

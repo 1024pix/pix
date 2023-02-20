@@ -1,7 +1,7 @@
-const Certificate = require('../../domain/read-models/livret-scolaire/Certificate');
-const { knex } = require('../../../db/knex-database-connection');
+import Certificate from '../../domain/read-models/livret-scolaire/Certificate';
+import { knex } from '../../../db/knex-database-connection';
 
-module.exports = {
+export default {
   async getCertificatesByOrganizationUAI(uai) {
     const result = await knex
       .select({

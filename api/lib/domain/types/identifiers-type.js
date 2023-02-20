@@ -1,5 +1,5 @@
-const Joi = require('joi');
-const _ = require('lodash');
+import Joi from 'joi';
+import _ from 'lodash';
 
 const postgreSQLSequenceDefaultStart = 1;
 const postgreSQLSequenceEnd = 2 ** 31 - 1;
@@ -69,4 +69,4 @@ valuesToExport.positiveInteger32bits = {
   max: postgreSQLSequenceEnd,
 };
 
-module.exports = valuesToExport;
+export default valuesToExport;

@@ -1,8 +1,8 @@
-const _ = require('lodash');
-const { expect, sinon } = require('../../../../test-helper');
-const lcms = require('../../../../../lib/infrastructure/lcms');
-const tutorialDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/tutorial-datasource');
-const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
+import _ from 'lodash';
+import { expect, sinon } from '../../../../test-helper';
+import lcms from '../../../../../lib/infrastructure/lcms';
+import tutorialDatasource from '../../../../../lib/infrastructure/datasources/learning-content/tutorial-datasource';
+import cache from '../../../../../lib/infrastructure/caches/learning-content-cache';
 
 describe('Unit | Infrastructure | Datasource | Learning Content | TutorialDatasource', function () {
   beforeEach(function () {

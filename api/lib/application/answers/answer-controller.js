@@ -1,9 +1,9 @@
-const answerSerializer = require('../../infrastructure/serializers/jsonapi/answer-serializer');
-const correctionSerializer = require('../../infrastructure/serializers/jsonapi/correction-serializer');
-const usecases = require('../../domain/usecases');
-const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
+import answerSerializer from '../../infrastructure/serializers/jsonapi/answer-serializer';
+import correctionSerializer from '../../infrastructure/serializers/jsonapi/correction-serializer';
+import usecases from '../../domain/usecases';
+import requestResponseUtils from '../../infrastructure/utils/request-response-utils';
 
-module.exports = {
+export default {
   async save(request, h) {
     const answer = answerSerializer.deserialize(request.payload);
     const userId = requestResponseUtils.extractUserIdFromRequest(request);

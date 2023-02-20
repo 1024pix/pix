@@ -1,6 +1,6 @@
-const UserCompetence = require('../../../../lib/domain/models/UserCompetence');
+import UserCompetence from '../../../../lib/domain/models/UserCompetence';
 
-module.exports = function buildUserCompetence({
+export default function buildUserCompetence({
   id = 'recUserComp',
   index = '1.1',
   name = 'name',
@@ -18,4 +18,4 @@ module.exports = function buildUserCompetence({
     estimatedLevel,
     skills,
   });
-};
+}

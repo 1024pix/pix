@@ -1,7 +1,7 @@
-const _ = require('lodash');
-const { Serializer } = require('jsonapi-serializer');
+import _ from 'lodash';
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
+export default {
   serialize(certificationPointOfContact) {
     return new Serializer('certification-point-of-contact', {
       attributes: [

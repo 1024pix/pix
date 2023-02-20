@@ -11,4 +11,4 @@ class SessionForSupervisorKit {
   }
 }
 
-module.exports = SessionForSupervisorKit;
+export default SessionForSupervisorKit;

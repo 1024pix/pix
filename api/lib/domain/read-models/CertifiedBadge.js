@@ -1,4 +1,4 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
 class CertifiedBadge {
   constructor({ partnerKey, label, imageUrl, stickerUrl, isTemporaryBadge, message }) {
@@ -83,4 +83,4 @@ function _getAcquiredCertifiedBadgesDTOWithExternalJury(complementaryCertificati
   }
 }
 
-module.exports = CertifiedBadge;
+export default CertifiedBadge;

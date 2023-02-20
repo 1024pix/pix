@@ -1,5 +1,5 @@
-const { expect, mockLearningContent } = require('../../../test-helper');
-const challengeForPixAutoAnswerRepository = require('../../../../lib/infrastructure/repositories/challenge-for-pix-auto-answer-repository');
+import { expect, mockLearningContent } from '../../../test-helper';
+import challengeForPixAutoAnswerRepository from '../../../../lib/infrastructure/repositories/challenge-for-pix-auto-answer-repository';
 
 describe('Integration | Repository | challenge-for-pix-auto-answer-repository', function () {
   describe('#get', function () {

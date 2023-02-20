@@ -5,4 +5,4 @@ class CompetenceTree {
   }
 }
 
-module.exports = CompetenceTree;
+export default CompetenceTree;

@@ -1,7 +1,7 @@
-const Session = require('../../../../lib/domain/models/Session');
-const { expect, sinon } = require('../../../test-helper');
-const _ = require('lodash');
-const { domainBuilder } = require('../../../test-helper');
+import Session from '../../../../lib/domain/models/Session';
+import { expect, sinon } from '../../../test-helper';
+import _ from 'lodash';
+import { domainBuilder } from '../../../test-helper';
 
 const SESSION_PROPS = [
   'id',

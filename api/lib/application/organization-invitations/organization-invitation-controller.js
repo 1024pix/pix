@@ -1,12 +1,11 @@
-const _ = require('lodash');
+import _ from 'lodash';
+import { MissingQueryParamError } from '../http-errors';
+import usecases from '../../domain/usecases';
+import organizationInvitationSerializer from '../../infrastructure/serializers/jsonapi/organization-invitation-serializer';
+import scoOrganizationInvitationSerializer from '../../infrastructure/serializers/jsonapi/sco-organization-invitation-serializer';
+import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils';
 
-const { MissingQueryParamError } = require('../http-errors');
-const usecases = require('../../domain/usecases');
-const organizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/organization-invitation-serializer');
-const scoOrganizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/sco-organization-invitation-serializer');
-const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
-
-module.exports = {
+export default {
   async acceptOrganizationInvitation(request) {
     const organizationInvitationId = request.params.id;
     const { code, email: rawEmail } = request.payload.data.attributes;

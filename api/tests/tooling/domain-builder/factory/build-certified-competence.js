@@ -1,4 +1,4 @@
-const { CertifiedCompetence } = require('../../../../lib/domain/read-models/CertifiedProfile');
+import { CertifiedCompetence } from '../../../../lib/domain/read-models/CertifiedProfile';
 
 const buildCertifiedCompetence = function buildCertifiedCompetence({
   id = 'someCompetenceId',
@@ -14,4 +14,4 @@ const buildCertifiedCompetence = function buildCertifiedCompetence({
   });
 };
 
-module.exports = buildCertifiedCompetence;
+export default buildCertifiedCompetence;

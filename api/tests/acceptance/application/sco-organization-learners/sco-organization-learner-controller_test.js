@@ -1,13 +1,13 @@
-const {
+import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   knex,
   generateIdTokenForExternalUser,
-} = require('../../../test-helper');
+} from '../../../test-helper';
 
-const createServer = require('../../../../server');
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
+import createServer from '../../../../server';
+import AuthenticationMethod from '../../../../lib/domain/models/AuthenticationMethod';
 
 describe('Acceptance | Controller | sco-organization-learners', function () {
   let server;

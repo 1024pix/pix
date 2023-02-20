@@ -1,7 +1,7 @@
-const tagSerializer = require('../../infrastructure/serializers/jsonapi/tag-serializer');
-const usecases = require('../../domain/usecases');
+import tagSerializer from '../../infrastructure/serializers/jsonapi/tag-serializer';
+import usecases from '../../domain/usecases';
 
-module.exports = {
+export default {
   async create(request, h) {
     const tagName = request.payload.data.attributes['name'].toUpperCase();
     const createdTag = await usecases.createTag({ tagName });

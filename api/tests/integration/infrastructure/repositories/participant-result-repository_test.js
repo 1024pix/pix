@@ -1,9 +1,9 @@
-const { catchErr, expect, databaseBuilder, mockLearningContent, domainBuilder } = require('../../../test-helper');
-const participantResultRepository = require('../../../../lib/infrastructure/repositories/participant-result-repository');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
-const Assessment = require('../../../../lib/domain/models/Assessment');
+import { catchErr, expect, databaseBuilder, mockLearningContent, domainBuilder } from '../../../test-helper';
+import participantResultRepository from '../../../../lib/infrastructure/repositories/participant-result-repository';
+import KnowledgeElement from '../../../../lib/domain/models/KnowledgeElement';
+import { NotFoundError } from '../../../../lib/domain/errors';
+import CampaignParticipationStatuses from '../../../../lib/domain/models/CampaignParticipationStatuses';
+import Assessment from '../../../../lib/domain/models/Assessment';
 
 const { STARTED } = CampaignParticipationStatuses;
 

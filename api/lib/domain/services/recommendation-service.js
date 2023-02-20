@@ -1,4 +1,4 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
 const REACH_LEVEL_POINTS = 40;
 const DIFFICULTY_POINTS = 30;
@@ -66,6 +66,6 @@ function _isSkillValidated(validatedKnowledgeElements) {
   return (skill) => _.map(validatedKnowledgeElements, 'skillId').includes(skill.id);
 }
 
-module.exports = {
+export default {
   computeRecommendationScore,
 };

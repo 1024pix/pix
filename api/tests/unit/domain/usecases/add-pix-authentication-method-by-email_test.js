@@ -1,6 +1,6 @@
-const { domainBuilder, expect, sinon } = require('../../../test-helper');
-const addPixAuthenticationMethodByEmail = require('../../../../lib/domain/usecases/add-pix-authentication-method-by-email');
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
+import { domainBuilder, expect, sinon } from '../../../test-helper';
+import addPixAuthenticationMethodByEmail from '../../../../lib/domain/usecases/add-pix-authentication-method-by-email';
+import AuthenticationMethod from '../../../../lib/domain/models/AuthenticationMethod';
 
 describe('Unit | UseCase | add-pix-authentication-method-by-email', function () {
   let userRepository, authenticationMethodRepository;

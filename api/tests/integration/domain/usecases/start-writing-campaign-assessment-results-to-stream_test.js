@@ -1,9 +1,8 @@
-const { PassThrough } = require('stream');
-const { expect, mockLearningContent, databaseBuilder, streamToPromise } = require('../../../test-helper');
-
-const usecases = require('../../../../lib/domain/usecases');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const { getI18n } = require('../../../tooling/i18n/i18n');
+import { PassThrough } from 'stream';
+import { expect, mockLearningContent, databaseBuilder, streamToPromise } from '../../../test-helper';
+import usecases from '../../../../lib/domain/usecases';
+import Assessment from '../../../../lib/domain/models/Assessment';
+import { getI18n } from '../../../tooling/i18n/i18n';
 
 describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', function () {
   describe('#startWritingCampaignAssessmentResultsToStream', function () {

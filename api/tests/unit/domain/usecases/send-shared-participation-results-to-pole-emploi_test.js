@@ -1,7 +1,7 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const PoleEmploiSending = require('../../../../lib/domain/models/PoleEmploiSending');
-const PoleEmploiPayload = require('../../../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload');
-const sendSharedParticipationResultsToPoleEmploi = require('../../../../lib/domain/usecases/send-shared-participation-results-to-pole-emploi');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import PoleEmploiSending from '../../../../lib/domain/models/PoleEmploiSending';
+import PoleEmploiPayload from '../../../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload';
+import sendSharedParticipationResultsToPoleEmploi from '../../../../lib/domain/usecases/send-shared-participation-results-to-pole-emploi';
 
 describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-emploi', function () {
   let dependencies, expectedResults;

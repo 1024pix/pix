@@ -1,5 +1,5 @@
-const { expect, sinon, nock } = require('../../test-helper');
-const script = require('../../../scripts/update-sco-organizations-with-province-code-and-external-id');
+import { expect, sinon, nock } from '../../test-helper';
+import script from '../../../scripts/update-sco-organizations-with-province-code-and-external-id';
 
 describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and-external-id.js', function () {
   describe('#assertFileValidity', function () {

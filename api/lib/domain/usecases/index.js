@@ -171,9 +171,9 @@ const dependencies = {
   verifyCertificateCodeService: require('../../domain/services/verify-certificate-code-service'),
 };
 
-const { injectDependencies } = require('../../infrastructure/utils/dependency-injection');
+import { injectDependencies } from '../../infrastructure/utils/dependency-injection';
 
-module.exports = injectDependencies(
+export default injectDependencies(
   {
     abortCertificationCourse: require('./abort-certification-course'),
     acceptCertificationCenterInvitation: require('./accept-certification-center-invitation'),

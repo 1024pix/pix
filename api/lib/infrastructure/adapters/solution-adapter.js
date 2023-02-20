@@ -1,5 +1,5 @@
-const Solution = require('../../domain/models/Solution');
-const _ = require('../../../lib/infrastructure/utils/lodash-utils');
+import Solution from '../../domain/models/Solution';
+import _ from '../../../lib/infrastructure/utils/lodash-utils';
 
 function statusToBoolean(value) {
   if (typeof value === 'boolean') {
@@ -33,7 +33,7 @@ function _extractTypeOfQroc(datasourceObject) {
   return qrocBlocksTypes;
 }
 
-module.exports = {
+export default {
   fromDatasourceObject(datasourceObject) {
     const scoring = _.ensureString(datasourceObject.scoring).replace(/@/g, ''); // XXX YAML ne supporte pas @
     const qrocBlocksTypes = _extractTypeOfQroc(datasourceObject);

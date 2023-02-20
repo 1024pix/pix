@@ -1,5 +1,5 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
-const { filterByFullName } = require('../../../../lib/infrastructure/utils/filter-utils');
+import { expect, databaseBuilder, knex } from '../../../test-helper';
+import { filterByFullName } from '../../../../lib/infrastructure/utils/filter-utils';
 
 describe('Integration | Utils | filter-utils', function () {
   describe('#filterByFullName', function () {

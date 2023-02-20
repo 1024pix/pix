@@ -1,5 +1,5 @@
-const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex } = require('../../../test-helper');
-const createServer = require('../../../../server');
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex } from '../../../test-helper';
+import createServer from '../../../../server';
 
 describe('Acceptance | Stages | PATCH /api/admin/stages/:id', function () {
   let server, options;

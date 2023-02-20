@@ -1,11 +1,11 @@
-const databaseBuffer = require('../database-buffer');
-const buildComplementaryCertificationCourse = require('./build-complementary-certification-course');
-const buildComplementaryCertification = require('./build-complementary-certification');
-const buildCertificationCourse = require('./build-certification-course');
-const _ = require('lodash');
-const ComplementaryCertificationCourseResult = require('../../../lib/domain/models/ComplementaryCertificationCourseResult');
+import databaseBuffer from '../database-buffer';
+import buildComplementaryCertificationCourse from './build-complementary-certification-course';
+import buildComplementaryCertification from './build-complementary-certification';
+import buildCertificationCourse from './build-certification-course';
+import _ from 'lodash';
+import ComplementaryCertificationCourseResult from '../../../lib/domain/models/ComplementaryCertificationCourseResult';
 
-module.exports = function buildComplementaryCertificationCourseResult({
+export default function buildComplementaryCertificationCourseResult({
   complementaryCertificationCourseId,
   partnerKey,
   source = ComplementaryCertificationCourseResult.sources.PIX,
@@ -18,7 +18,7 @@ module.exports = function buildComplementaryCertificationCourseResult({
     tableName: 'complementary-certification-course-results',
     values: { complementaryCertificationCourseId, partnerKey, source, acquired },
   });
-};
+}
 
 function _buildComplementaryCertificationCourse() {
   const { id: complementaryCertificationId } = buildComplementaryCertification();

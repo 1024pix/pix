@@ -1,15 +1,17 @@
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
-const { expect, domainBuilder, sinon, catchErr } = require('../../../test-helper');
-const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const {
+import CampaignParticipation from '../../../../lib/domain/models/CampaignParticipation';
+import CampaignParticipationStatuses from '../../../../lib/domain/models/CampaignParticipationStatuses';
+import { expect, domainBuilder, sinon, catchErr } from '../../../test-helper';
+import CampaignTypes from '../../../../lib/domain/models/CampaignTypes';
+import Assessment from '../../../../lib/domain/models/Assessment';
+
+import {
   ArchivedCampaignError,
   AssessmentNotCompletedError,
   AlreadySharedCampaignParticipationError,
   CantImproveCampaignParticipationError,
   CampaignParticipationDeletedError,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors';
+
 const { TO_SHARE, SHARED } = CampaignParticipationStatuses;
 
 describe('Unit | Domain | Models | CampaignParticipation', function () {

@@ -1,21 +1,18 @@
-const isNil = require('lodash/isNil');
-const isUndefined = require('lodash/isUndefined');
+import isNil from 'lodash/isNil';
+import isUndefined from 'lodash/isUndefined';
+import databaseBuffer from '../database-buffer';
+import AuthenticationMethod from '../../../lib/domain/models/AuthenticationMethod';
+import Membership from '../../../lib/domain/models/Membership';
+import encrypt from '../../../lib/domain/services/encryption-service';
+import buildPixAdminRole from './build-pix-admin-role';
+import buildOrganization from './build-organization';
+import buildMembership from './build-membership';
+import buildCertificationCenter from './build-certification-center';
+import buildCertificationCenterMembership from './build-certification-center-membership';
+import { DEFAULT_PASSWORD } from '../../seeds/data/users-builder';
+import { PIX_ADMIN } from '../../../lib/domain/constants';
 
-const databaseBuffer = require('../database-buffer');
-
-const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
-const Membership = require('../../../lib/domain/models/Membership');
-
-const encrypt = require('../../../lib/domain/services/encryption-service');
-
-const buildPixAdminRole = require('./build-pix-admin-role');
-const buildOrganization = require('./build-organization');
-const buildMembership = require('./build-membership');
-const buildCertificationCenter = require('./build-certification-center');
-const buildCertificationCenterMembership = require('./build-certification-center-membership');
-
-const { DEFAULT_PASSWORD } = require('../../seeds/data/users-builder');
-const { ROLES } = require('../../../lib/domain/constants').PIX_ADMIN;
+const { ROLES: ROLES } = PIX_ADMIN;
 
 function _buildPixAuthenticationMethod({
   id = databaseBuffer.getNextId(),
@@ -390,4 +387,4 @@ buildUser.withCertificationCenterMembership = function buildUserWithCertificatio
   return user;
 };
 
-module.exports = buildUser;
+export default buildUser;

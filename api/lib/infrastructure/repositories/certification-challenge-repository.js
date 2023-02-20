@@ -1,17 +1,16 @@
-const Bookshelf = require('../bookshelf');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const DomainTransaction = require('../DomainTransaction');
-const CertificationChallengeBookshelf = require('../orm-models/CertificationChallenge');
-const logger = require('../../infrastructure/logger');
-
-const { AssessmentEndedError } = require('../../domain/errors');
+import Bookshelf from '../bookshelf';
+import bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter';
+import DomainTransaction from '../DomainTransaction';
+import CertificationChallengeBookshelf from '../orm-models/CertificationChallenge';
+import logger from '../../infrastructure/logger';
+import { AssessmentEndedError } from '../../domain/errors';
 
 const logContext = {
   zone: 'certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId',
   type: 'repository',
 };
 
-module.exports = {
+export default {
   async save({ certificationChallenge, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const certificationChallengeToSave = new CertificationChallengeBookshelf({
       challengeId: certificationChallenge.challengeId,

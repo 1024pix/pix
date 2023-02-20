@@ -1,8 +1,8 @@
-const courseSerializer = require('../../infrastructure/serializers/jsonapi/course-serializer');
-const courseService = require('../../../lib/domain/services/course-service');
-const { extractUserIdFromRequest } = require('../../infrastructure/utils/request-response-utils');
+import courseSerializer from '../../infrastructure/serializers/jsonapi/course-serializer';
+import courseService from '../../../lib/domain/services/course-service';
+import { extractUserIdFromRequest } from '../../infrastructure/utils/request-response-utils';
 
-module.exports = {
+export default {
   get(request) {
     const courseId = request.params.id;
     const userId = extractUserIdFromRequest(request);

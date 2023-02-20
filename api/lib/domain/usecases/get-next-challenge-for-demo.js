@@ -1,8 +1,8 @@
-const { AssessmentEndedError } = require('../errors');
-const _ = require('../../infrastructure/utils/lodash-utils');
-const logger = require('../../infrastructure/logger');
+import { AssessmentEndedError } from '../errors';
+import _ from '../../infrastructure/utils/lodash-utils';
+import logger from '../../infrastructure/logger';
 
-module.exports = function getNextChallengeForDemo({
+export default function getNextChallengeForDemo({
   assessment,
   answerRepository,
   challengeRepository,
@@ -35,7 +35,7 @@ module.exports = function getNextChallengeForDemo({
       throw new AssessmentEndedError();
     })
     .then(challengeRepository.get);
-};
+}
 
 function _selectNextChallengeId(course, answers) {
   const courseChallengeIds = course.challenges;

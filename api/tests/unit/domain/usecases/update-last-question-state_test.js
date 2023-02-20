@@ -1,6 +1,6 @@
-const { sinon, domainBuilder } = require('../../../test-helper');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const updateLastQuestionState = require('../../../../lib/domain/usecases/update-last-question-state');
+import { sinon, domainBuilder } from '../../../test-helper';
+import Assessment from '../../../../lib/domain/models/Assessment';
+import updateLastQuestionState from '../../../../lib/domain/usecases/update-last-question-state';
 
 describe('Unit | UseCase | update-last-question-state', function () {
   const assessmentId = 'assessmentId';

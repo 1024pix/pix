@@ -1,9 +1,9 @@
-const Cache = require('./Cache');
-const DistributedCache = require('./DistributedCache');
-const InMemoryCache = require('./InMemoryCache');
-const LayeredCache = require('./LayeredCache');
-const RedisCache = require('./RedisCache');
-const settings = require('../../config');
+import Cache from './Cache';
+import DistributedCache from './DistributedCache';
+import InMemoryCache from './InMemoryCache';
+import LayeredCache from './LayeredCache';
+import RedisCache from './RedisCache';
+import settings from '../../config';
 
 const LEARNING_CONTENT_CHANNEL = 'Learning content';
 const LEARNING_CONTENT_CACHE_KEY = 'LearningContent';
@@ -42,4 +42,4 @@ class LearningContentCache extends Cache {
   }
 }
 
-module.exports = new LearningContentCache();
+export default new LearningContentCache();

@@ -1,7 +1,7 @@
-const { Serializer, Deserializer } = require('jsonapi-serializer');
-const Feedback = require('../../orm-models/Feedback');
+import { Serializer, Deserializer } from 'jsonapi-serializer';
+import Feedback from '../../orm-models/Feedback';
 
-module.exports = {
+export default {
   serialize(feedbacks) {
     return new Serializer('feedbacks', {
       attributes: ['createdAt', 'content', 'assessment', 'challenge'],

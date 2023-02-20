@@ -1,7 +1,7 @@
-const { expect, domainBuilder, catchErr } = require('../../../test-helper');
-const { CertificationComputeError } = require('../../../../lib/domain/errors');
-const CertificationContract = require('../../../../lib/domain/models/CertificationContract');
-const _ = require('lodash');
+import { expect, domainBuilder, catchErr } from '../../../test-helper';
+import { CertificationComputeError } from '../../../../lib/domain/errors';
+import CertificationContract from '../../../../lib/domain/models/CertificationContract';
+import _ from 'lodash';
 
 describe('Unit | Domain | Models | CertificationContract', function () {
   context('#assertThatWeHaveEnoughAnswers', function () {

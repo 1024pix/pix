@@ -1,5 +1,5 @@
-const { expect } = require('../../test-helper');
-const { getCpfImportResults } = require('../../../scripts/certification/get-cpf-import-status-from-xml');
+import { expect } from '../../test-helper';
+import { getCpfImportResults } from '../../../scripts/certification/get-cpf-import-status-from-xml';
 
 describe('UNIT | Scripts | Certification | get-cpf-import-status-from-xml', function () {
   describe('#getCpfImportResults', function () {

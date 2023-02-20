@@ -1,6 +1,6 @@
-const { knex } = require('../../../db/knex-database-connection');
+import { knex } from '../../../db/knex-database-connection';
 
-module.exports = {
+export default {
   async addNonEnrolledCandidatesToSession({ sessionId, scoCertificationCandidates }) {
     const organizationLearnerIds = scoCertificationCandidates.map((candidate) => candidate.organizationLearnerId);
 

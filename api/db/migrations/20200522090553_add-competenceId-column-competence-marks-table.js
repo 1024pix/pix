@@ -1,7 +1,7 @@
 const TABLE_NAME = 'competence-marks';
 const COLUMN_NAME = 'competenceId';
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.schema.table(TABLE_NAME, (table) => {
     table.string(COLUMN_NAME);
   });
@@ -66,7 +66,7 @@ exports.up = async function (knex) {
   );
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.dropColumn(COLUMN_NAME);
   });

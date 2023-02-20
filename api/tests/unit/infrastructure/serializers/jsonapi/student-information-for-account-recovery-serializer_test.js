@@ -1,6 +1,6 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer.js');
-const StudentInformationForAccountRecovery = require('../../../../../lib/domain/read-models/StudentInformationForAccountRecovery');
+import { expect } from '../../../../test-helper';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer.js';
+import StudentInformationForAccountRecovery from '../../../../../lib/domain/read-models/StudentInformationForAccountRecovery';
 
 describe('Unit | Serializer | JSONAPI | student-information-for-account-recovery-serializer', function () {
   describe('#serialize()', function () {

@@ -10,4 +10,4 @@ class Area {
   }
 }
 
-module.exports = Area;
+export default Area;

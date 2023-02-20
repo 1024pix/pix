@@ -15,4 +15,4 @@ class TutorialEvaluation {
 
 TutorialEvaluation.statuses = statuses;
 
-module.exports = TutorialEvaluation;
+export default TutorialEvaluation;

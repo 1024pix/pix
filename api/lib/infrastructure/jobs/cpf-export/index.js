@@ -1,4 +1,4 @@
-const { injectDependencies } = require('../../utils/dependency-injection');
+import { injectDependencies } from '../../utils/dependency-injection';
 
 const dependencies = {
   cpfCertificationResultRepository: require('../../repositories/cpf-certification-result-repository'),
@@ -7,7 +7,7 @@ const dependencies = {
   mailService: require('../../../domain/services/mail-service'),
 };
 
-module.exports = injectDependencies(
+export default injectDependencies(
   {
     planner: require('./handlers/planner'),
     createAndUpload: require('./handlers/create-and-upload'),

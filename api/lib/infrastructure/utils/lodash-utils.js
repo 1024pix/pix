@@ -72,4 +72,4 @@ _.mixin({
   },
 });
 
-module.exports = _;
+export default _;

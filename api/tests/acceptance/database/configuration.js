@@ -1,5 +1,5 @@
 require('dotenv').config();
-const parsePostgresqlConnectionString = require('pg-connection-string').parse;
+import { parse as parsePostgresqlConnectionString } from 'pg-connection-string';
 
 const databaseToLint = {
   connexion: parsePostgresqlConnectionString(process.env.TEST_DATABASE_URL),
@@ -23,4 +23,4 @@ const configuration = {
   ignores: rules.ignores,
 };
 
-module.exports = configuration;
+export default configuration;

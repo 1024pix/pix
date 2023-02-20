@@ -1,7 +1,7 @@
-const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper');
-const certificationResultRepository = require('../../../../lib/infrastructure/repositories/certification-result-repository');
-const CertificationResult = require('../../../../lib/domain/models/CertificationResult');
-const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
+import { expect, databaseBuilder, domainBuilder } from '../../../test-helper';
+import certificationResultRepository from '../../../../lib/infrastructure/repositories/certification-result-repository';
+import CertificationResult from '../../../../lib/domain/models/CertificationResult';
+import ComplementaryCertificationCourseResult from '../../../../lib/domain/models/ComplementaryCertificationCourseResult';
 
 describe('Integration | Infrastructure | Repository | Certification Result', function () {
   describe('#findBySessionId', function () {

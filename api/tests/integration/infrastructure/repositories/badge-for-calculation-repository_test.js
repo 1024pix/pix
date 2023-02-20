@@ -1,12 +1,13 @@
-const {
+import {
   expect,
   databaseBuilder,
   domainBuilder,
   mockLearningContent,
   learningContentBuilder,
-} = require('../../../test-helper');
-const badgeForCalculationRepository = require('../../../../lib/infrastructure/repositories/badge-for-calculation-repository');
-const BadgeCriterion = require('../../../../lib/domain/models/BadgeCriterion');
+} from '../../../test-helper';
+
+import badgeForCalculationRepository from '../../../../lib/infrastructure/repositories/badge-for-calculation-repository';
+import BadgeCriterion from '../../../../lib/domain/models/BadgeCriterion';
 
 describe('Integration | Repository | BadgeForCalculation', function () {
   const campaignSkillsId = [

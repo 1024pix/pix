@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
-const getCertificationCourse = require('../../../../lib/domain/usecases/get-certification-course');
-const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
+import { expect, sinon } from '../../../test-helper';
+import getCertificationCourse from '../../../../lib/domain/usecases/get-certification-course';
+import CertificationCourse from '../../../../lib/domain/models/CertificationCourse';
 
 describe('Unit | UseCase | get-certification-course', function () {
   let certificationCourse;

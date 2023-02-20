@@ -1,10 +1,10 @@
-const buildCertificationCourse = require('./build-certification-course');
-const buildUser = require('./build-user');
-const databaseBuffer = require('../database-buffer');
-const Assessment = require('../../../lib/domain/models/Assessment');
-const _ = require('lodash');
+import buildCertificationCourse from './build-certification-course';
+import buildUser from './build-user';
+import databaseBuffer from '../database-buffer';
+import Assessment from '../../../lib/domain/models/Assessment';
+import _ from 'lodash';
 
-module.exports = function buildAssessment({
+export default function buildAssessment({
   id = databaseBuffer.getNextId(),
   courseId = 'recDefaultCourseId',
   certificationCourseId,
@@ -52,4 +52,4 @@ module.exports = function buildAssessment({
     tableName: 'assessments',
     values,
   });
-};
+}

@@ -1,20 +1,23 @@
-const { expect, databaseBuilder, catchErr, domainBuilder } = require('../../../../test-helper');
-const {
+import { expect, databaseBuilder, catchErr, domainBuilder } from '../../../../test-helper';
+import {
   CLEA,
   PIX_PLUS_DROIT,
   PIX_PLUS_EDU_1ER_DEGRE,
   PIX_PLUS_EDU_2ND_DEGRE,
-} = require('../../../../../lib/domain/models/ComplementaryCertification');
-const certificationCandidatesOdsService = require('../../../../../lib/domain/services/certification-candidates-ods-service');
-const certificationCpfService = require('../../../../../lib/domain/services/certification-cpf-service');
-const certificationCpfCountryRepository = require('../../../../../lib/infrastructure/repositories/certification-cpf-country-repository');
-const certificationCpfCityRepository = require('../../../../../lib/infrastructure/repositories/certification-cpf-city-repository');
-const certificationCenterRepository = require('../../../../../lib/infrastructure/repositories/certification-center-repository');
-const complementaryCertificationRepository = require('../../../../../lib/infrastructure/repositories/complementary-certification-repository');
-const CertificationCandidate = require('../../../../../lib/domain/models/CertificationCandidate');
-const { CertificationCandidatesImportError } = require('../../../../../lib/domain/errors');
-const { readFile } = require('fs').promises;
-const _ = require('lodash');
+} from '../../../../../lib/domain/models/ComplementaryCertification';
+import certificationCandidatesOdsService from '../../../../../lib/domain/services/certification-candidates-ods-service';
+import certificationCpfService from '../../../../../lib/domain/services/certification-cpf-service';
+import certificationCpfCountryRepository from '../../../../../lib/infrastructure/repositories/certification-cpf-country-repository';
+import certificationCpfCityRepository from '../../../../../lib/infrastructure/repositories/certification-cpf-city-repository';
+import certificationCenterRepository from '../../../../../lib/infrastructure/repositories/certification-center-repository';
+import complementaryCertificationRepository from '../../../../../lib/infrastructure/repositories/complementary-certification-repository';
+import CertificationCandidate from '../../../../../lib/domain/models/CertificationCandidate';
+import { CertificationCandidatesImportError } from '../../../../../lib/domain/errors';
+import { promises } from 'fs';
+
+const { readFile: readFile } = promises;
+
+import _ from 'lodash';
 
 describe('Integration | Services | extractCertificationCandidatesFromCandidatesImportSheet', function () {
   let userId;

@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../test-helper');
-const EventDispatcher = require('../../../lib/infrastructure/events/EventDispatcher');
+import { expect, sinon } from '../../test-helper';
+import EventDispatcher from '../../../lib/infrastructure/events/EventDispatcher';
 
 function getEventHandlerMock() {
   return sinon.stub();

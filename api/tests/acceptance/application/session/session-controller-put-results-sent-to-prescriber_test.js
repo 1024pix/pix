@@ -1,5 +1,5 @@
-const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
-const createServer = require('../../../../server');
+import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../test-helper';
+import createServer from '../../../../server';
 
 describe('PUT /api/admin/sessions/:id/results-sent-to-prescriber', function () {
   let server;

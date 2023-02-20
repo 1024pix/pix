@@ -1,11 +1,11 @@
-const { expect, catchErr, databaseBuilder, knex } = require('../../test-helper');
-const {
+import { expect, catchErr, databaseBuilder, knex } from '../../test-helper';
+import {
   checkBadgeExistence,
   checkCriteriaFormat,
   checkSkillSetIds,
   copySkillSets,
-} = require('../../../scripts/create-badge-criteria-for-specified-badge.js');
-const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
+} from '../../../scripts/create-badge-criteria-for-specified-badge.js';
+import BadgeCriterion from '../../../lib/domain/models/BadgeCriterion';
 
 describe('Integration | Scripts | create-badge-criteria-for-specified-badge', function () {
   describe('#checkBadgeExistence', function () {

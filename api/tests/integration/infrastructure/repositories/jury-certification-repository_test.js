@@ -1,7 +1,7 @@
-const { expect, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const juryCertificationRepository = require('../../../../lib/infrastructure/repositories/jury-certification-repository');
-const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
+import { expect, databaseBuilder, domainBuilder, catchErr } from '../../../test-helper';
+import { NotFoundError } from '../../../../lib/domain/errors';
+import juryCertificationRepository from '../../../../lib/infrastructure/repositories/jury-certification-repository';
+import ComplementaryCertificationCourseResult from '../../../../lib/domain/models/ComplementaryCertificationCourseResult';
 
 describe('Integration | Infrastructure | Repository | Jury Certification', function () {
   describe('#get', function () {

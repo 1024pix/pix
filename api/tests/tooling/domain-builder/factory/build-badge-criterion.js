@@ -1,6 +1,6 @@
-const BadgeCriterion = require('../../../../lib/domain/models/BadgeCriterion');
+import BadgeCriterion from '../../../../lib/domain/models/BadgeCriterion';
 
-module.exports = function buildBadgeCriterion({
+export default function buildBadgeCriterion({
   id = 1,
   scope = BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
   threshold = 40,
@@ -12,4 +12,4 @@ module.exports = function buildBadgeCriterion({
     threshold,
     skillSetIds,
   });
-};
+}

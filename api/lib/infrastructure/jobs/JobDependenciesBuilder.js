@@ -1,5 +1,5 @@
-const logger = require('../../infrastructure/logger');
-const MonitoredJobHandler = require('./monitoring/MonitoredJobHandler');
+import logger from '../../infrastructure/logger';
+import MonitoredJobHandler from './monitoring/MonitoredJobHandler';
 
 function build(classToInstanciate) {
   const dependencies = _buildDependencies();
@@ -16,6 +16,6 @@ function _buildDependencies() {
   };
 }
 
-module.exports = {
+export default {
   build,
 };

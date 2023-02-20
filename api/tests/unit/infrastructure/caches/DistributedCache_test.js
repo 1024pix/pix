@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const DistributedCache = require('../../../../lib/infrastructure/caches/DistributedCache');
+import { expect, sinon } from '../../../test-helper';
+import DistributedCache from '../../../../lib/infrastructure/caches/DistributedCache';
 
 describe('Unit | Infrastructure | Caches | DistributedCache', function () {
   let distributedCacheInstance;

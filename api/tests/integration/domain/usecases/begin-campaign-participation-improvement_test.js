@@ -1,8 +1,8 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
-const beginCampaignParticipationImprovement = require('../../../../lib/domain/usecases/begin-campaign-participation-improvement');
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+import { expect, databaseBuilder, knex } from '../../../test-helper';
+import beginCampaignParticipationImprovement from '../../../../lib/domain/usecases/begin-campaign-participation-improvement';
+import assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository';
+import campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository';
+import CampaignParticipationStatuses from '../../../../lib/domain/models/CampaignParticipationStatuses';
 
 const { STARTED, TO_SHARE } = CampaignParticipationStatuses;
 

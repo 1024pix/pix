@@ -1,6 +1,6 @@
-const { databaseBuilder, expect } = require('../../../../test-helper');
-const sessionForSupervisorKitRepository = require('../../../../../lib/infrastructure/repositories/sessions/session-for-supervisor-kit-repository');
-const SessionForSupervisorKit = require('../../../../../lib/domain/read-models/SessionForSupervisorKit');
+import { databaseBuilder, expect } from '../../../../test-helper';
+import sessionForSupervisorKitRepository from '../../../../../lib/infrastructure/repositories/sessions/session-for-supervisor-kit-repository';
+import SessionForSupervisorKit from '../../../../../lib/domain/read-models/SessionForSupervisorKit';
 
 describe('Integration | Repository | Session-for-supervisor-kit', function () {
   describe('#get', function () {

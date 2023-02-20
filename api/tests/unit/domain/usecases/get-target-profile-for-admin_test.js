@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
+import { expect, sinon } from '../../../test-helper';
+import usecases from '../../../../lib/domain/usecases';
 
 describe('Unit | UseCase | get-target-profile-for-admin', function () {
   it('should get target profile for admin', async function () {

@@ -1,9 +1,9 @@
-const LearningContentDatasources = require('../../infrastructure/datasources/learning-content');
-const learningContentDatasource = require('../../infrastructure/datasources/learning-content/datasource');
-const logger = require('../../infrastructure/logger');
-const _ = require('lodash');
+import LearningContentDatasources from '../../infrastructure/datasources/learning-content';
+import learningContentDatasource from '../../infrastructure/datasources/learning-content/datasource';
+import logger from '../../infrastructure/logger';
+import _ from 'lodash';
 
-module.exports = {
+export default {
   refreshCacheEntries(request, h) {
     learningContentDatasource
       .refreshLearningContentCacheRecords()

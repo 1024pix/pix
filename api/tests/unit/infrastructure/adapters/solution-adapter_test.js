@@ -1,6 +1,6 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const solutionAdapter = require('../../../../lib/infrastructure/adapters/solution-adapter');
-const Solution = require('../../../../lib/domain/models/Solution');
+import { expect, domainBuilder } from '../../../test-helper';
+import solutionAdapter from '../../../../lib/infrastructure/adapters/solution-adapter';
+import Solution from '../../../../lib/domain/models/Solution';
 
 describe('Unit | Adapter | Solution', function () {
   describe('#fromDatasourceObject', function () {

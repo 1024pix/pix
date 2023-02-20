@@ -1,3 +1,3 @@
-module.exports = function findPaginatedFilteredOrganizations({ filter, page, organizationRepository }) {
+export default function findPaginatedFilteredOrganizations({ filter, page, organizationRepository }) {
   return organizationRepository.findPaginatedFiltered({ filter, page });
-};
+}

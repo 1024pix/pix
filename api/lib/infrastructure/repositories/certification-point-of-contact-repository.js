@@ -1,10 +1,10 @@
-const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection');
-const { NotFoundError } = require('../../domain/errors');
-const CertificationPointOfContact = require('../../domain/read-models/CertificationPointOfContact');
-const AllowedCertificationCenterAccess = require('../../domain/read-models/AllowedCertificationCenterAccess');
+import _ from 'lodash';
+import { knex } from '../../../db/knex-database-connection';
+import { NotFoundError } from '../../domain/errors';
+import CertificationPointOfContact from '../../domain/read-models/CertificationPointOfContact';
+import AllowedCertificationCenterAccess from '../../domain/read-models/AllowedCertificationCenterAccess';
 
-module.exports = {
+export default {
   async get(userId) {
     const certificationPointOfContactDTO = await knex
       .select({

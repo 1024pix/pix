@@ -1,5 +1,5 @@
-const _ = require('lodash');
-const { NoOrganizationToAttach } = require('../errors');
+import _ from 'lodash';
+import { NoOrganizationToAttach } from '../errors';
 
 class OrganizationsToAttachToTargetProfile {
   constructor({ id }) {
@@ -14,4 +14,4 @@ class OrganizationsToAttachToTargetProfile {
   }
 }
 
-module.exports = OrganizationsToAttachToTargetProfile;
+export default OrganizationsToAttachToTargetProfile;

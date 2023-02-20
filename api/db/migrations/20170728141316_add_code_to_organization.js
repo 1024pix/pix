@@ -1,10 +1,10 @@
-exports.up = function (knex) {
+export const up = function (knex) {
   return knex.schema.table('organizations', function (table) {
     table.string('code', 6).default('').notNullable();
   });
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return knex.schema.table('organizations', (table) => {
     table.dropColumn('code');
   });

@@ -1,12 +1,12 @@
-const BookshelfMembership = require('../orm-models/Membership');
-const { MembershipCreationError, MembershipUpdateError, NotFoundError } = require('../../domain/errors');
-const Membership = require('../../domain/models/Membership');
-const User = require('../../domain/models/User');
-const Organization = require('../../domain/models/Organization');
-const bookshelfUtils = require('../utils/knex-utils');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const { knex } = require('../../../db/knex-database-connection');
-const DomainTransaction = require('../DomainTransaction');
+import BookshelfMembership from '../orm-models/Membership';
+import { MembershipCreationError, MembershipUpdateError, NotFoundError } from '../../domain/errors';
+import Membership from '../../domain/models/Membership';
+import User from '../../domain/models/User';
+import Organization from '../../domain/models/Organization';
+import bookshelfUtils from '../utils/knex-utils';
+import bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter';
+import { knex } from '../../../db/knex-database-connection';
+import DomainTransaction from '../DomainTransaction';
 
 const DEFAULT_PAGE_SIZE = 10;
 const DEFAULT_PAGE_NUMBER = 1;
@@ -41,7 +41,7 @@ function _setSearchFiltersForQueryBuilder(filter, qb) {
   }
 }
 
-module.exports = {
+export default {
   create(userId, organizationId, organizationRole) {
     return new BookshelfMembership({ userId, organizationId, organizationRole })
       .save()

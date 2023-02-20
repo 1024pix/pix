@@ -1,7 +1,8 @@
-const { knex } = require('../../../db/knex-database-connection');
+import { knex } from '../../../db/knex-database-connection';
 
 const DISTANCE = 0.8;
-module.exports = {
+
+export default {
   filterByFullName(queryBuilder, search, firstName, lastName) {
     const searchLowerCase = search.trim().toLowerCase();
     queryBuilder.where(function () {

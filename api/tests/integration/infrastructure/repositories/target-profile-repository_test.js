@@ -1,10 +1,10 @@
-const _ = require('lodash');
-const { expect, databaseBuilder, catchErr, sinon, knex, domainBuilder } = require('../../../test-helper');
-const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
-const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
-const skillDatasource = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
-const { NotFoundError, ObjectValidationError, InvalidSkillSetError } = require('../../../../lib/domain/errors');
+import _ from 'lodash';
+import { expect, databaseBuilder, catchErr, sinon, knex, domainBuilder } from '../../../test-helper';
+import TargetProfile from '../../../../lib/domain/models/TargetProfile';
+import targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository';
+import skillDatasource from '../../../../lib/infrastructure/datasources/learning-content/skill-datasource';
+import DomainTransaction from '../../../../lib/infrastructure/DomainTransaction';
+import { NotFoundError, ObjectValidationError, InvalidSkillSetError } from '../../../../lib/domain/errors';
 
 describe('Integration | Repository | Target-profile', function () {
   describe('#createWithTubes', function () {

@@ -1,6 +1,6 @@
-const { sinon, expect, domainBuilder, catchErr } = require('../../../test-helper');
-const findCampaignParticipationTrainings = require('../../../../lib/domain/usecases/find-campaign-participation-trainings.js');
-const { UserNotAuthorizedToFindTrainings } = require('../../../../lib/domain/errors');
+import { sinon, expect, domainBuilder, catchErr } from '../../../test-helper';
+import findCampaignParticipationTrainings from '../../../../lib/domain/usecases/find-campaign-participation-trainings.js';
+import { UserNotAuthorizedToFindTrainings } from '../../../../lib/domain/errors';
 
 describe('Unit | UseCase | find-campaign-participation-trainings', function () {
   let campaignParticipationRepository;

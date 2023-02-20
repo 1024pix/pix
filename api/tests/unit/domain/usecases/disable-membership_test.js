@@ -1,7 +1,7 @@
-const { catchErr, expect, sinon } = require('../../../test-helper');
-const { disableMembership } = require('../../../../lib/domain/usecases');
-const membershipRepository = require('../../../../lib/infrastructure/repositories/membership-repository');
-const { MembershipUpdateError } = require('../../../../lib/domain/errors');
+import { catchErr, expect, sinon } from '../../../test-helper';
+import { disableMembership } from '../../../../lib/domain/usecases';
+import membershipRepository from '../../../../lib/infrastructure/repositories/membership-repository';
+import { MembershipUpdateError } from '../../../../lib/domain/errors';
 
 describe('Unit | UseCase | disable-membership', function () {
   beforeEach(function () {

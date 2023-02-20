@@ -1,7 +1,7 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/target-profile-for-admin-old-format-serializer');
-const TargetProfileForAdminOldFormat = require('../../../../../lib/domain/models/TargetProfileForAdminOldFormat');
-const { SCOPES } = require('../../../../../lib/domain/models/BadgeDetails');
+import { expect, domainBuilder } from '../../../../test-helper';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/target-profile-for-admin-old-format-serializer';
+import TargetProfileForAdminOldFormat from '../../../../../lib/domain/models/TargetProfileForAdminOldFormat';
+import { SCOPES } from '../../../../../lib/domain/models/BadgeDetails';
 
 describe('Unit | Serializer | JSONAPI | target-profile-for-admin-old-format-serializer', function () {
   describe('#serialize', function () {

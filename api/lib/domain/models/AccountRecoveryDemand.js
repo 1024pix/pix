@@ -11,4 +11,4 @@ class AccountRecoveryDemand {
   }
 }
 
-module.exports = AccountRecoveryDemand;
+export default AccountRecoveryDemand;

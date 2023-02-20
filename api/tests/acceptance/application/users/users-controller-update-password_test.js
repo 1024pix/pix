@@ -1,7 +1,6 @@
-const { expect, hFake, knex, databaseBuilder } = require('../../../test-helper');
-
-const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
-const createServer = require('../../../../server');
+import { expect, hFake, knex, databaseBuilder } from '../../../test-helper';
+import authenticationController from '../../../../lib/application/authentication/authentication-controller';
+import createServer from '../../../../server';
 
 describe('Acceptance | Controller | users-controller-update-password', function () {
   const temporaryKey = 'good-temporary-key';

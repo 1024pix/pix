@@ -1,6 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-
-const findDivisionsByCertificationCenter = require('../../../../lib/domain/usecases/find-divisions-by-certification-center');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import findDivisionsByCertificationCenter from '../../../../lib/domain/usecases/find-divisions-by-certification-center';
 
 describe('Unit | UseCase | find-divisions-by-certification-center', function () {
   let organization;

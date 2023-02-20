@@ -1,7 +1,7 @@
-const { expect, sinon } = require('../../../test-helper');
-const usecase = require('../../../../lib/application/usecases/checkUserOwnsCertificationCourse');
-const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
-const sessionRepository = require('../../../../lib/infrastructure/repositories/sessions/session-repository');
+import { expect, sinon } from '../../../test-helper';
+import usecase from '../../../../lib/application/usecases/checkUserOwnsCertificationCourse';
+import certificationCourseRepository from '../../../../lib/infrastructure/repositories/certification-course-repository';
+import sessionRepository from '../../../../lib/infrastructure/repositories/sessions/session-repository';
 
 describe('Unit | Application | Use Case | checkUserOwnsCertificationCourse', function () {
   beforeEach(function () {

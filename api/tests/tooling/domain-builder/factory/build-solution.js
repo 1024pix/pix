@@ -1,6 +1,6 @@
-const Solution = require('../../../../lib/domain/models/Solution');
+import Solution from '../../../../lib/domain/models/Solution';
 
-module.exports = function buildSolution({
+export default function buildSolution({
   id = 'recCHAL123',
   type = 'QCM',
   value = '1',
@@ -18,4 +18,4 @@ module.exports = function buildSolution({
     isT3Enabled,
     scoring,
   });
-};
+}

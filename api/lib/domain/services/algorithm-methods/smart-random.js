@@ -1,9 +1,9 @@
-const _ = require('lodash');
-const catAlgorithm = require('./cat-algorithm');
-const { getFilteredSkillsForNextChallenge, getFilteredSkillsForFirstChallenge } = require('./skills-filter');
-const { computeTubesFromSkills } = require('./../tube-service');
+import _ from 'lodash';
+import catAlgorithm from './cat-algorithm';
+import { getFilteredSkillsForNextChallenge, getFilteredSkillsForFirstChallenge } from './skills-filter';
+import { computeTubesFromSkills } from './../tube-service';
 
-module.exports = { getPossibleSkillsForNextChallenge };
+export default { getPossibleSkillsForNextChallenge };
 
 function getPossibleSkillsForNextChallenge({
   knowledgeElements,

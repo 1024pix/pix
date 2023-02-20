@@ -1,5 +1,5 @@
-const createOrUpdateTrainingTrigger = require('../../../../lib/domain/usecases/create-or-update-training-trigger');
-const { expect, catchErr, sinon } = require('../../../test-helper');
+import createOrUpdateTrainingTrigger from '../../../../lib/domain/usecases/create-or-update-training-trigger';
+import { expect, catchErr, sinon } from '../../../test-helper';
 
 describe('Unit | UseCase | create-or-update-training-trigger', function () {
   let trainingRepository;

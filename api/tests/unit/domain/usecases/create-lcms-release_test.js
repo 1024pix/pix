@@ -1,7 +1,7 @@
-const { expect, sinon } = require('../../../test-helper');
-const lcms = require('../../../../lib/infrastructure/lcms');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
-const createLcmsRelease = require('../../../../lib/domain/usecases/create-lcms-release');
+import { expect, sinon } from '../../../test-helper';
+import lcms from '../../../../lib/infrastructure/lcms';
+import cache from '../../../../lib/infrastructure/caches/learning-content-cache';
+import createLcmsRelease from '../../../../lib/domain/usecases/create-lcms-release';
 
 describe('Unit | UseCase | create-lcms-release', function () {
   it('call the createRelease on the lcms module', async function () {

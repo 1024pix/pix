@@ -1,4 +1,4 @@
-module.exports = async function findAnswerByChallengeAndAssessment({
+export default async function findAnswerByChallengeAndAssessment({
   challengeId,
   assessmentId,
   userId,
@@ -16,4 +16,4 @@ module.exports = async function findAnswerByChallengeAndAssessment({
   }
 
   return answerRepository.findByChallengeAndAssessment({ challengeId, assessmentId: integerAssessmentId });
-};
+}

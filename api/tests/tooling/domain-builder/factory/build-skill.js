@@ -1,4 +1,4 @@
-const Skill = require('../../../../lib/domain/models/Skill');
+import Skill from '../../../../lib/domain/models/Skill';
 
 const buildSkill = function buildSkill({
   id = 'recSK123',
@@ -25,7 +25,7 @@ const buildSkill = function buildSkill({
 };
 
 buildSkill.buildRandomTubeName = buildRandomTubeName;
-module.exports = buildSkill;
+export default buildSkill;
 
 /**
  * A tube name starts by a @ and contains between 3 and 15 other letters

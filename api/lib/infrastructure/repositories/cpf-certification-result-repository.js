@@ -1,9 +1,9 @@
-const { knex } = require('../../../db/knex-database-connection');
-const CpfCertificationResult = require('../../domain/read-models/CpfCertificationResult');
-const AssessmentResult = require('../../domain/models/AssessmentResult');
-const { cpfImportStatus } = require('../../domain/models/CertificationCourse');
+import { knex } from '../../../db/knex-database-connection';
+import CpfCertificationResult from '../../domain/read-models/CpfCertificationResult';
+import AssessmentResult from '../../domain/models/AssessmentResult';
+import { cpfImportStatus } from '../../domain/models/CertificationCourse';
 
-module.exports = {
+export default {
   async getIdsByTimeRange({ startDate, endDate }) {
     const ids = await _selectCpfCertificationResults({ startDate, endDate })
       .select('certification-courses.id')

@@ -1,6 +1,6 @@
-const { expect, domainBuilder, sinon } = require('../../../test-helper');
-const createCertificationCenter = require('../../../../lib/domain/usecases/create-certification-center');
-const DataProtectionOfficer = require('../../../../lib/domain/models/DataProtectionOfficer');
+import { expect, domainBuilder, sinon } from '../../../test-helper';
+import createCertificationCenter from '../../../../lib/domain/usecases/create-certification-center';
+import DataProtectionOfficer from '../../../../lib/domain/models/DataProtectionOfficer';
 
 describe('Unit | UseCase | create-certification-center', function () {
   describe('#createCertificationCenter', function () {

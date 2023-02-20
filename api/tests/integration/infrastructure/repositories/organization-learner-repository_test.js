@@ -1,20 +1,18 @@
-const _ = require('lodash');
+import _ from 'lodash';
+import { expect, domainBuilder, databaseBuilder, knex, catchErr, sinon } from '../../../test-helper';
+import OrganizationLearner from '../../../../lib/domain/models/OrganizationLearner';
+import OrganizationLearnerForAdmin from '../../../../lib/domain/read-models/OrganizationLearnerForAdmin';
 
-const { expect, domainBuilder, databaseBuilder, knex, catchErr, sinon } = require('../../../test-helper');
-
-const OrganizationLearner = require('../../../../lib/domain/models/OrganizationLearner');
-const OrganizationLearnerForAdmin = require('../../../../lib/domain/read-models/OrganizationLearnerForAdmin');
-
-const {
+import {
   NotFoundError,
   OrganizationLearnersCouldNotBeSavedError,
   OrganizationLearnerNotFound,
   UserCouldNotBeReconciledError,
   UserNotFoundError,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors';
 
-const organizationLearnerRepository = require('../../../../lib/infrastructure/repositories/organization-learner-repository');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+import organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository';
+import DomainTransaction from '../../../../lib/infrastructure/DomainTransaction';
 
 describe('Integration | Infrastructure | Repository | organization-learner-repository', function () {
   describe('#findByIds', function () {

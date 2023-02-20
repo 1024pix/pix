@@ -9,4 +9,4 @@ class CertificationPointOfContact {
   }
 }
 
-module.exports = CertificationPointOfContact;
+export default CertificationPointOfContact;

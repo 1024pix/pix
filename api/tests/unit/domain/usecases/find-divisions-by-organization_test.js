@@ -1,6 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-
-const findDivisionsByOrganization = require('../../../../lib/domain/usecases/find-divisions-by-organization');
+import { expect, sinon } from '../../../test-helper';
+import findDivisionsByOrganization from '../../../../lib/domain/usecases/find-divisions-by-organization';
 
 describe('Unit | UseCase | find-divisions-by-organization', function () {
   describe('when user has access to organization', function () {

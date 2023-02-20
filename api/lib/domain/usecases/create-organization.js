@@ -1,6 +1,6 @@
-const organizationCreationValidator = require('../validators/organization-creation-validator');
+import organizationCreationValidator from '../validators/organization-creation-validator';
 
-module.exports = async function createOrganization({
+export default async function createOrganization({
   organization,
   dataProtectionOfficerRepository,
   organizationForAdminRepository,
@@ -20,4 +20,4 @@ module.exports = async function createOrganization({
   createdOrganization.dataProtectionOfficerEmail = dataProtectionOfficer.email;
 
   return createdOrganization;
-};
+}

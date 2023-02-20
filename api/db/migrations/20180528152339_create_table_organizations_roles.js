@@ -1,7 +1,7 @@
 const ORGANIZATION_ROLES_TABLE = 'organization-roles';
 const ORGANIZATIONS_ACCESSES_TABLE = 'organizations-accesses';
 
-exports.up = (knex) => {
+export const up = (knex) => {
   return knex.schema
     .createTable(ORGANIZATION_ROLES_TABLE, (table) => {
       table.increments('id').primary();
@@ -21,7 +21,7 @@ exports.up = (knex) => {
     });
 };
 
-exports.down = (knex) => {
+export const down = (knex) => {
   return knex.schema.dropTable(ORGANIZATIONS_ACCESSES_TABLE).then(() => {
     return knex.schema.dropTable(ORGANIZATION_ROLES_TABLE);
   });

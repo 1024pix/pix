@@ -1,15 +1,16 @@
-const writeOdsUtils = require('../../utils/ods/write-ods-utils');
-const readOdsUtils = require('../../utils/ods/read-ods-utils');
-const {
+import writeOdsUtils from '../../utils/ods/write-ods-utils';
+import readOdsUtils from '../../utils/ods/read-ods-utils';
+
+import {
   EXTRA_EMPTY_CANDIDATE_ROWS,
   IMPORT_CANDIDATES_TEMPLATE_VALUES,
   IMPORT_CANDIDATES_SESSION_TEMPLATE_VALUES,
-} = require('./candidates-import-placeholders');
-const CertificationCandidate = require('../../../domain/models/CertificationCandidate');
+} from './candidates-import-placeholders';
 
-const _ = require('lodash');
-const CandidateData = require('./CandidateData');
-const SessionData = require('./SessionData');
+import CertificationCandidate from '../../../domain/models/CertificationCandidate';
+import _ from 'lodash';
+import CandidateData from './CandidateData';
+import SessionData from './SessionData';
 
 const billingValidatorList = Object.values(CertificationCandidate.BILLING_MODES).map(
   CertificationCandidate.translateBillingMode
@@ -20,7 +21,7 @@ const HEADER_ROW_SPAN = 3;
 const CANDIDATE_TABLE_HEADER_ROW = 11;
 const CANDIDATE_TABLE_FIRST_ROW = 12;
 
-module.exports = async function fillCandidatesImportSheet({
+export default async function fillCandidatesImportSheet({
   session,
   certificationCenterHabilitations,
   isScoCertificationCenter,
@@ -37,7 +38,7 @@ module.exports = async function fillCandidatesImportSheet({
   _addCandidateRows(odsBuilder, session.certificationCandidates);
 
   return odsBuilder.build({ templateFilePath: _getCandidatesImportTemplatePath() });
-};
+}
 
 async function _getCandidatesImportTemplate() {
   const templatePath = __dirname + '/1.5/candidates_import_template.ods';

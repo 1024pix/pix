@@ -1,7 +1,7 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
-const createServer = require('../../../../server');
-const jsonwebtoken = require('jsonwebtoken');
-const settings = require('../../../../lib/config');
+import { expect, databaseBuilder } from '../../../test-helper';
+import createServer from '../../../../server';
+import jsonwebtoken from 'jsonwebtoken';
+import settings from '../../../../lib/config';
 
 describe('Acceptance | Controller | session-controller-get-session-results-to-download', function () {
   describe('GET /api/sessions/download-all-results/{token}', function () {

@@ -1,6 +1,6 @@
-const AccountRecoveryDemand = require('../../../../lib/domain/models/AccountRecoveryDemand');
+import AccountRecoveryDemand from '../../../../lib/domain/models/AccountRecoveryDemand';
 
-module.exports = function buildAccountRecoveryDemand({
+export default function buildAccountRecoveryDemand({
   userId = 7,
   organizationLearnerId,
   newEmail = 'new-email@example.net',
@@ -16,4 +16,4 @@ module.exports = function buildAccountRecoveryDemand({
     used,
     temporaryKey,
   });
-};
+}

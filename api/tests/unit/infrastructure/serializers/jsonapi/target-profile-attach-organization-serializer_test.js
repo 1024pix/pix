@@ -1,5 +1,5 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer');
+import { expect } from '../../../../test-helper';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer';
 
 describe('Unit | Serializer | JSONAPI | target-profile-attach-organization-serializer', function () {
   describe('#serialize', function () {

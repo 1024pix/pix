@@ -1,10 +1,9 @@
-const certificationController = require('./certification-controller');
-const Joi = require('joi');
+import certificationController from './certification-controller';
+import Joi from 'joi';
+import responseErrorObjectDoc from '../../infrastructure/open-api-doc/livret-scolaire/response-object-error-doc';
+import certificationsResultsResponseDoc from '../../infrastructure/open-api-doc/livret-scolaire/certifications-results-doc';
 
-const responseErrorObjectDoc = require('../../infrastructure/open-api-doc/livret-scolaire/response-object-error-doc');
-const certificationsResultsResponseDoc = require('../../infrastructure/open-api-doc/livret-scolaire/certifications-results-doc');
-
-exports.register = async function (server) {
+export const register = async function (server) {
   server.route([
     {
       method: 'GET',
@@ -42,4 +41,4 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'certifications-lsu-lsl-api';
+export const name = 'certifications-lsu-lsl-api';

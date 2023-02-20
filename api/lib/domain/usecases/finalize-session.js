@@ -1,13 +1,14 @@
-const {
+import {
   SessionAlreadyFinalizedError,
   SessionWithoutStartedCertificationError,
   SessionWithAbortReasonOnCompletedCertificationCourseError,
   SessionWithMissingAbortReasonError,
-} = require('../errors');
-const SessionFinalized = require('../events/SessionFinalized');
-const bluebird = require('bluebird');
+} from '../errors';
 
-module.exports = async function finalizeSession({
+import SessionFinalized from '../events/SessionFinalized';
+import bluebird from 'bluebird';
+
+export default async function finalizeSession({
   sessionId,
   examinerGlobalComment,
   certificationReports,
@@ -72,7 +73,7 @@ module.exports = async function finalizeSession({
     sessionDate: finalizedSession.date,
     sessionTime: finalizedSession.time,
   });
-};
+}
 
 function _hasAbortReasonForCompletedCertificationCourse({ abortReasonCount, uncompletedCertificationCount }) {
   return abortReasonCount > uncompletedCertificationCount;

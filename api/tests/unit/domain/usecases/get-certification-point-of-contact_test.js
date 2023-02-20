@@ -1,5 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const getCertificationPointOfContact = require('../../../../lib/domain/usecases/get-certification-point-of-contact');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import getCertificationPointOfContact from '../../../../lib/domain/usecases/get-certification-point-of-contact';
 
 describe('Unit | UseCase | get-certification-point-of-contact', function () {
   const userId = 123;

@@ -1,7 +1,6 @@
-const { catchErr, expect, sinon } = require('../../../test-helper');
-const { UserCantBeCreatedError } = require('../../../../lib/domain/errors');
-
-const authenticateAnonymousUser = require('../../../../lib/domain/usecases/authenticate-anonymous-user');
+import { catchErr, expect, sinon } from '../../../test-helper';
+import { UserCantBeCreatedError } from '../../../../lib/domain/errors';
+import authenticateAnonymousUser from '../../../../lib/domain/usecases/authenticate-anonymous-user';
 
 describe('Unit | UseCase | authenticate-anonymous-user', function () {
   let campaignCode;

@@ -1,10 +1,10 @@
-const saml = require('../../infrastructure/saml');
-const usecases = require('../../domain/usecases');
-const logger = require('../../infrastructure/logger');
-const tokenService = require('../../domain/services/token-service');
-const settings = require('../../config');
+import saml from '../../infrastructure/saml';
+import usecases from '../../domain/usecases';
+import logger from '../../infrastructure/logger';
+import tokenService from '../../domain/services/token-service';
+import settings from '../../config';
 
-module.exports = {
+export default {
   metadata(request, h) {
     return h.response(saml.getServiceProviderMetadata()).type('application/xml');
   },

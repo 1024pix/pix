@@ -1,8 +1,8 @@
-const Badge = require('../../../../lib/domain/models/Badge');
-const buildBadgeCriterion = require('./build-badge-criterion');
-const buildSkillSet = require('./build-skill-set');
+import Badge from '../../../../lib/domain/models/Badge';
+import buildBadgeCriterion from './build-badge-criterion';
+import buildSkillSet from './build-skill-set';
 
-module.exports = function buildBadge({
+export default function buildBadge({
   id = 1,
   altMessage = 'altMessage',
   imageUrl = '/img/banana',
@@ -30,4 +30,4 @@ module.exports = function buildBadge({
     isAlwaysVisible,
     complementaryCertificationBadge,
   });
-};
+}

@@ -1,11 +1,12 @@
-const { expect, sinon, HttpTestServer, generateValidRequestAuthorizationHeader } = require('../../../../test-helper');
-const oidcController = require('../../../../../lib/application/authentication/oidc/oidc-controller');
-const moduleUnderTest = require('../../../../../lib/application/authentication/oidc');
-const {
+import { expect, sinon, HttpTestServer, generateValidRequestAuthorizationHeader } from '../../../../test-helper';
+import oidcController from '../../../../../lib/application/authentication/oidc/oidc-controller';
+import moduleUnderTest from '../../../../../lib/application/authentication/oidc';
+
+import {
   UserNotFoundError,
   AuthenticationKeyExpired,
   DifferentExternalIdentifierError,
-} = require('../../../../../lib/domain/errors');
+} from '../../../../../lib/domain/errors';
 
 describe('Integration | Application | Route | OidcRouter', function () {
   let server;

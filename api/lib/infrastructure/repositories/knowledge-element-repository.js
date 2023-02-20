@@ -1,14 +1,14 @@
-const _ = require('lodash');
-const bluebird = require('bluebird');
-const constants = require('../constants');
-const { knex } = require('../../../db/knex-database-connection');
-const KnowledgeElement = require('../../domain/models/KnowledgeElement');
-const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
-const BookshelfKnowledgeElement = require('../orm-models/KnowledgeElement');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const knowledgeElementSnapshotRepository = require('./knowledge-element-snapshot-repository');
-const campaignRepository = require('./campaign-repository');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
+import _ from 'lodash';
+import bluebird from 'bluebird';
+import constants from '../constants';
+import { knex } from '../../../db/knex-database-connection';
+import KnowledgeElement from '../../domain/models/KnowledgeElement';
+import CampaignParticipationStatuses from '../../domain/models/CampaignParticipationStatuses';
+import BookshelfKnowledgeElement from '../orm-models/KnowledgeElement';
+import bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter';
+import knowledgeElementSnapshotRepository from './knowledge-element-snapshot-repository';
+import campaignRepository from './campaign-repository';
+import DomainTransaction from '../../infrastructure/DomainTransaction';
 
 const { SHARED } = CampaignParticipationStatuses;
 
@@ -86,7 +86,7 @@ async function _countValidatedByCompetencesForUsersWithinCampaign(userIdsAndDate
   );
 }
 
-module.exports = {
+export default {
   async save(knowledgeElement) {
     const knowledgeElementToSave = _.omit(knowledgeElement, ['id', 'createdAt']);
     const savedKnowledgeElement = await new BookshelfKnowledgeElement(knowledgeElementToSave).save();

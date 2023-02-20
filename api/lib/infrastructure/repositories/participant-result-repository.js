@@ -1,17 +1,17 @@
-const { knex } = require('../../../db/knex-database-connection');
-const _ = require('lodash');
-const Assessment = require('../../domain/models/Assessment');
-const AssessmentResult = require('../../domain/read-models/participant-results/AssessmentResult');
-const competenceRepository = require('./competence-repository');
-const answerRepository = require('./answer-repository');
-const challengeRepository = require('./challenge-repository');
-const areaRepository = require('./area-repository');
-const knowledgeElementRepository = require('./knowledge-element-repository');
-const flashAssessmentResultRepository = require('./flash-assessment-result-repository');
-const campaignRepository = require('./campaign-repository');
-const flash = require('../../domain/services/algorithm-methods/flash');
-const dataFetcher = require('../../domain/services/algorithm-methods/data-fetcher');
-const { NotFoundError } = require('../../domain/errors');
+import { knex } from '../../../db/knex-database-connection';
+import _ from 'lodash';
+import Assessment from '../../domain/models/Assessment';
+import AssessmentResult from '../../domain/read-models/participant-results/AssessmentResult';
+import competenceRepository from './competence-repository';
+import answerRepository from './answer-repository';
+import challengeRepository from './challenge-repository';
+import areaRepository from './area-repository';
+import knowledgeElementRepository from './knowledge-element-repository';
+import flashAssessmentResultRepository from './flash-assessment-result-repository';
+import campaignRepository from './campaign-repository';
+import flash from '../../domain/services/algorithm-methods/flash';
+import dataFetcher from '../../domain/services/algorithm-methods/data-fetcher';
+import { NotFoundError } from '../../domain/errors';
 
 const ParticipantResultRepository = {
   async getByUserIdAndCampaignId({ userId, campaignId, badges, locale }) {
@@ -234,4 +234,4 @@ async function _isOrganizationLearnerActive(userId, campaignId) {
   return !organizationLearner?.isDisabled;
 }
 
-module.exports = ParticipantResultRepository;
+export default ParticipantResultRepository;

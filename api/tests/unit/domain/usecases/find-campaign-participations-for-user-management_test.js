@@ -1,5 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const findCampaignParticipationsForUserManagement = require('../../../../lib/domain/usecases/find-campaign-participations-for-user-management');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import findCampaignParticipationsForUserManagement from '../../../../lib/domain/usecases/find-campaign-participations-for-user-management';
 
 describe('Unit | UseCase | findCampaignParticipationsForUserManagement', function () {
   const userId = 1;

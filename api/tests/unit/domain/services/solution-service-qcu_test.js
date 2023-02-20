@@ -1,7 +1,6 @@
-const { expect } = require('../../../test-helper');
-
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const service = require('../../../../lib/domain/services/solution-service-qcu');
+import { expect } from '../../../test-helper';
+import AnswerStatus from '../../../../lib/domain/models/AnswerStatus';
+import service from '../../../../lib/domain/services/solution-service-qcu';
 
 describe('Unit | Service | SolutionServiceQCU ', function () {
   describe('if solution type is QCU', function () {

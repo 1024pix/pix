@@ -1,13 +1,13 @@
-const {
+import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   mockLearningContent,
   insertUserWithRoleSuperAdmin,
-} = require('../../../test-helper');
+} from '../../../test-helper';
 
-const createServer = require('../../../../server');
-const constants = require('../../../../lib/domain/constants');
+import createServer from '../../../../server';
+import constants from '../../../../lib/domain/constants';
 
 describe('Acceptance | Controller | users-controller-get-user-profile-for-admin', function () {
   let options;

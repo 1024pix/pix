@@ -1,6 +1,7 @@
-const _ = require('lodash');
-const bluebird = require('bluebird');
-const {
+import _ from 'lodash';
+import bluebird from 'bluebird';
+
+import {
   CERTIF_SUCCESS_USER_ID,
   CERTIF_FAILURE_USER_ID,
   CERTIF_REGULAR_USER1_ID,
@@ -15,14 +16,17 @@ const {
   CERTIF_EDU_FORMATION_CONTINUE_2ND_DEGRE_USER_ID,
   CERTIF_EDU_FORMATION_INITIALE_1ER_DEGRE_USER_ID,
   CERTIF_EDU_FORMATION_CONTINUE_1ER_DEGRE_USER_ID,
-} = require('./users');
-const { makeUserPixCertifiable, makeUserPixDroitCertifiable } = require('./tooling');
-const {
+} from './users';
+
+import { makeUserPixCertifiable, makeUserPixDroitCertifiable } from './tooling';
+
+import {
   WEAK_CERTIFIABLE_WITH_TIMED_CHALLENGE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS,
   PIX_EDU_FORMATION_INITIALE_AVANCE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS,
   PIX_EDU_FORMATION_CONTINUE_FORMATEUR_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS,
-} = require('./certification-data');
-const { SCO_FOREIGNER_USER_ID, SCO_FRENCH_USER_ID } = require('../organizations-sco-builder');
+} from './certification-data';
+
+import { SCO_FOREIGNER_USER_ID, SCO_FRENCH_USER_ID } from '../organizations-sco-builder';
 
 async function certificationUserProfilesBuilder({ databaseBuilder }) {
   const createdAt = new Date('2019-12-31T00:00:00Z');
@@ -219,6 +223,6 @@ async function certificationUserProfilesBuilder({ databaseBuilder }) {
   );
 }
 
-module.exports = {
+export default {
   certificationUserProfilesBuilder,
 };

@@ -1,10 +1,10 @@
-const PoleEmploiOidcAuthenticationService = require('../services/authentication/pole-emploi-oidc-authentication-service');
-const CnavOidcAuthenticationService = require('../services/authentication/cnav-oidc-authentication-service');
-const FwbOidcAuthenticationService = require('../services/authentication/fwb-oidc-authentication-service');
+import PoleEmploiOidcAuthenticationService from '../services/authentication/pole-emploi-oidc-authentication-service';
+import CnavOidcAuthenticationService from '../services/authentication/cnav-oidc-authentication-service';
+import FwbOidcAuthenticationService from '../services/authentication/fwb-oidc-authentication-service';
 
 const DEFAULT_PROPERTY_PATHS_TO_PICK = ['clientId', 'authenticationUrl', 'userInfoUrl', 'tokenUrl', 'clientSecret'];
 
-module.exports = {
+export default {
   POLE_EMPLOI: {
     configKey: 'poleEmploi',
     propertyPathsToPick: [...DEFAULT_PROPERTY_PATHS_TO_PICK, 'sendingUrl', 'logoutUrl', 'afterLogoutUrl'],

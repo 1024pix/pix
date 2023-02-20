@@ -1,7 +1,7 @@
-const { expect, databaseBuilder, mockLearningContent } = require('../../../test-helper');
-const campaignParticipationResultRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-result-repository');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+import { expect, databaseBuilder, mockLearningContent } from '../../../test-helper';
+import campaignParticipationResultRepository from '../../../../lib/infrastructure/repositories/campaign-participation-result-repository';
+import KnowledgeElement from '../../../../lib/domain/models/KnowledgeElement';
+import CampaignParticipationStatuses from '../../../../lib/domain/models/CampaignParticipationStatuses';
 
 const { STARTED } = CampaignParticipationStatuses;
 

@@ -1,5 +1,5 @@
-const { expect, databaseBuilder, knex, catchErr } = require('../../test-helper');
-const { retrieveTagsByName, addTagsToOrganizations } = require('../../../scripts/add-tags-to-organizations');
+import { expect, databaseBuilder, knex, catchErr } from '../../test-helper';
+import { retrieveTagsByName, addTagsToOrganizations } from '../../../scripts/add-tags-to-organizations';
 
 describe('Integration | Scripts | add-tags-to-organizations.js', function () {
   let firstTag;

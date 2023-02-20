@@ -1,6 +1,6 @@
 const Joi = require('joi').extend(require('@joi/date'));
-const { validateEntity } = require('../validators/entity-validator');
-const _ = require('lodash');
+import { validateEntity } from '../validators/entity-validator';
+import _ from 'lodash';
 
 const validationSchema = Joi.object({
   participantFirstName: Joi.string().required().allow(''),
@@ -52,4 +52,4 @@ class CampaignParticipationInfo {
   }
 }
 
-module.exports = CampaignParticipationInfo;
+export default CampaignParticipationInfo;

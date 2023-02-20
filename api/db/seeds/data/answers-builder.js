@@ -1,4 +1,4 @@
-module.exports = function answersBuilder({ databaseBuilder }) {
+export default function answersBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildAnswer({
     value: 'Num1: \'4\'\nNum2: \'1\'\nNum3: \'5\'\n',

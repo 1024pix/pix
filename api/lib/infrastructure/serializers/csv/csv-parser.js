@@ -1,6 +1,6 @@
-const papa = require('papaparse');
-const iconv = require('iconv-lite');
-const { CsvImportError } = require('../../../domain/errors');
+import papa from 'papaparse';
+import iconv from 'iconv-lite';
+import { CsvImportError } from '../../../domain/errors';
 const ERRORS = {
   ENCODING_NOT_SUPPORTED: 'ENCODING_NOT_SUPPORTED',
   BAD_CSV_FORMAT: 'BAD_CSV_FORMAT',
@@ -119,6 +119,6 @@ function _atLeastOneParsedColumnDoesNotMatchAcceptedColumns(parsedColumns, accep
   });
 }
 
-module.exports = {
+export default {
   CsvParser,
 };

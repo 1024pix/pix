@@ -1,9 +1,9 @@
-const SCOCertificationCandidate = require('../models/SCOCertificationCandidate');
-const _ = require('lodash');
-const { ForbiddenAccess, UnknownCountryForStudentEnrollmentError } = require('../errors');
+import SCOCertificationCandidate from '../models/SCOCertificationCandidate';
+import _ from 'lodash';
+import { ForbiddenAccess, UnknownCountryForStudentEnrollmentError } from '../errors';
 const INSEE_PREFIX_CODE = '99';
 
-module.exports = async function enrollStudentsToSession({
+export default async function enrollStudentsToSession({
   sessionId,
   referentId,
   studentIds,
@@ -59,7 +59,7 @@ module.exports = async function enrollStudentsToSession({
     sessionId,
     scoCertificationCandidates,
   });
-};
+}
 
 function _doesSessionBelongToSameCertificationCenterAsReferent(referentCertificationCenterMemberships, session) {
   return referentCertificationCenterMemberships.some(

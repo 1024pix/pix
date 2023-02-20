@@ -1,5 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const commentSessionAsJury = require('../../../../lib/domain/usecases/comment-session-as-jury');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import commentSessionAsJury from '../../../../lib/domain/usecases/comment-session-as-jury';
 
 describe('Unit | UseCase | comment-session-as-jury', function () {
   const sessionJuryCommentRepository = { get: null, save: null };

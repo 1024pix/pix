@@ -1,9 +1,9 @@
-const { knex } = require('../../../../db/knex-database-connection');
-const { NotFoundError } = require('../../../domain/errors');
-const SessionForAttendanceSheet = require('../../../domain/read-models/SessionForAttendanceSheet');
-const CertificationCandidateForAttendanceSheet = require('../../../domain/read-models/CertificationCandidateForAttendanceSheet');
+import { knex } from '../../../../db/knex-database-connection';
+import { NotFoundError } from '../../../domain/errors';
+import SessionForAttendanceSheet from '../../../domain/read-models/SessionForAttendanceSheet';
+import CertificationCandidateForAttendanceSheet from '../../../domain/read-models/CertificationCandidateForAttendanceSheet';
 
-module.exports = {
+export default {
   async getWithCertificationCandidates(idSession) {
     const results = await knex
       .select(

@@ -1,11 +1,11 @@
-const bluebird = require('bluebird');
+import bluebird from 'bluebird';
 
 const TEMPLATE_TABLE_NAME = 'target-profile-templates';
 const OLD_TEMPLATE_TUBES_TABLE_NAME = 'target-profile-templates_tubes';
 const TARGET_PROFILE_TUBES_TABLE_NAME = 'target-profile_tubes';
 const TARGET_PROFILE_TABLE_NAME = 'target-profiles';
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.schema.renameTable(OLD_TEMPLATE_TUBES_TABLE_NAME, TARGET_PROFILE_TUBES_TABLE_NAME);
 
   await knex.schema.table(TARGET_PROFILE_TUBES_TABLE_NAME, (t) => {
@@ -30,7 +30,7 @@ exports.up = async function (knex) {
   await knex.schema.dropTable(TEMPLATE_TABLE_NAME);
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   await knex.schema.createTable(TEMPLATE_TABLE_NAME, (t) => {
     t.increments().primary();
   });

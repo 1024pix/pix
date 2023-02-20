@@ -1,6 +1,6 @@
-const CertificationCenterForAdmin = require('../../../../lib/domain/models/CertificationCenterForAdmin');
+import CertificationCenterForAdmin from '../../../../lib/domain/models/CertificationCenterForAdmin';
 
-module.exports = function buildCertificationCenterForAdmin({
+export default function buildCertificationCenterForAdmin({
   id = 1,
   name = 'name',
   type = CertificationCenterForAdmin.types.SUP,
@@ -24,4 +24,4 @@ module.exports = function buildCertificationCenterForAdmin({
     dataProtectionOfficerEmail,
     habilitations,
   });
-};
+}

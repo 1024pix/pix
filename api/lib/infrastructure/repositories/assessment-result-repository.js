@@ -1,9 +1,9 @@
-const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection');
-const { MissingAssessmentId, AssessmentResultNotCreatedError } = require('../../domain/errors');
-const DomainTransaction = require('../DomainTransaction');
-const AssessmentResult = require('../../domain/models/AssessmentResult');
-const CompetenceMark = require('../../domain/models/CompetenceMark');
+import _ from 'lodash';
+import { knex } from '../../../db/knex-database-connection';
+import { MissingAssessmentId, AssessmentResultNotCreatedError } from '../../domain/errors';
+import DomainTransaction from '../DomainTransaction';
+import AssessmentResult from '../../domain/models/AssessmentResult';
+import CompetenceMark from '../../domain/models/CompetenceMark';
 
 function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {
   const competenceMarks = competencesMarksDTO.map((competenceMark) => new CompetenceMark(competenceMark));
@@ -25,7 +25,7 @@ function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {
   });
 }
 
-module.exports = {
+export default {
   async save({ certificationCourseId, assessmentResult, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const {
       pixScore,

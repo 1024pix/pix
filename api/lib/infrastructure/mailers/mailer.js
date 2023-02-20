@@ -1,9 +1,9 @@
-const Debug = require('debug');
-const SendinblueProvider = require('./SendinblueProvider');
-const { mailing } = require('../../config');
-const logger = require('../logger');
-const mailCheck = require('../mail-check');
-const EmailingAttempt = require('../../domain/models/EmailingAttempt');
+import Debug from 'debug';
+import SendinblueProvider from './SendinblueProvider';
+import { mailing } from '../../config';
+import logger from '../logger';
+import mailCheck from '../mail-check';
+import EmailingAttempt from '../../domain/models/EmailingAttempt';
 
 const debugEmail = Debug('pix:mailer:email');
 
@@ -88,4 +88,4 @@ class Mailer {
   }
 }
 
-module.exports = new Mailer();
+export default new Mailer();

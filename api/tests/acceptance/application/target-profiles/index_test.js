@@ -1,4 +1,4 @@
-const {
+import {
   expect,
   generateValidRequestAuthorizationHeader,
   databaseBuilder,
@@ -6,9 +6,10 @@ const {
   mockLearningContent,
   learningContentBuilder,
   MockDate,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
-const omit = require('lodash/omit');
+} from '../../../test-helper';
+
+import createServer from '../../../../server';
+import omit from 'lodash/omit';
 
 describe('Acceptance | Route | target-profiles', function () {
   let server;

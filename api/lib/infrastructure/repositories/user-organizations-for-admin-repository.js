@@ -1,7 +1,7 @@
-const { knex } = require('../../../db/knex-database-connection');
-const UserOrganizationForAdmin = require('../../domain/read-models/UserOrganizationForAdmin');
+import { knex } from '../../../db/knex-database-connection';
+import UserOrganizationForAdmin from '../../domain/read-models/UserOrganizationForAdmin';
 
-module.exports = {
+export default {
   async findByUserId(userId) {
     const organizations = await knex('memberships')
       .select({

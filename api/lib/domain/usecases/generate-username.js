@@ -1,12 +1,9 @@
-const {
-  CampaignCodeError,
-  OrganizationLearnerNotFound,
-  OrganizationLearnerAlreadyLinkedToUserError,
-} = require('../errors');
-const { STUDENT_RECONCILIATION_ERRORS } = require('../constants');
-const { find, get } = require('lodash');
+import { CampaignCodeError, OrganizationLearnerNotFound, OrganizationLearnerAlreadyLinkedToUserError } from '../errors';
 
-module.exports = async function generateUsername({
+import { STUDENT_RECONCILIATION_ERRORS } from '../constants';
+import { find, get } from 'lodash';
+
+export default async function generateUsername({
   studentInformation,
   campaignCode,
   campaignRepository,
@@ -46,7 +43,7 @@ module.exports = async function generateUsername({
   };
 
   return userReconciliationService.createUsernameByUser({ user: studentInformation, userRepository });
-};
+}
 
 async function findMatchedOrganizationLearnerForGivenOrganizationIdAndStudentInfo({
   organizationId,

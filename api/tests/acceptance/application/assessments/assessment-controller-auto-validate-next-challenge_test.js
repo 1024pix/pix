@@ -1,4 +1,4 @@
-const {
+import {
   expect,
   databaseBuilder,
   knex,
@@ -6,10 +6,11 @@ const {
   learningContentBuilder,
   insertUserWithRoleSuperAdmin,
   generateValidRequestAuthorizationHeader,
-} = require('../../../test-helper');
-const settings = require('../../../../lib/config');
-const createServer = require('../../../../server');
-const Assessment = require('../../../../lib/domain/models/Assessment');
+} from '../../../test-helper';
+
+import settings from '../../../../lib/config';
+import createServer from '../../../../server';
+import Assessment from '../../../../lib/domain/models/Assessment';
 
 const lastChallengeAnswer = 'last challenge answer';
 const lastChallengeId = 'lastChallengeId';

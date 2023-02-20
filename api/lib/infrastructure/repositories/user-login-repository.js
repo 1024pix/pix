@@ -1,5 +1,5 @@
-const { knex } = require('../../../db/knex-database-connection');
-const UserLogin = require('../../domain/models/UserLogin');
+import { knex } from '../../../db/knex-database-connection';
+import UserLogin from '../../domain/models/UserLogin';
 
 function _toDomain(userLoginDTO) {
   return new UserLogin({
@@ -13,7 +13,7 @@ function _toDomain(userLoginDTO) {
   });
 }
 
-module.exports = {
+export default {
   async findByUserId(userId) {
     const foundUserLogin = await knex.from('user-logins').where({ userId }).first();
     return foundUserLogin ? _toDomain(foundUserLogin) : null;

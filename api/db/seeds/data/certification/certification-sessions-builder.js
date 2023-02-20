@@ -1,4 +1,4 @@
-const {
+import {
   SCO_COLLEGE_CERTIF_CENTER_ID,
   SCO_COLLEGE_CERTIF_CENTER_NAME,
   SCO_NO_MANAGING_STUDENTS_CERTIF_CENTER_ID,
@@ -7,8 +7,9 @@ const {
   DROIT_CERTIF_CENTER_NAME,
   SUP_CERTIF_CENTER_NAME,
   SUP_CERTIF_CENTER_ID,
-} = require('./certification-centers-builder');
-const { PIX_SUPER_ADMIN_ID } = require('./../users-builder');
+} from './certification-centers-builder';
+
+import { PIX_SUPER_ADMIN_ID } from './../users-builder';
 const EMPTY_SESSION_ID = 1;
 const STARTED_SESSION_ID = 2;
 const STARTED_SESSION_WITH_LOT_OF_CANDIDATES_ID = 3;
@@ -217,7 +218,7 @@ function certificationSessionsBuilder({ databaseBuilder }) {
   });
 }
 
-module.exports = {
+export default {
   certificationSessionsBuilder,
   EMPTY_SESSION_ID,
   STARTED_SESSION_ID,

@@ -1,10 +1,10 @@
-const { expect, sinon, hFake, domainBuilder } = require('../../../test-helper');
-const targetProfileController = require('../../../../lib/application/target-profiles/target-profile-controller');
-const usecases = require('../../../../lib/domain/usecases');
-const tokenService = require('../../../../lib/domain/services/token-service');
-const targetProfileAttachOrganizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer');
-const learningContentPDFPresenter = require('../../../../lib/application/target-profiles/presenter/pdf/learning-content-pdf-presenter');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+import { expect, sinon, hFake, domainBuilder } from '../../../test-helper';
+import targetProfileController from '../../../../lib/application/target-profiles/target-profile-controller';
+import usecases from '../../../../lib/domain/usecases';
+import tokenService from '../../../../lib/domain/services/token-service';
+import targetProfileAttachOrganizationSerializer from '../../../../lib/infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer';
+import learningContentPDFPresenter from '../../../../lib/application/target-profiles/presenter/pdf/learning-content-pdf-presenter';
+import DomainTransaction from '../../../../lib/infrastructure/DomainTransaction';
 
 describe('Unit | Controller | target-profile-controller', function () {
   describe('#createTargetProfile', function () {

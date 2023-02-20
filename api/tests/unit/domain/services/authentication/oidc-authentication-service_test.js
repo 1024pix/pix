@@ -1,16 +1,15 @@
-const { expect, sinon, catchErr } = require('../../../../test-helper');
-const settings = require('../../../../../lib/config');
-
-const OidcAuthenticationService = require('../../../../../lib/domain/services/authentication/oidc-authentication-service');
-const jsonwebtoken = require('jsonwebtoken');
-const httpAgent = require('../../../../../lib/infrastructure/http/http-agent');
-const AuthenticationSessionContent = require('../../../../../lib/domain/models/AuthenticationSessionContent');
-const { InvalidExternalAPIResponseError } = require('../../../../../lib/domain/errors');
-const DomainTransaction = require('../../../../../lib/infrastructure/DomainTransaction');
-const UserToCreate = require('../../../../../lib/domain/models/UserToCreate');
-const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
-const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
-const monitoringTools = require('../../../../../lib/infrastructure/monitoring-tools');
+import { expect, sinon, catchErr } from '../../../../test-helper';
+import settings from '../../../../../lib/config';
+import OidcAuthenticationService from '../../../../../lib/domain/services/authentication/oidc-authentication-service';
+import jsonwebtoken from 'jsonwebtoken';
+import httpAgent from '../../../../../lib/infrastructure/http/http-agent';
+import AuthenticationSessionContent from '../../../../../lib/domain/models/AuthenticationSessionContent';
+import { InvalidExternalAPIResponseError } from '../../../../../lib/domain/errors';
+import DomainTransaction from '../../../../../lib/infrastructure/DomainTransaction';
+import UserToCreate from '../../../../../lib/domain/models/UserToCreate';
+import AuthenticationMethod from '../../../../../lib/domain/models/AuthenticationMethod';
+import OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers';
+import monitoringTools from '../../../../../lib/infrastructure/monitoring-tools';
 
 describe('Unit | Domain | Services | oidc-authentication-service', function () {
   describe('#createAccessToken', function () {

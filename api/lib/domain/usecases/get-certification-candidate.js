@@ -2,4 +2,4 @@ async function getCertificationCandidate({ userId, sessionId, certificationCandi
   return certificationCandidateRepository.getBySessionIdAndUserId({ userId, sessionId });
 }
 
-module.exports = getCertificationCandidate;
+export default getCertificationCandidate;

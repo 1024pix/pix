@@ -1,7 +1,8 @@
-const { knex } = require('../../../../db/knex-database-connection');
-const OrganizationPlacesLotManagement = require('../../../domain/read-models/OrganizationPlacesLotManagement');
-const { NotFoundError, DeletedError } = require('../../../domain/errors');
-module.exports = {
+import { knex } from '../../../../db/knex-database-connection';
+import OrganizationPlacesLotManagement from '../../../domain/read-models/OrganizationPlacesLotManagement';
+import { NotFoundError, DeletedError } from '../../../domain/errors';
+
+export default {
   async findByOrganizationId(organizationId) {
     const results = await knex('organization-places')
       .select(

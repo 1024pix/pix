@@ -1,10 +1,10 @@
-const _ = require('lodash');
-const datasource = require('./datasource');
+import _ from 'lodash';
+import datasource from './datasource';
 
 const VALIDATED_CHALLENGE = 'validé';
 const OPERATIVE_CHALLENGES = [VALIDATED_CHALLENGE, 'archivé'];
 
-module.exports = datasource.extend({
+export default datasource.extend({
   modelName: 'challenges',
 
   async findOperativeBySkillIds(skillIds) {

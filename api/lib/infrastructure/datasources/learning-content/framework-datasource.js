@@ -1,6 +1,6 @@
-const datasource = require('./datasource');
+import datasource from './datasource';
 
-module.exports = datasource.extend({
+export default datasource.extend({
   modelName: 'frameworks',
 
   async getByName(frameworkName) {

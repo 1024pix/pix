@@ -1,6 +1,6 @@
-const { sinon, expect, domainBuilder, catchErr } = require('../../../test-helper');
-const addTutorialToUser = require('../../../../lib/domain/usecases/add-tutorial-to-user');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+import { sinon, expect, domainBuilder, catchErr } from '../../../test-helper';
+import addTutorialToUser from '../../../../lib/domain/usecases/add-tutorial-to-user';
+import { NotFoundError } from '../../../../lib/domain/errors';
 
 describe('Unit | UseCase | add-tutorial-to-user', function () {
   let tutorialRepository;

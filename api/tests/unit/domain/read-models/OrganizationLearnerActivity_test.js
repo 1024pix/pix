@@ -1,7 +1,7 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const OrganizationLearnerActivity = require('../../../../lib/domain/read-models/OrganizationLearnerActivity');
-const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+import { expect, domainBuilder } from '../../../test-helper';
+import OrganizationLearnerActivity from '../../../../lib/domain/read-models/OrganizationLearnerActivity';
+import CampaignTypes from '../../../../lib/domain/models/CampaignTypes';
+import CampaignParticipationStatuses from '../../../../lib/domain/models/CampaignParticipationStatuses';
 
 describe('Unit | Domain | Read-Models | OrganizationLearnerActivity', function () {
   it('computes the activity statistics for every status of every campaign types', function () {

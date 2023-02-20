@@ -1,9 +1,8 @@
-const { expect, nock } = require('../../test-helper');
-
-const {
+import { expect, nock } from '../../test-helper';
+import {
   checkData,
   updateOrganizations,
-} = require('../../../scripts/update-sco-organizations-with-is-managing-students-to-true');
+} from '../../../scripts/update-sco-organizations-with-is-managing-students-to-true';
 
 describe('Unit | Scripts | update-sco-organizations-with-is-managing-students-to-true.js', function () {
   describe('#updateOrganizations', function () {

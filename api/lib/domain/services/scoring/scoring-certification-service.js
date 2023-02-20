@@ -1,14 +1,14 @@
-const _ = require('lodash');
-const CertificationContract = require('../../models/CertificationContract');
-const scoringService = require('./scoring-service');
-const placementProfileService = require('../placement-profile-service');
-const { CertifiedLevel } = require('../../models/CertifiedLevel');
-const { CertifiedScore } = require('../../models/CertifiedScore');
-const { ReproducibilityRate } = require('../../models/ReproducibilityRate');
-const CompetenceMark = require('../../models/CompetenceMark');
-const CertificationAssessmentScore = require('../../models/CertificationAssessmentScore');
-const AnswerCollectionForScoring = require('../../models/AnswerCollectionForScoring');
-const areaRepository = require('../../../infrastructure/repositories/area-repository');
+import _ from 'lodash';
+import CertificationContract from '../../models/CertificationContract';
+import scoringService from './scoring-service';
+import placementProfileService from '../placement-profile-service';
+import { CertifiedLevel } from '../../models/CertifiedLevel';
+import { CertifiedScore } from '../../models/CertifiedScore';
+import { ReproducibilityRate } from '../../models/ReproducibilityRate';
+import CompetenceMark from '../../models/CompetenceMark';
+import CertificationAssessmentScore from '../../models/CertificationAssessmentScore';
+import AnswerCollectionForScoring from '../../models/AnswerCollectionForScoring';
+import areaRepository from '../../../infrastructure/repositories/area-repository';
 
 function _selectAnswersMatchingCertificationChallenges(answers, certificationChallenges) {
   return answers.filter(({ challengeId }) => _.some(certificationChallenges, { challengeId }));
@@ -129,7 +129,7 @@ async function _getTestedCompetences({ userId, limitDate, isV2Certification }) {
     .value();
 }
 
-module.exports = {
+export default {
   async calculateCertificationAssessmentScore({ certificationAssessment, continueOnError }) {
     // userService.getPlacementProfile() + filter level > 0 => avec allCompetence (bug)
     const testedCompetences = await _getTestedCompetences({

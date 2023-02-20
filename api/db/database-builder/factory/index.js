@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   buildAccountRecoveryDemand: require('./build-account-recovery-demand'),
   buildAnswer: require('./build-answer'),
   buildAnsweredNotCompletedCertificationAssessment: require('./build-answered-not-completed-certification-assessment'),

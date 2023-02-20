@@ -6,4 +6,4 @@ class Framework {
   }
 }
 
-module.exports = Framework;
+export default Framework;

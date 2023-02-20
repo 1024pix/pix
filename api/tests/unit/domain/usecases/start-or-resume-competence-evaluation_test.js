@@ -1,9 +1,9 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const CompetenceEvaluation = require('../../../../lib/domain/models/CompetenceEvaluation');
-const usecases = require('../../../../lib/domain/usecases');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const _ = require('lodash');
+import { expect, sinon, catchErr } from '../../../test-helper';
+import Assessment from '../../../../lib/domain/models/Assessment';
+import CompetenceEvaluation from '../../../../lib/domain/models/CompetenceEvaluation';
+import usecases from '../../../../lib/domain/usecases';
+import { NotFoundError } from '../../../../lib/domain/errors';
+import _ from 'lodash';
 
 describe('Unit | UseCase | start-or-resume-competence-evaluation', function () {
   const userId = 123;

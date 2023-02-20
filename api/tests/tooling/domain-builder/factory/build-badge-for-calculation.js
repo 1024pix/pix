@@ -1,5 +1,5 @@
-const { BadgeForCalculation } = require('../../../../lib/domain/models/BadgeForCalculation');
-const buildBadgeCriterionForCalculation = require('./build-badge-criterion-for-calculation');
+import { BadgeForCalculation } from '../../../../lib/domain/models/BadgeForCalculation';
+import buildBadgeCriterionForCalculation from './build-badge-criterion-for-calculation';
 
 const buildBadgeForCalculation = function buildBadgeForCalculation({
   id = 1,
@@ -23,4 +23,4 @@ buildBadgeForCalculation.mockNotObtainable = function buildObtainable({ id, badg
   return badgeForCalculation;
 };
 
-module.exports = buildBadgeForCalculation;
+export default buildBadgeForCalculation;

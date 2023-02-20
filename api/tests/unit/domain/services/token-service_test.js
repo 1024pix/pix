@@ -1,17 +1,17 @@
-const omit = require('lodash/omit');
-const jsonwebtoken = require('jsonwebtoken');
+import omit from 'lodash/omit';
+import jsonwebtoken from 'jsonwebtoken';
+import { catchErr, expect, sinon } from '../../../test-helper';
 
-const { catchErr, expect, sinon } = require('../../../test-helper');
-
-const {
+import {
   InvalidTemporaryKeyError,
   InvalidExternalUserTokenError,
   InvalidResultRecipientTokenError,
   InvalidSessionResultError,
   ForbiddenAccess,
-} = require('../../../../lib/domain/errors');
-const settings = require('../../../../lib/config');
-const tokenService = require('../../../../lib/domain/services/token-service');
+} from '../../../../lib/domain/errors';
+
+import settings from '../../../../lib/config';
+import tokenService from '../../../../lib/domain/services/token-service';
 
 describe('Unit | Domain | Service | Token Service', function () {
   describe('#createTokenForCampaignResults', function () {

@@ -28,4 +28,4 @@ class Badge {
   }
 }
 
-module.exports = Badge;
+export default Badge;

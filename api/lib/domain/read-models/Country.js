@@ -6,6 +6,6 @@ class Country {
   }
 }
 
-module.exports = {
+export default {
   Country,
 };

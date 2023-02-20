@@ -1,9 +1,9 @@
-const buildSession = require('./build-session');
-const buildUser = require('./build-user');
-const databaseBuffer = require('../database-buffer');
-const _ = require('lodash');
+import buildSession from './build-session';
+import buildUser from './build-user';
+import databaseBuffer from '../database-buffer';
+import _ from 'lodash';
 
-module.exports = function buildCertificationCourse({
+export default function buildCertificationCourse({
   id = databaseBuffer.getNextId(),
   lastName = 'last-name',
   firstName = 'first-name',
@@ -63,4 +63,4 @@ module.exports = function buildCertificationCourse({
     tableName: 'certification-courses',
     values,
   });
-};
+}

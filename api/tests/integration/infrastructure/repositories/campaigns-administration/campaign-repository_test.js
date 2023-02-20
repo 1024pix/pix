@@ -1,5 +1,5 @@
-const { expect, knex, databaseBuilder, sinon } = require('../../../../test-helper');
-const campaignRepository = require('../../../../../lib/infrastructure/repositories/campaigns-administration/campaign-repository');
+import { expect, knex, databaseBuilder, sinon } from '../../../../test-helper';
+import campaignRepository from '../../../../../lib/infrastructure/repositories/campaigns-administration/campaign-repository';
 
 describe('Integration | Infrastructure | Repository | Campaign Administration | campaign-repository', function () {
   let clock;

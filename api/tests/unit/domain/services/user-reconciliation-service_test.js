@@ -1,11 +1,12 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
-const {
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper';
+import userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service';
+
+import {
   AlreadyRegisteredUsernameError,
   NotFoundError,
   OrganizationLearnerAlreadyLinkedToUserError,
   OrganizationLearnerAlreadyLinkedToInvalidUserError,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors';
 
 describe('Unit | Service | user-reconciliation-service', function () {
   let organizationLearners;

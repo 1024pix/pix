@@ -1,22 +1,24 @@
-const {
+import {
   expect,
   databaseBuilder,
   sinon,
   learningContentBuilder,
   mockLearningContent,
   knex,
-} = require('../../../test-helper');
-const {
+} from '../../../test-helper';
+
+import {
   normalizeRange,
   computeAllBadgeAcquisitions,
   computeBadgeAcquisition,
   getCampaignParticipationsBetweenIds,
-} = require('../../../../scripts/prod/compute-badge-acquisitions');
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
-const logger = require('../../../../lib/infrastructure/logger');
-const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
-const badgeForCalculationRepository = require('../../../../lib/infrastructure/repositories/badge-for-calculation-repository');
-const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
+} from '../../../../scripts/prod/compute-badge-acquisitions';
+
+import CampaignParticipation from '../../../../lib/domain/models/CampaignParticipation';
+import logger from '../../../../lib/infrastructure/logger';
+import badgeAcquisitionRepository from '../../../../lib/infrastructure/repositories/badge-acquisition-repository';
+import badgeForCalculationRepository from '../../../../lib/infrastructure/repositories/badge-for-calculation-repository';
+import knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository';
 
 describe('Script | Prod | Compute Badge Acquisitions', function () {
   describe('#validateRange', function () {

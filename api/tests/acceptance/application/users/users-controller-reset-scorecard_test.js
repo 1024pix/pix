@@ -1,5 +1,6 @@
-const _ = require('lodash');
-const {
+import _ from 'lodash';
+
+import {
   knex,
   databaseBuilder,
   expect,
@@ -7,9 +8,10 @@ const {
   sinon,
   mockLearningContent,
   learningContentBuilder,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+} from '../../../test-helper';
+
+import createServer from '../../../../server';
+import CampaignParticipationStatuses from '../../../../lib/domain/models/CampaignParticipationStatuses';
 
 const { STARTED } = CampaignParticipationStatuses;
 

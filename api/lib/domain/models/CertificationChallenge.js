@@ -52,4 +52,4 @@ class CertificationChallenge {
   }
 }
 
-module.exports = CertificationChallenge;
+export default CertificationChallenge;

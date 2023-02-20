@@ -1,15 +1,15 @@
-const BookshelfOrganizationTag = require('../orm-models/OrganizationTag');
-const Bookshelf = require('../bookshelf');
-const bookshelfUtils = require('../utils/knex-utils');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const { AlreadyExistingEntityError, OrganizationTagNotFound } = require('../../domain/errors');
-const { omit } = require('lodash');
-const DomainTransaction = require('../DomainTransaction');
-const OrganizationTagBookshelf = require('../orm-models/OrganizationTag');
-const { knex } = require('../../../db/knex-database-connection');
-const Tag = require('../../domain/models/Tag');
+import BookshelfOrganizationTag from '../orm-models/OrganizationTag';
+import Bookshelf from '../bookshelf';
+import bookshelfUtils from '../utils/knex-utils';
+import bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter';
+import { AlreadyExistingEntityError, OrganizationTagNotFound } from '../../domain/errors';
+import { omit } from 'lodash';
+import DomainTransaction from '../DomainTransaction';
+import OrganizationTagBookshelf from '../orm-models/OrganizationTag';
+import { knex } from '../../../db/knex-database-connection';
+import Tag from '../../domain/models/Tag';
 
-module.exports = {
+export default {
   async create(organizationTag) {
     try {
       const organizationTagToCreate = omit(organizationTag, 'id');

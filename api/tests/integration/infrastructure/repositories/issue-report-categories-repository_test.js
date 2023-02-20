@@ -1,5 +1,5 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
-const issueReportCategoryRepository = require('../../../../lib/infrastructure/repositories/issue-report-category-repository');
+import { expect, databaseBuilder, knex } from '../../../test-helper';
+import issueReportCategoryRepository from '../../../../lib/infrastructure/repositories/issue-report-category-repository';
 
 describe('Integration | Repository | Issue Report Categories', function () {
   afterEach(async function () {

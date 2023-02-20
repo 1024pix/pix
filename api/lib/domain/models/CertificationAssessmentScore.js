@@ -1,5 +1,5 @@
-const _ = require('lodash');
-const { status } = require('./AssessmentResult');
+import _ from 'lodash';
+import { status } from './AssessmentResult';
 
 class CertificationAssessmentScore {
   constructor({
@@ -35,5 +35,5 @@ class CertificationAssessmentScore {
   }
 }
 
-module.exports = CertificationAssessmentScore;
-module.exports.statuses = status;
+export default CertificationAssessmentScore;
+export { status as statuses };

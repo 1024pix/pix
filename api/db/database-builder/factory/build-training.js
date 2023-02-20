@@ -1,4 +1,4 @@
-const databaseBuffer = require('../database-buffer');
+import databaseBuffer from '../database-buffer';
 
 function buildTraining({
   id = databaseBuffer.getNextId(),
@@ -33,4 +33,4 @@ function buildTraining({
     values,
   });
 }
-module.exports = buildTraining;
+export default buildTraining;

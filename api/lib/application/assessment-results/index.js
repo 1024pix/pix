@@ -1,7 +1,7 @@
-const AssessmentResultController = require('./assessment-result-controller');
-const securityPreHandlers = require('../security-pre-handlers');
+import AssessmentResultController from './assessment-result-controller';
+import securityPreHandlers from '../security-pre-handlers';
 
-exports.register = async (server) => {
+export const register = async (server) => {
   server.route([
     {
       method: 'POST',
@@ -25,4 +25,4 @@ exports.register = async (server) => {
   ]);
 };
 
-exports.name = 'assessments-results-api';
+export const name = 'assessments-results-api';

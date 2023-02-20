@@ -1,10 +1,10 @@
-const bluebird = require('bluebird');
+import bluebird from 'bluebird';
 
 const TABLE_NAME = 'complementary-certification-badges';
 const MESSAGE_COLUMN_NAME = 'certificateMessage';
 const TEMP_MESSAGE_COLUMN_NAME = 'temporaryCertificateMessage';
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.schema.table(TABLE_NAME, function (table) {
     table.string(MESSAGE_COLUMN_NAME).nullable();
     table.string(TEMP_MESSAGE_COLUMN_NAME).nullable();
@@ -29,7 +29,7 @@ exports.up = async function (knex) {
   });
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return knex.schema.table(TABLE_NAME, function (table) {
     table.dropColumn(MESSAGE_COLUMN_NAME);
     table.dropColumn(TEMP_MESSAGE_COLUMN_NAME);

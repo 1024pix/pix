@@ -1,5 +1,5 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const CampaignAssessmentParticipationCompetenceResult = require('../../../../lib/domain/read-models/CampaignAssessmentParticipationCompetenceResult');
+import { expect, domainBuilder } from '../../../test-helper';
+import CampaignAssessmentParticipationCompetenceResult from '../../../../lib/domain/read-models/CampaignAssessmentParticipationCompetenceResult';
 
 describe('Unit | Domain | Models | CampaignAssessmentParticipationCompetenceResult', function () {
   describe('constructor', function () {

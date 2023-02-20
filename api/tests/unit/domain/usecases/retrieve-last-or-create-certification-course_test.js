@@ -1,16 +1,18 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const {
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper';
+
+import {
   UserNotAuthorizedToCertifyError,
   NotFoundError,
   SessionNotAccessible,
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
-} = require('../../../../lib/domain/errors');
-const retrieveLastOrCreateCertificationCourse = require('../../../../lib/domain/usecases/retrieve-last-or-create-certification-course');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
-const ComplementaryCertificationCourse = require('../../../../lib/domain/models/ComplementaryCertificationCourse');
-const _ = require('lodash');
+} from '../../../../lib/domain/errors';
+
+import retrieveLastOrCreateCertificationCourse from '../../../../lib/domain/usecases/retrieve-last-or-create-certification-course';
+import Assessment from '../../../../lib/domain/models/Assessment';
+import CertificationCourse from '../../../../lib/domain/models/CertificationCourse';
+import ComplementaryCertificationCourse from '../../../../lib/domain/models/ComplementaryCertificationCourse';
+import _ from 'lodash';
 
 describe('Unit | UseCase | retrieve-last-or-create-certification-course', function () {
   let clock;

@@ -1,7 +1,7 @@
-const usecases = require('../../domain/usecases');
-const certificationIssueReportSerializer = require('../../infrastructure/serializers/jsonapi/certification-issue-report-serializer');
+import usecases from '../../domain/usecases';
+import certificationIssueReportSerializer from '../../infrastructure/serializers/jsonapi/certification-issue-report-serializer';
 
-module.exports = {
+export default {
   async saveCertificationIssueReport(request, h) {
     const certificationIssueReportDTO = certificationIssueReportSerializer.deserialize(request);
     const certificationIssueReportSaved = await usecases.saveCertificationIssueReport({ certificationIssueReportDTO });

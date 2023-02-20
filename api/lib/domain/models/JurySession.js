@@ -1,4 +1,4 @@
-const { statuses } = require('./Session');
+import { statuses } from './Session';
 
 class JurySession {
   constructor({
@@ -63,5 +63,5 @@ class JurySession {
   }
 }
 
-module.exports = JurySession;
-module.exports.statuses = statuses;
+export default JurySession;
+export { statuses };

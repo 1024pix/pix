@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const { generateNumericalString } = require('../../../../lib/infrastructure/utils/code-utils');
+import { expect } from '../../../test-helper';
+import { generateNumericalString } from '../../../../lib/infrastructure/utils/code-utils';
 
 describe('Unit | Utils | code-utils', function () {
   describe('#generateNumericalString', function () {

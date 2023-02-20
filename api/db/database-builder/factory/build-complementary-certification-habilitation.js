@@ -1,9 +1,9 @@
-const _ = require('lodash');
-const buildCertificationCenter = require('./build-certification-center');
-const buildComplementaryCertification = require('./build-complementary-certification');
-const databaseBuffer = require('../database-buffer');
+import _ from 'lodash';
+import buildCertificationCenter from './build-certification-center';
+import buildComplementaryCertification from './build-complementary-certification';
+import databaseBuffer from '../database-buffer';
 
-module.exports = function buildComplementaryCertificationHabilitation({
+export default function buildComplementaryCertificationHabilitation({
   id = databaseBuffer.getNextId(),
   certificationCenterId,
   complementaryCertificationId,
@@ -24,4 +24,4 @@ module.exports = function buildComplementaryCertificationHabilitation({
     tableName: 'complementary-certification-habilitations',
     values,
   });
-};
+}

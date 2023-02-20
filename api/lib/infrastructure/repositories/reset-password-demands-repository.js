@@ -1,7 +1,7 @@
-const ResetPasswordDemand = require('../orm-models/ResetPasswordDemand');
-const { PasswordResetDemandNotFoundError } = require('../../../lib/domain/errors');
+import ResetPasswordDemand from '../orm-models/ResetPasswordDemand';
+import { PasswordResetDemandNotFoundError } from '../../../lib/domain/errors';
 
-module.exports = {
+export default {
   create(demand) {
     return new ResetPasswordDemand(demand).save();
   },

@@ -1,6 +1,6 @@
 const TABLE_NAME = 'knowledge-elements';
 
-exports.up = async (knex) => {
+export const up = async (knex) => {
   const info = await knex(TABLE_NAME).columnInfo();
   if (!info.createdAt) {
     return knex.schema
@@ -13,7 +13,7 @@ exports.up = async (knex) => {
   }
 };
 
-exports.down = (knex) => {
+export const down = (knex) => {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.dropColumn('createdAt');
   });

@@ -1,5 +1,5 @@
-const CertificationAssessmentScore = require('../../../../lib/domain/models/CertificationAssessmentScore');
-const { expect, domainBuilder } = require('../../../test-helper');
+import CertificationAssessmentScore from '../../../../lib/domain/models/CertificationAssessmentScore';
+import { expect, domainBuilder } from '../../../test-helper';
 
 describe('Unit | Domain | Models | CertificationAssessmentScore', function () {
   describe('#get nbPix', function () {

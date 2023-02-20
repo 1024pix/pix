@@ -1,9 +1,9 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-const certificationReportController = require('../../../../lib/application/certification-reports/certification-report-controller');
-const { NotFoundError } = require('../../../../lib/application/http-errors');
-const authorization = require('../../../../lib/application/preHandlers/authorization');
-const moduleUnderTest = require('../../../../lib/application/certification-reports');
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
+import { expect, HttpTestServer, sinon } from '../../../test-helper';
+import certificationReportController from '../../../../lib/application/certification-reports/certification-report-controller';
+import { NotFoundError } from '../../../../lib/application/http-errors';
+import authorization from '../../../../lib/application/preHandlers/authorization';
+import moduleUnderTest from '../../../../lib/application/certification-reports';
+import securityPreHandlers from '../../../../lib/application/security-pre-handlers';
 
 describe('Unit | Application | Certifications Report | Route', function () {
   describe('POST /api/certification-reports/{id}/certification-issue-reports', function () {

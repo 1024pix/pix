@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../../test-helper');
-const randomString = require('randomstring');
-const campaignCodeGenerator = require('../../../../../lib/domain/services/campaigns/campaign-code-generator');
+import { expect, sinon } from '../../../../test-helper';
+import randomString from 'randomstring';
+import campaignCodeGenerator from '../../../../../lib/domain/services/campaigns/campaign-code-generator';
 
 describe('Unit | Domain | Services | campaign code generator', function () {
   describe('#createCampaignCode', function () {

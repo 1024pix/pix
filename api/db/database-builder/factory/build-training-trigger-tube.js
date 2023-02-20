@@ -1,7 +1,7 @@
-const buildTrainingTrigger = require('./build-training-trigger');
-const databaseBuffer = require('../database-buffer');
+import buildTrainingTrigger from './build-training-trigger';
+import databaseBuffer from '../database-buffer';
 
-module.exports = function buildTrainingTriggerTube({
+export default function buildTrainingTriggerTube({
   id = databaseBuffer.getNextId(),
   trainingTriggerId = buildTrainingTrigger().id,
   tubeId = 'tubeId1',
@@ -17,4 +17,4 @@ module.exports = function buildTrainingTriggerTube({
     tableName: 'training-trigger-tubes',
     values,
   });
-};
+}

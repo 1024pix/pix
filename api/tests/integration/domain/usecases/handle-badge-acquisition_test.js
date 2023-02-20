@@ -1,7 +1,7 @@
-const { expect, databaseBuilder, knex, mockLearningContent, learningContentBuilder } = require('../../../test-helper');
-const useCases = require('../../../../lib/domain/usecases');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+import { expect, databaseBuilder, knex, mockLearningContent, learningContentBuilder } from '../../../test-helper';
+import useCases from '../../../../lib/domain/usecases';
+import Assessment from '../../../../lib/domain/models/Assessment';
+import DomainTransaction from '../../../../lib/infrastructure/DomainTransaction';
 
 describe('Integration | Usecase | Handle Badge Acquisition', function () {
   let userId, assessment, badgeCompleted;

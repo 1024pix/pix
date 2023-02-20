@@ -1,17 +1,17 @@
-const { isObject, values } = require('lodash');
-const { FileValidationError, SiecleXmlImportError } = require('../../../domain/errors');
-const { logErrorWithCorrelationIds } = require('../../monitoring-tools');
-const fs = require('fs');
+import { isObject, values } from 'lodash';
+import { FileValidationError, SiecleXmlImportError } from '../../../domain/errors';
+import { logErrorWithCorrelationIds } from '../../monitoring-tools';
+import fs from 'fs';
 const fsPromises = fs.promises;
-const Path = require('path');
-const os = require('os');
-const { Buffer } = require('buffer');
-const StreamZip = require('node-stream-zip');
-const FileType = require('file-type');
-const iconv = require('iconv-lite');
-const sax = require('sax');
-const xmlEncoding = require('xml-buffer-tostring').xmlEncoding;
-const _ = require('lodash');
+import Path from 'path';
+import os from 'os';
+import { Buffer } from 'buffer';
+import StreamZip from 'node-stream-zip';
+import FileType from 'file-type';
+import iconv from 'iconv-lite';
+import sax from 'sax';
+import { xmlEncoding } from 'xml-buffer-tostring';
+import _ from 'lodash';
 
 /*
   https://github.com/1024pix/pix/pull/3470#discussion_r707319744
@@ -158,4 +158,4 @@ function getDecodingStream(encoding) {
   }
 }
 
-module.exports = SiecleFileStreamer;
+export default SiecleFileStreamer;

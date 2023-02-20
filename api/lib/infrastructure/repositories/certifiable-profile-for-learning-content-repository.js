@@ -1,9 +1,9 @@
-const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection');
-const CertifiableProfileForLearningContent = require('../../domain/models/CertifiableProfileForLearningContent');
-const knowledgeElementRepository = require('./knowledge-element-repository');
+import _ from 'lodash';
+import { knex } from '../../../db/knex-database-connection';
+import CertifiableProfileForLearningContent from '../../domain/models/CertifiableProfileForLearningContent';
+import knowledgeElementRepository from './knowledge-element-repository';
 
-module.exports = {
+export default {
   async get({ id, profileDate, learningContent }) {
     const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId: id, limitDate: profileDate });
     const answerIds = _.map(knowledgeElements, 'answerId');

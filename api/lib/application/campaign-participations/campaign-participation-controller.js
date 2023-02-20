@@ -1,19 +1,19 @@
-const monitoringTools = require('../../infrastructure/monitoring-tools');
-const usecases = require('../../domain/usecases');
-const events = require('../../domain/events');
-const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
-const campaignParticipationSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
-const campaignAnalysisSerializer = require('../../infrastructure/serializers/jsonapi/campaign-analysis-serializer');
-const campaignAssessmentParticipationSerializer = require('../../infrastructure/serializers/jsonapi/campaign-assessment-participation-serializer');
-const campaignAssessmentParticipationResultSerializer = require('../../infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer');
-const campaignProfileSerializer = require('../../infrastructure/serializers/jsonapi/campaign-profile-serializer');
-const campaignAssessmentResultMinimalSerializer = require('../../infrastructure/serializers/jsonapi/campaign-assessment-result-minimal-serializer');
-const trainingSerializer = require('../../infrastructure/serializers/jsonapi/training-serializer');
-const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
-const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
+import monitoringTools from '../../infrastructure/monitoring-tools';
+import usecases from '../../domain/usecases';
+import events from '../../domain/events';
+import queryParamsUtils from '../../infrastructure/utils/query-params-utils';
+import campaignParticipationSerializer from '../../infrastructure/serializers/jsonapi/campaign-participation-serializer';
+import campaignAnalysisSerializer from '../../infrastructure/serializers/jsonapi/campaign-analysis-serializer';
+import campaignAssessmentParticipationSerializer from '../../infrastructure/serializers/jsonapi/campaign-assessment-participation-serializer';
+import campaignAssessmentParticipationResultSerializer from '../../infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer';
+import campaignProfileSerializer from '../../infrastructure/serializers/jsonapi/campaign-profile-serializer';
+import campaignAssessmentResultMinimalSerializer from '../../infrastructure/serializers/jsonapi/campaign-assessment-result-minimal-serializer';
+import trainingSerializer from '../../infrastructure/serializers/jsonapi/training-serializer';
+import requestResponseUtils from '../../infrastructure/utils/request-response-utils';
+import DomainTransaction from '../../infrastructure/DomainTransaction';
+import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils';
 
-module.exports = {
+export default {
   async save(request, h) {
     const userId = request.auth.credentials.userId;
     const campaignParticipation = await campaignParticipationSerializer.deserialize(request.payload);

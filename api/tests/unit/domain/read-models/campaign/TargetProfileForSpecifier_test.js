@@ -1,5 +1,5 @@
-const { expect } = require('../../../../test-helper');
-const TargetProfileForSpecifier = require('../../../../../lib/domain/read-models/campaign/TargetProfileForSpecifier');
+import { expect } from '../../../../test-helper';
+import TargetProfileForSpecifier from '../../../../../lib/domain/read-models/campaign/TargetProfileForSpecifier';
 
 describe('TargetProfileForSpecifier', function () {
   describe('#constructor', function () {

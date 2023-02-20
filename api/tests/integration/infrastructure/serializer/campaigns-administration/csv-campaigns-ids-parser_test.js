@@ -1,6 +1,6 @@
-const { expect, catchErr, createTempFile, removeTempFile } = require('../../../../test-helper');
-const { CsvImportError } = require('../../../../../lib/domain/errors');
-const csvCampaignIdsParser = require('../../../../../lib/infrastructure/serializers/csv/campaigns-administration/csv-campaigns-ids-parser');
+import { expect, catchErr, createTempFile, removeTempFile } from '../../../../test-helper';
+import { CsvImportError } from '../../../../../lib/domain/errors';
+import csvCampaignIdsParser from '../../../../../lib/infrastructure/serializers/csv/campaigns-administration/csv-campaigns-ids-parser';
 
 describe('Integration | Serializer | CSV | campaigns-administration | csv-campaigns-ids-parser', function () {
   describe('#extractCampaignsIds', function () {

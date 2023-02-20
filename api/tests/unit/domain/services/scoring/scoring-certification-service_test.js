@@ -1,10 +1,10 @@
-const _ = require('lodash');
-const { expect, sinon, domainBuilder, catchErr } = require('../../../../test-helper');
-const scoringCertificationService = require('../../../../../lib/domain/services/scoring/scoring-certification-service');
-const { states } = require('../../../../../lib/domain/models/CertificationAssessment');
-const placementProfileService = require('../../../../../lib/domain/services/placement-profile-service');
-const areaRepository = require('../../../../../lib/infrastructure/repositories/area-repository');
-const { CertificationComputeError } = require('../../../../../lib/domain/errors');
+import _ from 'lodash';
+import { expect, sinon, domainBuilder, catchErr } from '../../../../test-helper';
+import scoringCertificationService from '../../../../../lib/domain/services/scoring/scoring-certification-service';
+import { states } from '../../../../../lib/domain/models/CertificationAssessment';
+import placementProfileService from '../../../../../lib/domain/services/placement-profile-service';
+import areaRepository from '../../../../../lib/infrastructure/repositories/area-repository';
+import { CertificationComputeError } from '../../../../../lib/domain/errors';
 
 function _buildUserCompetence(competence, pixScore, estimatedLevel) {
   return domainBuilder.buildUserCompetence({ ...competence, estimatedLevel, pixScore });

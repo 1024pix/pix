@@ -1,4 +1,4 @@
-module.exports = function getNextChallengeForCertification({
+export default function getNextChallengeForCertification({
   certificationChallengeRepository,
   challengeRepository,
   assessment,
@@ -8,4 +8,4 @@ module.exports = function getNextChallengeForCertification({
     .then((certificationChallenge) => {
       return challengeRepository.get(certificationChallenge.challengeId);
     });
-};
+}

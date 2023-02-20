@@ -1,14 +1,15 @@
-const { sinon, expect, catchErr, domainBuilder } = require('../../../test-helper');
+import { sinon, expect, catchErr, domainBuilder } from '../../../test-helper';
+import finalizeSession from '../../../../lib/domain/usecases/finalize-session';
 
-const finalizeSession = require('../../../../lib/domain/usecases/finalize-session');
-const {
+import {
   SessionAlreadyFinalizedError,
   SessionWithoutStartedCertificationError,
   SessionWithAbortReasonOnCompletedCertificationCourseError,
   SessionWithMissingAbortReasonError,
   InvalidCertificationReportForFinalization,
-} = require('../../../../lib/domain/errors');
-const SessionFinalized = require('../../../../lib/domain/events/SessionFinalized');
+} from '../../../../lib/domain/errors';
+
+import SessionFinalized from '../../../../lib/domain/events/SessionFinalized';
 
 describe('Unit | UseCase | finalize-session', function () {
   let sessionId;

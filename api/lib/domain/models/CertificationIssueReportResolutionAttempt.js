@@ -1,4 +1,4 @@
-module.exports = class CertificationIssueReportResolutionAttempt {
+export default class CertificationIssueReportResolutionAttempt {
   constructor(status) {
     this.status = status;
   }
@@ -18,7 +18,7 @@ module.exports = class CertificationIssueReportResolutionAttempt {
   isResolvedWithEffect() {
     return this.status === ResolutionStatus.RESOLVED_WITH_EFFECT;
   }
-};
+}
 
 const ResolutionStatus = {
   RESOLVED_WITH_EFFECT: 'RESOLVED_WITH_EFFECT',

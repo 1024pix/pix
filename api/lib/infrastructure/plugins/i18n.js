@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   plugin: require('hapi-i18n'),
   options: {
     locales: ['en', 'fr'],

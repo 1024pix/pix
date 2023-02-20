@@ -1,5 +1,5 @@
-const settings = require('../../../config');
-const OidcAuthenticationService = require('./oidc-authentication-service');
+import settings from '../../../config';
+import OidcAuthenticationService from './oidc-authentication-service';
 
 class CnavOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
@@ -20,4 +20,4 @@ class CnavOidcAuthenticationService extends OidcAuthenticationService {
   }
 }
 
-module.exports = CnavOidcAuthenticationService;
+export default CnavOidcAuthenticationService;

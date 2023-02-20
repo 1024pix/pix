@@ -1,11 +1,10 @@
-const scoringService = require('../../../../../lib/domain/services/scoring/scoring-service');
-const {
+import scoringService from '../../../../../lib/domain/services/scoring/scoring-service';
+import {
   PIX_COUNT_BY_LEVEL,
   MAX_REACHABLE_LEVEL,
   MAX_REACHABLE_PIX_BY_COMPETENCE,
-} = require('../../../../../lib/domain/constants');
-
-const { expect, domainBuilder } = require('../../../../test-helper');
+} from '../../../../../lib/domain/constants';
+import { expect, domainBuilder } from '../../../../test-helper';
 
 describe('Unit | Service | Scoring Service', function () {
   describe('#calculateScoringInformationForCompetence', function () {

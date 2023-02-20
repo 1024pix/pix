@@ -1,6 +1,6 @@
-const _ = require('lodash');
-const levenshtein = require('fast-levenshtein');
-const { LEVENSHTEIN_DISTANCE_MAX_RATE } = require('../constants');
+import _ from 'lodash';
+import levenshtein from 'fast-levenshtein';
+import { LEVENSHTEIN_DISTANCE_MAX_RATE } from '../constants';
 
 function getLevenshteinRatio(inputString, reference) {
   return levenshtein.get(inputString, reference) / inputString.length;
@@ -30,7 +30,7 @@ function validateAnswer(answer, solutions, useLevenshteinRatio) {
   return _.includes(solutions, answer);
 }
 
-module.exports = {
+export default {
   areTwoStringsCloseEnough,
   isOneStringCloseEnoughFromMultipleStrings,
   getSmallestLevenshteinDistance,

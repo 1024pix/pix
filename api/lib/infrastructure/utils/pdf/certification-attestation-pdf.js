@@ -1,14 +1,12 @@
-const { PDFDocument, rgb } = require('pdf-lib');
-const { readFile } = require('fs/promises');
-const pdfLibFontkit = require('@pdf-lib/fontkit');
-const moment = require('moment');
-const _ = require('lodash');
-const bluebird = require('bluebird');
-// eslint-disable-next-line no-restricted-modules
-const axios = require('axios');
-
-const AttestationViewModel = require('./AttestationViewModel');
-const { CertificationAttestationGenerationError } = require('../../../domain/errors');
+import { PDFDocument, rgb } from 'pdf-lib';
+import { readFile } from 'fs/promises';
+import pdfLibFontkit from '@pdf-lib/fontkit';
+import moment from 'moment';
+import _ from 'lodash';
+import bluebird from 'bluebird';
+import axios from 'axios';
+import AttestationViewModel from './AttestationViewModel';
+import { CertificationAttestationGenerationError } from '../../../domain/errors';
 
 const fonts = {
   openSansBold: 'OpenSans-Bold.ttf',
@@ -359,6 +357,6 @@ async function _finalizeDocument(pdfDocument) {
   return buffer;
 }
 
-module.exports = {
+export default {
   getCertificationAttestationsPdfBuffer,
 };

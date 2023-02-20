@@ -1,5 +1,5 @@
-const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, sinon } = require('../../../test-helper');
-const createServer = require('../../../../server');
+import { expect, generateValidRequestAuthorizationHeader, databaseBuilder, sinon } from '../../../test-helper';
+import createServer from '../../../../server';
 
 describe('Acceptance | Route | remember-user-has-seen-last-data-protection-policy-information', function () {
   describe('Success case', function () {

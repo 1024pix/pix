@@ -1,7 +1,7 @@
-const { expect, mockLearningContent, domainBuilder } = require('../../../test-helper');
-const ScoringSimulation = require('../../../../lib/domain/models/ScoringSimulation');
-const ScoringSimulationResult = require('../../../../lib/domain/models/ScoringSimulationResult');
-const usecases = require('../../../../lib/domain/usecases/');
+import { expect, mockLearningContent, domainBuilder } from '../../../test-helper';
+import ScoringSimulation from '../../../../lib/domain/models/ScoringSimulation';
+import ScoringSimulationResult from '../../../../lib/domain/models/ScoringSimulationResult';
+import usecases from '../../../../lib/domain/usecases/';
 
 describe('Integration | UseCases | simulateOldScoring', function () {
   beforeEach(function () {

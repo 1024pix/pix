@@ -1,6 +1,6 @@
-const fs = require('fs/promises');
-const path = require('node:path');
-const os = require('os');
+import fs from 'fs/promises';
+import path from 'node:path';
+import os from 'os';
 
 async function removeTempFile(filePath) {
   return (
@@ -19,7 +19,7 @@ async function createTempFile(file, data) {
   return filePath;
 }
 
-module.exports = {
+export default {
   removeTempFile,
   createTempFile,
 };

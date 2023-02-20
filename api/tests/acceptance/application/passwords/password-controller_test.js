@@ -1,11 +1,9 @@
-const { databaseBuilder, expect, knex, sinon } = require('../../../test-helper');
-const tokenService = require('../../../../lib/domain/services/token-service');
-const resetPasswordService = require('../../../../lib/domain/services/reset-password-service');
-const resetPasswordDemandRepository = require('../../../../lib/infrastructure/repositories/reset-password-demands-repository');
-
-const config = require('../../../../lib/config');
-
-const createServer = require('../../../../server');
+import { databaseBuilder, expect, knex, sinon } from '../../../test-helper';
+import tokenService from '../../../../lib/domain/services/token-service';
+import resetPasswordService from '../../../../lib/domain/services/reset-password-service';
+import resetPasswordDemandRepository from '../../../../lib/infrastructure/repositories/reset-password-demands-repository';
+import config from '../../../../lib/config';
+import createServer from '../../../../server';
 
 describe('Acceptance | Controller | password-controller', function () {
   const email = 'user@example.net';

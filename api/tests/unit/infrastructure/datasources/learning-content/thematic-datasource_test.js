@@ -1,6 +1,6 @@
-const { sinon, expect } = require('../../../../test-helper');
-const lcms = require('../../../../../lib/infrastructure/lcms');
-const thematicDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/thematic-datasource');
+import { sinon, expect } from '../../../../test-helper';
+import lcms from '../../../../../lib/infrastructure/lcms';
+import thematicDatasource from '../../../../../lib/infrastructure/datasources/learning-content/thematic-datasource';
 
 describe('Unit | Infrastructure | Datasource | Learning Content | ThematicDatasource', function () {
   describe('#findByCompetenceIds', function () {

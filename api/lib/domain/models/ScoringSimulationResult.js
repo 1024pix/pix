@@ -17,4 +17,4 @@ class SimulationCompetenceResult {
   }
 }
 
-module.exports = ScoringSimulationResult;
+export default ScoringSimulationResult;

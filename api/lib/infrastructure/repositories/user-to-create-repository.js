@@ -1,14 +1,11 @@
-const { knex } = require('../../../db/knex-database-connection');
+import { knex } from '../../../db/knex-database-connection';
+import DomainTransaction from '../DomainTransaction';
+import { OrganizationLearnerAlreadyLinkedToUserError } from '../../domain/errors';
+import { STUDENT_RECONCILIATION_ERRORS } from '../../domain/constants';
+import User from '../../domain/models/User';
+import { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } from '../../../db/pgsql-errors';
 
-const DomainTransaction = require('../DomainTransaction');
-
-const { OrganizationLearnerAlreadyLinkedToUserError } = require('../../domain/errors');
-const { STUDENT_RECONCILIATION_ERRORS } = require('../../domain/constants');
-
-const User = require('../../domain/models/User');
-const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../db/pgsql-errors');
-
-module.exports = {
+export default {
   async create({ user, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const knexConnection = domainTransaction.knexTransaction || knex;
 

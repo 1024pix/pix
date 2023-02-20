@@ -1,4 +1,4 @@
-const bluebird = require('bluebird');
+import bluebird from 'bluebird';
 
 const STICKERS_URL_BY_BADGE_KEY = {
   PIX_EMPLOI_CLEA: 'https://images.pix.fr/stickers/macaron_clea.pdf',
@@ -19,11 +19,7 @@ const STICKERS_URL_BY_BADGE_KEY = {
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT: 'https://images.pix.fr/stickers/macaron_edu_1er_expert.pdf',
 };
 
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
- */
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.schema.alterTable('complementary-certification-badges', (table) => {
     table.string('stickerUrl');
   });
@@ -39,11 +35,7 @@ exports.up = async function (knex) {
   });
 };
 
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
- */
-exports.down = async function (knex) {
+export const down = async function (knex) {
   await knex.schema.alterTable('complementary-certification-badges', (table) => {
     table.dropColumn('stickerUrl');
   });

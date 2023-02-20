@@ -1,5 +1,5 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
-const studentRepository = require('../../../../lib/infrastructure/repositories/student-repository');
+import { expect, databaseBuilder } from '../../../test-helper';
+import studentRepository from '../../../../lib/infrastructure/repositories/student-repository';
 
 describe('Integration | Infrastructure | Repository | student-repository', function () {
   describe('#findReconciledStudentsByNationalStudentId', function () {

@@ -1,6 +1,6 @@
-const { expect, sinon } = require('../../../test-helper');
-const anonymizeUser = require('../../../../lib/domain/usecases/anonymize-user');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+import { expect, sinon } from '../../../test-helper';
+import anonymizeUser from '../../../../lib/domain/usecases/anonymize-user';
+import DomainTransaction from '../../../../lib/infrastructure/DomainTransaction';
 
 describe('Unit | UseCase | anonymize-user', function () {
   let clock;

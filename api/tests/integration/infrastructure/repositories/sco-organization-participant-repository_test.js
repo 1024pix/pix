@@ -1,9 +1,9 @@
-const _ = require('lodash');
-const { expect, databaseBuilder } = require('../../../test-helper');
-const scoOrganizationParticipantRepository = require('../../../../lib/infrastructure/repositories/sco-organization-participant-repository');
-const ScoOrganizationParticipant = require('../../../../lib/domain/read-models/ScoOrganizationParticipant');
-const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+import _ from 'lodash';
+import { expect, databaseBuilder } from '../../../test-helper';
+import scoOrganizationParticipantRepository from '../../../../lib/infrastructure/repositories/sco-organization-participant-repository';
+import ScoOrganizationParticipant from '../../../../lib/domain/read-models/ScoOrganizationParticipant';
+import CampaignTypes from '../../../../lib/domain/models/CampaignTypes';
+import CampaignParticipationStatuses from '../../../../lib/domain/models/CampaignParticipationStatuses';
 
 describe('Integration | Infrastructure | Repository | sco-organization-participant-repository', function () {
   describe('#findPaginatedFilteredScoParticipants', function () {

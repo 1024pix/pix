@@ -1,7 +1,7 @@
-const { knex } = require('../../../../db/knex-database-connection');
-const SessionForSupervisorKit = require('../../../domain/read-models/SessionForSupervisorKit');
+import { knex } from '../../../../db/knex-database-connection';
+import SessionForSupervisorKit from '../../../domain/read-models/SessionForSupervisorKit';
 
-module.exports = {
+export default {
   async get(idSession) {
     const results = await knex
       .select(

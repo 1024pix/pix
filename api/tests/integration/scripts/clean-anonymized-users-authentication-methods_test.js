@@ -1,7 +1,5 @@
-const { expect, databaseBuilder, knex } = require('../../test-helper');
-const {
-  cleanAnonymizedAuthenticationMethods,
-} = require('../../../scripts/clean-anonymized-users-authentication-methods');
+import { expect, databaseBuilder, knex } from '../../test-helper';
+import { cleanAnonymizedAuthenticationMethods } from '../../../scripts/clean-anonymized-users-authentication-methods';
 
 describe('Integration | Scripts | clean-anonymized-users-authentication-methods', function () {
   describe('#cleanAnonymizedAuthenticationMethods', function () {

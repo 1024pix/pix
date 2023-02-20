@@ -1,10 +1,10 @@
-const _ = require('lodash');
-const JSONAPIError = require('jsonapi-serializer').Error;
-const HttpErrors = require('./http-errors');
-const DomainErrors = require('../domain/errors');
-const errorSerializer = require('../infrastructure/serializers/jsonapi/error-serializer');
-const { extractLocaleFromRequest } = require('../infrastructure/utils/request-response-utils');
-const translations = require('../../translations');
+import _ from 'lodash';
+import { Error as JSONAPIError } from 'jsonapi-serializer';
+import HttpErrors from './http-errors';
+import DomainErrors from '../domain/errors';
+import errorSerializer from '../infrastructure/serializers/jsonapi/error-serializer';
+import { extractLocaleFromRequest } from '../infrastructure/utils/request-response-utils';
+import translations from '../../translations';
 
 const NOT_VALID_RELATIONSHIPS = ['externalId', 'participantExternalId'];
 
@@ -499,4 +499,4 @@ function handle(request, h, error) {
   return h.response(errorSerializer.serialize(httpError)).code(httpError.status);
 }
 
-module.exports = { handle };
+export default { handle };

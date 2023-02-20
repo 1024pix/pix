@@ -1,9 +1,10 @@
-const knexUtils = require('../utils/knex-utils');
-const { AlreadyExistingEntityError, NotFoundError } = require('../../domain/errors');
-const omit = require('lodash/omit');
-const { knex } = require('../../../db/knex-database-connection');
-const Tag = require('../../domain/models/Tag');
-module.exports = {
+import knexUtils from '../utils/knex-utils';
+import { AlreadyExistingEntityError, NotFoundError } from '../../domain/errors';
+import omit from 'lodash/omit';
+import { knex } from '../../../db/knex-database-connection';
+import Tag from '../../domain/models/Tag';
+
+export default {
   async create(tag) {
     try {
       const tagToCreate = omit(tag, 'id');

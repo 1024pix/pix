@@ -1,8 +1,8 @@
-const databaseBuffer = require('../database-buffer');
+import databaseBuffer from '../database-buffer';
 
 const TABLE_NAME = 'certification-center-invitations';
 
-module.exports = function buildCertificationCenterInvitation({
+export default function buildCertificationCenterInvitation({
   id = databaseBuffer.getNextId(),
   certificationCenterId,
   email = 'anemail@example.net',
@@ -25,4 +25,4 @@ module.exports = function buildCertificationCenterInvitation({
     tableName: TABLE_NAME,
     values,
   });
-};
+}

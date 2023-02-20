@@ -1,14 +1,10 @@
-#!/usr/bin/env node
-
-// Usage: node import-certification-cpf-countries.js path/file.csv
-// File Millésime 2021 : Liste des pays et territoires étrangers au 01/01/2021
 // downloaded from https://www.data.gouv.fr/fr/datasets/code-officiel-geographique-cog/
 
 'use strict';
-const { parseCsv } = require('../helpers/csvHelpers');
-const { knex, disconnect } = require('../../db/knex-database-connection');
-const { normalizeAndSortChars } = require('../../lib/infrastructure/utils/string-utils');
-const _ = require('lodash');
+import { parseCsv } from '../helpers/csvHelpers';
+import { knex, disconnect } from '../../db/knex-database-connection';
+import { normalizeAndSortChars } from '../../lib/infrastructure/utils/string-utils';
+import _ from 'lodash';
 
 const CURRENT_NAME_COLUMN = 'LIBCOG';
 const ALTERNATIVE_NAME_COLUMN = 'LIBENR';
@@ -121,7 +117,7 @@ async function main(filePath) {
   }
 })();
 
-module.exports = {
+export default {
   buildCountries,
   checkTransformUnicity,
 };

@@ -11,4 +11,4 @@ class Stage {
   }
 }
 
-module.exports = Stage;
+export default Stage;

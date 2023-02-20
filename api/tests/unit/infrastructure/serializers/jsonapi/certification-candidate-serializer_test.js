@@ -1,7 +1,7 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
-const CertificationCandidate = require('../../../../../lib/domain/models/CertificationCandidate');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-serializer');
-const _ = require('lodash');
+import { expect, domainBuilder } from '../../../../test-helper';
+import CertificationCandidate from '../../../../../lib/domain/models/CertificationCandidate';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-serializer';
+import _ from 'lodash';
 
 describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', function () {
   let certificationCandidate;

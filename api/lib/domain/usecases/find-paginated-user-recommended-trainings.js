@@ -12,4 +12,4 @@ async function findPaginatedUserRecommendedTrainings({ userId, locale, page, tra
   };
 }
 
-module.exports = findPaginatedUserRecommendedTrainings;
+export default findPaginatedUserRecommendedTrainings;

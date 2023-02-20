@@ -1,10 +1,10 @@
-const { sinon, expect, catchErr } = require('../../../test-helper');
+import { sinon, expect, catchErr } from '../../../test-helper';
+import deleteUnassociatedBadge from '../../../../lib/domain/usecases/delete-unassociated-badge';
 
-const deleteUnassociatedBadge = require('../../../../lib/domain/usecases/delete-unassociated-badge');
-const {
+import {
   AcquiredBadgeForbiddenDeletionError,
   CertificationBadgeForbiddenDeletionError,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors';
 
 describe('Unit | UseCase | delete-unassociated-badge', function () {
   let badgeId;

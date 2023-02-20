@@ -1,5 +1,5 @@
-const Progression = require('../../../../lib/domain/models/Progression');
-const { expect, domainBuilder } = require('../../../test-helper');
+import Progression from '../../../../lib/domain/models/Progression';
+import { expect, domainBuilder } from '../../../test-helper';
 
 describe('Unit | Domain | Models | Progression', function () {
   // TODO: Fix this the next time the file is edited.

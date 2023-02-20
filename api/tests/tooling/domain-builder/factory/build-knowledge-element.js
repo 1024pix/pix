@@ -1,4 +1,4 @@
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
+import KnowledgeElement from '../../../../lib/domain/models/KnowledgeElement';
 
 const buildKnowledgeElement = function ({
   id = 123,
@@ -98,4 +98,4 @@ buildKnowledgeElement.inferredValidated = function ({
   });
 };
 
-module.exports = buildKnowledgeElement;
+export default buildKnowledgeElement;

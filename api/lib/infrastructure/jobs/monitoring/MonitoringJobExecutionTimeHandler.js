@@ -1,4 +1,4 @@
-const dayjs = require('dayjs');
+import dayjs from 'dayjs';
 
 class MonitoringJobExecutionTimeHandler {
   constructor({ logger }) {
@@ -22,4 +22,4 @@ class MonitoringJobExecutionTimeHandler {
   }
 }
 
-module.exports = MonitoringJobExecutionTimeHandler;
+export default MonitoringJobExecutionTimeHandler;

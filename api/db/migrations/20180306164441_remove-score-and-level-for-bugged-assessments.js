@@ -1,8 +1,8 @@
-const { batch } = require('../batch-processing');
+import { batch } from '../batch-processing';
 
 const TABLE_NAME_ASSESSMENTS = 'assessments';
 
-exports.up = function (knex) {
+export const up = function (knex) {
   return knex(TABLE_NAME_ASSESSMENTS)
     .select('id', 'estimatedLevel', 'pixScore', 'type')
     .where('type', '=', 'PLACEMENT')
@@ -20,6 +20,6 @@ exports.up = function (knex) {
     });
 };
 
-exports.down = function () {
+export const down = function () {
   return;
 };

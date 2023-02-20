@@ -1,8 +1,11 @@
-const Joi = require('joi');
-const XRegExp = require('xregexp');
+import Joi from 'joi';
+import XRegExp from 'xregexp';
 
-const { passwordValidationPattern } = require('../../config').account;
-const { EntityValidationError } = require('../errors');
+import { account } from '../../config';
+
+const { passwordValidationPattern: passwordValidationPattern } = account;
+
+import { EntityValidationError } from '../errors';
 
 const pattern = XRegExp(passwordValidationPattern);
 
@@ -16,7 +19,7 @@ const passwordValidationJoiSchema = Joi.object({
   }),
 });
 
-module.exports = {
+export default {
   validate(password) {
     const { error } = passwordValidationJoiSchema.validate({ password });
     if (error) {

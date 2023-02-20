@@ -1,4 +1,4 @@
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.schema.table('certification-candidates', (table) => {
     table.string('birthPostalCode');
     table.string('birthINSEECode');
@@ -10,7 +10,7 @@ exports.up = async function (knex) {
   });
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   await knex.schema.alterTable('certification-candidates', (table) => {
     table.dropColumns('birthPostalCode', 'birthINSEECode', 'sex');
     table.string('birthCity').notNullable().alter();

@@ -1,14 +1,13 @@
-const { expect, sinon, domainBuilder, hFake, catchErr } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
-const certificationCenterMembershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-center-membership-serializer');
-const certificationCenterInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-center-invitation-serializer');
-const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
-const Session = require('../../../../lib/domain/models/Session');
-
-const certificationCenterController = require('../../../../lib/application/certification-centers/certification-center-controller');
-const csvHelpers = require('../../../../scripts/helpers/csvHelpers');
-const csvSerializer = require('../../../../lib/infrastructure/serializers/csv/csv-serializer');
-const { UnprocessableEntityError } = require('../../../../lib/application/http-errors');
+import { expect, sinon, domainBuilder, hFake, catchErr } from '../../../test-helper';
+import usecases from '../../../../lib/domain/usecases';
+import certificationCenterMembershipSerializer from '../../../../lib/infrastructure/serializers/jsonapi/certification-center-membership-serializer';
+import certificationCenterInvitationSerializer from '../../../../lib/infrastructure/serializers/jsonapi/certification-center-invitation-serializer';
+import sessionSerializer from '../../../../lib/infrastructure/serializers/jsonapi/session-serializer';
+import Session from '../../../../lib/domain/models/Session';
+import certificationCenterController from '../../../../lib/application/certification-centers/certification-center-controller';
+import csvHelpers from '../../../../scripts/helpers/csvHelpers';
+import csvSerializer from '../../../../lib/infrastructure/serializers/csv/csv-serializer';
+import { UnprocessableEntityError } from '../../../../lib/application/http-errors';
 
 describe('Unit | Controller | certifications-center-controller', function () {
   describe('#saveSession', function () {

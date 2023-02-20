@@ -1,6 +1,5 @@
-const { expect, domainBuilder, sinon } = require('../../../test-helper');
-
-const findPaginatedFilteredOrganizationCampaigns = require('../../../../lib/domain/usecases/find-paginated-filtered-organization-campaigns');
+import { expect, domainBuilder, sinon } from '../../../test-helper';
+import findPaginatedFilteredOrganizationCampaigns from '../../../../lib/domain/usecases/find-paginated-filtered-organization-campaigns';
 
 describe('Unit | Domain | Use Cases | find-paginated-filtered-organization-campaigns', function () {
   const campaignReportRepository = { findPaginatedFilteredByOrganizationId: () => undefined };

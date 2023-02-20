@@ -4,4 +4,4 @@ class TrainingSummary {
     this.title = title;
   }
 }
-module.exports = TrainingSummary;
+export default TrainingSummary;

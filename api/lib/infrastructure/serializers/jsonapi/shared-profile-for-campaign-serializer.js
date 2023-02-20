@@ -1,6 +1,6 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
+export default {
   serialize(sharedProfileForCampaign = {}) {
     return new Serializer('SharedProfileForCampaign', {
       // Transform is necessary due to a bug with 'jsonapi-serializer'

@@ -1,8 +1,8 @@
 require('dotenv').config();
-const { performance } = require('perf_hooks');
-const logger = require('../lib/infrastructure/logger');
-const cache = require('../lib/infrastructure/caches/learning-content-cache');
-const { knex, disconnect } = require('../db/knex-database-connection');
+import { performance } from 'perf_hooks';
+import logger from '../lib/infrastructure/logger';
+import cache from '../lib/infrastructure/caches/learning-content-cache';
+import { knex, disconnect } from '../db/knex-database-connection';
 
 const doSomething = async ({ throwError }) => {
   if (throwError) {
@@ -37,4 +37,4 @@ async function main() {
   }
 })();
 
-module.exports = { doSomething };
+export default { doSomething };

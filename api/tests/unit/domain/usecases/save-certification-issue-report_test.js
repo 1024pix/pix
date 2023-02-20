@@ -1,6 +1,6 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const saveCertificationIssueReport = require('../../../../lib/domain/usecases/save-certification-issue-report');
-const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import saveCertificationIssueReport from '../../../../lib/domain/usecases/save-certification-issue-report';
+import CertificationIssueReport from '../../../../lib/domain/models/CertificationIssueReport';
 
 describe('Unit | UseCase | save-certification-issue-report', function () {
   describe('#saveCertificationIssueReport', function () {

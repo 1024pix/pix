@@ -1,4 +1,4 @@
-const EuropeanNumericLevelFactory = require('./EuropeanNumericLevelFactory');
+import EuropeanNumericLevelFactory from './EuropeanNumericLevelFactory';
 
 class CpfCertificationResult {
   constructor({
@@ -52,4 +52,4 @@ class CpfCertificationResult {
   }
 }
 
-module.exports = CpfCertificationResult;
+export default CpfCertificationResult;

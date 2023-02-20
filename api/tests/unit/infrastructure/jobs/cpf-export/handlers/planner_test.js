@@ -1,9 +1,9 @@
-const { expect, sinon } = require('../../../../../test-helper');
-const planner = require('../../../../../../lib/infrastructure/jobs/cpf-export/handlers/planner');
-const dayjs = require('dayjs');
-const { cpf } = require('../../../../../../lib/config');
-const utc = require('dayjs/plugin/utc');
-const { noop } = require('lodash');
+import { expect, sinon } from '../../../../../test-helper';
+import planner from '../../../../../../lib/infrastructure/jobs/cpf-export/handlers/planner';
+import dayjs from 'dayjs';
+import { cpf } from '../../../../../../lib/config';
+import utc from 'dayjs/plugin/utc';
+import { noop } from 'lodash';
 dayjs.extend(utc);
 
 describe('Unit | Infrastructure | jobs | cpf-export | planner', function () {

@@ -1,6 +1,6 @@
-const { expect, domainBuilder, catchErrSync } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
-const { InvalidStageError } = require('../../../../lib/domain/errors');
+import { expect, domainBuilder, catchErrSync } from '../../../test-helper';
+import usecases from '../../../../lib/domain/usecases';
+import { InvalidStageError } from '../../../../lib/domain/errors';
 
 describe('Unit | UseCases | create-stage', function () {
   let stageCollection;

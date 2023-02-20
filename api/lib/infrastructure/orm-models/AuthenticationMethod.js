@@ -1,12 +1,11 @@
-const Bookshelf = require('../bookshelf');
-// eslint-disable-next-line no-unused-vars
-const jsonColumns = require('bookshelf-json-columns');
+import Bookshelf from '../bookshelf';
+import jsonColumns from 'bookshelf-json-columns';
 
-require('./User');
+import './User';
 
 const modelName = 'AuthenticationMethod';
 
-module.exports = Bookshelf.model(
+export default Bookshelf.model(
   modelName,
   {
     tableName: 'authentication-methods',

@@ -1,4 +1,4 @@
-const CampaignParticipationInfo = require('../../../../lib/domain/read-models/CampaignParticipationInfo');
+import CampaignParticipationInfo from '../../../../lib/domain/read-models/CampaignParticipationInfo';
 
 function buildCampaignParticipationInfo({
   participantFirstName = 'participantFirstName',
@@ -28,4 +28,4 @@ function buildCampaignParticipationInfo({
   });
 }
 
-module.exports = buildCampaignParticipationInfo;
+export default buildCampaignParticipationInfo;

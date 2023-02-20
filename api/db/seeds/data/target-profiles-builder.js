@@ -1,6 +1,6 @@
-const { PRO_COMPANY_ID, PRO_POLE_EMPLOI_ID, PRO_MED_NUM_ID } = require('./organizations-pro-builder');
-const identity = require('lodash/identity');
-const { SUP_UNIVERSITY_ID } = require('./organizations-sup-builder');
+import { PRO_COMPANY_ID, PRO_POLE_EMPLOI_ID, PRO_MED_NUM_ID } from './organizations-pro-builder';
+import identity from 'lodash/identity';
+import { SUP_UNIVERSITY_ID } from './organizations-sup-builder';
 
 const skillIdsForSkillSet1 = [
   'recMOy4S8XnaWblYI',
@@ -886,7 +886,7 @@ function _buildTargetProfileCnav(databaseBuilder) {
   });
 }
 
-module.exports = {
+export default {
   targetProfilesBuilder,
   TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
   TARGET_PROFILE_ONE_COMPETENCE_ID,

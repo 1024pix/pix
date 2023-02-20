@@ -1,9 +1,9 @@
-const { batch } = require('../batch-processing');
+import { batch } from '../batch-processing';
 
 const TABLE_NAME_USER_ORGA_SETTINGS = 'user-orga-settings';
 const TABLE_NAME_MEMBERSHIPS = 'memberships';
 
-exports.up = function (knex) {
+export const up = function (knex) {
   const subQuery = knex(TABLE_NAME_MEMBERSHIPS).min('id').groupBy('userId');
 
   return knex(TABLE_NAME_MEMBERSHIPS)
@@ -19,7 +19,7 @@ exports.up = function (knex) {
     });
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   const subQuery = knex(TABLE_NAME_MEMBERSHIPS).min('id').groupBy('userId');
 
   return knex(TABLE_NAME_MEMBERSHIPS)

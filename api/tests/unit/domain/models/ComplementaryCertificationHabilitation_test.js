@@ -1,6 +1,6 @@
-const ComplementaryCertificationHabilitation = require('../../../../lib/domain/models/ComplementaryCertificationHabilitation');
-const { expect, domainBuilder } = require('../../../test-helper');
-const _ = require('lodash');
+import ComplementaryCertificationHabilitation from '../../../../lib/domain/models/ComplementaryCertificationHabilitation';
+import { expect, domainBuilder } from '../../../test-helper';
+import _ from 'lodash';
 
 const COMPLEMENTARY_CERTIFICATION_HABILITATION_PROPS = ['id', 'complementaryCertificationId', 'certificationCenterId'];
 

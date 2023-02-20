@@ -1,14 +1,12 @@
-const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-helper');
-
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const usecases = require('../../../../lib/domain/usecases');
-const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
-const ScoOrganizationParticipant = require('../../../../lib/domain/read-models/ScoOrganizationParticipant');
-const SupOrganizationParticipant = require('../../../../lib/domain/read-models/SupOrganizationParticipant');
-const certificationAttestationPdf = require('../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
-
-const moduleUnderTest = require('../../../../lib/application/organizations');
-const { NoCertificationAttestationForDivisionError } = require('../../../../lib/domain/errors');
+import { expect, sinon, domainBuilder, HttpTestServer } from '../../../test-helper';
+import securityPreHandlers from '../../../../lib/application/security-pre-handlers';
+import usecases from '../../../../lib/domain/usecases';
+import OrganizationInvitation from '../../../../lib/domain/models/OrganizationInvitation';
+import ScoOrganizationParticipant from '../../../../lib/domain/read-models/ScoOrganizationParticipant';
+import SupOrganizationParticipant from '../../../../lib/domain/read-models/SupOrganizationParticipant';
+import certificationAttestationPdf from '../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf';
+import moduleUnderTest from '../../../../lib/application/organizations';
+import { NoCertificationAttestationForDivisionError } from '../../../../lib/domain/errors';
 
 describe('Integration | Application | Organizations | organization-controller', function () {
   let sandbox;

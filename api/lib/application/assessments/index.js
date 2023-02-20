@@ -1,11 +1,11 @@
-const Joi = require('joi');
-const { featureToggles } = require('../../config');
-const assessmentController = require('./assessment-controller');
-const securityPreHandlers = require('../security-pre-handlers');
-const assessmentAuthorization = require('../preHandlers/assessment-authorization');
-const identifiersType = require('../../domain/types/identifiers-type');
+import Joi from 'joi';
+import { featureToggles } from '../../config';
+import assessmentController from './assessment-controller';
+import securityPreHandlers from '../security-pre-handlers';
+import assessmentAuthorization from '../preHandlers/assessment-authorization';
+import identifiersType from '../../domain/types/identifiers-type';
 
-exports.register = async (server) => {
+export const register = async (server) => {
   const routes = [
     {
       method: 'POST',
@@ -206,4 +206,4 @@ exports.register = async (server) => {
   server.route(routes);
 };
 
-exports.name = 'assessments-api';
+export const name = 'assessments-api';

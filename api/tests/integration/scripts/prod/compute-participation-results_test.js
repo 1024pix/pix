@@ -1,7 +1,7 @@
-const { expect, mockLearningContent, databaseBuilder, knex } = require('../../../test-helper');
-const computeParticipationResults = require('../../../../scripts/prod/compute-participation-results');
-const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+import { expect, mockLearningContent, databaseBuilder, knex } from '../../../test-helper';
+import computeParticipationResults from '../../../../scripts/prod/compute-participation-results';
+import CampaignTypes from '../../../../lib/domain/models/CampaignTypes';
+import CampaignParticipationStatuses from '../../../../lib/domain/models/CampaignParticipationStatuses';
 
 const { STARTED } = CampaignParticipationStatuses;
 

@@ -1,6 +1,6 @@
-const { UserNotAuthorizedToAccessEntityError } = require('../errors');
+import { UserNotAuthorizedToAccessEntityError } from '../errors';
 
-module.exports = async function findCampaignProfilesCollectionParticipationSummaries({
+export default async function findCampaignProfilesCollectionParticipationSummaries({
   userId,
   campaignId,
   page,
@@ -12,4 +12,4 @@ module.exports = async function findCampaignProfilesCollectionParticipationSumma
     throw new UserNotAuthorizedToAccessEntityError('User does not belong to an organization that owns the campaign');
   }
   return campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId, page, filters);
-};
+}

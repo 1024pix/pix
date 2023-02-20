@@ -14,4 +14,4 @@ BadgeCriterion.SCOPES = {
   CAPPED_TUBES: 'CappedTubes',
 };
 
-module.exports = BadgeCriterion;
+export default BadgeCriterion;

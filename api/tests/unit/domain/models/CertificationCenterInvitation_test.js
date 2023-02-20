@@ -1,7 +1,7 @@
-const CertificationCenterInvitation = require('../../../../lib/domain/models/CertificationCenterInvitation');
-const { expect, sinon } = require('../../../test-helper');
-const { EntityValidationError } = require('../../../../lib/domain/errors');
-const randomString = require('randomstring');
+import CertificationCenterInvitation from '../../../../lib/domain/models/CertificationCenterInvitation';
+import { expect, sinon } from '../../../test-helper';
+import { EntityValidationError } from '../../../../lib/domain/errors';
+import randomString from 'randomstring';
 
 describe('Unit | Domain | Models | CertificationCenterInvitation', function () {
   describe('constructor', function () {

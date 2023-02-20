@@ -1,13 +1,12 @@
-const { knex } = require('../../../db/knex-database-connection');
-
-const CampaignReport = require('../../domain/read-models/CampaignReport');
-const TargetProfileForSpecifier = require('../../domain/read-models/campaign/TargetProfileForSpecifier');
-const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
-const { fetchPage } = require('../utils/knex-utils');
-const { NotFoundError } = require('../../domain/errors');
-const _ = require('lodash');
-const { filterByFullName } = require('../utils/filter-utils');
-const campaignRepository = require('./campaign-repository');
+import { knex } from '../../../db/knex-database-connection';
+import CampaignReport from '../../domain/read-models/CampaignReport';
+import TargetProfileForSpecifier from '../../domain/read-models/campaign/TargetProfileForSpecifier';
+import CampaignParticipationStatuses from '../../domain/models/CampaignParticipationStatuses';
+import { fetchPage } from '../utils/knex-utils';
+import { NotFoundError } from '../../domain/errors';
+import _ from 'lodash';
+import { filterByFullName } from '../utils/filter-utils';
+import campaignRepository from './campaign-repository';
 
 const { SHARED } = CampaignParticipationStatuses;
 
@@ -28,7 +27,7 @@ function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true, ownerName,
   }
 }
 
-module.exports = {
+export default {
   async get(id) {
     const result = await knex('campaigns')
       .select({

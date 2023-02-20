@@ -1,13 +1,12 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const importOrganizationLearnersFromSIECLEFormat = require('../../../../lib/domain/usecases/import-organization-learners-from-siecle');
-const { FileValidationError, SiecleXmlImportError } = require('../../../../lib/domain/errors');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+import { expect, sinon, catchErr } from '../../../test-helper';
+import importOrganizationLearnersFromSIECLEFormat from '../../../../lib/domain/usecases/import-organization-learners-from-siecle';
+import { FileValidationError, SiecleXmlImportError } from '../../../../lib/domain/errors';
+import DomainTransaction from '../../../../lib/infrastructure/DomainTransaction';
+import OrganizationLearner from '../../../../lib/domain/models/OrganizationLearner';
 
-const OrganizationLearner = require('../../../../lib/domain/models/OrganizationLearner');
+import { promises as fs } from 'fs';
 
-const fs = require('fs').promises;
-
-const { getI18n } = require('../../../tooling/i18n/i18n');
+import { getI18n } from '../../../tooling/i18n/i18n';
 const i18n = getI18n();
 
 describe('Unit | UseCase | import-organization-learners-from-siecle', function () {

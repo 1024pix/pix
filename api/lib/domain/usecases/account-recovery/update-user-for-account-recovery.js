@@ -1,6 +1,6 @@
-const AuthenticationMethod = require('../../models/AuthenticationMethod');
+import AuthenticationMethod from '../../models/AuthenticationMethod';
 
-module.exports = async function updateUserForAccountRecovery({
+export default async function updateUserForAccountRecovery({
   password,
   temporaryKey,
   userRepository,
@@ -58,4 +58,4 @@ module.exports = async function updateUserForAccountRecovery({
     domainTransaction,
   });
   await accountRecoveryDemandRepository.markAsBeingUsed(temporaryKey, domainTransaction);
-};
+}

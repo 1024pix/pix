@@ -1,6 +1,6 @@
-const membershipRepository = require('../../infrastructure/repositories/membership-repository');
+import membershipRepository from '../../infrastructure/repositories/membership-repository';
 
-module.exports = {
+export default {
   execute(userId, organizationId) {
     return membershipRepository
       .findByUserIdAndOrganizationId({ userId, organizationId })

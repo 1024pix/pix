@@ -1,4 +1,4 @@
-const databaseBuffer = require('../database-buffer');
+import databaseBuffer from '../database-buffer';
 
 const TABLE_NAME = 'data-protection-officers';
 
@@ -52,7 +52,7 @@ function buildOrganizationDataProtectionOfficer({
   });
 }
 
-module.exports = {
+export default {
   withCertificationCenterId: buildCertificationCenterDataProtectionOfficer,
   withOrganizationId: buildOrganizationDataProtectionOfficer,
 };

@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const CertificationOfficer = require('../../../../lib/domain/models/CertificationOfficer');
+import { expect } from '../../../test-helper';
+import CertificationOfficer from '../../../../lib/domain/models/CertificationOfficer';
 
 describe('Unit | Domain | Models | CertificationOfficer', function () {
   describe('#getFullName', function () {

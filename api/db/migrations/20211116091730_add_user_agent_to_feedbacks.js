@@ -1,10 +1,10 @@
-exports.up = function (knex) {
+export const up = function (knex) {
   return knex.schema.table('feedbacks', function (table) {
     table.string('userAgent');
   });
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return knex.schema.table('feedbacks', (table) => {
     table.dropColumn('userAgent');
   });

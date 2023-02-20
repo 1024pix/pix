@@ -1,6 +1,6 @@
-const randomString = require('randomstring');
+import randomString from 'randomstring';
 
-module.exports = {
+export default {
   generateNumericalString(numberOfDigits) {
     return randomString.generate({
       charset: 'numeric',

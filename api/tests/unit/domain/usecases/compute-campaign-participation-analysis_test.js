@@ -1,11 +1,10 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const { computeCampaignParticipationAnalysis } = require('../../../../lib/domain/usecases');
-const {
-  UserNotAuthorizedToAccessEntityError,
-  CampaignParticipationDeletedError,
-} = require('../../../../lib/domain/errors');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
-const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper';
+import { computeCampaignParticipationAnalysis } from '../../../../lib/domain/usecases';
+import { UserNotAuthorizedToAccessEntityError, CampaignParticipationDeletedError } from '../../../../lib/domain/errors';
+import CampaignParticipationStatuses from '../../../../lib/domain/models/CampaignParticipationStatuses';
+import { LOCALE } from '../../../../lib/domain/constants';
+
+const { FRENCH_SPOKEN: FRENCH_SPOKEN } = LOCALE;
 
 const { TO_SHARE } = CampaignParticipationStatuses;
 

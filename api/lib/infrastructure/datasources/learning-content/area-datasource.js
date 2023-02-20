@@ -1,6 +1,6 @@
-const datasource = require('./datasource');
+import datasource from './datasource';
 
-module.exports = datasource.extend({
+export default datasource.extend({
   modelName: 'areas',
 
   async findByRecordIds(areaIds) {

@@ -1,4 +1,4 @@
-const { knex, disconnect } = require('../../db/knex-database-connection');
+import { knex, disconnect } from '../../db/knex-database-connection';
 
 async function updateDocumentationUrl() {
   await _updateProOrganizations();
@@ -26,7 +26,7 @@ const URL = {
   AGRI: 'https://view.genial.ly/5f85a0b87812e90d12b7b593',
 };
 
-module.exports = {
+export default {
   updateDocumentationUrl,
   URL,
 };

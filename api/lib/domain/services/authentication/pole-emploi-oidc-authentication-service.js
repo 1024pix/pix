@@ -1,9 +1,9 @@
-const settings = require('../../../config');
-const OidcAuthenticationService = require('./oidc-authentication-service');
-const DomainTransaction = require('../../../infrastructure/DomainTransaction');
-const AuthenticationMethod = require('../../models/AuthenticationMethod');
-const moment = require('moment');
-const { v4: uuidv4 } = require('uuid');
+import settings from '../../../config';
+import OidcAuthenticationService from './oidc-authentication-service';
+import DomainTransaction from '../../../infrastructure/DomainTransaction';
+import AuthenticationMethod from '../../models/AuthenticationMethod';
+import moment from 'moment';
+import { v4 as uuidv4 } from 'uuid';
 const logoutUrlTemporaryStorage = require('../../../infrastructure/temporary-storage').withPrefix('logout-url:');
 
 class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
@@ -104,4 +104,4 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
   }
 }
 
-module.exports = PoleEmploiOidcAuthenticationService;
+export default PoleEmploiOidcAuthenticationService;

@@ -1,9 +1,9 @@
-const usecases = require('../../domain/usecases');
-const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
-const scoringSimulationContextSerializer = require('../../infrastructure/serializers/json/scoring-simulator/scoring-simulation-context-serializer');
-const scoringSimulationDatasetSerializer = require('../../infrastructure/serializers/json/scoring-simulator/scoring-simulation-dataset-serializer');
+import usecases from '../../domain/usecases';
+import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils';
+import scoringSimulationContextSerializer from '../../infrastructure/serializers/json/scoring-simulator/scoring-simulation-context-serializer';
+import scoringSimulationDatasetSerializer from '../../infrastructure/serializers/json/scoring-simulator/scoring-simulation-dataset-serializer';
 
-module.exports = {
+export default {
   async calculateOldScores(request, h) {
     const dataset = scoringSimulationDatasetSerializer.deserialize(request);
 

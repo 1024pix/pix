@@ -1,10 +1,10 @@
-const { domainBuilder, expect, sinon } = require('../../../../../test-helper');
-const createAndUpload = require('../../../../../../lib/infrastructure/jobs/cpf-export/handlers/create-and-upload');
-const { PassThrough, Readable } = require('stream');
-const noop = require('lodash/noop');
-const dayjs = require('dayjs');
-const utc = require('dayjs/plugin/utc');
-const timezone = require('dayjs/plugin/timezone');
+import { domainBuilder, expect, sinon } from '../../../../../test-helper';
+import createAndUpload from '../../../../../../lib/infrastructure/jobs/cpf-export/handlers/create-and-upload';
+import { PassThrough, Readable } from 'stream';
+import noop from 'lodash/noop';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 

@@ -1,7 +1,7 @@
-const randomString = require('randomstring');
-const _ = require('lodash');
+import randomString from 'randomstring';
+import _ from 'lodash';
 
-module.exports = {
+export default {
   generateSimplePassword() {
     const letterPart = randomString.generate({
       length: 6,

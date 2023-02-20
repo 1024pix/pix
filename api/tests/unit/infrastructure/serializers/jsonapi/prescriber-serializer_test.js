@@ -1,8 +1,7 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
-
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/prescriber-serializer');
-const Membership = require('../../../../../lib/domain/models/Membership');
-const { SamlIdentityProviders } = require('../../../../../lib/domain/constants/saml-identity-providers');
+import { expect, domainBuilder } from '../../../../test-helper';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/prescriber-serializer';
+import Membership from '../../../../../lib/domain/models/Membership';
+import { SamlIdentityProviders } from '../../../../../lib/domain/constants/saml-identity-providers';
 
 describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
   describe('#serialize', function () {

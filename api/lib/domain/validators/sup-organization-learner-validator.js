@@ -1,5 +1,5 @@
 const Joi = require('joi').extend(require('@joi/date'));
-const { EntityValidationError } = require('../errors');
+import { EntityValidationError } from '../errors';
 
 const validationConfiguration = { allowUnknown: true };
 const MAX_LENGTH = 255;
@@ -24,7 +24,7 @@ const validationSchema = Joi.object({
   organizationId: Joi.number().integer().required(),
 });
 
-module.exports = {
+export default {
   checkValidation(supOrganizationLearner) {
     const { error } = validationSchema.validate(supOrganizationLearner, validationConfiguration);
     if (error) {

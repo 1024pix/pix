@@ -1,18 +1,19 @@
-const jsonwebtoken = require('jsonwebtoken');
-const {
+import jsonwebtoken from 'jsonwebtoken';
+
+import {
   expect,
   databaseBuilder,
   knex,
   nock,
   sinon,
   generateValidRequestAuthorizationHeader,
-} = require('../../../../test-helper');
+} from '../../../../test-helper';
 
-const createServer = require('../../../../../server');
-const settings = require('../../../../../lib/config');
-const AuthenticationSessionContent = require('../../../../../lib/domain/models/AuthenticationSessionContent');
-const authenticationSessionService = require('../../../../../lib/domain/services/authentication/authentication-session-service');
-const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
+import createServer from '../../../../../server';
+import settings from '../../../../../lib/config';
+import AuthenticationSessionContent from '../../../../../lib/domain/models/AuthenticationSessionContent';
+import authenticationSessionService from '../../../../../lib/domain/services/authentication/authentication-session-service';
+import OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers';
 
 const uuidPattern = new RegExp(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i);
 

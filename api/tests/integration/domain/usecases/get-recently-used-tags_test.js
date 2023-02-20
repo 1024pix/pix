@@ -1,8 +1,8 @@
-const _ = require('lodash');
-const { expect, databaseBuilder } = require('../../../test-helper');
-const getRecentlyUsedTags = require('../../../../lib/domain/usecases/get-recently-used-tags');
-const Tag = require('../../../../lib/domain/models/Tag');
-const organizationTagRepository = require('../../../../lib/infrastructure/repositories/organization-tag-repository');
+import _ from 'lodash';
+import { expect, databaseBuilder } from '../../../test-helper';
+import getRecentlyUsedTags from '../../../../lib/domain/usecases/get-recently-used-tags';
+import Tag from '../../../../lib/domain/models/Tag';
+import organizationTagRepository from '../../../../lib/infrastructure/repositories/organization-tag-repository';
 
 describe('Integration | UseCase | get-recently-used-tags', function () {
   it('returns 10 recently used tags based on a tag id and ordered by the most used first', async function () {

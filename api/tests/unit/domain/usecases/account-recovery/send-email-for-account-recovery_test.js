@@ -1,7 +1,7 @@
-const { sinon, expect, catchErr } = require('../../../../test-helper');
-const sendEmailForAccountRecovery = require('../../../../../lib/domain/usecases/account-recovery/send-email-for-account-recovery.js');
-const { AlreadyRegisteredEmailError } = require('../../../../../lib/domain/errors');
-const AccountRecoveryDemand = require('../../../../../lib/domain/models/AccountRecoveryDemand');
+import { sinon, expect, catchErr } from '../../../../test-helper';
+import sendEmailForAccountRecovery from '../../../../../lib/domain/usecases/account-recovery/send-email-for-account-recovery.js';
+import { AlreadyRegisteredEmailError } from '../../../../../lib/domain/errors';
+import AccountRecoveryDemand from '../../../../../lib/domain/models/AccountRecoveryDemand';
 
 describe('Unit | UseCase | Account-recovery | account-recovery | send-email-for-account-recovery', function () {
   let userRepository;

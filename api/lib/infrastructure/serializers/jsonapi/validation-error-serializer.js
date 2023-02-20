@@ -1,4 +1,4 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
 function _buildError(field, message) {
   return {
@@ -37,4 +37,4 @@ function serialize(validationErrors) {
   };
 }
 
-module.exports = { serialize };
+export default { serialize };

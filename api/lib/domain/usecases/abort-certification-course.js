@@ -1,4 +1,4 @@
-module.exports = async function abortCertificationCourse({
+export default async function abortCertificationCourse({
   certificationCourseRepository,
   certificationCourseId,
   abortReason,
@@ -6,4 +6,4 @@ module.exports = async function abortCertificationCourse({
   const certificationCourse = await certificationCourseRepository.get(certificationCourseId);
   certificationCourse.abort(abortReason);
   await certificationCourseRepository.update(certificationCourse);
-};
+}

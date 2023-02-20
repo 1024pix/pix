@@ -1,4 +1,4 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
 const handleBadgeAcquisition = async function ({
   assessment,
@@ -46,4 +46,4 @@ function _fetchPossibleCampaignAssociatedBadges(
   return badgeForCalculationRepository.findByCampaignParticipationId({ campaignParticipationId, domainTransaction });
 }
 
-module.exports = handleBadgeAcquisition;
+export default handleBadgeAcquisition;

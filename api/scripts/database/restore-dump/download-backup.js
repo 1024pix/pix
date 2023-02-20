@@ -1,10 +1,10 @@
 require('dotenv').config({ path: '../../../.env' });
 
-const fs = require('fs');
-const Joi = require('joi');
-const ScalingoClient = require('./helpers/scalingo/scalingo-client');
-const logger = require('../../../lib/infrastructure/logger');
-const { disconnect } = require('../../../db/knex-database-connection');
+import fs from 'fs';
+import Joi from 'joi';
+import ScalingoClient from './helpers/scalingo/scalingo-client';
+import logger from '../../../lib/infrastructure/logger';
+import { disconnect } from '../../../db/knex-database-connection';
 
 const postgresDatabaseAddonProviderId = 'postgresql';
 

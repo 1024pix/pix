@@ -1,5 +1,5 @@
-const _ = require('lodash');
-const Tube = require('../models/Tube');
+import _ from 'lodash';
+import Tube from '../models/Tube';
 
 function computeTubesFromSkills(skills) {
   const tubes = [];
@@ -20,6 +20,6 @@ function computeTubesFromSkills(skills) {
   return tubes;
 }
 
-module.exports = {
+export default {
   computeTubesFromSkills,
 };

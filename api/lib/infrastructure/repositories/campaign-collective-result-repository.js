@@ -1,14 +1,14 @@
-const _ = require('lodash');
-const bluebird = require('bluebird');
-const { knex } = require('../../../db/knex-database-connection');
-const CampaignCollectiveResult = require('../../domain/read-models/CampaignCollectiveResult');
-const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
-const knowledgeElementRepository = require('./knowledge-element-repository');
-const constants = require('../constants');
+import _ from 'lodash';
+import bluebird from 'bluebird';
+import { knex } from '../../../db/knex-database-connection';
+import CampaignCollectiveResult from '../../domain/read-models/CampaignCollectiveResult';
+import CampaignParticipationStatuses from '../../domain/models/CampaignParticipationStatuses';
+import knowledgeElementRepository from './knowledge-element-repository';
+import constants from '../constants';
 
 const { SHARED } = CampaignParticipationStatuses;
 
-module.exports = {
+export default {
   async getCampaignCollectiveResult(campaignId, campaignLearningContent) {
     const campaignCollectiveResult = new CampaignCollectiveResult({
       id: campaignId,

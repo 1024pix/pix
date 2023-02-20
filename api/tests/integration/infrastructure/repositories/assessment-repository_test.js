@@ -1,11 +1,11 @@
-const { expect, knex, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
-const _ = require('lodash');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const Answer = require('../../../../lib/domain/models/Answer');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
+import { expect, knex, databaseBuilder, domainBuilder, catchErr } from '../../../test-helper';
+import _ from 'lodash';
+import DomainTransaction from '../../../../lib/infrastructure/DomainTransaction';
+import { NotFoundError } from '../../../../lib/domain/errors';
+import assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository';
+import Answer from '../../../../lib/domain/models/Answer';
+import Assessment from '../../../../lib/domain/models/Assessment';
+import AssessmentResult from '../../../../lib/domain/models/AssessmentResult';
 
 describe('Integration | Infrastructure | Repositories | assessment-repository', function () {
   afterEach(async function () {

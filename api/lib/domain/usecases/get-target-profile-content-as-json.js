@@ -1,8 +1,8 @@
-const { ForbiddenAccess } = require('../../domain/errors');
-const dayjs = require('dayjs');
-const learningContentConversionService = require('../services/learning-content/learning-content-conversion-service');
+import { ForbiddenAccess } from '../../domain/errors';
+import dayjs from 'dayjs';
+import learningContentConversionService from '../services/learning-content/learning-content-conversion-service';
 
-module.exports = async function getTargetProfileContentAsJson({
+export default async function getTargetProfileContentAsJson({
   userId,
   targetProfileId,
   adminMemberRepository,
@@ -22,7 +22,7 @@ module.exports = async function getTargetProfileContentAsJson({
     jsonContent,
     fileName,
   };
-};
+}
 
 function _hasAuthorizationToDownloadContent(adminMember) {
   return adminMember.isMetier || adminMember.isSupport || adminMember.isSuperAdmin;

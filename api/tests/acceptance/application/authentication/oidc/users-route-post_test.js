@@ -1,9 +1,9 @@
-const jsonwebtoken = require('jsonwebtoken');
-const { expect, knex } = require('../../../../test-helper');
-const authenticationSessionService = require('../../../../../lib/domain/services/authentication/authentication-session-service');
-const createServer = require('../../../../../server');
-const AuthenticationSessionContent = require('../../../../../lib/domain/models/AuthenticationSessionContent');
-const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
+import jsonwebtoken from 'jsonwebtoken';
+import { expect, knex } from '../../../../test-helper';
+import authenticationSessionService from '../../../../../lib/domain/services/authentication/authentication-session-service';
+import createServer from '../../../../../server';
+import AuthenticationSessionContent from '../../../../../lib/domain/models/AuthenticationSessionContent';
+import OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers';
 
 describe('Acceptance | Route | oidc users', function () {
   let server;

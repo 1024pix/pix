@@ -1,6 +1,6 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
+export default {
   serialize(organizations, meta) {
     return new Serializer('sup-organization-learner-warnings', {
       attributes: ['warnings'],

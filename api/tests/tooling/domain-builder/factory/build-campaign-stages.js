@@ -1,5 +1,5 @@
-const CampaignStages = require('../../../../lib/domain/read-models/campaign/CampaignStages');
+import CampaignStages from '../../../../lib/domain/read-models/campaign/CampaignStages';
 
-module.exports = function buildCampaignStages({ stages = [] } = {}) {
+export default function buildCampaignStages({ stages = [] } = {}) {
   return new CampaignStages({ stages });
-};
+}

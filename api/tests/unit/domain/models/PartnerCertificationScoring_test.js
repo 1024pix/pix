@@ -1,6 +1,6 @@
-const PartnerCertificationScoring = require('../../../../lib/domain/models/PartnerCertificationScoring');
-const { expect } = require('../../../test-helper');
-const { ObjectValidationError } = require('../../../../lib/domain/errors');
+import PartnerCertificationScoring from '../../../../lib/domain/models/PartnerCertificationScoring';
+import { expect } from '../../../test-helper';
+import { ObjectValidationError } from '../../../../lib/domain/errors';
 
 describe('Unit | Domain | Models | PartnerCertificationScoring', function () {
   describe('constructor', function () {

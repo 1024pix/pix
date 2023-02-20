@@ -1,4 +1,4 @@
-const databaseBuffer = require('../database-buffer');
+import databaseBuffer from '../database-buffer';
 
 const buildOrganization = function buildOrganization({
   id = databaseBuffer.getNextId(),
@@ -49,4 +49,4 @@ const buildOrganization = function buildOrganization({
   });
 };
 
-module.exports = buildOrganization;
+export default buildOrganization;

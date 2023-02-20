@@ -1,7 +1,7 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const findCampaignProfilesCollectionParticipationSummaries = require('../../../../lib/domain/usecases/find-campaign-profiles-collection-participation-summaries');
-const CampaignProfilesCollectionParticipationSummary = require('../../../../lib/domain/read-models/CampaignProfilesCollectionParticipationSummary');
-const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
+import { expect, sinon, catchErr } from '../../../test-helper';
+import findCampaignProfilesCollectionParticipationSummaries from '../../../../lib/domain/usecases/find-campaign-profiles-collection-participation-summaries';
+import CampaignProfilesCollectionParticipationSummary from '../../../../lib/domain/read-models/CampaignProfilesCollectionParticipationSummary';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors';
 
 describe('Unit | UseCase | find-campaign-profiles-collection-participation-summaries', function () {
   // TODO: Fix this the next time the file is edited.

@@ -1,8 +1,7 @@
-const { expect, sinon, HttpTestServer } = require('../../../test-helper');
-
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const organizationController = require('../../../../lib/application/organizations/organization-controller');
-const moduleUnderTest = require('../../../../lib/application/organizations');
+import { expect, sinon, HttpTestServer } from '../../../test-helper';
+import securityPreHandlers from '../../../../lib/application/security-pre-handlers';
+import organizationController from '../../../../lib/application/organizations/organization-controller';
+import moduleUnderTest from '../../../../lib/application/organizations';
 
 describe('Integration | Application | Organizations | Routes', function () {
   describe('POST /api/admin/organizations', function () {

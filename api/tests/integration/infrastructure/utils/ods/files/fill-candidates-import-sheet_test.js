@@ -1,15 +1,18 @@
-const { unlink, writeFile } = require('fs').promises;
-const _ = require('lodash');
-const { expect, databaseBuilder } = require('../../../../../test-helper');
-const readOdsUtils = require('../../../../../../lib/infrastructure/utils/ods/read-ods-utils');
-const fillCandidatesImportSheet = require('../../../../../../lib/infrastructure/files/candidates-import/fill-candidates-import-sheet');
-const usecases = require('../../../../../../lib/domain/usecases');
-const {
+import { promises } from 'fs';
+
+const { unlink: unlink, writeFile: writeFile } = promises;
+
+import _ from 'lodash';
+import { expect, databaseBuilder } from '../../../../../test-helper';
+import readOdsUtils from '../../../../../../lib/infrastructure/utils/ods/read-ods-utils';
+import fillCandidatesImportSheet from '../../../../../../lib/infrastructure/files/candidates-import/fill-candidates-import-sheet';
+import usecases from '../../../../../../lib/domain/usecases';
+import {
   PIX_PLUS_DROIT,
   CLEA,
   PIX_PLUS_EDU_1ER_DEGRE,
   PIX_PLUS_EDU_2ND_DEGRE,
-} = require('../../../../../../lib/domain/models/ComplementaryCertification');
+} from '../../../../../../lib/domain/models/ComplementaryCertification';
 
 describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet', function () {
   let userId;

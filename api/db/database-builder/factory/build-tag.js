@@ -1,6 +1,6 @@
-const databaseBuffer = require('../database-buffer');
+import databaseBuffer from '../database-buffer';
 
-module.exports = function buildTag({ id = databaseBuffer.getNextId(), name = 'Tag' } = {}) {
+export default function buildTag({ id = databaseBuffer.getNextId(), name = 'Tag' } = {}) {
   const values = {
     id,
     name,
@@ -9,4 +9,4 @@ module.exports = function buildTag({ id = databaseBuffer.getNextId(), name = 'Ta
     tableName: 'tags',
     values,
   });
-};
+}

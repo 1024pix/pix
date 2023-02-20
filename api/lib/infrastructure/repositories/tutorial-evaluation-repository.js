@@ -1,9 +1,9 @@
-const { knex } = require('../../../db/knex-database-connection');
-const TutorialEvaluation = require('../../domain/models/TutorialEvaluation');
+import { knex } from '../../../db/knex-database-connection';
+import TutorialEvaluation from '../../domain/models/TutorialEvaluation';
 
 const TABLE_NAME = 'tutorial-evaluations';
 
-module.exports = {
+export default {
   async createOrUpdate({ userId, tutorialId, status }) {
     const tutorialEvaluation = await knex(TABLE_NAME)
       .insert({

@@ -1,8 +1,11 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const saveAdminMember = require('../../../../lib/domain/usecases/save-admin-member');
-const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
-const { AlreadyExistingAdminMemberError, UserNotFoundError } = require('../../../../lib/domain/errors');
-const AdminMember = require('../../../../lib/domain/models/AdminMember');
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper';
+import saveAdminMember from '../../../../lib/domain/usecases/save-admin-member';
+import { PIX_ADMIN } from '../../../../lib/domain/constants';
+
+const { ROLES: ROLES } = PIX_ADMIN;
+
+import { AlreadyExistingAdminMemberError, UserNotFoundError } from '../../../../lib/domain/errors';
+import AdminMember from '../../../../lib/domain/models/AdminMember';
 
 describe('Unit | UseCase | save-admin-member', function () {
   context('when admin member email is not found', function () {

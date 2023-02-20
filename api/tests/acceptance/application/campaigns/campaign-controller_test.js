@@ -1,21 +1,20 @@
-const jwt = require('jsonwebtoken');
-
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+import jwt from 'jsonwebtoken';
+import CampaignParticipationStatuses from '../../../../lib/domain/models/CampaignParticipationStatuses';
 
 const { STARTED } = CampaignParticipationStatuses;
 
-const {
+import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   knex,
   learningContentBuilder,
   mockLearningContent,
-} = require('../../../test-helper');
+} from '../../../test-helper';
 
-const settings = require('../../../../lib/config');
-const Membership = require('../../../../lib/domain/models/Membership');
-const createServer = require('../../../../server');
+import settings from '../../../../lib/config';
+import Membership from '../../../../lib/domain/models/Membership';
+import createServer from '../../../../server';
 
 describe('Acceptance | API | Campaign Controller', function () {
   let campaign;

@@ -1,4 +1,4 @@
-const Thematic = require('../../../../lib/domain/models/Thematic');
+import Thematic from '../../../../lib/domain/models/Thematic';
 
 const buildThematic = function buildThematic({
   id = 'recThem1',
@@ -16,4 +16,4 @@ const buildThematic = function buildThematic({
   });
 };
 
-module.exports = buildThematic;
+export default buildThematic;

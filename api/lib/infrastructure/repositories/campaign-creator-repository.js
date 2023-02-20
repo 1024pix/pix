@@ -1,6 +1,6 @@
-const { knex } = require('../../../db/knex-database-connection');
-const CampaignCreator = require('../../../lib/domain/models/CampaignCreator');
-const { UserNotAuthorizedToCreateCampaignError } = require('../../domain/errors');
+import { knex } from '../../../db/knex-database-connection';
+import CampaignCreator from '../../../lib/domain/models/CampaignCreator';
+import { UserNotAuthorizedToCreateCampaignError } from '../../domain/errors';
 
 async function get({ userId, organizationId, ownerId }) {
   await _checkUserIsAMemberOfOrganization({ organizationId, userId });
@@ -19,7 +19,7 @@ async function get({ userId, organizationId, ownerId }) {
   return new CampaignCreator(availableTargetProfiles);
 }
 
-module.exports = {
+export default {
   get,
 };
 

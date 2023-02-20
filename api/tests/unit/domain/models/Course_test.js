@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const Course = require('../../../../lib/domain/models/Course');
+import { expect } from '../../../test-helper';
+import Course from '../../../../lib/domain/models/Course';
 
 describe('Unit | Domain | Models | Course', function () {
   describe('#nbChallenges', function () {

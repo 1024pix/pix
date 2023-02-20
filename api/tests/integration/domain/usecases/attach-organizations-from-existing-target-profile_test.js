@@ -1,9 +1,9 @@
-const { expect, sinon, databaseBuilder, knex, catchErr } = require('../../../test-helper');
-const { NoOrganizationToAttach, NotFoundError } = require('../../../../lib/domain/errors');
-const attachOrganizationsFromExistingTargetProfile = require('../../../../lib/domain/usecases/attach-organizations-from-existing-target-profile');
-const organizationsToAttachToTargetProfileRepository = require('../../../../lib/infrastructure/repositories/organizations-to-attach-to-target-profile-repository');
-const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
-const skillDatasource = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
+import { expect, sinon, databaseBuilder, knex, catchErr } from '../../../test-helper';
+import { NoOrganizationToAttach, NotFoundError } from '../../../../lib/domain/errors';
+import attachOrganizationsFromExistingTargetProfile from '../../../../lib/domain/usecases/attach-organizations-from-existing-target-profile';
+import organizationsToAttachToTargetProfileRepository from '../../../../lib/infrastructure/repositories/organizations-to-attach-to-target-profile-repository';
+import targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository';
+import skillDatasource from '../../../../lib/infrastructure/datasources/learning-content/skill-datasource';
 
 describe('Integration | UseCase | attach-organizations-from-existing-target-profile', function () {
   beforeEach(function () {

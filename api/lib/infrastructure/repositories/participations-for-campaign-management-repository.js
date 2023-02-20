@@ -1,9 +1,9 @@
-const { knex } = require('../../../db/knex-database-connection');
-const ParticipationForCampaignManagement = require('../../domain/models/ParticipationForCampaignManagement');
-const { fetchPage } = require('../utils/knex-utils');
-const { NotFoundError } = require('../../domain/errors');
+import { knex } from '../../../db/knex-database-connection';
+import ParticipationForCampaignManagement from '../../domain/models/ParticipationForCampaignManagement';
+import { fetchPage } from '../utils/knex-utils';
+import { NotFoundError } from '../../domain/errors';
 
-module.exports = {
+export default {
   async findPaginatedParticipationsForCampaignManagement({ campaignId, page }) {
     const query = knex('campaign-participations')
       .select({

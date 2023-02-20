@@ -1,14 +1,14 @@
 'use strict';
 require('dotenv').config();
-const { knex, disconnect } = require('../../db/knex-database-connection');
-const SessionFinalized = require('../../lib/domain/events/SessionFinalized');
-const certificationAssessmentRepository = require('../../lib/infrastructure/repositories/certification-assessment-repository');
-const challengeRepository = require('../../lib/infrastructure/repositories/challenge-repository');
-const certificationIssueReportRepository = require('../../lib/infrastructure/repositories/certification-issue-report-repository');
-const certificationCourseRepository = require('../../lib/infrastructure/repositories/certification-course-repository');
-const handleAutoJury = require('../../lib/domain/events/handle-auto-jury');
-const events = require('../../lib/domain/events');
-const logger = require('../../lib/infrastructure/logger');
+import { knex, disconnect } from '../../db/knex-database-connection';
+import SessionFinalized from '../../lib/domain/events/SessionFinalized';
+import certificationAssessmentRepository from '../../lib/infrastructure/repositories/certification-assessment-repository';
+import challengeRepository from '../../lib/infrastructure/repositories/challenge-repository';
+import certificationIssueReportRepository from '../../lib/infrastructure/repositories/certification-issue-report-repository';
+import certificationCourseRepository from '../../lib/infrastructure/repositories/certification-course-repository';
+import handleAutoJury from '../../lib/domain/events/handle-auto-jury';
+import events from '../../lib/domain/events';
+import logger from '../../lib/infrastructure/logger';
 
 const isLaunchedFromCommandLine = require.main === module;
 

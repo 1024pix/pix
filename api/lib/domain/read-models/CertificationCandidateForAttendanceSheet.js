@@ -1,4 +1,4 @@
-const isNil = require('lodash/isNil');
+import isNil from 'lodash/isNil';
 
 class CertificationCandidateForAttendanceSheet {
   constructor({ lastName, firstName, birthdate, externalId, division, extraTimePercentage }) {
@@ -11,4 +11,4 @@ class CertificationCandidateForAttendanceSheet {
   }
 }
 
-module.exports = CertificationCandidateForAttendanceSheet;
+export default CertificationCandidateForAttendanceSheet;

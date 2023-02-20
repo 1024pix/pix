@@ -1,7 +1,7 @@
-const usecases = require('../../domain/usecases');
-const certificationCandidateSubscriptionSerializer = require('../../infrastructure/serializers/jsonapi/certification-candidate-subscription-serializer');
+import usecases from '../../domain/usecases';
+import certificationCandidateSubscriptionSerializer from '../../infrastructure/serializers/jsonapi/certification-candidate-subscription-serializer';
 
-module.exports = {
+export default {
   async authorizeToStart(request, h) {
     const certificationCandidateForSupervisingId = request.params.id;
 

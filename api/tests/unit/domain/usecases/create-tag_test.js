@@ -1,6 +1,6 @@
-const { expect, domainBuilder, sinon } = require('../../../test-helper');
-const Tag = require('../../../../lib/domain/models/Tag');
-const createTag = require('../../../../lib/domain/usecases/create-tag');
+import { expect, domainBuilder, sinon } from '../../../test-helper';
+import Tag from '../../../../lib/domain/models/Tag';
+import createTag from '../../../../lib/domain/usecases/create-tag';
 
 describe('Unit | UseCase | create-tag', function () {
   it('should allow to create a tag', async function () {

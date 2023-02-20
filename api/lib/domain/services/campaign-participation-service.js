@@ -1,4 +1,4 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
 function progress(campaignParticipationCompleted, numberOfKnowledgeElements, numberOfSkillsInTargetProfile) {
   if (campaignParticipationCompleted) {
@@ -7,6 +7,6 @@ function progress(campaignParticipationCompleted, numberOfKnowledgeElements, num
   return _.round(numberOfKnowledgeElements / numberOfSkillsInTargetProfile, 3);
 }
 
-module.exports = {
+export default {
   progress,
 };

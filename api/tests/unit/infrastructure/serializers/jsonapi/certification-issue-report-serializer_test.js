@@ -1,10 +1,9 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-issue-report-serializer');
-
-const {
+import { expect, domainBuilder } from '../../../../test-helper';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-issue-report-serializer';
+import {
   CertificationIssueReportCategories,
   CertificationIssueReportSubcategories,
-} = require('../../../../../lib/domain/models/CertificationIssueReportCategory');
+} from '../../../../../lib/domain/models/CertificationIssueReportCategory';
 
 describe('Unit | Serializer | JSONAPI | certification-issue-report-serializer', function () {
   describe('#serialize()', function () {

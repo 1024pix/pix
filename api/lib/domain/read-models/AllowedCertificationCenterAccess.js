@@ -1,4 +1,4 @@
-const { features } = require('../../config');
+import { features } from '../../config';
 
 class AllowedCertificationCenterAccess {
   constructor({
@@ -79,4 +79,4 @@ class AllowedCertificationCenterAccess {
   }
 }
 
-module.exports = AllowedCertificationCenterAccess;
+export default AllowedCertificationCenterAccess;

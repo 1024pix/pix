@@ -1,7 +1,7 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const { updateMembership } = require('../../../../lib/domain/usecases');
-const Membership = require('../../../../lib/domain/models/Membership');
-const { InvalidMembershipOrganizationRoleError } = require('../../../../lib/domain/errors');
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper';
+import { updateMembership } from '../../../../lib/domain/usecases';
+import Membership from '../../../../lib/domain/models/Membership';
+import { InvalidMembershipOrganizationRoleError } from '../../../../lib/domain/errors';
 
 describe('Unit | UseCase | update-membership', function () {
   let membershipRepository;

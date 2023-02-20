@@ -1,5 +1,5 @@
-const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
-const { expect, domainBuilder } = require('../../../test-helper');
+import ComplementaryCertificationCourseResult from '../../../../lib/domain/models/ComplementaryCertificationCourseResult';
+import { expect, domainBuilder } from '../../../test-helper';
 
 describe('Unit | Domain | Models | ComplementaryCertificationCourseResult', function () {
   describe('#isAcquired', function () {

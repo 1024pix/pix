@@ -1,10 +1,13 @@
-const { unlink, writeFile } = require('fs').promises;
-const _ = require('lodash');
-const { expect, databaseBuilder } = require('../../../../test-helper');
-const readOdsUtils = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
-const sessionRepository = require('../../../../../lib/infrastructure/repositories/sessions/session-repository');
-const sessionForAttendanceSheetRepository = require('../../../../../lib/infrastructure/repositories/sessions/session-for-attendance-sheet-repository');
-const getAttendanceSheet = require('../../../../../lib/domain/usecases/get-attendance-sheet');
+import { promises } from 'fs';
+
+const { unlink: unlink, writeFile: writeFile } = promises;
+
+import _ from 'lodash';
+import { expect, databaseBuilder } from '../../../../test-helper';
+import readOdsUtils from '../../../../../lib/infrastructure/utils/ods/read-ods-utils';
+import sessionRepository from '../../../../../lib/infrastructure/repositories/sessions/session-repository';
+import sessionForAttendanceSheetRepository from '../../../../../lib/infrastructure/repositories/sessions/session-for-attendance-sheet-repository';
+import getAttendanceSheet from '../../../../../lib/domain/usecases/get-attendance-sheet';
 
 describe('Integration | UseCases | getAttendanceSheet', function () {
   describe('when certification center is not sco', function () {

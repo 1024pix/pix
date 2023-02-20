@@ -1,18 +1,20 @@
-const {
+import {
   expect,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
   generateValidRequestAuthorizationHeaderForApplication,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const {
+} from '../../../test-helper';
+
+import createServer from '../../../../server';
+import Assessment from '../../../../lib/domain/models/Assessment';
+
+import {
   buildOrganization,
   buildValidatedPublishedCertificationData,
   mockLearningContentCompetences,
   buildUser,
   buildOrganizationLearner,
-} = require('../../../../tests/tooling/domain-builder/factory/build-certifications-results-for-ls');
+} from '../../../../tests/tooling/domain-builder/factory/build-certifications-results-for-ls';
 
 describe('Acceptance | API | Certifications', function () {
   let server, options;

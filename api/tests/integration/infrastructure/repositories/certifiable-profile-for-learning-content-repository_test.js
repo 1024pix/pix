@@ -1,7 +1,7 @@
-const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper');
-const certifiableProfileForLearningContentRepository = require('../../../../lib/infrastructure/repositories/certifiable-profile-for-learning-content-repository');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const CertifiableProfileForLearningContent = require('../../../../lib/domain/models/CertifiableProfileForLearningContent');
+import { expect, databaseBuilder, domainBuilder } from '../../../test-helper';
+import certifiableProfileForLearningContentRepository from '../../../../lib/infrastructure/repositories/certifiable-profile-for-learning-content-repository';
+import KnowledgeElement from '../../../../lib/domain/models/KnowledgeElement';
+import CertifiableProfileForLearningContent from '../../../../lib/domain/models/CertifiableProfileForLearningContent';
 
 describe('Integration | Repository | certifiable-profile-for-learning-content', function () {
   describe('#get', function () {

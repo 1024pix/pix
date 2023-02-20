@@ -1,15 +1,17 @@
-const _ = require('lodash');
-const CertificationCandidate = require('../models/CertificationCandidate');
-const {
+import _ from 'lodash';
+import CertificationCandidate from '../models/CertificationCandidate';
+
+import {
   CertificationCandidateAlreadyLinkedToUserError,
   CertificationCandidateByPersonalInfoNotFoundError,
   MatchingReconciledStudentNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   UserAlreadyLinkedToCandidateInSessionError,
   SessionNotAccessible,
-} = require('../errors');
-const UserLinkedToCertificationCandidate = require('../events/UserLinkedToCertificationCandidate');
-const UserAlreadyLinkedToCertificationCandidate = require('../events/UserAlreadyLinkedToCertificationCandidate');
+} from '../errors';
+
+import UserLinkedToCertificationCandidate from '../events/UserLinkedToCertificationCandidate';
+import UserAlreadyLinkedToCertificationCandidate from '../events/UserAlreadyLinkedToCertificationCandidate';
 
 async function linkUserToSessionCertificationCandidate({
   userId,
@@ -154,6 +156,6 @@ async function _checkCandidateMatchTheReconciledStudent({
   }
 }
 
-module.exports = {
+export default {
   linkUserToSessionCertificationCandidate,
 };

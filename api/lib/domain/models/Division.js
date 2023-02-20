@@ -4,4 +4,4 @@ class Division {
   }
 }
 
-module.exports = Division;
+export default Division;

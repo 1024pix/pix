@@ -1,5 +1,5 @@
-const moment = require('moment');
-const _ = require('lodash');
+import moment from 'moment';
+import _ from 'lodash';
 
 const STATS_COLUMNS_COUNT = 3;
 
@@ -198,4 +198,4 @@ class CampaignAssessmentCsvLine {
   }
 }
 
-module.exports = CampaignAssessmentCsvLine;
+export default CampaignAssessmentCsvLine;

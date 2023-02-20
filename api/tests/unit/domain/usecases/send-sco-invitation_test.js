@@ -1,12 +1,14 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
-const {
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper';
+import usecases from '../../../../lib/domain/usecases';
+
+import {
   OrganizationNotFoundError,
   OrganizationWithoutEmailError,
   ManyOrganizationsFoundError,
   OrganizationArchivedError,
-} = require('../../../../lib/domain/errors');
-const organizationInvitationService = require('../../../../lib/domain/services/organization-invitation-service');
+} from '../../../../lib/domain/errors';
+
+import organizationInvitationService from '../../../../lib/domain/services/organization-invitation-service';
 
 describe('Unit | UseCase | send-sco-invitation', function () {
   let organizationRepository, organizationInvitationRepository;

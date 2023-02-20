@@ -1,6 +1,6 @@
-const FinalizedSession = require('../../../../lib/domain/models/FinalizedSession');
+import FinalizedSession from '../../../../lib/domain/models/FinalizedSession';
 
-module.exports = function buildFinalizedSession({
+export default function buildFinalizedSession({
   sessionId = 123,
   certificationCenterName = 'Centre de certif pix',
   sessionDate = '2020-12-01',
@@ -20,4 +20,4 @@ module.exports = function buildFinalizedSession({
     isPublishable,
     assignedCertificationOfficerName,
   });
-};
+}

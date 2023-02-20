@@ -1,7 +1,7 @@
-const { loadOdsZip } = require('./common-ods-utils');
-const { DOMParser, XMLSerializer } = require('xmldom');
-const _ = require('lodash');
-const AddedCellOption = require('./added-cell-option');
+import { loadOdsZip } from './common-ods-utils';
+import { DOMParser, XMLSerializer } from 'xmldom';
+import _ from 'lodash';
+import AddedCellOption from './added-cell-option';
 
 const CONTENT_XML_IN_ODS = 'content.xml';
 
@@ -471,7 +471,7 @@ function _updateXmlDomWithData(parsedXmlDom, dataToInject, templateValues) {
   return parsedXmlDomUpdated;
 }
 
-module.exports = {
+export default {
   makeUpdatedOdsByContentXml,
   updateXmlSparseValues,
   updateXmlRows,

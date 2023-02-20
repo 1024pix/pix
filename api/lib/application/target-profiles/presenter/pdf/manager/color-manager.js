@@ -1,4 +1,4 @@
-const { rgb } = require('pdf-lib');
+import { rgb } from 'pdf-lib';
 const colorToRgb = {
   jaffa: rgb(0.949, 0.274, 0.27),
   emerald: rgb(0.102, 0.549, 0.537),
@@ -20,7 +20,7 @@ const lighterColorToRgb = {
 const DEFAULT_COLOR = 'jaffa';
 const DEFAULT_BACKGROUND = rgb(0.93, 0.93, 0.93);
 
-module.exports = {
+export default {
   /**
    * @param color {string}
    * @return {RGB}

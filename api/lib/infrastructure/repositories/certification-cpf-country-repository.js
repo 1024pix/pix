@@ -1,7 +1,7 @@
-const { knex } = require('../../../db/knex-database-connection');
-const CertificationCpfCountry = require('../../domain/models/CertificationCpfCountry');
+import { knex } from '../../../db/knex-database-connection';
+import CertificationCpfCountry from '../../domain/models/CertificationCpfCountry';
 
-module.exports = {
+export default {
   async getByMatcher({ matcher }) {
     const COLUMNS = ['id', 'code', 'commonName', 'originalName', 'matcher'];
 

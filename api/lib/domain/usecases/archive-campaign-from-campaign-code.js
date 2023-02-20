@@ -1,4 +1,4 @@
-module.exports = async function archiveCampaignFromCampaignCode({
+export default async function archiveCampaignFromCampaignCode({
   campaignCode,
   userId,
   campaignForArchivingRepository,
@@ -6,4 +6,4 @@ module.exports = async function archiveCampaignFromCampaignCode({
   const campaign = await campaignForArchivingRepository.getByCode(campaignCode);
   campaign.archive(new Date(), userId);
   await campaignForArchivingRepository.save(campaign);
-};
+}

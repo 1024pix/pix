@@ -1,7 +1,7 @@
-const { Country } = require('../../domain/read-models/Country');
-const { knex } = require('../../../db/knex-database-connection');
+import { Country } from '../../domain/read-models/Country';
+import { knex } from '../../../db/knex-database-connection';
 
-module.exports = {
+export default {
   async findAll() {
     const result = await knex
       .from('certification-cpf-countries')

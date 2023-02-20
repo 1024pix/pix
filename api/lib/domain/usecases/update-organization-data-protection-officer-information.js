@@ -1,4 +1,4 @@
-module.exports = async function ({ dataProtectionOfficer, dataProtectionOfficerRepository }) {
+export default async function ({ dataProtectionOfficer, dataProtectionOfficerRepository }) {
   const { organizationId } = dataProtectionOfficer;
   const dataProtectionOfficerToUpdate = await dataProtectionOfficerRepository.get({ organizationId });
 
@@ -7,4 +7,4 @@ module.exports = async function ({ dataProtectionOfficer, dataProtectionOfficerR
   }
 
   return dataProtectionOfficerRepository.update(dataProtectionOfficer);
-};
+}

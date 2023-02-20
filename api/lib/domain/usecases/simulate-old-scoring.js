@@ -1,8 +1,8 @@
-const ScoringSimulationResult = require('../models/ScoringSimulationResult');
-const fp = require('lodash/fp');
-const { sortBy } = require('lodash');
+import ScoringSimulationResult from '../models/ScoringSimulationResult';
+import fp from 'lodash/fp';
+import { sortBy } from 'lodash';
 
-module.exports = async function simulateOldScoring({ challengeRepository, simulations }) {
+export default async function simulateOldScoring({ challengeRepository, simulations }) {
   const challenges = await challengeRepository.findOperative();
   const challengesById = new Map(challenges.map((challenge) => [challenge.id, challenge]));
 
@@ -67,4 +67,4 @@ module.exports = async function simulateOldScoring({ challengeRepository, simula
   });
 
   return simulationResults;
-};
+}

@@ -1,13 +1,17 @@
-const {
-  TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
-  TARGET_PROFILE_PIX_DROIT_ID,
-} = require('./target-profiles-builder');
-const { SUP_UNIVERSITY_ID, SUP_STUDENT_ASSOCIATED_ID, SUP_STUDENT_DISABLED_ID, SUP_STUDENT_CERTIFIABLE } = require('./organizations-sup-builder');
-const { participateToAssessmentCampaign, participateToProfilesCollectionCampaign } = require('./campaign-participations-builder');
-const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');
+import { TARGET_PROFILE_PIC_DIAG_INITIAL_ID, TARGET_PROFILE_PIX_DROIT_ID } from './target-profiles-builder';
+
+import {
+  SUP_UNIVERSITY_ID,
+  SUP_STUDENT_ASSOCIATED_ID,
+  SUP_STUDENT_DISABLED_ID,
+  SUP_STUDENT_CERTIFIABLE,
+} from './organizations-sup-builder';
+
+import { participateToAssessmentCampaign, participateToProfilesCollectionCampaign } from './campaign-participations-builder';
+import CampaignParticipationStatuses from '../../../lib/domain/models/CampaignParticipationStatuses';
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
-module.exports = {
+export default {
   campaignsSupBuilder,
 };
 

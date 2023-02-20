@@ -1,6 +1,6 @@
-const { expect, databaseBuilder, knex, sinon } = require('../../../test-helper');
-const archiveCampaigns = require('../../../../scripts/prod/archive-campaigns');
-const { noop } = require('lodash');
+import { expect, databaseBuilder, knex, sinon } from '../../../test-helper';
+import archiveCampaigns from '../../../../scripts/prod/archive-campaigns';
+import { noop } from 'lodash';
 
 describe('Script | Prod | Archive Campaign', function () {
   let clock;

@@ -1,6 +1,6 @@
-const { databaseBuilder, expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const createServer = require('../../../../server');
-const { CLEA } = require('../../../../lib/domain/models/ComplementaryCertification');
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper';
+import createServer from '../../../../server';
+import { CLEA } from '../../../../lib/domain/models/ComplementaryCertification';
 
 describe('Acceptance | Controller | session-with-clea-certified-candidate', function () {
   describe('GET /api/sessions/{id}/certified-clea-candidate-data', function () {

@@ -1,16 +1,16 @@
-const { FileValidationError, SiecleXmlImportError } = require('../errors');
-const fs = require('fs').promises;
-const bluebird = require('bluebird');
-const { ORGANIZATION_LEARNER_CHUNK_SIZE } = require('../../infrastructure/constants');
-const { isEmpty, chunk } = require('lodash');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
+import { FileValidationError, SiecleXmlImportError } from '../errors';
+import { promises as fs } from 'fs';
+import bluebird from 'bluebird';
+import { ORGANIZATION_LEARNER_CHUNK_SIZE } from '../../infrastructure/constants';
+import { isEmpty, chunk } from 'lodash';
+import DomainTransaction from '../../infrastructure/DomainTransaction';
 
 const ERRORS = {
   EMPTY: 'EMPTY',
   INVALID_FILE_EXTENSION: 'INVALID_FILE_EXTENSION',
 };
 
-module.exports = async function importOrganizationLearnersFromSIECLEFormat({
+export default async function importOrganizationLearnersFromSIECLEFormat({
   organizationId,
   payload,
   format,
@@ -62,4 +62,4 @@ module.exports = async function importOrganizationLearnersFromSIECLEFormat({
       );
     });
   });
-};
+}

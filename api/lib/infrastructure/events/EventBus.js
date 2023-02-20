@@ -1,4 +1,4 @@
-const bluebird = require('bluebird');
+import bluebird from 'bluebird';
 
 class SubscriberList {
   constructor() {
@@ -47,4 +47,4 @@ class EventBus {
   }
 }
 
-module.exports = EventBus;
+export default EventBus;

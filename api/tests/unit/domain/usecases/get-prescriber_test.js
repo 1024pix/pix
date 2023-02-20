@@ -1,6 +1,6 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const getPrescriber = require('../../../../lib/domain/usecases/get-prescriber');
-const { UserNotMemberOfOrganizationError } = require('../../../../lib/domain/errors');
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper';
+import getPrescriber from '../../../../lib/domain/usecases/get-prescriber';
+import { UserNotMemberOfOrganizationError } from '../../../../lib/domain/errors';
 
 describe('Unit | UseCase | get-prescriber', function () {
   const userId = 1;

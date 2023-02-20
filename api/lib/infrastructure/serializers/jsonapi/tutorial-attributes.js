@@ -1,7 +1,7 @@
-const tutorialEvaluationAttributes = require('./tutorial-evaluation-attributes');
-const userSavedTutorialAttributes = require('./user-saved-tutorial-attributes');
+import tutorialEvaluationAttributes from './tutorial-evaluation-attributes';
+import userSavedTutorialAttributes from './user-saved-tutorial-attributes';
 
-module.exports = {
+export default {
   ref: 'id',
   includes: true,
   attributes: [

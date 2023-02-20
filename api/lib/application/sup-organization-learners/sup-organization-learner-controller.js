@@ -1,6 +1,6 @@
-const usecases = require('../../domain/usecases');
+import usecases from '../../domain/usecases';
 
-module.exports = {
+export default {
   async reconcileSupOrganizationLearner(request, h) {
     const userId = request.auth.credentials.userId;
     const payload = request.payload.data.attributes;

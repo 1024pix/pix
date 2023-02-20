@@ -1,9 +1,9 @@
-const jsonwebtoken = require('jsonwebtoken');
-const settings = require('../../config');
-const passwordResetDemandRepository = require('../../infrastructure/repositories/reset-password-demands-repository');
-const crypto = require('crypto');
+import jsonwebtoken from 'jsonwebtoken';
+import settings from '../../config';
+import passwordResetDemandRepository from '../../infrastructure/repositories/reset-password-demands-repository';
+import crypto from 'crypto';
 
-module.exports = {
+export default {
   generateTemporaryKey() {
     return jsonwebtoken.sign(
       {

@@ -1,5 +1,5 @@
-const { expect } = require('../../../test-helper');
-const service = require('../../../../lib/domain/services/email-validator');
+import { expect } from '../../../test-helper';
+import service from '../../../../lib/domain/services/email-validator';
 
 describe('Unit | Service | email-validator', function () {
   it('should return false when email is not provided', function () {

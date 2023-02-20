@@ -1,9 +1,9 @@
-const buildUser = require('./build-user');
-const buildAssessment = require('./build-assessment');
-const buildAnswer = require('./build-answer');
-const buildKnowledgeElement = require('./build-knowledge-element');
+import buildUser from './build-user';
+import buildAssessment from './build-assessment';
+import buildAnswer from './build-answer';
+import buildKnowledgeElement from './build-knowledge-element';
 
-module.exports = function buildCertifiableUser({ competencesAssociatedSkillsAndChallenges, limitDate }) {
+export default function buildCertifiableUser({ competencesAssociatedSkillsAndChallenges, limitDate }) {
   const certifiableUser = buildUser();
   const assessmentId = buildAssessment({ userId: certifiableUser.id }).id;
   const commonUserIdAssessmentIdAndEarnedPixForAllKEs = { userId: certifiableUser.id, assessmentId, earnedPix: 4 };
@@ -19,4 +19,4 @@ module.exports = function buildCertifiableUser({ competencesAssociatedSkillsAndC
   });
 
   return certifiableUser;
-};
+}

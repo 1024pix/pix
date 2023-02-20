@@ -1,11 +1,8 @@
-const { catchErr, databaseBuilder, expect } = require('../../../test-helper');
-const sinon = require('sinon');
-
-const useCases = require('../../../../lib/domain/usecases');
-
-const CertificationCenterInvitation = require('../../../../lib/domain/models/CertificationCenterInvitation');
-
-const { NotFoundError, UncancellableCertificationCenterInvitationError } = require('../../../../lib/domain/errors');
+import { catchErr, databaseBuilder, expect } from '../../../test-helper';
+import sinon from 'sinon';
+import useCases from '../../../../lib/domain/usecases';
+import CertificationCenterInvitation from '../../../../lib/domain/models/CertificationCenterInvitation';
+import { NotFoundError, UncancellableCertificationCenterInvitationError } from '../../../../lib/domain/errors';
 
 describe('Integration | UseCases | cancel-certification-center-invitation', function () {
   describe('when the invitation exists', function () {

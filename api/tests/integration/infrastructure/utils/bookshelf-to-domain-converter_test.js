@@ -1,17 +1,15 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
-const bookshelfToDomainConverter = require('../../../../lib/infrastructure/utils/bookshelf-to-domain-converter');
-
-const User = require('../../../../lib/domain/models/User');
-const Membership = require('../../../../lib/domain/models/Membership');
-const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const Tag = require('../../../../lib/domain/models/Tag');
-const Organization = require('../../../../lib/domain/models/Organization');
-
-const BookshelfUser = require('../../../../lib/infrastructure/orm-models/User');
-const BookshelfCampaign = require('../../../../lib/infrastructure/orm-models/Campaign');
-const BookshelfCampaignParticipation = require('../../../../lib/infrastructure/orm-models/CampaignParticipation');
-const BookshelfOrganization = require('../../../../lib/infrastructure/orm-models/Organization');
+import { expect, databaseBuilder } from '../../../test-helper';
+import bookshelfToDomainConverter from '../../../../lib/infrastructure/utils/bookshelf-to-domain-converter';
+import User from '../../../../lib/domain/models/User';
+import Membership from '../../../../lib/domain/models/Membership';
+import TargetProfile from '../../../../lib/domain/models/TargetProfile';
+import KnowledgeElement from '../../../../lib/domain/models/KnowledgeElement';
+import Tag from '../../../../lib/domain/models/Tag';
+import Organization from '../../../../lib/domain/models/Organization';
+import BookshelfUser from '../../../../lib/infrastructure/orm-models/User';
+import BookshelfCampaign from '../../../../lib/infrastructure/orm-models/Campaign';
+import BookshelfCampaignParticipation from '../../../../lib/infrastructure/orm-models/CampaignParticipation';
+import BookshelfOrganization from '../../../../lib/infrastructure/orm-models/Organization';
 
 describe('Integration | Infrastructure | Utils | Bookshelf to domain converter', function () {
   describe('buildDomainObject', function () {

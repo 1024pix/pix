@@ -1,7 +1,6 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-
-const moduleUnderTest = require('../../../../lib/application/feedbacks');
-const feedbackController = require('../../../../lib/application/feedbacks/feedback-controller');
+import { expect, HttpTestServer, sinon } from '../../../test-helper';
+import moduleUnderTest from '../../../../lib/application/feedbacks';
+import feedbackController from '../../../../lib/application/feedbacks/feedback-controller';
 
 describe('Unit | Router | feedback-router', function () {
   describe('POST /api/feedbacks', function () {

@@ -1,4 +1,4 @@
-const { CertifiedProfile } = require('../../../../lib/domain/read-models/CertifiedProfile');
+import { CertifiedProfile } from '../../../../lib/domain/read-models/CertifiedProfile';
 
 const buildCertifiedProfile = function buildCertifiedProfile({
   id = 123,
@@ -18,4 +18,4 @@ const buildCertifiedProfile = function buildCertifiedProfile({
   });
 };
 
-module.exports = buildCertifiedProfile;
+export default buildCertifiedProfile;

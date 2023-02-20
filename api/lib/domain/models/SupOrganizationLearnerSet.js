@@ -1,6 +1,6 @@
-const SupOrganizationLearner = require('./SupOrganizationLearner');
-const { checkValidation } = require('../validators/sup-organization-learner-set-validator');
-const { areTwoStringsCloseEnough } = require('../services/string-comparison-service');
+import SupOrganizationLearner from './SupOrganizationLearner';
+import { checkValidation } from '../validators/sup-organization-learner-set-validator';
+import { areTwoStringsCloseEnough } from '../services/string-comparison-service';
 
 const RATIO = 0.25;
 
@@ -84,4 +84,4 @@ class SupOrganizationLearnerSet {
   }
 }
 
-module.exports = SupOrganizationLearnerSet;
+export default SupOrganizationLearnerSet;

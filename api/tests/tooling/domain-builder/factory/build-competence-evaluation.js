@@ -1,8 +1,8 @@
-const CompetenceEvaluation = require('../../../../lib/domain/models/CompetenceEvaluation');
-const buildAssessment = require('./build-assessment');
-const buildUser = require('./build-user');
+import CompetenceEvaluation from '../../../../lib/domain/models/CompetenceEvaluation';
+import buildAssessment from './build-assessment';
+import buildUser from './build-user';
 
-module.exports = function buildCompetenceEvaluation({
+export default function buildCompetenceEvaluation({
   id = 1,
   assessmentId,
   assessment,
@@ -33,4 +33,4 @@ module.exports = function buildCompetenceEvaluation({
     assessment,
     status,
   });
-};
+}

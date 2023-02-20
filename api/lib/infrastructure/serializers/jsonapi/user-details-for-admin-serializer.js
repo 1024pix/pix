@@ -1,7 +1,7 @@
-const { Serializer } = require('jsonapi-serializer');
-const UserDetailsForAdmin = require('../../../domain/models/UserDetailsForAdmin');
+import { Serializer } from 'jsonapi-serializer';
+import UserDetailsForAdmin from '../../../domain/models/UserDetailsForAdmin';
 
-module.exports = {
+export default {
   serialize(usersDetailsForAdmin) {
     return new Serializer('user', {
       transform(record) {

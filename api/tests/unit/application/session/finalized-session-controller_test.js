@@ -1,8 +1,8 @@
-const { expect, sinon, hFake } = require('../../../test-helper');
-const finalizedSessionController = require('../../../../lib/application/sessions/finalized-session-controller');
-const usecases = require('../../../../lib/domain/usecases');
-const toBePublishedSessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/to-be-published-session-serializer');
-const withRequiredActionSessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/with-required-action-session-serializer');
+import { expect, sinon, hFake } from '../../../test-helper';
+import finalizedSessionController from '../../../../lib/application/sessions/finalized-session-controller';
+import usecases from '../../../../lib/domain/usecases';
+import toBePublishedSessionSerializer from '../../../../lib/infrastructure/serializers/jsonapi/to-be-published-session-serializer';
+import withRequiredActionSessionSerializer from '../../../../lib/infrastructure/serializers/jsonapi/with-required-action-session-serializer';
 
 describe('Unit | Controller | finalized-session', function () {
   let request;

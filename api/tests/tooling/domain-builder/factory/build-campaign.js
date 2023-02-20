@@ -1,8 +1,8 @@
-const Campaign = require('../../../../lib/domain/models/Campaign');
-const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
-const buildOrganization = require('./build-organization');
-const buildTargetProfile = require('./build-target-profile');
-const buildUser = require('./build-user');
+import Campaign from '../../../../lib/domain/models/Campaign';
+import CampaignTypes from '../../../../lib/domain/models/CampaignTypes';
+import buildOrganization from './build-organization';
+import buildTargetProfile from './build-target-profile';
+import buildUser from './build-user';
 
 function buildCampaign({
   id = 1,
@@ -140,4 +140,4 @@ buildCampaign.ofTypeProfilesCollection = function ({
   });
 };
 
-module.exports = buildCampaign;
+export default buildCampaign;

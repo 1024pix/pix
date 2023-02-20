@@ -1,5 +1,5 @@
-const databaseBuffer = require('../database-buffer');
-const buildUser = require('./build-user');
+import databaseBuffer from '../database-buffer';
+import buildUser from './build-user';
 
 function buildUserLogin({
   id = databaseBuffer.getNextId(),
@@ -28,4 +28,4 @@ function buildUserLogin({
     values,
   });
 }
-module.exports = buildUserLogin;
+export default buildUserLogin;

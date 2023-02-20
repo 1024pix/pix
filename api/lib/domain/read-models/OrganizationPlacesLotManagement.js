@@ -1,4 +1,4 @@
-const categories = require('../constants/organization-places-categories');
+import categories from '../constants/organization-places-categories';
 
 const statuses = {
   ACTIVE: 'ACTIVE',
@@ -53,4 +53,4 @@ function _setStatus(activationDate, expirationDate) {
 OrganizationPlacesLotManagement.statuses = statuses;
 OrganizationPlacesLotManagement.categories = categoriesByCode;
 
-module.exports = OrganizationPlacesLotManagement;
+export default OrganizationPlacesLotManagement;

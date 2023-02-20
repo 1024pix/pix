@@ -1,8 +1,8 @@
-const { knex } = require('../../../db/knex-database-connection');
-const { CLEA } = require('../../domain/models/ComplementaryCertification');
-const CleaCertifiedCandidate = require('../../domain/read-models/CleaCertifiedCandidate');
+import { knex } from '../../../db/knex-database-connection';
+import { CLEA } from '../../domain/models/ComplementaryCertification';
+import CleaCertifiedCandidate from '../../domain/read-models/CleaCertifiedCandidate';
 
-module.exports = {
+export default {
   async getBySessionId(sessionId) {
     const results = await knex
       .from('certification-courses')

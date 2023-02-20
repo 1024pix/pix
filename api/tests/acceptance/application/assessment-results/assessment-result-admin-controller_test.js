@@ -1,13 +1,13 @@
-const {
+import {
   expect,
   knex,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
+} from '../../../test-helper';
 
-const Assessment = require('../../../../lib/domain/models/Assessment');
+import createServer from '../../../../server';
+import Assessment from '../../../../lib/domain/models/Assessment';
 
 describe('Acceptance | Controller | assessment-results-controller', function () {
   let server;

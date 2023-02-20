@@ -1,9 +1,9 @@
-const BookshelfOrganizationInvitation = require('../orm-models/OrganizationInvitation');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const { NotFoundError } = require('../../domain/errors');
-const OrganizationInvitation = require('../../domain/models/OrganizationInvitation');
-const { knex } = require('../../../db/knex-database-connection');
-const _ = require('lodash');
+import BookshelfOrganizationInvitation from '../orm-models/OrganizationInvitation';
+import bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter';
+import { NotFoundError } from '../../domain/errors';
+import OrganizationInvitation from '../../domain/models/OrganizationInvitation';
+import { knex } from '../../../db/knex-database-connection';
+import _ from 'lodash';
 
 function _toDomain(bookshelfInvitation) {
   if (bookshelfInvitation) {
@@ -26,7 +26,7 @@ function _checkNotFoundErrorWithCode({ error, id, code }) {
   throw error;
 }
 
-module.exports = {
+export default {
   create({ organizationId, email, code, role }) {
     const status = OrganizationInvitation.StatusType.PENDING;
     return new BookshelfOrganizationInvitation({ organizationId, email, status, code, role }).save().then(_toDomain);

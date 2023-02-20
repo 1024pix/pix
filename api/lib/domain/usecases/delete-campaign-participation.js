@@ -1,6 +1,6 @@
-const bluebird = require('bluebird');
+import bluebird from 'bluebird';
 
-module.exports = async function deleteCampaignParticipation({
+export default async function deleteCampaignParticipation({
   userId,
   campaignId,
   domainTransaction,
@@ -19,4 +19,4 @@ module.exports = async function deleteCampaignParticipation({
     const { id, deletedAt, deletedBy } = campaignParticipation;
     await campaignParticipationRepository.delete({ id, deletedAt, deletedBy, domainTransaction });
   });
-};
+}

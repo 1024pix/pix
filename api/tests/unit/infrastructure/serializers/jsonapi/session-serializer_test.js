@@ -1,8 +1,7 @@
-const { expect, EMPTY_BLANK_AND_NULL } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
-
-const Session = require('../../../../../lib/domain/models/Session');
-const { statuses } = require('../../../../../lib/domain/models/Session');
+import { expect, EMPTY_BLANK_AND_NULL } from '../../../../test-helper';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/session-serializer';
+import Session from '../../../../../lib/domain/models/Session';
+import { statuses } from '../../../../../lib/domain/models/Session';
 
 describe('Unit | Serializer | JSONAPI | session-serializer', function () {
   describe('#serialize()', function () {

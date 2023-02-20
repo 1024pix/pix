@@ -1,5 +1,6 @@
-const _ = require('lodash');
-const {
+import _ from 'lodash';
+
+import {
   expect,
   databaseBuilder,
   domainBuilder,
@@ -7,11 +8,12 @@ const {
   learningContentBuilder,
   mockLearningContent,
   sinon,
-} = require('../../../test-helper');
-const computePoleEmploiSendings = require('../../../../scripts/prod/compute-pole-emploi-sendings');
-const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
-const PoleEmploiSending = require('../../../../lib/domain/models/PoleEmploiSending');
-const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+} from '../../../test-helper';
+
+import computePoleEmploiSendings from '../../../../scripts/prod/compute-pole-emploi-sendings';
+import CampaignTypes from '../../../../lib/domain/models/CampaignTypes';
+import PoleEmploiSending from '../../../../lib/domain/models/PoleEmploiSending';
+import CampaignParticipationStatuses from '../../../../lib/domain/models/CampaignParticipationStatuses';
 
 const { STARTED } = CampaignParticipationStatuses;
 const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;

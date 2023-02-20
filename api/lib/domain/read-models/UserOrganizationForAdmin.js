@@ -18,4 +18,4 @@ class UserOrganizationForAdmin {
   }
 }
 
-module.exports = UserOrganizationForAdmin;
+export default UserOrganizationForAdmin;

@@ -1,6 +1,6 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/badge-serializer');
-const BadgeCriterion = require('../../../../../lib/domain/models/BadgeCriterion');
+import { expect, domainBuilder } from '../../../../test-helper';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/badge-serializer';
+import BadgeCriterion from '../../../../../lib/domain/models/BadgeCriterion';
 
 describe('Unit | Serializer | JSONAPI | badge-serializer', function () {
   describe('#serialize', function () {

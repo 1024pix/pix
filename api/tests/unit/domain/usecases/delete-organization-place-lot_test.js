@@ -1,6 +1,6 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const deleteOrganizationPlaceLot = require('../../../../lib/domain/usecases/delete-organization-place-lot');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+import { expect, sinon, catchErr } from '../../../test-helper';
+import deleteOrganizationPlaceLot from '../../../../lib/domain/usecases/delete-organization-place-lot';
+import { NotFoundError } from '../../../../lib/domain/errors';
 
 describe('Unit | UseCase | delete-organization-place-lot', function () {
   it('should delete the organization place lot', async function () {

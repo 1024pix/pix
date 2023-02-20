@@ -1,8 +1,8 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
-const poleEmploiService = require('../../../../lib/domain/services/pole-emploi-service');
-const poleEmploiSendingRepository = require('../../../../lib/infrastructure/repositories/pole-emploi-sending-repository');
-const settings = require('../../../../lib/config');
+import { expect, databaseBuilder } from '../../../test-helper';
+import usecases from '../../../../lib/domain/usecases';
+import poleEmploiService from '../../../../lib/domain/services/pole-emploi-service';
+import poleEmploiSendingRepository from '../../../../lib/infrastructure/repositories/pole-emploi-sending-repository';
+import settings from '../../../../lib/config';
 const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;
 
 describe('Integration | UseCase | get-campaign-participations-counts-by-stage', function () {

@@ -4,4 +4,4 @@ const CampaignParticipationStatuses = {
   SHARED: 'SHARED',
 };
 
-module.exports = CampaignParticipationStatuses;
+export default CampaignParticipationStatuses;

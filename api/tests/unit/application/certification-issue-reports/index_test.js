@@ -1,8 +1,7 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-const certificationIssueReportController = require('../../../../lib/application/certification-issue-reports/certification-issue-report-controller');
-
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const moduleUnderTest = require('../../../../lib/application/certification-issue-reports');
+import { expect, HttpTestServer, sinon } from '../../../test-helper';
+import certificationIssueReportController from '../../../../lib/application/certification-issue-reports/certification-issue-report-controller';
+import securityPreHandlers from '../../../../lib/application/security-pre-handlers';
+import moduleUnderTest from '../../../../lib/application/certification-issue-reports';
 
 describe('Unit | Application | Certifications Issue Report | Route', function () {
   describe('DELETE /api/certification-issue-reports/{id}', function () {

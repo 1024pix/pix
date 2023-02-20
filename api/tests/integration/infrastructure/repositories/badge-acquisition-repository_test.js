@@ -1,7 +1,7 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
-const _ = require('lodash');
-const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+import { expect, databaseBuilder, knex } from '../../../test-helper';
+import _ from 'lodash';
+import badgeAcquisitionRepository from '../../../../lib/infrastructure/repositories/badge-acquisition-repository';
+import DomainTransaction from '../../../../lib/infrastructure/DomainTransaction';
 
 describe('Integration | Repository | Badge Acquisition', function () {
   describe('#createOrUpdate', function () {

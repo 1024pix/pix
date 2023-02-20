@@ -1,16 +1,16 @@
-const Bookshelf = require('../bookshelf');
+import Bookshelf from '../bookshelf';
 
-require('./Assessment');
-require('./KnowledgeElement');
-require('./Membership');
-require('./CertificationCenterMembership');
-require('./UserOrgaSettings');
-require('./OrganizationLearner');
-require('./AuthenticationMethod');
+import './Assessment';
+import './KnowledgeElement';
+import './Membership';
+import './CertificationCenterMembership';
+import './UserOrgaSettings';
+import './OrganizationLearner';
+import './AuthenticationMethod';
 
 const modelName = 'User';
 
-module.exports = Bookshelf.model(
+export default Bookshelf.model(
   modelName,
   {
     tableName: 'users',

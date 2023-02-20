@@ -1,8 +1,8 @@
-const Answer = require('../../../domain/models/Answer');
-const { Serializer } = require('jsonapi-serializer');
-const answerStatusJSONAPIAdapter = require('../../adapters/answer-status-json-api-adapter');
+import Answer from '../../../domain/models/Answer';
+import { Serializer } from 'jsonapi-serializer';
+import answerStatusJSONAPIAdapter from '../../adapters/answer-status-json-api-adapter';
 
-module.exports = {
+export default {
   serialize(answer) {
     return new Serializer('answer', {
       transform: (untouchedAnswer) => {

@@ -1,11 +1,12 @@
-const {
+import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
+} from '../../../test-helper';
+
+import createServer from '../../../../server';
+import AuthenticationMethod from '../../../../lib/domain/models/AuthenticationMethod';
 
 describe('Acceptance | Route | Users', function () {
   describe('POST /api/admin/users/{userId}/authentication-methods/{authenticationMethodId}', function () {

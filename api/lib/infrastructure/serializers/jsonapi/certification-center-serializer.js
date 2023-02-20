@@ -1,8 +1,7 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
+import CertificationCenter from '../../../domain/models/CertificationCenter';
 
-const CertificationCenter = require('../../../domain/models/CertificationCenter');
-
-module.exports = {
+export default {
   serialize(certificationCenters, meta) {
     return new Serializer('certification-center', {
       attributes: ['name', 'type', 'externalId', 'createdAt', 'certificationCenterMemberships', 'habilitations'],

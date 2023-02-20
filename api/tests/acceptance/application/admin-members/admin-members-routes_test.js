@@ -1,11 +1,14 @@
-const {
+import {
   expect,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
-const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
+} from '../../../test-helper';
+
+import createServer from '../../../../server';
+import { PIX_ADMIN } from '../../../../lib/domain/constants';
+
+const { ROLES: ROLES } = PIX_ADMIN;
 
 describe('Acceptance | Application | Admin-members | Routes', function () {
   describe('GET /api/admin/admin-members/me', function () {

@@ -1,6 +1,6 @@
-const { expect } = require('../../../test-helper');
-const CampaignParticipationInfo = require('../../../../lib/domain/read-models/CampaignParticipationInfo');
-const { ObjectValidationError } = require('../../../../lib/domain/errors');
+import { expect } from '../../../test-helper';
+import CampaignParticipationInfo from '../../../../lib/domain/read-models/CampaignParticipationInfo';
+import { ObjectValidationError } from '../../../../lib/domain/errors';
 
 describe('Unit | Domain | Read-models | CampaignParticipationInfo', function () {
   describe('#constructor', function () {

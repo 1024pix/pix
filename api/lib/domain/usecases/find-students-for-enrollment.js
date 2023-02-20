@@ -1,7 +1,7 @@
-const { NotFoundError } = require('../errors');
-const StudentForEnrollment = require('../read-models/StudentForEnrollment');
+import { NotFoundError } from '../errors';
+import StudentForEnrollment from '../read-models/StudentForEnrollment';
 
-module.exports = async function findStudentsForEnrollment({
+export default async function findStudentsForEnrollment({
   certificationCenterId,
   sessionId,
   page,
@@ -30,7 +30,7 @@ module.exports = async function findStudentsForEnrollment({
 
     throw error;
   }
-};
+}
 
 function _buildStudentsForEnrollment({ students, certificationCandidates }) {
   return students.map((student) =>

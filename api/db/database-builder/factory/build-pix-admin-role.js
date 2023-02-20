@@ -1,6 +1,6 @@
-const databaseBuffer = require('../database-buffer');
+import databaseBuffer from '../database-buffer';
 
-module.exports = function buildPixAdminRole({
+export default function buildPixAdminRole({
   id = databaseBuffer.getNextId(),
   userId,
   role,
@@ -12,4 +12,4 @@ module.exports = function buildPixAdminRole({
     tableName: 'pix-admin-roles',
     values: { id, userId, role, createdAt, updatedAt, disabledAt },
   });
-};
+}

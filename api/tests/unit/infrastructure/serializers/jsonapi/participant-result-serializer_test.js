@@ -1,7 +1,7 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/participant-result-serializer');
-const AssessmentResult = require('../../../../../lib/domain/read-models/participant-results/AssessmentResult');
-const KnowledgeElement = require('../../../../../lib/domain/models/KnowledgeElement');
+import { expect, domainBuilder } from '../../../../test-helper';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/participant-result-serializer';
+import AssessmentResult from '../../../../../lib/domain/read-models/participant-results/AssessmentResult';
+import KnowledgeElement from '../../../../../lib/domain/models/KnowledgeElement';
 
 describe('Unit | Serializer | JSON API | participant-result-serializer', function () {
   describe('#serialize', function () {

@@ -22,4 +22,4 @@ class Prescriber {
   }
 }
 
-module.exports = Prescriber;
+export default Prescriber;

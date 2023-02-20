@@ -1,20 +1,21 @@
-const {
+import {
   expect,
   databaseBuilder,
   knex,
   mockLearningContent,
   learningContentBuilder,
   sinon,
-} = require('../../../test-helper');
-const handlePoleEmploiParticipationStarted = require('../../../../lib/domain/events/handle-pole-emploi-participation-started');
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
-const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
-const poleEmploiSendingRepository = require('../../../../lib/infrastructure/repositories/pole-emploi-sending-repository');
-const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const CampaignParticipationStartedEvent = require('../../../../lib/domain/events/CampaignParticipationStarted');
+} from '../../../test-helper';
+
+import handlePoleEmploiParticipationStarted from '../../../../lib/domain/events/handle-pole-emploi-participation-started';
+import assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository';
+import campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository';
+import campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository';
+import organizationRepository from '../../../../lib/infrastructure/repositories/organization-repository';
+import poleEmploiSendingRepository from '../../../../lib/infrastructure/repositories/pole-emploi-sending-repository';
+import targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository';
+import userRepository from '../../../../lib/infrastructure/repositories/user-repository';
+import CampaignParticipationStartedEvent from '../../../../lib/domain/events/CampaignParticipationStarted';
 
 describe('Integration | Event | Handle Pole emploi participation started', function () {
   let campaignParticipationId, userId, event, poleEmploiNotifier, responseCode;

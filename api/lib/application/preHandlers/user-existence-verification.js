@@ -1,8 +1,8 @@
-const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
-const errorSerializer = require('../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
-const { UserNotFoundError } = require('../../domain/errors');
+import userRepository from '../../../lib/infrastructure/repositories/user-repository';
+import errorSerializer from '../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer';
+import { UserNotFoundError } from '../../domain/errors';
 
-module.exports = {
+export default {
   verifyById(request, h) {
     return userRepository.get(request.params.id).catch((err) => {
       if (err instanceof UserNotFoundError) {

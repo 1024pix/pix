@@ -1,5 +1,5 @@
-const { normalizeAndSortChars } = require('../../infrastructure/utils/string-utils');
-const isEmpty = require('lodash/isEmpty');
+import { normalizeAndSortChars } from '../../infrastructure/utils/string-utils';
+import isEmpty from 'lodash/isEmpty';
 
 const CpfValidationStatus = {
   FAILURE: 'FAILURE',
@@ -153,7 +153,7 @@ function _getActualCity(cities) {
   return actualCity.name;
 }
 
-module.exports = {
+export default {
   getBirthInformation,
   CpfBirthInformationValidation,
   CpfValidationStatus,

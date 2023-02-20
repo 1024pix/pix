@@ -1,7 +1,6 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
-
-const usecases = require('../../../../lib/domain/usecases');
-const UserLogin = require('../../../../lib/domain/models/UserLogin');
+import { expect, databaseBuilder } from '../../../test-helper';
+import usecases from '../../../../lib/domain/usecases';
+import UserLogin from '../../../../lib/domain/models/UserLogin';
 
 describe('Integration | UseCases | unblockUserAccount', function () {
   it('should reset failure count, temporary blocked until date and blocked at date', async function () {

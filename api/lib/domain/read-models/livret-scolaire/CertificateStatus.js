@@ -4,4 +4,4 @@ const status = {
   PENDING: 'pending',
 };
 
-module.exports = status;
+export default status;

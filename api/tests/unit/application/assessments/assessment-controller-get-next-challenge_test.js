@@ -1,12 +1,14 @@
-const { sinon, expect, domainBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
-const certificationChallengeRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
-const usecases = require('../../../../lib/domain/usecases');
-const { AssessmentEndedError } = require('../../../../lib/domain/errors');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const { FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
+import { sinon, expect, domainBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper';
+import assessmentController from '../../../../lib/application/assessments/assessment-controller';
+import assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository';
+import challengeRepository from '../../../../lib/infrastructure/repositories/challenge-repository';
+import certificationChallengeRepository from '../../../../lib/infrastructure/repositories/certification-challenge-repository';
+import usecases from '../../../../lib/domain/usecases';
+import { AssessmentEndedError } from '../../../../lib/domain/errors';
+import Assessment from '../../../../lib/domain/models/Assessment';
+import { LOCALE } from '../../../../lib/domain/constants';
+
+const { FRENCH_FRANCE: FRENCH_FRANCE, FRENCH_SPOKEN: FRENCH_SPOKEN } = LOCALE;
 
 describe('Unit | Controller | assessment-controller-get-next-challenge', function () {
   describe('#getNextChallenge', function () {

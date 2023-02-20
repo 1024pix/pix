@@ -1,10 +1,10 @@
-const Assessment = require('../../../lib/domain/models/Assessment');
-const CompetenceEvaluation = require('../../../lib/domain/models/CompetenceEvaluation');
-const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
-const moment = require('moment');
-const _ = require('lodash');
+import Assessment from '../../../lib/domain/models/Assessment';
+import CompetenceEvaluation from '../../../lib/domain/models/CompetenceEvaluation';
+import KnowledgeElement from '../../../lib/domain/models/KnowledgeElement';
+import moment from 'moment';
+import _ from 'lodash';
 
-module.exports = function buildPixAileProfilev2({ databaseBuilder }) {
+export default function buildPixAileProfilev2({ databaseBuilder }) {
 
   const userId = 1;
 
@@ -140,4 +140,4 @@ module.exports = function buildPixAileProfilev2({ databaseBuilder }) {
       { challengeId: 'recZjuf1caEli6BHp', skillId: 'recW0pab7QV7dlB97', inferredSkillIds: [] },
     ],
   });
-};
+}

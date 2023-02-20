@@ -1,6 +1,6 @@
-const { knex } = require('../../../db/knex-database-connection');
-const OrganizationLearnerParticipation = require('../../domain/read-models/OrganizationLearnerParticipation');
-const OrganizationLearnerActivity = require('../../domain/read-models/OrganizationLearnerActivity');
+import { knex } from '../../../db/knex-database-connection';
+import OrganizationLearnerParticipation from '../../domain/read-models/OrganizationLearnerParticipation';
+import OrganizationLearnerActivity from '../../domain/read-models/OrganizationLearnerActivity';
 
 async function get(organizationLearnerId) {
   const organizationLearnerParticipations = await knex('campaign-participations')
@@ -31,4 +31,4 @@ async function get(organizationLearnerId) {
   return new OrganizationLearnerActivity({ organizationLearnerId, participations });
 }
 
-module.exports = { get };
+export default { get };

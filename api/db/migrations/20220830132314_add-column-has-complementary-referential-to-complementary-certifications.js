@@ -1,7 +1,7 @@
 const TABLE_NAME = 'complementary-certifications';
 const COLUMN_NAME = 'hasComplementaryReferential';
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   await knex.schema.table(TABLE_NAME, function (table) {
     table.boolean(COLUMN_NAME);
   });
@@ -16,7 +16,7 @@ exports.up = async function (knex) {
   });
 };
 
-exports.down = async function (knex) {
+export const down = async function (knex) {
   await knex.schema.table(TABLE_NAME, function (table) {
     table.dropColumn(COLUMN_NAME);
   });

@@ -1,8 +1,7 @@
-const { sinon, expect, HttpTestServer } = require('../../../test-helper');
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-
-const certificationController = require('../../../../lib/application/certifications/certification-controller');
-const moduleUnderTest = require('../../../../lib/application/certifications');
+import { sinon, expect, HttpTestServer } from '../../../test-helper';
+import securityPreHandlers from '../../../../lib/application/security-pre-handlers';
+import certificationController from '../../../../lib/application/certifications/certification-controller';
+import moduleUnderTest from '../../../../lib/application/certifications';
 
 describe('Unit | Application | Certification | Routes', function () {
   context('POST /api/admin/certification/neutralize-challenge', function () {

@@ -90,4 +90,4 @@ function certificationCpfCityBuilder({ databaseBuilder }) {
   });
 }
 
-module.exports = { certificationCpfCityBuilder };
+export default { certificationCpfCityBuilder };

@@ -1,7 +1,7 @@
-const securityPreHandlers = require('../security-pre-handlers');
-const LcmsController = require('./lcms-controller');
+import securityPreHandlers from '../security-pre-handlers';
+import LcmsController from './lcms-controller';
 
-exports.register = async function (server) {
+export const register = async function (server) {
   server.route([
     {
       method: 'POST',
@@ -24,4 +24,4 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'lcms-api';
+export const name = 'lcms-api';

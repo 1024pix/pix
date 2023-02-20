@@ -1,6 +1,6 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const findUserForOidcReconciliation = require('../../../../lib/domain/usecases/find-user-for-oidc-reconciliation');
-const { AuthenticationKeyExpired, DifferentExternalIdentifierError } = require('../../../../lib/domain/errors');
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper';
+import findUserForOidcReconciliation from '../../../../lib/domain/usecases/find-user-for-oidc-reconciliation';
+import { AuthenticationKeyExpired, DifferentExternalIdentifierError } from '../../../../lib/domain/errors';
 
 describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
   let authenticationMethodRepository, userRepository, pixAuthenticationService, authenticationSessionService;

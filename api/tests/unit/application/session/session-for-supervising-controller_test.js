@@ -1,7 +1,7 @@
-const { expect, sinon, hFake, domainBuilder } = require('../../../test-helper');
-const sessionForSupervisingController = require('../../../../lib/application/sessions/session-for-supervising-controller');
-const usecases = require('../../../../lib/domain/usecases');
-const sessionForSupervisingSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-for-supervising-serializer');
+import { expect, sinon, hFake, domainBuilder } from '../../../test-helper';
+import sessionForSupervisingController from '../../../../lib/application/sessions/session-for-supervising-controller';
+import usecases from '../../../../lib/domain/usecases';
+import sessionForSupervisingSerializer from '../../../../lib/infrastructure/serializers/jsonapi/session-for-supervising-serializer';
 
 describe('Unit | Controller | session-for-supervising', function () {
   describe('#get', function () {

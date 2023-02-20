@@ -1,6 +1,6 @@
-const JurySession = require('../../../../lib/domain/models/JurySession');
-const domainBuilder = require('../domain-builder');
-const _ = require('lodash');
+import JurySession from '../../../../lib/domain/models/JurySession';
+import domainBuilder from '../domain-builder';
+import _ from 'lodash';
 
 const buildJurySession = function ({
   id = 123,
@@ -60,4 +60,4 @@ const buildJurySession = function ({
   });
 };
 
-module.exports = buildJurySession;
+export default buildJurySession;

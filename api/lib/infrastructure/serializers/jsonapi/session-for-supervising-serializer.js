@@ -1,4 +1,4 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
 const attributes = [
   'id',
@@ -11,7 +11,7 @@ const attributes = [
   'startDateTime',
 ];
 
-module.exports = {
+export default {
   serialize(sessions) {
     return new Serializer('sessionForSupervising', {
       attributes: [

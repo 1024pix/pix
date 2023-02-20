@@ -1,6 +1,6 @@
-const ComplementaryCertificationCourseResult = require('./../../../../lib/domain/models/ComplementaryCertificationCourseResult');
+import ComplementaryCertificationCourseResult from './../../../../lib/domain/models/ComplementaryCertificationCourseResult';
 
-module.exports = function buildComplementaryCertificationCourseResult({
+export default function buildComplementaryCertificationCourseResult({
   complementaryCertificationCourseId = 2,
   partnerKey = 'PARTNER_KEY',
   acquired = false,
@@ -14,4 +14,4 @@ module.exports = function buildComplementaryCertificationCourseResult({
     source,
     label,
   });
-};
+}

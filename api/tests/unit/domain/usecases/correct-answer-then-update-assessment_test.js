@@ -1,18 +1,18 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper';
+import Assessment from '../../../../lib/domain/models/Assessment';
+import AnswerStatus from '../../../../lib/domain/models/AnswerStatus';
+import KnowledgeElement from '../../../../lib/domain/models/KnowledgeElement';
+import correctAnswerThenUpdateAssessment from '../../../../lib/domain/usecases/correct-answer-then-update-assessment';
 
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const correctAnswerThenUpdateAssessment = require('../../../../lib/domain/usecases/correct-answer-then-update-assessment');
-
-const {
+import {
   ChallengeNotAskedError,
   NotFoundError,
   ForbiddenAccess,
   CertificationEndedBySupervisorError,
   CertificationEndedByFinalizationError,
-} = require('../../../../lib/domain/errors');
-const dateUtils = require('../../../../lib/infrastructure/utils/date-utils');
+} from '../../../../lib/domain/errors';
+
+import dateUtils from '../../../../lib/infrastructure/utils/date-utils';
 
 describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', function () {
   const userId = 1;

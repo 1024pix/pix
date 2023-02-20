@@ -1,8 +1,8 @@
-const bluebird = require('bluebird');
-const certificationCenterCreationValidator = require('../validators/certification-center-creation-validator');
-const ComplementaryCertificationHabilitation = require('../../domain/models/ComplementaryCertificationHabilitation');
-const DataProtectionOfficer = require('../models/DataProtectionOfficer');
-const ComplementaryCertification = require('../models/ComplementaryCertification');
+import bluebird from 'bluebird';
+import certificationCenterCreationValidator from '../validators/certification-center-creation-validator';
+import ComplementaryCertificationHabilitation from '../../domain/models/ComplementaryCertificationHabilitation';
+import DataProtectionOfficer from '../models/DataProtectionOfficer';
+import ComplementaryCertification from '../models/ComplementaryCertification';
 
 async function _addOrUpdateDataProtectionOfficer({ certificationCenter, dataProtectionOfficerRepository }) {
   const dataProtectionOfficer = new DataProtectionOfficer({
@@ -21,7 +21,7 @@ async function _addOrUpdateDataProtectionOfficer({ certificationCenter, dataProt
   return dataProtectionOfficerRepository.create(dataProtectionOfficer);
 }
 
-module.exports = async function updateCertificationCenter({
+export default async function updateCertificationCenter({
   certificationCenter,
   complementaryCertificationIds,
   certificationCenterForAdminRepository,
@@ -66,4 +66,4 @@ module.exports = async function updateCertificationCenter({
   updatedCertificationCenter.dataProtectionOfficerEmail = dataProtectionOfficer.email;
 
   return updatedCertificationCenter;
-};
+}

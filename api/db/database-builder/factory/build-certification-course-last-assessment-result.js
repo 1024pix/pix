@@ -1,6 +1,6 @@
-const databaseBuffer = require('../database-buffer');
+import databaseBuffer from '../database-buffer';
 
-module.exports = function buildCertificationCourseLastAssessmentResult({
+export default function buildCertificationCourseLastAssessmentResult({
   certificationCourseId,
   lastAssessmentResultId,
 } = {}) {
@@ -12,4 +12,4 @@ module.exports = function buildCertificationCourseLastAssessmentResult({
     tableName: 'certification-courses-last-assessment-results',
     values,
   });
-};
+}

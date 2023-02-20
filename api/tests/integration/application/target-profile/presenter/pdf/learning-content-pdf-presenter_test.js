@@ -1,7 +1,7 @@
-const { domainBuilder, expect, MockDate } = require('../../../../../test-helper');
-const { isSameBinary } = require('../../../../../tooling/binary-comparator');
-const learningContentPDFPresenter = require('../../../../../../lib/application/target-profiles/presenter/pdf/learning-content-pdf-presenter');
-const { addRandomSuffix } = require('pdf-lib/cjs/utils');
+import { domainBuilder, expect, MockDate } from '../../../../../test-helper';
+import { isSameBinary } from '../../../../../tooling/binary-comparator';
+import learningContentPDFPresenter from '../../../../../../lib/application/target-profiles/presenter/pdf/learning-content-pdf-presenter';
+import { addRandomSuffix } from 'pdf-lib/cjs/utils';
 
 const REWRITE_REFERENCE_FILE = false;
 

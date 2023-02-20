@@ -1,9 +1,9 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
-const OrganizationLearner = require('../../../../lib/domain/models/OrganizationLearner');
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const organizationLearnerRepository = require('../../../../lib/infrastructure/repositories/organization-learner-repository');
-const { CampaignCodeError, UserCouldNotBeReconciledError } = require('../../../../lib/domain/errors');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper';
+import usecases from '../../../../lib/domain/usecases';
+import OrganizationLearner from '../../../../lib/domain/models/OrganizationLearner';
+import campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository';
+import organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository';
+import { CampaignCodeError, UserCouldNotBeReconciledError } from '../../../../lib/domain/errors';
 
 describe('Unit | UseCase | reconcile-sco-organization-learner-automatically', function () {
   let reconcileUserByNationalStudentIdAndOrganizationIdStub;

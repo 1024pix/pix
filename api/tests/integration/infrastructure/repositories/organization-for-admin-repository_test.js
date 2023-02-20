@@ -1,10 +1,10 @@
-const { catchErr, expect, domainBuilder, databaseBuilder, sinon, knex } = require('../../../test-helper');
-const { NotFoundError, MissingAttributesError } = require('../../../../lib/domain/errors');
-const OrganizationForAdmin = require('../../../../lib/domain/models/OrganizationForAdmin');
-const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
-const organizationForAdminRepository = require('../../../../lib/infrastructure/repositories/organization-for-admin-repository');
-const { SamlIdentityProviders } = require('../../../../lib/domain/constants/saml-identity-providers');
-const OidcIdentityProviders = require('../../../../lib/domain/constants/oidc-identity-providers');
+import { catchErr, expect, domainBuilder, databaseBuilder, sinon, knex } from '../../../test-helper';
+import { NotFoundError, MissingAttributesError } from '../../../../lib/domain/errors';
+import OrganizationForAdmin from '../../../../lib/domain/models/OrganizationForAdmin';
+import OrganizationInvitation from '../../../../lib/domain/models/OrganizationInvitation';
+import organizationForAdminRepository from '../../../../lib/infrastructure/repositories/organization-for-admin-repository';
+import { SamlIdentityProviders } from '../../../../lib/domain/constants/saml-identity-providers';
+import OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers';
 
 describe('Integration | Repository | Organization-for-admin', function () {
   let clock;

@@ -1,5 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const uncancelCertificationCourse = require('../../../../lib/domain/usecases/uncancel-certification-course');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import uncancelCertificationCourse from '../../../../lib/domain/usecases/uncancel-certification-course';
 
 describe('Unit | UseCase | uncancel-certification-course', function () {
   it('should uncancel the certification course', async function () {

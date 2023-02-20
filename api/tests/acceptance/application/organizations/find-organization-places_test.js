@@ -1,11 +1,12 @@
-const {
+import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
-const organizationPlacesLotCategories = require('../../../../lib/domain/constants/organization-places-categories');
+} from '../../../test-helper';
+
+import createServer from '../../../../server';
+import organizationPlacesLotCategories from '../../../../lib/domain/constants/organization-places-categories';
 
 describe('Acceptance | Route | Organizations', function () {
   describe('GET /api/admin/organizations/{id}/places', function () {

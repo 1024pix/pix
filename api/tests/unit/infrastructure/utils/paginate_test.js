@@ -1,5 +1,5 @@
-const { expect } = require('chai');
-const { paginate } = require('../../../../lib/infrastructure/utils/paginate');
+import { expect } from 'chai';
+import { paginate } from '../../../../lib/infrastructure/utils/paginate';
 
 describe('Unit | Utils | paginate', function () {
   describe('#paginate', function () {

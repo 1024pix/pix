@@ -45,4 +45,4 @@ class PoleEmploiSending {
 }
 
 PoleEmploiSending.TYPES = TYPES;
-module.exports = PoleEmploiSending;
+export default PoleEmploiSending;

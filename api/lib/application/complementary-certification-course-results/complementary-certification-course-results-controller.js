@@ -1,6 +1,6 @@
-const usecases = require('../../domain/usecases');
+import usecases from '../../domain/usecases';
 
-module.exports = {
+export default {
   async saveJuryComplementaryCertificationCourseResult(request, h) {
     const { complementaryCertificationCourseId, juryLevel } = request.payload.data.attributes;
 

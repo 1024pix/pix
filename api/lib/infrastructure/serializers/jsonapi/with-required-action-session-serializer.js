@@ -1,6 +1,6 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
-module.exports = {
+export default {
   serialize(finalizedSessions) {
     return new Serializer('with-required-action-session', {
       transform(finalizedSession) {

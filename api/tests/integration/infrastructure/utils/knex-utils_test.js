@@ -1,7 +1,7 @@
-const _ = require('lodash');
-const { expect, databaseBuilder } = require('../../../test-helper');
-const { fetchPage, DEFAULT_PAGINATION } = require('../../../../lib/infrastructure/utils/knex-utils');
-const { knex } = require('../../../../lib/infrastructure/bookshelf');
+import _ from 'lodash';
+import { expect, databaseBuilder } from '../../../test-helper';
+import { fetchPage, DEFAULT_PAGINATION } from '../../../../lib/infrastructure/utils/knex-utils';
+import { knex } from '../../../../lib/infrastructure/bookshelf';
 
 describe('Integration | Infrastructure | Utils | Knex utils', function () {
   describe('fetchPage', function () {

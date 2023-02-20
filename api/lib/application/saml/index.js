@@ -1,6 +1,6 @@
-const samlController = require('./saml-controller');
+import samlController from './saml-controller';
 
-exports.register = async function (server) {
+export const register = async function (server) {
   server.route([
     {
       method: 'GET',
@@ -34,4 +34,4 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'saml-api';
+export const name = 'saml-api';

@@ -1,8 +1,8 @@
-const s3Utils = require('./s3-utils');
-const { cpf } = require('../../config');
-const logger = require('../logger');
+import s3Utils from './s3-utils';
+import { cpf } from '../../config';
+import logger from '../logger';
 
-module.exports = {
+export default {
   upload: async function ({ filename, readableStream }) {
     logger.trace('cpfExternalStorage: start upload');
 

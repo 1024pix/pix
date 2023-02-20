@@ -1,6 +1,6 @@
-const TargetProfileForCreation = require('../../../../lib/domain/models/TargetProfileForCreation');
+import TargetProfileForCreation from '../../../../lib/domain/models/TargetProfileForCreation';
 
-module.exports = function buildTargetProfileForCreation({
+export default function buildTargetProfileForCreation({
   name = 'Profil cible super cool',
   category = 'some_category',
   description = 'description',
@@ -20,4 +20,4 @@ module.exports = function buildTargetProfileForCreation({
     ownerOrganizationId,
     tubes,
   });
-};
+}

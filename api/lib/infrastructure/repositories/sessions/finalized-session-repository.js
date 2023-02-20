@@ -1,12 +1,10 @@
-const _ = require('lodash');
-const { NotFoundError } = require('../../../domain/errors');
-const { knex } = require('../../bookshelf');
+import _ from 'lodash';
+import { NotFoundError } from '../../../domain/errors';
+import { knex } from '../../bookshelf';
+import FinalizedSessionBookshelf from '../../orm-models/FinalizedSession';
+import bookshelfToDomainConverter from '../../utils/bookshelf-to-domain-converter';
 
-const FinalizedSessionBookshelf = require('../../orm-models/FinalizedSession');
-
-const bookshelfToDomainConverter = require('../../utils/bookshelf-to-domain-converter');
-
-module.exports = {
+export default {
   async save(finalizedSession) {
     await knex('finalized-sessions').insert(_toDTO(finalizedSession)).onConflict('sessionId').merge();
     return finalizedSession;

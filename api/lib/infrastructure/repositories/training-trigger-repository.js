@@ -1,10 +1,10 @@
-const { knex } = require('../../../db/knex-database-connection');
-const DomainTransaction = require('../DomainTransaction');
-const TrainingTrigger = require('../../domain/models/TrainingTrigger');
-const TrainingTriggerTube = require('../../domain/models/TrainingTriggerTube');
+import { knex } from '../../../db/knex-database-connection';
+import DomainTransaction from '../DomainTransaction';
+import TrainingTrigger from '../../domain/models/TrainingTrigger';
+import TrainingTriggerTube from '../../domain/models/TrainingTriggerTube';
 const TABLE_NAME = 'training-triggers';
 
-module.exports = {
+export default {
   async createOrUpdate({
     trainingId,
     tubes,

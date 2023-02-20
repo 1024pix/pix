@@ -1,7 +1,7 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const abortCertificationCourse = require('../../../../lib/domain/usecases/abort-certification-course');
-const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
-const { EntityValidationError } = require('../../../../lib/domain/errors');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper';
+import abortCertificationCourse from '../../../../lib/domain/usecases/abort-certification-course';
+import CertificationCourse from '../../../../lib/domain/models/CertificationCourse';
+import { EntityValidationError } from '../../../../lib/domain/errors';
 
 describe('Unit | UseCase | abort-certification-course', function () {
   let certificationCourseRepository;

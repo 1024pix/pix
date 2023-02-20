@@ -26,4 +26,4 @@ const AnswerStatusJsonApiAdapter = {
   },
 };
 
-module.exports = AnswerStatusJsonApiAdapter;
+export default AnswerStatusJsonApiAdapter;

@@ -1,12 +1,14 @@
-const jsonwebtoken = require('jsonwebtoken');
-const {
+import jsonwebtoken from 'jsonwebtoken';
+
+import {
   InvalidTemporaryKeyError,
   InvalidExternalUserTokenError,
   InvalidResultRecipientTokenError,
   InvalidSessionResultError,
-} = require('../../domain/errors');
-const settings = require('../../config');
-const { ForbiddenAccess } = require('../errors');
+} from '../../domain/errors';
+
+import settings from '../../config';
+import { ForbiddenAccess } from '../errors';
 
 function _createAccessToken({ userId, source, expirationDelaySeconds }) {
   return jsonwebtoken.sign({ user_id: userId, source }, settings.authentication.secret, {
@@ -198,7 +200,7 @@ async function extractExternalUserFromIdToken(token) {
   };
 }
 
-module.exports = {
+export default {
   createAccessTokenFromUser,
   createAccessTokenForSaml,
   createAccessTokenFromApplication,

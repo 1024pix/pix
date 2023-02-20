@@ -1,7 +1,7 @@
-const { expect, sinon } = require('../../../test-helper');
-const competenceTreeRepository = require('../../../../lib/infrastructure/repositories/competence-tree-repository');
-const areaRepository = require('../../../../lib/infrastructure/repositories/area-repository');
-const CompetenceTree = require('../../../../lib/domain/models/CompetenceTree');
+import { expect, sinon } from '../../../test-helper';
+import competenceTreeRepository from '../../../../lib/infrastructure/repositories/competence-tree-repository';
+import areaRepository from '../../../../lib/infrastructure/repositories/area-repository';
+import CompetenceTree from '../../../../lib/domain/models/CompetenceTree';
 
 describe('Unit | Repository | competence-tree-repository', function () {
   beforeEach(function () {

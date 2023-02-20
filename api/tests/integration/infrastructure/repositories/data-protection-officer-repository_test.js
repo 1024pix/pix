@@ -1,6 +1,6 @@
-const { databaseBuilder, expect, knex } = require('../../../test-helper');
-const DataProtectionOfficer = require('../../../../lib/domain/models/DataProtectionOfficer');
-const dataProtectionOfficerRepository = require('../../../../lib/infrastructure/repositories/data-protection-officer-repository');
+import { databaseBuilder, expect, knex } from '../../../test-helper';
+import DataProtectionOfficer from '../../../../lib/domain/models/DataProtectionOfficer';
+import dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository';
 
 describe('Integration | Repository | data-protection-officer', function () {
   const now = new Date('2022-09-27T16:30:00Z');

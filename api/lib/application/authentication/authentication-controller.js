@@ -1,8 +1,8 @@
-const { BadRequestError } = require('../http-errors');
-const tokenService = require('../../domain/services/token-service');
-const usecases = require('../../domain/usecases');
+import { BadRequestError } from '../http-errors';
+import tokenService from '../../domain/services/token-service';
+import usecases from '../../domain/usecases';
 
-module.exports = {
+export default {
   /**
    * @see https://tools.ietf.org/html/rfc6749#section-4.3
    */

@@ -1,12 +1,9 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
-
-const membershipRepository = require('../../../../lib/infrastructure/repositories/membership-repository');
-const certificationCenterRepository = require('../../../../lib/infrastructure/repositories/certification-center-repository');
-const certificationCenterMembershipRepository = require('../../../../lib/infrastructure/repositories/certification-center-membership-repository');
-
-const Membership = require('../../../../lib/domain/models/Membership');
-
-const createCertificationCenterMembershipForScoOrganizationMember = require('../../../../lib/domain/usecases/create-certification-center-membership-for-sco-organization-member');
+import { expect, databaseBuilder, knex } from '../../../test-helper';
+import membershipRepository from '../../../../lib/infrastructure/repositories/membership-repository';
+import certificationCenterRepository from '../../../../lib/infrastructure/repositories/certification-center-repository';
+import certificationCenterMembershipRepository from '../../../../lib/infrastructure/repositories/certification-center-membership-repository';
+import Membership from '../../../../lib/domain/models/Membership';
+import createCertificationCenterMembershipForScoOrganizationMember from '../../../../lib/domain/usecases/create-certification-center-membership-for-sco-organization-member';
 
 describe('Integration | UseCases | create-certification-center-membership-for-sco-organization-member', function () {
   afterEach(function () {

@@ -1,6 +1,6 @@
-const { expect, catchErr, sinon } = require('../../../../test-helper');
-const SiecleFileStreamer = require('../../../../../lib/infrastructure/utils/xml/siecle-file-streamer');
-const { FileValidationError, SiecleXmlImportError } = require('../../../../../lib/domain/errors');
+import { expect, catchErr, sinon } from '../../../../test-helper';
+import SiecleFileStreamer from '../../../../../lib/infrastructure/utils/xml/siecle-file-streamer';
+import { FileValidationError, SiecleXmlImportError } from '../../../../../lib/domain/errors';
 
 describe('SiecleFileStreamer', function () {
   describe('perform', function () {

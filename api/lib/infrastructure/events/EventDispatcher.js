@@ -1,4 +1,4 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
 class EventDispatcher {
   constructor(logger) {
@@ -72,4 +72,4 @@ class EventQueue {
   }
 }
 
-module.exports = EventDispatcher;
+export default EventDispatcher;

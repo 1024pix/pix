@@ -1,9 +1,9 @@
-const settings = require('../../config');
+import settings from '../../config';
 const EXPIRATION_DELAY_SECONDS = settings.temporaryStorage.expirationDelaySeconds;
-const EmailModificationDemand = require('../../domain/models/EmailModificationDemand');
+import EmailModificationDemand from '../../domain/models/EmailModificationDemand';
 const temporaryStorage = require('../temporary-storage').withPrefix('verify-email:');
 
-module.exports = {
+export default {
   saveEmailModificationDemand({ userId, code, newEmail }) {
     const key = userId;
 

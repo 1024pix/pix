@@ -1,5 +1,5 @@
-const CampaignParticipationStatuses = require('../models/CampaignParticipationStatuses');
-const CampaignAssessmentParticipationCompetenceResult = require('./CampaignAssessmentParticipationCompetenceResult');
+import CampaignParticipationStatuses from '../models/CampaignParticipationStatuses';
+import CampaignAssessmentParticipationCompetenceResult from './CampaignAssessmentParticipationCompetenceResult';
 
 const { SHARED } = CampaignParticipationStatuses;
 
@@ -32,4 +32,4 @@ class CampaignAssessmentParticipationResult {
   }
 }
 
-module.exports = CampaignAssessmentParticipationResult;
+export default CampaignAssessmentParticipationResult;

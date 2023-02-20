@@ -1,7 +1,7 @@
-const _ = require('lodash');
-const Models = require('../../domain/models');
+import _ from 'lodash';
+import Models from '../../domain/models';
 
-module.exports = {
+export default {
   buildDomainObjects,
   buildDomainObject,
 };

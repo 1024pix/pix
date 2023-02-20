@@ -1,6 +1,6 @@
-const KnowledgeElement = require('./KnowledgeElement');
-const { calculatePixScore } = require('../services/scoring/scoring-service');
-const { MAX_REACHABLE_PIX_BY_COMPETENCE } = require('../constants');
+import KnowledgeElement from './KnowledgeElement';
+import { calculatePixScore } from '../services/scoring/scoring-service';
+import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../constants';
 const MAX_PIX_SCORE = MAX_REACHABLE_PIX_BY_COMPETENCE * 16;
 
 class ParticipantResultsShared {
@@ -29,4 +29,4 @@ function _getValidatedKnowledgeElements(knowledgeElements, skillIds) {
   return filteredKnowledgeElements;
 }
 
-module.exports = ParticipantResultsShared;
+export default ParticipantResultsShared;

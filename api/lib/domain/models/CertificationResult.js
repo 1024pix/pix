@@ -1,6 +1,6 @@
-const _ = require('lodash');
-const CompetenceMark = require('./CompetenceMark');
-const ComplementaryCertificationCourseResult = require('./ComplementaryCertificationCourseResult');
+import _ from 'lodash';
+import CompetenceMark from './CompetenceMark';
+import ComplementaryCertificationCourseResult from './ComplementaryCertificationCourseResult';
 
 const status = {
   REJECTED: 'rejected',
@@ -153,4 +153,4 @@ class CertificationResult {
 
 CertificationResult.status = status;
 CertificationResult.emitters = emitters;
-module.exports = CertificationResult;
+export default CertificationResult;

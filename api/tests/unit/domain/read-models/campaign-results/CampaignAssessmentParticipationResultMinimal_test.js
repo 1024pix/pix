@@ -1,5 +1,5 @@
-const { expect } = require('../../../../test-helper');
-const CampaignAssessmentParticipationResultMinimal = require('../../../../../lib/domain/read-models/campaign-results/CampaignAssessmentParticipationResultMinimal');
+import { expect } from '../../../../test-helper';
+import CampaignAssessmentParticipationResultMinimal from '../../../../../lib/domain/read-models/campaign-results/CampaignAssessmentParticipationResultMinimal';
 
 describe('Unit | Domain | Read-Models | CampaignResults | CampaignAssessmentParticipationResultMinimal', function () {
   describe('constructor', function () {

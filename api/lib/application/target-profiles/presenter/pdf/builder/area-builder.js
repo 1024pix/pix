@@ -1,12 +1,12 @@
-const sortBy = require('lodash/sortBy');
-const competenceBuilder = require('./competence-builder');
-const AreaText = require('../drawer/AreaText');
-const LegalMentionText = require('../drawer/LegalMentionText');
+import sortBy from 'lodash/sortBy';
+import competenceBuilder from './competence-builder';
+import AreaText from '../drawer/AreaText';
+import LegalMentionText from '../drawer/LegalMentionText';
 
 const MARGIN_TOP_WITHOUT_AREA = 15;
 const MARGIN_BOTTOM_LIMIT = 5;
 
-module.exports = {
+export default {
   /**
    * @param pdfDocument{PDFDocument}
    * @param area{Area}
@@ -26,6 +26,7 @@ module.exports = {
     }
   },
 };
+
 /**
  * @param page{PDFPage}
  * @param positionY{number}

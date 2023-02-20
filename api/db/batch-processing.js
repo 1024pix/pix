@@ -1,5 +1,5 @@
 const BATCH_SIZE = 10;
-const logger = require('../lib/infrastructure/logger');
+import logger from '../lib/infrastructure/logger';
 
 function batch(knex, elementsToUpdate, treatment) {
   function _innerTreatment(knex, remainingElementsToUpdate, countOfBatches, batchesDone) {
@@ -32,6 +32,6 @@ function batch(knex, elementsToUpdate, treatment) {
   return Promise.resolve().then(() => _innerTreatment(knex, elementsToUpdate, numberOfTotalBatches, 0));
 }
 
-module.exports = {
+export default {
   batch,
 };

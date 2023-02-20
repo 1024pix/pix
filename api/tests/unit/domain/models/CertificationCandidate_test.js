@@ -1,10 +1,11 @@
-const { expect, domainBuilder, catchErr } = require('../../../test-helper');
-const CertificationCandidate = require('../../../../lib/domain/models/CertificationCandidate');
-const {
+import { expect, domainBuilder, catchErr } from '../../../test-helper';
+import CertificationCandidate from '../../../../lib/domain/models/CertificationCandidate';
+
+import {
   InvalidCertificationCandidate,
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors';
 
 describe('Unit | Domain | Models | Certification Candidate', function () {
   describe('constructor', function () {

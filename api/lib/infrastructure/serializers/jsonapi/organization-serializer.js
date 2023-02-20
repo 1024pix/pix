@@ -1,8 +1,8 @@
-const { Serializer } = require('jsonapi-serializer');
-const Organization = require('../../../domain/models/Organization');
-const Tag = require('../../../domain/models/Tag');
+import { Serializer } from 'jsonapi-serializer';
+import Organization from '../../../domain/models/Organization';
+import Tag from '../../../domain/models/Tag';
 
-module.exports = {
+export default {
   serialize(organizations, meta) {
     return new Serializer('organizations', {
       attributes: [

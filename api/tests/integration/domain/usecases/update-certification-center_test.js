@@ -1,9 +1,9 @@
-const { databaseBuilder, domainBuilder, expect, knex } = require('../../../test-helper');
-const CertificationCenterForAdmin = require('../../../../lib/domain/models/CertificationCenterForAdmin');
-const updateCertificationCenter = require('../../../../lib/domain/usecases/update-certification-center');
-const certificationCenterForAdminRepository = require('../../../../lib/infrastructure/repositories/certification-center-for-admin-repository');
-const complementaryCertificationHabilitationRepository = require('../../../../lib/infrastructure/repositories/complementary-certification-habilitation-repository');
-const dataProtectionOfficerRepository = require('../../../../lib/infrastructure/repositories/data-protection-officer-repository');
+import { databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper';
+import CertificationCenterForAdmin from '../../../../lib/domain/models/CertificationCenterForAdmin';
+import updateCertificationCenter from '../../../../lib/domain/usecases/update-certification-center';
+import certificationCenterForAdminRepository from '../../../../lib/infrastructure/repositories/certification-center-for-admin-repository';
+import complementaryCertificationHabilitationRepository from '../../../../lib/infrastructure/repositories/complementary-certification-habilitation-repository';
+import dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository';
 
 describe('Integration | UseCases | update-certification-center', function () {
   afterEach(async function () {

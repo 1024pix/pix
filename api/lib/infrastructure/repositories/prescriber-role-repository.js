@@ -1,8 +1,8 @@
-const { NotFoundError } = require('../../domain/errors');
-const { knex } = require('../../../db/knex-database-connection');
-const CampaignAuthorization = require('../../application/preHandlers/models/CampaignAuthorization');
+import { NotFoundError } from '../../domain/errors';
+import { knex } from '../../../db/knex-database-connection';
+import CampaignAuthorization from '../../application/preHandlers/models/CampaignAuthorization';
 
-module.exports = {
+export default {
   async getForCampaign({ userId, campaignId }) {
     const { organizationId, ownerId } = await _getOrganizationIdAndOwnerId({ campaignId });
     const organizationRole = await _getOrganizationRole({ userId, organizationId });

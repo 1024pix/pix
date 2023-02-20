@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
+import { expect, sinon } from '../../../test-helper';
+import usecases from '../../../../lib/domain/usecases';
 
 describe('Unit | UseCase | get-frameworks', function () {
   let frameworkRepository;

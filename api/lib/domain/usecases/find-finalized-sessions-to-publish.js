@@ -1,3 +1,3 @@
-module.exports = function findFinalizedSessionsToPublish({ finalizedSessionRepository }) {
+export default function findFinalizedSessionsToPublish({ finalizedSessionRepository }) {
   return finalizedSessionRepository.findFinalizedSessionsToPublish();
-};
+}

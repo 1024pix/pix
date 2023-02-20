@@ -1,11 +1,11 @@
-const sortBy = require('lodash/sortBy');
-const thematicBuilder = require('./thematic-builder');
-const CompetenceText = require('../drawer/CompetenceText');
-const PositionManager = require('../manager/position-manager');
-const ColorManager = require('../manager/color-manager');
-const FontManager = require('../manager/font-manager');
+import sortBy from 'lodash/sortBy';
+import thematicBuilder from './thematic-builder';
+import CompetenceText from '../drawer/CompetenceText';
+import PositionManager from '../manager/position-manager';
+import ColorManager from '../manager/color-manager';
+import FontManager from '../manager/font-manager';
 
-module.exports = {
+export default {
   /**
    * @param positionY{number}
    * @param page {PDFPage}
@@ -33,6 +33,7 @@ module.exports = {
     return positionY;
   },
 };
+
 /**
  * @param positionY{number}
  * @param page {PDFPage}

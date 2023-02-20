@@ -1,4 +1,4 @@
-module.exports = function findPaginatedFilteredOrganizationCampaigns({
+export default function findPaginatedFilteredOrganizationCampaigns({
   userId,
   organizationId,
   filter,
@@ -6,4 +6,4 @@ module.exports = function findPaginatedFilteredOrganizationCampaigns({
   campaignReportRepository,
 }) {
   return campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page, userId });
-};
+}

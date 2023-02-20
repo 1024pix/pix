@@ -1,9 +1,9 @@
-const { parseCsvWithHeader } = require('../helpers/csvHelpers');
-const archiveCampaignFromCampaignCode = require('../../lib/domain/usecases/archive-campaign-from-campaign-code');
-const campaignForArchivingRepository = require('../../lib/infrastructure/repositories/campaign/campaign-for-archiving-repository');
-const bluebird = require('bluebird');
-const ProgressionLogger = require('../../lib/infrastructure/utils/progression-logger');
-const { disconnect } = require('../../db/knex-database-connection');
+import { parseCsvWithHeader } from '../helpers/csvHelpers';
+import archiveCampaignFromCampaignCode from '../../lib/domain/usecases/archive-campaign-from-campaign-code';
+import campaignForArchivingRepository from '../../lib/infrastructure/repositories/campaign/campaign-for-archiving-repository';
+import bluebird from 'bluebird';
+import ProgressionLogger from '../../lib/infrastructure/utils/progression-logger';
+import { disconnect } from '../../db/knex-database-connection';
 
 async function archiveCampaign(campaignData, logger) {
   try {
@@ -49,4 +49,4 @@ async function main() {
   }
 })();
 
-module.exports = archiveCampaigns;
+export default archiveCampaigns;

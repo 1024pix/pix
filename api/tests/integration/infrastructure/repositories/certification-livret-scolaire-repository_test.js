@@ -1,8 +1,8 @@
-const certificationLsRepository = require('../../../../lib/infrastructure/repositories/certification-livret-scolaire-repository');
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
-const status = require('../../../../lib/domain/read-models/livret-scolaire/CertificateStatus');
+import certificationLsRepository from '../../../../lib/infrastructure/repositories/certification-livret-scolaire-repository';
+import { expect, databaseBuilder, knex } from '../../../test-helper';
+import status from '../../../../lib/domain/read-models/livret-scolaire/CertificateStatus';
 
-const {
+import {
   buildUser,
   buildOrganizationLearner,
   buildOrganization,
@@ -12,7 +12,7 @@ const {
   buildCancelledCertificationData,
   buildRejectedPublishedCertificationData,
   buildErrorUnpublishedCertificationData,
-} = require('../../../../tests/tooling/domain-builder/factory/build-certifications-results-for-ls');
+} from '../../../../tests/tooling/domain-builder/factory/build-certifications-results-for-ls';
 
 describe('Integration | Repository | Certification-ls ', function () {
   const pixScore = 400;

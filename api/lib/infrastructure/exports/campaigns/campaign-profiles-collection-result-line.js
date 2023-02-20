@@ -1,5 +1,5 @@
-const csvSerializer = require('../../serializers/csv/csv-serializer');
-const moment = require('moment');
+import csvSerializer from '../../serializers/csv/csv-serializer';
+import moment from 'moment';
 
 const EMPTY_ARRAY = [];
 
@@ -112,4 +112,4 @@ class CampaignProfilesCollectionResultLine {
   }
 }
 
-module.exports = CampaignProfilesCollectionResultLine;
+export default CampaignProfilesCollectionResultLine;

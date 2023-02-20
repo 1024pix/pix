@@ -1,9 +1,7 @@
-const { sinon, expect, nock } = require('../../../test-helper');
-
-const mailCheck = require('../../../../lib/infrastructure/mail-check');
-const { mailing } = require('../../../../lib/config');
-
-const SendinblueProvider = require('../../../../lib/infrastructure/mailers/SendinblueProvider');
+import { sinon, expect, nock } from '../../../test-helper';
+import mailCheck from '../../../../lib/infrastructure/mail-check';
+import { mailing } from '../../../../lib/config';
+import SendinblueProvider from '../../../../lib/infrastructure/mailers/SendinblueProvider';
 
 describe('Unit | Class | SendinblueProvider', function () {
   beforeEach(function () {

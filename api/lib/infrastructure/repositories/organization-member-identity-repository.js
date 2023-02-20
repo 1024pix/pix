@@ -1,7 +1,7 @@
-const OrganizationMemberIdentity = require('../../domain/models/OrganizationMemberIdentity');
-const { knex } = require('../../../db/knex-database-connection');
+import OrganizationMemberIdentity from '../../domain/models/OrganizationMemberIdentity';
+import { knex } from '../../../db/knex-database-connection';
 
-module.exports = {
+export default {
   async findAllByOrganizationId({ organizationId }) {
     const sortedMembers = await knex('users')
       .select('users.id', 'users.firstName', 'users.lastName')

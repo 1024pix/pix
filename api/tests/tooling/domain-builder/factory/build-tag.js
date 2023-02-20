@@ -1,4 +1,4 @@
-const Tag = require('../../../../lib/domain/models/Tag');
+import Tag from '../../../../lib/domain/models/Tag';
 
 function buildTag({ id = 123, name = 'Type' } = {}) {
   return new Tag({
@@ -7,4 +7,4 @@ function buildTag({ id = 123, name = 'Type' } = {}) {
   });
 }
 
-module.exports = buildTag;
+export default buildTag;

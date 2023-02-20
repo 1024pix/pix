@@ -36,4 +36,4 @@ class ScoOrganizationParticipant {
   }
 }
 
-module.exports = ScoOrganizationParticipant;
+export default ScoOrganizationParticipant;

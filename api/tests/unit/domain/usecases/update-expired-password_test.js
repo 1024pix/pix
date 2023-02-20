@@ -1,9 +1,8 @@
-const { sinon, expect, domainBuilder, catchErr } = require('../../../test-helper');
-
-const { ForbiddenAccess, UserNotFoundError } = require('../../../../lib/domain/errors');
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const updateExpiredPassword = require('../../../../lib/domain/usecases/update-expired-password');
-const logger = require('../../../../lib/infrastructure/logger');
+import { sinon, expect, domainBuilder, catchErr } from '../../../test-helper';
+import { ForbiddenAccess, UserNotFoundError } from '../../../../lib/domain/errors';
+import AuthenticationMethod from '../../../../lib/domain/models/AuthenticationMethod';
+import updateExpiredPassword from '../../../../lib/domain/usecases/update-expired-password';
+import logger from '../../../../lib/infrastructure/logger';
 
 describe('Unit | UseCase | update-expired-password', function () {
   const passwordResetToken = 'PASSWORD_RESET_TOKEN';

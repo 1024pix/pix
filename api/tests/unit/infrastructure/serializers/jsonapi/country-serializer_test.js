@@ -1,6 +1,6 @@
-const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/country-serializer');
-const { domainBuilder } = require('../../../../test-helper');
+import { expect } from '../../../../test-helper';
+import serializer from '../../../../../lib/infrastructure/serializers/jsonapi/country-serializer';
+import { domainBuilder } from '../../../../test-helper';
 
 describe('Unit | Serializer | JSONAPI | country-serializer', function () {
   describe('#serialize', function () {

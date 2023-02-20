@@ -1,4 +1,4 @@
-const { expect, catchErr } = require('./test-helper');
+import { expect, catchErr } from './test-helper';
 
 describe('Test helpers', function () {
   describe('#catchErr', function () {

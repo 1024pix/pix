@@ -47,4 +47,4 @@ class CleaCertifiedCandidate {
   }
 }
 
-module.exports = CleaCertifiedCandidate;
+export default CleaCertifiedCandidate;

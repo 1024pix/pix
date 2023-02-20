@@ -1,11 +1,11 @@
-const sortBy = require('lodash/sortBy');
-const tubeBuilder = require('./tube-builder');
-const ThematicText = require('../drawer/ThematicText.js');
-const PositionManager = require('../manager/position-manager');
-const FontManager = require('../manager/font-manager');
-const ColorManager = require('../manager/color-manager');
+import sortBy from 'lodash/sortBy';
+import tubeBuilder from './tube-builder';
+import ThematicText from '../drawer/ThematicText.js';
+import PositionManager from '../manager/position-manager';
+import FontManager from '../manager/font-manager';
+import ColorManager from '../manager/color-manager';
 
-module.exports = {
+export default {
   /**
    * @param positionY{number}
    * @param page {PDFPage}

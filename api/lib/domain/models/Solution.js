@@ -64,4 +64,4 @@ class Solution {
   }
 }
 
-module.exports = Solution;
+export default Solution;

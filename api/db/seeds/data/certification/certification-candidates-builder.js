@@ -1,5 +1,6 @@
-const _ = require('lodash');
-const {
+import _ from 'lodash';
+
+import {
   STARTED_SESSION_ID,
   STARTED_SESSION_WITH_LOT_OF_CANDIDATES_ID,
   TO_FINALIZE_SESSION_ID,
@@ -10,23 +11,25 @@ const {
   SCO_NO_MANAGING_STUDENTS_AEFE_SESSION_ID,
   PIX_DROIT_SESSION_ID,
   COMPLEMENTARY_CERTIFICATIONS_SESSION_ID,
-} = require('./certification-sessions-builder');
-const {
-  SCO_STUDENT_ID: SCO_STUDENT_ORGANIZATION_LEARNER_ID,
-} = require('../organizations-sco-builder');
-const {
+} from './certification-sessions-builder';
+
+import { SCO_STUDENT_ID as SCO_STUDENT_ORGANIZATION_LEARNER_ID } from '../organizations-sco-builder';
+
+import {
   CERTIF_SUCCESS_USER_ID,
   CERTIF_FAILED_USER_ID,
   CERTIF_REGULAR_USER5_ID,
   CERTIF_SCO_STUDENT_ID,
-} = require('./users');
-const {
+} from './users';
+
+import {
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
-} = require('./certification-centers-builder');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const { BILLING_MODES } = require('../../../../lib/domain/models/CertificationCandidate');
+} from './certification-centers-builder';
+
+import Assessment from '../../../../lib/domain/models/Assessment';
+import { BILLING_MODES } from '../../../../lib/domain/models/CertificationCandidate';
 
 const A_LOT_OF_CANDIDATES_COUNT = 150;
 const SUCCESS_CANDIDATE_IN_SESSION_TO_FINALIZE_ID = 1;
@@ -299,7 +302,7 @@ function certificationCandidatesBuilder({ databaseBuilder }) {
   });
 }
 
-module.exports = {
+export default {
   certificationCandidatesBuilder,
   SUCCESS_CANDIDATE_IN_SESSION_TO_FINALIZE_ID,
   FAILURE_CANDIDATE_IN_SESSION_TO_FINALIZE_ID,

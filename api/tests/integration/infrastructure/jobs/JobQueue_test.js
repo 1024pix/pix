@@ -1,7 +1,7 @@
-const { expect, knex } = require('../../../test-helper');
-const JobQueue = require('../../../../lib/infrastructure/jobs/JobQueue');
-const Job = require('../../../../lib/infrastructure/jobs/JobPgBoss');
-const PgBoss = require('pg-boss');
+import { expect, knex } from '../../../test-helper';
+import JobQueue from '../../../../lib/infrastructure/jobs/JobQueue';
+import Job from '../../../../lib/infrastructure/jobs/JobPgBoss';
+import PgBoss from 'pg-boss';
 
 describe('Integration | Infrastructure | Jobs | JobQueue', function () {
   let dependenciesBuilder;

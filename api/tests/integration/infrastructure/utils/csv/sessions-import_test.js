@@ -1,5 +1,5 @@
-const { expect } = require('../../../../test-helper');
-const { getHeaders } = require('../../../../../lib/infrastructure/files/sessions-import');
+import { expect } from '../../../../test-helper';
+import { getHeaders } from '../../../../../lib/infrastructure/files/sessions-import';
 const BOM_CHAR = '\ufeff';
 describe('Integration | Infrastructure | Utils | csv | sessions-import', function () {
   context('#getHeaders', function () {

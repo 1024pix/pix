@@ -1,9 +1,7 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable mocha/no-setup-in-describe */
-const { expect, sinon } = require('../../../test-helper');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const Scorecard = require('../../../../lib/domain/models/Scorecard');
-const constants = require('../../../../lib/domain/constants');
+import { expect, sinon } from '../../../test-helper';
+import KnowledgeElement from '../../../../lib/domain/models/KnowledgeElement';
+import Scorecard from '../../../../lib/domain/models/Scorecard';
+import constants from '../../../../lib/domain/constants';
 
 describe('Unit | Domain | Models | Scorecard', function () {
   let computeDaysSinceLastKnowledgeElementStub;

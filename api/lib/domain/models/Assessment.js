@@ -1,6 +1,6 @@
-const hashInt = require('hash-int');
-const { ObjectValidationError } = require('../errors');
-const Answer = require('./Answer');
+import hashInt from 'hash-int';
+import { ObjectValidationError } from '../errors';
+import Answer from './Answer';
 
 const courseIdMessage = {
   COMPETENCE_EVALUATION: '[NOT USED] CompetenceId is in Competence Evaluation.',
@@ -221,4 +221,4 @@ Assessment.types = types;
 Assessment.statesOfLastQuestion = statesOfLastQuestion;
 Assessment.methods = methods;
 
-module.exports = Assessment;
+export default Assessment;

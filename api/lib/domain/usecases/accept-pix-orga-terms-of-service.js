@@ -1,3 +1,3 @@
-module.exports = function acceptPixOrgaTermsOfService({ userId, userRepository }) {
+export default function acceptPixOrgaTermsOfService({ userId, userRepository }) {
   return userRepository.updatePixOrgaTermsOfServiceAcceptedToTrue(userId);
-};
+}

@@ -1,14 +1,15 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
-const {
+import { expect, domainBuilder } from '../../../test-helper';
+import CertificationIssueReport from '../../../../lib/domain/models/CertificationIssueReport';
+import {
   CertificationIssueReportCategories,
   CertificationIssueReportSubcategories,
-} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
-const {
+} from '../../../../lib/domain/models/CertificationIssueReportCategory';
+
+import {
   InvalidCertificationIssueReportForSaving,
   DeprecatedCertificationIssueReportSubcategoryError,
   DeprecatedCertificationIssueReportCategoryError,
-} = require('../../../../lib/domain/errors');
+} from '../../../../lib/domain/errors';
 
 const MISSING_VALUE = null;
 const EMPTY_VALUE = '';

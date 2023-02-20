@@ -1,11 +1,7 @@
-const querystring = require('querystring');
-
-const { expect, sinon } = require('../../../test-helper');
-
-// eslint-disable-next-line no-restricted-modules
-const createServer = require('../../../../server');
-
-const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
+import querystring from 'querystring';
+import { expect, sinon } from '../../../test-helper';
+import createServer from '../../../../server';
+import authenticationController from '../../../../lib/application/authentication/authentication-controller';
 
 describe('Integration | Application | Route | AuthenticationRouter', function () {
   let server;

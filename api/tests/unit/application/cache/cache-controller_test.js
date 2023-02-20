@@ -1,8 +1,8 @@
-const { expect, sinon, hFake } = require('../../../test-helper');
-const cacheController = require('../../../../lib/application/cache/cache-controller');
-const learningContentDatasources = require('../../../../lib/infrastructure/datasources/learning-content');
-const learningContentDatasource = require('../../../../lib/infrastructure/datasources/learning-content/datasource');
-const logger = require('../../../../lib/infrastructure/logger');
+import { expect, sinon, hFake } from '../../../test-helper';
+import cacheController from '../../../../lib/application/cache/cache-controller';
+import learningContentDatasources from '../../../../lib/infrastructure/datasources/learning-content';
+import learningContentDatasource from '../../../../lib/infrastructure/datasources/learning-content/datasource';
+import logger from '../../../../lib/infrastructure/logger';
 
 describe('Unit | Controller | cache-controller', function () {
   describe('#refreshCacheEntry', function () {

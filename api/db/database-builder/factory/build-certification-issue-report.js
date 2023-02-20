@@ -1,9 +1,9 @@
-const buildCertificationCourse = require('./build-certification-course');
-const buildIssueReportCategory = require('./build-issue-report-category');
-const _ = require('lodash');
-const databaseBuffer = require('../database-buffer');
+import buildCertificationCourse from './build-certification-course';
+import buildIssueReportCategory from './build-issue-report-category';
+import _ from 'lodash';
+import databaseBuffer from '../database-buffer';
 
-module.exports = function buildCertificationIssueReport({
+export default function buildCertificationIssueReport({
   id = databaseBuffer.getNextId(),
   certificationCourseId,
   categoryId,
@@ -34,4 +34,4 @@ module.exports = function buildCertificationIssueReport({
     tableName: 'certification-issue-reports',
     values,
   });
-};
+}

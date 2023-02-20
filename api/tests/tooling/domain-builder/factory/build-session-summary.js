@@ -1,4 +1,4 @@
-const SessionSummary = require('../../../../lib/domain/read-models/SessionSummary');
+import SessionSummary from '../../../../lib/domain/read-models/SessionSummary';
 
 const buildSessionSummary = function ({
   id = 123,
@@ -93,4 +93,4 @@ buildSessionSummary.processed = function ({
   });
 };
 
-module.exports = buildSessionSummary;
+export default buildSessionSummary;

@@ -24,4 +24,4 @@ class SessionForAttendanceSheet {
   }
 }
 
-module.exports = SessionForAttendanceSheet;
+export default SessionForAttendanceSheet;

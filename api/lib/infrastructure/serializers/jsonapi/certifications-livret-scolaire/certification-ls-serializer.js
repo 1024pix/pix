@@ -1,4 +1,4 @@
-const { Serializer } = require('jsonapi-serializer');
+import { Serializer } from 'jsonapi-serializer';
 
 const attributes = [
   'firstName',
@@ -16,7 +16,7 @@ const attributes = [
   'certificationCenter',
 ];
 
-module.exports = {
+export default {
   serialize(certificate) {
     return new Serializer('certificationsResults', {
       attributes: ['certifications', 'competences'],

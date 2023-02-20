@@ -1,5 +1,5 @@
-const { expect, nock } = require('../../../test-helper');
-const script = require('../../../../scripts/certification/import-certifications-from-csv');
+import { expect, nock } from '../../../test-helper';
+import script from '../../../../scripts/certification/import-certifications-from-csv';
 
 describe('Acceptance | Scripts | import-certifications-from-csv.js', function () {
   describe('#assertFileValidity', function () {

@@ -1,17 +1,19 @@
-const Joi = require('joi');
-const {
+import Joi from 'joi';
+
+import {
   InvalidCertificationIssueReportForSaving,
   DeprecatedCertificationIssueReportCategoryError,
   DeprecatedCertificationIssueReportSubcategoryError,
-} = require('../errors');
-const {
+} from '../errors';
+
+import {
   CertificationIssueReportCategories,
   CertificationIssueReportSubcategories,
   ImpactfulCategories,
   ImpactfulSubcategories,
   DeprecatedCategories,
   DeprecatedSubcategories,
-} = require('./CertificationIssueReportCategory');
+} from './CertificationIssueReportCategory';
 
 const categoryNonBlockingTechnicalIssueJoiSchema = Joi.object({
   certificationCourseId: Joi.number().required().empty(null),
@@ -180,7 +182,7 @@ class CertificationIssueReport {
   }
 }
 
-module.exports = CertificationIssueReport;
+export default CertificationIssueReport;
 
 function _isImpactful({ category, subcategory }) {
   return ImpactfulCategories.includes(category) || ImpactfulSubcategories.includes(subcategory);

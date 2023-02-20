@@ -1,4 +1,4 @@
-const { expect, domainBuilder } = require('../../../test-helper');
+import { expect, domainBuilder } from '../../../test-helper';
 
 describe('Unit | Domain | Models | TargetProfile', function () {
   describe('#hasBadges', function () {

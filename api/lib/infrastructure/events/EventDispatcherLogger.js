@@ -52,4 +52,4 @@ function buildLogBody({ event, eventHandlerName, error, duration }) {
   };
 }
 
-module.exports = EventDispatcherLogger;
+export default EventDispatcherLogger;

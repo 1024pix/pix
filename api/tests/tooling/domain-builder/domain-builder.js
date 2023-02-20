@@ -1,1 +1,1 @@
-module.exports = require('./factory');
+export default require('./factory');

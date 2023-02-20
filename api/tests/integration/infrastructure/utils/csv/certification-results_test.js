@@ -1,10 +1,11 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
-const {
+import { expect, domainBuilder } from '../../../../test-helper';
+
+import {
   getSessionCertificationResultsCsv,
   getDivisionCertificationResultsCsv,
   REJECTED_AUTOMATICALLY_COMMENT,
   getCleaCertifiedCandidateCsv,
-} = require('../../../../../lib/infrastructure/utils/csv/certification-results');
+} from '../../../../../lib/infrastructure/utils/csv/certification-results';
 
 describe('Integration | Infrastructure | Utils | csv | certification-results', function () {
   context('#getSessionCertificationResultsCsv', function () {

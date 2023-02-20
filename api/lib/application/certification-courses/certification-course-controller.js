@@ -1,19 +1,17 @@
-const certificationDetailsSerializer = require('../../infrastructure/serializers/jsonapi/certification-details-serializer');
-const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
-const juryCertificationSerializer = require('../../infrastructure/serializers/jsonapi/jury-certification-serializer');
-const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
-const certifiedProfileRepository = require('../../infrastructure/repositories/certified-profile-repository');
-const certifiedProfileSerializer = require('../../infrastructure/serializers/jsonapi/certified-profile-serializer');
-const usecases = require('../../domain/usecases');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
+import certificationDetailsSerializer from '../../infrastructure/serializers/jsonapi/certification-details-serializer';
+import certificationSerializer from '../../infrastructure/serializers/jsonapi/certification-serializer';
+import juryCertificationSerializer from '../../infrastructure/serializers/jsonapi/jury-certification-serializer';
+import certificationCourseSerializer from '../../infrastructure/serializers/jsonapi/certification-course-serializer';
+import certifiedProfileRepository from '../../infrastructure/repositories/certified-profile-repository';
+import certifiedProfileSerializer from '../../infrastructure/serializers/jsonapi/certified-profile-serializer';
+import usecases from '../../domain/usecases';
+import DomainTransaction from '../../infrastructure/DomainTransaction';
+import AssessmentResult from '../../domain/models/AssessmentResult';
+import CompetenceMark from '../../domain/models/CompetenceMark';
+import assessmentResultService from '../../domain/services/assessment-result-service';
+import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils';
 
-const AssessmentResult = require('../../domain/models/AssessmentResult');
-const CompetenceMark = require('../../domain/models/CompetenceMark');
-const assessmentResultService = require('../../domain/services/assessment-result-service');
-
-const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
-
-module.exports = {
+export default {
   async getCertificationDetails(request) {
     const certificationCourseId = request.params.id;
     const certificationDetails = await usecases.getCertificationDetails({ certificationCourseId });

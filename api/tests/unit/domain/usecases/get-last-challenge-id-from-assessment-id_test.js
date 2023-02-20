@@ -1,8 +1,7 @@
-const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
-
-const getLastChallengeIdFromAssessmentId = require('../../../../lib/domain/usecases/get-last-challenge-id-from-assessment-id');
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+import { catchErr, expect, sinon, domainBuilder } from '../../../test-helper';
+import getLastChallengeIdFromAssessmentId from '../../../../lib/domain/usecases/get-last-challenge-id-from-assessment-id';
+import assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository';
+import { NotFoundError } from '../../../../lib/domain/errors';
 
 describe('Unit | UseCase | get-last-challenge-id-from-assessment-id', function () {
   let assessment;

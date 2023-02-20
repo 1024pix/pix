@@ -1,7 +1,7 @@
-const _ = require('lodash');
-const certificationCourseRepository = require('../../../lib/infrastructure/repositories/certification-course-repository');
-const { CertificateVerificationCodeGenerationTooManyTrials } = require('../../../lib/domain/errors');
-const config = require('../../config');
+import _ from 'lodash';
+import certificationCourseRepository from '../../../lib/infrastructure/repositories/certification-course-repository';
+import { CertificateVerificationCodeGenerationTooManyTrials } from '../../../lib/domain/errors';
+import config from '../../config';
 
 const availableCharacters =
   `${config.availableCharacterForCode.numbers}${config.availableCharacterForCode.letters}`.split('');
@@ -16,7 +16,7 @@ function _randomCharacter() {
   return _.sample(availableCharacters);
 }
 
-module.exports = {
+export default {
   async generateCertificateVerificationCode(generateCode = _generateCode) {
     for (let i = 0; i < NB_OF_TRIALS; i++) {
       const code = generateCode();

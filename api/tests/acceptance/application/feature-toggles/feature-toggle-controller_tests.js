@@ -1,6 +1,5 @@
-const { expect } = require('../../../test-helper');
-
-const createServer = require('../../../../server');
+import { expect } from '../../../test-helper';
+import createServer from '../../../../server';
 
 describe('Acceptance | Controller | feature-toggle-controller', function () {
   let server;

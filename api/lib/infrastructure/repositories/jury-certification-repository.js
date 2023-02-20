@@ -1,12 +1,12 @@
-const { knex } = require('../../../db/knex-database-connection');
-const { NotFoundError } = require('../../domain/errors');
-const _ = require('lodash');
-const JuryCertification = require('../../domain/models/JuryCertification');
-const CertificationIssueReport = require('../../domain/models/CertificationIssueReport');
-const ComplementaryCertificationCourseResultsForJuryCertification = require('../../domain/read-models/ComplementaryCertificationCourseResultsForJuryCertification');
-const ComplementaryCertificationCourseResultsForJuryCertificationWithExternal = require('../../domain/read-models/ComplementaryCertificationCourseResultsForJuryCertificationWithExternal');
+import { knex } from '../../../db/knex-database-connection';
+import { NotFoundError } from '../../domain/errors';
+import _ from 'lodash';
+import JuryCertification from '../../domain/models/JuryCertification';
+import CertificationIssueReport from '../../domain/models/CertificationIssueReport';
+import ComplementaryCertificationCourseResultsForJuryCertification from '../../domain/read-models/ComplementaryCertificationCourseResultsForJuryCertification';
+import ComplementaryCertificationCourseResultsForJuryCertificationWithExternal from '../../domain/read-models/ComplementaryCertificationCourseResultsForJuryCertificationWithExternal';
 
-module.exports = {
+export default {
   async get(certificationCourseId) {
     const juryCertificationDTO = await _selectJuryCertifications()
       .where('certification-courses.id', certificationCourseId)

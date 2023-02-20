@@ -1,5 +1,5 @@
-const { domainBuilder, expect, sinon } = require('../../../test-helper');
-const createUserAndReconcileToOrganizationLearnerFromExternalUser = require('../../../../lib/domain/usecases/create-user-and-reconcile-to-organization-learner-from-external-user');
+import { domainBuilder, expect, sinon } from '../../../test-helper';
+import createUserAndReconcileToOrganizationLearnerFromExternalUser from '../../../../lib/domain/usecases/create-user-and-reconcile-to-organization-learner-from-external-user';
 
 describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-from-external-user', function () {
   let obfuscationService;

@@ -1,6 +1,6 @@
-const monitoringTools = require('../../infrastructure/monitoring-tools');
-const ParticipationResultCalculationJob = require('../jobs/campaign-result/ParticipationResultCalculationJob');
-const SendSharedParticipationResultsToPoleEmploiJob = require('../jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob');
+import monitoringTools from '../../infrastructure/monitoring-tools';
+import ParticipationResultCalculationJob from '../jobs/campaign-result/ParticipationResultCalculationJob';
+import SendSharedParticipationResultsToPoleEmploiJob from '../jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob';
 
 function build(classToInstanciate, domainTransaction) {
   const dependencies = _buildDependencies(domainTransaction);
@@ -19,7 +19,7 @@ function _buildDependencies(domainTransaction) {
   };
 }
 
-module.exports = {
+export default {
   build,
 };
 

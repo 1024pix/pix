@@ -1,9 +1,9 @@
-const databaseBuffer = require('../database-buffer');
-const buildOrganization = require('./build-organization');
-const OrganizationInvitation = require('../../../lib/domain/models/OrganizationInvitation');
-const _ = require('lodash');
+import databaseBuffer from '../database-buffer';
+import buildOrganization from './build-organization';
+import OrganizationInvitation from '../../../lib/domain/models/OrganizationInvitation';
+import _ from 'lodash';
 
-module.exports = function buildOrganizationInvitation({
+export default function buildOrganizationInvitation({
   id = databaseBuffer.getNextId(),
   organizationId,
   email = 'some.mail@example.net',
@@ -29,4 +29,4 @@ module.exports = function buildOrganizationInvitation({
     tableName: 'organization-invitations',
     values,
   });
-};
+}

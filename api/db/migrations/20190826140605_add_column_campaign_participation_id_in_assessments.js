@@ -1,6 +1,6 @@
 const TABLE_NAME = 'assessments';
 
-exports.up = async function (knex) {
+export const up = async function (knex) {
   const info = await knex(TABLE_NAME).columnInfo();
   if (!info.campaignParticipationId) {
     await knex.schema.table(TABLE_NAME, (t) =>
@@ -14,7 +14,7 @@ exports.up = async function (knex) {
   }
 };
 
-exports.down = function (knex) {
+export const down = function (knex) {
   return knex.schema.table(TABLE_NAME, (t) => {
     t.dropColumn('campaignParticipationId');
   });

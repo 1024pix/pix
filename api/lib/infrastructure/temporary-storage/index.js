@@ -1,8 +1,8 @@
-const settings = require('../../config');
+import settings from '../../config';
 const REDIS_URL = settings.temporaryStorage.redisUrl;
 
-const InMemoryTemporaryStorage = require('./InMemoryTemporaryStorage');
-const RedisTemporaryStorage = require('./RedisTemporaryStorage');
+import InMemoryTemporaryStorage from './InMemoryTemporaryStorage';
+import RedisTemporaryStorage from './RedisTemporaryStorage';
 
 function _createTemporaryStorage() {
   if (REDIS_URL) {
@@ -12,4 +12,4 @@ function _createTemporaryStorage() {
   }
 }
 
-module.exports = _createTemporaryStorage();
+export default _createTemporaryStorage();

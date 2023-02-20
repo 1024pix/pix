@@ -1,6 +1,6 @@
-const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, knex } = require('../../../test-helper');
-const createServer = require('../../../../server');
-const { status } = require('../../../../lib/domain/models/AssessmentResult');
+import { expect, generateValidRequestAuthorizationHeader, databaseBuilder, knex } from '../../../test-helper';
+import createServer from '../../../../server';
+import { status } from '../../../../lib/domain/models/AssessmentResult';
 
 describe('PATCH /api/admin/sessions/:id/unpublish', function () {
   let server;

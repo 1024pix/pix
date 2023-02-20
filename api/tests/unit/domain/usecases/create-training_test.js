@@ -1,5 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
-const createTraining = require('../../../../lib/domain/usecases/create-training');
+import { expect, sinon } from '../../../test-helper';
+import createTraining from '../../../../lib/domain/usecases/create-training';
 
 describe('Unit | UseCase | create-training', function () {
   it('should call training repository to create the training', async function () {

@@ -1,6 +1,6 @@
-const databaseBuffer = require('../database-buffer');
-const buildTargetProfile = require('./build-target-profile');
-const _ = require('lodash');
+import databaseBuffer from '../database-buffer';
+import buildTargetProfile from './build-target-profile';
+import _ from 'lodash';
 
 function buildBadge({
   id = databaseBuffer.getNextId(),
@@ -78,4 +78,4 @@ buildBadge.notCertifiable = function ({
   });
 };
 
-module.exports = buildBadge;
+export default buildBadge;

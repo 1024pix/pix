@@ -1,7 +1,7 @@
-const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
-const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
-const PoleEmploiSending = require('../../../../lib/domain/models/PoleEmploiSending');
-const PoleEmploiPayload = require('../../../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload');
+import { catchErr, expect, sinon, domainBuilder } from '../../../test-helper';
+import AssessmentCompleted from '../../../../lib/domain/events/AssessmentCompleted';
+import PoleEmploiSending from '../../../../lib/domain/models/PoleEmploiSending';
+import PoleEmploiPayload from '../../../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload';
 const { handlePoleEmploiParticipationFinished } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 
 describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', function () {

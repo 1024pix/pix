@@ -1,5 +1,5 @@
-const { expect, databaseBuilder, sinon } = require('../../../test-helper');
-const targetProfileTrainingRepository = require('../../../../lib/infrastructure/repositories/target-profile-training-repository');
+import { expect, databaseBuilder, sinon } from '../../../test-helper';
+import targetProfileTrainingRepository from '../../../../lib/infrastructure/repositories/target-profile-training-repository';
 
 describe('Integration | Repository | target-profile-training-repository', function () {
   describe('#create', function () {

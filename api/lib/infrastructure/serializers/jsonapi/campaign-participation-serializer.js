@@ -1,9 +1,8 @@
-const { Serializer, Deserializer } = require('jsonapi-serializer');
+import { Serializer, Deserializer } from 'jsonapi-serializer';
+import Campaign from '../../../domain/models/Campaign';
+import CampaignParticipation from '../../../domain/models/CampaignParticipation';
 
-const Campaign = require('../../../domain/models/Campaign');
-const CampaignParticipation = require('../../../domain/models/CampaignParticipation');
-
-module.exports = {
+export default {
   serialize(campaignParticipation) {
     return new Serializer('campaign-participation', {
       transform: (campaignParticipation) => {

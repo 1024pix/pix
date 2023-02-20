@@ -1,7 +1,7 @@
-const { AuthenticationKeyExpired, MissingUserAccountError } = require('../errors');
-const AuthenticationMethod = require('../models/AuthenticationMethod');
+import { AuthenticationKeyExpired, MissingUserAccountError } from '../errors';
+import AuthenticationMethod from '../models/AuthenticationMethod';
 
-module.exports = async function reconcileOidcUser({
+export default async function reconcileOidcUser({
   authenticationKey,
   oidcAuthenticationService,
   authenticationSessionService,
@@ -38,4 +38,4 @@ module.exports = async function reconcileOidcUser({
   userRepository.updateLastLoggedAt({ userId });
 
   return { accessToken, logoutUrlUUID };
-};
+}

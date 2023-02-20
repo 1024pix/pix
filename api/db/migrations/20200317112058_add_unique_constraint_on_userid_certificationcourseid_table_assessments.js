@@ -2,7 +2,7 @@ const TABLE_NAME = 'assessments';
 const COLUMN_USER_ID = 'userId';
 const COLUMN_CERTIFICATION_COURSE_ID = 'certificationCourseId';
 
-exports.up = async (knex) => {
+export const up = async (knex) => {
   await knex.raw(`
     WITH ASSESSMENTS_BY_CERTIFICATION_COURSES AS (
       SELECT "as"."id" as assessment_id,
@@ -24,7 +24,7 @@ exports.up = async (knex) => {
   });
 };
 
-exports.down = (knex) => {
+export const down = (knex) => {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.dropUnique([COLUMN_USER_ID, COLUMN_CERTIFICATION_COURSE_ID]);
   });

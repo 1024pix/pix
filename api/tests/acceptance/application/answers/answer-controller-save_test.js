@@ -1,12 +1,15 @@
-const {
+import {
   expect,
   knex,
   databaseBuilder,
   mockLearningContent,
   generateValidRequestAuthorizationHeader,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
-const { FRENCH_FRANCE, ENGLISH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
+} from '../../../test-helper';
+
+import createServer from '../../../../server';
+import { LOCALE } from '../../../../lib/domain/constants';
+
+const { FRENCH_FRANCE: FRENCH_FRANCE, ENGLISH_SPOKEN: ENGLISH_SPOKEN } = LOCALE;
 
 describe('Acceptance | Controller | answer-controller-save', function () {
   let server;

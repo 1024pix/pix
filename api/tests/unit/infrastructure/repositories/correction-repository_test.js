@@ -1,11 +1,11 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const correctionRepository = require('../../../../lib/infrastructure/repositories/correction-repository');
-const challengeDatasource = require('../../../../lib/infrastructure/datasources/learning-content/challenge-datasource');
-const skillDatasource = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
-const tutorialRepository = require('../../../../lib/infrastructure/repositories/tutorial-repository');
-const Correction = require('../../../../lib/domain/models/Correction');
-const ChallengeLearningContentDataObjectFixture = require('../../../tooling/fixtures/infrastructure/challengeLearningContentDataObjectFixture');
-const SkillLearningContentDataObjectFixture = require('../../../tooling/fixtures/infrastructure/skillLearningContentDataObjectFixture');
+import { expect, sinon, domainBuilder } from '../../../test-helper';
+import correctionRepository from '../../../../lib/infrastructure/repositories/correction-repository';
+import challengeDatasource from '../../../../lib/infrastructure/datasources/learning-content/challenge-datasource';
+import skillDatasource from '../../../../lib/infrastructure/datasources/learning-content/skill-datasource';
+import tutorialRepository from '../../../../lib/infrastructure/repositories/tutorial-repository';
+import Correction from '../../../../lib/domain/models/Correction';
+import ChallengeLearningContentDataObjectFixture from '../../../tooling/fixtures/infrastructure/challengeLearningContentDataObjectFixture';
+import SkillLearningContentDataObjectFixture from '../../../tooling/fixtures/infrastructure/skillLearningContentDataObjectFixture';
 
 describe('Unit | Repository | correction-repository', function () {
   beforeEach(function () {

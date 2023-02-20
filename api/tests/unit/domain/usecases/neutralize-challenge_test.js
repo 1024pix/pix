@@ -1,7 +1,7 @@
-const { sinon, expect, domainBuilder } = require('../../../test-helper');
-const CertificationAssessment = require('../../../../lib/domain/models/CertificationAssessment');
-const neutralizeChallenge = require('../../../../lib/domain/usecases/neutralize-challenge');
-const ChallengeNeutralized = require('../../../../lib/domain/events/ChallengeNeutralized');
+import { sinon, expect, domainBuilder } from '../../../test-helper';
+import CertificationAssessment from '../../../../lib/domain/models/CertificationAssessment';
+import neutralizeChallenge from '../../../../lib/domain/usecases/neutralize-challenge';
+import ChallengeNeutralized from '../../../../lib/domain/events/ChallengeNeutralized';
 
 describe('Unit | UseCase | neutralize-challenge', function () {
   it('neutralizes a challenge by its recId', async function () {

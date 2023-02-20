@@ -1,5 +1,5 @@
-const ComplementaryCertification = require('../../../lib/domain/models/ComplementaryCertification');
-const databaseBuffer = require('../database-buffer');
+import ComplementaryCertification from '../../../lib/domain/models/ComplementaryCertification';
+import databaseBuffer from '../database-buffer';
 
 function buildComplementaryCertification({
   id = databaseBuffer.getNextId(),
@@ -46,4 +46,4 @@ buildComplementaryCertification.clea = function ({
   });
 };
 
-module.exports = buildComplementaryCertification;
+export default buildComplementaryCertification;

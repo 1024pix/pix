@@ -1,9 +1,9 @@
-const _ = require('lodash');
-const usecases = require('../../domain/usecases');
-const stageSerializer = require('../../infrastructure/serializers/jsonapi/stage-serializer');
-const stageCollectionRepository = require('../../infrastructure/repositories/target-profile-management/stage-collection-repository');
+import _ from 'lodash';
+import usecases from '../../domain/usecases';
+import stageSerializer from '../../infrastructure/serializers/jsonapi/stage-serializer';
+import stageCollectionRepository from '../../infrastructure/repositories/target-profile-management/stage-collection-repository';
 
-module.exports = {
+export default {
   async create(request, h) {
     const stage = stageSerializer.deserialize(request.payload);
     const stageCollection = await stageCollectionRepository.getByTargetProfileId(stage.targetProfileId);

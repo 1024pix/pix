@@ -1,7 +1,7 @@
-const { knex } = require('../../../../db/knex-database-connection');
-const StageCollection = require('../../../domain/models/target-profile-management/StageCollection');
+import { knex } from '../../../../db/knex-database-connection';
+import StageCollection from '../../../domain/models/target-profile-management/StageCollection';
 
-module.exports = {
+export default {
   async getByTargetProfileId(targetProfileId) {
     const stages = await knex('stages').where({ targetProfileId }).orderBy('id', 'asc');
     const { max: maxLevel } = await knex('target-profile_tubes')

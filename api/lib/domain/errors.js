@@ -1252,7 +1252,7 @@ class InvalidStageError extends DomainError {
   }
 }
 
-module.exports = {
+export default {
   AccountRecoveryDemandNotCreatedError,
   AccountRecoveryDemandExpired,
   AccountRecoveryUserAlreadyConfirmEmail,

@@ -1,12 +1,12 @@
-const Bookshelf = require('../bookshelf');
+import Bookshelf from '../bookshelf';
 
-require('./Assessment');
-require('./Campaign');
-require('./User');
+import './Assessment';
+import './Campaign';
+import './User';
 
 const modelName = 'CampaignParticipation';
 
-module.exports = Bookshelf.model(
+export default Bookshelf.model(
   modelName,
   {
     tableName: 'campaign-participations',

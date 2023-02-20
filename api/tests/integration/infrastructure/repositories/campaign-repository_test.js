@@ -1,4 +1,4 @@
-const {
+import {
   expect,
   domainBuilder,
   databaseBuilder,
@@ -6,14 +6,15 @@ const {
   mockLearningContent,
   sinon,
   catchErr,
-} = require('../../../test-helper');
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
-const Campaign = require('../../../../lib/domain/models/Campaign');
-const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const _ = require('lodash');
-const Stage = require('../../../../lib/domain/models/Stage');
+} from '../../../test-helper';
+
+import campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository';
+import skillRepository from '../../../../lib/infrastructure/repositories/skill-repository';
+import Campaign from '../../../../lib/domain/models/Campaign';
+import CampaignTypes from '../../../../lib/domain/models/CampaignTypes';
+import { NotFoundError } from '../../../../lib/domain/errors';
+import _ from 'lodash';
+import Stage from '../../../../lib/domain/models/Stage';
 
 describe('Integration | Repository | Campaign', function () {
   describe('#isCodeAvailable', function () {

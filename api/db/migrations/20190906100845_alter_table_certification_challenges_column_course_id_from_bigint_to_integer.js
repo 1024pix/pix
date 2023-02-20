@@ -1,12 +1,12 @@
 const TABLE_NAME = 'certification-challenges';
 
-exports.up = (knex) => {
+export const up = (knex) => {
   return knex.schema.alterTable(TABLE_NAME, function (table) {
     table.integer('courseId').unsigned().alter();
   });
 };
 
-exports.down = (knex) => {
+export const down = (knex) => {
   return knex.schema.alterTable(TABLE_NAME, function (table) {
     table.bigInteger('courseId').unsigned().alter();
   });

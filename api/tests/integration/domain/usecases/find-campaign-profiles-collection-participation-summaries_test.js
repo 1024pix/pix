@@ -1,5 +1,5 @@
-const { expect, mockLearningContent, databaseBuilder } = require('../../../test-helper');
-const useCases = require('../../../../lib/domain/usecases');
+import { expect, mockLearningContent, databaseBuilder } from '../../../test-helper';
+import useCases from '../../../../lib/domain/usecases';
 
 describe('Integration | UseCase | find-campaign-profiles-collection-participation-summaries', function () {
   let organizationId;

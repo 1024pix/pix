@@ -1,6 +1,6 @@
-const usecases = require('../../domain/usecases');
+import usecases from '../../domain/usecases';
 
-module.exports = {
+export default {
   async disable(request, h) {
     const certificationCenterMembershipId = request.params.id;
     await usecases.disableCertificationCenterMembership({

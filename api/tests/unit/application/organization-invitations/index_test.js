@@ -1,7 +1,6 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-
-const moduleUnderTest = require('../../../../lib/application/organization-invitations');
-const organizationInvitationController = require('../../../../lib/application/organization-invitations/organization-invitation-controller');
+import { expect, HttpTestServer, sinon } from '../../../test-helper';
+import moduleUnderTest from '../../../../lib/application/organization-invitations';
+import organizationInvitationController from '../../../../lib/application/organization-invitations/organization-invitation-controller';
 
 describe('Unit | Router | organization-invitation-router', function () {
   describe('POST /api/organization-invitations/{id}/response', function () {

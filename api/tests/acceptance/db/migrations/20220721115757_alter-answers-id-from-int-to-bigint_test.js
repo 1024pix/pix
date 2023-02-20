@@ -1,4 +1,4 @@
-const { expect, knex, databaseBuilder } = require('../../../test-helper');
+import { expect, knex, databaseBuilder } from '../../../test-helper';
 
 describe('#changeAnswerIdTypeToBigint', function () {
   it('should insert answer with an id bigger than the maximum integer type value', async function () {

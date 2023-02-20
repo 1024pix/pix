@@ -1,9 +1,8 @@
-const { knex } = require('../../../db/knex-database-connection');
+import { knex } from '../../../db/knex-database-connection';
+import { foreignKeyConstraintViolated } from '../utils/knex-utils.js';
+import { NotFoundError } from '../../domain/errors';
 
-const { foreignKeyConstraintViolated } = require('../utils/knex-utils.js');
-const { NotFoundError } = require('../../domain/errors');
-
-module.exports = {
+export default {
   async attachOrganizations(targetProfile) {
     const rows = targetProfile.organizations.map((organizationId) => {
       return {

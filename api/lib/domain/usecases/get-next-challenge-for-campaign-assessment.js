@@ -1,9 +1,9 @@
-const { AssessmentEndedError } = require('../errors');
-const smartRandom = require('../services/algorithm-methods/smart-random');
-const flash = require('../services/algorithm-methods/flash');
-const dataFetcher = require('../services/algorithm-methods/data-fetcher');
+import { AssessmentEndedError } from '../errors';
+import smartRandom from '../services/algorithm-methods/smart-random';
+import flash from '../services/algorithm-methods/flash';
+import dataFetcher from '../services/algorithm-methods/data-fetcher';
 
-module.exports = async function getNextChallengeForCampaignAssessment({
+export default async function getNextChallengeForCampaignAssessment({
   challengeRepository,
   answerRepository,
   flashAssessmentResultRepository,
@@ -42,4 +42,4 @@ module.exports = async function getNextChallengeForCampaignAssessment({
       locale,
     });
   }
-};
+}
