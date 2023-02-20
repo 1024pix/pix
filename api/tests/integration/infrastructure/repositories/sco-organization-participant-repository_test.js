@@ -942,6 +942,68 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
         expect(participants[1].id).to.equal(organizationLearnerId2);
         expect(participants[2].id).to.equal(organizationLearnerId1);
       });
+
+      it('should return sco participants sorted by ascendant lastname', async function () {
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const narutoId = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          lastName: 'Naruto',
+        }).id;
+        const sasukeId = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          lastName: 'Sasuke',
+        }).id;
+        const itachiId = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          lastName: 'Itachi',
+        }).id;
+
+        await databaseBuilder.commit();
+        // when
+        const { data: participants } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
+          organizationId,
+          sort: {
+            lastnameSort: 'asc',
+          },
+        });
+
+        // then
+        expect(participants.length).to.equal(3);
+        expect(participants[0].id).to.equal(itachiId);
+        expect(participants[1].id).to.equal(narutoId);
+        expect(participants[2].id).to.equal(sasukeId);
+      });
+
+      it('should return sco participants sorted by descendant lastname', async function () {
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const narutoId = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          lastName: 'Naruto',
+        }).id;
+        const sasukeId = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          lastName: 'Sasuke',
+        }).id;
+        const itachiId = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          lastName: 'Itachi',
+        }).id;
+
+        await databaseBuilder.commit();
+        // when
+        const { data: participants } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
+          organizationId,
+          sort: {
+            lastnameSort: 'desc',
+          },
+        });
+
+        // then
+        expect(participants.length).to.equal(3);
+        expect(participants[0].id).to.equal(sasukeId);
+        expect(participants[1].id).to.equal(narutoId);
+        expect(participants[2].id).to.equal(itachiId);
+      });
     });
 
     context('#lastParticipationDate', function () {

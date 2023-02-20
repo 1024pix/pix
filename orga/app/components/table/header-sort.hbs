@@ -1,5 +1,5 @@
-<Table::Header @size={{@size}} @align={{@align}} aria-sort={{this.order}} ...attributes>
-  <span class="table__column--sort">
+<Table::Header @size={{@size}} @align={{@align}} aria-sort={{@order}} ...attributes>
+  <span class={{this.classname}}>
     {{yield}}
     {{#unless @isDisabled}}
       <PixIconButton

@@ -26,7 +26,13 @@ async function getParticipantsByOrganizationId({ organizationId, page, filters =
   if (sort?.participationCount) {
     orderByClause.unshift({
       column: 'participationCount',
-      order: sort.participationCount == 'desc' ? 'desc' : 'asc',
+      order: sort.participationCount === 'desc' ? 'desc' : 'asc',
+    });
+  }
+  if (sort?.lastnameSort) {
+    orderByClause.unshift({
+      column: 'organization-learners.lastName',
+      order: sort.lastnameSort === 'desc' ? 'desc' : 'asc',
     });
   }
 

@@ -289,10 +289,6 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   module('when user is sorting the table', function () {
     test('it should trigger ascending sort on participation count column', async function (assert) {
       // given
-      this.set('triggerFiltering', () => {});
-      this.set('participants', []);
-      this.set('certificabilityOptions', [{ value: 'eligible', label: 'Certifiable' }]);
-      this.set('certificability', []);
       this.set('participationCountOrder', null);
 
       const sortByParticipationCount = sinon.spy();
@@ -302,9 +298,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
       const screen = await render(
         hbs`<OrganizationParticipant::List
   @participants={{this.participants}}
-  @triggerFiltering={{this.triggerFiltering}}
-  @certificabilityOptions={{this.certificabilityOptions}}
-  @certificability={{this.certificability}}
+  @triggerFiltering={{this.noop}}
   @onClickLearner={{this.noop}}
   @participationCountOrder={{this.participationCountOrder}}
   @sortByParticipationCount={{this.sortByParticipationCount}}
@@ -325,20 +319,16 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     test('it should trigger ascending sort on participation count column when it is already sort descending', async function (assert) {
       // given
-      this.set('triggerFiltering', () => {});
-      this.set('participants', []);
-      this.set('certificabilityOptions', [{ value: 'eligible', label: 'Certifiable' }]);
-      this.set('certificability', []);
-
       this.set('participationCountOrder', 'desc');
+
       const sortByParticipationCount = sinon.spy();
+
       this.set('sortByParticipationCount', sortByParticipationCount);
+
       const screen = await render(
         hbs`<OrganizationParticipant::List
   @participants={{this.participants}}
-  @triggerFiltering={{this.triggerFiltering}}
-  @certificabilityOptions={{this.certificabilityOptions}}
-  @certificability={{this.certificability}}
+  @triggerFiltering={{this.noop}}
   @onClickLearner={{this.noop}}
   @participationCountOrder={{this.participationCountOrder}}
   @sortByParticipationCount={{this.sortByParticipationCount}}
@@ -359,21 +349,16 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
     test('it should trigger descending sort on participation count column when it is already sort ascending', async function (assert) {
       // given
-      this.set('triggerFiltering', () => {});
-      this.set('participants', []);
-      this.set('certificabilityOptions', [{ value: 'eligible', label: 'Certifiable' }]);
-      this.set('certificability', []);
-
       this.set('participationCountOrder', 'asc');
+
       const sortByParticipationCount = sinon.spy();
+
       this.set('sortByParticipationCount', sortByParticipationCount);
 
       const screen = await render(
         hbs`<OrganizationParticipant::List
   @participants={{this.participants}}
-  @triggerFiltering={{this.triggerFiltering}}
-  @certificabilityOptions={{this.certificabilityOptions}}
-  @certificability={{this.certificability}}
+  @triggerFiltering={{this.noop}}
   @onClickLearner={{this.noop}}
   @participationCountOrder={{this.participationCountOrder}}
   @sortByParticipationCount={{this.sortByParticipationCount}}
@@ -389,6 +374,96 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 
       // then
       sinon.assert.calledWithExactly(sortByParticipationCount, 'desc');
+      assert.ok(true);
+    });
+
+    test('it should trigger ascending sort on lastname column', async function (assert) {
+      // given
+
+      this.set('lastnameSort', null);
+
+      const sortByLastname = sinon.spy();
+
+      this.set('sortByLastname', sortByLastname);
+
+      const screen = await render(
+        hbs`<OrganizationParticipant::List
+  @students={{this.students}}
+  @triggerFiltering={{this.noop}}
+  @onFilter={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @lastnameSort={{this.lastnameSort}}
+  @sortByLastname={{this.sortByLastname}}
+/>`
+      );
+
+      // when
+      await click(
+        screen.getByLabelText(
+          this.intl.t('pages.organization-participants.table.column.last-name.ariaLabelDefaultSort')
+        )
+      );
+
+      // then
+      sinon.assert.calledWithExactly(sortByLastname, 'asc');
+      assert.ok(true);
+    });
+
+    test('it should trigger ascending sort on lastname column when it is already sort descending', async function (assert) {
+      // given
+      this.set('lastnameSort', 'desc');
+
+      const sortByLastname = sinon.spy();
+
+      this.set('sortByLastname', sortByLastname);
+
+      const screen = await render(
+        hbs`<OrganizationParticipant::List
+  @students={{this.students}}
+  @triggerFiltering={{this.noop}}
+  @onFilter={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @lastnameSort={{this.lastnameSort}}
+  @sortByLastname={{this.sortByLastname}}
+/>`
+      );
+
+      // when
+      await click(
+        screen.getByLabelText(this.intl.t('pages.organization-participants.table.column.last-name.ariaLabelSortDown'))
+      );
+
+      // then
+      sinon.assert.calledWithExactly(sortByLastname, 'asc');
+      assert.ok(true);
+    });
+
+    test('it should trigger descending sort on lastname column when it is already sort ascending', async function (assert) {
+      // given
+      this.set('lastnameSort', 'asc');
+
+      const sortByLastname = sinon.spy();
+
+      this.set('sortByLastname', sortByLastname);
+
+      const screen = await render(
+        hbs`<OrganizationParticipant::List
+  @students={{this.students}}
+  @triggerFiltering={{this.noop}}
+  @onFilter={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @lastnameSort={{this.lastnameSort}}
+  @sortByLastname={{this.sortByLastname}}
+/>`
+      );
+
+      // when
+      await click(
+        screen.getByLabelText(this.intl.t('pages.organization-participants.table.column.last-name.ariaLabelSortUp'))
+      );
+
+      // then
+      sinon.assert.calledWithExactly(sortByLastname, 'desc');
       assert.ok(true);
     });
   });

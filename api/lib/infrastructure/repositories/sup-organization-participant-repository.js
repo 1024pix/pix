@@ -69,6 +69,12 @@ module.exports = {
         order: sort.participationCount == 'desc' ? 'desc' : 'asc',
       });
     }
+    if (sort?.lastnameSort) {
+      orderByClause.unshift({
+        column: 'organization-learners.lastName',
+        order: sort.lastnameSort == 'desc' ? 'desc' : 'asc',
+      });
+    }
 
     const query = knex
       .with('subquery', (qb) => _buildIsCertifiable(qb, organizationId))

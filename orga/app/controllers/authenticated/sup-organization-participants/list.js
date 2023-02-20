@@ -12,6 +12,7 @@ export default class ListController extends Controller {
   @tracked pageNumber = null;
   @tracked pageSize = 50;
   @tracked participationCountOrder = null;
+  @tracked lastnameSort = 'asc';
 
   @action
   goToLearnerPage(learnerId, event) {
@@ -22,6 +23,14 @@ export default class ListController extends Controller {
   @action
   sortByParticipationCount(value) {
     this.participationCountOrder = value || null;
+    this.pageNumber = null;
+    this.lastnameSort = null;
+  }
+
+  @action
+  sortByLastname(value) {
+    this.lastnameSort = value || null;
+    this.participationCountOrder = null;
     this.pageNumber = null;
   }
 
