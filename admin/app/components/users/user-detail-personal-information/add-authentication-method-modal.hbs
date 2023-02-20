@@ -9,9 +9,10 @@
         @id="new-email-for-adding-authentication-method"
         @label="Nouvelle adresse e-mail"
         {{on "change" @onChangeNewEmail}}
-        @errorMessage={{if @showAlreadyExistingEmailError "Cette adresse e-mail est déjà utilisée" ""}}
+        @validationStatus={{if @showAlreadyExistingEmailError "error" "default"}}
+        @errorMessage="Cette adresse e-mail est déjà utilisée"
         type="email"
-        required
+        @requiredLabel="Champ obligatoire"
       />
     </form>
   </:content>

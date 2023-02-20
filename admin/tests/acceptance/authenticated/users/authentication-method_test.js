@@ -29,7 +29,7 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
 
       await screen.findByRole('dialog');
 
-      await fillByLabel('Nouvelle adresse e-mail', 'nouvel-email@example.net');
+      await fillByLabel(/Nouvelle adresse e-mail/, 'nouvel-email@example.net');
       await clickByName("Enregistrer l'adresse e-mail");
 
       // then
@@ -60,7 +60,7 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
 
       await screen.findByRole('dialog');
 
-      await fillByLabel('Nouvelle adresse e-mail', 'nouvel-email@example.net');
+      await fillByLabel(/Nouvelle adresse e-mail/, 'nouvel-email@example.net');
       await clickByName("Enregistrer l'adresse e-mail");
 
       // then
