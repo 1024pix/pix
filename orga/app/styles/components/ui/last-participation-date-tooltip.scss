@@ -1,5 +1,6 @@
 .last-participation-date-tooltip {
   font-weight: $font-light;
+
   &__icon {
     color: $grey-30;
   }
@@ -7,6 +8,7 @@
   [role="tooltip"] {
     text-align: left;
   }
+
   &__informations {
     font-weight: $font-medium;
   }
