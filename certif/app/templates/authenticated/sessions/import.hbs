@@ -2,7 +2,10 @@
 <main class="import-page">
   <h1 class="page-title">{{t "pages.sessions.import.title"}}</h1>
 
-  <nav aria-label="Fil d'Ariane" class="import-page__section--breadcrumb panel">
+  <nav
+    aria-label={{t "pages.sessions.import.breadcrumb.extra-information"}}
+    class="import-page__section--breadcrumb panel"
+  >
     <ol>
       <li class={{if this.isImportStepOne "active" ""}}>
         <a href="">
