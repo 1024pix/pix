@@ -7,7 +7,6 @@
     "declaration-block-single-line-max-declarations": null,
     "declaration-colon-space-after": null,
     "declaration-empty-line-before": null,
-    "indentation": null,
     "length-zero-no-unit": null,
     "no-descending-specificity": null,
     "number-max-precision": null,
