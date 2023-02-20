@@ -179,7 +179,7 @@
     width: $total-width;
     padding: 0 0 1px 1ch;
 
-    //display differently for IE because 1 character (ch) is equal to 1.162
+    // display differently for IE because 1 character (ch) is equal to 1.162
     line-height: 0.7;
     letter-spacing: $space-between-dashes;
     background: repeating-linear-gradient(90deg,

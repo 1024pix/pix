@@ -20,7 +20,7 @@ input.input-code {
   border-radius: 3px;
 
   @media all and (-ms-high-contrast: none) {
-    //display differently for IE because 1 character (ch) is equal to 1.162
+    // display differently for IE because 1 character (ch) is equal to 1.162
     line-height: 0.7;
     letter-spacing: 0.4ch;
     background:
