@@ -93,7 +93,8 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
       this.owner.register('service:current-user', CurrentUserStub);
       const token = 'a token';
 
-      controller.file = Symbol('file 1');
+      const file = Symbol('file 1');
+      controller.file = file;
 
       controller.session = {
         isAuthenticated: true,
@@ -104,13 +105,13 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
         },
       };
 
-      controller.notifications = { success: sinon.stub(), clearAll: sinon.stub() };
+      controller.notifications = { clearAll: sinon.stub() };
 
       // when
       await controller.importSessions();
 
       // then
-      sinon.assert.calledOnce(controller.notifications.success);
+      sinon.assert.calledWith(adapter.importSessions, file, '123');
       assert.ok(controller);
     });
 

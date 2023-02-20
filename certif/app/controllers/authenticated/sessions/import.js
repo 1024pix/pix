@@ -14,6 +14,7 @@ export default class ImportController extends Controller {
 
   @tracked file = null;
   @tracked isImportDisabled = true;
+  @tracked isImportStepOne = true;
 
   get fileName() {
     return this.file.name;
@@ -48,7 +49,7 @@ export default class ImportController extends Controller {
         return;
       }
       await adapter.importSessions(this.file, certificationCenterId);
-      this.notifications.success('La liste des sessions a été importée avec succès.');
+      this.isImportStepOne = false;
     } catch (err) {
       this.notifications.error("Aucune session n'a été importée");
     } finally {
