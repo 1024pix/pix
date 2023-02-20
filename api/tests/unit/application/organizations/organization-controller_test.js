@@ -669,6 +669,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
         ...request,
         query: {
           'sort[participationCount]': 'asc',
+          'sort[lastnameSort]': 'asc',
         },
       };
       usecases.findPaginatedFilteredScoParticipants.resolves({});
@@ -683,6 +684,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
         page: {},
         sort: {
           participationCount: 'asc',
+          lastnameSort: 'asc',
         },
       });
     });
@@ -818,6 +820,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
         ...request,
         query: {
           'sort[participationCount]': 'asc',
+          'sort[lastnameSort]': 'asc',
         },
       };
       usecases.findPaginatedFilteredSupParticipants.resolves({});
@@ -832,6 +835,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
         page: {},
         sort: {
           participationCount: 'asc',
+          lastnameSort: 'asc',
         },
       });
     });
@@ -1327,6 +1331,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
         ...request,
         query: {
           'sort[participationCount]': 'asc',
+          'sort[lastnameSort]': 'asc',
         },
       };
       usecases.getPaginatedParticipantsForAnOrganization.resolves({});
@@ -1341,6 +1346,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
         page: {},
         sort: {
           participationCount: 'asc',
+          lastnameSort: 'asc',
         },
       });
     });

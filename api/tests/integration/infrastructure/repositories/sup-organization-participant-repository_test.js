@@ -715,6 +715,68 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         expect(participants[1].id).to.equal(organizationLearnerId2);
         expect(participants[2].id).to.equal(organizationLearnerId1);
       });
+
+      it('should return sup participants sorted by ascendant lastname', async function () {
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const vadorId = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          lastName: 'Vador',
+        }).id;
+        const kenobiId = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          lastName: 'Kenobi',
+        }).id;
+        const skywalkerId = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          lastName: 'Skywalker',
+        }).id;
+
+        await databaseBuilder.commit();
+        // when
+        const { data: participants } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+          organizationId,
+          sort: {
+            lastnameSort: 'asc',
+          },
+        });
+
+        // then
+        expect(participants.length).to.equal(3);
+        expect(participants[0].id).to.equal(kenobiId);
+        expect(participants[1].id).to.equal(skywalkerId);
+        expect(participants[2].id).to.equal(vadorId);
+      });
+
+      it('should return sup participants sorted by descendant lastname', async function () {
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const vadorId = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          lastName: 'Vador',
+        }).id;
+        const kenobiId = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          lastName: 'Kenobi',
+        }).id;
+        const skywalkerId = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          lastName: 'Skywalker',
+        }).id;
+
+        await databaseBuilder.commit();
+        // when
+        const { data: participants } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+          organizationId,
+          sort: {
+            lastnameSort: 'desc',
+          },
+        });
+
+        // then
+        expect(participants.length).to.equal(3);
+        expect(participants[0].id).to.equal(vadorId);
+        expect(participants[1].id).to.equal(skywalkerId);
+        expect(participants[2].id).to.equal(kenobiId);
+      });
     });
 
     context('#participantCount', function () {

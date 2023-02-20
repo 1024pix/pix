@@ -719,7 +719,12 @@
       "table": {
         "column": {
           "first-name": "First name",
-          "last-name": "Last name",
+          "last-name": {
+            "label" : "Last name",
+            "ariaLabelDefaultSort": "The table is currently not sorted by last name. Click to sort by alphabetical order.",
+            "ariaLabelSortUp": "The table is sorted by last name, in alphabetical order. Click to sort by reverse alphabetical order.",
+            "ariaLabelSortDown": "The table is sorted by last name, in reverse alphabetical order. Click to sort by alphabetical order."
+          },
           "latest-participation": "Latest participation",
           "participation-count": {
             "label": "Number of participations",
@@ -922,7 +927,12 @@
               "content": "To know if a student is eligible for certification (meaning they have reached the level 1 in at least 5 different competences), their Pix profile needs to be submitted through a profile collection campaign. If the student has already submitted their profile, the date and status of the last submission are displayed."
             }
           },
-          "last-name": "Last name",
+          "last-name": {
+            "label" : "Last name",
+            "ariaLabelDefaultSort": "The table is currently not sorted by last name. Click to sort by alphabetical order.",
+            "ariaLabelSortUp": "The table is sorted by last name, in alphabetical order. Click to sort by reverse alphabetical order.",
+            "ariaLabelSortDown": "The table is sorted by last name, in reverse alphabetical order. Click to sort by alphabetical order."
+          },
           "last-participation-date": "Latest participation",
           "login-method": "Log in method(s)",
           "participation-count": {
@@ -967,7 +977,12 @@
           "date-of-birth": "Date of birth",
           "first-name": "First name",
           "group": "Groups",
-          "last-name": "Last name",
+          "last-name": {
+            "label" : "Last name",
+            "ariaLabelDefaultSort": "The table is currently not sorted by last name. Click to sort by alphabetical order.",
+            "ariaLabelSortUp": "The table is sorted by last name, in alphabetical order. Click to sort by reverse alphabetical order.",
+            "ariaLabelSortDown": "The table is sorted by last name, in reverse alphabetical order. Click to sort by alphabetical order."
+          },
           "last-participation-date": "Latest participation",
           "participation-count": {
             "label": "Number of participations",

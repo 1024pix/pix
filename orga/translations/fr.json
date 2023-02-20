@@ -719,7 +719,12 @@
       "table": {
         "column": {
           "first-name": "Prénom",
-          "last-name": "Nom",
+          "last-name": {
+            "label": "Nom",
+            "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par nom. Cliquez pour trier par ordre alphabétique.",
+            "ariaLabelSortUp": "Le tableau est trié par nom, dans l'ordre alphabétique. Cliquez pour trier par ordre alphabétique inverse.",
+            "ariaLabelSortDown": "Le tableau est trié par nom, dans l'ordre alphabétique inverse. Cliquez pour trier par ordre alphabétique."
+          },
           "latest-participation": "Dernière participation",
           "participation-count": {
             "label": "Nombre de participations",
@@ -922,7 +927,12 @@
               "content": "La certificabilité signifie que l'élève a atteint le niveau 1 dans au moins 5 compétences différentes. L'information provient des campagnes de collecte de profil réalisées par ce dernier. Si l'élève a déjà envoyé son profil, on affiche la date ainsi que le statut du dernier envoi."
             }
           },
-          "last-name": "Nom",
+          "last-name": {
+            "label": "Nom",
+            "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par nom. Cliquez pour trier par ordre alphabétique.",
+            "ariaLabelSortUp": "Le tableau est trié par nom, dans l'ordre alphabétique. Cliquez pour trier par ordre alphabétique inverse.",
+            "ariaLabelSortDown": "Le tableau est trié par nom, dans l'ordre alphabétique inverse. Cliquez pour trier par ordre alphabétique."
+          },
           "last-participation-date": "Dernière participation",
           "login-method": "Méthode(s) de connexion",
           "participation-count": {
@@ -967,7 +977,12 @@
           "date-of-birth": "Date de naissance",
           "first-name": "Prénom",
           "group": "Groupes",
-          "last-name": "Nom",
+          "last-name": {
+            "label": "Nom",
+            "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par nom. Cliquez pour trier par ordre alphabétique.",
+            "ariaLabelSortUp": "Le tableau est trié par nom, dans l'ordre alphabétique. Cliquez pour trier par ordre alphabétique inverse.",
+            "ariaLabelSortDown": "Le tableau est trié par nom, dans l'ordre alphabétique inverse. Cliquez pour trier par ordre alphabétique."
+          },
           "last-participation-date": "Dernière participation",
           "participation-count": {
             "label": "Nombre de participations",
