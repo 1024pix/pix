@@ -104,6 +104,7 @@ async function _createCertificationCandidates({
     const cpfBirthInformation = await sessionsImportValidationService.getValidatedCandidateBirthInformation({
       candidate: domainCertificationCandidate,
       isSco,
+      isSessionsMassImport: true,
       certificationCpfCountryRepository,
       certificationCpfCityRepository,
     });
