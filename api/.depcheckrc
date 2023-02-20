@@ -1,5 +1,12 @@
-ignores: ["bookshelf-validate", "mocha-junit-reporter", "eslint-plugin-mocha", "eslint-plugin-yml", "pino-pretty"]
-
+ignores:
+  [
+    'bookshelf-validate',
+    'mocha-junit-reporter',
+    'eslint-plugin-mocha',
+    'eslint-plugin-yml',
+    'jscodeshift',
+    'pino-pretty',
+  ]
 # "bookshelf-validate" is used in ./lib/infrastructure/bookshelf.js
 # code => bookshelf.plugin('bookshelf-validate',
 # see https://github.com/kripod/bookshelf-validate#configuration
