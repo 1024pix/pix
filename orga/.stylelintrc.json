@@ -8,7 +8,6 @@
     "no-descending-specificity": null,
     "number-max-precision": null,
     "property-no-vendor-prefix": null,
-    "rule-empty-line-before": null,
     "scss/at-import-partial-extension": null,
     "scss/double-slash-comment-whitespace-inside": null,
     "scss/no-global-function-names": null,
