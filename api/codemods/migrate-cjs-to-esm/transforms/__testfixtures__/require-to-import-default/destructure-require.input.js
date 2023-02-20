@@ -1,0 +1,1 @@
+const { method } = require("lib");

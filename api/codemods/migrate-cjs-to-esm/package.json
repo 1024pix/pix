@@ -1,0 +1,10 @@
+{
+  "name": "migrate-cjs-to-esm",
+  "type": "commonjs",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.4.3"
+  }
+}
