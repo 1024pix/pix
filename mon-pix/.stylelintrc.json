@@ -7,7 +7,6 @@
     "scss/at-extend-no-missing-placeholder": null,
     "selector-id-pattern": null,
     "selector-pseudo-class-no-unknown": null,
-    "scss/double-slash-comment-empty-line-before": null,
     "string-quotes": "single"
   }
 }
