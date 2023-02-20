@@ -173,7 +173,7 @@
 
   @media all and (-ms-high-contrast: none) {
     $ie11-modifier: 1.162;
-    $space-between-dashes: $ie11-modifier*0.6ch;
+    $space-between-dashes: $ie11-modifier * 0.6ch;
     $total-width: $nb-characters * ($ie11-modifier * 1.2ch + $space-between-dashes);
 
     width: $total-width;
@@ -187,8 +187,8 @@
       $pix-neutral-22 1.3ch,
       transparent 0,
       transparent 1.3ch + $space-between-dashes) 0 100% / #{$total-width - $space-between-dashes} 2px no-repeat;
-    background-position-x: 0.1ch*$ie11-modifier;
-    background-position-y: 2.8ch*$ie11-modifier;
+    background-position-x: 0.1ch * $ie11-modifier;
+    background-position-y: 2.8ch * $ie11-modifier;
     background-origin: content-box;
   }
 
