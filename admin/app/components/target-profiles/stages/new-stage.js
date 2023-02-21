@@ -8,6 +8,15 @@ export default class NewStage extends Component {
   @tracked titleStatus = 'default';
   @tracked messageStatus = 'default';
 
+  constructor(...args) {
+    super(...args);
+    const { stage } = this.args;
+
+    this.threshold = stage.threshold;
+    this.title = stage.title;
+    this.message = stage.message;
+  }
+
   @action
   checkThresholdValidity(event) {
     const threshold = Number(event.target.value);

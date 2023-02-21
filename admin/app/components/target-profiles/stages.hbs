@@ -20,17 +20,16 @@
             </tr>
           </thead>
           <tbody>
-            {{#each @targetProfile.stages as |stage|}}
+            {{#each @targetProfile.stages as |stage index|}}
               {{#if stage.isNew}}
                 <TargetProfiles::Stages::NewStage
+                  @setFirstStage={{(and this.setFirstStage (eq index 0))}}
                   @stage={{stage}}
                   @imageUrl={{@targetProfile.imageUrl}}
                   @title={{stage.title}}
                   @isTypeLevel={{stage.isTypeLevel}}
                   @availableLevels={{this.availableLevels}}
                   @unavailableThresholds={{this.unavailableThresholds}}
-                  @threshold={{stage.threshold}}
-                  @level={{stage.level}}
                   @setLevel={{fn this.onStageLevelChange stage}}
                   @message={{stage.message}}
                   @errors={{stage.errors}}
