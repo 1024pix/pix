@@ -8,7 +8,6 @@ const ParticipationResultCalculationJob = require('./lib/infrastructure/jobs/cam
 const SendSharedParticipationResultsToPoleEmploiJob = require('./lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob');
 const ParticipationResultCalculationJobHandler = require('./lib/infrastructure/jobs/campaign-result/ParticipationResultCalculationJobHandler');
 const SendSharedParticipationResultsToPoleEmploiHandler = require('./lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiHandler');
-const dependenciesBuilder = require('./lib/infrastructure/jobs/JobDependenciesBuilder');
 const scheduleCpfJobs = require('./lib/infrastructure/jobs/cpf-export/schedule-cpf-jobs');
 const MonitoredJobQueue = require('./lib/infrastructure/jobs/monitoring/MonitoredJobQueue');
 
@@ -30,7 +29,7 @@ async function runJobs() {
     logger.error({ event: 'pg-boss-error' }, err);
   });
   await pgBoss.start();
-  const jobQueue = new JobQueue(pgBoss, dependenciesBuilder);
+  const jobQueue = new JobQueue(pgBoss);
   const monitoredJobQueue = new MonitoredJobQueue(jobQueue);
   process.on('SIGINT', async () => {
     await monitoredJobQueue.stop();
