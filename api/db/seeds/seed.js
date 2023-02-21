@@ -112,4 +112,5 @@ exports.seed = async (knex) => {
   const campaignParticipationData = await getEligibleCampaignParticipations(50000);
   await generateKnowledgeElementSnapshots(campaignParticipationData, 1);
   await computeParticipationsResults(10, false);
+  // Scenario
 };
