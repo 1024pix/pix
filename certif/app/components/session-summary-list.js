@@ -10,6 +10,7 @@ export default class SessionSummaryList extends Component {
   @tracked currentEnrolledCandidatesCount = null;
   @service store;
   @service notifications;
+  @service intl;
 
   @action
   openSessionDeletionConfirmModal(sessionId, enrolledCandidatesCount, event) {
@@ -30,7 +31,7 @@ export default class SessionSummaryList extends Component {
     const sessionSummary = this.store.peekRecord('session-summary', this.currentSessionToBeDeletedId);
     try {
       await sessionSummary.destroyRecord();
-      this.notifications.success('La session a été supprimée avec succès.');
+      this.notifications.success(this.intl.t('pages.sessions.list.delete-modal.success'));
     } catch (err) {
       if (this._doesNotExist(err)) {
         this._handleSessionDoesNotExistsError();
