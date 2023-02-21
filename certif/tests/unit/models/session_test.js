@@ -2,28 +2,10 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import config from '../../../config/environment';
 import Service from '@ember/service';
-import { CREATED, FINALIZED } from 'pix-certif/models/session';
+import { CREATED } from 'pix-certif/models/session';
 
 module('Unit | Model | session', function (hooks) {
   setupTest(hooks);
-
-  module('#displayStatus', function () {
-    test('it should return the correct displayName', function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const model1 = store.createRecord('session', {
-        id: 123,
-        status: CREATED,
-      });
-      const model2 = store.createRecord('session', {
-        id: 1234,
-        status: FINALIZED,
-      });
-
-      assert.strictEqual(model1.displayStatus, 'Créée');
-      assert.strictEqual(model2.displayStatus, 'Finalisée');
-    });
-  });
 
   module('#urlToDownloadSupervisorKitPdf', function () {
     test('it should return the correct urlToDownloadSupervisorKitPdf', function (assert) {

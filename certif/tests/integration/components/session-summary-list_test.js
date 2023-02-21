@@ -240,9 +240,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
           await screen.findByRole('dialog');
 
           // then
-          assert
-            .dom(screen.getByRole('heading', { name: this.intl.t('pages.sessions.list.delete-modal.title') }))
-            .exists();
+          assert.dom(screen.getByRole('heading', { name: 'Supprimer la session' })).exists();
           assert
             .dom(screen.getByText('Souhaitez-vous supprimer la session', { exact: false }))
             .hasText('Souhaitez-vous supprimer la session 123 ?');
@@ -276,9 +274,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
             await screen.findByRole('dialog');
 
             // then
-            assert
-              .dom(screen.getByRole('heading', { name: this.intl.t('pages.sessions.list.delete-modal.title') }))
-              .exists();
+            assert.dom(screen.getByRole('heading', { name: 'Supprimer la session' })).exists();
             assert
               .dom(screen.getByText('sont inscrits à cette session', { exact: false }))
               .hasText('5 candidats sont inscrits à cette session');
@@ -311,9 +307,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
             await screen.findByRole('dialog');
 
             // then
-            assert
-              .dom(screen.getByRole('heading', { name: this.intl.t('pages.sessions.list.delete-modal.title') }))
-              .exists();
+            assert.dom(screen.getByRole('heading', { name: 'Supprimer la session' })).exists();
             assert
               .dom(screen.getByText('est inscrit à cette session', { exact: false }))
               .hasText('1 candidat est inscrit à cette session');
@@ -348,9 +342,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
             await screen.findByRole('dialog');
 
             // then
-            assert
-              .dom(screen.getByRole('heading', { name: this.intl.t('pages.sessions.list.delete-modal.title') }))
-              .exists();
+            assert.dom(screen.getByRole('heading', { name: 'Supprimer la session' })).exists();
             assert.dom(screen.queryByText('sont inscrits à cette session', { exact: false })).doesNotExist();
           });
         });
@@ -380,9 +372,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
             await waitForDialogClose();
 
             // then
-            assert
-              .dom(screen.queryByRole('heading', { name: this.intl.t('pages.sessions.list.delete-modal.title') }))
-              .doesNotExist();
+            assert.dom(screen.queryByRole('heading', { name: 'Supprimer la session' })).doesNotExist();
           });
         });
       });
