@@ -9,6 +9,7 @@ import { disconnect } from './db/knex-database-connection';
 import cache from './lib/infrastructure/caches/learning-content-cache';
 import temporaryStorage from './lib/infrastructure/temporary-storage/index';
 import redisMonitor from './lib/infrastructure/utils/redis-monitor';
+import { main } from './worker';
 
 let server;
 
@@ -47,7 +48,7 @@ process.on('SIGINT', () => {
   try {
     await start();
     if (process.env.START_JOB_IN_WEB_PROCESS) {
-      require('./worker.js');
+      await main();
     }
   } catch (error) {
     logger.error(error);

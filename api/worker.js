@@ -50,14 +50,17 @@ async function runJobs() {
 
   await scheduleCpfJobs(pgBoss);
 }
-const startInWebProcess = process.env.START_JOB_IN_WEB_PROCESS;
-const isEntryPointFromOtherFile = require.main.filename !== __filename;
-if (!startInWebProcess || (startInWebProcess && isEntryPointFromOtherFile)) {
-  runJobs();
-} else {
-  logger.error(
-    'Worker process is started in the web process. Please unset the START_JOB_IN_WEB_PROCESS environment variable to start a dedicated worker process.'
-  );
-  // eslint-disable-next-line node/no-process-exit, no-process-exit
-  process.exit(1);
+
+export async function main() {
+  const startInWebProcess = process.env.START_JOB_IN_WEB_PROCESS;
+  const isEntryPointFromOtherFile = require.main.filename !== __filename;
+  if (!startInWebProcess || (startInWebProcess && isEntryPointFromOtherFile)) {
+    runJobs();
+  } else {
+    logger.error(
+      'Worker process is started in the web process. Please unset the START_JOB_IN_WEB_PROCESS environment variable to start a dedicated worker process.'
+    );
+    // eslint-disable-next-line node/no-process-exit, no-process-exit
+    process.exit(1);
+  }
 }

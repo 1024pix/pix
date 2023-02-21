@@ -5,11 +5,14 @@ extends:
   - 'plugin:prettier/recommended'
   - 'plugin:chai-expect/recommended'
   - 'plugin:node/recommended-module'
+
+parser: '@babel/eslint-parser'
 parserOptions:
   ecmaVersion: 2020
   requireConfigFile: false
-
-parser: '@babel/eslint-parser'
+  babelOptions:
+    plugins:
+      - '@babel/plugin-syntax-import-assertions'
 
 globals:
   include: true

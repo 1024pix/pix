@@ -1,4 +1,6 @@
 import { readFile } from 'fs/promises';
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 const embeddedFonts = {};
 const COVER_PAGE_VERSION_TEXT_FONT_SIZE = 20;

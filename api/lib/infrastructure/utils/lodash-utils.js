@@ -1,4 +1,5 @@
-import { runInContext } from 'lodash';
+import lodash from 'lodash';
+const { runInContext } = lodash;
 const _ = runInContext();
 
 _.mixin({

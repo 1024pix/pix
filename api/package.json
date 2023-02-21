@@ -89,6 +89,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.18.2",
+    "@babel/plugin-syntax-import-assertions": "^7.20.0",
     "@ls-lint/ls-lint": "^1.11.2",
     "chai": "^4.3.6",
     "chai-as-promised": "^7.1.1",
@@ -156,7 +157,7 @@
     "postdeploy": "npm run db:migrate",
     "preinstall": "npx check-engine",
     "scalingo-postbuild": "node scripts/generate-cron > cron.json",
-    "start": "node index.js",
+    "start": "node --experimental-specifier-resolution=node --trace-warnings index.js",
     "start:watch": "nodemon index.js",
     "start:job": "node worker.js",
     "start:job:watch": "nodemon worker.js",

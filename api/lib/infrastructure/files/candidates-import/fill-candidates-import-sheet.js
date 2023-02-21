@@ -1,5 +1,7 @@
 import writeOdsUtils from '../../utils/ods/write-ods-utils';
 import readOdsUtils from '../../utils/ods/read-ods-utils';
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 import {
   EXTRA_EMPTY_CANDIDATE_ROWS,

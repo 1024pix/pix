@@ -4,6 +4,8 @@ import writeOdsUtils from '../../infrastructure/utils/ods/write-ods-utils';
 import readOdsUtils from '../../infrastructure/utils/ods/read-ods-utils';
 import sessionXmlService from '../services/session-xml-service';
 import { UserNotAuthorizedToAccessEntityError } from '../errors';
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 import {
   EXTRA_EMPTY_CANDIDATE_ROWS,

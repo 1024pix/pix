@@ -1,4 +1,4 @@
-import Pack from '../../../package';
+import Pack from '../../../package.json' assert { type: 'json' };
 import config from '../../config';
 import hapiSentry from 'hapi-sentry';
 

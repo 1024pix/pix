@@ -1,4 +1,6 @@
 /* eslint-disable node/no-process-env */
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 import path from 'path';
 import moment from 'moment';
 import ms from 'ms';

@@ -2,8 +2,8 @@ import dayjs from 'dayjs';
 import tokenService from './token-service';
 import mailer from '../../infrastructure/mailers/mailer';
 import settings from '../../config';
-import frTranslations from '../../../translations/fr';
-import enTranslations from '../../../translations/en';
+import frTranslations from '../../../translations/fr.json' assert { type: 'json' };
+import enTranslations from '../../../translations/en.json' assert { type: 'json' };
 
 import { LOCALE } from '../../domain/constants';
 

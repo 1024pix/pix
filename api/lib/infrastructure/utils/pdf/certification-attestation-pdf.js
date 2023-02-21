@@ -7,6 +7,8 @@ import bluebird from 'bluebird';
 import axios from 'axios';
 import AttestationViewModel from './AttestationViewModel';
 import { CertificationAttestationGenerationError } from '../../../domain/errors';
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 const fonts = {
   openSansBold: 'OpenSans-Bold.ttf',

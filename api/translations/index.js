@@ -1,4 +1,4 @@
-import fr from './fr';
-import en from './en';
+import fr from './fr.json' assert { type: 'json' };
+import en from './en.json' assert { type: 'json' };
 
 export default { fr, en };

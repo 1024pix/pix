@@ -1,5 +1,5 @@
 import Boom from 'boom';
-import packageJSON from '../../../package.json';
+import packageJSON from '../../../package.json' assert { type: 'json' };
 import settings from '../../config';
 import redisMonitor from '../../infrastructure/utils/redis-monitor';
 import { knex } from '../../../db/knex-database-connection';

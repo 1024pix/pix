@@ -12,14 +12,11 @@ import { handleFailAction } from './lib/validate';
 import monitoringTools from './lib/infrastructure/monitoring-tools';
 import deserializer from './lib/infrastructure/serializers/jsonapi/deserializer';
 import { knex } from './db/knex-database-connection';
+import config from './lib/config';
 
 monitoringTools.installHapiHook();
 
-let config;
-
 const createServer = async () => {
-  loadConfiguration();
-
   const server = createBareServer();
 
   if (settings.logOpsMetrics) await enableOpsMetrics(server);
@@ -81,10 +78,6 @@ const enableOpsMetrics = async function (server) {
 
   oppsy.start(config.logging.emitOpsEventEachSeconds * 1000);
   server.oppsy = oppsy;
-};
-
-const loadConfiguration = function () {
-  config = require('./lib/config');
 };
 
 const setupErrorHandling = function (server) {
