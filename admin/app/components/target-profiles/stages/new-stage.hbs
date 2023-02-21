@@ -3,7 +3,6 @@
     {{#if @isTypeLevel}}
       <Stages::StageLevelSelect
         @availableLevels={{@availableLevels}}
-        @value={{@level}}
         @onChange={{@setLevel}}
         class="stages-table__level-select"
         required="true"
@@ -16,7 +15,6 @@
         @validationStatus={{this.thresholdStatus}}
         @requiredLabel="Champ obligatoire"
         type="number"
-        @value={{@threshold}}
         @ariaLabel="Seuil du palier"
         {{on "focusout" this.checkThresholdValidity}}
       />
@@ -28,7 +26,6 @@
       @errorMessage="Le titre est vide"
       @validationStatus={{this.titleStatus}}
       @requiredLabel="Champ obligatoire"
-      @value={{@title}}
       @ariaLabel="Titre du palier"
       {{on "focusout" this.checkTitleValidity}}
     />
@@ -39,7 +36,6 @@
       @errorMessage="Le message est vide"
       @validationStatus={{this.messageStatus}}
       @requiredLabel="Champ obligatoire"
-      @value={{@message}}
       @ariaLabel="Message du palier"
       {{on "focusout" this.checkMessageValidity}}
     />
