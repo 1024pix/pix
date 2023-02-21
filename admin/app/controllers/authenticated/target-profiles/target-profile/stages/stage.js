@@ -14,6 +14,10 @@ export default class StageController extends Controller {
     return difference(allLevels, unavailableLevels);
   }
 
+  get unavailableThresholds() {
+    return this.model.targetProfile.stages.map((stage) => (this.model.stage.id === stage.id ? null : stage.threshold));
+  }
+
   @action
   toggleEditMode() {
     this.isEditMode = !this.isEditMode;

@@ -12,13 +12,17 @@
           @value={{this.level}}
         />
       {{else}}
-        <Input
-          id="threshold-or-level"
-          @type="number"
-          class="form-control"
+        <PixInput
+          @id="threshold-or-level"
+          @errorMessage="Le seuil est invalide"
+          @validationStatus={{this.thresholdStatus}}
+          @requiredLabel="Champ obligatoire"
+          type="number"
           @value={{this.threshold}}
+          @ariaLabel="Seuil du palier"
           min="0"
           max="100"
+          {{on "focusout" this.checkThresholdValidity}}
         />
       {{/if}}
       <br />
@@ -26,13 +30,27 @@
       <label for="title" class="form-field__label">
         Titre
       </label>
-      <Input id="title" @type="text" class="form-control" @value={{this.title}} />
+      <PixInput
+        @id="title"
+        @errorMessage="Le titre est vide"
+        @validationStatus={{this.titleStatus}}
+        @requiredLabel="Champ obligatoire"
+        @value={{this.title}}
+        type="text"
+        @ariaLabel="Titre du palier"
+        {{on "focusout" this.checkTitleValidity}}
+      />
       <br />
 
       <label for="message" class="form-field__label">
         Message
       </label>
-      <Textarea id="message" class="form-control" @value={{this.message}} rows="4" />
+      <PixTextarea
+        id="message"
+        @value={{this.message}}
+        @errorMessage={{this.messageError}}
+        {{on "focusout" this.checkMessageValidity}}
+      />
       <br />
 
       <label for="prescriberTitle" class="form-field__label">
