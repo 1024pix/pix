@@ -11,15 +11,13 @@ export default class NewStage extends Component {
   @action
   checkThresholdValidity(event) {
     const threshold = Number(event.target.value);
-    if (!isInteger(threshold)) {
-      this.thresholdStatus = 'error';
-      return;
-    }
-    if (this.args.unavailableThresholds.includes(threshold)) {
-      this.thresholdStatus = 'error';
-      return;
-    }
-    if (threshold < 0 || threshold > 100) {
+    if (
+      !isInteger(threshold) ||
+      this.args.unavailableThresholds.includes(threshold) ||
+      threshold < 0 ||
+      threshold > 100
+    ) {
+      this.args.stage.set('threshold', null);
       this.thresholdStatus = 'error';
       return;
     }
@@ -34,6 +32,7 @@ export default class NewStage extends Component {
 
     if (!title) {
       this.titleStatus = 'error';
+      this.args.stage.set('title', null);
       return;
     }
     this.titleStatus = 'success';
@@ -46,6 +45,7 @@ export default class NewStage extends Component {
 
     if (!message) {
       this.messageStatus = 'error';
+      this.args.stage.set('message', null);
       return;
     }
     this.messageStatus = 'success';
