@@ -12,8 +12,10 @@
         <h2 class="page-section__title">Archiver des campagnes en masse</h2>
       </header>
       <PixMessage class="tools__warning" @type="warning" @withIcon={{true}}>
-        L'envoi du fichier (format .csv) va archiver toutes les campagnes. Le fichier ne doit comporter qu'une seule
-        colonne à renseigner correspondant aux id des campagnes.
+        L'envoi du fichier .csv via le bouton ci-dessous va archiver toutes campagnes renseignées.<br />
+        Le fichier ne doit comporter qu'une seule colonne, correspondant aux id des campagnes, et avoir comme en-tête
+        <strong>“campaignId”</strong>
+        dans la première cellule de la colonne.
       </PixMessage>
       <PixButtonUpload @id="file-upload" @onChange={{this.archiveCampaigns}} accept=".csv">
         Envoyer le fichier des campagnes à archiver
