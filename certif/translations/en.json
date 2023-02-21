@@ -2,7 +2,7 @@
   "common": {
     "actions": {
       "cancel": "Cancel",
-      "close": "Fermer",
+      "close": "Close",
       "continue": "Continuer",
       "delete": "Supprimer",
       "quit": "Quitter",
@@ -227,6 +227,18 @@
           "session-candidate": "Candidat",
           "session-password": "Mot de passe de session",
           "session-update": "Modifier les informations de la session {sessionId}"
+        }
+      },
+      "candidates": {
+        "detail-modal": {
+          "actions": {
+            "close-extra-information": "Close candidate's detail window modal"
+          }
+        },
+        "add-modal": {
+          "actions": {
+            "close-extra-information": "Close add candidate window modal"
+          }
         }
       },
       "new": {
