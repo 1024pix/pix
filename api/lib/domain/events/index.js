@@ -7,52 +7,89 @@ import _ from 'lodash';
 import { performance } from 'perf_hooks';
 import eventBusBuilder from '../../infrastructure/events/EventBusBuilder';
 
-const dependencies = {
-  assessmentRepository: require('../../infrastructure/repositories/assessment-repository'),
-  assessmentResultRepository: require('../../infrastructure/repositories/assessment-result-repository'),
-  badgeAcquisitionRepository: require('../../infrastructure/repositories/badge-acquisition-repository'),
-  badgeRepository: require('../../infrastructure/repositories/badge-repository'),
-  campaignRepository: require('../../infrastructure/repositories/campaign-repository'),
-  campaignParticipationRepository: require('../../infrastructure/repositories/campaign-participation-repository'),
-  campaignParticipationResultRepository: require('../../infrastructure/repositories/campaign-participation-result-repository'),
-  certificationAssessmentRepository: require('../../infrastructure/repositories/certification-assessment-repository'),
-  certificationCenterRepository: require('../../infrastructure/repositories/certification-center-repository'),
-  certificationCourseRepository: require('../../infrastructure/repositories/certification-course-repository'),
-  certificationIssueReportRepository: require('../../infrastructure/repositories/certification-issue-report-repository'),
-  competenceMarkRepository: require('../../infrastructure/repositories/competence-mark-repository'),
-  competenceRepository: require('../../infrastructure/repositories/competence-repository'),
-  complementaryCertificationCourseRepository: require('../../infrastructure/repositories/complementary-certification-course-repository'),
-  complementaryCertificationScoringCriteriaRepository: require('../../infrastructure/repositories/complementary-certification-scoring-criteria-repository'),
-  knowledgeElementRepository: require('../../infrastructure/repositories/knowledge-element-repository'),
-  organizationRepository: require('../../infrastructure/repositories/organization-repository'),
-  poleEmploiSendingRepository: require('../../infrastructure/repositories/pole-emploi-sending-repository'),
-  scoringCertificationService: require('../services/scoring/scoring-certification-service'),
-  skillRepository: require('../../infrastructure/repositories/skill-repository'),
-  supervisorAccessRepository: require('../../infrastructure/repositories/supervisor-access-repository'),
-  targetProfileRepository: require('../../infrastructure/repositories/target-profile-repository'),
-  userRepository: require('../../infrastructure/repositories/user-repository'),
-  participantResultsSharedRepository: require('../../infrastructure/repositories/participant-results-shared-repository'),
-  poleEmploiNotifier: require('../../infrastructure/externals/pole-emploi/pole-emploi-notifier'),
-  juryCertificationSummaryRepository: require('../../infrastructure/repositories/jury-certification-summary-repository'),
-  finalizedSessionRepository: require('../../infrastructure/repositories/sessions/finalized-session-repository'),
-  challengeRepository: require('../../infrastructure/repositories/challenge-repository'),
-  logger: require('../../infrastructure/logger'),
-};
+import assessmentRepository from '../../infrastructure/repositories/assessment-repository';
+import assessmentResultRepository from '../../infrastructure/repositories/assessment-result-repository';
+import badgeAcquisitionRepository from '../../infrastructure/repositories/badge-acquisition-repository';
+import badgeRepository from '../../infrastructure/repositories/badge-repository';
+import campaignRepository from '../../infrastructure/repositories/campaign-repository';
+import campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository';
+import campaignParticipationResultRepository from '../../infrastructure/repositories/campaign-participation-result-repository';
+import certificationAssessmentRepository from '../../infrastructure/repositories/certification-assessment-repository';
+import certificationCenterRepository from '../../infrastructure/repositories/certification-center-repository';
+import certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository';
+import certificationIssueReportRepository from '../../infrastructure/repositories/certification-issue-report-repository';
+import competenceMarkRepository from '../../infrastructure/repositories/competence-mark-repository';
+import competenceRepository from '../../infrastructure/repositories/competence-repository';
+import complementaryCertificationCourseRepository from '../../infrastructure/repositories/complementary-certification-course-repository';
+import complementaryCertificationScoringCriteriaRepository from '../../infrastructure/repositories/complementary-certification-scoring-criteria-repository';
+import knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository';
+import organizationRepository from '../../infrastructure/repositories/organization-repository';
+import poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository';
+import scoringCertificationService from '../services/scoring/scoring-certification-service';
+import skillRepository from '../../infrastructure/repositories/skill-repository';
+import supervisorAccessRepository from '../../infrastructure/repositories/supervisor-access-repository';
+import targetProfileRepository from '../../infrastructure/repositories/target-profile-repository';
+import userRepository from '../../infrastructure/repositories/user-repository';
+import participantResultsSharedRepository from '../../infrastructure/repositories/participant-results-shared-repository';
+import poleEmploiNotifier from '../../infrastructure/externals/pole-emploi/pole-emploi-notifier';
+import juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository';
+import finalizedSessionRepository from '../../infrastructure/repositories/sessions/finalized-session-repository';
+import challengeRepository from '../../infrastructure/repositories/challenge-repository';
+import logger from '../../infrastructure/logger';
 
-const partnerCertificationScoringRepository = injectDependencies(
-  require('../../infrastructure/repositories/partner-certification-scoring-repository'),
+const dependencies = {
+  assessmentRepository,
+  assessmentResultRepository,
+  badgeAcquisitionRepository,
+  badgeRepository,
+  campaignRepository,
+  campaignParticipationRepository,
+  campaignParticipationResultRepository,
+  certificationAssessmentRepository,
+  certificationCenterRepository,
+  certificationCourseRepository,
+  certificationIssueReportRepository,
+  competenceMarkRepository,
+  competenceRepository,
+  complementaryCertificationCourseRepository,
+  complementaryCertificationScoringCriteriaRepository,
+  knowledgeElementRepository,
+  organizationRepository,
+  poleEmploiSendingRepository,
+  scoringCertificationService,
+  skillRepository,
+  supervisorAccessRepository,
+  targetProfileRepository,
+  userRepository,
+  participantResultsSharedRepository,
+  poleEmploiNotifier,
+  juryCertificationSummaryRepository,
+  finalizedSessionRepository,
+  challengeRepository,
+  logger,
+};
+import partnerCertificationScoringRepository from '../../infrastructure/repositories/partner-certification-scoring-repository';
+
+dependencies.partnerCertificationScoringRepository = injectDependencies(
+  partnerCertificationScoringRepository,
   dependencies
 );
-dependencies.partnerCertificationScoringRepository = partnerCertificationScoringRepository;
+import handleAutoJury from './handle-auto-jury';
+import handleCertificationScoring from './handle-certification-scoring';
+import handleCertificationRescoring from './handle-certification-rescoring';
+import handleComplementaryCertificationsScoring from './handle-complementary-certifications-scoring';
+import handlePoleEmploiParticipationFinished from './handle-pole-emploi-participation-finished';
+import handlePoleEmploiParticipationStarted from './handle-pole-emploi-participation-started';
+import handleSessionFinalized from './handle-session-finalized';
 
 const handlersToBeInjected = {
-  handleAutoJury: require('./handle-auto-jury'),
-  handleCertificationScoring: require('./handle-certification-scoring'),
-  handleCertificationRescoring: require('./handle-certification-rescoring'),
-  handleComplementaryCertificationsScoring: require('./handle-complementary-certifications-scoring'),
-  handlePoleEmploiParticipationFinished: require('./handle-pole-emploi-participation-finished'),
-  handlePoleEmploiParticipationStarted: require('./handle-pole-emploi-participation-started'),
-  handleSessionFinalized: require('./handle-session-finalized'),
+  handleAutoJury,
+  handleCertificationScoring,
+  handleCertificationRescoring,
+  handleComplementaryCertificationsScoring,
+  handlePoleEmploiParticipationFinished,
+  handlePoleEmploiParticipationStarted,
+  handleSessionFinalized,
 };
 
 function buildEventDispatcher(handlersStubs) {
