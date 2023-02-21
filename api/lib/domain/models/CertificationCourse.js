@@ -1,5 +1,7 @@
 import _ from 'lodash';
-const Joi = require('joi').extend(require('@joi/date'));
+import BaseJoi from 'joi';
+import JoiDate from '@joi/date';
+const Joi = BaseJoi.extend(JoiDate);
 import { EntityValidationError } from '../errors';
 
 const ABORT_REASONS = ['candidate', 'technical'];

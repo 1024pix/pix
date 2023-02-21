@@ -1,4 +1,6 @@
-const Joi = require('joi').extend(require('@joi/date'));
+import BaseJoi from 'joi';
+import JoiDate from '@joi/date';
+const Joi = BaseJoi.extend(JoiDate);
 
 import { sendJsonApiError, PayloadTooLargeError, NotFoundError, BadRequestError } from '../http-errors';
 import securityPreHandlers from '../security-pre-handlers';

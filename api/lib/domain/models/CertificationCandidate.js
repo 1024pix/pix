@@ -1,6 +1,8 @@
 import isNil from 'lodash/isNil';
 import endsWith from 'lodash/endsWith';
-const Joi = require('joi').extend(require('@joi/date'));
+import BaseJoi from 'joi';
+import JoiDate from '@joi/date';
+const Joi = BaseJoi.extend(JoiDate);
 
 import {
   InvalidCertificationCandidate,

@@ -1,4 +1,6 @@
-const Joi = require('joi').extend(require('@joi/date'));
+import BaseJoi from 'joi';
+import JoiDate from '@joi/date';
+const Joi = BaseJoi.extend(JoiDate);
 
 import { sendJsonApiError, UnprocessableEntityError, BadRequestError } from '../http-errors';
 import scoOrganizationLearnerController from './sco-organization-learner-controller';
