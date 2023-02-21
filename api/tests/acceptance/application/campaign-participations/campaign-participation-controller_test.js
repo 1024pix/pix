@@ -388,7 +388,7 @@ describe('Acceptance | API | Campaign Participations', function () {
       expect(response.statusCode).to.equal(200);
       expect(response.result.data[0].type).to.equal('trainings');
       expect(response.result.data[0].attributes).to.deep.equal({
-        duration: { hours: 6 },
+        duration: { days: 0, hours: 6, minutes: 0 },
         link: training.link,
         locale: training.locale,
         title: training.title,

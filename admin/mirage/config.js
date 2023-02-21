@@ -29,11 +29,12 @@ import {
 import { getPaginatedJuryCertificationSummariesBySessionId } from './handlers/get-jury-certification-summaries-by-session-id';
 import { createAdminMember } from './handlers/admin-members';
 import {
-  findPaginatedTrainingSummaries,
-  createTraining,
-  getTraining,
-  getTargetProfileSummariesForTraining,
   attachTargetProfilesToTraining,
+  createTraining,
+  findPaginatedTrainingSummaries,
+  getTargetProfileSummariesForTraining,
+  getTraining,
+  updateTraining,
 } from './handlers/trainings';
 
 export default function () {
@@ -308,6 +309,7 @@ export default function () {
   this.get('/admin/training-summaries', findPaginatedTrainingSummaries);
   this.post('/admin/trainings', createTraining);
   this.get('/admin/trainings/:id', getTraining);
+  this.patch('/admin/trainings/:id', updateTraining);
   this.get('/admin/trainings/:id/target-profile-summaries', getTargetProfileSummariesForTraining);
   this.post('/admin/trainings/:id/attach-target-profiles', attachTargetProfilesToTraining);
 

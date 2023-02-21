@@ -68,10 +68,21 @@ function attachTargetProfilesToTraining(schema, request) {
   return new Response(204);
 }
 
+function updateTraining(schema, request) {
+  const trainingId = request.params.id;
+  const params = JSON.parse(request.requestBody);
+
+  const training = schema.trainings.find(trainingId);
+  training.update(params.data.attributes);
+
+  return training;
+}
+
 export {
   attachTargetProfilesToTraining,
-  findPaginatedTrainingSummaries,
   createTraining,
-  getTraining,
+  findPaginatedTrainingSummaries,
   getTargetProfileSummariesForTraining,
+  getTraining,
+  updateTraining,
 };

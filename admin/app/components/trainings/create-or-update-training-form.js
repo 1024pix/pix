@@ -17,9 +17,19 @@ class Form {
   @tracked locale;
   @tracked editorLogoUrl;
   @tracked editorName;
+
+  constructor({ title, link, type, duration, locale, editorLogoUrl, editorName } = {}) {
+    this.title = title || null;
+    this.link = link || null;
+    this.type = type || null;
+    this.duration = duration || { days: 0, hours: 0, minutes: 0 };
+    this.locale = locale || null;
+    this.editorLogoUrl = editorLogoUrl?.split('/').at(-1) || null;
+    this.editorName = editorName || null;
+  }
 }
 
-export default class CreateTrainingForm extends Component {
+export default class CreateOrUpdateTrainingForm extends Component {
   @service notifications;
 
   @tracked submitting = false;
@@ -28,7 +38,7 @@ export default class CreateTrainingForm extends Component {
     super(...arguments);
     this.optionsTypeList = optionsTypeList;
     this.optionsLocaleList = optionsLocaleList;
-    this.form = new Form();
+    this.form = new Form(this.args.model);
   }
 
   @action

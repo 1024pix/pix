@@ -172,6 +172,9 @@ exports.register = async (server) => {
               type: Joi.string().valid('trainings'),
             }).required(),
           }).required(),
+          options: {
+            allowUnknown: true,
+          },
         },
         tags: ['api', 'admin', 'trainings'],
         notes: [
