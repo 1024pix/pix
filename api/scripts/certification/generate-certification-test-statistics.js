@@ -1,4 +1,5 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 import _ from 'lodash';
 const fp = require('lodash/fp').convert({ cap: false });

@@ -1,6 +1,7 @@
 'use strict';
 import _ from 'lodash';
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 import { knex } from '../db/knex-database-connection';
 import Assessment from '../lib/domain/models/Assessment';
 

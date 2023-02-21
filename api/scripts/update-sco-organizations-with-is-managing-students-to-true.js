@@ -2,7 +2,8 @@
 // To use on file with columns |externalId|
 
 'use strict';
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 import { disconnect } from '../db/knex-database-connection';
 import request from 'request-promise-native';
 import {

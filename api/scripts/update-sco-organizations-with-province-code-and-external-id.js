@@ -1,5 +1,6 @@
 'use strict';
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 import path from 'path';
 import fs from 'fs';
 import { promises } from 'fs';

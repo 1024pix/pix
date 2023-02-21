@@ -1,4 +1,5 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 import PgBoss from 'pg-boss';
 import logger from '../../lib/infrastructure/logger';
 import { disconnect } from '../../db/knex-database-connection';

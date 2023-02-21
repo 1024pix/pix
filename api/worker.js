@@ -1,4 +1,5 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 import * as url from 'url';
 import PgBoss from 'pg-boss';
 import _ from 'lodash';

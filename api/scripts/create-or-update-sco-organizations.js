@@ -2,7 +2,8 @@
 // To use on file with columns |externalId, name|
 
 'use strict';
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 import request from 'request-promise-native';
 import logoUrl from './logo/default-sco-organization-logo-base64';
 import {

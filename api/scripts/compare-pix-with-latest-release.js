@@ -1,4 +1,5 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 import _ from 'lodash';
 import { calculateScoringInformationForCompetence } from '../lib/domain/services/scoring/scoring-service';
 import buildKnowledgeElement from '../db/database-builder/factory/build-knowledge-element';

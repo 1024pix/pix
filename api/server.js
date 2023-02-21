@@ -1,4 +1,5 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 import Hapi from '@hapi/hapi';
 import Oppsy from 'oppsy';
 import settings from './lib/config';

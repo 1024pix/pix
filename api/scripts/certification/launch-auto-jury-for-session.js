@@ -1,5 +1,6 @@
 'use strict';
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 import { knex, disconnect } from '../../db/knex-database-connection';
 import SessionFinalized from '../../lib/domain/events/SessionFinalized';
 import certificationAssessmentRepository from '../../lib/infrastructure/repositories/certification-assessment-repository';

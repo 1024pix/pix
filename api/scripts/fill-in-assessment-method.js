@@ -1,4 +1,5 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 import { knex } from '../db/knex-database-connection';
 import logger from '../lib/infrastructure/logger';

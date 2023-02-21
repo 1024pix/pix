@@ -1,4 +1,5 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 import logger from '../../lib/infrastructure/logger';
 import cache from '../../lib/infrastructure/caches/learning-content-cache';
 import { knex, disconnect } from '../../db/knex-database-connection';

@@ -2,7 +2,8 @@
 // To use on file with columns |organizationId, tagName|
 
 'use strict';
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 import organizationTagRepository from '../lib/infrastructure/repositories/organization-tag-repository';
 import tagRepository from '../lib/infrastructure/repositories/tag-repository';
 import OrganizationTag from '../lib/domain/models/OrganizationTag';

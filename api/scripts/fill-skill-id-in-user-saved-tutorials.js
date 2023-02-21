@@ -1,4 +1,5 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 import groupBy from 'lodash/groupBy';
 import { knex, disconnect } from '../db/knex-database-connection';
 import UserSavedTutorial from '../lib/domain/models/UserSavedTutorial';

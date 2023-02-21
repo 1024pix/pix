@@ -1,4 +1,5 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 import * as url from 'url';
 import { performance } from 'perf_hooks';
 import logger from '../lib/infrastructure/logger';

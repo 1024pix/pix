@@ -2,7 +2,8 @@
 // To use on file with columns |type, externalId, name, provinceCode, credit, emailInvitations, emailForSCOActivation, organizationInvitationRole, locale, tags, createdBy, targetProfiles, isManagingStudents, identityProviderForCampaigns, DPOFirstName, DPOLastName, DPOEmail|
 
 'use strict';
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 import { checkCsvHeader, parseCsvWithHeader } from './helpers/csvHelpers';
 import temporaryStorage from '../lib/infrastructure/temporary-storage';

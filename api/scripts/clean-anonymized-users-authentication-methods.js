@@ -1,5 +1,6 @@
 'use strict';
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 import _ from 'lodash';
 import bluebird from 'bluebird';

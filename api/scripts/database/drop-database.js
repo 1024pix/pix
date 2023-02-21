@@ -1,4 +1,5 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 import logger from '../../lib/infrastructure/logger';
 import PgClient from '../PgClient';
 import { PGSQL_NON_EXISTENT_DATABASE_ERROR } from '../../db/pgsql-errors';

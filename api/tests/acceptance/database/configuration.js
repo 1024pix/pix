@@ -1,4 +1,5 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 import { parse as parsePostgresqlConnectionString } from 'pg-connection-string';
 
 const databaseToLint = {

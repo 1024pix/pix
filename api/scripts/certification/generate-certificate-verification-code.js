@@ -1,5 +1,6 @@
 'use strict';
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 import yargs from 'yargs';
 import { knex, disconnect } from '../../db/knex-database-connection';
 import bluebird from 'bluebird';
