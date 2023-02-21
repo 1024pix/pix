@@ -3,7 +3,7 @@
     "actions": {
       "cancel": "Cancel",
       "close": "Close",
-      "continue": "Continuer",
+      "continue": "Continue",
       "delete": "Supprimer",
       "quit": "Quitter",
       "update": "Modifier"
