@@ -13,10 +13,11 @@ const PROGRESSION = { STARTED: 0, FINISHED: 100 };
 const PROFILE_TYPES = { DI: 'DI', PC: 'PC', CP: 'CP' };
 
 class PoleEmploiPayload {
-  constructor({ individu, campagne, test }) {
+  constructor({ individu, campagne, test, badges }) {
     this.individu = individu;
     this.campagne = campagne;
     this.test = test;
+    this.badges = badges;
   }
 
   static buildForParticipationStarted({ user, campaign, targetProfile, participation }) {
@@ -35,11 +36,20 @@ class PoleEmploiPayload {
     });
   }
 
-  static buildForParticipationShared({ user, campaign, targetProfile, participation, participationResult }) {
+  static buildForParticipationShared({
+    user,
+    campaign,
+    targetProfile,
+    participation,
+    participationResult,
+    badges,
+    badgeAcquiredIds,
+  }) {
     return new PoleEmploiPayload({
       individu: _buildIndividu({ user }),
       campagne: _buildCampaign({ campaign }),
       test: _buildTest({ etat: TEST_STATE.SHARED, targetProfile, participation, participationResult }),
+      badges: _buildBadge({ badges, badgeAcquiredIds }),
     });
   }
 
@@ -48,8 +58,23 @@ class PoleEmploiPayload {
       campagne: this.campagne,
       individu: this.individu,
       test: this.test,
+      badges: this.badges,
     });
   }
+}
+
+function _buildBadge({ badges, badgeAcquiredIds }) {
+  return badges.map((badge) => {
+    return {
+      cle: badge.key,
+      titre: badge.title,
+      message: badge.message,
+      imageUrl: badge.imageUrl,
+      messageAlternatif: badge.altMessage,
+      certifiable: badge.isCertifiable,
+      obtenu: badgeAcquiredIds.includes(badge.id),
+    };
+  });
 }
 
 function _buildIndividu({ user }) {
