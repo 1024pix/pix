@@ -156,18 +156,23 @@ module('Acceptance | Target Profile Insights', function (hooks) {
           await clickByName('Nouveau palier');
 
           const [firstStageTitleInput, secondStageTitleInput] = screen.getAllByLabelText('Titre du palier');
-          const [firstStageLevelButton] = screen.getAllByLabelText('Niveau du palier');
+          const [firstStageLevelButton, secondStageLevelButton] = screen.getAllByLabelText('Niveau du palier');
           const [firstStageLevelMessage, secondStageLevelMessage] = screen.getAllByLabelText('Message du palier');
           await fillIn(firstStageTitleInput, 'mon premier palier');
           await fillIn(secondStageTitleInput, 'mon deuxième palier');
-          await click(firstStageLevelButton);
+
+          await click(secondStageLevelButton);
           await screen.findByRole('listbox');
           await click(screen.getByRole('option', { name: '3' }));
+          await waitForElementToBeRemoved(() => screen.queryByRole('listbox'));
+
           await fillIn(firstStageLevelMessage, 'mon message un');
           await fillIn(secondStageLevelMessage, 'mon message deux');
+
           await clickByName('Enregistrer');
 
           // then
+          assert.true(firstStageLevelButton.hasAttributes('aria-disabled', 'true'));
           assert.dom(screen.getByText('mon premier palier')).exists();
           assert.dom(screen.getByText('mon deuxième palier')).exists();
           assert.dom(screen.getByText('3')).exists();
@@ -229,16 +234,16 @@ module('Acceptance | Target Profile Insights', function (hooks) {
           const [firstStageLevelMessage, secondStageLevelMessage] = screen.getAllByLabelText('Message du palier');
           await fillIn(firstStageTitleInput, 'mon premier palier');
           await fillIn(secondStageTitleInput, 'mon deuxième palier');
-          await fillIn(firstStageThresholdInput, 20);
           await fillIn(secondStageThresholdInput, 50);
           await fillIn(firstStageLevelMessage, 'mon message 1');
           await fillIn(secondStageLevelMessage, 'mon message 2');
           await clickByName('Enregistrer');
 
           // then
+          assert.true(firstStageThresholdInput.hasAttributes('value', '0'));
           assert.dom(screen.getByText('mon premier palier')).exists();
           assert.dom(screen.getByText('mon deuxième palier')).exists();
-          assert.dom(screen.getByText(20)).exists();
+          assert.dom(screen.getByText(0)).exists();
           assert.dom(screen.getByText(50)).exists();
           assert.dom(screen.getByText('mon message 1')).exists();
           assert.dom(screen.getByText('mon message 2')).exists();
