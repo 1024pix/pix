@@ -229,6 +229,18 @@
           "session-update": "Modifier les informations de la session {sessionId}"
         }
       },
+      "candidates": {
+        "detail-modal": {
+          "actions": {
+            "close-extra-information": "Fermer la fenêtre de détail du candidat"
+          }
+        },
+        "add-modal": {
+          "actions": {
+            "close-extra-information": "Fermer la modale d'ajout de candidat"
+          }
+        }
+      },
       "new": {
         "title": "Création d’une session de certification",
         "actions": {
