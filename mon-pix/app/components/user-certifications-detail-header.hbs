@@ -61,9 +61,9 @@
             <PixTooltip @position="bottom" @isInline={{true}} @id="verification-code-copy-button-tooltip">
               <:triggerElement>
                 <CopyButton
-                  @clipboardText={{@certification.verificationCode}}
-                  @success={{this.clipboardSuccess}}
-                  @classNames="icon-button"
+                  @text={{@certification.verificationCode}}
+                  @onSuccess={{this.clipboardSuccess}}
+                  class="icon-button"
                   aria-describedby="verification-code-copy-button-tooltip"
                 >
                   <FaIcon
