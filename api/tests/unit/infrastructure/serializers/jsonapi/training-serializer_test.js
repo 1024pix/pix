@@ -14,7 +14,9 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
             link: 'https://example.net',
             type: 'webinar',
             duration: {
+              days: 0,
               hours: 5,
+              minutes: 0,
             },
             locale: 'fr-fr',
             'editor-name': 'Ministère education nationale',
@@ -59,7 +61,9 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
             link: 'https://example.net',
             type: 'webinar',
             duration: {
+              days: 0,
               hours: 5,
+              minutes: 0,
             },
             locale: 'fr-fr',
             'editor-name': 'Ministère education nationale',

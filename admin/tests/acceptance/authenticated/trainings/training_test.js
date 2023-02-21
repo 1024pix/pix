@@ -34,7 +34,7 @@ module('Acceptance | Trainings | Training', function (hooks) {
         title: 'Devenir tailleur de citrouille',
         link: 'http://www.example2.net',
         type: 'autoformation',
-        duration: '10:00:00',
+        duration: { days: 0, hours: 10, minutes: 0 },
         locale: 'fr-fr',
         editorName: "Ministère de l'éducation nationale et de la jeunesse",
         editorLogoUrl: 'https://mon-logo.svg',
@@ -47,7 +47,7 @@ module('Acceptance | Trainings | Training', function (hooks) {
         title: 'Apprendre à piloter des chauves-souris',
         link: 'http://www.example2.net',
         type: 'webinaire',
-        duration: '10:00:00',
+        duration: { days: 0, hours: 10, minutes: 0 },
         locale: 'fr-fr',
         editorName: "Ministère de l'éducation nationale et de la jeunesse",
         editorLogoUrl: 'https://mon-logo.svg',
@@ -83,6 +83,7 @@ module('Acceptance | Trainings | Training', function (hooks) {
       // then
       assert.strictEqual(currentURL(), `/trainings/3/triggers`);
     });
+
     test('triggers should be accessible for an authenticated user', async function (assert) {
       // when
       await visit(`/trainings/${trainingId}/`);
@@ -109,6 +110,19 @@ module('Acceptance | Trainings | Training', function (hooks) {
       assert.dom(screen.getByRole('heading', { name: targetProfilesTabName })).exists();
       assert.dom(screen.getByRole('link', { name: targetProfileName })).exists();
       assert.ok(screen.getByText('Obsolète'));
+    });
+
+    test('should be possible to edit training details', async function (assert) {
+      // given
+      await visit(`/trainings/${trainingId}`);
+
+      // when
+      await click(screen.getByRole('button', { name: 'Editer' }));
+      await fillByLabel('Titre', 'Nouveau contenu formatif modifié');
+      await click(screen.getByRole('button', { name: 'Modifier le contenu formatif' }));
+
+      // then
+      assert.dom(screen.getByRole('heading', { name: 'Nouveau contenu formatif modifié' })).exists();
     });
   });
 });

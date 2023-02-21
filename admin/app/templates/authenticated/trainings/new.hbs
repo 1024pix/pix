@@ -9,6 +9,9 @@
 
 <main class="page-body">
   <section class="page-section">
-    <Trainings::CreateTrainingForm @onSubmit={{this.createOrUpdateTraining}} @onCancel={{this.goBackToTrainingList}} />
+    <Trainings::CreateOrUpdateTrainingForm
+      @onSubmit={{this.createOrUpdateTraining}}
+      @onCancel={{this.goBackToTrainingList}}
+    />
   </section>
 </main>

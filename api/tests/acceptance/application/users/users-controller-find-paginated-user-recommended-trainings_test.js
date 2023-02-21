@@ -39,7 +39,7 @@ describe('Acceptance | Controller | users-controller-find-paginated-user-recomme
           type: 'trainings',
           id: `${trainingId}`,
           attributes: {
-            duration: { hours: 6 },
+            duration: { days: 0, hours: 6, minutes: 0 },
             link: 'http://mon-link.com',
             locale: 'fr-fr',
             title: 'title',

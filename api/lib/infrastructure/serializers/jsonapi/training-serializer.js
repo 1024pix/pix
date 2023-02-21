@@ -26,6 +26,13 @@ module.exports = {
         },
       },
       meta,
+      transform(training) {
+        const duration = training.duration;
+        duration.days = duration.days || 0;
+        duration.hours = duration.hours || 0;
+        duration.minutes = duration.minutes || 0;
+        return training;
+      },
     }).serialize(training);
   },
 
