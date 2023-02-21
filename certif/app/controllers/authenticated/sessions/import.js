@@ -62,4 +62,8 @@ export default class ImportController extends Controller {
     this.file = null;
     this.isImportDisabled = true;
   }
+
+  reset() {
+    this.isImportStepOne = true;
+  }
 }

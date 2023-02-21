@@ -1,6 +1,7 @@
 {
   "common": {
     "actions": {
+      "back": "Retour",
       "cancel": "Cancel",
       "close": "Close",
       "continue": "Continue",
@@ -132,6 +133,7 @@
       },
       "import": {
         "title": "Créer/éditer plusieurs sessions",
+        "previous-page-button": "Revenir à la liste des sessions",
         "step-one": {
           "cancel": "Annuler l'import",
           "session-import-template": "Télécharger (.csv)",

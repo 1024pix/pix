@@ -12,4 +12,8 @@ export default class ImportRoute extends Route {
       return this.router.replaceWith('authenticated.sessions.list');
     }
   }
+
+  resetController(controller) {
+    controller.reset();
+  }
 }
