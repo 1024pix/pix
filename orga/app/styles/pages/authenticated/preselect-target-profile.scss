@@ -10,10 +10,12 @@
     width: fit-content;
   }
 }
+
 .preselect-tube-table {
   .is-responsive {
     color: $pix-success-70;
   }
+
   .not-responsive {
     position: absolute;
     top: 50%;
@@ -62,6 +64,7 @@
         border-color: $pix-environment-light;
       }
     }
+
     &__content {
       padding: 0;
       cursor: auto;
@@ -87,10 +90,12 @@
       td {
         vertical-align: middle;
       }
+
       td.table__column--center,
       th.table__column--center {
         text-align: center;
       }
+
       thead {
         background: $pix-neutral-10;
       }

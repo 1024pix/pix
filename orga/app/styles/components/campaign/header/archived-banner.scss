@@ -28,10 +28,12 @@
     background: $pix-neutral-60;
     border: 2px solid $pix-neutral-0;
     margin-left: auto;
+
     &:hover {
       opacity: 0.8;
       background: $pix-neutral-60;
     }
+
     &:focus {
       background: $pix-neutral-60;
     }

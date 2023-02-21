@@ -14,13 +14,13 @@ input.input-code {
         $pix-neutral-22 1ch,
         transparent 0,
         transparent 1.5ch
-      ) 0 96%/98% 2px no-repeat;
+      ) 0 96% / 98% 2px no-repeat;
   background-origin: content-box;
   border: solid 2px $pix-neutral-20;
   border-radius: 3px;
 
   @media all and (-ms-high-contrast: none) {
-    //display differently for IE because 1 character (ch) is equal to 1.162
+    // display differently for IE because 1 character (ch) is equal to 1.162
     line-height: 0.7;
     letter-spacing: 0.4ch;
     background:
@@ -30,7 +30,7 @@ input.input-code {
           $pix-neutral-22 1.33ch,
           transparent 0,
           transparent 1.733ch
-        ) 0 96%/98% 2px no-repeat;
+        ) 0 96% / 98% 2px no-repeat;
     background-origin: content-box;
   }
 
