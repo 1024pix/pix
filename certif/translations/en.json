@@ -7,7 +7,7 @@
       "add": "Add",
       "delete": "Supprimer",
       "quit": "Quit",
-      "update": "Modifier"
+      "update": "Modify"
     },
     "api-error-messages": {
       "bad-request-error": "The data entered was not in the correct format.",
