@@ -2,6 +2,8 @@ const PoleEmploiPayload = require('../../infrastructure/externals/pole-emploi/Po
 const PoleEmploiSending = require('../models/PoleEmploiSending');
 
 module.exports = async function sendSharedParticipationResultsToPoleEmploi({
+  badgeRepository,
+  badgeAcquisitionRepository,
   campaignParticipationId,
   campaignParticipationRepository,
   campaignParticipationResultRepository,
@@ -17,6 +19,11 @@ module.exports = async function sendSharedParticipationResultsToPoleEmploi({
   const organization = await organizationRepository.get(campaign.organizationId);
 
   if (campaign.isAssessment() && organization.isPoleEmploi) {
+    const badges = await badgeRepository.findByCampaignId(participation.campaignId);
+    const badgeAcquiredIds = await badgeAcquisitionRepository.getAcquiredBadgeIds({
+      badgeIds: badges.map((badge) => badge.id),
+      userId: participation.userId,
+    });
     const user = await userRepository.get(participation.userId);
     const targetProfile = await targetProfileRepository.get(campaign.targetProfileId);
     const participationResult = await campaignParticipationResultRepository.getByParticipationId(
@@ -29,6 +36,8 @@ module.exports = async function sendSharedParticipationResultsToPoleEmploi({
       targetProfile,
       participation,
       participationResult,
+      badges,
+      badgeAcquiredIds,
     });
 
     const response = await poleEmploiNotifier.notify(user.id, payload);
