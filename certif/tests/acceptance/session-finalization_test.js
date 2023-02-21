@@ -161,7 +161,7 @@ module('Acceptance | Session Finalization', function (hooks) {
       });
 
       module('when we add a certification issue report', function () {
-        test('it should show "Ajouter / supprimer" button', async function (assert) {
+        test('it should show "Ajouter / Supprimer" button', async function (assert) {
           // given
           const certificationReports = [
             server.create('certification-report', {
@@ -181,7 +181,7 @@ module('Acceptance | Session Finalization', function (hooks) {
           await click(screen.getByRole('button', { name: 'Ajouter le signalement' }));
 
           // then
-          assert.dom(screen.getByRole('button', { name: 'Ajouter / supprimer' })).exists();
+          assert.dom(screen.getByRole('button', { name: 'Ajouter / Supprimer' })).exists();
         });
       });
 
@@ -202,7 +202,7 @@ module('Acceptance | Session Finalization', function (hooks) {
 
           // when
           const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
-          await click(screen.getByRole('button', { name: 'Ajouter / supprimer' }));
+          await click(screen.getByRole('button', { name: 'Ajouter / Supprimer' }));
           await screen.findByRole('dialog');
           const allDeleteIssueReportButtons = screen.getAllByRole('button', { name: 'Supprimer le signalement' });
           await click(allDeleteIssueReportButtons[0]);
