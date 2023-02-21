@@ -57,7 +57,8 @@
     </form>
   </:content>
   <:footer>
-    <PixButton @triggerAction={{@closeModal}} @backgroundColor="transparent-light">Annuler</PixButton>
+    <PixButton @triggerAction={{@closeModal}} @backgroundColor="transparent-light">
+      {{t "common.actions.cancel"}}</PixButton>
     <PixButton form="add-issue-report-form" @type="submit" aria-label="Ajouter le signalement">Valider</PixButton>
   </:footer>
 </PixModal>
