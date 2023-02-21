@@ -4,8 +4,10 @@
       <Stages::StageLevelSelect
         @availableLevels={{@availableLevels}}
         @onChange={{@setLevel}}
+        @value={{@stage.level}}
         class="stages-table__level-select"
         required="true"
+        @isDisabled={{@setFirstStage}}
         @label="Niveau du palier"
       />
     {{else}}
@@ -15,6 +17,8 @@
         @validationStatus={{this.thresholdStatus}}
         @requiredLabel="Champ obligatoire"
         type="number"
+        @value={{this.threshold}}
+        readonly={{@setFirstStage}}
         @ariaLabel="Seuil du palier"
         {{on "focusout" this.checkThresholdValidity}}
       />
@@ -25,6 +29,7 @@
       @id="title"
       @errorMessage="Le titre est vide"
       @validationStatus={{this.titleStatus}}
+      @value={{this.title}}
       @requiredLabel="Champ obligatoire"
       @ariaLabel="Titre du palier"
       {{on "focusout" this.checkTitleValidity}}
@@ -37,6 +42,7 @@
       @validationStatus={{this.messageStatus}}
       @requiredLabel="Champ obligatoire"
       @ariaLabel="Message du palier"
+      @value={{this.message}}
       {{on "focusout" this.checkMessageValidity}}
     />
   </td>
@@ -47,14 +53,16 @@
     À renseigner ultérieurement
   </td>
   <td>
-    <PixButton
-      @backgroundColor="transparent-light"
-      @size="small"
-      @isBorderVisible={{true}}
-      aria-label="Supprimer palier"
-      @triggerAction={{@remove}}
-    >
-      <FaIcon @icon="minus" />
-    </PixButton>
+    {{#unless @setFirstStage}}
+      <PixButton
+        @backgroundColor="transparent-light"
+        @size="small"
+        @isBorderVisible={{true}}
+        aria-label="Supprimer palier"
+        @triggerAction={{@remove}}
+      >
+        <FaIcon @icon="minus" />
+      </PixButton>
+    {{/unless}}
   </td>
 </tr>

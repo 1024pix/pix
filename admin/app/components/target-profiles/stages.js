@@ -14,6 +14,13 @@ export default class Stages extends Component {
   @tracked
   firstStageType = undefined;
 
+  get setFirstStage() {
+    return (
+      (this.isTypeLevel && this.availableLevels.includes(0)) ||
+      (!this.isTypeLevel && !this.unavailableThresholds.includes(0))
+    );
+  }
+
   get availableLevels() {
     const unavailableLevels = this.args.targetProfile.stages.map((stage) => (stage.isNew ? null : stage.level));
     const allLevels = Array.from({ length: this.args.targetProfile.maxLevel + 1 }, (_, i) => i);
@@ -65,10 +72,16 @@ export default class Stages extends Component {
 
   @action
   addStage() {
+    const isFirstStage = this.args.targetProfile.stages.length === 0;
     const nextLowestLevelAvailable = this.isTypeLevel ? this.availableLevels?.[0] : undefined;
     this.store.createRecord('stage', {
       targetProfile: this.args.targetProfile,
       level: this.isTypeLevel ? nextLowestLevelAvailable.toString() : undefined,
+      threshold: !this.isTypeLevel && this.setFirstStage ? '0' : undefined,
+      title: isFirstStage ? 'Parcours terminé !' : null,
+      message: isFirstStage
+        ? 'Vous n’êtes visiblement pas tombé sur vos sujets préférés...Ou peut-être avez-vous besoin d’aide ? Dans tous les cas, rien n’est perdu d’avance ! Avec de l’accompagnement et un peu d’entraînement vous développerez à coup sûr vos compétences !'
+        : null,
     });
   }
 
