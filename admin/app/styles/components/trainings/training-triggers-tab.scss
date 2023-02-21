@@ -4,7 +4,6 @@
   }
 }
 
-
 .trigger-card {
   &__title {
     @include subheading;
@@ -28,6 +27,8 @@
 }
 
 .edit-training-trigger {
+  counter-reset: title;
+
   &__actions {
     display: flex;
     gap: $spacing-m;
@@ -36,6 +37,14 @@
 
   &__threshold {
     margin-bottom: $spacing-m;
+  }
+
+  .card__title {
+    counter-increment: title;
+
+    &::before {
+      content: counter(title) '.\00a0';
+    }
   }
 }
 
