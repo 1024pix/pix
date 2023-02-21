@@ -8,6 +8,7 @@
         <Stages::StageLevelSelect
           @id="threshold-or-level"
           @availableLevels={{@availableLevels}}
+          @isDisabled={{this.isDisabled}}
           @onChange={{this.setLevel}}
           @value={{this.level}}
         />
@@ -18,6 +19,7 @@
           @validationStatus={{this.thresholdStatus}}
           @requiredLabel="Champ obligatoire"
           type="number"
+          readonly={{this.isDisabled}}
           @value={{this.threshold}}
           @ariaLabel="Seuil du palier"
           min="0"
