@@ -21,7 +21,7 @@
     </div>
     <div class="select-referer-modal__actions">
       <PixButton
-        aria-label="Annuler la sélection de référent"
+        aria-label="{{t 'pages.team.select-referer-modal.cancel-extra-information'}}"
         @backgroundColor="transparent-light"
         @isBorderVisible={{true}}
         @triggerAction={{@toggleRefererModal}}
@@ -30,7 +30,7 @@
       </PixButton>
       <PixButton
         class="select-referer-modal__validation-button"
-        aria-label="Valider la sélection de référent"
+        aria-label="{{t 'pages.team.select-referer-modal.validate-extra-information'}}"
         @triggerAction={{@onValidateReferer}}
         @loadingColor="white"
         @isDisabled={{@noSelectedReferer}}
