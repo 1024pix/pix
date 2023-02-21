@@ -1,7 +1,7 @@
 const logger = require('../../logger');
 const { FileValidationError } = require('../../../../lib/domain/errors');
 const { convertDateValue } = require('../../utils/date-utils');
-const { headers, COMPLEMENTARY_CERTIFICATION_SUFFIX } = require('../../utils/csv/sessions-import');
+const { headers, emptySession, COMPLEMENTARY_CERTIFICATION_SUFFIX } = require('../../utils/csv/sessions-import');
 const { isEmpty } = require('lodash');
 const { checkCsvHeader, parseCsvWithHeader } = require('../../helpers/csv');
 
@@ -51,8 +51,14 @@ function deserializeForSessionsImport(parsedCsvData) {
         sessions.push(currentParsedSession);
       }
     } else {
-      currentParsedSession = sessions.at(-1);
+      if (sessions.at(-1)) {
+        currentParsedSession = sessions.at(-1);
+      } else {
+        currentParsedSession = emptySession;
+        sessions.push(currentParsedSession);
+      }
     }
+
     const examiner = data.examiner.trim();
     if (examiner.length && !currentParsedSession.examiner.includes(examiner)) {
       currentParsedSession.examiner.push(examiner);
@@ -65,7 +71,7 @@ function deserializeForSessionsImport(parsedCsvData) {
 
   return sessions.map((session) => ({
     ...session,
-    examiner: session.examiner?.join(', '),
+    examiner: session.examiner ? session.examiner.join(', ') : '',
   }));
 }
 
@@ -208,8 +214,8 @@ function _verifyHeaders({ csvLineKeys, parsedCsvLine, headers }) {
   });
 }
 
-function _hasSessionInformation({ room }) {
-  return Boolean(room);
+function _hasSessionInformation({ address, room, date, time, examiner }) {
+  return Boolean(address) || Boolean(room) || Boolean(date) || Boolean(time) || Boolean(examiner);
 }
 
 function _hasCandidateInformation({ lastName }) {

@@ -3,6 +3,7 @@ const csvSerializer = require('../../../../../lib/infrastructure/serializers/csv
 const logger = require('../../../../../lib/infrastructure/logger');
 const _ = require('lodash');
 const { FileValidationError } = require('../../../../../lib/domain/errors');
+const { emptySession } = require('../../../../../lib/infrastructure/utils/csv/sessions-import');
 
 describe('Unit | Serializer | CSV | csv-serializer', function () {
   describe('#serializeLine', function () {
@@ -88,6 +89,44 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
 
         // then
         expect(error).to.be.instanceOf(FileValidationError);
+      });
+    });
+
+    describe('when importing sessions', function () {
+      describe('when every mandatory information is missing', function () {
+        it('should not throw an error', async function () {
+          const parsedCsvData = [
+            {
+              'N° de session': '',
+              '* Nom du site': '',
+              '* Nom de la salle': '',
+              '* Date de début': '',
+              '* Heure de début (heure locale)': '',
+              '* Surveillant(s)': '',
+              'Observations (optionnel)': '',
+              '* Nom de naissance': 'Paul',
+              '* Prénom': 'Pierre',
+              '* Date de naissance (format: jj/mm/aaaa)': '12/09/1987',
+              '* Sexe (M ou F)': 'M',
+              'Code Insee': '',
+              'Code postal': '',
+              'Nom de la commune': '',
+              '* Pays': 'France',
+              'E-mail du destinataire des résultats (formateur, enseignant…)': '',
+              'E-mail de convocation': '',
+              'Identifiant local': '',
+              'Temps majoré ?': '',
+              'Tarification part Pix': '',
+              'Code de prépaiement': '',
+            },
+          ];
+
+          // when
+          const result = await csvSerializer.deserializeForSessionsImport(parsedCsvData);
+
+          // then
+          expect(result).to.deep.equal([emptySession]);
+        });
       });
     });
 
@@ -302,7 +341,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           const expectedResult = [
             {
               sessionId: 1,
-              examiner: undefined,
+              examiner: '',
               certificationCandidates: [
                 {
                   lastName: 'Candidat 1',

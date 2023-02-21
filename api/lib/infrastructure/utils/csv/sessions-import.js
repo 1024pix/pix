@@ -22,9 +22,35 @@ const headers = {
   prepaymentCode: 'Code de prépaiement',
 };
 
+const emptySession = {
+  sessionId: '',
+  address: '',
+  room: '',
+  date: '',
+  time: '',
+  examiner: '',
+  description: '',
+  lastName: '',
+  firstName: '',
+  birthdate: '',
+  sex: '',
+  birthINSEECode: '',
+  birthPostalCode: '',
+  birthCity: '',
+  birthCountry: '',
+  resultRecipientEmail: '',
+  email: '',
+  externalId: '',
+  extraTimePercentage: '',
+  billingMode: '',
+  prepaymentCode: '',
+  certificationCandidates: [],
+};
+
 const COMPLEMENTARY_CERTIFICATION_SUFFIX = "('oui' ou laisser vide)";
 
 module.exports = {
   headers,
+  emptySession,
   COMPLEMENTARY_CERTIFICATION_SUFFIX,
 };
