@@ -8,25 +8,31 @@ Demandeur_d_emploi -> MonPix: Se connecter via Pôle emploi
 MonPix -> Pole_Emploi_Connect: GET <PoleEmploi>/connexion/oauth2/authorize?realm=/individu
 note right: Redirection vers le site Pôle Emploi
 
-Demandeur_d_emploi -> Pole_Emploi_Connect: Saisie des crédentials de l'utilisateur
+Demandeur_d_emploi -> Pole_Emploi_Connect: Saisie des credentials de l'utilisateur
 Pole_Emploi_Connect --> MonPix: Envoi de l'authorization code
 
 MonPix -> API_Pix: POST /api/token/pole-emploi
 note left: Transfert de l'authorization code, client_id,\nredirect_uri, state_sent et state_received
 API_Pix -> Pole_Emploi_Connect: POST <PoleEmploi>/connexion/oauth2/access_token
-note right: Génération d'un access_token Pôle Emploi
-Pole_Emploi_Connect --> API_Pix: Envoi de l'access_token et de l'id_token
+note right: Génération d'un access token
+Pole_Emploi_Connect --> API_Pix: <ACCESS-TOKEN-PE> \n <ID-TOKEN-PE>
 
 API_Pix -> API_Pix: Décodage de l'id_token
 note left: Récupération de family_name, given_name, nonce et sub
 
-API_Pix -> API_Pix: Création du user en BDD
-API_Pix -> API_Pix: Génération d'un access_token Pix
+API_Pix -> Pole_Emploi_Connect: GET <PoleEmploi>/partenaire/peconnect-individu/v1/userinfo\n <ACCESS-TOKEN-PE>
+note left: Si propriété (nom, prénom, sub) manquante, \n tentative de récupération dans le profil utilisateur
+Pole_Emploi_Connect --> API_Pix: <USER-INFO>
+note left: Si propriété (nom, prénom, sub) manquante, \n sortie en erreur
 
-API_Pix -> MonPix: Envoi de l'access_token Pix et de l'idToken Pôle emploi
+API_Pix -> API_Pix: Création de l'utilisateur en BDD
+API_Pix -> API_Pix: Création de la méthode d'authentification en BDD
+API_Pix -> API_Pix: Génération d'un access token Pix
+
+API_Pix -> MonPix: <ACCESS-TOKEN-PIX> \n<ID-TOKEN-PE>
 
 Demandeur_d_emploi -> MonPix: Demande de déconnexion de Mon-Pix (et de Pôle emploi)
-MonPix -> Pole_Emploi_Connect: GET <PoleEmploi>/deconnexion\navec redirect_uri et id_token
+MonPix -> Pole_Emploi_Connect: GET <PoleEmploi>/deconnexion\n redirect_uri <ID-TOKEN-PE>
 note right: Demande de déconnexion de l'utilisateur
 
 Demandeur_d_emploi -> Pole_Emploi_Connect: Confirmation de déconnexion
