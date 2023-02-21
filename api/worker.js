@@ -34,7 +34,7 @@ async function runJobs() {
   const monitoredJobQueue = new MonitoredJobQueue(jobQueue);
   process.on('SIGINT', async () => {
     await monitoredJobQueue.stop();
-    // eslint-disable-next-line node/no-process-exit
+    // eslint-disable-next-line node/no-process-exit, no-process-exit
     process.exit(0);
   });
 
@@ -54,6 +54,6 @@ if (!startInWebProcess || (startInWebProcess && isEntryPointFromOtherFile)) {
   logger.error(
     'Worker process is started in the web process. Please unset the START_JOB_IN_WEB_PROCESS environment variable to start a dedicated worker process.'
   );
-  // eslint-disable-next-line node/no-process-exit
+  // eslint-disable-next-line node/no-process-exit, no-process-exit
   process.exit(1);
 }

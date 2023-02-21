@@ -240,6 +240,7 @@ global.chaiErr = function globalErr(fn, val) {
   throw new chai.AssertionError('Expected an error');
 };
 
+// eslint-disable-next-line mocha/no-exports
 export default {
   EMPTY_BLANK_AND_NULL,
   expect,

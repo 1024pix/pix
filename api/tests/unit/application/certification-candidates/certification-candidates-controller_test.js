@@ -58,24 +58,24 @@ describe('Unit | Controller | certifications-candidate-controller', function () 
       expect(response.statusCode).to.equal(204);
     });
   });
-});
 
-describe('#endAssessmentBySupervisor', function () {
-  const certificationCandidateId = 2;
+  describe('#endAssessmentBySupervisor', function () {
+    const certificationCandidateId = 2;
 
-  it('should call the endAssessmentBySupervisor use case', async function () {
-    // given
-    sinon.stub(usecases, 'endAssessmentBySupervisor');
-    usecases.endAssessmentBySupervisor.resolves();
+    it('should call the endAssessmentBySupervisor use case', async function () {
+      // given
+      sinon.stub(usecases, 'endAssessmentBySupervisor');
+      usecases.endAssessmentBySupervisor.resolves();
 
-    // when
-    await certificationCandidateController.endAssessmentBySupervisor({
-      params: { id: certificationCandidateId },
-    });
+      // when
+      await certificationCandidateController.endAssessmentBySupervisor({
+        params: { id: certificationCandidateId },
+      });
 
-    // then
-    expect(usecases.endAssessmentBySupervisor).to.have.been.calledWithExactly({
-      certificationCandidateId,
+      // then
+      expect(usecases.endAssessmentBySupervisor).to.have.been.calledWithExactly({
+        certificationCandidateId,
+      });
     });
   });
 });

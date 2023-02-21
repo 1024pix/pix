@@ -124,6 +124,7 @@ function checkRequestedUserIsAuthenticatedUser(request, h) {
   }
 
   const authenticatedUserId = request.auth.credentials.userId;
+  // eslint-disable-next-line no-restricted-syntax
   const requestedUserId = parseInt(request.params.userId) || parseInt(request.params.id);
 
   return authenticatedUserId === requestedUserId ? h.response(true) : _replyForbiddenError(h);
@@ -137,10 +138,12 @@ function checkUserIsAdminInOrganization(request, h) {
   const userId = request.auth.credentials.userId;
 
   //organizationId can be retrieved from path param in case organizations/id/invitations api or from memberships payload in case memberships/id
+
   const organizationId =
     request.path && request.path.includes('memberships')
       ? request.payload.data.relationships.organization.data.id
-      : parseInt(request.params.id);
+      : // eslint-disable-next-line no-restricted-syntax
+        parseInt(request.params.id);
 
   return checkUserIsAdminInOrganizationUseCase
     .execute(userId, organizationId)
@@ -159,6 +162,7 @@ function checkUserIsMemberOfCertificationCenter(request, h) {
   }
 
   const userId = request.auth.credentials.userId;
+  // eslint-disable-next-line no-restricted-syntax
   const certificationCenterId = parseInt(request.params.certificationCenterId);
 
   return checkUserIsMemberOfCertificationCenterUsecase
@@ -178,6 +182,7 @@ async function checkUserIsMemberOfCertificationCenterSessionFromCertificationIss
   }
 
   const userId = request.auth.credentials.userId;
+  // eslint-disable-next-line no-restricted-syntax
   const certificationIssueReportId = parseInt(request.params.id);
 
   try {
@@ -198,6 +203,7 @@ async function checkUserIsMemberOfCertificationCenterSessionFromCertificationCou
   }
 
   const userId = request.auth.credentials.userId;
+  // eslint-disable-next-line no-restricted-syntax
   const certificationCourseId = parseInt(request.params.id);
 
   try {
@@ -217,6 +223,7 @@ async function checkUserBelongsToOrganizationManagingStudents(request, h) {
   }
 
   const userId = request.auth.credentials.userId;
+  // eslint-disable-next-line no-restricted-syntax
   const organizationId = parseInt(request.params.id);
 
   try {
@@ -235,6 +242,7 @@ async function checkUserBelongsToScoOrganizationAndManagesStudents(request, h) {
   }
 
   const userId = request.auth.credentials.userId;
+  // eslint-disable-next-line no-restricted-syntax
   const organizationId = parseInt(request.params.id) || parseInt(request.payload.data.attributes['organization-id']);
 
   let belongsToScoOrganizationAndManageStudents;
@@ -258,6 +266,7 @@ async function checkUserBelongsToSupOrganizationAndManagesStudents(request, h) {
   }
 
   const userId = request.auth.credentials.userId;
+  // eslint-disable-next-line no-restricted-syntax
   const organizationId = parseInt(request.params.id) || parseInt(request.payload.data.attributes['organization-id']);
 
   let belongsToSupOrganizationAndManageStudents;
@@ -277,6 +286,7 @@ async function checkUserBelongsToSupOrganizationAndManagesStudents(request, h) {
 
 async function checkUserIsAdminInSCOOrganizationManagingStudents(request, h) {
   const userId = request.auth.credentials.userId;
+  // eslint-disable-next-line no-restricted-syntax
   const organizationId = parseInt(request.params.id);
 
   if (
@@ -289,6 +299,7 @@ async function checkUserIsAdminInSCOOrganizationManagingStudents(request, h) {
 
 async function checkUserIsAdminInSUPOrganizationManagingStudents(request, h) {
   const userId = request.auth.credentials.userId;
+  // eslint-disable-next-line no-restricted-syntax
   const organizationId = parseInt(request.params.id);
 
   if (
@@ -306,6 +317,7 @@ async function checkUserBelongsToLearnersOrganization(request, h) {
   }
 
   const userId = request.auth.credentials.userId;
+  // eslint-disable-next-line no-restricted-syntax
   const organizationLearnerId = parseInt(request.params.id);
 
   let belongsToLearnersOrganization;
@@ -330,6 +342,7 @@ async function checkUserBelongsToOrganization(request, h) {
   }
 
   const userId = request.auth.credentials.userId;
+  // eslint-disable-next-line no-restricted-syntax
   const organizationId = parseInt(request.params.id);
 
   const belongsToOrganization = await checkUserBelongsToOrganizationUseCase.execute(userId, organizationId);
@@ -385,6 +398,7 @@ async function checkUserOwnsCertificationCourse(request, h) {
   }
 
   const userId = request.auth.credentials.userId;
+  // eslint-disable-next-line no-restricted-syntax
   const certificationCourseId = parseInt(request.params.id);
 
   try {

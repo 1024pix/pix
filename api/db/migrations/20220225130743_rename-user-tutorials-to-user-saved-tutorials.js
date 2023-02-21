@@ -21,3 +21,4 @@ export const down = async function (knex) {
     `ALTER TABLE "${OLD_TABLE_NAME}" RENAME CONSTRAINT "${NEW_TABLE_NAME}_userid_tutorialid_unique" TO "${OLD_TABLE_NAME}_userid_tutorialid_unique"`
   );
 };
+/* eslint-enable knex/avoid-injections */

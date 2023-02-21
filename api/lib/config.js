@@ -1,3 +1,4 @@
+/* eslint-disable node/no-process-env */
 import path from 'path';
 import moment from 'moment';
 import ms from 'ms';
@@ -434,3 +435,4 @@ export default (function () {
 
   return config;
 })();
+/* eslint-enable node/no-process-env */

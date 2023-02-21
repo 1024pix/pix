@@ -46,8 +46,6 @@ function transformer(file, api, _options) {
             if (!j.Literal.check(sourcePath)) {
               return file.source;
             }
-            if (declaration?.init?.property.type === 'Identifier') {
-            }
             const specify = j.importSpecifier(declaration.init.property, declaration?.init?.property);
             imports.push(j.importDeclaration([specify], sourcePath));
           } else if (declaration.id.type === 'ObjectPattern') {

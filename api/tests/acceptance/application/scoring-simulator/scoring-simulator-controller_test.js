@@ -3,9 +3,7 @@ import createServer from '../../../../server';
 
 import { databaseBuilder, generateValidRequestAuthorizationHeader, mockLearningContent } from '../../../test-helper';
 
-import { PIX_ADMIN } from '../../../../lib/domain/constants';
-
-const { ROLES: ROLES } = PIX_ADMIN;
+import { SUPER_ADMIN } from '../../../../lib/domain/constants';
 
 const isoDateFormat = /^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\.\d\d\d.*$/;
 
