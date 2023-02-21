@@ -1,9 +1,7 @@
 import { PIX_SUPER_ADMIN_ID, PIX_SUPPORT_ID, PIX_METIER_ID, PIX_CERTIF_ID } from './users-builder';
 import { PIX_ADMIN } from '../../../lib/domain/constants';
 
-const {
-  ROLES: ROLES
-} = PIX_ADMIN;
+const { ROLES: ROLES } = PIX_ADMIN;
 
 export default function pixAdminRolesBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildPixAdminRole({ userId: PIX_SUPER_ADMIN_ID, role: ROLES.SUPER_ADMIN });

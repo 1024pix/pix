@@ -8,4 +8,4 @@ export default function tagsBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildTag({ id: 7, name: 'MEDNUM' });
   databaseBuilder.factory.buildTag({ id: 8, name: 'COLLEGE' });
   databaseBuilder.factory.buildTag({ id: 9, name: 'LYCEE' });
-};
+}

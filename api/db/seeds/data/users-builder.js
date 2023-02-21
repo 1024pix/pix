@@ -8,7 +8,6 @@ const PIX_ALL_ORGA_ID = 203;
 const DEFAULT_PASSWORD = 'pix123';
 
 function usersBuilder({ databaseBuilder }) {
-
   const now = new Date('2022-06-10');
   databaseBuilder.factory.buildUser.withRawPassword({
     id: 1,

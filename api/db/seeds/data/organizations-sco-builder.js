@@ -3,9 +3,7 @@ import { DEFAULT_PASSWORD, PIX_ALL_ORGA_ID } from './users-builder';
 import { SamlIdentityProviders } from '../../../lib/domain/constants/saml-identity-providers';
 import { PIX_ADMIN } from '../../../lib/domain/constants';
 
-const {
-  ROLES: ROLES
-} = PIX_ADMIN;
+const { ROLES: ROLES } = PIX_ADMIN;
 
 import {
   SCO_COLLEGE_EXTERNAL_ID,

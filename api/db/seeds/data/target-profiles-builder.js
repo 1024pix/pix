@@ -247,7 +247,7 @@ function _buildTargetProfileOneCompetence(databaseBuilder) {
     category: 'COMPETENCES',
     ownerOrganizationId: PRO_COMPANY_ID,
     description:
-      'Ce profil cible permet d\'**évaluer** sur la compétence 5.1. Le résultat est exprimé en ***pourcentage***',
+      "Ce profil cible permet d'**évaluer** sur la compétence 5.1. Le résultat est exprimé en ***pourcentage***",
     comment: 'Privé : Contient la ***compétence 5.1***.',
   });
 

@@ -1,5 +1,4 @@
 export default function assessmentsBuilder({ databaseBuilder }) {
-
   // PLACEMENT
   databaseBuilder.factory.buildAssessment({
     id: 1,
@@ -61,4 +60,4 @@ export default function assessmentsBuilder({ databaseBuilder }) {
     type: 'PLACEMENT',
     state: 'started',
   });
-};
+}

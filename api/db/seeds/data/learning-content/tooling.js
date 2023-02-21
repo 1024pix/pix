@@ -18,7 +18,15 @@ async function createTargetProfile({
   configTargetProfile,
 }) {
   await _cacheLearningContent();
-  _createTargetProfile({ databaseBuilder, targetProfileId, name, isPublic, ownerOrganizationId, isSimplifiedAccess, description });
+  _createTargetProfile({
+    databaseBuilder,
+    targetProfileId,
+    name,
+    isPublic,
+    ownerOrganizationId,
+    isSimplifiedAccess,
+    description,
+  });
   const cappedTubesDTO = _createTargetProfileTubes({ databaseBuilder, targetProfileId, configTargetProfile });
   return {
     targetProfileId,
@@ -40,7 +48,18 @@ function createBadge({
   isAlwaysVisible,
   configBadge,
 }) {
-  _createBadge({ databaseBuilder, badgeId, targetProfileId, altMessage, imageUrl, message, title, key, isCertifiable, isAlwaysVisible });
+  _createBadge({
+    databaseBuilder,
+    badgeId,
+    targetProfileId,
+    altMessage,
+    imageUrl,
+    message,
+    title,
+    key,
+    isCertifiable,
+    isAlwaysVisible,
+  });
   _createBadgeCriteria({ databaseBuilder, badgeId, configBadge, cappedTubesDTO });
 }
 
@@ -85,12 +104,48 @@ async function _cacheLearningContent() {
   }
 }
 
-function _createTargetProfile({ databaseBuilder, targetProfileId, name, isPublic, ownerOrganizationId, isSimplifiedAccess, description }) {
-  databaseBuilder.factory.buildTargetProfile({ id: targetProfileId, name, isPublic, ownerOrganizationId, isSimplifiedAccess, description });
+function _createTargetProfile({
+  databaseBuilder,
+  targetProfileId,
+  name,
+  isPublic,
+  ownerOrganizationId,
+  isSimplifiedAccess,
+  description,
+}) {
+  databaseBuilder.factory.buildTargetProfile({
+    id: targetProfileId,
+    name,
+    isPublic,
+    ownerOrganizationId,
+    isSimplifiedAccess,
+    description,
+  });
 }
 
-function _createBadge({ databaseBuilder, badgeId, targetProfileId, altMessage, imageUrl, message, title, key, isCertifiable, isAlwaysVisible }) {
-  databaseBuilder.factory.buildBadge({ id: badgeId, targetProfileId, altMessage, imageUrl, message, title, key, isCertifiable, isAlwaysVisible });
+function _createBadge({
+  databaseBuilder,
+  badgeId,
+  targetProfileId,
+  altMessage,
+  imageUrl,
+  message,
+  title,
+  key,
+  isCertifiable,
+  isAlwaysVisible,
+}) {
+  databaseBuilder.factory.buildBadge({
+    id: badgeId,
+    targetProfileId,
+    altMessage,
+    imageUrl,
+    message,
+    title,
+    key,
+    isCertifiable,
+    isAlwaysVisible,
+  });
 }
 
 function _createStage({ databaseBuilder, targetProfileId, type, value }) {
@@ -108,7 +163,10 @@ function _createTargetProfileTubes({ databaseBuilder, targetProfileId, configTar
   for (const framework of configTargetProfile.frameworks) {
     const frameworkName = _getFrameworkName(framework);
     for (let i = 0; i < framework.countTubes; ++i) {
-      const tubeId = _pickRandomTube(frameworkName, cappedTubesDTO.map(({ id }) => id));
+      const tubeId = _pickRandomTube(
+        frameworkName,
+        cappedTubesDTO.map(({ id }) => id)
+      );
       if (tubeId) {
         const level = _.random(framework.minLevel, framework.maxLevel);
         cappedTubesDTO.push({

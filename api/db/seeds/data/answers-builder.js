@@ -1,7 +1,6 @@
 export default function answersBuilder({ databaseBuilder }) {
-
   databaseBuilder.factory.buildAnswer({
-    value: 'Num1: \'4\'\nNum2: \'1\'\nNum3: \'5\'\n',
+    value: "Num1: '4'\nNum2: '1'\nNum3: '5'\n",
     result: 'ok',
     assessmentId: 1,
     challengeId: 'recLJCLC2oFbCmcxB',
@@ -29,7 +28,7 @@ export default function answersBuilder({ databaseBuilder }) {
     resultDetails: 'null',
   });
   databaseBuilder.factory.buildAnswer({
-    value: 'num1: \'2\'\nnum2: \'6\'\nnum3: \'7\'\nnum4: \'11\'\nnum5: \'12\'\nnum6: \'14\'\n',
+    value: "num1: '2'\nnum2: '6'\nnum3: '7'\nnum4: '11'\nnum5: '12'\nnum6: '14'\n",
     result: 'ok',
     assessmentId: 1,
     challengeId: 'recQk6B0xxvvorRzr',
@@ -43,7 +42,7 @@ export default function answersBuilder({ databaseBuilder }) {
     resultDetails: 'null',
   });
   databaseBuilder.factory.buildAnswer({
-    value: 'nb1: \'3\'\nnb2: \'2\'\nnb3: \'3\'\n',
+    value: "nb1: '3'\nnb2: '2'\nnb3: '3'\n",
     result: 'ok',
     assessmentId: 1,
     challengeId: 'recukHSP5ieZyB196',
@@ -57,7 +56,7 @@ export default function answersBuilder({ databaseBuilder }) {
     resultDetails: 'null',
   });
   databaseBuilder.factory.buildAnswer({
-    value: 'marc: \'2\'\ndeborah: B\n',
+    value: "marc: '2'\ndeborah: B\n",
     result: 'ok',
     assessmentId: 1,
     challengeId: 'recyz0bzFhouQl4I7',
@@ -85,14 +84,14 @@ export default function answersBuilder({ databaseBuilder }) {
     resultDetails: 'null',
   });
   databaseBuilder.factory.buildAnswer({
-    value: 'Penses-tu que \xe7a l\'emb\xeatera ?',
+    value: "Penses-tu que \xe7a l'emb\xeatera ?",
     result: 'ok',
     assessmentId: 2,
     challengeId: 'recd5XFUKpLcIdQsS',
     resultDetails: 'null',
   });
   databaseBuilder.factory.buildAnswer({
-    value: 'retrait: \'2\'\navant: \'9\'\napres: \'9\'\n',
+    value: "retrait: '2'\navant: '9'\napres: '9'\n",
     result: 'ok',
     assessmentId: 2,
     challengeId: 'recbTdMpoiALypx17',
@@ -242,7 +241,8 @@ export default function answersBuilder({ databaseBuilder }) {
     resultDetails: 'null',
   });
   databaseBuilder.factory.buildAnswer({
-    value: 'directeur: Emmanuel Giannesini\nresponsable: Mission de la communication du CNOUS\nhebergeur: V-Technologies\n',
+    value:
+      'directeur: Emmanuel Giannesini\nresponsable: Mission de la communication du CNOUS\nhebergeur: V-Technologies\n',
     result: 'ok',
     assessmentId: 3,
     challengeId: 'reccAbZXt0i5NH4cL',
@@ -305,7 +305,7 @@ export default function answersBuilder({ databaseBuilder }) {
     resultDetails: 'station1: true\nstation2: true\n',
   });
   databaseBuilder.factory.buildAnswer({
-    value: 'an: \'2006\'\ntit: F\xe9d\xe9ration Hospitali\xe8re de France\n',
+    value: "an: '2006'\ntit: F\xe9d\xe9ration Hospitali\xe8re de France\n",
     result: 'ok',
     assessmentId: 3,
     challengeId: 'recTstqP2DAooIwOk',
@@ -410,7 +410,8 @@ export default function answersBuilder({ databaseBuilder }) {
     resultDetails: 'null',
   });
   databaseBuilder.factory.buildAnswer({
-    value: 'nb1: fausse r\xe9ponse\nnb2: fausse r\xe9ponse\nnb3: fausse r\xe9ponse\nnb4: fausse r\xe9ponse\nnb5: fausse r\xe9ponse\n',
+    value:
+      'nb1: fausse r\xe9ponse\nnb2: fausse r\xe9ponse\nnb3: fausse r\xe9ponse\nnb4: fausse r\xe9ponse\nnb5: fausse r\xe9ponse\n',
     result: 'ko',
     assessmentId: 4,
     challengeId: 'receT1FE9cfqn6C4V',
@@ -563,4 +564,4 @@ export default function answersBuilder({ databaseBuilder }) {
     challengeId: 'rect9c6ahXsCjNn3e',
     resultDetails: 'null',
   });
-};
+}

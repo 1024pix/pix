@@ -34,7 +34,13 @@ function certificationSessionsBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildSession({
     id: EMPTY_SESSION_ID,
-    certificationCenter, certificationCenterId, address, room, examiner: `${examiner}-empty`, date, time,
+    certificationCenter,
+    certificationCenterId,
+    address,
+    room,
+    examiner: `${examiner}-empty`,
+    date,
+    time,
     description: 'Session pas commencée avec ZERO candidat inscrit.',
     accessCode: 'ANNE01',
     examinerGlobalComment: null,
@@ -42,7 +48,13 @@ function certificationSessionsBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildSession({
     id: STARTED_SESSION_ID,
-    certificationCenter, certificationCenterId, address, room, examiner: `${examiner}-started`, date, time,
+    certificationCenter,
+    certificationCenterId,
+    address,
+    room,
+    examiner: `${examiner}-started`,
+    date,
+    time,
     description: 'Session pas commencée avec quelques candidats inscrits non liés.',
     accessCode: 'ANNE02',
     examinerGlobalComment: null,
@@ -50,7 +62,13 @@ function certificationSessionsBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildSession({
     id: STARTED_SESSION_WITH_LOT_OF_CANDIDATES_ID,
-    certificationCenter, certificationCenterId, address, room, examiner: `${examiner}-lot-of-candidates`, date, time,
+    certificationCenter,
+    certificationCenterId,
+    address,
+    room,
+    examiner: `${examiner}-lot-of-candidates`,
+    date,
+    time,
     description: 'Session pas commencée avec des candidats inscrits non liés.',
     accessCode: 'ANNE03',
     examinerGlobalComment: null,
@@ -58,7 +76,13 @@ function certificationSessionsBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildSession({
     id: TO_FINALIZE_SESSION_ID,
-    certificationCenter, certificationCenterId, address, room, examiner: `${examiner}-to-finalize`, date, time,
+    certificationCenter,
+    certificationCenterId,
+    address,
+    room,
+    examiner: `${examiner}-to-finalize`,
+    date,
+    time,
     description: 'Session pas encore finalisée, avec des candidats ayant passés leur test de certification.',
     accessCode: 'ANNE04',
     examinerGlobalComment: null,
@@ -66,8 +90,15 @@ function certificationSessionsBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildSession({
     id: NO_PROBLEM_FINALIZED_SESSION_ID,
-    certificationCenter, certificationCenterId, address, room, examiner: `${examiner}-no-problem`, date, time,
-    description: 'Session finalisée sans problème, donc aucun commentaire et le surveillant a vu tous les écrans de fin de test.',
+    certificationCenter,
+    certificationCenterId,
+    address,
+    room,
+    examiner: `${examiner}-no-problem`,
+    date,
+    time,
+    description:
+      'Session finalisée sans problème, donc aucun commentaire et le surveillant a vu tous les écrans de fin de test.',
     accessCode: 'ANNE05',
     examinerGlobalComment: null,
     finalizedAt: new Date('2020-04-15T15:00:34Z'),
@@ -78,19 +109,27 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     certificationCenterName: certificationCenter,
     isPublishable: true,
     publishedAt: null,
-    date, time,
+    date,
+    time,
     finalizedAt: new Date('2020-04-15T15:00:34Z'),
   });
 
   databaseBuilder.factory.buildSession({
     id: PROBLEMS_FINALIZED_SESSION_ID,
-    certificationCenter, certificationCenterId, address, room, examiner: `${examiner}-problems`, date, time,
+    certificationCenter,
+    certificationCenterId,
+    address,
+    room,
+    examiner: `${examiner}-problems`,
+    date,
+    time,
     description: 'Session finalisée à problèmes et assignée !',
     accessCode: 'ANNE06',
     examinerGlobalComment: 'Une météorite est tombée sur le centre de certification pendant la session !!',
     finalizedAt: new Date('2020-05-05T15:00:34Z'),
     assignedCertificationOfficerId: PIX_SUPER_ADMIN_ID,
-    juryComment: 'Tu te rends compte, si on n’avait pas perdu une heure et quart, on serait là depuis une heure et quart !',
+    juryComment:
+      'Tu te rends compte, si on n’avait pas perdu une heure et quart, on serait là depuis une heure et quart !',
     juryCommentAuthorId: PIX_SUPER_ADMIN_ID,
     juryCommentedAt: new Date('2021-04-28T00:42:03Z'),
   });
@@ -100,15 +139,21 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     certificationCenterName: certificationCenter,
     isPublishable: false,
     publishedAt: null,
-    date, time,
+    date,
+    time,
     finalizedAt: new Date('2020-05-05T15:00:34Z'),
     assignedCertificationOfficerName: 'Super Admin',
   });
 
   databaseBuilder.factory.buildSession({
     id: NO_CERTIF_CENTER_SESSION_ID,
-    certificationCenterId: null, certificationCenter: 'Centre de certif pas dans la BDD !',
-    address, room, examiner, date, time,
+    certificationCenterId: null,
+    certificationCenter: 'Centre de certif pas dans la BDD !',
+    address,
+    room,
+    examiner,
+    date,
+    time,
     description: 'Session sans vrai certification center !',
     accessCode: 'ANNE07',
     examinerGlobalComment: 'Salut les zouzous',
@@ -117,7 +162,13 @@ function certificationSessionsBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildSession({
     id: PUBLISHED_SESSION_ID,
-    certificationCenter, certificationCenterId, address, room, examiner: `${examiner}-published`, date, time,
+    certificationCenter,
+    certificationCenterId,
+    address,
+    room,
+    examiner: `${examiner}-published`,
+    date,
+    time,
     description: 'Session publiée',
     accessCode: 'ANNE08',
     finalizedAt: new Date('2020-05-05T15:00:34Z'),
@@ -128,14 +179,21 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     sessionId: PUBLISHED_SESSION_ID,
     certificationCenterName: certificationCenter,
     isPublishable: true,
-    date, time,
+    date,
+    time,
     finalizedAt: new Date('2020-05-05T15:00:34Z'),
     publishedAt: new Date('2020-06-05T15:00:34Z'),
   });
 
   databaseBuilder.factory.buildSession({
     id: PUBLISHED_SCO_SESSION_ID,
-    certificationCenter, certificationCenterId, address, room, examiner: `${examiner}-published-sco`, date, time,
+    certificationCenter,
+    certificationCenterId,
+    address,
+    room,
+    examiner: `${examiner}-published-sco`,
+    date,
+    time,
     description: 'Session publiée',
     accessCode: 'ANNE08',
     finalizedAt: new Date('2020-05-05T15:00:34Z'),
@@ -146,7 +204,8 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     sessionId: PUBLISHED_SCO_SESSION_ID,
     certificationCenterName: certificationCenter,
     isPublishable: true,
-    date, time,
+    date,
+    time,
     finalizedAt: new Date('2020-05-05T15:00:34Z'),
     publishedAt: new Date('2020-06-05T15:00:34Z'),
   });
@@ -155,18 +214,27 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     id: COMPLEMENTARY_CERTIFICATIONS_SESSION_ID,
     certificationCenterName: SUP_CERTIF_CENTER_NAME,
     certificationCenterId: SUP_CERTIF_CENTER_ID,
-    date, time,
+    date,
+    time,
     description: 'Candidats avec des certifications complémentaires',
   });
 
   // Some sessions to illustrate paginated sessions list order in PixAdmin
   databaseBuilder.factory.buildSession({
-    certificationCenter, certificationCenterId, address, room, examiner: `${examiner}-1`, date, time,
+    certificationCenter,
+    certificationCenterId,
+    address,
+    room,
+    examiner: `${examiner}-1`,
+    date,
+    time,
     finalizedAt: null,
     publishedAt: null,
   });
   const finalizedSession = databaseBuilder.factory.buildSession({
-    certificationCenter, certificationCenterId, address,
+    certificationCenter,
+    certificationCenterId,
+    address,
     createdAt: new Date('2018-01-01T00:00:00Z'),
     date: '2018-01-02',
     finalizedAt: new Date('2018-01-03T00:00:00Z'),
@@ -176,19 +244,27 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     sessionId: finalizedSession.id,
     certificationCenterName: certificationCenter,
     isPublishable: true,
-    date: '2018-01-02', time,
+    date: '2018-01-02',
+    time,
     finalizedAt: new Date('2018-01-03T00:00:00Z'),
     publishedAt: null,
   });
 
   databaseBuilder.factory.buildSession({
-    certificationCenter, certificationCenterId,
+    certificationCenter,
+    certificationCenterId,
     finalizedAt: new Date('2018-01-02T00:00:00Z'),
     publishedAt: null,
     resultsSentToPrescriberAt: new Date('2018-01-04T00:00:00Z'),
   });
   databaseBuilder.factory.buildSession({
-    certificationCenter, certificationCenterId, address, room, examiner: `${examiner}-2`, date, time,
+    certificationCenter,
+    certificationCenterId,
+    address,
+    room,
+    examiner: `${examiner}-2`,
+    date,
+    time,
     finalizedAt: new Date('2018-01-02T00:00:00Z'),
     publishedAt: new Date('2018-01-03T00:00:00Z'),
   });
@@ -210,7 +286,12 @@ function certificationSessionsBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildSession({
     id: PIX_DROIT_SESSION_ID,
     certificationCenter: DROIT_CERTIF_CENTER_NAME,
-    certificationCenterId: DROIT_CERTIF_CENTER_ID, address, room, examiner: `${examiner}-3`, date, time,
+    certificationCenterId: DROIT_CERTIF_CENTER_ID,
+    address,
+    room,
+    examiner: `${examiner}-3`,
+    date,
+    time,
     description: 'Certif avec pix+droit',
     accessCode: 'DROI01',
     finalizedAt: null,

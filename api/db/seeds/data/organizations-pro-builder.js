@@ -2,9 +2,7 @@ import Membership from '../../../lib/domain/models/Membership';
 import OrganizationInvitation from '../../../lib/domain/models/OrganizationInvitation';
 import { PIX_ADMIN } from '../../../lib/domain/constants';
 
-const {
-  ROLES: ROLES
-} = PIX_ADMIN;
+const { ROLES: ROLES } = PIX_ADMIN;
 
 import { DEFAULT_PASSWORD, PIX_ALL_ORGA_ID } from './users-builder';
 import OidcIdentityProviders from '../../../lib/domain/constants/oidc-identity-providers';

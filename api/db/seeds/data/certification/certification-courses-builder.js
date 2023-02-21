@@ -157,17 +157,19 @@ async function certificationCoursesBuilder({ databaseBuilder }) {
   }
 }
 
-async function _buildCertificationCourse(databaseBuilder, {
-  id,
-  assessmentId,
-  userId,
-  sessionId,
-  candidateData,
-  examinerComment,
-  hasSeenEndTestScreen,
-  isPublished,
-  pixCertificationStatus,
-},
+async function _buildCertificationCourse(
+  databaseBuilder,
+  {
+    id,
+    assessmentId,
+    userId,
+    sessionId,
+    candidateData,
+    examinerComment,
+    hasSeenEndTestScreen,
+    isPublished,
+    pixCertificationStatus,
+  }
 ) {
   const createdAt = new Date('2020-01-31T00:00:00Z');
   const verificationCode = await generateCertificateVerificationCode();

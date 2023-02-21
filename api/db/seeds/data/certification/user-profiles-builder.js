@@ -65,7 +65,7 @@ async function certificationUserProfilesBuilder({ databaseBuilder }) {
         countCertifiableCompetences: 5,
         levelOnEachCompetence: 1,
       });
-    },
+    }
   );
 
   // Pix+ Droit
@@ -100,7 +100,7 @@ async function certificationUserProfilesBuilder({ databaseBuilder }) {
         userId: CERTIF_REGULAR_USER_WITH_TIMED_CHALLENGE_ID,
         assessmentId,
       });
-    },
+    }
   );
 
   // Pix+ EDU
@@ -188,7 +188,7 @@ async function certificationUserProfilesBuilder({ databaseBuilder }) {
         userId: CERTIF_EDU_FORMATION_CONTINUE_2ND_DEGRE_USER_ID,
         assessmentId: assessmentIdForPixEduFormationContinue2ndDegre,
       });
-    },
+    }
   );
 
   await makeUserPixCertifiable({
@@ -219,7 +219,7 @@ async function certificationUserProfilesBuilder({ databaseBuilder }) {
         userId: CERTIF_EDU_FORMATION_CONTINUE_1ER_DEGRE_USER_ID,
         assessmentId: assessmentIdForPixEduFormationContinue1erDegre,
       });
-    },
+    }
   );
 }
 

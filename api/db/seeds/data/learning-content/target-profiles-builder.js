@@ -12,12 +12,14 @@ export default {
 
 async function _createTargetProfile500(databaseBuilder) {
   const configTargetProfile = {
-    frameworks: [{
-      chooseCoreFramework: true,
-      countTubes: 30,
-      minLevel: 3,
-      maxLevel: 5,
-    }],
+    frameworks: [
+      {
+        chooseCoreFramework: true,
+        countTubes: 30,
+        minLevel: 3,
+        maxLevel: 5,
+      },
+    ],
   };
   const configBadge = {
     criteria: [
@@ -38,7 +40,8 @@ async function _createTargetProfile500(databaseBuilder) {
     isPublic: true,
     ownerOrganizationId: PRO_COMPANY_ID,
     isSimplifiedAccess: false,
-    description: 'Profil cible pur pix (Niv3 ~ 5) avec 1 RT double critère (tube et participation) et des paliers NIVEAUX',
+    description:
+      'Profil cible pur pix (Niv3 ~ 5) avec 1 RT double critère (tube et participation) et des paliers NIVEAUX',
     configTargetProfile,
   });
   createBadge({
@@ -66,17 +69,20 @@ async function _createTargetProfile500(databaseBuilder) {
 
 async function _createTargetProfile501(databaseBuilder) {
   const configTargetProfile = {
-    frameworks: [{
-      chooseCoreFramework: true,
-      countTubes: 5,
-      minLevel: 1,
-      maxLevel: 8,
-    }, {
-      chooseCoreFramework: false,
-      countTubes: 3,
-      minLevel: 1,
-      maxLevel: 8,
-    }],
+    frameworks: [
+      {
+        chooseCoreFramework: true,
+        countTubes: 5,
+        minLevel: 1,
+        maxLevel: 8,
+      },
+      {
+        chooseCoreFramework: false,
+        countTubes: 3,
+        minLevel: 1,
+        maxLevel: 8,
+      },
+    ],
   };
   const { targetProfileId, cappedTubesDTO } = await createTargetProfile({
     databaseBuilder,

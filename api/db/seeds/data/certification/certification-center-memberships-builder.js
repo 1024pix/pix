@@ -38,7 +38,16 @@ export default function certificationCenterMembershipsBuilder({ databaseBuilder 
     userId: PIX_SCO_CERTIF_USER_ID,
   });
 
-  databaseBuilder.factory.buildCertificationCenterMembership({ userId: PIX_PRO_CERTIF_USER_ID, certificationCenterId: PRO_CERTIF_CENTER_ID });
-  databaseBuilder.factory.buildCertificationCenterMembership({ userId: PIX_SUP_CERTIF_USER_ID, certificationCenterId: SUP_CERTIF_CENTER_ID });
-  databaseBuilder.factory.buildCertificationCenterMembership({ userId: CERTIF_DROIT_USER5_ID, certificationCenterId: DROIT_CERTIF_CENTER_ID });
+  databaseBuilder.factory.buildCertificationCenterMembership({
+    userId: PIX_PRO_CERTIF_USER_ID,
+    certificationCenterId: PRO_CERTIF_CENTER_ID,
+  });
+  databaseBuilder.factory.buildCertificationCenterMembership({
+    userId: PIX_SUP_CERTIF_USER_ID,
+    certificationCenterId: SUP_CERTIF_CENTER_ID,
+  });
+  databaseBuilder.factory.buildCertificationCenterMembership({
+    userId: CERTIF_DROIT_USER5_ID,
+    certificationCenterId: DROIT_CERTIF_CENTER_ID,
+  });
 }

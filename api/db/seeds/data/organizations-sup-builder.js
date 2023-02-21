@@ -1,9 +1,7 @@
 import Membership from '../../../lib/domain/models/Membership';
 import { PIX_ADMIN } from '../../../lib/domain/constants';
 
-const {
-  ROLES: ROLES
-} = PIX_ADMIN;
+const { ROLES: ROLES } = PIX_ADMIN;
 
 import { DEFAULT_PASSWORD, PIX_ALL_ORGA_ID } from './users-builder';
 
@@ -165,5 +163,4 @@ export default {
   SUP_STUDENT_ASSOCIATED_ID,
   SUP_STUDENT_DISABLED_ID,
   SUP_STUDENT_CERTIFIABLE,
-
 };

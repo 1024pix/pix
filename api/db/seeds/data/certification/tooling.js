@@ -49,7 +49,7 @@ async function makeUserCleaCertifiable({ userId, databaseBuilder }) {
     .innerJoin(
       'complementary-certifications',
       'complementary-certifications.id',
-      'complementary-certification-badges.complementaryCertificationId',
+      'complementary-certification-badges.complementaryCertificationId'
     )
     .where({ 'complementary-certifications.key': ComplementaryCertification.CLEA })
     .orderBy('complementary-certification-badges.level', 'desc');

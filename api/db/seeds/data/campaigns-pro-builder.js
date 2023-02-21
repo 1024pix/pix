@@ -19,7 +19,10 @@ import {
 import { PRO_BASICS_BADGE_ID, PRO_TOOLS_BADGE_ID } from './badges-builder';
 import { PRO_COMPANY_ID, PRO_POLE_EMPLOI_ID, PRO_MED_NUM_ID, PRO_CNAV_ID } from './organizations-pro-builder';
 import { DEFAULT_PASSWORD } from './users-builder';
-import { participateToAssessmentCampaign, participateToProfilesCollectionCampaign } from './campaign-participations-builder';
+import {
+  participateToAssessmentCampaign,
+  participateToProfilesCollectionCampaign,
+} from './campaign-participations-builder';
 import CampaignParticipationStatuses from '../../../lib/domain/models/CampaignParticipationStatuses';
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
@@ -349,22 +352,25 @@ __Plus d'infos :)__
 }
 
 function _buildParticipations({ databaseBuilder }) {
-  const users = _buildUsers({ databaseBuilder, users: [
-    { firstName: 'Jaune', lastName: 'Attend', email: 'jaune.attend@example.net', createdAt: new Date('2022-01-01') },
-    { firstName: 'Mélanie', lastName: 'Darboo', createdAt: new Date('2022-01-02') },
-    { firstName: 'Matteo', lastName: 'Lorenzio', createdAt: new Date('2022-01-03') },
-    { firstName: 'Jérémy', lastName: 'Bugietta', createdAt: new Date('2022-01-03') },
-    { firstName: 'Léo', lastName: 'Subzéro', createdAt: new Date('2022-01-05') },
-    { firstName: 'Forster', lastName: 'Gillay Djones', createdAt: new Date('2022-01-05') },
-    { firstName: 'Thierry', lastName: 'Donckele', createdAt: new Date('2022-01-07') },
-    { firstName: 'Stéphan', lastName: 'Deumonaco', createdAt: new Date('2022-01-08') },
-    { firstName: 'Lise', lastName: 'Nelkay', createdAt: new Date('2022-01-09') },
-    { firstName: 'Sébastien', lastName: 'Serra Oupas', createdAt: new Date('2022-02-03') },
-    { firstName: 'Thomas', lastName: 'Whiskas', createdAt: new Date('2022-02-06') },
-    { firstName: 'Antoine', lastName: 'Boiduvin', createdAt: new Date('2022-02-07') },
-    { firstName: 'Brandone', lastName: 'Bro', createdAt: new Date('2022-02-07') },
-    { firstName: 'Jean', lastName: 'Sérien', createdAt: new Date('2022-02-07') },
-  ] });
+  const users = _buildUsers({
+    databaseBuilder,
+    users: [
+      { firstName: 'Jaune', lastName: 'Attend', email: 'jaune.attend@example.net', createdAt: new Date('2022-01-01') },
+      { firstName: 'Mélanie', lastName: 'Darboo', createdAt: new Date('2022-01-02') },
+      { firstName: 'Matteo', lastName: 'Lorenzio', createdAt: new Date('2022-01-03') },
+      { firstName: 'Jérémy', lastName: 'Bugietta', createdAt: new Date('2022-01-03') },
+      { firstName: 'Léo', lastName: 'Subzéro', createdAt: new Date('2022-01-05') },
+      { firstName: 'Forster', lastName: 'Gillay Djones', createdAt: new Date('2022-01-05') },
+      { firstName: 'Thierry', lastName: 'Donckele', createdAt: new Date('2022-01-07') },
+      { firstName: 'Stéphan', lastName: 'Deumonaco', createdAt: new Date('2022-01-08') },
+      { firstName: 'Lise', lastName: 'Nelkay', createdAt: new Date('2022-01-09') },
+      { firstName: 'Sébastien', lastName: 'Serra Oupas', createdAt: new Date('2022-02-03') },
+      { firstName: 'Thomas', lastName: 'Whiskas', createdAt: new Date('2022-02-06') },
+      { firstName: 'Antoine', lastName: 'Boiduvin', createdAt: new Date('2022-02-07') },
+      { firstName: 'Brandone', lastName: 'Bro', createdAt: new Date('2022-02-07') },
+      { firstName: 'Jean', lastName: 'Sérien', createdAt: new Date('2022-02-07') },
+    ],
+  });
 
   _buildParticipationsInDifferentStatus({ databaseBuilder, user: users[0] });
   _buildAssessmentParticipations({ databaseBuilder, users });
@@ -376,19 +382,69 @@ function _buildParticipations({ databaseBuilder }) {
 function _buildUsers({ databaseBuilder, users }) {
   return users.map((user) => {
     const databaseUser = databaseBuilder.factory.buildUser.withRawPassword({ ...user, rawPassword: DEFAULT_PASSWORD });
-    databaseBuilder.factory.buildOrganizationLearner({ firstName: user.firstName + '-Prescrit', lastName: user.lastName + '-Prescrit', id: databaseUser.id, userId: databaseUser.id, organizationId: PRO_COMPANY_ID });
+    databaseBuilder.factory.buildOrganizationLearner({
+      firstName: user.firstName + '-Prescrit',
+      lastName: user.lastName + '-Prescrit',
+      id: databaseUser.id,
+      userId: databaseUser.id,
+      organizationId: PRO_COMPANY_ID,
+    });
     return databaseUser;
   });
 }
 
 function _buildParticipationsInDifferentStatus({ databaseBuilder, user }) {
-  participateToAssessmentCampaign({ databaseBuilder, campaignId: 22, user, organizationLearnerId: user.id, status: STARTED, deleted: true }); //deleted + started
-  participateToAssessmentCampaign({ databaseBuilder, campaignId: 21, user, organizationLearnerId: user.id, status: SHARED, deleted: true }); //deleted + shared
-  participateToAssessmentCampaign({ databaseBuilder, campaignId: 2, user, organizationLearnerId: user.id, status: STARTED }); //started
-  participateToAssessmentCampaign({ databaseBuilder, campaignId: 12, user, organizationLearnerId: user.id, status: TO_SHARE }); //to share
-  participateToAssessmentCampaign({ databaseBuilder, campaignId: 13, user, organizationLearnerId: user.id, status: SHARED });//archived + shared
-  participateToAssessmentCampaign({ databaseBuilder, campaignId: 14, user, organizationLearnerId: user.id, status: STARTED });//archived + started
-  participateToAssessmentCampaign({ databaseBuilder, campaignId: 15, user, organizationLearnerId: user.id, status: SHARED });//archived + shared + badges
+  participateToAssessmentCampaign({
+    databaseBuilder,
+    campaignId: 22,
+    user,
+    organizationLearnerId: user.id,
+    status: STARTED,
+    deleted: true,
+  }); //deleted + started
+  participateToAssessmentCampaign({
+    databaseBuilder,
+    campaignId: 21,
+    user,
+    organizationLearnerId: user.id,
+    status: SHARED,
+    deleted: true,
+  }); //deleted + shared
+  participateToAssessmentCampaign({
+    databaseBuilder,
+    campaignId: 2,
+    user,
+    organizationLearnerId: user.id,
+    status: STARTED,
+  }); //started
+  participateToAssessmentCampaign({
+    databaseBuilder,
+    campaignId: 12,
+    user,
+    organizationLearnerId: user.id,
+    status: TO_SHARE,
+  }); //to share
+  participateToAssessmentCampaign({
+    databaseBuilder,
+    campaignId: 13,
+    user,
+    organizationLearnerId: user.id,
+    status: SHARED,
+  }); //archived + shared
+  participateToAssessmentCampaign({
+    databaseBuilder,
+    campaignId: 14,
+    user,
+    organizationLearnerId: user.id,
+    status: STARTED,
+  }); //archived + started
+  participateToAssessmentCampaign({
+    databaseBuilder,
+    campaignId: 15,
+    user,
+    organizationLearnerId: user.id,
+    status: SHARED,
+  }); //archived + shared + badges
 }
 
 function _buildAssessmentParticipations({ databaseBuilder, users }) {
@@ -399,29 +455,129 @@ function _buildAssessmentParticipations({ databaseBuilder, users }) {
   const userIdsCompletedShared2 = [users[0], users[9]];
   const userIdsCompletedSharedWith2Badges = [users[3], users[11]];
 
-  userIdsNotCompleted.forEach((user) => participateToAssessmentCampaign({ databaseBuilder, campaignId: 1, user, organizationLearnerId: user.id, status: STARTED }));
-  userIdsNotShared.forEach((user) => participateToAssessmentCampaign({ databaseBuilder, campaignId: 1, user, organizationLearnerId: user.id, status: TO_SHARE }));
+  userIdsNotCompleted.forEach((user) =>
+    participateToAssessmentCampaign({
+      databaseBuilder,
+      campaignId: 1,
+      user,
+      organizationLearnerId: user.id,
+      status: STARTED,
+    })
+  );
+  userIdsNotShared.forEach((user) =>
+    participateToAssessmentCampaign({
+      databaseBuilder,
+      campaignId: 1,
+      user,
+      organizationLearnerId: user.id,
+      status: TO_SHARE,
+    })
+  );
   userIdsNotShared2.forEach((user) => {
-    const campaignParticipationId = participateToAssessmentCampaign({ databaseBuilder, campaignId: 1, user, organizationLearnerId: user.id, status: TO_SHARE });
-    databaseBuilder.factory.buildBadgeAcquisition({ userId: user.id, badgeId: PRO_BASICS_BADGE_ID, campaignParticipationId });
+    const campaignParticipationId = participateToAssessmentCampaign({
+      databaseBuilder,
+      campaignId: 1,
+      user,
+      organizationLearnerId: user.id,
+      status: TO_SHARE,
+    });
+    databaseBuilder.factory.buildBadgeAcquisition({
+      userId: user.id,
+      badgeId: PRO_BASICS_BADGE_ID,
+      campaignParticipationId,
+    });
   });
-  userIdsCompletedShared.forEach((user) => participateToAssessmentCampaign({ databaseBuilder, campaignId: 1, user, organizationLearnerId: user.id, status: SHARED }));
+  userIdsCompletedShared.forEach((user) =>
+    participateToAssessmentCampaign({
+      databaseBuilder,
+      campaignId: 1,
+      user,
+      organizationLearnerId: user.id,
+      status: SHARED,
+    })
+  );
   userIdsCompletedShared2.forEach((user) => {
-    const campaignParticipationId = participateToAssessmentCampaign({ databaseBuilder, campaignId: 1, user, organizationLearnerId: user.id, status: SHARED });
-    databaseBuilder.factory.buildBadgeAcquisition({ userId: user.id, badgeId: PRO_TOOLS_BADGE_ID, campaignParticipationId });
+    const campaignParticipationId = participateToAssessmentCampaign({
+      databaseBuilder,
+      campaignId: 1,
+      user,
+      organizationLearnerId: user.id,
+      status: SHARED,
+    });
+    databaseBuilder.factory.buildBadgeAcquisition({
+      userId: user.id,
+      badgeId: PRO_TOOLS_BADGE_ID,
+      campaignParticipationId,
+    });
   });
   userIdsCompletedSharedWith2Badges.forEach((user) => {
-    const campaignParticipationId = participateToAssessmentCampaign({ databaseBuilder, campaignId: 1, user, organizationLearnerId: user.id, status: SHARED });
-    databaseBuilder.factory.buildBadgeAcquisition({ userId: user.id, badgeId: PRO_BASICS_BADGE_ID, campaignParticipationId });
-    databaseBuilder.factory.buildBadgeAcquisition({ userId: user.id, badgeId: PRO_TOOLS_BADGE_ID, campaignParticipationId });
+    const campaignParticipationId = participateToAssessmentCampaign({
+      databaseBuilder,
+      campaignId: 1,
+      user,
+      organizationLearnerId: user.id,
+      status: SHARED,
+    });
+    databaseBuilder.factory.buildBadgeAcquisition({
+      userId: user.id,
+      badgeId: PRO_BASICS_BADGE_ID,
+      campaignParticipationId,
+    });
+    databaseBuilder.factory.buildBadgeAcquisition({
+      userId: user.id,
+      badgeId: PRO_TOOLS_BADGE_ID,
+      campaignParticipationId,
+    });
   });
 
   //multiple sendings profiles collection campaign
-  userIdsNotCompleted.forEach((user) => participateToAssessmentCampaign({ databaseBuilder, campaignId: 16, user, organizationLearnerId: user.id, status: STARTED }));
-  userIdsNotShared.forEach((user) => participateToAssessmentCampaign({ databaseBuilder, campaignId: 16, user, organizationLearnerId: user.id, status: TO_SHARE }));
-  userIdsNotShared2.forEach((user) => participateToAssessmentCampaign({ databaseBuilder, campaignId: 16, user, organizationLearnerId: user.id, status: TO_SHARE, isImprovingOldParticipation: true }));
-  userIdsCompletedShared.forEach((user) => participateToAssessmentCampaign({ databaseBuilder, campaignId: 16, user, organizationLearnerId: user.id, status: SHARED }));
-  userIdsCompletedShared2.forEach((user) => participateToAssessmentCampaign({ databaseBuilder, campaignId: 16, user, organizationLearnerId: user.id, status: SHARED, isImprovingOldParticipation: true }));
+  userIdsNotCompleted.forEach((user) =>
+    participateToAssessmentCampaign({
+      databaseBuilder,
+      campaignId: 16,
+      user,
+      organizationLearnerId: user.id,
+      status: STARTED,
+    })
+  );
+  userIdsNotShared.forEach((user) =>
+    participateToAssessmentCampaign({
+      databaseBuilder,
+      campaignId: 16,
+      user,
+      organizationLearnerId: user.id,
+      status: TO_SHARE,
+    })
+  );
+  userIdsNotShared2.forEach((user) =>
+    participateToAssessmentCampaign({
+      databaseBuilder,
+      campaignId: 16,
+      user,
+      organizationLearnerId: user.id,
+      status: TO_SHARE,
+      isImprovingOldParticipation: true,
+    })
+  );
+  userIdsCompletedShared.forEach((user) =>
+    participateToAssessmentCampaign({
+      databaseBuilder,
+      campaignId: 16,
+      user,
+      organizationLearnerId: user.id,
+      status: SHARED,
+    })
+  );
+  userIdsCompletedShared2.forEach((user) =>
+    participateToAssessmentCampaign({
+      databaseBuilder,
+      campaignId: 16,
+      user,
+      organizationLearnerId: user.id,
+      status: SHARED,
+      isImprovingOldParticipation: true,
+    })
+  );
 }
 
 function _buildProfilesCollectionParticipations({ databaseBuilder, users }) {
@@ -434,24 +590,96 @@ function _buildProfilesCollectionParticipations({ databaseBuilder, users }) {
   const certifRegularUser5 = { id: CERTIF_REGULAR_USER5_ID, createdAt: new Date('2022-02-07') };
   const userIdsCertifiable = [users[10].id, users[11].id, users[12].id];
 
-  [certifRegularUser1, certifRegularUser2, certifRegularUser3, certifRegularUser4, certifRegularUser5].forEach((certifUser, index) => {
-    databaseBuilder.factory.buildOrganizationLearner({ lastName: `Certif${index}`, firstName: `User${index}`, id: certifUser.id, userId: certifUser.id, organizationId: PRO_COMPANY_ID });
-  });
+  [certifRegularUser1, certifRegularUser2, certifRegularUser3, certifRegularUser4, certifRegularUser5].forEach(
+    (certifUser, index) => {
+      databaseBuilder.factory.buildOrganizationLearner({
+        lastName: `Certif${index}`,
+        firstName: `User${index}`,
+        id: certifUser.id,
+        userId: certifUser.id,
+        organizationId: PRO_COMPANY_ID,
+      });
+    }
+  );
 
-  [...userIdsNotShared, certifRegularUser4, certifRegularUser5].forEach((user) => participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 6, user, organizationLearnerId: user.id, status: TO_SHARE }));
-  [...userIdsShared, certifRegularUser1, certifRegularUser2, certifRegularUser3].forEach((user) => participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 6, user, organizationLearnerId: user.id, status: SHARED }));
+  [...userIdsNotShared, certifRegularUser4, certifRegularUser5].forEach((user) =>
+    participateToProfilesCollectionCampaign({
+      databaseBuilder,
+      campaignId: 6,
+      user,
+      organizationLearnerId: user.id,
+      status: TO_SHARE,
+    })
+  );
+  [...userIdsShared, certifRegularUser1, certifRegularUser2, certifRegularUser3].forEach((user) =>
+    participateToProfilesCollectionCampaign({
+      databaseBuilder,
+      campaignId: 6,
+      user,
+      organizationLearnerId: user.id,
+      status: SHARED,
+    })
+  );
 
   //multiple sendings profiles collection campaign
-  userIdsShared.forEach((user) => participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 18, user, organizationLearnerId: user.id, status: SHARED, isCertifiable: userIdsCertifiable.includes(user.id) }));
-  userIdsNotShared.forEach((user) => participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 18, user, organizationLearnerId: user.id, status: TO_SHARE, isImprovingOldParticipation: true, isCertifiable: null }));
-  [certifRegularUser1, certifRegularUser2, certifRegularUser3, certifRegularUser4, certifRegularUser5].forEach((user) => participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 18, user, organizationLearnerId: user.id, status: SHARED, isImprovingOldParticipation: true }));
+  userIdsShared.forEach((user) =>
+    participateToProfilesCollectionCampaign({
+      databaseBuilder,
+      campaignId: 18,
+      user,
+      organizationLearnerId: user.id,
+      status: SHARED,
+      isCertifiable: userIdsCertifiable.includes(user.id),
+    })
+  );
+  userIdsNotShared.forEach((user) =>
+    participateToProfilesCollectionCampaign({
+      databaseBuilder,
+      campaignId: 18,
+      user,
+      organizationLearnerId: user.id,
+      status: TO_SHARE,
+      isImprovingOldParticipation: true,
+      isCertifiable: null,
+    })
+  );
+  [certifRegularUser1, certifRegularUser2, certifRegularUser3, certifRegularUser4, certifRegularUser5].forEach((user) =>
+    participateToProfilesCollectionCampaign({
+      databaseBuilder,
+      campaignId: 18,
+      user,
+      organizationLearnerId: user.id,
+      status: SHARED,
+      isImprovingOldParticipation: true,
+    })
+  );
 
   //deleted participations
-  participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 25, user: users[0], organizationLearnerId: users[0].id, status: TO_SHARE, deleted: true });
-  participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 26, user: users[0], organizationLearnerId: users[0].id, status: TO_SHARE, deleted: true });
+  participateToProfilesCollectionCampaign({
+    databaseBuilder,
+    campaignId: 25,
+    user: users[0],
+    organizationLearnerId: users[0].id,
+    status: TO_SHARE,
+    deleted: true,
+  });
+  participateToProfilesCollectionCampaign({
+    databaseBuilder,
+    campaignId: 26,
+    user: users[0],
+    organizationLearnerId: users[0].id,
+    status: TO_SHARE,
+    deleted: true,
+  });
 
   //certificability not shared
-  participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 18, user: users[13], organizationLearnerId: users[13].id, status: TO_SHARE });
+  participateToProfilesCollectionCampaign({
+    databaseBuilder,
+    campaignId: 18,
+    user: users[13],
+    organizationLearnerId: users[13].id,
+    status: TO_SHARE,
+  });
 }
 
 function _buildMedNumAssessmentParticipations({ databaseBuilder }) {
@@ -469,5 +697,11 @@ function _buildMedNumAssessmentParticipations({ databaseBuilder }) {
     userId: anonymousUser.id,
     organizationId: PRO_MED_NUM_ID,
   });
-  participateToAssessmentCampaign({ databaseBuilder, campaignId: 11, user: anonymousUser, organizationLearnerId: anonymousOrganizationLearner.id, status: SHARED });
+  participateToAssessmentCampaign({
+    databaseBuilder,
+    campaignId: 11,
+    user: anonymousUser,
+    organizationLearnerId: anonymousOrganizationLearner.id,
+    status: SHARED,
+  });
 }

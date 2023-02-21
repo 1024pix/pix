@@ -19,7 +19,10 @@ import {
   SCO_STUDENT_NOT_CERTIFIABLE_ID,
 } from './organizations-sco-builder';
 
-import { participateToAssessmentCampaign, participateToProfilesCollectionCampaign } from './campaign-participations-builder';
+import {
+  participateToAssessmentCampaign,
+  participateToProfilesCollectionCampaign,
+} from './campaign-participations-builder';
 import CampaignParticipationStatuses from '../../../lib/domain/models/CampaignParticipationStatuses';
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
@@ -150,15 +153,53 @@ function _buildScoAssessmentParticipations({ databaseBuilder }) {
   const scoStudentForeigner = { id: SCO_FOREIGNER_USER_ID, createdAt: new Date('2022-02-05') };
   const scoStudentDisabled = { id: SCO_DISABLED_USER_ID, createdAt: new Date('2022-02-06') };
 
-  const campaignParticipationId = participateToAssessmentCampaign({ databaseBuilder, campaignId: 4, user: scoStudent, organizationLearnerId: SCO_STUDENT_ID, status: SHARED });
-  databaseBuilder.factory.buildBadgeAcquisition({ userId: SCO_STUDENT_ID, badgeId: PRO_BASICS_BADGE_ID, campaignParticipationId });
-  databaseBuilder.factory.buildBadgeAcquisition({ userId: SCO_STUDENT_ID, badgeId: PRO_TOOLS_BADGE_ID, campaignParticipationId });
+  const campaignParticipationId = participateToAssessmentCampaign({
+    databaseBuilder,
+    campaignId: 4,
+    user: scoStudent,
+    organizationLearnerId: SCO_STUDENT_ID,
+    status: SHARED,
+  });
+  databaseBuilder.factory.buildBadgeAcquisition({
+    userId: SCO_STUDENT_ID,
+    badgeId: PRO_BASICS_BADGE_ID,
+    campaignParticipationId,
+  });
+  databaseBuilder.factory.buildBadgeAcquisition({
+    userId: SCO_STUDENT_ID,
+    badgeId: PRO_TOOLS_BADGE_ID,
+    campaignParticipationId,
+  });
 
-  participateToAssessmentCampaign({ databaseBuilder, campaignId: 4, user: scoStudentFrench, organizationLearnerId: SCO_FRENCH_USER_ID, status: TO_SHARE });
-  participateToAssessmentCampaign({ databaseBuilder, campaignId: 4, user: scoStudentForeigner, organizationLearnerId: SCO_FOREIGNER_USER_ID, status: STARTED });
-  participateToAssessmentCampaign({ databaseBuilder, campaignId: 4, user: scoStudentDisabled, organizationLearnerId: SCO_DISABLED_USER_ID, status: SHARED });
+  participateToAssessmentCampaign({
+    databaseBuilder,
+    campaignId: 4,
+    user: scoStudentFrench,
+    organizationLearnerId: SCO_FRENCH_USER_ID,
+    status: TO_SHARE,
+  });
+  participateToAssessmentCampaign({
+    databaseBuilder,
+    campaignId: 4,
+    user: scoStudentForeigner,
+    organizationLearnerId: SCO_FOREIGNER_USER_ID,
+    status: STARTED,
+  });
+  participateToAssessmentCampaign({
+    databaseBuilder,
+    campaignId: 4,
+    user: scoStudentDisabled,
+    organizationLearnerId: SCO_DISABLED_USER_ID,
+    status: SHARED,
+  });
 
-  participateToAssessmentCampaign({ databaseBuilder, campaignId: 8, user: scoStudentForeigner, organizationLearnerId: SCO_FOREIGNER_USER_ID_IN_ANOTHER_ORGANIZATION, status: SHARED });
+  participateToAssessmentCampaign({
+    databaseBuilder,
+    campaignId: 8,
+    user: scoStudentForeigner,
+    organizationLearnerId: SCO_FOREIGNER_USER_ID_IN_ANOTHER_ORGANIZATION,
+    status: SHARED,
+  });
 }
 
 function _buildScoProfilesCollectionParticipations({ databaseBuilder }) {
@@ -168,9 +209,39 @@ function _buildScoProfilesCollectionParticipations({ databaseBuilder }) {
   const scoStudentDisabled = { id: SCO_DISABLED_USER_ID, createdAt: new Date('2022-02-07') };
   const scoStudentNotCertifiable = { id: SCO_STUDENT_NOT_CERTIFIABLE_ID, createdAt: new Date('2022-02-08') };
 
-  participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 7, user: scoStudent, organizationLearnerId: SCO_STUDENT_ID, status: SHARED });
-  participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 7, user: scoStudentFrench, organizationLearnerId: SCO_FRENCH_USER_ID, status: SHARED });
-  participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 7, user: scoStudentForeigner, organizationLearnerId: SCO_FOREIGNER_USER_ID, status: TO_SHARE });
-  participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 7, user: scoStudentDisabled, organizationLearnerId: SCO_DISABLED_USER_ID, status: SHARED });
-  participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 7, user: scoStudentNotCertifiable, organizationLearnerId: SCO_STUDENT_NOT_CERTIFIABLE_ID, status: SHARED });
+  participateToProfilesCollectionCampaign({
+    databaseBuilder,
+    campaignId: 7,
+    user: scoStudent,
+    organizationLearnerId: SCO_STUDENT_ID,
+    status: SHARED,
+  });
+  participateToProfilesCollectionCampaign({
+    databaseBuilder,
+    campaignId: 7,
+    user: scoStudentFrench,
+    organizationLearnerId: SCO_FRENCH_USER_ID,
+    status: SHARED,
+  });
+  participateToProfilesCollectionCampaign({
+    databaseBuilder,
+    campaignId: 7,
+    user: scoStudentForeigner,
+    organizationLearnerId: SCO_FOREIGNER_USER_ID,
+    status: TO_SHARE,
+  });
+  participateToProfilesCollectionCampaign({
+    databaseBuilder,
+    campaignId: 7,
+    user: scoStudentDisabled,
+    organizationLearnerId: SCO_DISABLED_USER_ID,
+    status: SHARED,
+  });
+  participateToProfilesCollectionCampaign({
+    databaseBuilder,
+    campaignId: 7,
+    user: scoStudentNotCertifiable,
+    organizationLearnerId: SCO_STUDENT_NOT_CERTIFIABLE_ID,
+    status: SHARED,
+  });
 }

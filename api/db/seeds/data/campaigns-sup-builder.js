@@ -7,7 +7,10 @@ import {
   SUP_STUDENT_CERTIFIABLE,
 } from './organizations-sup-builder';
 
-import { participateToAssessmentCampaign, participateToProfilesCollectionCampaign } from './campaign-participations-builder';
+import {
+  participateToAssessmentCampaign,
+  participateToProfilesCollectionCampaign,
+} from './campaign-participations-builder';
 import CampaignParticipationStatuses from '../../../lib/domain/models/CampaignParticipationStatuses';
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
@@ -54,7 +57,7 @@ function _buildCampaigns({ databaseBuilder }) {
 
   databaseBuilder.factory.buildCampaign({
     id: 20,
-    name: 'Sup - Campagne d\'évaluation Pix+ Droit',
+    name: "Sup - Campagne d'évaluation Pix+ Droit",
     code: 'SUPDROIT1',
     type: 'ASSESSMENT',
     organizationId: SUP_UNIVERSITY_ID,
@@ -72,15 +75,46 @@ function _buildCampaigns({ databaseBuilder }) {
 function _buildSupAssessmentParticipations({ databaseBuilder }) {
   const supStudentAssociated = { id: SUP_STUDENT_ASSOCIATED_ID, createdAt: new Date('2022-02-04') };
   const supStudentDisabled = { id: SUP_STUDENT_DISABLED_ID, createdAt: new Date('2022-02-05') };
-  participateToAssessmentCampaign({ databaseBuilder, campaignId: 3, user: supStudentAssociated, organizationLearnerId: SUP_STUDENT_ASSOCIATED_ID, status: SHARED });
-  participateToAssessmentCampaign({ databaseBuilder, campaignId: 3, user: supStudentDisabled, organizationLearnerId: SUP_STUDENT_DISABLED_ID, status: STARTED });
+  participateToAssessmentCampaign({
+    databaseBuilder,
+    campaignId: 3,
+    user: supStudentAssociated,
+    organizationLearnerId: SUP_STUDENT_ASSOCIATED_ID,
+    status: SHARED,
+  });
+  participateToAssessmentCampaign({
+    databaseBuilder,
+    campaignId: 3,
+    user: supStudentDisabled,
+    organizationLearnerId: SUP_STUDENT_DISABLED_ID,
+    status: STARTED,
+  });
 }
 
 function _buildSupProfilesCollectionParticipations({ databaseBuilder }) {
   const supStudentAssociated = { id: SUP_STUDENT_ASSOCIATED_ID, createdAt: new Date('2022-02-06') };
   const supStudentDisabled = { id: SUP_STUDENT_DISABLED_ID, createdAt: new Date('2022-02-07') };
   const supStudentCertifiable = { id: SUP_STUDENT_CERTIFIABLE, createdAt: new Date('2022-02-08') };
-  participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 10, user: supStudentAssociated, organizationLearnerId: SUP_STUDENT_ASSOCIATED_ID, status: SHARED });
-  participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 10, user: supStudentDisabled, organizationLearnerId: SUP_STUDENT_DISABLED_ID, status: TO_SHARE });
-  participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 10, user: supStudentCertifiable, organizationLearnerId: SUP_STUDENT_CERTIFIABLE, status: SHARED, isCertifiable: true });
+  participateToProfilesCollectionCampaign({
+    databaseBuilder,
+    campaignId: 10,
+    user: supStudentAssociated,
+    organizationLearnerId: SUP_STUDENT_ASSOCIATED_ID,
+    status: SHARED,
+  });
+  participateToProfilesCollectionCampaign({
+    databaseBuilder,
+    campaignId: 10,
+    user: supStudentDisabled,
+    organizationLearnerId: SUP_STUDENT_DISABLED_ID,
+    status: TO_SHARE,
+  });
+  participateToProfilesCollectionCampaign({
+    databaseBuilder,
+    campaignId: 10,
+    user: supStudentCertifiable,
+    organizationLearnerId: SUP_STUDENT_CERTIFIABLE,
+    status: SHARED,
+    isCertifiable: true,
+  });
 }

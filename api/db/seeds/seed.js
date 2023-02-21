@@ -30,7 +30,10 @@ import stagesBuilder from './data/stages-builder';
 import { certificationCpfCountryBuilder } from './data/certification/certification-cpf-country-builder';
 import { certificationCpfCityBuilder } from './data/certification/certification-cpf-city-builder';
 import { issueReportCategoriesBuilder } from './data/certification/issue-report-categories-builder';
-import { getEligibleCampaignParticipations, generateKnowledgeElementSnapshots } from '../../scripts/prod/generate-knowledge-element-snapshots-for-campaigns';
+import {
+  getEligibleCampaignParticipations,
+  generateKnowledgeElementSnapshots,
+} from '../../scripts/prod/generate-knowledge-element-snapshots-for-campaigns';
 import computeParticipationsResults from '../../scripts/prod/compute-participation-results';
 import poleEmploiSendingsBuilder from './data/pole-emploi-sendings-builder';
 import { trainingBuilder } from './data/trainings-builder';
