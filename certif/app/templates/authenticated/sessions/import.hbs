@@ -1,3 +1,4 @@
+{{! template-lint-disable link-href-attributes }}
 {{page-title (t "pages.sessions.import.title")}}
 <main class="import-page">
   <PixReturnTo @route="authenticated.sessions.list" class="import-page__previous-page-button">
@@ -17,7 +18,7 @@
       </li>
       <FaIcon @icon="chevron-right" class="breadcrumb-icon" />
       <li class={{if this.isImportStepOne "" "active"}}>
-        <a href="">
+        <a role="link" aria-disabled="true" class="import-page-section-breadcrumb__summary-link">
           {{t "pages.sessions.import.breadcrumb.summary"}}
         </a>
       </li>

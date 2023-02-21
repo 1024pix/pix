@@ -148,6 +148,12 @@
   }
 }
 
+.import-page-section-breadcrumb {
+  &__summary-link {
+    cursor: default;
+  }
+}
+
 .import-page-file-name {
   &__cancel {
     margin-left: 8px;
