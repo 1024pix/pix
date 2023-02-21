@@ -73,13 +73,14 @@
       />
     {{/if}}
     <PixButton
-      class="stages-new-stage pix-button__secondary"
+      class="stages-new-stage"
       @backgroundColor="transparent-light"
       @isBorderVisible={{true}}
       @triggerAction={{this.addStage}}
       @isDisabled={{this.isAddStageDisabled}}
+      @iconBefore="plus"
     >
-      <FaIcon @icon="plus" />Nouveau palier
+      Nouveau palier
     </PixButton>
     {{#if this.hasNewStage}}
       <div class="stages-actions form-actions">
