@@ -1,4 +1,5 @@
 require('dotenv').config();
+import * as url from 'url';
 import { performance } from 'perf_hooks';
 import logger from '../../lib/infrastructure/logger';
 import cache from '../../lib/infrastructure/caches/learning-content-cache';
@@ -7,6 +8,8 @@ import yargs from 'yargs';
 import bluebird from 'bluebird';
 import { status } from '../../lib/domain/models/AssessmentResult';
 import readline from 'readline';
+
+const __filename = url.fileURLToPath(import.meta.url);
 const DEFAULT_COUNT = 20000;
 const DEFAULT_CONCURRENCY = 2;
 

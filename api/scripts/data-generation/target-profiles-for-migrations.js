@@ -1,9 +1,12 @@
 require('dotenv').config();
+import * as url from 'url';
 import { performance } from 'perf_hooks';
 import logger from '../../lib/infrastructure/logger';
 import cache from '../../lib/infrastructure/caches/learning-content-cache';
 import { knex, disconnect } from '../../db/knex-database-connection';
 import DatabaseBuilder from '../../db/database-builder/database-builder';
+
+const __filename = url.fileURLToPath(import.meta.url);
 
 const TARGET_PROFILE_ID_TO_OUTDATE = 2001;
 const TARGET_PROFILE_ID_AUTO = 2002;

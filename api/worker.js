@@ -1,4 +1,5 @@
 require('dotenv').config();
+import * as url from 'url';
 import PgBoss from 'pg-boss';
 import _ from 'lodash';
 import config from './lib/config';
@@ -11,6 +12,8 @@ import SendSharedParticipationResultsToPoleEmploiHandler from './lib/infrastruct
 import dependenciesBuilder from './lib/infrastructure/jobs/JobDependenciesBuilder';
 import scheduleCpfJobs from './lib/infrastructure/jobs/cpf-export/schedule-cpf-jobs';
 import MonitoredJobQueue from './lib/infrastructure/jobs/monitoring/MonitoredJobQueue';
+
+const __filename = url.fileURLToPath(import.meta.url);
 
 async function runJobs() {
   logger.info('Starting pg-boss');

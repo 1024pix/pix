@@ -1,4 +1,5 @@
 require('dotenv').config();
+import * as url from 'url';
 import { performance } from 'perf_hooks';
 import yargs from 'yargs';
 import bluebird from 'bluebird';
@@ -7,6 +8,7 @@ import logger from '../../../lib/infrastructure/logger';
 import cache from '../../../lib/infrastructure/caches/learning-content-cache';
 import { knex, disconnect } from '../../../db/knex-database-connection';
 
+const __filename = url.fileURLToPath(import.meta.url);
 const DEFAULT_MAX_CAMPAIGNS_COUNT = 50000;
 const DEFAULT_CONCURRENCY = 3;
 

@@ -1,7 +1,9 @@
+import * as url from 'url';
 import logger from '../../lib/infrastructure/logger';
 import { knex, disconnect } from '../../db/knex-database-connection';
 import bluebird from 'bluebird';
 
+const __filename = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = require.main === module;
 
 async function _getIdCategorySubcategoryFromCertificationIssueReport() {
