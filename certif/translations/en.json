@@ -6,6 +6,7 @@
       "continue": "Continue",
       "add": "Add",
       "delete": "Supprimer",
+      "quit": "Quit",
       "update": "Modifier"
     },
     "api-error-messages": {
