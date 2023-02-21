@@ -96,6 +96,28 @@ module('Acceptance | Session Import', function (hooks) {
         assert.dom(await screen.getByLabelText('fichier.csv')).hasText('fichier.csv');
       });
 
+      module('when leaving page and coming back', function () {
+        test('it should get back to step 1', async function (assert) {
+          // given
+          const blob = new Blob(['foo']);
+          const file = new File([blob], 'fichier.csv');
+          screen = await visit('/sessions/import');
+          const importButton = screen.getByLabelText('Importer le modèle complété');
+          await triggerEvent(importButton, 'change', { files: [file] });
+          const importConfirmationButton = screen.getByText('Continuer');
+          await click(importConfirmationButton);
+
+          // when
+          const outLink = screen.getByRole('link', { name: 'Revenir à la liste des sessions' });
+          await click(outLink);
+          await click(screen.getByRole('link', { name: 'Créer/éditer plusieurs sessions' }));
+
+          // then
+          assert.dom(importButton).exists();
+          assert.dom(screen.queryByLabelText('fichier.csv')).doesNotExist();
+        });
+      });
+
       module('when cancelling the import', function () {
         test("it should remove the file's name", async function (assert) {
           // given
