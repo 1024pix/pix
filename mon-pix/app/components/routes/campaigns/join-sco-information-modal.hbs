@@ -1,4 +1,8 @@
-<PixModal @title={{t "pages.join.sco.login-information-title"}} @onCloseButtonClick={{@closeModal}} @showModal={{true}}>
+<PixModal
+  @title={{t "pages.join.sco.login-information-title"}}
+  @onCloseButtonClick={{@closeModal}}
+  @showModal={{@showModal}}
+>
   <:content>
     <div class="join-error-modal__body">
       {{#if this.message}}

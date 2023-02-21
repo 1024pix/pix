@@ -6,12 +6,11 @@
   @errorMessage={{this.errorMessage}}
 />
 
-{{#if this.displayInformationModal}}
-  <Routes::Campaigns::JoinScoInformationModal
-    @campaignCode={{@campaignCode}}
-    @reconciliationError={{this.reconciliationError}}
-    @reconciliationWarning={{this.reconciliationWarning}}
-    @closeModal={{this.closeModal}}
-    @associate={{this.associate}}
-  />
-{{/if}}
+<Routes::Campaigns::JoinScoInformationModal
+  @campaignCode={{@campaignCode}}
+  @reconciliationError={{this.reconciliationError}}
+  @reconciliationWarning={{this.reconciliationWarning}}
+  @closeModal={{this.closeModal}}
+  @associate={{this.associate}}
+  @showModal={{this.displayInformationModal}}
+/>
