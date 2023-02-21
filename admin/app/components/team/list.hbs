@@ -48,8 +48,8 @@
                     class="admin-member-item-actions__button"
                     aria-label={{concat "Modifier le rôle de l'agent " member.firstName " " member.lastName}}
                     @triggerAction={{fn this.toggleEditionModeForThisMember member}}
+                    @iconBefore="pen-to-square"
                   >
-                    <FaIcon @icon="pen-to-square" />
                     Modifier</PixButton>
                 {{/if}}
                 <PixButton
@@ -57,8 +57,9 @@
                   @backgroundColor="red"
                   aria-label={{concat "Désactiver l'agent " member.firstName " " member.lastName}}
                   @triggerAction={{fn this.displayDeactivateConfirmationPopup member}}
+                  @iconBefore="trash"
                 >
-                  <FaIcon @icon="trash" />Désactiver
+                  Désactiver
                 </PixButton>
 
               </div>

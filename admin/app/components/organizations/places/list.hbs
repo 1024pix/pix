@@ -34,9 +34,9 @@
         <td>{{place.creatorFullName}}</td>
         <td>
           {{#if this.accessControl.hasAccessToOrganizationPlacesActionsScope}}
-            <PixButton @size="small" @backgroundColor="red" @triggerAction={{fn @onDelete place}}><FaIcon
-                @icon="trash"
-              />&nbsp;Supprimer</PixButton>
+            <PixButton @size="small" @backgroundColor="red" @triggerAction={{fn @onDelete place}} @iconBefore="trash">
+              Supprimer
+            </PixButton>
           {{/if}}
         </td>
       </tr>
