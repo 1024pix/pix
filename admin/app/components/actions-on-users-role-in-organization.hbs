@@ -47,8 +47,9 @@
           class="member-item-actions__button"
           aria-label="Modifier le rôle"
           @triggerAction={{this.editRoleOfMember}}
+          @iconBefore="pen-to-square"
         >
-          <FaIcon @icon="pen-to-square" />Modifier le rôle
+          Modifier le rôle
         </PixButton>
       {{/if}}
       <PixButton
@@ -58,8 +59,9 @@
         class="member-item-actions__button"
         aria-label="Désactiver l'agent"
         @triggerAction={{this.toggleDisplayConfirm}}
+        @iconBefore="trash"
       >
-        <FaIcon @icon="trash" />Désactiver
+        Désactiver
       </PixButton>
     </div>
 

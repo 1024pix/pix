@@ -30,8 +30,9 @@
                       class="organization-invitations-actions__button"
                       aria-label="Annuler l’invitation de {{invitation.email}}"
                       @triggerAction={{fn @onCancelOrganizationInvitation invitation}}
+                      @iconBefore="trash"
                     >
-                      <FaIcon @icon="trash" />Annuler l’invitation
+                      Annuler l’invitation
                     </PixButton>
                   </td>
                 {{/if}}

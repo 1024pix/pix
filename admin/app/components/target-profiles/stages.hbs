@@ -78,8 +78,9 @@
       @isBorderVisible={{true}}
       @triggerAction={{this.addStage}}
       @isDisabled={{this.isAddStageDisabled}}
+      @iconBefore="plus"
     >
-      <FaIcon @icon="plus" />Nouveau palier
+      Nouveau palier
     </PixButton>
     {{#if this.hasNewStage}}
       <div class="stages-actions form-actions">
