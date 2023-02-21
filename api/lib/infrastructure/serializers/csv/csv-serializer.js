@@ -51,7 +51,12 @@ function deserializeForSessionsImport(parsedCsvData) {
         sessions.push(currentParsedSession);
       }
     } else {
-      currentParsedSession = sessions.at(-1) ?? emptySession;
+      if (sessions.at(-1)) {
+        currentParsedSession = sessions.at(-1);
+      } else {
+        currentParsedSession = emptySession;
+        sessions.push(currentParsedSession);
+      }
     }
 
     const examiner = data.examiner.trim();
@@ -66,7 +71,7 @@ function deserializeForSessionsImport(parsedCsvData) {
 
   return sessions.map((session) => ({
     ...session,
-    examiner: session.examiner?.join(', '),
+    examiner: session.examiner ? session.examiner.join(', ') : '',
   }));
 }
 
