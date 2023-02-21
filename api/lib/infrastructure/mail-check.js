@@ -1,5 +1,6 @@
 import { promisify } from 'util';
-const resolveMx = promisify(require('dns').resolveMx);
+import dns from 'dns';
+const resolveMx = promisify(dns.resolveMx);
 
 export default {
   checkDomainIsValid(address) {

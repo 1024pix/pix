@@ -21,7 +21,8 @@ import SupOrganizationLearnerParser from '../../infrastructure/serializers/csv/s
 import queryParamsUtils from '../../infrastructure/utils/query-params-utils';
 import { extractLocaleFromRequest, extractUserIdFromRequest } from '../../infrastructure/utils/request-response-utils';
 import dayjs from 'dayjs';
-dayjs.extend(require('dayjs/plugin/customParseFormat'));
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+dayjs.extend(customParseFormat);
 import certificationResultUtils from '../../infrastructure/utils/csv/certification-results';
 import certificationAttestationPdf from '../../infrastructure/utils/pdf/certification-attestation-pdf';
 import organizationForAdminSerializer from '../../infrastructure/serializers/jsonapi/organization-for-admin-serializer';

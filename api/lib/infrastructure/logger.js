@@ -1,9 +1,9 @@
 import pino from 'pino';
 import { logging as logSettings } from '../config';
+import pretty from 'pino-pretty';
 
 let prettyPrint;
 if (logSettings.logForHumans) {
-  const pretty = require('pino-pretty');
   const omitDay = 'HH:MM:ss';
   prettyPrint = pretty({
     sync: true,

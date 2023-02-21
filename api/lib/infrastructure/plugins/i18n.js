@@ -1,5 +1,6 @@
+import * as hapiI18n from 'hapi-i18n';
 export default {
-  plugin: require('hapi-i18n'),
+  plugin: hapiI18n,
   options: {
     locales: ['en', 'fr'],
     directory: __dirname + '/../../../translations',

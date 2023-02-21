@@ -1,4 +1,5 @@
-const _ = require('lodash').runInContext();
+import { runInContext } from 'lodash';
+const _ = runInContext();
 
 _.mixin({
   /*

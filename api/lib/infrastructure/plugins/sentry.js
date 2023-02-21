@@ -1,8 +1,9 @@
 import Pack from '../../../package';
 import config from '../../config';
+import hapiSentry from 'hapi-sentry';
 
 export default {
-  plugin: require('hapi-sentry'),
+  plugin: hapiSentry,
   options: {
     client: {
       dsn: config.sentry.dsn,

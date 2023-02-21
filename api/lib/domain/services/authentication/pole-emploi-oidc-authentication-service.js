@@ -4,7 +4,8 @@ import DomainTransaction from '../../../infrastructure/DomainTransaction';
 import AuthenticationMethod from '../../models/AuthenticationMethod';
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
-const logoutUrlTemporaryStorage = require('../../../infrastructure/temporary-storage').withPrefix('logout-url:');
+import temporaryStorage from '../../../infrastructure/temporary-storage';
+const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 
 class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {

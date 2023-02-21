@@ -3,10 +3,10 @@ import { v4 as uuidv4 } from 'uuid';
 import settings from '../../config';
 import tokenService from './token-service';
 import { UnauthorizedError } from '../../application/http-errors';
-const refreshTokenTemporaryStorage = require('../../infrastructure/temporary-storage').withPrefix('refresh-tokens:');
-const userRefreshTokensTemporaryStorage = require('../../infrastructure/temporary-storage').withPrefix(
-  'user-refresh-tokens:'
-);
+import temporaryStorage from '../../infrastructure/temporary-storage';
+
+const refreshTokenTemporaryStorage = temporaryStorage.withPrefix('refresh-tokens:');
+const userRefreshTokensTemporaryStorage = temporaryStorage.withPrefix('user-refresh-tokens:');
 
 const REFRESH_TOKEN_EXPIRATION_DELAY_ADDITION_SECONDS = 60 * 60; // 1 hour
 

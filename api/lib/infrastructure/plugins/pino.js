@@ -1,5 +1,7 @@
 import config from '../../config';
 import monitoringTools from '../monitoring-tools';
+import hapiPino from 'hapi-pino';
+import logger from '../logger';
 
 function logObjectSerializer(req) {
   const enhancedReq = {
@@ -19,12 +21,12 @@ function logObjectSerializer(req) {
 }
 
 export default {
-  plugin: require('hapi-pino'),
+  plugin: hapiPino,
   options: {
     serializers: {
       req: logObjectSerializer,
     },
-    instance: require('../logger'),
+    instance: logger,
     // Remove duplicated req property: https://github.com/pinojs/hapi-pino#optionsgetchildbindings-request---key-any-
     getChildBindings: () => ({}),
     logQueryParams: true,

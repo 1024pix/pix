@@ -1,6 +1,7 @@
 import logger from '../../infrastructure/logger';
 import MonitoredJobHandler from './monitoring/MonitoredJobHandler';
-
+import participantResultsSharedRepository from '../repositories/participant-results-shared-repository';
+import campaignParticipationRepository from '../repositories/campaign-participation-repository';
 function build(classToInstanciate) {
   const dependencies = _buildDependencies();
 
@@ -11,8 +12,8 @@ function build(classToInstanciate) {
 
 function _buildDependencies() {
   return {
-    participantResultsSharedRepository: require('../repositories/participant-results-shared-repository'),
-    campaignParticipationRepository: require('../repositories/campaign-participation-repository'),
+    participantResultsSharedRepository,
+    campaignParticipationRepository,
   };
 }
 

@@ -1,21 +1,22 @@
 import settings from '../../../config';
-const temporaryStorage = require('../../../infrastructure/temporary-storage').withPrefix('authentication-session:');
+import temporaryStorage from '../../../infrastructure/temporary-storage';
+const temporaryStorageForAuthenticationSession = temporaryStorage.withPrefix('authentication-session:');
 
 const EXPIRATION_DELAY_SECONDS = settings.authenticationSession.temporaryStorage.expirationDelaySeconds;
 
 export default {
   getByKey(key) {
-    return temporaryStorage.get(key);
+    return temporaryStorageForAuthenticationSession.get(key);
   },
 
   save(authenticationContent) {
-    return temporaryStorage.save({
+    return temporaryStorageForAuthenticationSession.save({
       value: authenticationContent,
       expirationDelaySeconds: EXPIRATION_DELAY_SECONDS,
     });
   },
 
   update(key, value) {
-    temporaryStorage.update(key, value);
+    temporaryStorageForAuthenticationSession.update(key, value);
   },
 };

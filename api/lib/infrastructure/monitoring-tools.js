@@ -3,6 +3,8 @@ import { get, set, update, omit } from 'lodash';
 import logger from '../infrastructure/logger';
 import requestUtils from '../infrastructure/utils/request-response-utils';
 import { AsyncLocalStorage } from 'async_hooks';
+import Request from '@hapi/hapi/lib/request';
+
 const asyncLocalStorage = new AsyncLocalStorage();
 
 function getCorrelationContext() {
@@ -81,8 +83,6 @@ function pushInContext(path, value) {
 
 function installHapiHook() {
   if (!settings.hapi.enableRequestMonitoring) return;
-
-  const Request = require('@hapi/hapi/lib/request');
 
   const originalMethod = Request.prototype._execute;
 

@@ -1,13 +1,14 @@
 import settings from '../../config';
 const EXPIRATION_DELAY_SECONDS = settings.temporaryStorage.expirationDelaySeconds;
 import EmailModificationDemand from '../../domain/models/EmailModificationDemand';
-const temporaryStorage = require('../temporary-storage').withPrefix('verify-email:');
+import temporaryStorage from '../../infrastructure/temporary-storage';
+const verifyEmailTemporaryStorage = temporaryStorage.withPrefix('verify-email:');
 
 export default {
   saveEmailModificationDemand({ userId, code, newEmail }) {
     const key = userId;
 
-    return temporaryStorage.save({
+    return verifyEmailTemporaryStorage.save({
       key,
       value: { code, newEmail },
       expirationDelaySeconds: EXPIRATION_DELAY_SECONDS,
@@ -16,7 +17,7 @@ export default {
 
   async getEmailModificationDemandByUserId(userId) {
     const key = userId;
-    const emailModificationDemand = await temporaryStorage.get(key);
+    const emailModificationDemand = await verifyEmailTemporaryStorage.get(key);
 
     if (!emailModificationDemand) return;
 
