@@ -125,61 +125,6 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       assert.dom('table').doesNotExist();
       assert.dom(screen.getByText('Aucun palier associé')).exists();
     });
-
-    test('it should display a warning when there is no threshold at 0', async function (assert) {
-      // given
-      const stage = EmberObject.create({
-        id: 1,
-        threshold: 100,
-        title: 'My title',
-        message: 'My message',
-      });
-      this.set('model', { stages: [stage] });
-
-      // when
-      const screen = await render(hbs`<TargetProfiles::Stages @targetProfile={{this.model}} />`);
-
-      // then
-      assert.dom(screen.getByText("Attention ! Il n'y a pas de palier à 0")).exists();
-    });
-
-    module('when no stage with threshold 0', function () {
-      test('it should display warning message', async function (assert) {
-        // given
-        const stage = EmberObject.create({
-          id: 1,
-          threshold: 100,
-          title: 'My title',
-          message: 'My message',
-        });
-        this.set('model', { stages: [stage], imageUrl: 'data:,' });
-
-        // when
-        const screen = await render(hbs`<TargetProfiles::Stages @targetProfile={{this.model}} />`);
-
-        // then
-        assert.dom(screen.queryByText("Attention ! Il n'y a pas de palier à 0")).exists();
-      });
-    });
-
-    module('when one stage with threshold 0', function () {
-      test('it should not display warning message', async function (assert) {
-        // given
-        const stage = EmberObject.create({
-          id: 1,
-          threshold: 0,
-          title: 'My title',
-          message: 'My message',
-        });
-        this.set('model', { stages: [stage], imageUrl: 'data:,' });
-
-        // when
-        const screen = await render(hbs`<TargetProfiles::Stages @targetProfile={{this.model}} />`);
-
-        // then
-        assert.dom(screen.queryByText("Attention ! Il n'y a pas de palier à 0")).doesNotExist();
-      });
-    });
   });
 
   module('when stage type is level', function () {
@@ -213,46 +158,6 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       assert.strictEqual(find('tbody tr td:nth-child(3)').textContent.trim(), 'My message');
       assert.strictEqual(find('tbody tr td:nth-child(6)').textContent.trim(), 'Voir détail');
       assert.dom(screen.queryByText('Aucun résultat thématique associé')).doesNotExist();
-    });
-
-    module('when no stage with level 0', function () {
-      test('it should display warning message', async function (assert) {
-        // given
-        const stage = EmberObject.create({
-          id: 1,
-          level: 6,
-          isTypeLevel: true,
-          title: 'My title',
-          message: 'My message',
-        });
-        this.set('model', { stages: [stage], imageUrl: 'data:,' });
-
-        // when
-        const screen = await render(hbs`<TargetProfiles::Stages @targetProfile={{this.model}} />`);
-
-        // then
-        assert.dom(screen.queryByText("Attention ! Il n'y a pas de palier à 0")).exists();
-      });
-    });
-
-    module('when one stage with level 0', function () {
-      test('it should not display warning message', async function (assert) {
-        // given
-        const stage = EmberObject.create({
-          id: 1,
-          level: 0,
-          isTypeLevel: true,
-          title: 'My title',
-          message: 'My message',
-        });
-        this.set('model', { stages: [stage], imageUrl: 'data:,' });
-
-        // when
-        const screen = await render(hbs`<TargetProfiles::Stages @targetProfile={{this.model}} />`);
-
-        // then
-        assert.dom(screen.queryByText("Attention ! Il n'y a pas de palier à 0")).doesNotExist();
-      });
     });
   });
 });

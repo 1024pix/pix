@@ -47,14 +47,6 @@ export default class Stages extends Component {
     return this.args.targetProfile.stages.filter((stage) => stage.isNew);
   }
 
-  get displayNoZeroStage() {
-    if (!this.hasStages) return false;
-    if (this.isTypeLevel) {
-      return !this.args.targetProfile.stages.any((stage) => stage.level === 0);
-    }
-    return !this.args.targetProfile.stages.any((stage) => stage.threshold === 0);
-  }
-
   get columnNameByStageType() {
     return this.isTypeLevel ? LEVEL_COLUMN_NAME : THRESHOLD_COLUMN_NAME;
   }

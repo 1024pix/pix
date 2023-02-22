@@ -2,11 +2,6 @@
 <div class="content-text content-text--small">
   <form class="form" {{on "submit" this.createStages}}>
     {{#if this.hasStages}}
-      {{#if this.displayNoZeroStage}}
-        <PixMessage type="warning">
-          Attention ! Il n'y a pas de palier à 0
-        </PixMessage>
-      {{/if}}
       <div class="table-admin">
         <table class="stages-table">
           <thead>
