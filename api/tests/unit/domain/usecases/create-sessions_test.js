@@ -90,11 +90,10 @@ describe('Unit | UseCase | create-sessions', function () {
         it('should validate the candidates in the session', async function () {
           // given
           const candidate1 = createValidCandidateData(1);
-          const candidate2 = createValidCandidateData(2);
           const sessions = [
             {
               sessionId: 1234,
-              certificationCandidates: [candidate1, candidate2],
+              certificationCandidates: [candidate1],
             },
           ];
 
@@ -103,38 +102,6 @@ describe('Unit | UseCase | create-sessions', function () {
               accessCode: 'accessCode',
               address: undefined,
               assignedCertificationOfficerId: undefined,
-              certificationCandidates: [
-                {
-                  billingMode: 'Gratuite',
-                  birthCity: '',
-                  birthCountry: 'France',
-                  birthINSEECode: '134',
-                  birthPostalCode: null,
-                  birthdate: '1981-03-12',
-                  email: 'robindahood2@email.fr',
-                  externalId: 'htehte',
-                  extraTimePercentage: '20',
-                  firstName: 'Candidat 1',
-                  lastName: 'Candidat 1',
-                  resultRecipientEmail: 'robindahood@email.fr',
-                  sex: 'M',
-                },
-                {
-                  billingMode: 'Gratuite',
-                  birthCity: '',
-                  birthCountry: 'France',
-                  birthINSEECode: '134',
-                  birthPostalCode: null,
-                  birthdate: '1981-03-12',
-                  email: 'robindahood2@email.fr',
-                  externalId: 'htehte',
-                  extraTimePercentage: '20',
-                  firstName: 'Candidat 2',
-                  lastName: 'Candidat 2',
-                  resultRecipientEmail: 'robindahood@email.fr',
-                  sex: 'M',
-                },
-              ],
               certificationCenter: 'certificationCenterName',
               certificationCenterId: '123',
               date: undefined,
@@ -148,19 +115,40 @@ describe('Unit | UseCase | create-sessions', function () {
               publishedAt: undefined,
               resultsSentToPrescriberAt: undefined,
               room: undefined,
-              supervisorPassword: 'XCGKM',
               time: undefined,
+              certificationCandidates: [
+                {
+                  authorizedToStart: undefined,
+                  billingMode: 'FREE',
+                  birthCity: '',
+                  birthCountry: 'France',
+                  birthINSEECode: '134',
+                  birthPostalCode: null,
+                  birthProvinceCode: undefined,
+                  birthdate: '1981-03-12',
+                  complementaryCertifications: [],
+                  createdAt: undefined,
+                  email: 'robindahood2@email.fr',
+                  externalId: 'htehte',
+                  extraTimePercentage: 20,
+                  firstName: 'Candidat 1',
+                  id: undefined,
+                  lastName: 'Candidat 1',
+                  organizationLearnerId: null,
+                  prepaymentCode: null,
+                  resultRecipientEmail: 'robindahood@email.fr',
+                  sessionId: 1234,
+                  sex: 'M',
+                  userId: undefined,
+                },
+              ],
             },
           ];
 
           const cpfBirthInformationValidation1 = CpfBirthInformationValidation.success({ ...candidate1 });
-          const cpfBirthInformationValidation2 = CpfBirthInformationValidation.success({ ...candidate2 });
-          sessionsImportValidationService.getValidatedCandidateBirthInformation
-            .onCall(0)
-            .resolves(cpfBirthInformationValidation1);
-          sessionsImportValidationService.getValidatedCandidateBirthInformation
-            .onCall(1)
-            .resolves(cpfBirthInformationValidation2);
+          sessionsImportValidationService.getValidatedCandidateBirthInformation.resolves(
+            cpfBirthInformationValidation1
+          );
 
           // when
           const validatedSessions = await createSessions({
