@@ -38,18 +38,19 @@
   }
 
   p {
-    font-size: 0.625rem;
-    text-align: left;
+    padding-bottom: 0.8rem;
+    font-size: 1rem;
+    text-align: center;
 
-    @include device-is('desktop') {
-      text-align: center;
+    a {
+      text-decoration: underline;
     }
   }
 }
 
 .error-page-main-content__title {
   padding-bottom: 20px;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
 }
 
 .error-page__index-link {

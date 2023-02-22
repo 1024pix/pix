@@ -761,7 +761,7 @@
       }
     },
     "error": {
-      "content-text": "'<p>'Please refresh the page or '<LinkTo @route=\"login\">'return to homepage'</LinkTo>'.'</p><p>'You can also contact us via '<a href=\"https://pix.org/en-gb/contact-form\">'the help centre form'</a>'specifying the error code below in the description.'</p><p>'Please excuse any inconvenience caused.'</p><p>'The Pix team.'</p>'",
+      "content-text": "'<p>'Please refresh the page or return to homepage.'</p><p>'You can also contact us via '<a href=\"https://pix.org/en-gb/contact-form\">'the help centre form'</a>'specifying the error code below in the description.'</p><p>'Please excuse any inconvenience caused.'</p><p>'The Pix team.'</p>'",
       "first-title": "Oops, an error occurred!"
     },
     "fill-in-campaign-code": {
