@@ -34,11 +34,16 @@ module('Integration | Component | Layout::Footer', function (hooks) {
   });
 
   test('should display accessibility link', async function (assert) {
+    // given
+    const service = this.owner.lookup('service:url');
+    service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+
     // when
     const screen = await renderScreen(hbs`<Layout::Footer />}`);
 
     // then
-    assert.dom(screen.getByText(this.intl.t('navigation.footer.a11y'))).exists();
-    assert.dom('a[href="https://pix.fr/accessibilite-pix-certif/"]').exists();
+    assert
+      .dom(screen.getByRole('link', { name: this.intl.t('navigation.footer.a11y') }))
+      .hasAttribute('href', 'https://pix.fr/accessibilite-pix-certif');
   });
 });

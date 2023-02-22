@@ -13,4 +13,8 @@ export default class Footer extends Component {
   get legalNoticeUrl() {
     return this.url.legalNoticeUrl;
   }
+
+  get accessibilityUrl() {
+    return this.url.accessibilityUrl;
+  }
 }
