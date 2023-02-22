@@ -112,6 +112,7 @@ const dependencies = {
   organizationLearnersCsvService: require('../../domain/services/organization-learners-csv-service'),
   organizationLearnersXmlService: require('../../domain/services/organization-learners-xml-service'),
   participantResultRepository: require('../../infrastructure/repositories/participant-result-repository'),
+  participantResultsSharedRepository: require('../../infrastructure/repositories/participant-results-shared-repository'),
   participationsForCampaignManagementRepository: require('../../infrastructure/repositories/participations-for-campaign-management-repository'),
   participationsForUserManagementRepository: require('../../infrastructure/repositories/participations-for-user-management-repository'),
   userOrganizationsForAdminRepository: require('../../infrastructure/repositories/user-organizations-for-admin-repository'),
