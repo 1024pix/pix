@@ -4,9 +4,8 @@ const DomainTransaction = require('../../../../../lib/infrastructure/DomainTrans
 const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
 const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-identity-providers');
 const PoleEmploiOidcAuthenticationService = require('../../../../../lib/domain/services/authentication/pole-emploi-oidc-authentication-service');
-const logoutUrlTemporaryStorage = require('../../../../../lib/infrastructure/temporary-storage').withPrefix(
-  'logout-url:'
-);
+const temporaryStorage = require('../../../../../lib/infrastructure/temporary-storage');
+const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 
 describe('Unit | Domain | Services | pole-emploi-oidc-authentication-service', function () {
   describe('#createUserAccount', function () {
