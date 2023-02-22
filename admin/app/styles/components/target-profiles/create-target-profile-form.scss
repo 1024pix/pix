@@ -1,8 +1,17 @@
 .create-target-profile {
   color: $pix-neutral-70;
+  counter-reset: title;
 
   &__card {
     margin-bottom: $spacing-m;
+  }
+
+  .card__title {
+    counter-increment: title;
+
+    &::before {
+      content: counter(title) '.\00a0';
+    }
   }
 
   &__checkbox-container {
