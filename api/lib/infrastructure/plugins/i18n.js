@@ -1,5 +1,7 @@
+const hapiI18n = require('hapi-i18n');
+
 module.exports = {
-  plugin: require('hapi-i18n'),
+  plugin: hapiI18n,
   options: {
     locales: ['en', 'fr'],
     directory: __dirname + '/../../../translations',
