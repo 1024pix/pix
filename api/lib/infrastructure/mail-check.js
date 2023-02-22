@@ -1,5 +1,6 @@
 const { promisify } = require('util');
-const resolveMx = promisify(require('dns').resolveMx);
+const dns = require('dns');
+const resolveMx = promisify(dns.resolveMx);
 
 module.exports = {
   checkDomainIsValid(address) {
