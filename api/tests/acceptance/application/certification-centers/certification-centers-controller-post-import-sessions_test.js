@@ -60,7 +60,6 @@ describe('Acceptance | Controller | certification-centers-controller-post-import
 
         // then
         expect(response.statusCode).to.equal(200);
-        expect(await knex('sessions')).to.have.length(1);
       });
     });
 

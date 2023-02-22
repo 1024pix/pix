@@ -3,7 +3,6 @@ const sessionCodeService = require('../services/session-code-service.js');
 const sessionsImportValidationService = require('../services/sessions-import-validation-service.js');
 const CertificationCandidate = require('../models/CertificationCandidate.js');
 const bluebird = require('bluebird');
-const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
 
 module.exports = async function createSessions({
   sessions,
@@ -18,69 +17,42 @@ module.exports = async function createSessions({
 }) {
   const { name: certificationCenter, isSco } = await certificationCenterRepository.get(certificationCenterId);
 
-  return await DomainTransaction.execute(async (domainTransaction) => {
-    return await bluebird.mapSeries(sessions, async (sessionDTO) => {
-      let { sessionId } = sessionDTO;
+  return await bluebird.mapSeries(sessions, async (sessionDTO) => {
+    const { sessionId } = sessionDTO;
 
-      const accessCode = sessionCodeService.getNewSessionCode();
-      const session = new Session({
-        ...sessionDTO,
-        id: sessionId,
-        certificationCenterId,
-        certificationCenter,
-        accessCode,
-      });
-
-      await sessionsImportValidationService.validateSession({
-        session,
-        sessionRepository,
-        certificationCourseRepository,
-      });
-
-      // if (sessionId) {
-      //   await _deleteExistingCandidatesInSession({ certificationCandidateRepository, sessionId, domainTransaction });
-      // }
-
-      if (!sessionId && _hasSessionInfo(sessionDTO)) {
-        //   const { id } = await _saveNewSessionReturningId({
-        //     sessionRepository,
-        //     domainSession: session,
-        //     domainTransaction,
-        //   });
-        //   sessionId = id;
-      }
-
-      if (session.certificationCandidates.length) {
-        const { certificationCandidates } = session;
-
-        const certificationCandidatesUpdated = await _createCertificationCandidates({
-          certificationCandidates,
-          sessionId,
-          isSco,
-          certificationCpfCountryRepository,
-          certificationCpfCityRepository,
-          complementaryCertificationRepository,
-          certificationCandidateRepository,
-          domainTransaction,
-        });
-      }
-
-      return session;
+    const accessCode = sessionCodeService.getNewSessionCode();
+    const session = new Session({
+      ...sessionDTO,
+      id: sessionId,
+      certificationCenterId,
+      certificationCenter,
+      accessCode,
     });
+
+    await sessionsImportValidationService.validateSession({
+      session,
+      sessionRepository,
+      certificationCourseRepository,
+    });
+
+    if (session.certificationCandidates.length) {
+      const { certificationCandidates } = session;
+      const validatedCertificationCandidates = await _createCertificationCandidates({
+        certificationCandidates,
+        sessionId,
+        isSco,
+        certificationCpfCountryRepository,
+        certificationCpfCityRepository,
+        complementaryCertificationRepository,
+        certificationCandidateRepository,
+      });
+
+      session.certificationCandidates = validatedCertificationCandidates;
+    }
+
+    return session;
   });
 };
-
-function _hasSessionInfo(session) {
-  return session.address || session.room || session.date || session.time || session.examiner;
-}
-
-async function _saveNewSessionReturningId({ sessionRepository, domainSession, domainTransaction }) {
-  return await sessionRepository.save(domainSession, domainTransaction);
-}
-
-async function _deleteExistingCandidatesInSession({ certificationCandidateRepository, sessionId, domainTransaction }) {
-  await certificationCandidateRepository.deleteBySessionId({ sessionId, domainTransaction });
-}
 
 async function _createCertificationCandidates({
   certificationCandidates,
@@ -89,8 +61,6 @@ async function _createCertificationCandidates({
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
   complementaryCertificationRepository,
-  certificationCandidateRepository,
-  domainTransaction,
 }) {
   await bluebird.mapSeries(certificationCandidates, async (certificationCandidate) => {
     const billingMode = CertificationCandidate.translateBillingMode(certificationCandidate.billingMode);
@@ -120,11 +90,5 @@ async function _createCertificationCandidates({
     }
 
     return domainCertificationCandidate;
-
-    // await certificationCandidateRepository.saveInSession({
-    //   sessionId,
-    //   certificationCandidate: domainCertificationCandidate,
-    //   domainTransaction,
-    // });
   });
 }
