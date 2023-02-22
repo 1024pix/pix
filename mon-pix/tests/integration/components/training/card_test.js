@@ -14,7 +14,7 @@ module('Integration | Component | Training | Card', function (hooks) {
       type: 'webinaire',
       locale: 'fr-fr',
       duration: { hours: 6 },
-      editorName: "Ministère de l'éducation nationale et de la jeunesse",
+      editorName: "Ministère de l'éducation nationale et de la jeunesse. Liberté égalité fraternité",
       editorLogoUrl:
         'https://images.pix.fr/contenu-formatif/editeur/logo-ministere-education-nationale-et-jeunesse.svg',
     });
@@ -34,7 +34,7 @@ module('Integration | Component | Training | Card', function (hooks) {
     assert.notOk(find('.training-card-content-illustration__image').alt);
     assert.strictEqual(
       find('.training-card-content-illustration__logo').alt,
-      "Ministère de l'éducation nationale et de la jeunesse"
+      "Formation proposée par Ministère de l'éducation nationale et de la jeunesse. Liberté égalité fraternité"
     );
     assert.strictEqual(
       find('.training-card-content-illustration__logo').src,
