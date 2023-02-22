@@ -22,6 +22,10 @@ export default class Card extends Component {
     return this.intl.t(`pages.training.type.${this.args.training.type}`);
   }
 
+  get alternativeTextLogo() {
+    return `${this.intl.t('pages.training.editor')} ${this.args.training.editorName}`;
+  }
+
   get tagTitle() {
     return `${this.type} - ${this.durationFormatted}`;
   }

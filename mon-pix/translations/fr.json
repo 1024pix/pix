@@ -1406,7 +1406,8 @@
       "type": {
         "autoformation": "Parcours d'autoformation",
         "webinaire": "Webinaire"
-      }
+      },
+      "editor": "Contenu formatif proposé par"
     },
     "tutorial": {
       "title": "Didacticiel de la campagne",
