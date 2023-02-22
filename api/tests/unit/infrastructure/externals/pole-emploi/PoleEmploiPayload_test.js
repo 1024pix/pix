@@ -160,6 +160,8 @@ describe('Unit | Infrastructure | Externals | Pole-Emploi | PoleEmploiPayload', 
         participation,
         targetProfile,
         participationResult: {},
+        badges: [],
+        badgeAcquiredIds: [],
       });
 
       // then
@@ -177,6 +179,8 @@ describe('Unit | Infrastructure | Externals | Pole-Emploi | PoleEmploiPayload', 
         participation,
         targetProfile,
         participationResult: {},
+        badges: [],
+        badgeAcquiredIds: [],
       });
 
       // then
@@ -215,6 +219,8 @@ describe('Unit | Infrastructure | Externals | Pole-Emploi | PoleEmploiPayload', 
         participation,
         targetProfile,
         participationResult,
+        badges: [],
+        badgeAcquiredIds: [],
       });
 
       // then
@@ -243,6 +249,61 @@ describe('Unit | Infrastructure | Externals | Pole-Emploi | PoleEmploiPayload', 
           },
         ],
       });
+    });
+    it('should build badges payload for a campaign participation shared', function () {
+      const badges = [
+        {
+          id: 1,
+          key: 1,
+          title: 'titre',
+          message: 'message',
+          imageUrl: 'imageUrl',
+          altMessage: 'messageAlternatif',
+          isCertifiable: true,
+        },
+        {
+          id: 2,
+          key: 2,
+          title: 'titre2',
+          message: 'message2',
+          imageUrl: 'imageUrl2',
+          altMessage: 'messageAlternatif2',
+          isCertifiable: false,
+        },
+      ];
+      const badgeAcquiredIds = [1];
+      // when
+      const payload = PoleEmploiPayload.buildForParticipationShared({
+        user,
+        campaign,
+        participation,
+        targetProfile,
+        participationResult: {},
+        badges,
+        badgeAcquiredIds,
+      });
+
+      // then
+      expect(payload.badges).to.deep.equal([
+        {
+          cle: 1,
+          titre: 'titre',
+          message: 'message',
+          imageUrl: 'imageUrl',
+          messageAlternatif: 'messageAlternatif',
+          certifiable: true,
+          obtenu: true,
+        },
+        {
+          cle: 2,
+          titre: 'titre2',
+          message: 'message2',
+          imageUrl: 'imageUrl2',
+          messageAlternatif: 'messageAlternatif2',
+          certifiable: false,
+          obtenu: false,
+        },
+      ]);
     });
   });
 
