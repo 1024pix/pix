@@ -1,4 +1,6 @@
-const Joi = require('joi').extend(require('@joi/date'));
+const BaseJoi = require('joi');
+const JoiDate = require('@joi/date');
+const Joi = BaseJoi.extend(JoiDate);
 
 const securityPreHandlers = require('../security-pre-handlers');
 const organizationLearnerController = require('./organization-learner-controller');

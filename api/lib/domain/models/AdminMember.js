@@ -1,4 +1,6 @@
-const Joi = require('joi').extend(require('@joi/date'));
+const BaseJoi = require('joi');
+const JoiDate = require('@joi/date');
+const Joi = BaseJoi.extend(JoiDate);
 const { validateEntity } = require('../validators/entity-validator');
 const isNil = require('lodash/isNil');
 const { ROLES } = require('../constants').PIX_ADMIN;
