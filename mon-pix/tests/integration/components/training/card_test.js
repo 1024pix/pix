@@ -34,7 +34,7 @@ module('Integration | Component | Training | Card', function (hooks) {
     assert.notOk(find('.training-card-content-illustration__image').alt);
     assert.strictEqual(
       find('.training-card-content-illustration__logo').alt,
-      "Formation proposée par Ministère de l'éducation nationale et de la jeunesse. Liberté égalité fraternité"
+      "Contenu formatif proposé par Ministère de l'éducation nationale et de la jeunesse. Liberté égalité fraternité"
     );
     assert.strictEqual(
       find('.training-card-content-illustration__logo').src,
