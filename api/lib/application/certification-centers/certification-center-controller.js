@@ -190,14 +190,14 @@ module.exports = {
       .code(200);
   },
 
-  async importSessions(request, h) {
+  async validateSessionsForMassImport(request, h) {
     const certificationCenterId = request.params.certificationCenterId;
     const parsedCsvData = await csvHelpers.parseCsvWithHeader(request.payload.path);
     if (parsedCsvData.length === 0) {
       throw new UnprocessableEntityError('No session data in csv');
     }
     const sessions = csvSerializer.deserializeForSessionsImport(parsedCsvData);
-    await usecases.createSessions({ sessions, certificationCenterId });
+    await usecases.validateSessionsForMassImport({ sessions, certificationCenterId });
     return h.response().code(200);
   },
 };
