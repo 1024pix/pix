@@ -1,4 +1,5 @@
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
 const _ = require('lodash');
 const { knex, disconnect } = require('../../../db/knex-database-connection');
 const logger = require('../../../lib/infrastructure/logger');

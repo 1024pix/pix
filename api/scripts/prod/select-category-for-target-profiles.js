@@ -1,5 +1,6 @@
 #! /usr/bin/env node
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
 const bluebird = require('bluebird');
 const groupBy = require('lodash/groupBy');
 const sum = require('lodash/sum');

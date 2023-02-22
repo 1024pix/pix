@@ -1,4 +1,5 @@
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
 const { performance } = require('perf_hooks');
 const logger = require('../lib/infrastructure/logger');
 const cache = require('../lib/infrastructure/caches/learning-content-cache');
