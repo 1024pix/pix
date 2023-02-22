@@ -1,144 +1,287 @@
+const buildAccountRecoveryDemand = require('./build-account-recovery-demand');
+const buildAdminMember = require('./build-admin-member');
+const buildAllowedCertificationCenterAccess = require('./build-allowed-certification-center-access');
+const buildAnswer = require('./build-answer');
+const buildArea = require('./build-area');
+const buildAssessment = require('./build-assessment');
+const buildAssessmentResult = require('./build-assessment-result');
+const buildAuthenticationMethod = require('./build-authentication-method');
+const buildBadge = require('./build-badge');
+const buildBadgeAcquisition = require('./build-badge-acquisition');
+const buildBadgeCriterion = require('./build-badge-criterion');
+const buildBadgeDetails = require('./build-badge-details');
+const buildBadgeForCalculation = require('./build-badge-for-calculation');
+const buildBadgeCriterionForCalculation = require('./build-badge-criterion-for-calculation');
+const buildSkillSet = require('./build-skill-set');
+const buildCampaign = require('./build-campaign');
+const buildCampaignCollectiveResult = require('./build-campaign-collective-result');
+const buildCampaignParticipation = require('./build-campaign-participation');
+const buildCampaignParticipationBadge = require('./build-campaign-participation-badge');
+const buildCampaignParticipationForUserManagement = require('./build-campaign-participation-for-user-management');
+const buildCampaignParticipationResult = require('./build-campaign-participation-result');
+const buildCampaignParticipationInfo = require('./build-campaign-participation-info');
+const buildCampaignStages = require('./build-campaign-stages');
+const buildCampaignLearningContent = require('./build-campaign-learning-content');
+const buildCampaignManagement = require('./build-campaign-management');
+const buildCampaignReport = require('./build-campaign-report');
+const buildCampaignToJoin = require('./build-campaign-to-join');
+const buildCampaignToStartParticipation = require('./build-campaign-to-start-participation');
+const buildCertifiableBadgeAcquisition = require('./build-certifiable-badge-acquisition');
+const buildCertificationAssessment = require('./build-certification-assessment');
+const buildCertificationAssessmentScore = require('./build-certification-assessment-score');
+const buildCertificationCandidate = require('./build-certification-candidate');
+const buildCertificationCandidateForSupervising = require('./build-certification-candidate-for-supervising');
+const buildCertificationCandidateSubscription = require('./build-certification-candidate-subscription');
+const buildCertificationEligibility = require('./build-certification-eligibility');
+const buildCertificationIssueReport = require('./build-certification-issue-report');
+const buildCertificationOfficer = require('./build-certification-officer');
+const buildSCOCertificationCandidate = require('./build-sco-certification-candidate');
+const buildCertificationAttestation = require('./build-certification-attestation');
+const buildCertificationCenter = require('./build-certification-center');
+const buildCertificationCenterForAdmin = require('./build-certification-center-for-admin');
+const buildCertificationCenterInvitation = require('./build-certification-center-invitation');
+const buildCertificationCenterMembership = require('./build-certification-center-membership');
+const buildCertificationChallenge = require('./build-certification-challenge');
+const buildCertificationChallengeWithType = require('./build-certification-challenge-with-type');
+const buildCertificationCourse = require('./build-certification-course');
+const buildCertificationCpfCity = require('./build-certification-cpf-city');
+const buildCertificationCpfCountry = require('./build-certification-cpf-country');
+const buildCertificationDetails = require('./build-certification-details');
+const buildCertificationPointOfContact = require('./build-certification-point-of-contact');
+const buildCertifiableProfileForLearningContent = require('./build-certifiable-profile-for-learning-content');
+const buildCertificationReport = require('./build-certification-report');
+const buildCertificationResult = require('./build-certification-result');
+const buildCertificationRescoringCompletedEvent = require('./build-certification-rescoring-completed-event');
+const buildCertificationScoringCompletedEvent = require('./build-certification-scoring-completed-event');
+const buildCertifiedArea = require('./build-certified-area');
+const buildCertifiedCompetence = require('./build-certified-competence');
+const buildCertifiedProfile = require('./build-certified-profile');
+const buildCertifiedSkill = require('./build-certified-skill');
+const buildCertifiedTube = require('./build-certified-tube');
+const buildChallenge = require('./build-challenge');
+const buildChallengeLearningContentDataObject = require('./build-challenge-learning-content-data-object');
+const buildCleaCertifiedCandidate = require('./build-clea-certified-candidate');
+const buildCompetence = require('./build-competence');
+const buildCompetenceEvaluation = require('./build-competence-evaluation');
+const buildCompetenceMark = require('./build-competence-mark');
+const buildCompetenceResult = require('./build-competence-result');
+const buildCompetenceTree = require('./build-competence-tree');
+const buildComplementaryCertification = require('./build-complementary-certification');
+const buildComplementaryCertificationHabilitation = require('./build-complementary-certification-habilitation');
+const buildComplementaryCertificationScoringCriteria = require('./build-complementary-certification-scoring-criteria');
+const buildCountry = require('./build-country');
+const buildCourse = require('./build-course');
+const buildCpfCertificationResult = require('./build-cpf-certification-result');
+const buildDataProtectionOfficer = require('./build-data-protection-officer');
+const buildFinalizedSession = require('./build-finalized-session');
+const buildFramework = require('./build-framework');
+const buildHint = require('./build-hint');
+const buildSupOrganizationLearner = require('./build-sup-organization-learner');
+const buildJuryCertification = require('./build-jury-certification');
+const buildJuryCertificationSummary = require('./build-jury-certification-summary');
+const buildJurySession = require('./build-jury-session');
+const buildKnowledgeElement = require('./build-knowledge-element');
+const buildLearningContent = require('./build-learning-content');
+const buildMembership = require('./build-membership');
+const buildOrganization = require('./build-organization');
+const buildOrganizationPlacesLot = require('./build-organization-places-lot');
+const buildOrganizationPlacesLotManagement = require('./build-organization-places-lot-management');
+const buildOrganizationForAdmin = require('./build-organization-for-admin');
+const buildOrganizationInvitation = require('./build-organization-invitation');
+const buildOrganizationLearner = require('./build-organization-learner');
+const buildOrganizationLearnerForAdmin = require('./build-organization-learner-for-admin');
+const buildOrganizationLearnerParticipation = require('./build-organization-learner-participation');
+const buildOrganizationTag = require('./build-organization-tag');
+const buildParticipationForCampaignManagement = require('./build-participation-for-campaign-management');
+const buildComplementaryCertificationCourseResult = require('./build-complementary-certification-course-result');
+const buildComplementaryCertificationCourseResultForJuryCertification = require('./build-complementary-certification-course-result-for-certification');
+const buildComplementaryCertificationCourseResultForJuryCertificationWithExternal = require('./build-complementary-certification-course-result-for-certification-with-external');
+const buildComplementaryCertificationScoringWithoutComplementaryReferential = require('./build-complementary-certification-scoring-without-complementary-referential');
+const buildComplementaryCertificationScoringWithComplementaryReferential = require('./build-pix-plus-certification-scoring');
+const buildPlacementProfile = require('./build-placement-profile');
+const buildPoleEmploiSending = require('./build-pole-emploi-sending');
+const buildPrescriber = require('./build-prescriber');
+const buildPrivateCertificate = require('./build-private-certificate');
+const buildPrivateCertificateWithCompetenceTree = require('./build-private-certificate-with-competence-tree');
+const buildProgression = require('./build-progression');
+const buildReproducibilityRate = require('./build-reproducibility-rate');
+const buildResultCompetenceTree = require('./build-result-competence-tree');
+const buildSession = require('./build-session');
+const buildSessionForSupervising = require('./build-session-for-supervising');
+const buildSessionForSupervisorKit = require('./build-session-for-supervisor-kit');
+const buildSessionJuryComment = require('./build-session-jury-comment');
+const buildSessionSummary = require('./build-session-summary');
+const buildShareableCertificate = require('./build-shareable-certificate');
+const buildSkill = require('./build-skill');
+const buildSkillLearningContentDataObject = require('./build-skill-learning-content-data-object');
+const buildSkillCollection = require('./build-skill-collection');
+const buildSolution = require('./build-solution');
+const buildStage = require('./build-stage');
+const buildStageCollection = require('./target-profile-management/build-stage-collection');
+const buildTag = require('./build-tag');
+const buildTargetProfile = require('./build-target-profile');
+const buildTargetProfileForAdmin = require('./build-target-profile-for-admin');
+const buildTargetProfileForCreation = require('./build-target-profile-for-creation');
+const buildOrganizationsToAttachToTargetProfile = require('./build-organizations-to-attach-to-target-profile');
+const buildTargetProfileSummaryForAdmin = require('./build-target-profile-summary-for-admin');
+const buildThematic = require('./build-thematic');
+const buildTraining = require('./build-training');
+const buildTrainingSummary = require('./build-training-summary');
+const buildTrainingTrigger = require('./build-training-trigger');
+const buildTube = require('./build-tube');
+const buildTutorial = require('./build-tutorial');
+const buildTutorialForUser = require('./build-tutorial-for-user');
+const buildUser = require('./build-user');
+const buildUserCompetence = require('./build-user-competence');
+const buildUserDetailsForAdmin = require('./build-user-details-for-admin');
+const buildUserOrgaSettings = require('./build-user-orga-settings');
+const buildUserScorecard = require('./build-user-scorecard');
+const buildUserSavedTutorial = require('./build-user-saved-tutorial');
+const buildUserSavedTutorialWithTutorial = require('./build-user-saved-tutorial-with-tutorial');
+const buildValidation = require('./build-validation');
+const buildValidator = require('./build-validator');
+
 module.exports = {
-  buildAccountRecoveryDemand: require('./build-account-recovery-demand'),
-  buildAdminMember: require('./build-admin-member'),
-  buildAllowedCertificationCenterAccess: require('./build-allowed-certification-center-access'),
-  buildAnswer: require('./build-answer'),
-  buildArea: require('./build-area'),
-  buildAssessment: require('./build-assessment'),
-  buildAssessmentResult: require('./build-assessment-result'),
-  buildAuthenticationMethod: require('./build-authentication-method'),
-  buildBadge: require('./build-badge'),
-  buildBadgeAcquisition: require('./build-badge-acquisition'),
-  buildBadgeCriterion: require('./build-badge-criterion'),
-  buildBadgeDetails: require('./build-badge-details'),
-  buildBadgeForCalculation: require('./build-badge-for-calculation'),
-  buildBadgeCriterionForCalculation: require('./build-badge-criterion-for-calculation'),
-  buildSkillSet: require('./build-skill-set'),
-  buildCampaign: require('./build-campaign'),
-  buildCampaignCollectiveResult: require('./build-campaign-collective-result'),
-  buildCampaignParticipation: require('./build-campaign-participation'),
-  buildCampaignParticipationBadge: require('./build-campaign-participation-badge'),
-  buildCampaignParticipationForUserManagement: require('./build-campaign-participation-for-user-management'),
-  buildCampaignParticipationResult: require('./build-campaign-participation-result'),
-  buildCampaignParticipationInfo: require('./build-campaign-participation-info'),
-  buildCampaignStages: require('./build-campaign-stages'),
-  buildCampaignLearningContent: require('./build-campaign-learning-content'),
-  buildCampaignManagement: require('./build-campaign-management'),
-  buildCampaignReport: require('./build-campaign-report'),
-  buildCampaignToJoin: require('./build-campaign-to-join'),
-  buildCampaignToStartParticipation: require('./build-campaign-to-start-participation'),
-  buildCertifiableBadgeAcquisition: require('./build-certifiable-badge-acquisition'),
-  buildCertificationAssessment: require('./build-certification-assessment'),
-  buildCertificationAssessmentScore: require('./build-certification-assessment-score'),
-  buildCertificationCandidate: require('./build-certification-candidate'),
-  buildCertificationCandidateForSupervising: require('./build-certification-candidate-for-supervising'),
-  buildCertificationCandidateSubscription: require('./build-certification-candidate-subscription'),
-  buildCertificationEligibility: require('./build-certification-eligibility'),
-  buildCertificationIssueReport: require('./build-certification-issue-report'),
-  buildCertificationOfficer: require('./build-certification-officer'),
-  buildSCOCertificationCandidate: require('./build-sco-certification-candidate'),
-  buildCertificationAttestation: require('./build-certification-attestation'),
-  buildCertificationCenter: require('./build-certification-center'),
-  buildCertificationCenterForAdmin: require('./build-certification-center-for-admin'),
-  buildCertificationCenterInvitation: require('./build-certification-center-invitation'),
-  buildCertificationCenterMembership: require('./build-certification-center-membership'),
-  buildCertificationChallenge: require('./build-certification-challenge'),
-  buildCertificationChallengeWithType: require('./build-certification-challenge-with-type'),
-  buildCertificationCourse: require('./build-certification-course'),
-  buildCertificationCpfCity: require('./build-certification-cpf-city'),
-  buildCertificationCpfCountry: require('./build-certification-cpf-country'),
-  buildCertificationDetails: require('./build-certification-details'),
-  buildCertificationPointOfContact: require('./build-certification-point-of-contact'),
-  buildCertifiableProfileForLearningContent: require('./build-certifiable-profile-for-learning-content'),
-  buildCertificationReport: require('./build-certification-report'),
-  buildCertificationResult: require('./build-certification-result'),
-  buildCertificationRescoringCompletedEvent: require('./build-certification-rescoring-completed-event'),
-  buildCertificationScoringCompletedEvent: require('./build-certification-scoring-completed-event'),
-  buildCertifiedArea: require('./build-certified-area'),
-  buildCertifiedCompetence: require('./build-certified-competence'),
-  buildCertifiedProfile: require('./build-certified-profile'),
-  buildCertifiedSkill: require('./build-certified-skill'),
-  buildCertifiedTube: require('./build-certified-tube'),
-  buildChallenge: require('./build-challenge'),
-  buildChallengeLearningContentDataObject: require('./build-challenge-learning-content-data-object'),
-  buildCleaCertifiedCandidate: require('./build-clea-certified-candidate'),
-  buildCompetence: require('./build-competence'),
-  buildCompetenceEvaluation: require('./build-competence-evaluation'),
-  buildCompetenceMark: require('./build-competence-mark'),
-  buildCompetenceResult: require('./build-competence-result'),
-  buildCompetenceTree: require('./build-competence-tree'),
-  buildComplementaryCertification: require('./build-complementary-certification'),
-  buildComplementaryCertificationHabilitation: require('./build-complementary-certification-habilitation'),
-  buildComplementaryCertificationScoringCriteria: require('./build-complementary-certification-scoring-criteria'),
-  buildCountry: require('./build-country'),
-  buildCourse: require('./build-course'),
-  buildCpfCertificationResult: require('./build-cpf-certification-result'),
-  buildDataProtectionOfficer: require('./build-data-protection-officer'),
-  buildFinalizedSession: require('./build-finalized-session'),
-  buildFramework: require('./build-framework'),
-  buildHint: require('./build-hint'),
-  buildSupOrganizationLearner: require('./build-sup-organization-learner'),
-  buildJuryCertification: require('./build-jury-certification'),
-  buildJuryCertificationSummary: require('./build-jury-certification-summary'),
-  buildJurySession: require('./build-jury-session'),
-  buildKnowledgeElement: require('./build-knowledge-element'),
-  buildLearningContent: require('./build-learning-content'),
-  buildMembership: require('./build-membership'),
-  buildOrganization: require('./build-organization'),
-  buildOrganizationPlacesLot: require('./build-organization-places-lot'),
-  buildOrganizationPlacesLotManagement: require('./build-organization-places-lot-management'),
-  buildOrganizationForAdmin: require('./build-organization-for-admin'),
-  buildOrganizationInvitation: require('./build-organization-invitation'),
-  buildOrganizationLearner: require('./build-organization-learner'),
-  buildOrganizationLearnerForAdmin: require('./build-organization-learner-for-admin'),
-  buildOrganizationLearnerParticipation: require('./build-organization-learner-participation'),
-  buildOrganizationTag: require('./build-organization-tag'),
-  buildParticipationForCampaignManagement: require('./build-participation-for-campaign-management'),
-  buildComplementaryCertificationCourseResult: require('./build-complementary-certification-course-result'),
-  buildComplementaryCertificationCourseResultForJuryCertification: require('./build-complementary-certification-course-result-for-certification'),
-  buildComplementaryCertificationCourseResultForJuryCertificationWithExternal: require('./build-complementary-certification-course-result-for-certification-with-external'),
-  buildComplementaryCertificationScoringWithoutComplementaryReferential: require('./build-complementary-certification-scoring-without-complementary-referential'),
-  buildComplementaryCertificationScoringWithComplementaryReferential: require('./build-pix-plus-certification-scoring'),
-  buildPlacementProfile: require('./build-placement-profile'),
-  buildPoleEmploiSending: require('./build-pole-emploi-sending'),
-  buildPrescriber: require('./build-prescriber'),
-  buildPrivateCertificate: require('./build-private-certificate'),
-  buildPrivateCertificateWithCompetenceTree: require('./build-private-certificate-with-competence-tree'),
-  buildProgression: require('./build-progression'),
-  buildReproducibilityRate: require('./build-reproducibility-rate'),
-  buildResultCompetenceTree: require('./build-result-competence-tree'),
-  buildSession: require('./build-session'),
-  buildSessionForSupervising: require('./build-session-for-supervising'),
-  buildSessionForSupervisorKit: require('./build-session-for-supervisor-kit'),
-  buildSessionJuryComment: require('./build-session-jury-comment'),
-  buildSessionSummary: require('./build-session-summary'),
-  buildShareableCertificate: require('./build-shareable-certificate'),
-  buildSkill: require('./build-skill'),
-  buildSkillLearningContentDataObject: require('./build-skill-learning-content-data-object'),
-  buildSkillCollection: require('./build-skill-collection'),
-  buildSolution: require('./build-solution'),
-  buildStage: require('./build-stage'),
-  buildStageCollection: require('./target-profile-management/build-stage-collection'),
-  buildTag: require('./build-tag'),
-  buildTargetProfile: require('./build-target-profile'),
-  buildTargetProfileForAdmin: require('./build-target-profile-for-admin'),
-  buildTargetProfileForCreation: require('./build-target-profile-for-creation'),
-  buildOrganizationsToAttachToTargetProfile: require('./build-organizations-to-attach-to-target-profile'),
-  buildTargetProfileSummaryForAdmin: require('./build-target-profile-summary-for-admin'),
-  buildThematic: require('./build-thematic'),
-  buildTraining: require('./build-training'),
-  buildTrainingSummary: require('./build-training-summary'),
-  buildTrainingTrigger: require('./build-training-trigger'),
-  buildTube: require('./build-tube'),
-  buildTutorial: require('./build-tutorial'),
-  buildTutorialForUser: require('./build-tutorial-for-user'),
-  buildUser: require('./build-user'),
-  buildUserCompetence: require('./build-user-competence'),
-  buildUserDetailsForAdmin: require('./build-user-details-for-admin'),
-  buildUserOrgaSettings: require('./build-user-orga-settings'),
-  buildUserScorecard: require('./build-user-scorecard'),
-  buildUserSavedTutorial: require('./build-user-saved-tutorial'),
-  buildUserSavedTutorialWithTutorial: require('./build-user-saved-tutorial-with-tutorial'),
-  buildValidation: require('./build-validation'),
-  buildValidator: require('./build-validator'),
+  buildAccountRecoveryDemand,
+  buildAdminMember,
+  buildAllowedCertificationCenterAccess,
+  buildAnswer,
+  buildArea,
+  buildAssessment,
+  buildAssessmentResult,
+  buildAuthenticationMethod,
+  buildBadge,
+  buildBadgeAcquisition,
+  buildBadgeCriterion,
+  buildBadgeDetails,
+  buildBadgeForCalculation,
+  buildBadgeCriterionForCalculation,
+  buildSkillSet,
+  buildCampaign,
+  buildCampaignCollectiveResult,
+  buildCampaignParticipation,
+  buildCampaignParticipationBadge,
+  buildCampaignParticipationForUserManagement,
+  buildCampaignParticipationResult,
+  buildCampaignParticipationInfo,
+  buildCampaignStages,
+  buildCampaignLearningContent,
+  buildCampaignManagement,
+  buildCampaignReport,
+  buildCampaignToJoin,
+  buildCampaignToStartParticipation,
+  buildCertifiableBadgeAcquisition,
+  buildCertificationAssessment,
+  buildCertificationAssessmentScore,
+  buildCertificationCandidate,
+  buildCertificationCandidateForSupervising,
+  buildCertificationCandidateSubscription,
+  buildCertificationEligibility,
+  buildCertificationIssueReport,
+  buildCertificationOfficer,
+  buildSCOCertificationCandidate,
+  buildCertificationAttestation,
+  buildCertificationCenter,
+  buildCertificationCenterForAdmin,
+  buildCertificationCenterInvitation,
+  buildCertificationCenterMembership,
+  buildCertificationChallenge,
+  buildCertificationChallengeWithType,
+  buildCertificationCourse,
+  buildCertificationCpfCity,
+  buildCertificationCpfCountry,
+  buildCertificationDetails,
+  buildCertificationPointOfContact,
+  buildCertifiableProfileForLearningContent,
+  buildCertificationReport,
+  buildCertificationResult,
+  buildCertificationRescoringCompletedEvent,
+  buildCertificationScoringCompletedEvent,
+  buildCertifiedArea,
+  buildCertifiedCompetence,
+  buildCertifiedProfile,
+  buildCertifiedSkill,
+  buildCertifiedTube,
+  buildChallenge,
+  buildChallengeLearningContentDataObject,
+  buildCleaCertifiedCandidate,
+  buildCompetence,
+  buildCompetenceEvaluation,
+  buildCompetenceMark,
+  buildCompetenceResult,
+  buildCompetenceTree,
+  buildComplementaryCertification,
+  buildComplementaryCertificationHabilitation,
+  buildComplementaryCertificationScoringCriteria,
+  buildCountry,
+  buildCourse,
+  buildCpfCertificationResult,
+  buildDataProtectionOfficer,
+  buildFinalizedSession,
+  buildFramework,
+  buildHint,
+  buildSupOrganizationLearner,
+  buildJuryCertification,
+  buildJuryCertificationSummary,
+  buildJurySession,
+  buildKnowledgeElement,
+  buildLearningContent,
+  buildMembership,
+  buildOrganization,
+  buildOrganizationPlacesLot,
+  buildOrganizationPlacesLotManagement,
+  buildOrganizationForAdmin,
+  buildOrganizationInvitation,
+  buildOrganizationLearner,
+  buildOrganizationLearnerForAdmin,
+  buildOrganizationLearnerParticipation,
+  buildOrganizationTag,
+  buildParticipationForCampaignManagement,
+  buildComplementaryCertificationCourseResult,
+  buildComplementaryCertificationCourseResultForJuryCertification,
+  buildComplementaryCertificationCourseResultForJuryCertificationWithExternal,
+  buildComplementaryCertificationScoringWithoutComplementaryReferential,
+  buildComplementaryCertificationScoringWithComplementaryReferential,
+  buildPlacementProfile,
+  buildPoleEmploiSending,
+  buildPrescriber,
+  buildPrivateCertificate,
+  buildPrivateCertificateWithCompetenceTree,
+  buildProgression,
+  buildReproducibilityRate,
+  buildResultCompetenceTree,
+  buildSession,
+  buildSessionForSupervising,
+  buildSessionForSupervisorKit,
+  buildSessionJuryComment,
+  buildSessionSummary,
+  buildShareableCertificate,
+  buildSkill,
+  buildSkillLearningContentDataObject,
+  buildSkillCollection,
+  buildSolution,
+  buildStage,
+  buildStageCollection,
+  buildTag,
+  buildTargetProfile,
+  buildTargetProfileForAdmin,
+  buildTargetProfileForCreation,
+  buildOrganizationsToAttachToTargetProfile,
+  buildTargetProfileSummaryForAdmin,
+  buildThematic,
+  buildTraining,
+  buildTrainingSummary,
+  buildTrainingTrigger,
+  buildTube,
+  buildTutorial,
+  buildTutorialForUser,
+  buildUser,
+  buildUserCompetence,
+  buildUserDetailsForAdmin,
+  buildUserOrgaSettings,
+  buildUserScorecard,
+  buildUserSavedTutorial,
+  buildUserSavedTutorialWithTutorial,
+  buildValidation,
+  buildValidator,
 };
