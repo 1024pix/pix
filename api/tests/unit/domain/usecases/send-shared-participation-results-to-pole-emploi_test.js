@@ -6,6 +6,8 @@ const sendSharedParticipationResultsToPoleEmploi = require('../../../../lib/doma
 describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-emploi', function () {
   let dependencies, expectedResults;
   let campaignRepository,
+    badgeRepository,
+    badgeAcquisitionRepository,
     campaignParticipationRepository,
     campaignParticipationResultRepository,
     organizationRepository,
@@ -13,9 +15,11 @@ describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-em
     userRepository,
     poleEmploiNotifier,
     poleEmploiSendingRepository;
-  let campaignId, campaignParticipationId, userId, organizationId;
+  let campaignId, campaignParticipationId, userId, organizationId, badges, badgeAcquiredIds;
 
   beforeEach(function () {
+    badgeRepository = { findByCampaignId: sinon.stub() };
+    badgeAcquisitionRepository = { getAcquiredBadgeIds: sinon.stub() };
     campaignRepository = { get: sinon.stub() };
     campaignParticipationRepository = { get: sinon.stub() };
     campaignParticipationResultRepository = { getByParticipationId: sinon.stub() };
@@ -26,6 +30,8 @@ describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-em
     poleEmploiSendingRepository = { create: sinon.stub() };
 
     dependencies = {
+      badgeRepository,
+      badgeAcquisitionRepository,
       campaignRepository,
       campaignParticipationRepository,
       campaignParticipationResultRepository,
@@ -88,7 +94,30 @@ describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-em
           },
         ],
       },
+      badges: [
+        {
+          cle: 1,
+          titre: 'titre',
+          message: 'message',
+          imageUrl: 'imageUrl',
+          messageAlternatif: 'messageAlternatif',
+          certifiable: true,
+          obtenu: true,
+        },
+      ],
     });
+    badges = [
+      {
+        id: 1,
+        key: 1,
+        title: 'titre',
+        message: 'message',
+        imageUrl: 'imageUrl',
+        altMessage: 'messageAlternatif',
+        isCertifiable: true,
+      },
+    ];
+    badgeAcquiredIds = [1];
     campaignId = Symbol('campaignId');
     campaignParticipationId = 55667788;
     userId = Symbol('userId');
@@ -148,6 +177,8 @@ describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-em
           ],
         })
       );
+      badgeRepository.findByCampaignId.withArgs(campaignId).resolves(badges);
+      badgeAcquisitionRepository.getAcquiredBadgeIds.withArgs({ badgeIds: [1], userId }).resolves(badgeAcquiredIds);
     });
 
     it('should notify pole emploi and create pole emploi sending accordingly', async function () {
