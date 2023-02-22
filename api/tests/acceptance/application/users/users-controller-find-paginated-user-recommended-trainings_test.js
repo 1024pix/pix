@@ -44,7 +44,7 @@ describe('Acceptance | Controller | users-controller-find-paginated-user-recomme
             locale: 'fr-fr',
             title: 'title',
             type: 'webinaire',
-            'editor-name': "Ministère de l'Éducation nationale et de la Jeunesse",
+            'editor-name': "Ministère de l'Éducation nationale et de la Jeunesse. Liberté égalité fraternité",
             'editor-logo-url':
               'https://images.pix.fr/contenu-formatif/editeur/logo-ministere-education-nationale-et-jeunesse.svg',
           },

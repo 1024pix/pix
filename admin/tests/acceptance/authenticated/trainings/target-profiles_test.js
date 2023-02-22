@@ -23,7 +23,7 @@ module('Acceptance | Trainings | Target profiles', function (hooks) {
       type: 'autoformation',
       duration: '10:00:00',
       locale: 'fr-fr',
-      editorName: "Ministère de l'éducation nationale et de la jeunesse",
+      editorName: "Ministère de l'éducation nationale et de la jeunesse. Liberté égalité fraternité",
       editorLogoUrl: 'https://mon-logo.svg',
       prerequisiteThreshold: null,
       goalThreshold: null,
