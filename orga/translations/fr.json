@@ -333,7 +333,8 @@
       "external-id-label": {
         "label": "Libellé de l’identifiant",
         "question-label": "Souhaitez-vous demander un identifiant externe ?",
-        "suggestion": "Exemple: \"Numéro de l'étudiant\" ou \"Adresse e-mail professionnelle\" *"
+        "suggestion": "Exemple: \"Numéro de l'étudiant\" ou \"Adresse e-mail professionnelle\" *",
+        "required": "L'id externe est obligatoire"
       },
       "landing-page-text": {
         "label": "Texte de la page d'accueil"

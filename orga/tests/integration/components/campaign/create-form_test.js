@@ -477,6 +477,24 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       // then
       assert.contains(t('pages.campaign-creation.legal-warning'));
     });
+
+    test('it set the external id as required', async function (assert) {
+      // when
+      const screen = await render(
+        hbs`<Campaign::CreateForm
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`
+      );
+      await clickByName(t('pages.campaign-creation.yes'));
+
+      // then
+      const label = screen.getByLabelText(new RegExp(t('pages.campaign-creation.external-id-label.label')));
+      assert.true(label.hasAttribute('aria-required', false));
+    });
   });
 
   test('it should send campaign creation action when submitted', async function (assert) {
