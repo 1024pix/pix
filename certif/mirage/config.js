@@ -306,7 +306,7 @@ export default function () {
               code: 'INVALID_DOCUMENT',
               status: '422',
               title: 'Unprocessable Entity',
-              detail: 'Une erreur personnalisée.',
+              detail: 'Fichier non valide',
             },
           ],
         }

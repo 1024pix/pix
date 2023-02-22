@@ -168,7 +168,7 @@ module('Acceptance | Session Import', function (hooks) {
           await click(importButton);
 
           // then
-          assert.dom('[data-test-notification-message="error"]').hasText("Aucune session n'a été importée");
+          assert.dom(screen.getByText('Fichier non valide')).exists();
         });
       });
     });
