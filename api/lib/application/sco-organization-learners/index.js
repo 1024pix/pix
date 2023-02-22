@@ -1,4 +1,6 @@
-const Joi = require('joi').extend(require('@joi/date'));
+const BaseJoi = require('joi');
+const JoiDate = require('@joi/date');
+const Joi = BaseJoi.extend(JoiDate);
 
 const { sendJsonApiError, UnprocessableEntityError, BadRequestError } = require('../http-errors');
 const scoOrganizationLearnerController = require('./sco-organization-learner-controller');
