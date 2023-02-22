@@ -26,13 +26,10 @@
                   @setFirstStage={{(and this.setFirstStage (eq index 0))}}
                   @stage={{stage}}
                   @imageUrl={{@targetProfile.imageUrl}}
-                  @title={{stage.title}}
                   @isTypeLevel={{stage.isTypeLevel}}
                   @availableLevels={{this.availableLevels}}
                   @unavailableThresholds={{this.unavailableThresholds}}
                   @setLevel={{fn this.onStageLevelChange stage}}
-                  @message={{stage.message}}
-                  @errors={{stage.errors}}
                   @remove={{fn this.removeStage stage}}
                 />
               {{else}}

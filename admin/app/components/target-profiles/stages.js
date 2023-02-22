@@ -11,8 +11,7 @@ export default class Stages extends Component {
   @service store;
   @service notifications;
 
-  @tracked
-  firstStageType = undefined;
+  @tracked firstStageType = undefined;
 
   get setFirstStage() {
     return (
@@ -78,10 +77,11 @@ export default class Stages extends Component {
       targetProfile: this.args.targetProfile,
       level: this.isTypeLevel ? nextLowestLevelAvailable.toString() : undefined,
       threshold: !this.isTypeLevel && this.setFirstStage ? '0' : undefined,
-      title: isFirstStage ? 'Parcours terminé !' : null,
-      message: isFirstStage
-        ? 'Vous n’êtes visiblement pas tombé sur vos sujets préférés...Ou peut-être avez-vous besoin d’aide ? Dans tous les cas, rien n’est perdu d’avance ! Avec de l’accompagnement et un peu d’entraînement vous développerez à coup sûr vos compétences !'
-        : null,
+      title: this.isTypeLevel && isFirstStage ? 'Parcours terminé !' : null,
+      message:
+        this.isTypeLevel && isFirstStage
+          ? 'Vous n’êtes visiblement pas tombé sur vos sujets préférés...Ou peut-être avez-vous besoin d’aide ? Dans tous les cas, rien n’est perdu d’avance ! Avec de l’accompagnement et un peu d’entraînement vous développerez à coup sûr vos compétences !'
+          : null,
     });
   }
 
@@ -105,6 +105,19 @@ export default class Stages extends Component {
   @action
   async createStages(event) {
     event.preventDefault();
+
+    const isStagesValid = this.newStages.map((stage) => {
+      return (
+        ((stage.isTypeLevel && stage.level !== null) || (!stage.isTypeLevel && stage.threshold !== null)) &&
+        stage.message !== null &&
+        stage.title !== null
+      );
+    });
+
+    if (isStagesValid.includes(false)) {
+      this.notifications.error('Veuillez corriger les champs en erreurs.');
+      return;
+    }
 
     try {
       for (const stage of this.newStages) {
