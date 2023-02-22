@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v3.327.1 (22/02/2023)
+
+
+### :bug: Correction
+- [#5719](https://github.com/1024pix/pix/pull/5719) [BUGFIX] Ajout de la dépendance manquante participantResultsSharedRepository
+
 ## v3.327.0 (22/02/2023)
 
 
