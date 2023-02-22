@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // eslint-disable-file node/no-process-exit
 
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
 const logger = require('../../lib/infrastructure/logger');
 
 /**

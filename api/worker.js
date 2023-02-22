@@ -1,4 +1,5 @@
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
 const PgBoss = require('pg-boss');
 const _ = require('lodash');
 const config = require('./lib/config');

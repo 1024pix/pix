@@ -1,4 +1,5 @@
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
 const groupBy = require('lodash/groupBy');
 const { knex, disconnect } = require('../db/knex-database-connection');
 const UserSavedTutorial = require('../lib/domain/models/UserSavedTutorial');

@@ -1,7 +1,8 @@
 #! /usr/bin/env node
 /* eslint no-console: ["off"] */
 'use strict';
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
 const yargs = require('yargs');
 const { knex, disconnect } = require('../../db/knex-database-connection');
 const bluebird = require('bluebird');

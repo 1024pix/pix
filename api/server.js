@@ -1,4 +1,5 @@
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
 const Hapi = require('@hapi/hapi');
 const Oppsy = require('oppsy');
 

@@ -1,4 +1,5 @@
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
 const { performance } = require('perf_hooks');
 const yargs = require('yargs');
 const bluebird = require('bluebird');
