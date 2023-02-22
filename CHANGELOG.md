@@ -1,5 +1,37 @@
 # Pix Changelog
 
+## v3.327.0 (22/02/2023)
+
+
+### :rocket: Amélioration
+- [#5710](https://github.com/1024pix/pix/pull/5710) [FEATURE] Empêcher la modification du palier 0 (PIX-6598)
+- [#5703](https://github.com/1024pix/pix/pull/5703) [FEATURE] Passer "Certification complémentaires" au singulier sur Pix Certif (PIX-7033).
+- [#5666](https://github.com/1024pix/pix/pull/5666) [FEATURE] Modifier le détail d'un contenu formatif dans Pix Admin (PIX-6321).
+- [#5696](https://github.com/1024pix/pix/pull/5696) [FEATURE] Améliorer le visuel du bouton de suppression d'un palier dans pix admin (PIX-7104)
+- [#5707](https://github.com/1024pix/pix/pull/5707) [FEATURE] Gérer le fonctionnement du Palier 0 (PIX-6514)
+- [#5704](https://github.com/1024pix/pix/pull/5704) [FEATURE] Ajouter des messages d'erreur visuels lors de champs invalides dans l'édition de palier
+- [#5652](https://github.com/1024pix/pix/pull/5652) [FEATURE] Traduire la page de liste de sessions de certification (PIX-6666)
+- [#5657](https://github.com/1024pix/pix/pull/5657) [FEATURE] Ajout d'un tri sur le tableau de participants par nom (PIX-7007)
+
+### :building_construction: Tech
+- [#5444](https://github.com/1024pix/pix/pull/5444) [TECH] Déplace le code de ParticipationResultCalculationJobHandler dans un usecase
+- [#5586](https://github.com/1024pix/pix/pull/5586) [TECH] Mise à jour de la documentation d'interconnexion PoleEmploi
+- [#5406](https://github.com/1024pix/pix/pull/5406) [TECH] Supprimer le message de déploiement redondant dans Jira
+- [#5699](https://github.com/1024pix/pix/pull/5699) [TECH] Active des règles de lint SCSS d'espacement
+
+### :bug: Correction
+- [#5700](https://github.com/1024pix/pix/pull/5700) [BUGFIX] Ne pas envoyer l'ancienne valeur lorsque le nouveau palier est en Erreur (Pix-7211)
+- [#5698](https://github.com/1024pix/pix/pull/5698) [BUGFIX] Ne pas avoir d'erreur 500 lorsque le nom de salle n'est pas fourni sur la première ligne du CSV (PIX-7212).
+
+### :coffee: Autre
+- [#5709](https://github.com/1024pix/pix/pull/5709) [CHORE] Améliorer les instructions pour l'archivage en masse des campages (PIX-7219)
+- [#5687](https://github.com/1024pix/pix/pull/5687) [BUMP] Update dependency ember-cli-clipboard to v1 (mon-pix)
+- [#5690](https://github.com/1024pix/pix/pull/5690) [BUMP] Update dependency ember-modifier to v4 (mon-pix)
+- [#5688](https://github.com/1024pix/pix/pull/5688) [BUMP] Update dependency ember-click-outside to v5 (mon-pix)
+- [#5686](https://github.com/1024pix/pix/pull/5686) [BUMP] Update dependency ember-cli-app-version to v6 (mon-pix)
+- [#5689](https://github.com/1024pix/pix/pull/5689) [BUMP] Update dependency ember-keyboard to v8 (mon-pix)
+- [#5692](https://github.com/1024pix/pix/pull/5692) [BUMP] Update dependency ember-resolver to v10 (mon-pix)
+
 ## v3.326.0 (20/02/2023)
 
 
