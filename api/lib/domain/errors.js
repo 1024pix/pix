@@ -1105,6 +1105,30 @@ class UnexpectedOidcStateError extends DomainError {
   }
 }
 
+class OidcMissingFieldsError extends DomainError {
+  constructor(
+    message = 'Mandatory information returned by the identify provider about the user is missing.',
+    code,
+    meta
+  ) {
+    super(message);
+    this.code = code;
+    this.meta = meta;
+  }
+}
+
+class OidcUserInfoFormatError extends DomainError {
+  constructor(
+    message = 'The user information returned by your identity provider is not in the expected format.',
+    code,
+    meta
+  ) {
+    super(message);
+    this.code = code;
+    this.meta = meta;
+  }
+}
+
 class InvalidIdentityProviderError extends DomainError {
   constructor(identityProvider) {
     const message = `Identity provider ${identityProvider} is not supported.`;
@@ -1396,6 +1420,8 @@ module.exports = {
   TargetProfileCannotBeCreated,
   TooManyRows,
   UnexpectedOidcStateError,
+  OidcMissingFieldsError,
+  OidcUserInfoFormatError,
   UnexpectedUserAccountError,
   UnknownCountryForStudentEnrollmentError,
   UserAlreadyExistsWithAuthenticationMethodError,

@@ -4,6 +4,7 @@ import { inject as service } from '@ember/service';
 import get from 'lodash/get';
 import ENV from 'mon-pix/config/environment';
 import fetch from 'fetch';
+import JSONApiError from 'mon-pix/errors/json-api-error';
 
 export default class LoginOidcRoute extends Route {
   @service session;
@@ -69,12 +70,15 @@ export default class LoginOidcRoute extends Route {
       });
     } catch (response) {
       const apiError = get(response, 'errors[0]');
-      const shouldValidateCgu = apiError.code === 'SHOULD_VALIDATE_CGU';
-      const { authenticationKey, givenName, familyName } = apiError.meta ?? {};
+      const error = new JSONApiError(apiError.detail, apiError);
+
+      const shouldValidateCgu = error.code === 'SHOULD_VALIDATE_CGU';
+      const { authenticationKey, givenName, familyName } = error.meta ?? {};
       if (shouldValidateCgu && authenticationKey) {
         return { shouldValidateCgu, authenticationKey, identityProviderSlug, givenName, familyName };
       }
-      throw new Error(JSON.stringify(response.errors));
+
+      throw error;
     } finally {
       this.session.set('data.state', undefined);
       this.session.set('data.nonce', undefined);

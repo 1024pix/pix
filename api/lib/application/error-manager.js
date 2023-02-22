@@ -409,6 +409,14 @@ function _mapToHttpError(error) {
     return new HttpErrors.BadRequestError(error.message);
   }
 
+  if (error instanceof DomainErrors.OidcMissingFieldsError) {
+    return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
+  }
+
+  if (error instanceof DomainErrors.OidcUserInfoFormatError) {
+    return new HttpErrors.ServiceUnavailableError(error.message, error.code, error.meta);
+  }
+
   if (error instanceof DomainErrors.InvalidIdentityProviderError) {
     return new HttpErrors.BadRequestError(error.message);
   }
