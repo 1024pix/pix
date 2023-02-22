@@ -36,6 +36,6 @@
       @isImportDisabled={{this.isImportDisabled}}
     />
   {{else}}
-    <Import::StepTwoSection />
+    <Import::StepTwoSection @report={{this.report}} @isImportInError={{this.isImportInError}} />
   {{/if}}
 </main>
