@@ -26,7 +26,8 @@ const {
   extractUserIdFromRequest,
 } = require('../../infrastructure/utils/request-response-utils');
 const dayjs = require('dayjs');
-dayjs.extend(require('dayjs/plugin/customParseFormat'));
+const customParseFormat = require('dayjs/plugin/customParseFormat');
+dayjs.extend(customParseFormat);
 const certificationResultUtils = require('../../infrastructure/utils/csv/certification-results');
 const certificationAttestationPdf = require('../../infrastructure/utils/pdf/certification-attestation-pdf');
 const organizationForAdminSerializer = require('../../infrastructure/serializers/jsonapi/organization-for-admin-serializer');
