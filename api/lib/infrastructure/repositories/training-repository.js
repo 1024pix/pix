@@ -5,6 +5,7 @@ const { NotFoundError } = require('../../domain/errors');
 const DomainTransaction = require('../DomainTransaction');
 const UserRecommendedTraining = require('../../domain/read-models/UserRecommendedTraining');
 const { fetchPage } = require('../utils/knex-utils');
+const pick = require('lodash/pick');
 const TABLE_NAME = 'trainings';
 
 module.exports = {
@@ -58,10 +59,19 @@ module.exports = {
   },
 
   async update({ id, attributesToUpdate, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const pickedAttributesToUpdate = pick(attributesToUpdate, [
+      'title',
+      'link',
+      'type',
+      'duration',
+      'locale',
+      'editorName',
+      'editorLogoUrl',
+    ]);
     const knexConn = domainTransaction?.knexTransaction || knex;
     const [updatedTraining] = await knexConn(TABLE_NAME)
       .where({ id })
-      .update({ ...attributesToUpdate, updatedAt: new Date() })
+      .update({ ...pickedAttributesToUpdate, updatedAt: new Date() })
       .returning('*');
 
     const targetProfileTrainings = await knexConn('target-profile-trainings').where({ trainingId: id });
