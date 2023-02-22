@@ -1,5 +1,5 @@
 const { domainBuilder, expect, catchErr, sinon } = require('../../../test-helper');
-const createSessions = require('../../../../lib/domain/usecases/create-sessions');
+const validateSessionsForMassImport = require('../../../../lib/domain/usecases/validate-sessions-for-mass-import');
 const { InvalidCertificationCandidate } = require('../../../../lib/domain/errors');
 const sessionCodeService = require('../../../../lib/domain/services/session-code-service');
 const Session = require('../../../../lib/domain/models/Session');
@@ -9,7 +9,7 @@ const { CpfBirthInformationValidation } = require('../../../../lib/domain/servic
 const _ = require('lodash');
 const { UnprocessableEntityError } = require('../../../../lib/application/http-errors');
 
-describe('Unit | UseCase | create-sessions', function () {
+describe('Unit | UseCase | validate-sessions-for-mass-import', function () {
   let accessCode;
   let certificationCenterId;
   let certificationCenterName;
@@ -71,7 +71,7 @@ describe('Unit | UseCase | create-sessions', function () {
         ];
 
         // when
-        const validatedSessions = await createSessions({
+        const validatedSessions = await validateSessionsForMassImport({
           sessions,
           certificationCenterId,
           certificationCenterRepository,
@@ -151,7 +151,7 @@ describe('Unit | UseCase | create-sessions', function () {
           );
 
           // when
-          const validatedSessions = await createSessions({
+          const validatedSessions = await validateSessionsForMassImport({
             sessions,
             certificationCenterId,
             certificationCenterRepository,
@@ -185,7 +185,7 @@ describe('Unit | UseCase | create-sessions', function () {
       sessionsImportValidationService.validateSession.rejects(new UnprocessableEntityError());
 
       // when
-      const error = await catchErr(createSessions)({
+      const error = await catchErr(validateSessionsForMassImport)({
         sessions,
         certificationCenterId,
         certificationCenterRepository,
@@ -215,7 +215,7 @@ describe('Unit | UseCase | create-sessions', function () {
       );
 
       // when
-      const error = await catchErr(createSessions)({
+      const error = await catchErr(validateSessionsForMassImport)({
         sessions,
         certificationCenterId,
         certificationCenterRepository,
