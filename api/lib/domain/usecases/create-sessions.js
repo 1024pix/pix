@@ -62,7 +62,7 @@ async function _createCertificationCandidates({
   certificationCpfCityRepository,
   complementaryCertificationRepository,
 }) {
-  await bluebird.mapSeries(certificationCandidates, async (certificationCandidate) => {
+  return bluebird.mapSeries(certificationCandidates, async (certificationCandidate) => {
     const billingMode = CertificationCandidate.translateBillingMode(certificationCandidate.billingMode);
 
     const domainCertificationCandidate = new CertificationCandidate({
