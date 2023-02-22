@@ -477,8 +477,8 @@ describe('Unit | Controller | certifications-center-controller', function () {
     });
   });
 
-  describe('#importSessions', function () {
-    it('should call the usecase to import sessions', async function () {
+  describe('#validateSessionsForMassImport', function () {
+    it('should call the usecase to validate sessions', async function () {
       // given
       const request = {
         payload: { file: { path: 'csv-path' } },
@@ -494,7 +494,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
       usecases.validateSessionsForMassImport.resolves();
 
       // when
-      await certificationCenterController.importSessions(request, hFake);
+      await certificationCenterController.validateSessionsForMassImport(request, hFake);
 
       // then
       expect(usecases.validateSessionsForMassImport).to.have.been.calledWith({
@@ -516,7 +516,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
         csvHelpers.parseCsvWithHeader.resolves([]);
 
         // when
-        const error = await catchErr(certificationCenterController.importSessions)(request, hFake);
+        const error = await catchErr(certificationCenterController.validateSessionsForMassImport)(request, hFake);
 
         // then
         expect(error).to.be.instanceOf(UnprocessableEntityError);
