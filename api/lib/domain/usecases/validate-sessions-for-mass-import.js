@@ -4,7 +4,7 @@ const sessionsImportValidationService = require('../services/sessions-import-val
 const CertificationCandidate = require('../models/CertificationCandidate.js');
 const bluebird = require('bluebird');
 
-module.exports = async function createSessions({
+module.exports = async function validateSessionsForMassImport({
   sessions,
   certificationCenterId,
   certificationCenterRepository,
@@ -37,7 +37,7 @@ module.exports = async function createSessions({
 
     if (session.certificationCandidates.length) {
       const { certificationCandidates } = session;
-      const validatedCertificationCandidates = await _createCertificationCandidates({
+      const validatedCertificationCandidates = await _createValidCertificationCandidates({
         certificationCandidates,
         sessionId,
         isSco,
@@ -54,7 +54,7 @@ module.exports = async function createSessions({
   });
 };
 
-async function _createCertificationCandidates({
+async function _createValidCertificationCandidates({
   certificationCandidates,
   sessionId,
   isSco,

@@ -487,17 +487,17 @@ describe('Unit | Controller | certifications-center-controller', function () {
 
       sinon.stub(csvHelpers, 'parseCsvWithHeader');
       sinon.stub(csvSerializer, 'deserializeForSessionsImport');
-      sinon.stub(usecases, 'createSessions');
+      sinon.stub(usecases, 'validateSessionsForMassImport');
 
       csvHelpers.parseCsvWithHeader.resolves(['result data']);
       csvSerializer.deserializeForSessionsImport.returns(['session']);
-      usecases.createSessions.resolves();
+      usecases.validateSessionsForMassImport.resolves();
 
       // when
       await certificationCenterController.importSessions(request, hFake);
 
       // then
-      expect(usecases.createSessions).to.have.been.calledWith({
+      expect(usecases.validateSessionsForMassImport).to.have.been.calledWith({
         sessions: ['session'],
         certificationCenterId: request.params.certificationCenterId,
       });
