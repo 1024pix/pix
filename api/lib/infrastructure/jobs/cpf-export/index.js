@@ -1,9 +1,9 @@
-const { injectDependencies } = require('../../utils/dependency-injection');
+const { injectDependencies } = require('../../utils/dependency-injection.js');
 
-const cpfCertificationResultRepository = require('../../repositories/cpf-certification-result-repository');
-const cpfCertificationXmlExportService = require('../../../domain/services/cpf-certification-xml-export-service');
-const cpfExternalStorage = require('../../external-storage/cpf-external-storage');
-const mailService = require('../../../domain/services/mail-service');
+const cpfCertificationResultRepository = require('../../repositories/cpf-certification-result-repository.js');
+const cpfCertificationXmlExportService = require('../../../domain/services/cpf-certification-xml-export-service.js');
+const cpfExternalStorage = require('../../external-storage/cpf-external-storage.js');
+const mailService = require('../../../domain/services/mail-service.js');
 
 const dependencies = {
   cpfCertificationResultRepository,
@@ -14,9 +14,9 @@ const dependencies = {
 
 module.exports = injectDependencies(
   {
-    planner: require('./handlers/planner'),
-    createAndUpload: require('./handlers/create-and-upload'),
-    sendEmail: require('./handlers/send-email'),
+    planner: require('./handlers/planner.js'),
+    createAndUpload: require('./handlers/create-and-upload.js'),
+    sendEmail: require('./handlers/send-email.js'),
   },
   dependencies
 );

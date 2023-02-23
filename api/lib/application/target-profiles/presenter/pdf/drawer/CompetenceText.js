@@ -1,7 +1,7 @@
-const Text = require('./Text');
-const ColorManager = require('../manager/color-manager');
-const FontManager = require('../manager/font-manager');
-const PositionManager = require('../manager/position-manager');
+const Text = require('./Text.js');
+const ColorManager = require('../manager/color-manager.js');
+const FontManager = require('../manager/font-manager.js');
+const PositionManager = require('../manager/position-manager.js');
 
 module.exports = class CompetenceText extends Text {
   constructor({ text, positionY, areaColor }) {

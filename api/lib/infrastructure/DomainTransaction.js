@@ -1,4 +1,4 @@
-const { knex } = require('../../db/knex-database-connection');
+const { knex } = require('../../db/knex-database-connection.js');
 
 class DomainTransaction {
   constructor(knexTransaction) {

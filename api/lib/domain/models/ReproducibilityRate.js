@@ -1,4 +1,4 @@
-const { MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED } = require('../constants');
+const { MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED } = require('../constants.js');
 
 class ReproducibilityRate {
   constructor(value) {

@@ -1,4 +1,4 @@
-const { status: assessmentResultStatuses } = require('./AssessmentResult');
+const { status: assessmentResultStatuses } = require('./AssessmentResult.js');
 
 const status = {
   REJECTED: 'rejected',

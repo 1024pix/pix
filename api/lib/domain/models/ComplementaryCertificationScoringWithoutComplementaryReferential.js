@@ -1,4 +1,4 @@
-const PartnerCertificationScoring = require('./PartnerCertificationScoring');
+const PartnerCertificationScoring = require('./PartnerCertificationScoring.js');
 
 class ComplementaryCertificationScoringWithoutComplementaryReferential extends PartnerCertificationScoring {
   constructor({

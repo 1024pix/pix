@@ -1,4 +1,4 @@
-const skillRepository = require('../../../infrastructure/repositories/skill-repository');
+const skillRepository = require('../../../infrastructure/repositories/skill-repository.js');
 
 async function findActiveSkillsForCappedTubes(cappedTubes) {
   const skills = [];

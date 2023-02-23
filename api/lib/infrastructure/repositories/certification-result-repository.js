@@ -1,6 +1,6 @@
-const { knex } = require('../../../db/knex-database-connection');
-const ComplementaryCertificationCourseResult = require('../../domain/models/ComplementaryCertificationCourseResult');
-const CertificationResult = require('../../domain/models/CertificationResult');
+const { knex } = require('../../../db/knex-database-connection.js');
+const ComplementaryCertificationCourseResult = require('../../domain/models/ComplementaryCertificationCourseResult.js');
+const CertificationResult = require('../../domain/models/CertificationResult.js');
 const isEmpty = require('lodash/isEmpty');
 
 module.exports = {

@@ -1,6 +1,7 @@
-const handlers = require('./');
-const logger = require('../../logger');
-const { plannerJob, sendEmailJob } = require('../../../config').cpf;
+const handlers = require('./index.js');
+const logger = require('../../logger.js');
+const config = require('../../../config.js');
+const { plannerJob, sendEmailJob } = config.cpf;
 
 module.exports = async function scheduleCpfJobs(pgBoss) {
   await pgBoss.schedule('CpfExportPlannerJob', plannerJob.cron, null, { tz: 'Europe/Paris' });

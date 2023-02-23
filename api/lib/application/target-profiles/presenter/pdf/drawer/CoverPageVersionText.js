@@ -1,10 +1,10 @@
 const dayjs = require('dayjs');
 const localizedFormat = require('dayjs/plugin/localizedFormat');
 dayjs.extend(localizedFormat);
-const Text = require('./Text');
-const ColorManager = require('../manager/color-manager');
-const FontManager = require('../manager/font-manager');
-const PositionManager = require('../manager/position-manager');
+const Text = require('./Text.js');
+const ColorManager = require('../manager/color-manager.js');
+const FontManager = require('../manager/font-manager.js');
+const PositionManager = require('../manager/position-manager.js');
 
 const textByLang = {
   en: 'Version {date}',

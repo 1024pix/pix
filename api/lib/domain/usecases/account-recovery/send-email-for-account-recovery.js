@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const AccountRecoveryDemand = require('../../models/AccountRecoveryDemand');
+const AccountRecoveryDemand = require('../../models/AccountRecoveryDemand.js');
 
 module.exports = async function sendEmailForAccountRecovery({
   studentInformation,

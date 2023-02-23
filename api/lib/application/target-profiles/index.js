@@ -1,9 +1,9 @@
 const Joi = require('joi');
 
-const { sendJsonApiError, BadRequestError } = require('../http-errors');
-const securityPreHandlers = require('../security-pre-handlers');
-const targetProfileController = require('./target-profile-controller');
-const identifiersType = require('../../domain/types/identifiers-type');
+const { sendJsonApiError, BadRequestError } = require('../http-errors.js');
+const securityPreHandlers = require('../security-pre-handlers.js');
+const targetProfileController = require('./target-profile-controller.js');
+const identifiersType = require('../../domain/types/identifiers-type.js');
 
 exports.register = async (server) => {
   server.route([

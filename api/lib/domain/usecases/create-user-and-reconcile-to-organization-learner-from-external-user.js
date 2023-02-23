@@ -1,7 +1,7 @@
-const { CampaignCodeError, ObjectValidationError } = require('../errors');
-const User = require('../models/User');
-const AuthenticationMethod = require('../models/AuthenticationMethod');
-const { STUDENT_RECONCILIATION_ERRORS } = require('../constants');
+const { CampaignCodeError, ObjectValidationError } = require('../errors.js');
+const User = require('../models/User.js');
+const AuthenticationMethod = require('../models/AuthenticationMethod.js');
+const { STUDENT_RECONCILIATION_ERRORS } = require('../constants.js');
 
 module.exports = async function createUserAndReconcileToOrganizationLearnerFromExternalUser({
   birthdate,

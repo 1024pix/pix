@@ -1,5 +1,5 @@
-const { knex } = require('../../../db/knex-database-connection');
-const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
+const { knex } = require('../../../db/knex-database-connection.js');
+const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses.js');
 
 const { SHARED } = CampaignParticipationStatuses;
 

@@ -1,4 +1,4 @@
-const { VALIDATED, PENDING } = require('./CertificateStatus');
+const { VALIDATED, PENDING } = require('./CertificateStatus.js');
 
 class Certificate {
   constructor({

@@ -1,4 +1,4 @@
-const { MINIMUM_CERTIFIABLE_COMPETENCES_FOR_CERTIFIABILITY } = require('../constants');
+const { MINIMUM_CERTIFIABLE_COMPETENCES_FOR_CERTIFIABILITY } = require('../constants.js');
 const _ = require('lodash');
 
 class PlacementProfile {

@@ -1,7 +1,7 @@
-const Bookshelf = require('../bookshelf');
+const Bookshelf = require('../bookshelf.js');
 
-require('./Organization');
-require('./User');
+require('./Organization.js');
+require('./User.js');
 
 const modelName = 'Membership';
 

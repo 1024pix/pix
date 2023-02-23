@@ -1,10 +1,10 @@
 const _ = require('lodash');
 
-const { MissingQueryParamError } = require('../http-errors');
-const usecases = require('../../domain/usecases');
-const organizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/organization-invitation-serializer');
-const scoOrganizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/sco-organization-invitation-serializer');
-const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
+const { MissingQueryParamError } = require('../http-errors.js');
+const usecases = require('../../domain/usecases/index.js');
+const organizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/organization-invitation-serializer.js');
+const scoOrganizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/sco-organization-invitation-serializer.js');
+const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils.js');
 
 module.exports = {
   async acceptOrganizationInvitation(request) {

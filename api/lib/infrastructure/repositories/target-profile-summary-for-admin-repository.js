@@ -1,7 +1,7 @@
-const { knex } = require('../../../db/knex-database-connection');
-const { fetchPage } = require('../utils/knex-utils');
-const TargetProfileSummaryForAdmin = require('../../domain/models/TargetProfileSummaryForAdmin');
-const DomainTransaction = require('../DomainTransaction');
+const { knex } = require('../../../db/knex-database-connection.js');
+const { fetchPage } = require('../utils/knex-utils.js');
+const TargetProfileSummaryForAdmin = require('../../domain/models/TargetProfileSummaryForAdmin.js');
+const DomainTransaction = require('../DomainTransaction.js');
 
 module.exports = {
   async findPaginatedFiltered({ filter, page }) {

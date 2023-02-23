@@ -1,13 +1,13 @@
-const { knex } = require('../../../db/knex-database-connection');
+const { knex } = require('../../../db/knex-database-connection.js');
 
-const CampaignReport = require('../../domain/read-models/CampaignReport');
-const TargetProfileForSpecifier = require('../../domain/read-models/campaign/TargetProfileForSpecifier');
-const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
-const { fetchPage } = require('../utils/knex-utils');
-const { NotFoundError } = require('../../domain/errors');
+const CampaignReport = require('../../domain/read-models/CampaignReport.js');
+const TargetProfileForSpecifier = require('../../domain/read-models/campaign/TargetProfileForSpecifier.js');
+const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses.js');
+const { fetchPage } = require('../utils/knex-utils.js');
+const { NotFoundError } = require('../../domain/errors.js');
 const _ = require('lodash');
-const { filterByFullName } = require('../utils/filter-utils');
-const campaignRepository = require('./campaign-repository');
+const { filterByFullName } = require('../utils/filter-utils.js');
+const campaignRepository = require('./campaign-repository.js');
 
 const { SHARED } = CampaignParticipationStatuses;
 

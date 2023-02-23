@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const moment = require('moment');
-const { getCsvContent } = require('./write-csv-utils');
+const { getCsvContent } = require('./write-csv-utils.js');
 
 const REJECTED_AUTOMATICALLY_COMMENT =
   "Le candidat a répondu faux à plus de 50% des questions posées, cela a invalidé l'ensemble de sa certification, et a donc entraîné un score de 0 pix";

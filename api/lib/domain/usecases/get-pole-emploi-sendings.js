@@ -1,4 +1,4 @@
-const poleEmploiService = require('../services/pole-emploi-service');
+const poleEmploiService = require('../services/pole-emploi-service.js');
 
 module.exports = async function getPoleEmploiSendings({ cursor, poleEmploiSendingRepository, filters }) {
   const cursorData = await poleEmploiService.decodeCursor(cursor);

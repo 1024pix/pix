@@ -1,10 +1,10 @@
 const { Serializer } = require('jsonapi-serializer');
 const _ = require('lodash');
 
-const { WrongDateFormatError } = require('../../../domain/errors');
-const { isValidDate } = require('../../utils/date-utils');
+const { WrongDateFormatError } = require('../../../domain/errors.js');
+const { isValidDate } = require('../../utils/date-utils.js');
 
-const Session = require('../../../domain/models/Session');
+const Session = require('../../../domain/models/Session.js');
 
 module.exports = {
   serialize({ session, hasSupervisorAccess, hasSomeCleaAcquired }) {

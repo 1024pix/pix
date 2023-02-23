@@ -1,5 +1,5 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const { OrganizationLearnerCannotBeDissociatedError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | dissociate-user-from-organization-learner', function () {

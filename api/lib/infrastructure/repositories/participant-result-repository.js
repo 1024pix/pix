@@ -1,17 +1,17 @@
-const { knex } = require('../../../db/knex-database-connection');
+const { knex } = require('../../../db/knex-database-connection.js');
 const _ = require('lodash');
-const Assessment = require('../../domain/models/Assessment');
-const AssessmentResult = require('../../domain/read-models/participant-results/AssessmentResult');
-const competenceRepository = require('./competence-repository');
-const answerRepository = require('./answer-repository');
-const challengeRepository = require('./challenge-repository');
-const areaRepository = require('./area-repository');
-const knowledgeElementRepository = require('./knowledge-element-repository');
-const flashAssessmentResultRepository = require('./flash-assessment-result-repository');
-const campaignRepository = require('./campaign-repository');
-const flash = require('../../domain/services/algorithm-methods/flash');
-const dataFetcher = require('../../domain/services/algorithm-methods/data-fetcher');
-const { NotFoundError } = require('../../domain/errors');
+const Assessment = require('../../domain/models/Assessment.js');
+const AssessmentResult = require('../../domain/read-models/participant-results/AssessmentResult.js');
+const competenceRepository = require('./competence-repository.js');
+const answerRepository = require('./answer-repository.js');
+const challengeRepository = require('./challenge-repository.js');
+const areaRepository = require('./area-repository.js');
+const knowledgeElementRepository = require('./knowledge-element-repository.js');
+const flashAssessmentResultRepository = require('./flash-assessment-result-repository.js');
+const campaignRepository = require('./campaign-repository.js');
+const flash = require('../../domain/services/algorithm-methods/flash.js');
+const dataFetcher = require('../../domain/services/algorithm-methods/data-fetcher.js');
+const { NotFoundError } = require('../../domain/errors.js');
 
 const ParticipantResultRepository = {
   async getByUserIdAndCampaignId({ userId, campaignId, badges, locale }) {

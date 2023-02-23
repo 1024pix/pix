@@ -1,6 +1,6 @@
-const CertificationCenterInvitation = require('../../domain/models/CertificationCenterInvitation');
-const { knex } = require('../../../db/knex-database-connection');
-const { NotFoundError } = require('../../domain/errors');
+const CertificationCenterInvitation = require('../../domain/models/CertificationCenterInvitation.js');
+const { knex } = require('../../../db/knex-database-connection.js');
+const { NotFoundError } = require('../../domain/errors.js');
 
 const CERTIFICATION_CENTER_INVITATIONS = 'certification-center-invitations';
 

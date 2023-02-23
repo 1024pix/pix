@@ -6,7 +6,7 @@ const bluebird = require('bluebird');
 const isEmpty = require('lodash/isEmpty');
 const logger = require('../../lib/infrastructure/logger');
 const certificationResultUtils = require('../../lib/infrastructure/utils/csv/certification-results');
-const usecases = require('../../lib/domain/usecases');
+const usecases = require('../../lib/domain/usecases/index.js');
 const temporaryStorage = require('../../lib/infrastructure/temporary-storage/index');
 const { disconnect } = require('../../db/knex-database-connection');
 

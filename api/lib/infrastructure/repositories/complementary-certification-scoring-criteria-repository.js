@@ -1,5 +1,5 @@
-const { knex } = require('../../../db/knex-database-connection');
-const ComplementaryCertificationScoringCriteria = require('../../domain/models/ComplementaryCertificationScoringCriteria');
+const { knex } = require('../../../db/knex-database-connection.js');
+const ComplementaryCertificationScoringCriteria = require('../../domain/models/ComplementaryCertificationScoringCriteria.js');
 
 module.exports = {
   async findByCertificationCourseId({ certificationCourseId }) {

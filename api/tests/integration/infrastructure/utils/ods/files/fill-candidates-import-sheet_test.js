@@ -3,7 +3,7 @@ const _ = require('lodash');
 const { expect, databaseBuilder } = require('../../../../../test-helper');
 const readOdsUtils = require('../../../../../../lib/infrastructure/utils/ods/read-ods-utils');
 const fillCandidatesImportSheet = require('../../../../../../lib/infrastructure/files/candidates-import/fill-candidates-import-sheet');
-const usecases = require('../../../../../../lib/domain/usecases');
+const usecases = require('../../../../../../lib/domain/usecases/index.js');
 const {
   PIX_PLUS_DROIT,
   CLEA,

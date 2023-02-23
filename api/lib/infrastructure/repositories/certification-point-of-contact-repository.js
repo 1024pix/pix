@@ -1,8 +1,8 @@
 const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection');
-const { NotFoundError } = require('../../domain/errors');
-const CertificationPointOfContact = require('../../domain/read-models/CertificationPointOfContact');
-const AllowedCertificationCenterAccess = require('../../domain/read-models/AllowedCertificationCenterAccess');
+const { knex } = require('../../../db/knex-database-connection.js');
+const { NotFoundError } = require('../../domain/errors.js');
+const CertificationPointOfContact = require('../../domain/read-models/CertificationPointOfContact.js');
+const AllowedCertificationCenterAccess = require('../../domain/read-models/AllowedCertificationCenterAccess.js');
 
 module.exports = {
   async get(userId) {

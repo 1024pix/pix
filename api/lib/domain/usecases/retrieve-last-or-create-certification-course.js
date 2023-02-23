@@ -1,14 +1,14 @@
-const CertificationCourse = require('../models/CertificationCourse');
-const Assessment = require('../models/Assessment');
-const ComplementaryCertificationCourse = require('../models/ComplementaryCertificationCourse');
+const CertificationCourse = require('../models/CertificationCourse.js');
+const Assessment = require('../models/Assessment.js');
+const ComplementaryCertificationCourse = require('../models/ComplementaryCertificationCourse.js');
 const {
   UserNotAuthorizedToCertifyError,
   NotFoundError,
   SessionNotAccessible,
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
-} = require('../errors');
-const { features } = require('../../config');
+} = require('../errors.js');
+const { features } = require('../../config.js');
 const bluebird = require('bluebird');
 
 module.exports = async function retrieveLastOrCreateCertificationCourse({

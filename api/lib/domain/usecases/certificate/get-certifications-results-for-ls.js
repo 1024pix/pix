@@ -1,5 +1,5 @@
-const CertificationsResults = require('../../read-models/livret-scolaire/CertificationsResults');
-const Competence = require('../../read-models/livret-scolaire/Competence');
+const CertificationsResults = require('../../read-models/livret-scolaire/CertificationsResults.js');
+const Competence = require('../../read-models/livret-scolaire/Competence.js');
 const sortBy = require('lodash/sortBy');
 
 module.exports = async function getCertificationsResultsForLS({

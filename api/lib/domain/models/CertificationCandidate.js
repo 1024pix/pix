@@ -7,7 +7,7 @@ const {
   InvalidCertificationCandidate,
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
-} = require('../errors');
+} = require('../errors.js');
 
 const BILLING_MODES = {
   FREE: 'FREE',

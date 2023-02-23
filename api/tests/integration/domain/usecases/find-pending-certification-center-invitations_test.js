@@ -1,5 +1,5 @@
 const { expect, databaseBuilder } = require('../../../test-helper');
-const useCases = require('../../../../lib/domain/usecases');
+const useCases = require('../../../../lib/domain/usecases/index.js');
 const CertificationCenterInvitation = require('../../../../lib/domain/models/CertificationCenterInvitation');
 
 describe('Integration | UseCase | find-pending-certification-center-invitations', function () {

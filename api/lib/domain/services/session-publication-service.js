@@ -1,9 +1,9 @@
-const { SendingEmailToResultRecipientError, SessionAlreadyPublishedError } = require('../../domain/errors');
-const mailService = require('../../domain/services/mail-service');
+const { SendingEmailToResultRecipientError, SessionAlreadyPublishedError } = require('../../domain/errors.js');
+const mailService = require('../../domain/services/mail-service.js');
 const uniqBy = require('lodash/uniqBy');
 const some = require('lodash/some');
-const { SendingEmailToRefererError } = require('../errors');
-const logger = require('../../infrastructure/logger');
+const { SendingEmailToRefererError } = require('../errors.js');
+const logger = require('../../infrastructure/logger.js');
 
 async function publishSession({
   publishedAt = new Date(),

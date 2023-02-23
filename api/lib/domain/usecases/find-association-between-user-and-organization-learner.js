@@ -2,7 +2,7 @@ const {
   CampaignCodeError,
   UserNotAuthorizedToAccessEntityError,
   OrganizationLearnerDisabledError,
-} = require('../errors');
+} = require('../errors.js');
 
 module.exports = async function findAssociationBetweenUserAndOrganizationLearner({
   authenticatedUserId,

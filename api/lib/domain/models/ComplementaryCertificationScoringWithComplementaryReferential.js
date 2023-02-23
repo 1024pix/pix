@@ -1,5 +1,5 @@
-const ComplementaryCertificationCourseResult = require('./ComplementaryCertificationCourseResult');
-const PartnerCertificationScoring = require('./PartnerCertificationScoring');
+const ComplementaryCertificationCourseResult = require('./ComplementaryCertificationCourseResult.js');
+const PartnerCertificationScoring = require('./PartnerCertificationScoring.js');
 
 class ComplementaryCertificationScoringWithComplementaryReferential extends PartnerCertificationScoring {
   constructor({

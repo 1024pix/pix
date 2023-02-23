@@ -1,9 +1,9 @@
-const CampaignProfile = require('../../../lib/domain/read-models/CampaignProfile');
-const placementProfileService = require('../../domain/services/placement-profile-service');
-const { NotFoundError } = require('../../../lib/domain/errors');
-const { knex } = require('../../../db/knex-database-connection');
-const competenceRepository = require('./competence-repository');
-const areaRepository = require('./area-repository');
+const CampaignProfile = require('../../../lib/domain/read-models/CampaignProfile.js');
+const placementProfileService = require('../../domain/services/placement-profile-service.js');
+const { NotFoundError } = require('../../../lib/domain/errors.js');
+const { knex } = require('../../../db/knex-database-connection.js');
+const competenceRepository = require('./competence-repository.js');
+const areaRepository = require('./area-repository.js');
 
 module.exports = {
   async findProfile({ campaignId, campaignParticipationId, locale }) {

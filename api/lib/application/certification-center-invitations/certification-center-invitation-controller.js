@@ -1,5 +1,5 @@
-const usecases = require('../../domain/usecases');
-const certificationCenterInvitationSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-invitation-serializer');
+const usecases = require('../../domain/usecases/index.js');
+const certificationCenterInvitationSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js');
 
 module.exports = {
   async acceptCertificationCenterInvitation(request, h) {

@@ -1,6 +1,6 @@
 const sortBy = require('lodash/sortBy');
 const moment = require('moment');
-const { toArrayOfFixedLengthStringsConservingWords } = require('../string-utils');
+const { toArrayOfFixedLengthStringsConservingWords } = require('../string-utils.js');
 
 const PROFESSIONALIZING_VALIDITY_START_DATE = new Date('2022-01-01');
 

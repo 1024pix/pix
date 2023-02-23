@@ -1,5 +1,5 @@
-const { knex } = require('../../../db/knex-database-connection');
-const UserOrganizationForAdmin = require('../../domain/read-models/UserOrganizationForAdmin');
+const { knex } = require('../../../db/knex-database-connection.js');
+const UserOrganizationForAdmin = require('../../domain/read-models/UserOrganizationForAdmin.js');
 
 module.exports = {
   async findByUserId(userId) {

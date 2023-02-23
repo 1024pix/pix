@@ -1,10 +1,10 @@
 const _ = require('lodash');
-const { NotFoundError } = require('../../../domain/errors');
-const { knex } = require('../../bookshelf');
+const { NotFoundError } = require('../../../domain/errors.js');
+const { knex } = require('../../bookshelf.js');
 
-const FinalizedSessionBookshelf = require('../../orm-models/FinalizedSession');
+const FinalizedSessionBookshelf = require('../../orm-models/FinalizedSession.js');
 
-const bookshelfToDomainConverter = require('../../utils/bookshelf-to-domain-converter');
+const bookshelfToDomainConverter = require('../../utils/bookshelf-to-domain-converter.js');
 
 module.exports = {
   async save(finalizedSession) {

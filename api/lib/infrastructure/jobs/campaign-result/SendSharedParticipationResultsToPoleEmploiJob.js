@@ -1,4 +1,4 @@
-const Job = require('../JobPgBoss');
+const Job = require('../JobPgBoss.js');
 
 class SendSharedParticipationResultsToPoleEmploi extends Job {
   constructor(queryBuilder) {

@@ -1,4 +1,4 @@
-const AnswerStatus = require('./AnswerStatus');
+const AnswerStatus = require('./AnswerStatus.js');
 const _ = require('lodash');
 
 class Answer {

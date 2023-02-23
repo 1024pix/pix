@@ -1,7 +1,7 @@
 const sortBy = require('lodash/sortBy');
-const competenceBuilder = require('./competence-builder');
-const AreaText = require('../drawer/AreaText');
-const LegalMentionText = require('../drawer/LegalMentionText');
+const competenceBuilder = require('./competence-builder.js');
+const AreaText = require('../drawer/AreaText.js');
+const LegalMentionText = require('../drawer/LegalMentionText.js');
 
 const MARGIN_TOP_WITHOUT_AREA = 15;
 const MARGIN_BOTTOM_LIMIT = 5;

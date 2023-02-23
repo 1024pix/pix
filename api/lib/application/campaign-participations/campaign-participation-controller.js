@@ -1,17 +1,17 @@
-const monitoringTools = require('../../infrastructure/monitoring-tools');
-const usecases = require('../../domain/usecases');
-const events = require('../../domain/events');
-const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
-const campaignParticipationSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
-const campaignAnalysisSerializer = require('../../infrastructure/serializers/jsonapi/campaign-analysis-serializer');
-const campaignAssessmentParticipationSerializer = require('../../infrastructure/serializers/jsonapi/campaign-assessment-participation-serializer');
-const campaignAssessmentParticipationResultSerializer = require('../../infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer');
-const campaignProfileSerializer = require('../../infrastructure/serializers/jsonapi/campaign-profile-serializer');
-const campaignAssessmentResultMinimalSerializer = require('../../infrastructure/serializers/jsonapi/campaign-assessment-result-minimal-serializer');
-const trainingSerializer = require('../../infrastructure/serializers/jsonapi/training-serializer');
-const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
-const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
+const monitoringTools = require('../../infrastructure/monitoring-tools.js');
+const usecases = require('../../domain/usecases/index.js');
+const events = require('../../domain/events/index.js');
+const queryParamsUtils = require('../../infrastructure/utils/query-params-utils.js');
+const campaignParticipationSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer.js');
+const campaignAnalysisSerializer = require('../../infrastructure/serializers/jsonapi/campaign-analysis-serializer.js');
+const campaignAssessmentParticipationSerializer = require('../../infrastructure/serializers/jsonapi/campaign-assessment-participation-serializer.js');
+const campaignAssessmentParticipationResultSerializer = require('../../infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer.js');
+const campaignProfileSerializer = require('../../infrastructure/serializers/jsonapi/campaign-profile-serializer.js');
+const campaignAssessmentResultMinimalSerializer = require('../../infrastructure/serializers/jsonapi/campaign-assessment-result-minimal-serializer.js');
+const trainingSerializer = require('../../infrastructure/serializers/jsonapi/training-serializer.js');
+const requestResponseUtils = require('../../infrastructure/utils/request-response-utils.js');
+const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
+const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils.js');
 
 module.exports = {
   async save(request, h) {

@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { validateEntity } = require('../validators/entity-validator');
+const { validateEntity } = require('../validators/entity-validator.js');
 
 const schema = Joi.object({
   id: Joi.number().integer().optional(),

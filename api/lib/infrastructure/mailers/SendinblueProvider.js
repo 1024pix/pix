@@ -1,8 +1,8 @@
 const _ = require('lodash');
 const SibApiV3Sdk = require('sib-api-v3-sdk');
 
-const MailingProvider = require('./MailingProvider');
-const { mailing } = require('../../config');
+const MailingProvider = require('./MailingProvider.js');
+const { mailing } = require('../../config.js');
 
 function _formatPayload({ to, fromName, from, subject, template, variables, tags }) {
   const payload = {

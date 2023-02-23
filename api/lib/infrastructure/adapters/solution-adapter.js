@@ -1,5 +1,5 @@
-const Solution = require('../../domain/models/Solution');
-const _ = require('../../../lib/infrastructure/utils/lodash-utils');
+const Solution = require('../../domain/models/Solution.js');
+const _ = require('../../../lib/infrastructure/utils/lodash-utils.js');
 
 function statusToBoolean(value) {
   if (typeof value === 'boolean') {

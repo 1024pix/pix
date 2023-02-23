@@ -1,6 +1,6 @@
-const { UserNotAuthorizedToAccessEntityError } = require('../errors');
-const Scorecard = require('../models/Scorecard');
-const KnowledgeElement = require('../models/KnowledgeElement');
+const { UserNotAuthorizedToAccessEntityError } = require('../errors.js');
+const Scorecard = require('../models/Scorecard.js');
+const KnowledgeElement = require('../models/KnowledgeElement.js');
 const _ = require('lodash');
 
 module.exports = async function findTutorials({

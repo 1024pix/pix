@@ -1,7 +1,7 @@
-const Assessment = require('../models/Assessment');
-const CompetenceEvaluation = require('../models/CompetenceEvaluation');
-const KnowledgeElement = require('../models/KnowledgeElement');
-const Scorecard = require('../models/Scorecard');
+const Assessment = require('../models/Assessment.js');
+const CompetenceEvaluation = require('../models/CompetenceEvaluation.js');
+const KnowledgeElement = require('../models/KnowledgeElement.js');
+const Scorecard = require('../models/Scorecard.js');
 const _ = require('lodash');
 
 async function computeScorecard({

@@ -1,6 +1,6 @@
-const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
-const { UserNotAuthorizedToAccessEntityError } = require('../errors');
-const SupOrganizationLearnerImportHeader = require('../../infrastructure/serializers/csv/sup-organization-learner-import-header');
+const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer.js');
+const { UserNotAuthorizedToAccessEntityError } = require('../errors.js');
+const SupOrganizationLearnerImportHeader = require('../../infrastructure/serializers/csv/sup-organization-learner-import-header.js');
 
 module.exports = async function getOrganizationLearnersCsvTemplate({
   userId,

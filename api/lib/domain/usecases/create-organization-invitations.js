@@ -1,7 +1,7 @@
 const bluebird = require('bluebird');
 
-const organizationInvitationService = require('../../domain/services/organization-invitation-service');
-const { OrganizationArchivedError } = require('../errors');
+const organizationInvitationService = require('../../domain/services/organization-invitation-service.js');
+const { OrganizationArchivedError } = require('../errors.js');
 
 module.exports = async function createOrganizationInvitations({
   organizationId,

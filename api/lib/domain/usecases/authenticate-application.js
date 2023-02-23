@@ -2,10 +2,10 @@ const {
   ApplicationScopeNotAllowedError,
   ApplicationWithInvalidClientIdError,
   ApplicationWithInvalidClientSecretError,
-} = require('../../domain/errors');
+} = require('../../domain/errors.js');
 
 const { find } = require('lodash');
-const { graviteeRegisterApplicationsCredentials, jwtConfig } = require('../../config');
+const { graviteeRegisterApplicationsCredentials, jwtConfig } = require('../../config.js');
 
 function _checkClientId(application, clientId) {
   if (!application || application.clientId !== clientId) {

@@ -1,5 +1,5 @@
 const { expect, databaseBuilder } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const poleEmploiService = require('../../../../lib/domain/services/pole-emploi-service');
 const poleEmploiSendingRepository = require('../../../../lib/infrastructure/repositories/pole-emploi-sending-repository');
 const settings = require('../../../../lib/config');

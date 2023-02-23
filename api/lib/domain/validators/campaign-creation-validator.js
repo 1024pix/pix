@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const { first } = require('lodash');
-const { EntityValidationError } = require('../errors');
-const CampaignTypes = require('../models/CampaignTypes');
+const { EntityValidationError } = require('../errors.js');
+const CampaignTypes = require('../models/CampaignTypes.js');
 
 const schema = Joi.object({
   type: Joi.string()

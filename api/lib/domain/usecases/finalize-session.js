@@ -3,8 +3,8 @@ const {
   SessionWithoutStartedCertificationError,
   SessionWithAbortReasonOnCompletedCertificationCourseError,
   SessionWithMissingAbortReasonError,
-} = require('../errors');
-const SessionFinalized = require('../events/SessionFinalized');
+} = require('../errors.js');
+const SessionFinalized = require('../events/SessionFinalized.js');
 const bluebird = require('bluebird');
 
 module.exports = async function finalizeSession({

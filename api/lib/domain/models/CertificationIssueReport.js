@@ -3,7 +3,7 @@ const {
   InvalidCertificationIssueReportForSaving,
   DeprecatedCertificationIssueReportCategoryError,
   DeprecatedCertificationIssueReportSubcategoryError,
-} = require('../errors');
+} = require('../errors.js');
 const {
   CertificationIssueReportCategories,
   CertificationIssueReportSubcategories,
@@ -11,7 +11,7 @@ const {
   ImpactfulSubcategories,
   DeprecatedCategories,
   DeprecatedSubcategories,
-} = require('./CertificationIssueReportCategory');
+} = require('./CertificationIssueReportCategory.js');
 
 const categoryNonBlockingTechnicalIssueJoiSchema = Joi.object({
   certificationCourseId: Joi.number().required().empty(null),

@@ -1,6 +1,6 @@
 const Joi = require('joi');
-const OidcIdentityProviders = require('../../../domain/constants/oidc-identity-providers');
-const oidcController = require('./oidc-controller');
+const OidcIdentityProviders = require('../../../domain/constants/oidc-identity-providers.js');
+const oidcController = require('./oidc-controller.js');
 
 const validProviders = Object.values(OidcIdentityProviders).map((provider) => provider.service.code);
 

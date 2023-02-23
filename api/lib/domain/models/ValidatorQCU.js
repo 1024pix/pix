@@ -1,6 +1,6 @@
-const solutionServiceQCU = require('../services/solution-service-qcu');
-const Validation = require('./Validation');
-const Validator = require('./Validator');
+const solutionServiceQCU = require('../services/solution-service-qcu.js');
+const Validation = require('./Validation.js');
+const Validator = require('./Validator.js');
 
 /**
  * Traduction: Vérificateur de réponse pour un QCU

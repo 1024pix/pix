@@ -1,4 +1,4 @@
-const settings = require('../../config');
+const settings = require('../../config.js');
 
 class UserLogin {
   constructor({ id, userId, failureCount = 0, temporaryBlockedUntil, blockedAt, createdAt, updatedAt } = {}) {

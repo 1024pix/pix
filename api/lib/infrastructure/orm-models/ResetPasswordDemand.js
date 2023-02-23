@@ -1,6 +1,6 @@
-const Bookshelf = require('../bookshelf');
+const Bookshelf = require('../bookshelf.js');
 
-require('./User');
+require('./User.js');
 
 const modelName = 'ResetPasswordDemand';
 

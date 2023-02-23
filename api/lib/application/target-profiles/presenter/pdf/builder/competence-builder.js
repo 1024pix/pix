@@ -1,9 +1,9 @@
 const sortBy = require('lodash/sortBy');
-const thematicBuilder = require('./thematic-builder');
-const CompetenceText = require('../drawer/CompetenceText');
-const PositionManager = require('../manager/position-manager');
-const ColorManager = require('../manager/color-manager');
-const FontManager = require('../manager/font-manager');
+const thematicBuilder = require('./thematic-builder.js');
+const CompetenceText = require('../drawer/CompetenceText.js');
+const PositionManager = require('../manager/position-manager.js');
+const ColorManager = require('../manager/color-manager.js');
+const FontManager = require('../manager/font-manager.js');
 
 module.exports = {
   /**

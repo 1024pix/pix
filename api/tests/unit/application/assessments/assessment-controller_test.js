@@ -1,7 +1,7 @@
 const { sinon, expect, hFake, domainBuilder } = require('../../../test-helper');
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
-const usecases = require('../../../../lib/domain/usecases');
-const events = require('../../../../lib/domain/events');
+const usecases = require('../../../../lib/domain/usecases/index.js');
+const events = require('../../../../lib/domain/events/index.js');
 const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');

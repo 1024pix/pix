@@ -1,7 +1,7 @@
-const securityPreHandlers = require('../security-pre-handlers');
-const tagController = require('./tag-controller');
+const securityPreHandlers = require('../security-pre-handlers.js');
+const tagController = require('./tag-controller.js');
 const Joi = require('joi');
-const identifiersType = require('../../domain/types/identifiers-type');
+const identifiersType = require('../../domain/types/identifiers-type.js');
 
 exports.register = async (server) => {
   server.route([

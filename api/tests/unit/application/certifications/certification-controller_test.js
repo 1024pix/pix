@@ -1,9 +1,9 @@
 const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
 
 const certificationController = require('../../../../lib/application/certifications/certification-controller');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const certificationAttestationPdf = require('../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
-const events = require('../../../../lib/domain/events');
+const events = require('../../../../lib/domain/events/index.js');
 const ChallengeNeutralized = require('../../../../lib/domain/events/ChallengeNeutralized');
 const ChallengeDeneutralized = require('../../../../lib/domain/events/ChallengeDeneutralized');
 const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');

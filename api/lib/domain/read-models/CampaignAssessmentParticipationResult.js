@@ -1,5 +1,5 @@
-const CampaignParticipationStatuses = require('../models/CampaignParticipationStatuses');
-const CampaignAssessmentParticipationCompetenceResult = require('./CampaignAssessmentParticipationCompetenceResult');
+const CampaignParticipationStatuses = require('../models/CampaignParticipationStatuses.js');
+const CampaignAssessmentParticipationCompetenceResult = require('./CampaignAssessmentParticipationCompetenceResult.js');
 
 const { SHARED } = CampaignParticipationStatuses;
 

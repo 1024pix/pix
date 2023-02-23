@@ -1,9 +1,9 @@
-const Area = require('../../domain/models/Area');
-const areaDatasource = require('../datasources/learning-content/area-datasource');
-const competenceRepository = require('./competence-repository');
-const { getTranslatedKey } = require('../../domain/services/get-translated-text');
+const Area = require('../../domain/models/Area.js');
+const areaDatasource = require('../datasources/learning-content/area-datasource.js');
+const competenceRepository = require('./competence-repository.js');
+const { getTranslatedKey } = require('../../domain/services/get-translated-text.js');
 const _ = require('lodash');
-const { NotFoundError } = require('../../domain/errors');
+const { NotFoundError } = require('../../domain/errors.js');
 
 function _toDomain({ areaData, locale }) {
   const translatedTitle = getTranslatedKey(areaData.title_i18n, locale);

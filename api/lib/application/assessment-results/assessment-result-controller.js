@@ -1,6 +1,6 @@
-const AssessmentResult = require('../../domain/models/AssessmentResult');
-const CompetenceMark = require('../../domain/models/CompetenceMark');
-const assessmentResultService = require('../../domain/services/assessment-result-service');
+const AssessmentResult = require('../../domain/models/AssessmentResult.js');
+const CompetenceMark = require('../../domain/models/CompetenceMark.js');
+const assessmentResultService = require('../../domain/services/assessment-result-service.js');
 
 // TODO: Should be removed and replaced by a real serializer
 function _deserializeResultsAdd(json) {

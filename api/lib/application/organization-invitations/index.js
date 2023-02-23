@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
-const organizationInvitationController = require('./organization-invitation-controller');
-const identifiersType = require('../../domain/types/identifiers-type');
+const organizationInvitationController = require('./organization-invitation-controller.js');
+const identifiersType = require('../../domain/types/identifiers-type.js');
 
 exports.register = async (server) => {
   server.route([

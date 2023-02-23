@@ -1,5 +1,5 @@
-const campaignValidator = require('../validators/campaign-validator');
-const { EntityValidationError } = require('../errors');
+const campaignValidator = require('../validators/campaign-validator.js');
+const { EntityValidationError } = require('../errors.js');
 
 module.exports = async function updateCampaignDetailsManagement({
   campaignId,

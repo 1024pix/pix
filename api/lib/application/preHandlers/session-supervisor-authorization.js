@@ -1,5 +1,5 @@
-const supervisorAccessRepository = require('../../infrastructure/repositories/supervisor-access-repository');
-const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
+const supervisorAccessRepository = require('../../infrastructure/repositories/supervisor-access-repository.js');
+const requestResponseUtils = require('../../infrastructure/utils/request-response-utils.js');
 
 module.exports = {
   async verifyByCertificationCandidateId(request, h) {

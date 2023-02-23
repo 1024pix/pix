@@ -1,7 +1,7 @@
 const { PassThrough } = require('stream');
 const { expect, mockLearningContent, databaseBuilder, streamToPromise } = require('../../../test-helper');
 
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { getI18n } = require('../../../tooling/i18n/i18n');
 

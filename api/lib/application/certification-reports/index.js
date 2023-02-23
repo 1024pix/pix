@@ -1,8 +1,8 @@
 const Joi = require('joi');
-const certificationReportController = require('./certification-report-controller');
-const identifiersType = require('../../domain/types/identifiers-type');
-const authorization = require('../preHandlers/authorization');
-const securityPreHandlers = require('../security-pre-handlers');
+const certificationReportController = require('./certification-report-controller.js');
+const identifiersType = require('../../domain/types/identifiers-type.js');
+const authorization = require('../preHandlers/authorization.js');
+const securityPreHandlers = require('../security-pre-handlers.js');
 
 exports.register = async (server) => {
   server.route([

@@ -1,5 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const Memberships = require('../../../../lib/domain/models/Membership');
 
 describe('Unit | UseCase | find-paginated-filtered-organizations-memberships', function () {

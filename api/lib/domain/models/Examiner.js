@@ -1,6 +1,6 @@
-const logger = require('../../infrastructure/logger');
-const Answer = require('./Answer');
-const AnswerStatus = require('./AnswerStatus');
+const logger = require('../../infrastructure/logger.js');
+const Answer = require('./Answer.js');
+const AnswerStatus = require('./AnswerStatus.js');
 
 /**
  * Traduction: Correcteur

@@ -1,4 +1,4 @@
-const organizationCreationValidator = require('../validators/organization-creation-validator');
+const organizationCreationValidator = require('../validators/organization-creation-validator.js');
 
 module.exports = async function createOrganization({
   organization,

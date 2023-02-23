@@ -12,7 +12,7 @@ const {
   NotFoundError,
 } = require('../../../../lib/domain/errors');
 
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 
 describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', function () {
   const organizationId = 1;

@@ -8,7 +8,7 @@ const AuthenticationMethod = require('../../../../lib/domain/models/Authenticati
 const codeUtils = require('../../../../lib/infrastructure/utils/code-utils');
 const { getI18n } = require('../../../tooling/i18n/i18n');
 
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 
 describe('Unit | UseCase | send-verification-code', function () {
   let authenticationMethodRepository;

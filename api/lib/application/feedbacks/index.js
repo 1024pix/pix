@@ -1,6 +1,6 @@
-const feedbackController = require('./feedback-controller');
+const feedbackController = require('./feedback-controller.js');
 const Joi = require('joi');
-const identifiersType = require('../../domain/types/identifiers-type');
+const identifiersType = require('../../domain/types/identifiers-type.js');
 
 exports.register = async (server) => {
   server.route([

@@ -1,10 +1,10 @@
-const Bookshelf = require('../bookshelf');
+const Bookshelf = require('../bookshelf.js');
 
-require('./Assessment');
-require('./CertificationChallenge');
-require('./CertificationIssueReport');
-require('./ComplementaryCertificationCourse');
-require('./Session');
+require('./Assessment.js');
+require('./CertificationChallenge.js');
+require('./CertificationIssueReport.js');
+require('./ComplementaryCertificationCourse.js');
+require('./Session.js');
 
 const modelName = 'CertificationCourse';
 

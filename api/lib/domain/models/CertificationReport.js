@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const Joi = require('joi');
 
-const { InvalidCertificationReportForFinalization } = require('../errors');
+const { InvalidCertificationReportForFinalization } = require('../errors.js');
 
 const NO_EXAMINER_COMMENT = null;
 

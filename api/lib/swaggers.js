@@ -1,11 +1,11 @@
 const HapiSwagger = require('hapi-swagger');
-const applicationPackage = require('../package.json');
+const packageJSON = require('../package.json');
 
 const swaggerOptionsAuthorizationServer = {
   routeTag: 'authorization-server',
   info: {
     title: 'Welcome to the Pix Authorization server',
-    version: applicationPackage.version,
+    version: packageJSON.version,
   },
   jsonPath: '/swagger.json',
 };
@@ -14,7 +14,7 @@ const swaggerOptionsLivretScolaire = {
   routeTag: 'livret-scolaire',
   info: {
     title: 'Welcome to the Pix LSU/LSL open api',
-    version: applicationPackage.version,
+    version: packageJSON.version,
   },
   jsonPath: '/swagger.json',
 };
@@ -23,7 +23,7 @@ const swaggerOptionsPoleEmploi = {
   routeTag: 'pole-emploi',
   info: {
     title: 'Pix Pôle emploi open api',
-    version: applicationPackage.version,
+    version: packageJSON.version,
   },
   jsonPath: '/swagger.json',
 };
@@ -34,7 +34,7 @@ const swaggerOptionsIn = {
   routeTag: 'api',
   info: {
     title: 'Welcome to the Pix api catalog',
-    version: applicationPackage.version,
+    version: packageJSON.version,
   },
   documentationPath: '/documentation',
   jsonPath: '/swagger.json',

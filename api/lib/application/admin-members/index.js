@@ -1,6 +1,6 @@
-const adminMemberController = require('./admin-member-controller');
-const securityPreHandlers = require('../security-pre-handlers');
-const identifiersType = require('../../domain/types/identifiers-type');
+const adminMemberController = require('./admin-member-controller.js');
+const securityPreHandlers = require('../security-pre-handlers.js');
+const identifiersType = require('../../domain/types/identifiers-type.js');
 const Joi = require('joi');
 
 exports.register = async function (server) {

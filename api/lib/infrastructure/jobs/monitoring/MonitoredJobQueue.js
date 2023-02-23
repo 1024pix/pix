@@ -1,6 +1,6 @@
-const MonitoringJobHandler = require('./MonitoringJobExecutionTimeHandler');
-const logger = require('../../logger');
-const { teamSize, teamConcurrency } = require('../../../config').pgBoss;
+const MonitoringJobHandler = require('./MonitoringJobExecutionTimeHandler.js');
+const logger = require('../../logger.js');
+const { teamSize, teamConcurrency } = require('../../../config.js').pgBoss;
 
 class MonitoredJobQueue {
   constructor(jobQueue) {

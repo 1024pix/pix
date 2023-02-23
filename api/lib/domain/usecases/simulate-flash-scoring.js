@@ -1,4 +1,4 @@
-const ScoringSimulationResult = require('../models/ScoringSimulationResult');
+const ScoringSimulationResult = require('../models/ScoringSimulationResult.js');
 
 module.exports = async function simulateFlashScoring({
   challengeRepository,

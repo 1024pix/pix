@@ -1,7 +1,7 @@
-const { knex } = require('../../../db/knex-database-connection');
-const CampaignToJoin = require('../../domain/read-models/CampaignToJoin');
-const { NotFoundError } = require('../../domain/errors');
-const DomainTransaction = require('../DomainTransaction');
+const { knex } = require('../../../db/knex-database-connection.js');
+const CampaignToJoin = require('../../domain/read-models/CampaignToJoin.js');
+const { NotFoundError } = require('../../domain/errors.js');
+const DomainTransaction = require('../DomainTransaction.js');
 
 module.exports = {
   async get(id, domainTransaction = DomainTransaction.emptyTransaction()) {

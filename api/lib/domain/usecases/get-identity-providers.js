@@ -1,6 +1,6 @@
 const { isEmpty, isNil, pick } = require('lodash');
-const OidcIdentityProviders = require('../constants/oidc-identity-providers');
-const config = require('../../config');
+const OidcIdentityProviders = require('../constants/oidc-identity-providers.js');
+const config = require('../../config.js');
 
 module.exports = function getIdentityProviders() {
   return Object.keys(OidcIdentityProviders)

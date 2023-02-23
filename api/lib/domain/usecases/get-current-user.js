@@ -1,4 +1,4 @@
-const UserWithActivity = require('../read-models/UserWithActivity');
+const UserWithActivity = require('../read-models/UserWithActivity.js');
 
 module.exports = async function getCurrentUser({
   authenticatedUserId,

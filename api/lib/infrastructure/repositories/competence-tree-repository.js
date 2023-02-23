@@ -1,5 +1,5 @@
-const areaRepository = require('./area-repository');
-const CompetenceTree = require('../../domain/models/CompetenceTree');
+const areaRepository = require('./area-repository.js');
+const CompetenceTree = require('../../domain/models/CompetenceTree.js');
 
 module.exports = {
   async get({ locale } = {}) {

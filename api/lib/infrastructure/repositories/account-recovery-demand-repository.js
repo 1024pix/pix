@@ -1,8 +1,8 @@
 const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection');
-const AccountRecoveryDemand = require('../../domain/models/AccountRecoveryDemand');
-const { NotFoundError } = require('../../domain/errors');
-const DomainTransaction = require('../DomainTransaction');
+const { knex } = require('../../../db/knex-database-connection.js');
+const AccountRecoveryDemand = require('../../domain/models/AccountRecoveryDemand.js');
+const { NotFoundError } = require('../../domain/errors.js');
+const DomainTransaction = require('../DomainTransaction.js');
 
 const _toDomain = (accountRecoveryDemandDTO) => {
   return new AccountRecoveryDemand(accountRecoveryDemandDTO);

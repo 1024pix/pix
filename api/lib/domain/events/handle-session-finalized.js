@@ -1,6 +1,6 @@
-const FinalizedSession = require('../models/FinalizedSession');
-const { checkEventTypes } = require('./check-event-types');
-const AutoJuryDone = require('./AutoJuryDone');
+const FinalizedSession = require('../models/FinalizedSession.js');
+const { checkEventTypes } = require('./check-event-types.js');
+const AutoJuryDone = require('./AutoJuryDone.js');
 
 const eventTypes = [AutoJuryDone];
 

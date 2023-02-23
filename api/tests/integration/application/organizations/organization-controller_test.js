@@ -1,7 +1,7 @@
 const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-helper');
 
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const ScoOrganizationParticipant = require('../../../../lib/domain/read-models/ScoOrganizationParticipant');
 const SupOrganizationParticipant = require('../../../../lib/domain/read-models/SupOrganizationParticipant');

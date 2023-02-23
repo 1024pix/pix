@@ -1,23 +1,23 @@
 const _ = require('lodash');
 const { PassThrough } = require('stream');
 
-const { MissingQueryParamError } = require('../http-errors');
-const usecases = require('../../domain/usecases');
-const tokenService = require('../../../lib/domain/services/token-service');
+const { MissingQueryParamError } = require('../http-errors.js');
+const usecases = require('../../domain/usecases/index.js');
+const tokenService = require('../../../lib/domain/services/token-service.js');
 
-const campaignToJoinSerializer = require('../../infrastructure/serializers/jsonapi/campaign-to-join-serializer');
-const campaignAnalysisSerializer = require('../../infrastructure/serializers/jsonapi/campaign-analysis-serializer');
-const campaignReportSerializer = require('../../infrastructure/serializers/jsonapi/campaign-report-serializer');
-const campaignCollectiveResultSerializer = require('../../infrastructure/serializers/jsonapi/campaign-collective-result-serializer');
-const campaignProfilesCollectionParticipationSummarySerializer = require('../../infrastructure/serializers/jsonapi/campaign-profiles-collection-participation-summary-serializer');
-const campaignParticipantsActivitySerializer = require('../../infrastructure/serializers/jsonapi/campaign-participant-activity-serializer');
-const divisionSerializer = require('../../infrastructure/serializers/jsonapi/division-serializer');
-const groupSerializer = require('../../infrastructure/serializers/jsonapi/group-serializer');
+const campaignToJoinSerializer = require('../../infrastructure/serializers/jsonapi/campaign-to-join-serializer.js');
+const campaignAnalysisSerializer = require('../../infrastructure/serializers/jsonapi/campaign-analysis-serializer.js');
+const campaignReportSerializer = require('../../infrastructure/serializers/jsonapi/campaign-report-serializer.js');
+const campaignCollectiveResultSerializer = require('../../infrastructure/serializers/jsonapi/campaign-collective-result-serializer.js');
+const campaignProfilesCollectionParticipationSummarySerializer = require('../../infrastructure/serializers/jsonapi/campaign-profiles-collection-participation-summary-serializer.js');
+const campaignParticipantsActivitySerializer = require('../../infrastructure/serializers/jsonapi/campaign-participant-activity-serializer.js');
+const divisionSerializer = require('../../infrastructure/serializers/jsonapi/division-serializer.js');
+const groupSerializer = require('../../infrastructure/serializers/jsonapi/group-serializer.js');
 
-const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
-const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
-const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
-const { ForbiddenAccess } = require('../../domain/errors');
+const queryParamsUtils = require('../../infrastructure/utils/query-params-utils.js');
+const requestResponseUtils = require('../../infrastructure/utils/request-response-utils.js');
+const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils.js');
+const { ForbiddenAccess } = require('../../domain/errors.js');
 
 module.exports = {
   async save(request, h) {

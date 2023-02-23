@@ -1,7 +1,7 @@
 const Joi = require('joi');
-const poleEmploiController = require('./pole-emploi-controller');
-const poleEmploiErreurDoc = require('../../infrastructure/open-api-doc/pole-emploi/erreur-doc');
-const poleEmploiEnvoisDoc = require('../../infrastructure/open-api-doc/pole-emploi/envois-doc');
+const poleEmploiController = require('./pole-emploi-controller.js');
+const poleEmploiErreurDoc = require('../../infrastructure/open-api-doc/pole-emploi/erreur-doc.js');
+const poleEmploiEnvoisDoc = require('../../infrastructure/open-api-doc/pole-emploi/envois-doc.js');
 
 exports.register = async function (server) {
   server.route([

@@ -1,13 +1,13 @@
 const _ = require('lodash');
-const Challenge = require('../../domain/models/Challenge');
+const Challenge = require('../../domain/models/Challenge.js');
 
-const challengeDatasource = require('../datasources/learning-content/challenge-datasource');
-const skillDatasource = require('../datasources/learning-content/skill-datasource');
-const skillAdapter = require('../adapters/skill-adapter');
-const solutionAdapter = require('../adapters/solution-adapter');
-const LearningContentResourceNotFound = require('../datasources/learning-content/LearningContentResourceNotFound');
-const { NotFoundError } = require('../../domain/errors');
-const config = require('../../config');
+const challengeDatasource = require('../datasources/learning-content/challenge-datasource.js');
+const skillDatasource = require('../datasources/learning-content/skill-datasource.js');
+const skillAdapter = require('../adapters/skill-adapter.js');
+const solutionAdapter = require('../adapters/solution-adapter.js');
+const LearningContentResourceNotFound = require('../datasources/learning-content/LearningContentResourceNotFound.js');
+const { NotFoundError } = require('../../domain/errors.js');
+const config = require('../../config.js');
 
 module.exports = {
   async get(id) {

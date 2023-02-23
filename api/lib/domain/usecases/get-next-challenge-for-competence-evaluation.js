@@ -1,7 +1,7 @@
-const { AssessmentEndedError, UserNotAuthorizedToAccessEntityError } = require('../errors');
+const { AssessmentEndedError, UserNotAuthorizedToAccessEntityError } = require('../errors.js');
 
-const smartRandom = require('../services/algorithm-methods/smart-random');
-const dataFetcher = require('../services/algorithm-methods/data-fetcher');
+const smartRandom = require('../services/algorithm-methods/smart-random.js');
+const dataFetcher = require('../services/algorithm-methods/data-fetcher.js');
 
 module.exports = async function getNextChallengeForCompetenceEvaluation({
   pickChallengeService,

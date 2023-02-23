@@ -1,6 +1,6 @@
-const { knex } = require('../../../../db/knex-database-connection');
-const { NotFoundError } = require('../../../domain/errors');
-const OrganizationLearner = require('../../../domain/read-models/organization-learner-follow-up/OrganizationLearner');
+const { knex } = require('../../../../db/knex-database-connection.js');
+const { NotFoundError } = require('../../../domain/errors.js');
+const OrganizationLearner = require('../../../domain/read-models/organization-learner-follow-up/OrganizationLearner.js');
 
 async function get(organizationLearnerId) {
   const row = await knex('organization-learners')

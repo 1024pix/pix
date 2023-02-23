@@ -1,5 +1,5 @@
 const { sinon } = require('../../test-helper');
-const { _forTestOnly } = require('../../../lib/domain/events');
+const { _forTestOnly } = require('../../../lib/domain/events/index.js');
 
 function buildEventDispatcherAndHandlersForTest() {
   const handlerStubs = {};

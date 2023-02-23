@@ -1,7 +1,7 @@
-const certificationCandidatesController = require('./certification-candidates-controller');
-const assessmentSupervisorAuthorization = require('../preHandlers/session-supervisor-authorization');
+const certificationCandidatesController = require('./certification-candidates-controller.js');
+const assessmentSupervisorAuthorization = require('../preHandlers/session-supervisor-authorization.js');
 const Joi = require('joi');
-const identifiersType = require('../../domain/types/identifiers-type');
+const identifiersType = require('../../domain/types/identifiers-type.js');
 
 exports.register = async function (server) {
   server.route([

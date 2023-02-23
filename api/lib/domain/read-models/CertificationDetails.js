@@ -1,6 +1,6 @@
 const _ = require('lodash');
-const AnswerCollectionForScoring = require('../models/AnswerCollectionForScoring');
-const { ReproducibilityRate } = require('../models/ReproducibilityRate');
+const AnswerCollectionForScoring = require('../models/AnswerCollectionForScoring.js');
+const { ReproducibilityRate } = require('../models/ReproducibilityRate.js');
 
 class CertificationDetails {
   constructor({

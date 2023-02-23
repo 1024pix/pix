@@ -1,9 +1,9 @@
-const { FileValidationError, SiecleXmlImportError } = require('../errors');
+const { FileValidationError, SiecleXmlImportError } = require('../errors.js');
 const fs = require('fs').promises;
 const bluebird = require('bluebird');
-const { ORGANIZATION_LEARNER_CHUNK_SIZE } = require('../../infrastructure/constants');
+const { ORGANIZATION_LEARNER_CHUNK_SIZE } = require('../../infrastructure/constants.js');
 const { isEmpty, chunk } = require('lodash');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
+const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
 
 const ERRORS = {
   EMPTY: 'EMPTY',

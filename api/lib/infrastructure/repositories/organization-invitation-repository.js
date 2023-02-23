@@ -1,8 +1,8 @@
-const BookshelfOrganizationInvitation = require('../orm-models/OrganizationInvitation');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const { NotFoundError } = require('../../domain/errors');
-const OrganizationInvitation = require('../../domain/models/OrganizationInvitation');
-const { knex } = require('../../../db/knex-database-connection');
+const BookshelfOrganizationInvitation = require('../orm-models/OrganizationInvitation.js');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter.js');
+const { NotFoundError } = require('../../domain/errors.js');
+const OrganizationInvitation = require('../../domain/models/OrganizationInvitation.js');
+const { knex } = require('../../../db/knex-database-connection.js');
 const _ = require('lodash');
 
 function _toDomain(bookshelfInvitation) {

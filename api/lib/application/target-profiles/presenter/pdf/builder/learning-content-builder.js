@@ -1,5 +1,5 @@
 const sortBy = require('lodash/sortBy');
-const areaBuilder = require('./area-builder');
+const areaBuilder = require('./area-builder.js');
 
 module.exports = {
   /**

@@ -1,6 +1,6 @@
 const _ = require('lodash');
-const CompetenceMark = require('./CompetenceMark');
-const ComplementaryCertificationCourseResult = require('./ComplementaryCertificationCourseResult');
+const CompetenceMark = require('./CompetenceMark.js');
+const ComplementaryCertificationCourseResult = require('./ComplementaryCertificationCourseResult.js');
 
 const status = {
   REJECTED: 'rejected',

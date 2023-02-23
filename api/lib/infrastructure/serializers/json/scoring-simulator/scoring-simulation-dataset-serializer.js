@@ -1,6 +1,6 @@
-const ScoringSimulation = require('../../../../domain/models/ScoringSimulation');
-const ScoringSimulationDataset = require('../../../../domain/models/ScoringSimulationDataset');
-const Answer = require('../../../../domain/models/Answer');
+const ScoringSimulation = require('../../../../domain/models/ScoringSimulation.js');
+const ScoringSimulationDataset = require('../../../../domain/models/ScoringSimulationDataset.js');
+const Answer = require('../../../../domain/models/Answer.js');
 
 module.exports = {
   deserialize(request) {

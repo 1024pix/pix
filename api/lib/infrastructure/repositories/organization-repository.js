@@ -1,10 +1,10 @@
 const _ = require('lodash');
-const { NotFoundError } = require('../../domain/errors');
-const Organization = require('../../domain/models/Organization');
-const DomainTransaction = require('../DomainTransaction');
-const { knex } = require('../../../db/knex-database-connection');
-const Tag = require('../../domain/models/Tag');
-const { fetchPage } = require('../utils/knex-utils');
+const { NotFoundError } = require('../../domain/errors.js');
+const Organization = require('../../domain/models/Organization.js');
+const DomainTransaction = require('../DomainTransaction.js');
+const { knex } = require('../../../db/knex-database-connection.js');
+const Tag = require('../../domain/models/Tag.js');
+const { fetchPage } = require('../utils/knex-utils.js');
 
 function _toDomain(rawOrganization) {
   const organization = new Organization({

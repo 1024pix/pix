@@ -1,11 +1,11 @@
 const _ = require('lodash');
-const LearningContentResourceNotFound = require('../datasources/learning-content/LearningContentResourceNotFound');
-const Competence = require('../../domain/models/Competence');
-const competenceDatasource = require('../datasources/learning-content/competence-datasource');
-const { NotFoundError } = require('../../domain/errors');
-const { FRENCH_FRANCE } = require('../../domain/constants').LOCALE;
-const { PIX_ORIGIN } = require('../../domain/constants');
-const { getTranslatedKey } = require('../../domain/services/get-translated-text');
+const LearningContentResourceNotFound = require('../datasources/learning-content/LearningContentResourceNotFound.js');
+const Competence = require('../../domain/models/Competence.js');
+const competenceDatasource = require('../datasources/learning-content/competence-datasource.js');
+const { NotFoundError } = require('../../domain/errors.js');
+const { FRENCH_FRANCE } = require('../../domain/constants.js').LOCALE;
+const { PIX_ORIGIN } = require('../../domain/constants.js');
+const { getTranslatedKey } = require('../../domain/services/get-translated-text.js');
 
 function _toDomain({ competenceData, locale }) {
   const translatedCompetenceName = getTranslatedKey(competenceData.name_i18n, locale);

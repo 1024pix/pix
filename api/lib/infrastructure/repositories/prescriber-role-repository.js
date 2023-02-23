@@ -1,6 +1,6 @@
-const { NotFoundError } = require('../../domain/errors');
-const { knex } = require('../../../db/knex-database-connection');
-const CampaignAuthorization = require('../../application/preHandlers/models/CampaignAuthorization');
+const { NotFoundError } = require('../../domain/errors.js');
+const { knex } = require('../../../db/knex-database-connection.js');
+const CampaignAuthorization = require('../../application/preHandlers/models/CampaignAuthorization.js');
 
 module.exports = {
   async getForCampaign({ userId, campaignId }) {

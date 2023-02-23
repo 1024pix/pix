@@ -1,8 +1,8 @@
 const { find } = require('lodash');
 const boom = require('boom');
 
-const tokenService = require('../domain/services/token-service');
-const config = require('../../lib/config');
+const tokenService = require('../domain/services/token-service.js');
+const config = require('../../lib/config.js');
 
 async function _checkIsAuthenticated(request, h, { key, validate }) {
   if (!request.headers.authorization) {

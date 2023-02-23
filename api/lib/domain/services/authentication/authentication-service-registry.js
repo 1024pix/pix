@@ -1,5 +1,5 @@
-const OidcIdentityProviders = require('../../constants/oidc-identity-providers');
-const { InvalidIdentityProviderError } = require('../../errors');
+const OidcIdentityProviders = require('../../constants/oidc-identity-providers.js');
+const { InvalidIdentityProviderError } = require('../../errors.js');
 
 function lookupAuthenticationService(identityProvider) {
   const identityProviderService = Object.values(OidcIdentityProviders).find(

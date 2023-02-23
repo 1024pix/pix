@@ -1,8 +1,8 @@
 const Joi = require('joi');
 const XRegExp = require('xregexp');
 
-const { passwordValidationPattern } = require('../../config').account;
-const passwordController = require('./password-controller');
+const { passwordValidationPattern } = require('../../config.js').account;
+const passwordController = require('./password-controller.js');
 
 exports.register = async function (server) {
   server.route([

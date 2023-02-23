@@ -1,6 +1,6 @@
 const { Serializer } = require('jsonapi-serializer');
 
-const CertificationCenter = require('../../../domain/models/CertificationCenter');
+const CertificationCenter = require('../../../domain/models/CertificationCenter.js');
 
 module.exports = {
   serialize(certificationCenters, meta) {

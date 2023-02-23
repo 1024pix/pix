@@ -1,6 +1,6 @@
-const CertifiableBadgeAcquisition = require('../../domain/models/CertifiableBadgeAcquisition');
-const { knex } = require('../../../db/knex-database-connection');
-const DomainTransaction = require('../DomainTransaction');
+const CertifiableBadgeAcquisition = require('../../domain/models/CertifiableBadgeAcquisition.js');
+const { knex } = require('../../../db/knex-database-connection.js');
+const DomainTransaction = require('../DomainTransaction.js');
 const _ = require('lodash');
 
 const BADGE_ACQUISITIONS_TABLE = 'badge-acquisitions';

@@ -1,10 +1,10 @@
-const AreaDatasource = require('./area-datasource');
-const ChallengeDatasource = require('./challenge-datasource');
-const CompetenceDatasource = require('./competence-datasource');
-const CourseDatasource = require('./course-datasource');
-const SkillDatasource = require('./skill-datasource');
-const TubeDatasource = require('./tube-datasource');
-const TutorialDatasource = require('./tutorial-datasource');
+const AreaDatasource = require('./area-datasource.js');
+const ChallengeDatasource = require('./challenge-datasource.js');
+const CompetenceDatasource = require('./competence-datasource.js');
+const CourseDatasource = require('./course-datasource.js');
+const SkillDatasource = require('./skill-datasource.js');
+const TubeDatasource = require('./tube-datasource.js');
+const TutorialDatasource = require('./tutorial-datasource.js');
 
 module.exports = {
   AreaDatasource,

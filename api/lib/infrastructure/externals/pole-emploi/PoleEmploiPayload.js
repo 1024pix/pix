@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const config = require('../../../config');
+const config = require('../../../config.js');
 
 const CAMPAIGN_TYPE = 'EVALUATION';
 const STRUCTURE_NAME = 'Pix';

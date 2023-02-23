@@ -1,6 +1,6 @@
-const Framework = require('../../domain/models/Framework');
-const frameworkDatasource = require('../datasources/learning-content/framework-datasource');
-const { NotFoundError } = require('../../domain/errors');
+const Framework = require('../../domain/models/Framework.js');
+const frameworkDatasource = require('../datasources/learning-content/framework-datasource.js');
+const { NotFoundError } = require('../../domain/errors.js');
 const _ = require('lodash');
 
 async function list() {

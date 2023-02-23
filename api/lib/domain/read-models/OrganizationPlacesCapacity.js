@@ -1,5 +1,5 @@
 const sumBy = require('lodash/sumBy');
-const categories = require('../constants/organization-places-categories');
+const categories = require('../constants/organization-places-categories.js');
 
 const categoriesByCode = {
   [categories.T0]: categories.FREE_RATE,

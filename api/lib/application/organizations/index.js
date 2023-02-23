@@ -2,10 +2,10 @@ const BaseJoi = require('joi');
 const JoiDate = require('@joi/date');
 const Joi = BaseJoi.extend(JoiDate);
 
-const { sendJsonApiError, PayloadTooLargeError, NotFoundError, BadRequestError } = require('../http-errors');
-const securityPreHandlers = require('../security-pre-handlers');
-const organizationController = require('./organization-controller');
-const identifiersType = require('../../domain/types/identifiers-type');
+const { sendJsonApiError, PayloadTooLargeError, NotFoundError, BadRequestError } = require('../http-errors.js');
+const securityPreHandlers = require('../security-pre-handlers.js');
+const organizationController = require('./organization-controller.js');
+const identifiersType = require('../../domain/types/identifiers-type.js');
 
 const ERRORS = {
   PAYLOAD_TOO_LARGE: 'PAYLOAD_TOO_LARGE',

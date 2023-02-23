@@ -7,11 +7,11 @@ const timezone = require('dayjs/plugin/timezone');
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-const constants = require('../../infrastructure/constants');
-const { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } = require('../errors');
-const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
-const CampaignLearningContent = require('../models/CampaignLearningContent');
-const CampaignStages = require('../read-models/campaign/CampaignStages');
+const constants = require('../../infrastructure/constants.js');
+const { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } = require('../errors.js');
+const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer.js');
+const CampaignLearningContent = require('../models/CampaignLearningContent.js');
+const CampaignStages = require('../read-models/campaign/CampaignStages.js');
 
 module.exports = async function startWritingCampaignAssessmentResultsToStream({
   userId,

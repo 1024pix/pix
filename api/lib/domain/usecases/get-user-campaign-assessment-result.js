@@ -1,4 +1,4 @@
-const { NotFoundError, NoCampaignParticipationForUserAndCampaign } = require('../errors');
+const { NotFoundError, NoCampaignParticipationForUserAndCampaign } = require('../errors.js');
 
 module.exports = async function getUserCampaignAssessmentResult({
   userId,

@@ -7,8 +7,8 @@ const bluebird = require('bluebird');
 // eslint-disable-next-line no-restricted-modules
 const axios = require('axios');
 
-const AttestationViewModel = require('./AttestationViewModel');
-const { CertificationAttestationGenerationError } = require('../../../domain/errors');
+const AttestationViewModel = require('./AttestationViewModel.js');
+const { CertificationAttestationGenerationError } = require('../../../domain/errors.js');
 
 const fonts = {
   openSansBold: 'OpenSans-Bold.ttf',

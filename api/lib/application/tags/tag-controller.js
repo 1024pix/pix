@@ -1,5 +1,5 @@
-const tagSerializer = require('../../infrastructure/serializers/jsonapi/tag-serializer');
-const usecases = require('../../domain/usecases');
+const tagSerializer = require('../../infrastructure/serializers/jsonapi/tag-serializer.js');
+const usecases = require('../../domain/usecases/index.js');
 
 module.exports = {
   async create(request, h) {

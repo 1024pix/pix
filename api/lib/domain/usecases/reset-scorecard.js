@@ -1,5 +1,5 @@
-const Scorecard = require('../models/Scorecard');
-const { CompetenceResetError } = require('../errors');
+const Scorecard = require('../models/Scorecard.js');
+const { CompetenceResetError } = require('../errors.js');
 const _ = require('lodash');
 
 module.exports = async function resetScorecard({

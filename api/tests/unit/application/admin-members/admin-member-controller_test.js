@@ -1,7 +1,7 @@
 const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
 
 const adminMemberController = require('../../../../lib/application/admin-members/admin-member-controller');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const adminMemberSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/admin-member-serializer');
 const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
 

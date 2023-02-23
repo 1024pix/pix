@@ -1,4 +1,4 @@
-const CertificationEligibility = require('../read-models/CertificationEligibility');
+const CertificationEligibility = require('../read-models/CertificationEligibility.js');
 
 module.exports = async function getUserCertificationEligibility({
   userId,

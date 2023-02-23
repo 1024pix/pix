@@ -1,10 +1,10 @@
 const _ = require('lodash');
 const bluebird = require('bluebird');
-const Tube = require('../../domain/models/Tube');
-const tubeDatasource = require('../datasources/learning-content/tube-datasource');
-const skillDatasource = require('../datasources/learning-content/skill-datasource');
+const Tube = require('../../domain/models/Tube.js');
+const tubeDatasource = require('../datasources/learning-content/tube-datasource.js');
+const skillDatasource = require('../datasources/learning-content/skill-datasource.js');
 
-const { getTranslatedKey } = require('../../domain/services/get-translated-text');
+const { getTranslatedKey } = require('../../domain/services/get-translated-text.js');
 
 function _toDomain({ tubeData, locale }) {
   const translatedPracticalTitle = getTranslatedKey(tubeData.practicalTitle_i18n, locale);

@@ -1,4 +1,4 @@
-const { normalizeAndSortChars } = require('../../infrastructure/utils/string-utils');
+const { normalizeAndSortChars } = require('../../infrastructure/utils/string-utils.js');
 const isEmpty = require('lodash/isEmpty');
 
 const CpfValidationStatus = {

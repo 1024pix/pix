@@ -1,8 +1,8 @@
 const _ = require('lodash');
-const Course = require('../models/Course');
-const { NotFoundError } = require('../../domain/errors');
+const Course = require('../models/Course.js');
+const { NotFoundError } = require('../../domain/errors.js');
 
-const courseRepository = require('../../infrastructure/repositories/course-repository');
+const courseRepository = require('../../infrastructure/repositories/course-repository.js');
 
 module.exports = {
   async getCourse({ courseId }) {

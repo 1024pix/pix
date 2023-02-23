@@ -1,12 +1,12 @@
 const _ = require('lodash');
 const bluebird = require('bluebird');
 
-const Bookshelf = require('../bookshelf');
-const CertificationReport = require('../../domain/models/CertificationReport');
+const Bookshelf = require('../bookshelf.js');
+const CertificationReport = require('../../domain/models/CertificationReport.js');
 
-const CertificationCourseBookshelf = require('../orm-models/CertificationCourse');
-const { CertificationCourseUpdateError } = require('../../domain/errors');
-const { toDomain } = require('./certification-course-repository');
+const CertificationCourseBookshelf = require('../orm-models/CertificationCourse.js');
+const { CertificationCourseUpdateError } = require('../../domain/errors.js');
+const { toDomain } = require('./certification-course-repository.js');
 
 module.exports = {
   async findBySessionId(sessionId) {

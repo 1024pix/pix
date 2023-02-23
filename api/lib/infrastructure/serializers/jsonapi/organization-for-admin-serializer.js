@@ -1,7 +1,7 @@
 const { Serializer } = require('jsonapi-serializer');
 const _ = require('lodash');
-const OrganizationForAdmin = require('../../../domain/models/OrganizationForAdmin');
-const Tag = require('../../../domain/models/Tag');
+const OrganizationForAdmin = require('../../../domain/models/OrganizationForAdmin.js');
+const Tag = require('../../../domain/models/Tag.js');
 
 module.exports = {
   serialize(organizations, meta) {

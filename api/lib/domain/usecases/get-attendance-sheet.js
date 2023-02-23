@@ -1,15 +1,15 @@
 const _ = require('lodash');
 const moment = require('moment');
-const writeOdsUtils = require('../../infrastructure/utils/ods/write-ods-utils');
-const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils');
-const sessionXmlService = require('../services/session-xml-service');
-const { UserNotAuthorizedToAccessEntityError } = require('../errors');
+const writeOdsUtils = require('../../infrastructure/utils/ods/write-ods-utils.js');
+const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils.js');
+const sessionXmlService = require('../services/session-xml-service.js');
+const { UserNotAuthorizedToAccessEntityError } = require('../errors.js');
 const {
   EXTRA_EMPTY_CANDIDATE_ROWS,
   NON_SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
   SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
   ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES,
-} = require('./../../infrastructure/files/attendance-sheet/attendance-sheet-placeholders');
+} = require('./../../infrastructure/files/attendance-sheet/attendance-sheet-placeholders.js');
 
 module.exports = async function getAttendanceSheet({
   userId,

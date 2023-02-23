@@ -1,6 +1,6 @@
 const { expect, sinon, hFake, domainBuilder, catchErr } = require('../../../test-helper');
 const sessionController = require('../../../../lib/application/sessions/session-controller');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
 const jurySessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/jury-session-serializer');
 const certificationCandidateSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-serializer');

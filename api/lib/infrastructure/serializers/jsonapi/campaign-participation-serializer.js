@@ -1,7 +1,7 @@
 const { Serializer, Deserializer } = require('jsonapi-serializer');
 
-const Campaign = require('../../../domain/models/Campaign');
-const CampaignParticipation = require('../../../domain/models/CampaignParticipation');
+const Campaign = require('../../../domain/models/Campaign.js');
+const CampaignParticipation = require('../../../domain/models/CampaignParticipation.js');
 
 module.exports = {
   serialize(campaignParticipation) {

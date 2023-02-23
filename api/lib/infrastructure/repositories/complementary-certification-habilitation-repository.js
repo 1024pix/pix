@@ -1,4 +1,4 @@
-const { knex } = require('../../../db/knex-database-connection');
+const { knex } = require('../../../db/knex-database-connection.js');
 
 const COMPLEMENTARY_CERTIFICATION_HABILITATIONS_TABLE_NAME = 'complementary-certification-habilitations';
 

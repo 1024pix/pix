@@ -1,10 +1,10 @@
 const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection');
-const BookshelfKnowledgeElementSnapshot = require('../orm-models/KnowledgeElementSnapshot');
-const KnowledgeElement = require('../../domain/models/KnowledgeElement');
-const { AlreadyExistingEntityError } = require('../../domain/errors');
-const bookshelfUtils = require('../utils/knex-utils');
-const DomainTransaction = require('../DomainTransaction');
+const { knex } = require('../../../db/knex-database-connection.js');
+const BookshelfKnowledgeElementSnapshot = require('../orm-models/KnowledgeElementSnapshot.js');
+const KnowledgeElement = require('../../domain/models/KnowledgeElement.js');
+const { AlreadyExistingEntityError } = require('../../domain/errors.js');
+const bookshelfUtils = require('../utils/knex-utils.js');
+const DomainTransaction = require('../DomainTransaction.js');
 
 function _toKnowledgeElementCollection({ snapshot } = {}) {
   if (!snapshot) return null;

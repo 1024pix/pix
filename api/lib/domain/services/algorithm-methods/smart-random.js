@@ -1,7 +1,7 @@
 const _ = require('lodash');
-const catAlgorithm = require('./cat-algorithm');
-const { getFilteredSkillsForNextChallenge, getFilteredSkillsForFirstChallenge } = require('./skills-filter');
-const { computeTubesFromSkills } = require('./../tube-service');
+const catAlgorithm = require('./cat-algorithm.js');
+const { getFilteredSkillsForNextChallenge, getFilteredSkillsForFirstChallenge } = require('./skills-filter.js');
+const { computeTubesFromSkills } = require('./../tube-service.js');
 
 module.exports = { getPossibleSkillsForNextChallenge };
 

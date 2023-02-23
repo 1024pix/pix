@@ -2,7 +2,7 @@ const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-
 
 const moduleUnderTest = require('../../../../lib/application/sco-organization-learners');
 
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const {
   NotFoundError,

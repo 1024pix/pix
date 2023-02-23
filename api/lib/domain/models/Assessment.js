@@ -1,6 +1,6 @@
 const hashInt = require('hash-int');
-const { ObjectValidationError } = require('../errors');
-const Answer = require('./Answer');
+const { ObjectValidationError } = require('../errors.js');
+const Answer = require('./Answer.js');
 
 const courseIdMessage = {
   COMPETENCE_EVALUATION: '[NOT USED] CompetenceId is in Competence Evaluation.',

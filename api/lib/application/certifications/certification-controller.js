@@ -1,9 +1,9 @@
-const usecases = require('../../domain/usecases');
-const events = require('../../domain/events');
-const privateCertificateSerializer = require('../../infrastructure/serializers/jsonapi/private-certificate-serializer');
-const shareableCertificateSerializer = require('../../infrastructure/serializers/jsonapi/shareable-certificate-serializer');
-const certificationAttestationPdf = require('../../infrastructure/utils/pdf/certification-attestation-pdf');
-const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
+const usecases = require('../../domain/usecases/index.js');
+const events = require('../../domain/events/index.js');
+const privateCertificateSerializer = require('../../infrastructure/serializers/jsonapi/private-certificate-serializer.js');
+const shareableCertificateSerializer = require('../../infrastructure/serializers/jsonapi/shareable-certificate-serializer.js');
+const certificationAttestationPdf = require('../../infrastructure/utils/pdf/certification-attestation-pdf.js');
+const requestResponseUtils = require('../../infrastructure/utils/request-response-utils.js');
 
 const moment = require('moment');
 

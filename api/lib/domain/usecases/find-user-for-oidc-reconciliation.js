@@ -1,4 +1,4 @@
-const { AuthenticationKeyExpired, DifferentExternalIdentifierError } = require('../errors');
+const { AuthenticationKeyExpired, DifferentExternalIdentifierError } = require('../errors.js');
 
 module.exports = async function findUserForOidcReconciliation({
   authenticationKey,

@@ -1,5 +1,5 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
-const { createOrganization } = require('../../../../lib/domain/usecases');
+const { createOrganization } = require('../../../../lib/domain/usecases/index.js');
 const OrganizationForAdmin = require('../../../../lib/domain/models/OrganizationForAdmin');
 const organizationCreationValidator = require('../../../../lib/domain/validators/organization-creation-validator');
 const { EntityValidationError } = require('../../../../lib/domain/errors');

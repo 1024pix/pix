@@ -1,5 +1,5 @@
-const { AuthenticationKeyExpired, MissingUserAccountError } = require('../errors');
-const AuthenticationMethod = require('../models/AuthenticationMethod');
+const { AuthenticationKeyExpired, MissingUserAccountError } = require('../errors.js');
+const AuthenticationMethod = require('../models/AuthenticationMethod.js');
 
 module.exports = async function reconcileOidcUser({
   authenticationKey,

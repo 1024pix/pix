@@ -1,5 +1,5 @@
-const { UserIsTemporaryBlocked, UserIsBlocked } = require('../../domain/errors');
-const userLoginRepository = require('../../infrastructure/repositories/user-login-repository');
+const { UserIsTemporaryBlocked, UserIsBlocked } = require('../../domain/errors.js');
+const userLoginRepository = require('../../infrastructure/repositories/user-login-repository.js');
 
 module.exports = {
   async execute(username) {

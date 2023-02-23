@@ -1,6 +1,6 @@
-const { knex } = require('../../../db/knex-database-connection');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
-const SkillSet = require('../../../lib/domain/models/SkillSet');
+const { knex } = require('../../../db/knex-database-connection.js');
+const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
+const SkillSet = require('../../../lib/domain/models/SkillSet.js');
 
 const TABLE_NAME = 'skill-sets';
 

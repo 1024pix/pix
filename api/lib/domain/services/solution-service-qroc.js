@@ -2,14 +2,14 @@ const {
   isNumeric,
   splitIntoWordsAndRemoveBackspaces,
   cleanStringAndParseFloat,
-} = require('../../../lib/infrastructure/utils/string-utils');
+} = require('../../../lib/infrastructure/utils/string-utils.js');
 const { every, isEmpty, isString, map } = require('lodash');
-const { applyTreatments, applyPreTreatments } = require('./validation-treatments');
-const { validateAnswer } = require('./string-comparison-service');
+const { applyTreatments, applyPreTreatments } = require('./validation-treatments.js');
+const { validateAnswer } = require('./string-comparison-service.js');
 
-const AnswerStatus = require('../models/AnswerStatus');
+const AnswerStatus = require('../models/AnswerStatus.js');
 
-const { getEnabledTreatments, useLevenshteinRatio } = require('./services-utils');
+const { getEnabledTreatments, useLevenshteinRatio } = require('./services-utils.js');
 const CHALLENGE_NUMBER_FORMAT = 'nombre';
 
 module.exports = {

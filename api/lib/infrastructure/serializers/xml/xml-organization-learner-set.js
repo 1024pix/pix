@@ -1,6 +1,6 @@
 const moment = require('moment');
 const { isEmpty, isNil, each } = require('lodash');
-const { SiecleXmlImportError } = require('../../../domain/errors');
+const { SiecleXmlImportError } = require('../../../domain/errors.js');
 
 const ERRORS = {
   INE_REQUIRED: 'INE_REQUIRED',

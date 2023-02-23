@@ -1,5 +1,5 @@
-const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
-const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
+const challengeRepository = require('../../infrastructure/repositories/challenge-repository.js');
+const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer.js');
 
 module.exports = {
   get(request) {

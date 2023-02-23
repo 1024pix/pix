@@ -1,6 +1,6 @@
-const { knex } = require('../../../db/knex-database-connection');
-const Assessment = require('../../domain/models/Assessment');
-const CampaignParticipationInfo = require('../../domain/read-models/CampaignParticipationInfo');
+const { knex } = require('../../../db/knex-database-connection.js');
+const Assessment = require('../../domain/models/Assessment.js');
+const CampaignParticipationInfo = require('../../domain/read-models/CampaignParticipationInfo.js');
 
 module.exports = {
   async findByCampaignId(campaignId) {

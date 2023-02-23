@@ -1,8 +1,8 @@
-const usecases = require('../../domain/usecases');
-const participationsByStageSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participations-count-by-stage-serializer');
-const participationsByStatusSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participations-counts-by-status-serializer');
-const participationsByDaySerializer = require('../../infrastructure/serializers/jsonapi/campaign-participations-counts-by-day-serializer');
-const participationsCountByMasteryRateSerializer = require('../../infrastructure/serializers/jsonapi/participations-count-by-mastery-rate');
+const usecases = require('../../domain/usecases/index.js');
+const participationsByStageSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participations-count-by-stage-serializer.js');
+const participationsByStatusSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participations-counts-by-status-serializer.js');
+const participationsByDaySerializer = require('../../infrastructure/serializers/jsonapi/campaign-participations-counts-by-day-serializer.js');
+const participationsCountByMasteryRateSerializer = require('../../infrastructure/serializers/jsonapi/participations-count-by-mastery-rate.js');
 
 module.exports = {
   async getParticipationsByStage(request) {

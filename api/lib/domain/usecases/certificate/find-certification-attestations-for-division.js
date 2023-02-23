@@ -1,4 +1,4 @@
-const { NoCertificationAttestationForDivisionError } = require('../../errors');
+const { NoCertificationAttestationForDivisionError } = require('../../errors.js');
 
 module.exports = async function findCertificationAttestationsForDivision({
   organizationId,

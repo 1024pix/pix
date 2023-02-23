@@ -1,10 +1,10 @@
 const _ = require('lodash');
 const JSONAPIError = require('jsonapi-serializer').Error;
-const HttpErrors = require('./http-errors');
-const DomainErrors = require('../domain/errors');
-const errorSerializer = require('../infrastructure/serializers/jsonapi/error-serializer');
-const { extractLocaleFromRequest } = require('../infrastructure/utils/request-response-utils');
-const translations = require('../../translations');
+const HttpErrors = require('./http-errors.js');
+const DomainErrors = require('../domain/errors.js');
+const errorSerializer = require('../infrastructure/serializers/jsonapi/error-serializer.js');
+const { extractLocaleFromRequest } = require('../infrastructure/utils/request-response-utils.js');
+const translations = require('../../translations/index.js');
 
 const NOT_VALID_RELATIONSHIPS = ['externalId', 'participantExternalId'];
 
