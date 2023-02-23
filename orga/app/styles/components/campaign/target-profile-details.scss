@@ -21,7 +21,7 @@
 
       &--add-separator {
         &::before {
-          content: "";
+          content: '';
           height: 0.3125rem;
           border-left: 1px solid $pix-neutral-25;
           margin: auto 10px;
