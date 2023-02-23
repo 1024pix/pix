@@ -1,4 +1,4 @@
-const LearningContentDatasources = require('../../infrastructure/datasources/learning-content');
+const LearningContentDatasources = require('../../infrastructure/datasources/learning-content/index.js');
 const learningContentDatasource = require('../../infrastructure/datasources/learning-content/datasource');
 const logger = require('../../infrastructure/logger');
 const _ = require('lodash');

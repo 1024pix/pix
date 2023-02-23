@@ -4,7 +4,7 @@ const HttpErrors = require('./http-errors');
 const DomainErrors = require('../domain/errors');
 const errorSerializer = require('../infrastructure/serializers/jsonapi/error-serializer');
 const { extractLocaleFromRequest } = require('../infrastructure/utils/request-response-utils');
-const translations = require('../../translations');
+const translations = require('../../translations/index.js');
 
 const NOT_VALID_RELATIONSHIPS = ['externalId', 'participantExternalId'];
 

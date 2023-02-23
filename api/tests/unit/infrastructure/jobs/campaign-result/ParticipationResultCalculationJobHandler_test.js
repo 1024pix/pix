@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../../test-helper');
 const CampaignParticipationResultsShared = require('../../../../../lib/domain/events/CampaignParticipationResultsShared');
-const usecases = require('../../../../../lib/domain/usecases');
+const usecases = require('../../../../../lib/domain/usecases/index.js');
 const ParticipationResultCalculationJobHandler = require('../../../../../lib/infrastructure/jobs/campaign-result/ParticipationResultCalculationJobHandler');
 
 describe('Unit | Infrastructure | Jobs | saveComputedCampaignParticipationResult', function () {

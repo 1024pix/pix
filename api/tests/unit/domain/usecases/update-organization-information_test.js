@@ -1,5 +1,5 @@
 const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const { updateOrganizationInformation } = require('../../../../lib/domain/usecases');
+const { updateOrganizationInformation } = require('../../../../lib/domain/usecases/index.js');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const Tag = require('../../../../lib/domain/models/Tag');
 const OrganizationTag = require('../../../../lib/domain/models/OrganizationTag');

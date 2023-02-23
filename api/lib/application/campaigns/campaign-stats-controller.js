@@ -1,4 +1,4 @@
-const usecases = require('../../domain/usecases');
+const usecases = require('../../domain/usecases/index.js');
 const participationsByStageSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participations-count-by-stage-serializer');
 const participationsByStatusSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participations-counts-by-status-serializer');
 const participationsByDaySerializer = require('../../infrastructure/serializers/jsonapi/campaign-participations-counts-by-day-serializer');

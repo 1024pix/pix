@@ -1,5 +1,5 @@
 const adminMemberSerializer = require('../../infrastructure/serializers/jsonapi/admin-member-serializer');
-const usecases = require('../../domain/usecases');
+const usecases = require('../../domain/usecases/index.js');
 
 module.exports = {
   async findAll() {

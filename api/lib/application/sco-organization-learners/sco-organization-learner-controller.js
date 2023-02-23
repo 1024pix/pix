@@ -1,4 +1,4 @@
-const usecases = require('../../domain/usecases');
+const usecases = require('../../domain/usecases/index.js');
 const scoOrganizationLearnerSerializer = require('../../infrastructure/serializers/jsonapi/sco-organization-learner-serializer');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 const studentInformationForAccountRecoverySerializer = require('../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');

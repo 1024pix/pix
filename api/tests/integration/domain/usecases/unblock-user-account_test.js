@@ -1,6 +1,6 @@
 const { expect, databaseBuilder } = require('../../../test-helper');
 
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const UserLogin = require('../../../../lib/domain/models/UserLogin');
 
 describe('Integration | UseCases | unblockUserAccount', function () {

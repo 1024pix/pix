@@ -1,5 +1,5 @@
 const { expect, catchErr, databaseBuilder } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 

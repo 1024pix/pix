@@ -5,7 +5,7 @@ const {
   learningContentBuilder,
   mockLearningContent,
 } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const { UserNotAuthorizedToAccessEntityError, NoStagesForCampaign } = require('../../../../lib/domain/errors');
 
 describe('Integration | UseCase | get-campaign-participations-counts-by-stage', function () {

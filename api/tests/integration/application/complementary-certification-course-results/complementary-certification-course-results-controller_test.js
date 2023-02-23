@@ -1,6 +1,6 @@
 const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const { InvalidJuryLevelError } = require('../../../../lib/domain/errors');
 const moduleUnderTest = require('../../../../lib/application/complementary-certification-course-results');
 

@@ -1,7 +1,7 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const { beginCampaignParticipationImprovement } = require('../../../../lib/domain/usecases');
+const { beginCampaignParticipationImprovement } = require('../../../../lib/domain/usecases/index.js');
 const {
   AlreadySharedCampaignParticipationError,
   UserNotAuthorizedToAccessEntityError,

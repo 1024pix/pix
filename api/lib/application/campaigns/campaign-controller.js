@@ -2,7 +2,7 @@ const _ = require('lodash');
 const { PassThrough } = require('stream');
 
 const { MissingQueryParamError } = require('../http-errors');
-const usecases = require('../../domain/usecases');
+const usecases = require('../../domain/usecases/index.js');
 const tokenService = require('../../../lib/domain/services/token-service');
 
 const campaignToJoinSerializer = require('../../infrastructure/serializers/jsonapi/campaign-to-join-serializer');

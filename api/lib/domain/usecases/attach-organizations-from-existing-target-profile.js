@@ -1,4 +1,4 @@
-const { OrganizationsToAttachToTargetProfile } = require('../models');
+const { OrganizationsToAttachToTargetProfile } = require('../models/index.js');
 
 module.exports = async function attachOrganizationsFromExistingTargetProfile({
   targetProfileId,

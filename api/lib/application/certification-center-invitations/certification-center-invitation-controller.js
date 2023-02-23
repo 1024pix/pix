@@ -1,4 +1,4 @@
-const usecases = require('../../domain/usecases');
+const usecases = require('../../domain/usecases/index.js');
 const certificationCenterInvitationSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-invitation-serializer');
 
 module.exports = {

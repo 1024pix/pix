@@ -1,5 +1,5 @@
 const saml = require('../../infrastructure/saml');
-const usecases = require('../../domain/usecases');
+const usecases = require('../../domain/usecases/index.js');
 const logger = require('../../infrastructure/logger');
 const tokenService = require('../../domain/services/token-service');
 const settings = require('../../config');

@@ -1,4 +1,4 @@
-const usecases = require('../../domain/usecases');
+const usecases = require('../../domain/usecases/index.js');
 const userSavedTutorialSerializer = require('../../infrastructure/serializers/jsonapi/user-saved-tutorial-serializer');
 const tutorialSerializer = require('../../infrastructure/serializers/jsonapi/tutorial-serializer');
 const userSavedTutorialRepository = require('../../infrastructure/repositories/user-saved-tutorial-repository');

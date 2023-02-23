@@ -8,7 +8,7 @@ const challengeRepository = require('../../lib/infrastructure/repositories/chall
 const certificationIssueReportRepository = require('../../lib/infrastructure/repositories/certification-issue-report-repository');
 const certificationCourseRepository = require('../../lib/infrastructure/repositories/certification-course-repository');
 const handleAutoJury = require('../../lib/domain/events/handle-auto-jury');
-const events = require('../../lib/domain/events');
+const events = require('../../lib/domain/events/index.js');
 const logger = require('../../lib/infrastructure/logger');
 
 const isLaunchedFromCommandLine = require.main === module;

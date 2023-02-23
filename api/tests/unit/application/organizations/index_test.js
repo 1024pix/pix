@@ -2,7 +2,7 @@ const { expect, HttpTestServer, sinon } = require('../../../test-helper');
 
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const identifiersType = require('../../../../lib/domain/types/identifiers-type');
 const moduleUnderTest = require('../../../../lib/application/organizations');
 const organizationPlacesCategories = require('../../../../lib/domain/constants/organization-places-categories');

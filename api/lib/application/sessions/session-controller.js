@@ -1,10 +1,10 @@
 const moment = require('moment');
 const { BadRequestError, SessionPublicationBatchError } = require('../http-errors');
-const usecases = require('../../domain/usecases');
+const usecases = require('../../domain/usecases/index.js');
 const tokenService = require('../../domain/services/token-service');
 const sessionResultsLinkService = require('../../domain/services/session-results-link-service');
 const sessionValidator = require('../../domain/validators/session-validator');
-const events = require('../../domain/events');
+const events = require('../../domain/events/index.js');
 const { CertificationCandidateAlreadyLinkedToUserError } = require('../../domain/errors');
 const sessionSerializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
 const jurySessionSerializer = require('../../infrastructure/serializers/jsonapi/jury-session-serializer');

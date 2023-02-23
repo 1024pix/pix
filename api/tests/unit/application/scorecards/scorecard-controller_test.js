@@ -2,7 +2,7 @@ const { sinon, expect, hFake } = require('../../../test-helper');
 
 const scorecardController = require('../../../../lib/application/scorecards/scorecard-controller');
 
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 
 const scorecardSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer');
 const tutorialSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/tutorial-serializer');

@@ -1,6 +1,6 @@
 const { expect, sinon, hFake } = require('../../../test-helper');
 const finalizedSessionController = require('../../../../lib/application/sessions/finalized-session-controller');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const toBePublishedSessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/to-be-published-session-serializer');
 const withRequiredActionSessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/with-required-action-session-serializer');
 

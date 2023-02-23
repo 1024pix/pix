@@ -1,6 +1,6 @@
 const answerSerializer = require('../../infrastructure/serializers/jsonapi/answer-serializer');
 const correctionSerializer = require('../../infrastructure/serializers/jsonapi/correction-serializer');
-const usecases = require('../../domain/usecases');
+const usecases = require('../../domain/usecases/index.js');
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
 
 module.exports = {

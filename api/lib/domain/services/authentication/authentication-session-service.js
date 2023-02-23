@@ -1,5 +1,5 @@
 const settings = require('../../../config');
-const temporaryStorage = require('../../../infrastructure/temporary-storage');
+const temporaryStorage = require('../../../infrastructure/temporary-storage/index.js');
 const authenticationSessionTemporaryStorage = temporaryStorage.withPrefix('authentication-session:');
 
 const EXPIRATION_DELAY_SECONDS = settings.authenticationSession.temporaryStorage.expirationDelaySeconds;

@@ -1,5 +1,5 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 
 describe('Unit | UseCase | find-organization-target-profile-summaries-for-admin', function () {
   it('should return the result of the repository call', async function () {

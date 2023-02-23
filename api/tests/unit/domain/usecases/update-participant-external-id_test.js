@@ -1,5 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
-const { updateParticipantExternalId } = require('../../../../lib/domain/usecases');
+const { updateParticipantExternalId } = require('../../../../lib/domain/usecases/index.js');
 
 describe('Unit | UseCase | update-participation-external-id', function () {
   it('should call repository method to update the external id for a participation', async function () {

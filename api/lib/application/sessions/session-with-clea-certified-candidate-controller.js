@@ -1,4 +1,4 @@
-const usecases = require('../../domain/usecases');
+const usecases = require('../../domain/usecases/index.js');
 const certificationResultUtils = require('../../infrastructure/utils/csv/certification-results');
 const dayjs = require('dayjs');
 

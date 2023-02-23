@@ -4,7 +4,7 @@ const DomainTransaction = require('../../../infrastructure/DomainTransaction');
 const AuthenticationMethod = require('../../models/AuthenticationMethod');
 const moment = require('moment');
 const { v4: uuidv4 } = require('uuid');
-const temporaryStorage = require('../../../infrastructure/temporary-storage');
+const temporaryStorage = require('../../../infrastructure/temporary-storage/index.js');
 const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 
 class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {

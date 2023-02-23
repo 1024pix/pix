@@ -8,7 +8,7 @@ const campaignCollectiveResultSerializer = require('../../../../lib/infrastructu
 const campaignParticipantsActivitySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participant-activity-serializer');
 
 const tokenService = require('../../../../lib/domain/services/token-service');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const { UserNotAuthorizedToAccessEntityError, ForbiddenAccess } = require('../../../../lib/domain/errors');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;

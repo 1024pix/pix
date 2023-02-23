@@ -1,5 +1,5 @@
 const { expect, databaseBuilder, mockLearningContent } = require('../../../test-helper');
-const useCases = require('../../../../lib/domain/usecases');
+const useCases = require('../../../../lib/domain/usecases/index.js');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Integration | UseCase | get-campaign-profile', function () {

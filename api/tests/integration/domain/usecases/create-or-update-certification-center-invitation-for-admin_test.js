@@ -1,5 +1,5 @@
 const { expect, databaseBuilder, knex, sinon, catchErr } = require('../../../test-helper');
-const useCases = require('../../../../lib/domain/usecases');
+const useCases = require('../../../../lib/domain/usecases/index.js');
 const CertificationCenterInvitation = require('../../../../lib/domain/models/CertificationCenterInvitation');
 const mailService = require('../../../../lib/domain/services/mail-service');
 const { SendingEmailError, SendingEmailToInvalidDomainError } = require('../../../../lib/domain/errors');

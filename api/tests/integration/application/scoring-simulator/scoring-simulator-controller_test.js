@@ -3,7 +3,7 @@ const ScoringSimulationResult = require('../../../../lib/domain/models/ScoringSi
 const ScoringSimulation = require('../../../../lib/domain/models/ScoringSimulation');
 const Answer = require('../../../../lib/domain/models/Answer');
 const ScoringSimulationContext = require('../../../../lib/domain/models/ScoringSimulationContext');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const moduleUnderTest = require('../../../../lib/application/scoring-simulator');
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 

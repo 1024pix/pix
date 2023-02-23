@@ -1,5 +1,5 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const { markTargetProfileAsSimplifiedAccess } = require('../../../../lib/domain/usecases');
+const { markTargetProfileAsSimplifiedAccess } = require('../../../../lib/domain/usecases/index.js');
 
 describe('Unit | UseCase | mark-target-profile-as-simplified-access', function () {
   it('should call repository method to update "isSimplifiedAccess" in target profile', async function () {

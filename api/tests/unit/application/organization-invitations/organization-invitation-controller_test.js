@@ -2,7 +2,7 @@ const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper
 
 const { MissingQueryParamError } = require('../../../../lib/application/http-errors');
 const organizationInvitationController = require('../../../../lib/application/organization-invitations/organization-invitation-controller');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const organizationInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-invitation-serializer');
 
 describe('Unit | Application | Organization-Invitations | organization-invitation-controller', function () {

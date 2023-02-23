@@ -4,7 +4,7 @@ const juryCertificationSerializer = require('../../infrastructure/serializers/js
 const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
 const certifiedProfileRepository = require('../../infrastructure/repositories/certified-profile-repository');
 const certifiedProfileSerializer = require('../../infrastructure/serializers/jsonapi/certified-profile-serializer');
-const usecases = require('../../domain/usecases');
+const usecases = require('../../domain/usecases/index.js');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 const AssessmentResult = require('../../domain/models/AssessmentResult');

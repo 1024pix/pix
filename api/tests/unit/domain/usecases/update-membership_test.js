@@ -1,5 +1,5 @@
 const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const { updateMembership } = require('../../../../lib/domain/usecases');
+const { updateMembership } = require('../../../../lib/domain/usecases/index.js');
 const Membership = require('../../../../lib/domain/models/Membership');
 const { InvalidMembershipOrganizationRoleError } = require('../../../../lib/domain/errors');
 

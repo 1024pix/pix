@@ -1,4 +1,4 @@
-const usecases = require('../../domain/usecases');
+const usecases = require('../../domain/usecases/index.js');
 const frameworkAreasSerializer = require('../../infrastructure/serializers/jsonapi/framework-areas-serializer');
 const frameworkSerializer = require('../../infrastructure/serializers/jsonapi/framework-serializer');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');

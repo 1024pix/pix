@@ -22,7 +22,7 @@ const userLoginSerializer = require('../../infrastructure/serializers/jsonapi/us
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
 
-const usecases = require('../../domain/usecases');
+const usecases = require('../../domain/usecases/index.js');
 
 module.exports = {
   save(request, h) {

@@ -1,6 +1,6 @@
 const userOrgaSettingsSerializer = require('../../infrastructure/serializers/jsonapi/user-orga-settings-serializer');
 const { UserNotAuthorizedToCreateResourceError } = require('../../domain/errors');
-const usecases = require('../../domain/usecases');
+const usecases = require('../../domain/usecases/index.js');
 
 module.exports = {
   async createOrUpdate(request) {

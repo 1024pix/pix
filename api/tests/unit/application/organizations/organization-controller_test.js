@@ -13,7 +13,7 @@ const ScoOrganizationParticipant = require('../../../../lib/domain/read-models/S
 const SupOrganizationParticipant = require('../../../../lib/domain/read-models/SupOrganizationParticipant');
 
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const tokenService = require('../../../../lib/domain/services/token-service');
 
 const campaignManagementSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-management-serializer');

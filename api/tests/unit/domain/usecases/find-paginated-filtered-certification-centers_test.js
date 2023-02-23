@@ -1,5 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
 
 describe('Unit | UseCase | find-paginated-filtered-certification-centers', function () {

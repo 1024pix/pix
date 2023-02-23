@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const usecases = require('../../domain/usecases');
+const usecases = require('../../domain/usecases/index.js');
 const stageSerializer = require('../../infrastructure/serializers/jsonapi/stage-serializer');
 const stageCollectionRepository = require('../../infrastructure/repositories/target-profile-management/stage-collection-repository');
 
