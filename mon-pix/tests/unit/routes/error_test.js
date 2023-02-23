@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import JSONApiError from 'mon-pix/errors/json-api-error';
+import { ApplicationError } from 'mon-pix/errors/application-error';
 
 module('Unit | Route | error', function (hooks) {
   setupTest(hooks);
@@ -48,6 +49,21 @@ module('Unit | Route | error', function (hooks) {
       assert.strictEqual(controller.errorDetail, null);
       assert.strictEqual(controller.errorStatus, error.status);
       assert.strictEqual(controller.errorTitle, error.title);
+    });
+
+    test('handles application errors', function (assert) {
+      // Given
+      const controller = {};
+      const error = new ApplicationError({ message: 'This is an error message' });
+
+      // When
+      route.setupController(controller, error);
+
+      // Then
+      assert.strictEqual(controller.errorMessage, error.message);
+      assert.strictEqual(controller.errorDetail, null);
+      assert.strictEqual(controller.errorStatus, null);
+      assert.strictEqual(controller.errorTitle, null);
     });
 
     test('handles unhandled errors', function (assert) {
