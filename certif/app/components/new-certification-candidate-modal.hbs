@@ -331,12 +331,12 @@
   </:content>
   <:footer>
     <PixButton
-      aria-label="Fermer la modale d'ajout de candidat"
+      aria-label={{t "pages.sessions.candidates.add-modal.actions.close-extra-information"}}
       @triggerAction={{@closeModal}}
       @backgroundColor="transparent-light"
       @isBorderVisible="true"
     >
-      Fermer
+      {{t "common.actions.close"}}
     </PixButton>
     <PixButton
       @type="submit"

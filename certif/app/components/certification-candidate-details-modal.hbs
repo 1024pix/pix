@@ -111,6 +111,9 @@
   </:content>
 
   <:footer>
-    <PixButton @triggerAction={{@closeModal}} aria-label="Fermer la fenêtre de détail du candidat">Fermer</PixButton>
+    <PixButton
+      @triggerAction={{@closeModal}}
+      aria-label="{{t 'pages.sessions.candidates.detail-modal.actions.close-extra-information'}}"
+    >{{t "common.actions.close"}}</PixButton>
   </:footer>
 </PixModal>

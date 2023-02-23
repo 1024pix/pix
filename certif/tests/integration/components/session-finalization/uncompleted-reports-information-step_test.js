@@ -159,7 +159,7 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
           @onChangeAbortReason = {{this.abort}}
         />
       `);
-    await click(screen.getByRole('button', { name: 'Ajouter / supprimer' }));
+    await click(screen.getByRole('button', { name: 'Ajouter / Supprimer' }));
     await screen.findByRole('dialog');
 
     // then
