@@ -419,6 +419,7 @@ const deleteCertificationIssueReport = require('./delete-certification-issue-rep
 const deleteOrganizationPlaceLot = require('./delete-organization-place-lot.js');
 const deleteSession = require('./delete-session.js');
 const deleteSessionJuryComment = require('./delete-session-jury-comment.js');
+const deleteStage = require('./target-profile-management/delete-stage.js');
 const deleteUnassociatedBadge = require('./delete-unassociated-badge.js');
 const deleteUnlinkedCertificationCandidate = require('./delete-unlinked-certification-candidate.js');
 const deneutralizeChallenge = require('./deneutralize-challenge.js');
@@ -910,6 +911,7 @@ const usecases = {
   updateParticipantExternalId,
   updateSession,
   updateStage,
+  deleteStage,
   updateStudentNumber,
   updateTargetProfile,
   updateTraining,

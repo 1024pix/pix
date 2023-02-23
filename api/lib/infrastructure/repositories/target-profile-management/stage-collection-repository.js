@@ -17,7 +17,12 @@ module.exports = {
     return rawIds.map((rawId) => rawId.id);
   },
 
-  delete(stageCollection) {
-    return knex('stage').where('id', stageCollection.id).delete();
+  delete({id, targetProfileId}) {
+    return knex('stages')
+      .where({
+        id,
+        targetProfileId,
+      })
+      .delete();
   },
 };
