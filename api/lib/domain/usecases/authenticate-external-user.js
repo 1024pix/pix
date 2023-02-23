@@ -5,9 +5,9 @@ const {
   UnexpectedUserAccountError,
   UserAlreadyExistsWithAuthenticationMethodError,
   UserShouldChangePasswordError,
-} = require('../errors');
+} = require('../errors.js');
 
-const AuthenticationMethod = require('../models/AuthenticationMethod');
+const AuthenticationMethod = require('../models/AuthenticationMethod.js');
 
 async function authenticateExternalUser({
   username,

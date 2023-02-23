@@ -1,4 +1,4 @@
-const Bookshelf = require('../bookshelf');
+const Bookshelf = require('../bookshelf.js');
 
 const modelName = 'CertificationIssueReport';
 

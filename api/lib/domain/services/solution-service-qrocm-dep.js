@@ -1,11 +1,11 @@
 const jsYaml = require('js-yaml');
-const _ = require('../../infrastructure/utils/lodash-utils');
-const { applyPreTreatments, applyTreatments } = require('./validation-treatments');
-const { YamlParsingError } = require('../../domain/errors');
-const { getEnabledTreatments, useLevenshteinRatio } = require('./services-utils');
-const { validateAnswer } = require('./string-comparison-service');
+const _ = require('../../infrastructure/utils/lodash-utils.js');
+const { applyPreTreatments, applyTreatments } = require('./validation-treatments.js');
+const { YamlParsingError } = require('../../domain/errors.js');
+const { getEnabledTreatments, useLevenshteinRatio } = require('./services-utils.js');
+const { validateAnswer } = require('./string-comparison-service.js');
 
-const AnswerStatus = require('../models/AnswerStatus');
+const AnswerStatus = require('../models/AnswerStatus.js');
 
 function _applyTreatmentsToSolutions(solutions, enabledTreatments) {
   return _.mapValues(solutions, (validSolutions) => {

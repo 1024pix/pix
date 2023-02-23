@@ -1,5 +1,5 @@
-const TargetProfileForCreation = require('../models/TargetProfileForCreation');
-const learningContentConversionService = require('../services/learning-content/learning-content-conversion-service');
+const TargetProfileForCreation = require('../models/TargetProfileForCreation.js');
+const learningContentConversionService = require('../services/learning-content/learning-content-conversion-service.js');
 
 module.exports = async function createTargetProfile({
   targetProfileCreationCommand,

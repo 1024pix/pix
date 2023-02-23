@@ -1,6 +1,6 @@
 const _ = require('lodash');
-const membershipRepository = require('../../infrastructure/repositories/membership-repository');
-const organizationLearnerRepository = require('../../infrastructure/repositories/organization-learner-repository');
+const membershipRepository = require('../../infrastructure/repositories/membership-repository.js');
+const organizationLearnerRepository = require('../../infrastructure/repositories/organization-learner-repository.js');
 
 module.exports = {
   async execute(userId, organizationLearnerId) {

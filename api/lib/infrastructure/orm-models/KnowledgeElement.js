@@ -1,7 +1,7 @@
-const Bookshelf = require('../bookshelf');
+const Bookshelf = require('../bookshelf.js');
 
-require('./Assessment');
-require('./User');
+require('./Assessment.js');
+require('./User.js');
 
 const modelName = 'KnowledgeElement';
 

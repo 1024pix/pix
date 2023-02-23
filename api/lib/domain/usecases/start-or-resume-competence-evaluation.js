@@ -1,6 +1,6 @@
-const Assessment = require('../models/Assessment');
-const CompetenceEvaluation = require('../models/CompetenceEvaluation');
-const { NotFoundError } = require('../../domain/errors');
+const Assessment = require('../models/Assessment.js');
+const CompetenceEvaluation = require('../models/CompetenceEvaluation.js');
+const { NotFoundError } = require('../../domain/errors.js');
 
 module.exports = async function startOrResumeCompetenceEvaluation({
   competenceId,

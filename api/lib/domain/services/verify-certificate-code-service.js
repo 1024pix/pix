@@ -1,7 +1,7 @@
 const _ = require('lodash');
-const certificationCourseRepository = require('../../../lib/infrastructure/repositories/certification-course-repository');
-const { CertificateVerificationCodeGenerationTooManyTrials } = require('../../../lib/domain/errors');
-const config = require('../../config');
+const certificationCourseRepository = require('../../../lib/infrastructure/repositories/certification-course-repository.js');
+const { CertificateVerificationCodeGenerationTooManyTrials } = require('../../../lib/domain/errors.js');
+const config = require('../../config.js');
 
 const availableCharacters =
   `${config.availableCharacterForCode.numbers}${config.availableCharacterForCode.letters}`.split('');

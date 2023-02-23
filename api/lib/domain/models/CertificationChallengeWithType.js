@@ -1,4 +1,4 @@
-const { Type } = require('./Challenge');
+const { Type } = require('./Challenge.js');
 
 class CertificationChallengeWithType {
   constructor({

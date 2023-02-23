@@ -1,5 +1,5 @@
-const { knex } = require('../../../../db/knex-database-connection');
-const SessionForSupervisorKit = require('../../../domain/read-models/SessionForSupervisorKit');
+const { knex } = require('../../../../db/knex-database-connection.js');
+const SessionForSupervisorKit = require('../../../domain/read-models/SessionForSupervisorKit.js');
 
 module.exports = {
   async get(idSession) {

@@ -1,4 +1,4 @@
-const { statuses } = require('../models/Session');
+const { statuses } = require('../models/Session.js');
 
 class SessionSummary {
   constructor({

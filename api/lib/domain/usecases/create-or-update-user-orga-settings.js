@@ -1,4 +1,4 @@
-const { UserNotMemberOfOrganizationError } = require('../errors');
+const { UserNotMemberOfOrganizationError } = require('../errors.js');
 const _ = require('lodash');
 
 module.exports = async function createOrUpdateUserOrgaSettings({

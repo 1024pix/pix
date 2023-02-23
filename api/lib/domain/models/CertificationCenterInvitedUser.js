@@ -1,5 +1,5 @@
-const { NotFoundError, AlreadyAcceptedOrCancelledInvitationError } = require('../errors');
-const CertificationCenterInvitation = require('./CertificationCenterInvitation');
+const { NotFoundError, AlreadyAcceptedOrCancelledInvitationError } = require('../errors.js');
+const CertificationCenterInvitation = require('./CertificationCenterInvitation.js');
 
 class CertificationCenterInvitedUser {
   constructor({ userId, invitation, status } = {}) {

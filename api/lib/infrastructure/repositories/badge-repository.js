@@ -1,11 +1,11 @@
-const { knex } = require('../../../db/knex-database-connection');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const BookshelfBadge = require('../orm-models/Badge');
-const Badge = require('../../domain/models/Badge');
+const { knex } = require('../../../db/knex-database-connection.js');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter.js');
+const BookshelfBadge = require('../orm-models/Badge.js');
+const Badge = require('../../domain/models/Badge.js');
 const omit = require('lodash/omit');
-const bookshelfUtils = require('../utils/knex-utils');
-const { AlreadyExistingEntityError } = require('../../domain/errors');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
+const bookshelfUtils = require('../utils/knex-utils.js');
+const { AlreadyExistingEntityError } = require('../../domain/errors.js');
+const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
 
 const TABLE_NAME = 'badges';
 

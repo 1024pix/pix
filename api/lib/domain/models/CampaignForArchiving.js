@@ -1,4 +1,4 @@
-const { ArchivedCampaignError, ObjectValidationError } = require('../errors');
+const { ArchivedCampaignError, ObjectValidationError } = require('../errors.js');
 
 class CampaignForArchiving {
   constructor({ id, code, archivedAt, archivedBy } = {}) {

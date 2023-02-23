@@ -1,13 +1,13 @@
 const moment = require('moment');
 const _ = require('lodash');
 const FRANCE_COUNTRY_CODE = '99100';
-const CertificationCandidate = require('../../../domain/models/CertificationCandidate');
+const CertificationCandidate = require('../../../domain/models/CertificationCandidate.js');
 const {
   PIX_PLUS_DROIT,
   CLEA,
   PIX_PLUS_EDU_1ER_DEGRE,
   PIX_PLUS_EDU_2ND_DEGRE,
-} = require('../../../domain/models/ComplementaryCertification');
+} = require('../../../domain/models/ComplementaryCertification.js');
 
 module.exports = class CandidateData {
   constructor({

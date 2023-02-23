@@ -1,4 +1,4 @@
-const Skill = require('../models/Skill');
+const Skill = require('../models/Skill.js');
 const _ = require('lodash');
 const moment = require('moment');
 

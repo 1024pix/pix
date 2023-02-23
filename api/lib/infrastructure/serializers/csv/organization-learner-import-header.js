@@ -1,4 +1,4 @@
-const { CsvColumn } = require('./csv-column');
+const { CsvColumn } = require('./csv-column.js');
 
 class OrganizationLearnerImportHeader {
   constructor(i18n) {

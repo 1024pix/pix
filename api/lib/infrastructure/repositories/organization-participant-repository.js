@@ -1,9 +1,9 @@
-const OrganizationParticipant = require('../../domain/read-models/OrganizationParticipant');
-const { knex } = require('../../../db/knex-database-connection');
-const { fetchPage } = require('../utils/knex-utils');
-const { filterByFullName } = require('../utils/filter-utils');
-const CampaignTypes = require('../../domain/models/CampaignTypes');
-const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
+const OrganizationParticipant = require('../../domain/read-models/OrganizationParticipant.js');
+const { knex } = require('../../../db/knex-database-connection.js');
+const { fetchPage } = require('../utils/knex-utils.js');
+const { filterByFullName } = require('../utils/filter-utils.js');
+const CampaignTypes = require('../../domain/models/CampaignTypes.js');
+const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses.js');
 
 async function getParticipantsByOrganizationId({ organizationId, page, filters = {}, sort = {} }) {
   const { count } = await knex

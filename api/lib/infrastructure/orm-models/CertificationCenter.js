@@ -1,6 +1,6 @@
-const Bookshelf = require('../bookshelf');
+const Bookshelf = require('../bookshelf.js');
 
-require('./ComplementaryCertification');
+require('./ComplementaryCertification.js');
 
 const modelName = 'CertificationCenter';
 

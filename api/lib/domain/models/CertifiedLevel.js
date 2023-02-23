@@ -1,5 +1,5 @@
-const { UNCERTIFIED_LEVEL } = require('../constants');
-const { DomainError } = require('../errors');
+const { UNCERTIFIED_LEVEL } = require('../constants.js');
+const { DomainError } = require('../errors.js');
 
 class CertifiedLevel {
   constructor({ value, status }) {

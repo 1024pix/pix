@@ -1,4 +1,4 @@
-const KnowledgeElement = require('../../models/KnowledgeElement');
+const KnowledgeElement = require('../../models/KnowledgeElement.js');
 const _ = require('lodash');
 const { pipe } = require('lodash/fp');
 

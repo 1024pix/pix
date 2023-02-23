@@ -1,20 +1,20 @@
 const usecases = require('../../domain/usecases/index.js');
 
-const certificationCenterSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-serializer');
-const certificationCenterForAdminSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-for-admin-serializer');
-const certificationCenterMembershipSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-membership-serializer');
-const divisionSerializer = require('../../infrastructure/serializers/jsonapi/division-serializer');
-const studentCertificationSerializer = require('../../infrastructure/serializers/jsonapi/student-certification-serializer');
-const sessionSummarySerializer = require('../../infrastructure/serializers/jsonapi/session-summary-serializer');
-const certificationCenterInvitationSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-invitation-serializer');
-const sessionSerializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
+const certificationCenterSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-serializer.js');
+const certificationCenterForAdminSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-for-admin-serializer.js');
+const certificationCenterMembershipSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-membership-serializer.js');
+const divisionSerializer = require('../../infrastructure/serializers/jsonapi/division-serializer.js');
+const studentCertificationSerializer = require('../../infrastructure/serializers/jsonapi/student-certification-serializer.js');
+const sessionSummarySerializer = require('../../infrastructure/serializers/jsonapi/session-summary-serializer.js');
+const certificationCenterInvitationSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js');
+const sessionSerializer = require('../../infrastructure/serializers/jsonapi/session-serializer.js');
 
-const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
+const queryParamsUtils = require('../../infrastructure/utils/query-params-utils.js');
 const map = require('lodash/map');
-const csvHelpers = require('../../../scripts/helpers/csvHelpers');
-const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
-const { getHeaders } = require('../../infrastructure/files/sessions-import');
-const { UnprocessableEntityError } = require('../../application/http-errors');
+const csvHelpers = require('../../../scripts/helpers/csvHelpers.js');
+const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer.js');
+const { getHeaders } = require('../../infrastructure/files/sessions-import.js');
+const { UnprocessableEntityError } = require('../../application/http-errors.js');
 
 module.exports = {
   async saveSession(request) {

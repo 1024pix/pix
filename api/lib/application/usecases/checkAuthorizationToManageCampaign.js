@@ -1,5 +1,5 @@
-const prescriberRoleRepository = require('../../infrastructure/repositories/prescriber-role-repository');
-const CampaignAuthorization = require('../preHandlers/models/CampaignAuthorization');
+const prescriberRoleRepository = require('../../infrastructure/repositories/prescriber-role-repository.js');
+const CampaignAuthorization = require('../preHandlers/models/CampaignAuthorization.js');
 
 module.exports = {
   async execute({ userId, campaignId }) {

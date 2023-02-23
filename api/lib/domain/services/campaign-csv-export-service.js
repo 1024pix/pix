@@ -1,6 +1,6 @@
-const CampaignAssessmentCsvLine = require('../../infrastructure/utils/CampaignAssessmentCsvLine');
-const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
-const campaignParticipationService = require('../services/campaign-participation-service');
+const CampaignAssessmentCsvLine = require('../../infrastructure/utils/CampaignAssessmentCsvLine.js');
+const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer.js');
+const campaignParticipationService = require('../services/campaign-participation-service.js');
 
 module.exports = {
   createOneCsvLine,

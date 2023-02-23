@@ -1,4 +1,4 @@
-const { SessionNotAccessible, InvalidSessionSupervisingLoginError } = require('../errors');
+const { SessionNotAccessible, InvalidSessionSupervisingLoginError } = require('../errors.js');
 module.exports = async function superviseSession({
   sessionId,
   supervisorPassword,

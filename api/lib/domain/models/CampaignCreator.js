@@ -1,6 +1,6 @@
-const CampaignForCreation = require('./CampaignForCreation');
-const CampaignTypes = require('./CampaignTypes');
-const { UserNotAuthorizedToCreateCampaignError } = require('../errors');
+const CampaignForCreation = require('./CampaignForCreation.js');
+const CampaignTypes = require('./CampaignTypes.js');
+const { UserNotAuthorizedToCreateCampaignError } = require('../errors.js');
 
 class CampaignCreator {
   constructor(availableTargetProfileIds) {

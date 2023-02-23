@@ -1,4 +1,4 @@
-const Tutorial = require('../models/Tutorial');
+const Tutorial = require('../models/Tutorial.js');
 
 class TutorialForUser extends Tutorial {
   constructor({ userSavedTutorial, tutorialEvaluation, skillId, ...tutorial }) {

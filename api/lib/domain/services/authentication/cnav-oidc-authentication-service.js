@@ -1,5 +1,5 @@
-const settings = require('../../../config');
-const OidcAuthenticationService = require('./oidc-authentication-service');
+const settings = require('../../../config.js');
+const OidcAuthenticationService = require('./oidc-authentication-service.js');
 
 class CnavOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {

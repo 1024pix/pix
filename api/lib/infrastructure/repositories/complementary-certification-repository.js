@@ -1,5 +1,5 @@
-const ComplementaryCertification = require('../../domain/models/ComplementaryCertification');
-const { knex } = require('../../../db/knex-database-connection');
+const ComplementaryCertification = require('../../domain/models/ComplementaryCertification.js');
+const { knex } = require('../../../db/knex-database-connection.js');
 
 function _toDomain(row) {
   return new ComplementaryCertification({

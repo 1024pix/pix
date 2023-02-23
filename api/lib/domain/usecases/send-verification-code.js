@@ -1,6 +1,6 @@
-const codeUtils = require('../../infrastructure/utils/code-utils');
-const AuthenticationMethod = require('../models/AuthenticationMethod');
-const { InvalidPasswordForUpdateEmailError, UserNotAuthorizedToUpdateEmailError } = require('../errors');
+const codeUtils = require('../../infrastructure/utils/code-utils.js');
+const AuthenticationMethod = require('../models/AuthenticationMethod.js');
+const { InvalidPasswordForUpdateEmailError, UserNotAuthorizedToUpdateEmailError } = require('../errors.js');
 const get = require('lodash/get');
 
 module.exports = async function sendVerificationCode({

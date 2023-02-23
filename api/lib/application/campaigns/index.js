@@ -1,10 +1,10 @@
 const Joi = require('joi');
-const campaignController = require('./campaign-controller');
-const campaignManagementController = require('./campaign-management-controller');
-const campaignStatsController = require('./campaign-stats-controller');
-const securityPreHandlers = require('../security-pre-handlers');
-const identifiersType = require('../../domain/types/identifiers-type');
-const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
+const campaignController = require('./campaign-controller.js');
+const campaignManagementController = require('./campaign-management-controller.js');
+const campaignStatsController = require('./campaign-stats-controller.js');
+const securityPreHandlers = require('../security-pre-handlers.js');
+const identifiersType = require('../../domain/types/identifiers-type.js');
+const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses.js');
 
 const campaignParticipationStatuses = Object.values(CampaignParticipationStatuses);
 

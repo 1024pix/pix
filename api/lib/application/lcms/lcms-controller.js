@@ -1,5 +1,5 @@
 const usecases = require('../../domain/usecases/index.js');
-const logger = require('../../infrastructure/logger');
+const logger = require('../../infrastructure/logger.js');
 
 module.exports = {
   async createRelease(request, h) {

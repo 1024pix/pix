@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const KnowledgeElement = require('./KnowledgeElement');
+const KnowledgeElement = require('./KnowledgeElement.js');
 
 class CertifiableProfileForLearningContent {
   constructor({ learningContent, knowledgeElements, answerAndChallengeIdsByAnswerId }) {

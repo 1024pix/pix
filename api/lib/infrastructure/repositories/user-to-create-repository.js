@@ -1,12 +1,12 @@
-const { knex } = require('../../../db/knex-database-connection');
+const { knex } = require('../../../db/knex-database-connection.js');
 
-const DomainTransaction = require('../DomainTransaction');
+const DomainTransaction = require('../DomainTransaction.js');
 
-const { OrganizationLearnerAlreadyLinkedToUserError } = require('../../domain/errors');
-const { STUDENT_RECONCILIATION_ERRORS } = require('../../domain/constants');
+const { OrganizationLearnerAlreadyLinkedToUserError } = require('../../domain/errors.js');
+const { STUDENT_RECONCILIATION_ERRORS } = require('../../domain/constants.js');
 
-const User = require('../../domain/models/User');
-const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../db/pgsql-errors');
+const User = require('../../domain/models/User.js');
+const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../db/pgsql-errors.js');
 
 module.exports = {
   async create({ user, domainTransaction = DomainTransaction.emptyTransaction() }) {

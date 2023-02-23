@@ -1,8 +1,8 @@
-const knexUtils = require('../utils/knex-utils');
-const { AlreadyExistingEntityError, NotFoundError } = require('../../domain/errors');
+const knexUtils = require('../utils/knex-utils.js');
+const { AlreadyExistingEntityError, NotFoundError } = require('../../domain/errors.js');
 const omit = require('lodash/omit');
-const { knex } = require('../../../db/knex-database-connection');
-const Tag = require('../../domain/models/Tag');
+const { knex } = require('../../../db/knex-database-connection.js');
+const Tag = require('../../domain/models/Tag.js');
 module.exports = {
   async create(tag) {
     try {

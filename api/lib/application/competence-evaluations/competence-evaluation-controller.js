@@ -1,6 +1,6 @@
 const usecases = require('../../domain/usecases/index.js');
-const serializer = require('../../infrastructure/serializers/jsonapi/competence-evaluation-serializer');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
+const serializer = require('../../infrastructure/serializers/jsonapi/competence-evaluation-serializer.js');
+const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
 
 module.exports = {
   async startOrResume(request, h) {

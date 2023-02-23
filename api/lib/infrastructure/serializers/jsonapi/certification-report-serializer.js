@@ -1,6 +1,6 @@
 const { Serializer, Deserializer } = require('jsonapi-serializer');
 
-const CertificationReport = require('../../../domain/models/CertificationReport');
+const CertificationReport = require('../../../domain/models/CertificationReport.js');
 
 module.exports = {
   serialize(certificationReports) {

@@ -1,6 +1,6 @@
-const solutionServiceQROC = require('../services/solution-service-qroc');
-const Validation = require('./Validation');
-const Validator = require('./Validator');
+const solutionServiceQROC = require('../services/solution-service-qroc.js');
+const Validation = require('./Validation.js');
+const Validator = require('./Validator.js');
 
 /**
  * Traduction: Vérificateur de réponse pour un QROC

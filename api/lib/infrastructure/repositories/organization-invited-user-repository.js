@@ -1,6 +1,6 @@
-const { knex } = require('../../../db/knex-database-connection');
-const OrganizationInvitedUser = require('../../domain/models/OrganizationInvitedUser');
-const { NotFoundError } = require('../../domain/errors');
+const { knex } = require('../../../db/knex-database-connection.js');
+const OrganizationInvitedUser = require('../../domain/models/OrganizationInvitedUser.js');
+const { NotFoundError } = require('../../domain/errors.js');
 
 module.exports = {
   async get({ organizationInvitationId, email }) {

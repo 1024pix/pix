@@ -1,6 +1,6 @@
-const { knex } = require('../../../db/knex-database-connection');
-const DomainTransaction = require('../DomainTransaction');
-const UserRecommendedTraining = require('../../domain/read-models/UserRecommendedTraining');
+const { knex } = require('../../../db/knex-database-connection.js');
+const DomainTransaction = require('../DomainTransaction.js');
+const UserRecommendedTraining = require('../../domain/read-models/UserRecommendedTraining.js');
 
 const TABLE_NAME = 'user-recommended-trainings';
 

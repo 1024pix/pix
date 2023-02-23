@@ -1,13 +1,13 @@
 const jsYaml = require('js-yaml');
 const levenshtein = require('fast-levenshtein');
-const _ = require('../../infrastructure/utils/lodash-utils');
-const logger = require('../../infrastructure/logger');
-const { applyPreTreatments, applyTreatments } = require('./validation-treatments');
-const { YamlParsingError } = require('../../domain/errors');
-const { LEVENSHTEIN_DISTANCE_MAX_RATE } = require('../constants');
-const { useLevenshteinRatio } = require('./services-utils');
+const _ = require('../../infrastructure/utils/lodash-utils.js');
+const logger = require('../../infrastructure/logger.js');
+const { applyPreTreatments, applyTreatments } = require('./validation-treatments.js');
+const { YamlParsingError } = require('../../domain/errors.js');
+const { LEVENSHTEIN_DISTANCE_MAX_RATE } = require('../constants.js');
+const { useLevenshteinRatio } = require('./services-utils.js');
 
-const AnswerStatus = require('../models/AnswerStatus');
+const AnswerStatus = require('../models/AnswerStatus.js');
 
 function _applyTreatmentsToSolutions(solutions, enabledTreatments, qrocBlocksTypes = {}) {
   return _.forEach(solutions, (solution, solutionKey) => {

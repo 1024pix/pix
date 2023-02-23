@@ -1,4 +1,4 @@
-const scorecardController = require('./scorecard-controller');
+const scorecardController = require('./scorecard-controller.js');
 
 exports.register = async (server) => {
   server.route([

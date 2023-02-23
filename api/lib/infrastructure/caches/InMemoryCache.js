@@ -1,5 +1,5 @@
 const NodeCache = require('node-cache');
-const Cache = require('./Cache');
+const Cache = require('./Cache.js');
 
 class InMemoryCache extends Cache {
   constructor() {

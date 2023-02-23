@@ -1,18 +1,18 @@
 const usecases = require('../../domain/usecases/index.js');
-const tokenService = require('../../domain/services/token-service');
-const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
-const targetProfileSummaryForAdminSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer');
-const targetProfileForAdminOldSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-for-admin-old-format-serializer');
-const targetProfileForAdminNewSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-for-admin-new-format-serializer');
-const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
-const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
-const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
-const badgeSerializer = require('../../infrastructure/serializers/jsonapi/badge-serializer');
-const badgeCreationSerializer = require('../../infrastructure/serializers/jsonapi/badge-creation-serializer');
-const stageSerializer = require('../../infrastructure/serializers/jsonapi/stage-serializer');
-const targetProfileAttachOrganizationSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer');
-const learningContentPDFPresenter = require('./presenter/pdf/learning-content-pdf-presenter');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
+const tokenService = require('../../domain/services/token-service.js');
+const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer.js');
+const targetProfileSummaryForAdminSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js');
+const targetProfileForAdminOldSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-for-admin-old-format-serializer.js');
+const targetProfileForAdminNewSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-for-admin-new-format-serializer.js');
+const queryParamsUtils = require('../../infrastructure/utils/query-params-utils.js');
+const requestResponseUtils = require('../../infrastructure/utils/request-response-utils.js');
+const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer.js');
+const badgeSerializer = require('../../infrastructure/serializers/jsonapi/badge-serializer.js');
+const badgeCreationSerializer = require('../../infrastructure/serializers/jsonapi/badge-creation-serializer.js');
+const stageSerializer = require('../../infrastructure/serializers/jsonapi/stage-serializer.js');
+const targetProfileAttachOrganizationSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer.js');
+const learningContentPDFPresenter = require('./presenter/pdf/learning-content-pdf-presenter.js');
+const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
 
 module.exports = {
   async findPaginatedFilteredTargetProfileSummariesForAdmin(request) {

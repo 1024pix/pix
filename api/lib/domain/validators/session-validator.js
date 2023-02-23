@@ -1,9 +1,9 @@
 const Joi = require('joi');
-const { statuses } = require('../models/Session');
-const { types } = require('../models/CertificationCenter');
+const { statuses } = require('../models/Session.js');
+const { types } = require('../models/CertificationCenter.js');
 
-const { EntityValidationError } = require('../errors');
-const identifiersType = require('../../domain/types/identifiers-type');
+const { EntityValidationError } = require('../errors.js');
+const identifiersType = require('../../domain/types/identifiers-type.js');
 
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
 

@@ -1,5 +1,5 @@
-const tutorialEvaluationAttributes = require('./tutorial-evaluation-attributes');
-const userSavedTutorialAttributes = require('./user-saved-tutorial-attributes');
+const tutorialEvaluationAttributes = require('./tutorial-evaluation-attributes.js');
+const userSavedTutorialAttributes = require('./user-saved-tutorial-attributes.js');
 
 module.exports = {
   ref: 'id',

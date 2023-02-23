@@ -1,7 +1,7 @@
 const BaseJoi = require('joi');
 const JoiDate = require('@joi/date');
 const Joi = BaseJoi.extend(JoiDate);
-const { InvalidCertificationCandidate } = require('../errors');
+const { InvalidCertificationCandidate } = require('../errors.js');
 
 const scoCertificationCandidateValidationJoiSchema = Joi.object({
   firstName: Joi.string().required().empty(null),

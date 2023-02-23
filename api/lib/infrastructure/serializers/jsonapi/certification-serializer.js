@@ -2,10 +2,10 @@ const _ = require('lodash');
 
 const { Serializer, Deserializer } = require('jsonapi-serializer');
 
-const { WrongDateFormatError } = require('../../../domain/errors');
-const { NO_EXAMINER_COMMENT } = require('../../../domain/models/CertificationReport');
-const { isValidDate } = require('../../utils/date-utils');
-const CertificationCourse = require('../../../domain/models/CertificationCourse');
+const { WrongDateFormatError } = require('../../../domain/errors.js');
+const { NO_EXAMINER_COMMENT } = require('../../../domain/models/CertificationReport.js');
+const { isValidDate } = require('../../utils/date-utils.js');
+const CertificationCourse = require('../../../domain/models/CertificationCourse.js');
 
 module.exports = {
   serializeFromCertificationCourse(certificationCourse) {

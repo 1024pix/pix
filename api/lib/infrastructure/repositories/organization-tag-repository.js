@@ -1,13 +1,13 @@
-const BookshelfOrganizationTag = require('../orm-models/OrganizationTag');
-const Bookshelf = require('../bookshelf');
-const bookshelfUtils = require('../utils/knex-utils');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const { AlreadyExistingEntityError, OrganizationTagNotFound } = require('../../domain/errors');
+const BookshelfOrganizationTag = require('../orm-models/OrganizationTag.js');
+const Bookshelf = require('../bookshelf.js');
+const bookshelfUtils = require('../utils/knex-utils.js');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter.js');
+const { AlreadyExistingEntityError, OrganizationTagNotFound } = require('../../domain/errors.js');
 const { omit } = require('lodash');
-const DomainTransaction = require('../DomainTransaction');
-const OrganizationTagBookshelf = require('../orm-models/OrganizationTag');
-const { knex } = require('../../../db/knex-database-connection');
-const Tag = require('../../domain/models/Tag');
+const DomainTransaction = require('../DomainTransaction.js');
+const OrganizationTagBookshelf = require('../orm-models/OrganizationTag.js');
+const { knex } = require('../../../db/knex-database-connection.js');
+const Tag = require('../../domain/models/Tag.js');
 
 module.exports = {
   async create(organizationTag) {

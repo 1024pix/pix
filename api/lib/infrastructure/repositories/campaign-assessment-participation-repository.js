@@ -1,11 +1,11 @@
 const _ = require('lodash');
-const { NotFoundError } = require('../../../lib/domain/errors');
-const CampaignAssessmentParticipation = require('../../../lib/domain/read-models/CampaignAssessmentParticipation');
-const { knex } = require('../../../db/knex-database-connection');
-const knowledgeElementRepository = require('./knowledge-element-repository');
-const campaignRepository = require('./campaign-repository');
+const { NotFoundError } = require('../../../lib/domain/errors.js');
+const CampaignAssessmentParticipation = require('../../../lib/domain/read-models/CampaignAssessmentParticipation.js');
+const { knex } = require('../../../db/knex-database-connection.js');
+const knowledgeElementRepository = require('./knowledge-element-repository.js');
+const campaignRepository = require('./campaign-repository.js');
 
-const Assessment = require('../../../lib/domain/models/Assessment');
+const Assessment = require('../../../lib/domain/models/Assessment.js');
 
 module.exports = {
   async getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId }) {

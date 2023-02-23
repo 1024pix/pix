@@ -1,6 +1,6 @@
-const SupOrganizationLearner = require('./SupOrganizationLearner');
-const { checkValidation } = require('../validators/sup-organization-learner-set-validator');
-const { areTwoStringsCloseEnough } = require('../services/string-comparison-service');
+const SupOrganizationLearner = require('./SupOrganizationLearner.js');
+const { checkValidation } = require('../validators/sup-organization-learner-set-validator.js');
+const { areTwoStringsCloseEnough } = require('../services/string-comparison-service.js');
 
 const RATIO = 0.25;
 

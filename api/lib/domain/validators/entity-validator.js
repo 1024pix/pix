@@ -1,4 +1,4 @@
-const { ObjectValidationError } = require('../errors');
+const { ObjectValidationError } = require('../errors.js');
 
 module.exports = {
   validateEntity(schema, entity) {

@@ -1,13 +1,13 @@
 const dayjs = require('dayjs');
 
-const tokenService = require('./token-service');
-const mailer = require('../../infrastructure/mailers/mailer');
-const settings = require('../../config');
+const tokenService = require('./token-service.js');
+const mailer = require('../../infrastructure/mailers/mailer.js');
+const settings = require('../../config.js');
 
 const frTranslations = require('../../../translations/fr.json');
 const enTranslations = require('../../../translations/en.json');
 
-const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../domain/constants').LOCALE;
+const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../domain/constants.js').LOCALE;
 
 const EMAIL_ADDRESS_NO_RESPONSE = 'ne-pas-repondre@pix.fr';
 const PIX_ORGA_NAME_FR = 'Pix Orga - Ne pas répondre';

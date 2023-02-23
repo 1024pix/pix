@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { NoOrganizationToAttach } = require('../errors');
+const { NoOrganizationToAttach } = require('../errors.js');
 
 class OrganizationsToAttachToTargetProfile {
   constructor({ id }) {

@@ -1,8 +1,8 @@
 const bluebird = require('bluebird');
-const certificationCenterCreationValidator = require('../validators/certification-center-creation-validator');
-const ComplementaryCertificationHabilitation = require('../../domain/models/ComplementaryCertificationHabilitation');
-const DataProtectionOfficer = require('../models/DataProtectionOfficer');
-const ComplementaryCertification = require('../models/ComplementaryCertification');
+const certificationCenterCreationValidator = require('../validators/certification-center-creation-validator.js');
+const ComplementaryCertificationHabilitation = require('../../domain/models/ComplementaryCertificationHabilitation.js');
+const DataProtectionOfficer = require('../models/DataProtectionOfficer.js');
+const ComplementaryCertification = require('../models/ComplementaryCertification.js');
 
 async function _addOrUpdateDataProtectionOfficer({ certificationCenter, dataProtectionOfficerRepository }) {
   const dataProtectionOfficer = new DataProtectionOfficer({

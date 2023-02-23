@@ -1,10 +1,10 @@
-const BookshelfAssessment = require('../orm-models/Assessment');
-const DomainTransaction = require('../DomainTransaction');
-const Assessment = require('../../domain/models/Assessment');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const BookshelfAssessment = require('../orm-models/Assessment.js');
+const DomainTransaction = require('../DomainTransaction.js');
+const Assessment = require('../../domain/models/Assessment.js');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter.js');
 const { groupBy, map, head, uniqBy, omit } = require('lodash');
-const { NotFoundError } = require('../../domain/errors');
-const { knex } = require('../../../db/knex-database-connection');
+const { NotFoundError } = require('../../domain/errors.js');
+const { knex } = require('../../../db/knex-database-connection.js');
 
 module.exports = {
   async getWithAnswers(id) {

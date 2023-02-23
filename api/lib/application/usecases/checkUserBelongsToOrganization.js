@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const membershipRepository = require('../../infrastructure/repositories/membership-repository');
+const membershipRepository = require('../../infrastructure/repositories/membership-repository.js');
 
 module.exports = {
   execute(userId, organizationId) {

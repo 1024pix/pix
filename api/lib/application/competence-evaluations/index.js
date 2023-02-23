@@ -1,4 +1,4 @@
-const competenceEvaluationController = require('./competence-evaluation-controller');
+const competenceEvaluationController = require('./competence-evaluation-controller.js');
 
 exports.register = async function (server) {
   server.route([

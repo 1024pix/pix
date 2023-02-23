@@ -1,14 +1,14 @@
 const _ = require('lodash');
-const CertificationContract = require('../../models/CertificationContract');
-const scoringService = require('./scoring-service');
-const placementProfileService = require('../placement-profile-service');
-const { CertifiedLevel } = require('../../models/CertifiedLevel');
-const { CertifiedScore } = require('../../models/CertifiedScore');
-const { ReproducibilityRate } = require('../../models/ReproducibilityRate');
-const CompetenceMark = require('../../models/CompetenceMark');
-const CertificationAssessmentScore = require('../../models/CertificationAssessmentScore');
-const AnswerCollectionForScoring = require('../../models/AnswerCollectionForScoring');
-const areaRepository = require('../../../infrastructure/repositories/area-repository');
+const CertificationContract = require('../../models/CertificationContract.js');
+const scoringService = require('./scoring-service.js');
+const placementProfileService = require('../placement-profile-service.js');
+const { CertifiedLevel } = require('../../models/CertifiedLevel.js');
+const { CertifiedScore } = require('../../models/CertifiedScore.js');
+const { ReproducibilityRate } = require('../../models/ReproducibilityRate.js');
+const CompetenceMark = require('../../models/CompetenceMark.js');
+const CertificationAssessmentScore = require('../../models/CertificationAssessmentScore.js');
+const AnswerCollectionForScoring = require('../../models/AnswerCollectionForScoring.js');
+const areaRepository = require('../../../infrastructure/repositories/area-repository.js');
 
 function _selectAnswersMatchingCertificationChallenges(answers, certificationChallenges) {
   return answers.filter(({ challengeId }) => _.some(certificationChallenges, { challengeId }));

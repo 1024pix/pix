@@ -1,4 +1,4 @@
-const { OrganizationLearnerCannotBeDissociatedError } = require('../errors');
+const { OrganizationLearnerCannotBeDissociatedError } = require('../errors.js');
 
 module.exports = async function dissociateUserFromOrganizationLearner({
   organizationLearnerId,

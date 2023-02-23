@@ -1,6 +1,6 @@
-const { CertificationCandidateAlreadyLinkedToUserError } = require('../../domain/errors');
+const { CertificationCandidateAlreadyLinkedToUserError } = require('../../domain/errors.js');
 const bluebird = require('bluebird');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
+const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
 
 module.exports = async function importCertificationCandidatesFromCandidatesImportSheet({
   sessionId,

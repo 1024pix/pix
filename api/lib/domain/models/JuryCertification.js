@@ -1,4 +1,4 @@
-const CompetenceMark = require('./CompetenceMark');
+const CompetenceMark = require('./CompetenceMark.js');
 
 class JuryCertification {
   constructor({

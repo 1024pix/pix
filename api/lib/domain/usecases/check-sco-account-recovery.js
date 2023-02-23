@@ -1,4 +1,4 @@
-const StudentInformationForAccountRecovery = require('../read-models/StudentInformationForAccountRecovery');
+const StudentInformationForAccountRecovery = require('../read-models/StudentInformationForAccountRecovery.js');
 
 module.exports = async function checkScoAccountRecovery({
   studentInformation,

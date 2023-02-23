@@ -1,6 +1,6 @@
 const LearningContentDatasources = require('../../infrastructure/datasources/learning-content/index.js');
-const learningContentDatasource = require('../../infrastructure/datasources/learning-content/datasource');
-const logger = require('../../infrastructure/logger');
+const learningContentDatasource = require('../../infrastructure/datasources/learning-content/datasource.js');
+const logger = require('../../infrastructure/logger.js');
 const _ = require('lodash');
 
 module.exports = {

@@ -1,8 +1,8 @@
-const Bookshelf = require('../bookshelf');
+const Bookshelf = require('../bookshelf.js');
 // eslint-disable-next-line no-unused-vars
 const jsonColumns = require('bookshelf-json-columns');
 
-require('./User');
+require('./User.js');
 
 const modelName = 'AuthenticationMethod';
 

@@ -1,6 +1,6 @@
 const usecases = require('../../domain/usecases/index.js');
-const studentInformationForAccountRecoverySerializer = require('../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
+const studentInformationForAccountRecoverySerializer = require('../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer.js');
+const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
 
 module.exports = {
   async sendEmailForAccountRecovery(request, h) {

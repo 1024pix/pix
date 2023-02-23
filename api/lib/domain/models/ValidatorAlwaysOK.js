@@ -1,6 +1,6 @@
-const Validation = require('./Validation');
-const Validator = require('./Validator');
-const AnswerStatus = require('./AnswerStatus');
+const Validation = require('./Validation.js');
+const Validator = require('./Validator.js');
+const AnswerStatus = require('./AnswerStatus.js');
 
 class ValidatorAlwaysOK extends Validator {
   assess() {

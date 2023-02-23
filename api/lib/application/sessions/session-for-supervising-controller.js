@@ -1,5 +1,5 @@
 const usecases = require('../../domain/usecases/index.js');
-const sessionForSupervisingSerializer = require('../../infrastructure/serializers/jsonapi/session-for-supervising-serializer');
+const sessionForSupervisingSerializer = require('../../infrastructure/serializers/jsonapi/session-for-supervising-serializer.js');
 
 module.exports = {
   async get(request) {

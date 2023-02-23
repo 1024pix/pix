@@ -1,4 +1,4 @@
-const { status: assessmentResultStatuses } = require('../models/AssessmentResult');
+const { status: assessmentResultStatuses } = require('../models/AssessmentResult.js');
 const STARTED = 'started';
 const ENDED_BY_SUPERVISOR = 'endedBySupervisor';
 

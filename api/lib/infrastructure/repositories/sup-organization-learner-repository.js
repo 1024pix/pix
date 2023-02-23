@@ -1,8 +1,8 @@
 const _ = require('lodash');
-const { OrganizationLearnersCouldNotBeSavedError } = require('../../domain/errors');
-const { knex } = require('../../../db/knex-database-connection');
-const BookshelfOrganizationLearner = require('../orm-models/OrganizationLearner');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const { OrganizationLearnersCouldNotBeSavedError } = require('../../domain/errors.js');
+const { knex } = require('../../../db/knex-database-connection.js');
+const BookshelfOrganizationLearner = require('../orm-models/OrganizationLearner.js');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter.js');
 
 const ATTRIBUTES_TO_SAVE = [
   'firstName',

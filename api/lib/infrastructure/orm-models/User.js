@@ -1,12 +1,12 @@
-const Bookshelf = require('../bookshelf');
+const Bookshelf = require('../bookshelf.js');
 
-require('./Assessment');
-require('./KnowledgeElement');
-require('./Membership');
-require('./CertificationCenterMembership');
-require('./UserOrgaSettings');
-require('./OrganizationLearner');
-require('./AuthenticationMethod');
+require('./Assessment.js');
+require('./KnowledgeElement.js');
+require('./Membership.js');
+require('./CertificationCenterMembership.js');
+require('./UserOrgaSettings.js');
+require('./OrganizationLearner.js');
+require('./AuthenticationMethod.js');
 
 const modelName = 'User';
 

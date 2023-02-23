@@ -1,5 +1,5 @@
-const membershipRepository = require('../../infrastructure/repositories/membership-repository');
-const Membership = require('../../domain/models/Membership');
+const membershipRepository = require('../../infrastructure/repositories/membership-repository.js');
+const Membership = require('../../domain/models/Membership.js');
 
 module.exports = {
   async execute(userId, organizationId, type) {

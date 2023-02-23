@@ -2,8 +2,8 @@ const {
   CampaignCodeError,
   OrganizationLearnerAlreadyLinkedToUserError,
   UserShouldNotBeReconciledOnAnotherAccountError,
-} = require('../errors');
-const { STUDENT_RECONCILIATION_ERRORS } = require('../constants');
+} = require('../errors.js');
+const { STUDENT_RECONCILIATION_ERRORS } = require('../constants.js');
 const isEmpty = require('lodash/isEmpty');
 
 module.exports = async function reconcileScoOrganizationLearnerManually({

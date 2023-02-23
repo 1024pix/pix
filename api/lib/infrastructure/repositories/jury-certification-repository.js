@@ -1,10 +1,10 @@
-const { knex } = require('../../../db/knex-database-connection');
-const { NotFoundError } = require('../../domain/errors');
+const { knex } = require('../../../db/knex-database-connection.js');
+const { NotFoundError } = require('../../domain/errors.js');
 const _ = require('lodash');
-const JuryCertification = require('../../domain/models/JuryCertification');
-const CertificationIssueReport = require('../../domain/models/CertificationIssueReport');
-const ComplementaryCertificationCourseResultsForJuryCertification = require('../../domain/read-models/ComplementaryCertificationCourseResultsForJuryCertification');
-const ComplementaryCertificationCourseResultsForJuryCertificationWithExternal = require('../../domain/read-models/ComplementaryCertificationCourseResultsForJuryCertificationWithExternal');
+const JuryCertification = require('../../domain/models/JuryCertification.js');
+const CertificationIssueReport = require('../../domain/models/CertificationIssueReport.js');
+const ComplementaryCertificationCourseResultsForJuryCertification = require('../../domain/read-models/ComplementaryCertificationCourseResultsForJuryCertification.js');
+const ComplementaryCertificationCourseResultsForJuryCertificationWithExternal = require('../../domain/read-models/ComplementaryCertificationCourseResultsForJuryCertificationWithExternal.js');
 
 module.exports = {
   async get(certificationCourseId) {

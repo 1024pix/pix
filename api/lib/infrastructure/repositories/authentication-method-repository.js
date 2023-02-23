@@ -1,10 +1,10 @@
 const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection');
-const bookshelfUtils = require('../utils/knex-utils');
-const DomainTransaction = require('../DomainTransaction');
-const { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } = require('../../domain/errors');
-const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
-const OidcIdentityProviders = require('../../domain/constants/oidc-identity-providers');
+const { knex } = require('../../../db/knex-database-connection.js');
+const bookshelfUtils = require('../utils/knex-utils.js');
+const DomainTransaction = require('../DomainTransaction.js');
+const { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } = require('../../domain/errors.js');
+const AuthenticationMethod = require('../../domain/models/AuthenticationMethod.js');
+const OidcIdentityProviders = require('../../domain/constants/oidc-identity-providers.js');
 
 function _toDomain(authenticationMethodDTO) {
   if (authenticationMethodDTO.identityProvider === AuthenticationMethod.identityProviders.PIX) {

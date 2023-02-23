@@ -1,4 +1,4 @@
-const Event = require('../../../domain/events/CampaignParticipationResultsShared');
+const Event = require('../../../domain/events/CampaignParticipationResultsShared.js');
 
 class LogEvent {
   constructor({ monitoringTools }) {

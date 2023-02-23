@@ -1,10 +1,10 @@
 const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection');
-const CampaignManagement = require('../../domain/read-models/CampaignManagement');
-const { fetchPage } = require('../utils/knex-utils');
-const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');
+const { knex } = require('../../../db/knex-database-connection.js');
+const CampaignManagement = require('../../domain/read-models/CampaignManagement.js');
+const { fetchPage } = require('../utils/knex-utils.js');
+const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses.js');
 
-const CampaignTypes = require('../../domain/models/CampaignTypes');
+const CampaignTypes = require('../../domain/models/CampaignTypes.js');
 
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 

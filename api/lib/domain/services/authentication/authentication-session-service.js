@@ -1,4 +1,4 @@
-const settings = require('../../../config');
+const settings = require('../../../config.js');
 const temporaryStorage = require('../../../infrastructure/temporary-storage/index.js');
 const authenticationSessionTemporaryStorage = temporaryStorage.withPrefix('authentication-session:');
 

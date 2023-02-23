@@ -4,8 +4,8 @@ const timezone = require('dayjs/plugin/timezone');
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-const { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } = require('../errors');
-const CampaignProfilesCollectionExport = require('../../infrastructure/serializers/csv/campaign-profiles-collection-export');
+const { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } = require('../errors.js');
+const CampaignProfilesCollectionExport = require('../../infrastructure/serializers/csv/campaign-profiles-collection-export.js');
 
 async function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
   const user = await userRepository.getWithMemberships(userId);

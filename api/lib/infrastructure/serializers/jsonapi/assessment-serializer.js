@@ -1,5 +1,5 @@
-const Assessment = require('../../../domain/models/Assessment');
-const Progression = require('../../../domain/models/Progression');
+const Assessment = require('../../../domain/models/Assessment.js');
+const Progression = require('../../../domain/models/Progression.js');
 const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {

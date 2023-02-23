@@ -1,6 +1,6 @@
 const _ = require('lodash');
-const { UserNotAuthorizedToUpdateResourceError, EntityValidationError } = require('../errors');
-const campaignValidator = require('../validators/campaign-validator');
+const { UserNotAuthorizedToUpdateResourceError, EntityValidationError } = require('../errors.js');
+const campaignValidator = require('../validators/campaign-validator.js');
 
 module.exports = async function updateCampaign({
   userId,

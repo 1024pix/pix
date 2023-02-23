@@ -1,9 +1,9 @@
 const Joi = require('joi');
-const { featureToggles } = require('../../config');
-const assessmentController = require('./assessment-controller');
-const securityPreHandlers = require('../security-pre-handlers');
-const assessmentAuthorization = require('../preHandlers/assessment-authorization');
-const identifiersType = require('../../domain/types/identifiers-type');
+const { featureToggles } = require('../../config.js');
+const assessmentController = require('./assessment-controller.js');
+const securityPreHandlers = require('../security-pre-handlers.js');
+const assessmentAuthorization = require('../preHandlers/assessment-authorization.js');
+const identifiersType = require('../../domain/types/identifiers-type.js');
 
 exports.register = async (server) => {
   const routes = [

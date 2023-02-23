@@ -1,4 +1,4 @@
-const ScoringSimulationContext = require('../../../../domain/models/ScoringSimulationContext');
+const ScoringSimulationContext = require('../../../../domain/models/ScoringSimulationContext.js');
 
 module.exports = {
   deserialize(request) {

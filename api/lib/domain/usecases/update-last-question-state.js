@@ -1,5 +1,5 @@
-const logger = require('../../infrastructure/logger');
-const Assessment = require('../models/Assessment');
+const logger = require('../../infrastructure/logger.js');
+const Assessment = require('../models/Assessment.js');
 
 module.exports = async function updateLastQuestionState({
   assessmentId,

@@ -1,16 +1,16 @@
 const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection');
-const { NoSkillsInCampaignError, NotFoundError } = require('../../domain/errors');
-const tubeRepository = require('./tube-repository');
-const thematicRepository = require('./thematic-repository');
-const campaignRepository = require('./campaign-repository');
-const competenceRepository = require('./competence-repository');
-const areaRepository = require('./area-repository');
-const frameworkRepository = require('./framework-repository');
-const skillRepository = require('./skill-repository');
-const LearningContent = require('../../domain/models/LearningContent');
+const { knex } = require('../../../db/knex-database-connection.js');
+const { NoSkillsInCampaignError, NotFoundError } = require('../../domain/errors.js');
+const tubeRepository = require('./tube-repository.js');
+const thematicRepository = require('./thematic-repository.js');
+const campaignRepository = require('./campaign-repository.js');
+const competenceRepository = require('./competence-repository.js');
+const areaRepository = require('./area-repository.js');
+const frameworkRepository = require('./framework-repository.js');
+const skillRepository = require('./skill-repository.js');
+const LearningContent = require('../../domain/models/LearningContent.js');
 // TODO pas satisfaisant comme dépendance
-const learningContentConversionService = require('../../domain/services/learning-content/learning-content-conversion-service');
+const learningContentConversionService = require('../../domain/services/learning-content/learning-content-conversion-service.js');
 
 async function findByCampaignId(campaignId, locale) {
   const skills = await campaignRepository.findSkills({ campaignId });

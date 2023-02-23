@@ -1,4 +1,4 @@
-const CertificationIssueReport = require('../models/CertificationIssueReport');
+const CertificationIssueReport = require('../models/CertificationIssueReport.js');
 
 module.exports = async function saveCertificationIssueReport({
   certificationIssueReportDTO,

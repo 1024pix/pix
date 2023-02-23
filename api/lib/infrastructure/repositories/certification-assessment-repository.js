@@ -1,12 +1,12 @@
 const _ = require('lodash');
-const DomainTransaction = require('../DomainTransaction');
-const CertificationAssessment = require('../../domain/models/CertificationAssessment');
-const CertificationChallengeWithType = require('../../domain/models/CertificationChallengeWithType');
-const Answer = require('../../domain/models/Answer');
-const challengeRepository = require('./challenge-repository');
-const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-adapter');
-const { knex } = require('../../../db/knex-database-connection');
-const { NotFoundError } = require('../../domain/errors');
+const DomainTransaction = require('../DomainTransaction.js');
+const CertificationAssessment = require('../../domain/models/CertificationAssessment.js');
+const CertificationChallengeWithType = require('../../domain/models/CertificationChallengeWithType.js');
+const Answer = require('../../domain/models/Answer.js');
+const challengeRepository = require('./challenge-repository.js');
+const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-adapter.js');
+const { knex } = require('../../../db/knex-database-connection.js');
+const { NotFoundError } = require('../../domain/errors.js');
 
 async function _getCertificationChallenges(certificationCourseId, knexConn) {
   const allChallenges = await challengeRepository.findOperative();

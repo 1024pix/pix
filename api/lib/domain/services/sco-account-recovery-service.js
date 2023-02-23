@@ -1,10 +1,10 @@
-const { features } = require('../../config');
+const { features } = require('../../config.js');
 const {
   AccountRecoveryDemandExpired,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   UserNotFoundError,
   UserHasAlreadyLeftSCO,
-} = require('../errors');
+} = require('../errors.js');
 const { uniqBy } = require('lodash');
 
 async function retrieveOrganizationLearner({

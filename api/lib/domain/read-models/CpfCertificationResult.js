@@ -1,4 +1,4 @@
-const EuropeanNumericLevelFactory = require('./EuropeanNumericLevelFactory');
+const EuropeanNumericLevelFactory = require('./EuropeanNumericLevelFactory.js');
 
 class CpfCertificationResult {
   constructor({

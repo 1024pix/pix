@@ -1,7 +1,7 @@
-const BookshelfCompetenceMark = require('../orm-models/CompetenceMark');
-const CompetenceMark = require('../../domain/models/CompetenceMark');
-const { knex } = require('../../../db/knex-database-connection');
-const DomainTransaction = require('../DomainTransaction');
+const BookshelfCompetenceMark = require('../orm-models/CompetenceMark.js');
+const CompetenceMark = require('../../domain/models/CompetenceMark.js');
+const { knex } = require('../../../db/knex-database-connection.js');
+const DomainTransaction = require('../DomainTransaction.js');
 
 function _toDomain(competenceMark) {
   return new CompetenceMark(competenceMark);

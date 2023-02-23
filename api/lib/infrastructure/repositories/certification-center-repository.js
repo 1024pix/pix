@@ -1,9 +1,9 @@
 const _ = require('lodash');
-const BookshelfCertificationCenter = require('../orm-models/CertificationCenter');
-const { knex } = require('../../../db/knex-database-connection');
-const CertificationCenter = require('../../domain/models/CertificationCenter');
-const ComplementaryCertification = require('../../domain/models/ComplementaryCertification');
-const { NotFoundError } = require('../../domain/errors');
+const BookshelfCertificationCenter = require('../orm-models/CertificationCenter.js');
+const { knex } = require('../../../db/knex-database-connection.js');
+const CertificationCenter = require('../../domain/models/CertificationCenter.js');
+const ComplementaryCertification = require('../../domain/models/ComplementaryCertification.js');
+const { NotFoundError } = require('../../domain/errors.js');
 
 function _toDomain(bookshelfCertificationCenter) {
   const dbCertificationCenter = bookshelfCertificationCenter.toJSON();

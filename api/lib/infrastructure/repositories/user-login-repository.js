@@ -1,5 +1,5 @@
-const { knex } = require('../../../db/knex-database-connection');
-const UserLogin = require('../../domain/models/UserLogin');
+const { knex } = require('../../../db/knex-database-connection.js');
+const UserLogin = require('../../domain/models/UserLogin.js');
 
 function _toDomain(userLoginDTO) {
   return new UserLogin({

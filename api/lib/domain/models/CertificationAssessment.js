@@ -1,12 +1,12 @@
 const BaseJoi = require('joi');
 const JoiDate = require('@joi/date');
 const Joi = BaseJoi.extend(JoiDate);
-const { validateEntity } = require('../validators/entity-validator');
+const { validateEntity } = require('../validators/entity-validator.js');
 const _ = require('lodash');
-const { ChallengeToBeNeutralizedNotFoundError, ChallengeToBeDeneutralizedNotFoundError } = require('../errors');
-const AnswerStatus = require('./AnswerStatus');
-const NeutralizationAttempt = require('./NeutralizationAttempt');
-const CertificationAnswerStatusChangeAttempt = require('./CertificationAnswerStatusChangeAttempt');
+const { ChallengeToBeNeutralizedNotFoundError, ChallengeToBeDeneutralizedNotFoundError } = require('../errors.js');
+const AnswerStatus = require('./AnswerStatus.js');
+const NeutralizationAttempt = require('./NeutralizationAttempt.js');
+const CertificationAnswerStatusChangeAttempt = require('./CertificationAnswerStatusChangeAttempt.js');
 
 const states = {
   COMPLETED: 'completed',

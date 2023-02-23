@@ -1,6 +1,6 @@
-const Answer = require('../../../domain/models/Answer');
+const Answer = require('../../../domain/models/Answer.js');
 const { Serializer } = require('jsonapi-serializer');
-const answerStatusJSONAPIAdapter = require('../../adapters/answer-status-json-api-adapter');
+const answerStatusJSONAPIAdapter = require('../../adapters/answer-status-json-api-adapter.js');
 
 module.exports = {
   serialize(answer) {

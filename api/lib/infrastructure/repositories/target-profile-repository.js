@@ -1,12 +1,12 @@
 const _ = require('lodash');
-const BookshelfTargetProfile = require('../orm-models/TargetProfile');
-const targetProfileAdapter = require('../adapters/target-profile-adapter');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const { knex } = require('../../../db/knex-database-connection');
-const { NotFoundError, ObjectValidationError, InvalidSkillSetError } = require('../../domain/errors');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
-const TargetProfile = require('../../domain/models/TargetProfile');
-const Stage = require('../../domain/models/Stage');
+const BookshelfTargetProfile = require('../orm-models/TargetProfile.js');
+const targetProfileAdapter = require('../adapters/target-profile-adapter.js');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter.js');
+const { knex } = require('../../../db/knex-database-connection.js');
+const { NotFoundError, ObjectValidationError, InvalidSkillSetError } = require('../../domain/errors.js');
+const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
+const TargetProfile = require('../../domain/models/TargetProfile.js');
+const Stage = require('../../domain/models/Stage.js');
 
 const TARGET_PROFILE_TABLE = 'target-profiles';
 

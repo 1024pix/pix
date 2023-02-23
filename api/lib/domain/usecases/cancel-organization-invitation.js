@@ -1,4 +1,4 @@
-const { UncancellableOrganizationInvitationError } = require('../../domain/errors');
+const { UncancellableOrganizationInvitationError } = require('../../domain/errors.js');
 
 module.exports = async function cancelOrganizationInvitation({
   organizationInvitationId,

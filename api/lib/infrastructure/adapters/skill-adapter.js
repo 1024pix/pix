@@ -1,4 +1,4 @@
-const Skill = require('../../domain/models/Skill');
+const Skill = require('../../domain/models/Skill.js');
 
 module.exports = {
   fromDatasourceObject(datasourceObject) {

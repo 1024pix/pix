@@ -1,9 +1,9 @@
-const Cache = require('./Cache');
-const DistributedCache = require('./DistributedCache');
-const InMemoryCache = require('./InMemoryCache');
-const LayeredCache = require('./LayeredCache');
-const RedisCache = require('./RedisCache');
-const settings = require('../../config');
+const Cache = require('./Cache.js');
+const DistributedCache = require('./DistributedCache.js');
+const InMemoryCache = require('./InMemoryCache.js');
+const LayeredCache = require('./LayeredCache.js');
+const RedisCache = require('./RedisCache.js');
+const settings = require('../../config.js');
 
 const LEARNING_CONTENT_CHANNEL = 'Learning content';
 const LEARNING_CONTENT_CACHE_KEY = 'LearningContent';

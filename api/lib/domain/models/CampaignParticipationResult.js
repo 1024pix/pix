@@ -1,5 +1,5 @@
-const campaignParticipationService = require('../services/campaign-participation-service');
-const CompetenceResult = require('./CompetenceResult');
+const campaignParticipationService = require('../services/campaign-participation-service.js');
+const CompetenceResult = require('./CompetenceResult.js');
 
 const _ = require('lodash');
 

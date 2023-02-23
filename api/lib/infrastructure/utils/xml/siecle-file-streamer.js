@@ -1,6 +1,6 @@
 const { isObject, values } = require('lodash');
-const { FileValidationError, SiecleXmlImportError } = require('../../../domain/errors');
-const { logErrorWithCorrelationIds } = require('../../monitoring-tools');
+const { FileValidationError, SiecleXmlImportError } = require('../../../domain/errors.js');
+const { logErrorWithCorrelationIds } = require('../../monitoring-tools.js');
 const fs = require('fs');
 const fsPromises = fs.promises;
 const Path = require('path');

@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
-const challengeController = require('./challenge-controller');
-const identifiersType = require('../../domain/types/identifiers-type');
+const challengeController = require('./challenge-controller.js');
+const identifiersType = require('../../domain/types/identifiers-type.js');
 
 exports.register = async function (server) {
   server.route([

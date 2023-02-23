@@ -1,8 +1,8 @@
 const Joi = require('joi');
 
-const securityPreHandlers = require('../security-pre-handlers');
-const prescriberController = require('./prescriber-controller');
-const identifiersType = require('../../domain/types/identifiers-type');
+const securityPreHandlers = require('../security-pre-handlers.js');
+const prescriberController = require('./prescriber-controller.js');
+const identifiersType = require('../../domain/types/identifiers-type.js');
 
 exports.register = async function (server) {
   server.route([

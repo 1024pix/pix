@@ -1,9 +1,9 @@
 const Joi = require('joi');
 
-const trainingsController = require('./training-controller');
-const identifiersType = require('../../domain/types/identifiers-type');
-const securityPreHandlers = require('../security-pre-handlers');
-const { sendJsonApiError, NotFoundError } = require('../http-errors');
+const trainingsController = require('./training-controller.js');
+const identifiersType = require('../../domain/types/identifiers-type.js');
+const securityPreHandlers = require('../security-pre-handlers.js');
+const { sendJsonApiError, NotFoundError } = require('../http-errors.js');
 
 exports.register = async (server) => {
   server.route([

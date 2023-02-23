@@ -1,7 +1,7 @@
-const Course = require('../../domain/models/Course');
-const courseDatasource = require('../datasources/learning-content/course-datasource');
-const LearningContentResourceNotFound = require('../datasources/learning-content/LearningContentResourceNotFound');
-const { NotFoundError } = require('../../domain/errors');
+const Course = require('../../domain/models/Course.js');
+const courseDatasource = require('../datasources/learning-content/course-datasource.js');
+const LearningContentResourceNotFound = require('../datasources/learning-content/LearningContentResourceNotFound.js');
+const { NotFoundError } = require('../../domain/errors.js');
 
 function _toDomain(courseDataObject) {
   return new Course({

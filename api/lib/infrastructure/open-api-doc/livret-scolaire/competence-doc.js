@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const areaDoc = require('./area-doc');
+const areaDoc = require('./area-doc.js');
 
 module.exports = Joi.object({
   id: Joi.number().example('1.1').required().description('ID unique de la compétence (ex : “1.1”, “4.3”)'),

@@ -1,10 +1,10 @@
 const _ = require('lodash');
-const Validator = require('./Validator');
-const ValidatorQCM = require('./ValidatorQCM');
-const ValidatorQCU = require('./ValidatorQCU');
-const ValidatorQROC = require('./ValidatorQROC');
-const ValidatorQROCMDep = require('./ValidatorQROCMDep');
-const ValidatorQROCMInd = require('./ValidatorQROCMInd');
+const Validator = require('./Validator.js');
+const ValidatorQCM = require('./ValidatorQCM.js');
+const ValidatorQCU = require('./ValidatorQCU.js');
+const ValidatorQROC = require('./ValidatorQROC.js');
+const ValidatorQROCMDep = require('./ValidatorQROCMDep.js');
+const ValidatorQROCMInd = require('./ValidatorQROCMInd.js');
 
 const ChallengeType = Object.freeze({
   QCU: 'QCU',

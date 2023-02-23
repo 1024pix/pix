@@ -1,11 +1,11 @@
-const { knex } = require('../../../db/knex-database-connection');
-const CampaignTypes = require('../../domain/models/CampaignTypes');
-const CampaignParticipationOverview = require('../../domain/read-models/CampaignParticipationOverview');
-const { fetchPage } = require('../utils/knex-utils');
+const { knex } = require('../../../db/knex-database-connection.js');
+const CampaignTypes = require('../../domain/models/CampaignTypes.js');
+const CampaignParticipationOverview = require('../../domain/read-models/CampaignParticipationOverview.js');
+const { fetchPage } = require('../utils/knex-utils.js');
 const bluebird = require('bluebird');
-const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
-const campaignRepository = require('./campaign-repository');
-const CampaignStages = require('../../domain/read-models/campaign/CampaignStages');
+const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses.js');
+const campaignRepository = require('./campaign-repository.js');
+const CampaignStages = require('../../domain/read-models/campaign/CampaignStages.js');
 
 module.exports = {
   async findByUserIdWithFilters({ userId, states, page }) {

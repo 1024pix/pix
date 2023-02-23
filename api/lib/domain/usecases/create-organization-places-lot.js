@@ -1,4 +1,4 @@
-const OrganizationPlacesLot = require('../models/OrganizationPlacesLot');
+const OrganizationPlacesLot = require('../models/OrganizationPlacesLot.js');
 
 module.exports = async function createOrganizationPlacesLot({
   organizationPlacesLotData,

@@ -1,15 +1,15 @@
-const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils');
+const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils.js');
 const {
   getTransformationStructsForPixCertifCandidatesImport,
-} = require('../../infrastructure/files/candidates-import/candidates-import-transformation-structures');
-const CertificationCandidate = require('../models/CertificationCandidate');
+} = require('../../infrastructure/files/candidates-import/candidates-import-transformation-structures.js');
+const CertificationCandidate = require('../models/CertificationCandidate.js');
 const {
   CLEA,
   PIX_PLUS_DROIT,
   PIX_PLUS_EDU_1ER_DEGRE,
   PIX_PLUS_EDU_2ND_DEGRE,
-} = require('../models/ComplementaryCertification');
-const { CertificationCandidatesImportError } = require('../errors');
+} = require('../models/ComplementaryCertification.js');
+const { CertificationCandidatesImportError } = require('../errors.js');
 const _ = require('lodash');
 const bluebird = require('bluebird');
 

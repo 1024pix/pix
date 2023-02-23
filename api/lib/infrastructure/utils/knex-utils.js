@@ -1,4 +1,4 @@
-const { knex } = require('../../../db/knex-database-connection');
+const { knex } = require('../../../db/knex-database-connection.js');
 
 const DEFAULT_PAGINATION = {
   PAGE: 1,

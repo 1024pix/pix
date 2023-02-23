@@ -1,4 +1,4 @@
-const settings = require('../../config');
+const settings = require('../../config.js');
 
 module.exports = { getCampaignUrl };
 

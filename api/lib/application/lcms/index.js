@@ -1,5 +1,5 @@
-const securityPreHandlers = require('../security-pre-handlers');
-const LcmsController = require('./lcms-controller');
+const securityPreHandlers = require('../security-pre-handlers.js');
+const LcmsController = require('./lcms-controller.js');
 
 exports.register = async function (server) {
   server.route([

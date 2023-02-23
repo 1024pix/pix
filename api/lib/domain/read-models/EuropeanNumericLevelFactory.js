@@ -1,6 +1,6 @@
 const uniqBy = require('lodash/uniqBy');
 const remove = require('lodash/remove');
-const EuropeanNumericLevel = require('./EuropeanNumericLevel');
+const EuropeanNumericLevel = require('./EuropeanNumericLevel.js');
 
 class EuropeanNumericLevelFactory {
   static buildFromCompetenceMarks(competenceMarks) {

@@ -1,5 +1,5 @@
-const { UserNotAuthorizedToAccessEntityError } = require('../errors');
-const CampaignParticipationResultsShared = require('../events/CampaignParticipationResultsShared');
+const { UserNotAuthorizedToAccessEntityError } = require('../errors.js');
+const CampaignParticipationResultsShared = require('../events/CampaignParticipationResultsShared.js');
 
 module.exports = async function shareCampaignResult({
   userId,

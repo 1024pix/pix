@@ -1,9 +1,9 @@
-const authenticationServiceRegistry = require('../../../domain/services/authentication/authentication-service-registry');
-const authenticationRegistry = require('../../../domain/services/authentication/authentication-service-registry');
-const serializer = require('../../../infrastructure/serializers/jsonapi/oidc-identity-providers-serializer');
+const authenticationServiceRegistry = require('../../../domain/services/authentication/authentication-service-registry.js');
+const authenticationRegistry = require('../../../domain/services/authentication/authentication-service-registry.js');
+const serializer = require('../../../infrastructure/serializers/jsonapi/oidc-identity-providers-serializer.js');
 const usecases = require('../../../domain/usecases/index.js');
-const { UnauthorizedError } = require('../../http-errors');
-const oidcSerializer = require('../../../infrastructure/serializers/jsonapi/oidc-serializer');
+const { UnauthorizedError } = require('../../http-errors.js');
+const oidcSerializer = require('../../../infrastructure/serializers/jsonapi/oidc-serializer.js');
 
 module.exports = {
   async getIdentityProviders(request, h) {

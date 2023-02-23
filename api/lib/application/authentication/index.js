@@ -1,9 +1,9 @@
 const Joi = require('joi');
-const { sendJsonApiError, BadRequestError } = require('../http-errors');
-const AuthenticationController = require('./authentication-controller');
-const responseAuthenticationObjectDoc = require('../../infrastructure/open-api-doc/authentication/response-authentication-doc');
-const responseErrorObjectDoc = require('../../infrastructure/open-api-doc/livret-scolaire/response-object-error-doc');
-const securityPreHandlers = require('../security-pre-handlers');
+const { sendJsonApiError, BadRequestError } = require('../http-errors.js');
+const AuthenticationController = require('./authentication-controller.js');
+const responseAuthenticationObjectDoc = require('../../infrastructure/open-api-doc/authentication/response-authentication-doc.js');
+const responseErrorObjectDoc = require('../../infrastructure/open-api-doc/livret-scolaire/response-object-error-doc.js');
+const securityPreHandlers = require('../security-pre-handlers.js');
 
 exports.register = async (server) => {
   server.route([

@@ -1,10 +1,10 @@
 const _ = require('lodash');
 const bluebird = require('bluebird');
-const { knex } = require('../../../db/knex-database-connection');
-const CampaignCollectiveResult = require('../../domain/read-models/CampaignCollectiveResult');
-const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
-const knowledgeElementRepository = require('./knowledge-element-repository');
-const constants = require('../constants');
+const { knex } = require('../../../db/knex-database-connection.js');
+const CampaignCollectiveResult = require('../../domain/read-models/CampaignCollectiveResult.js');
+const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses.js');
+const knowledgeElementRepository = require('./knowledge-element-repository.js');
+const constants = require('../constants.js');
 
 const { SHARED } = CampaignParticipationStatuses;
 

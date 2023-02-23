@@ -1,4 +1,4 @@
-const { CpfBirthInformationValidationError } = require('../errors');
+const { CpfBirthInformationValidationError } = require('../errors.js');
 
 module.exports = async function correctCandidateIdentityInCertificationCourse({
   command: {

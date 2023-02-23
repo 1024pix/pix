@@ -1,9 +1,9 @@
 const pick = require('lodash/pick');
-const CampaignParticipant = require('../../domain/models/CampaignParticipant');
-const CampaignToStartParticipation = require('../../domain/models/CampaignToStartParticipation');
-const { AlreadyExistingCampaignParticipationError, NotFoundError } = require('../../domain/errors');
-const campaignRepository = require('../repositories/campaign-repository');
-const { knex } = require('../../../db/knex-database-connection');
+const CampaignParticipant = require('../../domain/models/CampaignParticipant.js');
+const CampaignToStartParticipation = require('../../domain/models/CampaignToStartParticipation.js');
+const { AlreadyExistingCampaignParticipationError, NotFoundError } = require('../../domain/errors.js');
+const campaignRepository = require('../repositories/campaign-repository.js');
+const { knex } = require('../../../db/knex-database-connection.js');
 
 async function save(campaignParticipant, domainTransaction) {
   const newlyCreatedOrganizationLearnerId = await _createNewOrganizationLearner(

@@ -1,6 +1,6 @@
-const solutionServiceQROCMDep = require('../services/solution-service-qrocm-dep');
-const Validation = require('./Validation');
-const Validator = require('./Validator');
+const solutionServiceQROCMDep = require('../services/solution-service-qrocm-dep.js');
+const Validation = require('./Validation.js');
+const Validator = require('./Validator.js');
 
 /**
  * Traduction: Vérificateur de réponse pour un QROCM Dep

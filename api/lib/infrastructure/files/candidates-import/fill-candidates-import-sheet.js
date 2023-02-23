@@ -1,15 +1,15 @@
-const writeOdsUtils = require('../../utils/ods/write-ods-utils');
-const readOdsUtils = require('../../utils/ods/read-ods-utils');
+const writeOdsUtils = require('../../utils/ods/write-ods-utils.js');
+const readOdsUtils = require('../../utils/ods/read-ods-utils.js');
 const {
   EXTRA_EMPTY_CANDIDATE_ROWS,
   IMPORT_CANDIDATES_TEMPLATE_VALUES,
   IMPORT_CANDIDATES_SESSION_TEMPLATE_VALUES,
-} = require('./candidates-import-placeholders');
-const CertificationCandidate = require('../../../domain/models/CertificationCandidate');
+} = require('./candidates-import-placeholders.js');
+const CertificationCandidate = require('../../../domain/models/CertificationCandidate.js');
 
 const _ = require('lodash');
-const CandidateData = require('./CandidateData');
-const SessionData = require('./SessionData');
+const CandidateData = require('./CandidateData.js');
+const SessionData = require('./SessionData.js');
 
 const billingValidatorList = Object.values(CertificationCandidate.BILLING_MODES).map(
   CertificationCandidate.translateBillingMode

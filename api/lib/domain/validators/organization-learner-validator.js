@@ -1,8 +1,8 @@
 const BaseJoi = require('joi');
 const JoiDate = require('@joi/date');
 const Joi = BaseJoi.extend(JoiDate);
-const { EntityValidationError } = require('../errors');
-const OrganizationLearner = require('../models/OrganizationLearner');
+const { EntityValidationError } = require('../errors.js');
+const OrganizationLearner = require('../models/OrganizationLearner.js');
 
 const { STUDENT, APPRENTICE } = OrganizationLearner.STATUS;
 const validationConfiguration = { allowUnknown: true };

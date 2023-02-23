@@ -1,12 +1,12 @@
 const _ = require('lodash');
 
-const { knex } = require('../../../../db/knex-database-connection');
-const { NotFoundError } = require('../../../domain/errors');
-const Session = require('../../../domain/models/Session');
-const CertificationCenter = require('../../../domain/models/CertificationCenter');
-const CertificationCandidate = require('../../../domain/models/CertificationCandidate');
-const ComplementaryCertification = require('../../../domain/models/ComplementaryCertification');
-const DomainTransaction = require('../../DomainTransaction');
+const { knex } = require('../../../../db/knex-database-connection.js');
+const { NotFoundError } = require('../../../domain/errors.js');
+const Session = require('../../../domain/models/Session.js');
+const CertificationCenter = require('../../../domain/models/CertificationCenter.js');
+const CertificationCandidate = require('../../../domain/models/CertificationCandidate.js');
+const ComplementaryCertification = require('../../../domain/models/ComplementaryCertification.js');
+const DomainTransaction = require('../../DomainTransaction.js');
 
 module.exports = {
   async save(sessionData, { knexTransaction } = DomainTransaction.emptyTransaction()) {

@@ -1,8 +1,8 @@
-const { knex } = require('../../../../db/knex-database-connection');
-const Campaign = require('../../../domain/models/CampaignForArchiving');
-const knexUtils = require('../../utils/knex-utils');
+const { knex } = require('../../../../db/knex-database-connection.js');
+const Campaign = require('../../../domain/models/CampaignForArchiving.js');
+const knexUtils = require('../../utils/knex-utils.js');
 
-const { NotFoundError, UserNotFoundError } = require('../../../domain/errors');
+const { NotFoundError, UserNotFoundError } = require('../../../domain/errors.js');
 
 async function save(campaign) {
   try {

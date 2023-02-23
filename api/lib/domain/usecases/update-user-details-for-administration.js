@@ -3,7 +3,7 @@ const {
   AlreadyRegisteredEmailAndUsernameError,
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
-} = require('../errors');
+} = require('../errors.js');
 
 module.exports = async function updateUserDetailsForAdministration({
   userId,

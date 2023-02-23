@@ -1,5 +1,5 @@
-const { AlreadyExistingAdminMemberError } = require('../errors');
-const AdminMember = require('../models/AdminMember');
+const { AlreadyExistingAdminMemberError } = require('../errors.js');
+const AdminMember = require('../models/AdminMember.js');
 
 module.exports = async function saveAdminMember({ email, role, userRepository, adminMemberRepository }) {
   const { id: userId, firstName, lastName } = await userRepository.getByEmail(email);
