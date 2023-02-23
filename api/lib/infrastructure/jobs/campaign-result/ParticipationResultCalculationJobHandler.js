@@ -1,5 +1,5 @@
 const Job = require('./ParticipationResultCalculationJob');
-const usecases = require('../../../domain/usecases');
+const usecases = require('../../../domain/usecases/index.js');
 
 class ParticipationResultCalculationJobHandler {
   async handle(event) {

@@ -1,5 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
-const { updateTargetProfile } = require('../../../../lib/domain/usecases');
+const { updateTargetProfile } = require('../../../../lib/domain/usecases/index.js');
 const TargetProfileForUpdate = require('../../../../lib/domain/models/TargetProfileForUpdate');
 
 describe('Unit | UseCase | update-target-profile', function () {

@@ -1,5 +1,5 @@
 const certificationPointOfContactSerializer = require('../../infrastructure/serializers/jsonapi/certification-point-of-contact-serializer');
-const usecases = require('../../domain/usecases');
+const usecases = require('../../domain/usecases/index.js');
 
 module.exports = {
   async get(request) {

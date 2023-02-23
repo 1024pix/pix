@@ -1,6 +1,6 @@
 const { sinon, expect, hFake } = require('../../../test-helper');
 const trainingController = require('../../../../lib/application/trainings/training-controller');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const trainingSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/training-serializer');
 const trainingSummarySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/training-summary-serializer');
 const trainingTriggerSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/training-trigger-serializer');

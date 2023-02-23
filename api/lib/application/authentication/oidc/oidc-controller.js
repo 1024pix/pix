@@ -1,7 +1,7 @@
 const authenticationServiceRegistry = require('../../../domain/services/authentication/authentication-service-registry');
 const authenticationRegistry = require('../../../domain/services/authentication/authentication-service-registry');
 const serializer = require('../../../infrastructure/serializers/jsonapi/oidc-identity-providers-serializer');
-const usecases = require('../../../domain/usecases');
+const usecases = require('../../../domain/usecases/index.js');
 const { UnauthorizedError } = require('../../http-errors');
 const oidcSerializer = require('../../../infrastructure/serializers/jsonapi/oidc-serializer');
 

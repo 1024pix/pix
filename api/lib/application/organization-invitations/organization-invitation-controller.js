@@ -1,7 +1,7 @@
 const _ = require('lodash');
 
 const { MissingQueryParamError } = require('../http-errors');
-const usecases = require('../../domain/usecases');
+const usecases = require('../../domain/usecases/index.js');
 const organizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/organization-invitation-serializer');
 const scoOrganizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/sco-organization-invitation-serializer');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');

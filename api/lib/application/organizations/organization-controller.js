@@ -1,5 +1,5 @@
 const tokenService = require('../../domain/services/token-service');
-const usecases = require('../../domain/usecases');
+const usecases = require('../../domain/usecases/index.js');
 
 const campaignManagementSerializer = require('../../infrastructure/serializers/jsonapi/campaign-management-serializer');
 const campaignReportSerializer = require('../../infrastructure/serializers/jsonapi/campaign-report-serializer');

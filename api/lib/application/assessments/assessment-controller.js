@@ -2,8 +2,8 @@ const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 const JSONAPISerializer = require('jsonapi-serializer').Serializer;
 const { AssessmentEndedError } = require('../../domain/errors');
-const usecases = require('../../domain/usecases');
-const events = require('../../domain/events');
+const usecases = require('../../domain/usecases/index.js');
+const events = require('../../domain/events/index.js');
 const logger = require('../../infrastructure/logger');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');

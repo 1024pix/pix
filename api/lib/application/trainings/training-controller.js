@@ -2,7 +2,7 @@ const trainingSerializer = require('../../infrastructure/serializers/jsonapi/tra
 const trainingSummarySerializer = require('../../infrastructure/serializers/jsonapi/training-summary-serializer');
 const trainingTriggerSerializer = require('../../infrastructure/serializers/jsonapi/training-trigger-serializer');
 const targetProfileSummaryForAdminSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer');
-const usecases = require('../../domain/usecases');
+const usecases = require('../../domain/usecases/index.js');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 
 module.exports = {

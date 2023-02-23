@@ -1,4 +1,4 @@
-const usecases = require('../../domain/usecases');
+const usecases = require('../../domain/usecases/index.js');
 const logger = require('../../infrastructure/logger');
 
 module.exports = {

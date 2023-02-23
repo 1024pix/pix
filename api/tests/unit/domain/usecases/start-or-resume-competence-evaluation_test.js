@@ -1,7 +1,7 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const CompetenceEvaluation = require('../../../../lib/domain/models/CompetenceEvaluation');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const _ = require('lodash');
 

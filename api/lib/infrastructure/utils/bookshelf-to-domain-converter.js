@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const Models = require('../../domain/models');
+const Models = require('../../domain/models/index.js');
 
 module.exports = {
   buildDomainObjects,

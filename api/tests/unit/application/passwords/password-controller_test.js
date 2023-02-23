@@ -3,7 +3,7 @@ const { sinon, expect, hFake } = require('../../../test-helper');
 const passwordResetSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/password-reset-serializer');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 
 const passwordController = require('../../../../lib/application/passwords/password-controller');
 

@@ -7,7 +7,7 @@ const certificationCourseRepository = require('../../lib/infrastructure/reposito
 const challengeRepository = require('../../lib/infrastructure/repositories/challenge-repository');
 const logger = require('../../lib/infrastructure/logger');
 const SessionFinalized = require('../../lib/domain/events/SessionFinalized');
-const { eventDispatcher } = require('../../lib/domain/events');
+const { eventDispatcher } = require('../../lib/domain/events/index.js');
 const IS_FROM_SCRATCH = process.env.IS_FROM_SCRATCH === 'true';
 const AUDIT_TABLE = 'autojury-script-audit';
 

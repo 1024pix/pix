@@ -1,4 +1,4 @@
-const usecases = require('../../domain/usecases');
+const usecases = require('../../domain/usecases/index.js');
 const serializer = require('../../infrastructure/serializers/jsonapi/competence-evaluation-serializer');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 

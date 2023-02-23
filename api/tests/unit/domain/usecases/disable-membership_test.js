@@ -1,5 +1,5 @@
 const { catchErr, expect, sinon } = require('../../../test-helper');
-const { disableMembership } = require('../../../../lib/domain/usecases');
+const { disableMembership } = require('../../../../lib/domain/usecases/index.js');
 const membershipRepository = require('../../../../lib/infrastructure/repositories/membership-repository');
 const { MembershipUpdateError } = require('../../../../lib/domain/errors');
 

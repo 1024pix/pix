@@ -1,6 +1,6 @@
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
-const usecases = require('../../domain/usecases');
+const usecases = require('../../domain/usecases/index.js');
 const { BadRequestError } = require('../http-errors');
 
 module.exports = {

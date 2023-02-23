@@ -1,5 +1,5 @@
 const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const { generateUsername } = require('../../../../lib/domain/usecases');
+const { generateUsername } = require('../../../../lib/domain/usecases/index.js');
 
 const Student = require('../../../../lib/domain/models/Student');
 const {

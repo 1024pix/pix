@@ -1,6 +1,6 @@
 const { sinon, expect } = require('../../../test-helper');
 
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const prescriberSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/prescriber-serializer');
 
 const prescriberController = require('../../../../lib/application/prescribers/prescriber-controller');

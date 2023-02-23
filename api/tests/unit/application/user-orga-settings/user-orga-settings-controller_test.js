@@ -2,7 +2,7 @@ const { sinon, expect } = require('../../../test-helper');
 
 const userOrgaSettingsController = require('../../../../lib/application/user-orga-settings/user-orga-settings-controller');
 
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 
 const userOrgaSettingsSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-orga-settings-serializer');
 

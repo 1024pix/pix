@@ -4,7 +4,7 @@ const answerController = require('../../../../lib/application/answers/answer-con
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const answerSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/answer-serializer');
 const correctionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/correction-serializer');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
 
 describe('Unit | Controller | answer-controller', function () {

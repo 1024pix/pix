@@ -1,5 +1,7 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const { createCertificationCenterMembershipForScoOrganizationMember } = require('../../../../lib/domain/usecases');
+const {
+  createCertificationCenterMembershipForScoOrganizationMember,
+} = require('../../../../lib/domain/usecases/index.js');
 const Membership = require('../../../../lib/domain/models/Membership');
 
 describe('Unit | UseCase | create-certification-center-membership-for-sco-organization-member', function () {

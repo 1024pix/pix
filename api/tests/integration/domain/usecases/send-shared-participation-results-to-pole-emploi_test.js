@@ -6,7 +6,7 @@ const {
   learningContentBuilder,
   sinon,
 } = require('../../../test-helper');
-const useCases = require('../../../../lib/domain/usecases');
+const useCases = require('../../../../lib/domain/usecases/index.js');
 const poleEmploiNotifier = require('../../../../lib/infrastructure/externals/pole-emploi/pole-emploi-notifier');
 
 describe('Integration | Domain | UseCases | send-shared-participation-results-to-pole-emploi', function () {

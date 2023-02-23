@@ -1,4 +1,4 @@
-const usecases = require('../../domain/usecases');
+const usecases = require('../../domain/usecases/index.js');
 const csvCampaingsIdsParser = require('../../infrastructure/serializers/csv/campaigns-administration/csv-campaigns-ids-parser');
 
 module.exports = {

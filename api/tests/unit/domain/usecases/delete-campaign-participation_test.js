@@ -1,5 +1,5 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const { deleteCampaignParticipation } = require('../../../../lib/domain/usecases');
+const { deleteCampaignParticipation } = require('../../../../lib/domain/usecases/index.js');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 
 describe('Unit | UseCase | delete-campaign-participation', function () {
