@@ -1,4 +1,5 @@
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
 const PgBoss = require('pg-boss');
 const logger = require('../../lib/infrastructure/logger');
 const { disconnect } = require('../../db/knex-database-connection');

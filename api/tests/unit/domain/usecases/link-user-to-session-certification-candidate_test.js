@@ -1,7 +1,5 @@
 const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
-const {
-  linkUserToSessionCertificationCandidate,
-} = require('../../../../lib/domain/usecases/link-user-to-session-certification-candidate');
+const linkUserToSessionCertificationCandidate = require('../../../../lib/domain/usecases/link-user-to-session-certification-candidate');
 const {
   CertificationCandidateAlreadyLinkedToUserError,
   CertificationCandidateByPersonalInfoNotFoundError,

@@ -1,5 +1,6 @@
 'use strict';
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
 const { knex, disconnect } = require('../../db/knex-database-connection');
 const SessionFinalized = require('../../lib/domain/events/SessionFinalized');
 const certificationAssessmentRepository = require('../../lib/infrastructure/repositories/certification-assessment-repository');

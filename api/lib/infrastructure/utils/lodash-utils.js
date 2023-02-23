@@ -1,5 +1,5 @@
-const _ = require('lodash').runInContext();
-
+const { runInContext } = require('lodash');
+const _ = runInContext();
 _.mixin({
   /*
    * Returns the second element of an array.

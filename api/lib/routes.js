@@ -1,57 +1,113 @@
+const accountRecovery = require('./application/account-recovery');
+const adminMembers = require('./application/admin-members');
+const answers = require('./application/answers');
+const assessmentResults = require('./application/assessment-results');
+const assessments = require('./application/assessments');
+const authentication = require('./application/authentication');
+const authenticationOidc = require('./application/authentication/oidc');
+const badges = require('./application/badges');
+const cache = require('./application/cache');
+const campaignParticipations = require('./application/campaign-participations');
+const campaigns = require('./application/campaigns');
+const campaignsAdministration = require('./application/campaigns-administration');
+const certificationCandidates = require('./application/certification-candidates');
+const certificationCenters = require('./application/certification-centers');
+const certificationCenterInvitations = require('./application/certification-center-invitations');
+const certificationCenterMemberships = require('./application/certification-center-memberships');
+const certificationCourses = require('./application/certification-courses');
+const certificationPointOfContacts = require('./application/certification-point-of-contacts');
+const certificationLivretScolaire = require('./application/certification-livret-scolaire');
+const certificationReports = require('./application/certification-reports');
+const certificationIssueReports = require('./application/certification-issue-reports');
+const certifications = require('./application/certifications');
+const challenges = require('./application/challenges');
+const competenceEvaluations = require('./application/competence-evaluations');
+const complementaryCertifications = require('./application/complementary-certifications');
+const complementaryCertificationCourseResults = require('./application/complementary-certification-course-results');
+const countries = require('./application/countries');
+const courses = require('./application/courses');
+const featureToggles = require('./application/feature-toggles');
+const feedbacks = require('./application/feedbacks');
+const healthcheck = require('./application/healthcheck');
+const lcms = require('./application/lcms');
+const memberships = require('./application/memberships');
+const organizationInvitations = require('./application/organization-invitations');
+const organizations = require('./application/organizations');
+const passwords = require('./application/passwords');
+const poleEmploi = require('./application/pole-emploi');
+const prescribers = require('./application/prescribers');
+const progressions = require('./application/progressions');
+const saml = require('./application/saml');
+const scoringSimulator = require('./application/scoring-simulator');
+const organizationLearners = require('./application/organization-learners');
+const scorecards = require('./application/scorecards');
+const scoOrganizationLearners = require('./application/sco-organization-learners');
+const supOrganizationLearners = require('./application/sup-organization-learners');
+const sessions = require('./application/sessions');
+const stages = require('./application/stages');
+const tags = require('./application/tags');
+const targetProfiles = require('./application/target-profiles');
+const trainings = require('./application/trainings');
+const frameworks = require('./application/frameworks');
+const tutorialEvaluations = require('./application/tutorial-evaluations');
+const userOrgaSettings = require('./application/user-orga-settings');
+const userTutorials = require('./application/user-tutorials');
+const users = require('./application/users');
+
 module.exports = [
-  require('./application/account-recovery'),
-  require('./application/admin-members'),
-  require('./application/answers'),
-  require('./application/assessment-results'),
-  require('./application/assessments'),
-  require('./application/authentication'),
-  require('./application/authentication/oidc'),
-  require('./application/badges'),
-  require('./application/cache'),
-  require('./application/campaign-participations'),
-  require('./application/campaigns'),
-  require('./application/campaigns-administration'),
-  require('./application/certification-candidates'),
-  require('./application/certification-centers'),
-  require('./application/certification-center-invitations'),
-  require('./application/certification-center-memberships'),
-  require('./application/certification-courses'),
-  require('./application/certification-point-of-contacts'),
-  require('./application/certification-livret-scolaire'),
-  require('./application/certification-reports'),
-  require('./application/certification-issue-reports'),
-  require('./application/certifications'),
-  require('./application/challenges'),
-  require('./application/competence-evaluations'),
-  require('./application/complementary-certifications'),
-  require('./application/complementary-certification-course-results'),
-  require('./application/countries'),
-  require('./application/courses'),
-  require('./application/feature-toggles'),
-  require('./application/feedbacks'),
-  require('./application/healthcheck'),
-  require('./application/lcms'),
-  require('./application/memberships'),
-  require('./application/organization-invitations'),
-  require('./application/organizations'),
-  require('./application/passwords'),
-  require('./application/pole-emploi'),
-  require('./application/prescribers'),
-  require('./application/progressions'),
-  require('./application/saml'),
-  require('./application/scoring-simulator'),
-  require('./application/organization-learners'),
-  require('./application/scorecards'),
-  require('./application/sco-organization-learners'),
-  require('./application/sup-organization-learners'),
-  require('./application/sessions'),
-  require('./application/stages'),
-  require('./application/tags'),
-  require('./application/target-profiles'),
-  require('./application/trainings'),
-  require('./application/frameworks'),
-  require('./application/tutorial-evaluations'),
-  require('./application/user-orga-settings'),
-  require('./application/user-tutorials'),
-  require('./application/users'),
+  accountRecovery,
+  adminMembers,
+  answers,
+  assessmentResults,
+  assessments,
+  authentication,
+  authenticationOidc,
+  badges,
+  cache,
+  campaignParticipations,
+  campaigns,
+  campaignsAdministration,
+  certificationCandidates,
+  certificationCenters,
+  certificationCenterInvitations,
+  certificationCenterMemberships,
+  certificationCourses,
+  certificationPointOfContacts,
+  certificationLivretScolaire,
+  certificationReports,
+  certificationIssueReports,
+  certifications,
+  challenges,
+  competenceEvaluations,
+  complementaryCertifications,
+  complementaryCertificationCourseResults,
+  countries,
+  courses,
+  featureToggles,
+  feedbacks,
+  healthcheck,
+  lcms,
+  memberships,
+  organizationLearners,
+  organizations,
+  passwords,
+  poleEmploi,
+  prescribers,
+  progressions,
+  saml,
+  scoringSimulator,
+  organizationInvitations,
+  scorecards,
+  scoOrganizationLearners,
+  supOrganizationLearners,
+  sessions,
+  stages,
+  tags,
+  targetProfiles,
+  trainings,
+  frameworks,
+  tutorialEvaluations,
+  userOrgaSettings,
+  userTutorials,
+  users,
 ];

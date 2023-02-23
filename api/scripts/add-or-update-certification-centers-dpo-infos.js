@@ -1,4 +1,5 @@
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
 
 const _ = require('lodash');
 const bluebird = require('bluebird');

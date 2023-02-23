@@ -11,7 +11,7 @@ const {
 const UserLinkedToCertificationCandidate = require('../events/UserLinkedToCertificationCandidate');
 const UserAlreadyLinkedToCertificationCandidate = require('../events/UserAlreadyLinkedToCertificationCandidate');
 
-async function linkUserToSessionCertificationCandidate({
+module.exports = async function linkUserToSessionCertificationCandidate({
   userId,
   sessionId,
   firstName,
@@ -69,7 +69,7 @@ async function linkUserToSessionCertificationCandidate({
   } else {
     throw new CertificationCandidateAlreadyLinkedToUserError();
   }
-}
+};
 
 async function _getSessionCertificationCandidateByPersonalInfo({
   sessionId,
@@ -153,7 +153,3 @@ async function _checkCandidateMatchTheReconciledStudent({
     throw new MatchingReconciledStudentNotFoundError();
   }
 }
-
-module.exports = {
-  linkUserToSessionCertificationCandidate,
-};

@@ -1,10 +1,10 @@
 const pino = require('pino');
+// eslint-disable-next-line node/no-unpublished-require
+const pretty = require('pino-pretty');
 const { logging: logSettings } = require('../config');
 
 let prettyPrint;
 if (logSettings.logForHumans) {
-  // eslint-disable-next-line node/no-unpublished-require
-  const pretty = require('pino-pretty');
   const omitDay = 'HH:MM:ss';
   prettyPrint = pretty({
     sync: true,
