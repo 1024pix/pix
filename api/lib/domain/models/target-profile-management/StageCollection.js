@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { InvalidStageError } = require('../../errors.js');
+const { InvalidStageError, DomainError } = require('../../errors.js');
 
 class StageCollection {
   constructor({ id, stages, maxLevel }) {
@@ -64,6 +64,16 @@ class StageCollection {
       prescriberTitle: stage.prescriberTitle,
       prescriberDescription: stage.prescriberDescription,
     });
+  }
+
+  findStage(id, targetProfileId) {
+    const stage = this.stages.find((stage) => stage.id === id && targetProfileId === stage.targetProfileId);
+
+    if (!stage) {
+      throw new DomainError("Ce palier n'est pas trouvé.");
+    }
+
+    return stage;
   }
 
   _checkStageValidity(stage) {

@@ -21,4 +21,15 @@ module.exports = {
     await stageCollectionRepository.save(updatedStageCollection);
     return h.response({}).code(204);
   },
+
+  async delete(request, h) {
+    const stageId = request.params.id;
+    const stage = stageSerializer.deserialize(request.payload);
+    const stageCollection = await stageCollectionRepository.getByTargetProfileId(stage.targetProfileId);
+
+    const deletedStage = usecases.deleteStage({ stageCollection, targetProfileId: stage.targetProfileId, stageId });
+
+    await stageCollectionRepository.delete(deletedStage);
+    return h.response({}).code(204);
+  },
 };
