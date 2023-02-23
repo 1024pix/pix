@@ -1,9 +1,9 @@
 const _ = require('lodash');
 const { expect, hFake, databaseBuilder, knex } = require('../../../test-helper');
-const stagesController = require('../../../../lib/application/stages/stages-controller');
+const stagesController = require('../../../../lib/application/target-profile-management/stages-controller');
 const stageCollectionRepository = require('../../../../lib/infrastructure/repositories/target-profile-management/stage-collection-repository');
 
-describe('Integration | Application | Stages | stages-controller', function () {
+describe('Integration | Application | Target Profile Management | stages-controller', function () {
   describe('#create', function () {
     afterEach(async function () {
       return knex('stages').delete();

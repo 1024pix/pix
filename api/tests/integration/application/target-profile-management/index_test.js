@@ -5,10 +5,10 @@ const {
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
 } = require('../../../test-helper');
-const stagesController = require('../../../../lib/application/stages/stages-controller');
-const moduleUnderTest = require('../../../../lib/application/stages');
+const stagesController = require('../../../../lib/application/target-profile-management/stages-controller');
+const moduleUnderTest = require('../../../../lib/application/target-profile-management');
 
-describe('Integration | Application | Stages | Routes', function () {
+describe('Integration | Application | Target Profile Management | Routes', function () {
   describe('POST /api/admin/stages', function () {
     const method = 'POST';
     const url = '/api/admin/stages';
