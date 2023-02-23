@@ -1,6 +1,7 @@
 #! /usr/bin/env node
 'use strict';
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
 const logger = require('../lib/infrastructure/logger');
 const cache = require('../lib/infrastructure/caches/learning-content-cache');
 const learningContentDatasource = require('../lib/infrastructure/datasources/learning-content/datasource');

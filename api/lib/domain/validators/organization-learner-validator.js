@@ -1,4 +1,6 @@
-const Joi = require('joi').extend(require('@joi/date'));
+const BaseJoi = require('joi');
+const JoiDate = require('@joi/date');
+const Joi = BaseJoi.extend(JoiDate);
 const { EntityValidationError } = require('../errors');
 const OrganizationLearner = require('../models/OrganizationLearner');
 

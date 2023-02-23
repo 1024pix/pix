@@ -1,3 +1,4 @@
+const Request = require('@hapi/hapi/lib/request');
 const settings = require('../config');
 const { get, set, update, omit } = require('lodash');
 const logger = require('../infrastructure/logger');
@@ -82,8 +83,6 @@ function pushInContext(path, value) {
 
 function installHapiHook() {
   if (!settings.hapi.enableRequestMonitoring) return;
-
-  const Request = require('@hapi/hapi/lib/request');
 
   const originalMethod = Request.prototype._execute;
 

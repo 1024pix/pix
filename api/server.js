@@ -1,4 +1,5 @@
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
 const Hapi = require('@hapi/hapi');
 const Oppsy = require('oppsy');
 
@@ -14,14 +15,11 @@ const { handleFailAction } = require('./lib/validate');
 const monitoringTools = require('./lib/infrastructure/monitoring-tools');
 const deserializer = require('./lib/infrastructure/serializers/jsonapi/deserializer');
 const { knex } = require('./db/knex-database-connection');
+const { port, logging } = require('./lib/config');
 
 monitoringTools.installHapiHook();
 
-let config;
-
 const createServer = async () => {
-  loadConfiguration();
-
   const server = createBareServer();
 
   if (settings.logOpsMetrics) await enableOpsMetrics(server);
@@ -55,7 +53,7 @@ const createBareServer = function () {
         emptyStatusCode: 204,
       },
     },
-    port: config.port,
+    port,
     router: {
       isCaseSensitive: false,
       stripTrailingSlash: true,
@@ -81,12 +79,8 @@ const enableOpsMetrics = async function (server) {
     });
   });
 
-  oppsy.start(config.logging.emitOpsEventEachSeconds * 1000);
+  oppsy.start(logging.emitOpsEventEachSeconds * 1000);
   server.oppsy = oppsy;
-};
-
-const loadConfiguration = function () {
-  config = require('./lib/config');
 };
 
 const setupErrorHandling = function (server) {

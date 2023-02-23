@@ -1,8 +1,9 @@
+const hapiSentry = require('hapi-sentry');
 const Pack = require('../../../package');
 const config = require('../../config');
 
 module.exports = {
-  plugin: require('hapi-sentry'),
+  plugin: hapiSentry,
   options: {
     client: {
       dsn: config.sentry.dsn,
