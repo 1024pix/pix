@@ -1,7 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable no-undef */
-const util = require('util');
-
 function transformer(file, api, _options) {
   const j = api.jscodeshift;
 

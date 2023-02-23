@@ -2,6 +2,7 @@
 /* eslint-disable no-undef */
 const codemods = [
   require('./src/add-file-extension-to-import'),
+  require('./src/cjs-anonymous-function-export-to-cjs-named-export'),
 ];
 
 const transformScripts = (fileInfo, api, options) => {
