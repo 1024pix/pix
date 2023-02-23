@@ -1,5 +1,4 @@
 const pino = require('pino');
-// eslint-disable-next-line node/no-unpublished-require
 const pretty = require('pino-pretty');
 const { logging: logSettings } = require('../config');
 
