@@ -33,4 +33,24 @@ export default class Url extends Service {
     }
     return url;
   }
+
+  get legalNoticeUrl() {
+    const topLevelDomain = this.currentDomain.getExtension();
+    const currentLanguage = this.intl.t('current-lang');
+
+    if (topLevelDomain === 'fr') return 'https://pix.fr/mentions-legales';
+
+    return currentLanguage === 'fr' ? 'https://pix.org/fr/mentions-legales' : 'https://pix.org/en-gb/legal-notice';
+  }
+
+  get accessibilityUrl() {
+    const topLevelDomain = this.currentDomain.getExtension();
+    const currentLanguage = this.intl.t('current-lang');
+
+    if (topLevelDomain === 'fr') return 'https://pix.fr/accessibilite-pix-certif';
+
+    return currentLanguage === 'fr'
+      ? 'https://pix.org/fr/accessibilite-pix-certif'
+      : 'https://pix.org/en-gb/accessibility-pix-certif';
+  }
 }

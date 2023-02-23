@@ -135,4 +135,100 @@ module('Unit | Service | url', function (hooks) {
       assert.strictEqual(forgottenPasswordUrl, expectedForgottenPasswordUrl);
     });
   });
+
+  module('#legalNoticeUrl', function () {
+    module('when current domain is fr', function () {
+      test('should return "pix.fr" url', function (assert) {
+        // given
+        const service = this.owner.lookup('service:url');
+        service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+
+        // when
+        const legalNoticeUrl = service.legalNoticeUrl;
+
+        // then
+        assert.strictEqual(legalNoticeUrl, 'https://pix.fr/mentions-legales');
+      });
+    });
+
+    module('when current domain is org', function () {
+      module('when current language is en', function () {
+        test('should return "pix.org/en-gb" url', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          service.currentDomain = { getExtension: sinon.stub().returns('org') };
+          service.intl = { t: sinon.stub().returns('en') };
+
+          // when
+          const legalNoticeUrl = service.legalNoticeUrl;
+
+          // then
+          assert.strictEqual(legalNoticeUrl, 'https://pix.org/en-gb/legal-notice');
+        });
+      });
+
+      module('when current language is fr', function () {
+        test('should return "pix.org/fr" url', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          service.currentDomain = { getExtension: sinon.stub().returns('org') };
+          service.intl = { t: sinon.stub().returns('fr') };
+
+          // when
+          const legalNoticeUrl = service.legalNoticeUrl;
+
+          // then
+          assert.strictEqual(legalNoticeUrl, 'https://pix.org/fr/mentions-legales');
+        });
+      });
+    });
+  });
+
+  module('#accessibilityUrl', function () {
+    module('when current domain is fr', function () {
+      test('should return "pix.fr" url', function (assert) {
+        // given
+        const service = this.owner.lookup('service:url');
+        service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+
+        // when
+        const accessibilityUrl = service.accessibilityUrl;
+
+        // then
+        assert.strictEqual(accessibilityUrl, 'https://pix.fr/accessibilite-pix-certif');
+      });
+    });
+
+    module('when current domain is org', function () {
+      module('when current language is en', function () {
+        test('should return "pix.org/en-gb" url', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          service.currentDomain = { getExtension: sinon.stub().returns('org') };
+          service.intl = { t: sinon.stub().returns('en') };
+
+          // when
+          const accessibilityUrl = service.accessibilityUrl;
+
+          // then
+          assert.strictEqual(accessibilityUrl, 'https://pix.org/en-gb/accessibility-pix-certif');
+        });
+      });
+
+      module('when current language is fr', function () {
+        test('should return "pix.org/fr" url', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          service.currentDomain = { getExtension: sinon.stub().returns('org') };
+          service.intl = { t: sinon.stub().returns('fr') };
+
+          // when
+          const accessibilityUrl = service.accessibilityUrl;
+
+          // then
+          assert.strictEqual(accessibilityUrl, 'https://pix.org/fr/accessibilite-pix-certif');
+        });
+      });
+    });
+  });
 });
