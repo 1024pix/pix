@@ -2,7 +2,7 @@ const { expect, sinon, catchErr } = require('../../../test-helper');
 
 const { UserNotFoundError } = require('../../../../lib/domain/errors');
 
-const { createPasswordResetDemand } = require('../../../../lib/domain/usecases');
+const { createPasswordResetDemand } = require('../../../../lib/domain/usecases/index.js');
 
 describe('Unit | UseCase | create-password-reset-demand', function () {
   const email = 'user@example.net';

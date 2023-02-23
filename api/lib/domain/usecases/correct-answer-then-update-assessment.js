@@ -3,11 +3,11 @@ const {
   ChallengeNotAskedError,
   CertificationEndedBySupervisorError,
   CertificationEndedByFinalizationError,
-} = require('../errors');
-const Examiner = require('../models/Examiner');
-const KnowledgeElement = require('../models/KnowledgeElement');
-const logger = require('../../infrastructure/logger');
-const dateUtils = require('../../infrastructure/utils/date-utils');
+} = require('../errors.js');
+const Examiner = require('../models/Examiner.js');
+const KnowledgeElement = require('../models/KnowledgeElement.js');
+const logger = require('../../infrastructure/logger.js');
+const dateUtils = require('../../infrastructure/utils/date-utils.js');
 
 module.exports = async function correctAnswerThenUpdateAssessment({
   answer,

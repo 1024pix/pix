@@ -1,6 +1,6 @@
-const TargetProfile = require('../../domain/models/TargetProfile');
-const Badge = require('../../domain/models/Badge');
-const skillAdapter = require('./skill-adapter');
+const TargetProfile = require('../../domain/models/TargetProfile.js');
+const Badge = require('../../domain/models/Badge.js');
+const skillAdapter = require('./skill-adapter.js');
 
 module.exports = {
   fromDatasourceObjects({ bookshelfTargetProfile, associatedSkillDatasourceObjects = [] }) {

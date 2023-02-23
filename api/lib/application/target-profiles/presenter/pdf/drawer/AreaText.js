@@ -1,7 +1,7 @@
-const Text = require('./Text');
-const ColorManager = require('../manager/color-manager');
-const FontManager = require('../manager/font-manager');
-const TemplatePageManager = require('../manager/template-page-manager');
+const Text = require('./Text.js');
+const ColorManager = require('../manager/color-manager.js');
+const FontManager = require('../manager/font-manager.js');
+const TemplatePageManager = require('../manager/template-page-manager.js');
 
 const MARGIN_TOP_AREA = 5;
 const MARGIN_BOTTOM_AREA = 50;

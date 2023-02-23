@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const CertificationCandidate = require('../models/CertificationCandidate');
+const CertificationCandidate = require('../models/CertificationCandidate.js');
 const {
   CertificationCandidateAlreadyLinkedToUserError,
   CertificationCandidateByPersonalInfoNotFoundError,
@@ -7,9 +7,9 @@ const {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   UserAlreadyLinkedToCandidateInSessionError,
   SessionNotAccessible,
-} = require('../errors');
-const UserLinkedToCertificationCandidate = require('../events/UserLinkedToCertificationCandidate');
-const UserAlreadyLinkedToCertificationCandidate = require('../events/UserAlreadyLinkedToCertificationCandidate');
+} = require('../errors.js');
+const UserLinkedToCertificationCandidate = require('../events/UserLinkedToCertificationCandidate.js');
+const UserAlreadyLinkedToCertificationCandidate = require('../events/UserAlreadyLinkedToCertificationCandidate.js');
 
 module.exports = async function linkUserToSessionCertificationCandidate({
   userId,

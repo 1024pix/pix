@@ -1,7 +1,7 @@
-const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
-const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
-const usecases = require('../../domain/usecases');
-const { BadRequestError } = require('../http-errors');
+const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer.js');
+const requestResponseUtils = require('../../infrastructure/utils/request-response-utils.js');
+const usecases = require('../../domain/usecases/index.js');
+const { BadRequestError } = require('../http-errors.js');
 
 module.exports = {
   async create(request, h) {

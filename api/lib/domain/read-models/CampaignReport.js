@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const CampaignTypes = require('../models/CampaignTypes');
+const CampaignTypes = require('../models/CampaignTypes.js');
 
 class CampaignReport {
   constructor({

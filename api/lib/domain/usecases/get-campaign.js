@@ -1,4 +1,4 @@
-const { NotFoundError, UserNotAuthorizedToAccessEntityError } = require('../../domain/errors');
+const { NotFoundError, UserNotAuthorizedToAccessEntityError } = require('../../domain/errors.js');
 
 module.exports = async function getCampaign({
   campaignId,

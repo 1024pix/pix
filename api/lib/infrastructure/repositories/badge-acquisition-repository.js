@@ -1,6 +1,6 @@
 const bluebird = require('bluebird');
-const { knex } = require('../../../db/knex-database-connection');
-const DomainTransaction = require('../DomainTransaction');
+const { knex } = require('../../../db/knex-database-connection.js');
+const DomainTransaction = require('../DomainTransaction.js');
 
 const BADGE_ACQUISITIONS_TABLE = 'badge-acquisitions';
 

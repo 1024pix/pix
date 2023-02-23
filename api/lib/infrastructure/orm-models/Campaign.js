@@ -1,10 +1,10 @@
-const Bookshelf = require('../bookshelf');
+const Bookshelf = require('../bookshelf.js');
 
-require('./Assessment');
-require('./CampaignParticipation');
-require('./Organization');
-require('./TargetProfile');
-require('./User');
+require('./Assessment.js');
+require('./CampaignParticipation.js');
+require('./Organization.js');
+require('./TargetProfile.js');
+require('./User.js');
 
 const modelName = 'Campaign';
 

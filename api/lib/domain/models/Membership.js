@@ -1,4 +1,4 @@
-const { InvalidMembershipOrganizationRoleError } = require('../errors');
+const { InvalidMembershipOrganizationRoleError } = require('../errors.js');
 const roles = {
   ADMIN: 'ADMIN',
   MEMBER: 'MEMBER',

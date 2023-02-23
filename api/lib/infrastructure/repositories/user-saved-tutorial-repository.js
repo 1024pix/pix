@@ -1,5 +1,5 @@
-const { knex } = require('../../../db/knex-database-connection');
-const UserSavedTutorial = require('../../domain/models/UserSavedTutorial');
+const { knex } = require('../../../db/knex-database-connection.js');
+const UserSavedTutorial = require('../../domain/models/UserSavedTutorial.js');
 
 const TABLE_NAME = 'user-saved-tutorials';
 

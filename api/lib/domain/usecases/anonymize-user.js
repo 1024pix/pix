@@ -1,4 +1,4 @@
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
+const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
 
 module.exports = async function anonymizeUser({
   updatedByUserId,

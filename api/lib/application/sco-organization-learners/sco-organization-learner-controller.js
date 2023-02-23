@@ -1,7 +1,7 @@
-const usecases = require('../../domain/usecases');
-const scoOrganizationLearnerSerializer = require('../../infrastructure/serializers/jsonapi/sco-organization-learner-serializer');
-const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
-const studentInformationForAccountRecoverySerializer = require('../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');
+const usecases = require('../../domain/usecases/index.js');
+const scoOrganizationLearnerSerializer = require('../../infrastructure/serializers/jsonapi/sco-organization-learner-serializer.js');
+const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils.js');
+const studentInformationForAccountRecoverySerializer = require('../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer.js');
 
 module.exports = {
   async reconcileScoOrganizationLearnerManually(request, h) {

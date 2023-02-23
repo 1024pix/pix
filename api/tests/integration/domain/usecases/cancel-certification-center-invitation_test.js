@@ -1,7 +1,7 @@
 const { catchErr, databaseBuilder, expect } = require('../../../test-helper');
 const sinon = require('sinon');
 
-const useCases = require('../../../../lib/domain/usecases');
+const useCases = require('../../../../lib/domain/usecases/index.js');
 
 const CertificationCenterInvitation = require('../../../../lib/domain/models/CertificationCenterInvitation');
 

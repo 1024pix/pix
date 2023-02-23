@@ -1,7 +1,7 @@
-const { knex } = require('../../../../db/knex-database-connection');
-const { NotFoundError } = require('../../../domain/errors');
-const SessionForAttendanceSheet = require('../../../domain/read-models/SessionForAttendanceSheet');
-const CertificationCandidateForAttendanceSheet = require('../../../domain/read-models/CertificationCandidateForAttendanceSheet');
+const { knex } = require('../../../../db/knex-database-connection.js');
+const { NotFoundError } = require('../../../domain/errors.js');
+const SessionForAttendanceSheet = require('../../../domain/read-models/SessionForAttendanceSheet.js');
+const CertificationCandidateForAttendanceSheet = require('../../../domain/read-models/CertificationCandidateForAttendanceSheet.js');
 
 module.exports = {
   async getWithCertificationCandidates(idSession) {

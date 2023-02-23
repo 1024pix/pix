@@ -1,5 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
-const { SessionPublicationBatchResult } = require('../models/SessionPublicationBatchResult');
+const { SessionPublicationBatchResult } = require('../models/SessionPublicationBatchResult.js');
 
 module.exports = async function publishSessionsInBatch({
   sessionIds,

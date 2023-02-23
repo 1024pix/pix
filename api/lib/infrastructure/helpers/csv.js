@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { readFile, access } = require('fs').promises;
 const { isEmpty, difference } = require('lodash');
-const { FileValidationError, NotFoundError } = require('../../domain/errors');
+const { FileValidationError, NotFoundError } = require('../../domain/errors.js');
 const papa = require('papaparse');
 
 const ERRORS = {

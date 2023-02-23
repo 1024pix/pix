@@ -1,9 +1,9 @@
 const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection');
-const { BadgeForCalculation, BadgeCriterion } = require('../../domain/models/BadgeForCalculation');
-const { SCOPES } = require('../../domain/models/BadgeCriterion');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
-const campaignRepository = require('./campaign-repository');
+const { knex } = require('../../../db/knex-database-connection.js');
+const { BadgeForCalculation, BadgeCriterion } = require('../../domain/models/BadgeForCalculation.js');
+const { SCOPES } = require('../../domain/models/BadgeCriterion.js');
+const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
+const campaignRepository = require('./campaign-repository.js');
 
 module.exports = {
   async findByCampaignParticipationId({

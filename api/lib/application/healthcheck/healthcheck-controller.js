@@ -1,8 +1,8 @@
 const Boom = require('boom');
 const packageJSON = require('../../../package.json');
-const settings = require('../../config');
-const redisMonitor = require('../../infrastructure/utils/redis-monitor');
-const { knex } = require('../../../db/knex-database-connection');
+const settings = require('../../config.js');
+const redisMonitor = require('../../infrastructure/utils/redis-monitor.js');
+const { knex } = require('../../../db/knex-database-connection.js');
 
 module.exports = {
   get(request) {

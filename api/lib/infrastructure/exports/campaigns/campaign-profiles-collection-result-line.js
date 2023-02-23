@@ -1,4 +1,4 @@
-const csvSerializer = require('../../serializers/csv/csv-serializer');
+const csvSerializer = require('../../serializers/csv/csv-serializer.js');
 const moment = require('moment');
 
 const EMPTY_ARRAY = [];

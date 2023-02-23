@@ -1,8 +1,8 @@
-const { knex } = require('../../../db/knex-database-connection');
-const ParticipantResultsShared = require('../../../lib/domain/models/ParticipantResultsShared');
-const placementProfileService = require('../../domain/services/placement-profile-service');
-const competenceRepository = require('./competence-repository');
-const campaignRepository = require('./campaign-repository');
+const { knex } = require('../../../db/knex-database-connection.js');
+const ParticipantResultsShared = require('../../../lib/domain/models/ParticipantResultsShared.js');
+const placementProfileService = require('../../domain/services/placement-profile-service.js');
+const competenceRepository = require('./competence-repository.js');
+const campaignRepository = require('./campaign-repository.js');
 
 async function _fetchKnowledgeElements(campaignParticipationId) {
   const { snapshot: knowledgeElements } = await knex('campaign-participations')

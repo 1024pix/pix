@@ -1,5 +1,5 @@
-const { knex } = require('../../../db/knex-database-connection');
-const CertificationCpfCountry = require('../../domain/models/CertificationCpfCountry');
+const { knex } = require('../../../db/knex-database-connection.js');
+const CertificationCpfCountry = require('../../domain/models/CertificationCpfCountry.js');
 
 module.exports = {
   async getByMatcher({ matcher }) {

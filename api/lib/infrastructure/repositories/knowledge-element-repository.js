@@ -1,14 +1,14 @@
 const _ = require('lodash');
 const bluebird = require('bluebird');
-const constants = require('../constants');
-const { knex } = require('../../../db/knex-database-connection');
-const KnowledgeElement = require('../../domain/models/KnowledgeElement');
-const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
-const BookshelfKnowledgeElement = require('../orm-models/KnowledgeElement');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const knowledgeElementSnapshotRepository = require('./knowledge-element-snapshot-repository');
-const campaignRepository = require('./campaign-repository');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
+const constants = require('../constants.js');
+const { knex } = require('../../../db/knex-database-connection.js');
+const KnowledgeElement = require('../../domain/models/KnowledgeElement.js');
+const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses.js');
+const BookshelfKnowledgeElement = require('../orm-models/KnowledgeElement.js');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter.js');
+const knowledgeElementSnapshotRepository = require('./knowledge-element-snapshot-repository.js');
+const campaignRepository = require('./campaign-repository.js');
+const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
 
 const { SHARED } = CampaignParticipationStatuses;
 

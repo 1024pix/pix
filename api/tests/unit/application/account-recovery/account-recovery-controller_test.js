@@ -1,7 +1,7 @@
 const { expect, sinon, hFake, domainBuilder } = require('../../../test-helper');
 
 const accountRecoveryController = require('../../../../lib/application/account-recovery/account-recovery-controller');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const studentInformationForAccountRecoverySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 

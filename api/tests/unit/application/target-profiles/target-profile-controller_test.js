@@ -1,6 +1,6 @@
 const { expect, sinon, hFake, domainBuilder } = require('../../../test-helper');
 const targetProfileController = require('../../../../lib/application/target-profiles/target-profile-controller');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const targetProfileAttachOrganizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer');
 const learningContentPDFPresenter = require('../../../../lib/application/target-profiles/presenter/pdf/learning-content-pdf-presenter');

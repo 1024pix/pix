@@ -1,4 +1,4 @@
-const AnswerStatus = require('../models/AnswerStatus');
+const AnswerStatus = require('../models/AnswerStatus.js');
 
 module.exports = {
   match(answer, solution) {

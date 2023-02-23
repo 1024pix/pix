@@ -1,7 +1,7 @@
 const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection');
-const CertifiableProfileForLearningContent = require('../../domain/models/CertifiableProfileForLearningContent');
-const knowledgeElementRepository = require('./knowledge-element-repository');
+const { knex } = require('../../../db/knex-database-connection.js');
+const CertifiableProfileForLearningContent = require('../../domain/models/CertifiableProfileForLearningContent.js');
+const knowledgeElementRepository = require('./knowledge-element-repository.js');
 
 module.exports = {
   async get({ id, profileDate, learningContent }) {

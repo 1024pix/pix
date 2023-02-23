@@ -1,10 +1,10 @@
 const bluebird = require('bluebird');
-const { knex } = require('../../../db/knex-database-connection');
-const { fetchPage } = require('../utils/knex-utils');
-const campaignRepository = require('./campaign-repository');
-const CampaignStages = require('../../domain/read-models/campaign/CampaignStages');
-const CampaignAssessmentParticipationResultMinimal = require('../../domain/read-models/campaign-results/CampaignAssessmentParticipationResultMinimal');
-const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
+const { knex } = require('../../../db/knex-database-connection.js');
+const { fetchPage } = require('../utils/knex-utils.js');
+const campaignRepository = require('./campaign-repository.js');
+const CampaignStages = require('../../domain/read-models/campaign/CampaignStages.js');
+const CampaignAssessmentParticipationResultMinimal = require('../../domain/read-models/campaign-results/CampaignAssessmentParticipationResultMinimal.js');
+const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses.js');
 
 const { SHARED } = CampaignParticipationStatuses;
 

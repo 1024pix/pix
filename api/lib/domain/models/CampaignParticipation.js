@@ -5,8 +5,8 @@ const {
   AlreadySharedCampaignParticipationError,
   CantImproveCampaignParticipationError,
   CampaignParticipationDeletedError,
-} = require('../errors');
-const CampaignParticipationStatuses = require('./CampaignParticipationStatuses');
+} = require('../errors.js');
+const CampaignParticipationStatuses = require('./CampaignParticipationStatuses.js');
 
 class CampaignParticipation {
   constructor({

@@ -1,5 +1,5 @@
 const dayjs = require('dayjs');
-const { plannerJob } = require('../../../../config').cpf;
+const { plannerJob } = require('../../../../config.js').cpf;
 const _ = require('lodash');
 
 module.exports = async function planner({ job, pgBoss, cpfCertificationResultRepository, logger }) {

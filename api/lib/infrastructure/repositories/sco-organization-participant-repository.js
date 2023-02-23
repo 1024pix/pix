@@ -1,12 +1,12 @@
 const _ = require('lodash');
-const { filterByFullName } = require('../utils/filter-utils');
+const { filterByFullName } = require('../utils/filter-utils.js');
 
-const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
-const { knex } = require('../../../db/knex-database-connection');
-const { fetchPage } = require('../utils/knex-utils');
-const ScoOrganizationParticipant = require('../../domain/read-models/ScoOrganizationParticipant');
-const CampaignTypes = require('../../domain/models/CampaignTypes');
-const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
+const AuthenticationMethod = require('../../domain/models/AuthenticationMethod.js');
+const { knex } = require('../../../db/knex-database-connection.js');
+const { fetchPage } = require('../utils/knex-utils.js');
+const ScoOrganizationParticipant = require('../../domain/read-models/ScoOrganizationParticipant.js');
+const CampaignTypes = require('../../domain/models/CampaignTypes.js');
+const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses.js');
 
 function _setFilters(qb, { search, divisions, connectionTypes, certificability } = {}) {
   if (search) {

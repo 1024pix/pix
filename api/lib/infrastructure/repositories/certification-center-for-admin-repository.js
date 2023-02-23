@@ -1,9 +1,9 @@
 const _ = require('lodash');
 
-const { knex } = require('../../../db/knex-database-connection');
-const CertificationCenterForAdmin = require('../../domain/models/CertificationCenterForAdmin');
-const ComplementaryCertification = require('../../domain/models/ComplementaryCertification');
-const { NotFoundError } = require('../../domain/errors');
+const { knex } = require('../../../db/knex-database-connection.js');
+const CertificationCenterForAdmin = require('../../domain/models/CertificationCenterForAdmin.js');
+const ComplementaryCertification = require('../../domain/models/ComplementaryCertification.js');
+const { NotFoundError } = require('../../domain/errors.js');
 
 const CERTIFICATION_CENTERS_TABLE_NAME = 'certification-centers';
 

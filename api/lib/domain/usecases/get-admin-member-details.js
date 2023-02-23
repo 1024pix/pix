@@ -1,4 +1,4 @@
-const { NotFoundError } = require('../errors');
+const { NotFoundError } = require('../errors.js');
 
 module.exports = async function getAdminMemberDetails({ adminMemberRepository, userId }) {
   const adminMemberDetail = await adminMemberRepository.get({ userId });

@@ -1,5 +1,5 @@
-const { knex } = require('../../../db/knex-database-connection');
-const CertificationCpfCity = require('../../domain/models/CertificationCpfCity');
+const { knex } = require('../../../db/knex-database-connection.js');
+const CertificationCpfCity = require('../../domain/models/CertificationCpfCity.js');
 
 const COLUMNS = ['id', 'name', 'postalCode', 'INSEECode', 'isActualName'];
 

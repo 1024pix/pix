@@ -1,10 +1,10 @@
-const { knex } = require('../../bookshelf');
-const { fetchPage } = require('../../utils/knex-utils');
-const { NotFoundError } = require('../../../domain/errors');
-const JurySession = require('../../../domain/models/JurySession');
-const { statuses } = require('../../../domain/models/JurySession');
-const CertificationOfficer = require('../../../domain/models/CertificationOfficer');
-const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../../db/pgsql-errors');
+const { knex } = require('../../bookshelf.js');
+const { fetchPage } = require('../../utils/knex-utils.js');
+const { NotFoundError } = require('../../../domain/errors.js');
+const JurySession = require('../../../domain/models/JurySession.js');
+const { statuses } = require('../../../domain/models/JurySession.js');
+const CertificationOfficer = require('../../../domain/models/CertificationOfficer.js');
+const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../../db/pgsql-errors.js');
 
 const COLUMNS = Object.freeze([
   'sessions.*',

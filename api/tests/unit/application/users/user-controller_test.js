@@ -8,7 +8,7 @@ const encryptionService = require('../../../../lib/domain/services/encryption-se
 const mailService = require('../../../../lib/domain/services/mail-service');
 const { getI18n } = require('../../../tooling/i18n/i18n');
 
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 
 const campaignParticipationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const campaignParticipationOverviewSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-overview-serializer');

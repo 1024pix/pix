@@ -1,7 +1,7 @@
-const { EntityValidationError, ForbiddenAccess, AlreadyExistingCampaignParticipationError } = require('../errors');
-const CampaignParticipation = require('./CampaignParticipation');
-const Assessment = require('./Assessment');
-const OrganizationLearner = require('./OrganizationLearner');
+const { EntityValidationError, ForbiddenAccess, AlreadyExistingCampaignParticipationError } = require('../errors.js');
+const CampaignParticipation = require('./CampaignParticipation.js');
+const Assessment = require('./Assessment.js');
+const OrganizationLearner = require('./OrganizationLearner.js');
 const couldNotJoinCampaignErrorMessage = "Vous n'êtes pas autorisé à rejoindre la campagne";
 const couldNotImproveCampaignErrorMessage = 'Vous ne pouvez pas repasser la campagne';
 

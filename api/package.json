@@ -107,6 +107,7 @@
     "flush-write-stream": "^2.0.0",
     "form-data": "^4.0.0",
     "inquirer": "^8.2.4",
+    "jscodeshift": "^0.14.0",
     "mocha": "^10.0.0",
     "mocha-junit-reporter": "^2.0.2",
     "mockdate": "^3.0.5",
@@ -148,6 +149,7 @@
     "lint-fix:translations": "eslint --fix --ext .json --format node_modules/eslint-plugin-i18n-json/formatter.js translations",
     "lint-fix:code": "eslint --fix . --ext js --cache --cache-strategy content",
     "local:test:coverage": "nyc npm test",
+    "migrate-to-esm": "jscodeshift --transform ./codemods/migrate-cjs-to-esm/transforms/index.js --extensions js --ignore-config=.esmignore --dry .",
     "postdeploy": "npm run db:migrate",
     "preinstall": "npx check-engine",
     "scalingo-postbuild": "node scripts/generate-cron > cron.json",
@@ -155,7 +157,7 @@
     "start:watch": "nodemon index.js",
     "start:job": "node worker.js",
     "start:job:watch": "nodemon worker.js",
-    "test": "NODE_ENV=test npm run db:prepare && npm run test:api",
+    "test": "NODE_ENV=test npm run db:prepare && npm run test:api && npm run test:codemods",
     "test:api": "status=0; npm run test:api:unit || status=1 ; for dir in $(find tests/* -maxdepth 0 -type d -not -path tests/unit) ; do npm run test:api:path -- $dir || status=1 ; done ; exit $status",
     "test:api:path": "NODE_ENV=test mocha --exit --recursive --reporter=${MOCHA_REPORTER:-dot}",
     "test:api:scripts": "npm run test:api:path -- tests/integration/scripts",
@@ -165,7 +167,10 @@
     "test:api:debug": "NODE_ENV=test mocha --inspect-brk=9229 --recursive --exit --reporter dot tests",
     "test:api:watch": "NODE_ENV=test mocha --recursive tests --watch --reporter dot",
     "test:api:bail": "npm run test:api:unit -- --bail && npm run test:api:integration -- --bail && npm run test:api:acceptance -- --bail",
-    "test:lint": "npm test && npm run lint"
+    "test:codemods": "cd codemods/migrate-cjs-to-esm; npm install; npm run test",
+    "test:lint": "npm test && npm run lint",
+    "esm-migration:prepare": "jscodeshift --transform ./codemods/migrate-cjs-to-esm/transforms/prepare.js --extensions js --ignore-config=.codemodsignore ./lib",
+    "esm-migration:execute": "jscodeshift --transform ./codemods/migrate-cjs-to-esm/transforms/execute.js --extensions js --ignore-config=.codemodsignore ./lib"
   },
   "optionalDependencies": {
     "nyc": "^15.1.0"

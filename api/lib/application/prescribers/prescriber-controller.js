@@ -1,6 +1,6 @@
-const prescriberSerializer = require('../../infrastructure/serializers/jsonapi/prescriber-serializer');
+const prescriberSerializer = require('../../infrastructure/serializers/jsonapi/prescriber-serializer.js');
 
-const usecases = require('../../domain/usecases');
+const usecases = require('../../domain/usecases/index.js');
 
 module.exports = {
   get(request) {

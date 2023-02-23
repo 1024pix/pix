@@ -1,12 +1,12 @@
 const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection');
-const settings = require('../../config');
-const BookshelfUser = require('../orm-models/User');
-const BookshelfMembership = require('../orm-models/Membership');
-const BookshelfUserOrgaSettings = require('../orm-models/UserOrgaSettings');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const { ForbiddenAccess, UserNotFoundError } = require('../../domain/errors');
-const Prescriber = require('../../domain/read-models/Prescriber');
+const { knex } = require('../../../db/knex-database-connection.js');
+const settings = require('../../config.js');
+const BookshelfUser = require('../orm-models/User.js');
+const BookshelfMembership = require('../orm-models/Membership.js');
+const BookshelfUserOrgaSettings = require('../orm-models/UserOrgaSettings.js');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter.js');
+const { ForbiddenAccess, UserNotFoundError } = require('../../domain/errors.js');
+const Prescriber = require('../../domain/read-models/Prescriber.js');
 
 function _toPrescriberDomain(bookshelfUser) {
   const { id, firstName, lastName, pixOrgaTermsOfServiceAccepted, lang } = bookshelfUser.toJSON();

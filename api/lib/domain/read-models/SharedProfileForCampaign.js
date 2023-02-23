@@ -1,6 +1,6 @@
 const map = require('lodash/map');
 const isEmpty = require('lodash/isEmpty');
-const Scorecard = require('../models/Scorecard');
+const Scorecard = require('../models/Scorecard.js');
 
 class SharedProfileForCampaign {
   constructor({

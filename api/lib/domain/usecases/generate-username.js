@@ -2,8 +2,8 @@ const {
   CampaignCodeError,
   OrganizationLearnerNotFound,
   OrganizationLearnerAlreadyLinkedToUserError,
-} = require('../errors');
-const { STUDENT_RECONCILIATION_ERRORS } = require('../constants');
+} = require('../errors.js');
+const { STUDENT_RECONCILIATION_ERRORS } = require('../constants.js');
 const { find, get } = require('lodash');
 
 module.exports = async function generateUsername({

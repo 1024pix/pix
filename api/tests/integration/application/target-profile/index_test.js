@@ -1,5 +1,5 @@
 const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const targetProfilesRouter = require('../../../../lib/application/target-profiles');
 const { NotFoundError } = require('../../../../lib/domain/errors');

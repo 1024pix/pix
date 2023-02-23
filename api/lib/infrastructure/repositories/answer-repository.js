@@ -1,9 +1,9 @@
 const _ = require('lodash');
 const jsYaml = require('js-yaml');
-const { knex } = require('../../../db/knex-database-connection');
-const { ChallengeAlreadyAnsweredError, NotFoundError } = require('../../domain/errors');
-const Answer = require('../../domain/models/Answer');
-const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-adapter');
+const { knex } = require('../../../db/knex-database-connection.js');
+const { ChallengeAlreadyAnsweredError, NotFoundError } = require('../../domain/errors.js');
+const Answer = require('../../domain/models/Answer.js');
+const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-adapter.js');
 
 function _adaptAnswerToDb(answer) {
   return {

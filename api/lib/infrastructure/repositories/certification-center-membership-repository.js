@@ -1,16 +1,16 @@
-const bookshelfUtils = require('../utils/knex-utils');
-const BookshelfCertificationCenterMembership = require('../orm-models/CertificationCenterMembership');
-const bookshelfToDomainConverter = require('../../infrastructure/utils/bookshelf-to-domain-converter');
+const bookshelfUtils = require('../utils/knex-utils.js');
+const BookshelfCertificationCenterMembership = require('../orm-models/CertificationCenterMembership.js');
+const bookshelfToDomainConverter = require('../../infrastructure/utils/bookshelf-to-domain-converter.js');
 const {
   CertificationCenterMembershipCreationError,
   AlreadyExistingMembershipError,
   CertificationCenterMembershipDisableError,
-} = require('../../domain/errors');
-const { knex } = require('../../../db/knex-database-connection');
-const CertificationCenter = require('../../domain/models/CertificationCenter');
-const User = require('../../domain/models/User');
-const CertificationCenterMembership = require('../../domain/models/CertificationCenterMembership');
-const DomainTransaction = require('../DomainTransaction');
+} = require('../../domain/errors.js');
+const { knex } = require('../../../db/knex-database-connection.js');
+const CertificationCenter = require('../../domain/models/CertificationCenter.js');
+const User = require('../../domain/models/User.js');
+const CertificationCenterMembership = require('../../domain/models/CertificationCenterMembership.js');
+const DomainTransaction = require('../DomainTransaction.js');
 
 function _toDomain(certificationCenterMembershipDTO) {
   let user, certificationCenter;

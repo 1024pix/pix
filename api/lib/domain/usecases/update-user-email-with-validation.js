@@ -2,7 +2,7 @@ const {
   UserNotAuthorizedToUpdateEmailError,
   InvalidVerificationCodeError,
   EmailModificationDemandNotFoundOrExpiredError,
-} = require('../errors');
+} = require('../errors.js');
 
 module.exports = async function updateUserEmailWithValidation({ code, userId, userEmailRepository, userRepository }) {
   const user = await userRepository.get(userId);

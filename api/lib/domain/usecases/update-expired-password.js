@@ -1,8 +1,8 @@
 const get = require('lodash/get');
-const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
-const { ForbiddenAccess } = require('../../domain/errors');
-const { UserNotFoundError } = require('../../domain/errors');
-const logger = require('../../../lib/infrastructure/logger');
+const AuthenticationMethod = require('../../domain/models/AuthenticationMethod.js');
+const { ForbiddenAccess } = require('../../domain/errors.js');
+const { UserNotFoundError } = require('../../domain/errors.js');
+const logger = require('../../../lib/infrastructure/logger.js');
 
 module.exports = async function updateExpiredPassword({
   passwordResetToken,

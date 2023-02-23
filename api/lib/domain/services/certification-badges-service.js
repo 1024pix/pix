@@ -1,8 +1,8 @@
 const _ = require('lodash');
 const bluebird = require('bluebird');
-const certifiableBadgeAcquisitionRepository = require('../../infrastructure/repositories/certifiable-badge-acquisition-repository');
-const knowledgeElementRepository = require('../../infrastructure/repositories/knowledge-element-repository');
-const badgeForCalculationRepository = require('../../infrastructure/repositories/badge-for-calculation-repository');
+const certifiableBadgeAcquisitionRepository = require('../../infrastructure/repositories/certifiable-badge-acquisition-repository.js');
+const knowledgeElementRepository = require('../../infrastructure/repositories/knowledge-element-repository.js');
+const badgeForCalculationRepository = require('../../infrastructure/repositories/badge-for-calculation-repository.js');
 
 module.exports = {
   async findStillValidBadgeAcquisitions({ userId, domainTransaction }) {

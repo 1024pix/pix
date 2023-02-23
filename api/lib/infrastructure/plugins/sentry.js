@@ -1,6 +1,6 @@
 const hapiSentry = require('hapi-sentry');
-const Pack = require('../../../package');
-const config = require('../../config');
+const packageJSON = require('../../../package.json');
+const config = require('../../config.js');
 
 module.exports = {
   plugin: hapiSentry,
@@ -8,7 +8,7 @@ module.exports = {
     client: {
       dsn: config.sentry.dsn,
       environment: config.sentry.environment,
-      release: `v${Pack.version}`,
+      release: `v${packageJSON.version}`,
       maxBreadcrumbs: config.sentry.maxBreadcrumbs,
       debug: config.sentry.debug,
       maxValueLength: config.sentry.maxValueLength,

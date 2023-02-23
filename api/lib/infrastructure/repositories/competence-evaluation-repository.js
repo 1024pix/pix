@@ -1,8 +1,8 @@
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const BookshelfCompetenceEvaluation = require('../orm-models/CompetenceEvaluation');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter.js');
+const BookshelfCompetenceEvaluation = require('../orm-models/CompetenceEvaluation.js');
 const _ = require('lodash');
-const { NotFoundError } = require('../../domain/errors');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
+const { NotFoundError } = require('../../domain/errors.js');
+const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
 
 module.exports = {
   async save({ competenceEvaluation, domainTransaction = DomainTransaction.emptyTransaction() }) {

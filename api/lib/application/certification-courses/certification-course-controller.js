@@ -1,17 +1,17 @@
-const certificationDetailsSerializer = require('../../infrastructure/serializers/jsonapi/certification-details-serializer');
-const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
-const juryCertificationSerializer = require('../../infrastructure/serializers/jsonapi/jury-certification-serializer');
-const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
-const certifiedProfileRepository = require('../../infrastructure/repositories/certified-profile-repository');
-const certifiedProfileSerializer = require('../../infrastructure/serializers/jsonapi/certified-profile-serializer');
-const usecases = require('../../domain/usecases');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
+const certificationDetailsSerializer = require('../../infrastructure/serializers/jsonapi/certification-details-serializer.js');
+const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer.js');
+const juryCertificationSerializer = require('../../infrastructure/serializers/jsonapi/jury-certification-serializer.js');
+const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer.js');
+const certifiedProfileRepository = require('../../infrastructure/repositories/certified-profile-repository.js');
+const certifiedProfileSerializer = require('../../infrastructure/serializers/jsonapi/certified-profile-serializer.js');
+const usecases = require('../../domain/usecases/index.js');
+const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
 
-const AssessmentResult = require('../../domain/models/AssessmentResult');
-const CompetenceMark = require('../../domain/models/CompetenceMark');
-const assessmentResultService = require('../../domain/services/assessment-result-service');
+const AssessmentResult = require('../../domain/models/AssessmentResult.js');
+const CompetenceMark = require('../../domain/models/CompetenceMark.js');
+const assessmentResultService = require('../../domain/services/assessment-result-service.js');
 
-const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
+const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils.js');
 
 module.exports = {
   async getCertificationDetails(request) {

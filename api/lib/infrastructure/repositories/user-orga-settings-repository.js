@@ -1,9 +1,9 @@
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const BookshelfUserOrgaSettings = require('../orm-models/UserOrgaSettings');
-const bookshelfUtils = require('../utils/knex-utils');
-const { UserOrgaSettingsCreationError } = require('../../domain/errors');
-const { knex } = require('../../../db/knex-database-connection');
-const UserOrgaSettings = require('../../domain/models/UserOrgaSettings');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter.js');
+const BookshelfUserOrgaSettings = require('../orm-models/UserOrgaSettings.js');
+const bookshelfUtils = require('../utils/knex-utils.js');
+const { UserOrgaSettingsCreationError } = require('../../domain/errors.js');
+const { knex } = require('../../../db/knex-database-connection.js');
+const UserOrgaSettings = require('../../domain/models/UserOrgaSettings.js');
 
 module.exports = {
   findOneByUserId(userId) {

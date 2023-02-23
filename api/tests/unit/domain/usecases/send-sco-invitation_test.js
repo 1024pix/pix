@@ -1,5 +1,5 @@
 const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const {
   OrganizationNotFoundError,
   OrganizationWithoutEmailError,

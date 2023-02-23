@@ -1,4 +1,4 @@
-const { CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually } = require('../errors');
+const { CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually } = require('../errors.js');
 
 module.exports = async function manuallyResolveCertificationIssueReport({
   certificationIssueReportId,

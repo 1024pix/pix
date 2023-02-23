@@ -1,4 +1,4 @@
-const _ = require('../../infrastructure/utils/lodash-utils');
+const _ = require('../../infrastructure/utils/lodash-utils.js');
 
 function getArrayOfStrings(commaSeparatedStrings) {
   if (!commaSeparatedStrings) return [];

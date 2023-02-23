@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const Tube = require('../models/Tube');
+const Tube = require('../models/Tube.js');
 
 function computeTubesFromSkills(skills) {
   const tubes = [];

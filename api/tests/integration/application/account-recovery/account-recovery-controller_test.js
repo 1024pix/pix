@@ -1,6 +1,6 @@
 const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 const { NotFoundError, UserNotFoundError } = require('../../../../lib/domain/errors');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 
 const moduleUnderTest = require('../../../../lib/application/account-recovery');
 

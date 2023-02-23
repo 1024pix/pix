@@ -1,6 +1,6 @@
-const Assessment = require('../models/Assessment');
-const { MAX_REACHABLE_LEVEL } = require('../constants');
-const { ImproveCompetenceEvaluationForbiddenError } = require('../errors');
+const Assessment = require('../models/Assessment.js');
+const { MAX_REACHABLE_LEVEL } = require('../constants.js');
+const { ImproveCompetenceEvaluationForbiddenError } = require('../errors.js');
 
 module.exports = async function improveCompetenceEvaluation({
   competenceEvaluationRepository,

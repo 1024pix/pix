@@ -1,14 +1,14 @@
 const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection');
-const PrivateCertificate = require('../../domain/models/PrivateCertificate');
-const ShareableCertificate = require('../../domain/models/ShareableCertificate');
-const CertificationAttestation = require('../../domain/models/CertificationAttestation');
-const CertifiedBadge = require('../../../lib/domain/read-models/CertifiedBadge');
-const { NotFoundError } = require('../../../lib/domain/errors');
-const competenceTreeRepository = require('./competence-tree-repository');
-const ResultCompetenceTree = require('../../domain/models/ResultCompetenceTree');
-const CompetenceMark = require('../../domain/models/CompetenceMark');
-const AssessmentResult = require('../../domain/models/AssessmentResult');
+const { knex } = require('../../../db/knex-database-connection.js');
+const PrivateCertificate = require('../../domain/models/PrivateCertificate.js');
+const ShareableCertificate = require('../../domain/models/ShareableCertificate.js');
+const CertificationAttestation = require('../../domain/models/CertificationAttestation.js');
+const CertifiedBadge = require('../../../lib/domain/read-models/CertifiedBadge.js');
+const { NotFoundError } = require('../../../lib/domain/errors.js');
+const competenceTreeRepository = require('./competence-tree-repository.js');
+const ResultCompetenceTree = require('../../domain/models/ResultCompetenceTree.js');
+const CompetenceMark = require('../../domain/models/CompetenceMark.js');
+const AssessmentResult = require('../../domain/models/AssessmentResult.js');
 
 module.exports = {
   async getPrivateCertificate(id, { locale } = {}) {

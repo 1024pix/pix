@@ -1,5 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const frameworkAreasSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/framework-areas-serializer');
 const frameworkSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/framework-serializer');
 const frameworksController = require('../../../../lib/application/frameworks/frameworks-controller');

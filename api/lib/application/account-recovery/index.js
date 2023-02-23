@@ -5,9 +5,9 @@ const XRegExp = require('xregexp');
 const inePattern = new RegExp('^[0-9]{9}[a-zA-Z]{2}$');
 const inaPattern = new RegExp('^[0-9]{10}[a-zA-Z]{1}$');
 
-const accountRecoveryController = require('./account-recovery-controller');
+const accountRecoveryController = require('./account-recovery-controller.js');
 
-const { passwordValidationPattern } = require('../../config').account;
+const { passwordValidationPattern } = require('../../config.js').account;
 
 exports.register = async function (server) {
   server.route([

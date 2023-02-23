@@ -1,5 +1,5 @@
-const Bookshelf = require('../bookshelf');
-require('./CertificationCandidate');
+const Bookshelf = require('../bookshelf.js');
+require('./CertificationCandidate.js');
 
 const modelName = 'Session';
 

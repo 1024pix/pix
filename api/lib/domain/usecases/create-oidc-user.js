@@ -1,5 +1,5 @@
-const UserToCreate = require('../models/UserToCreate');
-const { AuthenticationKeyExpired, UserAlreadyExistsWithAuthenticationMethodError } = require('../errors');
+const UserToCreate = require('../models/UserToCreate.js');
+const { AuthenticationKeyExpired, UserAlreadyExistsWithAuthenticationMethodError } = require('../errors.js');
 
 module.exports = async function createOidcUser({
   identityProvider,

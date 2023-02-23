@@ -1,5 +1,5 @@
-const categories = require('../constants/organization-places-categories');
-const validate = require('../validators/organization-places-lot-validator');
+const categories = require('../constants/organization-places-categories.js');
+const validate = require('../validators/organization-places-lot-validator.js');
 
 const codeByCategories = {
   [categories.FREE_RATE]: categories.T0,

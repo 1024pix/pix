@@ -1,5 +1,5 @@
-const usecases = require('../../domain/usecases');
-const certificationCandidateSubscriptionSerializer = require('../../infrastructure/serializers/jsonapi/certification-candidate-subscription-serializer');
+const usecases = require('../../domain/usecases/index.js');
+const certificationCandidateSubscriptionSerializer = require('../../infrastructure/serializers/jsonapi/certification-candidate-subscription-serializer.js');
 
 module.exports = {
   async authorizeToStart(request, h) {

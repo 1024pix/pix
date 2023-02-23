@@ -1,5 +1,5 @@
 const { expect, catchErr, databaseBuilder } = require('../../../test-helper');
-const useCases = require('../../../../lib/domain/usecases');
+const useCases = require('../../../../lib/domain/usecases/index.js');
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 
 describe('Integration | UseCase | find-paginated-campaign-participants-activities', function () {

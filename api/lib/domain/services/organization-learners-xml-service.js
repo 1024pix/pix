@@ -1,4 +1,4 @@
-const SiecleParser = require('../../infrastructure/serializers/xml/siecle-parser');
+const SiecleParser = require('../../infrastructure/serializers/xml/siecle-parser.js');
 
 module.exports = {
   extractOrganizationLearnersInformationFromSIECLE,

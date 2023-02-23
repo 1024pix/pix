@@ -1,6 +1,6 @@
-const { BadRequestError } = require('../http-errors');
-const tokenService = require('../../domain/services/token-service');
-const usecases = require('../../domain/usecases');
+const { BadRequestError } = require('../http-errors.js');
+const tokenService = require('../../domain/services/token-service.js');
+const usecases = require('../../domain/usecases/index.js');
 
 module.exports = {
   /**

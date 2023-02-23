@@ -1,7 +1,7 @@
-const Bookshelf = require('../bookshelf');
+const Bookshelf = require('../bookshelf.js');
 
 const modelName = 'Stage';
-require('./TargetProfile');
+require('./TargetProfile.js');
 
 module.exports = Bookshelf.model(
   modelName,

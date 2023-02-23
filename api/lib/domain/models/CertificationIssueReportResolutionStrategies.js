@@ -1,5 +1,5 @@
-const CertificationIssueReportResolutionAttempt = require('./CertificationIssueReportResolutionAttempt');
-const { CertificationIssueReportSubcategories } = require('./CertificationIssueReportCategory');
+const CertificationIssueReportResolutionAttempt = require('./CertificationIssueReportResolutionAttempt.js');
+const { CertificationIssueReportSubcategories } = require('./CertificationIssueReportCategory.js');
 
 async function neutralizeIfTimedChallengeStrategy({
   certificationIssueReport,

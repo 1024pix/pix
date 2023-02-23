@@ -1,10 +1,10 @@
-const Training = require('../../domain/models/Training');
-const TrainingSummary = require('../../domain/read-models/TrainingSummary');
-const { knex } = require('../../../db/knex-database-connection');
-const { NotFoundError } = require('../../domain/errors');
-const DomainTransaction = require('../DomainTransaction');
-const UserRecommendedTraining = require('../../domain/read-models/UserRecommendedTraining');
-const { fetchPage } = require('../utils/knex-utils');
+const Training = require('../../domain/models/Training.js');
+const TrainingSummary = require('../../domain/read-models/TrainingSummary.js');
+const { knex } = require('../../../db/knex-database-connection.js');
+const { NotFoundError } = require('../../domain/errors.js');
+const DomainTransaction = require('../DomainTransaction.js');
+const UserRecommendedTraining = require('../../domain/read-models/UserRecommendedTraining.js');
+const { fetchPage } = require('../utils/knex-utils.js');
 const pick = require('lodash/pick');
 const TABLE_NAME = 'trainings';
 

@@ -1,9 +1,9 @@
 const Debug = require('debug');
-const SendinblueProvider = require('./SendinblueProvider');
-const { mailing } = require('../../config');
-const logger = require('../logger');
-const mailCheck = require('../mail-check');
-const EmailingAttempt = require('../../domain/models/EmailingAttempt');
+const SendinblueProvider = require('./SendinblueProvider.js');
+const { mailing } = require('../../config.js');
+const logger = require('../logger.js');
+const mailCheck = require('../mail-check.js');
+const EmailingAttempt = require('../../domain/models/EmailingAttempt.js');
 
 const debugEmail = Debug('pix:mailer:email');
 

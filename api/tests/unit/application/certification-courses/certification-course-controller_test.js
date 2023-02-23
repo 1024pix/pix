@@ -6,7 +6,7 @@ const {
   domainBuilder,
 } = require('../../../test-helper');
 const certificationCourseController = require('../../../../lib/application/certification-courses/certification-course-controller');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const certifiedProfileRepository = require('../../../../lib/infrastructure/repositories/certified-profile-repository');
 const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');

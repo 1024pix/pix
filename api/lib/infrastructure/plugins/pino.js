@@ -1,7 +1,7 @@
-const config = require('../../config');
-const monitoringTools = require('../monitoring-tools');
+const config = require('../../config.js');
+const monitoringTools = require('../monitoring-tools.js');
 const hapiPino = require('hapi-pino');
-const logger = require('../logger');
+const logger = require('../logger.js');
 
 function logObjectSerializer(req) {
   const enhancedReq = {

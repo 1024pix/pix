@@ -1,9 +1,9 @@
-const usecases = require('../../domain/usecases');
-const userSavedTutorialSerializer = require('../../infrastructure/serializers/jsonapi/user-saved-tutorial-serializer');
-const tutorialSerializer = require('../../infrastructure/serializers/jsonapi/tutorial-serializer');
-const userSavedTutorialRepository = require('../../infrastructure/repositories/user-saved-tutorial-repository');
-const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
-const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
+const usecases = require('../../domain/usecases/index.js');
+const userSavedTutorialSerializer = require('../../infrastructure/serializers/jsonapi/user-saved-tutorial-serializer.js');
+const tutorialSerializer = require('../../infrastructure/serializers/jsonapi/tutorial-serializer.js');
+const userSavedTutorialRepository = require('../../infrastructure/repositories/user-saved-tutorial-repository.js');
+const queryParamsUtils = require('../../infrastructure/utils/query-params-utils.js');
+const requestResponseUtils = require('../../infrastructure/utils/request-response-utils.js');
 
 module.exports = {
   async add(request, h) {

@@ -1,10 +1,10 @@
-const Bookshelf = require('../bookshelf');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const DomainTransaction = require('../DomainTransaction');
-const CertificationChallengeBookshelf = require('../orm-models/CertificationChallenge');
-const logger = require('../../infrastructure/logger');
+const Bookshelf = require('../bookshelf.js');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter.js');
+const DomainTransaction = require('../DomainTransaction.js');
+const CertificationChallengeBookshelf = require('../orm-models/CertificationChallenge.js');
+const logger = require('../../infrastructure/logger.js');
 
-const { AssessmentEndedError } = require('../../domain/errors');
+const { AssessmentEndedError } = require('../../domain/errors.js');
 
 const logContext = {
   zone: 'certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId',

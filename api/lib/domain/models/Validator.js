@@ -1,5 +1,5 @@
-const AnswerStatus = require('./AnswerStatus');
-const Validation = require('./Validation');
+const AnswerStatus = require('./AnswerStatus.js');
+const Validation = require('./Validation.js');
 
 /**
  * Traduction: Vérificateur de réponse par défaut

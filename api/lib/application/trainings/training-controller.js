@@ -1,9 +1,9 @@
-const trainingSerializer = require('../../infrastructure/serializers/jsonapi/training-serializer');
-const trainingSummarySerializer = require('../../infrastructure/serializers/jsonapi/training-summary-serializer');
-const trainingTriggerSerializer = require('../../infrastructure/serializers/jsonapi/training-trigger-serializer');
-const targetProfileSummaryForAdminSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer');
-const usecases = require('../../domain/usecases');
-const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
+const trainingSerializer = require('../../infrastructure/serializers/jsonapi/training-serializer.js');
+const trainingSummarySerializer = require('../../infrastructure/serializers/jsonapi/training-summary-serializer.js');
+const trainingTriggerSerializer = require('../../infrastructure/serializers/jsonapi/training-trigger-serializer.js');
+const targetProfileSummaryForAdminSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js');
+const usecases = require('../../domain/usecases/index.js');
+const queryParamsUtils = require('../../infrastructure/utils/query-params-utils.js');
 
 module.exports = {
   async findPaginatedTrainingSummaries(request) {

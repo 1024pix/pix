@@ -1,6 +1,6 @@
-const httpAgent = require('./http/http-agent');
+const httpAgent = require('./http/http-agent.js');
 
-const { lcms } = require('../config');
+const { lcms } = require('../config.js');
 
 module.exports = {
   async getLatestRelease() {

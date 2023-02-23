@@ -1,8 +1,8 @@
-const TemplatePageManager = require('../manager/template-page-manager');
-const CoverPageVersionText = require('../drawer/CoverPageVersionText');
-const CoverPageLegalMentionText = require('../drawer/CoverPageLegalMentionText');
-const CoverPageTitleText = require('../drawer/CoverPageTitleText');
-const PositionManager = require('../manager/position-manager');
+const TemplatePageManager = require('../manager/template-page-manager.js');
+const CoverPageVersionText = require('../drawer/CoverPageVersionText.js');
+const CoverPageLegalMentionText = require('../drawer/CoverPageLegalMentionText.js');
+const CoverPageTitleText = require('../drawer/CoverPageTitleText.js');
+const PositionManager = require('../manager/position-manager.js');
 
 module.exports = {
   /**

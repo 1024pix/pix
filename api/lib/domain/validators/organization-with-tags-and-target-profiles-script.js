@@ -1,8 +1,8 @@
 const Joi = require('joi');
-const { EntityValidationError } = require('../errors');
-const Organization = require('../models/Organization');
-const Membership = require('../models/Membership');
-const OidcIdentityProviders = require('../../../lib/domain/constants/oidc-identity-providers');
+const { EntityValidationError } = require('../errors.js');
+const Organization = require('../models/Organization.js');
+const Membership = require('../models/Membership.js');
+const OidcIdentityProviders = require('../../../lib/domain/constants/oidc-identity-providers.js');
 
 const validProviders = Object.values(OidcIdentityProviders).map((provider) => provider.service.code);
 

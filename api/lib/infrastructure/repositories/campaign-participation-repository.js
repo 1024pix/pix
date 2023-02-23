@@ -1,13 +1,13 @@
-const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
-const CampaignTypes = require('../../domain/models/CampaignTypes');
-const { knex } = require('../../../db/knex-database-connection');
-const knowledgeElementRepository = require('./knowledge-element-repository');
-const knowledgeElementSnapshotRepository = require('./knowledge-element-snapshot-repository');
-const CampaignParticipation = require('../../domain/models/CampaignParticipation');
-const Assessment = require('../../domain/models/Assessment');
-const Campaign = require('../../domain/models/Campaign');
-const DomainTransaction = require('../DomainTransaction');
-const { NotFoundError } = require('../../domain/errors');
+const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses.js');
+const CampaignTypes = require('../../domain/models/CampaignTypes.js');
+const { knex } = require('../../../db/knex-database-connection.js');
+const knowledgeElementRepository = require('./knowledge-element-repository.js');
+const knowledgeElementSnapshotRepository = require('./knowledge-element-snapshot-repository.js');
+const CampaignParticipation = require('../../domain/models/CampaignParticipation.js');
+const Assessment = require('../../domain/models/Assessment.js');
+const Campaign = require('../../domain/models/Campaign.js');
+const DomainTransaction = require('../DomainTransaction.js');
+const { NotFoundError } = require('../../domain/errors.js');
 
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 

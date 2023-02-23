@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../../test-helper');
 const CampaignParticipationResultsShared = require('../../../../../lib/domain/events/CampaignParticipationResultsShared');
 const SendSharedParticipationResultsToPoleEmploiHandler = require('../../../../../lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiHandler');
-const usecases = require('../../../../../lib/domain/usecases');
+const usecases = require('../../../../../lib/domain/usecases/index.js');
 
 describe('Unit | Infrastructure | Jobs | SendSharedParticipationResultsToPoleEmploiHandler', function () {
   let event;

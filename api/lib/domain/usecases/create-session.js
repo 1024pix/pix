@@ -1,7 +1,7 @@
-const { ForbiddenAccess } = require('../errors');
-const sessionValidator = require('../validators/session-validator');
-const sessionCodeService = require('../services/session-code-service');
-const Session = require('../models/Session');
+const { ForbiddenAccess } = require('../errors.js');
+const sessionValidator = require('../validators/session-validator.js');
+const sessionCodeService = require('../services/session-code-service.js');
+const Session = require('../models/Session.js');
 
 module.exports = async function createSession({
   userId,

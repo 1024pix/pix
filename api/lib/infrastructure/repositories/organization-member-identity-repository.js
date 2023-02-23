@@ -1,5 +1,5 @@
-const OrganizationMemberIdentity = require('../../domain/models/OrganizationMemberIdentity');
-const { knex } = require('../../../db/knex-database-connection');
+const OrganizationMemberIdentity = require('../../domain/models/OrganizationMemberIdentity.js');
+const { knex } = require('../../../db/knex-database-connection.js');
 
 module.exports = {
   async findAllByOrganizationId({ organizationId }) {

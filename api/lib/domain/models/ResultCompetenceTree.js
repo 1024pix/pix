@@ -1,5 +1,5 @@
-const Area = require('./Area');
-const ResultCompetence = require('./ResultCompetence');
+const Area = require('./Area.js');
+const ResultCompetence = require('./ResultCompetence.js');
 
 const NOT_PASSED_LEVEL = -1;
 const NOT_PASSED_SCORE = 0;

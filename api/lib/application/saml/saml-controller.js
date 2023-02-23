@@ -1,8 +1,8 @@
-const saml = require('../../infrastructure/saml');
-const usecases = require('../../domain/usecases');
-const logger = require('../../infrastructure/logger');
-const tokenService = require('../../domain/services/token-service');
-const settings = require('../../config');
+const saml = require('../../infrastructure/saml.js');
+const usecases = require('../../domain/usecases/index.js');
+const logger = require('../../infrastructure/logger.js');
+const tokenService = require('../../domain/services/token-service.js');
+const settings = require('../../config.js');
 
 module.exports = {
   metadata(request, h) {

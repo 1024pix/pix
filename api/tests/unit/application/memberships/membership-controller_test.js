@@ -1,7 +1,7 @@
 const { expect, sinon, hFake, domainBuilder } = require('../../../test-helper');
 
 const membershipController = require('../../../../lib/application/memberships/membership-controller');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const membershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/membership-serializer');
 const Membership = require('../../../../lib/domain/models/Membership');
 const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');

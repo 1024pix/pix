@@ -1,5 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
-const { disableCertificationCenterMembership } = require('../../../../lib/domain/usecases');
+const { disableCertificationCenterMembership } = require('../../../../lib/domain/usecases/index.js');
 const certificationCenterMembershipRepository = require('../../../../lib/infrastructure/repositories/certification-center-membership-repository');
 
 describe('Unit | UseCase | disable-certification-center-membership', function () {

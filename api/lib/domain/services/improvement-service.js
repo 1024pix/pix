@@ -1,4 +1,4 @@
-const constants = require('../constants');
+const constants = require('../constants.js');
 const moment = require('moment');
 
 function _keepKnowledgeElementsRecentOrValidated({ currentUserKnowledgeElements, assessment, minimumDelayInDays }) {

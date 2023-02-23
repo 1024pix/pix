@@ -1,5 +1,5 @@
 const { Serializer } = require('jsonapi-serializer');
-const tutorialAttributes = require('./tutorial-attributes');
+const tutorialAttributes = require('./tutorial-attributes.js');
 
 module.exports = {
   serialize(results) {

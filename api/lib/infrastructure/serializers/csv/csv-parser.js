@@ -1,6 +1,6 @@
 const papa = require('papaparse');
 const iconv = require('iconv-lite');
-const { CsvImportError } = require('../../../domain/errors');
+const { CsvImportError } = require('../../../domain/errors.js');
 const ERRORS = {
   ENCODING_NOT_SUPPORTED: 'ENCODING_NOT_SUPPORTED',
   BAD_CSV_FORMAT: 'BAD_CSV_FORMAT',

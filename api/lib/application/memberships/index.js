@@ -1,8 +1,8 @@
 const Joi = require('joi');
 
-const securityPreHandlers = require('../security-pre-handlers');
-const membershipController = require('./membership-controller');
-const identifiersType = require('../../domain/types/identifiers-type');
+const securityPreHandlers = require('../security-pre-handlers.js');
+const membershipController = require('./membership-controller.js');
+const identifiersType = require('../../domain/types/identifiers-type.js');
 
 exports.register = async function (server) {
   server.route([

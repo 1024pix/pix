@@ -1,27 +1,27 @@
 const moment = require('moment');
 
-const { knex } = require('../../../db/knex-database-connection');
-const DomainTransaction = require('../DomainTransaction');
-const BookshelfUser = require('../orm-models/User');
-const { isUniqConstraintViolated } = require('../utils/knex-utils');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const { knex } = require('../../../db/knex-database-connection.js');
+const DomainTransaction = require('../DomainTransaction.js');
+const BookshelfUser = require('../orm-models/User.js');
+const { isUniqConstraintViolated } = require('../utils/knex-utils.js');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter.js');
 const {
   AlreadyExistingEntityError,
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
   UserNotFoundError,
-} = require('../../domain/errors');
-const User = require('../../domain/models/User');
-const UserDetailsForAdmin = require('../../domain/models/UserDetailsForAdmin');
-const Membership = require('../../domain/models/Membership');
-const CertificationCenter = require('../../domain/models/CertificationCenter');
-const CertificationCenterMembership = require('../../domain/models/CertificationCenterMembership');
-const Organization = require('../../domain/models/Organization');
-const OrganizationLearnerForAdmin = require('../../domain/read-models/OrganizationLearnerForAdmin');
-const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
-const OidcIdentityProviders = require('../../domain/constants/oidc-identity-providers');
-const UserLogin = require('../../domain/models/UserLogin');
-const { fetchPage } = require('../utils/knex-utils');
+} = require('../../domain/errors.js');
+const User = require('../../domain/models/User.js');
+const UserDetailsForAdmin = require('../../domain/models/UserDetailsForAdmin.js');
+const Membership = require('../../domain/models/Membership.js');
+const CertificationCenter = require('../../domain/models/CertificationCenter.js');
+const CertificationCenterMembership = require('../../domain/models/CertificationCenterMembership.js');
+const Organization = require('../../domain/models/Organization.js');
+const OrganizationLearnerForAdmin = require('../../domain/read-models/OrganizationLearnerForAdmin.js');
+const AuthenticationMethod = require('../../domain/models/AuthenticationMethod.js');
+const OidcIdentityProviders = require('../../domain/constants/oidc-identity-providers.js');
+const UserLogin = require('../../domain/models/UserLogin.js');
+const { fetchPage } = require('../utils/knex-utils.js');
 
 module.exports = {
   async getByEmail(email) {

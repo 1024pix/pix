@@ -1,5 +1,5 @@
-const { UnexpectedOidcStateError } = require('../../errors');
-const logger = require('../../../infrastructure/logger');
+const { UnexpectedOidcStateError } = require('../../errors.js');
+const logger = require('../../../infrastructure/logger.js');
 
 module.exports = async function authenticateOidcUser({
   stateReceived,

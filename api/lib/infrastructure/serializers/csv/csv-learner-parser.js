@@ -1,7 +1,7 @@
 const papa = require('papaparse');
 const iconv = require('iconv-lite');
-const { convertDateValue } = require('../../utils/date-utils');
-const { CsvImportError } = require('../../../domain/errors');
+const { convertDateValue } = require('../../utils/date-utils.js');
+const { CsvImportError } = require('../../../domain/errors.js');
 
 const ERRORS = {
   ENCODING_NOT_SUPPORTED: 'ENCODING_NOT_SUPPORTED',

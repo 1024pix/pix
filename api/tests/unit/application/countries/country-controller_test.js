@@ -6,7 +6,7 @@ const {
   domainBuilder,
 } = require('../../../test-helper');
 
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const countrySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/country-serializer');
 
 const countryController = require('../../../../lib/application/countries/country-controller');

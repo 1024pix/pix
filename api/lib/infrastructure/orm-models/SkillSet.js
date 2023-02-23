@@ -1,6 +1,6 @@
-const Bookshelf = require('../bookshelf');
+const Bookshelf = require('../bookshelf.js');
 
-require('./Badge');
+require('./Badge.js');
 
 const modelName = 'SkillSet';
 

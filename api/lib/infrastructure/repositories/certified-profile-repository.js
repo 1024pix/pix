@@ -1,18 +1,18 @@
 const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection');
+const { knex } = require('../../../db/knex-database-connection.js');
 const {
   CertifiedProfile,
   CertifiedArea,
   CertifiedCompetence,
   CertifiedTube,
   CertifiedSkill,
-} = require('../../domain/read-models/CertifiedProfile');
-const { NotFoundError } = require('../../domain/errors');
-const skillDatasource = require('../datasources/learning-content/skill-datasource');
-const tubeDatasource = require('../datasources/learning-content/tube-datasource');
-const competenceDatasource = require('../datasources/learning-content/competence-datasource');
-const areaDatasource = require('../datasources/learning-content/area-datasource');
-const knowledgeElementRepository = require('./knowledge-element-repository');
+} = require('../../domain/read-models/CertifiedProfile.js');
+const { NotFoundError } = require('../../domain/errors.js');
+const skillDatasource = require('../datasources/learning-content/skill-datasource.js');
+const tubeDatasource = require('../datasources/learning-content/tube-datasource.js');
+const competenceDatasource = require('../datasources/learning-content/competence-datasource.js');
+const areaDatasource = require('../datasources/learning-content/area-datasource.js');
+const knowledgeElementRepository = require('./knowledge-element-repository.js');
 
 module.exports = {
   async get(certificationCourseId) {

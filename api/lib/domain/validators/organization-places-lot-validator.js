@@ -1,8 +1,8 @@
 const BaseJoi = require('joi');
 const JoiDate = require('@joi/date');
 const Joi = BaseJoi.extend(JoiDate);
-const { EntityValidationError } = require('../errors');
-const categories = require('../constants/organization-places-categories');
+const { EntityValidationError } = require('../errors.js');
+const categories = require('../constants/organization-places-categories.js');
 
 const schema = Joi.object({
   organizationId: Joi.number().integer().required().messages({

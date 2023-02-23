@@ -3,7 +3,7 @@ const {
   CpfBirthInformationValidationError,
   CertificationCandidateAddError,
   CertificationCandidateOnFinalizedSessionError,
-} = require('../errors');
+} = require('../errors.js');
 
 module.exports = async function addCertificationCandidateToSession({
   sessionId,

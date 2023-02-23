@@ -1,4 +1,4 @@
-const { PIX_COUNT_BY_LEVEL, MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_BY_COMPETENCE } = require('../../constants');
+const { PIX_COUNT_BY_LEVEL, MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_BY_COMPETENCE } = require('../../constants.js');
 
 const _ = require('lodash');
 

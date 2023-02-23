@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { NotFoundError } = require('../errors');
+const { NotFoundError } = require('../errors.js');
 
 module.exports = async function attachTargetProfilesToOrganization({
   organizationId,

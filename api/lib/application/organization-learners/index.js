@@ -2,9 +2,9 @@ const BaseJoi = require('joi');
 const JoiDate = require('@joi/date');
 const Joi = BaseJoi.extend(JoiDate);
 
-const securityPreHandlers = require('../security-pre-handlers');
-const organizationLearnerController = require('./organization-learner-controller');
-const identifiersType = require('../../domain/types/identifiers-type');
+const securityPreHandlers = require('../security-pre-handlers.js');
+const organizationLearnerController = require('./organization-learner-controller.js');
+const identifiersType = require('../../domain/types/identifiers-type.js');
 
 exports.register = async function (server) {
   const adminRoutes = [

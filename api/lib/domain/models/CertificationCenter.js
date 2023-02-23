@@ -1,4 +1,4 @@
-const { CERTIFICATION_CENTER_TYPES } = require('../constants');
+const { CERTIFICATION_CENTER_TYPES } = require('../constants.js');
 
 class CertificationCenter {
   constructor({ id, name, externalId, type, createdAt, updatedAt, habilitations = [] } = {}) {

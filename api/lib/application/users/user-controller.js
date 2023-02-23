@@ -1,28 +1,28 @@
-const campaignParticipationSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
-const campaignParticipationOverviewSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-overview-serializer');
-const certificationEligibilitySerializer = require('../../infrastructure/serializers/jsonapi/certification-eligibility-serializer');
-const scorecardSerializer = require('../../infrastructure/serializers/jsonapi/scorecard-serializer');
-const profileSerializer = require('../../infrastructure/serializers/jsonapi/profile-serializer');
-const participantResultSerializer = require('../../infrastructure/serializers/jsonapi/participant-result-serializer');
-const sharedProfileForCampaignSerializer = require('../../infrastructure/serializers/jsonapi/shared-profile-for-campaign-serializer');
-const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
-const userForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-for-admin-serializer');
-const userWithActivitySerializer = require('../../infrastructure/serializers/jsonapi/user-with-activity-serializer');
-const emailVerificationSerializer = require('../../infrastructure/serializers/jsonapi/email-verification-serializer');
-const userDetailsForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-details-for-admin-serializer');
-const userAnonymizedDetailsForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-anonymized-details-for-admin-serializer');
-const updateEmailSerializer = require('../../infrastructure/serializers/jsonapi/update-email-serializer');
-const authenticationMethodsSerializer = require('../../infrastructure/serializers/jsonapi/authentication-methods-serializer');
-const campaignParticipationForUserManagementSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-for-user-management-serializer');
-const userOrganizationForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-organization-for-admin-serializer');
-const certificationCenterMembershipSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-membership-serializer');
-const trainingSerializer = require('../../infrastructure/serializers/jsonapi/training-serializer');
-const userLoginSerializer = require('../../infrastructure/serializers/jsonapi/user-login-serializer');
+const campaignParticipationSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer.js');
+const campaignParticipationOverviewSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-overview-serializer.js');
+const certificationEligibilitySerializer = require('../../infrastructure/serializers/jsonapi/certification-eligibility-serializer.js');
+const scorecardSerializer = require('../../infrastructure/serializers/jsonapi/scorecard-serializer.js');
+const profileSerializer = require('../../infrastructure/serializers/jsonapi/profile-serializer.js');
+const participantResultSerializer = require('../../infrastructure/serializers/jsonapi/participant-result-serializer.js');
+const sharedProfileForCampaignSerializer = require('../../infrastructure/serializers/jsonapi/shared-profile-for-campaign-serializer.js');
+const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer.js');
+const userForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-for-admin-serializer.js');
+const userWithActivitySerializer = require('../../infrastructure/serializers/jsonapi/user-with-activity-serializer.js');
+const emailVerificationSerializer = require('../../infrastructure/serializers/jsonapi/email-verification-serializer.js');
+const userDetailsForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-details-for-admin-serializer.js');
+const userAnonymizedDetailsForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-anonymized-details-for-admin-serializer.js');
+const updateEmailSerializer = require('../../infrastructure/serializers/jsonapi/update-email-serializer.js');
+const authenticationMethodsSerializer = require('../../infrastructure/serializers/jsonapi/authentication-methods-serializer.js');
+const campaignParticipationForUserManagementSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-for-user-management-serializer.js');
+const userOrganizationForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-organization-for-admin-serializer.js');
+const certificationCenterMembershipSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-membership-serializer.js');
+const trainingSerializer = require('../../infrastructure/serializers/jsonapi/training-serializer.js');
+const userLoginSerializer = require('../../infrastructure/serializers/jsonapi/user-login-serializer.js');
 
-const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
-const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
+const queryParamsUtils = require('../../infrastructure/utils/query-params-utils.js');
+const requestResponseUtils = require('../../infrastructure/utils/request-response-utils.js');
 
-const usecases = require('../../domain/usecases');
+const usecases = require('../../domain/usecases/index.js');
 
 module.exports = {
   save(request, h) {

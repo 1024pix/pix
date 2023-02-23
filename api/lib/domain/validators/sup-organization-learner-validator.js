@@ -1,7 +1,7 @@
 const BaseJoi = require('joi');
 const JoiDate = require('@joi/date');
 const Joi = BaseJoi.extend(JoiDate);
-const { EntityValidationError } = require('../errors');
+const { EntityValidationError } = require('../errors.js');
 
 const validationConfiguration = { allowUnknown: true };
 const MAX_LENGTH = 255;

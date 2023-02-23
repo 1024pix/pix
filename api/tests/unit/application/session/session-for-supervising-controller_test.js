@@ -1,6 +1,6 @@
 const { expect, sinon, hFake, domainBuilder } = require('../../../test-helper');
 const sessionForSupervisingController = require('../../../../lib/application/sessions/session-for-supervising-controller');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const sessionForSupervisingSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-for-supervising-serializer');
 
 describe('Unit | Controller | session-for-supervising', function () {

@@ -3,7 +3,7 @@ const path = require('path');
 const moment = require('moment');
 const ms = require('ms');
 
-const { getArrayOfStrings } = require('../lib/infrastructure/utils/string-utils');
+const { getArrayOfStrings } = require('../lib/infrastructure/utils/string-utils.js');
 
 function parseJSONEnv(varName) {
   if (process.env[varName]) {

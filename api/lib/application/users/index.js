@@ -1,13 +1,13 @@
 const Joi = require('joi');
 const XRegExp = require('xregexp');
-const securityPreHandlers = require('../security-pre-handlers');
-const userController = require('./user-controller');
-const { sendJsonApiError, BadRequestError } = require('../http-errors');
-const userVerification = require('../preHandlers/user-existence-verification');
-const { passwordValidationPattern } = require('../../config').account;
-const { EntityValidationError } = require('../../domain/errors');
-const identifiersType = require('../../domain/types/identifiers-type');
-const OidcIdentityProviders = require('../../domain/constants/oidc-identity-providers');
+const securityPreHandlers = require('../security-pre-handlers.js');
+const userController = require('./user-controller.js');
+const { sendJsonApiError, BadRequestError } = require('../http-errors.js');
+const userVerification = require('../preHandlers/user-existence-verification.js');
+const { passwordValidationPattern } = require('../../config.js').account;
+const { EntityValidationError } = require('../../domain/errors.js');
+const identifiersType = require('../../domain/types/identifiers-type.js');
+const OidcIdentityProviders = require('../../domain/constants/oidc-identity-providers.js');
 
 exports.register = async function (server) {
   const adminRoutes = [

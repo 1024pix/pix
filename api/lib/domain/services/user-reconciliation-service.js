@@ -1,15 +1,18 @@
 const _ = require('lodash');
 const { pipe } = require('lodash/fp');
 const randomString = require('randomstring');
-const { STUDENT_RECONCILIATION_ERRORS } = require('../constants');
+const { STUDENT_RECONCILIATION_ERRORS } = require('../constants.js');
 const {
   AlreadyRegisteredUsernameError,
   NotFoundError,
   OrganizationLearnerAlreadyLinkedToUserError,
   OrganizationLearnerAlreadyLinkedToInvalidUserError,
-} = require('../errors');
-const { areTwoStringsCloseEnough, isOneStringCloseEnoughFromMultipleStrings } = require('./string-comparison-service');
-const { normalizeAndRemoveAccents, removeSpecialCharacters } = require('./validation-treatments');
+} = require('../errors.js');
+const {
+  areTwoStringsCloseEnough,
+  isOneStringCloseEnoughFromMultipleStrings,
+} = require('./string-comparison-service.js');
+const { normalizeAndRemoveAccents, removeSpecialCharacters } = require('./validation-treatments.js');
 
 const MAX_ACCEPTABLE_RATIO = 0.25;
 const STRICT_MATCH_RATIO = 0;

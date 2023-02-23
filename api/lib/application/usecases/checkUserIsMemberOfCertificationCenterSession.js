@@ -1,5 +1,5 @@
-const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
-const sessionRepository = require('../../infrastructure/repositories/sessions/session-repository');
+const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository.js');
+const sessionRepository = require('../../infrastructure/repositories/sessions/session-repository.js');
 
 module.exports = {
   async execute({ userId, certificationCourseId }) {

@@ -1,8 +1,8 @@
 const _ = require('lodash');
-const Thematic = require('../../domain/models/Thematic');
-const thematicDatasource = require('../datasources/learning-content/thematic-datasource');
-const { getTranslatedKey } = require('../../domain/services/get-translated-text');
-const { FRENCH_FRANCE } = require('../../domain/constants').LOCALE;
+const Thematic = require('../../domain/models/Thematic.js');
+const thematicDatasource = require('../datasources/learning-content/thematic-datasource.js');
+const { getTranslatedKey } = require('../../domain/services/get-translated-text.js');
+const { FRENCH_FRANCE } = require('../../domain/constants.js').LOCALE;
 
 function _toDomain(thematicData, locale) {
   const translatedName = getTranslatedKey(thematicData.name_i18n, locale);

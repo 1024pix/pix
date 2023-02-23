@@ -1,5 +1,5 @@
 const { expect, sinon, hFake } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const certificationCandidateController = require('../../../../lib/application/certification-candidates/certification-candidates-controller');
 
 describe('Unit | Controller | certifications-candidate-controller', function () {

@@ -1,9 +1,9 @@
 const pdfLibFontKit = require('@pdf-lib/fontkit');
 require('dayjs/locale/fr');
-const FontManager = require('./manager/font-manager');
-const TemplatePageManager = require('./manager/template-page-manager');
-const learningContentBuilder = require('./builder/learning-content-builder');
-const coverPageBuilder = require('./builder/cover-page-builder');
+const FontManager = require('./manager/font-manager.js');
+const TemplatePageManager = require('./manager/template-page-manager.js');
+const learningContentBuilder = require('./builder/learning-content-builder.js');
+const coverPageBuilder = require('./builder/cover-page-builder.js');
 const { PDFDocument } = require('pdf-lib');
 
 module.exports = {

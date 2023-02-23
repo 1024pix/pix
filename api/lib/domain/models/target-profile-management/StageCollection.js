@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { InvalidStageError } = require('../../errors');
+const { InvalidStageError } = require('../../errors.js');
 
 class StageCollection {
   constructor({ id, stages, maxLevel }) {

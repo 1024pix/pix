@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const config = require('../../config');
+const config = require('../../config.js');
 
 function _randomLetter() {
   const letters = config.availableCharacterForCode.letters.split('');

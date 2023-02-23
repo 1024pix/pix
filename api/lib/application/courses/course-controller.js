@@ -1,6 +1,6 @@
-const courseSerializer = require('../../infrastructure/serializers/jsonapi/course-serializer');
-const courseService = require('../../../lib/domain/services/course-service');
-const { extractUserIdFromRequest } = require('../../infrastructure/utils/request-response-utils');
+const courseSerializer = require('../../infrastructure/serializers/jsonapi/course-serializer.js');
+const courseService = require('../../../lib/domain/services/course-service.js');
+const { extractUserIdFromRequest } = require('../../infrastructure/utils/request-response-utils.js');
 
 module.exports = {
   get(request) {

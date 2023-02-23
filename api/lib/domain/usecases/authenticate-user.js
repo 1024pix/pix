@@ -4,9 +4,9 @@ const {
   ForbiddenAccess,
   MissingOrInvalidCredentialsError,
   UserShouldChangePasswordError,
-} = require('../../domain/errors');
+} = require('../../domain/errors.js');
 
-const apps = require('../constants');
+const apps = require('../constants.js');
 
 async function _checkUserAccessScope(scope, user, adminMemberRepository) {
   if (scope === apps.PIX_ORGA.SCOPE && !user.isLinkedToOrganizations()) {

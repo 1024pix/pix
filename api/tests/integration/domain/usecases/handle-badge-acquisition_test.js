@@ -1,5 +1,5 @@
 const { expect, databaseBuilder, knex, mockLearningContent, learningContentBuilder } = require('../../../test-helper');
-const useCases = require('../../../../lib/domain/usecases');
+const useCases = require('../../../../lib/domain/usecases/index.js');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 

@@ -1,9 +1,9 @@
 const BaseJoi = require('joi');
 const JoiDate = require('@joi/date');
 const Joi = BaseJoi.extend(JoiDate);
-const { validateEntity } = require('../validators/entity-validator');
+const { validateEntity } = require('../validators/entity-validator.js');
 const isNil = require('lodash/isNil');
-const { ROLES } = require('../constants').PIX_ADMIN;
+const { ROLES } = require('../constants.js').PIX_ADMIN;
 
 module.exports = class AdminMember {
   constructor({ id, userId, firstName, lastName, email, role, createdAt, updatedAt, disabledAt }) {

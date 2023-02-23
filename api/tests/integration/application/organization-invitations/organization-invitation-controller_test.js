@@ -1,6 +1,6 @@
 const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const scoOrganizationInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/sco-organization-invitation-serializer');
 const moduleUnderTest = require('../../../../lib/application/organization-invitations');
 

@@ -1,5 +1,5 @@
-const Scorecard = require('../models/Scorecard');
-const constants = require('../constants');
+const Scorecard = require('../models/Scorecard.js');
+const constants = require('../constants.js');
 const _ = require('lodash');
 
 module.exports = async function getUserProfile({

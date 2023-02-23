@@ -1,4 +1,4 @@
-const { statuses } = require('./Session');
+const { statuses } = require('./Session.js');
 
 class JurySession {
   constructor({

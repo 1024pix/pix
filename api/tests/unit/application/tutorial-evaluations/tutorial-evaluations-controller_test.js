@@ -1,6 +1,6 @@
 const { sinon, expect, hFake } = require('../../../test-helper');
 const tutorialEvaluationsController = require('../../../../lib/application/tutorial-evaluations/tutorial-evaluations-controller');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const TutorialEvaluation = require('../../../../lib/domain/models/TutorialEvaluation');
 const tutorialEvaluationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/tutorial-evaluation-serializer');
 

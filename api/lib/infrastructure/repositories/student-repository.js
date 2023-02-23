@@ -1,7 +1,7 @@
 const _ = require('lodash');
-const Student = require('../../domain/models/Student');
-const { knex } = require('../../../db/knex-database-connection');
-const DomainTransaction = require('../DomainTransaction');
+const Student = require('../../domain/models/Student.js');
+const { knex } = require('../../../db/knex-database-connection.js');
+const DomainTransaction = require('../DomainTransaction.js');
 
 module.exports = {
   _toStudents(results) {

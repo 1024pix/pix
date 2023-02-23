@@ -1,6 +1,6 @@
 const { sinon, expect, hFake } = require('../../../test-helper');
 const tokenService = require('../../../../lib/domain/services/token-service');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
 

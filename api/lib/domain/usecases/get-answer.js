@@ -1,4 +1,4 @@
-const { NotFoundError } = require('../errors');
+const { NotFoundError } = require('../errors.js');
 
 module.exports = async function getAnswer({ answerId, userId, answerRepository, assessmentRepository } = {}) {
   const integerAnswerId = parseInt(answerId);

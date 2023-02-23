@@ -4,9 +4,9 @@ const {
   InvalidExternalUserTokenError,
   InvalidResultRecipientTokenError,
   InvalidSessionResultError,
-} = require('../../domain/errors');
-const settings = require('../../config');
-const { ForbiddenAccess } = require('../errors');
+} = require('../../domain/errors.js');
+const settings = require('../../config.js');
+const { ForbiddenAccess } = require('../errors.js');
 
 function _createAccessToken({ userId, source, expirationDelaySeconds }) {
   return jsonwebtoken.sign({ user_id: userId, source }, settings.authentication.secret, {

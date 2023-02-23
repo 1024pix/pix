@@ -1,10 +1,10 @@
 const _ = require('lodash');
-const { NotFoundError } = require('../../domain/errors');
-const { knex } = require('../../../db/knex-database-connection');
-const Campaign = require('../../domain/models/Campaign');
-const targetProfileRepository = require('./target-profile-repository');
-const skillRepository = require('./skill-repository');
-const Stage = require('../../domain/models/Stage');
+const { NotFoundError } = require('../../domain/errors.js');
+const { knex } = require('../../../db/knex-database-connection.js');
+const Campaign = require('../../domain/models/Campaign.js');
+const targetProfileRepository = require('./target-profile-repository.js');
+const skillRepository = require('./skill-repository.js');
+const Stage = require('../../domain/models/Stage.js');
 
 const CAMPAIGNS_TABLE = 'campaigns';
 

@@ -1,5 +1,5 @@
 const { Parser } = require('json2csv');
-const { headers, COMPLEMENTARY_CERTIFICATION_SUFFIX } = require('../utils/csv/sessions-import');
+const { headers, COMPLEMENTARY_CERTIFICATION_SUFFIX } = require('../utils/csv/sessions-import.js');
 const omit = require('lodash/omit');
 
 function getHeaders({ habilitationLabels, shouldDisplayBillingModeColumns = true }) {

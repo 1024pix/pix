@@ -1,6 +1,6 @@
-const s3Utils = require('./s3-utils');
-const { cpf } = require('../../config');
-const logger = require('../logger');
+const s3Utils = require('./s3-utils.js');
+const { cpf } = require('../../config.js');
+const logger = require('../logger.js');
 
 module.exports = {
   upload: async function ({ filename, readableStream }) {

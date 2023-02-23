@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { EntityValidationError } = require('../errors');
+const { EntityValidationError } = require('../errors.js');
 
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
 

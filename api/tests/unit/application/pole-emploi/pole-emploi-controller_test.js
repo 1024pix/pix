@@ -1,6 +1,6 @@
 const { expect, sinon, hFake } = require('../../../test-helper');
 const poleEmploiController = require('../../../../lib/application/pole-emploi/pole-emploi-controller');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 
 describe('Unit | Controller | pole-emploi-controller', function () {
   describe('#getSendings', function () {

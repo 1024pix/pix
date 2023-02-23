@@ -1,6 +1,6 @@
-const { AssessmentEndedError } = require('../errors');
-const _ = require('../../infrastructure/utils/lodash-utils');
-const logger = require('../../infrastructure/logger');
+const { AssessmentEndedError } = require('../errors.js');
+const _ = require('../../infrastructure/utils/lodash-utils.js');
+const logger = require('../../infrastructure/logger.js');
 
 module.exports = function getNextChallengeForDemo({
   assessment,

@@ -1,7 +1,7 @@
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
+const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
 
-const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
-const UserToCreate = require('../models/UserToCreate');
+const AuthenticationMethod = require('../../domain/models/AuthenticationMethod.js');
+const UserToCreate = require('../models/UserToCreate.js');
 
 function _buildPasswordAuthenticationMethod({ userId, hashedPassword }) {
   return new AuthenticationMethod({

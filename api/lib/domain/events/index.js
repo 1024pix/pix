@@ -1,41 +1,41 @@
-const { injectDefaults, injectDependencies } = require('../../infrastructure/utils/dependency-injection');
-const EventDispatcher = require('../../infrastructure/events/EventDispatcher');
-const EventDispatcherLogger = require('../../infrastructure/events/EventDispatcherLogger');
-const MonitoringTools = require('../../infrastructure/monitoring-tools');
-const settings = require('../../config');
+const { injectDefaults, injectDependencies } = require('../../infrastructure/utils/dependency-injection.js');
+const EventDispatcher = require('../../infrastructure/events/EventDispatcher.js');
+const EventDispatcherLogger = require('../../infrastructure/events/EventDispatcherLogger.js');
+const MonitoringTools = require('../../infrastructure/monitoring-tools.js');
+const settings = require('../../config.js');
 const _ = require('lodash');
 const { performance } = require('perf_hooks');
-const eventBusBuilder = require('../../infrastructure/events/EventBusBuilder');
+const eventBusBuilder = require('../../infrastructure/events/EventBusBuilder.js');
 
-const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
-const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
-const badgeAcquisitionRepository = require('../../infrastructure/repositories/badge-acquisition-repository');
-const badgeRepository = require('../../infrastructure/repositories/badge-repository');
-const campaignRepository = require('../../infrastructure/repositories/campaign-repository');
-const campaignParticipationRepository = require('../../infrastructure/repositories/campaign-participation-repository');
-const campaignParticipationResultRepository = require('../../infrastructure/repositories/campaign-participation-result-repository');
-const certificationAssessmentRepository = require('../../infrastructure/repositories/certification-assessment-repository');
-const certificationCenterRepository = require('../../infrastructure/repositories/certification-center-repository');
-const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
-const certificationIssueReportRepository = require('../../infrastructure/repositories/certification-issue-report-repository');
-const competenceMarkRepository = require('../../infrastructure/repositories/competence-mark-repository');
-const competenceRepository = require('../../infrastructure/repositories/competence-repository');
-const complementaryCertificationCourseRepository = require('../../infrastructure/repositories/complementary-certification-course-repository');
-const complementaryCertificationScoringCriteriaRepository = require('../../infrastructure/repositories/complementary-certification-scoring-criteria-repository');
-const knowledgeElementRepository = require('../../infrastructure/repositories/knowledge-element-repository');
-const organizationRepository = require('../../infrastructure/repositories/organization-repository');
-const poleEmploiSendingRepository = require('../../infrastructure/repositories/pole-emploi-sending-repository');
-const scoringCertificationService = require('../services/scoring/scoring-certification-service');
-const skillRepository = require('../../infrastructure/repositories/skill-repository');
-const supervisorAccessRepository = require('../../infrastructure/repositories/supervisor-access-repository');
-const targetProfileRepository = require('../../infrastructure/repositories/target-profile-repository');
-const userRepository = require('../../infrastructure/repositories/user-repository');
-const participantResultsSharedRepository = require('../../infrastructure/repositories/participant-results-shared-repository');
-const poleEmploiNotifier = require('../../infrastructure/externals/pole-emploi/pole-emploi-notifier');
-const juryCertificationSummaryRepository = require('../../infrastructure/repositories/jury-certification-summary-repository');
-const finalizedSessionRepository = require('../../infrastructure/repositories/sessions/finalized-session-repository');
-const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
-const logger = require('../../infrastructure/logger');
+const assessmentRepository = require('../../infrastructure/repositories/assessment-repository.js');
+const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository.js');
+const badgeAcquisitionRepository = require('../../infrastructure/repositories/badge-acquisition-repository.js');
+const badgeRepository = require('../../infrastructure/repositories/badge-repository.js');
+const campaignRepository = require('../../infrastructure/repositories/campaign-repository.js');
+const campaignParticipationRepository = require('../../infrastructure/repositories/campaign-participation-repository.js');
+const campaignParticipationResultRepository = require('../../infrastructure/repositories/campaign-participation-result-repository.js');
+const certificationAssessmentRepository = require('../../infrastructure/repositories/certification-assessment-repository.js');
+const certificationCenterRepository = require('../../infrastructure/repositories/certification-center-repository.js');
+const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository.js');
+const certificationIssueReportRepository = require('../../infrastructure/repositories/certification-issue-report-repository.js');
+const competenceMarkRepository = require('../../infrastructure/repositories/competence-mark-repository.js');
+const competenceRepository = require('../../infrastructure/repositories/competence-repository.js');
+const complementaryCertificationCourseRepository = require('../../infrastructure/repositories/complementary-certification-course-repository.js');
+const complementaryCertificationScoringCriteriaRepository = require('../../infrastructure/repositories/complementary-certification-scoring-criteria-repository.js');
+const knowledgeElementRepository = require('../../infrastructure/repositories/knowledge-element-repository.js');
+const organizationRepository = require('../../infrastructure/repositories/organization-repository.js');
+const poleEmploiSendingRepository = require('../../infrastructure/repositories/pole-emploi-sending-repository.js');
+const scoringCertificationService = require('../services/scoring/scoring-certification-service.js');
+const skillRepository = require('../../infrastructure/repositories/skill-repository.js');
+const supervisorAccessRepository = require('../../infrastructure/repositories/supervisor-access-repository.js');
+const targetProfileRepository = require('../../infrastructure/repositories/target-profile-repository.js');
+const userRepository = require('../../infrastructure/repositories/user-repository.js');
+const participantResultsSharedRepository = require('../../infrastructure/repositories/participant-results-shared-repository.js');
+const poleEmploiNotifier = require('../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js');
+const juryCertificationSummaryRepository = require('../../infrastructure/repositories/jury-certification-summary-repository.js');
+const finalizedSessionRepository = require('../../infrastructure/repositories/sessions/finalized-session-repository.js');
+const challengeRepository = require('../../infrastructure/repositories/challenge-repository.js');
+const logger = require('../../infrastructure/logger.js');
 
 const dependencies = {
   assessmentRepository,
@@ -69,17 +69,17 @@ const dependencies = {
   logger,
 };
 
-const dependency = require('../../infrastructure/repositories/partner-certification-scoring-repository');
+const dependency = require('../../infrastructure/repositories/partner-certification-scoring-repository.js');
 const partnerCertificationScoringRepository = injectDependencies(dependency, dependencies);
 dependencies.partnerCertificationScoringRepository = partnerCertificationScoringRepository;
 
-const handleAutoJury = require('./handle-auto-jury');
-const handleCertificationScoring = require('./handle-certification-scoring');
-const handleCertificationRescoring = require('./handle-certification-rescoring');
-const handleComplementaryCertificationsScoring = require('./handle-complementary-certifications-scoring');
-const handlePoleEmploiParticipationFinished = require('./handle-pole-emploi-participation-finished');
-const handlePoleEmploiParticipationStarted = require('./handle-pole-emploi-participation-started');
-const handleSessionFinalized = require('./handle-session-finalized');
+const handleAutoJury = require('./handle-auto-jury.js');
+const handleCertificationScoring = require('./handle-certification-scoring.js');
+const handleCertificationRescoring = require('./handle-certification-rescoring.js');
+const handleComplementaryCertificationsScoring = require('./handle-complementary-certifications-scoring.js');
+const handlePoleEmploiParticipationFinished = require('./handle-pole-emploi-participation-finished.js');
+const handlePoleEmploiParticipationStarted = require('./handle-pole-emploi-participation-started.js');
+const handleSessionFinalized = require('./handle-session-finalized.js');
 
 const handlersToBeInjected = {
   handleAutoJury,

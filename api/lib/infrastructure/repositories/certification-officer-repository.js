@@ -1,7 +1,7 @@
-const BookshelfUser = require('../orm-models/User');
+const BookshelfUser = require('../orm-models/User.js');
 
-const { UserNotFoundError } = require('../../domain/errors');
-const CertificationOfficer = require('../../domain/models/CertificationOfficer');
+const { UserNotFoundError } = require('../../domain/errors.js');
+const CertificationOfficer = require('../../domain/models/CertificationOfficer.js');
 
 module.exports = {
   async get(certificationOfficerId) {

@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const datasource = require('./datasource');
+const datasource = require('./datasource.js');
 
 module.exports = datasource.extend({
   modelName: 'tutorials',

@@ -1,8 +1,8 @@
-const Bookshelf = require('../bookshelf');
+const Bookshelf = require('../bookshelf.js');
 
-require('./Badge');
-require('./Stage');
-require('./Organization');
+require('./Badge.js');
+require('./Stage.js');
+require('./Organization.js');
 
 const modelName = 'TargetProfile';
 

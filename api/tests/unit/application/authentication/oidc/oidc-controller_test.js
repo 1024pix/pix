@@ -2,7 +2,7 @@ const { sinon, expect, hFake, catchErr, domainBuilder } = require('../../../../t
 const authenticationServiceRegistry = require('../../../../../lib/domain/services/authentication/authentication-service-registry');
 const oidcController = require('../../../../../lib/application/authentication/oidc/oidc-controller');
 const oidcSerializer = require('../../../../../lib/infrastructure/serializers/jsonapi/oidc-serializer');
-const usecases = require('../../../../../lib/domain/usecases');
+const usecases = require('../../../../../lib/domain/usecases/index.js');
 const { UnauthorizedError } = require('../../../../../lib/application/http-errors');
 
 describe('Unit | Application | Controller | Authentication | OIDC', function () {

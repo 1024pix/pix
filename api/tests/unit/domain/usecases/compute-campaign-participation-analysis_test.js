@@ -1,5 +1,5 @@
 const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const { computeCampaignParticipationAnalysis } = require('../../../../lib/domain/usecases');
+const { computeCampaignParticipationAnalysis } = require('../../../../lib/domain/usecases/index.js');
 const {
   UserNotAuthorizedToAccessEntityError,
   CampaignParticipationDeletedError,

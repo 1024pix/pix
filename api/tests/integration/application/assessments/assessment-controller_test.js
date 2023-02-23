@@ -1,5 +1,5 @@
 const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
+const usecases = require('../../../../lib/domain/usecases/index.js');
 const assessmentAuthorization = require('../../../../lib/application/preHandlers/assessment-authorization');
 const moduleUnderTest = require('../../../../lib/application/assessments');
 

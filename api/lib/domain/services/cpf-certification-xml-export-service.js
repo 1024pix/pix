@@ -1,4 +1,4 @@
-const { cpf } = require('../../config');
+const { cpf } = require('../../config.js');
 const { create, fragment } = require('xmlbuilder2');
 const { v4: uuidv4 } = require('uuid');
 const dayjs = require('dayjs');

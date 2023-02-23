@@ -1,4 +1,4 @@
-const Tutorial = require('../models/Tutorial');
+const Tutorial = require('../models/Tutorial.js');
 
 module.exports = async function findPaginatedFilteredTutorials({ userId, filters, page, locale, tutorialRepository }) {
   if (filters?.type === Tutorial.TYPES.RECOMMENDED) {

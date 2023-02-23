@@ -1,7 +1,7 @@
-const AssessmentCompleted = require('../events/AssessmentCompleted');
-const CampaignParticipationStatuses = require('../models/CampaignParticipationStatuses');
+const AssessmentCompleted = require('../events/AssessmentCompleted.js');
+const CampaignParticipationStatuses = require('../models/CampaignParticipationStatuses.js');
 
-const { AlreadyRatedAssessmentError } = require('../errors');
+const { AlreadyRatedAssessmentError } = require('../errors.js');
 
 module.exports = async function completeAssessment({
   assessmentId,

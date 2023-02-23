@@ -1,6 +1,6 @@
-const solutionServiceQCM = require('../services/solution-service-qcm');
-const Validation = require('./Validation');
-const Validator = require('./Validator');
+const solutionServiceQCM = require('../services/solution-service-qcm.js');
+const Validation = require('./Validation.js');
+const Validator = require('./Validator.js');
 
 /**
  * Traduction: Vérificateur de réponse pour un QCM

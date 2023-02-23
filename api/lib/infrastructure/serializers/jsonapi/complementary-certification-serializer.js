@@ -1,5 +1,5 @@
 const { Serializer } = require('jsonapi-serializer');
-const ComplementaryCertification = require('../../../domain/models/ComplementaryCertification');
+const ComplementaryCertification = require('../../../domain/models/ComplementaryCertification.js');
 
 module.exports = {
   serialize(habilitation) {

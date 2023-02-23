@@ -1,7 +1,7 @@
 const Joi = require('joi');
-const answerController = require('./answer-controller');
-const identifiersType = require('../../domain/types/identifiers-type');
-const { NotFoundError } = require('../../domain/errors');
+const answerController = require('./answer-controller.js');
+const identifiersType = require('../../domain/types/identifiers-type.js');
+const { NotFoundError } = require('../../domain/errors.js');
 
 exports.register = async (server) => {
   server.route([

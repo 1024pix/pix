@@ -1,5 +1,5 @@
 const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const { computeCampaignAnalysis } = require('../../../../lib/domain/usecases');
+const { computeCampaignAnalysis } = require('../../../../lib/domain/usecases/index.js');
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
