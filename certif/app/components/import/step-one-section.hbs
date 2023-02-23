@@ -27,29 +27,29 @@
 <section class="import-page__section--download panel">
   <div class="import-page__section--download__button">
     <FaIcon @icon="file-arrow-down" class="fa-2x download-icon" />
-    {{t "pages.sessions.import.step-one.session-import-template-label"}}
+    <span>{{t "pages.sessions.import.step-one.actions.session-import-template.extra-information"}}</span>
     <PixButton
       @backgroundColor="transparent-light"
       @isBorderVisible="{{true}}"
-      aria-label={{t "pages.sessions.import.step-one.session-import-template-label"}}
+      aria-label={{t "pages.sessions.import.step-one.actions.session-import-template.extra-information"}}
       @triggerAction={{@downloadSessionImportTemplate}}
     >
-      {{t "pages.sessions.import.step-one.session-import-template"}}
+      {{t "pages.sessions.import.step-one.actions.session-import-template.label"}}
     </PixButton>
   </div>
 
   <div tabindex="0" class="import-page__section--download__button">
     <FaIcon @icon="cloud-arrow-up" class="fa-2x download-icon" />
-    {{t "pages.sessions.import.step-one.session-import-upload-label"}}
+    <span>{{t "pages.sessions.import.step-one.actions.session-import-upload.extra-information"}}</span>
     <PixButtonUpload
       @backgroundColor="transparent-light"
       @isBorderVisible="{{true}}"
       @id="file-upload"
       @onChange={{@preImportSessions}}
-      aria-label={{t "pages.sessions.import.step-one.session-import-upload-label"}}
+      aria-label={{t "pages.sessions.import.step-one.actions.session-import-upload.extra-information"}}
       accept=".csv"
     >
-      {{t "pages.sessions.import.step-one.session-import-upload"}}
+      {{t "pages.sessions.import.step-one.actions.session-import-upload.label"}}
     </PixButtonUpload>
   </div>
 
@@ -57,7 +57,7 @@
     <div class="import-page__file-name" aria-label={{@fileName}}>
       {{@fileName}}
       <PixIconButton
-        @ariaLabel={{t "pages.sessions.import.step-one.cancel"}}
+        @ariaLabel={{t "pages.sessions.import.step-one.actions.cancel.label"}}
         @icon="circle-xmark"
         @triggerAction={{@removeImport}}
         class="import-page-file-name__cancel"

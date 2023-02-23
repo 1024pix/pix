@@ -132,15 +132,30 @@
         "unfinished-test-list-description": "Liste des candidats qui n’ont pas fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant et une liste déroulante permettant de sélectionner la raison de l’abandon."
       },
       "import": {
+        "breadcrumb": {
+          "extra-information": "Fil d'Arianne",
+          "import": "Import du modèle",
+          "summary": "Récapitulatif"
+        },
         "title": "Créer/éditer plusieurs sessions",
         "previous-page-button": "Revenir à la liste des sessions",
         "step-one": {
-          "cancel": "Annuler l'import",
-          "session-import-template": "Télécharger (.csv)",
-          "session-import-template-dl-error": "Une erreur s'est produite pendant le téléchargement",
-          "session-import-template-label": "Télécharger le modèle vierge",
-          "session-import-upload": "Importer (.csv)",
-          "session-import-upload-label": "Importer le modèle complété",
+          "actions": {
+            "cancel": {
+              "label": "Annuler l'import"
+            },
+            "session-import-upload": {
+              "extra-information": "Importer le modèle complété",
+              "label": "Importer (.csv)"
+            },
+            "session-import-template": {
+              "extra-information": "Télécharger le modèle vierge",
+              "label": "Télécharger (.csv)"
+            }
+          },
+          "errors": {
+            "download": "Une erreur s'est produite pendant le téléchargement"
+          },
           "instructions": {
             "creation": {
               "title": "Pour créer des sessions ?",
@@ -156,11 +171,6 @@
             },
             "title": "Comment ça marche ?"
           }
-        },
-        "breadcrumb": {
-          "extra-information": "Fil d'Arianne",
-          "import": "Import du modèle",
-          "summary": "Récapitulatif"
         }
       },
       "list": {
