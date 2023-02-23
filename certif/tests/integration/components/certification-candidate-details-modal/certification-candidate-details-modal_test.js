@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
@@ -7,7 +7,7 @@ import EmberObject from '@ember/object';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | certification-candidate-details-modal', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   test('it shows candidate details with complementary certification', async function (assert) {
     // given
