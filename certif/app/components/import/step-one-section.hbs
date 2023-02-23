@@ -65,12 +65,21 @@
     </div>
   {{/if}}
 
-  <div class="import-page__section--link-buttons">
-    <PixButtonLink @route="authenticated.sessions.list" @backgroundColor="transparent-light" @isBorderVisible={{true}}>
-      {{t "common.actions.cancel"}}
-    </PixButtonLink>
-    <PixButton @triggerAction={{@importSessions}} @isDisabled={{@isImportDisabled}}>
-      {{t "common.actions.continue"}}
-    </PixButton>
-  </div>
+  <ul class="import-page__section--link-buttons">
+    <li>
+      <PixButtonLink
+        @route="authenticated.sessions.list"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+      >
+        {{t "common.actions.cancel"}}
+      </PixButtonLink>
+    </li>
+    <li>
+      <PixButton @triggerAction={{@importSessions}} @isDisabled={{@isImportDisabled}}>
+        {{t "common.actions.continue"}}
+      </PixButton>
+    </li>
+  </ul>
+
 </section>
