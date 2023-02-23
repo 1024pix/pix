@@ -4,8 +4,8 @@ const tokenService = require('./token-service');
 const mailer = require('../../infrastructure/mailers/mailer');
 const settings = require('../../config');
 
-const frTranslations = require('../../../translations/fr');
-const enTranslations = require('../../../translations/en');
+const frTranslations = require('../../../translations/fr.json');
+const enTranslations = require('../../../translations/en.json');
 
 const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../domain/constants').LOCALE;
 
