@@ -1,7 +1,7 @@
 const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Stages | POST /api/admin/stages', function () {
+describe('Acceptance | Target Profile Management | POST /api/admin/stages', function () {
   let server, options;
 
   beforeEach(async function () {
