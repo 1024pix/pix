@@ -5,12 +5,14 @@ import get from 'lodash/get';
 import ENV from 'mon-pix/config/environment';
 import fetch from 'fetch';
 import JSONApiError from 'mon-pix/errors/json-api-error';
+import { createTranslatedApplicationError } from 'mon-pix/errors/factories/create-application-error';
 
 export default class LoginOidcRoute extends Route {
   @service session;
   @service router;
   @service location;
   @service oidcIdentityProviders;
+  @service intl;
 
   _unsetOidcProperties() {
     this.session.set('data.nextURL', undefined);
@@ -21,7 +23,12 @@ export default class LoginOidcRoute extends Route {
   beforeModel(transition) {
     const queryParams = transition.to.queryParams;
     if (queryParams.error) {
-      throw new Error(`${queryParams.error}: ${queryParams.error_description}`);
+      const error = createTranslatedApplicationError.withCodeAndDescription({
+        code: queryParams.error,
+        description: queryParams.error_description,
+        intl: this.intl,
+      });
+      throw error;
     }
 
     if (!queryParams.code) {
