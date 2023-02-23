@@ -1062,7 +1062,7 @@
       "total-score-helper": {
         "label": "Ouvrir l'infobulle",
         "icon": "Information sur les pix",
-        "title": "Pourquoi {maxReachablePixScore} pix ?",
+        "title": "Pourquoi 1024 pix ?",
         "explanation": "<p>C’est le nombre maximum de pix qu’on pourra atteindre lorsque les 8 niveaux du référentiel Pix seront disponibles.'</p><p>'Aujourd’hui, '<span class=\"hexagon-score-information__text--strong\">'le maximum est de {maxReachablePixScore} pix'</span>', correspondant au niveau {maxReachableLevel}.'</p>'"
       }
     },
