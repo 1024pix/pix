@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
-import { click, currentURL } from '@ember/test-helpers';
-import { visit } from '@1024pix/ember-testing-library';
+import { click, currentURL, fillIn } from '@ember/test-helpers';
+import { visit, clickByName } from '@1024pix/ember-testing-library';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import setupIntl from '../../../helpers/setup-intl';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -58,11 +58,6 @@ module('Acceptance | Trainings | Triggers edit', function (hooks) {
 
       // then
       assert.strictEqual(currentURL(), `/trainings/${trainingId}/triggers/edit?type=prerequisite`);
-      assert.dom(screen.getByText('Sélection des sujets', { exact: false })).exists();
-      await click(screen.getByText('area_f1_a1 code', { exact: false }));
-      await click(screen.getByText('competence_f1_a1_c1 index', { exact: false }));
-      await click(screen.getByText('thematic_f1_a1_c1_th1 name', { exact: false }));
-      assert.dom(screen.getByText('2/5')).exists();
     });
 
     test('it should be accessible by an authenticated user : goal edit', async function (assert) {
@@ -84,6 +79,31 @@ module('Acceptance | Trainings | Triggers edit', function (hooks) {
       // when
       const screen = await visit(`/trainings/${trainingId}/triggers/edit?type=prerequisite`);
       await click(screen.getByRole('button', { name: 'Annuler' }));
+
+      // then
+      assert.strictEqual(currentURL(), `/trainings/${trainingId}/triggers`);
+    });
+
+    test('it should be able to save a new trigger', async function (assert) {
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+      // when
+      const screen = await visit(`/trainings/${trainingId}/`);
+      await click(
+        screen.getByRole('link', {
+          name: this.intl.t('pages.trainings.training.triggers.prerequisite.alternative-title'),
+        })
+      );
+
+      const thresholdInputs = screen.getByLabelText('Seuil en % :');
+      await fillIn(thresholdInputs, 20);
+
+      await click(screen.getByText('area_f1_a1 code', { exact: false }));
+      await click(screen.getByText('competence_f1_a1_c1 index', { exact: false }));
+      await click(screen.getByText('thematic_f1_a1_c1_th1 name', { exact: false }));
+      assert.dom(screen.getByText('2/5')).exists();
+
+      await clickByName('Enregistrer le déclencheur');
 
       // then
       assert.strictEqual(currentURL(), `/trainings/${trainingId}/triggers`);
