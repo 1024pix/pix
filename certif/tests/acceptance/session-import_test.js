@@ -71,12 +71,12 @@ module('Acceptance | Session Import', function (hooks) {
 
         // when
         screen = await visit('/sessions/import');
-        const importButton = await screen.findByText('Continuer');
+        const importButton = screen.getByRole('button', { name: 'Continuer' });
         assert.dom(importButton).hasClass('pix-button--disabled');
         const input = await screen.findByLabelText('Importer le modèle complété');
         await triggerEvent(input, 'change', { files: [file] });
         assert.dom(importButton).doesNotHaveClass('pix-button--disabled');
-        await click(await screen.findByText('Continuer'));
+        await click(importButton);
 
         // then
         assert.dom(importButton).hasClass('pix-button--disabled');
@@ -104,7 +104,7 @@ module('Acceptance | Session Import', function (hooks) {
           screen = await visit('/sessions/import');
           const importButton = screen.getByLabelText('Importer le modèle complété');
           await triggerEvent(importButton, 'change', { files: [file] });
-          const importConfirmationButton = screen.getByText('Continuer');
+          const importConfirmationButton = screen.getByRole('button', { name: 'Continuer' });
           await click(importConfirmationButton);
 
           // when
@@ -146,7 +146,7 @@ module('Acceptance | Session Import', function (hooks) {
           screen = await visit('/sessions/import');
           const input = screen.getByLabelText('Importer le modèle complété');
           await triggerEvent(input, 'change', { files: [file] });
-          const importButton = await screen.findByText('Continuer');
+          const importButton = screen.getByRole('button', { name: 'Continuer' });
           await click(importButton);
 
           // then
@@ -164,7 +164,7 @@ module('Acceptance | Session Import', function (hooks) {
           screen = await visit('/sessions/import');
           const input = await screen.findByLabelText('Importer le modèle complété');
           await triggerEvent(input, 'change', { files: [file] });
-          const importButton = await screen.findByText('Continuer');
+          const importButton = screen.getByRole('button', { name: 'Continuer' });
           await click(importButton);
 
           // then

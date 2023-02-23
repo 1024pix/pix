@@ -69,8 +69,8 @@
     <PixButtonLink @route="authenticated.sessions.list" @backgroundColor="transparent-light" @isBorderVisible={{true}}>
       {{t "common.actions.cancel"}}
     </PixButtonLink>
-    <PixButtonLink onclick={{@importSessions}} @isDisabled={{@isImportDisabled}}>
+    <PixButton @triggerAction={{@importSessions}} @isDisabled={{@isImportDisabled}}>
       {{t "common.actions.continue"}}
-    </PixButtonLink>
+    </PixButton>
   </div>
 </section>
