@@ -1,6 +1,6 @@
-const { knex } = require('../../../db/knex-database-connection');
-const DataProtectionOfficer = require('../../domain/models/DataProtectionOfficer');
-const DomainTransaction = require('../DomainTransaction');
+const { knex } = require('../../../db/knex-database-connection.js');
+const DataProtectionOfficer = require('../../domain/models/DataProtectionOfficer.js');
+const DomainTransaction = require('../DomainTransaction.js');
 
 const DATA_PROTECTION_OFFICERS_TABLE_NAME = 'data-protection-officers';
 

@@ -1,6 +1,6 @@
-const Bookshelf = require('../bookshelf');
+const Bookshelf = require('../bookshelf.js');
 
-require('./Assessment');
+require('./Assessment.js');
 
 const modelName = 'Answer';
 

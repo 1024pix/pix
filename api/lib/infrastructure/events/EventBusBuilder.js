@@ -1,8 +1,8 @@
-const EventBus = require('./EventBus');
-const dependenciesBuilder = require('./EventHandlerDependenciesBuilder');
-const LogEvent = require('./subscribers/LogEvent');
-const ScheduleParticipationResultCalculationJob = require('./subscribers/ScheduleParticipationResultCalculationJob');
-const ScheduleSendSharedParticipationResultsToPoleEmploiJob = require('./subscribers/ScheduleSendSharedParticipationResultsToPoleEmploiJob');
+const EventBus = require('./EventBus.js');
+const dependenciesBuilder = require('./EventHandlerDependenciesBuilder.js');
+const LogEvent = require('./subscribers/LogEvent.js');
+const ScheduleParticipationResultCalculationJob = require('./subscribers/ScheduleParticipationResultCalculationJob.js');
+const ScheduleSendSharedParticipationResultsToPoleEmploiJob = require('./subscribers/ScheduleSendSharedParticipationResultsToPoleEmploiJob.js');
 
 const subscribers = [
   LogEvent,

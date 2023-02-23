@@ -1,4 +1,4 @@
-const SkillSetResult = require('./SkillSetResult');
+const SkillSetResult = require('./SkillSetResult.js');
 
 class BadgeResult {
   constructor(badge, participationResults) {

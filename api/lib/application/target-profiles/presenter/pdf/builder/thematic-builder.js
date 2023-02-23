@@ -1,9 +1,9 @@
 const sortBy = require('lodash/sortBy');
-const tubeBuilder = require('./tube-builder');
+const tubeBuilder = require('./tube-builder.js');
 const ThematicText = require('../drawer/ThematicText.js');
-const PositionManager = require('../manager/position-manager');
-const FontManager = require('../manager/font-manager');
-const ColorManager = require('../manager/color-manager');
+const PositionManager = require('../manager/position-manager.js');
+const FontManager = require('../manager/font-manager.js');
+const ColorManager = require('../manager/color-manager.js');
 
 module.exports = {
   /**

@@ -6,15 +6,15 @@ const {
   CampaignCodeError,
   EntityValidationError,
   OrganizationLearnerAlreadyLinkedToUserError,
-} = require('../errors');
+} = require('../errors.js');
 
-const User = require('../models/User');
+const User = require('../models/User.js');
 
-const passwordValidator = require('../validators/password-validator');
-const userValidator = require('../validators/user-validator');
+const passwordValidator = require('../validators/password-validator.js');
+const userValidator = require('../validators/user-validator.js');
 
-const { getCampaignUrl } = require('../../infrastructure/utils/url-builder');
-const { STUDENT_RECONCILIATION_ERRORS } = require('../constants');
+const { getCampaignUrl } = require('../../infrastructure/utils/url-builder.js');
+const { STUDENT_RECONCILIATION_ERRORS } = require('../constants.js');
 
 function _encryptPassword(userPassword, encryptionService) {
   const encryptedPassword = encryptionService.hashPassword(userPassword);

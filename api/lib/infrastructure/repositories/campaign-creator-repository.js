@@ -1,6 +1,6 @@
-const { knex } = require('../../../db/knex-database-connection');
-const CampaignCreator = require('../../../lib/domain/models/CampaignCreator');
-const { UserNotAuthorizedToCreateCampaignError } = require('../../domain/errors');
+const { knex } = require('../../../db/knex-database-connection.js');
+const CampaignCreator = require('../../../lib/domain/models/CampaignCreator.js');
+const { UserNotAuthorizedToCreateCampaignError } = require('../../domain/errors.js');
 
 async function get({ userId, organizationId, ownerId }) {
   await _checkUserIsAMemberOfOrganization({ organizationId, userId });

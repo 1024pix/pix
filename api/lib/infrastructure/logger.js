@@ -1,6 +1,6 @@
 const pino = require('pino');
 const pretty = require('pino-pretty');
-const { logging: logSettings } = require('../config');
+const { logging: logSettings } = require('../config.js');
 
 let prettyPrint;
 if (logSettings.logForHumans) {

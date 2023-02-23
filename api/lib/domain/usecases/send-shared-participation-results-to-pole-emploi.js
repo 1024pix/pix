@@ -1,5 +1,5 @@
-const PoleEmploiPayload = require('../../infrastructure/externals/pole-emploi/PoleEmploiPayload');
-const PoleEmploiSending = require('../models/PoleEmploiSending');
+const PoleEmploiPayload = require('../../infrastructure/externals/pole-emploi/PoleEmploiPayload.js');
+const PoleEmploiSending = require('../models/PoleEmploiSending.js');
 
 module.exports = async function sendSharedParticipationResultsToPoleEmploi({
   badgeRepository,

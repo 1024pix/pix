@@ -1,7 +1,7 @@
 const BaseJoi = require('joi');
 const JoiDate = require('@joi/date');
 const Joi = BaseJoi.extend(JoiDate);
-const { validateEntity } = require('../validators/entity-validator');
+const { validateEntity } = require('../validators/entity-validator.js');
 
 const identityProviders = {
   PIX: 'PIX',

@@ -1,4 +1,4 @@
-const Progression = require('../../../lib/domain/models/Progression');
+const Progression = require('../../../lib/domain/models/Progression.js');
 
 module.exports = async function getProgression({
   progressionId,

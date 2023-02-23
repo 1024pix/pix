@@ -1,6 +1,6 @@
 const Joi = require('joi');
-const securityPreHandlers = require('../security-pre-handlers');
-const scoringSimulatorController = require('./scoring-simulator-controller');
+const securityPreHandlers = require('../security-pre-handlers.js');
+const scoringSimulatorController = require('./scoring-simulator-controller.js');
 
 exports.register = async (server) => {
   server.route([

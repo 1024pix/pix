@@ -1,5 +1,5 @@
-const complementaryCertificationController = require('./complementary-certification-controller');
-const securityPreHandlers = require('../security-pre-handlers');
+const complementaryCertificationController = require('./complementary-certification-controller.js');
+const securityPreHandlers = require('../security-pre-handlers.js');
 
 exports.register = async function (server) {
   server.route([

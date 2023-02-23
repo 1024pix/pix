@@ -1,6 +1,6 @@
-const KnowledgeElement = require('./KnowledgeElement');
-const { calculatePixScore } = require('../services/scoring/scoring-service');
-const { MAX_REACHABLE_PIX_BY_COMPETENCE } = require('../constants');
+const KnowledgeElement = require('./KnowledgeElement.js');
+const { calculatePixScore } = require('../services/scoring/scoring-service.js');
+const { MAX_REACHABLE_PIX_BY_COMPETENCE } = require('../constants.js');
 const MAX_PIX_SCORE = MAX_REACHABLE_PIX_BY_COMPETENCE * 16;
 
 class ParticipantResultsShared {

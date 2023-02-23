@@ -6,16 +6,16 @@ const {
   OrganizationLearnersCouldNotBeSavedError,
   UserCouldNotBeReconciledError,
   UserNotFoundError,
-} = require('../../domain/errors');
+} = require('../../domain/errors.js');
 
-const OrganizationLearner = require('../../domain/models/OrganizationLearner');
-const OrganizationLearnerForAdmin = require('../../domain/read-models/OrganizationLearnerForAdmin');
-const studentRepository = require('./student-repository');
+const OrganizationLearner = require('../../domain/models/OrganizationLearner.js');
+const OrganizationLearnerForAdmin = require('../../domain/read-models/OrganizationLearnerForAdmin.js');
+const studentRepository = require('./student-repository.js');
 
-const { knex } = require('../../../db/knex-database-connection');
-const { fetchPage } = require('../utils/knex-utils');
+const { knex } = require('../../../db/knex-database-connection.js');
+const { fetchPage } = require('../utils/knex-utils.js');
 
-const DomainTransaction = require('../DomainTransaction');
+const DomainTransaction = require('../DomainTransaction.js');
 
 function _shouldStudentToImportBeReconciled(
   allOrganizationLearnersInSameOrganization,

@@ -1,7 +1,7 @@
-const { knex } = require('../../../db/knex-database-connection');
-const DomainTransaction = require('../DomainTransaction');
-const TrainingTrigger = require('../../domain/models/TrainingTrigger');
-const TrainingTriggerTube = require('../../domain/models/TrainingTriggerTube');
+const { knex } = require('../../../db/knex-database-connection.js');
+const DomainTransaction = require('../DomainTransaction.js');
+const TrainingTrigger = require('../../domain/models/TrainingTrigger.js');
+const TrainingTriggerTube = require('../../domain/models/TrainingTriggerTube.js');
 const TABLE_NAME = 'training-triggers';
 
 module.exports = {

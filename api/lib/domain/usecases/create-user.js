@@ -1,9 +1,9 @@
-const { AlreadyRegisteredEmailError, EntityValidationError } = require('../errors');
+const { AlreadyRegisteredEmailError, EntityValidationError } = require('../errors.js');
 
-const userValidator = require('../validators/user-validator');
-const passwordValidator = require('../validators/password-validator');
+const userValidator = require('../validators/user-validator.js');
+const passwordValidator = require('../validators/password-validator.js');
 
-const { getCampaignUrl } = require('../../infrastructure/utils/url-builder');
+const { getCampaignUrl } = require('../../infrastructure/utils/url-builder.js');
 
 function _manageEmailAvailabilityError(error) {
   return _manageError(error, AlreadyRegisteredEmailError, 'email', 'ALREADY_REGISTERED_EMAIL');

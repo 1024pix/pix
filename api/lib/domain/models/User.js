@@ -1,9 +1,9 @@
 const toLower = require('lodash/toLower');
 const isNil = require('lodash/isNil');
 const dayjs = require('dayjs');
-const config = require('../../config');
+const config = require('../../config.js');
 
-const AuthenticationMethod = require('./AuthenticationMethod');
+const AuthenticationMethod = require('./AuthenticationMethod.js');
 
 class User {
   constructor({

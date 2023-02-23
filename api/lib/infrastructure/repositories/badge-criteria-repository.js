@@ -1,6 +1,6 @@
-const { knex } = require('../../../db/knex-database-connection');
-const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
+const { knex } = require('../../../db/knex-database-connection.js');
+const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion.js');
+const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
 
 const TABLE_NAME = 'badge-criteria';
 

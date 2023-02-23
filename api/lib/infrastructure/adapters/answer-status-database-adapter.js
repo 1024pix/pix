@@ -1,4 +1,4 @@
-const AnswerStatus = require('../../domain/models/AnswerStatus');
+const AnswerStatus = require('../../domain/models/AnswerStatus.js');
 
 const UNIMPLEMENTED = 'unimplemented';
 const TIMEDOUT = 'timedout';

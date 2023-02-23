@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
-const courseController = require('./course-controller');
-const identifiersType = require('../../domain/types/identifiers-type');
+const courseController = require('./course-controller.js');
+const identifiersType = require('../../domain/types/identifiers-type.js');
 
 exports.register = async function (server) {
   server.route([

@@ -1,9 +1,9 @@
-const { SiecleXmlImportError } = require('../../../domain/errors');
+const { SiecleXmlImportError } = require('../../../domain/errors.js');
 const xml2js = require('xml2js');
 const saxPath = require('saxpath');
 const { isEmpty, isUndefined } = require('lodash');
-const SiecleFileStreamer = require('../../utils/xml/siecle-file-streamer');
-const XMLOrganizationLearnerSet = require('./xml-organization-learner-set');
+const SiecleFileStreamer = require('../../utils/xml/siecle-file-streamer.js');
+const XMLOrganizationLearnerSet = require('./xml-organization-learner-set.js');
 
 const ERRORS = {
   UAI_MISMATCHED: 'UAI_MISMATCHED',

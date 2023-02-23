@@ -2,12 +2,12 @@ const BaseJoi = require('joi');
 const JoiDate = require('@joi/date');
 const Joi = BaseJoi.extend(JoiDate);
 
-const { sendJsonApiError, UnprocessableEntityError, BadRequestError } = require('../http-errors');
-const scoOrganizationLearnerController = require('./sco-organization-learner-controller');
+const { sendJsonApiError, UnprocessableEntityError, BadRequestError } = require('../http-errors.js');
+const scoOrganizationLearnerController = require('./sco-organization-learner-controller.js');
 const XRegExp = require('xregexp');
-const securityPreHandlers = require('../security-pre-handlers');
-const identifiersType = require('../../domain/types/identifiers-type');
-const { passwordValidationPattern } = require('../../config').account;
+const securityPreHandlers = require('../security-pre-handlers.js');
+const identifiersType = require('../../domain/types/identifiers-type.js');
+const { passwordValidationPattern } = require('../../config.js').account;
 
 const inePattern = new RegExp('^[0-9]{9}[a-zA-Z]{2}$');
 const inaPattern = new RegExp('^[0-9]{10}[a-zA-Z]{1}$');

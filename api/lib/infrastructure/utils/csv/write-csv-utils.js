@@ -1,5 +1,5 @@
 const { parseAsync } = require('json2csv');
-const { CsvParsingError } = require('../../../../lib/domain/errors');
+const { CsvParsingError } = require('../../../../lib/domain/errors.js');
 
 async function getCsvContent({ data, delimiter = ';', eol = '\n', fileHeaders, withBOM = true }) {
   try {

@@ -1,4 +1,4 @@
-const CertificationCandidateSubscription = require('../read-models/CertificationCandidateSubscription');
+const CertificationCandidateSubscription = require('../read-models/CertificationCandidateSubscription.js');
 const _ = require('lodash');
 
 module.exports = async function getCertificationCandidateSubscription({

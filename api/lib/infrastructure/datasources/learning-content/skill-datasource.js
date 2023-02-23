@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const datasource = require('./datasource');
+const datasource = require('./datasource.js');
 
 const ACTIVE_STATUS = 'actif';
 const OPERATIVE_STATUSES = ['actif', 'archivé'];

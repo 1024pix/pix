@@ -1,4 +1,4 @@
-const { UserNotAuthorizedToFindTrainings } = require('../errors');
+const { UserNotAuthorizedToFindTrainings } = require('../errors.js');
 
 module.exports = async function findCampaignParticipationTrainings({
   userId,

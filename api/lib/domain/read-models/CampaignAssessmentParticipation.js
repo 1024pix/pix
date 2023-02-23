@@ -1,5 +1,5 @@
-const Assessment = require('../models/Assessment');
-const CampaignParticipationStatuses = require('../models/CampaignParticipationStatuses');
+const Assessment = require('../models/Assessment.js');
+const CampaignParticipationStatuses = require('../models/CampaignParticipationStatuses.js');
 const _ = require('lodash');
 
 const { SHARED } = CampaignParticipationStatuses;

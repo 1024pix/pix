@@ -1,6 +1,6 @@
 const { orderBy, range, sortBy, sortedUniqBy, sumBy } = require('lodash');
 
-const config = require('../../../config');
+const config = require('../../../config.js');
 
 const DEFAULT_ESTIMATED_LEVEL = 0;
 const START_OF_SAMPLES = -9;

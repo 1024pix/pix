@@ -1,5 +1,5 @@
-const AssessmentResultController = require('./assessment-result-controller');
-const securityPreHandlers = require('../security-pre-handlers');
+const AssessmentResultController = require('./assessment-result-controller.js');
+const securityPreHandlers = require('../security-pre-handlers.js');
 
 exports.register = async (server) => {
   server.route([

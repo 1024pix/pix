@@ -1,5 +1,5 @@
 const get = require('lodash/get');
-const { BadRequestError, sendJsonApiError } = require('./application/http-errors');
+const { BadRequestError, sendJsonApiError } = require('./application/http-errors.js');
 
 function handleFailAction(request, h, err) {
   const message = get(err, 'details[0].message', '');

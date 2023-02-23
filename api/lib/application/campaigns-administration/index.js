@@ -1,7 +1,7 @@
-const { sendJsonApiError, PayloadTooLargeError } = require('../http-errors');
+const { sendJsonApiError, PayloadTooLargeError } = require('../http-errors.js');
 
-const campaignController = require('./campaign-controller');
-const securityPreHandlers = require('../security-pre-handlers');
+const campaignController = require('./campaign-controller.js');
+const securityPreHandlers = require('../security-pre-handlers.js');
 const TWENTY_MEGABYTES = 1048576 * 20;
 
 const ERRORS = {

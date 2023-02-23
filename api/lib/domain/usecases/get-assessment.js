@@ -1,4 +1,4 @@
-const Assessment = require('../models/Assessment');
+const Assessment = require('../models/Assessment.js');
 
 module.exports = async function getAssessment({
   assessmentId,

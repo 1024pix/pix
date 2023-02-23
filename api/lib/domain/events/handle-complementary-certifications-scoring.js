@@ -1,10 +1,10 @@
-const { checkEventTypes } = require('./check-event-types');
-const CertificationScoringCompleted = require('./CertificationScoringCompleted');
-const CertificationRescoringCompleted = require('./CertificationRescoringCompleted');
-const { ReproducibilityRate } = require('../models/ReproducibilityRate');
-const AnswerCollectionForScoring = require('../models/AnswerCollectionForScoring');
-const ComplementaryCertificationScoringWithComplementaryReferential = require('../models/ComplementaryCertificationScoringWithComplementaryReferential');
-const ComplementaryCertificationScoringWithoutComplementaryReferential = require('../models/ComplementaryCertificationScoringWithoutComplementaryReferential');
+const { checkEventTypes } = require('./check-event-types.js');
+const CertificationScoringCompleted = require('./CertificationScoringCompleted.js');
+const CertificationRescoringCompleted = require('./CertificationRescoringCompleted.js');
+const { ReproducibilityRate } = require('../models/ReproducibilityRate.js');
+const AnswerCollectionForScoring = require('../models/AnswerCollectionForScoring.js');
+const ComplementaryCertificationScoringWithComplementaryReferential = require('../models/ComplementaryCertificationScoringWithComplementaryReferential.js');
+const ComplementaryCertificationScoringWithoutComplementaryReferential = require('../models/ComplementaryCertificationScoringWithoutComplementaryReferential.js');
 
 const eventTypes = [CertificationScoringCompleted, CertificationRescoringCompleted];
 

@@ -1,8 +1,8 @@
-const { NotFoundError, MissingAttributesError } = require('../../domain/errors');
-const OrganizationForAdmin = require('../../domain/models/OrganizationForAdmin');
-const Tag = require('../../domain/models/Tag');
-const { knex } = require('../../../db/knex-database-connection');
-const OrganizationInvitation = require('../../domain/models/OrganizationInvitation');
+const { NotFoundError, MissingAttributesError } = require('../../domain/errors.js');
+const OrganizationForAdmin = require('../../domain/models/OrganizationForAdmin.js');
+const Tag = require('../../domain/models/Tag.js');
+const { knex } = require('../../../db/knex-database-connection.js');
+const OrganizationInvitation = require('../../domain/models/OrganizationInvitation.js');
 const _ = require('lodash');
 
 const ORGANIZATIONS_TABLE_NAME = 'organizations';

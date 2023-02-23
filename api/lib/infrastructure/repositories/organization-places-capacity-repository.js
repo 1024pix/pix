@@ -1,5 +1,5 @@
-const { knex } = require('../../../db/knex-database-connection');
-const OrganizationPlacesCapacity = require('../../domain/read-models/OrganizationPlacesCapacity');
+const { knex } = require('../../../db/knex-database-connection.js');
+const OrganizationPlacesCapacity = require('../../domain/read-models/OrganizationPlacesCapacity.js');
 
 async function findByOrganizationId(organizationId) {
   const now = new Date();

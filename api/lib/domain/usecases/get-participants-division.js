@@ -1,4 +1,4 @@
-const { ForbiddenAccess } = require('../errors');
+const { ForbiddenAccess } = require('../errors.js');
 
 module.exports = async function getParticipantsDivision({
   userId,

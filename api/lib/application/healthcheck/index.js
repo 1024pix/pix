@@ -1,4 +1,4 @@
-const healthcheckController = require('./healthcheck-controller');
+const healthcheckController = require('./healthcheck-controller.js');
 
 exports.register = async function (server) {
   server.route([

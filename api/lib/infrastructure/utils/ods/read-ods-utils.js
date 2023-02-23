@@ -1,8 +1,8 @@
 const _ = require('lodash');
 const XLSX = require('xlsx');
 
-const { UnprocessableEntityError } = require('../../../application/http-errors');
-const { loadOdsZip } = require('./common-ods-utils');
+const { UnprocessableEntityError } = require('../../../application/http-errors.js');
+const { loadOdsZip } = require('./common-ods-utils.js');
 
 const CONTENT_XML_IN_ODS = 'content.xml';
 

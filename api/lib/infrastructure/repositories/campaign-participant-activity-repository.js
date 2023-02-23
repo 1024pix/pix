@@ -1,7 +1,7 @@
-const { knex } = require('../../../db/knex-database-connection');
-const CampaignParticipantActivity = require('../../domain/read-models/CampaignParticipantActivity');
-const { fetchPage } = require('../utils/knex-utils');
-const { filterByFullName } = require('../utils/filter-utils');
+const { knex } = require('../../../db/knex-database-connection.js');
+const CampaignParticipantActivity = require('../../domain/read-models/CampaignParticipantActivity.js');
+const { fetchPage } = require('../utils/knex-utils.js');
+const { filterByFullName } = require('../utils/filter-utils.js');
 
 const campaignParticipantActivityRepository = {
   async findPaginatedByCampaignId({ page = { size: 25 }, campaignId, filters = {} }) {

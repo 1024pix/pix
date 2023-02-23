@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
-const userOrgaSettingsController = require('./user-orga-settings-controller');
-const identifiersType = require('../../domain/types/identifiers-type');
+const userOrgaSettingsController = require('./user-orga-settings-controller.js');
+const identifiersType = require('../../domain/types/identifiers-type.js');
 
 exports.register = async function (server) {
   server.route([

@@ -1,9 +1,9 @@
-const Session = require('../models/Session');
-const sessionCodeService = require('../services/session-code-service');
-const sessionsImportValidationService = require('../services/sessions-import-validation-service');
-const CertificationCandidate = require('../models/CertificationCandidate');
+const Session = require('../models/Session.js');
+const sessionCodeService = require('../services/session-code-service.js');
+const sessionsImportValidationService = require('../services/sessions-import-validation-service.js');
+const CertificationCandidate = require('../models/CertificationCandidate.js');
 const bluebird = require('bluebird');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
+const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
 
 module.exports = async function createSessions({
   sessions,

@@ -1,6 +1,6 @@
-const targetProfileForUpdate = require('../../domain/models/TargetProfileForUpdate');
-const { knex } = require('../../../db/knex-database-connection');
-const { NotFoundError } = require('../../domain/errors');
+const targetProfileForUpdate = require('../../domain/models/TargetProfileForUpdate.js');
+const { knex } = require('../../../db/knex-database-connection.js');
+const { NotFoundError } = require('../../domain/errors.js');
 
 module.exports = {
   async get(id) {

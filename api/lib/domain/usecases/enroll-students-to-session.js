@@ -1,6 +1,6 @@
-const SCOCertificationCandidate = require('../models/SCOCertificationCandidate');
+const SCOCertificationCandidate = require('../models/SCOCertificationCandidate.js');
 const _ = require('lodash');
-const { ForbiddenAccess, UnknownCountryForStudentEnrollmentError } = require('../errors');
+const { ForbiddenAccess, UnknownCountryForStudentEnrollmentError } = require('../errors.js');
 const INSEE_PREFIX_CODE = '99';
 
 module.exports = async function enrollStudentsToSession({

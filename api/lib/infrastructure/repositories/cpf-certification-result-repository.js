@@ -1,7 +1,7 @@
-const { knex } = require('../../../db/knex-database-connection');
-const CpfCertificationResult = require('../../domain/read-models/CpfCertificationResult');
-const AssessmentResult = require('../../domain/models/AssessmentResult');
-const { cpfImportStatus } = require('../../domain/models/CertificationCourse');
+const { knex } = require('../../../db/knex-database-connection.js');
+const CpfCertificationResult = require('../../domain/read-models/CpfCertificationResult.js');
+const AssessmentResult = require('../../domain/models/AssessmentResult.js');
+const { cpfImportStatus } = require('../../domain/models/CertificationCourse.js');
 
 module.exports = {
   async getIdsByTimeRange({ startDate, endDate }) {

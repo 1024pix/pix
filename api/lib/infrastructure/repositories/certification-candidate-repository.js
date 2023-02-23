@@ -1,18 +1,18 @@
 const _ = require('lodash');
-const { normalize } = require('../utils/string-utils');
-const logger = require('../../infrastructure/logger');
-const CertificationCandidateBookshelf = require('../orm-models/CertificationCandidate');
-const bookshelfToDomainConverter = require('../../infrastructure/utils/bookshelf-to-domain-converter');
-const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../db/pgsql-errors');
+const { normalize } = require('../utils/string-utils.js');
+const logger = require('../../infrastructure/logger.js');
+const CertificationCandidateBookshelf = require('../orm-models/CertificationCandidate.js');
+const bookshelfToDomainConverter = require('../../infrastructure/utils/bookshelf-to-domain-converter.js');
+const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../db/pgsql-errors.js');
 const {
   NotFoundError,
   CertificationCandidateCreationOrUpdateError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
-} = require('../../domain/errors');
-const { knex } = require('../../../db/knex-database-connection');
-const CertificationCandidate = require('../../domain/models/CertificationCandidate');
-const ComplementaryCertification = require('../../domain/models/ComplementaryCertification');
-const DomainTransaction = require('../DomainTransaction');
+} = require('../../domain/errors.js');
+const { knex } = require('../../../db/knex-database-connection.js');
+const CertificationCandidate = require('../../domain/models/CertificationCandidate.js');
+const ComplementaryCertification = require('../../domain/models/ComplementaryCertification.js');
+const DomainTransaction = require('../DomainTransaction.js');
 
 module.exports = {
   async linkToUser({ id, userId }) {

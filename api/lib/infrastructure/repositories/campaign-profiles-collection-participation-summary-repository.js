@@ -1,12 +1,12 @@
 const chunk = require('lodash/chunk');
 const bluebird = require('bluebird');
-const { knex } = require('../../../db/knex-database-connection');
-const placementProfileService = require('../../domain/services/placement-profile-service');
-const CampaignProfilesCollectionParticipationSummary = require('../../domain/read-models/CampaignProfilesCollectionParticipationSummary');
-const competenceRepository = require('../../infrastructure/repositories/competence-repository');
-const constants = require('../constants');
-const { fetchPage } = require('../utils/knex-utils');
-const { filterByFullName } = require('../utils/filter-utils');
+const { knex } = require('../../../db/knex-database-connection.js');
+const placementProfileService = require('../../domain/services/placement-profile-service.js');
+const CampaignProfilesCollectionParticipationSummary = require('../../domain/read-models/CampaignProfilesCollectionParticipationSummary.js');
+const competenceRepository = require('../../infrastructure/repositories/competence-repository.js');
+const constants = require('../constants.js');
+const { fetchPage } = require('../utils/knex-utils.js');
+const { filterByFullName } = require('../utils/filter-utils.js');
 
 const CampaignProfilesCollectionParticipationSummaryRepository = {
   async findPaginatedByCampaignId(campaignId, page, filters = {}) {

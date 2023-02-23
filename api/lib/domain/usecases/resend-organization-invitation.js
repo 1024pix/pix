@@ -1,4 +1,4 @@
-const organizationInvitationService = require('../../domain/services/organization-invitation-service');
+const organizationInvitationService = require('../../domain/services/organization-invitation-service.js');
 
 module.exports = async function resendOrganizationInvitation({
   organizationId,

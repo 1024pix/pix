@@ -1,4 +1,4 @@
-const CampaignTypes = require('../models/CampaignTypes');
+const CampaignTypes = require('../models/CampaignTypes.js');
 const countBy = require('lodash/countBy');
 
 class OrganizationLearnerActivity {

@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const { first } = require('lodash');
-const { EntityValidationError } = require('../../errors');
-const TargetProfile = require('../../models/TargetProfile');
+const { EntityValidationError } = require('../../errors.js');
+const TargetProfile = require('../../models/TargetProfile.js');
 
 const categories = TargetProfile.categories;
 

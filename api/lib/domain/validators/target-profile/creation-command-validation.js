@@ -1,6 +1,6 @@
 const Joi = require('joi');
-const { schema: base } = require('./base-validation');
-const { EntityValidationError } = require('../../errors');
+const { schema: base } = require('./base-validation.js');
+const { EntityValidationError } = require('../../errors.js');
 
 const schema = base.keys({
   description: Joi.string().allow(null),

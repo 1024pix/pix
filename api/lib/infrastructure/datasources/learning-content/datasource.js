@@ -1,7 +1,7 @@
 const _ = require('lodash');
-const lcms = require('../../lcms');
-const LearningContentResourceNotFound = require('./LearningContentResourceNotFound');
-const cache = require('../../caches/learning-content-cache');
+const lcms = require('../../lcms.js');
+const LearningContentResourceNotFound = require('./LearningContentResourceNotFound.js');
+const cache = require('../../caches/learning-content-cache.js');
 
 const _DatasourcePrototype = {
   async get(id) {

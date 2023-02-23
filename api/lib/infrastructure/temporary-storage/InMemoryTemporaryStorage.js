@@ -1,6 +1,6 @@
 const NodeCache = require('node-cache');
 const trim = require('lodash/trim');
-const TemporaryStorage = require('./TemporaryStorage');
+const TemporaryStorage = require('./TemporaryStorage.js');
 const { noop } = require('lodash');
 
 class InMemoryTemporaryStorage extends TemporaryStorage {

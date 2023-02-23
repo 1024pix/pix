@@ -1,7 +1,7 @@
 const _ = require('lodash');
-const authenticationMethodRepository = require('../../infrastructure/repositories/authentication-method-repository');
-const AuthenticationMethod = require('../models/AuthenticationMethod');
-const { NotFoundError } = require('../errors');
+const authenticationMethodRepository = require('../../infrastructure/repositories/authentication-method-repository.js');
+const AuthenticationMethod = require('../models/AuthenticationMethod.js');
+const { NotFoundError } = require('../errors.js');
 
 const CONNEXION_TYPES = {
   username: 'username',

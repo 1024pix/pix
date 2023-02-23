@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
-const { bcryptNumberOfSaltRounds } = require('../../config');
-const PasswordNotMatching = require('../errors').PasswordNotMatching;
+const { bcryptNumberOfSaltRounds } = require('../../config.js');
+const PasswordNotMatching = require('../errors.js').PasswordNotMatching;
 
 module.exports = {
   hashPassword: (password) => bcrypt.hash(password, bcryptNumberOfSaltRounds),

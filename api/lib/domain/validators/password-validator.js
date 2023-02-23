@@ -1,8 +1,8 @@
 const Joi = require('joi');
 const XRegExp = require('xregexp');
 
-const { passwordValidationPattern } = require('../../config').account;
-const { EntityValidationError } = require('../errors');
+const { passwordValidationPattern } = require('../../config.js').account;
+const { EntityValidationError } = require('../errors.js');
 
 const pattern = XRegExp(passwordValidationPattern);
 

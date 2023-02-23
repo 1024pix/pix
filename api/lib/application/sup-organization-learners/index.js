@@ -2,10 +2,10 @@ const BaseJoi = require('joi');
 const JoiDate = require('@joi/date');
 const Joi = BaseJoi.extend(JoiDate);
 
-const { sendJsonApiError, UnprocessableEntityError, NotFoundError } = require('../http-errors');
-const supOrganizationLearnerController = require('./sup-organization-learner-controller');
-const securityPreHandlers = require('../security-pre-handlers');
-const identifiersType = require('../../domain/types/identifiers-type');
+const { sendJsonApiError, UnprocessableEntityError, NotFoundError } = require('../http-errors.js');
+const supOrganizationLearnerController = require('./sup-organization-learner-controller.js');
+const securityPreHandlers = require('../security-pre-handlers.js');
+const identifiersType = require('../../domain/types/identifiers-type.js');
 
 exports.register = async function (server) {
   server.route([

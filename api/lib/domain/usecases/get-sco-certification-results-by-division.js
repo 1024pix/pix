@@ -1,5 +1,5 @@
 const isEmpty = require('lodash/isEmpty');
-const { NoCertificationResultForDivision } = require('../errors');
+const { NoCertificationResultForDivision } = require('../errors.js');
 
 module.exports = async function getScoCertificationResultsByDivision({
   organizationId,

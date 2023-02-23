@@ -1,5 +1,5 @@
-const { NotFoundError } = require('../errors');
-const StudentForEnrollment = require('../read-models/StudentForEnrollment');
+const { NotFoundError } = require('../errors.js');
+const StudentForEnrollment = require('../read-models/StudentForEnrollment.js');
 
 module.exports = async function findStudentsForEnrollment({
   certificationCenterId,

@@ -1,5 +1,5 @@
 const usecases = require('../../domain/usecases/index.js');
-const csvCampaingsIdsParser = require('../../infrastructure/serializers/csv/campaigns-administration/csv-campaigns-ids-parser');
+const csvCampaingsIdsParser = require('../../infrastructure/serializers/csv/campaigns-administration/csv-campaigns-ids-parser.js');
 
 module.exports = {
   async archiveCampaigns(request, h) {

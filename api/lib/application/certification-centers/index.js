@@ -1,7 +1,7 @@
-const certificationCenterController = require('./certification-center-controller');
-const securityPreHandlers = require('../security-pre-handlers');
+const certificationCenterController = require('./certification-center-controller.js');
+const securityPreHandlers = require('../security-pre-handlers.js');
 const Joi = require('joi');
-const identifiersType = require('../../domain/types/identifiers-type');
+const identifiersType = require('../../domain/types/identifiers-type.js');
 
 exports.register = async function (server) {
   const adminRoutes = [

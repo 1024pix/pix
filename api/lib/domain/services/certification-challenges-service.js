@@ -1,20 +1,20 @@
 const _ = require('lodash');
 
-const CertificationChallenge = require('../models/CertificationChallenge');
+const CertificationChallenge = require('../models/CertificationChallenge.js');
 
 const {
   MAX_CHALLENGES_PER_COMPETENCE_FOR_CERTIFICATION,
   MAX_CHALLENGES_PER_AREA_FOR_CERTIFICATION_PLUS,
   PIX_ORIGIN,
-} = require('../constants');
+} = require('../constants.js');
 
-const KnowledgeElement = require('../models/KnowledgeElement');
-const Challenge = require('../models/Challenge');
-const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
-const answerRepository = require('../../infrastructure/repositories/answer-repository');
-const knowledgeElementRepository = require('../../infrastructure/repositories/knowledge-element-repository');
-const learningContentRepository = require('../../infrastructure/repositories/learning-content-repository');
-const certifiableProfileForLearningContentRepository = require('../../infrastructure/repositories/certifiable-profile-for-learning-content-repository');
+const KnowledgeElement = require('../models/KnowledgeElement.js');
+const Challenge = require('../models/Challenge.js');
+const challengeRepository = require('../../infrastructure/repositories/challenge-repository.js');
+const answerRepository = require('../../infrastructure/repositories/answer-repository.js');
+const knowledgeElementRepository = require('../../infrastructure/repositories/knowledge-element-repository.js');
+const learningContentRepository = require('../../infrastructure/repositories/learning-content-repository.js');
+const certifiableProfileForLearningContentRepository = require('../../infrastructure/repositories/certifiable-profile-for-learning-content-repository.js');
 
 module.exports = {
   async pickCertificationChallenges(placementProfile, locale) {

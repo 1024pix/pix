@@ -1,7 +1,7 @@
-const Bookshelf = require('../bookshelf');
+const Bookshelf = require('../bookshelf.js');
 
-require('./Badge');
-require('./User');
+require('./Badge.js');
+require('./User.js');
 
 const modelName = 'BadgeAcquisition';
 

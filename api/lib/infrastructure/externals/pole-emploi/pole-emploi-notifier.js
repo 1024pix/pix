@@ -1,14 +1,14 @@
 const get = require('lodash/get');
 const moment = require('moment');
 const querystring = require('querystring');
-const monitoringTools = require('../../monitoring-tools');
-const authenticationMethodRepository = require('../../repositories/authentication-method-repository');
-const AuthenticationMethod = require('../../../domain/models/AuthenticationMethod');
-const OidcIdentityProviders = require('../../../domain/constants/oidc-identity-providers');
-const httpAgent = require('../../http/http-agent');
-const settings = require('../../../config');
-const { UnexpectedUserAccountError } = require('../../../domain/errors');
-const httpErrorsHelper = require('../../../infrastructure/http/errors-helper');
+const monitoringTools = require('../../monitoring-tools.js');
+const authenticationMethodRepository = require('../../repositories/authentication-method-repository.js');
+const AuthenticationMethod = require('../../../domain/models/AuthenticationMethod.js');
+const OidcIdentityProviders = require('../../../domain/constants/oidc-identity-providers.js');
+const httpAgent = require('../../http/http-agent.js');
+const settings = require('../../../config.js');
+const { UnexpectedUserAccountError } = require('../../../domain/errors.js');
+const httpErrorsHelper = require('../../../infrastructure/http/errors-helper.js');
 
 module.exports = {
   async notify(userId, payload) {

@@ -1,7 +1,7 @@
-const BadgeResult = require('./BadgeResult');
-const ReachedStage = require('./ReachedStage');
-const CompetenceResult = require('./CompetenceResult');
-const constants = require('../../constants');
+const BadgeResult = require('./BadgeResult.js');
+const ReachedStage = require('./ReachedStage.js');
+const CompetenceResult = require('./CompetenceResult.js');
+const constants = require('../../constants.js');
 const moment = require('moment');
 
 class AssessmentResult {

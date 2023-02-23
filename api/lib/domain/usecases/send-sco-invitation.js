@@ -4,8 +4,8 @@ const {
   OrganizationWithoutEmailError,
   ManyOrganizationsFoundError,
   OrganizationArchivedError,
-} = require('../errors');
-const organizationInvitationService = require('../../domain/services/organization-invitation-service');
+} = require('../errors.js');
+const organizationInvitationService = require('../../domain/services/organization-invitation-service.js');
 
 module.exports = async function sendScoInvitation({
   uai,

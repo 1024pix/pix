@@ -1,4 +1,4 @@
-const { UserNotMemberOfOrganizationError } = require('../errors');
+const { UserNotMemberOfOrganizationError } = require('../errors.js');
 const _ = require('lodash');
 
 function _isCurrentOrganizationInMemberships(userOrgaSettings, memberships) {

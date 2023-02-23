@@ -1,5 +1,5 @@
-const { knex } = require('../../../../db/knex-database-connection');
-const StageCollection = require('../../../domain/models/target-profile-management/StageCollection');
+const { knex } = require('../../../../db/knex-database-connection.js');
+const StageCollection = require('../../../domain/models/target-profile-management/StageCollection.js');
 
 module.exports = {
   async getByTargetProfileId(targetProfileId) {

@@ -1,10 +1,10 @@
 const _ = require('lodash');
-const { fetchPage } = require('../utils/knex-utils');
-const { knex } = require('../../../db/knex-database-connection');
-const JuryCertificationSummary = require('../../domain/read-models/JuryCertificationSummary');
-const CertificationIssueReport = require('../../domain/models/CertificationIssueReport');
-const Assessment = require('../../domain/models/Assessment');
-const ComplementaryCertificationCourseResult = require('../../domain/models/ComplementaryCertificationCourseResult');
+const { fetchPage } = require('../utils/knex-utils.js');
+const { knex } = require('../../../db/knex-database-connection.js');
+const JuryCertificationSummary = require('../../domain/read-models/JuryCertificationSummary.js');
+const CertificationIssueReport = require('../../domain/models/CertificationIssueReport.js');
+const Assessment = require('../../domain/models/Assessment.js');
+const ComplementaryCertificationCourseResult = require('../../domain/models/ComplementaryCertificationCourseResult.js');
 
 module.exports = {
   async findBySessionId(sessionId) {

@@ -1,7 +1,7 @@
-const { AlreadyExistingMembershipError } = require('../../domain/errors');
-const { NotFoundError, AlreadyAcceptedOrCancelledInvitationError } = require('../errors');
-const { roles } = require('./Membership');
-const OrganizationInvitation = require('./OrganizationInvitation');
+const { AlreadyExistingMembershipError } = require('../../domain/errors.js');
+const { NotFoundError, AlreadyAcceptedOrCancelledInvitationError } = require('../errors.js');
+const { roles } = require('./Membership.js');
+const OrganizationInvitation = require('./OrganizationInvitation.js');
 
 class OrganizationInvitedUser {
   constructor({ userId, invitation, currentRole, organizationHasMemberships, currentMembershipId, status } = {}) {

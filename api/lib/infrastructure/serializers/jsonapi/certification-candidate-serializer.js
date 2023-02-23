@@ -1,7 +1,7 @@
 const { Serializer, Deserializer } = require('jsonapi-serializer');
-const CertificationCandidate = require('../../../domain/models/CertificationCandidate');
-const { WrongDateFormatError } = require('../../../domain/errors');
-const { isValidDate } = require('../../utils/date-utils');
+const CertificationCandidate = require('../../../domain/models/CertificationCandidate.js');
+const { WrongDateFormatError } = require('../../../domain/errors.js');
+const { isValidDate } = require('../../utils/date-utils.js');
 const _ = require('lodash');
 
 module.exports = {

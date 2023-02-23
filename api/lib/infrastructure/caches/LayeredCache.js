@@ -1,4 +1,4 @@
-const Cache = require('./Cache');
+const Cache = require('./Cache.js');
 
 class LayeredCache extends Cache {
   constructor(firstLevelCache, secondLevelCache) {

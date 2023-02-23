@@ -1,12 +1,12 @@
-const { checkEventTypes } = require('./check-event-types');
-const SessionFinalized = require('./SessionFinalized');
-const CertificationIssueReportResolutionAttempt = require('../models/CertificationIssueReportResolutionAttempt');
-const AutoJuryDone = require('./AutoJuryDone');
-const CertificationJuryDone = require('./CertificationJuryDone');
+const { checkEventTypes } = require('./check-event-types.js');
+const SessionFinalized = require('./SessionFinalized.js');
+const CertificationIssueReportResolutionAttempt = require('../models/CertificationIssueReportResolutionAttempt.js');
+const AutoJuryDone = require('./AutoJuryDone.js');
+const CertificationJuryDone = require('./CertificationJuryDone.js');
 const bluebird = require('bluebird');
 const {
   CertificationIssueReportResolutionStrategies,
-} = require('../models/CertificationIssueReportResolutionStrategies');
+} = require('../models/CertificationIssueReportResolutionStrategies.js');
 
 const eventTypes = [SessionFinalized];
 

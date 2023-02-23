@@ -1,8 +1,8 @@
 const Request = require('@hapi/hapi/lib/request');
-const settings = require('../config');
+const settings = require('../config.js');
 const { get, set, update, omit } = require('lodash');
-const logger = require('../infrastructure/logger');
-const requestUtils = require('../infrastructure/utils/request-response-utils');
+const logger = require('../infrastructure/logger.js');
+const requestUtils = require('../infrastructure/utils/request-response-utils.js');
 
 const { AsyncLocalStorage } = require('async_hooks');
 const asyncLocalStorage = new AsyncLocalStorage();

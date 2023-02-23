@@ -1,4 +1,4 @@
-const { features } = require('../../config');
+const { features } = require('../../config.js');
 
 class AllowedCertificationCenterAccess {
   constructor({

@@ -1,7 +1,7 @@
-const { checkEventTypes } = require('./check-event-types');
-const CampaignParticipationStarted = require('./CampaignParticipationStarted');
-const PoleEmploiPayload = require('../../infrastructure/externals/pole-emploi/PoleEmploiPayload');
-const PoleEmploiSending = require('../models/PoleEmploiSending');
+const { checkEventTypes } = require('./check-event-types.js');
+const CampaignParticipationStarted = require('./CampaignParticipationStarted.js');
+const PoleEmploiPayload = require('../../infrastructure/externals/pole-emploi/PoleEmploiPayload.js');
+const PoleEmploiSending = require('../models/PoleEmploiSending.js');
 
 const eventTypes = [CampaignParticipationStarted];
 

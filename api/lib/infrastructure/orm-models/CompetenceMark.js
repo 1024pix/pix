@@ -1,5 +1,5 @@
-const Bookshelf = require('../bookshelf');
-const CompetenceMark = require('../../domain/models/CompetenceMark');
+const Bookshelf = require('../bookshelf.js');
+const CompetenceMark = require('../../domain/models/CompetenceMark.js');
 
 const modelName = 'CompetenceMark';
 

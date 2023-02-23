@@ -1,4 +1,4 @@
-const validate = require('../validators/campaign-creation-validator');
+const validate = require('../validators/campaign-creation-validator.js');
 class CampaignForCreation {
   constructor({
     name,

@@ -1,4 +1,4 @@
-const { AlreadyExistingEntityError } = require('../../domain/errors');
+const { AlreadyExistingEntityError } = require('../../domain/errors.js');
 
 module.exports = async function updateStudentNumber({
   organizationLearnerId,

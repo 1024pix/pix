@@ -1,5 +1,5 @@
-const tokenService = require('./token-service');
-const settings = require('../../config');
+const tokenService = require('./token-service.js');
+const settings = require('../../config.js');
 
 module.exports = {
   generateResultsLink(sessionId) {

@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { status } = require('./AssessmentResult');
+const { status } = require('./AssessmentResult.js');
 
 class CertificationAssessmentScore {
   constructor({

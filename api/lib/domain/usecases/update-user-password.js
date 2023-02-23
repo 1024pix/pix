@@ -1,4 +1,4 @@
-const { UserNotAuthorizedToUpdatePasswordError } = require('../errors');
+const { UserNotAuthorizedToUpdatePasswordError } = require('../errors.js');
 
 module.exports = async function updateUserPassword({
   userId,

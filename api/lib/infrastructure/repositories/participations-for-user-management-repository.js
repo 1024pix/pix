@@ -1,5 +1,5 @@
-const { knex } = require('../../../db/knex-database-connection');
-const CampaignParticipationForUserManagement = require('../../domain/read-models/CampaignParticipationForUserManagement');
+const { knex } = require('../../../db/knex-database-connection.js');
+const CampaignParticipationForUserManagement = require('../../domain/read-models/CampaignParticipationForUserManagement.js');
 
 module.exports = {
   async findByUserId(userId) {

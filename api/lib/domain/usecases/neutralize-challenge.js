@@ -1,4 +1,4 @@
-const ChallengeNeutralized = require('../events/ChallengeNeutralized');
+const ChallengeNeutralized = require('../events/ChallengeNeutralized.js');
 
 module.exports = async function neutralizeChallenge({
   certificationAssessmentRepository,

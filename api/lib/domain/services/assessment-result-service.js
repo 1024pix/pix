@@ -1,6 +1,6 @@
-const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
-const competenceMarkRepository = require('../../infrastructure/repositories/competence-mark-repository');
-const CompetenceMark = require('../models/CompetenceMark');
+const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository.js');
+const competenceMarkRepository = require('../../infrastructure/repositories/competence-mark-repository.js');
+const CompetenceMark = require('../models/CompetenceMark.js');
 const bluebird = require('bluebird');
 
 async function _validatedDataForAllCompetenceMark(competenceMarks) {

@@ -1,4 +1,4 @@
-const ProgressionSerializer = require('../../infrastructure/serializers/jsonapi/progression-serializer');
+const ProgressionSerializer = require('../../infrastructure/serializers/jsonapi/progression-serializer.js');
 const usecases = require('../../domain/usecases/index.js');
 
 module.exports = {

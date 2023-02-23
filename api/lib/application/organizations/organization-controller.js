@@ -1,39 +1,39 @@
-const tokenService = require('../../domain/services/token-service');
+const tokenService = require('../../domain/services/token-service.js');
 const usecases = require('../../domain/usecases/index.js');
 
-const campaignManagementSerializer = require('../../infrastructure/serializers/jsonapi/campaign-management-serializer');
-const campaignReportSerializer = require('../../infrastructure/serializers/jsonapi/campaign-report-serializer');
-const divisionSerializer = require('../../infrastructure/serializers/jsonapi/division-serializer');
-const groupSerializer = require('../../infrastructure/serializers/jsonapi/group-serializer');
-const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
-const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
-const organizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/organization-invitation-serializer');
-const supOrganizationLearnerWarningSerializer = require('../../infrastructure/serializers/jsonapi/sup-organization-learner-warnings-serializer');
-const TargetProfileForSpecifierSerializer = require('../../infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer');
-const organizationMemberIdentitySerializer = require('../../infrastructure/serializers/jsonapi/organization-member-identity-serializer');
-const organizationPlacesLotManagmentSerializer = require('../../infrastructure/serializers/jsonapi/organization/organization-places-lot-management-serializer');
-const organizationPlacesLotSerializer = require('../../infrastructure/serializers/jsonapi/organization/organization-places-lot-serializer');
-const organizationPlacesCapacitySerializer = require('../../infrastructure/serializers/jsonapi/organization-places-capacity-serializer');
-const organizationParticipantsSerializer = require('../../infrastructure/serializers/jsonapi/organization/organization-participants-serializer');
-const scoOrganizationParticipantsSerializer = require('../../infrastructure/serializers/jsonapi/organization/sco-organization-participants-serializer');
-const supOrganizationParticipantsSerializer = require('../../infrastructure/serializers/jsonapi/organization/sup-organization-participants-serializer');
-const targetProfileSummaryForAdminSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer');
+const campaignManagementSerializer = require('../../infrastructure/serializers/jsonapi/campaign-management-serializer.js');
+const campaignReportSerializer = require('../../infrastructure/serializers/jsonapi/campaign-report-serializer.js');
+const divisionSerializer = require('../../infrastructure/serializers/jsonapi/division-serializer.js');
+const groupSerializer = require('../../infrastructure/serializers/jsonapi/group-serializer.js');
+const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer.js');
+const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer.js');
+const organizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/organization-invitation-serializer.js');
+const supOrganizationLearnerWarningSerializer = require('../../infrastructure/serializers/jsonapi/sup-organization-learner-warnings-serializer.js');
+const TargetProfileForSpecifierSerializer = require('../../infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer.js');
+const organizationMemberIdentitySerializer = require('../../infrastructure/serializers/jsonapi/organization-member-identity-serializer.js');
+const organizationPlacesLotManagmentSerializer = require('../../infrastructure/serializers/jsonapi/organization/organization-places-lot-management-serializer.js');
+const organizationPlacesLotSerializer = require('../../infrastructure/serializers/jsonapi/organization/organization-places-lot-serializer.js');
+const organizationPlacesCapacitySerializer = require('../../infrastructure/serializers/jsonapi/organization-places-capacity-serializer.js');
+const organizationParticipantsSerializer = require('../../infrastructure/serializers/jsonapi/organization/organization-participants-serializer.js');
+const scoOrganizationParticipantsSerializer = require('../../infrastructure/serializers/jsonapi/organization/sco-organization-participants-serializer.js');
+const supOrganizationParticipantsSerializer = require('../../infrastructure/serializers/jsonapi/organization/sup-organization-participants-serializer.js');
+const targetProfileSummaryForAdminSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js');
 
-const SupOrganizationLearnerParser = require('../../infrastructure/serializers/csv/sup-organization-learner-parser');
-const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
+const SupOrganizationLearnerParser = require('../../infrastructure/serializers/csv/sup-organization-learner-parser.js');
+const queryParamsUtils = require('../../infrastructure/utils/query-params-utils.js');
 const {
   extractLocaleFromRequest,
   extractUserIdFromRequest,
-} = require('../../infrastructure/utils/request-response-utils');
+} = require('../../infrastructure/utils/request-response-utils.js');
 const dayjs = require('dayjs');
 const customParseFormat = require('dayjs/plugin/customParseFormat');
 dayjs.extend(customParseFormat);
-const certificationResultUtils = require('../../infrastructure/utils/csv/certification-results');
-const certificationAttestationPdf = require('../../infrastructure/utils/pdf/certification-attestation-pdf');
-const organizationForAdminSerializer = require('../../infrastructure/serializers/jsonapi/organization-for-admin-serializer');
+const certificationResultUtils = require('../../infrastructure/utils/csv/certification-results.js');
+const certificationAttestationPdf = require('../../infrastructure/utils/pdf/certification-attestation-pdf.js');
+const organizationForAdminSerializer = require('../../infrastructure/serializers/jsonapi/organization-for-admin-serializer.js');
 
-const { mapCertificabilityByLabel } = require('./helpers');
-const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
+const { mapCertificabilityByLabel } = require('./helpers.js');
+const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer.js');
 
 module.exports = {
   async getOrganizationDetails(request) {

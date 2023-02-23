@@ -1,6 +1,6 @@
-const { NotFoundError } = require('../../domain/errors');
-const Skill = require('../../domain/models/Skill');
-const skillDatasource = require('../datasources/learning-content/skill-datasource');
+const { NotFoundError } = require('../../domain/errors.js');
+const Skill = require('../../domain/models/Skill.js');
+const skillDatasource = require('../datasources/learning-content/skill-datasource.js');
 
 function _toDomain(skillData) {
   return new Skill({

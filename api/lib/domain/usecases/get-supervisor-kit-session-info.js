@@ -1,4 +1,4 @@
-const { UserNotAuthorizedToAccessEntityError } = require('../errors');
+const { UserNotAuthorizedToAccessEntityError } = require('../errors.js');
 
 module.exports = async function getSupervisorKitSessionInfo({
   userId,

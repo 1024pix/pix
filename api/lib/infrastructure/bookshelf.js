@@ -1,7 +1,7 @@
 const validator = require('validator');
 const _ = require('lodash');
 
-const { knex } = require('../../db/knex-database-connection');
+const { knex } = require('../../db/knex-database-connection.js');
 const bookshelf = require('bookshelf');
 const bookshelfWithKnex = bookshelf(knex);
 

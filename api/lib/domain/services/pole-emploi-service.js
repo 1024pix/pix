@@ -1,4 +1,4 @@
-const settings = require('../../config');
+const settings = require('../../config.js');
 
 function generateLink(sending, filters = {}) {
   const host = settings.apiManager.url;

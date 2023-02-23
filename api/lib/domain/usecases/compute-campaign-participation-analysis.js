@@ -1,5 +1,5 @@
-const { UserNotAuthorizedToAccessEntityError, CampaignParticipationDeletedError } = require('../errors');
-const CampaignLearningContent = require('../models/CampaignLearningContent');
+const { UserNotAuthorizedToAccessEntityError, CampaignParticipationDeletedError } = require('../errors.js');
+const CampaignLearningContent = require('../models/CampaignLearningContent.js');
 
 module.exports = async function computeCampaignParticipationAnalysis({
   userId,

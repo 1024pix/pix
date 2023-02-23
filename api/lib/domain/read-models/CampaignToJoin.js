@@ -1,5 +1,5 @@
-const Assessment = require('../models/Assessment');
-const CampaignTypes = require('../models/CampaignTypes');
+const Assessment = require('../models/Assessment.js');
+const CampaignTypes = require('../models/CampaignTypes.js');
 
 class CampaignToJoin {
   constructor({

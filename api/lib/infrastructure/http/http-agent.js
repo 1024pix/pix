@@ -2,7 +2,7 @@
 const axios = require('axios');
 const { performance } = require('perf_hooks');
 
-const monitoringTools = require('../monitoring-tools');
+const monitoringTools = require('../monitoring-tools.js');
 
 class HttpResponse {
   constructor({ code, data, isSuccessful }) {

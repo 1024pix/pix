@@ -1,7 +1,7 @@
-const { UnprocessableEntityError } = require('../../application/http-errors');
-const { SessionWithIdAndInformationOnMassImportError, InvalidCertificationCandidate } = require('../errors');
-const sessionValidator = require('../validators/session-validator');
-const certificationCpfService = require('./certification-cpf-service');
+const { UnprocessableEntityError } = require('../../application/http-errors.js');
+const { SessionWithIdAndInformationOnMassImportError, InvalidCertificationCandidate } = require('../errors.js');
+const sessionValidator = require('../validators/session-validator.js');
+const certificationCpfService = require('./certification-cpf-service.js');
 
 module.exports = {
   async validateSession({ session, sessionRepository, certificationCourseRepository }) {

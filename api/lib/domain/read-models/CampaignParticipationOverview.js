@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const CampaignParticipationStatuses = require('../models/CampaignParticipationStatuses');
+const CampaignParticipationStatuses = require('../models/CampaignParticipationStatuses.js');
 
 const { SHARED } = CampaignParticipationStatuses;
 

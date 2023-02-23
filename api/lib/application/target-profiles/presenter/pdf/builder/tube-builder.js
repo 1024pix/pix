@@ -1,7 +1,7 @@
-const TubeText = require('../drawer/TubeText');
-const PositionManager = require('../manager/position-manager');
-const FontManager = require('../manager/font-manager');
-const ColorManager = require('../manager/color-manager');
+const TubeText = require('../drawer/TubeText.js');
+const PositionManager = require('../manager/position-manager.js');
+const FontManager = require('../manager/font-manager.js');
+const ColorManager = require('../manager/color-manager.js');
 
 const START_BORDER = 2;
 

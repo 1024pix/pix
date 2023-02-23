@@ -1,5 +1,5 @@
 const { Serializer } = require('jsonapi-serializer');
-const CertificationCenterForAdmin = require('../../../domain/models/CertificationCenterForAdmin');
+const CertificationCenterForAdmin = require('../../../domain/models/CertificationCenterForAdmin.js');
 
 module.exports = {
   deserialize({ data }) {

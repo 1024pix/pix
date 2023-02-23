@@ -1,6 +1,6 @@
-const { knex } = require('../../../../db/knex-database-connection');
-const skillDataSource = require('../../datasources/learning-content/skill-datasource');
-const TargetProfileForSpecifier = require('../../../domain/read-models/campaign/TargetProfileForSpecifier');
+const { knex } = require('../../../../db/knex-database-connection.js');
+const skillDataSource = require('../../datasources/learning-content/skill-datasource.js');
+const TargetProfileForSpecifier = require('../../../domain/read-models/campaign/TargetProfileForSpecifier.js');
 const bluebird = require('bluebird');
 const { uniqBy } = require('lodash');
 

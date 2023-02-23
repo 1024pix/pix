@@ -1,14 +1,14 @@
 const _ = require('lodash');
 const bluebird = require('bluebird');
 
-const UserCompetence = require('../models/UserCompetence');
-const PlacementProfile = require('../models/PlacementProfile');
-const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
-const skillRepository = require('../../infrastructure/repositories/skill-repository');
-const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
-const knowledgeElementRepository = require('../../infrastructure/repositories/knowledge-element-repository');
-const competenceRepository = require('../../infrastructure/repositories/competence-repository');
-const scoringService = require('./scoring/scoring-service');
+const UserCompetence = require('../models/UserCompetence.js');
+const PlacementProfile = require('../models/PlacementProfile.js');
+const assessmentRepository = require('../../infrastructure/repositories/assessment-repository.js');
+const skillRepository = require('../../infrastructure/repositories/skill-repository.js');
+const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository.js');
+const knowledgeElementRepository = require('../../infrastructure/repositories/knowledge-element-repository.js');
+const competenceRepository = require('../../infrastructure/repositories/competence-repository.js');
+const scoringService = require('./scoring/scoring-service.js');
 
 async function getPlacementProfile({
   userId,

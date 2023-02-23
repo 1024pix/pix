@@ -1,5 +1,5 @@
-const ComplementaryCertificationCourseResult = require('../../domain/models/ComplementaryCertificationCourseResult');
-const { knex } = require('../../../db/knex-database-connection');
+const ComplementaryCertificationCourseResult = require('../../domain/models/ComplementaryCertificationCourseResult.js');
+const { knex } = require('../../../db/knex-database-connection.js');
 
 module.exports = {
   async getPixSourceResultByComplementaryCertificationCourseId({ complementaryCertificationCourseId }) {

@@ -1,6 +1,6 @@
-const AuthenticationMethod = require('../models/AuthenticationMethod');
-const { UserNotAuthorizedToRemoveAuthenticationMethod } = require('../errors');
-const OidcIdentityProviders = require('../constants/oidc-identity-providers');
+const AuthenticationMethod = require('../models/AuthenticationMethod.js');
+const { UserNotAuthorizedToRemoveAuthenticationMethod } = require('../errors.js');
+const OidcIdentityProviders = require('../constants/oidc-identity-providers.js');
 
 module.exports = async function removeAuthenticationMethod({
   userId,

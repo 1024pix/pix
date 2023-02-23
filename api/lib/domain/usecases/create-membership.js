@@ -1,5 +1,5 @@
-const { roles } = require('../models/Membership');
-const { OrganizationArchivedError } = require('../errors');
+const { roles } = require('../models/Membership.js');
+const { OrganizationArchivedError } = require('../errors.js');
 
 module.exports = async function createMembership({
   userId,

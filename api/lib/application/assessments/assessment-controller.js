@@ -1,21 +1,21 @@
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
+const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
 
 const JSONAPISerializer = require('jsonapi-serializer').Serializer;
-const { AssessmentEndedError } = require('../../domain/errors');
+const { AssessmentEndedError } = require('../../domain/errors.js');
 const usecases = require('../../domain/usecases/index.js');
 const events = require('../../domain/events/index.js');
-const logger = require('../../infrastructure/logger');
-const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
-const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
-const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
-const competenceEvaluationSerializer = require('../../infrastructure/serializers/jsonapi/competence-evaluation-serializer');
+const logger = require('../../infrastructure/logger.js');
+const assessmentRepository = require('../../infrastructure/repositories/assessment-repository.js');
+const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer.js');
+const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer.js');
+const competenceEvaluationSerializer = require('../../infrastructure/serializers/jsonapi/competence-evaluation-serializer.js');
 const {
   extractLocaleFromRequest,
   extractUserIdFromRequest,
-} = require('../../infrastructure/utils/request-response-utils');
+} = require('../../infrastructure/utils/request-response-utils.js');
 
-const Examiner = require('../../domain/models/Examiner');
-const ValidatorAlwaysOK = require('../../domain/models/ValidatorAlwaysOK');
+const Examiner = require('../../domain/models/Examiner.js');
+const ValidatorAlwaysOK = require('../../domain/models/ValidatorAlwaysOK.js');
 
 module.exports = {
   async save(request, h) {

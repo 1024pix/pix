@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
-const tutorialEvaluationsController = require('./tutorial-evaluations-controller');
-const identifiersType = require('../../domain/types/identifiers-type');
+const tutorialEvaluationsController = require('./tutorial-evaluations-controller.js');
+const identifiersType = require('../../domain/types/identifiers-type.js');
 
 exports.register = async (server) => {
   server.route([

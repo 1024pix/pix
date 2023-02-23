@@ -1,4 +1,4 @@
-const { NotFoundError } = require('../../domain/errors');
+const { NotFoundError } = require('../../domain/errors.js');
 
 module.exports = async function flagSessionResultsAsSentToPrescriber({ sessionId, sessionRepository }) {
   const integerSessionId = parseInt(sessionId);

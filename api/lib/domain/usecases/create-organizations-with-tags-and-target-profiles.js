@@ -1,9 +1,9 @@
 const { isEmpty, uniqBy } = require('lodash');
 const bluebird = require('bluebird');
-const Organization = require('../models/Organization');
-const OrganizationTag = require('../models/OrganizationTag');
-const organizationValidator = require('../validators/organization-with-tags-and-target-profiles-script');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
+const Organization = require('../models/Organization.js');
+const OrganizationTag = require('../models/OrganizationTag.js');
+const organizationValidator = require('../validators/organization-with-tags-and-target-profiles-script.js');
+const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
 
 const {
   ManyOrganizationsFoundError,
@@ -11,10 +11,10 @@ const {
   OrganizationTagNotFound,
   ObjectValidationError,
   TargetProfileInvalidError,
-} = require('../errors');
+} = require('../errors.js');
 
 const SEPARATOR = '_';
-const organizationInvitationService = require('../../domain/services/organization-invitation-service');
+const organizationInvitationService = require('../../domain/services/organization-invitation-service.js');
 
 module.exports = async function createOrganizationsWithTagsAndTargetProfiles({
   organizations,

@@ -1,7 +1,7 @@
 const Joi = require('joi');
-const frameworkController = require('./frameworks-controller');
-const securityPreHandlers = require('../security-pre-handlers');
-const identifiersType = require('../../domain/types/identifiers-type');
+const frameworkController = require('./frameworks-controller.js');
+const securityPreHandlers = require('../security-pre-handlers.js');
+const identifiersType = require('../../domain/types/identifiers-type.js');
 
 exports.register = async function (server) {
   const adminRoutes = [

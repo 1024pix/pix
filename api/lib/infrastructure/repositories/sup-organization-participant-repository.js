@@ -1,9 +1,9 @@
-const { knex } = require('../../../db/knex-database-connection');
-const { fetchPage } = require('../utils/knex-utils');
-const SupOrganizationParticipant = require('../../domain/read-models/SupOrganizationParticipant');
-const CampaignTypes = require('../../domain/models/CampaignTypes');
-const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
-const { filterByFullName } = require('../utils/filter-utils');
+const { knex } = require('../../../db/knex-database-connection.js');
+const { fetchPage } = require('../utils/knex-utils.js');
+const SupOrganizationParticipant = require('../../domain/read-models/SupOrganizationParticipant.js');
+const CampaignTypes = require('../../domain/models/CampaignTypes.js');
+const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses.js');
+const { filterByFullName } = require('../utils/filter-utils.js');
 
 function _setFilters(qb, { search, studentNumber, groups, certificability } = {}) {
   if (search) {

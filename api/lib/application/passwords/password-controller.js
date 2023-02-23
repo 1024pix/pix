@@ -1,9 +1,9 @@
 const usecases = require('../../domain/usecases/index.js');
 
-const passwordResetSerializer = require('../../infrastructure/serializers/jsonapi/password-reset-serializer');
-const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
+const passwordResetSerializer = require('../../infrastructure/serializers/jsonapi/password-reset-serializer.js');
+const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer.js');
 
-const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
+const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils.js');
 
 module.exports = {
   async createResetDemand(request, h) {

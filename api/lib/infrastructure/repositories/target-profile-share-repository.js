@@ -1,5 +1,5 @@
-const { knex } = require('../../../db/knex-database-connection');
-const DomainTransaction = require('../DomainTransaction');
+const { knex } = require('../../../db/knex-database-connection.js');
+const DomainTransaction = require('../DomainTransaction.js');
 
 module.exports = {
   async addTargetProfilesToOrganization({ organizationId, targetProfileIdList }) {

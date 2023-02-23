@@ -1,5 +1,5 @@
-const { UserCantBeCreatedError } = require('../errors');
-const UserToCreate = require('../models/UserToCreate');
+const { UserCantBeCreatedError } = require('../errors.js');
+const UserToCreate = require('../models/UserToCreate.js');
 
 module.exports = async function authenticateAnonymousUser({
   campaignCode,

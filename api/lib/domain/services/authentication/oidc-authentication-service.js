@@ -2,15 +2,15 @@ const jsonwebtoken = require('jsonwebtoken');
 const querystring = require('querystring');
 const { v4: uuidv4 } = require('uuid');
 
-const { InvalidExternalAPIResponseError, OidcMissingFieldsError, OidcUserInfoFormatError } = require('../../errors');
-const AuthenticationMethod = require('../../models/AuthenticationMethod');
-const AuthenticationSessionContent = require('../../models/AuthenticationSessionContent');
-const settings = require('../../../config');
-const httpAgent = require('../../../infrastructure/http/http-agent');
-const httpErrorsHelper = require('../../../infrastructure/http/errors-helper');
-const DomainTransaction = require('../../../infrastructure/DomainTransaction');
-const monitoringTools = require('../../../infrastructure/monitoring-tools');
-const { OIDC_ERRORS } = require('../../constants');
+const { InvalidExternalAPIResponseError, OidcMissingFieldsError, OidcUserInfoFormatError } = require('../../errors.js');
+const AuthenticationMethod = require('../../models/AuthenticationMethod.js');
+const AuthenticationSessionContent = require('../../models/AuthenticationSessionContent.js');
+const settings = require('../../../config.js');
+const httpAgent = require('../../../infrastructure/http/http-agent.js');
+const httpErrorsHelper = require('../../../infrastructure/http/errors-helper.js');
+const DomainTransaction = require('../../../infrastructure/DomainTransaction.js');
+const monitoringTools = require('../../../infrastructure/monitoring-tools.js');
+const { OIDC_ERRORS } = require('../../constants.js');
 
 class OidcAuthenticationService {
   constructor({

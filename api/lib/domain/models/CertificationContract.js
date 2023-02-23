@@ -1,4 +1,4 @@
-const { CertificationComputeError } = require('../../../lib/domain/errors');
+const { CertificationComputeError } = require('../../../lib/domain/errors.js');
 const _ = require('lodash');
 
 class CertificationContract {

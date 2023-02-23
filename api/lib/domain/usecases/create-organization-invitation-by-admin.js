@@ -1,5 +1,5 @@
-const organizationInvitationService = require('../services/organization-invitation-service');
-const { OrganizationArchivedError } = require('../errors');
+const organizationInvitationService = require('../services/organization-invitation-service.js');
+const { OrganizationArchivedError } = require('../errors.js');
 
 module.exports = async function createOrganizationInvitationByAdmin({
   organizationId,

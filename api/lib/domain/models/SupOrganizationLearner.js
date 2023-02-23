@@ -1,4 +1,4 @@
-const { checkValidation } = require('../validators/sup-organization-learner-validator');
+const { checkValidation } = require('../validators/sup-organization-learner-validator.js');
 
 class SupOrganizationLearner {
   constructor({

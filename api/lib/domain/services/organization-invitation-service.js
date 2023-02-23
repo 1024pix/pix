@@ -1,7 +1,7 @@
 const randomString = require('randomstring');
-const Membership = require('../models/Membership');
-const mailService = require('../../domain/services/mail-service');
-const { SendingEmailError, SendingEmailToInvalidDomainError } = require('../errors');
+const Membership = require('../models/Membership.js');
+const mailService = require('../../domain/services/mail-service.js');
+const { SendingEmailError, SendingEmailToInvalidDomainError } = require('../errors.js');
 
 const _generateCode = () => {
   return randomString.generate({ length: 10, capitalization: 'uppercase' });

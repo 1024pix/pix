@@ -1,7 +1,7 @@
 const trim = require('lodash/trim');
 
-const TemporaryStorage = require('./TemporaryStorage');
-const RedisClient = require('../utils/RedisClient');
+const TemporaryStorage = require('./TemporaryStorage.js');
+const RedisClient = require('../utils/RedisClient.js');
 
 const EXPIRATION_PARAMETER = 'ex';
 const KEEPTTL_PARAMETER = 'keepttl';

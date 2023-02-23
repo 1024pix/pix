@@ -1,4 +1,4 @@
-const adminMemberSerializer = require('../../infrastructure/serializers/jsonapi/admin-member-serializer');
+const adminMemberSerializer = require('../../infrastructure/serializers/jsonapi/admin-member-serializer.js');
 const usecases = require('../../domain/usecases/index.js');
 
 module.exports = {

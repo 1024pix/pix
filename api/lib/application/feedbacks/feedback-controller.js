@@ -1,6 +1,6 @@
-const { BadRequestError } = require('../http-errors');
-const _ = require('../../infrastructure/utils/lodash-utils');
-const serializer = require('../../infrastructure/serializers/jsonapi/feedback-serializer');
+const { BadRequestError } = require('../http-errors.js');
+const _ = require('../../infrastructure/utils/lodash-utils.js');
+const serializer = require('../../infrastructure/serializers/jsonapi/feedback-serializer.js');
 
 module.exports = {
   async save(request, h) {

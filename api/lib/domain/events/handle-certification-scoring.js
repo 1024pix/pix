@@ -1,10 +1,10 @@
-const AssessmentResult = require('../models/AssessmentResult');
+const AssessmentResult = require('../models/AssessmentResult.js');
 const CertificationScoringCompleted = require('./CertificationScoringCompleted.js');
-const CompetenceMark = require('../models/CompetenceMark');
+const CompetenceMark = require('../models/CompetenceMark.js');
 const bluebird = require('bluebird');
-const { CertificationComputeError } = require('../errors');
-const AssessmentCompleted = require('./AssessmentCompleted');
-const { checkEventTypes } = require('./check-event-types');
+const { CertificationComputeError } = require('../errors.js');
+const AssessmentCompleted = require('./AssessmentCompleted.js');
+const { checkEventTypes } = require('./check-event-types.js');
 
 const eventTypes = [AssessmentCompleted];
 const EMITTER = 'PIX-ALGO';

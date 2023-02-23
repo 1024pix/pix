@@ -1,5 +1,5 @@
-const certificationCenterMembershipController = require('./certification-center-membership-controller');
-const securityPreHandlers = require('../security-pre-handlers');
+const certificationCenterMembershipController = require('./certification-center-membership-controller.js');
+const securityPreHandlers = require('../security-pre-handlers.js');
 
 exports.register = async function (server) {
   const adminRoutes = [

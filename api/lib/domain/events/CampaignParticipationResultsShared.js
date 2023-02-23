@@ -1,4 +1,4 @@
-const Event = require('./Event');
+const Event = require('./Event.js');
 
 class CampaignParticipationResultsShared extends Event {
   constructor({ campaignParticipationId } = {}) {

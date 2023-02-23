@@ -1,6 +1,6 @@
 const Joi = require('joi');
-const certificationStatus = require('../../../../lib/domain/read-models/livret-scolaire/CertificateStatus');
-const competenceResultDoc = require('./competence-result-doc');
+const certificationStatus = require('../../../../lib/domain/read-models/livret-scolaire/CertificateStatus.js');
+const competenceResultDoc = require('./competence-result-doc.js');
 
 module.exports = Joi.object({
   id: Joi.number().required().description('ID de la certification pour l’élève'),

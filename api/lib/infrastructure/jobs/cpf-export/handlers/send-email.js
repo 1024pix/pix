@@ -1,4 +1,4 @@
-const { cpf } = require('../../../../config');
+const { cpf } = require('../../../../config.js');
 const cronParser = require('cron-parser');
 
 module.exports = async function sendEmail({ cpfExternalStorage, mailService }) {

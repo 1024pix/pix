@@ -1,4 +1,4 @@
-const categories = require('../constants/organization-places-categories');
+const categories = require('../constants/organization-places-categories.js');
 
 const statuses = {
   ACTIVE: 'ACTIVE',

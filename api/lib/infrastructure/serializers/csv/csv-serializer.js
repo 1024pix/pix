@@ -1,9 +1,9 @@
-const logger = require('../../logger');
-const { FileValidationError } = require('../../../../lib/domain/errors');
-const { convertDateValue } = require('../../utils/date-utils');
-const { headers, emptySession, COMPLEMENTARY_CERTIFICATION_SUFFIX } = require('../../utils/csv/sessions-import');
+const logger = require('../../logger.js');
+const { FileValidationError } = require('../../../../lib/domain/errors.js');
+const { convertDateValue } = require('../../utils/date-utils.js');
+const { headers, emptySession, COMPLEMENTARY_CERTIFICATION_SUFFIX } = require('../../utils/csv/sessions-import.js');
 const { isEmpty } = require('lodash');
-const { checkCsvHeader, parseCsvWithHeader } = require('../../helpers/csv');
+const { checkCsvHeader, parseCsvWithHeader } = require('../../helpers/csv.js');
 
 function _csvFormulaEscapingPrefix(data) {
   const mayBeInterpretedAsFormula = /^[-@=+]/.test(data);

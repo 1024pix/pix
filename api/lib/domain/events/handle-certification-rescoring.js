@@ -1,13 +1,13 @@
-const AssessmentResult = require('../models/AssessmentResult');
-const CertificationResult = require('../models/CertificationResult');
-const CompetenceMark = require('../models/CompetenceMark');
+const AssessmentResult = require('../models/AssessmentResult.js');
+const CertificationResult = require('../models/CertificationResult.js');
+const CompetenceMark = require('../models/CompetenceMark.js');
 const CertificationRescoringCompleted = require('./CertificationRescoringCompleted.js');
 const bluebird = require('bluebird');
-const { CertificationComputeError } = require('../errors');
-const ChallengeNeutralized = require('./ChallengeNeutralized');
-const ChallengeDeneutralized = require('./ChallengeDeneutralized');
-const CertificationJuryDone = require('./CertificationJuryDone');
-const { checkEventTypes } = require('./check-event-types');
+const { CertificationComputeError } = require('../errors.js');
+const ChallengeNeutralized = require('./ChallengeNeutralized.js');
+const ChallengeDeneutralized = require('./ChallengeDeneutralized.js');
+const CertificationJuryDone = require('./CertificationJuryDone.js');
+const { checkEventTypes } = require('./check-event-types.js');
 
 const eventTypes = [ChallengeNeutralized, ChallengeDeneutralized, CertificationJuryDone];
 

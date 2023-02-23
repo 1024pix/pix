@@ -1,6 +1,6 @@
-const { knex } = require('../../../db/knex-database-connection');
-const { CertificationCourseNotPublishableError } = require('../../../lib/domain/errors');
-const { status } = require('../../../lib/domain/models/AssessmentResult');
+const { knex } = require('../../../db/knex-database-connection.js');
+const { CertificationCourseNotPublishableError } = require('../../../lib/domain/errors.js');
+const { status } = require('../../../lib/domain/models/AssessmentResult.js');
 
 module.exports = {
   async publishCertificationCoursesBySessionId(sessionId) {

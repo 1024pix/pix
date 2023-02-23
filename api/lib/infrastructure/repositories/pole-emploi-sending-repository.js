@@ -1,6 +1,6 @@
-const { knex } = require('../../../db/knex-database-connection');
-const settings = require('../../../lib/config');
-const OidcIdentityProviders = require('../../domain/constants/oidc-identity-providers');
+const { knex } = require('../../../db/knex-database-connection.js');
+const settings = require('../../../lib/config.js');
+const OidcIdentityProviders = require('../../domain/constants/oidc-identity-providers.js');
 
 module.exports = {
   create({ poleEmploiSending }) {

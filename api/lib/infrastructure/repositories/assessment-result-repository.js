@@ -1,9 +1,9 @@
 const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection');
-const { MissingAssessmentId, AssessmentResultNotCreatedError } = require('../../domain/errors');
-const DomainTransaction = require('../DomainTransaction');
-const AssessmentResult = require('../../domain/models/AssessmentResult');
-const CompetenceMark = require('../../domain/models/CompetenceMark');
+const { knex } = require('../../../db/knex-database-connection.js');
+const { MissingAssessmentId, AssessmentResultNotCreatedError } = require('../../domain/errors.js');
+const DomainTransaction = require('../DomainTransaction.js');
+const AssessmentResult = require('../../domain/models/AssessmentResult.js');
+const CompetenceMark = require('../../domain/models/CompetenceMark.js');
 
 function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {
   const competenceMarks = competencesMarksDTO.map((competenceMark) => new CompetenceMark(competenceMark));

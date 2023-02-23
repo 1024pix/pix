@@ -1,4 +1,4 @@
-const { SCOPES } = require('./BadgeCriterion');
+const { SCOPES } = require('./BadgeCriterion.js');
 
 class BadgeDetails {
   constructor({ id, key, altMessage, imageUrl, message, title, isCertifiable, isAlwaysVisible, criteria }) {

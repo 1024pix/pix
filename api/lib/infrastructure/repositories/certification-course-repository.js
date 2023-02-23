@@ -1,16 +1,16 @@
 const { _ } = require('lodash');
-const { knex } = require('../../../db/knex-database-connection');
+const { knex } = require('../../../db/knex-database-connection.js');
 const bluebird = require('bluebird');
-const CertificationCourseBookshelf = require('../orm-models/CertificationCourse');
-const AssessmentBookshelf = require('../orm-models/Assessment');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const DomainTransaction = require('../DomainTransaction');
-const CertificationCourse = require('../../domain/models/CertificationCourse');
-const { NotFoundError } = require('../../domain/errors');
-const certificationChallengeRepository = require('./certification-challenge-repository');
-const CertificationIssueReport = require('../../domain/models/CertificationIssueReport');
-const ComplementaryCertificationCourse = require('../../domain/models/ComplementaryCertificationCourse');
-const Bookshelf = require('../bookshelf');
+const CertificationCourseBookshelf = require('../orm-models/CertificationCourse.js');
+const AssessmentBookshelf = require('../orm-models/Assessment.js');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter.js');
+const DomainTransaction = require('../DomainTransaction.js');
+const CertificationCourse = require('../../domain/models/CertificationCourse.js');
+const { NotFoundError } = require('../../domain/errors.js');
+const certificationChallengeRepository = require('./certification-challenge-repository.js');
+const CertificationIssueReport = require('../../domain/models/CertificationIssueReport.js');
+const ComplementaryCertificationCourse = require('../../domain/models/ComplementaryCertificationCourse.js');
+const Bookshelf = require('../bookshelf.js');
 
 module.exports = {
   async save({ certificationCourse, domainTransaction = DomainTransaction.emptyTransaction() }) {

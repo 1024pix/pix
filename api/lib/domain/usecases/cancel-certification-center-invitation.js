@@ -1,4 +1,4 @@
-const { UncancellableCertificationCenterInvitationError } = require('../../domain/errors');
+const { UncancellableCertificationCenterInvitationError } = require('../../domain/errors.js');
 
 module.exports = async function cancelCertificationCenterInvitation({
   certificationCenterInvitationId,

@@ -1,4 +1,4 @@
-const settings = require('../config');
+const settings = require('../config.js');
 
 const PIX_COUNT_BY_LEVEL = 8;
 const COMPETENCES_COUNT = 16;

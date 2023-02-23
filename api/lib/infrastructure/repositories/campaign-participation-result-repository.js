@@ -1,10 +1,10 @@
-const CampaignParticipationResult = require('../../domain/models/CampaignParticipationResult');
-const campaignParticipationRepository = require('./campaign-participation-repository');
-const campaignRepository = require('./campaign-repository');
-const competenceRepository = require('./competence-repository');
-const areaRepository = require('./area-repository');
-const assessmentRepository = require('./assessment-repository');
-const knowledgeElementRepository = require('./knowledge-element-repository');
+const CampaignParticipationResult = require('../../domain/models/CampaignParticipationResult.js');
+const campaignParticipationRepository = require('./campaign-participation-repository.js');
+const campaignRepository = require('./campaign-repository.js');
+const competenceRepository = require('./competence-repository.js');
+const areaRepository = require('./area-repository.js');
+const assessmentRepository = require('./assessment-repository.js');
+const knowledgeElementRepository = require('./knowledge-element-repository.js');
 
 const campaignParticipationResultRepository = {
   async getByParticipationId(campaignParticipationId) {

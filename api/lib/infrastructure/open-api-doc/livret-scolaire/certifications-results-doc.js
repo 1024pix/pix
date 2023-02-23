@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
-const certificationDoc = require('./certification-doc');
-const competenceDoc = require('./competence-doc');
+const certificationDoc = require('./certification-doc.js');
+const competenceDoc = require('./competence-doc.js');
 
 module.exports = Joi.object({
   certifications: certificationDoc,

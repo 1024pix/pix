@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const recommendationService = require('../services/recommendation-service');
+const recommendationService = require('../services/recommendation-service.js');
 
 class CampaignAnalysis {
   constructor({ campaignId, campaignLearningContent, tutorials, participantCount = 0 } = {}) {
