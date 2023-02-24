@@ -3,7 +3,7 @@
     <div class="hexagon-score-content__title">{{t "common.pix"}}</div>
     <div class="hexagon-score-content__pix-score">{{this.score}}</div>
     <div class="hexagon-score-content__pix-total">
-      {{@maxReachablePixScore}}
+      1024
       <PixTooltip @isLight={{true}} @isWide={{true}} @position="bottom" @id="hexagon-score-tooltip">
         <:triggerElement>
           <button
@@ -18,7 +18,7 @@
         <:tooltip>
           <div class="hexagon-score__information hexagon-score-information__text">
             <p class="hexagon-score-information__text--strong">
-              {{t "pages.profile.total-score-helper.title" maxReachablePixScore=@maxReachablePixScore}}
+              {{t "pages.profile.total-score-helper.title"}}
             </p>
             {{t
               "pages.profile.total-score-helper.explanation"
