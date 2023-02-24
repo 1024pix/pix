@@ -330,7 +330,7 @@ export default Factory.extend({
         type: 'autoformation',
         duration: '10:00:00',
         locale: 'fr-fr',
-        editorName: "Ministère de l'éducation nationale et de la jeunesse",
+        editorName: "Ministère de l'éducation nationale et de la jeunesse. Liberté égalité fraternité",
         editorLogoUrl: 'https://mon-logo.svg',
       });
       const anotherTraining = server.create('training', {
@@ -339,7 +339,7 @@ export default Factory.extend({
         type: 'webinaire',
         duration: '10:00:00',
         locale: 'fr-fr',
-        editorName: "Ministère de l'éducation nationale et de la jeunesse",
+        editorName: "Ministère de l'éducation nationale et de la jeunesse. Liberté égalité fraternité",
         editorLogoUrl: 'https://mon-logo.svg',
       });
       const trainings = [training, anotherTraining];

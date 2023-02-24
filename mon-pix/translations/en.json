@@ -1406,7 +1406,8 @@
       "type": {
         "autoformation": "Autoformation course",
         "webinaire": "Webinar"
-      }
+      },
+      "editor": "Training provided by"
     },
     "tutorial": {
       "title": "Campaign tutorial",
