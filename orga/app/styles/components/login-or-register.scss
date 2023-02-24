@@ -59,6 +59,10 @@
     @include device-is('tablet') {
       min-width: 360px;
     }
+
+    .form-title {
+      margin: $spacing-m 0;
+    }
   }
 
   &__divider {
