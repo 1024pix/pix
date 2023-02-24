@@ -74,7 +74,7 @@
           {{t "pages.organization-participants.table.column.last-name.label"}}
         </Table::HeaderSort>
         <Table::Header @size="wide">{{t "pages.sco-organization-participants.table.column.first-name"}}</Table::Header>
-        <Table::Header @size="medium" @align="center">
+        <Table::Header @size="medium">
           {{t "pages.sco-organization-participants.table.column.date-of-birth"}}
         </Table::Header>
         <Table::Header @size="medium">{{t "pages.sco-organization-participants.table.column.division"}}</Table::Header>
@@ -83,6 +83,7 @@
         </Table::Header>
         <Table::HeaderSort
           @size="medium"
+          @align="center"
           @onSort={{@sortByParticipationCount}}
           @order={{@participationCountOrder}}
           @ariaLabelDefaultSort={{t
@@ -92,7 +93,6 @@
           @ariaLabelSortDown={{t
             "pages.sco-organization-participants.table.column.participation-count.ariaLabelSortDown"
           }}
-          class="organization-participant-list-page__participant-count"
         >
           {{t "pages.sco-organization-participants.table.column.participation-count.label"}}
         </Table::HeaderSort>
@@ -131,17 +131,15 @@
               </LinkTo>
             </td>
             <td class="ellipsis" title={{student.firstName}}>{{student.firstName}}</td>
-            <td class="table__column--center">{{dayjs-format student.birthdate "DD/MM/YYYY" allow-empty=true}}</td>
+            <td>{{dayjs-format student.birthdate "DD/MM/YYYY" allow-empty=true}}</td>
             <td class="ellipsis">{{student.division}}</td>
             <td class="sco-organization-participant-list-page__authentication-methods">
               {{#each student.authenticationMethods as |authenticationMethod|}}
                 <p>{{t authenticationMethod}}</p>
               {{/each}}
             </td>
-            <td
-              class="table__column--right organization-participant-list-page__participant-count"
-            >{{student.participationCount}}</td>
-            <td class="table__column--center">
+            <td class="table__column--center">{{student.participationCount}}</td>
+            <td>
               {{#if student.lastParticipationDate}}
                 <div class="organization-participant-list-page__last-participation">
                   <span>{{dayjs-format student.lastParticipationDate "DD/MM/YYYY" allow-empty=true}}</span>
