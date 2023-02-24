@@ -30,10 +30,11 @@ import { getPaginatedJuryCertificationSummariesBySessionId } from './handlers/ge
 import { createAdminMember } from './handlers/admin-members';
 import {
   attachTargetProfilesToTraining,
+  createOrUpdateTrainingTrigger,
   createTraining,
   findPaginatedTrainingSummaries,
-  getTargetProfileSummariesForTraining,
   getTraining,
+  getTargetProfileSummariesForTraining,
   updateTraining,
 } from './handlers/trainings';
 
@@ -312,6 +313,7 @@ export default function () {
   this.patch('/admin/trainings/:id', updateTraining);
   this.get('/admin/trainings/:id/target-profile-summaries', getTargetProfileSummariesForTraining);
   this.post('/admin/trainings/:id/attach-target-profiles', attachTargetProfilesToTraining);
+  this.put('/admin/trainings/:id/triggers', createOrUpdateTrainingTrigger);
 
   this.get('/admin/certifications/:id');
   this.get('/admin/certifications/:id/certified-profile', (schema, request) => {

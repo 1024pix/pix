@@ -78,8 +78,27 @@ function updateTraining(schema, request) {
   return training;
 }
 
+function createOrUpdateTrainingTrigger(schema, request) {
+  const body = JSON.parse(request.requestBody);
+  const attributes = body.data.attributes;
+
+  const trainingTrigger = schema.trainingTriggers.findOrCreateBy({
+    trainingId: attributes.trainingId,
+    type: attributes.type,
+  });
+
+  const tubes = schema.tubes.where(({ id }) => attributes.tubes.map(({ id }) => id).includes(id)).models;
+  tubes.forEach((tube) => {
+    tube.update({ level: attributes.tubes.find(({ id }) => id === tube.id).level });
+  });
+
+  trainingTrigger.update({ ...attributes, tubes });
+  return trainingTrigger;
+}
+
 export {
   attachTargetProfilesToTraining,
+  createOrUpdateTrainingTrigger,
   createTraining,
   findPaginatedTrainingSummaries,
   getTargetProfileSummariesForTraining,
