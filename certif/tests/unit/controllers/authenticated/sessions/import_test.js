@@ -75,13 +75,13 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
     });
   });
 
-  module('#importSessions', function () {
-    test('should call upload with the right parameters', async function (assert) {
+  module('#validateSessions', function () {
+    test('should call validate on sessions to mass import with the right parameters', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const adapter = store.adapterFor('sessions-import');
-      const sessionsImportStub = sinon.stub(adapter, 'importSessions');
-      sessionsImportStub.resolves();
+      const adapter = store.adapterFor('validate-sessions-for-mass-import');
+      const validateSessionsForMassImportStub = sinon.stub(adapter, 'validateSessionsForMassImport');
+      validateSessionsForMassImportStub.resolves();
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
         id: 123,
       });
@@ -108,10 +108,10 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
       controller.notifications = { clearAll: sinon.stub() };
 
       // when
-      await controller.importSessions();
+      await controller.validateSessions();
 
       // then
-      sinon.assert.calledWith(adapter.importSessions, file, '123');
+      sinon.assert.calledWith(adapter.validateSessionsForMassImport, file, '123');
       assert.ok(controller);
     });
   });

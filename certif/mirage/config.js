@@ -287,7 +287,7 @@ export default function () {
     return new Response(204);
   });
 
-  this.post('/certification-centers/:id/sessions/import', async (schema, request) => {
+  this.post('/certification-centers/:id/sessions/validate-for-mass-import', async (schema, request) => {
     const { type } = request.requestBody;
     const { id: certificationCenterId } = request.params;
 
