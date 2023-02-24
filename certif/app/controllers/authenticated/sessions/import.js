@@ -52,6 +52,7 @@ export default class ImportController extends Controller {
       }
       await adapter.validateSessionsForMassImport(this.file, certificationCenterId);
       this.report = 'La liste des sessions a été importée avec succès.';
+      this.isImportInError = false;
     } catch (err) {
       this.isImportInError = true;
       this.report = err.errors[0].detail;
