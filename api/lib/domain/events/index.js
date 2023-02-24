@@ -31,11 +31,20 @@ const supervisorAccessRepository = require('../../infrastructure/repositories/su
 const targetProfileRepository = require('../../infrastructure/repositories/target-profile-repository.js');
 const userRepository = require('../../infrastructure/repositories/user-repository.js');
 const participantResultsSharedRepository = require('../../infrastructure/repositories/participant-results-shared-repository.js');
-const poleEmploiNotifier = require('../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js');
 const juryCertificationSummaryRepository = require('../../infrastructure/repositories/jury-certification-summary-repository.js');
 const finalizedSessionRepository = require('../../infrastructure/repositories/sessions/finalized-session-repository.js');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository.js');
 const logger = require('../../infrastructure/logger.js');
+const poleEmploiNotifier = require('../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js');
+const disabledPoleEmploiNotifier = require('../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js');
+
+function requirePoleEmploiNotifier() {
+  if (settings.poleEmploi.pushEnabled) {
+    return poleEmploiNotifier;
+  } else {
+    return disabledPoleEmploiNotifier;
+  }
+}
 
 const dependencies = {
   assessmentRepository,
@@ -62,7 +71,7 @@ const dependencies = {
   targetProfileRepository,
   userRepository,
   participantResultsSharedRepository,
-  poleEmploiNotifier,
+  poleEmploiNotifier: requirePoleEmploiNotifier(),
   juryCertificationSummaryRepository,
   finalizedSessionRepository,
   challengeRepository,

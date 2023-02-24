@@ -1,3 +1,4 @@
+const settings = require('../../config.js');
 const accountRecoveryDemandRepository = require('../../infrastructure/repositories/account-recovery-demand-repository.js');
 const adminMemberRepository = require('../../infrastructure/repositories/admin-member-repository.js');
 const algorithmDataFetcherService = require('../../domain/services/algorithm-methods/data-fetcher.js');
@@ -120,7 +121,6 @@ const pickChallengeService = require('../services/pick-challenge-service.js');
 const pixAuthenticationService = require('../../domain/services/authentication/pix-authentication-service.js');
 const placementProfileService = require('../../domain/services/placement-profile-service.js');
 const poleEmploiSendingRepository = require('../../infrastructure/repositories/pole-emploi-sending-repository.js');
-const poleEmploiNotifier = require('../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js');
 const prescriberRepository = require('../../infrastructure/repositories/prescriber-repository.js');
 const resetPasswordService = require('../../domain/services/reset-password-service.js');
 const resetPasswordDemandRepository = require('../../infrastructure/repositories/reset-password-demands-repository.js');
@@ -137,7 +137,6 @@ const sessionRepository = require('../../infrastructure/repositories/sessions/se
 const sessionForSupervisingRepository = require('../../infrastructure/repositories/sessions/session-for-supervising-repository.js');
 const sessionJuryCommentRepository = require('../../infrastructure/repositories/sessions/session-jury-comment-repository.js');
 const sessionSummaryRepository = require('../../infrastructure/repositories/sessions/session-summary-repository.js');
-const settings = require('../../config.js');
 const skillRepository = require('../../infrastructure/repositories/skill-repository.js');
 const skillSetRepository = require('../../infrastructure/repositories/skill-set-repository.js');
 const studentRepository = require('../../infrastructure/repositories/student-repository.js');
@@ -168,8 +167,18 @@ const userRepository = require('../../infrastructure/repositories/user-repositor
 const userService = require('../../domain/services/user-service.js');
 const userSavedTutorialRepository = require('../../infrastructure/repositories/user-saved-tutorial-repository.js');
 const verifyCertificateCodeService = require('../../domain/services/verify-certificate-code-service.js');
-
 const participantResultsSharedRepository = require('../../infrastructure/repositories/participant-results-shared-repository.js');
+const poleEmploiNotifier = require('../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js');
+const disabledPoleEmploiNotifier = require('../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js');
+
+function requirePoleEmploiNotifier() {
+  if (settings.poleEmploi.pushEnabled) {
+    return poleEmploiNotifier;
+  } else {
+    return disabledPoleEmploiNotifier;
+  }
+}
+
 const dependencies = {
   accountRecoveryDemandRepository,
   adminMemberRepository,
@@ -294,7 +303,7 @@ const dependencies = {
   pixAuthenticationService,
   placementProfileService,
   poleEmploiSendingRepository,
-  poleEmploiNotifier,
+  poleEmploiNotifier: requirePoleEmploiNotifier(),
   prescriberRepository,
   resetPasswordService,
   resetPasswordDemandRepository,
