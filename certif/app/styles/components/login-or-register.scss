@@ -9,11 +9,11 @@
     align-items: center;
     padding: 20px 2px;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       padding: 20px;
     }
 
-    @include device-is("large-screen") {
+    @include device-is('large-screen') {
       padding: 40px 100px;
     }
   }
@@ -40,12 +40,12 @@
     flex-flow: row;
     justify-content: space-around;
 
-    @include device-is("large-screen") {
+    @include device-is('large-screen') {
       flex-flow: row;
       justify-content: space-between;
     }
 
-    @include device-is("mobile") {
+    @include device-is('mobile') {
       flex-direction: column;
       margin: 10px 20px 0;
     }
@@ -55,7 +55,7 @@
     display: flex;
     flex-direction: column;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       min-width: 360px;
     }
   }
@@ -64,12 +64,12 @@
     margin-top: 30px;
     border-left: 1px solid $pix-neutral-30;
 
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       margin: 30px;
       margin-bottom: 0;
     }
 
-    @include device-is("large-screen") {
+    @include device-is('large-screen') {
       margin: 30px 60px 0;
     }
   }
