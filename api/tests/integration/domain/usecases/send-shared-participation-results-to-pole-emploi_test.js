@@ -7,7 +7,7 @@ const {
   sinon,
 } = require('../../../test-helper');
 const useCases = require('../../../../lib/domain/usecases/index.js');
-const poleEmploiNotifier = require('../../../../lib/infrastructure/externals/pole-emploi/pole-emploi-notifier');
+const poleEmploiNotifier = require('../../../../lib/infrastructure/externals/pole-emploi/pole-emploi-notifier.js');
 
 describe('Integration | Domain | UseCases | send-shared-participation-results-to-pole-emploi', function () {
   let campaignParticipationId, userId, responseCode;
@@ -27,7 +27,6 @@ describe('Integration | Domain | UseCases | send-shared-participation-results-to
     databaseBuilder.factory.buildCampaignSkill({ campaignId });
     campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId }).id;
     databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
-
     const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([]);
     mockLearningContent(learningContentObjects);
     return databaseBuilder.commit();
