@@ -192,12 +192,18 @@ module.exports = {
 
   async validateSessionsForMassImport(request, h) {
     const certificationCenterId = request.params.certificationCenterId;
+    const authenticatedUserId = request.auth.credentials.userId;
+
     const parsedCsvData = await csvHelpers.parseCsvWithHeader(request.payload.path);
     if (parsedCsvData.length === 0) {
       throw new UnprocessableEntityError('No session data in csv');
     }
     const sessions = csvSerializer.deserializeForSessionsImport(parsedCsvData);
-    await usecases.validateSessionsForMassImport({ sessions, certificationCenterId });
-    return h.response().code(200);
+    const cachedValidatedSessionsKey = await usecases.validateSessionsForMassImport({
+      sessions,
+      certificationCenterId,
+      userId: authenticatedUserId,
+    });
+    return h.response({ cachedValidatedSessionsKey }).code(200);
   },
 };
