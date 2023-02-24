@@ -12,7 +12,7 @@ module('Integration | Component | panel-header', function (hooks) {
     class FeatureTogglesStub extends Service {
       featureToggles = { isMassiveSessionManagementEnabled: false };
     }
-    this.owner.register('service:featureToggles', FeatureTogglesStub);
+    this.owner.register('service:feature-toggles', FeatureTogglesStub);
 
     // when
     const { getByRole } = await render(hbs`<Sessions::PanelHeader />`);
@@ -23,28 +23,77 @@ module('Integration | Component | panel-header', function (hooks) {
 
   module('isMassiveSessionManagementEnabled feature toggle', function () {
     module('isMassiveSessionManagementEnabled feature toggle is true', function () {
-      test('it renders a link to the session import page', async function (assert) {
-        // given
-        class FeatureTogglesStub extends Service {
-          featureToggles = { isMassiveSessionManagementEnabled: true };
-        }
-        this.owner.register('service:featureToggles', FeatureTogglesStub);
+      module('when certification center is a type SCO which manages students', function () {
+        test('it does not render a link to the session import page', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+            type: 'SCO',
+            isRelatedToManagingStudentsOrganization: true,
+          });
 
-        // when
-        const { getByRole } = await render(hbs`<Sessions::PanelHeader />`);
+          class CurrentUserStub extends Service {
+            currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
+          }
+          class FeatureTogglesStub extends Service {
+            featureToggles = { isMassiveSessionManagementEnabled: true };
+          }
 
-        // then
-        assert.dom(getByRole('link', { name: 'Créer/éditer plusieurs sessions' })).exists();
+          this.owner.register('service:feature-toggles', FeatureTogglesStub);
+          this.owner.register('service:current-user', CurrentUserStub);
+
+          // when
+          const { queryByRole } = await render(hbs`<Sessions::PanelHeader />`);
+
+          // then
+          assert.dom(queryByRole('link', { name: 'Créer/éditer plusieurs sessions' })).doesNotExist();
+        });
+      });
+
+      module('when certification center is not a type SCO which manages students', function () {
+        test('it renders a link to the session import page', async function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+            type: 'SUP',
+            isRelatedToManagingStudentsOrganization: false,
+          });
+
+          class CurrentUserStub extends Service {
+            currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
+          }
+          class FeatureTogglesStub extends Service {
+            featureToggles = { isMassiveSessionManagementEnabled: true };
+          }
+
+          this.owner.register('service:feature-toggles', FeatureTogglesStub);
+          this.owner.register('service:current-user', CurrentUserStub);
+
+          // when
+          const { getByRole } = await render(hbs`<Sessions::PanelHeader />`);
+
+          // then
+          assert.dom(getByRole('link', { name: 'Créer/éditer plusieurs sessions' })).exists();
+        });
       });
     });
 
     module('isMassiveSessionManagementEnabled feature toggle is false', function () {
       test('it does not render a link to the session import page', async function (assert) {
         // given
+        const store = this.owner.lookup('service:store');
+        const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+          type: 'PRO',
+        });
+
+        class CurrentUserStub extends Service {
+          currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
+        }
         class FeatureTogglesStub extends Service {
           featureToggles = { isMassiveSessionManagementEnabled: false };
         }
-        this.owner.register('service:featureToggles', FeatureTogglesStub);
+        this.owner.register('service:feature-toggles', FeatureTogglesStub);
+        this.owner.register('service:current-user', CurrentUserStub);
 
         // when
         const { queryByRole } = await render(hbs`<Sessions::PanelHeader />`);
