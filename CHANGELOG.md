@@ -1,5 +1,29 @@
 # Pix Changelog
 
+## v3.328.0 (24/02/2023)
+
+
+### :rocket: Amélioration
+- [#5717](https://github.com/1024pix/pix/pull/5717) [FEATURE] Rendre le champ "IdPixLabel" obligatoire (PIX-4328).
+- [#5697](https://github.com/1024pix/pix/pull/5697) [FEATURE] Créer la page "Récapitulatif" pour l'import en masse des sessions sur Pix Certif (PIX-6953).
+- [#5713](https://github.com/1024pix/pix/pull/5713) [FEATURE] Internationaliser les actions globales de Certif (PIX-7201)
+- [#5716](https://github.com/1024pix/pix/pull/5716) [FEATURE] Internationaliser les urls des mentions légales et d'accessibilité sur Pix Certif (PIX-7209).
+- [#5706](https://github.com/1024pix/pix/pull/5706) [FEATURE] Utiliser un counter CSS pour les formulaires de création de Profile cible et de déclencheur de contenu formatif (PIX-7203)
+- [#5711](https://github.com/1024pix/pix/pull/5711) [FEATURE] Ajout des RT dans les PE sendings (PIX-7017).
+
+### :building_construction: Tech
+- [#5725](https://github.com/1024pix/pix/pull/5725) [TECH] Utiliser des guillemets simples dans nos fichiers SCSS
+- [#5726](https://github.com/1024pix/pix/pull/5726) [TECH] Ajouter l'extension de fichier à l'import local dans lib (PIX-7202)
+- [#5715](https://github.com/1024pix/pix/pull/5715) [TECH] Préparer la migration de l'API en ESM  (PIX-7202)
+- [#5667](https://github.com/1024pix/pix/pull/5667) [TECH] Renvoyer une erreur 422 au lieu d'une erreur 503 quand Pôle Emploi ne renvoie pas correctement les infos d'un utilisateur (PIX-6982)
+
+### :bug: Correction
+- [#5727](https://github.com/1024pix/pix/pull/5727) [BUGFIX] Rétablissement de l'espacement des titres sur la double mire (PIX-7134).
+- [#5712](https://github.com/1024pix/pix/pull/5712) [BUGFIX] Gerer l'asynchronisme de PGBoss.send (PIX-7230)
+- [#5718](https://github.com/1024pix/pix/pull/5718) [BUGFIX] Permettre la modification de contenu formatif (PIX-7275).
+- [#5723](https://github.com/1024pix/pix/pull/5723) [BUGFIX] Le logger ne marche pas (PIX-7249)
+- [#5719](https://github.com/1024pix/pix/pull/5719) [BUGFIX] Ajout de la dépendance manquante participantResultsSharedRepository
+
 ## v3.327.0 (22/02/2023)
 
 
