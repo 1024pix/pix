@@ -275,6 +275,11 @@ module.exports = (function () {
       },
     },
 
+    temporarySessionsStorageForMassImport: {
+      expirationDelaySeconds:
+        parseInt(process.env.SESSIONS_MASS_IMPORT_TEMPORARY_STORAGE_EXP_DELAY_SECONDS, 10) || 7200,
+    },
+
     temporaryStorage: {
       expirationDelaySeconds: parseInt(process.env.TEMPORARY_STORAGE_EXPIRATION_DELAY_SECONDS, 10) || 600,
       redisUrl: process.env.REDIS_URL,

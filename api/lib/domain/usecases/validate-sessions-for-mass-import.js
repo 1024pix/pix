@@ -1,11 +1,13 @@
-const Session = require('../models/Session.js');
-const sessionCodeService = require('../services/session-code-service.js');
-const sessionsImportValidationService = require('../services/sessions-import-validation-service.js');
-const CertificationCandidate = require('../models/CertificationCandidate.js');
+const Session = require('../models/Session');
+const sessionCodeService = require('../services/session-code-service');
+const sessionsImportValidationService = require('../services/sessions-import-validation-service');
+const temporarySessionsStorageForMassImportService = require('../services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service');
+const CertificationCandidate = require('../models/CertificationCandidate');
 const bluebird = require('bluebird');
 
 module.exports = async function validateSessionsForMassImport({
   sessions,
+  userId,
   certificationCenterId,
   certificationCenterRepository,
   sessionRepository,
@@ -17,7 +19,7 @@ module.exports = async function validateSessionsForMassImport({
 }) {
   const { name: certificationCenter, isSco } = await certificationCenterRepository.get(certificationCenterId);
 
-  return await bluebird.mapSeries(sessions, async (sessionDTO) => {
+  const validatedSessions = await bluebird.mapSeries(sessions, async (sessionDTO) => {
     const { sessionId } = sessionDTO;
 
     const accessCode = sessionCodeService.getNewSessionCode();
@@ -52,6 +54,13 @@ module.exports = async function validateSessionsForMassImport({
 
     return session;
   });
+
+  const cachedValidatedSessionsKey = await temporarySessionsStorageForMassImportService.save({
+    sessions: validatedSessions,
+    userId,
+  });
+
+  return cachedValidatedSessionsKey;
 };
 
 async function _createValidCertificationCandidates({
