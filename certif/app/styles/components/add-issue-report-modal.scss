@@ -11,8 +11,8 @@
     outline: 2px transparent;
   }
 
-  label[for^="subcategory-for-category"],
-  label[for^="text-area-for-category"] {
+  label[for^='subcategory-for-category'],
+  label[for^='text-area-for-category'] {
     display: block;
     margin-bottom: 4px;
   }
@@ -22,7 +22,7 @@
     max-width: 100%;
   }
 
-  label[for^="text-area-for-category"] {
+  label[for^='text-area-for-category'] {
     margin-top: 16px;
   }
 
@@ -33,11 +33,11 @@
     min-width: 0;
     margin-bottom: 22px;
 
-    label[for^="input-radio-for-category"] span {
+    label[for^='input-radio-for-category'] span {
       font-weight: bold;
     }
 
-    input[id|="input-radio-for-category"] {
+    input[id|='input-radio-for-category'] {
       background-color: $pix-communication-light;
       transform: scale(1.2);
       margin: 0;
@@ -48,7 +48,7 @@
       }
     }
 
-    input[id|="input-for-category-in-challenge-question-number"] {
+    input[id|='input-for-category-in-challenge-question-number'] {
       box-sizing: border-box;
       margin-left: 8px;
       border: 1.2px solid $pix-neutral-60;
@@ -72,12 +72,12 @@
       }
     }
 
-    label[for|="input-radio-for-category"] {
+    label[for|='input-radio-for-category'] {
       margin-left: 16px;
       cursor: pointer;
     }
 
-    label[for|="subcategory-for-category-in-challenge"] {
+    label[for|='subcategory-for-category-in-challenge'] {
       margin: 16px 0 8px;
     }
 
@@ -101,7 +101,7 @@
     }
   }
 
-  div[class$="certification-issue-report-fields__details"] {
+  div[class$='certification-issue-report-fields__details'] {
     margin-top: 16px;
     padding-left: 32px;
 

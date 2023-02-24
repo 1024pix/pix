@@ -6,7 +6,7 @@
     gap: $spacing-s;
     margin-bottom: $spacing-s;
   
-    @include device-is("tablet") {
+    @include device-is('tablet') {
       flex-flow: row wrap;
       justify-content: flex-end;
     }
