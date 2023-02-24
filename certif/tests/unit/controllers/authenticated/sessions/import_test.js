@@ -93,7 +93,8 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
       this.owner.register('service:current-user', CurrentUserStub);
       const token = 'a token';
 
-      controller.file = Symbol('file 1');
+      const file = Symbol('file 1');
+      controller.file = file;
 
       controller.session = {
         isAuthenticated: true,
@@ -104,51 +105,13 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
         },
       };
 
-      controller.notifications = { success: sinon.stub(), clearAll: sinon.stub() };
+      controller.notifications = { clearAll: sinon.stub() };
 
       // when
       await controller.importSessions();
 
       // then
-      sinon.assert.calledOnce(controller.notifications.success);
-      assert.ok(controller);
-    });
-
-    test('should call the notifications service in case of an error', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const adapter = store.adapterFor('sessions-import');
-      const sessionsImportStub = sinon.stub(adapter, 'importSessions');
-      sessionsImportStub.rejects();
-      const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        id: 123,
-      });
-
-      class CurrentUserStub extends Service {
-        currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
-      }
-
-      this.owner.register('service:current-user', CurrentUserStub);
-      const token = 'a token';
-
-      controller.file = Symbol('file 1');
-
-      controller.session = {
-        isAuthenticated: true,
-        data: {
-          authenticated: {
-            access_token: token,
-          },
-        },
-      };
-
-      controller.notifications = { error: sinon.stub(), clearAll: sinon.stub() };
-
-      // when
-      await controller.importSessions();
-
-      // then
-      sinon.assert.calledOnce(controller.notifications.error);
+      sinon.assert.calledWith(adapter.importSessions, file, '123');
       assert.ok(controller);
     });
   });

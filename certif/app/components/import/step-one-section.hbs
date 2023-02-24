@@ -1,0 +1,85 @@
+<p>{{t "pages.sessions.import.step-one.instructions.title"}}</p>
+<PixCollapsible
+  @title={{t "pages.sessions.import.step-one.instructions.creation.title"}}
+  @iconTitle="plus"
+  class="import-page_section--instructions"
+>
+  {{t "pages.sessions.import.step-one.instructions.creation.list"}}
+  <ul>
+    <li>{{t "pages.sessions.import.step-one.instructions.creation.list-with-candidates" htmlSafe=true}}</li>
+    <li>{{t "pages.sessions.import.step-one.instructions.creation.list-without-candidates" htmlSafe=true}}</li>
+  </ul>
+</PixCollapsible>
+<PixCollapsible
+  @title={{t "pages.sessions.import.step-one.instructions.edition.title"}}
+  @iconTitle="plus"
+  class="import-page__section--instructions"
+>
+  <ul>
+    <li>{{t "pages.sessions.import.step-one.instructions.edition.replace" htmlSafe=true}}</li>
+    <li>{{t "pages.sessions.import.step-one.instructions.edition.subscription" htmlSafe=true}}</li>
+  </ul>
+  <PixMessage @type="warning" @withIcon={{true}}>
+    {{t "pages.sessions.import.step-one.instructions.edition.warning"}}
+  </PixMessage>
+</PixCollapsible>
+
+<section class="import-page__section--download panel">
+  <div class="import-page__section--download__button">
+    <FaIcon @icon="file-arrow-down" class="fa-2x download-icon" />
+    <span>{{t "pages.sessions.import.step-one.actions.session-import-template.extra-information"}}</span>
+    <PixButton
+      @backgroundColor="transparent-light"
+      @isBorderVisible="{{true}}"
+      aria-label={{t "pages.sessions.import.step-one.actions.session-import-template.extra-information"}}
+      @triggerAction={{@downloadSessionImportTemplate}}
+    >
+      {{t "pages.sessions.import.step-one.actions.session-import-template.label"}}
+    </PixButton>
+  </div>
+
+  <div tabindex="0" class="import-page__section--download__button">
+    <FaIcon @icon="cloud-arrow-up" class="fa-2x download-icon" />
+    <span>{{t "pages.sessions.import.step-one.actions.session-import-upload.extra-information"}}</span>
+    <PixButtonUpload
+      @backgroundColor="transparent-light"
+      @isBorderVisible="{{true}}"
+      @id="file-upload"
+      @onChange={{@preImportSessions}}
+      aria-label={{t "pages.sessions.import.step-one.actions.session-import-upload.extra-information"}}
+      accept=".csv"
+    >
+      {{t "pages.sessions.import.step-one.actions.session-import-upload.label"}}
+    </PixButtonUpload>
+  </div>
+
+  {{#if @file}}
+    <div class="import-page__file-name" aria-label={{@fileName}}>
+      {{@fileName}}
+      <PixIconButton
+        @ariaLabel={{t "pages.sessions.import.step-one.actions.cancel.label"}}
+        @icon="circle-xmark"
+        @triggerAction={{@removeImport}}
+        class="import-page-file-name__cancel"
+      />
+    </div>
+  {{/if}}
+
+  <ul class="import-page__section--link-buttons">
+    <li>
+      <PixButtonLink
+        @route="authenticated.sessions.list"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+      >
+        {{t "common.actions.cancel"}}
+      </PixButtonLink>
+    </li>
+    <li>
+      <PixButton @triggerAction={{@importSessions}} @isDisabled={{@isImportDisabled}}>
+        {{t "common.actions.continue"}}
+      </PixButton>
+    </li>
+  </ul>
+
+</section>

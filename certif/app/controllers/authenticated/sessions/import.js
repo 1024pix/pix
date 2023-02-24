@@ -14,6 +14,9 @@ export default class ImportController extends Controller {
 
   @tracked file = null;
   @tracked isImportDisabled = true;
+  @tracked isImportStepOne = true;
+  @tracked report;
+  @tracked isImportInError = false;
 
   get fileName() {
     return this.file.name;
@@ -27,7 +30,7 @@ export default class ImportController extends Controller {
     try {
       await this.fileSaver.save({ url, token });
     } catch (e) {
-      this.notifications.error(this.intl.t('pages.sessions.sessions.session-import-template-dl-error'));
+      this.notifications.error(this.intl.t('pages.sessions.import.step-one.errors.download'));
     }
   }
 
@@ -48,10 +51,12 @@ export default class ImportController extends Controller {
         return;
       }
       await adapter.importSessions(this.file, certificationCenterId);
-      this.notifications.success('La liste des sessions a été importée avec succès.');
+      this.report = 'La liste des sessions a été importée avec succès.';
     } catch (err) {
-      this.notifications.error("Aucune session n'a été importée");
+      this.isImportInError = true;
+      this.report = err.errors[0].detail;
     } finally {
+      this.isImportStepOne = false;
       this.removeImport();
     }
   }
@@ -60,5 +65,9 @@ export default class ImportController extends Controller {
   removeImport() {
     this.file = null;
     this.isImportDisabled = true;
+  }
+
+  reset() {
+    this.isImportStepOne = true;
   }
 }
