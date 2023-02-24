@@ -1,6 +1,6 @@
 const Session = require('../models/Session');
 const sessionCodeService = require('../services/session-code-service');
-const sessionsImportValidationService = require('../services/sessions-import-validation-service');
+const sessionsImportValidationService = require('../services/sessions-mass-import/sessions-import-validation-service');
 const temporarySessionsStorageForMassImportService = require('../services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service');
 const CertificationCandidate = require('../models/CertificationCandidate');
 const bluebird = require('bluebird');
