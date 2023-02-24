@@ -7,7 +7,7 @@ function buildTraining({
   type = 'webinaire',
   duration = '06:00:00',
   locale = 'fr-fr',
-  editorName = "Ministère de l'Éducation nationale et de la Jeunesse",
+  editorName = "Ministère de l'Éducation nationale et de la Jeunesse. Liberté égalité fraternité",
   editorLogoUrl = 'https://images.pix.fr/contenu-formatif/editeur/logo-ministere-education-nationale-et-jeunesse.svg',
   prerequisiteThreshold = 30,
   goalThreshold = 70,

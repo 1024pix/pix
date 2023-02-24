@@ -1,7 +1,7 @@
 const TABLE_NAME = 'trainings';
 const EDITOR_NAME_COLUMN = 'editorName';
 const EDITOR_LOGO_URL_COLUMN = 'editorLogoUrl';
-const editorName = "Ministère de l'Éducation nationale et de la Jeunesse";
+const editorName = "Ministère de l'Éducation nationale et de la Jeunesse. Liberté égalité fraternité";
 const editorLogoUrl =
   'https://images.pix.fr/contenu-formatif/editeur/logo-ministere-education-nationale-et-jeunesse.svg';
 

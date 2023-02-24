@@ -103,10 +103,10 @@
         class="form-field"
         @id="trainingEditorName"
         @label="Nom de l'éditeur"
-        @information="Exemple: Ministère de l'Éducation nationale et de la Jeunesse"
+        @information="Exemple: Ministère de l'Éducation nationale et de la Jeunesse. Liberté égalité fraternité"
         required={{true}}
         aria-required={{true}}
-        placeholder="Ministère de l'Éducation nationale et de la Jeunesse"
+        placeholder="Ministère de l'Éducation nationale et de la Jeunesse. Liberté égalité fraternité."
         @value={{this.form.editorName}}
         {{on "change" (fn this.updateForm "editorName")}}
       />

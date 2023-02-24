@@ -51,7 +51,11 @@ module('Integration | Component | Trainings::CreateOrUpdateTrainingForm', functi
     assert.dom(screen.getByLabelText('Langue localisée')).exists();
     assert.dom(screen.getByLabelText('Nom du fichier du logo éditeur')).exists();
     assert
-      .dom(screen.getByLabelText("Nom de l'éditeur Exemple: Ministère de l'Éducation nationale et de la Jeunesse"))
+      .dom(
+        screen.getByLabelText(
+          "Nom de l'éditeur Exemple: Ministère de l'Éducation nationale et de la Jeunesse. Liberté égalité fraternité"
+        )
+      )
       .exists();
     assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
     assert.dom(screen.getByRole('button', { name: 'Créer le contenu formatif' })).exists();
@@ -122,7 +126,11 @@ module('Integration | Component | Trainings::CreateOrUpdateTrainingForm', functi
       assert.strictEqual(screen.getByLabelText('Langue localisée').innerText, localeCategories[model.locale]);
       assert.dom(screen.getByLabelText('Nom du fichier du logo éditeur')).hasValue(editorLogo);
       assert
-        .dom(screen.getByLabelText("Nom de l'éditeur Exemple: Ministère de l'Éducation nationale et de la Jeunesse"))
+        .dom(
+          screen.getByLabelText(
+            "Nom de l'éditeur Exemple: Ministère de l'Éducation nationale et de la Jeunesse. Liberté égalité fraternité"
+          )
+        )
         .exists();
       assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
       assert.dom(screen.getByRole('button', { name: 'Modifier le contenu formatif' })).exists();
