@@ -47,7 +47,7 @@ function _getLogForHumans() {
   return processOutputingToTerminal && !forceJSONLogs;
 }
 
-module.exports = (function () {
+const configuration = (function () {
   const config = {
     rootPath: path.normalize(__dirname + '/..'),
 
@@ -443,4 +443,6 @@ module.exports = (function () {
 
   return config;
 })();
+
+module.exports = configuration;
 /* eslint-enable node/no-process-env*/
