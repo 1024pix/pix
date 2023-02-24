@@ -333,7 +333,8 @@
       "external-id-label": {
         "label": "external user ID label",
         "question-label": "Do you need an external user ID?",
-        "suggestion": "Example : \"Student Number\" or \"Email address\" *"
+        "suggestion": "Example : \"Student Number\" or \"Email address\" *",
+        "required": "The external user ID label is mandatory."
       },
       "landing-page-text": {
         "label": "Text to display on the starting page"

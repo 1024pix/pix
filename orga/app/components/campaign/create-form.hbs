@@ -195,6 +195,7 @@
         @information={{t "pages.campaign-creation.external-id-label.suggestion"}}
         @label={{t "pages.campaign-creation.external-id-label.label"}}
         maxlength="255"
+        @requiredLabel={{t "pages.campaign-creation.external-id-label.required"}}
         {{on "change" this.onChangeExternalIdLabel}}
       />
       {{#if @errors.idPixLabel}}
