@@ -5,9 +5,10 @@ const sessionCodeService = require('../../../../lib/domain/services/session-code
 const Session = require('../../../../lib/domain/models/Session');
 const certificationCpfService = require('../../../../lib/domain/services/certification-cpf-service');
 const sessionsImportValidationService = require('../../../../lib/domain/services/sessions-import-validation-service');
+const temporarySessionsStorageForMassImportService = require('../../../../lib/domain/services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service');
 const { CpfBirthInformationValidation } = require('../../../../lib/domain/services/certification-cpf-service');
-const _ = require('lodash');
 const { UnprocessableEntityError } = require('../../../../lib/application/http-errors');
+const CertificationCandidate = require('../../../../lib/domain/models/CertificationCandidate');
 
 describe('Unit | UseCase | validate-sessions-for-mass-import', function () {
   let accessCode;
@@ -35,12 +36,14 @@ describe('Unit | UseCase | validate-sessions-for-mass-import', function () {
     certificationCenterRepository.get.withArgs(certificationCenterId).resolves(certificationCenter);
     sessionsImportValidationService.validateSession = sinon.stub();
     sessionsImportValidationService.getValidatedCandidateBirthInformation = sinon.stub();
+    temporarySessionsStorageForMassImportService.save = sinon.stub();
   });
 
   context('when sessions are valid', function () {
     context('when user has certification center membership', function () {
       it('should validate every session one by one', async function () {
         // given
+        const userId = 1234;
         const validSessionData = createValidSessionData();
         const sessions = [
           {
@@ -71,105 +74,69 @@ describe('Unit | UseCase | validate-sessions-for-mass-import', function () {
         ];
 
         // when
-        const validatedSessions = await validateSessionsForMassImport({
+        await validateSessionsForMassImport({
           sessions,
+          userId,
           certificationCenterId,
           certificationCenterRepository,
           sessionRepository,
         });
 
         // then
-        validatedSessions.forEach((session, index) => {
-          expect(_.omit(session, 'supervisorPassword')).to.deep.equal(
-            _.omit(expectedSessions[index], 'supervisorPassword')
-          );
+        expect(temporarySessionsStorageForMassImportService.save).to.have.been.calledOnceWith({
+          sessions: expectedSessions,
+          userId,
         });
       });
+    });
 
-      context('when there is only sessionId and candidate information', function () {
-        it('should validate the candidates in the session', async function () {
-          // given
-          const candidate1 = createValidCandidateData(1);
-          const sessions = [
-            {
-              sessionId: 1234,
-              certificationCandidates: [candidate1],
-            },
-          ];
+    context('when there is only sessionId and candidate information', function () {
+      it('should validate the candidates in the session', async function () {
+        // given
+        const candidate1 = createValidCandidateData(1);
+        const userId = 1234;
+        const sessions = [
+          {
+            sessionId: 1234,
+            certificationCandidates: [candidate1],
+          },
+        ];
 
-          const expectedSessions = [
-            {
-              accessCode: 'accessCode',
-              address: undefined,
-              assignedCertificationOfficerId: undefined,
-              certificationCenter: 'certificationCenterName',
-              certificationCenterId: '123',
-              date: undefined,
-              description: undefined,
-              examiner: undefined,
-              examinerGlobalComment: undefined,
-              finalizedAt: undefined,
-              hasIncident: undefined,
-              hasJoiningIssue: undefined,
-              id: 1234,
-              publishedAt: undefined,
-              resultsSentToPrescriberAt: undefined,
-              room: undefined,
-              time: undefined,
-              certificationCandidates: [
-                {
-                  authorizedToStart: undefined,
-                  billingMode: 'FREE',
-                  birthCity: '',
-                  birthCountry: 'France',
-                  birthINSEECode: '134',
-                  birthPostalCode: null,
-                  birthProvinceCode: undefined,
-                  birthdate: '1981-03-12',
-                  complementaryCertifications: [],
-                  createdAt: undefined,
-                  email: 'robindahood2@email.fr',
-                  externalId: 'htehte',
-                  extraTimePercentage: 20,
-                  firstName: 'Candidat 1',
-                  id: undefined,
-                  lastName: 'Candidat 1',
-                  organizationLearnerId: null,
-                  prepaymentCode: null,
-                  resultRecipientEmail: 'robindahood@email.fr',
-                  sessionId: 1234,
-                  sex: 'M',
-                  userId: undefined,
-                },
-              ],
-            },
-          ];
-
-          const cpfBirthInformationValidation1 = CpfBirthInformationValidation.success({ ...candidate1 });
-          sessionsImportValidationService.getValidatedCandidateBirthInformation.resolves(
-            cpfBirthInformationValidation1
-          );
-
-          // when
-          const validatedSessions = await validateSessionsForMassImport({
-            sessions,
+        const expectedSessions = [
+          new Session({
+            ...sessions[0],
+            id: 1234,
             certificationCenterId,
-            certificationCenterRepository,
-            certificationCandidateRepository,
-            sessionRepository,
-          });
+            certificationCenter: certificationCenterName,
+            accessCode,
+            supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
+            certificationCandidates: [
+              new CertificationCandidate({ ...candidate1, sessionId: 1234, billingMode: 'FREE' }),
+            ],
+          }),
+        ];
 
-          // then
-          validatedSessions.forEach((session, index) => {
-            expect(_.omit(session, 'supervisorPassword')).to.deep.equal(
-              _.omit(expectedSessions[index], 'supervisorPassword')
-            );
-          });
+        const cpfBirthInformationValidation1 = CpfBirthInformationValidation.success({ ...candidate1 });
+        sessionsImportValidationService.getValidatedCandidateBirthInformation.resolves(cpfBirthInformationValidation1);
+
+        // when
+        await validateSessionsForMassImport({
+          sessions,
+          userId,
+          certificationCenterId,
+          certificationCenterRepository,
+          certificationCandidateRepository,
+          sessionRepository,
+        });
+
+        // then
+        expect(temporarySessionsStorageForMassImportService.save).to.have.been.calledOnceWithExactly({
+          sessions: expectedSessions,
+          userId,
         });
       });
     });
   });
-
   context('when at least one of the sessions is not valid', function () {
     it('should throw an error', async function () {
       // given
