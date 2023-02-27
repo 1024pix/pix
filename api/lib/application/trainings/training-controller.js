@@ -19,7 +19,7 @@ module.exports = {
   async getById(request) {
     const { trainingId } = request.params;
     const training = await usecases.getTraining({ trainingId });
-    return trainingSerializer.serialize(training);
+    return trainingSerializer.serializeForAdmin(training);
   },
   async create(request, h) {
     const deserializedTraining = await trainingSerializer.deserialize(request.payload);
