@@ -1,17 +1,5 @@
 class Training {
-  constructor({
-    id,
-    title,
-    link,
-    type,
-    duration,
-    locale,
-    targetProfileIds,
-    editorName,
-    editorLogoUrl,
-    prerequisiteThreshold,
-    goalThreshold,
-  } = {}) {
+  constructor({ id, title, link, type, duration, locale, targetProfileIds, editorName, editorLogoUrl } = {}) {
     this.id = id;
     this.title = title;
     this.link = link;
@@ -21,8 +9,6 @@ class Training {
     this.targetProfileIds = targetProfileIds;
     this.editorName = editorName;
     this.editorLogoUrl = editorLogoUrl;
-    this.prerequisiteThreshold = prerequisiteThreshold;
-    this.goalThreshold = goalThreshold;
   }
 }
 

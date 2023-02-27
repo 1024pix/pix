@@ -11,8 +11,6 @@ module.exports = {
         'type',
         'editorName',
         'editorLogoUrl',
-        'prerequisiteThreshold',
-        'goalThreshold',
         'targetProfileSummaries',
       ],
       targetProfileSummaries: {

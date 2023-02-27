@@ -39,8 +39,6 @@ describe('Acceptance | Controller | training-controller', function () {
           },
           'editor-logo-url': trainingAttributes.editorLogoUrl,
           'editor-name': trainingAttributes.editorName,
-          'goal-threshold': trainingAttributes.goalThreshold,
-          'prerequisite-threshold': trainingAttributes.prerequisiteThreshold,
         },
       };
 
@@ -85,8 +83,6 @@ describe('Acceptance | Controller | training-controller', function () {
           locale: 'fr',
           'editor-name': 'Un ministère',
           'editor-logo-url': 'https://mon-logo.svg',
-          'prerequisite-threshold': null,
-          'goal-threshold': null,
         },
       };
 
