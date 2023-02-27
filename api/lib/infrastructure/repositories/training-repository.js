@@ -6,6 +6,7 @@ const DomainTransaction = require('../DomainTransaction.js');
 const UserRecommendedTraining = require('../../domain/read-models/UserRecommendedTraining.js');
 const { fetchPage } = require('../utils/knex-utils.js');
 const pick = require('lodash/pick');
+const trainingTriggerRepository = require('./training-trigger-repository.js');
 const TABLE_NAME = 'trainings';
 
 async function get({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
@@ -22,6 +23,13 @@ async function get({ trainingId, domainTransaction = DomainTransaction.emptyTran
 
 module.exports = {
   get,
+
+  async getWithTriggers({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const training = await get({ trainingId, domainTransaction });
+    const trainingTriggers = await trainingTriggerRepository.findByTrainingId({ trainingId, domainTransaction });
+    training.triggers = trainingTriggers;
+    return training;
+  },
 
   async findPaginatedSummaries({ page, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const knexConn = domainTransaction?.knexTransaction || knex;
