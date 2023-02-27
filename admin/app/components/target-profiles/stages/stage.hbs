@@ -1,18 +1,18 @@
-<tr aria-label="Informations sur le palier {{@title}}">
+<tr aria-label="Informations sur le palier {{@stage.title}}">
   <td>
-    {{#if @isTypeLevel}}
-      {{@level}}
+    {{#if @stage.isTypeLevel}}
+      {{@stage.level}}
     {{else}}
-      {{@threshold}}
+      {{@stage.threshold}}
     {{/if}}
   </td>
-  <td>{{@title}}</td>
-  <td>{{@message}}</td>
+  <td>{{@stage.title}}</td>
+  <td>{{@stage.message}}</td>
   <td>
-    <Common::TickOrCross @isTrue={{@hasPrescriberTitle}} />
+    <Common::TickOrCross @isTrue={{@stage.hasPrescriberTitle}} />
   </td>
   <td>
-    <Common::TickOrCross @isTrue={{@hasPrescriberDescription}} />
+    <Common::TickOrCross @isTrue={{@stage.hasPrescriberDescription}} />
   </td>
   <td>
     <PixButtonLink
@@ -20,9 +20,18 @@
       @isBorderVisible={{true}}
       @route="authenticated.target-profiles.target-profile.stages.stage"
       @size="small"
-      @model={{@id}}
+      @model={{@stage.id}}
     >
       Voir détail
     </PixButtonLink>
+    <PixButton
+      @backgroundColor="red"
+      @isBorderVisible={{true}}
+      @size="small"
+      @iconBefore="trash"
+      @triggerAction={{fn @deleteStage @stage}}
+    >
+      Supprimer
+    </PixButton>
   </td>
 </tr>

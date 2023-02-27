@@ -123,6 +123,11 @@ export default class Stages extends Component {
   }
 
   @action
+  deleteStage(stage) {
+    stage.destroyRecord();
+  }
+
+  @action
   cancelStagesCreation() {
     this.newStages.forEach((stage) => stage.deleteRecord());
   }
