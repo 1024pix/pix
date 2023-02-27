@@ -1,5 +1,5 @@
 class Training {
-  constructor({ id, title, link, type, duration, locale, targetProfileIds, editorName, editorLogoUrl } = {}) {
+  constructor({ id, title, link, type, duration, locale, targetProfileIds, editorName, editorLogoUrl, triggers } = {}) {
     this.id = id;
     this.title = title;
     this.link = link;
@@ -9,6 +9,7 @@ class Training {
     this.targetProfileIds = targetProfileIds;
     this.editorName = editorName;
     this.editorLogoUrl = editorLogoUrl;
+    this.triggers = triggers;
   }
 }
 
