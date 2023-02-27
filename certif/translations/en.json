@@ -205,7 +205,8 @@
             }
           },
           "content": "Do you want to delete the session <span>{sessionId}</span> ?",
-          "enrolled-candidates": "<span>{enrolledCandidatesCount} candidates</span> are enrolled in this session",
+          "enrolled-candidates": "<span>{enrolledCandidatesCount} {enrolledCandidatesCount, plural,one {candidate} other {candidates}}</span> {enrolledCandidatesCount, plural,one {is} other {are}} enrolled in this session",
+
           "success": "The session has been successfully deleted.",
           "warning": "Warning, this action is irreversible."
         },
