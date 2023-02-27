@@ -485,6 +485,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
         params: { certificationCenterId: 123 },
         auth: { credentials: { userId: 2 } },
       };
+      const cachedValidatedSessionsKey = 'uuid';
 
       sinon.stub(csvHelpers, 'parseCsvWithHeader');
       sinon.stub(csvSerializer, 'deserializeForSessionsImport');
@@ -492,7 +493,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
 
       csvHelpers.parseCsvWithHeader.resolves(['result data']);
       csvSerializer.deserializeForSessionsImport.returns(['session']);
-      usecases.validateSessions.resolves();
+      usecases.validateSessions.resolves({ cachedValidatedSessionsKey });
 
       // when
       await certificationCenterController.validateSessionsForMassImport(request, hFake);
@@ -520,13 +521,13 @@ describe('Unit | Controller | certifications-center-controller', function () {
 
       csvHelpers.parseCsvWithHeader.resolves(['result data']);
       csvSerializer.deserializeForSessionsImport.returns(['session']);
-      usecases.validateSessions.resolves(cachedValidatedSessionsKey);
+      usecases.validateSessions.resolves({ cachedValidatedSessionsKey });
 
       // when
       const result = await certificationCenterController.validateSessionsForMassImport(request, hFake);
 
       // then
-      expect(result.source).to.deep.equal({ cachedValidatedSessionsKey });
+      expect(result.source).to.deep.equal(cachedValidatedSessionsKey);
     });
 
     describe('when the import session file contains only the header line', function () {
