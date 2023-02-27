@@ -29,15 +29,6 @@
   }
 }
 
-.badges-table-actions {
-
-  &__button {
-    width: 100%;
-
-    &--delete {
-      margin-top: 8px;
-      display: flex;
-      justify-content: space-between;
-    }
-  }
+.badges-table-actions-delete {
+  margin-top: $spacing-xs;
 }
