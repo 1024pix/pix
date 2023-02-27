@@ -49,7 +49,7 @@ function validateClientApplication(decoded) {
   return { isValid: true, credentials: { client_id: decoded.clientId, scope: decoded.scope, source: decoded.source } };
 }
 
-module.exports = {
+const autentication = {
   schemeName: 'jwt-scheme',
 
   scheme(_, { key, validate }) {
@@ -82,3 +82,5 @@ module.exports = {
 
   defaultStrategy: 'jwt-user',
 };
+
+module.exports = autentication;

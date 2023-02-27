@@ -1,4 +1,4 @@
-module.exports = {
+const organisationPlacesCategories = {
   T0: 'T0',
   T1: 'T1',
   T2: 'T2',
@@ -10,3 +10,5 @@ module.exports = {
   SPECIAL_REDUCE_RATE: 'SPECIAL_REDUCE_RATE',
   FULL_RATE: 'FULL_RATE',
 };
+
+module.exports = organisationPlacesCategories;

@@ -4,20 +4,24 @@ const FwbOidcAuthenticationService = require('../services/authentication/fwb-oid
 
 const DEFAULT_PROPERTY_PATHS_TO_PICK = ['clientId', 'authenticationUrl', 'userInfoUrl', 'tokenUrl', 'clientSecret'];
 
+const POLE_EMPLOI = {
+  configKey: 'poleEmploi',
+  propertyPathsToPick: [...DEFAULT_PROPERTY_PATHS_TO_PICK, 'sendingUrl', 'logoutUrl', 'afterLogoutUrl'],
+  service: new PoleEmploiOidcAuthenticationService(),
+};
+const CNAV = {
+  configKey: 'cnav',
+  propertyPathsToPick: DEFAULT_PROPERTY_PATHS_TO_PICK,
+  service: new CnavOidcAuthenticationService(),
+};
+const FWB = {
+  configKey: 'fwb',
+  propertyPathsToPick: DEFAULT_PROPERTY_PATHS_TO_PICK,
+  service: new FwbOidcAuthenticationService(),
+};
+
 module.exports = {
-  POLE_EMPLOI: {
-    configKey: 'poleEmploi',
-    propertyPathsToPick: [...DEFAULT_PROPERTY_PATHS_TO_PICK, 'sendingUrl', 'logoutUrl', 'afterLogoutUrl'],
-    service: new PoleEmploiOidcAuthenticationService(),
-  },
-  CNAV: {
-    configKey: 'cnav',
-    propertyPathsToPick: DEFAULT_PROPERTY_PATHS_TO_PICK,
-    service: new CnavOidcAuthenticationService(),
-  },
-  FWB: {
-    configKey: 'fwb',
-    propertyPathsToPick: DEFAULT_PROPERTY_PATHS_TO_PICK,
-    service: new FwbOidcAuthenticationService(),
-  },
+  POLE_EMPLOI,
+  CNAV,
+  FWB,
 };
