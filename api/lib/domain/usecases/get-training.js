@@ -1,3 +1,3 @@
 module.exports = function getTraining({ trainingId, trainingRepository }) {
-  return trainingRepository.get(trainingId);
+  return trainingRepository.get({ trainingId });
 };

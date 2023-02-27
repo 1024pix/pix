@@ -9,13 +9,14 @@ const pick = require('lodash/pick');
 const TABLE_NAME = 'trainings';
 
 module.exports = {
-  async get(id) {
-    const training = await knex(TABLE_NAME).where({ id }).first();
+  async get({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const knexConn = domainTransaction?.knexTransaction || knex;
+    const training = await knexConn(TABLE_NAME).where({ id: trainingId }).first();
     if (!training) {
-      throw new NotFoundError(`Not found training for ID ${id}`);
+      throw new NotFoundError(`Not found training for ID ${trainingId}`);
     }
 
-    const targetProfileTrainings = await knex('target-profile-trainings').where('trainingId', training.id);
+    const targetProfileTrainings = await knexConn('target-profile-trainings').where('trainingId', training.id);
 
     return _toDomain(training, targetProfileTrainings);
   },
