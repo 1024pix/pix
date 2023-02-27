@@ -110,7 +110,8 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       assert.strictEqual(find('tbody tr td:nth-child(1)').textContent.trim(), '100');
       assert.strictEqual(find('tbody tr td:nth-child(2)').textContent.trim(), 'My title');
       assert.strictEqual(find('tbody tr td:nth-child(3)').textContent.trim(), 'My message');
-      assert.strictEqual(find('tbody tr td:nth-child(6)').textContent.trim(), 'Voir détail');
+      assert.dom(screen.getByText('Voir détail')).exists();
+      assert.dom(screen.getByRole('button', { name: /Supprimer/ })).exists();
       assert.dom(screen.queryByText('Aucun résultat thématique associé')).doesNotExist();
     });
 
@@ -211,7 +212,8 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       assert.strictEqual(find('tbody tr td:nth-child(1)').textContent.trim(), '6');
       assert.strictEqual(find('tbody tr td:nth-child(2)').textContent.trim(), 'My title');
       assert.strictEqual(find('tbody tr td:nth-child(3)').textContent.trim(), 'My message');
-      assert.strictEqual(find('tbody tr td:nth-child(6)').textContent.trim(), 'Voir détail');
+      assert.dom(screen.getByText('Voir détail')).exists();
+      assert.dom(screen.getByRole('button', { name: /Supprimer/ })).exists();
       assert.dom(screen.queryByText('Aucun résultat thématique associé')).doesNotExist();
     });
 
