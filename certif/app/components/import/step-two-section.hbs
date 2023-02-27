@@ -19,7 +19,7 @@
       </ul>
     </PixMessage>
 
-    <PixButton class="import-page__section--confirm-button">
+    <PixButton class="import-page__section--confirm-button" @triggerAction={{@createSessions}}>
       {{t "pages.sessions.import.step-two.actions.confirm.label"}}
     </PixButton>
   {{/if}}
