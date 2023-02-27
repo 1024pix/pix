@@ -488,17 +488,17 @@ describe('Unit | Controller | certifications-center-controller', function () {
 
       sinon.stub(csvHelpers, 'parseCsvWithHeader');
       sinon.stub(csvSerializer, 'deserializeForSessionsImport');
-      sinon.stub(usecases, 'validateSessionsForMassImport');
+      sinon.stub(usecases, 'validateSessions');
 
       csvHelpers.parseCsvWithHeader.resolves(['result data']);
       csvSerializer.deserializeForSessionsImport.returns(['session']);
-      usecases.validateSessionsForMassImport.resolves();
+      usecases.validateSessions.resolves();
 
       // when
       await certificationCenterController.validateSessionsForMassImport(request, hFake);
 
       // then
-      expect(usecases.validateSessionsForMassImport).to.have.been.calledWith({
+      expect(usecases.validateSessions).to.have.been.calledWith({
         sessions: ['session'],
         certificationCenterId: 123,
         userId: 2,
@@ -516,17 +516,17 @@ describe('Unit | Controller | certifications-center-controller', function () {
 
       sinon.stub(csvHelpers, 'parseCsvWithHeader');
       sinon.stub(csvSerializer, 'deserializeForSessionsImport');
-      sinon.stub(usecases, 'validateSessionsForMassImport');
+      sinon.stub(usecases, 'validateSessions');
 
       csvHelpers.parseCsvWithHeader.resolves(['result data']);
       csvSerializer.deserializeForSessionsImport.returns(['session']);
-      usecases.validateSessionsForMassImport.resolves(cachedValidatedSessionsKey);
+      usecases.validateSessions.resolves(cachedValidatedSessionsKey);
 
       // when
       const result = await certificationCenterController.validateSessionsForMassImport(request, hFake);
 
       // then
-      expect(result.source).to.deep.equal({cachedValidatedSessionsKey});
+      expect(result.source).to.deep.equal({ cachedValidatedSessionsKey });
     });
 
     describe('when the import session file contains only the header line', function () {
