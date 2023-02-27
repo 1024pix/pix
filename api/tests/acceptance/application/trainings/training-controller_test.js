@@ -264,28 +264,9 @@ describe('Acceptance | Controller | training-controller', function () {
               trainingId: `${trainingId}`,
               type: 'prerequisite',
               threshold: 30,
-            },
-            relationships: {
-              tubes: {
-                data: [
-                  {
-                    id: `${tube.id}`,
-                    type: 'tubes',
-                  },
-                ],
-              },
+              tubes: [{ id: `${tube.id}`, level: `${tube.level}` }],
             },
           },
-          included: [
-            {
-              attributes: {
-                id: `${tube.id}`,
-                level: `${tube.level}`,
-              },
-              id: `${tube.id}`,
-              type: 'tubes',
-            },
-          ],
         },
       };
 
@@ -296,9 +277,6 @@ describe('Acceptance | Controller | training-controller', function () {
           attributes: {
             type: 'prerequisite',
             threshold: 30,
-          },
-          relationships: {
-            tubes: { data: [{ id: 'recTube123', level: 2 }] },
           },
         },
       };
@@ -312,10 +290,10 @@ describe('Acceptance | Controller | training-controller', function () {
       expect(response.result.data.id).to.exist;
       expect(response.result.data.attributes.type).to.deep.equal(expectedResponse.data.attributes.type);
       expect(response.result.data.attributes.threshold).to.deep.equal(expectedResponse.data.attributes.threshold);
-      expect(response.result.data.relationships.tubes.data[0].id).to.deep.equal(
-        expectedResponse.data.relationships.tubes.data[0].id
+      expect(response.result.included.find(({ type }) => type === 'trigger-tubes').attributes.level).to.equal(
+        tube.level
       );
-      expect(response.result.data.attributes.level).to.deep.equal(expectedResponse.data.attributes.level);
+      expect(response.result.included.find(({ type }) => type === 'tubes').attributes.id).to.equal(tube.id);
     });
   });
 

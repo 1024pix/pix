@@ -49,11 +49,13 @@ describe('Integration | Repository | training-trigger-repository', function () {
           })
           .orderBy('tubeId', 'asc');
 
-        const createdTrainingTriggerTubes = _.sortBy(createdTrainingTrigger.tubes, 'id');
+        const createdTrainingTriggerTubes = _.sortBy(createdTrainingTrigger.triggerTubes, 'id');
         expect(createdTrainingTriggerTubes[0]).to.be.instanceOf(TrainingTriggerTube);
-        expect(createdTrainingTriggerTubes[0].id).to.deep.equal(trainingTriggerTubes[0].tubeId);
+        expect(createdTrainingTriggerTubes[0].id).to.deep.equal(trainingTriggerTubes[0].id);
+        expect(createdTrainingTriggerTubes[0].tube.id).to.deep.equal(trainingTriggerTubes[0].tubeId);
         expect(createdTrainingTriggerTubes[0].level).to.deep.equal(trainingTriggerTubes[0].level);
-        expect(createdTrainingTriggerTubes[1].id).to.deep.equal(trainingTriggerTubes[1].tubeId);
+        expect(createdTrainingTriggerTubes[1].id).to.deep.equal(trainingTriggerTubes[1].id);
+        expect(createdTrainingTriggerTubes[1].tube.id).to.deep.equal(trainingTriggerTubes[1].tubeId);
         expect(createdTrainingTriggerTubes[1].level).to.deep.equal(trainingTriggerTubes[1].level);
       });
     });
@@ -112,7 +114,7 @@ describe('Integration | Repository | training-trigger-repository', function () {
         expect(updatedTrainingTrigger).to.be.instanceOf(TrainingTrigger);
         expect(updatedTrainingTrigger.threshold).to.equal(42);
 
-        const updatedTrainingTriggerTubes = _.sortBy(updatedTrainingTrigger.tubes, 'id');
+        const updatedTrainingTriggerTubes = _.sortBy(updatedTrainingTrigger.triggerTubes, 'id');
         expect(updatedTrainingTriggerTubes[0].level).to.deep.equal(trainingTriggerTubes[0].level);
         expect(updatedTrainingTriggerTubes).to.be.lengthOf(trainingTriggerTubes.length);
 
@@ -164,7 +166,7 @@ describe('Integration | Repository | training-trigger-repository', function () {
         });
 
         expect(trainingTriggerTubes).to.have.lengthOf(1);
-        expect(updatedTrainingTrigger.tubes).to.have.lengthOf(1);
+        expect(updatedTrainingTrigger.triggerTubes).to.have.lengthOf(1);
 
         const othersTrainingTubes = await knex('training-trigger-tubes').where({ id: anotherTrainingTriggerTube.id });
         expect(othersTrainingTubes).to.have.lengthOf(1);
