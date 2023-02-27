@@ -150,5 +150,25 @@ describe('Unit | Domain | Models | EmailingAttempt', function () {
       const expectedEmailAttempt = new EmailingAttempt('example@example.net', 'FAILURE', 'INVALID_DOMAIN');
       expect(result).to.deepEqualInstance(expectedEmailAttempt);
     });
+
+    context('with given error code and message', function () {
+      it('creates an EmailingAttempt error', function () {
+        // When
+        const result = EmailingAttempt.failure(
+          'example@example.net',
+          EmailingAttempt.errorCode.INVALID_EMAIL,
+          'Failure error message'
+        );
+
+        // Then
+        const expectedEmailAttempt = new EmailingAttempt(
+          'example@example.net',
+          'FAILURE',
+          'INVALID_EMAIL',
+          'Failure error message'
+        );
+        expect(result).to.deepEqualInstance(expectedEmailAttempt);
+      });
+    });
   });
 });
