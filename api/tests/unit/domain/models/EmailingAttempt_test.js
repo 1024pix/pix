@@ -62,6 +62,41 @@ describe('Unit | Domain | Models | EmailingAttempt', function () {
     });
   });
 
+  describe('#hasFailedBecauseEmailWasInvalid', function () {
+    it('returns true if status is failure because email was invalid', function () {
+      // given
+      const attempt = new EmailingAttempt('example@example.net', 'FAILURE', 'INVALID_EMAIL');
+
+      // when
+      const result = attempt.hasFailedBecauseEmailWasInvalid();
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('returns false if status is failure with another reason', function () {
+      // given
+      const attempt = new EmailingAttempt('example@example.net', 'FAILURE');
+
+      // when
+      const result = attempt.hasFailedBecauseEmailWasInvalid();
+
+      // then
+      expect(result).to.be.false;
+    });
+
+    it('returns false if status is success', function () {
+      // given
+      const attempt = new EmailingAttempt('example@example.net', 'SUCCESS');
+
+      // when
+      const result = attempt.hasFailedBecauseEmailWasInvalid();
+
+      // then
+      expect(result).to.be.false;
+    });
+  });
+
   describe('#hasSucceeded', function () {
     it('should return true if status is success', function () {
       // given
