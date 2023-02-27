@@ -251,4 +251,62 @@ describe('Integration | Repository | training-trigger-repository', function () {
       });
     });
   });
+
+  describe('#findByTrainingId', function () {
+    it('should return the training trigger', async function () {
+      // given
+      const trainingId = databaseBuilder.factory.buildTraining().id;
+      const trainingTrigger = databaseBuilder.factory.buildTrainingTrigger({ trainingId });
+      const trainingTrigger2 = databaseBuilder.factory.buildTrainingTrigger({
+        trainingId,
+        type: TrainingTrigger.types.GOAL,
+      });
+      const trainingTriggerTube = databaseBuilder.factory.buildTrainingTriggerTube({
+        trainingTriggerId: trainingTrigger.id,
+        tubeId: tube.id,
+      });
+      const trainingTriggerTube2 = databaseBuilder.factory.buildTrainingTriggerTube({
+        trainingTriggerId: trainingTrigger2.id,
+        tubeId: tube1.id,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await trainingTriggerRepository.findByTrainingId({ trainingId });
+
+      // then
+      expect(result).to.have.lengthOf(2);
+
+      expect(result[0]).to.be.instanceOf(TrainingTrigger);
+      expect(result[0].id).to.equal(trainingTrigger.id);
+      expect(result[0].trainingId).to.equal(trainingTrigger.trainingId);
+      expect(result[0].type).to.equal(trainingTrigger.type);
+      expect(result[0].threshold).to.equal(trainingTrigger.threshold);
+      expect(result[0].triggerTubes).to.have.lengthOf(1);
+      expect(result[0].triggerTubes[0]).to.be.instanceOf(TrainingTriggerTube);
+      expect(result[0].triggerTubes[0].tube.id).to.equal(trainingTriggerTube.tubeId);
+      expect(result[0].triggerTubes[0].level).to.equal(trainingTriggerTube.level);
+
+      expect(result[1]).to.be.instanceOf(TrainingTrigger);
+      expect(result[1].id).to.equal(trainingTrigger2.id);
+      expect(result[1].trainingId).to.equal(trainingTrigger2.trainingId);
+      expect(result[1].type).to.equal(trainingTrigger2.type);
+      expect(result[1].threshold).to.equal(trainingTrigger2.threshold);
+      expect(result[1].triggerTubes).to.have.lengthOf(1);
+      expect(result[1].triggerTubes[0]).to.be.instanceOf(TrainingTriggerTube);
+      expect(result[1].triggerTubes[0].tube.id).to.equal(trainingTriggerTube2.tubeId);
+      expect(result[1].triggerTubes[0].level).to.equal(trainingTriggerTube2.level);
+    });
+
+    it('should return empty array when no training trigger found', async function () {
+      // given
+      const trainingId = 123;
+
+      // when
+      const result = await trainingTriggerRepository.findByTrainingId({ trainingId });
+
+      // then
+      expect(result).to.be.empty;
+    });
+  });
 });
