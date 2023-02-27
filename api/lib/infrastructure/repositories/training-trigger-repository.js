@@ -42,6 +42,6 @@ function _toDomain({ trainingTrigger, tubes = [] }) {
     trainingId: trainingTrigger.trainingId,
     type: trainingTrigger.type,
     threshold: trainingTrigger.threshold,
-    tubes: tubes.map(({ tubeId, level }) => new TrainingTriggerTube({ id: tubeId, level })),
+    triggerTubes: tubes.map(({ id, tubeId, level }) => new TrainingTriggerTube({ id, tube: { id: tubeId }, level })),
   });
 }
