@@ -15,7 +15,11 @@ export default class ImportController extends Controller {
   @tracked file = null;
   @tracked isImportDisabled = true;
   @tracked isImportStepOne = true;
-  @tracked report;
+  @tracked sessionsReport;
+
+  @tracked candidatesReport;
+
+  @tracked errorsReport;
   @tracked isImportInError = false;
 
   get fileName() {
@@ -50,12 +54,16 @@ export default class ImportController extends Controller {
       if (!this.file) {
         return;
       }
-      await adapter.validateSessionsForMassImport(this.file, certificationCenterId);
-      this.report = 'La liste des sessions a été importée avec succès.';
+      const { sessionsCount, emptySessionsCount, candidatesCount } = await adapter.validateSessionsForMassImport(
+        this.file,
+        certificationCenterId
+      );
+      this.sessionsReport = `${sessionsCount} sessions dont ${emptySessionsCount} sessions sans candidat`;
+      this.candidatesReport = `${candidatesCount} candidats`;
       this.isImportInError = false;
     } catch (err) {
       this.isImportInError = true;
-      this.report = err.errors[0].detail;
+      this.errorsReport = err.errors[0].detail;
     } finally {
       this.isImportStepOne = false;
       this.removeImport();
