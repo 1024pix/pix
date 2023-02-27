@@ -18,7 +18,7 @@ const fonts = {
   robotoRegular: 'Roboto-Regular.ttf',
 };
 
-module.exports = {
+const FontManager = {
   key: {
     robotoCondensedBold: 'robotoCondensedBold',
     robotoCondensedLight: 'robotoCondensedLight',
@@ -186,3 +186,5 @@ module.exports = {
     }
   },
 };
+
+module.exports = FontManager;

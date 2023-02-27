@@ -20,15 +20,18 @@ function logObjectSerializer(req) {
   };
 }
 
-module.exports = {
-  plugin: hapiPino,
-  options: {
-    serializers: {
-      req: logObjectSerializer,
-    },
-    instance: logger,
-    // Remove duplicated req property: https://github.com/pinojs/hapi-pino#optionsgetchildbindings-request---key-any-
-    getChildBindings: () => ({}),
-    logQueryParams: true,
+const plugin = hapiPino;
+const options = {
+  serializers: {
+    req: logObjectSerializer,
   },
+  instance: logger,
+  // Remove duplicated req property: https://github.com/pinojs/hapi-pino#optionsgetchildbindings-request---key-any-
+  getChildBindings: () => ({}),
+  logQueryParams: true,
+};
+
+module.exports = {
+  plugin,
+  options,
 };

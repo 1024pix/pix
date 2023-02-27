@@ -125,13 +125,17 @@ function buildEventDispatcher(handlersStubs) {
   return eventDispatcher;
 }
 
-module.exports = {
-  eventDispatcher: buildEventDispatcher({}),
-  eventBus: eventBusBuilder.build(),
-  _forTestOnly: {
-    handlers: handlersToBeInjected,
-    buildEventDispatcher: function (stubbedHandlers) {
-      return buildEventDispatcher(stubbedHandlers);
-    },
+const eventDispatcher = buildEventDispatcher({});
+const eventBus = eventBusBuilder.build();
+const _forTestOnly = {
+  handlers: handlersToBeInjected,
+  buildEventDispatcher: function (stubbedHandlers) {
+    return buildEventDispatcher(stubbedHandlers);
   },
+};
+
+module.exports = {
+  eventDispatcher,
+  eventBus,
+  _forTestOnly,
 };

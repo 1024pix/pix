@@ -1,7 +1,6 @@
 const tutorialEvaluationAttributes = require('./tutorial-evaluation-attributes.js');
 const userSavedTutorialAttributes = require('./user-saved-tutorial-attributes.js');
-
-module.exports = {
+const tutorialAttributes = {
   ref: 'id',
   includes: true,
   attributes: [
@@ -18,3 +17,5 @@ module.exports = {
   tutorialEvaluation: tutorialEvaluationAttributes,
   userSavedTutorial: userSavedTutorialAttributes,
 };
+
+module.exports = tutorialAttributes;
