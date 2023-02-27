@@ -630,7 +630,7 @@ const updateUserDetailsForAdministration = require('./update-user-details-for-ad
 const updateUserEmailWithValidation = require('./update-user-email-with-validation.js');
 const updateUserForAccountRecovery = require('./account-recovery/update-user-for-account-recovery.js');
 const updateUserPassword = require('./update-user-password.js');
-const validateSessionsForMassImport = require('./validate-sessions-for-mass-import.js');
+const validateSessions = require('./sessions-mass-import/validate-sessions.js');
 
 const usecases = {
   abortCertificationCourse,
@@ -917,7 +917,7 @@ const usecases = {
   updateUserEmailWithValidation,
   updateUserForAccountRecovery,
   updateUserPassword,
-  validateSessionsForMassImport,
+  validateSessions,
 };
 
 module.exports = injectDependencies(usecases, dependencies);

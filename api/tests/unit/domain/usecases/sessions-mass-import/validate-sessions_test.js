@@ -1,16 +1,16 @@
-const { domainBuilder, expect, catchErr, sinon } = require('../../../test-helper');
-const validateSessionsForMassImport = require('../../../../lib/domain/usecases/validate-sessions-for-mass-import');
-const { InvalidCertificationCandidate } = require('../../../../lib/domain/errors');
-const sessionCodeService = require('../../../../lib/domain/services/session-code-service');
-const Session = require('../../../../lib/domain/models/Session');
-const certificationCpfService = require('../../../../lib/domain/services/certification-cpf-service');
-const sessionsImportValidationService = require('../../../../lib/domain/services/sessions-mass-import/sessions-import-validation-service');
-const temporarySessionsStorageForMassImportService = require('../../../../lib/domain/services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service');
-const { CpfBirthInformationValidation } = require('../../../../lib/domain/services/certification-cpf-service');
-const { UnprocessableEntityError } = require('../../../../lib/application/http-errors');
-const CertificationCandidate = require('../../../../lib/domain/models/CertificationCandidate');
+const { domainBuilder, expect, catchErr, sinon } = require('../../../../test-helper');
+const validateSessions = require('../../../../../lib/domain/usecases/sessions-mass-import/validate-sessions');
+const { InvalidCertificationCandidate } = require('../../../../../lib/domain/errors');
+const sessionCodeService = require('../../../../../lib/domain/services/session-code-service');
+const Session = require('../../../../../lib/domain/models/Session');
+const certificationCpfService = require('../../../../../lib/domain/services/certification-cpf-service');
+const sessionsImportValidationService = require('../../../../../lib/domain/services/sessions-mass-import/sessions-import-validation-service');
+const temporarySessionsStorageForMassImportService = require('../../../../../lib/domain/services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service');
+const { CpfBirthInformationValidation } = require('../../../../../lib/domain/services/certification-cpf-service');
+const { UnprocessableEntityError } = require('../../../../../lib/application/http-errors');
+const CertificationCandidate = require('../../../../../lib/domain/models/CertificationCandidate');
 
-describe('Unit | UseCase | validate-sessions-for-mass-import', function () {
+describe('Unit | UseCase | sessions-mass-import | validate-sessions', function () {
   let accessCode;
   let certificationCenterId;
   let certificationCenterName;
@@ -74,7 +74,7 @@ describe('Unit | UseCase | validate-sessions-for-mass-import', function () {
         ];
 
         // when
-        await validateSessionsForMassImport({
+        await validateSessions({
           sessions,
           userId,
           certificationCenterId,
@@ -120,7 +120,7 @@ describe('Unit | UseCase | validate-sessions-for-mass-import', function () {
         sessionsImportValidationService.getValidatedCandidateBirthInformation.resolves(cpfBirthInformationValidation1);
 
         // when
-        await validateSessionsForMassImport({
+        await validateSessions({
           sessions,
           userId,
           certificationCenterId,
@@ -152,7 +152,7 @@ describe('Unit | UseCase | validate-sessions-for-mass-import', function () {
       sessionsImportValidationService.validateSession.rejects(new UnprocessableEntityError());
 
       // when
-      const error = await catchErr(validateSessionsForMassImport)({
+      const error = await catchErr(validateSessions)({
         sessions,
         certificationCenterId,
         certificationCenterRepository,
@@ -182,7 +182,7 @@ describe('Unit | UseCase | validate-sessions-for-mass-import', function () {
       );
 
       // when
-      const error = await catchErr(validateSessionsForMassImport)({
+      const error = await catchErr(validateSessions)({
         sessions,
         certificationCenterId,
         certificationCenterRepository,
