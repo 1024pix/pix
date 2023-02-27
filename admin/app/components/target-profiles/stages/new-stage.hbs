@@ -1,6 +1,6 @@
 <tr aria-label="Informations sur le palier {{@title}}">
   <td>
-    {{#if @isTypeLevel}}
+    {{#if @stage.isTypeLevel}}
       <Stages::StageLevelSelect
         @availableLevels={{@availableLevels}}
         @onChange={{@setLevel}}
