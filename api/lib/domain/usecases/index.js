@@ -131,7 +131,7 @@ const scorecardService = require('../../domain/services/scorecard-service.js');
 const scoringCertificationService = require('../../domain/services/scoring/scoring-certification-service.js');
 const supOrganizationParticipantRepository = require('../../infrastructure/repositories/sup-organization-participant-repository.js');
 const sessionForAttendanceSheetRepository = require('../../infrastructure/repositories/sessions/session-for-attendance-sheet-repository.js');
-const sessionsImportValidationService = require('../../domain/services/sessions-import-validation-service.js');
+const sessionsImportValidationService = require('../../domain/services/sessions-mass-import/sessions-import-validation-service.js');
 const sessionPublicationService = require('../../domain/services/session-publication-service.js');
 const sessionRepository = require('../../infrastructure/repositories/sessions/session-repository.js');
 const sessionForSupervisingRepository = require('../../infrastructure/repositories/sessions/session-for-supervising-repository.js');
@@ -406,7 +406,6 @@ const createOrganizationPlacesLot = require('./create-organization-places-lot.js
 const createOrganizationsWithTagsAndTargetProfiles = require('./create-organizations-with-tags-and-target-profiles.js');
 const createPasswordResetDemand = require('./create-password-reset-demand.js');
 const createSession = require('./create-session.js');
-const createSessions = require('./create-sessions.js');
 const createStage = require('./create-stage.js');
 const createTag = require('./create-tag.js');
 const createTargetProfile = require('./create-target-profile.js');
@@ -631,6 +630,7 @@ const updateUserDetailsForAdministration = require('./update-user-details-for-ad
 const updateUserEmailWithValidation = require('./update-user-email-with-validation.js');
 const updateUserForAccountRecovery = require('./account-recovery/update-user-for-account-recovery.js');
 const updateUserPassword = require('./update-user-password.js');
+const validateSessions = require('./sessions-mass-import/validate-sessions.js');
 
 const usecases = {
   abortCertificationCourse,
@@ -693,7 +693,6 @@ const usecases = {
   createOrganizationsWithTagsAndTargetProfiles,
   createPasswordResetDemand,
   createSession,
-  createSessions,
   createStage,
   createTag,
   createTargetProfile,
@@ -918,6 +917,7 @@ const usecases = {
   updateUserEmailWithValidation,
   updateUserForAccountRecovery,
   updateUserPassword,
+  validateSessions,
 };
 
 module.exports = injectDependencies(usecases, dependencies);

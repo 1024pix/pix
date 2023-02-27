@@ -477,30 +477,56 @@ describe('Unit | Controller | certifications-center-controller', function () {
     });
   });
 
-  describe('#importSessions', function () {
-    it('should call the usecase to import sessions', async function () {
+  describe('#validateSessionsForMassImport', function () {
+    it('should call the usecase to validate sessions', async function () {
       // given
       const request = {
         payload: { file: { path: 'csv-path' } },
         params: { certificationCenterId: 123 },
+        auth: { credentials: { userId: 2 } },
       };
 
       sinon.stub(csvHelpers, 'parseCsvWithHeader');
       sinon.stub(csvSerializer, 'deserializeForSessionsImport');
-      sinon.stub(usecases, 'createSessions');
+      sinon.stub(usecases, 'validateSessions');
 
       csvHelpers.parseCsvWithHeader.resolves(['result data']);
       csvSerializer.deserializeForSessionsImport.returns(['session']);
-      usecases.createSessions.resolves();
+      usecases.validateSessions.resolves();
 
       // when
-      await certificationCenterController.importSessions(request, hFake);
+      await certificationCenterController.validateSessionsForMassImport(request, hFake);
 
       // then
-      expect(usecases.createSessions).to.have.been.calledWith({
+      expect(usecases.validateSessions).to.have.been.calledWith({
         sessions: ['session'],
-        certificationCenterId: request.params.certificationCenterId,
+        certificationCenterId: 123,
+        userId: 2,
       });
+    });
+
+    it('should return a cachedValidatedSessionsKey', async function () {
+      // given
+      const request = {
+        payload: { file: { path: 'csv-path' } },
+        params: { certificationCenterId: 123 },
+        auth: { credentials: { userId: 2 } },
+      };
+      const cachedValidatedSessionsKey = 'uuid';
+
+      sinon.stub(csvHelpers, 'parseCsvWithHeader');
+      sinon.stub(csvSerializer, 'deserializeForSessionsImport');
+      sinon.stub(usecases, 'validateSessions');
+
+      csvHelpers.parseCsvWithHeader.resolves(['result data']);
+      csvSerializer.deserializeForSessionsImport.returns(['session']);
+      usecases.validateSessions.resolves(cachedValidatedSessionsKey);
+
+      // when
+      const result = await certificationCenterController.validateSessionsForMassImport(request, hFake);
+
+      // then
+      expect(result.source).to.deep.equal({ cachedValidatedSessionsKey });
     });
 
     describe('when the import session file contains only the header line', function () {
@@ -509,6 +535,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
         const request = {
           payload: { file: { path: 'csv-path' } },
           params: { certificationCenterId: 123 },
+          auth: { credentials: { userId: 2 } },
         };
 
         sinon.stub(csvHelpers, 'parseCsvWithHeader');
@@ -516,7 +543,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
         csvHelpers.parseCsvWithHeader.resolves([]);
 
         // when
-        const error = await catchErr(certificationCenterController.importSessions)(request, hFake);
+        const error = await catchErr(certificationCenterController.validateSessionsForMassImport)(request, hFake);
 
         // then
         expect(error).to.be.instanceOf(UnprocessableEntityError);

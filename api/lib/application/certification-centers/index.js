@@ -193,7 +193,7 @@ exports.register = async function (server) {
     },
     {
       method: 'POST',
-      path: '/api/certification-centers/{certificationCenterId}/sessions/import',
+      path: '/api/certification-centers/{certificationCenterId}/sessions/validate-for-mass-import',
       config: {
         pre: [
           {
@@ -204,7 +204,7 @@ exports.register = async function (server) {
         validate: {
           params: Joi.object({ certificationCenterId: identifiersType.certificationCenterId }),
         },
-        handler: certificationCenterController.importSessions,
+        handler: certificationCenterController.validateSessionsForMassImport,
         payload: {
           maxBytes: 20715200,
           output: 'file',
@@ -213,7 +213,7 @@ exports.register = async function (server) {
         tags: ['api', 'certification-center', 'sessions'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            "- Elle permet d'importer un fichier contenant une liste de sessions à créer",
+            "- Elle permet de valider avant sauvegarde les données d'un fichier contenant une liste de sessions à importer",
         ],
       },
     },

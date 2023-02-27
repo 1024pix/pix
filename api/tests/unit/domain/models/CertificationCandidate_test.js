@@ -207,6 +207,26 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       expect(error.why).to.equal('only_one_complementary_certification');
     });
 
+    context('when the certification is a batch import', function () {
+      it('should not throw an error when field sessionId is not present', async function () {
+        // given
+        const certificationCandidate = domainBuilder.buildCertificationCandidate({
+          ...validAttributes,
+          sessionId: null,
+        });
+        const isSessionsMassImport = true;
+        const isSco = false;
+
+        // when
+        const call = () => {
+          certificationCandidate.validate(isSco, isSessionsMassImport);
+        };
+
+        // then
+        expect(call).to.not.throw();
+      });
+    });
+
     context('when the certification center is SCO', function () {
       context('when the billing mode is null', function () {
         it('should not throw an error', async function () {

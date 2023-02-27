@@ -1,7 +1,7 @@
-const { UnprocessableEntityError } = require('../../application/http-errors.js');
-const { SessionWithIdAndInformationOnMassImportError, InvalidCertificationCandidate } = require('../errors.js');
-const sessionValidator = require('../validators/session-validator.js');
-const certificationCpfService = require('./certification-cpf-service.js');
+const { UnprocessableEntityError } = require('../../../application/http-errors.js');
+const { SessionWithIdAndInformationOnMassImportError, InvalidCertificationCandidate } = require('../../errors.js');
+const sessionValidator = require('../../validators/session-validator.js');
+const certificationCpfService = require('../certification-cpf-service.js');
 
 module.exports = {
   async validateSession({ session, sessionRepository, certificationCourseRepository }) {
@@ -42,10 +42,11 @@ module.exports = {
   async getValidatedCandidateBirthInformation({
     candidate,
     isSco,
+    isSessionsMassImport,
     certificationCpfCountryRepository,
     certificationCpfCityRepository,
   }) {
-    candidate.validate(isSco);
+    candidate.validate(isSco, isSessionsMassImport);
 
     const cpfBirthInformation = await certificationCpfService.getBirthInformation({
       birthCountry: candidate.birthCountry,
