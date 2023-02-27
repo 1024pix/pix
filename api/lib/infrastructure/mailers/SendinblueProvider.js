@@ -3,6 +3,7 @@ const SibApiV3Sdk = require('sib-api-v3-sdk');
 
 const MailingProvider = require('./MailingProvider.js');
 const { mailing } = require('../../config.js');
+const { MailingProviderInvalidEmailError } = require('./MailingProviderInvalidEmailError');
 
 function _formatPayload({ to, fromName, from, subject, template, variables, tags }) {
   const payload = {
@@ -48,9 +49,18 @@ class SendinblueProvider extends MailingProvider {
     return new SibApiV3Sdk.TransactionalEmailsApi();
   }
 
-  sendEmail(options) {
+  async sendEmail(options) {
     const payload = _formatPayload(options);
-    return this._client.sendTransacEmail(payload);
+    try {
+      return await this._client.sendTransacEmail(payload);
+    } catch (err) {
+      const responseText = JSON.parse(err.response.text);
+      if (responseText.code === 'invalid_parameter') {
+        throw new MailingProviderInvalidEmailError(responseText.message);
+      }
+
+      throw err;
+    }
   }
 }
 

@@ -1,9 +1,12 @@
-const { sinon, expect, nock } = require('../../../test-helper');
+const { sinon, expect, nock, catchErr } = require('../../../test-helper');
 
 const mailCheck = require('../../../../lib/infrastructure/mail-check');
 const { mailing } = require('../../../../lib/config');
 
 const SendinblueProvider = require('../../../../lib/infrastructure/mailers/SendinblueProvider');
+const {
+  MailingProviderInvalidEmailError,
+} = require('../../../../lib/infrastructure/mailers/MailingProviderInvalidEmailError');
 
 describe('Unit | Class | SendinblueProvider', function () {
   beforeEach(function () {
@@ -145,6 +148,29 @@ describe('Unit | Class | SendinblueProvider', function () {
             // then
             expect(stubbedSendinblueSMTPApi.sendTransacEmail).to.have.been.calledWithExactly(expectedPayload);
           });
+        });
+      });
+
+      context('when email sending fails with code invalid_parameter', function () {
+        it('should throw a MailingProviderInvalidEmailError with provider message', async function () {
+          // given
+          const options = {
+            from: senderEmailAddress,
+            to: userEmailAddress,
+            fromName: 'Ne pas repondre',
+            subject: 'Creation de compte',
+            template: templateId,
+          };
+          stubbedSendinblueSMTPApi.sendTransacEmail.rejects({
+            response: { text: '{"code":"invalid_parameter","message":"email is not valid in to"}' },
+          });
+
+          // when
+          const error = await catchErr(mailingProvider.sendEmail, mailingProvider)(options);
+
+          // then
+          expect(error).to.be.instanceof(MailingProviderInvalidEmailError);
+          expect(error.message).to.equal('email is not valid in to');
         });
       });
     });
