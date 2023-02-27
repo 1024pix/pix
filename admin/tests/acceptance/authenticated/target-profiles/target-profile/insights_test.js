@@ -103,8 +103,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         });
 
         // when
-        const screen = await visit('/target-profiles/1');
-        await clickByName('Clés de lecture');
+        const screen = await visit('/target-profiles/1/insights');
         await clickByName('Voir détail');
 
         // then
@@ -182,6 +181,27 @@ module('Acceptance | Target Profile Insights', function (hooks) {
           assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
         });
 
+        test('it should not display delete button stage on level 0', async function (assert) {
+          // given
+          server.create('stage', {
+            id: 100,
+            level: 0,
+            threshold: null,
+            title: 'premier palier',
+            message: 'message palier',
+            prescriberTitle: 'titre prescripteur',
+            prescriberDescription: 'description prescripteur',
+            targetProfile,
+          });
+
+          // when
+          const screen = await visit('/target-profiles/1/insights');
+
+          // then
+          assert.dom(screen.getByText('Voir détail')).exists();
+          assert.dom(screen.queryByText(/Supprimer/)).doesNotExist();
+        });
+
         test('it should edit the stage information', async function (assert) {
           // given
           server.create('stage', {
@@ -248,6 +268,27 @@ module('Acceptance | Target Profile Insights', function (hooks) {
           assert.dom(screen.getByText('mon message 1')).exists();
           assert.dom(screen.getByText('mon message 2')).exists();
           assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
+        });
+
+        test('it should not display delete button stage on threshold 0', async function (assert) {
+          // given
+          server.create('stage', {
+            id: 100,
+            level: null,
+            threshold: 0,
+            title: 'premier palier',
+            message: 'message palier',
+            prescriberTitle: 'titre prescripteur',
+            prescriberDescription: 'description prescripteur',
+            targetProfile,
+          });
+
+          // when
+          const screen = await visit('/target-profiles/1/insights');
+
+          // then
+          assert.dom(screen.getByText('Voir détail')).exists();
+          assert.dom(screen.queryByText(/Supprimer/)).doesNotExist();
         });
 
         test('it should edit the stage information', async function (assert) {
