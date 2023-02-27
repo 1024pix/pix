@@ -2,12 +2,13 @@ const { knex } = require('../../../db/knex-database-connection.js');
 const DomainTransaction = require('../DomainTransaction.js');
 const TrainingTrigger = require('../../domain/models/TrainingTrigger.js');
 const TrainingTriggerTube = require('../../domain/models/TrainingTriggerTube.js');
+const tubeRepository = require('./tube-repository');
 const TABLE_NAME = 'training-triggers';
 
 module.exports = {
   async createOrUpdate({
     trainingId,
-    tubes,
+    triggerTubesForCreation,
     type,
     threshold,
     domainTransaction = DomainTransaction.emptyTransaction(),
@@ -22,7 +23,7 @@ module.exports = {
 
     await knexConn('training-trigger-tubes').where({ trainingTriggerId: trainingTrigger.id }).delete();
 
-    const trainingTubesToCreate = tubes.map(({ id, level }) => {
+    const trainingTubesToCreate = triggerTubesForCreation.map(({ id, level }) => {
       return {
         trainingTriggerId: trainingTrigger.id,
         tubeId: id,
@@ -30,18 +31,22 @@ module.exports = {
       };
     });
 
-    const createdTubes = await knexConn('training-trigger-tubes').insert(trainingTubesToCreate).returning('*');
+    const createdTriggerTubes = await knexConn('training-trigger-tubes').insert(trainingTubesToCreate).returning('*');
 
-    return _toDomain({ trainingTrigger, tubes: createdTubes });
+    const tubes = await tubeRepository.findByRecordIds(createdTriggerTubes.map(({ tubeId }) => tubeId));
+
+    return _toDomain({ trainingTrigger, triggerTubes: createdTriggerTubes, tubes });
   },
 };
 
-function _toDomain({ trainingTrigger, tubes = [] }) {
+function _toDomain({ trainingTrigger, triggerTubes, tubes = [] }) {
   return new TrainingTrigger({
     id: trainingTrigger.id,
     trainingId: trainingTrigger.trainingId,
     type: trainingTrigger.type,
     threshold: trainingTrigger.threshold,
-    triggerTubes: tubes.map(({ id, tubeId, level }) => new TrainingTriggerTube({ id, tube: { id: tubeId }, level })),
+    triggerTubes: triggerTubes.map(
+      ({ id, tubeId, level }) => new TrainingTriggerTube({ id, tube: tubes.find(({ id }) => id === tubeId), level })
+    ),
   });
 }

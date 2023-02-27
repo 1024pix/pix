@@ -1,10 +1,83 @@
-const { expect, databaseBuilder, knex, sinon } = require('../../../test-helper');
+const { expect, databaseBuilder, domainBuilder, knex, mockLearningContent, sinon } = require('../../../test-helper');
 const trainingTriggerRepository = require('../../../../lib/infrastructure/repositories/training-trigger-repository');
 const TrainingTrigger = require('../../../../lib/domain/models/TrainingTrigger');
 const TrainingTriggerTube = require('../../../../lib/domain/models/TrainingTriggerTube');
 const _ = require('lodash');
 
 describe('Integration | Repository | training-trigger-repository', function () {
+  let tube;
+  let tube1;
+
+  beforeEach(async function () {
+    tube = domainBuilder.buildTube({
+      id: 'recTube0',
+      name: 'tubeName',
+      title: 'tubeTitle',
+      description: 'tubeDescription',
+      practicalTitle: 'translatedPracticalTitle',
+      practicalDescription: 'translatedPracticalDescription',
+      isMobileCompliant: true,
+      isTabletCompliant: true,
+      competenceId: 'recCompetence0',
+      thematicId: 'thematicCoucou',
+      skillIds: ['skillSuper', 'skillGenial'],
+      skills: [],
+    });
+    tube1 = domainBuilder.buildTube({
+      id: 'recTube1',
+      name: 'tubeName1',
+      title: 'tubeTitle1',
+      description: 'tubeDescription1',
+      practicalTitle: 'translatedPracticalTitle',
+      practicalDescription: 'translatedPracticalDescription',
+      isMobileCompliant: true,
+      isTabletCompliant: true,
+      competenceId: 'recCompetence0',
+      thematicId: 'thematicCoucou',
+      skillIds: ['skillSuper', 'skillGenial'],
+      skills: [],
+    });
+    const learningContent = {
+      tubes: [
+        {
+          id: 'recTube0',
+          name: 'tubeName',
+          title: 'tubeTitle',
+          description: 'tubeDescription',
+          practicalTitle_i18n: {
+            fr: 'translatedPracticalTitle',
+          },
+          practicalDescription_i18n: {
+            fr: 'translatedPracticalDescription',
+          },
+          isMobileCompliant: true,
+          isTabletCompliant: true,
+          competenceId: 'recCompetence0',
+          thematicId: 'thematicCoucou',
+          skillIds: ['skillSuper', 'skillGenial'],
+        },
+        {
+          id: 'recTube1',
+          name: 'tubeName1',
+          title: 'tubeTitle1',
+          description: 'tubeDescription1',
+          practicalTitle_i18n: {
+            fr: 'translatedPracticalTitle',
+          },
+          practicalDescription_i18n: {
+            fr: 'translatedPracticalDescription',
+          },
+          isMobileCompliant: true,
+          isTabletCompliant: true,
+          competenceId: 'recCompetence0',
+          thematicId: 'thematicCoucou',
+          skillIds: ['skillSuper', 'skillGenial'],
+        },
+      ],
+    };
+    mockLearningContent(learningContent);
+  });
+
   describe('#createOrUpdate', function () {
     afterEach(async function () {
       await databaseBuilder.knex('training-trigger-tubes').delete();
@@ -15,8 +88,8 @@ describe('Integration | Repository | training-trigger-repository', function () {
       it('should create training trigger', async function () {
         // when
         const tubes = [
-          { id: 'tubeId1', level: 2 },
-          { id: 'tubeId2', level: 4 },
+          { id: tube.id, level: 2 },
+          { id: tube1.id, level: 4 },
         ];
         const type = TrainingTrigger.types.PREREQUISITE;
         const threshold = 20;
@@ -25,7 +98,7 @@ describe('Integration | Repository | training-trigger-repository', function () {
 
         const createdTrainingTrigger = await trainingTriggerRepository.createOrUpdate({
           trainingId,
-          tubes,
+          triggerTubesForCreation: tubes,
           type,
           threshold,
         });
@@ -53,9 +126,14 @@ describe('Integration | Repository | training-trigger-repository', function () {
         expect(createdTrainingTriggerTubes[0]).to.be.instanceOf(TrainingTriggerTube);
         expect(createdTrainingTriggerTubes[0].id).to.deep.equal(trainingTriggerTubes[0].id);
         expect(createdTrainingTriggerTubes[0].tube.id).to.deep.equal(trainingTriggerTubes[0].tubeId);
+        expect(createdTrainingTriggerTubes[0].tube.name).to.deep.equal(tube.name);
+        expect(createdTrainingTriggerTubes[0].tube.title).to.deep.equal(tube.title);
         expect(createdTrainingTriggerTubes[0].level).to.deep.equal(trainingTriggerTubes[0].level);
+
         expect(createdTrainingTriggerTubes[1].id).to.deep.equal(trainingTriggerTubes[1].id);
         expect(createdTrainingTriggerTubes[1].tube.id).to.deep.equal(trainingTriggerTubes[1].tubeId);
+        expect(createdTrainingTriggerTubes[1].tube.name).to.deep.equal(tube1.name);
+        expect(createdTrainingTriggerTubes[1].tube.title).to.deep.equal(tube1.title);
         expect(createdTrainingTriggerTubes[1].level).to.deep.equal(trainingTriggerTubes[1].level);
       });
     });
@@ -101,7 +179,7 @@ describe('Integration | Repository | training-trigger-repository', function () {
           threshold: 42,
           trainingId: trainingTrigger.trainingId,
           type: trainingTrigger.type,
-          tubes,
+          triggerTubesForCreation: tubes,
         });
 
         // then
@@ -155,7 +233,7 @@ describe('Integration | Repository | training-trigger-repository', function () {
         tubes.pop();
         const updatedTrainingTrigger = await trainingTriggerRepository.createOrUpdate({
           trainingId: trainingTrigger.trainingId,
-          tubes,
+          triggerTubesForCreation: tubes,
           type: trainingTrigger.type,
           threshold: trainingTrigger.threshold,
         });

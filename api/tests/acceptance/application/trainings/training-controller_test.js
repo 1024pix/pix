@@ -4,6 +4,8 @@ const {
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
   knex,
+  learningContentBuilder,
+  mockLearningContent,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
@@ -239,6 +241,46 @@ describe('Acceptance | Controller | training-controller', function () {
   });
 
   describe('PUT /api/admin/trainings/{trainingId}/triggers', function () {
+    let learningContent;
+    let tubeName;
+
+    beforeEach(async function () {
+      tubeName = 'tube0_0';
+      learningContent = [
+        {
+          areas: [
+            {
+              id: 'recArea1',
+              titleFrFr: 'area1_Title',
+              color: 'someColor',
+              competences: [
+                {
+                  id: 'competenceId',
+                  nameFrFr: 'Mener une recherche et une veille d’information',
+                  index: '1.1',
+                  tubes: [
+                    {
+                      id: 'recTube0_0',
+                      name: tubeName,
+                      skills: [
+                        {
+                          id: 'skillWeb2Id',
+                          nom: '@web2',
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ];
+
+      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      mockLearningContent(learningContentObjects);
+    });
+
     afterEach(async function () {
       await knex('training-trigger-tubes').delete();
       await knex('training-triggers').delete();
@@ -248,7 +290,7 @@ describe('Acceptance | Controller | training-controller', function () {
       // given
       const superAdmin = await insertUserWithRoleSuperAdmin();
       const trainingId = databaseBuilder.factory.buildTraining().id;
-      const tube = { id: 'recTube123', level: 2 };
+      const tube = { id: 'recTube0_0', level: 2 };
       await databaseBuilder.commit();
 
       const options = {
@@ -293,7 +335,9 @@ describe('Acceptance | Controller | training-controller', function () {
       expect(response.result.included.find(({ type }) => type === 'trigger-tubes').attributes.level).to.equal(
         tube.level
       );
-      expect(response.result.included.find(({ type }) => type === 'tubes').attributes.id).to.equal(tube.id);
+      const returnedTube = response.result.included.find(({ type }) => type === 'tubes').attributes;
+      expect(returnedTube.id).to.equal(tube.id);
+      expect(returnedTube.name).to.equal(tubeName);
     });
   });
 

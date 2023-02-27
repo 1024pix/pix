@@ -53,7 +53,7 @@ describe('Unit | UseCase | create-or-update-training-trigger', function () {
       // then
       expect(trainingTriggerRepository.createOrUpdate).to.have.been.calledWith({
         trainingId,
-        tubes,
+        triggerTubesForCreation: tubes,
         type,
         threshold,
       });
