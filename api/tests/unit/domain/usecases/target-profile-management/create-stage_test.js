@@ -1,4 +1,4 @@
-const { expect, domainBuilder, catchErrSync } = require('../../../test-helper');
+const { expect, domainBuilder, catchErrSync } = require('../../../../test-helper');
 const usecases = require('../../../../../lib/domain/usecases/index.js');
 const { InvalidStageError } = require('../../../../../lib/domain/errors');
 
