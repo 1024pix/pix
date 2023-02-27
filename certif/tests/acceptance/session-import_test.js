@@ -1,14 +1,15 @@
 import { module, test } from 'qunit';
-import { currentURL, triggerEvent, click } from '@ember/test-helpers';
+import { click, currentURL, triggerEvent } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import {
-  createCertificationPointOfContactWithCustomCenters,
-  createAllowedCertificationCenterAccess,
   authenticateSession,
+  createAllowedCertificationCenterAccess,
+  createCertificationPointOfContactWithCustomCenters,
 } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { Response } from 'miragejs';
 
 module('Acceptance | Session Import', function (hooks) {
   setupApplicationTest(hooks);
@@ -174,10 +175,13 @@ module('Acceptance | Session Import', function (hooks) {
         });
 
         module('when the file is valid', function () {
-          test('it should display success message', async function (assert) {
+          test('it should display the sessions and candidates count', async function (assert) {
             // given
             const blob = new Blob(['foo']);
             const file = new File([blob], 'fichier.csv');
+            this.server.post('/certification-centers/:id/sessions/validate-for-mass-import', () => {
+              return new Response(200, {}, { sessionsCount: 2, emptySessionsCount: 1, candidatesCount: 3 });
+            });
 
             // when
             screen = await visit('/sessions/import');
@@ -187,7 +191,8 @@ module('Acceptance | Session Import', function (hooks) {
             await click(importButton);
 
             // then
-            assert.dom(screen.getByText('La liste des sessions a été importée avec succès.')).exists();
+            assert.dom(screen.getByText('2 sessions dont 1 sessions sans candidat')).exists();
+            assert.dom(screen.getByText('3 candidats')).exists();
             assert.dom(screen.queryByLabelText('fichier.csv')).doesNotExist();
           });
         });

@@ -1,5 +1,14 @@
 <section class="import-page__section--download panel">
-  <PixMessage @type={{if @isImportInError "error" "info"}}>
-    <p>{{@report}}</p>
-  </PixMessage>
+  {{#if @isImportInError}}
+    <PixMessage @type="error">
+      <p>{{@errorsReport}}</p>
+    </PixMessage>
+  {{else}}
+    <PixMessage @type="info">
+      <p>
+        {{@sessionsReport}}</p>
+      <p>
+        {{@candidatesReport}}</p>
+    </PixMessage>
+  {{/if}}
 </section>
