@@ -24,14 +24,16 @@
     >
       Voir détail
     </PixButtonLink>
-    <PixButton
-      @backgroundColor="red"
-      @isBorderVisible={{true}}
-      @size="small"
-      @iconBefore="trash"
-      @triggerAction={{fn @deleteStage @stage}}
-    >
-      Supprimer
-    </PixButton>
+    {{#unless this.isDefaultStage}}
+      <PixButton
+        @backgroundColor="red"
+        @isBorderVisible={{true}}
+        @size="small"
+        @iconBefore="trash"
+        @triggerAction={{fn @deleteStage @stage}}
+      >
+        Supprimer
+      </PixButton>
+    {{/unless}}
   </td>
 </tr>
