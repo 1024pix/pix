@@ -75,7 +75,7 @@ workflows:
 jobs:
   checkout:
     docker:
-      - image: cimg/node:16.19.0
+      - image: cimg/node:16.19.1
     resource_class: small
     working_directory: ~/pix
     steps:
@@ -95,7 +95,7 @@ jobs:
 
   api_build_and_test:
     docker:
-      - image: cimg/node:16.19.0
+      - image: cimg/node:16.19.1
       - image: postgres:14.6-alpine
         environment:
           POSTGRES_USER: circleci
@@ -138,7 +138,7 @@ jobs:
 
   mon_pix_build_and_test:
     docker:
-      - image: cimg/node:16.19.0-browsers
+      - image: cimg/node:16.19.1-browsers
         environment:
           # See https://git.io/vdao3 for details.
           JOBS: 2
@@ -166,7 +166,7 @@ jobs:
 
   orga_build_and_test:
     docker:
-      - image: cimg/node:16.19.0-browsers
+      - image: cimg/node:16.19.1-browsers
         environment:
           JOBS: 2
     resource_class: small
@@ -193,7 +193,7 @@ jobs:
 
   certif_build_and_test:
     docker:
-      - image: cimg/node:16.19.0-browsers
+      - image: cimg/node:16.19.1-browsers
         environment:
           JOBS: 2
     resource_class: small
@@ -220,7 +220,7 @@ jobs:
 
   admin_build_and_test:
     docker:
-      - image: cimg/node:16.19.0-browsers
+      - image: cimg/node:16.19.1-browsers
         environment:
           JOBS: 2
     resource_class: small
@@ -247,7 +247,7 @@ jobs:
 
   e2e_test_app:
     docker:
-      - image: cimg/node:16.19.0-browsers
+      - image: cimg/node:16.19.1-browsers
       - image: postgres:14.6-alpine
         environment:
           POSTGRES_USER: circleci
@@ -325,7 +325,7 @@ jobs:
 
   e2e_test_orga:
     docker:
-      - image: cimg/node:16.19.0-browsers
+      - image: cimg/node:16.19.1-browsers
       - image: postgres:14.6-alpine
         environment:
           POSTGRES_USER: circleci
@@ -402,7 +402,7 @@ jobs:
 
   algo_test:
     docker:
-      - image: cimg/node:16.19.0
+      - image: cimg/node:16.19.1
     resource_class: small
     parallelism: 1
     working_directory: ~/pix/high-level-tests/test-algo
