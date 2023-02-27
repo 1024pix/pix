@@ -55,12 +55,19 @@ module.exports = async function validateSessions({
     return session;
   });
 
+  const emptySessionsCount = validatedSessions.filter((session) => session.certificationCandidates.length === 0).length;
+  const sessionsCount = validatedSessions.length;
+  const candidatesCount = validatedSessions.reduce(
+    (currentCandidateCount, currentSession) => currentCandidateCount + currentSession.certificationCandidates.length,
+    0
+  );
+
   const cachedValidatedSessionsKey = await temporarySessionsStorageForMassImportService.save({
     sessions: validatedSessions,
     userId,
   });
 
-  return { cachedValidatedSessionsKey };
+  return { cachedValidatedSessionsKey, sessionsCount, emptySessionsCount, candidatesCount };
 };
 
 async function _createValidCertificationCandidates({
