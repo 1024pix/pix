@@ -1,5 +1,21 @@
 # Pix Changelog
 
+## v3.329.0 (27/02/2023)
+
+
+### :rocket: Amélioration
+- [#5721](https://github.com/1024pix/pix/pull/5721) [FEATURE] Validation de l'import du fichier CSV lors de l'import en masse des sessions sur Pix Certif (PIX-6961).
+- [#5722](https://github.com/1024pix/pix/pull/5722) [FEATURE] Ajouter un déclencheur à un contenu formatif (PIX-7176).
+- [#5720](https://github.com/1024pix/pix/pull/5720) [FEATURE] Améliorer le texte alternatif du logo pour les contenus formatifs sur Pix-App (PIX-6813)
+
+### :bug: Correction
+- [#5738](https://github.com/1024pix/pix/pull/5738) [BUGFIX] fix(api): réparer le worker.
+- [#5730](https://github.com/1024pix/pix/pull/5730) [BUGFIX] Afficher 1024 comme nombre max de Pix au lieu du max actuel (PIX-7254).
+
+### :coffee: Autre
+- [#5735](https://github.com/1024pix/pix/pull/5735) [BUMP] Update Node.js to v16.19.1 (.circleci)
+- [#5736](https://github.com/1024pix/pix/pull/5736) [BUMP] Update redis Docker tag to v6.2.10
+
 ## v3.328.0 (24/02/2023)
 
 
