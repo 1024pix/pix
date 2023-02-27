@@ -514,6 +514,9 @@ describe('Unit | Controller | certifications-center-controller', function () {
         auth: { credentials: { userId: 2 } },
       };
       const cachedValidatedSessionsKey = 'uuid';
+      const sessionsCount = 2;
+      const emptySessionsCount = 1;
+      const candidatesCount = 12;
 
       sinon.stub(csvHelpers, 'parseCsvWithHeader');
       sinon.stub(csvSerializer, 'deserializeForSessionsImport');
@@ -521,13 +524,23 @@ describe('Unit | Controller | certifications-center-controller', function () {
 
       csvHelpers.parseCsvWithHeader.resolves(['result data']);
       csvSerializer.deserializeForSessionsImport.returns(['session']);
-      usecases.validateSessions.resolves({ cachedValidatedSessionsKey });
+      usecases.validateSessions.resolves({
+        cachedValidatedSessionsKey,
+        sessionsCount,
+        emptySessionsCount,
+        candidatesCount,
+      });
 
       // when
       const result = await certificationCenterController.validateSessionsForMassImport(request, hFake);
 
       // then
-      expect(result.source).to.deep.equal(cachedValidatedSessionsKey);
+      expect(result.source).to.deep.equal({
+        cachedValidatedSessionsKey,
+        sessionsCount,
+        emptySessionsCount,
+        candidatesCount,
+      });
     });
 
     describe('when the import session file contains only the header line', function () {
