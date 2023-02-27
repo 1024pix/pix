@@ -17,11 +17,56 @@ describe('Acceptance | Controller | training-controller', function () {
   });
 
   describe('GET /api/admin/trainings/{trainingId}', function () {
+    let learningContent;
+    let tubeName;
+
+    beforeEach(async function () {
+      tubeName = 'tube0_0';
+      learningContent = [
+        {
+          areas: [
+            {
+              id: 'recArea1',
+              titleFrFr: 'area1_Title',
+              color: 'someColor',
+              competences: [
+                {
+                  id: 'competenceId',
+                  nameFrFr: 'Mener une recherche et une veille d’information',
+                  index: '1.1',
+                  tubes: [
+                    {
+                      id: 'recTube0_0',
+                      name: tubeName,
+                      skills: [
+                        {
+                          id: 'skillWeb2Id',
+                          nom: '@web2',
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ];
+
+      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      mockLearningContent(learningContentObjects);
+    });
+
     it('should get a training with the specific id', async function () {
       // given
       const superAdmin = await insertUserWithRoleSuperAdmin();
       databaseBuilder.factory.buildTraining();
       const { id: trainingId, ...trainingAttributes } = databaseBuilder.factory.buildTraining();
+      const trainingTrigger = databaseBuilder.factory.buildTrainingTrigger({ trainingId });
+      const trainingTriggerTube = databaseBuilder.factory.buildTrainingTriggerTube({
+        trainingTriggerId: trainingTrigger.id,
+        tubeId: 'recTube0_0',
+      });
       await databaseBuilder.commit();
 
       const expectedResponse = {
@@ -56,6 +101,16 @@ describe('Acceptance | Controller | training-controller', function () {
       expect(response.result.data.type).to.equal(expectedResponse.type);
       expect(response.result.data.id).to.equal(expectedResponse.id);
       expect(response.result.data.attributes).to.deep.equal(expectedResponse.attributes);
+
+      const returnedTube = response.result.included.find((included) => included.type === 'tubes').attributes;
+      expect(returnedTube.name).to.deep.equal(tubeName);
+      const returnedTriggerTube = response.result.included.find(
+        (included) => included.type === 'trigger-tubes'
+      ).attributes;
+      expect(returnedTriggerTube.level).to.deep.equal(trainingTriggerTube.level);
+      const returnedTrigger = response.result.included.find((included) => included.type === 'triggers').attributes;
+      expect(returnedTrigger.type).to.deep.equal(trainingTrigger.type);
+      expect(returnedTrigger.threshold).to.deep.equal(trainingTrigger.threshold);
     });
   });
 
