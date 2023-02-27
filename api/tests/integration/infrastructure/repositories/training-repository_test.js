@@ -30,7 +30,7 @@ describe('Integration | Repository | training-repository', function () {
         await databaseBuilder.commit();
 
         // when
-        const training = await trainingRepository.get(expectedTraining.id);
+        const training = await trainingRepository.get({ trainingId: expectedTraining.id });
 
         // then
         expect(training).to.deep.equal(expectedTraining);
@@ -40,7 +40,7 @@ describe('Integration | Repository | training-repository', function () {
     context('when training does not exist', function () {
       it('should throw a NotFoundError', async function () {
         // when
-        const error = await catchErr(trainingRepository.get)(134);
+        const error = await catchErr(trainingRepository.get)({ trainingId: 134 });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);

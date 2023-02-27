@@ -18,7 +18,7 @@ describe('Unit | UseCase | create-or-update-training-trigger', function () {
     it('should throw an error when training does not exist', async function () {
       // given
       const trainingId = Symbol('trainingId');
-      trainingRepository.get.withArgs(trainingId).throws(new Error('Not Found'));
+      trainingRepository.get.withArgs({ trainingId }).throws(new Error('Not Found'));
 
       // when
       const error = await catchErr(createOrUpdateTrainingTrigger)({ trainingId, trainingRepository });
@@ -37,7 +37,7 @@ describe('Unit | UseCase | create-or-update-training-trigger', function () {
       const type = Symbol('type');
       const threshold = Symbol('threshold');
       const expectedTrainingTrigger = Symbol('trainingTrigger');
-      trainingRepository.get.withArgs(trainingId).resolves();
+      trainingRepository.get.withArgs({ trainingId }).resolves();
       trainingTriggerRepository.createOrUpdate.resolves(expectedTrainingTrigger);
 
       // when

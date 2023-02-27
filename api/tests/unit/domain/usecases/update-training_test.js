@@ -22,7 +22,7 @@ describe('Unit | UseCase | update-training', function () {
     });
 
     // then
-    expect(trainingRepository.get).to.have.been.calledWithExactly(training.id);
+    expect(trainingRepository.get).to.have.been.calledWithExactly({ trainingId: training.id });
   });
 
   it('should throw a NotFoundError when the training does not exist', async function () {
@@ -43,7 +43,7 @@ describe('Unit | UseCase | update-training', function () {
   it('should update training and return it', async function () {
     // given
     const newTrainingAttributes = { id: 1011, title: 'new title' };
-    trainingRepository.get.resolves(Symbol('current-training'));
+    trainingRepository.get.withArgs({ trainingId: newTrainingAttributes.id }).resolves(Symbol('current-training'));
     const expectedUpdatedTraining = Symbol('updated-training');
     trainingRepository.update.resolves(expectedUpdatedTraining);
 
