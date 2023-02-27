@@ -27,7 +27,10 @@ const certificationCandidateValidationJoiSchema_v1_5 = Joi.object({
   externalId: Joi.string().allow(null).empty(['', null]).optional(),
   birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required().empty(null),
   extraTimePercentage: Joi.number().allow(null).optional(),
-  sessionId: Joi.number().required().empty(['', null]),
+  sessionId: Joi.when('$isSessionsMassImport', {
+    is: false,
+    then: Joi.number().required().empty(['', null]),
+  }),
   complementaryCertifications: Joi.array().max(1).required(),
   billingMode: Joi.when('$isSco', {
     is: false,
@@ -145,10 +148,11 @@ class CertificationCandidate {
     }
   }
 
-  validate(isSco = false) {
+  validate(isSco = false, isSessionsMassImport = false) {
     const { error } = certificationCandidateValidationJoiSchema_v1_5.validate(this, {
       allowUnknown: true,
       context: {
+        isSessionsMassImport,
         isSco,
       },
     });

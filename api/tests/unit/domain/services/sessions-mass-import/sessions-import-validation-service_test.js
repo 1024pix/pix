@@ -1,13 +1,13 @@
-const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
-const sessionsImportValidationService = require('../../../../lib/domain/services/sessions-import-validation-service');
+const { catchErr, expect, sinon, domainBuilder } = require('../../../../test-helper');
+const sessionsImportValidationService = require('../../../../../lib/domain/services/sessions-mass-import/sessions-import-validation-service');
 const {
   SessionWithIdAndInformationOnMassImportError,
   EntityValidationError,
   InvalidCertificationCandidate,
-} = require('../../../../lib/domain/errors');
-const { UnprocessableEntityError } = require('../../../../lib/application/http-errors');
-const { CpfBirthInformationValidation } = require('../../../../lib/domain/services/certification-cpf-service');
-const certificationCpfService = require('../../../../lib/domain/services/certification-cpf-service');
+} = require('../../../../../lib/domain/errors');
+const { UnprocessableEntityError } = require('../../../../../lib/application/http-errors');
+const { CpfBirthInformationValidation } = require('../../../../../lib/domain/services/certification-cpf-service');
+const certificationCpfService = require('../../../../../lib/domain/services/certification-cpf-service');
 
 describe('Unit | Service | sessions import validation Service', function () {
   describe('#validateSession', function () {

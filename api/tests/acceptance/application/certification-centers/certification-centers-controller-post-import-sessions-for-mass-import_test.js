@@ -7,7 +7,7 @@ const {
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | certification-centers-controller-post-import-sessions', function () {
+describe('Acceptance | Controller | certification-centers-controller-post-validate-sessions-for-mass-import', function () {
   let server;
 
   beforeEach(async function () {
@@ -21,7 +21,7 @@ describe('Acceptance | Controller | certification-centers-controller-post-import
     return knex('sessions').delete();
   });
 
-  describe('POST /api/certification-centers/{certificationCenterId}/sessions/import', function () {
+  describe('POST /api/certification-centers/{certificationCenterId}/sessions/validate-for-mass-import', function () {
     let clock;
 
     beforeEach(async function () {
@@ -35,7 +35,7 @@ describe('Acceptance | Controller | certification-centers-controller-post-import
       clock.restore();
     });
 
-    context('when user imports sessions', function () {
+    context('when user validate sessions for import', function () {
       it('should return status 200', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
@@ -48,7 +48,7 @@ describe('Acceptance | Controller | certification-centers-controller-post-import
 
         const options = {
           method: 'POST',
-          url: `/api/certification-centers/${certificationCenterId}/sessions/import`,
+          url: `/api/certification-centers/${certificationCenterId}/sessions/validate-for-mass-import`,
           headers: {
             authorization: generateValidRequestAuthorizationHeader(userId),
           },
@@ -60,11 +60,10 @@ describe('Acceptance | Controller | certification-centers-controller-post-import
 
         // then
         expect(response.statusCode).to.equal(200);
-        expect(await knex('sessions')).to.have.length(1);
       });
     });
 
-    context('when user imports candidates on existing session with candidates', function () {
+    context('when user validate candidates on existing session with candidates', function () {
       context('when csv first line has sessionId and no session information', function () {
         context('when csv last line has sessionId and session information', function () {
           it('should throw and do nothing', async function () {
@@ -94,7 +93,7 @@ describe('Acceptance | Controller | certification-centers-controller-post-import
 
             const options = {
               method: 'POST',
-              url: `/api/certification-centers/${certificationCenterId}/sessions/import`,
+              url: `/api/certification-centers/${certificationCenterId}/sessions/validate-for-mass-import`,
               headers: {
                 authorization: generateValidRequestAuthorizationHeader(userId),
               },

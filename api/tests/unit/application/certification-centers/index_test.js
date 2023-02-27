@@ -320,7 +320,7 @@ describe('Unit | Router | certification-center-router', function () {
     });
   });
 
-  describe('POST /api/certification-centers/{certificationCenterId}/sessions/import', function () {
+  describe('POST /api/certification-centers/{certificationCenterId}/sessions/validate-for-mass-import', function () {
     const testFilePath = `${__dirname}/testFile_temp.csv`;
 
     let headers;
@@ -343,7 +343,7 @@ describe('Unit | Router | certification-center-router', function () {
     it('should exist', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenter').callsFake((_, h) => h.response(true));
-      sinon.stub(certificationCenterController, 'importSessions').returns('ok');
+      sinon.stub(certificationCenterController, 'validateSessionsForMassImport').returns('ok');
       const certificationCenterId = 123;
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -351,7 +351,7 @@ describe('Unit | Router | certification-center-router', function () {
       // when
       const response = await httpTestServer.request(
         'POST',
-        `/api/certification-centers/${certificationCenterId}/sessions/import`,
+        `/api/certification-centers/${certificationCenterId}/sessions/validate-for-mass-import`,
         payload,
         null,
         headers
