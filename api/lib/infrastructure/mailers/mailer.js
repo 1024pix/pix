@@ -2,7 +2,6 @@ const Debug = require('debug');
 const SendinblueProvider = require('./SendinblueProvider.js');
 const { mailing } = require('../../config.js');
 const logger = require('../logger.js');
-const mailCheck = require('../mail-check.js');
 const EmailingAttempt = require('../../domain/models/EmailingAttempt.js');
 
 const debugEmail = Debug('pix:mailer:email');
@@ -22,12 +21,6 @@ class Mailer {
 
   async sendEmail(options) {
     debugEmail(options);
-    try {
-      await mailCheck.checkDomainIsValid(options.to);
-    } catch (err) {
-      logger.warn({ err }, `Email is not valid '${options.to}'`);
-      return EmailingAttempt.failure(options.to, EmailingAttempt.errorCode.INVALID_DOMAIN);
-    }
 
     if (!mailing.enabled) {
       return EmailingAttempt.success(options.to);
@@ -36,6 +29,7 @@ class Mailer {
     try {
       await this._provider.sendEmail(options);
     } catch (err) {
+      debugEmail(err);
       logger.warn({ err }, `Could not send email to '${options.to}'`);
       return EmailingAttempt.failure(options.to);
     }

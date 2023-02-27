@@ -35,25 +35,6 @@ describe('Unit | Infrastructure | Mailers | mailer', function () {
         expect(result).to.deep.equal(EmailingAttempt.success('test@example.net'));
         expect(mailingProvider.sendEmail).to.have.not.been.called;
       });
-
-      context('when email is invalid', function () {
-        it('should return an error status', async function () {
-          // given
-          _disableMailing();
-          const recipient = 'test@example.net';
-
-          const expectedError = new Error('fail');
-          _mailAddressIsInvalid(recipient, expectedError);
-
-          // when
-          const result = await mailer.sendEmail({ to: recipient });
-
-          // then
-          expect(result).to.deep.equal(
-            EmailingAttempt.failure('test@example.net', EmailingAttempt.errorCode.INVALID_DOMAIN)
-          );
-        });
-      });
     });
 
     context('when mailing is enabled', function () {
@@ -82,28 +63,6 @@ describe('Unit | Infrastructure | Mailers | mailer', function () {
           // then
           sinon.assert.calledWith(mailingProvider.sendEmail, options);
           expect(result).to.deep.equal(EmailingAttempt.success('test@example.net'));
-        });
-      });
-
-      context('when email is invalid', function () {
-        it('should log a warning, and return an error status', async function () {
-          // given
-          _enableMailing();
-          _mockMailingProvider();
-
-          const expectedError = new Error('fail');
-          _mailAddressIsInvalid(recipient, expectedError);
-
-          sinon.stub(logger, 'warn');
-
-          // when
-          const result = await mailer.sendEmail({ to: recipient });
-
-          // then
-          expect(logger.warn).to.have.been.calledWith({ err: expectedError }, "Email is not valid 'test@example.net'");
-          expect(result).to.deep.equal(
-            EmailingAttempt.failure('test@example.net', EmailingAttempt.errorCode.INVALID_DOMAIN)
-          );
         });
       });
 
@@ -140,10 +99,6 @@ function _enableMailing() {
 
 function _mailAddressIsValid(recipient) {
   mailCheckDomainIsValidStub.withArgs(recipient).resolves();
-}
-
-function _mailAddressIsInvalid(recipient, expectedError) {
-  mailCheckDomainIsValidStub.withArgs(recipient).rejects(expectedError);
 }
 
 function _mockMailingProvider() {
