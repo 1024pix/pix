@@ -27,17 +27,17 @@
         "triggers": {
           "tabName": "Déclencheurs",
           "prerequisite": {
-            "title": "Objectif à atteindre",
-            "alternative-title": "Ajouter un objectif à atteindre",
+            "title": "Prérequis",
+            "alternative-title": "Ajouter un prérequis",
             "edit": {
-              "description": "Si l’apprenant réussit tous les acquis des sujets sélectionnés alors le contenu formatif ne lui sera pas proposé."
+              "description": "Si l’apprenant réussit tous les acquis des sujets sélectionnés alors le contenu formatif lui sera proposé."
             }
           },
           "goal": {
             "title": "Objectif à ne pas dépasser",
             "alternative-title": "Ajouter un objectif à ne pas dépasser",
             "edit": {
-              "description": "Si l’apprenant réussit les acquis des sujets sélectionnés alors le contenu formatif lui sera proposé."
+              "description": "Si l’apprenant réussit les acquis des sujets sélectionnés alors le contenu formatif ne lui sera pas proposé."
             }
           }
         },
