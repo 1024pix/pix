@@ -11,6 +11,7 @@ export default class ImportController extends Controller {
   @service intl;
   @service currentUser;
   @service store;
+  @service router;
 
   @tracked file = null;
   @tracked isImportDisabled = true;
@@ -56,11 +57,12 @@ export default class ImportController extends Controller {
       if (!this.file) {
         return;
       }
-      const { sessionsCount, sessionsWithoutCandidatesCount, candidatesCount } =
+      const { sessionsCount, sessionsWithoutCandidatesCount, candidatesCount, cachedValidatedSessionsKey } =
         await adapter.validateSessionsForMassImport(this.file, certificationCenterId);
       this.sessionsCount = sessionsCount;
       this.sessionsWithoutCandidatesCount = sessionsWithoutCandidatesCount;
       this.candidatesCount = candidatesCount;
+      this.cachedValidatedSessionsKey = cachedValidatedSessionsKey;
       this.isImportInError = false;
     } catch (err) {
       this.isImportInError = true;
@@ -69,6 +71,20 @@ export default class ImportController extends Controller {
       this.isImportStepOne = false;
       this.removeImport();
     }
+  }
+
+  @action
+  async createSessions() {
+    const sessionMassImportReport = this.store.createRecord('sessions-mass-import-report', {
+      cachedValidatedSessionsKey: this.cachedValidatedSessionsKey,
+    });
+    try {
+      await sessionMassImportReport.confirm({ cachedValidatedSessionsKey: this.cachedValidatedSessionsKey });
+    } catch (error) {
+      this.isImportStepOne = true;
+      this.notifications.error(this.intl.t('common.api-error-messages.internal-server-error'));
+    }
+    this.router.transitionTo('authenticated.sessions.list');
   }
 
   @action
