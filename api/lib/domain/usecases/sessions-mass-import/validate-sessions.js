@@ -60,7 +60,7 @@ module.exports = async function validateSessions({
     userId,
   });
 
-  return cachedValidatedSessionsKey;
+  return { cachedValidatedSessionsKey };
 };
 
 async function _createValidCertificationCandidates({
