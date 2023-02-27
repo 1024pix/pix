@@ -8,18 +8,20 @@ const { fetchPage } = require('../utils/knex-utils.js');
 const pick = require('lodash/pick');
 const TABLE_NAME = 'trainings';
 
+async function get({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+  const knexConn = domainTransaction?.knexTransaction || knex;
+  const training = await knexConn(TABLE_NAME).where({ id: trainingId }).first();
+  if (!training) {
+    throw new NotFoundError(`Not found training for ID ${trainingId}`);
+  }
+
+  const targetProfileTrainings = await knexConn('target-profile-trainings').where('trainingId', training.id);
+
+  return _toDomain(training, targetProfileTrainings);
+}
+
 module.exports = {
-  async get({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    const knexConn = domainTransaction?.knexTransaction || knex;
-    const training = await knexConn(TABLE_NAME).where({ id: trainingId }).first();
-    if (!training) {
-      throw new NotFoundError(`Not found training for ID ${trainingId}`);
-    }
-
-    const targetProfileTrainings = await knexConn('target-profile-trainings').where('trainingId', training.id);
-
-    return _toDomain(training, targetProfileTrainings);
-  },
+  get,
 
   async findPaginatedSummaries({ page, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const knexConn = domainTransaction?.knexTransaction || knex;
