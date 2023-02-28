@@ -398,6 +398,16 @@ class SendingEmailToInvalidDomainError extends DomainError {
   }
 }
 
+class SendingEmailToInvalidEmailAddressError extends DomainError {
+  constructor(emailAddress, errorMessage) {
+    super(`Failed to send email to ${emailAddress} because email address seems to be invalid.`);
+    this.meta = {
+      emailAddress,
+      errorMessage,
+    };
+  }
+}
+
 class SendingEmailToRefererError extends DomainError {
   constructor(failedEmailReferers) {
     super(
@@ -1404,6 +1414,7 @@ module.exports = {
   OrganizationLearnersCouldNotBeSavedError,
   SendingEmailError,
   SendingEmailToInvalidDomainError,
+  SendingEmailToInvalidEmailAddressError,
   SendingEmailToRefererError,
   SendingEmailToResultRecipientError,
   SessionAlreadyFinalizedError,
