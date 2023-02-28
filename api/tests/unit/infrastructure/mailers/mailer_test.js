@@ -4,6 +4,9 @@ const mailCheck = require('../../../../lib/infrastructure/mail-check');
 const logger = require('../../../../lib/infrastructure/logger');
 const mailer = require('../../../../lib/infrastructure/mailers/mailer');
 const EmailingAttempt = require('../../../../lib/domain/models/EmailingAttempt');
+const {
+  MailingProviderInvalidEmailError,
+} = require('../../../../lib/infrastructure/mailers/MailingProviderInvalidEmailError');
 
 let mailCheckDomainIsValidStub;
 
@@ -124,6 +127,38 @@ describe('Unit | Infrastructure | Mailers | mailer', function () {
           // then
           expect(logger.warn).to.have.been.calledOnceWith({ err: error }, "Could not send email to 'test@example.net'");
           expect(result).to.deep.equal(EmailingAttempt.failure('test@example.net'));
+        });
+      });
+
+      context('when the mailing provider fails to send an email', function () {
+        context('when an invalid_parameter code is returned', function () {
+          it('logs a warning and return a MailingProviderInvalidEmailError error', async function () {
+            // Given
+            _enableMailing();
+            const invalidEmailRecipient = 'invalid@email.net';
+            _mailAddressIsValid(invalidEmailRecipient);
+            const mailingProvider = _mockMailingProvider();
+            const error = new MailingProviderInvalidEmailError('Mailing provider invalid email error message');
+            mailingProvider.sendEmail.rejects(error);
+
+            sinon.stub(logger, 'warn');
+
+            // When
+            const result = await mailer.sendEmail({ to: invalidEmailRecipient });
+
+            // Then
+            expect(logger.warn).to.have.been.calledOnceWith(
+              { err: error },
+              `Could not send email to '${invalidEmailRecipient}'`
+            );
+            expect(result).to.deep.equal(
+              EmailingAttempt.failure(
+                invalidEmailRecipient,
+                EmailingAttempt.errorCode.INVALID_EMAIL,
+                'Mailing provider invalid email error message'
+              )
+            );
+          });
         });
       });
     });
