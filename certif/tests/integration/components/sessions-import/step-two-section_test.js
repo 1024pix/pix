@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { hbs } from 'ember-cli-htmlbars';
-import Service from '@ember/service';
 import { render } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | step-two-section', function (hooks) {
@@ -9,16 +8,17 @@ module('Integration | Component | step-two-section', function (hooks) {
 
   test('it renders the count of sessions and candidates when the imported file contains no error', async function (assert) {
     // given
-    this.set('sessionsReport', '2 sessions dont 0 sessions sans candidat');
-    this.set('candidatesReport', '12 candidats');
+    this.set('sessionsCount', 2);
+    this.set('emptySessionsCount', 0);
+    this.set('candidatesCount', 12);
 
     // when
     const { getByText } = await render(
-      hbs`<Import::StepTwoSection @sessionsReport="{{this.sessionsReport}}"  @candidatesReport="{{this.candidatesReport}}" />`
+      hbs`<Import::StepTwoSection @sessionsCount="{{this.sessionsCount}}" @emptySessionsCount="{{this.emptySessionsCount}}"  @candidatesCount="{{this.candidatesCount}}" />`
     );
 
     // then
-    assert.dom(getByText('2 sessions dont 0 sessions sans candidat')).exists();
+    assert.dom(getByText('2 sessions dont 0 session sans candidat')).exists();
     assert.dom(getByText('12 candidats')).exists();
   });
 
