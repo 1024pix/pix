@@ -38,7 +38,7 @@ function transformer(file, api, _options) {
   const variableDeclarationsToInsert = functionNodesToInsert.map((functionNode) => {
     const params = functionNode.value.params.map((param) => {
       if (!param) return null;
-      if(param.type === 'AssignmentPattern') {
+      if (param.type === 'AssignmentPattern') {
         return j.assignmentPattern.from(param);
       }
       return param.type === 'ObjectPattern' ? j.objectPattern(param.properties) : j.identifier(param.name);
@@ -46,8 +46,8 @@ function transformer(file, api, _options) {
 
     return j.variableDeclaration('const', [
       j.variableDeclarator(
-        j.identifier(functionNode.key.name),
-        j.functionExpression.from ({
+        j.identifier(functionNode.key.name === 'delete' ? 'remove' : functionNode.key.name),
+        j.functionExpression.from({
           id: null,
           params,
           body: j.blockStatement(functionNode.value.body.body),
@@ -63,7 +63,8 @@ function transformer(file, api, _options) {
     .replaceWith((path) => {
       const functionExpressions = path.node.right.properties;
       const functionExpressionsPropertiesToInsert = functionExpressions.map((functionExpression) => {
-        return j.property('init', j.identifier(functionExpression.key.name), j.identifier(functionExpression.key.name));
+        const functionName = functionExpression.key.name === 'delete' ? 'remove' : functionExpression.key.name;
+        return j.property('init', j.identifier(functionName), j.identifier(functionName));
       });
       return j.assignmentExpression(
         '=',
