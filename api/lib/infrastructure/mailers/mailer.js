@@ -4,6 +4,7 @@ const { mailing } = require('../../config.js');
 const logger = require('../logger.js');
 const mailCheck = require('../mail-check.js');
 const EmailingAttempt = require('../../domain/models/EmailingAttempt.js');
+const { MailingProviderInvalidEmailError } = require('./MailingProviderInvalidEmailError');
 
 const debugEmail = Debug('pix:mailer:email');
 
@@ -37,6 +38,11 @@ class Mailer {
       await this._provider.sendEmail(options);
     } catch (err) {
       logger.warn({ err }, `Could not send email to '${options.to}'`);
+
+      if (err instanceof MailingProviderInvalidEmailError) {
+        return EmailingAttempt.failure(options.to, EmailingAttempt.errorCode.INVALID_EMAIL, err.message);
+      }
+
       return EmailingAttempt.failure(options.to);
     }
 
