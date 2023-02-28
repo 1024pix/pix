@@ -976,7 +976,7 @@ describe('Unit | Application | Sessions | Routes', function () {
       });
     });
 
-    describe('GET /api/admin/sessions/{id}/generate-attestations-download-link', function () {
+    describe('GET /api/admin/sessions/{id}/attestations', function () {
       it('return forbidden access if user has METIER role', async function () {
         // given
         sinon
@@ -997,10 +997,7 @@ describe('Unit | Application | Sessions | Routes', function () {
         await httpTestServer.register(moduleUnderTest);
 
         // when
-        const response = await httpTestServer.request(
-          'GET',
-          '/api/admin/sessions/1/generate-attestations-download-link'
-        );
+        const response = await httpTestServer.request('GET', '/api/admin/sessions/1/attestations');
 
         // then
         expect(response.statusCode).to.equal(403);
