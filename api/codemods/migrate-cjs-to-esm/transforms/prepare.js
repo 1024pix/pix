@@ -3,6 +3,8 @@
 const codemods = [
   require('./src/add-file-extension-to-import'),
   require('./src/cjs-anonymous-function-export-to-cjs-named-export'),
+  require('./src/cjs-named-export-containing-functions-to-cjs-named-export'),
+  require('./src/cjs-anonymous-export-to-cjs-named-export'),
 ];
 
 const transformScripts = (fileInfo, api, options) => {
