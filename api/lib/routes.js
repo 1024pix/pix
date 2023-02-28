@@ -44,7 +44,7 @@ const scorecards = require('./application/scorecards/index.js');
 const scoOrganizationLearners = require('./application/sco-organization-learners/index.js');
 const supOrganizationLearners = require('./application/sup-organization-learners/index.js');
 const sessions = require('./application/sessions/index.js');
-const stages = require('./application/stages/index.js');
+const targetProfileManagement = require('./application/target-profile-management/index.js');
 const tags = require('./application/tags/index.js');
 const targetProfiles = require('./application/target-profiles/index.js');
 const trainings = require('./application/trainings/index.js');
@@ -101,7 +101,7 @@ module.exports = [
   scoOrganizationLearners,
   supOrganizationLearners,
   sessions,
-  stages,
+  targetProfileManagement,
   tags,
   targetProfiles,
   trainings,

@@ -26,27 +26,17 @@
                   @setFirstStage={{(and this.setFirstStage (eq index 0))}}
                   @stage={{stage}}
                   @imageUrl={{@targetProfile.imageUrl}}
-                  @title={{stage.title}}
-                  @isTypeLevel={{stage.isTypeLevel}}
                   @availableLevels={{this.availableLevels}}
                   @unavailableThresholds={{this.unavailableThresholds}}
                   @setLevel={{fn this.onStageLevelChange stage}}
-                  @message={{stage.message}}
-                  @errors={{stage.errors}}
                   @remove={{fn this.removeStage stage}}
                 />
               {{else}}
                 <TargetProfiles::Stages::Stage
                   @imageUrl={{@targetProfile.imageUrl}}
                   @targetProfileId={{@targetProfile.id}}
-                  @id={{stage.id}}
-                  @title={{stage.title}}
-                  @isTypeLevel={{stage.isTypeLevel}}
-                  @threshold={{stage.threshold}}
-                  @level={{stage.level}}
-                  @message={{stage.message}}
-                  @hasPrescriberTitle={{stage.hasPrescriberTitle}}
-                  @hasPrescriberDescription={{stage.hasPrescriberDescription}}
+                  @stage={{stage}}
+                  @deleteStage={{this.deleteStage}}
                 />
               {{/if}}
             {{/each}}
