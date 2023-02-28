@@ -7,7 +7,10 @@ const {
   createScoOrganizationInvitation,
   createProOrganizationInvitation,
 } = require('../../../../lib/domain/services/organization-invitation-service');
-const { SendingEmailToInvalidDomainError } = require('../../../../lib/domain/errors');
+const {
+  SendingEmailToInvalidDomainError,
+  SendingEmailToInvalidEmailAddressError,
+} = require('../../../../lib/domain/errors');
 const EmailingAttempt = require('../../../../lib/domain/models/EmailingAttempt');
 
 describe('Unit | Service | Organization-Invitation Service', function () {
@@ -179,6 +182,53 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         expect(organizationInvitationRepository.updateModificationDate).to.have.been.calledWith(
           organizationInvitation.id
         );
+      });
+    });
+
+    context('when mailing provider returns an invalid email error', function () {
+      it('throws an error', async function () {
+        // Given
+        const role = null;
+        const locale = 'fr-fr';
+        const organization = domainBuilder.buildOrganization();
+        const organizationInvitation = new OrganizationInvitation({
+          role: Membership.roles.MEMBER,
+          status: 'pending',
+          code,
+        });
+
+        organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail
+          .withArgs({ organizationId: organization.id, email: userEmailAddress })
+          .resolves(null);
+        organizationInvitationRepository.create.resolves(organizationInvitation);
+        organizationRepository.get.resolves(organization);
+        mailService.sendOrganizationInvitationEmail.resolves(
+          EmailingAttempt.failure(
+            userEmailAddress,
+            EmailingAttempt.errorCode.INVALID_EMAIL,
+            'Recipient email is invalid'
+          )
+        );
+
+        // when
+        const error = await catchErr(createOrUpdateOrganizationInvitation)({
+          organizationRepository,
+          organizationInvitationRepository,
+          organizationId: organization.id,
+          email: userEmailAddress,
+          locale,
+          role,
+        });
+
+        // then
+        expect(error).to.be.an.instanceOf(SendingEmailToInvalidEmailAddressError);
+        expect(error.message).to.equal(
+          'Failed to send email to user@example.net because email address seems to be invalid.'
+        );
+        expect(error.meta).to.deepEqualInstance({
+          emailAddress: userEmailAddress,
+          errorMessage: 'Recipient email is invalid',
+        });
       });
     });
   });
