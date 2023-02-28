@@ -1,24 +1,19 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
 module('Integration | Component | user certifications panel', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('renders', async function (assert) {
-    await render(hbs`<UserCertificationsPanel />`);
-    assert.dom('.user-certifications-panel').exists();
-  });
-
   module('when there is no certifications', function () {
     test('should render a panel which indicate there is no certifications', async function (assert) {
-      // when
-      await render(hbs`<UserCertificationsPanel />`);
+      // given / when
+      const screen = await render(hbs`<UserCertificationsPanel />`);
 
       // then
-      assert.dom('.user-certifications-panel__no-certification-panel').exists();
+      assert.dom(screen.getByText("Vous n'avez pas encore de certification.")).exists();
     });
   });
 
@@ -41,10 +36,15 @@ module('Integration | Component | user certifications panel', function (hooks) {
       this.set('certifications', certifications);
 
       // when
-      await render(hbs`<UserCertificationsPanel @certifications={{this.certifications}}/>`);
+      const screen = await render(hbs`<UserCertificationsPanel @certifications={{this.certifications}}/>`);
 
       // then
-      assert.dom('.user-certifications-panel__certifications-list').exists();
+      assert.dom(screen.getByText('date')).exists();
+      assert.dom(screen.getByText('statut')).exists();
+      assert.dom(screen.getByText('score pix')).exists();
+      assert.dom(screen.getByText('centre de certification')).exists();
+      assert.dom(screen.getByText('Université de Paris')).exists();
+      assert.dom(screen.getByText('Université de Lyon')).exists();
     });
   });
 });

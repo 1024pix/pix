@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { A } from '@ember/array';
-import { find, findAll } from '@ember/test-helpers';
 import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -9,20 +8,6 @@ module('Integration | Component | scorecard-details', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   module('Component rendering', function () {
-    test('should render component', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const scorecard = store.createRecord('scorecard', {});
-
-      this.set('scorecard', scorecard);
-
-      // when
-      await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
-
-      // then
-      assert.dom('.scorecard-details__content').exists();
-    });
-
     test('should display the scorecard header with area color', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
@@ -36,15 +21,15 @@ module('Integration | Component | scorecard-details', function (hooks) {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+      const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
       // then
-      const element = find('.scorecard-details-content-left__area');
-      assert.ok(element.getAttribute('class').includes('scorecard-details-content-left__area--jaffa'));
-      assert.ok(element.textContent.includes(scorecard.area.get('title')));
+      assert.ok(
+        screen.getByText('Area title').getAttribute('class').includes('scorecard-details-content-left__area--jaffa')
+      );
     });
 
-    test('should display the competence informations', async function (assert) {
+    test('should display the competence information', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const scorecard = store.createRecord('scorecard', {
@@ -55,11 +40,11 @@ module('Integration | Component | scorecard-details', function (hooks) {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+      const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
       // then
-      assert.ok(find('.scorecard-details-content-left__name').textContent.includes(scorecard.name));
-      assert.ok(find('.scorecard-details-content-left__description').textContent.includes(scorecard.description));
+      assert.ok(screen.getByRole('heading', { name: 'Scorecard name' }));
+      assert.ok(screen.getByText('Scorecard description'));
     });
 
     test('should display the scorecard level, earnedPix and remainingPixToNextLevel', async function (assert) {
@@ -77,16 +62,14 @@ module('Integration | Component | scorecard-details', function (hooks) {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+      const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
       // then
-      assert.ok(find('.score-value').textContent.includes(scorecard.level));
-      assert.ok(findAll('.score-value')[1].textContent.includes(scorecard.earnedPix));
-      assert.ok(
-        find('.scorecard-details-content-right__level-info').textContent.includes(
-          `${scorecard.remainingPixToNextLevel} pix avant le niveau ${scorecard.level + 1}`
-        )
-      );
+      const remainingPixToNextLevel = 2;
+      const earnedPix = 22;
+      assert.ok(screen.getByText(remainingPixToNextLevel));
+      assert.ok(screen.getByText(earnedPix));
+      assert.ok(screen.getByText('2 pix avant le niveau 3'));
     });
 
     test('should display a dash instead of the scorecard level and earnedPix if they are set to zero', async function (assert) {
@@ -101,11 +84,10 @@ module('Integration | Component | scorecard-details', function (hooks) {
       this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+      const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
       // then
-      assert.ok(find('.score-value').textContent.includes('–'));
-      assert.ok(find('.score-value').textContent.includes('–'));
+      assert.strictEqual(screen.getAllByText('–').length, 2);
     });
 
     module('When the user has finished a competence', function (hooks) {
@@ -123,8 +105,10 @@ module('Integration | Component | scorecard-details', function (hooks) {
       });
 
       test('should not display remainingPixToNextLevel', async function (assert) {
-        // when
+        // given
         this.set('scorecard', scorecard);
+
+        // when
         await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
         // then
@@ -134,10 +118,13 @@ module('Integration | Component | scorecard-details', function (hooks) {
       test('should not display a button', async function (assert) {
         // when
         this.set('scorecard', scorecard);
-        await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+
+        // when
+        const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
         // then
-        assert.dom('.scorecard-details__resume-or-start-button').doesNotExist();
+        assert.dom(screen.queryByRole('link', { name: 'Reprendre' })).doesNotExist();
+        assert.dom(screen.queryByRole('link', { name: 'Commencer' })).doesNotExist();
       });
 
       test('should show the improving button if the remaining days before improving are equal to 0', async function (assert) {
@@ -161,15 +148,15 @@ module('Integration | Component | scorecard-details', function (hooks) {
 
         // when
         this.set('scorecard', scorecard);
-        await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+        const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
         // then
-        assert.dom('.scorecard-details__improvement-countdown').exists();
-        assert.ok(find('.scorecard-details__improvement-countdown').textContent.includes('3 jours'));
+        assert.ok(screen.getByText('Tenter le niveau supérieur dans'));
+        assert.ok(screen.getByText('3 jours.'));
       });
 
       module('and the user has reached the max level', function (hooks) {
-        hooks.beforeEach(async function () {
+        hooks.beforeEach(function () {
           // given
           const store = this.owner.lookup('service:store');
           const scorecard = store.createRecord('scorecard', {
@@ -181,24 +168,30 @@ module('Integration | Component | scorecard-details', function (hooks) {
           });
 
           this.set('scorecard', scorecard);
-
-          // when
-          await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
         });
 
-        test('should not display remainingPixToNextLevel', function (assert) {
+        test('should not display remainingPixToNextLevel', async function (assert) {
+          // when
+          await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+
           // then
           assert.dom('.scorecard-details-content-right__level-info').doesNotExist();
         });
 
-        test('should show congrats design', function (assert) {
+        test('should show congrats design', async function (assert) {
+          // when
+          await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+
           // then
           assert.dom('.competence-card__congrats').exists();
         });
 
-        test('should not show the improving button', function (assert) {
+        test('should not show the improving button', async function (assert) {
+          // when
+          const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+
           // then
-          assert.dom('.scorecard-details__improve-button').doesNotExist();
+          assert.dom(screen.queryByRole('button', { name: 'Retenter' })).doesNotExist();
         });
       });
     });
@@ -285,10 +278,10 @@ module('Integration | Component | scorecard-details', function (hooks) {
         this.set('scorecard', scorecard);
 
         // when
-        await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+        const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
         // then
-        assert.dom('.tutorials').doesNotExist();
+        assert.dom(screen.queryByRole('heading', { name: 'Cultivez vos compétences', level: 2 })).doesNotExist();
       });
 
       module('and the user has some tutorials', function () {
@@ -304,7 +297,7 @@ module('Integration | Component | scorecard-details', function (hooks) {
           const tuto2 = store.createRecord('tutorial', {
             title: 'Tuto 2.1',
             tubeName: '@second_tube',
-            tubePracticalTitle: 'Practical Title',
+            tubePracticalTitle: 'Practical Title 1',
             duration: '00:04:00',
           });
           const tuto3 = store.createRecord('tutorial', {
@@ -325,12 +318,17 @@ module('Integration | Component | scorecard-details', function (hooks) {
           this.set('scorecard', scorecard);
 
           // when
-          await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+          const screen = await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
           // then
-          assert.dom('.tutorials').exists();
-          assert.dom('.tube').exists({ count: 2 });
-          assert.dom('.tutorial-card').exists({ count: 3 });
+          assert.dom(screen.getByRole('heading', { name: 'Cultivez vos compétences', level: 2 })).exists();
+          assert.dom(screen.getByRole('heading', { name: 'Practical Title', level: 3 })).exists();
+          assert.dom(screen.getByRole('heading', { name: 'Practical Title 1', level: 3 })).exists();
+          assert.dom(screen.getByRole('heading', { name: 'Tuto 2.1', level: 4 })).exists();
+          assert.dom(screen.getByRole('heading', { name: 'Tuto 2.2', level: 4 })).exists();
+          assert
+            .dom(screen.getByText('Voici une sélection de tutos qui pourront vous aider à gagner des Pix.'))
+            .exists();
         });
       });
     });
