@@ -565,4 +565,29 @@ describe('Unit | Controller | certifications-center-controller', function () {
       });
     });
   });
+
+  describe('#createSessionsForMassImport', function () {
+    it('should call the usecase to create sessions', async function () {
+      // given
+      const request = {
+        payload: { data: { attributes: { cachedValidatedSessionsKey: 'uuid' } } },
+        params: { certificationCenterId: 123 },
+        auth: { credentials: { userId: 2 } },
+      };
+
+      sinon.stub(usecases, 'createSessions');
+
+      usecases.createSessions.resolves();
+
+      // when
+      await certificationCenterController.createSessionsForMassImport(request, hFake);
+
+      // then
+      expect(usecases.createSessions).to.have.been.calledWith({
+        cachedValidatedSessionsKey: 'uuid',
+        certificationCenterId: 123,
+        userId: 2,
+      });
+    });
+  });
 });
