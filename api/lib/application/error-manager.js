@@ -489,6 +489,10 @@ function _mapToHttpError(error) {
     return new HttpErrors.BadRequestError(error.message, 'SENDING_EMAIL_TO_INVALID_DOMAIN');
   }
 
+  if (error instanceof DomainErrors.SendingEmailToInvalidEmailAddressError) {
+    return new HttpErrors.BadRequestError(error.message, 'SENDING_EMAIL_TO_INVALID_EMAIL_ADDRESS', error.meta);
+  }
+
   return new HttpErrors.BaseHttpError(error.message);
 }
 

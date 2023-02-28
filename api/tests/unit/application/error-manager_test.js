@@ -35,6 +35,7 @@ const {
   SendingEmailToInvalidDomainError,
   OidcMissingFieldsError,
   OidcUserInfoFormatError,
+  SendingEmailToInvalidEmailAddressError,
 } = require('../../../lib/domain/errors');
 const HttpErrors = require('../../../lib/application/http-errors.js');
 
@@ -615,6 +616,30 @@ describe('Unit | Application | ErrorManager', function () {
           error.code,
           error.meta
         );
+      });
+    });
+
+    context('Mailing provider errors', function () {
+      context('When receiving SendingEmailToInvalidEmailAddressError', function () {
+        it('instantiates a BadRequest error', function () {
+          // Given
+          const error = new SendingEmailToInvalidEmailAddressError(
+            'invalid@email.net',
+            'Mailing provider error message'
+          );
+          sinon.stub(HttpErrors, 'BadRequestError');
+          const params = { request: {}, h: hFake, error };
+
+          // When
+          handle(params.request, params.h, params.error);
+
+          // then
+          expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(
+            error.message,
+            'SENDING_EMAIL_TO_INVALID_EMAIL_ADDRESS',
+            error.meta
+          );
+        });
       });
     });
   });
