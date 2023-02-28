@@ -1,8 +1,9 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { fillIn, render, triggerEvent } from '@ember/test-helpers';
+import { fillIn, triggerEvent } from '@ember/test-helpers';
 import EmberObject from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
+import { render } from '@1024pix/ember-testing-library';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { contains } from '../../helpers/contains';
@@ -36,7 +37,9 @@ module('Integration | Component | update-expired-password-form', function (hooks
       this.set('resetExpiredPasswordDemand', resetExpiredPasswordDemand);
       const newPassword = 'Pix12345!';
 
-      await render(hbs`<UpdateExpiredPasswordForm @resetExpiredPasswordDemand={{this.resetExpiredPasswordDemand}} />`);
+      const screen = await render(
+        hbs`<UpdateExpiredPasswordForm @resetExpiredPasswordDemand={{this.resetExpiredPasswordDemand}} />`
+      );
 
       // when
       await fillIn(PASSWORD_INPUT_CLASS, newPassword);
@@ -46,7 +49,7 @@ module('Integration | Component | update-expired-password-form', function (hooks
 
       // then
       assert.dom(PASSWORD_INPUT_CLASS).doesNotExist();
-      assert.dom('.password-reset-demand-form__body').exists();
+      assert.dom(screen.getByText('Votre mot de passe a été mis à jour.')).exists();
     });
   });
 

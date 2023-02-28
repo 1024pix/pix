@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { render, triggerEvent } from '@ember/test-helpers';
+import { triggerEvent, fillIn } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import { fillInByLabel } from '../../../helpers/fill-in-by-label';
 import { clickByLabel } from '../../../helpers/click-by-label';
 import { contains } from '../../../helpers/contains';
@@ -44,20 +45,16 @@ module('Integration | Component | user-account | email-with-validation-form', fu
         test('should display an invalid error message when focus-out', async function (assert) {
           // given
           const invalidEmail = 'invalidEmail';
+          const expectedInvalidEmailError = 'Votre adresse e-mail n’est pas valide.';
 
-          await render(hbs`<UserAccount::EmailWithValidationForm />`);
+          const screen = await render(hbs`<UserAccount::EmailWithValidationForm />`);
 
           // when
-          await fillInByLabel(
-            this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'),
-            invalidEmail
-          );
+          await fillIn(screen.getByRole('textbox', { name: 'Nouvelle adresse e-mail' }), invalidEmail);
           await triggerEvent('#newEmail', 'focusout');
 
           // then
-          assert.ok(
-            contains(this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.invalid-email'))
-          );
+          assert.dom(screen.getByText(expectedInvalidEmailError)).exists();
         });
       });
     });

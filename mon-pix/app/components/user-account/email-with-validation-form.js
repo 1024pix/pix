@@ -22,6 +22,7 @@ export default class EmailWithValidationForm extends Component {
   @tracked newEmailValidationMessage = null;
   @tracked errorMessage = null;
   @tracked hasRequestedUpdate = false;
+  @tracked newEmailValidationStatus = 'default';
 
   get isFormValid() {
     return isEmailValid(this.newEmail) && !isEmpty(this.password);
@@ -34,8 +35,10 @@ export default class EmailWithValidationForm extends Component {
     const isInvalidInput = !isEmailValid(this.newEmail);
 
     this.newEmailValidationMessage = null;
+    this.newEmailValidationStatus = 'default';
 
     if (isInvalidInput) {
+      this.newEmailValidationStatus = 'error';
       this.newEmailValidationMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['invalidEmail']);
     }
   }

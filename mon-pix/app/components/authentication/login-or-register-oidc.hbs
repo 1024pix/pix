@@ -56,9 +56,9 @@
       <PixInput
         @id="email"
         @label={{t "pages.login-or-register-oidc.login-form.email"}}
+        name="email"
         @errorMessage={{this.emailValidationMessage}}
-        @value={{this.email}}
-        type="email"
+        @validationStatus={{this.emailValidationStatus}}
         {{on "change" this.validateEmail}}
         autocomplete="off"
         required

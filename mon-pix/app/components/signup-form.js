@@ -114,18 +114,27 @@ export default class SignupForm extends Component {
   }
 
   @action
-  validateInput(key) {
-    this._executeFieldValidation(key, this._isValuePresent);
+  validateFirstName(event) {
+    this.args.user.firstName = event.target.value?.trim();
+    this._executeFieldValidation(event.target.id, this._isValuePresent);
   }
 
   @action
-  validateInputEmail(key) {
-    this._executeFieldValidation(key, isEmailValid);
+  validateLastName(event) {
+    this.args.user.lastName = event.target.value?.trim();
+    this._executeFieldValidation(event.target.id, this._isValuePresent);
   }
 
   @action
-  validateInputPassword(key) {
-    this._executeFieldValidation(key, isPasswordValid);
+  validateEmail(event) {
+    this.args.user.email = event.target.value?.trim();
+    this._executeFieldValidation(event.target.id, isEmailValid);
+  }
+
+  @action
+  validatePassword(event) {
+    this.args.user.password = event.target.value?.trim();
+    this._executeFieldValidation(event.target.id, isPasswordValid);
   }
 
   @action
