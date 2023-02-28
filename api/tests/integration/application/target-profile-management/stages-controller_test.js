@@ -1,9 +1,9 @@
 const _ = require('lodash');
 const { expect, hFake, databaseBuilder, knex } = require('../../../test-helper');
-const stagesController = require('../../../../lib/application/stages/stages-controller');
+const stagesController = require('../../../../lib/application/target-profile-management/stages-controller');
 const stageCollectionRepository = require('../../../../lib/infrastructure/repositories/target-profile-management/stage-collection-repository');
 
-describe('Integration | Application | Stages | stages-controller', function () {
+describe('Integration | Application | Target Profile Management | stages-controller', function () {
   describe('#create', function () {
     afterEach(async function () {
       return knex('stages').delete();
@@ -286,6 +286,79 @@ describe('Integration | Application | Stages | stages-controller', function () {
           message: 'nouveau palier message',
           prescriberTitle: 'nouveau palier prescripteur titre',
           prescriberDescription: 'nouveau palier prescripteur description',
+        },
+      ]);
+    });
+  });
+
+  describe('#delete', function () {
+    afterEach(async function () {
+      return knex('stages').delete();
+    });
+
+    it('should delete given stage', async function () {
+      // given
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, level: 6 });
+      databaseBuilder.factory.buildStage({
+        id: 1,
+        targetProfileId,
+        level: 0,
+        threshold: null,
+        title: 'palier titre',
+        message: 'palier message',
+        prescriberTitle: 'palier prescripteur titre',
+        prescriberDescription: 'palier prescripteur description',
+      });
+      databaseBuilder.factory.buildStage({
+        id: 2,
+        targetProfileId,
+        level: 3,
+        threshold: null,
+        title: 'ancien palier titre',
+        message: 'ancien palier message',
+        prescriberTitle: 'ancien palier prescripteur titre',
+        prescriberDescription: 'ancien palier prescripteur description',
+      });
+      await databaseBuilder.commit();
+      const request = {
+        params: {
+          id: 2,
+        },
+        payload: {
+          data: {
+            id: 2,
+            attributes: {
+              level: 6,
+              targetProfileId,
+              title: 'nouveau palier titre',
+              message: 'nouveau palier message',
+              'prescriber-title': 'nouveau palier prescripteur titre',
+              'prescriber-description': 'nouveau palier prescripteur description',
+            },
+            relationships: {
+              'target-profile': { data: { id: targetProfileId } },
+            },
+          },
+        },
+      };
+
+      // when
+      const response = await stagesController.delete(request, hFake);
+
+      // then
+      const stageCollection = await stageCollectionRepository.getByTargetProfileId(targetProfileId);
+      expect(response.statusCode).to.equal(204);
+      expect(stageCollection.stages).to.deep.equal([
+        {
+          id: 1,
+          level: 0,
+          targetProfileId,
+          threshold: null,
+          title: 'palier titre',
+          message: 'palier message',
+          prescriberTitle: 'palier prescripteur titre',
+          prescriberDescription: 'palier prescripteur description',
         },
       ]);
     });

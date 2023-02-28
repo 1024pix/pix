@@ -14,7 +14,6 @@ exports.register = async function (server) {
             method: (request, h) =>
               securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
                 securityPreHandlers.checkAdminMemberHasRoleMetier,
               ])(request, h),
             assign: 'hasAuthorizationToAccessAdminScope',
@@ -38,7 +37,6 @@ exports.register = async function (server) {
             method: (request, h) =>
               securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
                 securityPreHandlers.checkAdminMemberHasRoleMetier,
               ])(request, h),
             assign: 'hasAuthorizationToAccessAdminScope',
@@ -49,6 +47,33 @@ exports.register = async function (server) {
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             '- Elle permet de modifier un palier.',
+        ],
+      },
+    },
+    {
+      method: 'DELETE',
+      path: '/api/admin/stages/{id}',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.stageId,
+          }),
+        },
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        handler: stagesController.delete,
+        tags: ['api', 'admin', 'stages'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            '- Elle permet de supprimer un palier.',
         ],
       },
     },
