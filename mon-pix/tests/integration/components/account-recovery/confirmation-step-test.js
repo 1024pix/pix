@@ -128,7 +128,7 @@ module('Integration | Component | confirmation-step', function (hooks) {
     this.set('continueAccountRecoveryBackupEmailConfirmation', continueAccountRecoveryBackupEmailConfirmation);
 
     // when
-    await render(hbs`<AccountRecovery::ConfirmationStep
+    const screen = await render(hbs`<AccountRecovery::ConfirmationStep
       @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
       @continueAccountRecoveryBackupEmailConfirmation={{this.continueAccountRecoveryBackupEmailConfirmation}}
     />`);
