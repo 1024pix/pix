@@ -1,7 +1,6 @@
 <section class="page-section trigger-card">
   <h2 class="trigger-card__title">{{t "pages.trainings.training.triggers.prerequisite.title"}}</h2>
-  <p class="trigger-card__description">Si l’apprenant réussit tous les acquis des sujets sélectionnés alors le contenu
-    formatif ne lui sera pas proposé</p>
+  <p class="trigger-card__description">{{t "pages.trainings.training.triggers.prerequisite.edit.description"}}</p>
   <PixButtonLink
     class="trigger-card__toggler"
     @route="authenticated.trainings.training.triggers.edit"
@@ -17,8 +16,7 @@
 
 <section class="page-section trigger-card">
   <h2 class="trigger-card__title">{{t "pages.trainings.training.triggers.goal.title"}}</h2>
-  <p class="trigger-card__description">Si l’apprenant réussit les acquis des sujets sélectionnés alors le contenu
-    formatif lui sera proposé</p>
+  <p class="trigger-card__description">S{{t "pages.trainings.training.triggers.goal.edit.description"}}</p>
   <PixButtonLink
     class="trigger-card__toggler"
     @route="authenticated.trainings.training.triggers.edit"
