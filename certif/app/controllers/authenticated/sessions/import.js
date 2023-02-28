@@ -17,7 +17,9 @@ export default class ImportController extends Controller {
   @tracked isImportStepOne = true;
   @tracked sessionsReport;
 
-  @tracked candidatesReport;
+  @tracked sessionsCount;
+  @tracked emptySessionsCount;
+  @tracked candidatesCount;
 
   @tracked errorsReport;
   @tracked isImportInError = false;
@@ -58,8 +60,9 @@ export default class ImportController extends Controller {
         this.file,
         certificationCenterId
       );
-      this.sessionsReport = `${sessionsCount} sessions dont ${emptySessionsCount} sessions sans candidat`;
-      this.candidatesReport = `${candidatesCount} candidats`;
+      this.sessionsCount = sessionsCount;
+      this.emptySessionsCount = emptySessionsCount;
+      this.candidatesCount = candidatesCount;
       this.isImportInError = false;
     } catch (err) {
       this.isImportInError = true;

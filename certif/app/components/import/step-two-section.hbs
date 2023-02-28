@@ -5,10 +5,11 @@
     </PixMessage>
   {{else}}
     <PixMessage @type="info">
-      <p>
-        {{@sessionsReport}}</p>
-      <p>
-        {{@candidatesReport}}</p>
+      <p>{{t "pages.sessions.import.step-two.sessions-and-empty-sessions-count"
+             sessionsCount=@sessionsCount
+             emptySessionsCount=@emptySessionsCount}}</p>
+      <p>{{t "pages.sessions.import.step-two.candidates-count"
+             candidatesCount=@candidatesCount}}</p>
     </PixMessage>
   {{/if}}
 </section>

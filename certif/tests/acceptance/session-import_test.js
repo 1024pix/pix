@@ -191,7 +191,7 @@ module('Acceptance | Session Import', function (hooks) {
             await click(importButton);
 
             // then
-            assert.dom(screen.getByText('2 sessions dont 1 sessions sans candidat')).exists();
+            assert.dom(screen.getByText('2 sessions dont 1 session sans candidat')).exists();
             assert.dom(screen.getByText('3 candidats')).exists();
             assert.dom(screen.queryByLabelText('fichier.csv')).doesNotExist();
           });
