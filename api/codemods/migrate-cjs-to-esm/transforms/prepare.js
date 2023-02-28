@@ -6,6 +6,7 @@ const codemods = [
   require('./src/cjs-named-export-containing-functions-to-cjs-named-export'),
   require('./src/cjs-anonymous-export-to-cjs-named-export'),
   require('./src/bookshelf-anonymous-call-expression-export-to-cjs-named-export'),
+  require('./src/joi-anonymous-call-expression-export-to-cjs-named-export'),
 ];
 
 const transformScripts = (fileInfo, api, options) => {
