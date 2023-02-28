@@ -1,11 +1,10 @@
 import EmberObject from '@ember/object';
 import { module, test } from 'qunit';
 import { hbs } from 'ember-cli-htmlbars';
-import { contains } from '../../../helpers/contains';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { clickByLabel } from '../../../helpers/click-by-label';
 import sinon from 'sinon';
 import { render } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 
 module('Integration | Component | confirmation-step', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -22,23 +21,42 @@ module('Integration | Component | confirmation-step', function (hooks) {
     this.set('studentInformationForAccountRecovery', studentInformationForAccountRecovery);
 
     // when
-    await render(hbs`<AccountRecovery::ConfirmationStep
+    const screen = await render(hbs`<AccountRecovery::ConfirmationStep
       @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
     />`);
 
     // then
-    assert.ok(
-      contains(
-        this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName: 'Philippe' })
+    assert
+      .dom(
+        screen.getByRole('heading', {
+          name: this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', {
+            firstName: 'Philippe',
+          }),
+        })
       )
-    );
-    assert.ok(contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.found-account')));
-    assert.ok(contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.contact-support')));
-    assert.ok(contains('Auguste'));
-    assert.ok(contains('Philippe'));
-    assert.ok(contains('Philippe.auguste2312'));
-    assert.ok(contains('Collège George-Besse, Loches'));
-    assert.ok(contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.certify-account')));
+      .exists();
+    assert
+      .dom(screen.getByText(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.found-account')))
+      .exists();
+    assert
+      .dom(
+        screen.getByRole('link', {
+          name: this.intl.t('pages.account-recovery.find-sco-record.contact-support.link-text'),
+        })
+      )
+      .hasAttribute('href', this.intl.t('pages.account-recovery.find-sco-record.contact-support.link-url'));
+
+    assert.dom(screen.getByText('Auguste')).exists();
+    assert.dom(screen.getByText('Philippe')).exists();
+    assert.dom(screen.getByText('Philippe.auguste2312')).exists();
+    assert.dom(screen.getByText('Collège George-Besse, Loches')).exists();
+    assert
+      .dom(
+        screen.getByRole('checkbox', {
+          name: this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'),
+        })
+      )
+      .exists();
   });
 
   module('when user does not have a username', function () {
@@ -53,12 +71,16 @@ module('Integration | Component | confirmation-step', function (hooks) {
       this.set('studentInformationForAccountRecovery', studentInformationForAccountRecovery);
 
       // when
-      await render(hbs`<AccountRecovery::ConfirmationStep
+      const screen = await render(hbs`<AccountRecovery::ConfirmationStep
         @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
       />`);
 
       // then
-      assert.notOk(contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.fields.username')));
+      assert
+        .dom(
+          screen.queryByText(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.fields.username'))
+        )
+        .doesNotExist();
     });
   });
 
@@ -76,11 +98,15 @@ module('Integration | Component | confirmation-step', function (hooks) {
     this.set('cancelAccountRecovery', cancelAccountRecovery);
 
     // when
-    await render(hbs`<AccountRecovery::ConfirmationStep
+    const screen = await render(hbs`<AccountRecovery::ConfirmationStep
       @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
       @cancelAccountRecovery={{this.cancelAccountRecovery}}
     />`);
-    await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.cancel'));
+    await click(
+      screen.getByRole('button', {
+        name: this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.cancel'),
+      })
+    );
 
     // then
     sinon.assert.calledOnce(cancelAccountRecovery);
@@ -132,8 +158,16 @@ module('Integration | Component | confirmation-step', function (hooks) {
       @studentInformationForAccountRecovery={{this.studentInformationForAccountRecovery}}
       @continueAccountRecoveryBackupEmailConfirmation={{this.continueAccountRecoveryBackupEmailConfirmation}}
     />`);
-    await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'));
-    await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
+    await click(
+      screen.getByRole('checkbox', {
+        name: this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.certify-account'),
+      })
+    );
+    await click(
+      screen.getByRole('button', {
+        name: this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'),
+      })
+    );
 
     // then
     sinon.assert.calledOnce(continueAccountRecoveryBackupEmailConfirmation);
