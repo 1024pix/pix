@@ -29,6 +29,7 @@ export default class LoginOrRegisterOidcComponent extends Component {
   @tracked registerErrorMessage = null;
   @tracked email = '';
   @tracked password = '';
+  @tracked emailValidationStatus = 'default';
   @tracked emailValidationMessage = null;
 
   get identityProviderOrganizationName() {
@@ -96,8 +97,10 @@ export default class LoginOrRegisterOidcComponent extends Component {
     const isInvalidInput = !isEmailValid(this.email);
 
     this.emailValidationMessage = null;
+    this.emailValidationStatus = 'default';
 
     if (isInvalidInput) {
+      this.emailValidationStatus = 'error';
       this.emailValidationMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['invalidEmail']);
     }
   }

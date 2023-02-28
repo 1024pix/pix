@@ -1,4 +1,5 @@
-import { currentURL, fillIn, find, visit } from '@ember/test-helpers';
+import { currentURL, fillIn } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 import { authenticate } from '../helpers/authentication';
 import { setupApplicationTest } from 'ember-qunit';
@@ -30,12 +31,10 @@ module('Acceptance | Reset Password Form', function (hooks) {
     await visit('/changer-mot-de-passe/temporaryKey');
 
     // then
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(currentURL(), '/changer-mot-de-passe/temporaryKey');
+    assert.strictEqual(currentURL(), '/changer-mot-de-passe/temporaryKey');
   });
 
-  test('should stay on changer-mot-de-passe, and show success message, when password is successfully reset', async function (assert) {
+  test('should stay on changer-mot-de-passe when password is successfully reset', async function (assert) {
     // given
     server.create('user', {
       id: 1000,
@@ -50,17 +49,15 @@ module('Acceptance | Reset Password Form', function (hooks) {
       email: 'brandone.martins@pix.com',
     });
 
-    await visit('/changer-mot-de-passe/brandone-reset-key');
-    await fillIn('#password', 'newPass12345!');
+    const screen = await visit('/changer-mot-de-passe/brandone-reset-key');
+    const passwordInput = screen.getByLabelText('Mot de passe');
+    await fillIn(passwordInput, 'newPass12345!');
 
     // when
     await clickByLabel(this.intl.t('pages.reset-password.actions.submit'));
 
     // then
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(currentURL(), '/changer-mot-de-passe/brandone-reset-key');
-    assert.ok(find('.sign-form__body').textContent.includes('Votre mot de passe a été modifié avec succès'));
+    assert.strictEqual(currentURL(), '/changer-mot-de-passe/brandone-reset-key');
   });
 
   test('should allow connected user to visit reset-password page', async function (assert) {
@@ -84,8 +81,6 @@ module('Acceptance | Reset Password Form', function (hooks) {
     await visit('/changer-mot-de-passe/brandone-reset-key');
 
     // then
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(currentURL(), '/changer-mot-de-passe/brandone-reset-key');
+    assert.strictEqual(currentURL(), '/changer-mot-de-passe/brandone-reset-key');
   });
 });

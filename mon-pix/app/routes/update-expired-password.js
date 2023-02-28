@@ -14,7 +14,7 @@ export default class UpdateExpiredPasswordRoute extends Route {
     const resetExpiredPasswordDemand = resetExpiredPasswordDemands.firstObject;
 
     if (!resetExpiredPasswordDemand) {
-      return this.router.replaceWith('');
+      return this.router.replaceWith('login');
     }
 
     return resetExpiredPasswordDemand;

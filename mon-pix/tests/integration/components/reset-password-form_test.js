@@ -2,37 +2,33 @@ import EmberObject from '@ember/object';
 import { resolve, reject } from 'rsvp';
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { find, fillIn, render, triggerEvent } from '@ember/test-helpers';
+import { find, fillIn, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { clickByLabel } from '../../helpers/click-by-label';
-
-const PASSWORD_INPUT_CLASS = '.form-textfield__input';
+import { render } from '@1024pix/ember-testing-library';
+import sinon from 'sinon';
 
 module('Integration | Component | reset password form', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   module('Component rendering', function () {
-    test('should be rendered', async function (assert) {
-      await render(hbs`<ResetPasswordForm />`);
-      assert.dom('.sign-form__container').exists();
-    });
-
     module('When component is rendered,', function () {
-      [
-        { item: '.pix-logo__link' },
-        { item: '.sign-form-title' },
-        { item: '.sign-form-header__instruction' },
-        { item: '.sign-form__body' },
-        { item: '.form-textfield__label' },
-        { item: '.form-textfield__input-field-container' },
-      ].forEach(({ item }) => {
-        test(`should contains a item with class: ${item}`, async function (assert) {
-          // when
-          await render(hbs`<ResetPasswordForm />`);
+      test(`renders all the necessary elements of the form `, async function (assert) {
+        // given
+        const service = this.owner.lookup('service:url');
+        service.currentDomain = { getExtension: sinon.stub().returns('org') };
 
-          // then
-          assert.dom(item).exists();
-        });
+        // when
+        const screen = await render(hbs`<ResetPasswordForm />`);
+
+        // then
+        assert.dom(screen.getByRole('img', { name: "Page d'accueil de Pix.org" })).exists();
+        assert
+          .dom(screen.getByRole('link', { name: "Page d'accueil de Pix.org" }))
+          .hasProperty('href', 'https://pix.org/');
+        assert.dom(screen.getByText('Saisissez votre nouveau mot de passe')).exists();
+        assert.dom(screen.getByLabelText('Mot de passe')).exists();
+        assert.dom(screen.getByRole('button', { name: 'Envoyer' })).exists();
       });
 
       test('should display user’s fullName', async function (assert) {
@@ -41,12 +37,10 @@ module('Integration | Component | reset password form', function (hooks) {
         this.set('user', user);
 
         // when
-        await render(hbs`<ResetPasswordForm @user={{this.user}} />`);
+        const screen = await render(hbs`<ResetPasswordForm @user={{this.user}} />`);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(find('.sign-form-title').textContent.trim(), user.fullName);
+        assert.dom(screen.getByRole('heading', { name: 'toto riri' })).exists();
       });
     });
 
@@ -75,11 +69,12 @@ module('Integration | Component | reset password form', function (hooks) {
         this.set('temporaryKey', 'temp-key');
         const validPassword = 'Pix 1 2 3!';
 
-        await render(hbs`<ResetPasswordForm @user={{this.user}} @temporaryKey={{this.temporaryKey}} />`);
+        const screen = await render(hbs`<ResetPasswordForm @user={{this.user}} @temporaryKey={{this.temporaryKey}} />`);
 
         // when
-        await fillIn(PASSWORD_INPUT_CLASS, validPassword);
-        await triggerEvent(PASSWORD_INPUT_CLASS, 'change');
+        const passwordInput = screen.getByLabelText('Mot de passe');
+        await fillIn(passwordInput, validPassword);
+        await triggerEvent(passwordInput, 'change');
 
         await clickByLabel(this.intl.t('pages.reset-password.actions.submit'));
 
@@ -87,8 +82,8 @@ module('Integration | Component | reset password form', function (hooks) {
         assert.true(isSaveMethodCalled);
         assert.deepEqual(saveMethodOptions, { adapterOptions: { updatePassword: true, temporaryKey: 'temp-key' } });
         assert.deepEqual(this.user.password, null);
-        assert.dom(PASSWORD_INPUT_CLASS).doesNotExist();
-        assert.dom('.password-reset-demand-form__body').exists();
+        assert.dom(screen.queryByLabelText('Mot de passe')).doesNotExist();
+        assert.dom(screen.getByText('Votre mot de passe a été modifié avec succès.')).exists();
       });
 
       test('should get an error, when button is clicked and saving return error', async function (assert) {
@@ -96,21 +91,19 @@ module('Integration | Component | reset password form', function (hooks) {
         const user = EmberObject.create({ firstName: 'toto', lastName: 'riri', save: saveWithRejection });
         this.set('user', user);
         const validPassword = 'Pix 1 2 3!';
+        const screen = await render(hbs`<ResetPasswordForm @user={{this.user}} />`);
 
-        await render(hbs`<ResetPasswordForm @user={{this.user}} />`);
+        const passwordInput = screen.getByLabelText('Mot de passe');
 
         // when
-        await fillIn(PASSWORD_INPUT_CLASS, validPassword);
-        await triggerEvent(PASSWORD_INPUT_CLASS, 'change');
-
+        await fillIn(passwordInput, validPassword);
+        await triggerEvent(passwordInput, 'change');
         await clickByLabel(this.intl.t('pages.reset-password.actions.submit'));
 
         // then
         assert.true(isSaveMethodCalled);
         assert.deepEqual(this.user.password, validPassword);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(find(PASSWORD_INPUT_CLASS).value, validPassword);
+        assert.strictEqual(find(passwordInput).value, validPassword);
         assert.dom('.form-textfield__message--error').exists();
       });
     });

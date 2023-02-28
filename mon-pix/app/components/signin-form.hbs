@@ -5,11 +5,11 @@
   </a>
 
   <div class="sign-form__header">
-    <h1 class="sign-form-title">{{t "pages.sign-in.first-title"}}</h1>
+    <h1 class="sign-form-header__title">{{t "pages.sign-in.first-title"}}</h1>
 
     <div class="sign-form-header__subtitle">
-      <span class="sign-form-header-subtitle sign-form-instruction">{{t "pages.sign-in.subtitle.text"}}</span>
-      <LinkTo @route="inscription" class="link sign-form-link"> {{t "pages.sign-in.subtitle.link"}}</LinkTo>
+      <span class="sign-form-header-subtitle">{{t "pages.sign-in.subtitle.text"}}</span>
+      <LinkTo @route="inscription" class="link"> {{t "pages.sign-in.subtitle.link"}}</LinkTo>
     </div>
   </div>
 
@@ -22,39 +22,37 @@
   <form {{on "submit" this.signin}} class="sign-form__body">
     <p class="sign-form-body__instruction">{{t "common.form.mandatory-all-fields"}}</p>
 
-    <fieldset>
+    <fieldset class="sign-form-body__inputs">
       <legend class="sr-only">{{t "pages.sign-in.fields.legend"}}</legend>
       <div class="sign-form-body__input">
-        <FormTextfield
-          @label="{{t 'pages.sign-in.fields.login.label'}}"
-          @textfieldName="login"
+        <PixInput
+          @id="login"
+          name="login"
+          @label={{t "pages.sign-in.fields.login.label"}}
+          {{on "input" this.updateLogin}}
           @validationStatus="default"
-          @inputBindingValue={{this.login}}
-          @autocomplete="username"
-          @hideRequired={{true}}
-          @require={{true}}
-          @aria-describedby="sign-in-error-message"
+          required
+          autocomplete="email"
         />
       </div>
 
       <div class="sign-form-body__input">
-        <FormTextfield
-          @label="{{t 'pages.sign-in.fields.password.label'}}"
-          @textfieldName="password"
+        <PixInputPassword
+          @id="password"
+          name="password"
+          @label={{t "pages.sign-in.fields.password.label"}}
+          {{on "input" this.updatePassword}}
           @validationStatus="default"
-          @inputBindingValue={{this.password}}
-          @autocomplete="current-password"
-          @hideRequired={{true}}
-          @require={{true}}
-          @aria-describedby="sign-in-error-message"
+          required
+          autocomplete="current-password"
         />
+        <LinkTo
+          @route="password-reset-demand"
+          class="link link--grey sign-form-link sign-form-body__forgotten-password-link"
+        >
+          {{t "pages.sign-in.forgotten-password"}}</LinkTo>
       </div>
     </fieldset>
-    <LinkTo
-      @route="password-reset-demand"
-      class="link link--grey sign-form-link sign-form-body__forgotten-password-link"
-    >
-      {{t "pages.sign-in.forgotten-password"}}</LinkTo>
 
     <div class="sign-form-body__bottom-button">
       <PixButton @type="submit" @shape="rounded">
