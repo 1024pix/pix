@@ -597,4 +597,8 @@ describe('Unit | Domain | Errors', function () {
   it('should export an DifferentExternalIdentifierError', function () {
     expect(errors.DifferentExternalIdentifierError).to.exist;
   });
+
+  it('exports SendingEmailToInvalidEmailAddressError', function () {
+    expect(errors.SendingEmailToInvalidEmailAddressError).to.exist;
+  });
 });
