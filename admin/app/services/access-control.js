@@ -29,6 +29,14 @@ export default class AccessControlService extends Service {
     return !!(this.currentUser.adminMember.isSuperAdmin || this.currentUser.adminMember.isMetier);
   }
 
+  get hasAccessToTrainings() {
+    return (
+      this.currentUser.adminMember.isSuperAdmin ||
+      this.currentUser.adminMember.isMetier ||
+      this.currentUser.adminMember.isSupport
+    );
+  }
+
   restrictAccessTo(roles, redirectionUrl) {
     const currentUserIsAllowed = roles.some((role) => this.currentUser.adminMember[role]);
     if (!currentUserIsAllowed) {
