@@ -1,5 +1,22 @@
 <section class="import-page__section--download panel">
-  <PixMessage @type={{if @isImportInError "error" "info"}}>
-    <p>{{@report}}</p>
-  </PixMessage>
+  {{#if @isImportInError}}
+    <PixMessage @type="error">
+      <p>{{@errorsReport}}</p>
+    </PixMessage>
+  {{else}}
+    <PixMessage @type="info">
+      <ul>
+        <li>
+          <img src="{{this.rootURL}}/icons/solid-square-chevron-rigth.svg" alt="" role="presentation" />
+          {{t
+            "pages.sessions.import.step-two.sessions-and-empty-sessions-count"
+            sessionsCount=@sessionsCount
+            sessionsWithoutCandidatesCount=@sessionsWithoutCandidatesCount
+          }}</li>
+        <li>
+          <FaIcon @icon="user" />
+          {{t "pages.sessions.import.step-two.candidates-count" candidatesCount=@candidatesCount}}</li>
+      </ul>
+    </PixMessage>
+  {{/if}}
 </section>

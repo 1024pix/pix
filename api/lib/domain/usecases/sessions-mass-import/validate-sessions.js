@@ -1,4 +1,5 @@
 const Session = require('../../models/Session');
+const SessionMassImportReport = require('../../models/SessionMassImportReport');
 const sessionCodeService = require('../../services/session-code-service');
 const sessionsImportValidationService = require('../../services/sessions-mass-import/sessions-import-validation-service');
 const temporarySessionsStorageForMassImportService = require('../../services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service');
@@ -55,12 +56,28 @@ module.exports = async function validateSessions({
     return session;
   });
 
+  const sessionsWithoutCandidatesCount = validatedSessions.filter(
+    (session) => session.certificationCandidates.length === 0
+  ).length;
+  const sessionsCount = validatedSessions.length;
+  const candidatesCount = validatedSessions.reduce(
+    (currentCandidateCount, currentSession) => currentCandidateCount + currentSession.certificationCandidates.length,
+    0
+  );
+
   const cachedValidatedSessionsKey = await temporarySessionsStorageForMassImportService.save({
     sessions: validatedSessions,
     userId,
   });
 
-  return cachedValidatedSessionsKey;
+  const sessionMassImportReport = new SessionMassImportReport({
+    cachedValidatedSessionsKey,
+    sessionsCount,
+    sessionsWithoutCandidatesCount,
+    candidatesCount,
+  });
+
+  return sessionMassImportReport;
 };
 
 async function _createValidCertificationCandidates({
