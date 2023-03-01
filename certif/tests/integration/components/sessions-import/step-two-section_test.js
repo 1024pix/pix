@@ -9,12 +9,12 @@ module('Integration | Component | step-two-section', function (hooks) {
   test('it renders the count of sessions and candidates when the imported file contains no error', async function (assert) {
     // given
     this.set('sessionsCount', 2);
-    this.set('emptySessionsCount', 0);
+    this.set('sessionsWithoutCandidatesCount', 0);
     this.set('candidatesCount', 12);
 
     // when
     const { getByText } = await render(
-      hbs`<Import::StepTwoSection @sessionsCount="{{this.sessionsCount}}" @emptySessionsCount="{{this.emptySessionsCount}}"  @candidatesCount="{{this.candidatesCount}}" />`
+      hbs`<Import::StepTwoSection @sessionsCount="{{this.sessionsCount}}" @sessionsWithoutCandidatesCount="{{this.sessionsWithoutCandidatesCount}}"  @candidatesCount="{{this.candidatesCount}}" />`
     );
 
     // then

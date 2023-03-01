@@ -173,7 +173,7 @@
           }
         },
         "step-two": {
-          "sessions-and-empty-sessions-count": "{sessionsCount} {sessionsCount, plural,one {session} other {sessions}} including {emptySessionsCount} {emptySessionsCount, plural,one {session} other {sessions}} without candidates",
+          "sessions-and-empty-sessions-count": "{sessionsCount} {sessionsCount, plural,one {session} other {sessions}} including {sessionsWithoutCandidatesCount} {sessionsWithoutCandidatesCount, plural,one {session} other {sessions}} without candidates",
           "candidates-count": "{candidatesCount} {candidatesCount, plural,one {candidate} other {candidates}}"
         }
       },

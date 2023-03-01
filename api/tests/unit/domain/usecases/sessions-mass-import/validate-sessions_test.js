@@ -94,7 +94,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         expect(sessionsMassImportReport).to.deep.equal({
           cachedValidatedSessionsKey,
           sessionsCount: 2,
-          emptySessionsCount: 2,
+          sessionsWithoutCandidatesCount: 2,
           candidatesCount: 0,
         });
       });
@@ -178,7 +178,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         expect(result).to.deep.equal({
           cachedValidatedSessionsKey,
           sessionsCount: 2,
-          emptySessionsCount: 0,
+          sessionsWithoutCandidatesCount: 0,
           candidatesCount: 3,
         });
       });

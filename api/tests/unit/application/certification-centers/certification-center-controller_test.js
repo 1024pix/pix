@@ -515,7 +515,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
       };
       const cachedValidatedSessionsKey = 'uuid';
       const sessionsCount = 2;
-      const emptySessionsCount = 1;
+      const sessionsWithoutCandidatesCount = 1;
       const candidatesCount = 12;
 
       sinon.stub(csvHelpers, 'parseCsvWithHeader');
@@ -527,7 +527,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
       usecases.validateSessions.resolves({
         cachedValidatedSessionsKey,
         sessionsCount,
-        emptySessionsCount,
+        sessionsWithoutCandidatesCount,
         candidatesCount,
       });
 
@@ -538,7 +538,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
       expect(result.source).to.deep.equal({
         cachedValidatedSessionsKey,
         sessionsCount,
-        emptySessionsCount,
+        sessionsWithoutCandidatesCount,
         candidatesCount,
       });
     });
