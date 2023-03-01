@@ -171,6 +171,10 @@
             },
             "title": "Comment ça marche ?"
           }
+        },
+        "step-two": {
+          "sessions-and-empty-sessions-count": "{sessionsCount} {sessionsCount, plural,one {session} other {sessions}} dont {sessionsWithoutCandidatesCount} {sessionsWithoutCandidatesCount, plural,one {session} other {sessions}} sans candidat",
+          "candidates-count": "{candidatesCount} {candidatesCount, plural,one {candidat} other {candidats}}"
         }
       },
       "list": {

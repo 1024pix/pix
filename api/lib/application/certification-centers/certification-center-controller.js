@@ -199,11 +199,11 @@ module.exports = {
       throw new UnprocessableEntityError('No session data in csv');
     }
     const sessions = csvSerializer.deserializeForSessionsImport(parsedCsvData);
-    const cachedValidatedSessionsKey = await usecases.validateSessions({
+    const sessionMassImportReport = await usecases.validateSessions({
       sessions,
       certificationCenterId,
       userId: authenticatedUserId,
     });
-    return h.response({ cachedValidatedSessionsKey }).code(200);
+    return h.response(sessionMassImportReport).code(200);
   },
 };

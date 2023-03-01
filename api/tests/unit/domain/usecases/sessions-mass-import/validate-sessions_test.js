@@ -41,9 +41,10 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
 
   context('when sessions are valid', function () {
     context('when user has certification center membership', function () {
-      it('should validate every session one by one', async function () {
+      it('should validate every session one by one and return a sessionsMassImportReport', async function () {
         // given
         const userId = 1234;
+        const cachedValidatedSessionsKey = 'uuid';
         const validSessionData = createValidSessionData();
         const sessions = [
           {
@@ -73,8 +74,10 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           }),
         ];
 
+        temporarySessionsStorageForMassImportService.save.resolves(cachedValidatedSessionsKey);
+
         // when
-        await validateSessions({
+        const sessionsMassImportReport = await validateSessions({
           sessions,
           userId,
           certificationCenterId,
@@ -87,18 +90,32 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           sessions: expectedSessions,
           userId,
         });
+
+        expect(sessionsMassImportReport).to.deep.equal({
+          cachedValidatedSessionsKey,
+          sessionsCount: 2,
+          sessionsWithoutCandidatesCount: 2,
+          candidatesCount: 0,
+        });
       });
     });
 
     context('when there is only sessionId and candidate information', function () {
       it('should validate the candidates in the session', async function () {
         // given
+        const cachedValidatedSessionsKey = 'uuid';
         const candidate1 = createValidCandidateData(1);
+        const candidate2 = createValidCandidateData(2);
+        const candidate3 = createValidCandidateData(3);
         const userId = 1234;
         const sessions = [
           {
             sessionId: 1234,
             certificationCandidates: [candidate1],
+          },
+          {
+            sessionId: 1235,
+            certificationCandidates: [candidate2, candidate3],
           },
         ];
 
@@ -114,13 +131,37 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
               new CertificationCandidate({ ...candidate1, sessionId: 1234, billingMode: 'FREE' }),
             ],
           }),
+          new Session({
+            ...sessions[1],
+            id: 1235,
+            certificationCenterId,
+            certificationCenter: certificationCenterName,
+            accessCode,
+            supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
+            certificationCandidates: [
+              new CertificationCandidate({ ...candidate2, sessionId: 1235, billingMode: 'FREE' }),
+              new CertificationCandidate({ ...candidate3, sessionId: 1235, billingMode: 'FREE' }),
+            ],
+          }),
         ];
 
         const cpfBirthInformationValidation1 = CpfBirthInformationValidation.success({ ...candidate1 });
-        sessionsImportValidationService.getValidatedCandidateBirthInformation.resolves(cpfBirthInformationValidation1);
+        const cpfBirthInformationValidation2 = CpfBirthInformationValidation.success({ ...candidate2 });
+        const cpfBirthInformationValidation3 = CpfBirthInformationValidation.success({ ...candidate3 });
+        sessionsImportValidationService.getValidatedCandidateBirthInformation
+          .onCall(0)
+          .resolves(cpfBirthInformationValidation1);
+        sessionsImportValidationService.getValidatedCandidateBirthInformation
+          .onCall(1)
+          .resolves(cpfBirthInformationValidation2);
+        sessionsImportValidationService.getValidatedCandidateBirthInformation
+          .onCall(2)
+          .resolves(cpfBirthInformationValidation3);
+
+        temporarySessionsStorageForMassImportService.save.resolves(cachedValidatedSessionsKey);
 
         // when
-        await validateSessions({
+        const result = await validateSessions({
           sessions,
           userId,
           certificationCenterId,
@@ -133,6 +174,12 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         expect(temporarySessionsStorageForMassImportService.save).to.have.been.calledOnceWithExactly({
           sessions: expectedSessions,
           userId,
+        });
+        expect(result).to.deep.equal({
+          cachedValidatedSessionsKey,
+          sessionsCount: 2,
+          sessionsWithoutCandidatesCount: 0,
+          candidatesCount: 3,
         });
       });
     });
