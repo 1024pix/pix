@@ -38,9 +38,10 @@
         >
           {{t "pages.organization-participants.table.column.last-name.label"}}
         </Table::HeaderSort>
-        <Table::Header>{{t "pages.organization-participants.table.column.first-name"}}</Table::Header>
+        <Table::Header @size="wide">{{t "pages.organization-participants.table.column.first-name"}}</Table::Header>
         <Table::HeaderSort
           @size="medium"
+          @align="center"
           @onSort={{@sortByParticipationCount}}
           @order={{@participationCountOrder}}
           @ariaLabelDefaultSort={{t
@@ -51,7 +52,7 @@
         >
           {{t "pages.organization-participants.table.column.participation-count.label"}}
         </Table::HeaderSort>
-        <Table::Header @size="medium" @align="right">
+        <Table::Header @size="medium" @align="center">
           {{t "pages.organization-participants.table.column.latest-participation"}}
         </Table::Header>
         <Table::Header @size="medium" @align="center">
@@ -83,7 +84,7 @@
               </LinkTo>
             </td>
             <td class="ellipsis" title={{participant.firstName}}>{{participant.firstName}}</td>
-            <td class="table__column--right">{{participant.participationCount}}</td>
+            <td class="table__column--center">{{participant.participationCount}}</td>
             <td>
               <div class="organization-participant-list-page__last-participation">
                 <span>{{dayjs-format participant.lastParticipationDate "DD/MM/YYYY"}}</span>
