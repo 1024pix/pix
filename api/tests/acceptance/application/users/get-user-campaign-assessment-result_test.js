@@ -198,7 +198,6 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
             'validated-skills-count': 3,
             'is-completed': true,
             'is-shared': true,
-            'stage-count': 2,
             'can-retry': false,
             'can-improve': false,
             'is-disabled': false,
@@ -341,8 +340,8 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
             attributes: {
               message: 'Tu as le palier 1',
               title: 'palier 1',
-              threshold: 20,
-              'star-count': 1,
+              'reached-stage': 1,
+              'total-stage': 2,
             },
             id: stage.id.toString(),
             type: 'reached-stages',

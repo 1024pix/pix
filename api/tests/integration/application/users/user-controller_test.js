@@ -109,17 +109,18 @@ describe('Integration | Application | Users | user-controller', function () {
     const auth = { credentials: {}, strategy: {} };
 
     context('Success cases', function () {
-      const campaignAssessmentResult = new AssessmentResult({
-        participationResults: { knowledgeElements: [] },
-        competences: [],
-        badgeResultsDTO: [],
-        stages: [],
-        isCampaignMultipleSendings: false,
-      });
+      let campaignAssessmentResult;
 
       beforeEach(function () {
         securityPreHandlers.checkRequestedUserIsAuthenticatedUser.returns(true);
         auth.credentials.userId = '1234';
+        campaignAssessmentResult = new AssessmentResult({
+          participationResults: { knowledgeElements: [] },
+          competences: [],
+          badgeResultsDTO: [],
+          stageCollection: domainBuilder.buildStageCollectionForUserCampaignResults({ campaignId: 5678, stages: [] }),
+          isCampaignMultipleSendings: false,
+        });
       });
 
       it('should return an HTTP response with status code 200', async function () {
