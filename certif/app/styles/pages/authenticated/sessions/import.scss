@@ -104,10 +104,11 @@
     .pix-message__content {
       color: $pix-neutral-70;
 
-      p:first-of-type {
+      li:first-of-type {
         margin-bottom: 8px;
         img {
           margin-right: 8px;
+          vertical-align: top;
         }
       }
     }
