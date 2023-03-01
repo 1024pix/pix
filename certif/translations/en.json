@@ -141,7 +141,6 @@
           "summary": "Récapitulatif"
         },
         "title": "Créer/éditer plusieurs sessions",
-        "previous-page-button": "Revenir à la liste des sessions",
         "step-one": {
           "actions": {
             "cancel": {
