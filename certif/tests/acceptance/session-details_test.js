@@ -72,7 +72,7 @@ module('Acceptance | Session Details', function (hooks) {
     test('it should redirect to session list on click on return button', async function (assert) {
       // when
       const screen = await visitScreen(`/sessions/${session.id}`);
-      await click(screen.getByRole('link', { name: 'Retour à la liste des sessions' }));
+      await click(screen.getByRole('link', { name: 'Revenir à la liste des sessions' }));
 
       // then
       assert.deepEqual(currentURL(), '/sessions/liste');
@@ -106,13 +106,20 @@ module('Acceptance | Session Details', function (hooks) {
         const screen = await visit('/sessions/123');
 
         // then
-        assert.dom(screen.getByRole('heading', { name: 'Session 123' })).exists();
+        assert.dom(screen.getByRole('heading', { name: 'Session 123', level: 1 })).exists();
         assert.dom(screen.getByText('123 rue des peupliers')).exists();
         assert.dom(screen.getByText('Salle 101')).exists();
         assert.dom(screen.getByText('Winston')).exists();
         assert.dom(screen.getByText('ABC123')).exists();
+
+        assert.dom(screen.getByRole('heading', { name: 'Heure de début (heure locale)', level: 2 })).exists();
         assert.dom(screen.getByText('lundi 18 févr. 2019')).exists();
+
+        assert.dom(screen.getByRole('heading', { name: 'Date', level: 2 })).exists();
         assert.dom(screen.getByText('14:00')).exists();
+
+        assert.dom(screen.getByRole('link', { name: "Télécharger le PV d'incident" })).exists();
+        assert.dom(screen.getByRole('link', { name: 'Télécharger le kit surveillant' })).exists();
       });
 
       test('it should show issue report sheet download button', async function (assert) {
@@ -124,7 +131,7 @@ module('Acceptance | Session Details', function (hooks) {
         const screen = await visit(`/sessions/${sessionWithCandidates.id}`);
 
         // then
-        assert.dom(screen.getByRole('link', { name: "Télécharger le pv d'incident" })).exists();
+        assert.dom(screen.getByRole('link', { name: "Télécharger le PV d'incident" })).exists();
       });
 
       test('it should show attendance sheet download button when there is one or more candidate', async function (assert) {
