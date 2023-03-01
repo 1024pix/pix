@@ -204,11 +204,10 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
           const reachedStage = server.create('reached-stage', {
             title: 'You reached Stage 1',
             message: 'You are almost a rock star',
-            threshold: 50,
-            starCount: 2,
+            reachedStage: 1,
+            totalStage: 2,
           });
           campaignParticipationResult.update({ reachedStage });
-          campaignParticipationResult.update({ stageCount: 5 });
 
           // when
           const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
@@ -222,15 +221,15 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
           const reachedStage = server.create('reached-stage', {
             title: 'You reached Stage 1',
             message: 'You are almost a rock star',
-            threshold: 90,
-            starCount: 2,
+            reachedStage: 2,
+            totalStage: 3,
           });
-
           const cleaBadge = server.create('campaign-participation-badge', {
             altMessage: 'Vous avez validé le badge Pix Emploi.',
             imageUrl: 'url.svg',
             isAcquired: true,
             isCertifiable: true,
+            isValid: true,
             message:
               'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. Pour valoriser vos compétences avec une double certification Pix-CléA numérique, renseignez-vous auprès de votre conseiller ou de votre formateur.',
             title: 'Pix Emploi - Clea',
@@ -246,7 +245,7 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
 
           // then
           assert.notOk(screen.queryByText('You reached Stage 1'));
-          assert.ok(screen.getByText(cleaBadge.message));
+          assert.ok(screen.getAllByAltText(cleaBadge.altMessage)[0]);
         });
       });
 
