@@ -5,16 +5,18 @@
     </PixMessage>
   {{else}}
     <PixMessage @type="info">
-      <p>
-        <img src="{{this.rootURL}}/icons/solid-square-chevron-rigth.svg" alt="" role="presentation" />
-        {{t
-          "pages.sessions.import.step-two.sessions-and-empty-sessions-count"
-          sessionsCount=@sessionsCount
-          emptySessionsCount=@emptySessionsCount
-        }}</p>
-      <p>
-        <FaIcon @icon="user" />
-        {{t "pages.sessions.import.step-two.candidates-count" candidatesCount=@candidatesCount}}</p>
+      <ul>
+        <li>
+          <img src="{{this.rootURL}}/icons/solid-square-chevron-rigth.svg" alt="" role="presentation" />
+          {{t
+            "pages.sessions.import.step-two.sessions-and-empty-sessions-count"
+            sessionsCount=@sessionsCount
+            emptySessionsCount=@emptySessionsCount
+          }}</li>
+        <li>
+          <FaIcon @icon="user" />
+          {{t "pages.sessions.import.step-two.candidates-count" candidatesCount=@candidatesCount}}</li>
+      </ul>
     </PixMessage>
   {{/if}}
 </section>
