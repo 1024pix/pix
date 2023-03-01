@@ -130,10 +130,10 @@ module('Unit | Service | access-control', function (hooks) {
       assert.true(service.hasAccessToTrainingsActionsScope);
     });
 
-    test('should be true if admin member has role "SUPPORT"', function (assert) {
+    test('should be false if admin member has role "SUPPORT"', function (assert) {
       // given
       const currentUser = this.owner.lookup('service:current-user');
-      currentUser.adminMember = { isSupport: true };
+      currentUser.adminMember = { isCertif: false, isMetier: false, isSuperAdmin: false, isSupport: true };
       const service = this.owner.lookup('service:access-control');
 
       // when & then

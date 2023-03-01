@@ -18,11 +18,7 @@ export default class AccessControlService extends Service {
   }
 
   get hasAccessToTrainingsActionsScope() {
-    return (
-      this.currentUser.adminMember.isSuperAdmin ||
-      this.currentUser.adminMember.isSupport ||
-      this.currentUser.adminMember.isMetier
-    );
+    return this.currentUser.adminMember.isSuperAdmin || this.currentUser.adminMember.isMetier;
   }
 
   get hasAccessToTrainingsCreationActionsScope() {
