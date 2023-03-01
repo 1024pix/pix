@@ -1144,7 +1144,8 @@
           "404": "This email address doesn't match any Pix user.",
           "412": "This member has already been added.",
           "500": "Something went wrong. Please try again."
-        }
+        },
+        "sending-email-to-invalid-email-address": "Sending email to the address {email} failed. The sending server replied: \"{errorMessage}\"."
       },
       "invited-members": "By clicking on the link provided in the invitation, the invited members will be able to create an account or log in with an existing Pix account.",
       "several-email-requirement": "Invite several members by separating the email addresses with commas."
