@@ -12,6 +12,10 @@ export default class SessionSummaryList extends Component {
   @service notifications;
   @service intl;
 
+  get currentLocale() {
+    return this.intl.locale[0];
+  }
+
   @action
   openSessionDeletionConfirmModal(sessionId, enrolledCandidatesCount, event) {
     event.stopPropagation();
