@@ -3,7 +3,7 @@ import { click, currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from '../helpers/test-init';
 import { visit } from '@1024pix/ember-testing-library';
-import { setupIntl, t } from 'ember-intl/test-support';
+import { setupIntl } from 'ember-intl/test-support';
 
 import { CREATED, FINALIZED } from 'pix-certif/models/session';
 
@@ -54,6 +54,28 @@ module('Acceptance | Session Details Parameters', function (hooks) {
     });
 
     module('when looking at the session details', function () {
+      test('should display details parameters information', async function (assert) {
+        // given
+        const sessionCreated = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
+
+        // when
+        const screen = await visit(`/sessions/${sessionCreated.id}`);
+
+        // then
+        assert.dom(screen.getByRole('heading', { name: 'Numéro de session', level: 3 })).exists();
+        assert.dom(screen.getByRole('heading', { name: "Code d'accès Candidat", level: 3 })).exists();
+        assert.dom(screen.getByRole('heading', { name: 'Mot de passe de session Surveillant', level: 3 })).exists();
+        assert.dom(screen.getByRole('heading', { name: 'Nom du site', level: 3 })).exists();
+        assert.dom(screen.getByRole('heading', { name: 'Salle', level: 3 })).exists();
+        assert.dom(screen.getByRole('heading', { name: 'Surveillant(s)', level: 3 })).exists();
+
+        assert.dom(screen.getByRole('button', { name: 'Copier le numéro de session' })).exists();
+        assert.dom(screen.getByRole('button', { name: 'Copier le code d’accès à la session' })).exists();
+        assert
+          .dom(screen.getByRole('button', { name: 'Copier le mot de passe de session pour le surveillant' }))
+          .exists();
+      });
+
       module('when the session is not finalized', function () {
         module('when the session is CREATED', function () {
           test('it should not display the finalize button if no candidate has joined the session', async function (assert) {
@@ -63,14 +85,10 @@ module('Acceptance | Session Details Parameters', function (hooks) {
 
             // when
             const screen = await visit(`/sessions/${sessionCreated.id}`);
-            const updateButton = screen.getByRole('link', {
-              name: t('pages.sessions.detail.parameters.session-update', { sessionId: 123 }),
-            });
-            const finalizeButton = screen.queryByRole('button', {
-              name: t('pages.sessions.detail.parameters.finalize'),
-            });
 
             // then
+            const updateButton = screen.getByRole('link', { name: 'Modifier les informations de la session 123' });
+            const finalizeButton = screen.queryByRole('button', { name: 'Finaliser la session' });
             assert.dom(updateButton).exists();
             assert.dom(finalizeButton).doesNotExist();
           });
@@ -82,7 +100,7 @@ module('Acceptance | Session Details Parameters', function (hooks) {
 
             // when
             const screen = await visit(`/sessions/${sessionCreatedAndStarted.id}`);
-            const finalizeButton = screen.getByRole('link', { name: t('pages.sessions.detail.parameters.finalizing') });
+            const finalizeButton = screen.getByRole('link', { name: 'Finaliser la session' });
 
             await click(finalizeButton);
 
@@ -120,8 +138,10 @@ module('Acceptance | Session Details Parameters', function (hooks) {
           const screen = await visit(`/sessions/${sessionFinalized.id}`);
 
           // then
-          const finalizeText = screen.getByText(t('pages.sessions.detail.parameters.finalization-info'));
-          const finalizeButton = screen.queryByRole('button', { name: t('finalizing') });
+          const finalizeText = screen.getByText(
+            'Les informations de finalisation de la session ont déjà été transmises aux équipes de Pix.'
+          );
+          const finalizeButton = screen.queryByRole('button', { name: 'Finaliser la session' });
 
           assert.dom(finalizeText).exists();
           assert.dom(finalizeButton).doesNotExist();

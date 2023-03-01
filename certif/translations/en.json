@@ -273,16 +273,29 @@
           "error-message": "Une erreur est survenue lors du téléchargement du fichier. Veuillez réessayer ou contacter certif@pix.fr en indiquant le numéro de la session concernée."
         },
         "parameters": {
-          "copy-access-code-number": "Copier le code du numéro de session",
-          "copy-session-number": "Copier le code du numéro de session",
-          "copy-session-password-supervisor": "Copier le mot de passe de session pour le surveillant",
-          "finalization-info": "Les informations de finalisation de la session ont déjà été transmises aux équipes de Pix",
-          "finalizing": "Finaliser la session",
+          "actions": {
+            "finalizing": "Finalise the session",
+            "update": "Edit the details for session {sessionId}"
+          },
+          "finalization-info": "The finalisation information for the session has already been transmitted to Pix.",
+          "invigilators": "Invigilator(s)",
+          "location-name": "Location name",
+          "session": {
+            "copy-number": "Copy the session number",
+            "label": "Session number"
+          },
+          "access-code": {
+            "label": "Access code",
+            "candidate": "Candidate",
+            "copy-code": "Copy the session’s access code"
+          },
+          "room": "Room",
           "observations": "Observations",
-          "session-access-code": "Code d'accès",
-          "session-candidate": "Candidat",
-          "session-password": "Mot de passe de session",
-          "session-update": "Modifier les informations de la session {sessionId}"
+          "password": {
+            "copy-password": "Copy the invigilator’s session password",
+            "label": "Session password",
+            "invigilator": "Invigilator"
+          }
         }
       },
       "candidates": {
