@@ -22,4 +22,9 @@ module.exports = {
 
     return sessions;
   },
+
+  async delete({ cachedValidatedSessionsKey, userId }) {
+    const key = `${userId}:${cachedValidatedSessionsKey}`;
+    await temporaryStorage.delete(key);
+  },
 };

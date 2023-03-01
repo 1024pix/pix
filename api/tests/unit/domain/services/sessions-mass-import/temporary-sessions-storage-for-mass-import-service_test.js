@@ -56,4 +56,26 @@ describe('Unit | Domain | Services | sessions mass import', function () {
       });
     });
   });
+
+  describe('#delete', function () {
+    it('should delete cached validated sessions', async function () {
+      // given
+      const sessions = [{ id: 1, name: 'session 1' }];
+      const userId = '123';
+      const key = await temporarySessionsStorageForMassImport.save({ sessions, userId });
+
+      // when
+      await temporarySessionsStorageForMassImport.delete({
+        cachedValidatedSessionsKey: key,
+        userId,
+      });
+
+      // then
+      const result = await temporarySessionsStorageForMassImport.getByKeyAndUserId({
+        cachedValidatedSessionsKey: key,
+        userId,
+      });
+      expect(result).to.be.undefined;
+    });
+  });
 });
