@@ -56,7 +56,9 @@ module.exports = async function validateSessions({
     return session;
   });
 
-  const emptySessionsCount = validatedSessions.filter((session) => session.certificationCandidates.length === 0).length;
+  const sessionsWithoutCandidatesCount = validatedSessions.filter(
+    (session) => session.certificationCandidates.length === 0
+  ).length;
   const sessionsCount = validatedSessions.length;
   const candidatesCount = validatedSessions.reduce(
     (currentCandidateCount, currentSession) => currentCandidateCount + currentSession.certificationCandidates.length,
@@ -71,7 +73,7 @@ module.exports = async function validateSessions({
   const sessionMassImportReport = new SessionMassImportReport({
     cachedValidatedSessionsKey,
     sessionsCount,
-    emptySessionsCount,
+    sessionsWithoutCandidatesCount,
     candidatesCount,
   });
 

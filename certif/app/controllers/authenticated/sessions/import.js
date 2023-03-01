@@ -18,7 +18,7 @@ export default class ImportController extends Controller {
   @tracked sessionsReport;
 
   @tracked sessionsCount;
-  @tracked emptySessionsCount;
+  @tracked sessionsWithoutCandidatesCount;
   @tracked candidatesCount;
 
   @tracked errorsReport;
@@ -56,12 +56,10 @@ export default class ImportController extends Controller {
       if (!this.file) {
         return;
       }
-      const { sessionsCount, emptySessionsCount, candidatesCount } = await adapter.validateSessionsForMassImport(
-        this.file,
-        certificationCenterId
-      );
+      const { sessionsCount, sessionsWithoutCandidatesCount, candidatesCount } =
+        await adapter.validateSessionsForMassImport(this.file, certificationCenterId);
       this.sessionsCount = sessionsCount;
-      this.emptySessionsCount = emptySessionsCount;
+      this.sessionsWithoutCandidatesCount = sessionsWithoutCandidatesCount;
       this.candidatesCount = candidatesCount;
       this.isImportInError = false;
     } catch (err) {

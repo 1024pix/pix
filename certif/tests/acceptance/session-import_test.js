@@ -180,7 +180,7 @@ module('Acceptance | Session Import', function (hooks) {
             const blob = new Blob(['foo']);
             const file = new File([blob], 'fichier.csv');
             this.server.post('/certification-centers/:id/sessions/validate-for-mass-import', () => {
-              return new Response(200, {}, { sessionsCount: 2, emptySessionsCount: 1, candidatesCount: 3 });
+              return new Response(200, {}, { sessionsCount: 2, sessionsWithoutCandidatesCount: 1, candidatesCount: 3 });
             });
 
             // when

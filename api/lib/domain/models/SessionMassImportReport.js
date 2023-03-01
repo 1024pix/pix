@@ -1,8 +1,8 @@
 class SessionMassImportReport {
-  constructor({ cachedValidatedSessionsKey, sessionsCount, emptySessionsCount, candidatesCount } = {}) {
+  constructor({ cachedValidatedSessionsKey, sessionsCount, sessionsWithoutCandidatesCount, candidatesCount } = {}) {
     this.cachedValidatedSessionsKey = cachedValidatedSessionsKey;
     this.sessionsCount = sessionsCount;
-    this.emptySessionsCount = emptySessionsCount;
+    this.sessionsWithoutCandidatesCount = sessionsWithoutCandidatesCount;
     this.candidatesCount = candidatesCount;
   }
 }
