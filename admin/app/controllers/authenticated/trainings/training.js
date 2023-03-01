@@ -5,8 +5,13 @@ import Controller from '@ember/controller';
 
 export default class Training extends Controller {
   @service notifications;
+  @service accessControl;
 
   @tracked isEditMode = false;
+
+  get canEdit() {
+    return this.accessControl.hasAccessToTrainingsActionsScope;
+  }
 
   @action
   toggleEditMode() {

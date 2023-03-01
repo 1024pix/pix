@@ -21,13 +21,15 @@
       />
     {{else}}
       <Trainings::TrainingDetailsCard @training={{@model}} />
-      <PixButton
-        @size="small"
-        @backgroundColor="transparent-light"
-        @isBorderVisible={{true}}
-        @triggerAction={{this.toggleEditMode}}
-      >Editer
-      </PixButton>
+      {{#if this.canEdit}}
+        <PixButton
+          @size="small"
+          @backgroundColor="transparent-light"
+          @isBorderVisible={{true}}
+          @triggerAction={{this.toggleEditMode}}
+        >Editer
+        </PixButton>
+      {{/if}}
     {{/if}}
   </section>
 
