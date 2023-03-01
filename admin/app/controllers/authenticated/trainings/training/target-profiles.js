@@ -7,7 +7,12 @@ import uniq from 'lodash/uniq';
 export default class TrainingDetailsTargetProfilesController extends Controller {
   @tracked targetProfilesToAttach = '';
 
+  @service accessControl;
   @service notifications;
+
+  get canAttachTargetProfiles() {
+    return this.accessControl.hasAccessToTrainingsActionsScope;
+  }
 
   get noTargetProfilesToAttach() {
     return this.targetProfilesToAttach === '';
