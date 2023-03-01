@@ -4,6 +4,7 @@ import { setupApplicationTest } from 'ember-qunit';
 import { clickByName, visit } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
+
 module('Acceptance | Trainings | List', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -70,6 +71,20 @@ module('Acceptance | Trainings | List', function (hooks) {
         // then
         assert.strictEqual(currentURL(), '/trainings/1/triggers');
         assert.dom(screen.getByText('Formation 1')).exists();
+      });
+    });
+
+    module('when admin member has role "SUPPORT"', function (hooks) {
+      hooks.beforeEach(async () => {
+        await authenticateAdminMemberWithRole({ isSupport: true })(server);
+      });
+
+      test('should not create a new training', async function (assert) {
+        // given
+        const screen = await visit('/trainings/list');
+
+        // then
+        assert.dom(screen.queryByRole('link', { name: 'Nouveau contenu formatif' })).doesNotExist();
       });
     });
   });
