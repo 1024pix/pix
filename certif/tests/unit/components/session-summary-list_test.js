@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import Service from '@ember/service';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
 module('Unit | Component | session-summary', function (hooks) {
@@ -70,6 +71,22 @@ module('Unit | Component | session-summary', function (hooks) {
 
       // then
       assert.false(component.shouldDisplaySessionDeletionModal);
+    });
+  });
+
+  module('#currentLocale', function () {
+    test('should set shouldDisplaySessionDeletionModal to false', async function (assert) {
+      // given
+      class IntlStub extends Service {
+        locale = ['fr'];
+      }
+      this.owner.register('service:intl', IntlStub);
+
+      // when
+      const locale = await component.currentLocale;
+
+      // then
+      assert.strictEqual(locale, 'fr');
     });
   });
 });
