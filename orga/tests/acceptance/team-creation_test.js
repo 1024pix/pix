@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
-import { currentURL, visit } from '@ember/test-helpers';
-import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
+import { currentURL } from '@ember/test-helpers';
+import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 
@@ -275,6 +275,44 @@ module('Acceptance | Team Creation', function (hooks) {
         assert.strictEqual(currentURL(), '/equipe/creation');
         assert.contains(expectedErrorMessage);
       });
+
+      module(
+        'when error 400 is returned from backend because the mailing provider returns an invalid email error',
+        function () {
+          test('displays an error notification', async function (assert) {
+            // Given
+            const errorMessage = 'Mailing provider error message';
+            const screen = await visit('/equipe/creation');
+            server.post(
+              `/organizations/${organizationId}/invitations`,
+              {
+                errors: [
+                  {
+                    detail: 'error message',
+                    status: '400',
+                    title: 'Bad Request',
+                    code: 'SENDING_EMAIL_TO_INVALID_EMAIL_ADDRESS',
+                    meta: { emailAddress: email, errorMessage },
+                  },
+                ],
+              },
+              400
+            );
+            await fillByLabel(inputLabel, email);
+
+            // When
+            await clickByName(inviteButton);
+
+            // Then
+            const expectedErrorMessage = this.intl.t('pages.team-new.errors.sending-email-to-invalid-email-address', {
+              email,
+              errorMessage,
+            });
+            assert.strictEqual(currentURL(), '/equipe/creation');
+            assert.dom(screen.getByText(expectedErrorMessage)).exists();
+          });
+        }
+      );
     });
   });
 });
