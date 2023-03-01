@@ -123,6 +123,9 @@
       }
     },
     "sessions": {
+      "actions": {
+        "return": "Return to the sessions list"
+      },
       "enrolled-candidates": {
         "without-details-description": "Liste des candidats inscrits à la session, triée par nom de naissance, avec la possibilité de supprimer un candidat dans la dernière colonne.",
         "with-details-description": "Liste des candidats inscrits à la session, triée par nom de naissance, avec un lien pour voir les détails du candidat et la possibilité de supprimer un candidat dans la dernière colonne."
@@ -239,6 +242,29 @@
         }
       },
       "detail": {
+        "date": "Date",
+        "datetime": "Starting time (local time)",
+        "downloads": {
+          "label": "Downloads:",
+          "attendance-sheet": {
+            "extra-information": "Download attendance sheet",
+            "label": "Attendance sheet"
+          },
+          "incident-report": {
+            "extra-information": "Download incident report",
+            "label": "Incident report"
+          },
+          "invigilator-kit": {
+            "extra-information": "Download invigilator’s kit",
+            "label": "Invigilator’s kit"
+          }
+        },
+        "page-title": "Details",
+        "tabs": {
+          "details": "Details",
+          "candidates": "Candidates"
+        },
+        "title": "Session {sessionId}",
         "panel-clea": {
           "title": "Des candidats ont obtenu le certificat CléA numérique",
           "description": "Pour générer les certificats CléA numérique, téléchargez la liste des candidats, complétez-la, enregistrez-la au format .xlsx puis importez-la sur la ",

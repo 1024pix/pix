@@ -319,7 +319,7 @@ module('Acceptance | Session List', function (hooks) {
         await click(screen.getByRole('link', { name: 'Session 26' }));
 
         // when
-        await click(screen.getByRole('link', { name: 'Retour à la liste des sessions' }));
+        await click(screen.getByRole('link', { name: 'Revenir à la liste des sessions' }));
 
         // then
         assert.contains('Page 2 / 2');
