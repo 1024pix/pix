@@ -600,6 +600,7 @@
         "should-change-password": "You currently have a temporary password. <a href=\"{url}\">Reset your password here</a>.",
         "status": {
           "403": "Access to this Pix Orga space is limited to invited members. Each Pix Orga space is managed by an administrator specific to the organisation using it. Please contact your administrator to get invited.",
+          "404":"There was an error in the email address or password entered.",
           "409": "This invitation has been already accepted or cancelled."
         }
       },
