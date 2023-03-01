@@ -1,4 +1,5 @@
 const Session = require('../../models/Session');
+const SessionMassImportReport = require('../../models/SessionMassImportReport');
 const sessionCodeService = require('../../services/session-code-service');
 const sessionsImportValidationService = require('../../services/sessions-mass-import/sessions-import-validation-service');
 const temporarySessionsStorageForMassImportService = require('../../services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service');
@@ -67,7 +68,14 @@ module.exports = async function validateSessions({
     userId,
   });
 
-  return { cachedValidatedSessionsKey, sessionsCount, emptySessionsCount, candidatesCount };
+  const sessionMassImportReport = new SessionMassImportReport({
+    cachedValidatedSessionsKey,
+    sessionsCount,
+    emptySessionsCount,
+    candidatesCount,
+  });
+
+  return sessionMassImportReport;
 };
 
 async function _createValidCertificationCandidates({
