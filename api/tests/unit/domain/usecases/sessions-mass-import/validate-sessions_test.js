@@ -41,7 +41,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
 
   context('when sessions are valid', function () {
     context('when user has certification center membership', function () {
-      it('should validate every session one by one and return cachedValidatedSessionsKey, sessionsCount, emptySessionsCount and candidatesCount', async function () {
+      it('should validate every session one by one and return a sessionsMassImportReport', async function () {
         // given
         const userId = 1234;
         const cachedValidatedSessionsKey = 'uuid';
@@ -77,7 +77,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         temporarySessionsStorageForMassImportService.save.resolves(cachedValidatedSessionsKey);
 
         // when
-        const result = await validateSessions({
+        const sessionsMassImportReport = await validateSessions({
           sessions,
           userId,
           certificationCenterId,
@@ -91,7 +91,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           userId,
         });
 
-        expect(result).to.deep.equal({
+        expect(sessionsMassImportReport).to.deep.equal({
           cachedValidatedSessionsKey,
           sessionsCount: 2,
           emptySessionsCount: 2,
