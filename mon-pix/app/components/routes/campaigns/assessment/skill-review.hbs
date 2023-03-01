@@ -1,7 +1,6 @@
 <div class="skill-review__banner">
   <AssessmentBanner @title={{this.title}} @displayHomeLink={{false}} />
 </div>
-
 <main role="main">
   {{#if this.showDisabledBlock}}
     <PixBlock class="skill-review__result-abstract-container">
@@ -21,8 +20,8 @@
         <h2 class="sr-only">{{t "pages.skill-review.abstract-title"}}</h2>
         {{#if this.showStages}}
           <ReachedStage
-            @stageCount={{this.stageCount}}
-            @starCount={{this.reachedStage.starCount}}
+            @reachedStage={{this.reachedStage.reachedStage}}
+            @totalStage={{this.reachedStage.totalStage}}
             @masteryRate={{this.masteryRate}}
             @imageUrl={{@model.campaign.targetProfileImageUrl}}
           />
