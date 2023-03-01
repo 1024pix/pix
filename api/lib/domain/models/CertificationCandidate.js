@@ -18,7 +18,7 @@ const BILLING_MODES = {
 const certificationCandidateValidationJoiSchema_v1_5 = Joi.object({
   firstName: Joi.string().required().empty(null),
   lastName: Joi.string().required().empty(null),
-  sex: Joi.string().valid('M', 'F').required(),
+  sex: Joi.string().valid('M', 'F').required().empty(['', null]),
   birthPostalCode: Joi.string().empty(['', null]),
   birthINSEECode: Joi.string().empty(['', null]),
   birthCountry: Joi.string().required().empty(null),
@@ -158,6 +158,23 @@ class CertificationCandidate {
     });
     if (error) {
       throw InvalidCertificationCandidate.fromJoiErrorDetail(error.details[0]);
+    }
+  }
+
+  validateForMassSessionImport(isSco = false) {
+    const { error } = certificationCandidateValidationJoiSchema_v1_5.validate(this, {
+      abortEarly: false,
+      allowUnknown: true,
+      context: {
+        isSessionsMassImport: true,
+        isSco,
+      },
+    });
+    if (error) {
+      return error.details.map((detail) => {
+        const { key, why } = InvalidCertificationCandidate.fromJoiErrorDetail(detail);
+        return key ? `${key} ${why}` : `${why}`;
+      });
     }
   }
 
