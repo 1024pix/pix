@@ -414,6 +414,35 @@ exports.register = async function (server) {
         tags: ['api', 'certification-center-membership'],
       },
     },
+
+    {
+      method: 'POST',
+      path: '/api/certification-centers/{certificationCenterId}/sessions/confirm-for-mass-import',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsMemberOfCertificationCenter,
+            assign: 'isMemberOfCertificationCenter',
+          },
+        ],
+        validate: {
+          params: Joi.object({ certificationCenterId: identifiersType.certificationCenterId }),
+          payload: Joi.object({
+            data: {
+              attributes: {
+                cachedValidatedSessionsKey: Joi.string().required(),
+              },
+            },
+          }),
+        },
+        handler: certificationCenterController.createSessionsForMassImport,
+        tags: ['api', 'certification-center', 'sessions', 'mass-import'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            "- Elle permet de créer les sessions et candidats lors de l'import en masse",
+        ],
+      },
+    },
   ]);
 };
 
