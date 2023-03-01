@@ -118,6 +118,7 @@ const buildSkillCollection = require('./build-skill-collection');
 const buildSolution = require('./build-solution');
 const buildStage = require('./build-stage');
 const buildStageCollectionForTargetProfileManagement = require('./target-profile-management/build-stage-collection');
+const buildStageCollectionForUserCampaignResults = require('./user-campaign-results/build-stage-collection');
 const buildTag = require('./build-tag');
 const buildTargetProfile = require('./build-target-profile');
 const buildTargetProfileForAdmin = require('./build-target-profile-for-admin');
@@ -263,6 +264,7 @@ module.exports = {
   buildSolution,
   buildStage,
   buildStageCollectionForTargetProfileManagement,
+  buildStageCollectionForUserCampaignResults,
   buildTag,
   buildTargetProfile,
   buildTargetProfileForAdmin,
