@@ -37,6 +37,28 @@ module.exports = {
 
     return _toDomain({ trainingTrigger, triggerTubes: createdTriggerTubes, tubes });
   },
+
+  async findByTrainingId({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const knexConn = domainTransaction?.knexTransaction || knex;
+    const trainingTriggers = await knexConn(TABLE_NAME).select('*').where({ trainingId }).orderBy('id', 'asc');
+    if (!trainingTriggers) {
+      return [];
+    }
+    const trainingTriggerIds = trainingTriggers.map(({ id }) => id);
+    const trainingTriggerTubes = await knexConn('training-trigger-tubes')
+      .whereIn('trainingTriggerId', trainingTriggerIds)
+      .select('*');
+
+    const trainingTriggerTubeIds = trainingTriggerTubes.map(({ tubeId }) => tubeId);
+    const tubes = await tubeRepository.findByRecordIds(trainingTriggerTubeIds);
+
+    return trainingTriggers.map((trainingTrigger) => {
+      const triggerTubes = trainingTriggerTubes.filter(
+        ({ trainingTriggerId }) => trainingTriggerId === trainingTrigger.id
+      );
+      return _toDomain({ trainingTrigger, triggerTubes, tubes });
+    });
+  },
 };
 
 function _toDomain({ trainingTrigger, triggerTubes, tubes = [] }) {

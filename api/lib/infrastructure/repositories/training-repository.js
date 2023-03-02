@@ -6,18 +6,29 @@ const DomainTransaction = require('../DomainTransaction.js');
 const UserRecommendedTraining = require('../../domain/read-models/UserRecommendedTraining.js');
 const { fetchPage } = require('../utils/knex-utils.js');
 const pick = require('lodash/pick');
+const trainingTriggerRepository = require('./training-trigger-repository.js');
 const TABLE_NAME = 'trainings';
 
+async function get({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+  const knexConn = domainTransaction?.knexTransaction || knex;
+  const training = await knexConn(TABLE_NAME).where({ id: trainingId }).first();
+  if (!training) {
+    throw new NotFoundError(`Not found training for ID ${trainingId}`);
+  }
+
+  const targetProfileTrainings = await knexConn('target-profile-trainings').where('trainingId', training.id);
+
+  return _toDomain(training, targetProfileTrainings);
+}
+
 module.exports = {
-  async get(id) {
-    const training = await knex(TABLE_NAME).where({ id }).first();
-    if (!training) {
-      throw new NotFoundError(`Not found training for ID ${id}`);
-    }
+  get,
 
-    const targetProfileTrainings = await knex('target-profile-trainings').where('trainingId', training.id);
-
-    return _toDomain(training, targetProfileTrainings);
+  async getWithTriggers({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const training = await get({ trainingId, domainTransaction });
+    const trainingTriggers = await trainingTriggerRepository.findByTrainingId({ trainingId, domainTransaction });
+    training.triggers = trainingTriggers;
+    return training;
   },
 
   async findPaginatedSummaries({ page, domainTransaction = DomainTransaction.emptyTransaction() }) {

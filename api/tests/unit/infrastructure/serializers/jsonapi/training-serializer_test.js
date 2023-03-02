@@ -2,6 +2,115 @@ const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/training-serializer');
 
 describe('Unit | Serializer | JSONAPI | training-serializer', function () {
+  describe('#serializeForAdmin', function () {
+    it('should convert a training model to JSON', function () {
+      // given
+      const trainingId = 123;
+      const skills = [domainBuilder.buildSkill({ id: 'skill_1', name: '@web1' })];
+      const tube = domainBuilder.buildTube({ id: 'tube_1', name: 'Tube 1', skills });
+      const triggerTubes = [domainBuilder.buildTrainingTriggerTube({ trainingId: 123, tube })];
+      const triggers = [domainBuilder.buildTrainingTrigger({ trainingId: 123, triggerTubes })];
+      const training = domainBuilder.buildTraining({ id: trainingId, triggers });
+
+      const expectedSerializedTraining = {
+        data: {
+          attributes: {
+            duration: {
+              days: 0,
+              hours: 5,
+              minutes: 0,
+            },
+            'editor-logo-url': 'https://images.pix.fr/contenu-formatif/editeur/editor_logo_url.svg',
+            'editor-name': 'Ministère education nationale',
+            link: 'https://example.net',
+            locale: 'fr-fr',
+            title: 'Training 1',
+            type: 'webinar',
+          },
+          id: '123',
+          relationships: {
+            'target-profile-summaries': {
+              links: {
+                related: '/api/admin/trainings/123/target-profile-summaries',
+              },
+            },
+            triggers: {
+              data: [
+                {
+                  id: '1000',
+                  type: 'triggers',
+                },
+              ],
+            },
+          },
+          type: 'trainings',
+        },
+        included: [
+          {
+            attributes: {
+              name: tube.name,
+              'practical-title': tube.practicalTitle,
+              skills: [
+                {
+                  competenceId: skills[0].competenceId,
+                  difficulty: skills[0].difficulty,
+                  id: skills[0].id,
+                  learningMoreTutorialIds: [],
+                  name: skills[0].name,
+                  pixValue: skills[0].pixValue,
+                  tubeId: skills[0].tubeId,
+                  tutorialIds: skills[0].tutorialIds,
+                  version: skills[0].version,
+                },
+              ],
+            },
+            id: tube.id,
+            type: 'tubes',
+          },
+          {
+            attributes: {
+              level: triggerTubes[0].level,
+            },
+            id: `${triggerTubes[0].id}`,
+            relationships: {
+              tube: {
+                data: {
+                  id: tube.id,
+                  type: 'tubes',
+                },
+              },
+            },
+            type: 'trigger-tubes',
+          },
+          {
+            attributes: {
+              threshold: triggers[0].threshold,
+              type: triggers[0].type,
+            },
+            id: '1000',
+            relationships: {
+              'trigger-tubes': {
+                data: [
+                  {
+                    id: '1000',
+                    type: 'trigger-tubes',
+                  },
+                ],
+              },
+            },
+            type: 'triggers',
+          },
+        ],
+      };
+
+      // when
+      const json = serializer.serializeForAdmin(training);
+
+      // then
+      expect(json).to.deep.equal(expectedSerializedTraining);
+    });
+  });
+
   describe('#serialize', function () {
     it('should convert a training model to JSON', function () {
       // given
@@ -21,8 +130,6 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
             locale: 'fr-fr',
             'editor-name': 'Ministère education nationale',
             'editor-logo-url': 'https://images.pix.fr/contenu-formatif/editeur/editor_logo_url.svg',
-            'prerequisite-threshold': 30,
-            'goal-threshold': 70,
           },
           relationships: {
             'target-profile-summaries': {
@@ -68,8 +175,6 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
             locale: 'fr-fr',
             'editor-name': 'Ministère education nationale',
             'editor-logo-url': 'https://images.pix.fr/contenu-formatif/editeur/editor_logo_url.svg',
-            'prerequisite-threshold': 30,
-            'goal-threshold': 70,
           },
           relationships: {
             'target-profile-summaries': {
@@ -106,8 +211,6 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
             locale: 'fr-fr',
             'editor-name': 'Ministère education nationale',
             'editor-logo-url': 'https://images.pix.fr/contenu-formatif/editeur/editor_logo_url.svg',
-            'prerequisite-threshold': 30,
-            'goal-threshold': 70,
           },
         },
       };
@@ -124,8 +227,6 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
         type: 'webinaire',
         editorLogoUrl: 'https://images.pix.fr/contenu-formatif/editeur/editor_logo_url.svg',
         editorName: 'Ministère education nationale',
-        prerequisiteThreshold: 30,
-        goalThreshold: 70,
       });
     });
 
