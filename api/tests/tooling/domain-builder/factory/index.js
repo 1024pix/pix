@@ -117,7 +117,7 @@ const buildSkillLearningContentDataObject = require('./build-skill-learning-cont
 const buildSkillCollection = require('./build-skill-collection');
 const buildSolution = require('./build-solution');
 const buildStage = require('./build-stage');
-const buildStageCollection = require('./target-profile-management/build-stage-collection');
+const buildStageCollectionForTargetProfileManagement = require('./target-profile-management/build-stage-collection');
 const buildTag = require('./build-tag');
 const buildTargetProfile = require('./build-target-profile');
 const buildTargetProfileForAdmin = require('./build-target-profile-for-admin');
@@ -262,7 +262,7 @@ module.exports = {
   buildSkillCollection,
   buildSolution,
   buildStage,
-  buildStageCollection,
+  buildStageCollectionForTargetProfileManagement,
   buildTag,
   buildTargetProfile,
   buildTargetProfileForAdmin,

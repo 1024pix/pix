@@ -7,7 +7,7 @@ describe('Unit | UseCases | update-stage', function () {
 
   context('When stage collection has level type stages', function () {
     beforeEach(function () {
-      stageCollection = domainBuilder.buildStageCollection({
+      stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({
         id: 100,
         stages: [
           {
@@ -26,7 +26,7 @@ describe('Unit | UseCases | update-stage', function () {
 
     it('should throw InvalidStageError for a level that is not a number', function () {
       // given
-      stageCollection = domainBuilder.buildStageCollection({
+      stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({
         id: 100,
         stages: [
           {
@@ -61,7 +61,7 @@ describe('Unit | UseCases | update-stage', function () {
 
     it('should throw InvalidStageError for a level that is not an integer', function () {
       // given
-      stageCollection = domainBuilder.buildStageCollection({
+      stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({
         id: 100,
         stages: [
           {
@@ -96,7 +96,7 @@ describe('Unit | UseCases | update-stage', function () {
 
     it('should throw InvalidStageError for a level that exceed max level ', function () {
       // given
-      stageCollection = domainBuilder.buildStageCollection({
+      stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({
         id: 100,
         stages: [
           {
@@ -335,7 +335,7 @@ describe('Unit | UseCases | update-stage', function () {
 
     context('Multiple stage collection', function () {
       beforeEach(function () {
-        stageCollection = domainBuilder.buildStageCollection({
+        stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({
           id: 100,
           stages: [
             {
@@ -425,7 +425,7 @@ describe('Unit | UseCases | update-stage', function () {
 
   context('When stage collection has threshold type stages', function () {
     beforeEach(function () {
-      stageCollection = domainBuilder.buildStageCollection({
+      stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({
         id: 100,
         stages: [
           {
@@ -664,7 +664,7 @@ describe('Unit | UseCases | update-stage', function () {
 
     context('Multiple stage collection', function () {
       beforeEach(function () {
-        stageCollection = domainBuilder.buildStageCollection({
+        stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({
           id: 100,
           stages: [
             {
