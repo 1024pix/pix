@@ -148,10 +148,9 @@ module('Integration | Component | CampaignParticipationOverview | Card | Archive
             campaignTitle: 'My campaign',
             organizationName: 'My organization',
             masteryRate: '0.56',
-            totalStagesCount: 3,
-            validatedStagesCount: 1,
+            totalStagesCount: 4,
+            validatedStagesCount: 2,
           });
-
           this.set('campaignParticipationOverview', campaignParticipationOverview);
 
           // when

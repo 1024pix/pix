@@ -34,15 +34,12 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
 
       test('should be redirect to connexion page', async function (assert) {
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/connexion');
+
+        assert.strictEqual(currentURL(), '/connexion');
       });
     });
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-async-module-callbacks
-    module('When user is logged in', async function (hooks) {
+    module('When user is logged in', function (hooks) {
       const competenceResultName = 'Competence Nom';
       const skillSetResultName = 'badge skill set nom';
 
@@ -65,9 +62,8 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/resultats`);
+
+        assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/evaluation/resultats`);
       });
 
       test('should display results', async function (assert) {
@@ -93,9 +89,7 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
           const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/resultats`);
+          assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/evaluation/resultats`);
           assert.ok(screen.getByText('Parcours restreint'));
         });
       });
@@ -140,14 +134,14 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
           message: 'Congrats, you won a Pix Emploi badge',
           isAcquired: true,
           isCertifiable: true,
+          isValid: true,
         });
         campaignParticipationResult.update({ campaignParticipationBadges: [badge] });
 
         // when
         const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
-
         // then
-        assert.ok(screen.getByText('Congrats, you won a Pix Emploi badge'));
+        assert.ok(screen.getAllByAltText('Yon won a Pix Emploi badge')[0]);
       });
 
       test('should not display the Pix emploi badge when badge is not acquired', async function (assert) {
@@ -165,13 +159,15 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
           imageUrl: '/images/badges/yellow.svg',
           message: 'Congrats, you won a Yellow badge',
           isAcquired: true,
-          isCertifiable: true,
+          isValid: true,
+          isCertifiable: false,
         });
         const unacquiredDisplayedBadge = server.create('campaign-participation-badge', {
           altMessage: 'Yon won a green badge',
           imageUrl: '/images/badges/green.svg',
           message: 'Congrats, you won a Green badge',
           isAcquired: false,
+          isValid: true,
           isAlwaysVisible: true,
           isCertifiable: false,
         });
@@ -180,6 +176,7 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
           imageUrl: '/images/badges/pink.svg',
           message: 'Congrats, you won a pink badge',
           isAcquired: false,
+          isValid: true,
           isAlwaysVisible: false,
           isCertifiable: true,
         });
@@ -189,16 +186,13 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
 
         // when
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
-
+        //await this.pauseTest();
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(findAll('.badge-card').length, 1);
+
+        assert.strictEqual(findAll('.badge-card').length, 1);
       });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-async-module-callbacks
-      module('when campaign has stages', async function () {
+      module('when campaign has stages', function () {
         test('should display reached stage', async function (assert) {
           // given
           const reachedStage = server.create('reached-stage', {
@@ -272,16 +266,13 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
         await clickByLabel(this.intl.t('pages.skill-review.actions.continue'));
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/accueil');
+
+        assert.strictEqual(currentURL(), '/accueil');
       });
     });
   });
 
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line qunit/no-async-module-callbacks
-  module('when campaign is for Novice and isSimplifiedAccess', async function (hooks) {
+  module('when campaign is for Novice and isSimplifiedAccess', function (hooks) {
     let campaignForNovice;
 
     hooks.beforeEach(function () {
@@ -298,9 +289,7 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
       await clickByLabel(this.intl.t('pages.skill-review.actions.continue'));
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/accueil');
+      assert.strictEqual(currentURL(), '/accueil');
     });
 
     test('should redirect to sign up page on click when user is anonymous', async function (assert) {
@@ -318,9 +307,7 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
       await clickByLabel(this.intl.t('pages.skill-review.actions.continue'));
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/inscription');
+      assert.strictEqual(currentURL(), '/inscription');
     });
   });
 });

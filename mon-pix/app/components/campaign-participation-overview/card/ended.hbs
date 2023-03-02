@@ -13,13 +13,9 @@
     <div class="campaign-participation-overview-card-content__content">
       {{#if this.hasStages}}
         <PixStars
-          @count={{@model.validatedStagesCount}}
-          @total={{@model.totalStagesCount}}
-          @alt={{t
-            "pages.campaign-participation-overview.card.stages"
-            count=@model.validatedStagesCount
-            total=@model.totalStagesCount
-          }}
+          @count={{this.count}}
+          @total={{this.total}}
+          @alt={{t "pages.campaign-participation-overview.card.stages" count=this.count total=this.total}}
           @color="yellow"
         />
       {{else}}
