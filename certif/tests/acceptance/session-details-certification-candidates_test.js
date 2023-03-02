@@ -52,7 +52,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
     test('it should redirect from candidates to session list on click on return button', async function (assert) {
       // when
       const screen = await visit(`/sessions/${session.id}/candidats`);
-      await click(screen.getByRole('link', { name: 'Retour à la liste des sessions' }));
+      await click(screen.getByRole('link', { name: 'Revenir à la liste des sessions' }));
 
       // then
       assert.deepEqual(currentURL(), '/sessions/liste');
