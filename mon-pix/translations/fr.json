@@ -984,7 +984,8 @@
         "expired-authentication-key": "Votre demande d'authentification a expiré.",
         "invalid-email": "Votre adresse e-mail n’est pas valide.",
         "login-unauthorized-error": "L'adresse e-mail et/ou le mot de passe saisis sont incorrects.",
-        "account-conflict": "Ce compte est déjà associé à cet organisme. Veuillez vous connecter avec un autre compte ou contacter le support."
+        "account-conflict": "Ce compte est déjà associé à cet organisme. Veuillez vous connecter avec un autre compte ou contacter le support.",
+        "data-sharing-refused": "Vous avez refusé de partager vos informations avec nous."
       }
     },
     "oidc-reconciliation": {
