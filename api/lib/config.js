@@ -248,6 +248,7 @@ module.exports = (function () {
       },
       poleEmploiSendingsLimit: _getNumber(process.env.POLE_EMPLOI_SENDING_LIMIT, 100),
       accessTokenLifespanMs: ms(process.env.POLE_EMPLOI_ACCESS_TOKEN_LIFESPAN || '7d'),
+      pushEnabled: isFeatureEnabled(process.env.PUSH_DATA_TO_POLE_EMPLOI_ENABLED),
     },
 
     cnav: {
@@ -381,6 +382,7 @@ module.exports = (function () {
     config.poleEmploi.logoutUrl = 'http://logout-url.fr';
     config.poleEmploi.afterLogoutUrl = 'http://after-logout.url';
     config.poleEmploi.temporaryStorage.redisUrl = null;
+    config.poleEmploi.pushEnabled = true;
 
     config.temporaryStorage.redisUrl = null;
 
