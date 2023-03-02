@@ -1,23 +1,19 @@
 .stages-table {
 
-  &__id {
-    width: 110px;
-  }
-
   &__type {
-    width: 150px;
+    width: 130px;
   }
 
   &__title {
     width: 250px;
   }
 
-  &__image {
-    width: 130px;
+  &__prescriber-title {
+    width: 140px;
+  }
 
-    img {
-      width: 90px;
-    }
+  &__prescriber-description {
+    width: 140px;
   }
 
   &__actions {
@@ -26,10 +22,6 @@
 
   &__level-select {
     width: calc(100% - 8px);
-  }
-
-  .btn {
-    font-size: 0.9rem;
   }
 }
 
