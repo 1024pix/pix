@@ -4,8 +4,7 @@ const CampaignParticipationOverview = require('../../domain/read-models/Campaign
 const { fetchPage } = require('../utils/knex-utils.js');
 const bluebird = require('bluebird');
 const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses.js');
-const campaignRepository = require('./campaign-repository.js');
-const CampaignStages = require('../../domain/read-models/campaign/CampaignStages.js');
+const stageCollectionRepository = require('./user-campaign-results/stage-collection-repository');
 
 module.exports = {
   async findByUserIdWithFilters({ userId, states, page }) {
@@ -35,6 +34,7 @@ function _findByUserId({ userId }) {
         status: 'campaign-participations.status',
         sharedAt: 'campaign-participations.sharedAt',
         masteryRate: 'campaign-participations.masteryRate',
+        validatedSkillsCount: 'campaign-participations.validatedSkillsCount',
         campaignCode: 'campaigns.code',
         campaignTitle: 'campaigns.title',
         targetProfileId: 'campaigns.targetProfileId',
@@ -96,12 +96,11 @@ function _filterByStates(queryBuilder, states) {
 
 function _toReadModel(campaignParticipationOverviews) {
   return bluebird.mapSeries(campaignParticipationOverviews, async (data) => {
-    const stages = await campaignRepository.findStages({ campaignId: data.campaignId });
-    const campaignStages = new CampaignStages({ stages });
+    const stageCollection = await stageCollectionRepository.findStageCollection({ campaignId: data.campaignId });
 
     return new CampaignParticipationOverview({
       ...data,
-      campaignStages,
+      stageCollection,
     });
   });
 }
