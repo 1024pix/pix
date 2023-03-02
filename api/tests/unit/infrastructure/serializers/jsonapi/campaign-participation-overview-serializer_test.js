@@ -1,43 +1,41 @@
-const { expect } = require('../../../../test-helper');
+const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-overview-serializer');
 const CampaignParticipationOverview = require('../../../../../lib/domain/read-models/CampaignParticipationOverview');
 const CampaignParticipationStatuses = require('../../../../../lib/domain/models/CampaignParticipationStatuses');
-const Stage = require('../../../../../lib/domain/models/Stage');
-const CampaignStages = require('../../../../../lib/domain/read-models/campaign/CampaignStages');
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;
 
 describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializer', function () {
   describe('#serialize', function () {
-    const campaignStages = new CampaignStages({
-      stages: [
-        new Stage({
-          threshold: 0,
-        }),
-        new Stage({
-          threshold: 30,
-        }),
-        new Stage({
-          threshold: 70,
-        }),
-      ],
-    });
-    const campaignParticipationOverview = new CampaignParticipationOverview({
-      id: 5,
-      sharedAt: new Date('2018-02-06T14:12:44Z'),
-      createdAt: new Date('2018-02-05T14:12:44Z'),
-      organizationName: 'My organization',
-      status: SHARED,
-      campaignCode: '1234',
-      campaignTitle: 'My campaign',
-      campaignArchivedAt: new Date('2021-01-01'),
-      campaignStages,
-      masteryRate: 0.5,
-    });
-
-    let expectedSerializedCampaignParticipationOverview;
+    let campaignParticipationOverview, expectedSerializedCampaignParticipationOverview;
 
     beforeEach(function () {
+      const stageCollection = domainBuilder.buildStageCollectionForUserCampaignResults({
+        campaignId: 3,
+        stages: [
+          {
+            threshold: 0,
+          },
+          {
+            threshold: 30,
+          },
+          {
+            threshold: 70,
+          },
+        ],
+      });
+      campaignParticipationOverview = new CampaignParticipationOverview({
+        id: 5,
+        sharedAt: new Date('2018-02-06T14:12:44Z'),
+        createdAt: new Date('2018-02-05T14:12:44Z'),
+        organizationName: 'My organization',
+        status: SHARED,
+        campaignCode: '1234',
+        campaignTitle: 'My campaign',
+        campaignArchivedAt: new Date('2021-01-01'),
+        stageCollection,
+        masteryRate: 0.5,
+      });
       expectedSerializedCampaignParticipationOverview = {
         data: {
           type: 'campaign-participation-overviews',
@@ -52,8 +50,8 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
             'campaign-title': 'My campaign',
             'disabled-at': new Date('2021-01-01'),
             'mastery-rate': 0.5,
-            'validated-stages-count': 1,
-            'total-stages-count': 2,
+            'validated-stages-count': 2,
+            'total-stages-count': 3,
           },
         },
       };
@@ -71,6 +69,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
   describe('#serializeForPaginatedList', function () {
     it('should call serialize method by destructuring passed parameter', function () {
       // given
+      const emptyStageCollection = domainBuilder.buildStageCollectionForUserCampaignResults({ stages: [] });
       const campaignParticipationOverviews = [
         new CampaignParticipationOverview({
           id: 6,
@@ -82,6 +81,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
           campaignTitle: 'My campaign 1',
           campaignArchivedAt: null,
           masteryRate: null,
+          stageCollection: emptyStageCollection,
         }),
         new CampaignParticipationOverview({
           id: 7,
@@ -93,6 +93,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
           campaignTitle: 'My campaign 2',
           campaignArchivedAt: null,
           masteryRate: null,
+          stageCollection: emptyStageCollection,
         }),
       ];
       const pagination = {

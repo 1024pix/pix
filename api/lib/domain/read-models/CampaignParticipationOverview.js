@@ -14,8 +14,9 @@ class CampaignParticipationOverview {
     campaignTitle,
     campaignArchivedAt,
     deletedAt,
-    campaignStages,
     masteryRate,
+    validatedSkillsCount,
+    stageCollection,
   } = {}) {
     this.id = id;
     this.createdAt = createdAt;
@@ -25,8 +26,9 @@ class CampaignParticipationOverview {
     this.status = status;
     this.campaignCode = campaignCode;
     this.campaignTitle = campaignTitle;
-    this.campaignStages = campaignStages;
+    this.stageCollection = stageCollection;
     this.masteryRate = !_.isNil(masteryRate) ? Number(masteryRate) : null;
+    this.validatedSkillsCount = validatedSkillsCount;
 
     const dates = [deletedAt, campaignArchivedAt].filter((a) => a != null);
 
@@ -34,16 +36,13 @@ class CampaignParticipationOverview {
   }
 
   get validatedStagesCount() {
-    if (_.isEmpty(this.campaignStages?.stages) || !this.isShared) return null;
+    if (this.stageCollection.totalStages === 0 || !this.isShared) return null;
 
-    const validatedStages = this.campaignStages.reachableStages.filter(
-      (stage) => stage.threshold <= this.masteryRate * 100
-    );
-    return validatedStages.length;
+    return this.stageCollection.getReachedStage(this.validatedSkillsCount, this.masteryRate * 100).reachedStage;
   }
 
   get totalStagesCount() {
-    return this.campaignStages?.reachableStages?.length ?? 0;
+    return this.stageCollection.totalStages;
   }
 }
 
