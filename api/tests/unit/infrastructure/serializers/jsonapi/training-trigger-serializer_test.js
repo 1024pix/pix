@@ -10,31 +10,49 @@ describe('Unit | Serializer | JSONAPI | training-trigger-serializer', function (
       const expectedSerializedTraining = {
         data: {
           attributes: {
-            'training-id': trainingTrigger.trainingId,
-            threshold: trainingTrigger.threshold,
-            type: trainingTrigger.type,
+            threshold: 60,
+            'training-id': 156,
+            type: 'prerequisite',
           },
+          id: '1000',
           relationships: {
-            tubes: {
+            'trigger-tubes': {
               data: [
                 {
-                  id: 'recTube123',
-                  type: 'tubes',
+                  id: '10002',
+                  type: 'trigger-tubes',
                 },
               ],
             },
           },
-          id: trainingTrigger.id.toString(),
           type: 'training-triggers',
         },
         included: [
           {
             attributes: {
               id: 'recTube123',
-              level: 2,
+              name: '@tubeName',
+              'practical-description': 'description pratique',
+              'practical-title': 'titre pratique',
             },
             id: 'recTube123',
             type: 'tubes',
+          },
+          {
+            attributes: {
+              id: 10002,
+              level: 2,
+            },
+            id: '10002',
+            relationships: {
+              tube: {
+                data: {
+                  id: 'recTube123',
+                  type: 'tubes',
+                },
+              },
+            },
+            type: 'trigger-tubes',
           },
         ],
       };

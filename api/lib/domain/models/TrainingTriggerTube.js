@@ -1,7 +1,7 @@
 class TrainingTriggerTube {
-  constructor({ id, tubeId, level } = {}) {
+  constructor({ id, tube, level } = {}) {
     this.id = id;
-    this.tubeId = tubeId;
+    this.tube = tube;
     this.level = level;
   }
 }
