@@ -1,5 +1,32 @@
 # Pix Changelog
 
+## v3.330.0 (02/03/2023)
+
+
+### :rocket: Amélioration
+- [#5729](https://github.com/1024pix/pix/pull/5729) [FEATURE][MON-PIX] Améliorer l'utilisabilité de la page d'erreur en cas de non-consentement du partage des informations de l'utilisateur entre l'identity provider et Pix (PIX-7248)
+- [#5732](https://github.com/1024pix/pix/pull/5732) [FEATURE] Ajout d'un feature toggle pour l'envoi des données à PoleEmploi (PIX-7016).
+- [#5748](https://github.com/1024pix/pix/pull/5748) [FEATURE] Ajuster les largeurs de colonnes du tableau de paliers (PIX-7103)
+- [#5744](https://github.com/1024pix/pix/pull/5744) [FEATURE] Retourner les déclencheurs liés au contenu formatif demandé (PIX-7256).
+- [#5746](https://github.com/1024pix/pix/pull/5746) [FEATURE] Modifier le contenu du message d'erreur authentification non autorisé sur Pix Orga (PIX-7251)
+- [#5749](https://github.com/1024pix/pix/pull/5749) [FEATURE] Modifier le contenu du message d'erreur authentification non autorisée sur Pix Certif (PIX-7279)
+- [#5743](https://github.com/1024pix/pix/pull/5743) [FEATURE] Affichage du nombre de sessions et de candidats lors de l'import en masse de sessions (PIX-6960).
+- [#5737](https://github.com/1024pix/pix/pull/5737) [FEATURE] Renommer le nom des déclencheurs des contenus formatifs (PIX-7277).
+- [#5739](https://github.com/1024pix/pix/pull/5739) [FEATURE] Autoriser la suppression de certains paliers (Pix-7172)
+- [#5627](https://github.com/1024pix/pix/pull/5627) [FEATURE] Ajout des composants Pix UI dans les pages /connexion et /inscription sur Pix App (PIX-7032).
+
+### :building_construction: Tech
+- [#5741](https://github.com/1024pix/pix/pull/5741) [TECH] Retourner des tubes complets lors de la création de déclencheurs de contenu formatif (PIX-7291).
+- [#5754](https://github.com/1024pix/pix/pull/5754) [TECH] Rétablir le linter sur les dossier de tests et de scripts
+
+### :bug: Correction
+- [#5742](https://github.com/1024pix/pix/pull/5742) [BUGFIX] Fix traductions manquantes sur la page de liste des sessions (PIX-7255)
+- [#5750](https://github.com/1024pix/pix/pull/5750) [BUGFIX] Ajouter un margin au bloc des trainings dans la page de fin de parcours (PIX-7306)
+
+### :coffee: Autre
+- [#5728](https://github.com/1024pix/pix/pull/5728) [CHORE] Aligner les en-tête et le contenu sur le tableau de la page des prescrits (PIX-7247)
+- [#5752](https://github.com/1024pix/pix/pull/5752) [BUMP] Lock file maintenance
+
 ## v3.329.0 (27/02/2023)
 
 
