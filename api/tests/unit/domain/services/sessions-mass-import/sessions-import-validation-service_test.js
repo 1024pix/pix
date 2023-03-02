@@ -1,11 +1,5 @@
-const { catchErr, expect, sinon, domainBuilder } = require('../../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../../test-helper');
 const sessionsImportValidationService = require('../../../../../lib/domain/services/sessions-mass-import/sessions-import-validation-service');
-const {
-  SessionWithIdAndInformationOnMassImportError,
-  EntityValidationError,
-  InvalidCertificationCandidate,
-} = require('../../../../../lib/domain/errors');
-const { UnprocessableEntityError } = require('../../../../../lib/application/http-errors');
 const { CpfBirthInformationValidation } = require('../../../../../lib/domain/services/certification-cpf-service');
 const certificationCpfService = require('../../../../../lib/domain/services/certification-cpf-service');
 
@@ -31,108 +25,107 @@ describe('Unit | Service | sessions import validation Service', function () {
     context('when the parsed data is valid', function () {
       context('when the session has not started yet', function () {
         context('when there is no sessionId', function () {
-          it('should not throw', async function () {
+          it('should return an empty sessionErrors array', async function () {
             // given
             const session = _buildValidSessionWithoutId();
             sessionRepository.isSessionExisting.withArgs({ ...session }).resolves(false);
 
             // when
+            const sessionErrors = await sessionsImportValidationService.validateSession({
+              session,
+              sessionRepository,
+              certificationCourseRepository,
+            });
+
             // then
-            expect(
-              await sessionsImportValidationService.validateSession({
-                session,
-                sessionRepository,
-                certificationCourseRepository,
-              })
-            ).to.not.throw;
+            expect(sessionErrors).to.be.empty;
           });
         });
 
         context('when there is a sessionId', function () {
-          it('should not throw', async function () {
+          it('should return an empty sessionErrors array', async function () {
             // given
             const sessionId = 1;
             const session = _buildValidSessionWithId(sessionId);
             certificationCourseRepository.findCertificationCoursesBySessionId.resolves([]);
 
             // when
+            const sessionErrors = await sessionsImportValidationService.validateSession({
+              session,
+              sessionRepository,
+              certificationCourseRepository,
+            });
+
             // then
-            expect(
-              await sessionsImportValidationService.validateSession({
-                session,
-                sessionRepository,
-                certificationCourseRepository,
-              })
-            ).to.not.throw;
+            expect(sessionErrors).to.be.empty;
           });
         });
       });
     });
 
     context('when the session has already started', function () {
-      it('should throw an UnprocessableEntityError', async function () {
+      it('should return an errorReport that contains an already started error', async function () {
         const session = _buildValidSessionWithId(1234);
         certificationCourseRepository.findCertificationCoursesBySessionId
           .withArgs({ sessionId: 1234 })
           .resolves([domainBuilder.buildCertificationCourse({ sessionId: 1234 })]);
 
         // when
-        const error = await catchErr(sessionsImportValidationService.validateSession)({
+        const sessionErrors = await sessionsImportValidationService.validateSession({
           session,
           sessionRepository,
           certificationCourseRepository,
         });
 
         // then
-        expect(error).to.be.instanceOf(UnprocessableEntityError);
-        expect(error.message).to.equal("Impossible d'ajouter un candidat à une session qui a déjà commencé.");
+        expect(sessionErrors).to.deep.equal(["Impossible d'ajouter un candidat à une session qui a déjà commencé."]);
       });
     });
 
     context('date validation', function () {
       context('when at least one session is scheduled in the past', function () {
-        it('should throw', async function () {
+        it('should return an sessionErrors that contains a no session scheduled in the past error', async function () {
           // given
           const session = _buildValidSessionWithoutId();
           session.date = '2020-03-12';
 
           // when
-          const error = await catchErr(sessionsImportValidationService.validateSession)({
+          const sessionErrors = await sessionsImportValidationService.validateSession({
             session,
             sessionRepository,
             certificationCourseRepository,
           });
 
           // then
-          expect(error.message).to.equal('Une session ne peut pas être programmée dans le passé');
+          expect(sessionErrors).to.deep.equal(['Une session ne peut pas être programmée dans le passé']);
         });
       });
     });
 
     context('conflicting session information validation', function () {
       context('when there is a sessionId and session information', function () {
-        it('should throw', async function () {
+        it('should return an sessionErrors that contains an already given ID error', async function () {
           // given
           const session = _buildValidSessionWithoutId();
           session.id = 1234;
+          certificationCourseRepository.findCertificationCoursesBySessionId.withArgs({ sessionId: 1234 }).resolves([]);
 
           // when
-          const error = await catchErr(sessionsImportValidationService.validateSession)({
+          const sessionErrors = await sessionsImportValidationService.validateSession({
             session,
             sessionRepository,
             certificationCourseRepository,
           });
 
           // then
-          expect(error).to.be.an.instanceOf(SessionWithIdAndInformationOnMassImportError);
-          expect(error.message).to.equal(
-            'Merci de ne pas renseigner les informations de session pour la session: 1234'
-          );
+          expect(sessionErrors).to.deep.equal([
+            'Merci de ne pas renseigner les informations de session pour la session: 1234',
+          ]);
         });
       });
 
       context('when there is session information but no sessionId', function () {
-        it('should not throw', async function () {
+        it('should return an empty sessionErrors array', async function () {
           const session = domainBuilder.buildSession({
             ..._createValidSessionData(),
             id: null,
@@ -140,39 +133,39 @@ describe('Unit | Service | sessions import validation Service', function () {
           });
 
           // when
+          const sessionErrors = await sessionsImportValidationService.validateSession({
+            session,
+            sessionRepository,
+            certificationCourseRepository,
+          });
+
           // then
-          expect(
-            sessionsImportValidationService.validateSession({
-              session,
-              sessionRepository,
-              certificationCourseRepository,
-            })
-          ).not.to.throw;
+          expect(sessionErrors).to.be.empty;
         });
       });
     });
 
     context('when there already is an existing session with the same data as a newly imported one', function () {
-      it('should throw an error', async function () {
+      it('should return an sessionErrors that contains a session already existing error', async function () {
         // given
         const session = _buildValidSessionWithoutId();
         sessionRepository.isSessionExisting.withArgs({ ...session }).resolves(true);
 
         // when
-        const err = await catchErr(sessionsImportValidationService.validateSession)({
+        const sessionErrors = await sessionsImportValidationService.validateSession({
           session,
           sessionRepository,
           certificationCourseRepository,
         });
 
         // then
-        expect(err).to.be.instanceOf(UnprocessableEntityError);
+        expect(sessionErrors).to.deep.equal(['Session happening on 2024-03-12 at 14:30 already exists']);
       });
     });
 
     context('when session has certification candidates', function () {
       context('when at least one candidate is duplicated', function () {
-        it('should throw', async function () {
+        it('should return an sessionErrors that contains a duplicate candidate error', async function () {
           // given
           const validCandidateData = _buildValidCandidateData(1);
           const validCandidateDataDuplicate = _buildValidCandidateData(1);
@@ -180,34 +173,55 @@ describe('Unit | Service | sessions import validation Service', function () {
           session.certificationCandidates = [validCandidateData, validCandidateDataDuplicate];
 
           // when
-          const error = await catchErr(sessionsImportValidationService.validateSession)({
+          const sessionErrors = await sessionsImportValidationService.validateSession({
             session,
             sessionRepository,
             certificationCourseRepository,
           });
 
           // then
-          expect(error.message).to.equal('Une session contient au moins un élève en double.');
+          expect(sessionErrors).to.deep.equal(['Une session contient au moins un élève en double.']);
         });
       });
     });
 
-    context('when session has at least one invalid field', function () {
-      it('should throw an EntityValidationError', async function () {
+    context('when session has one invalid field', function () {
+      it('should return an sessionErrors that contains a session invalid field error', async function () {
         // given
         const session = _buildValidSessionWithoutId();
         session.room = null;
 
         // when
-        const error = await catchErr(sessionsImportValidationService.validateSession)({
+        const sessionErrors = await sessionsImportValidationService.validateSession({
           session,
           sessionRepository,
           certificationCourseRepository,
         });
 
         // then
-        expect(error).to.be.instanceOf(EntityValidationError);
-        expect(error.message).to.equal("Échec de validation de l'entité.");
+        expect(sessionErrors).to.deep.equal(['Veuillez indiquer un nom de salle.']);
+      });
+    });
+
+    context('when session has more than one invalid fields', function () {
+      it('should return an sessionErrors that contains all session errors', async function () {
+        // given
+        const session = _buildValidSessionWithoutId();
+        session.room = null;
+        session.address = null;
+
+        // when
+        const sessionErrors = await sessionsImportValidationService.validateSession({
+          session,
+          sessionRepository,
+          certificationCourseRepository,
+        });
+
+        // then
+        expect(sessionErrors).to.have.deep.members([
+          'Veuillez indiquer un nom de salle.',
+          'Veuillez indiquer un nom de site.',
+        ]);
       });
     });
   });
@@ -218,7 +232,7 @@ describe('Unit | Service | sessions import validation Service', function () {
     });
 
     context('when the parsed data is valid', function () {
-      it('should not throw', async function () {
+      it('should return an empty certificationCandidateErrors', async function () {
         // given
         const candidateInformation = {
           birthCountry: 'Pérou',
@@ -233,58 +247,60 @@ describe('Unit | Service | sessions import validation Service', function () {
         );
 
         // when
-        const cpfBirthInformation = await sessionsImportValidationService.getValidatedCandidateBirthInformation({
-          candidate,
-          isSco: false,
-        });
+        const { certificationCandidateErrors } =
+          await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+            candidate,
+            isSco: false,
+          });
 
         // then
-        expect(cpfBirthInformation).not.to.throw;
-        expect(cpfBirthInformation).to.deep.equal({ ...candidateInformation });
+        expect(certificationCandidateErrors).to.be.empty;
       });
     });
 
     context('when candidate parsed data is invalid', function () {
-      it('should throw an InvalidCertificationCandidate', async function () {
+      it('should return an certificationCandidateErrors containing the specific error', async function () {
         // given
         const isSco = false;
         const candidate = _buildValidCandidateData();
         candidate.firstName = null;
+        certificationCpfService.getBirthInformation.resolves(CpfBirthInformationValidation.success({ ...candidate }));
 
         // when
-        const error = await catchErr(sessionsImportValidationService.getValidatedCandidateBirthInformation)({
-          candidate,
-          isSco,
-        });
+        const { certificationCandidateErrors } =
+          await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+            candidate,
+            isSco,
+          });
 
         // then
-        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
-        expect(error.message).to.equal('Candidat de certification invalide.');
+        expect(certificationCandidateErrors).to.deep.equal(['firstName required']);
       });
     });
 
     context('when candidate has missing billing information', function () {
       context('when the parsed candidate is not sco', function () {
-        it('should throw an InvalidCertificationCandidate', async function () {
+        it('should return an certificationCandidateErrors containing billing mode errors', async function () {
           // given
           const isSco = false;
           const candidate = _buildValidCandidateData();
           candidate.billingMode = null;
+          certificationCpfService.getBirthInformation.resolves(CpfBirthInformationValidation.success({ ...candidate }));
 
           // when
-          const error = await catchErr(sessionsImportValidationService.getValidatedCandidateBirthInformation)({
-            candidate,
-            isSco,
-          });
+          const { certificationCandidateErrors } =
+            await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+              candidate,
+              isSco,
+            });
 
           // then
-          expect(error).to.be.instanceOf(InvalidCertificationCandidate);
-          expect(error.message).to.equal('Candidat de certification invalide.');
+          expect(certificationCandidateErrors).to.deep.equal(['billingMode required', 'billingMode not_a_string']);
         });
       });
 
       context('when the parsed candidate is sco', function () {
-        it('should not throw an InvalidCertificationCandidate', async function () {
+        it('should return an empty certificationCandidateErrors', async function () {
           // given
           const isSco = true;
           const candidateInformation = {
@@ -301,19 +317,20 @@ describe('Unit | Service | sessions import validation Service', function () {
           );
 
           // when
-          // then
-          expect(
+          const { certificationCandidateErrors } =
             await sessionsImportValidationService.getValidatedCandidateBirthInformation({
               candidate,
               isSco,
-            })
-          ).not.to.throw;
+            });
+
+          // then
+          expect(certificationCandidateErrors).to.be.empty;
         });
       });
     });
 
     context('when the parsed candidate data has invalid CPF information', function () {
-      it('should throw an InvalidCertificationCandidate', async function () {
+      it('should return a certificationCandidateErrors that contains the incorrect CPF message', async function () {
         // given
         const candidate = _buildValidCandidateData();
         const certificationCpfCountryRepository = Symbol();
@@ -327,10 +344,10 @@ describe('Unit | Service | sessions import validation Service', function () {
             certificationCpfCountryRepository,
             certificationCpfCityRepository,
           })
-          .resolves(CpfBirthInformationValidation.failure());
+          .resolves(CpfBirthInformationValidation.failure('CPF incorrect.'));
 
         // when
-        const error = await catchErr(sessionsImportValidationService.getValidatedCandidateBirthInformation)({
+        const result = await sessionsImportValidationService.getValidatedCandidateBirthInformation({
           candidate,
           isSco: false,
           certificationCpfCountryRepository,
@@ -338,7 +355,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         });
 
         // then
-        expect(error).to.be.instanceOf(InvalidCertificationCandidate);
+        expect(result.certificationCandidateErrors).to.deep.equal(['CPF incorrect.']);
       });
     });
   });
