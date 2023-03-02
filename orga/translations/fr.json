@@ -1144,7 +1144,8 @@
           "404": "Cet email n'appartient à aucun utilisateur.",
           "412": "Ce membre a déjà été ajouté.",
           "500": "Quelque chose s'est mal passé. Veuillez réessayer."
-        }
+        },
+        "sending-email-to-invalid-email-address": "L'envoi d'e-mail pour l'adresse {email} a échoué. Le serveur d'envoi a répondu : \"{errorMessage}\""
       },
       "invited-members": "À la réception de l'e-mail, les invités pourront choisir de se créer un compte Pix ou de se connecter avec un compte Pix existant.",
       "several-email-requirement": "Vous pouvez inviter plusieurs membres en séparant les adresses e-mails par des virgules."
