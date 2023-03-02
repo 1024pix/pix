@@ -1,52 +1,57 @@
-const { UnprocessableEntityError } = require('../../../application/http-errors.js');
-const { SessionWithIdAndInformationOnMassImportError, InvalidCertificationCandidate } = require('../../errors.js');
 const sessionValidator = require('../../validators/session-validator.js');
 const certificationCpfService = require('../certification-cpf-service.js');
 
 module.exports = {
   async validateSession({ session, sessionRepository, certificationCourseRepository }) {
     const sessionId = session.id;
+    const sessionErrors = [];
 
     if (sessionId) {
       if (_hasSessionInfo(session)) {
-        throw new SessionWithIdAndInformationOnMassImportError(
-          `Merci de ne pas renseigner les informations de session pour la session: ${sessionId}`
-        );
+        sessionErrors.push(`Merci de ne pas renseigner les informations de session pour la session: ${sessionId}`);
       }
 
       if (await _isSessionStarted({ certificationCourseRepository, sessionId })) {
-        throw new UnprocessableEntityError("Impossible d'ajouter un candidat à une session qui a déjà commencé.");
+        sessionErrors.push("Impossible d'ajouter un candidat à une session qui a déjà commencé.");
       }
     } else {
       const isSessionExisting = await sessionRepository.isSessionExisting({ ...session });
       if (isSessionExisting) {
-        throw new UnprocessableEntityError(`Session happening on ${session.date} at ${session.time} already exists`);
+        sessionErrors.push(`Session happening on ${session.date} at ${session.time} already exists`);
       }
 
       if (session.isSessionScheduledInThePast()) {
-        throw new UnprocessableEntityError(`Une session ne peut pas être programmée dans le passé`);
+        sessionErrors.push(`Une session ne peut pas être programmée dans le passé`);
       }
 
-      sessionValidator.validate(session);
+      try {
+        sessionValidator.validate(session);
+      } catch (errors) {
+        errors.invalidAttributes.map((error) => sessionErrors.push(error.message));
+      }
     }
 
     if (session.certificationCandidates?.length) {
       if (_hasDuplicateCertificationCandidates(session.certificationCandidates)) {
-        throw new UnprocessableEntityError(`Une session contient au moins un élève en double.`);
+        sessionErrors.push(`Une session contient au moins un élève en double.`);
       }
     }
 
-    return;
+    return sessionErrors;
   },
 
   async getValidatedCandidateBirthInformation({
     candidate,
     isSco,
-    isSessionsMassImport,
     certificationCpfCountryRepository,
     certificationCpfCityRepository,
   }) {
-    candidate.validate(isSco, isSessionsMassImport);
+    const certificationCandidateErrors = [];
+
+    const validationErrors = candidate.validateForMassSessionImport(isSco);
+    if (validationErrors) {
+      certificationCandidateErrors.push(...validationErrors);
+    }
 
     const cpfBirthInformation = await certificationCpfService.getBirthInformation({
       birthCountry: candidate.birthCountry,
@@ -58,14 +63,17 @@ module.exports = {
     });
 
     if (cpfBirthInformation.hasFailed()) {
-      throw new InvalidCertificationCandidate({ message: cpfBirthInformation.message, error: {} });
+      certificationCandidateErrors.push(cpfBirthInformation.message);
     }
 
     return {
-      birthCountry: cpfBirthInformation.birthCountry,
-      birthCity: cpfBirthInformation.birthCity,
-      birthPostalCode: cpfBirthInformation.birthPostalCode,
-      birthINSEECode: cpfBirthInformation.birthINSEECode,
+      certificationCandidateErrors,
+      cpfBirthInformation: {
+        birthCountry: cpfBirthInformation.birthCountry,
+        birthCity: cpfBirthInformation.birthCity,
+        birthPostalCode: cpfBirthInformation.birthPostalCode,
+        birthINSEECode: cpfBirthInformation.birthINSEECode,
+      },
     };
   },
 };
