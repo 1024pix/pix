@@ -48,7 +48,7 @@ describe('Unit | Controller | training-controller', function () {
       const trainingId = 1;
 
       sinon.stub(usecases, 'getTraining').resolves(training);
-      sinon.stub(trainingSerializer, 'serialize').returns(expectedResult);
+      sinon.stub(trainingSerializer, 'serializeForAdmin').returns(expectedResult);
 
       // when
       const response = await trainingController.getById({
@@ -59,7 +59,7 @@ describe('Unit | Controller | training-controller', function () {
 
       // then
       expect(usecases.getTraining).to.have.been.calledWith({ trainingId });
-      expect(trainingSerializer.serialize).to.have.been.calledOnce;
+      expect(trainingSerializer.serializeForAdmin).to.have.been.calledOnce;
       expect(response).to.deep.equal(expectedResult);
     });
   });

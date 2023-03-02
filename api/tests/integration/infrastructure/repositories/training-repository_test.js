@@ -1,9 +1,10 @@
-const { expect, databaseBuilder, domainBuilder, catchErr, knex } = require('../../../test-helper');
+const { expect, databaseBuilder, domainBuilder, catchErr, knex, mockLearningContent } = require('../../../test-helper');
 const trainingRepository = require('../../../../lib/infrastructure/repositories/training-repository');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const TrainingSummary = require('../../../../lib/domain/read-models/TrainingSummary');
 const Training = require('../../../../lib/domain/models/Training');
 const UserRecommendedTraining = require('../../../../lib/domain/read-models/UserRecommendedTraining');
+const TrainingTrigger = require('../../../../lib/domain/models/TrainingTrigger');
 
 describe('Integration | Repository | training-repository', function () {
   describe('#get', function () {
@@ -30,7 +31,7 @@ describe('Integration | Repository | training-repository', function () {
         await databaseBuilder.commit();
 
         // when
-        const training = await trainingRepository.get(expectedTraining.id);
+        const training = await trainingRepository.get({ trainingId: expectedTraining.id });
 
         // then
         expect(training).to.deep.equal(expectedTraining);
@@ -40,12 +41,90 @@ describe('Integration | Repository | training-repository', function () {
     context('when training does not exist', function () {
       it('should throw a NotFoundError', async function () {
         // when
-        const error = await catchErr(trainingRepository.get)(134);
+        const error = await catchErr(trainingRepository.get)({ trainingId: 134 });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
         expect(error.message).to.be.equal('Not found training for ID 134');
       });
+    });
+  });
+
+  describe('#getWithTriggers', function () {
+    let tube;
+
+    beforeEach(async function () {
+      tube = domainBuilder.buildTube({
+        id: 'recTube0',
+        name: 'tubeName',
+        title: 'tubeTitle',
+        description: 'tubeDescription',
+        practicalTitle: 'translatedPracticalTitle',
+        practicalDescription: 'translatedPracticalDescription',
+        isMobileCompliant: true,
+        isTabletCompliant: true,
+        competenceId: 'recCompetence0',
+        thematicId: 'thematicCoucou',
+        skillIds: ['skillSuper', 'skillGenial'],
+        skills: [],
+      });
+      const learningContent = {
+        tubes: [
+          {
+            id: 'recTube0',
+            name: 'tubeName',
+            title: 'tubeTitle',
+            description: 'tubeDescription',
+            practicalTitle_i18n: {
+              fr: 'translatedPracticalTitle',
+            },
+            practicalDescription_i18n: {
+              fr: 'translatedPracticalDescription',
+            },
+            isMobileCompliant: true,
+            isTabletCompliant: true,
+            competenceId: 'recCompetence0',
+            thematicId: 'thematicCoucou',
+            skillIds: ['skillSuper', 'skillGenial'],
+          },
+        ],
+      };
+      mockLearningContent(learningContent);
+    });
+
+    it('should throw an error when training does not exist', async function () {
+      // when
+      const error = await catchErr(trainingRepository.getWithTriggers)({ trainingId: 134 });
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
+      expect(error.message).to.be.equal('Not found training for ID 134');
+    });
+
+    it('should return training with triggers', async function () {
+      // given
+      const training = databaseBuilder.factory.buildTraining();
+      const trainingTrigger = databaseBuilder.factory.buildTrainingTrigger({ trainingId: training.id });
+      const trainingTriggerTube = databaseBuilder.factory.buildTrainingTriggerTube({
+        trainingTriggerId: trainingTrigger.id,
+        tubeId: tube.id,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await trainingRepository.getWithTriggers({ trainingId: training.id });
+
+      // then
+      expect(result).to.be.instanceOf(Training);
+      expect(result.triggers).to.have.lengthOf(1);
+      expect(result.triggers[0]).to.be.instanceOf(TrainingTrigger);
+      expect(result.triggers[0].id).to.deep.equal(trainingTrigger.id);
+      expect(result.triggers[0].threshold).to.deep.equal(trainingTrigger.threshold);
+      expect(result.triggers[0].type).to.deep.equal(trainingTrigger.type);
+      expect(result.triggers[0].triggerTubes).to.have.lengthOf(1);
+      expect(result.triggers[0].triggerTubes[0].id).to.deep.equal(trainingTriggerTube.id);
+      expect(result.triggers[0].triggerTubes[0].tube.name).to.deep.equal(tube.name);
+      expect(result.triggers[0].triggerTubes[0].level).to.deep.equal(trainingTriggerTube.level);
     });
   });
 
