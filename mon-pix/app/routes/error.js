@@ -2,6 +2,7 @@ import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import get from 'lodash/get';
 import JSONApiError from 'mon-pix/errors/json-api-error';
+import { ApplicationError } from 'mon-pix/errors/application-error';
 
 export default class ErrorRoute extends Route {
   @service session;
@@ -30,6 +31,8 @@ export default class ErrorRoute extends Route {
       if (error.shortCode) {
         controller.errorStatus += ` (${error.shortCode})`;
       }
+    } else if (error instanceof ApplicationError) {
+      controller.errorMessage = error.message;
     } else if (apiError) {
       controller.errorDetail = apiError.detail;
       controller.errorStatus = apiError.status;

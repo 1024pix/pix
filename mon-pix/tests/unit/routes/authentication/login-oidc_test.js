@@ -3,13 +3,14 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import * as fetch from 'fetch';
+import { ApplicationError } from 'mon-pix/errors/application-error';
 
 module('Unit | Route | login-oidc', function (hooks) {
   setupTest(hooks);
 
   module('#beforeModel', function () {
     module('when receives error from identity provider', function () {
-      test('should throw an error', function (assert) {
+      test('throws an error', function (assert) {
         // given
         const route = this.owner.lookup('route:authentication/login-oidc');
 
@@ -25,7 +26,7 @@ module('Unit | Route | login-oidc', function (hooks) {
               },
             });
           },
-          Error,
+          ApplicationError,
           'access_denied: Access was denied.'
         );
       });
