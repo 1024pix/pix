@@ -8,7 +8,7 @@
       "add": "Add",
       "delete": "Delete",
       "quit": "Quit",
-      "update": "Modify"
+      "update": "Edit"
     },
     "api-error-messages": {
       "bad-request-error": "The data entered was not in the correct format.",
@@ -123,6 +123,9 @@
       }
     },
     "sessions": {
+      "actions": {
+        "return": "Return to the sessions list"
+      },
       "enrolled-candidates": {
         "without-details-description": "Liste des candidats inscrits à la session, triée par nom de naissance, avec la possibilité de supprimer un candidat dans la dernière colonne.",
         "with-details-description": "Liste des candidats inscrits à la session, triée par nom de naissance, avec un lien pour voir les détails du candidat et la possibilité de supprimer un candidat dans la dernière colonne."
@@ -138,7 +141,6 @@
           "summary": "Récapitulatif"
         },
         "title": "Créer/éditer plusieurs sessions",
-        "previous-page-button": "Revenir à la liste des sessions",
         "step-one": {
           "actions": {
             "cancel": {
@@ -239,6 +241,29 @@
         }
       },
       "detail": {
+        "date": "Date",
+        "datetime": "Starting time (local time)",
+        "downloads": {
+          "label": "Downloads:",
+          "attendance-sheet": {
+            "extra-information": "Download attendance sheet",
+            "label": "Attendance sheet"
+          },
+          "incident-report": {
+            "extra-information": "Download incident report",
+            "label": "Incident report"
+          },
+          "invigilator-kit": {
+            "extra-information": "Download invigilator’s kit",
+            "label": "Invigilator’s kit"
+          }
+        },
+        "page-title": "Details",
+        "tabs": {
+          "details": "Details",
+          "candidates": "Candidates"
+        },
+        "title": "Session {sessionId}",
         "panel-clea": {
           "title": "Des candidats ont obtenu le certificat CléA numérique",
           "description": "Pour générer les certificats CléA numérique, téléchargez la liste des candidats, complétez-la, enregistrez-la au format .xlsx puis importez-la sur la ",
@@ -247,16 +272,29 @@
           "error-message": "Une erreur est survenue lors du téléchargement du fichier. Veuillez réessayer ou contacter certif@pix.fr en indiquant le numéro de la session concernée."
         },
         "parameters": {
-          "copy-access-code-number": "Copier le code du numéro de session",
-          "copy-session-number": "Copier le code du numéro de session",
-          "copy-session-password-supervisor": "Copier le mot de passe de session pour le surveillant",
-          "finalization-info": "Les informations de finalisation de la session ont déjà été transmises aux équipes de Pix",
-          "finalizing": "Finaliser la session",
+          "actions": {
+            "finalizing": "Finalise the session",
+            "update": "Edit the details for session {sessionId}"
+          },
+          "finalization-info": "The finalisation information for the session has already been transmitted to Pix.",
+          "invigilators": "Invigilator(s)",
+          "location-name": "Location name",
+          "session": {
+            "copy-number": "Copy the session number",
+            "label": "Session number"
+          },
+          "access-code": {
+            "label": "Access code",
+            "candidate": "Candidate",
+            "copy-code": "Copy the session’s access code"
+          },
+          "room": "Room",
           "observations": "Observations",
-          "session-access-code": "Code d'accès",
-          "session-candidate": "Candidat",
-          "session-password": "Mot de passe de session",
-          "session-update": "Modifier les informations de la session {sessionId}"
+          "password": {
+            "copy-password": "Copy the invigilator’s session password",
+            "label": "Session password",
+            "invigilator": "Invigilator"
+          }
         }
       },
       "candidates": {

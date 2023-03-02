@@ -1,23 +1,23 @@
 {{page-title this.pageTitle replace=true}}
 <div class="session-details-page">
   <PixReturnTo @route="authenticated.sessions.list" class="session-details-page__return-to">
-    Retour à la liste des sessions
+    {{t "pages.sessions.actions.return"}}
   </PixReturnTo>
   <div class="page__title session-details__header">
     <div class="session-details-header__title">
-      <h1 class="page-title">Session {{this.session.id}}</h1>
+      <h1 class="page-title">{{t "pages.sessions.detail.title" sessionId=this.session.id}}</h1>
     </div>
 
     <div class="session-details-header__datetime">
       <div class="session-details-header-datetime__date">
-        <h2 class="label-text session-details-content__label">Date</h2>
+        <h2 class="label-text session-details-content__label">{{t "pages.sessions.detail.date"}}</h2>
         <span class="content-text content-text--big session-details-header-datetime__text">
-          {{dayjs-format this.session.date "dddd DD MMM YYYY" allow-empty=true locale="fr"}}
+          {{dayjs-format this.session.date "dddd DD MMM YYYY" allow-empty=true}}
         </span>
       </div>
 
       <div>
-        <h2 class="label-text session-details-content__label">Heure de début (heure locale)</h2>
+        <h2 class="label-text session-details-content__label">{{t "pages.sessions.detail.datetime"}}</h2>
         <span class="content-text content-text--big session-details-header-datetime__text">
           {{dayjs-format this.session.time "HH:mm" inputFormat="HH:mm:ss" allow-empty=true}}
         </span>
@@ -32,27 +32,27 @@
   <div class="panel session-details__controls">
     <nav class="navbar session-details__controls-navbar-tabs">
       <LinkTo @route="authenticated.sessions.details.parameters" class="navbar-item">
-        Détails
+        {{t "pages.sessions.detail.tabs.details"}}
       </LinkTo>
       <LinkTo @route="authenticated.sessions.details.certification-candidates" class="navbar-item">
-        Candidats
+        {{t "pages.sessions.detail.tabs.candidates"}}
         {{this.certificationCandidatesCount}}
       </LinkTo>
     </nav>
     <div class="session-details__controls-links">
-      <span class="session-details__controls-title">Téléchargements :</span>
+      <span class="session-details__controls-title">{{t "pages.sessions.detail.downloads.label"}}</span>
       <PixButtonLink
         class="session-details__controls-download-button"
         @href="{{this.session.urlToDownloadSessionIssueReportSheet}}"
         @backgroundColor="transparent"
         @size="small"
         target="_blank"
-        aria-label="Télécharger le pv d'incident"
+        aria-label={{t "pages.sessions.detail.downloads.incident-report.extra-information"}}
         rel="noopener noreferrer"
         download
       >
         <FaIcon @icon="file-download" class="session-details__controls-icon" />
-        PV d'incident
+        {{t "pages.sessions.detail.downloads.incident-report.label"}}
       </PixButtonLink>
       <PixButtonLink
         class="session-details__controls-download-button"
@@ -60,12 +60,12 @@
         @backgroundColor="transparent"
         @size="small"
         target="_blank"
-        aria-label="Télécharger le kit surveillant"
+        aria-label={{t "pages.sessions.detail.downloads.invigilator-kit.extra-information"}}
         rel="noopener noreferrer"
         download
       >
         <FaIcon @icon="file-download" class="session-details__controls-icon" />
-        Kit surveillant
+        {{t "pages.sessions.detail.downloads.invigilator-kit.label"}}
       </PixButtonLink>
       {{#if this.shouldDisplayDownloadButton}}
         <PixButtonLink
@@ -74,12 +74,12 @@
           @backgroundColor="transparent"
           @size="small"
           target="_blank"
-          aria-label="Télécharger la feuille d'émargement"
+          aria-label={{t "pages.sessions.detail.downloads.attendance-sheet.extra-information"}}
           rel="noopener noreferrer"
           download
         >
           <FaIcon @icon="file-download" class="session-details__controls-icon" />
-          Feuille d'émargement
+          {{t "pages.sessions.detail.downloads.attendance-sheet.label"}}
         </PixButtonLink>
       {{/if}}
     </div>

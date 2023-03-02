@@ -7,12 +7,13 @@ import { alias } from '@ember/object/computed';
 
 export default class SessionsDetailsController extends Controller {
   @service currentUser;
+  @service intl;
 
   @alias('model.session') session;
   @alias('model.certificationCandidates') certificationCandidates;
 
   get pageTitle() {
-    return `Détails | Session ${this.session.id} | Pix Certif`;
+    return `${this.intl.t('pages.sessions.detail.page-title')} | Session ${this.session.id} | Pix Certif`;
   }
 
   @computed('certificationCandidates.length')
