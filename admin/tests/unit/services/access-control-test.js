@@ -130,14 +130,14 @@ module('Unit | Service | access-control', function (hooks) {
       assert.true(service.hasAccessToTrainingsActionsScope);
     });
 
-    test('should be true if admin member has role "SUPPORT"', function (assert) {
+    test('should be false if admin member has role "SUPPORT"', function (assert) {
       // given
       const currentUser = this.owner.lookup('service:current-user');
-      currentUser.adminMember = { isSupport: true };
+      currentUser.adminMember = { isCertif: false, isMetier: false, isSuperAdmin: false, isSupport: true };
       const service = this.owner.lookup('service:access-control');
 
       // when & then
-      assert.true(service.hasAccessToTrainingsActionsScope);
+      assert.false(service.hasAccessToTrainingsActionsScope);
     });
 
     test('should be true if admin member has role "METIER"', function (assert) {
@@ -161,7 +161,7 @@ module('Unit | Service | access-control', function (hooks) {
     });
   });
 
-  module('#hasAccessToTrainingsCreationActionsScope', function () {
+  module('#hasAccessToTrainings', function () {
     test('should be true if admin member has role "SUPER_ADMIN"', function (assert) {
       // given
       const currentUser = this.owner.lookup('service:current-user');
@@ -169,7 +169,17 @@ module('Unit | Service | access-control', function (hooks) {
       const service = this.owner.lookup('service:access-control');
 
       // when & then
-      assert.true(service.hasAccessToTrainingsCreationActionsScope);
+      assert.true(service.hasAccessToTrainings);
+    });
+
+    test('should be true if admin member has role "SUPPORT"', function (assert) {
+      // given
+      const currentUser = this.owner.lookup('service:current-user');
+      currentUser.adminMember = { isSupport: true };
+      const service = this.owner.lookup('service:access-control');
+
+      // when & then
+      assert.true(service.hasAccessToTrainings);
     });
 
     test('should be true if admin member has role "METIER"', function (assert) {
@@ -179,27 +189,17 @@ module('Unit | Service | access-control', function (hooks) {
       const service = this.owner.lookup('service:access-control');
 
       // when & then
-      assert.true(service.hasAccessToTrainingsCreationActionsScope);
-    });
-
-    test('should be false if admin member has role "SUPPORT"', function (assert) {
-      // given
-      const currentUser = this.owner.lookup('service:current-user');
-      currentUser.adminMember = { isSupport: true };
-      const service = this.owner.lookup('service:access-control');
-
-      // when & then
-      assert.false(service.hasAccessToTrainingsCreationActionsScope);
+      assert.true(service.hasAccessToTrainings);
     });
 
     test('should be false if admin member has role "CERTIF"', function (assert) {
       // given
       const currentUser = this.owner.lookup('service:current-user');
-      currentUser.adminMember = { isCertif: true };
+      currentUser.adminMember = { isCertif: true, isMetier: false, isSuperAdmin: false, isSupport: false };
       const service = this.owner.lookup('service:access-control');
 
       // when & then
-      assert.false(service.hasAccessToTrainingsCreationActionsScope);
+      assert.false(service.hasAccessToTrainings);
     });
   });
 

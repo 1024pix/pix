@@ -108,5 +108,24 @@ module('Acceptance | Trainings | Triggers edit', function (hooks) {
       // then
       assert.strictEqual(currentURL(), `/trainings/${trainingId}/triggers`);
     });
+
+    module('when admin member is "SUPPORT"', function () {
+      test('it should not edit a trigger', async function (assert) {
+        // given
+        await authenticateAdminMemberWithRole({ isSupport: true })(server);
+
+        // when
+        const screen = await visit(`/trainings/${trainingId}/`);
+
+        // then
+        assert
+          .dom(
+            screen.queryByRole('link', {
+              name: this.intl.t('pages.trainings.training.triggers.prerequisite.alternative-title'),
+            })
+          )
+          .doesNotExist();
+      });
+    });
   });
 });
