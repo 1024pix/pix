@@ -51,6 +51,13 @@ export default class NewController extends Controller {
       errorMessages = errors.map((error) => {
         switch (error.status) {
           case '400':
+            if (error.code === ERROR_CODES.SENDING_EMAIL_TO_INVALID_EMAIL_ADDRESS) {
+              return this.intl.t(ERROR_MESSAGES.SENDING_EMAIL_TO_INVALID_EMAIL_ADDRESS, {
+                email: error.meta?.emailAddress,
+                errorMessage: error.meta?.errorMessage,
+              });
+            }
+
             return this.intl.t(ERROR_MESSAGES.STATUS_400);
           case '404':
             return this.intl.t(ERROR_MESSAGES.STATUS_404);
@@ -77,4 +84,8 @@ const ERROR_MESSAGES = {
   STATUS_404: 'pages.team-new.errors.status.404',
   STATUS_412: 'pages.team-new.errors.status.412',
   STATUS_500: 'pages.team-new.errors.status.500',
+  SENDING_EMAIL_TO_INVALID_EMAIL_ADDRESS: 'pages.team-new.errors.sending-email-to-invalid-email-address',
+};
+const ERROR_CODES = {
+  SENDING_EMAIL_TO_INVALID_EMAIL_ADDRESS: 'SENDING_EMAIL_TO_INVALID_EMAIL_ADDRESS',
 };

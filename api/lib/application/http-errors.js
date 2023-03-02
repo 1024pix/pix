@@ -102,10 +102,11 @@ class ImproveCompetenceEvaluationForbiddenError extends BaseHttpError {
 }
 
 class BadRequestError extends BaseHttpError {
-  constructor(message, code) {
+  constructor(message, code, meta) {
     super(message);
     this.title = 'Bad Request';
     this.status = 400;
+    this.meta = meta;
     this.code = code;
   }
 }

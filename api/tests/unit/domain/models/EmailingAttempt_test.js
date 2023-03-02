@@ -62,6 +62,41 @@ describe('Unit | Domain | Models | EmailingAttempt', function () {
     });
   });
 
+  describe('#hasFailedBecauseEmailWasInvalid', function () {
+    it('returns true if status is failure because email was invalid', function () {
+      // given
+      const attempt = new EmailingAttempt('example@example.net', 'FAILURE', 'INVALID_EMAIL');
+
+      // when
+      const result = attempt.hasFailedBecauseEmailWasInvalid();
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('returns false if status is failure with another reason', function () {
+      // given
+      const attempt = new EmailingAttempt('example@example.net', 'FAILURE');
+
+      // when
+      const result = attempt.hasFailedBecauseEmailWasInvalid();
+
+      // then
+      expect(result).to.be.false;
+    });
+
+    it('returns false if status is success', function () {
+      // given
+      const attempt = new EmailingAttempt('example@example.net', 'SUCCESS');
+
+      // when
+      const result = attempt.hasFailedBecauseEmailWasInvalid();
+
+      // then
+      expect(result).to.be.false;
+    });
+  });
+
   describe('#hasSucceeded', function () {
     it('should return true if status is success', function () {
       // given
@@ -114,6 +149,26 @@ describe('Unit | Domain | Models | EmailingAttempt', function () {
       // then
       const expectedEmailAttempt = new EmailingAttempt('example@example.net', 'FAILURE', 'INVALID_DOMAIN');
       expect(result).to.deepEqualInstance(expectedEmailAttempt);
+    });
+
+    context('with given error code and message', function () {
+      it('creates an EmailingAttempt error', function () {
+        // When
+        const result = EmailingAttempt.failure(
+          'example@example.net',
+          EmailingAttempt.errorCode.INVALID_EMAIL,
+          'Failure error message'
+        );
+
+        // Then
+        const expectedEmailAttempt = new EmailingAttempt(
+          'example@example.net',
+          'FAILURE',
+          'INVALID_EMAIL',
+          'Failure error message'
+        );
+        expect(result).to.deepEqualInstance(expectedEmailAttempt);
+      });
     });
   });
 });
