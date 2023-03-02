@@ -234,4 +234,71 @@ module('Unit | Service | locale', function (hooks) {
       });
     });
   });
+
+  module('#accessibilityUrl', function () {
+    module('when website is pix.fr', function () {
+      test('returns the French page URL', function (assert) {
+        // given
+        const service = this.owner.lookup('service:url');
+        const expectedAccessibilityUrl = 'https://pix.fr/accessibilite';
+        service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+
+        // when
+        const accessibilityUrl = service.accessibilityUrl;
+
+        // then
+        assert.strictEqual(accessibilityUrl, expectedAccessibilityUrl);
+      });
+
+      module('when current language is "en"', function () {
+        test('returns the French page URL', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          const expectedAccessibilityUrl = 'https://pix.fr/accessibilite';
+          service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+          service.intl = { t: sinon.stub().returns('en') };
+
+          // when
+          const accessibilityUrl = service.accessibilityUrl;
+
+          // then
+          assert.strictEqual(accessibilityUrl, expectedAccessibilityUrl);
+        });
+      });
+    });
+
+    module('when website is pix.org', function () {
+      module('when current language is "fr"', function () {
+        test('returns the French page URL', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          const expectedAccessibilityUrl = 'https://pix.org/fr/accessibilite';
+          service.currentDomain = { getExtension: sinon.stub().returns('org') };
+          service.intl = { t: sinon.stub().returns('fr') };
+
+          // when
+          const accessibilityUrl = service.accessibilityUrl;
+
+          // then
+          assert.strictEqual(accessibilityUrl, expectedAccessibilityUrl);
+        });
+      });
+
+      module('when current language is "en"', function () {
+        test('returns the English page URL', function (assert) {
+          // given
+          const service = this.owner.lookup('service:url');
+          const expectedAccessibilityUrl = 'https://pix.org/en-gb/accessibility';
+          service.currentDomain = { getExtension: sinon.stub().returns('org') };
+          service.intl = { t: sinon.stub().returns('en') };
+
+          // when
+          const accessibilityUrl = service.accessibilityUrl;
+
+          // then
+          assert.strictEqual(accessibilityUrl, expectedAccessibilityUrl);
+        });
+      });
+    });
+  });
 });
