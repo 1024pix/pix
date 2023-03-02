@@ -112,17 +112,33 @@ module('Acceptance | Trainings | Training', function (hooks) {
       assert.ok(screen.getByText('Obsolète'));
     });
 
-    test('should be possible to edit training details', async function (assert) {
-      // given
-      await visit(`/trainings/${trainingId}`);
+    module('when admin role is "SUPER_ADMIN" or "METIER"', function () {
+      test('should be possible to edit training details', async function (assert) {
+        // given
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+        await visit(`/trainings/${trainingId}`);
 
-      // when
-      await click(screen.getByRole('button', { name: 'Editer' }));
-      await fillByLabel('Titre', 'Nouveau contenu formatif modifié');
-      await click(screen.getByRole('button', { name: 'Modifier le contenu formatif' }));
+        // when
+        await click(screen.getByRole('button', { name: 'Editer' }));
+        await fillByLabel('Titre', 'Nouveau contenu formatif modifié');
+        await click(screen.getByRole('button', { name: 'Modifier le contenu formatif' }));
 
-      // then
-      assert.dom(screen.getByRole('heading', { name: 'Nouveau contenu formatif modifié' })).exists();
+        // then
+        assert.dom(screen.getByRole('heading', { name: 'Nouveau contenu formatif modifié' })).exists();
+      });
+    });
+
+    module('when admin role is "SUPPORT', function () {
+      test('should not be possible to edit training details', async function (assert) {
+        // given
+        await authenticateAdminMemberWithRole({ isSupport: true })(server);
+
+        // when
+        await visit(`/trainings/${trainingId}`);
+
+        // then
+        assert.notOk(screen.queryByRole('button', { name: 'Editer' }));
+      });
     });
   });
 });

@@ -1,20 +1,23 @@
 <div class="training-target-profiles">
-  <section class="page-section">
-    <header class="page-section__header">
-      <h2 class="page-section__title">Rattacher un ou plusieurs profil(s) cible(s)</h2>
-    </header>
-    <div class="training__forms-section">
-      <form class="training__sub-form form" {{on "submit" this.attachTargetProfiles}}>
-        <Input
-          aria-label="ID du ou des profil(s) cible(s)"
-          @value={{this.targetProfilesToAttach}}
-          class="training-sub-form__input form-field__text form-control"
-          placeholder="1, 2"
-        />
-        <PixButton @type="submit" @size="small" @isDisabled={{this.noTargetProfilesToAttach}}>Valider</PixButton>
-      </form>
-    </div>
-  </section>
+
+  {{#if this.canAttachTargetProfiles}}
+    <section class="page-section">
+      <header class="page-section__header">
+        <h2 class="page-section__title">Rattacher un ou plusieurs profil(s) cible(s)</h2>
+      </header>
+      <div class="training__forms-section">
+        <form class="training__sub-form form" {{on "submit" this.attachTargetProfiles}}>
+          <Input
+            aria-label="ID du ou des profil(s) cible(s)"
+            @value={{this.targetProfilesToAttach}}
+            class="training-sub-form__input form-field__text form-control"
+            placeholder="1, 2"
+          />
+          <PixButton @type="submit" @size="small" @isDisabled={{this.noTargetProfilesToAttach}}>Valider</PixButton>
+        </form>
+      </div>
+    </section>
+  {{/if}}
 
   <section class="page-section">
     <header class="page-section__header">

@@ -52,17 +52,33 @@ module('Acceptance | Trainings | Target profiles', function (hooks) {
       assert.strictEqual(currentURL(), `/trainings/${trainingId}/target-profiles`);
     });
 
-    test('is should attach a target profile to a training', async function (assert) {
-      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-      server.create('target-profile-summary', { id: 1, name: 'Super profil cible' });
+    module('when admin role is "SUPER_ADMIN" or "METIER"', function () {
+      test('is should attach a target profile to a training', async function (assert) {
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+        server.create('target-profile-summary', { id: 1, name: 'Super profil cible' });
 
-      // when
-      const screen = await visit(`/trainings/${trainingId}/target-profiles`);
-      await fillByLabel('ID du ou des profil(s) cible(s)', '1');
-      await clickByName('Valider');
+        // when
+        const screen = await visit(`/trainings/${trainingId}/target-profiles`);
+        await fillByLabel('ID du ou des profil(s) cible(s)', '1');
+        await clickByName('Valider');
 
-      // then
-      assert.dom(screen.getByRole('link', { name: 'Super profil cible' })).exists();
+        // then
+        assert.dom(screen.queryByRole('link', { name: 'Super profil cible' })).exists();
+      });
+    });
+
+    module('when admin role is "SUPPORT"', function () {
+      test('is should not be able to attach a target profile to a training', async function (assert) {
+        // given
+        await authenticateAdminMemberWithRole({ isSupport: true })(server);
+        server.create('target-profile-summary', { id: 1, name: 'Super profil cible' });
+
+        // when
+        const screen = await visit(`/trainings/${trainingId}/target-profiles`);
+
+        // then
+        assert.dom(screen.queryByText('ID du ou des profil(s) cible(s)')).doesNotExist();
+      });
     });
   });
 });
