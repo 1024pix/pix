@@ -4,10 +4,12 @@ import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from '../helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { visit } from '@1024pix/ember-testing-library';
+import { setupIntl } from 'ember-intl/test-support/index';
 
 module('Acceptance | Session Details Certification Candidates', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks);
 
   hooks.afterEach(function () {
     const notificationMessagesService = this.owner.lookup('service:notifications');
@@ -270,6 +272,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
         // when
         const screen = await visit(`/sessions/${sessionWithoutCandidates.id}/candidats`);
+        screen.debug;
         await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
 
         // then
