@@ -190,7 +190,8 @@
       },
       "subjects": "Sujets : {value, number}",
       "thematic-results": "Résultats thématiques : {value, number}"
-    }
+    },
+    "breadcrumb": "Fil d'ariane"
   },
   "navigation": {
     "credits": {
