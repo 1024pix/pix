@@ -1,0 +1,38 @@
+.breadcrumb {
+
+  ol {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+  }
+
+  li {
+    font-size: 0.875rem;
+  }
+
+  li:not(:last-child) {
+    color: $pix-neutral-50;
+  }
+
+  li:not(:first-child) {
+    margin-left: 0.25rem;
+  }
+
+  li:last-child {
+    color: $pix-neutral-70;
+  }
+
+  li:not(:last-child)::after {
+    display: inline-block;
+    margin: 0 .375rem;
+    content: '';
+    width: 0.4375rem;
+    height: 0.4375rem;
+    border: .0625rem solid $pix-neutral-45;
+    border-left: 0;
+    border-bottom: 0;
+    transform: rotate(45deg);
+  }
+}
+
+
