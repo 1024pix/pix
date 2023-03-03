@@ -37,7 +37,9 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     // then
     assert
       .dom(
-        screen.getByRole('table', { name: this.intl.t('pages.sessions.enrolled-candidates.with-details-description') })
+        screen.getByRole('table', {
+          name: this.intl.t('pages.sessions.detail.candidates.list.with-details-description'),
+        })
       )
       .exists();
   });
