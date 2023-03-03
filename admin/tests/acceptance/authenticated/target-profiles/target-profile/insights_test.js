@@ -78,15 +78,14 @@ module('Acceptance | Target Profile Insights', function (hooks) {
         // given
         server.create('stage', { id: 100, title: 'premier palier', targetProfile });
         server.create('stage', { id: 101, title: 'deuxième palier', targetProfile });
-
         // when
         const screen = await visit('/target-profiles/1');
         await clickByName('Clés de lecture');
 
         // then
         assert.strictEqual(currentURL(), '/target-profiles/1/insights');
-        assert.dom(screen.getByText('premier palier')).exists();
-        assert.dom(screen.getByText('deuxième palier')).exists();
+        assert.dom(screen.getAllByText('premier palier')[0]).exists();
+        assert.dom(screen.getAllByText('deuxième palier')[0]).exists();
       });
 
       test('it should display stage details when clicking on "Voir détail"', async function (assert) {
@@ -172,10 +171,10 @@ module('Acceptance | Target Profile Insights', function (hooks) {
 
           // then
           assert.true(firstStageLevelButton.hasAttributes('aria-disabled', 'true'));
-          assert.dom(screen.getByText('mon premier palier')).exists();
-          assert.dom(screen.getByText('mon deuxième palier')).exists();
-          assert.dom(screen.getByText('3')).exists();
-          assert.dom(screen.getByText('0')).exists();
+          assert.dom(screen.getAllByText('mon premier palier')[0]).exists();
+          assert.dom(screen.getAllByText('mon deuxième palier')[0]).exists();
+          assert.dom(screen.getAllByText('3')[0]).exists();
+          assert.dom(screen.getAllByText('0')[0]).exists();
           assert.dom(screen.getByText('mon message un')).exists();
           assert.dom(screen.getByText('mon message deux')).exists();
           assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
@@ -261,10 +260,10 @@ module('Acceptance | Target Profile Insights', function (hooks) {
 
           // then
           assert.true(firstStageThresholdInput.hasAttributes('value', '0'));
-          assert.dom(screen.getByText('mon premier palier')).exists();
-          assert.dom(screen.getByText('mon deuxième palier')).exists();
-          assert.dom(screen.getByText(0)).exists();
-          assert.dom(screen.getByText(50)).exists();
+          assert.dom(screen.getAllByText('mon premier palier')[0]).exists();
+          assert.dom(screen.getAllByText('mon deuxième palier')[0]).exists();
+          assert.dom(screen.getAllByText(0)[0]).exists();
+          assert.dom(screen.getAllByText(50)[0]).exists();
           assert.dom(screen.getByText('mon message 1')).exists();
           assert.dom(screen.getByText('mon message 2')).exists();
           assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
