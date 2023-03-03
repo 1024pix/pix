@@ -30,28 +30,40 @@ export default class Url extends Service {
 
   get legalNoticeUrl() {
     const currentLanguage = this.intl.t('current-lang');
-    if (currentLanguage === 'en') return 'https://pix.org/en-gb/legal-notice';
-    return `https://pix.${this.currentDomain.getExtension()}/mentions-legales`;
+
+    if (this.isFrenchDomainExtension) return 'https://pix.fr/mentions-legales';
+
+    return currentLanguage === 'fr' ? 'https://pix.org/fr/mentions-legales' : 'https://pix.org/en-gb/legal-notice';
   }
 
   get cguUrl() {
     const currentLanguage = this.intl.t('current-lang');
-    if (currentLanguage === 'en') return 'https://pix.org/en-gb/terms-and-conditions';
-    return `https://pix.${this.currentDomain.getExtension()}/conditions-generales-d-utilisation`;
+
+    if (this.isFrenchDomainExtension) return 'https://pix.fr/conditions-generales-d-utilisation';
+
+    return currentLanguage === 'fr'
+      ? 'https://pix.org/fr/conditions-generales-d-utilisation'
+      : 'https://pix.org/en-gb/terms-and-conditions';
   }
 
   get dataProtectionPolicyUrl() {
     const currentLanguage = this.intl.t('current-lang');
-    if (currentLanguage === 'en') return 'https://pix.org/en-gb/personal-data-protection-policy';
-    return `https://pix.${this.currentDomain.getExtension()}/politique-protection-donnees-personnelles-app`;
+
+    if (this.isFrenchDomainExtension) return 'https://pix.fr/politique-protection-donnees-personnelles-app';
+
+    return currentLanguage === 'fr'
+      ? 'https://pix.org/fr/politique-protection-donnees-personnelles-app'
+      : 'https://pix.org/en-gb/personal-data-protection-policy';
   }
 
   get accessibilityUrl() {
     const currentLanguage = this.intl.t('current-lang');
-    if (currentLanguage === 'en') {
-      return 'https://pix.org/en-gb/accessibility-pix-orga';
-    }
-    return `https://pix.${this.currentDomain.getExtension()}/accessibilite-pix-orga`;
+
+    if (this.isFrenchDomainExtension) return 'https://pix.fr/accessibilite-pix-orga';
+
+    return currentLanguage === 'fr'
+      ? 'https://pix.org/fr/accessibilite-pix-orga'
+      : 'https://pix.org/en-gb/accessibility-pix-orga';
   }
 
   get forgottenPasswordUrl() {
