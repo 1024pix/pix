@@ -126,10 +126,6 @@
       "actions": {
         "return": "Revenir à la liste des sessions"
       },
-      "enrolled-candidates": {
-        "without-details-description": "Liste des candidats inscrits à la session, triée par nom de naissance, avec la possibilité de supprimer un candidat dans la dernière colonne.",
-        "with-details-description": "Liste des candidats inscrits à la session, triée par nom de naissance, avec un lien pour voir les détails du candidat et la possibilité de supprimer un candidat dans la dernière colonne."
-      },
       "finalize": {
         "finished-test-list-description": "Liste des candidats qui ont fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant et une liste déroulante permettant de sélectionner la raison de l’abandon.",
         "unfinished-test-list-description": "Liste des candidats qui n’ont pas fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant et une liste déroulante permettant de sélectionner la raison de l’abandon."
@@ -253,6 +249,70 @@
         }
       },
       "detail": {
+        "title": "Session {sessionId}",
+        "candidates": {
+          "add-modal": {
+            "actions": {
+              "close-extra-information": "Fermer la modale d'ajout de candidat"
+            }
+          },
+          "detail-modal": {
+            "actions": {
+              "close-extra-information": "Fermer la fenêtre de détail du candidat"
+            }
+          },
+          "list": {
+            "title": "Liste des candidats",
+            "actions": {
+              "delete": {
+                "extra-information": "Supprimer le candidat",
+                "tooltip": "Ce candidat a déjà rejoint la session. Vous ne pouvez pas le supprimer."
+              },
+              "inscription": {
+                "label": "Inscrire un candidat"
+              },
+              "inscription-multiple": {
+                "label": "Inscrire des candidats"
+              },
+              "details": {
+                "extra-information": "Voir le détail du candidat",
+                "label": "Voir le détail"
+              }
+            },
+            "columns": {
+              "additional-certification": "Certification complémentaire",
+              "birth-city": "Commune de naissance",
+              "birth-country": "Pays de naissance",
+              "birth-date": "Date de naissance",
+              "recipient-email": "E-mail du destinataire des résultats (formateur, enseignant...)",
+              "external-id": "Identifiant externe",
+              "extratime": "Temps majoré",
+              "lastname": "Nom de naissance",
+              "firstname": "Prénom",
+              "pricing": "Tarification part Pix"
+            },
+            "with-details-description": "Liste des candidats inscrits à la session, triée par nom de naissance, avec un lien pour voir les détails du candidat et la possibilité de supprimer un candidat dans la dernière colonne.",
+            "empty": "En attente de candidats",
+            "without-details-description": "Liste des candidats inscrits à la session, triée par nom de naissance, avec la possibilité de supprimer un candidat dans la dernière colonne."
+          },
+          "panel-actions": {
+            "title": "Inscrire des candidats",
+            "actions": {
+              "download": {
+                "description": "Pour inscrire des candidats à la session, renseignez leurs informations (Nom, Prénom, …) dans ce document. <br />Lors du premier téléchargement, le modèle de liste des candidats est vide. Il contiendra ensuite les informations des candidats inscrits à la session.",
+                "extra-information": "Télécharger le modèle de liste des candidats",
+                "label": "Télécharger (.ods)"
+              },
+              "upload": {
+                "description": "Sélectionnez la liste des candidats préalablement remplie.<br /><strong>Attention, tout nouvel import efface la liste des candidats existante.</strong>",
+                "extra-information": "Importer la liste des candidats",
+                "label": "Importer (.ods)"
+              }
+            },
+            "warning": "La session a débuté, vous ne pouvez plus importer une liste de candidats.<br />Si vous souhaitez modifier la liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous."
+          },
+          "page-title": "Candidats"
+        },
         "date": "Date",
         "datetime": "Heure de début (heure locale)",
         "downloads": {
@@ -275,7 +335,6 @@
           "details": "Détails",
           "candidates": "Candidats"
         },
-        "title": "Session {sessionId}",
         "panel-clea": {
           "title": "Des candidats ont obtenu le certificat CléA numérique",
           "description": "Pour générer les certificats CléA numérique, téléchargez la liste des candidats, complétez-la, enregistrez-la au format .xlsx puis importez-la sur la ",
@@ -306,18 +365,6 @@
             "copy-password": "Copier le mot de passe de session pour le surveillant",
             "label": "Mot de passe de session",
             "invigilator": "Surveillant"
-          }
-        }
-      },
-      "candidates": {
-        "detail-modal": {
-          "actions": {
-            "close-extra-information": "Fermer la fenêtre de détail du candidat"
-          }
-        },
-        "add-modal": {
-          "actions": {
-            "close-extra-information": "Fermer la modale d'ajout de candidat"
           }
         }
       },
