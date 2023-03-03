@@ -985,7 +985,7 @@
         "invalid-email": "Votre adresse e-mail n’est pas valide.",
         "login-unauthorized-error": "L'adresse e-mail et/ou le mot de passe saisis sont incorrects.",
         "account-conflict": "Ce compte est déjà associé à cet organisme. Veuillez vous connecter avec un autre compte ou contacter le support.",
-        "data-sharing-refused": "Vous avez refusé de partager vos informations avec nous."
+        "data-sharing-refused": "Nous vous informons que la transmission de vos données, précisées à la page précédente, est indispensable pour pouvoir accéder au service et l'utiliser."
       }
     },
     "oidc-reconciliation": {
