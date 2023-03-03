@@ -57,7 +57,7 @@ export default class LoginForm extends Component {
         }
         const isUserAlreadyOrganizationMember = error.status === '412';
         if (!isUserAlreadyOrganizationMember) {
-          this.errorMessage = this.intl.t(this._getI18nKeyByStatus(error.status));
+          this.errorMessage = this.intl.t(this._getI18nKeyByStatus(+error.status));
           this.isLoading = false;
           return;
         }
@@ -115,11 +115,17 @@ export default class LoginForm extends Component {
   async _acceptOrganizationInvitation(organizationInvitationId, organizationInvitationCode, email) {
     const type = 'organization-invitation-response';
     const id = `${organizationInvitationId}_${organizationInvitationCode}`;
-    const record = this.store.peekRecord(type, id);
-    if (!record) {
-      await this.store
-        .createRecord(type, { id, code: organizationInvitationCode, email })
-        .save({ adapterOptions: { organizationInvitationId } });
+    const organizationInvitationRecord = this.store.peekRecord(type, id);
+
+    if (!organizationInvitationRecord) {
+      let record;
+      try {
+        record = this.store.createRecord(type, { id, code: organizationInvitationCode, email });
+        await record.save({ adapterOptions: { organizationInvitationId } });
+      } catch (error) {
+        record.deleteRecord();
+        throw error;
+      }
     }
   }
 
@@ -159,6 +165,8 @@ export default class LoginForm extends Component {
       // TODO: This case should be handled with a specific error code like USER_IS_TEMPORARY_BLOCKED or USER_IS_BLOCKED
       case 403:
         return ENV.APP.API_ERROR_MESSAGES.NOT_LINKED_ORGANIZATION.I18N_KEY;
+      case 404:
+        return ENV.APP.API_ERROR_MESSAGES.USER_NOT_FOUND.I18N_KEY;
       case 422:
         return ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.I18N_KEY;
       case 504:
