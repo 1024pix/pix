@@ -128,7 +128,9 @@
                       <PixIconButton
                         @icon="trash-alt"
                         {{on "click" (fn this.deleteCertificationCandidate candidate)}}
-                        aria-label="Supprimer le candidat {{candidate.firstName}} {{candidate.lastName}}"
+                        aria-label="{{t
+                          'pages.sessions.detail.candidates.list.actions.delete.extra-information'
+                        }} {{candidate.firstName}} {{candidate.lastName}}"
                         class="certification-candidates-actions__delete-button"
                         @withBackground={{true}}
                       />

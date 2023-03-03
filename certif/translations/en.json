@@ -254,6 +254,69 @@
         }
       },
       "detail": {
+        "candidates": {
+          "add-modal": {
+            "actions": {
+              "close-extra-information": "Close add candidate window modal"
+            }
+          },
+          "detail-modal": {
+            "actions": {
+              "close-extra-information": "Close candidate's detail window modal"
+            }
+          },
+          "list": {
+            "title": "Candidates' list",
+            "actions": {
+              "delete": {
+                "extra-information": "Delete the candidate",
+                "tooltip": "This candidate has already joined the session, you can’t delete them."
+              },
+              "inscription": {
+                "label": "Enrol a candidate"
+              },
+              "inscription-multiple": {
+                "label": "Enrol candidates"
+              },
+              "details": {
+                "extra-information": "See the candidate’s details",
+                "label": "See details"
+              }
+            },
+            "columns": {
+              "additional-certification": "Additional certification",
+              "birth-city": "Birth city",
+              "birth-country": "Birth country",
+              "birth-date": "Date of birth",
+              "recipient-email": "Email of the results' recipient (instructor, teacher…)",
+              "external-id": "External ID",
+              "extratime": "Extra time",
+              "lastname": "Birth name",
+              "firstname": "First name",
+              "pricing": "Pricing of Pix’s share"
+            },
+            "with-details-description": "List of candidates enrolled in the session, ordered by birth name, with a link to see the candidate’s details and the possibility to delete a candidate in the last column.",
+            "empty": "Awaiting candidates",
+            "without-details-description": "List of candidates enrolled in the session, ordered by birth name, with the possibility to delete a candidate in the last column."
+          },
+          "panel-actions": {
+            "title": "Enrol candidates",
+            "actions": {
+              "download": {
+                "description": "To enrol candidates in the session, fill in their details (Last name, First name, …) in this document.. <br />When you first download the template for the candidates' list, it will be blank. Afterwards, it will contain the details of the candidates enrolled in the session.",
+                "extra-information": "Download the template for the candidates' list",
+                "label": "Download (.ods)"
+              },
+              "upload": {
+                "description": "Select the candidates' list previously filled in.<br /><strong>Warning, any new upload deletes the existing candidates' list.</strong>",
+                "extra-information": "Upload the candidates' list",
+                "label": "Upload (.ods)"
+              }
+            },
+            "warning": "The session has begun, you can’t upload a candidates' list anymore.<br />If you want to edit the list, you can enrol a candidate directly in the table below."
+          },
+          "page-title": "Candidates"
+        },
         "date": "Date",
         "datetime": "Starting time (local time)",
         "downloads": {
@@ -307,18 +370,6 @@
             "copy-password": "Copy the invigilator’s session password",
             "label": "Session password",
             "invigilator": "Invigilator"
-          }
-        }
-      },
-      "candidates": {
-        "detail-modal": {
-          "actions": {
-            "close-extra-information": "Close candidate's detail window modal"
-          }
-        },
-        "add-modal": {
-          "actions": {
-            "close-extra-information": "Close add candidate window modal"
           }
         }
       },
