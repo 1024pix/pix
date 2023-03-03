@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { find } from '@ember/test-helpers';
+import { find, click } from '@ember/test-helpers';
 import { render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
@@ -67,7 +67,7 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       // given
       const stage = EmberObject.create({
         id: 1,
-        threshold: 100,
+        threshold: 0,
         title: 'My title',
         message: 'My message',
       });
@@ -79,6 +79,57 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       // then
       assert.dom(screen.queryByRole('radio', { name: 'Palier par seuil' })).doesNotExist();
       assert.dom(screen.queryByRole('radio', { name: 'Palier par niveau' })).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: /Supprimer/ })).doesNotExist();
+      assert.dom(screen.getByText('Voir détail')).exists();
+    });
+
+    test('it shoud display delete button on a stage', async function (assert) {
+      // given
+      const stage1 = EmberObject.create({
+        id: 1,
+        threshold: 0,
+        title: 'My title',
+        message: 'My message',
+      });
+      const stage2 = EmberObject.create({
+        id: 1,
+        threshold: 20,
+        title: 'My second stage title',
+        message: 'My second stage message',
+      });
+      this.set('model', { stages: [stage1, stage2], isNewFormat: true });
+
+      // when
+      const screen = await render(hbs`<TargetProfiles::Stages @targetProfile={{this.model}} />`);
+
+      // then
+      assert.dom(screen.queryByRole('button', { name: /Supprimer/ })).exists();
+    });
+
+    test('it should display modal when deleting a stage', async function (assert) {
+      // given
+      const stage1 = EmberObject.create({
+        id: 1,
+        threshold: 0,
+        title: 'My title',
+        message: 'My message',
+      });
+      const stage2 = EmberObject.create({
+        id: 1,
+        threshold: 20,
+        title: 'My second stage title',
+        message: 'My second stage message',
+      });
+      this.set('model', { stages: [stage1, stage2], isNewFormat: true });
+
+      // when
+      const screen = await render(hbs`<TargetProfiles::Stages @targetProfile={{this.model}} />`);
+      await click(screen.getByRole('button', { name: /Supprimer/ }));
+      await screen.findByRole('dialog');
+
+      // then
+      assert.dom(screen.getByText('Confirmer la suppression')).exists();
+      assert.dom(screen.getByRole('button', { name: 'Valider' })).exists();
     });
   });
 
