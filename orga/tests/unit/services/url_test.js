@@ -121,7 +121,7 @@ module('Unit | Service | url', function (hooks) {
     test('should get "pix.org" french url when current language is fr', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
-      const expectedUrl = 'https://pix.org/mentions-legales';
+      const expectedUrl = 'https://pix.org/fr/mentions-legales';
       service.currentDomain = { getExtension: sinon.stub().returns('org') };
       service.intl = { t: sinon.stub().returns('fr') };
 
@@ -164,7 +164,7 @@ module('Unit | Service | url', function (hooks) {
     test('should get "pix.org" french url when current language is fr', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
-      const expectedCguUrl = 'https://pix.org/politique-protection-donnees-personnelles-app';
+      const expectedCguUrl = 'https://pix.org/fr/politique-protection-donnees-personnelles-app';
       service.currentDomain = { getExtension: sinon.stub().returns('org') };
       service.intl = { t: sinon.stub().returns('fr') };
 
@@ -207,7 +207,7 @@ module('Unit | Service | url', function (hooks) {
     test('should get "pix.org" french url when current language is fr', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
-      const expectedCguUrl = 'https://pix.org/conditions-generales-d-utilisation';
+      const expectedCguUrl = 'https://pix.org/fr/conditions-generales-d-utilisation';
       service.currentDomain = { getExtension: sinon.stub().returns('org') };
       service.intl = { t: sinon.stub().returns('fr') };
 
@@ -250,7 +250,7 @@ module('Unit | Service | url', function (hooks) {
     test('should get "pix.org" in french when current language is fr', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
-      const expectedUrl = 'https://pix.org/accessibilite-pix-orga';
+      const expectedUrl = 'https://pix.org/fr/accessibilite-pix-orga';
       service.currentDomain = { getExtension: sinon.stub().returns('org') };
       service.intl = { t: sinon.stub().returns('fr') };
 
