@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.331.0 (03/03/2023)
+
+
+### :rocket: Amélioration
+- [#5761](https://github.com/1024pix/pix/pull/5761) [FEATURE][MON-PIX] Modifier le message d'erreur lors d'un refus de partage de données entre Pôle Emploi et Pix (PIX-7335)
+- [#5745](https://github.com/1024pix/pix/pull/5745) [FEATURE] Permettre de confirmer la création massive des sessions sur Pix Certif (PIX-7234).
+- [#5758](https://github.com/1024pix/pix/pull/5758) [FEATURE] Traduction de la page de détails d'une session sur Pix Certif (PIX-6669).
+
+### :bug: Correction
+- [#5757](https://github.com/1024pix/pix/pull/5757) [BUGFIX] Améliorer le message d'erreur lorsqu'un utilisateur tente de rejoindre une organisation via une invitation en se connectant avec une adresse email inconnue sur Pix Orga (PIX-7269)
+- [#5756](https://github.com/1024pix/pix/pull/5756) [BUGFIX] Restreindre les droits d'accès de modification des contenus formatifs (PIX-7305).
+- [#5733](https://github.com/1024pix/pix/pull/5733) [BUGFIX] N'afficher le lien vers l'import de session en masse que pour les centres qui ne sont pas isScoManagingStudent (PIX-7276).
+- [#5734](https://github.com/1024pix/pix/pull/5734) [BUGFIX] Gérer les adresses e-mail invalides lors de l'envoi d'invitations depuis Pix Orga (PIX-7188)
+
 ## v3.330.0 (02/03/2023)
 
 
