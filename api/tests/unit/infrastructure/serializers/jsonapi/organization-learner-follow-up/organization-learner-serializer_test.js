@@ -15,6 +15,8 @@ describe('Unit | Serializer | JSONAPI | organization-learner-serializer', functi
         authenticationMethods: ['PIX', 'GAR'],
         division: 'ABC',
         group: 'AE',
+        isCertifiable: true,
+        certifiableAt: '2022-03-01',
       });
 
       const expectedSerializedOrganizationLearner = {
@@ -29,6 +31,8 @@ describe('Unit | Serializer | JSONAPI | organization-learner-serializer', functi
             'authentication-methods': organizationLearner.authenticationMethods,
             division: organizationLearner.division,
             group: organizationLearner.group,
+            'is-certifiable': organizationLearner.isCertifiable,
+            'certifiable-at': organizationLearner.certifiableAt,
           },
         },
       };
