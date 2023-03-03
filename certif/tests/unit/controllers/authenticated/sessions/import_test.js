@@ -115,4 +115,59 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
       assert.ok(controller);
     });
   });
+
+  module('#createSessions', function () {
+    test('should go back to step one and call the notifications service in case of an error', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const confirmStub = sinon.stub().rejects();
+      const createRecordStub = sinon.stub().returns({ confirm: confirmStub });
+      store.createRecord = createRecordStub;
+      controller.notifications = { error: sinon.spy() };
+      controller.set('cachedValidatedSessionsKey', 'uuid');
+      sinon.stub(controller.router, 'transitionTo');
+
+      // when
+      await controller.createSessions();
+
+      // then
+      assert.ok(controller.isImportStepOne);
+      sinon.assert.calledOnce(controller.notifications.error);
+    });
+
+    test('should create session mass import report and confirm import', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const confirmStub = sinon.stub();
+      const createRecordStub = sinon.stub().returns({ confirm: confirmStub });
+      store.createRecord = createRecordStub;
+      controller.set('cachedValidatedSessionsKey', 'uuid');
+      sinon.stub(controller.router, 'transitionTo');
+
+      // when
+      await controller.createSessions();
+
+      // then
+      sinon.assert.calledWithExactly(createRecordStub, 'sessions-mass-import-report', {
+        cachedValidatedSessionsKey: 'uuid',
+      });
+      sinon.assert.calledWithExactly(confirmStub, {
+        cachedValidatedSessionsKey: 'uuid',
+      });
+      assert.ok(true);
+    });
+
+    test('should redirect to sessions list', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      store.createRecord = sinon.stub().returns({ confirm: sinon.stub() });
+      sinon.stub(controller.router, 'transitionTo');
+
+      // when
+      await controller.createSessions();
+
+      // then
+      assert.ok(controller.router.transitionTo.calledWith('authenticated.sessions.list'));
+    });
+  });
 });

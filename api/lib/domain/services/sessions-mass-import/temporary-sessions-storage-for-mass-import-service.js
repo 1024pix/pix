@@ -15,4 +15,16 @@ module.exports = {
 
     return uuid;
   },
+
+  async getByKeyAndUserId({ cachedValidatedSessionsKey, userId }) {
+    const key = `${userId}:${cachedValidatedSessionsKey}`;
+    const sessions = await temporaryStorage.get(key);
+
+    return sessions;
+  },
+
+  async delete({ cachedValidatedSessionsKey, userId }) {
+    const key = `${userId}:${cachedValidatedSessionsKey}`;
+    await temporaryStorage.delete(key);
+  },
 };

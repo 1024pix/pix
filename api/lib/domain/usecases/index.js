@@ -415,6 +415,7 @@ const createOrganizationPlacesLot = require('./create-organization-places-lot.js
 const createOrganizationsWithTagsAndTargetProfiles = require('./create-organizations-with-tags-and-target-profiles.js');
 const createPasswordResetDemand = require('./create-password-reset-demand.js');
 const createSession = require('./create-session.js');
+const createSessions = require('./sessions-mass-import/create-sessions.js');
 const createStage = require('./target-profile-management/create-stage.js');
 const createTag = require('./create-tag.js');
 const createTargetProfile = require('./create-target-profile.js');
@@ -703,6 +704,7 @@ const usecases = {
   createOrganizationsWithTagsAndTargetProfiles,
   createPasswordResetDemand,
   createSession,
+  createSessions,
   createStage,
   createTag,
   createTargetProfile,

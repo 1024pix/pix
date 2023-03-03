@@ -195,6 +195,22 @@ module('Acceptance | Session Import', function (hooks) {
             assert.dom(screen.getByText('3 candidats')).exists();
             assert.dom(screen.queryByLabelText('fichier.csv')).doesNotExist();
           });
+
+          test('it should display a confirm button', async function (assert) {
+            // given
+            const blob = new Blob(['foo']);
+            const file = new File([blob], 'fichier.csv');
+
+            // when
+            screen = await visit('/sessions/import');
+            const input = screen.getByLabelText('Importer le modèle complété');
+            await triggerEvent(input, 'change', { files: [file] });
+            const importButton = screen.getByRole('button', { name: 'Continuer' });
+            await click(importButton);
+
+            // then
+            assert.dom(screen.getByRole('button', { name: 'Finaliser la création/édition' })).exists();
+          });
         });
 
         module('when the file is not valid', function () {
@@ -211,6 +227,21 @@ module('Acceptance | Session Import', function (hooks) {
 
             // then
             assert.dom(screen.getByText('Fichier non valide')).exists();
+          });
+
+          test('it should not display the confirm button', async function (assert) {
+            //given
+            const file = new Blob(['foo'], { type: 'invalid-file' });
+
+            // when
+            screen = await visit('/sessions/import');
+            const input = await screen.findByLabelText('Importer le modèle complété');
+            await triggerEvent(input, 'change', { files: [file] });
+            const importButton = screen.getByRole('button', { name: 'Continuer' });
+            await click(importButton);
+
+            // then
+            assert.dom(screen.queryByRole('button', { name: 'Finaliser la création/édition' })).doesNotExist();
           });
         });
       });
