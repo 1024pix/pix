@@ -3,10 +3,32 @@ import Service, { inject as service } from '@ember/service';
 import ENV from 'pix-orga/config/environment';
 
 const FRENCH_DOMAIN_EXTENSION = 'fr';
+const PIX_FR_DOMAIN = 'https://pix.fr';
+const PIX_ORG_DOMAIN_FR_LOCALE = 'https://pix.org/fr';
+const PIX_ORG_DOMAIN_EN_LOCALE = 'https://pix.org/en-gb';
 
 export default class Url extends Service {
   @service currentDomain;
   @service intl;
+
+  SHOWCASE_WEBSITE_LOCALE_PATH = {
+    ACCESSIBILITY: {
+      en: '/accessibility-pix-orga',
+      fr: '/accessibilite-pix-orga',
+    },
+    CGU: {
+      en: '/terms-and-conditions',
+      fr: '/conditions-generales-d-utilisation',
+    },
+    DATA_PROTECTION_POLICY: {
+      en: '/personal-data-protection-policy',
+      fr: '/politique-protection-donnees-personnelles-app',
+    },
+    LEGAL_NOTICE: {
+      en: '/legal-notice',
+      fr: '/mentions-legales',
+    },
+  };
 
   definedCampaignsRootUrl = ENV.APP.CAMPAIGNS_ROOT_URL;
   pixAppUrlWithoutExtension = ENV.APP.PIX_APP_URL_WITHOUT_EXTENSION;
@@ -29,41 +51,19 @@ export default class Url extends Service {
   }
 
   get legalNoticeUrl() {
-    const currentLanguage = this.intl.t('current-lang');
-
-    if (this.isFrenchDomainExtension) return 'https://pix.fr/mentions-legales';
-
-    return currentLanguage === 'fr' ? 'https://pix.org/fr/mentions-legales' : 'https://pix.org/en-gb/legal-notice';
+    return this._computeShowcaseWebsiteUrl(this.SHOWCASE_WEBSITE_LOCALE_PATH.LEGAL_NOTICE);
   }
 
   get cguUrl() {
-    const currentLanguage = this.intl.t('current-lang');
-
-    if (this.isFrenchDomainExtension) return 'https://pix.fr/conditions-generales-d-utilisation';
-
-    return currentLanguage === 'fr'
-      ? 'https://pix.org/fr/conditions-generales-d-utilisation'
-      : 'https://pix.org/en-gb/terms-and-conditions';
+    return this._computeShowcaseWebsiteUrl(this.SHOWCASE_WEBSITE_LOCALE_PATH.CGU);
   }
 
   get dataProtectionPolicyUrl() {
-    const currentLanguage = this.intl.t('current-lang');
-
-    if (this.isFrenchDomainExtension) return 'https://pix.fr/politique-protection-donnees-personnelles-app';
-
-    return currentLanguage === 'fr'
-      ? 'https://pix.org/fr/politique-protection-donnees-personnelles-app'
-      : 'https://pix.org/en-gb/personal-data-protection-policy';
+    return this._computeShowcaseWebsiteUrl(this.SHOWCASE_WEBSITE_LOCALE_PATH.DATA_PROTECTION_POLICY);
   }
 
   get accessibilityUrl() {
-    const currentLanguage = this.intl.t('current-lang');
-
-    if (this.isFrenchDomainExtension) return 'https://pix.fr/accessibilite-pix-orga';
-
-    return currentLanguage === 'fr'
-      ? 'https://pix.org/fr/accessibilite-pix-orga'
-      : 'https://pix.org/en-gb/accessibility-pix-orga';
+    return this._computeShowcaseWebsiteUrl(this.SHOWCASE_WEBSITE_LOCALE_PATH.ACCESSIBILITY);
   }
 
   get forgottenPasswordUrl() {
@@ -73,5 +73,15 @@ export default class Url extends Service {
       url += '?lang=en';
     }
     return url;
+  }
+
+  _computeShowcaseWebsiteUrl({ en: englishPath, fr: frenchPath }) {
+    const currentLanguage = this.intl.t('current-lang');
+
+    if (this.isFrenchDomainExtension) return `${PIX_FR_DOMAIN}${frenchPath}`;
+
+    return currentLanguage === FRENCH_DOMAIN_EXTENSION
+      ? `${PIX_ORG_DOMAIN_FR_LOCALE}${frenchPath}`
+      : `${PIX_ORG_DOMAIN_EN_LOCALE}${englishPath}`;
   }
 }
