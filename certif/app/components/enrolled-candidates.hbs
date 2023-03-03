@@ -1,7 +1,8 @@
 <div class="panel">
   <div class="panel-header">
     <h3 class="panel-header__title">
-      Liste des candidats ({{@certificationCandidates.length}})
+      {{t "pages.sessions.detail.candidates.list.title"}}
+      ({{@certificationCandidates.length}})
     </h3>
     {{#if @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
       <PixButtonLink
@@ -9,7 +10,7 @@
         @model={{@sessionId}}
         class="enrolled-candidate__add-students"
       >
-        Inscrire des candidats
+        {{t "pages.sessions.detail.candidates.list.actions.inscription-multiple.label"}}
       </PixButtonLink>
     {{else}}
       <PixButton
@@ -18,7 +19,7 @@
         @triggerAction={{this.openNewCertificationCandidateModal}}
         @size="small"
       >
-        Inscrire un candidat
+        {{t "pages.sessions.detail.candidates.list.actions.inscription.label"}}
       </PixButton>
     {{/if}}
   </div>
@@ -27,43 +28,50 @@
       <table class="certification-candidates-table-cpf-toggle-enabled">
         <caption class="sr-only">
           {{#if @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-            {{t "pages.sessions.enrolled-candidates.without-details-description"}}
+            {{t "pages.sessions.detail.candidates.list.without-details-description"}}
           {{else}}
-            {{t "pages.sessions.enrolled-candidates.with-details-description"}}
+            {{t "pages.sessions.detail.candidates.list.with-details-description"}}
           {{/if}}
         </caption>
         <thead>
           <tr>
             <th class="certification-candidates-table__column-last-name">
-              Nom de naissance
+              {{t "pages.sessions.detail.candidates.list.columns.lastname"}}
             </th>
             <th class="certification-candidates-table__column-first-name">
-              Prénom
+              {{t "pages.sessions.detail.candidates.list.columns.firstname"}}
             </th>
             <th class="certification-candidates-table__column-birthdate">
-              Date de naissance
+              {{t "pages.sessions.detail.candidates.list.columns.birth-date"}}
             </th>
             {{#if @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
               <th class="certification-candidates-table__birth-city">
-                Commune de naissance
+                {{t "pages.sessions.detail.candidates.list.columns.birth-city"}}
               </th>
               <th>
-                Pays de naissance
+                {{t "pages.sessions.detail.candidates.list.columns.birth-country"}}
               </th>
             {{/if}}
             {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-              <th class="certification-candidates-table__recipient-email">E-mail du destinataire des résultats
-                (formateur, enseignant...)</th>
+              <th class="certification-candidates-table__recipient-email">
+                {{t "pages.sessions.detail.candidates.list.columns.recipient-email"}}
+              </th>
             {{/unless}}
             {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-              <th class="certification-candidates-table__external-id">Identifiant externe</th>
+              <th class="certification-candidates-table__external-id">
+                {{t "pages.sessions.detail.candidates.list.columns.external-id"}}
+              </th>
             {{/unless}}
-            <th class="certification-candidates-table__column-time">Temps majoré</th>
+            <th class="certification-candidates-table__column-time">
+              {{t "pages.sessions.detail.candidates.list.columns.extratime"}}
+            </th>
             {{#if @shouldDisplayPaymentOptions}}
-              <th class="certification-candidates-table__payment-options">Tarification part Pix</th>
+              <th class="certification-candidates-table__payment-options">
+                {{t "pages.sessions.detail.candidates.list.columns.pricing"}}
+              </th>
             {{/if}}
             {{#if @displayComplementaryCertification}}
-              <th>Certification complémentaire</th>
+              <th>{{t "pages.sessions.detail.candidates.list.columns.additional-certification"}}</th>
             {{/if}}
           </tr>
         </thead>
@@ -103,9 +111,11 @@
                         type="button"
                         class="button--showed-as-link"
                         {{on "click" (fn this.openCertificationCandidateDetailsModal candidate)}}
-                        aria-label="Voir le détail du candidat {{candidate.firstName}} {{candidate.lastName}}"
+                        aria-label="{{t
+                          'pages.sessions.detail.candidates.list.actions.details.extra-information'
+                        }} {{candidate.firstName}} {{candidate.lastName}}"
                       >
-                        Voir le détail
+                        {{t "pages.sessions.detail.candidates.list.actions.details.label"}}
                       </button>
                     </div>
                   {{/unless}}
@@ -116,13 +126,15 @@
                           <PixIconButton
                             @icon="trash-alt"
                             class="certification-candidates-actions__delete-button--disabled"
-                            aria-label="Supprimer le candidat {{candidate.firstName}} {{candidate.lastName}}"
+                            aria-label="{{t
+                              'pages.sessions.detail.candidates.list.actions.delete.extra-information'
+                            }} {{candidate.firstName}} {{candidate.lastName}}"
                             aria-disabled="true"
                             aria-describedby="tooltip-delete-student-button"
                             @withBackground={{true}}
                           />
                         </:triggerElement>
-                        <:tooltip>Ce candidat a déjà rejoint la session. Vous ne pouvez pas le supprimer.</:tooltip>
+                        <:tooltip>{{t "pages.sessions.detail.candidates.list.actions.delete.tooltip"}}</:tooltip>
                       </PixTooltip>
                     {{else}}
                       <PixIconButton
@@ -144,7 +156,7 @@
       </table>
     {{else}}
       <div class="table__empty content-text">
-        <p>En attente de candidats</p>
+        <p>{{t "pages.sessions.detail.candidates.list.empty"}}</p>
       </div>
     {{/if}}
   </div>
