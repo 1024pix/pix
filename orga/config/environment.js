@@ -74,6 +74,10 @@ module.exports = function (environment) {
           CODE: '403',
           I18N_KEY: 'pages.login-form.errors.status.403',
         },
+        USER_NOT_FOUND: {
+          CODE: '404',
+          I18N_KEY: 'pages.login-form.errors.status.404',
+        },
         INTERNAL_SERVER_ERROR: {
           CODE: '500',
           I18N_KEY: 'common.api-error-messages.internal-server-error',

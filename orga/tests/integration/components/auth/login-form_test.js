@@ -208,6 +208,34 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
     assert.dom('login-form__information').doesNotExist();
   });
 
+  module('When the user fills the login form with an invalid email or password', function (hooks) {
+    hooks.beforeEach(function () {
+      StoreStub.prototype.createRecord = () => {
+        return EmberObject.create({
+          save() {
+            return reject({ errors: [{ status: '404' }] });
+          },
+          deleteRecord() {},
+        });
+      };
+    });
+
+    test('displays the correct error message', async function (assert) {
+      // given
+      const screen = await renderScreen(
+        hbs`<Auth::LoginForm @isWithInvitation='true' @organizationInvitationId='1' @organizationInvitationCode='C0D3' />`
+      );
+      await fillByLabel(emailInputLabel, 'pix@example.net');
+      await fillByLabel(passwordInputLabel, 'JeMeLoggue1024');
+
+      //  when
+      await clickByName(loginLabel);
+
+      // then
+      assert.dom(screen.getByText("L'adresse e-mail et/ou le mot de passe saisis sont incorrects.")).exists();
+    });
+  });
+
   module('when domain is pix.org', function () {
     test('should not display recovery link', async function (assert) {
       //given
