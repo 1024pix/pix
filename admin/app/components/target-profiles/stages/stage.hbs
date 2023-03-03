@@ -30,11 +30,38 @@
         @isBorderVisible={{true}}
         @size="small"
         @iconBefore="trash"
-        @triggerAction={{fn @deleteStage @stage}}
+        @triggerAction={{this.toggleModal}}
         class="stages-table-actions-delete"
       >
         Supprimer
       </PixButton>
+      <PixModal
+        @title="Confirmer la suppression"
+        @showModal={{this.showModal}}
+        @onCloseButtonClick={{this.toggleModal}}
+      >
+        <:content>
+          <p>
+            Êtes-vous sûr de vouloir supprimer le
+            {{#if @stage.isTypeLevel}}
+              niveau
+              {{@stage.level}}
+            {{else}}
+              seuil
+              {{@stage.threshold}}
+            {{/if}}
+            <b>{{@stage.title}} </b>?
+          </p>
+        </:content>
+        <:footer>
+          <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @triggerAction={{this.toggleModal}}>
+            Annuler
+          </PixButton>
+          <PixButton @backgroundColor="red" @isBorderVisible={{true}} @triggerAction={{fn @deleteStage @stage}}>
+            Valider
+          </PixButton>
+        </:footer>
+      </PixModal>
     {{/unless}}
   </td>
 </tr>
