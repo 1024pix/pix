@@ -233,6 +233,7 @@
   "pages": {
     "assessment-individual-results": {
       "title": "Résultats de {firstName} {lastName}",
+      "breadcrumb-current-page-label": "Participation de {firstName} {lastName}",
       "badges": "Résultats Thématiques",
       "progression": "Avancement",
       "result": "Résultat",

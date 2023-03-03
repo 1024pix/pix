@@ -24,7 +24,7 @@ Fonctionnalité: Gestion des Campagnes
     Alors je vois 2 sujets
     Et je vois que le sujet "Capitales" est "Très recommandé"
     Et je vois que le sujet "Philosophes" est "Assez recommandé"
-    Lorsque je retourne au détail de la campagne
+    Lorsque je clique sur "Campagne de la Néra"
     Et je clique sur "Résultats (1)"
     Alors je vois la moyenne des résultats à 50%
     Lorsque je clique sur "Analyse"

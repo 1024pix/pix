@@ -89,10 +89,6 @@ Then(`je vois que le sujet {string} est {string}`, (tubeName, recommendationLeve
   cy.contains(tubeName).closest('[aria-label="Sujet"]').get(`[aria-label="${recommendationLevel}"]`);
 });
 
-When(`je retourne au détail de la campagne`, () => {
-  cy.get('[aria-label="Retour"]').click();
-});
-
 When('je clique sur le bouton "Associer"', () => {
   cy.contains('button', 'Associer').click();
 });
