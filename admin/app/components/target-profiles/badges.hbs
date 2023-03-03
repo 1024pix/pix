@@ -15,21 +15,22 @@
       <tbody>
         {{#each @badges as |badge|}}
           <tr aria-label="Informations du badge {{badge.title}}">
-            <td>{{badge.id}}</td>
-            <td><img src={{badge.imageUrl}} alt={{badge.altMessage}} /></td>
-            <td>{{badge.key}}</td>
+            <td class="table__column table__column--id">{{badge.id}}</td>
+            <td class="badges-table__image"><img src={{badge.imageUrl}} alt={{badge.altMessage}} /></td>
+            <td class="key-table">{{badge.key}}</td>
             <td>{{badge.title}}</td>
             <td>{{badge.message}}</td>
             <td>
               <Common::TickOrCross @isTrue={{badge.isAlwaysVisible}} />
             </td>
-            <td>
+            <td class="badges-table__actions">
               <PixButtonLink
                 @backgroundColor="transparent-light"
                 @isBorderVisible={{true}}
                 @route="authenticated.target-profiles.target-profile.badges.badge"
                 @size="small"
                 @model={{badge.id}}
+                class="badges-table-actions__button"
                 aria-label="Détails du badge {{badge.title}}"
               >Voir détail</PixButtonLink>
               <PixButton
