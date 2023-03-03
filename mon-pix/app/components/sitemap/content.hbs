@@ -4,13 +4,17 @@
 
     <ul class="sitemap-content__items">
       <li class="sitemap-content-items__link">
-        <LinkTo @route="authenticated.user-dashboard">
-          {{t "navigation.main.dashboard"}}
-        </LinkTo>
+        <h2>
+          <LinkTo @route="authenticated.user-dashboard">
+            {{t "navigation.main.dashboard"}}
+          </LinkTo>
+        </h2>
       </li>
 
       <li class="sitemap-content-items__link">
-        <LinkTo @route="authenticated.profile">{{t "navigation.main.skills"}}</LinkTo>
+        <h2>
+          <LinkTo @route="authenticated.profile">{{t "navigation.main.skills"}}</LinkTo>
+        </h2>
         <ul class="sitemap-content-items-link-skills">
           {{#each @model.scorecards as |scorecard|}}
             <li class="sitemap-content-items-link-skills__skill">
@@ -23,56 +27,73 @@
       </li>
 
       <li class="sitemap-content-items__link">
-        <LinkTo @route="authenticated.certifications">
-          {{t "navigation.main.start-certification"}}
-        </LinkTo>
+        <h2>
+          <LinkTo @route="authenticated.certifications">
+            {{t "navigation.main.start-certification"}}
+          </LinkTo>
+        </h2>
       </li>
 
       <li class="sitemap-content-items__link">
-        <LinkTo @route="authenticated.user-tutorials">
-          {{t "navigation.main.tutorials"}}
-        </LinkTo>
+        <h2>
+          <LinkTo @route="authenticated.user-tutorials">
+            {{t "navigation.main.tutorials"}}
+          </LinkTo>
+        </h2>
       </li>
 
       <li class="sitemap-content-items__link">
-        <LinkTo @route="authenticated.user-trainings">
-          {{t "navigation.main.trainings"}}
-        </LinkTo>
+        <h2>
+          <LinkTo @route="authenticated.user-trainings">
+            {{t "navigation.main.trainings"}}
+          </LinkTo>
+        </h2>
       </li>
 
       <li class="sitemap-content-items__link">
-        <LinkTo @route="fill-in-campaign-code">
-          {{t "navigation.main.code"}}
-        </LinkTo>
+        <h2>
+          <LinkTo @route="fill-in-campaign-code">
+            {{t "navigation.main.code"}}
+          </LinkTo>
+        </h2>
       </li>
 
       <li class="sitemap-content-items__link">
-        <LinkTo @route="authenticated.user-account">
-          {{t "navigation.user.account"}}
-        </LinkTo>
+        <h2>
+          <LinkTo @route="authenticated.user-account">
+            {{t "navigation.user.account"}}
+          </LinkTo>
+        </h2>
       </li>
 
       <li class="sitemap-content-items__link">
-        <LinkTo @route="authenticated.user-tests">
-          {{t "navigation.user.tests"}}
-        </LinkTo>
+        <h2>
+          <LinkTo @route="authenticated.user-tests">
+            {{t "navigation.user.tests"}}
+          </LinkTo>
+        </h2>
       </li>
 
       <li class="sitemap-content-items__link">
-        <LinkTo @route="authenticated.user-certifications">
-          {{t "navigation.user.certifications"}}
-        </LinkTo>
+        <h2>
+          <LinkTo @route="authenticated.user-certifications">
+            {{t "navigation.user.certifications"}}
+          </LinkTo>
+        </h2>
       </li>
 
       <li class="sitemap-content-items__link">
-        <a href="{{this.supportHomeUrl}}" target="_blank" rel="noopener noreferrer">
-          {{t "navigation.main.help"}}
-          <FaIcon @icon="up-right-from-square" aria-hidden="true" />
-          <span class="sr-only">{{t "navigation.external-link-title"}}</span>
-        </a>
+        <h2>
+          <a href="{{this.supportHomeUrl}}" target="_blank" rel="noopener noreferrer">
+            {{t "navigation.main.help"}}
+            <FaIcon @icon="up-right-from-square" aria-hidden="true" />
+            <span class="sr-only">{{t "navigation.external-link-title"}}</span>
+          </a>
+        </h2>
       </li>
 
-      <li class="sitemap-content-items__link sitemap-items__link--title">{{t "pages.sitemap.resources"}}
+      <li class="sitemap-content-items__link sitemap-items__link--title">
+        <h2>{{t "pages.sitemap.resources"}}</h2>
         <ul class="sitemap-content-items-link__resources">
           <li class="sitemap-content-items-link-resources__resource">
             <a href={{this.accessibilityUrl}} target="_blank" rel="noopener noreferrer">
