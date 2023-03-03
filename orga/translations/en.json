@@ -784,6 +784,7 @@
     },
     "profiles-individual-results": {
       "title": "Profile of {firstName} {lastName}",
+      "breadcrumb-current-page-label": "Participation of {firstName} {lastName}",
       "certifiable": "Eligible for certification",
       "competences-certifiables": "COMP. ELIGIBLE FOR CERTIFICATION",
       "pix": "PIX",

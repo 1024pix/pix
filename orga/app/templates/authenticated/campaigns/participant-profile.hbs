@@ -2,7 +2,11 @@
 {{page-title this.pageTitle}}
 
 <article class="profile">
-  <Participant::Profile::Header @campaign={{@model.campaign}} @campaignProfile={{@model.campaignProfile}} />
+  <Participant::Profile::Header
+    @campaign={{@model.campaign}}
+    @campaignProfile={{@model.campaignProfile}}
+    @campaignParticipationId={{@model.campaignParticipationId}}
+  />
 
   <Participant::Profile::Table
     @competences={{@model.campaignProfile.sortedCompetences}}

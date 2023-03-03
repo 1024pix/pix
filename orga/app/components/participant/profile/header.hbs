@@ -1,12 +1,5 @@
 <header class="navigation">
-  <Ui::PreviousPageButton
-    @route="authenticated.campaigns.campaign.activity"
-    @routeId={{@campaign.id}}
-    @backButtonAriaLabel={{t "common.actions.back"}}
-    aria-label={{t "pages.campaign.name"}}
-  >
-    {{@campaign.name}}
-  </Ui::PreviousPageButton>
+  <Ui::Breadcrumb @links={{this.breadcrumbLinks}} />
 </header>
 
 <section class="panel panel--header">
