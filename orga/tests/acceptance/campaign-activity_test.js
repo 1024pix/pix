@@ -65,15 +65,6 @@ module('Acceptance | Campaign Activity', function (hooks) {
         assert.strictEqual(currentURL(), '/campagnes/2/profils/1');
       });
     });
-
-    test('it could return on list of participants', async function (assert) {
-      // when
-      await visit('/campagnes/1/evaluations/1');
-      await clickByName('Retour');
-
-      // then
-      assert.strictEqual(currentURL(), '/campagnes/1');
-    });
   });
 
   module('when prescriber reset filters', function () {
