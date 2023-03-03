@@ -4,10 +4,10 @@ const {
   generateValidRequestAuthorizationHeader,
   knex,
   sinon,
-} = require('../../../test-helper');
-const createServer = require('../../../../server');
+} = require('../../../../test-helper');
+const createServer = require('../../../../../server');
 
-describe('Acceptance | Controller | certification-centers-controller-post-validate-sessions-for-mass-import', function () {
+describe('Acceptance | Controller | certification-centers-controller-post-validate-sessions', function () {
   let server;
 
   beforeEach(async function () {

@@ -206,4 +206,18 @@ module.exports = {
     });
     return h.response(sessionMassImportReport).code(200);
   },
+
+  async createSessionsForMassImport(request, h) {
+    const { certificationCenterId } = request.params;
+    const authenticatedUserId = request.auth.credentials.userId;
+
+    const { cachedValidatedSessionsKey } = request.payload.data.attributes;
+
+    await usecases.createSessions({
+      cachedValidatedSessionsKey,
+      certificationCenterId,
+      userId: authenticatedUserId,
+    });
+    return h.response().code(201);
+  },
 };
