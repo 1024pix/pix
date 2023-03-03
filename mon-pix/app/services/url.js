@@ -60,12 +60,13 @@ export default class Url extends Service {
   }
 
   get accessibilityUrl() {
+    const tld = this.currentDomain.getExtension();
     const currentLanguage = this.intl.t('current-lang');
 
-    if (currentLanguage === 'en') {
-      return `https://pix.${this.currentDomain.getExtension()}/en-gb/accessibility`;
+    if (tld === 'fr') {
+      return `https://pix.fr/accessibilite`;
     }
-    return `https://pix.${this.currentDomain.getExtension()}/accessibilite`;
+    return currentLanguage === 'fr' ? `https://pix.org/fr/accessibilite` : `https://pix.org/en-gb/accessibility`;
   }
 
   get accessibilityHelpUrl() {
