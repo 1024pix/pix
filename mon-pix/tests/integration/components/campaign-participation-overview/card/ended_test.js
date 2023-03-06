@@ -80,7 +80,7 @@ module('Integration | Component | CampaignParticipationOverview | Card | Ended',
         );
 
         // then
-        assert.ok(screen.getByLabelText('4 étoiles sur 6'));
+        assert.ok(screen.getByText('4 étoiles sur 6'));
       });
     });
   });

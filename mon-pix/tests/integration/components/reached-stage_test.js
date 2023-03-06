@@ -33,7 +33,7 @@ module('Integration | Component | reached-stage', function (hooks) {
         );
         // then
         assert.ok(
-          screen.getByLabelText(
+          screen.getByText(
             this.intl.t('pages.skill-review.stage.starsAcquired', { acquired: reachedStage - 1, total: totalStage - 1 })
           )
         );

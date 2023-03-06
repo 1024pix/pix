@@ -18,21 +18,16 @@
 }
 
 .reached-stage-score {
-
   &__stars {
     display: flex;
     justify-content: center;
     min-width: 200px;
     max-width: 250px;
-  }
-
-  &__stars img {
-    margin: 3px;
-    padding-bottom: 16px;
+    margin-bottom: $spacing-m;
   }
 
   &__percentage-text {
-    color: $pix-neutral-40;
+    color: $pix-neutral-50;
     font-weight: $font-medium;
     font-size: 0.875rem;
     font-family: $font-roboto;

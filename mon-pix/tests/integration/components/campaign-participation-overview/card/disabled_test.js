@@ -159,7 +159,7 @@ module('Integration | Component | CampaignParticipationOverview | Card | Archive
           );
 
           // then
-          assert.ok(screen.getByLabelText('1 étoile sur 3'));
+          assert.ok(screen.getByText('1 étoile sur 3'));
         });
       });
     });
