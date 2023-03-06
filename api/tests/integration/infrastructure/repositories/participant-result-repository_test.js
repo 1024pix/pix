@@ -648,11 +648,10 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
         expect(participantResult.reachedStage).to.deep.include({
           id: 2,
           message: 'Message2',
-          starCount: 3,
-          threshold: 50,
+          reachedStage: 3,
+          totalStage: 4,
           title: 'Stage2',
         });
-        expect(participantResult.stageCount).to.equal(4);
       });
     });
 

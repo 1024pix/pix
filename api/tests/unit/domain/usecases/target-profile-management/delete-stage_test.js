@@ -6,7 +6,7 @@ describe('Unit | UseCases | delete-stage', function () {
   let stageCollection;
 
   beforeEach(function () {
-    stageCollection = domainBuilder.buildStageCollection({
+    stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({
       id: 100,
       stages: [
         {
@@ -25,7 +25,7 @@ describe('Unit | UseCases | delete-stage', function () {
 
   it('should throw DomainError for an unexisting stage', function () {
     // given
-    stageCollection = domainBuilder.buildStageCollection({
+    stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({
       id: 100,
       stages: [
         {
@@ -55,7 +55,7 @@ describe('Unit | UseCases | delete-stage', function () {
 
   it('should return valie stage', function () {
     // given
-    stageCollection = domainBuilder.buildStageCollection({
+    stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({
       id: 100,
       stages: [
         {

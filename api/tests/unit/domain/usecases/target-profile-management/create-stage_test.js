@@ -7,7 +7,7 @@ describe('Unit | UseCases | create-stage', function () {
 
   context('When stage collection is empty', function () {
     beforeEach(function () {
-      stageCollection = domainBuilder.buildStageCollection({
+      stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({
         id: 100,
         stages: [],
         maxLevel: 2,
@@ -307,7 +307,7 @@ describe('Unit | UseCases | create-stage', function () {
 
   context('When stage collection has level type stages', function () {
     beforeEach(function () {
-      stageCollection = domainBuilder.buildStageCollection({
+      stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({
         id: 100,
         stages: [
           {
@@ -540,7 +540,7 @@ describe('Unit | UseCases | create-stage', function () {
 
   context('When stage collection has threshold type stages', function () {
     beforeEach(function () {
-      stageCollection = domainBuilder.buildStageCollection({
+      stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({
         id: 100,
         stages: [
           {

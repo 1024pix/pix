@@ -9,6 +9,7 @@ const areaRepository = require('./area-repository.js');
 const knowledgeElementRepository = require('./knowledge-element-repository.js');
 const flashAssessmentResultRepository = require('./flash-assessment-result-repository.js');
 const campaignRepository = require('./campaign-repository.js');
+const stageCollectionRepository = require('./user-campaign-results/stage-collection-repository.js');
 const flash = require('../../domain/services/algorithm-methods/flash.js');
 const dataFetcher = require('../../domain/services/algorithm-methods/data-fetcher.js');
 const { NotFoundError } = require('../../domain/errors.js');
@@ -25,13 +26,13 @@ const ParticipantResultRepository = {
     const isCampaignArchived = await _isCampaignArchived(campaignId);
     const competences = await _findTargetedCompetences(campaignId, locale);
     const badgeResultsDTO = await _getBadgeResults(badges);
-    const stages = await _getStages(campaignId);
+    const stageCollection = await _getStageCollection(campaignId);
 
     return new AssessmentResult({
       participationResults,
       competences,
       badgeResultsDTO,
-      stages,
+      stageCollection,
       isCampaignMultipleSendings,
       isOrganizationLearnerActive,
       isCampaignArchived,
@@ -170,8 +171,8 @@ async function _getAcquiredBadgeIds(userId, campaignParticipationId) {
   return knex('badge-acquisitions').select('badgeId').where({ userId, campaignParticipationId });
 }
 
-function _getStages(campaignId) {
-  return campaignRepository.findStages({ campaignId });
+function _getStageCollection(campaignId) {
+  return stageCollectionRepository.findStageCollection({ campaignId });
 }
 
 async function _getBadgeResults(badges) {

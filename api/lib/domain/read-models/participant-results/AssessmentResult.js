@@ -1,5 +1,4 @@
 const BadgeResult = require('./BadgeResult.js');
-const ReachedStage = require('./ReachedStage.js');
 const CompetenceResult = require('./CompetenceResult.js');
 const constants = require('../../constants.js');
 const moment = require('moment');
@@ -12,7 +11,7 @@ class AssessmentResult {
     isCampaignArchived,
     competences,
     badgeResultsDTO,
-    stages,
+    stageCollection,
     flashScoringResults,
   }) {
     const { knowledgeElements, sharedAt, assessmentCreatedAt } = participationResults;
@@ -36,9 +35,8 @@ class AssessmentResult {
     );
     this.badgeResults = badgeResultsDTO.map((badge) => new BadgeResult(badge, participationResults));
 
-    this.stageCount = stages.length;
-    if (stages.length > 0) {
-      this.reachedStage = new ReachedStage(this.masteryRate, stages);
+    if (stageCollection.totalStages > 0) {
+      this.reachedStage = stageCollection.getReachedStage(this.validatedSkillsCount, this.masteryRate * 100);
     }
     this.canImprove = this._computeCanImprove(knowledgeElements, assessmentCreatedAt, this.isShared);
     this.isDisabled = this._computeIsDisabled(isCampaignArchived, participationResults.isDeleted);
