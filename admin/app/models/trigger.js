@@ -1,8 +1,7 @@
 import Model, { attr, hasMany } from '@ember-data/model';
 
-export default class TrainingTrigger extends Model {
+export default class Trigger extends Model {
   @attr('string') type;
-  @attr('number') trainingId;
   @attr('number') threshold;
-  @hasMany('tube') tubes;
+  @hasMany('trigger-tube') triggerTubes;
 }

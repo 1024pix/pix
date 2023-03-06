@@ -33,8 +33,16 @@ export default class Training extends Model {
     }),
   })
   duration;
-  @attr('number') prerequisiteThreshold;
-  @attr('number') goalThreshold;
+
+  @hasMany('triggers') triggers;
+
+  get prerequesiteTrigger() {
+    return this.triggers.findBy('type', 'prerequisite');
+  }
+
+  get goalTrigger() {
+    return this.triggers.findBy('type', 'goal');
+  }
 
   @hasMany('target-profile-summary') targetProfileSummaries;
 
