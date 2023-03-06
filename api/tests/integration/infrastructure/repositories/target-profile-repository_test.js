@@ -537,7 +537,7 @@ describe('Integration | Repository | Target-profile', function () {
 
         // then
         expect(stages.length).to.be.equal(2);
-        expect(stages).to.deep.equal([stage2, stage1]);
+        expect(stages).to.deep.equal([_.omit(stage2, 'isFirstSkill'), _.omit(stage1, 'isFirstSkill')]);
       });
     });
   });

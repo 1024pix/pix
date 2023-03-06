@@ -16,7 +16,6 @@ module.exports = {
         'campaignParticipationBadges',
         'competenceResults',
         'reachedStage',
-        'stageCount',
         'canRetry',
         'canImprove',
         'isDisabled',
@@ -79,7 +78,7 @@ module.exports = {
       },
       reachedStage: {
         ref: 'id',
-        attributes: ['title', 'message', 'threshold', 'starCount'],
+        attributes: ['title', 'message', 'totalStage', 'reachedStage'],
       },
       typeForAttribute(attribute) {
         return attribute === 'reachedStage' ? 'reached-stages' : attribute;

@@ -1,4 +1,10 @@
-const { expect, databaseBuilder, mockLearningContent, learningContentBuilder } = require('../../../test-helper');
+const {
+  expect,
+  databaseBuilder,
+  mockLearningContent,
+  learningContentBuilder,
+  domainBuilder,
+} = require('../../../test-helper');
 const { campaignParticipationOverviewFactory } = databaseBuilder.factory;
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const campaignParticipationOverviewRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-overview-repository');
@@ -554,6 +560,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId,
+          validatedSkillsCount: 3,
         });
         databaseBuilder.factory.buildAssessment({
           userId,
@@ -569,6 +576,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
           await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId });
 
         // then
+        const stageCollection = domainBuilder.buildStageCollectionForUserCampaignResults({ campaignId, stages: [] });
         expect(campaignParticipationOverviews).to.deep.equal([
           {
             campaignCode: 'FLASH',
@@ -581,7 +589,8 @@ describe('Integration | Repository | Campaign Participation Overview', function 
             sharedAt: new Date('2020-01-02T00:00:00Z'),
             status: 'SHARED',
             disabledAt: null,
-            campaignStages: { stages: [] },
+            stageCollection,
+            validatedSkillsCount: 3,
           },
         ]);
       });

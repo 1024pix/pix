@@ -69,8 +69,8 @@ module('Integration | Component | CampaignParticipationOverview | Card | Ended',
           status: 'SHARED',
           campaignTitle: 'My campaign',
           masteryRate: '0.70',
-          validatedStagesCount: 4,
-          totalStagesCount: 6,
+          validatedStagesCount: 5,
+          totalStagesCount: 7,
         });
         this.set('campaignParticipationOverview', campaignParticipationOverview);
 
@@ -80,7 +80,7 @@ module('Integration | Component | CampaignParticipationOverview | Card | Ended',
         );
 
         // then
-        assert.ok(screen.getByLabelText('4 étoiles sur 6'));
+        assert.ok(screen.getByText('4 étoiles sur 6'));
       });
     });
   });

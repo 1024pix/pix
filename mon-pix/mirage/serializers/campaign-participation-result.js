@@ -6,7 +6,6 @@ export default ApplicationSerializer.extend({
     'testedSkillsCount',
     'validatedSkillsCount',
     'masteryRate',
-    'stageCount',
     'canRetry',
     'canImprove',
     'isShared',
