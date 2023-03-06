@@ -9,16 +9,14 @@ export default class GetController extends Controller {
   @service accessControl;
 
   @action
-  updateOrganizationInformation() {
-    return this.model
-      .save()
-      .then(() => {
-        this.notifications.success("L'organisation a bien été modifée.");
-      })
-      .catch(() => {
-        this.model.rollbackAttributes();
-        this.notifications.error('Une erreur est survenue.');
-      });
+  async updateOrganizationInformation() {
+    try {
+      await this.model.save();
+      this.notifications.success("L'organisation a bien été modifiée.");
+    } catch (responseError) {
+      this.model.rollbackAttributes();
+      this.notifications.error('Une erreur est survenue.');
+    }
   }
 
   @action
