@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './test';
 
 test.describe('Contenus formatifs', () => {
   test.use({ storageState: 'superadmin.storageState.json' });
@@ -7,12 +7,8 @@ test.describe('Contenus formatifs', () => {
     await page.goto('/');
   })
 
-  test('créer un contenu formatif', async ({ page }) => {
-    // Navigation
-    await page
-      .getByRole('listitem')
-      .filter({ has: page.getByRole('tooltip', { name: 'Contenus formatifs', includeHidden: true }) })
-      .click();
+  test('créer un contenu formatif', async ({ menuNavigation, page }) => {
+    await menuNavigation.click('Contenus formatifs');
 
     // Création du contenu formatif
     await page.getByRole('link', { name: 'Nouveau contenu formatif' }).click();

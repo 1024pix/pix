@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './test';
 
 test.describe('organisations', () => {
   test.use({ storageState: 'superadmin.storageState.json' });
@@ -7,12 +7,8 @@ test.describe('organisations', () => {
     await page.goto('/');
   })
 
-  test('créer une organisation', async ({ page }) => {
-    // Navigation
-    await page
-      .getByRole('listitem')
-      .filter({ has: page.getByRole('tooltip', { name: 'Organisations', includeHidden: true }) })
-      .click();
+  test('créer une organisation', async ({ menuNavigation, page }) => {
+    await menuNavigation.click('Organisations');
 
     // Création de l'organisation
     await page.getByRole('link', { name: 'Nouvelle organisation' }).click();

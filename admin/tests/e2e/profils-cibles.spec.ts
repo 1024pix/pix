@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './test';
 
 test.describe('Profils cibles', () => {
   test.use({ storageState: 'superadmin.storageState.json' });
@@ -7,12 +7,10 @@ test.describe('Profils cibles', () => {
     await page.goto('/');
   });
 
-  test('Créer un profil cible et ses clés de lecture', async ({ page, browserName }) => {
+  test('Créer un profil cible et ses clés de lecture', async ({ menuNavigation, page, browserName }) => {
+    await menuNavigation.click('Profils cibles');
+
     // Création du profil cible
-    await page
-      .getByRole('listitem')
-      .filter({ has: page.getByRole('tooltip', { name: 'Profils cibles', includeHidden: true }) })
-      .click();
     await page.getByRole('link', { name: 'Nouveau profil cible' }).click();
     await page.getByRole('textbox', { name: 'Nom' }).fill('Mon profil cible');
     await page.getByRole('textbox', { name: 'Identifiant de l\'organisation de référence' }).fill('1');
