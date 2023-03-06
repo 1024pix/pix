@@ -8,7 +8,7 @@ module('Unit | Service | url', function (hooks) {
   setupIntl(hooks);
 
   module('#isFrenchDomainExtension', function () {
-    test('should have a frenchDomainExtension when the current domain contains pix.fr', function (assert) {
+    test('returns true when the current domain contains pix.fr', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       service.currentDomain = { getExtension: sinon.stub().returns('fr') };
@@ -20,7 +20,7 @@ module('Unit | Service | url', function (hooks) {
       assert.true(domainExtension);
     });
 
-    test('should not have frenchDomainExtension when the current domain contains pix.org', function (assert) {
+    test('returns false when the current domain contains pix.org', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       service.currentDomain = { getExtension: sinon.stub().returns('org') };
@@ -34,7 +34,7 @@ module('Unit | Service | url', function (hooks) {
   });
 
   module('#campaignsRootUrl', function () {
-    test('should get default campaigns root url when is defined', function (assert) {
+    test('returns default campaigns root url when is defined', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       service.definedCampaignsRootUrl = 'pix.test.fr';
@@ -46,7 +46,7 @@ module('Unit | Service | url', function (hooks) {
       assert.strictEqual(campaignsRootUrl, service.definedCampaignsRootUrl);
     });
 
-    test('should get "pix.test" url when current domain contains pix.test', function (assert) {
+    test('returns "pix.test" url when current domain contains pix.test', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedCampaignsRootUrl = 'https://app.pix.test/campagnes/';
@@ -62,7 +62,7 @@ module('Unit | Service | url', function (hooks) {
   });
 
   module('#homeUrl', function () {
-    test('should call intl to get first locale configured', function (assert) {
+    test('calls intl to get first locale configured', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       sinon.spy(this.intl, 'get');
@@ -74,7 +74,7 @@ module('Unit | Service | url', function (hooks) {
       assert.ok(this.intl.get.calledWith('primaryLocale'));
     });
 
-    test('should return home url with current locale', function (assert) {
+    test('returns home url with current locale', function (assert) {
       // given
       const currentLocale = 'en';
       this.intl.setLocale([currentLocale, 'fr']);
@@ -91,7 +91,7 @@ module('Unit | Service | url', function (hooks) {
   });
 
   module('#legalNoticeUrl', function () {
-    test('should get "pix.fr" url when current domain contains pix.fr', function (assert) {
+    test('returns "pix.fr" url when current domain contains pix.fr', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedUrl = 'https://pix.fr/mentions-legales';
@@ -104,7 +104,7 @@ module('Unit | Service | url', function (hooks) {
       assert.strictEqual(url, expectedUrl);
     });
 
-    test('should get "pix.org" english url when current language is en', function (assert) {
+    test('returns "pix.org" english url when current language is en', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedUrl = 'https://pix.org/en-gb/legal-notice';
@@ -118,7 +118,7 @@ module('Unit | Service | url', function (hooks) {
       assert.strictEqual(url, expectedUrl);
     });
 
-    test('should get "pix.org" french url when current language is fr', function (assert) {
+    test('returns "pix.org" french url when current language is fr', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedUrl = 'https://pix.org/fr/mentions-legales';
@@ -134,7 +134,7 @@ module('Unit | Service | url', function (hooks) {
   });
 
   module('#dataProtectionPolicyUrl', function () {
-    test('should get "pix.fr" url when current domain contains pix.fr', function (assert) {
+    test('returns "pix.fr" url when current domain contains pix.fr', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.fr/politique-protection-donnees-personnelles-app';
@@ -147,7 +147,7 @@ module('Unit | Service | url', function (hooks) {
       assert.strictEqual(cguUrl, expectedCguUrl);
     });
 
-    test('should get "pix.org" english url when current language is en', function (assert) {
+    test('returns "pix.org" english url when current language is en', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.org/en-gb/personal-data-protection-policy';
@@ -161,7 +161,7 @@ module('Unit | Service | url', function (hooks) {
       assert.strictEqual(cguUrl, expectedCguUrl);
     });
 
-    test('should get "pix.org" french url when current language is fr', function (assert) {
+    test('returns "pix.org" french url when current language is fr', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.org/fr/politique-protection-donnees-personnelles-app';
@@ -177,7 +177,7 @@ module('Unit | Service | url', function (hooks) {
   });
 
   module('#cguUrl', function () {
-    test('should get "pix.fr" url when current domain contains pix.fr', function (assert) {
+    test('returns "pix.fr" url when current domain contains pix.fr', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.fr/conditions-generales-d-utilisation';
@@ -190,7 +190,7 @@ module('Unit | Service | url', function (hooks) {
       assert.strictEqual(cguUrl, expectedCguUrl);
     });
 
-    test('should get "pix.org" english url when current language is en', function (assert) {
+    test('returns "pix.org" english url when current language is en', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.org/en-gb/terms-and-conditions';
@@ -204,7 +204,7 @@ module('Unit | Service | url', function (hooks) {
       assert.strictEqual(cguUrl, expectedCguUrl);
     });
 
-    test('should get "pix.org" french url when current language is fr', function (assert) {
+    test('returns "pix.org" french url when current language is fr', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.org/fr/conditions-generales-d-utilisation';
@@ -220,7 +220,7 @@ module('Unit | Service | url', function (hooks) {
   });
 
   module('#accessibilityUrl', function () {
-    test('should get "pix.fr" when current domain contains pix.fr', function (assert) {
+    test('returns "pix.fr" when current domain contains pix.fr', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedUrl = 'https://pix.fr/accessibilite-pix-orga';
@@ -233,7 +233,7 @@ module('Unit | Service | url', function (hooks) {
       assert.strictEqual(url, expectedUrl);
     });
 
-    test('should get "pix.org" in english when current language is en', function (assert) {
+    test('returns "pix.org" in english when current language is en', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedUrl = 'https://pix.org/en-gb/accessibility-pix-orga';
@@ -247,7 +247,7 @@ module('Unit | Service | url', function (hooks) {
       assert.strictEqual(url, expectedUrl);
     });
 
-    test('should get "pix.org" in french when current language is fr', function (assert) {
+    test('returns "pix.org" in french when current language is fr', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedUrl = 'https://pix.org/fr/accessibilite-pix-orga';
