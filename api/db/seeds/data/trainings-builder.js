@@ -2,7 +2,7 @@ const { TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE } = require('./targe
 
 function trainingBuilder({ databaseBuilder }) {
   const training1 = databaseBuilder.factory.buildTraining({
-    title: 'Apprendre en s\'amusant',
+    title: "Apprendre en s'amusant",
     link: 'http://www.example.net',
     type: 'webinaire',
     duration: '06:00:00',
@@ -40,7 +40,7 @@ function trainingBuilder({ databaseBuilder }) {
     goalThreshold: null,
   });
   const training5 = databaseBuilder.factory.buildTraining({
-    title: 'Manger bun\'s tous les midis',
+    title: "Manger bun's tous les midis",
     link: 'http://www.example5.net',
     type: 'webinaire',
     duration: '06:00:00',
@@ -110,6 +110,26 @@ function trainingBuilder({ databaseBuilder }) {
     locale: 'fr-fr',
     prerequisiteThreshold: 0,
     goalThreshold: 0,
+  });
+  const trainingTrigger1 = databaseBuilder.factory.buildTrainingTrigger({
+    trainingId: training1.id,
+    threshold: 80,
+    type: 'prerequisite',
+  });
+  databaseBuilder.factory.buildTrainingTriggerTube({
+    trainingTriggerId: trainingTrigger1.id,
+    tubeId: 'recs1vdbHxX8X55G9',
+    level: 2,
+  });
+  databaseBuilder.factory.buildTrainingTriggerTube({
+    trainingTriggerId: trainingTrigger1.id,
+    tubeId: 'reccqGUKgzIOK8f9U',
+    level: 3,
+  });
+  databaseBuilder.factory.buildTrainingTriggerTube({
+    trainingTriggerId: trainingTrigger1.id,
+    tubeId: 'recBbCIEKgrQi7eb6',
+    level: 5,
   });
   databaseBuilder.factory.buildTargetProfileTraining({
     trainingId: training1.id,
