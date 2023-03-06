@@ -114,6 +114,46 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
       sinon.assert.calledWith(adapter.validateSessionsForMassImport, file, '123');
       assert.ok(controller);
     });
+
+    test('should call the notifications service in case of an error', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const adapter = store.adapterFor('validate-sessions-for-mass-import');
+      const sessionsImportStub = sinon.stub(adapter, 'validateSessionsForMassImport');
+      sessionsImportStub.rejects({
+        errors: [{ detail: 'API error' }],
+      });
+      const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+        id: 123,
+      });
+
+      class CurrentUserStub extends Service {
+        currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
+      }
+
+      this.owner.register('service:current-user', CurrentUserStub);
+      const token = 'a token';
+
+      controller.file = Symbol('file 1');
+
+      controller.session = {
+        isAuthenticated: true,
+        data: {
+          authenticated: {
+            access_token: token,
+          },
+        },
+      };
+
+      controller.notifications = { error: sinon.stub(), clearAll: sinon.stub() };
+
+      // when
+      await controller.validateSessions();
+
+      // then
+      sinon.assert.calledOnce(controller.notifications.error);
+      assert.ok(controller);
+    });
   });
 
   module('#createSessions', function () {
