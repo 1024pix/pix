@@ -1,12 +1,13 @@
 .information-wrapper {
   display: flex;
-  margin: 0;
+  margin-left: $spacing-xxl;
 }
 
 .information {
   padding: 0 $spacing-xs;
   border-left: 1px solid $pix-neutral-22;
   font-size: 0.875rem;
+  text-align: center;
 
   &__title {
     margin-bottom: $spacing-xs;
@@ -16,7 +17,12 @@
   &__content {
     color: $pix-neutral-90;
     margin: 0;
+
+    &--gray {
+      color: $pix-neutral-50;
+    }
   }
+
 
   &:first-of-type {
     padding-left: 0;

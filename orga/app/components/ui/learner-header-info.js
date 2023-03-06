@@ -20,12 +20,14 @@ export default class LearnerHeaderInfo extends Component {
   get connectionMethods() {
     const connectionMethodsList = [];
 
-    if (this.args.organizationLearner.email) connectionMethodsList.push(this.intl.t(CONNECTION_TYPES['email']));
-    if (this.args.organizationLearner.username)
-      connectionMethodsList.push(this.intl.t(CONNECTION_TYPES['identifiant']));
-    if (this.args.organizationLearner?.authenticationMethods.includes('GAR'))
-      connectionMethodsList.push(this.intl.t(CONNECTION_TYPES['mediacentre']));
-    if (connectionMethodsList.length === 0) connectionMethodsList.push(this.intl.t(CONNECTION_TYPES['empty']));
+    const learner = this.args.organizationLearner;
+    if (learner) {
+      if (learner.email) connectionMethodsList.push(this.intl.t(CONNECTION_TYPES['email']));
+      if (learner.username) connectionMethodsList.push(this.intl.t(CONNECTION_TYPES['identifiant']));
+      if (learner.authenticationMethods.includes('GAR'))
+        connectionMethodsList.push(this.intl.t(CONNECTION_TYPES['mediacentre']));
+      if (connectionMethodsList.length === 0) connectionMethodsList.push(this.intl.t(CONNECTION_TYPES['empty']));
+    }
 
     return connectionMethodsList.join(', ');
   }
