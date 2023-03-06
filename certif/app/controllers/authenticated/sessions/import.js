@@ -29,6 +29,10 @@ export default class ImportController extends Controller {
     return this.file.name;
   }
 
+  get errorsReportCount() {
+    return this.errorsReport?.length;
+  }
+
   @action
   async downloadSessionImportTemplate() {
     const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;
@@ -48,6 +52,11 @@ export default class ImportController extends Controller {
   }
 
   @action
+  toggleStepOne() {
+    this.isImportStepOne = true;
+  }
+
+  @action
   async validateSessions() {
     const adapter = this.store.adapterFor('validate-sessions-for-mass-import');
     const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;
@@ -57,20 +66,27 @@ export default class ImportController extends Controller {
       if (!this.file) {
         return;
       }
-      const { sessionsCount, sessionsWithoutCandidatesCount, candidatesCount, cachedValidatedSessionsKey } =
-        await adapter.validateSessionsForMassImport(this.file, certificationCenterId);
+      const {
+        sessionsCount,
+        sessionsWithoutCandidatesCount,
+        candidatesCount,
+        cachedValidatedSessionsKey,
+        errorsReport,
+      } = await adapter.validateSessionsForMassImport(this.file, certificationCenterId);
       this.sessionsCount = sessionsCount;
       this.sessionsWithoutCandidatesCount = sessionsWithoutCandidatesCount;
       this.candidatesCount = candidatesCount;
       this.cachedValidatedSessionsKey = cachedValidatedSessionsKey;
-      this.isImportInError = false;
-    } catch (err) {
-      this.isImportInError = true;
-      this.errorsReport = err.errors[0].detail;
-    } finally {
-      this.isImportStepOne = false;
-      this.removeImport();
+      this.errorsReport = errorsReport;
+    } catch (errors) {
+      this.notifications.error(errors.errors[0].detail);
+      return;
     }
+    if (this.errorsReport?.length > 0) {
+      this.isImportInError = true;
+    }
+    this.isImportStepOne = false;
+    this.removeImport();
   }
 
   @action
