@@ -218,8 +218,15 @@ function _hasSessionInformation({ address, room, date, time, examiner }) {
   return Boolean(address) || Boolean(room) || Boolean(date) || Boolean(time) || Boolean(examiner);
 }
 
-function _hasCandidateInformation({ lastName }) {
-  return Boolean(lastName);
+function _hasCandidateInformation({ lastName, firstName, birthdate, sex, billingMode, birthCountry }) {
+  return (
+    Boolean(lastName) ||
+    Boolean(firstName) ||
+    Boolean(birthdate) ||
+    Boolean(sex) ||
+    Boolean(billingMode) ||
+    Boolean(birthCountry)
+  );
 }
 
 function _createSession({ sessionId, address, room, date, time, examiner, description }) {

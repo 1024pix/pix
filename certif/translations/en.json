@@ -175,7 +175,15 @@
           }
         },
         "step-two": {
+          "blocking-errors": {
+            "title": "{errorsReportCount} {errorsReportCount, plural,one {erreur bloquante} other {erreurs bloquantes}}",
+            "information": "Veuillez corriger toutes les erreurs bloquantes avant de re-importer le fichier .csv :"
+          },
           "actions": {
+            "import-again": {
+              "label": "Importer à nouveau",
+              "extra-information": "Revenir à l'étape précédente pour importer le fichier à nouveau"
+            },
             "confirm": {
               "label": "Finaliser la création/édition"
             }

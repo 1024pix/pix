@@ -214,7 +214,7 @@ module('Acceptance | Session Import', function (hooks) {
         });
 
         module('when the file is not valid', function () {
-          test('it should display an error message and not upload any session', async function (assert) {
+          test('it should display an error notification', async function (assert) {
             //given
             const file = new Blob(['foo'], { type: 'invalid-file' });
 
@@ -229,7 +229,7 @@ module('Acceptance | Session Import', function (hooks) {
             assert.dom(screen.getByText('Fichier non valide')).exists();
           });
 
-          test('it should not display the confirm button', async function (assert) {
+          test('it should not go to step two', async function (assert) {
             //given
             const file = new Blob(['foo'], { type: 'invalid-file' });
 
@@ -241,7 +241,7 @@ module('Acceptance | Session Import', function (hooks) {
             await click(importButton);
 
             // then
-            assert.dom(screen.queryByRole('button', { name: 'Finaliser la création/édition' })).doesNotExist();
+            assert.dom(screen.getByRole('button', { name: 'Télécharger le modèle vierge' })).exists();
           });
         });
       });

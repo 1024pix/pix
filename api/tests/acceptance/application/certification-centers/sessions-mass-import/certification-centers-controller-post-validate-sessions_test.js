@@ -6,6 +6,7 @@ const {
   sinon,
 } = require('../../../../test-helper');
 const createServer = require('../../../../../server');
+const { omit } = require('lodash');
 
 describe('Acceptance | Controller | certification-centers-controller-post-validate-sessions', function () {
   let server;
@@ -60,6 +61,13 @@ describe('Acceptance | Controller | certification-centers-controller-post-valida
 
         // then
         expect(response.statusCode).to.equal(200);
+        expect(_checkIfValidUUID(response.result.cachedValidatedSessionsKey)).to.be.true;
+        expect(omit(response.result, 'cachedValidatedSessionsKey')).to.deep.equal({
+          candidatesCount: 0,
+          errorsReport: [],
+          sessionsCount: 1,
+          sessionsWithoutCandidatesCount: 1,
+        });
       });
     });
 
@@ -104,12 +112,22 @@ describe('Acceptance | Controller | certification-centers-controller-post-valida
             const response = await server.inject(options);
 
             // then
-            expect(response.statusCode).to.equal(400);
-            expect(await knex('sessions')).to.have.length(1);
-            expect(await knex('certification-candidates').where({ sessionId })).to.have.length(3);
+            expect(response.statusCode).to.equal(200);
+            expect(response.result).to.deep.equal({
+              cachedValidatedSessionsKey: undefined,
+              sessionsCount: 2,
+              sessionsWithoutCandidatesCount: 0,
+              candidatesCount: 2,
+              errorsReport: ['Merci de ne pas renseigner les informations de session pour la session: 1234'],
+            });
           });
         });
       });
     });
   });
 });
+
+function _checkIfValidUUID(str) {
+  const regexExp = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
+  return regexExp.test(str);
+}

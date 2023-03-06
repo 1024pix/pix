@@ -170,6 +170,23 @@
 }
 
 .import-page__section--confirm-button {
-  margin-top: $spacing-m;
   width: fit-content;
 }
+
+.import-page__resume-section {
+  gap: $spacing-m;
+}
+
+.import-page-section {
+  &__information {
+    color: $pix-neutral-70;
+    font-weight: $font-medium;
+  }
+
+  &__circle-exclamation-icon {
+    .pix-collapsible-title__icon {
+      color: $pix-error-70;
+    }
+  }
+}
+

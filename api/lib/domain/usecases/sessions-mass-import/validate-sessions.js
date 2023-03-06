@@ -14,11 +14,12 @@ module.exports = async function validateSessions({
   sessionRepository,
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
-  certificationCandidateRepository,
   complementaryCertificationRepository,
   certificationCourseRepository,
 }) {
   const { name: certificationCenter, isSco } = await certificationCenterRepository.get(certificationCenterId);
+  let cachedValidatedSessionsKey;
+  const errorsReport = [];
 
   const validatedSessions = await bluebird.mapSeries(sessions, async (sessionDTO) => {
     const { sessionId } = sessionDTO;
@@ -32,11 +33,15 @@ module.exports = async function validateSessions({
       accessCode,
     });
 
-    await sessionsImportValidationService.validateSession({
+    const sessionsErrors = await sessionsImportValidationService.validateSession({
       session,
       sessionRepository,
       certificationCourseRepository,
     });
+
+    if (sessionsErrors?.length) {
+      errorsReport.push(...sessionsErrors);
+    }
 
     if (session.certificationCandidates.length) {
       const { certificationCandidates } = session;
@@ -44,10 +49,10 @@ module.exports = async function validateSessions({
         certificationCandidates,
         sessionId,
         isSco,
+        errorsReport,
         certificationCpfCountryRepository,
         certificationCpfCityRepository,
         complementaryCertificationRepository,
-        certificationCandidateRepository,
       });
 
       session.certificationCandidates = validatedCertificationCandidates;
@@ -55,6 +60,13 @@ module.exports = async function validateSessions({
 
     return session;
   });
+
+  if (!errorsReport.length) {
+    cachedValidatedSessionsKey = await temporarySessionsStorageForMassImportService.save({
+      sessions: validatedSessions,
+      userId,
+    });
+  }
 
   const sessionsWithoutCandidatesCount = validatedSessions.filter(
     (session) => session.certificationCandidates.length === 0
@@ -65,30 +77,27 @@ module.exports = async function validateSessions({
     0
   );
 
-  const cachedValidatedSessionsKey = await temporarySessionsStorageForMassImportService.save({
-    sessions: validatedSessions,
-    userId,
-  });
-
-  const sessionMassImportReport = new SessionMassImportReport({
+  const sessionsMassImportReport = new SessionMassImportReport({
     cachedValidatedSessionsKey,
     sessionsCount,
     sessionsWithoutCandidatesCount,
     candidatesCount,
+    errorsReport,
   });
 
-  return sessionMassImportReport;
+  return sessionsMassImportReport;
 };
 
 async function _createValidCertificationCandidates({
   certificationCandidates,
   sessionId,
   isSco,
+  errorsReport,
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
   complementaryCertificationRepository,
 }) {
-  return bluebird.mapSeries(certificationCandidates, async (certificationCandidate) => {
+  return await bluebird.mapSeries(certificationCandidates, async (certificationCandidate) => {
     const billingMode = CertificationCandidate.translateBillingMode(certificationCandidate.billingMode);
 
     const domainCertificationCandidate = new CertificationCandidate({
@@ -97,22 +106,27 @@ async function _createValidCertificationCandidates({
       billingMode,
     });
 
-    const cpfBirthInformation = await sessionsImportValidationService.getValidatedCandidateBirthInformation({
-      candidate: domainCertificationCandidate,
-      isSco,
-      isSessionsMassImport: true,
-      certificationCpfCountryRepository,
-      certificationCpfCityRepository,
-    });
-
-    domainCertificationCandidate.updateBirthInformation(cpfBirthInformation);
-
-    if (domainCertificationCandidate.complementaryCertifications.length) {
-      const complementaryCertification = await complementaryCertificationRepository.getByLabel({
-        label: domainCertificationCandidate.complementaryCertifications[0],
+    const { certificationCandidateErrors, cpfBirthInformation } =
+      await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+        candidate: domainCertificationCandidate,
+        isSco,
+        isSessionsMassImport: true,
+        certificationCpfCountryRepository,
+        certificationCpfCityRepository,
       });
 
-      domainCertificationCandidate.complementaryCertifications = [complementaryCertification];
+    if (certificationCandidateErrors?.length) {
+      errorsReport.push(...certificationCandidateErrors);
+    } else {
+      domainCertificationCandidate.updateBirthInformation(cpfBirthInformation);
+
+      if (domainCertificationCandidate.complementaryCertifications.length) {
+        const complementaryCertification = await complementaryCertificationRepository.getByLabel({
+          label: domainCertificationCandidate.complementaryCertifications[0],
+        });
+
+        domainCertificationCandidate.complementaryCertifications = [complementaryCertification];
+      }
     }
 
     return domainCertificationCandidate;
