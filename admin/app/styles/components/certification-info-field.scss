@@ -26,4 +26,12 @@
   &__suffix {
     margin-left: 10px;
   }
+
+  &__link {
+    color: $pix-primary;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
