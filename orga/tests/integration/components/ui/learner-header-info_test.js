@@ -39,4 +39,34 @@ module('Integration | Component | Ui::LearnerHeaderInfo', function (hooks) {
     assert.notContains('3E');
     assert.contains('Adresse e-mail');
   });
+
+  test('it renders learner header information when learner is certifiable', async function (assert) {
+    const isCertifiable = true;
+    const certifiableAt = '2023-01-01';
+
+    this.set('isCertifiable', isCertifiable);
+    this.set('certifiableAt', certifiableAt);
+
+    await render(
+      hbs`<Ui::LearnerHeaderInfo @isCertifiable={{this.isCertifiable}} @certifiableAt={{this.certifiableAt}} />`
+    );
+
+    assert.contains('Certifiable');
+    assert.contains('01/01/2023');
+  });
+
+  test('it does not render learner division header information when learner is not certifiable', async function (assert) {
+    const isCertifiable = false;
+    const certifiableAt = null;
+
+    this.set('isCertifiable', isCertifiable);
+    this.set('certifiableAt', certifiableAt);
+
+    await render(
+      hbs`<Ui::LearnerHeaderInfo @isCertifiable={{this.isCertifiable}} @certifiableAt={{this.certifiableAt}} />`
+    );
+
+    assert.notContains('Certifiable');
+    assert.notContains('01/01/2023');
+  });
 });
