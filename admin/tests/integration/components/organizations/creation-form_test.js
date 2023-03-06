@@ -23,7 +23,7 @@ module('Integration | Component | organizations/creation-form', function (hooks)
     // then
     assert.dom(screen.getByRole('textbox', { name: 'Nom' })).exists();
     assert.dom(screen.getByRole('textbox', { name: 'Lien vers la documentation' })).exists();
-    assert.dom(screen.getByText("Sélectionner un type d'organisation")).exists();
+    assert.dom(screen.getByText("Type d'organisation")).exists();
     assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
     assert.dom(screen.getByRole('button', { name: 'Ajouter' })).exists();
   });
@@ -36,7 +36,7 @@ module('Integration | Component | organizations/creation-form', function (hooks)
       );
 
       // when
-      await click(screen.getByText("Sélectionner un type d'organisation"));
+      await click(screen.getByText("Type d'organisation"));
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'Établissement scolaire' }));
 

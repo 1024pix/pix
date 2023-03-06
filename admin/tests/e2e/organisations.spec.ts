@@ -16,14 +16,14 @@ test.describe('organisations', () => {
 
     // Création de l'organisation
     await page.getByRole('link', { name: 'Nouvelle organisation' }).click();
-    await page.getByLabel('Nom', { exact: true }).fill('Les bisounours');
-    await page.getByLabel('Sélectionner un type d\'organisation').click();
+    await page.getByRole('textbox', { name: 'Nom', exact: true }).fill('Les bisounours');
+    await page.getByRole('button', { name: 'Sélectionner un type d\'organisation' }).click();
     await page.getByRole('option', { name: 'Organisation professionnelle' }).click();
-    await page.getByLabel('Lien vers la documentation').fill('https://bisounours.biz/');
-    await page.getByLabel('Crédits').fill('1234');
-    await page.getByLabel('Prénom du DPO').fill('Marie');
-    await page.getByLabel('Nom du DPO', { exact: true }).fill('Clémentine');
-    await page.getByLabel('Adresse e-mail du DPO').fill('marie.clementine@bisounours.biz');
+    await page.getByRole('textbox', { name: 'Lien vers la documentation' }).fill('https://bisounours.biz/');
+    await page.getByRole('spinbutton', { name: 'Crédits' }).fill('1234');
+    await page.getByRole('textbox', { name: 'Prénom du DPO' }).fill('Marie');
+    await page.getByRole('textbox', { name: 'Nom du DPO', exact: true }).fill('Clémentine');
+    await page.getByRole('textbox', { name: 'Adresse e-mail du DPO' }).fill('marie.clementine@bisounours.biz');
     await page.getByRole('button', { name: 'Ajouter' }).click();
 
     // Détail de l'organisation
@@ -41,10 +41,10 @@ test.describe('organisations', () => {
     // Ajout de places
     await page.getByRole('link', { name: 'Places' }).click();
     await page.getByRole('link', { name: 'Ajouter des places' }).click();
-    await page.getByLabel('Nombre :').fill('321');
+    await page.getByRole('textbox', { name: 'Nombre' }).fill('321');
     await page.getByRole('button', { name: 'Sélectionnez une catégorie' }).click();
     await page.getByRole('option', { name: 'Tarif plein' }).click();
-    await page.getByLabel('Référence :').fill('Des calins');
+    await page.getByRole('textbox', { name: 'Référence' }).fill('Des calins');
     await page.getByRole('button', { name: 'Ajouter' }).click();
 
     // Liste des places

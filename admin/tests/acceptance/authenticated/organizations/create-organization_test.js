@@ -19,7 +19,7 @@ module('Acceptance | Organizations | Create', function (hooks) {
       const screen = await visit('/organizations/new');
       await fillByLabel('Nom', 'Stark Corp.');
 
-      await click(screen.getByRole('button', { name: `Sélectionner un type d'organisation` }));
+      await click(screen.getByRole('button', { name: `Type d'organisation` }));
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'Établissement scolaire' }));
 
