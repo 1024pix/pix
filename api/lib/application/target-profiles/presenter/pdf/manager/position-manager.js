@@ -13,7 +13,7 @@ const THEMATIC_HORIZONTAL_START = 10;
 const THEMATIC_WIDTH = 70;
 const TUBES_FIRST_PART_WIDTH = 140;
 
-module.exports = {
+const PositionManager = {
   maxWidth: null,
   /**
    * @param page{PDFPage}
@@ -78,3 +78,5 @@ module.exports = {
     return this.maxWidth - this.tubeSecondPartStart - this.margin;
   },
 };
+
+module.exports = PositionManager;
