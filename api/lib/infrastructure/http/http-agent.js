@@ -12,7 +12,7 @@ class HttpResponse {
   }
 }
 
-module.exports = {
+const HttpAgent = {
   async post({ url, payload, headers, timeout }) {
     const startTime = performance.now();
     let responseTime = null;
@@ -113,3 +113,5 @@ module.exports = {
     }
   },
 };
+
+module.exports = HttpAgent;
