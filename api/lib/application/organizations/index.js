@@ -11,6 +11,7 @@ const ERRORS = {
   PAYLOAD_TOO_LARGE: 'PAYLOAD_TOO_LARGE',
 };
 const TWENTY_MEGABYTES = 1048576 * 20;
+const TWO_AND_HALF_MEGABYTES = 1048576 * 2.5;
 
 exports.register = async (server) => {
   const adminRoutes = [
@@ -186,6 +187,17 @@ exports.register = async (server) => {
           params: Joi.object({
             id: identifiersType.organizationId,
           }),
+        },
+        payload: {
+          maxBytes: TWO_AND_HALF_MEGABYTES,
+          failAction: (request, h) => {
+            return sendJsonApiError(
+              new PayloadTooLargeError('An error occurred, payload is too large', ERRORS.PAYLOAD_TOO_LARGE, {
+                maxSizeInMegaBytes: '2.5',
+              }),
+              h
+            );
+          },
         },
         handler: organizationController.updateOrganizationInformation,
         tags: ['api', 'organizations'],
