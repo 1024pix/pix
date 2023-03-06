@@ -13,8 +13,6 @@ class CampaignParticipationResult {
     knowledgeElementsCount,
     // relationships
     competenceResults = [],
-    reachedStage,
-    stageCount,
   } = {}) {
     this.id = id;
     this.isCompleted = isCompleted;
@@ -24,19 +22,9 @@ class CampaignParticipationResult {
     this.knowledgeElementsCount = knowledgeElementsCount;
     // relationships
     this.competenceResults = competenceResults;
-    this.reachedStage = reachedStage;
-    this.stageCount = stageCount;
   }
 
-  static buildFrom({
-    campaignParticipationId,
-    assessment,
-    competences,
-    stages,
-    skillIds,
-    knowledgeElements,
-    allAreas,
-  }) {
+  static buildFrom({ campaignParticipationId, assessment, competences, skillIds, knowledgeElements, allAreas }) {
     const targetedKnowledgeElements = _removeUntargetedKnowledgeElements(knowledgeElements, skillIds);
 
     const targetedCompetenceResults = _computeCompetenceResults(
@@ -58,8 +46,6 @@ class CampaignParticipationResult {
       knowledgeElementsCount: targetedKnowledgeElements.length,
       isCompleted: assessment.isCompleted(),
       competenceResults: targetedCompetenceResults,
-      reachedStage: _computeReachedStage({ stages, totalSkillsCount, validatedSkillsCount }),
-      stageCount: stages && stages.length,
     });
   }
 
@@ -73,18 +59,6 @@ class CampaignParticipationResult {
   get progress() {
     return campaignParticipationService.progress(this.isCompleted, this.knowledgeElementsCount, this.totalSkillsCount);
   }
-}
-
-function _computeReachedStage({ stages, totalSkillsCount, validatedSkillsCount }) {
-  if (!stages) {
-    return null;
-  }
-  const masteryPercentage = _computeMasteryPercentage({ totalSkillsCount, validatedSkillsCount });
-  const reachedStages = stages.filter((stage) => masteryPercentage >= stage.threshold);
-  return {
-    ..._.last(reachedStages),
-    starCount: reachedStages.length,
-  };
 }
 
 function _computeMasteryPercentage({ totalSkillsCount, validatedSkillsCount }) {

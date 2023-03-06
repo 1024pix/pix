@@ -40,7 +40,6 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
           campaignParticipationId,
           assessment,
           competences,
-          stages: [],
           skillIds,
           knowledgeElements,
           allAreas,
@@ -55,10 +54,6 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
           testedSkillsCount: 2,
           validatedSkillsCount: 1,
           knowledgeElementsCount: 2,
-          reachedStage: {
-            starCount: 0,
-          },
-          stageCount: 0,
           competenceResults: [
             {
               id: 1,
@@ -86,21 +81,12 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
     });
 
     context('when stages', function () {
-      const stages = [
-        { title: 'palier 1', message: 'Tu as le palier 1', threshold: 0 },
-        { title: 'palier 2', message: 'Tu as le palier 2', threshold: 20 },
-        { title: 'palier 3', message: 'Tu as le palier 3', threshold: 40 },
-        { title: 'palier 4', message: 'Tu as le palier 4', threshold: 60 },
-        { title: 'palier 5', message: 'Tu as le palier 5', threshold: 80 },
-      ];
-
       it('when user has reached a stage', function () {
         // when
         const result = CampaignParticipationResult.buildFrom({
           campaignParticipationId,
           assessment,
           competences,
-          stages,
           skillIds,
           knowledgeElements,
           allAreas,
@@ -114,13 +100,6 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
           testedSkillsCount: 2,
           validatedSkillsCount: 1,
           knowledgeElementsCount: 2,
-          reachedStage: {
-            title: 'palier 2',
-            message: 'Tu as le palier 2',
-            threshold: 20,
-            starCount: 2,
-          },
-          stageCount: 5,
           competenceResults: [
             {
               id: 1,
@@ -154,7 +133,6 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
           campaignParticipationId,
           assessment,
           competences,
-          stages: [],
           skillIds,
           knowledgeElements,
           allAreas,
@@ -169,10 +147,6 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
           testedSkillsCount: 2,
           validatedSkillsCount: 1,
           knowledgeElementsCount: 2,
-          reachedStage: {
-            starCount: 0,
-          },
-          stageCount: 0,
           competenceResults: [
             {
               id: 1,
