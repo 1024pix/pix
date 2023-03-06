@@ -163,7 +163,7 @@ function _getDataFromColumnNames({ csvLineKeys, headers, line }) {
         outputFormat: 'YYYY-MM-DD',
       });
     } else if (key === 'extraTimePercentage') {
-      data[key] = headerKeyInCurrentLine !== '' ? parseInt(headerKeyInCurrentLine) : null;
+      data[key] = headerKeyInCurrentLine !== '' ? headerKeyInCurrentLine : null;
     } else if (key === 'prepaymentCode') {
       data[key] = headerKeyInCurrentLine !== '' ? headerKeyInCurrentLine : null;
     } else {
