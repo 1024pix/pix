@@ -544,33 +544,215 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
         // then
         expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
       });
-    });
 
-    describe('when there is no candidate information', function () {
-      it('should return a session object with empty candidate information per csv line', function () {
-        // given
-        const parsedCsvData = [_lineWithSessionAndNoCandidate({ sessionNumber: 1 })];
+      describe('when some mandatory candidate fields are missing', function () {
+        it('should return the parsed session with associated incomplete candidate', function () {
+          const candidateWithoutLastName = {
+            lastName: '',
+            firstName: `Candidat 1`,
+            birthdate: '01/03/1981',
+            sex: 'M',
+            birthINSEECode: '75015',
+            birthPostalCode: '',
+            birthCity: '',
+            birthCountry: 'France',
+            resultRecipientEmail: 'robindahood@email.fr',
+            email: '',
+            externalId: '',
+            extraTimePercentage: '',
+            billingMode: 'Prépayée',
+            prepaymentCode: '43',
+            complementaryCertifications: [],
+          };
 
-        const expectedResult = [
-          {
-            sessionId: undefined,
-            address: 'Site 1',
-            room: 'Salle 1',
-            date: '2023-05-12',
-            time: '01:00',
-            examiner: 'Paul',
-            description: '',
-            certificationCandidates: [],
-          },
-        ];
+          const candidateWithoutFirstName = {
+            lastName: 'Nom du candidat',
+            firstName: '',
+            birthdate: '01/03/1981',
+            sex: 'M',
+            birthINSEECode: '75015',
+            birthPostalCode: '',
+            birthCity: '',
+            birthCountry: 'France',
+            resultRecipientEmail: 'robindahood@email.fr',
+            email: '',
+            externalId: '',
+            extraTimePercentage: '',
+            billingMode: 'Prépayée',
+            prepaymentCode: '43',
+            complementaryCertifications: [],
+          };
 
-        // when
-        const result = csvSerializer
-          .deserializeForSessionsImport(parsedCsvData)
-          .map((session) => _.omit(session, 'uniqueKey'));
+          const candidateWithoutBirthdate = {
+            lastName: 'Nom du candidat',
+            firstName: 'Candidat 1',
+            birthdate: '',
+            sex: 'M',
+            birthINSEECode: '75015',
+            birthPostalCode: '',
+            birthCity: '',
+            birthCountry: 'France',
+            resultRecipientEmail: 'robindahood@email.fr',
+            email: '',
+            externalId: '',
+            extraTimePercentage: '',
+            billingMode: 'Prépayée',
+            prepaymentCode: '43',
+            complementaryCertifications: [],
+          };
 
-        // then
-        expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
+          const candidateWithoutSex = {
+            lastName: 'Nom du candidat',
+            firstName: 'Candidat 1',
+            birthdate: '01/03/1981',
+            sex: '',
+            birthINSEECode: '75015',
+            birthPostalCode: '',
+            birthCity: '',
+            birthCountry: 'France',
+            resultRecipientEmail: 'robindahood@email.fr',
+            email: '',
+            externalId: '',
+            extraTimePercentage: '',
+            billingMode: 'Prépayée',
+            prepaymentCode: '43',
+            complementaryCertifications: [],
+          };
+
+          const candidateWithoutBillingMode = {
+            lastName: 'Nom du candidat',
+            firstName: `Candidat 1`,
+            birthdate: '01/03/1981',
+            sex: 'M',
+            birthINSEECode: '75015',
+            birthPostalCode: '',
+            birthCity: '',
+            birthCountry: 'France',
+            resultRecipientEmail: 'robindahood@email.fr',
+            email: '',
+            externalId: '',
+            extraTimePercentage: '',
+            billingMode: '',
+            prepaymentCode: '43',
+            complementaryCertifications: [],
+          };
+
+          const candidateWithoutBirthCountry = {
+            lastName: 'Nom du candidat',
+            firstName: 'Candidat 1',
+            birthdate: '01/03/1981',
+            sex: 'M',
+            birthINSEECode: '75015',
+            birthPostalCode: '',
+            birthCity: '',
+            birthCountry: '',
+            resultRecipientEmail: 'robindahood@email.fr',
+            email: '',
+            externalId: '',
+            extraTimePercentage: '',
+            billingMode: 'Prépayée',
+            prepaymentCode: '43',
+            complementaryCertifications: [],
+          };
+
+          // given
+          const parsedCsvData = [
+            _line({
+              sessionId: '',
+              address: `Site 1`,
+              room: `Salle 1`,
+              date: '12/05/2023',
+              time: '01:00',
+              examiner: 'Paul',
+              description: '',
+              ...candidateWithoutLastName,
+            }),
+            _line({
+              sessionId: '',
+              address: 'Site 1',
+              room: 'Salle 1',
+              date: '12/05/2023',
+              time: '01:00',
+              examiner: 'Paul',
+              description: '',
+              ...candidateWithoutFirstName,
+            }),
+            _line({
+              sessionId: '',
+              address: 'Site 1',
+              room: 'Salle 1',
+              date: '12/05/2023',
+              time: '01:00',
+              examiner: 'Paul',
+              description: '',
+              ...candidateWithoutBirthdate,
+            }),
+            _line({
+              sessionId: '',
+              address: 'Site 1',
+              room: 'Salle 1',
+              date: '12/05/2023',
+              time: '01:00',
+              examiner: 'Paul',
+              description: '',
+              ...candidateWithoutSex,
+            }),
+            _line({
+              sessionId: '',
+              address: `Site 1`,
+              room: `Salle 1`,
+              date: '12/05/2023',
+              time: '01:00',
+              examiner: 'Paul',
+              description: '',
+              ...candidateWithoutBillingMode,
+            }),
+            _line({
+              sessionId: '',
+              address: `Site 1`,
+              room: `Salle 1`,
+              date: '12/05/2023',
+              time: '01:00',
+              examiner: 'Paul',
+              description: '',
+              ...candidateWithoutBirthCountry,
+            }),
+          ];
+
+          // when
+          const [result] = csvSerializer.deserializeForSessionsImport(parsedCsvData);
+
+          // then
+          expect(result.certificationCandidates).to.have.length(6);
+        });
+      });
+
+      describe('when there is no candidate information', function () {
+        it('should return a session object with empty candidate information per csv line', function () {
+          // given
+          const parsedCsvData = [_lineWithSessionAndNoCandidate({ sessionNumber: 1 })];
+
+          const expectedResult = [
+            {
+              sessionId: undefined,
+              address: 'Site 1',
+              room: 'Salle 1',
+              date: '2023-05-12',
+              time: '01:00',
+              examiner: 'Paul',
+              description: '',
+              certificationCandidates: [],
+            },
+          ];
+
+          // when
+          const result = csvSerializer
+            .deserializeForSessionsImport(parsedCsvData)
+            .map((session) => _.omit(session, 'uniqueKey'));
+
+          // then
+          expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
+        });
       });
     });
   });
@@ -699,6 +881,7 @@ function _lineWithSessionAndCandidate({ sessionNumber, candidateNumber }) {
     prepaymentCode: '43',
   });
 }
+
 function _lineWithSessionIdAndCandidate({ sessionId, candidateNumber }) {
   return _line({
     sessionId,

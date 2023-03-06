@@ -1,24 +1,40 @@
-<section class="import-page__section--download panel">
+<section class="import-page__section--download panel import-page__resume-section">
+  <PixMessage @type="info">
+    <ul>
+      <li>
+        <img src="{{this.rootURL}}/icons/solid-square-chevron-right.svg" alt="" role="presentation" />
+        {{t
+          "pages.sessions.import.step-two.sessions-and-empty-sessions-count"
+          sessionsCount=@sessionsCount
+          sessionsWithoutCandidatesCount=@sessionsWithoutCandidatesCount
+        }}</li>
+      <li>
+        <FaIcon @icon="user" />
+        {{t "pages.sessions.import.step-two.candidates-count" candidatesCount=@candidatesCount}}</li>
+    </ul>
+  </PixMessage>
   {{#if @isImportInError}}
-    <PixMessage @type="error">
-      <p>{{@errorsReport}}</p>
-    </PixMessage>
+    <span class="import-page-section__information">
+      {{t "pages.sessions.import.step-two.blocking-errors.information"}}
+    </span>
+    <PixCollapsible
+      @titleIcon="circle-exclamation"
+      @title={{t "pages.sessions.import.step-two.blocking-errors.title" errorsReportCount=@errorsReportCount}}
+      @iconTitle="plus"
+      class="import-page-section__circle-exclamation-icon"
+    >
+      <PixMessage @type="error">
+        <p>{{@errorsReport}}</p>
+      </PixMessage>
+    </PixCollapsible>
+    <PixButton
+      class="import-page__section--confirm-button"
+      aria-label={{t "pages.sessions.import.step-two.actions.import-again.extra-information"}}
+      @triggerAction={{@toggleStepOne}}
+    >
+      {{t "pages.sessions.import.step-two.actions.import-again.label"}}
+    </PixButton>
   {{else}}
-    <PixMessage @type="info">
-      <ul>
-        <li>
-          <img src="{{this.rootURL}}/icons/solid-square-chevron-rigth.svg" alt="" role="presentation" />
-          {{t
-            "pages.sessions.import.step-two.sessions-and-empty-sessions-count"
-            sessionsCount=@sessionsCount
-            sessionsWithoutCandidatesCount=@sessionsWithoutCandidatesCount
-          }}</li>
-        <li>
-          <FaIcon @icon="user" />
-          {{t "pages.sessions.import.step-two.candidates-count" candidatesCount=@candidatesCount}}</li>
-      </ul>
-    </PixMessage>
-
     <PixButton class="import-page__section--confirm-button" @triggerAction={{@createSessions}}>
       {{t "pages.sessions.import.step-two.actions.confirm.label"}}
     </PixButton>
