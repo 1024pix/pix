@@ -5,7 +5,12 @@
     <h1 class="page-title"> Certifications </h1>
     <div class="page-actions">
       <form class="form-inline" {{on "submit" this.loadCertification}}>
-        <Input placeholder="Identifiant" @type="text" @value={{this.inputId}} />
+        <Input
+          placeholder="Identifiant"
+          aria-label="Rechercher une session avec un identifiant"
+          @type="text"
+          @value={{this.inputId}}
+        />
         <PixButton @size="small" @type="submit">Charger</PixButton>
       </form>
     </div>
