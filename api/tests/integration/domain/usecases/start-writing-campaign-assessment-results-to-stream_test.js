@@ -90,6 +90,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
         state: Assessment.states.COMPLETED,
         type: Assessment.types.CAMPAIGN,
       });
+      databaseBuilder.factory.buildStage({ targetProfileId: targetProfile.id, threshold: 0 });
       databaseBuilder.factory.buildStage({ targetProfileId: targetProfile.id, threshold: 1 });
       databaseBuilder.factory.buildBadge({ targetProfileId: targetProfile.id });
       await databaseBuilder.commit();
