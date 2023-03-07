@@ -21,7 +21,7 @@ describe('Acceptance | Scripts | convert-target-profiles-into-new-format', funct
     _buildTargetProfileAlreadyConverted(targetProfileAlreadyConvertedId);
     _buildTargetProfileToConvert(targetProfileToConvertId, learningContent);
     _buildTargetProfileConversionErrorNoSkills(targetProfileConversionErrorNoSkillsId);
-    _buildTargetProfileConversionErrorUnknownSkills(targetProfileConversionErrorUnknownSkillsId);
+    _buildTargetProfileConversionErrorUnknownSkills(targetProfileConversionErrorUnknownSkillsId, learningContent);
     _buildTargetProfileConversionErrorNoCorrespondingTube(
       targetProfileConversionErrorNoCorrespondingTubeId,
       learningContent
@@ -34,34 +34,47 @@ describe('Acceptance | Scripts | convert-target-profiles-into-new-format', funct
     await doJob();
 
     // then
-    const tubesForAlreadyConverted = await _getTubes(targetProfileAlreadyConvertedId);
-    const tubesForToConvert = await _getTubes(targetProfileToConvertId);
-    const tubesForErrorNoSkills = await _getTubes(targetProfileConversionErrorNoSkillsId);
-    const tubesForErrorUnknownSkills = await _getTubes(targetProfileConversionErrorUnknownSkillsId);
-    const tubesForErrorNoCorrespondingTube = await _getTubes(targetProfileConversionErrorNoCorrespondingTubeId);
+    const { tubes: tubesForAlreadyConverted, migrationStatus: migrationStatusAlreadyConverted } =
+      await _getTubesAndMigrationStatus(targetProfileAlreadyConvertedId);
+    const { tubes: tubesForToConvert, migrationStatus: migrationStatusToConvert } = await _getTubesAndMigrationStatus(
+      targetProfileToConvertId
+    );
+    const { tubes: tubesForErrorNoSkills, migrationStatus: migrationStatusErrorNoSkillId } =
+      await _getTubesAndMigrationStatus(targetProfileConversionErrorNoSkillsId);
+    const { tubes: tubesForErrorUnknownSkills, migrationStatus: migrationStatusUnknownSkills } =
+      await _getTubesAndMigrationStatus(targetProfileConversionErrorUnknownSkillsId);
+    const { tubes: tubesForErrorNoCorrespondingTube, migrationStatus: migrationStatusNoCorrespondingTube } =
+      await _getTubesAndMigrationStatus(targetProfileConversionErrorNoCorrespondingTubeId);
     expect(tubesForAlreadyConverted).to.deep.equal([{ tubeId: 'recAlreadyConvertedTubeId', level: 9000 }]);
+    expect(migrationStatusAlreadyConverted).to.equal('N/A');
     expect(tubesForToConvert).to.deep.equal([
       { tubeId: 'recTubeA', level: 3 },
       { tubeId: 'recTubeB', level: 5 },
     ]);
+    expect(migrationStatusToConvert).to.equal('AUTO');
     expect(tubesForErrorNoSkills).to.deep.equal([]);
-    expect(tubesForErrorUnknownSkills).to.deep.equal([]);
+    expect(migrationStatusErrorNoSkillId).to.equal('NOT_MIGRATED');
+    expect(tubesForErrorUnknownSkills).to.deep.equal([{ tubeId: 'recTubeD', level: 1 }]);
+    expect(migrationStatusUnknownSkills).to.equal('AUTO');
     expect(tubesForErrorNoCorrespondingTube).to.deep.equal([]);
+    expect(migrationStatusNoCorrespondingTube).to.equal('NOT_MIGRATED');
     expect(loggerErrorStub).to.have.been.calledWith("3 Echec. Raison : Error: Le profil cible n'a pas d'acquis.");
-    expect(loggerErrorStub).to.have.been.calledWith(
-      `4 Echec. Raison : Error: L'acquis "recSomeUnknownSkill" n'existe pas dans le référentiel.`
-    );
     expect(loggerErrorStub).to.have.been.calledWith(
       `5 Echec. Raison : Error: Le sujet "recSomeUnknownTube" n'existe pas dans le référentiel.`
     );
   });
 });
 
-async function _getTubes(targetProfileId) {
-  return knex('target-profile_tubes')
+async function _getTubesAndMigrationStatus(targetProfileId) {
+  const tubes = await knex('target-profile_tubes')
     .select('tubeId', 'level')
     .where('targetProfileId', targetProfileId)
     .orderBy('tubeId', 'ASC');
+  const { migrationStatus } = await knex('target-profiles')
+    .select({ migrationStatus: 'migration_status' })
+    .where({ id: targetProfileId })
+    .first();
+  return { tubes, migrationStatus };
 }
 
 function _buildTargetProfileAlreadyConverted(id) {
@@ -74,7 +87,7 @@ function _buildTargetProfileAlreadyConverted(id) {
 }
 
 function _buildTargetProfileToConvert(id, learningContent) {
-  databaseBuilder.factory.buildTargetProfile({ id });
+  databaseBuilder.factory.buildTargetProfile({ id, migration_status: 'NOT_MIGRATED' });
   databaseBuilder.factory.buildTargetProfileSkill({
     skillId: 'recSkill1TubeA',
     targetProfileId: id,
@@ -145,19 +158,36 @@ function _buildTargetProfileToConvert(id, learningContent) {
 }
 
 function _buildTargetProfileConversionErrorNoSkills(id) {
-  databaseBuilder.factory.buildTargetProfile({ id });
+  databaseBuilder.factory.buildTargetProfile({ id, migration_status: 'NOT_MIGRATED' });
 }
 
-function _buildTargetProfileConversionErrorUnknownSkills(id) {
-  databaseBuilder.factory.buildTargetProfile({ id });
+function _buildTargetProfileConversionErrorUnknownSkills(id, learningContent) {
+  databaseBuilder.factory.buildTargetProfile({ id, migration_status: 'NOT_MIGRATED' });
   databaseBuilder.factory.buildTargetProfileSkill({
     skillId: 'recSomeUnknownSkill',
     targetProfileId: id,
   });
+  databaseBuilder.factory.buildTargetProfileSkill({
+    skillId: 'recSkill1TubeD',
+    targetProfileId: id,
+  });
+
+  const skill1TubeD = {
+    id: 'recSkill1TubeD',
+    name: '@skill1TubeD',
+    tubeId: 'recTubeD',
+    level: 1,
+  };
+  const tubeD = {
+    id: 'recTubeD',
+    skills: [skill1TubeD],
+  };
+  learningContent.skills.push(skill1TubeD);
+  learningContent.tubes.push(tubeD);
 }
 
 function _buildTargetProfileConversionErrorNoCorrespondingTube(id, learningContent) {
-  databaseBuilder.factory.buildTargetProfile({ id });
+  databaseBuilder.factory.buildTargetProfile({ id, migration_status: 'NOT_MIGRATED' });
   databaseBuilder.factory.buildTargetProfileSkill({
     skillId: 'recSkillWithoutTube',
     targetProfileId: id,
