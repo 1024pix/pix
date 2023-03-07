@@ -1,15 +1,27 @@
 <Ui::InformationWrapper>
-  <:default>
-    {{#if @groupName}}
-      <Ui::Information>
-        <:title>
-          {{@groupName}}
-        </:title>
-        <:content>
-          {{this.group}}
-        </:content>
-      </Ui::Information>
-    {{/if}}
+  {{#if @isCertifiable}}
+    <Ui::Information>
+      <:title>
+        <Ui::IsCertifiable @isCertifiable={{@isCertifiable}} />
+      </:title>
+      <:content>
+        <span class="information__content--gray">
+          <Ui::Date @date={{@certifiableAt}} />
+        </span>
+      </:content>
+    </Ui::Information>
+  {{/if}}
+  {{#if @groupName}}
+    <Ui::Information>
+      <:title>
+        {{@groupName}}
+      </:title>
+      <:content>
+        {{this.group}}
+      </:content>
+    </Ui::Information>
+  {{/if}}
+  {{#if (gt this.connectionMethods.length 0)}}
     <Ui::Information>
       <:title>
         {{t "pages.sco-organization-participants.table.column.login-method"}}
@@ -18,5 +30,6 @@
         {{this.connectionMethods}}
       </:content>
     </Ui::Information>
-  </:default>
+  {{/if}}
+
 </Ui::InformationWrapper>
