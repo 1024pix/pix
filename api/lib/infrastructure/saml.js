@@ -35,13 +35,6 @@ function _getIdentityProvider() {
   return _identityProvider;
 }
 
-async function parsePostResponse(payload) {
-  logger.trace({ SAMLPayload: payload }, 'Parsing SAML response');
-  const { extract } = await _getServiceProvider().parseLoginResponse(_getIdentityProvider(), 'post', { body: payload });
-  logger.trace({ parsedSAML: extract }, 'Parsed SAML response');
-  return extract.attributes;
-}
-
 module.exports = {
   getServiceProviderMetadata() {
     return _getServiceProvider().getMetadata();
@@ -53,5 +46,12 @@ module.exports = {
     return context;
   },
 
-  parsePostResponse,
+  async parsePostResponse(payload) {
+    logger.trace({ SAMLPayload: payload }, 'Parsing SAML response');
+    const { extract } = await _getServiceProvider().parseLoginResponse(_getIdentityProvider(), 'post', {
+      body: payload,
+    });
+    logger.trace({ parsedSAML: extract }, 'Parsed SAML response');
+    return extract.attributes;
+  },
 };

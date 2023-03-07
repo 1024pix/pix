@@ -45,48 +45,50 @@ const validationSchema = Joi.object({
   }),
 });
 
+const checkValidation = function (organizationLearner) {
+  const { error } = validationSchema.validate(organizationLearner, validationConfiguration);
+
+  if (error) {
+    const err = EntityValidationError.fromJoiErrors(error.details);
+    const { type, context } = error.details[0];
+    if (type === 'any.required') {
+      err.why = 'required';
+    }
+    if (type === 'string.max') {
+      err.why = 'max_length';
+      err.limit = context.limit;
+    }
+    if (type === 'string.length') {
+      err.why = 'length';
+      err.limit = context.limit;
+    }
+    if (type === 'string.min') {
+      err.why = 'min_length';
+      err.limit = context.limit;
+    }
+    if (type === 'string.pattern.base' && ['birthCountryCode', 'birthCityCode'].includes(context.key)) {
+      err.why = 'not_valid_insee_code';
+    }
+    if (type === 'date.format') {
+      err.why = 'not_a_date';
+    }
+    if (type === 'date.base') {
+      err.why = 'not_a_date';
+    }
+    if (type === 'any.only') {
+      err.why = 'bad_values';
+      err.valids = context.valids;
+    }
+    if (type === 'string.pattern.name') {
+      err.why = 'bad_pattern';
+      err.pattern = context.name;
+    }
+    err.key = context.key;
+    throw err;
+  }
+};
+
 module.exports = {
   FRANCE_COUNTRY_CODE,
-  checkValidation(organizationLearner) {
-    const { error } = validationSchema.validate(organizationLearner, validationConfiguration);
-
-    if (error) {
-      const err = EntityValidationError.fromJoiErrors(error.details);
-      const { type, context } = error.details[0];
-      if (type === 'any.required') {
-        err.why = 'required';
-      }
-      if (type === 'string.max') {
-        err.why = 'max_length';
-        err.limit = context.limit;
-      }
-      if (type === 'string.length') {
-        err.why = 'length';
-        err.limit = context.limit;
-      }
-      if (type === 'string.min') {
-        err.why = 'min_length';
-        err.limit = context.limit;
-      }
-      if (type === 'string.pattern.base' && ['birthCountryCode', 'birthCityCode'].includes(context.key)) {
-        err.why = 'not_valid_insee_code';
-      }
-      if (type === 'date.format') {
-        err.why = 'not_a_date';
-      }
-      if (type === 'date.base') {
-        err.why = 'not_a_date';
-      }
-      if (type === 'any.only') {
-        err.why = 'bad_values';
-        err.valids = context.valids;
-      }
-      if (type === 'string.pattern.name') {
-        err.why = 'bad_pattern';
-        err.pattern = context.name;
-      }
-      err.key = context.key;
-      throw err;
-    }
-  },
+  checkValidation,
 };

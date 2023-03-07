@@ -12,4 +12,6 @@ function _createTemporaryStorage() {
   }
 }
 
-module.exports = _createTemporaryStorage();
+const temporaryStorage = _createTemporaryStorage();
+
+module.exports = { temporaryStorage };

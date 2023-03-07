@@ -1,5 +1,7 @@
 const { expect, sinon } = require('../../../../test-helper');
-const frameworkDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/framework-datasource');
+const {
+  frameworkDatasource,
+} = require('../../../../../lib/infrastructure/datasources/learning-content/framework-datasource');
 const lcms = require('../../../../../lib/infrastructure/lcms');
 
 describe('Unit | Infrastructure | Datasource | Learning Content | FrameworkDatasource', function () {

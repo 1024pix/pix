@@ -1,7 +1,9 @@
 const _ = require('lodash');
 const { expect, sinon } = require('../../../../test-helper');
 const lcms = require('../../../../../lib/infrastructure/lcms');
-const challengeDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/challenge-datasource');
+const {
+  challengeDatasource,
+} = require('../../../../../lib/infrastructure/datasources/learning-content/challenge-datasource');
 const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatasource', function () {

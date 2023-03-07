@@ -1,5 +1,7 @@
 const { expect, sinon } = require('../../../../test-helper');
-const competenceDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/competence-datasource');
+const {
+  competenceDatasource,
+} = require('../../../../../lib/infrastructure/datasources/learning-content/competence-datasource');
 const lcms = require('../../../../../lib/infrastructure/lcms');
 const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 

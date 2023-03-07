@@ -1,7 +1,7 @@
 const { expect, sinon, databaseBuilder, knex } = require('../../../test-helper');
 const attachOrganizationsToTargetProfile = require('../../../../lib/domain/usecases/attach-organizations-to-target-profile');
 const organizationsToAttachToTargetProfileRepository = require('../../../../lib/infrastructure/repositories/organizations-to-attach-to-target-profile-repository');
-const skillDatasource = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
+const { skillDatasource } = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
 
 describe('Integration | UseCase | attach-organizations-to-target-profile', function () {
   beforeEach(function () {

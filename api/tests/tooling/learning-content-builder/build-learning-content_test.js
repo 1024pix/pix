@@ -1,11 +1,17 @@
 const { expect, learningContentBuilder, mockLearningContent } = require('../../test-helper');
-const areaDatasource = require('../../../lib/infrastructure/datasources/learning-content/area-datasource');
-const competenceDatasource = require('../../../lib/infrastructure/datasources/learning-content/competence-datasource');
-const tubeDatasource = require('../../../lib/infrastructure/datasources/learning-content/tube-datasource');
-const skillDatasource = require('../../../lib/infrastructure/datasources/learning-content/skill-datasource');
-const challengeDatasource = require('../../../lib/infrastructure/datasources/learning-content/challenge-datasource');
-const courseDatasource = require('../../../lib/infrastructure/datasources/learning-content/course-datasource');
-const frameworkDatasource = require('../../../lib/infrastructure/datasources/learning-content/framework-datasource');
+const { areaDatasource } = require('../../../lib/infrastructure/datasources/learning-content/area-datasource');
+const {
+  competenceDatasource,
+} = require('../../../lib/infrastructure/datasources/learning-content/competence-datasource');
+const { tubeDatasource } = require('../../../lib/infrastructure/datasources/learning-content/tube-datasource');
+const { skillDatasource } = require('../../../lib/infrastructure/datasources/learning-content/skill-datasource');
+const {
+  challengeDatasource,
+} = require('../../../lib/infrastructure/datasources/learning-content/challenge-datasource');
+const { courseDatasource } = require('../../../lib/infrastructure/datasources/learning-content/course-datasource');
+const {
+  frameworkDatasource,
+} = require('../../../lib/infrastructure/datasources/learning-content/framework-datasource');
 
 describe('Integration | buildLearningContent', function () {
   it('builds areas and frameworks', async function () {

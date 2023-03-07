@@ -7,7 +7,7 @@ dotenv.config();
 
 const { checkCsvHeader, parseCsvWithHeader } = require('./helpers/csvHelpers');
 
-const temporaryStorage = require('../lib/infrastructure/temporary-storage/index.js');
+const { temporaryStorage } = require('../lib/infrastructure/temporary-storage/index.js');
 const createOrganizationsWithTagsAndTargetProfiles = require('../lib/domain/usecases/create-organizations-with-tags-and-target-profiles');
 const domainTransaction = require('../lib/infrastructure/DomainTransaction');
 const organizationInvitationRepository = require('../lib/infrastructure/repositories/organization-invitation-repository');

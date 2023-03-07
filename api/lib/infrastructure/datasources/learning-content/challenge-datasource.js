@@ -4,7 +4,7 @@ const datasource = require('./datasource.js');
 const VALIDATED_CHALLENGE = 'validé';
 const OPERATIVE_CHALLENGES = [VALIDATED_CHALLENGE, 'archivé'];
 
-module.exports = datasource.extend({
+const challengeDatasource = datasource.extend({
   modelName: 'challenges',
 
   async findOperativeBySkillIds(skillIds) {
@@ -64,3 +64,5 @@ module.exports = datasource.extend({
     );
   },
 });
+
+module.exports = { challengeDatasource };

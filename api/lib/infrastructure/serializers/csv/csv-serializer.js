@@ -285,10 +285,12 @@ function _generateUniqueKey({ address, room, date, time }) {
   return address + room + date + time;
 }
 
+function serializeLine(lineArray) {
+  return lineArray.map(_csvSerializeValue).join(';') + '\n';
+}
+
 module.exports = {
-  serializeLine(lineArray) {
-    return lineArray.map(_csvSerializeValue).join(';') + '\n';
-  },
+  serializeLine,
   deserializeForSessionsImport,
   deserializeForOrganizationsImport,
 };

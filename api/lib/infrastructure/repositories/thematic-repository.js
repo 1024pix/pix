@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const Thematic = require('../../domain/models/Thematic.js');
-const thematicDatasource = require('../datasources/learning-content/thematic-datasource.js');
+const { thematicDatasource } = require('../datasources/learning-content/thematic-datasource.js');
 const { getTranslatedKey } = require('../../domain/services/get-translated-text.js');
 const { FRENCH_FRANCE } = require('../../domain/constants.js').LOCALE;
 

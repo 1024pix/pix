@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require('uuid');
 const settings = require('../../config.js');
 const tokenService = require('./token-service.js');
 const { UnauthorizedError } = require('../../application/http-errors.js');
-const temporaryStorage = require('../../infrastructure/temporary-storage/index.js');
+const { temporaryStorage } = require('../../infrastructure/temporary-storage/index.js');
 
 const refreshTokenTemporaryStorage = temporaryStorage.withPrefix('refresh-tokens:');
 const userRefreshTokensTemporaryStorage = temporaryStorage.withPrefix('user-refresh-tokens:');
