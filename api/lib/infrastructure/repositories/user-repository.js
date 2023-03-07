@@ -129,7 +129,9 @@ module.exports = {
   },
 
   async findPaginatedFiltered({ filter, page }) {
-    const query = knex('users').where((qb) => _setSearchFiltersForQueryBuilder(filter, qb));
+    const query = knex('users')
+      .where((qb) => _setSearchFiltersForQueryBuilder(filter, qb))
+      .orderBy([{ column: 'firstName', order: 'asc' }, { column: 'lastName', order: 'asc' }, { column: 'id' }]);
     const { results, pagination } = await fetchPage(query, page);
 
     const users = results.map((userDTO) => new User(userDTO));
