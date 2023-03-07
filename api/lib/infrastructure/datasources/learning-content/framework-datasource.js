@@ -1,6 +1,6 @@
 const datasource = require('./datasource.js');
 
-module.exports = datasource.extend({
+const frameworkDatasource = datasource.extend({
   modelName: 'frameworks',
 
   async getByName(frameworkName) {
@@ -13,3 +13,5 @@ module.exports = datasource.extend({
     return frameworks.filter(({ id }) => frameworkIds.includes(id));
   },
 });
+
+module.exports = { frameworkDatasource };

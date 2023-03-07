@@ -12,7 +12,7 @@ const dependencies = {
   mailService,
 };
 
-module.exports = injectDependencies(
+const cpfExport = injectDependencies(
   {
     planner: require('./handlers/planner.js'),
     createAndUpload: require('./handlers/create-and-upload.js'),
@@ -20,3 +20,5 @@ module.exports = injectDependencies(
   },
   dependencies
 );
+
+module.exports = cpfExport;

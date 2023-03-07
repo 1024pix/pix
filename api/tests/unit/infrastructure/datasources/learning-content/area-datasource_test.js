@@ -1,5 +1,5 @@
 const { expect, sinon } = require('../../../../test-helper');
-const areaDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/area-datasource');
+const { areaDatasource } = require('../../../../../lib/infrastructure/datasources/learning-content/area-datasource');
 const lcms = require('../../../../../lib/infrastructure/lcms');
 
 describe('Unit | Infrastructure | Datasource | Learning Content | AreaDatasource', function () {

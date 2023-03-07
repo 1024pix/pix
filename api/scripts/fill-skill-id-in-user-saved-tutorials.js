@@ -6,8 +6,8 @@ const UserSavedTutorial = require('../lib/domain/models/UserSavedTutorial');
 const KnowledgeElement = require('../lib/domain/models/KnowledgeElement');
 const UserSavedTutorialWithTutorial = require('../lib/domain/models/UserSavedTutorialWithTutorial');
 const knowledgeElementRepository = require('../lib/infrastructure/repositories/knowledge-element-repository');
-const tutorialDatasource = require('../lib/infrastructure/datasources/learning-content/tutorial-datasource');
-const skillDatasource = require('../lib/infrastructure/datasources/learning-content/skill-datasource');
+const { tutorialDatasource } = require('../lib/infrastructure/datasources/learning-content/tutorial-datasource');
+const { skillDatasource } = require('../lib/infrastructure/datasources/learning-content/skill-datasource');
 
 async function getAllUserSavedTutorialsWithoutSkillId() {
   const userSavedTutorials = await knex('user-saved-tutorials').whereNull('skillId');

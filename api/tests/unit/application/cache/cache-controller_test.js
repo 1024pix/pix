@@ -17,33 +17,33 @@ describe('Unit | Controller | cache-controller', function () {
     };
 
     beforeEach(function () {
-      sinon.stub(learningContentDatasources.ChallengeDatasource, 'refreshLearningContentCacheRecord');
+      sinon.stub(learningContentDatasources.challengeDatasource, 'refreshLearningContentCacheRecord');
     });
 
     it('should reply with null when the cache key exists', async function () {
       // given
-      learningContentDatasources.ChallengeDatasource.refreshLearningContentCacheRecord.resolves();
+      learningContentDatasources.challengeDatasource.refreshLearningContentCacheRecord.resolves();
 
       // when
       const response = await cacheController.refreshCacheEntry(request, hFake);
 
       // then
       expect(
-        learningContentDatasources.ChallengeDatasource.refreshLearningContentCacheRecord
+        learningContentDatasources.challengeDatasource.refreshLearningContentCacheRecord
       ).to.have.been.calledWithExactly('recId', { property: 'updatedValue' });
       expect(response).to.be.null;
     });
 
     it('should reply with null when the cache key does not exist', async function () {
       // given
-      learningContentDatasources.ChallengeDatasource.refreshLearningContentCacheRecord.resolves();
+      learningContentDatasources.challengeDatasource.refreshLearningContentCacheRecord.resolves();
 
       // when
       const response = await cacheController.refreshCacheEntry(request, hFake);
 
       // Then
       expect(
-        learningContentDatasources.ChallengeDatasource.refreshLearningContentCacheRecord
+        learningContentDatasources.challengeDatasource.refreshLearningContentCacheRecord
       ).to.have.been.calledWithExactly('recId', { property: 'updatedValue' });
       expect(response).to.be.null;
     });

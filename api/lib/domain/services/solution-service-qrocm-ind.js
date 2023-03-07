@@ -70,52 +70,53 @@ function _formatResult(resultDetails) {
   return result;
 }
 
+function match({ answerValue, solution }) {
+  const yamlSolution = solution.value;
+  const enabledTreatments = solution.enabledTreatments;
+  const qrocBlocksTypes = solution.qrocBlocksTypes || {};
+
+  // Input checking
+  if (!_.isString(answerValue) || _.isEmpty(yamlSolution) || !_.includes(yamlSolution, '\n')) {
+    return { result: AnswerStatus.KO };
+  }
+
+  // Pre-treatments
+  const preTreatedAnswers = applyPreTreatments(answerValue);
+  const preTreatedSolutions = applyPreTreatments(yamlSolution);
+
+  // Convert YAML to JSObject
+  let answers, solutions;
+
+  try {
+    answers = jsYaml.load(preTreatedAnswers, { schema: jsYaml.FAILSAFE_SCHEMA });
+    solutions = jsYaml.load(preTreatedSolutions, { schema: jsYaml.FAILSAFE_SCHEMA });
+  } catch (error) {
+    throw new YamlParsingError();
+  }
+
+  // Treatments
+  const treatedSolutions = _applyTreatmentsToSolutions(solutions, enabledTreatments, qrocBlocksTypes);
+  const treatedAnswers = _applyTreatmentsToAnswers(answers, enabledTreatments, qrocBlocksTypes);
+
+  // Comparison
+  const resultDetails = _compareAnswersAndSolutions(
+    treatedAnswers,
+    treatedSolutions,
+    enabledTreatments,
+    qrocBlocksTypes
+  );
+
+  // Restitution
+  return {
+    result: _formatResult(resultDetails),
+    resultDetails: resultDetails,
+  };
+}
+
 module.exports = {
   _applyTreatmentsToSolutions,
   _applyTreatmentsToAnswers,
   _compareAnswersAndSolutions,
   _formatResult,
-
-  match({ answerValue, solution }) {
-    const yamlSolution = solution.value;
-    const enabledTreatments = solution.enabledTreatments;
-    const qrocBlocksTypes = solution.qrocBlocksTypes || {};
-
-    // Input checking
-    if (!_.isString(answerValue) || _.isEmpty(yamlSolution) || !_.includes(yamlSolution, '\n')) {
-      return { result: AnswerStatus.KO };
-    }
-
-    // Pre-treatments
-    const preTreatedAnswers = applyPreTreatments(answerValue);
-    const preTreatedSolutions = applyPreTreatments(yamlSolution);
-
-    // Convert YAML to JSObject
-    let answers, solutions;
-
-    try {
-      answers = jsYaml.load(preTreatedAnswers, { schema: jsYaml.FAILSAFE_SCHEMA });
-      solutions = jsYaml.load(preTreatedSolutions, { schema: jsYaml.FAILSAFE_SCHEMA });
-    } catch (error) {
-      throw new YamlParsingError();
-    }
-
-    // Treatments
-    const treatedSolutions = _applyTreatmentsToSolutions(solutions, enabledTreatments, qrocBlocksTypes);
-    const treatedAnswers = _applyTreatmentsToAnswers(answers, enabledTreatments, qrocBlocksTypes);
-
-    // Comparison
-    const resultDetails = _compareAnswersAndSolutions(
-      treatedAnswers,
-      treatedSolutions,
-      enabledTreatments,
-      qrocBlocksTypes
-    );
-
-    // Restitution
-    return {
-      result: _formatResult(resultDetails),
-      resultDetails: resultDetails,
-    };
-  },
+  match,
 };

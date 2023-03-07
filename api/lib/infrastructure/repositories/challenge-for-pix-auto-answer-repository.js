@@ -1,5 +1,5 @@
 const ChallengeForPixAutoAnswer = require('../../domain/read-models/ChallengeForPixAutoAnswer.js');
-const challengeDatasource = require('../datasources/learning-content/challenge-datasource.js');
+const { challengeDatasource } = require('../datasources/learning-content/challenge-datasource.js');
 
 module.exports = {
   async get(challengeId) {

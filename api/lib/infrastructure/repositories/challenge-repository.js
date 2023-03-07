@@ -1,8 +1,8 @@
 const _ = require('lodash');
 const Challenge = require('../../domain/models/Challenge.js');
 
-const challengeDatasource = require('../datasources/learning-content/challenge-datasource.js');
-const skillDatasource = require('../datasources/learning-content/skill-datasource.js');
+const { challengeDatasource } = require('../datasources/learning-content/challenge-datasource.js');
+const { skillDatasource } = require('../datasources/learning-content/skill-datasource.js');
 const skillAdapter = require('../adapters/skill-adapter.js');
 const solutionAdapter = require('../adapters/solution-adapter.js');
 const LearningContentResourceNotFound = require('../datasources/learning-content/LearningContentResourceNotFound.js');

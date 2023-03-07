@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const LearningContentResourceNotFound = require('../datasources/learning-content/LearningContentResourceNotFound.js');
 const Competence = require('../../domain/models/Competence.js');
-const competenceDatasource = require('../datasources/learning-content/competence-datasource.js');
+const { competenceDatasource } = require('../datasources/learning-content/competence-datasource.js');
 const { NotFoundError } = require('../../domain/errors.js');
 const { FRENCH_FRANCE } = require('../../domain/constants.js').LOCALE;
 const { PIX_ORIGIN } = require('../../domain/constants.js');

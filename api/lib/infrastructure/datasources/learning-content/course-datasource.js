@@ -1,5 +1,7 @@
 const datasource = require('./datasource.js');
 
-module.exports = datasource.extend({
+const courseDatasource = datasource.extend({
   modelName: 'courses',
 });
+
+module.exports = { courseDatasource };

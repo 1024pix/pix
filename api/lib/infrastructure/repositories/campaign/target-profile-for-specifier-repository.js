@@ -1,5 +1,5 @@
 const { knex } = require('../../../../db/knex-database-connection.js');
-const skillDataSource = require('../../datasources/learning-content/skill-datasource.js');
+const { skillDatasource } = require('../../datasources/learning-content/skill-datasource.js');
 const TargetProfileForSpecifier = require('../../../domain/read-models/campaign/TargetProfileForSpecifier.js');
 const bluebird = require('bluebird');
 const { uniqBy } = require('lodash');
@@ -50,7 +50,7 @@ async function _buildTargetProfileForSpecifier(row) {
     tubeCount = row.countTubes;
   } else {
     // TODO remove it after target profile tube migration to target-profile_tubes
-    const skills = await skillDataSource.findByRecordIds(row.skillIds);
+    const skills = await skillDatasource.findByRecordIds(row.skillIds);
     tubeCount = uniqBy(skills, 'tubeId').length;
   }
   const thematicResultCount = row.countBadges;

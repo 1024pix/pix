@@ -3,7 +3,7 @@ const { NoOrganizationToAttach, NotFoundError } = require('../../../../lib/domai
 const attachOrganizationsFromExistingTargetProfile = require('../../../../lib/domain/usecases/attach-organizations-from-existing-target-profile');
 const organizationsToAttachToTargetProfileRepository = require('../../../../lib/infrastructure/repositories/organizations-to-attach-to-target-profile-repository');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
-const skillDatasource = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
+const { skillDatasource } = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
 
 describe('Integration | UseCase | attach-organizations-from-existing-target-profile', function () {
   beforeEach(function () {

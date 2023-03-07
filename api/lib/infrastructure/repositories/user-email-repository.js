@@ -1,7 +1,7 @@
 const settings = require('../../config.js');
 const EXPIRATION_DELAY_SECONDS = settings.temporaryStorage.expirationDelaySeconds;
 const EmailModificationDemand = require('../../domain/models/EmailModificationDemand.js');
-const temporaryStorage = require('../temporary-storage/index.js');
+const { temporaryStorage } = require('../temporary-storage/index.js');
 const verifyEmailTemporaryStorage = temporaryStorage.withPrefix('verify-email:');
 
 module.exports = {

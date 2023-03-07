@@ -8,10 +8,10 @@ const {
   CertifiedSkill,
 } = require('../../domain/read-models/CertifiedProfile.js');
 const { NotFoundError } = require('../../domain/errors.js');
-const skillDatasource = require('../datasources/learning-content/skill-datasource.js');
-const tubeDatasource = require('../datasources/learning-content/tube-datasource.js');
-const competenceDatasource = require('../datasources/learning-content/competence-datasource.js');
-const areaDatasource = require('../datasources/learning-content/area-datasource.js');
+const { skillDatasource } = require('../datasources/learning-content/skill-datasource.js');
+const { tubeDatasource } = require('../datasources/learning-content/tube-datasource.js');
+const { competenceDatasource } = require('../datasources/learning-content/competence-datasource.js');
+const { areaDatasource } = require('../datasources/learning-content/area-datasource.js');
 const knowledgeElementRepository = require('./knowledge-element-repository.js');
 
 module.exports = {

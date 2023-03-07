@@ -4,7 +4,7 @@ const datasource = require('./datasource.js');
 const ACTIVE_STATUS = 'actif';
 const OPERATIVE_STATUSES = ['actif', 'archivé'];
 
-module.exports = datasource.extend({
+const skillDatasource = datasource.extend({
   modelName: 'skills',
 
   async findActive() {
@@ -60,3 +60,5 @@ module.exports = datasource.extend({
     );
   },
 });
+
+module.exports = { skillDatasource };

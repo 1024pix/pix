@@ -1,4 +1,7 @@
-module.exports = async function ({ dataProtectionOfficer, dataProtectionOfficerRepository }) {
+module.exports = async function updateOrganizationDataProtectionOfficerInformation({
+  dataProtectionOfficer,
+  dataProtectionOfficerRepository,
+}) {
   const { organizationId } = dataProtectionOfficer;
   const dataProtectionOfficerToUpdate = await dataProtectionOfficerRepository.get({ organizationId });
 

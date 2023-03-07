@@ -1,5 +1,5 @@
 const Area = require('../../domain/models/Area.js');
-const areaDatasource = require('../datasources/learning-content/area-datasource.js');
+const { areaDatasource } = require('../datasources/learning-content/area-datasource.js');
 const competenceRepository = require('./competence-repository.js');
 const { getTranslatedKey } = require('../../domain/services/get-translated-text.js');
 const _ = require('lodash');

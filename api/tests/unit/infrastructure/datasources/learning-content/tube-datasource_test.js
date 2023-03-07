@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const { expect, sinon } = require('../../../../test-helper');
 const lcms = require('../../../../../lib/infrastructure/lcms');
-const tubeDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/tube-datasource');
+const { tubeDatasource } = require('../../../../../lib/infrastructure/datasources/learning-content/tube-datasource');
 const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Unit | Infrastructure | Datasource | Learning Content | TubeDatasource', function () {

@@ -2,7 +2,7 @@ const _ = require('lodash');
 const { expect, databaseBuilder, catchErr, sinon, knex, domainBuilder } = require('../../../test-helper');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
-const skillDatasource = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
+const { skillDatasource } = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const { NotFoundError, ObjectValidationError, InvalidSkillSetError } = require('../../../../lib/domain/errors');
 
