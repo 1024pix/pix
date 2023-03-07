@@ -48,6 +48,12 @@ module.exports = {
   }) {
     const certificationCandidateErrors = [];
 
+    if (_isExtraTimePercentageBelowOne(candidate.extraTimePercentage)) {
+      certificationCandidateErrors.push('Temps majoré doit être supérieur à 1');
+    } else {
+      candidate.convertExtraTimePercentageToDecimal();
+    }
+
     const validationErrors = candidate.validateForMassSessionImport(isSco);
     if (validationErrors) {
       certificationCandidateErrors.push(...validationErrors);
@@ -77,6 +83,10 @@ module.exports = {
     };
   },
 };
+
+function _isExtraTimePercentageBelowOne(extraTimePercentage) {
+  return extraTimePercentage && extraTimePercentage < 1;
+}
 
 function _hasSessionInfo(session) {
   return session.address || session.room || session.date || session.time || session.examiner;
