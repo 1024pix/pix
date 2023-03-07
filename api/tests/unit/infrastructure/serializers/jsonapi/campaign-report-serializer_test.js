@@ -9,16 +9,18 @@ describe('Unit | Serializer | JSONAPI | campaign-report-serializer', function ()
         id: 'campaign_report_id',
         participationsCount: 4,
         sharedParticipationsCount: 2,
-        targetProfileForSpecifier: {
-          tubeCount: 3,
-          thematicResultCount: 2,
-          hasStage: true,
-          description: 'awesome target profile',
-        },
         averageResult: 0.4,
+        reachedStage: 1,
+        totalStage: 2,
         stages: [
           {
             id: 1,
+            prescriberTitle: 'stage0',
+            prescriberDescription: 'description',
+            threshold: 0,
+          },
+          {
+            id: 2,
             prescriberTitle: 'stage1',
             prescriberDescription: 'description',
             threshold: 30,
@@ -30,6 +32,13 @@ describe('Unit | Serializer | JSONAPI | campaign-report-serializer', function ()
             title: 'badge123',
           },
         ],
+      });
+
+      report.setTargetProfileInformation({
+        tubeCount: 3,
+        thematicResultCount: 2,
+        hasStage: true,
+        description: 'awesome target profile',
       });
 
       // when
@@ -45,6 +54,10 @@ describe('Unit | Serializer | JSONAPI | campaign-report-serializer', function ()
               data: [
                 {
                   id: report.stages[0].id.toString(),
+                  type: 'stages',
+                },
+                {
+                  id: report.stages[1].id.toString(),
                   type: 'stages',
                 },
               ],
@@ -101,6 +114,8 @@ describe('Unit | Serializer | JSONAPI | campaign-report-serializer', function ()
             'participations-count': report.participationsCount,
             'shared-participations-count': report.sharedParticipationsCount,
             'average-result': report.averageResult,
+            'reached-stage': report.reachedStage,
+            'total-stage': report.totalStage,
           },
         },
         included: [
@@ -111,6 +126,15 @@ describe('Unit | Serializer | JSONAPI | campaign-report-serializer', function ()
               'prescriber-title': report.stages[0].prescriberTitle,
             },
             id: report.stages[0].id.toString(),
+            type: 'stages',
+          },
+          {
+            attributes: {
+              'prescriber-description': report.stages[1].prescriberDescription,
+              threshold: report.stages[1].threshold,
+              'prescriber-title': report.stages[1].prescriberTitle,
+            },
+            id: report.stages[1].id.toString(),
             type: 'stages',
           },
           {

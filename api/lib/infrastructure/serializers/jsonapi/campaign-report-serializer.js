@@ -35,6 +35,8 @@ module.exports = {
         'campaignAnalysis',
         'divisions',
         'stages',
+        'totalStage',
+        'reachedStage',
         'badges',
         'groups',
         'multipleSendings',
