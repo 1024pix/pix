@@ -222,6 +222,10 @@ class CertificationCandidate {
   isBillingModePrepaid() {
     return this.billingMode === CertificationCandidate.BILLING_MODES.PREPAID;
   }
+
+  convertExtraTimePercentageToDecimal() {
+    this.extraTimePercentage = this.extraTimePercentage / 100;
+  }
 }
 
 CertificationCandidate.BILLING_MODES = BILLING_MODES;

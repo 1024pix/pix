@@ -154,6 +154,44 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
       sinon.assert.calledOnce(controller.notifications.error);
       assert.ok(controller);
     });
+
+    module('when previous validation has failed', function () {
+      test('should set isImportInError to false on second validation success', async function (assert) {
+        // given
+        controller.isImportInError = true;
+        const store = this.owner.lookup('service:store');
+        const adapter = store.adapterFor('validate-sessions-for-mass-import');
+        const sessionsImportStub = sinon.stub(adapter, 'validateSessionsForMassImport');
+        sessionsImportStub.resolves({});
+        const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+          id: 123,
+        });
+
+        class CurrentUserStub extends Service {
+          currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
+        }
+
+        this.owner.register('service:current-user', CurrentUserStub);
+        const token = 'a token';
+
+        controller.file = Symbol('file 1');
+
+        controller.session = {
+          isAuthenticated: true,
+          data: {
+            authenticated: {
+              access_token: token,
+            },
+          },
+        };
+
+        // when
+        await controller.validateSessions();
+
+        // then
+        assert.false(controller.isImportInError);
+      });
+    });
   });
 
   module('#createSessions', function () {

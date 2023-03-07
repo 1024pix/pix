@@ -84,6 +84,8 @@ export default class ImportController extends Controller {
     }
     if (this.errorsReport?.length > 0) {
       this.isImportInError = true;
+    } else {
+      this.isImportInError = false;
     }
     this.isImportStepOne = false;
     this.removeImport();
