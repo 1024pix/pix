@@ -14,6 +14,7 @@ module.exports = function buildTargetProfile({
   description = null,
   comment = null,
   category = 'OTHER',
+  migration_status = 'N/A',
 } = {}) {
   ownerOrganizationId = _.isUndefined(ownerOrganizationId) ? buildOrganization().id : ownerOrganizationId;
 
@@ -29,6 +30,7 @@ module.exports = function buildTargetProfile({
     description,
     comment,
     category,
+    migration_status,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'target-profiles',
