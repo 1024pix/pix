@@ -126,9 +126,9 @@ function participateToAssessmentCampaign({ databaseBuilder, campaignId, user, or
   return campaignParticipationId;
 }
 
-function participateToProfilesCollectionCampaign({ databaseBuilder, campaignId, user, organizationLearnerId, status, isImprovingOldParticipation = false, deleted = false, isCertifiable = null }) {
+function participateToProfilesCollectionCampaign({ databaseBuilder, campaignId, user, organizationLearnerId, status, isImprovingOldParticipation = false, deleted = false, isCertifiable = null, sharedAt = null }) {
   const today = new Date();
-  const sharedAt = status === SHARED ? today : null;
+  sharedAt = status === SHARED && sharedAt === null ? today : sharedAt;
   const deletedAt = deleted ? today : null;
   const deletedBy = deleted ? PIX_SUPER_ADMIN_ID : null;
 

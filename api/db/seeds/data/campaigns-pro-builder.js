@@ -426,21 +426,23 @@ function _buildAssessmentParticipations({ databaseBuilder, users }) {
 }
 
 function _buildProfilesCollectionParticipations({ databaseBuilder, users }) {
-  const userIdsNotShared = [users[1], users[2], users[3], users[4], users[5], users[6], users[7], users[8]];
-  const userIdsShared = [users[0], users[9], users[10], users[11], users[12]];
+  const today = new Date();
+  const sharedAt = new Date(today.setMonth(today.getMonth() - 1));
   const certifRegularUser1 = { id: CERTIF_REGULAR_USER1_ID, createdAt: new Date('2022-02-04') };
   const certifRegularUser2 = { id: CERTIF_REGULAR_USER2_ID, createdAt: new Date('2022-02-05') };
   const certifRegularUser3 = { id: CERTIF_REGULAR_USER3_ID, createdAt: new Date('2022-02-05') };
   const certifRegularUser4 = { id: CERTIF_REGULAR_USER4_ID, createdAt: new Date('2022-02-06') };
   const certifRegularUser5 = { id: CERTIF_REGULAR_USER5_ID, createdAt: new Date('2022-02-07') };
-  const userIdsCertifiable = [users[10].id, users[11].id, users[12].id];
+  const userIdsNotShared = [users[1], users[2], users[3], users[4], users[5], users[6], users[7], users[8]];
+  const userIdsShared = [users[0], users[9], users[10], users[11], users[12]];
+  const userIdsCertifiable = [users[10].id, users[11].id, users[12].id, certifRegularUser1.id, certifRegularUser2.id, certifRegularUser3.id];
 
   [certifRegularUser1, certifRegularUser2, certifRegularUser3, certifRegularUser4, certifRegularUser5].forEach((certifUser, index) => {
     databaseBuilder.factory.buildOrganizationLearner({ lastName: `Certif${index}`, firstName: `User${index}`, id: certifUser.id, userId: certifUser.id, organizationId: PRO_COMPANY_ID });
   });
 
   [...userIdsNotShared, certifRegularUser4, certifRegularUser5].forEach((user) => participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 6, user, organizationLearnerId: user.id, status: TO_SHARE }));
-  [...userIdsShared, certifRegularUser1, certifRegularUser2, certifRegularUser3].forEach((user) => participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 6, user, organizationLearnerId: user.id, status: SHARED }));
+  [...userIdsShared, certifRegularUser1, certifRegularUser2, certifRegularUser3].forEach((user) => participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 6, user, organizationLearnerId: user.id, status: SHARED, sharedAt }));
 
   //multiple sendings profiles collection campaign
   userIdsShared.forEach((user) => participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 18, user, organizationLearnerId: user.id, status: SHARED, isCertifiable: userIdsCertifiable.includes(user.id) }));

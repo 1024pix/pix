@@ -1,5 +1,16 @@
 class OrganizationLearner {
-  constructor({ id, firstName, lastName, division, email, username, authenticationMethods, group } = {}) {
+  constructor({
+    id,
+    firstName,
+    lastName,
+    division,
+    email,
+    username,
+    authenticationMethods,
+    group,
+    isCertifiable,
+    certifiableAt,
+  } = {}) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -8,6 +19,8 @@ class OrganizationLearner {
     this.group = group;
     this.username = username;
     this.authenticationMethods = authenticationMethods;
+    this.isCertifiable = isCertifiable;
+    this.certifiableAt = isCertifiable ? certifiableAt : null;
   }
 }
 

@@ -18,6 +18,8 @@ export default class OrganizationLearner extends Model {
   @attr('string') group;
   @attr('string') email;
   @attr authenticationMethods;
+  @attr('boolean') isCertifiable;
+  @attr('date', { allowNull: true }) certifiableAt;
 
   get connectionMethods() {
     const messages = [];
