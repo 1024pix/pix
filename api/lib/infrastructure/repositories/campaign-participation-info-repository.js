@@ -49,5 +49,6 @@ function _rowToCampaignParticipationInfo(row) {
     division: row.division,
     group: row.group,
     masteryRate: row.masteryRate,
+    validatedSkillsCount: row.validatedSkillsCount,
   });
 }

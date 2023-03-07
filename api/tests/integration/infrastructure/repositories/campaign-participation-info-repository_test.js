@@ -80,6 +80,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
             studentNumber: null,
             division: null,
             group: null,
+            validatedSkillsCount: null,
           },
         ]);
         expect(campaignParticipationInfos[0].isShared).to.be.true;
@@ -168,6 +169,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
           studentNumber: null,
           division: null,
           group: null,
+          validatedSkillsCount: null,
         });
         expect(campaignParticipationInfosOrdered[0].isShared).to.equal(true);
 
@@ -184,6 +186,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
           studentNumber: null,
           division: null,
           group: null,
+          validatedSkillsCount: null,
         });
         expect(campaignParticipationInfosOrdered[1].isShared).to.equal(false);
       });
@@ -242,6 +245,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
             studentNumber: null,
             division: null,
             group: null,
+            validatedSkillsCount: null,
           },
         ]);
       });
@@ -314,6 +318,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
             studentNumber: null,
             division: null,
             group: null,
+            validatedSkillsCount: null,
           },
         ]);
       });
