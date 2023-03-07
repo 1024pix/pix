@@ -21,90 +21,101 @@ async function get({ trainingId, domainTransaction = DomainTransaction.emptyTran
   return _toDomain(training, targetProfileTrainings);
 }
 
+async function getWithTriggers({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+  const training = await get({ trainingId, domainTransaction });
+  const trainingTriggers = await trainingTriggerRepository.findByTrainingId({ trainingId, domainTransaction });
+  training.triggers = trainingTriggers;
+  return training;
+}
+
+async function findPaginatedSummaries({ page, domainTransaction = DomainTransaction.emptyTransaction() }) {
+  const knexConn = domainTransaction?.knexTransaction || knex;
+  const query = knexConn(TABLE_NAME).select('trainings.*').orderBy('id', 'asc');
+  const { results, pagination } = await fetchPage(query, page);
+
+  const trainings = results.map((training) => new TrainingSummary(training));
+  return { trainings, pagination };
+}
+
+async function findByCampaignParticipationIdAndLocale({
+  campaignParticipationId,
+  locale,
+  domainTransaction = DomainTransaction.emptyTransaction(),
+}) {
+  const knexConn = domainTransaction?.knexTransaction || knex;
+  const trainingsDTO = await knexConn(TABLE_NAME)
+    .select('trainings.*')
+    .join('target-profile-trainings', `${TABLE_NAME}.id`, 'trainingId')
+    .join('campaigns', 'campaigns.targetProfileId', 'target-profile-trainings.targetProfileId')
+    .join('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')
+    .where({ 'campaign-participations.id': campaignParticipationId })
+    .where({ locale })
+    .orderBy('trainings.id', 'asc');
+
+  const targetProfileTrainings = await knexConn('target-profile-trainings').whereIn(
+    'trainingId',
+    trainingsDTO.map(({ id }) => id)
+  );
+
+  return trainingsDTO.map((training) => _toDomain(training, targetProfileTrainings));
+}
+
+async function create({ training, domainTransaction = DomainTransaction.emptyTransaction() }) {
+  const knexConn = domainTransaction?.knexTransaction || knex;
+  const [createdTraining] = await knexConn(TABLE_NAME).insert(training).returning('*');
+  return new Training(createdTraining);
+}
+
+async function update({ id, attributesToUpdate, domainTransaction = DomainTransaction.emptyTransaction() }) {
+  const pickedAttributesToUpdate = pick(attributesToUpdate, [
+    'title',
+    'link',
+    'type',
+    'duration',
+    'locale',
+    'editorName',
+    'editorLogoUrl',
+  ]);
+  const knexConn = domainTransaction?.knexTransaction || knex;
+  const [updatedTraining] = await knexConn(TABLE_NAME)
+    .where({ id })
+    .update({ ...pickedAttributesToUpdate, updatedAt: new Date() })
+    .returning('*');
+
+  const targetProfileTrainings = await knexConn('target-profile-trainings').where({ trainingId: id });
+
+  return _toDomain(updatedTraining, targetProfileTrainings);
+}
+
+async function findPaginatedByUserId({
+  userId,
+  locale,
+  page,
+  domainTransaction = DomainTransaction.emptyTransaction(),
+}) {
+  const knexConn = domainTransaction?.knexTransaction || knex;
+  const query = knexConn(TABLE_NAME)
+    .select('trainings.*')
+    .distinct('trainings.id')
+    .join('user-recommended-trainings', 'trainings.id', 'trainingId')
+    .where({ userId, locale })
+    .orderBy('id', 'asc');
+  const { results, pagination } = await fetchPage(query, page);
+
+  const userRecommendedTrainings = results.map(
+    (userRecommendedTraining) => new UserRecommendedTraining(userRecommendedTraining)
+  );
+  return { userRecommendedTrainings, pagination };
+}
+
 module.exports = {
   get,
-
-  async getWithTriggers({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    const training = await get({ trainingId, domainTransaction });
-    const trainingTriggers = await trainingTriggerRepository.findByTrainingId({ trainingId, domainTransaction });
-    training.triggers = trainingTriggers;
-    return training;
-  },
-
-  async findPaginatedSummaries({ page, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    const knexConn = domainTransaction?.knexTransaction || knex;
-    const query = knexConn(TABLE_NAME).select('trainings.*').orderBy('id', 'asc');
-    const { results, pagination } = await fetchPage(query, page);
-
-    const trainings = results.map((training) => new TrainingSummary(training));
-    return { trainings, pagination };
-  },
-
-  async findByCampaignParticipationIdAndLocale({
-    campaignParticipationId,
-    locale,
-    domainTransaction = DomainTransaction.emptyTransaction(),
-  }) {
-    const knexConn = domainTransaction?.knexTransaction || knex;
-    const trainingsDTO = await knexConn(TABLE_NAME)
-      .select('trainings.*')
-      .join('target-profile-trainings', `${TABLE_NAME}.id`, 'trainingId')
-      .join('campaigns', 'campaigns.targetProfileId', 'target-profile-trainings.targetProfileId')
-      .join('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')
-      .where({ 'campaign-participations.id': campaignParticipationId })
-      .where({ locale })
-      .orderBy('trainings.id', 'asc');
-
-    const targetProfileTrainings = await knexConn('target-profile-trainings').whereIn(
-      'trainingId',
-      trainingsDTO.map(({ id }) => id)
-    );
-
-    return trainingsDTO.map((training) => _toDomain(training, targetProfileTrainings));
-  },
-
-  async create({ training, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    const knexConn = domainTransaction?.knexTransaction || knex;
-    const [createdTraining] = await knexConn(TABLE_NAME).insert(training).returning('*');
-    return new Training(createdTraining);
-  },
-
-  async update({ id, attributesToUpdate, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    const pickedAttributesToUpdate = pick(attributesToUpdate, [
-      'title',
-      'link',
-      'type',
-      'duration',
-      'locale',
-      'editorName',
-      'editorLogoUrl',
-    ]);
-    const knexConn = domainTransaction?.knexTransaction || knex;
-    const [updatedTraining] = await knexConn(TABLE_NAME)
-      .where({ id })
-      .update({ ...pickedAttributesToUpdate, updatedAt: new Date() })
-      .returning('*');
-
-    const targetProfileTrainings = await knexConn('target-profile-trainings').where({ trainingId: id });
-
-    return _toDomain(updatedTraining, targetProfileTrainings);
-  },
-
-  async findPaginatedByUserId({ userId, locale, page, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    const knexConn = domainTransaction?.knexTransaction || knex;
-    const query = knexConn(TABLE_NAME)
-      .select('trainings.*')
-      .distinct('trainings.id')
-      .join('user-recommended-trainings', 'trainings.id', 'trainingId')
-      .where({ userId, locale })
-      .orderBy('id', 'asc');
-    const { results, pagination } = await fetchPage(query, page);
-
-    const userRecommendedTrainings = results.map(
-      (userRecommendedTraining) => new UserRecommendedTraining(userRecommendedTraining)
-    );
-    return { userRecommendedTrainings, pagination };
-  },
+  getWithTriggers,
+  findPaginatedSummaries,
+  findByCampaignParticipationIdAndLocale,
+  create,
+  update,
+  findPaginatedByUserId,
 };
 
 function _toDomain(training, targetProfileTrainings) {
