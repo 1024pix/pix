@@ -643,7 +643,7 @@ const updateUserForAccountRecovery = require('./account-recovery/update-user-for
 const updateUserPassword = require('./update-user-password.js');
 const validateSessions = require('./sessions-mass-import/validate-sessions.js');
 
-const usecases = {
+const usecasesWithoutInjectedDependencies = {
   abortCertificationCourse,
   acceptCertificationCenterInvitation,
   acceptOrganizationInvitation,
@@ -933,4 +933,6 @@ const usecases = {
   validateSessions,
 };
 
-module.exports = injectDependencies(usecases, dependencies);
+const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
+
+module.exports = usecases;
