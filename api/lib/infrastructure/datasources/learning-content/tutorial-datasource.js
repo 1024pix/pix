@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const datasource = require('./datasource.js');
 
-module.exports = datasource.extend({
+const tutorialDatasource = datasource.extend({
   modelName: 'tutorials',
 
   async findByRecordIds(tutorialRecordIds) {
@@ -9,3 +9,4 @@ module.exports = datasource.extend({
     return tutorials.filter((tutorialData) => _.includes(tutorialRecordIds, tutorialData.id));
   },
 });
+module.exports = { tutorialDatasource };

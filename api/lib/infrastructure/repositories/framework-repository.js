@@ -1,5 +1,5 @@
 const Framework = require('../../domain/models/Framework.js');
-const frameworkDatasource = require('../datasources/learning-content/framework-datasource.js');
+const { frameworkDatasource } = require('../datasources/learning-content/framework-datasource.js');
 const { NotFoundError } = require('../../domain/errors.js');
 const _ = require('lodash');
 

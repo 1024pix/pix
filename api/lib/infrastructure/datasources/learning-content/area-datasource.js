@@ -1,6 +1,5 @@
 const datasource = require('./datasource.js');
-
-module.exports = datasource.extend({
+const areaDatasource = datasource.extend({
   modelName: 'areas',
 
   async findByRecordIds(areaIds) {
@@ -13,3 +12,5 @@ module.exports = datasource.extend({
     return areas.filter((area) => area.frameworkId === frameworkId);
   },
 });
+
+module.exports = { areaDatasource };
