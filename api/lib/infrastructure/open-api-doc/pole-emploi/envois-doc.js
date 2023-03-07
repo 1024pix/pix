@@ -139,7 +139,7 @@ const test = Joi.object({
   elementsEvalues: Joi.array().items(elementEvalue).description('Vide si pas de partage de résultats'),
 }).required();
 
-module.exports = Joi.array()
+const poleEmploiEnvoisDoc = Joi.array()
   .items(
     Joi.object({
       idEnvoi: Joi.number().required().example(1234).description("Identifiant unique de l'envoi"),
@@ -148,3 +148,5 @@ module.exports = Joi.array()
     }).label('Envoi')
   )
   .label('Envois');
+
+module.exports = { poleEmploiEnvoisDoc };
