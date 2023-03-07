@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v3.332.0 (07/03/2023)
+
+
+### :rocket: Amélioration
+- [#5764](https://github.com/1024pix/pix/pull/5764) [FEATURE] Ajout de l'en-tête d'information avec certificabilité pour Orga sans import (PIX-7290)
+- [#5755](https://github.com/1024pix/pix/pull/5755) [FEATURE] Afficher un compteur d'erreurs si la validation d'un import en masse de sessions échoue sur Pix Certif (PIX-6959).
+- [#5759](https://github.com/1024pix/pix/pull/5759) [FEATURE] Intégrer la gestion du palier 1er Acquis dans l'affichage de PixApp (PIX-7310)
+- [#5763](https://github.com/1024pix/pix/pull/5763) [FEATURE]: Ajouter une modale de confirmation de suppression dans le tableau de paliers (PIX-7331)
+- [#5762](https://github.com/1024pix/pix/pull/5762) [FEATURE] Ajouter des titres au plan du site sur Pix-App (PIX-6818)
+
+### :building_construction: Tech
+- [#5747](https://github.com/1024pix/pix/pull/5747) [TECH] Transformer manuellement les exports CJS hétérogènes dans le cadre de la migration ESM (PIX-7202)
+
+### :bug: Correction
+- [#5773](https://github.com/1024pix/pix/pull/5773) [BUGFIX] Améliorer l'affichage des adresses emails des membres des Centres de Certification dans Pix Admin (PIX-7135)
+- [#5760](https://github.com/1024pix/pix/pull/5760) [BUGFIX] Corriger le lien d'Accessibilité dans le footer de app.pix.org (PIX-7177)
+
 ## v3.331.0 (03/03/2023)
 
 

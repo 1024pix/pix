@@ -1,6 +1,6 @@
 {
   "name": "pix-load-testing",
-  "version": "1.437.0",
+  "version": "1.438.0",
   "description": "Permet d'exécuter des tests de charge sur l'API de la plateforme Pix.",
   "homepage": "https://github.com/1024pix/pix/tree/dev/high-level-tests/load-testing#readme",
   "author": "GIP Pix",
