@@ -170,7 +170,8 @@
     "test:codemods": "cd codemods/migrate-cjs-to-esm; npm install; npm run test",
     "test:lint": "npm test && npm run lint",
     "esm-migration:prepare": "jscodeshift --transform ./codemods/migrate-cjs-to-esm/transforms/prepare.js --extensions js --ignore-config=.codemodsignore ./lib",
-    "esm-migration:execute": "jscodeshift --transform ./codemods/migrate-cjs-to-esm/transforms/execute.js --extensions js --ignore-config=.codemodsignore ./lib"
+    "esm-migration:execute": "jscodeshift --transform ./codemods/migrate-cjs-to-esm/transforms/execute.js --extensions js --ignore-config=.codemodsignore ./lib",
+    "esm-migration:prepare:detect": "jscodeshift --transform ./codemods/migrate-cjs-to-esm/transforms/src/detect-incompatible-cjs-named-exports.js --extensions js --ignore-config=.codemodsignore ./lib | grep papapa -A 1 | grep path"
   },
   "optionalDependencies": {
     "nyc": "^15.1.0"
