@@ -984,4 +984,19 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       expect(certificationCandidate.isGranted('PIX+')).to.be.false;
     });
   });
+
+  describe('convertExtraTimePercentageToDecimal', function () {
+    it('should convert extraTimePercentageToDecimal integer to decimal', function () {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({
+        extraTimePercentage: 20,
+      });
+
+      // when
+      certificationCandidate.convertExtraTimePercentageToDecimal();
+
+      // when / then
+      expect(certificationCandidate.extraTimePercentage).to.equal(0.2);
+    });
+  });
 });
