@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../../test-helper');
 const _ = require('lodash');
-const skillDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
+const { skillDatasource } = require('../../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
 const lcms = require('../../../../../lib/infrastructure/lcms');
 const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 

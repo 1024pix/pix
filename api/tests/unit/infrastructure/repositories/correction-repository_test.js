@@ -1,7 +1,9 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const correctionRepository = require('../../../../lib/infrastructure/repositories/correction-repository');
-const challengeDatasource = require('../../../../lib/infrastructure/datasources/learning-content/challenge-datasource');
-const skillDatasource = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
+const {
+  challengeDatasource,
+} = require('../../../../lib/infrastructure/datasources/learning-content/challenge-datasource');
+const { skillDatasource } = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
 const tutorialRepository = require('../../../../lib/infrastructure/repositories/tutorial-repository');
 const Correction = require('../../../../lib/domain/models/Correction');
 const ChallengeLearningContentDataObjectFixture = require('../../../tooling/fixtures/infrastructure/challengeLearningContentDataObjectFixture');

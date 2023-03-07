@@ -1,6 +1,6 @@
 const datasource = require('./datasource.js');
 
-module.exports = datasource.extend({
+const competenceDatasource = datasource.extend({
   modelName: 'competences',
 
   async findByRecordIds(competenceIds) {
@@ -8,3 +8,5 @@ module.exports = datasource.extend({
     return competences.filter(({ id }) => competenceIds.includes(id));
   },
 });
+
+module.exports = { competenceDatasource };

@@ -1,8 +1,8 @@
 const _ = require('lodash');
 const bluebird = require('bluebird');
 const Tube = require('../../domain/models/Tube.js');
-const tubeDatasource = require('../datasources/learning-content/tube-datasource.js');
-const skillDatasource = require('../datasources/learning-content/skill-datasource.js');
+const { tubeDatasource } = require('../datasources/learning-content/tube-datasource.js');
+const { skillDatasource } = require('../datasources/learning-content/skill-datasource.js');
 
 const { getTranslatedKey } = require('../../domain/services/get-translated-text.js');
 
