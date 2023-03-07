@@ -18,6 +18,14 @@ class StageCollection {
     this._totalStages = this._stages.length;
   }
 
+  get hasStage() {
+    return this._totalStages > 0;
+  }
+
+  get stages() {
+    return this._stages;
+  }
+
   get totalStages() {
     return this._totalStages;
   }
