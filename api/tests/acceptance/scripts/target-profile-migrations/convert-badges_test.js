@@ -14,7 +14,7 @@ describe('Acceptance | Scripts | convert-badges', function () {
     const badgeToConvertId = 2;
     const badgeWithNoSkillSetsId = 3;
     const badgeLevelFlooredToTubeLevelId = 4;
-    const badgeConversionErrorTubeNotInTargetProfile = 5;
+    const badgeTubeNotInTargetProfile = 5;
     const badgeConversionErrorUnknownSkillId = 6;
     const badgeConversionErrorNoCorrespondingTubeId = 7;
     const learningContent = {
@@ -25,7 +25,7 @@ describe('Acceptance | Scripts | convert-badges', function () {
     _buildBadgeToConvert(badgeToConvertId, learningContent);
     _buildBadgeWithNoSkillSets(badgeWithNoSkillSetsId);
     _buildBadgeFlooredToTubeLevel(badgeLevelFlooredToTubeLevelId, learningContent);
-    _buildBadgeWithConversionErrorTubeNotInTargetProfile(badgeConversionErrorTubeNotInTargetProfile, learningContent);
+    _buildBadgeWithTubeNotInTargetProfile(badgeTubeNotInTargetProfile, learningContent);
     _buildBadgeWithConversionErrorUnknownSkillId(badgeConversionErrorUnknownSkillId);
     _buildBadgeWithConversionErrorNoCorrespondingTubeId(badgeConversionErrorNoCorrespondingTubeId, learningContent);
 
@@ -40,7 +40,7 @@ describe('Acceptance | Scripts | convert-badges', function () {
     const criteriaForToConvert = await _getCriteria(badgeToConvertId);
     const criteriaForNoSkillSets = await _getCriteria(badgeWithNoSkillSetsId);
     const criteriaForFlooredToTubeLevel = await _getCriteria(badgeLevelFlooredToTubeLevelId);
-    const criteriaForErrorTubeNotInTargetProfile = await _getCriteria(badgeConversionErrorTubeNotInTargetProfile);
+    const criteriaForTubeNotInTargetProfile = await _getCriteria(badgeTubeNotInTargetProfile);
     const criteriaForErrorUnknownSkill = await _getCriteria(badgeConversionErrorUnknownSkillId);
     const criteriaForErrorNoCorrespondingTube = await _getCriteria(badgeConversionErrorNoCorrespondingTubeId);
 
@@ -104,13 +104,13 @@ describe('Acceptance | Scripts | convert-badges', function () {
       ],
       'Echec RT avec niveau supérieur au profil cible'
     );
-    expect(criteriaForErrorTubeNotInTargetProfile).to.deep.equal(
+    expect(criteriaForTubeNotInTargetProfile).to.deep.equal(
       [
         {
-          scope: 'SkillSet',
-          name: null,
+          scope: 'CappedTubes',
+          name: 'OnlyCriterion',
           threshold: 50,
-          skillSets: [{ name: 'OnlyCriterion', skillIds: ['skill2TubeF'] }],
+          cappedTubes: [{ id: 'tubeE', level: 4 }],
         },
       ],
       'Echec RT avec acquis non présent dans le profil cible'
@@ -136,9 +136,6 @@ describe('Acceptance | Scripts | convert-badges', function () {
         },
       ],
       'Echec RT acquis sans sujet'
-    );
-    expect(loggerErrorStub).to.have.been.calledWith(
-      '5 Echec. Raison : Error: Le RT contient des acquis qui ne sont pas compris dans le profil cible.'
     );
     expect(loggerErrorStub).to.have.been.calledWith(
       `6 Echec. Raison : Error: L'acquis "unknownSkillId" n'existe pas dans le référentiel.`
@@ -271,13 +268,13 @@ function _buildBadgeFlooredToTubeLevel(badgeId, learningContent) {
   learningContent.tubes.push(tube);
 }
 
-function _buildBadgeWithConversionErrorTubeNotInTargetProfile(badgeId, learningContent) {
+function _buildBadgeWithTubeNotInTargetProfile(badgeId, learningContent) {
   const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-  databaseBuilder.factory.buildTargetProfileTube({ tubeId: 'tubeE', level: 3, targetProfileId });
+  databaseBuilder.factory.buildTargetProfileTube({ tubeId: 'tubeE', level: 5, targetProfileId });
   databaseBuilder.factory.buildBadge({ id: badgeId, targetProfileId, key: `badge_${badgeId}` });
   const skillSetId = databaseBuilder.factory.buildSkillSet({
     name: 'OnlyCriterion',
-    skillIds: ['skill2TubeF'],
+    skillIds: ['skill2TubeF', 'skill4TubeE'],
   }).id;
   databaseBuilder.factory.buildBadgeCriterion.scopeSkillSets({
     threshold: 50,

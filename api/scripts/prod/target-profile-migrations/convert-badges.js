@@ -73,12 +73,15 @@ async function _convertBadge(badgeId, targetProfileTubes, trx) {
     for (const skillSetId of skillSetIds) {
       const skillSet = await trx('skill-sets').select('name', 'skillIds').where({ id: skillSetId }).first();
       const tubesWithLevel = await _computeTubeIdsAndLevelsForSkills(skillSet.skillIds);
-      _checkBadgeCriterionCappedTubesWithinTargetProfileCappedTubes(tubesWithLevel, targetProfileTubes);
+      const tubesWithingTargetProfileWithLevel = _filterBadgeCriterionCappedTubesWithinTargetProfileCappedTubes(
+        tubesWithLevel,
+        targetProfileTubes
+      );
       newCriteria.push({
         name: skillSet.name,
         threshold,
         scope: 'CappedTubes',
-        cappedTubes: JSON.stringify(tubesWithLevel),
+        cappedTubes: JSON.stringify(tubesWithingTargetProfileWithLevel),
         badgeId,
       });
     }
@@ -111,13 +114,16 @@ function _findSkills(skillIds) {
   });
 }
 
-function _checkBadgeCriterionCappedTubesWithinTargetProfileCappedTubes(badgeCappedTubes, targetProfileCappedTubes) {
+function _filterBadgeCriterionCappedTubesWithinTargetProfileCappedTubes(badgeCappedTubes, targetProfileCappedTubes) {
+  const badgeCappedTubesInTargetProfile = [];
   for (const badgeCappedTube of badgeCappedTubes) {
     const tubeInTargetProfile = targetProfileCappedTubes.find((cappedTube) => cappedTube.id === badgeCappedTube.id);
-    if (!tubeInTargetProfile)
-      throw new Error('Le RT contient des acquis qui ne sont pas compris dans le profil cible.');
-    badgeCappedTube.level = Math.min(badgeCappedTube.level, tubeInTargetProfile.level);
+    if (tubeInTargetProfile) {
+      badgeCappedTube.level = Math.min(badgeCappedTube.level, tubeInTargetProfile.level);
+      badgeCappedTubesInTargetProfile.push(badgeCappedTube);
+    }
   }
+  return badgeCappedTubesInTargetProfile;
 }
 
 async function _deleteSkillSetCriteria(badgeId, trx) {
