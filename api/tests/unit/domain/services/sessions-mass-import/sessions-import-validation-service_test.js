@@ -278,6 +278,25 @@ describe('Unit | Service | sessions import validation Service', function () {
       });
     });
 
+    context('when candidate has extra time percentage below 1', function () {
+      it('should return a certificationCandidateErrors containing the specific error ', async function () {
+        // given
+        const candidate = _buildValidCandidateData();
+        candidate.extraTimePercentage = '0.20';
+
+        certificationCpfService.getBirthInformation.resolves(CpfBirthInformationValidation.success({}));
+
+        // when
+        const { certificationCandidateErrors } =
+          await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+            candidate,
+          });
+
+        // then
+        expect(certificationCandidateErrors).to.deep.equal(['Temps majoré doit être supérieur à 1']);
+      });
+    });
+
     context('when candidate has missing billing information', function () {
       context('when the parsed candidate is not sco', function () {
         it('should return an certificationCandidateErrors containing billing mode errors', async function () {
