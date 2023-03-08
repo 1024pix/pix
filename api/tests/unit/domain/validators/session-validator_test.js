@@ -15,7 +15,6 @@ describe('Unit | Domain | Validators | session-validator', function () {
       date: '2000-10-20',
       time: '14:30',
       examiner: 'Mister T',
-      line: 1,
     });
   });
 
@@ -162,7 +161,7 @@ describe('Unit | Domain | Validators | session-validator', function () {
   describe('#validateForMassSessionImport', function () {
     context('when validation is successful', function () {
       it('should not throw any error', function () {
-        expect(sessionValidator.validateForMassSessionImport(session)).to.not.throw;
+        expect(sessionValidator.validateForMassSessionImport(session, 1)).to.not.throw;
       });
     });
 
@@ -173,7 +172,7 @@ describe('Unit | Domain | Validators | session-validator', function () {
           session.address = MISSING_VALUE;
 
           // when
-          const report = sessionValidator.validateForMassSessionImport(session);
+          const report = sessionValidator.validateForMassSessionImport(session, 1);
 
           // then
           expect(report).to.deep.equal([
@@ -191,7 +190,7 @@ describe('Unit | Domain | Validators | session-validator', function () {
           session.room = MISSING_VALUE;
 
           // when
-          const report = sessionValidator.validateForMassSessionImport(session);
+          const report = sessionValidator.validateForMassSessionImport(session, 1);
 
           // then
           expect(report).to.deep.equal([
@@ -209,7 +208,7 @@ describe('Unit | Domain | Validators | session-validator', function () {
           session.date = MISSING_VALUE;
 
           // when
-          const report = sessionValidator.validateForMassSessionImport(session);
+          const report = sessionValidator.validateForMassSessionImport(session, 1);
 
           // then
           expect(report).to.deep.equal([
@@ -227,7 +226,7 @@ describe('Unit | Domain | Validators | session-validator', function () {
           session.time = '';
 
           // when
-          const report = sessionValidator.validateForMassSessionImport(session);
+          const report = sessionValidator.validateForMassSessionImport(session, 1);
 
           // then
           expect(report).to.deep.equal([
@@ -243,7 +242,7 @@ describe('Unit | Domain | Validators | session-validator', function () {
           session.time = '14:23:30';
 
           // when
-          const report = sessionValidator.validateForMassSessionImport(session);
+          const report = sessionValidator.validateForMassSessionImport(session, 1);
 
           // then
           expect(report).to.deep.equal([
@@ -261,7 +260,7 @@ describe('Unit | Domain | Validators | session-validator', function () {
           session.examiner = MISSING_VALUE;
 
           // when
-          const report = sessionValidator.validateForMassSessionImport(session);
+          const report = sessionValidator.validateForMassSessionImport(session, 1);
 
           // then
           expect(report).to.deep.equal([
