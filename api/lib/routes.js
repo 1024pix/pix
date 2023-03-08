@@ -54,7 +54,7 @@ const userOrgaSettings = require('./application/user-orga-settings/index.js');
 const userTutorials = require('./application/user-tutorials/index.js');
 const users = require('./application/users/index.js');
 
-module.exports = [
+const routes = [
   accountRecovery,
   adminMembers,
   answers,
@@ -111,3 +111,5 @@ module.exports = [
   userTutorials,
   users,
 ];
+
+module.exports = { routes };
