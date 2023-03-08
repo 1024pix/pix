@@ -17,7 +17,7 @@ const {
 const DatabaseBuilder = require('../../db/database-builder/database-builder');
 const databaseBuffer = require('../../db/database-builder/database-buffer');
 const databaseBuilder = new DatabaseBuilder({ knex, emptyFirst: false });
-const cache = require('../../lib/infrastructure/caches/learning-content-cache');
+const { cache } = require('../../lib/infrastructure/caches/learning-content-cache');
 const { SHARED } = require('../../lib/domain/models/CampaignParticipationStatuses');
 
 /**

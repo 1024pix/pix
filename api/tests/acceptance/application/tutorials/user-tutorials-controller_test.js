@@ -7,7 +7,7 @@ const {
   knex,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
+const { learningContentCache } = require('../../../../lib/infrastructure/caches/learning-content-cache');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const nock = require('nock');
 
@@ -151,7 +151,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
 
     beforeEach(async function () {
       nock.cleanAll();
-      cache.flushAll();
+      learningContentCache.flushAll();
       options = {
         method: 'GET',
         url: `/api/users/${userId}/tutorials?filter[competences]=recCompetence1&filter[type]=saved`,

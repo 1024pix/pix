@@ -1,7 +1,7 @@
 require('dotenv').config({ path: `${__dirname}/../.env` });
 const logger = require('../../lib/infrastructure/logger');
 const usecases = require('../../lib/domain/usecases/index.js');
-const cache = require('../../lib/infrastructure/caches/learning-content-cache');
+const { cache } = require('../../lib/infrastructure/caches/learning-content-cache');
 const placementProfileService = require('../../lib/domain/services/placement-profile-service');
 const certificationBadgesService = require('../../lib/domain/services/certification-badges-service');
 // Usage: node scripts/get-certifications-eligibility 1234

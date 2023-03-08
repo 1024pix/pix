@@ -1,7 +1,7 @@
 const dayjs = require('dayjs');
 
 const tokenService = require('./token-service.js');
-const mailer = require('../../infrastructure/mailers/mailer.js');
+const { mailer } = require('../../infrastructure/mailers/mailer.js');
 const settings = require('../../config.js');
 
 const frTranslations = require('../../../translations/fr.json');
