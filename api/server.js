@@ -6,7 +6,7 @@ const Oppsy = require('oppsy');
 const settings = require('./lib/config');
 const preResponseUtils = require('./lib/application/pre-response-utils');
 
-const routes = require('./lib/routes');
+const { routes } = require('./lib/routes');
 const plugins = require('./lib/infrastructure/plugins');
 const swaggers = require('./lib/swaggers');
 const authentication = require('./lib/infrastructure/authentication');
