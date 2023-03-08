@@ -1,6 +1,6 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable no-undef */
-const codemods = [];
+const codemods = [require('./src/cjs-export-to-esm-export')];
 
 const transformScripts = (fileInfo, api, options) => {
   return codemods.reduce((input, script) => {
