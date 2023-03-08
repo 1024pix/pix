@@ -15,6 +15,7 @@ describe('Unit | Domain | Validators | session-validator', function () {
       date: '2000-10-20',
       time: '14:30',
       examiner: 'Mister T',
+      line: 1,
     });
   });
 
@@ -153,6 +154,122 @@ describe('Unit | Domain | Validators | session-validator', function () {
             // then
             expect(entityValidationErrors).with.deep.property('invalidAttributes', expectedErrors);
           }
+        });
+      });
+    });
+  });
+
+  describe('#validateForMassSessionImport', function () {
+    context('when validation is successful', function () {
+      it('should not throw any error', function () {
+        expect(sessionValidator.validateForMassSessionImport(session)).to.not.throw;
+      });
+    });
+
+    context('when session data validation fails', function () {
+      context('on address attribute', function () {
+        it('should reject with error when address is missing', function () {
+          // given
+          session.address = MISSING_VALUE;
+
+          // when
+          const report = sessionValidator.validateForMassSessionImport(session);
+
+          // then
+          expect(report).to.deep.equal([
+            {
+              code: 'SESSION_ADDRESS_REQUIRED',
+              line: 1,
+            },
+          ]);
+        });
+      });
+
+      context('on room attribute', function () {
+        it('should reject with error when room is missing', async function () {
+          // given
+          session.room = MISSING_VALUE;
+
+          // when
+          const report = sessionValidator.validateForMassSessionImport(session);
+
+          // then
+          expect(report).to.deep.equal([
+            {
+              code: 'SESSION_ROOM_REQUIRED',
+              line: 1,
+            },
+          ]);
+        });
+      });
+
+      context('on date attribute', function () {
+        it('should reject with error when date is missing', function () {
+          // given
+          session.date = MISSING_VALUE;
+
+          // when
+          const report = sessionValidator.validateForMassSessionImport(session);
+
+          // then
+          expect(report).to.deep.equal([
+            {
+              code: 'SESSION_DATE_REQUIRED',
+              line: 1,
+            },
+          ]);
+        });
+      });
+
+      context('on time attribute', function () {
+        it('should reject with error when time is an empty string', function () {
+          // given
+          session.time = '';
+
+          // when
+          const report = sessionValidator.validateForMassSessionImport(session);
+
+          // then
+          expect(report).to.deep.equal([
+            {
+              code: 'SESSION_TIME_REQUIRED',
+              line: 1,
+            },
+          ]);
+        });
+
+        it('should reject with error when time has a format different than HH:MM', function () {
+          // given
+          session.time = '14:23:30';
+
+          // when
+          const report = sessionValidator.validateForMassSessionImport(session);
+
+          // then
+          expect(report).to.deep.equal([
+            {
+              code: 'SESSION_TIME_REQUIRED',
+              line: 1,
+            },
+          ]);
+        });
+      });
+
+      context('on examiner attribute', function () {
+        it('should reject with error when examiner is missing', function () {
+          // given
+          session.examiner = MISSING_VALUE;
+
+          // when
+          const report = sessionValidator.validateForMassSessionImport(session);
+
+          // then
+          expect(report).to.deep.equal([
+            {
+              code: 'SESSION_EXAMINER_REQUIRED',
+              line: 1,
+            },
+          ]);
         });
       });
     });
