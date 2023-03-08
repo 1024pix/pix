@@ -1,0 +1,21 @@
+<nav aria-label={{t "common.breadcrumb"}} class="breadcrumb">
+  <ol>
+    {{#each this.links as |link|}}
+      <li>
+        {{#if link.models}}
+          <LinkTo @route="{{link.route}}" @models={{link.models}} aria-current={{link.ariaCurrent}}>
+            {{link.label}}
+          </LinkTo>
+        {{else if link.model}}
+          <LinkTo @route="{{link.route}}" @model={{link.model}} aria-current={{link.ariaCurrent}}>
+            {{link.label}}
+          </LinkTo>
+        {{else}}
+          <LinkTo @route="{{link.route}}" aria-current={{link.ariaCurrent}}>
+            {{link.label}}
+          </LinkTo>
+        {{/if}}
+      </li>
+    {{/each}}
+  </ol>
+</nav>
