@@ -1,6 +1,5 @@
 const isNil = require('lodash/isNil');
 const endsWith = require('lodash/endsWith');
-const snakeCase = require('lodash/snakeCase');
 const BaseJoi = require('joi');
 const JoiDate = require('@joi/date');
 const Joi = BaseJoi.extend(JoiDate);
@@ -52,6 +51,85 @@ const certificationCandidateValidationJoiSchema_v1_5 = Joi.object({
     otherwise: Joi.string().required(),
   })
 );
+
+const certificationCandidateValidationForMassImportJoiSchema = Joi.object({
+  firstName: Joi.string().required().empty(null).messages({
+    'any.required': 'CANDIDATE_FIRST_NAME_REQUIRED',
+  }),
+  lastName: Joi.string().required().empty(null).messages({
+    'any.required': 'CANDIDATE_LAST_NAME_REQUIRED',
+  }),
+  sex: Joi.string().valid('M', 'F').required().empty(['', null]).messages({
+    'any.required': 'CANDIDATE_SEX_REQUIRED',
+    'any.only': 'CANDIDATE_SEX_NOT_VALID',
+  }),
+  birthPostalCode: Joi.string().empty(['', null]).messages({
+    'string.empty': 'CANDIDATE_BIRTH_POSTAL_CODE_REQUIRED',
+  }),
+  birthINSEECode: Joi.string().empty(['', null]).messages({
+    'string.empty': 'CANDIDATE_BIRTH_INSEE_CODE_REQUIRED',
+  }),
+  birthCountry: Joi.string().required().empty(null).messages({
+    'any.required': 'CANDIDATE_BIRTH_COUNTRY_REQUIRED',
+  }),
+  email: Joi.string().email().allow(null).empty('').optional().messages({
+    'string.empty': 'CANDIDATE_EMAIL_REQUIRED',
+  }),
+  resultRecipientEmail: Joi.string().email().empty(['', null]).optional().messages({
+    'string.empty': 'CANDIDATE_RESULT_RECIPIENT_EMAIL_REQUIRED',
+  }),
+  externalId: Joi.string().allow(null).empty(['', null]).optional().messages({
+    'string.empty': 'CANDIDATE_EXTERNAL_ID_REQUIRED',
+  }),
+  birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required().empty(null).messages({
+    'any.required': 'CANDIDATE_BIRTHDATE_REQUIRED',
+    'date.format': 'CANDIDATE_INCORRECT_BIRTHDATE_FORMAT',
+  }),
+  extraTimePercentage: Joi.number().allow(null).optional().messages({
+    'number.base': 'CANDIDATE_EXTRA_TIME_PERCENTAGE_REQUIRED',
+  }),
+  sessionId: Joi.when('$isSessionsMassImport', {
+    is: false,
+    then: Joi.number().required().empty(['', null]).messages({
+      'string.empty': 'CANDIDATE_SESSION_ID_REQUIRED',
+    }),
+  }),
+  complementaryCertifications: Joi.array().max(1).required().messages({
+    'array.max': 'CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION',
+  }),
+  billingMode: Joi.when('$isSco', {
+    is: false,
+    then: Joi.string()
+      .valid(...Object.values(BILLING_MODES))
+      .required()
+      .empty(['', null])
+      .messages({
+        'any.required': 'CANDIDATE_BILLING_MODE_REQUIRED',
+        'string.base': 'CANDIDATE_BILLING_MUST_BE_A_STRING',
+        'any.only': 'CANDIDATE_BILLING_MODE_NOT_VALID',
+      }),
+  }),
+  prepaymentCode: Joi.when('billingMode', {
+    is: 'PREPAID',
+    then: Joi.string().required().empty(['', null]).messages({
+      'string.empty': 'CANDIDATE_PREPAYMENT_CODE_REQUIRED',
+    }),
+    otherwise: Joi.valid(null).messages({
+      'any.only': 'CANDIDATE_BILLING_MODE_MUST_BE_EMPTY',
+    }),
+  }),
+})
+  .assert(
+    '.birthPostalCode',
+    Joi.when('..birthINSEECode', {
+      is: Joi.exist(),
+      then: Joi.valid(null),
+      otherwise: Joi.string().required(),
+    })
+  )
+  .message({
+    'object.assert': 'CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_INVALID',
+  });
 
 const certificationCandidateParticipationJoiSchema = Joi.object({
   id: Joi.any().allow(null).optional(),
@@ -163,7 +241,7 @@ class CertificationCandidate {
   }
 
   validateForMassSessionImport({ isSco = false, line }) {
-    const { error } = certificationCandidateValidationJoiSchema_v1_5.validate(this, {
+    const { error } = certificationCandidateValidationForMassImportJoiSchema.validate(this, {
       abortEarly: false,
       allowUnknown: true,
       context: {
@@ -172,13 +250,7 @@ class CertificationCandidate {
       },
     });
     if (error) {
-      return error.details.map((detail) => {
-        const { key, why } = InvalidCertificationCandidate.fromJoiErrorDetail(detail);
-        const whyErrorFormated = snakeCase(why).toUpperCase();
-        const keyErrorFormated = snakeCase(key).toUpperCase();
-
-        return key ? { code: `${keyErrorFormated}_${whyErrorFormated}`, line } : { code: `${whyErrorFormated}`, line };
-      });
+      return error.details.map(({ message }) => ({ code: message, line }));
     }
   }
 
