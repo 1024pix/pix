@@ -3,7 +3,8 @@
 const dotenv = require('dotenv');
 dotenv.config();
 const logger = require('../lib/infrastructure/logger');
-const cache = require('../lib/infrastructure/caches/learning-content-cache');
+const { cache } = require('../lib/infrastructure/caches/learning-content-cache');
+
 const learningContentDatasource = require('../lib/infrastructure/datasources/learning-content/datasource');
 
 logger.info('Starting refreshing Learning Content');

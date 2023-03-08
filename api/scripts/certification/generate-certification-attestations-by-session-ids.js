@@ -11,7 +11,7 @@ const certificateRepository = require('../../lib/infrastructure/repositories/cer
 const certificationCourseRepository = require('../../lib/infrastructure/repositories/certification-course-repository');
 const certificationAttestationPdf = require('../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
 const { NotFoundError } = require('../../lib/domain/errors');
-const cache = require('../../lib/infrastructure/caches/learning-content-cache');
+const { cache } = require('../../lib/infrastructure/caches/learning-content-cache');
 const { disconnect } = require('../../db/knex-database-connection');
 
 /**
