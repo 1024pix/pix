@@ -1,7 +1,7 @@
 const { sinon, expect } = require('../../../test-helper');
 
 const mailService = require('../../../../lib/domain/services/mail-service');
-const mailer = require('../../../../lib/infrastructure/mailers/mailer');
+const { mailer } = require('../../../../lib/infrastructure/mailers/mailer');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const settings = require('../../../../lib/config');
 const { getI18n } = require('../../../tooling/i18n/i18n');

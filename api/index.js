@@ -8,7 +8,7 @@ const logger = require('./lib/infrastructure/logger');
 const { disconnect } = require('./db/knex-database-connection');
 const cache = require('./lib/infrastructure/caches/learning-content-cache');
 const { temporaryStorage } = require('./lib/infrastructure/temporary-storage/index');
-const redisMonitor = require('./lib/infrastructure/utils/redis-monitor');
+const { redisMonitor } = require('./lib/infrastructure/utils/redis-monitor');
 
 let server;
 

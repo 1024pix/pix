@@ -1,6 +1,6 @@
 const { expect, sinon, hFake } = require('../../../test-helper');
 const { knex } = require('../../../../db/knex-database-connection');
-const redisMonitor = require('../../../../lib/infrastructure/utils/redis-monitor');
+const { redisMonitor } = require('../../../../lib/infrastructure/utils/redis-monitor');
 
 const healthcheckController = require('../../../../lib/application/healthcheck/healthcheck-controller');
 

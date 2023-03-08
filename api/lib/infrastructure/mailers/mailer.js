@@ -93,5 +93,6 @@ class Mailer {
     return mailing[this._providerName].templates.acquiredCleaResultTemplateId;
   }
 }
+const mailer = new Mailer();
 
-module.exports = new Mailer();
+module.exports = { mailer };
