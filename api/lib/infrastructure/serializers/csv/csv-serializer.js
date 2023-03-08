@@ -30,12 +30,11 @@ function deserializeForSessionsImport(parsedCsvData) {
   const csvLineKeys = Object.keys(headers);
 
   _verifyHeaders({ csvLineKeys, headers, parsedCsvLine: parsedCsvData[0] });
-  let lineCount = 1;
 
-  parsedCsvData.forEach((line) => {
-    const data = _getDataFromColumnNames({ csvLineKeys, headers, line });
-    data.line = lineCount;
-    lineCount++;
+  parsedCsvData.forEach((lineDTO, index) => {
+    const dataFromColumnName = _getDataFromColumnNames({ csvLineKeys, headers, line: lineDTO });
+    const FIRST_DATA_LINE = 2;
+    const data = { ...dataFromColumnName, line: index + FIRST_DATA_LINE };
 
     let currentParsedSession;
     if (_hasSessionInformation(data)) {
