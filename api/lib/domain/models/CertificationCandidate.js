@@ -1,5 +1,6 @@
 const isNil = require('lodash/isNil');
 const endsWith = require('lodash/endsWith');
+const snakeCase = require('lodash/snakeCase');
 const BaseJoi = require('joi');
 const JoiDate = require('@joi/date');
 const Joi = BaseJoi.extend(JoiDate);
@@ -161,7 +162,7 @@ class CertificationCandidate {
     }
   }
 
-  validateForMassSessionImport(isSco = false) {
+  validateForMassSessionImport({ isSco = false, line }) {
     const { error } = certificationCandidateValidationJoiSchema_v1_5.validate(this, {
       abortEarly: false,
       allowUnknown: true,
@@ -173,7 +174,10 @@ class CertificationCandidate {
     if (error) {
       return error.details.map((detail) => {
         const { key, why } = InvalidCertificationCandidate.fromJoiErrorDetail(detail);
-        return key ? `${key} ${why}` : `${why}`;
+        const whyErrorFormated = snakeCase(why).toUpperCase();
+        const keyErrorFormated = snakeCase(key).toUpperCase();
+
+        return key ? { code: `${keyErrorFormated}_${whyErrorFormated}`, line } : { code: `${whyErrorFormated}`, line };
       });
     }
   }
