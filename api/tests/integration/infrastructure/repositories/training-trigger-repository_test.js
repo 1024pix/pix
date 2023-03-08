@@ -1,7 +1,6 @@
 const { expect, databaseBuilder, domainBuilder, knex, mockLearningContent, sinon } = require('../../../test-helper');
 const trainingTriggerRepository = require('../../../../lib/infrastructure/repositories/training-trigger-repository');
-const TrainingTrigger = require('../../../../lib/domain/models/TrainingTrigger');
-const TrainingTriggerTube = require('../../../../lib/domain/models/TrainingTriggerTube');
+const { TrainingTrigger, TrainingTriggerTube } = require('../../../../lib/domain/models');
 const _ = require('lodash');
 
 describe('Integration | Repository | training-trigger-repository', function () {
@@ -19,7 +18,7 @@ describe('Integration | Repository | training-trigger-repository', function () {
       isMobileCompliant: true,
       isTabletCompliant: true,
       competenceId: 'recCompetence0',
-      thematicId: 'thematicCoucou',
+      thematicId: 'recThemA',
       skillIds: ['skillSuper', 'skillGenial'],
       skills: [],
     });
@@ -33,11 +32,49 @@ describe('Integration | Repository | training-trigger-repository', function () {
       isMobileCompliant: true,
       isTabletCompliant: true,
       competenceId: 'recCompetence0',
-      thematicId: 'thematicCoucou',
+      thematicId: 'recThemA',
       skillIds: ['skillSuper', 'skillGenial'],
       skills: [],
     });
     const learningContent = {
+      areas: [
+        {
+          id: 'recAreaA',
+          title_i18n: {
+            fr: 'titleFRA',
+            en: 'titleENA',
+          },
+          color: 'colorA',
+          code: 'codeA',
+          frameworkId: 'fmk1',
+          competenceIds: ['recCompA', 'recCompB'],
+        },
+      ],
+      competences: [
+        {
+          id: 'recCompA',
+          name_i18n: {
+            fr: 'nameFRA',
+            en: 'nameENA',
+          },
+          index: '1',
+          areaId: 'recAreaA',
+          origin: 'Pix',
+          thematicIds: ['recThemA', 'recThemB'],
+        },
+      ],
+      thematics: [
+        {
+          id: 'recThemA',
+          name_i18n: {
+            fr: 'nameFRA',
+            en: 'nameENA',
+          },
+          index: '1',
+          competenceId: 'recCompA',
+          tubeIds: ['recTube1'],
+        },
+      ],
       tubes: [
         {
           id: 'recTube0',
@@ -53,7 +90,7 @@ describe('Integration | Repository | training-trigger-repository', function () {
           isMobileCompliant: true,
           isTabletCompliant: true,
           competenceId: 'recCompetence0',
-          thematicId: 'thematicCoucou',
+          thematicId: 'recThemA',
           skillIds: ['skillSuper', 'skillGenial'],
         },
         {
@@ -70,8 +107,15 @@ describe('Integration | Repository | training-trigger-repository', function () {
           isMobileCompliant: true,
           isTabletCompliant: true,
           competenceId: 'recCompetence0',
-          thematicId: 'thematicCoucou',
+          thematicId: 'recThemA',
           skillIds: ['skillSuper', 'skillGenial'],
+        },
+      ],
+      skills: [
+        {
+          id: 'recSkillTube1',
+          tubeId: 'recTube1',
+          status: 'actif',
         },
       ],
     };
@@ -112,7 +156,6 @@ describe('Integration | Repository | training-trigger-repository', function () {
           .first();
         expect(createdTrainingTrigger).to.be.instanceOf(TrainingTrigger);
         expect(createdTrainingTrigger.id).to.equal(trainingTrigger.id);
-        expect(createdTrainingTrigger.trainingId).to.equal(trainingTrigger.trainingId);
         expect(createdTrainingTrigger.type).to.equal(trainingTrigger.type);
         expect(createdTrainingTrigger.threshold).to.equal(trainingTrigger.threshold);
 
@@ -276,26 +319,39 @@ describe('Integration | Repository | training-trigger-repository', function () {
 
       // then
       expect(result).to.have.lengthOf(2);
-
       expect(result[0]).to.be.instanceOf(TrainingTrigger);
       expect(result[0].id).to.equal(trainingTrigger.id);
-      expect(result[0].trainingId).to.equal(trainingTrigger.trainingId);
       expect(result[0].type).to.equal(trainingTrigger.type);
       expect(result[0].threshold).to.equal(trainingTrigger.threshold);
       expect(result[0].triggerTubes).to.have.lengthOf(1);
       expect(result[0].triggerTubes[0]).to.be.instanceOf(TrainingTriggerTube);
       expect(result[0].triggerTubes[0].tube.id).to.equal(trainingTriggerTube.tubeId);
+      expect(result[0].triggerTubes[0].tube.name).to.equal(tube.name);
+      expect(result[0].triggerTubes[0].tube.practicalTitle).to.equal(tube.practicalTitle);
       expect(result[0].triggerTubes[0].level).to.equal(trainingTriggerTube.level);
+      expect(result[0].areas).to.have.lengthOf(1);
+      expect(result[0].areas[0].id).to.equal('recAreaA');
+      expect(result[0].areas[0].competences).to.have.lengthOf(1);
+      expect(result[0].areas[0].competences[0].id).to.equal('recCompA');
+      expect(result[0].areas[0].competences[0].thematics).to.have.lengthOf(1);
+      expect(result[0].areas[0].competences[0].thematics[0].id).to.equal('recThemA');
 
       expect(result[1]).to.be.instanceOf(TrainingTrigger);
       expect(result[1].id).to.equal(trainingTrigger2.id);
-      expect(result[1].trainingId).to.equal(trainingTrigger2.trainingId);
       expect(result[1].type).to.equal(trainingTrigger2.type);
       expect(result[1].threshold).to.equal(trainingTrigger2.threshold);
       expect(result[1].triggerTubes).to.have.lengthOf(1);
       expect(result[1].triggerTubes[0]).to.be.instanceOf(TrainingTriggerTube);
       expect(result[1].triggerTubes[0].tube.id).to.equal(trainingTriggerTube2.tubeId);
+      expect(result[1].triggerTubes[0].tube.name).to.equal(tube1.name);
+      expect(result[1].triggerTubes[0].tube.practicalTitle).to.equal(tube1.practicalTitle);
       expect(result[1].triggerTubes[0].level).to.equal(trainingTriggerTube2.level);
+      expect(result[1].areas).to.have.lengthOf(1);
+      expect(result[1].areas[0].id).to.equal('recAreaA');
+      expect(result[1].areas[0].competences).to.have.lengthOf(1);
+      expect(result[1].areas[0].competences[0].id).to.equal('recCompA');
+      expect(result[1].areas[0].competences[0].thematics).to.have.lengthOf(1);
+      expect(result[1].areas[0].competences[0].thematics[0].id).to.equal('recThemA');
     });
 
     it('should return empty array when no training trigger found', async function () {
