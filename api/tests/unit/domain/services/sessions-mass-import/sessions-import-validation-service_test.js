@@ -78,7 +78,12 @@ describe('Unit | Service | sessions import validation Service', function () {
         });
 
         // then
-        expect(sessionErrors).to.deep.equal(["Impossible d'ajouter un candidat à une session qui a déjà commencé."]);
+        expect(sessionErrors).to.deep.equal([
+          {
+            line: 2,
+            code: 'CANDIDATE_NOT_ALLOWED_FOR_STARTED_SESSION',
+          },
+        ]);
       });
     });
 
@@ -97,7 +102,12 @@ describe('Unit | Service | sessions import validation Service', function () {
           });
 
           // then
-          expect(sessionErrors).to.deep.equal(['Une session ne peut pas être programmée dans le passé']);
+          expect(sessionErrors).to.deep.equal([
+            {
+              line: 1,
+              code: 'SESSION_SCHEDULED_IN_THE_PAST',
+            },
+          ]);
         });
       });
     });
@@ -119,7 +129,10 @@ describe('Unit | Service | sessions import validation Service', function () {
 
           // then
           expect(sessionErrors).to.deep.equal([
-            'Merci de ne pas renseigner les informations de session pour la session: 1234',
+            {
+              line: 1,
+              code: 'INFORMATION_NOT_ALLOWED_WITH_SESSION_ID',
+            },
           ]);
         });
       });
@@ -159,7 +172,12 @@ describe('Unit | Service | sessions import validation Service', function () {
         });
 
         // then
-        expect(sessionErrors).to.deep.equal(['Session happening on 2024-03-12 at 14:30 already exists']);
+        expect(sessionErrors).to.deep.equal([
+          {
+            line: 1,
+            code: 'SESSION_WITH_DATE_AND_TIME_ALREADY_EXISTS',
+          },
+        ]);
       });
     });
 
@@ -180,7 +198,12 @@ describe('Unit | Service | sessions import validation Service', function () {
           });
 
           // then
-          expect(sessionErrors).to.deep.equal(['Une session contient au moins un élève en double.']);
+          expect(sessionErrors).to.deep.equal([
+            {
+              line: 1,
+              code: 'DUPLICATE_CANDIDATE_NOT_ALLOWED_IN_SESSION',
+            },
+          ]);
         });
       });
     });
@@ -199,7 +222,12 @@ describe('Unit | Service | sessions import validation Service', function () {
         });
 
         // then
-        expect(sessionErrors).to.deep.equal(['Veuillez indiquer un nom de salle.']);
+        expect(sessionErrors).to.deep.equal([
+          {
+            line: 1,
+            message: 'Veuillez indiquer un nom de salle.',
+          },
+        ]);
       });
     });
 
@@ -219,8 +247,8 @@ describe('Unit | Service | sessions import validation Service', function () {
 
         // then
         expect(sessionErrors).to.have.deep.members([
-          'Veuillez indiquer un nom de salle.',
-          'Veuillez indiquer un nom de site.',
+          { line: 1, message: 'Veuillez indiquer un nom de site.' },
+          { line: 1, message: 'Veuillez indiquer un nom de salle.' },
         ]);
       });
     });
@@ -403,6 +431,7 @@ function _buildValidSessionWithId(sessionId) {
     examiner: null,
     description: null,
     certificationCandidates: null,
+    line: 2,
   });
 }
 
@@ -410,6 +439,7 @@ function _buildValidSessionWithoutId() {
   return domainBuilder.buildSession({
     id: null,
     date: '2024-03-12',
+    line: 1,
   });
 }
 
