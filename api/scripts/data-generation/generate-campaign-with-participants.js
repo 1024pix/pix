@@ -2,7 +2,7 @@ require('dotenv').config({ path: `${__dirname}/../../.env` });
 
 const _ = require('lodash');
 const { knex, disconnect } = require('../../db/knex-database-connection');
-const cache = require('../../lib/infrastructure/caches/learning-content-cache');
+const { cache } = require('../../lib/infrastructure/caches/learning-content-cache');
 const moment = require('moment');
 const competenceRepository = require('../../lib/infrastructure/repositories/competence-repository');
 const skillRepository = require('../../lib/infrastructure/repositories/skill-repository');

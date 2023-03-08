@@ -4,7 +4,7 @@ const lcms = require('../../../../../lib/infrastructure/lcms');
 const {
   challengeDatasource,
 } = require('../../../../../lib/infrastructure/datasources/learning-content/challenge-datasource');
-const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
+const { learningContentCache } = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatasource', function () {
   let competence1,
@@ -108,7 +108,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       delta: 0,
     };
 
-    sinon.stub(cache, 'get').callsFake((generator) => generator());
+    sinon.stub(learningContentCache, 'get').callsFake((generator) => generator());
   });
 
   describe('#findOperativeBySkillIds', function () {

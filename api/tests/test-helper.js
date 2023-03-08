@@ -9,7 +9,8 @@ chai.use(require('chai-sorted'));
 chai.use(require('sinon-chai'));
 const customChaiHelpers = require('./tooling/chai-custom-helpers/index');
 _.each(customChaiHelpers, chai.use);
-const cache = require('../lib/infrastructure/caches/learning-content-cache');
+const { learningContentCache } = require('../lib/infrastructure/caches/learning-content-cache');
+
 const { graviteeRegisterApplicationsCredentials, jwtConfig } = require('../lib/config');
 
 const { knex, disconnect } = require('../db/knex-database-connection');
@@ -32,7 +33,7 @@ const { createTempFile, removeTempFile } = require('./tooling/temporary-file');
 /* eslint-disable mocha/no-top-level-hooks */
 afterEach(function () {
   sinon.restore();
-  cache.flushAll();
+  learningContentCache.flushAll();
   nock.cleanAll();
   return databaseBuilder.clean();
 });

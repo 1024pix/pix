@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const lcms = require('../../../../lib/infrastructure/lcms');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
+const { learningContentCache } = require('../../../../lib/infrastructure/caches/learning-content-cache');
 const createLcmsRelease = require('../../../../lib/domain/usecases/create-lcms-release');
 
 describe('Unit | UseCase | create-lcms-release', function () {
@@ -19,12 +19,12 @@ describe('Unit | UseCase | create-lcms-release', function () {
     // given
     const learningContent = Symbol('learning-content');
     sinon.stub(lcms, 'createRelease').resolves(learningContent);
-    sinon.stub(cache, 'set').resolves();
+    sinon.stub(learningContentCache, 'set').resolves();
 
     // when
     await createLcmsRelease();
 
     // then
-    expect(cache.set).to.have.been.calledWith(learningContent);
+    expect(learningContentCache.set).to.have.been.calledWith(learningContent);
   });
 });
