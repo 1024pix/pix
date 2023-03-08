@@ -49,7 +49,7 @@
         class="participant-filter-banner__stages"
         as |stage|
       >
-        <Campaign::StageStars @result={{stage.threshold}} @stages={{@campaign.stages}} />
+        <Campaign::StageStarsOld @result={{stage.threshold}} @stages={{@campaign.stages}} />
       </PixMultiSelect>
     {{/if}}
     {{#if this.displayBadgesFilter}}

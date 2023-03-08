@@ -9,11 +9,12 @@ module('Integration | Component | Campaign::Cards::StageAverage', function (hook
   setupIntl(hooks);
 
   test('it should display average result card', async function (assert) {
-    this.averageResult = 0.5;
-    this.stages = [{ threshold: 20 }, { threshold: 70 }];
+    this.totalStage = 3;
+    this.reachedStage = 2;
+    this.stages = [{ threshold: 0 }, { threshold: 20 }, { threshold: 70 }];
 
     const screen = await render(
-      hbs`<Campaign::Cards::StageAverage @value={{this.averageResult}} @stages={{this.stages}} />`
+      hbs`<Campaign::Cards::StageAverage @totalStage={{this.totalStage}} @reachedStage={{this.reachedStage}} @stages={{this.stages}} />`
     );
 
     assert.contains(t('cards.participants-average-stages.title'));

@@ -27,6 +27,8 @@ export default class Campaign extends Model {
   @attr('number') participationsCount;
   @attr('number') sharedParticipationsCount;
   @attr('number') averageResult;
+  @attr('number') totalStage;
+  @attr('number') reachedStage;
 
   @belongsTo('organization') organization;
   @belongsTo('target-profile') targetProfile;
