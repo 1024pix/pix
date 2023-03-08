@@ -58,7 +58,7 @@
             aria-label={{t "pages.assessment-individual-results.stages.label"}}
             class="panel-header-data__content panel-header-data-content__stages"
           >
-            <Campaign::StageStars
+            <Campaign::StageStarsOld
               @result={{this.valuePercentage}}
               @stages={{@campaign.stages}}
               @withTooltip={{true}}
