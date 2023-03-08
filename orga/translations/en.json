@@ -190,7 +190,8 @@
         "percent": "percentage"
       },
       "thematic-results": "Thematic results: {value, number}"
-    }
+    },
+    "breadcrumb": "Breadcrumb"
   },
   "navigation": {
     "credits": {
@@ -232,6 +233,7 @@
   "pages": {
     "assessment-individual-results": {
       "title": "Results of {firstName} {lastName}",
+      "breadcrumb-current-page-label": "Participation of {firstName} {lastName}",
       "badges": "Thematic results",
       "progression": "Progression",
       "result": "Result",
@@ -722,7 +724,7 @@
         "column": {
           "first-name": "First name",
           "last-name": {
-            "label" : "Last name",
+            "label": "Last name",
             "ariaLabelDefaultSort": "The table is currently not sorted by last name. Click to sort by alphabetical order.",
             "ariaLabelSortUp": "The table is sorted by last name, in alphabetical order. Click to sort by reverse alphabetical order.",
             "ariaLabelSortDown": "The table is sorted by last name, in reverse alphabetical order. Click to sort by alphabetical order."
@@ -782,6 +784,7 @@
     },
     "profiles-individual-results": {
       "title": "Profile of {firstName} {lastName}",
+      "breadcrumb-current-page-label": "Participation of {firstName} {lastName}",
       "certifiable": "Eligible for certification",
       "competences-certifiables": "COMP. ELIGIBLE FOR CERTIFICATION",
       "pix": "PIX",
@@ -930,7 +933,7 @@
             }
           },
           "last-name": {
-            "label" : "Last name",
+            "label": "Last name",
             "ariaLabelDefaultSort": "The table is currently not sorted by last name. Click to sort by alphabetical order.",
             "ariaLabelSortUp": "The table is sorted by last name, in alphabetical order. Click to sort by reverse alphabetical order.",
             "ariaLabelSortDown": "The table is sorted by last name, in reverse alphabetical order. Click to sort by alphabetical order."
@@ -980,7 +983,7 @@
           "first-name": "First name",
           "group": "Groups",
           "last-name": {
-            "label" : "Last name",
+            "label": "Last name",
             "ariaLabelDefaultSort": "The table is currently not sorted by last name. Click to sort by alphabetical order.",
             "ariaLabelSortUp": "The table is sorted by last name, in alphabetical order. Click to sort by reverse alphabetical order.",
             "ariaLabelSortDown": "The table is sorted by last name, in reverse alphabetical order. Click to sort by alphabetical order."
