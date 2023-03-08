@@ -37,6 +37,36 @@ const sessionValidationJoiSchema = Joi.object({
   }),
 });
 
+const sessionValidationForMassImportJoiSchema = Joi.object({
+  address: Joi.string().required().messages({
+    'string.base': 'SESSION_ADDRESS_REQUIRED',
+    'string.empty': 'SESSION_ADDRESS_REQUIRED',
+  }),
+
+  room: Joi.string().required().messages({
+    'string.base': 'SESSION_ROOM_REQUIRED',
+    'string.empty': 'SESSION_ROOM_REQUIRED',
+  }),
+
+  date: Joi.string().isoDate().required().messages({
+    'string.empty': 'SESSION_DATE_REQUIRED',
+  }),
+
+  time: Joi.string()
+    .pattern(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/)
+    .required()
+    .messages({
+      'string.base': 'SESSION_TIME_REQUIRED',
+      'string.empty': 'SESSION_TIME_REQUIRED',
+      'string.pattern.base': 'SESSION_TIME_REQUIRED',
+    }),
+
+  examiner: Joi.string().required().messages({
+    'string.base': 'SESSION_EXAMINER_REQUIRED',
+    'string.empty': 'SESSION_EXAMINER_REQUIRED',
+  }),
+});
+
 const sessionFiltersValidationSchema = Joi.object({
   id: identifiersType.sessionId.optional(),
   status: Joi.string()
@@ -54,6 +84,13 @@ module.exports = {
     const { error } = sessionValidationJoiSchema.validate(session, validationConfiguration);
     if (error) {
       throw EntityValidationError.fromJoiErrors(error.details);
+    }
+  },
+
+  validateForMassSessionImport(session, line) {
+    const { error } = sessionValidationForMassImportJoiSchema.validate(session, validationConfiguration);
+    if (error) {
+      return error.details.map(({ message }) => ({ code: message, line }));
     }
   },
 
