@@ -51,19 +51,31 @@ export default class Url extends Service {
   }
 
   get legalNoticeUrl() {
-    return this._computeShowcaseWebsiteUrl(this.SHOWCASE_WEBSITE_LOCALE_PATH.LEGAL_NOTICE);
+    const domainExtension = this.currentDomain.getExtension();
+    const { en, fr } = this.SHOWCASE_WEBSITE_LOCALE_PATH.LEGAL_NOTICE;
+
+    return this._computeShowcaseWebsiteUrl({ domainExtension, en, fr });
   }
 
   get cguUrl() {
-    return this._computeShowcaseWebsiteUrl(this.SHOWCASE_WEBSITE_LOCALE_PATH.CGU);
+    const domainExtension = this.currentDomain.getExtension();
+    const { en, fr } = this.SHOWCASE_WEBSITE_LOCALE_PATH.CGU;
+
+    return this._computeShowcaseWebsiteUrl({ domainExtension, en, fr });
   }
 
   get dataProtectionPolicyUrl() {
-    return this._computeShowcaseWebsiteUrl(this.SHOWCASE_WEBSITE_LOCALE_PATH.DATA_PROTECTION_POLICY);
+    const domainExtension = this.currentDomain.getExtension();
+    const { en, fr } = this.SHOWCASE_WEBSITE_LOCALE_PATH.DATA_PROTECTION_POLICY;
+
+    return this._computeShowcaseWebsiteUrl({ domainExtension, en, fr });
   }
 
   get accessibilityUrl() {
-    return this._computeShowcaseWebsiteUrl(this.SHOWCASE_WEBSITE_LOCALE_PATH.ACCESSIBILITY);
+    const domainExtension = this.currentDomain.getExtension();
+    const { en, fr } = this.SHOWCASE_WEBSITE_LOCALE_PATH.ACCESSIBILITY;
+
+    return this._computeShowcaseWebsiteUrl({ domainExtension, en, fr });
   }
 
   get forgottenPasswordUrl() {
@@ -75,10 +87,12 @@ export default class Url extends Service {
     return url;
   }
 
-  _computeShowcaseWebsiteUrl({ en: englishPath, fr: frenchPath }) {
+  _computeShowcaseWebsiteUrl({ domainExtension, en: englishPath, fr: frenchPath }) {
     const currentLanguage = this.intl.t('current-lang');
 
-    if (this.isFrenchDomainExtension) return `${PIX_FR_DOMAIN}${frenchPath}`;
+    if (domainExtension === FRENCH_DOMAIN_EXTENSION) {
+      return `${PIX_FR_DOMAIN}${frenchPath}`;
+    }
 
     return currentLanguage === FRENCH_DOMAIN_EXTENSION
       ? `${PIX_ORG_DOMAIN_FR_LOCALE}${frenchPath}`
