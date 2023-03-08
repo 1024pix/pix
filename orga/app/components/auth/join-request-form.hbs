@@ -11,6 +11,7 @@
         type="text"
         {{on "focusout" this.validateUai}}
         @errorMessage={{this.uaiValidationMessage}}
+        @validationStatus={{if this.uaiValidationMessage "error" "default"}}
         required={{true}}
         aria-required={{true}}
         autocomplete="off"
@@ -25,6 +26,7 @@
         type="firstName"
         {{on "focusout" this.validateFirstName}}
         @errorMessage={{this.firstNameValidationMessage}}
+        @validationStatus={{if this.firstNameValidationMessage "error" "default"}}
         required={{true}}
         aria-required={{true}}
         autocomplete="given-name"
@@ -39,6 +41,7 @@
         type="lastName"
         {{on "focusout" this.validateLastName}}
         @errorMessage={{this.lastNameValidationMessage}}
+        @validationStatus={{if this.lastNameValidationMessage "error" "default"}}
         required={{true}}
         aria-required={{true}}
         autocomplete="family-name"
