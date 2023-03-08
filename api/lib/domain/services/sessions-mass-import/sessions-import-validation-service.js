@@ -8,32 +8,47 @@ module.exports = {
 
     if (sessionId) {
       if (_hasSessionInfo(session)) {
-        sessionErrors.push(`Merci de ne pas renseigner les informations de session pour la session: ${sessionId}`);
+        sessionErrors.push({
+          code: 'INFORMATION_NOT_ALLOWED_WITH_SESSION_ID',
+          line: session.line,
+        });
       }
 
       if (await _isSessionStarted({ certificationCourseRepository, sessionId })) {
-        sessionErrors.push("Impossible d'ajouter un candidat à une session qui a déjà commencé.");
+        sessionErrors.push({
+          code: 'CANDIDATE_NOT_ALLOWED_FOR_STARTED_SESSION',
+          line: session.line,
+        });
       }
     } else {
       const isSessionExisting = await sessionRepository.isSessionExisting({ ...session });
       if (isSessionExisting) {
-        sessionErrors.push(`Session happening on ${session.date} at ${session.time} already exists`);
+        sessionErrors.push({
+          code: `SESSION_WITH_DATE_AND_TIME_ALREADY_EXISTS`,
+          line: session.line,
+        });
       }
 
       if (session.isSessionScheduledInThePast()) {
-        sessionErrors.push(`Une session ne peut pas être programmée dans le passé`);
+        sessionErrors.push({
+          code: 'SESSION_SCHEDULED_IN_THE_PAST',
+          line: session.line,
+        });
       }
 
       try {
         sessionValidator.validate(session);
       } catch (errors) {
-        errors.invalidAttributes.map((error) => sessionErrors.push(error.message));
+        errors.invalidAttributes.map((error) => sessionErrors.push({ message: error.message, line: session.line }));
       }
     }
 
     if (session.certificationCandidates?.length) {
       if (_hasDuplicateCertificationCandidates(session.certificationCandidates)) {
-        sessionErrors.push(`Une session contient au moins un élève en double.`);
+        sessionErrors.push({
+          code: 'DUPLICATE_CANDIDATE_NOT_ALLOWED_IN_SESSION',
+          line: session.line,
+        });
       }
     }
 
