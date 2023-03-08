@@ -20,4 +20,6 @@ class RedisMonitor {
   }
 }
 
-module.exports = new RedisMonitor();
+const redisMonitor = new RedisMonitor();
+
+module.exports = { redisMonitor };
