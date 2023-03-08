@@ -35,6 +35,7 @@ module.exports = async function validateSessions({
 
     const sessionsErrors = await sessionsImportValidationService.validateSession({
       session,
+      line: sessionDTO.line,
       sessionRepository,
       certificationCourseRepository,
     });
@@ -111,6 +112,7 @@ async function _createValidCertificationCandidates({
         candidate: domainCertificationCandidate,
         isSco,
         isSessionsMassImport: true,
+        line: certificationCandidate.line,
         certificationCpfCountryRepository,
         certificationCpfCityRepository,
       });
