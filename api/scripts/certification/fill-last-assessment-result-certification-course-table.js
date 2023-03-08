@@ -1,7 +1,7 @@
 const dotenv = require('dotenv');
 dotenv.config();
 const logger = require('../../lib/infrastructure/logger');
-const cache = require('../../lib/infrastructure/caches/learning-content-cache');
+const { cache } = require('../../lib/infrastructure/caches/learning-content-cache');
 const { knex, disconnect } = require('../../db/knex-database-connection');
 const bluebird = require('bluebird');
 

@@ -7,7 +7,8 @@ const buildKnowledgeElement = require('../db/database-builder/factory/build-know
 const tubeRepository = require('../lib/infrastructure/repositories/tube-repository');
 const skillRepository = require('../lib/infrastructure/repositories/skill-repository');
 const knowledgeElementRepository = require('../lib/infrastructure/repositories/knowledge-element-repository');
-const cache = require('../lib/infrastructure/caches/learning-content-cache');
+const { cache } = require('../lib/infrastructure/caches/learning-content-cache');
+
 const { disconnect } = require('../db/knex-database-connection');
 
 async function getUserSkillsGroupedByTubeId(elements) {

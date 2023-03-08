@@ -42,4 +42,6 @@ class LearningContentCache extends Cache {
   }
 }
 
-module.exports = new LearningContentCache();
+const learningContentCache = new LearningContentCache();
+
+module.exports = { learningContentCache };

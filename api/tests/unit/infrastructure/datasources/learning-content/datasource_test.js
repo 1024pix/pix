@@ -2,13 +2,13 @@ const { expect, sinon } = require('../../../../test-helper');
 const dataSource = require('../../../../../lib/infrastructure/datasources/learning-content/datasource');
 const lcms = require('../../../../../lib/infrastructure/lcms');
 const LearningContentResourceNotFound = require('../../../../../lib/infrastructure/datasources/learning-content/LearningContentResourceNotFound');
-const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
+const { learningContentCache } = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Unit | Infrastructure | Datasource | Learning Content | datasource', function () {
   let someDatasource;
 
   beforeEach(function () {
-    sinon.stub(cache, 'get');
+    sinon.stub(learningContentCache, 'get');
     someDatasource = dataSource.extend({
       modelName: 'learningContentModel',
     });
@@ -16,7 +16,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', f
 
   describe('#get', function () {
     beforeEach(function () {
-      cache.get.callsFake((generator) => generator());
+      learningContentCache.get.callsFake((generator) => generator());
     });
 
     context('(success cases)', function () {
@@ -56,7 +56,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', f
         await someDatasource.get('rec1');
 
         // then
-        expect(cache.get).to.have.been.called;
+        expect(learningContentCache.get).to.have.been.called;
       });
     });
 
@@ -96,7 +96,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', f
     let learningContent;
 
     beforeEach(function () {
-      cache.get.callsFake((generator) => generator());
+      learningContentCache.get.callsFake((generator) => generator());
 
       learningContent = {
         learningContentModel: [
@@ -132,7 +132,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', f
     let learningContent;
 
     beforeEach(function () {
-      cache.get.callsFake((generator) => generator());
+      learningContentCache.get.callsFake((generator) => generator());
 
       learningContent = {
         learningContentModel: [
@@ -167,7 +167,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', f
       await someDatasource.list();
 
       // then
-      expect(cache.get).to.have.been.called;
+      expect(learningContentCache.get).to.have.been.called;
     });
   });
 
@@ -175,8 +175,8 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', f
     let learningContent;
 
     beforeEach(function () {
-      cache.get.withArgs(someDatasource.modelName).callsFake((generator) => generator());
-      sinon.stub(cache, 'set');
+      learningContentCache.get.withArgs(someDatasource.modelName).callsFake((generator) => generator());
+      sinon.stub(learningContentCache, 'set');
       learningContent = {
         learningContentModel: [
           { id: 'rec1', property: 'value1' },
@@ -199,7 +199,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', f
       await dataSource.refreshLearningContentCacheRecords();
 
       // then
-      expect(cache.set).to.have.been.calledWith(learningContent);
+      expect(learningContentCache.set).to.have.been.calledWith(learningContent);
     });
   });
 
@@ -214,8 +214,8 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', f
         ],
         learningContentOtherModel: [{ id: 'rec3', property: 'value3' }],
       };
-      cache.get.resolves(learningContent);
-      sinon.stub(cache, 'set').callsFake((value) => value);
+      learningContentCache.get.resolves(learningContent);
+      sinon.stub(learningContentCache, 'set').callsFake((value) => value);
 
       // when
       const entry = await someDatasource.refreshLearningContentCacheRecord('rec1', record);
@@ -225,7 +225,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', f
         id: 'rec1',
         property: 'updatedValue',
       });
-      expect(cache.set).to.have.been.deep.calledWith({
+      expect(learningContentCache.set).to.have.been.deep.calledWith({
         learningContentModel: [
           { id: 'rec2', property: 'value2' },
           { id: 'rec1', property: 'updatedValue' },

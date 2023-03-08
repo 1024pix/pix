@@ -5,7 +5,7 @@ const yargs = require('yargs');
 const bluebird = require('bluebird');
 const _ = require('lodash');
 const logger = require('../../../lib/infrastructure/logger');
-const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
+const { cache } = require('../../../lib/infrastructure/caches/learning-content-cache');
 const { knex, disconnect } = require('../../../db/knex-database-connection');
 
 const DEFAULT_MAX_CAMPAIGNS_COUNT = 50000;

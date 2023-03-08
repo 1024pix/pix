@@ -11,7 +11,7 @@ const logger = require('../../lib/infrastructure/logger');
 const badgeAcquisitionRepository = require('../../lib/infrastructure/repositories/badge-acquisition-repository');
 const badgeForCalculationRepository = require('../../lib/infrastructure/repositories/badge-for-calculation-repository');
 const knowledgeElementRepository = require('../../lib/infrastructure/repositories/knowledge-element-repository');
-const cache = require('../../lib/infrastructure/caches/learning-content-cache');
+const { cache } = require('../../lib/infrastructure/caches/learning-content-cache');
 
 const MAX_RANGE_SIZE = 100_000;
 
