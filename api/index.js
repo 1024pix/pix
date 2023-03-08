@@ -6,7 +6,7 @@ validateEnvironmentVariables();
 const createServer = require('./server');
 const logger = require('./lib/infrastructure/logger');
 const { disconnect } = require('./db/knex-database-connection');
-const { cache } = require('./lib/infrastructure/caches/learning-content-cache');
+const { learningContentCache } = require('./lib/infrastructure/caches/learning-content-cache');
 
 const { temporaryStorage } = require('./lib/infrastructure/temporary-storage/index');
 const { redisMonitor } = require('./lib/infrastructure/utils/redis-monitor');
@@ -29,7 +29,7 @@ async function _exitOnSignal(signal) {
   logger.info('Closing connexions to database...');
   await disconnect();
   logger.info('Closing connexions to cache...');
-  await cache.quit();
+  await learningContentCache.quit();
   logger.info('Closing connexions to temporary storage...');
   await temporaryStorage.quit();
   logger.info('Closing connexions to redis monitor...');
