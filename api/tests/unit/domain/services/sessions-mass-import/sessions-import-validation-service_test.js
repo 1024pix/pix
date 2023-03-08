@@ -33,6 +33,7 @@ describe('Unit | Service | sessions import validation Service', function () {
             // when
             const sessionErrors = await sessionsImportValidationService.validateSession({
               session,
+              line: 1,
               sessionRepository,
               certificationCourseRepository,
             });
@@ -52,6 +53,7 @@ describe('Unit | Service | sessions import validation Service', function () {
             // when
             const sessionErrors = await sessionsImportValidationService.validateSession({
               session,
+              line: 1,
               sessionRepository,
               certificationCourseRepository,
             });
@@ -73,6 +75,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         // when
         const sessionErrors = await sessionsImportValidationService.validateSession({
           session,
+          line: 2,
           sessionRepository,
           certificationCourseRepository,
         });
@@ -97,6 +100,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           // when
           const sessionErrors = await sessionsImportValidationService.validateSession({
             session,
+            line: 1,
             sessionRepository,
             certificationCourseRepository,
           });
@@ -123,6 +127,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           // when
           const sessionErrors = await sessionsImportValidationService.validateSession({
             session,
+            line: 1,
             sessionRepository,
             certificationCourseRepository,
           });
@@ -148,6 +153,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           // when
           const sessionErrors = await sessionsImportValidationService.validateSession({
             session,
+            line: 1,
             sessionRepository,
             certificationCourseRepository,
           });
@@ -167,6 +173,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         // when
         const sessionErrors = await sessionsImportValidationService.validateSession({
           session,
+          line: 1,
           sessionRepository,
           certificationCourseRepository,
         });
@@ -193,6 +200,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           // when
           const sessionErrors = await sessionsImportValidationService.validateSession({
             session,
+            line: 1,
             sessionRepository,
             certificationCourseRepository,
           });
@@ -217,6 +225,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         // when
         const sessionErrors = await sessionsImportValidationService.validateSession({
           session,
+          line: 1,
           sessionRepository,
           certificationCourseRepository,
         });
@@ -225,7 +234,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         expect(sessionErrors).to.deep.equal([
           {
             line: 1,
-            message: 'Veuillez indiquer un nom de salle.',
+            code: 'SESSION_ROOM_REQUIRED',
           },
         ]);
       });
@@ -241,14 +250,15 @@ describe('Unit | Service | sessions import validation Service', function () {
         // when
         const sessionErrors = await sessionsImportValidationService.validateSession({
           session,
+          line: 1,
           sessionRepository,
           certificationCourseRepository,
         });
 
         // then
         expect(sessionErrors).to.have.deep.members([
-          { line: 1, message: 'Veuillez indiquer un nom de site.' },
-          { line: 1, message: 'Veuillez indiquer un nom de salle.' },
+          { line: 1, code: 'SESSION_ADDRESS_REQUIRED' },
+          { line: 1, code: 'SESSION_ROOM_REQUIRED' },
         ]);
       });
     });
@@ -299,10 +309,16 @@ describe('Unit | Service | sessions import validation Service', function () {
           await sessionsImportValidationService.getValidatedCandidateBirthInformation({
             candidate,
             isSco,
+            line: 1,
           });
 
         // then
-        expect(certificationCandidateErrors).to.deep.equal(['firstName required']);
+        expect(certificationCandidateErrors).to.deep.equal([
+          {
+            code: 'CANDIDATE_FIRST_NAME_REQUIRED',
+            line: 1,
+          },
+        ]);
       });
     });
 
@@ -339,10 +355,16 @@ describe('Unit | Service | sessions import validation Service', function () {
             await sessionsImportValidationService.getValidatedCandidateBirthInformation({
               candidate,
               isSco,
+              line: 1,
             });
 
           // then
-          expect(certificationCandidateErrors).to.deep.equal(['billingMode required', 'billingMode not_a_string']);
+          expect(certificationCandidateErrors).to.deep.equal([
+            {
+              code: 'CANDIDATE_BILLING_MODE_REQUIRED',
+              line: 1,
+            },
+          ]);
         });
       });
 
@@ -431,7 +453,6 @@ function _buildValidSessionWithId(sessionId) {
     examiner: null,
     description: null,
     certificationCandidates: null,
-    line: 2,
   });
 }
 
@@ -439,7 +460,6 @@ function _buildValidSessionWithoutId() {
   return domainBuilder.buildSession({
     id: null,
     date: '2024-03-12',
-    line: 1,
   });
 }
 

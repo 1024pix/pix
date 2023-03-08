@@ -2,7 +2,7 @@ const sessionValidator = require('../../validators/session-validator.js');
 const certificationCpfService = require('../certification-cpf-service.js');
 
 module.exports = {
-  async validateSession({ session, sessionRepository, certificationCourseRepository }) {
+  async validateSession({ session, line, sessionRepository, certificationCourseRepository }) {
     const sessionId = session.id;
     const sessionErrors = [];
 
@@ -10,14 +10,14 @@ module.exports = {
       if (_hasSessionInfo(session)) {
         sessionErrors.push({
           code: 'INFORMATION_NOT_ALLOWED_WITH_SESSION_ID',
-          line: session.line,
+          line,
         });
       }
 
       if (await _isSessionStarted({ certificationCourseRepository, sessionId })) {
         sessionErrors.push({
           code: 'CANDIDATE_NOT_ALLOWED_FOR_STARTED_SESSION',
-          line: session.line,
+          line,
         });
       }
     } else {
@@ -25,21 +25,20 @@ module.exports = {
       if (isSessionExisting) {
         sessionErrors.push({
           code: `SESSION_WITH_DATE_AND_TIME_ALREADY_EXISTS`,
-          line: session.line,
+          line,
         });
       }
 
       if (session.isSessionScheduledInThePast()) {
         sessionErrors.push({
           code: 'SESSION_SCHEDULED_IN_THE_PAST',
-          line: session.line,
+          line,
         });
       }
 
-      try {
-        sessionValidator.validate(session);
-      } catch (errors) {
-        errors.invalidAttributes.map((error) => sessionErrors.push({ message: error.message, line: session.line }));
+      const validationErrors = sessionValidator.validateForMassSessionImport(session, line);
+      if (validationErrors?.length) {
+        sessionErrors.push(...validationErrors);
       }
     }
 
@@ -47,7 +46,7 @@ module.exports = {
       if (_hasDuplicateCertificationCandidates(session.certificationCandidates)) {
         sessionErrors.push({
           code: 'DUPLICATE_CANDIDATE_NOT_ALLOWED_IN_SESSION',
-          line: session.line,
+          line,
         });
       }
     }
@@ -58,6 +57,7 @@ module.exports = {
   async getValidatedCandidateBirthInformation({
     candidate,
     isSco,
+    line,
     certificationCpfCountryRepository,
     certificationCpfCityRepository,
   }) {
@@ -69,7 +69,7 @@ module.exports = {
       candidate.convertExtraTimePercentageToDecimal();
     }
 
-    const validationErrors = candidate.validateForMassSessionImport(isSco);
+    const validationErrors = candidate.validateForMassSessionImport({ isSco, line });
     if (validationErrors) {
       certificationCandidateErrors.push(...validationErrors);
     }
