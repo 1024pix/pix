@@ -118,7 +118,7 @@ module('Unit | Service | url', function (hooks) {
       assert.strictEqual(url, expectedUrl);
     });
 
-    test('returns "pix.org" french url when current language is fr', function (assert) {
+    test('returns "pix.org" french url when current language is fr and domain extension is .org', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedUrl = 'https://pix.org/fr/mentions-legales';
