@@ -282,10 +282,38 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
       const stageCollection = new StageCollection({
         campaignId: 1,
         stages: [
-          { id: 1, title: 'Stage0', message: 'message1', threshold: 0 },
-          { id: 2, title: 'Stage1', message: 'message1', threshold: 25 },
-          { id: 3, title: 'Stage2', message: 'message2', threshold: 60 },
-          { id: 4, title: 'Stage3', message: 'message3', threshold: 90 },
+          {
+            id: 1,
+            title: 'Stage0',
+            message: 'message1',
+            threshold: 0,
+            precriberDescription: 'yolo',
+            prescriberTitle: 'coucou',
+          },
+          {
+            id: 2,
+            title: 'Stage1',
+            message: 'message1',
+            threshold: 25,
+            precriberDescription: 'yolo',
+            prescriberTitle: 'coucou',
+          },
+          {
+            id: 3,
+            title: 'Stage2',
+            message: 'message2',
+            threshold: 60,
+            precriberDescription: 'yolo',
+            prescriberTitle: 'coucou',
+          },
+          {
+            id: 4,
+            title: 'Stage3',
+            message: 'message3',
+            threshold: 90,
+            precriberDescription: 'yolo',
+            prescriberTitle: 'coucou',
+          },
         ],
       });
 
@@ -302,6 +330,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         id: 3,
         title: 'Stage2',
         message: 'message2',
+        precriberDescription: 'yolo',
+        prescriberTitle: 'coucou',
         totalStage: 4,
         reachedStage: 3,
       });

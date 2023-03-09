@@ -1,5 +1,5 @@
+const stageCollectionRepository = require('../../infrastructure/repositories/user-campaign-results/stage-collection-repository.js');
 const { UserNotAuthorizedToAccessEntityError, NoStagesForCampaign } = require('../errors.js');
-const CampaignStages = require('../read-models/campaign/CampaignStages.js');
 
 module.exports = async function getCampaignParticipationsCountByStage({
   userId,
@@ -11,20 +11,32 @@ module.exports = async function getCampaignParticipationsCountByStage({
     throw new UserNotAuthorizedToAccessEntityError('User does not belong to the organization that owns the campaign');
   }
 
-  const stages = await campaignRepository.findStages({ campaignId });
-  const campaignStages = new CampaignStages({ stages });
+  const stageCollection = await stageCollectionRepository.findStageCollection({ campaignId });
 
-  if (!campaignStages.hasReachableStages) {
+  if (!stageCollection.hasStage) {
     throw new NoStagesForCampaign();
   }
 
-  const stagesBoundaries = campaignStages.stageThresholdBoundaries;
-  const data = await campaignParticipationRepository.countParticipationsByStage(campaignId, stagesBoundaries);
+  const participantsResults = await campaignParticipationRepository.getAllParticipationsByCampaignId(campaignId);
 
-  return stages.map((stage) => ({
+  const participantsByStage = stageCollection.stages.map((stage, index) => ({
     id: stage.id,
-    value: data[stage.id] || 0,
+    value: 0,
+    reachedStage: index + 1,
+    totalStage: stageCollection.totalStages,
     title: stage.prescriberTitle,
     description: stage.prescriberDescription,
   }));
+
+  participantsResults.forEach((participantResult) => {
+    const stageReached = stageCollection.getReachedStage(
+      participantResult.validatedSkillsCount,
+      participantResult.masteryRate * 100
+    );
+
+    const stageIndex = participantsByStage.findIndex((data) => data.id === stageReached.id);
+    participantsByStage[stageIndex].value++;
+  });
+
+  return participantsByStage;
 };
