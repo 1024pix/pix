@@ -53,23 +53,29 @@ const certificationCandidateValidationJoiSchema_v1_5 = Joi.object({
 );
 
 const certificationCandidateValidationForMassImportJoiSchema = Joi.object({
-  firstName: Joi.string().required().empty(null).messages({
+  firstName: Joi.string().required().empty(['', null]).messages({
     'any.required': 'CANDIDATE_FIRST_NAME_REQUIRED',
   }),
-  lastName: Joi.string().required().empty(null).messages({
+  lastName: Joi.string().required().empty(['', null]).messages({
     'any.required': 'CANDIDATE_LAST_NAME_REQUIRED',
   }),
   sex: Joi.string().valid('M', 'F').required().empty(['', null]).messages({
     'any.required': 'CANDIDATE_SEX_REQUIRED',
     'any.only': 'CANDIDATE_SEX_NOT_VALID',
   }),
-  birthPostalCode: Joi.string().empty(['', null]).messages({
-    'string.empty': 'CANDIDATE_BIRTH_POSTAL_CODE_REQUIRED',
+  birthPostalCode: Joi.string().empty(['', null]).required().messages({
+    'any.required': 'CANDIDATE_BIRTH_POSTAL_CODE_REQUIRED',
   }),
-  birthINSEECode: Joi.string().empty(['', null]).messages({
-    'string.empty': 'CANDIDATE_BIRTH_INSEE_CODE_REQUIRED',
+  birthINSEECode: Joi.alternatives().conditional('birthPostalCode', {
+    is: Joi.exist(),
+    then: Joi.valid(null).messages({
+      'any.only': 'CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_INVALID',
+    }),
+    otherwise: Joi.string().empty(['', null]).required().messages({
+      'any.required': 'CANDIDATE_BIRTH_INSEE_CODE_REQUIRED',
+    }),
   }),
-  birthCountry: Joi.string().required().empty(null).messages({
+  birthCountry: Joi.string().required().empty(['', null]).messages({
     'any.required': 'CANDIDATE_BIRTH_COUNTRY_REQUIRED',
   }),
   email: Joi.string().email().allow(null).empty('').optional().messages({
@@ -81,7 +87,7 @@ const certificationCandidateValidationForMassImportJoiSchema = Joi.object({
   externalId: Joi.string().allow(null).empty(['', null]).optional().messages({
     'string.empty': 'CANDIDATE_EXTERNAL_ID_REQUIRED',
   }),
-  birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required().empty(null).messages({
+  birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required().empty(['', null]).messages({
     'any.required': 'CANDIDATE_BIRTHDATE_REQUIRED',
     'date.format': 'CANDIDATE_INCORRECT_BIRTHDATE_FORMAT',
   }),
@@ -118,18 +124,7 @@ const certificationCandidateValidationForMassImportJoiSchema = Joi.object({
       'any.only': 'CANDIDATE_BILLING_MODE_MUST_BE_EMPTY',
     }),
   }),
-})
-  .assert(
-    '.birthPostalCode',
-    Joi.when('..birthINSEECode', {
-      is: Joi.exist(),
-      then: Joi.valid(null),
-      otherwise: Joi.string().required(),
-    })
-  )
-  .message({
-    'object.assert': 'CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_INVALID',
-  });
+});
 
 const certificationCandidateParticipationJoiSchema = Joi.object({
   id: Joi.any().allow(null).optional(),
