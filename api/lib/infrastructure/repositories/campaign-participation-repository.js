@@ -143,27 +143,16 @@ module.exports = {
     );
   },
 
-  async countParticipationsByStage(campaignId, stagesBoundaries) {
-    const participationCounts = stagesBoundaries.map((boundary) => {
-      const from = boundary.from / 100;
-      const to = boundary.to / 100;
-      return knex.raw(
-        'COUNT("id") FILTER (WHERE "masteryRate" between ?? and ??) OVER (PARTITION BY "campaignId") AS ??',
-        [from, to, String(boundary.id)]
-      );
-    });
-
+  async getAllParticipationsByCampaignId(campaignId) {
     const result = await knex
-      .select(participationCounts)
+      .select('masteryRate', 'validatedSkillsCount')
       .from('campaign-participations')
       .where('campaign-participations.campaignId', '=', campaignId)
       .where('campaign-participations.isImproved', '=', false)
       .where('campaign-participations.deletedAt', 'is', null)
-      .limit(1);
+      .where('campaign-participations.status', 'SHARED');
 
-    if (!result.length) return {};
-
-    return result[0];
+    return result;
   },
 
   async countParticipationsByStatus(campaignId, campaignType) {
