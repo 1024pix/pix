@@ -15,7 +15,7 @@
     <Ui::LearnerHeaderInfo
       @groupName={{t "components.group.SCO"}}
       @group={{@model.organizationLearner.division}}
-      @organizationLearner={{@model.organizationLearner}}
+      @authenticationMethods={{@model.organizationLearner.authenticationMethodsList}}
       @isCertifiable={{@model.organizationLearner.isCertifiable}}
       @certifiableAt={{@model.organizationLearner.certifiableAt}}
     />

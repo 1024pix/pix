@@ -1,28 +1,14 @@
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
+import { CONNECTION_TYPES } from '../../helpers/connection-types';
 
-const CONNECTION_TYPES = {
-  empty: 'pages.sco-organization-participants.connection-types.empty',
-  none: 'pages.sco-organization-participants.connection-types.none',
-  email: 'pages.sco-organization-participants.connection-types.email',
-  identifiant: 'pages.sco-organization-participants.connection-types.identifiant',
-  mediacentre: 'pages.sco-organization-participants.connection-types.mediacentre',
-};
 export default class LearnerHeaderInfo extends Component {
   @service intl;
 
   get connectionMethods() {
-    const connectionMethodsList = [];
-
-    const learner = this.args.organizationLearner;
-    if (learner) {
-      if (learner.email) connectionMethodsList.push(this.intl.t(CONNECTION_TYPES['email']));
-      if (learner.username) connectionMethodsList.push(this.intl.t(CONNECTION_TYPES['identifiant']));
-      if (learner.authenticationMethods.includes('GAR'))
-        connectionMethodsList.push(this.intl.t(CONNECTION_TYPES['mediacentre']));
-      if (connectionMethodsList.length === 0) connectionMethodsList.push(this.intl.t(CONNECTION_TYPES['empty']));
+    if (this.args.authenticationMethods) {
+      return this.args.authenticationMethods.map((element) => this.intl.t(CONNECTION_TYPES[element])).join(', ');
     }
-
-    return connectionMethodsList.join(', ');
+    return null;
   }
 }

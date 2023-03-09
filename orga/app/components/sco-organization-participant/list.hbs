@@ -135,7 +135,7 @@
             <td class="ellipsis">{{student.division}}</td>
             <td class="sco-organization-participant-list-page__authentication-methods">
               {{#each student.authenticationMethods as |authenticationMethod|}}
-                <p>{{t authenticationMethod}}</p>
+                <p>{{t (get this.connectionTypes authenticationMethod)}}</p>
               {{/each}}
             </td>
             <td class="table__column--center">{{student.participationCount}}</td>

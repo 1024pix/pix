@@ -27,21 +27,24 @@ module('Integration | Component | Ui::LearnerHeaderInfo', function (hooks) {
   });
 
   test('it renders learner header information when there is a connection method', async function (assert) {
-    const connectionMethods = this.intl.t('pages.sco-organization-participants.connection-types.email');
+    const authenticationMethods = ['email'];
 
-    this.set('connectionMethods', connectionMethods);
+    this.set('authenticationMethods', authenticationMethods);
 
-    const screen = await render(hbs`<Ui::LearnerHeaderInfo @connectionMethods={{this.connectionMethods}} />`);
+    const screen = await render(hbs`<Ui::LearnerHeaderInfo @authenticationMethods={{this.authenticationMethods}} />`);
 
     assert.strictEqual(
       screen.getByRole('term').textContent.trim(),
       this.intl.t('pages.sco-organization-participants.table.column.login-method')
     );
-    assert.strictEqual(screen.getByRole('definition').textContent.trim(), this.connectionMethods);
+    assert.strictEqual(
+      screen.getByRole('definition').textContent.trim(),
+      this.intl.t('pages.sco-organization-participants.connection-types.email')
+    );
   });
 
   test('it does not renders learner header information when there is no connection method', async function (assert) {
-    const screen = await render(hbs`<Ui::LearnerHeaderInfo @connectionMethods={{this.connectionMethods}} />`);
+    const screen = await render(hbs`<Ui::LearnerHeaderInfo @authenticationMethods={{this.authenticationMethods}} />`);
 
     assert.strictEqual(
       screen.queryByText(this.intl.t('pages.sco-organization-participants.table.column.login-method')),
