@@ -30,6 +30,7 @@ const { badgesBuilder } = require('./data/badges-builder');
 const tagsBuilder = require('./data/tags-builder');
 const { targetProfilesBuilder } = require('./data/target-profiles-builder');
 const { usersBuilder } = require('./data/users-builder');
+const { userLoginsBuilder } = require('./data/user-logins-builder');
 const pixAdminRolesBuilder = require('./data/pix-admin-roles-builder');
 const stagesBuilder = require('./data/stages-builder');
 const { certificationCpfCountryBuilder } = require('./data/certification/certification-cpf-country-builder');
@@ -102,6 +103,8 @@ exports.seed = async (knex) => {
 
   // Création d'envois pole emploi
   poleEmploiSendingsBuilder({ databaseBuilder });
+
+  userLoginsBuilder({ databaseBuilder });
 
   await richTargetProfilesBuilder({ databaseBuilder });
 
