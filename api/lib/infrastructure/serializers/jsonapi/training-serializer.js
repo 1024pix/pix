@@ -3,24 +3,27 @@ const { Serializer, Deserializer } = require('jsonapi-serializer');
 module.exports = {
   serializeForAdmin(training = {}, meta) {
     return new Serializer('trainings', {
-      transform(training) {
-        const duration = training.duration;
+      transform(record) {
+        const duration = record.duration;
         duration.days = duration.days || 0;
         duration.hours = duration.hours || 0;
         duration.minutes = duration.minutes || 0;
 
         return {
-          ...training,
-          triggers: training.triggers.map((trigger) => ({
-            ...trigger,
-            triggerTubes: trigger.triggerTubes.map((triggerTube) => ({
-              ...triggerTube,
-              tube: { ...triggerTube.tube },
-            })),
-          })),
+          ...record,
+          triggers: record.triggers.map((trigger) => {
+            return {
+              ...trigger,
+              triggerTubes: trigger.triggerTubes.map((triggerTube) => ({
+                ...triggerTube,
+                tube: { ...triggerTube.tube },
+              })),
+            };
+          }),
         };
       },
       attributes: [
+        'id',
         'duration',
         'link',
         'locale',
@@ -33,13 +36,28 @@ module.exports = {
       ],
       triggers: {
         ref: 'id',
-        attributes: ['threshold', 'triggerTubes', 'type'],
+        attributes: ['id', 'trainingId', 'type', 'threshold', 'triggerTubes', 'areas'],
         triggerTubes: {
           ref: 'id',
-          attributes: ['level', 'tube'],
+          included: true,
+          attributes: ['id', 'level', 'tube'],
           tube: {
             ref: 'id',
-            attributes: ['name', 'practicalTitle', 'skills'],
+            attributes: ['id', 'name', 'practicalTitle'],
+          },
+        },
+        areas: {
+          ref: 'id',
+          attributes: ['id', 'title', 'code', 'color', 'competences'],
+          competences: {
+            ref: 'id',
+            included: true,
+            attributes: ['id', 'name', 'index', 'thematics'],
+            thematics: {
+              ref: 'id',
+              included: true,
+              attributes: ['id', 'name', 'index', 'triggerTubes'],
+            },
           },
         },
       },
@@ -53,6 +71,7 @@ module.exports = {
           },
         },
       },
+      meta,
       typeForAttribute(attribute) {
         switch (attribute) {
           case 'triggerTubes':
@@ -63,7 +82,6 @@ module.exports = {
             return attribute;
         }
       },
-      meta,
     }).serialize(training);
   },
 
