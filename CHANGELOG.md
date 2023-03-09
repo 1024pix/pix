@@ -1,5 +1,29 @@
 # Pix Changelog
 
+## v3.333.0 (09/03/2023)
+
+
+### :rocket: Amélioration
+- [#5771](https://github.com/1024pix/pix/pull/5771) [FEATURE] Ne pas afficher les boutons d'import en masses des sessions pour les anglophones sur Pix Certif (PIX-7348).
+- [#5778](https://github.com/1024pix/pix/pull/5778) [FEATURE][ADMIN] Obtenir la liste des utilisateurs triés par le prénom, nom et id lors d'une recherche (PIX-7136)
+- [#5766](https://github.com/1024pix/pix/pull/5766) [FEATURE] Onglet "Candidats" d'une session en anglais (PIX-6670)
+- [#5768](https://github.com/1024pix/pix/pull/5768) [FEATURE] Ajoute un fil d'ariane sur les pages de détails d'une participation (PIX-7294)
+- [#5387](https://github.com/1024pix/pix/pull/5387) [FEATURE] Migration des profils cibles (PIX-6596)
+
+### :building_construction: Tech
+- [#5789](https://github.com/1024pix/pix/pull/5789) [TECH] Préparer l'utilisation unique des exports nommés dans lib - Partie 3 (PIX-7202)
+- [#5784](https://github.com/1024pix/pix/pull/5784) [TECH] Préparer l'utilisation unique des exports nommés dans lib - Partie 2 (PIX-7202)
+- [#5779](https://github.com/1024pix/pix/pull/5779) [TECH] Ajouter un champ "locale" dans la table "users" (PIX-6905)
+- [#5777](https://github.com/1024pix/pix/pull/5777) [TECH] Préparer l'utilisation unique des exports nommés dans lib (PIX-7202)
+
+### :bug: Correction
+- [#5765](https://github.com/1024pix/pix/pull/5765) [BUGFIX] Corriger les liens dans le footer et sur la page d'invitation sur Pix Orga (PIX-7178)
+- [#5775](https://github.com/1024pix/pix/pull/5775) [BUGFIX] Rendre visible le lien du numéro de session sur Pix Admin (PIX-7133).
+- [#5790](https://github.com/1024pix/pix/pull/5790) [BUGFIX] Une erreur est levée lors de l'arrêt de l'api - Partie 2 (PIX-7202)
+- [#5783](https://github.com/1024pix/pix/pull/5783) [BUGFIX] Une erreur est levée lors de l'arrêt de l'api (PIX-7202)
+- [#5767](https://github.com/1024pix/pix/pull/5767) [BUGFIX] Consultation de Résultat thématique - Problème d'affichage du contenu du tableau
+- [#5772](https://github.com/1024pix/pix/pull/5772) [BUGFIX] Convertir le temps majoré en decimal lors de l'import des sessions en masse sur Pix Certif (PIX-7351)
+
 ## v3.332.0 (07/03/2023)
 
 
