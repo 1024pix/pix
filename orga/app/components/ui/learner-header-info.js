@@ -10,13 +10,7 @@ const CONNECTION_TYPES = {
 };
 export default class LearnerHeaderInfo extends Component {
   @service intl;
-  constructor() {
-    super(...arguments);
-  }
 
-  get group() {
-    return this.args.organizationLearner.division;
-  }
   get connectionMethods() {
     const connectionMethodsList = [];
 
