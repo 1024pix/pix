@@ -164,6 +164,50 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
           expect(matchingUsers[0]).to.be.an.instanceOf(User);
           expect(pagination).to.deep.equal(expectedPagination);
         });
+
+        it('returns an array of users sorted by first name, last name and id', async function () {
+          // Given
+          const filter = {};
+          const page = { number: 1, size: 10 };
+
+          const alexTerieur = databaseBuilder.factory.buildUser({ firstName: 'Alex', lastName: 'Térieur' });
+          const alainTerieur2 = databaseBuilder.factory.buildUser({
+            id: 300302,
+            firstName: 'Alain',
+            lastName: 'Térieur',
+          });
+          const alainTerieur1 = databaseBuilder.factory.buildUser({
+            id: 300301,
+            firstName: 'Alain',
+            lastName: 'Térieur',
+          });
+          const justinPtipeu = databaseBuilder.factory.buildUser({ firstName: 'Justin', lastName: 'Ptipeu' });
+          await databaseBuilder.commit();
+
+          // when
+          const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
+
+          // then
+          const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 4 };
+
+          expect(matchingUsers).to.exist;
+          expect(matchingUsers).to.have.lengthOf(4);
+          expect(matchingUsers[0].id).to.equal(alainTerieur1.id);
+          expect(`${matchingUsers[0].firstName} ${matchingUsers[0].lastName}`).to.equal(
+            `${alainTerieur1.firstName} ${alainTerieur1.lastName}`
+          );
+          expect(matchingUsers[1].id).to.equal(alainTerieur2.id);
+          expect(`${matchingUsers[1].firstName} ${matchingUsers[1].lastName}`).to.equal(
+            `${alainTerieur2.firstName} ${alainTerieur2.lastName}`
+          );
+          expect(`${matchingUsers[2].firstName} ${matchingUsers[2].lastName}`).to.equal(
+            `${alexTerieur.firstName} ${alexTerieur.lastName}`
+          );
+          expect(`${matchingUsers[3].firstName} ${matchingUsers[3].lastName}`).to.equal(
+            `${justinPtipeu.firstName} ${justinPtipeu.lastName}`
+          );
+          expect(pagination).to.deep.equal(expectedPagination);
+        });
       });
 
       context('when there are lots of users (> 10) in the database', function () {
