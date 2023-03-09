@@ -42,6 +42,18 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
     });
   });
 
+  test('it displays header information', async function (assert) {
+    // given
+    await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+    // when
+    const screen = await visit(`/certifications/${certification.id}`);
+
+    // then
+    assert.dom(screen.getByRole('heading', { name: 'Certifications' })).exists();
+    assert.dom(screen.getByRole('textbox', { name: 'Rechercher une session avec un identifiant' })).exists();
+  });
+
   module('certification information read', function () {
     test('it displays candidate information', async function (assert) {
       // given

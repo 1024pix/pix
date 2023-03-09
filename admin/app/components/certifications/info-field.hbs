@@ -14,7 +14,7 @@
   {{else}}
     <p>{{@label}}</p>
     {{#if @linkRoute}}
-      <LinkTo @route={{@linkRoute}} @model={{@value}}>
+      <LinkTo @route={{@linkRoute}} @model={{@value}} class="certification-info-field__link">
         {{this.valueWithSuffix}}
       </LinkTo>
     {{else}}
