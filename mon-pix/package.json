@@ -46,6 +46,9 @@
     "@ember/optional-features": "^2.0.0",
     "@ember/render-modifiers": "^2.0.4",
     "@ember/test-helpers": "^2.8.1",
+    "@embroider/compat": "^2.1.1",
+    "@embroider/core": "^2.1.1",
+    "@embroider/webpack": "^2.1.1",
     "@formatjs/intl": "^2.5.1",
     "@formatjs/intl-getcanonicallocales": "^2.0.4",
     "@formatjs/intl-locale": "^3.0.7",
@@ -128,7 +131,7 @@
     "stylelint-config-rational-order": "^0.1.2",
     "stylelint-config-standard-scss": "^6.1.0",
     "stylelint-order": "^5.0.0",
-    "webpack": "^5.75.0",
+    "webpack": "^5.76.0",
     "xss": "^1.0.13"
   }
 }
