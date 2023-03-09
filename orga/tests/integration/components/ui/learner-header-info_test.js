@@ -1,43 +1,56 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 
 module('Integration | Component | Ui::LearnerHeaderInfo', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('it renders learner header information when there is a group', async function (assert) {
-    const organizationLearner = {
-      email: 'organizationlearner@example.net',
-      division: '3E',
-      authenticationMethods: [],
-    };
-    const groupName = 'Groupe';
+  test('it renders learner header information when there is a groupName', async function (assert) {
+    const groupName = this.intl.t('components.group.SCO');
+    const group = '3E';
 
     this.set('groupName', groupName);
-    this.set('organizationLearner', organizationLearner);
+    this.set('group', group);
 
-    await render(
-      hbs`<Ui::LearnerHeaderInfo @organizationLearner={{this.organizationLearner}} @groupName={{this.groupName}} />`
-    );
+    const screen = await render(hbs`<Ui::LearnerHeaderInfo @group={{this.group}} @groupName={{this.groupName}} />`);
 
-    assert.contains('3E');
-    assert.contains('Adresse e-mail');
-    assert.contains('Groupe');
+    assert.strictEqual(screen.getByRole('term').textContent.trim(), this.groupName);
+    assert.strictEqual(screen.getByRole('definition').textContent.trim(), this.group);
   });
 
   test('it does not render learner division header information when there is no groupName', async function (assert) {
-    const organizationLearner = {
-      email: 'organizationlearner@example.net',
-      authenticationMethods: [],
-    };
+    const screen = await render(hbs`<Ui::LearnerHeaderInfo />`);
 
-    this.set('organizationLearner', organizationLearner);
+    assert.strictEqual(screen.queryByText(this.intl.t('components.group.SCO')), null);
+    assert.strictEqual(screen.queryByText('3E'), null);
+  });
 
-    await render(hbs`<Ui::LearnerHeaderInfo @organizationLearner={{this.organizationLearner}} />`);
+  test('it renders learner header information when there is a connection method', async function (assert) {
+    const connectionMethods = this.intl.t('pages.sco-organization-participants.connection-types.email');
 
-    assert.notContains('3E');
-    assert.contains('Adresse e-mail');
+    this.set('connectionMethods', connectionMethods);
+
+    const screen = await render(hbs`<Ui::LearnerHeaderInfo @connectionMethods={{this.connectionMethods}} />`);
+
+    assert.strictEqual(
+      screen.getByRole('term').textContent.trim(),
+      this.intl.t('pages.sco-organization-participants.table.column.login-method')
+    );
+    assert.strictEqual(screen.getByRole('definition').textContent.trim(), this.connectionMethods);
+  });
+
+  test('it does not renders learner header information when there is no connection method', async function (assert) {
+    const screen = await render(hbs`<Ui::LearnerHeaderInfo @connectionMethods={{this.connectionMethods}} />`);
+
+    assert.strictEqual(
+      screen.queryByText(this.intl.t('pages.sco-organization-participants.table.column.login-method')),
+      null
+    );
+    assert.strictEqual(
+      screen.queryByText(this.intl.t('pages.sco-organization-participants.connection-types.email')),
+      null
+    );
   });
 
   test('it renders learner header information when learner is certifiable', async function (assert) {
@@ -47,26 +60,32 @@ module('Integration | Component | Ui::LearnerHeaderInfo', function (hooks) {
     this.set('isCertifiable', isCertifiable);
     this.set('certifiableAt', certifiableAt);
 
-    await render(
+    const screen = await render(
       hbs`<Ui::LearnerHeaderInfo @isCertifiable={{this.isCertifiable}} @certifiableAt={{this.certifiableAt}} />`
     );
 
-    assert.contains('Certifiable');
-    assert.contains('01/01/2023');
+    assert.strictEqual(
+      screen.getByRole('term').textContent.trim(),
+      this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible')
+    );
+    assert.strictEqual(screen.getByRole('definition').textContent.trim(), '01/01/2023');
   });
 
-  test('it does not render learner division header information when learner is not certifiable', async function (assert) {
+  test('it does not render learner header information about certificability when learner is not certifiable', async function (assert) {
     const isCertifiable = false;
     const certifiableAt = null;
 
     this.set('isCertifiable', isCertifiable);
     this.set('certifiableAt', certifiableAt);
 
-    await render(
+    const screen = await render(
       hbs`<Ui::LearnerHeaderInfo @isCertifiable={{this.isCertifiable}} @certifiableAt={{this.certifiableAt}} />`
     );
 
-    assert.notContains('Certifiable');
-    assert.notContains('01/01/2023');
+    assert.strictEqual(
+      screen.queryByText(this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible')),
+      null
+    );
+    assert.strictEqual(screen.queryByText('01/01/2023'), null);
   });
 });
