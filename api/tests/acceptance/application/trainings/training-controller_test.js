@@ -18,30 +18,43 @@ describe('Acceptance | Controller | training-controller', function () {
 
   describe('GET /api/admin/trainings/{trainingId}', function () {
     let learningContent;
-    let tubeName;
+    let areaId;
+    let competenceId;
+    let thematicId;
+    let tubeId;
 
     beforeEach(async function () {
-      tubeName = 'tube0_0';
+      areaId = 'recArea1';
+      competenceId = 'recCompetence1';
+      thematicId = 'recThematic1';
+      tubeId = 'recTube0_0';
+
       learningContent = [
         {
           areas: [
             {
-              id: 'recArea1',
-              titleFrFr: 'area1_Title',
+              id: areaId,
+              titleFr: 'area1_Title',
               color: 'someColor',
               competences: [
                 {
-                  id: 'competenceId',
-                  nameFrFr: 'Mener une recherche et une veille d’information',
+                  id: competenceId,
+                  name: 'Mener une recherche et une veille d’information',
                   index: '1.1',
-                  tubes: [
+                  thematics: [
                     {
-                      id: 'recTube0_0',
-                      name: tubeName,
-                      skills: [
+                      id: thematicId,
+                      name: 'thematic1_Name',
+                      tubes: [
                         {
-                          id: 'skillWeb2Id',
-                          nom: '@web2',
+                          id: tubeId,
+                          name: 'tube1_Name',
+                          skills: [
+                            {
+                              id: 'skillWeb2Id',
+                              nom: '@web2',
+                            },
+                          ],
                         },
                       ],
                     },
@@ -65,7 +78,7 @@ describe('Acceptance | Controller | training-controller', function () {
       const trainingTrigger = databaseBuilder.factory.buildTrainingTrigger({ trainingId });
       const trainingTriggerTube = databaseBuilder.factory.buildTrainingTriggerTube({
         trainingTriggerId: trainingTrigger.id,
-        tubeId: 'recTube0_0',
+        tubeId: tubeId,
       });
       await databaseBuilder.commit();
 
@@ -73,6 +86,7 @@ describe('Acceptance | Controller | training-controller', function () {
         type: 'trainings',
         id: `${trainingId}`,
         attributes: {
+          id: trainingId,
           title: trainingAttributes.title,
           type: trainingAttributes.type,
           link: trainingAttributes.link,
@@ -103,14 +117,27 @@ describe('Acceptance | Controller | training-controller', function () {
       expect(response.result.data.attributes).to.deep.equal(expectedResponse.attributes);
 
       const returnedTube = response.result.included.find((included) => included.type === 'tubes').attributes;
-      expect(returnedTube.name).to.deep.equal(tubeName);
+      expect(returnedTube.id).to.deep.equal(tubeId);
       const returnedTriggerTube = response.result.included.find(
         (included) => included.type === 'trigger-tubes'
       ).attributes;
-      expect(returnedTriggerTube.level).to.deep.equal(trainingTriggerTube.level);
+      expect(returnedTriggerTube.id).to.deep.equal(trainingTriggerTube.id);
+
       const returnedTrigger = response.result.included.find((included) => included.type === 'triggers').attributes;
-      expect(returnedTrigger.type).to.deep.equal(trainingTrigger.type);
-      expect(returnedTrigger.threshold).to.deep.equal(trainingTrigger.threshold);
+      expect(returnedTrigger.id).to.deep.equal(trainingTrigger.id);
+
+      const returnedTriggerArea = response.result.included.find((included) => included.type === 'areas').attributes;
+      expect(returnedTriggerArea.id).to.deep.equal(areaId);
+
+      const returnedTriggerCompetence = response.result.included.find(
+        (included) => included.type === 'competences'
+      ).attributes;
+      expect(returnedTriggerCompetence.id).to.deep.equal(competenceId);
+
+      const returnedTriggerThematic = response.result.included.find(
+        (included) => included.type === 'thematics'
+      ).attributes;
+      expect(returnedTriggerThematic.id).to.deep.equal(thematicId);
     });
   });
 
@@ -302,7 +329,7 @@ describe('Acceptance | Controller | training-controller', function () {
           areas: [
             {
               id: 'recArea1',
-              titleFrFr: 'area1_Title',
+              title: 'area1_Title',
               color: 'someColor',
               competences: [
                 {
