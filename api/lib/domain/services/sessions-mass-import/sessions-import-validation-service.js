@@ -8,46 +8,29 @@ module.exports = {
 
     if (sessionId) {
       if (_hasSessionInfo(session)) {
-        sessionErrors.push({
-          code: 'INFORMATION_NOT_ALLOWED_WITH_SESSION_ID',
-          line,
-        });
+        _addToErrorList({ errorList: sessionErrors, line, codes: ['INFORMATION_NOT_ALLOWED_WITH_SESSION_ID'] });
       }
 
       if (await _isSessionStarted({ certificationCourseRepository, sessionId })) {
-        sessionErrors.push({
-          code: 'CANDIDATE_NOT_ALLOWED_FOR_STARTED_SESSION',
-          line,
-        });
+        _addToErrorList({ errorList: sessionErrors, line, codes: ['CANDIDATE_NOT_ALLOWED_FOR_STARTED_SESSION'] });
       }
     } else {
       const isSessionExisting = await sessionRepository.isSessionExisting({ ...session });
       if (isSessionExisting) {
-        sessionErrors.push({
-          code: `SESSION_WITH_DATE_AND_TIME_ALREADY_EXISTS`,
-          line,
-        });
+        _addToErrorList({ errorList: sessionErrors, line, codes: [`SESSION_WITH_DATE_AND_TIME_ALREADY_EXISTS`] });
       }
 
       if (session.isSessionScheduledInThePast()) {
-        sessionErrors.push({
-          code: 'SESSION_SCHEDULED_IN_THE_PAST',
-          line,
-        });
+        _addToErrorList({ errorList: sessionErrors, line, codes: ['SESSION_SCHEDULED_IN_THE_PAST'] });
       }
 
-      const validationErrors = sessionValidator.validateForMassSessionImport(session, line);
-      if (validationErrors?.length) {
-        sessionErrors.push(...validationErrors);
-      }
+      const errorCodes = sessionValidator.validateForMassSessionImport(session);
+      _addToErrorList({ errorList: sessionErrors, line, codes: errorCodes });
     }
 
     if (session.certificationCandidates?.length) {
       if (_hasDuplicateCertificationCandidates(session.certificationCandidates)) {
-        sessionErrors.push({
-          code: 'DUPLICATE_CANDIDATE_NOT_ALLOWED_IN_SESSION',
-          line,
-        });
+        _addToErrorList({ errorList: sessionErrors, line, codes: ['DUPLICATE_CANDIDATE_NOT_ALLOWED_IN_SESSION'] });
       }
     }
 
@@ -64,15 +47,13 @@ module.exports = {
     const certificationCandidateErrors = [];
 
     if (_isExtraTimePercentageBelowOne(candidate.extraTimePercentage)) {
-      certificationCandidateErrors.push('Temps majoré doit être supérieur à 1');
+      _addToErrorList({ errorList: certificationCandidateErrors, line, codes: ['CANDIDATE_EXTRA_TIME_BELOW_ONE'] });
     } else {
       candidate.convertExtraTimePercentageToDecimal();
     }
 
-    const validationErrors = candidate.validateForMassSessionImport({ isSco, line });
-    if (validationErrors) {
-      certificationCandidateErrors.push(...validationErrors);
-    }
+    const errorCodes = candidate.validateForMassSessionImport(isSco);
+    _addToErrorList({ errorList: certificationCandidateErrors, line, codes: errorCodes });
 
     const cpfBirthInformation = await certificationCpfService.getBirthInformation({
       birthCountry: candidate.birthCountry,
@@ -98,6 +79,11 @@ module.exports = {
     };
   },
 };
+
+function _addToErrorList({ errorList, line, codes = [] }) {
+  const errors = codes.map((code) => ({ code, line }));
+  errorList.push(...errors);
+}
 
 function _isExtraTimePercentageBelowOne(extraTimePercentage) {
   return extraTimePercentage && extraTimePercentage < 1;

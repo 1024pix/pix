@@ -1,6 +1,9 @@
-const Joi = require('joi');
+const BaseJoi = require('joi');
+const JoiDate = require('@joi/date');
+const Joi = BaseJoi.extend(JoiDate);
 const { statuses } = require('../models/Session.js');
 const { types } = require('../models/CertificationCenter.js');
+const { CERTIFICATION_SESSIONS_ERRORS } = require('../constants/sessions-errors');
 
 const { EntityValidationError } = require('../errors.js');
 const identifiersType = require('../../domain/types/identifiers-type.js');
@@ -9,61 +12,62 @@ const validationConfiguration = { abortEarly: false, allowUnknown: true };
 
 const sessionValidationJoiSchema = Joi.object({
   address: Joi.string().required().messages({
-    'string.base': 'Veuillez indiquer un nom de site.',
-    'string.empty': 'Veuillez indiquer un nom de site.',
+    'string.base': CERTIFICATION_SESSIONS_ERRORS.SESSION_ADDRESS_REQUIRED.getMessage(),
+    'string.empty': CERTIFICATION_SESSIONS_ERRORS.SESSION_ADDRESS_REQUIRED.getMessage(),
   }),
 
   room: Joi.string().required().messages({
-    'string.base': 'Veuillez indiquer un nom de salle.',
-    'string.empty': 'Veuillez indiquer un nom de salle.',
+    'string.base': CERTIFICATION_SESSIONS_ERRORS.SESSION_ROOM_REQUIRED.getMessage(),
+    'string.empty': CERTIFICATION_SESSIONS_ERRORS.SESSION_ROOM_REQUIRED.getMessage(),
   }),
 
   date: Joi.string().isoDate().required().messages({
-    'string.empty': 'Veuillez indiquer une date de début.',
+    'string.empty': CERTIFICATION_SESSIONS_ERRORS.SESSION_DATE_REQUIRED.getMessage(),
   }),
 
   time: Joi.string()
     .pattern(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/)
     .required()
     .messages({
-      'string.base': 'Veuillez indiquer une heure de début.',
-      'string.empty': 'Veuillez indiquer une heure de début.',
-      'string.pattern.base': 'Veuillez indiquer une heure de début.',
+      'string.base': CERTIFICATION_SESSIONS_ERRORS.SESSION_TIME_REQUIRED.getMessage(),
+      'string.empty': CERTIFICATION_SESSIONS_ERRORS.SESSION_TIME_REQUIRED.getMessage(),
+      'string.pattern.base': CERTIFICATION_SESSIONS_ERRORS.SESSION_TIME_REQUIRED.getMessage(),
     }),
 
   examiner: Joi.string().required().messages({
-    'string.base': 'Veuillez indiquer un(e) surveillant(e).',
-    'string.empty': 'Veuillez indiquer un(e) surveillant(e).',
+    'string.base': CERTIFICATION_SESSIONS_ERRORS.SESSION_EXAMINER_REQUIRED.getMessage(),
+    'string.empty': CERTIFICATION_SESSIONS_ERRORS.SESSION_EXAMINER_REQUIRED.getMessage(),
   }),
 });
 
 const sessionValidationForMassImportJoiSchema = Joi.object({
   address: Joi.string().required().messages({
-    'string.base': 'SESSION_ADDRESS_REQUIRED',
-    'string.empty': 'SESSION_ADDRESS_REQUIRED',
+    'string.base': CERTIFICATION_SESSIONS_ERRORS.SESSION_ADDRESS_REQUIRED.code,
+    'string.empty': CERTIFICATION_SESSIONS_ERRORS.SESSION_ADDRESS_REQUIRED.code,
   }),
 
   room: Joi.string().required().messages({
-    'string.base': 'SESSION_ROOM_REQUIRED',
-    'string.empty': 'SESSION_ROOM_REQUIRED',
+    'string.base': CERTIFICATION_SESSIONS_ERRORS.SESSION_ROOM_REQUIRED.code,
+    'string.empty': CERTIFICATION_SESSIONS_ERRORS.SESSION_ROOM_REQUIRED.code,
   }),
 
-  date: Joi.string().isoDate().required().messages({
-    'string.empty': 'SESSION_DATE_REQUIRED',
+  date: Joi.date().format('YYYY-MM-DD').required().empty(['', null]).messages({
+    'any.required': CERTIFICATION_SESSIONS_ERRORS.SESSION_DATE_REQUIRED.code,
+    'date.format': CERTIFICATION_SESSIONS_ERRORS.SESSION_DATE_NOT_VALID.code,
   }),
 
   time: Joi.string()
     .pattern(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/)
     .required()
     .messages({
-      'string.base': 'SESSION_TIME_REQUIRED',
-      'string.empty': 'SESSION_TIME_REQUIRED',
-      'string.pattern.base': 'SESSION_TIME_REQUIRED',
+      'string.base': CERTIFICATION_SESSIONS_ERRORS.SESSION_TIME_REQUIRED.code,
+      'string.empty': CERTIFICATION_SESSIONS_ERRORS.SESSION_TIME_REQUIRED.code,
+      'string.pattern.base': CERTIFICATION_SESSIONS_ERRORS.SESSION_TIME_NOT_VALID.code,
     }),
 
   examiner: Joi.string().required().messages({
-    'string.base': 'SESSION_EXAMINER_REQUIRED',
-    'string.empty': 'SESSION_EXAMINER_REQUIRED',
+    'string.base': CERTIFICATION_SESSIONS_ERRORS.SESSION_EXAMINER_REQUIRED.code,
+    'string.empty': CERTIFICATION_SESSIONS_ERRORS.SESSION_EXAMINER_REQUIRED.code,
   }),
 });
 
@@ -87,10 +91,10 @@ module.exports = {
     }
   },
 
-  validateForMassSessionImport(session, line) {
+  validateForMassSessionImport(session) {
     const { error } = sessionValidationForMassImportJoiSchema.validate(session, validationConfiguration);
     if (error) {
-      return error.details.map(({ message }) => ({ code: message, line }));
+      return error.details.map(({ message }) => message);
     }
   },
 

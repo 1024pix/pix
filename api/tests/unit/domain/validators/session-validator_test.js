@@ -175,12 +175,7 @@ describe('Unit | Domain | Validators | session-validator', function () {
           const report = sessionValidator.validateForMassSessionImport(session, 1);
 
           // then
-          expect(report).to.deep.equal([
-            {
-              code: 'SESSION_ADDRESS_REQUIRED',
-              line: 1,
-            },
-          ]);
+          expect(report).to.deep.equal(['SESSION_ADDRESS_REQUIRED']);
         });
       });
 
@@ -193,12 +188,7 @@ describe('Unit | Domain | Validators | session-validator', function () {
           const report = sessionValidator.validateForMassSessionImport(session, 1);
 
           // then
-          expect(report).to.deep.equal([
-            {
-              code: 'SESSION_ROOM_REQUIRED',
-              line: 1,
-            },
-          ]);
+          expect(report).to.deep.equal(['SESSION_ROOM_REQUIRED']);
         });
       });
 
@@ -211,12 +201,18 @@ describe('Unit | Domain | Validators | session-validator', function () {
           const report = sessionValidator.validateForMassSessionImport(session, 1);
 
           // then
-          expect(report).to.deep.equal([
-            {
-              code: 'SESSION_DATE_REQUIRED',
-              line: 1,
-            },
-          ]);
+          expect(report).to.deep.equal(['SESSION_DATE_REQUIRED']);
+        });
+
+        it('should reject with error when date is not valid', function () {
+          // given
+          session.date = '2021-02';
+
+          // when
+          const report = sessionValidator.validateForMassSessionImport(session, 1);
+
+          // then
+          expect(report).to.deep.equal(['SESSION_DATE_NOT_VALID']);
         });
       });
 
@@ -229,12 +225,7 @@ describe('Unit | Domain | Validators | session-validator', function () {
           const report = sessionValidator.validateForMassSessionImport(session, 1);
 
           // then
-          expect(report).to.deep.equal([
-            {
-              code: 'SESSION_TIME_REQUIRED',
-              line: 1,
-            },
-          ]);
+          expect(report).to.deep.equal(['SESSION_TIME_REQUIRED']);
         });
 
         it('should reject with error when time has a format different than HH:MM', function () {
@@ -245,12 +236,7 @@ describe('Unit | Domain | Validators | session-validator', function () {
           const report = sessionValidator.validateForMassSessionImport(session, 1);
 
           // then
-          expect(report).to.deep.equal([
-            {
-              code: 'SESSION_TIME_REQUIRED',
-              line: 1,
-            },
-          ]);
+          expect(report).to.deep.equal(['SESSION_TIME_NOT_VALID']);
         });
       });
 
@@ -263,12 +249,7 @@ describe('Unit | Domain | Validators | session-validator', function () {
           const report = sessionValidator.validateForMassSessionImport(session, 1);
 
           // then
-          expect(report).to.deep.equal([
-            {
-              code: 'SESSION_EXAMINER_REQUIRED',
-              line: 1,
-            },
-          ]);
+          expect(report).to.deep.equal(['SESSION_EXAMINER_REQUIRED']);
         });
       });
     });

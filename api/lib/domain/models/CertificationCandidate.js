@@ -240,7 +240,7 @@ class CertificationCandidate {
     }
   }
 
-  validateForMassSessionImport({ isSco = false, line }) {
+  validateForMassSessionImport(isSco = false) {
     const { error } = certificationCandidateValidationForMassImportJoiSchema.validate(this, {
       abortEarly: false,
       allowUnknown: true,
@@ -250,7 +250,7 @@ class CertificationCandidate {
       },
     });
     if (error) {
-      return error.details.map(({ message }) => ({ code: message, line }));
+      return error.details.map(({ message }) => message);
     }
   }
 

@@ -333,11 +333,12 @@ describe('Unit | Service | sessions import validation Service', function () {
         // when
         const { certificationCandidateErrors } =
           await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+            line: 1,
             candidate,
           });
 
         // then
-        expect(certificationCandidateErrors).to.deep.equal(['Temps majoré doit être supérieur à 1']);
+        expect(certificationCandidateErrors).to.deep.equal([{ code: 'CANDIDATE_EXTRA_TIME_BELOW_ONE', line: 1 }]);
       });
     });
 
