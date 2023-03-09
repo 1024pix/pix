@@ -1,11 +1,11 @@
 {
   "common": {
     "actions": {
+      "add": "Ajouter",
       "back": "Retour",
       "cancel": "Annuler",
       "close": "Fermer",
       "continue": "Continuer",
-      "add": "Ajouter",
       "delete": "Supprimer",
       "quit": "Quitter",
       "update": "Modifier"
