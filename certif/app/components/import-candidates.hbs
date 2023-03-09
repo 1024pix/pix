@@ -4,19 +4,20 @@
       <div class="panel-actions__header-icon">
         <FaIcon @icon="info" />
       </div>
-      <h3 class="panel-actions__header-title">Inscrire des candidats</h3>
+      <h3 class="panel-actions__header-title">{{t "pages.sessions.detail.candidates.panel-actions.title"}}</h3>
     </div>
     <div class="panel-actions__action-row">
       <div class="panel-actions__action-icon">
         <FaIcon @icon="file-download" />
       </div>
       <div class="panel-actions__description">
-        <h4 class="panel-actions__title">Télécharger le modèle de liste des candidats</h4>
-        <p class="panel-actions-description__information">Pour inscrire des candidats à la session, renseignez leurs
-          informations (Nom, Prénom, …) dans ce document.
-          <br />
-          Lors du premier téléchargement, le modèle de liste des candidats est vide. Il contiendra ensuite les
-          informations des candidats inscrits à la session.
+        <h4 class="panel-actions__title">{{t
+            "pages.sessions.detail.candidates.panel-actions.actions.download.extra-information"
+          }}</h4>
+        <p class="panel-actions-description__information">{{t
+            "pages.sessions.detail.candidates.panel-actions.actions.download.description"
+            htmlSafe=true
+          }}
         </p>
       </div>
       <div class="panel-actions__button">
@@ -26,8 +27,7 @@
           rel="noopener noreferrer"
           download
         >
-          Télécharger (.ods)&nbsp;
-          <FaIcon @icon="file-download" />
+          {{t "pages.sessions.detail.candidates.panel-actions.actions.download.label"}}
         </PixButtonLink>
       </div>
     </div>
@@ -37,18 +37,16 @@
           <FaIcon @icon="cloud-upload-alt" />
         </div>
         <div class="panel-actions__description">
-          <h4 class="panel-actions__title">Importer la liste des candidats</h4>
+          <h4 class="panel-actions__title">{{t
+              "pages.sessions.detail.candidates.panel-actions.actions.upload.extra-information"
+            }}</h4>
           <p class="panel-actions-description__information">
-            Sélectionnez la liste des candidats préalablement remplie.
-            <br />
-            <strong>
-              Attention, tout nouvel import efface la liste des candidats existante.
-            </strong>
+            {{t "pages.sessions.detail.candidates.panel-actions.actions.upload.description" htmlSafe=true}}
           </p>
         </div>
         <div class="panel-actions__button">
           <PixButtonUpload @id="upload-attendance-sheet" @onChange={{this.importCertificationCandidates}} accept=".ods">
-            Importer (.ods)&nbsp;<FaIcon @icon="cloud-upload-alt" />
+            {{t "pages.sessions.detail.candidates.panel-actions.actions.upload.label"}}
           </PixButtonUpload>
         </div>
       {{else}}
@@ -57,8 +55,7 @@
         </div>
         <div class="panel-actions__description">
           <strong class="panel-actions__warning">
-            La session a débuté, vous ne pouvez plus importer une liste de candidats.<br />Si vous souhaitez modifier la
-            liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous.
+            {{t "pages.sessions.detail.candidates.panel-actions.warning" htmlSafe=true}}
           </strong>
         </div>
       {{/if}}
