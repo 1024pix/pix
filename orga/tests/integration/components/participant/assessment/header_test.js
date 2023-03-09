@@ -148,7 +148,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
 
           assert.dom(`[aria-label="${t('pages.assessment-individual-results.stages.label')}"]`).exists();
           assert
-            .dom(screen.getByLabelText(t('pages.assessment-individual-results.stages.value', { count: 1, total: 2 })))
+            .dom(screen.getByText(t('pages.assessment-individual-results.stages.value', { count: 1, total: 2 })))
             .exists();
         });
       });
