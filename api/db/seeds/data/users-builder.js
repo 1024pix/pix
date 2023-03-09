@@ -203,6 +203,31 @@ function usersBuilder({ databaseBuilder }) {
     lastTermsOfServiceValidatedAt: null,
   };
   databaseBuilder.factory.buildUser.withRawPassword(userWithLastTermsOfServiceNotValidated);
+
+  databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Alex',
+    lastName: 'Térieur',
+    email: 'alex.terieur@example.net',
+    rawPassword: DEFAULT_PASSWORD,
+  });
+  databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Alain',
+    lastName: 'Térieur',
+    email: 'alain.terieur2@example.net',
+    rawPassword: DEFAULT_PASSWORD,
+  });
+  databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Alain',
+    lastName: 'Térieur',
+    email: 'alain.terieur1@example.net',
+    rawPassword: DEFAULT_PASSWORD,
+  });
+  databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Hin',
+    lastName: 'Térieur',
+    email: 'hin.terieur@example.net',
+    rawPassword: DEFAULT_PASSWORD,
+  });
 }
 
 module.exports = {
