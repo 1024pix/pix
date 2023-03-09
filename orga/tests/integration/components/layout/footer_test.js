@@ -22,14 +22,14 @@ module('Integration | Component | Layout::Footer', function (hooks) {
   test('should display legal notice link', async function (assert) {
     // given
     const service = this.owner.lookup('service:url');
-    service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+    service.currentDomain = { getExtension: sinon.stub().returns('org') };
 
     // when
     const screen = await renderScreen(hbs`<Layout::Footer />}`);
 
     // then
     assert.dom(screen.getByText('Mentions légales')).exists();
-    assert.dom('a[href="https://pix.fr/mentions-legales"]').exists();
+    assert.dom('a[href="https://pix.org/fr/mentions-legales"]').exists();
   });
 
   test('should display accessibility link', async function (assert) {
