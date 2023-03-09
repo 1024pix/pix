@@ -12,7 +12,7 @@ module('Unit | Model | sco-organization-participant', function (hooks) {
         // when
         const model = store.createRecord('sco-organization-participant', organizationScoParticipant);
         // then
-        assert.deepEqual(model.authenticationMethods, ['pages.sco-organization-participants.connection-types.empty']);
+        assert.deepEqual(model.authenticationMethods, ['empty']);
       });
     });
 
@@ -30,9 +30,7 @@ module('Unit | Model | sco-organization-participant', function (hooks) {
           // when
           const model = store.createRecord('sco-organization-participant', organizationScoParticipant);
           // then
-          assert.deepEqual(model.authenticationMethods, [
-            'pages.sco-organization-participants.connection-types.identifiant',
-          ]);
+          assert.deepEqual(model.authenticationMethods, ['identifiant']);
         });
         test('it should return Adresse e-mail message key when identified by email', function (assert) {
           // given
@@ -46,7 +44,7 @@ module('Unit | Model | sco-organization-participant', function (hooks) {
           // when
           const model = store.createRecord('sco-organization-participant', organizationScoParticipant);
           // then
-          assert.deepEqual(model.authenticationMethods, ['pages.sco-organization-participants.connection-types.email']);
+          assert.deepEqual(model.authenticationMethods, ['email']);
         });
         test('it should return Mediacentre message key when identified from GAR', function (assert) {
           // given
@@ -60,9 +58,7 @@ module('Unit | Model | sco-organization-participant', function (hooks) {
           // when
           const model = store.createRecord('sco-organization-participant', organizationScoParticipant);
           // then
-          assert.deepEqual(model.authenticationMethods, [
-            'pages.sco-organization-participants.connection-types.mediacentre',
-          ]);
+          assert.deepEqual(model.authenticationMethods, ['mediacentre']);
         });
       });
 
@@ -81,10 +77,7 @@ module('Unit | Model | sco-organization-participant', function (hooks) {
           // when
           const model = store.createRecord('sco-organization-participant', organizationScoParticipant);
           // then
-          assert.deepEqual(model.authenticationMethods, [
-            'pages.sco-organization-participants.connection-types.email',
-            'pages.sco-organization-participants.connection-types.identifiant',
-          ]);
+          assert.deepEqual(model.authenticationMethods, ['email', 'identifiant']);
         });
       });
     });

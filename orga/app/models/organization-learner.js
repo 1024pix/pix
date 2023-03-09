@@ -1,16 +1,6 @@
 import Model, { attr } from '@ember-data/model';
-import { inject as service } from '@ember/service';
 
-const CONNECTION_TYPES = {
-  empty: 'pages.sco-organization-participants.connection-types.empty',
-  none: 'pages.sco-organization-participants.connection-types.none',
-  email: 'pages.sco-organization-participants.connection-types.email',
-  identifiant: 'pages.sco-organization-participants.connection-types.identifiant',
-  mediacentre: 'pages.sco-organization-participants.connection-types.mediacentre',
-};
 export default class OrganizationLearner extends Model {
-  @service intl;
-
   @attr('string') lastName;
   @attr('string') firstName;
   @attr('string') username;
@@ -21,14 +11,13 @@ export default class OrganizationLearner extends Model {
   @attr('boolean') isCertifiable;
   @attr('date', { allowNull: true }) certifiableAt;
 
-  get connectionMethods() {
-    const messages = [];
+  get authenticationMethodsList() {
+    const connectionMethodsList = [];
 
-    if (this.email) messages.push(this.intl.t(CONNECTION_TYPES['email']));
-    if (this.username) messages.push(this.intl.t(CONNECTION_TYPES['identifiant']));
-    if (this.authenticationMethods.includes('GAR')) messages.push(this.intl.t(CONNECTION_TYPES['mediacentre']));
-    if (messages.length === 0) messages.push(this.intl.t(CONNECTION_TYPES['empty']));
-
-    return messages.join(', ');
+    if (this.email) connectionMethodsList.push('email');
+    if (this.username) connectionMethodsList.push('identifiant');
+    if (this.authenticationMethods.includes('GAR')) connectionMethodsList.push('mediacentre');
+    if (connectionMethodsList.length === 0) connectionMethodsList.push('empty');
+    return connectionMethodsList;
   }
 }
