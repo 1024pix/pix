@@ -4,9 +4,8 @@ const types = {
 };
 
 class TrainingTrigger {
-  constructor({ id, trainingId, triggerTubes, type, threshold, areas = [], competences = [], thematics = [] } = {}) {
+  constructor({ id, triggerTubes, type, threshold, areas = [], competences = [], thematics = [] } = {}) {
     this.id = id;
-    this.trainingId = trainingId;
     this.triggerTubes = triggerTubes;
     if (!Object.values(types).includes(type)) {
       throw new Error('Invalid trigger type');

@@ -1,12 +1,12 @@
 const { Serializer, Deserializer } = require('jsonapi-serializer');
 
 module.exports = {
-  serialize(training = {}, meta) {
+  serialize(trainingTrigger = {}, meta) {
     return new Serializer('training-triggers', {
-      transform(training) {
+      transform(record) {
         return {
-          ...training,
-          triggerTubes: training.triggerTubes.map((triggerTube) => {
+          ...record,
+          triggerTubes: record.triggerTubes.map((triggerTube) => {
             return {
               ...triggerTube,
               tube: { ...triggerTube.tube },
@@ -14,14 +14,33 @@ module.exports = {
           }),
         };
       },
-      attributes: ['trainingId', 'type', 'threshold', 'triggerTubes'],
+      attributes: ['id', 'trainingId', 'type', 'threshold', 'triggerTubes', 'areas'],
       triggerTubes: {
         ref: 'id',
-        includes: true,
+        included: true,
         attributes: ['id', 'level', 'tube'],
         tube: {
           ref: 'id',
-          attributes: ['id', 'name', 'practicalTitle', 'practicalDescription', 'competences'],
+          attributes: ['id', 'name', 'practicalTitle'],
+        },
+      },
+      areas: {
+        ref: 'id',
+        included: true,
+        attributes: ['title', 'code', 'color', 'competences'],
+        competences: {
+          ref: 'id',
+          included: true,
+          attributes: ['name', 'index', 'thematics'],
+          thematics: {
+            ref: 'id',
+            included: true,
+            attributes: ['name', 'index', 'trainingTriggerTubes'],
+            trainingTriggerTubes: {
+              ref: 'id',
+              included: true,
+            },
+          },
         },
       },
       meta,
@@ -35,7 +54,7 @@ module.exports = {
             return attribute;
         }
       },
-    }).serialize(training);
+    }).serialize(trainingTrigger);
   },
 
   deserialize(payload) {
