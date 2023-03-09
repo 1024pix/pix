@@ -111,6 +111,26 @@ function trainingBuilder({ databaseBuilder }) {
     prerequisiteThreshold: 0,
     goalThreshold: 0,
   });
+  const trainingTrigger1 = databaseBuilder.factory.buildTrainingTrigger({
+    trainingId: training1.id,
+    threshold: 80,
+    type: 'prerequisite',
+  });
+  databaseBuilder.factory.buildTrainingTriggerTube({
+    trainingTriggerId: trainingTrigger1.id,
+    tubeId: 'recs1vdbHxX8X55G9',
+    level: 2,
+  });
+  databaseBuilder.factory.buildTrainingTriggerTube({
+    trainingTriggerId: trainingTrigger1.id,
+    tubeId: 'reccqGUKgzIOK8f9U',
+    level: 3,
+  });
+  databaseBuilder.factory.buildTrainingTriggerTube({
+    trainingTriggerId: trainingTrigger1.id,
+    tubeId: 'recBbCIEKgrQi7eb6',
+    level: 5,
+  });
   databaseBuilder.factory.buildTargetProfileTraining({
     trainingId: training1.id,
     targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE,
