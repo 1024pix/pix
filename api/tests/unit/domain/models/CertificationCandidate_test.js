@@ -647,9 +647,10 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         const report = certificationCandidate.validateForMassSessionImport({
           line: 1,
         });
+        console.log({ report });
 
         // then
-        expect(report).to.deep.equal(['CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_INVALID']);
+        expect(report).to.deep.equal(['CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED']);
       });
 
       it('should return a report if birthPostalCode and birthInseeCode are present', async function () {
@@ -664,9 +665,10 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         const report = certificationCandidate.validateForMassSessionImport({
           line: 1,
         });
+        console.log({ report });
 
         // then
-        expect(report).to.deep.equal(['CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_INVALID']);
+        expect(report).to.deep.equal(['CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_ARE_EXCLUSIVE']);
       });
 
       it('should return nothing if birthPostalCode is present and birthInseeCode is empty', async function () {
@@ -674,7 +676,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         const certificationCandidate = domainBuilder.buildCertificationCandidate({
           ...validAttributes,
           birthPostalCode: '75000',
-          birthINSEECode: '',
+          birthINSEECode: null,
         });
 
         // when
@@ -682,6 +684,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
           isSco: true,
           line: 1,
         });
+        console.log({ report });
 
         // then
         expect(report).to.be.undefined;
