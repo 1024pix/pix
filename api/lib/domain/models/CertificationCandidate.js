@@ -63,16 +63,13 @@ const certificationCandidateValidationForMassImportJoiSchema = Joi.object({
     'any.required': 'CANDIDATE_SEX_REQUIRED',
     'any.only': 'CANDIDATE_SEX_NOT_VALID',
   }),
-  birthPostalCode: Joi.string().empty(['', null]).required().messages({
-    'any.required': 'CANDIDATE_BIRTH_POSTAL_CODE_REQUIRED',
-  }),
   birthINSEECode: Joi.alternatives().conditional('birthPostalCode', {
-    is: Joi.exist(),
-    then: Joi.valid(null).messages({
-      'any.only': 'CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_INVALID',
+    is: Joi.string().empty(['', null]).required(),
+    then: Joi.string().empty(['', null]).forbidden().messages({
+      'any.unknown': 'CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_ARE_EXCLUSIVE',
     }),
     otherwise: Joi.string().empty(['', null]).required().messages({
-      'any.required': 'CANDIDATE_BIRTH_INSEE_CODE_REQUIRED',
+      'any.required': 'CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED',
     }),
   }),
   birthCountry: Joi.string().required().empty(['', null]).messages({
