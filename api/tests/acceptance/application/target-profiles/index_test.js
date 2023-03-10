@@ -83,6 +83,9 @@ describe('Acceptance | Route | target-profiles', function () {
 
     it('should return 200', async function () {
       // given
+      databaseBuilder.factory.buildOrganization({ id: 1 });
+      await databaseBuilder.commit();
+
       const options = {
         method: 'POST',
         url: '/api/admin/target-profiles',
@@ -96,7 +99,7 @@ describe('Acceptance | Route | target-profiles', function () {
               comment: 'coucou papa',
               'is-public': false,
               'image-url': 'http://some/image.ok',
-              'owner-organization-id': null,
+              'owner-organization-id': '1',
               tubes: [{ id: 'recTube1', level: 5 }],
             },
           },
