@@ -2,6 +2,7 @@ const { expect, sinon, domainBuilder } = require('../../../../test-helper');
 const sessionsImportValidationService = require('../../../../../lib/domain/services/sessions-mass-import/sessions-import-validation-service');
 const { CpfBirthInformationValidation } = require('../../../../../lib/domain/services/certification-cpf-service');
 const certificationCpfService = require('../../../../../lib/domain/services/certification-cpf-service');
+const noop = require('lodash/noop');
 
 describe('Unit | Service | sessions import validation Service', function () {
   describe('#validateSession', function () {
@@ -405,6 +406,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         const candidate = _buildValidCandidateData();
         const certificationCpfCountryRepository = Symbol();
         const certificationCpfCityRepository = Symbol();
+        const certificationCandidateError = { code: 'CPF_INCORRECT', getMessage: noop };
         certificationCpfService.getBirthInformation
           .withArgs({
             birthCountry: candidate.birthCountry,
@@ -414,7 +416,7 @@ describe('Unit | Service | sessions import validation Service', function () {
             certificationCpfCountryRepository,
             certificationCpfCityRepository,
           })
-          .resolves(CpfBirthInformationValidation.failure('CPF incorrect.'));
+          .resolves(CpfBirthInformationValidation.failure({ certificationCandidateError }));
 
         // when
         const result = await sessionsImportValidationService.getValidatedCandidateBirthInformation({
@@ -422,10 +424,11 @@ describe('Unit | Service | sessions import validation Service', function () {
           isSco: false,
           certificationCpfCountryRepository,
           certificationCpfCityRepository,
+          line: 1,
         });
 
         // then
-        expect(result.certificationCandidateErrors).to.deep.equal(['CPF incorrect.']);
+        expect(result.certificationCandidateErrors).to.deep.equal([{ code: 'CPF_INCORRECT', line: 1 }]);
       });
     });
   });

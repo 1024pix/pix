@@ -3,6 +3,7 @@ const {
   CpfBirthInformationValidation,
   getBirthInformation,
 } = require('../../../../lib/domain/services/certification-cpf-service');
+const { CERTIFICATION_CANDIDATES_ERRORS } = require('../../../../lib/domain/constants/certification-candidates-errors');
 
 describe('Unit | Service | Certification CPF service', function () {
   let certificationCpfCountryRepository;
@@ -32,7 +33,11 @@ describe('Unit | Service | Certification CPF service', function () {
         });
 
         // then
-        expect(result).to.deep.equal(CpfBirthInformationValidation.failure('Le champ pays est obligatoire.'));
+        expect(result).to.deep.equal(
+          CpfBirthInformationValidation.failure({
+            certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_COUNTRY_REQUIRED,
+          })
+        );
       });
     });
 
@@ -58,7 +63,10 @@ describe('Unit | Service | Certification CPF service', function () {
 
         // then
         expect(result).to.deep.equal(
-          CpfBirthInformationValidation.failure(`Le pays "${birthCountry}" n'a pas été trouvé.`)
+          CpfBirthInformationValidation.failure({
+            certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_COUNTRY_NOT_FOUND,
+            data: { birthCountry },
+          })
         );
       });
     });
@@ -92,7 +100,11 @@ describe('Unit | Service | Certification CPF service', function () {
           });
 
           // then
-          expect(result).to.deep.equal(CpfBirthInformationValidation.failure('Le champ ville est obligatoire.'));
+          expect(result).to.deep.equal(
+            CpfBirthInformationValidation.failure({
+              certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_CITY_REQUIRED,
+            })
+          );
         });
 
         it('should return a validation failure when postal code is defined', async function () {
@@ -123,9 +135,10 @@ describe('Unit | Service | Certification CPF service', function () {
 
           // then
           expect(result).to.deep.equal(
-            CpfBirthInformationValidation.failure(
-              'Le champ code postal ne doit pas être renseigné pour un pays étranger.'
-            )
+            CpfBirthInformationValidation.failure({
+              certificationCandidateError:
+                CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_POSTAL_CODE_ON_FOREIGN_COUNTRY_MUST_BE_EMPTY,
+            })
           );
         });
 
@@ -157,7 +170,9 @@ describe('Unit | Service | Certification CPF service', function () {
 
           // then
           expect(result).to.deep.equal(
-            CpfBirthInformationValidation.failure('La valeur du code INSEE doit être "99" pour un pays étranger.')
+            CpfBirthInformationValidation.failure({
+              certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FOREIGN_INSEE_CODE_NOT_VALID,
+            })
           );
         });
 
@@ -189,7 +204,9 @@ describe('Unit | Service | Certification CPF service', function () {
 
           // then
           expect(result).to.deep.equal(
-            CpfBirthInformationValidation.failure('La valeur du code INSEE doit être "99" pour un pays étranger.')
+            CpfBirthInformationValidation.failure({
+              certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FOREIGN_INSEE_CODE_NOT_VALID,
+            })
           );
         });
 
@@ -257,7 +274,10 @@ describe('Unit | Service | Certification CPF service', function () {
 
             // then
             expect(result).to.deep.equal(
-              CpfBirthInformationValidation.failure('Le champ code postal ou code INSEE doit être renseigné.')
+              CpfBirthInformationValidation.failure({
+                certificationCandidateError:
+                  CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED,
+              })
             );
           });
         });
@@ -287,9 +307,10 @@ describe('Unit | Service | Certification CPF service', function () {
 
             // then
             expect(result).to.deep.equal(
-              CpfBirthInformationValidation.failure(
-                'Seul l\'un des champs "Code postal" ou "Code Insee" doit être renseigné.'
-              )
+              CpfBirthInformationValidation.failure({
+                certificationCandidateError:
+                  CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_EXCLUSIVE,
+              })
             );
           });
         });
@@ -363,7 +384,10 @@ describe('Unit | Service | Certification CPF service', function () {
 
             // then
             expect(result).to.deep.equal(
-              CpfBirthInformationValidation.failure(`Le code INSEE "${birthINSEECode}" n'est pas valide.`)
+              CpfBirthInformationValidation.failure({
+                certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_INVALID,
+                data: { birthINSEECode },
+              })
             );
           });
 
@@ -393,9 +417,10 @@ describe('Unit | Service | Certification CPF service', function () {
 
             // then
             expect(result).to.deep.equal(
-              CpfBirthInformationValidation.failure(
-                "Le champ commune de naissance ne doit pas être renseigné lorsqu'un code INSEE est renseigné."
-              )
+              CpfBirthInformationValidation.failure({
+                certificationCandidateError:
+                  CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_EXCLUSIVE,
+              })
             );
           });
         });
@@ -519,7 +544,10 @@ describe('Unit | Service | Certification CPF service', function () {
 
             // then
             expect(result).to.deep.equal(
-              CpfBirthInformationValidation.failure(`Le code postal "${birthPostalCode}" n'est pas valide.`)
+              CpfBirthInformationValidation.failure({
+                certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_POSTAL_CODE_NOT_FOUND,
+                data: { birthPostalCode },
+              })
             );
           });
 
@@ -546,7 +574,11 @@ describe('Unit | Service | Certification CPF service', function () {
             });
 
             // then
-            expect(result).to.deep.equal(CpfBirthInformationValidation.failure('Le champ ville est obligatoire.'));
+            expect(result).to.deep.equal(
+              CpfBirthInformationValidation.failure({
+                certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_CITY_REQUIRED,
+              })
+            );
           });
 
           it('should return a validation failure when postal code does not match city name', async function () {
@@ -580,9 +612,10 @@ describe('Unit | Service | Certification CPF service', function () {
 
             // then
             expect(result).to.deep.equal(
-              CpfBirthInformationValidation.failure(
-                `Le code postal "${birthPostalCode}" ne correspond pas à la ville "${birthCity}"`
-              )
+              CpfBirthInformationValidation.failure({
+                certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_POSTAL_CODE_CITY_INVALID,
+                data: { birthPostalCode, birthCity },
+              })
             );
           });
         });
