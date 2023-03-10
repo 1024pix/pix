@@ -1,6 +1,9 @@
-import testSupport from 'ember-simple-auth/test-support';
+import { invalidateSession as invalidateSessionOrigin } from 'ember-simple-auth/test-support';
 
-export async function invalidateSession() {
+async function invalidateSession() {
   sessionStorage.clear();
-  await testSupport.invalidateSession();
+  await invalidateSessionOrigin();
 }
+
+export default invalidateSession;
+export { invalidateSession };
