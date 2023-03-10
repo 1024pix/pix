@@ -110,7 +110,7 @@ class CampaignAssessmentCsvLine {
       this.campaignParticipationInfo.isShared
         ? moment.utc(this.campaignParticipationInfo.sharedAt).format('YYYY-MM-DD')
         : this.emptyContent,
-      ...(this.stageCollection.totalStages > 0 ? [this._getReachedStage()] : []),
+      ...(this.stageCollection.hasStage ? [this._getReachedStage()] : []),
       ...(this.campaignParticipationInfo.isShared
         ? this._makeBadgesColumns()
         : this._makeEmptyColumns(this.targetProfile.badges.length)),

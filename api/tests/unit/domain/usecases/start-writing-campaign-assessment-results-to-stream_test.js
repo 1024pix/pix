@@ -17,14 +17,10 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
   const knowledgeElementRepository = { findGroupedByCompetencesForUsersWithinLearningContent: () => undefined };
   const badgeAcquisitionRepository = { getAcquiredBadgesByCampaignParticipations: () => undefined };
 
-  let writableStream;
-  let csvPromise;
-
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const i18n = getI18n();
+  let writableStream, csvPromise, i18n;
 
   beforeEach(function () {
+    i18n = getI18n();
     writableStream = new PassThrough();
     csvPromise = streamToPromise(writableStream);
   });

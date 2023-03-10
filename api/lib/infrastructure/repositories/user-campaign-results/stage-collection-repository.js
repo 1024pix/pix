@@ -38,26 +38,11 @@ function _computeStageThresholdForLevel(level, skills) {
   return Math.round((stageSkillsCount / skills.length) * 100);
 }
 
-async function _findSkills({ campaignId, filterByStatus = 'operative' }) {
+async function _findSkills({ campaignId }) {
   const skillIds = await _findSkillIds({ campaignId });
-  switch (filterByStatus) {
-    case 'operative':
-      return skillRepository.findOperativeByIds(skillIds);
-    case 'all':
-      return skillRepository.findByRecordIds(skillIds);
-    default:
-      throw new TypeError(`unknown filterByStatus value "${filterByStatus}", use "operative" or "all"`);
-  }
+  return skillRepository.findOperativeByIds(skillIds);
 }
 
-async function _findSkillIds({ campaignId }) {
-  let skillIds = await knex('campaign_skills').where({ campaignId }).pluck('skillId');
-  // TODO remove it after target profile skills migration
-  if (skillIds.length === 0) {
-    skillIds = await knex('target-profiles_skills')
-      .join('campaigns', 'campaigns.targetProfileId', 'target-profiles_skills.targetProfileId')
-      .where('campaigns.id', campaignId)
-      .pluck('skillId');
-  }
-  return skillIds;
+function _findSkillIds({ campaignId }) {
+  return knex('campaign_skills').where({ campaignId }).pluck('skillId');
 }

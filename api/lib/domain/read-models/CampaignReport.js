@@ -83,14 +83,14 @@ class CampaignReport {
 
   computeReachedStage(validatedSkillsCounts) {
     const totalValidatedSkillsCounts = validatedSkillsCounts.length;
-    let averagevalidatedSkillsCount = 0;
+    let averageValidatedSkillsCount = 0;
 
     if (totalValidatedSkillsCounts > 0) {
-      averagevalidatedSkillsCount = _.sum(validatedSkillsCounts) / totalValidatedSkillsCounts;
+      averageValidatedSkillsCount = _.sum(validatedSkillsCounts) / totalValidatedSkillsCounts;
     }
 
     if (this._stageCollection.hasStage) {
-      const reachedStage = this._stageCollection.getReachedStage(averagevalidatedSkillsCount, this.averageResult * 100);
+      const reachedStage = this._stageCollection.getReachedStage(averageValidatedSkillsCount, this.averageResult * 100);
       this.reachedStage = reachedStage.reachedStage;
       this.totalStage = reachedStage.totalStage;
     }
