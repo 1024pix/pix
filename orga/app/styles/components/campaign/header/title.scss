@@ -1,19 +1,32 @@
 .campaign-header-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 24px 0;
+  margin: 32px 0;
 
-  &__headline {
+  &__informations {
     display: flex;
+    justify-content: space-between;
     align-items: center;
   }
+  
+  &__breadcrumb {
+    margin-bottom: $spacing-s;
+  }
 
-  &__infos {
+  &__name {
+    @include h2;
+
+    flex: 0 1 auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: $spacing-s; 
+  }
+
+  &__details {
     display: flex;
     align-items: center;
     margin: 0;
     padding: 0;
+    flex: 0 0 auto;
 
     & > * {
       padding-right: 15px;
@@ -28,7 +41,7 @@
     }
   }
 
-  &__info-item {
+  &__detail-item {
     color: $pix-neutral-60;
     font-family: $font-roboto;
     font-size: 1rem;

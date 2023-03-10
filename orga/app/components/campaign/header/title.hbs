@@ -1,45 +1,44 @@
 <header class="campaign-header-title">
-  <Ui::PreviousPageButton
-    @route={{@previousRouteName}}
-    @backButtonAriaLabel={{t "common.actions.back"}}
-    aria-label={{t "pages.campaign.name"}}
-    class="campaign-header-title__headline"
-  >
-    {{@campaign.name}}
-  </Ui::PreviousPageButton>
+  <Ui::Breadcrumb @links={{this.breadcrumbLinks}} class="campaign-header-title__breadcrumb" />
+  <div class="campaign-header-title__informations">
+    <h1
+      aria-label={{t "pages.campaign.name"}}
+      class="campaign-header-title__name"
+      title={{@campaign.name}}
+    >{{@campaign.name}}</h1>
+    <dl class="campaign-header-title__details">
+      <div class="campaign-header-title__detail-item hide-on-mobile">
+        <dt class="label-text">
+          {{t "pages.campaign.created-on"}}
+        </dt>
+        <dd>
+          {{dayjs-format @campaign.createdAt "DD/MM/YYYY" allow-empty=true}}
+        </dd>
+      </div>
 
-  <dl class="campaign-header-title__infos">
-    <div class="campaign-header-title__info-item hide-on-mobile">
-      <dt class="label-text">
-        {{t "pages.campaign.created-on"}}
-      </dt>
-      <dd>
-        {{dayjs-format @campaign.createdAt "DD/MM/YYYY" allow-empty=true}}
-      </dd>
-    </div>
+      <div class="campaign-header-title__detail-item">
+        <dt class="label-text">
+          {{t "pages.campaign.created-by"}}
+        </dt>
+        <dd>
+          {{@campaign.ownerFullName}}
+        </dd>
+      </div>
 
-    <div class="campaign-header-title__info-item">
-      <dt class="label-text">
-        {{t "pages.campaign.created-by"}}
-      </dt>
-      <dd>
-        {{@campaign.ownerFullName}}
-      </dd>
-    </div>
-
-    <div class="campaign-header-title__info-item">
-      <dt class="label-text">
-        {{t "pages.campaign.code"}}
-      </dt>
-      <dd class="campaign-header-title__campaign-code">
-        <span>{{@campaign.code}}</span>
-        <Campaign::CopyPasteButton
-          @clipBoardtext={{@campaign.code}}
-          @successMessage={{t "pages.campaign.copy.code.success"}}
-          @defaultMessage={{t "pages.campaign.copy.code.default"}}
-          class="hide-on-mobile"
-        />
-      </dd>
-    </div>
-  </dl>
+      <div class="campaign-header-title__detail-item">
+        <dt class="label-text">
+          {{t "pages.campaign.code"}}
+        </dt>
+        <dd class="campaign-header-title__campaign-code">
+          <span>{{@campaign.code}}</span>
+          <Campaign::CopyPasteButton
+            @clipBoardtext={{@campaign.code}}
+            @successMessage={{t "pages.campaign.copy.code.success"}}
+            @defaultMessage={{t "pages.campaign.copy.code.default"}}
+            class="hide-on-mobile"
+          />
+        </dd>
+      </div>
+    </dl>
+  </div>
 </header>
