@@ -11,6 +11,7 @@ class UserToCreate {
     mustValidateTermsOfService = false,
     lastTermsOfServiceValidatedAt = null,
     lang = 'fr',
+    locale,
     hasSeenNewDashboardInfo = false,
     isAnonymous = false,
     hasSeenFocusedChallengeTooltip = false,
@@ -27,6 +28,7 @@ class UserToCreate {
     this.mustValidateTermsOfService = mustValidateTermsOfService;
     this.lastTermsOfServiceValidatedAt = lastTermsOfServiceValidatedAt;
     this.lang = lang;
+    this.locale = locale;
     this.hasSeenNewDashboardInfo = hasSeenNewDashboardInfo;
     this.isAnonymous = isAnonymous;
     this.hasSeenFocusedChallengeTooltip = hasSeenFocusedChallengeTooltip;

@@ -19,6 +19,7 @@ describe('Unit | Domain | Models | UserToCreate', function () {
         mustValidateTermsOfService: false,
         lastTermsOfServiceValidatedAt: null,
         lang: 'fr',
+        locale: undefined,
         hasSeenNewDashboardInfo: false,
         isAnonymous: false,
         hasSeenFocusedChallengeTooltip: false,
@@ -30,18 +31,19 @@ describe('Unit | Domain | Models | UserToCreate', function () {
   });
 
   describe('#create', function () {
-    it('should create a user', function () {
+    it('creates a user', function () {
       // given
       const now = new Date('2022-04-01');
       const clock = sinon.useFakeTimers({ now });
 
       // when
-      const user = UserToCreate.create({ email: '  anneMAIL@example.net ' });
+      const user = UserToCreate.create({ email: '  anneMAIL@example.net ', locale: 'fr-FR' });
 
       // then
       expect(user.email).to.equal('annemail@example.net');
       expect(user.updatedAt).to.deep.equal(now);
       expect(user.createdAt).to.deep.equal(now);
+      expect(user.locale).to.equal('fr-FR');
       clock.restore();
     });
   });
