@@ -17,11 +17,10 @@ export default class FeedbackPanel extends Component {
   @tracked displayQuestionDropdown = false;
   @tracked displayTextBox = false;
   @tracked emptyTextBoxMessageError = null;
-  @tracked isFormOpened = false;
   @tracked isFormSubmitted = false;
   @tracked nextCategory = null;
   @tracked quickHelpInstructions = null;
-
+  @tracked isExpanded = false;
   _category = null;
   _questions = questions;
   _sendButtonStatus = buttonStatusTypes.unrecorded;
@@ -30,6 +29,14 @@ export default class FeedbackPanel extends Component {
   constructor(owner, args) {
     super(owner, args);
     this._resetPanel();
+  }
+
+  get isAriaExpanded() {
+    return this.isExpanded ? 'true' : 'false';
+  }
+
+  get feedbackPanelId() {
+    return this.isFormSubmitted ? 'feedback-panel-submitted' : 'feedback-panel';
   }
 
   get categories() {
@@ -47,11 +54,11 @@ export default class FeedbackPanel extends Component {
 
   @action
   toggleFeedbackForm() {
-    if (this.isFormOpened) {
-      this.isFormOpened = false;
+    if (this.isExpanded) {
+      this.isExpanded = false;
       this._resetPanel();
     } else {
-      this.isFormOpened = true;
+      this.isExpanded = true;
       this._scrollIntoFeedbackPanel();
     }
   }
@@ -130,7 +137,7 @@ export default class FeedbackPanel extends Component {
     this.emptyTextBoxMessageError = null;
     this._resetForm();
     if (this.args.alwaysOpenForm) {
-      this.isFormOpened = true;
+      this.isExpanded = true;
     }
   }
 
