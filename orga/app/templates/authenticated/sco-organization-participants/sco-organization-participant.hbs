@@ -14,7 +14,10 @@
     </Ui::PreviousPageButton>
     <Ui::LearnerHeaderInfo
       @groupName={{t "components.group.SCO"}}
-      @organizationLearner={{@model.organizationLearner}}
+      @group={{@model.organizationLearner.division}}
+      @authenticationMethods={{@model.organizationLearner.authenticationMethodsList}}
+      @isCertifiable={{@model.organizationLearner.isCertifiable}}
+      @certifiableAt={{@model.organizationLearner.certifiableAt}}
     />
   </header>
   {{outlet}}
