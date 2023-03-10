@@ -47,7 +47,7 @@ module('Integration | Component | Campaign::StageStars', function (hooks) {
     const screen = await render(hbs`<Campaign::StageStars @result={{this.result}} @stages={{this.stages}} />`);
 
     // then
-    assert.dom(screen.getByLabelText('1 étoiles sur 2')).exists();
+    assert.dom(screen.getByText('1 étoiles sur 2')).exists();
   });
 
   test('should not display tooltip by default', async function (assert) {

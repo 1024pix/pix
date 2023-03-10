@@ -30,6 +30,7 @@
         {{on "focusout" this.validateEmail}}
         {{on "input" this.updateEmail}}
         @errorMessage={{this.emailValidationMessage}}
+        @validationStatus={{if this.emailValidationMessage "error" "default"}}
         required={{true}}
         aria-required={{true}}
         autocomplete="email"
@@ -47,6 +48,7 @@
         {{on "focusout" this.validatePassword}}
         {{on "input" this.validatePassword}}
         @errorMessage={{this.passwordValidationMessage}}
+        @validationStatus={{if this.passwordValidationMessage "error" "default"}}
       />
     </div>
 
