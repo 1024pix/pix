@@ -1,10 +1,12 @@
 .information-wrapper {
   display: flex;
   margin-left: $spacing-xxl;
-  align-items: center;
 }
 
 .information {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
   padding: 0 $spacing-xs;
   border-left: 1px solid $pix-neutral-22;
   font-size: 0.875rem;
@@ -19,11 +21,16 @@
     color: $pix-neutral-90;
     margin: 0;
 
-    &--gray {
+
+    &--date {
+      font-size: 0.75rem;
       color: $pix-neutral-50;
     }
   }
 
+  &--certifiable {
+    padding-bottom: $spacing-xxs;
+  }
 
   &:first-of-type {
     padding-left: 0;
