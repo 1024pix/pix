@@ -56,8 +56,8 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStage', functi
 
   test('should render a screen reader message', async function (assert) {
     // then
-    assert.dom(screen.getByLabelText('0 étoile sur 1')).exists();
-    assert.dom(screen.getByLabelText('1 étoile sur 1')).exists();
+    assert.dom(screen.getByText('0 étoile sur 1')).exists();
+    assert.dom(screen.getByText('1 étoile sur 1')).exists();
   });
 
   test('it should not display empty tooltip', async function (assert) {
