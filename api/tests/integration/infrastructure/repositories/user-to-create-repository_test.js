@@ -20,6 +20,7 @@ describe('Integration | Infrastructure | Repository | UserToCreateRepository', f
         lastName: 'lune',
         email,
         cgu: true,
+        locale: 'fr-FR',
       });
 
       // when
@@ -33,6 +34,7 @@ describe('Integration | Infrastructure | Repository | UserToCreateRepository', f
       expect(userSaved.lastName).to.equal(user.lastName);
       expect(userSaved.email).to.equal(user.email);
       expect(userSaved.cgu).to.equal(user.cgu);
+      expect(userSaved.locale).to.equal(user.locale);
     });
 
     it('should throw a custom error when username is already taken', async function () {
