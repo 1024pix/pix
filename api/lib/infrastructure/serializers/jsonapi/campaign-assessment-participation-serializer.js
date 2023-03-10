@@ -19,6 +19,7 @@ module.exports = {
         'badges',
         'campaignAssessmentParticipationResult',
         'campaignAnalysis',
+        'organizationLearnerId',
       ],
       badges: {
         ref: 'id',
