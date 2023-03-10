@@ -4,6 +4,7 @@ const codemods = [
   require('./src/cjs-export-to-esm-export'),
   require('./src/cjs-import-to-esm-named-import'),
   require('./src/cjs-named-import-with-key-chained-require-to-esm-named-import'),
+  require('./src/cjs-export-directly-specified-on-exports-expression-key-to-esm'),
 ];
 
 const transformScripts = (fileInfo, api, options) => {
