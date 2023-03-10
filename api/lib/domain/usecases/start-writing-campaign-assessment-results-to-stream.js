@@ -173,7 +173,7 @@ function _createHeaderOfCSV(targetProfile, idPixLabel, organization, translate, 
     translate('campaign-export.assessment.started-on'),
     translate('campaign-export.assessment.is-shared'),
     translate('campaign-export.assessment.shared-on'),
-    ...(stageCollection.totalStages > 0
+    ...(stageCollection.hasStage
       ? [translate('campaign-export.assessment.success-rate', { value: stageCollection.totalStages - 1 })]
       : []),
 

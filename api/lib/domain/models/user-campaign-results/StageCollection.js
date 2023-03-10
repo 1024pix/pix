@@ -48,7 +48,7 @@ class StageCollection {
       title: reachedStage.title,
       message: reachedStage.message,
       prescriberTitle: reachedStage.prescriberTitle,
-      precriberDescription: reachedStage.precriberDescription,
+      prescriberDescription: reachedStage.prescriberDescription,
       totalStage: this._totalStages,
       reachedStage: reachedStageIndex + 1,
     };
