@@ -19,12 +19,12 @@ module('Unit | Component | feedback-panel', function (hooks) {
       component.toggleFeedbackForm();
 
       // then
-      assert.true(component.isFormOpened);
+      assert.true(component.isExpanded);
     });
 
     test('should close and reset form', function (assert) {
       // given
-      component.isFormOpened = true;
+      component.isExpanded = true;
       component.emptyTextBoxMessageError = '10, 9, 8, ...';
       component.isFormSubmitted = true;
 
@@ -32,7 +32,7 @@ module('Unit | Component | feedback-panel', function (hooks) {
       component.toggleFeedbackForm();
 
       // then
-      assert.false(component.isFormOpened);
+      assert.false(component.isExpanded);
       assert.false(component.isFormSubmitted);
       assert.notOk(component.emptyTextBoxMessageError);
     });
