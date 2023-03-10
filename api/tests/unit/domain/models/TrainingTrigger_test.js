@@ -18,6 +18,24 @@ describe('Unit | Domain | Models | TrainingTrigger', function () {
       expect(error.message).to.equal('Invalid trigger type');
     });
 
+    it('should have all properties', function () {
+      // given
+      const trainingTrigger = domainBuilder.buildTrainingTrigger({
+        id: 1,
+        type: TrainingTrigger.types.GOAL,
+        trainingId: 100,
+        threshold: 10,
+        areas: [],
+      });
+
+      // then
+      expect(trainingTrigger.id).to.equal(1);
+      expect(trainingTrigger.type).to.equal('goal');
+      expect(trainingTrigger.trainingId).to.equal(100);
+      expect(trainingTrigger.threshold).to.equal(10);
+      expect(trainingTrigger.areas).to.deep.equal([]);
+    });
+
     it('should build learning content tree from parameters', function () {
       // given
       const area1 = domainBuilder.buildArea({ id: 'recArea1' });
