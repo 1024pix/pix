@@ -1,11 +1,11 @@
 <Ui::InformationWrapper>
   {{#if @isCertifiable}}
-    <Ui::Information>
+    <Ui::Information @contentClass="information--certifiable">
       <:title>
         <Ui::IsCertifiable @isCertifiable={{@isCertifiable}} />
       </:title>
       <:content>
-        <span class="information__content--gray">
+        <span class="information__content--date">
           <Ui::Date @date={{@certifiableAt}} />
         </span>
       </:content>
