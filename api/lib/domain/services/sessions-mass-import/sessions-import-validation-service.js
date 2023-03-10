@@ -65,7 +65,7 @@ module.exports = {
     });
 
     if (cpfBirthInformation.hasFailed()) {
-      certificationCandidateErrors.push(cpfBirthInformation.message);
+      _addToErrorList({ errorList: certificationCandidateErrors, line, codes: [cpfBirthInformation.code] });
     }
 
     return {
