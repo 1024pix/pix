@@ -9,6 +9,8 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
 
   hooks.beforeEach(function () {
     this.owner.setupRouter();
+    const currentUser = this.owner.lookup('service:currentUser');
+    currentUser.organization = {};
   });
 
   test('it should display user information', async function (assert) {

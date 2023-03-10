@@ -2,7 +2,15 @@
   <Ui::Breadcrumb @links={{this.breadcrumbLinks}} />
 </header>
 
-<h1 class="page__title page-title">{{@participation.firstName}} {{@participation.lastName}}</h1>
+<header class="page__title">
+  <h1 class="page-title">{{@participation.firstName}} {{@participation.lastName}}</h1>
+  <p class="participant__link">
+    <FaIcon @prefix="far" @icon="user" />
+    <Participant::LinkTo @organizationLearnerId={{@participation.organizationLearnerId}}>
+      {{t "common.actions.link-to-participant"}}
+    </Participant::LinkTo>
+  </p>
+</header>
 
 <section class="panel panel--header">
   <header class="panel-header__headline">

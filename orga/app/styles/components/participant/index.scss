@@ -1,3 +1,10 @@
 @import 'no-participant-panel';
 @import 'profile';
 @import 'tabs';
+
+.participant {
+  &__link {
+    margin-top: $spacing-xs;
+    color: $pix-primary;
+  }
+}
