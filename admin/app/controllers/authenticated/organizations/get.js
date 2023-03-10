@@ -7,18 +7,28 @@ export default class GetController extends Controller {
   @service notifications;
   @service router;
   @service accessControl;
+  @service intl;
 
   @action
-  updateOrganizationInformation() {
-    return this.model
-      .save()
-      .then(() => {
-        this.notifications.success("L'organisation a bien été modifée.");
-      })
-      .catch(() => {
-        this.model.rollbackAttributes();
-        this.notifications.error('Une erreur est survenue.');
-      });
+  async updateOrganizationInformation() {
+    try {
+      await this.model.save();
+      this.notifications.success("L'organisation a bien été modifiée.");
+    } catch (responseError) {
+      this.model.rollbackAttributes();
+      const error = get(responseError, 'errors[0]');
+      let message;
+      switch (error?.status) {
+        case '413':
+          message = this.intl.t(I18N_KEY_ERROR_MESSAGES[error?.status], {
+            maxSizeInMegaBytes: error?.meta?.maxSizeInMegaBytes,
+          });
+          break;
+        default:
+          message = this.intl.t(I18N_KEY_ERROR_MESSAGES['default']);
+      }
+      this.notifications.error(message, { autoClear: false });
+    }
   }
 
   @action
@@ -37,3 +47,8 @@ export default class GetController extends Controller {
     }
   }
 }
+
+const I18N_KEY_ERROR_MESSAGES = {
+  413: 'pages.organizations.notifications.errors.payload-too-large',
+  default: 'common.notifications.generic-error',
+};
