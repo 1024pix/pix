@@ -8,6 +8,12 @@
     >
       {{t "common.fullname" firstName=@model.firstName lastName=@model.lastName}}
     </Ui::PreviousPageButton>
+    <Ui::LearnerHeaderInfo
+      @groupName={{t "components.group.SUP"}}
+      @group={{@model.group}}
+      @isCertifiable={{@model.isCertifiable}}
+      @certifiableAt={{@model.certifiableAt}}
+    />
   </header>
   {{outlet}}
 </article>
