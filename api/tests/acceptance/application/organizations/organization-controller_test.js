@@ -21,6 +21,8 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 
+const { logo3Mb } = require('./_files/logo-3mb');
+
 describe('Acceptance | Application | organization-controller', function () {
   let server;
 
@@ -347,6 +349,56 @@ describe('Acceptance | Application | organization-controller', function () {
 
         // then
         expect(response.statusCode).to.equal(403);
+      });
+    });
+
+    context('when the payload size is greater than 2.5MB size limit', function () {
+      it('returns a 413 payload too large error', async function () {
+        // given
+        const logo = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+        const organizationAttributes = {
+          externalId: '0446758F',
+          provinceCode: '044',
+          email: 'sco.generic.newaccount@example.net',
+          credit: 50,
+          logoUrl: logo,
+        };
+        const organization = databaseBuilder.factory.buildOrganization({ ...organizationAttributes });
+        const tag1 = databaseBuilder.factory.buildTag({ name: 'AGRICULTURE' });
+        await databaseBuilder.commit();
+
+        const payload = {
+          data: {
+            type: 'organizations',
+            id: organization.id,
+            attributes: {
+              'external-id': organizationAttributes.externalId,
+              'province-code': organizationAttributes.provinceCode,
+              email: organizationAttributes.email,
+              credit: organizationAttributes.credit,
+              'logo-url': logo3Mb,
+            },
+            relationships: {
+              tags: {
+                data: [{ type: 'tags', id: tag1.id }],
+              },
+            },
+          },
+        };
+        const options = {
+          method: 'PATCH',
+          url: `/api/admin/organizations/${organization.id}`,
+          payload,
+          headers: { authorization: generateValidRequestAuthorizationHeader() },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(413);
+        expect(response.result.errors[0].code).to.equal('PAYLOAD_TOO_LARGE');
+        expect(response.result.errors[0].meta.maxSizeInMegaBytes).to.equal('2.5');
       });
     });
   });
