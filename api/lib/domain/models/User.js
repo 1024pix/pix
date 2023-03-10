@@ -1,8 +1,10 @@
 const toLower = require('lodash/toLower');
 const isNil = require('lodash/isNil');
 const dayjs = require('dayjs');
-const config = require('../../config.js');
 
+const config = require('../../config.js');
+const { LocaleFormatError, LocaleNotSupportedError } = require('../../domain/errors.js');
+const { SUPPORTED_LOCALES } = require('../../domain/constants');
 const AuthenticationMethod = require('./AuthenticationMethod.js');
 
 class User {
@@ -27,6 +29,7 @@ class User {
     hasSeenOtherChallengesTooltip,
     mustValidateTermsOfService,
     lang,
+    locale,
     isAnonymous,
     memberships = [],
     certificationCenterMemberships = [],
@@ -37,6 +40,24 @@ class User {
     hasBeenAnonymised,
     hasBeenAnonymisedBy,
   } = {}) {
+    if (locale) {
+      try {
+        locale = Intl.getCanonicalLocales(locale)[0];
+      } catch (error) {
+        throw new LocaleFormatError(locale);
+      }
+
+      // Pix site uses en-GB as international English locale instead of en
+      // TODO remove this code after handling en as international English locale on Pix site
+      if (locale === 'en-GB') {
+        locale = 'en';
+      }
+
+      if (!SUPPORTED_LOCALES.includes(locale)) {
+        throw new LocaleNotSupportedError(locale);
+      }
+    }
+
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -57,6 +78,7 @@ class User {
     this.hasSeenFocusedChallengeTooltip = hasSeenFocusedChallengeTooltip;
     this.knowledgeElements = knowledgeElements;
     this.lang = lang;
+    this.locale = locale;
     this.isAnonymous = isAnonymous;
     this.pixScore = pixScore;
     this.memberships = memberships;
