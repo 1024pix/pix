@@ -156,6 +156,7 @@ describe('Integration | Repository | training-trigger-repository', function () {
           .first();
         expect(createdTrainingTrigger).to.be.instanceOf(TrainingTrigger);
         expect(createdTrainingTrigger.id).to.equal(trainingTrigger.id);
+        expect(createdTrainingTrigger.trainingId).to.equal(trainingTrigger.trainingId);
         expect(createdTrainingTrigger.type).to.equal(trainingTrigger.type);
         expect(createdTrainingTrigger.threshold).to.equal(trainingTrigger.threshold);
 
@@ -321,6 +322,7 @@ describe('Integration | Repository | training-trigger-repository', function () {
       expect(result).to.have.lengthOf(2);
       expect(result[0]).to.be.instanceOf(TrainingTrigger);
       expect(result[0].id).to.equal(trainingTrigger.id);
+      expect(result[0].trainingId).to.equal(trainingTrigger.trainingId);
       expect(result[0].type).to.equal(trainingTrigger.type);
       expect(result[0].threshold).to.equal(trainingTrigger.threshold);
       expect(result[0].triggerTubes).to.have.lengthOf(1);
@@ -338,6 +340,7 @@ describe('Integration | Repository | training-trigger-repository', function () {
 
       expect(result[1]).to.be.instanceOf(TrainingTrigger);
       expect(result[1].id).to.equal(trainingTrigger2.id);
+      expect(result[1].trainingId).to.equal(trainingTrigger2.trainingId);
       expect(result[1].type).to.equal(trainingTrigger2.type);
       expect(result[1].threshold).to.equal(trainingTrigger2.threshold);
       expect(result[1].triggerTubes).to.have.lengthOf(1);

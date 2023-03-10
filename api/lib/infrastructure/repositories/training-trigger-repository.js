@@ -72,6 +72,7 @@ async function _toDomain({ trainingTrigger, triggerTubes, tubes = [] }) {
 
   return new TrainingTrigger({
     id: trainingTrigger.id,
+    trainingId: trainingTrigger.trainingId,
     type: trainingTrigger.type,
     threshold: trainingTrigger.threshold,
     triggerTubes: triggerTubes.map(
