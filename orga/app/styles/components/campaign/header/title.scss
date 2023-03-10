@@ -1,5 +1,5 @@
 .campaign-header-title {
-  margin: 32px 0;
+  margin: $spacing-l 0;
 
   &__informations {
     display: flex;
@@ -42,13 +42,13 @@
   }
 
   &__detail-item {
+    @include text-small;
+
     color: $pix-neutral-60;
-    font-family: $font-roboto;
-    font-size: 1rem;
 
     & > dt {
       display: block;
-      margin-bottom: 8px;
+      margin-bottom: $spacing-xs;
     }
 
     & > dd {
@@ -67,7 +67,7 @@
     align-items: initial;
 
     &__headline {
-      margin-bottom: 16px;
+      margin-bottom: $spacing-s;
       justify-content: center;
       width: 100%;
     }
