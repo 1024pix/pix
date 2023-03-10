@@ -12,12 +12,14 @@
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .feedback-panel__open-button {
+  width: 100%;
   padding: 0;
   color: $pix-neutral-50;
   font-weight: $font-medium;
   font-size: 0.875rem;
   font-family: $font-roboto;
   line-height: 20px;
+  text-align: left;
   background-color: transparent;
   border: none;
   cursor: pointer;
