@@ -6,19 +6,21 @@
       class="feedback-panel__open-button"
       {{on "click" this.toggleFeedbackForm}}
       disabled={{this.isToggleFeedbackFormDisabled}}
+      aria-expanded={{this.isAriaExpanded}}
+      aria-controls={{this.feedbackPanelId}}
       type="button"
     >
       {{t "pages.challenge.feedback-panel.actions.open-close"}}
     </button>
   </div>
 
-  {{#if this.isFormOpened}}
+  {{#if this.isExpanded}}
     {{#if this.isFormSubmitted}}
-      <div class="feedback-panel__view feedback-panel__view--mercix">
+      <div class="feedback-panel__view feedback-panel__view--mercix" id="feedback-panel-submitted">
         {{t "pages.challenge.feedback-panel.form.status.success" htmlSafe=true}}
       </div>
     {{else}}
-      <div class="feedback-panel__view feedback-panel__view--form">
+      <div class="feedback-panel__view feedback-panel__view--form" id="feedback-panel">
         <div class="feedback-panel__form-description">
         </div>
         {{#if @assessment.isCertification}}
