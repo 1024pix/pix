@@ -2,6 +2,9 @@ const { expect, sinon, domainBuilder } = require('../../../../test-helper');
 const sessionsImportValidationService = require('../../../../../lib/domain/services/sessions-mass-import/sessions-import-validation-service');
 const { CpfBirthInformationValidation } = require('../../../../../lib/domain/services/certification-cpf-service');
 const certificationCpfService = require('../../../../../lib/domain/services/certification-cpf-service');
+const {
+  CERTIFICATION_CANDIDATES_ERRORS,
+} = require('../../../../../lib/domain/constants/certification-candidates-errors');
 const noop = require('lodash/noop');
 
 describe('Unit | Service | sessions import validation Service', function () {
@@ -433,6 +436,41 @@ describe('Unit | Service | sessions import validation Service', function () {
     });
 
     context('when the parsed candidate data has invalid CPF information', function () {
+      context('when the error has already been raised by the validation', function () {
+        it('should return the error once', async function () {
+          // given
+          const candidate = _buildValidCandidateData({});
+          candidate.birthCountry = '';
+          const certificationCpfCountryRepository = Symbol();
+          const certificationCpfCityRepository = Symbol();
+          const certificationCandidateError = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_COUNTRY_REQUIRED;
+          certificationCpfService.getBirthInformation
+            .withArgs({
+              birthCountry: '',
+              birthCity: candidate.birthCity,
+              birthPostalCode: candidate.birthPostalCode,
+              birthINSEECode: candidate.birthINSEECode,
+              certificationCpfCountryRepository,
+              certificationCpfCityRepository,
+            })
+            .resolves(CpfBirthInformationValidation.failure({ certificationCandidateError }));
+
+          // when
+          const result = await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+            candidate,
+            isSco: false,
+            certificationCpfCountryRepository,
+            certificationCpfCityRepository,
+            line: 1,
+          });
+
+          // then
+          expect(result.certificationCandidateErrors).to.deep.equal([
+            { code: 'CANDIDATE_BIRTH_COUNTRY_REQUIRED', line: 1 },
+          ]);
+        });
+      });
+
       it('should return a certificationCandidateErrors that contains the incorrect CPF message', async function () {
         // given
         const candidate = _buildValidCandidateData();
