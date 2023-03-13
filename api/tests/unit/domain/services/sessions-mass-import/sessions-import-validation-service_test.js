@@ -326,26 +326,6 @@ describe('Unit | Service | sessions import validation Service', function () {
       });
     });
 
-    context('when candidate has extra time percentage below 1', function () {
-      it('should return a certificationCandidateErrors containing the specific error ', async function () {
-        // given
-        const candidate = _buildValidCandidateData();
-        candidate.extraTimePercentage = '0.20';
-
-        certificationCpfService.getBirthInformation.resolves(CpfBirthInformationValidation.success({}));
-
-        // when
-        const { certificationCandidateErrors } =
-          await sessionsImportValidationService.getValidatedCandidateBirthInformation({
-            line: 1,
-            candidate,
-          });
-
-        // then
-        expect(certificationCandidateErrors).to.deep.equal([{ code: 'CANDIDATE_EXTRA_TIME_BELOW_ONE', line: 1 }]);
-      });
-    });
-
     context('when candidate has missing billing information', function () {
       context('when the parsed candidate is not sco', function () {
         context('when billing mode is null', function () {
