@@ -389,6 +389,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       sessionId: 123,
       resultRecipientEmail: 'orga@example.net',
       billingMode: 'FREE',
+      extraTimePercentage: 1,
     };
 
     context('when all required fields are presents', function () {
@@ -478,6 +479,32 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
       //then
       expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_PERCENTAGE_REQUIRED.code]);
+    });
+
+    it('should throw an error when field extraTimePercentage is upper than 100', async function () {
+      const certificationCandidate = buildCertificationCandidate({
+        ...validAttributes,
+        extraTimePercentage: 101,
+      });
+      const isSco = true;
+
+      const report = certificationCandidate.validateForMassSessionImport(isSco);
+
+      // then
+      expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_BELOW_ONE.code]);
+    });
+
+    it('should throw an error when field extraTimePercentage is lower than 1', async function () {
+      const certificationCandidate = buildCertificationCandidate({
+        ...validAttributes,
+        extraTimePercentage: 0,
+      });
+      const isSco = true;
+
+      const report = certificationCandidate.validateForMassSessionImport(isSco);
+
+      // then
+      expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_BELOW_ONE.code]);
     });
 
     it('should return a report when sex is neither M nor F', async function () {

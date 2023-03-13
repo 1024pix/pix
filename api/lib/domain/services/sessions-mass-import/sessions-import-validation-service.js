@@ -1,5 +1,6 @@
 const sessionValidator = require('../../validators/session-validator.js');
 const certificationCpfService = require('../certification-cpf-service.js');
+const { CERTIFICATION_SESSIONS_ERRORS } = require('../../constants/sessions-errors');
 
 module.exports = {
   async validateSession({ session, line, sessionRepository, certificationCourseRepository }) {
@@ -8,20 +9,36 @@ module.exports = {
 
     if (sessionId) {
       if (_hasSessionInfo(session)) {
-        _addToErrorList({ errorList: sessionErrors, line, codes: ['INFORMATION_NOT_ALLOWED_WITH_SESSION_ID'] });
+        _addToErrorList({
+          errorList: sessionErrors,
+          line,
+          codes: [CERTIFICATION_SESSIONS_ERRORS.INFORMATION_NOT_ALLOWED_WITH_SESSION_ID.code],
+        });
       }
 
       if (await _isSessionStarted({ certificationCourseRepository, sessionId })) {
-        _addToErrorList({ errorList: sessionErrors, line, codes: ['CANDIDATE_NOT_ALLOWED_FOR_STARTED_SESSION'] });
+        _addToErrorList({
+          errorList: sessionErrors,
+          line,
+          codes: [CERTIFICATION_SESSIONS_ERRORS.CANDIDATE_NOT_ALLOWED_FOR_STARTED_SESSION.code],
+        });
       }
     } else {
       const isSessionExisting = await sessionRepository.isSessionExisting({ ...session });
       if (isSessionExisting) {
-        _addToErrorList({ errorList: sessionErrors, line, codes: [`SESSION_WITH_DATE_AND_TIME_ALREADY_EXISTS`] });
+        _addToErrorList({
+          errorList: sessionErrors,
+          line,
+          codes: [CERTIFICATION_SESSIONS_ERRORS.SESSION_WITH_DATE_AND_TIME_ALREADY_EXISTS.code],
+        });
       }
 
       if (session.isSessionScheduledInThePast()) {
-        _addToErrorList({ errorList: sessionErrors, line, codes: ['SESSION_SCHEDULED_IN_THE_PAST'] });
+        _addToErrorList({
+          errorList: sessionErrors,
+          line,
+          codes: [CERTIFICATION_SESSIONS_ERRORS.SESSION_SCHEDULED_IN_THE_PAST.code],
+        });
       }
 
       const errorCodes = sessionValidator.validateForMassSessionImport(session);
@@ -30,7 +47,11 @@ module.exports = {
 
     if (session.certificationCandidates?.length) {
       if (_hasDuplicateCertificationCandidates(session.certificationCandidates)) {
-        _addToErrorList({ errorList: sessionErrors, line, codes: ['DUPLICATE_CANDIDATE_NOT_ALLOWED_IN_SESSION'] });
+        _addToErrorList({
+          errorList: sessionErrors,
+          line,
+          codes: [CERTIFICATION_SESSIONS_ERRORS.DUPLICATE_CANDIDATE_NOT_ALLOWED_IN_SESSION.code],
+        });
       }
     }
 
@@ -45,13 +66,6 @@ module.exports = {
     certificationCpfCityRepository,
   }) {
     const certificationCandidateErrors = [];
-
-    if (_isExtraTimePercentageBelowOne(candidate.extraTimePercentage)) {
-      _addToErrorList({ errorList: certificationCandidateErrors, line, codes: ['CANDIDATE_EXTRA_TIME_BELOW_ONE'] });
-    } else {
-      candidate.convertExtraTimePercentageToDecimal();
-    }
-
     const errorCodes = candidate.validateForMassSessionImport(isSco);
     _addToErrorList({ errorList: certificationCandidateErrors, line, codes: errorCodes });
 
@@ -75,6 +89,8 @@ module.exports = {
       }
     }
 
+    candidate.convertExtraTimePercentageToDecimal();
+
     return {
       certificationCandidateErrors,
       cpfBirthInformation: {
@@ -94,10 +110,6 @@ function _isErrorNotDuplicated({ certificationCandidateErrors, errorCode }) {
 function _addToErrorList({ errorList, line, codes = [] }) {
   const errors = codes.map((code) => ({ code, line }));
   errorList.push(...errors);
-}
-
-function _isExtraTimePercentageBelowOne(extraTimePercentage) {
-  return extraTimePercentage && extraTimePercentage < 1;
 }
 
 function _hasSessionInfo(session) {
