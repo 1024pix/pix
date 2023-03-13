@@ -14,6 +14,9 @@ module.exports = function buildTrainingTrigger({
   ],
   type = TrainingTrigger.types.PREREQUISITE,
   threshold = 60,
+  areas = [],
+  competences = [],
+  thematics = [],
 } = {}) {
   return new TrainingTrigger({
     id,
@@ -21,5 +24,8 @@ module.exports = function buildTrainingTrigger({
     triggerTubes,
     type,
     threshold,
+    areas,
+    competences,
+    thematics,
   });
 };
