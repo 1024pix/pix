@@ -1,9 +1,11 @@
 import { module, test } from 'qunit';
 import pick from 'lodash/pick';
 import { setupTest } from 'ember-qunit';
+import setupIntlForModels from '../../helpers/setup-intl';
 
 module('Unit | Model | certification-candidate', function (hooks) {
   setupTest(hooks);
+  setupIntlForModels(hooks);
 
   test('it creates a CertificationCandidate', function (assert) {
     // given
@@ -93,6 +95,34 @@ module('Unit | Model | certification-candidate', function (hooks) {
 
       // then
       assert.strictEqual(model.complementaryCertificationsList, 'Pix+Edu, Pix+Droit');
+    });
+  });
+
+  module('#get billingModeLabel', () => {
+    test('should display the billing mode label', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const data = {
+        billingMode: 'PREPAID',
+      };
+      // when
+      const { billingModeLabel } = store.createRecord('certification-candidate', data);
+
+      // then
+      assert.strictEqual(billingModeLabel, 'Prépayée');
+    });
+
+    test('should not display any label if there is no billing mode', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const data = {
+        billingMode: null,
+      };
+      // when
+      const { billingModeLabel } = store.createRecord('certification-candidate', data);
+
+      // then
+      assert.strictEqual(billingModeLabel, '-');
     });
   });
 

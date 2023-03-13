@@ -162,7 +162,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
       // given
       this.set('shouldDisplayPaymentOptions', true);
       const candidate = _buildCertificationCandidate({
-        billingMode: 'Prepayée',
+        billingMode: 'PREPAID',
         prepaymentCode: 'CODE01',
       });
 
@@ -182,7 +182,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
 
       // then
       assert.dom(screen.queryByRole('columnheader', { name: 'Tarification part Pix' })).exists();
-      assert.dom(screen.getByRole('cell', { name: 'Prepayée CODE01' })).exists();
+      assert.dom(screen.getByRole('cell', { name: 'Prépayée CODE01' })).exists();
     });
   });
 
@@ -298,7 +298,7 @@ function _buildCertificationCandidate({
       label: 'Pix+Droit',
     },
   ],
-  billingMode = '',
+  billingMode = null,
   prepaymentCode = null,
 }) {
   return {

@@ -123,7 +123,7 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
           'birth-city': certificationCpfCity.name,
           'birth-country': certificationCpfCountry.commonName,
           'birth-province-code': null,
-          'billing-mode': 'Gratuite',
+          'billing-mode': 'FREE',
           'prepayment-code': null,
           'result-recipient-email': certificationCandidate.resultRecipientEmail,
           email: certificationCandidate.email,
