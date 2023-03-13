@@ -22,10 +22,9 @@
 }
 
 .panel-header-title {
-  font-family: $font-open-sans;
-  font-weight: 300;
-  font-size: 2rem;
-  color: $pix-neutral-90;
+  @include subheading;
+
+  color: $pix-neutral-70;
 }
 
 .back-title {

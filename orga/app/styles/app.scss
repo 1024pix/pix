@@ -45,6 +45,7 @@
 @import 'components/login-or-register';
 @import 'components/manage-authentication-method-modal';
 @import 'components/participation-filters';
+@import 'components/learner-header-info';
 
 // pages
 @import 'pages/login';
@@ -81,7 +82,8 @@
 @import 'pages/authenticated/team/new';
 @import 'pages/authenticated/terms-of-service';
 
-body, html {
+body,
+html {
   height: 100%;
 }
 
