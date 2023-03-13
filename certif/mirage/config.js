@@ -66,15 +66,9 @@ export default function () {
   this.post('/sessions/:id/certification-candidates', function (schema, request) {
     const sessionId = request.params.id;
     const requestBody = JSON.parse(request.requestBody);
-    const translateBillingMode = (billingMode) => {
-      if (billingMode === 'FREE') return 'Gratuite';
-      if (billingMode === 'PAID') return 'Payante';
-      if (billingMode === 'PREPAID') return 'Prépayée';
-    };
     return schema.certificationCandidates.create({
       ...requestBody.data.attributes,
       sessionId,
-      billingMode: translateBillingMode(requestBody.data.attributes['billing-mode']),
     });
   });
 

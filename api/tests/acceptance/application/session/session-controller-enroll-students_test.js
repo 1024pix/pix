@@ -127,7 +127,7 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
           data: [
             {
               attributes: {
-                'billing-mode': '',
+                'billing-mode': null,
                 'prepayment-code': null,
                 'birth-city': organizationLearner.birthCity,
                 birthdate: organizationLearner.birthdate,

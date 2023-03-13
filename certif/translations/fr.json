@@ -264,6 +264,11 @@
           },
           "informations": {
             "additional-certification": "Certification complémentaire",
+            "billing-mode": {
+              "free": "Gratuite",
+              "paid": "Payante",
+              "prepaid": "Prépayée"
+            },
             "birth-city": "Commune de naissance",
             "birth-city-insee-code": "Code INSEE de naissance",
             "birth-city-postcode": "Code postal de naissance",
