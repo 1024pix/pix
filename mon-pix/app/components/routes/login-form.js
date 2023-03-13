@@ -5,6 +5,8 @@ import { inject } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
+import ENV from 'mon-pix/config/environment';
+
 export default class LoginForm extends Component {
   @inject session;
   @inject store;
@@ -15,9 +17,7 @@ export default class LoginForm extends Component {
   @tracked login = null;
   @tracked password = null;
   @tracked isLoading = false;
-  @tracked isErrorMessagePresent = false;
-  @tracked hasUpdateUserError = false;
-  @tracked updateErrorMessage = '';
+  @tracked errorMessage = '';
 
   externalUserToken;
   expectedUserId;
@@ -52,8 +52,7 @@ export default class LoginForm extends Component {
         this.store.createRecord('reset-expired-password-demand', { passwordResetToken });
         return this.router.replaceWith('update-expired-password');
       }
-
-      this.isErrorMessagePresent = true;
+      this._manageErrorsApi(response);
     }
   }
 
@@ -76,7 +75,6 @@ export default class LoginForm extends Component {
       }
 
       this._manageErrorsApi(response);
-      this.hasUpdateUserError = true;
     }
   }
 
@@ -89,20 +87,37 @@ export default class LoginForm extends Component {
     );
 
     let errorMessage = defaultErrorMessage;
+    const error = errorsApi?.responseJSON || errorsApi;
+    const errorCode = get(error, 'errors[0].code');
+    const errorStatus = get(error, 'errors[0].status');
 
-    const errorStatus = get(errorsApi, 'errors[0].status');
-    const errorCode = get(errorsApi, 'errors[0].code');
+    switch (errorCode) {
+      case 'USER_IS_TEMPORARY_BLOCKED':
+        errorMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.USER_IS_TEMPORARY_BLOCKED.I18N_KEY, {
+          url: '/mot-de-passe-oublie',
+          htmlSafe: true,
+        });
 
-    if (errorStatus && errorStatus.toString().startsWith('4')) {
-      if (errorCode && errorCode === 'UNEXPECTED_USER_ACCOUNT') {
-        errorMessage = unexpectedUserAccountErrorMessage + get(errorsApi, 'errors[0].meta.value');
-      } else if (errorStatus && errorStatus === '401') {
-        errorMessage = invalidCredentialsErrorMessage;
-      } else {
-        errorMessage = errorMessageStatusCode4xx;
-      }
+        break;
+      case 'USER_IS_BLOCKED':
+        errorMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.USER_IS_BLOCKED.I18N_KEY, {
+          url: 'https://support.pix.org/support/tickets/new',
+          htmlSafe: true,
+        });
+        break;
+      case 'UNEXPECTED_USER_ACCOUNT':
+        errorMessage = unexpectedUserAccountErrorMessage + get(error, 'errors[0].meta.value');
+        break;
+      default:
+        if (errorStatus && errorStatus.toString().startsWith('4')) {
+          if (errorStatus === '401') {
+            errorMessage = invalidCredentialsErrorMessage;
+          } else {
+            errorMessage = errorMessageStatusCode4xx;
+          }
+        }
     }
 
-    this.updateErrorMessage = errorMessage;
+    this.errorMessage = errorMessage;
   }
 }
