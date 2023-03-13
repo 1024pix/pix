@@ -1,5 +1,23 @@
 # Pix Changelog
 
+## v3.334.0 (13/03/2023)
+
+
+### :rocket: Amélioration
+- [#5800](https://github.com/1024pix/pix/pull/5800) [FEATURE] Ajout d'un fil d'ariane sur la page de détail d'une campagne (PIX-7300)
+- [#5781](https://github.com/1024pix/pix/pull/5781) [FEATURE] Ajout de l'en-tête d'information avec certificabilité pour Orga Sup (PIX-7289)
+- [#5780](https://github.com/1024pix/pix/pull/5780) [FEATURE] Ajout de l'en-tête d'information avec certificabilité pour Orga Sco (PIX-7284)
+
+### :building_construction: Tech
+- [#5797](https://github.com/1024pix/pix/pull/5797) [TECH] Amélioration de la gestion d'erreur sur la création d'un profil cible avec une organisation inconnue (PIX-7337)
+
+### :bug: Correction
+- [#5788](https://github.com/1024pix/pix/pull/5788) [BUGFIX] Meilleure gestion des erreurs à la connexion, sur la double mire SCO (PIX-7046)
+- [#5774](https://github.com/1024pix/pix/pull/5774) [BUGFIX][ADMIN] Augmenter la taille maximale du logo des organisations à 2,5Mo (PIX-7326)
+
+### :coffee: Autre
+- [#5793](https://github.com/1024pix/pix/pull/5793) [CHORE] Mise à jour de Pix-Ui dans Pix Orga (PIX-7343)
+
 ## v3.333.0 (09/03/2023)
 
 
