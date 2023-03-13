@@ -345,28 +345,60 @@ describe('Unit | Service | sessions import validation Service', function () {
 
     context('when candidate has missing billing information', function () {
       context('when the parsed candidate is not sco', function () {
-        it('should return an certificationCandidateErrors containing billing mode errors', async function () {
-          // given
-          const isSco = false;
-          const candidate = _buildValidCandidateData();
-          candidate.billingMode = null;
-          certificationCpfService.getBirthInformation.resolves(CpfBirthInformationValidation.success({ ...candidate }));
+        context('when billing mode is null', function () {
+          it('should return an certificationCandidateErrors containing billing mode errors', async function () {
+            // given
+            const isSco = false;
+            const candidate = _buildValidCandidateData();
+            candidate.billingMode = null;
+            certificationCpfService.getBirthInformation.resolves(
+              CpfBirthInformationValidation.success({ ...candidate })
+            );
 
-          // when
-          const { certificationCandidateErrors } =
-            await sessionsImportValidationService.getValidatedCandidateBirthInformation({
-              candidate,
-              isSco,
-              line: 1,
-            });
+            // when
+            const { certificationCandidateErrors } =
+              await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+                candidate,
+                isSco,
+                line: 1,
+              });
 
-          // then
-          expect(certificationCandidateErrors).to.deep.equal([
-            {
-              code: 'CANDIDATE_BILLING_MODE_REQUIRED',
-              line: 1,
-            },
-          ]);
+            // then
+            expect(certificationCandidateErrors).to.deep.equal([
+              {
+                code: 'CANDIDATE_BILLING_MODE_REQUIRED',
+                line: 1,
+              },
+            ]);
+          });
+        });
+
+        context('when billing mode is missing', function () {
+          it('should return an certificationCandidateErrors containing billing mode errors', async function () {
+            // given
+            const isSco = false;
+            const candidate = _buildValidCandidateData();
+            candidate.billingMode = '';
+            certificationCpfService.getBirthInformation.resolves(
+              CpfBirthInformationValidation.success({ ...candidate })
+            );
+
+            // when
+            const { certificationCandidateErrors } =
+              await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+                candidate,
+                isSco,
+                line: 1,
+              });
+
+            // then
+            expect(certificationCandidateErrors).to.deep.equal([
+              {
+                code: 'CANDIDATE_BILLING_MODE_REQUIRED',
+                line: 1,
+              },
+            ]);
+          });
         });
       });
 
