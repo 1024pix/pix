@@ -51,9 +51,25 @@ describe('Integration | Repository | training-repository', function () {
   });
 
   describe('#getWithTriggers', function () {
+    let area1;
+    let competence1;
+    let thematic1;
     let tube;
 
     beforeEach(async function () {
+      area1 = domainBuilder.buildArea({ id: 'recAreaA' });
+      competence1 = domainBuilder.buildCompetence({ id: 'recCompA', areaId: 'recAreaA' });
+      const competenceInAnotherArea = domainBuilder.buildCompetence({ id: 'recCompB', areaId: 'recAreaB' });
+      thematic1 = domainBuilder.buildThematic({
+        id: 'recThemA',
+        name: 'thematic1_name',
+        competenceId: 'recCompA',
+      });
+      const thematicInAnotherCompetence = domainBuilder.buildThematic({
+        id: 'recThemB',
+        name: 'thematic2_name',
+        competenceId: 'anotherCompetence',
+      });
       tube = domainBuilder.buildTube({
         id: 'recTube0',
         name: 'tubeName',
@@ -64,27 +80,26 @@ describe('Integration | Repository | training-repository', function () {
         isMobileCompliant: true,
         isTabletCompliant: true,
         competenceId: 'recCompetence0',
-        thematicId: 'thematicCoucou',
+        thematicId: 'recThemA',
         skillIds: ['skillSuper', 'skillGenial'],
         skills: [],
       });
       const learningContent = {
+        areas: [area1],
+        competences: [competence1, competenceInAnotherArea],
+        thematics: [
+          { id: thematic1.id, name_i18n: { fr: thematic1.name }, competenceId: thematic1.competenceId },
+          {
+            id: thematicInAnotherCompetence.id,
+            name_i18n: { fr: thematicInAnotherCompetence.name },
+            competenceId: thematicInAnotherCompetence.competenceId,
+          },
+        ],
         tubes: [
           {
-            id: 'recTube0',
-            name: 'tubeName',
-            title: 'tubeTitle',
-            description: 'tubeDescription',
-            practicalTitle_i18n: {
-              fr: 'translatedPracticalTitle',
-            },
-            practicalDescription_i18n: {
-              fr: 'translatedPracticalDescription',
-            },
-            isMobileCompliant: true,
-            isTabletCompliant: true,
-            competenceId: 'recCompetence0',
-            thematicId: 'thematicCoucou',
+            id: tube.id,
+            name: tube.name,
+            thematicId: 'recThemA',
             skillIds: ['skillSuper', 'skillGenial'],
           },
         ],
@@ -125,6 +140,12 @@ describe('Integration | Repository | training-repository', function () {
       expect(result.triggers[0].triggerTubes[0].id).to.deep.equal(trainingTriggerTube.id);
       expect(result.triggers[0].triggerTubes[0].tube.name).to.deep.equal(tube.name);
       expect(result.triggers[0].triggerTubes[0].level).to.deep.equal(trainingTriggerTube.level);
+      expect(result.triggers[0].areas).to.have.lengthOf(1);
+      expect(result.triggers[0].areas[0].id).to.equal(area1.id);
+      expect(result.triggers[0].areas[0].competences).to.have.lengthOf(1);
+      expect(result.triggers[0].areas[0].competences[0].id).to.equal(competence1.id);
+      expect(result.triggers[0].areas[0].competences[0].thematics).to.have.lengthOf(1);
+      expect(result.triggers[0].areas[0].competences[0].thematics[0].id).to.equal(thematic1.id);
     });
   });
 
