@@ -123,7 +123,9 @@ describe('Acceptance | Controller | training-controller', function () {
       ).attributes;
       expect(returnedTriggerTube.id).to.deep.equal(trainingTriggerTube.id);
 
-      const returnedTrigger = response.result.included.find((included) => included.type === 'triggers').attributes;
+      const returnedTrigger = response.result.included.find(
+        (included) => included.type === 'training-triggers'
+      ).attributes;
       expect(returnedTrigger.id).to.deep.equal(trainingTrigger.id);
 
       const returnedTriggerArea = response.result.included.find((included) => included.type === 'areas').attributes;

@@ -39,7 +39,7 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
         thematics: [thematic1, thematicInAnotherCompetence],
         triggerTubes: [trainingTriggerTube1, anotherTrainingTriggerTube],
       });
-      const training = domainBuilder.buildTraining({ id: trainingId, triggers: [trainingTrigger] });
+      const training = domainBuilder.buildTraining({ id: trainingId, trainingTriggers: [trainingTrigger] });
 
       const expectedSerializedTraining = {
         data: {
@@ -64,11 +64,11 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
                 related: '/api/admin/trainings/123/target-profile-summaries',
               },
             },
-            triggers: {
+            'training-triggers': {
               data: [
                 {
                   id: `${trainingTriggerId}`,
-                  type: 'triggers',
+                  type: 'training-triggers',
                 },
               ],
             },
@@ -205,7 +205,7 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
                 ],
               },
             },
-            type: 'triggers',
+            type: 'training-triggers',
           },
         ],
       };
