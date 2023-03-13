@@ -1,17 +1,8 @@
 {{! template-lint-disable no-unknown-arguments-for-builtin-components }}
 
 <div class="login-form">
-  {{#if this.isErrorMessagePresent}}
-    <div id="login-error-message" class="login-form__error-message error-message">{{t
-        "pages.login-or-register.login-form.error"
-      }}</div>
-  {{/if}}
-
-  {{#if this.hasUpdateUserError}}
-    <div
-      id="update-form-error-message"
-      class="login-form__error-message error-message"
-    >{{this.updateErrorMessage}}</div>
+  {{#if this.errorMessage}}
+    <div id="update-form-error-message" class="login-form__error-message error-message">{{this.errorMessage}}</div>
   {{/if}}
 
   <form {{on "submit" this.authenticate}}>

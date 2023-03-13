@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import { click, fillIn, render, find } from '@ember/test-helpers';
+import { fillByLabel, render as renderScreen } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -30,25 +31,27 @@ module('Integration | Component | routes/login-form', function (hooks) {
 
   test('should display an error message when authentication fails', async function (assert) {
     // given
+    const errorResponse = {
+      status: 401,
+      responseJSON: {
+        errors: [{ status: '401' }],
+      },
+    };
+
     class SessionStub extends Service {
-      authenticate = sinon.stub().rejects();
+      authenticate = sinon.stub().rejects(errorResponse);
     }
     this.owner.register('service:session', SessionStub);
 
+    const screen = await renderScreen(hbs`<Routes::LoginForm/>`);
+    await fillByLabel('Adresse e-mail ou identifiant', 'pix@example.net');
+    await fillByLabel('Mot de passe', 'Mauvais mot de passe');
+
     //  when
-    await render(hbs`<Routes::LoginForm/>`);
-    await fillIn('#login', 'pix@example.net');
-    await fillIn('#password', 'Mauvais mot de passe');
     await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
 
     // then
-    assert.dom('div[id="login-error-message"]').exists();
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(
-      find('#login-error-message').textContent,
-      "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects"
-    );
+    assert.dom(screen.getByText(this.intl.t('pages.login-or-register.login-form.error'))).exists();
   });
 
   test('should display password when user click', async function (assert) {
