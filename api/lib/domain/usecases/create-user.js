@@ -56,10 +56,10 @@ async function _validateData({ password, user, userRepository }) {
 }
 
 module.exports = async function createUser({
-  user,
-  password,
   campaignCode,
-  locale,
+  localeFromHeader,
+  password,
+  user,
   authenticationMethodRepository,
   campaignRepository,
   userRepository,
@@ -94,11 +94,11 @@ module.exports = async function createUser({
     if (campaignCode) {
       const campaign = await campaignRepository.getByCode(campaignCode);
       if (campaign) {
-        redirectionUrl = getCampaignUrl(locale, campaignCode);
+        redirectionUrl = getCampaignUrl(localeFromHeader, campaignCode);
       }
     }
 
-    await mailService.sendAccountCreationEmail(savedUser.email, locale, redirectionUrl);
+    await mailService.sendAccountCreationEmail(savedUser.email, localeFromHeader, redirectionUrl);
 
     return savedUser;
   }
