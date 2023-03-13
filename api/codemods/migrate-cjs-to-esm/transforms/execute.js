@@ -2,9 +2,11 @@
 /* eslint-disable no-undef */
 const codemods = [
   require('./src/cjs-export-to-esm-export'),
-  require('./src/cjs-import-to-esm-named-import'),
-  require('./src/cjs-named-import-with-key-chained-require-to-esm-named-import'),
   require('./src/cjs-export-directly-specified-on-exports-expression-key-to-esm'),
+  require('./src/cjs-named-import-with-key-chained-require-to-esm-named-import'),
+  require('./src/cjs-anonymous-import-to-namespace-import'),
+  require('./src/cjs-import-to-esm-named-import'),
+  require('./src/cjs-package-import-to-esm-import'),
 ];
 
 const transformScripts = (fileInfo, api, options) => {
