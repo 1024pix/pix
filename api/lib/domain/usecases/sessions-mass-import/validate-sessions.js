@@ -104,7 +104,7 @@ async function _createValidCertificationCandidates({
     const domainCertificationCandidate = new CertificationCandidate({
       ...certificationCandidate,
       sessionId,
-      billingMode,
+      billingMode: billingMode || certificationCandidate.billingMode,
     });
 
     const { certificationCandidateErrors, cpfBirthInformation } =
