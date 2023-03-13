@@ -2,9 +2,11 @@
   <Ui::Breadcrumb @links={{this.breadcrumbLinks}} />
 </header>
 
+<h1 class="page__title page-title">{{@participation.firstName}} {{@participation.lastName}}</h1>
+
 <section class="panel panel--header">
   <header class="panel-header__headline">
-    <h2 class="panel-header-title">{{@participation.firstName}} {{@participation.lastName}}</h2>
+    <h2 class="panel-header-title">{{@campaign.name}}</h2>
   </header>
 
   <div class="panel-header__body">
