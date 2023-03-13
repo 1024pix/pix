@@ -131,21 +131,21 @@ describe('Integration | Repository | training-repository', function () {
 
       // then
       expect(result).to.be.instanceOf(Training);
-      expect(result.triggers).to.have.lengthOf(1);
-      expect(result.triggers[0]).to.be.instanceOf(TrainingTrigger);
-      expect(result.triggers[0].id).to.deep.equal(trainingTrigger.id);
-      expect(result.triggers[0].threshold).to.deep.equal(trainingTrigger.threshold);
-      expect(result.triggers[0].type).to.deep.equal(trainingTrigger.type);
-      expect(result.triggers[0].triggerTubes).to.have.lengthOf(1);
-      expect(result.triggers[0].triggerTubes[0].id).to.deep.equal(trainingTriggerTube.id);
-      expect(result.triggers[0].triggerTubes[0].tube.name).to.deep.equal(tube.name);
-      expect(result.triggers[0].triggerTubes[0].level).to.deep.equal(trainingTriggerTube.level);
-      expect(result.triggers[0].areas).to.have.lengthOf(1);
-      expect(result.triggers[0].areas[0].id).to.equal(area1.id);
-      expect(result.triggers[0].areas[0].competences).to.have.lengthOf(1);
-      expect(result.triggers[0].areas[0].competences[0].id).to.equal(competence1.id);
-      expect(result.triggers[0].areas[0].competences[0].thematics).to.have.lengthOf(1);
-      expect(result.triggers[0].areas[0].competences[0].thematics[0].id).to.equal(thematic1.id);
+      expect(result.trainingTriggers).to.have.lengthOf(1);
+      expect(result.trainingTriggers[0]).to.be.instanceOf(TrainingTrigger);
+      expect(result.trainingTriggers[0].id).to.deep.equal(trainingTrigger.id);
+      expect(result.trainingTriggers[0].threshold).to.deep.equal(trainingTrigger.threshold);
+      expect(result.trainingTriggers[0].type).to.deep.equal(trainingTrigger.type);
+      expect(result.trainingTriggers[0].triggerTubes).to.have.lengthOf(1);
+      expect(result.trainingTriggers[0].triggerTubes[0].id).to.deep.equal(trainingTriggerTube.id);
+      expect(result.trainingTriggers[0].triggerTubes[0].tube.name).to.deep.equal(tube.name);
+      expect(result.trainingTriggers[0].triggerTubes[0].level).to.deep.equal(trainingTriggerTube.level);
+      expect(result.trainingTriggers[0].areas).to.have.lengthOf(1);
+      expect(result.trainingTriggers[0].areas[0].id).to.equal(area1.id);
+      expect(result.trainingTriggers[0].areas[0].competences).to.have.lengthOf(1);
+      expect(result.trainingTriggers[0].areas[0].competences[0].id).to.equal(competence1.id);
+      expect(result.trainingTriggers[0].areas[0].competences[0].thematics).to.have.lengthOf(1);
+      expect(result.trainingTriggers[0].areas[0].competences[0].thematics[0].id).to.equal(thematic1.id);
     });
   });
 

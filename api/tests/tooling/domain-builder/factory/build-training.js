@@ -12,7 +12,7 @@ module.exports = function buildTraining({
   targetProfileIds = [1],
   editorName = 'Ministère education nationale',
   editorLogoUrl = 'https://images.pix.fr/contenu-formatif/editeur/editor_logo_url.svg',
-  triggers,
+  trainingTriggers,
 } = {}) {
   return new Training({
     id,
@@ -24,6 +24,6 @@ module.exports = function buildTraining({
     targetProfileIds,
     editorName,
     editorLogoUrl,
-    triggers,
+    trainingTriggers,
   });
 };
