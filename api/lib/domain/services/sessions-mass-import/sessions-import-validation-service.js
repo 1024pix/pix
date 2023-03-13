@@ -65,7 +65,14 @@ module.exports = {
     });
 
     if (cpfBirthInformation.hasFailed()) {
-      _addToErrorList({ errorList: certificationCandidateErrors, line, codes: [cpfBirthInformation.code] });
+      if (
+        _isErrorNotDuplicated({
+          certificationCandidateErrors,
+          errorCode: cpfBirthInformation.code,
+        })
+      ) {
+        _addToErrorList({ errorList: certificationCandidateErrors, line, codes: [cpfBirthInformation.code] });
+      }
     }
 
     return {
@@ -79,6 +86,10 @@ module.exports = {
     };
   },
 };
+
+function _isErrorNotDuplicated({ certificationCandidateErrors, errorCode }) {
+  return !certificationCandidateErrors.some((error) => errorCode === error.code);
+}
 
 function _addToErrorList({ errorList, line, codes = [] }) {
   const errors = codes.map((code) => ({ code, line }));
