@@ -3,5 +3,5 @@
 {{#if this.showTriggersEditForm}}
   {{outlet}}
 {{else if this.canCreateTriggers}}
-  <Trainings::CreateTrainingTriggers />
+  <Trainings::CreateTrainingTriggers @training={{this.model}} />
 {{/if}}

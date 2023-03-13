@@ -1,31 +1,41 @@
 <section class="page-section trigger-card">
   <h2 class="trigger-card__title">{{t "pages.trainings.training.triggers.prerequisite.title"}}</h2>
   <p class="trigger-card__description">{{t "pages.trainings.training.triggers.prerequisite.edit.description"}}</p>
-  <PixButtonLink
-    class="trigger-card__toggler"
-    @route="authenticated.trainings.training.triggers.edit"
-    @query={{hash type="prerequisite"}}
-    @backgroundColor="transparent-light"
-    @isBorderVisible={{true}}
-    aria-label={{t "pages.trainings.training.triggers.prerequisite.alternative-title"}}
-    @iconBefore="plus"
-  >
-    {{t "pages.trainings.training.triggers.prerequisite.title"}}
-  </PixButtonLink>
+
+  {{#if @training.prerequisiteTrigger}}
+    <p>Un prerequis est défini</p>
+  {{else}}
+    <PixButtonLink
+      class="trigger-card__toggler"
+      @route="authenticated.trainings.training.triggers.edit"
+      @query={{hash type="prerequisite"}}
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      aria-label={{t "pages.trainings.training.triggers.prerequisite.alternative-title"}}
+      @iconBefore="plus"
+    >
+      {{t "pages.trainings.training.triggers.prerequisite.title"}}
+    </PixButtonLink>
+  {{/if}}
 </section>
 
 <section class="page-section trigger-card">
   <h2 class="trigger-card__title">{{t "pages.trainings.training.triggers.goal.title"}}</h2>
   <p class="trigger-card__description">S{{t "pages.trainings.training.triggers.goal.edit.description"}}</p>
-  <PixButtonLink
-    class="trigger-card__toggler"
-    @route="authenticated.trainings.training.triggers.edit"
-    @query={{hash type="goal"}}
-    @backgroundColor="transparent-light"
-    @isBorderVisible={{true}}
-    aria-label={{t "pages.trainings.training.triggers.goal.alternative-title"}}
-    @iconBefore="plus"
-  >
-    {{t "pages.trainings.training.triggers.goal.title"}}
-  </PixButtonLink>
+
+  {{#if @training.goalTrigger}}
+    <p>Un objectif est défini</p>
+  {{else}}
+    <PixButtonLink
+      class="trigger-card__toggler"
+      @route="authenticated.trainings.training.triggers.edit"
+      @query={{hash type="goal"}}
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      aria-label={{t "pages.trainings.training.triggers.goal.alternative-title"}}
+      @iconBefore="plus"
+    >
+      {{t "pages.trainings.training.triggers.goal.title"}}
+    </PixButtonLink>
+  {{/if}}
 </section>
