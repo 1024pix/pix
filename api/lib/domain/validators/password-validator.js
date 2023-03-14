@@ -1,9 +1,9 @@
 import Joi from 'joi';
 import XRegExp from 'xregexp';
 
-import { account } from '../../config.js';
+import { config } from '../../config.js';
 
-const { passwordValidationPattern } = account;
+const { passwordValidationPattern } = config.account;
 
 import { EntityValidationError } from '../errors.js';
 

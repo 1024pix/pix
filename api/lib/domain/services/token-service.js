@@ -8,27 +8,27 @@ import {
   ForbiddenAccess,
 } from '../../domain/errors.js';
 
-import { settings } from '../../config.js';
+import { config } from '../../config.js';
 
 function _createAccessToken({ userId, source, expirationDelaySeconds }) {
-  return jsonwebtoken.sign({ user_id: userId, source }, settings.authentication.secret, {
+  return jsonwebtoken.sign({ user_id: userId, source }, config.authentication.secret, {
     expiresIn: expirationDelaySeconds,
   });
 }
 
 function createAccessTokenFromUser(userId, source) {
-  const expirationDelaySeconds = settings.authentication.accessTokenLifespanMs / 1000;
+  const expirationDelaySeconds = config.authentication.accessTokenLifespanMs / 1000;
   const accessToken = _createAccessToken({ userId, source, expirationDelaySeconds });
   return { accessToken, expirationDelaySeconds };
 }
 
 function createAccessTokenFromAnonymousUser(userId) {
-  const expirationDelaySeconds = settings.anonymous.accessTokenLifespanMs / 1000;
+  const expirationDelaySeconds = config.anonymous.accessTokenLifespanMs / 1000;
   return _createAccessToken({ userId, source: 'pix', expirationDelaySeconds });
 }
 
 function createAccessTokenForSaml(userId) {
-  const expirationDelaySeconds = settings.saml.accessTokenLifespanMs / 1000;
+  const expirationDelaySeconds = config.saml.accessTokenLifespanMs / 1000;
   return _createAccessToken({ userId, source: 'external', expirationDelaySeconds });
 }
 
@@ -36,8 +36,8 @@ function createAccessTokenFromApplication(
   clientId,
   source,
   scope,
-  secret = settings.authentication.secret,
-  expiresIn = settings.authentication.accessTokenLifespanMs
+  secret = config.authentication.secret,
+  expiresIn = config.authentication.accessTokenLifespanMs
 ) {
   return jsonwebtoken.sign(
     {
@@ -56,8 +56,8 @@ function createTokenForCampaignResults({ userId, campaignId }) {
       access_id: userId,
       campaign_id: campaignId,
     },
-    settings.authentication.secret,
-    { expiresIn: settings.authentication.tokenForCampaignResultLifespan }
+    config.authentication.secret,
+    { expiresIn: config.authentication.tokenForCampaignResultLifespan }
   );
 }
 
@@ -68,8 +68,8 @@ function createIdTokenForUserReconciliation(externalUser) {
       last_name: externalUser.lastName,
       saml_id: externalUser.samlId,
     },
-    settings.authentication.secret,
-    { expiresIn: settings.authentication.tokenForStudentReconciliationLifespan }
+    config.authentication.secret,
+    { expiresIn: config.authentication.tokenForStudentReconciliationLifespan }
   );
 }
 
@@ -83,7 +83,7 @@ function createCertificationResultsByRecipientEmailLinkToken({
       session_id: sessionId,
       result_recipient_email: resultRecipientEmail,
     },
-    settings.authentication.secret,
+    config.authentication.secret,
     {
       expiresIn: `${daysBeforeExpiration}d`,
     }
@@ -95,7 +95,7 @@ function createCertificationResultsLinkToken({ sessionId, daysBeforeExpiration }
     {
       session_id: sessionId,
     },
-    settings.authentication.secret,
+    config.authentication.secret,
     {
       expiresIn: `${daysBeforeExpiration}d`,
     }
@@ -107,8 +107,8 @@ function createPasswordResetToken(userId) {
     {
       user_id: userId,
     },
-    settings.authentication.secret,
-    { expiresIn: settings.authentication.passwordResetTokenLifespan }
+    config.authentication.secret,
+    { expiresIn: config.authentication.passwordResetTokenLifespan }
   );
 }
 
@@ -130,7 +130,7 @@ function decodeIfValid(token) {
   });
 }
 
-function getDecodedToken(token, secret = settings.authentication.secret) {
+function getDecodedToken(token, secret = config.authentication.secret) {
   try {
     return jsonwebtoken.verify(token, secret);
   } catch (err) {
@@ -171,7 +171,7 @@ function extractUserId(token) {
   return decoded.user_id || null;
 }
 
-function extractClientId(token, secret = settings.authentication.secret) {
+function extractClientId(token, secret = config.authentication.secret) {
   const decoded = getDecodedToken(token, secret);
   return decoded.client_id || null;
 }

@@ -1,9 +1,11 @@
 import pino from 'pino';
 import pretty from 'pino-pretty';
-import { logging as logSettings } from '../config.js';
+import { config } from '../config.js';
+
+const { logging } = config;
 
 let prettyPrint;
-if (logSettings.logForHumans) {
+if (logging.logForHumans) {
   const omitDay = 'HH:MM:ss';
   prettyPrint = pretty({
     sync: true,
@@ -15,9 +17,9 @@ if (logSettings.logForHumans) {
 
 const logger = pino(
   {
-    level: logSettings.logLevel,
+    level: logging.logLevel,
     redact: ['req.headers.authorization'],
-    enabled: logSettings.enabled,
+    enabled: logging.enabled,
   },
   prettyPrint
 );

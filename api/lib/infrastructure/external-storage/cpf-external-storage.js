@@ -1,6 +1,7 @@
 import { s3Utils } from './s3-utils.js';
-import { cpf } from '../../config.js';
+import { config } from '../../config.js';
 import { logger } from '../logger.js';
+const { cpf } = config;
 
 const upload = async function ({ filename, readableStream, dependencies = { s3Utils, logger } }) {
   dependencies.logger.trace('cpfExternalStorage: start upload');

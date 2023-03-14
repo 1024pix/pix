@@ -1,5 +1,5 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { settings } from '../../../lib/config.js';
+import { config } from '../../../lib/config.js';
 import { OidcIdentityProviders } from '../../domain/constants/oidc-identity-providers.js';
 
 const create = function ({ poleEmploiSending }) {
@@ -7,7 +7,7 @@ const create = function ({ poleEmploiSending }) {
 };
 
 const find = async function (sending, filters) {
-  const POLE_EMPLOI_SENDINGS_LIMIT = settings.poleEmploi.poleEmploiSendingsLimit;
+  const POLE_EMPLOI_SENDINGS_LIMIT = config.poleEmploi.poleEmploiSendingsLimit;
 
   const rawSendings = await knex('pole-emploi-sendings')
     .select(

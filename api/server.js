@@ -3,7 +3,7 @@ dotenv.config();
 import Hapi from '@hapi/hapi';
 import Oppsy from 'oppsy';
 
-import { settings, port, logging } from './lib/config.js';
+import { config } from './lib/config.js';
 import { preResponseUtils } from './lib/application/pre-response-utils.js';
 import { routes } from './lib/routes.js';
 import { plugins } from './lib/infrastructure/plugins.js';
@@ -16,10 +16,11 @@ import { knex } from './db/knex-database-connection.js';
 
 monitoringTools.installHapiHook();
 
+const { logOpsMetrics, port, logging } = config;
 const createServer = async () => {
   const server = createBareServer();
 
-  if (settings.logOpsMetrics) await enableOpsMetrics(server);
+  if (logOpsMetrics) await enableOpsMetrics(server);
 
   setupErrorHandling(server);
 

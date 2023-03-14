@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
-import { cpf } from '../../../../config.js';
+import { config } from '../../../../config.js';
 
-const { plannerJob } = cpf;
+const { plannerJob } = config.cpf;
 
 const planner = async function ({ job, pgBoss, cpfCertificationResultRepository, logger }) {
   const startDate = dayjs()

@@ -1,4 +1,4 @@
-import { settings } from '../../config.js';
+import { config } from '../../config.js';
 
 class UserLogin {
   constructor({ id, userId, failureCount = 0, temporaryBlockedUntil, blockedAt, createdAt, updatedAt } = {}) {
@@ -26,12 +26,12 @@ class UserLogin {
   }
 
   shouldMarkUserAsTemporarilyBlocked() {
-    return this.failureCount % settings.login.temporaryBlockingThresholdFailureCount === 0;
+    return this.failureCount % config.login.temporaryBlockingThresholdFailureCount === 0;
   }
 
   markUserAsTemporarilyBlocked() {
-    const commonRatio = Math.pow(2, this.failureCount / settings.login.temporaryBlockingThresholdFailureCount - 1);
-    this.temporaryBlockedUntil = new Date(Date.now() + settings.login.temporaryBlockingBaseTimeMs * commonRatio);
+    const commonRatio = Math.pow(2, this.failureCount / config.login.temporaryBlockingThresholdFailureCount - 1);
+    this.temporaryBlockedUntil = new Date(Date.now() + config.login.temporaryBlockingBaseTimeMs * commonRatio);
   }
 
   hasFailedAtLeastOnce() {
@@ -39,7 +39,7 @@ class UserLogin {
   }
 
   shouldMarkUserAsBlocked() {
-    return this.failureCount >= settings.login.blockingLimitFailureCount;
+    return this.failureCount >= config.login.blockingLimitFailureCount;
   }
 
   markUserAsBlocked() {

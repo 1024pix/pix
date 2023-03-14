@@ -1,5 +1,5 @@
-import { settings } from '../../config.js';
-const REDIS_URL = settings.temporaryStorage.redisUrl;
+import { config } from '../../config.js';
+const REDIS_URL = config.temporaryStorage.redisUrl;
 
 import { InMemoryTemporaryStorage } from './InMemoryTemporaryStorage.js';
 import { RedisTemporaryStorage } from './RedisTemporaryStorage.js';

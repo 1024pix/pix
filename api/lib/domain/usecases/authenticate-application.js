@@ -5,7 +5,8 @@ import {
 } from '../../domain/errors.js';
 
 import { find } from 'lodash';
-import { apimRegisterApplicationsCredentials, jwtConfig } from '../../config.js';
+import { config } from '../../config.js';
+const { apimRegisterApplicationsCredentials, jwtConfig } = config;
 
 function _checkClientId(application, clientId) {
   if (!application || application.clientId !== clientId) {

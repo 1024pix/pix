@@ -1,11 +1,12 @@
 import Debug from 'debug';
 import { SendinblueProvider } from './SendinblueProvider.js';
-import { mailing } from '../../config.js';
+import { config } from '../../config.js';
 import { logger } from '../logger.js';
 import { mailCheck } from '../mail-check.js';
 import { EmailingAttempt } from '../../domain/models/EmailingAttempt.js';
 import { MailingProviderInvalidEmailError } from './MailingProviderInvalidEmailError.js';
 
+const { mailing } = config;
 const debugEmail = Debug('pix:mailer:email');
 
 class Mailer {

@@ -1,6 +1,6 @@
 import Boom from '@hapi/boom';
 const packageJSON = require('../../../package.json');
-import { settings } from '../../config.js';
+import { config } from '../../config.js';
 import { redisMonitor } from '../../infrastructure/utils/redis-monitor.js';
 import { knex } from '../../../db/knex-database-connection.js';
 
@@ -9,7 +9,7 @@ const get = function (request) {
     name: packageJSON.name,
     version: packageJSON.version,
     description: packageJSON.description,
-    environment: settings.environment,
+    environment: config.environment,
     // eslint-disable-next-line node/no-process-env
     'container-version': process.env.CONTAINER_VERSION,
     // eslint-disable-next-line node/no-process-env
