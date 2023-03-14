@@ -1,6 +1,6 @@
 const fs = require('fs').promises;
 import { CsvParser } from '../csv-parser.js';
-import { ArchiveCampaignColumn } from './campaign-ids-csv-header.js';
+import { CampaignIdsCsvHeader } from './campaign-ids-csv-header.js';
 
 async function extractCampaignsIds(file) {
   const buffer = await fs.readFile(file);
@@ -16,7 +16,7 @@ async function extractCampaignsIds(file) {
 }
 
 function _extractIds(buffer) {
-  const columns = new ArchiveCampaignColumn();
+  const columns = new CampaignIdsCsvHeader();
   const campaignIdsCsv = new CsvParser(buffer, columns);
   return campaignIdsCsv.parse();
 }

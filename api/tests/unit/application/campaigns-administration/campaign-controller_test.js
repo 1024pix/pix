@@ -7,7 +7,7 @@ describe('Unit | Application | Controller | Campaign Administration', function (
   describe('#archiveCampaigns', function () {
     let csvCampaignsIdsParserStub;
     beforeEach(function () {
-      sinon.stub(usecases, 'campaignAdministrationArchiveCampaign');
+      sinon.stub(usecases, 'archiveCampaigns');
       csvCampaignsIdsParserStub = { extractCampaignsIds: sinon.stub() };
     });
 
@@ -19,7 +19,7 @@ describe('Unit | Application | Controller | Campaign Administration', function (
       const request = { auth: { credentials: { userId } }, payload: path };
 
       csvCampaignsIdsParserStub.extractCampaignsIds.withArgs(path).returns(ids);
-      usecases.campaignAdministrationArchiveCampaign.withArgs({ userId, ids });
+      usecases.archiveCampaigns.withArgs({ userId, ids });
 
       // when
       const response = await campaignController.archiveCampaigns(request, hFake, {

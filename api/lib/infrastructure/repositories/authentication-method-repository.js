@@ -1,10 +1,10 @@
 import _ from 'lodash';
 import { knex } from '../../../db/knex-database-connection.js';
-import { bookshelfUtils } from '../utils/knex-utils.js';
+import * as knexUtils from '../utils/knex-utils.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 import { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } from '../../domain/errors.js';
 import { AuthenticationMethod } from '../../domain/models/AuthenticationMethod.js';
-import { OidcIdentityProviders } from '../../domain/constants/oidc-identity-providers.js';
+import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';
 
 function _toDomain(authenticationMethodDTO) {
   if (authenticationMethodDTO.identityProvider === AuthenticationMethod.identityProviders.PIX) {
@@ -67,7 +67,7 @@ const create = async function ({ authenticationMethod, domainTransaction = Domai
       .returning(COLUMNS);
     return _toDomain(authenticationMethodDTO);
   } catch (err) {
-    if (bookshelfUtils.isUniqConstraintViolated(err)) {
+    if (knexUtils.isUniqConstraintViolated(err)) {
       throw new AlreadyExistingEntityError(
         `An authentication method already exists for the user ID ${authenticationMethod.userId} and the externalIdentifier ${authenticationMethod.externalIdentifier}.`
       );
@@ -104,7 +104,7 @@ const createPasswordThatShouldBeChanged = async function ({
       .returning(COLUMNS);
     return _toDomain(authenticationMethodDTO);
   } catch (err) {
-    if (bookshelfUtils.isUniqConstraintViolated(err)) {
+    if (knexUtils.isUniqConstraintViolated(err)) {
       throw new AlreadyExistingEntityError(`Authentication method PIX already exists for the user ID ${userId}.`);
     }
   }

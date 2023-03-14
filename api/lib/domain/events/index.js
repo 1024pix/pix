@@ -1,7 +1,7 @@
 import { injectDefaults, injectDependencies } from '../../infrastructure/utils/dependency-injection.js';
 import { EventDispatcher } from '../../infrastructure/events/EventDispatcher.js';
 import { EventDispatcherLogger } from '../../infrastructure/events/EventDispatcherLogger.js';
-import { MonitoringTools } from '../../infrastructure/monitoring-tools.js';
+import { monitoringTools as MonitoringTools } from '../../infrastructure/monitoring-tools.js';
 import { config } from '../../config.js';
 import _ from 'lodash';
 import { performance } from 'perf_hooks';
@@ -35,8 +35,8 @@ import * as juryCertificationSummaryRepository from '../../infrastructure/reposi
 import * as finalizedSessionRepository from '../../infrastructure/repositories/sessions/finalized-session-repository.js';
 import * as challengeRepository from '../../infrastructure/repositories/challenge-repository.js';
 import { logger } from '../../infrastructure/logger.js';
-import { poleEmploiNotifier } from '../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
-import { disabledPoleEmploiNotifier } from '../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js';
+import * as poleEmploiNotifier from '../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
+import * as disabledPoleEmploiNotifier from '../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js';
 
 function requirePoleEmploiNotifier() {
   if (config.poleEmploi.pushEnabled) {
@@ -101,7 +101,7 @@ const handlersToBeInjected = {
 };
 
 function buildEventDispatcher(handlersStubs) {
-  const eventDispatcher = new EventDispatcher(new EventDispatcherLogger(MonitoringTools, settings, performance));
+  const eventDispatcher = new EventDispatcher(new EventDispatcherLogger(MonitoringTools, config, performance));
 
   const handlersNames = _.map(handlersToBeInjected, (handler) => handler.name);
 

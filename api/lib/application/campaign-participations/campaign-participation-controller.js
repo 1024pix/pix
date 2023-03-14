@@ -1,7 +1,7 @@
 import { monitoringTools } from '../../infrastructure/monitoring-tools.js';
 import { usecases } from '../../domain/usecases/index.js';
-import { events } from '../../domain/events/index.js';
-import { queryParamsUtils } from '../../infrastructure/utils/query-params-utils.js';
+import * as events from '../../domain/events/index.js';
+import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
 import * as campaignParticipationSerializer from '../../infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
 import * as campaignAnalysisSerializer from '../../infrastructure/serializers/jsonapi/campaign-analysis-serializer.js';
 import * as campaignAssessmentParticipationSerializer from '../../infrastructure/serializers/jsonapi/campaign-assessment-participation-serializer.js';
@@ -9,7 +9,10 @@ import * as campaignAssessmentParticipationResultSerializer from '../../infrastr
 import * as campaignProfileSerializer from '../../infrastructure/serializers/jsonapi/campaign-profile-serializer.js';
 import * as campaignAssessmentResultMinimalSerializer from '../../infrastructure/serializers/jsonapi/campaign-assessment-result-minimal-serializer.js';
 import * as trainingSerializer from '../../infrastructure/serializers/jsonapi/training-serializer.js';
-import { requestResponseUtils, extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
+import {
+  extractUserIdFromRequest,
+  extractLocaleFromRequest,
+} from '../../infrastructure/utils/request-response-utils.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 
 const save = async function (request, h, dependencies = { campaignParticipationSerializer, monitoringTools }) {
@@ -128,7 +131,7 @@ const getCampaignAssessmentParticipationResult = async function (
 
 const findAssessmentParticipationResults = async function (request) {
   const campaignId = request.params.id;
-  const { page, filter: filters } = queryParamsUtils.extractParameters(request.query);
+  const { page, filter: filters } = extractParameters(request.query);
   if (filters.divisions && !Array.isArray(filters.divisions)) {
     filters.divisions = [filters.divisions];
   }
@@ -141,7 +144,7 @@ const findAssessmentParticipationResults = async function (request) {
   if (filters.stages && !Array.isArray(filters.stages)) {
     filters.stages = [filters.stages];
   }
-  const currentUserId = requestResponseUtils.extractUserIdFromRequest(request);
+  const currentUserId = extractUserIdFromRequest(request);
   const paginatedParticipations = await usecases.findAssessmentParticipationResultList({
     userId: currentUserId,
     campaignId,

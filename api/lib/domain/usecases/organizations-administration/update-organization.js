@@ -2,7 +2,7 @@ import bluebird from 'bluebird';
 import _ from 'lodash';
 import { OrganizationTag } from '../../models/OrganizationTag.js';
 import { DataProtectionOfficer } from '../../models/DataProtectionOfficer.js';
-import { apps } from '../../constants.js';
+import * as apps from '../../constants.js';
 
 async function _updateOrganizationTags({
   organization,

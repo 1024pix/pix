@@ -1,6 +1,6 @@
 import { knex } from '../../../../db/knex-database-connection.js';
 import { CampaignForArchiving } from '../../../domain/models/CampaignForArchiving.js';
-import { knexUtils } from '../../utils/knex-utils.js';
+import * as knexUtils from '../../utils/knex-utils.js';
 import { NotFoundError, UserNotFoundError } from '../../../domain/errors.js';
 
 async function save(campaign) {

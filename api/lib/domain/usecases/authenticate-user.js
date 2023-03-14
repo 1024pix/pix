@@ -8,17 +8,17 @@ import {
   UserShouldChangePasswordError,
 } from '../../domain/errors.js';
 
-import { apps } from '../constants.js';
+import { PIX_ORGA, PIX_ADMIN } from '../constants.js';
 
 async function _checkUserAccessScope(scope, user, adminMemberRepository) {
-  if (scope === apps.PIX_ORGA.SCOPE && !user.isLinkedToOrganizations()) {
-    throw new ForbiddenAccess(apps.PIX_ORGA.NOT_LINKED_ORGANIZATION_MSG);
+  if (scope === PIX_ORGA.SCOPE && !user.isLinkedToOrganizations()) {
+    throw new ForbiddenAccess(PIX_ORGA.NOT_LINKED_ORGANIZATION_MSG);
   }
 
-  if (scope === apps.PIX_ADMIN.SCOPE) {
+  if (scope === PIX_ADMIN.SCOPE) {
     const adminMember = await adminMemberRepository.get({ userId: user.id });
     if (!adminMember?.hasAccessToAdminScope) {
-      throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
+      throw new ForbiddenAccess(PIX_ADMIN.NOT_ALLOWED_MSG);
     }
   }
 }

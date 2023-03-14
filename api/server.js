@@ -1,10 +1,11 @@
 import dotenv from 'dotenv';
+
 dotenv.config();
 import Hapi from '@hapi/hapi';
 import Oppsy from 'oppsy';
 
 import { config } from './lib/config.js';
-import { preResponseUtils } from './lib/application/pre-response-utils.js';
+import * as preResponseUtils from './lib/application/pre-response-utils.js';
 import { routes } from './lib/routes.js';
 import { plugins } from './lib/infrastructure/plugins.js';
 import { swaggers } from './lib/swaggers.js';

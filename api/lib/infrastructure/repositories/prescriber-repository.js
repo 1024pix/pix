@@ -7,7 +7,7 @@ import { BookshelfUserOrgaSettings } from '../orm-models/UserOrgaSettings.js';
 import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
 import { ForbiddenAccess, UserNotFoundError } from '../../domain/errors.js';
 import { Prescriber } from '../../domain/read-models/Prescriber.js';
-import { apps } from '../../domain/constants.js';
+import * as apps from '../../domain/constants.js';
 
 function _toPrescriberDomain(bookshelfUser) {
   const { id, firstName, lastName, pixOrgaTermsOfServiceAccepted, lang } = bookshelfUser.toJSON();

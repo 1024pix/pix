@@ -2,7 +2,12 @@ import _ from 'lodash';
 import { Assessment } from './Assessment.js';
 import { CompetenceEvaluation } from './CompetenceEvaluation.js';
 import { KnowledgeElement } from './KnowledgeElement.js';
-import { constants } from '../constants.js';
+import {
+  MINIMUM_DELAY_IN_DAYS_FOR_RESET,
+  MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING,
+  PIX_COUNT_BY_LEVEL,
+  MAX_REACHABLE_LEVEL,
+} from '../constants.js';
 import * as scoringService from '../services/scoring/scoring-service.js';
 
 const statuses = {
@@ -85,16 +90,14 @@ class Scorecard {
 
   static computeRemainingDaysBeforeReset(knowledgeElements) {
     const daysSinceLastKnowledgeElement = KnowledgeElement.computeDaysSinceLastKnowledgeElement(knowledgeElements);
-    const remainingDaysToWait = Math.ceil(constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET - daysSinceLastKnowledgeElement);
+    const remainingDaysToWait = Math.ceil(MINIMUM_DELAY_IN_DAYS_FOR_RESET - daysSinceLastKnowledgeElement);
 
     return remainingDaysToWait > 0 ? remainingDaysToWait : 0;
   }
 
   static computeRemainingDaysBeforeImproving(knowledgeElements) {
     const daysSinceLastKnowledgeElement = KnowledgeElement.computeDaysSinceLastKnowledgeElement(knowledgeElements);
-    const remainingDaysToWait = Math.ceil(
-      constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING - daysSinceLastKnowledgeElement
-    );
+    const remainingDaysToWait = Math.ceil(MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING - daysSinceLastKnowledgeElement);
 
     return remainingDaysToWait > 0 ? remainingDaysToWait : 0;
   }
@@ -108,7 +111,7 @@ class Scorecard {
   }
 
   get isMaxLevel() {
-    return this.level >= constants.MAX_REACHABLE_LEVEL;
+    return this.level >= MAX_REACHABLE_LEVEL;
   }
 
   get isNotStarted() {
@@ -148,11 +151,11 @@ class Scorecard {
   }
 
   get percentageAheadOfNextLevel() {
-    return (this.pixScoreAheadOfNextLevel / constants.PIX_COUNT_BY_LEVEL) * 100;
+    return (this.pixScoreAheadOfNextLevel / PIX_COUNT_BY_LEVEL) * 100;
   }
 
   get remainingPixToNextLevel() {
-    return constants.PIX_COUNT_BY_LEVEL - this.pixScoreAheadOfNextLevel;
+    return PIX_COUNT_BY_LEVEL - this.pixScoreAheadOfNextLevel;
   }
 }
 

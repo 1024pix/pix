@@ -11,7 +11,7 @@ const { FRENCH_FRANCE } = LOCALE;
 
 import * as knowledgeElementRepository from './knowledge-element-repository.js';
 import * as skillRepository from './skill-repository.js';
-import { paginateModule } from '../utils/paginate.js';
+import * as paginateModule from '../utils/paginate.js';
 
 const findByRecordIdsForCurrentUser = async function ({ ids, userId, locale }) {
   const tutorials = await _findByRecordIds({ ids, locale });

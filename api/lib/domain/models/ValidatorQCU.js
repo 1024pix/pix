@@ -1,4 +1,4 @@
-import { solutionServiceQCU } from '../services/solution-service-qcu.js';
+import * as solutionServiceQCU from '../services/solution-service-qcu.js';
 import { Validation } from './Validation.js';
 import { Validator } from './Validator.js';
 
