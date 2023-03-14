@@ -36,6 +36,8 @@ const {
   OidcMissingFieldsError,
   OidcUserInfoFormatError,
   SendingEmailToInvalidEmailAddressError,
+  LocaleFormatError,
+  LocaleNotSupportedError,
 } = require('../../../lib/domain/errors');
 const HttpErrors = require('../../../lib/application/http-errors.js');
 
@@ -622,7 +624,7 @@ describe('Unit | Application | ErrorManager', function () {
     context('Mailing provider errors', function () {
       context('When receiving SendingEmailToInvalidEmailAddressError', function () {
         it('instantiates a BadRequest error', function () {
-          // Given
+          // given
           const error = new SendingEmailToInvalidEmailAddressError(
             'invalid@email.net',
             'Mailing provider error message'
@@ -630,7 +632,7 @@ describe('Unit | Application | ErrorManager', function () {
           sinon.stub(HttpErrors, 'BadRequestError');
           const params = { request: {}, h: hFake, error };
 
-          // When
+          // when
           handle(params.request, params.h, params.error);
 
           // then
@@ -638,6 +640,46 @@ describe('Unit | Application | ErrorManager', function () {
             error.message,
             'SENDING_EMAIL_TO_INVALID_EMAIL_ADDRESS',
             error.meta
+          );
+        });
+      });
+    });
+
+    context('Locale errors', function () {
+      context('When receiving LocaleFormatError', function () {
+        it('instantiates a BadRequest error', function () {
+          // given
+          const error = new LocaleFormatError('zzzz');
+          sinon.stub(HttpErrors, 'BadRequestError');
+          const params = { request: {}, h: hFake, error };
+
+          // when
+          handle(params.request, params.h, params.error);
+
+          // then
+          expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(
+            'Given locale is in invalid format: "zzzz"',
+            'INVALID_LOCALE_FORMAT',
+            { locale: 'zzzz' }
+          );
+        });
+      });
+
+      context('When receiving LocaleNotSupportedError', function () {
+        it('instantiates a BadRequest error', function () {
+          // given
+          const error = new LocaleNotSupportedError('nl-BE');
+          sinon.stub(HttpErrors, 'BadRequestError');
+          const params = { request: {}, h: hFake, error };
+
+          // when
+          handle(params.request, params.h, params.error);
+
+          // then
+          expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(
+            'Given locale is not supported : "nl-BE"',
+            'LOCALE_NOT_SUPPORTED',
+            { locale: 'nl-BE' }
           );
         });
       });
