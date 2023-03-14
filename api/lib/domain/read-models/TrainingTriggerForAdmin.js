@@ -1,4 +1,6 @@
-const types = require('../models/TrainingTrigger.js').types;
+import { TrainingTrigger } from '../models/TrainingTrigger.js';
+
+const { types } = TrainingTrigger;
 
 class TrainingTriggerForAdmin {
   constructor({ id, trainingId, triggerTubes, type, threshold, areas = [], competences = [], thematics = [] } = {}) {
@@ -14,7 +16,7 @@ class TrainingTriggerForAdmin {
   }
 }
 
-TrainingTriggerForAdmin.types = types;
+TrainingTriggerForAdmin.types = TrainingTrigger.types;
 
 class _Area {
   constructor({ id, title, code, color, competences = [], thematics = [], triggerTubes = [] } = {}) {

@@ -1,4 +1,4 @@
-import { categories } from '../constants/organization-places-categories.js';
+import * as categories from '../constants/organization-places-categories.js';
 import { validate } from '../validators/organization-places-lot-validator.js';
 
 const codeByCategories = {

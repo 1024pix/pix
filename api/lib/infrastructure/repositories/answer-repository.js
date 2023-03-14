@@ -3,7 +3,7 @@ import jsYaml from 'js-yaml';
 import { knex } from '../../../db/knex-database-connection.js';
 import { ChallengeAlreadyAnsweredError, NotFoundError } from '../../domain/errors.js';
 import { Answer } from '../../domain/models/Answer.js';
-import { answerStatusDatabaseAdapter } from '../adapters/answer-status-database-adapter.js';
+import * as answerStatusDatabaseAdapter from '../adapters/answer-status-database-adapter.js';
 
 function _adaptAnswerToDb(answer) {
   return {

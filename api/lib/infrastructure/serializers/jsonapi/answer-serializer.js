@@ -1,6 +1,6 @@
 import { Answer } from '../../../domain/models/Answer.js';
 import { Serializer } from 'jsonapi-serializer';
-import { answerStatusJSONAPIAdapter } from '../../adapters/answer-status-json-api-adapter.js';
+import { AnswerStatusJsonApiAdapter } from '../../adapters/answer-status-json-api-adapter.js';
 
 const serialize = function (answer) {
   return new Serializer('answer', {
@@ -8,7 +8,7 @@ const serialize = function (answer) {
       const answer = Object.assign({}, untouchedAnswer);
       answer.assessment = { id: answer.assessmentId };
       answer.challenge = { id: answer.challengeId };
-      answer.result = answerStatusJSONAPIAdapter.adapt(untouchedAnswer.result);
+      answer.result = AnswerStatusJsonApiAdapter.adapt(untouchedAnswer.result);
       return answer;
     },
     attributes: ['value', 'timeout', 'result', 'resultDetails', 'assessment', 'challenge', 'correction', 'levelup'],

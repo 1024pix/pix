@@ -1,9 +1,9 @@
 import { usecases } from '../../domain/usecases/index.js';
-import { events } from '../../domain/events/index.js';
+import * as events from '../../domain/events/index.js';
 import * as privateCertificateSerializer from '../../infrastructure/serializers/jsonapi/private-certificate-serializer.js';
 import * as shareableCertificateSerializer from '../../infrastructure/serializers/jsonapi/shareable-certificate-serializer.js';
-import { certificationAttestationPdf } from '../../infrastructure/utils/pdf/certification-attestation-pdf.js';
-import { requestResponseUtils } from '../../infrastructure/utils/request-response-utils.js';
+import * as certificationAttestationPdf from '../../infrastructure/utils/pdf/certification-attestation-pdf.js';
+import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 
 import moment from 'moment';
 

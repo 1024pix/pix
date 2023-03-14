@@ -2,7 +2,7 @@ import * as answerSerializer from '../../infrastructure/serializers/jsonapi/answ
 import * as answerPix1dSerializer from '../../infrastructure/serializers/jsonapi/answer-pix1d-serializer.js';
 import * as correctionSerializer from '../../infrastructure/serializers/jsonapi/correction-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
-import { requestResponseUtils } from '../../infrastructure/utils/request-response-utils.js';
+import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 
 const save = async function (request, h, dependencies = { answerSerializer, requestResponseUtils }) {
   const answer = dependencies.answerSerializer.deserialize(request.payload);

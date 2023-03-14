@@ -1,4 +1,4 @@
-const hashInt = require('hash-int');
+import hashInt from 'hash-int';
 
 class PseudoRandom {
   constructor(initialSeed) {
@@ -31,8 +31,8 @@ class PseudoRandom {
   }
 }
 
-module.exports = {
-  create: (seed) => {
-    return new PseudoRandom(seed);
-  },
+const create = (seed) => {
+  return new PseudoRandom(seed);
 };
+
+export { create };

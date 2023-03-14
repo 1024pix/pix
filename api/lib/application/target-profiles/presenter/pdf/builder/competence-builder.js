@@ -2,7 +2,7 @@ import sortBy from 'lodash/sortBy';
 import * as thematicBuilder from './thematic-builder.js';
 import { CompetenceText } from '../drawer/CompetenceText.js';
 import { PositionManager } from '../manager/position-manager.js';
-import { ColorManager } from '../manager/color-manager.js';
+import * as ColorManager from '../manager/color-manager.js';
 import { FontManager } from '../manager/font-manager.js';
 
 const build = function (positionY, page, competence, areaColor, dryRun = false) {

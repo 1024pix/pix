@@ -1,5 +1,5 @@
 import { ComplementaryCertificationHabilitation } from '../models/ComplementaryCertificationHabilitation.js';
-import { certificationCenterCreationValidator } from '../validators/certification-center-creation-validator.js';
+import * as certificationCenterCreationValidator from '../validators/certification-center-creation-validator.js';
 
 const createCertificationCenter = async function ({
   certificationCenter,

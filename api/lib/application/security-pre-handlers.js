@@ -22,7 +22,7 @@ import * as certificationIssueReportRepository from '../infrastructure/repositor
 import * as organizationRepository from '../infrastructure/repositories/organization-repository.js';
 import { Organization } from '../../lib/domain/models/Organization.js';
 import { ForbiddenAccess, NotFoundError } from '../..//lib/domain/errors.js';
-import { apps } from '../..//lib/domain/constants.js';
+import { PIX_ADMIN } from '../..//lib/domain/constants.js';
 
 const JSONAPIError = require('jsonapi-serializer').Error;
 import has from 'lodash/has';
@@ -71,7 +71,7 @@ async function checkAdminMemberHasRoleSuperAdmin(
   try {
     const hasRoleSuperAdmin = await dependencies.checkAdminMemberHasRoleSuperAdminUseCase.execute(userId);
     if (!hasRoleSuperAdmin) {
-      throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
+      throw new ForbiddenAccess(PIX_ADMIN.NOT_ALLOWED_MSG);
     }
     return h.response(true);
   } catch (e) {
@@ -89,7 +89,7 @@ async function checkAdminMemberHasRoleCertif(request, h, dependencies = { checkA
   try {
     const hasRoleCertif = await dependencies.checkAdminMemberHasRoleCertifUseCase.execute(userId);
     if (!hasRoleCertif) {
-      throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
+      throw new ForbiddenAccess(PIX_ADMIN.NOT_ALLOWED_MSG);
     }
     return h.response(true);
   } catch (e) {
@@ -107,7 +107,7 @@ async function checkAdminMemberHasRoleSupport(request, h, dependencies = { check
   try {
     const hasRoleSupport = await dependencies.checkAdminMemberHasRoleSupportUseCase.execute(userId);
     if (!hasRoleSupport) {
-      throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
+      throw new ForbiddenAccess(PIX_ADMIN.NOT_ALLOWED_MSG);
     }
     return h.response(true);
   } catch (e) {
@@ -125,7 +125,7 @@ async function checkAdminMemberHasRoleMetier(request, h, dependencies = { checkA
   try {
     const hasRoleMetier = await dependencies.checkAdminMemberHasRoleMetierUseCase.execute(userId);
     if (!hasRoleMetier) {
-      throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
+      throw new ForbiddenAccess(PIX_ADMIN.NOT_ALLOWED_MSG);
     }
     return h.response(true);
   } catch (e) {

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Models } from '../../domain/models/index.js';
+import * as Models from '../../domain/models/index.js';
 
 export { buildDomainObjects, buildDomainObject };
 
@@ -15,6 +15,7 @@ function buildDomainObject(BookshelfClass, bookshelfObject) {
 }
 
 function _buildDomainObject(BookshelfClass, bookshelfObjectJson) {
+  // eslint-disable-next-line import/namespace
   const Model = Models[BookshelfClass.modelName];
   const domainObject = new Model();
 

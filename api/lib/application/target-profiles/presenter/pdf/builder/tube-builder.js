@@ -1,7 +1,7 @@
 import { TubeText } from '../drawer/TubeText.js';
 import { PositionManager } from '../manager/position-manager.js';
 import { FontManager } from '../manager/font-manager.js';
-import { ColorManager } from '../manager/color-manager.js';
+import * as ColorManager from '../manager/color-manager.js';
 
 const START_BORDER = 2;
 

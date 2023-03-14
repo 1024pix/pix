@@ -3,7 +3,7 @@ import { knex } from '../../../db/knex-database-connection.js';
 import { BookshelfKnowledgeElementSnapshot } from '../orm-models/KnowledgeElementSnapshot.js';
 import { KnowledgeElement } from '../../domain/models/KnowledgeElement.js';
 import { AlreadyExistingEntityError } from '../../domain/errors.js';
-import { bookshelfUtils } from '../utils/knex-utils.js';
+import * as knexUtils from '../utils/knex-utils.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 
 function _toKnowledgeElementCollection({ snapshot } = {}) {
@@ -30,7 +30,7 @@ const save = async function ({
       snapshot: JSON.stringify(knowledgeElements),
     }).save(null, { transacting: domainTransaction.knexTransaction });
   } catch (error) {
-    if (bookshelfUtils.isUniqConstraintViolated(error)) {
+    if (knexUtils.isUniqConstraintViolated(error)) {
       throw new AlreadyExistingEntityError(
         `A snapshot already exists for the user ${userId} at the datetime ${snappedAt}.`
       );
