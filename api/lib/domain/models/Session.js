@@ -105,9 +105,9 @@ class Session {
   }
 }
 
-export { Session };
-module.exports.statuses = statuses;
-module.exports.NO_EXAMINER_GLOBAL_COMMENT = NO_EXAMINER_GLOBAL_COMMENT;
+Session.statuses = statuses;
+
+export { Session, statuses, NO_EXAMINER_GLOBAL_COMMENT };
 
 function _randomCharacter() {
   return _.sample(availableCharactersForPasswordGeneration);

@@ -1,6 +1,6 @@
 import { monitoringTools } from '../../infrastructure/monitoring-tools.js';
 import { ParticipationResultCalculationJob } from '../jobs/campaign-result/ParticipationResultCalculationJob.js';
-import { SendSharedParticipationResultsToPoleEmploiJob } from '../jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob.js';
+import { SendSharedParticipationResultsToPoleEmploi } from '../jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob.js';
 
 function build(classToInstanciate, domainTransaction) {
   const dependencies = _buildDependencies(domainTransaction);
@@ -13,7 +13,7 @@ function _buildDependencies(domainTransaction) {
   return {
     monitoringTools,
     participationResultCalculationJob: new ParticipationResultCalculationJob(domainTransaction.knexTransaction),
-    sendSharedParticipationResultsToPoleEmploiJob: new SendSharedParticipationResultsToPoleEmploiJob(
+    sendSharedParticipationResultsToPoleEmploiJob: new SendSharedParticipationResultsToPoleEmploi(
       domainTransaction.knexTransaction
     ),
   };
