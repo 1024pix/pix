@@ -24,7 +24,6 @@ export default class Training extends Model {
   @attr('string') locale;
   @attr('string') editorName;
   @attr('string') editorLogoUrl;
-
   @attr({
     defaultValue: () => ({
       days: 0,
@@ -33,10 +32,17 @@ export default class Training extends Model {
     }),
   })
   duration;
-  @attr('number') prerequisiteThreshold;
-  @attr('number') goalThreshold;
 
+  @hasMany('training-trigger') trainingTriggers;
   @hasMany('target-profile-summary') targetProfileSummaries;
+
+  get prerequisiteTrigger() {
+    return this.trainingTriggers.findBy('type', 'prerequisite');
+  }
+
+  get goalTrigger() {
+    return this.trainingTriggers.findBy('type', 'goal');
+  }
 
   get sortedTargetProfileSummaries() {
     return this.targetProfileSummaries.sortBy('id');

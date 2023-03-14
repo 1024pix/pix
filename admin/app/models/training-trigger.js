@@ -4,5 +4,6 @@ export default class TrainingTrigger extends Model {
   @attr('string') type;
   @attr('number') trainingId;
   @attr('number') threshold;
-  @hasMany('tube') tubes;
+
+  @hasMany('trigger-tube') triggerTubes;
 }
