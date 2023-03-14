@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { knex } from '../../../db/knex-database-connection.js';
-import { settings } from '../../config.js';
+import { config } from '../../config.js';
 import { BookshelfUser } from '../orm-models/User.js';
 import { BookshelfMembership } from '../orm-models/Membership.js';
 import { BookshelfUserOrgaSettings } from '../orm-models/UserOrgaSettings.js';
@@ -34,8 +34,8 @@ async function _areNewYearOrganizationLearnersImportedForPrescriber(prescriber) 
     .join('organization-learners', 'organization-learners.organizationId', 'organizations.id')
     .where((qb) => {
       qb.where('organizations.id', currentOrganizationId);
-      if (settings.features.newYearOrganizationLearnersImportDate) {
-        qb.where('organization-learners.createdAt', '>=', settings.features.newYearOrganizationLearnersImportDate);
+      if (config.features.newYearOrganizationLearnersImportDate) {
+        qb.where('organization-learners.createdAt', '>=', config.features.newYearOrganizationLearnersImportDate);
       }
     })
     .first();

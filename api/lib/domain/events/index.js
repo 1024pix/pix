@@ -2,7 +2,7 @@ import { injectDefaults, injectDependencies } from '../../infrastructure/utils/d
 import { EventDispatcher } from '../../infrastructure/events/EventDispatcher.js';
 import { EventDispatcherLogger } from '../../infrastructure/events/EventDispatcherLogger.js';
 import { MonitoringTools } from '../../infrastructure/monitoring-tools.js';
-import { settings } from '../../config.js';
+import { config } from '../../config.js';
 import _ from 'lodash';
 import { performance } from 'perf_hooks';
 import { eventBusBuilder } from '../../infrastructure/events/EventBusBuilder.js';
@@ -39,7 +39,7 @@ import { poleEmploiNotifier } from '../../infrastructure/externals/pole-emploi/p
 import { disabledPoleEmploiNotifier } from '../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js';
 
 function requirePoleEmploiNotifier() {
-  if (settings.poleEmploi.pushEnabled) {
+  if (config.poleEmploi.pushEnabled) {
     return poleEmploiNotifier;
   } else {
     return disabledPoleEmploiNotifier;

@@ -1,5 +1,5 @@
 import jsonwebtoken from 'jsonwebtoken';
-import { settings } from '../../config.js';
+import { config } from '../../config.js';
 import * as passwordResetDemandRepository from '../../infrastructure/repositories/reset-password-demands-repository.js';
 import crypto from 'crypto';
 
@@ -8,8 +8,8 @@ const generateTemporaryKey = function () {
     {
       data: crypto.randomBytes(16).toString('base64'),
     },
-    settings.temporaryKey.secret,
-    { expiresIn: settings.temporaryKey.tokenLifespan }
+    config.temporaryKey.secret,
+    { expiresIn: config.temporaryKey.tokenLifespan }
   );
 };
 

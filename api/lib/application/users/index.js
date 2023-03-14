@@ -4,9 +4,9 @@ import { securityPreHandlers } from '../security-pre-handlers.js';
 import { userController } from './user-controller.js';
 import { sendJsonApiError, BadRequestError } from '../http-errors.js';
 import { userVerification } from '../preHandlers/user-existence-verification.js';
-import { account } from '../../config.js';
+import { config } from '../../config.js';
 
-const { passwordValidationPattern } = account;
+const { passwordValidationPattern } = config.account;
 
 import { EntityValidationError } from '../../domain/errors.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';

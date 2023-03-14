@@ -1,5 +1,5 @@
-import { settings } from '../../config.js';
-const EXPIRATION_DELAY_SECONDS = settings.temporaryStorage.expirationDelaySeconds;
+import { config } from '../../config.js';
+const EXPIRATION_DELAY_SECONDS = config.temporaryStorage.expirationDelaySeconds;
 import { EmailModificationDemand } from '../../domain/models/EmailModificationDemand.js';
 import { temporaryStorage } from '../temporary-storage/index.js';
 const verifyEmailTemporaryStorage = temporaryStorage.withPrefix('verify-email:');
