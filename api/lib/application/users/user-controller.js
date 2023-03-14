@@ -25,23 +25,21 @@ const requestResponseUtils = require('../../infrastructure/utils/request-respons
 const usecases = require('../../domain/usecases/index.js');
 
 module.exports = {
-  save(request, h) {
+  async save(request, h) {
     const campaignCode = request.payload.meta ? request.payload.meta['campaign-code'] : null;
     const user = userSerializer.deserialize(request.payload);
-    const locale = requestResponseUtils.extractLocaleFromRequest(request);
+    const localeFromHeader = requestResponseUtils.extractLocaleFromRequest(request);
 
     const password = request.payload.data.attributes.password;
 
-    return usecases
-      .createUser({
-        user,
-        password,
-        campaignCode,
-        locale,
-      })
-      .then((savedUser) => {
-        return h.response(userSerializer.serialize(savedUser)).created();
-      });
+    const savedUser = await usecases.createUser({
+      user,
+      password,
+      campaignCode,
+      localeFromHeader,
+    });
+
+    return h.response(userSerializer.serialize(savedUser)).created();
   },
 
   getCurrentUser(request) {

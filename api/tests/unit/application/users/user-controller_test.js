@@ -36,7 +36,7 @@ describe('Unit | Controller | user-controller', function () {
 
     const deserializedUser = new User();
     const savedUser = new User({ email });
-    const locale = 'fr-fr';
+    const localeFromHeader = 'fr-fr';
 
     beforeEach(function () {
       sinon.stub(userSerializer, 'deserialize').returns(deserializedUser);
@@ -82,7 +82,7 @@ describe('Unit | Controller | user-controller', function () {
         const useCaseParameters = {
           user: deserializedUser,
           password,
-          locale,
+          localeFromHeader,
           campaignCode: null,
         };
 
