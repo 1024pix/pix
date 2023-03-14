@@ -1,6 +1,6 @@
-import { Job } from '../JobPgBoss.js';
+import { JobPgBoss } from '../JobPgBoss.js';
 
-class SendSharedParticipationResultsToPoleEmploi extends Job {
+class SendSharedParticipationResultsToPoleEmploi extends JobPgBoss {
   constructor(queryBuilder) {
     super({ name: 'SendSharedParticipationResultsToPoleEmploi', retryLimit: 0 }, queryBuilder);
   }

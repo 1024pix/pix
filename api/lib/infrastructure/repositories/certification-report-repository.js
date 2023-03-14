@@ -3,12 +3,12 @@ import bluebird from 'bluebird';
 
 import { Bookshelf } from '../bookshelf.js';
 import { CertificationReport } from '../../domain/models/CertificationReport.js';
-import { CertificationCourseBookshelf } from '../orm-models/CertificationCourse.js';
+import { BookshelfCertificationCourse } from '../orm-models/CertificationCourse.js';
 import { CertificationCourseUpdateError } from '../../domain/errors.js';
 import { toDomain } from './certification-course-repository.js';
 
 const findBySessionId = async function (sessionId) {
-  const results = await CertificationCourseBookshelf.where({ sessionId })
+  const results = await BookshelfCertificationCourse.where({ sessionId })
     .query((qb) => {
       qb.orderByRaw('LOWER("lastName") asc');
       qb.orderByRaw('LOWER("firstName") asc');
@@ -40,7 +40,7 @@ async function _finalize({ certificationReport, transaction = undefined }) {
     saveOptions.transacting = transaction;
   }
 
-  await new CertificationCourseBookshelf({ id: certificationReport.certificationCourseId }).save(
+  await new BookshelfCertificationCourse({ id: certificationReport.certificationCourseId }).save(
     { hasSeenEndTestScreen: certificationReport.hasSeenEndTestScreen },
     saveOptions
   );
