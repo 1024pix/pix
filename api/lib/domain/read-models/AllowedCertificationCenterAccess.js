@@ -1,5 +1,5 @@
-import { features } from '../../config.js';
-
+import { config } from '../../config.js';
+const { features } = config;
 class AllowedCertificationCenterAccess {
   constructor({
     id,

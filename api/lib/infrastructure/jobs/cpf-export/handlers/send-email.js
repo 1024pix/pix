@@ -1,6 +1,7 @@
-import { cpf } from '../../../../config.js';
+import { config } from '../../../../config.js';
 import cronParser from 'cron-parser';
 
+const { cpf } = config;
 const sendEmail = async function ({ cpfExternalStorage, mailService }) {
   const parsedCron = cronParser.parseExpression(cpf.plannerJob.cron, { tz: 'Europe/Paris' });
   const date = parsedCron.prev().toDate();

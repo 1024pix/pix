@@ -1,10 +1,10 @@
-import { settings } from '../../config.js';
+import { config } from '../../config.js';
 import { RedisClient } from './RedisClient.js';
 
 class RedisMonitor {
   constructor() {
-    if (settings.caching.redisUrl) {
-      this._client = new RedisClient(settings.caching.redisUrl, { name: 'redis-monitor' });
+    if (config.caching.redisUrl) {
+      this._client = new RedisClient(config.caching.redisUrl, { name: 'redis-monitor' });
     }
   }
 

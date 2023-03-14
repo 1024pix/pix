@@ -2,9 +2,10 @@ import _ from 'lodash';
 import SibApiV3Sdk from 'sib-api-v3-sdk';
 
 import { MailingProvider } from './MailingProvider.js';
-import { mailing } from '../../config.js';
+import { config } from '../../config.js';
 import { MailingProviderInvalidEmailError } from './MailingProviderInvalidEmailError.js';
 
+const { mailing } = config;
 function _formatPayload({ to, fromName, from, subject, template, variables, tags }) {
   const payload = {
     to: [

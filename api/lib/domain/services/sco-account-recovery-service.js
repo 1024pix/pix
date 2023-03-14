@@ -1,4 +1,4 @@
-import { features } from '../../config.js';
+import { config } from '../../config.js';
 
 import {
   AccountRecoveryDemandExpired,
@@ -8,6 +8,8 @@ import {
 } from '../errors.js';
 
 import { uniqBy } from 'lodash';
+
+const { features } = config;
 
 async function retrieveOrganizationLearner({
   accountRecoveryDemandRepository,

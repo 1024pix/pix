@@ -1,4 +1,4 @@
-import { settings } from '../../config.js';
+import { config } from '../../config.js';
 
 export { getCampaignUrl };
 
@@ -7,10 +7,10 @@ function getCampaignUrl(locale, campaignCode) {
     return null;
   }
   if (locale === 'fr') {
-    return `${settings.domain.pixApp + settings.domain.tldOrg}/campagnes/${campaignCode}/?lang=fr`;
+    return `${config.domain.pixApp + config.domain.tldOrg}/campagnes/${campaignCode}/?lang=fr`;
   }
   if (locale === 'en') {
-    return `${settings.domain.pixApp + settings.domain.tldOrg}/campagnes/${campaignCode}/?lang=en`;
+    return `${config.domain.pixApp + config.domain.tldOrg}/campagnes/${campaignCode}/?lang=en`;
   }
-  return `${settings.domain.pixApp + settings.domain.tldFr}/campagnes/${campaignCode}`;
+  return `${config.domain.pixApp + config.domain.tldFr}/campagnes/${campaignCode}`;
 }
