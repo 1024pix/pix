@@ -1,13 +1,13 @@
 import { knex } from '../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../DomainTransaction.js';
-import { ComplementaryCertificationCourseResultBookshelf } from '../orm-models/ComplementaryCertificationCourseResult.js';
+import { BookshelfComplementaryCertificationCourseResult } from '../orm-models/ComplementaryCertificationCourseResult.js';
 import { ComplementaryCertificationCourseResult } from '../../domain/models/ComplementaryCertificationCourseResult.js';
 
 const save = async function ({
   partnerCertificationScoring,
   domainTransaction = DomainTransaction.emptyTransaction(),
 }) {
-  const partnerCertificationToSave = new ComplementaryCertificationCourseResultBookshelf(
+  const partnerCertificationToSave = new BookshelfComplementaryCertificationCourseResult(
     _adaptModelToDB({
       ...partnerCertificationScoring,
       source: ComplementaryCertificationCourseResult.sources.PIX,

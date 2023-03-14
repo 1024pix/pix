@@ -168,4 +168,4 @@ class Challenge {
 
 Challenge.Type = ChallengeType;
 
-export { Challenge };
+export { Challenge, ChallengeType as Type };

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { normalize } from '../utils/string-utils.js';
 import { logger } from '../../infrastructure/logger.js';
-import { CertificationCandidateBookshelf } from '../orm-models/CertificationCandidate.js';
+import { BookshelfCertificationCandidate } from '../orm-models/CertificationCandidate.js';
 import * as bookshelfToDomainConverter from '../../infrastructure/utils/bookshelf-to-domain-converter.js';
 import { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } from '../../../db/pgsql-errors.js';
 
@@ -18,7 +18,7 @@ import { DomainTransaction } from '../DomainTransaction.js';
 
 const linkToUser = async function ({ id, userId }) {
   try {
-    const certificationCandidateBookshelf = new CertificationCandidateBookshelf({ id });
+    const certificationCandidateBookshelf = new BookshelfCertificationCandidate({ id });
     await certificationCandidateBookshelf.save({ userId }, { patch: true, method: 'update' });
   } catch (bookshelfError) {
     if (bookshelfError.code === PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR) {
@@ -90,7 +90,7 @@ const remove = async function (certificationCandidateId) {
 };
 
 const isNotLinked = async function (certificationCandidateId) {
-  const notLinkedCandidate = await CertificationCandidateBookshelf.where({
+  const notLinkedCandidate = await BookshelfCertificationCandidate.where({
     id: certificationCandidateId,
     userId: null,
   }).fetch({ require: false, columns: ['id'] });
@@ -142,7 +142,7 @@ const findBySessionId = async function (sessionId) {
 };
 
 const findBySessionIdAndPersonalInfo = async function ({ sessionId, firstName, lastName, birthdate }) {
-  const results = await CertificationCandidateBookshelf.where({ sessionId, birthdate }).fetchAll();
+  const results = await BookshelfCertificationCandidate.where({ sessionId, birthdate }).fetchAll();
 
   const certificationCandidates = _buildCertificationCandidates(results);
 
@@ -160,13 +160,13 @@ const findBySessionIdAndPersonalInfo = async function ({ sessionId, firstName, l
 };
 
 const findOneBySessionIdAndUserId = function ({ sessionId, userId }) {
-  return CertificationCandidateBookshelf.where({ sessionId, userId })
+  return BookshelfCertificationCandidate.where({ sessionId, userId })
     .fetchAll()
     .then((results) => _buildCertificationCandidates(results)[0]);
 };
 
 const doesLinkedCertificationCandidateInSessionExist = async function ({ sessionId }) {
-  const anyLinkedCandidateInSession = await CertificationCandidateBookshelf.query({
+  const anyLinkedCandidateInSession = await BookshelfCertificationCandidate.query({
     where: { sessionId },
     whereNotNull: 'userId',
   }).fetch({ require: false, columns: 'id' });
@@ -235,7 +235,7 @@ function _buildCertificationCandidates(results) {
     });
   }
 
-  return bookshelfToDomainConverter.buildDomainObjects(CertificationCandidateBookshelf, results);
+  return bookshelfToDomainConverter.buildDomainObjects(BookshelfCertificationCandidate, results);
 }
 
 function _adaptModelToDb(certificationCandidateToSave) {
