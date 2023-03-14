@@ -1,4 +1,4 @@
-import { Job } from './SendSharedParticipationResultsToPoleEmploiJob.js';
+import { SendSharedParticipationResultsToPoleEmploi } from './SendSharedParticipationResultsToPoleEmploiJob.js';
 import { usecases } from '../../../domain/usecases/index.js';
 
 class SendSharedParticipationResultsToPoleEmploiHandler {
@@ -9,7 +9,7 @@ class SendSharedParticipationResultsToPoleEmploiHandler {
   }
 
   get name() {
-    return Job.name;
+    return SendSharedParticipationResultsToPoleEmploi.name;
   }
 }
 
