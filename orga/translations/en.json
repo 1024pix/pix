@@ -673,7 +673,7 @@
         },
         "empty-state": "No activity yet. As soon as {organizationLearnerFirstName} {organizationLearnerLastName} participates in a campaign, you will be able to follow their progress here.",
         "title": "Activity",
-        "assessment-summary": "Assessment participations summary",
+        "assessment-summary": "Customised tests participations summary",
         "profile-collection-summary": "Profile collection participations summary",
         "participations-title": "Participations",
         "participation-list": {
