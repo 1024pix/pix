@@ -3,13 +3,16 @@ body {
   background-color: $pix-neutral-10;
 }
 
-.page-container {
-  max-width: 1240px;
-  margin: 0 auto;
+.body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-.main {
-  min-height: calc(100vh - 101px - 100px);
+.page-container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
 }
 
 .pix-communication-banner {
