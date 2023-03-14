@@ -17,6 +17,7 @@ module.exports = {
         'certifiableCompetencesCount',
         'isCertifiable',
         'competences',
+        'organizationLearnerId',
       ],
       typeForAttribute: (attribute) => {
         if (attribute === 'competences') return 'campaign-profile-competences';
