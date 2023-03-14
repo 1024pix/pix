@@ -1,7 +1,7 @@
 import { _ } from 'lodash';
 import { knex } from '../../../db/knex-database-connection.js';
 import bluebird from 'bluebird';
-import { CertificationCourseBookshelf } from '../orm-models/CertificationCourse.js';
+import { BookshelfCertificationCourse } from '../orm-models/CertificationCourse.js';
 import { AssessmentBookshelf } from '../orm-models/Assessment.js';
 import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
 import { DomainTransaction } from '../DomainTransaction.js';
@@ -16,7 +16,7 @@ async function save({ certificationCourse, domainTransaction = DomainTransaction
   const knexConn = domainTransaction.knexTransaction || Bookshelf.knex;
   const certificationCourseToSaveDTO = _adaptModelToDb(certificationCourse);
   const options = { transacting: domainTransaction.knexTransaction };
-  const savedCertificationCourseDTO = await new CertificationCourseBookshelf(certificationCourseToSaveDTO).save(
+  const savedCertificationCourseDTO = await new BookshelfCertificationCourse(certificationCourseToSaveDTO).save(
     null,
     options
   );
@@ -54,7 +54,7 @@ async function changeCompletionDate(
   completedAt = null,
   domainTransaction = DomainTransaction.emptyTransaction()
 ) {
-  const certificationCourseBookshelf = new CertificationCourseBookshelf({ id: certificationCourseId, completedAt });
+  const certificationCourseBookshelf = new BookshelfCertificationCourse({ id: certificationCourseId, completedAt });
   const savedCertificationCourse = await certificationCourseBookshelf.save(null, {
     transacting: domainTransaction.knexTransaction,
   });
@@ -63,12 +63,12 @@ async function changeCompletionDate(
 
 async function get(id) {
   try {
-    const certificationCourseBookshelf = await CertificationCourseBookshelf.where({ id }).fetch({
+    const certificationCourseBookshelf = await BookshelfCertificationCourse.where({ id }).fetch({
       withRelated: ['assessment', 'challenges', 'certificationIssueReports', 'complementaryCertificationCourses'],
     });
     return toDomain(certificationCourseBookshelf);
   } catch (bookshelfError) {
-    if (bookshelfError instanceof CertificationCourseBookshelf.NotFoundError) {
+    if (bookshelfError instanceof BookshelfCertificationCourse.NotFoundError) {
       throw new NotFoundError(`Certification course of id ${id} does not exist.`);
     }
     throw bookshelfError;
@@ -89,7 +89,7 @@ async function findOneCertificationCourseByUserIdAndSessionId({
   sessionId,
   domainTransaction = DomainTransaction.emptyTransaction(),
 }) {
-  const certificationCourse = await CertificationCourseBookshelf.where({ userId, sessionId })
+  const certificationCourse = await BookshelfCertificationCourse.where({ userId, sessionId })
     .orderBy('createdAt', 'desc')
     .fetch({
       require: false,
@@ -101,12 +101,12 @@ async function findOneCertificationCourseByUserIdAndSessionId({
 
 async function update(certificationCourse) {
   const certificationCourseData = _pickUpdatableProperties(certificationCourse);
-  const certificationCourseBookshelf = new CertificationCourseBookshelf(certificationCourseData);
+  const certificationCourseBookshelf = new BookshelfCertificationCourse(certificationCourseData);
   try {
     const certificationCourse = await certificationCourseBookshelf.save();
     return toDomain(certificationCourse);
   } catch (err) {
-    if (err instanceof CertificationCourseBookshelf.NoRowsUpdatedError) {
+    if (err instanceof BookshelfCertificationCourse.NoRowsUpdatedError) {
       throw new NotFoundError(`No rows updated for certification course of id ${certificationCourse.getId()}.`);
     }
     throw err;
@@ -123,7 +123,7 @@ async function isVerificationCodeAvailable(verificationCode) {
 }
 
 async function findCertificationCoursesBySessionId({ sessionId }) {
-  const bookshelfCertificationCourses = await CertificationCourseBookshelf.where({ sessionId }).fetchAll();
+  const bookshelfCertificationCourses = await BookshelfCertificationCourse.where({ sessionId }).fetchAll();
   return bookshelfCertificationCourses.map(toDomain);
 }
 
