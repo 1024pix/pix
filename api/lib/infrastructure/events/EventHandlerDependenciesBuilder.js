@@ -1,6 +1,6 @@
 import { monitoringTools } from '../../infrastructure/monitoring-tools.js';
 import { ParticipationResultCalculationJob } from '../jobs/campaign-result/ParticipationResultCalculationJob.js';
-import { SendSharedParticipationResultsToPoleEmploi } from '../jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob.js';
+import { SendSharedParticipationResultsToPoleEmploiJob } from '../jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob.js';
 
 function build(classToInstanciate, domainTransaction) {
   const dependencies = _buildDependencies(domainTransaction);
@@ -13,13 +13,13 @@ function _buildDependencies(domainTransaction) {
   return {
     monitoringTools,
     participationResultCalculationJob: new ParticipationResultCalculationJob(domainTransaction.knexTransaction),
-    sendSharedParticipationResultsToPoleEmploiJob: new SendSharedParticipationResultsToPoleEmploi(
+    sendSharedParticipationResultsToPoleEmploiJob: new SendSharedParticipationResultsToPoleEmploiJob(
       domainTransaction.knexTransaction
     ),
   };
 }
 
-export { build };
+export { build as dependenciesBuilder };
 
 class EventErrorHandler {
   constructor(handler, logger) {

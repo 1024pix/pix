@@ -1,4 +1,4 @@
-import { BookshelfOrganizationTag, OrganizationTagBookshelf } from '../orm-models/OrganizationTag.js';
+import { BookshelfOrganizationTag } from '../orm-models/OrganizationTag.js';
 import { Bookshelf } from '../bookshelf.js';
 import { bookshelfUtils } from '../utils/knex-utils.js';
 import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
@@ -38,7 +38,7 @@ const findOneByOrganizationIdAndTagId = async function ({ organizationId, tagId 
   }).fetchAll();
 
   return bookshelfOrganizationTags.length > 0
-    ? bookshelfToDomainConverter.buildDomainObjects(OrganizationTagBookshelf, bookshelfOrganizationTags)[0]
+    ? bookshelfToDomainConverter.buildDomainObjects(BookshelfOrganizationTag, bookshelfOrganizationTags)[0]
     : [];
 };
 

@@ -19,4 +19,4 @@ const BookshelfResetPasswordDemand = Bookshelf.model(
   }
 );
 
-export { BookshelfResetPasswordDemand };
+export { BookshelfResetPasswordDemand as ResetPasswordDemand };

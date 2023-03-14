@@ -1,6 +1,6 @@
 import { TemplatePageManager } from '../manager/template-page-manager.js';
 import { CoverPageVersionText } from '../drawer/CoverPageVersionText.js';
-import { CoverPageLegalMentionText } from '../drawer/CoverPageLegalMentionText.js';
+import { CoverPageLegaLMentionText } from '../drawer/CoverPageLegalMentionText.js';
 import { CoverPageTitleText } from '../drawer/CoverPageTitleText.js';
 import { PositionManager } from '../manager/position-manager.js';
 
@@ -13,7 +13,7 @@ const build = function (pdfDocument, title, language) {
     page,
   });
   const coverPageVersionText = new CoverPageVersionText({ language, page });
-  const coverPageLegalMentionText = new CoverPageLegalMentionText({ language });
+  const coverPageLegalMentionText = new CoverPageLegaLMentionText({ language });
   coverPageTitleText.drawAlignCenter(page);
   coverPageVersionText.draw(page);
   coverPageLegalMentionText.draw(page);
