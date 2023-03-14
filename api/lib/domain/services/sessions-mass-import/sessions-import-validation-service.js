@@ -1,4 +1,4 @@
-import { sessionValidator } from '../../validators/session-validator.js';
+import * as sessionValidator from '../../validators/session-validator.js';
 import * as certificationCpfService from '../certification-cpf-service.js';
 import { CERTIFICATION_SESSIONS_ERRORS } from '../../constants/sessions-errors.js';
 import dayjs from 'dayjs';

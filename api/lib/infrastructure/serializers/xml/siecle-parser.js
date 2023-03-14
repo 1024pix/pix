@@ -3,7 +3,7 @@ import xml2js from 'xml2js';
 import saxPath from 'saxpath';
 import { isEmpty, isUndefined } from 'lodash';
 import { SiecleFileStreamer } from '../../utils/xml/siecle-file-streamer.js';
-import { XMLOrganizationLearnerSet } from './xml-organization-learner-set.js';
+import { XMLOrganizationLearnersSet } from './xml-organization-learner-set.js';
 
 const ERRORS = {
   UAI_MISMATCHED: 'UAI_MISMATCHED',
@@ -18,7 +18,7 @@ class SiecleParser {
   constructor(organization, path) {
     this.organization = organization;
     this.path = path;
-    this.organizationLearnersSet = new XMLOrganizationLearnerSet();
+    this.organizationLearnersSet = new XMLOrganizationLearnersSet();
   }
 
   async parse() {

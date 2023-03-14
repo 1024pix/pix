@@ -1,6 +1,6 @@
 import { TargetProfile } from '../../domain/models/TargetProfile.js';
 import { Badge } from '../../domain/models/Badge.js';
-import { skillAdapter } from './skill-adapter.js';
+import * as skillAdapter from './skill-adapter.js';
 
 const fromDatasourceObjects = function ({ bookshelfTargetProfile, associatedSkillDatasourceObjects = [] }) {
   const skills = associatedSkillDatasourceObjects.map(skillAdapter.fromDatasourceObject);

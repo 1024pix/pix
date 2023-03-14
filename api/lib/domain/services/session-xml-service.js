@@ -1,4 +1,4 @@
-import { writeOdsUtils } from '../../infrastructure/utils/ods/write-ods-utils.js';
+import * as writeOdsUtils from '../../infrastructure/utils/ods/write-ods-utils.js';
 // Placeholder in the template ODS file that helps us find the template candidate row in the file.
 const CANDIDATE_ROW_MARKER_PLACEHOLDER = 'COUNT';
 

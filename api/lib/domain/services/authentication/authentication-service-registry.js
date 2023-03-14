@@ -1,4 +1,4 @@
-import { OidcIdentityProviders } from '../../constants/oidc-identity-providers.js';
+import * as OidcIdentityProviders from '../../constants/oidc-identity-providers.js';
 import { InvalidIdentityProviderError } from '../../errors.js';
 
 function lookupAuthenticationService(identityProvider) {

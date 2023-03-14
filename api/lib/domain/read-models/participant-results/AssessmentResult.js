@@ -1,6 +1,10 @@
 import { BadgeResult } from './BadgeResult.js';
 import { CompetenceResult } from './CompetenceResult.js';
-import { constants } from '../../constants.js';
+import {
+  MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING,
+  MAX_MASTERY_RATE,
+  MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING,
+} from '../../constants.js';
 import moment from 'moment';
 
 class AssessmentResult {
@@ -98,7 +102,7 @@ class AssessmentResult {
       knowledgeElements.filter((knowledgeElement) => {
         const isOldEnoughToBeImproved =
           moment(assessmentCreatedAt).diff(knowledgeElement.createdAt, 'days', true) >=
-          constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING;
+          MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING;
         return knowledgeElement.isInvalidated && isOldEnoughToBeImproved;
       }).length > 0;
     return isImprovementPossible && !isShared;
@@ -108,7 +112,7 @@ class AssessmentResult {
     return (
       isCampaignMultipleSendings &&
       this._timeBeforeRetryingPassed(sharedAt) &&
-      masteryRate < constants.MAX_MASTERY_RATE &&
+      masteryRate < MAX_MASTERY_RATE &&
       isOrganizationLearnerActive &&
       !isDisabled
     );
@@ -121,7 +125,7 @@ class AssessmentResult {
   _timeBeforeRetryingPassed(sharedAt) {
     const isShared = Boolean(sharedAt);
     if (!isShared) return false;
-    return sharedAt && moment().diff(sharedAt, 'days', true) >= constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
+    return sharedAt && moment().diff(sharedAt, 'days', true) >= MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
   }
 }
 

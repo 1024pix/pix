@@ -3,13 +3,13 @@ import { tokenService } from '../../domain/services/token-service.js';
 import * as targetProfileSerializer from '../../infrastructure/serializers/jsonapi/target-profile-serializer.js';
 import * as targetProfileSummaryForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 import * as targetProfileForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-for-admin-serializer.js';
-import { queryParamsUtils } from '../../infrastructure/utils/query-params-utils.js';
-import { requestResponseUtils } from '../../infrastructure/utils/request-response-utils.js';
+import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils.js';
+import { escapeFileName } from '../../infrastructure/utils/request-response-utils.js';
 import * as organizationSerializer from '../../infrastructure/serializers/jsonapi/organization-serializer.js';
 import * as badgeSerializer from '../../infrastructure/serializers/jsonapi/badge-serializer.js';
 import * as badgeCreationSerializer from '../../infrastructure/serializers/jsonapi/badge-creation-serializer.js';
 import * as targetProfileAttachOrganizationSerializer from '../../infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer.js';
-import { learningContentPDFPresenter } from './presenter/pdf/learning-content-pdf-presenter.js';
+import * as learningContentPDFPresenter from './presenter/pdf/learning-content-pdf-presenter.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import * as trainingSummarySerializer from '../../infrastructure/serializers/jsonapi/training-summary-serializer.js';
 
@@ -48,7 +48,7 @@ const getContentAsJsonFile = async function (request, h) {
 
   const { jsonContent, fileName } = await usecases.getTargetProfileContentAsJson({ userId, targetProfileId });
 
-  const escapedFilename = requestResponseUtils.escapeFileName(fileName);
+  const escapedFilename = escapeFileName(fileName);
 
   return h
     .response(jsonContent)
@@ -114,7 +114,7 @@ const findPaginatedTrainings = async function (
 
 const createBadge = async function (request, h) {
   const targetProfileId = request.params.id;
-  const badgeCreation = await badgeCreationSerializer.deserialize(request.payload);
+  const badgeCreation = await badgeCreationSerializer.deserializer(request.payload);
 
   const createdBadge = await usecases.createBadge({ targetProfileId, badgeCreation });
 

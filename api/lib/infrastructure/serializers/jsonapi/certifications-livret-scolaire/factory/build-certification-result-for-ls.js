@@ -2,7 +2,7 @@ import { Certificate } from '../../../../../../lib/infrastructure/serializers/js
 import { CompetenceResults } from '../../../../../../lib/infrastructure/serializers/jsonapi/certifications-livret-scolaire/response-objects/CompetenceResults.js';
 import { CertificationsResults } from '../../../../../../lib/infrastructure/serializers/jsonapi/certifications-livret-scolaire/response-objects/CertificationsResults.js';
 import { buildCompetenceForLS } from './build-competences-for-ls.js';
-import { buildAreaForLS } from './build-area-for-ls.js';
+import { buildArea as buildAreaForLS } from './build-area-for-ls.js';
 
 function buildReferentialOfCompetences() {
   const area1 = buildAreaForLS({
