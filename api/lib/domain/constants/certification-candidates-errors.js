@@ -1,4 +1,4 @@
-module.exports.CERTIFICATION_CANDIDATES_ERRORS = {
+const CERTIFICATION_CANDIDATES_ERRORS = {
   CANDIDATE_BILLING_MODE_MUST_BE_A_STRING: {
     code: 'CANDIDATE_BILLING_MODE_MUST_BE_A_STRING',
     getMessage: () => '',
@@ -129,3 +129,5 @@ module.exports.CERTIFICATION_CANDIDATES_ERRORS = {
     getMessage: () => '',
   },
 };
+
+export { CERTIFICATION_CANDIDATES_ERRORS };

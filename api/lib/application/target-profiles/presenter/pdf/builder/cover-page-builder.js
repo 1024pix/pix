@@ -1,4 +1,4 @@
-import { TemplatePageManager } from '../manager/template-page-manager.js';
+import * as TemplatePageManager from '../manager/template-page-manager.js';
 import { CoverPageVersionText } from '../drawer/CoverPageVersionText.js';
 import { CoverPageLegaLMentionText } from '../drawer/CoverPageLegalMentionText.js';
 import { CoverPageTitleText } from '../drawer/CoverPageTitleText.js';

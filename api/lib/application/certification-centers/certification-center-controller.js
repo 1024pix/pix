@@ -9,7 +9,7 @@ import * as sessionSummarySerializer from '../../infrastructure/serializers/json
 import * as certificationCenterInvitationSerializer from '../../infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
 import * as sessionSerializer from '../../infrastructure/serializers/jsonapi/session-serializer.js';
 
-import { queryParamsUtils } from '../../infrastructure/utils/query-params-utils.js';
+import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
 import map from 'lodash/map';
 import { csvHelpers } from '../../../scripts/helpers/csvHelpers.js';
 import * as csvSerializer from '../../infrastructure/serializers/csv/csv-serializer.js';
@@ -52,7 +52,7 @@ const getCertificationCenterDetails = async function (request) {
 };
 
 const findPaginatedFilteredCertificationCenters = async function (request) {
-  const options = queryParamsUtils.extractParameters(request.query);
+  const options = extractParameters(request.query);
   const { models: organizations, pagination } = await usecases.findPaginatedFilteredCertificationCenters({
     filter: options.filter,
     page: options.page,
@@ -64,7 +64,7 @@ const findPaginatedFilteredCertificationCenters = async function (request) {
 const findPaginatedSessionSummaries = async function (request) {
   const certificationCenterId = request.params.id;
   const userId = request.auth.credentials.userId;
-  const options = queryParamsUtils.extractParameters(request.query);
+  const options = extractParameters(request.query);
 
   const { models: sessionSummaries, meta } = await usecases.findPaginatedCertificationCenterSessionSummaries({
     userId,
@@ -79,7 +79,7 @@ const getStudents = async function (request) {
   const certificationCenterId = request.params.certificationCenterId;
   const sessionId = request.params.sessionId;
 
-  const { filter, page } = queryParamsUtils.extractParameters(request.query);
+  const { filter, page } = extractParameters(request.query);
   if (filter.divisions && !Array.isArray(filter.divisions)) {
     filter.divisions = [filter.divisions];
   }

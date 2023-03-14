@@ -2,8 +2,8 @@ import { usecases } from '../../domain/usecases/index.js';
 import * as userSavedTutorialSerializer from '../../infrastructure/serializers/jsonapi/user-saved-tutorial-serializer.js';
 import * as tutorialSerializer from '../../infrastructure/serializers/jsonapi/tutorial-serializer.js';
 import * as userSavedTutorialRepository from '../../infrastructure/repositories/user-saved-tutorial-repository.js';
-import { queryParamsUtils } from '../../infrastructure/utils/query-params-utils.js';
-import { requestResponseUtils } from '../../infrastructure/utils/request-response-utils.js';
+import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils.js';
+import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 
 const add = async function (request, h, dependencies = { userSavedTutorialSerializer }) {
   const { userId } = request.auth.credentials;

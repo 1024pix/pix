@@ -1,5 +1,5 @@
 import bluebird from 'bluebird';
-import { certificationCenterCreationValidator } from '../validators/certification-center-creation-validator.js';
+import * as certificationCenterCreationValidator from '../validators/certification-center-creation-validator.js';
 import { ComplementaryCertificationHabilitation } from '../../domain/models/ComplementaryCertificationHabilitation.js';
 import { DataProtectionOfficer } from '../models/DataProtectionOfficer.js';
 import { ComplementaryCertification } from '../models/ComplementaryCertification.js';

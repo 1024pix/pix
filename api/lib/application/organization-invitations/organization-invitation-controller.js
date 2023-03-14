@@ -4,7 +4,7 @@ import { MissingQueryParamError } from '../http-errors.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as organizationInvitationSerializer from '../../infrastructure/serializers/jsonapi/organization-invitation-serializer.js';
 import * as scoOrganizationInvitationSerializer from '../../infrastructure/serializers/jsonapi/sco-organization-invitation-serializer.js';
-import { requestResponseUtils } from '../../infrastructure/utils/request-response-utils.js';
+import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 
 const acceptOrganizationInvitation = async function (request) {
   const organizationInvitationId = request.params.id;

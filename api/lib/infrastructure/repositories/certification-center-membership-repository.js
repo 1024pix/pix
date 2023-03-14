@@ -1,4 +1,4 @@
-import { bookshelfUtils } from '../utils/knex-utils.js';
+import * as knexUtils from '../utils/knex-utils.js';
 import { BookshelfCertificationCenterMembership } from '../orm-models/CertificationCenterMembership.js';
 import * as bookshelfToDomainConverter from '../../infrastructure/utils/bookshelf-to-domain-converter.js';
 
@@ -97,12 +97,12 @@ const save = async function ({ userId, certificationCenterId }) {
       newCertificationCenterMembership
     );
   } catch (err) {
-    if (bookshelfUtils.isUniqConstraintViolated(err)) {
+    if (knexUtils.isUniqConstraintViolated(err)) {
       throw new AlreadyExistingMembershipError(
         `User is already member of certification center ${certificationCenterId}`
       );
     }
-    if (bookshelfUtils.foreignKeyConstraintViolated(err)) {
+    if (knexUtils.foreignKeyConstraintViolated(err)) {
       throw new CertificationCenterMembershipCreationError();
     }
     throw err;
