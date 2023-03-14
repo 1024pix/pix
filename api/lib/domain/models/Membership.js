@@ -27,4 +27,4 @@ class Membership {
 
 Membership.roles = roles;
 
-export { Membership };
+export { Membership, roles };

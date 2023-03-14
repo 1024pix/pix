@@ -1,4 +1,4 @@
-import { Event } from '../../../domain/events/CampaignParticipationResultsShared.js';
+import { CampaignParticipationResultsShared } from '../../../domain/events/CampaignParticipationResultsShared.js';
 
 class ScheduleParticipationResultCalculationJob {
   constructor({ participationResultCalculationJob }) {
@@ -14,6 +14,6 @@ class ScheduleParticipationResultCalculationJob {
   }
 }
 
-ScheduleParticipationResultCalculationJob.event = Event;
+ScheduleParticipationResultCalculationJob.event = CampaignParticipationResultsShared;
 
 export { ScheduleParticipationResultCalculationJob };

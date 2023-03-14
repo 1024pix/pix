@@ -8,10 +8,12 @@ class BadgeCriterion {
   }
 }
 
-BadgeCriterion.SCOPES = {
+const SCOPES = {
   CAMPAIGN_PARTICIPATION: 'CampaignParticipation',
   SKILL_SET: 'SkillSet',
   CAPPED_TUBES: 'CappedTubes',
 };
 
-export { BadgeCriterion };
+BadgeCriterion.SCOPES = SCOPES;
+
+export { BadgeCriterion, SCOPES };

@@ -1,7 +1,11 @@
+const REJECTED = 'rejected';
+const VALIDATED = 'validated';
+const PENDING = 'pending';
+
 const status = {
-  REJECTED: 'rejected',
-  VALIDATED: 'validated',
-  PENDING: 'pending',
+  REJECTED,
+  VALIDATED,
+  PENDING,
 };
 
-export { status };
+export { status, REJECTED, VALIDATED, PENDING };
