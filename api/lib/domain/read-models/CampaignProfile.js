@@ -9,6 +9,7 @@ class CampaignProfile {
     lastName,
     placementProfile,
     campaignParticipationId,
+    organizationLearnerId,
     campaignId,
     participantExternalId,
     sharedAt,
@@ -20,6 +21,7 @@ class CampaignProfile {
     this.firstName = firstName;
     this.lastName = lastName;
     this.campaignParticipationId = campaignParticipationId;
+    this.organizationLearnerId = organizationLearnerId;
     this.campaignId = campaignId;
     this.externalId = participantExternalId;
     this.sharedAt = sharedAt;

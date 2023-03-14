@@ -29,6 +29,7 @@ async function _fetchCampaignProfileAttributesFromCampaignParticipation(campaign
       qb.select([
         'campaign-participations.userId',
         'organization-learners.firstName',
+        'organization-learners.id AS organizationLearnerId',
         'organization-learners.lastName',
         'campaign-participations.id AS campaignParticipationId',
         'campaign-participations.campaignId',
