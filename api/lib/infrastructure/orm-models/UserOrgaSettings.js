@@ -24,4 +24,4 @@ const BookshelfUserOrgaSetting = Bookshelf.model(
   }
 );
 
-export { BookshelfUserOrgaSetting };
+export { BookshelfUserOrgaSetting as BookshelfUserOrgaSettings };

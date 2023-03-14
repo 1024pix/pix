@@ -95,4 +95,4 @@ class AssessmentResult {
 }
 
 AssessmentResult.status = status;
-export { AssessmentResult };
+export { AssessmentResult, status };
