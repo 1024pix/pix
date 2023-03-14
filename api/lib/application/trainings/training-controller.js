@@ -3,8 +3,8 @@ import * as trainingSummarySerializer from '../../infrastructure/serializers/jso
 import * as trainingTriggerSerializer from '../../infrastructure/serializers/jsonapi/training-trigger-serializer.js';
 import * as targetProfileSummaryForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
-import { queryParamsUtils } from '../../infrastructure/utils/query-params-utils.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
+import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils.js';
 
 const findPaginatedTrainingSummaries = async function (
   request,

@@ -21,7 +21,7 @@ import { CertificationCenterMembership } from '../../domain/models/Certification
 import { Organization } from '../../domain/models/Organization.js';
 import { OrganizationLearnerForAdmin } from '../../domain/read-models/OrganizationLearnerForAdmin.js';
 import { AuthenticationMethod } from '../../domain/models/AuthenticationMethod.js';
-import { OidcIdentityProviders } from '../../domain/constants/oidc-identity-providers.js';
+import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';
 import { UserLogin } from '../../domain/models/UserLogin.js';
 
 const getByEmail = async function (email) {

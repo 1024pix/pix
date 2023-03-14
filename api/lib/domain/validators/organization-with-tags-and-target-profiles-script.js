@@ -2,7 +2,7 @@ import Joi from 'joi';
 import { EntityValidationError } from '../errors.js';
 import { Organization } from '../models/Organization.js';
 import { Membership } from '../models/Membership.js';
-import { OidcIdentityProviders } from '../../../lib/domain/constants/oidc-identity-providers.js';
+import * as OidcIdentityProviders from '../../../lib/domain/constants/oidc-identity-providers.js';
 
 const validProviders = Object.values(OidcIdentityProviders).map((provider) => provider.service.code);
 

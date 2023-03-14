@@ -1,5 +1,5 @@
 import { usecases } from '../../domain/usecases/index.js';
-import { certificationResultUtils } from '../../infrastructure/utils/csv/certification-results.js';
+import * as certificationResultUtils from '../../infrastructure/utils/csv/certification-results.js';
 import dayjs from 'dayjs';
 
 const getCleaCertifiedCandidateDataCsv = async function (request, h, dependencies = { certificationResultUtils }) {

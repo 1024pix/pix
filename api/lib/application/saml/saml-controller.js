@@ -1,8 +1,8 @@
-import { saml } from '../../infrastructure/saml.js';
+import * as saml from '../../infrastructure/saml.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { logger } from '../../infrastructure/logger.js';
 import { tokenService } from '../../domain/services/token-service.js';
-import { settings } from '../../config.js';
+import { config } from '../../config.js';
 
 const metadata = function (request, h) {
   return h.response(saml.getServiceProviderMetadata()).type('application/xml');
@@ -25,7 +25,7 @@ const assert = async function (request, h) {
     const redirectionUrl = await usecases.getExternalAuthenticationRedirectionUrl({
       userAttributes,
       tokenService,
-      settings,
+      config,
     });
 
     return h.redirect(redirectionUrl);

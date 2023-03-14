@@ -1,9 +1,9 @@
-import { knex } from '../../bookshelf.js';
+import { Bookshelf as bookshelf } from '../../bookshelf.js';
 import { fetchPage } from '../../utils/knex-utils.js';
 import { SessionSummary } from '../../../domain/read-models/SessionSummary.js';
 
 const findPaginatedByCertificationCenterId = async function ({ certificationCenterId, page }) {
-  const query = knex('sessions')
+  const query = bookshelf('sessions')
     .distinct('sessions.id')
     .select({
       id: 'sessions.id',
@@ -17,10 +17,10 @@ const findPaginatedByCertificationCenterId = async function ({ certificationCent
       createdAt: 'sessions.createdAt',
     })
     .select(
-      knex.raw(
+      bookshelf.raw(
         'COUNT(*) FILTER (WHERE "certification-candidates"."id" IS NOT NULL) OVER (partition by "sessions"."id") AS "enrolledCandidatesCount"'
       ),
-      knex.raw(
+      bookshelf.raw(
         'COUNT(*) FILTER (WHERE "certification-courses"."id" IS NOT NULL) OVER (partition by "sessions"."id") AS "effectiveCandidatesCount"'
       )
     )
@@ -37,7 +37,7 @@ const findPaginatedByCertificationCenterId = async function ({ certificationCent
     .orderBy('sessions.id', 'ASC');
 
   const { results, pagination } = await fetchPage(query, page);
-  const atLeastOneSession = await knex('sessions').select('id').where({ certificationCenterId }).first();
+  const atLeastOneSession = await bookshelf('sessions').select('id').where({ certificationCenterId }).first();
   const hasSessions = Boolean(atLeastOneSession);
 
   const sessionSummaries = results.map((result) => SessionSummary.from(result));

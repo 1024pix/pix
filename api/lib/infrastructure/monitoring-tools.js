@@ -2,7 +2,7 @@ import Request from '@hapi/hapi/lib/request';
 import { config } from '../config.js';
 import { get, set, update, omit } from 'lodash';
 import { logger } from '../infrastructure/logger.js';
-import { requestUtils } from '../infrastructure/utils/request-response-utils.js';
+import * as requestResponseUtils from '../infrastructure/utils/request-response-utils.js';
 
 import { AsyncLocalStorage } from 'async_hooks';
 const asyncLocalStorage = new AsyncLocalStorage();
@@ -43,7 +43,7 @@ function logErrorWithCorrelationIds(data) {
 
 function extractUserIdFromRequest(request) {
   let userId = get(request, 'auth.credentials.userId');
-  if (!userId && get(request, 'headers.authorization')) userId = requestUtils.extractUserIdFromRequest(request);
+  if (!userId && get(request, 'headers.authorization')) userId = requestResponseUtils.extractUserIdFromRequest(request);
   return userId || '-';
 }
 
@@ -97,7 +97,21 @@ function installHapiHook() {
   };
 }
 
+const monitoringTools = {
+  extractUserIdFromRequest,
+  getContext,
+  getInContext,
+  incrementInContext,
+  installHapiHook,
+  logErrorWithCorrelationIds,
+  logInfoWithCorrelationIds,
+  pushInContext,
+  setInContext,
+  asyncLocalStorage,
+};
+
 export {
+  monitoringTools,
   extractUserIdFromRequest,
   getContext,
   getInContext,

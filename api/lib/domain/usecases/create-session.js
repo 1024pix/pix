@@ -1,5 +1,5 @@
 import { ForbiddenAccess } from '../errors.js';
-import { sessionValidator } from '../validators/session-validator.js';
+import * as sessionValidator from '../validators/session-validator.js';
 import * as sessionCodeService from '../services/session-code-service.js';
 import { Session } from '../models/Session.js';
 

@@ -1,6 +1,6 @@
 import { knex } from '../../../db/knex-database-connection.js';
 import { config } from '../../../lib/config.js';
-import { OidcIdentityProviders } from '../../domain/constants/oidc-identity-providers.js';
+import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';
 
 const create = function ({ poleEmploiSending }) {
   return knex('pole-emploi-sendings').insert({ ...poleEmploiSending });

@@ -1,4 +1,4 @@
-import { readOdsUtils } from '../../infrastructure/utils/ods/read-ods-utils.js';
+import * as readOdsUtils from '../../infrastructure/utils/ods/read-ods-utils.js';
 import { getTransformationStructsForPixCertifCandidatesImport } from '../../infrastructure/files/candidates-import/candidates-import-transformation-structures.js';
 import { CertificationCandidate } from '../models/CertificationCandidate.js';
 import {
