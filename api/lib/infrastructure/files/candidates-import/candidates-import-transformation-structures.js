@@ -1,4 +1,6 @@
 const _ = require('lodash');
+const dayjs = require('dayjs');
+
 const { convertDateValue } = require('../../utils/date-utils.js');
 const {
   CLEA,
@@ -40,6 +42,10 @@ const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT = [
     header: '* Date de naissance (format : jj/mm/aaaa)',
     property: 'birthdate',
     transformFn: (cellVal) => {
+      if (cellVal instanceof Date) {
+        return dayjs(cellVal).format('YYYY-MM-DD');
+      }
+
       return convertDateValue({ dateString: cellVal, inputFormat: 'DD/MM/YYYY', outputFormat: 'YYYY-MM-DD' });
     },
   },
