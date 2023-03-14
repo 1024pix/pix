@@ -1,5 +1,5 @@
 import Request from '@hapi/hapi/lib/request';
-import { settings } from '../config.js';
+import { config } from '../config.js';
 import { get, set, update, omit } from 'lodash';
 import { logger } from '../infrastructure/logger.js';
 import { requestUtils } from '../infrastructure/utils/request-response-utils.js';
@@ -8,7 +8,7 @@ import { AsyncLocalStorage } from 'async_hooks';
 const asyncLocalStorage = new AsyncLocalStorage();
 
 function getCorrelationContext() {
-  if (!settings.hapi.enableRequestMonitoring) {
+  if (!config.hapi.enableRequestMonitoring) {
     return {};
   }
   const context = asyncLocalStorage.getStore();
@@ -82,7 +82,7 @@ function pushInContext(path, value) {
 }
 
 function installHapiHook() {
-  if (!settings.hapi.enableRequestMonitoring) return;
+  if (!config.hapi.enableRequestMonitoring) return;
 
   const originalMethod = Request.prototype._execute;
 

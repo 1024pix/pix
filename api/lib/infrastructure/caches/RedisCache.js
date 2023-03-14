@@ -3,7 +3,7 @@ import Redlock from 'redlock';
 import { Cache } from './Cache.js';
 import { RedisClient } from '../utils/RedisClient.js';
 import { logger } from '../logger.js';
-import { settings } from '../../config.js';
+import { config } from '../../config.js';
 
 const REDIS_LOCK_PREFIX = 'locks:';
 
@@ -35,13 +35,13 @@ class RedisCache extends Cache {
     const unlockErrorHandler = (err) => logger.error({ key }, 'Error while trying to unlock Redis key', err);
 
     try {
-      const locker = this._client.lockDisposer(keyToLock, settings.caching.redisCacheKeyLockTTL, unlockErrorHandler);
+      const locker = this._client.lockDisposer(keyToLock, config.caching.redisCacheKeyLockTTL, unlockErrorHandler);
       const value = await using(locker, retrieveAndSetValue);
       return value;
     } catch (err) {
       if (err instanceof Redlock.LockError) {
         logger.trace({ keyToLock }, 'Could not lock Redis key, waiting');
-        await new Promise((resolve) => setTimeout(resolve, settings.caching.redisCacheLockedWaitBeforeRetry));
+        await new Promise((resolve) => setTimeout(resolve, config.caching.redisCacheLockedWaitBeforeRetry));
         return this.get(key, generator);
       }
       logger.error({ err }, 'Error while trying to update value in Redis cache');
