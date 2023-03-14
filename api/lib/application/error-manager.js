@@ -1,15 +1,19 @@
 import _ from 'lodash';
-const JSONAPIError = require('jsonapi-serializer').Error;
+import jsonapiSerializer from 'jsonapi-serializer';
+const { Error: JSONAPIError } = jsonapiSerializer;
+
 import { HttpErrors } from './http-errors.js';
-import { DomainErrors } from '../domain/errors.js';
+import * as DomainErrors from '../domain/errors.js';
 import * as errorSerializer from '../infrastructure/serializers/jsonapi/error-serializer.js';
 import { extractLocaleFromRequest } from '../infrastructure/utils/request-response-utils.js';
-import { translations } from '../../translations/index.js';
+import * as translations from '../../translations/index.js';
 
 const NOT_VALID_RELATIONSHIPS = ['externalId', 'participantExternalId'];
 
 function translateMessage(locale, key) {
+  // eslint-disable-next-line import/namespace
   if (translations[locale]['entity-validation-errors'][key]) {
+    // eslint-disable-next-line import/namespace
     return translations[locale]['entity-validation-errors'][key];
   }
   return key;

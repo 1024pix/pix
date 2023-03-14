@@ -1,6 +1,6 @@
 import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
 import { BookshelfUserOrgaSettings } from '../orm-models/UserOrgaSettings.js';
-import { bookshelfUtils } from '../utils/knex-utils.js';
+import * as knexUtils from '../utils/knex-utils.js';
 import { UserOrgaSettingsCreationError } from '../../domain/errors.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { UserOrgaSettings } from '../../domain/models/UserOrgaSettings.js';
@@ -27,7 +27,7 @@ const create = function (userId, currentOrganizationId) {
       bookshelfToDomainConverter.buildDomainObject(BookshelfUserOrgaSettings, userOrgaSettings)
     )
     .catch((err) => {
-      if (bookshelfUtils.isUniqConstraintViolated(err)) {
+      if (knexUtils.isUniqConstraintViolated(err)) {
         throw new UserOrgaSettingsCreationError(err.message);
       }
       throw err;

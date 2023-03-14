@@ -25,6 +25,7 @@ module.exports.verifyCertificationSessionAuthorization = async (
     sessionRepository: dependencies.sessionRepository,
   });
 };
+export { verifySessionAuthorization, verifyCertificationSessionAuthorization };
 
 async function _isAuthorizedToAccessSession({ userId, sessionId, sessionRepository }) {
   const hasMembershipAccess = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(

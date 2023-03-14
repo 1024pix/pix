@@ -1,4 +1,4 @@
-import { authenticationServiceRegistry } from '../../../domain/services/authentication/authentication-service-registry.js';
+import * as authenticationServiceRegistry from '../../../domain/services/authentication/authentication-service-registry.js';
 import * as serializer from '../../../infrastructure/serializers/jsonapi/oidc-identity-providers-serializer.js';
 import { usecases } from '../../../domain/usecases/index.js';
 import { UnauthorizedError } from '../../http-errors.js';

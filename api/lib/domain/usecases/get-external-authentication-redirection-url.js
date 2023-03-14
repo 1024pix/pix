@@ -5,7 +5,7 @@ const getExternalAuthenticationRedirectionUrl = async function ({
   userRepository,
   authenticationMethodRepository,
   tokenService,
-  settings,
+  config,
 }) {
   const { attributeMapping } = config.saml;
   const externalUser = {

@@ -2,7 +2,7 @@ import Joi from 'joi';
 
 import { sendJsonApiError, PayloadTooLargeError } from '../http-errors.js';
 import { securityPreHandlers } from '../security-pre-handlers.js';
-import { organizationController } from './organization-administration-controller.js';
+import * as organizationController from './organization-administration-controller.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 
 const ERRORS = {

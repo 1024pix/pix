@@ -19,8 +19,8 @@ import * as certificationCenterMembershipSerializer from '../../infrastructure/s
 import * as trainingSerializer from '../../infrastructure/serializers/jsonapi/training-serializer.js';
 import * as userLoginSerializer from '../../infrastructure/serializers/jsonapi/user-login-serializer.js';
 
-import { queryParamsUtils } from '../../infrastructure/utils/query-params-utils.js';
-import { requestResponseUtils } from '../../infrastructure/utils/request-response-utils.js';
+import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils.js';
+import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as localeService from '../../domain/services/locale-service.js';
 

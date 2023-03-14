@@ -1,5 +1,5 @@
 import { isEmpty, isNil, pick } from 'lodash';
-import { OidcIdentityProviders } from '../constants/oidc-identity-providers.js';
+import * as OidcIdentityProviders from '../constants/oidc-identity-providers.js';
 import { config } from '../../config.js';
 
 const getIdentityProviders = function () {

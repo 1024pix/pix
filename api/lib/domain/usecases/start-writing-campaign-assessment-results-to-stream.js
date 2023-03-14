@@ -6,7 +6,7 @@ import timezone from 'dayjs/plugin/timezone';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-import { constants } from '../../infrastructure/constants.js';
+import { CONCURRENCY_HEAVY_OPERATIONS, CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING } from '../../infrastructure/constants.js';
 import { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } from '../errors.js';
 import * as csvSerializer from '../../infrastructure/serializers/csv/csv-serializer.js';
 import { CampaignLearningContent } from '../models/CampaignLearningContent.js';
@@ -65,10 +65,7 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
   // after this function's returned promise resolves. If we await the map
   // function, node will keep all the data in memory until the end of the
   // complete operation.
-  const campaignParticipationInfoChunks = _.chunk(
-    campaignParticipationInfos,
-    constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING
-  );
+  const campaignParticipationInfoChunks = _.chunk(campaignParticipationInfos, CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
   bluebird
     .map(
       campaignParticipationInfoChunks,
@@ -124,7 +121,7 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
 
         writableStream.write(csvLines);
       },
-      { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS }
+      { concurrency: CONCURRENCY_HEAVY_OPERATIONS }
     )
     .then(() => {
       writableStream.end();

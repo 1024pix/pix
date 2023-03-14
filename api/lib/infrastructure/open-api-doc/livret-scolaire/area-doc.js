@@ -5,4 +5,4 @@ const joiObject = Joi.object({
   name: Joi.string().example('1. Information et données').required().description('Titre du domaine'),
 });
 
-export { joiObject };
+export { joiObject as areaDoc };

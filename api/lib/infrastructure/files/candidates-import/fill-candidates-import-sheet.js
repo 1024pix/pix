@@ -1,5 +1,5 @@
-import { writeOdsUtils } from '../../utils/ods/write-ods-utils.js';
-import { readOdsUtils } from '../../utils/ods/read-ods-utils.js';
+import * as writeOdsUtils from '../../utils/ods/write-ods-utils.js';
+import * as readOdsUtils from '../../utils/ods/read-ods-utils.js';
 
 import {
   EXTRA_EMPTY_CANDIDATE_ROWS,

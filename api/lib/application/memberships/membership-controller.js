@@ -1,5 +1,5 @@
 import * as membershipSerializer from '../../infrastructure/serializers/jsonapi/membership-serializer.js';
-import { requestResponseUtils } from '../../infrastructure/utils/request-response-utils.js';
+import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { BadRequestError } from '../http-errors.js';
 
@@ -32,7 +32,7 @@ const update = async function (request, h, dependencies = { requestResponseUtils
 
 const disable = async function (request, h) {
   const membershipId = request.params.id;
-  const userId = requestResponseUtils.extractUserIdFromRequest(request);
+  const userId = extractUserIdFromRequest(request);
 
   await usecases.disableMembership({ membershipId, userId });
   return h.response().code(204);

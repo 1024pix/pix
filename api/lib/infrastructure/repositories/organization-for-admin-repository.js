@@ -4,7 +4,7 @@ import { Tag } from '../../domain/models/Tag.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { OrganizationInvitation } from '../../domain/models/OrganizationInvitation.js';
 import _ from 'lodash';
-import { apps } from '../../domain/constants.js';
+import * as apps from '../../domain/constants.js';
 
 const ORGANIZATIONS_TABLE_NAME = 'organizations';
 

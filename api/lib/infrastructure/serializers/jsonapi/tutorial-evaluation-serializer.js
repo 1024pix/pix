@@ -1,11 +1,11 @@
 import { Serializer } from 'jsonapi-serializer';
-import { tutorial } from './tutorial-attributes.js';
+import { tutorialAttributes } from './tutorial-attributes.js';
 import { TutorialEvaluation } from '../../../domain/models/TutorialEvaluation.js';
 
 const serialize = function (tutorialEvaluation) {
   return new Serializer('tutorial-evaluation', {
     attributes: ['tutorial', 'userId', 'tutorialId', 'status', 'updatedAt'],
-    tutorial,
+    tutorial: tutorialAttributes,
   }).serialize(tutorialEvaluation);
 };
 
