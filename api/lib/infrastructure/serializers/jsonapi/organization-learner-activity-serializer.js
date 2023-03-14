@@ -13,7 +13,7 @@ module.exports = {
       organizationLearnerParticipations: {
         ref: 'id',
         includes: true,
-        attributes: ['campaignType', 'campaignName', 'createdAt', 'sharedAt', 'status'],
+        attributes: ['campaignType', 'campaignName', 'createdAt', 'sharedAt', 'status', 'campaignId'],
       },
       organizationLearnerStatistics: {
         ref: 'campaignType',
