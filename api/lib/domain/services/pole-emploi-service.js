@@ -1,7 +1,7 @@
-import { settings } from '../../config.js';
+import { config } from '../../config.js';
 
 function generateLink(sending, filters = {}) {
-  const host = settings.apiManager.url;
+  const host = config.apiManager.url;
   const { dateEnvoi, idEnvoi } = sending;
   const cursor = generateCursor({ idEnvoi, dateEnvoi });
   let link = `${host}/pole-emploi/envois?curseur=${cursor}`;

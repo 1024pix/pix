@@ -1,6 +1,7 @@
 import { httpAgent } from './http/http-agent.js';
-import { lcms } from '../config.js';
+import { config } from '../config.js';
 
+const { lcms } = config;
 const getLatestRelease = async function () {
   const response = await httpAgent.get({
     url: lcms.url + '/releases/latest',
