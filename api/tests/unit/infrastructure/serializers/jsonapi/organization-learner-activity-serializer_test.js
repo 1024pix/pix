@@ -12,6 +12,7 @@ describe('Unit | Serializer | JSONAPI | organization-learner-participation-seria
         participations: [
           new OrganizationLearnerParticipation({
             id: '99999',
+            campaignId: '123',
             campaignType: 'PROFILES_COLLECTION',
             campaignName: 'La 1ère campagne',
             createdAt: '2000-01-01T10:00:00Z',
@@ -20,6 +21,7 @@ describe('Unit | Serializer | JSONAPI | organization-learner-participation-seria
           }),
           new OrganizationLearnerParticipation({
             id: '100000',
+            campaignId: '456',
             campaignType: 'ASSESSMENT',
             campaignName: 'La 2ème campagne',
             createdAt: '2000-03-01T10:00:00Z',
@@ -84,6 +86,7 @@ describe('Unit | Serializer | JSONAPI | organization-learner-participation-seria
             id: '99999',
             type: 'organizationLearnerParticipations',
             attributes: {
+              'campaign-id': '123',
               'campaign-type': 'PROFILES_COLLECTION',
               'campaign-name': 'La 1ère campagne',
               'created-at': '2000-01-01T10:00:00Z',
@@ -95,6 +98,7 @@ describe('Unit | Serializer | JSONAPI | organization-learner-participation-seria
             id: '100000',
             type: 'organizationLearnerParticipations',
             attributes: {
+              'campaign-id': '456',
               'campaign-type': 'ASSESSMENT',
               'campaign-name': 'La 2ème campagne',
               'created-at': '2000-03-01T10:00:00Z',
