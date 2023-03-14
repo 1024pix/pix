@@ -1,4 +1,4 @@
-import { s3Utils } from './s3-utils.js';
+import * as s3Utils from './s3-utils.js';
 import { config } from '../../config.js';
 import { logger } from '../logger.js';
 const { cpf } = config;

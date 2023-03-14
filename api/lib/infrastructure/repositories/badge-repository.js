@@ -3,7 +3,7 @@ import { Badge } from '../../domain/models/Badge.js';
 import { SkillSet } from '../../domain/models/SkillSet.js';
 import { BadgeCriterion } from '../../domain/models/BadgeCriterion.js';
 import omit from 'lodash/omit';
-import { knexUtils } from '../utils/knex-utils.js';
+import * as knexUtils from '../utils/knex-utils.js';
 import { AlreadyExistingEntityError } from '../../domain/errors.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 

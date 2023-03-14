@@ -3,7 +3,7 @@ import * as tubeBuilder from './tube-builder.js';
 import { ThematicText } from '../drawer/ThematicText.js';
 import { PositionManager } from '../manager/position-manager.js';
 import { FontManager } from '../manager/font-manager.js';
-import { ColorManager } from '../manager/color-manager.js';
+import * as ColorManager from '../manager/color-manager.js';
 
 const build = function (positionY, page, thematic, dryRun) {
   if (!dryRun) {

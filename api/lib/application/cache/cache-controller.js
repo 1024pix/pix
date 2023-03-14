@@ -1,4 +1,4 @@
-import { LearningContentDatasources } from '../../infrastructure/datasources/learning-content/index.js';
+import * as LearningContentDatasources from '../../infrastructure/datasources/learning-content/index.js';
 import * as learningContentDatasource from '../../infrastructure/datasources/learning-content/datasource.js';
 import { logger } from '../../infrastructure/logger.js';
 import _ from 'lodash';
@@ -14,6 +14,7 @@ const refreshCacheEntry = function (request) {
   const updatedRecord = request.payload;
   const recordId = request.params.id;
   const datasource =
+    // eslint-disable-next-line import/namespace
     LearningContentDatasources[_.findKey(LearningContentDatasources, { modelName: request.params.model })];
   return datasource.refreshLearningContentCacheRecord(recordId, updatedRecord).then(() => null);
 };

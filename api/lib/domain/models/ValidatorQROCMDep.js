@@ -1,4 +1,4 @@
-import { solutionServiceQROCMDep } from '../services/solution-service-qrocm-dep.js';
+import * as solutionServiceQROCMDep from '../services/solution-service-qrocm-dep.js';
 import { Validation } from './Validation.js';
 import { Validator } from './Validator.js';
 

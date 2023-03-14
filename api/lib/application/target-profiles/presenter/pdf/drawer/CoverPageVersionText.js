@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 dayjs.extend(localizedFormat);
 import { Text } from './Text.js';
-import { ColorManager } from '../manager/color-manager.js';
+import * as ColorManager from '../manager/color-manager.js';
 import { FontManager } from '../manager/font-manager.js';
 import { PositionManager } from '../manager/position-manager.js';
 

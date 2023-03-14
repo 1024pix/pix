@@ -3,7 +3,7 @@ import { MembershipCreationError, MembershipUpdateError, NotFoundError } from '.
 import { Membership } from '../../domain/models/Membership.js';
 import { User } from '../../domain/models/User.js';
 import { Organization } from '../../domain/models/Organization.js';
-import { bookshelfUtils } from '../utils/knex-utils.js';
+import * as knexUtils from '../utils/knex-utils.js';
 import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../DomainTransaction.js';
@@ -47,7 +47,7 @@ const create = function (userId, organizationId, organizationRole) {
     .then((bookshelfMembership) => bookshelfMembership.load(['user']))
     .then(_toDomain)
     .catch((err) => {
-      if (bookshelfUtils.isUniqConstraintViolated(err)) {
+      if (knexUtils.isUniqConstraintViolated(err)) {
         throw new MembershipCreationError(err.message);
       }
       throw err;

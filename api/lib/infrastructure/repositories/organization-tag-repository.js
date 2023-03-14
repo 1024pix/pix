@@ -1,6 +1,6 @@
 import { BookshelfOrganizationTag } from '../orm-models/OrganizationTag.js';
 import { Bookshelf } from '../bookshelf.js';
-import { bookshelfUtils } from '../utils/knex-utils.js';
+import * as knexUtils from '../utils/knex-utils.js';
 import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
 import { AlreadyExistingEntityError, OrganizationTagNotFound } from '../../domain/errors.js';
 import { omit } from 'lodash';
@@ -14,7 +14,7 @@ const create = async function (organizationTag) {
     const bookshelfOrganizationTag = await new BookshelfOrganizationTag(organizationTagToCreate).save();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfOrganizationTag, bookshelfOrganizationTag);
   } catch (err) {
-    if (bookshelfUtils.isUniqConstraintViolated(err)) {
+    if (knexUtils.isUniqConstraintViolated(err)) {
       throw new AlreadyExistingEntityError(
         `The tag ${organizationTag.tagId} already exists for the organization ${organizationTag.organizationId}.`
       );

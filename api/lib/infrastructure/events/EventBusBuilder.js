@@ -20,4 +20,4 @@ function build() {
   return eventBus;
 }
 
-export { build as eventBusBuilder};
+export { build as eventBusBuilder };

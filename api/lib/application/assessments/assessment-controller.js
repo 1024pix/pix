@@ -3,7 +3,7 @@ import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 const JSONAPISerializer = require('jsonapi-serializer').Serializer;
 import { AssessmentEndedError } from '../../domain/errors.js';
 import { usecases } from '../../domain/usecases/index.js';
-import { events } from '../../domain/events/index.js';
+import * as events from '../../domain/events/index.js';
 import { logger } from '../../infrastructure/logger.js';
 import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
 import * as assessmentSerializer from '../../infrastructure/serializers/jsonapi/assessment-serializer.js';

@@ -1,4 +1,4 @@
-module.exports.CERTIFICATION_SESSIONS_ERRORS = {
+const CERTIFICATION_SESSIONS_ERRORS = {
   INFORMATION_NOT_ALLOWED_WITH_SESSION_ID: {
     code: 'INFORMATION_NOT_ALLOWED_WITH_SESSION_ID',
     getMessage: () => `Merci de ne pas renseigner les informations de session`,
@@ -60,3 +60,4 @@ module.exports.CERTIFICATION_SESSIONS_ERRORS = {
     getMessage: () => '',
   },
 };
+export { CERTIFICATION_SESSIONS_ERRORS };

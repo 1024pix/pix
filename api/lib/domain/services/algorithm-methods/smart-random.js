@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { catAlgorithm } from './cat-algorithm.js';
+import * as catAlgorithm from './cat-algorithm.js';
 import { getFilteredSkillsForNextChallenge, getFilteredSkillsForFirstChallenge } from './skills-filter.js';
 import { computeTubesFromSkills } from './../tube-service.js';
 

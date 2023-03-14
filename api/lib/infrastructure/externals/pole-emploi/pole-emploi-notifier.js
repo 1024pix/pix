@@ -4,11 +4,11 @@ import querystring from 'querystring';
 import { monitoringTools } from '../../monitoring-tools.js';
 import * as authenticationMethodRepository from '../../repositories/authentication-method-repository.js';
 import { AuthenticationMethod } from '../../../domain/models/AuthenticationMethod.js';
-import { OidcIdentityProviders } from '../../../domain/constants/oidc-identity-providers.js';
+import * as OidcIdentityProviders from '../../../domain/constants/oidc-identity-providers.js';
 import { httpAgent } from '../../http/http-agent.js';
 import { config } from '../../../config.js';
 import { UnexpectedUserAccountError } from '../../../domain/errors.js';
-import { httpErrorsHelper } from '../../../infrastructure/http/errors-helper.js';
+import * as httpErrorsHelper from '../../../infrastructure/http/errors-helper.js';
 
 const notify = async function (userId, payload) {
   monitoringTools.logInfoWithCorrelationIds({
