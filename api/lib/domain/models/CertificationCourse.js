@@ -260,4 +260,4 @@ function _sanitizedString(string) {
 
 CertificationCourse.cpfImportStatus = cpfImportStatus;
 
-export { CertificationCourse };
+export { CertificationCourse, cpfImportStatus };
