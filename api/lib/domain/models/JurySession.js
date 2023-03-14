@@ -63,5 +63,4 @@ class JurySession {
   }
 }
 
-export { JurySession };
-module.exports.statuses = statuses;
+export { JurySession, statuses };

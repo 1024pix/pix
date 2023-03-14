@@ -24,5 +24,4 @@ class CertificationCenter {
   }
 }
 
-export { CertificationCenter };
-module.exports.types = CERTIFICATION_CENTER_TYPES;
+export { CertificationCenter, CERTIFICATION_CENTER_TYPES as types };

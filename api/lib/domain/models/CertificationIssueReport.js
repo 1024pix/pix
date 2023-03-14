@@ -7,7 +7,7 @@ import {
 } from '../errors.js';
 
 import {
-  CertificationIssueReportCategories,
+  CertificationIssueReportCategory as CertificationIssueReportCategories,
   CertificationIssueReportSubcategories,
   ImpactfulCategories,
   ImpactfulSubcategories,

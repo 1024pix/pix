@@ -10,4 +10,4 @@ const joiObject = Joi.object({
     ),
 }).description('Tableau des niveaux validés par compétence');
 
-export { joiObject };
+export { joiObject as competenceResultDoc };
