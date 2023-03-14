@@ -1,21 +1,16 @@
-.footer {
-  padding: 20px 30px;
+#footer {
+  margin-top: auto;
+}
 
-  &__container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 1280px;
-    margin: auto;
+.footer__container {
+  display: flex;
+  flex-direction: column;
+  max-width: 1280px;
+  padding: $spacing-m 20px;
 
-    @include device-is('desktop') {
-      flex-direction: row;
-      align-items: center;
-    }
-  }
-
-  @include device-is('tablet') {
-    height: 100px;
+  @include device-is('desktop') {
+    flex-direction: row;
+    margin: 0 auto;
   }
 }
 
