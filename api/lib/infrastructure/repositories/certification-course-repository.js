@@ -2,7 +2,7 @@ import { _ } from 'lodash';
 import { knex } from '../../../db/knex-database-connection.js';
 import bluebird from 'bluebird';
 import { BookshelfCertificationCourse } from '../orm-models/CertificationCourse.js';
-import { AssessmentBookshelf } from '../orm-models/Assessment.js';
+import { BookshelfAssessment } from '../orm-models/Assessment.js';
 import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 import { CertificationCourse } from '../../domain/models/CertificationCourse.js';
@@ -133,7 +133,7 @@ function toDomain(bookshelfCertificationCourse) {
   }
 
   const assessment = bookshelfToDomainConverter.buildDomainObject(
-    AssessmentBookshelf,
+    BookshelfAssessment,
     bookshelfCertificationCourse.related('assessment')
   );
   const dbCertificationCourse = bookshelfCertificationCourse.toJSON();

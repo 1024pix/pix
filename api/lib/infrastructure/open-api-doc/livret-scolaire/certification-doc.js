@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { certificationStatus } from '../../../../lib/domain/read-models/livret-scolaire/CertificateStatus.js';
+import { status } from '../../../../lib/domain/read-models/livret-scolaire/CertificateStatus.js';
 import { competenceResultDoc } from './competence-result-doc.js';
 
 const joiObject = Joi.object({
@@ -12,7 +12,7 @@ const joiObject = Joi.object({
   nationalStudentId: Joi.string().example('029991043XX').required().description('INE de l’élève'),
   status: Joi.string()
     .example('validated')
-    .valid(certificationStatus)
+    .valid(status)
     .required()
     .description(
       "validated: le candidat a obtenu sa certification. rejected: le candidat a eu sa certification rejetée. pending: le candidat a passé sa certification mais elle n'est pas encore publiée"

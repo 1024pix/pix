@@ -1,4 +1,4 @@
-import { MonitoringJobHandler } from './MonitoringJobExecutionTimeHandler.js';
+import { MonitoringJobExecutionTimeHandler } from './MonitoringJobExecutionTimeHandler.js';
 import { logger } from '../../logger.js';
 import { pgBoss } from '../../../config.js';
 
@@ -12,7 +12,7 @@ class MonitoredJobQueue {
   performJob(name, handlerClass) {
     this.jobQueue.performJob(name, handlerClass);
 
-    const monitoringJobHandler = new MonitoringJobHandler({ logger });
+    const monitoringJobHandler = new MonitoringJobExecutionTimeHandler({ logger });
     this.jobQueue.pgBoss.onComplete(name, { teamSize, teamConcurrency }, (job) => {
       monitoringJobHandler.handle(job);
     });

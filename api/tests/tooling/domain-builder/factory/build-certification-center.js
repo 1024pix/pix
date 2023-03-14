@@ -1,9 +1,9 @@
-const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
+import { CertificationCenter, types } from '../../../../lib/domain/models/CertificationCenter.js';
 
-module.exports = function buildCertificationCenter({
+const buildCertificationCenter = function ({
   id = 1,
   name = 'name',
-  type = CertificationCenter.types.SUP,
+  type = types.SUP,
   externalId = 'externalId',
   createdAt = new Date('2020-01-01'),
   updatedAt,
@@ -19,3 +19,5 @@ module.exports = function buildCertificationCenter({
     habilitations,
   });
 };
+
+export { buildCertificationCenter };
