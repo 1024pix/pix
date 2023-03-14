@@ -1,4 +1,4 @@
-import { settings } from '../../config.js';
+import { config } from '../../config.js';
 import * as accountRecoveryDemandRepository from '../../infrastructure/repositories/account-recovery-demand-repository.js';
 import * as adminMemberRepository from '../../infrastructure/repositories/admin-member-repository.js';
 import { algorithmDataFetcherService, dataFetcher } from '../../domain/services/algorithm-methods/data-fetcher.js';
@@ -194,7 +194,7 @@ import { readOdsUtils } from '../../infrastructure/utils/ods/read-ods-utils.js';
 import * as sessionXmlService from '../../domain/services/session-xml-service.js';
 
 function requirePoleEmploiNotifier() {
-  if (settings.poleEmploi.pushEnabled) {
+  if (config.poleEmploi.pushEnabled) {
     return poleEmploiNotifier;
   } else {
     return disabledPoleEmploiNotifier;
@@ -451,7 +451,7 @@ import { createMembership } from './create-membership.js';
 import { createOidcUser } from './create-oidc-user.js';
 import { createOrUpdateCertificationCenterInvitationForAdmin } from './create-or-update-certification-center-invitation-for-admin.js';
 import { createOrUpdateTrainingTrigger } from './create-or-update-training-trigger.js';
-import { createOrUpdateUserOrgaSettings } from './create-or-update-user-orga-settings.js';
+import { createOrUpdateUserOrgaSettings } from './create-or-update-user-orga-config.js';
 import { createOrganization } from './create-organization.js';
 import { createOrganizationInvitationByAdmin } from './create-organization-invitation-by-admin.js';
 import { createOrganizationInvitations } from './create-organization-invitations.js';

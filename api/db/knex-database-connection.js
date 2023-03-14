@@ -2,7 +2,7 @@ const types = require('pg').types;
 import _, { get } from 'lodash';
 import { logger } from '../lib/infrastructure/logger.js';
 import { monitoringTools } from '../lib/infrastructure/monitoring-tools.js';
-import { logging, environment } from '../lib/config.js';
+import { config } from '../lib/config.js';
 import { performance } from 'perf_hooks';
 /*
 By default, node-postgres casts a DATE value (PostgreSQL type) as a Date Object (JS type).
@@ -39,6 +39,7 @@ try {
 }
 /* -------------------- */
 
+const { logging, environment } = config;
 const knexConfig = knexConfigs[environment];
 const knex = require('knex')(knexConfig);
 
