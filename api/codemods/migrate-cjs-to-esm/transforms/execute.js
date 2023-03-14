@@ -7,6 +7,7 @@ const codemods = [
   require('./src/cjs-anonymous-import-to-namespace-import'),
   require('./src/cjs-import-to-esm-named-import'),
   require('./src/cjs-package-import-to-esm-import'),
+  require('./src/cjs-import-invocation-only-to-esm-import'),
 ];
 
 const transformScripts = (fileInfo, api, options) => {
