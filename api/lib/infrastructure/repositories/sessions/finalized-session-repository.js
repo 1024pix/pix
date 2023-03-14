@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { NotFoundError } from '../../../domain/errors.js';
 import { knex } from '../../bookshelf.js';
-import { FinalizedSessionBookshelf } from '../../orm-models/FinalizedSession.js';
+import { BookshelfFinalizedSession } from '../../orm-models/FinalizedSession.js';
 
 import * as bookshelfToDomainConverter from '../../utils/bookshelf-to-domain-converter.js';
 
@@ -11,17 +11,17 @@ const save = async function (finalizedSession) {
 };
 
 const get = async function ({ sessionId }) {
-  const bookshelfFinalizedSession = await FinalizedSessionBookshelf.where({ sessionId }).fetch({ require: false });
+  const bookshelfFinalizedSession = await BookshelfFinalizedSession.where({ sessionId }).fetch({ require: false });
 
   if (bookshelfFinalizedSession) {
-    return bookshelfToDomainConverter.buildDomainObject(FinalizedSessionBookshelf, bookshelfFinalizedSession);
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfFinalizedSession, bookshelfFinalizedSession);
   }
 
   throw new NotFoundError(`Session of id ${sessionId} does not exist.`);
 };
 
 const findFinalizedSessionsToPublish = async function () {
-  const publishableFinalizedSessions = await FinalizedSessionBookshelf.where({
+  const publishableFinalizedSessions = await BookshelfFinalizedSession.where({
     isPublishable: true,
     publishedAt: null,
     assignedCertificationOfficerName: null,
@@ -29,18 +29,18 @@ const findFinalizedSessionsToPublish = async function () {
     .orderBy('finalizedAt')
     .fetchAll();
 
-  return bookshelfToDomainConverter.buildDomainObjects(FinalizedSessionBookshelf, publishableFinalizedSessions);
+  return bookshelfToDomainConverter.buildDomainObjects(BookshelfFinalizedSession, publishableFinalizedSessions);
 };
 
 const findFinalizedSessionsWithRequiredAction = async function () {
-  const publishableFinalizedSessions = await FinalizedSessionBookshelf.where({
+  const publishableFinalizedSessions = await BookshelfFinalizedSession.where({
     isPublishable: false,
     publishedAt: null,
   })
     .orderBy('finalizedAt')
     .fetchAll();
 
-  return bookshelfToDomainConverter.buildDomainObjects(FinalizedSessionBookshelf, publishableFinalizedSessions);
+  return bookshelfToDomainConverter.buildDomainObjects(BookshelfFinalizedSession, publishableFinalizedSessions);
 };
 
 export { save, get, findFinalizedSessionsToPublish, findFinalizedSessionsWithRequiredAction };

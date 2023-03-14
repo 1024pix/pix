@@ -19,4 +19,4 @@ const BookshelfFeedback = Bookshelf.model(
   }
 );
 
-export { BookshelfFeedback };
+export { BookshelfFeedback as Feedback };
