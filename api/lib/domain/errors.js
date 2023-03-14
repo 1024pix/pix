@@ -6,6 +6,24 @@ class DomainError extends Error {
   }
 }
 
+class LocaleFormatError extends DomainError {
+  constructor(locale) {
+    super();
+    this.message = `Given locale is in invalid format: "${locale}"`;
+    this.code = 'INVALID_LOCALE_FORMAT';
+    this.meta = { locale };
+  }
+}
+
+class LocaleNotSupportedError extends DomainError {
+  constructor(locale) {
+    super();
+    this.message = `Given locale is not supported : "${locale}"`;
+    this.code = 'LOCALE_NOT_SUPPORTED';
+    this.meta = { locale };
+  }
+}
+
 class AlreadyExistingAdminMemberError extends DomainError {
   constructor(message = 'Cet agent a déjà accès') {
     super(message);
@@ -1287,6 +1305,8 @@ class InvalidStageError extends DomainError {
 }
 
 module.exports = {
+  LocaleFormatError,
+  LocaleNotSupportedError,
   AccountRecoveryDemandNotCreatedError,
   AccountRecoveryDemandExpired,
   AccountRecoveryUserAlreadyConfirmEmail,

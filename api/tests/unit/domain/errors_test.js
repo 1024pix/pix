@@ -601,4 +601,12 @@ describe('Unit | Domain | Errors', function () {
   it('exports SendingEmailToInvalidEmailAddressError', function () {
     expect(errors.SendingEmailToInvalidEmailAddressError).to.exist;
   });
+
+  it('exports LocaleFormatError', function () {
+    expect(errors.LocaleFormatError).to.exist;
+  });
+
+  it('exports LocaleNotSupportedError', function () {
+    expect(errors.LocaleNotSupportedError).to.exist;
+  });
 });
