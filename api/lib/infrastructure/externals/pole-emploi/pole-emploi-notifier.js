@@ -6,7 +6,7 @@ import * as authenticationMethodRepository from '../../repositories/authenticati
 import { AuthenticationMethod } from '../../../domain/models/AuthenticationMethod.js';
 import { OidcIdentityProviders } from '../../../domain/constants/oidc-identity-providers.js';
 import { httpAgent } from '../../http/http-agent.js';
-import { settings } from '../../../config.js';
+import { config } from '../../../config.js';
 import { UnexpectedUserAccountError } from '../../../domain/errors.js';
 import { httpErrorsHelper } from '../../../infrastructure/http/errors-helper.js';
 
@@ -39,15 +39,15 @@ const notify = async function (userId, payload) {
     const data = {
       grant_type: 'refresh_token',
       refresh_token: refreshToken,
-      client_secret: settings.poleEmploi.clientSecret,
-      client_id: settings.poleEmploi.clientId,
+      client_secret: config.poleEmploi.clientSecret,
+      client_id: config.poleEmploi.clientId,
     };
 
     const tokenResponse = await httpAgent.post({
-      url: settings.poleEmploi.tokenUrl,
+      url: config.poleEmploi.tokenUrl,
       payload: querystring.stringify(data),
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
-      timeout: settings.partner.fetchTimeOut,
+      timeout: config.partner.fetchTimeOut,
     });
 
     if (!tokenResponse.isSuccessful) {
@@ -77,7 +77,7 @@ const notify = async function (userId, payload) {
     });
   }
 
-  const url = settings.poleEmploi.sendingUrl;
+  const url = config.poleEmploi.sendingUrl;
   const headers = {
     Authorization: `Bearer ${accessToken}`,
     'Content-type': 'application/json',
@@ -89,7 +89,7 @@ const notify = async function (userId, payload) {
     url,
     payload,
     headers,
-    timeout: settings.partner.fetchTimeOut,
+    timeout: config.partner.fetchTimeOut,
   });
 
   if (!httpResponse.isSuccessful) {

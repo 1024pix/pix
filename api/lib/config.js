@@ -1,3 +1,5 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable node/no-process-env */
 import path from 'path';
 import moment from 'moment';
 import ms from 'ms';
@@ -452,4 +454,4 @@ const configuration = (function () {
   return config;
 })();
 
-export { configuration };
+export { configuration as config };

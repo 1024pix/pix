@@ -1,4 +1,4 @@
-import { cpf } from '../../config.js';
+import { config } from '../../config.js';
 import { create, fragment } from 'xmlbuilder2';
 import { v4 as uuidv4 } from 'uuid';
 import dayjs from 'dayjs';
@@ -8,7 +8,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 const schemaVersion = '1.0.0';
-
+const { cpf } = config;
 // prettier-ignore
 async function buildXmlExport({ cpfCertificationResults, writableStream, opts = {}}) {
   const overrideOpts = { allowEmptyTags: true, };
@@ -143,7 +143,7 @@ async function buildXmlExport({ cpfCertificationResults, writableStream, opts = 
     }
     communeNaissance
             .up()
-    
+
     details
           .ele('cpf:libelleCommuneNaissance').txt(birthplace)
           .up()
@@ -161,7 +161,7 @@ async function buildXmlExport({ cpfCertificationResults, writableStream, opts = 
       .up();
     await _write(writableStream, line.end({ ...opts, ...overrideOpts,  }));
   }
-  
+
   await _write(writableStream, headerClosingTag);
   writableStream.end();
 }

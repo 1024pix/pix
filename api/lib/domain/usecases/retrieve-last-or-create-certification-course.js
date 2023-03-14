@@ -11,8 +11,10 @@ import {
   UnexpectedUserAccountError,
 } from '../errors.js';
 
-import { features } from '../../config.js';
+import { config } from '../../config.js';
 import bluebird from 'bluebird';
+
+const { features } = config;
 
 const retrieveLastOrCreateCertificationCourse = async function ({
   domainTransaction,

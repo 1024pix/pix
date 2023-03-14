@@ -1,8 +1,8 @@
 import { MonitoringJobExecutionTimeHandler } from './MonitoringJobExecutionTimeHandler.js';
 import { logger } from '../../logger.js';
-import { pgBoss } from '../../../config.js';
+import { config } from '../../../config.js';
 
-const { teamSize, teamConcurrency } = pgBoss;
+const { teamSize, teamConcurrency } = config.pgBoss;
 
 class MonitoredJobQueue {
   constructor(jobQueue) {

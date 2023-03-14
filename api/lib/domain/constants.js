@@ -1,17 +1,17 @@
-import { settings } from '../config.js';
+import { config } from '../config.js';
 
 const PIX_COUNT_BY_LEVEL = 8;
 const COMPETENCES_COUNT = 16;
-const MAX_REACHABLE_PIX_BY_COMPETENCE = settings.features.maxReachableLevel * PIX_COUNT_BY_LEVEL;
+const MAX_REACHABLE_PIX_BY_COMPETENCE = config.features.maxReachableLevel * PIX_COUNT_BY_LEVEL;
 
-const MAX_REACHABLE_LEVEL = settings.features.maxReachableLevel;
+const MAX_REACHABLE_LEVEL = config.features.maxReachableLevel;
 const MAX_REACHABLE_PIX_SCORE = MAX_REACHABLE_PIX_BY_COMPETENCE * COMPETENCES_COUNT;
 const MAX_CHALLENGES_PER_COMPETENCE_FOR_CERTIFICATION = 3;
 const MAX_CHALLENGES_PER_AREA_FOR_CERTIFICATION_PLUS = 4;
 const MAX_MASTERY_RATE = 1;
-const MINIMUM_DELAY_IN_DAYS_FOR_RESET = settings.features.dayBeforeCompetenceResetV2;
-const MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING = settings.features.dayBeforeImproving;
-const MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = settings.features.dayBeforeRetrying;
+const MINIMUM_DELAY_IN_DAYS_FOR_RESET = config.features.dayBeforeCompetenceResetV2;
+const MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING = config.features.dayBeforeImproving;
+const MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = config.features.dayBeforeRetrying;
 
 const MINIMUM_CERTIFIABLE_COMPETENCES_FOR_CERTIFIABILITY = 5;
 const MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY = 1;

@@ -1,8 +1,8 @@
-import { settings } from '../../../config.js';
+import { config } from '../../../config.js';
 import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';
 const authenticationSessionTemporaryStorage = temporaryStorage.withPrefix('authentication-session:');
 
-const EXPIRATION_DELAY_SECONDS = settings.authenticationSession.temporaryStorage.expirationDelaySeconds;
+const EXPIRATION_DELAY_SECONDS = config.authenticationSession.temporaryStorage.expirationDelaySeconds;
 
 const getByKey = function (key) {
   return authenticationSessionTemporaryStorage.get(key);

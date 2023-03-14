@@ -5,7 +5,9 @@ samlify.setSchemaValidator({
   },
 });
 import { logger } from './logger.js';
-const samlSettings = require('../config.js').saml;
+import { config } from '../config.js';
+
+const samlSettings = config.saml;
 
 let _serviceProvider, _identityProvider;
 
