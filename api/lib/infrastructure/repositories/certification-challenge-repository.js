@@ -1,7 +1,7 @@
 import { Bookshelf } from '../bookshelf.js';
 import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
 import { DomainTransaction } from '../DomainTransaction.js';
-import { CertificationChallengeBookshelf } from '../orm-models/CertificationChallenge.js';
+import { BookshelfCertificationChallenge } from '../orm-models/CertificationChallenge.js';
 import { logger } from '../../infrastructure/logger.js';
 import { AssessmentEndedError } from '../../domain/errors.js';
 
@@ -11,7 +11,7 @@ const logContext = {
 };
 
 const save = async function ({ certificationChallenge, domainTransaction = DomainTransaction.emptyTransaction() }) {
-  const certificationChallengeToSave = new CertificationChallengeBookshelf({
+  const certificationChallengeToSave = new BookshelfCertificationChallenge({
     challengeId: certificationChallenge.challengeId,
     competenceId: certificationChallenge.competenceId,
     associatedSkillName: certificationChallenge.associatedSkillName,
@@ -22,13 +22,13 @@ const save = async function ({ certificationChallenge, domainTransaction = Domai
   const savedCertificationChallenge = await certificationChallengeToSave.save(null, {
     transacting: domainTransaction.knexTransaction,
   });
-  return bookshelfToDomainConverter.buildDomainObject(CertificationChallengeBookshelf, savedCertificationChallenge);
+  return bookshelfToDomainConverter.buildDomainObject(BookshelfCertificationChallenge, savedCertificationChallenge);
 };
 
 const getNextNonAnsweredChallengeByCourseId = async function (assessmentId, courseId) {
   const answeredChallengeIds = Bookshelf.knex('answers').select('challengeId').where({ assessmentId });
 
-  const certificationChallenge = await CertificationChallengeBookshelf.where({ courseId })
+  const certificationChallenge = await BookshelfCertificationChallenge.where({ courseId })
     .query((knex) => knex.whereNotIn('challengeId', answeredChallengeIds))
     .orderBy('id', 'asc')
     .fetch({ require: false });
@@ -40,7 +40,7 @@ const getNextNonAnsweredChallengeByCourseId = async function (assessmentId, cour
 
   logContext.challengeId = certificationChallenge.id;
   logger.trace(logContext, 'found challenge');
-  return bookshelfToDomainConverter.buildDomainObject(CertificationChallengeBookshelf, certificationChallenge);
+  return bookshelfToDomainConverter.buildDomainObject(BookshelfCertificationChallenge, certificationChallenge);
 };
 
 export { save, getNextNonAnsweredChallengeByCourseId };

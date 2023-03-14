@@ -1,4 +1,4 @@
-import { Job } from './ParticipationResultCalculationJob.js';
+import { ParticipationResultCalculationJob } from './ParticipationResultCalculationJob.js';
 import { usecases } from '../../../domain/usecases/index.js';
 
 class ParticipationResultCalculationJobHandler {
@@ -9,7 +9,7 @@ class ParticipationResultCalculationJobHandler {
   }
 
   get name() {
-    return Job.name;
+    return ParticipationResultCalculationJob.name;
   }
 }
 
