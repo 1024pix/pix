@@ -10,13 +10,15 @@ async function get(organizationLearnerId) {
       'campaign-participations.sharedAt',
       'campaign-participations.status',
       'campaigns.name',
-      'campaigns.type'
+      'campaigns.type',
+      'campaign-participations.campaignId'
     )
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
     .where('campaign-participations.organizationLearnerId', '=', organizationLearnerId)
     .where('campaign-participations.deletedAt', 'IS', null)
     .where('campaign-participations.isImproved', '=', false)
     .orderBy('campaign-participations.createdAt', 'desc');
+
   const participations = organizationLearnerParticipations.map(
     (participation) =>
       new OrganizationLearnerParticipation({
@@ -26,6 +28,7 @@ async function get(organizationLearnerId) {
         status: participation.status,
         campaignName: participation.name,
         campaignType: participation.type,
+        campaignId: participation.campaignId,
       })
   );
   return new OrganizationLearnerActivity({ organizationLearnerId, participations });
