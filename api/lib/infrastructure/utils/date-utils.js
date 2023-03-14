@@ -9,6 +9,10 @@ dayjs.parseTwoDigitYear = function (yearString) {
 };
 
 function isValidDate(dateValue, format) {
+  if (dateValue instanceof Date) {
+    return true;
+  }
+
   return dayjs.utc(dateValue, format, true).isValid();
 }
 
