@@ -24,7 +24,7 @@ async function get({ trainingId, domainTransaction = DomainTransaction.emptyTran
 async function getWithTriggers({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const training = await get({ trainingId, domainTransaction });
   const trainingTriggers = await trainingTriggerRepository.findByTrainingId({ trainingId, domainTransaction });
-  training.triggers = trainingTriggers;
+  training.trainingTriggers = trainingTriggers;
   return training;
 }
 

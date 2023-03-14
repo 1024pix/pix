@@ -11,7 +11,7 @@ module.exports = {
 
         return {
           ...record,
-          triggers: record.triggers.map((trigger) => {
+          trainingTriggers: record.trainingTriggers.map((trigger) => {
             return {
               ...trigger,
               triggerTubes: trigger.triggerTubes.map((triggerTube) => ({
@@ -31,10 +31,10 @@ module.exports = {
         'type',
         'editorName',
         'editorLogoUrl',
-        'triggers',
+        'trainingTriggers',
         'targetProfileSummaries',
       ],
-      triggers: {
+      trainingTriggers: {
         ref: 'id',
         attributes: ['id', 'trainingId', 'type', 'threshold', 'triggerTubes', 'areas'],
         triggerTubes: {
@@ -74,6 +74,8 @@ module.exports = {
       meta,
       typeForAttribute(attribute) {
         switch (attribute) {
+          case 'trainingTriggers':
+            return 'training-triggers';
           case 'triggerTubes':
             return 'trigger-tubes';
           case 'tube':
