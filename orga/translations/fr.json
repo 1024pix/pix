@@ -694,7 +694,7 @@
         }
       },
       "header": {
-        "aria-label-title": "Nom du participant"
+        "aria-label-title": "Page de détail de {firstName} {lastName}"
       }
     },
     "organization-participants": {
