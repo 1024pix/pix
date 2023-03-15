@@ -1,5 +1,5 @@
 const deleteSessionJuryComment = async function ({ sessionId, sessionJuryCommentRepository }) {
-  await sessionJuryCommentRepository.delete(sessionId);
+  await sessionJuryCommentRepository.remove(sessionId);
 };
 
 export { deleteSessionJuryComment };

@@ -4,7 +4,7 @@ const deleteSessionJuryComment = require('../../../../lib/domain/usecases/delete
 describe('Unit | UseCase | delete-session-jury-comment', function () {
   it('should delete the session jury comment', async function () {
     // given
-    const sessionJuryCommentRepository = { delete: sinon.stub() };
+    const sessionJuryCommentRepository = { remove: sinon.stub() };
 
     // when
     await deleteSessionJuryComment({
@@ -13,6 +13,6 @@ describe('Unit | UseCase | delete-session-jury-comment', function () {
     });
 
     // then
-    expect(sessionJuryCommentRepository.delete).to.have.been.calledWithExactly(123);
+    expect(sessionJuryCommentRepository.remove).to.have.been.calledWithExactly(123);
   });
 });

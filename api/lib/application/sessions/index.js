@@ -720,7 +720,7 @@ const register = async function (server) {
             assign: 'authorizationCheck',
           },
         ],
-        handler: sessionController.delete,
+        handler: sessionController.remove,
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès au centre de certification**\n" +
             "- Supprime la session et les candidats si la session n'a pas démarrée",
