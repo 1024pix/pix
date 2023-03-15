@@ -1,5 +1,5 @@
 import { FileValidationError, SiecleXmlImportError } from '../errors.js';
-const fs = require('fs').promises;
+import { promises as fs } from 'fs';
 import bluebird from 'bluebird';
 import { ORGANIZATION_LEARNER_CHUNK_SIZE } from '../../infrastructure/constants.js';
 import { isEmpty, chunk } from 'lodash';
