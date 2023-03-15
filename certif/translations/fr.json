@@ -398,7 +398,21 @@
         "required-fields": "Les champs marqués de <abbr title=\"obligatoire\" class=\"mandatory-mark\">*</abbr> sont obligatoires.",
         "room": "Nom de la salle",
         "time": "Heure de début (heure locale)"
-      }
+      },
+      "update": {
+        "title": "Modification d'une session de certification",
+        "actions": {
+          "cancel-extra-information": "Annuler la modification de la session et retourner vers la page précédente",
+          "edit-session": "Modifier la session"
+        },
+        "address": "Nom du site",
+        "date": "Date de début",
+        "description": "Observations",
+        "examiner": "Surveillant(s)",
+        "page-title": "Modification d'une session de certification",
+        "required-fields": "Les champs marqués de <abbr title=\"obligatoire\" class=\"mandatory-mark\">*</abbr> sont obligatoires.",
+        "room": "Nom de la salle",
+        "time": "Heure de début (heure locale)"}
     },
     "session-supervising": {
       "header": {
