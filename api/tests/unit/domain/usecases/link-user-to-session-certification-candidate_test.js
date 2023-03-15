@@ -1,12 +1,12 @@
 const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
 const linkUserToSessionCertificationCandidate = require('../../../../lib/domain/usecases/link-user-to-session-certification-candidate');
 const {
-  CertificationCandidateAlreadyLinkedToUserError,
   CertificationCandidateByPersonalInfoNotFoundError,
   MatchingReconciledStudentNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   UserAlreadyLinkedToCandidateInSessionError,
   SessionNotAccessible,
+  UnexpectedUserAccountError,
 } = require('../../../../lib/domain/errors');
 const UserLinkedToCertificationCandidate = require('../../../../lib/domain/events/UserLinkedToCertificationCandidate');
 const UserAlreadyLinkedToCertificationCandidate = require('../../../../lib/domain/events/UserAlreadyLinkedToCertificationCandidate');
@@ -190,7 +190,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
               });
 
               // then
-              expect(err).to.be.instanceOf(CertificationCandidateAlreadyLinkedToUserError);
+              expect(err).to.be.instanceOf(UnexpectedUserAccountError);
             });
           });
         });

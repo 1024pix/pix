@@ -14,6 +14,10 @@ function _isMatchingReconciledStudentNotFoundError(err) {
   return _get(err, 'errors[0].code') === 'MATCHING_RECONCILED_STUDENT_NOT_FOUND';
 }
 
+function _isWrongAccount(err) {
+  return _get(err, 'errors[0].status') === '409' && _get(err, 'errors[0].code') === 'UNEXPECTED_USER_ACCOUNT';
+}
+
 function _isSessionNotAccessibleError(err) {
   return _get(err, 'errors[0].status') === '412';
 }
@@ -106,11 +110,13 @@ export default class CertificationJoiner extends Component {
       }
 
       if (_isMatchingReconciledStudentNotFoundError(err)) {
-        this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.wrong-account');
+        this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.wrong-account-sco');
         this.errorMessageLink = {
-          label: this.intl.t('pages.certification-joiner.error-messages.wrong-account-link'),
+          label: this.intl.t('pages.certification-joiner.error-messages.wrong-account-sco-link'),
           url: 'https://support.pix.org/fr/support/solutions/articles/15000047880',
         };
+      } else if (_isWrongAccount(err)) {
+        this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.wrong-account');
       } else if (_isSessionNotAccessibleError(err)) {
         this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.session-not-accessible');
       } else {
