@@ -1,5 +1,5 @@
 import sortBy from 'lodash/sortBy';
-import { tubeBuilder } from './tube-builder.js';
+import * as tubeBuilder from './tube-builder.js';
 import { ThematicText } from '../drawer/ThematicText.js';
 import { PositionManager } from '../manager/position-manager.js';
 import { FontManager } from '../manager/font-manager.js';
