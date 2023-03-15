@@ -2,8 +2,8 @@ import pdfLibFontKit from '@pdf-lib/fontkit';
 require('dayjs/locale/fr');
 import { FontManager } from './manager/font-manager.js';
 import { TemplatePageManager } from './manager/template-page-manager.js';
-import { learningContentBuilder } from './builder/learning-content-builder.js';
-import { coverPageBuilder } from './builder/cover-page-builder.js';
+import * as learningContentBuilder from './builder/learning-content-builder.js';
+import * as coverPageBuilder from './builder/cover-page-builder.js';
 import { PDFDocument } from 'pdf-lib';
 
 const present = async function (learningContent, title, language) {
