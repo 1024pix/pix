@@ -7,7 +7,7 @@ const deleteUnlinkedCertificationCandidate = async function ({
   const isNotLinked = await certificationCandidateRepository.isNotLinked(certificationCandidateId);
 
   if (isNotLinked) {
-    return certificationCandidateRepository.delete(certificationCandidateId);
+    return certificationCandidateRepository.remove(certificationCandidateId);
   }
 
   throw new CertificationCandidateForbiddenDeletionError();
