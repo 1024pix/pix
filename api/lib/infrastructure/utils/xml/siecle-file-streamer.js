@@ -10,7 +10,7 @@ import StreamZip from 'node-stream-zip';
 import FileType from 'file-type';
 import iconv from 'iconv-lite';
 import sax from 'sax';
-const xmlEncoding = require('xml-buffer-tostring').xmlEncoding;
+import { xmlEncoding } from 'xml-buffer-tostring';
 
 /*
   https://github.com/1024pix/pix/pull/3470#discussion_r707319744

@@ -58,6 +58,8 @@ function _getStatus({ status, isEndedBySupervisor }) {
 
   return status;
 }
+const statuses = { ...assessmentResultStatuses, STARTED, ENDED_BY_SUPERVISOR };
 
-export { JuryCertificationSummary };
-module.exports.statuses = { ...assessmentResultStatuses, STARTED, ENDED_BY_SUPERVISOR };
+JuryCertificationSummary.statuses = statuses;
+
+export { JuryCertificationSummary, statuses };

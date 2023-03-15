@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import { config } from '../../config.js';
-const PasswordNotMatching = require('../errors.js').PasswordNotMatching;
+import { PasswordNotMatching } from '../errors.js';
 const { bcryptNumberOfSaltRounds } = config;
 const hashPassword = function (password) {
   return bcrypt.hash(password, bcryptNumberOfSaltRounds);
