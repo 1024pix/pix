@@ -139,7 +139,10 @@ function checkRequestedUserIsAuthenticatedUser(request, h) {
   }
 
   const authenticatedUserId = request.auth.credentials.userId;
-  const requestedUserId = parseInt(request.params.userId) || parseInt(request.params.id);
+
+  // We cannot guarantee that callers will enforce the type to be an integer upstream
+  // eslint-disable-next-line no-restricted-syntax
+  const requestedUserId = request.params.userId || parseInt(request.params.id);
 
   return authenticatedUserId === requestedUserId ? h.response(true) : _replyForbiddenError(h);
 }
@@ -155,7 +158,7 @@ function checkUserIsAdminInOrganization(request, h, dependencies = { checkUserIs
   const organizationId =
     request.path && request.path.includes('memberships')
       ? request.payload.data.relationships.organization.data.id
-      : parseInt(request.params.id);
+      : request.params.id;
 
   return dependencies.checkUserIsAdminInOrganizationUseCase
     .execute(userId, organizationId)
@@ -178,7 +181,7 @@ function checkUserIsMemberOfCertificationCenter(
   }
 
   const userId = request.auth.credentials.userId;
-  const certificationCenterId = parseInt(request.params.certificationCenterId);
+  const certificationCenterId = request.params.certificationCenterId;
 
   return dependencies.checkUserIsMemberOfCertificationCenterUsecase
     .execute(userId, certificationCenterId)
@@ -201,7 +204,7 @@ async function checkUserIsMemberOfCertificationCenterSessionFromCertificationIss
   }
 
   const userId = request.auth.credentials.userId;
-  const certificationIssueReportId = parseInt(request.params.id);
+  const certificationIssueReportId = request.params.id;
 
   try {
     const certificationIssueReport = await dependencies.certificationIssueReportRepository.get(
@@ -229,7 +232,7 @@ async function checkUserIsMemberOfCertificationCenterSessionFromCertificationCou
   }
 
   const userId = request.auth.credentials.userId;
-  const certificationCourseId = parseInt(request.params.id);
+  const certificationCourseId = request.params.id;
 
   try {
     const isMemberOfSession = await dependencies.checkUserIsMemberOfCertificationCenterSessionUsecase.execute({
@@ -252,7 +255,7 @@ async function checkUserBelongsToOrganizationManagingStudents(
   }
 
   const userId = request.auth.credentials.userId;
-  const organizationId = parseInt(request.params.id);
+  const organizationId = request.params.id;
 
   try {
     if (await dependencies.checkUserBelongsToOrganizationManagingStudentsUseCase.execute(userId, organizationId)) {
@@ -274,7 +277,7 @@ async function checkUserBelongsToScoOrganizationAndManagesStudents(
   }
 
   const userId = request.auth.credentials.userId;
-  const organizationId = parseInt(request.params.id) || parseInt(request.payload.data.attributes['organization-id']);
+  const organizationId = request.params.id || request.payload.data.attributes['organization-id'];
 
   let belongsToScoOrganizationAndManageStudents;
   try {
@@ -305,8 +308,7 @@ async function checkCertificationCenterIsNotScoManagingStudents(
   }
 
   const certificationCenterId =
-    parseInt(request?.params?.certificationCenterId) ||
-    parseInt(request?.payload?.data?.attributes?.certificationCenterId);
+    request?.params?.certificationCenterId || request?.payload?.data?.attributes?.certificationCenterId;
 
   let organizationId;
 
@@ -343,7 +345,7 @@ async function checkUserBelongsToSupOrganizationAndManagesStudents(
   }
 
   const userId = request.auth.credentials.userId;
-  const organizationId = parseInt(request.params.id) || parseInt(request.payload.data.attributes['organization-id']);
+  const organizationId = request.params.id || request.payload.data.attributes['organization-id'];
 
   let belongsToSupOrganizationAndManageStudents;
   try {
@@ -366,7 +368,7 @@ async function checkUserIsAdminInSCOOrganizationManagingStudents(
   dependencies = { checkUserIsAdminAndManagingStudentsForOrganization }
 ) {
   const userId = request.auth.credentials.userId;
-  const organizationId = parseInt(request.params.id);
+  const organizationId = request.params.id;
 
   if (
     await dependencies.checkUserIsAdminAndManagingStudentsForOrganization.execute(
@@ -386,7 +388,7 @@ async function checkUserIsAdminInSUPOrganizationManagingStudents(
   dependencies = { checkUserIsAdminAndManagingStudentsForOrganization }
 ) {
   const userId = request.auth.credentials.userId;
-  const organizationId = parseInt(request.params.id);
+  const organizationId = request.params.id;
 
   if (
     await dependencies.checkUserIsAdminAndManagingStudentsForOrganization.execute(
@@ -411,7 +413,7 @@ async function checkUserBelongsToLearnersOrganization(
   }
 
   const userId = request.auth.credentials.userId;
-  const organizationLearnerId = parseInt(request.params.id);
+  const organizationLearnerId = request.params.id;
 
   let belongsToLearnersOrganization;
 
@@ -435,7 +437,7 @@ async function checkUserBelongsToOrganization(request, h, dependencies = { check
   }
 
   const userId = request.auth.credentials.userId;
-  const organizationId = parseInt(request.params.id);
+  const organizationId = request.params.id;
 
   const belongsToOrganization = await dependencies.checkUserBelongsToOrganizationUseCase.execute(
     userId,
@@ -494,6 +496,7 @@ function adminMemberHasAtLeastOneAccessOf(securityChecks) {
     return hasAccess ? hasAccess : _replyForbiddenError(h);
   };
 }
+
 async function checkPix1dActivated(request, h, dependencies = { checkPix1dEnabled }) {
   const isPix1dEnabled = await dependencies.checkPix1dEnabled.execute();
 
@@ -511,7 +514,7 @@ async function checkUserOwnsCertificationCourse(
   }
 
   const userId = request.auth.credentials.userId;
-  const certificationCourseId = parseInt(request.params.id);
+  const certificationCourseId = request.params.id;
 
   try {
     const ownsCertificationCourse = await dependencies.checkUserOwnsCertificationCourseUseCase.execute({
