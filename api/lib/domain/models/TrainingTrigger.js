@@ -7,7 +7,6 @@ class TrainingTrigger {
   constructor({ id, trainingId, triggerTubes, type, threshold, areas = [], competences = [], thematics = [] } = {}) {
     this.id = id;
     this.trainingId = trainingId;
-    this.triggerTubes = triggerTubes;
     if (!Object.values(types).includes(type)) {
       throw new Error('Invalid trigger type');
     }
@@ -50,9 +49,7 @@ class _Thematic {
     this.name = name;
     this.index = index;
 
-    this.triggerTubes = triggerTubes
-      .filter((trainingTriggerTube) => trainingTriggerTube.tube.thematicId === id)
-      .map((trainingTriggerTube) => trainingTriggerTube.id);
+    this.triggerTubes = triggerTubes.filter((trainingTriggerTube) => trainingTriggerTube.tube.thematicId === id);
   }
 }
 

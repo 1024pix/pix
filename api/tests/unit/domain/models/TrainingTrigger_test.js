@@ -95,12 +95,18 @@ describe('Unit | Domain | Models | TrainingTrigger', function () {
       expect(trainingTrigger.areas[0].competences[0].thematics[0]).to.have.property('name', thematic1.name);
       expect(trainingTrigger.areas[0].competences[0].thematics[0]).to.have.property('index', thematic1.index);
       expect(trainingTrigger.areas[0].competences[0].thematics[0].triggerTubes).to.have.length(1);
-      expect(trainingTrigger.areas[0].competences[0].thematics[0].triggerTubes[0]).to.equal(trainingTriggerTube1.id);
+      expect(trainingTrigger.areas[0].competences[0].thematics[0].triggerTubes[0]).to.have.property(
+        'id',
+        trainingTriggerTube1.id
+      );
       expect(trainingTrigger.areas[0].competences[0].thematics[1]).to.have.property('id', thematic2.id);
       expect(trainingTrigger.areas[0].competences[0].thematics[1]).to.have.property('name', thematic2.name);
       expect(trainingTrigger.areas[0].competences[0].thematics[1]).to.have.property('index', thematic2.index);
       expect(trainingTrigger.areas[0].competences[0].thematics[1].triggerTubes).to.have.length(1);
-      expect(trainingTrigger.areas[0].competences[0].thematics[1].triggerTubes[0]).to.equal(trainingTriggerTube2.id);
+      expect(trainingTrigger.areas[0].competences[0].thematics[1].triggerTubes[0]).to.have.property(
+        'id',
+        trainingTriggerTube2.id
+      );
     });
   });
 });
