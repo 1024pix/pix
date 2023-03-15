@@ -4,8 +4,8 @@ import { tokenService } from './token-service.js';
 import { mailer } from '../../infrastructure/mailers/mailer.js';
 import { config } from '../../config.js';
 
-const frTranslations = require('../../../translations/fr.json');
-const enTranslations = require('../../../translations/en.json');
+import * as frTranslations from '../../../translations/fr.json';
+import * as enTranslations from '../../../translations/en.json';
 
 import { LOCALE } from '../../domain/constants.js';
 

@@ -1,7 +1,7 @@
 import * as url from 'url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
-
-require('dotenv').config({ path: `${__dirname}/../.env` });
+import dotenv from 'dotenv';
+dotenv.config({ path: `${__dirname}/../.env` });
 
 function localPostgresEnv(databaseUrl, knexAsyncStacktraceEnabled) {
   return {
@@ -21,8 +21,7 @@ function localPostgresEnv(databaseUrl, knexAsyncStacktraceEnabled) {
     asyncStackTraces: knexAsyncStacktraceEnabled !== 'false',
   };
 }
-
-module.exports = {
+const environments = {
   development: localPostgresEnv(process.env.DATABASE_URL, process.env.KNEX_ASYNC_STACKTRACE_ENABLED),
 
   test: localPostgresEnv(process.env.TEST_DATABASE_URL, process.env.KNEX_ASYNC_STACKTRACE_ENABLED),
@@ -44,3 +43,5 @@ module.exports = {
     asyncStackTraces: process.env.KNEX_ASYNC_STACKTRACE_ENABLED !== 'false',
   },
 };
+
+export default environments;

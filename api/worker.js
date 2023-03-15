@@ -12,7 +12,6 @@ import { SendSharedParticipationResultsToPoleEmploiHandler } from './lib/infrast
 import { scheduleCpfJobs } from './lib/infrastructure/jobs/cpf-export/schedule-cpf-jobs.js';
 import { MonitoredJobQueue } from './lib/infrastructure/jobs/monitoring/MonitoredJobQueue.js';
 import * as url from 'url';
-const __filename = url.fileURLToPath(import.meta.url);
 
 async function runJobs() {
   logger.info('Starting pg-boss');
@@ -49,7 +48,9 @@ async function runJobs() {
   await scheduleCpfJobs(pgBoss);
 }
 const startInWebProcess = process.env.START_JOB_IN_WEB_PROCESS;
-const isEntryPointFromOtherFile = require.main.filename !== __filename;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isEntryPointFromOtherFile = process.argv[1] === modulePath;
+
 if (!startInWebProcess || (startInWebProcess && isEntryPointFromOtherFile)) {
   runJobs();
 } else {
