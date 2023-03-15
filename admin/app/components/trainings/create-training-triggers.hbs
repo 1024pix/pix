@@ -3,7 +3,7 @@
   <p class="trigger-card__description">{{t "pages.trainings.training.triggers.prerequisite.edit.description"}}</p>
 
   {{#if @training.prerequisiteTrigger}}
-    <p>Un prerequis est défini</p>
+    <Trainings::Trigger::Details @areas={{@training.prerequisiteTrigger.areas}} />
   {{else}}
     <PixButtonLink
       class="trigger-card__toggler"
@@ -21,10 +21,10 @@
 
 <section class="page-section trigger-card">
   <h2 class="trigger-card__title">{{t "pages.trainings.training.triggers.goal.title"}}</h2>
-  <p class="trigger-card__description">S{{t "pages.trainings.training.triggers.goal.edit.description"}}</p>
+  <p class="trigger-card__description">{{t "pages.trainings.training.triggers.goal.edit.description"}}</p>
 
   {{#if @training.goalTrigger}}
-    <p>Un objectif est défini</p>
+    <Trainings::Trigger::Details @areas={{@training.goalTrigger.areas}} />
   {{else}}
     <PixButtonLink
       class="trigger-card__toggler"

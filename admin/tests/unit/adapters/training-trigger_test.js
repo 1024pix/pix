@@ -36,13 +36,16 @@ module('Unit | Adapter | TrainingTrigger', function (hooks) {
     test('should trigger PUT request with correct payload', async function (assert) {
       // given
       sinon.stub(adapter, 'urlForCreateRecord').returns('https://example.net');
-      const attributesWithoutTubes = { type: 'prerequisite', threshold: 10 };
+      const attributesWithoutTubes = { type: 'prerequisite', threshold: 10, trainingId };
       const expectedPayload = {
         data: {
           data: {
             attributes: {
               ...attributesWithoutTubes,
-              tubes,
+              tubes: [
+                { tubeId: 1, level: 2 },
+                { tubeId: 2, level: 4 },
+              ],
             },
           },
         },
@@ -53,6 +56,8 @@ module('Unit | Adapter | TrainingTrigger', function (hooks) {
         adapterOptions: { tubes, trainingId },
         serialize: sinon.stub().returns({ data: { attributes: attributesWithoutTubes } }),
       });
+
+      console.log(adapter.ajax.calledWith(`https://example.net`, 'PUT', expectedPayload));
 
       // then
       assert.ok(adapter.ajax.calledWith(`https://example.net`, 'PUT', expectedPayload));
