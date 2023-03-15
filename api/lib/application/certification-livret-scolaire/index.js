@@ -1,8 +1,8 @@
 import { certificationController } from './certification-controller.js';
 import Joi from 'joi';
 
-import { responseErrorObjectDoc } from '../../infrastructure/open-api-doc/livret-scolaire/response-object-error-doc.js';
-import { certificationsResultsResponseDoc } from '../../infrastructure/open-api-doc/livret-scolaire/certifications-results-doc.js';
+import { responseObjectErrorDoc } from '../../infrastructure/open-api-doc/livret-scolaire/response-object-error-doc.js';
+import { certificationsResultsDoc } from '../../infrastructure/open-api-doc/livret-scolaire/certifications-results-doc.js';
 
 const register = async function (server) {
   server.route([
@@ -19,9 +19,9 @@ const register = async function (server) {
         response: {
           failAction: 'log',
           status: {
-            200: certificationsResultsResponseDoc,
-            204: certificationsResultsResponseDoc,
-            403: responseErrorObjectDoc,
+            200: certificationsResultsDoc,
+            204: certificationsResultsDoc,
+            403: responseObjectErrorDoc,
           },
         },
         validate: {

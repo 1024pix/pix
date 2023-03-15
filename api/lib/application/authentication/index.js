@@ -1,9 +1,9 @@
 import Joi from 'joi';
 import { sendJsonApiError, BadRequestError } from '../http-errors.js';
 import { AuthenticationController } from './authentication-controller.js';
-import { responseAuthenticationObjectDoc } from '../../infrastructure/open-api-doc/authentication/response-authentication-doc.js';
-import { responseErrorObjectDoc } from '../../infrastructure/open-api-doc/livret-scolaire/response-object-error-doc.js';
 import { securityPreHandlers } from '../security-pre-handlers.js';
+import { responseAuthenticationDoc } from '../../infrastructure/open-api-doc/authentication/response-authentication-doc.js';
+import { responseObjectErrorDoc } from '../../infrastructure/open-api-doc/livret-scolaire/response-object-error-doc.js';
 
 const register = async function (server) {
   server.route([
@@ -72,9 +72,9 @@ const register = async function (server) {
         response: {
           failAction: 'log',
           status: {
-            200: responseAuthenticationObjectDoc,
-            401: responseErrorObjectDoc,
-            403: responseErrorObjectDoc,
+            200: responseAuthenticationDoc,
+            401: responseObjectErrorDoc,
+            403: responseObjectErrorDoc,
           },
         },
         handler: AuthenticationController.authenticateApplication,

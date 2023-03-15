@@ -11,4 +11,4 @@ const joiObject = Joi.object({
   area: areaDoc,
 });
 
-export { joiObject };
+export { joiObject as competenceDoc };

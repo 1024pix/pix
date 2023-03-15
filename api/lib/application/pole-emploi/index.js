@@ -1,6 +1,6 @@
 import Joi from 'joi';
 import { poleEmploiController } from './pole-emploi-controller.js';
-import { poleEmploiErreurDoc } from '../../infrastructure/open-api-doc/pole-emploi/erreur-doc.js';
+import { erreurDoc } from '../../infrastructure/open-api-doc/pole-emploi/erreur-doc.js';
 import { poleEmploiEnvoisDoc } from '../../infrastructure/open-api-doc/pole-emploi/envois-doc.js';
 
 const register = async function (server) {
@@ -20,9 +20,9 @@ const register = async function (server) {
           status: {
             200: poleEmploiEnvoisDoc,
             204: poleEmploiEnvoisDoc,
-            400: poleEmploiErreurDoc,
-            401: poleEmploiErreurDoc,
-            403: poleEmploiErreurDoc,
+            400: erreurDoc,
+            401: erreurDoc,
+            403: erreurDoc,
           },
         },
         plugins: {
