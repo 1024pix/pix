@@ -1,5 +1,6 @@
 import { config } from '../../../config.js';
-import { temporaryStorage } from '../../../infrastructure/temporary-storage.js';
+import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';
+
 const sessionMassImportTemporaryStorage = temporaryStorage.withPrefix('sessions-mass-import:');
 import { v4 as uuidv4 } from 'uuid';
 
