@@ -35,5 +35,6 @@ class CertificationAssessmentScore {
   }
 }
 
-export { CertificationAssessmentScore };
-module.exports.statuses = status;
+CertificationAssessmentScore.statuses = status;
+
+export { CertificationAssessmentScore, status as statuses };

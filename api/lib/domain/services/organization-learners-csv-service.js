@@ -1,4 +1,4 @@
-const fs = require('fs').promises;
+import { promises as fs } from 'fs';
 import { OrganizationLearnerParser } from '../../infrastructure/serializers/csv/organization-learner-parser.js';
 
 export { extractOrganizationLearnersInformation };
