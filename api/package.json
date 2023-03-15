@@ -32,7 +32,6 @@
     "bcrypt": "^5.0.1",
     "bluebird": "^3.7.2",
     "bookshelf": "^1.2.0",
-    "bookshelf-json-columns": "^3.0.0",
     "bookshelf-validate": "^2.0.3",
     "cron-parser": "^4.6.0",
     "dayjs": "^1.11.5",
