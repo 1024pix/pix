@@ -1,5 +1,4 @@
 import { Bookshelf } from '../bookshelf.js';
-import jsonColumns from 'bookshelf-json-columns';
 
 import './User.js';
 
