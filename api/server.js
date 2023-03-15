@@ -7,7 +7,7 @@ import Oppsy from 'oppsy';
 import { config } from './lib/config.js';
 import * as preResponseUtils from './lib/application/pre-response-utils.js';
 import { routes } from './lib/routes.js';
-import { plugins } from './lib/infrastructure/plugins.js';
+import { plugins } from './lib/infrastructure/plugins/index.js';
 import { swaggers } from './lib/swaggers.js';
 import { authentication } from './lib/infrastructure/authentication.js';
 import { handleFailAction } from './lib/validate.js';
