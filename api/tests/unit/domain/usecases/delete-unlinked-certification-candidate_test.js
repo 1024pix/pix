@@ -11,14 +11,14 @@ describe('Unit | UseCase | delete-unlinked-sertification-candidate', function ()
     certificationCandidateId = 'dummy certification candidate id';
     certificationCandidateRepository = {
       isNotLinked: sinon.stub(),
-      delete: sinon.stub(),
+      remove: sinon.stub(),
     };
   });
 
   context('When the certification candidate is not linked to a user', function () {
     beforeEach(function () {
       certificationCandidateRepository.isNotLinked.withArgs(certificationCandidateId).resolves(true);
-      certificationCandidateRepository.delete.withArgs(certificationCandidateId).resolves(true);
+      certificationCandidateRepository.remove.withArgs(certificationCandidateId).resolves(true);
     });
 
     it('should delete the certification candidate', async function () {
