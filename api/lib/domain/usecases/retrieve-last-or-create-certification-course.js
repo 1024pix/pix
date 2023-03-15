@@ -43,9 +43,7 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   });
 
   if (!certificationCandidate) {
-    throw new UnexpectedUserAccountError({
-      code: 'UNEXPECTED_USER_ACCOUNT',
-    });
+    throw new UnexpectedUserAccountError({});
   }
 
   const existingCertificationCourse =
