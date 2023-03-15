@@ -1,12 +1,12 @@
 const _ = require('lodash');
 const CertificationCandidate = require('../models/CertificationCandidate.js');
 const {
-  CertificationCandidateAlreadyLinkedToUserError,
   CertificationCandidateByPersonalInfoNotFoundError,
   MatchingReconciledStudentNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   UserAlreadyLinkedToCandidateInSessionError,
   SessionNotAccessible,
+  UnexpectedUserAccountError,
 } = require('../errors.js');
 const UserLinkedToCertificationCandidate = require('../events/UserLinkedToCertificationCandidate.js');
 const UserAlreadyLinkedToCertificationCandidate = require('../events/UserAlreadyLinkedToCertificationCandidate.js');
@@ -67,7 +67,7 @@ module.exports = async function linkUserToSessionCertificationCandidate({
   if (certificationCandidate.isLinkedToUserId(userId)) {
     return new UserAlreadyLinkedToCertificationCandidate();
   } else {
-    throw new CertificationCandidateAlreadyLinkedToUserError();
+    throw new UnexpectedUserAccountError({});
   }
 };
 
