@@ -2,9 +2,6 @@ import Model, { belongsTo, hasMany, attr } from '@ember-data/model';
 import ENV from 'pix-orga/config/environment';
 import { inject as service } from '@ember/service';
 
-const PROFILES_COLLECTION_TEXT = 'Collecte de profils';
-const ASSESSMENT_TEXT = 'Évaluation';
-
 export default class Campaign extends Model {
   @service store;
 
@@ -63,10 +60,6 @@ export default class Campaign extends Model {
 
   get isTypeAssessment() {
     return this.type === 'ASSESSMENT';
-  }
-
-  get readableType() {
-    return this.isTypeProfilesCollection ? PROFILES_COLLECTION_TEXT : ASSESSMENT_TEXT;
   }
 
   get urlToResult() {
