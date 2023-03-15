@@ -8,4 +8,4 @@ const joiObject = Joi.object({
   competences: competenceDoc,
 }).label('CertificationsResults');
 
-export { joiObject };
+export { joiObject as certificationsResultsDoc };
