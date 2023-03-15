@@ -13,7 +13,10 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
   beforeEach(function () {
     certificationCandidateRepository = { saveInSession: sinon.stub(), deleteBySessionId: sinon.stub() };
     sessionRepository = { save: sinon.stub() };
-    temporarySessionsStorageForMassImportService = { getByKeyAndUserId: sinon.stub(), delete: sinon.stub() };
+    temporarySessionsStorageForMassImportService = {
+      getByKeyAndUserId: sinon.stub(),
+      remove: sinon.stub(),
+    };
 
     dependencies = {
       certificationCandidateRepository,

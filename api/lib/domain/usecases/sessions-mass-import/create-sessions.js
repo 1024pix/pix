@@ -47,7 +47,7 @@ const createSessions = async function ({
     });
   });
 
-  await temporarySessionsStorageForMassImportService.delete({
+  await temporarySessionsStorageForMassImportService.remove({
     cachedValidatedSessionsKey,
     userId,
   });
