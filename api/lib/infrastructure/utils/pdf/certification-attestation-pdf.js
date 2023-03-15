@@ -5,10 +5,12 @@ import moment from 'moment';
 import _ from 'lodash';
 import bluebird from 'bluebird';
 import axios from 'axios';
+import * as url from 'url';
 
 import { AttestationViewModel } from './AttestationViewModel.js';
 import { CertificationAttestationGenerationError } from '../../../domain/errors.js';
 
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const fonts = {
   openSansBold: 'OpenSans-Bold.ttf',
   openSansSemiBold: 'OpenSans-SemiBold.ttf',
