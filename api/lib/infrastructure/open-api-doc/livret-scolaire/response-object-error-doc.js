@@ -7,4 +7,4 @@ const joiObject = Joi.object({
   detail: Joi.string().required().description('a human-readable explanation specific of the problem'),
 }).label('Response-Error-Object');
 
-export { joiObject };
+export { joiObject as responseObjectErrorDoc };

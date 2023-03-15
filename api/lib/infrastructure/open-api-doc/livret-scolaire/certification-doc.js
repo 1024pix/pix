@@ -28,4 +28,4 @@ const joiObject = Joi.object({
   competenceResult: competenceResultDoc,
 });
 
-export { joiObject };
+export { joiObject as certificationDoc };
