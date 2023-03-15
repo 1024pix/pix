@@ -6,7 +6,7 @@ describe('Unit | UseCase | delete-session', function () {
   context('when there are no certification courses', function () {
     it('should delete the session', async function () {
       // given
-      const sessionRepository = { delete: sinon.stub() };
+      const sessionRepository = { remove: sinon.stub() };
       const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
       certificationCourseRepository.findCertificationCoursesBySessionId.resolves([]);
 
@@ -25,7 +25,7 @@ describe('Unit | UseCase | delete-session', function () {
   context('when there are certification courses', function () {
     it('should throw SessionStartedDeletionError error', async function () {
       // given
-      const sessionRepository = { delete: sinon.stub() };
+      const sessionRepository = { remove: sinon.stub() };
       const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
       certificationCourseRepository.findCertificationCoursesBySessionId.resolves([
         domainBuilder.buildCertificationCourse({ sessionId: 123 }),

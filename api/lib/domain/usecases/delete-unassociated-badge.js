@@ -15,7 +15,7 @@ const deleteUnassociatedBadge = async function ({ badgeId, badgeRepository }) {
       throw new CertificationBadgeForbiddenDeletionError();
     }
 
-    return badgeRepository.delete(badgeId, domainTransaction);
+    return badgeRepository.remove(badgeId, domainTransaction);
   });
 };
 

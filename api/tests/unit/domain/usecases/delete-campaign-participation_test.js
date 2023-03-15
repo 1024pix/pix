@@ -18,7 +18,7 @@ describe('Unit | UseCase | delete-campaign-participation', function () {
   it('should call repository method to delete a campaign participation', async function () {
     const campaignParticipationRepository = {
       getAllCampaignParticipationsInCampaignForASameLearner: sinon.stub(),
-      delete: sinon.stub(),
+      remove: sinon.stub(),
     };
     const campaignParticipationId = 1234;
     const domainTransaction = Symbol('domainTransaction');
@@ -60,14 +60,14 @@ describe('Unit | UseCase | delete-campaign-participation', function () {
     });
 
     //then
-    expect(campaignParticipationRepository.delete).to.have.been.calledTwice;
+    expect(campaignParticipationRepository.remove).to.have.been.calledTwice;
     campaignParticipations.forEach((campaignParticipation) => {
       const deletedCampaignParticipation = new CampaignParticipation({
         ...campaignParticipation,
         deletedAt: now,
         deletedBy: ownerId,
       });
-      expect(campaignParticipationRepository.delete).to.have.been.calledWithExactly({
+      expect(campaignParticipationRepository.remove).to.have.been.calledWithExactly({
         id: deletedCampaignParticipation.id,
         deletedAt: deletedCampaignParticipation.deletedAt,
         deletedBy: deletedCampaignParticipation.deletedBy,
