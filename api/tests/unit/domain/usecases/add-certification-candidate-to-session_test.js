@@ -246,7 +246,8 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
             sessionId: null,
             complementaryCertifications: [],
           });
-          const cpfBirthInformationValidation = CpfBirthInformationValidation.failure('Failure message');
+          const certificationCandidateError = { code: '', getMessage: () => 'Failure message' };
+          const cpfBirthInformationValidation = CpfBirthInformationValidation.failure({ certificationCandidateError });
           certificationCandidateRepository.findBySessionIdAndPersonalInfo.resolves([]);
           certificationCpfService.getBirthInformation.resolves(cpfBirthInformationValidation);
           certificationCandidateRepository.saveInSession.resolves();

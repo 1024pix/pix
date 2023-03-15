@@ -149,6 +149,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
               examiner: 'Paul',
               description: '',
               certificationCandidates: [],
+              line: 2,
             },
           ];
 
@@ -177,6 +178,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                 examiner: 'Big, Jim',
                 description: '',
                 certificationCandidates: [],
+                line: 2,
               },
             ];
 
@@ -208,6 +210,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
               examiner: 'Paul',
               description: '',
               certificationCandidates: [],
+              line: 2,
             },
             {
               sessionId: undefined,
@@ -218,6 +221,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
               examiner: 'Paul',
               description: '',
               certificationCandidates: [],
+              line: 3,
             },
           ];
 
@@ -264,6 +268,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   billingMode: 'Prépayée',
                   prepaymentCode: '43',
                   complementaryCertifications: [],
+                  line: 2,
                 },
                 {
                   lastName: 'Candidat 2',
@@ -281,8 +286,10 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   billingMode: 'Prépayée',
                   prepaymentCode: '43',
                   complementaryCertifications: [],
+                  line: 4,
                 },
               ],
+              line: 2,
             },
             {
               sessionId: undefined,
@@ -309,8 +316,10 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   billingMode: 'Prépayée',
                   prepaymentCode: '43',
                   complementaryCertifications: [],
+                  line: 3,
                 },
               ],
+              line: 3,
             },
           ];
 
@@ -342,6 +351,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
             {
               sessionId: 1,
               examiner: '',
+              line: 2,
               certificationCandidates: [
                 {
                   lastName: 'Candidat 1',
@@ -359,6 +369,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   resultRecipientEmail: 'robindahood@email.fr',
                   sex: 'M',
                   complementaryCertifications: [],
+                  line: 2,
                 },
                 {
                   lastName: 'Candidat 2',
@@ -376,6 +387,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   resultRecipientEmail: 'robindahood@email.fr',
                   sex: 'M',
                   complementaryCertifications: [],
+                  line: 3,
                 },
               ],
             },
@@ -410,6 +422,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
               time: '01:00',
               examiner: 'Paul',
               description: '',
+              line: 2,
               certificationCandidates: [
                 {
                   lastName: 'Pennyworth',
@@ -427,6 +440,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                   billingMode: 'Prépayée',
                   prepaymentCode: '43',
                   complementaryCertifications: [],
+                  line: 3,
                 },
               ],
             },
@@ -469,6 +483,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                 time: '01:00',
                 examiner: '',
                 description: '',
+                line: 2,
                 certificationCandidates: [
                   {
                     lastName: 'Pennyworth',
@@ -486,6 +501,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                     prepaymentCode: expectedParsedPrepaymentCode,
                     sex: '',
                     complementaryCertifications: [],
+                    line: 2,
                   },
                 ],
               },
@@ -514,6 +530,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
             time: '01:00',
             examiner: 'Paul',
             description: '',
+            line: 2,
             certificationCandidates: [
               {
                 lastName: 'Candidat 1',
@@ -531,6 +548,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
                 resultRecipientEmail: 'robindahood@email.fr',
                 sex: 'M',
                 complementaryCertifications: ['Pix Toto', 'Pix Tata'],
+                line: 2,
               },
             ],
           },
@@ -741,6 +759,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
               time: '01:00',
               examiner: 'Paul',
               description: '',
+              line: 2,
               certificationCandidates: [],
             },
           ];
@@ -754,6 +773,37 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
         });
       });
+    });
+
+    it('should return data with lines', function () {
+      // given
+      const parsedCsvData = [
+        _lineWithSessionIdAndCandidate({
+          sessionId: 1,
+          candidateNumber: 1,
+        }),
+        _lineWithSessionAndCandidate({
+          sessionNumber: 404,
+          candidateNumber: 2,
+        }),
+        _lineWithSessionAndCandidate({
+          sessionNumber: 404,
+          candidateNumber: 3,
+        }),
+        _lineWithCandidateAndNoSession(),
+      ];
+
+      // when
+      const [firstSession, secondSession] = csvSerializer.deserializeForSessionsImport(parsedCsvData);
+
+      // then
+      expect(firstSession.line).to.equal(2);
+      expect(firstSession.certificationCandidates[0].line).to.equal(2);
+
+      expect(secondSession.line).to.equal(3);
+      expect(secondSession.certificationCandidates[0].line).to.equal(3);
+      expect(secondSession.certificationCandidates[1].line).to.equal(4);
+      expect(secondSession.certificationCandidates[2].line).to.equal(5);
     });
   });
 });

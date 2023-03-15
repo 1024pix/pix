@@ -2,6 +2,10 @@ const { expect, sinon, domainBuilder } = require('../../../../test-helper');
 const sessionsImportValidationService = require('../../../../../lib/domain/services/sessions-mass-import/sessions-import-validation-service');
 const { CpfBirthInformationValidation } = require('../../../../../lib/domain/services/certification-cpf-service');
 const certificationCpfService = require('../../../../../lib/domain/services/certification-cpf-service');
+const {
+  CERTIFICATION_CANDIDATES_ERRORS,
+} = require('../../../../../lib/domain/constants/certification-candidates-errors');
+const noop = require('lodash/noop');
 
 describe('Unit | Service | sessions import validation Service', function () {
   describe('#validateSession', function () {
@@ -33,6 +37,7 @@ describe('Unit | Service | sessions import validation Service', function () {
             // when
             const sessionErrors = await sessionsImportValidationService.validateSession({
               session,
+              line: 1,
               sessionRepository,
               certificationCourseRepository,
             });
@@ -52,6 +57,7 @@ describe('Unit | Service | sessions import validation Service', function () {
             // when
             const sessionErrors = await sessionsImportValidationService.validateSession({
               session,
+              line: 1,
               sessionRepository,
               certificationCourseRepository,
             });
@@ -73,12 +79,18 @@ describe('Unit | Service | sessions import validation Service', function () {
         // when
         const sessionErrors = await sessionsImportValidationService.validateSession({
           session,
+          line: 2,
           sessionRepository,
           certificationCourseRepository,
         });
 
         // then
-        expect(sessionErrors).to.deep.equal(["Impossible d'ajouter un candidat à une session qui a déjà commencé."]);
+        expect(sessionErrors).to.deep.equal([
+          {
+            line: 2,
+            code: 'CANDIDATE_NOT_ALLOWED_FOR_STARTED_SESSION',
+          },
+        ]);
       });
     });
 
@@ -92,12 +104,18 @@ describe('Unit | Service | sessions import validation Service', function () {
           // when
           const sessionErrors = await sessionsImportValidationService.validateSession({
             session,
+            line: 1,
             sessionRepository,
             certificationCourseRepository,
           });
 
           // then
-          expect(sessionErrors).to.deep.equal(['Une session ne peut pas être programmée dans le passé']);
+          expect(sessionErrors).to.deep.equal([
+            {
+              line: 1,
+              code: 'SESSION_SCHEDULED_IN_THE_PAST',
+            },
+          ]);
         });
       });
     });
@@ -113,13 +131,17 @@ describe('Unit | Service | sessions import validation Service', function () {
           // when
           const sessionErrors = await sessionsImportValidationService.validateSession({
             session,
+            line: 1,
             sessionRepository,
             certificationCourseRepository,
           });
 
           // then
           expect(sessionErrors).to.deep.equal([
-            'Merci de ne pas renseigner les informations de session pour la session: 1234',
+            {
+              line: 1,
+              code: 'INFORMATION_NOT_ALLOWED_WITH_SESSION_ID',
+            },
           ]);
         });
       });
@@ -135,6 +157,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           // when
           const sessionErrors = await sessionsImportValidationService.validateSession({
             session,
+            line: 1,
             sessionRepository,
             certificationCourseRepository,
           });
@@ -154,12 +177,18 @@ describe('Unit | Service | sessions import validation Service', function () {
         // when
         const sessionErrors = await sessionsImportValidationService.validateSession({
           session,
+          line: 1,
           sessionRepository,
           certificationCourseRepository,
         });
 
         // then
-        expect(sessionErrors).to.deep.equal(['Session happening on 2024-03-12 at 14:30 already exists']);
+        expect(sessionErrors).to.deep.equal([
+          {
+            line: 1,
+            code: 'SESSION_WITH_DATE_AND_TIME_ALREADY_EXISTS',
+          },
+        ]);
       });
     });
 
@@ -175,12 +204,18 @@ describe('Unit | Service | sessions import validation Service', function () {
           // when
           const sessionErrors = await sessionsImportValidationService.validateSession({
             session,
+            line: 1,
             sessionRepository,
             certificationCourseRepository,
           });
 
           // then
-          expect(sessionErrors).to.deep.equal(['Une session contient au moins un élève en double.']);
+          expect(sessionErrors).to.deep.equal([
+            {
+              line: 1,
+              code: 'DUPLICATE_CANDIDATE_NOT_ALLOWED_IN_SESSION',
+            },
+          ]);
         });
       });
     });
@@ -194,12 +229,18 @@ describe('Unit | Service | sessions import validation Service', function () {
         // when
         const sessionErrors = await sessionsImportValidationService.validateSession({
           session,
+          line: 1,
           sessionRepository,
           certificationCourseRepository,
         });
 
         // then
-        expect(sessionErrors).to.deep.equal(['Veuillez indiquer un nom de salle.']);
+        expect(sessionErrors).to.deep.equal([
+          {
+            line: 1,
+            code: 'SESSION_ROOM_REQUIRED',
+          },
+        ]);
       });
     });
 
@@ -213,14 +254,15 @@ describe('Unit | Service | sessions import validation Service', function () {
         // when
         const sessionErrors = await sessionsImportValidationService.validateSession({
           session,
+          line: 1,
           sessionRepository,
           certificationCourseRepository,
         });
 
         // then
         expect(sessionErrors).to.have.deep.members([
-          'Veuillez indiquer un nom de salle.',
-          'Veuillez indiquer un nom de site.',
+          { line: 1, code: 'SESSION_ADDRESS_REQUIRED' },
+          { line: 1, code: 'SESSION_ROOM_REQUIRED' },
         ]);
       });
     });
@@ -271,50 +313,75 @@ describe('Unit | Service | sessions import validation Service', function () {
           await sessionsImportValidationService.getValidatedCandidateBirthInformation({
             candidate,
             isSco,
+            line: 1,
           });
 
         // then
-        expect(certificationCandidateErrors).to.deep.equal(['firstName required']);
-      });
-    });
-
-    context('when candidate has extra time percentage below 1', function () {
-      it('should return a certificationCandidateErrors containing the specific error ', async function () {
-        // given
-        const candidate = _buildValidCandidateData();
-        candidate.extraTimePercentage = '0.20';
-
-        certificationCpfService.getBirthInformation.resolves(CpfBirthInformationValidation.success({}));
-
-        // when
-        const { certificationCandidateErrors } =
-          await sessionsImportValidationService.getValidatedCandidateBirthInformation({
-            candidate,
-          });
-
-        // then
-        expect(certificationCandidateErrors).to.deep.equal(['Temps majoré doit être supérieur à 1']);
+        expect(certificationCandidateErrors).to.deep.equal([
+          {
+            code: 'CANDIDATE_FIRST_NAME_REQUIRED',
+            line: 1,
+          },
+        ]);
       });
     });
 
     context('when candidate has missing billing information', function () {
       context('when the parsed candidate is not sco', function () {
-        it('should return an certificationCandidateErrors containing billing mode errors', async function () {
-          // given
-          const isSco = false;
-          const candidate = _buildValidCandidateData();
-          candidate.billingMode = null;
-          certificationCpfService.getBirthInformation.resolves(CpfBirthInformationValidation.success({ ...candidate }));
+        context('when billing mode is null', function () {
+          it('should return an certificationCandidateErrors containing billing mode errors', async function () {
+            // given
+            const isSco = false;
+            const candidate = _buildValidCandidateData();
+            candidate.billingMode = null;
+            certificationCpfService.getBirthInformation.resolves(
+              CpfBirthInformationValidation.success({ ...candidate })
+            );
 
-          // when
-          const { certificationCandidateErrors } =
-            await sessionsImportValidationService.getValidatedCandidateBirthInformation({
-              candidate,
-              isSco,
-            });
+            // when
+            const { certificationCandidateErrors } =
+              await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+                candidate,
+                isSco,
+                line: 1,
+              });
 
-          // then
-          expect(certificationCandidateErrors).to.deep.equal(['billingMode required', 'billingMode not_a_string']);
+            // then
+            expect(certificationCandidateErrors).to.deep.equal([
+              {
+                code: 'CANDIDATE_BILLING_MODE_REQUIRED',
+                line: 1,
+              },
+            ]);
+          });
+        });
+
+        context('when billing mode is missing', function () {
+          it('should return an certificationCandidateErrors containing billing mode errors', async function () {
+            // given
+            const isSco = false;
+            const candidate = _buildValidCandidateData();
+            candidate.billingMode = '';
+            certificationCpfService.getBirthInformation.resolves(
+              CpfBirthInformationValidation.success({ ...candidate })
+            );
+
+            // when
+            const { certificationCandidateErrors } =
+              await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+                candidate,
+                isSco,
+                line: 1,
+              });
+
+            // then
+            expect(certificationCandidateErrors).to.deep.equal([
+              {
+                code: 'CANDIDATE_BILLING_MODE_REQUIRED',
+                line: 1,
+              },
+            ]);
+          });
         });
       });
 
@@ -349,11 +416,47 @@ describe('Unit | Service | sessions import validation Service', function () {
     });
 
     context('when the parsed candidate data has invalid CPF information', function () {
+      context('when the error has already been raised by the validation', function () {
+        it('should return the error once', async function () {
+          // given
+          const candidate = _buildValidCandidateData({});
+          candidate.birthCountry = '';
+          const certificationCpfCountryRepository = Symbol();
+          const certificationCpfCityRepository = Symbol();
+          const certificationCandidateError = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_COUNTRY_REQUIRED;
+          certificationCpfService.getBirthInformation
+            .withArgs({
+              birthCountry: '',
+              birthCity: candidate.birthCity,
+              birthPostalCode: candidate.birthPostalCode,
+              birthINSEECode: candidate.birthINSEECode,
+              certificationCpfCountryRepository,
+              certificationCpfCityRepository,
+            })
+            .resolves(CpfBirthInformationValidation.failure({ certificationCandidateError }));
+
+          // when
+          const result = await sessionsImportValidationService.getValidatedCandidateBirthInformation({
+            candidate,
+            isSco: false,
+            certificationCpfCountryRepository,
+            certificationCpfCityRepository,
+            line: 1,
+          });
+
+          // then
+          expect(result.certificationCandidateErrors).to.deep.equal([
+            { code: 'CANDIDATE_BIRTH_COUNTRY_REQUIRED', line: 1 },
+          ]);
+        });
+      });
+
       it('should return a certificationCandidateErrors that contains the incorrect CPF message', async function () {
         // given
         const candidate = _buildValidCandidateData();
         const certificationCpfCountryRepository = Symbol();
         const certificationCpfCityRepository = Symbol();
+        const certificationCandidateError = { code: 'CPF_INCORRECT', getMessage: noop };
         certificationCpfService.getBirthInformation
           .withArgs({
             birthCountry: candidate.birthCountry,
@@ -363,7 +466,7 @@ describe('Unit | Service | sessions import validation Service', function () {
             certificationCpfCountryRepository,
             certificationCpfCityRepository,
           })
-          .resolves(CpfBirthInformationValidation.failure('CPF incorrect.'));
+          .resolves(CpfBirthInformationValidation.failure({ certificationCandidateError }));
 
         // when
         const result = await sessionsImportValidationService.getValidatedCandidateBirthInformation({
@@ -371,10 +474,11 @@ describe('Unit | Service | sessions import validation Service', function () {
           isSco: false,
           certificationCpfCountryRepository,
           certificationCpfCityRepository,
+          line: 1,
         });
 
         // then
-        expect(result.certificationCandidateErrors).to.deep.equal(['CPF incorrect.']);
+        expect(result.certificationCandidateErrors).to.deep.equal([{ code: 'CPF_INCORRECT', line: 1 }]);
       });
     });
   });

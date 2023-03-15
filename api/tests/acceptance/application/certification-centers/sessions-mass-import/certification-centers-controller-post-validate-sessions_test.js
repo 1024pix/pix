@@ -118,7 +118,12 @@ describe('Acceptance | Controller | certification-centers-controller-post-valida
               sessionsCount: 2,
               sessionsWithoutCandidatesCount: 0,
               candidatesCount: 2,
-              errorsReport: ['Merci de ne pas renseigner les informations de session pour la session: 1234'],
+              errorsReport: [
+                {
+                  code: 'INFORMATION_NOT_ALLOWED_WITH_SESSION_ID',
+                  line: 3,
+                },
+              ],
             });
           });
         });

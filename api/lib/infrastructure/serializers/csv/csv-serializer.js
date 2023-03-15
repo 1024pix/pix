@@ -31,8 +31,10 @@ function deserializeForSessionsImport(parsedCsvData) {
 
   _verifyHeaders({ csvLineKeys, headers, parsedCsvLine: parsedCsvData[0] });
 
-  parsedCsvData.forEach((line) => {
-    const data = _getDataFromColumnNames({ csvLineKeys, headers, line });
+  parsedCsvData.forEach((lineDTO, index) => {
+    const dataFromColumnName = _getDataFromColumnNames({ csvLineKeys, headers, line: lineDTO });
+    const FIRST_DATA_LINE = 2;
+    const data = { ...dataFromColumnName, line: index + FIRST_DATA_LINE };
 
     let currentParsedSession;
     if (_hasSessionInformation(data)) {
@@ -46,15 +48,18 @@ function deserializeForSessionsImport(parsedCsvData) {
       if (!currentParsedSession) {
         currentParsedSession = {
           sessionId: data.sessionId,
+          line: data.line,
           certificationCandidates: [],
         };
         sessions.push(currentParsedSession);
       }
     } else {
-      if (sessions.at(-1)) {
-        currentParsedSession = sessions.at(-1);
+      const previousLineSession = sessions.at(-1);
+      if (previousLineSession) {
+        currentParsedSession = previousLineSession;
       } else {
         currentParsedSession = emptySession;
+        currentParsedSession.line = data.line;
         sessions.push(currentParsedSession);
       }
     }
@@ -229,7 +234,7 @@ function _hasCandidateInformation({ lastName, firstName, birthdate, sex, billing
   );
 }
 
-function _createSession({ sessionId, address, room, date, time, examiner, description }) {
+function _createSession({ sessionId, address, room, date, time, examiner, description, line }) {
   const uniqueKey = _generateUniqueKey({ address, room, date, time });
 
   return {
@@ -241,6 +246,7 @@ function _createSession({ sessionId, address, room, date, time, examiner, descri
     time,
     examiner: examiner ? [examiner] : [],
     description,
+    line,
     certificationCandidates: [],
   };
 }
@@ -261,6 +267,7 @@ function _createCandidate({
   prepaymentCode,
   sex,
   complementaryCertifications,
+  line,
 }) {
   return {
     lastName,
@@ -278,6 +285,7 @@ function _createCandidate({
     prepaymentCode,
     sex,
     complementaryCertifications,
+    line,
   };
 }
 
