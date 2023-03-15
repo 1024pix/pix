@@ -14,6 +14,9 @@ import _ from 'lodash';
 import { CandidateData } from './CandidateData.js';
 import { SessionData } from './SessionData.js';
 
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
 const INFORMATIVE_HEADER_ROW = 8;
 const HEADER_ROW_SPAN = 3;
 const CANDIDATE_TABLE_HEADER_ROW = 11;
