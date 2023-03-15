@@ -1,5 +1,6 @@
 import hapiSentry from 'hapi-sentry';
-const packageJSON = require('../../../package.json');
+import * as packageJSON from '../../../package.json';
+
 import { config } from '../../config.js';
 
 const plugin = hapiSentry;

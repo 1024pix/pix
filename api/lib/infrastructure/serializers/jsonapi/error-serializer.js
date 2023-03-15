@@ -1,4 +1,4 @@
-const JSONAPIError = require('jsonapi-serializer').Error;
+import { Error as JSONAPIError } from 'jsonapi-serializer';
 
 const serialize = function (infrastructureError) {
   return JSONAPIError({
