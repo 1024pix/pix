@@ -7,4 +7,4 @@ const joiObject = Joi.object({
   detail: Joi.string().required().description("Une explication détaillé et lisible de l'erreur"),
 }).label('Erreur');
 
-export { joiObject };
+export { joiObject as erreurDoc };

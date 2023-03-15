@@ -6,4 +6,4 @@ const joiObject = Joi.object({
   client_id: Joi.string().required().description('The client id.'),
 }).label('BearerToken');
 
-export { joiObject };
+export { joiObject as responseAuthenticationDoc };
