@@ -113,6 +113,7 @@ describe('Unit | UseCase | correct-candidate-identity-in-certification-course', 
     });
 
     certificationCourseRepository.get.withArgs(4).resolves(certificationCourseToBeModified);
+    const certificationCandidateError = { code: '', getMessage: () => 'Failure message' };
     certificationCpfService.getBirthInformation
       .withArgs({
         birthCountry,
@@ -122,7 +123,7 @@ describe('Unit | UseCase | correct-candidate-identity-in-certification-course', 
         certificationCpfCountryRepository,
         certificationCpfCityRepository,
       })
-      .resolves(CpfBirthInformationValidation.failure('Failure message'));
+      .resolves(CpfBirthInformationValidation.failure({ certificationCandidateError }));
 
     const command = {
       certificationCourseId: 4,

@@ -8,6 +8,7 @@ const {
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
 } = require('../errors.js');
+const { CERTIFICATION_CANDIDATES_ERRORS } = require('../constants/certification-candidates-errors');
 
 const BILLING_MODES = {
   FREE: 'FREE',
@@ -51,6 +52,82 @@ const certificationCandidateValidationJoiSchema_v1_5 = Joi.object({
     otherwise: Joi.string().required(),
   })
 );
+
+const certificationCandidateValidationForMassImportJoiSchema = Joi.object({
+  firstName: Joi.string().required().empty(['', null]).messages({
+    'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FIRST_NAME_REQUIRED.code,
+  }),
+  lastName: Joi.string().required().empty(['', null]).messages({
+    'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_LAST_NAME_REQUIRED.code,
+  }),
+  sex: Joi.string().valid('M', 'F').required().empty(['', null]).messages({
+    'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SEX_REQUIRED.code,
+    'any.only': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SEX_NOT_VALID.code,
+  }),
+  birthINSEECode: Joi.alternatives().conditional('birthPostalCode', {
+    is: Joi.string().empty(['', null]).required(),
+    then: Joi.string().empty(['', null]).forbidden().messages({
+      'any.unknown': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_EXCLUSIVE.code,
+    }),
+    otherwise: Joi.string().empty(['', null]).required().messages({
+      'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED.code,
+    }),
+  }),
+  birthCountry: Joi.string().required().empty(['', null]).messages({
+    'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_COUNTRY_REQUIRED.code,
+  }),
+  email: Joi.string().email().allow(null).empty('').optional().messages({
+    'string.empty': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EMAIL_REQUIRED.code,
+  }),
+  resultRecipientEmail: Joi.string().email().empty(['', null]).optional().messages({
+    'string.empty': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_RESULT_RECIPIENT_EMAIL_REQUIRED.code,
+  }),
+  externalId: Joi.string().allow(null).empty(['', null]).optional().messages({
+    'string.empty': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTERNAL_ID_REQUIRED.code,
+  }),
+  birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required().empty(['', null]).messages({
+    'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_REQUIRED.code,
+    'date.format': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_FORMAT_INCORRECT.code,
+  }),
+  extraTimePercentage: Joi.number().integer().allow(null).optional().min(1).max(100).messages({
+    'number.base': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_PERCENTAGE_REQUIRED.code,
+    'any.base': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_PERCENTAGE_REQUIRED.code,
+    'number.min': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_BELOW_ONE.code,
+    'number.max': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_BELOW_ONE.code,
+    'number.integer': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_INTEGER.code,
+  }),
+
+  sessionId: Joi.when('$isSessionsMassImport', {
+    is: false,
+    then: Joi.number().required().empty(['', null]).messages({
+      'string.empty': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SESSION_ID_REQUIRED.code,
+    }),
+  }),
+  complementaryCertifications: Joi.array().max(1).required().messages({
+    'array.max': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION.code,
+  }),
+  billingMode: Joi.when('$isSco', {
+    is: false,
+    then: Joi.string()
+      .valid(...Object.values(BILLING_MODES))
+      .required()
+      .empty(['', null])
+      .messages({
+        'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BILLING_MODE_REQUIRED.code,
+        'string.base': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BILLING_MODE_MUST_BE_A_STRING.code,
+        'any.only': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BILLING_MODE_NOT_VALID.code,
+      }),
+  }),
+  prepaymentCode: Joi.when('billingMode', {
+    is: 'PREPAID',
+    then: Joi.string().required().empty(['', null]).messages({
+      'string.empty': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_REQUIRED.code,
+    }),
+    otherwise: Joi.valid(null).messages({
+      'any.only': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_MUST_BE_EMPTY.code,
+    }),
+  }),
+});
 
 const certificationCandidateParticipationJoiSchema = Joi.object({
   id: Joi.any().allow(null).optional(),
@@ -162,7 +239,7 @@ class CertificationCandidate {
   }
 
   validateForMassSessionImport(isSco = false) {
-    const { error } = certificationCandidateValidationJoiSchema_v1_5.validate(this, {
+    const { error } = certificationCandidateValidationForMassImportJoiSchema.validate(this, {
       abortEarly: false,
       allowUnknown: true,
       context: {
@@ -171,10 +248,7 @@ class CertificationCandidate {
       },
     });
     if (error) {
-      return error.details.map((detail) => {
-        const { key, why } = InvalidCertificationCandidate.fromJoiErrorDetail(detail);
-        return key ? `${key} ${why}` : `${why}`;
-      });
+      return error.details.map(({ message }) => message);
     }
   }
 

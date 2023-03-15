@@ -1,39 +1,57 @@
 const sessionValidator = require('../../validators/session-validator.js');
 const certificationCpfService = require('../certification-cpf-service.js');
+const { CERTIFICATION_SESSIONS_ERRORS } = require('../../constants/sessions-errors');
 
 module.exports = {
-  async validateSession({ session, sessionRepository, certificationCourseRepository }) {
+  async validateSession({ session, line, sessionRepository, certificationCourseRepository }) {
     const sessionId = session.id;
     const sessionErrors = [];
 
     if (sessionId) {
       if (_hasSessionInfo(session)) {
-        sessionErrors.push(`Merci de ne pas renseigner les informations de session pour la session: ${sessionId}`);
+        _addToErrorList({
+          errorList: sessionErrors,
+          line,
+          codes: [CERTIFICATION_SESSIONS_ERRORS.INFORMATION_NOT_ALLOWED_WITH_SESSION_ID.code],
+        });
       }
 
       if (await _isSessionStarted({ certificationCourseRepository, sessionId })) {
-        sessionErrors.push("Impossible d'ajouter un candidat à une session qui a déjà commencé.");
+        _addToErrorList({
+          errorList: sessionErrors,
+          line,
+          codes: [CERTIFICATION_SESSIONS_ERRORS.CANDIDATE_NOT_ALLOWED_FOR_STARTED_SESSION.code],
+        });
       }
     } else {
       const isSessionExisting = await sessionRepository.isSessionExisting({ ...session });
       if (isSessionExisting) {
-        sessionErrors.push(`Session happening on ${session.date} at ${session.time} already exists`);
+        _addToErrorList({
+          errorList: sessionErrors,
+          line,
+          codes: [CERTIFICATION_SESSIONS_ERRORS.SESSION_WITH_DATE_AND_TIME_ALREADY_EXISTS.code],
+        });
       }
 
       if (session.isSessionScheduledInThePast()) {
-        sessionErrors.push(`Une session ne peut pas être programmée dans le passé`);
+        _addToErrorList({
+          errorList: sessionErrors,
+          line,
+          codes: [CERTIFICATION_SESSIONS_ERRORS.SESSION_SCHEDULED_IN_THE_PAST.code],
+        });
       }
 
-      try {
-        sessionValidator.validate(session);
-      } catch (errors) {
-        errors.invalidAttributes.map((error) => sessionErrors.push(error.message));
-      }
+      const errorCodes = sessionValidator.validateForMassSessionImport(session);
+      _addToErrorList({ errorList: sessionErrors, line, codes: errorCodes });
     }
 
     if (session.certificationCandidates?.length) {
       if (_hasDuplicateCertificationCandidates(session.certificationCandidates)) {
-        sessionErrors.push(`Une session contient au moins un élève en double.`);
+        _addToErrorList({
+          errorList: sessionErrors,
+          line,
+          codes: [CERTIFICATION_SESSIONS_ERRORS.DUPLICATE_CANDIDATE_NOT_ALLOWED_IN_SESSION.code],
+        });
       }
     }
 
@@ -43,21 +61,13 @@ module.exports = {
   async getValidatedCandidateBirthInformation({
     candidate,
     isSco,
+    line,
     certificationCpfCountryRepository,
     certificationCpfCityRepository,
   }) {
     const certificationCandidateErrors = [];
-
-    if (_isExtraTimePercentageBelowOne(candidate.extraTimePercentage)) {
-      certificationCandidateErrors.push('Temps majoré doit être supérieur à 1');
-    } else {
-      candidate.convertExtraTimePercentageToDecimal();
-    }
-
-    const validationErrors = candidate.validateForMassSessionImport(isSco);
-    if (validationErrors) {
-      certificationCandidateErrors.push(...validationErrors);
-    }
+    const errorCodes = candidate.validateForMassSessionImport(isSco);
+    _addToErrorList({ errorList: certificationCandidateErrors, line, codes: errorCodes });
 
     const cpfBirthInformation = await certificationCpfService.getBirthInformation({
       birthCountry: candidate.birthCountry,
@@ -69,8 +79,17 @@ module.exports = {
     });
 
     if (cpfBirthInformation.hasFailed()) {
-      certificationCandidateErrors.push(cpfBirthInformation.message);
+      if (
+        _isErrorNotDuplicated({
+          certificationCandidateErrors,
+          errorCode: cpfBirthInformation.code,
+        })
+      ) {
+        _addToErrorList({ errorList: certificationCandidateErrors, line, codes: [cpfBirthInformation.code] });
+      }
     }
+
+    candidate.convertExtraTimePercentageToDecimal();
 
     return {
       certificationCandidateErrors,
@@ -84,8 +103,13 @@ module.exports = {
   },
 };
 
-function _isExtraTimePercentageBelowOne(extraTimePercentage) {
-  return extraTimePercentage && extraTimePercentage < 1;
+function _isErrorNotDuplicated({ certificationCandidateErrors, errorCode }) {
+  return !certificationCandidateErrors.some((error) => errorCode === error.code);
+}
+
+function _addToErrorList({ errorList, line, codes = [] }) {
+  const errors = codes.map((code) => ({ code, line }));
+  errorList.push(...errors);
 }
 
 function _hasSessionInfo(session) {
