@@ -48,9 +48,5 @@ module.exports = function (defaults) {
     using: [{ transformation: 'amd', as: 'patternomaly.js' }],
   });
 
-  app.import('node_modules/color/index.js', {
-    using: [{ transformation: 'cjs', as: 'color' }],
-  });
-
   return app.toTree();
 };
