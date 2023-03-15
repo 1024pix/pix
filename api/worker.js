@@ -11,6 +11,8 @@ import { ParticipationResultCalculationJobHandler } from './lib/infrastructure/j
 import { SendSharedParticipationResultsToPoleEmploiHandler } from './lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiHandler.js';
 import { scheduleCpfJobs } from './lib/infrastructure/jobs/cpf-export/schedule-cpf-jobs.js';
 import { MonitoredJobQueue } from './lib/infrastructure/jobs/monitoring/MonitoredJobQueue.js';
+import * as url from 'url';
+const __filename = url.fileURLToPath(import.meta.url);
 
 async function runJobs() {
   logger.info('Starting pg-boss');
