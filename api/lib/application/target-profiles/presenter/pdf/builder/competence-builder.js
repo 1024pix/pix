@@ -1,5 +1,5 @@
 import sortBy from 'lodash/sortBy';
-import { thematicBuilder } from './thematic-builder.js';
+import * as thematicBuilder from './thematic-builder.js';
 import { CompetenceText } from '../drawer/CompetenceText.js';
 import { PositionManager } from '../manager/position-manager.js';
 import { ColorManager } from '../manager/color-manager.js';
