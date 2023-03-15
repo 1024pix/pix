@@ -38,6 +38,6 @@ module.exports = function () {
       'trash-can',
       'redo',
     ],
-    'free-regular-svg-icons': ['circle-check', 'copy', 'trash-can'],
+    'free-regular-svg-icons': ['circle-check', 'copy', 'trash-can', 'user'],
   };
 };

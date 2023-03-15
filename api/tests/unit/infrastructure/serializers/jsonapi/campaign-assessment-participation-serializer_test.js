@@ -8,6 +8,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
   describe('#serialize()', function () {
     let modelCampaignAssessmentParticipation;
     let expectedJsonApi;
+    const organizationLearnerId = 1;
 
     describe('with badges', function () {
       beforeEach(function () {
@@ -25,6 +26,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
               'created-at': createdAt,
               'is-shared': true,
               'shared-at': sharedAt,
+              'organization-learner-id': organizationLearnerId,
               'mastery-rate': 0.35,
               progression: 1,
             },
@@ -74,6 +76,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
           sharedAt,
           targetedSkillsCount: 20,
           testedSkillsCount: 3,
+          organizationLearnerId,
           masteryRate: 0.35,
           badges: [{ id: 1, title: 'someTitle', altMessage: 'someAltMessage', imageUrl: 'someImageUrl' }],
         });
@@ -104,6 +107,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
               'created-at': createdAt,
               'is-shared': true,
               'shared-at': sharedAt,
+              'organization-learner-id': organizationLearnerId,
               'mastery-rate': 0.35,
               progression: 1,
             },
@@ -135,6 +139,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
           createdAt,
           status: CampaignParticipationStatuses.SHARED,
           sharedAt,
+          organizationLearnerId,
           targetedSkillsCount: 0,
           testedSkillsCount: 0,
           masteryRate: 0.35,

@@ -19,11 +19,13 @@ class CampaignAssessmentParticipation {
     createdAt,
     targetedSkillsCount,
     testedSkillsCount,
+    organizationLearnerId,
     badges = [],
   }) {
     this.userId = userId;
     this.firstName = firstName;
     this.lastName = lastName;
+    this.organizationLearnerId = organizationLearnerId;
     this.campaignParticipationId = campaignParticipationId;
     this.campaignId = campaignId;
     this.participantExternalId = participantExternalId;

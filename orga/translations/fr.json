@@ -144,7 +144,8 @@
       "back": "Retour",
       "cancel": "Annuler",
       "close": "Fermer",
-      "global": "Actions"
+      "global": "Actions",
+      "link-to-participant": "Voir toute l'activité du participant"
     },
     "api-error-messages": {
       "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
