@@ -1,4 +1,4 @@
-import { fr } from './fr.js';
-import { en } from './en.js';
+import * as fr from "./fr.json";
+import * as en from "./en.json";
 
 export { fr, en };
