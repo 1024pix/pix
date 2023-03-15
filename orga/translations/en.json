@@ -1165,6 +1165,9 @@
     }
   },
   "components": {
+    "date":{
+      "no-date": "No date yet"
+    },
     "participation-status": {
       "STARTED-ASSESSMENT": "In progress",
       "TO_SHARE-ASSESSMENT": "Pending results",

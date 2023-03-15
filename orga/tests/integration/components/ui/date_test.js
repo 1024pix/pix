@@ -17,9 +17,9 @@ module('Integration | Component | Ui | Date', function (hooks) {
 
   test('it should display a dash if no date is given', async function (assert) {
     // when
-    await render(hbs`<Ui::Date />`);
+    const screen = await render(hbs`<Ui::Date />`);
 
     // then
-    assert.contains('–');
+    assert.dom(screen.getByText(this.intl.t('components.date.no-date'))).exists();
   });
 });
