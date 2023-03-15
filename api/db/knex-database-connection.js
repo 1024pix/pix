@@ -1,9 +1,11 @@
-const types = require('pg').types;
+import pg from 'pg';
+const types = pg.types;
 import _, { get } from 'lodash';
 import { logger } from '../lib/infrastructure/logger.js';
 import { monitoringTools } from '../lib/infrastructure/monitoring-tools.js';
 import { config } from '../lib/config.js';
 import { performance } from 'perf_hooks';
+import knex from 'knex';
 /*
 By default, node-postgres casts a DATE value (PostgreSQL type) as a Date Object (JS type).
 But, when dealing with dates with no time (such as birthdate for example), we want to
@@ -23,7 +25,7 @@ Links :
  */
 types.setTypeParser(types.builtins.INT8, (value) => parseInt(value));
 
-import { knexConfigs } from './knexfile.js';
+import { environments as knexConfigs } from './knexfile.js';
 
 import Knex from 'knex';
 import QueryBuilder from 'knex/lib/query/querybuilder';
@@ -41,7 +43,7 @@ try {
 
 const { logging, environment } = config;
 const knexConfig = knexConfigs[environment];
-const knex = require('knex')(knexConfig);
+const configuredKnex = knex(knexConfig);
 
 const originalToSQL = QueryBuilder.prototype.toSQL;
 QueryBuilder.prototype.toSQL = function () {
@@ -52,14 +54,14 @@ QueryBuilder.prototype.toSQL = function () {
   return ret;
 };
 
-knex.on('query', function (data) {
+configuredKnex.on('query', function (data) {
   if (logging.enableKnexPerformanceMonitoring) {
     const queryId = data.__knexQueryUid;
     monitoringTools.setInContext(`knexQueryStartTimes.${queryId}`, performance.now());
   }
 });
 
-knex.on('query-response', function (response, data) {
+configuredKnex.on('query-response', function (response, data) {
   monitoringTools.incrementInContext('metrics.knexQueryCount');
   if (logging.enableKnexPerformanceMonitoring) {
     const queryStartedTime = monitoringTools.getInContext(`knexQueryStartTimes.${data.__knexQueryUid}`);
@@ -71,10 +73,10 @@ knex.on('query-response', function (response, data) {
 });
 
 async function disconnect() {
-  return knex.destroy();
+  return configuredKnex.destroy();
 }
 
-const _databaseName = knex.client.database();
+const _databaseName = configuredKnex.client.database();
 
 const _dbSpecificQueries = {
   listTablesQuery:
@@ -85,7 +87,7 @@ const _dbSpecificQueries = {
 async function listAllTableNames() {
   const bindings = [_databaseName];
 
-  const resultSet = await knex.raw(
+  const resultSet = await configuredKnex.raw(
     'SELECT table_name FROM information_schema.tables WHERE table_schema = current_schema() AND table_catalog = ?',
     bindings
   );
@@ -107,7 +109,7 @@ async function emptyAllTables() {
 
   const query = _dbSpecificQueries.emptyTableQuery;
   // eslint-disable-next-line knex/avoid-injections
-  return knex.raw(`${query}${tables}`);
+  return configuredKnex.raw(`${query}${tables}`);
 }
 
-export { knex, disconnect, emptyAllTables };
+export { configuredKnex as knex, disconnect, emptyAllTables };

@@ -1,4 +1,4 @@
-const JSONAPIError = require('jsonapi-serializer').Error;
+import { Error as JSONAPIError } from 'jsonapi-serializer';
 
 class BaseHttpError extends Error {
   constructor(message) {

@@ -1,5 +1,5 @@
 import pdfLibFontKit from '@pdf-lib/fontkit';
-require('dayjs/locale/fr');
+import 'dayjs/locale/fr';
 import { FontManager } from './manager/font-manager.js';
 import * as TemplatePageManager from './manager/template-page-manager.js';
 import * as learningContentBuilder from './builder/learning-content-builder.js';
