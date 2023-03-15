@@ -13,6 +13,9 @@ const ERROR_INPUT_MESSAGE_MAP = {
   email: 'pages.sign-up.fields.email.error',
   password: 'pages.sign-up.fields.password.error',
 };
+const FRENCH_DOMAIN_TLD = 'fr';
+const INTERNATIONAL_DOMAIN_TLD = 'org';
+const FRENCH_LOCALE = 'fr-FR';
 
 class LastName {
   @tracked status = 'default';
@@ -51,6 +54,8 @@ export default class SignupForm extends Component {
   @service session;
   @service intl;
   @service url;
+  @service cookies;
+  @service currentDomain;
 
   @tracked errorMessage = null;
   @tracked isLoading = false;
@@ -149,6 +154,7 @@ export default class SignupForm extends Component {
 
     this._trimNamesAndEmailOfUser();
     this.args.user.lang = this.intl.t('current-lang');
+    this.args.user.locale = this._getLocaleFromCookieOrDomain();
 
     const campaignCode = get(this.session, 'attemptedTransition.from.parent.params.code');
     this.args.user
@@ -187,5 +193,25 @@ export default class SignupForm extends Component {
       default: ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY,
     };
     return this.intl.t(httpStatusCodeMessages[statusCode] || httpStatusCodeMessages['default']);
+  }
+
+  _getLocaleFromCookieOrDomain() {
+    const currentDomainExtension = this.currentDomain.getExtension();
+    const cookieLocale = this.cookies.read('locale');
+    const currentLocale = this.intl.get('locale')[0];
+
+    if (currentDomainExtension === INTERNATIONAL_DOMAIN_TLD) {
+      if (cookieLocale) {
+        return cookieLocale;
+      }
+
+      return currentLocale;
+    }
+
+    if (currentDomainExtension === FRENCH_DOMAIN_TLD) {
+      return FRENCH_LOCALE;
+    }
+
+    return currentLocale;
   }
 }
