@@ -1,5 +1,5 @@
 import sortBy from 'lodash/sortBy';
-import { competenceBuilder } from './competence-builder.js';
+import * as competenceBuilder from './competence-builder.js';
 import { AreaText } from '../drawer/AreaText.js';
 import { LegalMentionText } from '../drawer/LegalMentionText.js';
 
