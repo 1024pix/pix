@@ -12,10 +12,10 @@
     <OrganizationLearner::Activity::CampaignType @campaignType={{@participation.campaignType}} />
   </td>
   <td class="table__column--left">
-    <Ui::Date @date="{{@participation.createdAt}}" />
+    <Ui::Date @date={{@participation.createdAt}} />
   </td>
   <td class="table__column--left">
-    <Ui::Date @date="{{@participation.sharedAt}}" />
+    <Ui::Date @date={{@participation.sharedAt}} />
   </td>
   <td class="table__column--left">
     <Ui::ParticipationStatus @status={{@participation.status}} @campaignType={{@participation.campaignType}} />

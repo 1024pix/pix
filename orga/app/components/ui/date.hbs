@@ -1,1 +1,6 @@
-{{if @date (dayjs-format @date "DD/MM/YYYY") "–"}}
+{{#if @date}}
+  {{dayjs-format @date "DD/MM/YYYY"}}
+{{else}}
+  <span aria-hidden="true">-</span>
+  <span class="screen-reader-only">{{t "components.date.no-date"}}</span>
+{{/if}}
