@@ -22,7 +22,20 @@ module('Unit | Component | signup-form', function (hooks) {
         },
       };
     }
+    class CurrentDomainStub extends Service {
+      getExtension = sinon.stub().returns('fr');
+    }
+    class CookiesStub extends Service {
+      read = sinon.stub().returns();
+    }
+    class IntlStub extends Service {
+      t = sinon.stub().returns('fr');
+      get = sinon.stub().returns(['fr']);
+    }
     this.owner.register('service:session', SessionStub);
+    this.owner.register('service:currentDomain', CurrentDomainStub);
+    this.owner.register('service:cookies', CookiesStub);
+    this.owner.register('service:intl', IntlStub);
     component = createGlimmerComponent('component:signup-form');
   });
 
@@ -50,6 +63,69 @@ module('Unit | Component | signup-form', function (hooks) {
       // then
       const user = component.args.user;
       assert.deepEqual(pick(user, ['firstName', 'lastName', 'email']), expectedUser);
+    });
+
+    module('on international domain', function () {
+      test('saves user locale from the pix-site cookie', function (assert) {
+        // given
+        const user = EmberObject.create({
+          firstName: 'Carry',
+          lastName: 'Bout',
+          email: 'carry.bout@example.net',
+          password: 'Pix123',
+          save: sinon.stub().resolves(),
+        });
+        component.args.user = user;
+        component.currentDomain.getExtension.returns('org');
+        component.cookies.read.returns('fr-CA');
+
+        // when
+        component.signup();
+
+        // then
+        assert.deepEqual(pick(user, ['locale']), { locale: 'fr-CA' });
+      });
+
+      test('saves user locale retrieved from the i18n service when there is no cookie', function (assert) {
+        // given
+        const user = EmberObject.create({
+          firstName: 'Carry',
+          lastName: 'Bout',
+          email: 'carry.bout@example.net',
+          password: 'Pix123',
+          save: sinon.stub().resolves(),
+        });
+        component.args.user = user;
+        component.currentDomain.getExtension.returns('org');
+        component.intl.get.returns(['de']);
+
+        // when
+        component.signup();
+
+        // then
+        assert.deepEqual(pick(user, ['locale']), { locale: 'de' });
+      });
+    });
+
+    module('on french domain', function () {
+      test('saves user locale with french locale as default', function (assert) {
+        // given
+        const user = EmberObject.create({
+          firstName: 'Carry',
+          lastName: 'Bout',
+          email: 'carry.bout@example.net',
+          password: 'Pix123',
+          save: sinon.stub().resolves(),
+        });
+        component.args.user = user;
+        component.currentDomain.getExtension.returns('fr');
+
+        // when
+        component.signup();
+
+        // then
+        assert.deepEqual(pick(user, ['locale']), { locale: 'fr-FR' });
+      });
     });
 
     test('should authenticate user after sign up', async function (assert) {
