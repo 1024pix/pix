@@ -15,6 +15,10 @@ module.exports.CERTIFICATION_CANDIDATES_ERRORS = {
     code: 'CANDIDATE_BILLING_MODE_REQUIRED',
     getMessage: () => '',
   },
+  CANDIDATE_BILLING_MODE_MUST_BE_EMPTY: {
+    code: 'CANDIDATE_BILLING_MODE_MUST_BE_EMPTY',
+    getMessage: () => '',
+  },
   CANDIDATE_BIRTHDATE_REQUIRED: {
     code: 'CANDIDATE_BIRTHDATE_REQUIRED',
     getMessage: () => '',

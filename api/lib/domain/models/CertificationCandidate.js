@@ -117,11 +117,14 @@ const certificationCandidateValidationForMassImportJoiSchema = Joi.object({
         'string.base': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BILLING_MODE_MUST_BE_A_STRING.code,
         'any.only': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BILLING_MODE_NOT_VALID.code,
       }),
+    otherwise: Joi.valid(null).messages({
+      'any.only': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BILLING_MODE_MUST_BE_EMPTY.code,
+    }),
   }),
   prepaymentCode: Joi.when('billingMode', {
     is: 'PREPAID',
     then: Joi.string().required().empty(['', null]).messages({
-      'string.empty': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_REQUIRED.code,
+      'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_REQUIRED.code,
     }),
     otherwise: Joi.valid(null).messages({
       'any.only': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_MUST_BE_EMPTY.code,
