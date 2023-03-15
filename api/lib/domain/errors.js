@@ -742,7 +742,11 @@ class MissingUserAccountError extends DomainError {
 }
 
 class UnexpectedUserAccountError extends DomainError {
-  constructor({ message = "Ce compte utilisateur n'est pas celui qui est attendu.", code, meta }) {
+  constructor({
+    message = "Ce compte utilisateur n'est pas celui qui est attendu.",
+    code = 'UNEXPECTED_USER_ACCOUNT',
+    meta,
+  }) {
     super(message);
     this.code = code;
     this.meta = meta;
