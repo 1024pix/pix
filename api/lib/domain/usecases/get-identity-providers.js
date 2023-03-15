@@ -5,6 +5,7 @@ import { config } from '../../config.js';
 const getIdentityProviders = function () {
   return Object.keys(OidcIdentityProviders)
     .map((oidcIdentityProviderKey) => {
+      // eslint-disable-next-line import/namespace
       const { configKey, propertyPathsToPick, service } = OidcIdentityProviders[oidcIdentityProviderKey];
 
       const providerConfig = pick(config[configKey], propertyPathsToPick);
