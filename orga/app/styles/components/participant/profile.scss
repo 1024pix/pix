@@ -1,5 +1,7 @@
-.prescriber {
-  display: flex;
-  align-items: center;
-  gap: $spacing-s;
+.campaign-profile {
+  .page-title {
+    display: flex;
+    align-items: center;
+    gap: $spacing-s;
+  }
 }

@@ -7,6 +7,8 @@ export default class CampaignProfile extends Model {
 
   @attr('number') campaignId;
 
+  @attr('number') organizationLearnerId;
+
   @attr('string') externalId;
 
   @attr('date') createdAt;

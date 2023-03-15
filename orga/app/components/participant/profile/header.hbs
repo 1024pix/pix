@@ -2,16 +2,24 @@
   <Ui::Breadcrumb @links={{this.breadcrumbLinks}} />
 </header>
 
-<header class="prescriber page__title">
-  <h1 class="page-title">
-    {{@campaignProfile.firstName}}
-    {{@campaignProfile.lastName}}
-  </h1>
-  {{#if (and @campaignProfile.isCertifiable @campaignProfile.isShared)}}
-    <PixTag @color="green-light" class="prescriber__certifiable-tag">
-      {{t "pages.profiles-individual-results.certifiable"}}
-    </PixTag>
-  {{/if}}
+<header class="campaign-profile page__title">
+  <div class="page-title">
+    <h1>
+      {{@campaignProfile.firstName}}
+      {{@campaignProfile.lastName}}
+    </h1>
+    {{#if (and @campaignProfile.isCertifiable @campaignProfile.isShared)}}
+      <PixTag @color="green-light" class="prescriber__certifiable-tag">
+        {{t "pages.profiles-individual-results.certifiable"}}
+      </PixTag>
+    {{/if}}
+  </div>
+  <p class="participant__link">
+    <FaIcon @prefix="far" @icon="user" />
+    <Participant::LinkTo @organizationLearnerId={{@campaignProfile.organizationLearnerId}}>
+      {{t "common.actions.link-to-participant"}}
+    </Participant::LinkTo>
+  </p>
 </header>
 
 <section class="panel panel--header">
