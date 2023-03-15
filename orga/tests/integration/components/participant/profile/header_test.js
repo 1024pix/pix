@@ -6,6 +6,11 @@ import hbs from 'htmlbars-inline-precompile';
 module('Integration | Component | Participant::Profile::Header', function (hooks) {
   setupIntlRenderingTest(hooks);
 
+  hooks.beforeEach(function () {
+    const currentUser = this.owner.lookup('service:currentUser');
+    currentUser.organization = {};
+  });
+
   test('it displays user information', async function (assert) {
     this.campaignProfile = {
       firstName: 'Godefroy',

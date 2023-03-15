@@ -14,6 +14,10 @@ export default Factory.extend({
     return faker.name.title();
   },
 
+  organizationLearnerId() {
+    return 1;
+  },
+
   createdAt() {
     return faker.date.past();
   },
