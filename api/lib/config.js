@@ -6,6 +6,9 @@ import ms from 'ms';
 
 import { getArrayOfStrings } from '../lib/infrastructure/utils/string-utils.js';
 
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
 function parseJSONEnv(varName) {
   if (process.env[varName]) {
     return JSON.parse(process.env[varName]);
