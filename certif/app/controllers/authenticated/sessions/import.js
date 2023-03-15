@@ -98,6 +98,13 @@ export default class ImportController extends Controller {
     });
     try {
       await sessionMassImportReport.confirm({ cachedValidatedSessionsKey: this.cachedValidatedSessionsKey });
+      this.notifications.success(
+        this.intl.t('pages.sessions.import.success', {
+          sessionsCount: this.sessionsCount,
+          sessionsWithoutCandidatesCount: this.sessionsWithoutCandidatesCount,
+          candidatesCount: this.candidatesCount,
+        })
+      );
     } catch (error) {
       this.isImportStepOne = true;
       this.notifications.error(this.intl.t('common.api-error-messages.internal-server-error'));
