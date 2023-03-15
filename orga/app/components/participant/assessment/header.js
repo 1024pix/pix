@@ -3,6 +3,11 @@ import { inject as service } from '@ember/service';
 
 export default class Header extends Component {
   @service intl;
+  @service currentUser;
+
+  get organization() {
+    return this.currentUser.organization;
+  }
 
   get displayBadges() {
     const { campaign, participation } = this.args;

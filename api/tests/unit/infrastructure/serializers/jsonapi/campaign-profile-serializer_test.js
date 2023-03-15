@@ -13,6 +13,7 @@ describe('Unit | Serializer | JSONAPI | campaign-profile-serializer', function (
       // given
       const campaignProfile = new CampaignProfile({
         campaignParticipationId: 9,
+        organizationLearnerId: 1,
         campaignId: 8,
         firstName: 'someFirstName',
         lastName: 'someLastName',
@@ -48,6 +49,7 @@ describe('Unit | Serializer | JSONAPI | campaign-profile-serializer', function (
             'first-name': 'someFirstName',
             'last-name': 'someLastName',
             'campaign-id': 8,
+            'organization-learner-id': 1,
             'external-id': 'anExternalId',
             'pix-score': 12,
             'created-at': '2020-01-01',

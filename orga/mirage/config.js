@@ -251,6 +251,18 @@ export default function () {
 
   this.get('/organizations/:id/participants', findFilteredPaginatedOrganizationParticipants);
 
+  this.get('/organization-learners/:id', (schema, request) => {
+    const participantId = request.params.id;
+
+    return { data: { id: participantId, type: 'organization-learner' } };
+  });
+
+  this.get('/organization-learners/:id/activity', (schema, request) => {
+    const participantId = request.params.id;
+
+    return { data: { id: `${participantId}-activity`, type: 'organization-learner-activity' } };
+  });
+
   this.post('/organizations/:id/sco-organization-learners/import-siecle', (schema, request) => {
     const type = request.requestBody.type;
 

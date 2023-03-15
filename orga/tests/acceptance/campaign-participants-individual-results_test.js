@@ -13,14 +13,30 @@ module('Acceptance | Campaign Participants Individual Results', function (hooks)
   setupApplicationTest(hooks);
   setupMirage(hooks);
   setupIntl(hooks);
+  let user;
 
   hooks.beforeEach(async () => {
-    const user = createUserWithMembershipAndTermsOfServiceAccepted();
+    user = createUserWithMembershipAndTermsOfServiceAccepted();
     createPrescriberByUser(user);
 
     server.create('campaign', { id: 1 });
 
     await authenticateSession(user.id);
+  });
+
+  test('it should go to participant details', async function (assert) {
+    // given
+    const organizationId = user.memberships.models.firstObject.organizationId;
+    server.create('campaign', { id: 1 });
+    server.create('campaignProfile', { campaignId: 1, campaignParticipationId: 1 });
+    server.create('organization-participant', { id: 1, organizationId });
+
+    // when
+    const screen = await visitScreen('/campagnes/1/profils/1');
+    await click(screen.getByRole('link', { name: this.intl.t('common.actions.link-to-participant') }));
+
+    // then
+    assert.strictEqual(currentURL(), '/participants/1');
   });
 
   test('it should go to campaigns', async function (assert) {

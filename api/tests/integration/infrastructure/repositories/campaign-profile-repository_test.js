@@ -84,20 +84,21 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
       it('return the first name and last name of the organization learner', async function () {
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { firstName: 'Greg', lastName: 'Duboire', organizationId },
           { campaignId }
-        ).id;
+        );
         await databaseBuilder.commit();
 
         const campaignProfile = await CampaignProfileRepository.findProfile({
           campaignId,
-          campaignParticipationId,
+          campaignParticipationId: campaignParticipation.id,
           locale,
         });
 
         expect(campaignProfile.firstName).to.equal('Greg');
         expect(campaignProfile.lastName).to.equal('Duboire');
+        expect(campaignProfile.organizationLearnerId).to.equal(campaignParticipation.organizationLearnerId);
       });
 
       it('return the first name and last name of the current organization learner', async function () {
