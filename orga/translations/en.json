@@ -121,7 +121,8 @@
         "shared-profile-tooltip": "Submitted profiles: These participants have submitted their profiles."
       },
       "loader": "Loading statuses distribution",
-      "title": "Statuses"
+      "title": "Statuses",
+      "a11y-title": "Detail by participation status"
     },
     "participants-by-day": {
       "labels-a11y": {

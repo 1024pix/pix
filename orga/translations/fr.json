@@ -121,7 +121,8 @@
         "shared-profile-tooltip": "Profils reçus : Ces participants ont envoyé leurs profils."
       },
       "loader": "Chargement des proportions par statut",
-      "title": "Statuts"
+      "title": "Statuts",
+      "screen-reader-only-title": "Détail par statut"
     },
     "participants-by-day": {
       "labels-a11y": {
