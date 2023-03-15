@@ -4,26 +4,9 @@ module.exports = {
   serialize(trainingTrigger = {}, meta) {
     return new Serializer('training-triggers', {
       transform(record) {
-        return {
-          ...record,
-          triggerTubes: record.triggerTubes.map((triggerTube) => {
-            return {
-              ...triggerTube,
-              tube: { ...triggerTube.tube },
-            };
-          }),
-        };
+        return JSON.parse(JSON.stringify(record));
       },
-      attributes: ['id', 'trainingId', 'type', 'threshold', 'triggerTubes', 'areas'],
-      triggerTubes: {
-        ref: 'id',
-        included: true,
-        attributes: ['id', 'level', 'tube'],
-        tube: {
-          ref: 'id',
-          attributes: ['id', 'name', 'practicalTitle'],
-        },
-      },
+      attributes: ['id', 'trainingId', 'type', 'threshold', 'areas'],
       areas: {
         ref: 'id',
         included: true,
@@ -35,10 +18,16 @@ module.exports = {
           thematics: {
             ref: 'id',
             included: true,
-            attributes: ['name', 'index', 'trainingTriggerTubes'],
-            trainingTriggerTubes: {
+            attributes: ['name', 'index', 'triggerTubes'],
+            triggerTubes: {
               ref: 'id',
               included: true,
+              attributes: ['id', 'level', 'tube'],
+              tube: {
+                ref: 'id',
+                included: true,
+                attributes: ['id', 'name', 'practicalTitle'],
+              },
             },
           },
         },

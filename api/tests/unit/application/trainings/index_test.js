@@ -969,7 +969,7 @@ describe('Unit | Router | training-router', function () {
             trainingId: 123,
             type: 'prerequisite',
             threshold: 30,
-            tubes: [{ id: 'recTube123', level: 2 }],
+            tubes: [{ tubeId: 'recTube123', level: 2 }],
           },
         },
       };
