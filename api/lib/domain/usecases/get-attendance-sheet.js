@@ -9,6 +9,9 @@ import {
   ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES,
 } from './../../infrastructure/files/attendance-sheet/attendance-sheet-placeholders.js';
 
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
 const getAttendanceSheet = async function ({
   userId,
   sessionId,
