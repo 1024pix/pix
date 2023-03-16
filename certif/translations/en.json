@@ -190,7 +190,8 @@
           },
           "sessions-and-empty-sessions-count": "{sessionsCount} {sessionsCount, plural,one {session} other {sessions}} including {sessionsWithoutCandidatesCount} {sessionsWithoutCandidatesCount, plural,one {session} other {sessions}} without candidates",
           "candidates-count": "{candidatesCount} {candidatesCount, plural,one {candidate} other {candidates}}"
-        }
+        },
+        "success": "Success! {sessionsCount} {sessionsCount, plural, one {session} other {sessions}} dont {sessionsWithoutCandidatesCount} {sessionsWithoutCandidatesCount, plural, one {session} other {sessions}} created without candidate and {candidatesCount} {candidatesCount, plural, one {candidate} other {candidates}} created or updated"
       },
       "list": {
         "title": "Certification sessions",

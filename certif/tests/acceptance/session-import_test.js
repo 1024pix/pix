@@ -211,6 +211,80 @@ module('Acceptance | Session Import', function (hooks) {
             // then
             assert.dom(screen.getByRole('button', { name: 'Finaliser la création/édition' })).exists();
           });
+
+          module('when the user has confirmed the import', function () {
+            test("it should redirect to the session's list", async function (assert) {
+              // given
+              const blob = new Blob(['foo']);
+              const file = new File([blob], 'fichier.csv');
+              this.server.post('/certification-centers/:id/sessions/validate-for-mass-import', () => {
+                return new Response(
+                  200,
+                  {},
+                  { sessionsCount: 2, sessionsWithoutCandidatesCount: 1, candidatesCount: 3 }
+                );
+              });
+
+              this.server.post('/certification-centers/:id/sessions/confirm-for-mass-import', () => {
+                return new Response(
+                  200,
+                  {},
+                  { sessionsCount: 2, sessionsWithoutCandidatesCount: 1, candidatesCount: 3 }
+                );
+              });
+
+              // when
+              screen = await visit('/sessions/import');
+              const input = screen.getByLabelText('Importer le modèle complété');
+              await triggerEvent(input, 'change', { files: [file] });
+              const importButton = screen.getByRole('button', { name: 'Continuer' });
+              await click(importButton);
+              const confirmButton = screen.getByRole('button', { name: 'Finaliser la création/édition' });
+              await click(confirmButton);
+
+              // then
+              assert.strictEqual(currentURL(), '/sessions/liste');
+            });
+
+            test('it should display a success notification', async function (assert) {
+              // given
+              const blob = new Blob(['foo']);
+              const file = new File([blob], 'fichier.csv');
+              this.server.post('/certification-centers/:id/sessions/validate-for-mass-import', () => {
+                return new Response(
+                  200,
+                  {},
+                  { sessionsCount: 2, sessionsWithoutCandidatesCount: 1, candidatesCount: 3 }
+                );
+              });
+
+              this.server.post('/certification-centers/:id/sessions/confirm-for-mass-import', () => {
+                return new Response(
+                  200,
+                  {},
+                  { sessionsCount: 2, sessionsWithoutCandidatesCount: 1, candidatesCount: 3 }
+                );
+              });
+
+              // when
+              screen = await visit('/sessions/import');
+              const input = screen.getByLabelText('Importer le modèle complété');
+              await triggerEvent(input, 'change', { files: [file] });
+              const importButton = screen.getByRole('button', { name: 'Continuer' });
+              await click(importButton);
+              const confirmButton = screen.getByRole('button', { name: 'Finaliser la création/édition' });
+              await click(confirmButton);
+
+              // then
+              assert
+                .dom(
+                  screen.getByText(
+                    'Succès ! 2 sessions dont 1 session sans candidat créé et 3 candidats créés ou édités'
+                  )
+                )
+                .exists();
+            });
+          });
         });
 
         module('when the file is not valid', function () {
