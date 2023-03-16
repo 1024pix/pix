@@ -283,8 +283,10 @@
             "firstname": "Prénom",
             "gender": "Sexe",
             "lastname": "Nom",
+            "man": "Homme",
             "prepayment-code": "Code de prépaiement",
-            "pricing": "Tarification part Pix"
+            "pricing": "Tarification part Pix",
+            "woman": "Femme"
           },
           "list": {
             "title": "Liste des candidats",

@@ -287,8 +287,10 @@
             "firstname": "First name",
             "gender": "Gender",
             "lastname": "Last name",
+            "man": "Man",
             "prepayment-code": "Prepayment code",
-            "pricing": "Pricing of Pix’s share"
+            "pricing": "Pricing of Pix’s share",
+            "woman": "Woman"
           },
           "list": {
             "title": "Candidates' list",

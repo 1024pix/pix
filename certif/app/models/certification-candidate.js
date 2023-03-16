@@ -26,18 +26,16 @@ export default class CertificationCandidate extends Model {
     return this.complementaryCertifications.map(({ label }) => label).join(', ');
   }
 
-  get sexLabel() {
-    if (this.sex === 'M') {
-      return 'Homme';
-    }
-    if (this.sex === 'F') {
-      return 'Femme';
-    }
-    return null;
-  }
+  get genderLabel() {
+    const candidateGender = this.sex;
 
-  get complementaryCertificationsList() {
-    return this.complementaryCertifications.map(({ label }) => label).join(', ');
+    if (candidateGender === 'M') {
+      return this.intl.t('pages.sessions.detail.candidates.informations.man');
+    }
+    if (candidateGender === 'F') {
+      return this.intl.t('pages.sessions.detail.candidates.informations.woman');
+    }
+    return '-';
   }
 
   get billingModeLabel() {
