@@ -1,5 +1,5 @@
 import hapiSentry from 'hapi-sentry';
-import * as packageJSON from '../../../package.json';
+import packageJSON from '../../../package.json' assert { type: 'json' };
 
 import { config } from '../../config.js';
 
