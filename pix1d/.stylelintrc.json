@@ -1,0 +1,16 @@
+{
+  "extends": ["@1024pix/stylelint-config"],
+  "rules": {
+    "declaration-block-no-duplicate-properties": null,
+    "declaration-block-no-redundant-longhand-properties": null,
+    "length-zero-no-unit": null,
+    "no-descending-specificity": null,
+    "number-max-precision": null,
+    "property-no-vendor-prefix": null,
+    "scss/at-import-partial-extension": null,
+    "scss/no-global-function-names": null,
+    "selector-no-vendor-prefix": null,
+    "selector-pseudo-element-colon-notation": null,
+    "shorthand-property-no-redundant-values": null
+  }
+}
