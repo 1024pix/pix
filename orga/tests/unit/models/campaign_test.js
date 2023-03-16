@@ -46,30 +46,6 @@ module('Unit | Model | campaign', function (hooks) {
     });
   });
 
-  module('#readableType', function (hooks) {
-    let store;
-
-    hooks.beforeEach(function () {
-      store = this.owner.lookup('service:store');
-    });
-
-    test('it should compute the readableType property when type is ASSESSMENT', function (assert) {
-      // when
-      const model = store.createRecord('campaign', { type: 'ASSESSMENT' });
-
-      // then
-      assert.strictEqual(model.readableType, 'Évaluation');
-    });
-
-    test('it should compute the readableType property when type is PROFILES_COLLECTION', function (assert) {
-      // when
-      const model = store.createRecord('campaign', { type: 'PROFILES_COLLECTION' });
-
-      // then
-      assert.strictEqual(model.readableType, 'Collecte de profils');
-    });
-  });
-
   module('#hasStages', function () {
     test('returns true while campaign contains stages', function (assert) {
       const store = this.owner.lookup('service:store');
