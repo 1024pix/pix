@@ -362,14 +362,14 @@
             "info-panel": "Si le champ n’est pas renseigné, les résultats ne seront pas transmis par mail pour le/les candidats concernés.<br />Le candidat verra ses résultats affichés directement sur son compte Pix.",
             "prepayment-information": "Information du code de prépaiement",
             "prepayment-tooltip": "(Requis notamment dans le cas d'un achat de crédits combinés)<br />Doit être composé du SIRET de l’organisation et du numéro de facture. Ex : 12345678912345/FACT12345'.<br/>Si vous ne possédez pas de facture, un code de prépaiement doit être établi avec Pix.",
-            "required-fields": "Les champs marqués de <span class='required-field-indicator'>*</span>sont obligatoires.",
+            "required-fields": "Les champs marqués de <span class=\"required-field-indicator\">*</span> sont obligatoires.",
             "notifications": {
               "success-add": "Le candidat a été inscrit avec succès.",
               "success-remove": "Le candidat a été supprimé avec succès.",
               "error-add-duplicate": "Ce candidat est déjà dans la liste, vous ne pouvez pas l'ajouter à nouveau.",
               "error-add-unknown": "Une erreur s'est produite lors de l'ajout du candidat.",
               "error-remove-already-in": "Ce candidat a déjà rejoint la session. Vous ne pouvez pas le supprimer.",
-              "error-remove-unknown": "Une erreur s'est produite lors de la suppression du candidat"
+              "error-remove-unknown": "Une erreur s'est produite lors de la suppression du candidat."
             }
           },
           "detail-modal": {
