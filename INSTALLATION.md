@@ -93,6 +93,7 @@ Si cela pose problème, démarrer sélectivement les applications :
 - App : `npm run start:mon-pix`
 - Certif : `npm run start:certif`
 - Orga : `npm run start:orga`
+- Pix1d : `npm run start:pix1d`
 
 ### Accéder aux applications
 
