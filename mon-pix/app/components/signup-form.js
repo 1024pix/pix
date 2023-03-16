@@ -148,7 +148,7 @@ export default class SignupForm extends Component {
   }
 
   @action
-  signup(event) {
+  async signup(event) {
     event && event.preventDefault();
     this.isLoading = true;
 
@@ -157,23 +157,22 @@ export default class SignupForm extends Component {
     this.args.user.locale = this._getLocaleFromCookieOrDomain();
 
     const campaignCode = get(this.session, 'attemptedTransition.from.parent.params.code');
-    this.args.user
-      .save({ adapterOptions: { campaignCode } })
-      .then(async () => {
-        await this.session.authenticateUser(this.args.user.email, this.args.user.password);
-        this._tokenHasBeenUsed = true;
-        this.args.user.password = null;
-      })
-      .catch((response) => {
-        const error = get(response, 'errors[0]');
-        if (error) {
-          this._manageErrorsApi(error);
-        } else {
-          this.errorMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY);
-        }
-        this._tokenHasBeenUsed = true;
-        this.isLoading = false;
-      });
+
+    try {
+      await this.args.user.save({ adapterOptions: { campaignCode } });
+      await this.session.authenticateUser(this.args.user.email, this.args.user.password);
+      this._tokenHasBeenUsed = true;
+      this.args.user.password = null;
+    } catch (errorResponse) {
+      const error = get(errorResponse, 'errors[0]');
+      if (error) {
+        this._manageErrorsApi(error);
+      } else {
+        this.errorMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY);
+      }
+      this._tokenHasBeenUsed = true;
+      this.isLoading = false;
+    }
   }
 
   _manageErrorsApi(firstError) {
