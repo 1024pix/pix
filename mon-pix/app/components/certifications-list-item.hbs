@@ -30,44 +30,50 @@
       </div>
     </div>
   {{else if this.isRejected}}
-    <CpPanel as |panel|>
-      <panel.toggle @class="certifications-list-item__row-presentation" @role="tab">
 
-        <div class="certifications-list-item__cell">
-          {{dayjs-format @certification.date "DD/MM/YYYY"}}
-        </div>
+    <div class="certifications-list-item__row-presentation">
 
-        <div class="certifications-list-item__cell-double-width">
-          <img
-            src="/images/icons/icon-croix.svg"
-            alt=""
-            role="presentation"
-            data-test-id="certifications-list-item__cross-img"
+      <div class="certifications-list-item__cell">
+        {{dayjs-format @certification.date "DD/MM/YYYY"}}
+      </div>
+
+      <div class="certifications-list-item__cell-double-width">
+        <img
+          src="/images/icons/icon-croix.svg"
+          alt=""
+          role="presentation"
+          data-test-id="certifications-list-item__cross-img"
+        />
+        {{t "pages.certifications-list.statuses.fail.title"}}
+      </div>
+      <div class="certifications-list-item__cell-pix-score"></div>
+
+      <div class="certifications-list-item__cell-certification-center">
+        {{@certification.certificationCenter}}
+      </div>
+
+      <div class="certifications-list-item__cell-detail">
+        {{#if this.shouldDisplayComment}}
+          <PixIconButton
+            @ariaLabel={{t "pages.certifications-list.statuses.fail.action"}}
+            @icon={{if this.isOpen "chevron-up" "chevron-down"}}
+            @triggerAction={{this.toggleCertificationDetails}}
           />
-          {{t "pages.certifications-list.statuses.fail.title"}}
+        {{/if}}
+      </div>
+    </div>
+
+    {{#if this.shouldDisplayComment}}
+      <div
+        aria-hidden="{{not this.isOpen}}"
+        class="certifications-list-item__row-comment {{if this.isOpen ' certifications-list-item__row-comment--open'}}"
+      >
+        <div class="certifications-list-item__row-comment-cell">
+          {{@certification.commentForCandidate}}
         </div>
-        <div class="certifications-list-item__cell-pix-score"></div>
+      </div>
+    {{/if}}
 
-        <div class="certifications-list-item__cell-certification-center">
-          {{@certification.certificationCenter}}
-        </div>
-
-        <div class="certifications-list-item__cell-detail">
-          {{#if this.shouldDisplayComment}}
-            <button type="button">{{t "pages.certifications-list.statuses.fail.action"}}</button>
-          {{/if}}
-        </div>
-      </panel.toggle>
-
-      {{#if this.shouldDisplayComment}}
-        <panel.body @class="certifications-list-item__row-comment" @role="tabpanel">
-          <div class="certifications-list-item__row-comment-cell">
-            {{@certification.commentForCandidate}}
-          </div>
-        </panel.body>
-      {{/if}}
-
-    </CpPanel>
   {{else if this.isValidated}}
     <LinkTo
       @route="authenticated.user-certifications.get"
@@ -102,43 +108,48 @@
       </div>
     </LinkTo>
   {{else if this.isCancelled}}
-    <CpPanel as |panel|>
-      <panel.toggle @class="certifications-list-item__row-presentation" @role="tab">
+    <div class="certifications-list-item__row-presentation">
 
-        <div class="certifications-list-item__cell">
-          {{dayjs-format @certification.date "DD/MM/YYYY"}}
-        </div>
+      <div class="certifications-list-item__cell">
+        {{dayjs-format @certification.date "DD/MM/YYYY"}}
+      </div>
 
-        <div class="certifications-list-item__cell-double-width">
-          <img
-            src="/images/icons/icon-croix.svg"
-            alt=""
-            role="presentation"
-            data-test-id="certifications-list-item__cross-img"
+      <div class="certifications-list-item__cell-double-width">
+        <img
+          src="/images/icons/icon-croix.svg"
+          alt=""
+          role="presentation"
+          data-test-id="certifications-list-item__cross-img"
+        />
+        {{t "pages.certifications-list.statuses.cancelled.title"}}
+      </div>
+      <div class="certifications-list-item__cell-pix-score"></div>
+
+      <div class="certifications-list-item__cell-certification-center">
+        {{@certification.certificationCenter}}
+      </div>
+
+      <div class="certifications-list-item__cell-detail">
+        {{#if this.shouldDisplayComment}}
+          <PixIconButton
+            @ariaLabel={{t "pages.certifications-list.statuses.fail.action"}}
+            @icon={{if this.isOpen "chevron-up" "chevron-down"}}
+            @triggerAction={{this.toggleCertificationDetails}}
           />
-          {{t "pages.certifications-list.statuses.cancelled.title"}}
-        </div>
-        <div class="certifications-list-item__cell-pix-score"></div>
+        {{/if}}
+      </div>
+    </div>
 
-        <div class="certifications-list-item__cell-certification-center">
-          {{@certification.certificationCenter}}
+    {{#if this.shouldDisplayComment}}
+      <div
+        aria-hidden="{{not this.isOpen}}"
+        class="certifications-list-item__row-comment {{if this.isOpen ' certifications-list-item__row-comment--open'}}"
+      >
+        <div class="certifications-list-item__row-comment-cell">
+          {{@certification.commentForCandidate}}
         </div>
-
-        <div class="certifications-list-item__cell-detail">
-          {{#if this.shouldDisplayComment}}
-            <button type="button">{{t "pages.certifications-list.statuses.fail.action"}}</button>
-          {{/if}}
-        </div>
-      </panel.toggle>
-
-      {{#if this.shouldDisplayComment}}
-        <panel.body @class="certifications-list-item__row-comment" @role="tabpanel">
-          <div class="certifications-list-item__row-comment-cell">
-            {{@certification.commentForCandidate}}
-          </div>
-        </panel.body>
-      {{/if}}
-    </CpPanel>
+      </div>
+    {{/if}}
   {{/if}}
 
 </div>
