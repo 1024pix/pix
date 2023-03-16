@@ -1,17 +1,10 @@
-import pdfLib from 'pdf-lib';
+import { readFile } from 'fs/promises';
 
-const {
-  readFile
-} = fs/promises;
+import { PDFDocument, rgb } from 'pdf-lib';
 
-const {
-  PDFDocument,
-  rgb
-} = pdfLib;
-
-import fs/promises from 'fs/promises';
 import pdfLibFontkit from '@pdf-lib/fontkit';
 import * as url from 'url';
+
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 const MAX_SESSION_DETAIL_WIDTH = 155;
