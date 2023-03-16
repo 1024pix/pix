@@ -1,5 +1,5 @@
 import { PositionManager } from '../manager/position-manager.js';
-import pdfLibUtils from 'pdf-lib/cjs/utils';
+import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
 
 class Text {
   constructor({ text, positionX, positionY, fontSize, font, fontColor, maxWidth }) {
