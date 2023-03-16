@@ -1,11 +1,11 @@
 {
   "common": {
     "actions": {
+      "add": "Ajouter",
       "back": "Retour",
       "cancel": "Annuler",
       "close": "Fermer",
       "continue": "Continuer",
-      "add": "Ajouter",
       "delete": "Supprimer",
       "quit": "Quitter",
       "update": "Modifier"
@@ -257,9 +257,36 @@
             }
           },
           "detail-modal": {
+            "title": "Détail du candidat",
             "actions": {
               "close-extra-information": "Fermer la fenêtre de détail du candidat"
             }
+          },
+          "informations": {
+            "additional-certification": "Certification complémentaire",
+            "billing-mode": {
+              "free": "Gratuite",
+              "paid": "Payante",
+              "prepaid": "Prépayée"
+            },
+            "birth-city": "Commune de naissance",
+            "birth-city-insee-code": "Code INSEE de naissance",
+            "birth-city-postcode": "Code postal de naissance",
+            "birth-country": "Pays de naissance",
+            "birth-date": "Date de naissance",
+            "birth-name": "Nom de naissance",
+            "email-convocation": "E-mail de convocation",
+            "email-results": "E-mail du destinataire des résultats (formateur, enseignant...)",
+            "external-id": "Identifiant externe",
+            "extratime": "Temps majoré",
+            "extratime-percentage": "Temps majoré (%)",
+            "firstname": "Prénom",
+            "gender": "Sexe",
+            "lastname": "Nom",
+            "man": "Homme",
+            "prepayment-code": "Code de prépaiement",
+            "pricing": "Tarification part Pix",
+            "woman": "Femme"
           },
           "list": {
             "title": "Liste des candidats",
@@ -279,20 +306,8 @@
                 "label": "Voir le détail"
               }
             },
-            "columns": {
-              "additional-certification": "Certification complémentaire",
-              "birth-city": "Commune de naissance",
-              "birth-country": "Pays de naissance",
-              "birth-date": "Date de naissance",
-              "recipient-email": "E-mail du destinataire des résultats (formateur, enseignant...)",
-              "external-id": "Identifiant externe",
-              "extratime": "Temps majoré",
-              "lastname": "Nom de naissance",
-              "firstname": "Prénom",
-              "pricing": "Tarification part Pix"
-            },
-            "with-details-description": "Liste des candidats inscrits à la session, triée par nom de naissance, avec un lien pour voir les détails du candidat et la possibilité de supprimer un candidat dans la dernière colonne.",
             "empty": "En attente de candidats",
+            "with-details-description": "Liste des candidats inscrits à la session, triée par nom de naissance, avec un lien pour voir les détails du candidat et la possibilité de supprimer un candidat dans la dernière colonne.",
             "without-details-description": "Liste des candidats inscrits à la session, triée par nom de naissance, avec la possibilité de supprimer un candidat dans la dernière colonne."
           },
           "panel-actions": {
@@ -331,10 +346,6 @@
           }
         },
         "page-title": "Détails",
-        "tabs": {
-          "details": "Détails",
-          "candidates": "Candidats"
-        },
         "panel-clea": {
           "title": "Des candidats ont obtenu le certificat CléA numérique",
           "description": "Pour générer les certificats CléA numérique, téléchargez la liste des candidats, complétez-la, enregistrez-la au format .xlsx puis importez-la sur la ",
@@ -366,6 +377,10 @@
             "label": "Mot de passe de session",
             "invigilator": "Surveillant"
           }
+        },
+        "tabs": {
+          "details": "Détails",
+          "candidates": "Candidats"
         }
       },
       "new": {

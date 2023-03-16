@@ -122,7 +122,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
         birthPostalCode: 76260,
         sex: 'F',
         complementaryCertifications: [],
-        billingMode: 'Prépayée',
+        billingMode: 'PREPAID',
         prepaymentCode: 'prep123',
       });
 
@@ -179,7 +179,7 @@ module('Integration | Component | certification-candidate-details-modal', functi
         birthPostalCode: 76260,
         sex: 'F',
         complementaryCertifications: [],
-        billingMode: 'Prépayée',
+        billingMode: 'PREPAID',
         prepaymentCode: 'prep123',
       });
 

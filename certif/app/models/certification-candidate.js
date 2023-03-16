@@ -1,6 +1,8 @@
 import Model, { attr } from '@ember-data/model';
+import { inject as service } from '@ember/service';
 
 export default class CertificationCandidate extends Model {
+  @service intl;
   @attr('string') firstName;
   @attr('string') lastName;
   @attr('date-only') birthdate;
@@ -20,17 +22,30 @@ export default class CertificationCandidate extends Model {
   @attr('string') prepaymentCode;
   @attr complementaryCertifications;
 
-  get sexLabel() {
-    if (this.sex === 'M') {
-      return 'Homme';
-    }
-    if (this.sex === 'F') {
-      return 'Femme';
-    }
-    return null;
-  }
-
   get complementaryCertificationsList() {
     return this.complementaryCertifications.map(({ label }) => label).join(', ');
+  }
+
+  get genderLabel() {
+    const candidateGender = this.sex;
+
+    if (candidateGender === 'M') {
+      return this.intl.t('pages.sessions.detail.candidates.informations.man');
+    }
+    if (candidateGender === 'F') {
+      return this.intl.t('pages.sessions.detail.candidates.informations.woman');
+    }
+    return '-';
+  }
+
+  get billingModeLabel() {
+    const candidateBillingMode = this.billingMode;
+    if (candidateBillingMode) {
+      return this.intl.t(
+        `pages.sessions.detail.candidates.informations.billing-mode.${candidateBillingMode.toLowerCase()}`
+      );
+    }
+
+    return '-';
   }
 }

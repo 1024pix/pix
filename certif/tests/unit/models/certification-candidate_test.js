@@ -1,9 +1,11 @@
 import { module, test } from 'qunit';
 import pick from 'lodash/pick';
 import { setupTest } from 'ember-qunit';
+import setupIntlForModels from '../../helpers/setup-intl';
 
 module('Unit | Model | certification-candidate', function (hooks) {
   setupTest(hooks);
+  setupIntlForModels(hooks);
 
   test('it creates a CertificationCandidate', function (assert) {
     // given
@@ -28,45 +30,45 @@ module('Unit | Model | certification-candidate', function (hooks) {
     assert.deepEqual(_pickModelData(data), _pickModelData(model));
   });
 
-  module('#get sexLabel', () => {
-    test('it get "Homme" for sex code "M"', function (assert) {
+  module('#get genderLabel', () => {
+    test('should display the correct label for man', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const data = {
         sex: 'M',
       };
+
       // when
-      const model = store.createRecord('certification-candidate', data);
+      const { genderLabel } = store.createRecord('certification-candidate', data);
+
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(model.sexLabel, 'Homme');
+      assert.strictEqual(genderLabel, 'Homme');
     });
 
-    test('it get "Femme" for sex code "F"', function (assert) {
+    test('should display the correct label for woman', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const data = {
         sex: 'F',
       };
+
       // when
-      const model = store.createRecord('certification-candidate', data);
+      const { genderLabel } = store.createRecord('certification-candidate', data);
+
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(model.sexLabel, 'Femme');
+      assert.strictEqual(genderLabel, 'Femme');
     });
 
-    test('it get nothing if no sex code', function (assert) {
+    test('should not display any label if there is no gender', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const data = {};
+
       // when
-      const model = store.createRecord('certification-candidate', data);
+      const { genderLabel } = store.createRecord('certification-candidate', data);
+
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(model.sexLabel, null);
+      assert.strictEqual(genderLabel, '-');
     });
   });
 
@@ -93,6 +95,34 @@ module('Unit | Model | certification-candidate', function (hooks) {
 
       // then
       assert.strictEqual(model.complementaryCertificationsList, 'Pix+Edu, Pix+Droit');
+    });
+  });
+
+  module('#get billingModeLabel', () => {
+    test('should display the billing mode label', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const data = {
+        billingMode: 'PREPAID',
+      };
+      // when
+      const { billingModeLabel } = store.createRecord('certification-candidate', data);
+
+      // then
+      assert.strictEqual(billingModeLabel, 'Prépayée');
+    });
+
+    test('should not display any label if there is no billing mode', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const data = {
+        billingMode: null,
+      };
+      // when
+      const { billingModeLabel } = store.createRecord('certification-candidate', data);
+
+      // then
+      assert.strictEqual(billingModeLabel, '-');
     });
   });
 
