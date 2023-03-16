@@ -1,4 +1,7 @@
-import { get } from 'lodash';
+import lodash from 'lodash';
+
+const { get } = lodash;
+
 import { AuthenticationMethod } from '../../domain/models/AuthenticationMethod.js';
 import { ForbiddenAccess, UserNotFoundError } from '../../domain/errors.js';
 import { logger } from '../../../lib/infrastructure/logger.js';

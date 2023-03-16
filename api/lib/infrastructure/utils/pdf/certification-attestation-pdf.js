@@ -1,5 +1,15 @@
-import { PDFDocument, rgb } from 'pdf-lib';
-import { readFile } from 'fs/promises';
+import pdfLib from 'pdf-lib';
+
+const {
+  readFile
+} = fs/promises;
+
+const {
+  PDFDocument,
+  rgb
+} = pdfLib;
+
+import fs/promises from 'fs/promises';
 import pdfLibFontkit from '@pdf-lib/fontkit';
 import moment from 'moment';
 import _ from 'lodash';

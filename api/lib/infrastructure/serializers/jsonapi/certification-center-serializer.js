@@ -1,4 +1,6 @@
-import { Serializer } from 'jsonapi-serializer';
+import jsonapiSerializer from 'jsonapi-serializer';
+
+const { Serializer } = jsonapiSerializer;
 
 import { CertificationCenter } from '../../../domain/models/CertificationCenter.js';
 

@@ -1,5 +1,7 @@
 import _ from 'lodash';
-import { PassThrough } from 'stream';
+import stream from 'stream';
+
+const { PassThrough } = stream;
 
 import { MissingQueryParamError } from '../http-errors.js';
 import { usecases } from '../../domain/usecases/index.js';

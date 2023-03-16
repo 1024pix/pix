@@ -1,6 +1,11 @@
 import { config } from '../../config.js';
-import { create, fragment } from 'xmlbuilder2';
-import { v4 as uuidv4 } from 'uuid';
+import xmlbuilder2 from 'xmlbuilder2';
+
+const { v4 } = uuid;
+
+const { create, fragment } = xmlbuilder2;
+
+import uuid from 'uuid';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc.js';
 import timezone from 'dayjs/plugin/timezone.js';

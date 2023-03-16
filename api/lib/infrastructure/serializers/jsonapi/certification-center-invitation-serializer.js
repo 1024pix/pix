@@ -1,4 +1,6 @@
-import { Serializer, Deserializer } from 'jsonapi-serializer';
+import jsonapiSerializer from 'jsonapi-serializer';
+
+const { Serializer, Deserializer } = jsonapiSerializer;
 
 const serialize = function (invitations) {
   return new Serializer('certification-center-invitations', {

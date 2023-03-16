@@ -1,4 +1,6 @@
-import { orderBy, range, sortBy, sortedUniqBy, sumBy } from 'lodash';
+import lodash from 'lodash';
+
+const { orderBy, range, sortBy, sortedUniqBy, sumBy } = lodash;
 
 import { config } from '../../../config.js';
 

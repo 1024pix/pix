@@ -4,7 +4,10 @@ import { EventDispatcherLogger } from '../../infrastructure/events/EventDispatch
 import { monitoringTools as MonitoringTools } from '../../infrastructure/monitoring-tools.js';
 import { config } from '../../config.js';
 import _ from 'lodash';
-import { performance } from 'perf_hooks';
+import perf_hooks from 'perf_hooks';
+
+const { performance } = perf_hooks;
+
 import { eventBusBuilder } from '../../infrastructure/events/EventBusBuilder.js';
 
 import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';

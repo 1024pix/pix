@@ -1,5 +1,7 @@
 import axios from 'axios';
-import { performance } from 'perf_hooks';
+import perf_hooks from 'perf_hooks';
+
+const { performance } = perf_hooks;
 
 import { monitoringTools } from '../monitoring-tools.js';
 

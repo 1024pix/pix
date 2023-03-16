@@ -1,4 +1,7 @@
-import { minBy } from 'lodash';
+import lodash from 'lodash';
+
+const { minBy } = lodash;
+
 import { sources } from '../models/ComplementaryCertificationCourseResult.js';
 
 const { EXTERNAL, PIX } = sources;

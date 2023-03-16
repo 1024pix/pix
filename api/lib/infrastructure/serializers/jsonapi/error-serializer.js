@@ -1,4 +1,6 @@
-import { Error as JSONAPIError } from 'jsonapi-serializer';
+import jsonapiSerializer from 'jsonapi-serializer';
+
+const { Error } = jsonapiSerializer;
 
 const serialize = function (infrastructureError) {
   return JSONAPIError({
