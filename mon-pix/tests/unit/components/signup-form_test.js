@@ -21,6 +21,7 @@ module('Unit | Component | signup-form', function (hooks) {
           },
         },
       };
+      authenticateUser = sinon.stub().resolves();
     }
     class CurrentDomainStub extends Service {
       getExtension = sinon.stub().returns('fr');
@@ -40,7 +41,7 @@ module('Unit | Component | signup-form', function (hooks) {
   });
 
   module('#signup', function () {
-    test('should save user without spaces', function (assert) {
+    test('should save user with spaces', function (assert) {
       // given
       const userWithSpaces = EmberObject.create({
         firstName: '  Chris  ',
@@ -130,23 +131,20 @@ module('Unit | Component | signup-form', function (hooks) {
 
     test('should authenticate user after sign up', async function (assert) {
       const userWithSpaces = EmberObject.create({
-        firstName: 'Chris',
-        lastName: 'MylastName',
-        email: 'user@example.net',
+        firstName: '  Chris  ',
+        lastName: '  MylastName  ',
+        email: '    user@example.net  ',
         password: 'Pix12345',
         save: sinon.stub().resolves(),
       });
       component.args.user = userWithSpaces;
 
-      const authenticateStub = sinon.stub().resolves();
-      const sessionStub = { authenticateUser: authenticateStub };
-      component.session = sessionStub;
-
       // when
       await component.signup();
 
       // then
-      sinon.assert.calledWith(authenticateStub, userWithSpaces.email, userWithSpaces.password);
+      sinon.assert.calledOnce(component.args.user.save);
+      sinon.assert.calledWith(component.session.authenticateUser, 'user@example.net', 'Pix12345');
       assert.ok(true);
     });
 
