@@ -6,7 +6,8 @@ import { logger } from '../lib/infrastructure/logger.js';
 import { monitoringTools } from '../lib/infrastructure/monitoring-tools.js';
 import { config } from '../lib/config.js';
 import { performance } from 'perf_hooks';
-import knex from 'knex';
+import Knex from 'knex';
+const { QueryBuilder } = Knex;
 /*
 By default, node-postgres casts a DATE value (PostgreSQL type) as a Date Object (JS type).
 But, when dealing with dates with no time (such as birthdate for example), we want to
@@ -28,12 +29,9 @@ types.setTypeParser(types.builtins.INT8, (value) => parseInt(value));
 
 import { environments as knexConfigs } from './knexfile.js';
 
-import Knex from 'knex';
-import QueryBuilder from 'knex/lib/query/querybuilder';
-
 try {
   Knex.QueryBuilder.extend('whereInArray', function (column, values) {
-    return this.where(column, knex.raw('any(?)', [values]));
+    return this.where(column, Knex.raw('any(?)', [values]));
   });
 } catch (e) {
   if (e.message !== "Can't extend QueryBuilder with existing method ('whereInArray').") {
@@ -44,7 +42,7 @@ try {
 
 const { logging, environment } = config;
 const knexConfig = knexConfigs[environment];
-const configuredKnex = knex(knexConfig);
+const configuredKnex = Knex(knexConfig);
 
 const originalToSQL = QueryBuilder.prototype.toSQL;
 QueryBuilder.prototype.toSQL = function () {
