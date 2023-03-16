@@ -1,6 +1,6 @@
-import * as PoleEmploiOidcAuthenticationService from '../services/authentication/pole-emploi-oidc-authentication-service.js';
-import * as CnavOidcAuthenticationService from '../services/authentication/cnav-oidc-authentication-service.js';
-import * as FwbOidcAuthenticationService from '../services/authentication/fwb-oidc-authentication-service.js';
+import { PoleEmploiOidcAuthenticationService } from '../services/authentication/pole-emploi-oidc-authentication-service.js';
+import { CnavOidcAuthenticationService } from '../services/authentication/cnav-oidc-authentication-service.js';
+import { FwbOidcAuthenticationService } from '../services/authentication/fwb-oidc-authentication-service.js';
 
 const DEFAULT_PROPERTY_PATHS_TO_PICK = ['clientId', 'authenticationUrl', 'userInfoUrl', 'tokenUrl', 'clientSecret'];
 
