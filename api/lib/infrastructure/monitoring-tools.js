@@ -1,8 +1,8 @@
-import hapi from '@hapi/hapi';
+import Request from '@hapi/hapi/lib/request.js';
 
-const { Request } = hapi;
 import { config } from '../config.js';
 import lodash from 'lodash';
+
 const { get, set, update, omit } = lodash;
 import { logger } from '../infrastructure/logger.js';
 import * as requestResponseUtils from '../infrastructure/utils/request-response-utils.js';
