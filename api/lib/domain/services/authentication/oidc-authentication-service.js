@@ -1,8 +1,6 @@
 import jsonwebtoken from 'jsonwebtoken';
 import querystring from 'querystring';
-import uuid from 'uuid';
-
-const { v4 } = uuid;
+import { v4 as uuidv4 } from 'uuid';
 
 import {
   InvalidExternalAPIResponseError,

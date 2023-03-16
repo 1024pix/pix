@@ -2,9 +2,7 @@ import { config } from '../../../config.js';
 import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';
 
 const sessionMassImportTemporaryStorage = temporaryStorage.withPrefix('sessions-mass-import:');
-import uuid from 'uuid';
-
-const { v4 } = uuid;
+import { v4 as uuidv4 } from 'uuid';
 
 const EXPIRATION_DELAY_SECONDS = config.temporarySessionsStorageForMassImport.expirationDelaySeconds;
 
