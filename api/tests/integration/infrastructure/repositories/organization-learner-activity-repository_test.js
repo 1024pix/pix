@@ -63,6 +63,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-activ
       expect(organizationLearnerParticipation.sharedAt).to.deep.equal(sharedAt);
       expect(organizationLearnerParticipation.campaignName).to.equal(campaignName);
       expect(organizationLearnerParticipation.campaignType).to.equal(campaignType);
+      expect(organizationLearnerParticipation.campaignId).to.equal(campaignId);
     });
 
     it('Should not return an activity with participations of another organization learner', async function () {

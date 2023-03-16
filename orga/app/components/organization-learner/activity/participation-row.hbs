@@ -1,0 +1,23 @@
+<tr
+  aria-label={{t "pages.organization-learner.activity.participation-list.table.row-title"}}
+  {{on "click" this.goToParticipationDetail}}
+  class="tr--clickable"
+>
+  <td class="ellipsis">
+    <LinkTo @route={{this.routeName}} @models={{array @participation.campaignId @participation.id}}>
+      {{@participation.campaignName}}
+    </LinkTo>
+  </td>
+  <td class="ellipsis">
+    <OrganizationLearner::Activity::CampaignType @campaignType={{@participation.campaignType}} />
+  </td>
+  <td class="table__column--left">
+    <Ui::Date @date="{{@participation.createdAt}}" />
+  </td>
+  <td class="table__column--left">
+    <Ui::Date @date="{{@participation.sharedAt}}" />
+  </td>
+  <td class="table__column--left">
+    <Ui::ParticipationStatus @status={{@participation.status}} @campaignType={{@participation.campaignType}} />
+  </td>
+</tr>

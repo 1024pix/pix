@@ -6,6 +6,7 @@ export default class OrganizationLearnerParticipation extends Model {
   @attr('date') createdAt;
   @attr('date') sharedAt;
   @attr('string') status;
+  @attr('number') campaignId;
 
   @belongsTo('OrganizationLearnerActivity') organizationLearnerActivity;
 }
