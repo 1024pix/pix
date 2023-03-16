@@ -1,4 +1,6 @@
-import Request from '@hapi/hapi/lib/request';
+import hapi from '@hapi/hapi';
+
+const { Request } = hapi;
 import { config } from '../config.js';
 import lodash from 'lodash';
 const { get, set, update, omit } = lodash;
