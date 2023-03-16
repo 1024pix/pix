@@ -1,5 +1,32 @@
 # Pix Changelog
 
+## v3.335.0 (16/03/2023)
+
+
+### :rocket: Amélioration
+- [#5809](https://github.com/1024pix/pix/pull/5809) [FEATURE] Rendre les participations cliquables sur la page d'un prescrit pour accéder à leurs détails. (PIX-7297)
+- [#5817](https://github.com/1024pix/pix/pull/5817) [FEATURE] Traduire la page de modification de session (PIX-6674).
+- [#5819](https://github.com/1024pix/pix/pull/5819) [FEATURE] Afficher un message de succes recapitulatif apres l'import en masse (PIX-7365)
+- [#5803](https://github.com/1024pix/pix/pull/5803) [FEATURE] Modale détail du candidat en anglais (PIX-6671)
+- [#5816](https://github.com/1024pix/pix/pull/5816) [FEATURE] Traduction de la page Equipe de Pix Certif (PIX-6682).
+- [#5811](https://github.com/1024pix/pix/pull/5811) [FEATURE] Ajoute un lien vers les détails d'un participant sur les détails d'une participation (PIX-7295)
+- [#5802](https://github.com/1024pix/pix/pull/5802) [FEATURE] Déplacer le tag certifiable à côté du nom du prescrit sur la page d'une participation (PIX-7421)
+- [#5785](https://github.com/1024pix/pix/pull/5785) [FEATURE] Gestion des erreurs bloquantes sur l'import des sessions en masse (PIX-6963).
+- [#5807](https://github.com/1024pix/pix/pull/5807) [FEATURE] Éviter que le footer soit positionné en dehors de l'écran dans les pages avec peu de contenu (PIX-7437)
+- [#5805](https://github.com/1024pix/pix/pull/5805) [FEATURE] Conditionner l'affichage des déclencheurs de contenu formatif (PIX-7258)
+- [#5799](https://github.com/1024pix/pix/pull/5799) [FEATURE] Améliorer le disclosure du block de signalisation de problème sur Pix-App (PIX-6862)
+- [#5794](https://github.com/1024pix/pix/pull/5794) [FEATURE] Récupérer les informations de référentiel des déclencheurs de contenu formatif (PIX-7353)
+- [#5798](https://github.com/1024pix/pix/pull/5798) [FEATURE] Mettre le nom du prescrit comme titre sur les détails d'une participation (PIX-7296)
+
+### :building_construction: Tech
+- [#5407](https://github.com/1024pix/pix/pull/5407) [TECH] Script de migration automatique des critères de type "SkillSet" des RTs vers des critères "CappedTubes" (PIX-5698)
+
+### :bug: Correction
+- [#5810](https://github.com/1024pix/pix/pull/5810) [BUGFIX] Ne pas afficher "Classe/Groupe" si cette info n'est pas présente pour le sco & sup. (PIX-7439)
+
+### :coffee: Autre
+- [#5806](https://github.com/1024pix/pix/pull/5806) [CLEANUP] Nettoyage des imports de libs qui viennent avec pix-ui (PIX-7447)
+
 ## v3.334.0 (13/03/2023)
 
 
