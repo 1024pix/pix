@@ -1,4 +1,6 @@
-import { Serializer } from 'jsonapi-serializer';
+import jsonapiSerializer from 'jsonapi-serializer';
+
+const { Serializer } = jsonapiSerializer;
 
 const serialize = function ({ campaignParticipantsActivities, pagination }) {
   return new Serializer('campaign-participant-activity', {

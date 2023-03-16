@@ -1,4 +1,7 @@
-import { sortBy } from 'lodash';
+import lodash from 'lodash';
+
+const { sortBy } = lodash;
+
 import * as tubeBuilder from './tube-builder.js';
 import { ThematicText } from '../drawer/ThematicText.js';
 import { PositionManager } from '../manager/position-manager.js';

@@ -1,4 +1,6 @@
-import { isNil } from 'lodash';
+import lodash from 'lodash';
+
+const { isNil } = lodash;
 
 import {
   AlreadyRegisteredEmailError,

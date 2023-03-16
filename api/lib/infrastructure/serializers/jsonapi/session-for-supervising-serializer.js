@@ -1,5 +1,7 @@
 import _ from 'lodash';
-import { Serializer } from 'jsonapi-serializer';
+import jsonapiSerializer from 'jsonapi-serializer';
+
+const { Serializer } = jsonapiSerializer;
 
 const serialize = function (sessions) {
   return new Serializer('sessionForSupervising', {

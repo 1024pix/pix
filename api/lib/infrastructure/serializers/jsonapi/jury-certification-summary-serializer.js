@@ -1,5 +1,10 @@
-import { omit, get } from 'lodash';
-import { Serializer } from 'jsonapi-serializer';
+import lodash from 'lodash';
+
+const { Serializer } = jsonapiSerializer;
+
+const { omit, get } = lodash;
+
+import jsonapiSerializer from 'jsonapi-serializer';
 
 const serialize = function (juryCertificationSummary, meta) {
   return new Serializer('jury-certification-summary', {

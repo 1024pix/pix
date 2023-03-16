@@ -1,5 +1,8 @@
 import Joi from 'joi';
-import { first } from 'lodash';
+import lodash from 'lodash';
+
+const { first } = lodash;
+
 import { EntityValidationError } from '../errors.js';
 import { CampaignTypes } from '../models/CampaignTypes.js';
 

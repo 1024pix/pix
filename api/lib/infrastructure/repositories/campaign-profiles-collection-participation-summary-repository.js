@@ -1,4 +1,7 @@
-import { chunk } from 'lodash';
+import lodash from 'lodash';
+
+const { chunk } = lodash;
+
 import bluebird from 'bluebird';
 import { knex } from '../../../db/knex-database-connection.js';
 import * as placementProfileService from '../../domain/services/placement-profile-service.js';

@@ -1,5 +1,8 @@
 import moment from 'moment';
-import { isEmpty, isNil, each } from 'lodash';
+import lodash from 'lodash';
+
+const { isEmpty, isNil, each } = lodash;
+
 import { SiecleXmlImportError } from '../../../domain/errors.js';
 
 const ERRORS = {

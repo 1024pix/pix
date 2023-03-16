@@ -1,4 +1,7 @@
-import { Serializer, Deserializer } from 'jsonapi-serializer';
+import jsonapiSerializer from 'jsonapi-serializer';
+
+const { Serializer, Deserializer } = jsonapiSerializer;
+
 import { CertificationCandidate } from '../../../domain/models/CertificationCandidate.js';
 import { WrongDateFormatError } from '../../../domain/errors.js';
 import { isValidDate } from '../../utils/date-utils.js';
