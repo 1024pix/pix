@@ -1,5 +1,7 @@
 import { CampaignTypes } from '../models/CampaignTypes.js';
-import { countBy } from 'lodash';
+import lodash from 'lodash';
+
+const { countBy } = lodash;
 
 class OrganizationLearnerActivity {
   constructor({ organizationLearnerId, participations }) {

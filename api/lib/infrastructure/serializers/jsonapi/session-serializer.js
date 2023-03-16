@@ -1,4 +1,7 @@
-import { Serializer } from 'jsonapi-serializer';
+import jsonapiSerializer from 'jsonapi-serializer';
+
+const { Serializer } = jsonapiSerializer;
+
 import _ from 'lodash';
 
 import { Session } from '../../../domain/models/Session.js';

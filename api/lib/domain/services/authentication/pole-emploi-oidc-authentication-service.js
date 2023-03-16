@@ -3,7 +3,9 @@ import * as OidcAuthenticationService from './oidc-authentication-service.js';
 import { DomainTransaction } from '../../../infrastructure/DomainTransaction.js';
 import { AuthenticationMethod } from '../../models/AuthenticationMethod.js';
 import dayjs from 'dayjs';
-import { v4 as uuidv4 } from 'uuid';
+import uuid from 'uuid';
+
+const { v4 } = uuid;
 import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';
 const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 

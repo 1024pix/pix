@@ -5,7 +5,10 @@ const { get } = _;
 import { logger } from '../lib/infrastructure/logger.js';
 import { monitoringTools } from '../lib/infrastructure/monitoring-tools.js';
 import { config } from '../lib/config.js';
-import { performance } from 'perf_hooks';
+import perf_hooks from 'perf_hooks';
+
+const { performance } = perf_hooks;
+
 import Knex from 'knex';
 const { QueryBuilder } = Knex;
 /*

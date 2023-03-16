@@ -5,12 +5,17 @@ import fs from 'fs';
 const fsPromises = fs.promises;
 import Path from 'path';
 import os from 'os';
-import { Buffer } from 'buffer';
+import buffer from 'buffer';
+
+const { xmlEncoding } = xmlBufferTostring;
+
+const { Buffer } = buffer;
+
 import StreamZip from 'node-stream-zip';
 import FileType from 'file-type';
 import iconv from 'iconv-lite';
 import sax from 'sax';
-import { xmlEncoding } from 'xml-buffer-tostring';
+import xmlBufferTostring from 'xml-buffer-tostring';
 
 /*
   https://github.com/1024pix/pix/pull/3470#discussion_r707319744

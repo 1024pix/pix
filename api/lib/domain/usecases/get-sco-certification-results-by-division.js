@@ -1,4 +1,7 @@
-import { isEmpty } from 'lodash';
+import lodash from 'lodash';
+
+const { isEmpty } = lodash;
+
 import { NoCertificationResultForDivision } from '../errors.js';
 
 const getScoCertificationResultsByDivision = async function ({

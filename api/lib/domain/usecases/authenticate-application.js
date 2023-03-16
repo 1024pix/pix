@@ -4,7 +4,10 @@ import {
   ApplicationWithInvalidClientSecretError,
 } from '../../domain/errors.js';
 
-import { find } from 'lodash';
+import lodash from 'lodash';
+
+const { find } = lodash;
+
 import { config } from '../../config.js';
 const { apimRegisterApplicationsCredentials, jwtConfig } = config;
 

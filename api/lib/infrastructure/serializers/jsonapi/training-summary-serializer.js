@@ -1,4 +1,6 @@
-import { Serializer } from 'jsonapi-serializer';
+import jsonapiSerializer from 'jsonapi-serializer';
+
+const { Serializer } = jsonapiSerializer;
 
 const serialize = function (trainingSummaries, meta) {
   return new Serializer('training-summaries', {

@@ -1,5 +1,8 @@
 import { normalizeAndSortChars } from '../../infrastructure/utils/string-utils.js';
-import { isEmpty } from 'lodash';
+import lodash from 'lodash';
+
+const { isEmpty } = lodash;
+
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../constants/certification-candidates-errors.js';
 
 const CpfValidationStatus = {
