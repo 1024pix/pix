@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { config } from '../../../config.js';
-import * as OidcAuthenticationService from './oidc-authentication-service.js';
+import { OidcAuthenticationService } from './oidc-authentication-service.js';
 import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';
 
 const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
