@@ -6,6 +6,4 @@ class SendSharedParticipationResultsToPoleEmploiJob extends JobPgBoss {
   }
 }
 
-SendSharedParticipationResultsToPoleEmploiJob.name = 'SendSharedParticipationResultsToPoleEmploi';
-
 export { SendSharedParticipationResultsToPoleEmploiJob as SendSharedParticipationResultsToPoleEmploiJob };
