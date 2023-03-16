@@ -19,7 +19,7 @@ function _buildDependencies(domainTransaction) {
   };
 }
 
-export { build as dependenciesBuilder };
+export { build };
 
 class EventErrorHandler {
   constructor(handler, logger) {
