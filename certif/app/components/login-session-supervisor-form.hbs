@@ -2,11 +2,11 @@
 
   <img src="/illu-espace-surveillant.svg" alt="" role="presentation" />
 
-  <h1 class="login-session-supervisor-form__title">Espace Surveillant</h1>
+  <h1 class="login-session-supervisor-form__title">{{t "pages.session-supervising.login.form.title"}}</h1>
 
-  <h2 class="login-session-supervisor-form__subtitle">Surveiller une session</h2>
+  <h2 class="login-session-supervisor-form__subtitle">{{t "pages.session-supervising.login.form.sub-title"}}</h2>
 
-  <p class="login-session-supervisor-form__required-fields-notice">Tous les champs sont obligatoires.</p>
+  <p class="login-session-supervisor-form__required-fields-notice">{{t "common.form.mandatory-all-fields"}}</p>
 
   {{#if this.errorMessage}}
     <p
@@ -18,23 +18,29 @@
   {{/if}}
 
   <form class="login-session-supervisor-form__form" {{on "submit" this.superviseSession}}>
-    <PixInput @id="session-id" @label="Numéro de la session" type="number" {{on "input" this.setSessionId}} />
+    <PixInput
+      @id="session-id"
+      @label={{t "pages.session-supervising.login.form.session-number"}}
+      type="number"
+      {{on "input" this.setSessionId}}
+    />
 
     <PixInputPassword
       @id="session-password"
-      @label="Mot de passe de la session"
-      @information="Exemple : C-12345"
+      @label={{t "pages.session-supervising.login.form.session-password.label"}}
+      @ariaLabel={{t "pages.session-supervising.login.form.session-password.aria-label"}}
+      @information={{t "pages.session-supervising.login.form.example"}}
       @prefix="C-"
       placeholder="XXXXXX"
       {{on "input" this.setSupervisorPassword}}
     />
 
     <PixButton @type="submit">
-      Surveiller la session
+      {{t "pages.session-supervising.login.form.actions.invigilate"}}
     </PixButton>
   </form>
 
   <p class="login-session-supervisor-form__description">
-    Le mot de passe de la session à surveiller vous a été communiqué par un administrateur Pix Certif.
+    {{t "pages.session-supervising.login.form.description"}}
   </p>
 </div>
