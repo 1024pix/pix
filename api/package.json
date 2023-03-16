@@ -89,6 +89,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.18.2",
+    "@babel/plugin-syntax-import-assertions": "^7.20.0",
     "@ls-lint/ls-lint": "^1.11.2",
     "chai": "^4.3.6",
     "chai-as-promised": "^7.1.1",
