@@ -1,5 +1,5 @@
-import _ from 'lodash';
-import { pipe } from 'lodash/fp';
+import _, { fp } from 'lodash';
+const { pipe } = fp;
 import {
   MAX_LEVEL_TO_BE_AN_EASY_TUBE,
   MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL,

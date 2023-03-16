@@ -10,7 +10,7 @@ import * as certificationCenterInvitationSerializer from '../../infrastructure/s
 import * as sessionSerializer from '../../infrastructure/serializers/jsonapi/session-serializer.js';
 
 import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
-import map from 'lodash/map';
+import { map } from 'lodash';
 import { csvHelpers } from '../../../scripts/helpers/csvHelpers.js';
 import * as csvSerializer from '../../infrastructure/serializers/csv/csv-serializer.js';
 import { getHeaders } from '../../infrastructure/files/sessions-import.js';
