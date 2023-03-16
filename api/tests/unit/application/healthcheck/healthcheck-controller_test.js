@@ -7,9 +7,10 @@ const healthcheckController = require('../../../../lib/application/healthcheck/h
 describe('Unit | Controller | healthcheckController', function () {
   describe('#get', function () {
     it('should reply with the API description', async function () {
-      // when
+      // given
       const mockedRequest = { i18n: { __: sinon.stub() } };
 
+      // when
       const response = await healthcheckController.get(mockedRequest, hFake);
 
       // then
