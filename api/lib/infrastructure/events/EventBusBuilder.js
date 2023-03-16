@@ -1,5 +1,5 @@
 import { EventBus } from './EventBus.js';
-import { dependenciesBuilder } from './EventHandlerDependenciesBuilder.js';
+import * as dependenciesBuilder from './EventHandlerDependenciesBuilder.js';
 import { LogEvent } from './subscribers/LogEvent.js';
 import { ScheduleParticipationResultCalculationJob } from './subscribers/ScheduleParticipationResultCalculationJob.js';
 import { ScheduleSendSharedParticipationResultsToPoleEmploiJob } from './subscribers/ScheduleSendSharedParticipationResultsToPoleEmploiJob.js';
@@ -20,4 +20,4 @@ function build() {
   return eventBus;
 }
 
-export { build as eventBusBuilder };
+export { build };
