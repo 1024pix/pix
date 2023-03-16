@@ -11,7 +11,9 @@ import * as translations from '../../translations/index.js';
 const NOT_VALID_RELATIONSHIPS = ['externalId', 'participantExternalId'];
 
 function translateMessage(locale, key) {
+  // eslint-disable-next-line import/namespace
   if (translations[locale]['entity-validation-errors'][key]) {
+    // eslint-disable-next-line import/namespace
     return translations[locale]['entity-validation-errors'][key];
   }
   return key;
