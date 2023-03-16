@@ -1,9 +1,11 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import { inject as service } from '@ember/service';
 import get from 'lodash/get';
 
 export default class LoginSessionSupervisorForm extends Component {
+  @service intl;
   @tracked errorMessage = null;
   sessionId;
   supervisorPassword;
@@ -23,7 +25,7 @@ export default class LoginSessionSupervisorForm extends Component {
     event.preventDefault();
 
     if (!this.sessionId || !this.supervisorPassword) {
-      this._displayError('Les champs "Numéro de la session" et "Mot de passe de session" sont obligatoires.');
+      this._displayError(this.intl.t('pages.session-supervising.login.form.errors.mandatory-fields'));
       return;
     }
 
@@ -33,8 +35,13 @@ export default class LoginSessionSupervisorForm extends Component {
         supervisorPassword: this.supervisorPassword,
       });
     } catch (error) {
-      const errorMessage = get(error, 'errors[0].detail');
-      this._displayError(errorMessage);
+      let errorMessage = get(error, 'errors[0].detail');
+      const errorCode = get(error, 'errors[0].code');
+      if (errorCode === 'INCORRECT_DATA') {
+        errorMessage = this.intl.t('pages.session-supervising.login.form.errors.incorrect-data');
+      }
+
+      return this._displayError(errorMessage);
     }
   }
 

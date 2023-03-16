@@ -3,11 +3,13 @@ import { setupRenderingTest } from 'ember-qunit';
 import { click, fillIn } from '@ember/test-helpers';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
+import setupIntl from '../../helpers/setup-intl';
 
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | login-session-supervisor-form', function (hooks) {
   setupRenderingTest(hooks);
+  setupIntl(hooks);
 
   test('it should render supervisor login form', async function (assert) {
     // when
