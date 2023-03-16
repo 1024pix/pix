@@ -5,7 +5,7 @@ import { NotFoundError } from '../../domain/errors.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 import { UserRecommendedTraining } from '../../domain/read-models/UserRecommendedTraining.js';
 import { fetchPage } from '../utils/knex-utils.js';
-import pick from 'lodash/pick';
+import { pick } from 'lodash';
 import * as trainingTriggerRepository from './training-trigger-repository.js';
 import { TrainingForAdmin } from '../../domain/read-models/TrainingForAdmin.js';
 const TABLE_NAME = 'trainings';

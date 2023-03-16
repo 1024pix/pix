@@ -25,7 +25,7 @@ import { ForbiddenAccess, NotFoundError } from '../..//lib/domain/errors.js';
 import { PIX_ADMIN } from '../..//lib/domain/constants.js';
 import { Error as JSONAPIError } from 'jsonapi-serializer';
 
-import has from 'lodash/has';
+import { has } from 'lodash';
 
 function _replyForbiddenError(h) {
   const errorHttpStatusCode = 403;

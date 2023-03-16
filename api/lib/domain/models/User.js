@@ -1,5 +1,5 @@
-import toLower from 'lodash/toLower';
-import isNil from 'lodash/isNil';
+import { toLower, isNil } from 'lodash';
+
 import dayjs from 'dayjs';
 
 import { config } from '../../config.js';
