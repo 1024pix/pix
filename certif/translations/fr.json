@@ -450,7 +450,6 @@
       "header": {
         "session-id": "Session {sessionId}",
         "center-name": "Site",
-        "center-name-full": "Nom du site",
         "room": "Salle",
         "supervisor": "Surveillant",
         "multiple-supervisor": "Surveillant(s)",

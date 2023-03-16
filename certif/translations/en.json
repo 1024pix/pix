@@ -456,10 +456,9 @@
       "header": {
         "session-id": "Session {sessionId}",
         "center-name": "Center name",
-        "center-name-full": "Center name",
         "room": "Room",
         "supervisor": "Supervisor",
-        "multiple-supervisor": "Supervisor(s)",
+        "multiple-supervisor": "Invigilator(s)",
         "access-code": "Access code (candidates)"
       },
       "candidate-list": {
