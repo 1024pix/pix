@@ -46,9 +46,6 @@ process.on('SIGINT', () => {
 (async () => {
   try {
     await start();
-    if (process.env.START_JOB_IN_WEB_PROCESS) {
-      import './worker.js';
-    }
   } catch (error) {
     logger.error(error);
     throw error;
