@@ -1,5 +1,5 @@
-import _ from 'lodash';
-import { pipe } from 'lodash/fp';
+import _, { fp } from 'lodash';
+const { pipe } = fp;
 import randomString from 'randomstring';
 import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
 

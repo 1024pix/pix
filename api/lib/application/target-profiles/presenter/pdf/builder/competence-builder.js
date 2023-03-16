@@ -1,4 +1,4 @@
-import sortBy from 'lodash/sortBy';
+import { sortBy } from 'lodash';
 import * as thematicBuilder from './thematic-builder.js';
 import { CompetenceText } from '../drawer/CompetenceText.js';
 import { PositionManager } from '../manager/position-manager.js';

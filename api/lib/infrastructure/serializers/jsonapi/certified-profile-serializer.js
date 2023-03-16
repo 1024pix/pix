@@ -1,5 +1,5 @@
 import { Serializer } from 'jsonapi-serializer';
-import kebabCase from 'lodash/kebabCase';
+import { kebabCase } from 'lodash';
 
 const typeForAttribute = (attribute) => {
   return kebabCase(attribute);

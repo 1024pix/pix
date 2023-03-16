@@ -1,8 +1,9 @@
 import Joi from 'joi';
-import { first } from 'lodash';
+import lodash from 'lodash';
 import { EntityValidationError } from '../errors.js';
 import { CampaignTypes } from '../models/CampaignTypes.js';
 
+const { first } = lodash;
 const schema = Joi.object({
   type: Joi.string()
     .valid(CampaignTypes.ASSESSMENT, CampaignTypes.PROFILES_COLLECTION)

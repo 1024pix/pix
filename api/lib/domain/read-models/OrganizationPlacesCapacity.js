@@ -1,4 +1,4 @@
-import sumBy from 'lodash/sumBy';
+import { sumBy } from 'lodash';
 import * as categories from '../constants/organization-places-categories.js';
 
 const categoriesByCode = {

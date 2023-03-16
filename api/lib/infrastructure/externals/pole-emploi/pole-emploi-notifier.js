@@ -1,4 +1,4 @@
-import get from 'lodash/get';
+import { get } from 'lodash';
 import moment from 'moment';
 import querystring from 'querystring';
 import { monitoringTools } from '../../monitoring-tools.js';
