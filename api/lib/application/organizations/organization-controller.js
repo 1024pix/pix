@@ -26,7 +26,7 @@ import {
   extractUserIdFromRequest,
 } from '../../infrastructure/utils/request-response-utils.js';
 import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
+import customParseFormat from 'dayjs/plugin/customParseFormat.js';
 dayjs.extend(customParseFormat);
 import * as certificationResultUtils from '../../infrastructure/utils/csv/certification-results.js';
 import * as certificationAttestationPdf from '../../infrastructure/utils/pdf/certification-attestation-pdf.js';
