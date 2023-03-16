@@ -1,5 +1,6 @@
-import isNil from 'lodash/isNil';
+import lodash from 'lodash';
 
+const { isNil } = lodash;
 class CertificationCandidateForSupervising {
   constructor({
     id,

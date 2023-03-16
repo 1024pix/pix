@@ -2,7 +2,8 @@ import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
 import { validateEntity } from '../validators/entity-validator.js';
-import isNil from 'lodash/isNil';
+import lodash from 'lodash';
+const { isNil } = lodash;
 import { PIX_ADMIN } from '../constants.js';
 
 const { ROLES } = PIX_ADMIN;

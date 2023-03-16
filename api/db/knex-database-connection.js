@@ -1,6 +1,7 @@
 import pg from 'pg';
 const types = pg.types;
-import _, { get } from 'lodash';
+import _ from 'lodash';
+const { get } = _;
 import { logger } from '../lib/infrastructure/logger.js';
 import { monitoringTools } from '../lib/infrastructure/monitoring-tools.js';
 import { config } from '../lib/config.js';

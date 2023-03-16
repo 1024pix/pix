@@ -1,5 +1,4 @@
-import omit from 'lodash/omit';
-import get from 'lodash/get';
+import { omit, get } from 'lodash';
 import { Serializer } from 'jsonapi-serializer';
 
 const serialize = function (juryCertificationSummary, meta) {

@@ -1,4 +1,4 @@
-import pick from 'lodash/pick';
+import { pick } from 'lodash';
 import { CampaignParticipant } from '../../domain/models/CampaignParticipant.js';
 import { CampaignToStartParticipation } from '../../domain/models/CampaignToStartParticipation.js';
 import { AlreadyExistingCampaignParticipationError, NotFoundError } from '../../domain/errors.js';

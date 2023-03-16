@@ -18,7 +18,7 @@ import { extractUserIdFromRequest } from '../../infrastructure/utils/request-res
 import * as certificationResultUtils from '../../infrastructure/utils/csv/certification-results.js';
 import { fillCandidatesImportSheet } from '../../infrastructure/files/candidates-import/fill-candidates-import-sheet.js';
 import * as supervisorKitPdf from '../../infrastructure/utils/pdf/supervisor-kit-pdf.js';
-import trim from 'lodash/trim';
+import { trim } from 'lodash';
 import { UserLinkedToCertificationCandidate } from '../../domain/events/UserLinkedToCertificationCandidate.js';
 import { logger } from '../../infrastructure/logger.js';
 

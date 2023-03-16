@@ -3,12 +3,13 @@ import {
   splitIntoWordsAndRemoveBackspaces,
   cleanStringAndParseFloat,
 } from '../../../lib/infrastructure/utils/string-utils.js';
-import { every, isEmpty, isString, map } from 'lodash';
+import lodash from 'lodash';
 import { applyTreatments, applyPreTreatments } from './validation-treatments.js';
 import { validateAnswer } from './string-comparison-service.js';
 import { AnswerStatus } from '../models/AnswerStatus.js';
 import { getEnabledTreatments, useLevenshteinRatio } from './services-utils.js';
 const CHALLENGE_NUMBER_FORMAT = 'nombre';
+const { every, isEmpty, isString, map } = lodash;
 
 const match = function ({ answer, challengeFormat, solution }) {
   const solutionValue = solution.value;
