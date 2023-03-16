@@ -47,7 +47,8 @@ process.on('SIGINT', () => {
   try {
     await start();
     if (process.env.START_JOB_IN_WEB_PROCESS) {
-      import './worker.js';
+      // eslint-disable-next-line node/no-unsupported-features/es-syntax
+      import('./worker.js');
     }
   } catch (error) {
     logger.error(error);
