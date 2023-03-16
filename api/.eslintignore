@@ -6,4 +6,6 @@ tests/
 db/migrations/
 db/seeds/
 db/database-builder/
+db/constants.js
 scripts/
+nyc.config.js
