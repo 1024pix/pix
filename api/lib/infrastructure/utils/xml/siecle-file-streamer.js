@@ -1,7 +1,10 @@
-import _, { isObject, values } from 'lodash';
+import _ from 'lodash';
+
+const { isObject, values } = _;
 import { FileValidationError, SiecleXmlImportError } from '../../../domain/errors.js';
 import { logErrorWithCorrelationIds } from '../../monitoring-tools.js';
 import fs from 'fs';
+
 const fsPromises = fs.promises;
 import Path from 'path';
 import os from 'os';
@@ -73,11 +76,13 @@ async function _isFileZipped(path) {
   const fileType = await FileType.fromFile(path);
   return isObject(fileType) && fileType.mime === ZIP;
 }
+
 function _createTempDir() {
   const tmpDir = os.tmpdir();
   const directory = Path.join(tmpDir, 'import-siecle-');
   return fsPromises.mkdtemp(directory);
 }
+
 async function _unzipFile(directory, path) {
   const extractedFileName = Path.join(directory, 'organization-learners.xml');
   const zip = new StreamZip.async({ file: path });
