@@ -1,6 +1,4 @@
-import fs from 'fs';
-
-const { promises } = fs;
+import * as fs from 'fs/promises';
 
 import { CsvParser } from '../csv-parser.js';
 import { CampaignIdsCsvHeader } from './campaign-ids-csv-header.js';
