@@ -6,15 +6,8 @@ import {
 import * as mailService from '../../domain/services/mail-service.js';
 import lodash from 'lodash';
 
-const {
-  some
-} = lodash;
+const { some, uniqBy } = lodash;
 
-const {
-  uniqBy
-} = lodash;
-
-import lodash from 'lodash';
 import { logger } from '../../infrastructure/logger.js';
 
 async function publishSession({
