@@ -430,9 +430,9 @@
       }
     },
     "team": {
-      "title": "Équipe",
-      "last-name": "Nom",
-      "first-name": "Prénom",
+      "title": "Team",
+      "last-name": "Last name",
+      "first-name": "First name",
       "referer": "Référent",
       "pix-referer": "Référent Pix",
       "update-referer-button": "Changer de référent",
