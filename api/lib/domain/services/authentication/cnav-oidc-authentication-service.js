@@ -1,5 +1,5 @@
 import { config } from '../../../config.js';
-import * as OidcAuthenticationService from './oidc-authentication-service.js';
+import { OidcAuthenticationService } from './oidc-authentication-service.js';
 
 class CnavOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
