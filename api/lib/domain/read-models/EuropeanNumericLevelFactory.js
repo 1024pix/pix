@@ -1,5 +1,5 @@
-import uniqBy from 'lodash/uniqBy';
-import remove from 'lodash/remove';
+import { uniqBy } from 'lodash';
+import { remove } from 'lodash';
 import { EuropeanNumericLevel } from './EuropeanNumericLevel.js';
 
 class EuropeanNumericLevelFactory {
