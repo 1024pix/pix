@@ -1,6 +1,4 @@
-import fs from 'fs';
-
-const { promises } = fs;
+import * as fs from 'fs/promises';
 
 import { OrganizationLearnerParser } from '../../infrastructure/serializers/csv/organization-learner-parser.js';
 
