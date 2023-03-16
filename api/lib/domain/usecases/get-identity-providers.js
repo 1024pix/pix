@@ -1,4 +1,7 @@
-import { isEmpty, isNil, pick } from 'lodash';
+import lodash from 'lodash';
+
+const { isEmpty, isNil, pick } = lodash;
+
 import * as OidcIdentityProviders from '../constants/oidc-identity-providers.js';
 import { config } from '../../config.js';
 

@@ -1,4 +1,7 @@
-import { isEmpty, uniqBy } from 'lodash';
+import lodash from 'lodash';
+
+const { isEmpty, uniqBy } = lodash;
+
 import bluebird from 'bluebird';
 import { Organization } from '../models/Organization.js';
 import { OrganizationTag } from '../models/OrganizationTag.js';

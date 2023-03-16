@@ -1,4 +1,7 @@
-import { sumBy } from 'lodash';
+import lodash from 'lodash';
+
+const { sumBy } = lodash;
+
 import * as categories from '../constants/organization-places-categories.js';
 
 const categoriesByCode = {

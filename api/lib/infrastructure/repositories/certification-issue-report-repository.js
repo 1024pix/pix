@@ -1,4 +1,7 @@
-import { omit } from 'lodash';
+import lodash from 'lodash';
+
+const { omit } = lodash;
+
 import { knex } from '../../../db/knex-database-connection.js';
 import { CertificationIssueReport } from '../../domain/models/CertificationIssueReport.js';
 

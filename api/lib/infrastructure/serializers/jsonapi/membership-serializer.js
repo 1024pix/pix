@@ -1,4 +1,7 @@
-import { Serializer } from 'jsonapi-serializer';
+import jsonapiSerializer from 'jsonapi-serializer';
+
+const { Serializer } = jsonapiSerializer;
+
 import { Membership } from '../../../domain/models/Membership.js';
 
 const serialize = function (membership, meta) {

@@ -1,4 +1,6 @@
-import { isNil } from 'lodash';
+import lodash from 'lodash';
+
+const { isNil } = lodash;
 
 class CertificationCandidateForAttendanceSheet {
   constructor({ lastName, firstName, birthdate, externalId, division, extraTimePercentage }) {

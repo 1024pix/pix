@@ -1,5 +1,8 @@
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
-import { Serializer as JSONAPISerializer } from 'jsonapi-serializer';
+import jsonapiSerializer from 'jsonapi-serializer';
+
+const { Serializer } = jsonapiSerializer;
+
 import { AssessmentEndedError } from '../../domain/errors.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as events from '../../domain/events/index.js';

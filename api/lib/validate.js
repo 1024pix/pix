@@ -1,4 +1,7 @@
-import { get } from 'lodash';
+import lodash from 'lodash';
+
+const { get } = lodash;
+
 import { BadRequestError, sendJsonApiError } from './application/http-errors.js';
 
 function handleFailAction(request, h, err) {

@@ -1,4 +1,7 @@
-import { rgb } from 'pdf-lib';
+import pdfLib from 'pdf-lib';
+
+const { rgb } = pdfLib;
+
 const colorToRgb = {
   jaffa: rgb(0.949, 0.274, 0.27),
   emerald: rgb(0.102, 0.549, 0.537),
