@@ -1,9 +1,7 @@
 import { FileValidationError, SiecleXmlImportError } from '../errors.js';
-import fs from 'fs';
+import * as fs from 'fs/promises';
 
 const { isEmpty, chunk } = lodash;
-
-const { promises } = fs;
 
 import bluebird from 'bluebird';
 import { ORGANIZATION_LEARNER_CHUNK_SIZE } from '../../infrastructure/constants.js';
