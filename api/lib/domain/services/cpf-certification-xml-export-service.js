@@ -2,8 +2,8 @@ import { config } from '../../config.js';
 import { create, fragment } from 'xmlbuilder2';
 import { v4 as uuidv4 } from 'uuid';
 import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc.js';
+import timezone from 'dayjs/plugin/timezone.js';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
