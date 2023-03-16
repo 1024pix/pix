@@ -16,6 +16,10 @@
     "DOMAIN_PIX_CERTIF": {
       "generator": "template",
       "template": "https://certif-pr%PR_NUMBER%.review.pix"
+    },
+    "DOMAIN_PIX1D": {
+      "generator": "template",
+      "template": "https://pix1d-pr%PR_NUMBER%.review.pix"
     }
   },
   "scripts": {
