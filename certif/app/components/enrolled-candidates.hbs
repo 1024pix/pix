@@ -36,42 +36,42 @@
         <thead>
           <tr>
             <th class="certification-candidates-table__column-last-name">
-              {{t "pages.sessions.detail.candidates.list.columns.lastname"}}
+              {{t "pages.sessions.detail.candidates.informations.birth-name"}}
             </th>
             <th class="certification-candidates-table__column-first-name">
-              {{t "pages.sessions.detail.candidates.list.columns.firstname"}}
+              {{t "pages.sessions.detail.candidates.informations.firstname"}}
             </th>
             <th class="certification-candidates-table__column-birthdate">
-              {{t "pages.sessions.detail.candidates.list.columns.birth-date"}}
+              {{t "pages.sessions.detail.candidates.informations.birth-date"}}
             </th>
             {{#if @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
               <th class="certification-candidates-table__birth-city">
-                {{t "pages.sessions.detail.candidates.list.columns.birth-city"}}
+                {{t "pages.sessions.detail.candidates.informations.birth-city"}}
               </th>
               <th>
-                {{t "pages.sessions.detail.candidates.list.columns.birth-country"}}
+                {{t "pages.sessions.detail.candidates.informations.birth-country"}}
               </th>
             {{/if}}
             {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
               <th class="certification-candidates-table__recipient-email">
-                {{t "pages.sessions.detail.candidates.list.columns.recipient-email"}}
+                {{t "pages.sessions.detail.candidates.informations.email-results"}}
               </th>
             {{/unless}}
             {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
               <th class="certification-candidates-table__external-id">
-                {{t "pages.sessions.detail.candidates.list.columns.external-id"}}
+                {{t "pages.sessions.detail.candidates.informations.external-id"}}
               </th>
             {{/unless}}
             <th class="certification-candidates-table__column-time">
-              {{t "pages.sessions.detail.candidates.list.columns.extratime"}}
+              {{t "pages.sessions.detail.candidates.informations.extratime"}}
             </th>
             {{#if @shouldDisplayPaymentOptions}}
               <th class="certification-candidates-table__payment-options">
-                {{t "pages.sessions.detail.candidates.list.columns.pricing"}}
+                {{t "pages.sessions.detail.candidates.informations.pricing"}}
               </th>
             {{/if}}
             {{#if @displayComplementaryCertification}}
-              <th>{{t "pages.sessions.detail.candidates.list.columns.additional-certification"}}</th>
+              <th>{{t "pages.sessions.detail.candidates.informations.additional-certification"}}</th>
             {{/if}}
           </tr>
         </thead>
@@ -93,7 +93,7 @@
               {{/unless}}
               <td>{{format-percentage candidate.extraTimePercentage}}</td>
               {{#if @shouldDisplayPaymentOptions}}
-                <td>{{candidate.billingMode}}
+                <td>{{candidate.billingModeLabel}}
                   {{candidate.prepaymentCode}}
                 </td>
               {{/if}}

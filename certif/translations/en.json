@@ -261,9 +261,36 @@
             }
           },
           "detail-modal": {
+            "title": "Candidate’s details",
             "actions": {
               "close-extra-information": "Close candidate's detail window modal"
             }
+          },
+          "informations": {
+            "additional-certification": "Additional certification",
+            "billing-mode": {
+              "free": "Free",
+              "paid": "Payable",
+              "prepaid": "Prepaid"
+            },
+            "birth-city": "Birth city",
+            "birth-city-insee-code": "Birth city INSEE code (only for France)",
+            "birth-city-postcode": "Birth city postcode",
+            "birth-country": "Birth country",
+            "birth-date": "Date of birth",
+            "birth-name": "Birth name",
+            "email-convocation": "Email for the convocation",
+            "email-results": "Email of the results' recipient (instructor, teacher…)",
+            "external-id": "External user ID",
+            "extratime": "Extra time",
+            "extratime-percentage": "Extra time (%)",
+            "firstname": "First name",
+            "gender": "Gender",
+            "lastname": "Last name",
+            "man": "Man",
+            "prepayment-code": "Prepayment code",
+            "pricing": "Pricing of Pix’s share",
+            "woman": "Woman"
           },
           "list": {
             "title": "Candidates' list",
@@ -282,18 +309,6 @@
                 "extra-information": "See the candidate’s details",
                 "label": "See details"
               }
-            },
-            "columns": {
-              "additional-certification": "Additional certification",
-              "birth-city": "Birth city",
-              "birth-country": "Birth country",
-              "birth-date": "Date of birth",
-              "recipient-email": "Email of the results' recipient (instructor, teacher…)",
-              "external-id": "External ID",
-              "extratime": "Extra time",
-              "lastname": "Birth name",
-              "firstname": "First name",
-              "pricing": "Pricing of Pix’s share"
             },
             "with-details-description": "List of candidates enrolled in the session, ordered by birth name, with a link to see the candidate’s details and the possibility to delete a candidate in the last column.",
             "empty": "Awaiting candidates",

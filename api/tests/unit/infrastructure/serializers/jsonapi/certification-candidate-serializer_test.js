@@ -30,7 +30,7 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
           attributes: {
             'first-name': certificationCandidate.firstName,
             'last-name': certificationCandidate.lastName,
-            'billing-mode': 'Payante',
+            'billing-mode': 'PAID',
             'prepayment-code': null,
             'birth-city': certificationCandidate.birthCity,
             'birth-province-code': certificationCandidate.birthProvinceCode,
