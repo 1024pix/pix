@@ -1,8 +1,6 @@
-import json2csv from 'json2csv';
+import { Parser } from 'json2csv';
 
 const { omit } = lodash;
-
-const { Parser } = json2csv;
 
 import { headers, COMPLEMENTARY_CERTIFICATION_SUFFIX } from '../utils/csv/sessions-import.js';
 import lodash from 'lodash';
