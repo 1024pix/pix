@@ -121,7 +121,8 @@
         "shared-profile-tooltip": "Submitted profiles: These participants have submitted their profiles."
       },
       "loader": "Loading statuses distribution",
-      "title": "Statuses"
+      "title": "Statuses",
+      "a11y-title": "Detail by participation status"
     },
     "participants-by-day": {
       "labels-a11y": {
@@ -673,9 +674,9 @@
         },
         "empty-state": "No activity yet. As soon as {organizationLearnerFirstName} {organizationLearnerLastName} participates in a campaign, you will be able to follow their progress here.",
         "title": "Activity",
-        "assessment-summary": "Assessment participations summary",
+        "assessment-summary": "Customised tests participations summary",
         "profile-collection-summary": "Profile collection participations summary",
-        "participations-title": "Participations",
+        "participations-title": "List of all the participations",
         "participation-list": {
           "table": {
             "column": {
@@ -694,7 +695,7 @@
         }
       },
       "header": {
-        "aria-label-title": "Participant's name"
+        "aria-label-title": "Detail page of {firstName} {lastName}"
       }
     },
     "organization-participants": {
@@ -1165,6 +1166,9 @@
     }
   },
   "components": {
+    "date":{
+      "no-date": "No date yet"
+    },
     "participation-status": {
       "STARTED-ASSESSMENT": "In progress",
       "TO_SHARE-ASSESSMENT": "Pending results",
