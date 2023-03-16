@@ -1,14 +1,7 @@
 import lodash from 'lodash';
 
-const {
-  remove
-} = lodash;
+const { remove, uniqBy } = lodash;
 
-const {
-  uniqBy
-} = lodash;
-
-import lodash from 'lodash';
 import { EuropeanNumericLevel } from './EuropeanNumericLevel.js';
 
 class EuropeanNumericLevelFactory {
