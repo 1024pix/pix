@@ -1,5 +1,5 @@
 import Boom from '@hapi/boom';
-import * as packageJSON from '../../../package.json';
+import packageJSON from '../../../package.json' assert { type: 'json' };
 import { config } from '../../config.js';
 import { redisMonitor } from '../../infrastructure/utils/redis-monitor.js';
 import { knex } from '../../../db/knex-database-connection.js';
