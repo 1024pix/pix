@@ -1,5 +1,5 @@
 import { ScoringSimulationResult } from '../models/ScoringSimulationResult.js';
-import fp from 'lodash/fp';
+import { fp } from 'lodash';
 import { sortBy } from 'lodash';
 
 const simulateOldScoring = async function ({ challengeRepository, simulations }) {

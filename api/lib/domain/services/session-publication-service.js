@@ -4,8 +4,8 @@ import {
   SendingEmailToRefererError,
 } from '../../domain/errors.js';
 import * as mailService from '../../domain/services/mail-service.js';
-import uniqBy from 'lodash/uniqBy';
-import some from 'lodash/some';
+import { uniqBy } from 'lodash';
+import { some } from 'lodash';
 import { logger } from '../../infrastructure/logger.js';
 
 async function publishSession({
