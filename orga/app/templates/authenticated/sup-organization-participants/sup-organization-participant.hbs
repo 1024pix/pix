@@ -3,7 +3,11 @@
     <Ui::PreviousPageButton
       @route="authenticated.sup-organization-participants"
       @backButtonAriaLabel={{t "common.actions.back"}}
-      aria-label={{t "pages.organization-learner.header.aria-label-title"}}
+      aria-label={{t
+        "pages.organization-learner.header.aria-label-title"
+        firstName=@model.firstName
+        lastName=@model.lastName
+      }}
       class="learner-header-title"
     >
       {{t "common.fullname" firstName=@model.firstName lastName=@model.lastName}}
