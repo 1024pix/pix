@@ -1,6 +1,7 @@
 import bluebird from 'bluebird';
 import { v4 as uuidv4 } from 'uuid';
 import { tokenService } from './token-service.js';
+
 import { config } from '../../config.js';
 import { UnauthorizedError } from '../../application/http-errors.js';
 import { temporaryStorage } from '../../infrastructure/temporary-storage/index.js';

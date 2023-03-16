@@ -7,7 +7,9 @@ import {
   UserHasAlreadyLeftSCO,
 } from '../errors.js';
 
-import { uniqBy } from 'lodash';
+import lodash from 'lodash';
+
+const { uniqBy } = lodash;
 
 const { features } = config;
 

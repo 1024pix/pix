@@ -1,4 +1,6 @@
-import { trim } from 'lodash';
+import lodash from 'lodash';
+
+const { trim } = lodash;
 
 import { TemporaryStorage } from './TemporaryStorage.js';
 import { RedisClient } from '../utils/RedisClient.js';

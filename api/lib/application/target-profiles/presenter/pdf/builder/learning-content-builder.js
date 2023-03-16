@@ -1,4 +1,7 @@
-import { sortBy } from 'lodash';
+import lodash from 'lodash';
+
+const { sortBy } = lodash;
+
 import { areaBuilder } from './area-builder.js';
 
 const build = function (pdfDocument, learningContent, language) {

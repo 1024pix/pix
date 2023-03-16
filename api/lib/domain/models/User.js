@@ -1,4 +1,6 @@
-import { toLower, isNil } from 'lodash';
+import lodash from 'lodash';
+
+const { toLower, isNil } = lodash;
 
 import dayjs from 'dayjs';
 

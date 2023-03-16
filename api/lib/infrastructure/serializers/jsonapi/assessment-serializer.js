@@ -1,6 +1,8 @@
 import { Assessment } from '../../../domain/models/Assessment.js';
 import { Progression } from '../../../domain/models/Progression.js';
-import { Serializer } from 'jsonapi-serializer';
+import jsonapiSerializer from 'jsonapi-serializer';
+
+const { Serializer } = jsonapiSerializer;
 
 const serialize = function (assessments) {
   return new Serializer('assessment', {

@@ -1,7 +1,10 @@
 import { SiecleXmlImportError } from '../../../domain/errors.js';
 import xml2js from 'xml2js';
 import saxPath from 'saxpath';
-import { isEmpty, isUndefined } from 'lodash';
+import lodash from 'lodash';
+
+const { isEmpty, isUndefined } = lodash;
+
 import { SiecleFileStreamer } from '../../utils/xml/siecle-file-streamer.js';
 import { XMLOrganizationLearnersSet } from './xml-organization-learner-set.js';
 

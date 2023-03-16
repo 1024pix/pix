@@ -2,7 +2,10 @@ import { knex } from '../../../db/knex-database-connection.js';
 import { Badge } from '../../domain/models/Badge.js';
 import { SkillSet } from '../../domain/models/SkillSet.js';
 import { BadgeCriterion } from '../../domain/models/BadgeCriterion.js';
-import { omit } from 'lodash';
+import lodash from 'lodash';
+
+const { omit } = lodash;
+
 import * as knexUtils from '../utils/knex-utils.js';
 import { AlreadyExistingEntityError } from '../../domain/errors.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';

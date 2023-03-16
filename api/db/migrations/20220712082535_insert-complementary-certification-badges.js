@@ -1,5 +1,10 @@
 const TABLE_NAME = 'complementary-certification-badges';
-import { noop } from 'lodash';
+import lodash from 'lodash';
+
+const {
+  noop
+} = lodash;
+
 const {
   PIX_EMPLOI_CLEA_V1,
   PIX_EMPLOI_CLEA_V2,

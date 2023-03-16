@@ -1,4 +1,7 @@
-import { _ } from 'lodash';
+import lodash from 'lodash';
+
+const { _ } = lodash;
+
 import { knex } from '../../../db/knex-database-connection.js';
 import bluebird from 'bluebird';
 import { BookshelfCertificationCourse } from '../orm-models/CertificationCourse.js';

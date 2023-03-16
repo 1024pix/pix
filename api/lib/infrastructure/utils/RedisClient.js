@@ -1,6 +1,9 @@
 import redis from 'redis';
 import Redlock from 'redlock';
-import { promisify } from 'util';
+import util from 'util';
+
+const { promisify } = util;
+
 import { logger } from '../logger.js';
 
 const REDIS_CLIENT_OPTIONS = {};
