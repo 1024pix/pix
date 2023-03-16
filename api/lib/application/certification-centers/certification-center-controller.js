@@ -14,7 +14,7 @@ import lodash from 'lodash';
 
 const { map } = lodash;
 
-import { csvHelpers } from '../../../scripts/helpers/csvHelpers.js';
+import * as csvHelpers from './csvHelpers.js';
 import * as csvSerializer from '../../infrastructure/serializers/csv/csv-serializer.js';
 import { getHeaders } from '../../infrastructure/files/sessions-import.js';
 
