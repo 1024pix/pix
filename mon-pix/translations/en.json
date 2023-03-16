@@ -1311,6 +1311,10 @@
       "instructions": "The fields marked '<abbr title=\"required\" class=\"mandatory-mark\">'*'</abbr>' are required",
       "subtitle": {
         "link": "log into your account"
+      },
+      "errors": {
+        "invalid-locale-format": "Provided locale \"{invalidLocale}\" has an invalid format.",
+        "locale-not-supported": "Provided locale \"{localeNotSupported}\" isn't currently supported."
       }
     },
     "sitemap": {
