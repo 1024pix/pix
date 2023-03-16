@@ -1,6 +1,4 @@
-import json2csv from 'json2csv';
-
-const { parseAsync } = json2csv;
+import { parseAsync } from 'json2csv';
 
 import { CsvParsingError } from '../../../../lib/domain/errors.js';
 
