@@ -18,7 +18,6 @@
 }
 
 .certifications-list-item__clickable {
-
   a {
     color: inherit;
     text-decoration: none;
@@ -57,10 +56,15 @@
 .certifications-list-item__row-comment {
   @extend .certifications-list-item__row;
 
+  max-height: 0;
   padding: 0 2%;
+  overflow: hidden;
+  transition: max-height 0s ease;
 
-  .cp-Panel-body-inner {
-    width: 100%;
+  &--open {
+    height: auto;
+    max-height: 1000px;
+    transition: max-height 1s ease-out;
   }
 }
 
