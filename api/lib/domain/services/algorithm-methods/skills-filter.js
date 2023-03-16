@@ -1,4 +1,7 @@
-import _, { fp } from 'lodash';
+import _ from 'lodash';
+
+import fp from 'lodash/fp.js';
+
 const { pipe } = fp;
 import {
   MAX_LEVEL_TO_BE_AN_EASY_TUBE,
