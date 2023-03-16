@@ -177,13 +177,28 @@ export default class SignupForm extends Component {
 
   _manageErrorsApi(firstError) {
     const statusCode = get(firstError, 'status');
+
     if (statusCode === '422') {
       return this._updateInputsStatus();
     }
-    this.errorMessage = this._showErrorMessages(statusCode);
+
+    switch (firstError?.code) {
+      case 'LOCALE_NOT_SUPPORTED':
+        this.errorMessage = this.intl.t('pages.sign-up.errors.locale-not-supported', {
+          localeNotSupported: firstError.meta.locale,
+        });
+        return;
+      case 'INVALID_LOCALE_FORMAT':
+        this.errorMessage = this.intl.t('pages.sign-up.errors.invalid-locale-format', {
+          invalidLocale: firstError.meta.locale,
+        });
+        return;
+    }
+
+    this.errorMessage = this._getErrorMessagesByStatusCode(statusCode);
   }
 
-  _showErrorMessages(statusCode) {
+  _getErrorMessagesByStatusCode(statusCode) {
     const httpStatusCodeMessages = {
       400: ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.I18N_KEY,
       500: ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY,
