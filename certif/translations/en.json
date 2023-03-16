@@ -17,7 +17,8 @@
       "login-unauthorized-error": "There was an error in the email address or password entered.",
       "login-user-temporary-blocked-error": "You have reached too many failed login attempts. Please try again later or <a href=\"{url}\">reset your password here</a>.",
       "login-user-blocked-error": "Your account has reached the maximum number of failed login attempts and has been temporarily blocked. Please <a href=\"{url}\">contact us</a> to unblock it.",
-      "gateway-timeout-error": "The service is being slow. Please try again later."
+      "gateway-timeout-error": "The service is being slow. Please try again later.",
+      "internal-error": "An error occurred"
     },
     "form": {
       "mandatory-all-fields": "All fields are required."
@@ -468,6 +469,28 @@
       }
     },
     "session-supervising": {
+      "login": {
+        "title": "Log into the invigilator's portal",
+        "form": {
+          "title": "Invigilator’s portal",
+          "sub-title": "Invigilate a session",
+          "description": "The password for the session to be invigilated has been revealed to you by a Pix Certif administrator",
+          "session-number": "Session number",
+          "session-password": {
+            "label": "Session password",
+            "aria-label": "Show password"
+          },
+          "example": "Example : C-12345",
+          "errors": {
+            "mandatory-fields": "The fields “Session number” and “Session password” are required.",
+            "incorrect-data": "The session number and/or the session password entered are incorrect."
+          },
+          "actions": {
+            "invigilate": "Invigilate the session",
+            "switch-account": "Switch accounts"
+          }
+        }
+      },
       "header": {
         "actions": {
           "exit-extra-information": "Exit the invigilation of session {sessionId}"
@@ -512,6 +535,10 @@
           "error": "Une erreur est survenue, {firstName} {lastName} n'a a pu être autorisé à reprendre son test."
         }
       }
+    },
+    "session-supervising-error": {
+      "title": "Access error to the session's invigilation",
+      "description": "To access this session, click on the \"Invigilate a session\" button and fill in the details of the session"
     },
     "team": {
       "title": "Team",
