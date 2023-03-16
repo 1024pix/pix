@@ -1,7 +1,5 @@
 import JSZip from 'jszip';
-import fs from 'fs';
-
-const { promises } = fs;
+import * as fs from 'fs/promises';
 
 async function loadOdsZip(odsFilePath) {
   const odsFileData = await _openOdsFile(odsFilePath);
