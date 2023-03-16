@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import localizedFormat from 'dayjs/plugin/localizedFormat';
+import localizedFormat from 'dayjs/plugin/localizedFormat.js';
 dayjs.extend(localizedFormat);
 import { Text } from './Text.js';
 import * as ColorManager from '../manager/color-manager.js';
