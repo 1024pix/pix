@@ -6,6 +6,4 @@ class ParticipationResultCalculationJob extends JobPgBoss {
   }
 }
 
-ParticipationResultCalculationJob.name = 'ParticipationResultCalculationJob';
-
 export { ParticipationResultCalculationJob };
