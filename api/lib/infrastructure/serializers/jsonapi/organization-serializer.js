@@ -1,4 +1,7 @@
-import { Serializer } from 'jsonapi-serializer';
+import jsonapiSerializer from 'jsonapi-serializer';
+
+const { Serializer } = jsonapiSerializer;
+
 import { Organization } from '../../../domain/models/Organization.js';
 import { Tag } from '../../../domain/models/Tag.js';
 

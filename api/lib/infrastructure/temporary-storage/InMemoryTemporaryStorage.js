@@ -1,5 +1,8 @@
 import NodeCache from 'node-cache';
-import { trim, noop } from 'lodash';
+import lodash from 'lodash';
+
+const { trim, noop } = lodash;
+
 import { TemporaryStorage } from './TemporaryStorage.js';
 
 class InMemoryTemporaryStorage extends TemporaryStorage {

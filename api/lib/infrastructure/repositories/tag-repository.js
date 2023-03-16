@@ -1,6 +1,9 @@
 import * as knexUtils from '../utils/knex-utils.js';
 import { AlreadyExistingEntityError, NotFoundError } from '../../domain/errors.js';
-import { omit } from 'lodash';
+import lodash from 'lodash';
+
+const { omit } = lodash;
+
 import { knex } from '../../../db/knex-database-connection.js';
 import { Tag } from '../../domain/models/Tag.js';
 

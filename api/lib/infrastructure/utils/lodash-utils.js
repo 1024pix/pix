@@ -1,5 +1,5 @@
 import pkg from 'lodash';
-const { runInContext } = pkg;;
+const { runInContext } = pkg;
 const _ = runInContext();
 _.mixin({
   /*

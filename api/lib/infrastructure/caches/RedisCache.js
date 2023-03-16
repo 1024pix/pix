@@ -1,4 +1,7 @@
-import { using } from 'bluebird';
+import bluebird from 'bluebird';
+
+const { using } = bluebird;
+
 import Redlock from 'redlock';
 import { Cache } from './Cache.js';
 import { RedisClient } from '../utils/RedisClient.js';

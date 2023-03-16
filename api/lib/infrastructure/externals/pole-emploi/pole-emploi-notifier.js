@@ -1,4 +1,7 @@
-import { get } from 'lodash';
+import lodash from 'lodash';
+
+const { get } = lodash;
+
 import moment from 'moment';
 import querystring from 'querystring';
 import { monitoringTools } from '../../monitoring-tools.js';

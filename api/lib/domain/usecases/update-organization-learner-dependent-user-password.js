@@ -1,4 +1,6 @@
-import { isEmpty } from 'lodash';
+import lodash from 'lodash';
+
+const { isEmpty } = lodash;
 
 import { UserNotAuthorizedToUpdatePasswordError } from '../errors.js';
 

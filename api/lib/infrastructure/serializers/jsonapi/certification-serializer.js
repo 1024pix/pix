@@ -1,5 +1,7 @@
 import _ from 'lodash';
-import { Serializer, Deserializer } from 'jsonapi-serializer';
+import jsonapiSerializer from 'jsonapi-serializer';
+
+const { Serializer, Deserializer } = jsonapiSerializer;
 
 import { WrongDateFormatError } from '../../../domain/errors.js';
 import { NO_EXAMINER_COMMENT } from '../../../domain/models/CertificationReport.js';

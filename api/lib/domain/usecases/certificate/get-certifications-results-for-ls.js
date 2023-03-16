@@ -1,6 +1,8 @@
 import { CertificationsResults } from '../../read-models/livret-scolaire/CertificationsResults.js';
 import { Competence } from '../../read-models/livret-scolaire/Competence.js';
-import { sortBy } from 'lodash';
+import lodash from 'lodash';
+
+const { sortBy } = lodash;
 
 const getCertificationsResultsForLS = async function ({ uai, certificationLsRepository, competenceTreeRepository }) {
   const [referential, certifications] = await Promise.all([

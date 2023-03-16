@@ -1,4 +1,7 @@
-import { promises as fs } from 'fs';
+import fs from 'fs';
+
+const { promises } = fs;
+
 import { OrganizationLearnerParser } from '../../infrastructure/serializers/csv/organization-learner-parser.js';
 
 export { extractOrganizationLearnersInformation };

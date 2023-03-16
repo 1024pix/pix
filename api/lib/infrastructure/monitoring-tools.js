@@ -5,7 +5,10 @@ const { get, set, update, omit } = lodash;
 import { logger } from '../infrastructure/logger.js';
 import * as requestResponseUtils from '../infrastructure/utils/request-response-utils.js';
 
-import { AsyncLocalStorage } from 'async_hooks';
+import async_hooks from 'async_hooks';
+
+const { AsyncLocalStorage } = async_hooks;
+
 const asyncLocalStorage = new AsyncLocalStorage();
 
 function getCorrelationContext() {

@@ -1,5 +1,9 @@
 import { loadOdsZip } from './common-ods-utils.js';
-import { DOMParser, XMLSerializer } from '@xmldom/xmldom';
+
+import xmldom from '@xmldom/xmldom';
+
+const { DOMParser, XMLSerializer } = xmldom;
+
 import _ from 'lodash';
 import { AddedCellOption } from './added-cell-option.js';
 

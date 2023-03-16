@@ -1,4 +1,6 @@
-import { has } from 'lodash';
+import lodash from 'lodash';
+
+const { has } = lodash;
 
 import {
   AlreadyRegisteredEmailAndUsernameError,

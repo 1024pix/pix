@@ -2,7 +2,10 @@ import { logger } from '../../logger.js';
 import { FileValidationError } from '../../../../lib/domain/errors.js';
 import { convertDateValue } from '../../utils/date-utils.js';
 import { headers, emptySession, COMPLEMENTARY_CERTIFICATION_SUFFIX } from '../../utils/csv/sessions-import.js';
-import { isEmpty } from 'lodash';
+import lodash from 'lodash';
+
+const { isEmpty } = lodash;
+
 import { checkCsvHeader, parseCsvWithHeader } from '../../helpers/csv.js';
 
 function _csvFormulaEscapingPrefix(data) {

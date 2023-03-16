@@ -1,4 +1,7 @@
-import { sortBy } from 'lodash';
+import lodash from 'lodash';
+
+const { sortBy } = lodash;
+
 import * as competenceBuilder from './competence-builder.js';
 import { AreaText } from '../drawer/AreaText.js';
 import { LegalMentionText } from '../drawer/LegalMentionText.js';
