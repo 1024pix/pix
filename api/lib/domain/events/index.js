@@ -8,7 +8,7 @@ import perf_hooks from 'perf_hooks';
 
 const { performance } = perf_hooks;
 
-import { eventBusBuilder } from '../../infrastructure/events/EventBusBuilder.js';
+import * as eventBusBuilder from '../../infrastructure/events/EventBusBuilder.js';
 
 import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../infrastructure/repositories/assessment-result-repository.js';
