@@ -1,9 +1,9 @@
-import isNil from 'lodash/isNil';
-import endsWith from 'lodash/endsWith';
+import lodash from 'lodash';
+
 import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
-
+const { isNil, endsWith } = lodash;
 import {
   InvalidCertificationCandidate,
   CertificationCandidatePersonalInfoFieldMissingError,
