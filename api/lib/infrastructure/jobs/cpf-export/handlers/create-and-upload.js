@@ -1,8 +1,4 @@
-import node:zlib from 'node:zlib';
-
-const {
-  createGzip
-} = node:zlib;
+import { createGzip } from 'node:zlib';
 
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc.js';

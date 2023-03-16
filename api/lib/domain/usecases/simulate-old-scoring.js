@@ -1,15 +1,7 @@
 import { ScoringSimulationResult } from '../models/ScoringSimulationResult.js';
 import lodash from 'lodash';
 
-const {
-  sortBy
-} = lodash;
-
-const {
-  fp
-} = lodash;
-
-import lodash from 'lodash';
+const { sortBy, fp } = lodash;
 
 const simulateOldScoring = async function ({ challengeRepository, simulations }) {
   const challenges = await challengeRepository.findOperative();
