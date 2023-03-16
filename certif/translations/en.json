@@ -403,6 +403,21 @@
         "required-fields": "The fields marked by <abbr title=\"required\" class=\"mandatory-mark\">*</abbr> are required.",
         "room": "Room name",
         "time": "Starting time (local time)"
+      },
+      "update": {
+        "title": "Certification session change",
+        "actions": {
+          "cancel-extra-information": "Cancel the session change and return to the previous page",
+          "edit-session": "Edit the session"
+        },
+        "address": "Location name",
+        "date": "Starting date",
+        "description": "Observations",
+        "examiner": "Invigilator(s)",
+        "page-title": "Certification session change",
+        "required-fields": "The fields marked by <abbr title=\"required\" class=\"mandatory-mark\">*</abbr> are required.",
+        "room": "Room name",
+        "time": "Starting time (local time)"
       }
     },
     "session-supervising": {

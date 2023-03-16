@@ -7,9 +7,10 @@ import { inject as service } from '@ember/service';
 export default class SessionsUpdateController extends Controller {
   @alias('model') session;
   @service router;
+  @service intl;
 
   get pageTitle() {
-    return "Modification d'une session | Session ${this.session.id} | Pix Certif";
+    return `${this.intl.t('pages.sessions.update.page-title')} | Session ${this.session.id} | Pix Certif`;
   }
 
   @action
