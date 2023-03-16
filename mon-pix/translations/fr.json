@@ -376,7 +376,7 @@
         },
         "fail": {
           "title": "Certification non obtenue",
-          "action": "détail"
+          "action": "Afficher le détail"
         },
         "not-published": {
           "title": "En attente du résultat"
