@@ -456,7 +456,7 @@ import { createMembership } from './create-membership.js';
 import { createOidcUser } from './create-oidc-user.js';
 import { createOrUpdateCertificationCenterInvitationForAdmin } from './create-or-update-certification-center-invitation-for-admin.js';
 import { createOrUpdateTrainingTrigger } from './create-or-update-training-trigger.js';
-import { createOrUpdateUserOrgaSettings } from './create-or-update-user-orga-settings';
+import { createOrUpdateUserOrgaSettings } from './create-or-update-user-orga-settings.js';
 import { createOrganization } from './create-organization.js';
 import { createOrganizationInvitationByAdmin } from './create-organization-invitation-by-admin.js';
 import { createOrganizationInvitations } from './create-organization-invitations.js';
