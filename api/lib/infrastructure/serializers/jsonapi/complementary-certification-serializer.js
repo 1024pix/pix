@@ -1,4 +1,7 @@
-import { Serializer } from 'jsonapi-serializer';
+import jsonapiSerializer from 'jsonapi-serializer';
+
+const { Serializer } = jsonapiSerializer;
+
 import { ComplementaryCertification } from '../../../domain/models/ComplementaryCertification.js';
 
 const serialize = function (habilitation) {

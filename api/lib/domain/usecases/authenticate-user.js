@@ -1,4 +1,6 @@
-import { get } from 'lodash';
+import lodash from 'lodash';
+
+const { get } = lodash;
 
 import {
   ForbiddenAccess,

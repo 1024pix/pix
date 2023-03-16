@@ -1,4 +1,7 @@
-import { map, isEmpty } from 'lodash';
+import lodash from 'lodash';
+
+const { map, isEmpty } = lodash;
+
 import { Scorecard } from '../models/Scorecard.js';
 
 class SharedProfileForCampaign {

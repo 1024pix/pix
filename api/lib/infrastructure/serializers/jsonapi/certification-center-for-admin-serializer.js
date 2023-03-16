@@ -1,4 +1,7 @@
-import { Serializer } from 'jsonapi-serializer';
+import jsonapiSerializer from 'jsonapi-serializer';
+
+const { Serializer } = jsonapiSerializer;
+
 import { CertificationCenterForAdmin } from '../../../domain/models/CertificationCenterForAdmin.js';
 
 const deserialize = function ({ data }) {

@@ -4,7 +4,9 @@ import { FontManager } from './manager/font-manager.js';
 import * as TemplatePageManager from './manager/template-page-manager.js';
 import * as learningContentBuilder from './builder/learning-content-builder.js';
 import * as coverPageBuilder from './builder/cover-page-builder.js';
-import { PDFDocument } from 'pdf-lib';
+import pdfLib from 'pdf-lib';
+
+const { PDFDocument } = pdfLib;
 
 const present = async function (learningContent, title, language) {
   const pdfDocument = await _initializeNewPDFDocument(pdfLibFontKit);

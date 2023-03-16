@@ -1,4 +1,6 @@
-import { Serializer, Deserializer } from 'jsonapi-serializer';
+import jsonapiSerializer from 'jsonapi-serializer';
+
+const { Serializer, Deserializer } = jsonapiSerializer;
 
 import { Campaign } from '../../../domain/models/Campaign.js';
 import { CampaignParticipation } from '../../../domain/models/CampaignParticipation.js';

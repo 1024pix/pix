@@ -5,7 +5,9 @@ import {
 } from '../errors.js';
 
 import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
-import { isEmpty } from 'lodash';
+import lodash from 'lodash';
+
+const { isEmpty } = lodash;
 
 const reconcileScoOrganizationLearnerManually = async function ({
   campaignCode,

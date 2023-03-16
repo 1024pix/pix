@@ -2,7 +2,10 @@ import fs, { promises } from 'fs';
 
 const { readFile, access } = promises;
 
-import { isEmpty, difference } from 'lodash';
+import lodash from 'lodash';
+
+const { isEmpty, difference } = lodash;
+
 import { FileValidationError, NotFoundError } from '../../domain/errors.js';
 import papa from 'papaparse';
 

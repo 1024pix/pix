@@ -5,7 +5,9 @@ import {
 } from '../errors.js';
 
 import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
-import { find, get } from 'lodash';
+import lodash from 'lodash';
+
+const { find, get } = lodash;
 
 const generateUsername = async function ({
   studentInformation,

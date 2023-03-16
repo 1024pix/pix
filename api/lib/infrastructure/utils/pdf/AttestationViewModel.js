@@ -1,4 +1,7 @@
-import { sortBy } from 'lodash';
+import lodash from 'lodash';
+
+const { sortBy } = lodash;
+
 import moment from 'moment';
 import { toArrayOfFixedLengthStringsConservingWords } from '../string-utils.js';
 

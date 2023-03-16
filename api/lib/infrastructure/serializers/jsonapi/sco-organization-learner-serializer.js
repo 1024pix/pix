@@ -1,4 +1,6 @@
-import { Serializer } from 'jsonapi-serializer';
+import jsonapiSerializer from 'jsonapi-serializer';
+
+const { Serializer } = jsonapiSerializer;
 
 const serializeIdentity = function (scoOrganizationLearner) {
   return new Serializer('sco-organization-learner', {
