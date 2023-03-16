@@ -10,7 +10,7 @@ import perf_hooks from 'perf_hooks';
 const { performance } = perf_hooks;
 
 import Knex from 'knex';
-const { QueryBuilder } = Knex;
+import QueryBuilder from 'knex/lib/query/querybuilder.js';
 /*
 By default, node-postgres casts a DATE value (PostgreSQL type) as a Date Object (JS type).
 But, when dealing with dates with no time (such as birthdate for example), we want to
