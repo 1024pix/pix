@@ -1,16 +1,15 @@
-{{page-title "Erreur d'accès à la surveillance de session"}}
+{{page-title (t "pages.session-supervising-error.title")}}
 
 <div class="session-supervising-error-page">
   <div class="session-supervising-error-page__panel">
     <img src="/images/supervisor_no-access.svg" alt="" role="presentation" />
-    <h1 class="session-supervising-error-page__panel__title">Une erreur est survenue</h1>
+    <h1 class="session-supervising-error-page__panel__title">{{t "common.api-error-messages.internal-error"}}</h1>
     <p class="session-supervising-error-page__panel__subtitle">
-      Pour accéder à cette session, cliquez sur le bouton "Surveiller une session" et renseignez les informations de la
-      session
+      {{t "pages.session-supervising-error.description"}}
     </p>
 
     <PixButtonLink @route="login-session-supervisor" class="session-supervising-error-page__panel__button">
-      Surveiller une session
+      {{t "pages.session-supervising.login.form.sub-title"}}
     </PixButtonLink>
   </div>
 </div>
