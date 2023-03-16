@@ -8,7 +8,8 @@ const { autoMigrateTargetProfile } = require('./common');
 
 async function main() {
   try {
-    await doJob();
+    const dryRun = process.env.DRY_RUN === 'true';
+    await doJob(dryRun);
   } catch (err) {
     logger.error(err);
     throw err;
@@ -18,7 +19,7 @@ async function main() {
   }
 }
 
-async function doJob() {
+async function doJob(dryRun) {
   const targetProfileIds = await _findTargetProfileIdsToConvert();
   if (targetProfileIds.length === 0) {
     logger.info('Aucun profil cible à convertir.');
@@ -30,7 +31,8 @@ async function doJob() {
     try {
       logger.info(`Conversion de ${targetProfileId}...`);
       await _convertTargetProfile(targetProfileId, trx);
-      await trx.commit();
+      if (dryRun) await trx.rollback();
+      else await trx.commit();
     } catch (err) {
       logger.error(`${targetProfileId} Echec. Raison : ${err}`);
       await trx.rollback();

@@ -31,7 +31,7 @@ describe('Acceptance | Scripts | convert-target-profiles-into-new-format', funct
     await databaseBuilder.commit();
 
     // when
-    await doJob();
+    await doJob(false);
 
     // then
     const { tubes: tubesForAlreadyConverted, migrationStatus: migrationStatusAlreadyConverted } =
