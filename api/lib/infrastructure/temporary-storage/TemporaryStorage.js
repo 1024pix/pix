@@ -1,6 +1,4 @@
-import uuid from 'uuid';
-
-const { v4 } = uuid;
+import { v4 as uuidv4 } from 'uuid';
 
 class TemporaryStorage {
   static generateKey() {
