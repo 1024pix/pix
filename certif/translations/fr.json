@@ -21,6 +21,9 @@
     },
     "form": {
       "mandatory-all-fields": "Tous les champs sont obligatoires."
+    },
+    "candidate": {
+      "candidates": "Candidats"
     }
   },
   "current-lang": "fr",
@@ -460,7 +463,11 @@
         "supervisor": "Surveillant"
       },
       "candidate-list": {
-        "authorized-to-start-candidates": "{authorizedToStartCandidates}/{totalCandidates} {authorizedToStartCandidates, plural,one {candidat sélectionné} other {candidats sélectionnés}}"
+        "authorized-to-start-candidates": "{authorizedToStartCandidates}/{totalCandidates} {authorizedToStartCandidates, plural,one {candidat sélectionné} other {candidats sélectionnés}}",
+        "clear-field": "Vider le champ",
+        "indicate-candidates-attendance": "Cochez chaque candidat présent dans la salle de test pour l'autoriser à commencer son test de certification.",
+        "no-candidate": "Aucun candidat inscrit à cette session",
+        "search-candidate": "Rechercher un candidat"
       },
       "candidate-in-list": {
         "extra-time": "Temps majoré",

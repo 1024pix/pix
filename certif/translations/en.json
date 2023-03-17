@@ -21,6 +21,9 @@
     },
     "form": {
       "mandatory-all-fields": "All fields are required."
+    },
+    "candidate": {
+      "candidates": "Candidates"
     }
   },
   "current-lang": "en",
@@ -466,7 +469,11 @@
         "supervisor": "Supervisor"
       },
       "candidate-list": {
-        "authorized-to-start-candidates": "{authorizedToStartCandidates}/{totalCandidates} authorized {authorizedToStartCandidates, plural,one {candidate} other {candidates}}"
+        "authorized-to-start-candidates": "{authorizedToStartCandidates}/{totalCandidates} {authorizedToStartCandidates, plural,one {candidate} other {candidates}} selected",
+        "clear-field": "Clear the field",
+        "indicate-candidates-attendance": "Check off each candidate present in the room to allow them to start their Pix certification exam.",
+        "no-candidate": "No candidate enrolled in this session",
+        "search-candidate": "Search for a candidate"
       },
       "candidate-in-list": {
         "extra-time": "Extra time",
