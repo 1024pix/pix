@@ -214,8 +214,10 @@
           "non-blocking-errors": {
             "title": "{nonBlockingErrorReportsCount} {nonBlockingErrorReportsCount, plural,one {point d’attention non bloquant} other {points d’attention non bloquants}}",
             "information": "Nous avons détecté {nonBlockingErrorReportsCount, plural,one {un point d’attention non bloquant} other {des points d’attention non bloquants}} lors de l’import, consultez-{nonBlockingErrorReportsCount, plural,one {le} other {les}} avant de procéder à la création ou l’édition de vos sessions :",
-            "line": "Line",
-            "errors": {}
+            "line": "Ligne",
+            "errors": {
+              "EMPTY_SESSION": "La session ne contient pas de candidat. "
+            }
           },
           "actions": {
             "import-again": {

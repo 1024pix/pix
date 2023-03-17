@@ -13,6 +13,34 @@
         {{t "pages.sessions.import.step-two.candidates-count" candidatesCount=@candidatesCount}}</li>
     </ul>
   </PixMessage>
+  {{#if (gt this.nonBlockingErrorReportsCount 0)}}
+    <span class="import-page-section__information">
+      {{t
+        "pages.sessions.import.step-two.non-blocking-errors.information"
+        nonBlockingErrorReportsCount=this.nonBlockingErrorReportsCount
+      }}
+    </span>
+    <div>
+      <PixCollapsible
+        @titleIcon="triangle-exclamation"
+        @title={{t
+          "pages.sessions.import.step-two.non-blocking-errors.title"
+          nonBlockingErrorReportsCount=this.nonBlockingErrorReportsCount
+        }}
+        @iconTitle="plus"
+        class="import-page-section__collapsible-header--non-blocking"
+      >
+        {{#each this.translatedNonBlockingErrorReport as |report|}}
+          <PixMessage @type="warning">
+            <p>{{t "pages.sessions.import.step-two.non-blocking-errors.line"}}
+              {{report.line}}
+              :
+              {{report.message}}</p>
+          </PixMessage>
+        {{/each}}
+      </PixCollapsible>
+    </div>
+  {{/if}}
   {{#if @isImportInError}}
     <span class="import-page-section__information">
       {{t "pages.sessions.import.step-two.blocking-errors.information"}}
@@ -22,12 +50,12 @@
         @titleIcon="circle-exclamation"
         @title={{t
           "pages.sessions.import.step-two.blocking-errors.title"
-          blockingErrorReportsCount=@blockingErrorReportsCount
+          blockingErrorReportsCount=this.blockingErrorReportsCount
         }}
         @iconTitle="plus"
-        class="import-page-section__collapsible-header"
+        class="import-page-section__collapsible-header--blocking"
       >
-        {{#each this.translatedErrorReport as |report|}}
+        {{#each this.translatedBlockingErrorReport as |report|}}
           <PixMessage @type="error">
             <p>{{t "pages.sessions.import.step-two.blocking-errors.line"}}
               {{report.line}}

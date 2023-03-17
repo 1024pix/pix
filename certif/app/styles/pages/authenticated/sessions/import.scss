@@ -109,7 +109,7 @@
 
       li:first-of-type {
         margin-bottom: 8px;
-        
+
         img {
           margin-right: 8px;
           vertical-align: top;
@@ -187,14 +187,23 @@
     font-weight: $font-medium;
   }
 
-  &__collapsible-header {
+  &__collapsible-header--blocking,
+  &__collapsible-header--non-blocking {
     .pix-collapsible-title__label {
       font-size: 1rem;
       font-weight: 400;
     }
+  }
 
+  &__collapsible-header--blocking {
     .pix-collapsible-title__icon {
       color: $pix-error-70;
+    }
+  }
+
+  &__collapsible-header--non-blocking {
+    .pix-collapsible-title__icon {
+      color: $pix-warning-40;
     }
   }
 }
