@@ -3,7 +3,16 @@
     <h1 class="training-details-card__title">{{@training.title}}</h1>
     <dl class="training-details-card__details">
       <dt class="training-details-card__details-label">Publié sur&nbsp;:&nbsp;</dt>
-      <dd class="training-details-card__details-value">{{@training.link}}</dd>
+      <dd class="training-details-card__details-value">
+        <a
+          href={{@training.link}}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="{{@training.link}} (nouvelle fenêtre)"
+        >
+          {{@training.link}}
+        </a>
+      </dd>
       <dt class="training-details-card__details-label">Type de contenu&nbsp;:&nbsp;</dt>
       <dd class="training-details-card__details-value">{{@training.type}}</dd>
       <dt class="training-details-card__details-label">Durée&nbsp;:&nbsp;</dt>
