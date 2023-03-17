@@ -15,6 +15,7 @@ describe('Acceptance | Fuzz', function () {
         method: route.method,
         url,
       });
+
       const { statusCode } = testResponse;
 
       expect(statusCode).to.be.below(500);
