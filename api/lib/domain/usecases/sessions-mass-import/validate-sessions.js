@@ -41,6 +41,13 @@ module.exports = async function validateSessions({
 
     sessionsMassImportReport.addBlockingErrorReports(sessionsErrors);
 
+    const nonBlockingErrors = sessionsImportValidationService.checkNonBlockingErrors({
+      session,
+      line: sessionDTO.line,
+    });
+
+    sessionsMassImportReport.addNonBlockingErrorReports(nonBlockingErrors);
+
     if (session.certificationCandidates.length) {
       const { certificationCandidates } = session;
       const validatedCertificationCandidates = await _createValidCertificationCandidates({

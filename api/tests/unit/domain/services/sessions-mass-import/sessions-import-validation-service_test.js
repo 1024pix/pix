@@ -5,6 +5,7 @@ const certificationCpfService = require('../../../../../lib/domain/services/cert
 const {
   CERTIFICATION_CANDIDATES_ERRORS,
 } = require('../../../../../lib/domain/constants/certification-candidates-errors');
+const { CERTIFICATION_SESSIONS_ERRORS } = require('../../../../../lib/domain/constants/sessions-errors');
 const noop = require('lodash/noop');
 
 describe('Unit | Service | sessions import validation Service', function () {
@@ -479,6 +480,26 @@ describe('Unit | Service | sessions import validation Service', function () {
 
         // then
         expect(result.certificationCandidateErrors).to.deep.equal([{ code: 'CPF_INCORRECT', line: 1 }]);
+      });
+    });
+  });
+
+  describe('#checkNonBlockingErrors', function () {
+    describe('when session is empty', function () {
+      it('should return an errorReport that contains an empty session error', function () {
+        // given
+        const sessionData = _createValidSessionData();
+
+        // when
+        const result = sessionsImportValidationService.checkNonBlockingErrors({ session: sessionData, line: 3 });
+
+        // then
+        expect(result).to.deep.equal([
+          {
+            line: 3,
+            code: CERTIFICATION_SESSIONS_ERRORS.EMPTY_SESSION.code,
+          },
+        ]);
       });
     });
   });

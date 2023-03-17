@@ -47,4 +47,8 @@ module.exports.CERTIFICATION_SESSIONS_ERRORS = {
     code: 'SESSION_EXAMINER_REQUIRED',
     getMessage: () => 'Veuillez indiquer un(e) surveillant(e).',
   },
+  EMPTY_SESSION: {
+    code: 'EMPTY_SESSION',
+    getMessage: () => '',
+  },
 };
