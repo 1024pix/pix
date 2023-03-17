@@ -3,6 +3,7 @@
     "actions": {
       "back": "Retour",
       "cancel": "Cancel",
+      "choose": "Choose",
       "close": "Close",
       "continue": "Continue",
       "add": "Add",
@@ -20,7 +21,50 @@
       "gateway-timeout-error": "The service is being slow. Please try again later.",
       "internal-error": "An error occurred"
     },
-    "form": {
+    "forms": {
+      "certification-labels": {
+        "additional-certification": "Additional certification",
+        "billing-mode": {
+          "free": "Free",
+          "paid": "Payable",
+          "prepaid": "Prepaid"
+        },
+        "email-convocation": "Email for the convocation",
+        "email-results": "Email of the results' recipient (instructor, teacher...)",
+        "external-id": "External user ID",
+        "extratime": "Extra time",
+        "extratime-percentage": "Extra time (%)",
+        "prepayment-code": "Prepayment code",
+        "pricing": "Pricing of Pix’s share"
+      },
+      "labels": {
+        "birth-city": "Birth city",
+        "birth-city-insee-code": "Birth city INSEE code (only for France)",
+        "birth-city-postcode": "Birth city postcode",
+        "birth-geographical-code": "Geographical birth code",
+        "birth-country": "Birth country",
+        "birth-date": "Date of birth",
+        "birth-name": "Birth name",
+        "email": "Email address",
+        "firstname": "First name",
+        "gender": {
+          "title": "Gender",
+          "man": "Man",
+          "woman": "Woman"
+        },
+        "insee-code": "INSEE code",
+        "none": "None",
+        "postcode": "City postcode"
+      },
+      "session-labels": {
+        "address": "Location name",
+        "date": "Starting date",
+        "description": "Observations",
+        "examiner": "Invigilator(s)",
+        "room": "Room name",
+        "time": "Starting time (local time)"
+      },
+      "mandatory-fields": "The fields marked by <abbr title=\"required\" class=\"mandatory-mark\">*</abbr> are required.",
       "mandatory-all-fields": "All fields are required."
     },
     "candidate": {
@@ -57,10 +101,9 @@
       "accessible-to": "Pix Certif is only accessible to Pix certification centres.",
       "form": {
         "mandatory-fields": "All fields are required.",
-        "email-address": "Email address",
-        "password": "Password",
         "button": "Log in",
-        "forgotten-password": "Forgot your password?"
+        "forgotten-password": "Forgot your password?",
+        "password": "Password"
       }
     },
     "login-or-register": {
@@ -302,7 +345,16 @@
         "candidates": {
           "add-modal": {
             "actions": {
-              "close-extra-information": "Close add candidate window modal"
+              "close-extra-information": "Close add candidate window modal",
+              "enrol-the-candidate": "Enrol the candidate"
+            },
+            "title": "Inscrire un candidat",
+            "info-panel": "If this field isn’t filled in, the results won't be transmitted by email for the affected candidate(s).<br />The candidate will see their results displayed directly on their Pix account.",
+            "prepayment-information": "Prepayment code information",
+            "prepayment-tooltip": "Required in particular when purchasing combined credits)<br />It must be comprised of the organisation’s SIRET and of the invoice’s number. Ex : 12345678912345/FACT12345.<br />If you don’t have an invoice, a prepayment code must be set with Pix.",
+            "notifications": {
+              "add-success": "The candidate has been successfully enrolled.",
+              "remove-success": "The candidate has been successfully deleted./The candidates have been successfully deleted."
             }
           },
           "detail-modal": {
@@ -497,7 +549,12 @@
         "multiple-supervisor": "Invigilator(s)",
         "room": "Room",
         "session-id": "Session {sessionId}",
-        "supervisor": "Supervisor"
+        "center-name": "Center name",
+        "center-name-full": "Center name",
+        "room": "Room",
+        "supervisor": "Supervisor",
+        "multiple-supervisor": "Supervisor(s)",
+        "access-code": "Access code (candidates)"
       },
       "candidate-list": {
         "authorized-to-start-candidates": "{authorizedToStartCandidates}/{totalCandidates} {authorizedToStartCandidates, plural,one {candidate} other {candidates}} selected",
