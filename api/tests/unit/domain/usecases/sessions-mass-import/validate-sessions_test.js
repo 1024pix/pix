@@ -94,7 +94,8 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         sessionsCount: 2,
         sessionsWithoutCandidatesCount: 2,
         candidatesCount: 0,
-        errorsReport: [],
+        blockingErrorReports: [],
+        nonBlockingErrorReports: [],
       });
     });
 
@@ -179,7 +180,8 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           sessionsCount: 2,
           sessionsWithoutCandidatesCount: 0,
           candidatesCount: 3,
-          errorsReport: [],
+          blockingErrorReports: [],
+          nonBlockingErrorReports: [],
         });
       });
     });
@@ -243,7 +245,8 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           sessionsCount: 1,
           sessionsWithoutCandidatesCount: 0,
           candidatesCount: 1,
-          errorsReport: ['Veuillez indiquer un nom de site.', 'lastName required'],
+          blockingErrorReports: ['Veuillez indiquer un nom de site.', 'lastName required'],
+          nonBlockingErrorReports: [],
         });
 
         expect(complementaryCertificationRepository.getByLabel).to.not.have.been.called;
