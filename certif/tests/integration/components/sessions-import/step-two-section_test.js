@@ -106,14 +106,14 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
       test('it renders a report', async function (assert) {
         // given
         this.set('isImportInError', true);
-        this.set('errorsReport', [{ line: '5', code: error }]);
-        this.set('errorsReportCount', 1);
+        this.set('blockingErrorReports', [{ line: '5', code: error }]);
+        this.set('blockingErrorReportsCount', 1);
 
         // when
         const { getByText, getByRole } = await render(hbs`<Import::StepTwoSection
           @isImportInError={{this.isImportInError}}
-          @errorsReport={{this.errorsReport}}
-          @errorsReportCount={{this.errorsReportCount}}
+          @blockingErrorReports={{this.blockingErrorReports}}
+          @blockingErrorReportsCount={{this.blockingErrorReportsCount}}
           />`);
 
         await click(getByRole('button', { name: '1 erreur bloquante' }));

@@ -180,7 +180,7 @@
         },
         "step-two": {
           "blocking-errors": {
-            "title": "{errorsReportCount} {errorsReportCount, plural,one {erreur bloquante} other {erreurs bloquantes}}",
+            "title": "{blockingErrorReportsCount} {blockingErrorReportsCount, plural,one {erreur bloquante} other {erreurs bloquantes}}",
             "information": "Veuillez corriger toutes les erreurs bloquantes avant de re-importer le fichier .csv :",
             "line": "Line",
             "errors": {
@@ -214,6 +214,12 @@
               "SESSION_SCHEDULED_IN_THE_PAST": "Date et/ou heure indiquées antérieures à la date du jour.",
               "INFORMATION_NOT_ALLOWED_WITH_SESSION_ID": "Numéro de session fourni, veuillez supprimer les informations de session associées."
             }
+          },
+          "non-blocking-errors": {
+            "title": "{nonBlockingErrorReportsCount} {nonBlockingErrorReportsCount, plural,one {Point d’attention non bloquant} other {Points d’attention non bloquants}}",
+            "information": "Nous avons détecté {nonBlockingErrorReportsCount, plural,one {un point d’attention non bloquant} other {des points d’attention non bloquants}} lors de l’import, consultez-{nonBlockingErrorReportsCount, plural,one {le} other {les}} avant de procéder à la création ou l’édition de vos sessions :",
+            "line": "Line",
+            "errors": {}
           },
           "actions": {
             "import-again": {

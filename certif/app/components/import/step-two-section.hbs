@@ -20,7 +20,10 @@
     <div>
       <PixCollapsible
         @titleIcon="circle-exclamation"
-        @title={{t "pages.sessions.import.step-two.blocking-errors.title" errorsReportCount=@errorsReportCount}}
+        @title={{t
+          "pages.sessions.import.step-two.blocking-errors.title"
+          blockingErrorReportsCount=@blockingErrorReportsCount
+        }}
         @iconTitle="plus"
         class="import-page-section__collapsible-header"
       >

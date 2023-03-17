@@ -5,9 +5,9 @@ export default class StepTwoSectionComponent extends Component {
   @service intl;
 
   get translatedErrorReport() {
-    return this.args.errorsReport.map((errorReport) => ({
-      line: errorReport.line,
-      message: _translatedErrorCodeToMessage(this.intl, errorReport.code),
+    return this.args.blockingErrorReports.map(({ line, code }) => ({
+      line,
+      message: _translatedErrorCodeToMessage(this.intl, code),
     }));
   }
 }
