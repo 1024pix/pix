@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 dotenv.config();
 import PgBoss from 'pg-boss';
 import _ from 'lodash';
