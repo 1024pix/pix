@@ -24,6 +24,14 @@ export default class StepTwoSectionComponent extends Component {
   get nonBlockingErrorReportsCount() {
     return this.args.nonBlockingErrorReports?.length;
   }
+
+  get noErrorBlockingOrNot() {
+    return !(this.args.nonBlockingErrorReports?.length || this.args.blockingErrorReports?.length);
+  }
+
+  get hasOnlyNonBlockingErrorReports() {
+    return this.blockingErrorReportsCount === 0 && this.nonBlockingErrorReportsCount > 0;
+  }
 }
 
 function _translatedErrorCodeToMessage(intl, code) {

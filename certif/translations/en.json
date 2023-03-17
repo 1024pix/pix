@@ -230,6 +230,9 @@
             },
             "confirm": {
               "label": "Finaliser la création/édition"
+            },
+            "confirm-with-warning": {
+              "label": "Finaliser quand même la création/édition"
             }
           },
           "sessions-and-empty-sessions-count": "{sessionsCount} {sessionsCount, plural,one {session} other {sessions}} including {sessionsWithoutCandidatesCount} {sessionsWithoutCandidatesCount, plural,one {session} other {sessions}} without candidates",
