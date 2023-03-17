@@ -23,13 +23,13 @@
     <form class="login-main__form" {{on "submit" this.authenticate}}>
 
       <p class="login-main-form__mandatory-information paragraph">
-        {{t "pages.login.form.mandatory-fields"}}
+        {{t "common.forms.mandatory-all-fields"}}
       </p>
 
       <PixInput
         @id="login-email"
         name="login"
-        @label={{t "pages.login.form.email-address"}}
+        @label={{t "common.forms.labels.email"}}
         autocomplete="email"
         type="email"
         required="true"

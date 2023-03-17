@@ -36,42 +36,42 @@
         <thead>
           <tr>
             <th class="certification-candidates-table__column-last-name">
-              {{t "pages.sessions.detail.candidates.informations.birth-name"}}
+              {{t "common.forms.labels.birth-name"}}
             </th>
             <th class="certification-candidates-table__column-first-name">
-              {{t "pages.sessions.detail.candidates.informations.firstname"}}
+              {{t "common.forms.labels.firstname"}}
             </th>
             <th class="certification-candidates-table__column-birthdate">
-              {{t "pages.sessions.detail.candidates.informations.birth-date"}}
+              {{t "common.forms.labels.birth-date"}}
             </th>
             {{#if @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
               <th class="certification-candidates-table__birth-city">
-                {{t "pages.sessions.detail.candidates.informations.birth-city"}}
+                {{t "common.forms.labels.birth-city"}}
               </th>
               <th>
-                {{t "pages.sessions.detail.candidates.informations.birth-country"}}
+                {{t "common.forms.labels.birth-country"}}
               </th>
             {{/if}}
             {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
               <th class="certification-candidates-table__recipient-email">
-                {{t "pages.sessions.detail.candidates.informations.email-results"}}
+                {{t "common.forms.certification-labels.email-results"}}
               </th>
             {{/unless}}
             {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
               <th class="certification-candidates-table__external-id">
-                {{t "pages.sessions.detail.candidates.informations.external-id"}}
+                {{t "common.forms.certification-labels.external-id"}}
               </th>
             {{/unless}}
             <th class="certification-candidates-table__column-time">
-              {{t "pages.sessions.detail.candidates.informations.extratime"}}
+              {{t "common.forms.certification-labels.extratime"}}
             </th>
             {{#if @shouldDisplayPaymentOptions}}
               <th class="certification-candidates-table__payment-options">
-                {{t "pages.sessions.detail.candidates.informations.pricing"}}
+                {{t "common.forms.certification-labels.pricing"}}
               </th>
             {{/if}}
             {{#if @displayComplementaryCertification}}
-              <th>{{t "pages.sessions.detail.candidates.informations.additional-certification"}}</th>
+              <th>{{t "common.forms.certification-labels.additional-certification"}}</th>
             {{/if}}
           </tr>
         </thead>

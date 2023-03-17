@@ -9,6 +9,7 @@ const POSTAL_CODE_OPTION = 'postal';
 
 export default class NewCertificationCandidateModal extends Component {
   @service currentUser;
+  @service intl;
 
   @tracked selectedBirthGeoCodeOption = INSEE_CODE_OPTION;
   @tracked selectedCountryInseeCode = FRANCE_INSEE_CODE;
@@ -22,6 +23,11 @@ export default class NewCertificationCandidateModal extends Component {
 
   get complementaryCertifications() {
     return this.currentUser.currentAllowedCertificationCenterAccess?.habilitations;
+  }
+
+  get billingMenuPlaceholder() {
+    const labelTranslation = this.intl.t('common.actions.choose');
+    return `-- ${labelTranslation} --`;
   }
 
   @action
@@ -134,10 +140,14 @@ export default class NewCertificationCandidateModal extends Component {
   }
 
   get billingModeOptions() {
+    const freeLabel = this.intl.t('common.forms.certification-labels.billing-mode.free');
+    const paidLabel = this.intl.t('common.forms.certification-labels.billing-mode.paid');
+    const prepaidLabel = this.intl.t('common.forms.certification-labels.billing-mode.prepaid');
+
     return [
-      { label: 'Gratuite', value: 'FREE' },
-      { label: 'Payante', value: 'PAID' },
-      { label: 'Prépayée', value: 'PREPAID' },
+      { label: freeLabel, value: 'FREE' },
+      { label: paidLabel, value: 'PAID' },
+      { label: prepaidLabel, value: 'PREPAID' },
     ];
   }
 
