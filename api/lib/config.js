@@ -1,3 +1,5 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable node/no-process-env */
 import path from 'path';
