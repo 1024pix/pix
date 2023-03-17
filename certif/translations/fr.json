@@ -223,7 +223,7 @@
           "sessions-and-empty-sessions-count": "{sessionsCount} {sessionsCount, plural,one {session} other {sessions}} dont {sessionsWithoutCandidatesCount} {sessionsWithoutCandidatesCount, plural,one {session} other {sessions}} sans candidat",
           "candidates-count": "{candidatesCount} {candidatesCount, plural,one {candidat} other {candidats}}"
         },
-        "success": "Succès ! {sessionsCount} {sessionsCount, plural, one {session} other {sessions}} dont {sessionsWithoutCandidatesCount} {sessionsWithoutCandidatesCount, plural, one {session} other {sessions}} sans candidat créé et {candidatesCount} {candidatesCount, plural, one {candidat créé ou édité} other {candidats créés ou édités}}"
+        "success": "Succès ! {sessionsCount} {sessionsCount, plural, one {session} other {sessions}} dont {sessionsWithoutCandidatesCount} {sessionsWithoutCandidatesCount, plural, one {session} other {sessions}} sans candidat {sessionsCount, plural, one {créée} other {créées}} et {candidatesCount} {candidatesCount, plural, one {candidat créé ou édité} other {candidats créés ou édités}}"
       },
       "list": {
         "title": "Sessions de certification",
