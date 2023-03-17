@@ -41,7 +41,7 @@
       </PixCollapsible>
     </div>
   {{/if}}
-  {{#if @isImportInError}}
+  {{#if (gt this.blockingErrorReportsCount 0)}}
     <span class="import-page-section__information">
       {{t "pages.sessions.import.step-two.blocking-errors.information"}}
     </span>
@@ -65,16 +65,47 @@
         {{/each}}
       </PixCollapsible>
     </div>
-    <PixButton
-      class="import-page__section--confirm-button"
-      aria-label={{t "pages.sessions.import.step-two.actions.import-again.extra-information"}}
-      @triggerAction={{@toggleStepOne}}
-    >
-      {{t "pages.sessions.import.step-two.actions.import-again.label"}}
-    </PixButton>
-  {{else}}
-    <PixButton class="import-page__section--confirm-button" @triggerAction={{@createSessions}}>
-      {{t "pages.sessions.import.step-two.actions.confirm.label"}}
-    </PixButton>
   {{/if}}
+
+  <ul class="import-page__section--link-buttons">
+    {{#if this.hasOnlyNonBlockingErrorReports}}
+      <li>
+        <PixButton
+          @backgroundColor="yellow"
+          class="import-page__section--confirm-button--non-blocking"
+          @triggerAction={{@createSessions}}
+        >
+          {{t "pages.sessions.import.step-two.actions.confirm-with-warning.label"}}
+        </PixButton>
+      </li>
+      <li>
+        <PixButton
+          @backgroundColor="transparent-light"
+          @isBorderVisible="true"
+          @triggerAction={{@toggleStepOne}}
+          aria-label={{t "pages.sessions.import.step-two.actions.import-again.extra-information"}}
+        >
+
+          {{t "pages.sessions.import.step-two.actions.import-again.label"}}
+        </PixButton></li>
+    {{/if}}
+    {{#if (gt this.blockingErrorReportsCount 0)}}
+      <li>
+        <PixButton
+          class="import-page__section--confirm-button"
+          aria-label={{t "pages.sessions.import.step-two.actions.import-again.extra-information"}}
+          @triggerAction={{@toggleStepOne}}
+        >
+          {{t "pages.sessions.import.step-two.actions.import-again.label"}}
+        </PixButton>
+      </li>
+    {{/if}}
+    {{#if this.noErrorBlockingOrNot}}
+      <li>
+        <PixButton class="import-page__section--confirm-button" @triggerAction={{@createSessions}}>
+          {{t "pages.sessions.import.step-two.actions.confirm.label"}}
+        </PixButton>
+      </li>
+    {{/if}}
+  </ul>
 </section>

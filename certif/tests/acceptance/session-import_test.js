@@ -194,21 +194,6 @@ module('Acceptance | Session Import', function (hooks) {
             assert.dom(screen.getByText('2 sessions dont 1 session sans candidat')).exists();
             assert.dom(screen.getByText('3 candidats')).exists();
             assert.dom(screen.queryByLabelText('fichier.csv')).doesNotExist();
-          });
-
-          test('it should display a confirm button', async function (assert) {
-            // given
-            const blob = new Blob(['foo']);
-            const file = new File([blob], 'fichier.csv');
-
-            // when
-            screen = await visit('/sessions/import');
-            const input = screen.getByLabelText('Importer le modèle complété');
-            await triggerEvent(input, 'change', { files: [file] });
-            const importButton = screen.getByRole('button', { name: 'Continuer' });
-            await click(importButton);
-
-            // then
             assert.dom(screen.getByRole('button', { name: 'Finaliser la création/édition' })).exists();
           });
 

@@ -216,7 +216,7 @@
             "information": "Nous avons détecté {nonBlockingErrorReportsCount, plural,one {un point d’attention non bloquant} other {des points d’attention non bloquants}} lors de l’import, consultez-{nonBlockingErrorReportsCount, plural,one {le} other {les}} avant de procéder à la création ou l’édition de vos sessions :",
             "line": "Ligne",
             "errors": {
-              "EMPTY_SESSION": "La session ne contient pas de candidat. "
+              "EMPTY_SESSION": "La session ne contient pas de candidat."
             }
           },
           "actions": {
@@ -226,6 +226,9 @@
             },
             "confirm": {
               "label": "Finaliser la création/édition"
+            },
+            "confirm-with-warning": {
+              "label": "Finaliser quand même la création/édition"
             }
           },
           "sessions-and-empty-sessions-count": "{sessionsCount} {sessionsCount, plural,one {session} other {sessions}} dont {sessionsWithoutCandidatesCount} {sessionsWithoutCandidatesCount, plural,one {session} other {sessions}} sans candidat",
