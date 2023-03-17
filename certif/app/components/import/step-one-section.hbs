@@ -1,28 +1,22 @@
 <p>{{t "pages.sessions.import.step-one.instructions.title"}}</p>
-<PixCollapsible
-  @title={{t "pages.sessions.import.step-one.instructions.creation.title"}}
-  @iconTitle="plus"
-  class="import-page_section--instructions"
->
-  {{t "pages.sessions.import.step-one.instructions.creation.list"}}
-  <ul>
-    <li>{{t "pages.sessions.import.step-one.instructions.creation.list-with-candidates" htmlSafe=true}}</li>
-    <li>{{t "pages.sessions.import.step-one.instructions.creation.list-without-candidates" htmlSafe=true}}</li>
-  </ul>
-</PixCollapsible>
-<PixCollapsible
-  @title={{t "pages.sessions.import.step-one.instructions.edition.title"}}
-  @iconTitle="plus"
-  class="import-page__section--instructions"
->
-  <ul>
-    <li>{{t "pages.sessions.import.step-one.instructions.edition.replace" htmlSafe=true}}</li>
-    <li>{{t "pages.sessions.import.step-one.instructions.edition.subscription" htmlSafe=true}}</li>
-  </ul>
-  <PixMessage @type="warning" @withIcon={{true}}>
-    {{t "pages.sessions.import.step-one.instructions.edition.warning"}}
-  </PixMessage>
-</PixCollapsible>
+<div class="import-page_section--instructions">
+  <PixCollapsible @title={{t "pages.sessions.import.step-one.instructions.creation.title"}} @iconTitle="plus">
+    {{t "pages.sessions.import.step-one.instructions.creation.list"}}
+    <ul>
+      <li>{{t "pages.sessions.import.step-one.instructions.creation.list-with-candidates" htmlSafe=true}}</li>
+      <li>{{t "pages.sessions.import.step-one.instructions.creation.list-without-candidates" htmlSafe=true}}</li>
+    </ul>
+  </PixCollapsible>
+  <PixCollapsible @title={{t "pages.sessions.import.step-one.instructions.edition.title"}} @iconTitle="plus">
+    <ul>
+      <li>{{t "pages.sessions.import.step-one.instructions.edition.replace" htmlSafe=true}}</li>
+      <li>{{t "pages.sessions.import.step-one.instructions.edition.subscription" htmlSafe=true}}</li>
+    </ul>
+    <PixMessage @type="warning" @withIcon={{true}}>
+      {{t "pages.sessions.import.step-one.instructions.edition.warning"}}
+    </PixMessage>
+  </PixCollapsible>
+</div>
 
 <section class="import-page__section--download panel">
   <div class="import-page__section--download__button">

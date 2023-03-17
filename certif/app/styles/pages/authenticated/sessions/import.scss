@@ -9,35 +9,38 @@
     margin-bottom: 8px;
   }
 
-  .pix-collapsible:not(:last-child) {
-    margin-bottom: 8px;
-  }
+  &_section--instructions {
+    .pix-collapsible {
+      margin-bottom: 8px;
+    }
 
-  .pix-collapsible,
-  .pix-collapsible__title {
-    border-radius: 8px;
-    color: $pix-neutral-70;
-    font-size: 14px;
-    font-weight: $font-light;
-  }
+    .pix-collapsible,
+    .pix-collapsible__title {
+      border-radius: 8px;
+      color: $pix-neutral-70;
+      font-size: 14px;
+      font-weight: $font-light;
+    }
 
-  .pix-collapsible__title:not(.pix-collapsible__title--uncollapsed):focus {
-    background-color: inherit;
-  }
+    .pix-collapsible__title[aria-expanded=true] {
+      background-color: inherit;
+      border-radius: 8px 8px 0 0;
+    }
 
-  .pix-collapsible__title--uncollapsed {
-    border-radius: 8px 8px 0 0;
-  }
+    .pix-collapsible__title--uncollapsed {
+      border-radius: 8px 8px 0 0;
+    }
 
-  .pix-collapsible__content {
-    line-height: 20px;
-    padding: 14px 16px;
-  }
+    .pix-collapsible__content {
+      line-height: 20px;
+      padding: 14px 16px;
+    }
 
-  .pix-collapsible ul {
-    list-style: disc;
-    margin-top: 6px;
-    margin-left: 24px;
+    .pix-collapsible ul {
+      list-style: disc;
+      margin-top: 6px;
+      margin-left: 24px;
+    }
   }
 
   .pix-collapsible .pix-message {
@@ -183,7 +186,11 @@
     font-weight: $font-medium;
   }
 
-  &__circle-exclamation-icon {
+  &__collapsible-header {
+    .pix-collapsible-title__label {
+      font-size: 1rem;
+      font-weight: 400;
+    }
     .pix-collapsible-title__icon {
       color: $pix-error-70;
     }

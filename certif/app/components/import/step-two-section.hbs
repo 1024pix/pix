@@ -17,16 +17,23 @@
     <span class="import-page-section__information">
       {{t "pages.sessions.import.step-two.blocking-errors.information"}}
     </span>
-    <PixCollapsible
-      @titleIcon="circle-exclamation"
-      @title={{t "pages.sessions.import.step-two.blocking-errors.title" errorsReportCount=@errorsReportCount}}
-      @iconTitle="plus"
-      class="import-page-section__circle-exclamation-icon"
-    >
-      <PixMessage @type="error">
-        <p>{{@errorsReport}}</p>
-      </PixMessage>
-    </PixCollapsible>
+    <div>
+      <PixCollapsible
+        @titleIcon="circle-exclamation"
+        @title={{t "pages.sessions.import.step-two.blocking-errors.title" errorsReportCount=@errorsReportCount}}
+        @iconTitle="plus"
+        class="import-page-section__collapsible-header"
+      >
+        {{#each this.translatedErrorReport as |report|}}
+          <PixMessage @type="error">
+            <p>{{t "pages.sessions.import.step-two.blocking-errors.line"}}
+              {{report.line}}
+              :
+              {{report.message}}</p>
+          </PixMessage>
+        {{/each}}
+      </PixCollapsible>
+    </div>
     <PixButton
       class="import-page__section--confirm-button"
       aria-label={{t "pages.sessions.import.step-two.actions.import-again.extra-information"}}
