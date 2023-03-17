@@ -34,9 +34,7 @@ module('Acceptance | mes-formations', function (hooks) {
       await visit('/mes-formations');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/mes-formations');
+      assert.strictEqual(currentURL(), '/mes-formations');
       assert.dom('.user-trainings-banner__title').exists();
       assert.ok(find('.user-trainings-banner__title').textContent.includes('Mes formations'));
       assert.dom('.user-trainings-banner__description').exists();
@@ -48,7 +46,10 @@ module('Acceptance | mes-formations', function (hooks) {
       assert.dom('.user-trainings-content__container').exists();
       assert.dom('.user-trainings-content-list__item').exists();
       assert.dom('.user-trainings-content-list__item').exists({ count: 2 });
-      assert.dom('.pix-pagination__navigation').exists();
+
+      const pixPaginationTextContent = find('.pix-pagination__navigation').textContent;
+      assert.ok(pixPaginationTextContent.includes('2 éléments'));
+      assert.ok(pixPaginationTextContent.includes('Page 1 / 1'));
     });
   });
 });
