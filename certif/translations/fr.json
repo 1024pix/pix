@@ -173,7 +173,39 @@
         "step-two": {
           "blocking-errors": {
             "title": "{errorsReportCount} {errorsReportCount, plural,one {erreur bloquante} other {erreurs bloquantes}}",
-            "information": "Veuillez corriger toutes les erreurs bloquantes avant de re-importer le fichier .csv :"
+            "information": "Veuillez corriger toutes les erreurs bloquantes avant de re-importer le fichier .csv :",
+            "line": "Ligne",
+            "errors": {
+              "CANDIDATE_FIRST_NAME_REQUIRED": "Champ obligatoire \"Prénom\" manquant",
+              "CANDIDATE_LAST_NAME_REQUIRED": "Champ obligatoire \"Nom de famille\" manquant",
+              "CANDIDATE_SEX_REQUIRED": "Champ obligatoire \"Sexe\" manquant",
+              "CANDIDATE_SEX_NOT_VALID": "Champ sexe format incorrect, format accepté \"M\"/\"F\"",
+              "CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_EXCLUSIVE": " Renseigner soit un code INSEE soit un code postal et un nom de commune de naissance.",
+              "CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED": "Champ obligatoire \"Code postal\" OU \"Code INSEE\" manquant",
+              "CANDIDATE_BIRTH_COUNTRY_REQUIRED": "Champ obligatoire \"Pays de naissance\" manquant",
+              "CANDIDATE_BIRTH_COUNTRY_NOT_FOUND": "Pays de naissance non trouvé",
+              "CANDIDATE_BIRTHDATE_REQUIRED": "Champ obligatoire \"Date de naissance\" manquant",
+              "CANDIDATE_BIRTHDATE_FORMAT_INCORRECT": "Format de date incorrect, champ \"Date de naissance\", format accepté JJ/MM/AAAA",
+              "CANDIDATE_EXTRA_TIME_BELOW_ONE": "Format temps majoré incorrect, format accepté XX%",
+              "CANDIDATE_EXTRA_TIME_INTEGER": "Format temps majoré incorrect, format accepté XX%",
+              "CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION": "Inscription possible qu'à une seule certification complémentaire par candidat.",
+              "CANDIDATE_BILLING_MODE_REQUIRED": "Champ obligatoire \"Tarification par Pix\" manquant",
+              "CANDIDATE_BILLING_MODE_NOT_VALID": "Format tarification part Pix incorrect, formats acceptés \"Gratuite\", \"Payante\" ou \"Prépayée\".",
+              "CANDIDATE_PREPAYMENT_CODE_REQUIRED": "Champ obligatoire \"Code de prépaiement\" manquant, doit être renseigné en cas de \"Tarification par Pix\" \"Prépayée\"",
+              "CANDIDATE_PREPAYMENT_CODE_MUST_BE_EMPTY": "Champ \"Code de prépaiement\" doit rester vide",
+              "CANDIDATE_NOT_ALLOWED_FOR_STARTED_SESSION": "Edition des candidats impossible, N° de session correspond à une session déjà démarrée",
+              "DUPLICATE_CANDIDATE_NOT_ALLOWED_IN_SESSION": "Candidat inscrit plusieurs fois à cette session",
+              "SESSION_ADDRESS_REQUIRED": "Champ obligatoire \"Nom du site\" manquant",
+              "SESSION_ROOM_REQUIRED": "Champ obligatoire \"Nom de la salle\" manquant",
+              "SESSION_DATE_REQUIRED": "Champ obligatoire \"Date de session\" manquant",
+              "SESSION_DATE_NOT_VALID": "Format de date incorrect, champ \"Date de session\", format accepté JJ/MM/AAAA",
+              "SESSION_TIME_REQUIRED": "Champ obligatoire \"Heure de début\" manquant",
+              "SESSION_TIME_NOT_VALID": "Format d'heure incorrect, champ \"Heure de début\", format accepté HH:MM",
+              "SESSION_EXAMINER_REQUIRED": "Champ obligatoire \"Surveillant(s)\" manquant",
+              "SESSION_WITH_DATE_AND_TIME_ALREADY_EXISTS": "Session déjà créée avec ces critères, pour ajouter des candidats n’indiquer que le N°, pas les informations de session.",
+              "SESSION_SCHEDULED_IN_THE_PAST": "Date et/ou heure indiquées antérieures à la date du jour.",
+              "INFORMATION_NOT_ALLOWED_WITH_SESSION_ID": "Numéro de session fourni, veuillez supprimer les informations de session associées."
+            }
           },
           "actions": {
             "import-again": {

@@ -395,11 +395,10 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     context('when all required fields are presents', function () {
       it('should return nothing', function () {
         // given
-        const isSco = true;
         const certificationCandidate = buildCertificationCandidate(validAttributes);
 
         // when
-        const report = certificationCandidate.validateForMassSessionImport(isSco);
+        const report = certificationCandidate.validateForMassSessionImport();
 
         // then
         expect(report).to.be.undefined;
@@ -419,7 +418,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field]: undefined });
 
         // when
-        const report = certificationCandidate.validateForMassSessionImport({ line: 1 });
+        const report = certificationCandidate.validateForMassSessionImport();
 
         // then
         expect(report).to.deep.equal([`${expectedCode}`]);
@@ -430,7 +429,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field]: null });
 
         // when
-        const report = certificationCandidate.validateForMassSessionImport({});
+        const report = certificationCandidate.validateForMassSessionImport();
 
         // then
         expect(report).to.deep.equal([expectedCode]);
@@ -442,9 +441,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: '2020/02/01' });
 
       // when
-      const report = certificationCandidate.validateForMassSessionImport({
-        isSco: true,
-      });
+      const report = certificationCandidate.validateForMassSessionImport();
 
       // then
       expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_FORMAT_INCORRECT.code]);
@@ -455,10 +452,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: null });
 
       // when
-      const report = certificationCandidate.validateForMassSessionImport({
-        isSco: true,
-        line: 1,
-      });
+      const report = certificationCandidate.validateForMassSessionImport();
 
       // then
       expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_REQUIRED.code]);
@@ -472,10 +466,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       });
 
       // when
-      const report = certificationCandidate.validateForMassSessionImport({
-        isSco: true,
-        line: 1,
-      });
+      const report = certificationCandidate.validateForMassSessionImport();
 
       //then
       expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_PERCENTAGE_REQUIRED.code]);
@@ -486,9 +477,8 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         ...validAttributes,
         extraTimePercentage: 101,
       });
-      const isSco = true;
 
-      const report = certificationCandidate.validateForMassSessionImport(isSco);
+      const report = certificationCandidate.validateForMassSessionImport();
 
       // then
       expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_BELOW_ONE.code]);
@@ -499,9 +489,8 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         ...validAttributes,
         extraTimePercentage: 0,
       });
-      const isSco = true;
 
-      const report = certificationCandidate.validateForMassSessionImport(isSco);
+      const report = certificationCandidate.validateForMassSessionImport();
 
       // then
       expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_BELOW_ONE.code]);
@@ -509,11 +498,10 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should return a report when sex is neither M nor F', async function () {
       // given
-      const isSco = true;
       const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sex: 'something_else' });
 
       // when
-      const report = certificationCandidate.validateForMassSessionImport(isSco);
+      const report = certificationCandidate.validateForMassSessionImport();
 
       // then
       expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SEX_NOT_VALID.code]);
@@ -521,11 +509,10 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should return a report when sex is null', async function () {
       // given
-      const isSco = true;
       const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sex: null });
 
       // when
-      const report = certificationCandidate.validateForMassSessionImport(isSco);
+      const report = certificationCandidate.validateForMassSessionImport();
 
       // then
       expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SEX_REQUIRED.code]);
@@ -533,15 +520,13 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
     it('should return a report when a candidate is added with multiple complementary certifications', async function () {
       // given
-      const isSco = true;
-
       const certificationCandidate = buildCertificationCandidate({
         ...validAttributes,
         complementaryCertifications: [Symbol('1'), Symbol('2')],
       });
 
       // when
-      const report = certificationCandidate.validateForMassSessionImport(isSco);
+      const report = certificationCandidate.validateForMassSessionImport();
 
       // then
       expect(report).to.deep.equal([
@@ -564,6 +549,23 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
           // then
           expect(report).to.be.undefined;
+        });
+      });
+
+      context('when the billing mode is not null', function () {
+        it('should return a report', async function () {
+          // given
+          const certificationCandidate = domainBuilder.buildCertificationCandidate({
+            ...validAttributes,
+            billingMode: 'FREE',
+          });
+          const isSco = true;
+
+          // when
+          const report = certificationCandidate.validateForMassSessionImport(isSco);
+
+          // then
+          expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BILLING_MODE_MUST_BE_EMPTY.code]);
         });
       });
     });
@@ -608,7 +610,6 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         ['FREE', 'PAID', 'PREPAID'].forEach((billingMode) => {
           it(`should return nothing for ${billingMode}`, async function () {
             // given
-            const isSco = true;
             const certificationCandidate = domainBuilder.buildCertificationCandidate({
               ...validAttributes,
               billingMode,
@@ -616,7 +617,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
             });
 
             // when
-            const report = certificationCandidate.validateForMassSessionImport(isSco);
+            const report = certificationCandidate.validateForMassSessionImport();
 
             // then
             expect(report).to.be.undefined;
@@ -628,7 +629,6 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         context('when prepaymentCode is not null', function () {
           it('should return a report', async function () {
             // given
-            const isSco = true;
             const certificationCandidate = domainBuilder.buildCertificationCandidate({
               ...validAttributes,
               billingMode: 'PAID',
@@ -636,7 +636,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
             });
 
             // when
-            const report = certificationCandidate.validateForMassSessionImport(isSco);
+            const report = certificationCandidate.validateForMassSessionImport();
 
             // then
             expect(report).to.deep.equal([
@@ -656,13 +656,25 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
           });
 
           // when
-          const report = certificationCandidate.validateForMassSessionImport({
-            isSco: true,
-            line: 1,
-          });
+          const report = certificationCandidate.validateForMassSessionImport();
 
           // then
           expect(report).to.be.undefined;
+        });
+
+        it('should return report if prepaymentCode is null', function () {
+          // given
+          const certificationCandidate = domainBuilder.buildCertificationCandidate({
+            ...validAttributes,
+            billingMode: 'PREPAID',
+            prepaymentCode: '',
+          });
+
+          // when
+          const report = certificationCandidate.validateForMassSessionImport();
+
+          // then
+          expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_REQUIRED.code]);
         });
       });
     });
@@ -677,9 +689,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         });
 
         // when
-        const report = certificationCandidate.validateForMassSessionImport({
-          line: 1,
-        });
+        const report = certificationCandidate.validateForMassSessionImport();
 
         // then
         expect(report).to.deep.equal([
@@ -696,9 +706,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         });
 
         // when
-        const report = certificationCandidate.validateForMassSessionImport({
-          line: 1,
-        });
+        const report = certificationCandidate.validateForMassSessionImport();
 
         // then
         expect(report).to.deep.equal([
@@ -715,10 +723,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         });
 
         // when
-        const report = certificationCandidate.validateForMassSessionImport({
-          isSco: true,
-          line: 1,
-        });
+        const report = certificationCandidate.validateForMassSessionImport();
 
         // then
         expect(report).to.be.undefined;
@@ -728,15 +733,13 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         // given
         const certificationCandidate = domainBuilder.buildCertificationCandidate({
           ...validAttributes,
+          billingMode: 'FREE',
           birthPostalCode: '',
           birthINSEECode: '75115',
         });
 
         // when
-        const report = certificationCandidate.validateForMassSessionImport({
-          isSco: true,
-          line: 1,
-        });
+        const report = certificationCandidate.validateForMassSessionImport();
 
         // then
         expect(report).to.be.undefined;
@@ -750,13 +753,11 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
           ...validAttributes,
           firstName: undefined,
           birthdate: undefined,
+          billingMode: 'FREE',
         });
 
         // when
-        const report = certificationCandidate.validateForMassSessionImport({
-          isSco: true,
-          line: 1,
-        });
+        const report = certificationCandidate.validateForMassSessionImport();
 
         // then
         expect(report).to.deep.equal([
