@@ -247,25 +247,5 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
       // then
       assert.ok(controller.router.transitionTo.calledWith('authenticated.sessions.list'));
     });
-
-    test('should return the number of blocking errors', async function (assert) {
-      // given
-      controller.blockingErrorReports = [1, 2, 3];
-      // when
-      const count = await controller.blockingErrorReportsCount();
-
-      // then
-      assert.ok(count).to.equals(3);
-    });
-
-    test('should return the number of non blocking errors', async function (assert) {
-      // given
-      controller.nonBlockingErrorReports = [1, 2, 3];
-      // when
-      const count = await controller.nonBlockingErrorReportsCount();
-
-      // then
-      assert.ok(count).to.equals(3);
-    });
   });
 });

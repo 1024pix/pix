@@ -30,14 +30,6 @@ export default class ImportController extends Controller {
     return this.file.name;
   }
 
-  get blockingErrorReportsCount() {
-    return this.blockingErrorReports?.length;
-  }
-
-  get nonBlockingErrorReportsCount() {
-    return this.nonBlockingErrorReports?.length;
-  }
-
   @action
   async downloadSessionImportTemplate() {
     const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;
