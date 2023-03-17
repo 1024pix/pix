@@ -101,6 +101,20 @@ module.exports = {
       },
     };
   },
+
+  checkNonBlockingErrors({ session, line }) {
+    const nonBlockingErrorReports = [];
+
+    if (session.certificationCandidates.length === 0) {
+      _addToErrorList({
+        errorList: nonBlockingErrorReports,
+        line,
+        codes: [CERTIFICATION_SESSIONS_ERRORS.EMPTY_SESSION.code],
+      });
+    }
+
+    return nonBlockingErrorReports;
+  },
 };
 
 function _isErrorNotDuplicated({ certificationCandidateErrors, errorCode }) {

@@ -43,14 +43,17 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
       // given
       const userId = 1234;
       const cachedValidatedSessionsKey = 'uuid';
-      const validSessionData = createValidSessionData();
+      const validSessionData = _createValidSessionData();
+
       const sessions = [
         {
           ...validSessionData,
+          line: 2,
           room: 'Salle 1',
         },
         {
           ...validSessionData,
+          line: 3,
           room: 'Salle 2',
         },
       ];
@@ -73,6 +76,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           certificationCenterId,
           certificationCenter: certificationCenterName,
           accessCode,
+          certificationCandidates: [],
           supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
         }),
         new Session({
@@ -80,6 +84,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           certificationCenterId,
           certificationCenter: certificationCenterName,
           accessCode,
+          certificationCandidates: [],
           supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
         }),
       ];
@@ -95,7 +100,16 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         sessionsWithoutCandidatesCount: 2,
         candidatesCount: 0,
         blockingErrorReports: [],
-        nonBlockingErrorReports: [],
+        nonBlockingErrorReports: [
+          {
+            code: 'EMPTY_SESSION',
+            line: 2,
+          },
+          {
+            code: 'EMPTY_SESSION',
+            line: 3,
+          },
+        ],
       });
     });
 
@@ -103,9 +117,9 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
       it('should validate the candidates in the session', async function () {
         // given
         const cachedValidatedSessionsKey = 'uuid';
-        const candidate1 = createValidCandidateData(1);
-        const candidate2 = createValidCandidateData(2);
-        const candidate3 = createValidCandidateData(3);
+        const candidate1 = _createValidCandidateData(1);
+        const candidate2 = _createValidCandidateData(2);
+        const candidate3 = _createValidCandidateData(3);
         const userId = 1234;
         const sessions = [
           {
@@ -191,7 +205,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
     it('should not save in temporary storage', async function () {
       // given
       sessionsImportValidationService.validateSession.resolves(['Veuillez indiquer un nom de site.']);
-      const validSessionData = createValidSessionData();
+      const validSessionData = _createValidSessionData();
 
       const sessions = [
         {
@@ -215,8 +229,8 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
     context('when at least one of the sessions is not valid', function () {
       it('should return sessionsMassImportReport', async function () {
         // given
-        const validSessionData = createValidSessionData();
-        const candidate = createValidCandidateData();
+        const validSessionData = _createValidSessionData();
+        const candidate = _createValidCandidateData();
 
         const sessions = [
           {
@@ -255,7 +269,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
   });
 });
 
-function createValidSessionData() {
+function _createValidSessionData() {
   return {
     sessionId: undefined,
     address: 'Site 1',
@@ -268,7 +282,7 @@ function createValidSessionData() {
   };
 }
 
-function createValidCandidateData(candidateNumber = 2) {
+function _createValidCandidateData(candidateNumber = 2) {
   return {
     lastName: `Candidat ${candidateNumber}`,
     firstName: `Candidat ${candidateNumber}`,
