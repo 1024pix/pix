@@ -8,7 +8,8 @@
       "continue": "Continuer",
       "delete": "Supprimer",
       "quit": "Quitter",
-      "update": "Modifier"
+      "update": "Modifier",
+      "exit": "Quitter"
     },
     "api-error-messages": {
       "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
@@ -448,12 +449,15 @@
     },
     "session-supervising": {
       "header": {
-        "session-id": "Session {sessionId}",
+        "actions": {
+          "exit-extra-information": "Quitter la surveillance de la session {sessionId}"
+        },
+        "access-code": "Code d'accès (candidats)",
         "center-name": "Site",
-        "room": "Salle",
-        "supervisor": "Surveillant",
         "multiple-supervisor": "Surveillant(s)",
-        "access-code": "Code d'accès (candidats)"
+        "room": "Salle",
+        "session-id": "Session {sessionId}",
+        "supervisor": "Surveillant"
       },
       "candidate-list": {
         "authorized-to-start-candidates": "{authorizedToStartCandidates}/{totalCandidates} {authorizedToStartCandidates, plural,one {candidat sélectionné} other {candidats sélectionnés}}"

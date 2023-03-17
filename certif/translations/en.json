@@ -8,7 +8,8 @@
       "add": "Add",
       "delete": "Delete",
       "quit": "Quit",
-      "update": "Edit"
+      "update": "Edit",
+      "exit": "Exit"
     },
     "api-error-messages": {
       "bad-request-error": "The data entered was not in the correct format.",
@@ -454,12 +455,15 @@
     },
     "session-supervising": {
       "header": {
-        "session-id": "Session {sessionId}",
-        "center-name": "Center name",
-        "room": "Room",
-        "supervisor": "Supervisor",
+        "actions": {
+          "exit-extra-information": "Exit the invigilation of session {sessionId}"
+        },
+        "access-code": "Access code (candidates)",
+        "center-name": "Location",
         "multiple-supervisor": "Invigilator(s)",
-        "access-code": "Access code (candidates)"
+        "room": "Room",
+        "session-id": "Session {sessionId}",
+        "supervisor": "Supervisor"
       },
       "candidate-list": {
         "authorized-to-start-candidates": "{authorizedToStartCandidates}/{totalCandidates} authorized {authorizedToStartCandidates, plural,one {candidate} other {candidates}}"
