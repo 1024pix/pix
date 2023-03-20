@@ -11,6 +11,7 @@
         <PixPagination
           @pagination={{@model.savedTutorials.meta.pagination}}
           @pageOptions={{this.pageOptions}}
+          @locale="{{t 'current-lang'}}"
           @isCondensed="true"
         />
       </div>

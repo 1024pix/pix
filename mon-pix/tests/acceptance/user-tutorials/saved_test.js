@@ -23,7 +23,10 @@ module('Acceptance | User-tutorials | Saved', function (hooks) {
       await visit('/mes-tutos/enregistres');
       assert.dom('.tutorial-card').exists();
       assert.dom('.tutorial-card').exists({ count: 10 });
-      assert.ok(find('.pix-pagination__navigation').textContent.includes('Page 1 / 10'));
+
+      const pixPaginationTextContent = find('.pix-pagination__navigation').textContent;
+      assert.ok(pixPaginationTextContent.includes('100 éléments'));
+      assert.ok(pixPaginationTextContent.includes('Page 1 / 10'));
     });
 
     module('when user clicking save again', function () {
