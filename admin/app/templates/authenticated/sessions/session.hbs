@@ -1,7 +1,11 @@
 {{! template-lint-disable require-input-label }}
 {{page-title "Session " @model.id}}
 <header class="page-header">
-  <h1 class="page-title session-list__title">Sessions de certification</h1>
+  <div class="page-title">
+    <LinkTo @route="authenticated.sessions.list">Toutes les sessions de certification</LinkTo>
+    <FaIcon @icon="chevron-right" />
+    <h1>Sessions de certification</h1>
+  </div>
   <div class="page-actions">
     <form class="form-inline" {{on "submit" this.loadSession}}>
       <Input

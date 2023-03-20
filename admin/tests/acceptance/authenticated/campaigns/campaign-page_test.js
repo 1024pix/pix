@@ -31,7 +31,7 @@ module('Acceptance | Campaign Page', function (hooks) {
 
       // then
       assert.strictEqual(currentURL(), '/campaigns/1/participations');
-      assert.dom(screen.getByRole('heading', { name: 'Campaign name' })).exists();
+      assert.dom(screen.getByRole('heading', { name: 'Campaign name', level: 2 })).exists();
     });
   });
 });

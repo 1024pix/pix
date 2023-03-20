@@ -1,6 +1,8 @@
 {{page-title "Toutes les sessions"}}
 <header class="session-list">
-  <h1 class="page-header session-list__title">Sessions de certifications</h1>
+  <div class="page-header">
+    <h1 class="page-title">Toutes les sessions de certifications</h1>
+  </div>
   <nav class="navbar session-list__navbar">
     <LinkTo @route="authenticated.sessions.list.with-required-action" class="navbar-item">
       Sessions à traiter ({{this.sessionsWithRequiredActionCount}})
