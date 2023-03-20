@@ -121,6 +121,7 @@ module('Integration | Component | Trainings::CreateTrainingTriggers', function (
       const trainingTrigger = store.createRecord('training-trigger', {
         type: 'goal',
         areas: [area1, area2],
+        threshold: 19,
       });
       this.set('training', {
         goalTrigger: trainingTrigger,
@@ -145,6 +146,7 @@ module('Integration | Component | Trainings::CreateTrainingTriggers', function (
       assert
         .dom(screen.queryByLabelText(this.intl.t('pages.trainings.training.triggers.goal.alternative-title')))
         .doesNotExist();
+      assert.dom(screen.getByText('Seuil : 19%')).exists();
       assert.dom(screen.getByText('area1 code · area1 title')).exists();
       await clickByText('area1 code · area1 title');
       assert.dom(screen.getByText('competence1Area1 index competence1Area1 name')).exists();
@@ -278,6 +280,7 @@ module('Integration | Component | Trainings::CreateTrainingTriggers', function (
       const trainingTrigger = store.createRecord('training-trigger', {
         type: 'prerequisite',
         areas: [area1, area2],
+        threshold: 20,
       });
       this.set('training', {
         prerequisiteTrigger: trainingTrigger,
@@ -292,6 +295,7 @@ module('Integration | Component | Trainings::CreateTrainingTriggers', function (
       assert
         .dom(screen.queryByLabelText(this.intl.t('pages.trainings.training.triggers.prerequisite.alternative-title')))
         .doesNotExist();
+      assert.dom(screen.getByText('Seuil : 20%')).exists();
       assert.dom(screen.getByText('area1 code · area1 title')).exists();
       await clickByText('area1 code · area1 title');
       assert.dom(screen.getByText('competence1Area1 index competence1Area1 name')).exists();
