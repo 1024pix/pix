@@ -11,6 +11,7 @@ export default class User extends Model {
   @attr('boolean') pixOrgaTermsOfServiceAccepted;
   @attr('boolean') pixCertifTermsOfServiceAccepted;
   @attr() lang;
+  @attr() locale;
   @attr() createdAt;
   @attr() lastTermsOfServiceValidatedAt;
   @attr() lastPixOrgaTermsOfServiceValidatedAt;
