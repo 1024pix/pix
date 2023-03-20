@@ -22,8 +22,7 @@ export default class ImportController extends Controller {
   @tracked sessionsWithoutCandidatesCount;
   @tracked candidatesCount;
 
-  @tracked blockingErrorReports;
-  @tracked nonBlockingErrorReports;
+  @tracked errorReports;
   @tracked isImportInError = false;
 
   get fileName() {
@@ -68,23 +67,16 @@ export default class ImportController extends Controller {
         sessionsWithoutCandidatesCount,
         candidatesCount,
         cachedValidatedSessionsKey,
-        blockingErrorReports,
-        nonBlockingErrorReports,
+        errorReports,
       } = await adapter.validateSessionsForMassImport(this.file, certificationCenterId);
       this.sessionsCount = sessionsCount;
       this.sessionsWithoutCandidatesCount = sessionsWithoutCandidatesCount;
       this.candidatesCount = candidatesCount;
       this.cachedValidatedSessionsKey = cachedValidatedSessionsKey;
-      this.blockingErrorReports = blockingErrorReports;
-      this.nonBlockingErrorReports = nonBlockingErrorReports;
+      this.errorReports = errorReports;
     } catch (errors) {
       this.notifications.error(errors.errors[0].detail);
       return;
-    }
-    if (this.blockingErrorReports?.length > 0) {
-      this.isImportInError = true;
-    } else {
-      this.isImportInError = false;
     }
     this.isImportStepOne = false;
     this.removeImport();
