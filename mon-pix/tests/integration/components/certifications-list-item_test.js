@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
-import { click, find, render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
+import { click, find } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -15,7 +16,6 @@ module('Integration | Component | certifications list item', function (hooks) {
   const IMG_FOR_WAITING_STATUS_SELECTOR = 'img[data-test-id="certifications-list-item__hourglass-img"]';
   const PIX_SCORE_CELL_SELECTOR = '.certifications-list-item__pix-score';
   const DETAIL_SELECTOR = '.certifications-list-item__cell-detail';
-  const REJECTED_DETAIL_SELECTOR = `${DETAIL_SELECTOR} button`;
   const VALIDATED_DETAIL_SELECTOR = `${DETAIL_SELECTOR} a`;
   const COMMENT_CELL_SELECTOR = '.certifications-list-item__row-comment-cell';
   const NOT_CLICKABLE_SELECTOR = '.certifications-list-item__not-clickable';
@@ -60,6 +60,8 @@ module('Integration | Component | certifications list item', function (hooks) {
 
   module('when the certification is published and rejected', function () {
     module('without commentForCandidate', function (hooks) {
+      let screen;
+
       hooks.beforeEach(async function () {
         // given
         const certification = createCertification({
@@ -71,7 +73,7 @@ module('Integration | Component | certifications list item', function (hooks) {
         this.set('certification', certification);
 
         // when
-        await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
+        screen = await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
       });
 
       // then
@@ -85,7 +87,9 @@ module('Integration | Component | certifications list item', function (hooks) {
       });
 
       test('should not show Détail in last column', function (assert) {
-        assert.dom(REJECTED_DETAIL_SELECTOR).doesNotExist();
+        assert
+          .dom(screen.queryByRole('button', { name: this.intl.t('pages.certifications-list.statuses.fail.action') }))
+          .doesNotExist();
       });
 
       test('should not show comment for candidate panel when clicked on row', async function (assert) {
@@ -103,6 +107,8 @@ module('Integration | Component | certifications list item', function (hooks) {
     });
 
     module('with a commentForCandidate', function (hooks) {
+      let screen;
+
       hooks.beforeEach(async function () {
         // given
         const certification = createCertification({
@@ -113,7 +119,7 @@ module('Integration | Component | certifications list item', function (hooks) {
         this.set('certification', certification);
 
         // when
-        await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
+        screen = await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
       });
 
       // then
@@ -127,8 +133,9 @@ module('Integration | Component | certifications list item', function (hooks) {
       });
 
       test('should show Détail in last column', function (assert) {
-        assert.dom(REJECTED_DETAIL_SELECTOR).exists();
-        assert.ok(find(REJECTED_DETAIL_SELECTOR).textContent.includes('détail'));
+        assert
+          .dom(screen.getByRole('button', { name: `${this.intl.t('pages.certifications-list.statuses.fail.action')}` }))
+          .exists();
       });
 
       test('should show comment for candidate panel when clicked on row', async function (assert) {

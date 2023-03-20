@@ -1,3 +1,5 @@
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
 
 const status = {
@@ -7,9 +9,13 @@ const status = {
 };
 
 export default class CertificationsListItem extends Component {
+  @tracked
+  isOpen = false;
+
   get certification() {
     return this.args.certification;
   }
+
   get isRejected() {
     return this.certification.status === status.REJECTED;
   }
@@ -40,5 +46,10 @@ export default class CertificationsListItem extends Component {
 
   get isClickable() {
     return this.shouldDisplayComment || this.isPublishedAndValidated;
+  }
+
+  @action
+  toggleCertificationDetails() {
+    this.isOpen = !this.isOpen;
   }
 }
