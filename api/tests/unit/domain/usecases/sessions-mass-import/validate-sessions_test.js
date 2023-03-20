@@ -44,6 +44,15 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
       const userId = 1234;
       const cachedValidatedSessionsKey = 'uuid';
       const validSessionData = _createValidSessionData();
+      sessionsImportValidationService.getValidatedCandidateBirthInformation.resolves({
+        certificationCandidateErrors: [],
+        cpfBirthInformation: {
+          birthCountry: 'France',
+          birthCity: '',
+          birthPostalCode: null,
+          birthINSEECode: '134',
+        },
+      });
 
       const sessions = [
         {
@@ -76,7 +85,24 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           certificationCenterId,
           certificationCenter: certificationCenterName,
           accessCode,
-          certificationCandidates: [],
+          certificationCandidates: [
+            new CertificationCandidate({
+              sessionId: sessions[0].id,
+              lastName: 'Candidat 2',
+              firstName: 'Candidat 2',
+              birthdate: '1981-03-12',
+              sex: 'M',
+              birthINSEECode: '134',
+              birthPostalCode: null,
+              birthCity: '',
+              birthCountry: 'France',
+              resultRecipientEmail: 'robindahood@email.fr',
+              email: 'robindahood2@email.fr',
+              externalId: 'htehte',
+              extraTimePercentage: '20',
+              billingMode: 'FREE',
+            }),
+          ],
           supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
         }),
         new Session({
@@ -84,7 +110,24 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           certificationCenterId,
           certificationCenter: certificationCenterName,
           accessCode,
-          certificationCandidates: [],
+          certificationCandidates: [
+            new CertificationCandidate({
+              sessionId: sessions[1].id,
+              lastName: 'Candidat 2',
+              firstName: 'Candidat 2',
+              birthdate: '1981-03-12',
+              sex: 'M',
+              birthINSEECode: '134',
+              birthPostalCode: null,
+              birthCity: '',
+              birthCountry: 'France',
+              resultRecipientEmail: 'robindahood@email.fr',
+              email: 'robindahood2@email.fr',
+              externalId: 'htehte',
+              extraTimePercentage: '20',
+              billingMode: 'FREE',
+            }),
+          ],
           supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
         }),
       ];
@@ -97,19 +140,9 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
       expect(sessionsMassImportReport).to.deep.equal({
         cachedValidatedSessionsKey,
         sessionsCount: 2,
-        sessionsWithoutCandidatesCount: 2,
-        candidatesCount: 0,
-        blockingErrorReports: [],
-        nonBlockingErrorReports: [
-          {
-            code: 'EMPTY_SESSION',
-            line: 2,
-          },
-          {
-            code: 'EMPTY_SESSION',
-            line: 3,
-          },
-        ],
+        sessionsWithoutCandidatesCount: 0,
+        candidatesCount: 2,
+        errorReports: [],
       });
     });
 
@@ -194,8 +227,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           sessionsCount: 2,
           sessionsWithoutCandidatesCount: 0,
           candidatesCount: 3,
-          blockingErrorReports: [],
-          nonBlockingErrorReports: [],
+          errorReports: [],
         });
       });
     });
@@ -204,7 +236,13 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
   context('when session or candidate information is not valid', function () {
     it('should not save in temporary storage', async function () {
       // given
-      sessionsImportValidationService.validateSession.resolves(['Veuillez indiquer un nom de site.']);
+      sessionsImportValidationService.validateSession.resolves([
+        { code: 'Veuillez indiquer un nom de site.', blocking: true },
+      ]);
+      sessionsImportValidationService.getValidatedCandidateBirthInformation.resolves({
+        certificationCandidateErrors: [],
+        cpfBirthInformation: {},
+      });
       const validSessionData = _createValidSessionData();
 
       const sessions = [
@@ -259,8 +297,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
           sessionsCount: 1,
           sessionsWithoutCandidatesCount: 0,
           candidatesCount: 1,
-          blockingErrorReports: ['Veuillez indiquer un nom de site.', 'lastName required'],
-          nonBlockingErrorReports: [],
+          errorReports: ['Veuillez indiquer un nom de site.', 'lastName required'],
         });
 
         expect(complementaryCertificationRepository.getByLabel).to.not.have.been.called;
@@ -278,7 +315,7 @@ function _createValidSessionData() {
     time: '01:00',
     examiner: 'Pierre',
     description: 'desc',
-    certificationCandidates: [],
+    certificationCandidates: [_createValidCandidateData()],
   };
 }
 

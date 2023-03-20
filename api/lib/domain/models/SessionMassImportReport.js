@@ -4,29 +4,22 @@ class SessionMassImportReport {
     sessionsCount = 0,
     sessionsWithoutCandidatesCount = 0,
     candidatesCount = 0,
-    blockingErrorReports = [],
-    nonBlockingErrorReports = [],
+    errorReports = [],
   } = {}) {
     this.cachedValidatedSessionsKey = cachedValidatedSessionsKey;
     this.sessionsCount = sessionsCount;
     this.sessionsWithoutCandidatesCount = sessionsWithoutCandidatesCount;
     this.candidatesCount = candidatesCount;
-    this.blockingErrorReports = blockingErrorReports;
-    this.nonBlockingErrorReports = nonBlockingErrorReports;
+    this.errorReports = errorReports;
   }
 
   get isValid() {
-    return this.blockingErrorReports.length === 0;
+    return !this.errorReports.some(({ blocking }) => blocking);
   }
 
-  addBlockingErrorReports(errors) {
+  addErrorReports(errors) {
     if (errors?.length) {
-      this.blockingErrorReports.push(...errors);
-    }
-  }
-  addNonBlockingErrorReports(errors) {
-    if (errors?.length) {
-      this.nonBlockingErrorReports.push(...errors);
+      this.errorReports.push(...errors);
     }
   }
 

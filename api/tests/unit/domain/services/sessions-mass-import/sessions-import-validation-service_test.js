@@ -5,7 +5,6 @@ const certificationCpfService = require('../../../../../lib/domain/services/cert
 const {
   CERTIFICATION_CANDIDATES_ERRORS,
 } = require('../../../../../lib/domain/constants/certification-candidates-errors');
-const { CERTIFICATION_SESSIONS_ERRORS } = require('../../../../../lib/domain/constants/sessions-errors');
 const noop = require('lodash/noop');
 
 describe('Unit | Service | sessions import validation Service', function () {
@@ -90,6 +89,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           {
             line: 2,
             code: 'CANDIDATE_NOT_ALLOWED_FOR_STARTED_SESSION',
+            blocking: true,
           },
         ]);
       });
@@ -115,6 +115,7 @@ describe('Unit | Service | sessions import validation Service', function () {
             {
               line: 1,
               code: 'SESSION_SCHEDULED_IN_THE_PAST',
+              blocking: true,
             },
           ]);
         });
@@ -142,6 +143,7 @@ describe('Unit | Service | sessions import validation Service', function () {
             {
               line: 1,
               code: 'INFORMATION_NOT_ALLOWED_WITH_SESSION_ID',
+              blocking: true,
             },
           ]);
         });
@@ -152,7 +154,6 @@ describe('Unit | Service | sessions import validation Service', function () {
           const session = domainBuilder.buildSession({
             ..._createValidSessionData(),
             id: null,
-            certificationCandidates: [],
           });
 
           // when
@@ -188,6 +189,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           {
             line: 1,
             code: 'SESSION_WITH_DATE_AND_TIME_ALREADY_EXISTS',
+            blocking: true,
           },
         ]);
       });
@@ -215,6 +217,7 @@ describe('Unit | Service | sessions import validation Service', function () {
             {
               line: 1,
               code: 'DUPLICATE_CANDIDATE_NOT_ALLOWED_IN_SESSION',
+              blocking: true,
             },
           ]);
         });
@@ -240,6 +243,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           {
             line: 1,
             code: 'SESSION_ROOM_REQUIRED',
+            blocking: true,
           },
         ]);
       });
@@ -262,9 +266,28 @@ describe('Unit | Service | sessions import validation Service', function () {
 
         // then
         expect(sessionErrors).to.have.deep.members([
-          { line: 1, code: 'SESSION_ADDRESS_REQUIRED' },
-          { line: 1, code: 'SESSION_ROOM_REQUIRED' },
+          { line: 1, code: 'SESSION_ADDRESS_REQUIRED', blocking: true },
+          { line: 1, code: 'SESSION_ROOM_REQUIRED', blocking: true },
         ]);
+      });
+    });
+
+    context('when session has no candidates', function () {
+      it('should return a non blocking sessionError', async function () {
+        // given
+        const session = _buildValidSessionWithoutId();
+        session.certificationCandidates = [];
+
+        // when
+        const sessionErrors = await sessionsImportValidationService.validateSession({
+          session,
+          line: 1,
+          sessionRepository,
+          certificationCourseRepository,
+        });
+
+        // then
+        expect(sessionErrors).to.have.deep.members([{ line: 1, code: 'EMPTY_SESSION', blocking: false }]);
       });
     });
   });
@@ -322,6 +345,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           {
             code: 'CANDIDATE_FIRST_NAME_REQUIRED',
             line: 1,
+            blocking: true,
           },
         ]);
       });
@@ -352,6 +376,7 @@ describe('Unit | Service | sessions import validation Service', function () {
               {
                 code: 'CANDIDATE_BILLING_MODE_REQUIRED',
                 line: 1,
+                blocking: true,
               },
             ]);
           });
@@ -380,6 +405,7 @@ describe('Unit | Service | sessions import validation Service', function () {
               {
                 code: 'CANDIDATE_BILLING_MODE_REQUIRED',
                 line: 1,
+                blocking: true,
               },
             ]);
           });
@@ -447,7 +473,7 @@ describe('Unit | Service | sessions import validation Service', function () {
 
           // then
           expect(result.certificationCandidateErrors).to.deep.equal([
-            { code: 'CANDIDATE_BIRTH_COUNTRY_REQUIRED', line: 1 },
+            { code: 'CANDIDATE_BIRTH_COUNTRY_REQUIRED', line: 1, blocking: true },
           ]);
         });
       });
@@ -479,27 +505,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         });
 
         // then
-        expect(result.certificationCandidateErrors).to.deep.equal([{ code: 'CPF_INCORRECT', line: 1 }]);
-      });
-    });
-  });
-
-  describe('#checkNonBlockingErrors', function () {
-    describe('when session is empty', function () {
-      it('should return an errorReport that contains an empty session error', function () {
-        // given
-        const sessionData = _createValidSessionData();
-
-        // when
-        const result = sessionsImportValidationService.checkNonBlockingErrors({ session: sessionData, line: 3 });
-
-        // then
-        expect(result).to.deep.equal([
-          {
-            line: 3,
-            code: CERTIFICATION_SESSIONS_ERRORS.EMPTY_SESSION.code,
-          },
-        ]);
+        expect(result.certificationCandidateErrors).to.deep.equal([{ code: 'CPF_INCORRECT', line: 1, blocking: true }]);
       });
     });
   });
@@ -514,7 +520,7 @@ function _createValidSessionData() {
     time: '01:00',
     examiner: 'Pierre',
     description: 'desc',
-    certificationCandidates: [],
+    certificationCandidates: [_buildValidCandidateData()],
   };
 }
 
@@ -527,7 +533,7 @@ function _buildValidSessionWithId(sessionId) {
     time: null,
     examiner: null,
     description: null,
-    certificationCandidates: null,
+    certificationCandidates: [_buildValidCandidateData()],
   });
 }
 
@@ -535,6 +541,7 @@ function _buildValidSessionWithoutId() {
   return domainBuilder.buildSession({
     id: null,
     date: '2024-03-12',
+    certificationCandidates: [_buildValidCandidateData()],
   });
 }
 
