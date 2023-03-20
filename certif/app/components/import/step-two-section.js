@@ -5,28 +5,47 @@ export default class StepTwoSectionComponent extends Component {
   @service intl;
 
   get translatedBlockingErrorReport() {
-    return this.args.blockingErrorReports.map(({ line, code }) => ({
+    const blockingErrorReports = this._blockingErrors;
+
+    return blockingErrorReports.map(({ line, code }) => ({
       line,
       message: _translatedErrorCodeToMessage(this.intl, code),
     }));
   }
   get translatedNonBlockingErrorReport() {
-    return this.args.nonBlockingErrorReports.map(({ line, code }) => ({
+    const nonBlockingErrors = this._nonBlockingErrors;
+
+    return nonBlockingErrors.map(({ line, code }) => ({
       line,
       message: _translatedNonBlockingErrorCodeToMessage(this.intl, code),
     }));
   }
 
   get blockingErrorReportsCount() {
-    return this.args.blockingErrorReports?.length;
+    const blockingErrorReports = this._blockingErrors;
+
+    return blockingErrorReports?.length;
   }
 
   get nonBlockingErrorReportsCount() {
-    return this.args.nonBlockingErrorReports?.length;
+    const nonBlockingErrorReports = this._nonBlockingErrors;
+
+    return nonBlockingErrorReports?.length;
   }
 
-  get noErrorBlockingOrNot() {
-    return !(this.args.nonBlockingErrorReports?.length || this.args.blockingErrorReports?.length);
+  get noError() {
+    const blockingErrorReports = this._blockingErrors;
+    const nonBlockingErrorReports = this._nonBlockingErrors;
+
+    return !(nonBlockingErrorReports?.length || blockingErrorReports?.length);
+  }
+
+  get _blockingErrors() {
+    return this.args.errorReports.filter((error) => error.blocking);
+  }
+
+  get _nonBlockingErrors() {
+    return this.args.errorReports.filter((error) => !error.blocking);
   }
 
   get hasOnlyNonBlockingErrorReports() {
