@@ -45,7 +45,14 @@ module.exports = {
       _addToErrorList({ errorList: sessionErrors, line, codes: errorCodes });
     }
 
-    if (session.certificationCandidates?.length) {
+    if (session.certificationCandidates.length === 0) {
+      _addToErrorList({
+        errorList: sessionErrors,
+        line,
+        codes: [CERTIFICATION_SESSIONS_ERRORS.EMPTY_SESSION.code],
+        blocking: false,
+      });
+    } else {
       if (_hasDuplicateCertificationCandidates(session.certificationCandidates)) {
         _addToErrorList({
           errorList: sessionErrors,
@@ -101,28 +108,14 @@ module.exports = {
       },
     };
   },
-
-  checkNonBlockingErrors({ session, line }) {
-    const nonBlockingErrorReports = [];
-
-    if (session.certificationCandidates.length === 0) {
-      _addToErrorList({
-        errorList: nonBlockingErrorReports,
-        line,
-        codes: [CERTIFICATION_SESSIONS_ERRORS.EMPTY_SESSION.code],
-      });
-    }
-
-    return nonBlockingErrorReports;
-  },
 };
 
 function _isErrorNotDuplicated({ certificationCandidateErrors, errorCode }) {
   return !certificationCandidateErrors.some((error) => errorCode === error.code);
 }
 
-function _addToErrorList({ errorList, line, codes = [] }) {
-  const errors = codes.map((code) => ({ code, line }));
+function _addToErrorList({ errorList, line, codes = [], blocking = true }) {
+  const errors = codes.map((code) => ({ code, line, blocking }));
   errorList.push(...errors);
 }
 

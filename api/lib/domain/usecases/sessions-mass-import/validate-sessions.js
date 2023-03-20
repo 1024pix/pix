@@ -39,14 +39,7 @@ module.exports = async function validateSessions({
       certificationCourseRepository,
     });
 
-    sessionsMassImportReport.addBlockingErrorReports(sessionsErrors);
-
-    const nonBlockingErrors = sessionsImportValidationService.checkNonBlockingErrors({
-      session,
-      line: sessionDTO.line,
-    });
-
-    sessionsMassImportReport.addNonBlockingErrorReports(nonBlockingErrors);
+    sessionsMassImportReport.addErrorReports(sessionsErrors);
 
     if (session.certificationCandidates.length) {
       const { certificationCandidates } = session;
@@ -108,7 +101,7 @@ async function _createValidCertificationCandidates({
       });
 
     if (certificationCandidateErrors?.length > 0) {
-      sessionsMassImportReport.addBlockingErrorReports(certificationCandidateErrors);
+      sessionsMassImportReport.addErrorReports(certificationCandidateErrors);
     } else {
       domainCertificationCandidate.updateBirthInformation(cpfBirthInformation);
 

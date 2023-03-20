@@ -2,62 +2,32 @@ const SessionMassImportReport = require('../../../../lib/domain/models/SessionMa
 const { expect } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | SessionMassImportReport', function () {
-  context('#addBlockingErrorsReports', function () {
+  context('#addErrorsReports', function () {
     context('when there are reports', function () {
       it('should add blocking errors reports', function () {
         // given
         const sessionMassImportReport = new SessionMassImportReport({
-          blockingErrorReports: [0],
+          errorReports: [0],
         });
 
         // when
-        sessionMassImportReport.addBlockingErrorReports([1, 2, 3]);
+        sessionMassImportReport.addErrorReports([1, 2, 3]);
 
         // then
-        expect(sessionMassImportReport.blockingErrorReports.length).to.equal(4);
+        expect(sessionMassImportReport.errorReports.length).to.equal(4);
       });
     });
 
     context('when there are no reports', function () {
       it('should do nothing', function () {
         // given
-        const sessionMassImportReport = new SessionMassImportReport({ blockingErrorReports: [0] });
+        const sessionMassImportReport = new SessionMassImportReport({ errorReports: [0] });
 
         // when
-        sessionMassImportReport.addBlockingErrorReports();
+        sessionMassImportReport.addErrorReports();
 
         // then
-        expect(sessionMassImportReport.blockingErrorReports.length).to.equal(1);
-      });
-    });
-  });
-
-  context('#addNonBlockingErrorReports', function () {
-    context('when there are reports', function () {
-      it('should add blocking errors reports', function () {
-        // given
-        const sessionMassImportReport = new SessionMassImportReport({
-          nonBlockingErrorReports: [0],
-        });
-
-        // when
-        sessionMassImportReport.addNonBlockingErrorReports([1, 2, 3]);
-
-        // then
-        expect(sessionMassImportReport.nonBlockingErrorReports.length).to.equal(4);
-      });
-    });
-
-    context('when there are no reports', function () {
-      it('should do nothing', function () {
-        // given
-        const sessionMassImportReport = new SessionMassImportReport({ nonBlockingErrorReports: [0] });
-
-        // when
-        sessionMassImportReport.addNonBlockingErrorReports();
-
-        // then
-        expect(sessionMassImportReport.nonBlockingErrorReports.length).to.equal(1);
+        expect(sessionMassImportReport.errorReports.length).to.equal(1);
       });
     });
   });
@@ -67,8 +37,7 @@ describe('Unit | Domain | Models | SessionMassImportReport', function () {
       it('should return false', function () {
         // given
         const sessionMassImportReport = new SessionMassImportReport({
-          nonBlockingErrorReports: [1],
-          blockingErrorReports: [1],
+          errorReports: [{ blocking: true }],
         });
 
         // when
@@ -79,12 +48,26 @@ describe('Unit | Domain | Models | SessionMassImportReport', function () {
       });
     });
 
-    context('when there are no blocking error reports', function () {
+    context('when there are non blocking error reports', function () {
       it('should return true', function () {
         // given
         const sessionMassImportReport = new SessionMassImportReport({
-          nonBlockingErrorReports: [1],
-          blockingErrorReports: [],
+          errorReports: [{ blocking: false }],
+        });
+
+        // when
+        const isValid = sessionMassImportReport.isValid;
+
+        // then
+        expect(isValid).to.be.true;
+      });
+    });
+
+    context('when there are no error reports', function () {
+      it('should return true', function () {
+        // given
+        const sessionMassImportReport = new SessionMassImportReport({
+          errorReports: [],
         });
 
         // when
