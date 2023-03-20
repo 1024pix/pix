@@ -1,5 +1,10 @@
 {{#each @areas as |area|}}
-  <Common::TubesDetails::Area @title={{area.title}} @color={{area.color}} @competences={{area.competences}} />
+  <Common::TubesDetails::Area
+    @title={{area.title}}
+    @color={{area.color}}
+    @competences={{area.competences}}
+    @displayDeviceCompatibility={{true}}
+  />
 {{else}}
   <section class="page-section">
     <div class="table__empty">Profil cible vide.</div>

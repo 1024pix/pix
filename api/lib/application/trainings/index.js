@@ -207,7 +207,7 @@ exports.register = async (server) => {
                 threshold: Joi.number().min(0).max(100).required(),
                 tubes: Joi.array().items(
                   Joi.object({
-                    id: identifiersType.tubeId.required(),
+                    tubeId: identifiersType.tubeId.required(),
                     level: Joi.number().min(0).max(8).required(),
                   })
                 ),

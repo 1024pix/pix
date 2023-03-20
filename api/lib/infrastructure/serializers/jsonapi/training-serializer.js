@@ -9,18 +9,7 @@ module.exports = {
         duration.hours = duration.hours || 0;
         duration.minutes = duration.minutes || 0;
 
-        return {
-          ...record,
-          trainingTriggers: record.trainingTriggers.map((trigger) => {
-            return {
-              ...trigger,
-              triggerTubes: trigger.triggerTubes.map((triggerTube) => ({
-                ...triggerTube,
-                tube: { ...triggerTube.tube },
-              })),
-            };
-          }),
-        };
+        return JSON.parse(JSON.stringify(record));
       },
       attributes: [
         'id',
@@ -36,18 +25,10 @@ module.exports = {
       ],
       trainingTriggers: {
         ref: 'id',
-        attributes: ['id', 'trainingId', 'type', 'threshold', 'triggerTubes', 'areas'],
-        triggerTubes: {
-          ref: 'id',
-          included: true,
-          attributes: ['id', 'level', 'tube'],
-          tube: {
-            ref: 'id',
-            attributes: ['id', 'name', 'practicalTitle'],
-          },
-        },
+        attributes: ['id', 'trainingId', 'type', 'threshold', 'areas'],
         areas: {
           ref: 'id',
+          included: true,
           attributes: ['id', 'title', 'code', 'color', 'competences'],
           competences: {
             ref: 'id',
@@ -57,6 +38,16 @@ module.exports = {
               ref: 'id',
               included: true,
               attributes: ['id', 'name', 'index', 'triggerTubes'],
+              triggerTubes: {
+                ref: 'id',
+                included: true,
+                attributes: ['id', 'level', 'tube'],
+                tube: {
+                  ref: 'id',
+                  included: true,
+                  attributes: ['id', 'name', 'practicalTitle'],
+                },
+              },
             },
           },
         },

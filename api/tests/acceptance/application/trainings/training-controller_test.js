@@ -323,29 +323,39 @@ describe('Acceptance | Controller | training-controller', function () {
   describe('PUT /api/admin/trainings/{trainingId}/triggers', function () {
     let learningContent;
     let tubeName;
+    let tubeId;
+    let areaId;
+    let competenceId;
+    let thematicId;
 
     beforeEach(async function () {
       tubeName = 'tube0_0';
+      tubeId = 'recTube0_0';
+      areaId = 'recArea1';
+      competenceId = 'recCompetence1';
+      thematicId = 'recThematic1';
+
       learningContent = [
         {
           areas: [
             {
-              id: 'recArea1',
-              title: 'area1_Title',
+              id: areaId,
+              titleFr: 'area1_Title',
               color: 'someColor',
               competences: [
                 {
-                  id: 'competenceId',
-                  nameFrFr: 'Mener une recherche et une veille d’information',
+                  id: competenceId,
+                  name: 'Mener une recherche et une veille d’information',
                   index: '1.1',
-                  tubes: [
+                  thematics: [
                     {
-                      id: 'recTube0_0',
-                      name: tubeName,
-                      skills: [
+                      id: thematicId,
+                      name: 'thematic1_Name',
+                      tubes: [
                         {
-                          id: 'skillWeb2Id',
-                          nom: '@web2',
+                          id: tubeId,
+                          name: tubeName,
+                          skills: [],
                         },
                       ],
                     },
@@ -370,7 +380,7 @@ describe('Acceptance | Controller | training-controller', function () {
       // given
       const superAdmin = await insertUserWithRoleSuperAdmin();
       const trainingId = databaseBuilder.factory.buildTraining().id;
-      const tube = { id: 'recTube0_0', level: 2 };
+      const tube = { tubeId: 'recTube0_0', level: 2 };
       await databaseBuilder.commit();
 
       const options = {
@@ -386,7 +396,7 @@ describe('Acceptance | Controller | training-controller', function () {
               trainingId: `${trainingId}`,
               type: 'prerequisite',
               threshold: 30,
-              tubes: [{ id: `${tube.id}`, level: `${tube.level}` }],
+              tubes: [{ tubeId: `${tube.tubeId}`, level: `${tube.level}` }],
             },
           },
         },
@@ -412,11 +422,12 @@ describe('Acceptance | Controller | training-controller', function () {
       expect(response.result.data.id).to.exist;
       expect(response.result.data.attributes.type).to.deep.equal(expectedResponse.data.attributes.type);
       expect(response.result.data.attributes.threshold).to.deep.equal(expectedResponse.data.attributes.threshold);
+      expect(response.result.included).to.exists;
       expect(response.result.included.find(({ type }) => type === 'trigger-tubes').attributes.level).to.equal(
         tube.level
       );
       const returnedTube = response.result.included.find(({ type }) => type === 'tubes').attributes;
-      expect(returnedTube.id).to.equal(tube.id);
+      expect(returnedTube.id).to.equal(tube.tubeId);
       expect(returnedTube.name).to.equal(tubeName);
     });
   });

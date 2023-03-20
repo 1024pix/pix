@@ -12,5 +12,10 @@
 </p>
 
 {{#each this.areasForView as |area|}}
-  <Common::TubesDetails::Area @title={{area.title}} @color={{area.color}} @competences={{area.competences}} />
+  <Common::TubesDetails::Area
+    @title={{area.title}}
+    @color={{area.color}}
+    @competences={{area.competences}}
+    @displayDeviceCompatibility={{true}}
+  />
 {{/each}}
