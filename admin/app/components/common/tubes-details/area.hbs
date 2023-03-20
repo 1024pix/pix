@@ -2,7 +2,11 @@
   <div class="area-border {{@color}}"></div>
   <PixCollapsible @title="{{@title}}" class="{{@color}} list-competences">
     {{#each @competences as |competence|}}
-      <Common::TubesDetails::Competence @title={{competence.title}} @thematics={{competence.thematics}} />
+      <Common::TubesDetails::Competence
+        @title={{competence.title}}
+        @thematics={{competence.thematics}}
+        @displayDeviceCompatibility={{@displayDeviceCompatibility}}
+      />
     {{/each}}
   </PixCollapsible>
 </div>

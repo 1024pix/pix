@@ -27,19 +27,21 @@ module.exports = {
 
     await knexConn('training-trigger-tubes').where({ trainingTriggerId: trainingTrigger.id }).delete();
 
-    const trainingTubesToCreate = triggerTubesForCreation.map(({ id, level }) => {
+    const trainingTriggerTubesToCreate = triggerTubesForCreation.map(({ tubeId, level }) => {
       return {
         trainingTriggerId: trainingTrigger.id,
-        tubeId: id,
+        tubeId,
         level,
       };
     });
 
-    const createdTriggerTubes = await knexConn('training-trigger-tubes').insert(trainingTubesToCreate).returning('*');
+    const createdTrainingTriggerTubes = await knexConn('training-trigger-tubes')
+      .insert(trainingTriggerTubesToCreate)
+      .returning('*');
 
-    const tubes = await tubeRepository.findByRecordIds(createdTriggerTubes.map(({ tubeId }) => tubeId));
+    const tubes = await tubeRepository.findByRecordIds(createdTrainingTriggerTubes.map(({ tubeId }) => tubeId));
 
-    return _toDomain({ trainingTrigger, triggerTubes: createdTriggerTubes, tubes });
+    return _toDomain({ trainingTrigger, triggerTubes: createdTrainingTriggerTubes, tubes });
   },
 
   async findByTrainingId({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {

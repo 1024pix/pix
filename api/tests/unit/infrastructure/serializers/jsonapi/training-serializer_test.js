@@ -103,37 +103,21 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
           },
           {
             attributes: {
-              id: 'recTube2',
-              name: '@tubeName',
-              'practical-title': 'titre pratique',
-            },
-            id: 'recTube2',
-            type: 'tubes',
-          },
-          {
-            attributes: {
-              id: 'recTrainingTriggerTube2',
-              level: 8,
-            },
-            id: 'recTrainingTriggerTube2',
-            relationships: {
-              tube: {
-                data: {
-                  id: 'recTube2',
-                  type: 'tubes',
-                },
-              },
-            },
-            type: 'trigger-tubes',
-          },
-          {
-            attributes: {
               id: 'recThematic1',
               index: 0,
               name: 'My Thematic',
-              'trigger-tubes': ['recTrainingTriggerTube1'],
             },
             id: 'recThematic1',
+            relationships: {
+              'trigger-tubes': {
+                data: [
+                  {
+                    id: 'recTrainingTriggerTube1',
+                    type: 'trigger-tubes',
+                  },
+                ],
+              },
+            },
             type: 'thematics',
           },
           {
@@ -184,18 +168,6 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
             },
             id: `${trainingTriggerId}`,
             relationships: {
-              'trigger-tubes': {
-                data: [
-                  {
-                    id: 'recTrainingTriggerTube1',
-                    type: 'trigger-tubes',
-                  },
-                  {
-                    id: 'recTrainingTriggerTube2',
-                    type: 'trigger-tubes',
-                  },
-                ],
-              },
               areas: {
                 data: [
                   {

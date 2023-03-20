@@ -50,18 +50,6 @@ describe('Unit | Serializer | JSONAPI | training-trigger-serializer', function (
           },
           id: `${id}`,
           relationships: {
-            'trigger-tubes': {
-              data: [
-                {
-                  id: 'recTrainingTriggerTube1',
-                  type: 'trigger-tubes',
-                },
-                {
-                  id: 'recTrainingTriggerTube2',
-                  type: 'trigger-tubes',
-                },
-              ],
-            },
             areas: {
               data: [
                 {
@@ -101,33 +89,13 @@ describe('Unit | Serializer | JSONAPI | training-trigger-serializer', function (
           },
           {
             attributes: {
-              id: 'recTube2',
-              name: '@tubeName',
-              'practical-title': 'titre pratique',
-            },
-            id: 'recTube2',
-            type: 'tubes',
-          },
-          {
-            attributes: {
-              id: 'recTrainingTriggerTube2',
-              level: 8,
-            },
-            id: 'recTrainingTriggerTube2',
-            relationships: {
-              tube: {
-                data: {
-                  id: 'recTube2',
-                  type: 'tubes',
-                },
-              },
-            },
-            type: 'trigger-tubes',
-          },
-          {
-            attributes: {
               index: 0,
               name: 'My Thematic',
+            },
+            relationships: {
+              'trigger-tubes': {
+                data: [{ id: 'recTrainingTriggerTube1', type: 'trigger-tubes' }],
+              },
             },
             id: 'recThematic1',
             type: 'thematics',
