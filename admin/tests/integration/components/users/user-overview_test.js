@@ -44,6 +44,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
           email: 'john.snow@winterfell.got',
           username: 'kingofthenorth',
           lang: 'fr',
+          locale: 'fr-FR',
           createdAt: new Date('2021-12-10'),
         });
         this.set('user', user);
@@ -57,6 +58,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
         assert.dom(screen.getByText(this.user.email)).exists();
         assert.dom(screen.getByText(this.user.username)).exists();
         assert.dom(screen.getByText('FR')).exists();
+        assert.dom(screen.getByText('fr-FR')).exists();
         assert.dom(screen.getByText('10/12/2021')).exists();
       });
 
