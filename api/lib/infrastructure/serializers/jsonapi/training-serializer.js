@@ -25,7 +25,7 @@ module.exports = {
       ],
       trainingTriggers: {
         ref: 'id',
-        attributes: ['id', 'trainingId', 'type', 'threshold', 'areas'],
+        attributes: ['id', 'trainingId', 'type', 'threshold', 'areas', 'tubesCount'],
         areas: {
           ref: 'id',
           included: true,

@@ -165,6 +165,7 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
               'training-id': trainingId,
               threshold: 60,
               type: 'prerequisite',
+              'tubes-count': 2,
             },
             id: `${trainingTriggerId}`,
             relationships: {
