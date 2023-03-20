@@ -9,6 +9,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
       const userDetailsForAdmin = domainBuilder.buildUserDetailsForAdmin({
         createdAt: now,
         lang: 'fr',
+        locale: 'fr-FR',
         lastTermsOfServiceValidatedAt: now,
         lastPixOrgaTermsOfServiceValidatedAt: now,
         lastPixCertifTermsOfServiceValidatedAt: now,
@@ -39,6 +40,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
             'pix-orga-terms-of-service-accepted': userDetailsForAdmin.pixOrgaTermsOfServiceAccepted,
             'pix-certif-terms-of-service-accepted': userDetailsForAdmin.pixCertifTermsOfServiceAccepted,
             lang: 'fr',
+            locale: 'fr-FR',
             'last-terms-of-service-validated-at': now,
             'last-pix-orga-terms-of-service-validated-at': now,
             'last-pix-certif-terms-of-service-validated-at': now,
