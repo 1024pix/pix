@@ -14,6 +14,7 @@ class CampaignAssessmentParticipation {
     participantExternalId,
     assessmentState,
     masteryRate,
+    validatedSkillsCount,
     sharedAt,
     status,
     createdAt,
@@ -21,6 +22,10 @@ class CampaignAssessmentParticipation {
     testedSkillsCount,
     organizationLearnerId,
     badges = [],
+    reachedStage,
+    totalStage,
+    prescriberTitle,
+    prescriberDescription,
   }) {
     this.userId = userId;
     this.firstName = firstName;
@@ -35,6 +40,11 @@ class CampaignAssessmentParticipation {
     this.progression = this._computeProgression(assessmentState, testedSkillsCount, targetedSkillsCount);
     this.badges = badges;
     this.masteryRate = !_.isNil(masteryRate) ? Number(masteryRate) : null;
+    this.validatedSkillsCount = validatedSkillsCount;
+    this.reachedStage = reachedStage;
+    this.totalStage = totalStage;
+    this.prescriberTitle = prescriberTitle;
+    this.prescriberDescription = prescriberDescription;
   }
 
   _computeProgression(assessmentState, testedSkillsCount, targetedSkillsCount) {
@@ -44,6 +54,13 @@ class CampaignAssessmentParticipation {
 
   setBadges(badges) {
     this.badges = badges;
+  }
+
+  setStageInfo(reachedStage) {
+    this.reachedStage = reachedStage.reachedStage;
+    this.totalStage = reachedStage.totalStage;
+    this.prescriberTitle = reachedStage.prescriberTitle;
+    this.prescriberDescription = reachedStage.prescriberDescription;
   }
 }
 

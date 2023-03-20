@@ -20,7 +20,6 @@ const buildCampaignParticipationBadge = require('./build-campaign-participation-
 const buildCampaignParticipationForUserManagement = require('./build-campaign-participation-for-user-management');
 const buildCampaignParticipationResult = require('./build-campaign-participation-result');
 const buildCampaignParticipationInfo = require('./build-campaign-participation-info');
-const buildCampaignStages = require('./build-campaign-stages');
 const buildCampaignLearningContent = require('./build-campaign-learning-content');
 const buildCampaignManagement = require('./build-campaign-management');
 const buildCampaignReport = require('./build-campaign-report');
@@ -166,7 +165,6 @@ module.exports = {
   buildCampaignParticipationForUserManagement,
   buildCampaignParticipationResult,
   buildCampaignParticipationInfo,
-  buildCampaignStages,
   buildCampaignLearningContent,
   buildCampaignManagement,
   buildCampaignReport,

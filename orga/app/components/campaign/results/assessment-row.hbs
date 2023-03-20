@@ -15,10 +15,9 @@
   {{#if @hasStages}}
     <td>
       <Campaign::StageStarsOld
-        @result={{this.valuePercentage}}
-        @stages={{@stages}}
+        @reachedStage={{@participation.reachedStage}}
+        @totalStage={{@participation.totalStage}}
         @withTooltip={{true}}
-        @tooltipPosition="bottom-left"
       />
     </td>
   {{else}}

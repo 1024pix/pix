@@ -1,4 +1,5 @@
 const { UserNotAuthorizedToAccessEntityError } = require('../errors.js');
+const stageCollectionRepository = require('../../infrastructure/repositories/user-campaign-results/stage-collection-repository');
 
 module.exports = async function getCampaignAssessmentParticipation({
   userId,
@@ -24,6 +25,13 @@ module.exports = async function getCampaignAssessmentParticipation({
     });
   const badges = acquiredBadgesByCampaignParticipations[campaignAssessmentParticipation.campaignParticipationId];
   campaignAssessmentParticipation.setBadges(badges);
+
+  const stageCollection = await stageCollectionRepository.findStageCollection({ campaignId });
+  const reachedStage = stageCollection.getReachedStage(
+    campaignAssessmentParticipation.validatedSkillsCount,
+    campaignAssessmentParticipation.masteryRate * 100
+  );
+  campaignAssessmentParticipation.setStageInfo(reachedStage);
 
   return campaignAssessmentParticipation;
 };
