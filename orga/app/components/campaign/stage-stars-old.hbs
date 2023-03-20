@@ -8,7 +8,7 @@
   />
   {{#if this.displayTooltip}}
     <PixTooltip
-      @id="stage-tooltip-{{this.reachedStage.id}}"
+      @id="stage-tooltip-{{this.args.reachedStage}}"
       @position={{@tooltipPosition}}
       @isWide={{true}}
       class="hide-on-mobile"
@@ -18,7 +18,7 @@
           @icon="circle-info"
           class="stage-stars__info-icon"
           tabindex="0"
-          aria-describedby="stage-tooltip-{{this.reachedStage.id}}"
+          aria-describedby="stage-tooltip-{{this.args.reachedStage}}"
         />
       </:triggerElement>
       <:tooltip>

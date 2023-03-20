@@ -1,3 +1,4 @@
+import times from 'lodash/times';
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
@@ -44,7 +45,12 @@ export default class ParticipationFilters extends Component {
   }
 
   get stageOptions() {
-    return this.args.campaign?.stages?.map(({ id, threshold }) => ({ value: id, threshold }));
+    const totalStage = this.args.campaign.stages.length;
+    return this.args.campaign.stages.map((stage, index) => ({
+      value: stage.id,
+      reachedStage: index + 1,
+      totalStage,
+    }));
   }
 
   get badgeOptions() {

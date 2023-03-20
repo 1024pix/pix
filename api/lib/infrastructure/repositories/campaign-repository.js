@@ -4,7 +4,6 @@ const { knex } = require('../../../db/knex-database-connection.js');
 const Campaign = require('../../domain/models/Campaign.js');
 const targetProfileRepository = require('./target-profile-repository.js');
 const skillRepository = require('./skill-repository.js');
-const Stage = require('../../domain/models/Stage.js');
 
 const CAMPAIGNS_TABLE = 'campaigns';
 
@@ -164,18 +163,6 @@ module.exports = {
     const skills = await this.findSkillsByCampaignParticipationId({ campaignParticipationId, domainTransaction });
     return skills.map(({ id }) => id);
   },
-
-  async findStages({ campaignId }) {
-    const stages = await knex('stages')
-      .select('stages.*')
-      .join('campaigns', 'campaigns.targetProfileId', 'stages.targetProfileId')
-      .where('campaigns.id', campaignId)
-      .orderBy(['stages.threshold', 'stages.level']);
-
-    await _computeStagesThresholdForCampaign(stages, campaignId);
-
-    return stages.map((stage) => new Stage(stage));
-  },
 };
 
 async function _findSkills({ campaignId, domainTransaction, filterByStatus = 'operative' }) {
@@ -198,27 +185,4 @@ async function _findSkillIds({ campaignId, domainTransaction }) {
     skillIds = await targetProfileRepository.getTargetProfileSkillIdsByCampaignId(campaignId, domainTransaction);
   }
   return skillIds;
-}
-
-async function _computeStagesThresholdForCampaign(stages, campaignId) {
-  const stagesWithLevel = stages.filter((stage) => stage.level);
-
-  if (stagesWithLevel.length === 0) return;
-
-  const skills = await _findSkills({ campaignId });
-
-  stagesWithLevel.forEach((stage) => {
-    stage.threshold = _computeStageThresholdForLevel(stage.level, skills);
-  });
-}
-
-const MAX_STAGE_THRESHOLD = 100;
-
-function _computeStageThresholdForLevel(level, skills) {
-  if (skills.length === 0) {
-    return MAX_STAGE_THRESHOLD;
-  }
-
-  const stageSkillsCount = skills.filter((skill) => skill.difficulty <= level).length;
-  return Math.round((stageSkillsCount / skills.length) * 100);
 }

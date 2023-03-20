@@ -1,45 +1,44 @@
 const bluebird = require('bluebird');
 const { knex } = require('../../../db/knex-database-connection.js');
 const { fetchPage } = require('../utils/knex-utils.js');
-const campaignRepository = require('./campaign-repository.js');
-const CampaignStages = require('../../domain/read-models/campaign/CampaignStages.js');
+const stageCollectionRepository = require('./user-campaign-results/stage-collection-repository');
 const CampaignAssessmentParticipationResultMinimal = require('../../domain/read-models/campaign-results/CampaignAssessmentParticipationResultMinimal.js');
 const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses.js');
 
 const { SHARED } = CampaignParticipationStatuses;
 
 async function findPaginatedByCampaignId({ page = {}, campaignId, filters = {} }) {
-  const stages = await campaignRepository.findStages({ campaignId });
-  const campaignStages = new CampaignStages({ stages });
+  const stageCollection = await stageCollectionRepository.findStageCollection({ campaignId });
 
-  const { results, pagination } = await _getResultListPaginated(campaignId, campaignStages, filters, page);
+  const { results, pagination } = await _getResultListPaginated(campaignId, stageCollection, filters, page);
 
-  const participations = await _buildCampaignAssessmentParticipationResultList(results);
+  const participations = await _buildCampaignAssessmentParticipationResultList(results, stageCollection);
   return {
     participations,
     pagination,
   };
 }
-async function _getResultListPaginated(campaignId, campaignStages, filters, page) {
-  const query = _getParticipantsResultList(campaignId, campaignStages, filters);
+async function _getResultListPaginated(campaignId, stageCollection, filters, page) {
+  const query = _getParticipantsResultList(campaignId, stageCollection, filters);
   return fetchPage(query, page);
 }
 
-function _getParticipantsResultList(campaignId, campaignStages, filters) {
+function _getParticipantsResultList(campaignId, stageCollection, filters) {
   return knex
-    .with('campaign_participation_summaries', (qb) => _getParticipations(qb, campaignId, campaignStages, filters))
+    .with('campaign_participation_summaries', (qb) => _getParticipations(qb, campaignId, stageCollection, filters))
     .select('*')
     .from('campaign_participation_summaries')
     .modify(_filterByBadgeAcquisitionsOut, filters)
     .orderByRaw('LOWER(??) ASC, LOWER(??) ASC', ['lastName', 'firstName']);
 }
 
-function _getParticipations(qb, campaignId, campaignStages, filters) {
+function _getParticipations(qb, campaignId, stageCollection, filters) {
   qb.select(
     'organization-learners.firstName',
     'organization-learners.lastName',
     'campaign-participations.participantExternalId',
     'campaign-participations.masteryRate',
+    'campaign-participations.validatedSkillsCount',
     'campaign-participations.id AS campaignParticipationId',
     'campaign-participations.userId'
   )
@@ -51,8 +50,8 @@ function _getParticipations(qb, campaignId, campaignStages, filters) {
     .where('campaign-participations.deletedAt', 'IS', null)
     .modify(_filterByDivisions, filters)
     .modify(_filterByGroups, filters)
-    .modify(_addAcquiredBadgeids, filters)
-    .modify(_filterByStage, campaignStages, filters)
+    .modify(_addAcquiredBadgeIds, filters)
+    .modify(_filterByStage, stageCollection, filters)
     .modify(_filterBySearch, filters);
 }
 
@@ -87,7 +86,7 @@ function _filterBySearch(queryBuilder, filters) {
   }
 }
 
-function _addAcquiredBadgeids(queryBuilder, filters) {
+function _addAcquiredBadgeIds(queryBuilder, filters) {
   if (filters.badges) {
     queryBuilder
       .select(knex.raw('ARRAY_AGG("badgeId") OVER (PARTITION BY "campaign-participations"."id") as badges_acquired'))
@@ -102,29 +101,41 @@ function _filterByBadgeAcquisitionsOut(queryBuilder, filters) {
   }
 }
 
-function _filterByStage(queryBuilder, campaignStages, filters) {
+function _filterByStage(queryBuilder, stageCollection, filters) {
   if (!filters.stages) return;
-
-  const thresholdRateBoundaries = campaignStages.stageThresholdBoundaries
-    .filter((boundary) => filters.stages.includes(boundary.id))
-    .map((boundary) => ({
-      id: boundary.id,
-      from: boundary.from / 100,
-      to: boundary.to / 100,
-    }));
+  const allBoundaries = stageCollection.getThresholdBoundaries();
+  const boundariesForStagesInFilter = allBoundaries.filter(({ id }) => filters.stages.includes(id));
   queryBuilder.where((builder) => {
-    thresholdRateBoundaries.forEach((boundary) => {
-      builder.orWhereBetween('campaign-participations.masteryRate', [boundary.from, boundary.to]);
+    boundariesForStagesInFilter.forEach((stageBoundary) => {
+      if (stageCollection.isZeroStageId(stageBoundary.id) && stageCollection.hasFirstSkillStage) {
+        builder.where('campaign-participations.validatedSkillsCount', '=', 0);
+      } else if (stageCollection.isFirstSkillStageId(stageBoundary.id)) {
+        builder.orWhere((subBuilder) => {
+          subBuilder.where('campaign-participations.validatedSkillsCount', '>', 0);
+          subBuilder.where('campaign-participations.masteryRate', '<=', stageBoundary.to / 100);
+        });
+      } else {
+        builder.orWhereBetween('campaign-participations.masteryRate', [
+          stageBoundary.from / 100,
+          stageBoundary.to / 100,
+        ]);
+      }
     });
   });
 }
 
-async function _buildCampaignAssessmentParticipationResultList(results) {
+async function _buildCampaignAssessmentParticipationResultList(results, stageCollection) {
   return await bluebird.mapSeries(results, async (result) => {
     const badges = await getAcquiredBadges(result.campaignParticipationId);
+    const participantReachedStage = stageCollection.getReachedStage(
+      result.validatedSkillsCount,
+      result.masteryRate * 100
+    );
 
     return new CampaignAssessmentParticipationResultMinimal({
       ...result,
+      reachedStage: participantReachedStage.reachedStage,
+      totalStage: participantReachedStage.totalStage,
       badges,
     });
   });
