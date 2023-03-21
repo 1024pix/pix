@@ -34,7 +34,7 @@ module('Acceptance | Compare answers and solutions for QROC questions', function
       await visit(`/assessments/${assessment.id}/results`);
 
       // then
-      assert.dom('.comparison-window').doesNotExist();
+      assert.dom('.pix-modal__overlay--hidden .comparison-window').exists();
       assert.dom('.comparison-window__header .comparison-window__result-item-index').doesNotExist();
       assert.dom('.comparison-window__header .comparison-window__title .comparison-window__title-text').doesNotExist();
     });
