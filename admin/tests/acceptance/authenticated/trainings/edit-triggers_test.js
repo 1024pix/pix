@@ -107,6 +107,8 @@ module('Acceptance | Trainings | Triggers edit', function (hooks) {
 
       // then
       assert.strictEqual(currentURL(), `/trainings/${trainingId}/triggers`);
+      assert.dom(screen.getByText('Seuil : 20%', { exact: false })).exists();
+      assert.dom(screen.getByText('2 sujets', { exact: false })).exists();
     });
 
     module('when admin member is "SUPPORT"', function () {
