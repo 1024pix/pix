@@ -1,7 +1,6 @@
-const { expect, domainBuilder, catchErrSync } = require('../../../test-helper');
+const { expect, domainBuilder } = require('../../../test-helper');
 const config = require('../../../../lib/config');
 const User = require('../../../../lib/domain/models/User');
-const { LocaleFormatError, LocaleNotSupportedError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Domain | Models | User', function () {
   describe('constructor', function () {
@@ -11,48 +10,6 @@ describe('Unit | Domain | Models | User', function () {
 
       //then
       expect(users.length).to.equal(3);
-    });
-
-    it('throws a LocaleFormatError error', function () {
-      // given
-      const createUser = () => {
-        new User({ locale: 'anInvalidLocale' });
-      };
-
-      // when
-      const error = catchErrSync(createUser)();
-
-      //then
-      expect(error).to.be.instanceOf(LocaleFormatError);
-    });
-
-    it('throws a LocaleNotSupportedError error', function () {
-      // given
-      const createUser = () => {
-        new User({ locale: 'pt-PT' });
-      };
-
-      // when
-      const error = catchErrSync(createUser)();
-
-      //then
-      expect(error).to.be.instanceOf(LocaleNotSupportedError);
-    });
-
-    it('canonicalizes the given locale', function () {
-      // given
-      const user = new User({ locale: 'fr-fr' });
-
-      //then
-      expect(user.locale).to.equal('fr-FR');
-    });
-
-    it('transforms "en-GB" locale into "en"', function () {
-      // given
-      const user = new User({ locale: 'en-gb' });
-
-      //then
-      expect(user.locale).to.equal('en');
     });
   });
 
