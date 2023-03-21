@@ -83,16 +83,36 @@ function createOrUpdateTrainingTrigger(schema, request) {
   const attributes = body.data.attributes;
 
   const trainingTrigger = schema.trainingTriggers.findOrCreateBy({
-    trainingId: attributes.trainingId,
+    trainingId: request.params.id,
     type: attributes.type,
   });
 
-  const tubes = schema.tubes.where(({ id }) => attributes.tubes.map(({ id }) => id).includes(id)).models;
-  tubes.forEach((tube) => {
-    tube.update({ level: attributes.tubes.find(({ id }) => id === tube.id).level });
+  const tubes = schema.tubes.all().models.filter(({ id }) => {
+    return attributes.tubes.map(({ tubeId }) => tubeId).includes(id);
   });
 
-  trainingTrigger.update({ ...attributes, tubes });
+  const triggerTubes = tubes.map((tube) => {
+    const level = attributes.tubes.find(({ tubeId }) => tubeId === tube.id).level;
+    return schema.triggerTubes.create({ tube, level });
+  });
+
+  const thematics = schema.thematics.all().models.filter(({ tubes: thematicTubes }) => {
+    return thematicTubes.models.find(({ id }) => triggerTubes.map(({ tube }) => tube.id).includes(id));
+  });
+
+  const competences = schema.competences.all().models.filter(({ thematics: competenceThematics }) => {
+    return competenceThematics.models.find(({ id }) => thematics.map(({ id }) => id).includes(id));
+  });
+
+  const areas = schema.areas.all().models.filter(({ competences: areaCompetences }) => {
+    return areaCompetences.models.find(({ id }) => competences.map(({ id }) => id).includes(id));
+  });
+
+  thematics.triggerTubes = triggerTubes;
+  competences.thematics = thematics;
+  areas.competences = competences;
+
+  trainingTrigger.update({ ...attributes, areas, tubesCount: tubes.length });
   return trainingTrigger;
 }
 

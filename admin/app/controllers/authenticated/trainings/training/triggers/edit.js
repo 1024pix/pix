@@ -41,7 +41,7 @@ export default class TrainingEditTriggersController extends Controller {
     try {
       const data = Object.fromEntries(new FormData(event.target).entries());
       await this.store
-        .createRecord('training-trigger', { ...data, type: this.type })
+        .createRecord('training-trigger', { ...data, type: this.type, training: this.model.training })
         .save({ adapterOptions: { tubes: this.selectedTubes, trainingId: this.model.training.id } });
       this.notifications.success('Le déclencheur a été créé avec succès.');
       this.goBackToTraining();
