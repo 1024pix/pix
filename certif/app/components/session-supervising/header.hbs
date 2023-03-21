@@ -1,6 +1,6 @@
 <div class="session-supervising-header">
   <PixButton
-    aria-label="Quitter la surveillance de la session {{@session.id}}"
+    aria-label={{t "pages.session-supervising.header.actions.exit-extra-information" sessionId=@session.id}}
     @size="small"
     @triggerAction={{this.askUserToConfirmLeaving}}
     @backgroundColor="transparent-light"
@@ -8,7 +8,7 @@
     class="session-supervising-header__quit"
   >
     <FaIcon @icon="sign-out-alt" />
-    {{t "common.actions.quit"}}
+    {{t "common.actions.exit"}}
   </PixButton>
   <h1 class="session-supervising-header__title">{{t
       "pages.session-supervising.header.session-id"
@@ -30,7 +30,9 @@
       {{@session.room}}
     </p>
     <p class="session-supervising-header__line">
-      <span class="session-supervising-header__label">{{t "pages.session-supervising.header.supervisor"}}</span>
+      <span class="session-supervising-header__label">{{t
+          "pages.session-supervising.header.multiple-supervisor"
+        }}</span>
       {{@session.examiner}}
     </p>
     <p class="session-supervising-header__line">

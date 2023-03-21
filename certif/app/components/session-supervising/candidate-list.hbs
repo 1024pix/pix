@@ -1,16 +1,17 @@
 <div class="session-supervising-candidate-list-background">
   {{#if @candidates}}
     <div class="session-supervising-candidate-list">
-      <h1 class="session-supervising-candidate-list__title">Candidats</h1>
-      <p class="session-supervising-candidate-list__description">Cochez chaque candidat présent dans la salle de test
-        pour l'autoriser à commencer son test de certification.</p>
+      <h1 class="session-supervising-candidate-list__title">{{t "common.candidate.candidates"}}</h1>
+      <p class="session-supervising-candidate-list__description">{{t
+          "pages.session-supervising.candidate-list.indicate-candidates-attendance"
+        }}</p>
       <div class="session-supervising-candidate-list__search">
         <FaIcon @icon="search" class="search-icon" />
         <PixInput
           class="search-input"
           @id="search-candidate"
-          @ariaLabel="Rechercher un candidat"
-          placeholder="Rechercher un candidat"
+          @ariaLabel={{t "pages.session-supervising.candidate-list.search-candidate"}}
+          placeholder={{t "pages.session-supervising.candidate-list.search-candidate"}}
           @value={{this.filter}}
           {{on "input" this.setFilter}}
         />
@@ -19,7 +20,7 @@
           @backgroundColor="transparent-light"
           @isBorderVisible={{false}}
           @triggerAction={{this.emptySearchInput}}
-          aria-label="Vider le champ"
+          aria-label={{t "pages.session-supervising.candidate-list.clear-field"}}
           class="empty-button"
         >
           <FaIcon @icon="times" />
@@ -48,6 +49,8 @@
       alt=""
       role="presentation"
     />
-    <p class="session-supervising-candidate-list__empty-message">Aucun candidat inscrit à cette session</p>
+    <p class="session-supervising-candidate-list__empty-message">{{t
+        "pages.session-supervising.candidate-list.no-candidate"
+      }}</p>
   {{/if}}
 </div>

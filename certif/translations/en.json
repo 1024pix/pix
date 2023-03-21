@@ -8,7 +8,8 @@
       "add": "Add",
       "delete": "Delete",
       "quit": "Quit",
-      "update": "Edit"
+      "update": "Edit",
+      "exit": "Exit"
     },
     "api-error-messages": {
       "bad-request-error": "The data entered was not in the correct format.",
@@ -20,6 +21,9 @@
     },
     "form": {
       "mandatory-all-fields": "All fields are required."
+    },
+    "candidate": {
+      "candidates": "Candidates"
     }
   },
   "current-lang": "en",
@@ -454,16 +458,22 @@
     },
     "session-supervising": {
       "header": {
-        "session-id": "Session {sessionId}",
-        "center-name": "Center name",
-        "center-name-full": "Center name",
+        "actions": {
+          "exit-extra-information": "Exit the invigilation of session {sessionId}"
+        },
+        "access-code": "Access code (candidates)",
+        "center-name": "Location",
+        "multiple-supervisor": "Invigilator(s)",
         "room": "Room",
-        "supervisor": "Supervisor",
-        "multiple-supervisor": "Supervisor(s)",
-        "access-code": "Access code (candidates)"
+        "session-id": "Session {sessionId}",
+        "supervisor": "Supervisor"
       },
       "candidate-list": {
-        "authorized-to-start-candidates": "{authorizedToStartCandidates}/{totalCandidates} authorized {authorizedToStartCandidates, plural,one {candidate} other {candidates}}"
+        "authorized-to-start-candidates": "{authorizedToStartCandidates}/{totalCandidates} {authorizedToStartCandidates, plural,one {candidate} other {candidates}} selected",
+        "clear-field": "Clear the field",
+        "indicate-candidates-attendance": "Check off each candidate present in the room to allow them to start their Pix certification exam.",
+        "no-candidate": "No candidate enrolled in this session",
+        "search-candidate": "Search for a candidate"
       },
       "candidate-in-list": {
         "extra-time": "Extra time",
