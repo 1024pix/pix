@@ -2,6 +2,8 @@ const get = require('lodash/get');
 
 const {
   ForbiddenAccess,
+  LocaleFormatError,
+  LocaleNotSupportedError,
   MissingOrInvalidCredentialsError,
   UserShouldChangePasswordError,
 } = require('../../domain/errors.js');
@@ -21,11 +23,20 @@ async function _checkUserAccessScope(scope, user, adminMemberRepository) {
   }
 }
 
+async function _updateUserLocaleIfNotAlreadySet({ user, locale, localeService, userRepository }) {
+  if (user.locale) return;
+  if (!locale) return;
+  const formattedLocale = localeService.getCanonicalLocale(locale);
+  return userRepository.updateLocale({ userId: user.id, locale: formattedLocale });
+}
+
 module.exports = async function authenticateUser({
   password,
   scope,
   source,
   username,
+  localeFromCookie,
+  localeService,
   refreshTokenService,
   pixAuthenticationService,
   tokenService,
@@ -55,10 +66,22 @@ module.exports = async function authenticateUser({
       refreshToken,
     });
 
+    await _updateUserLocaleIfNotAlreadySet({
+      user: foundUser,
+      locale: localeFromCookie,
+      localeService,
+      userRepository,
+    });
+
     await userRepository.updateLastLoggedAt({ userId: foundUser.id });
     return { accessToken, refreshToken, expirationDelaySeconds };
   } catch (error) {
-    if (error instanceof ForbiddenAccess || error instanceof UserShouldChangePasswordError) {
+    if (
+      error instanceof ForbiddenAccess ||
+      error instanceof UserShouldChangePasswordError ||
+      error instanceof LocaleFormatError ||
+      error instanceof LocaleNotSupportedError
+    ) {
       throw error;
     }
     throw new MissingOrInvalidCredentialsError();
