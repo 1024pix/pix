@@ -3,7 +3,7 @@
 const dotenv = require('dotenv');
 dotenv.config();
 const logger = require('../lib/infrastructure/logger');
-const { cache } = require('../lib/infrastructure/caches/learning-content-cache');
+const { learningContentCache } = require('../lib/infrastructure/caches/learning-content-cache');
 
 const learningContentDatasource = require('../lib/infrastructure/datasources/learning-content/datasource');
 
@@ -14,4 +14,4 @@ learningContentDatasource
     logger.info('Learning Content refreshed');
   })
   .catch((e) => logger.error('Error while reloading cache', e))
-  .finally(() => cache.quit());
+  .finally(() => learningContentCache.quit());
