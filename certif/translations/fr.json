@@ -8,7 +8,8 @@
       "continue": "Continuer",
       "delete": "Supprimer",
       "quit": "Quitter",
-      "update": "Modifier"
+      "update": "Modifier",
+      "exit": "Quitter"
     },
     "api-error-messages": {
       "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
@@ -20,6 +21,9 @@
     },
     "form": {
       "mandatory-all-fields": "Tous les champs sont obligatoires."
+    },
+    "candidate": {
+      "candidates": "Candidats"
     }
   },
   "current-lang": "fr",
@@ -448,16 +452,22 @@
     },
     "session-supervising": {
       "header": {
-        "session-id": "Session {sessionId}",
+        "actions": {
+          "exit-extra-information": "Quitter la surveillance de la session {sessionId}"
+        },
+        "access-code": "Code d'accès (candidats)",
         "center-name": "Site",
-        "center-name-full": "Nom du site",
-        "room": "Salle",
-        "supervisor": "Surveillant",
         "multiple-supervisor": "Surveillant(s)",
-        "access-code": "Code d'accès (candidats)"
+        "room": "Salle",
+        "session-id": "Session {sessionId}",
+        "supervisor": "Surveillant"
       },
       "candidate-list": {
-        "authorized-to-start-candidates": "{authorizedToStartCandidates}/{totalCandidates} {authorizedToStartCandidates, plural,one {candidat sélectionné} other {candidats sélectionnés}}"
+        "authorized-to-start-candidates": "{authorizedToStartCandidates}/{totalCandidates} {authorizedToStartCandidates, plural,one {candidat sélectionné} other {candidats sélectionnés}}",
+        "clear-field": "Vider le champ",
+        "indicate-candidates-attendance": "Cochez chaque candidat présent dans la salle de test pour l'autoriser à commencer son test de certification.",
+        "no-candidate": "Aucun candidat inscrit à cette session",
+        "search-candidate": "Rechercher un candidat"
       },
       "candidate-in-list": {
         "extra-time": "Temps majoré",
