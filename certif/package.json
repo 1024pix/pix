@@ -45,6 +45,9 @@
     "@babel/plugin-proposal-decorators": "^7.20.5",
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.8.1",
+    "@embroider/compat": "^2.1.1",
+    "@embroider/core": "^2.1.1",
+    "@embroider/webpack": "^2.1.1",
     "@formatjs/intl": "^2.5.1",
     "@fortawesome/ember-fontawesome": "^0.4.1",
     "@fortawesome/free-brands-svg-icons": "^6.2.1",
@@ -108,6 +111,6 @@
     "stylelint": "^14.15.0",
     "stylelint-config-prettier": "^9.0.4",
     "stylelint-config-standard-scss": "^6.1.0",
-    "webpack": "^5.75.0"
+    "webpack": "^5.76.2"
   }
 }
