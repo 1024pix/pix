@@ -10,6 +10,7 @@
       aria-controls={{this.feedbackPanelId}}
       type="button"
     >
+      <FaIcon @icon="circle-question" />
       {{t "pages.challenge.feedback-panel.actions.open-close"}}
     </button>
   </div>
@@ -69,7 +70,9 @@
               </div>
               {{#if this.displayTextBox}}
                 <div class="feedback-panel__group">
-                  <p>{{t "pages.challenge.feedback-panel.form.status.error.max-characters"}}</p>
+                  <p class="feedback-panel__field-notice">
+                    {{t "pages.challenge.feedback-panel.form.status.error.max-characters"}}
+                  </p>
                   <Textarea
                     class="feedback-panel__field feedback-panel__field--content"
                     @value={{this.content}}
@@ -94,13 +97,8 @@
           </div>
 
           <div class="feedback-panel__form-legal-notice">
-            <div class="feedback-panel__form-description">
-              {{t "pages.challenge.feedback-panel.information.guidance" htmlSafe=true}}
-            </div>
-
-            <div class="feedback-panel__form-description">
-              {{t "pages.challenge.feedback-panel.information.data-usage" htmlSafe=true}}
-            </div>
+            {{t "pages.challenge.feedback-panel.information.guidance" htmlSafe=true}}
+            {{t "pages.challenge.feedback-panel.information.data-usage" htmlSafe=true}}
           </div>
         {{/if}}
 
