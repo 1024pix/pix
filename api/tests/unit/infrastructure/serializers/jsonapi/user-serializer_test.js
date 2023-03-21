@@ -1,7 +1,8 @@
-const { expect } = require('../../../../test-helper');
+const { expect, catchErrSync } = require('../../../../test-helper');
 
 const User = require('../../../../../lib/domain/models/User');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
+const { LocaleFormatError, LocaleNotSupportedError } = require('../../../../../lib/domain/errors');
 
 describe('Unit | Serializer | JSONAPI | user-serializer', function () {
   describe('#serialize', function () {
@@ -16,6 +17,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', function () {
         username: 'luke.skywalker1234',
         cgu: true,
         lang: 'fr',
+        locale: 'fr-FR',
         isAnonymous: false,
         lastTermsOfServiceValidatedAt: '2020-05-04T13:18:26.323Z',
         mustValidateTermsOfService: true,
@@ -42,6 +44,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', function () {
               username: userModelObject.username,
               cgu: userModelObject.cgu,
               lang: userModelObject.lang,
+              locale: userModelObject.locale,
               'is-anonymous': userModelObject.isAnonymous,
               'last-terms-of-service-validated-at': userModelObject.lastTermsOfServiceValidatedAt,
               'must-validate-terms-of-service': userModelObject.mustValidateTermsOfService,
@@ -136,6 +139,34 @@ describe('Unit | Serializer | JSONAPI | user-serializer', function () {
 
       // then
       expect(user.id).to.be.undefined;
+    });
+
+    context('user with a invalid locale format', function () {
+      it('throws locale format error', function () {
+        // given
+        jsonUser.data.attributes.locale = 'zzzz';
+
+        // when
+        const error = catchErrSync(serializer.deserialize)(jsonUser);
+
+        // then
+        expect(error).to.be.instanceOf(LocaleFormatError);
+        expect(error.message).to.equal('Given locale is in invalid format: "zzzz"');
+      });
+    });
+
+    context('user with a not supported locale', function () {
+      it('throws locale not supported error', function () {
+        // given
+        jsonUser.data.attributes.locale = 'jp';
+
+        // when
+        const error = catchErrSync(serializer.deserialize)(jsonUser);
+
+        // then
+        expect(error).to.be.instanceOf(LocaleNotSupportedError);
+        expect(error.message).to.equal('Given locale is not supported : "jp"');
+      });
     });
   });
 });

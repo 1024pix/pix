@@ -13,10 +13,10 @@ describe('Unit | UseCase | create-user', function () {
   const userId = 123;
   const userEmail = 'test@example.net';
   const password = 'Password123';
+  const localeFromHeader = 'fr-FR';
   const user = new User({ email: userEmail });
   const hashedPassword = 'ABCDEF1234';
-  const locale = 'fr-fr';
-  const savedUser = new User({ id: userId, email: userEmail });
+  const savedUser = new User({ id: userId, email: userEmail, locale: localeFromHeader });
 
   let campaignCode;
   let authenticationMethodRepository;
@@ -73,9 +73,9 @@ describe('Unit | UseCase | create-user', function () {
       // when
       await createUser({
         user,
+        localeFromHeader,
         password,
         campaignCode,
-        locale,
         authenticationMethodRepository,
         campaignRepository,
         userRepository,
@@ -93,9 +93,9 @@ describe('Unit | UseCase | create-user', function () {
       // when
       await createUser({
         user,
+        localeFromHeader,
         password,
         campaignCode,
-        locale,
         authenticationMethodRepository,
         campaignRepository,
         userRepository,
@@ -113,9 +113,9 @@ describe('Unit | UseCase | create-user', function () {
       // when
       await createUser({
         user,
+        localeFromHeader,
         password,
         campaignCode,
-        locale,
         authenticationMethodRepository,
         campaignRepository,
         userRepository,
@@ -147,9 +147,9 @@ describe('Unit | UseCase | create-user', function () {
         // when
         const error = await catchErr(createUser)({
           user,
+          localeFromHeader,
           password,
           campaignCode,
-          locale,
           authenticationMethodRepository,
           campaignRepository,
           userRepository,
@@ -186,9 +186,9 @@ describe('Unit | UseCase | create-user', function () {
         // when
         const error = await catchErr(createUser)({
           user,
+          localeFromHeader,
           password,
           campaignCode,
-          locale,
           authenticationMethodRepository,
           campaignRepository,
           userRepository,
@@ -227,9 +227,9 @@ describe('Unit | UseCase | create-user', function () {
         // when
         const error = await catchErr(createUser)({
           user,
+          localeFromHeader,
           password,
           campaignCode,
-          locale,
           authenticationMethodRepository,
           campaignRepository,
           userRepository,
@@ -256,9 +256,9 @@ describe('Unit | UseCase | create-user', function () {
         // when
         await createUser({
           user,
+          localeFromHeader,
           password,
           campaignCode,
-          locale,
           authenticationMethodRepository,
           campaignRepository,
           userRepository,
@@ -284,9 +284,9 @@ describe('Unit | UseCase | create-user', function () {
         // when
         await createUser({
           user,
+          localeFromHeader,
           password,
           campaignCode,
-          locale,
           authenticationMethodRepository,
           campaignRepository,
           userRepository,
@@ -310,9 +310,9 @@ describe('Unit | UseCase | create-user', function () {
       // when
       await createUser({
         user,
+        localeFromHeader,
         password,
         campaignCode,
-        locale,
         authenticationMethodRepository,
         campaignRepository,
         userRepository,
@@ -332,9 +332,9 @@ describe('Unit | UseCase | create-user', function () {
         // when
         await createUser({
           user,
+          localeFromHeader,
           password,
           campaignCode,
-          locale,
           authenticationMethodRepository,
           campaignRepository,
           userRepository,
@@ -355,9 +355,9 @@ describe('Unit | UseCase | create-user', function () {
         // when
         const error = await catchErr(createUser)({
           user,
+          localeFromHeader,
           password,
           campaignCode,
-          locale,
           authenticationMethodRepository,
           campaignRepository,
           userRepository,
@@ -375,9 +375,9 @@ describe('Unit | UseCase | create-user', function () {
         // when
         await createUser({
           user,
+          localeFromHeader,
           password,
           campaignCode,
-          locale,
           authenticationMethodRepository,
           campaignRepository,
           userRepository,
@@ -398,7 +398,7 @@ describe('Unit | UseCase | create-user', function () {
     });
 
     context('step send account creation email to user', function () {
-      const user = new User({ email: userEmail });
+      const user = new User({ email: userEmail, locale: localeFromHeader });
 
       it('should send the account creation email', async function () {
         // given
@@ -408,9 +408,9 @@ describe('Unit | UseCase | create-user', function () {
         // when
         await createUser({
           user,
+          localeFromHeader,
           password,
           campaignCode,
-          locale,
           authenticationMethodRepository,
           campaignRepository,
           userRepository,
@@ -421,7 +421,11 @@ describe('Unit | UseCase | create-user', function () {
         });
 
         // then
-        expect(mailService.sendAccountCreationEmail).to.have.been.calledWith(userEmail, locale, expectedRedirectionUrl);
+        expect(mailService.sendAccountCreationEmail).to.have.been.calledWith(
+          userEmail,
+          localeFromHeader,
+          expectedRedirectionUrl
+        );
       });
 
       describe('when campaignCode is null', function () {
@@ -434,9 +438,9 @@ describe('Unit | UseCase | create-user', function () {
           // when
           await createUser({
             user,
+            localeFromHeader,
             password,
             campaignCode,
-            locale,
             authenticationMethodRepository,
             campaignRepository,
             userRepository,
@@ -449,7 +453,7 @@ describe('Unit | UseCase | create-user', function () {
           // then
           expect(mailService.sendAccountCreationEmail).to.have.been.calledWith(
             userEmail,
-            locale,
+            localeFromHeader,
             expectedRedirectionUrl
           );
         });
@@ -466,9 +470,9 @@ describe('Unit | UseCase | create-user', function () {
           // when
           await createUser({
             user,
+            localeFromHeader,
             password,
             campaignCode,
-            locale,
             authenticationMethodRepository,
             campaignRepository,
             userRepository,
@@ -481,7 +485,7 @@ describe('Unit | UseCase | create-user', function () {
           // then
           expect(mailService.sendAccountCreationEmail).to.have.been.calledWith(
             userEmail,
-            locale,
+            localeFromHeader,
             expectedRedirectionUrl
           );
         });
@@ -492,9 +496,9 @@ describe('Unit | UseCase | create-user', function () {
       // when
       const createdUser = await createUser({
         user,
+        localeFromHeader,
         password,
         campaignCode,
-        locale,
         authenticationMethodRepository,
         campaignRepository,
         userRepository,

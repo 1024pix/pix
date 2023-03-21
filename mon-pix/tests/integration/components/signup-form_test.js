@@ -503,6 +503,68 @@ module('Integration | Component | SignupForm', function (hooks) {
         // then
         assert.dom('.signup-form__notification-message').doesNotExist();
       });
+
+      module('when an invalid locale is provided', function () {
+        test('displays an error message', async function (assert) {
+          // given
+          const user = EmberObject.create({
+            save: sinon
+              .stub()
+              .rejects({ errors: [{ status: '400', code: 'INVALID_LOCALE_FORMAT', meta: { locale: 'zzzz' } }] }),
+          });
+          this.set('user', user);
+          const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
+
+          // when
+          await fillIn(screen.getByRole('textbox', { name: 'Prénom' }), 'Carry');
+          await fillIn(screen.getByRole('textbox', { name: 'Nom' }), 'Bout');
+          await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail (ex: nom@exemple.fr)' }), 'c.b@example.net');
+          await fillIn(
+            screen.getByLabelText(
+              'Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)'
+            ),
+            'P@ssword123'
+          );
+          await clickByName(this.intl.t('pages.sign-up.actions.submit'));
+
+          // then
+          assert
+            .dom(screen.getByText(this.intl.t('pages.sign-up.errors.invalid-locale-format', { invalidLocale: 'zzzz' })))
+            .exists();
+        });
+      });
+
+      module('when not supported locale is provided', function () {
+        test('displays an error message', async function (assert) {
+          // given
+          const user = EmberObject.create({
+            save: sinon
+              .stub()
+              .rejects({ errors: [{ status: '400', code: 'LOCALE_NOT_SUPPORTED', meta: { locale: 'jp' } }] }),
+          });
+          this.set('user', user);
+          const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
+
+          // when
+          await fillIn(screen.getByRole('textbox', { name: 'Prénom' }), 'Carry');
+          await fillIn(screen.getByRole('textbox', { name: 'Nom' }), 'Bout');
+          await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail (ex: nom@exemple.fr)' }), 'c.b@example.net');
+          await fillIn(
+            screen.getByLabelText(
+              'Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)'
+            ),
+            'P@ssword123'
+          );
+          await clickByName(this.intl.t('pages.sign-up.actions.submit'));
+
+          // then
+          assert
+            .dom(
+              screen.getByText(this.intl.t('pages.sign-up.errors.locale-not-supported', { localeNotSupported: 'jp' }))
+            )
+            .exists();
+        });
+      });
     });
 
     module('Successfull cases', function () {

@@ -52,6 +52,7 @@ function _toUserDomain(userDTO) {
     shouldChangePassword: Boolean(userDTO.shouldChangePassword),
     cgu: Boolean(userDTO.cgu),
     lang: userDTO.lang,
+    locale: userDTO.locale,
     isAnonymous: Boolean(userDTO.isAnonymous),
     lastTermsOfServiceValidatedAt: userDTO.lastTermsOfServiceValidatedAt,
     hasSeenNewDashboardInfo: Boolean(userDTO.hasSeenNewDashboardInfo),
