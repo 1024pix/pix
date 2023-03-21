@@ -13,6 +13,9 @@ const ERROR_INPUT_MESSAGE_MAP = {
   email: 'pages.sign-up.fields.email.error',
   password: 'pages.sign-up.fields.password.error',
 };
+const FRENCH_DOMAIN_TLD = 'fr';
+const INTERNATIONAL_DOMAIN_TLD = 'org';
+const FRENCH_LOCALE = 'fr-FR';
 
 class LastName {
   @tracked status = 'default';
@@ -51,6 +54,8 @@ export default class SignupForm extends Component {
   @service session;
   @service intl;
   @service url;
+  @service cookies;
+  @service currentDomain;
 
   @tracked errorMessage = null;
   @tracked isLoading = false;
@@ -143,42 +148,57 @@ export default class SignupForm extends Component {
   }
 
   @action
-  signup(event) {
+  async signup(event) {
     event && event.preventDefault();
     this.isLoading = true;
 
     this._trimNamesAndEmailOfUser();
     this.args.user.lang = this.intl.t('current-lang');
+    this.args.user.locale = this._getLocaleFromCookieOrDomain();
 
     const campaignCode = get(this.session, 'attemptedTransition.from.parent.params.code');
-    this.args.user
-      .save({ adapterOptions: { campaignCode } })
-      .then(async () => {
-        await this.session.authenticateUser(this.args.user.email, this.args.user.password);
-        this._tokenHasBeenUsed = true;
-        this.args.user.password = null;
-      })
-      .catch((response) => {
-        const error = get(response, 'errors[0]');
-        if (error) {
-          this._manageErrorsApi(error);
-        } else {
-          this.errorMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY);
-        }
-        this._tokenHasBeenUsed = true;
-        this.isLoading = false;
-      });
+
+    try {
+      await this.args.user.save({ adapterOptions: { campaignCode } });
+      await this.session.authenticateUser(this.args.user.email, this.args.user.password);
+      this._tokenHasBeenUsed = true;
+      this.args.user.password = null;
+    } catch (errorResponse) {
+      const error = get(errorResponse, 'errors[0]');
+      if (error) {
+        this._manageErrorsApi(error);
+      } else {
+        this.errorMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY);
+      }
+      this._tokenHasBeenUsed = true;
+      this.isLoading = false;
+    }
   }
 
   _manageErrorsApi(firstError) {
     const statusCode = get(firstError, 'status');
+
     if (statusCode === '422') {
       return this._updateInputsStatus();
     }
-    this.errorMessage = this._showErrorMessages(statusCode);
+
+    switch (firstError?.code) {
+      case 'LOCALE_NOT_SUPPORTED':
+        this.errorMessage = this.intl.t('pages.sign-up.errors.locale-not-supported', {
+          localeNotSupported: firstError.meta.locale,
+        });
+        return;
+      case 'INVALID_LOCALE_FORMAT':
+        this.errorMessage = this.intl.t('pages.sign-up.errors.invalid-locale-format', {
+          invalidLocale: firstError.meta.locale,
+        });
+        return;
+    }
+
+    this.errorMessage = this._getErrorMessagesByStatusCode(statusCode);
   }
 
-  _showErrorMessages(statusCode) {
+  _getErrorMessagesByStatusCode(statusCode) {
     const httpStatusCodeMessages = {
       400: ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.I18N_KEY,
       500: ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY,
@@ -187,5 +207,25 @@ export default class SignupForm extends Component {
       default: ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY,
     };
     return this.intl.t(httpStatusCodeMessages[statusCode] || httpStatusCodeMessages['default']);
+  }
+
+  _getLocaleFromCookieOrDomain() {
+    const currentDomainExtension = this.currentDomain.getExtension();
+    const cookieLocale = this.cookies.read('locale');
+    const currentLocale = this.intl.get('locale')[0];
+
+    if (currentDomainExtension === INTERNATIONAL_DOMAIN_TLD) {
+      if (cookieLocale) {
+        return cookieLocale;
+      }
+
+      return currentLocale;
+    }
+
+    if (currentDomainExtension === FRENCH_DOMAIN_TLD) {
+      return FRENCH_LOCALE;
+    }
+
+    return currentLocale;
   }
 }

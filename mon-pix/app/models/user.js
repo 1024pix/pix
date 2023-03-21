@@ -16,6 +16,7 @@ export default class User extends Model {
   @attr('boolean') hasRecommendedTrainings;
   @attr('string') codeForLastProfileToShare;
   @attr('string') lang;
+  @attr('string') locale;
   @attr('boolean') isAnonymous;
   @attr('boolean') shouldSeeDataProtectionPolicyInformationBanner;
   @attr() lastDataProtectionPolicySeenAt;
