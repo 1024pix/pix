@@ -154,7 +154,7 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', functio
       '<xml xmlns:some="" xmlns:text="">' +
       '<some:element>' +
       '<some:element>' +
-      '<some:element xmlns:office="" office:value-type="percentage" office:value="0.5"/>' +
+      '<some:element office:value-type="percentage" office:value="0.5"/>' +
       '<some:element office:value-type="string">' +
       '<text:p>Bibidi</text:p>' +
       '</some:element>' +
@@ -233,7 +233,7 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', functio
           <xml xmlns:some="" xmlns:text="">
             <some:element>
               <some:element>
-                <some:element xmlns:office="" office:value-type="string">
+                <some:element office:value-type="string">
                   <text:p>Bibidi</text:p>
                 </some:element>
                 <some:element
