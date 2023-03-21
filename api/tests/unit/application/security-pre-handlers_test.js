@@ -16,7 +16,6 @@ const checkAuthorizationToManageCampaignUsecase = require('../../../lib/applicat
 const checkUserIsMemberOfCertificationCenterSessionUsecase = require('../../../lib/application/usecases/checkUserIsMemberOfCertificationCenterSession');
 const certificationIssueReportRepository = require('../../../lib/infrastructure/repositories/certification-issue-report-repository');
 const checkUserOwnsCertificationCourseUseCase = require('../../../lib/application/usecases/checkUserOwnsCertificationCourse');
-
 describe('Unit | Application | SecurityPreHandlers', function () {
   describe('#checkAdminMemberHasRoleSuperAdmin', function () {
     let hasRoleSuperAdminStub;

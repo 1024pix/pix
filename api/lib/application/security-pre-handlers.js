@@ -17,6 +17,7 @@ const checkUserIsMemberOfAnOrganizationUseCase = require('./usecases/checkUserIs
 const checkUserIsMemberOfCertificationCenterUsecase = require('./usecases/checkUserIsMemberOfCertificationCenter.js');
 const checkUserIsMemberOfCertificationCenterSessionUsecase = require('./usecases/checkUserIsMemberOfCertificationCenterSession.js');
 const checkAuthorizationToManageCampaignUsecase = require('./usecases/checkAuthorizationToManageCampaign.js');
+const checkPix1dEnabled = require('./usecases/checkPix1dEnabled.js');
 const certificationIssueReportRepository = require('../infrastructure/repositories/certification-issue-report-repository.js');
 const Organization = require('../../lib/domain/models/Organization.js');
 const { ForbiddenAccess } = require('../..//lib/domain/errors.js');
@@ -379,6 +380,12 @@ function adminMemberHasAtLeastOneAccessOf(securityChecks) {
     return hasAccess ? hasAccess : _replyForbiddenError(h);
   };
 }
+async function checkPix1dActivated(request, h) {
+  const isPix1dEnabled = await checkPix1dEnabled.execute();
+
+  if (isPix1dEnabled) return h.response(true);
+  return _replyForbiddenError(h);
+}
 
 async function checkUserOwnsCertificationCourse(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
@@ -403,6 +410,7 @@ async function checkUserOwnsCertificationCourse(request, h) {
 
 module.exports = {
   checkIfUserIsBlocked,
+  checkPix1dActivated,
   checkRequestedUserIsAuthenticatedUser,
   checkUserBelongsToOrganizationManagingStudents,
   checkUserBelongsToScoOrganizationAndManagesStudents,
