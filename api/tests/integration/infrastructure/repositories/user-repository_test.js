@@ -47,6 +47,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
     lastName: 'LaFripouille',
     email: 'jojo@example.net',
     cgu: true,
+    locale: 'fr-FR',
   };
 
   let userInDB;
@@ -708,6 +709,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         expect(foundUser.username).to.equal(expectedUser.username);
         expect(foundUser.email).to.equal(expectedUser.email);
         expect(foundUser.cgu).to.equal(expectedUser.cgu);
+        expect(foundUser.locale).to.equal(expectedUser.locale);
       });
 
       it('should return user informations for the given email (case insensitive)', async function () {

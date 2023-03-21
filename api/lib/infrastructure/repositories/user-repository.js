@@ -624,6 +624,7 @@ function _toDomainFromDTO({
     hasSeenOtherChallengesTooltip: userDTO.hasSeenOtherChallengesTooltip,
     mustValidateTermsOfService: userDTO.mustValidateTermsOfService,
     lang: userDTO.lang,
+    locale: userDTO.locale,
     isAnonymous: userDTO.isAnonymous,
     pixScore: userDTO.pixScore,
     scorecards: userDTO.scorecards,
