@@ -18,8 +18,7 @@ module.exports = async function validateSessions({
   certificationCourseRepository,
 }) {
   const { name: certificationCenter, isSco } = await certificationCenterRepository.get(certificationCenterId);
-  let cachedValidatedSessionsKey;
-  const errorsReport = [];
+  const sessionsMassImportReport = new SessionMassImportReport();
 
   const validatedSessions = await bluebird.mapSeries(sessions, async (sessionDTO) => {
     const { sessionId } = sessionDTO;
@@ -40,9 +39,7 @@ module.exports = async function validateSessions({
       certificationCourseRepository,
     });
 
-    if (sessionsErrors?.length) {
-      errorsReport.push(...sessionsErrors);
-    }
+    sessionsMassImportReport.addErrorReports(sessionsErrors);
 
     if (session.certificationCandidates.length) {
       const { certificationCandidates } = session;
@@ -50,7 +47,7 @@ module.exports = async function validateSessions({
         certificationCandidates,
         sessionId,
         isSco,
-        errorsReport,
+        sessionsMassImportReport,
         certificationCpfCountryRepository,
         certificationCpfCityRepository,
         complementaryCertificationRepository,
@@ -62,29 +59,15 @@ module.exports = async function validateSessions({
     return session;
   });
 
-  if (!errorsReport.length) {
-    cachedValidatedSessionsKey = await temporarySessionsStorageForMassImportService.save({
+  if (sessionsMassImportReport.isValid) {
+    const cachedValidatedSessionsKey = await temporarySessionsStorageForMassImportService.save({
       sessions: validatedSessions,
       userId,
     });
+    sessionsMassImportReport.cachedValidatedSessionsKey = cachedValidatedSessionsKey;
   }
 
-  const sessionsWithoutCandidatesCount = validatedSessions.filter(
-    (session) => session.certificationCandidates.length === 0
-  ).length;
-  const sessionsCount = validatedSessions.length;
-  const candidatesCount = validatedSessions.reduce(
-    (currentCandidateCount, currentSession) => currentCandidateCount + currentSession.certificationCandidates.length,
-    0
-  );
-
-  const sessionsMassImportReport = new SessionMassImportReport({
-    cachedValidatedSessionsKey,
-    sessionsCount,
-    sessionsWithoutCandidatesCount,
-    candidatesCount,
-    errorsReport,
-  });
+  sessionsMassImportReport.updateSessionsCounters(validatedSessions);
 
   return sessionsMassImportReport;
 };
@@ -93,7 +76,7 @@ async function _createValidCertificationCandidates({
   certificationCandidates,
   sessionId,
   isSco,
-  errorsReport,
+  sessionsMassImportReport,
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
   complementaryCertificationRepository,
@@ -117,8 +100,8 @@ async function _createValidCertificationCandidates({
         certificationCpfCityRepository,
       });
 
-    if (certificationCandidateErrors?.length) {
-      errorsReport.push(...certificationCandidateErrors);
+    if (certificationCandidateErrors?.length > 0) {
+      sessionsMassImportReport.addErrorReports(certificationCandidateErrors);
     } else {
       domainCertificationCandidate.updateBirthInformation(cpfBirthInformation);
 

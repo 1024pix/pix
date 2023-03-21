@@ -13,18 +13,49 @@
         {{t "pages.sessions.import.step-two.candidates-count" candidatesCount=@candidatesCount}}</li>
     </ul>
   </PixMessage>
-  {{#if @isImportInError}}
+  {{#if (gt this.nonBlockingErrorReportsCount 0)}}
+    <span class="import-page-section__information">
+      {{t
+        "pages.sessions.import.step-two.non-blocking-errors.information"
+        nonBlockingErrorReportsCount=this.nonBlockingErrorReportsCount
+      }}
+    </span>
+    <div>
+      <PixCollapsible
+        @titleIcon="triangle-exclamation"
+        @title={{t
+          "pages.sessions.import.step-two.non-blocking-errors.title"
+          nonBlockingErrorReportsCount=this.nonBlockingErrorReportsCount
+        }}
+        @iconTitle="plus"
+        class="import-page-section__collapsible-header--non-blocking"
+      >
+        {{#each this.translatedNonBlockingErrorReport as |report|}}
+          <PixMessage @type="warning">
+            <p>{{t "pages.sessions.import.step-two.non-blocking-errors.line"}}
+              {{report.line}}
+              :
+              {{report.message}}</p>
+          </PixMessage>
+        {{/each}}
+      </PixCollapsible>
+    </div>
+  {{/if}}
+  {{#if (gt this.blockingErrorReportsCount 0)}}
     <span class="import-page-section__information">
       {{t "pages.sessions.import.step-two.blocking-errors.information"}}
     </span>
     <div>
       <PixCollapsible
         @titleIcon="circle-exclamation"
-        @title={{t "pages.sessions.import.step-two.blocking-errors.title" errorsReportCount=@errorsReportCount}}
+        @title={{t
+          "pages.sessions.import.step-two.blocking-errors.title"
+          blockingErrorReportsCount=this.blockingErrorReportsCount
+        }}
         @iconTitle="plus"
-        class="import-page-section__collapsible-header"
+        class="import-page-section__collapsible-header--blocking"
       >
-        {{#each this.translatedErrorReport as |report|}}
+        {{#each this.translatedBlockingErrorReport as |report|}}
           <PixMessage @type="error">
             <p>{{t "pages.sessions.import.step-two.blocking-errors.line"}}
               {{report.line}}
@@ -34,16 +65,40 @@
         {{/each}}
       </PixCollapsible>
     </div>
-    <PixButton
-      class="import-page__section--confirm-button"
-      aria-label={{t "pages.sessions.import.step-two.actions.import-again.extra-information"}}
-      @triggerAction={{@toggleStepOne}}
-    >
-      {{t "pages.sessions.import.step-two.actions.import-again.label"}}
-    </PixButton>
-  {{else}}
-    <PixButton class="import-page__section--confirm-button" @triggerAction={{@createSessions}}>
-      {{t "pages.sessions.import.step-two.actions.confirm.label"}}
-    </PixButton>
   {{/if}}
+
+  <div class="import-page__section--link-buttons">
+    {{#if this.hasOnlyNonBlockingErrorReports}}
+      <PixButton
+        @backgroundColor="yellow"
+        class="import-page__section--confirm-button--non-blocking"
+        @triggerAction={{@createSessions}}
+      >
+        {{t "pages.sessions.import.step-two.actions.confirm-with-warning.label"}}
+      </PixButton>
+      <PixButton
+        @backgroundColor="transparent-light"
+        @isBorderVisible="true"
+        @triggerAction={{@toggleStepOne}}
+        aria-label={{t "pages.sessions.import.step-two.actions.import-again.extra-information"}}
+      >
+
+        {{t "pages.sessions.import.step-two.actions.import-again.label"}}
+      </PixButton>
+    {{/if}}
+    {{#if (gt this.blockingErrorReportsCount 0)}}
+      <PixButton
+        class="import-page__section--confirm-button"
+        aria-label={{t "pages.sessions.import.step-two.actions.import-again.extra-information"}}
+        @triggerAction={{@toggleStepOne}}
+      >
+        {{t "pages.sessions.import.step-two.actions.import-again.label"}}
+      </PixButton>
+    {{/if}}
+    {{#if this.noError}}
+      <PixButton class="import-page__section--confirm-button" @triggerAction={{@createSessions}}>
+        {{t "pages.sessions.import.step-two.actions.confirm.label"}}
+      </PixButton>
+    {{/if}}
+  </div>
 </section>

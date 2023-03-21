@@ -45,6 +45,14 @@ module('Acceptance | Session Import', function (hooks) {
         allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
       });
 
+      this.server.post('/certification-centers/:id/sessions/validate-for-mass-import', () => {
+        return new Response(
+          200,
+          {},
+          { sessionsCount: 2, sessionsWithoutCandidatesCount: 0, candidatesCount: 3, errorReports: [] }
+        );
+      });
+
       await authenticateSession(certificationPointOfContact.id);
     });
 
@@ -180,7 +188,16 @@ module('Acceptance | Session Import', function (hooks) {
             const blob = new Blob(['foo']);
             const file = new File([blob], 'fichier.csv');
             this.server.post('/certification-centers/:id/sessions/validate-for-mass-import', () => {
-              return new Response(200, {}, { sessionsCount: 2, sessionsWithoutCandidatesCount: 1, candidatesCount: 3 });
+              return new Response(
+                200,
+                {},
+                {
+                  sessionsCount: 2,
+                  sessionsWithoutCandidatesCount: 1,
+                  candidatesCount: 3,
+                  errorReports: [{ code: 'EMPTY_SESSION', line: 1, blocking: false }],
+                }
+              );
             });
 
             // when
@@ -194,22 +211,7 @@ module('Acceptance | Session Import', function (hooks) {
             assert.dom(screen.getByText('2 sessions dont 1 session sans candidat')).exists();
             assert.dom(screen.getByText('3 candidats')).exists();
             assert.dom(screen.queryByLabelText('fichier.csv')).doesNotExist();
-          });
-
-          test('it should display a confirm button', async function (assert) {
-            // given
-            const blob = new Blob(['foo']);
-            const file = new File([blob], 'fichier.csv');
-
-            // when
-            screen = await visit('/sessions/import');
-            const input = screen.getByLabelText('Importer le modèle complété');
-            await triggerEvent(input, 'change', { files: [file] });
-            const importButton = screen.getByRole('button', { name: 'Continuer' });
-            await click(importButton);
-
-            // then
-            assert.dom(screen.getByRole('button', { name: 'Finaliser la création/édition' })).exists();
+            assert.dom(screen.getByRole('button', { name: 'Finaliser quand même la création/édition' })).exists();
           });
 
           module('when the user has confirmed the import', function () {
@@ -221,7 +223,7 @@ module('Acceptance | Session Import', function (hooks) {
                 return new Response(
                   200,
                   {},
-                  { sessionsCount: 2, sessionsWithoutCandidatesCount: 1, candidatesCount: 3 }
+                  { sessionsCount: 2, sessionsWithoutCandidatesCount: 0, candidatesCount: 3, errorReports: [] }
                 );
               });
 
@@ -229,7 +231,7 @@ module('Acceptance | Session Import', function (hooks) {
                 return new Response(
                   200,
                   {},
-                  { sessionsCount: 2, sessionsWithoutCandidatesCount: 1, candidatesCount: 3 }
+                  { sessionsCount: 2, sessionsWithoutCandidatesCount: 0, candidatesCount: 3 }
                 );
               });
 
@@ -255,7 +257,7 @@ module('Acceptance | Session Import', function (hooks) {
                   return new Response(
                     200,
                     {},
-                    { sessionsCount: 1, sessionsWithoutCandidatesCount: 1, candidatesCount: 1 }
+                    { sessionsCount: 1, sessionsWithoutCandidatesCount: 0, candidatesCount: 1, errorReports: [] }
                   );
                 });
 
@@ -263,7 +265,7 @@ module('Acceptance | Session Import', function (hooks) {
                   return new Response(
                     200,
                     {},
-                    { sessionsCount: 1, sessionsWithoutCandidatesCount: 1, candidatesCount: 3 }
+                    { sessionsCount: 1, sessionsWithoutCandidatesCount: 0, candidatesCount: 3, errorReports: [] }
                   );
                 });
 
@@ -280,7 +282,7 @@ module('Acceptance | Session Import', function (hooks) {
                 assert
                   .dom(
                     screen.getByText(
-                      'Succès ! 1 session dont 1 session sans candidat créée et 1 candidat créé ou édité'
+                      'Succès ! 1 session dont 0 session sans candidat créée et 1 candidat créé ou édité'
                     )
                   )
                   .exists();
@@ -296,7 +298,7 @@ module('Acceptance | Session Import', function (hooks) {
                   return new Response(
                     200,
                     {},
-                    { sessionsCount: 2, sessionsWithoutCandidatesCount: 1, candidatesCount: 3 }
+                    { sessionsCount: 2, sessionsWithoutCandidatesCount: 0, candidatesCount: 3, errorReports: [] }
                   );
                 });
 
@@ -304,7 +306,7 @@ module('Acceptance | Session Import', function (hooks) {
                   return new Response(
                     200,
                     {},
-                    { sessionsCount: 2, sessionsWithoutCandidatesCount: 1, candidatesCount: 3 }
+                    { sessionsCount: 2, sessionsWithoutCandidatesCount: 0, candidatesCount: 3, errorReports: [] }
                   );
                 });
 
@@ -321,7 +323,7 @@ module('Acceptance | Session Import', function (hooks) {
                 assert
                   .dom(
                     screen.getByText(
-                      'Succès ! 2 sessions dont 1 session sans candidat créées et 3 candidats créés ou édités'
+                      'Succès ! 2 sessions dont 0 session sans candidat créées et 3 candidats créés ou édités'
                     )
                   )
                   .exists();
@@ -333,7 +335,25 @@ module('Acceptance | Session Import', function (hooks) {
         module('when the file is not valid', function () {
           test('it should display an error notification', async function (assert) {
             //given
-            const file = new Blob(['foo'], { type: 'invalid-file' });
+            const file = new Blob(['foo']);
+            this.server.post(
+              '/certification-centers/:id/sessions/validate-for-mass-import',
+              () =>
+                new Response(
+                  422,
+                  { some: 'header' },
+                  {
+                    errors: [
+                      {
+                        code: 'INVALID_DOCUMENT',
+                        status: '422',
+                        title: 'Unprocessable Entity',
+                        detail: 'Fichier non valide',
+                      },
+                    ],
+                  }
+                )
+            );
 
             // when
             screen = await visit('/sessions/import');
@@ -348,7 +368,25 @@ module('Acceptance | Session Import', function (hooks) {
 
           test('it should not go to step two', async function (assert) {
             //given
-            const file = new Blob(['foo'], { type: 'invalid-file' });
+            const file = new Blob(['foo']);
+            this.server.post(
+              '/certification-centers/:id/sessions/validate-for-mass-import',
+              () =>
+                new Response(
+                  422,
+                  { some: 'header' },
+                  {
+                    errors: [
+                      {
+                        code: 'INVALID_DOCUMENT',
+                        status: '422',
+                        title: 'Unprocessable Entity',
+                        detail: 'Fichier non valide',
+                      },
+                    ],
+                  }
+                )
+            );
 
             // when
             screen = await visit('/sessions/import');

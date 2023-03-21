@@ -64,7 +64,13 @@ describe('Acceptance | Controller | certification-centers-controller-post-valida
         expect(_checkIfValidUUID(response.result.cachedValidatedSessionsKey)).to.be.true;
         expect(omit(response.result, 'cachedValidatedSessionsKey')).to.deep.equal({
           candidatesCount: 0,
-          errorsReport: [],
+          errorReports: [
+            {
+              code: 'EMPTY_SESSION',
+              line: 2,
+              blocking: false,
+            },
+          ],
           sessionsCount: 1,
           sessionsWithoutCandidatesCount: 1,
         });
@@ -118,10 +124,11 @@ describe('Acceptance | Controller | certification-centers-controller-post-valida
               sessionsCount: 2,
               sessionsWithoutCandidatesCount: 0,
               candidatesCount: 2,
-              errorsReport: [
+              errorReports: [
                 {
                   code: 'INFORMATION_NOT_ALLOWED_WITH_SESSION_ID',
                   line: 3,
+                  blocking: true,
                 },
               ],
             });

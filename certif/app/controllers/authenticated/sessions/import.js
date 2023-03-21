@@ -22,15 +22,11 @@ export default class ImportController extends Controller {
   @tracked sessionsWithoutCandidatesCount;
   @tracked candidatesCount;
 
-  @tracked errorsReport;
+  @tracked errorReports;
   @tracked isImportInError = false;
 
   get fileName() {
     return this.file.name;
-  }
-
-  get errorsReportCount() {
-    return this.errorsReport?.length;
   }
 
   @action
@@ -71,21 +67,16 @@ export default class ImportController extends Controller {
         sessionsWithoutCandidatesCount,
         candidatesCount,
         cachedValidatedSessionsKey,
-        errorsReport,
+        errorReports,
       } = await adapter.validateSessionsForMassImport(this.file, certificationCenterId);
       this.sessionsCount = sessionsCount;
       this.sessionsWithoutCandidatesCount = sessionsWithoutCandidatesCount;
       this.candidatesCount = candidatesCount;
       this.cachedValidatedSessionsKey = cachedValidatedSessionsKey;
-      this.errorsReport = errorsReport;
+      this.errorReports = errorReports;
     } catch (errors) {
       this.notifications.error(errors.errors[0].detail);
       return;
-    }
-    if (this.errorsReport?.length > 0) {
-      this.isImportInError = true;
-    } else {
-      this.isImportInError = false;
     }
     this.isImportStepOne = false;
     this.removeImport();
