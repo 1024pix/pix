@@ -12,10 +12,11 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
     this.set('sessionsCount', 2);
     this.set('sessionsWithoutCandidatesCount', 0);
     this.set('candidatesCount', 12);
+    this.set('errorReports', []);
 
     // when
     const { getByText } = await render(
-      hbs`<Import::StepTwoSection @sessionsCount={{this.sessionsCount}} @sessionsWithoutCandidatesCount={{this.sessionsWithoutCandidatesCount}}  @candidatesCount={{this.candidatesCount}} />`
+      hbs`<Import::StepTwoSection @sessionsCount={{this.sessionsCount}} @sessionsWithoutCandidatesCount={{this.sessionsWithoutCandidatesCount}}  @candidatesCount={{this.candidatesCount}} @errorReports={{this.errorReports}}/>`
     );
 
     // then
@@ -105,15 +106,11 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
     ].forEach(function ({ error, expectedMessage }) {
       test('it renders a report', async function (assert) {
         // given
-        this.set('isImportInError', true);
-        this.set('errorsReport', [{ line: '5', code: error }]);
-        this.set('errorsReportCount', 1);
+        this.set('errorReports', [{ line: '5', code: error, blocking: true }]);
 
         // when
         const { getByText, getByRole } = await render(hbs`<Import::StepTwoSection
-          @isImportInError={{this.isImportInError}}
-          @errorsReport={{this.errorsReport}}
-          @errorsReportCount={{this.errorsReportCount}}
+          @errorReports={{this.errorReports}}
           />`);
 
         await click(getByRole('button', { name: '1 erreur bloquante' }));
@@ -125,15 +122,77 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
 
     test('it renders a button to return to step one', async function (assert) {
       // given
-      this.set('isImportInError', true);
+      this.set('errorReports', [
+        { line: 1, code: 'CANDIDATE_FIRST_NAME_REQUIRED', blocking: true },
+        { line: 2, code: 'EMPTY_SESSION', blocking: false },
+      ]);
 
       // when
-      const { getByRole } = await render(hbs`<Import::StepTwoSection @isImportInError={{this.isImportInError}} />`);
+      const { getByRole } = await render(hbs`<Import::StepTwoSection @errorReports={{this.errorReports}} />`);
 
       // then
       assert
         .dom(getByRole('button', { name: "Revenir à l'étape précédente pour importer le fichier à nouveau" }))
         .exists();
+    });
+  });
+
+  module('when the imported file contains non blocking errors', function () {
+    [{ error: 'EMPTY_SESSION', expectedMessage: 'La session ne contient pas de candidat.' }].forEach(function ({
+      error,
+      expectedMessage,
+    }) {
+      test('it renders a report', async function (assert) {
+        // given
+        this.set('errorReports', [{ line: '5', code: error, blocking: false }]);
+
+        // when
+        const { getByText, getByRole } = await render(
+          hbs`<Import::StepTwoSection @errorReports={{this.errorReports}}/>`
+        );
+
+        await click(getByRole('button', { name: '1 point d’attention non bloquant' }));
+
+        // then
+        assert.dom(getByText(`Ligne 5 : ${expectedMessage}`)).exists();
+      });
+    });
+
+    test('it renders a button to return to step one', async function (assert) {
+      // given
+      this.set('errorReports', [{ line: 2, code: 'EMPTY_SESSION', blocking: false }]);
+
+      // when
+      const { getByRole } = await render(hbs`<Import::StepTwoSection @errorReports={{this.errorReports}} />`);
+
+      // then
+      assert
+        .dom(getByRole('button', { name: "Revenir à l'étape précédente pour importer le fichier à nouveau" }))
+        .exists();
+    });
+
+    test('it renders a button to create the sessions', async function (assert) {
+      // given
+      this.set('errorReports', [{ line: 2, code: 'EMPTY_SESSION', blocking: false }]);
+
+      // when
+      const { getByRole } = await render(hbs`<Import::StepTwoSection @errorReports={{this.errorReports}} />`);
+
+      // then
+      assert.dom(getByRole('button', { name: 'Finaliser quand même la création/édition' })).exists();
+    });
+  });
+
+  module('when the imported file contains no errors', function () {
+    test('it renders a button to create the sessions', async function (assert) {
+      // given
+      this.set('errorReports', []);
+
+      // when
+      const { getByRole } = await render(hbs`<Import::StepTwoSection @errorReports={{this.errorReports}} />`);
+
+      // then
+      assert.dom(getByRole('button', { name: 'Finaliser la création/édition' })).exists();
     });
   });
 });
