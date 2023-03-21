@@ -1,4 +1,9 @@
-<PixModal @title={{t this.resultItem.title}} @onCloseButtonClick={{@closeComparisonWindow}} @showModal={{@showModal}}>
+<PixModal
+  class="comparison-window"
+  @title={{t this.resultItem.title}}
+  @onCloseButtonClick={{@closeComparisonWindow}}
+  @showModal={{@showModal}}
+>
   <:content>
     <div class="comparison-window-content__body">
 
@@ -84,11 +89,13 @@
     </div>
   </:content>
   <:footer>
-    <FeedbackPanel
-      @assessment={{@answer.assessment}}
-      @challenge={{@answer.challenge}}
-      @context="comparison-window"
-      @answer={{@answer}}
-    />
+    {{#if @showModal}}
+      <FeedbackPanel
+        @assessment={{@answer.assessment}}
+        @challenge={{@answer.challenge}}
+        @context="comparison-window"
+        @answer={{@answer}}
+      />
+    {{/if}}
   </:footer>
 </PixModal>
