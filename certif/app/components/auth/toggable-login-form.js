@@ -112,7 +112,7 @@ export default class ToggableLoginForm extends Component {
 
     if (isInvalidInput) {
       this.validation.password.status = STATUSES.ERROR;
-      this.validation.password.message = this.intl.t('pages.login-or-register.login-form.fields.password.error');
+      this.validation.password.message = this.intl.t('common.forms.login-labels.password.error-mandatory');
     } else {
       this.validation.password.status = STATUSES.SUCCESS;
     }
@@ -127,7 +127,7 @@ export default class ToggableLoginForm extends Component {
 
     if (isInvalidInput) {
       this.validation.email.status = STATUSES.ERROR;
-      this.validation.email.message = this.intl.t('pages.login-or-register.login-form.fields.email.error');
+      this.validation.email.message = this.intl.t('common.forms.login-labels.email.error-format');
     } else {
       this.validation.email.status = STATUSES.SUCCESS;
     }

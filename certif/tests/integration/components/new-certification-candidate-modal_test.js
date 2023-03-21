@@ -200,7 +200,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
     `);
 
     // then
-    assert.dom(screen.getByRole('button', { name: '* Pays de naissance' })).includesText('France');
+    assert.dom(screen.getByRole('button', { name: 'Pays de naissance' })).includesText('France');
   });
 
   module('when close button cross icon is clicked', () => {

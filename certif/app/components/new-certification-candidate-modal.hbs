@@ -34,7 +34,7 @@
       <div class="new-certification-candidate-modal__form__field new-certification-candidate-modal__form__field-double">
         <label for="first-name" class="label">
           <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-          {{t "common.forms.labels.firstname"}}
+          {{t "common.forms.common-labels.firstname.label"}}
         </label>
         <Input
           id="first-name"
@@ -50,7 +50,7 @@
         <fieldset>
           <legend class="label">
             <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-            {{t "common.forms.labels.gender.title"}}
+            {{t "common.forms.common-labels.gender.title"}}
           </legend>
           <div class="radio-button-container">
             <input
@@ -62,7 +62,7 @@
               {{on "click" (fn @updateCandidateData @candidateData "sex")}}
             />
             <label class="radio-button-label" for="female">
-              {{t "common.forms.labels.gender.woman"}}
+              {{t "common.forms.common-labels.gender.woman"}}
             </label>
             <input
               type="radio"
@@ -72,7 +72,7 @@
               {{on "click" (fn @updateCandidateData @candidateData "sex")}}
             />
             <label class="radio-button-label" for="male">
-              {{t "common.forms.labels.gender.man"}}
+              {{t "common.forms.common-labels.gender.man"}}
             </label>
           </div>
         </fieldset>
@@ -81,7 +81,7 @@
       <div class="new-certification-candidate-modal__form__field">
         <label for="birthdate" class="label">
           <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-          {{t "common.forms.labels.birth-date"}}
+          {{t "common.forms.common-labels.birth-date"}}
         </label>
         <OneWayDateMask
           required
@@ -97,7 +97,7 @@
       <div class="new-certification-candidate-modal__form__field">
         <label for="birth-country" class="label">
           <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-          {{t "common.forms.labels.birth-country"}}
+          {{t "common.forms.common-labels.birth-country"}}
         </label>
         <PixSelect
           @id="birth-country"
@@ -115,7 +115,7 @@
           <fieldset>
             <legend class="label">
               <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-              {{t "common.forms.labels.birth-geographical-code"}}
+              {{t "common.forms.common-labels.birth-geographical-code"}}
             </legend>
             <div class="radio-button-container">
               <input
@@ -128,7 +128,7 @@
                 required
               />
               <label class="radio-button-label" for="insee-code-choice">
-                {{t "common.forms.labels.insee-code"}}
+                {{t "common.forms.common-labels.insee-code"}}
               </label>
               <input
                 type="radio"
@@ -138,7 +138,7 @@
                 {{on "click" (fn this.selectBirthGeoCodeOption "postal")}}
               />
               <label class="radio-button-label" for="postal-code-choice">
-                {{t "common.forms.labels.postcode"}}
+                {{t "common.forms.common-labels.postcode"}}
               </label>
             </div>
           </fieldset>
@@ -149,7 +149,7 @@
         <div class="new-certification-candidate-modal__form__field">
           <label for="birth-insee-code" class="label">
             <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-            {{t "common.forms.labels.birth-city-insee-code"}}
+            {{t "common.forms.common-labels.birth-city-insee-code"}}
           </label>
           <Input
             id="birth-insee-code"
@@ -169,7 +169,7 @@
         >
           <label for="birth-postal-code" class="label">
             <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-            {{t "common.forms.labels.birth-city-postcode"}}
+            {{t "common.forms.common-labels.birth-city-postcode"}}
           </label>
           <Input
             id="birth-postal-code"
@@ -189,7 +189,7 @@
         >
           <label for="birth-city" class="label">
             <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-            {{t "common.forms.labels.birth-city"}}
+            {{t "common.forms.common-labels.birth-city"}}
           </label>
           <Input
             id="birth-city"
@@ -320,7 +320,7 @@
                   value="none"
                   {{on "input" this.updateComplementaryCertification}}
                 />
-                {{t "common.common.forms.labels.none"}}
+                {{t "common.forms.common-labels.none"}}
               </label>
               {{#each this.complementaryCertifications as |complementaryCertification index|}}
                 <label for={{concat "complementaryCertification_" index}}>

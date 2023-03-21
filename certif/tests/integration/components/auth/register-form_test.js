@@ -5,10 +5,10 @@ import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-const EMPTY_FIRSTNAME_ERROR_MESSAGE = 'pages.login-or-register.register-form.fields.first-name.error';
-const EMPTY_LASTNAME_ERROR_MESSAGE = 'pages.login-or-register.register-form.fields.last-name.error';
-const EMPTY_EMAIL_ERROR_MESSAGE = 'pages.login-or-register.register-form.fields.email.error';
-const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'pages.login-or-register.register-form.fields.password.error';
+const EMPTY_FIRSTNAME_ERROR_MESSAGE = 'common.forms.common-labels.firstname.error-mandatory';
+const EMPTY_LASTNAME_ERROR_MESSAGE = 'common.forms.common-labels.lastname.error-mandatory';
+const EMPTY_EMAIL_ERROR_MESSAGE = 'common.forms.login-labels.email.error-format';
+const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'common.forms.login-labels.password.error-format';
 const CGU_ERROR_MESSAGE = 'pages.login-or-register.register-form.fields.cgu.error';
 
 module('Integration | Component | Auth::RegisterForm', function (hooks) {
@@ -21,10 +21,10 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
   let cguAriaLabel;
 
   hooks.beforeEach(function () {
-    firstNameInputLabel = this.intl.t('pages.login-or-register.register-form.fields.first-name.label');
-    lastNameInputLabel = this.intl.t('pages.login-or-register.register-form.fields.last-name.label');
-    emailInputLabel = this.intl.t('pages.login-or-register.register-form.fields.email.label');
-    passwordInputLabel = this.intl.t('pages.login-or-register.register-form.fields.password.label');
+    firstNameInputLabel = this.intl.t('common.forms.common-labels.firstname.label');
+    lastNameInputLabel = this.intl.t('common.forms.common-labels.lastname.label');
+    emailInputLabel = this.intl.t('common.forms.login-labels.email.label');
+    passwordInputLabel = this.intl.t('common.forms.login-labels.password.label');
     cguAriaLabel = this.intl.t('pages.login-or-register.register-form.fields.cgu.aria-label');
   });
 

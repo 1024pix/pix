@@ -22,6 +22,9 @@
       "internal-error": "Une erreur est survenue"
     },
     "forms": {
+      "error-default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement.",
+      "mandatory-fields": "Les champs marqués de <abbr title=\"required\" class=\"mandatory-mark\">*</abbr>sont obligatoires.",
+      "mandatory-all-fields": "Tous les champs sont obligatoires.",
       "certification-labels": {
         "additional-certification": "Certification complémentaire",
         "billing-mode": {
@@ -37,7 +40,7 @@
         "prepayment-code": "Code de prépaiement",
         "pricing": "Tarification part Pix"
       },
-      "labels": {
+      "common-labels": {
         "birth-city": "Commune de naissance",
         "birth-city-insee-code": "Code INSEE de naissance",
         "birth-city-postcode": "Code postal de naissance",
@@ -45,17 +48,35 @@
         "birth-country": "Pays de naissance",
         "birth-date": "Date de naissance",
         "birth-name": "Nom de naissance",
-        "firstname": "Prénom",
-        "email": "Adresse e-mail",
+        "firstname": {
+          "label": "Prénom",
+          "error-mandatory": "Le champ prénom est obligatoire."
+        },
         "gender": {
           "title": "Sexe",
           "man": "Homme",
           "woman": "Femme"
         },
-        "lastname": "Nom",
+        "lastname": {
+          "label": "Nom",
+          "error": "Le champ nom est obligatoire."
+        },
         "insee-code": "Code INSEE",
         "none": "Aucune",
         "postcode": "Code postal"
+      },
+      "login-labels": {
+        "email": {
+          "label": "Adresse e-mail",
+          "error-already-exists": "Cette adresse e-mail est déjà enregistrée, connectez-vous.",
+          "error-format": "Le champ adresse e-mail n’est pas valide."
+        },
+        "password": {
+          "label": "Mot de passe",
+          "error-format": "Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.",
+          "error-mandatory": "Le champ mot de passe est obligatoire.",
+          "forgot-password": "Mot de passe oublié ?"
+        }
       },
       "session-labels": {
         "address": "Nom du site",
@@ -64,9 +85,7 @@
         "examiner": "Surveillant(s)",
         "room": "Nom de la salle",
         "time": "Heure de début (heure locale)"
-      },
-      "mandatory-fields": "Les champs marqués de <abbr title=\"required\" class=\"mandatory-mark\">*</abbr>sont obligatoires.",
-      "mandatory-all-fields": "Tous les champs sont obligatoires."
+      }
     },
     "candidate": {
       "candidates": "Candidats"
@@ -93,18 +112,17 @@
   "pages": {
     "login": {
       "title": "Connectez-vous",
+      "actions": {
+        "login": {
+          "label": "Je me connecte"
+        }
+      },
       "errors": {
         "should-change-password": "Vous avez actuellement un mot de passe temporaire. Cliquez sur <a href=\"{url}\">mot de passe oublié</a> pour le réinitialiser.",
         "invitation-was-cancelled": "Cette invitation n’est plus valide.<br/>Contactez l’administrateur de votre espace Pix Certif.",
         "invitation-already-accepted": "Cette invitation a déjà été acceptée.<br/>Connectez-vous ou contactez l’administrateur de votre espace Pix Certif."
       },
-      "login": "Connectez-vous",
-      "accessible-to": "L'accès à Pix Certif est limité aux centres de certification Pix.",
-      "form": {
-        "password": "Mot de passe",
-        "button": "Je me connecte",
-        "forgotten-password": "Mot de passe oublié ?"
-      }
+      "accessible-to": "L'accès à Pix Certif est limité aux centres de certification Pix."
     },
     "login-or-register": {
       "title": "Vous êtes invité(e) à rejoindre le centre de certification {certificationCenterName}",
@@ -118,27 +136,16 @@
           }
         },
         "title": "J'ai déjà un compte",
-        "fields": {
-          "email": {
-            "label": "Adresse e-mail",
-            "error": "Le champ adresse e-mail n’est pas valide."
-          },
-          "password": {
-            "label": "Mot de passe",
-            "error": "Le champ mot de passe est obligatoire.",
-            "forgot-password": "Mot de passe oublié ?"
-          }
-        },
         "login": "Je me connecte",
         "button": "Se connecter"
       },
       "register-form": {
         "title": "Je m’inscris",
-        "button": "S'inscrire",
+        "actions": {
+          "login": "S'inscrire",
+          "login-button": "Je m'inscris"
+        },
         "fields": {
-          "button": {
-            "label": "Je m'inscris"
-          },
           "cgu": {
             "accept": "J'accepte les",
             "and": "et la",
@@ -146,27 +153,7 @@
             "data-protection-policy": "politique de confidentialité",
             "error": "Vous devez accepter les conditions d’utilisation de Pix et la politique de confidentialité pour créer un compte.",
             "terms-of-use": "conditions d'utilisation de Pix"
-          },
-          "email": {
-            "error": "Le champ adresse e-mail n’est pas valide.",
-            "label": "Adresse e-mail"
-          },
-          "first-name": {
-            "error": "Le champ prénom est obligatoire.",
-            "label": "Prénom"
-          },
-          "last-name": {
-            "error": "Le champ nom est obligatoire.",
-            "label": "Nom"
-          },
-          "password": {
-            "error": "Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.",
-            "label": "Mot de passe"
           }
-        },
-        "errors": {
-          "default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement.",
-          "email-already-exists": "Cette adresse e-mail est déjà enregistrée, connectez-vous."
         }
       }
     },
