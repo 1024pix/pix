@@ -12,6 +12,7 @@ class TrainingTrigger {
     }
     this.type = type;
     this.threshold = threshold;
+    this.tubesCount = triggerTubes.length;
     this.areas = areas.map((area) => new _Area({ ...area, competences, thematics, triggerTubes }));
   }
 }
