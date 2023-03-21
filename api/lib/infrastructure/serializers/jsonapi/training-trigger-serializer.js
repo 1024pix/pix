@@ -6,7 +6,7 @@ module.exports = {
       transform(record) {
         return JSON.parse(JSON.stringify(record));
       },
-      attributes: ['id', 'trainingId', 'type', 'threshold', 'areas'],
+      attributes: ['id', 'trainingId', 'type', 'threshold', 'areas', 'tubesCount'],
       areas: {
         ref: 'id',
         included: true,

@@ -1,5 +1,14 @@
 <section class="page-section trigger-card">
-  <h2 class="trigger-card__title">{{t "pages.trainings.training.triggers.prerequisite.title"}}</h2>
+  <h2 class="trigger-card__title">
+    <span>{{t "pages.trainings.training.triggers.prerequisite.title"}}</span>
+    {{#if @training.prerequisiteTrigger}}
+      <strong class="trigger-card__threshold">Seuil&nbsp;: {{@training.prerequisiteTrigger.threshold}}%</strong>
+      <PixTag class="trigger-card__tubes-count" @color="grey-light">
+        {{@training.prerequisiteTrigger.tubesCount}}
+        sujets
+      </PixTag>
+    {{/if}}
+  </h2>
   <p class="trigger-card__description">{{t "pages.trainings.training.triggers.prerequisite.edit.description"}}</p>
 
   {{#if @training.prerequisiteTrigger}}
@@ -20,9 +29,17 @@
 </section>
 
 <section class="page-section trigger-card">
-  <h2 class="trigger-card__title">{{t "pages.trainings.training.triggers.goal.title"}}</h2>
+  <h2 class="trigger-card__title">
+    <span>{{t "pages.trainings.training.triggers.goal.title"}}</span>
+    {{#if @training.goalTrigger}}
+      <strong class="trigger-card__threshold">Seuil&nbsp;: {{@training.goalTrigger.threshold}}%</strong>
+      <PixTag class="trigger-card__tubes-count" @color="grey-light">
+        {{@training.goalTrigger.tubesCount}}
+        sujets
+      </PixTag>
+    {{/if}}
+  </h2>
   <p class="trigger-card__description">{{t "pages.trainings.training.triggers.goal.edit.description"}}</p>
-
   {{#if @training.goalTrigger}}
     <Trainings::Trigger::Details @areas={{@training.goalTrigger.areas}} />
   {{else}}

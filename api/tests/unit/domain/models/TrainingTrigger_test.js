@@ -34,6 +34,7 @@ describe('Unit | Domain | Models | TrainingTrigger', function () {
       expect(trainingTrigger.trainingId).to.equal(100);
       expect(trainingTrigger.threshold).to.equal(10);
       expect(trainingTrigger.areas).to.deep.equal([]);
+      expect(trainingTrigger.tubesCount).to.equal(1);
     });
 
     it('should build learning content tree from parameters', function () {
