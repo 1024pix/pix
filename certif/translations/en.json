@@ -22,6 +22,9 @@
       "internal-error": "An error occurred"
     },
     "forms": {
+      "error-default": "The service is temporarily unavailable. Please try again later.",
+      "mandatory-fields": "The fields marked by <abbr title=\"required\" class=\"mandatory-mark\">*</abbr> are required.",
+      "mandatory-all-fields": "All fields are required.",
       "certification-labels": {
         "additional-certification": "Additional certification",
         "billing-mode": {
@@ -37,7 +40,7 @@
         "prepayment-code": "Prepayment code",
         "pricing": "Pricing of Pix’s share"
       },
-      "labels": {
+      "common-labels": {
         "birth-city": "Birth city",
         "birth-city-insee-code": "Birth city INSEE code (only for France)",
         "birth-city-postcode": "Birth city postcode",
@@ -45,16 +48,35 @@
         "birth-country": "Birth country",
         "birth-date": "Date of birth",
         "birth-name": "Birth name",
-        "email": "Email address",
-        "firstname": "First name",
+        "firstname": {
+          "label": "First name",
+          "error-mandatory": "Please enter a first name."
+        },
         "gender": {
           "title": "Gender",
           "man": "Man",
           "woman": "Woman"
         },
         "insee-code": "INSEE code",
+        "lastname": {
+          "label": "Lastname",
+          "error": "Please enter a last name."
+        },
         "none": "None",
         "postcode": "City postcode"
+      },
+      "login-labels": {
+        "email": {
+          "label": "Email address",
+          "error-already-exists": "This email address is already registered, please login.",
+          "error-format": "Your email address is invalid."
+        },
+        "password": {
+          "label": "Password",
+          "error-format": "Your password must contain at least 8 characters and include at least one uppercase letter, one lowercase letter and one number.",
+          "error-mandatory": "Your password can't be empty.",
+          "forgot-password": "Forgot your password?"
+        }
       },
       "session-labels": {
         "address": "Location name",
@@ -63,9 +85,7 @@
         "examiner": "Invigilator(s)",
         "room": "Room name",
         "time": "Starting time (local time)"
-      },
-      "mandatory-fields": "The fields marked by <abbr title=\"required\" class=\"mandatory-mark\">*</abbr> are required.",
-      "mandatory-all-fields": "All fields are required."
+      }
     },
     "candidate": {
       "candidates": "Candidates"
@@ -92,19 +112,17 @@
   "pages": {
     "login": {
       "title": "Login",
+      "actions": {
+        "login": {
+          "label": "Log in"
+        }
+      },
       "errors": {
         "should-change-password": "You currently have a temporary password. <a href=\"{url}\">Reset your password here</a>.",
         "invitation-was-cancelled": "This invitation is no longer valid.<br/>Please contact the administrator of your Pix Certif space.",
         "invitation-already-accepted": "This invitation has already been accepted.<br/>Please log in or contact the administrator of your Pix Certif space."
       },
-      "login": "Log in",
-      "accessible-to": "Pix Certif is only accessible to Pix certification centres.",
-      "form": {
-        "mandatory-fields": "All fields are required.",
-        "button": "Log in",
-        "forgotten-password": "Forgot your password?",
-        "password": "Password"
-      }
+      "accessible-to": "Pix Certif is only accessible to Pix certification centres."
     },
     "login-or-register": {
       "title": "You have been invited to join the certification center {certificationCenterName}",
@@ -118,27 +136,16 @@
           }
         },
         "title": "Already have an account?",
-        "fields": {
-          "email": {
-            "label": "Email address",
-            "error": "Your email address is invalid."
-          },
-          "password": {
-            "label": "Password",
-            "error": "Your password can't be empty.",
-            "forgot-password": "Forgot your password?"
-          }
-        },
         "login": "Log in",
         "button": "Log in"
       },
       "register-form": {
         "title": "Sign up",
-        "button": "Sign up",
+        "actions": {
+          "login": "Sign up",
+          "login-button": "Sign up"
+        },
         "fields": {
-          "button": {
-            "label": "Sign up"
-          },
           "cgu": {
             "accept": "I agree to the",
             "and": "and",
@@ -146,27 +153,7 @@
             "data-protection-policy": "personal data protection policy",
             "error": "You must agree to the Pix terms of use and personal data protection policy to create an account.",
             "terms-of-use": "Pix terms of use"
-          },
-          "email": {
-            "error": "Please enter a valid email address.",
-            "label": "Email address"
-          },
-          "first-name": {
-            "error": "Please enter a first name.",
-            "label": "First name"
-          },
-          "last-name": {
-            "error": "Please enter a last name.",
-            "label": "Last name"
-          },
-          "password": {
-            "error": "Your password must contain at least 8 characters and include at least one uppercase letter, one lowercase letter and one number.",
-            "label": "Password"
           }
-        },
-        "errors": {
-          "default": "The service is temporarily unavailable. Please try again later.",
-          "email-already-exists": "This email address is already registered, please login."
         }
       }
     },
