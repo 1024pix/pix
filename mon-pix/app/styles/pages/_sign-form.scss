@@ -69,11 +69,9 @@
 }
 
 .sign-form-header {
-
   &__title {
     margin: 0;
     color: $pix-neutral-80;
-    font-weight: $font-light;
     font-size: 1.563rem;
     font-family: $font-open-sans;
 
@@ -98,7 +96,6 @@
 .sign-form-header-subtitle {
   margin-right: 3px;
   color: $pix-neutral-80;
-  font-weight: $font-light;
 }
 
 .sign-form-body {

@@ -5,7 +5,6 @@
 /* See https://stylelint.io/user-guide/rules/list/no-descending-specificity/#dom-limitations for further detail */
 
 .qcu-solution-panel {
-
   a {
     color: $pix-primary;
     text-decoration: underline;
@@ -46,7 +45,7 @@
 
     &[data-goodness='good'] {
       color: $pix-success-70;
-      font-weight: $font-heavy;
+      font-weight: $font-bold;
     }
 
     &[data-goodness='bad'][data-checked='yes'] {
@@ -64,7 +63,6 @@
 }
 
 .qcu-solution-answer-feedback {
-
   &__expected-answer {
     font-weight: $font-medium;
   }

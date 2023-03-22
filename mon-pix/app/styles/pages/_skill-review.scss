@@ -22,7 +22,6 @@
 
   &__retry {
     color: $pix-neutral-100;
-    font-weight: $font-light;
     font-size: 1.125rem;
     font-family: $font-open-sans;
     text-align: center;
@@ -77,10 +76,6 @@
     }
   }
 
-  &__subtitle {
-    font-weight: $font-light;
-  }
-
   &__begin-improvement {
     display: flex;
     flex-direction: row;
@@ -93,7 +88,6 @@
 
   &__explain-text {
     color: $pix-neutral-60;
-    font-weight: $font-light;
     font-size: 1.5rem;
     line-height: 33px;
   }
@@ -323,7 +317,6 @@
   &__text {
     margin: 16px 0;
     color: $pix-neutral-90;
-    font-weight: $font-light;
     font-size: 1.625rem;
     font-family: $font-open-sans;
     line-height: 2.75rem;
@@ -446,7 +439,7 @@
     margin-bottom: 16px;
     padding: 16px;
     color: $pix-success-70;
-    font-weight: $font-semi-bold;
+    font-weight: $font-medium;
     font-size: 1rem;
     font-family: $font-open-sans;
     line-height: 2rem;
@@ -545,7 +538,6 @@
     max-width: 640px;
     margin: 30px auto 60px;
     color: $pix-neutral-35;
-    font-weight: $font-light;
     font-size: 1.375rem;
     font-family: $font-open-sans;
     line-height: 30px;

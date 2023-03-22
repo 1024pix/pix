@@ -79,7 +79,6 @@
   &:hover,
   &:focus,
   &:active {
-
     & > svg {
       left: 12px;
     }
@@ -93,7 +92,6 @@
   text-align: center;
 
   &__header {
-    font-weight: $font-light;
     font-size: 2.625rem;
     line-height: 3rem;
   }
@@ -103,7 +101,6 @@
     margin-top: 0;
     margin-bottom: 40px;
     color: $pix-neutral-60;
-    font-weight: $font-light;
     font-size: 1.5rem;
     line-height: 2.063rem;
     white-space: pre-line;

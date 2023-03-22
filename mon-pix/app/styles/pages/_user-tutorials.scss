@@ -1,8 +1,6 @@
 .user-tutorials-banner {
   margin: 0 24px;
   padding-bottom: 16px;
-  font-weight: $font-light;
-  font-family: $font-roboto;
 
   @include device-is('desktop') {
     max-width: 1280px;
@@ -98,7 +96,6 @@
 
 .user-tutorials-saved-empty,
 .user-tutorials-recommended-empty {
-
   &__title,
   &__description {
     color: $pix-neutral-90;
@@ -151,8 +148,6 @@
   }
 
   &__instructions {
-    font-weight: $font-light;
-
     svg {
       margin: 0 3px;
     }

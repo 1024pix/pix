@@ -29,7 +29,6 @@
 }
 
 .login-or-register-panel {
-
   &__logo {
     display: flex;
     width: 159px;
@@ -80,7 +79,6 @@
 }
 
 .login-or-register-panel-form {
-
   &__expandable {
     display: flex;
     flex-direction: column;
@@ -97,7 +95,6 @@
 .form-title {
   margin-bottom: 20px;
   color: $pix-neutral-100;
-  font-weight: $font-light;
   font-size: 1.875rem;
   font-family: $font-open-sans;
 }

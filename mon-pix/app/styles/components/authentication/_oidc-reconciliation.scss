@@ -1,5 +1,4 @@
 .oidc-reconciliation {
-
   &__title,
   &__subtitle,
   &__information {
@@ -8,14 +7,14 @@
   }
 
   &__title {
-    @include h2;
+    @extend %pix-title-m;
 
     padding-top: $spacing-l;
     text-align: center;
   }
 
   &__subtitle {
-    @include h4;
+    @extend %pix-title-xs;
 
     display: block;
     margin: 0;
@@ -23,7 +22,7 @@
   }
 
   &__information {
-    @include subheading;
+    @extend %pix-body-l;
 
     margin-bottom: $spacing-xxl;
     font-weight: 400;
@@ -52,7 +51,7 @@
     }
 
     p {
-      @include h4;
+      @extend %pix-title-xs;
 
       margin: 0;
       padding-top: $spacing-xs;
@@ -65,7 +64,7 @@
     padding: $spacing-l;
 
     p {
-      @include subheading;
+      @extend %pix-body-l;
 
       font-weight: 400;
     }
@@ -76,7 +75,7 @@
     padding-top: $spacing-s;
 
     p {
-      @include subheading;
+      @extend %pix-body-l;
 
       color: $pix-neutral-90;
       font-weight: 400;
@@ -93,7 +92,7 @@
       display: inline;
       color: $pix-neutral-90;
 
-      @include text-large;
+      @extend %pix-body-l;
     }
 
     dt {
@@ -125,7 +124,7 @@
       margin: 0;
       padding: $spacing-l $spacing-xl;
 
-      @include text-large;
+      @extend %pix-body-l;
 
       color: $pix-neutral-90;
     }

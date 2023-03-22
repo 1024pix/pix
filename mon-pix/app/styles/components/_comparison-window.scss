@@ -4,11 +4,11 @@
 }
 
 .comparison-window-content-body {
-
   &__instruction {
     font-size: 1rem;
 
-    ul, ol {
+    ul,
+    ol {
       padding-left: 2em;
 
       &:not(:last-child) {
@@ -38,11 +38,9 @@
 }
 
 .comparison-windows-content-body-default-message-container {
-
   &__default-message-title {
     margin: 10px 25px 40px;
     color: $pix-neutral-110;
-    font-weight: $font-semi-bold;
     font-size: 1.063rem;
     font-family: $font-open-sans;
     text-align: center;

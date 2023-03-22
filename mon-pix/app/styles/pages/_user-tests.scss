@@ -13,7 +13,6 @@
   margin: auto;
   margin-bottom: 16px;
   padding: 0 20px;
-  font-weight: $font-light;
   font-family: $font-roboto;
   text-align: center;
 
@@ -54,7 +53,6 @@
   max-width: 980px;
   margin: auto;
   padding: 0 20px;
-  font-weight: $font-light;
   font-family: $font-roboto;
 
   @include device-is('desktop') {
