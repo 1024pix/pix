@@ -17,9 +17,16 @@ module.exports = {
       expirationDelaySeconds = accessTokenAndExpirationDelaySeconds.expirationDelaySeconds;
     } else if (request.payload.grant_type === 'password') {
       const { username, password, scope } = request.payload;
+      const localeFromCookie = request.state?.locale;
 
       const source = 'pix';
-      const tokensAndExpirationDelaySeconds = await usecases.authenticateUser({ username, password, scope, source });
+      const tokensAndExpirationDelaySeconds = await usecases.authenticateUser({
+        username,
+        password,
+        scope,
+        source,
+        localeFromCookie,
+      });
       accessToken = tokensAndExpirationDelaySeconds.accessToken;
       refreshToken = tokensAndExpirationDelaySeconds.refreshToken;
       expirationDelaySeconds = tokensAndExpirationDelaySeconds.expirationDelaySeconds;
