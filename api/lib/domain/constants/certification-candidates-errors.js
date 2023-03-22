@@ -60,12 +60,8 @@ module.exports.CERTIFICATION_CANDIDATES_ERRORS = {
     getMessage: ({ birthPostalCode, birthCity }) =>
       `Le code postal "${birthPostalCode}" ne correspond pas à la ville "${birthCity}"`,
   },
-  CANDIDATE_EMAIL_REQUIRED: {
-    code: 'CANDIDATE_EMAIL_REQUIRED',
-    getMessage: () => '',
-  },
-  CANDIDATE_EXTERNAL_ID_REQUIRED: {
-    code: 'CANDIDATE_EXTERNAL_ID_REQUIRED',
+  CANDIDATE_EMAIL_NOT_VALID: {
+    code: 'CANDIDATE_EMAIL_NOT_VALID',
     getMessage: () => '',
   },
   CANDIDATE_EXTRA_TIME_BELOW_ONE: {
@@ -104,8 +100,8 @@ module.exports.CERTIFICATION_CANDIDATES_ERRORS = {
     code: 'CANDIDATE_PREPAYMENT_CODE_REQUIRED',
     getMessage: () => '',
   },
-  CANDIDATE_RESULT_RECIPIENT_EMAIL_REQUIRED: {
-    code: 'CANDIDATE_RESULT_RECIPIENT_EMAIL_REQUIRED',
+  CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID: {
+    code: 'CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID',
     getMessage: () => '',
   },
   CANDIDATE_SESSION_ID_REQUIRED: {

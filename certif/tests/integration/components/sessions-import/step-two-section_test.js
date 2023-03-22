@@ -32,7 +32,7 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
       { error: 'CANDIDATE_SEX_NOT_VALID', expectedMessage: 'Champ sexe format incorrect, format accepté "M"/"F"' },
       {
         error: 'CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_EXCLUSIVE',
-        expectedMessage: 'Renseigner soit un code INSEE soit un code postal et un nom de commune de naissance.',
+        expectedMessage: 'Renseigner soit un code INSEE soit un code postal et un nom de commune de naissance',
       },
       {
         error: 'CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED',
@@ -49,7 +49,7 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
       { error: 'CANDIDATE_EXTRA_TIME_INTEGER', expectedMessage: 'Format temps majoré incorrect, format accepté XX%' },
       {
         error: 'CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION',
-        expectedMessage: "Inscription possible qu'à une seule certification complémentaire par candidat.",
+        expectedMessage: "Inscription possible qu'à une seule certification complémentaire par candidat",
       },
       {
         error: 'CANDIDATE_BILLING_MODE_REQUIRED',
@@ -57,8 +57,7 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
       },
       {
         error: 'CANDIDATE_BILLING_MODE_NOT_VALID',
-        expectedMessage:
-          'Format tarification part Pix incorrect, formats acceptés "Gratuite", "Payante" ou "Prépayée".',
+        expectedMessage: 'Format tarification part Pix incorrect, formats acceptés "Gratuite", "Payante" ou "Prépayée"',
       },
       {
         error: 'CANDIDATE_PREPAYMENT_CODE_REQUIRED',
@@ -72,6 +71,15 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
       {
         error: 'CANDIDATE_NOT_ALLOWED_FOR_STARTED_SESSION',
         expectedMessage: 'Edition des candidats impossible, N° de session correspond à une session déjà démarrée',
+      },
+      {
+        error: 'CANDIDATE_EMAIL_NOT_VALID',
+        expectedMessage: 'Format de l\'adresse e-mail "E-mail de convocation" incorrect',
+      },
+      {
+        error: 'CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID',
+        expectedMessage:
+          'Format de l\'adresse e-mail "E-mail du destinataire des résultats (formateur, enseignant…)" incorrect',
       },
       {
         error: 'DUPLICATE_CANDIDATE_NOT_ALLOWED_IN_SESSION',
@@ -93,15 +101,15 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
       {
         error: 'SESSION_WITH_DATE_AND_TIME_ALREADY_EXISTS',
         expectedMessage:
-          'Session déjà créée avec ces critères, pour ajouter des candidats n’indiquer que le N°, pas les informations de session.',
+          'Session déjà créée avec ces critères, pour ajouter des candidats n’indiquer que le N°, pas les informations de session',
       },
       {
         error: 'SESSION_SCHEDULED_IN_THE_PAST',
-        expectedMessage: 'Date et/ou heure indiquées antérieures à la date du jour.',
+        expectedMessage: 'Date et/ou heure indiquées antérieures à la date du jour',
       },
       {
         error: 'INFORMATION_NOT_ALLOWED_WITH_SESSION_ID',
-        expectedMessage: 'Numéro de session fourni, veuillez supprimer les informations de session associées.',
+        expectedMessage: 'Numéro de session fourni, veuillez supprimer les informations de session associées',
       },
     ].forEach(function ({ error, expectedMessage }) {
       test('it renders a report', async function (assert) {
@@ -138,7 +146,7 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
   });
 
   module('when the imported file contains non blocking errors', function () {
-    [{ error: 'EMPTY_SESSION', expectedMessage: 'La session ne contient pas de candidat.' }].forEach(function ({
+    [{ error: 'EMPTY_SESSION', expectedMessage: 'La session ne contient pas de candidat' }].forEach(function ({
       error,
       expectedMessage,
     }) {
