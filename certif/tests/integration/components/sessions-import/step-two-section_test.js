@@ -44,11 +44,20 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
       },
       { error: 'CANDIDATE_BIRTH_COUNTRY_REQUIRED', expectedMessage: 'Champ obligatoire "Pays de naissance" manquant' },
       { error: 'CANDIDATE_BIRTH_COUNTRY_NOT_FOUND', expectedMessage: 'Pays de naissance non trouvé' },
-      { error: 'CANDIDATE_BIRTH_POSTAL_CODE_CITY_NOT_VALID', expectedMessage: 'Pays de naissance non trouvé' },
+      { error: 'CANDIDATE_BIRTH_CITY_REQUIRED', expectedMessage: 'Champ obligatoire "Nom de la commune" manquant' },
+      {
+        error: 'CANDIDATE_BIRTH_POSTAL_CODE_CITY_NOT_VALID',
+        expectedMessage: 'Le code postal et le nom de la commune ne correspondent pas',
+      },
+      { error: 'CANDIDATE_BIRTH_POSTAL_CODE_NOT_FOUND', expectedMessage: 'Code postal non trouvé' },
       { error: 'CANDIDATE_BIRTHDATE_REQUIRED', expectedMessage: 'Champ obligatoire "Date de naissance" manquant' },
       {
         error: 'CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID',
         expectedMessage: 'Format de date invalide, champ "Date de naissance", format accepté JJ/MM/AAAA',
+      },
+      {
+        error: 'CANDIDATE_BIRTHDATE_MUST_BE_GREATER',
+        expectedMessage: 'Champ "Date de naissance" doit être supérieur à 01/01/1900',
       },
       { error: 'CANDIDATE_EXTRA_TIME_BELOW_ONE', expectedMessage: 'Format temps majoré incorrect, format accepté XX%' },
       { error: 'CANDIDATE_EXTRA_TIME_INTEGER', expectedMessage: 'Format temps majoré incorrect, format accepté XX%' },
