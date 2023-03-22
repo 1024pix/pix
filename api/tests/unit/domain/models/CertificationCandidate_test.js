@@ -481,7 +481,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       const report = certificationCandidate.validateForMassSessionImport();
 
       //then
-      expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_PERCENTAGE_REQUIRED.code]);
+      expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_INTEGER.code]);
     });
 
     it('should throw an error when field extraTimePercentage is upper than 100', async function () {
