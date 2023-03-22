@@ -1,5 +1,38 @@
 # Pix Changelog
 
+## v3.336.0 (22/03/2023)
+
+
+### :rocket: Amélioration
+- [#5845](https://github.com/1024pix/pix/pull/5845) [FEATURE] Préparation de la recommandation de contenu formatif - partie 1 (PIX-7502).  
+- [#5834](https://github.com/1024pix/pix/pull/5834) [FEATURE] Création d'un script pour intervertir deux codes de campagnes (PIX-7445)
+- [#5836](https://github.com/1024pix/pix/pull/5836) [FEATURE][ADMIN] Afficher la locale de l'utilisateur sur sa fiche (PIX-7362)
+- [#5841](https://github.com/1024pix/pix/pull/5841) [FEATURE] Améliorer le design de la citation dans les consignes d'une épreuves (PIX-7370)
+- [#5815](https://github.com/1024pix/pix/pull/5815) [FEATURE] Gérer un message d'erreur spécifique si l'utilisateur rédemarre une certification avec un autre compte (PIX-6874)
+- [#5829](https://github.com/1024pix/pix/pull/5829) [FEATURE] Gestion des erreurs non bloquantes (PIX-6962)
+- [#5795](https://github.com/1024pix/pix/pull/5795) [FEATURE][MON-PIX] Enregistrer la locale d'un utilisateur depuis le cookie de PixSite lors de son inscription (PIX-7367)
+- [#5837](https://github.com/1024pix/pix/pull/5837) [FEATURE] Visualiser le seuil et le nombre de sujets d'un déclencheur de contenu formatif (PIX-7260)
+- [#5828](https://github.com/1024pix/pix/pull/5828) [FEATURE] Traduire l'espace surveillant en anglais (PIX-6706).
+- [#5832](https://github.com/1024pix/pix/pull/5832) [FEATURE] Rendre les urls des contenus formatifs cliquable sur Pix-Admin (PIX-7389)
+- [#5813](https://github.com/1024pix/pix/pull/5813) [FEATURE] Afficher le détail d'un déclencheur de contenu formatif (PIX-7429)
+- [#5820](https://github.com/1024pix/pix/pull/5820) [FEATURE] Affichages des erreurs bloquantes lors de l'import de session en masse (PIX-7412)
+- [#5818](https://github.com/1024pix/pix/pull/5818) [FEATURE] Améliorer l'accessibilité de la page de détail d'un participant et d'une campagne (PIX-6899)
+
+### :building_construction: Tech
+- [#5821](https://github.com/1024pix/pix/pull/5821) [TECH] Supprimer la dépendance `ember-collapsible-panel` (PIX-7469)
+- [#5812](https://github.com/1024pix/pix/pull/5812) [TECH] Ajouter un hash du username dans les logs de l'appel à api/token
+
+### :bug: Correction
+- [#5822](https://github.com/1024pix/pix/pull/5822) [BUGFIX] Corriger l'affichage du PixSelect dans la page Certifications de Pix Orga (PIX-7478)
+- [#5838](https://github.com/1024pix/pix/pull/5838) [BUGFIX] Afficher le déclencheur après sa création (PIX-7501).
+- [#5826](https://github.com/1024pix/pix/pull/5826) [BUGFIX] Corrige le message de succès lors de l'import en masse  (PIX-7481)
+- [#5830](https://github.com/1024pix/pix/pull/5830) [BUGFIX] Les paginations de Pix App ne sont pas traduites (PIX-7433)
+- [#5824](https://github.com/1024pix/pix/pull/5824) [BUGFIX] Corriger le problème d'espacement sur la page de détail d'une compétence sur Pix-App (PIX-7327)
+
+### :coffee: Autre
+- [#5782](https://github.com/1024pix/pix/pull/5782) [DOCS] Spécifier la stratégie de gestion des traductions (i18n) et des codes d'erreur (PIX-7410)
+- [#5835](https://github.com/1024pix/pix/pull/5835) [BUMP] Replace dependency xmldom with @xmldom/xmldom ^0.7.5 (api)
+
 ## v3.335.0 (16/03/2023)
 
 
