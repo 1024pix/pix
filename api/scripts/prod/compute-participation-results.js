@@ -15,7 +15,7 @@ const competenceRepository = require('../../lib/infrastructure/repositories/comp
 const concurrency = parseInt(process.argv[2]);
 let count;
 let total;
-let logEnable;
+let logEnable = false;
 
 function _log(message) {
   if (logEnable) {
@@ -23,8 +23,7 @@ function _log(message) {
   }
 }
 
-async function computeParticipantResultsShared(concurrency = 1, log = true) {
-  logEnable = log;
+async function computeParticipantResultsShared(concurrency = 1) {
   const campaigns = await knex('campaigns')
     .select('campaigns.id')
     .join('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')
@@ -150,6 +149,7 @@ async function main() {
 
 (async () => {
   if (isLaunchedFromCommandLine) {
+    logEnable = true;
     try {
       await main();
     } catch (error) {
