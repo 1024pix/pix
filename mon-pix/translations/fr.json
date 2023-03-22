@@ -275,8 +275,9 @@
           "check-personal-info": "Vérifiez auprès du surveillant la correspondance de vos informations personnelles avec la feuille d'émargement."
         },
         "session-not-accessible": "La session que vous tentez de rejoindre n'est plus accessible.",
-        "wrong-account": "Vous utilisez actuellement un compte qui n'est pas lié à votre établissement.\nConnectez vous au compte avec lequel vous avez effectué vos parcours ou demandez de l'aide au surveillant.",
-        "wrong-account-link": "Comment trouver le compte lié à l'établissement ?"
+        "wrong-account": "Les informations saisies correspondent à un.e candidat.e inscrit.e à la session et déjà connecté.e avec un autre compte. Vérifiez que vous êtes connecté.e au compte qui a démarré la certification.",
+        "wrong-account-sco": "Vous utilisez actuellement un compte qui n'est pas lié à votre établissement.\nConnectez vous au compte avec lequel vous avez effectué vos parcours ou demandez de l'aide au surveillant.",
+        "wrong-account-sco-link": "Comment trouver le compte lié à l'établissement ?"
       },
       "first-title": "Rejoindre une session",
       "form": {

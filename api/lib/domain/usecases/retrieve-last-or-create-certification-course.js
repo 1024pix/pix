@@ -7,6 +7,7 @@ const {
   SessionNotAccessible,
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
+  UnexpectedUserAccountError,
 } = require('../errors.js');
 const { features } = require('../../config.js');
 const bluebird = require('bluebird');
@@ -40,6 +41,10 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     userId,
     sessionId,
   });
+
+  if (!certificationCandidate) {
+    throw new UnexpectedUserAccountError({});
+  }
 
   const existingCertificationCourse =
     await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({

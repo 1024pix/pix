@@ -33,7 +33,6 @@ async function authenticateExternalUser({
 
       throw new UnexpectedUserAccountError({
         message: undefined,
-        code: 'UNEXPECTED_USER_ACCOUNT',
         meta: { value: authenticationMethod.value },
       });
     }

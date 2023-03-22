@@ -7,7 +7,7 @@ const bluebird = require('bluebird');
 const maxBy = require('lodash/maxBy');
 const logger = require('../../lib/infrastructure/logger');
 const { getNewSessionCode } = require('../../lib/domain/services/session-code-service');
-const temporaryStorage = require('../../lib/infrastructure/temporary-storage/index');
+const { temporaryStorage } = require('../../lib/infrastructure/temporary-storage/index');
 const {
   makeUserPixCertifiable,
   makeUserPixDroitCertifiable,
@@ -17,7 +17,7 @@ const {
 const DatabaseBuilder = require('../../db/database-builder/database-builder');
 const databaseBuffer = require('../../db/database-builder/database-buffer');
 const databaseBuilder = new DatabaseBuilder({ knex, emptyFirst: false });
-const { cache } = require('../../lib/infrastructure/caches/learning-content-cache');
+const { learningContentCache } = require('../../lib/infrastructure/caches/learning-content-cache');
 const { SHARED } = require('../../lib/domain/models/CampaignParticipationStatuses');
 
 /**
@@ -427,7 +427,7 @@ async function _disconnect() {
   logger.info('Closing connexions to PG...');
   await disconnect();
   logger.info('Closing connexions to cache...');
-  await cache.quit();
+  await learningContentCache.quit();
   await temporaryStorage.quit();
   logger.info('Exiting process gracefully...');
 }
