@@ -2,9 +2,11 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import Service from '@ember/service';
+import setupIntlForModels from '../../../helpers/setup-intl';
 
 module('Unit | Controller | authenticated/sessions/import', function (hooks) {
   setupTest(hooks);
+  setupIntlForModels(hooks);
 
   let controller;
 
