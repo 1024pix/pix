@@ -72,10 +72,6 @@ module.exports.CERTIFICATION_CANDIDATES_ERRORS = {
     code: 'CANDIDATE_EXTRA_TIME_INTEGER',
     getMessage: () => `Le temps majoré doit être un nombre entier.`,
   },
-  CANDIDATE_EXTRA_TIME_PERCENTAGE_REQUIRED: {
-    code: 'CANDIDATE_EXTRA_TIME_PERCENTAGE_REQUIRED',
-    getMessage: () => '',
-  },
   CANDIDATE_FIRST_NAME_REQUIRED: {
     code: 'CANDIDATE_FIRST_NAME_REQUIRED',
     getMessage: () => '',
