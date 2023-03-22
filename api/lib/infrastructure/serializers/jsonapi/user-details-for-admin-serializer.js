@@ -21,6 +21,7 @@ module.exports = {
         'pixCertifTermsOfServiceAccepted',
         'createdAt',
         'lang',
+        'locale',
         'lastTermsOfServiceValidatedAt',
         'lastPixOrgaTermsOfServiceValidatedAt',
         'lastPixCertifTermsOfServiceValidatedAt',
