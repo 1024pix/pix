@@ -82,7 +82,7 @@ async function getBirthInformationByINSEECode(birthCity, birthINSEECode, country
 
   if (isEmpty(cities)) {
     return CpfBirthInformationValidation.failure({
-      certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_INVALID,
+      certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_NOT_VALID,
       data: { birthINSEECode },
     });
   }
@@ -116,7 +116,7 @@ async function getBirthInformationByPostalCode(birthCity, birthPostalCode, count
 
   if (!matchedCity) {
     return CpfBirthInformationValidation.failure({
-      certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_POSTAL_CODE_CITY_INVALID,
+      certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_POSTAL_CODE_CITY_NOT_VALID,
       data: { birthPostalCode, birthCity },
     });
   }

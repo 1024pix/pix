@@ -385,7 +385,7 @@ describe('Unit | Service | Certification CPF service', function () {
             // then
             expect(result).to.deep.equal(
               CpfBirthInformationValidation.failure({
-                certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_INVALID,
+                certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_NOT_VALID,
                 data: { birthINSEECode },
               })
             );
@@ -613,7 +613,7 @@ describe('Unit | Service | Certification CPF service', function () {
             // then
             expect(result).to.deep.equal(
               CpfBirthInformationValidation.failure({
-                certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_POSTAL_CODE_CITY_INVALID,
+                certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_POSTAL_CODE_CITY_NOT_VALID,
                 data: { birthPostalCode, birthCity },
               })
             );
