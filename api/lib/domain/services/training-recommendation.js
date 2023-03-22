@@ -11,8 +11,16 @@ function getValidatedKnowledgeElementsCount({ knowledgeElements }) {
   return knowledgeElements.filter((knowledgeElement) => knowledgeElement.isValidated).length;
 }
 
+function getValidatedKnowledgeElementsPercentage({ knowledgeElements }) {
+  if (knowledgeElements.length === 0) return 0;
+
+  const validatedKnowledgeElementsCount = getValidatedKnowledgeElementsCount({ knowledgeElements });
+  return Math.round((validatedKnowledgeElementsCount / knowledgeElements.length) * 100);
+}
+
 module.exports = {
   getCappedSkills,
   getCappedKnowledgeElements,
   getValidatedKnowledgeElementsCount,
+  getValidatedKnowledgeElementsPercentage,
 };
