@@ -458,12 +458,24 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_REQUIRED.code]);
     });
 
-    it('should return a report when field extraTimePercentage is not a number', async function () {
+    it('should return a report when email is not a valid format', async function () {
       // given
-      const certificationCandidate = buildCertificationCandidate({
-        ...validAttributes,
-        extraTimePercentage: 'salut',
-      });
+      const certificationCandidate = buildCertificationCandidate({ ...validAttributes, email: 'notaemail' });
+
+      // when
+      const report = certificationCandidate.validateForMassSessionImport();
+
+      // then
+      expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EMAIL_NOT_VALID.code]);
+    });
+
+    context('when extraTimePercentage field is presents', function () {
+      it('should return a report when field extraTimePercentage is not a number', async function () {
+        // given
+        const certificationCandidate = buildCertificationCandidate({
+          ...validAttributes,
+          extraTimePercentage: 'salut',
+        });
 
       // when
       const report = certificationCandidate.validateForMassSessionImport();

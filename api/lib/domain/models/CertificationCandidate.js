@@ -77,14 +77,12 @@ const certificationCandidateValidationForMassImportJoiSchema = Joi.object({
     'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_COUNTRY_REQUIRED.code,
   }),
   email: Joi.string().email().allow(null).empty('').optional().messages({
-    'string.empty': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EMAIL_REQUIRED.code,
+    'string.email': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EMAIL_NOT_VALID.code,
   }),
   resultRecipientEmail: Joi.string().email().empty(['', null]).optional().messages({
-    'string.empty': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_RESULT_RECIPIENT_EMAIL_REQUIRED.code,
+    'string.email': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID.code,
   }),
-  externalId: Joi.string().allow(null).empty(['', null]).optional().messages({
-    'string.empty': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTERNAL_ID_REQUIRED.code,
-  }),
+  externalId: Joi.string().allow(null).empty(['', null]).optional(),
   birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required().empty(['', null]).messages({
     'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_REQUIRED.code,
     'date.format': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_FORMAT_INCORRECT.code,
