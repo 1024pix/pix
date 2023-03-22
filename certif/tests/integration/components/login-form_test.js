@@ -104,7 +104,7 @@ module('Integration | Component | login-form', function (hooks) {
     await click(screen.getByRole('button', { name: 'Je me connecte' }));
 
     // then
-    const expectedErrorMessage = this.intl.t('pages.login-form.errors.should-change-password', {
+    const expectedErrorMessage = this.intl.t('pages.login.errors.should-change-password', {
       url: 'https://app.pix.localhost/mot-de-passe-oublie',
       htmlSafe: true,
     });
