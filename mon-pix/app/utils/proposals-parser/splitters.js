@@ -7,4 +7,5 @@ export default {
   RESPONSE_BLOCK_BEGIN: '${',
   RESPONSE_BLOCK_END: '}',
   SELECT: 'options=',
+  DEFAULT_VALUE: 'value=',
 };

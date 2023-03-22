@@ -26,6 +26,7 @@ module('Unit | Utils | Proposals Parser | Challenge Response Template', function
             autoAriaLabel: false,
             type: 'input',
             placeholder: null,
+            defaultValue: null,
           },
         ],
       },
@@ -45,6 +46,7 @@ module('Unit | Utils | Proposals Parser | Challenge Response Template', function
             autoAriaLabel: true,
             type: 'input',
             placeholder: null,
+            defaultValue: null,
           },
           {
             text: '<br/>1.banana',
@@ -79,7 +81,15 @@ module('Unit | Utils | Proposals Parser | Challenge Response Template', function
 
       assert.deepEqual(challengeResponseTemplate.template, [
         { text: 'apple', type: 'text' },
-        { input: 'banana', text: null, placeholder: null, ariaLabel: '123', type: 'input', autoAriaLabel: true },
+        {
+          input: 'banana',
+          text: null,
+          placeholder: null,
+          ariaLabel: '123',
+          type: 'input',
+          autoAriaLabel: true,
+          defaultValue: null,
+        },
         { text: 'mango', type: 'text' },
       ]);
     });
@@ -97,7 +107,15 @@ module('Unit | Utils | Proposals Parser | Challenge Response Template', function
       challengeResponseTemplate.constructFinalTemplate();
 
       assert.deepEqual(challengeResponseTemplate.template, [
-        { input: 'banana', text: null, placeholder: null, ariaLabel: '123', type: 'input', autoAriaLabel: true },
+        {
+          input: 'banana',
+          text: null,
+          placeholder: null,
+          ariaLabel: '123',
+          type: 'input',
+          autoAriaLabel: true,
+          defaultValue: null,
+        },
         { text: 'mango', type: 'text' },
       ]);
     });
