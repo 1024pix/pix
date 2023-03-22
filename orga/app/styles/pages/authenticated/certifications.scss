@@ -3,7 +3,12 @@
   flex-direction: column;
   padding: $spacing-s 0 0 $spacing-s;
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: $spacing-l;
+
+  // TODO : Remove after update fix on PIX UI
+  .pix-select__dropdown {
+    overflow-x: hidden;
+  }
 
   &__tabs {
     display: flex;
@@ -21,32 +26,11 @@
 
   &__action {
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
     align-items: flex-end;
     min-width: 100%;
-    margin-bottom: 40px;
-
-    label {
-      color: $pix-neutral-90;
-      margin-left: 2px;
-      min-width: 100%;
-      padding: 4px 0;
-    }
-
-    .pix-select {
-      margin-right: $spacing-xs;
-      min-width: 7rem;
-      margin-left: $spacing-xs;
-
-      &__dropdown {
-        min-width: 7rem;
-      }
-    }
-
-    > button {
-      margin-left: $spacing-xs;
-    }
+    margin-bottom: $spacing-xl;
+    gap: $spacing-s;
   }
 
   .pix-message {
