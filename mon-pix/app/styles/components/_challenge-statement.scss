@@ -23,7 +23,20 @@
 }
 
 .challenge-statement__instruction-section blockquote {
+  position: relative;
+  margin-left: 20px;
   font-size: inherit;
+
+  &::before {
+    position: absolute;
+    left: -18px;
+    display: block;
+    width: 4px;
+    height: 100%;
+    background-color: $pix-neutral-20;
+    border-radius: 2px;
+    content: '';
+  }
 }
 
 .challenge-statement-instruction {
