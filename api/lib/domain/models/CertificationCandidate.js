@@ -85,7 +85,7 @@ const certificationCandidateValidationForMassImportJoiSchema = Joi.object({
   externalId: Joi.string().allow(null).empty(['', null]).optional(),
   birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required().empty(['', null]).messages({
     'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_REQUIRED.code,
-    'date.format': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_FORMAT_INCORRECT.code,
+    'date.format': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID.code,
   }),
   extraTimePercentage: Joi.number().integer().allow(null).optional().min(1).max(100).messages({
     'number.base': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_PERCENTAGE_REQUIRED.code,

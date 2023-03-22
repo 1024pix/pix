@@ -444,7 +444,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       const report = certificationCandidate.validateForMassSessionImport();
 
       // then
-      expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_FORMAT_INCORRECT.code]);
+      expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID.code]);
     });
 
     it('should return a report when birthdate is null', async function () {

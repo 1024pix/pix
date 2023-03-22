@@ -23,8 +23,8 @@ module.exports.CERTIFICATION_CANDIDATES_ERRORS = {
     code: 'CANDIDATE_BIRTHDATE_REQUIRED',
     getMessage: () => '',
   },
-  CANDIDATE_BIRTHDATE_FORMAT_INCORRECT: {
-    code: 'CANDIDATE_BIRTHDATE_FORMAT_INCORRECT',
+  CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID: {
+    code: 'CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID',
     getMessage: () => '',
   },
   CANDIDATE_BIRTH_CITY_REQUIRED: {
@@ -39,8 +39,8 @@ module.exports.CERTIFICATION_CANDIDATES_ERRORS = {
     code: 'CANDIDATE_BIRTH_COUNTRY_REQUIRED',
     getMessage: () => 'Le champ pays est obligatoire.',
   },
-  CANDIDATE_BIRTH_INSEE_CODE_INVALID: {
-    code: 'CANDIDATE_BIRTH_INSEE_CODE_INVALID',
+  CANDIDATE_BIRTH_INSEE_CODE_NOT_VALID: {
+    code: 'CANDIDATE_BIRTH_INSEE_CODE_NOT_VALID',
     getMessage: ({ birthINSEECode }) => `Le code INSEE "${birthINSEECode}" n'est pas valide.`,
   },
   CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_EXCLUSIVE: {
@@ -55,8 +55,8 @@ module.exports.CERTIFICATION_CANDIDATES_ERRORS = {
     code: 'CANDIDATE_BIRTH_POSTAL_CODE_NOT_FOUND',
     getMessage: ({ birthPostalCode }) => `Le code postal "${birthPostalCode}" n'est pas valide.`,
   },
-  CANDIDATE_BIRTH_POSTAL_CODE_CITY_INVALID: {
-    code: 'CANDIDATE_BIRTH_POSTAL_CODE_CITY_INVALID',
+  CANDIDATE_BIRTH_POSTAL_CODE_CITY_NOT_VALID: {
+    code: 'CANDIDATE_BIRTH_POSTAL_CODE_CITY_NOT_VALID',
     getMessage: ({ birthPostalCode, birthCity }) =>
       `Le code postal "${birthPostalCode}" ne correspond pas à la ville "${birthCity}"`,
   },

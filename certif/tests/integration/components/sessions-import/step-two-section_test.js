@@ -29,7 +29,11 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
       { error: 'CANDIDATE_FIRST_NAME_REQUIRED', expectedMessage: 'Champ obligatoire "Prénom" manquant' },
       { error: 'CANDIDATE_LAST_NAME_REQUIRED', expectedMessage: 'Champ obligatoire "Nom de famille" manquant' },
       { error: 'CANDIDATE_SEX_REQUIRED', expectedMessage: 'Champ obligatoire "Sexe" manquant' },
-      { error: 'CANDIDATE_SEX_NOT_VALID', expectedMessage: 'Champ sexe format incorrect, format accepté "M"/"F"' },
+      { error: 'CANDIDATE_SEX_NOT_VALID', expectedMessage: 'Champ sexe format invalide, format accepté "M"/"F"' },
+      {
+        error: 'CANDIDATE_BIRTH_INSEE_CODE_NOT_VALID',
+        expectedMessage: '"Code Insee" invalide',
+      },
       {
         error: 'CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_EXCLUSIVE',
         expectedMessage: 'Renseigner soit un code INSEE soit un code postal et un nom de commune de naissance',
@@ -40,10 +44,11 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
       },
       { error: 'CANDIDATE_BIRTH_COUNTRY_REQUIRED', expectedMessage: 'Champ obligatoire "Pays de naissance" manquant' },
       { error: 'CANDIDATE_BIRTH_COUNTRY_NOT_FOUND', expectedMessage: 'Pays de naissance non trouvé' },
+      { error: 'CANDIDATE_BIRTH_POSTAL_CODE_CITY_NOT_VALID', expectedMessage: 'Pays de naissance non trouvé' },
       { error: 'CANDIDATE_BIRTHDATE_REQUIRED', expectedMessage: 'Champ obligatoire "Date de naissance" manquant' },
       {
-        error: 'CANDIDATE_BIRTHDATE_FORMAT_INCORRECT',
-        expectedMessage: 'Format de date incorrect, champ "Date de naissance", format accepté JJ/MM/AAAA',
+        error: 'CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID',
+        expectedMessage: 'Format de date invalide, champ "Date de naissance", format accepté JJ/MM/AAAA',
       },
       { error: 'CANDIDATE_EXTRA_TIME_BELOW_ONE', expectedMessage: 'Format temps majoré incorrect, format accepté XX%' },
       { error: 'CANDIDATE_EXTRA_TIME_INTEGER', expectedMessage: 'Format temps majoré incorrect, format accepté XX%' },
@@ -57,7 +62,7 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
       },
       {
         error: 'CANDIDATE_BILLING_MODE_NOT_VALID',
-        expectedMessage: 'Format tarification part Pix incorrect, formats acceptés "Gratuite", "Payante" ou "Prépayée"',
+        expectedMessage: 'Format tarification part Pix invalide, formats acceptés "Gratuite", "Payante" ou "Prépayée"',
       },
       {
         error: 'CANDIDATE_PREPAYMENT_CODE_REQUIRED',
@@ -74,12 +79,12 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
       },
       {
         error: 'CANDIDATE_EMAIL_NOT_VALID',
-        expectedMessage: 'Format de l\'adresse e-mail "E-mail de convocation" incorrect',
+        expectedMessage: 'Format de l\'adresse e-mail "E-mail de convocation" invalide',
       },
       {
         error: 'CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID',
         expectedMessage:
-          'Format de l\'adresse e-mail "E-mail du destinataire des résultats (formateur, enseignant…)" incorrect',
+          'Format de l\'adresse e-mail "E-mail du destinataire des résultats (formateur, enseignant…)" invalide',
       },
       {
         error: 'DUPLICATE_CANDIDATE_NOT_ALLOWED_IN_SESSION',
@@ -90,12 +95,12 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
       { error: 'SESSION_DATE_REQUIRED', expectedMessage: 'Champ obligatoire "Date de session" manquant' },
       {
         error: 'SESSION_DATE_NOT_VALID',
-        expectedMessage: 'Format de date incorrect, champ "Date de session", format accepté JJ/MM/AAAA',
+        expectedMessage: 'Format de date invalide, champ "Date de session", format accepté JJ/MM/AAAA',
       },
       { error: 'SESSION_TIME_REQUIRED', expectedMessage: 'Champ obligatoire "Heure de début" manquant' },
       {
         error: 'SESSION_TIME_NOT_VALID',
-        expectedMessage: 'Format d\'heure incorrect, champ "Heure de début", format accepté HH:MM',
+        expectedMessage: 'Format d\'heure invalide, champ "Heure de début", format accepté HH:MM',
       },
       { error: 'SESSION_EXAMINER_REQUIRED', expectedMessage: 'Champ obligatoire "Surveillant(s)" manquant' },
       {
