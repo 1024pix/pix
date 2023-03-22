@@ -1,6 +1,6 @@
 export default function () {
   this.urlPrefix = 'http://localhost:3000';
-  this.namespace = 'api';
+  this.namespace = 'api/pix1d';
   this.timing = 0; // response delay
 
   this.get('/challenges/:challenge_number', (schema, request) => {
