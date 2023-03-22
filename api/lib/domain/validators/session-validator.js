@@ -21,8 +21,9 @@ const sessionValidationJoiSchema = Joi.object({
     'string.empty': CERTIFICATION_SESSIONS_ERRORS.SESSION_ROOM_REQUIRED.getMessage(),
   }),
 
-  date: Joi.string().isoDate().required().messages({
-    'string.empty': CERTIFICATION_SESSIONS_ERRORS.SESSION_DATE_REQUIRED.getMessage(),
+  date: Joi.date().format('YYYY-MM-DD').required().empty(['', null]).messages({
+    'any.required': CERTIFICATION_SESSIONS_ERRORS.SESSION_DATE_REQUIRED.getMessage(),
+    'date.format': CERTIFICATION_SESSIONS_ERRORS.SESSION_DATE_NOT_VALID.getMessage(),
   }),
 
   time: Joi.string()
