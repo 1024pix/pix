@@ -5,6 +5,7 @@ const {
   SessionNotAccessible,
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
+  UnexpectedUserAccountError,
 } = require('../../../../lib/domain/errors');
 const retrieveLastOrCreateCertificationCourse = require('../../../../lib/domain/usecases/retrieve-last-or-create-certification-course');
 const Assessment = require('../../../../lib/domain/models/Assessment');
@@ -188,6 +189,41 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
       });
 
       context('when the certification candidate is authorized', function () {
+        context('when the user is not connected with the correct account', function () {
+          it('should throw a CandidateNotAuthorizedToJoinSessionError xxx', async function () {
+            // given
+            const domainTransaction = Symbol('someDomainTransaction');
+            const foundSession = domainBuilder.buildSession.created({ id: 1, accessCode: 'accessCode' });
+            sessionRepository.get.withArgs(1).resolves(foundSession);
+
+            const foundCertificationCandidateId = 2;
+            domainBuilder.buildCertificationCourse({ userId: foundCertificationCandidateId, sessionId: 1 });
+
+            domainBuilder.buildCertificationCandidate({
+              userId: foundCertificationCandidateId,
+              sessionId: 1,
+              authorizedToStart: true,
+            });
+
+            certificationCandidateRepository.getBySessionIdAndUserId
+              .withArgs({ sessionId: 1, userId: foundCertificationCandidateId })
+              .resolves(null);
+
+            // when
+            const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
+              domainTransaction,
+              sessionId: 1,
+              accessCode: 'accessCode',
+              userId: 5,
+              locale: 'fr',
+              ...injectables,
+            });
+
+            // then
+            expect(error).to.be.an.instanceOf(UnexpectedUserAccountError);
+          });
+        });
+
         context('when a certification course with provided userId and sessionId already exists', function () {
           it('return existing certification course and unauthorize candidate to start', async function () {
             // given

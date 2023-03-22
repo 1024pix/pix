@@ -152,6 +152,41 @@ module('Integration | Component | certification-joiner', function (hooks) {
       assert.ok(contains("Comment trouver le compte lié à l'établissement ?"));
     });
 
+    test('should display an error message on account mismatch error', async function (assert) {
+      // given
+      this.set('onStepChange', sinon.stub());
+      await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.session-number'), '123456');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.first-name'), 'Robert');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-name'), 'de Pix');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-day'), '02');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-month'), '01');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-year'), '2000');
+      const store = this.owner.lookup('service:store');
+      const saveStub = sinon.stub();
+      saveStub.withArgs({ adapterOptions: { joinSession: true, sessionId: '123456' } }).throws({
+        errors: [
+          {
+            status: '409',
+            code: 'UNEXPECTED_USER_ACCOUNT',
+          },
+        ],
+      });
+      const createRecordMock = sinon.mock();
+      createRecordMock.returns({ save: saveStub, deleteRecord: function () {} });
+      store.createRecord = createRecordMock;
+
+      // when
+      await clickByLabel(this.intl.t('pages.certification-joiner.form.actions.submit'));
+
+      // then
+      assert.ok(
+        contains(
+          'Les informations saisies correspondent à un.e candidat.e inscrit.e à la session et déjà connecté.e avec un autre compte. Vérifiez que vous êtes connecté.e au compte qui a démarré la certification.'
+        )
+      );
+    });
+
     test('should display an error message on candidate not found', async function (assert) {
       // given
       this.set('onStepChange', sinon.stub());

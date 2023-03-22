@@ -275,8 +275,9 @@
           "check-personal-info": "Check with the invigilator that your personal information matches the sign-in sheet."
         },
         "session-not-accessible": "The session you are trying to join is no longer available.",
-        "wrong-account": "You are currently using an account that is not linked to your school/organisation.\nLog in to the account you used to complete your customised tests or ask the invigilator for help.",
-        "wrong-account-link": "How to find the account linked to the school/organisation ?"
+        "wrong-account": "The information entered matches a candidate enrolled in the session and already logged in with another account. Please check that you are logged into the account that started the exam.",
+        "wrong-account-sco": "You are currently using an account that is not linked to your school/organisation.\nLog in to the account you used to complete your customised tests or ask the invigilator for help.",
+        "wrong-account-sco-link": "How to find the account linked to the school/organisation ?"
       },
       "first-title": "Join a session",
       "form": {

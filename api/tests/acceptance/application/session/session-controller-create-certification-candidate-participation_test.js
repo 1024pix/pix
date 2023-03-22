@@ -12,10 +12,10 @@ describe('Acceptance | Controller | session-controller-create-certification-cand
   describe('#createCandidateParticipation', function () {
     let options;
     let payload;
-    let userId;
+    const userId = 99;
 
     beforeEach(function () {
-      userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildUser({ id: userId });
       options = {
         method: 'POST',
         url: '/api/sessions/1/candidate-participation',
@@ -250,21 +250,23 @@ describe('Acceptance | Controller | session-controller-create-certification-cand
 
           context('when the candidate is linked to the another user than the requesting user', function () {
             beforeEach(function () {
+              databaseBuilder.factory.buildUser({ id: 101 });
               databaseBuilder.factory.buildCertificationCandidate({
                 firstName: 'José',
                 lastName: 'Bové',
                 birthdate: '2000-01-01',
                 sessionId,
+                userId: 101,
               });
               return databaseBuilder.commit();
             });
 
-            it('should respond with 403 forbidden', async function () {
+            it('should respond with 409 wrong account status code', async function () {
               // when
               const response = await server.inject(options);
 
               // then
-              expect(response.statusCode).to.equal(403);
+              expect(response.statusCode).to.equal(409);
             });
           });
         });
