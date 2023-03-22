@@ -23,6 +23,7 @@ const { SHARED } = CampaignParticipationStatuses;
 function complementaryCertificationCourseResultsBuilder({ databaseBuilder }) {
   const campaignId = databaseBuilder.factory.buildCampaign({
     name: 'Campagne Pix+Droit',
+    code: 'PIXPLUS01',
     type: 'ASSESSMENT',
     targetProfileId: TARGET_PROFILE_PIX_DROIT_ID,
     organizationId: SUP_UNIVERSITY_ID,
