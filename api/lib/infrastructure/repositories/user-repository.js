@@ -465,6 +465,7 @@ function _fromKnexDTOToUserDetailsForAdmin({ userDTO, organizationLearnersDTO, a
     pixOrgaTermsOfServiceAccepted: userDTO.pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted: userDTO.pixCertifTermsOfServiceAccepted,
     lang: userDTO.lang,
+    locale: userDTO.locale,
     lastTermsOfServiceValidatedAt: userDTO.lastTermsOfServiceValidatedAt,
     lastPixOrgaTermsOfServiceValidatedAt: userDTO.lastPixOrgaTermsOfServiceValidatedAt,
     lastPixCertifTermsOfServiceValidatedAt: userDTO.lastPixCertifTermsOfServiceValidatedAt,

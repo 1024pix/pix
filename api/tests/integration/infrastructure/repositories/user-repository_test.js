@@ -1056,6 +1056,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
           email: 'henri-cochet@example.net',
           cgu: true,
           lang: 'en',
+          locale: 'en',
           createdAt: now,
           updatedAt: now,
           lastTermsOfServiceValidatedAt,
@@ -1079,6 +1080,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         expect(userDetailsForAdmin.createdAt).to.deep.equal(now);
         expect(userDetailsForAdmin.updatedAt).to.deep.equal(now);
         expect(userDetailsForAdmin.lang).to.equal('en');
+        expect(userDetailsForAdmin.locale).to.equal('en');
         expect(userDetailsForAdmin.lastTermsOfServiceValidatedAt).to.deep.equal(lastTermsOfServiceValidatedAt);
         expect(userDetailsForAdmin.lastPixOrgaTermsOfServiceValidatedAt).to.deep.equal(
           lastPixOrgaTermsOfServiceValidatedAt

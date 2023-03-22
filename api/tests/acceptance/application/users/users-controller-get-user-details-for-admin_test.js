@@ -54,7 +54,7 @@ describe('Acceptance | Controller | users-controller-get-user-details-for-admin'
         // given
         const superAdmin = await insertUserWithRoleSuperAdmin();
 
-        const user = databaseBuilder.factory.buildUser({ username: 'brice.glace0712' });
+        const user = databaseBuilder.factory.buildUser({ username: 'brice.glace0712', locale: 'fr-FR' });
         const blockedAt = new Date('2022-12-07');
         const temporaryBlockedUntil = new Date('2022-12-06');
         const userLoginId = databaseBuilder.factory.buildUserLogin({
@@ -88,6 +88,7 @@ describe('Acceptance | Controller | users-controller-get-user-details-for-admin'
           'email-confirmed-at': null,
           'first-name': user.firstName,
           lang: 'fr',
+          locale: 'fr-FR',
           'last-logged-at': new Date(),
           'last-name': user.lastName,
           'last-pix-certif-terms-of-service-validated-at': null,
