@@ -10,6 +10,7 @@ module('Unit | Utils | Proposals Parser | Input Block', function () {
         expectedAutoAriaLabel: true,
         expectedAriaLabel: '123',
         expectedPlaceholder: null,
+        expectedDefaultValue: null,
       },
       {
         input: '${banana}',
@@ -17,6 +18,7 @@ module('Unit | Utils | Proposals Parser | Input Block', function () {
         expectedAutoAriaLabel: true,
         expectedAriaLabel: '123',
         expectedPlaceholder: null,
+        expectedDefaultValue: null,
       },
       {
         input: '${banana}s',
@@ -24,6 +26,7 @@ module('Unit | Utils | Proposals Parser | Input Block', function () {
         expectedAutoAriaLabel: true,
         expectedAriaLabel: '123',
         expectedPlaceholder: null,
+        expectedDefaultValue: null,
       },
       {
         input: '${banana$}',
@@ -31,6 +34,7 @@ module('Unit | Utils | Proposals Parser | Input Block', function () {
         expectedAutoAriaLabel: true,
         expectedAriaLabel: '123',
         expectedPlaceholder: null,
+        expectedDefaultValue: null,
       },
       {
         input: '${$banana}}',
@@ -38,6 +42,7 @@ module('Unit | Utils | Proposals Parser | Input Block', function () {
         expectedAutoAriaLabel: true,
         expectedAriaLabel: '123',
         expectedPlaceholder: null,
+        expectedDefaultValue: null,
       },
       {
         input: '${banana${}}',
@@ -45,6 +50,7 @@ module('Unit | Utils | Proposals Parser | Input Block', function () {
         expectedAutoAriaLabel: true,
         expectedAriaLabel: '123',
         expectedPlaceholder: null,
+        expectedDefaultValue: null,
       },
       {
         input: '${banana}',
@@ -52,6 +58,7 @@ module('Unit | Utils | Proposals Parser | Input Block', function () {
         expectedAutoAriaLabel: true,
         expectedAriaLabel: '123',
         expectedPlaceholder: null,
+        expectedDefaultValue: null,
       },
       {
         input: '${banana#potato}',
@@ -59,6 +66,7 @@ module('Unit | Utils | Proposals Parser | Input Block', function () {
         expectedAutoAriaLabel: true,
         expectedAriaLabel: '123',
         expectedPlaceholder: 'potato',
+        expectedDefaultValue: null,
       },
       {
         input: '${banana}#potato',
@@ -66,6 +74,7 @@ module('Unit | Utils | Proposals Parser | Input Block', function () {
         expectedAutoAriaLabel: true,
         expectedAriaLabel: '123',
         expectedPlaceholder: 'potato',
+        expectedDefaultValue: null,
       },
       {
         input: '${banana§salad}',
@@ -73,6 +82,7 @@ module('Unit | Utils | Proposals Parser | Input Block', function () {
         expectedAutoAriaLabel: false,
         expectedAriaLabel: 'salad',
         expectedPlaceholder: null,
+        expectedDefaultValue: null,
       },
       {
         input: '${banana#potato§salad}',
@@ -80,6 +90,71 @@ module('Unit | Utils | Proposals Parser | Input Block', function () {
         expectedAutoAriaLabel: false,
         expectedAriaLabel: 'salad',
         expectedPlaceholder: 'potato',
+        expectedDefaultValue: null,
+      },
+      {
+        input: '${banana#potato§salad value="pickle"}',
+        expectedInput: 'banana',
+        expectedAutoAriaLabel: false,
+        expectedAriaLabel: 'salad',
+        expectedPlaceholder: 'potato',
+        expectedDefaultValue: 'pickle',
+      },
+      {
+        input: '${banana§salad value="pickle"}',
+        expectedInput: 'banana',
+        expectedAutoAriaLabel: false,
+        expectedAriaLabel: 'salad',
+        expectedPlaceholder: null,
+        expectedDefaultValue: 'pickle',
+      },
+      {
+        input: '${banana#potato value="pickle"}',
+        expectedInput: 'banana',
+        expectedAutoAriaLabel: true,
+        expectedAriaLabel: '123',
+        expectedPlaceholder: 'potato',
+        expectedDefaultValue: 'pickle',
+      },
+      {
+        input: '${banana value="pickle"}',
+        expectedInput: 'banana',
+        expectedAutoAriaLabel: true,
+        expectedAriaLabel: '123',
+        expectedPlaceholder: null,
+        expectedDefaultValue: 'pickle',
+      },
+      {
+        input: '${ban}ana value="pickle"',
+        expectedInput: 'banana',
+        expectedAutoAriaLabel: true,
+        expectedAriaLabel: '123',
+        expectedPlaceholder: null,
+        expectedDefaultValue: 'pickle',
+      },
+      {
+        input: '${banana value=}',
+        expectedInput: 'banana',
+        expectedAutoAriaLabel: true,
+        expectedAriaLabel: '123',
+        expectedPlaceholder: null,
+        expectedDefaultValue: '',
+      },
+      {
+        input: '${banana value=pickle}',
+        expectedInput: 'banana',
+        expectedAutoAriaLabel: true,
+        expectedAriaLabel: '123',
+        expectedPlaceholder: null,
+        expectedDefaultValue: 'pickle',
+      },
+      {
+        input: '${banana value="pickle}',
+        expectedInput: 'banana',
+        expectedAutoAriaLabel: true,
+        expectedAriaLabel: '123',
+        expectedPlaceholder: null,
+        expectedDefaultValue: '"pickle',
       },
     ].forEach((data) => {
       test(`should parse attributes properly for ${data.input}`, function (assert) {
@@ -90,21 +165,12 @@ module('Unit | Utils | Proposals Parser | Input Block', function () {
         const result = new InputBlock({ input, inputIndex: 123 });
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(result.input, data.expectedInput);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(result.type, 'input');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(result.autoAriaLabel, data.expectedAutoAriaLabel);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(result.ariaLabel, data.expectedAriaLabel);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(result.placeholder, data.expectedPlaceholder);
+        assert.strictEqual(result.input, data.expectedInput);
+        assert.strictEqual(result.type, 'input');
+        assert.strictEqual(result.autoAriaLabel, data.expectedAutoAriaLabel);
+        assert.strictEqual(result.ariaLabel, data.expectedAriaLabel);
+        assert.strictEqual(result.placeholder, data.expectedPlaceholder);
+        assert.strictEqual(result.defaultValue, data.expectedDefaultValue);
       });
     });
   });

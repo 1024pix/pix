@@ -38,6 +38,7 @@ module('Unit | Component | qrocm-ind-solution-panel', function (hooks) {
           placeholder: null,
           autoAriaLabel: false,
           type: 'input',
+          defaultValue: null,
         },
         {
           input: 'smiley2',
@@ -51,6 +52,7 @@ module('Unit | Component | qrocm-ind-solution-panel', function (hooks) {
           autoAriaLabel: false,
           placeholder: null,
           type: 'input',
+          defaultValue: null,
         },
       ];
 
@@ -83,6 +85,7 @@ module('Unit | Component | qrocm-ind-solution-panel', function (hooks) {
           autoAriaLabel: false,
           placeholder: null,
           type: 'input',
+          defaultValue: null,
         },
         {
           input: 'num2',
@@ -96,6 +99,7 @@ module('Unit | Component | qrocm-ind-solution-panel', function (hooks) {
           autoAriaLabel: false,
           placeholder: null,
           type: 'input',
+          defaultValue: null,
         },
       ];
 
@@ -129,6 +133,7 @@ module('Unit | Component | qrocm-ind-solution-panel', function (hooks) {
           autoAriaLabel: false,
           placeholder: null,
           type: 'input',
+          defaultValue: null,
         },
         {
           input: 'num2',
@@ -142,6 +147,7 @@ module('Unit | Component | qrocm-ind-solution-panel', function (hooks) {
           autoAriaLabel: false,
           placeholder: null,
           type: 'input',
+          defaultValue: null,
         },
       ];
 
@@ -178,6 +184,7 @@ module('Unit | Component | qrocm-ind-solution-panel', function (hooks) {
           autoAriaLabel: false,
           placeholder: null,
           type: 'input',
+          defaultValue: null,
         },
         {
           input: 'num2',
@@ -191,6 +198,7 @@ module('Unit | Component | qrocm-ind-solution-panel', function (hooks) {
           autoAriaLabel: false,
           placeholder: null,
           type: 'input',
+          defaultValue: null,
         },
       ];
 
@@ -227,6 +235,7 @@ module('Unit | Component | qrocm-ind-solution-panel', function (hooks) {
           autoAriaLabel: false,
           placeholder: null,
           type: 'input',
+          defaultValue: null,
         },
         {
           input: 'Num2',
@@ -240,6 +249,7 @@ module('Unit | Component | qrocm-ind-solution-panel', function (hooks) {
           autoAriaLabel: false,
           placeholder: null,
           type: 'input',
+          defaultValue: null,
         },
       ];
 
@@ -273,6 +283,7 @@ module('Unit | Component | qrocm-ind-solution-panel', function (hooks) {
           autoAriaLabel: false,
           placeholder: null,
           type: 'input',
+          defaultValue: null,
         },
         {
           input: 'num2',
@@ -286,6 +297,7 @@ module('Unit | Component | qrocm-ind-solution-panel', function (hooks) {
           autoAriaLabel: false,
           placeholder: null,
           type: 'input',
+          defaultValue: null,
         },
       ];
 
@@ -316,6 +328,7 @@ module('Unit | Component | qrocm-ind-solution-panel', function (hooks) {
           text: 'Clé USB : ',
           ariaLabel: null,
           type: 'input',
+          defaultValue: null,
           showText: false,
           inputClass: 'correction-qroc-box-answer--correct',
           answer: '2',
