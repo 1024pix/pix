@@ -54,7 +54,7 @@ module.exports = function (environment) {
         },
         SHOULD_CHANGE_PASSWORD: {
           CODE: '401',
-          I18N_KEY: 'pages.login-form.errors.should-change-password',
+          I18N_KEY: 'pages.login.errors.should-change-password',
         },
         USER_IS_TEMPORARY_BLOCKED: {
           CODE: '403',
