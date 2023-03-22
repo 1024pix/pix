@@ -9,7 +9,7 @@ const _ = require('lodash');
 module.exports = function buildCampaign({
   id = databaseBuffer.getNextId(),
   name = 'Name',
-  code = 'ABC456TTY',
+  code,
   title = 'Title',
   idPixLabel = 'IdPixLabel',
   externalIdHelpImageUrl = null,
@@ -40,6 +40,8 @@ module.exports = function buildCampaign({
   organizationId = _.isNil(organizationId) ? buildOrganization().id : organizationId;
   creatorId = _.isUndefined(creatorId) ? buildUser().id : creatorId;
   ownerId = _.isUndefined(ownerId) ? buildUser().id : ownerId;
+  // Because of unicity constraint if no code is given we set the unique id as campaign code.
+  code = _.isUndefined(code) ? id.toString() : code;
 
   const values = {
     id,
