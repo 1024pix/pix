@@ -1,9 +1,9 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
 import { render, click } from '@ember/test-helpers';
 import Object from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 async function renderComponent() {
   await render(hbs`<CertificationCandidateInStagingItem
@@ -15,7 +15,7 @@ async function renderComponent() {
 }
 
 module('Integration | Component | certification-candidate-in-staging-item', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   let saveStub;
   let cancelStub;

@@ -1,12 +1,12 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
 import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import { certificationIssueReportSubcategories } from 'pix-certif/models/certification-issue-report';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | candidate-information-change-certification-issue-report-fields', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   const INPUT_RADIO_SELECTOR = '#input-radio-for-category-candidate-information-change';
   const TEXTAREA_SELECTOR = '#text-area-for-category-candidate-information-change';

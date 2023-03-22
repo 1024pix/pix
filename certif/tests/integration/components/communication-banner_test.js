@@ -1,12 +1,12 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import ENV from 'pix-certif/config/environment';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | communication-banner', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   const originalBannerContent = ENV.APP.BANNER.CONTENT;
   const originalBannerType = ENV.APP.BANNER.TYPE;
