@@ -27,6 +27,10 @@ module.exports.CERTIFICATION_CANDIDATES_ERRORS = {
     code: 'CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID',
     getMessage: () => '',
   },
+  CANDIDATE_BIRTHDATE_MUST_BE_GREATER: {
+    code: 'CANDIDATE_BIRTHDATE_MUST_BE_GREATER',
+    getMessage: () => '',
+  },
   CANDIDATE_BIRTH_CITY_REQUIRED: {
     code: 'CANDIDATE_BIRTH_CITY_REQUIRED',
     getMessage: () => 'Le champ ville est obligatoire.',
