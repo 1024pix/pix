@@ -209,4 +209,24 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
       });
     });
   });
+
+  module('when a default value is defined in proposals', function () {
+    test('should prefill the input with the default value', async function (assert) {
+      // given
+      this.set('challenge', {
+        timer: false,
+        format: 'mots',
+        proposals: '${myInput value="c\'est prérempli !!!"}',
+      });
+      this.set('answer', {});
+
+      // when
+      await render(
+        hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}} />`
+      );
+
+      // then
+      assert.strictEqual(find('.challenge-response__proposal').value, "c'est prérempli !!!");
+    });
+  });
 });
