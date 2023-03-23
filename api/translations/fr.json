@@ -61,6 +61,27 @@
       "skill-ranking": "Nombre de pix pour la compétence {{name}}"
     }
   },
+  "candidate-list-template": {
+    "billing-mode": {
+      "free": "Gratuite",
+      "paid": "Payante",
+      "prepaid": "Prépayée"
+    },
+    "birthplace": "Lieu de naissance",
+    "certification": "Certification",
+    "complementary": "complémentaire",
+    "extratime": "Temps majoré ?",
+    "one-per-candidate":  "(une seule par candidat)",
+    "options": "Options possibles :",
+    "prepayment": "Code de prépaiement",
+    "pricing": "Tarification",
+    "pricing-pix": "Tarification part Pix",
+    "title": "Liste des candidats",
+    "tooltip-line-1": "(Requis notamment dans le cas d'un achat de crédits combinés)",
+    "tooltip-line-2": "Doit être composé du SIRET de l’organisation et du numéro de facture. Ex : 12345678912345/FACT12345",
+    "tooltip-line-3": "Si vous ne possédez pas de facture, un code de prépaiement doit être établi avec Pix.",
+    "yes-or-empty": "(\"oui\" ou laisser vide)"
+  },
   "certification-center-invitation-email": {
     "params": {
       "acceptInvitation": "Accepter l’invitation",

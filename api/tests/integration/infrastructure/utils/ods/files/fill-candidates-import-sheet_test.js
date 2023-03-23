@@ -10,13 +10,19 @@ const {
   PIX_PLUS_EDU_1ER_DEGRE,
   PIX_PLUS_EDU_2ND_DEGRE,
 } = require('../../../../../../lib/domain/models/ComplementaryCertification');
+const { getI18n } = require('../../../../../tooling/i18n/i18n');
 
 describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet', function () {
+  let i18n;
   let userId;
   let sessionId;
 
   let expectedOdsFilePath;
   let actualOdsFilePath;
+
+  beforeEach(async function () {
+    i18n = getI18n();
+  });
 
   afterEach(async function () {
     await unlink(actualOdsFilePath);
@@ -120,7 +126,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
       await databaseBuilder.commit();
       // when
       const { session } = await usecases.getCandidateImportSheetData({ sessionId, userId });
-      const updatedOdsFileBuffer = await fillCandidatesImportSheet({ session, isScoCertificationCenter: true });
+      const updatedOdsFileBuffer = await fillCandidatesImportSheet({ session, isScoCertificationCenter: true, i18n });
       await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
       const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
       const expectedResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
@@ -208,11 +214,13 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
       const { session, certificationCenterHabilitations } = await usecases.getCandidateImportSheetData({
         sessionId,
         userId,
+        i18n,
       });
       const updatedOdsFileBuffer = await fillCandidatesImportSheet({
         session,
         certificationCenterHabilitations,
         isScoCertificationCenter: true,
+        i18n,
       });
       await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
       const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
@@ -385,6 +393,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         session,
         certificationCenterHabilitations,
         isScoCertificationCenter: true,
+        i18n,
       });
       await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
       const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
@@ -455,7 +464,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
       const { session } = await usecases.getCandidateImportSheetData({ sessionId, userId });
 
       // when
-      const updatedOdsFileBuffer = await fillCandidatesImportSheet({ session });
+      const updatedOdsFileBuffer = await fillCandidatesImportSheet({ session, i18n });
 
       // then
       await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
@@ -521,7 +530,11 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         });
 
         // when
-        const updatedOdsFileBuffer = await fillCandidatesImportSheet({ session, certificationCenterHabilitations });
+        const updatedOdsFileBuffer = await fillCandidatesImportSheet({
+          session,
+          certificationCenterHabilitations,
+          i18n,
+        });
 
         // then
         await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
