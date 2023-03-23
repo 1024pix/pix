@@ -1,0 +1,29 @@
+<div class="stage-stars__container">
+  <PixStars
+    @count={{this.starsAcquired}}
+    @total={{this.starsTotal}}
+    @alt={{this.altMessage}}
+    @color="blue"
+    class="stage-stars {{if @isWide 'stage-stars--wide'}}"
+  />
+  {{#if this.displayTooltip}}
+    <PixTooltip
+      @id="stage-tooltip-{{@reachedStage}}"
+      @position={{@tooltipPosition}}
+      @isWide={{true}}
+      class="hide-on-mobile"
+    >
+      <:triggerElement>
+        <FaIcon
+          @icon="circle-info"
+          class="stage-stars__info-icon"
+          tabindex="0"
+          aria-describedby="stage-tooltip-{{@reachedStage}}"
+        />
+      </:triggerElement>
+      <:tooltip>
+        {{this.tooltipText}}
+      </:tooltip>
+    </PixTooltip>
+  {{/if}}
+</div>

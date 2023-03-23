@@ -941,14 +941,8 @@ describe('Integration | Repository | Campaign Participation', function () {
     });
   });
 
-  describe('#countParticipationsByStage', function () {
+  describe('#getAllParticipationsByCampaignId', function () {
     let campaignId;
-
-    const stagesBoundaries = [
-      { id: 1, from: 0, to: 4 },
-      { id: 2, from: 5, to: 9 },
-      { id: 3, from: 10, to: 19 },
-    ];
 
     beforeEach(async function () {
       campaignId = databaseBuilder.factory.buildCampaign().id;
@@ -958,57 +952,59 @@ describe('Integration | Repository | Campaign Participation', function () {
     it('returns an empty object when no participations', async function () {
       await databaseBuilder.commit();
 
-      const result = await campaignParticipationRepository.countParticipationsByStage(campaignId, stagesBoundaries);
+      const result = await campaignParticipationRepository.getAllParticipationsByCampaignId(campaignId);
 
-      expect(result).to.deep.equal({});
+      expect(result).to.deep.equal([]);
     });
 
-    it('returns the distribution for the campaign', async function () {
+    it('returns the list of the campaign', async function () {
       databaseBuilder.factory.buildCampaignParticipation({ masteryRate: 0 });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0 });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0, validatedSkillsCount: 0 });
       await databaseBuilder.commit();
 
-      const result = await campaignParticipationRepository.countParticipationsByStage(campaignId, stagesBoundaries);
+      const result = await campaignParticipationRepository.getAllParticipationsByCampaignId(campaignId);
 
-      expect(result).to.deep.equal({ 1: 1, 2: 0, 3: 0 });
+      expect(result).to.deep.equal([{ masteryRate: '0.00', validatedSkillsCount: 0 }]);
     });
 
-    it('returns the distribution for only isImproved=false participations', async function () {
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0, isImproved: false });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0, isImproved: true });
-      await databaseBuilder.commit();
-
-      const result = await campaignParticipationRepository.countParticipationsByStage(campaignId, stagesBoundaries);
-
-      expect(result).to.deep.equal({ 1: 1, 2: 0, 3: 0 });
-    });
-
-    it('returns the distribution for not deleted participations', async function () {
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0, deletedAt: null });
+    it('returns the list of only isImproved=false participations', async function () {
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId,
         masteryRate: 0,
+        validatedSkillsCount: 0,
+        isImproved: false,
+      });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        masteryRate: 0,
+        validatedSkillsCount: 0,
+        isImproved: true,
+      });
+      await databaseBuilder.commit();
+
+      const result = await campaignParticipationRepository.getAllParticipationsByCampaignId(campaignId);
+
+      expect(result).to.deep.equal([{ masteryRate: '0.00', validatedSkillsCount: 0 }]);
+    });
+
+    it('returns the list of not deleted participations', async function () {
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        masteryRate: 0,
+        deletedAt: null,
+        validatedSkillsCount: 0,
+      });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        masteryRate: 0,
+        validatedSkillsCount: 0,
         deletedAt: new Date('2019-03-13'),
       });
       await databaseBuilder.commit();
 
-      const result = await campaignParticipationRepository.countParticipationsByStage(campaignId, stagesBoundaries);
+      const result = await campaignParticipationRepository.getAllParticipationsByCampaignId(campaignId);
 
-      expect(result).to.deep.equal({ 1: 1, 2: 0, 3: 0 });
-    });
-
-    it('returns the distribution of participations by stage', async function () {
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0 });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0.05 });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0.06 });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0.1 });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0.12 });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0.19 });
-      await databaseBuilder.commit();
-
-      const result = await campaignParticipationRepository.countParticipationsByStage(campaignId, stagesBoundaries);
-
-      expect(result).to.deep.equal({ 1: 1, 2: 2, 3: 3 });
+      expect(result).to.deep.equal([{ masteryRate: '0.00', validatedSkillsCount: 0 }]);
     });
   });
 

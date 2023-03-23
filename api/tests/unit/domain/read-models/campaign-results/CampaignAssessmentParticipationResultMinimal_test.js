@@ -10,6 +10,10 @@ describe('Unit | Domain | Read-Models | CampaignResults | CampaignAssessmentPart
         lastName: 'Aguilar',
         masteryRate: 0.45,
         participantExternalId: 'Alba67',
+        reachedStage: 2,
+        totalStage: 6,
+        prescriberTitle: 'titre prescripteur',
+        prescriberDescription: 'description prescripteur',
       });
 
       expect(campaignAssessmentParticipationResultMinimal).to.deep.equal({
@@ -19,6 +23,10 @@ describe('Unit | Domain | Read-Models | CampaignResults | CampaignAssessmentPart
         badges: [],
         masteryRate: 0.45,
         participantExternalId: 'Alba67',
+        reachedStage: 2,
+        totalStage: 6,
+        prescriberTitle: 'titre prescripteur',
+        prescriberDescription: 'description prescripteur',
       });
     });
   });

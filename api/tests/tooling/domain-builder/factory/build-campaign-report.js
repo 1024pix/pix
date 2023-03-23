@@ -17,19 +17,14 @@ module.exports = function buildCampaignReport({
   ownerFirstName = 'Un prénom',
   ownerLastName = 'Un nom',
   targetProfileId = 3,
-  targetProfileForSpecifier = {
-    name: 'target profile',
-    description: 'description',
-    tubeCount: 3,
-    thematicResultCount: 2,
-    hasStage: false,
-  },
   participationsCount = 5,
   sharedParticipationsCount = 2,
   averageResult = 0.4,
   badges = [],
   stages = [],
   multiplesendings = false,
+  reachedStage,
+  totalStage,
 } = {}) {
   return new CampaignReport({
     id,
@@ -47,12 +42,13 @@ module.exports = function buildCampaignReport({
     ownerFirstName,
     ownerLastName,
     targetProfileId,
-    targetProfileForSpecifier,
     participationsCount,
     sharedParticipationsCount,
     averageResult,
     badges,
     stages,
     multiplesendings,
+    reachedStage,
+    totalStage,
   });
 };

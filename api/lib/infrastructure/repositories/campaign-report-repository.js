@@ -71,28 +71,45 @@ module.exports = {
       throw new NotFoundError(`La campagne d'id ${id} n'existe pas ou son accès est restreint`);
     }
 
-    const skills = await campaignRepository.findSkills({ campaignId: id, filterByStatus: 'all' });
+    const campaignReport = new CampaignReport({ ...result, id });
 
-    const targetProfile = new TargetProfileForSpecifier({
-      id: result.targetProfileId,
-      name: result.targetProfileName,
-      tubeCount: _.uniqBy(skills, 'tubeId').length,
-      thematicResultCount: _.uniq(result.badgeIds).filter((id) => id).length,
-      hasStage: result.stageIds.some((stage) => stage),
-      description: result.targetProfileDescription,
-    });
+    if (campaignReport.isAssessment) {
+      const skills = await campaignRepository.findSkills({ campaignId: id, filterByStatus: 'all' });
 
-    return new CampaignReport({ ...result, id, targetProfileForSpecifier: targetProfile });
+      const targetProfile = new TargetProfileForSpecifier({
+        id: result.targetProfileId,
+        name: result.targetProfileName,
+        tubeCount: _.uniqBy(skills, 'tubeId').length,
+        thematicResultCount: _.uniq(result.badgeIds).filter((id) => id).length,
+        hasStage: result.stageIds.some((stage) => stage),
+        description: result.targetProfileDescription,
+      });
+
+      campaignReport.setTargetProfileInformation(targetProfile);
+    }
+
+    return campaignReport;
   },
 
-  async findMasteryRates(campaignId) {
+  async findMasteryRatesAndValidatedSkillsCount(campaignId) {
     const results = await knex('campaign-participations')
-      .select('masteryRate')
+      .select('masteryRate', 'validatedSkillsCount')
       .where('isImproved', false)
       .andWhere('status', SHARED)
       .andWhere('deletedAt', null)
       .andWhere({ campaignId });
-    return results.map((result) => Number(result.masteryRate));
+
+    const aggregatedResults = {
+      masteryRates: [],
+      validatedSkillsCounts: [],
+    };
+
+    results.forEach((result) => {
+      aggregatedResults.masteryRates.push(Number(result.masteryRate));
+      aggregatedResults.validatedSkillsCounts.push(Number(result.validatedSkillsCount));
+    });
+
+    return aggregatedResults;
   },
 
   async findPaginatedFilteredByOrganizationId({ organizationId, filter, page, userId }) {

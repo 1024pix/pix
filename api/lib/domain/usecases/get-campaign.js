@@ -1,4 +1,5 @@
 const { NotFoundError, UserNotAuthorizedToAccessEntityError } = require('../../domain/errors.js');
+const stageCollectionRepository = require('../../infrastructure/repositories/user-campaign-results/stage-collection-repository.js');
 
 module.exports = async function getCampaign({
   campaignId,
@@ -20,17 +21,20 @@ module.exports = async function getCampaign({
     throw new UserNotAuthorizedToAccessEntityError('User does not belong to the organization that owns the campaign');
   }
 
-  const [campaignReport, badges, stages, masteryRates] = await Promise.all([
-    campaignReportRepository.get(integerCampaignId),
-    badgeRepository.findByCampaignId(integerCampaignId),
-    campaignRepository.findStages({ campaignId: integerCampaignId }),
-    campaignReportRepository.findMasteryRates(integerCampaignId),
-  ]);
+  const campaignReport = await campaignReportRepository.get(integerCampaignId);
 
-  campaignReport.badges = badges;
-  campaignReport.stages = stages;
   if (campaignReport.isAssessment) {
-    campaignReport.computeAverageResult(masteryRates);
+    const [badges, stageCollection, aggregatedResults] = await Promise.all([
+      badgeRepository.findByCampaignId(integerCampaignId),
+      stageCollectionRepository.findStageCollection({ campaignId: integerCampaignId }),
+      campaignReportRepository.findMasteryRatesAndValidatedSkillsCount(integerCampaignId),
+    ]);
+
+    campaignReport.setBadges(badges);
+    campaignReport.setStages(stageCollection);
+
+    campaignReport.computeAverageResult(aggregatedResults.masteryRates);
+    campaignReport.computeReachedStage(aggregatedResults.validatedSkillsCounts);
   }
   return campaignReport;
 };

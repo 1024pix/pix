@@ -12,6 +12,10 @@ export default class CampaignAssessmentParticipation extends Model {
   @attr('number') targetedSkillsCount;
   @attr('number') validatedSkillsCount;
   @attr('number') masteryRate;
+  @attr('number') reachedStage;
+  @attr('number') totalStage;
+  @attr('string') prescriberTitle;
+  @attr('string') prescriberDescription;
   @attr('number') progression;
   @belongsTo('campaignAnalysis') campaignAnalysis;
   @belongsTo('campaignAssessmentParticipationResult') campaignAssessmentParticipationResult;

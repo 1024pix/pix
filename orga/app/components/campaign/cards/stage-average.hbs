@@ -6,5 +6,11 @@
   @isLoading={{@isLoading}}
   ...attributes
 >
-  <Campaign::StageStars @result={{this.valuePercentage}} @stages={{@stages}} @isWide={{true}} />
+  <PixStars
+    @count={{this.starsAcquired}}
+    @total={{this.starsTotal}}
+    @alt={{this.altMessage}}
+    @color="blue"
+    class="stage-average-stars"
+  />
 </Ui::IndicatorCard>

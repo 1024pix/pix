@@ -8,7 +8,7 @@ module.exports = function stagesBuilder({ databaseBuilder }) {
 
 function _buildStagesForTargetProfileId(databaseBuilder, targetProfileId) {
   const stages = [
-    { title: 'Super !', message: 'Tu as validé ton premier acquis', isFirstSkill: true, threshold: null, targetProfileId },
+    { title: 'Super !', message: 'Tu as validé ton premier acquis', prescriberTitle: 'Premier Acquis', prescriberDescription: 'Un petit effort', isFirstSkill: true, threshold: null, targetProfileId },
     { title: 'Bravo !', message: 'Tu as le palier 1', threshold: 0, targetProfileId },
     { title: 'Félicitations !', message: 'Tu as le palier 2', prescriberTitle: 'palier 2', prescriberDescription: 'Maîtrise partielle', threshold: 5, targetProfileId },
     { title: 'Bien joué !', message: 'Tu as le palier 3', prescriberTitle: 'palier 3', prescriberDescription: 'Maîtrise complète', threshold: 15, targetProfileId },
@@ -21,7 +21,7 @@ function _buildStagesForTargetProfileId(databaseBuilder, targetProfileId) {
 
 function _buildStagesWithLevelForTargetProfileId(databaseBuilder, targetProfileId) {
   const stages = [
-    { title: 'Super !', message: 'Tu as validé ton premier acquis', isFirstSkill: true, level: null, targetProfileId },
+    { title: 'Super !', message: 'Tu as validé ton premier acquis', prescriberTitle: 'Premier Acquis', prescriberDescription: 'Un petit effort', isFirstSkill: true, level: null, targetProfileId },
     { title: 'Pas mal mais pas max', message: 'Tu as le palier 1', level: 0, targetProfileId },
     { title: 'Félicitations !', message: 'Tu as le palier 2', prescriberTitle: 'équivalent niveau 2', prescriberDescription: 'Maîtrise partielle', level: 2, targetProfileId },
     { title: 'Bien joué !', message: 'Tu as le palier 3', prescriberTitle: 'équivalent niveau 3', prescriberDescription: 'Maîtrise complète', level: 3, targetProfileId },

@@ -4,7 +4,17 @@ module.exports = {
   serialize({ participations, pagination }) {
     return new Serializer('campaign-assessment-result-minimals', {
       id: 'campaignParticipationId',
-      attributes: ['firstName', 'lastName', 'participantExternalId', 'masteryRate', 'badges'],
+      attributes: [
+        'firstName',
+        'lastName',
+        'participantExternalId',
+        'masteryRate',
+        'reachedStage',
+        'totalStage',
+        'prescriberTitle',
+        'prescriberDescription',
+        'badges',
+      ],
       badges: {
         ref: 'id',
         included: true,
