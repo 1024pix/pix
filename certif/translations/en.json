@@ -32,6 +32,12 @@
           "paid": "Payable",
           "prepaid": "Prepaid"
         },
+        "candidate-status": {
+          "authorized-to-resume": "Allowed to resume",
+          "finished": "Finished",
+          "ongoing": "In progress",
+          "start": "Start"
+        },
         "email-convocation": "Email for the convocation",
         "email-results": "Email of the results' recipient (instructor, teacher...)",
         "external-id": "External user ID",
@@ -59,8 +65,8 @@
         },
         "insee-code": "INSEE code",
         "lastname": {
-          "label": "Lastname",
-          "error": "Please enter a last name."
+          "label": "Last name",
+          "error-mandatory": "Please enter a last name."
         },
         "none": "None",
         "postcode": "City postcode"
@@ -79,16 +85,22 @@
         }
       },
       "session-labels": {
-        "address": "Location name",
-        "date": "Starting date",
-        "description": "Observations",
-        "examiner": "Invigilator(s)",
-        "room": "Room name",
-        "time": "Starting time (local time)"
+        "center-name": "Location name",
+        "date": "Date",
+        "date-start": "Starting date",
+        "invigilator": "Invigilator(s)",
+        "observations": "Observations",
+        "room": "Room",
+        "room-name": "Room name",
+        "session-number": "Session No.",
+        "status": "Status",
+        "time": "Time",
+        "time-start": "Starting time (local time)"
       }
     },
-    "candidate": {
-      "candidates": "Candidates"
+    "sessions": {
+      "candidates": "Candidates",
+      "invigilator": "Invigilator"
     }
   },
   "current-lang": "en",
@@ -312,15 +324,8 @@
           "empty": "No session found",
           "header": {
             "actions": "Actions",
-            "center-name": "Location name",
-            "date": "Date",
             "effective-candidates": "Certifications taken",
-            "enrolled-candidates": "Signed up candidates",
-            "room": "Room",
-            "session-number": "Session No.",
-            "status": "Status",
-            "supervisor": "Invigilator(s)",
-            "time": "Time"
+            "enrolled-candidates": "Signed up candidates"
           },
           "row": {
             "label": "Certification session",
@@ -341,7 +346,7 @@
             "prepayment-tooltip": "Required in particular when purchasing combined credits)<br />It must be comprised of the organisation’s SIRET and of the invoice’s number. Ex : 12345678912345/FACT12345.<br />If you don’t have an invoice, a prepayment code must be set with Pix.",
             "notifications": {
               "add-success": "The candidate has been successfully enrolled.",
-              "remove-success": "The candidate has been successfully deleted./The candidates have been successfully deleted."
+              "remove-success": "The candidate has been successfully deleted."
             }
           },
           "detail-modal": {
@@ -349,32 +354,6 @@
             "actions": {
               "close-extra-information": "Close candidate's detail window modal"
             }
-          },
-          "informations": {
-            "additional-certification": "Additional certification",
-            "billing-mode": {
-              "free": "Free",
-              "paid": "Payable",
-              "prepaid": "Prepaid"
-            },
-            "birth-city": "Birth city",
-            "birth-city-insee-code": "Birth city INSEE code (only for France)",
-            "birth-city-postcode": "Birth city postcode",
-            "birth-country": "Birth country",
-            "birth-date": "Date of birth",
-            "birth-name": "Birth name",
-            "email-convocation": "Email for the convocation",
-            "email-results": "Email of the results' recipient (instructor, teacher…)",
-            "external-id": "External user ID",
-            "extratime": "Extra time",
-            "extratime-percentage": "Extra time (%)",
-            "firstname": "First name",
-            "gender": "Gender",
-            "lastname": "Last name",
-            "man": "Man",
-            "prepayment-code": "Prepayment code",
-            "pricing": "Pricing of Pix’s share",
-            "woman": "Woman"
           },
           "list": {
             "title": "Candidates' list",
@@ -416,8 +395,6 @@
           },
           "page-title": "Candidates"
         },
-        "date": "Date",
-        "datetime": "Starting time (local time)",
         "downloads": {
           "label": "Downloads:",
           "attendance-sheet": {
@@ -435,8 +412,7 @@
         },
         "page-title": "Details",
         "tabs": {
-          "details": "Details",
-          "candidates": "Candidates"
+          "details": "Details"
         },
         "title": "Session {sessionId}",
         "panel-clea": {
@@ -452,8 +428,6 @@
             "update": "Edit the details for session {sessionId}"
           },
           "finalization-info": "The finalisation information for the session has already been transmitted to Pix.",
-          "invigilators": "Invigilator(s)",
-          "location-name": "Location name",
           "session": {
             "copy-number": "Copy the session number",
             "label": "Session number"
@@ -463,12 +437,9 @@
             "candidate": "Candidate",
             "copy-code": "Copy the session’s access code"
           },
-          "room": "Room",
-          "observations": "Observations",
           "password": {
             "copy-password": "Copy the invigilator’s session password",
-            "label": "Session password",
-            "invigilator": "Invigilator"
+            "label": "Session password"
           }
         }
       },
@@ -478,29 +449,14 @@
           "cancel-extra-information": "Cancel the session creation and return to the previous page",
           "create-session": "Create the session"
         },
-        "address": "Location name",
-        "date": "Starting date",
-        "description": "Observations",
-        "examiner": "Invigilator(s)",
-        "extra-information": "Session scheduling | Pix Certif",
-        "required-fields": "The fields marked by <abbr title=\"required\" class=\"mandatory-mark\">*</abbr> are required.",
-        "room": "Room name",
-        "time": "Starting time (local time)"
+        "extra-information": "Session scheduling | Pix Certif"
       },
       "update": {
         "title": "Certification session change",
         "actions": {
           "cancel-extra-information": "Cancel the session change and return to the previous page",
           "edit-session": "Edit the session"
-        },
-        "address": "Location name",
-        "date": "Starting date",
-        "description": "Observations",
-        "examiner": "Invigilator(s)",
-        "page-title": "Certification session change",
-        "required-fields": "The fields marked by <abbr title=\"required\" class=\"mandatory-mark\">*</abbr> are required.",
-        "room": "Room name",
-        "time": "Starting time (local time)"
+        }
       }
     },
     "session-supervising": {
@@ -532,16 +488,7 @@
           "exit-extra-information": "Exit the invigilation of session {sessionId}"
         },
         "access-code": "Access code (candidates)",
-        "center-name": "Location",
-        "multiple-supervisor": "Invigilator(s)",
-        "room": "Room",
-        "session-id": "Session {sessionId}",
-        "center-name": "Center name",
-        "center-name-full": "Center name",
-        "room": "Room",
-        "supervisor": "Supervisor",
-        "multiple-supervisor": "Supervisor(s)",
-        "access-code": "Access code (candidates)"
+        "session-id": "Session {sessionId}"
       },
       "candidate-list": {
         "authorized-to-start-candidates": "{authorizedToStartCandidates}/{totalCandidates} {authorizedToStartCandidates, plural,one {candidate} other {candidates}} selected",
@@ -551,13 +498,8 @@
         "search-candidate": "Search for a candidate"
       },
       "candidate-in-list": {
-        "extra-time": "Extra time",
-        "ongoing": "In progress",
-        "finished": "Finished",
-        "authorized-to-resume": "Allowed to resume",
         "display-candidate-options": "Display the candidate's options",
         "candidate-options": "Candidate's options",
-        "start": "Start",
         "test-end-modal": {
           "description": "Attention : cette action entraîne la fin de son test de certification et est irréversible.",
           "instruction-with-name": "Finish the test of {firstName} {lastName}?",
@@ -585,8 +527,6 @@
     },
     "team": {
       "title": "Team",
-      "last-name": "Last name",
-      "first-name": "First name",
       "referer": "Référent",
       "pix-referer": "Référent Pix",
       "update-referer-button": "Changer de référent",
