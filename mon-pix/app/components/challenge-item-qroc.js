@@ -121,9 +121,13 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
   }
 
   get userAnswer() {
-    const answerIfExist = this.args.answer && this.args.answer.value;
-    const answer = answerIfExist || '';
+    const answer = this.args.answer?.value ?? this._defaultAnswer;
     return answer.indexOf('#ABAND#') > -1 ? '' : answer;
+  }
+
+  get _defaultAnswer() {
+    const inputBlock = this._blocks.find((block) => block.input != null);
+    return inputBlock?.defaultValue ?? '';
   }
 
   get allowedOriginWithRegExp() {
