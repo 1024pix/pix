@@ -3,7 +3,7 @@
   <div class="page-title">
     <LinkTo @route="authenticated.target-profiles.list">Tous les profils cibles</LinkTo>
     <span class="wire">&nbsp;>&nbsp;</span>
-    {{@model.name}}
+    <h1>{{@model.name}}</h1>
   </div>
 </header>
 
@@ -15,7 +15,7 @@
   {{else}}
     <section class="page-section">
       <div class="page-section__header">
-        <h1 class="page-section__title target-profile__title">{{@model.name}}</h1>
+        <h2 class="page-section__title target-profile__title">{{@model.name}}</h2>
         <TargetProfiles::Category @category={{@model.category}} />
       </div>
       <div class="page-section__container">

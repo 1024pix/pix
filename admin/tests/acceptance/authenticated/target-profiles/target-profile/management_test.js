@@ -76,7 +76,7 @@ module('Acceptance | Target Profile Management', function (hooks) {
       const screen = await visit('/target-profiles/1');
 
       // then
-      assert.dom(screen.getByRole('heading', { name: 'Profil Cible Fantastix' })).exists();
+      assert.dom(screen.getByRole('heading', { name: 'Profil Cible Fantastix', level: 2 })).exists();
       assert.dom(screen.getByText('Thématiques')).exists();
       assert.dom(screen.getByText('ID : 1')).exists();
       assert.dom(screen.getByText('Public : Oui')).exists();
@@ -110,7 +110,7 @@ module('Acceptance | Target Profile Management', function (hooks) {
 
       // then
       assert.strictEqual(currentURL(), '/target-profiles/1/details');
-      assert.dom(screen.getByRole('heading', { name: 'nom modifié' })).exists();
+      assert.dom(screen.getByRole('heading', { name: 'nom modifié', level: 2 })).exists();
       assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
       await clickByName('Éditer');
       assert.dom(screen.getByDisplayValue('description modifiée')).exists();
@@ -134,7 +134,7 @@ module('Acceptance | Target Profile Management', function (hooks) {
 
       // then
       assert.strictEqual(currentURL(), '/target-profiles/1/details');
-      assert.dom(screen.getByRole('heading', { name: 'Nom à éditer' })).exists();
+      assert.dom(screen.getByRole('heading', { name: 'Nom à éditer', level: 2 })).exists();
       assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
     });
 

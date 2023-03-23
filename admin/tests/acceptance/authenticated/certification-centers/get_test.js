@@ -40,7 +40,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
     const screen = await visit(`/certification-centers/${certificationCenter.id}`);
 
     // then
-    assert.dom(screen.getByRole('heading', { name: 'Center 1' })).exists();
+    assert.dom(screen.getByRole('heading', { name: 'Center 1', level: 2 })).exists();
     assert.dom(screen.getByText('ABCDEF')).exists();
     assert.dom(screen.getByText('Établissement scolaire')).exists();
   });
@@ -135,7 +135,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
       // then
       assert.dom(screen.getByText('Habilitations aux certifications complémentaires')).exists();
-      assert.dom(screen.getByRole('heading', { name: 'nouveau nom' })).exists();
+      assert.dom(screen.getByRole('heading', { name: 'nouveau nom', level: 2 })).exists();
       assert.dom(screen.getByText('Établissement supérieur')).exists();
       assert.dom(screen.getByText('nouvel identifiant externe')).exists();
       assert.dom(screen.getByText('Nom du : Justin Ptipeu')).exists();
@@ -167,7 +167,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       assert.dom(screen.getByLabelText('Habilité pour Pix+Surf')).exists();
       assert.dom(screen.getByLabelText('Non-habilité pour Pix+Autre')).exists();
       assert.dom(screen.getByText('Habilitations aux certifications complémentaires')).exists();
-      assert.dom(screen.getByRole('heading', { name: 'Centre des réussites' })).exists();
+      assert.dom(screen.getByRole('heading', { name: 'Centre des réussites', level: 2 })).exists();
       assert.dom(screen.getByText('Centre de certification mis à jour avec succès.')).exists();
     });
 
