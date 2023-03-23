@@ -465,6 +465,7 @@
       }
     },
     "session-supervising": {
+      "title": "Inviligate session n° {sessionId}",
       "login": {
         "title": "Log into the invigilator's portal",
         "form": {
