@@ -1,3 +1,5 @@
+const { SESSION_SUPERVISING } = require('./constants/session-supervising');
+
 class DomainError extends Error {
   constructor(message, code, meta) {
     super(message);
@@ -1211,8 +1213,11 @@ class EmailModificationDemandNotFoundOrExpiredError extends DomainError {
 }
 
 class InvalidSessionSupervisingLoginError extends DomainError {
-  constructor(message = 'Le numéro de session et/ou le mot de passe saisis sont incorrects.') {
-    super(message);
+  constructor(
+    message = SESSION_SUPERVISING.INCORRECT_DATA.getMessage(),
+    code = SESSION_SUPERVISING.INCORRECT_DATA.code
+  ) {
+    super(message, code);
   }
 }
 
