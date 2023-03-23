@@ -11,10 +11,6 @@ const _ = require('lodash');
 const CandidateData = require('./CandidateData.js');
 const SessionData = require('./SessionData.js');
 
-const billingValidatorList = Object.values(CertificationCandidate.BILLING_MODES).map(
-  CertificationCandidate.translateBillingMode
-);
-
 const INFORMATIVE_HEADER_ROW = 8;
 const HEADER_ROW_SPAN = 3;
 const CANDIDATE_TABLE_HEADER_ROW = 11;
@@ -24,23 +20,27 @@ module.exports = async function fillCandidatesImportSheet({
   session,
   certificationCenterHabilitations,
   isScoCertificationCenter,
+  i18n,
 }) {
-  const template = await _getCandidatesImportTemplate();
+  const locale = i18n.getLocale();
+  const translate = i18n.__;
+  const template = await _getCandidatesImportTemplate({ locale });
 
-  const odsBuilder = new writeOdsUtils.OdsUtilsBuilder(template);
+  const odsBuilder = new writeOdsUtils.OdsUtilsBuilder({ template, translate });
   _addSession(odsBuilder, session);
   _addColumns({
     odsBuilder,
     certificationCenterHabilitations,
     isScoCertificationCenter,
+    translate,
   });
   _addCandidateRows(odsBuilder, session.certificationCandidates);
 
-  return odsBuilder.build({ templateFilePath: _getCandidatesImportTemplatePath() });
+  return odsBuilder.build({ templateFilePath: _getCandidatesImportTemplatePath({ locale }) });
 };
 
-async function _getCandidatesImportTemplate() {
-  const templatePath = __dirname + '/1.5/candidates_import_template.ods';
+async function _getCandidatesImportTemplate({ locale }) {
+  const templatePath = _getCandidatesImportTemplatePath({ locale });
   return readOdsUtils.getContentXml({ odsFilePath: templatePath });
 }
 
@@ -49,35 +49,44 @@ function _addSession(odsBuilder, session) {
   return odsBuilder.withData(sessionData, IMPORT_CANDIDATES_SESSION_TEMPLATE_VALUES);
 }
 
-function _addColumns({ odsBuilder, certificationCenterHabilitations, isScoCertificationCenter }) {
+function _addColumns({ odsBuilder, certificationCenterHabilitations, isScoCertificationCenter, translate }) {
   if (!isScoCertificationCenter) {
+    const title = translate('candidate-list-template.title');
+
+    const billingValidatorList = Object.values(CertificationCandidate.BILLING_MODES).map((value) =>
+      translate('candidate-list-template.billing-mode.' + value.toLowerCase())
+    );
+
     odsBuilder
       .withTooltipOnCell({
-        targetCellAddress: "'Liste des candidats'.O13",
+        targetCellAddress: title + '.O13',
         tooltipName: 'val-prepayment-code',
-        tooltipTitle: 'Code de prépaiement',
+        tooltipTitle: translate('candidate-list-template.prepayment'),
         tooltipContentLines: [
-          "(Requis notamment dans le cas d'un achat de crédits combinés)",
-          'Doit être composé du SIRET de l’organisation et du numéro de facture. Ex : 12345678912345/FACT12345',
-          'Si vous ne possédez pas de facture, un code de prépaiement doit être établi avec Pix.',
+          translate('candidate-list-template.tooltip-line-1'),
+          translate('candidate-list-template.tooltip-line-2'),
+          translate('candidate-list-template.tooltip-line-3'),
         ],
       })
       .withValidatorRestrictedList({
         validatorName: 'billingModeValidator',
         restrictedList: billingValidatorList,
         allowEmptyCell: false,
-        tooltipTitle: 'Tarification part Pix',
-        tooltipContentLines: ['Options possibles :', ...billingValidatorList.map((option) => `- ${option}`)],
+        tooltipTitle: translate('candidate-list-template.pricing-pix'),
+        tooltipContentLines: [
+          translate('candidate-list-template.options'),
+          ...billingValidatorList.map((option) => `- ${option}`),
+        ],
       })
       .withColumnGroup({
-        groupHeaderLabels: ['Tarification'],
+        groupHeaderLabels: [translate('candidate-list-template.pricing')],
         columns: [
           {
-            headerLabel: ['Tarification part Pix'],
+            headerLabel: [translate('candidate-list-template.pricing-pix')],
             placeholder: ['billingMode'],
           },
           {
-            headerLabel: ['Code de prépaiement'],
+            headerLabel: [translate('candidate-list-template.prepayment')],
             placeholder: ['prepaymentCode'],
           },
         ],
@@ -87,19 +96,23 @@ function _addColumns({ odsBuilder, certificationCenterHabilitations, isScoCertif
         tableFirstRow: CANDIDATE_TABLE_FIRST_ROW,
       });
   }
-  odsBuilder = _addComplementaryCertificationColumns({ odsBuilder, certificationCenterHabilitations });
+  odsBuilder = _addComplementaryCertificationColumns({ odsBuilder, certificationCenterHabilitations, translate });
 
   return odsBuilder;
 }
 
-function _addComplementaryCertificationColumns({ odsBuilder, certificationCenterHabilitations }) {
+function _addComplementaryCertificationColumns({ odsBuilder, certificationCenterHabilitations, translate }) {
   if (!_.isEmpty(certificationCenterHabilitations)) {
     const habilitationColumns = certificationCenterHabilitations.map(({ key, label }) => ({
-      headerLabel: [label, '("oui" ou laisser vide)'],
+      headerLabel: [label, translate('candidate-list-template.yes-or-empty')],
       placeholder: [key],
     }));
     odsBuilder.withColumnGroup({
-      groupHeaderLabels: ['Certification', 'complémentaire', '(une seule par candidat)'],
+      groupHeaderLabels: [
+        translate('candidate-list-template.certification'),
+        translate('candidate-list-template.complementary'),
+        translate('candidate-list-template.one-per-candidate'),
+      ],
       columns: habilitationColumns,
       startsAt: INFORMATIVE_HEADER_ROW,
       headerRowSpan: HEADER_ROW_SPAN,
@@ -128,8 +141,8 @@ function _getCandidatesData(certificationCandidates) {
   return enrolledCandidatesData.concat(emptyCandidatesData);
 }
 
-function _getCandidatesImportTemplatePath() {
-  return __dirname + '/1.5/candidates_import_template.ods';
+function _getCandidatesImportTemplatePath({ locale }) {
+  return __dirname + '/1.5/candidates_import_template_' + locale + '.ods';
 }
 
 function _certificationCandidatesToCandidatesData(certificationCandidates) {

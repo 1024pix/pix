@@ -109,6 +109,7 @@ module.exports = {
       session,
       certificationCenterHabilitations,
       isScoCertificationCenter,
+      i18n: request.i18n,
     });
 
     return h

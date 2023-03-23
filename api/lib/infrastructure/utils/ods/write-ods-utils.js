@@ -6,7 +6,8 @@ const AddedCellOption = require('./added-cell-option.js');
 const CONTENT_XML_IN_ODS = 'content.xml';
 
 class OdsUtilsBuilder {
-  constructor(stringifiedXml) {
+  constructor({ template: stringifiedXml, translate }) {
+    this.translate = translate;
     this.xmlDom = _buildXmlDomFromXmlString(stringifiedXml);
   }
 
@@ -112,6 +113,7 @@ class OdsUtilsBuilder {
   }
 
   withColumnGroupHeader({ headerLabels, numberOfColumns, lineNumber, rowspan }) {
+    const labelTranslation = this.translate('candidate-list-template.birthplace');
     const addedCellOption = new AddedCellOption({
       labels: headerLabels,
       rowspan,
@@ -121,7 +123,7 @@ class OdsUtilsBuilder {
 
     this._withCellToEndOfLineWithStyleOfCellLabelled({
       lineNumber,
-      cellToCopyLabel: '* Lieu de naissance',
+      cellToCopyLabel: '* ' + labelTranslation,
       addedCellOption,
     });
 
@@ -170,7 +172,7 @@ class OdsUtilsBuilder {
   _addColumn(column, tableHeaderRow, tableFirstRow) {
     this._withCellToEndOfLineWithStyleOfCellLabelled({
       lineNumber: tableHeaderRow,
-      cellToCopyLabel: 'Temps majoré ?',
+      cellToCopyLabel: this.translate('candidate-list-template.extratime'),
       addedCellOption: new AddedCellOption({ labels: column.headerLabel }),
     });
 
