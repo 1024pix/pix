@@ -4,6 +4,7 @@ const { AuthenticationKeyExpired, UserAlreadyExistsWithAuthenticationMethodError
 module.exports = async function createOidcUser({
   identityProvider,
   authenticationKey,
+  localeFromCookie,
   authenticationSessionService,
   oidcAuthenticationService,
   authenticationMethodRepository,
@@ -31,6 +32,7 @@ module.exports = async function createOidcUser({
   const user = UserToCreate.createWithTermsOfServiceAccepted({
     firstName: userInfo.firstName,
     lastName: userInfo.lastName,
+    locale: localeFromCookie,
   });
 
   const { userId, idToken } = await oidcAuthenticationService.createUserAccount({
