@@ -11,7 +11,9 @@ describe('Unit | Domain | Models | CampaignReport', function () {
       thematicResult: 3,
     };
 
-    const campaignReport = domainBuilder.buildCampaignReport({ targetProfileForSpecifier });
+    const campaignReport = domainBuilder.buildCampaignReport();
+
+    campaignReport.setTargetProfileInformation(targetProfileForSpecifier);
 
     expect(campaignReport.targetProfileName).to.equal(targetProfileForSpecifier.name);
     expect(campaignReport.targetProfileDescription).to.equal(targetProfileForSpecifier.description);

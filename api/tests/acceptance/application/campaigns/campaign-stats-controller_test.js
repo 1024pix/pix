@@ -72,8 +72,15 @@ describe('Acceptance | API | Campaign Stats Controller', function () {
       expect(response.statusCode).to.equal(200);
       expect(response.result.data.id).to.equal(campaign.id.toString());
       expect(response.result.data.attributes.data).to.deep.equal([
-        { id: stage1.id, value: 0, title: stage1.prescriberTitle, description: stage1.prescriberDescription },
-        { id: stage2.id, value: 0, title: null, description: null },
+        {
+          id: stage1.id,
+          value: 0,
+          title: stage1.prescriberTitle,
+          description: stage1.prescriberDescription,
+          'reached-stage': 1,
+          'total-stage': 2,
+        },
+        { id: stage2.id, value: 0, title: null, description: null, 'reached-stage': 2, 'total-stage': 2 },
       ]);
     });
 

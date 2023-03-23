@@ -14,11 +14,12 @@
   {{/if}}
   {{#if @hasStages}}
     <td>
-      <Campaign::StageStars
-        @result={{this.valuePercentage}}
-        @stages={{@stages}}
+      <Campaign::StageStarsOld
+        @reachedStage={{@participation.reachedStage}}
+        @totalStage={{@participation.totalStage}}
+        @prescriberTitle={{@participation.prescriberTitle}}
+        @prescriberDescription={{@participation.prescriberDescription}}
         @withTooltip={{true}}
-        @tooltipPosition="bottom-left"
       />
     </td>
   {{else}}

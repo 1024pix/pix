@@ -14,18 +14,24 @@ describe('Unit | Domain | Models | StageCollection', function () {
             threshold: 0,
             title: 'Palier 0',
             message: 'Message palier 0',
+            prescriberDescription: 'yolo',
+            prescriberTitle: 'coucou',
           },
           {
             id: 1,
             threshold: 50,
             title: 'Palier 1',
             message: 'Message palier 1',
+            prescriberDescription: 'yolo',
+            prescriberTitle: 'coucou',
           },
           {
             id: 2,
             threshold: 80,
             title: 'Palier 2',
             message: 'Message palier 2',
+            prescriberDescription: 'yolo',
+            prescriberTitle: 'coucou',
           },
         ];
 
@@ -43,6 +49,8 @@ describe('Unit | Domain | Models | StageCollection', function () {
           id: 0,
           title: 'Palier 0',
           message: 'Message palier 0',
+          prescriberDescription: 'yolo',
+          prescriberTitle: 'coucou',
           totalStage: 3,
           reachedStage: 1,
         });
@@ -59,6 +67,8 @@ describe('Unit | Domain | Models | StageCollection', function () {
           id: 1,
           title: 'Palier 1',
           message: 'Message palier 1',
+          prescriberDescription: 'yolo',
+          prescriberTitle: 'coucou',
           totalStage: 3,
           reachedStage: 2,
         });
@@ -75,6 +85,8 @@ describe('Unit | Domain | Models | StageCollection', function () {
           id: 2,
           title: 'Palier 2',
           message: 'Message palier 2',
+          prescriberDescription: 'yolo',
+          prescriberTitle: 'coucou',
           totalStage: 3,
           reachedStage: 3,
         });
@@ -92,6 +104,8 @@ describe('Unit | Domain | Models | StageCollection', function () {
             isFirstSkill: false,
             title: 'Palier 0',
             message: 'Message palier 0',
+            prescriberDescription: 'yolo',
+            prescriberTitle: 'coucou',
           },
           {
             id: 2,
@@ -99,6 +113,8 @@ describe('Unit | Domain | Models | StageCollection', function () {
             isFirstSkill: false,
             title: 'Palier 1',
             message: 'Message palier 1',
+            prescriberDescription: 'yolo',
+            prescriberTitle: 'coucou',
           },
           {
             id: 3,
@@ -106,6 +122,8 @@ describe('Unit | Domain | Models | StageCollection', function () {
             isFirstSkill: false,
             title: 'Palier 2',
             message: 'Message palier 2',
+            prescriberDescription: 'yolo',
+            prescriberTitle: 'coucou',
           },
           {
             id: 1,
@@ -113,6 +131,8 @@ describe('Unit | Domain | Models | StageCollection', function () {
             isFirstSkill: true,
             title: 'Palier 1er Acquis',
             message: 'Message palier 1er Acquis',
+            prescriberDescription: 'yolo',
+            prescriberTitle: 'coucou',
           },
         ];
 
@@ -130,6 +150,8 @@ describe('Unit | Domain | Models | StageCollection', function () {
           id: 0,
           title: 'Palier 0',
           message: 'Message palier 0',
+          prescriberDescription: 'yolo',
+          prescriberTitle: 'coucou',
           totalStage: 4,
           reachedStage: 1,
         });
@@ -146,6 +168,8 @@ describe('Unit | Domain | Models | StageCollection', function () {
           id: 1,
           title: 'Palier 1er Acquis',
           message: 'Message palier 1er Acquis',
+          prescriberDescription: 'yolo',
+          prescriberTitle: 'coucou',
           totalStage: 4,
           reachedStage: 2,
         });
@@ -162,6 +186,8 @@ describe('Unit | Domain | Models | StageCollection', function () {
           id: 2,
           title: 'Palier 1',
           message: 'Message palier 1',
+          prescriberDescription: 'yolo',
+          prescriberTitle: 'coucou',
           totalStage: 4,
           reachedStage: 3,
         });
@@ -178,6 +204,8 @@ describe('Unit | Domain | Models | StageCollection', function () {
           id: 3,
           title: 'Palier 2',
           message: 'Message palier 2',
+          prescriberDescription: 'yolo',
+          prescriberTitle: 'coucou',
           totalStage: 4,
           reachedStage: 4,
         });

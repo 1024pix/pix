@@ -32,6 +32,7 @@ async function _fetchCampaignAssessmentAttributesFromCampaignParticipation(campa
         'campaign-participations.status',
         'campaign-participations.participantExternalId',
         'campaign-participations.masteryRate',
+        'campaign-participations.validatedSkillsCount',
         'organization-learners.id AS organizationLearnerId',
         'assessments.state AS assessmentState',
         _assessmentRankByCreationDate(),

@@ -110,9 +110,16 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
 
       // then
       expect(result).to.deep.equal([
-        { id: stage1.id, value: 1, title: stage1.prescriberTitle, description: stage1.prescriberDescription },
-        { id: stage2.id, value: 1, title: null, description: null },
-        { id: stage3.id, value: 1, title: null, description: null },
+        {
+          id: stage1.id,
+          value: 1,
+          title: stage1.prescriberTitle,
+          description: stage1.prescriberDescription,
+          reachedStage: 1,
+          totalStage: 3,
+        },
+        { id: stage2.id, value: 1, title: null, description: null, reachedStage: 2, totalStage: 3 },
+        { id: stage3.id, value: 1, title: null, description: null, reachedStage: 3, totalStage: 3 },
       ]);
     });
 
@@ -124,9 +131,16 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
 
       // then
       expect(result).to.deep.equal([
-        { id: stage1.id, value: 0, title: stage1.prescriberTitle, description: stage1.prescriberDescription },
-        { id: stage2.id, value: 0, title: null, description: null },
-        { id: stage3.id, value: 0, title: null, description: null },
+        {
+          id: stage1.id,
+          value: 0,
+          title: stage1.prescriberTitle,
+          description: stage1.prescriberDescription,
+          reachedStage: 1,
+          totalStage: 3,
+        },
+        { id: stage2.id, value: 0, title: null, description: null, reachedStage: 2, totalStage: 3 },
+        { id: stage3.id, value: 0, title: null, description: null, reachedStage: 3, totalStage: 3 },
       ]);
     });
   });

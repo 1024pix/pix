@@ -1,7 +1,8 @@
 <div class="assessment-cards">
   {{#if @hasStages}}
     <Campaign::Cards::StageAverage
-      @value={{@averageResult}}
+      @totalStage={{@totalStage}}
+      @reachedStage={{@reachedStage}}
       @stages={{@stages}}
       class="assessment-cards__average-card"
     />

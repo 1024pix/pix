@@ -35,8 +35,4 @@ export default class Header extends Component {
       },
     ];
   }
-
-  get valuePercentage() {
-    return Math.round(this.args.participation.masteryRate * 100);
-  }
 }

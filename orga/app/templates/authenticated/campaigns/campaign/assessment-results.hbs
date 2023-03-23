@@ -7,6 +7,8 @@
     @stages={{@model.campaign.stages}}
     @sharedParticipationsCount={{@model.campaign.sharedParticipationsCount}}
     @averageResult={{@model.campaign.averageResult}}
+    @totalStage={{@model.campaign.totalStage}}
+    @reachedStage={{@model.campaign.reachedStage}}
   />
 
   <Campaign::Charts::ResultDistribution @campaign={{@model.campaign}} @onSelectStage={{this.filterByStage}} />

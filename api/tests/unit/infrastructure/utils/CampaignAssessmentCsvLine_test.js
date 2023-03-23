@@ -80,14 +80,17 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
       });
       const targetProfile = domainBuilder.buildTargetProfile();
       const learningContent = domainBuilder.buildLearningContent.withSimpleContent();
-      const campaignStages = domainBuilder.buildCampaignStages();
+      const stageCollection = domainBuilder.buildStageCollectionForUserCampaignResults({
+        campaignId: campaign.id,
+        stages: [],
+      });
       const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
         organization,
         campaign,
         campaignParticipationInfo,
         targetProfile,
         learningContent,
-        campaignStages,
+        stageCollection,
         participantKnowledgeElementsByCompetenceId: {
           [learningContent.competences[0].id]: [],
         },
@@ -124,14 +127,17 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
         });
         const targetProfile = domainBuilder.buildTargetProfile();
         const learningContent = domainBuilder.buildLearningContent.withSimpleContent();
-        const campaignStages = domainBuilder.buildCampaignStages();
+        const stageCollection = domainBuilder.buildStageCollectionForUserCampaignResults({
+          campaignId: campaign.id,
+          stages: [],
+        });
         const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
           organization,
           campaign,
           campaignParticipationInfo,
           targetProfile,
           learningContent,
-          campaignStages,
+          stageCollection,
           participantKnowledgeElementsByCompetenceId: {
             [learningContent.competences[0].id]: [],
           },
@@ -157,7 +163,10 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
         });
         const targetProfile = domainBuilder.buildTargetProfile();
         const learningContent = domainBuilder.buildLearningContent.withSimpleContent();
-        const campaignStages = domainBuilder.buildCampaignStages();
+        const stageCollection = domainBuilder.buildStageCollectionForUserCampaignResults({
+          campaignId: campaign.id,
+          stages: [],
+        });
         const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
           organization,
           campaign,
@@ -166,7 +175,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
           campaignParticipationInfo,
           targetProfile,
           learningContent,
-          campaignStages,
+          stageCollection,
           participantKnowledgeElementsByCompetenceId: {
             [learningContent.competences[0].id]: [],
           },
@@ -192,14 +201,17 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
         const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ sharedAt: null });
         const targetProfile = domainBuilder.buildTargetProfile();
         const learningContent = domainBuilder.buildLearningContent.withSimpleContent();
-        const campaignStages = domainBuilder.buildCampaignStages();
+        const stageCollection = domainBuilder.buildStageCollectionForUserCampaignResults({
+          campaignId: campaign.id,
+          stages: [],
+        });
         const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
           organization,
           campaign,
           campaignParticipationInfo,
           targetProfile,
           learningContent,
-          campaignStages,
+          stageCollection,
           participantKnowledgeElementsByCompetenceId: {
             [learningContent.competences[0].id]: [],
           },
@@ -229,7 +241,10 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
         });
         const targetProfile = domainBuilder.buildTargetProfile();
         const learningContent = domainBuilder.buildLearningContent.withSimpleContent();
-        const campaignStages = domainBuilder.buildCampaignStages();
+        const stageCollection = domainBuilder.buildStageCollectionForUserCampaignResults({
+          campaignId: campaign.id,
+          stages: [],
+        });
         const knowledgeElement = domainBuilder.buildKnowledgeElement({
           status: KnowledgeElement.StatusType.VALIDATED,
           earnedPix: 3,
@@ -242,7 +257,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
           campaignParticipationInfo,
           targetProfile,
           learningContent,
-          campaignStages,
+          stageCollection,
           participantKnowledgeElementsByCompetenceId: {
             [learningContent.competences[0].id]: [knowledgeElement],
           },
@@ -307,7 +322,10 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
           const framework = domainBuilder.buildFramework({ areas: [area1, area2] });
           const targetProfile = domainBuilder.buildTargetProfile();
           const learningContent = domainBuilder.buildLearningContent([framework]);
-          const campaignStages = domainBuilder.buildCampaignStages();
+          const stageCollection = domainBuilder.buildStageCollectionForUserCampaignResults({
+            campaignId: campaign.id,
+            stages: [],
+          });
 
           const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
             status: KnowledgeElement.StatusType.VALIDATED,
@@ -344,7 +362,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
             campaignParticipationInfo,
             targetProfile,
             learningContent,
-            campaignStages,
+            stageCollection,
             participantKnowledgeElementsByCompetenceId,
             campaignParticipationService,
             translate,
@@ -430,7 +448,10 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
           const framework = domainBuilder.buildFramework({ areas: [area1, area2] });
           const targetProfile = domainBuilder.buildTargetProfile();
           const learningContent = domainBuilder.buildLearningContent([framework]);
-          const campaignStages = domainBuilder.buildCampaignStages();
+          const stageCollection = domainBuilder.buildStageCollectionForUserCampaignResults({
+            campaignId: campaign.id,
+            stages: [],
+          });
           const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
             status: KnowledgeElement.StatusType.VALIDATED,
             earnedPix: 3,
@@ -466,7 +487,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
             campaignParticipationInfo,
             targetProfile,
             learningContent,
-            campaignStages,
+            stageCollection,
             participantKnowledgeElementsByCompetenceId,
             campaignParticipationService,
             translate,
@@ -519,14 +540,17 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
           });
           const targetProfile = domainBuilder.buildTargetProfile();
           const learningContent = domainBuilder.buildLearningContent.withSimpleContent();
-          const campaignStages = domainBuilder.buildCampaignStages();
+          const stageCollection = domainBuilder.buildStageCollectionForUserCampaignResults({
+            campaignId: campaign.id,
+            stages: [],
+          });
           const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
             organization,
             campaign,
             campaignParticipationInfo,
             targetProfile,
             learningContent,
-            campaignStages,
+            stageCollection,
             participantKnowledgeElementsByCompetenceId: {
               [learningContent.competences[0].id]: [],
             },
@@ -551,7 +575,10 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
           });
           const targetProfile = domainBuilder.buildTargetProfile();
           const learningContent = domainBuilder.buildLearningContent([]);
-          const campaignStages = domainBuilder.buildCampaignStages();
+          const stageCollection = domainBuilder.buildStageCollectionForUserCampaignResults({
+            campaignId: campaign.id,
+            stages: [],
+          });
 
           const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
             organization,
@@ -559,7 +586,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
             campaignParticipationInfo: { ...campaignParticipation, group: 'G1' },
             targetProfile,
             learningContent,
-            campaignStages,
+            stageCollection,
             participantKnowledgeElementsByCompetenceId: {},
             campaignParticipationService,
             translate,
@@ -621,7 +648,10 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
           const framework = domainBuilder.buildFramework({ areas: [area1, area2] });
           const targetProfile = domainBuilder.buildTargetProfile({ badges: [] });
           const learningContent = domainBuilder.buildLearningContent([framework]);
-          const campaignStages = domainBuilder.buildCampaignStages();
+          const stageCollection = domainBuilder.buildStageCollectionForUserCampaignResults({
+            campaignId: campaign.id,
+            stages: [],
+          });
           const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
             status: KnowledgeElement.StatusType.VALIDATED,
             earnedPix: 3,
@@ -657,7 +687,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
             campaignParticipationInfo,
             targetProfile,
             learningContent,
-            campaignStages,
+            stageCollection,
             participantKnowledgeElementsByCompetenceId,
             campaignParticipationService,
             translate,
@@ -737,7 +767,10 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
           const framework = domainBuilder.buildFramework({ areas: [area1, area2] });
           const targetProfile = domainBuilder.buildTargetProfile({ badges: [] });
           const learningContent = domainBuilder.buildLearningContent([framework]);
-          const campaignStages = domainBuilder.buildCampaignStages();
+          const stageCollection = domainBuilder.buildStageCollectionForUserCampaignResults({
+            campaignId: campaign.id,
+            stages: [],
+          });
           const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
             status: KnowledgeElement.StatusType.VALIDATED,
             earnedPix: 3,
@@ -773,7 +806,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
             campaignParticipationInfo,
             targetProfile,
             learningContent,
-            campaignStages,
+            stageCollection,
             participantKnowledgeElementsByCompetenceId,
             campaignParticipationService,
             translate,
@@ -821,14 +854,17 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
           });
           const targetProfile = domainBuilder.buildTargetProfile({ badges: [] });
           const learningContent = domainBuilder.buildLearningContent.withSimpleContent();
-          const campaignStages = domainBuilder.buildCampaignStages();
+          const stageCollection = domainBuilder.buildStageCollectionForUserCampaignResults({
+            campaignId: campaign.id,
+            stages: [],
+          });
           const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
             organization,
             campaign,
             campaignParticipationInfo,
             targetProfile,
             learningContent,
-            campaignStages,
+            stageCollection,
             participantKnowledgeElementsByCompetenceId: {
               [learningContent.competences[0].id]: [],
             },
@@ -856,14 +892,17 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
           const badge = 'badge title';
           const targetProfile = domainBuilder.buildTargetProfile({ badges: [badge] });
           const learningContent = domainBuilder.buildLearningContent.withSimpleContent();
-          const campaignStages = domainBuilder.buildCampaignStages();
+          const stageCollection = domainBuilder.buildStageCollectionForUserCampaignResults({
+            campaignId: campaign.id,
+            stages: [],
+          });
           const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
             organization,
             campaign,
             campaignParticipationInfo,
             targetProfile,
             learningContent,
-            campaignStages,
+            stageCollection,
             participantKnowledgeElementsByCompetenceId: {
               [learningContent.competences[0].id]: [],
             },
@@ -893,7 +932,10 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
           const badge = domainBuilder.buildBadge({ title: 'badge title' });
           const targetProfile = domainBuilder.buildTargetProfile({ badges: [badge] });
           const learningContent = domainBuilder.buildLearningContent.withSimpleContent();
-          const campaignStages = domainBuilder.buildCampaignStages();
+          const stageCollection = domainBuilder.buildStageCollectionForUserCampaignResults({
+            campaignId: campaign.id,
+            stages: [],
+          });
           const knowledgeElement = domainBuilder.buildKnowledgeElement({
             status: KnowledgeElement.StatusType.VALIDATED,
             earnedPix: 3,
@@ -906,7 +948,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
             campaignParticipationInfo,
             targetProfile,
             learningContent,
-            campaignStages,
+            stageCollection,
             participantKnowledgeElementsByCompetenceId: {
               [learningContent.competences[0].id]: [knowledgeElement],
             },
@@ -933,7 +975,10 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
           const badge = 'badge title';
           const targetProfile = domainBuilder.buildTargetProfile({ badges: [badge] });
           const learningContent = domainBuilder.buildLearningContent.withSimpleContent();
-          const campaignStages = domainBuilder.buildCampaignStages();
+          const stageCollection = domainBuilder.buildStageCollectionForUserCampaignResults({
+            campaignId: campaign.id,
+            stages: [],
+          });
           const knowledgeElement = domainBuilder.buildKnowledgeElement({
             status: KnowledgeElement.StatusType.VALIDATED,
             earnedPix: 3,
@@ -946,7 +991,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
             campaignParticipationInfo,
             targetProfile,
             learningContent,
-            campaignStages,
+            stageCollection,
             participantKnowledgeElementsByCompetenceId: {
               [learningContent.competences[0].id]: [knowledgeElement],
             },
@@ -991,8 +1036,10 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
             const framework = domainBuilder.buildFramework({ areas: [area] });
             const targetProfile = domainBuilder.buildTargetProfile();
             const learningContent = domainBuilder.buildLearningContent([framework]);
-            const campaignStages = domainBuilder.buildCampaignStages({
+            const stageCollection = domainBuilder.buildStageCollectionForUserCampaignResults({
+              campaignId: campaign.id,
               stages: [
+                domainBuilder.buildStage({ threshold: 0 }),
                 domainBuilder.buildStage({ threshold: 33 }),
                 domainBuilder.buildStage({ threshold: 66 }),
                 domainBuilder.buildStage({ threshold: 99 }),
@@ -1013,7 +1060,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
               campaignParticipationInfo,
               targetProfile,
               learningContent,
-              campaignStages,
+              stageCollection,
               participantKnowledgeElementsByCompetenceId,
               campaignParticipationService,
               translate,
@@ -1052,8 +1099,10 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
             const framework = domainBuilder.buildFramework({ areas: [area] });
             const targetProfile = domainBuilder.buildTargetProfile();
             const learningContent = domainBuilder.buildLearningContent([framework]);
-            const campaignStages = domainBuilder.buildCampaignStages({
+            const stageCollection = domainBuilder.buildStageCollectionForUserCampaignResults({
+              campaignId: campaign.id,
               stages: [
+                domainBuilder.buildStage({ threshold: 0 }),
                 domainBuilder.buildStage({ threshold: 33 }),
                 domainBuilder.buildStage({ threshold: 66 }),
                 domainBuilder.buildStage({ threshold: 99 }),
@@ -1086,7 +1135,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
               campaignParticipationInfo,
               targetProfile,
               learningContent,
-              campaignStages,
+              stageCollection,
               participantKnowledgeElementsByCompetenceId,
               campaignParticipationService,
               translate,
@@ -1124,7 +1173,8 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
           const framework = domainBuilder.buildFramework({ areas: [area] });
           const targetProfile = domainBuilder.buildTargetProfile();
           const learningContent = domainBuilder.buildLearningContent([framework]);
-          const campaignStages = domainBuilder.buildCampaignStages({
+          const stageCollection = domainBuilder.buildStageCollectionForUserCampaignResults({
+            campaignId: campaign.id,
             stages: [domainBuilder.buildStage({ threshold: 30 }), domainBuilder.buildStage({ threshold: 60 })],
           });
           const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
@@ -1154,7 +1204,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function (
             campaignParticipationInfo,
             targetProfile,
             learningContent,
-            campaignStages,
+            stageCollection,
             participantKnowledgeElementsByCompetenceId,
             campaignParticipationService,
             translate,
