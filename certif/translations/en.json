@@ -522,13 +522,15 @@
           "error": "An error occured, {firstName} {lastName}'s test could not be finished."
         },
         "resume-test-modal": {
-          "allow-test-resume": "Autoriser la reprise du test",
-          "description": "Si le candidat a fermé la fenêtre de son test de certification (par erreur, ou à cause d'un problème technique) et est toujours présent dans la salle de test, vous pouvez lui permettre de reprendre son test à l'endroit où il l'avait quitté.",
-          "instruction-with-name": "Autoriser {firstName} {lastName} à reprendre son test ?`",
-          "confirm": "Je confirme l'autorisation",
-          "cancel-label": "Annuler et fermer la fenêtre de confirmation",
-          "success": "Succès ! {firstName} {lastName} peut reprendre son test de certification.",
-          "error": "Une erreur est survenue, {firstName} {lastName} n'a a pu être autorisé à reprendre son test."
+          "actions": {
+            "confirm": "I confirm permission"
+          },
+          "allow-test-resume": "Allow to resume the test",
+          "cancel-label": "Cancel and close the confirmation window",
+          "description": "If the candidate has closed their Pix Certification exam window (by mistake, or because of a technical problem) and is still present in the exam room, you can allow them to resume their test where they left it.",
+          "error": " An error has occurred, {firstName} {lastName} couldn't be allowed to resume his/her Pix certification exam.",
+          "instruction-with-name": "Allow {firstName} {lastName} to resume their test ?",
+          "success": "Success ! {firstName} {lastName} can resume his/her Pix certification exam."
         }
       }
     },
