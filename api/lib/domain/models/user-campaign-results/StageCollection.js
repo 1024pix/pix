@@ -38,15 +38,7 @@ class StageCollection {
     return this._stages.filter((stage) => !stage.isFirstSkill);
   }
 
-  getReachedStage(validatedSkillCount, masteryPercentage) {
-    if (!this.hasStage)
-      return {
-        id: null,
-        totalStage: null,
-        reachedStage: null,
-        prescriberTitle: null,
-        prescriberDescription: null,
-      };
+  getReachedStageIndex(validatedSkillCount, masteryPercentage) {
     let reachedStageIndex;
     if (validatedSkillCount === 0) {
       reachedStageIndex = 0;
@@ -56,7 +48,20 @@ class StageCollection {
         else return;
       });
     }
+    return reachedStageIndex;
+  }
 
+  getReachedStage(validatedSkillCount, masteryPercentage) {
+    if (!this.hasStage)
+      return {
+        id: null,
+        totalStage: null,
+        reachedStage: null,
+        prescriberTitle: null,
+        prescriberDescription: null,
+      };
+
+    const reachedStageIndex = this.getReachedStageIndex(validatedSkillCount, masteryPercentage);
     const reachedStage = this._stages[reachedStageIndex];
 
     return {
