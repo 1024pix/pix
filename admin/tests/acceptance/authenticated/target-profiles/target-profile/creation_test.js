@@ -75,7 +75,7 @@ module('Acceptance | Target profile creation', function (hooks) {
       // then
       assert.strictEqual(currentURL(), '/target-profiles/1/details');
       await _unfoldLearningContent();
-      assert.dom(screen.getByRole('heading', { name: 'Un profil cible, et vite !' })).exists();
+      assert.dom(screen.getByRole('heading', { name: 'Un profil cible, et vite !', level: 2 })).exists();
       let isMobileCompliant = screen.getByTestId('mobile-compliant-tube_f1_a1_c1_th1_tu1').getAttribute('aria-label');
       let isTabletCompliant = screen.getByTestId('tablet-compliant-tube_f1_a1_c1_th1_tu1').getAttribute('aria-label');
       assert.deepEqual(

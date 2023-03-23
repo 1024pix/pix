@@ -3,10 +3,11 @@
 {{! template-lint-disable no-redundant-landmark-role }}
 <header class="page-header" role="banner">
   <div class="page-title">
-    Contenus Formatifs
+    <LinkTo @route="authenticated.trainings.list">Tous les contenus formatifs</LinkTo>
     <FaIcon @icon="chevron-right" />
-    Détail du contenu formatif
-    {{@model.id}}
+    <h1>Détail du contenu formatif
+      {{@model.id}}
+    </h1>
   </div>
 </header>
 

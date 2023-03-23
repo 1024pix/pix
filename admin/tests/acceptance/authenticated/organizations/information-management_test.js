@@ -29,7 +29,7 @@ module('Acceptance | Organizations | Information management', function (hooks) {
       await clickByName('Enregistrer', { exact: true });
 
       // then
-      assert.dom(screen.getByRole('heading', { name: 'newOrganizationName' })).exists();
+      assert.dom(screen.getByRole('heading', { name: 'newOrganizationName', level: 2 })).exists();
       assert.dom(screen.getByText('Nom du DPO : Bru No')).exists();
       assert.dom(screen.getByText('Adresse e-mail du DPO : bru.no@example.net')).exists();
     });
