@@ -398,6 +398,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.EmailModificationDemandNotFoundOrExpiredError) {
     return new HttpErrors.ForbiddenError(error.message, error.code);
   }
+  if (error instanceof DomainErrors.InvalidSessionSupervisingLoginError) {
+    return new HttpErrors.ForbiddenError(error.message, error.code);
+  }
 
   if (error instanceof DomainErrors.TargetProfileCannotBeCreated) {
     return new HttpErrors.UnprocessableEntityError(error.message);
