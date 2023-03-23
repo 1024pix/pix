@@ -88,12 +88,6 @@ describe('Unit | UseCase | create-oidc-user', function () {
   it('should create user account and return an access token, the logout url uuid and update the last logged date with the existing external user id', async function () {
     // given
     const idToken = 'idToken';
-    const expectedUser = {
-      firstName: 'Jean',
-      lastName: 'Heymar',
-      cgu: true,
-      lastTermsOfServiceValidatedAt: now,
-    };
     authenticationSessionService.getByKey.withArgs('AUTHENTICATION_KEY').resolves({
       sessionContent: { idToken, accessToken: 'accessToken' },
       userInfo: { firstName: 'Jean', lastName: 'Heymar', externalIdentityId: 'externalId' },
@@ -118,7 +112,12 @@ describe('Unit | UseCase | create-oidc-user', function () {
 
     // then
     expect(oidcAuthenticationService.createUserAccount).to.have.been.calledWithMatch({
-      user: expectedUser,
+      user: {
+        firstName: 'Jean',
+        lastName: 'Heymar',
+        cgu: true,
+        lastTermsOfServiceValidatedAt: now,
+      },
       sessionContent: { idToken, accessToken: 'accessToken' },
       externalIdentityId: 'externalId',
       userToCreateRepository,
