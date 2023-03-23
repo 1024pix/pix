@@ -1,12 +1,12 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 import config from 'pix-certif/config/environment';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | SessionFinalization::FormbuilderLinkStep', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   test('it renders', async function (assert) {
     // given

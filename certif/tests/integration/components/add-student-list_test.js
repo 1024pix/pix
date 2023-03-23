@@ -1,13 +1,13 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
 import { render } from '@1024pix/ember-testing-library';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | add-student-list', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   const ADD_BUTTON_SELECTOR = '.bottom-action-bar__actions--add-button';
   let notificationMessagesService;

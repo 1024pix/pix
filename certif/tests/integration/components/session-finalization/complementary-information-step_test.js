@@ -1,12 +1,12 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { setupRenderingTest } from 'ember-qunit';
 import { click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | SessionFinalization::ComplementaryInformationStep', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   test('on click on incident during certification session checkbox, it should call toggleIncidentDuringCertificationSession', async function (assert) {
     // given

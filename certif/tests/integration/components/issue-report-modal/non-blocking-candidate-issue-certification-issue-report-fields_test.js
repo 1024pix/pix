@@ -1,14 +1,14 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
 import { click } from '@ember/test-helpers';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module(
   'Integration | Component | issue-report-modal/non-blocking-candidate-issue-certification-issue-report-fields',
   function (hooks) {
-    setupRenderingTest(hooks);
+    setupIntlRenderingTest(hooks);
 
     test('it should call toggle function on click radio button', async function (assert) {
       // given

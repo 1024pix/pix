@@ -1,14 +1,12 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
-import setupIntl from '../../helpers/setup-intl';
 import Service from '@ember/service';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | members-list', function (hooks) {
-  setupRenderingTest(hooks);
-  setupIntl(hooks);
+  setupIntlRenderingTest(hooks);
 
   test('it should show members firstName and lastName', async function (assert) {
     // given
