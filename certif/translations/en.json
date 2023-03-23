@@ -131,10 +131,6 @@
       "actions": {
         "return": "Return to the sessions list"
       },
-      "enrolled-candidates": {
-        "without-details-description": "Liste des candidats inscrits à la session, triée par nom de naissance, avec la possibilité de supprimer un candidat dans la dernière colonne.",
-        "with-details-description": "Liste des candidats inscrits à la session, triée par nom de naissance, avec un lien pour voir les détails du candidat et la possibilité de supprimer un candidat dans la dernière colonne."
-      },
       "finalize": {
         "finished-test-list-description": "Liste des candidats qui ont fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant et une liste déroulante permettant de sélectionner la raison de l’abandon.",
         "unfinished-test-list-description": "Liste des candidats qui n’ont pas fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant et une liste déroulante permettant de sélectionner la raison de l’abandon."

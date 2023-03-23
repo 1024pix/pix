@@ -1,5 +1,4 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
 import { click } from '@ember/test-helpers';
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
@@ -11,9 +10,10 @@ import {
   categoryToLabel,
   subcategoryToLabel,
 } from 'pix-certif/models/certification-issue-report';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | issue-reports-modal', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   test('it show candidate information in title', async function (assert) {
     // given

@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | session-finalization-step-container', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   test('it renders', async function (assert) {
     // when

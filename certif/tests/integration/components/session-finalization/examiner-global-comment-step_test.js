@@ -1,12 +1,12 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { setupRenderingTest } from 'ember-qunit';
 import { render, click, fillIn } from '@ember/test-helpers';
 import Object from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | SessionFinalization::ExaminerGlobalCommentStep', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   test('it renders the radio buttons', async function (assert) {
     // given
