@@ -29,6 +29,11 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
               'organization-learner-id': organizationLearnerId,
               'mastery-rate': 0.35,
               progression: 1,
+              'reached-stage': 2,
+              'total-stage': 6,
+              'prescriber-title': 'titre prescripteur',
+              'prescriber-description': 'description prescripteur',
+              'validated-skills-count': 1,
             },
             relationships: {
               badges: {
@@ -76,9 +81,14 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
           sharedAt,
           targetedSkillsCount: 20,
           testedSkillsCount: 3,
+          validatedSkillsCount: 1,
           organizationLearnerId,
           masteryRate: 0.35,
           badges: [{ id: 1, title: 'someTitle', altMessage: 'someAltMessage', imageUrl: 'someImageUrl' }],
+          reachedStage: 2,
+          totalStage: 6,
+          prescriberTitle: 'titre prescripteur',
+          prescriberDescription: 'description prescripteur',
         });
       });
 
@@ -110,6 +120,11 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
               'organization-learner-id': organizationLearnerId,
               'mastery-rate': 0.35,
               progression: 1,
+              'reached-stage': 2,
+              'total-stage': 6,
+              'prescriber-title': 'titre prescripteur',
+              'prescriber-description': 'description prescripteur',
+              'validated-skills-count': 0,
             },
             relationships: {
               badges: {
@@ -142,7 +157,12 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
           organizationLearnerId,
           targetedSkillsCount: 0,
           testedSkillsCount: 0,
+          validatedSkillsCount: 0,
           masteryRate: 0.35,
+          reachedStage: 2,
+          totalStage: 6,
+          prescriberTitle: 'titre prescripteur',
+          prescriberDescription: 'description prescripteur',
         });
       });
 

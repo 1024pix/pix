@@ -7,6 +7,8 @@ export default class CampaignAssessmentResultMinimal extends Model {
   @attr('number') masteryRate;
   @attr('number') reachedStage;
   @attr('number') totalStage;
+  @attr('string') prescriberTitle;
+  @attr('string') prescriberDescription;
 
   @hasMany('Badge') badges;
 }

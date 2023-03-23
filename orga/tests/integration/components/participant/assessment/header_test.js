@@ -137,11 +137,16 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
         test('it displays stages acquired', async function (assert) {
           this.campaign = {
             hasStages: true,
-            stages: [{ threshold: 20 }, { threshold: 70 }],
+            stages: [
+              { id: 'stage1', threshold: 0 },
+              { id: 'stage2', threshold: 70 },
+              { id: 'stage3', threshold: 80 },
+            ],
           };
           this.participation = {
-            masteryRate: 0.65,
             isShared: true,
+            reachedStage: 2,
+            totalStage: 3,
           };
 
           const screen = await render(
