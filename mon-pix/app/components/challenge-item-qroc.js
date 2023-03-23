@@ -122,7 +122,7 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
 
   get userAnswer() {
     const answer = this.args.answer?.value ?? this._defaultAnswer;
-    return answer.indexOf('#ABAND#') > -1 ? '' : answer;
+    return _wasSkipped(answer) ? '' : answer;
   }
 
   get _defaultAnswer() {
@@ -135,4 +135,9 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
       return new RegExp(allowedOrigin.replace('*', '[\\w-]+'));
     });
   }
+}
+
+function _wasSkipped(answer) {
+  if (typeof answer !== 'string') return false;
+  return answer.includes('#ABAND#');
 }
