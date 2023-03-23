@@ -18,6 +18,7 @@ const {
   UserHasAlreadyLeftSCO,
   OrganizationLearnerAlreadyLinkedToInvalidUserError,
   InvalidVerificationCodeError,
+  InvalidSessionSupervisingLoginError,
   EmailModificationDemandNotFoundOrExpiredError,
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
@@ -42,6 +43,7 @@ const {
 const HttpErrors = require('../../../lib/application/http-errors.js');
 
 const { handle } = require('../../../lib/application/error-manager');
+const { SESSION_SUPERVISING } = require('../../../lib/domain/constants/session-supervising');
 
 describe('Unit | Application | ErrorManager', function () {
   describe('#handle', function () {
@@ -344,6 +346,22 @@ describe('Unit | Application | ErrorManager', function () {
 
       // then
       expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message, error.code);
+    });
+
+    it('should instantiate ForbiddenError when InvalidSessionSupervisingLoginError', async function () {
+      // given
+      const error = new InvalidSessionSupervisingLoginError();
+      sinon.stub(HttpErrors, 'ForbiddenError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(
+        SESSION_SUPERVISING.INCORRECT_DATA.getMessage(),
+        SESSION_SUPERVISING.INCORRECT_DATA.code
+      );
     });
 
     it('should instantiate BadRequestError when OrganizationLearnerAlreadyLinkedToInvalidUserError', async function () {
