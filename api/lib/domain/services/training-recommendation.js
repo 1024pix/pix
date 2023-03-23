@@ -7,7 +7,12 @@ function getCappedKnowledgeElements({ knowledgeElements, cappedSkills }) {
   return knowledgeElements.filter((knowledgeElement) => skillIds.includes(knowledgeElement.skillId));
 }
 
+function getValidatedKnowledgeElementsCount({ knowledgeElements }) {
+  return knowledgeElements.filter((knowledgeElement) => knowledgeElement.isValidated).length;
+}
+
 module.exports = {
   getCappedSkills,
   getCappedKnowledgeElements,
+  getValidatedKnowledgeElementsCount,
 };
