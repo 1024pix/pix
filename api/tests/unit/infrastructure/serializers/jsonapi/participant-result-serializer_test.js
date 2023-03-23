@@ -196,6 +196,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
               index: '1.1',
               name: 'Competence1',
               'mastery-percentage': 50,
+              'reached-stage': 1,
               'tested-skills-count': 2,
               'total-skills-count': 2,
               'validated-skills-count': 1,
@@ -289,6 +290,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
             'tested-skills-count': 0,
             'validated-skills-count': 0,
             'flash-pix-score': 300.3438957781,
+            'reached-stage': undefined,
           },
         });
         expect(json.included).to.deep.include({
@@ -303,6 +305,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
             'tested-skills-count': 0,
             'validated-skills-count': 0,
             'flash-pix-score': 74,
+            'reached-stage': undefined,
           },
         });
       });
