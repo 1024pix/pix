@@ -1,9 +1,6 @@
 const { Serializer } = require('jsonapi-serializer');
 const _ = require('lodash');
 
-const { WrongDateFormatError } = require('../../../domain/errors.js');
-const { isValidDate } = require('../../utils/date-utils.js');
-
 const Session = require('../../../domain/models/Session.js');
 
 module.exports = {
@@ -65,9 +62,6 @@ module.exports = {
 
   deserialize(json) {
     const attributes = json.data.attributes;
-    if (!isValidDate(attributes.date, 'YYYY-MM-DD')) {
-      throw new WrongDateFormatError();
-    }
 
     const result = new Session({
       id: json.data.id,
