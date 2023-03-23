@@ -103,6 +103,7 @@ describe('Unit | UseCase | create-oidc-user', function () {
     const result = await createOidcUser({
       identityProvider: 'SOME_IDP',
       authenticationKey: 'AUTHENTICATION_KEY',
+      localeFromCookie: 'fr-FR',
       oidcAuthenticationService,
       authenticationSessionService,
       authenticationMethodRepository,
@@ -115,6 +116,7 @@ describe('Unit | UseCase | create-oidc-user', function () {
       user: {
         firstName: 'Jean',
         lastName: 'Heymar',
+        locale: 'fr-FR',
         cgu: true,
         lastTermsOfServiceValidatedAt: now,
       },
