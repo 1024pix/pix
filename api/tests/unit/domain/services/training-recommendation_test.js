@@ -2,9 +2,11 @@ const {
   getCappedSkills,
   getCappedKnowledgeElements,
   getValidatedKnowledgeElementsCount,
+  getValidatedKnowledgeElementsPercentage,
 } = require('../../../../lib/domain/services/training-recommendation');
 const { expect, domainBuilder } = require('../../../test-helper');
 const { KnowledgeElement } = require('../../../../lib/domain/models');
+const _ = require('lodash');
 
 describe('Unit | Service | Training Recommendation', function () {
   describe('#getCappedSkills', function () {
@@ -118,6 +120,57 @@ describe('Unit | Service | Training Recommendation', function () {
 
       // then
       expect(validatedKnowledgeElementsCount).to.equal(0);
+    });
+  });
+
+  describe('#getValidatedKnowledgeElementsPercentage', function () {
+    const testCases = [
+      {
+        validatedKnowledgeElementsCount: 0,
+        invalidatedKnowledgeElementsCount: 0,
+        expectedPercentage: 0,
+      },
+      {
+        validatedKnowledgeElementsCount: 1,
+        invalidatedKnowledgeElementsCount: 1,
+        expectedPercentage: 50,
+      },
+      {
+        validatedKnowledgeElementsCount: 2,
+        invalidatedKnowledgeElementsCount: 1,
+        expectedPercentage: 67,
+      },
+      {
+        validatedKnowledgeElementsCount: 1,
+        invalidatedKnowledgeElementsCount: 2,
+        expectedPercentage: 33,
+      },
+    ];
+
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    testCases.forEach(({ validatedKnowledgeElementsCount, invalidatedKnowledgeElementsCount, expectedPercentage }) => {
+      it(`should return ${expectedPercentage} percentage of validated knowledge elements for given knowledge elements`, function () {
+        // given
+        const validatedKnowledgeElements = _.times(validatedKnowledgeElementsCount, () =>
+          domainBuilder.buildKnowledgeElement({
+            status: KnowledgeElement.StatusType.VALIDATED,
+          })
+        );
+
+        const invalidatedKnowledgeElements = _.times(invalidatedKnowledgeElementsCount, () =>
+          domainBuilder.buildKnowledgeElement({
+            status: KnowledgeElement.StatusType.INVALIDATED,
+          })
+        );
+
+        const knowledgeElements = [...validatedKnowledgeElements, ...invalidatedKnowledgeElements];
+
+        // when
+        const validatedKnowledgeElementsPercentage = getValidatedKnowledgeElementsPercentage({ knowledgeElements });
+
+        // then
+        expect(validatedKnowledgeElementsPercentage).to.equal(expectedPercentage);
+      });
     });
   });
 });
