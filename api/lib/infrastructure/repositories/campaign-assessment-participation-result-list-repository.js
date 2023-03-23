@@ -136,6 +136,8 @@ async function _buildCampaignAssessmentParticipationResultList(results, stageCol
       ...result,
       reachedStage: participantReachedStage.reachedStage,
       totalStage: participantReachedStage.totalStage,
+      prescriberTitle: participantReachedStage.prescriberTitle,
+      prescriberDescription: participantReachedStage.prescriberDescription,
       badges,
     });
   });

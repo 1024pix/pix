@@ -12,6 +12,10 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-result-minimal-seria
           lastName: 'McClane',
           participantExternalId: 'Cop',
           masteryRate: 1,
+          reachedStage: 2,
+          totalStage: 6,
+          prescriberTitle: 'titre prescripteur 1',
+          prescriberDescription: 'description prescripteur 1',
         },
         {
           campaignParticipationId: '2',
@@ -19,6 +23,10 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-result-minimal-seria
           lastName: 'Gruber',
           participantExternalId: 'Thief',
           masteryRate: 0.99,
+          reachedStage: null,
+          totalStage: null,
+          prescriberTitle: null,
+          prescriberDescription: null,
           badges: [domainBuilder.buildBadge({ id: 1, title: 'b1', imageUrl: 'http://toto.svg', altMessage: 'alt' })],
         },
       ];
@@ -41,6 +49,10 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-result-minimal-seria
               'last-name': 'McClane',
               'participant-external-id': 'Cop',
               'mastery-rate': 1,
+              'reached-stage': 2,
+              'total-stage': 6,
+              'prescriber-title': 'titre prescripteur 1',
+              'prescriber-description': 'description prescripteur 1',
             },
           },
           {
@@ -51,6 +63,10 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-result-minimal-seria
               'last-name': 'Gruber',
               'participant-external-id': 'Thief',
               'mastery-rate': 0.99,
+              'reached-stage': null,
+              'total-stage': null,
+              'prescriber-title': null,
+              'prescriber-description': null,
             },
             relationships: {
               badges: {

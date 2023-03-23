@@ -194,11 +194,12 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
         test('it triggers the filter when a stage is selected', async function (assert) {
           // given
-          const stage = store.createRecord('stage', { id: 'stage1', threshold: 40 });
+          const stage1 = store.createRecord('stage', { id: 'stage1', threshold: 40 });
+          const stage2 = store.createRecord('stage', { id: 'stage2', threshold: 55 });
           const campaign = store.createRecord('campaign', {
             type: 'ASSESSMENT',
             targetProfileHasStage: true,
-            stages: [stage],
+            stages: [stage1, stage2],
           });
 
           const triggerFiltering = sinon.stub();
@@ -214,7 +215,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
           await click(await screen.findByRole('checkbox', { name: '1 étoiles sur 1' }));
 
           // then
-          assert.ok(triggerFiltering.calledWith('stages', ['stage1']));
+          assert.ok(triggerFiltering.calledWith('stages', ['stage2']));
         });
       });
     });

@@ -44,6 +44,8 @@ class StageCollection {
         id: null,
         totalStage: null,
         reachedStage: null,
+        prescriberTitle: null,
+        prescriberDescription: null,
       };
     let reachedStageIndex;
     if (validatedSkillCount === 0) {

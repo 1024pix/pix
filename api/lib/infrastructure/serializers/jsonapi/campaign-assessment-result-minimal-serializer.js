@@ -11,6 +11,8 @@ module.exports = {
         'masteryRate',
         'reachedStage',
         'totalStage',
+        'prescriberTitle',
+        'prescriberDescription',
         'badges',
       ],
       badges: {

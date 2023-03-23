@@ -2,12 +2,20 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 const getCampaignAssessmentParticipation = require('../../../../lib/domain/usecases/get-campaign-assessment-participation');
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 const CampaignAssessmentParticipation = require('../../../../lib/domain/read-models/CampaignAssessmentParticipation');
+const stageCollectionRepository = require('../../../../lib/infrastructure/repositories/user-campaign-results/stage-collection-repository');
 
 describe('Unit | UseCase | get-campaign-assessment-participation', function () {
   let campaignRepository, campaignAssessmentParticipationRepository, badgeAcquisitionRepository;
   let userId, campaignId, campaignParticipationId;
 
   beforeEach(function () {
+    const findStageCollectionStub = sinon.stub(stageCollectionRepository, 'findStageCollection');
+    findStageCollectionStub.resolves(
+      domainBuilder.buildStageCollectionForUserCampaignResults({
+        campaignId: 1,
+        stages: [],
+      })
+    );
     campaignRepository = {
       checkIfUserOrganizationHasAccessToCampaign: sinon.stub(),
     };
