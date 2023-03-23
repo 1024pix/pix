@@ -17,7 +17,8 @@
       "login-unauthorized-error": "L'adresse e-mail et/ou le mot de passe saisis sont incorrects.",
       "login-user-temporary-blocked-error": "Vous avez effectué trop de tentatives de connexion. Réessayez plus tard ou cliquez sur <a href=\"{url}\">mot de passe oublié</a> pour le réinitialiser.",
       "login-user-blocked-error": "Votre compte est bloqué car vous avez effectué trop de tentatives de connexion. Pour le débloquer, <a href=\"{url}\">contactez-nous</a>.",
-      "gateway-timeout-error": "Le service subit des ralentissements. Veuillez réessayer ultérieurement."
+      "gateway-timeout-error": "Le service subit des ralentissements. Veuillez réessayer ultérieurement.",
+      "internal-error": "Une erreur est survenue"
     },
     "form": {
       "mandatory-all-fields": "Tous les champs sont obligatoires."
@@ -459,9 +460,32 @@
         "page-title": "Modification d'une session de certification",
         "required-fields": "Les champs marqués de <abbr title=\"obligatoire\" class=\"mandatory-mark\">*</abbr> sont obligatoires.",
         "room": "Nom de la salle",
-        "time": "Heure de début (heure locale)"}
+        "time": "Heure de début (heure locale)"
+      }
     },
     "session-supervising": {
+      "login": {
+        "title": "Connexion à l'espace surveillant",
+        "form": {
+          "title": "Espace Surveillant",
+          "sub-title": "Surveiller une session",
+          "description": "Le mot de passe de la session à surveiller vous a été communiqué par un administrateur Pix Certif",
+          "session-number": "Numéro de la session",
+          "session-password": {
+            "label": "Mot de passe de la session",
+            "aria-label": "Afficher le mot de passe"
+          },
+          "example": "Exemple : C-12345",
+          "errors": {
+            "mandatory-fields": "Les champs \"Numéro de la session\" et \"Mot de passe de session\" sont obligatoires.",
+            "incorrect-data": "Le numéro de session et/ou le mot de passe saisis sont incorrects."
+          },
+          "actions": {
+            "invigilate": "Surveiller la session",
+            "switch-account": "Changer de compte"
+          }
+        }
+      },
       "header": {
         "actions": {
           "exit-extra-information": "Quitter la surveillance de la session {sessionId}"
@@ -506,6 +530,10 @@
           "error": "Une erreur est survenue, {firstName} {lastName} n'a a pu être autorisé à reprendre son test."
         }
       }
+    },
+    "session-supervising-error": {
+      "title": "Erreur d'accès à la surveillance de session",
+      "description": "Pour accéder à cette session, cliquez sur le bouton \"Surveiller une session\" et renseignez les informations de la session"
     },
     "team": {
       "title": "Équipe",
