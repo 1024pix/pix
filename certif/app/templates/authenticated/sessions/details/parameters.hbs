@@ -54,7 +54,7 @@
       <h3 class="label-text session-details-content__label">
         {{t "pages.sessions.detail.parameters.password.label"}}
         <div class="session-details-content__sub-label">
-          {{t "pages.sessions.detail.parameters.password.invigilator"}}
+          {{t "common.sessions.invigilator"}}
         </div>
       </h3>
       <div class="session-details-content__clipboard" {{on "mouseout" this.removeSupervisorPasswordTooltip}}>
@@ -86,19 +86,19 @@
 
     <div class="session-details-content session-details-content--multiple">
       <h3 class="label-text session-details-content__label">
-        {{t "pages.sessions.detail.parameters.location-name"}}
+        {{t "common.forms.session-labels.center-name"}}
       </h3>
       <span class="content-text session-details-content__text">{{this.session.address}}</span>
     </div>
 
     <div class="session-details-content session-details-content--multiple">
-      <h3 class="label-text session-details-content__label">{{t "pages.sessions.detail.parameters.room"}}</h3>
+      <h3 class="label-text session-details-content__label">{{t "common.forms.session-labels.room"}}</h3>
       <span class="content-text session-details-content__text">{{this.session.room}}</span>
     </div>
 
     <div class="session-details-content session-details-content--multiple">
       <h3 class="label-text session-details-content__label">
-        {{t "pages.sessions.detail.parameters.invigilators"}}
+        {{t "common.forms.session-labels.invigilator"}}
       </h3>
       <span class="content-text session-details-content__text">{{this.session.examiner}}</span>
     </div>
@@ -107,7 +107,7 @@
 
   <div class="session-details-row">
     <div class="session-details-content session-details-content--single">
-      <h3 class="label-text session-details-content__label">{{t "pages.sessions.detail.parameters.observations"}}</h3>
+      <h3 class="label-text session-details-content__label">{{t "common.forms.session-labels.observations"}}</h3>
       <p class="content-text session-details-content__text">
         {{this.session.description}}
       </p>

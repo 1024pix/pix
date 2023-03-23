@@ -292,8 +292,10 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           });
           const screen = await visit(`/sessions/${sessionWithoutCandidates.id}/candidats`);
 
+          this.pauseTest();
+
           await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
-          await fillIn(screen.getByLabelText('* Nom de famille'), 'BackStreet');
+          await fillIn(screen.getByLabelText('* Nom de naissance'), 'BackStreet');
           await fillIn(screen.getByLabelText('* Prénom'), 'Boys');
           await click(screen.getByLabelText('Homme'));
           await fillIn(screen.getByLabelText('* Date de naissance'), '01/01/2000');
@@ -321,7 +323,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
 
           // then
-          assert.strictEqual(screen.getByLabelText('* Nom de famille').value, '');
+          assert.strictEqual(screen.getByLabelText('* Nom de naissance').value, '');
           assert.strictEqual(screen.getByLabelText('* Prénom').value, '');
           assert.false(screen.getByLabelText('Homme').checked);
           assert.strictEqual(screen.getByLabelText('* Date de naissance').value, '');
@@ -403,7 +405,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
               const screen = await visit(`/sessions/${session.id}/candidats`);
               await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
               await fillIn(screen.getByLabelText('* Prénom'), 'Guybrush');
-              await fillIn(screen.getByLabelText('* Nom de famille'), 'Threepwood');
+              await fillIn(screen.getByLabelText('* Nom de naissance'), 'Threepwood');
               await fillIn(screen.getByLabelText('* Date de naissance'), '28/04/2019');
               await click(screen.getByLabelText('Homme'));
               await fillIn(screen.getByLabelText('* Pays de naissance'), '99100');
@@ -434,7 +436,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
   async function _fillFormWithCorrectData(screen) {
     await fillIn(screen.getByLabelText('* Prénom'), 'Guybrush');
-    await fillIn(screen.getByLabelText('* Nom de famille'), 'Threepwood');
+    await fillIn(screen.getByLabelText('* Nom de naissance'), 'Threepwood');
     await fillIn(screen.getByLabelText('* Date de naissance'), '28/04/2019');
     await click(screen.getByLabelText('Homme'));
     await fillIn(screen.getByLabelText('* Pays de naissance'), '99100');

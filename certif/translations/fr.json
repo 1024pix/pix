@@ -23,7 +23,7 @@
     },
     "forms": {
       "error-default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement.",
-      "mandatory-fields": "Les champs marqués de <abbr title=\"required\" class=\"mandatory-mark\">*</abbr>sont obligatoires.",
+      "mandatory-fields": "Les champs marqués de <abbr title=\"obligatoire\" class=\"mandatory-mark\">*</abbr>sont obligatoires.",
       "mandatory-all-fields": "Tous les champs sont obligatoires.",
       "certification-labels": {
         "additional-certification": "Certification complémentaire",
@@ -31,6 +31,12 @@
           "free": "Gratuite",
           "paid": "Payante",
           "prepaid": "Prépayée"
+        },
+        "candidate-status": {
+          "authorized-to-resume": "Autorisé à reprendre",
+          "finished": "Terminé",
+          "ongoing": "En cours",
+          "start": "Début"
         },
         "email-convocation": "E-mail de convocation",
         "email-results": "E-mail du destinataire des résultats (formateur, enseignant...)",
@@ -59,7 +65,7 @@
         },
         "lastname": {
           "label": "Nom",
-          "error": "Le champ nom est obligatoire."
+          "error-mandatory": "Le champ nom est obligatoire."
         },
         "insee-code": "Code INSEE",
         "none": "Aucune",
@@ -79,16 +85,22 @@
         }
       },
       "session-labels": {
-        "address": "Nom du site",
-        "date": "Date de début",
-        "description": "Observations",
-        "examiner": "Surveillant(s)",
-        "room": "Nom de la salle",
-        "time": "Heure de début (heure locale)"
+        "center-name": "Nom du site",
+        "date": "Date",
+        "date-start": "Date de début",
+        "invigilator": "Surveillant(s)",
+        "observations": "Observations",
+        "room": "Salle",
+        "room-name": "Nom de la salle",
+        "session-number": "N° de session",
+        "status": "Statut",
+        "time": "Heure",
+        "time-start": "Heure de début (heure locale)"
       }
     },
-    "candidate": {
-      "candidates": "Candidats"
+    "sessions": {
+      "candidates": "Candidats",
+      "invigilator": "Surveillant"
     }
   },
   "current-lang": "fr",
@@ -190,6 +202,7 @@
             "download": "Une erreur s'est produite pendant le téléchargement"
           },
           "instructions": {
+            "title": "Comment ça marche ?",
             "creation": {
               "title": "Pour créer des sessions ?",
               "list": "Vous pouvez créer des sessions :",
@@ -201,8 +214,7 @@
               "replace": "<strong>Pour remplacer</strong> une liste pré-existante dans le fichier modèle,",
               "subscription": "<strong>Pour inscrire</strong> des candidats dans une session vide.",
               "warning": "Attention à renseigner le numéro de session sans les autres informations de sessions (ex: date, heure, etc.) pour éviter les doublons lors de la création."
-            },
-            "title": "Comment ça marche ?"
+            }
           }
         },
         "step-two": {
@@ -311,15 +323,8 @@
           "empty": "Aucune session trouvée",
           "header": {
             "actions": "Actions",
-            "center-name": "Nom du site",
-            "date": "Date",
             "effective-candidates": "Certifications passées",
-            "enrolled-candidates": "Candidats inscrits",
-            "room": "Salle",
-            "session-number": "N° de session",
-            "status": "Statut",
-            "supervisor": "Surveillant(s)",
-            "time": "Heure"
+            "enrolled-candidates": "Candidats inscrits"
           },
           "row": {
             "label": "Session de certification",
@@ -390,8 +395,6 @@
           },
           "page-title": "Candidats"
         },
-        "date": "Date",
-        "datetime": "Heure de début (heure locale)",
         "downloads": {
           "label": "Téléchargements :",
           "attendance-sheet": {
@@ -421,8 +424,6 @@
             "update": "Modifier les informations de la session {sessionId}"
           },
           "finalization-info": "Les informations de finalisation de la session ont déjà été transmises aux équipes de Pix.",
-          "invigilators": "Surveillant(s)",
-          "location-name": "Nom du site",
           "session": {
             "copy-number": "Copier le numéro de session",
             "label": "Numéro de session"
@@ -432,17 +433,13 @@
             "candidate": "Candidat",
             "copy-code": "Copier le code d’accès à la session"
           },
-          "room": "Salle",
-          "observations": "Observations",
           "password": {
             "copy-password": "Copier le mot de passe de session pour le surveillant",
-            "label": "Mot de passe de session",
-            "invigilator": "Surveillant"
+            "label": "Mot de passe de session"
           }
         },
         "tabs": {
-          "details": "Détails",
-          "candidates": "Candidats"
+          "details": "Détails"
         }
       },
       "new": {
@@ -451,29 +448,14 @@
           "cancel-extra-information": "Annuler la création de session et retourner vers la page précédente",
           "create-session": "Créer la session"
         },
-        "address": "Nom du site",
-        "date": "Date de début",
-        "description": "Observations",
-        "examiner": "Surveillant(s)",
-        "extra-information": "Planification d’une session | Pix Certif",
-        "required-fields": "Les champs marqués de <abbr title=\"obligatoire\" class=\"mandatory-mark\">*</abbr> sont obligatoires.",
-        "room": "Nom de la salle",
-        "time": "Heure de début (heure locale)"
+        "extra-information": "Planification d’une session | Pix Certif"
       },
       "update": {
         "title": "Modification d'une session de certification",
         "actions": {
           "cancel-extra-information": "Annuler la modification de la session et retourner vers la page précédente",
           "edit-session": "Modifier la session"
-        },
-        "address": "Nom du site",
-        "date": "Date de début",
-        "description": "Observations",
-        "examiner": "Surveillant(s)",
-        "page-title": "Modification d'une session de certification",
-        "required-fields": "Les champs marqués de <abbr title=\"obligatoire\" class=\"mandatory-mark\">*</abbr> sont obligatoires.",
-        "room": "Nom de la salle",
-        "time": "Heure de début (heure locale)"
+        }
       }
     },
     "session-supervising": {
@@ -505,11 +487,7 @@
           "exit-extra-information": "Quitter la surveillance de la session {sessionId}"
         },
         "access-code": "Code d'accès (candidats)",
-        "center-name": "Site",
-        "multiple-supervisor": "Surveillant(s)",
-        "room": "Salle",
-        "session-id": "Session {sessionId}",
-        "supervisor": "Surveillant"
+        "session-id": "Session {sessionId}"
       },
       "candidate-list": {
         "authorized-to-start-candidates": "{authorizedToStartCandidates}/{totalCandidates} {authorizedToStartCandidates, plural,one {candidat sélectionné} other {candidats sélectionnés}}",
@@ -519,13 +497,8 @@
         "search-candidate": "Rechercher un candidat"
       },
       "candidate-in-list": {
-        "extra-time": "Temps majoré",
-        "ongoing": "En cours",
-        "authorized-to-resume": "Autorisé à reprendre",
-        "finished": "Terminé",
         "display-candidate-options": "Afficher les options du candidat",
         "candidate-options": "Options du candidat",
-        "start": "Début",
         "test-end-modal": {
           "description": "Attention : cette action entraîne la fin de son test de certification et est irréversible.",
           "instruction-with-name": "Terminer le test de {firstName} {lastName} ?",
