@@ -73,15 +73,27 @@ export default class LoginOrRegisterOidcComponent extends Component {
           identityProviderSlug: this.args.identityProviderSlug,
           hostSlug: 'users',
         });
-      } catch (error) {
+      } catch (responseError) {
+        const error = get(responseError, 'errors[0]');
         this.registerError = true;
-        const status = get(error, 'errors[0].status');
-        if (status === '401') {
+        switch (error?.code) {
+          case 'INVALID_LOCALE_FORMAT':
+            this.registerErrorMessage = this.intl.t('pages.sign-up.errors.invalid-locale-format', {
+              invalidLocale: error.meta.locale,
+            });
+            return;
+          case 'LOCALE_NOT_SUPPORTED':
+            this.registerErrorMessage = this.intl.t('pages.sign-up.errors.locale-not-supported', {
+              localeNotSupported: error.meta.locale,
+            });
+            return;
+        }
+
+        if (error.status === '401') {
           this.registerErrorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['expiredAuthenticationKey']);
         } else {
-          const errorDetail = get(error, 'errors[0].detail');
           this.registerErrorMessage =
-            this.intl.t(ERROR_INPUT_MESSAGE_MAP['unknownError']) + (errorDetail ? ` (${errorDetail})` : '');
+            this.intl.t(ERROR_INPUT_MESSAGE_MAP['unknownError']) + (error.detail ? ` (${error.detail})` : '');
         }
       }
     } else {
