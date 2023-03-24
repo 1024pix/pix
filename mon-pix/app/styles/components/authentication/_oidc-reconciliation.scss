@@ -14,7 +14,7 @@
   }
 
   &__subtitle {
-    @include h4;
+    @extend %pix-title-xs;
 
     display: block;
     margin: 0;
@@ -51,7 +51,7 @@
     }
 
     p {
-      @include h4;
+      @extend %pix-title-xs;
 
       margin: 0;
       padding-top: $spacing-xs;
