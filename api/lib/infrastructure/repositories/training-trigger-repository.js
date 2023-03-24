@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const { knex } = require('../../../db/knex-database-connection.js');
+const { NotFoundError } = require('../../domain/errors.js');
 const DomainTransaction = require('../DomainTransaction.js');
 const TrainingTrigger = require('../../domain/models/TrainingTrigger.js');
 const TrainingTriggerTube = require('../../domain/models/TrainingTriggerTube.js');
@@ -39,9 +40,7 @@ module.exports = {
       .insert(trainingTriggerTubesToCreate)
       .returning('*');
 
-    const tubes = await tubeRepository.findByRecordIds(createdTrainingTriggerTubes.map(({ tubeId }) => tubeId));
-
-    return _toDomain({ trainingTrigger, triggerTubes: createdTrainingTriggerTubes, tubes });
+    return _toDomain({ trainingTrigger, triggerTubes: createdTrainingTriggerTubes });
   },
 
   async findByTrainingId({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
@@ -55,22 +54,36 @@ module.exports = {
       .whereIn('trainingTriggerId', trainingTriggerIds)
       .select('*');
 
-    const trainingTriggerTubeIds = trainingTriggerTubes.map(({ tubeId }) => tubeId);
-    const tubes = await tubeRepository.findByRecordIds(trainingTriggerTubeIds);
-
     return Promise.all(
       trainingTriggers.map(async (trainingTrigger) => {
         const triggerTubes = trainingTriggerTubes.filter(
           ({ trainingTriggerId }) => trainingTriggerId === trainingTrigger.id
         );
-        return await _toDomain({ trainingTrigger, triggerTubes, tubes });
+        return await _toDomain({ trainingTrigger, triggerTubes });
       })
     );
   },
 };
 
-async function _toDomain({ trainingTrigger, triggerTubes, tubes = [] }) {
-  const learningContent = await _getLearningContent(triggerTubes);
+async function _toDomain({ trainingTrigger, triggerTubes }) {
+  const triggerTubeIds = triggerTubes.map(({ tubeId }) => tubeId);
+
+  const tubes = await tubeRepository.findByRecordIds(triggerTubeIds);
+
+  const tubeIds = tubes.map(({ id }) => id);
+  const notFoundTubeIds = triggerTubes.filter(({ tubeId }) => {
+    return !tubeIds.includes(tubeId);
+  });
+
+  if (notFoundTubeIds.length > 0) {
+    throw new NotFoundError(
+      `Les sujets [${notFoundTubeIds.join(', ')}] du déclencheur ${
+        trainingTrigger.id
+      } n'existent pas dans le référentiel.`
+    );
+  }
+
+  const learningContent = await _getLearningContent(tubes);
 
   return new TrainingTrigger({
     id: trainingTrigger.id,
@@ -86,11 +99,8 @@ async function _toDomain({ trainingTrigger, triggerTubes, tubes = [] }) {
   });
 }
 
-async function _getLearningContent(trainingTriggerTubes, locale = 'fr-fr') {
-  const tubeIds = trainingTriggerTubes.map((data) => data.tubeId);
-  const triggerTubes = await tubeRepository.findByRecordIds(tubeIds, locale);
-
-  const thematicIds = _.keys(_.groupBy(triggerTubes, 'thematicId'));
+async function _getLearningContent(tubes, locale = 'fr-fr') {
+  const thematicIds = _.keys(_.groupBy(tubes, 'thematicId'));
   const thematics = await thematicRepository.findByRecordIds(thematicIds, locale);
 
   const competenceIds = _.keys(_.groupBy(thematics, 'competenceId'));
