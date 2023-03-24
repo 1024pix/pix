@@ -65,13 +65,11 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
 
         // when
         const screen = await visit(`/campagnes`);
-        await fillIn(screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.description')), campaign.code);
+        await fillIn(screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.label')), campaign.code);
         await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/campagnes');
+        assert.strictEqual(currentURL(), '/campagnes');
         assert.ok(screen.getByText(this.intl.t('pages.fill-in-campaign-code.mediacentre-start-campaign-modal.title')));
       });
 
@@ -86,15 +84,13 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
 
           // when
           const screen = await visit(`/campagnes`);
-          await fillIn(screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.description')), campaign.code);
+          await fillIn(screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.label')), campaign.code);
           await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
           await waitForDialog();
           await click(screen.getByRole('link', { name: 'Continuer' }));
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
+          assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
         });
       });
 
@@ -109,15 +105,13 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
 
           // when
           const screen = await visit(`/campagnes`);
-          await fillIn(screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.description')), campaign.code);
+          await fillIn(screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.label')), campaign.code);
           await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
           await waitForDialog();
           await click(screen.getByRole('button', { name: 'Quitter' }));
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(currentURL(), '/campagnes');
+          assert.strictEqual(currentURL(), '/campagnes');
         });
       });
     });
@@ -129,13 +123,11 @@ module('Acceptance | Fill in campaign code page', function (hooks) {
 
         // when
         const screen = await visit(`/campagnes`);
-        await fillIn(screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.description')), campaign.code);
+        await fillIn(screen.getByLabelText(this.intl.t('pages.fill-in-campaign-code.label')), campaign.code);
         await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
+        assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
       });
     });
   });

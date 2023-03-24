@@ -8,7 +8,7 @@ Fonctionnalité: Campagne d'évaluation
     Étant donné que je vais sur Pix
     Et je suis connecté à Pix en tant que "Daenerys Targaryen"
     Lorsque je vais sur la page d'accès à une campagne
-    Et je saisis "NERA" dans le champ "Ce code est transmis par votre établissement/organisation et permet de démarrer un parcours ou d’envoyer votre profil."
+    Et je saisis le code "NERA"
     Lorsque je clique sur "Accéder au parcours"
     Alors je vois la page de "presentation" de la campagne
     Et la page "Presentation campagne evaluation" est correctement affichée
@@ -45,7 +45,7 @@ Fonctionnalité: Campagne d'évaluation
     Étant donné que je vais sur Pix
     Et je suis connecté à Pix en tant que "Daenerys Targaryen"
     Et je vais sur la page d'accès à une campagne
-    Lorsque je saisis "WINTER" dans le champ "Ce code est transmis par votre établissement/organisation et permet de démarrer un parcours ou d’envoyer votre profil."
+    Lorsque je saisis le code "WINTER"
     Et je clique sur "Accéder au parcours"
     Alors je vois la page de "presentation" de la campagne
     Lorsque je clique sur "Je commence"
@@ -59,7 +59,7 @@ Fonctionnalité: Campagne d'évaluation
 
   Scénario: Je rejoins un parcours prescrit restreint en étant connecté via un organisme externe
     Étant donné que je me connecte à Pix via le GAR
-    Lorsque je saisis "WINTER" dans le champ "Ce code est transmis par votre établissement/organisation et permet de démarrer un parcours ou d’envoyer votre profil."
+    Lorsque je saisis le code "WINTER"
     Et je clique sur "Accéder au parcours"
     Alors je vois la page de "presentation" de la campagne
     Lorsque je clique sur "Je commence"
