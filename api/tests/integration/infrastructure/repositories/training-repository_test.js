@@ -5,6 +5,7 @@ const TrainingSummary = require('../../../../lib/domain/read-models/TrainingSumm
 const Training = require('../../../../lib/domain/models/Training');
 const UserRecommendedTraining = require('../../../../lib/domain/read-models/UserRecommendedTraining');
 const TrainingTriggerForAdmin = require('../../../../lib/domain/read-models/TrainingTriggerForAdmin');
+const TrainingForAdmin = require('../../../../lib/domain/read-models/TrainingForAdmin');
 
 describe('Integration | Repository | training-repository', function () {
   describe('#get', function () {
@@ -130,7 +131,7 @@ describe('Integration | Repository | training-repository', function () {
       const result = await trainingRepository.getWithTriggers({ trainingId: training.id });
 
       // then
-      expect(result).to.be.instanceOf(Training);
+      expect(result).to.be.instanceOf(TrainingForAdmin);
       expect(result.trainingTriggers).to.have.lengthOf(1);
       expect(result.trainingTriggers[0]).to.be.instanceOf(TrainingTriggerForAdmin);
       expect(result.trainingTriggers[0].id).to.deep.equal(trainingTrigger.id);
