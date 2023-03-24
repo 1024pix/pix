@@ -96,3 +96,9 @@
   align-items: center;
   justify-content: flex-end;
 }
+
+.mediacentre-start-campaign-modal-action-buttons__continue-action {
+  @extend %pix-body-s;
+
+  color: $pix-primary;
+}
