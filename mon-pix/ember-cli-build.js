@@ -34,12 +34,6 @@ module.exports = function (defaults) {
   // modules that you would like to import into your application
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
-  app.import('node_modules/@1024pix/pix-ui/public/fonts/OpenSans/OpenSans-Light.ttf');
-  app.import('node_modules/@1024pix/pix-ui/public/fonts/OpenSans/OpenSans-Regular.ttf');
-  app.import('node_modules/@1024pix/pix-ui/public/fonts/OpenSans/OpenSans-SemiBold.ttf');
-  app.import('node_modules/@1024pix/pix-ui/public/fonts/Roboto/Roboto-Light.ttf');
-  app.import('node_modules/@1024pix/pix-ui/public/fonts/Roboto/Roboto-Medium.ttf');
-  app.import('node_modules/@1024pix/pix-ui/public/fonts/Roboto/Roboto-Regular.ttf');
 
   return app.toTree();
 };
