@@ -112,7 +112,7 @@
 }
 
 .user-certifications-detail-competence--butterfly-bush {
-  @include coloriseElements($environment-light);
+  @include coloriseElements($pix-environment-light);
 }
 
 @include device-is('mobile') {
