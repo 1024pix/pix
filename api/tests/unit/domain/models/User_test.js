@@ -1,5 +1,6 @@
-const { expect, domainBuilder } = require('../../../test-helper');
+const { sinon, expect, domainBuilder } = require('../../../test-helper');
 const config = require('../../../../lib/config');
+const localeService = require('../../../../lib/domain/services/locale-service');
 const User = require('../../../../lib/domain/models/User');
 
 describe('Unit | Domain | Models | User', function () {
@@ -10,6 +11,19 @@ describe('Unit | Domain | Models | User', function () {
 
       //then
       expect(users.length).to.equal(3);
+    });
+
+    it('validates and canonicalizes the locale', function () {
+      // given
+      const getCanonicalLocaleStub = sinon.stub(localeService, 'getCanonicalLocale');
+      getCanonicalLocaleStub.returns('fr-BE');
+
+      // when
+      const user = new User({ locale: 'fr-be' });
+
+      // then
+      expect(getCanonicalLocaleStub).to.have.been.calledWith('fr-be');
+      expect(user.locale).to.equal('fr-BE');
     });
   });
 
