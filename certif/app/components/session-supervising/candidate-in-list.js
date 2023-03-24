@@ -46,7 +46,9 @@ export default class CandidateInList extends Component {
       'pages.session-supervising.candidate-in-list.resume-test-modal.description'
     );
     this.modalCancelText = this.intl.t('common.actions.close');
-    this.modalConfirmationText = this.intl.t('pages.session-supervising.candidate-in-list.resume-test-modal.confirm');
+    this.modalConfirmationText = this.intl.t(
+      'pages.session-supervising.candidate-in-list.resume-test-modal.actions.confirm'
+    );
     this.modalInstructionText = this.intl.t(
       'pages.session-supervising.candidate-in-list.resume-test-modal.instruction-with-name',
       {

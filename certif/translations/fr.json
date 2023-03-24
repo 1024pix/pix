@@ -464,6 +464,7 @@
       }
     },
     "session-supervising": {
+      "title": "Surveiller la session n° {sessionId}",
       "login": {
         "title": "Connexion à l'espace surveillant",
         "form": {
@@ -521,13 +522,15 @@
           "error": "Une erreur est survenue, le test de {firstName} {lastName} n'a pas pu être terminé."
         },
         "resume-test-modal": {
+          "actions": {
+            "confirm": "Je confirme l'autorisation"
+          },
           "allow-test-resume": "Autoriser la reprise du test",
-          "description": "Si le candidat a fermé la fenêtre de son test de certification (par erreur, ou à cause d'un problème technique) et est toujours présent dans la salle de test, vous pouvez lui permettre de reprendre son test à l'endroit où il l'avait quitté.",
-          "instruction-with-name": "Autoriser {firstName} {lastName} à reprendre son test ?",
-          "confirm": "Je confirme l'autorisation",
           "cancel-label": "Annuler et fermer la fenêtre de confirmation",
-          "success": "Succès ! {firstName} {lastName} peut reprendre son test de certification.",
-          "error": "Une erreur est survenue, {firstName} {lastName} n'a a pu être autorisé à reprendre son test."
+          "description": "Si le candidat a fermé la fenêtre de son test de certification (par erreur, ou à cause d'un problème technique) et est toujours présent dans la salle de test, vous pouvez lui permettre de reprendre son test à l'endroit où il l'avait quitté.",
+          "error": "Une erreur est survenue, {firstName} {lastName} n'a a pu être autorisé à reprendre son test.",
+          "instruction-with-name": "Autoriser {firstName} {lastName} à reprendre son test ?",
+          "success": "Succès ! {firstName} {lastName} peut reprendre son test de certification."
         }
       }
     },
