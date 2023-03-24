@@ -1,5 +1,26 @@
 # Pix Changelog
 
+## v3.337.0 (24/03/2023)
+
+
+### :rocket: Amélioration
+- [#5856](https://github.com/1024pix/pix/pull/5856) [FEATURE] Ajout d'un role "alert" quand le code campagne est erroné (PIX-7262)
+- [#5861](https://github.com/1024pix/pix/pull/5861) [FEATURE] Modale autorisation à reprendre dans l'ES en anglais (PIX-6680)
+- [#5842](https://github.com/1024pix/pix/pull/5842) [FEATURE] Enregistrer la locale de l'utilisateur à la connexion (PIX-7364)
+- [#5776](https://github.com/1024pix/pix/pull/5776) [FEATURE] Gérer le premier acquis sur Pix Orga (PIX-7333)
+- [#5831](https://github.com/1024pix/pix/pull/5831) [FEATURE] Rendre cliquable le fil d'ariane des contenus formatifs sur Pix-Admin (PIX-7390)
+- [#5823](https://github.com/1024pix/pix/pull/5823) [FEATURE] Traduction formulaire connection espace surveillant (PIX-6679)
+- [#5851](https://github.com/1024pix/pix/pull/5851) [FEATURE] Préparation de la recommandation de contenu formatif - partie 4 (PIX-7505)
+- [#5849](https://github.com/1024pix/pix/pull/5849) [FEATURE] Préparation de la recommandation de contenu formatif - partie 3 (PIX-7504).
+- [#5848](https://github.com/1024pix/pix/pull/5848) [FEATURE] Préparation de la recommandation de contenu formatif - partie 2 (PIX-7503).
+
+### :building_construction: Tech
+- [#5843](https://github.com/1024pix/pix/pull/5843) [TECH] Mise à jour de ember-cli-clipboard sur certif
+
+### :bug: Correction
+- [#5844](https://github.com/1024pix/pix/pull/5844) [BUGFIX] Corrige l'affichage du message de changement de mot de passe sur certif
+- [#5850](https://github.com/1024pix/pix/pull/5850) [BUGFIX] Afficher les messages d'erreur des champs pour la création et la modification de session (PIX-7161).
+
 ## v3.336.0 (22/03/2023)
 
 
