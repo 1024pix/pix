@@ -767,7 +767,8 @@
     },
     "fill-in-campaign-code": {
       "title": "I have a code",
-      "description": "This code is given by your school/organisation and can be used to start a customised test or to submit your profile",
+      "description": "This code contains 9 letters and/or numbers. It is given by your school/organisation and can be used to start a customised test or to submit your profile",
+      "label": "Enter your code to start",
       "errors": {
         "forbidden": "Oops! We can’t find you. Check your details to continue or contact the organiser.",
         "missing-code": "Please enter a code.",
@@ -777,7 +778,7 @@
       "explanation-link": "https://support.pix.org/en/support/solutions/articles/15000029147-what-is-a-customised-test-code-and-how-do-i-use-it-",
       "first-title-connected": "{ firstName }, enter your code",
       "first-title-not-connected": "Enter your code",
-      "start": "Start the customised test",
+      "start": "Start",
       "warning-message": "If you are not { firstName } { lastName },",
       "warning-message-logout": "please log out",
       "mediacentre-start-campaign-modal": {
