@@ -40,9 +40,7 @@ module.exports = {
       .insert(trainingTriggerTubesToCreate)
       .returning('*');
 
-    const tubes = await tubeRepository.findByRecordIds(createdTrainingTriggerTubes.map(({ tubeId }) => tubeId));
-
-    return _toDomain({ trainingTrigger, triggerTubes: createdTrainingTriggerTubes, tubes });
+    return _toDomain({ trainingTrigger, triggerTubes: createdTrainingTriggerTubes });
   },
 
   async findByTrainingId({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
@@ -56,21 +54,22 @@ module.exports = {
       .whereIn('trainingTriggerId', trainingTriggerIds)
       .select('*');
 
-    const trainingTriggerTubeIds = trainingTriggerTubes.map(({ tubeId }) => tubeId);
-    const tubes = await tubeRepository.findByRecordIds(trainingTriggerTubeIds);
-
     return Promise.all(
       trainingTriggers.map(async (trainingTrigger) => {
         const triggerTubes = trainingTriggerTubes.filter(
           ({ trainingTriggerId }) => trainingTriggerId === trainingTrigger.id
         );
-        return await _toDomain({ trainingTrigger, triggerTubes, tubes });
+        return await _toDomain({ trainingTrigger, triggerTubes });
       })
     );
   },
 };
 
-async function _toDomain({ trainingTrigger, triggerTubes, tubes = [] }) {
+async function _toDomain({ trainingTrigger, triggerTubes }) {
+  const triggerTubeIds = triggerTubes.map(({ tubeId }) => tubeId);
+
+  const tubes = await tubeRepository.findByRecordIds(triggerTubeIds);
+
   const tubeIds = tubes.map(({ id }) => id);
   const notFoundTubeIds = triggerTubes.filter(({ tubeId }) => {
     return !tubeIds.includes(tubeId);
