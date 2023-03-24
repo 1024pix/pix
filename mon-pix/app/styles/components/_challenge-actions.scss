@@ -57,7 +57,7 @@
   &__already-answered {
     margin-right: 20px;
     color: $pix-neutral-70;
-    font-weight: $font-semi-bold;
+    font-weight: $font-medium;
     font-size: 1rem;
     font-family: $font-roboto;
     letter-spacing: 0.031rem;
@@ -82,7 +82,6 @@
 }
 
 .challenge-actions-alert-message {
-
   &__icon {
     margin-right: 20px;
     margin-left: 0;

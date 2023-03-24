@@ -51,7 +51,7 @@
     }
 
     span {
-      font-weight: $font-semi-bold;
+      font-weight: $font-medium;
     }
   }
 
@@ -76,7 +76,7 @@
   border-top: 1px dashed $pix-neutral-22;
 
   strong {
-    font-weight: $font-semi-bold;
+    font-weight: $font-medium;
   }
 
   h1 {
@@ -137,7 +137,7 @@
 
   .article-title {
     color: $pix-neutral-100;
-    font-weight: $font-semi-bold;
+    font-weight: $font-medium;
     font-size: 1.5rem;
     line-height: 30px;
   }
