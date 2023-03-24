@@ -4,7 +4,7 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 const TrainingSummary = require('../../../../lib/domain/read-models/TrainingSummary');
 const Training = require('../../../../lib/domain/models/Training');
 const UserRecommendedTraining = require('../../../../lib/domain/read-models/UserRecommendedTraining');
-const TrainingTrigger = require('../../../../lib/domain/models/TrainingTrigger');
+const TrainingTriggerForAdmin = require('../../../../lib/domain/read-models/TrainingTriggerForAdmin');
 
 describe('Integration | Repository | training-repository', function () {
   describe('#get', function () {
@@ -132,7 +132,7 @@ describe('Integration | Repository | training-repository', function () {
       // then
       expect(result).to.be.instanceOf(Training);
       expect(result.trainingTriggers).to.have.lengthOf(1);
-      expect(result.trainingTriggers[0]).to.be.instanceOf(TrainingTrigger);
+      expect(result.trainingTriggers[0]).to.be.instanceOf(TrainingTriggerForAdmin);
       expect(result.trainingTriggers[0].id).to.deep.equal(trainingTrigger.id);
       expect(result.trainingTriggers[0].threshold).to.deep.equal(trainingTrigger.threshold);
       expect(result.trainingTriggers[0].type).to.deep.equal(trainingTrigger.type);

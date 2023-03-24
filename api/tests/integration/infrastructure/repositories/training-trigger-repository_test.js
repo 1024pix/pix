@@ -10,6 +10,7 @@ const {
 } = require('../../../test-helper');
 const trainingTriggerRepository = require('../../../../lib/infrastructure/repositories/training-trigger-repository');
 const { TrainingTrigger, TrainingTriggerTube } = require('../../../../lib/domain/models');
+const TrainingTriggerForAdmin = require('../../../../lib/domain/read-models/TrainingTriggerForAdmin');
 const _ = require('lodash');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
@@ -124,7 +125,7 @@ describe('Integration | Repository | training-trigger-repository', function () {
             type,
           })
           .first();
-        expect(createdTrainingTrigger).to.be.instanceOf(TrainingTrigger);
+        expect(createdTrainingTrigger).to.be.instanceOf(TrainingTriggerForAdmin);
         expect(createdTrainingTrigger.id).to.equal(trainingTrigger.id);
         expect(createdTrainingTrigger.trainingId).to.equal(trainingTrigger.trainingId);
         expect(createdTrainingTrigger.type).to.equal(trainingTrigger.type);
@@ -212,7 +213,7 @@ describe('Integration | Repository | training-trigger-repository', function () {
           })
           .orderBy('tubeId', 'asc');
         expect(trainingTriggerTubes).to.have.lengthOf(3);
-        expect(updatedTrainingTrigger).to.be.instanceOf(TrainingTrigger);
+        expect(updatedTrainingTrigger).to.be.instanceOf(TrainingTriggerForAdmin);
         expect(updatedTrainingTrigger.threshold).to.equal(42);
 
         expect(updatedTrainingTrigger.areas).to.have.lengthOf(1);
@@ -310,7 +311,7 @@ describe('Integration | Repository | training-trigger-repository', function () {
 
       // then
       expect(result).to.have.lengthOf(2);
-      expect(result[0]).to.be.instanceOf(TrainingTrigger);
+      expect(result[0]).to.be.instanceOf(TrainingTriggerForAdmin);
       expect(result[0].id).to.equal(trainingTrigger.id);
       expect(result[0].trainingId).to.equal(trainingTrigger.trainingId);
       expect(result[0].type).to.equal(trainingTrigger.type);
@@ -332,7 +333,7 @@ describe('Integration | Repository | training-trigger-repository', function () {
       );
       expect(result[0].areas[0].competences[0].thematics[0].triggerTubes[0].level).to.equal(trainingTriggerTube.level);
 
-      expect(result[1]).to.be.instanceOf(TrainingTrigger);
+      expect(result[1]).to.be.instanceOf(TrainingTriggerForAdmin);
       expect(result[1].id).to.equal(trainingTrigger2.id);
       expect(result[1].trainingId).to.equal(trainingTrigger2.trainingId);
       expect(result[1].type).to.equal(trainingTrigger2.type);
