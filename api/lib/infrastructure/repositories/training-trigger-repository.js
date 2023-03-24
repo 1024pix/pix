@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const { knex } = require('../../../db/knex-database-connection.js');
+const { NotFoundError } = require('../../domain/errors.js');
 const DomainTransaction = require('../DomainTransaction.js');
 const TrainingTrigger = require('../../domain/models/TrainingTrigger.js');
 const TrainingTriggerTube = require('../../domain/models/TrainingTriggerTube.js');
@@ -70,7 +71,20 @@ module.exports = {
 };
 
 async function _toDomain({ trainingTrigger, triggerTubes, tubes = [] }) {
-  const learningContent = await _getLearningContent(triggerTubes);
+  const tubeIds = tubes.map(({ id }) => id);
+  const notFoundTubeIds = triggerTubes.filter(({ tubeId }) => {
+    return !tubeIds.includes(tubeId);
+  });
+
+  if (notFoundTubeIds.length > 0) {
+    throw new NotFoundError(
+      `Les sujets [${notFoundTubeIds.join(', ')}] du déclencheur ${
+        trainingTrigger.id
+      } n'existent pas dans le référentiel.`
+    );
+  }
+
+  const learningContent = await _getLearningContent(tubes);
 
   return new TrainingTrigger({
     id: trainingTrigger.id,
@@ -86,11 +100,8 @@ async function _toDomain({ trainingTrigger, triggerTubes, tubes = [] }) {
   });
 }
 
-async function _getLearningContent(trainingTriggerTubes, locale = 'fr-fr') {
-  const tubeIds = trainingTriggerTubes.map((data) => data.tubeId);
-  const triggerTubes = await tubeRepository.findByRecordIds(tubeIds, locale);
-
-  const thematicIds = _.keys(_.groupBy(triggerTubes, 'thematicId'));
+async function _getLearningContent(tubes, locale = 'fr-fr') {
+  const thematicIds = _.keys(_.groupBy(tubes, 'thematicId'));
   const thematics = await thematicRepository.findByRecordIds(thematicIds, locale);
 
   const competenceIds = _.keys(_.groupBy(thematics, 'competenceId'));
