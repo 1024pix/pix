@@ -7,6 +7,7 @@ const UserRecommendedTraining = require('../../domain/read-models/UserRecommende
 const { fetchPage } = require('../utils/knex-utils.js');
 const pick = require('lodash/pick');
 const trainingTriggerRepository = require('./training-trigger-repository.js');
+const TrainingForAdmin = require('../../domain/read-models/TrainingForAdmin');
 const TABLE_NAME = 'trainings';
 
 async function get({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
@@ -22,10 +23,17 @@ async function get({ trainingId, domainTransaction = DomainTransaction.emptyTran
 }
 
 async function getWithTriggers({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
-  const training = await get({ trainingId, domainTransaction });
+  const knexConn = domainTransaction?.knexTransaction || knex;
+  const trainingDTO = await knexConn(TABLE_NAME).where({ id: trainingId }).first();
+  if (!trainingDTO) {
+    throw new NotFoundError(`Not found training for ID ${trainingId}`);
+  }
+
+  const targetProfileTrainings = await knexConn('target-profile-trainings').where('trainingId', trainingDTO.id);
+
   const trainingTriggers = await trainingTriggerRepository.findByTrainingId({ trainingId, domainTransaction });
-  training.trainingTriggers = trainingTriggers;
-  return training;
+
+  return _toDomainForAdmin({ training: trainingDTO, targetProfileTrainings, trainingTriggers });
 }
 
 async function findPaginatedSummaries({ page, domainTransaction = DomainTransaction.emptyTransaction() }) {
@@ -124,4 +132,12 @@ function _toDomain(training, targetProfileTrainings) {
     .map(({ targetProfileId }) => targetProfileId);
 
   return new Training({ ...training, targetProfileIds });
+}
+
+function _toDomainForAdmin({ training, trainingTriggers, targetProfileTrainings }) {
+  const targetProfileIds = targetProfileTrainings
+    .filter(({ trainingId }) => trainingId === training.id)
+    .map(({ targetProfileId }) => targetProfileId);
+
+  return new TrainingForAdmin({ ...training, targetProfileIds, trainingTriggers });
 }
