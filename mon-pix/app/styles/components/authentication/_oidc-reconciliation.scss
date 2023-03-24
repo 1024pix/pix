@@ -1,5 +1,4 @@
 .oidc-reconciliation {
-
   &__title,
   &__subtitle,
   &__information {
@@ -8,7 +7,7 @@
   }
 
   &__title {
-    @include h2;
+    @extend %pix-title-m;
 
     padding-top: $spacing-l;
     text-align: center;
