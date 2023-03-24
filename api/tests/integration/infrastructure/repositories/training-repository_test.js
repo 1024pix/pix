@@ -51,7 +51,7 @@ describe('Integration | Repository | training-repository', function () {
     });
   });
 
-  describe('#getWithTriggers', function () {
+  describe('#getWithTriggersForAdmin', function () {
     let area1;
     let competence1;
     let thematic1;
@@ -110,7 +110,7 @@ describe('Integration | Repository | training-repository', function () {
 
     it('should throw an error when training does not exist', async function () {
       // when
-      const error = await catchErr(trainingRepository.getWithTriggers)({ trainingId: 134 });
+      const error = await catchErr(trainingRepository.getWithTriggersForAdmin)({ trainingId: 134 });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -128,7 +128,7 @@ describe('Integration | Repository | training-repository', function () {
       await databaseBuilder.commit();
 
       // when
-      const result = await trainingRepository.getWithTriggers({ trainingId: training.id });
+      const result = await trainingRepository.getWithTriggersForAdmin({ trainingId: training.id });
 
       // then
       expect(result).to.be.instanceOf(TrainingForAdmin);

@@ -7,7 +7,7 @@ describe('Unit | UseCase | get-training', function () {
 
   beforeEach(function () {
     trainingRepository = {
-      getWithTriggers: sinon.stub(),
+      getWithTriggersForAdmin: sinon.stub(),
     };
   });
 
@@ -16,7 +16,7 @@ describe('Unit | UseCase | get-training', function () {
       // given
       const trainingId = 1;
       const trainingToFind = Symbol('existing-training');
-      trainingRepository.getWithTriggers.withArgs({ trainingId }).resolves(trainingToFind);
+      trainingRepository.getWithTriggersForAdmin.withArgs({ trainingId }).resolves(trainingToFind);
 
       // when
       const training = await getTraining({ trainingId, trainingRepository });
@@ -30,7 +30,7 @@ describe('Unit | UseCase | get-training', function () {
     it('should throw an error', async function () {
       // given
       const trainingId = 123;
-      trainingRepository.getWithTriggers.withArgs({ trainingId }).rejects(new NotFoundError());
+      trainingRepository.getWithTriggersForAdmin.withArgs({ trainingId }).rejects(new NotFoundError());
 
       // when
       const err = await catchErr(getTraining)({ trainingId, trainingRepository });
