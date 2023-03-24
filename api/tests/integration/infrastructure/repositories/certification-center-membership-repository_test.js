@@ -437,7 +437,7 @@ describe('Integration | Repository | Certification Center Membership', function 
     context('when there is a referer', function () {
       it('should return the referer certification center membership', async function () {
         // given
-        const user = databaseBuilder.factory.buildUser();
+        const user = databaseBuilder.factory.buildUser({ locale: 'fr-FR' });
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
         const refererCertificationCenterMembership = databaseBuilder.factory.buildCertificationCenterMembership({
           userId: user.id,
@@ -472,6 +472,7 @@ describe('Integration | Repository | Certification Center Membership', function 
           'hasSeenOtherChallengesTooltip',
           'mustValidateTermsOfService',
           'lang',
+          'locale',
           'isAnonymous',
           'memberships',
           'certificationCenterMemberships',

@@ -47,6 +47,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
     lastName: 'LaFripouille',
     email: 'jojo@example.net',
     cgu: true,
+    locale: 'fr-FR',
   };
 
   let userInDB;
@@ -708,6 +709,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         expect(foundUser.username).to.equal(expectedUser.username);
         expect(foundUser.email).to.equal(expectedUser.email);
         expect(foundUser.cgu).to.equal(expectedUser.cgu);
+        expect(foundUser.locale).to.equal(expectedUser.locale);
       });
 
       it('should return user informations for the given email (case insensitive)', async function () {
@@ -1650,6 +1652,35 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         // then
         const userUpdated = await knex('users').select().where({ id: userId }).first();
         expect(userUpdated.lastLoggedAt).to.deep.equal(now);
+      });
+    });
+
+    describe('#updateLocale', function () {
+      let clock;
+      const now = new Date('2020-01-02');
+
+      beforeEach(function () {
+        clock = sinon.useFakeTimers(now);
+      });
+
+      afterEach(function () {
+        clock.restore();
+      });
+
+      it('should update the user locale to the provided value', async function () {
+        // given
+        const user = databaseBuilder.factory.buildUser();
+        const userId = user.id;
+        await databaseBuilder.commit();
+        const locale = 'fr-BE';
+
+        // when
+        await userRepository.updateLocale({ userId, locale });
+
+        // then
+        const userUpdated = await knex('users').select().where({ id: userId }).first();
+        expect(userUpdated.locale).to.deep.equal(locale);
+        expect(userUpdated.updatedAt).to.deep.equal(now);
       });
     });
   });

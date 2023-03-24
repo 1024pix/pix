@@ -276,6 +276,78 @@ describe('Acceptance | Controller | authentication-controller', function () {
         });
       });
     });
+
+    context('when there is a locale cookie', function () {
+      context('when the user has no locale saved', function () {
+        it('updates the user locale with the locale cookie', async function () {
+          // given
+          const localeFromCookie = 'fr';
+          const email = 'user-without-locale@example.net';
+          const userWithoutLocale = databaseBuilder.factory.buildUser.withRawPassword({
+            email,
+            rawPassword: userPassword,
+            locale: null,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const response = await server.inject({
+            method: 'POST',
+            url: '/api/token',
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded',
+              cookie: `locale=${localeFromCookie}`,
+            },
+            payload: querystring.stringify({
+              grant_type: 'password',
+              username: userWithoutLocale.email,
+              password: userPassword,
+            }),
+          });
+
+          // then
+          expect(response.statusCode).to.equal(200);
+          const user = await knex('users').where({ id: userWithoutLocale.id }).first();
+          expect(user.locale).to.equal(localeFromCookie);
+        });
+      });
+
+      context('when the user has already a locale saved', function () {
+        it('does not update the user locale', async function () {
+          // given
+          const localeFromCookie = 'fr-BE';
+          const userLocale = 'fr';
+          const email = 'user-with-locale@example.net';
+          const userWithLocale = databaseBuilder.factory.buildUser.withRawPassword({
+            email,
+            rawPassword: userPassword,
+            locale: userLocale,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const response = await server.inject({
+            method: 'POST',
+            url: '/api/token',
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded',
+              cookie: `locale=${localeFromCookie}`,
+            },
+            payload: querystring.stringify({
+              grant_type: 'password',
+              username: userWithLocale.email,
+              password: userPassword,
+            }),
+          });
+
+          // then
+          expect(response.statusCode).to.equal(200);
+          const user = await knex('users').where({ id: userWithLocale.id }).first();
+          expect(user.locale).to.not.equal(localeFromCookie);
+          expect(user.locale).to.equal(userLocale);
+        });
+      });
+    });
   });
 
   describe('POST /api/token-from-external-user', function () {

@@ -32,10 +32,7 @@ describe('Unit | Application | Controller | Authentication', function () {
         },
       };
 
-      sinon
-        .stub(usecases, 'authenticateUser')
-        .withArgs({ username, password, scope, source })
-        .resolves({ accessToken, refreshToken, expirationDelaySeconds });
+      sinon.stub(usecases, 'authenticateUser').resolves({ accessToken, refreshToken, expirationDelaySeconds });
       sinon.stub(tokenService, 'extractUserId').returns(USER_ID);
 
       // when
@@ -55,6 +52,43 @@ describe('Unit | Application | Controller | Authentication', function () {
         'Content-Type': 'application/json;charset=UTF-8',
         'Cache-Control': 'no-store',
         Pragma: 'no-cache',
+      });
+    });
+
+    context('when there is a locale cookie', function () {
+      it('retrieves the value from the cookie and pass it as an argument to the use case', async function () {
+        // given
+        const expirationDelaySeconds = 777;
+        const refreshToken = 'cookie.refresh.token';
+        const localeFromCookie = 'fr-FR';
+        const request = {
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded',
+          },
+          payload: {
+            grant_type: 'password',
+            username,
+            password,
+            scope,
+          },
+          state: {
+            locale: localeFromCookie,
+          },
+        };
+        sinon.stub(usecases, 'authenticateUser').resolves({ accessToken, refreshToken, expirationDelaySeconds });
+        sinon.stub(tokenService, 'extractUserId').returns(USER_ID);
+
+        // when
+        await authenticationController.createToken(request, hFake);
+
+        // then
+        expect(usecases.authenticateUser).to.have.been.calledWithExactly({
+          username,
+          password,
+          scope,
+          source,
+          localeFromCookie,
+        });
       });
     });
   });

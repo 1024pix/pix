@@ -3,8 +3,7 @@ const isNil = require('lodash/isNil');
 const dayjs = require('dayjs');
 
 const config = require('../../config.js');
-const { LocaleFormatError, LocaleNotSupportedError } = require('../../domain/errors.js');
-const { SUPPORTED_LOCALES } = require('../../domain/constants');
+const localeService = require('../services/locale-service');
 const AuthenticationMethod = require('./AuthenticationMethod.js');
 
 class User {
@@ -41,21 +40,7 @@ class User {
     hasBeenAnonymisedBy,
   } = {}) {
     if (locale) {
-      try {
-        locale = Intl.getCanonicalLocales(locale)[0];
-      } catch (error) {
-        throw new LocaleFormatError(locale);
-      }
-
-      // Pix site uses en-GB as international English locale instead of en
-      // TODO remove this code after handling en as international English locale on Pix site
-      if (locale === 'en-GB') {
-        locale = 'en';
-      }
-
-      if (!SUPPORTED_LOCALES.includes(locale)) {
-        throw new LocaleNotSupportedError(locale);
-      }
+      locale = localeService.getCanonicalLocale(locale);
     }
 
     this.id = id;
