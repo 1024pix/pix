@@ -74,7 +74,7 @@ async function getBirthInformationByINSEECode(birthCity, birthINSEECode, country
   if (birthCity) {
     return CpfBirthInformationValidation.failure({
       certificationCandidateError:
-        CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_EXCLUSIVE,
+        CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED,
     });
   }
 
@@ -155,7 +155,7 @@ async function getBirthInformation({
   if (country.isForeign()) {
     return getForeignCountryBirthInformation(birthCity, birthINSEECode, birthPostalCode, country);
   } else {
-    if (!birthINSEECode && !birthPostalCode) {
+    if (!birthINSEECode && !birthPostalCode && !birthCity) {
       return CpfBirthInformationValidation.failure({
         certificationCandidateError:
           CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED,
@@ -165,7 +165,7 @@ async function getBirthInformation({
     if (birthINSEECode && birthPostalCode) {
       return CpfBirthInformationValidation.failure({
         certificationCandidateError:
-          CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_EXCLUSIVE,
+          CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED,
       });
     }
 
@@ -175,6 +175,12 @@ async function getBirthInformation({
 
     if (birthPostalCode) {
       return await getBirthInformationByPostalCode(birthCity, birthPostalCode, country, certificationCpfCityRepository);
+    }
+
+    if (birthCity) {
+      return CpfBirthInformationValidation.failure({
+        certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_POSTAL_CODE_REQUIRED,
+      });
     }
   }
 }

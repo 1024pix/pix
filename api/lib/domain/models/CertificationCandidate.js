@@ -64,13 +64,19 @@ const certificationCandidateValidationForMassImportJoiSchema = Joi.object({
     'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SEX_REQUIRED.code,
     'any.only': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SEX_NOT_VALID.code,
   }),
-  birthINSEECode: Joi.alternatives().conditional('birthPostalCode', {
+  birthPostalCode: Joi.alternatives().conditional('birthINSEECode', {
     is: Joi.string().empty(['', null]).required(),
     then: Joi.string().empty(['', null]).forbidden().messages({
-      'any.unknown': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_EXCLUSIVE.code,
+      'any.unknown': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED.code,
     }),
-    otherwise: Joi.string().empty(['', null]).required().messages({
-      'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED.code,
+    otherwise: Joi.alternatives().conditional('birthCity', {
+      is: Joi.string().empty(['', null]).required(),
+      then: Joi.string().empty(['', null]).required().messages({
+        'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_POSTAL_CODE_REQUIRED.code,
+      }),
+      otherwise: Joi.string().empty(['', null]).required().messages({
+        'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED.code,
+      }),
     }),
   }),
   birthCountry: Joi.string().required().empty(['', null]).messages({
