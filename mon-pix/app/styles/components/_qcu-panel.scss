@@ -1,5 +1,4 @@
 .qcu-panel {
-
   a {
     color: $pix-primary;
     text-decoration: underline;
@@ -29,7 +28,6 @@
   }
 
   &-solution {
-
     &__proposal-item {
       position: relative;
       display: flex;
@@ -49,7 +47,7 @@
 
       &[data-goodness='good'] {
         color: $pix-success-70;
-        font-weight: $font-heavy;
+        font-weight: $font-bold;
       }
 
       &[data-goodness='bad'][data-checked='yes'] {
