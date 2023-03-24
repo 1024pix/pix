@@ -330,7 +330,7 @@ describe('Integration | Repository | training-repository', function () {
       const createdTraining = await trainingRepository.create({ training });
 
       // then
-      expect(createdTraining).to.be.instanceOf(Training);
+      expect(createdTraining).to.be.instanceOf(TrainingForAdmin);
       expect(createdTraining.id).to.exist;
       expect(createdTraining).to.deep.include({ ...training, duration: { hours: 6 } });
     });
