@@ -48,13 +48,13 @@
     }
 
     &.certification-joiner__input--invalid:not(:hover) {
-      outline: 1px solid $error;
-      box-shadow: 0 0 0 2px $error;
+      outline: 1px solid $pix-error-50;
+      box-shadow: 0 0 0 2px $pix-error-50;
     }
 
     &.certification-joiner__input--invalid:focus {
-      outline: 1px solid $error;
-      box-shadow: 0 0 0 2px $error;
+      outline: 1px solid $pix-error-50;
+      box-shadow: 0 0 0 2px $pix-error-50;
     }
   }
 
