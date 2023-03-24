@@ -128,6 +128,7 @@ const buildThematic = require('./build-thematic');
 const buildTraining = require('./build-training');
 const buildTrainingSummary = require('./build-training-summary');
 const buildTrainingTrigger = require('./build-training-trigger');
+const buildTrainingTriggerForAdmin = require('./build-training-trigger-for-admin');
 const buildTrainingTriggerTube = require('./build-training-trigger-tube');
 const buildTube = require('./build-tube');
 const buildTutorial = require('./build-tutorial');
@@ -273,6 +274,7 @@ module.exports = {
   buildTraining,
   buildTrainingSummary,
   buildTrainingTrigger,
+  buildTrainingTriggerForAdmin,
   buildTrainingTriggerTube,
   buildTube,
   buildTutorial,
