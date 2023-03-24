@@ -35,12 +35,8 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
         expectedMessage: '"Code Insee" invalide',
       },
       {
-        error: 'CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_EXCLUSIVE',
-        expectedMessage: 'Renseigner soit un code INSEE soit un code postal et un nom de commune de naissance',
-      },
-      {
         error: 'CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED',
-        expectedMessage: 'Champ obligatoire "Code postal" OU "Code INSEE" manquant',
+        expectedMessage: 'Renseigner soit un code INSEE soit un code postal et un nom de commune de naissance',
       },
       { error: 'CANDIDATE_BIRTH_COUNTRY_REQUIRED', expectedMessage: 'Champ obligatoire "Pays de naissance" manquant' },
       { error: 'CANDIDATE_BIRTH_COUNTRY_NOT_FOUND', expectedMessage: 'Pays de naissance non trouvé' },
@@ -50,6 +46,7 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
         expectedMessage: 'Le code postal et le nom de la commune ne correspondent pas',
       },
       { error: 'CANDIDATE_BIRTH_POSTAL_CODE_NOT_FOUND', expectedMessage: 'Code postal non trouvé' },
+      { error: 'CANDIDATE_BIRTH_POSTAL_CODE_REQUIRED', expectedMessage: 'Champ obligatoire "Code postal" manquant' },
       { error: 'CANDIDATE_BIRTHDATE_REQUIRED', expectedMessage: 'Champ obligatoire "Date de naissance" manquant' },
       {
         error: 'CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID',

@@ -47,17 +47,17 @@ module.exports.CERTIFICATION_CANDIDATES_ERRORS = {
     code: 'CANDIDATE_BIRTH_INSEE_CODE_NOT_VALID',
     getMessage: ({ birthINSEECode }) => `Le code INSEE "${birthINSEECode}" n'est pas valide.`,
   },
-  CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_EXCLUSIVE: {
-    code: 'CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_EXCLUSIVE',
-    getMessage: () => "Le champ commune de naissance ne doit pas être renseigné lorsqu'un code INSEE est renseigné.",
-  },
   CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED: {
     code: 'CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED',
-    getMessage: () => 'Le champ code postal ou code INSEE doit être renseigné.',
+    getMessage: () => 'Renseigner soit un code INSEE soit un code postal et un nom de commune de naissance',
   },
   CANDIDATE_BIRTH_POSTAL_CODE_NOT_FOUND: {
     code: 'CANDIDATE_BIRTH_POSTAL_CODE_NOT_FOUND',
     getMessage: ({ birthPostalCode }) => `Le code postal "${birthPostalCode}" n'est pas valide.`,
+  },
+  CANDIDATE_BIRTH_POSTAL_CODE_REQUIRED: {
+    code: 'CANDIDATE_BIRTH_POSTAL_CODE_REQUIRED',
+    getMessage: () => `Le code postal est obligatoire`,
   },
   CANDIDATE_BIRTH_POSTAL_CODE_CITY_NOT_VALID: {
     code: 'CANDIDATE_BIRTH_POSTAL_CODE_CITY_NOT_VALID',

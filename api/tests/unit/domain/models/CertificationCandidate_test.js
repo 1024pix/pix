@@ -692,69 +692,106 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     });
 
     context('birthPostalCode and birthInseeCode', function () {
-      it('should return a report if both birthPostalCode and birthInseeCode are not present', async function () {
-        // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({
-          ...validAttributes,
-          birthPostalCode: null,
-          birthINSEECode: null,
+      context('when there is birthCity', function () {
+        it('should return a report if both birthPostalCode and birthInseeCode are not present', async function () {
+          // given
+          const certificationCandidate = domainBuilder.buildCertificationCandidate({
+            ...validAttributes,
+            birthPostalCode: null,
+            birthINSEECode: null,
+            birthCity: 'PARIS',
+          });
+
+          // when
+          const report = certificationCandidate.validateForMassSessionImport();
+
+          // then
+          expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_POSTAL_CODE_REQUIRED.code]);
         });
+        it('should return a report if birthPostalCode and birthInseeCode are present', async function () {
+          // given
+          const certificationCandidate = domainBuilder.buildCertificationCandidate({
+            ...validAttributes,
+            birthPostalCode: 'TUTU',
+            birthINSEECode: 'TATA',
+            birthCity: 'TOTO',
+          });
 
-        // when
-        const report = certificationCandidate.validateForMassSessionImport();
+          // when
+          const report = certificationCandidate.validateForMassSessionImport();
 
-        // then
-        expect(report).to.deep.equal([
-          CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED.code,
-        ]);
+          // then
+          expect(report).to.deep.equal([
+            CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED.code,
+          ]);
+        });
+        it('should return nothing if birthPostalCode is present and birthInseeCode is empty', async function () {
+          // given
+          const certificationCandidate = domainBuilder.buildCertificationCandidate({
+            ...validAttributes,
+            billingMode: 'FREE',
+            birthPostalCode: 'tutu',
+            birthINSEECode: null,
+            birthCity: 'tata',
+          });
+
+          // when
+          const report = certificationCandidate.validateForMassSessionImport();
+
+          // then
+          expect(report).to.be.undefined;
+        });
       });
+      context('when there is no birthCity', function () {
+        it('should return a report if both birthPostalCode and birthInseeCode are not present', async function () {
+          // given
+          const certificationCandidate = domainBuilder.buildCertificationCandidate({
+            ...validAttributes,
+            birthPostalCode: null,
+            birthINSEECode: null,
+            birthCity: null,
+          });
 
-      it('should return a report if birthPostalCode and birthInseeCode are present', async function () {
-        // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({
-          ...validAttributes,
-          birthPostalCode: 'TUTU',
-          birthINSEECode: 'TATA',
+          // when
+          const report = certificationCandidate.validateForMassSessionImport();
+
+          // then
+          expect(report).to.deep.equal([
+            CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED.code,
+          ]);
         });
+        it('should return a report if both birthPostalCode and birthInseeCode are present', async function () {
+          // given
+          const certificationCandidate = domainBuilder.buildCertificationCandidate({
+            ...validAttributes,
+            birthPostalCode: null,
+            birthINSEECode: null,
+            birthCity: null,
+          });
 
-        // when
-        const report = certificationCandidate.validateForMassSessionImport();
+          // when
+          const report = certificationCandidate.validateForMassSessionImport();
 
-        // then
-        expect(report).to.deep.equal([
-          CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_EXCLUSIVE.code,
-        ]);
-      });
-
-      it('should return nothing if birthPostalCode is present and birthInseeCode is empty', async function () {
-        // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({
-          ...validAttributes,
-          birthPostalCode: '75000',
-          birthINSEECode: null,
+          // then
+          expect(report).to.deep.equal([
+            CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED.code,
+          ]);
         });
+        it('should return nothing if birthInseeCode is present and birthPostalCode is empty', async function () {
+          // given
+          const certificationCandidate = domainBuilder.buildCertificationCandidate({
+            ...validAttributes,
+            billingMode: 'FREE',
+            birthPostalCode: '',
+            birthINSEECode: '75115',
+          });
 
-        // when
-        const report = certificationCandidate.validateForMassSessionImport();
+          // when
+          const report = certificationCandidate.validateForMassSessionImport();
 
-        // then
-        expect(report).to.be.undefined;
-      });
-
-      it('should return nothing if birthInseeCode is present and birthPostalCode is empty', async function () {
-        // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({
-          ...validAttributes,
-          billingMode: 'FREE',
-          birthPostalCode: '',
-          birthINSEECode: '75115',
+          // then
+          expect(report).to.be.undefined;
         });
-
-        // when
-        const report = certificationCandidate.validateForMassSessionImport();
-
-        // then
-        expect(report).to.be.undefined;
       });
     });
 

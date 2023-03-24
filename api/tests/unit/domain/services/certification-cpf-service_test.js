@@ -309,7 +309,7 @@ describe('Unit | Service | Certification CPF service', function () {
             expect(result).to.deep.equal(
               CpfBirthInformationValidation.failure({
                 certificationCandidateError:
-                  CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_EXCLUSIVE,
+                  CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED,
               })
             );
           });
@@ -419,7 +419,7 @@ describe('Unit | Service | Certification CPF service', function () {
             expect(result).to.deep.equal(
               CpfBirthInformationValidation.failure({
                 certificationCandidateError:
-                  CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_EXCLUSIVE,
+                  CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED,
               })
             );
           });
