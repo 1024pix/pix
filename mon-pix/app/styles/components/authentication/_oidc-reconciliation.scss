@@ -9,7 +9,7 @@
   &__title {
     @extend %pix-title-m;
 
-    padding-top: $spacing-l;
+    padding-top: $pix-spacing-l;
     text-align: center;
   }
 
@@ -18,13 +18,13 @@
 
     display: block;
     margin: 0;
-    padding: $spacing-s 0 $spacing-xxs 0;
+    padding: $pix-spacing-s 0 $pix-spacing-xxs 0;
   }
 
   &__information {
     @extend %pix-title-xs;
 
-    margin-bottom: $spacing-xxl;
+    margin-bottom: $pix-spacing-xxl;
     font-weight: 400;
   }
 
@@ -40,9 +40,9 @@
     flex-direction: column;
     align-items: center;
     width: 570px;
-    padding-top: $spacing-l;
+    padding-top: $pix-spacing-l;
     background-color: $pix-neutral-10;
-    border-radius: $spacing-xs;
+    border-radius: $pix-spacing-xs;
 
     svg {
       min-width: 120px;
@@ -54,14 +54,14 @@
       @extend %pix-title-xs;
 
       margin: 0;
-      padding-top: $spacing-xs;
+      padding-top: $pix-spacing-xs;
       color: $pix-neutral-90;
     }
   }
 
   &__user-authentication-methods {
     width: 100%;
-    padding: $spacing-l;
+    padding: $pix-spacing-l;
 
     p {
       @extend %pix-title-xs;
@@ -72,7 +72,7 @@
 
   &__new-authentication-method {
     width: 506px;
-    padding-top: $spacing-s;
+    padding-top: $pix-spacing-s;
 
     p {
       @extend %pix-title-xs;
@@ -83,9 +83,9 @@
   }
 
   &__user-authentication-methods-list {
-    padding: $spacing-l $spacing-xl;
+    padding: $pix-spacing-l $pix-spacing-xl;
     background-color: $pix-neutral-0;
-    border-radius: $spacing-xs;
+    border-radius: $pix-spacing-xs;
 
     dd,
     dt {
@@ -98,7 +98,7 @@
     dt {
       display: inline-block;
       width: 38%;
-      padding: $spacing-xxs 0;
+      padding: $pix-spacing-xxs 0;
       font-weight: 500;
     }
   }
@@ -107,7 +107,7 @@
     display: flex;
     justify-content: right;
     width: 570px;
-    margin-top: $spacing-xs;
+    margin-top: $pix-spacing-xs;
   }
 
   &__arrow {
@@ -122,7 +122,7 @@
 
     dl {
       margin: 0;
-      padding: $spacing-l $spacing-xl;
+      padding: $pix-spacing-l $pix-spacing-xl;
 
       @extend %pix-body-l;
 
@@ -141,9 +141,9 @@
 
   &__action-buttons {
     display: flex;
-    gap: $spacing-m;
+    gap: $pix-spacing-m;
     justify-content: center;
     width: 100%;
-    padding-top: $spacing-l;
+    padding-top: $pix-spacing-l;
   }
 }

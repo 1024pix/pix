@@ -21,7 +21,7 @@
   &__container {
     display: flex;
     flex-direction: column;
-    gap: $spacing-m;
+    gap: $pix-spacing-m;
     align-items: center;
     width: 95%;
     max-width: 609px;
@@ -39,7 +39,7 @@
   &__header {
     display: flex;
     flex-direction: column;
-    gap: $spacing-s;
+    gap: $pix-spacing-s;
     align-items: center;
   }
 
@@ -107,7 +107,7 @@
   &__inputs {
     display: flex;
     flex-direction: column;
-    gap: $spacing-s;
+    gap: $pix-spacing-s;
     align-items: center;
   }
 
