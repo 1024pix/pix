@@ -6,10 +6,12 @@ const {
   mockLearningContent,
   learningContentBuilder,
   sinon,
+  catchErr,
 } = require('../../../test-helper');
 const trainingTriggerRepository = require('../../../../lib/infrastructure/repositories/training-trigger-repository');
 const { TrainingTrigger, TrainingTriggerTube } = require('../../../../lib/domain/models');
 const _ = require('lodash');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | training-trigger-repository', function () {
   let learningContent;
@@ -351,6 +353,25 @@ describe('Integration | Repository | training-trigger-repository', function () {
         tube1.practicalTitle
       );
       expect(result[1].areas[0].competences[0].thematics[0].triggerTubes[0].level).to.equal(trainingTriggerTube2.level);
+    });
+
+    context('when tube is not found', function () {
+      it('should throw a NotFoundError', async function () {
+        // given
+        const trainingId = databaseBuilder.factory.buildTraining().id;
+        const trainingTrigger = databaseBuilder.factory.buildTrainingTrigger({ trainingId });
+        databaseBuilder.factory.buildTrainingTriggerTube({
+          trainingTriggerId: trainingTrigger.id,
+          tubeId: 'notExistTubeId',
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const error = await catchErr(trainingTriggerRepository.findByTrainingId)({ trainingId });
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
+      });
     });
 
     it('should return empty array when no training trigger found', async function () {
