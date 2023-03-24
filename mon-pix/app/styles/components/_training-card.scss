@@ -24,7 +24,7 @@
 }
 
 .training-card-content__infos {
-  padding: 0 $spacing-s $spacing-xxl;
+  padding: 0 $pix-spacing-s $pix-spacing-xxl;
 }
 
 .training-card-content-infos__tag {
@@ -56,13 +56,12 @@
   height: 155px;
 
   .training-card-content-illustration {
-
     &__logo {
       position: absolute;
-      left: $spacing-s;
+      left: $pix-spacing-s;
       z-index: 1;
       width: 64px;
-      padding: $spacing-xxs;
+      padding: $pix-spacing-xxs;
       background-color: $pix-neutral-0;
       border-radius: 0 0 4px 4px;
     }

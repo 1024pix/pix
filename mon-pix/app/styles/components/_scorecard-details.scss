@@ -9,7 +9,7 @@
 
 .tutorials-header {
   &__title {
-    margin-bottom: $spacing-s;
+    margin-bottom: $pix-spacing-s;
     font-size: 2rem;
     font-family: $font-open-sans;
   }
@@ -70,12 +70,12 @@
 
   &__resume-or-start-button,
   &__improve-button {
-    margin-top: $spacing-m;
+    margin-top: $pix-spacing-m;
   }
 
   &__reset-button {
     width: 180px;
-    margin-top: $spacing-m;
+    margin-top: $pix-spacing-m;
   }
 
   &__reset-modal {
@@ -210,7 +210,7 @@
 
 .scorecard-details-reset-modal {
   &__important-message {
-    margin-bottom: $spacing-s;
+    margin-bottom: $pix-spacing-s;
     color: $pix-neutral-110;
     font-weight: $font-medium;
     font-size: 1.375rem;
@@ -228,7 +228,7 @@
     }
 
     .scorecard-details-reset-modal__list {
-      padding-left: $spacing-l;
+      padding-left: $pix-spacing-l;
     }
 
     .scorecard-details-reset-modal-list__item {
