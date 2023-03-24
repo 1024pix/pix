@@ -92,7 +92,7 @@
       display: inline;
       color: $pix-neutral-90;
 
-      @include text-large;
+      @extend %pix-body-l;
     }
 
     dt {
@@ -124,7 +124,7 @@
       margin: 0;
       padding: $spacing-l $spacing-xl;
 
-      @include text-large;
+      @extend %pix-body-l;
 
       color: $pix-neutral-90;
     }
