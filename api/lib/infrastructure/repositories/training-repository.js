@@ -71,7 +71,7 @@ async function findByCampaignParticipationIdAndLocale({
 async function create({ training, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConn = domainTransaction?.knexTransaction || knex;
   const [createdTraining] = await knexConn(TABLE_NAME).insert(training).returning('*');
-  return new Training(createdTraining);
+  return new TrainingForAdmin(createdTraining);
 }
 
 async function update({ id, attributesToUpdate, domainTransaction = DomainTransaction.emptyTransaction() }) {
