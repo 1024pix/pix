@@ -21,7 +21,6 @@
 
 .assessment-banner__title {
   margin: 0;
-  font-weight: $font-light;
   font-size: 1.094rem;
 
   @include device-is('mobile') {

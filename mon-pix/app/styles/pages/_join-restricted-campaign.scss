@@ -1,5 +1,4 @@
 .join-restricted-campaign {
-
   form {
     display: flex;
     flex-direction: column;
@@ -34,7 +33,6 @@
   &__title,
   &__sco-title {
     color: $pix-neutral-100;
-    font-weight: $font-light;
     font-family: $font-open-sans;
     text-align: center;
   }
@@ -57,7 +55,6 @@
   &__subtitle {
     margin-bottom: 30px;
     color: $pix-neutral-100;
-    font-weight: $font-light;
     font-size: 1.125rem;
     font-family: $font-open-sans;
     text-align: center;
@@ -159,7 +156,6 @@
 }
 
 .join-error-modal-header {
-
   &__title {
     display: flex;
     align-items: center;
@@ -167,7 +163,6 @@
 }
 
 .join-error-modal-header-title {
-
   &__text {
     margin-left: 8px;
     color: $pix-neutral-90;
@@ -179,7 +174,6 @@
 }
 
 .join-error-modal-header-close {
-
   &__icon {
     width: 32px;
     height: 32px;
@@ -191,7 +185,6 @@
 }
 
 .join-error-modal-body {
-
   &__message {
     color: $pix-neutral-110;
     font-weight: $font-normal;
