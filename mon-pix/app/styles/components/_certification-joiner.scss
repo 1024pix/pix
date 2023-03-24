@@ -5,7 +5,6 @@
   &__title {
     margin-bottom: 32px;
     color: $pix-neutral-90;
-    font-weight: $font-light;
     font-size: 2rem;
     font-family: $font-open-sans;
     text-align: center;
@@ -112,7 +111,6 @@
   }
 
   .certification-course-page {
-
     &__errors {
       margin: 5px;
       color: $pix-warning-60;
@@ -120,7 +118,6 @@
       text-align: start;
 
       &__list {
-
         li {
           margin: 8px 0 0 16px;
           text-align: start;

@@ -1,7 +1,6 @@
 .user-trainings-banner {
   margin: 0 24px;
   padding-bottom: 16px;
-  font-weight: $font-light;
   font-family: $font-roboto;
 
   @include device-is('desktop') {

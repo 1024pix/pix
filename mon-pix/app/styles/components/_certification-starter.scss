@@ -9,7 +9,6 @@
 }
 
 .certification-start-page {
-
   &__block {
     max-width: 980px;
     margin-bottom: 32px;
@@ -27,7 +26,6 @@
     text-align: start;
 
     &__list {
-
       li {
         margin: 8px 0 0 16px;
         text-align: start;
@@ -62,7 +60,6 @@
   &__title {
     margin-bottom: 20px;
     color: $pix-neutral-100;
-    font-weight: $font-light;
     font-size: 2.625rem;
     font-family: $font-open-sans;
     text-align: center;
@@ -122,7 +119,6 @@
   margin-top: 5px;
   margin-bottom: 5px;
   color: $pix-neutral-80;
-  font-weight: $font-light;
   font-size: 1.25rem;
   font-family: $font-open-sans;
   line-height: 28px;
@@ -160,11 +156,14 @@
   font-family: $font-roboto-mono;
   letter-spacing: $space-between-dashes;
   text-transform: uppercase;
-  background: repeating-linear-gradient(90deg,
-    $pix-neutral-22 0,
-    $pix-neutral-22 1ch,
-    transparent 0,
-    transparent 1ch + $space-between-dashes) 0 100% / #{$total-width - $space-between-dashes} 2px no-repeat;
+  background: repeating-linear-gradient(
+      90deg,
+      $pix-neutral-22 0,
+      $pix-neutral-22 1ch,
+      transparent 0,
+      transparent 1ch + $space-between-dashes
+    )
+    0 100% / #{$total-width - $space-between-dashes} 2px no-repeat;
   background-position-x: 0.5ch;
   background-position-y: 2.5ch;
   border: solid 2px $pix-neutral-20;
@@ -182,11 +181,14 @@
     // display differently for IE because 1 character (ch) is equal to 1.162
     line-height: 0.7;
     letter-spacing: $space-between-dashes;
-    background: repeating-linear-gradient(90deg,
-      $pix-neutral-22 0,
-      $pix-neutral-22 1.3ch,
-      transparent 0,
-      transparent 1.3ch + $space-between-dashes) 0 100% / #{$total-width - $space-between-dashes} 2px no-repeat;
+    background: repeating-linear-gradient(
+        90deg,
+        $pix-neutral-22 0,
+        $pix-neutral-22 1.3ch,
+        transparent 0,
+        transparent 1.3ch + $space-between-dashes
+      )
+      0 100% / #{$total-width - $space-between-dashes} 2px no-repeat;
     background-position-x: 0.1ch * $ie11-modifier;
     background-position-y: 2.8ch * $ie11-modifier;
     background-origin: content-box;

@@ -10,7 +10,6 @@
 .tutorials-header {
   &__title {
     margin-bottom: $spacing-s;
-    font-weight: $font-light;
     font-size: 2rem;
     font-family: $font-open-sans;
   }
@@ -162,7 +161,6 @@
 
   &__name {
     margin: 15px 0;
-    font-weight: $font-light;
     font-size: 2rem;
     font-family: $font-open-sans;
   }
@@ -222,7 +220,6 @@
   &__warning {
     padding-bottom: 10px;
     color: $pix-neutral-80;
-    font-weight: $font-light;
     font-size: 1rem;
     font-family: $font-roboto;
 

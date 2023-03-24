@@ -17,7 +17,6 @@
     .form__title {
       margin-bottom: 16px;
       color: $pix-neutral-80;
-      font-weight: $font-light;
       font-size: 2rem;
       font-family: $font-open-sans;
     }
@@ -26,7 +25,6 @@
       max-width: 500px;
       margin-bottom: 32px;
       color: $pix-neutral-60;
-      font-weight: $font-light;
       line-height: 22px;
     }
 
@@ -49,7 +47,6 @@
       }
 
       @media all and (-ms-high-contrast: none) {
-
         input {
           width: 17.4ch;
         }
