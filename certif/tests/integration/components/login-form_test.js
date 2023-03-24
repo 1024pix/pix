@@ -108,10 +108,11 @@ module('Integration | Component | login-form', function (hooks) {
       url: 'https://app.pix.localhost/mot-de-passe-oublie',
       htmlSafe: true,
     });
+
     assert
       .dom(
         screen.getByText((content, node) => {
-          const hasText = (node) => node.innerHTML.trim() === expectedErrorMessage.string;
+          const hasText = (node) => node.innerHTML.trim() === `${expectedErrorMessage}`;
           const nodeHasText = hasText(node);
           const childrenDontHaveText = Array.from(node.children).every((child) => !hasText(child));
           return nodeHasText && childrenDontHaveText;
