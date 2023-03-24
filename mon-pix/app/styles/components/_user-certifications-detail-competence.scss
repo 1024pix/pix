@@ -80,13 +80,11 @@
 }
 
 @mixin coloriseElements($color) {
-
   .user-certifications-detail-competence__title {
     color: $color;
   }
 
   .user-certifications-detail-competence__competence {
-
     &--level {
       color: $color;
     }
@@ -98,7 +96,7 @@
 }
 
 .user-certifications-detail-competence--jaffa {
-  @include coloriseElements($information-light);
+  @include coloriseElements($pix-information-light);
 }
 
 .user-certifications-detail-competence--emerald {
@@ -118,9 +116,7 @@
 }
 
 @include device-is('mobile') {
-
   .user-certifications-detail-competence {
-
     &__title {
       font-weight: $font-normal;
       font-size: 0.875rem;
@@ -131,13 +127,11 @@
     }
 
     &__competence {
-
       &--level {
         padding-right: 0;
       }
 
       &--disabled {
-
         span {
           display: block;
           opacity: 0;
