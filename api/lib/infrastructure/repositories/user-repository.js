@@ -401,6 +401,12 @@ module.exports = {
     await knex('users').where({ id: userId }).update({ lastLoggedAt: now });
   },
 
+  async updateLocale({ userId, locale }) {
+    const now = new Date();
+
+    await knex('users').where({ id: userId }).update({ locale, updatedAt: now });
+  },
+
   async updateLastDataProtectionPolicySeenAt({ userId }) {
     const now = new Date();
 
@@ -618,6 +624,7 @@ function _toDomainFromDTO({
     hasSeenOtherChallengesTooltip: userDTO.hasSeenOtherChallengesTooltip,
     mustValidateTermsOfService: userDTO.mustValidateTermsOfService,
     lang: userDTO.lang,
+    locale: userDTO.locale,
     isAnonymous: userDTO.isAnonymous,
     pixScore: userDTO.pixScore,
     scorecards: userDTO.scorecards,

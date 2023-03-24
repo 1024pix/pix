@@ -93,6 +93,7 @@ const juryCertificationSummaryRepository = require('../../infrastructure/reposit
 const jurySessionRepository = require('../../infrastructure/repositories/sessions/jury-session-repository.js');
 const knowledgeElementRepository = require('../../infrastructure/repositories/knowledge-element-repository.js');
 const learningContentRepository = require('../../infrastructure/repositories/learning-content-repository.js');
+const localeService = require('../../domain/services/locale-service.js');
 const mailService = require('../../domain/services/mail-service.js');
 const membershipRepository = require('../../infrastructure/repositories/membership-repository.js');
 const obfuscationService = require('../../domain/services/obfuscation-service.js');
@@ -274,6 +275,7 @@ const dependencies = {
   jurySessionRepository,
   knowledgeElementRepository,
   learningContentRepository,
+  localeService,
   mailService,
   membershipRepository,
   obfuscationService,
