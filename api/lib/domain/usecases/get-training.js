@@ -1,3 +1,3 @@
 module.exports = function getTraining({ trainingId, trainingRepository }) {
-  return trainingRepository.getWithTriggers({ trainingId });
+  return trainingRepository.getWithTriggersForAdmin({ trainingId });
 };

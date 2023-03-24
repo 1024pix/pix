@@ -22,7 +22,7 @@ async function get({ trainingId, domainTransaction = DomainTransaction.emptyTran
   return _toDomain(training, targetProfileTrainings);
 }
 
-async function getWithTriggers({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+async function getWithTriggersForAdmin({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConn = domainTransaction?.knexTransaction || knex;
   const trainingDTO = await knexConn(TABLE_NAME).where({ id: trainingId }).first();
   if (!trainingDTO) {
@@ -118,7 +118,7 @@ async function findPaginatedByUserId({
 
 module.exports = {
   get,
-  getWithTriggers,
+  getWithTriggersForAdmin,
   findPaginatedSummaries,
   findByCampaignParticipationIdAndLocale,
   create,
