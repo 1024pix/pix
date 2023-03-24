@@ -772,7 +772,7 @@
       "errors": {
         "forbidden": "Oops! We can’t find you. Check your details to continue or contact the organiser.",
         "missing-code": "Please enter a code.",
-        "not-found": "Your code is incorrect. Please check it or contact the organiser."
+        "not-found": "Your code is incorrect. Please check its format (ex: ABCDEF234) or contact the organiser."
       },
       "explanation-message": "What is a customised test code and how do I use it?",
       "explanation-link": "https://support.pix.org/en/support/solutions/articles/15000029147-what-is-a-customised-test-code-and-how-do-i-use-it-",

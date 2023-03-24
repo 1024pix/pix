@@ -408,7 +408,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           assert.strictEqual(currentURL(), '/campagnes');
           assert.ok(
             find('.fill-in-campaign-code__error').textContent.includes(
-              'Votre code est erroné, veuillez vérifier ou contacter l’organisateur.'
+              t('pages.fill-in-campaign-code.errors.not-found')
             )
           );
         });
