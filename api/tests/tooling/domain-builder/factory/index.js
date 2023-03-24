@@ -126,6 +126,7 @@ const buildOrganizationsToAttachToTargetProfile = require('./build-organizations
 const buildTargetProfileSummaryForAdmin = require('./build-target-profile-summary-for-admin');
 const buildThematic = require('./build-thematic');
 const buildTraining = require('./build-training');
+const buildTrainingForAdmin = require('./build-training-for-admin');
 const buildTrainingSummary = require('./build-training-summary');
 const buildTrainingTrigger = require('./build-training-trigger');
 const buildTrainingTriggerForAdmin = require('./build-training-trigger-for-admin');
@@ -272,6 +273,7 @@ module.exports = {
   buildTargetProfileSummaryForAdmin,
   buildThematic,
   buildTraining,
+  buildTrainingForAdmin,
   buildTrainingSummary,
   buildTrainingTrigger,
   buildTrainingTriggerForAdmin,
