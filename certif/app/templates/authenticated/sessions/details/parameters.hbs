@@ -8,9 +8,9 @@
           <PixTooltip @id="tooltip-clipboard-button" @isInline={{true}} @hide={{this.isSessionNumberTooltipTextEmpty}}>
             <:triggerElement>
               <CopyButton
-                @clipboardText={{this.session.id}}
-                @success={{this.showSessionIdTooltip}}
-                @classNames="icon-button session-details-content__clipboard-button"
+                @text={{this.session.id}}
+                @onSuccess={{this.showSessionIdTooltip}}
+                class="icon-button session-details-content__clipboard-button"
                 aria-label={{t "pages.sessions.detail.parameters.session.copy-number"}}
               >
                 <FaIcon @icon="copy" prefix="fas" />
@@ -36,9 +36,9 @@
           <PixTooltip @id="tooltip-clipboard-button" @isInline={{true}} @hide={{this.isAccessCodeTooltipTextEmpty}}>
             <:triggerElement>
               <CopyButton
-                @clipboardText={{this.session.accessCode}}
-                @success={{this.showAccessCodeTooltip}}
-                @classNames="icon-button session-details-content__clipboard-button"
+                @text={{this.session.accessCode}}
+                @onSuccess={{this.showAccessCodeTooltip}}
+                class="icon-button session-details-content__clipboard-button"
                 aria-label={{t "pages.sessions.detail.parameters.access-code.copy-code"}}
               >
                 <FaIcon @icon="copy" prefix="fas" />
@@ -70,9 +70,9 @@
           >
             <:triggerElement>
               <CopyButton
-                @clipboardText={{this.session.supervisorPassword}}
-                @success={{this.showSupervisorPasswordTooltip}}
-                @classNames="icon-button session-details-content__clipboard-button"
+                @text={{this.session.supervisorPassword}}
+                @onSuccess={{this.showSupervisorPasswordTooltip}}
+                class="icon-button session-details-content__clipboard-button"
                 aria-label={{t "pages.sessions.detail.parameters.password.copy-password"}}
               >
                 <FaIcon @icon="copy" prefix="fas" />
