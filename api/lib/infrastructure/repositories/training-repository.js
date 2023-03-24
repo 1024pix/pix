@@ -92,7 +92,7 @@ async function update({ id, attributesToUpdate, domainTransaction = DomainTransa
 
   const targetProfileTrainings = await knexConn('target-profile-trainings').where({ trainingId: id });
 
-  return _toDomain(updatedTraining, targetProfileTrainings);
+  return _toDomainForAdmin({ training: updatedTraining, targetProfileTrainings });
 }
 
 async function findPaginatedByUserId({

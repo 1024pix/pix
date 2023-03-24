@@ -386,7 +386,7 @@ describe('Integration | Repository | training-repository', function () {
       const updatedTraining = await trainingRepository.update({ id: training.id, attributesToUpdate });
 
       // then
-      expect(updatedTraining).to.be.instanceOf(Training);
+      expect(updatedTraining).to.be.instanceOf(TrainingForAdmin);
       expect(updatedTraining.title).to.equal(attributesToUpdate.title);
       expect(updatedTraining.link).to.equal(attributesToUpdate.link);
       expect(updatedTraining.editorName).to.be.equal(attributesToUpdate.editorName);
