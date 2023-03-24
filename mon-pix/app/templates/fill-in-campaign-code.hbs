@@ -85,12 +85,12 @@
   <:content>
     <p>
       {{t "pages.fill-in-campaign-code.mediacentre-start-campaign-modal.message"}}
-      <p class="pix-text--small">
-        <div class="pix-text--small"><b>{{this.campaign.targetProfileName}}</b></div>
+      <p class="pix-body-s">
+        <div><b>{{this.campaign.targetProfileName}}</b></div>
         {{t "pages.fill-in-campaign-code.mediacentre-start-campaign-modal.organised-by"}}
         <b>{{this.campaign.organizationName}}</b>
       </p>
-      <p class="pix-text--small">
+      <p class="pix-body-s">
         <b>{{t "pages.fill-in-campaign-code.mediacentre-start-campaign-modal.message-footer"}}</b>
       </p>
     </p>
@@ -98,7 +98,11 @@
 
   <:footer>
     <div class="mediacentre-start-campaign-modal__action-buttons">
-      <LinkTo class="pix-text--link pix-text--small" @route="campaigns.entry-point" @model={{this.campaign.code}}>
+      <LinkTo
+        class="mediacentre-start-campaign-modal-action-buttons__continue-action"
+        @route="campaigns.entry-point"
+        @model={{this.campaign.code}}
+      >
         {{t "pages.fill-in-campaign-code.mediacentre-start-campaign-modal.actions.continue"}}
       </LinkTo>
       <PixButton @triggerAction={{this.closeModal}}>
