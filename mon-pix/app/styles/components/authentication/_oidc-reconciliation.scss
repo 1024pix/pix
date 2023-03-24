@@ -22,7 +22,7 @@
   }
 
   &__information {
-    @include subheading;
+    @extend %pix-title-xs;
 
     margin-bottom: $spacing-xxl;
     font-weight: 400;
@@ -64,7 +64,7 @@
     padding: $spacing-l;
 
     p {
-      @include subheading;
+      @extend %pix-title-xs;
 
       font-weight: 400;
     }
@@ -75,7 +75,7 @@
     padding-top: $spacing-s;
 
     p {
-      @include subheading;
+      @extend %pix-title-xs;
 
       color: $pix-neutral-90;
       font-weight: 400;
