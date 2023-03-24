@@ -1,23 +1,19 @@
 <article>
   <header class="learner-header">
-    <Ui::PreviousPageButton
-      @route="authenticated.sup-organization-participants"
-      @backButtonAriaLabel={{t "common.actions.back"}}
-      aria-label={{t
-        "pages.organization-learner.header.aria-label-title"
-        firstName=@model.firstName
-        lastName=@model.lastName
-      }}
-      class="learner-header-title"
-    >
-      {{t "common.fullname" firstName=@model.firstName lastName=@model.lastName}}
-    </Ui::PreviousPageButton>
-    <Ui::LearnerHeaderInfo
-      @groupName={{t "components.group.SUP"}}
-      @group={{@model.group}}
-      @isCertifiable={{@model.isCertifiable}}
-      @certifiableAt={{@model.certifiableAt}}
-    />
+    <Ui::Breadcrumb class="learner-header__breadcrumb" @links={{this.breadcrumbLinks}} />
+    <div class="learner-header__info">
+      <h1 class="learner-header-info__title">{{t
+          "common.fullname"
+          firstName=@model.firstName
+          lastName=@model.lastName
+        }}</h1>
+      <Ui::LearnerHeaderInfo
+        @groupName={{t "components.group.SUP"}}
+        @group={{@model.group}}
+        @isCertifiable={{@model.isCertifiable}}
+        @certifiableAt={{@model.certifiableAt}}
+      />
+    </div>
   </header>
   {{outlet}}
 </article>
