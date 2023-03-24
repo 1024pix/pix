@@ -1,7 +1,6 @@
 .feedback-panel {
   z-index: 1;
-  margin-top: 16px;
-  padding: 5px 15px;
+  padding: 0 $spacing-s;
   color: $pix-neutral-60;
   font-size: 0.938rem;
   background-color: white;
@@ -13,7 +12,7 @@
 
 .feedback-panel__open-button {
   width: 100%;
-  padding: 0;
+  padding: 0.75rem 0;
   color: $pix-neutral-50;
   font-weight: $font-medium;
   font-size: 0.875rem;
@@ -23,19 +22,34 @@
   background-color: transparent;
   border: none;
   cursor: pointer;
+
+  svg {
+    margin-right: $spacing-xxs;
+  }
+
+  &[aria-expanded='true'] {
+    color: $pix-neutral-90;
+  }
 }
 
 .feedback-panel__open-button:hover,
-.feedback-panel__open-button:focus,
+.feedback-panel__open-button:focus-visible,
 .feedback-panel__open-button:active {
-  color: $pix-neutral-80;
+  color: $pix-primary;
 }
 
 /* "Form" view
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
+.feedback-panel__view {
+  font-size: 0.875rem;
+}
+
+.feedback-panel__view--form {
+  padding: $spacing-xs 0;
+}
+
 .feedback-panel__form-description {
-  margin-bottom: 20px;
   font-size: 1.25rem;
 
   & .link {
@@ -47,14 +61,9 @@
   }
 }
 
-.feedback-panel__form-description p {
-  margin: 0;
-  font-size: 0.938rem;
-  font-family: $font-open-sans;
-}
-
 .feedback-panel__form-wrapper {
   display: flex;
+  margin-top: $spacing-s;
 }
 
 .feedback-panel__form {
@@ -62,7 +71,7 @@
 }
 
 .feedback-panel__group {
-  margin-bottom: 10px;
+  margin-bottom: $spacing-xs;
 }
 
 .feedback-panel__field {
@@ -75,17 +84,24 @@
   border-radius: 3px;
 }
 
+.feedback-panel__field-notice {
+  margin: $spacing-s 0 $spacing-xxs;
+  font-size: 0.75rem;
+}
+
 .feedback-panel__category-selection {
   display: flex;
   flex-direction: column;
+  gap: $spacing-s;
 }
 
 .feedback-panel__dropdown {
   width: 100%;
-  margin: 5px 0;
+  padding: 0.5rem;
   color: $pix-neutral-80;
-  font-size: 0.938rem;
   font-family: $font-roboto;
+  border-color: $pix-neutral-50;
+  border-radius: 0.25rem;
 
   @include device-is('desktop') {
     width: 40%;
@@ -93,7 +109,6 @@
 }
 
 .feedback-panel__quick-help {
-  margin-top: 20px;
   padding: 20px;
   font-weight: bold;
   font-size: 0.938rem;
@@ -141,12 +156,12 @@
 }
 
 .feedback-panel__form-legal-notice {
-  padding-top: 15px;
+  margin-top: $spacing-s;
+  padding-top: $spacing-s;
+  color: $pix-neutral-50;
+  font-size: 0.75rem;
+  line-height: 1.5;
   border-top: 1px solid $pix-neutral-20;
-
-  & p {
-    font-size: 0.75rem;
-  }
 
   & a {
     color: $pix-primary-60;
@@ -157,11 +172,13 @@
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .feedback-panel__view--mercix {
-  padding-top: 20px;
-  padding-bottom: 10px;
-  color: $pix-neutral-80;
-  font-size: 1.125rem;
+  padding: $spacing-s 0 $spacing-m;
+  font-size: 1rem;
   text-align: center;
+
+  p + p {
+    margin-top: $spacing-xs;
+  }
 }
 
 .feedback-panel__alert {
