@@ -2,6 +2,8 @@ import { inject as service } from '@ember/service';
 import SessionService from 'ember-simple-auth/services/session';
 import get from 'lodash/get';
 
+const FRENCH_LOCALE = 'fr-FR';
+
 export default class CurrentSessionService extends SessionService {
   @service currentUser;
   @service currentDomain;
@@ -10,6 +12,7 @@ export default class CurrentSessionService extends SessionService {
   @service url;
   @service router;
   @service oidcIdentityProviders;
+  @service locale;
 
   routeAfterAuthentication = 'authenticated.user-dashboard';
 
@@ -89,6 +92,7 @@ export default class CurrentSessionService extends SessionService {
 
     if (domain === 'fr') {
       await this._setLocale(defaultLocale);
+      this.locale.setLocaleCookie(FRENCH_LOCALE);
       return;
     }
 

@@ -16,6 +16,7 @@ module('Unit | Services | session', function (hooks) {
     sessionService.currentDomain = { getExtension: sinon.stub() };
     sessionService.intl = { setLocale: sinon.stub() };
     sessionService.dayjs = { setLocale: sinon.stub(), self: { locale: sinon.stub() } };
+    sessionService.locale = { setLocaleCookie: sinon.stub() };
     sessionService._getRouteAfterInvalidation = sinon.stub();
     sessionService._logoutUser = sinon.stub();
 
@@ -276,6 +277,22 @@ module('Unit | Services | session', function (hooks) {
             // then
             sinon.assert.calledWith(sessionService.intl.setLocale, ['ru', 'fr']);
             sinon.assert.calledWith(sessionService.dayjs.setLocale, 'ru');
+            assert.ok(true);
+          });
+        });
+      });
+
+      module('when the current domain  is "fr"', function () {
+        module('when there is no cookie', function () {
+          test('add a cookie locale with "fr-FR" as value', async function (assert) {
+            // given
+            sessionService.currentDomain.getExtension.returns('fr');
+
+            // when
+            await sessionService.handleUserLanguageAndLocale();
+
+            // then
+            sinon.assert.calledWith(sessionService.locale.setLocaleCookie, 'fr-FR');
             assert.ok(true);
           });
         });
