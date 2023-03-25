@@ -26,8 +26,8 @@ async function _checkUserAccessScope(scope, user, adminMemberRepository) {
 async function _updateUserLocaleIfNotAlreadySet({ user, locale, localeService, userRepository }) {
   if (user.locale) return;
   if (!locale) return;
-  const formattedLocale = localeService.getCanonicalLocale(locale);
-  return userRepository.updateLocale({ userId: user.id, locale: formattedLocale });
+  const canonicalLocale = localeService.getCanonicalLocale(locale);
+  return userRepository.updateLocale({ userId: user.id, locale: canonicalLocale });
 }
 
 module.exports = async function authenticateUser({
