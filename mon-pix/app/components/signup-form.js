@@ -183,14 +183,14 @@ export default class SignupForm extends Component {
     }
 
     switch (firstError?.code) {
-      case 'LOCALE_NOT_SUPPORTED':
-        this.errorMessage = this.intl.t('pages.sign-up.errors.locale-not-supported', {
-          localeNotSupported: firstError.meta.locale,
-        });
-        return;
       case 'INVALID_LOCALE_FORMAT':
         this.errorMessage = this.intl.t('pages.sign-up.errors.invalid-locale-format', {
           invalidLocale: firstError.meta.locale,
+        });
+        return;
+      case 'LOCALE_NOT_SUPPORTED':
+        this.errorMessage = this.intl.t('pages.sign-up.errors.locale-not-supported', {
+          localeNotSupported: firstError.meta.locale,
         });
         return;
     }
