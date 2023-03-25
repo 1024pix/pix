@@ -7,6 +7,10 @@ export default class LocaleService extends Service {
   @service cookies;
   @service currentDomain;
 
+  hasLocaleCookie() {
+    return this.cookies.exists('locale');
+  }
+
   setLocaleCookie(locale) {
     this.cookies.write('locale', locale, {
       domain: `pix.${this.currentDomain.getExtension()}`,
