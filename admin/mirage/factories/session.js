@@ -1,4 +1,4 @@
-import { Factory, trait } from 'ember-cli-mirage';
+import { Factory, trait } from 'miragejs';
 import faker from 'faker';
 import dayjs from 'dayjs';
 import { CREATED, FINALIZED, IN_PROCESS, PROCESSED } from 'pix-admin/models/session';
