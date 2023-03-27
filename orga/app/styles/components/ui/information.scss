@@ -7,13 +7,13 @@
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  padding: 0 $spacing-xs;
+  padding: 0 $pix-spacing-xs;
   border-left: 1px solid $pix-neutral-22;
   font-size: 0.875rem;
   text-align: center;
 
   &__title {
-    margin-bottom: $spacing-xs;
+    margin-bottom: $pix-spacing-xs;
     color: $pix-neutral-50;
   }
 
@@ -29,7 +29,7 @@
   }
 
   &--certifiable {
-    padding-bottom: $spacing-xxs;
+    padding-bottom: $pix-spacing-xxs;
   }
 
   &:first-of-type {

@@ -1,19 +1,19 @@
 .learner-header {
-  margin: $spacing-l 0;
+  margin: $pix-spacing-l 0;
 
   &__breadcrumb {
     text-transform: capitalize;
-    margin-bottom: $spacing-m;
+    margin-bottom: $pix-spacing-m;
   }
 
   &__informations-line {
     display: flex;
-    gap: $spacing-xxl;
+    gap: $pix-spacing-xxl;
     align-items: center;
   }
 
   &__title {
-    @include h2;
+    @extend %pix-title-m;
     
     text-transform: capitalize;
   }
