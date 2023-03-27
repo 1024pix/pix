@@ -1,16 +1,19 @@
-<Ui::IndicatorCard
+<PixIndicatorCard
   @title={{t "cards.participants-average-stages.title"}}
   @icon="crown"
   @color="blue"
   @info={{t "cards.participants-average-stages.information"}}
   @isLoading={{@isLoading}}
+  class="indicator-card"
   ...attributes
 >
-  <PixStars
-    @count={{this.starsAcquired}}
-    @total={{this.starsTotal}}
-    @alt={{this.altMessage}}
-    @color="blue"
-    class="stage-average-stars"
-  />
-</Ui::IndicatorCard>
+  <:default>
+    <PixStars
+      @count={{this.starsAcquired}}
+      @total={{this.starsTotal}}
+      @alt={{this.altMessage}}
+      @color="blue"
+      class="stage-average-stars"
+    />
+  </:default>
+</PixIndicatorCard>

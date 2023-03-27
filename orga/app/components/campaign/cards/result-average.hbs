@@ -1,10 +1,11 @@
-<Ui::IndicatorCard
+<PixIndicatorCard
   @title={{t "cards.participants-average-results.title"}}
   @icon="crown"
   @color="blue"
   @info={{t "cards.participants-average-results.information"}}
   @isLoading={{@isLoading}}
+  class="indicator-card"
   ...attributes
 >
-  {{t "common.percentage" value=@value}}
-</Ui::IndicatorCard>
+  <:default>{{t "common.percentage" value=@value}}</:default>
+</PixIndicatorCard>
