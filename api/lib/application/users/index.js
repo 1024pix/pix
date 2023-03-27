@@ -250,6 +250,7 @@ exports.register = async function (server) {
                 'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
                 email: Joi.string().email().allow(null).optional(),
                 username: Joi.string().allow(null).optional(),
+                lang: Joi.string().valid('fr', 'en'),
               },
             },
           }),
