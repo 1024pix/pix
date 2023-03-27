@@ -3,8 +3,8 @@
   &__footer {
     display: flex;
     flex-direction: column;
-    gap: $spacing-s;
-    margin-bottom: $spacing-s;
+    gap: $pix-spacing-s;
+    margin-bottom: $pix-spacing-s;
   
     @include device-is('tablet') {
       flex-flow: row wrap;

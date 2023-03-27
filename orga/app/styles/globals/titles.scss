@@ -1,7 +1,6 @@
 .page-title {
-  font-family: $font-open-sans;
-  font-weight: 300;
-  font-size: 2.5rem;
+  @extend %pix-title-m;
+  
   color: $pix-neutral-90;
   margin-top: 0;
 }
@@ -11,7 +10,7 @@
   font-weight: 300;
   font-size: 1.5rem;
   color: $pix-neutral-60;
-  margin-bottom: $spacing-m;
+  margin-bottom: $pix-spacing-m;
 }
 
 .form-title {
@@ -22,8 +21,9 @@
 }
 
 .panel-header-title {
-  @include subheading;
-
+  @extend  %pix-title-xs;
+  
+  font-weight: $font-medium;
   color: $pix-neutral-70;
 }
 

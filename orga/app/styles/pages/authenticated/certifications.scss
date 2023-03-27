@@ -1,14 +1,14 @@
 .certifications-page {
   display: flex;
   flex-direction: column;
-  padding: $spacing-s 0 0 $spacing-s;
+  padding: $pix-spacing-s 0 0 $pix-spacing-s;
   width: 100%;
-  margin-bottom: $spacing-l;
+  margin-bottom: $pix-spacing-l;
 
   &__tabs {
     display: flex;
     border-bottom: 1px solid $pix-neutral-20;
-    margin-bottom: $spacing-s;
+    margin-bottom: $pix-spacing-s;
   }
 
   &__text {
@@ -24,8 +24,8 @@
     flex-wrap: wrap;
     align-items: flex-end;
     min-width: 100%;
-    margin-bottom: $spacing-xl;
-    gap: $spacing-s;
+    margin-bottom: $pix-spacing-xl;
+    gap: $pix-spacing-s;
   }
 
   .pix-message {
