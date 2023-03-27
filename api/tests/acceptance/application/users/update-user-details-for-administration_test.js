@@ -30,6 +30,7 @@ describe('Acceptance | Controller | users-controller-update-user-details-for-adm
             id: user.id,
             attributes: {
               email: 'emailUpdated',
+              lang: 'pt',
             },
           },
         },
