@@ -1,4 +1,4 @@
-import { Factory, trait } from 'ember-cli-mirage';
+import { Factory, trait } from 'miragejs';
 import { createLearningContent } from '../helpers/create-learning-content';
 
 export default Factory.extend({

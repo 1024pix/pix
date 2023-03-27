@@ -1,4 +1,4 @@
-import { Factory } from 'ember-cli-mirage';
+import { Factory } from 'miragejs';
 import faker from 'faker';
 import dayjs from 'dayjs';
 import { CREATED } from 'pix-certif/models/session';

@@ -1,7 +1,7 @@
-import { JSONAPISerializer } from 'ember-cli-mirage';
+import ApplicationSerializer from './application';
 
 const _include = ['thematics'];
 
-export default JSONAPISerializer.extend({
+export default ApplicationSerializer.extend({
   include: _include,
 });
