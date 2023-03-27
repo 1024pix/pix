@@ -9,7 +9,9 @@
   background: url('/images/macaron-certif.svg') no-repeat center center;
   background-size: 100% 100%;
 
-  p { margin: 0; }
+  p {
+    margin: 0;
+  }
 
   &__content {
     padding-bottom: 7%;
@@ -26,7 +28,7 @@
 
     &-pix-score {
       color: $pix-neutral-70;
-      font-weight: $font-semi-bold;
+      font-weight: $font-medium;
       font-size: 2.3rem;
       font-family: $font-open-sans;
     }

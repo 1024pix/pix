@@ -1,7 +1,7 @@
 .user-account-panel__item {
   display: flex;
   flex-wrap: wrap;
-  gap: $spacing-m;
+  gap: $pix-spacing-m;
   justify-content: space-between;
   padding-top: 16px;
   padding-bottom: 16px;
@@ -28,7 +28,7 @@
 .user-account-panel-item__text {
   display: flex;
   flex-wrap: wrap;
-  gap: $spacing-xs;
+  gap: $pix-spacing-xs;
 }
 
 .user-account-panel-item__label {

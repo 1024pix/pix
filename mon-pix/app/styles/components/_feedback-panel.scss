@@ -1,6 +1,6 @@
 .feedback-panel {
   z-index: 1;
-  padding: 0 $spacing-s;
+  padding: 0 $pix-spacing-s;
   color: $pix-neutral-60;
   font-size: 0.938rem;
   background-color: white;
@@ -24,7 +24,7 @@
   cursor: pointer;
 
   svg {
-    margin-right: $spacing-xxs;
+    margin-right: $pix-spacing-xxs;
   }
 
   &[aria-expanded='true'] {
@@ -46,24 +46,24 @@
 }
 
 .feedback-panel__view--form {
-  padding: $spacing-xs 0;
+  padding: $pix-spacing-xs 0;
 }
 
 .feedback-panel__form-description {
   font-size: 1.25rem;
 
   & .link {
-    color: $dark-blue-pro;
+    color: $pix-primary-60;
 
     &:hover {
-      color: $dark-blue-pro;
+      color: $pix-primary-60;
     }
   }
 }
 
 .feedback-panel__form-wrapper {
   display: flex;
-  margin-top: $spacing-s;
+  margin-top: $pix-spacing-s;
 }
 
 .feedback-panel__form {
@@ -71,7 +71,7 @@
 }
 
 .feedback-panel__group {
-  margin-bottom: $spacing-xs;
+  margin-bottom: $pix-spacing-xs;
 }
 
 .feedback-panel__field {
@@ -85,14 +85,14 @@
 }
 
 .feedback-panel__field-notice {
-  margin: $spacing-s 0 $spacing-xxs;
+  margin: $pix-spacing-s 0 $pix-spacing-xxs;
   font-size: 0.75rem;
 }
 
 .feedback-panel__category-selection {
   display: flex;
   flex-direction: column;
-  gap: $spacing-s;
+  gap: $pix-spacing-s;
 }
 
 .feedback-panel__dropdown {
@@ -156,8 +156,8 @@
 }
 
 .feedback-panel__form-legal-notice {
-  margin-top: $spacing-s;
-  padding-top: $spacing-s;
+  margin-top: $pix-spacing-s;
+  padding-top: $pix-spacing-s;
   color: $pix-neutral-50;
   font-size: 0.75rem;
   line-height: 1.5;
@@ -172,12 +172,12 @@
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .feedback-panel__view--mercix {
-  padding: $spacing-s 0 $spacing-m;
+  padding: $pix-spacing-s 0 $pix-spacing-m;
   font-size: 1rem;
   text-align: center;
 
   p + p {
-    margin-top: $spacing-xs;
+    margin-top: $pix-spacing-xs;
   }
 }
 

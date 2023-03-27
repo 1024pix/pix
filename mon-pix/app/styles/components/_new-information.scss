@@ -72,7 +72,6 @@
 }
 
 .new-information-content {
-
   &__img {
     display: block;
     margin: 12px 48px 12px 30px;
@@ -81,7 +80,6 @@
   &__text {
     display: inline-block;
     padding: 0 10px 14px;
-    font-weight: $font-light;
     font-size: 1.5rem;
     line-height: 2rem;
 
@@ -95,7 +93,7 @@
 
     h2 {
       margin-bottom: 14px;
-      font-weight: $font-semi-bold;
+      font-weight: $font-medium;
       font-size: 1.125rem;
       font-family: $font-open-sans;
       line-height: 1.875rem;
@@ -118,7 +116,6 @@
 }
 
 .new-information-content-text {
-
   &__button {
     display: inline-table;
     margin-top: 20px;

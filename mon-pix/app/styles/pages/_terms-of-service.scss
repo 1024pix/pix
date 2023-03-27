@@ -52,16 +52,14 @@
 }
 
 .terms-of-service-form-conditions {
-
   &__validation-error {
     margin-top: 16px;
-    color: $error;
+    color: $pix-error-50;
     font-weight: normal;
   }
 }
 
 .terms-of-service-form-actions {
-
   &__submit {
     margin-left: 10px;
   }

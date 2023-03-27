@@ -9,8 +9,7 @@
 
 .tutorials-header {
   &__title {
-    margin-bottom: $spacing-s;
-    font-weight: $font-light;
+    margin-bottom: $pix-spacing-s;
     font-size: 2rem;
     font-family: $font-open-sans;
   }
@@ -71,12 +70,12 @@
 
   &__resume-or-start-button,
   &__improve-button {
-    margin-top: $spacing-m;
+    margin-top: $pix-spacing-m;
   }
 
   &__reset-button {
     width: 180px;
-    margin-top: $spacing-m;
+    margin-top: $pix-spacing-m;
   }
 
   &__reset-modal {
@@ -162,7 +161,6 @@
 
   &__name {
     margin: 15px 0;
-    font-weight: $font-light;
     font-size: 2rem;
     font-family: $font-open-sans;
   }
@@ -212,7 +210,7 @@
 
 .scorecard-details-reset-modal {
   &__important-message {
-    margin-bottom: $spacing-s;
+    margin-bottom: $pix-spacing-s;
     color: $pix-neutral-110;
     font-weight: $font-medium;
     font-size: 1.375rem;
@@ -222,7 +220,6 @@
   &__warning {
     padding-bottom: 10px;
     color: $pix-neutral-80;
-    font-weight: $font-light;
     font-size: 1rem;
     font-family: $font-roboto;
 
@@ -231,7 +228,7 @@
     }
 
     .scorecard-details-reset-modal__list {
-      padding-left: $spacing-l;
+      padding-left: $pix-spacing-l;
     }
 
     .scorecard-details-reset-modal-list__item {

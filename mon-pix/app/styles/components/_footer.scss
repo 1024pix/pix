@@ -6,7 +6,7 @@
   display: flex;
   flex-direction: column;
   max-width: 1280px;
-  padding: $spacing-m 20px;
+  padding: $pix-spacing-m 20px;
 
   @include device-is('desktop') {
     flex-direction: row;

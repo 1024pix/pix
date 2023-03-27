@@ -107,7 +107,7 @@ form .challenge-response {
   .qroc-proposal {
     display: flex;
     flex-wrap: wrap;
-    gap: $spacing-xs;
+    gap: $pix-spacing-xs;
     align-items: center;
 
     .qroc_input-label {

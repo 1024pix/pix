@@ -1,5 +1,4 @@
 .oidc-reconciliation {
-
   &__title,
   &__subtitle,
   &__information {
@@ -8,24 +7,24 @@
   }
 
   &__title {
-    @include h2;
+    @extend %pix-title-m;
 
-    padding-top: $spacing-l;
+    padding-top: $pix-spacing-l;
     text-align: center;
   }
 
   &__subtitle {
-    @include h4;
+    @extend %pix-title-xs;
 
     display: block;
     margin: 0;
-    padding: $spacing-s 0 $spacing-xxs 0;
+    padding: $pix-spacing-s 0 $pix-spacing-xxs 0;
   }
 
   &__information {
-    @include subheading;
+    @extend %pix-title-xs;
 
-    margin-bottom: $spacing-xxl;
+    margin-bottom: $pix-spacing-xxl;
     font-weight: 400;
   }
 
@@ -41,9 +40,9 @@
     flex-direction: column;
     align-items: center;
     width: 570px;
-    padding-top: $spacing-l;
+    padding-top: $pix-spacing-l;
     background-color: $pix-neutral-10;
-    border-radius: $spacing-xs;
+    border-radius: $pix-spacing-xs;
 
     svg {
       min-width: 120px;
@@ -52,20 +51,20 @@
     }
 
     p {
-      @include h4;
+      @extend %pix-title-xs;
 
       margin: 0;
-      padding-top: $spacing-xs;
+      padding-top: $pix-spacing-xs;
       color: $pix-neutral-90;
     }
   }
 
   &__user-authentication-methods {
     width: 100%;
-    padding: $spacing-l;
+    padding: $pix-spacing-l;
 
     p {
-      @include subheading;
+      @extend %pix-title-xs;
 
       font-weight: 400;
     }
@@ -73,10 +72,10 @@
 
   &__new-authentication-method {
     width: 506px;
-    padding-top: $spacing-s;
+    padding-top: $pix-spacing-s;
 
     p {
-      @include subheading;
+      @extend %pix-title-xs;
 
       color: $pix-neutral-90;
       font-weight: 400;
@@ -84,22 +83,22 @@
   }
 
   &__user-authentication-methods-list {
-    padding: $spacing-l $spacing-xl;
+    padding: $pix-spacing-l $pix-spacing-xl;
     background-color: $pix-neutral-0;
-    border-radius: $spacing-xs;
+    border-radius: $pix-spacing-xs;
 
     dd,
     dt {
       display: inline;
       color: $pix-neutral-90;
 
-      @include text-large;
+      @extend %pix-body-l;
     }
 
     dt {
       display: inline-block;
       width: 38%;
-      padding: $spacing-xxs 0;
+      padding: $pix-spacing-xxs 0;
       font-weight: 500;
     }
   }
@@ -108,7 +107,7 @@
     display: flex;
     justify-content: right;
     width: 570px;
-    margin-top: $spacing-xs;
+    margin-top: $pix-spacing-xs;
   }
 
   &__arrow {
@@ -123,9 +122,9 @@
 
     dl {
       margin: 0;
-      padding: $spacing-l $spacing-xl;
+      padding: $pix-spacing-l $pix-spacing-xl;
 
-      @include text-large;
+      @extend %pix-body-l;
 
       color: $pix-neutral-90;
     }
@@ -142,9 +141,9 @@
 
   &__action-buttons {
     display: flex;
-    gap: $spacing-m;
+    gap: $pix-spacing-m;
     justify-content: center;
     width: 100%;
-    padding-top: $spacing-l;
+    padding-top: $pix-spacing-l;
   }
 }

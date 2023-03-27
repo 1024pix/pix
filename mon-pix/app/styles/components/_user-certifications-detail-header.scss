@@ -4,7 +4,6 @@
   padding: 14px 24px;
 
   @include device-is('mobile') {
-
     .pix-block {
       padding: 16px;
     }
@@ -90,7 +89,7 @@
     &__error-message {
       max-width: 250px;
       margin-top: 15px;
-      color: $error;
+      color: $pix-error-50;
     }
   }
 
@@ -140,7 +139,9 @@
         border: none;
         cursor: pointer;
 
-        &:hover { color: darken($pix-primary, 20%); }
+        &:hover {
+          color: darken($pix-primary, 20%);
+        }
       }
     }
 

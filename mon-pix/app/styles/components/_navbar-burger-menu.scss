@@ -9,7 +9,6 @@
 }
 
 .navbar-burger__menu .navbar-burger-menu {
-
   &__header {
     display: flex;
     align-items: center;
@@ -36,7 +35,6 @@
 }
 
 .navbar-burger-menu-list-item {
-
   &__link {
     display: inline-block;
     width: 100%;
@@ -64,7 +62,6 @@
 }
 
 .navbar-burger-menu-footer {
-
   &__list {
     margin: 0;
     padding-left: 0;
@@ -72,7 +69,6 @@
 }
 
 .navbar-burger-menu-footer-item {
-
   &__link {
     display: inline-block;
     width: 100%;
@@ -95,7 +91,7 @@
     }
 
     &--logout {
-      margin-top: $spacing-xs;
+      margin-top: $pix-spacing-xs;
     }
   }
 }
