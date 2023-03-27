@@ -1,7 +1,7 @@
-import { JSONAPISerializer } from 'ember-cli-mirage';
+import ApplicationSerializer from './application';
 
 const relationshipsToInclude = ['campaignCompetenceCollectiveResults'];
 
-export default JSONAPISerializer.extend({
+export default ApplicationSerializer.extend({
   include: relationshipsToInclude,
 });
