@@ -69,6 +69,10 @@ When(`je saisis {string} dans le champ {string}`, (value, label) => {
   cy.contains(label).type(value);
 });
 
+When(`je saisis le code {string}`, (value) => {
+  cy.get('input[id="campaign-code"]').type(value);
+});
+
 When(`je sélectionne {string} dans le champ {string}`, (value, label) => {
   cy.contains(label)
     .parent()

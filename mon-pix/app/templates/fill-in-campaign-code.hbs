@@ -15,15 +15,17 @@
       <h1 class="fill-in-campaign-code__title rounded-panel-title">
         {{this.firstTitle}}
       </h1>
-
-      <label for="campaign-code" class="fill-in-campaign-code__instruction">{{{t
+      <p id="campaign-code-description" class="fill-in-campaign-code__instruction">{{{t
           "pages.fill-in-campaign-code.description"
-        }}}</label>
+        }}}</p>
+
+      <label for="campaign-code" class="screen-reader-only">{{{t "pages.fill-in-campaign-code.label"}}}</label>
       <form class="fill-in-campaign-code__form" autocomplete="off">
 
         <div class="fill-in-campaign-code__form-field">
           <Input
             required
+            aria-describedby="campaign-code-description"
             id="campaign-code"
             class="input-code"
             @type="text"
