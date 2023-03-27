@@ -12,7 +12,7 @@ module.exports = function buildUserDetailsForAdmin({
   isAuthenticatedFromGAR = false,
   createdAt,
   updatedAt,
-  lang,
+  lang = 'fr',
   locale,
   lastTermsOfServiceValidatedAt,
   lastPixOrgaTermsOfServiceValidatedAt,
