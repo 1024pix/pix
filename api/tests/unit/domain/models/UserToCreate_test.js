@@ -1,9 +1,34 @@
 const { expect, sinon } = require('../../../test-helper');
-
+const localeService = require('../../../../lib/domain/services/locale-service');
 const UserToCreate = require('../../../../lib/domain/models/UserToCreate');
 
 describe('Unit | Domain | Models | UserToCreate', function () {
   describe('constructor', function () {
+    it('accepts no locale', function () {
+      // given
+      const users = [
+        new UserToCreate({ locale: '' }),
+        new UserToCreate({ locale: null }),
+        new UserToCreate({ locale: undefined }),
+      ];
+
+      // then
+      expect(users.length).to.equal(3);
+    });
+
+    it('validates and canonicalizes the locale', function () {
+      // given
+      const getCanonicalLocaleStub = sinon.stub(localeService, 'getCanonicalLocale');
+      getCanonicalLocaleStub.returns('fr-BE');
+
+      // when
+      const userToCreate = new UserToCreate({ locale: 'fr-be' });
+
+      // then
+      expect(getCanonicalLocaleStub).to.have.been.calledWith('fr-be');
+      expect(userToCreate.locale).to.equal('fr-BE');
+    });
+
     it('should build a default user', function () {
       // given / when
       const user = new UserToCreate();

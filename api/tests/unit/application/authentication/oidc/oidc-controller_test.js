@@ -184,6 +184,9 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       // given
       const request = {
         deserializedPayload: { identityProvider, authenticationKey: 'abcde' },
+        state: {
+          locale: 'fr-FR',
+        },
       };
       const accessToken = 'access.token';
       const oidcAuthenticationService = {};
@@ -193,7 +196,12 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         .returns(oidcAuthenticationService);
       sinon
         .stub(usecases, 'createOidcUser')
-        .withArgs({ authenticationKey: 'abcde', identityProvider, oidcAuthenticationService })
+        .withArgs({
+          authenticationKey: 'abcde',
+          identityProvider,
+          oidcAuthenticationService,
+          localeFromCookie: 'fr-FR',
+        })
         .resolves({ accessToken, logoutUrlUUID: 'logoutUrlUUID' });
 
       // when

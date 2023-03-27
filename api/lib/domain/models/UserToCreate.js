@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const localeService = require('../services/locale-service');
 
 class UserToCreate {
   constructor({
@@ -19,6 +20,10 @@ class UserToCreate {
     createdAt,
     updatedAt,
   } = {}) {
+    if (locale) {
+      locale = localeService.getCanonicalLocale(locale);
+    }
+
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
