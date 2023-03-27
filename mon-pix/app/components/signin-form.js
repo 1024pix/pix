@@ -53,6 +53,16 @@ export default class SigninForm extends Component {
     const errors = get(responseError, 'responseJSON.errors');
     const error = Array.isArray(errors) && errors.length > 0 && errors[0];
     switch (error?.code) {
+      case 'INVALID_LOCALE_FORMAT':
+        this.errorMessage = this.intl.t('pages.sign-up.errors.invalid-locale-format', {
+          invalidLocale: error.meta.locale,
+        });
+        break;
+      case 'LOCALE_NOT_SUPPORTED':
+        this.errorMessage = this.intl.t('pages.sign-up.errors.locale-not-supported', {
+          localeNotSupported: error.meta.locale,
+        });
+        break;
       case 'SHOULD_CHANGE_PASSWORD': {
         const passwordResetToken = error.meta;
         await this._updateExpiredPassword(passwordResetToken);
