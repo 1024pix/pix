@@ -160,6 +160,7 @@ module('Integration | Component | signin form', function (hooks) {
             assert.dom(errorMessageLink).hasAttribute('href', '/mot-de-passe-oublie');
           });
         });
+
         module('when is user blocked', function () {
           test('displays a specific error', async function (assert) {
             // given
@@ -189,6 +190,60 @@ module('Integration | Component | signin form', function (hooks) {
 
             assert.dom(errorMessage).exists();
             assert.dom(errorMessageLink).hasAttribute('href', 'https://support.pix.org/support/tickets/new');
+          });
+        });
+      });
+
+      module('locale', function () {
+        module('when user has an invalid locale in cookie locale', function () {
+          test('displays a local format error message', async function (assert) {
+            // given
+            class sessionService extends Service {
+              authenticateUser = sinon.stub().rejects({
+                status: 400,
+                responseJSON: { errors: [{ code: 'INVALID_LOCALE_FORMAT', meta: { locale: 'macos' } }] },
+              });
+            }
+            this.owner.register('service:session', sessionService);
+            const screen = await render(hbs`<SigninForm />`);
+
+            // when
+            await fillIn(
+              screen.getByRole('textbox', { name: this.intl.t('pages.sign-in.fields.login.label') }),
+              'invalid-locale@example.net'
+            );
+            await fillIn(screen.getByLabelText(this.intl.t('pages.sign-in.fields.password.label')), 'P@ssword123');
+            await clickByName(this.intl.t('pages.sign-in.actions.submit'));
+
+            // then
+            const errorMessage = screen.getByText(`Votre locale "macos" n'est pas dans le bon format.`);
+            assert.dom(errorMessage).exists();
+          });
+        });
+
+        module('when user does not have a supported locale in cookie locale', function () {
+          test('displays a not supported locale error message', async function (assert) {
+            // given
+            class sessionService extends Service {
+              authenticateUser = sinon.stub().rejects({
+                status: 400,
+                responseJSON: { errors: [{ code: 'LOCALE_NOT_SUPPORTED', meta: { locale: 'fr-CA' } }] },
+              });
+            }
+            this.owner.register('service:session', sessionService);
+            const screen = await render(hbs`<SigninForm />`);
+
+            // when
+            await fillIn(
+              screen.getByRole('textbox', { name: this.intl.t('pages.sign-in.fields.login.label') }),
+              'not-supported-locale@example.net'
+            );
+            await fillIn(screen.getByLabelText(this.intl.t('pages.sign-in.fields.password.label')), 'P@ssword123');
+            await clickByName(this.intl.t('pages.sign-in.actions.submit'));
+
+            // then
+            const errorMessage = screen.getByText(`Votre locale "fr-CA" n'est actuellement pas supportée.`);
+            assert.dom(errorMessage).exists();
           });
         });
       });
