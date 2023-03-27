@@ -7,6 +7,7 @@ const UserRecommendedTraining = require('../../domain/read-models/UserRecommende
 const { fetchPage } = require('../utils/knex-utils.js');
 const pick = require('lodash/pick');
 const trainingTriggerRepository = require('./training-trigger-repository.js');
+const TrainingForAdmin = require('../../domain/read-models/TrainingForAdmin');
 const TABLE_NAME = 'trainings';
 
 async function get({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
@@ -21,11 +22,18 @@ async function get({ trainingId, domainTransaction = DomainTransaction.emptyTran
   return _toDomain(training, targetProfileTrainings);
 }
 
-async function getWithTriggers({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
-  const training = await get({ trainingId, domainTransaction });
+async function getWithTriggersForAdmin({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+  const knexConn = domainTransaction?.knexTransaction || knex;
+  const trainingDTO = await knexConn(TABLE_NAME).where({ id: trainingId }).first();
+  if (!trainingDTO) {
+    throw new NotFoundError(`Not found training for ID ${trainingId}`);
+  }
+
+  const targetProfileTrainings = await knexConn('target-profile-trainings').where('trainingId', trainingDTO.id);
+
   const trainingTriggers = await trainingTriggerRepository.findByTrainingId({ trainingId, domainTransaction });
-  training.trainingTriggers = trainingTriggers;
-  return training;
+
+  return _toDomainForAdmin({ training: trainingDTO, targetProfileTrainings, trainingTriggers });
 }
 
 async function findPaginatedSummaries({ page, domainTransaction = DomainTransaction.emptyTransaction() }) {
@@ -63,7 +71,7 @@ async function findByCampaignParticipationIdAndLocale({
 async function create({ training, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConn = domainTransaction?.knexTransaction || knex;
   const [createdTraining] = await knexConn(TABLE_NAME).insert(training).returning('*');
-  return new Training(createdTraining);
+  return new TrainingForAdmin(createdTraining);
 }
 
 async function update({ id, attributesToUpdate, domainTransaction = DomainTransaction.emptyTransaction() }) {
@@ -84,7 +92,7 @@ async function update({ id, attributesToUpdate, domainTransaction = DomainTransa
 
   const targetProfileTrainings = await knexConn('target-profile-trainings').where({ trainingId: id });
 
-  return _toDomain(updatedTraining, targetProfileTrainings);
+  return _toDomainForAdmin({ training: updatedTraining, targetProfileTrainings });
 }
 
 async function findPaginatedByUserId({
@@ -110,7 +118,7 @@ async function findPaginatedByUserId({
 
 module.exports = {
   get,
-  getWithTriggers,
+  getWithTriggersForAdmin,
   findPaginatedSummaries,
   findByCampaignParticipationIdAndLocale,
   create,
@@ -124,4 +132,12 @@ function _toDomain(training, targetProfileTrainings) {
     .map(({ targetProfileId }) => targetProfileId);
 
   return new Training({ ...training, targetProfileIds });
+}
+
+function _toDomainForAdmin({ training, trainingTriggers, targetProfileTrainings }) {
+  const targetProfileIds = targetProfileTrainings
+    .filter(({ trainingId }) => trainingId === training.id)
+    .map(({ targetProfileId }) => targetProfileId);
+
+  return new TrainingForAdmin({ ...training, targetProfileIds, trainingTriggers });
 }

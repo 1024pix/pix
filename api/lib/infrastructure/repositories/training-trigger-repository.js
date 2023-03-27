@@ -2,7 +2,7 @@ const _ = require('lodash');
 const { knex } = require('../../../db/knex-database-connection.js');
 const { NotFoundError } = require('../../domain/errors.js');
 const DomainTransaction = require('../DomainTransaction.js');
-const TrainingTrigger = require('../../domain/models/TrainingTrigger.js');
+const TrainingTriggerForAdmin = require('../../domain/read-models/TrainingTriggerForAdmin.js');
 const TrainingTriggerTube = require('../../domain/models/TrainingTriggerTube.js');
 const areaRepository = require('./area-repository');
 const competenceRepository = require('./competence-repository');
@@ -85,7 +85,7 @@ async function _toDomain({ trainingTrigger, triggerTubes }) {
 
   const learningContent = await _getLearningContent(tubes);
 
-  return new TrainingTrigger({
+  return new TrainingTriggerForAdmin({
     id: trainingTrigger.id,
     trainingId: trainingTrigger.trainingId,
     type: trainingTrigger.type,

@@ -4,7 +4,8 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 const TrainingSummary = require('../../../../lib/domain/read-models/TrainingSummary');
 const Training = require('../../../../lib/domain/models/Training');
 const UserRecommendedTraining = require('../../../../lib/domain/read-models/UserRecommendedTraining');
-const TrainingTrigger = require('../../../../lib/domain/models/TrainingTrigger');
+const TrainingTriggerForAdmin = require('../../../../lib/domain/read-models/TrainingTriggerForAdmin');
+const TrainingForAdmin = require('../../../../lib/domain/read-models/TrainingForAdmin');
 
 describe('Integration | Repository | training-repository', function () {
   describe('#get', function () {
@@ -50,7 +51,7 @@ describe('Integration | Repository | training-repository', function () {
     });
   });
 
-  describe('#getWithTriggers', function () {
+  describe('#getWithTriggersForAdmin', function () {
     let area1;
     let competence1;
     let thematic1;
@@ -109,7 +110,7 @@ describe('Integration | Repository | training-repository', function () {
 
     it('should throw an error when training does not exist', async function () {
       // when
-      const error = await catchErr(trainingRepository.getWithTriggers)({ trainingId: 134 });
+      const error = await catchErr(trainingRepository.getWithTriggersForAdmin)({ trainingId: 134 });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -127,12 +128,12 @@ describe('Integration | Repository | training-repository', function () {
       await databaseBuilder.commit();
 
       // when
-      const result = await trainingRepository.getWithTriggers({ trainingId: training.id });
+      const result = await trainingRepository.getWithTriggersForAdmin({ trainingId: training.id });
 
       // then
-      expect(result).to.be.instanceOf(Training);
+      expect(result).to.be.instanceOf(TrainingForAdmin);
       expect(result.trainingTriggers).to.have.lengthOf(1);
-      expect(result.trainingTriggers[0]).to.be.instanceOf(TrainingTrigger);
+      expect(result.trainingTriggers[0]).to.be.instanceOf(TrainingTriggerForAdmin);
       expect(result.trainingTriggers[0].id).to.deep.equal(trainingTrigger.id);
       expect(result.trainingTriggers[0].threshold).to.deep.equal(trainingTrigger.threshold);
       expect(result.trainingTriggers[0].type).to.deep.equal(trainingTrigger.type);
@@ -329,7 +330,7 @@ describe('Integration | Repository | training-repository', function () {
       const createdTraining = await trainingRepository.create({ training });
 
       // then
-      expect(createdTraining).to.be.instanceOf(Training);
+      expect(createdTraining).to.be.instanceOf(TrainingForAdmin);
       expect(createdTraining.id).to.exist;
       expect(createdTraining).to.deep.include({ ...training, duration: { hours: 6 } });
     });
@@ -385,7 +386,7 @@ describe('Integration | Repository | training-repository', function () {
       const updatedTraining = await trainingRepository.update({ id: training.id, attributesToUpdate });
 
       // then
-      expect(updatedTraining).to.be.instanceOf(Training);
+      expect(updatedTraining).to.be.instanceOf(TrainingForAdmin);
       expect(updatedTraining.title).to.equal(attributesToUpdate.title);
       expect(updatedTraining.link).to.equal(attributesToUpdate.link);
       expect(updatedTraining.editorName).to.be.equal(attributesToUpdate.editorName);

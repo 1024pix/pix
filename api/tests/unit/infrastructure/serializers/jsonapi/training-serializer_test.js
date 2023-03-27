@@ -31,7 +31,7 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
         id: 'recTrainingTriggerTube2',
         tube: tubeInAnotherThematic,
       });
-      const trainingTrigger = domainBuilder.buildTrainingTrigger({
+      const trainingTrigger = domainBuilder.buildTrainingTriggerForAdmin({
         id: trainingTriggerId,
         trainingId,
         areas: [area1],
@@ -39,7 +39,7 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
         thematics: [thematic1, thematicInAnotherCompetence],
         triggerTubes: [trainingTriggerTube1, anotherTrainingTriggerTube],
       });
-      const training = domainBuilder.buildTraining({ id: trainingId, trainingTriggers: [trainingTrigger] });
+      const training = domainBuilder.buildTrainingForAdmin({ id: trainingId, trainingTriggers: [trainingTrigger] });
 
       const expectedSerializedTraining = {
         data: {
