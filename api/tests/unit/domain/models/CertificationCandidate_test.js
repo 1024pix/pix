@@ -411,7 +411,10 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       { field: 'lastName', expectedCode: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_LAST_NAME_REQUIRED.code },
       { field: 'birthCountry', expectedCode: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_COUNTRY_REQUIRED.code },
       { field: 'birthdate', expectedCode: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_REQUIRED.code },
-      /* eslint-enable mocha/no-setup-in-describe */
+      {
+        field: 'sex',
+        expectedCode: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SEX_REQUIRED.code,
+      } /* eslint-enable mocha/no-setup-in-describe */,
     ].forEach(({ field, expectedCode }) => {
       it(`should return a report when field ${field} is not present`, async function () {
         // given
@@ -477,35 +480,36 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
           extraTimePercentage: 'salut',
         });
 
-      // when
-      const report = certificationCandidate.validateForMassSessionImport();
+        // when
+        const report = certificationCandidate.validateForMassSessionImport();
 
-      //then
-      expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_INTEGER.code]);
-    });
-
-    it('should throw an error when field extraTimePercentage is upper than 100', async function () {
-      const certificationCandidate = buildCertificationCandidate({
-        ...validAttributes,
-        extraTimePercentage: 101,
+        //then
+        expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_INTEGER.code]);
       });
 
-      const report = certificationCandidate.validateForMassSessionImport();
+      it('should throw an error when field extraTimePercentage is upper than 100', async function () {
+        const certificationCandidate = buildCertificationCandidate({
+          ...validAttributes,
+          extraTimePercentage: 101,
+        });
 
-      // then
-      expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_BELOW_ONE.code]);
-    });
+        const report = certificationCandidate.validateForMassSessionImport();
 
-    it('should throw an error when field extraTimePercentage is lower than 1', async function () {
-      const certificationCandidate = buildCertificationCandidate({
-        ...validAttributes,
-        extraTimePercentage: 0,
+        // then
+        expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_BELOW_ONE.code]);
       });
 
-      const report = certificationCandidate.validateForMassSessionImport();
+      it('should throw an error when field extraTimePercentage is lower than 1', async function () {
+        const certificationCandidate = buildCertificationCandidate({
+          ...validAttributes,
+          extraTimePercentage: 0,
+        });
 
-      // then
-      expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_BELOW_ONE.code]);
+        const report = certificationCandidate.validateForMassSessionImport();
+
+        // then
+        expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_BELOW_ONE.code]);
+      });
     });
 
     it('should return a report when sex is neither M nor F', async function () {
@@ -546,86 +550,126 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       ]);
     });
 
-    context('when the certification center is SCO', function () {
-      context('when the billing mode is null', function () {
-        it('should return nothing', async function () {
-          // given
-          const certificationCandidate = domainBuilder.buildCertificationCandidate({
-            ...validAttributes,
-            billingMode: null,
-          });
-          const isSco = true;
-
-          // when
-          const report = certificationCandidate.validateForMassSessionImport(isSco);
-
-          // then
-          expect(report).to.be.undefined;
-        });
-      });
-
-      context('when the billing mode is not null', function () {
-        it('should return a report', async function () {
-          // given
-          const certificationCandidate = domainBuilder.buildCertificationCandidate({
-            ...validAttributes,
-            billingMode: 'FREE',
-          });
-          const isSco = true;
-
-          // when
-          const report = certificationCandidate.validateForMassSessionImport(isSco);
-
-          // then
-          expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BILLING_MODE_MUST_BE_EMPTY.code]);
-        });
-      });
-    });
-
-    context('when the certification center is not SCO', function () {
-      context('when the billing mode is not provided', function () {
-        it('should return a report', async function () {
-          // given
-          const isSco = false;
-          const certificationCandidate = domainBuilder.buildCertificationCandidate({
-            ...validAttributes,
-            billingMode: null,
-          });
-
-          // when
-          const report = certificationCandidate.validateForMassSessionImport(isSco);
-
-          // then
-          expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BILLING_MODE_REQUIRED.code]);
-        });
-      });
-
-      context('when the billing mode is not an expected value', function () {
-        it('should return a report', async function () {
-          // given
-          const certificationCandidate = domainBuilder.buildCertificationCandidate({
-            ...validAttributes,
-            billingMode: 'NOT_ALLOWED_VALUE',
-          });
-          const isSco = false;
-
-          // when
-          const report = certificationCandidate.validateForMassSessionImport(isSco);
-
-          // then
-          expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BILLING_MODE_NOT_VALID.code]);
-        });
-      });
-
-      context('when billing mode is in the expected values', function () {
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        ['FREE', 'PAID', 'PREPAID'].forEach((billingMode) => {
-          it(`should return nothing for ${billingMode}`, async function () {
+    context('when billing mode field is presents', function () {
+      context('when the certification center is SCO', function () {
+        context('when the billing mode is null', function () {
+          it('should return nothing', async function () {
             // given
             const certificationCandidate = domainBuilder.buildCertificationCandidate({
               ...validAttributes,
-              billingMode,
-              prepaymentCode: billingMode === CertificationCandidate.BILLING_MODES.PREPAID ? '12345' : undefined,
+              billingMode: null,
+            });
+            const isSco = true;
+
+            // when
+            const report = certificationCandidate.validateForMassSessionImport(isSco);
+
+            // then
+            expect(report).to.be.undefined;
+          });
+        });
+
+        context('when the billing mode is not null', function () {
+          it('should return a report', async function () {
+            // given
+            const certificationCandidate = domainBuilder.buildCertificationCandidate({
+              ...validAttributes,
+              billingMode: 'FREE',
+            });
+            const isSco = true;
+
+            // when
+            const report = certificationCandidate.validateForMassSessionImport(isSco);
+
+            // then
+            expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BILLING_MODE_MUST_BE_EMPTY.code]);
+          });
+        });
+      });
+
+      context('when the certification center is not SCO', function () {
+        context('when the billing mode is not provided', function () {
+          it('should return a report', async function () {
+            // given
+            const isSco = false;
+            const certificationCandidate = domainBuilder.buildCertificationCandidate({
+              ...validAttributes,
+              billingMode: null,
+            });
+
+            // when
+            const report = certificationCandidate.validateForMassSessionImport(isSco);
+
+            // then
+            expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BILLING_MODE_REQUIRED.code]);
+          });
+        });
+
+        context('when the billing mode is not an expected value', function () {
+          it('should return a report', async function () {
+            // given
+            const certificationCandidate = domainBuilder.buildCertificationCandidate({
+              ...validAttributes,
+              billingMode: 'NOT_ALLOWED_VALUE',
+            });
+            const isSco = false;
+
+            // when
+            const report = certificationCandidate.validateForMassSessionImport(isSco);
+
+            // then
+            expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BILLING_MODE_NOT_VALID.code]);
+          });
+        });
+
+        context('when billing mode is in the expected values', function () {
+          // eslint-disable-next-line mocha/no-setup-in-describe
+          ['FREE', 'PAID', 'PREPAID'].forEach((billingMode) => {
+            it(`should return nothing for ${billingMode}`, async function () {
+              // given
+              const certificationCandidate = domainBuilder.buildCertificationCandidate({
+                ...validAttributes,
+                billingMode,
+                prepaymentCode: billingMode === CertificationCandidate.BILLING_MODES.PREPAID ? '12345' : undefined,
+              });
+
+              // when
+              const report = certificationCandidate.validateForMassSessionImport();
+
+              // then
+              expect(report).to.be.undefined;
+            });
+          });
+        });
+
+        context('when billingMode is not PREPAID', function () {
+          context('when prepaymentCode is not null', function () {
+            it('should return a report', async function () {
+              // given
+              const certificationCandidate = domainBuilder.buildCertificationCandidate({
+                ...validAttributes,
+                billingMode: 'PAID',
+                prepaymentCode: 'NOT_NULL',
+              });
+
+              // when
+              const report = certificationCandidate.validateForMassSessionImport();
+
+              // then
+              expect(report).to.deep.equal([
+                CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_MUST_BE_EMPTY.code,
+              ]);
+            });
+          });
+        });
+
+        context('when billingMode is PREPAID', function () {
+          it('should return nothing if prepaymentCode is not null', function () {
+            // given
+            const certificationCandidate = domainBuilder.buildCertificationCandidate({
+              ...validAttributes,
+              billingMode: 'PREPAID',
+              prepaymentCode: 'NOT_NULL',
             });
 
             // when
@@ -634,66 +678,28 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
             // then
             expect(report).to.be.undefined;
           });
-        });
-      });
 
-      context('when billingMode is not PREPAID', function () {
-        context('when prepaymentCode is not null', function () {
-          it('should return a report', async function () {
+          it('should return report if prepaymentCode is null', function () {
             // given
             const certificationCandidate = domainBuilder.buildCertificationCandidate({
               ...validAttributes,
-              billingMode: 'PAID',
-              prepaymentCode: 'NOT_NULL',
+              billingMode: 'PREPAID',
+              prepaymentCode: '',
             });
 
             // when
             const report = certificationCandidate.validateForMassSessionImport();
 
             // then
-            expect(report).to.deep.equal([
-              CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_MUST_BE_EMPTY.code,
-            ]);
+            expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_REQUIRED.code]);
           });
-        });
-      });
-
-      context('when billingMode is PREPAID', function () {
-        it('should return nothing if prepaymentCode is not null', function () {
-          // given
-          const certificationCandidate = domainBuilder.buildCertificationCandidate({
-            ...validAttributes,
-            billingMode: 'PREPAID',
-            prepaymentCode: 'NOT_NULL',
-          });
-
-          // when
-          const report = certificationCandidate.validateForMassSessionImport();
-
-          // then
-          expect(report).to.be.undefined;
-        });
-
-        it('should return report if prepaymentCode is null', function () {
-          // given
-          const certificationCandidate = domainBuilder.buildCertificationCandidate({
-            ...validAttributes,
-            billingMode: 'PREPAID',
-            prepaymentCode: '',
-          });
-
-          // when
-          const report = certificationCandidate.validateForMassSessionImport();
-
-          // then
-          expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_PREPAYMENT_CODE_REQUIRED.code]);
         });
       });
     });
 
-    context('birthPostalCode and birthInseeCode', function () {
-      context('when there is birthCity', function () {
-        it('should return a report if both birthPostalCode and birthInseeCode are not present', async function () {
+    context('when birthPostalCode and birthInseeCode fields are presents', function () {
+      context('when there is a birthCity', function () {
+        it('should return a report if both birthPostalCode and birthInseeCode are empty', async function () {
           // given
           const certificationCandidate = domainBuilder.buildCertificationCandidate({
             ...validAttributes,
@@ -743,7 +749,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         });
       });
       context('when there is no birthCity', function () {
-        it('should return a report if both birthPostalCode and birthInseeCode are not present', async function () {
+        it('should return a report if both birthPostalCode and birthInseeCode are empty', async function () {
           // given
           const certificationCandidate = domainBuilder.buildCertificationCandidate({
             ...validAttributes,
