@@ -1,11 +1,12 @@
-<Ui::IndicatorCard
+<PixIndicatorCard
   @title={{if @isTypeAssessment (t "cards.submitted-count.title") (t "cards.submitted-count.title-profiles")}}
   @icon="share"
   @color="green"
   @info={{t "cards.submitted-count.information"}}
-  @loader={{t "cards.submitted-count.loader"}}
+  @loadingMessage={{t "cards.submitted-count.loader"}}
   @isLoading={{@isLoading}}
+  class="indicator-card"
   ...attributes
 >
-  {{@value}}
-</Ui::IndicatorCard>
+  <:default>{{@value}}</:default>
+</PixIndicatorCard>

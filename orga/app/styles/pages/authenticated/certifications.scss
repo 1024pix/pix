@@ -5,11 +5,6 @@
   width: 100%;
   margin-bottom: $spacing-l;
 
-  // TODO : Remove after update fix on PIX UI
-  .pix-select__dropdown {
-    overflow-x: hidden;
-  }
-
   &__tabs {
     display: flex;
     border-bottom: 1px solid $pix-neutral-20;
