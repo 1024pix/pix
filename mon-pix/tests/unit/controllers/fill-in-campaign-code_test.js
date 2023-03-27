@@ -152,10 +152,7 @@ module('Unit | Controller | Fill in Campaign Code', function (hooks) {
       // then
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(
-        controller.get('errorMessage'),
-        'Votre code est erroné, veuillez vérifier ou contacter l’organisateur.'
-      );
+      assert.equal(controller.get('errorMessage'), controller.intl.t('pages.fill-in-campaign-code.errors.not-found'));
     });
 
     test('should set error when student is not authorized in campaign', async function (assert) {
