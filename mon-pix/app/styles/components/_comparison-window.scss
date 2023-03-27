@@ -46,7 +46,7 @@
   &__default-message-title {
     margin: 10px 25px 40px;
     color: $pix-neutral-110;
-    font-weight: $font-semi-bold;
+    font-weight: $font-medium;
     font-size: 1.063rem;
     font-family: $font-open-sans;
     text-align: center;
@@ -84,5 +84,5 @@
 }
 
 .comparison-window .feedback-panel {
-  margin-bottom: $spacing-xs;
+  margin-bottom: $pix-spacing-xs;
 }

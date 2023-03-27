@@ -61,7 +61,7 @@
     z-index: 1;
     width: 100%;
     max-width: 990px;
-    margin: $spacing-s 0;
+    margin: $pix-spacing-s 0;
     padding: 0 20px;
     text-align: left;
 
@@ -121,7 +121,6 @@
 
   &__subtitle {
     margin: 0;
-    font-weight: $font-light;
     font-size: 0.875rem;
     line-height: 1.375rem;
     letter-spacing: 0.009rem;

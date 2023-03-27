@@ -10,7 +10,6 @@
   justify-content: center;
 
   &__image {
-
     img {
       width: 158px;
       height: 158px;
@@ -20,7 +19,6 @@
   &__title {
     margin-top: 22px;
     color: $pix-neutral-80;
-    font-weight: $font-light;
     font-size: 3rem;
     font-family: $font-open-sans;
     font-style: normal;
@@ -48,7 +46,6 @@
 }
 
 .focused-challenge-instructions-action {
-
   &__confirmation-button {
     font-size: 0.875rem;
     text-transform: uppercase;

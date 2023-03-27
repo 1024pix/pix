@@ -1,30 +1,27 @@
 .fill-in-campaign-code {
-
   &__container {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
     margin-bottom: 32px;
-    padding: 16px 16px $spacing-s;
+    padding: 16px 16px $pix-spacing-s;
 
     @include device-is('tablet') {
-      padding: $spacing-xl;
+      padding: $pix-spacing-xl;
     }
   }
 
   &__title {
-    margin-bottom: $spacing-l;
-    font-weight: $font-light;
+    margin-bottom: $pix-spacing-l;
     font-size: 2rem;
     text-align: center;
   }
 
   &__instruction {
     max-width: 600px;
-    margin-bottom: $spacing-s;
+    margin-bottom: $pix-spacing-s;
     color: $pix-neutral-100;
-    font-weight: $font-light;
     font-size: 1.219rem;
     font-family: $font-open-sans;
     text-align: center;
@@ -40,7 +37,7 @@
 
   &__form-field {
     display: inline-block;
-    margin-bottom: $spacing-s;
+    margin-bottom: $pix-spacing-s;
     text-align: left;
 
     input {
@@ -59,19 +56,19 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: $spacing-s;
+    margin-bottom: $pix-spacing-s;
   }
 
   &__error {
-    margin-bottom: $spacing-s;
+    margin-bottom: $pix-spacing-s;
     color: $pix-warning-60;
     font-size: 0.875rem;
     text-align: center;
   }
 
   &__warning {
-    margin-top: $spacing-s;
-    margin-bottom: $spacing-s;
+    margin-top: $pix-spacing-s;
+    margin-bottom: $pix-spacing-s;
     color: $pix-neutral-90;
     font-size: 0.875rem;
     text-align: center;
@@ -98,4 +95,10 @@
   gap: 24px;
   align-items: center;
   justify-content: flex-end;
+}
+
+.mediacentre-start-campaign-modal-action-buttons__continue-action {
+  @extend %pix-body-s;
+
+  color: $pix-primary;
 }

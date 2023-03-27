@@ -80,13 +80,11 @@
 }
 
 @mixin coloriseElements($color) {
-
   .user-certifications-detail-competence__title {
     color: $color;
   }
 
   .user-certifications-detail-competence__competence {
-
     &--level {
       color: $color;
     }
@@ -98,29 +96,27 @@
 }
 
 .user-certifications-detail-competence--jaffa {
-  @include coloriseElements($information-light);
+  @include coloriseElements($pix-information-light);
 }
 
 .user-certifications-detail-competence--emerald {
-  @include coloriseElements($content-light);
+  @include coloriseElements($pix-content-light);
 }
 
 .user-certifications-detail-competence--cerulean {
-  @include coloriseElements($communication-light);
+  @include coloriseElements($pix-communication-light);
 }
 
 .user-certifications-detail-competence--wild-strawberry {
-  @include coloriseElements($security-light);
+  @include coloriseElements($pix-security-light);
 }
 
 .user-certifications-detail-competence--butterfly-bush {
-  @include coloriseElements($environment-light);
+  @include coloriseElements($pix-environment-light);
 }
 
 @include device-is('mobile') {
-
   .user-certifications-detail-competence {
-
     &__title {
       font-weight: $font-normal;
       font-size: 0.875rem;
@@ -131,13 +127,11 @@
     }
 
     &__competence {
-
       &--level {
         padding-right: 0;
       }
 
       &--disabled {
-
         span {
           display: block;
           opacity: 0;

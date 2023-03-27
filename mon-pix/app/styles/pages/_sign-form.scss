@@ -21,7 +21,7 @@
   &__container {
     display: flex;
     flex-direction: column;
-    gap: $spacing-m;
+    gap: $pix-spacing-m;
     align-items: center;
     width: 95%;
     max-width: 609px;
@@ -39,7 +39,7 @@
   &__header {
     display: flex;
     flex-direction: column;
-    gap: $spacing-s;
+    gap: $pix-spacing-s;
     align-items: center;
   }
 
@@ -69,11 +69,9 @@
 }
 
 .sign-form-header {
-
   &__title {
     margin: 0;
     color: $pix-neutral-80;
-    font-weight: $font-light;
     font-size: 1.563rem;
     font-family: $font-open-sans;
 
@@ -98,7 +96,6 @@
 .sign-form-header-subtitle {
   margin-right: 3px;
   color: $pix-neutral-80;
-  font-weight: $font-light;
 }
 
 .sign-form-body {
@@ -110,7 +107,7 @@
   &__inputs {
     display: flex;
     flex-direction: column;
-    gap: $spacing-s;
+    gap: $pix-spacing-s;
     align-items: center;
   }
 
@@ -174,7 +171,7 @@
     &:focus,
     &:hover,
     &:focus-within {
-      border: 2px solid $white;
+      border: 2px solid $pix-neutral-0;
       box-shadow: 0 0 0 2px $pole-emploi;
     }
 
