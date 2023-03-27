@@ -31,7 +31,7 @@ describe('Unit | Serializer | JSONAPI | training-trigger-serializer', function (
         id: 'recTrainingTriggerTube2',
         tube: tubeInAnotherThematic,
       });
-      const trainingTrigger = domainBuilder.buildTrainingTrigger({
+      const trainingTrigger = domainBuilder.buildTrainingTriggerForAdmin({
         id,
         trainingId,
         areas: [area1],
