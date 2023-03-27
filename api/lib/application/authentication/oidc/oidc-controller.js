@@ -81,11 +81,13 @@ module.exports = {
 
   async createUser(request, h) {
     const { identityProvider, authenticationKey } = request.deserializedPayload;
+    const localeFromCookie = request.state?.locale;
 
     const oidcAuthenticationService = await authenticationServiceRegistry.lookupAuthenticationService(identityProvider);
     const { accessToken, logoutUrlUUID } = await usecases.createOidcUser({
       authenticationKey,
       identityProvider,
+      localeFromCookie,
       oidcAuthenticationService,
     });
 

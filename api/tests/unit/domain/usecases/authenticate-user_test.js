@@ -395,7 +395,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
 
         pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
         refreshTokenService.createAccessTokenFromRefreshToken.resolves({ accessToken, expirationDelaySeconds });
-        localeService.getCanonicalLocale.returns('formattedLocale');
+        localeService.getCanonicalLocale.returns('canonicalLocale');
 
         // when
         await authenticateUser({
@@ -413,7 +413,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
         expect(localeService.getCanonicalLocale).to.have.been.calledWithExactly('localeFromCookie');
         expect(userRepository.updateLocale).to.have.been.calledWithExactly({
           userId: user.id,
-          locale: 'formattedLocale',
+          locale: 'canonicalLocale',
         });
       });
 

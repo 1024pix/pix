@@ -49,6 +49,9 @@ describe('Acceptance | Route | oidc users', function () {
       const request = {
         method: 'POST',
         url: '/api/oidc/users',
+        headers: {
+          cookie: 'locale=fr-FR',
+        },
         payload: {
           data: {
             attributes: {
@@ -69,6 +72,7 @@ describe('Acceptance | Route | oidc users', function () {
       const createdUser = await knex('users').first();
       expect(createdUser.firstName).to.equal('Brice');
       expect(createdUser.lastName).to.equal('Glace');
+      expect(createdUser.locale).to.equal('fr-FR');
 
       const createdAuthenticationMethod = await knex('authentication-methods').first();
       expect(createdAuthenticationMethod.externalIdentifier).to.equal('sub');
