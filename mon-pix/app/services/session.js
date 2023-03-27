@@ -92,7 +92,10 @@ export default class CurrentSessionService extends SessionService {
 
     if (domain === 'fr') {
       await this._setLocale(defaultLocale);
-      this.locale.setLocaleCookie(FRENCH_LOCALE);
+
+      if (!this.locale.hasLocaleCookie()) {
+        this.locale.setLocaleCookie(FRENCH_LOCALE);
+      }
       return;
     }
 
