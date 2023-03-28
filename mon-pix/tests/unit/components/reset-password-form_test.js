@@ -12,9 +12,8 @@ module('Unit | Component | reset password form', function (hooks) {
   module('#validatePassword', function () {
     test('should set validation status to default, when component is rendered', function (assert) {
       const component = createGlimmerComponent('component:reset-password-form');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.validation.status, 'default');
+
+      assert.strictEqual(component.validation.status, 'default');
     });
 
     test('should set validation status to error, when there is an validation error on password field', async function (assert) {

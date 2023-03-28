@@ -29,28 +29,23 @@ module('Unit | Route | user certifications/get', function (hooks) {
   });
 
   module('#model', function () {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/require-expect
-    test('should get the certification', function (assert) {
+    test('should get the certification', async function (assert) {
       // given
       const params = { id: certificationId };
       const retreivedCertification = [EmberObject.create({ id: certificationId })];
       findRecordStub.resolves(retreivedCertification);
 
       // when
-      const promise = route.model(params);
+      await route.model(params);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(findRecordStub);
-        sinon.assert.calledWith(findRecordStub, 'certification', certificationId);
-        assert.ok(true);
-      });
+
+      sinon.assert.calledOnce(findRecordStub);
+      sinon.assert.calledWith(findRecordStub, 'certification', certificationId);
+      assert.ok(true);
     });
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/require-expect
-    test('should not return to /mes-certifications when the certification is published and validated', function (assert) {
+    test('should not return to /mes-certifications when the certification is published and validated', async function (assert) {
       // given
       const params = { id: certificationId };
       const retrievedCertification = EmberObject.create({
@@ -64,17 +59,13 @@ module('Unit | Route | user certifications/get', function (hooks) {
       findRecordStub.resolves(retrievedCertification);
 
       // when
-      const promise = route.model(params);
+      await route.model(params);
 
       // then
-      return promise.then(() => {
-        assert.true(route.router.replaceWith.notCalled);
-      });
+      assert.true(route.router.replaceWith.notCalled);
     });
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/require-expect
-    test('should return to /mes-certifications when the certification is not published', function (assert) {
+    test('should return to /mes-certifications when the certification is not published', async function (assert) {
       // given
       const params = { id: certificationId };
       const retreivedCertification = EmberObject.create({
@@ -88,19 +79,15 @@ module('Unit | Route | user certifications/get', function (hooks) {
       findRecordStub.resolves(retreivedCertification);
 
       // when
-      const promise = route.model(params);
+      await route.model(params);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(route.router.replaceWith);
-        sinon.assert.calledWith(route.router.replaceWith, '/mes-certifications');
-        assert.ok(true);
-      });
+      sinon.assert.calledOnce(route.router.replaceWith);
+      sinon.assert.calledWith(route.router.replaceWith, '/mes-certifications');
+      assert.ok(true);
     });
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/require-expect
-    test('should return to /mes-certifications when the certification is not validated', function (assert) {
+    test('should return to /mes-certifications when the certification is not validated', async function (assert) {
       // given
       const params = { id: certificationId };
       const retreivedCertification = EmberObject.create({
@@ -114,14 +101,12 @@ module('Unit | Route | user certifications/get', function (hooks) {
       findRecordStub.resolves(retreivedCertification);
 
       // when
-      const promise = route.model(params);
+      await route.model(params);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(route.router.replaceWith);
-        sinon.assert.calledWith(route.router.replaceWith, '/mes-certifications');
-        assert.ok(true);
-      });
+      sinon.assert.calledOnce(route.router.replaceWith);
+      sinon.assert.calledWith(route.router.replaceWith, '/mes-certifications');
+      assert.ok(true);
     });
   });
 });

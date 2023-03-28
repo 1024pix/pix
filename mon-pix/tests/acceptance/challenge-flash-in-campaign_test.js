@@ -30,9 +30,8 @@ module('Acceptance | Flash', function (hooks) {
 
       const progressValue = find('.assessment-progress__value').textContent.replace(/\s+/g, '');
       const maxNbOfQuestions = environment.APP.NUMBER_OF_CHALLENGES_FOR_FLASH_METHOD;
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(progressValue, `1/${maxNbOfQuestions}`);
+
+      assert.strictEqual(progressValue, `1/${maxNbOfQuestions}`);
     });
   });
 });

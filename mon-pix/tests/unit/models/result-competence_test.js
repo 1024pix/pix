@@ -24,12 +24,8 @@ module('Unit | Model | result-competence model', function (hooks) {
       const relationship = competence.relationshipsByName.get('area');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(relationship.key, 'area');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(relationship.kind, 'belongsTo');
+      assert.strictEqual(relationship.key, 'area');
+      assert.strictEqual(relationship.kind, 'belongsTo');
     });
   });
 });

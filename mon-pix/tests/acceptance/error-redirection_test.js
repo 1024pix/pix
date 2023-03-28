@@ -22,9 +22,7 @@ module('Acceptance | Error page', function (hooks) {
     await visit('/mes-certifications');
 
     // then
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(currentURL(), '/mes-certifications');
+    assert.strictEqual(currentURL(), '/mes-certifications');
     assert.dom('.error-page').exists();
   });
 });

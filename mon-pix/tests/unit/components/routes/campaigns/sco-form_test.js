@@ -31,9 +31,7 @@ module('Unit | Component | routes/campaigns/sco-form', function (hooks) {
           await component.actions.triggerInputDayValidation.call(component, 'dayOfBirth', wrongDayOfBirth);
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(component.validation.dayOfBirth, 'Votre jour de naissance n’est pas valide.');
+          assert.strictEqual(component.validation.dayOfBirth, 'Votre jour de naissance n’est pas valide.');
         });
       });
     });
@@ -45,9 +43,7 @@ module('Unit | Component | routes/campaigns/sco-form', function (hooks) {
           await component.actions.triggerInputDayValidation.call(component, 'dayOfBirth', validDayOfBirth);
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(component.validation.dayOfBirth, null);
+          assert.strictEqual(component.validation.dayOfBirth, null);
         });
       });
     });
@@ -61,9 +57,7 @@ module('Unit | Component | routes/campaigns/sco-form', function (hooks) {
           await component.actions.triggerInputMonthValidation.call(component, 'monthOfBirth', wrongMonthOfBirth);
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(component.validation.monthOfBirth, 'Votre mois de naissance n’est pas valide.');
+          assert.strictEqual(component.validation.monthOfBirth, 'Votre mois de naissance n’est pas valide.');
         });
       });
     });
@@ -75,9 +69,7 @@ module('Unit | Component | routes/campaigns/sco-form', function (hooks) {
           await component.actions.triggerInputMonthValidation.call(component, 'monthOfBirth', validMonthOfBirth);
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(component.validation.monthOfBirth, null);
+          assert.strictEqual(component.validation.monthOfBirth, null);
         });
       });
     });
@@ -91,9 +83,7 @@ module('Unit | Component | routes/campaigns/sco-form', function (hooks) {
           await component.actions.triggerInputYearValidation.call(component, 'yearOfBirth', wrongYearOfBirth);
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(component.validation.yearOfBirth, 'Votre année de naissance n’est pas valide.');
+          assert.strictEqual(component.validation.yearOfBirth, 'Votre année de naissance n’est pas valide.');
         });
       });
     });
@@ -105,9 +95,7 @@ module('Unit | Component | routes/campaigns/sco-form', function (hooks) {
           await component.actions.triggerInputYearValidation.call(component, 'yearOfBirth', validYearOfBirth);
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(component.validation.yearOfBirth, null);
+          assert.strictEqual(component.validation.yearOfBirth, null);
         });
       });
     });
@@ -121,9 +109,7 @@ module('Unit | Component | routes/campaigns/sco-form', function (hooks) {
           await component.actions.triggerInputStringValidation.call(component, 'firstName', wrongString);
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(component.validation.firstName, 'Votre prénom n’est pas renseigné.');
+          assert.strictEqual(component.validation.firstName, 'Votre prénom n’est pas renseigné.');
         });
 
         test(`should display an error when lastName is "${wrongString}"`, async function (assert) {
@@ -131,9 +117,7 @@ module('Unit | Component | routes/campaigns/sco-form', function (hooks) {
           await component.actions.triggerInputStringValidation.call(component, 'lastName', wrongString);
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(component.validation.lastName, 'Votre nom n’est pas renseigné.');
+          assert.strictEqual(component.validation.lastName, 'Votre nom n’est pas renseigné.');
         });
       });
     });
@@ -145,9 +129,7 @@ module('Unit | Component | routes/campaigns/sco-form', function (hooks) {
           await component.actions.triggerInputStringValidation.call(component, 'firstName', validString);
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(component.validation.firstName, null);
+          assert.strictEqual(component.validation.firstName, null);
         });
 
         test(`should not display an error when lastName is ${validString}`, async function (assert) {
@@ -155,9 +137,7 @@ module('Unit | Component | routes/campaigns/sco-form', function (hooks) {
           await component.actions.triggerInputStringValidation.call(component, 'lastName', validString);
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(component.validation.lastName, null);
+          assert.strictEqual(component.validation.lastName, null);
         });
       });
     });
@@ -293,9 +273,7 @@ module('Unit | Component | routes/campaigns/sco-form', function (hooks) {
         await component.actions.validateForm.call(component, eventStub);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(component.validation.firstName, 'Votre prénom n’est pas renseigné.');
+        assert.strictEqual(component.validation.firstName, 'Votre prénom n’est pas renseigné.');
       });
 
       test('should display an error on lastName', async function (assert) {
@@ -306,9 +284,7 @@ module('Unit | Component | routes/campaigns/sco-form', function (hooks) {
         await component.actions.validateForm.call(component, eventStub);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(component.validation.lastName, 'Votre nom n’est pas renseigné.');
+        assert.strictEqual(component.validation.lastName, 'Votre nom n’est pas renseigné.');
       });
 
       test('should display an error on dayOfBirth', async function (assert) {
@@ -319,9 +295,7 @@ module('Unit | Component | routes/campaigns/sco-form', function (hooks) {
         await component.actions.validateForm.call(component, eventStub);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(component.validation.dayOfBirth, 'Votre jour de naissance n’est pas valide.');
+        assert.strictEqual(component.validation.dayOfBirth, 'Votre jour de naissance n’est pas valide.');
       });
 
       test('should display an error on monthOfBirth', async function (assert) {
@@ -332,9 +306,7 @@ module('Unit | Component | routes/campaigns/sco-form', function (hooks) {
         await component.actions.validateForm.call(component, eventStub);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(component.validation.monthOfBirth, 'Votre mois de naissance n’est pas valide.');
+        assert.strictEqual(component.validation.monthOfBirth, 'Votre mois de naissance n’est pas valide.');
       });
 
       test('should display an error on yearOfBirth', async function (assert) {
@@ -345,9 +317,7 @@ module('Unit | Component | routes/campaigns/sco-form', function (hooks) {
         await component.actions.validateForm.call(component, eventStub);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(component.validation.yearOfBirth, 'Votre année de naissance n’est pas valide.');
+        assert.strictEqual(component.validation.yearOfBirth, 'Votre année de naissance n’est pas valide.');
       });
     });
   });

@@ -38,10 +38,9 @@ module('Unit | Component | qroc-solution-panel', function (hooks) {
       const component = createGlimmerComponent('component:qroc-solution-panel', { answer });
       // when
       const answerToDisplay = component.answerToDisplay;
+
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(answerToDisplay, 'Pas de réponse');
+      assert.strictEqual(answerToDisplay, 'Pas de réponse');
     });
 
     test('should return the answer if the answer is not #ABAND#', function (assert) {
@@ -52,10 +51,9 @@ module('Unit | Component | qroc-solution-panel', function (hooks) {
       const component = createGlimmerComponent('component:qroc-solution-panel', { answer });
       // when
       const answerToDisplay = component.answerToDisplay;
+
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(answerToDisplay, 'La Reponse B');
+      assert.strictEqual(answerToDisplay, 'La Reponse B');
     });
   });
 
@@ -66,10 +64,9 @@ module('Unit | Component | qroc-solution-panel', function (hooks) {
       const component = createGlimmerComponent('component:qroc-solution-panel', { solution });
       // when
       const solutionToDisplay = component.understandableSolution;
+
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(solutionToDisplay, 'Reponse');
+      assert.strictEqual(solutionToDisplay, 'Reponse');
     });
 
     test('should return the solution', function (assert) {
@@ -78,10 +75,9 @@ module('Unit | Component | qroc-solution-panel', function (hooks) {
       const component = createGlimmerComponent('component:qroc-solution-panel', { solution });
       // when
       const solutionToDisplay = component.understandableSolution;
+
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(solutionToDisplay, 'Reponse');
+      assert.strictEqual(solutionToDisplay, 'Reponse');
     });
 
     test('should return an empty string if the solution is null', function (assert) {
@@ -90,10 +86,9 @@ module('Unit | Component | qroc-solution-panel', function (hooks) {
       const component = createGlimmerComponent('component:qroc-solution-panel', { solution: emptySolution });
       // when
       const solutionToDisplay = component.understandableSolution;
+
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(solutionToDisplay, '');
+      assert.strictEqual(solutionToDisplay, '');
     });
 
     test('should return an empty string if the solution is an empty String', function (assert) {
@@ -102,10 +97,9 @@ module('Unit | Component | qroc-solution-panel', function (hooks) {
       const component = createGlimmerComponent('component:qroc-solution-panel', { solution: solutionNull });
       // when
       const solutionToDisplay = component.understandableSolution;
+
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(solutionToDisplay, '');
+      assert.strictEqual(solutionToDisplay, '');
     });
   });
 });

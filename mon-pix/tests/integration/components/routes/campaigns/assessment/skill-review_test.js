@@ -446,9 +446,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
           const url = component.customButtonUrl;
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(url, 'http://www.my-url.net/resultats?stage=6');
+          assert.strictEqual(url, 'http://www.my-url.net/resultats?stage=6');
         });
       });
 
@@ -462,9 +460,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
           const url = component.customButtonUrl;
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(url, 'http://www.my-url.net/resultats?masteryPercentage=56');
+          assert.strictEqual(url, 'http://www.my-url.net/resultats?masteryPercentage=56');
         });
       });
 
@@ -478,9 +474,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
           const url = component.customButtonUrl;
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(url, 'http://www.my-url.net/resultats?masteryPercentage=0');
+          assert.strictEqual(url, 'http://www.my-url.net/resultats?masteryPercentage=0');
         });
       });
 
@@ -494,9 +488,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
           const url = component.customButtonUrl;
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(url, 'http://www.my-url.net/resultats?externalId=1234F56');
+          assert.strictEqual(url, 'http://www.my-url.net/resultats?externalId=1234F56');
         });
       });
 
@@ -514,9 +506,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
           const url = component.customButtonUrl;
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(url, 'http://www.my-url.net/resultats?masteryPercentage=56&externalId=1234F56&stage=6');
+          assert.strictEqual(url, 'http://www.my-url.net/resultats?masteryPercentage=56&externalId=1234F56&stage=6');
         });
       });
 
@@ -534,9 +524,10 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
           const url = component.customButtonUrl;
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(url, 'http://www.my-url.net/resultats?foo=bar&masteryPercentage=56&externalId=1234F56&stage=6');
+          assert.strictEqual(
+            url,
+            'http://www.my-url.net/resultats?foo=bar&masteryPercentage=56&externalId=1234F56&stage=6'
+          );
         });
       });
 
@@ -554,9 +545,8 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
           const url = component.customButtonUrl;
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(url, 'http://www.my-url.net/?masteryPercentage=56&externalId=1234F56&stage=6#page1');
+
+          assert.strictEqual(url, 'http://www.my-url.net/?masteryPercentage=56&externalId=1234F56&stage=6#page1');
         });
       });
 
@@ -570,9 +560,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
           const url = component.customButtonUrl;
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(url, 'http://www.my-url.net/');
+          assert.strictEqual(url, 'http://www.my-url.net/');
         });
       });
     });
@@ -587,9 +575,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
         const url = component.customButtonUrl;
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(url, null);
+        assert.strictEqual(url, null);
       });
     });
   });
@@ -603,9 +589,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       const result = component.customButtonText;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(result, 'Next step');
+      assert.strictEqual(result, 'Next step');
     });
   });
 

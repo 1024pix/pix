@@ -20,9 +20,7 @@ module('Unit | Controller | Assessments | Checkpoint', function (hooks) {
       controller.set('finalCheckpoint', false);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(controller.nextPageButtonText, 'Continuer');
+      assert.strictEqual(controller.nextPageButtonText, 'Continuer');
     });
 
     test('should propose to see the results of the assessment if it is the final checkpoint', function (assert) {
@@ -30,9 +28,7 @@ module('Unit | Controller | Assessments | Checkpoint', function (hooks) {
       controller.set('finalCheckpoint', true);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(controller.nextPageButtonText, 'Voir mes résultats');
+      assert.strictEqual(controller.nextPageButtonText, 'Voir mes résultats');
     });
   });
 
@@ -49,9 +45,7 @@ module('Unit | Controller | Assessments | Checkpoint', function (hooks) {
       controller.set('finalCheckpoint', true);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(controller.completionPercentage, 100);
+      assert.strictEqual(controller.completionPercentage, 100);
     });
 
     test('should equal the progression completionPercentage', function (assert) {
@@ -64,9 +58,7 @@ module('Unit | Controller | Assessments | Checkpoint', function (hooks) {
       controller.set('model', model);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(controller.completionPercentage, 73);
+      assert.strictEqual(controller.completionPercentage, 73);
     });
   });
 

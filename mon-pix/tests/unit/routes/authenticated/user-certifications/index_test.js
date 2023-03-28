@@ -26,21 +26,15 @@ module('Unit | Route | user certifications/index', function (hooks) {
     assert.ok(route);
   });
 
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line qunit/require-expect
-  test('should return connected user certifications', function (assert) {
+  test('should return connected user certifications', async function (assert) {
     // given
     const certifications = [EmberObject.create({ id: 1 })];
     findAll.resolves(certifications);
 
     // when
-    const result = route.model();
+    const result = await route.model();
 
     // then
-    return result.then((certifications) => {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(certifications[0].id, 1);
-    });
+    assert.strictEqual(result[0].id, 1);
   });
 });

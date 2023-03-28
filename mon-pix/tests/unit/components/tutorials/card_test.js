@@ -144,9 +144,7 @@ module('Unit | Component | Tutorial | card item', function (hooks) {
         await component.toggleSaveTutorial();
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(component.savingStatus, 'recorded');
+        assert.strictEqual(component.savingStatus, 'recorded');
       });
     });
 
@@ -177,9 +175,7 @@ module('Unit | Component | Tutorial | card item', function (hooks) {
         await component.toggleSaveTutorial();
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(component.savingStatus, 'unrecorded');
+        assert.strictEqual(component.savingStatus, 'unrecorded');
       });
     });
   });

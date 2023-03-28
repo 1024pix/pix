@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { click, fillIn, find, render, settled, triggerEvent } from '@ember/test-helpers';
+import { click, fillIn, find, render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | form textfield', function (hooks) {
@@ -40,9 +40,7 @@ module('Integration | Component | form textfield', function (hooks) {
       test(`should render a ${expectedRendering}`, function (assert) {
         // Then
         assert.dom(item).exists({ count: expectedLength });
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(find(item).nodeName, expectedRendering.toUpperCase());
+        assert.strictEqual(find(item).nodeName, expectedRendering.toUpperCase());
       });
     });
 
@@ -58,8 +56,6 @@ module('Integration | Component | form textfield', function (hooks) {
   });
 
   module('#Component Interactions', function () {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/require-expect
     test('should handle action <validate> when input lost focus', async function (assert) {
       // given
       let isActionValidateHandled = false;
@@ -83,11 +79,10 @@ module('Integration | Component | form textfield', function (hooks) {
       // when
       await fillIn(INPUT, 'pix');
       await triggerEvent(INPUT, 'focusout');
+
       // then
-      return settled().then(() => {
-        assert.true(isActionValidateHandled);
-        assert.deepEqual(inputValueToValidate, expectedInputValue);
-      });
+      assert.true(isActionValidateHandled);
+      assert.deepEqual(inputValueToValidate, expectedInputValue);
     });
 
     module('#When validationStatus gets "default", Component should ', function (hooks) {
@@ -129,14 +124,10 @@ module('Integration | Component | form textfield', function (hooks) {
         );
       });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/require-expect
       test('return true if any img does exist', function (assert) {
         // then
-        return settled().then(() => {
-          assert.dom('img').exists({ count: 1 });
-          assert.ok(find('img').getAttribute('class').includes('form-textfield-icon__state--error'));
-        });
+        assert.dom('img').exists({ count: 1 });
+        assert.ok(find('img').getAttribute('class').includes('form-textfield-icon__state--error'));
       });
 
       [
@@ -198,9 +189,7 @@ module('Integration | Component | form textfield', function (hooks) {
         await click('.form-textfield-icon__button');
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(find('input').getAttribute('type'), 'text');
+        assert.strictEqual(find('input').getAttribute('type'), 'text');
       });
 
       test('should change icon when user click on it', async function (assert) {

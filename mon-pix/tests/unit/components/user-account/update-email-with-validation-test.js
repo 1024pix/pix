@@ -29,9 +29,7 @@ module('Unit | Component | user-account | update-email-with-validation', functio
       component.showVerificationCode({ newEmail, password });
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.newEmail, 'Toto@Example.net');
+      assert.strictEqual(component.newEmail, 'Toto@Example.net');
     });
 
     test('should save password on sendVerificationCode', async function (assert) {
@@ -44,9 +42,7 @@ module('Unit | Component | user-account | update-email-with-validation', functio
       component.showVerificationCode({ newEmail, password });
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.password, 'pix123');
+      assert.strictEqual(component.password, 'pix123');
     });
   });
 });

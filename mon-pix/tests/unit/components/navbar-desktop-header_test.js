@@ -73,15 +73,9 @@ module('Unit | Component | Navbar Desktop Header Component', function (hooks) {
         const expectedMenu = [{ link: 'authentication.login' }, { link: 'inscription' }];
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(component.menu.length, expectedMenu.length);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(component.menu[0].link, expectedMenu[0].link);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(component.menu[1].link, expectedMenu[1].link);
+        assert.strictEqual(component.menu.length, expectedMenu.length);
+        assert.strictEqual(component.menu[0].link, expectedMenu[0].link);
+        assert.strictEqual(component.menu[1].link, expectedMenu[1].link);
       });
     });
 

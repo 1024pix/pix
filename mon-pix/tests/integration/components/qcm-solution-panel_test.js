@@ -129,18 +129,10 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
 
         // Then
         const labels = findAll('.qcm-proposal-label__answer-details');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(labels[1].getAttribute('data-checked'), 'yes');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(findAll('input[type=checkbox]')[1].getAttribute('disabled'), 'disabled');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(labels[1].getAttribute('data-goodness'), 'good');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(
+        assert.strictEqual(labels[1].getAttribute('data-checked'), 'yes');
+        assert.strictEqual(findAll('input[type=checkbox]')[1].getAttribute('disabled'), 'disabled');
+        assert.strictEqual(labels[1].getAttribute('data-goodness'), 'good');
+        assert.strictEqual(
           labels[1].innerHTML.trim(),
           '<p><a href="/test" rel="noopener noreferrer" target="_blank">possibilite 2</a></p>'
         );
@@ -160,15 +152,9 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
         // Then
         const labels = findAll('.qcm-proposal-label__answer-details');
 
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(labels[0].getAttribute('data-checked'), 'no');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(labels[0].getAttribute('data-goodness'), 'bad');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(labels[0].innerHTML.trim(), '<p><em>possibilite</em> 1</p>');
+        assert.strictEqual(labels[0].getAttribute('data-checked'), 'no');
+        assert.strictEqual(labels[0].getAttribute('data-goodness'), 'bad');
+        assert.strictEqual(labels[0].innerHTML.trim(), '<p><em>possibilite</em> 1</p>');
       });
 
       test('should display at least one of the correct answers as not ticked', async function (assert) {
@@ -187,15 +173,12 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
         // Then
         const labels = findAll('.qcm-proposal-label__answer-details');
 
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(labels[2].getAttribute('data-checked'), 'no');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(labels[2].getAttribute('data-goodness'), 'good');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(labels[2].innerHTML.trim(), '<p><img src="/images/pix-logo-blanc.svg" alt="possibilite 3"></p>');
+        assert.strictEqual(labels[2].getAttribute('data-checked'), 'no');
+        assert.strictEqual(labels[2].getAttribute('data-goodness'), 'good');
+        assert.strictEqual(
+          labels[2].innerHTML.trim(),
+          '<p><img src="/images/pix-logo-blanc.svg" alt="possibilite 3"></p>'
+        );
       });
 
       test('should display at least one of the incorrect answers as ticked', async function (assert) {
@@ -214,12 +197,8 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
         // Then
         const labels = findAll('.qcm-proposal-label__answer-details');
 
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(labels[0].getAttribute('data-checked'), 'yes');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(labels[0].getAttribute('data-goodness'), 'bad');
+        assert.strictEqual(labels[0].getAttribute('data-checked'), 'yes');
+        assert.strictEqual(labels[0].getAttribute('data-goodness'), 'bad');
       });
 
       test('should display no clickable input', async function (assert) {
@@ -234,18 +213,10 @@ module('Integration | Component | qcm-solution-panel.js', function (hooks) {
         );
 
         // Then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(findAll('.qcm-panel__proposal-checkbox')[0].getAttribute('disabled'), 'disabled');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(findAll('.qcm-panel__proposal-checkbox')[1].getAttribute('disabled'), 'disabled');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(findAll('.qcm-panel__proposal-checkbox')[2].getAttribute('disabled'), 'disabled');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(findAll('.qcm-panel__proposal-checkbox')[3].getAttribute('disabled'), 'disabled');
+        assert.strictEqual(findAll('.qcm-panel__proposal-checkbox')[0].getAttribute('disabled'), 'disabled');
+        assert.strictEqual(findAll('.qcm-panel__proposal-checkbox')[1].getAttribute('disabled'), 'disabled');
+        assert.strictEqual(findAll('.qcm-panel__proposal-checkbox')[2].getAttribute('disabled'), 'disabled');
+        assert.strictEqual(findAll('.qcm-panel__proposal-checkbox')[3].getAttribute('disabled'), 'disabled');
       });
     });
   });

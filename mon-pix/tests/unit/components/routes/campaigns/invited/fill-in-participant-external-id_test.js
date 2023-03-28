@@ -51,9 +51,7 @@ module('Unit | Component | routes/campaigns/invited/fill-in-participant-external
       await component.actions.submit.call(component, eventStub);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.errorMessage, `Merci de renseigner votre ${component.args.campaign.idPixLabel}.`);
+      assert.strictEqual(component.errorMessage, `Merci de renseigner votre ${component.args.campaign.idPixLabel}.`);
     });
 
     test('should display error when participant external id exceed 255 characters', async function (assert) {
@@ -65,9 +63,7 @@ module('Unit | Component | routes/campaigns/invited/fill-in-participant-external
       await component.actions.submit.call(component, eventStub);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(
+      assert.strictEqual(
         component.errorMessage,
         `Votre ${component.args.campaign.idPixLabel} ne doit pas dépasser les 255 caractères.`
       );

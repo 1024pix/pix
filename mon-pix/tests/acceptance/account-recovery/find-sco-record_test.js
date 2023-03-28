@@ -62,9 +62,7 @@ module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
     const screen = await visit('/recuperer-mon-compte');
 
     // then
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(currentURL(), '/recuperer-mon-compte');
+    assert.strictEqual(currentURL(), '/recuperer-mon-compte');
     assert.ok(
       screen.getByRole('heading', {
         name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),

@@ -56,9 +56,8 @@ module('Integration | Component | result-item', function (hooks) {
 
       // then
       const expectedChallengeInstruction = "Un QCM propose plusieurs choix, l'utilisateur peut en choisir plusieurs";
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find('.result-item__instruction').textContent.trim(), expectedChallengeInstruction);
+
+      assert.strictEqual(find('.result-item__instruction').textContent.trim(), expectedChallengeInstruction);
     });
 
     test('should render a button when QCM', async function (assert) {
