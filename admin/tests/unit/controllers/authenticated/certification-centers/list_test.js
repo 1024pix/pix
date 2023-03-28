@@ -20,9 +20,7 @@ module('Unit | Controller | authenticated/certification-centers/list', function 
         await controller.triggerFiltering.perform('id', { target: { value: expectedValue } });
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.id, expectedValue);
+        assert.strictEqual(controller.id, expectedValue);
       });
     });
 
@@ -36,9 +34,7 @@ module('Unit | Controller | authenticated/certification-centers/list', function 
         await controller.triggerFiltering.perform('name', { target: { value: expectedValue } });
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.name, expectedValue);
+        assert.strictEqual(controller.name, expectedValue);
       });
     });
 
@@ -52,9 +48,7 @@ module('Unit | Controller | authenticated/certification-centers/list', function 
         await controller.triggerFiltering.perform('type', { target: { value: expectedValue } });
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.type, expectedValue);
+        assert.strictEqual(controller.type, expectedValue);
       });
     });
 
@@ -68,9 +62,7 @@ module('Unit | Controller | authenticated/certification-centers/list', function 
         await controller.triggerFiltering.perform('externalId', { target: { value: expectedValue } });
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.externalId, expectedValue);
+        assert.strictEqual(controller.externalId, expectedValue);
       });
     });
   });

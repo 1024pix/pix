@@ -21,9 +21,7 @@ module('Unit | Validator | absolute-url', function (hooks) {
 
     const message = await validator.validate(badUrl, options);
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(message, options.message);
+    assert.strictEqual(message, options.message);
   });
 
   test('it does not return an error message when url starts with http://', async function (assert) {
@@ -50,8 +48,6 @@ module('Unit | Validator | absolute-url', function (hooks) {
 
     const message = await validator.validate(badUrl, options);
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(message, options.message);
+    assert.strictEqual(message, options.message);
   });
 });

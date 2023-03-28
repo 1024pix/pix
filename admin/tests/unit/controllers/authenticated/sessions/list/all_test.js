@@ -20,9 +20,7 @@ module('Unit | Controller | authenticated/sessions/list/all', function (hooks) {
         await controller.triggerFiltering.perform('id', { target: { value: expectedValue } });
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.id, expectedValue);
+        assert.strictEqual(controller.id, expectedValue);
       });
     });
 
@@ -36,9 +34,7 @@ module('Unit | Controller | authenticated/sessions/list/all', function (hooks) {
         await controller.triggerFiltering.perform('certificationCenterName', { target: { value: expectedValue } });
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.certificationCenterName, expectedValue);
+        assert.strictEqual(controller.certificationCenterName, expectedValue);
       });
     });
 
@@ -52,9 +48,7 @@ module('Unit | Controller | authenticated/sessions/list/all', function (hooks) {
         await controller.triggerFiltering.perform('status', expectedValue);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.status, expectedValue);
+        assert.strictEqual(controller.status, expectedValue);
       });
     });
 
@@ -68,9 +62,7 @@ module('Unit | Controller | authenticated/sessions/list/all', function (hooks) {
         await controller.triggerFiltering.perform('resultsSentToPrescriberAt', expectedValue);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.resultsSentToPrescriberAt, expectedValue);
+        assert.strictEqual(controller.resultsSentToPrescriberAt, expectedValue);
       });
     });
 
@@ -84,9 +76,7 @@ module('Unit | Controller | authenticated/sessions/list/all', function (hooks) {
         await controller.triggerFiltering.perform('certificationCenterType', expectedValue);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.certificationCenterType, expectedValue);
+        assert.strictEqual(controller.certificationCenterType, expectedValue);
       });
     });
   });

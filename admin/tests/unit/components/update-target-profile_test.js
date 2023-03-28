@@ -64,9 +64,7 @@ module('Unit | Component | update-target-profile', function (hooks) {
 
       // then
       assert.ok(event.preventDefault.called);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.args.model.name, 'Edited name');
+      assert.strictEqual(component.args.model.name, 'Edited name');
     });
 
     test('it should update the description of the target profile', async function (assert) {
@@ -95,10 +93,9 @@ module('Unit | Component | update-target-profile', function (hooks) {
 
       // when
       await component.updateProfile(event);
+
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.args.model.description, 'Edited description');
+      assert.strictEqual(component.args.model.description, 'Edited description');
     });
 
     test('it should update the comment of the target profile', async function (assert) {
@@ -128,9 +125,7 @@ module('Unit | Component | update-target-profile', function (hooks) {
       // when
       await component.updateProfile(event);
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.args.model.comment, 'Edited comment');
+      assert.strictEqual(component.args.model.comment, 'Edited comment');
     });
 
     test('it should do nothing when form is not valid', async function (assert) {
