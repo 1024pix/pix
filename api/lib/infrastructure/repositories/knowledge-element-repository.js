@@ -4,8 +4,6 @@ const constants = require('../constants.js');
 const { knex } = require('../../../db/knex-database-connection.js');
 const KnowledgeElement = require('../../domain/models/KnowledgeElement.js');
 const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses.js');
-const BookshelfKnowledgeElement = require('../orm-models/KnowledgeElement.js');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter.js');
 const knowledgeElementSnapshotRepository = require('./knowledge-element-snapshot-repository.js');
 const campaignRepository = require('./campaign-repository.js');
 const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
@@ -91,9 +89,8 @@ async function _countValidatedByCompetencesForUsersWithinCampaign(userIdsAndDate
 module.exports = {
   async save(knowledgeElement) {
     const knowledgeElementToSave = _.omit(knowledgeElement, ['id', 'createdAt']);
-    const savedKnowledgeElement = await new BookshelfKnowledgeElement(knowledgeElementToSave).save();
-
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfKnowledgeElement, savedKnowledgeElement);
+    const [savedKnowledgeElement] = await knex(tableName).insert(knowledgeElementToSave).returning('*');
+    return new KnowledgeElement(savedKnowledgeElement);
   },
 
   findUniqByUserId({ userId, limitDate, domainTransaction }) {
