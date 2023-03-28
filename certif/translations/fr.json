@@ -25,6 +25,7 @@
       "error-default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement.",
       "mandatory-fields": "Les champs marqués de <abbr title=\"obligatoire\" class=\"mandatory-mark\">*</abbr>sont obligatoires.",
       "mandatory-all-fields": "Tous les champs sont obligatoires.",
+      "required": "Obligatoire",
       "certification-labels": {
         "additional-certification": "Certification complémentaire",
         "billing-mode": {
