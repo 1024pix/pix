@@ -30,9 +30,25 @@ class AssessmentResult {
       this.validatedSkillsCount
     );
 
-    this.competenceResults = competences.map(({ competence, area, targetedSkillIds }) =>
-      _buildCompetenceResult({ competence, area, targetedSkillIds, knowledgeElements })
-    );
+    this.competenceResults = competences.map(({ competence, area, targetedSkillIds }) => {
+      const competenceKnowledgeElements = knowledgeElements.filter(({ skillId }) => targetedSkillIds.includes(skillId));
+      let reachedStage;
+
+      if (stageCollection.totalStages > 0) {
+        const validatedSkillsCountForCompetence = knowledgeElements.filter(({ isValidated }) => isValidated).length;
+
+        reachedStage = stageCollection.getReachedStageIndex(validatedSkillsCountForCompetence, this.masteryRate * 100);
+      }
+
+      return _buildCompetenceResult({
+        competence,
+        area,
+        targetedSkillIds,
+        competenceKnowledgeElements,
+        reachedStage,
+      });
+    });
+
     this.badgeResults = badgeResultsDTO.map((badge) => new BadgeResult(badge, participationResults));
 
     if (stageCollection.totalStages > 0) {
@@ -107,13 +123,13 @@ class AssessmentResult {
   }
 }
 
-function _buildCompetenceResult({ competence, area, targetedSkillIds, knowledgeElements }) {
-  const competenceKnowledgeElements = knowledgeElements.filter(({ skillId }) => targetedSkillIds.includes(skillId));
+function _buildCompetenceResult({ competence, area, targetedSkillIds, competenceKnowledgeElements, reachedStage }) {
   return new CompetenceResult({
     competence,
     area,
     totalSkillsCount: targetedSkillIds.length,
     knowledgeElements: competenceKnowledgeElements,
+    reachedStage,
   });
 }
 

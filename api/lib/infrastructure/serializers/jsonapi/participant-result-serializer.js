@@ -74,6 +74,7 @@ module.exports = {
           'testedSkillsCount',
           'validatedSkillsCount',
           'flashPixScore',
+          'reachedStage',
         ],
       },
       reachedStage: {
