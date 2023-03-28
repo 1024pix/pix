@@ -12,6 +12,8 @@ const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
 
 const { SHARED } = CampaignParticipationStatuses;
 
+const tableName = 'knowledge-elements';
+
 function _getUniqMostRecents(knowledgeElements) {
   return _(knowledgeElements).orderBy('createdAt', 'desc').uniqBy('skillId').value();
 }
@@ -31,7 +33,7 @@ function _findByUserIdAndLimitDateQuery({
   domainTransaction = DomainTransaction.emptyTransaction(),
 }) {
   const knexConn = domainTransaction.knexTransaction || knex;
-  return knexConn('knowledge-elements').where((qb) => {
+  return knexConn(tableName).where((qb) => {
     qb.where({ userId });
     if (limitDate) {
       qb.where('createdAt', '<', limitDate);
@@ -199,7 +201,7 @@ module.exports = {
   },
 
   async findInvalidatedAndDirectByUserId(userId) {
-    const invalidatedKnowledgeElements = await knex('knowledge-elements')
+    const invalidatedKnowledgeElements = await knex(tableName)
       .where({
         userId,
         status: KnowledgeElement.StatusType.INVALIDATED,
