@@ -75,9 +75,13 @@ module('Acceptance | authenticated/users/get', function (hooks) {
   });
 
   module('when administrator click to edit users details', function () {
-    test('should update user firstName, lastName and email', async function (assert) {
+    test('should update user language, username, firstName, lastName and email', async function (assert) {
       // given
-      const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
+      const user = await buildAndAuthenticateUser(this.server, {
+        email: 'john.harry@example.net',
+        username: 'john.harry0101',
+      });
+
       const screen = await visit(`/users/${user.id}`);
       await clickByName('Modifier');
 
@@ -85,6 +89,11 @@ module('Acceptance | authenticated/users/get', function (hooks) {
       await fillByLabel('* Prénom :', 'john');
       await fillByLabel('* Nom :', 'doe');
       await fillByLabel('* Adresse e-mail :', 'john.doe@example.net');
+      await fillByLabel('* Identifiant :', 'john.doe0101');
+      await click(screen.getByRole('button', { name: 'Langue :' }));
+
+      await screen.findByRole('listbox');
+      await click(screen.getByRole('option', { name: 'Anglais' }));
 
       await clickByName('Editer');
 
@@ -92,25 +101,8 @@ module('Acceptance | authenticated/users/get', function (hooks) {
       assert.dom(screen.getByText('john')).exists();
       assert.dom(screen.getByText('doe')).exists();
       assert.dom(screen.getByText('john.doe@example.net')).exists();
-    });
-
-    test('should update user firstName, lastName and username', async function (assert) {
-      // given
-      const user = await buildAndAuthenticateUser(this.server, { email: null, username: 'john.harry0101' });
-      const screen = await visit(`/users/${user.id}`);
-      await clickByName('Modifier');
-
-      // when
-      await fillByLabel('* Prénom :', 'john');
-      await fillByLabel('* Nom :', 'doe');
-      await fillByLabel('* Identifiant :', 'john.doe0101');
-
-      await clickByName('Editer');
-
-      // then
-      assert.dom(screen.getByText('john')).exists();
-      assert.dom(screen.getByText('doe')).exists();
       assert.dom(screen.getByText('john.doe0101')).exists();
+      assert.dom(screen.getByText('Langue : en')).exists();
     });
   });
 

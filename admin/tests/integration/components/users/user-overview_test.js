@@ -248,7 +248,7 @@ module('Integration | Component | users | user-overview', function (hooks) {
         assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
       });
 
-      test('should display user’s first name and last name in edit mode', async function (assert) {
+      test('should display user’s language, first name and last name in edit mode', async function (assert) {
         // given
         this.set('user', user);
 
@@ -259,8 +259,11 @@ module('Integration | Component | users | user-overview', function (hooks) {
         // then
         assert.dom(screen.getByRole('textbox', { name: 'Prénom :' })).hasValue(this.user.firstName);
         assert.dom(screen.getByRole('textbox', { name: 'Nom :' })).hasValue(this.user.lastName);
+        await clickByName('Langue :');
+        await screen.findByRole('listbox');
+        assert.dom(screen.getByRole('option', { name: 'Français' })).exists();
+        assert.dom(screen.getByRole('option', { name: 'Anglais' })).exists();
       });
-
       module('when user has an email only', function () {
         test('should display user’s email in edit mode', async function (assert) {
           // given
