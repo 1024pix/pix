@@ -1,5 +1,7 @@
 const { readFile } = require('fs').promises;
 const _ = require('lodash');
+const { getI18n } = require('../../../../tooling/i18n/i18n');
+const i18n = getI18n();
 
 const { expect, catchErr } = require('../../../../test-helper');
 const { UnprocessableEntityError } = require('../../../../../lib/application/http-errors');
@@ -245,6 +247,7 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', function
     it('should read range rows and get the appropriate headers', async function () {
       // given
       const expectedHeaders = getTransformationStructsForPixCertifCandidatesImport({
+        i18n,
         complementaryCertifications: [],
         isSco: true,
       }).headers;

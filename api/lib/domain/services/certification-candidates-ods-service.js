@@ -18,6 +18,7 @@ module.exports = {
 };
 
 async function extractCertificationCandidatesFromCandidatesImportSheet({
+  i18n,
   sessionId,
   isSco,
   odsBuffer,
@@ -29,6 +30,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
 }) {
   const certificationCenter = await certificationCenterRepository.getBySessionId(sessionId);
   const candidateImportStructs = getTransformationStructsForPixCertifCandidatesImport({
+    i18n,
     complementaryCertifications: certificationCenter.habilitations,
     isSco,
   });
@@ -104,10 +106,6 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
         hasPixPlusEdu2ndDegre,
         complementaryCertificationRepository,
       });
-
-      if (billingMode) {
-        billingMode = CertificationCandidate.translateBillingMode(billingMode);
-      }
 
       const certificationCandidate = new CertificationCandidate({
         ...certificationCandidateData,

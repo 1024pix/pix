@@ -55,10 +55,21 @@
       "paid": "Paid",
       "prepaid": "Prepaid"
     },
+    "birthcity": "Name of birth city",
+    "birthcity-inseecode": "Insee code",
+    "birthcity-postcode": "Postcode",
+    "birthcountry": "Country",
+    "birthdate": "Date of birth (DD/MM/YYYY format)",
+    "birthname": "Last name",
     "birthplace": "Place of birth",
     "certification": "Additional",
     "complementary": "certification",
+    "email-convocation": "Email for the convocation",
+    "email-results": "Email of the results' recipient (instructor, teacher…)",
+    "externalid": "External user ID",
     "extratime": "Extra time ?",
+    "firstname": "First name",
+    "gender": "Gender (M or F)",
     "one-per-candidate":  "(no more than one per candidate)",
     "options": "Possible options :",
     "prepayment": "Prepayment code",
@@ -68,7 +79,7 @@
     "tooltip-line-1": "(Required in particular when purchasing combined credits)",
     "tooltip-line-2": "It must be comprised of the organisation’s SIRET and of the invoice’s number. Ex : 12345678912345/FACT12345. ",
     "tooltip-line-3": "If you don’t have an invoice, a prepayment code must be set with Pix.",
-    "yes-or-empty": "\"yes\" or leave blank"
+    "yes-or-empty": "(\"yes\" or leave blank)"
   },
   "certification-center-invitation-email": {
     "params": {

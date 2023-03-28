@@ -225,9 +225,10 @@ module.exports = {
   async importCertificationCandidatesFromCandidatesImportSheet(request) {
     const sessionId = request.params.id;
     const odsBuffer = request.payload;
+    const i18n = request.i18n;
 
     try {
-      await usecases.importCertificationCandidatesFromCandidatesImportSheet({ sessionId, odsBuffer });
+      await usecases.importCertificationCandidatesFromCandidatesImportSheet({ sessionId, odsBuffer, i18n });
     } catch (err) {
       if (err instanceof CertificationCandidateAlreadyLinkedToUserError) {
         throw new BadRequestError(err.message);
