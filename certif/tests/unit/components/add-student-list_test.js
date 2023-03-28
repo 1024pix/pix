@@ -86,9 +86,8 @@ module('Unit | Component | add-student-list', function (hooks) {
       component.toggleItem(student);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(student.isSelected, !initialValue);
+
+      assert.strictEqual(student.isSelected, !initialValue);
     });
   });
 

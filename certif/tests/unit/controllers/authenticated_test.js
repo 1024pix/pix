@@ -27,9 +27,7 @@ module('Unit | Controller | authenticated', function (hooks) {
       const documentationLink = controller.documentationLink;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(documentationLink, 'http://cloud.pix.fr/s/fLSG4mYCcX7GDRF');
+      assert.strictEqual(documentationLink, 'http://cloud.pix.fr/s/fLSG4mYCcX7GDRF');
     });
 
     test('should return the dedicated link for SCO isManagingStudents certification center', function (assert) {
@@ -53,9 +51,7 @@ module('Unit | Controller | authenticated', function (hooks) {
       const documentationLink = controller.documentationLink;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(documentationLink, 'http://cloud.pix.fr/s/GqwW6dFDDrHezfS');
+      assert.strictEqual(documentationLink, 'http://cloud.pix.fr/s/GqwW6dFDDrHezfS');
     });
   });
 

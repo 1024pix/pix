@@ -26,9 +26,7 @@ module('Unit | Component | new-certification-candidate-modal', function (hooks) 
         await modal.selectBirthGeoCodeOption('insee');
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(modal.selectedBirthGeoCodeOption, 'insee');
+        assert.strictEqual(modal.selectedBirthGeoCodeOption, 'insee');
       });
 
       test('should reset the birth city', async function (assert) {
@@ -76,9 +74,7 @@ module('Unit | Component | new-certification-candidate-modal', function (hooks) 
         await modal.selectBirthGeoCodeOption('postal');
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(modal.selectedBirthGeoCodeOption, 'postal');
+        assert.strictEqual(modal.selectedBirthGeoCodeOption, 'postal');
       });
 
       test('should reset the birth insee code', async function (assert) {

@@ -71,9 +71,7 @@ module('Unit | Component | enrolled-candidates', function (hooks) {
       // then
       sinon.assert.notCalled(savableCandidate.save);
       sinon.assert.calledOnce(savableCandidate.deleteRecord);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.args.certificationCandidates.length, 1);
+      assert.strictEqual(component.args.certificationCandidates.length, 1);
     });
   });
 
@@ -173,9 +171,7 @@ module('Unit | Component | enrolled-candidates', function (hooks) {
 
       // then
       assert.true(component.shouldDisplayCertificationCandidateModal);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.certificationCandidateInDetailsModal, candidate);
+      assert.strictEqual(component.certificationCandidateInDetailsModal, candidate);
     });
   });
 
@@ -196,9 +192,7 @@ module('Unit | Component | enrolled-candidates', function (hooks) {
 
       // then
       assert.false(component.shouldDisplayCertificationCandidateModal);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.certificationCandidateInDetailsModal, null);
+      assert.strictEqual(component.certificationCandidateInDetailsModal, null);
     });
   });
 

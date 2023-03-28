@@ -10,9 +10,11 @@ module('Unit | Route | not-found', function (hooks) {
     const expectedRedirection = 'application';
 
     route.transitionTo = (redirection) => {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(redirection, expectedRedirection, `expect transition to ${expectedRedirection}, got ${redirection}`);
+      assert.strictEqual(
+        redirection,
+        expectedRedirection,
+        `expect transition to ${expectedRedirection}, got ${redirection}`
+      );
     };
 
     route.afterModel();
