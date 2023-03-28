@@ -1,7 +1,7 @@
 const { knex } = require('../../../db/knex-database-connection.js');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter.js');
-const BookshelfBadge = require('../orm-models/Badge.js');
 const Badge = require('../../domain/models/Badge.js');
+const SkillSet = require('../../domain/models/SkillSet.js');
+const BadgeCriterion = require('../../domain/models/BadgeCriterion.js');
 const omit = require('lodash/omit');
 const bookshelfUtils = require('../utils/knex-utils.js');
 const { AlreadyExistingEntityError } = require('../../domain/errors.js');
@@ -10,17 +10,19 @@ const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
 const TABLE_NAME = 'badges';
 
 module.exports = {
-  findByCampaignId(campaignId) {
-    return BookshelfBadge.query((qb) => {
-      qb.join('target-profiles', 'target-profiles.id', 'badges.targetProfileId');
-      qb.join('campaigns', 'campaigns.targetProfileId', 'target-profiles.id');
-    })
-      .where('campaigns.id', campaignId)
-      .fetchAll({
-        require: false,
-        withRelated: ['badgeCriteria', 'skillSets'],
+  async findByCampaignId(campaignId) {
+    const badges = await knex(TABLE_NAME)
+      .select(`${TABLE_NAME}.*`)
+      .join('target-profiles', 'target-profiles.id', `${TABLE_NAME}.targetProfileId`)
+      .join('campaigns', 'campaigns.targetProfileId', 'target-profiles.id')
+      .where('campaigns.id', campaignId);
+
+    return Promise.all(
+      badges.map(async (badge) => {
+        const { badgeCriteria, skillSets } = await _addCriteriaInformation(badge);
+        return new Badge({ ...badge, badgeCriteria, skillSets });
       })
-      .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfBadge, results));
+    );
   },
 
   async isAssociated(badgeId, { knexTransaction } = DomainTransaction.emptyTransaction()) {
@@ -36,17 +38,15 @@ module.exports = {
   },
 
   async get(id) {
-    const bookshelfBadge = await BookshelfBadge.where('id', id).fetch({
-      withRelated: ['badgeCriteria', 'skillSets'],
-    });
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfBadge, bookshelfBadge);
+    const badge = await knex(TABLE_NAME).select('*').where({ id }).first();
+    const { badgeCriteria, skillSets } = await _addCriteriaInformation(badge);
+    return new Badge({ ...badge, badgeCriteria, skillSets });
   },
 
   async getByKey(key) {
-    const bookshelfBadge = await BookshelfBadge.where({ key }).fetch({
-      withRelated: ['badgeCriteria', 'skillSets'],
-    });
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfBadge, bookshelfBadge);
+    const badge = await knex(TABLE_NAME).select('*').where({ key }).first();
+    const { badgeCriteria, skillSets } = await _addCriteriaInformation(badge);
+    return new Badge({ ...badge, badgeCriteria, skillSets });
   },
 
   async save(badge, { knexTransaction } = DomainTransaction.emptyTransaction()) {
@@ -83,6 +83,16 @@ module.exports = {
     return true;
   },
 };
+
+async function _addCriteriaInformation(badge) {
+  const badgeCriteria = await knex('badge-criteria').where({ badgeId: badge.id });
+  const skillSets = await knex('skill-sets').where({ badgeId: badge.id });
+
+  return {
+    badgeCriteria: badgeCriteria.map((badgeCriterion) => new BadgeCriterion(badgeCriterion)),
+    skillSets: skillSets.map((skillSet) => new SkillSet(skillSet)),
+  };
+}
 
 function _adaptModelToDb(badge) {
   return omit(badge, ['id', 'badgeCriteria', 'skillSets', 'complementaryCertificationBadge']);
