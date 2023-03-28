@@ -18,7 +18,7 @@ module.exports = {
 };
 
 async function _computeStagesThresholdForCampaign(stages, campaignId) {
-  const stagesWithLevel = stages.filter((stage) => stage.level);
+  const stagesWithLevel = stages.filter((stage) => stage.level || stage.level === 0);
 
   if (stagesWithLevel.length === 0) return;
 
