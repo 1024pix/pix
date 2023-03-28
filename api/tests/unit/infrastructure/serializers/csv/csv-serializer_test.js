@@ -168,6 +168,43 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
         });
       });
 
+      describe('when session date format is incorrect', function () {
+        it('should return original date', function () {
+          // given
+          const sessionLine = _line({
+            sessionId: '',
+            address: `Site 1`,
+            room: `Salle 1`,
+            date: 'wrong format',
+            time: '',
+            examiner: 'Paul',
+            description: '',
+          });
+
+          const parsedCsvData = [sessionLine];
+
+          const expectedResult = [
+            {
+              sessionId: undefined,
+              address: 'Site 1',
+              room: 'Salle 1',
+              date: 'wrong format',
+              time: null,
+              examiner: 'Paul',
+              description: '',
+              certificationCandidates: [],
+              line: 2,
+            },
+          ];
+
+          // when
+          const result = csvSerializer.deserializeForSessionsImport(parsedCsvData);
+
+          // then
+          expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
+        });
+      });
+
       describe('when session information is identical on consecutive lines', function () {
         it('should return a full session object per line', function () {
           // given

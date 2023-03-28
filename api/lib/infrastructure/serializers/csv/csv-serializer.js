@@ -162,11 +162,12 @@ function _getDataFromColumnNames({ csvLineKeys, headers, line }) {
   csvLineKeys.forEach((key) => {
     const headerKeyInCurrentLine = line[headers[key]];
     if (key === 'birthdate' || key === 'date') {
-      data[key] = convertDateValue({
-        dateString: headerKeyInCurrentLine,
-        inputFormat: 'DD/MM/YYYY',
-        outputFormat: 'YYYY-MM-DD',
-      });
+      data[key] =
+        convertDateValue({
+          dateString: headerKeyInCurrentLine,
+          inputFormat: 'DD/MM/YYYY',
+          outputFormat: 'YYYY-MM-DD',
+        }) ?? headerKeyInCurrentLine;
     } else if (key === 'extraTimePercentage') {
       data[key] = headerKeyInCurrentLine !== '' ? headerKeyInCurrentLine : null;
     } else if (key === 'prepaymentCode') {
