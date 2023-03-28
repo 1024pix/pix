@@ -56,9 +56,7 @@ module('Unit | Component | challenge statement', function (hooks) {
       const orderedAttachments = component.orderedAttachments;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(orderedAttachments.length, 0);
+      assert.strictEqual(orderedAttachments.length, 0);
     });
 
     test('should return files using the preferred formats first, then the others', function (assert) {
@@ -71,9 +69,7 @@ module('Unit | Component | challenge statement', function (hooks) {
       const orderedAttachments = component.orderedAttachments;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(orderedAttachments.length, attachments.length);
+      assert.strictEqual(orderedAttachments.length, attachments.length);
       assert.ok(orderedAttachments[0].includes('docx'));
       assert.ok(orderedAttachments[1].includes('odp'));
     });
@@ -93,9 +89,7 @@ module('Unit | Component | challenge statement', function (hooks) {
       const orderedAttachments = component.orderedAttachments;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(orderedAttachments.length, attachments.length);
+      assert.strictEqual(orderedAttachments.length, attachments.length);
       assert.ok(orderedAttachments[0].includes('docx'));
       assert.ok(orderedAttachments[1].includes('pptx'));
       assert.ok(orderedAttachments[2].includes('odp'));

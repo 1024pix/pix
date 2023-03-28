@@ -44,15 +44,14 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
             await clickByLabel(this.intl.t('pages.fill-in-participant-external-id.buttons.continue'));
 
             // then
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line qunit/no-assert-equal
-            assert.equal(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
+            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
           });
         });
 
         module('When participant external id is set in the url', function () {
-          module('When campaign is not restricted', function (hooks) {
-            hooks.beforeEach(async function () {
+          module('When campaign is not restricted', function () {
+            test('should redirect to send profile page', async function (assert) {
+              // given & when
               campaign = server.create('campaign', {
                 type: PROFILES_COLLECTION,
                 isRestricted: false,
@@ -65,13 +64,9 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
               await fillIn('#password', campaignParticipant.password);
               await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
               await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
-            });
 
-            test('should redirect to send profile page', async function (assert) {
               // then
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line qunit/no-assert-equal
-              assert.equal(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
+              assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
             });
           });
 
@@ -85,9 +80,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
                 organizationType: 'SCO',
               });
               await visit(`/campagnes/${campaign.code}?participantExternalId=a73at01r3`);
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line qunit/no-assert-equal
-              assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
+              assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
               await clickByLabel("C'est parti !");
 
               // when
@@ -106,16 +99,15 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
               await clickByLabel(this.intl.t('pages.join.sco.associate'));
 
               // then
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line qunit/no-assert-equal
-              assert.equal(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
+              assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
             });
           });
         });
       });
 
-      module('When campaign does not have external id', function (hooks) {
-        hooks.beforeEach(async function () {
+      module('When campaign does not have external id', function () {
+        test('should redirect to send profile page after signup', async function (assert) {
+          // given & when
           campaign = server.create('campaign', { type: PROFILES_COLLECTION, idPixLabel: null });
           const screen = await startCampaignByCode(campaign.code);
           await fillIn('#firstName', campaignParticipant.firstName);
@@ -124,38 +116,30 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
           await fillIn('#password', campaignParticipant.password);
           await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
           await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
-        });
 
-        test('should redirect to send profile page after signup', async function (assert) {
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
+          assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
         });
       });
 
-      module(
-        'When campaign does not have external id but a participant external id is set in the url',
-        function (hooks) {
-          hooks.beforeEach(async function () {
-            campaign = server.create('campaign', { type: PROFILES_COLLECTION });
-            const screen = await startCampaignByCodeAndExternalId(campaign.code);
-            await fillIn('#firstName', campaignParticipant.firstName);
-            await fillIn('#lastName', campaignParticipant.lastName);
-            await fillIn('#email', campaignParticipant.email);
-            await fillIn('#password', campaignParticipant.password);
-            await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
-            await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
-          });
+      module('When campaign does not have external id but a participant external id is set in the url', function () {
+        test('should redirect to send profile page after signup', async function (assert) {
+          // given
+          campaign = server.create('campaign', { type: PROFILES_COLLECTION });
+          const screen = await startCampaignByCodeAndExternalId(campaign.code);
+          await fillIn('#firstName', campaignParticipant.firstName);
+          await fillIn('#lastName', campaignParticipant.lastName);
+          await fillIn('#email', campaignParticipant.email);
+          await fillIn('#password', campaignParticipant.password);
+          await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
 
-          test('should redirect to send profile page after signup', async function (assert) {
-            // then
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line qunit/no-assert-equal
-            assert.equal(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
-          });
-        }
-      );
+          // when
+          await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
+
+          // then
+          assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
+        });
+      });
     });
 
     module('When user is logged in', function (hooks) {
@@ -168,12 +152,8 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
           // when
           campaign = server.create('campaign', { type: PROFILES_COLLECTION });
           await visit(`/campagnes/${campaign.code}`);
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(find('.campaign-landing-page__start-button').textContent.trim(), "C'est parti !");
+          assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+          assert.strictEqual(find('.campaign-landing-page__start-button').textContent.trim(), "C'est parti !");
         });
       });
 
@@ -205,9 +185,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
             await clickByLabel(this.intl.t('pages.fill-in-participant-external-id.buttons.continue'));
 
             //then
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line qunit/no-assert-equal
-            assert.equal(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
+            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
           });
 
           module('When user has already a reconciled account', function (hooks) {
@@ -249,9 +227,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
               await clickByLabel(this.intl.t('pages.join.sco.continue-with-pix'));
 
               //then
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line qunit/no-assert-equal
-              assert.equal(currentURL(), `/campagnes/${campaign.code}/rejoindre/identification`);
+              assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/rejoindre/identification`);
               assert.ok(screen.getByRole('button', { name: 'Se connecter' }));
             });
           });
@@ -259,41 +235,35 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
       });
 
       module('When campaign has external id', function () {
-        module('When participant external id is not set in the url', function (hooks) {
-          hooks.beforeEach(async function () {
+        module('When participant external id is not set in the url', function () {
+          test('should redirect to send profile page when the user fill in his id', async function (assert) {
+            // given
             campaign = server.create('campaign', {
               type: PROFILES_COLLECTION,
               idPixLabel: 'nom de naissance de maman',
             });
             await startCampaignByCode(campaign.code);
-          });
 
-          test('should redirect to send profile page when the user fill in his id', async function (assert) {
             // when
             await fillIn('#id-pix-label', 'monmail@truc.fr');
             await clickByLabel(this.intl.t('pages.fill-in-participant-external-id.buttons.continue'));
 
             // then
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line qunit/no-assert-equal
-            assert.equal(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
+            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
           });
         });
 
-        module('When participant external id is set in the url', function (hooks) {
-          hooks.beforeEach(async function () {
+        module('When participant external id is set in the url', function () {
+          test('should redirect to send profile page', async function (assert) {
+            // given & when
             campaign = server.create('campaign', {
               type: PROFILES_COLLECTION,
               idPixLabel: 'nom de naissance de maman',
             });
             await startCampaignByCodeAndExternalId(campaign.code);
-          });
 
-          test('should redirect to send profile page', async function (assert) {
             // then
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line qunit/no-assert-equal
-            assert.equal(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
+            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
           });
         });
       });
@@ -309,9 +279,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
           await click('.campaign-landing-page__start-button');
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
+          assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
         });
       });
 
@@ -328,9 +296,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Profiles Collection',
             await click('.campaign-landing-page__start-button');
 
             // then
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line qunit/no-assert-equal
-            assert.equal(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
+            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/collecte/envoi-profil`);
           });
         }
       );

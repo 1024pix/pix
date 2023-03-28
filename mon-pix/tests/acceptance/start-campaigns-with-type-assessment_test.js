@@ -91,9 +91,8 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
                 type: ASSESSMENT,
               });
               await visit(`/campagnes/${campaign.code}?participantExternalId=a73at01r3`);
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line qunit/no-assert-equal
-              assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
+
+              assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
               await clickByLabel('Je commence');
 
               // when
@@ -180,12 +179,9 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
           // when
           campaign = server.create('campaign', { type: ASSESSMENT });
           await visit(`/campagnes/${campaign.code}`);
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(find('.campaign-landing-page__start-button').textContent.trim(), 'Je commence');
+
+          assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
+          assert.strictEqual(find('.campaign-landing-page__start-button').textContent.trim(), 'Je commence');
         });
       });
 
@@ -217,9 +213,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
             await clickByLabel(this.intl.t('pages.fill-in-participant-external-id.buttons.continue'));
 
             //then
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line qunit/no-assert-equal
-            assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
+            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
         });
       });
@@ -237,9 +231,7 @@ module('Acceptance | Campaigns | Start Campaigns with type Assessment', function
             await clickByLabel(this.intl.t('pages.fill-in-participant-external-id.buttons.continue'));
 
             // then
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line qunit/no-assert-equal
-            assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
+            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
 
           test('should start the assessment when the user has seen tutorial', async function (assert) {

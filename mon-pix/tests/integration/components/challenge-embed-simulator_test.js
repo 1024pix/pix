@@ -45,9 +45,7 @@ module('Integration | Component | Challenge Embed Simulator', function (hooks) {
       await render(hbs`<ChallengeEmbedSimulator />`);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find('.embed__reboot').textContent.trim(), 'Réinitialiser');
+      assert.strictEqual(find('.embed__reboot').textContent.trim(), 'Réinitialiser');
     });
   });
 
@@ -88,21 +86,15 @@ module('Integration | Component | Challenge Embed Simulator', function (hooks) {
     });
 
     test('should have an height that is the one defined in the referential', function (assert) {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find('.challenge-embed-simulator').style.cssText, 'height: 200px;');
+      assert.strictEqual(find('.challenge-embed-simulator').style.cssText, 'height: 200px;');
     });
 
     test('should define a title attribute on the iframe element that is the one defined in the referential for field "Embed title"', function (assert) {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find('.embed__iframe').title, 'Embed simulator');
+      assert.strictEqual(find('.embed__iframe').title, 'Embed simulator');
     });
 
     test('should define a src attribute on the iframe element that is the one defined in the referential for field "Embed URL"', function (assert) {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find('.embed__iframe').src, 'http://embed-simulator.url/');
+      assert.strictEqual(find('.embed__iframe').src, 'http://embed-simulator.url/');
     });
   });
 });

@@ -21,9 +21,7 @@ module('Unit | Utility | progress-in-assessment', function () {
       const currentStepIndex = progressInAssessment.getCurrentStepIndex(assessment, currentChallengeNumber);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentStepIndex, 1);
+      assert.strictEqual(currentStepIndex, 1);
     });
 
     test('should return 0 when the assessment is a preview', function (assert) {
@@ -35,9 +33,7 @@ module('Unit | Utility | progress-in-assessment', function () {
       const currentStepIndex = progressInAssessment.getCurrentStepIndex(assessment, currentChallengeNumber);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentStepIndex, 0);
+      assert.strictEqual(currentStepIndex, 0);
     });
   });
 
@@ -50,9 +46,7 @@ module('Unit | Utility | progress-in-assessment', function () {
       const maxStepNumber = progressInAssessment.getMaxStepsNumber(assessment);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(maxStepNumber, ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS);
+      assert.strictEqual(maxStepNumber, ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS);
     });
 
     module('when assessment has flash method', function () {
@@ -64,9 +58,7 @@ module('Unit | Utility | progress-in-assessment', function () {
         const maxStepNumber = progressInAssessment.getMaxStepsNumber(assessment);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(maxStepNumber, ENV.APP.NUMBER_OF_CHALLENGES_FOR_FLASH_METHOD);
+        assert.strictEqual(maxStepNumber, ENV.APP.NUMBER_OF_CHALLENGES_FOR_FLASH_METHOD);
       });
 
       test('when assessment is certification, should return the maximum number of challenges', function (assert) {
@@ -77,9 +69,7 @@ module('Unit | Utility | progress-in-assessment', function () {
         const maxStepNumber = progressInAssessment.getMaxStepsNumber(assessment);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(maxStepNumber, ENV.APP.NUMBER_OF_CHALLENGES_FOR_FLASH_METHOD);
+        assert.strictEqual(maxStepNumber, ENV.APP.NUMBER_OF_CHALLENGES_FOR_FLASH_METHOD);
       });
     });
 
@@ -95,9 +85,7 @@ module('Unit | Utility | progress-in-assessment', function () {
       const maxStepNumber = progressInAssessment.getMaxStepsNumber(assessment);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(maxStepNumber, nbChallenges);
+      assert.strictEqual(maxStepNumber, nbChallenges);
     });
 
     test('should return the number of challenge in course', function (assert) {
@@ -109,9 +97,7 @@ module('Unit | Utility | progress-in-assessment', function () {
       const maxStepNumber = progressInAssessment.getMaxStepsNumber(assessment);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(maxStepNumber, nbChallenges);
+      assert.strictEqual(maxStepNumber, nbChallenges);
     });
 
     test('should return 1 when the assessment is a preview', function (assert) {
@@ -122,9 +108,7 @@ module('Unit | Utility | progress-in-assessment', function () {
       const maxStepNumber = progressInAssessment.getMaxStepsNumber(assessment);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(maxStepNumber, 1);
+      assert.strictEqual(maxStepNumber, 1);
     });
   });
 
@@ -145,9 +129,7 @@ module('Unit | Utility | progress-in-assessment', function () {
       const currentStepIndex = progressInAssessment.getCurrentStepNumber(assessment, currentChallengeNumber);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentStepIndex, 4);
+      assert.strictEqual(currentStepIndex, 4);
     });
   });
 });

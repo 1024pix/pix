@@ -60,9 +60,8 @@ module('Acceptance | Giving feedback about a challenge', function (hooks) {
           test('should always reset the feedback form between two consecutive challenges', async function (assert) {
             await click('.feedback-panel__open-button');
             await fillIn(DROPDOWN, 'accessibility');
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line qunit/no-assert-equal
-            assert.equal(find(TEXTAREA).value, '');
+
+            assert.strictEqual(find(TEXTAREA).value, '');
           });
         });
       });

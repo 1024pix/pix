@@ -71,9 +71,7 @@ module('Integration | Component | user-certifications-detail-competence', functi
   module('on a specific line of competence', function () {
     module('when competence level is -1', function () {
       test('should be grayed out (almost transparent) and not show the level', function (assert) {
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(
+        assert.strictEqual(
           find(`${COMPETENCE_SELECTOR}:nth-child(3) span`).textContent,
           area.resultCompetences[1].level.toString()
         );
@@ -83,18 +81,14 @@ module('Integration | Component | user-certifications-detail-competence', functi
 
     module('when competence level is 0', function () {
       test('should show "-" for the level (not 0)', function (assert) {
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(find(`${COMPETENCE_SELECTOR}:nth-child(4) span`).textContent, '-');
+        assert.strictEqual(find(`${COMPETENCE_SELECTOR}:nth-child(4) span`).textContent, '-');
         assert.notOk(find(`${COMPETENCE_SELECTOR}:nth-child(4) p`).classList.toString().includes(DISABLED_CLASS));
       });
     });
 
     module('when competence level is greater or equal than 1', function () {
       test('should show the level', function (assert) {
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(find(`${COMPETENCE_SELECTOR}:nth-child(5) span`).textContent, '3');
+        assert.strictEqual(find(`${COMPETENCE_SELECTOR}:nth-child(5) span`).textContent, '3');
         assert.notOk(find(`${COMPETENCE_SELECTOR}:nth-child(5) p`).classList.toString().includes(DISABLED_CLASS));
       });
     });

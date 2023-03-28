@@ -82,9 +82,7 @@ module('Unit | Component | authentication | oidc-reconciliation', function (hook
       component.args.identityProviderSlug = 'oidc-partner';
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.identityProviderOrganizationName, 'Partenaire OIDC');
+      assert.strictEqual(component.identityProviderOrganizationName, 'Partenaire OIDC');
     });
   });
 
@@ -153,9 +151,7 @@ module('Unit | Component | authentication | oidc-reconciliation', function (hook
       await component.reconcile();
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(
+      assert.strictEqual(
         component.reconcileErrorMessage,
         this.intl.t('pages.login-or-register-oidc.error.expired-authentication-key')
       );
@@ -179,9 +175,7 @@ module('Unit | Component | authentication | oidc-reconciliation', function (hook
       await component.reconcile();
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.reconcileErrorMessage, this.intl.t('common.error'));
+      assert.strictEqual(component.reconcileErrorMessage, this.intl.t('common.error'));
     });
   });
 });

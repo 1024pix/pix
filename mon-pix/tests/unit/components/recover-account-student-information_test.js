@@ -256,9 +256,7 @@ module('Unit | Component | account-recovery/student-information-form', function 
       const result = component._formatBirthdate;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(result, '2004-05-02');
+      assert.strictEqual(result, '2004-05-02');
     });
   });
 });

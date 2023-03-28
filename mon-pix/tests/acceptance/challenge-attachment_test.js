@@ -27,12 +27,8 @@ module('Acceptance | Download an attachment from a challenge', function (hooks) 
 
     test('should expose the correct attachment link', function (assert) {
       assert.ok(find('.challenge-statement__action-link').textContent.includes('Télécharger'));
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(challengeWithAttachment.attachments.length, 1);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(
+      assert.strictEqual(challengeWithAttachment.attachments.length, 1);
+      assert.strictEqual(
         find('.challenge-statement__action-link').getAttribute('href'),
         challengeWithAttachment.attachments[0]
       );

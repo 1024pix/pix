@@ -39,9 +39,7 @@ module('Unit | Route | Competence | Resume', function (hooks) {
       const model = await route.model(null, transition);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(model, competenceEvaluation);
+      assert.strictEqual(model, competenceEvaluation);
     });
   });
 

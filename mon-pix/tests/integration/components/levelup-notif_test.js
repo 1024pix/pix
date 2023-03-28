@@ -9,6 +9,7 @@ module('Integration | Component | levelup-notif', function (hooks) {
   test('renders', async function (assert) {
     //when
     await render(hbs`<LevelupNotif />`);
+
     //then
     assert.dom('.levelup__competence').exists();
   });
@@ -19,17 +20,15 @@ module('Integration | Component | levelup-notif', function (hooks) {
     this.set('model', {
       title: "Mener une recherche et une veille d'information",
     });
+
     // when
     await render(hbs`<LevelupNotif @level={{this.newLevel}} @competenceName={{this.model.title}}/>`);
+
     // then
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(
+    assert.strictEqual(
       find('.levelup-competence__level').innerHTML,
       this.intl.t('pages.levelup-notif.obtained-level', { level: this.newLevel })
     );
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(find('.levelup-competence__name').innerHTML, "Mener une recherche et une veille d'information");
+    assert.strictEqual(find('.levelup-competence__name').innerHTML, "Mener une recherche et une veille d'information");
   });
 });

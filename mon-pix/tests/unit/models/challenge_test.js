@@ -1,4 +1,3 @@
-import { run } from '@ember/runloop';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
@@ -17,113 +16,85 @@ module('Unit | Model | Challenge', function (hooks) {
   });
 
   module('Computed property #hasAttachment', function () {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/require-expect
     test('Should be true when challenge has at least one attachment file', function (assert) {
-      run(() => {
-        // given
-        const challenge = store.createRecord('challenge', { attachments: ['file.url'] });
+      // given
+      const challenge = store.createRecord('challenge', { attachments: ['file.url'] });
 
-        // when
-        const hasAttachment = challenge.hasAttachment;
+      // when
+      const hasAttachment = challenge.hasAttachment;
 
-        // then
-        assert.true(hasAttachment);
-      });
+      // then
+      assert.true(hasAttachment);
     });
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/require-expect
     test('Should be false when challenge has multiple attachment files', function (assert) {
-      run(() => {
-        // given
-        const challenge = store.createRecord('challenge', { attachments: [] });
+      // given
+      const challenge = store.createRecord('challenge', { attachments: [] });
 
-        // when
-        const hasAttachment = challenge.hasAttachment;
+      // when
+      const hasAttachment = challenge.hasAttachment;
 
-        // then
-        assert.false(hasAttachment);
-      });
+      // then
+      assert.false(hasAttachment);
     });
   });
 
   module('Computed property #hasSingleAttachment', function () {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/require-expect
     test('Should be true when challenge has only one attachment file', function (assert) {
-      run(() => {
-        // given
-        const challenge = store.createRecord('challenge', { attachments: ['file.url'] });
+      // given
+      const challenge = store.createRecord('challenge', { attachments: ['file.url'] });
 
-        // when
-        const hasSingleAttachment = challenge.hasSingleAttachment;
+      // when
+      const hasSingleAttachment = challenge.hasSingleAttachment;
 
-        // then
-        assert.true(hasSingleAttachment);
-      });
+      // then
+      assert.true(hasSingleAttachment);
     });
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/require-expect
     test('Should be false when challenge has multiple attachment files', function (assert) {
-      run(() => {
-        // given
-        const challenge = store.createRecord('challenge', { attachments: ['file.url', 'file.1.url', 'file.2.url'] });
+      // given
+      const challenge = store.createRecord('challenge', { attachments: ['file.url', 'file.1.url', 'file.2.url'] });
 
-        // when
-        const hasSingleAttachment = challenge.hasSingleAttachment;
+      // when
+      const hasSingleAttachment = challenge.hasSingleAttachment;
 
-        // then
-        assert.false(hasSingleAttachment);
-      });
+      // then
+      assert.false(hasSingleAttachment);
     });
   });
 
   module('Computed property #hasMultipleAttachments', function () {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/require-expect
     test('Should be false when challenge has no attachment file', function (assert) {
-      run(() => {
-        // given
-        const challenge = store.createRecord('challenge', { attachments: [] });
+      // given
+      const challenge = store.createRecord('challenge', { attachments: [] });
 
-        // when
-        const hasMultipleAttachments = challenge.hasMultipleAttachments;
+      // when
+      const hasMultipleAttachments = challenge.hasMultipleAttachments;
 
-        // then
-        assert.false(hasMultipleAttachments);
-      });
+      // then
+      assert.false(hasMultipleAttachments);
     });
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/require-expect
     test('Should be false when challenge has only one attachment file', function (assert) {
-      run(() => {
-        // given
-        const challenge = store.createRecord('challenge', { attachments: ['file.url'] });
+      // given
+      const challenge = store.createRecord('challenge', { attachments: ['file.url'] });
 
-        // when
-        const hasMultipleAttachments = challenge.hasMultipleAttachments;
+      // when
+      const hasMultipleAttachments = challenge.hasMultipleAttachments;
 
-        // then
-        assert.false(hasMultipleAttachments);
-      });
+      // then
+      assert.false(hasMultipleAttachments);
     });
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/require-expect
     test('Should be true when challenge has multiple attachments files', function (assert) {
-      run(() => {
-        // given
-        const challenge = store.createRecord('challenge', { attachments: ['file.url', 'file.1.url', 'file.2.url'] });
+      // given
+      const challenge = store.createRecord('challenge', { attachments: ['file.url', 'file.1.url', 'file.2.url'] });
 
-        // when
-        const hasMultipleAttachments = challenge.hasMultipleAttachments;
+      // when
+      const hasMultipleAttachments = challenge.hasMultipleAttachments;
 
-        // then
-        assert.true(hasMultipleAttachments);
-      });
+      // then
+      assert.true(hasMultipleAttachments);
     });
   });
 

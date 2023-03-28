@@ -60,9 +60,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
     await click('.form-textfield-icon__button');
 
     // then
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(find('#password').getAttribute('type'), 'text');
+    assert.strictEqual(find('#password').getAttribute('type'), 'text');
   });
 
   test('should change icon when user click on it', async function (assert) {
@@ -229,9 +227,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
       await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find('#update-form-error-message').textContent, expectedErrorMessage);
+      assert.strictEqual(find('#update-form-error-message').textContent, expectedErrorMessage);
     });
 
     test('should display the default error message if update fails with other http error', async function (assert) {
@@ -261,9 +257,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
       await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find('#update-form-error-message').textContent, expectedErrorMessage);
+      assert.strictEqual(find('#update-form-error-message').textContent, expectedErrorMessage);
     });
 
     test('should display the specific error message if update fails with http error 409 and code UNEXPECTED_USER_ACCOUNT', async function (assert) {
@@ -297,9 +291,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
       await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find('#update-form-error-message').textContent, expectedErrorMessage);
+      assert.strictEqual(find('#update-form-error-message').textContent, expectedErrorMessage);
     });
   });
 });

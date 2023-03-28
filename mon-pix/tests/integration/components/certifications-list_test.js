@@ -38,9 +38,7 @@ module('Integration | Component | certifications list', function (hooks) {
       await render(hbs`<CertificationsList @certifications={{this.certifications}}/>`);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(findAll('.certifications-list__table-body .certifications-list-item').length, 2);
+      assert.strictEqual(findAll('.certifications-list__table-body .certifications-list-item').length, 2);
     });
   });
 });

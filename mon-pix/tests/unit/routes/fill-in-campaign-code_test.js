@@ -22,9 +22,7 @@ module('Unit | Route | fill-in-campaign-code', function (hooks) {
       route.beforeModel(transition);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(sessionStub.data.externalUser, externalUser);
+      assert.strictEqual(sessionStub.data.externalUser, externalUser);
     });
   });
 });

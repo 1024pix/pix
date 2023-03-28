@@ -38,9 +38,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
         });
 
         test('should render the not certifiable template', function (assert) {
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(
+          assert.strictEqual(
             find('.certification-not-certifiable__title').textContent.trim(),
             "Votre profil n'est pas encore certifiable."
           );
@@ -155,9 +153,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
 
           test('should redirect to certification start route', function (assert) {
             // then
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line qunit/no-assert-equal
-            assert.equal(currentURL(), '/certifications/candidat/1');
+            assert.strictEqual(currentURL(), '/certifications/candidat/1');
           });
         });
 
@@ -185,9 +181,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
 
           test('should redirect to certification start route', function (assert) {
             // then
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line qunit/no-assert-equal
-            assert.equal(currentURL(), '/certifications/candidat/2');
+            assert.strictEqual(currentURL(), '/certifications/candidat/2');
           });
         });
 

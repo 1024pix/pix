@@ -17,9 +17,7 @@ module('Unit | Model | tutorial-evaluation model', function (hooks) {
       model.status = 'LIKED';
 
       // when & then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(model.nextStatus, 'NEUTRAL');
+      assert.strictEqual(model.nextStatus, 'NEUTRAL');
     });
 
     test('should return "LIKED" when current status is different from "LIKED"', function (assert) {
@@ -28,9 +26,7 @@ module('Unit | Model | tutorial-evaluation model', function (hooks) {
       model.status = 'NEUTRAL';
 
       // when & then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(model.nextStatus, 'LIKED');
+      assert.strictEqual(model.nextStatus, 'LIKED');
     });
   });
 

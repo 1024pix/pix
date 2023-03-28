@@ -27,9 +27,10 @@ module('Unit | Helper | text with multiple lang', function (hooks) {
     test(`should return the text "${expected.outputText}" if the text is "${expected.text}" in lang ${expected.lang}`, function (assert) {
       textWithMultipleLangHelper.intl.t = () => expected.lang;
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(textWithMultipleLangHelper.compute([expected.text, expected.lang]).toString(), expected.outputText);
+      assert.strictEqual(
+        textWithMultipleLangHelper.compute([expected.text, expected.lang]).toString(),
+        expected.outputText
+      );
     });
   });
 });

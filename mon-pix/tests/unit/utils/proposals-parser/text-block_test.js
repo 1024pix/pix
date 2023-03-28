@@ -20,9 +20,7 @@ module('Unit | Utils | Proposals Parser | Text Block', function () {
         const block = new TextBlock({ text: inputData });
 
         //then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(block.text, expectedText);
+        assert.strictEqual(block.text, expectedText);
       });
     });
   });

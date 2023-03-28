@@ -26,9 +26,7 @@ module('Unit | Mixin | progression-tracker', function () {
     const s = ProgressionTrackerObject.create({ steps });
     s.next();
     assert.deepEqual(s.progression, testProgression);
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(s.activeStep, 'two');
+    assert.strictEqual(s.activeStep, 'two');
   });
 
   test('it should move backward to other step and update the state', function (assert) {
@@ -38,9 +36,7 @@ module('Unit | Mixin | progression-tracker', function () {
     s.next();
     s.prev();
     assert.deepEqual(s.progression, testProgression);
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(s.activeStep, 'two');
+    assert.strictEqual(s.activeStep, 'two');
   });
 
   test('it should not mutate the steps passed in', function (assert) {

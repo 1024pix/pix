@@ -23,9 +23,7 @@ module('Unit | Component | form-textfield', function (hooks) {
         // when
         const inputType = component.textfieldType;
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(inputType, data.type);
+        assert.strictEqual(inputType, data.type);
       });
     });
   });
@@ -37,18 +35,10 @@ module('Unit | Component | form-textfield', function (hooks) {
 
       // Then
       assert.false(component.hasIcon);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.iconType, '');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.inputValidationStatus, 'form-textfield__input--default');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.inputContainerStatusClass, 'form-textfield__input-container--default');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.validationMessageClass, 'form-textfield__message--default');
+      assert.strictEqual(component.iconType, '');
+      assert.strictEqual(component.inputValidationStatus, 'form-textfield__input--default');
+      assert.strictEqual(component.inputContainerStatusClass, 'form-textfield__input-container--default');
+      assert.strictEqual(component.validationMessageClass, 'form-textfield__message--default');
     });
 
     test('should return error values when validationStatus is "error"', function (assert) {
@@ -57,18 +47,10 @@ module('Unit | Component | form-textfield', function (hooks) {
 
       // Then
       assert.true(component.hasIcon);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.iconType, 'error');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.inputValidationStatus, 'form-textfield__input--error');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.inputContainerStatusClass, 'form-textfield__input-container--error');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.validationMessageClass, 'form-textfield__message--error');
+      assert.strictEqual(component.iconType, 'error');
+      assert.strictEqual(component.inputValidationStatus, 'form-textfield__input--error');
+      assert.strictEqual(component.inputContainerStatusClass, 'form-textfield__input-container--error');
+      assert.strictEqual(component.validationMessageClass, 'form-textfield__message--error');
     });
 
     test('should return success values when validationStatus is "success"', function (assert) {
@@ -77,18 +59,10 @@ module('Unit | Component | form-textfield', function (hooks) {
 
       // Then
       assert.true(component.hasIcon);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.iconType, 'success');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.inputValidationStatus, 'form-textfield__input--success');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.inputContainerStatusClass, 'form-textfield__input-container--success');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.validationMessageClass, 'form-textfield__message--success');
+      assert.strictEqual(component.iconType, 'success');
+      assert.strictEqual(component.inputValidationStatus, 'form-textfield__input--success');
+      assert.strictEqual(component.inputContainerStatusClass, 'form-textfield__input-container--success');
+      assert.strictEqual(component.validationMessageClass, 'form-textfield__message--success');
     });
   });
 });

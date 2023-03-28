@@ -39,9 +39,7 @@ module('Unit | Route | Join', function (hooks) {
       await route.beforeModel({ from: 'campaigns.entry-point' });
 
       //then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(route.routeIfAlreadyAuthenticated, 'campaigns.access');
+      assert.strictEqual(route.routeIfAlreadyAuthenticated, 'campaigns.access');
     });
   });
 

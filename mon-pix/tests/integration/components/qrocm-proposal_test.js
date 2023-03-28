@@ -50,9 +50,7 @@ module('Integration | Component | QROCm proposal', function (hooks) {
         await render(hbs`<QrocmProposal @proposals={{this.proposals}} @format={{this.format}} />`);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(find('.challenge-response__proposal--paragraph').tagName, 'TEXTAREA');
+        assert.strictEqual(find('.challenge-response__proposal--paragraph').tagName, 'TEXTAREA');
       });
     });
 
@@ -66,9 +64,7 @@ module('Integration | Component | QROCm proposal', function (hooks) {
         await render(hbs`<QrocmProposal @proposals={{this.proposals}} @format={{this.format}} />`);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(find('.challenge-response__proposal--sentence').tagName, 'INPUT');
+        assert.strictEqual(find('.challenge-response__proposal--sentence').tagName, 'INPUT');
       });
     });
 
@@ -88,12 +84,8 @@ module('Integration | Component | QROCm proposal', function (hooks) {
 
           // then
           assert.dom('.challenge-response__proposal--paragraph').doesNotExist();
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(find('.challenge-response__proposal').tagName, 'INPUT');
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(find('.challenge-response__proposal').getAttribute('size'), data.expectedSize);
+          assert.strictEqual(find('.challenge-response__proposal').tagName, 'INPUT');
+          assert.strictEqual(find('.challenge-response__proposal').getAttribute('size'), data.expectedSize);
         });
       });
     });
@@ -119,9 +111,7 @@ module('Integration | Component | QROCm proposal', function (hooks) {
             );
 
             // then
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line qunit/no-assert-equal
-            assert.equal(find(`${data.cssClass}`).getAttribute('autocomplete'), 'nope');
+            assert.strictEqual(find(`${data.cssClass}`).getAttribute('autocomplete'), 'nope');
           });
         });
       });
@@ -152,9 +142,7 @@ module('Integration | Component | QROCm proposal', function (hooks) {
           // eslint-disable-next-line qunit/require-expect
           test('should have an aria-label', async function (assert) {
             // then
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line qunit/no-assert-equal
-            assert.equal(allInputElements.length, data.expectedAriaLabel.length);
+            assert.strictEqual(allInputElements.length, data.expectedAriaLabel.length);
             allInputElements.forEach((element, index) => {
               assert.ok(element.getAttribute('aria-label').includes(data.expectedAriaLabel[index]));
             });
@@ -192,16 +180,10 @@ module('Integration | Component | QROCm proposal', function (hooks) {
             // eslint-disable-next-line qunit/require-expect
             test('should have a label', async function (assert) {
               // then
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line qunit/no-assert-equal
-              assert.equal(allLabelElements.length, allInputElements.length);
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line qunit/no-assert-equal
-              assert.equal(allLabelElements.length, data.expectedLabel.length);
+              assert.strictEqual(allLabelElements.length, allInputElements.length);
+              assert.strictEqual(allLabelElements.length, data.expectedLabel.length);
               allLabelElements.forEach((element, index) => {
-                // TODO: Fix this the next time the file is edited.
-                // eslint-disable-next-line qunit/no-assert-equal
-                assert.equal(element.textContent.trim(), data.expectedLabel[index]);
+                assert.strictEqual(element.textContent.trim(), data.expectedLabel[index]);
               });
             });
 
@@ -212,9 +194,7 @@ module('Integration | Component | QROCm proposal', function (hooks) {
 
             test('should connect the label with the input', async function (assert) {
               // then
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line qunit/no-assert-equal
-              assert.equal(allInputElements.length, allLabelElements.length);
+              assert.strictEqual(allInputElements.length, allLabelElements.length);
               const allInputElementsId = allInputElements.map((inputElement) => inputElement.getAttribute('id'));
               const allLabelElementsFor = allLabelElements.map((labelElement) => labelElement.getAttribute('for'));
               assert.deepEqual(allInputElementsId, allLabelElementsFor);
