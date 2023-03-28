@@ -20,6 +20,8 @@ PgClient.getClient(url.href).then(async (client) => {
   } catch (error) {
     if (error.code === PGSQL_DUPLICATE_DATABASE_ERROR) {
       logger.info(`Database ${DB_TO_CREATE_NAME} already created`);
+    } else {
+      logger.error(`Database creation failed: ${error.detail}`);
     }
   } finally {
     await client.end();

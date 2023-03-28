@@ -34,6 +34,8 @@ PgClient.getClient(url.href).then(async (client) => {
   } catch (error) {
     if (error.code === PGSQL_NON_EXISTENT_DATABASE_ERROR) {
       logger.info(`Database ${DB_TO_DELETE_NAME} does not exist`);
+    } else {
+      logger.error(`Database drop failed: ${error.detail}`);
     }
   } finally {
     await client.end();
