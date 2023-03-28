@@ -25,6 +25,7 @@
       "error-default": "The service is temporarily unavailable. Please try again later.",
       "mandatory-fields": "The fields marked by <abbr title=\"required\" class=\"mandatory-mark\">*</abbr> are required.",
       "mandatory-all-fields": "All fields are required.",
+      "required": "Required",
       "certification-labels": {
         "additional-certification": "Additional certification",
         "billing-mode": {
