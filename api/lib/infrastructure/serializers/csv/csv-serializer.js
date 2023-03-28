@@ -243,7 +243,7 @@ function _createSession({ sessionId, address, room, date, time, examiner, descri
     address,
     room,
     date,
-    time,
+    time: time ? time : null,
     examiner: examiner ? [examiner] : [],
     description,
     line,
