@@ -24,12 +24,15 @@ describe('Unit | Domain | Read-Models | ParticipantResult | CompetenceResult', f
 
     const flashPixScore = 123.456;
 
+    const reachedStage = 1;
+
     const competenceResult = new CompetenceResult({
       competence,
       area,
       totalSkillsCount,
       knowledgeElements,
       flashPixScore,
+      reachedStage,
     });
 
     expect(competenceResult).to.deep.equal({
@@ -43,6 +46,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | CompetenceResult', f
       validatedSkillsCount: 1,
       masteryPercentage: 33,
       flashPixScore: 123.456,
+      reachedStage: 1,
     });
   });
 });
