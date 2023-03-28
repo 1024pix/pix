@@ -18,6 +18,11 @@
 
   &__anonymisation-message {
     margin-bottom: 16px;
+    max-width: 600px;
+  }
+
+  .form-actions button {
+    margin-top: 20px;
   }
 }
 
@@ -39,3 +44,4 @@
     color: $pix-neutral-30;
   }
 }
+
