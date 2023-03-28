@@ -20,9 +20,7 @@ module('Unit | Controller | authenticated/organizations/list', function (hooks) 
         await controller.updateFilters({ name: expectedValue });
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.name, expectedValue);
+        assert.strictEqual(controller.name, expectedValue);
       });
     });
 
@@ -36,9 +34,7 @@ module('Unit | Controller | authenticated/organizations/list', function (hooks) 
         await controller.updateFilters({ type: expectedValue });
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.type, expectedValue);
+        assert.strictEqual(controller.type, expectedValue);
       });
     });
 
@@ -52,9 +48,7 @@ module('Unit | Controller | authenticated/organizations/list', function (hooks) 
         await controller.updateFilters({ externalId: expectedValue });
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.externalId, expectedValue);
+        assert.strictEqual(controller.externalId, expectedValue);
       });
     });
   });

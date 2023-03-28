@@ -10,13 +10,12 @@ module('Unit | Controller | authenticated/campaigns/campaign', function (hooks) 
       const controller = this.owner.lookup('controller:authenticated.campaigns.campaign');
       controller.isEditMode = false;
       const expectedValue = true;
+
       //when
       await controller.toggleEditMode();
 
       //then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(controller.isEditMode, expectedValue);
+      assert.strictEqual(controller.isEditMode, expectedValue);
     });
   });
 });

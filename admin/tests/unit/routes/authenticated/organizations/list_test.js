@@ -85,24 +85,12 @@ module('Unit | Route | authenticated/organizations/list', function (hooks) {
         route.resetController(controller, true);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.pageNumber, 1);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.pageSize, 10);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.id, null);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.name, null);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.type, null);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.externalId, null);
+        assert.strictEqual(controller.pageNumber, 1);
+        assert.strictEqual(controller.pageSize, 10);
+        assert.strictEqual(controller.id, null);
+        assert.strictEqual(controller.name, null);
+        assert.strictEqual(controller.type, null);
+        assert.strictEqual(controller.externalId, null);
       });
     });
 
@@ -112,24 +100,12 @@ module('Unit | Route | authenticated/organizations/list', function (hooks) {
         route.resetController(controller, false);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.pageNumber, 'somePageNumber');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.pageSize, 'somePageSize');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.id, 'someId');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.name, 'someName');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.type, 'someType');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.externalId, 'someExternalId');
+        assert.strictEqual(controller.pageNumber, 'somePageNumber');
+        assert.strictEqual(controller.pageSize, 'somePageSize');
+        assert.strictEqual(controller.id, 'someId');
+        assert.strictEqual(controller.name, 'someName');
+        assert.strictEqual(controller.type, 'someType');
+        assert.strictEqual(controller.externalId, 'someExternalId');
       });
     });
   });

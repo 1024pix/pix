@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { htmlSafe } from '@ember/template';
 import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 
 module('Unit | Component | certifications/details-competence', function (hooks) {
@@ -60,12 +59,8 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.level, 3);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.score, 25);
+      assert.strictEqual(actual.level, 3);
+      assert.strictEqual(actual.score, 25);
     });
 
     test('it should not give jury values when a jury rate is set and score does not differ', async function (assert) {
@@ -95,12 +90,8 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.level, 3);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.score, 25);
+      assert.strictEqual(actual.level, 3);
+      assert.strictEqual(actual.score, 25);
     });
 
     test('it should give level n and positioned score when jury rate is set to 81 and 2 ok and 1 ko', async function (assert) {
@@ -115,12 +106,8 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.level, 3);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.score, 25);
+      assert.strictEqual(actual.level, 3);
+      assert.strictEqual(actual.score, 25);
     });
 
     test('it should give level n and positioned score when jury rate is set to 81 and 2 ok and 1 aband', async function (assert) {
@@ -135,12 +122,8 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.level, 3);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.score, 25);
+      assert.strictEqual(actual.level, 3);
+      assert.strictEqual(actual.score, 25);
     });
 
     test('it should give level n and positioned score when jury rate is set to 81 and 2 ok and 1 partially', async function (assert) {
@@ -155,12 +138,8 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.level, 3);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.score, 25);
+      assert.strictEqual(actual.level, 3);
+      assert.strictEqual(actual.score, 25);
     });
 
     test('it should give level n and positioned score when jury rate is set to 81 and 2 ok and 1 timedout', async function (assert) {
@@ -175,12 +154,8 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.level, 3);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.score, 25);
+      assert.strictEqual(actual.level, 3);
+      assert.strictEqual(actual.score, 25);
     });
 
     test('it should give level n-1 and score positionedScore-8 when jury rate is set to 65 and 2 ok and 1 ko', async function (assert) {
@@ -195,12 +170,8 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.level, 2);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.score, 17);
+      assert.strictEqual(actual.level, 2);
+      assert.strictEqual(actual.score, 17);
     });
 
     test('it should give level n-1 and score positionedScore-8 when jury rate is set to 65 and 2 ok and 1 aband', async function (assert) {
@@ -215,12 +186,8 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.level, 2);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.score, 17);
+      assert.strictEqual(actual.level, 2);
+      assert.strictEqual(actual.score, 17);
     });
 
     test('it should give level n-1 and score positionedScore-8 when jury rate is set to 65 and 2 ok and 1 partiallyx  x', async function (assert) {
@@ -235,12 +202,8 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.level, 2);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.score, 17);
+      assert.strictEqual(actual.level, 2);
+      assert.strictEqual(actual.score, 17);
     });
 
     test('it should give level n-1 and score positionedScore-8 when jury rate is set to 65 and 2 ok and 1 timedout', async function (assert) {
@@ -255,12 +218,8 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.level, 2);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.score, 17);
+      assert.strictEqual(actual.level, 2);
+      assert.strictEqual(actual.score, 17);
     });
 
     test('it should give level -1 and score 0 when jury rate is set and 1 ok', async function (assert) {
@@ -275,12 +234,8 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.level, -1);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.score, 0);
+      assert.strictEqual(actual.level, -1);
+      assert.strictEqual(actual.score, 0);
     });
 
     test('it should give level -1 and score 0 when jury rate is set to 49', async function (assert) {
@@ -295,12 +250,8 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.level, -1);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.score, 0);
+      assert.strictEqual(actual.level, -1);
+      assert.strictEqual(actual.score, 0);
     });
 
     test('it should give level n and positioned score when jury rate is set to 81 and 2 ok and 1 skip', async function (assert) {
@@ -315,12 +266,8 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.level, 3);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.score, 25);
+      assert.strictEqual(actual.level, 3);
+      assert.strictEqual(actual.score, 25);
     });
 
     test('it should give level n and positioned score when jury rate is set to 65 and 2 ok and 1 skip', async function (assert) {
@@ -335,12 +282,8 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.level, 3);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.score, 25);
+      assert.strictEqual(actual.level, 3);
+      assert.strictEqual(actual.score, 25);
     });
 
     test('it should give level n when jury rate is set to 90, 1 ok, 1 partially, 1 skip', async function (assert) {
@@ -355,12 +298,8 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.level, 3);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.score, 25);
+      assert.strictEqual(actual.level, 3);
+      assert.strictEqual(actual.score, 25);
     });
 
     test('it should give level n-1 when jury rate is set to 65, 1 ok, 1 partially, 1 skip', async function (assert) {
@@ -375,12 +314,8 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.level, 2);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.score, 17);
+      assert.strictEqual(actual.level, 2);
+      assert.strictEqual(actual.score, 17);
     });
 
     test('it should give level -1 when jury rate is set, 1 ok, 1 ko, 1 skip', async function (assert) {
@@ -395,12 +330,8 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
       const actual = component.competenceJury;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.level, -1);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actual.score, 0);
+      assert.strictEqual(actual.level, -1);
+      assert.strictEqual(actual.score, 0);
     });
   });
 
@@ -413,15 +344,9 @@ module('Unit | Component | certifications/details-competence', function (hooks) 
     };
 
     // then
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(component.positionedWidth.toString(), htmlSafe('width:' + Math.round((3 / 8) * 100) + '%'));
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(component.certifiedWidth.toString(), htmlSafe('width:' + Math.round((2 / 8) * 100) + '%'));
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(component.competenceJury.width.toString(), htmlSafe('width:' + Math.round((3 / 8) * 100) + '%'));
+    assert.strictEqual(component.positionedWidth.toString(), 'width:' + Math.round((3 / 8) * 100) + '%');
+    assert.strictEqual(component.certifiedWidth.toString(), 'width:' + Math.round((2 / 8) * 100) + '%');
+    assert.strictEqual(component.competenceJury.width.toString(), 'width:' + Math.round((3 / 8) * 100) + '%');
   });
 
   test('it should retrieve answers from competence', async function (assert) {

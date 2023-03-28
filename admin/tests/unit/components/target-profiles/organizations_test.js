@@ -16,6 +16,7 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
 
     module('when attaching organization works correctly', () => {
       test('it displays a success message notifications', async function (assert) {
+        // given
         const component = createComponent('component:target-profiles/organizations');
         component.notifications = { success: sinon.stub() };
         component.args = {
@@ -33,12 +34,12 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
         component.organizationsToAttach = '1,2';
         component.router = { replaceWith: sinon.stub() };
 
+        // when
         await component.attachOrganizations(event);
 
+        // then
         assert.ok(component.args.targetProfile.attachOrganizations.calledWith({ 'organization-ids': [1, 2] }));
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(component.organizationsToAttach, '');
+        assert.strictEqual(component.organizationsToAttach, '');
         assert.ok(
           component.notifications.success.calledWith('Organisation(s) rattaché(es) avec succès.', { htmlContent: true })
         );
@@ -48,6 +49,7 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
       });
 
       test('it displays duplicate message notifications', async function (assert) {
+        // given
         const component = createComponent('component:target-profiles/organizations');
         component.notifications = { success: sinon.stub() };
         component.args = {
@@ -60,12 +62,12 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
         component.organizationsToAttach = '1';
         component.router = { replaceWith: sinon.stub() };
 
+        // when
         await component.attachOrganizations(event);
 
+        // then
         assert.ok(component.args.targetProfile.attachOrganizations.calledWith({ 'organization-ids': [1] }));
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(component.organizationsToAttach, '');
+        assert.strictEqual(component.organizationsToAttach, '');
         assert.ok(
           component.notifications.success.calledWith(
             'Le(s) organisation(s) suivantes étai(en)t déjà rattachée(s) à ce profil cible : 1',
@@ -78,6 +80,7 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
       });
 
       test('it displays a duplicate and success messages notifications', async function (assert) {
+        // given
         const component = createComponent('component:target-profiles/organizations');
         component.notifications = { success: sinon.stub() };
         component.args = {
@@ -90,12 +93,12 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
         component.organizationsToAttach = '1,2';
         component.router = { replaceWith: sinon.stub() };
 
+        // when
         await component.attachOrganizations(event);
 
+        // then
         assert.ok(component.args.targetProfile.attachOrganizations.calledWith({ 'organization-ids': [1, 2] }));
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(component.organizationsToAttach, '');
+        assert.strictEqual(component.organizationsToAttach, '');
         assert.ok(
           component.notifications.success.calledWith(
             'Organisation(s) rattaché(es) avec succès.<br/>Le(s) organisation(s) suivantes étai(en)t déjà rattachée(s) à ce profil cible : 1',
@@ -110,6 +113,7 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
 
     module('when an organization is present several times', () => {
       test('it remove duplicate ids', async function (assert) {
+        // given
         const component = createComponent('component:target-profiles/organizations');
         component.notifications = { success: sinon.stub() };
         component.args = {
@@ -122,12 +126,12 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
         component.organizationsToAttach = '1,1,2,3,3';
         component.router = { replaceWith: sinon.stub() };
 
+        // when
         await component.attachOrganizations(event);
 
+        // then
         assert.ok(component.args.targetProfile.attachOrganizations.calledWith({ 'organization-ids': [1, 2, 3] }));
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(component.organizationsToAttach, '');
+        assert.strictEqual(component.organizationsToAttach, '');
         assert.ok(
           component.router.replaceWith.calledWith('authenticated.target-profiles.target-profile.organizations')
         );
@@ -137,6 +141,7 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
     module('when there is an error', () => {
       module('when the error is correctly formed', () => {
         test('it displays a notification for each 404 error found', async function (assert) {
+          // given
           const component = createComponent('component:target-profiles/organizations');
           const errors = {
             errors: [
@@ -148,16 +153,17 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
           component.args = { targetProfile: { attachOrganizations: sinon.stub().rejects(errors) } };
           component.organizationsToAttach = '1,1,2,3,3';
 
+          // when
           await component.attachOrganizations(event);
 
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(component.organizationsToAttach, '1,1,2,3,3');
+          // then
+          assert.strictEqual(component.organizationsToAttach, '1,1,2,3,3');
           assert.ok(component.notifications.error.calledWith('I am displayed 1'));
           assert.ok(component.notifications.error.calledWith('I am displayed 2'));
         });
 
         test('it displays a notification for each 412 error found', async function (assert) {
+          // given
           const component = createComponent('component:target-profiles/organizations');
           const errors = {
             errors: [
@@ -169,16 +175,17 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
           component.args = { targetProfile: { attachOrganizations: sinon.stub().rejects(errors) } };
           component.organizationsToAttach = '1,1,5,3,3';
 
+          // when
           await component.attachOrganizations(event);
 
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(component.organizationsToAttach, '1,1,5,3,3');
+          // then
+          assert.strictEqual(component.organizationsToAttach, '1,1,5,3,3');
           assert.ok(component.notifications.error.calledWith('I am displayed too 1'));
           assert.ok(component.notifications.error.calledWith('I am displayed too 2'));
         });
 
         test('it display default notification for all other error found', async function (assert) {
+          // given
           const component = createComponent('component:target-profiles/organizations');
           const errors = {
             errors: [
@@ -190,30 +197,29 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
           component.args = { targetProfile: { attachOrganizations: sinon.stub().rejects(errors) } };
           component.organizationsToAttach = '1,1,2,3,3';
 
+          // when
           await component.attachOrganizations(event);
 
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(component.organizationsToAttach, '1,1,2,3,3');
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(component.notifications.error.withArgs('Une erreur est survenue.').callCount, 2);
+          // then
+          assert.strictEqual(component.organizationsToAttach, '1,1,2,3,3');
+          assert.strictEqual(component.notifications.error.withArgs('Une erreur est survenue.').callCount, 2);
         });
       });
 
       module('when the error is not correctly formed', () => {
         test('it displays a default notification', async function (assert) {
+          // given
           const component = createComponent('component:target-profiles/organizations');
           const errors = {};
           component.notifications = { error: sinon.stub() };
           component.args = { targetProfile: { attachOrganizations: sinon.stub().rejects(errors) } };
           component.organizationsToAttach = '1,1,2,3,3';
 
+          // when
           await component.attachOrganizations(event);
 
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(component.organizationsToAttach, '1,1,2,3,3');
+          // then
+          assert.strictEqual(component.organizationsToAttach, '1,1,2,3,3');
           assert.ok(component.notifications.error.calledWith('Une erreur est survenue.'));
         });
       });
@@ -229,22 +235,23 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
 
     module('when attaching organization works correctly', () => {
       test('it shows a success notifications', async function (assert) {
+        // given
         const component = createComponent('component:target-profiles/organizations');
         component.notifications = { success: sinon.stub() };
         component.args = { targetProfile: { attachOrganizationsFromExistingTargetProfile: sinon.stub().resolves() } };
         component.existingTargetProfile = 1;
         component.router = { replaceWith: sinon.stub() };
 
+        // when
         await component.attachOrganizationsFromExistingTargetProfile(event);
 
+        // then
         assert.ok(
           component.args.targetProfile.attachOrganizationsFromExistingTargetProfile.calledWith({
             'target-profile-id': 1,
           })
         );
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(component.existingTargetProfile, '');
+        assert.strictEqual(component.existingTargetProfile, '');
         assert.ok(component.notifications.success.calledWith('Organisation(s) rattaché(es) avec succès.'));
         assert.ok(
           component.router.replaceWith.calledWith('authenticated.target-profiles.target-profile.organizations')
@@ -295,6 +302,7 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
         });
 
         test('it shows default notification for all other error found', async function (assert) {
+          // given
           const component = createComponent('component:target-profiles/organizations');
           const errors = {
             errors: [
@@ -308,11 +316,11 @@ module('Unit | Component | Target Profiles | Organizations', function (hooks) {
           };
           component.existingTargetProfile = 1;
 
+          // when
           await component.attachOrganizationsFromExistingTargetProfile(event);
 
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(component.notifications.error.withArgs('Une erreur est survenue.').callCount, 2);
+          // then
+          assert.strictEqual(component.notifications.error.withArgs('Une erreur est survenue.').callCount, 2);
         });
       });
 
