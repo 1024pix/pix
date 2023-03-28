@@ -2,6 +2,8 @@ const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper
 const { CertificationCandidateAlreadyLinkedToUserError } = require('../../../../lib/domain/errors');
 const importCertificationCandidatesFromCandidatesImportSheet = require('../../../../lib/domain/usecases/import-certification-candidates-from-candidates-import-sheet');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+const { getI18n } = require('../../../tooling/i18n/i18n');
+const i18n = getI18n();
 
 describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet', function () {
   let certificationCandidateRepository;
@@ -52,6 +54,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
 
         // when
         const result = await catchErr(importCertificationCandidatesFromCandidatesImportSheet)({
+          i18n,
           sessionId,
           odsBuffer,
           certificationCandidatesOdsService,
@@ -89,6 +92,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
 
           certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet
             .withArgs({
+              i18n,
               sessionId,
               isSco: false,
               odsBuffer,
@@ -104,6 +108,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           await importCertificationCandidatesFromCandidatesImportSheet({
             sessionId,
             odsBuffer,
+            i18n,
             certificationCandidatesOdsService,
             certificationCandidateRepository,
             certificationCpfService,
