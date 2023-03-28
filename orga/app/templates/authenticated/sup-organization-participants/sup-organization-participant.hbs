@@ -1,19 +1,21 @@
 <article>
-  <header class="learner-header">
-    <Ui::Breadcrumb class="learner-header__breadcrumb" @links={{this.breadcrumbLinks}} />
-    <div class="learner-header__info">
-      <h1 class="learner-header-info__title">{{t
-          "common.fullname"
-          firstName=@model.firstName
-          lastName=@model.lastName
-        }}</h1>
+  <Learner::Header>
+    <:breadcrumb>
+      <Ui::Breadcrumb @links={{this.breadcrumbLinks}} />
+    </:breadcrumb>
+
+    <:title>
+      {{t "common.fullname" firstName=@model.firstName lastName=@model.lastName}}
+    </:title>
+
+    <:info>
       <Ui::LearnerHeaderInfo
         @groupName={{t "components.group.SUP"}}
         @group={{@model.group}}
         @isCertifiable={{@model.isCertifiable}}
         @certifiableAt={{@model.certifiableAt}}
       />
-    </div>
-  </header>
+    </:info>
+  </Learner::Header>
   {{outlet}}
 </article>

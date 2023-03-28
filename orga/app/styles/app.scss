@@ -45,7 +45,7 @@
 @import 'components/login-or-register';
 @import 'components/manage-authentication-method-modal';
 @import 'components/participation-filters';
-@import 'components/learner-header-info';
+@import 'components/learner/header';
 
 // pages
 @import 'pages/login';
@@ -67,9 +67,6 @@
 @import 'pages/authenticated/campaigns/details/participants/participant/header';
 @import 'pages/authenticated/campaigns/details/participants/participant/results';
 @import 'pages/authenticated/campaigns/participant-profile';
-@import 'pages/authenticated/organization-participants/organization-participant.scss';
-@import 'pages/authenticated/sco-organization-participants/sco-organization-participant.scss';
-@import 'pages/authenticated/sup-organization-participants/sup-organization-participant.scss';
 @import 'pages/authenticated/certifications';
 @import 'pages/authenticated/organization-participants';
 @import 'pages/authenticated/sup-organization-participants/list';
