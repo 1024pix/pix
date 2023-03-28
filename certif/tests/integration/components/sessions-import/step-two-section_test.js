@@ -56,8 +56,14 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
         error: 'CANDIDATE_BIRTHDATE_MUST_BE_GREATER',
         expectedMessage: 'Champ "Date de naissance" doit être supérieur à 01/01/1900',
       },
-      { error: 'CANDIDATE_EXTRA_TIME_BELOW_ONE', expectedMessage: 'Format temps majoré incorrect, format accepté XX%' },
-      { error: 'CANDIDATE_EXTRA_TIME_INTEGER', expectedMessage: 'Format temps majoré incorrect, format accepté XX%' },
+      {
+        error: 'CANDIDATE_EXTRA_TIME_BELOW_ONE',
+        expectedMessage: 'Format “Temps majoré” invalide (exemple de format accepté: 30%)',
+      },
+      {
+        error: 'CANDIDATE_EXTRA_TIME_INTEGER',
+        expectedMessage: 'Format “Temps majoré” invalide (exemple de format accepté: 30%)',
+      },
       {
         error: 'CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION',
         expectedMessage: "Inscription possible qu'à une seule certification complémentaire par candidat",
@@ -112,7 +118,7 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
       {
         error: 'SESSION_WITH_DATE_AND_TIME_ALREADY_EXISTS',
         expectedMessage:
-          'Session déjà créée avec ces critères, pour ajouter des candidats n’indiquer que le N°, pas les informations de session',
+          'Une session a déjà été créée avec ces informations. Pour ajouter des candidats à une session, indiquer uniquement le numéro (N°) de session sans les informations de session',
       },
       {
         error: 'SESSION_SCHEDULED_IN_THE_PAST',
