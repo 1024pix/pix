@@ -36,17 +36,6 @@ module.exports = function (defaults) {
   // modules that you would like to import into your application
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
-  app.import('node_modules/chart.js/dist/chart.js', {
-    using: [{ transformation: 'amd', as: 'chart.js' }],
-  });
-
-  app.import('node_modules/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.js', {
-    using: [{ transformation: 'amd', as: 'chartjs-adapter-date-fns.js' }],
-  });
-
-  app.import('node_modules/patternomaly/dist/patternomaly.js', {
-    using: [{ transformation: 'amd', as: 'patternomaly.js' }],
-  });
 
   return app.toTree();
 };
