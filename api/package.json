@@ -25,6 +25,7 @@
     "@hapi/vision": "^6.1.0",
     "@joi/date": "^2.1.0",
     "@pdf-lib/fontkit": "^1.1.1",
+    "@xmldom/xmldom": "^0.7.5",
     "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
     "bluebird": "^3.7.2",
@@ -58,6 +59,7 @@
     "ms": "^2.1.3",
     "node-cache": "^5.1.2",
     "node-stream-zip": "^1.15.0",
+    "openid-client": "^5.4.0",
     "oppsy": "https://github.com/1024pix/oppsy#main",
     "papaparse": "^5.3.2",
     "pdf-lib": "^1.17.1",
@@ -83,7 +85,6 @@
     "xml-buffer-tostring": "^0.2.0",
     "xml2js": "^0.4.23",
     "xmlbuilder2": "^3.0.2",
-    "@xmldom/xmldom": "^0.7.5",
     "xregexp": "^5.1.1",
     "yargs": "^17.5.1"
   },

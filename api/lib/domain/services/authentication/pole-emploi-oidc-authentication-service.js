@@ -32,6 +32,7 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
       authenticationUrl: settings.poleEmploi.authenticationUrl,
       authenticationUrlParameters,
       userInfoUrl: settings.poleEmploi.userInfoUrl,
+      wellknownUrl: 'https://authentification-candidat-r.pe-qvr.fr/connexion/oauth2/.well-known/openid-configuration?realm=%2Findividu'
     });
 
     this.logoutUrl = settings.poleEmploi.logoutUrl;

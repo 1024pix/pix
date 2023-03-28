@@ -1,6 +1,7 @@
 const jsonwebtoken = require('jsonwebtoken');
 const querystring = require('querystring');
 const { v4: uuidv4 } = require('uuid');
+const { Issuer } = require('openid-client');
 
 const { InvalidExternalAPIResponseError, OidcMissingFieldsError, OidcUserInfoFormatError } = require('../../errors.js');
 const AuthenticationMethod = require('../../models/AuthenticationMethod.js');
@@ -11,6 +12,7 @@ const httpErrorsHelper = require('../../../infrastructure/http/errors-helper.js'
 const DomainTransaction = require('../../../infrastructure/DomainTransaction.js');
 const monitoringTools = require('../../../infrastructure/monitoring-tools.js');
 const { OIDC_ERRORS } = require('../../constants.js');
+
 
 class OidcAuthenticationService {
   constructor({
@@ -26,6 +28,7 @@ class OidcAuthenticationService {
     authenticationUrl,
     authenticationUrlParameters,
     userInfoUrl,
+    wellknownUrl,
   }) {
     this.source = source;
     this.identityProvider = identityProvider;
@@ -39,6 +42,24 @@ class OidcAuthenticationService {
     this.authenticationUrl = authenticationUrl;
     this.authenticationUrlParameters = authenticationUrlParameters;
     this.userInfoUrl = userInfoUrl;
+    this.wellknownUrl = wellknownUrl;
+    this.state = null;
+    this.nonce = null;
+
+    this.state = uuidv4();
+    this.nonce = uuidv4();
+  }
+
+  async initialize() {
+    const issuer = await Issuer.discover(this.wellknownUrl);
+    console.log({ metadata: issuer.metadata });
+    const response_types = ['code']
+    this.openidClient = new issuer.Client({
+      response_types,
+      client_id: this.clientId,
+      client_secret: this.clientSecret,
+    })
+    console.log({ openid_client: this.openid_client })
   }
 
   get code() {
@@ -58,27 +79,38 @@ class OidcAuthenticationService {
   }
 
   async exchangeCodeForTokens({ code, redirectUri }) {
-    const data = {
-      client_secret: this.clientSecret,
-      grant_type: 'authorization_code',
-      code,
-      client_id: this.clientId,
+    await this.initialize()
+
+    const authorizationUrl = this.openidClient.authorizationUrl({
       redirect_uri: redirectUri,
-    };
+      scope: `application_${this.clientId} api_peconnect-individuv1 openid profile serviceDigitauxExposition api_peconnect-servicesdigitauxv1`,
+      state: this.state,
+      nonce: this.nonce,
+    })
+    console.log({ authorizationUrl })
 
-    const response = await httpAgent.post({
-      url: this.tokenUrl,
-      payload: querystring.stringify(data),
-      headers: { 'content-type': 'application/x-www-form-urlencoded' },
-      timeout: settings.partner.fetchTimeOut,
-    });
 
-    if (!response.isSuccessful) {
-      const message = 'Erreur lors de la récupération des tokens du partenaire.';
-      const dataToLog = httpErrorsHelper.serializeHttpErrorResponse(response, message);
-      monitoringTools.logErrorWithCorrelationIds({ message: dataToLog });
-      throw new InvalidExternalAPIResponseError(message);
-    }
+    // const data = {
+    //   client_secret: this.clientSecret,
+    //   grant_type: 'authorization_code',
+    //   code,
+    //   client_id: this.clientId,
+    //   redirect_uri: redirectUri,
+    // };
+
+    // const response = await httpAgent.post({
+    //   url: this.tokenUrl,
+    //   payload: querystring.stringify(data),
+    //   headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    //   timeout: settings.partner.fetchTimeOut,
+    // });
+
+    // if (!response.isSuccessful) {
+    //   const message = 'Erreur lors de la récupération des tokens du partenaire.';
+    //   const dataToLog = httpErrorsHelper.serializeHttpErrorResponse(response, message);
+    //   monitoringTools.logErrorWithCorrelationIds({ message: dataToLog });
+    //   throw new InvalidExternalAPIResponseError(message);
+    // }
 
     return new AuthenticationSessionContent({
       idToken: response.data['id_token'],
@@ -90,8 +122,8 @@ class OidcAuthenticationService {
 
   getAuthenticationUrl({ redirectUri }) {
     const redirectTarget = new URL(this.authenticationUrl);
-    const state = uuidv4();
-    const nonce = uuidv4();
+    const state = this.state
+    const nonce = this.nonce
 
     const params = [
       { key: 'state', value: state },
