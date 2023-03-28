@@ -32,11 +32,11 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
       { error: 'CANDIDATE_SEX_NOT_VALID', expectedMessage: 'Champ sexe format invalide, format accepté "M"/"F"' },
       {
         error: 'CANDIDATE_BIRTH_INSEE_CODE_NOT_VALID',
-        expectedMessage: '"Code Insee" invalide',
+        expectedMessage: '"Code INSEE" invalide',
       },
       {
         error: 'CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED',
-        expectedMessage: 'Renseigner soit un code INSEE soit un code postal et un nom de commune de naissance',
+        expectedMessage: 'Renseigner soit un code INSEE, soit un code postal et un nom de commune de naissance',
       },
       { error: 'CANDIDATE_BIRTH_COUNTRY_REQUIRED', expectedMessage: 'Champ obligatoire "Pays de naissance" manquant' },
       { error: 'CANDIDATE_BIRTH_COUNTRY_NOT_FOUND', expectedMessage: 'Pays de naissance non trouvé' },

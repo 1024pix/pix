@@ -232,7 +232,7 @@
               "CANDIDATE_LAST_NAME_REQUIRED": "Champ obligatoire \"Nom de famille\" manquant",
               "CANDIDATE_SEX_REQUIRED": "Champ obligatoire \"Sexe\" manquant",
               "CANDIDATE_SEX_NOT_VALID": "Champ sexe format invalide, format accepté \"M\"/\"F\"",
-              "CANDIDATE_BIRTH_INSEE_CODE_NOT_VALID": "\"Code Insee\" invalide",
+              "CANDIDATE_BIRTH_INSEE_CODE_NOT_VALID": "\"Code INSEE\" invalide",
               "CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED": "Renseigner soit un code INSEE soit un code postal et un nom de commune de naissance",
               "CANDIDATE_BIRTH_COUNTRY_REQUIRED": "Champ obligatoire \"Pays de naissance\" manquant",
               "CANDIDATE_BIRTH_CITY_REQUIRED": "Champ obligatoire \"Code postal\" manquant",
