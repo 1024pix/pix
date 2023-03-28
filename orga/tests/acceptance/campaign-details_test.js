@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { currentURL, visit, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { visit as visitScreen } from '@1024pix/ember-testing-library';
-import { within } from '@testing-library/dom';
+import { within } from '@1024pix/ember-testing-library';
 import authenticateSession from '../helpers/authenticate-session';
 import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUser } from '../helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
