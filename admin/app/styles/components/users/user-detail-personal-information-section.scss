@@ -32,6 +32,10 @@
   .form-actions button {
     margin-top: 20px;
   }
+
+  &__user-informations {
+    margin-bottom: 5px;
+  }
 }
 
 .organization-learners-table {
@@ -52,4 +56,3 @@
     color: $pix-neutral-30;
   }
 }
-

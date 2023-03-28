@@ -98,10 +98,10 @@ module('Acceptance | authenticated/users/get', function (hooks) {
       await clickByName('Editer');
 
       // then
-      assert.dom(screen.getByText('john')).exists();
-      assert.dom(screen.getByText('doe')).exists();
-      assert.dom(screen.getByText('john.doe@example.net')).exists();
-      assert.dom(screen.getByText('john.doe0101')).exists();
+      assert.dom(screen.getByText('Prénom : john')).exists();
+      assert.dom(screen.getByText('Nom : doe')).exists();
+      assert.dom(screen.getByText('Adresse e-mail : john.doe@example.net')).exists();
+      assert.dom(screen.getByText('Identifiant : john.doe0101')).exists();
       assert.dom(screen.getByText('Langue : en')).exists();
     });
   });
@@ -148,9 +148,9 @@ module('Acceptance | authenticated/users/get', function (hooks) {
       // when & then #1
       await click(screen.getByRole('button', { name: 'Confirmer' }));
 
-      assert.dom(screen.getByText(`prenom_${userToAnonymise.id}`)).exists();
-      assert.dom(screen.getByText(`nom_${userToAnonymise.id}`)).exists();
-      assert.dom(screen.getByText(`email_${userToAnonymise.id}@example.net`)).exists();
+      assert.dom(screen.getByText(`Prénom : prenom_${userToAnonymise.id}`)).exists();
+      assert.dom(screen.getByText(`Nom : nom_${userToAnonymise.id}`)).exists();
+      assert.dom(screen.getByText(`Adresse e-mail : email_${userToAnonymise.id}@example.net`)).exists();
 
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion avec identifiant")).exists();
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion avec adresse e-mail")).exists();
