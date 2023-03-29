@@ -51,9 +51,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
         await component.register();
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(
+        assert.strictEqual(
           component.registerErrorMessage,
           this.intl.t('pages.login-or-register-oidc.error.expired-authentication-key')
         );
@@ -70,9 +68,11 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
         component.register();
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(component.registerErrorMessage, this.intl.t('pages.login-or-register-oidc.error.error-message'));
+
+        assert.strictEqual(
+          component.registerErrorMessage,
+          this.intl.t('pages.login-or-register-oidc.error.error-message')
+        );
       });
     });
 
@@ -146,9 +146,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
       await component.register();
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.registerErrorMessage, `${this.intl.t('common.error')} (some detail)`);
+      assert.strictEqual(component.registerErrorMessage, `${this.intl.t('common.error')} (some detail)`);
     });
 
     test('it should display generic error', async function (assert) {
@@ -167,9 +165,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
       await component.register();
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.registerErrorMessage, this.intl.t('common.error'));
+      assert.strictEqual(component.registerErrorMessage, this.intl.t('common.error'));
     });
   });
 
@@ -183,9 +179,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
       component.validateEmail({ target: { value: emailWithSpaces } });
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.email, emailWithSpaces.trim());
+      assert.strictEqual(component.email, emailWithSpaces.trim());
     });
 
     module('when email is invalid', function () {
@@ -198,9 +192,10 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
         component.validateEmail({ target: { value: invalidEmail } });
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(component.emailValidationMessage, this.intl.t('pages.login-or-register-oidc.error.invalid-email'));
+        assert.strictEqual(
+          component.emailValidationMessage,
+          this.intl.t('pages.login-or-register-oidc.error.invalid-email')
+        );
       });
     });
   });
@@ -272,9 +267,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
         await component.login(eventStub);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(
+        assert.strictEqual(
           component.loginErrorMessage,
           this.intl.t('pages.login-or-register-oidc.error.expired-authentication-key')
         );
@@ -294,9 +287,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
         await component.login(eventStub);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(
+        assert.strictEqual(
           component.loginErrorMessage,
           this.intl.t('pages.login-or-register-oidc.error.login-unauthorized-error')
         );
@@ -316,9 +307,10 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
         await component.login(eventStub);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(component.loginErrorMessage, this.intl.t('pages.login-or-register-oidc.error.account-conflict'));
+        assert.strictEqual(
+          component.loginErrorMessage,
+          this.intl.t('pages.login-or-register-oidc.error.account-conflict')
+        );
       });
     });
 
@@ -334,9 +326,7 @@ module('Unit | Component | authentication | login-or-register-oidc', function (h
       await component.login(eventStub);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.loginErrorMessage, this.intl.t('common.error'));
+      assert.strictEqual(component.loginErrorMessage, this.intl.t('common.error'));
     });
   });
 });

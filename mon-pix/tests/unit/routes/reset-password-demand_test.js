@@ -29,31 +29,25 @@ module('Unit | Route | changer mot de passe', function (hooks) {
       assert.ok(route);
     });
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/require-expect
-    test('should ask password reset demand validity', function (assert) {
+    test('should ask password reset demand validity', async function (assert) {
       // given
       queryRecordStub.resolves();
       const route = this.owner.lookup('route:reset-password');
       route.set('store', storeStub);
 
       // when
-      const promise = route.model(params);
+      await route.model(params);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(queryRecordStub);
-        sinon.assert.calledWith(queryRecordStub, 'user', {
-          passwordResetTemporaryKey: params.temporary_key,
-        });
-        assert.ok(true);
+      sinon.assert.calledOnce(queryRecordStub);
+      sinon.assert.calledWith(queryRecordStub, 'user', {
+        passwordResetTemporaryKey: params.temporary_key,
       });
+      assert.ok(true);
     });
 
     module('when password reset demand is valid', function () {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/require-expect
-      test('should create a new ember user model with fetched data', function (assert) {
+      test('should create a new ember user model with fetched data', async function (assert) {
         // given
         const fetchedOwnerDetails = {
           data: {
@@ -77,13 +71,11 @@ module('Unit | Route | changer mot de passe', function (hooks) {
         route.set('store', storeStub);
 
         // when
-        const promise = route.model(params);
+        const result = await route.model(params);
 
         // then
-        return promise.then(({ user, temporaryKey }) => {
-          assert.deepEqual(user, expectedUser);
-          assert.deepEqual(temporaryKey, params.temporary_key);
-        });
+        assert.deepEqual(result.user, expectedUser);
+        assert.deepEqual(result.temporaryKey, params.temporary_key);
       });
     });
   });

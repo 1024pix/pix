@@ -16,9 +16,7 @@ module('Integration | Component | Tutorials | Cards', function (hooks) {
 
     // then
     assert.dom('.user-tutorials-content__cards').exists();
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(findAll('.tutorial-card').length, 0);
+    assert.strictEqual(findAll('.tutorial-card').length, 0);
   });
 
   test('renders a list of cards if there are tutorials', async function (assert) {
@@ -50,8 +48,6 @@ module('Integration | Component | Tutorials | Cards', function (hooks) {
 
     // then
     assert.dom('.user-tutorials-content__cards').exists();
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(findAll('.tutorial-card').length, 2);
+    assert.strictEqual(findAll('.tutorial-card').length, 2);
   });
 });

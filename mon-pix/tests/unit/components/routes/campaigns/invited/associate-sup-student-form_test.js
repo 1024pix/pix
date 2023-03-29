@@ -64,9 +64,7 @@ module('Unit | Component | routes/campaigns/invited/associate-sup-student-form',
         await component.actions.submit.call(component, eventStub);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(component.errors.studentNumber, 'Votre numéro étudiant n’est pas renseigné.');
+        assert.strictEqual(component.errors.studentNumber, 'Votre numéro étudiant n’est pas renseigné.');
       });
 
       test('should display an error when first name is not correct', async function (assert) {
@@ -77,9 +75,7 @@ module('Unit | Component | routes/campaigns/invited/associate-sup-student-form',
         await component.actions.submit.call(component, eventStub);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(component.errors.firstName, 'Votre prénom n’est pas renseigné.');
+        assert.strictEqual(component.errors.firstName, 'Votre prénom n’est pas renseigné.');
       });
 
       test('should display an error when last name is not correct', async function (assert) {
@@ -90,9 +86,7 @@ module('Unit | Component | routes/campaigns/invited/associate-sup-student-form',
         await component.actions.submit.call(component, eventStub);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(component.errors.lastName, 'Votre nom n’est pas renseigné.');
+        assert.strictEqual(component.errors.lastName, 'Votre nom n’est pas renseigné.');
       });
 
       test('should display an error when day of birth is not correct', async function (assert) {
@@ -103,9 +97,7 @@ module('Unit | Component | routes/campaigns/invited/associate-sup-student-form',
         await component.actions.submit.call(component, eventStub);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(component.errors.dayOfBirth, 'Votre jour de naissance n’est pas valide.');
+        assert.strictEqual(component.errors.dayOfBirth, 'Votre jour de naissance n’est pas valide.');
       });
 
       test('should display an error when month of birth is not correct', async function (assert) {
@@ -116,9 +108,7 @@ module('Unit | Component | routes/campaigns/invited/associate-sup-student-form',
         await component.actions.submit.call(component, eventStub);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(component.errors.monthOfBirth, 'Votre mois de naissance n’est pas valide.');
+        assert.strictEqual(component.errors.monthOfBirth, 'Votre mois de naissance n’est pas valide.');
       });
 
       test('should display an error when year of birth is not correct', async function (assert) {
@@ -129,9 +119,7 @@ module('Unit | Component | routes/campaigns/invited/associate-sup-student-form',
         await component.actions.submit.call(component, eventStub);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(component.errors.yearOfBirth, 'Votre année de naissance n’est pas valide.');
+        assert.strictEqual(component.errors.yearOfBirth, 'Votre année de naissance n’est pas valide.');
       });
     });
   });

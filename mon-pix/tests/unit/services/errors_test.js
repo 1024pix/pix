@@ -14,9 +14,7 @@ module('Unit | Service | errors', function (hooks) {
       service.push(error);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(service.errors[0], error);
+      assert.strictEqual(service.errors[0], error);
     });
   });
 
@@ -33,12 +31,8 @@ module('Unit | Service | errors', function (hooks) {
       const result = service.shift();
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(result, error1);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(service.errors.length, 1);
+      assert.strictEqual(result, error1);
+      assert.strictEqual(service.errors.length, 1);
     });
   });
 

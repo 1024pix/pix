@@ -54,9 +54,8 @@ module('Unit | Route | Access', function (hooks) {
       await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(route.authenticationRoute, 'inscription');
+
+      assert.strictEqual(route.authenticationRoute, 'inscription');
     });
 
     test('should call parent’s beforeModel and transition to authenticationRoute', async function (assert) {
@@ -132,9 +131,7 @@ module('Unit | Route | Access', function (hooks) {
           await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(route.authenticationRoute, 'campaigns.join.student-sco');
+          assert.strictEqual(route.authenticationRoute, 'campaigns.join.student-sco');
         });
       }
     );
@@ -152,9 +149,7 @@ module('Unit | Route | Access', function (hooks) {
         await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(route.authenticationRoute, 'campaigns.join.student-sco');
+        assert.strictEqual(route.authenticationRoute, 'campaigns.join.student-sco');
       });
     });
 
@@ -168,9 +163,7 @@ module('Unit | Route | Access', function (hooks) {
         await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(route.authenticationRoute, 'campaigns.join.sco-mediacentre');
+        assert.strictEqual(route.authenticationRoute, 'campaigns.join.sco-mediacentre');
       });
     });
 
@@ -184,9 +177,7 @@ module('Unit | Route | Access', function (hooks) {
         await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(route.authenticationRoute, 'campaigns.join.anonymous');
+        assert.strictEqual(route.authenticationRoute, 'campaigns.join.anonymous');
       });
     });
   });

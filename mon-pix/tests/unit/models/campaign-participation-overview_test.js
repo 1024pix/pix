@@ -18,10 +18,9 @@ module('Unit | Model | Campaign-Participation-Overview', function (hooks) {
           const model = store.createRecord('campaign-participation-overview', {
             status: 'STARTED',
           });
+
           // when / then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(model.cardStatus, 'ONGOING');
+          assert.strictEqual(model.cardStatus, 'ONGOING');
         });
       });
 
@@ -33,10 +32,9 @@ module('Unit | Model | Campaign-Participation-Overview', function (hooks) {
             isShared: false,
             disabledAt: null,
           });
+
           // when / then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(model.cardStatus, 'TO_SHARE');
+          assert.strictEqual(model.cardStatus, 'TO_SHARE');
         });
       });
 
@@ -48,10 +46,9 @@ module('Unit | Model | Campaign-Participation-Overview', function (hooks) {
             disabledAt: null,
             isShared: true,
           });
+
           // when / then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(model.cardStatus, 'ENDED');
+          assert.strictEqual(model.cardStatus, 'ENDED');
         });
       });
     });
@@ -64,10 +61,9 @@ module('Unit | Model | Campaign-Participation-Overview', function (hooks) {
           isShared: true,
           disabledAt: new Date('2021-01-01'),
         });
+
         // when / then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(model.cardStatus, 'DISABLED');
+        assert.strictEqual(model.cardStatus, 'DISABLED');
       });
     });
   });

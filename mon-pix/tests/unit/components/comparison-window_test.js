@@ -168,12 +168,8 @@ module('Unit | Component | comparison-window', function (hooks) {
         resultItem = component.resultItem;
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(this.intl.t(resultItem.title), `${data.expectedTitle}`);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(this.intl.t(resultItem.tooltip), `${data.expectedTooltip}`);
+        assert.strictEqual(this.intl.t(resultItem.title), `${data.expectedTitle}`);
+        assert.strictEqual(this.intl.t(resultItem.tooltip), `${data.expectedTooltip}`);
       });
     });
 
@@ -191,12 +187,8 @@ module('Unit | Component | comparison-window', function (hooks) {
         resultItem = component.resultItem;
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(this.intl.t(resultItem.title), `${data.expectedTitle}`);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(this.intl.t(resultItem.tooltip), `${data.expectedTooltip}`);
+        assert.strictEqual(this.intl.t(resultItem.title), `${data.expectedTitle}`);
+        assert.strictEqual(this.intl.t(resultItem.tooltip), `${data.expectedTooltip}`);
       });
     });
   });
@@ -223,9 +215,7 @@ module('Unit | Component | comparison-window', function (hooks) {
       const solution = component.solution;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(solution, 'solution');
+      assert.strictEqual(solution, 'solution');
     });
   });
 });

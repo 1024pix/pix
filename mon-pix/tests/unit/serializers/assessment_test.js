@@ -16,15 +16,9 @@ module('Unit | Serializer | assessment', function (hooks) {
 
     const json = serializer.serialize(snapshot);
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(json.data.type, 'assessments');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(json.data.attributes['certification-number'], 'cert123');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(json.data.attributes['code-campaign'], 'campaign123');
+    assert.strictEqual(json.data.type, 'assessments');
+    assert.strictEqual(json.data.attributes['certification-number'], 'cert123');
+    assert.strictEqual(json.data.attributes['code-campaign'], 'campaign123');
   });
 
   module('when adapter options are given', function () {
@@ -39,9 +33,7 @@ module('Unit | Serializer | assessment', function (hooks) {
 
       const json = serializer.serialize(snapshot);
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(json.data.attributes['challenge-id'], 'challenge1');
+      assert.strictEqual(json.data.attributes['challenge-id'], 'challenge1');
     });
   });
 });

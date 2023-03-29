@@ -25,9 +25,7 @@ module('Acceptance | OIDC | authentication flow', function (hooks) {
         await click(screen.getByRole('link', { name: 'Se déconnecter' }));
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/deconnexion');
+        assert.strictEqual(currentURL(), '/deconnexion');
       });
     });
 

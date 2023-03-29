@@ -29,38 +29,21 @@ module('Integration | Component | pix-toggle-deprecated', function (hooks) {
   });
 
   test('should display the toggle with on/off span with the correct values', function (assert) {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(find('.pix-toggle-deprecated__on').nodeName, 'SPAN');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(find('.pix-toggle-deprecated__off').nodeName, 'SPAN');
-
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(find('.pix-toggle-deprecated__on').textContent, 'valueFirstLabel');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(find('.pix-toggle-deprecated__off').textContent, 'valueSecondLabel');
+    assert.strictEqual(find('.pix-toggle-deprecated__on').nodeName, 'SPAN');
+    assert.strictEqual(find('.pix-toggle-deprecated__off').nodeName, 'SPAN');
+    assert.strictEqual(find('.pix-toggle-deprecated__on').textContent, 'valueFirstLabel');
+    assert.strictEqual(find('.pix-toggle-deprecated__off').textContent, 'valueSecondLabel');
   });
 
   test('should change the value of toggleOn when toggle off', async function (assert) {
     await click('.pix-toggle-deprecated__off');
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(find('.pix-toggle-deprecated__on').textContent, 'valueSecondLabel');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(find('.pix-toggle-deprecated__off').textContent, 'valueFirstLabel');
+    assert.strictEqual(find('.pix-toggle-deprecated__on').textContent, 'valueSecondLabel');
+    assert.strictEqual(find('.pix-toggle-deprecated__off').textContent, 'valueFirstLabel');
 
     await click('.pix-toggle-deprecated__off');
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(find('.pix-toggle-deprecated__on').textContent, 'valueFirstLabel');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(find('.pix-toggle-deprecated__off').textContent, 'valueSecondLabel');
+    assert.strictEqual(find('.pix-toggle-deprecated__on').textContent, 'valueFirstLabel');
+    assert.strictEqual(find('.pix-toggle-deprecated__off').textContent, 'valueSecondLabel');
   });
 });

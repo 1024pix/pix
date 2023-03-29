@@ -19,9 +19,7 @@ module('Unit | Utilities | pix-window', function (hooks) {
       const url = PixWindow.getLocationHref();
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(url, 'http://domain.com/timely#hash');
+      assert.strictEqual(url, 'http://domain.com/timely#hash');
     });
   });
 
@@ -34,9 +32,7 @@ module('Unit | Utilities | pix-window', function (hooks) {
       const hash = PixWindow.getLocationHash();
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(hash, '#hash');
+      assert.strictEqual(hash, '#hash');
     });
   });
 });

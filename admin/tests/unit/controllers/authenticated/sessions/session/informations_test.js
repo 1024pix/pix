@@ -140,9 +140,7 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
 
       // then
       assert.ok(writeTextStub.calledWithExactly('www.jeremypluquet.com'));
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(controller.copyButtonText, 'Copié');
+      assert.strictEqual(controller.copyButtonText, 'Copié');
       assert.ok(controller.isCopyButtonClicked);
       assert.ok(window.setTimeout);
     });
@@ -159,9 +157,7 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
       await controller.actions.copyResultsDownloadLink.call(controller);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(controller.copyButtonText, 'Erreur !');
+      assert.strictEqual(controller.copyButtonText, 'Erreur !');
       assert.ok(controller.isCopyButtonClicked);
       assert.ok(window.setTimeout);
     });

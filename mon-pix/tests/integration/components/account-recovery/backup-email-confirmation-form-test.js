@@ -68,9 +68,7 @@ module('Integration | Component | account-recovery::backup-email-confirmation-fo
     });
   });
 
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line qunit/no-async-module-callbacks
-  module('when the user does not have an email associated with his account', async function () {
+  module('when the user does not have an email associated with his account', function () {
     test('should render recover account backup email confirmation form', async function (assert) {
       // given
       const resetErrors = sinon.stub();

@@ -149,22 +149,12 @@ module('Unit | Utils | Proposals Parser | Select Block', function () {
           const result = new SelectBlock({ input, inputIndex: 123 });
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(result.input, data.expected.input);
+          assert.strictEqual(result.input, data.expected.input);
           assert.deepEqual(result.options, data.expected.options);
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(result.autoAriaLabel, data.expected.autoAriaLabel);
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(result.ariaLabel, data.expected.ariaLabel);
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(result.placeholder, data.expected.placeholder);
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(result.type, 'select');
+          assert.strictEqual(result.autoAriaLabel, data.expected.autoAriaLabel);
+          assert.strictEqual(result.ariaLabel, data.expected.ariaLabel);
+          assert.strictEqual(result.placeholder, data.expected.placeholder);
+          assert.strictEqual(result.type, 'select');
         });
       });
     });
@@ -256,22 +246,12 @@ module('Unit | Utils | Proposals Parser | Select Block', function () {
           const result = new SelectBlock({ input, inputIndex: 123 });
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(result.input, data.expected.input);
+          assert.strictEqual(result.input, data.expected.input);
           assert.deepEqual(result.options, data.expected.options);
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(result.autoAriaLabel, data.expected.autoAriaLabel);
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(result.ariaLabel, data.expected.ariaLabel);
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(result.placeholder, data.expected.placeholder);
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(result.type, 'select');
+          assert.strictEqual(result.autoAriaLabel, data.expected.autoAriaLabel);
+          assert.strictEqual(result.ariaLabel, data.expected.ariaLabel);
+          assert.strictEqual(result.placeholder, data.expected.placeholder);
+          assert.strictEqual(result.type, 'select');
         });
       });
     });

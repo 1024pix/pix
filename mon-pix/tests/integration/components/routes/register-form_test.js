@@ -135,9 +135,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await triggerEvent('#firstName', 'focusout');
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(
+          assert.strictEqual(
             find('#register-firstName-container #validationMessage-firstName').textContent,
             EMPTY_FIRSTNAME_ERROR_MESSAGE
           );
@@ -155,9 +153,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await triggerEvent('#lastName', 'focusout');
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(
+          assert.strictEqual(
             find('#register-lastName-container #validationMessage-lastName').textContent,
             EMPTY_LASTNAME_ERROR_MESSAGE
           );
@@ -177,9 +173,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await triggerEvent('#dayOfBirth', 'focusout');
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(
+          assert.strictEqual(
             find('#register-birthdate-container #dayValidationMessage').textContent,
             INVALID_DAY_OF_BIRTH_ERROR_MESSAGE
           );
@@ -199,9 +193,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await triggerEvent('#monthOfBirth', 'focusout');
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(
+          assert.strictEqual(
             find('#register-birthdate-container #monthValidationMessage').textContent,
             INVALID_MONTH_OF_BIRTH_ERROR_MESSAGE
           );
@@ -221,9 +213,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await triggerEvent('#yearOfBirth', 'focusout');
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(
+          assert.strictEqual(
             find('#register-birthdate-container #yearValidationMessage').textContent,
             INVALID_YEAR_OF_BIRTH_ERROR_MESSAGE
           );
@@ -247,9 +237,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await triggerEvent('#email', 'focusout');
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(
+          assert.strictEqual(
             find('#register-email-container #validationMessage-email').textContent,
             EMPTY_EMAIL_ERROR_MESSAGE
           );
@@ -276,9 +264,7 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await triggerEvent('#password', 'focusout');
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(
+          assert.strictEqual(
             find('#register-password-container #validationMessage-password').textContent,
             INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE
           );
@@ -301,17 +287,16 @@ module('Integration | Component | routes/register-form', function (hooks) {
       await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find('#register-email-container #validationMessage-email').textContent, EMPTY_EMAIL_ERROR_MESSAGE);
+      assert.strictEqual(
+        find('#register-email-container #validationMessage-email').textContent,
+        EMPTY_EMAIL_ERROR_MESSAGE
+      );
       assert.dom('#register-email-container .form-textfield__input-container--error').exists();
       sinon.assert.notCalled(saveDependentUserStub);
       assert.ok(true);
     });
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-async-module-callbacks
-    module('When create and reconcile service fails', async function () {
+    module('When create and reconcile service fails', function () {
       test('Should display registerErrorMessage when authentication service fails with error', async function (assert) {
         // given
         const expectedRegisterErrorMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY);
@@ -405,18 +390,12 @@ module('Integration | Component | routes/register-form', function (hooks) {
         await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(find('div[id="register-error-message"').innerHTML, errorMessage);
+        assert.strictEqual(find('div[id="register-error-message"').innerHTML, errorMessage);
       });
     });
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-async-module-callbacks
-    module('When student is already reconciled in the same organization', async function () {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-async-module-callbacks
-      module('When student account is authenticated by email only', async function () {
+    module('When student is already reconciled in the same organization', function () {
+      module('When student account is authenticated by email only', function () {
         test('should display the error message related to the short code S61)', async function (assert) {
           // given
           const meta = { shortCode: 'S61', value: 'j***@example.net' };
@@ -439,15 +418,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
+          assert.strictEqual(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
         });
       });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-async-module-callbacks
-      module('When student account is authenticated by username only', async function () {
+      module('When student account is authenticated by username only', function () {
         test('should display the error message related to the short code S62)', async function (assert) {
           // given
           const meta = { shortCode: 'S62', value: 'j***.h***2' };
@@ -470,15 +445,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
+          assert.strictEqual(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
         });
       });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-async-module-callbacks
-      module('When student account is authenticated by SamlId only', async function () {
+      module('When student account is authenticated by SamlId only', function () {
         test('should display the error message related to the short code S63)', async function (assert) {
           // given
           const meta = { shortCode: 'S63', value: undefined };
@@ -501,15 +472,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
+          assert.strictEqual(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
         });
       });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-async-module-callbacks
-      module('When student account is authenticated by SamlId and username', async function () {
+      module('When student account is authenticated by SamlId and username', function () {
         test('should display the error message related to the short code S63)', async function (assert) {
           // given
           const meta = { shortCode: 'S63', value: undefined };
@@ -532,15 +499,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
+          assert.strictEqual(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
         });
       });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-async-module-callbacks
-      module('When student account is authenticated by SamlId and email', async function () {
+      module('When student account is authenticated by SamlId and email', function () {
         test('should display the error message related to the short code S63)', async function (assert) {
           // given
           const meta = { shortCode: 'S63', value: undefined };
@@ -563,15 +526,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
+          assert.strictEqual(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
         });
       });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-async-module-callbacks
-      module('When student account is authenticated by SamlId, email and username', async function () {
+      module('When student account is authenticated by SamlId, email and username', function () {
         test('should display the error message related to the short code S63)', async function (assert) {
           // given
           const meta = { shortCode: 'S63', value: undefined };
@@ -594,15 +553,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
+          assert.strictEqual(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
         });
       });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-async-module-callbacks
-      module('When student account is authenticated by email and username', async function () {
+      module('When student account is authenticated by email and username', function () {
         test('should display the error message related to the short code S62)', async function (assert) {
           // given
           const meta = { shortCode: 'S62', value: 'j***.h***2' };
@@ -625,19 +580,13 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
+          assert.strictEqual(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
         });
       });
     });
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-async-module-callbacks
-    module('When student is already reconciled in others organization', async function () {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-async-module-callbacks
-      module('When student account is authenticated by email only', async function () {
+    module('When student is already reconciled in others organization', function () {
+      module('When student account is authenticated by email only', function () {
         test('should display the error message related to the short code S51)', async function (assert) {
           // given
           const meta = { shortCode: 'S51', value: 'j***@example.net' };
@@ -660,15 +609,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
+          assert.strictEqual(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
         });
       });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-async-module-callbacks
-      module('When student account is authenticated by username only', async function () {
+      module('When student account is authenticated by username only', function () {
         test('should display the error message related to the short code S52)', async function (assert) {
           // given
           const meta = { shortCode: 'S52', value: 'j***.h***2' };
@@ -691,15 +636,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
+          assert.strictEqual(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
         });
       });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-async-module-callbacks
-      module('When student account is authenticated by SamlId only', async function () {
+      module('When student account is authenticated by SamlId only', function () {
         test('should display the error message related to the short code S53)', async function (assert) {
           // given
           const meta = { shortCode: 'S53', value: undefined };
@@ -722,15 +663,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
+          assert.strictEqual(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
         });
       });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-async-module-callbacks
-      module('When student account is authenticated by SamlId and username', async function () {
+      module('When student account is authenticated by SamlId and username', function () {
         test('should display the error message related to the short code S53)', async function (assert) {
           // given
           const meta = { shortCode: 'S53', value: undefined };
@@ -753,15 +690,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
+          assert.strictEqual(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
         });
       });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-async-module-callbacks
-      module('When student account is authenticated by SamlId and email', async function () {
+      module('When student account is authenticated by SamlId and email', function () {
         test('should display the error message related to the short code S53)', async function (assert) {
           // given
           const meta = { shortCode: 'S53', value: undefined };
@@ -784,15 +717,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
+          assert.strictEqual(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
         });
       });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-async-module-callbacks
-      module('When student account is authenticated by SamlId, username and email', async function () {
+      module('When student account is authenticated by SamlId, username and email', function () {
         test('should display the error message related to the short code S53)', async function (assert) {
           // given
           const meta = { shortCode: 'S53', value: undefined };
@@ -815,15 +744,11 @@ module('Integration | Component | routes/register-form', function (hooks) {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
+          assert.strictEqual(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
         });
       });
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-async-module-callbacks
-      module('When student account is authenticated by username and email', async function () {
+      module('When student account is authenticated by username and email', function () {
         test('should display the error message related to the short code S52)', async function (assert) {
           // given
           const meta = { shortCode: 'S52', value: 'j***.h***2' };
@@ -844,10 +769,9 @@ module('Integration | Component | routes/register-form', function (hooks) {
 
           // when
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
+
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
+          assert.strictEqual(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
         });
       });
     });

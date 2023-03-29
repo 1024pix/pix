@@ -27,9 +27,7 @@ module('Acceptance | User dashboard page', function (hooks) {
       await visit('/accueil');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/connexion');
+      assert.strictEqual(currentURL(), '/connexion');
     });
 
     test('is possible when user is connected', async function (assert) {
@@ -40,9 +38,7 @@ module('Acceptance | User dashboard page', function (hooks) {
       await visit('/accueil');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/accueil');
+      assert.strictEqual(currentURL(), '/accueil');
     });
   });
 
@@ -98,12 +94,11 @@ module('Acceptance | User dashboard page', function (hooks) {
         test('should display a card with a resume button', async function (assert) {
           // when
           await visit('/accueil');
+
           // then
           const resumeButton = find('.campaign-participation-overview-card-content__action');
           assert.ok(resumeButton);
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(resumeButton.textContent.trim(), 'Reprendre');
+          assert.strictEqual(resumeButton.textContent.trim(), 'Reprendre');
         });
       });
 
@@ -140,9 +135,7 @@ module('Acceptance | User dashboard page', function (hooks) {
           // then
           const shareButton = find('.campaign-participation-overview-card-content__action');
           assert.ok(shareButton);
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(shareButton.textContent.trim(), 'Envoyer mes résultats');
+          assert.strictEqual(shareButton.textContent.trim(), 'Envoyer mes résultats');
         });
       });
     });
@@ -174,9 +167,8 @@ module('Acceptance | User dashboard page', function (hooks) {
       const competencesButtons = screen.getAllByText(
         this.intl.t('pages.dashboard.recommended-competences.profile-link')
       ).length;
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(competencesButtons, 2);
+
+      assert.strictEqual(competencesButtons, 2);
     });
   });
 
@@ -211,9 +203,7 @@ module('Acceptance | User dashboard page', function (hooks) {
 
       // then
       const scorecard = user.scorecards.models[0];
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), `/competences/${scorecard.competenceId}/details`);
+      assert.strictEqual(currentURL(), `/competences/${scorecard.competenceId}/details`);
     });
   });
 

@@ -159,9 +159,7 @@ module('Unit | Controller | Assessments | Challenge', function (hooks) {
           const result = controller.displayChallenge;
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(result, data.expectedResult);
+          assert.strictEqual(result, data.expectedResult);
         });
       });
     });
@@ -194,9 +192,7 @@ module('Unit | Controller | Assessments | Challenge', function (hooks) {
           const result = controller.displayChallenge;
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(result, data.expectedResult);
+          assert.strictEqual(result, data.expectedResult);
         });
       });
     });
@@ -229,9 +225,7 @@ module('Unit | Controller | Assessments | Challenge', function (hooks) {
           const result = controller.displayChallenge;
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(result, data.expectedResult);
+          assert.strictEqual(result, data.expectedResult);
         });
       });
     });

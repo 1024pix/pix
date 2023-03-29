@@ -45,9 +45,7 @@ module('Unit | Component | User logged Menu', function (hooks) {
       });
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.displayedIdentifier, 'email@example.net');
+      assert.strictEqual(component.displayedIdentifier, 'email@example.net');
     });
 
     test("should return user's username if not undefined and no email defined", function (assert) {
@@ -59,9 +57,7 @@ module('Unit | Component | User logged Menu', function (hooks) {
       });
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.displayedIdentifier, 'my username');
+      assert.strictEqual(component.displayedIdentifier, 'my username');
     });
 
     test("should return user's email if email and username are defined", function (assert) {
@@ -74,9 +70,7 @@ module('Unit | Component | User logged Menu', function (hooks) {
       });
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.displayedIdentifier, 'email@example.net');
+      assert.strictEqual(component.displayedIdentifier, 'email@example.net');
     });
 
     test('should return undefined if no email or username are defined', function (assert) {
@@ -86,9 +80,7 @@ module('Unit | Component | User logged Menu', function (hooks) {
       });
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.displayedIdentifier, undefined);
+      assert.strictEqual(component.displayedIdentifier, undefined);
     });
   });
 });

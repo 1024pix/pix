@@ -52,9 +52,7 @@ module('Acceptance | Navbar', function (hooks) {
         );
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), userNavigation.expectedRoute);
+        assert.strictEqual(currentURL(), userNavigation.expectedRoute);
         assert.ok(
           find('.navbar-desktop-header-container__menu')
             .children[0].children[userNavigation.targetedNavigationItem].children[0].getAttribute('class')

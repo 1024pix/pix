@@ -26,9 +26,7 @@ module('Acceptance | personal-information', function (hooks) {
 
       // then
       const userNames = screen.getAllByText(user.firstName).length;
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(userNames, 2);
+      assert.strictEqual(userNames, 2);
       assert.ok(screen.getByText(user.lastName));
     });
   });

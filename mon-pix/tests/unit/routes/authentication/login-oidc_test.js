@@ -92,9 +92,7 @@ module('Unit | Route | login-oidc', function (hooks) {
           await route.beforeModel({ to: { queryParams: {}, params: { identity_provider_slug: 'oidc-partner' } } });
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(sessionStub.data.nextURL, '/campagnes/PIXOIDC01/acces');
+          assert.strictEqual(sessionStub.data.nextURL, '/campagnes/PIXOIDC01/acces');
         });
 
         test('should build the url from the intent name and contexts in session data nextUrl', async function (assert) {

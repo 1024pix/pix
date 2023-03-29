@@ -70,9 +70,7 @@ module('Unit | Component | Training | card', function (hooks) {
         const result = component.durationFormatted;
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(result, expectedResult);
+        assert.strictEqual(result, expectedResult);
       });
     });
   });
@@ -117,9 +115,7 @@ module('Unit | Component | Training | card', function (hooks) {
       const result = component.tagColor;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(result, 'purple-light');
+      assert.strictEqual(result, 'purple-light');
     });
 
     test('should return appropriate tag color for given type autoformation', function (assert) {
@@ -131,9 +127,7 @@ module('Unit | Component | Training | card', function (hooks) {
       const result = component.tagColor;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(result, 'blue-light');
+      assert.strictEqual(result, 'blue-light');
     });
   });
 });
