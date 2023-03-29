@@ -3,7 +3,7 @@ const Badge = require('../../domain/models/Badge.js');
 const SkillSet = require('../../domain/models/SkillSet.js');
 const BadgeCriterion = require('../../domain/models/BadgeCriterion.js');
 const omit = require('lodash/omit');
-const bookshelfUtils = require('../utils/knex-utils.js');
+const knexUtils = require('../utils/knex-utils.js');
 const { AlreadyExistingEntityError } = require('../../domain/errors.js');
 const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
 
@@ -54,7 +54,7 @@ module.exports = {
       const [savedBadge] = await (knexTransaction ?? knex)(TABLE_NAME).insert(_adaptModelToDb(badge)).returning('*');
       return new Badge(savedBadge);
     } catch (err) {
-      if (bookshelfUtils.isUniqConstraintViolated(err)) {
+      if (knexUtils.isUniqConstraintViolated(err)) {
         throw new AlreadyExistingEntityError(`The badge key ${badge.key} already exists`);
       }
       throw err;
