@@ -287,7 +287,7 @@ describe('Integration | Repository | training-trigger-repository', function () {
     });
   });
 
-  describe('#findByTrainingId', function () {
+  describe('#findByTrainingIdForAdmin', function () {
     it('should return the training trigger', async function () {
       // given
       const trainingId = databaseBuilder.factory.buildTraining().id;
@@ -307,7 +307,7 @@ describe('Integration | Repository | training-trigger-repository', function () {
       await databaseBuilder.commit();
 
       // when
-      const result = await trainingTriggerRepository.findByTrainingId({ trainingId });
+      const result = await trainingTriggerRepository.findByTrainingIdForAdmin({ trainingId });
 
       // then
       expect(result).to.have.lengthOf(2);
@@ -368,7 +368,7 @@ describe('Integration | Repository | training-trigger-repository', function () {
         await databaseBuilder.commit();
 
         // when
-        const error = await catchErr(trainingTriggerRepository.findByTrainingId)({ trainingId });
+        const error = await catchErr(trainingTriggerRepository.findByTrainingIdForAdmin)({ trainingId });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
@@ -380,7 +380,7 @@ describe('Integration | Repository | training-trigger-repository', function () {
       const trainingId = 123;
 
       // when
-      const result = await trainingTriggerRepository.findByTrainingId({ trainingId });
+      const result = await trainingTriggerRepository.findByTrainingIdForAdmin({ trainingId });
 
       // then
       expect(result).to.be.empty;

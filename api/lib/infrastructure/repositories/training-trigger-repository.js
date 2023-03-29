@@ -40,10 +40,10 @@ module.exports = {
       .insert(trainingTriggerTubesToCreate)
       .returning('*');
 
-    return _toDomain({ trainingTrigger, triggerTubes: createdTrainingTriggerTubes });
+    return _toDomainForAdmin({ trainingTrigger, triggerTubes: createdTrainingTriggerTubes });
   },
 
-  async findByTrainingId({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+  async findByTrainingIdForAdmin({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const knexConn = domainTransaction?.knexTransaction || knex;
     const trainingTriggers = await knexConn(TABLE_NAME).select('*').where({ trainingId }).orderBy('id', 'asc');
     if (!trainingTriggers) {
@@ -59,13 +59,13 @@ module.exports = {
         const triggerTubes = trainingTriggerTubes.filter(
           ({ trainingTriggerId }) => trainingTriggerId === trainingTrigger.id
         );
-        return await _toDomain({ trainingTrigger, triggerTubes });
+        return await _toDomainForAdmin({ trainingTrigger, triggerTubes });
       })
     );
   },
 };
 
-async function _toDomain({ trainingTrigger, triggerTubes }) {
+async function _toDomainForAdmin({ trainingTrigger, triggerTubes }) {
   const triggerTubeIds = triggerTubes.map(({ tubeId }) => tubeId);
 
   const tubes = await tubeRepository.findByRecordIds(triggerTubeIds);

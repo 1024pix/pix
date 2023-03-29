@@ -31,7 +31,7 @@ async function getWithTriggersForAdmin({ trainingId, domainTransaction = DomainT
 
   const targetProfileTrainings = await knexConn('target-profile-trainings').where('trainingId', trainingDTO.id);
 
-  const trainingTriggers = await trainingTriggerRepository.findByTrainingId({ trainingId, domainTransaction });
+  const trainingTriggers = await trainingTriggerRepository.findByTrainingIdForAdmin({ trainingId, domainTransaction });
 
   return _toDomainForAdmin({ training: trainingDTO, targetProfileTrainings, trainingTriggers });
 }
