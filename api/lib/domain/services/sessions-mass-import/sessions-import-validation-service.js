@@ -1,6 +1,7 @@
 const sessionValidator = require('../../validators/session-validator.js');
 const certificationCpfService = require('../certification-cpf-service.js');
 const { CERTIFICATION_SESSIONS_ERRORS } = require('../../constants/sessions-errors');
+const dayjs = require('dayjs');
 
 module.exports = {
   async validateSession({ session, line, sessionRepository, certificationCourseRepository }) {
@@ -24,13 +25,15 @@ module.exports = {
         });
       }
     } else {
-      const isSessionExisting = await sessionRepository.isSessionExisting({ ...session });
-      if (isSessionExisting) {
-        _addToErrorList({
-          errorList: sessionErrors,
-          line,
-          codes: [CERTIFICATION_SESSIONS_ERRORS.SESSION_WITH_DATE_AND_TIME_ALREADY_EXISTS.code],
-        });
+      if (_isDateAndTimeValid(session)) {
+        const isSessionExisting = await sessionRepository.isSessionExisting({ ...session });
+        if (isSessionExisting) {
+          _addToErrorList({
+            errorList: sessionErrors,
+            line,
+            codes: [CERTIFICATION_SESSIONS_ERRORS.SESSION_WITH_DATE_AND_TIME_ALREADY_EXISTS.code],
+          });
+        }
       }
 
       if (session.isSessionScheduledInThePast()) {
@@ -109,6 +112,10 @@ module.exports = {
     };
   },
 };
+
+function _isDateAndTimeValid(session) {
+  return dayjs(`${session.date} ${session.time}`, 'YYYY-MM-DD HH:mm', true).isValid();
+}
 
 function _isErrorNotDuplicated({ certificationCandidateErrors, errorCode }) {
   return !certificationCandidateErrors.some((error) => errorCode === error.code);
