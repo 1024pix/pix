@@ -372,6 +372,9 @@ describe('Integration | Repository | training-trigger-repository', function () {
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
+        expect(error.message).to.be.equal(
+          `Les sujets [notExistTubeId] du déclencheur ${trainingTrigger.id} n'existent pas dans le référentiel.`
+        );
       });
     });
 

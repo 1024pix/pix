@@ -71,7 +71,7 @@ async function _toDomainForAdmin({ trainingTrigger, triggerTubes }) {
   const tubes = await tubeRepository.findByRecordIds(triggerTubeIds);
 
   const tubeIds = tubes.map(({ id }) => id);
-  const notFoundTubeIds = triggerTubes.filter(({ tubeId }) => {
+  const notFoundTubeIds = triggerTubeIds.filter((tubeId) => {
     return !tubeIds.includes(tubeId);
   });
 
