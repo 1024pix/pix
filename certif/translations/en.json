@@ -523,7 +523,6 @@
           "description": "Warning, this action triggers the end of their Pix certification exam and is irreversible.",
           "instruction-with-name": "End the exam of {firstName} {lastName}?",
           "end-assessment": "End the exam",
-          "cancel-label": "Annuler et fermer la fenêtre de confirmation",
           "success": "Success! {firstName} {lastName}'s test has been ended.",
           "error": "An error occured, {firstName} {lastName}'s test could not be ended."
         },
