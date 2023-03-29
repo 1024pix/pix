@@ -3,17 +3,18 @@
 
   &__breadcrumb {
     text-transform: capitalize;
+    margin-bottom: $spacing-m;
   }
 
-  &__info {
+  &__informations-line {
     display: flex;
+    gap: $spacing-xxl;
     align-items: center;
-    margin-top: $spacing-m;
   }
 
-  &-info__title {
+  &__title {
     @include h2;
-
+    
     text-transform: capitalize;
   }
 }
