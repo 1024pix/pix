@@ -1,0 +1,19 @@
+/* stylelint-disable selector-class-pattern */
+.organization-learners-table {
+  margin-top: 20px;
+}
+
+.organization-learners-table__status {
+
+  p {
+    margin: 0;
+  }
+
+  &--isEnabled {
+    color: $pix-success-70;
+  }
+
+  &--isDisabled {
+    color: $pix-neutral-30;
+  }
+}
