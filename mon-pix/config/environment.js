@@ -62,7 +62,6 @@ module.exports = function (environment) {
       EMBED_ALLOWED_ORIGINS: (
         process.env.EMBED_ALLOWED_ORIGINS || 'https://epreuves.pix.fr,https://1024pix.github.io'
       ).split(','),
-
       API_ERROR_MESSAGES: {
         BAD_REQUEST: {
           CODE: '400',
@@ -99,6 +98,7 @@ module.exports = function (environment) {
         defaultValue: 48,
         minValue: 1,
       }),
+      COOKIE_LOCALE_LIFESPAN_IN_SECONDS: 31536000, // 1 year in seconds
     },
 
     fontawesome: {
