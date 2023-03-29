@@ -11,6 +11,7 @@ export default class ResponseBlock {
     this._ariaLabel = inputIndex.toString();
     this._autoAriaLabel = true;
     this._type = undefined;
+    this._defaultValue = null;
   }
 
   get hasPlaceHolder() {
@@ -69,6 +70,14 @@ export default class ResponseBlock {
     this._placeholder = value;
   }
 
+  get defaultValue() {
+    return this._defaultValue;
+  }
+
+  setDefaultValue(value) {
+    this._defaultValue = value;
+  }
+
   removeAriaLabel() {
     this._ariaLabel = null;
   }
@@ -81,6 +90,7 @@ export default class ResponseBlock {
       ariaLabel: this._ariaLabel,
       type: this._type,
       autoAriaLabel: this._autoAriaLabel,
+      defaultValue: this._defaultValue,
     };
   }
 }

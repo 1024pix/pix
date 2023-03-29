@@ -26,6 +26,7 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
           answer: ':)',
           placeholder: null,
           type: 'input',
+          defaultValue: null,
         },
         {
           input: 'smiley2',
@@ -36,6 +37,7 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
           answer: 'Pas de réponse',
           placeholder: null,
           type: 'input',
+          defaultValue: null,
         },
       ];
 
