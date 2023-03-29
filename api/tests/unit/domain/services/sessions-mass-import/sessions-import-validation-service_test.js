@@ -195,6 +195,58 @@ describe('Unit | Service | sessions import validation Service', function () {
       });
     });
 
+    describe('when session date is not valid', function () {
+      it('should return an sessionErrors that contains a session invalid date format error', async function () {
+        // given
+        const session = _buildValidSessionWithoutId();
+        session.date = 'toto';
+
+        // when
+        const sessionErrors = await sessionsImportValidationService.validateSession({
+          session,
+          line: 1,
+          sessionRepository,
+          certificationCourseRepository,
+        });
+
+        // then
+        expect(sessionRepository.isSessionExisting).to.not.have.been.called;
+        expect(sessionErrors).to.deep.equal([
+          {
+            line: 1,
+            code: 'SESSION_DATE_NOT_VALID',
+            blocking: true,
+          },
+        ]);
+      });
+    });
+
+    describe('when session time is not valid', function () {
+      it('should return an sessionErrors that contains a invalid time format error', async function () {
+        // given
+        const session = _buildValidSessionWithoutId();
+        session.time = 'toto';
+
+        // when
+        const sessionErrors = await sessionsImportValidationService.validateSession({
+          session,
+          line: 1,
+          sessionRepository,
+          certificationCourseRepository,
+        });
+
+        // then
+        expect(sessionRepository.isSessionExisting).to.not.have.been.called;
+        expect(sessionErrors).to.deep.equal([
+          {
+            line: 1,
+            code: 'SESSION_TIME_NOT_VALID',
+            blocking: true,
+          },
+        ]);
+      });
+    });
+
     context('when session has certification candidates', function () {
       context('when at least one candidate is duplicated', function () {
         it('should return an sessionErrors that contains a duplicate candidate error', async function () {
