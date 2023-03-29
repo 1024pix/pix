@@ -7,11 +7,11 @@
   >
     <:triggerElement>
       <CopyButton
+        @text={{@clipBoardtext}}
+        @onSuccess={{this.onClipboardSuccess}}
+        {{on "mouseLeave" this.onClipboardOut}}
         aria-label={{@defaultMessage}}
         aria-describedby="copy-paste-button"
-        @clipboardText={{@clipBoardtext}}
-        @success={{this.onClipboardSuccess}}
-        {{on "mouseLeave" this.onClipboardOut}}
         class="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey copy-paste-button__clipboard"
         ...attributes
       >
