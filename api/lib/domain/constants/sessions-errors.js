@@ -15,6 +15,10 @@ module.exports.CERTIFICATION_SESSIONS_ERRORS = {
     code: 'SESSION_SCHEDULED_IN_THE_PAST',
     getMessage: () => `Une session ne peut pas être programmée dans le passé`,
   },
+  SESSION_ID_NOT_VALID: {
+    code: 'SESSION_ID_NOT_VALID',
+    getMessage: () => '',
+  },
   DUPLICATE_CANDIDATE_NOT_ALLOWED_IN_SESSION: {
     code: 'DUPLICATE_CANDIDATE_NOT_ALLOWED_IN_SESSION',
     getMessage: () => `Une session contient au moins un élève en double.`,
