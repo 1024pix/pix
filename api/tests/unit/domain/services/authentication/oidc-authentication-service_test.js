@@ -231,6 +231,28 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       expect(queryParams.get('scope')).to.equal('openid profile');
       expect(queryParams.get('realm')).to.equal('/individu');
     });
+
+    describe('when config is missing', function () {
+      it('should throw an error', async function () {
+        // given
+        const redirectUri = 'https://example.org/please-redirect-to-me';
+
+        const oidcAuthenticationService = new OidcAuthenticationService({});
+
+        // when
+        let errorResponse;
+        try {
+          await oidcAuthenticationService.getAuthenticationUrl({
+            redirectUri,
+          });
+        } catch (error) {
+          errorResponse = error;
+        }
+
+        // then
+        expect(errorResponse.code).to.be.equal('ERR_INVALID_URL');
+      });
+    });
   });
 
   describe('#getUserInfo', function () {
