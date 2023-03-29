@@ -1,5 +1,49 @@
 # Pix Changelog
 
+## v3.338.0 (29/03/2023)
+
+
+### :rocket: Amélioration
+- [#5877](https://github.com/1024pix/pix/pull/5877) [FEATURE] Enregistrer la locale de l'utilisateur à la connexion sur app.pix.fr (PIX-7549)
+- [#5853](https://github.com/1024pix/pix/pull/5853) [FEATURE] Pré-remplir le champ d'un QROC (PIX-6411)
+- [#5890](https://github.com/1024pix/pix/pull/5890) [FEATURE] Ajout de message d'erreurs lors du db:delete et db:create (PIX-7572)
+- [#5863](https://github.com/1024pix/pix/pull/5863) [FEATURE] Retourner le pallier atteint pour chaque compétence en fin de parcours sur Pix-App (PIX-7374)
+- [#5882](https://github.com/1024pix/pix/pull/5882) [FEATURE] Afficher un message d'erreur correct pour les erreurs liées à la locale lors de la connexion à Pix App (PIX-7434)
+- [#5866](https://github.com/1024pix/pix/pull/5866) [FEATURE] Montée de version de Pix UI en v29.0.0 sur Pix App (PIX-7550)
+- [#5868](https://github.com/1024pix/pix/pull/5868) [FEATURE] Ajout d'un fil d'ariane sur la page de détail d'un prescrit (PIX-7301)
+- [#5865](https://github.com/1024pix/pix/pull/5865) [FEATURE] Ajouter un exemple de format de code attendu dans l'erreur de la page "J'ai un code" (PIX-7264)
+- [#5860](https://github.com/1024pix/pix/pull/5860) [FEATURE] Améliorer le label de la page "J'ai un code" (PIX-7263).
+- [#5859](https://github.com/1024pix/pix/pull/5859) [FEATURE] Enregistrer la locale à l'inscription d'un utilisateur via un SSO OIDC  (PIX-7517)
+- [#5857](https://github.com/1024pix/pix/pull/5857) [FEATURE] Retirer l'alternative textuelle aux logos des organisations sur la page fin de parcours (PIX-7266)
+
+### :building_construction: Tech
+- [#5891](https://github.com/1024pix/pix/pull/5891) [TECH] Mutualiser les composants d'en tête des prescrit (PIX-7573)
+- [#5896](https://github.com/1024pix/pix/pull/5896) [TECH] Met à jour @1024pix/ember-testing-library
+- [#5864](https://github.com/1024pix/pix/pull/5864) [TECH] Utiliser un read-model pour les contenus formatifs destinés à Pix Admin (PIX-7548). 
+- [#5878](https://github.com/1024pix/pix/pull/5878) [TECH] Change les imports de ember-cli-mirage à miragejs
+- [#5862](https://github.com/1024pix/pix/pull/5862) [TECH] Optimisation du training-trigger-repository (PIX-7512).
+
+### :bug: Correction
+- [#5895](https://github.com/1024pix/pix/pull/5895) [BUGFIX] Eviter les erreurs 500 en cas de mauvais format d'heure et/ou date de session lors de l'import en masse (PIX-7575)
+- [#5899](https://github.com/1024pix/pix/pull/5899) [BUGFIX] Mauvais message de palier affiché en fin de parcours (PIX-7581)
+- [#5839](https://github.com/1024pix/pix/pull/5839) [BUGFIX] Correction crash dans le script de cache refresh
+- [#5840](https://github.com/1024pix/pix/pull/5840) [BUGFIX] Améliorer l'ergonomie de la modale "réponses et tutos" (PIX-7424)
+
+### :coffee: Autre
+- [#5886](https://github.com/1024pix/pix/pull/5886) [BUMP] Update dependency ember-flatpickr to v4 (certif)
+- [#5885](https://github.com/1024pix/pix/pull/5885) [BUMP] Update dependency ember-flatpickr to v4 (admin)
+- [#5881](https://github.com/1024pix/pix/pull/5881) [BUMP] Update dependency ember-cli-app-version to v6 (orga)
+- [#5880](https://github.com/1024pix/pix/pull/5880) [BUMP] Update dependency ember-cli-app-version to v6 (certif)
+- [#5879](https://github.com/1024pix/pix/pull/5879) [BUMP] Update dependency ember-cli-app-version to v6 (admin)
+- [#5876](https://github.com/1024pix/pix/pull/5876) [BUMP] Update dependency sinon to v15 (api)
+- [#5875](https://github.com/1024pix/pix/pull/5875) [BUMP] Update dependency sinon to v15 (mon-pix)
+- [#5874](https://github.com/1024pix/pix/pull/5874) [BUMP] Update dependency sinon to v15 (certif)
+- [#5873](https://github.com/1024pix/pix/pull/5873) [BUMP] Update dependency sinon to v15 (admin)
+- [#5871](https://github.com/1024pix/pix/pull/5871) [BUMP] Update dependency webpack to v5.76.0 [SECURITY]
+- [#5870](https://github.com/1024pix/pix/pull/5870) [BUMP] Update dependency webpack to v5.76.0 [SECURITY]
+- [#5872](https://github.com/1024pix/pix/pull/5872) [BUMP] Update dependency webpack to v5.76.0 [SECURITY]
+- [#5869](https://github.com/1024pix/pix/pull/5869) [BUMP] Update dependency webpack to v5.76.0 [SECURITY]
+
 ## v3.337.0 (24/03/2023)
 
 
