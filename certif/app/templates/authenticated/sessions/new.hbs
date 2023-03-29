@@ -19,6 +19,7 @@
         maxlength="255"
         class="input"
         @value={{this.session.address}}
+        required
       />
       {{#each this.session.errors.address as |error|}}
         <div class="session-form__error error-message">
@@ -39,6 +40,7 @@
         maxlength="255"
         class="input"
         @value={{this.session.room}}
+        required
       />
       {{#each this.session.errors.room as |error|}}
         <div class="session-form__error error-message">
@@ -64,11 +66,11 @@
         @name="session-date"
         class="input input--small"
       />
-      {{#each this.session.errors.date as |error|}}
+      {{#if this.isSessionDateMissing}}
         <div class="session-form__error error-message">
-          {{error.message}}
+          {{t "pages.sessions.new.errors.SESSION_DATE_REQUIRED"}}
         </div>
-      {{/each}}
+      {{/if}}
     </div>
 
     <div class="session-form__field">
@@ -89,11 +91,11 @@
         @name="session-time"
         class="input input--small"
       />
-      {{#each this.session.errors.time as |error|}}
+      {{#if this.isSessionTimeMissing}}
         <div class="session-form__error error-message">
-          {{error.message}}
+          {{t "pages.sessions.new.errors.SESSION_TIME_REQUIRED"}}
         </div>
-      {{/each}}
+      {{/if}}
     </div>
 
     <div class="session-form__field">
@@ -108,6 +110,7 @@
         maxlength="255"
         class="input"
         @value={{this.session.examiner}}
+        required
       />
       {{#each this.session.errors.examiner as |error|}}
         <div class="session-form__error error-message">

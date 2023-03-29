@@ -476,7 +476,21 @@
           "cancel-extra-information": "Annuler la création de session et retourner vers la page précédente",
           "create-session": "Créer la session"
         },
-        "extra-information": "Planification d’une session | Pix Certif"
+        "address": "Nom du site",
+        "date": "Date de début",
+        "description": "Observations",
+        "errors": {
+          "SESSION_ADDRESS_REQUIRED": "Veuillez indiquer un nom de site.",
+          "SESSION_ROOM_REQUIRED": "Veuillez indiquer un nom de salle.",
+          "SESSION_DATE_REQUIRED": "Veuillez indiquer une date de début.",
+          "SESSION_TIME_REQUIRED": "Veuillez indiquer une heure de début en heure locale.",
+          "SESSION_EXAMINER_REQUIRED": "Veuillez indiquer une surveillante ou un surveillant."
+        },
+        "examiner": "Surveillant(s)",
+        "extra-information": "Planification d’une session | Pix Certif",
+        "required-fields": "Les champs marqués de <abbr title=\"obligatoire\" class=\"mandatory-mark\">*</abbr> sont obligatoires.",
+        "room": "Nom de la salle",
+        "time": "Heure de début (heure locale)"
       },
       "update": {
         "title": "Modification d'une session de certification",
