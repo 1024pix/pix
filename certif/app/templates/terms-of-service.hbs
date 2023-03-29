@@ -13,7 +13,11 @@
 
     <hr class="terms-of-service-form__line" />
 
-    <TermsOfService::PageFr />
+    {{#if this.isEnglishLocale}}
+      <TermsOfService::PageEn />
+    {{else}}
+      <TermsOfService::PageFr />
+    {{/if}}
 
     <div class="terms-of-service-form__actions">
       <PixButtonLink @route="logout" @backgroundColor="transparent-light">{{t "common.actions.cancel"}}</PixButtonLink>
