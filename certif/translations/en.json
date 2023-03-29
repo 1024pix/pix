@@ -477,7 +477,21 @@
           "cancel-extra-information": "Cancel the session creation and return to the previous page",
           "create-session": "Create the session"
         },
-        "extra-information": "Session scheduling | Pix Certif"
+        "address": "Location name",
+        "date": "Starting date",
+        "description": "Observations",
+        "errors": {
+          "SESSION_ADDRESS_REQUIRED": "Please indicate a location name.",
+          "SESSION_ROOM_REQUIRED": "Please indicate a room name.",
+          "SESSION_DATE_REQUIRED": "Please indicate a starting date.",
+          "SESSION_TIME_REQUIRED": "Please indicate a starting time in local time.",
+          "SESSION_EXAMINER_REQUIRED": "Please indicate the invigilator(s)."
+        },
+        "examiner": "Invigilator(s)",
+        "extra-information": "Session scheduling | Pix Certif",
+        "required-fields": "The fields marked by <abbr title=\"required\" class=\"mandatory-mark\">*</abbr> are required.",
+        "room": "Room name",
+        "time": "Starting time (local time)"
       },
       "update": {
         "title": "Certification session change",
