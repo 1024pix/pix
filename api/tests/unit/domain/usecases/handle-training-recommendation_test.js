@@ -4,13 +4,13 @@ const userRecommendedTrainingRepository = require('../../../../lib/infrastructur
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 
 describe('Unit | UseCase | handle-training-recommendation', function () {
-  let findByCampaignParticipationIdAndLocaleStub;
+  let findWithTriggersByCampaignParticipationIdAndLocaleStub;
   let saveStub;
 
   beforeEach(function () {
-    findByCampaignParticipationIdAndLocaleStub = sinon.stub(
+    findWithTriggersByCampaignParticipationIdAndLocaleStub = sinon.stub(
       trainingRepository,
-      'findByCampaignParticipationIdAndLocale'
+      'findWithTriggersByCampaignParticipationIdAndLocale'
     );
     saveStub = sinon.stub(userRecommendedTrainingRepository, 'save').resolves();
   });
@@ -24,7 +24,7 @@ describe('Unit | UseCase | handle-training-recommendation', function () {
         const domainTransaction = Symbol('domain-transaction');
         const assessment = domainBuilder.buildAssessment.ofTypeCampaign({ campaignParticipationId });
         const trainings = [domainBuilder.buildTraining(), domainBuilder.buildTraining()];
-        findByCampaignParticipationIdAndLocaleStub.resolves(trainings);
+        findWithTriggersByCampaignParticipationIdAndLocaleStub.resolves(trainings);
 
         // when
         await handleTrainingRecommendation({
@@ -36,7 +36,7 @@ describe('Unit | UseCase | handle-training-recommendation', function () {
         });
 
         // then
-        expect(findByCampaignParticipationIdAndLocaleStub).to.have.been.calledWith({
+        expect(findWithTriggersByCampaignParticipationIdAndLocaleStub).to.have.been.calledWith({
           campaignParticipationId,
           locale,
           domainTransaction,
@@ -66,7 +66,7 @@ describe('Unit | UseCase | handle-training-recommendation', function () {
         const assessment = domainBuilder.buildAssessment.ofTypeCampaign({ campaignParticipationId });
         const trainings = [];
 
-        findByCampaignParticipationIdAndLocaleStub.resolves(trainings);
+        findWithTriggersByCampaignParticipationIdAndLocaleStub.resolves(trainings);
 
         // when
         await handleTrainingRecommendation({
@@ -78,7 +78,7 @@ describe('Unit | UseCase | handle-training-recommendation', function () {
         });
 
         // then
-        expect(findByCampaignParticipationIdAndLocaleStub).to.have.been.calledWith({
+        expect(findWithTriggersByCampaignParticipationIdAndLocaleStub).to.have.been.calledWith({
           campaignParticipationId,
           locale,
           domainTransaction,
@@ -99,7 +99,7 @@ describe('Unit | UseCase | handle-training-recommendation', function () {
       });
 
       // then
-      expect(findByCampaignParticipationIdAndLocaleStub).to.have.not.been.called;
+      expect(findWithTriggersByCampaignParticipationIdAndLocaleStub).to.have.not.been.called;
       expect(saveStub).to.have.not.been.called;
     });
   });

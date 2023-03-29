@@ -45,7 +45,7 @@ async function findPaginatedSummaries({ page, domainTransaction = DomainTransact
   return { trainings, pagination };
 }
 
-async function findByCampaignParticipationIdAndLocale({
+async function findWithTriggersByCampaignParticipationIdAndLocale({
   campaignParticipationId,
   locale,
   domainTransaction = DomainTransaction.emptyTransaction(),
@@ -129,7 +129,7 @@ module.exports = {
   get,
   getWithTriggersForAdmin,
   findPaginatedSummaries,
-  findByCampaignParticipationIdAndLocale,
+  findWithTriggersByCampaignParticipationIdAndLocale,
   create,
   update,
   findPaginatedByUserId,

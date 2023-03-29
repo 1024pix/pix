@@ -200,7 +200,7 @@ describe('Integration | Repository | training-repository', function () {
     });
   });
 
-  describe('#findByCampaignParticipationIdAndLocale', function () {
+  describe('#findWithTriggersByCampaignParticipationIdAndLocale', function () {
     let area1;
     let competence1;
     let thematic1;
@@ -324,7 +324,7 @@ describe('Integration | Repository | training-repository', function () {
       await databaseBuilder.commit();
 
       // when
-      const trainings = await trainingRepository.findByCampaignParticipationIdAndLocale({
+      const trainings = await trainingRepository.findWithTriggersByCampaignParticipationIdAndLocale({
         campaignParticipationId: campaignParticipation.id,
         locale: 'fr-fr',
       });
@@ -368,7 +368,7 @@ describe('Integration | Repository | training-repository', function () {
       await databaseBuilder.commit();
 
       // when
-      const trainings = await trainingRepository.findByCampaignParticipationIdAndLocale({
+      const trainings = await trainingRepository.findWithTriggersByCampaignParticipationIdAndLocale({
         campaignParticipationId: campaignParticipation.id,
         locale: 'fr-fr',
       });
@@ -424,7 +424,7 @@ describe('Integration | Repository | training-repository', function () {
       await databaseBuilder.commit();
 
       // when
-      const trainings = await trainingRepository.findByCampaignParticipationIdAndLocale({
+      const trainings = await trainingRepository.findWithTriggersByCampaignParticipationIdAndLocale({
         campaignParticipationId: campaignParticipation.id,
         locale: 'fr-fr',
       });
