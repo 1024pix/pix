@@ -38,6 +38,24 @@ module('Acceptance | terms-of-service', function (hooks) {
         await authenticateSession(certificationPointOfContact.id);
       });
 
+      test('it should display cgu action buttons, title and pix Certif logo', async function (assert) {
+        // given & when
+        const screen = await visitScreen('/cgu');
+
+        // then
+        assert
+          .dom(
+            screen.getByRole('heading', {
+              name: "CONDITIONS GÉNÉRALES D'UTILISATION DE LA PLATEFORME PIX CERTIF",
+              level: 1,
+            })
+          )
+          .exists();
+        assert.dom(screen.getByRole('button', { name: 'J’accepte les conditions d’utilisation' })).exists();
+        assert.dom(screen.getByRole('link', { name: 'Annuler' })).exists();
+        assert.dom(screen.getByRole('img', { name: 'Pix Certif' })).exists();
+      });
+
       test('it should send request for saving Pix-certif terms of service acceptation when submitting', async function (assert) {
         // given
         const previousPixCertifTermsOfServiceVal = certificationPointOfContact.pixCertifTermsOfServiceAccepted;
