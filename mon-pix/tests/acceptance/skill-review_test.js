@@ -110,7 +110,9 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
           imageUrl: '/images/badges/Pix-emploi.svg',
           message: 'Congrats, you won a Pix Emploi badge',
           key: 'PIX_EMPLOI_CLEA',
-          isAcquired: false,
+          isAcquired: true,
+          isCertifiable: true,
+          isValid: true,
           skillSetResults: [skillSetResult],
         });
 
@@ -193,21 +195,28 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
       });
 
       module('when campaign has stages', function () {
-        test('should display reached stage', async function (assert) {
+        test('should display reached stage and competence reached stage', async function (assert) {
           // given
+          const competenceResult = server.create('competence-result', {
+            name: competenceResultName,
+            masteryPercentage: 85,
+            reachedStage: 2,
+          });
           const reachedStage = server.create('reached-stage', {
             title: 'You reached Stage 1',
             message: 'You are almost a rock star',
             reachedStage: 1,
-            totalStage: 2,
+            totalStage: 5,
           });
-          campaignParticipationResult.update({ reachedStage });
+          campaignParticipationResult.update({ reachedStage, competenceResults: [competenceResult] });
 
           // when
           const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
           // then
           assert.ok(screen.getByText('You reached Stage 1'));
+          assert.ok(screen.getByText('85 % de réussite'));
+          assert.ok(screen.getByText('2 étoiles acquises sur 4'));
         });
 
         test('should not display reached stage when CLEA badge acquired', async function (assert) {

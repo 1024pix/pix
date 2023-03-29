@@ -245,6 +245,44 @@
   }
 }
 
+.skill-review-competence-stages-result {
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+
+    tr {
+      height: 3rem;
+      background-color: $pix-neutral-5;
+
+      & + tr {
+        border-top: $pix-spacing-xs solid $pix-neutral-0;
+      }
+    }
+
+    th {
+      @extend %pix-body-m;
+
+      padding: $pix-spacing-xs $pix-spacing-s;
+      color: $pix-neutral-90;
+      font-weight: $font-normal;
+      text-align: left;
+    }
+  }
+
+  &__reached-stage {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: $pix-spacing-xs $pix-spacing-s;
+  }
+
+  &__reached-stage-percentage {
+    @extend %pix-body-xs;
+
+    margin-right: $pix-spacing-s;
+  }
+}
+
 .skill-review-table-header {
   &__circle-chart-value {
     color: $pix-neutral-100;

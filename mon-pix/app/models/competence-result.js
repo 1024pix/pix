@@ -15,4 +15,8 @@ export default class CompetenceResult extends Model {
 
   // includes
   @belongsTo('campaignParticipationResult') campaignParticipationResult;
+
+  get masteryRate() {
+    return this.masteryPercentage / 100;
+  }
 }
