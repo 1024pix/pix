@@ -209,4 +209,42 @@ module('Integration | Component | Challenge item QROC', function (hooks) {
       });
     });
   });
+
+  module('when default value is defined in proposals', function () {
+    test('should prefill input with default value', async function (assert) {
+      // given
+      this.set('challenge', {
+        timer: false,
+        format: 'mots',
+        proposals: '${myInput value="c\'est prérempli !!!"}',
+      });
+      this.set('answer', {});
+
+      // when
+      await render(
+        hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}} />`
+      );
+
+      // then
+      assert.strictEqual(find('.challenge-response__proposal').value, "c'est prérempli !!!");
+    });
+
+    test('should prefill number input with default value', async function (assert) {
+      // given
+      this.set('challenge', {
+        timer: false,
+        format: 'nombre',
+        proposals: '${myInput value=42}',
+      });
+      this.set('answer', {});
+
+      // when
+      await render(
+        hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}} />`
+      );
+
+      // then
+      assert.strictEqual(find('.pix-input__input--default').value, '42');
+    });
+  });
 });

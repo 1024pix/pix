@@ -121,9 +121,13 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
   }
 
   get userAnswer() {
-    const answerIfExist = this.args.answer && this.args.answer.value;
-    const answer = answerIfExist || '';
-    return answer.indexOf('#ABAND#') > -1 ? '' : answer;
+    const answer = this.args.answer?.value ?? this._defaultAnswer;
+    return _wasSkipped(answer) ? '' : answer;
+  }
+
+  get _defaultAnswer() {
+    const inputBlock = this._blocks.find((block) => block.input != null);
+    return inputBlock?.defaultValue ?? '';
   }
 
   get allowedOriginWithRegExp() {
@@ -131,4 +135,9 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
       return new RegExp(allowedOrigin.replace('*', '[\\w-]+'));
     });
   }
+}
+
+function _wasSkipped(answer) {
+  if (typeof answer !== 'string') return false;
+  return answer.includes('#ABAND#');
 }
