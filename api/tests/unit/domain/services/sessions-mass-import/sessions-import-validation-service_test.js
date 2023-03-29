@@ -48,22 +48,50 @@ describe('Unit | Service | sessions import validation Service', function () {
         });
 
         context('when there is a sessionId', function () {
-          it('should return an empty sessionErrors array', async function () {
-            // given
-            const sessionId = 1;
-            const session = _buildValidSessionWithId(sessionId);
-            certificationCourseRepository.findCertificationCoursesBySessionId.resolves([]);
+          describe('when sessionId is not valid', function () {
+            it('should return a sessionErrors array that contains a sessionId invalid format error', async function () {
+              // given
+              const session = _buildValidSessionWithId();
+              session.id = 'toto123$';
 
-            // when
-            const sessionErrors = await sessionsImportValidationService.validateSession({
-              session,
-              line: 1,
-              sessionRepository,
-              certificationCourseRepository,
+              // when
+              const sessionErrors = await sessionsImportValidationService.validateSession({
+                session,
+                line: 1,
+                sessionRepository,
+                certificationCourseRepository,
+              });
+
+              // then
+              expect(certificationCourseRepository.findCertificationCoursesBySessionId).to.not.have.been.called;
+              expect(sessionErrors).to.deep.equal([
+                {
+                  line: 1,
+                  code: 'SESSION_ID_NOT_VALID',
+                  blocking: true,
+                },
+              ]);
             });
+          });
 
-            // then
-            expect(sessionErrors).to.be.empty;
+          describe('when sessionId is valid', function () {
+            it('should return an empty sessionErrors array', async function () {
+              // given
+              const sessionId = 1;
+              const session = _buildValidSessionWithId(sessionId);
+              certificationCourseRepository.findCertificationCoursesBySessionId.resolves([]);
+
+              // when
+              const sessionErrors = await sessionsImportValidationService.validateSession({
+                session,
+                line: 1,
+                sessionRepository,
+                certificationCourseRepository,
+              });
+
+              // then
+              expect(sessionErrors).to.be.empty;
+            });
           });
         });
       });
@@ -97,7 +125,7 @@ describe('Unit | Service | sessions import validation Service', function () {
 
     context('date validation', function () {
       context('when at least one session is scheduled in the past', function () {
-        it('should return an sessionErrors that contains a no session scheduled in the past error', async function () {
+        it('should return a sessionErrors array that contains a no session scheduled in the past error', async function () {
           // given
           const session = _buildValidSessionWithoutId();
           session.date = '2020-03-12';
@@ -124,7 +152,7 @@ describe('Unit | Service | sessions import validation Service', function () {
 
     context('conflicting session information validation', function () {
       context('when there is a sessionId and session information', function () {
-        it('should return an sessionErrors that contains an already given ID error', async function () {
+        it('should return a sessionErrors array that contains an already given ID error', async function () {
           // given
           const session = _buildValidSessionWithoutId();
           session.id = 1234;
@@ -171,7 +199,7 @@ describe('Unit | Service | sessions import validation Service', function () {
     });
 
     context('when there already is an existing session with the same data as a newly imported one', function () {
-      it('should return an sessionErrors that contains a session already existing error', async function () {
+      it('should return a sessionErrors array that contains a session already existing error', async function () {
         // given
         const session = _buildValidSessionWithoutId();
         sessionRepository.isSessionExisting.withArgs({ ...session }).resolves(true);
@@ -196,7 +224,7 @@ describe('Unit | Service | sessions import validation Service', function () {
     });
 
     describe('when session date is not valid', function () {
-      it('should return an sessionErrors that contains a session invalid date format error', async function () {
+      it('should return a sessionErrors array that contains a session invalid date format error', async function () {
         // given
         const session = _buildValidSessionWithoutId();
         session.date = 'toto';
@@ -222,7 +250,7 @@ describe('Unit | Service | sessions import validation Service', function () {
     });
 
     describe('when session time is not valid', function () {
-      it('should return an sessionErrors that contains a invalid time format error', async function () {
+      it('should return a sessionErrors array that contains a invalid time format error', async function () {
         // given
         const session = _buildValidSessionWithoutId();
         session.time = 'toto';
@@ -249,7 +277,7 @@ describe('Unit | Service | sessions import validation Service', function () {
 
     context('when session has certification candidates', function () {
       context('when at least one candidate is duplicated', function () {
-        it('should return an sessionErrors that contains a duplicate candidate error', async function () {
+        it('should return a sessionErrors array that contains a duplicate candidate error', async function () {
           // given
           const validCandidateData = _buildValidCandidateData(1);
           const validCandidateDataDuplicate = _buildValidCandidateData(1);
@@ -277,7 +305,7 @@ describe('Unit | Service | sessions import validation Service', function () {
     });
 
     context('when session has one invalid field', function () {
-      it('should return an sessionErrors that contains a session invalid field error', async function () {
+      it('should return a sessionErrors array that contains a session invalid field error', async function () {
         // given
         const session = _buildValidSessionWithoutId();
         session.room = null;
@@ -302,7 +330,7 @@ describe('Unit | Service | sessions import validation Service', function () {
     });
 
     context('when session has more than one invalid fields', function () {
-      it('should return an sessionErrors that contains all session errors', async function () {
+      it('should return a sessionErrors array that contains all session errors', async function () {
         // given
         const session = _buildValidSessionWithoutId();
         session.room = null;
