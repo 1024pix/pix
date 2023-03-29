@@ -22,9 +22,7 @@ module('Unit | Route | application', function (hooks) {
     route.activate();
 
     // Then
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(SplashServiceStub.hideCount, 1);
+    assert.strictEqual(SplashServiceStub.hideCount, 1);
   });
 
   module('#beforeModel', function (hooks) {
@@ -57,9 +55,7 @@ module('Unit | Route | application', function (hooks) {
       await route.beforeModel();
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(this.intl.primaryLocale, 'fr');
+      assert.strictEqual(this.intl.primaryLocale, 'fr');
     });
 
     test('should set the head description', async function (assert) {
@@ -73,9 +69,7 @@ module('Unit | Route | application', function (hooks) {
       await route.beforeModel();
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(route.headData.description, this.intl.t('application.description'));
+      assert.strictEqual(route.headData.description, this.intl.t('application.description'));
     });
 
     test('should get feature toogles', async function (assert) {

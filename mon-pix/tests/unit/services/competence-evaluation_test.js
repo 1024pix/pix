@@ -50,9 +50,7 @@ module('Unit | Service | competence-evaluation', function (hooks) {
       });
     });
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-async-module-callbacks
-    module('when improving fails with ImproveCompetenceEvaluationForbidden error', async function (hooks) {
+    module('when improving fails with ImproveCompetenceEvaluationForbidden error', function (hooks) {
       hooks.beforeEach(async function () {
         // given
         competenceEvaluationService = this.owner.lookup('service:competence-evaluation');
@@ -75,9 +73,7 @@ module('Unit | Service | competence-evaluation', function (hooks) {
       });
     });
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-async-module-callbacks
-    module('when improving fails with another error', async function (hooks) {
+    module('when improving fails with another error', function (hooks) {
       const error = new Error();
 
       hooks.beforeEach(async function () {
@@ -99,9 +95,7 @@ module('Unit | Service | competence-evaluation', function (hooks) {
           await competenceEvaluationService.improve({ userId, competenceId });
         } catch (err) {
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(err, err);
+          assert.strictEqual(err, err);
           // eslint-disable-next-line qunit/no-early-return
           return;
         }

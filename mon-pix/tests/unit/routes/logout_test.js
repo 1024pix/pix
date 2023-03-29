@@ -90,9 +90,7 @@ module('Unit | Route | logout', function (hooks) {
       route.beforeModel();
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(route.session.alternativeRootURL, null);
+      assert.strictEqual(route.session.alternativeRootURL, null);
     });
 
     test('should redirect to disconnected page when source of connexion is external', function (assert) {
@@ -118,9 +116,7 @@ module('Unit | Route | logout', function (hooks) {
       route.beforeModel();
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(route.session.alternativeRootURL, '/nonconnecte');
+      assert.strictEqual(route.session.alternativeRootURL, '/nonconnecte');
     });
   });
 

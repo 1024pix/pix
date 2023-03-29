@@ -11,9 +11,7 @@ module('Acceptance | terms-of-service', function (hooks) {
   setupMirage(hooks);
   setupIntl(hooks);
 
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line qunit/no-async-module-callbacks
-  module('When user log in and must validate Pix latest terms of service', async function () {
+  module('When user log in and must validate Pix latest terms of service', function () {
     test('should be redirected to terms-of-services page', async function (assert) {
       // given
       const user = server.create('user', {
@@ -28,15 +26,11 @@ module('Acceptance | terms-of-service', function (hooks) {
       await authenticateByEmail(user);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/cgu');
+      assert.strictEqual(currentURL(), '/cgu');
     });
   });
 
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line qunit/no-async-module-callbacks
-  module('when the user has validated terms of service', async function () {
+  module('when the user has validated terms of service', function () {
     test('should redirect to default page when user validate the terms of service', async function (assert) {
       // given
       const user = server.create('user', {
@@ -53,9 +47,7 @@ module('Acceptance | terms-of-service', function (hooks) {
       await clickByLabel(this.intl.t('pages.terms-of-service.form.button'));
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/accueil');
+      assert.strictEqual(currentURL(), '/accueil');
     });
   });
 });

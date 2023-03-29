@@ -22,38 +22,24 @@ module('Acceptance | Displaying a QCM challenge', function (hooks) {
 
     test('should render challenge information and question', function (assert) {
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find('.challenge-statement-instruction__text').textContent.trim(), qcmChallenge.instruction);
+      assert.strictEqual(find('.challenge-statement-instruction__text').textContent.trim(), qcmChallenge.instruction);
 
       assert.dom('input[type="checkbox"]').exists({ count: 4 });
 
       const proposalsText = findAll('.proposal-text');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(proposalsText[0].innerHTML.trim(), '<p><em>possibilite</em> 1, et/ou</p>');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(proposalsText[1].textContent.trim(), 'possibilite 2, et/ou');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(
+
+      assert.strictEqual(proposalsText[0].innerHTML.trim(), '<p><em>possibilite</em> 1, et/ou</p>');
+      assert.strictEqual(proposalsText[1].textContent.trim(), 'possibilite 2, et/ou');
+      assert.strictEqual(
         proposalsText[1].innerHTML.trim(),
         '<p><a href="/test" rel="noopener noreferrer" target="_blank">possibilite 2</a>, et/ou</p>'
       );
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(proposalsText[2].textContent.trim(), ', et/ou');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(
+      assert.strictEqual(proposalsText[2].textContent.trim(), ', et/ou');
+      assert.strictEqual(
         proposalsText[2].innerHTML.trim(),
         '<p><img src="/images/pix-logo-blanc.svg" alt="possibilite 3">, et/ou</p>'
       );
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(proposalsText[3].textContent.trim(), 'possibilite 4');
-
+      assert.strictEqual(proposalsText[3].textContent.trim(), 'possibilite 4');
       assert.dom('.challenge-response__alert').doesNotExist();
     });
 
@@ -63,9 +49,7 @@ module('Acceptance | Displaying a QCM challenge', function (hooks) {
 
       // then
       assert.dom('.challenge-response__alert').exists();
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(
+      assert.strictEqual(
         find('.challenge-response__alert').textContent.trim(),
         'Pour valider, sélectionnez au moins une réponse. Sinon, passez.'
       );
@@ -151,15 +135,12 @@ module('Acceptance | Displaying a QCM challenge', function (hooks) {
 
     test('should show the result of previous challenge in checkpoint', async function (assert) {
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find('.result-item__icon').title, 'Réponse incorrecte');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find('.result-item__instruction').textContent.trim(), qcmChallenge.instruction);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find('.result-item__correction-button').textContent.trim(), 'Réponses et tutos');
+
+      assert.strictEqual(find('.result-item__icon').title, 'Réponse incorrecte');
+
+      assert.strictEqual(find('.result-item__instruction').textContent.trim(), qcmChallenge.instruction);
+
+      assert.strictEqual(find('.result-item__correction-button').textContent.trim(), 'Réponses et tutos');
     });
 
     test('should show details of challenge result in pop-in, with tutorials and feedbacks', async function (assert) {
@@ -167,25 +148,15 @@ module('Acceptance | Displaying a QCM challenge', function (hooks) {
       await click('.result-item__correction-button');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find('.challenge-statement-instruction__text').textContent.trim(), qcmChallenge.instruction);
+      assert.strictEqual(find('.challenge-statement-instruction__text').textContent.trim(), qcmChallenge.instruction);
 
       const goodAnswer = findAll('.qcm-proposal-label__answer-details')[0];
       const badAnswerFromUserResult = findAll('.qcm-proposal-label__answer-details')[1];
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(goodAnswer.getAttribute('data-goodness'), 'good');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(goodAnswer.getAttribute('data-checked'), 'no');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(badAnswerFromUserResult.getAttribute('data-goodness'), 'bad');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(badAnswerFromUserResult.getAttribute('data-checked'), 'yes');
 
+      assert.strictEqual(goodAnswer.getAttribute('data-goodness'), 'good');
+      assert.strictEqual(goodAnswer.getAttribute('data-checked'), 'no');
+      assert.strictEqual(badAnswerFromUserResult.getAttribute('data-goodness'), 'bad');
+      assert.strictEqual(badAnswerFromUserResult.getAttribute('data-checked'), 'yes');
       assert.ok(find('.tutorial-panel__hint-container').textContent.includes(correction.hint));
 
       const tutorialToSuccess = findAll('.tutorial-panel__tutorials-container .tutorial-card')[0];

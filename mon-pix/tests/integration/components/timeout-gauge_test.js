@@ -26,9 +26,7 @@ module('Integration | Component | TimeoutGauge', function (hooks) {
       await render(hbs`<TimeoutGauge @allottedTime={{this.allottedTime}} />`);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find('[data-test="timeout-gauge-remaining"]').textContent.trim(), '1:00');
+      assert.strictEqual(find('[data-test="timeout-gauge-remaining"]').textContent.trim(), '1:00');
     });
 
     test('renders a red clock if time is over', async function (assert) {

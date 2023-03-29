@@ -52,9 +52,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
       await renderChallengeStatement(this);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find('.challenge-statement-instruction__text').textContent.trim(), 'La consigne de mon test');
+      assert.strictEqual(find('.challenge-statement-instruction__text').textContent.trim(), 'La consigne de mon test');
     });
 
     test('should render a tag for focused challenge with tooltip', async function (assert) {
@@ -295,9 +293,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
 
       // then
       assert.ok(find('.challenge-illustration__loaded-image').src.includes(challenge.illustrationUrl));
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(find('.challenge-illustration__loaded-image').alt, challenge.illustrationAlt);
+      assert.strictEqual(find('.challenge-illustration__loaded-image').alt, challenge.illustrationAlt);
     });
 
     test('should not display challenge illustration if it does not exist', async function (assert) {
@@ -353,9 +349,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
 
         // then
         assert.dom('.challenge-statement__action-link').exists();
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(find('.challenge-statement__action-link').href, 'http://challenge.file.url/');
+        assert.strictEqual(find('.challenge-statement__action-link').href, 'http://challenge.file.url/');
       });
     });
 
@@ -404,12 +398,8 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
         await renderChallengeStatement(this);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(findAll('.challenge-statement__file-option-label')[0].textContent.trim(), 'fichier .docx');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(findAll('.challenge-statement__file-option-label')[1].textContent.trim(), 'fichier .odt');
+        assert.strictEqual(findAll('.challenge-statement__file-option-label')[0].textContent.trim(), 'fichier .docx');
+        assert.strictEqual(findAll('.challenge-statement__file-option-label')[1].textContent.trim(), 'fichier .odt');
       });
 
       test('should select first attachment as default selected radio button', async function (assert) {
@@ -447,9 +437,7 @@ module('Integration | Component | ChallengeStatement', function (hooks) {
         await renderChallengeStatement(this);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(
+        assert.strictEqual(
           find('span[data-test-id="challenge-statement__text-content"]').textContent.trim(),
           'Choisissez le type de fichier que vous voulez utiliser'
         );

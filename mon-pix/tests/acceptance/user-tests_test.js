@@ -33,9 +33,7 @@ module('Acceptance | User tests', function (hooks) {
       await visit('/mes-parcours');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/mes-parcours');
+      assert.strictEqual(currentURL(), '/mes-parcours');
     });
 
     test('should display user participation cards', async function (assert) {
@@ -68,9 +66,9 @@ module('Acceptance | User tests', function (hooks) {
     test('should redirect to home, when user is not authenticated', async function (assert) {
       // when
       await visit('/mes-parcours');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/connexion');
+
+      // then
+      assert.strictEqual(currentURL(), '/connexion');
     });
   });
 });

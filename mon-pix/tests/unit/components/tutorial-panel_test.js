@@ -179,9 +179,7 @@ module('Unit | Component | tutorial panel', function (hooks) {
       const result = component.limitedTutorials;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(result.length, 3);
+      assert.strictEqual(result.length, 3);
       assert.deepEqual(result, expectedTutorials);
     });
   });

@@ -30,30 +30,15 @@ module('Unit | Service | oidc-identity-providers', function (hooks) {
       await oidcIdentityProvidersService.load();
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(oidcIdentityProvidersService['oidc-partner'].code, oidcPartner.code);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(oidcIdentityProvidersService['oidc-partner'].organizationName, oidcPartner.organizationName);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(oidcIdentityProvidersService['oidc-partner'].hasLogoutUrl, oidcPartner.hasLogoutUrl);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(oidcIdentityProvidersService['oidc-partner'].source, oidcPartner.source);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(oidcIdentityProvidersService.list[0].code, oidcPartner.code);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(oidcIdentityProvidersService.list[0].organizationName, oidcPartner.organizationName);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(oidcIdentityProvidersService.list[0].hasLogoutUrl, oidcPartner.hasLogoutUrl);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(oidcIdentityProvidersService.list[0].source, oidcPartner.source);
+
+      assert.strictEqual(oidcIdentityProvidersService['oidc-partner'].code, oidcPartner.code);
+      assert.strictEqual(oidcIdentityProvidersService['oidc-partner'].organizationName, oidcPartner.organizationName);
+      assert.strictEqual(oidcIdentityProvidersService['oidc-partner'].hasLogoutUrl, oidcPartner.hasLogoutUrl);
+      assert.strictEqual(oidcIdentityProvidersService['oidc-partner'].source, oidcPartner.source);
+      assert.strictEqual(oidcIdentityProvidersService.list[0].code, oidcPartner.code);
+      assert.strictEqual(oidcIdentityProvidersService.list[0].organizationName, oidcPartner.organizationName);
+      assert.strictEqual(oidcIdentityProvidersService.list[0].hasLogoutUrl, oidcPartner.hasLogoutUrl);
+      assert.strictEqual(oidcIdentityProvidersService.list[0].source, oidcPartner.source);
     });
   });
 

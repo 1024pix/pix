@@ -26,9 +26,7 @@ module('Unit | Service | ajax-queue', function (hooks) {
       });
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(actualValue, expectedValue);
+      assert.strictEqual(actualValue, expectedValue);
     });
 
     test('should execute concurrently as many jobs as indicated in settings file', async function (assert) {
@@ -51,9 +49,7 @@ module('Unit | Service | ajax-queue', function (hooks) {
       await ajaxQueueService.add(job);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(maxCounter, maxJobsInQueue);
+      assert.strictEqual(maxCounter, maxJobsInQueue);
     });
   });
 });

@@ -42,9 +42,7 @@ module('Unit | Model | Reset-expired-password-demand', function (hooks) {
         },
       };
       sinon.assert.calledWith(adapter.ajax, url, 'POST', payload);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(result, 'oui.oui0912');
+      assert.strictEqual(result, 'oui.oui0912');
       assert.ok(true);
     });
   });

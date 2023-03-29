@@ -47,12 +47,8 @@ module('Acceptance | Campaigns | Resume Campaigns with type Assessment', functio
     });
   });
 
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line qunit/no-async-module-callbacks
-  module('When user is logged', async function () {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-async-module-callbacks
-    module('When there is no more questions', async function () {
+  module('When user is logged', function () {
+    module('When there is no more questions', function () {
       test('should redirect to last checkpoint page', async function (assert) {
         // when
         await visit(`/campagnes/${campaign.code}`);
@@ -62,9 +58,7 @@ module('Acceptance | Campaigns | Resume Campaigns with type Assessment', functio
       });
     });
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-async-module-callbacks
-    module('When user has completed his campaign participation', async function () {
+    module('When user has completed his campaign participation', function () {
       test('should redirect directly to results', async function (assert) {
         // given
         await visit(`/campagnes/${campaign.code}`);
@@ -78,9 +72,7 @@ module('Acceptance | Campaigns | Resume Campaigns with type Assessment', functio
       });
     });
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-async-module-callbacks
-    module('When user has already send his results', async function () {
+    module('When user has already send his results', function () {
       test('should redirect directly to shared results', async function (assert) {
         // given
         await visit(`/campagnes/${campaign.code}`);

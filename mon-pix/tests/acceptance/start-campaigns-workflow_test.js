@@ -168,8 +168,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             });
           });
 
-          // eslint-disable-next-line qunit/no-async-module-callbacks
-          module('When user must accept Pix last terms of service', async function () {
+          module('When user must accept Pix last terms of service', function () {
             test('should redirect to invited sco student page after accept terms of service', async function (assert) {
               // given
               await visit('/campagnes');
@@ -428,13 +427,12 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
         });
       });
 
-      module('When the user has already seen the landing page', function (hooks) {
-        hooks.beforeEach(async function () {
+      module('When the user has already seen the landing page', function () {
+        test('should redirect to signin page', async function (assert) {
+          // given & when
           const campaign = server.create('campaign');
           await startCampaignByCode(campaign.code);
-        });
 
-        test('should redirect to signin page', async function (assert) {
           // then
           assert.strictEqual(currentURL(), '/inscription');
         });
@@ -648,53 +646,50 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
       });
 
       module('When campaign has external id', function () {
-        module('When participant external id is not set in the url', function (hooks) {
-          hooks.beforeEach(async function () {
+        module('When participant external id is not set in the url', function () {
+          test('should show the identifiant page after clicking on start button in landing page', async function (assert) {
+            // given & when
             campaign = server.create('campaign', { idPixLabel: 'nom de naissance de maman' });
             await startCampaignByCode(campaign.code);
-          });
 
-          test('should show the identifiant page after clicking on start button in landing page', function (assert) {
+            // then
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/prescrit/identifiant`);
           });
         });
 
-        module('When participant external id is set in the url', function (hooks) {
-          hooks.beforeEach(async function () {
+        module('When participant external id is set in the url', function () {
+          test('should begin campaign participation', async function (assert) {
+            // given & when
             campaign = server.create('campaign', { idPixLabel: 'nom de naissance de maman' });
             await startCampaignByCodeAndExternalId(campaign.code);
-          });
 
-          test('should begin campaign participation', function (assert) {
+            // then
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
         });
       });
 
-      module('When campaign does not have external id', function (hooks) {
-        hooks.beforeEach(async function () {
+      module('When campaign does not have external id', function () {
+        test('should begin campaign participation', async function (assert) {
+          // given & when
           campaign = server.create('campaign', { idPixLabel: null });
           await startCampaignByCode(campaign.code);
-        });
 
-        test('should begin campaign participation', function (assert) {
+          // then
           assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
         });
       });
 
-      module(
-        'When campaign does not have external id but a participant external id is set in the url',
-        function (hooks) {
-          hooks.beforeEach(async function () {
-            campaign = server.create('campaign', { idPixLabel: null });
-            await startCampaignByCodeAndExternalId(campaign.code);
-          });
+      module('When campaign does not have external id but a participant external id is set in the url', function () {
+        test('should begin campaign participation', async function (assert) {
+          // given & when
+          campaign = server.create('campaign', { idPixLabel: null });
+          await startCampaignByCodeAndExternalId(campaign.code);
 
-          test('should begin campaign participation', function (assert) {
-            assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
-          });
-        }
-      );
+          // then
+          assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
+        });
+      });
 
       module('When the campaign is restricted and organization learner is disabled', function (hooks) {
         hooks.beforeEach(function () {
@@ -757,14 +752,11 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
       });
     });
 
-    module('When user is logged as anonymous and campaign is simplified access', function (hooks) {
-      hooks.beforeEach(async function () {
-        campaign = server.create('campaign', { isSimplifiedAccess: true, idPixLabel: 'Les anonymes' });
-        await currentSession().authenticate('authenticator:anonymous', { campaignCode: campaign.code });
-      });
-
+    module('When user is logged as anonymous and campaign is simplified access', function () {
       test('should replace previous connected anonymous user', async function (assert) {
         // given
+        campaign = server.create('campaign', { isSimplifiedAccess: true, idPixLabel: 'Les anonymes' });
+        await currentSession().authenticate('authenticator:anonymous', { campaignCode: campaign.code });
         const session = currentSession();
         const previousUserId = session.data.authenticated['user_id'];
 
@@ -865,8 +857,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
           });
 
-          // eslint-disable-next-line qunit/no-async-module-callbacks
-          module('When user is already reconciled in another organization', async function () {
+          module('When user is already reconciled in another organization', function () {
             test('should reconcile and redirect to landing-page', async function (assert) {
               // given
               server.get('sco-organization-learners', () => {

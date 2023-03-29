@@ -28,9 +28,7 @@ module('Unit | Controller | Fill in certificate verification Code', function (ho
       await controller.actions.checkCertificate.call(controller, event);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(controller.get('errorMessage'), 'Merci de renseigner le code de vérification.');
+      assert.strictEqual(controller.get('errorMessage'), 'Merci de renseigner le code de vérification.');
     });
 
     test('should set error when certificateVerificationCode code is not matching the right format', async function (assert) {
@@ -42,9 +40,7 @@ module('Unit | Controller | Fill in certificate verification Code', function (ho
       await controller.actions.checkCertificate.call(controller, event);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(controller.get('errorMessage'), 'Veuillez vérifier le format de votre code (P-XXXXXXXX).');
+      assert.strictEqual(controller.get('errorMessage'), 'Veuillez vérifier le format de votre code (P-XXXXXXXX).');
     });
 
     test('should set showNotFoundCertificationErrorMessage to true when no certificate is found', async function (assert) {

@@ -22,12 +22,12 @@ module('Unit | Component | timeout-gauge-component ', function (hooks) {
         test(`should return "${data.expected}" when remainingSeconds is ${data.remainingSeconds}s`, function (assert) {
           // given
           component.remainingSeconds = data.remainingSeconds;
+
           // when
           const formattedRemainingTime = component.formattedRemainingTime;
+
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(formattedRemainingTime, data.expected);
+          assert.strictEqual(formattedRemainingTime, data.expected);
         });
       });
     });
@@ -47,12 +47,12 @@ module('Unit | Component | timeout-gauge-component ', function (hooks) {
           // given
           component.args.allottedTime = data.allottedTime;
           component.remainingSeconds = data.remainingSeconds;
+
           // when
           const percentageOfTimeout = component.percentageOfTimeout;
+
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(percentageOfTimeout, data.expected);
+          assert.strictEqual(percentageOfTimeout, data.expected);
         });
       });
     });

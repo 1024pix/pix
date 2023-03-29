@@ -25,9 +25,7 @@ module('Acceptance | Campaigns | Simplified access | Anonymous user access to no
         await visit('/competences');
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), EXPECTED_ROUTE_CAMPAIGN);
+        assert.strictEqual(currentURL(), EXPECTED_ROUTE_CAMPAIGN);
         assert.false(currentSession(this.application).get('isAuthenticated'));
       });
     });
@@ -38,37 +36,32 @@ module('Acceptance | Campaigns | Simplified access | Anonymous user access to no
         // when
         const CAMPAIGN_RESULT_ROUTE = `/campagnes/${SIMPLIFIED_CODE_CAMPAIGN}/evaluation/resultats`;
         await visit(CAMPAIGN_RESULT_ROUTE);
+
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), CAMPAIGN_RESULT_ROUTE);
+        assert.strictEqual(currentURL(), CAMPAIGN_RESULT_ROUTE);
         assert.true(currentSession(this.application).get('isAuthenticated'));
 
         // when
         const CHALLENGE_ROUTE = `/assessments/${ID_ASSESSMENT}/challenges/0`;
         await visit(`${CHALLENGE_ROUTE}`);
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), CHALLENGE_ROUTE);
+        assert.strictEqual(currentURL(), CHALLENGE_ROUTE);
         assert.true(currentSession(this.application).get('isAuthenticated'));
 
         // when
         const CAMPAIGN_DIDACTICIEL_ROUTE = `/campagnes/${SIMPLIFIED_CODE_CAMPAIGN}/evaluation/didacticiel`;
         await visit(CAMPAIGN_DIDACTICIEL_ROUTE);
+
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), CAMPAIGN_DIDACTICIEL_ROUTE);
+        assert.strictEqual(currentURL(), CAMPAIGN_DIDACTICIEL_ROUTE);
         assert.true(currentSession(this.application).get('isAuthenticated'));
 
         // when
         const CAMPAIGN_ROUTE = `/campagnes/${SIMPLIFIED_CODE_CAMPAIGN}`;
         await visit(CAMPAIGN_ROUTE);
+
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), CAMPAIGN_ROUTE);
+        assert.strictEqual(currentURL(), CAMPAIGN_ROUTE);
         assert.true(currentSession(this.application).get('isAuthenticated'));
       });
     });

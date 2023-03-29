@@ -39,15 +39,11 @@ module('Integration | Component | CampaignParticipationOverview | Grid', functio
     await render(hbs`<CampaignParticipationOverview::Grid @model={{this.campaignParticipationOverviews}} />}`);
 
     // then
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(findAll('.campaign-participation-overview-grid__item').length, 2);
+    assert.strictEqual(findAll('.campaign-participation-overview-grid__item').length, 2);
+
     const participationCardSubtitles = findAll('.campaign-participation-overview-card-header__subtitle');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(participationCardSubtitles[0].textContent, 'My campaign 1');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(participationCardSubtitles[1].textContent, 'My campaign 2');
+
+    assert.strictEqual(participationCardSubtitles[0].textContent, 'My campaign 1');
+    assert.strictEqual(participationCardSubtitles[1].textContent, 'My campaign 2');
   });
 });

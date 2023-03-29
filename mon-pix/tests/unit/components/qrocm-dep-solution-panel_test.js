@@ -87,9 +87,7 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
       const understandableSolution = component.understandableSolution;
 
       //Then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(understandableSolution, 'horizontalité et cadre');
+      assert.strictEqual(understandableSolution, 'horizontalité et cadre');
     });
 
     test('should return examples of good answers', function (assert) {
@@ -105,9 +103,7 @@ module('Unit | Component | qrocm-dep-solution-panel', function (hooks) {
       const understandableSolution = component.understandableSolution;
 
       //Then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(understandableSolution, 'tag ou marche ou ...');
+      assert.strictEqual(understandableSolution, 'tag ou marche ou ...');
     });
   });
 });

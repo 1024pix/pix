@@ -58,17 +58,13 @@ module('Unit | Component | scorecard-details ', function (hooks) {
       // then
       assert.deepEqual(result[0].name, expectedResult[0].name);
       assert.deepEqual(result[0].practicalTitle, expectedResult[0].practicalTitle);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(result[0].tutorials.length, 2);
+      assert.strictEqual(result[0].tutorials.length, 2);
       assert.deepEqual(result[0].tutorials[0].id, expectedResult[0].tutorials[0].id);
       assert.deepEqual(result[0].tutorials[1].id, expectedResult[0].tutorials[1].id);
 
       assert.deepEqual(result[1].name, expectedResult[1].name);
       assert.deepEqual(result[1].practicalTitle, expectedResult[1].practicalTitle);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(result[1].tutorials.length, 1);
+      assert.strictEqual(result[1].tutorials.length, 1);
       assert.deepEqual(result[1].tutorials[0].id, expectedResult[1].tutorials[0].id);
     });
 
@@ -85,9 +81,7 @@ module('Unit | Component | scorecard-details ', function (hooks) {
 
       // then
       assert.deepEqual(result, expectedResult);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(result.length, 0);
+      assert.strictEqual(result.length, 0);
     });
   });
 

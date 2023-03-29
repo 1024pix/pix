@@ -37,12 +37,8 @@ module('Integration | Component | challenge-illustration', function (hooks) {
     // then
     assert.ok(findImageElement());
     assert.ok(findImageElement().className.includes(HIDDEN_CLASS_NAME));
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(findImageElement().getAttribute('alt'), IMG_ALT);
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(findImageElement().getAttribute('src'), IMG_SRC);
+    assert.strictEqual(findImageElement().getAttribute('alt'), IMG_ALT);
+    assert.strictEqual(findImageElement().getAttribute('src'), IMG_SRC);
     assert.ok(findImagePlaceholderElement());
 
     await triggerEvent(findImageElement(), 'load');

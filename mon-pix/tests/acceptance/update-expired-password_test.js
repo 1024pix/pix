@@ -28,9 +28,7 @@ module('Acceptance | Update Expired Password', function (hooks) {
     await clickByLabel(this.intl.t('pages.update-expired-password.button'));
 
     // then
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(currentURL(), '/accueil');
+    assert.strictEqual(currentURL(), '/accueil');
   });
 
   test('should display validation error message when update password fails with http 400 error', async function (assert) {
@@ -53,13 +51,10 @@ module('Acceptance | Update Expired Password', function (hooks) {
     await fillIn('#password', 'newPass12345!');
 
     // when
-
     await clickByLabel(this.intl.t('pages.update-expired-password.button'));
-    // then
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(currentURL(), '/mise-a-jour-mot-de-passe-expire');
+    // then
+    assert.strictEqual(currentURL(), '/mise-a-jour-mot-de-passe-expire');
     const expectedValidationErrorMessage = this.intl.t('pages.update-expired-password.fields.error');
     assert.ok(screen.getByText(expectedValidationErrorMessage));
   });

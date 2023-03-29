@@ -14,9 +14,7 @@ module('Unit | Utility | standardizeNumber', function () {
 
     testData.forEach(({ number, size, expected }) => {
       test(`When number is ${number} with size ${size} it should return ${expected}`, function (assert) {
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(standardizeNumber(number, size), expected);
+        assert.strictEqual(standardizeNumber(number, size), expected);
       });
     });
   });
@@ -31,9 +29,7 @@ module('Unit | Utility | standardizeNumber', function () {
 
     testData.forEach(({ number, expected }) => {
       test(`When number is ${number} it should return ${expected}`, function (assert) {
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(standardizeNumberInTwoDigitFormat(number), expected);
+        assert.strictEqual(standardizeNumberInTwoDigitFormat(number), expected);
       });
     });
   });

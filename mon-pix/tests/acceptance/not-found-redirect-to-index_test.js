@@ -10,8 +10,6 @@ module('Acceptance | Page | Not Found Redirection', function (hooks) {
   test('should redirect to home page when URL is a nonexistant page', async function (assert) {
     await visit('/plop');
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(currentURL(), '/connexion');
+    assert.strictEqual(currentURL(), '/connexion');
   });
 });
