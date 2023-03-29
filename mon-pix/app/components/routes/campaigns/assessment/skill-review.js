@@ -80,6 +80,10 @@ export default class SkillReview extends Component {
     return this.reachedStage && !this._isCleaBadgeAcquired;
   }
 
+  get showStagesWithStars() {
+    return this.reachedStage?.content && !this.showCleaCompetences;
+  }
+
   get reachedStage() {
     return this.args.model.campaignParticipationResult.reachedStage;
   }
