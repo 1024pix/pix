@@ -5,7 +5,7 @@ const { cpfImportStatus } = require('../../domain/models/CertificationCourse.js'
 
 module.exports = {
   async getIdsByTimeRange({ startDate, endDate }) {
-    const ids = await _selectCpfCertificationResults({ startDate, endDate })
+    const ids = await _selectCpfCertificationResults()
       .select('certification-courses.id')
       .where('certification-courses.isPublished', true)
       .where('certification-courses.isCancelled', false)
@@ -16,8 +16,24 @@ module.exports = {
       .where('sessions.publishedAt', '<=', endDate)
       .whereNull('certification-courses.cpfImportStatus')
       .pluck('certification-courses.id')
-      .orderBy('certification-courses.id');
+      .orderBy('certification-courses.id')
+      .groupBy('certification-courses.id', 'assessment-results.pixScore', 'sessions.publishedAt');
     return ids;
+  },
+
+  async countByTimeRange({ startDate, endDate }) {
+    const { count } = await _selectCpfCertificationResults()
+      .count('certification-courses.id')
+      .where('certification-courses.isPublished', true)
+      .where('certification-courses.isCancelled', false)
+      .whereNotNull('certification-courses.sex')
+      .where('assessment-results.status', AssessmentResult.status.VALIDATED)
+      .where('competence-marks.level', '>', -1)
+      .where('sessions.publishedAt', '>=', startDate)
+      .where('sessions.publishedAt', '<=', endDate)
+      .whereNull('certification-courses.cpfImportStatus')
+      .first();
+    return count;
   },
 
   async findByBatchId(batchId) {
@@ -31,7 +47,8 @@ module.exports = {
           'level', "competence-marks"."level"
         ) ORDER BY "competence-marks"."competence_code" asc) as "competenceMarks"`)
       )
-      .where('certification-courses.cpfFilename', batchId);
+      .where('certification-courses.cpfFilename', batchId)
+      .groupBy('certification-courses.id', 'assessment-results.pixScore', 'sessions.publishedAt');
     return cpfCertificationResults.map((certificationCourse) => new CpfCertificationResult(certificationCourse));
   },
 
@@ -43,12 +60,31 @@ module.exports = {
       .whereIn('id', certificationCourseIds);
   },
 
-  async markCertificationToExport({ certificationCourseIds, batchId }) {
+  async markCertificationToExport({ startDate, endDate, limit = 'ALL', offset = 0, batchId }) {
     const now = new Date();
 
-    return knex('certification-courses')
+    return knex
+      .with('certification-courses-to-mark', (qb) =>
+        _selectCpfCertificationResults(qb)
+          .select('certification-courses.id')
+          .where('certification-courses.isPublished', true)
+          .where('certification-courses.isCancelled', false)
+          .whereNotNull('certification-courses.sex')
+          .where('assessment-results.status', AssessmentResult.status.VALIDATED)
+          .where('sessions.publishedAt', '>=', startDate)
+          .where('sessions.publishedAt', '<=', endDate)
+          .where((qb) => {
+            qb.orWhereNull('certification-courses.cpfImportStatus');
+            qb.orWhere('certification-courses.cpfImportStatus', cpfImportStatus.PENDING);
+          })
+          .orderBy('certification-courses.id')
+          .offset(offset)
+          .limit(limit)
+      )
       .update({ cpfFilename: batchId, cpfImportStatus: cpfImportStatus.PENDING, updatedAt: now })
-      .whereIn('id', certificationCourseIds);
+      .from('certification-courses')
+      .whereIn('id', knex.select('id').from('certification-courses-to-mark'))
+      .whereNull('certification-courses.cpfImportStatus');
   },
 
   async updateCertificationImportStatus({ certificationCourseIds, cpfImportStatus }) {
@@ -60,8 +96,9 @@ module.exports = {
   },
 };
 
-function _selectCpfCertificationResults() {
-  return knex('certification-courses')
+function _selectCpfCertificationResults(qb = knex) {
+  return qb
+    .from('certification-courses')
     .innerJoin('sessions', 'sessions.id', 'certification-courses.sessionId')
     .innerJoin(
       'certification-courses-last-assessment-results',
@@ -73,6 +110,5 @@ function _selectCpfCertificationResults() {
       'assessment-results.id',
       'certification-courses-last-assessment-results.lastAssessmentResultId'
     )
-    .innerJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
-    .groupBy('certification-courses.id', 'assessment-results.pixScore', 'sessions.publishedAt');
+    .innerJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id');
 }
