@@ -65,7 +65,16 @@ async function findByCampaignParticipationIdAndLocale({
     trainingsDTO.map(({ id }) => id)
   );
 
-  return trainingsDTO.map((training) => _toDomain(training, targetProfileTrainings));
+  return Promise.all(
+    trainingsDTO.map(async (training) => {
+      const trainingTriggers = await trainingTriggerRepository.findByTrainingId({
+        trainingId: training.id,
+        domainTransaction,
+      });
+      training.trainingTriggers = trainingTriggers;
+      return _toDomain(training, targetProfileTrainings);
+    })
+  );
 }
 
 async function create({ training, domainTransaction = DomainTransaction.emptyTransaction() }) {
