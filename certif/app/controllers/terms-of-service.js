@@ -1,11 +1,15 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 
 export default class TermsOfServiceController extends Controller {
   @service currentUser;
   @service notifications;
   @service router;
+  @service intl;
+
+  @tracked isEnglishLocale = this.intl.t('current-lang') === 'en';
 
   @action
   async submit() {
