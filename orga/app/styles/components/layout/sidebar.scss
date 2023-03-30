@@ -1,9 +1,10 @@
 .sidebar {
-  display: flex;
-  flex-direction: column;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  height: 100vh;
   width: $app-sidebar-width;
   min-width: 100px;
-  height: 100%;
   background-color: $dark-blue-orga;
 
   &__logo {
@@ -66,5 +67,7 @@
 @include device-is('mobile') {
   .sidebar {
     width: 100%;
+    height: auto;
+    position: relative;
   }
 }
