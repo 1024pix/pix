@@ -127,6 +127,13 @@
     }
   },
   "pages": {
+    "terms-of-service": {
+      "page-title": "Terms and conditions",
+      "title": "Terms and conditions of use of the Pix Certif platform",
+      "actions": {
+        "accept": "I accept the terms and conditions of use"
+      }
+    },
     "login": {
       "title": "Login",
       "actions": {
