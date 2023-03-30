@@ -9,7 +9,7 @@ module.exports = async function handleTrainingRecommendation({
     return;
   }
   const { campaignParticipationId } = assessment;
-  const trainings = await trainingRepository.findByCampaignParticipationIdAndLocale({
+  const trainings = await trainingRepository.findWithTriggersByCampaignParticipationIdAndLocale({
     campaignParticipationId,
     locale,
     domainTransaction,

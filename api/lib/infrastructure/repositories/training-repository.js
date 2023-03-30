@@ -31,7 +31,7 @@ async function getWithTriggersForAdmin({ trainingId, domainTransaction = DomainT
 
   const targetProfileTrainings = await knexConn('target-profile-trainings').where('trainingId', trainingDTO.id);
 
-  const trainingTriggers = await trainingTriggerRepository.findByTrainingId({ trainingId, domainTransaction });
+  const trainingTriggers = await trainingTriggerRepository.findByTrainingIdForAdmin({ trainingId, domainTransaction });
 
   return _toDomainForAdmin({ training: trainingDTO, targetProfileTrainings, trainingTriggers });
 }
@@ -45,7 +45,7 @@ async function findPaginatedSummaries({ page, domainTransaction = DomainTransact
   return { trainings, pagination };
 }
 
-async function findByCampaignParticipationIdAndLocale({
+async function findWithTriggersByCampaignParticipationIdAndLocale({
   campaignParticipationId,
   locale,
   domainTransaction = DomainTransaction.emptyTransaction(),
@@ -65,7 +65,16 @@ async function findByCampaignParticipationIdAndLocale({
     trainingsDTO.map(({ id }) => id)
   );
 
-  return trainingsDTO.map((training) => _toDomain(training, targetProfileTrainings));
+  return Promise.all(
+    trainingsDTO.map(async (training) => {
+      const trainingTriggers = await trainingTriggerRepository.findByTrainingId({
+        trainingId: training.id,
+        domainTransaction,
+      });
+      training.trainingTriggers = trainingTriggers;
+      return _toDomain(training, targetProfileTrainings);
+    })
+  );
 }
 
 async function create({ training, domainTransaction = DomainTransaction.emptyTransaction() }) {
@@ -120,7 +129,7 @@ module.exports = {
   get,
   getWithTriggersForAdmin,
   findPaginatedSummaries,
-  findByCampaignParticipationIdAndLocale,
+  findWithTriggersByCampaignParticipationIdAndLocale,
   create,
   update,
   findPaginatedByUserId,
