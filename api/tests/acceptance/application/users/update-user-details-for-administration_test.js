@@ -30,6 +30,7 @@ describe('Acceptance | Controller | users-controller-update-user-details-for-adm
             id: user.id,
             attributes: {
               email: 'emailUpdated',
+              lang: 'pt',
             },
           },
         },
@@ -112,6 +113,7 @@ describe('Acceptance | Controller | users-controller-update-user-details-for-adm
               'last-name': 'lastNameUpdated',
               email: 'emailUpdated@example.net',
               username: 'usernameUpdated',
+              lang: 'en',
             },
           },
         },
@@ -130,6 +132,7 @@ describe('Acceptance | Controller | users-controller-update-user-details-for-adm
             'last-name': 'lastNameUpdated',
             email: 'emailUpdated@example.net',
             username: 'usernameUpdated',
+            lang: 'en',
             cgu: user.cgu,
             'pix-certif-terms-of-service-accepted': user.pixCertifTermsOfServiceAccepted,
             'pix-orga-terms-of-service-accepted': user.pixOrgaTermsOfServiceAccepted,

@@ -83,9 +83,15 @@ class Form extends Object.extend(Validations) {
   @tracked lastName;
   @tracked email;
   @tracked username;
+  @tracked lang;
 }
 
 export default class UserOverview extends Component {
+  languages = [
+    { value: 'fr', label: 'Français' },
+    { value: 'en', label: 'Anglais' },
+  ];
+
   @tracked isEditionMode = false;
   @tracked displayAnonymizeModal = false;
 
@@ -138,6 +144,10 @@ export default class UserOverview extends Component {
     );
   }
 
+  get languageOptions() {
+    return this.languages;
+  }
+
   _formatValidatedTermsOfServiceText(date, hasValidatedTermsOfService) {
     const formattedDateText = date ? `, le ${dayjs(date).format('DD/MM/YYYY')}` : '';
     return hasValidatedTermsOfService ? `OUI${formattedDateText}` : 'NON';
@@ -148,6 +158,7 @@ export default class UserOverview extends Component {
     this.form.lastName = this.args.user.lastName;
     this.form.email = this.args.user.email;
     this.form.username = this.args.user.username;
+    this.form.lang = this.args.user.lang;
   }
 
   @action
@@ -175,6 +186,7 @@ export default class UserOverview extends Component {
     this.args.user.lastName = this.form.lastName.trim();
     this.args.user.email = !this.form.email ? null : this.form.email.trim();
     this.args.user.username = !this.form.username ? null : this.form.username.trim();
+    this.args.user.lang = this.form.lang;
 
     try {
       await this.args.user.save();
@@ -207,5 +219,10 @@ export default class UserOverview extends Component {
   async unblockUserAccount() {
     const userLogin = await this.args.user.userLogin;
     await userLogin.save({ adapterOptions: { unblockUserAccount: true, userId: this.args.user.id } });
+  }
+
+  @action
+  onChangeLanguage(language) {
+    this.form.lang = language;
   }
 }

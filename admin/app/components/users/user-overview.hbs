@@ -1,162 +1,141 @@
-{{#if this.isEditionMode}}
-  <form class="form" {{on "submit" this.updateUserDetails}}>
-    <span class="form__instructions">
-      Les champs marqués de
-      <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-      sont obligatoires.
-    </span>
-    <div class="form-field">
-      <label for="firstName" class="form-field__label">
-        <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-        Prénom :
-      </label>
-      {{#if (v-get this.form "firstName" "isInvalid")}}
-        <div class="form-field__error" aria-label="Message d'erreur du champ prénom">
-          {{v-get this.form "firstName" "message"}}
-        </div>
-      {{/if}}
-      <Input
-        id="firstName"
-        @type="text"
-        class="form-control {{if (v-get this.form 'firstName' 'isInvalid') 'is-invalid'}}"
-        @value={{this.form.firstName}}
-      />
-    </div>
-    <div class="form-field">
-      <label for="lastName" class="form-field__label">
-        <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-        Nom :
-      </label>
-      {{#if (v-get this.form "lastName" "isInvalid")}}
-        <div class="form-field__error" aria-label="Message d'erreur du champ nom">
-          {{v-get this.form "lastName" "message"}}
-        </div>
-      {{/if}}
-      <Input
-        id="lastName"
-        @type="text"
-        class="form-control {{if (v-get this.form 'lastName' 'isInvalid') 'is-invalid'}}"
-        @value={{this.form.lastName}}
-      />
-    </div>
-    {{#if this.canModifyEmail}}
-      <div class="form-field">
-        <label for="email" class="form-field__label">
+<section class="page-section">
+  <div class="user-detail-personal-information-section">
+    {{#if this.isEditionMode}}
+      <form class="form" {{on "submit" this.updateUserDetails}}>
+        <span class="form__instructions">
+          Les champs marqués de
           <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-          Adresse e-mail :
-        </label>
-        {{#if (v-get this.form "email" "isInvalid")}}
-          <div class="form-field__error" aria-label="Message d'erreur du champ email">
-            {{v-get this.form "email" "message"}}
-          </div>
-        {{/if}}
-        <Input
-          id="email"
-          @type="email"
-          class="form-control {{if (v-get this.form 'email' 'isInvalid') 'is-invalid'}}"
-          @value={{this.form.email}}
-        />
-      </div>
-    {{/if}}
-    {{#if @user.username}}
-      <div class="form-field">
-        <label for="username" class="form-field__label">
-          <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-          Identifiant :
-        </label>
-        {{#if (v-get this.form "username" "isInvalid")}}
-          <div class="form-field__error" aria-label="Message d'erreur du champ identifiant">
-            {{v-get this.form "username" "message"}}
-          </div>
-        {{/if}}
-        <Input
-          id="username"
-          @type="text"
-          class="form-control {{if (v-get this.form 'username' 'isInvalid') 'is-invalid'}}"
-          @value={{this.form.username}}
-        />
-      </div>
-    {{/if}}
-    <div class="form-actions">
-      <PixButton
-        @size="small"
-        @backgroundColor="transparent-light"
-        @isBorderVisible={{true}}
-        @triggerAction={{this.cancelEdit}}
-      >Annuler</PixButton>
-      <PixButton @type="submit" @size="small" @backgroundColor="green">Editer</PixButton>
-    </div>
-  </form>
-{{else}}
-  <form class="form">
-    <section class="page-section">
-      <div class="user-detail-personal-information-section__content">
-        <div>
-          {{#if @user.hasBeenAnonymised}}
-            <PixMessage @type="warning" class="user-detail-personal-information-section__anonymisation-message">
-              {{this.anonymisationMessage}}
-            </PixMessage>
-          {{/if}}
-          <div>
-            <span>Prénom : </span>
-            <span>{{@user.firstName}}</span>
-          </div>
-          <div>
-            <span>Nom : </span>
-            <span>{{@user.lastName}}</span>
-          </div>
-          <div>
-            <span>Langue : </span>
-            <span>{{@user.language}}</span>
-          </div>
-          <div>
-            <span>Locale : </span>
-            <span>{{@user.locale}}</span>
-          </div>
-          <div>
-            <span>Date de création : </span>
-            <span>{{dayjs-format @user.createdAt "DD/MM/YYYY"}}</span>
-          </div>
-          <br />
-          <div>
-            <span>Adresse e-mail : </span>
-            <span>{{@user.email}}</span>
-          </div>
-          <div>
-            <span>Identifiant : </span>
-            <span>{{@user.username}}</span>
-          </div>
-          <br />
-          <div>
-            <span>CGU Pix App validé : </span>
-            <span>{{this.userHasValidatePixAppTermsOfService}}</span>
-          </div>
-          <div>
-            <span>CGU Pix Orga validé : </span>
-            <span>{{this.userHasValidatePixOrgaTermsOfService}}</span>
-          </div>
-          <div>
-            <span>CGU Pix Certif validé : </span>
-            <span>{{this.userHasValidatePixCertifTermsOfService}}</span>
-          </div>
-          <br />
-          <div>
-            <span>Nombre de tentatives de connexion en erreur : </span>
-            <span>{{@user.userLogin.failureCount}}</span>
-          </div>
-          {{#if @user.userLogin.blockedAt}}
-            <div>
-              <span>Utilisateur totalement bloqué le : </span>
-              <span> {{dayjs-format @user.userLogin.blockedAt "DD/MM/YYYY HH:mm"}}</span>
+          sont obligatoires.
+        </span>
+        <div class="form-field">
+          <label for="firstName" class="form-field__label">
+            <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+            Prénom :
+          </label>
+          {{#if (v-get this.form "firstName" "isInvalid")}}
+            <div class="form-field__error" aria-label="Message d'erreur du champ prénom">
+              {{v-get this.form "firstName" "message"}}
             </div>
+          {{/if}}
+          <Input
+            id="firstName"
+            @type="text"
+            class="form-control {{if (v-get this.form 'firstName' 'isInvalid') 'is-invalid'}}"
+            @value={{this.form.firstName}}
+          />
+        </div>
+        <div class="form-field">
+          <label for="lastName" class="form-field__label">
+            <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+            Nom :
+          </label>
+          {{#if (v-get this.form "lastName" "isInvalid")}}
+            <div class="form-field__error" aria-label="Message d'erreur du champ nom">
+              {{v-get this.form "lastName" "message"}}
+            </div>
+          {{/if}}
+          <Input
+            id="lastName"
+            @type="text"
+            class="form-control {{if (v-get this.form 'lastName' 'isInvalid') 'is-invalid'}}"
+            @value={{this.form.lastName}}
+          />
+        </div>
+        {{#if this.canModifyEmail}}
+          <div class="form-field">
+            <label for="email" class="form-field__label">
+              <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+              Adresse e-mail :
+            </label>
+            {{#if (v-get this.form "email" "isInvalid")}}
+              <div class="form-field__error" aria-label="Message d'erreur du champ email">
+                {{v-get this.form "email" "message"}}
+              </div>
+            {{/if}}
+            <Input
+              id="email"
+              @type="email"
+              class="form-control {{if (v-get this.form 'email' 'isInvalid') 'is-invalid'}}"
+              @value={{this.form.email}}
+            />
+          </div>
+        {{/if}}
+        {{#if @user.username}}
+          <div class="form-field">
+            <label for="username" class="form-field__label">
+              <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+              Identifiant :
+            </label>
+            {{#if (v-get this.form "username" "isInvalid")}}
+              <div class="form-field__error" aria-label="Message d'erreur du champ identifiant">
+                {{v-get this.form "username" "message"}}
+              </div>
+            {{/if}}
+            <Input
+              id="username"
+              @type="text"
+              class="form-control {{if (v-get this.form 'username' 'isInvalid') 'is-invalid'}}"
+              @value={{this.form.username}}
+            />
+          </div>
+        {{/if}}
+        <div class="form-field">
+          <PixSelect
+            @label="Langue :"
+            @placeholder={{"-- Sélectionnez une langue --"}}
+            @options={{this.languageOptions}}
+            @value={{this.form.lang}}
+            @onChange={{this.onChangeLanguage}}
+            @hideDefaultOption={{true}}
+          />
+        </div>
+        <div class="form-actions">
+          <PixButton
+            @size="small"
+            @backgroundColor="transparent-light"
+            @isBorderVisible={{true}}
+            @triggerAction={{this.cancelEdit}}
+          >Annuler</PixButton>
+          <PixButton @type="submit" @size="small" @backgroundColor="green">Editer</PixButton>
+        </div>
+      </form>
+    {{else}}
+      <div>
+        {{#if @user.hasBeenAnonymised}}
+          <PixMessage @type="warning" class="user-detail-personal-information-section__anonymisation-message">
+            {{this.anonymisationMessage}}
+          </PixMessage>
+        {{/if}}
+      </div>
+      <div class="user-detail-personal-information-section__content">
+        <ul>
+          <li class="user-detail-personal-information-section__user-informations">Prénom : {{@user.firstName}}</li>
+          <li class="user-detail-personal-information-section__user-informations">Nom : {{@user.lastName}}</li>
+          <li class="user-detail-personal-information-section__user-informations">Langue : {{@user.lang}}</li>
+          <li class="user-detail-personal-information-section__user-informations">Locale : {{@user.locale}}</li>
+          <li class="user-detail-personal-information-section__user-informations">Date de création :
+            {{dayjs-format @user.createdAt "DD/MM/YYYY"}}</li>
+          <li class="user-detail-personal-information-section__user-informations">Adresse e-mail : {{@user.email}}</li>
+          <li class="user-detail-personal-information-section__user-informations">Identifiant : {{@user.username}}</li>
+          <li class="user-detail-personal-information-section__user-informations">CGU Pix App validé :
+            {{this.userHasValidatePixAppTermsOfService}}</li>
+          <li class="user-detail-personal-information-section__user-informations">CGU Pix Orga validé :
+            {{this.userHasValidatePixOrgaTermsOfService}}</li>
+          <li class="user-detail-personal-information-section__user-informations">CGU Pix Certif validé :
+            {{this.userHasValidatePixCertifTermsOfService}}</li>
+          <li class="user-detail-personal-information-section__user-informations">Nombre de tentatives de connexion en
+            erreur :
+            {{@user.userLogin.failureCount}}</li>
+          {{#if @user.userLogin.blockedAt}}
+            <li class="user-detail-personal-information-section__user-informations">Utilisateur totalement bloqué le :
+              {{dayjs-format @user.userLogin.blockedAt "DD/MM/YYYY HH:mm"}}</li>
           {{/if}}
           {{#if this.shouldDisplayTemporaryBlockedDate}}
-            <div>
-              <span>Utilisateur temporairement bloqué jusqu'au : </span>
-              <span>{{dayjs-format @user.userLogin.temporaryBlockedUntil "DD/MM/YYYY HH:mm"}}</span>
-            </div>
+            <li class="user-detail-personal-information-section__user-informations">Utilisateur temporairement bloqué
+              jusqu'au :
+              {{dayjs-format @user.userLogin.temporaryBlockedUntil "DD/MM/YYYY HH:mm"}}</li>
           {{/if}}
-        </div>
+        </ul>
         <div>
           <PixButtonLink
             @backgroundColor="transparent-light"
@@ -168,35 +147,35 @@
           >Tableau de bord</PixButtonLink>
         </div>
       </div>
-    </section>
-    <div class="form-actions">
-      {{#if this.accessControl.hasAccessToUsersActionsScope}}
-        <PixButton
-          @size="small"
-          @backgroundColor="transparent-light"
-          @isBorderVisible={{true}}
-          @triggerAction={{this.changeEditionMode}}
-          @isDisabled={{@user.hasBeenAnonymised}}
-        >
-          Modifier
-        </PixButton>
-        <PixButton
-          @size="small"
-          @backgroundColor="red"
-          @triggerAction={{this.toggleDisplayAnonymizeModal}}
-          @isDisabled={{@user.hasBeenAnonymised}}
-        >
-          Anonymiser cet utilisateur
-        </PixButton>
-        {{#if @user.userLogin.blockedAt}}
-          <PixButton @backgroundColor="yellow" @triggerAction={{this.unblockUserAccount}} @size="small">
-            Débloquer l'utilisateur
+      <div class="form-actions">
+        {{#if this.accessControl.hasAccessToUsersActionsScope}}
+          <PixButton
+            @size="small"
+            @backgroundColor="transparent-light"
+            @isBorderVisible={{true}}
+            @triggerAction={{this.changeEditionMode}}
+            @isDisabled={{@user.hasBeenAnonymised}}
+          >
+            Modifier
           </PixButton>
+          <PixButton
+            @size="small"
+            @backgroundColor="red"
+            @triggerAction={{this.toggleDisplayAnonymizeModal}}
+            @isDisabled={{@user.hasBeenAnonymised}}
+          >
+            Anonymiser cet utilisateur
+          </PixButton>
+          {{#if @user.userLogin.blockedAt}}
+            <PixButton @backgroundColor="yellow" @triggerAction={{this.unblockUserAccount}} @size="small">
+              Débloquer l'utilisateur
+            </PixButton>
+          {{/if}}
         {{/if}}
-      {{/if}}
-    </div>
-  </form>
-{{/if}}
+      </div>
+    {{/if}}
+  </div>
+</section>
 
 <ConfirmPopup
   @message="Êtes-vous sûr de vouloir anonymiser cet utilisateur ? Ceci n’est pas réversible."
