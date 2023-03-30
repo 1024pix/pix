@@ -35,6 +35,7 @@ module.exports = class CandidateData {
     prepaymentCode = null,
     i18n = null,
   }) {
+    this.translate = i18n.__;
     this.id = this._emptyStringIfNull(id);
     this.firstName = this._emptyStringIfNull(firstName);
     this.lastName = this._emptyStringIfNull(lastName);
@@ -59,22 +60,28 @@ module.exports = class CandidateData {
     this.organizationLearnerId = this._emptyStringIfNull(organizationLearnerId);
     this.billingMode = CertificationCandidate.translateBillingMode({ billingMode, i18n });
     this.prepaymentCode = this._emptyStringIfNull(prepaymentCode);
-    this.cleaNumerique = this._displayYesIfCandidateHasComplementaryCertification(complementaryCertifications, CLEA);
+    this.cleaNumerique = this._displayYesIfCandidateHasComplementaryCertification(
+      complementaryCertifications,
+      CLEA,
+      this.translate
+    );
     this.pixPlusDroit = this._displayYesIfCandidateHasComplementaryCertification(
       complementaryCertifications,
-      PIX_PLUS_DROIT
+      PIX_PLUS_DROIT,
+      this.translate
     );
     this.pixPlusEdu1erDegre = this._displayYesIfCandidateHasComplementaryCertification(
       complementaryCertifications,
-      PIX_PLUS_EDU_1ER_DEGRE
+      PIX_PLUS_EDU_1ER_DEGRE,
+      this.translate
     );
     this.pixPlusEdu2ndDegre = this._displayYesIfCandidateHasComplementaryCertification(
       complementaryCertifications,
-      PIX_PLUS_EDU_2ND_DEGRE
+      PIX_PLUS_EDU_2ND_DEGRE,
+      this.translate
     );
     this.count = number;
     this._clearBirthInformationDataForExport();
-    this.translate = i18n.__;
   }
 
   _emptyStringIfNull(value) {
@@ -96,14 +103,14 @@ module.exports = class CandidateData {
     }
   }
 
-  _displayYesIfCandidateHasComplementaryCertification(complementaryCertifications, certificationKey) {
+  _displayYesIfCandidateHasComplementaryCertification(complementaryCertifications, certificationKey, translate) {
     if (!complementaryCertifications) {
       return '';
     }
     const hasComplementaryCertification = complementaryCertifications.some(
       (complementaryCertification) => complementaryCertification.key === certificationKey
     );
-    return hasComplementaryCertification ? 'oui' : '';
+    return hasComplementaryCertification ? translate('candidate-list-template.yes') : '';
   }
 
   static fromCertificationCandidateAndCandidateNumber({ certificationCandidate, number, i18n }) {

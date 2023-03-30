@@ -80,6 +80,7 @@
     "tooltip-line-1": "(Required in particular when purchasing combined credits)",
     "tooltip-line-2": "It must be comprised of the organisation’s SIRET and of the invoice’s number. Ex : 12345678912345/FACT12345. ",
     "tooltip-line-3": "If you don’t have an invoice, a prepayment code must be set with Pix.",
+    "yes": "Yes",
     "yes-or-empty": "(\"yes\" or leave blank)"
   },
   "certification-center-invitation-email": {
