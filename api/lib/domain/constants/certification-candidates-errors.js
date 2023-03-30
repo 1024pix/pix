@@ -23,8 +23,12 @@ module.exports.CERTIFICATION_CANDIDATES_ERRORS = {
     code: 'CANDIDATE_BIRTHDATE_REQUIRED',
     getMessage: () => '',
   },
-  CANDIDATE_BIRTHDATE_FORMAT_INCORRECT: {
-    code: 'CANDIDATE_BIRTHDATE_FORMAT_INCORRECT',
+  CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID: {
+    code: 'CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID',
+    getMessage: () => '',
+  },
+  CANDIDATE_BIRTHDATE_MUST_BE_GREATER: {
+    code: 'CANDIDATE_BIRTHDATE_MUST_BE_GREATER',
     getMessage: () => '',
   },
   CANDIDATE_BIRTH_CITY_REQUIRED: {
@@ -39,33 +43,29 @@ module.exports.CERTIFICATION_CANDIDATES_ERRORS = {
     code: 'CANDIDATE_BIRTH_COUNTRY_REQUIRED',
     getMessage: () => 'Le champ pays est obligatoire.',
   },
-  CANDIDATE_BIRTH_INSEE_CODE_INVALID: {
-    code: 'CANDIDATE_BIRTH_INSEE_CODE_INVALID',
+  CANDIDATE_BIRTH_INSEE_CODE_NOT_VALID: {
+    code: 'CANDIDATE_BIRTH_INSEE_CODE_NOT_VALID',
     getMessage: ({ birthINSEECode }) => `Le code INSEE "${birthINSEECode}" n'est pas valide.`,
-  },
-  CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_EXCLUSIVE: {
-    code: 'CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_EXCLUSIVE',
-    getMessage: () => "Le champ commune de naissance ne doit pas être renseigné lorsqu'un code INSEE est renseigné.",
   },
   CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED: {
     code: 'CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED',
-    getMessage: () => 'Le champ code postal ou code INSEE doit être renseigné.',
+    getMessage: () => 'Renseigner soit un code INSEE soit un code postal et un nom de commune de naissance',
   },
   CANDIDATE_BIRTH_POSTAL_CODE_NOT_FOUND: {
     code: 'CANDIDATE_BIRTH_POSTAL_CODE_NOT_FOUND',
     getMessage: ({ birthPostalCode }) => `Le code postal "${birthPostalCode}" n'est pas valide.`,
   },
-  CANDIDATE_BIRTH_POSTAL_CODE_CITY_INVALID: {
-    code: 'CANDIDATE_BIRTH_POSTAL_CODE_CITY_INVALID',
+  CANDIDATE_BIRTH_POSTAL_CODE_REQUIRED: {
+    code: 'CANDIDATE_BIRTH_POSTAL_CODE_REQUIRED',
+    getMessage: () => `Le code postal est obligatoire`,
+  },
+  CANDIDATE_BIRTH_POSTAL_CODE_CITY_NOT_VALID: {
+    code: 'CANDIDATE_BIRTH_POSTAL_CODE_CITY_NOT_VALID',
     getMessage: ({ birthPostalCode, birthCity }) =>
       `Le code postal "${birthPostalCode}" ne correspond pas à la ville "${birthCity}"`,
   },
-  CANDIDATE_EMAIL_REQUIRED: {
-    code: 'CANDIDATE_EMAIL_REQUIRED',
-    getMessage: () => '',
-  },
-  CANDIDATE_EXTERNAL_ID_REQUIRED: {
-    code: 'CANDIDATE_EXTERNAL_ID_REQUIRED',
+  CANDIDATE_EMAIL_NOT_VALID: {
+    code: 'CANDIDATE_EMAIL_NOT_VALID',
     getMessage: () => '',
   },
   CANDIDATE_EXTRA_TIME_BELOW_ONE: {
@@ -75,10 +75,6 @@ module.exports.CERTIFICATION_CANDIDATES_ERRORS = {
   CANDIDATE_EXTRA_TIME_INTEGER: {
     code: 'CANDIDATE_EXTRA_TIME_INTEGER',
     getMessage: () => `Le temps majoré doit être un nombre entier.`,
-  },
-  CANDIDATE_EXTRA_TIME_PERCENTAGE_REQUIRED: {
-    code: 'CANDIDATE_EXTRA_TIME_PERCENTAGE_REQUIRED',
-    getMessage: () => '',
   },
   CANDIDATE_FIRST_NAME_REQUIRED: {
     code: 'CANDIDATE_FIRST_NAME_REQUIRED',
@@ -104,8 +100,8 @@ module.exports.CERTIFICATION_CANDIDATES_ERRORS = {
     code: 'CANDIDATE_PREPAYMENT_CODE_REQUIRED',
     getMessage: () => '',
   },
-  CANDIDATE_RESULT_RECIPIENT_EMAIL_REQUIRED: {
-    code: 'CANDIDATE_RESULT_RECIPIENT_EMAIL_REQUIRED',
+  CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID: {
+    code: 'CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID',
     getMessage: () => '',
   },
   CANDIDATE_SESSION_ID_REQUIRED: {
