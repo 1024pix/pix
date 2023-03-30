@@ -22,10 +22,6 @@
       "internal-error": "Une erreur est survenue"
     },
     "forms": {
-      "error-default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement.",
-      "mandatory-fields": "Les champs marqués de <abbr title=\"obligatoire\" class=\"mandatory-mark\">*</abbr>sont obligatoires.",
-      "mandatory-all-fields": "Tous les champs sont obligatoires.",
-      "required": "Obligatoire",
       "certification-labels": {
         "additional-certification": "Certification complémentaire",
         "billing-mode": {
@@ -47,44 +43,13 @@
         "prepayment-code": "Code de prépaiement",
         "pricing": "Tarification part Pix"
       },
-      "common-labels": {
-        "birth-city": "Commune de naissance",
-        "birth-city-insee-code": "Code INSEE de naissance",
-        "birth-city-postcode": "Code postal de naissance",
-        "birth-geographical-code": "Code géographique de naissance",
-        "birth-country": "Pays de naissance",
-        "birth-date": "Date de naissance",
-        "birth-name": "Nom de naissance",
-        "firstname": {
-          "label": "Prénom",
-          "error-mandatory": "Le champ prénom est obligatoire."
-        },
-        "gender": {
-          "title": "Sexe",
-          "man": "Homme",
-          "woman": "Femme"
-        },
-        "lastname": {
-          "label": "Nom",
-          "error-mandatory": "Le champ nom est obligatoire."
-        },
-        "insee-code": "Code INSEE",
-        "none": "Aucune",
-        "postcode": "Code postal"
+      "login": {
+        "email": "Adresse e-mail",
+        "password":"Mot de passe",
+        "forgot-password": "Mot de passe oublié ?"
       },
-      "login-labels": {
-        "email": {
-          "label": "Adresse e-mail",
-          "error-already-exists": "Cette adresse e-mail est déjà enregistrée, connectez-vous.",
-          "error-format": "Le champ adresse e-mail n’est pas valide."
-        },
-        "password": {
-          "label": "Mot de passe",
-          "error-format": "Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.",
-          "error-mandatory": "Le champ mot de passe est obligatoire.",
-          "forgot-password": "Mot de passe oublié ?"
-        }
-      },
+      "mandatory-fields": "Les champs marqués de <abbr title=\"obligatoire\" class=\"mandatory-mark\">*</abbr>sont obligatoires.",
+      "required": "Obligatoire",
       "session-labels": {
         "center-name": "Nom du site",
         "date": "Date",
@@ -97,6 +62,45 @@
         "status": "Statut",
         "time": "Heure",
         "time-start": "Heure de début (heure locale)"
+      }
+    },
+    "form-errors": {
+      "default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement.",
+      "email": {
+        "already-exists": "Cette adresse e-mail est déjà enregistrée, connectez-vous.",
+        "format": "Le champ adresse e-mail n’est pas valide."
+      },
+      "firstname": {
+        "mandatory": "Le champ prénom est obligatoire."
+      },
+      "lastname": {
+        "mandatory": "Le champ nom est obligatoire."
+      },
+      "password": {
+        "format": "Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.",
+        "mandatory": "Le champ mot de passe est obligatoire."
+      },
+      "mandatory-all-fields": "Tous les champs sont obligatoires."
+    },
+    "labels": {
+      "candidate": {
+        "birth-city": "Commune de naissance",
+        "birth-city-insee-code": "Code INSEE de naissance",
+        "birth-city-postcode": "Code postal de naissance",
+        "birth-geographical-code": "Code géographique de naissance",
+        "birth-country": "Pays de naissance",
+        "birth-date": "Date de naissance",
+        "birth-name": "Nom de naissance",
+        "firstname": "Prénom",
+        "gender": {
+          "title": "Sexe",
+          "man": "Homme",
+          "woman": "Femme"
+        },
+        "insee-code": "Code INSEE",
+        "lastname":  "Nom",
+        "none": "Aucune",
+        "postcode": "Code postal"
       }
     },
     "sessions": {

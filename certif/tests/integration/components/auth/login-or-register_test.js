@@ -40,7 +40,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
   test('it toggle the register form by default', async function (assert) {
     // given
     const registerButton = this.intl.t('pages.login-or-register.register-form.actions.login');
-    const firstNameInputLabelFromRegisterForm = this.intl.t('common.forms.common-labels.firstname.label');
+    const firstNameInputLabelFromRegisterForm = this.intl.t('common.labels.candidate.firstname');
 
     // when
     const screen = await render(hbs`<Auth::LoginOrRegister/>`);
@@ -53,7 +53,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
 
   test('it toggle the login form on click on login button', async function (assert) {
     // given
-    const emailInputLabelFromLoginForm = this.intl.t('common.forms.login-labels.email.label');
+    const emailInputLabelFromLoginForm = this.intl.t('common.forms.login.email');
     const screen = await render(hbs`<Auth::LoginOrRegister/>`);
 
     // when
@@ -65,7 +65,7 @@ module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
 
   test('it toggle the register form on click on register button', async function (assert) {
     // given
-    const emailInputLabelFromRegisterForm = this.intl.t('common.forms.login-labels.email.label');
+    const emailInputLabelFromRegisterForm = this.intl.t('common.forms.login.email');
     const registerButtonLabel = this.intl.t('pages.login-or-register.register-form.actions.login');
 
     const screen = await render(hbs`<Auth::LoginOrRegister/>`);

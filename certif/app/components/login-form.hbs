@@ -23,13 +23,13 @@
     <form class="login-main__form" {{on "submit" this.authenticate}}>
 
       <p class="login-main-form__mandatory-information paragraph">
-        {{t "common.forms.mandatory-all-fields"}}
+        {{t "common.form-errors.mandatory-all-fields"}}
       </p>
 
       <PixInput
         @id="login-email"
         name="login"
-        @label={{t "common.forms.login-labels.email.label"}}
+        @label={{t "common.forms.login.email"}}
         autocomplete="email"
         type="email"
         required="true"
@@ -39,7 +39,7 @@
       <PixInputPassword
         @id="login-password"
         name="password"
-        @label={{t "common.forms.login-labels.password.label"}}
+        @label={{t "common.forms.login.password"}}
         autocomplete="current-password"
         required="true"
         {{on "input" this.setPassword}}
@@ -57,7 +57,7 @@
 
       <div class="login-main-form__forgotten-password">
         <a href="https://app.pix.fr/mot-de-passe-oublie" target="_blank" rel="noopener noreferrer">{{t
-            "common.forms.login-labels.password.forgot-password"
+            "common.forms.login.forgot-password"
           }}</a>
       </div>
     </form>

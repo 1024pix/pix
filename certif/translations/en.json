@@ -22,10 +22,6 @@
       "internal-error": "An error occurred"
     },
     "forms": {
-      "error-default": "The service is temporarily unavailable. Please try again later.",
-      "mandatory-fields": "The fields marked by <abbr title=\"required\" class=\"mandatory-mark\">*</abbr> are required.",
-      "mandatory-all-fields": "All fields are required.",
-      "required": "Required",
       "certification-labels": {
         "additional-certification": "Additional certification",
         "billing-mode": {
@@ -47,44 +43,13 @@
         "prepayment-code": "Prepayment code",
         "pricing": "Pricing of Pix’s share"
       },
-      "common-labels": {
-        "birth-city": "Birth city",
-        "birth-city-insee-code": "Birth city INSEE code (only for France)",
-        "birth-city-postcode": "Birth city postcode",
-        "birth-geographical-code": "Geographical birth code",
-        "birth-country": "Birth country",
-        "birth-date": "Date of birth",
-        "birth-name": "Birth name",
-        "firstname": {
-          "label": "First name",
-          "error-mandatory": "Please enter a first name."
-        },
-        "gender": {
-          "title": "Gender",
-          "man": "Man",
-          "woman": "Woman"
-        },
-        "insee-code": "INSEE code",
-        "lastname": {
-          "label": "Last name",
-          "error-mandatory": "Please enter a last name."
-        },
-        "none": "None",
-        "postcode": "City postcode"
+      "login": {
+        "email": "Email address",
+        "password": "Password",
+        "forgot-password": "Forgot your password?"
       },
-      "login-labels": {
-        "email": {
-          "label": "Email address",
-          "error-already-exists": "This email address is already registered, please login.",
-          "error-format": "Your email address is invalid."
-        },
-        "password": {
-          "label": "Password",
-          "error-format": "Your password must contain at least 8 characters and include at least one uppercase letter, one lowercase letter and one number.",
-          "error-mandatory": "Your password can't be empty.",
-          "forgot-password": "Forgot your password?"
-        }
-      },
+      "mandatory-fields": "The fields marked by <abbr title=\"required\" class=\"mandatory-mark\">*</abbr> are required.",
+      "required": "Required",
       "session-labels": {
         "center-name": "Location name",
         "date": "Date",
@@ -97,6 +62,45 @@
         "status": "Status",
         "time": "Time",
         "time-start": "Starting time (local time)"
+      }
+    },
+    "form-errors": {
+      "default": "The service is temporarily unavailable. Please try again later.",
+      "email": {
+        "already-exists": "This email address is already registered, please login.",
+        "format": "Your email address is invalid."
+      },
+      "firstname": {
+        "mandatory": "Please enter a first name."
+      },
+      "lastname": {
+        "mandatory": "Please enter a last name."
+      },
+      "password": {
+        "format": "Your password must contain at least 8 characters and include at least one uppercase letter, one lowercase letter and one number.",
+        "mandatory": "Your password can't be empty."
+      },
+      "mandatory-all-fields": "All fields are required."
+    },
+    "labels": {
+      "candidate": {
+        "birth-city": "Birth city",
+        "birth-city-insee-code": "Birth city INSEE code (only for France)",
+        "birth-city-postcode": "Birth city postcode",
+        "birth-geographical-code": "Geographical birth code",
+        "birth-country": "Birth country",
+        "birth-date": "Date of birth",
+        "birth-name": "Birth name",
+        "firstname": "First name",
+        "gender": {
+          "title": "Gender",
+          "man": "Man",
+          "woman": "Woman"
+        },
+        "insee-code": "INSEE code",
+        "lastname": "Last name",
+        "none": "None",
+        "postcode": "City postcode"
       }
     },
     "sessions": {

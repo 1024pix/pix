@@ -93,7 +93,7 @@ module('Unit | Component | register-form', (hooks) => {
         await component.register(eventStub);
 
         // then
-        assert.strictEqual(component.errorMessage, this.intl.t('common.forms.error-default'));
+        assert.strictEqual(component.errorMessage, this.intl.t('common.form-errors.default'));
         sinon.assert.calledOnce(deleteRecord);
       });
 
@@ -117,10 +117,7 @@ module('Unit | Component | register-form', (hooks) => {
           await component.register(eventStub);
 
           // then
-          assert.strictEqual(
-            component.errorMessage,
-            this.intl.t('common.forms.login-labels.email.error-already-exists')
-          );
+          assert.strictEqual(component.errorMessage, this.intl.t('common.form-errors.email.already-exists'));
           sinon.assert.calledOnce(deleteRecord);
         });
       });

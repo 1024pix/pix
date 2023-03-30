@@ -102,9 +102,9 @@ export default class RegisterForm extends Component {
       const status = get(response, 'errors[0].status');
 
       if (status === '422') {
-        this.errorMessage = this.intl.t('common.forms.login-labels.email.error-already-exists');
+        this.errorMessage = this.intl.t('common.form-errors.email.already-exists');
       } else {
-        this.errorMessage = this.intl.t('common.forms.error-default');
+        this.errorMessage = this.intl.t('common.form-errors.default');
       }
 
       await userRecord?.deleteRecord();
@@ -123,7 +123,7 @@ export default class RegisterForm extends Component {
 
     if (isInvalidInput) {
       this.validation.password.status = STATUSES.ERROR;
-      this.validation.password.message = this.intl.t('common.forms.login-labels.password.error-format');
+      this.validation.password.message = this.intl.t('common.form-errors.password.format');
     } else {
       this.validation.password.status = STATUSES.SUCCESS;
     }
@@ -138,7 +138,7 @@ export default class RegisterForm extends Component {
 
     if (isInvalidInput) {
       this.validation.email.status = STATUSES.ERROR;
-      this.validation.email.message = this.intl.t('common.forms.login-labels.email.error-format');
+      this.validation.email.message = this.intl.t('common.form-errors.email.format');
     } else {
       this.validation.email.status = STATUSES.SUCCESS;
     }
@@ -153,7 +153,7 @@ export default class RegisterForm extends Component {
 
     if (isInvalidInput) {
       this.validation.firstName.status = STATUSES.ERROR;
-      this.validation.firstName.message = this.intl.t('common.forms.common-labels.firstname.error-mandatory');
+      this.validation.firstName.message = this.intl.t('common.form-errors.firstname.mandatory');
     } else {
       this.validation.firstName.status = STATUSES.SUCCESS;
     }
@@ -168,7 +168,7 @@ export default class RegisterForm extends Component {
 
     if (isInvalidInput) {
       this.validation.lastName.status = STATUSES.ERROR;
-      this.validation.lastName.message = this.intl.t('common.forms.common-labels.lastname.error-mandatory');
+      this.validation.lastName.message = this.intl.t('common.form-errors.lastname.mandatory');
     } else {
       this.validation.lastName.status = STATUSES.SUCCESS;
     }

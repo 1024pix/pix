@@ -8,7 +8,7 @@
     <ul class="certification-candidate-details-modal__list">
       <li class="certification-candidate-details-modal__row">
         <span class="certification-candidate-details-modal__row__label">
-          {{t "common.forms.common-labels.birth-name"}}
+          {{t "common.labels.candidate.birth-name"}}
         </span>
         <span class="certification-candidate-details-modal__row__value">
           {{if @candidate.lastName @candidate.lastName "-"}}
@@ -16,7 +16,7 @@
       </li>
       <li class="certification-candidate-details-modal__row">
         <span class="certification-candidate-details-modal__row__label">
-          {{t "common.forms.common-labels.firstname.label"}}
+          {{t "common.labels.candidate.firstname"}}
         </span>
         <span class="certification-candidate-details-modal__row__value">
           {{if @candidate.firstName @candidate.firstName "-"}}
@@ -24,7 +24,7 @@
       </li>
       <li class="certification-candidate-details-modal__row">
         <span class="certification-candidate-details-modal__row__label">
-          {{t "common.forms.common-labels.birth-date"}}
+          {{t "common.labels.candidate.birth-date"}}
         </span>
         {{#if @candidate.birthdate}}
           <span class="certification-candidate-details-modal__row__value">
@@ -38,7 +38,7 @@
       </li>
       <li class="certification-candidate-details-modal__row">
         <span class="certification-candidate-details-modal__row__label">
-          {{t "common.forms.common-labels.gender.title"}}
+          {{t "common.labels.candidate.gender.title"}}
         </span>
         <span class="certification-candidate-details-modal__row__value">
           {{@candidate.genderLabel}}
@@ -46,7 +46,7 @@
       </li>
       <li class="certification-candidate-details-modal__row">
         <span class="certification-candidate-details-modal__row__label">
-          {{t "common.forms.common-labels.birth-city"}}
+          {{t "common.labels.candidate.birth-city"}}
         </span>
         <span class="certification-candidate-details-modal__row__value">
           {{if @candidate.birthCity @candidate.birthCity "-"}}
@@ -54,7 +54,7 @@
       </li>
       <li class="certification-candidate-details-modal__row">
         <span class="certification-candidate-details-modal__row__label">
-          {{t "common.forms.common-labels.birth-city-postcode"}}
+          {{t "common.labels.candidate.birth-city-postcode"}}
         </span>
         <span class="certification-candidate-details-modal__row__value">
           {{if @candidate.birthPostalCode @candidate.birthPostalCode "-"}}
@@ -62,7 +62,7 @@
       </li>
       <li class="certification-candidate-details-modal__row">
         <span class="certification-candidate-details-modal__row__label">
-          {{t "common.forms.common-labels.birth-city-insee-code"}}
+          {{t "common.labels.candidate.birth-city-insee-code"}}
         </span>
         <span class="certification-candidate-details-modal__row__value">
           {{if @candidate.birthInseeCode @candidate.birthInseeCode "-"}}
@@ -70,7 +70,7 @@
       </li>
       <li class="certification-candidate-details-modal__row">
         <span class="certification-candidate-details-modal__row__label">
-          {{t "common.forms.common-labels.birth-country"}}
+          {{t "common.labels.candidate.birth-country"}}
         </span>
         <span class="certification-candidate-details-modal__row__value">
           {{if @candidate.birthCountry @candidate.birthCountry "-"}}
