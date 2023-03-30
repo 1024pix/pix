@@ -30,10 +30,10 @@ export default class CertificationCandidate extends Model {
     const candidateGender = this.sex;
 
     if (candidateGender === 'M') {
-      return this.intl.t('common.forms.common-labels.gender.man');
+      return this.intl.t('common.labels.candidate.gender.man');
     }
     if (candidateGender === 'F') {
-      return this.intl.t('common.forms.common-labels.gender.woman');
+      return this.intl.t('common.labels.candidate.gender.woman');
     }
     return '-';
   }
