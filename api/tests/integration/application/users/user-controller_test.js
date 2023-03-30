@@ -32,11 +32,10 @@ describe('Integration | Application | Users | user-controller', function () {
     const auth = { credentials: {}, strategy: {} };
 
     context('Success cases', function () {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const campaignParticipation = domainBuilder.buildCampaignParticipation();
+      let campaignParticipation;
 
       beforeEach(function () {
+        campaignParticipation = domainBuilder.buildCampaignParticipation();
         securityPreHandlers.checkRequestedUserIsAuthenticatedUser.returns(true);
         auth.credentials.userId = '1234';
       });
