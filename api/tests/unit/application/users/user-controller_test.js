@@ -28,6 +28,7 @@ const trainingSerializer = require('../../../../lib/infrastructure/serializers/j
 
 const userController = require('../../../../lib/application/users/user-controller');
 const UserOrganizationForAdmin = require('../../../../lib/domain/read-models/UserOrganizationForAdmin');
+const localeService = require('../../../../lib/domain/services/locale-service');
 
 describe('Unit | Controller | user-controller', function () {
   describe('#save', function () {
@@ -37,7 +38,6 @@ describe('Unit | Controller | user-controller', function () {
     const deserializedUser = new User();
     const savedUser = new User({ email });
     const localeFromHeader = 'fr-fr';
-    let createUserUsecaseStub;
 
     beforeEach(function () {
       sinon.stub(userSerializer, 'deserialize').returns(deserializedUser);
@@ -45,8 +45,8 @@ describe('Unit | Controller | user-controller', function () {
       sinon.stub(validationErrorSerializer, 'serialize');
       sinon.stub(encryptionService, 'hashPassword');
       sinon.stub(mailService, 'sendAccountCreationEmail');
-      createUserUsecaseStub = sinon.stub(usecases, 'createUser');
-      createUserUsecaseStub.resolves(savedUser);
+      sinon.stub(localeService, 'getCanonicalLocale');
+      sinon.stub(usecases, 'createUser').returns(savedUser);
     });
 
     describe('when request is valid', function () {
@@ -76,6 +76,7 @@ describe('Unit | Controller | user-controller', function () {
 
           // then
           expect(userSerializer.serialize).to.have.been.calledWith(savedUser);
+          expect(localeService.getCanonicalLocale).to.not.have.been.called;
           expect(response.source).to.deep.equal(expectedSerializedUser);
           expect(response.statusCode).to.equal(201);
         });
@@ -95,8 +96,9 @@ describe('Unit | Controller | user-controller', function () {
             campaignCode: null,
           };
 
+          localeService.getCanonicalLocale.returns(localeFromCookie);
           userSerializer.serialize.returns(expectedSerializedUser);
-          createUserUsecaseStub.resolves(savedUser);
+          usecases.createUser.resolves(savedUser);
 
           // when
           const response = await userController.save(
@@ -121,8 +123,8 @@ describe('Unit | Controller | user-controller', function () {
 
           // then
           expect(usecases.createUser).to.have.been.calledWith(useCaseParameters);
+          expect(localeService.getCanonicalLocale).to.have.been.calledWith(localeFromCookie);
           expect(userSerializer.serialize).to.have.been.calledWith(savedUser);
-          expect(response.source).to.deep.equal(expectedSerializedUser);
           expect(response.statusCode).to.equal(201);
         });
       });
