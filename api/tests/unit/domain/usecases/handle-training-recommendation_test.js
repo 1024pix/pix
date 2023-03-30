@@ -2,6 +2,7 @@ const handleTrainingRecommendation = require('../../../../lib/domain/usecases/ha
 const trainingRepository = require('../../../../lib/infrastructure/repositories/training-repository');
 const userRecommendedTrainingRepository = require('../../../../lib/infrastructure/repositories/user-recommended-training-repository');
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const config = require('../../../../lib/config.js');
 
 describe('Unit | UseCase | handle-training-recommendation', function () {
   let findWithTriggersByCampaignParticipationIdAndLocaleStub;
@@ -101,6 +102,56 @@ describe('Unit | UseCase | handle-training-recommendation', function () {
       // then
       expect(findWithTriggersByCampaignParticipationIdAndLocaleStub).to.have.not.been.called;
       expect(saveStub).to.have.not.been.called;
+    });
+  });
+
+  describe('when feature toggle is disabled', function () {
+    it('should use the old way to recommend trainings', async function () {
+      // given
+      const locale = Symbol('locale');
+      const campaignParticipationId = Symbol('campaign-participation-id');
+      const domainTransaction = Symbol('domain-transaction');
+      const assessment = domainBuilder.buildAssessment.ofTypeCampaign({ campaignParticipationId });
+      const trainings = [domainBuilder.buildTraining(), domainBuilder.buildTraining()];
+      findWithTriggersByCampaignParticipationIdAndLocaleStub.resolves(trainings);
+      sinon.stub(config, 'featureToggles').value({ isTrainingRecommendationEnabled: false });
+
+      // when
+      await handleTrainingRecommendation({
+        locale,
+        assessment,
+        trainingRepository,
+        userRecommendedTrainingRepository,
+        domainTransaction,
+      });
+
+      // then
+      expect(saveStub).to.have.been.called;
+    });
+  });
+
+  describe('when feature toggle is enabled', function () {
+    it('should the new way to recommend trainings', async function () {
+      // given
+      const locale = Symbol('locale');
+      const campaignParticipationId = Symbol('campaign-participation-id');
+      const domainTransaction = Symbol('domain-transaction');
+      const assessment = domainBuilder.buildAssessment.ofTypeCampaign({ campaignParticipationId });
+      const trainings = [domainBuilder.buildTraining(), domainBuilder.buildTraining()];
+      findWithTriggersByCampaignParticipationIdAndLocaleStub.resolves(trainings);
+      sinon.stub(config, 'featureToggles').value({ isTrainingRecommendationEnabled: true });
+
+      // when
+      await handleTrainingRecommendation({
+        locale,
+        assessment,
+        trainingRepository,
+        userRecommendedTrainingRepository,
+        domainTransaction,
+      });
+
+      // then
+      expect(saveStub).not.to.have.been.called;
     });
   });
 });
