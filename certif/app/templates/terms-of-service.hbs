@@ -3,27 +3,35 @@
 <div class="terms-of-service-page">
   <div class="terms-of-service-form">
 
-    <div class="terms-of-service-form__logo">
-      <img src="/pix-certif-logo.svg" alt="Pix Certif" />
-    </div>
+    <header class="terms-of-service-form__header">
+      <img src="/pix-certif-logo.svg" alt="Pix Certif" class="terms-of-service-form__header--logo" />
 
-    <h1 class="terms-of-service-form__title pix-h4">
-      {{t "pages.terms-of-service.title"}}
-    </h1>
+      <h1 class="terms-of-service-form__header--title pix-h4">
+        {{t "pages.terms-of-service.title"}}
+      </h1>
+    </header>
 
     <hr class="terms-of-service-form__line" />
 
-    {{#if this.isEnglishLocale}}
-      <TermsOfService::PageEn />
-    {{else}}
-      <TermsOfService::PageFr />
-    {{/if}}
+    <main class="terms-of-service-form__text" tabindex="0">
+      {{#if this.isEnglishLocale}}
+        <TermsOfService::PageEn />
+      {{else}}
+        <TermsOfService::PageFr />
+      {{/if}}
+    </main>
 
-    <div class="terms-of-service-form__actions">
-      <PixButtonLink @route="logout" @backgroundColor="transparent-light">{{t "common.actions.cancel"}}</PixButtonLink>
-      <PixButton class="terms-of-service-form__submit" @triggerAction={{this.submit}}>{{t
-          "pages.terms-of-service.actions.accept"
-        }}</PixButton>
-    </div>
+    <footer>
+      <ul class="terms-of-service-form__actions">
+        <li>
+          <PixButtonLink @route="logout" @backgroundColor="transparent-light" @isBorderVisible="true">{{t
+              "common.actions.cancel"
+            }}</PixButtonLink>
+        </li>
+        <li>
+          <PixButton @triggerAction={{this.submit}}>{{t "pages.terms-of-service.actions.accept"}}</PixButton>
+        </li>
+      </ul>
+    </footer>
   </div>
 </div>
