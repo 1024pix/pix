@@ -1,3 +1,5 @@
+const config = require('../../config');
+
 module.exports = async function handleTrainingRecommendation({
   locale,
   assessment,
@@ -14,12 +16,17 @@ module.exports = async function handleTrainingRecommendation({
     locale,
     domainTransaction,
   });
-  for (const training of trainings) {
-    await userRecommendedTrainingRepository.save({
-      userId: assessment.userId,
-      trainingId: training.id,
-      campaignParticipationId,
-      domainTransaction,
-    });
+
+  if (config.featureToggles.isTrainingRecommendationEnabled) {
+    return;
+  } else {
+    for (const training of trainings) {
+      await userRecommendedTrainingRepository.save({
+        userId: assessment.userId,
+        trainingId: training.id,
+        campaignParticipationId,
+        domainTransaction,
+      });
+    }
   }
 };
