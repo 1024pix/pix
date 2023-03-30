@@ -24,11 +24,6 @@
     "forms": {
       "certification-labels": {
         "additional-certification": "Certification complémentaire",
-        "billing-mode": {
-          "free": "Gratuite",
-          "paid": "Payante",
-          "prepaid": "Prépayée"
-        },
         "candidate-status": {
           "authorized-to-resume": "Autorisé à reprendre",
           "finished": "Terminé",
@@ -83,6 +78,11 @@
       "mandatory-all-fields": "Tous les champs sont obligatoires."
     },
     "labels": {
+      "billing-mode": {
+        "free": "Gratuite",
+        "paid": "Payante",
+        "prepaid": "Prépayée"
+      },
       "candidate": {
         "birth-city": "Commune de naissance",
         "birth-city-insee-code": "Code INSEE de naissance",
