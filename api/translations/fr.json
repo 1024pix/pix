@@ -80,6 +80,7 @@
     "email-results": "E-mail du destinataire des résultats (formateur, enseignant…)",
     "externalid": "Identifiant local",
     "extratime": "Temps majoré ?",
+    "filename": "liste-candidats-session-",
     "firstname": "Prénom",
     "gender": "Sexe (M ou F)",
     "one-per-candidate":  "(une seule par candidat)",
