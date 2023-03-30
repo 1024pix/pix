@@ -1,6 +1,5 @@
 const dayjs = require('dayjs');
 const { plannerJob } = require('../../../../config.js').cpf;
-const _ = require('lodash');
 
 module.exports = async function planner({ job, pgBoss, cpfCertificationResultRepository, logger }) {
   const startDate = dayjs()
@@ -10,23 +9,27 @@ module.exports = async function planner({ job, pgBoss, cpfCertificationResultRep
     .toDate();
   const endDate = dayjs().utc().subtract(plannerJob.minimumReliabilityPeriod, 'months').endOf('month').toDate();
 
-  const certificationCourseIds = await cpfCertificationResultRepository.getIdsByTimeRange({ startDate, endDate });
-  const certificationCourseIdChunks = _.chunk(certificationCourseIds, plannerJob.chunkSize);
+  const cpfCertificationResultCount = await cpfCertificationResultRepository.countByTimeRange({ startDate, endDate });
+  const cpfCertificationResultChunksCount = Math.ceil(cpfCertificationResultCount / plannerJob.chunkSize);
+
   logger.info(
-    `CpfExportPlannerJob start from ${startDate.toLocaleDateString()} to ${endDate.toLocaleDateString()}, plan ${
-      certificationCourseIdChunks.length
-    } job(s) for ${certificationCourseIds.length} certifications`
+    `CpfExportPlannerJob start from ${startDate.toLocaleDateString()} to ${endDate.toLocaleDateString()}, plan ${cpfCertificationResultChunksCount} job(s) for ${cpfCertificationResultCount} certifications`
   );
 
-  for (const [index, certificationCourseIds] of certificationCourseIdChunks.entries()) {
+  const newJobs = [];
+  for (let index = 0; index < cpfCertificationResultChunksCount; index++) {
     const batchId = `${job.id}#${index}`;
     await cpfCertificationResultRepository.markCertificationToExport({
-      certificationCourseIds,
+      startDate,
+      endDate,
+      limit: plannerJob.chunkSize,
+      offset: index * plannerJob.chunkSize,
       batchId,
     });
 
-    await pgBoss.send('CpfExportBuilderJob', {
-      batchId,
-    });
+    newJobs.push(batchId);
+    logger.info(`${batchId} created for (${index + 1}/${cpfCertificationResultChunksCount})`);
   }
+
+  await pgBoss.insert(newJobs.map((batchId) => ({ name: 'CpfExportBuilderJob', data: { batchId } })));
 };
