@@ -1,4 +1,4 @@
-{{page-title "Conditions générales"}}
+{{page-title (t "pages.terms-of-service.title")}}
 
 <div class="terms-of-service-page">
   <div class="terms-of-service-form">
@@ -7,8 +7,8 @@
       <img src="/pix-certif-logo.svg" alt="Pix Certif" />
     </div>
 
-    <h1 class="terms-of-service-form__title">
-      CONDITIONS GÉNÉRALES D'UTILISATION DE LA PLATEFORME PIX CERTIF
+    <h1 class="terms-of-service-form__title pix-h4">
+      {{t "pages.terms-of-service.title"}}
     </h1>
 
     <hr class="terms-of-service-form__line" />
@@ -21,8 +21,9 @@
 
     <div class="terms-of-service-form__actions">
       <PixButtonLink @route="logout" @backgroundColor="transparent-light">{{t "common.actions.cancel"}}</PixButtonLink>
-      <PixButton class="terms-of-service-form__submit" @triggerAction={{this.submit}}>J’accepte les conditions
-        d’utilisation</PixButton>
+      <PixButton class="terms-of-service-form__submit" @triggerAction={{this.submit}}>{{t
+          "pages.terms-of-service.actions.accept"
+        }}</PixButton>
     </div>
   </div>
 </div>

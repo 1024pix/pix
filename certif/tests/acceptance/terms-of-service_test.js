@@ -46,7 +46,7 @@ module('Acceptance | terms-of-service', function (hooks) {
         assert
           .dom(
             screen.getByRole('heading', {
-              name: "CONDITIONS GÉNÉRALES D'UTILISATION DE LA PLATEFORME PIX CERTIF",
+              name: "Conditions générales d'utilisation de la plateforme Pix Certif",
               level: 1,
             })
           )
