@@ -6,15 +6,13 @@
 <main id="main" class="main" role="main">
   <div class="user-tutorials-content">
     {{#if @model.savedTutorials.meta.pagination.rowCount}}
-      <div class="user-tutorials-content__container">
-        <Tutorials::Cards @tutorials={{@model.savedTutorials}} @afterRemove={{this.refresh}} />
-        <PixPagination
-          @pagination={{@model.savedTutorials.meta.pagination}}
-          @pageOptions={{this.pageOptions}}
-          @locale="{{t 'current-lang'}}"
-          @isCondensed="true"
-        />
-      </div>
+      <Tutorials::Cards @tutorials={{@model.savedTutorials}} @afterRemove={{this.refresh}} />
+      <PixPagination
+        @pagination={{@model.savedTutorials.meta.pagination}}
+        @pageOptions={{this.pageOptions}}
+        @locale="{{t 'current-lang'}}"
+        @isCondensed="true"
+      />
     {{else}}
       <Tutorials::SavedEmpty />
     {{/if}}

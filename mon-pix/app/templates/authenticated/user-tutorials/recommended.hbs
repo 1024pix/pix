@@ -12,15 +12,13 @@
   />
   <div class="user-tutorials-content">
     {{#if @model.recommendedTutorials.meta.pagination.rowCount}}
-      <div class="user-tutorials-content__container">
-        <Tutorials::Cards @tutorials={{@model.recommendedTutorials}} />
-        <PixPagination
-          @pagination={{@model.recommendedTutorials.meta.pagination}}
-          @pageOptions={{this.pageOptions}}
-          @locale="{{t 'current-lang'}}"
-          @isCondensed="true"
-        />
-      </div>
+      <Tutorials::Cards @tutorials={{@model.recommendedTutorials}} />
+      <PixPagination
+        @pagination={{@model.recommendedTutorials.meta.pagination}}
+        @pageOptions={{this.pageOptions}}
+        @locale="{{t 'current-lang'}}"
+        @isCondensed="true"
+      />
     {{else}}
       <Tutorials::RecommendedEmpty />
     {{/if}}
