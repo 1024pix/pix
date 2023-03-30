@@ -214,6 +214,7 @@ const configuration = (function () {
       isAlwaysOkValidateNextChallengeEndpointEnabled: isFeatureEnabled(
         process.env.FT_ALWAYS_OK_VALIDATE_NEXT_CHALLENGE_ENDPOINT
       ),
+      isTrainingRecommendationEnabled: isFeatureEnabled(process.env.FT_TRAINING_RECOMMENDATION),
     },
 
     infra: {
@@ -349,6 +350,7 @@ const configuration = (function () {
 
     config.featureToggles.isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled = false;
     config.featureToggles.isMassiveSessionManagementEnabled = false;
+    config.featureToggles.isTrainingRecommendationEnabled = false;
 
     config.mailing.enabled = false;
     config.mailing.provider = 'sendinblue';
