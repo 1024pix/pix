@@ -140,9 +140,9 @@ export default class NewCertificationCandidateModal extends Component {
   }
 
   get billingModeOptions() {
-    const freeLabel = this.intl.t('common.forms.certification-labels.billing-mode.free');
-    const paidLabel = this.intl.t('common.forms.certification-labels.billing-mode.paid');
-    const prepaidLabel = this.intl.t('common.forms.certification-labels.billing-mode.prepaid');
+    const freeLabel = this.intl.t('common.labels.billing-mode.free');
+    const paidLabel = this.intl.t('common.labels.billing-mode.paid');
+    const prepaidLabel = this.intl.t('common.labels.billing-mode.prepaid');
 
     return [
       { label: freeLabel, value: 'FREE' },

@@ -41,7 +41,7 @@ export default class CertificationCandidate extends Model {
   get billingModeLabel() {
     const candidateBillingMode = this.billingMode;
     if (candidateBillingMode) {
-      return this.intl.t(`common.forms.certification-labels.billing-mode.${candidateBillingMode.toLowerCase()}`);
+      return this.intl.t(`common.labels.billing-mode.${candidateBillingMode.toLowerCase()}`);
     }
 
     return '-';

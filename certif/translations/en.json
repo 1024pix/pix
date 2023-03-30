@@ -24,11 +24,6 @@
     "forms": {
       "certification-labels": {
         "additional-certification": "Additional certification",
-        "billing-mode": {
-          "free": "Free",
-          "paid": "Payable",
-          "prepaid": "Prepaid"
-        },
         "candidate-status": {
           "authorized-to-resume": "Allowed to resume",
           "finished": "Finished",
@@ -83,6 +78,11 @@
       "mandatory-all-fields": "All fields are required."
     },
     "labels": {
+      "billing-mode": {
+        "free": "Free",
+        "paid": "Payable",
+        "prepaid": "Prepaid"
+      },
       "candidate": {
         "birth-city": "Birth city",
         "birth-city-insee-code": "Birth city INSEE code (only for France)",
