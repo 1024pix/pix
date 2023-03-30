@@ -34,7 +34,7 @@ module.exports = async function fillCandidatesImportSheet({
     isScoCertificationCenter,
     translate,
   });
-  _addCandidateRows(odsBuilder, session.certificationCandidates);
+  _addCandidateRows({ odsBuilder, certificationCandidates: session.certificationCandidates, i18n });
 
   return odsBuilder.build({ templateFilePath: _getCandidatesImportTemplatePath({ locale }) });
 };
@@ -123,9 +123,9 @@ function _addComplementaryCertificationColumns({ odsBuilder, certificationCenter
   return odsBuilder;
 }
 
-function _addCandidateRows(odsBuilder, certificationCandidates) {
+function _addCandidateRows({ odsBuilder, certificationCandidates, i18n }) {
   const CANDIDATE_ROW_MARKER_PLACEHOLDER = 'COUNT';
-  const candidatesData = _getCandidatesData(certificationCandidates);
+  const candidatesData = _getCandidatesData({ certificationCandidates, i18n });
   return odsBuilder.updateXmlRows({
     rowMarkerPlaceholder: CANDIDATE_ROW_MARKER_PLACEHOLDER,
     rowTemplateValues: IMPORT_CANDIDATES_TEMPLATE_VALUES,
@@ -133,10 +133,10 @@ function _addCandidateRows(odsBuilder, certificationCandidates) {
   });
 }
 
-function _getCandidatesData(certificationCandidates) {
-  const enrolledCandidatesData = _certificationCandidatesToCandidatesData(certificationCandidates);
+function _getCandidatesData({ certificationCandidates, i18n }) {
+  const enrolledCandidatesData = _certificationCandidatesToCandidatesData({ certificationCandidates, i18n });
 
-  const emptyCandidatesData = _emptyCandidatesData(enrolledCandidatesData.length);
+  const emptyCandidatesData = _emptyCandidatesData({ numberOfEnrolledCandidates: enrolledCandidatesData.length, i18n });
 
   return enrolledCandidatesData.concat(emptyCandidatesData);
 }
@@ -145,16 +145,23 @@ function _getCandidatesImportTemplatePath({ locale }) {
   return __dirname + '/1.5/candidates_import_template_' + locale + '.ods';
 }
 
-function _certificationCandidatesToCandidatesData(certificationCandidates) {
+function _certificationCandidatesToCandidatesData({ certificationCandidates, i18n }) {
   return _.map(certificationCandidates, (candidate, index) => {
-    return CandidateData.fromCertificationCandidateAndCandidateNumber(candidate, index + 1);
+    return CandidateData.fromCertificationCandidateAndCandidateNumber({
+      certificationCandidate: candidate,
+      number: index + 1,
+      i18n,
+    });
   });
 }
 
-function _emptyCandidatesData(numberOfEnrolledCandidates) {
+function _emptyCandidatesData({ numberOfEnrolledCandidates, i18n }) {
   const emptyCandidates = [];
   _.times(EXTRA_EMPTY_CANDIDATE_ROWS, (index) => {
-    const emptyCandidateData = CandidateData.empty(numberOfEnrolledCandidates + (index + 1));
+    const emptyCandidateData = CandidateData.empty({
+      number: numberOfEnrolledCandidates + (index + 1),
+      i18n,
+    });
 
     emptyCandidates.push(emptyCandidateData);
   });

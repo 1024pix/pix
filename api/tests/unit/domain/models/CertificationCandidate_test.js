@@ -6,6 +6,8 @@ const {
   CertificationCandidatePersonalInfoWrongFormat,
 } = require('../../../../lib/domain/errors');
 const { CERTIFICATION_CANDIDATES_ERRORS } = require('../../../../lib/domain/constants/certification-candidates-errors');
+const { getI18n } = require('../../../tooling/i18n/i18n');
+const i18n = getI18n();
 
 describe('Unit | Domain | Models | Certification Candidate', function () {
   describe('constructor', function () {
@@ -981,6 +983,19 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     });
   });
 
+  describe('parseBillingMode', function () {
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    [
+      { value: 'Gratuite', expectedTranslation: 'FREE' },
+      { value: 'Payante', expectedTranslation: 'PAID' },
+      { value: 'Prépayée', expectedTranslation: 'PREPAID' },
+    ].forEach(({ value, expectedTranslation }) => {
+      it(`should return ${expectedTranslation} when ${value} is translated`, function () {
+        expect(CertificationCandidate.parseBillingMode({ billingMode: value })).to.equal(expectedTranslation);
+      });
+    });
+  });
+
   describe('translateBillingMode', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
@@ -992,29 +1007,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       { value: 'Prépayée', expectedTranslation: 'PREPAID' },
     ].forEach(({ value, expectedTranslation }) => {
       it(`should return ${expectedTranslation} when ${value} is translated`, function () {
-        expect(CertificationCandidate.translateBillingMode(value)).to.equal(expectedTranslation);
-      });
-    });
-  });
-
-  describe('get translatedBillingMode', function () {
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    [
-      { value: 'FREE', expectedTranslation: 'Gratuite' },
-      { value: 'PAID', expectedTranslation: 'Payante' },
-      { value: 'PREPAID', expectedTranslation: 'Prépayée' },
-      { value: 'Gratuite', expectedTranslation: 'FREE' },
-      { value: 'Payante', expectedTranslation: 'PAID' },
-      { value: 'Prépayée', expectedTranslation: 'PREPAID' },
-    ].forEach(({ value, expectedTranslation }) => {
-      it(`should return ${expectedTranslation} when ${value} is translated`, function () {
-        // given
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({
-          billingMode: value,
-        });
-
-        // when/then
-        expect(certificationCandidate.translatedBillingMode).to.equal(expectedTranslation);
+        expect(CertificationCandidate.translateBillingMode({ billingMode: value, i18n })).to.equal(expectedTranslation);
       });
     });
   });
