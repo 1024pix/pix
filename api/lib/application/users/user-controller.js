@@ -23,11 +23,14 @@ const queryParamsUtils = require('../../infrastructure/utils/query-params-utils.
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils.js');
 
 const usecases = require('../../domain/usecases/index.js');
+const localeService = require('../../domain/services/locale-service.js');
 
 module.exports = {
   async save(request, h) {
+    const localeFromCookie = request.state?.locale;
+    const canonicalLocaleFromCookie = localeFromCookie ? localeService.getCanonicalLocale(localeFromCookie) : undefined;
     const campaignCode = request.payload.meta ? request.payload.meta['campaign-code'] : null;
-    const user = userSerializer.deserialize(request.payload);
+    const user = { ...userSerializer.deserialize(request.payload), locale: canonicalLocaleFromCookie };
     const localeFromHeader = requestResponseUtils.extractLocaleFromRequest(request);
 
     const password = request.payload.data.attributes.password;
