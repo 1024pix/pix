@@ -107,6 +107,10 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
         complementaryCertificationRepository,
       });
 
+      if (billingMode) {
+        billingMode = CertificationCandidate.translateBillingMode({ billingMode, i18n });
+      }
+
       const certificationCandidate = new CertificationCandidate({
         ...certificationCandidateData,
         birthCountry,

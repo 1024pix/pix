@@ -89,7 +89,9 @@ async function _createValidCertificationCandidates({
   }
 
   return bluebird.mapSeries(uniqueCandidates, async (certificationCandidate) => {
-    const billingMode = CertificationCandidate.translateBillingMode(certificationCandidate.billingMode);
+    const billingMode = CertificationCandidate.parseBillingMode({
+      billingMode: certificationCandidate.billingMode,
+    });
 
     const domainCertificationCandidate = new CertificationCandidate({
       ...certificationCandidate,
