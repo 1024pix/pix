@@ -4,22 +4,6 @@ const AssessmentResult = require('../../domain/models/AssessmentResult.js');
 const { cpfImportStatus } = require('../../domain/models/CertificationCourse.js');
 
 module.exports = {
-  async getIdsByTimeRange({ startDate, endDate }) {
-    const ids = await _selectCpfCertificationResults()
-      .select('certification-courses.id')
-      .where('certification-courses.isPublished', true)
-      .where('certification-courses.isCancelled', false)
-      .whereNotNull('certification-courses.sex')
-      .where('assessment-results.status', AssessmentResult.status.VALIDATED)
-      .where('sessions.publishedAt', '>=', startDate)
-      .where('sessions.publishedAt', '<=', endDate)
-      .whereNull('certification-courses.cpfImportStatus')
-      .pluck('certification-courses.id')
-      .orderBy('certification-courses.id')
-      .groupBy('certification-courses.id', 'assessment-results.pixScore', 'sessions.publishedAt');
-    return ids;
-  },
-
   async countByTimeRange({ startDate, endDate }) {
     const { count } = await _selectCpfCertificationResults()
       .count('certification-courses.id')
