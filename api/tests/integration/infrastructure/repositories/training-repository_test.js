@@ -6,6 +6,9 @@ const Training = require('../../../../lib/domain/models/Training');
 const UserRecommendedTraining = require('../../../../lib/domain/read-models/UserRecommendedTraining');
 const TrainingTriggerForAdmin = require('../../../../lib/domain/read-models/TrainingTriggerForAdmin');
 const TrainingForAdmin = require('../../../../lib/domain/read-models/TrainingForAdmin');
+const TrainingTrigger = require('../../../../lib/domain/models/TrainingTrigger');
+const TrainingTriggerTube = require('../../../../lib/domain/models/TrainingTriggerTube');
+const _ = require('lodash');
 
 describe('Integration | Repository | training-repository', function () {
   describe('#get', function () {
@@ -197,7 +200,63 @@ describe('Integration | Repository | training-repository', function () {
     });
   });
 
-  describe('#findByCampaignParticipationIdAndLocale', function () {
+  describe('#findWithTriggersByCampaignParticipationIdAndLocale', function () {
+    let area1;
+    let competence1;
+    let thematic1;
+    let tube;
+
+    beforeEach(async function () {
+      area1 = domainBuilder.buildArea({ id: 'recAreaA' });
+      competence1 = domainBuilder.buildCompetence({ id: 'recCompA', areaId: 'recAreaA' });
+      const competenceInAnotherArea = domainBuilder.buildCompetence({ id: 'recCompB', areaId: 'recAreaB' });
+      thematic1 = domainBuilder.buildThematic({
+        id: 'recThemA',
+        name: 'thematic1_name',
+        competenceId: 'recCompA',
+      });
+      const thematicInAnotherCompetence = domainBuilder.buildThematic({
+        id: 'recThemB',
+        name: 'thematic2_name',
+        competenceId: 'anotherCompetence',
+      });
+      tube = domainBuilder.buildTube({
+        id: 'recTube0',
+        name: 'tubeName',
+        title: 'tubeTitle',
+        description: 'tubeDescription',
+        practicalTitle: 'translatedPracticalTitle',
+        practicalDescription: 'translatedPracticalDescription',
+        isMobileCompliant: true,
+        isTabletCompliant: true,
+        competenceId: 'recCompetence0',
+        thematicId: 'recThemA',
+        skillIds: ['skillSuper', 'skillGenial'],
+        skills: [],
+      });
+      const learningContent = {
+        areas: [area1],
+        competences: [competence1, competenceInAnotherArea],
+        thematics: [
+          { id: thematic1.id, name_i18n: { fr: thematic1.name }, competenceId: thematic1.competenceId },
+          {
+            id: thematicInAnotherCompetence.id,
+            name_i18n: { fr: thematicInAnotherCompetence.name },
+            competenceId: thematicInAnotherCompetence.competenceId,
+          },
+        ],
+        tubes: [
+          {
+            id: tube.id,
+            name: tube.name,
+            thematicId: 'recThemA',
+            skillIds: ['skillSuper', 'skillGenial'],
+          },
+        ],
+      };
+      mockLearningContent(learningContent);
+    });
+
     it('should find trainings by campaignParticipationId and locale', async function () {
       // given
       const targetProfile1 = databaseBuilder.factory.buildTargetProfile();
@@ -213,24 +272,28 @@ describe('Integration | Repository | training-repository', function () {
         title: 'training 1',
         targetProfileIds: [targetProfile1.id],
         locale: 'fr-fr',
+        trainingTriggers: [],
       });
       const training2 = domainBuilder.buildTraining({
         id: 2,
         title: 'training 2',
         targetProfileIds: [targetProfile1.id],
         locale: 'fr-fr',
+        trainingTriggers: [],
       });
       const trainingWithDifferentLocale = domainBuilder.buildTraining({
         id: 3,
         title: 'training 3',
         targetProfileIds: [targetProfile1.id],
         locale: 'en-gb',
+        trainingTriggers: [],
       });
       const trainingWithDifferentTargetProfile = domainBuilder.buildTraining({
         id: 4,
         title: 'training 4',
         targetProfileIds: [targetProfile2.id],
         locale: 'fr-fr',
+        trainingTriggers: [],
       });
 
       databaseBuilder.factory.buildTraining({ ...training1, duration: '5h' });
@@ -261,7 +324,7 @@ describe('Integration | Repository | training-repository', function () {
       await databaseBuilder.commit();
 
       // when
-      const trainings = await trainingRepository.findByCampaignParticipationIdAndLocale({
+      const trainings = await trainingRepository.findWithTriggersByCampaignParticipationIdAndLocale({
         campaignParticipationId: campaignParticipation.id,
         locale: 'fr-fr',
       });
@@ -270,6 +333,68 @@ describe('Integration | Repository | training-repository', function () {
       expect(trainings).to.have.lengthOf(2);
       expect(trainings[0]).to.be.instanceOf(Training);
       expect(trainings[0]).to.deep.equal(training1);
+    });
+
+    it('should return trainings with trainingTriggers', async function () {
+      // given
+      const targetProfile = databaseBuilder.factory.buildTargetProfile();
+      const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id });
+      const training = domainBuilder.buildTraining({
+        id: 1,
+        title: 'training 1',
+        targetProfileIds: [targetProfile.id],
+        locale: 'fr-fr',
+      });
+
+      const goalTrainingTrigger = {
+        trainingId: training.id,
+        type: TrainingTrigger.types.GOAL,
+        threshold: 80,
+      };
+
+      databaseBuilder.factory.buildTraining({ ...training, duration: '5h' });
+      databaseBuilder.factory.buildTargetProfileTraining({
+        trainingId: training.id,
+        targetProfileId: training.targetProfileIds[0],
+      });
+
+      const expectedGoalTrainingTrigger = databaseBuilder.factory.buildTrainingTrigger(goalTrainingTrigger);
+      const expectedGoalTube = databaseBuilder.factory.buildTrainingTriggerTube({
+        trainingTriggerId: expectedGoalTrainingTrigger.id,
+        tubeId: tube.id,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const trainings = await trainingRepository.findWithTriggersByCampaignParticipationIdAndLocale({
+        campaignParticipationId: campaignParticipation.id,
+        locale: 'fr-fr',
+      });
+
+      // then
+      expect(trainings).to.have.lengthOf(1);
+      expect(trainings[0]).to.be.instanceOf(Training);
+      expect(_.omit(trainings[0], 'trainingTriggers')).to.deep.equal(_.omit(training, 'trainingTriggers'));
+
+      expect(trainings[0].trainingTriggers).to.have.lengthOf(1);
+
+      const trainingTrigger0 = trainings[0].trainingTriggers[0];
+      expect(trainingTrigger0).to.be.instanceOf(TrainingTrigger);
+      expect(_.omit(trainingTrigger0, 'triggerTubes')).to.deep.equal(
+        _.omit(
+          new TrainingTrigger({
+            ...expectedGoalTrainingTrigger,
+          }),
+          'triggerTubes'
+        )
+      );
+      expect(trainingTrigger0.triggerTubes).to.have.lengthOf(1);
+      expect(trainingTrigger0.triggerTubes[0]).to.be.instanceOf(TrainingTriggerTube);
+      expect(trainingTrigger0.triggerTubes[0].id).to.equal(expectedGoalTube.id);
+      expect(trainingTrigger0.triggerTubes[0].tube.id).to.equal(expectedGoalTube.tubeId);
+      expect(trainingTrigger0.triggerTubes[0].level).to.equal(expectedGoalTube.level);
     });
 
     it('should return an empty array when campaign has target-profile not linked to training', async function () {
@@ -299,7 +424,7 @@ describe('Integration | Repository | training-repository', function () {
       await databaseBuilder.commit();
 
       // when
-      const trainings = await trainingRepository.findByCampaignParticipationIdAndLocale({
+      const trainings = await trainingRepository.findWithTriggersByCampaignParticipationIdAndLocale({
         campaignParticipationId: campaignParticipation.id,
         locale: 'fr-fr',
       });
