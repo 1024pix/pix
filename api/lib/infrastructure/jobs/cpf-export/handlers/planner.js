@@ -13,7 +13,7 @@ module.exports = async function planner({ job, pgBoss, cpfCertificationResultRep
   const cpfCertificationResultChunksCount = Math.ceil(cpfCertificationResultCount / plannerJob.chunkSize);
 
   logger.info(
-    `CpfExportPlannerJob start from ${startDate.toLocaleDateString()} to ${endDate.toLocaleDateString()}, plan ${cpfCertificationResultChunksCount} job(s) for ${cpfCertificationResultCount} certifications`
+    `Start from ${startDate.toLocaleDateString()} to ${endDate.toLocaleDateString()}, plan ${cpfCertificationResultChunksCount} job(s) for ${cpfCertificationResultCount} certifications`
   );
 
   const newJobs = [];
