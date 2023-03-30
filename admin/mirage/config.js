@@ -111,10 +111,10 @@ export default function () {
       'last-name': lastName,
       email,
       username,
+      lang,
     } = JSON.parse(request.requestBody).data.attributes;
-
     const user = schema.users.find(userId);
-    return user.update({ firstName, lastName, email, username });
+    return user.update({ firstName, lastName, email, username, lang });
   });
   this.put('/admin/users/:id/unblock', (schema, request) => {
     const userId = request.params.id;

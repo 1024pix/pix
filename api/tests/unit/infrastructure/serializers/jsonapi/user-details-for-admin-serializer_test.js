@@ -154,6 +154,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
             email: modelObject.email,
             username: modelObject.username,
             cgu: modelObject.cgu,
+            lang: 'fr',
             'pix-orga-terms-of-service-accepted': modelObject.pixOrgaTermsOfServiceAccepted,
             'pix-certif-terms-of-service-accepted': modelObject.pixCertifTermsOfServiceAccepted,
           },
@@ -220,6 +221,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
             'last-name': 'Skywalker',
             email: 'lskywalker@deathstar.empire',
             username: 'luke.skywalker1212',
+            lang: 'en',
           },
         },
       };
@@ -234,6 +236,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
       expect(user.lastName).to.equal('Skywalker');
       expect(user.email).to.equal('lskywalker@deathstar.empire');
       expect(user.username).to.equal('luke.skywalker1212');
+      expect(user.lang).to.equal('en');
     });
   });
 });
