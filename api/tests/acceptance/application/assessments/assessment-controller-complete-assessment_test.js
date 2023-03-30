@@ -5,10 +5,13 @@ const {
   knex,
   mockLearningContent,
   learningContentBuilder,
+  sinon,
 } = require('../../../test-helper');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
+const config = require('../../../../lib/config');
 const createServer = require('../../../../server');
+const TrainingTrigger = require('../../../../lib/domain/models/TrainingTrigger');
 
 describe('Acceptance | Controller | assessment-controller-complete-assessment', function () {
   let options;
@@ -27,6 +30,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
                 {
                   id: 'recSkill0_0',
                   nom: '@recSkill0_0',
+                  level: 2,
                   challenges: [{ id: 'recChallenge0_0_0' }],
                 },
                 {
@@ -282,30 +286,72 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         expect(badgeAcquisitions).to.have.lengthOf(2);
       });
 
-      it('should create recommended trainings', async function () {
-        // given
-        const campaign = databaseBuilder.factory.buildCampaign({
-          targetProfileId: targetProfile.id,
-        });
-        databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkill0_0' });
+      describe('when training recommendation feature toggle is disabled', function () {
+        it('should create recommended trainings', async function () {
+          // given
+          sinon.stub(config, 'featureToggles').value({ isTrainingRecommendationEnabled: false });
+          const campaign = databaseBuilder.factory.buildCampaign({
+            targetProfileId: targetProfile.id,
+          });
+          databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkill0_0' });
 
-        // when
-        await _createAndCompleteCampaignParticipation({
-          user,
-          campaign,
-          badge,
-          options,
-          server,
-        });
+          // when
+          await _createAndCompleteCampaignParticipation({
+            user,
+            campaign,
+            badge,
+            options,
+            server,
+          });
 
-        // then
-        const recommendedTrainings = await knex('user-recommended-trainings')
-          .where({
-            userId: user.id,
+          // then
+          const recommendedTraining = await knex('user-recommended-trainings')
+            .where({
+              userId: user.id,
+              trainingId: training.id,
+            })
+            .first();
+          expect(recommendedTraining).to.exist;
+        });
+      });
+
+      describe('when training recommendation feature toggle is enabled', function () {
+        it('should create recommended trainings', async function () {
+          // given
+          sinon.stub(config, 'featureToggles').value({ isTrainingRecommendationEnabled: true });
+          const campaign = databaseBuilder.factory.buildCampaign({
+            targetProfileId: targetProfile.id,
+          });
+          databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkill0_0' });
+          const trainingTrigger = databaseBuilder.factory.buildTrainingTrigger({
             trainingId: training.id,
-          })
-          .first();
-        expect(recommendedTrainings).to.exist;
+            threshold: 80,
+            type: TrainingTrigger.types.PREREQUISITE,
+          });
+          databaseBuilder.factory.buildTrainingTriggerTube({
+            trainingTriggerId: trainingTrigger.id,
+            tubeId: 'recTube0_0',
+            level: 2,
+          });
+
+          // when
+          await _createAndCompleteCampaignParticipation({
+            user,
+            campaign,
+            badge,
+            options,
+            server,
+          });
+
+          // then
+          const recommendedTraining = await knex('user-recommended-trainings')
+            .where({
+              userId: user.id,
+              trainingId: training.id,
+            })
+            .first();
+          expect(recommendedTraining).to.exist;
+        });
       });
     });
 
