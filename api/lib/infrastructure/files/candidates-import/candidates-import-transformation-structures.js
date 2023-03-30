@@ -80,16 +80,18 @@ const _getTransformationsStructs = (translate) => [
   },
 ];
 
+let translate;
+
 // ALL
 function getTransformationStructsForPixCertifCandidatesImport({ i18n, complementaryCertifications, isSco }) {
-  const translate = i18n.__;
+  translate = i18n.__;
   const TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT = _getTransformationsStructs(translate);
   const transformationStruct = [...TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT];
 
-  _includeComplementaryCertificationColumns({ complementaryCertifications, transformationStruct, translate });
+  _includeComplementaryCertificationColumns({ complementaryCertifications, transformationStruct });
 
   if (!isSco) {
-    _includeBillingColumns({ transformationStruct, translate });
+    _includeBillingColumns({ transformationStruct });
   }
 
   return {
@@ -98,7 +100,7 @@ function getTransformationStructsForPixCertifCandidatesImport({ i18n, complement
   };
 }
 
-function _includeComplementaryCertificationColumns({ complementaryCertifications, transformationStruct, translate }) {
+function _includeComplementaryCertificationColumns({ complementaryCertifications, transformationStruct }) {
   const containsClea = complementaryCertifications.some(
     (complementaryCertification) => complementaryCertification.key === CLEA
   );
@@ -145,7 +147,7 @@ function _includeComplementaryCertificationColumns({ complementaryCertifications
   }
 }
 
-function _includeBillingColumns({ transformationStruct, translate }) {
+function _includeBillingColumns({ transformationStruct }) {
   transformationStruct.push({
     header: translate('candidate-list-template.pricing-pix'),
     property: 'billingMode',
@@ -174,7 +176,9 @@ function _getHeadersFromTransformationStruct(transformationStruct) {
 }
 
 function _toBooleanIfValueEqualsOuiOrNull(val) {
-  return _.toUpper(val) === 'OUI' ? true : null;
+  const yesTranslation = translate('candidate-list-template.yes');
+
+  return _.toUpper(val) === yesTranslation.toUpperCase() ? true : null;
 }
 
 module.exports = {

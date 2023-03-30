@@ -71,7 +71,7 @@
     "birthcity-inseecode": "Code Insee",
     "birthcity-postcode": "Code postal",
     "birthcountry": "Pays",
-    "birthdate": "Date de naissance (format : jj/mm/aaaa)",
+    "birthdate": "Date de naissance (format: jj/mm/aaaa)",
     "birthname": "Nom de naissance",
     "birthplace": "Lieu de naissance",
     "certification": "Certification",
@@ -92,6 +92,7 @@
     "tooltip-line-1": "(Requis notamment dans le cas d'un achat de crédits combinés)",
     "tooltip-line-2": "Doit être composé du SIRET de l’organisation et du numéro de facture. Ex : 12345678912345/FACT12345",
     "tooltip-line-3": "Si vous ne possédez pas de facture, un code de prépaiement doit être établi avec Pix.",
+    "yes": "Oui",
     "yes-or-empty": "(\"oui\" ou laisser vide)"
   },
   "certification-center-invitation-email": {
