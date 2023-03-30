@@ -64,34 +64,38 @@ const certificationCandidateValidationForMassImportJoiSchema = Joi.object({
     'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SEX_REQUIRED.code,
     'any.only': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SEX_NOT_VALID.code,
   }),
-  birthINSEECode: Joi.alternatives().conditional('birthPostalCode', {
+  birthPostalCode: Joi.alternatives().conditional('birthINSEECode', {
     is: Joi.string().empty(['', null]).required(),
     then: Joi.string().empty(['', null]).forbidden().messages({
-      'any.unknown': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_EXCLUSIVE.code,
+      'any.unknown': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED.code,
     }),
-    otherwise: Joi.string().empty(['', null]).required().messages({
-      'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED.code,
+    otherwise: Joi.alternatives().conditional('birthCity', {
+      is: Joi.string().empty(['', null]).required(),
+      then: Joi.string().empty(['', null]).required().messages({
+        'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_POSTAL_CODE_REQUIRED.code,
+      }),
+      otherwise: Joi.string().empty(['', null]).required().messages({
+        'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED.code,
+      }),
     }),
   }),
   birthCountry: Joi.string().required().empty(['', null]).messages({
     'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_COUNTRY_REQUIRED.code,
   }),
   email: Joi.string().email().allow(null).empty('').optional().messages({
-    'string.empty': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EMAIL_REQUIRED.code,
+    'string.email': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EMAIL_NOT_VALID.code,
   }),
   resultRecipientEmail: Joi.string().email().empty(['', null]).optional().messages({
-    'string.empty': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_RESULT_RECIPIENT_EMAIL_REQUIRED.code,
+    'string.email': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID.code,
   }),
-  externalId: Joi.string().allow(null).empty(['', null]).optional().messages({
-    'string.empty': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTERNAL_ID_REQUIRED.code,
-  }),
+  externalId: Joi.string().allow(null).empty(['', null]).optional(),
   birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required().empty(['', null]).messages({
     'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_REQUIRED.code,
-    'date.format': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_FORMAT_INCORRECT.code,
+    'date.format': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID.code,
+    'date.greater': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_MUST_BE_GREATER.code,
   }),
   extraTimePercentage: Joi.number().integer().allow(null).optional().min(1).max(100).messages({
-    'number.base': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_PERCENTAGE_REQUIRED.code,
-    'any.base': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_PERCENTAGE_REQUIRED.code,
+    'number.base': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_INTEGER.code,
     'number.min': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_BELOW_ONE.code,
     'number.max': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_BELOW_ONE.code,
     'number.integer': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EXTRA_TIME_INTEGER.code,
