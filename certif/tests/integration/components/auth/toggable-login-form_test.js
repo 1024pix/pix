@@ -20,8 +20,8 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
   hooks.beforeEach(function () {
     this.owner.register('service:session', SessionStub);
 
-    emailInputLabel = this.intl.t('pages.login-or-register.login-form.fields.email.label');
-    passwordInputLabel = this.intl.t('pages.login-or-register.login-form.fields.password.label');
+    emailInputLabel = this.intl.t('common.forms.login.email');
+    passwordInputLabel = this.intl.t('common.forms.login.password');
     loginLabel = this.intl.t('pages.login-or-register.login-form.login');
   });
 
@@ -57,7 +57,7 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
         await triggerEvent(emailInput, 'focusout');
 
         // then
-        assert.dom(screen.getByText(this.intl.t('pages.login-or-register.login-form.fields.email.error'))).exists();
+        assert.dom(screen.getByText(this.intl.t('common.form-errors.email.format'))).exists();
       });
 
       test('should display an empty password error message when focus-out', async function (assert) {
@@ -70,7 +70,7 @@ module('Integration | Component | Auth::ToggableLoginForm', function (hooks) {
         await triggerEvent(passwordInput, 'focusout');
 
         // then
-        assert.dom(screen.getByText(this.intl.t('pages.login-or-register.login-form.fields.password.error'))).exists();
+        assert.dom(screen.getByText(this.intl.t('common.form-errors.password.mandatory'))).exists();
       });
     });
   });

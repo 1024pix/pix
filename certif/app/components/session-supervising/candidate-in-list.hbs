@@ -25,7 +25,7 @@
       {{dayjs-format @candidate.birthdate "DD/MM/YYYY"}}
       {{#if @candidate.extraTimePercentage}}
         ·
-        {{t "pages.session-supervising.candidate-in-list.extra-time"}}
+        {{t "common.forms.certification-labels.extratime"}}
         :
         {{@candidate.extraTimePercentage}}%
       {{/if}}
@@ -35,17 +35,17 @@
         <span
           class="session-supervising-candidate-in-list__status session-supervising-candidate-in-list__status--authorized-to-resume"
         >
-          {{t "pages.session-supervising.candidate-in-list.authorized-to-resume"}}
+          {{t "common.forms.certification-labels.candidate-status.authorized-to-resume"}}
         </span>
       {{else}}
         <span
           class="session-supervising-candidate-in-list__status session-supervising-candidate-in-list__status--started"
         >
-          {{t "pages.session-supervising.candidate-in-list.ongoing"}}
+          {{t "common.forms.certification-labels.candidate-status.ongoing"}}
         </span>
       {{/if}}
       <span class="session-supervising-candidate-in-list__start-time">{{t
-          "pages.session-supervising.candidate-in-list.start"
+          "common.forms.certification-labels.candidate-status.start"
         }}
         :
         <time>{{this.candidateStartTime}}</time></span>
@@ -54,7 +54,7 @@
       <span
         class="session-supervising-candidate-in-list__status session-supervising-candidate-in-list__status--completed"
       >
-        {{t "pages.session-supervising.candidate-in-list.finished"}}
+        {{t "common.forms.certification-labels.candidate-status.finished"}}
       </span>
     {{/if}}
   </div>

@@ -3,7 +3,7 @@
   <header class="login__header">
     <img src="/pix-certif-logo.svg" alt="Pix Certif" />
 
-    <h1 class="login-header__title">{{t "pages.login.login"}}</h1>
+    <h1 class="login-header__title">{{t "pages.login.title"}}</h1>
 
     <p class="login-header__information paragraph">
       {{t "pages.login.accessible-to"}}
@@ -23,13 +23,13 @@
     <form class="login-main__form" {{on "submit" this.authenticate}}>
 
       <p class="login-main-form__mandatory-information paragraph">
-        {{t "pages.login.form.mandatory-fields"}}
+        {{t "common.form-errors.mandatory-all-fields"}}
       </p>
 
       <PixInput
         @id="login-email"
         name="login"
-        @label={{t "pages.login.form.email-address"}}
+        @label={{t "common.forms.login.email"}}
         autocomplete="email"
         type="email"
         required="true"
@@ -39,7 +39,7 @@
       <PixInputPassword
         @id="login-password"
         name="password"
-        @label={{t "pages.login.form.password"}}
+        @label={{t "common.forms.login.password"}}
         autocomplete="current-password"
         required="true"
         {{on "input" this.setPassword}}
@@ -52,12 +52,12 @@
       {{/if}}
 
       <PixButton @type="submit">
-        {{t "pages.login.form.button"}}
+        {{t "pages.login.actions.login.label"}}
       </PixButton>
 
       <div class="login-main-form__forgotten-password">
         <a href="https://app.pix.fr/mot-de-passe-oublie" target="_blank" rel="noopener noreferrer">{{t
-            "pages.login.form.forgotten-password"
+            "common.forms.login.forgot-password"
           }}</a>
       </div>
     </form>

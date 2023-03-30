@@ -1,10 +1,10 @@
 <div class="register-form">
   <form {{on "submit" this.register}}>
-    <p class="login-form__information">{{t "common.form.mandatory-all-fields"}}</p>
+    <p class="login-form__information">{{t "common.form-errors.mandatory-all-fields"}}</p>
     <div class="input-container">
       <PixInput
         @id="register-firstName"
-        @label={{t "pages.login-or-register.register-form.fields.first-name.label"}}
+        @label={{t "common.labels.candidate.firstname"}}
         name="firstName"
         type="firstName"
         {{on "focusout" this.validateFirstName}}
@@ -19,7 +19,7 @@
     <div class="input-container">
       <PixInput
         @id="register-lastName"
-        @label={{t "pages.login-or-register.register-form.fields.last-name.label"}}
+        @label={{t "common.labels.candidate.lastname"}}
         name="lastName"
         type="lastName"
         {{on "focusout" this.validateLastName}}
@@ -34,7 +34,7 @@
     <div class="input-container">
       <PixInput
         @id="register-email"
-        @label={{t "pages.login-or-register.register-form.fields.email.label"}}
+        @label={{t "common.forms.login.email"}}
         name="email"
         type="email"
         {{on "focusout" this.validateEmail}}
@@ -50,7 +50,7 @@
       <PixInputPassword
         @id="register-password"
         name="password"
-        @label={{t "pages.login-or-register.register-form.fields.password.label"}}
+        @label={{t "common.forms.login.password"}}
         autocomplete="current-password"
         required={{true}}
         aria-required={{true}}
@@ -93,7 +93,7 @@
 
     <div class="input-container">
       <PixButton @type="submit" @isLoading={{this.isLoading}} class="register-form__submit-button">
-        {{t "pages.login-or-register.register-form.fields.button.label"}}
+        {{t "pages.login-or-register.register-form.actions.login-button"}}
       </PixButton>
     </div>
 

@@ -62,16 +62,19 @@ module('Acceptance | Session creation', function (hooks) {
       const screen = await visit('/sessions/creation');
       assert.dom(screen.getByRole('heading', { name: t('pages.sessions.new.title') })).exists();
       assert
-        .dom(screen.getByRole('textbox', { name: t('pages.sessions.new.description') }))
+        .dom(screen.getByRole('textbox', { name: t('common.forms.session-labels.observations') }))
         .hasAttribute('maxLength', '350');
       assert
         .dom(screen.getByRole('button', { name: t('pages.sessions.new.actions.cancel-extra-information') }))
         .exists();
 
-      await fillIn(screen.getByRole('textbox', { name: t('pages.sessions.new.address') }), 'My address');
-      await fillIn(screen.getByRole('textbox', { name: t('pages.sessions.new.room') }), 'My room');
-      await fillIn(screen.getByRole('textbox', { name: t('pages.sessions.new.examiner') }), 'My examiner');
-      await fillIn(screen.getByRole('textbox', { name: t('pages.sessions.new.description') }), 'My description');
+      await fillIn(screen.getByRole('textbox', { name: t('common.forms.session-labels.center-name') }), 'My address');
+      await fillIn(screen.getByRole('textbox', { name: t('common.forms.session-labels.room-name') }), 'My room');
+      await fillIn(screen.getByRole('textbox', { name: t('common.forms.session-labels.invigilator') }), 'My examiner');
+      await fillIn(
+        screen.getByRole('textbox', { name: t('common.forms.session-labels.observations') }),
+        'My description'
+      );
       await setFlatpickrDate('#session-date', sessionDate);
       await setFlatpickrDate('#session-time', sessionTime);
       await click(screen.getByRole('button', { name: t('pages.sessions.new.actions.create-session') }));

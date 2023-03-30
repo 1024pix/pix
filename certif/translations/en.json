@@ -3,6 +3,7 @@
     "actions": {
       "back": "Retour",
       "cancel": "Cancel",
+      "choose": "Choose",
       "close": "Close",
       "continue": "Continue",
       "add": "Add",
@@ -20,11 +21,91 @@
       "gateway-timeout-error": "The service is being slow. Please try again later.",
       "internal-error": "An error occurred"
     },
-    "form": {
+    "forms": {
+      "certification-labels": {
+        "additional-certification": "Additional certification",
+        "candidate-status": {
+          "authorized-to-resume": "Allowed to resume",
+          "finished": "Finished",
+          "ongoing": "In progress",
+          "start": "Start"
+        },
+        "email-convocation": "Email for the convocation",
+        "email-results": "Email of the results' recipient (instructor, teacher...)",
+        "external-id": "External user ID",
+        "extratime": "Extra time",
+        "extratime-percentage": "Extra time (%)",
+        "prepayment-code": "Prepayment code",
+        "pricing": "Pricing of Pix’s share"
+      },
+      "login": {
+        "email": "Email address",
+        "password": "Password",
+        "forgot-password": "Forgot your password?"
+      },
+      "mandatory-fields": "The fields marked by <abbr title=\"required\" class=\"mandatory-mark\">*</abbr> are required.",
+      "required": "Required",
+      "session-labels": {
+        "center-name": "Location name",
+        "date": "Date",
+        "date-start": "Starting date",
+        "invigilator": "Invigilator(s)",
+        "observations": "Observations",
+        "room": "Room",
+        "room-name": "Room name",
+        "session-number": "Session No.",
+        "status": "Status",
+        "time": "Time",
+        "time-start": "Starting time (local time)"
+      }
+    },
+    "form-errors": {
+      "default": "The service is temporarily unavailable. Please try again later.",
+      "email": {
+        "already-exists": "This email address is already registered, please login.",
+        "format": "Your email address is invalid."
+      },
+      "firstname": {
+        "mandatory": "Please enter a first name."
+      },
+      "lastname": {
+        "mandatory": "Please enter a last name."
+      },
+      "password": {
+        "format": "Your password must contain at least 8 characters and include at least one uppercase letter, one lowercase letter and one number.",
+        "mandatory": "Your password can't be empty."
+      },
       "mandatory-all-fields": "All fields are required."
     },
-    "candidate": {
-      "candidates": "Candidates"
+    "labels": {
+      "billing-mode": {
+        "free": "Free",
+        "paid": "Payable",
+        "prepaid": "Prepaid"
+      },
+      "candidate": {
+        "birth-city": "Birth city",
+        "birth-city-insee-code": "Birth city INSEE code (only for France)",
+        "birth-city-postcode": "Birth city postcode",
+        "birth-geographical-code": "Geographical birth code",
+        "birth-country": "Birth country",
+        "birth-date": "Date of birth",
+        "birth-name": "Birth name",
+        "firstname": "First name",
+        "gender": {
+          "title": "Gender",
+          "man": "Man",
+          "woman": "Woman"
+        },
+        "insee-code": "INSEE code",
+        "lastname": "Last name",
+        "none": "None",
+        "postcode": "City postcode"
+      }
+    },
+    "sessions": {
+      "candidates": "Candidates",
+      "invigilator": "Invigilator"
     }
   },
   "current-lang": "en",
@@ -48,20 +129,17 @@
   "pages": {
     "login": {
       "title": "Login",
+      "actions": {
+        "login": {
+          "label": "Log in"
+        }
+      },
       "errors": {
         "should-change-password": "You currently have a temporary password. <a href=\"{url}\">Reset your password here</a>.",
         "invitation-was-cancelled": "This invitation is no longer valid.<br/>Please contact the administrator of your Pix Certif space.",
         "invitation-already-accepted": "This invitation has already been accepted.<br/>Please log in or contact the administrator of your Pix Certif space."
       },
-      "login": "Log in",
-      "accessible-to": "Pix Certif is only accessible to Pix certification centres.",
-      "form": {
-        "mandatory-fields": "All fields are required.",
-        "email-address": "Email address",
-        "password": "Password",
-        "button": "Log in",
-        "forgotten-password": "Forgot your password?"
-      }
+      "accessible-to": "Pix Certif is only accessible to Pix certification centres."
     },
     "login-or-register": {
       "title": "You have been invited to join the certification center {certificationCenterName}",
@@ -75,27 +153,16 @@
           }
         },
         "title": "Already have an account?",
-        "fields": {
-          "email": {
-            "label": "Email address",
-            "error": "Your email address is invalid."
-          },
-          "password": {
-            "label": "Password",
-            "error": "Your password can't be empty.",
-            "forgot-password": "Forgot your password?"
-          }
-        },
         "login": "Log in",
         "button": "Log in"
       },
       "register-form": {
         "title": "Sign up",
-        "button": "Sign up",
+        "actions": {
+          "login": "Sign up",
+          "login-button": "Sign up"
+        },
         "fields": {
-          "button": {
-            "label": "Sign up"
-          },
           "cgu": {
             "accept": "I agree to the",
             "and": "and",
@@ -103,27 +170,7 @@
             "data-protection-policy": "personal data protection policy",
             "error": "You must agree to the Pix terms of use and personal data protection policy to create an account.",
             "terms-of-use": "Pix terms of use"
-          },
-          "email": {
-            "error": "Please enter a valid email address.",
-            "label": "Email address"
-          },
-          "first-name": {
-            "error": "Please enter a first name.",
-            "label": "First name"
-          },
-          "last-name": {
-            "error": "Please enter a last name.",
-            "label": "Last name"
-          },
-          "password": {
-            "error": "Your password must contain at least 8 characters and include at least one uppercase letter, one lowercase letter and one number.",
-            "label": "Password"
           }
-        },
-        "errors": {
-          "default": "The service is temporarily unavailable. Please try again later.",
-          "email-already-exists": "This email address is already registered, please login."
         }
       }
     },
@@ -282,15 +329,8 @@
           "empty": "No session found",
           "header": {
             "actions": "Actions",
-            "center-name": "Location name",
-            "date": "Date",
             "effective-candidates": "Certifications taken",
-            "enrolled-candidates": "Signed up candidates",
-            "room": "Room",
-            "session-number": "Session No.",
-            "status": "Status",
-            "supervisor": "Invigilator(s)",
-            "time": "Time"
+            "enrolled-candidates": "Signed up candidates"
           },
           "row": {
             "label": "Certification session",
@@ -302,7 +342,16 @@
         "candidates": {
           "add-modal": {
             "actions": {
-              "close-extra-information": "Close add candidate window modal"
+              "close-extra-information": "Close add candidate window modal",
+              "enrol-the-candidate": "Enrol the candidate"
+            },
+            "title": "Inscrire un candidat",
+            "info-panel": "If this field isn’t filled in, the results won't be transmitted by email for the affected candidate(s).<br />The candidate will see their results displayed directly on their Pix account.",
+            "prepayment-information": "Prepayment code information",
+            "prepayment-tooltip": "Required in particular when purchasing combined credits)<br />It must be comprised of the organisation’s SIRET and of the invoice’s number. Ex : 12345678912345/FACT12345.<br />If you don’t have an invoice, a prepayment code must be set with Pix.",
+            "notifications": {
+              "add-success": "The candidate has been successfully enrolled.",
+              "remove-success": "The candidate has been successfully deleted."
             }
           },
           "detail-modal": {
@@ -310,32 +359,6 @@
             "actions": {
               "close-extra-information": "Close candidate's detail window modal"
             }
-          },
-          "informations": {
-            "additional-certification": "Additional certification",
-            "billing-mode": {
-              "free": "Free",
-              "paid": "Payable",
-              "prepaid": "Prepaid"
-            },
-            "birth-city": "Birth city",
-            "birth-city-insee-code": "Birth city INSEE code (only for France)",
-            "birth-city-postcode": "Birth city postcode",
-            "birth-country": "Birth country",
-            "birth-date": "Date of birth",
-            "birth-name": "Birth name",
-            "email-convocation": "Email for the convocation",
-            "email-results": "Email of the results' recipient (instructor, teacher…)",
-            "external-id": "External user ID",
-            "extratime": "Extra time",
-            "extratime-percentage": "Extra time (%)",
-            "firstname": "First name",
-            "gender": "Gender",
-            "lastname": "Last name",
-            "man": "Man",
-            "prepayment-code": "Prepayment code",
-            "pricing": "Pricing of Pix’s share",
-            "woman": "Woman"
           },
           "list": {
             "title": "Candidates' list",
@@ -377,8 +400,6 @@
           },
           "page-title": "Candidates"
         },
-        "date": "Date",
-        "datetime": "Starting time (local time)",
         "downloads": {
           "label": "Downloads:",
           "attendance-sheet": {
@@ -396,8 +417,7 @@
         },
         "page-title": "Details",
         "tabs": {
-          "details": "Details",
-          "candidates": "Candidates"
+          "details": "Details"
         },
         "title": "Session {sessionId}",
         "panel-clea": {
@@ -413,8 +433,6 @@
             "update": "Edit the details for session {sessionId}"
           },
           "finalization-info": "The finalisation information for the session has already been transmitted to Pix.",
-          "invigilators": "Invigilator(s)",
-          "location-name": "Location name",
           "session": {
             "copy-number": "Copy the session number",
             "label": "Session number"
@@ -424,12 +442,9 @@
             "candidate": "Candidate",
             "copy-code": "Copy the session’s access code"
           },
-          "room": "Room",
-          "observations": "Observations",
           "password": {
             "copy-password": "Copy the invigilator’s session password",
-            "label": "Session password",
-            "invigilator": "Invigilator"
+            "label": "Session password"
           }
         }
       },
@@ -439,29 +454,14 @@
           "cancel-extra-information": "Cancel the session creation and return to the previous page",
           "create-session": "Create the session"
         },
-        "address": "Location name",
-        "date": "Starting date",
-        "description": "Observations",
-        "examiner": "Invigilator(s)",
-        "extra-information": "Session scheduling | Pix Certif",
-        "required-fields": "The fields marked by <abbr title=\"required\" class=\"mandatory-mark\">*</abbr> are required.",
-        "room": "Room name",
-        "time": "Starting time (local time)"
+        "extra-information": "Session scheduling | Pix Certif"
       },
       "update": {
         "title": "Certification session change",
         "actions": {
           "cancel-extra-information": "Cancel the session change and return to the previous page",
           "edit-session": "Edit the session"
-        },
-        "address": "Location name",
-        "date": "Starting date",
-        "description": "Observations",
-        "examiner": "Invigilator(s)",
-        "page-title": "Certification session change",
-        "required-fields": "The fields marked by <abbr title=\"required\" class=\"mandatory-mark\">*</abbr> are required.",
-        "room": "Room name",
-        "time": "Starting time (local time)"
+        }
       }
     },
     "session-supervising": {
@@ -493,11 +493,7 @@
           "exit-extra-information": "Exit the invigilation of session {sessionId}"
         },
         "access-code": "Access code (candidates)",
-        "center-name": "Location",
-        "multiple-supervisor": "Invigilator(s)",
-        "room": "Room",
-        "session-id": "Session {sessionId}",
-        "supervisor": "Supervisor"
+        "session-id": "Session {sessionId}"
       },
       "candidate-list": {
         "authorized-to-start-candidates": "{authorizedToStartCandidates}/{totalCandidates} {authorizedToStartCandidates, plural,one {candidate} other {candidates}} selected",
@@ -507,13 +503,8 @@
         "search-candidate": "Search for a candidate"
       },
       "candidate-in-list": {
-        "extra-time": "Extra time",
-        "ongoing": "In progress",
-        "finished": "Finished",
-        "authorized-to-resume": "Allowed to resume",
         "display-candidate-options": "Display the candidate's options",
         "candidate-options": "Candidate's options",
-        "start": "Start",
         "test-end-modal": {
           "description": "Attention : cette action entraîne la fin de son test de certification et est irréversible.",
           "instruction-with-name": "Finish the test of {firstName} {lastName}?",
@@ -541,8 +532,6 @@
     },
     "team": {
       "title": "Team",
-      "last-name": "Last name",
-      "first-name": "First name",
       "referer": "Référent",
       "pix-referer": "Référent Pix",
       "update-referer-button": "Changer de référent",
