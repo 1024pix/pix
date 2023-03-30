@@ -10,14 +10,14 @@
 
     <div class="session-details-header__datetime">
       <div class="session-details-header-datetime__date">
-        <h2 class="label-text session-details-content__label">{{t "pages.sessions.detail.date"}}</h2>
+        <h2 class="label-text session-details-content__label">{{t "common.forms.session-labels.date"}}</h2>
         <span class="content-text content-text--big session-details-header-datetime__text">
           {{dayjs-format this.session.date "dddd DD MMM YYYY" allow-empty=true}}
         </span>
       </div>
 
       <div>
-        <h2 class="label-text session-details-content__label">{{t "pages.sessions.detail.datetime"}}</h2>
+        <h2 class="label-text session-details-content__label">{{t "common.forms.session-labels.time-start"}}</h2>
         <span class="content-text content-text--big session-details-header-datetime__text">
           {{dayjs-format this.session.time "HH:mm" inputFormat="HH:mm:ss" allow-empty=true}}
         </span>
@@ -35,7 +35,7 @@
         {{t "pages.sessions.detail.tabs.details"}}
       </LinkTo>
       <LinkTo @route="authenticated.sessions.details.certification-candidates" class="navbar-item">
-        {{t "pages.sessions.detail.tabs.candidates"}}
+        {{t "common.sessions.candidates"}}
         {{this.certificationCandidatesCount}}
       </LinkTo>
     </nav>

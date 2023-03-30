@@ -22,8 +22,8 @@ module('Acceptance | join ', function (hooks) {
     let loginFormButton;
 
     hooks.beforeEach(function () {
-      emailInputLabel = this.intl.t('pages.login-or-register.login-form.fields.email.label');
-      passwordInputLabel = this.intl.t('pages.login-or-register.login-form.fields.password.label');
+      emailInputLabel = this.intl.t('common.forms.login.email');
+      passwordInputLabel = this.intl.t('common.forms.login.password');
       loginFormButton = this.intl.t('pages.login-or-register.login-form.login');
       toogleloginFormButton = this.intl.t('pages.login-or-register.login-form.button');
     });

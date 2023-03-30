@@ -1,5 +1,5 @@
 <PixModal
-  @title="Inscrire un candidat"
+  @title={{t "pages.sessions.detail.candidates.detail-modal.title"}}
   @onCloseButtonClick={{@closeModal}}
   class="new-certification-candidate-modal"
   @showModal={{@showModal}}
@@ -12,15 +12,13 @@
     >
 
       <p class="new-certification-candidate-modal__form__required-fields-mention">
-        Les champs marqués de
-        <span class="required-field-indicator">*</span>
-        sont obligatoires.
+        {{t "common.forms.mandatory-fields" htmlSafe=true}}
       </p>
 
       <div class="new-certification-candidate-modal__form__field new-certification-candidate-modal__form__field-double">
         <label for="last-name" class="label">
-          <span class="required-field-indicator">*</span>
-          Nom de famille
+          <abbr title={{t "common.forms.required"}} class="mandatory-mark" aria-hidden="true">*</abbr>
+          {{t "common.labels.candidate.birth-name"}}
         </label>
         <Input
           id="last-name"
@@ -35,8 +33,8 @@
 
       <div class="new-certification-candidate-modal__form__field new-certification-candidate-modal__form__field-double">
         <label for="first-name" class="label">
-          <span class="required-field-indicator">*</span>
-          Prénom
+          <abbr title={{t "common.forms.required"}} class="mandatory-mark" aria-hidden="true">*</abbr>
+          {{t "common.labels.candidate.firstname"}}
         </label>
         <Input
           id="first-name"
@@ -51,8 +49,8 @@
       <div class="new-certification-candidate-modal__form__field">
         <fieldset>
           <legend class="label">
-            <span class="required-field-indicator">*</span>
-            Sexe
+            <abbr title={{t "common.forms.required"}} class="mandatory-mark" aria-hidden="true">*</abbr>
+            {{t "common.labels.candidate.gender.title"}}
           </legend>
           <div class="radio-button-container">
             <input
@@ -63,7 +61,9 @@
               required
               {{on "click" (fn @updateCandidateData @candidateData "sex")}}
             />
-            <label class="radio-button-label" for="female">Femme</label>
+            <label class="radio-button-label" for="female">
+              {{t "common.labels.candidate.gender.woman"}}
+            </label>
             <input
               type="radio"
               id="male"
@@ -71,15 +71,17 @@
               name="sex"
               {{on "click" (fn @updateCandidateData @candidateData "sex")}}
             />
-            <label class="radio-button-label" for="male">Homme</label>
+            <label class="radio-button-label" for="male">
+              {{t "common.labels.candidate.gender.man"}}
+            </label>
           </div>
         </fieldset>
       </div>
 
       <div class="new-certification-candidate-modal__form__field">
         <label for="birthdate" class="label">
-          <span class="required-field-indicator">*</span>
-          Date de naissance
+          <abbr title={{t "common.forms.required"}} class="mandatory-mark" aria-hidden="true">*</abbr>
+          {{t "common.labels.candidate.birth-date"}}
         </label>
         <OneWayDateMask
           required
@@ -94,8 +96,8 @@
 
       <div class="new-certification-candidate-modal__form__field">
         <label for="birth-country" class="label">
-          <span class="required-field-indicator">*</span>
-          Pays de naissance
+          <abbr title={{t "common.forms.required"}} class="mandatory-mark" aria-hidden="true">*</abbr>
+          {{t "common.labels.candidate.birth-country"}}
         </label>
         <PixSelect
           @id="birth-country"
@@ -112,8 +114,8 @@
         <div class="new-certification-candidate-modal__form__field">
           <fieldset>
             <legend class="label">
-              <span class="required-field-indicator">*</span>
-              Code géographique de naissance
+              <abbr title={{t "common.forms.required"}} class="mandatory-mark" aria-hidden="true">*</abbr>
+              {{t "common.labels.candidate.birth-geographical-code"}}
             </legend>
             <div class="radio-button-container">
               <input
@@ -125,7 +127,9 @@
                 {{on "click" (fn this.selectBirthGeoCodeOption "insee")}}
                 required
               />
-              <label class="radio-button-label" for="insee-code-choice">Code INSEE</label>
+              <label class="radio-button-label" for="insee-code-choice">
+                {{t "common.labels.candidate.insee-code"}}
+              </label>
               <input
                 type="radio"
                 id="postal-code-choice"
@@ -133,7 +137,9 @@
                 value="postal"
                 {{on "click" (fn this.selectBirthGeoCodeOption "postal")}}
               />
-              <label class="radio-button-label" for="postal-code-choice">Code postal</label>
+              <label class="radio-button-label" for="postal-code-choice">
+                {{t "common.labels.candidate.postcode"}}
+              </label>
             </div>
           </fieldset>
         </div>
@@ -142,8 +148,8 @@
       {{#if this.isBirthInseeCodeRequired}}
         <div class="new-certification-candidate-modal__form__field">
           <label for="birth-insee-code" class="label">
-            <span class="required-field-indicator">*</span>
-            Code INSEE de naissance
+            <abbr title={{t "common.forms.required"}} class="mandatory-mark" aria-hidden="true">*</abbr>
+            {{t "common.labels.candidate.birth-city-insee-code"}}
           </label>
           <Input
             id="birth-insee-code"
@@ -162,8 +168,8 @@
           class="new-certification-candidate-modal__form__field new-certification-candidate-modal__form__field-double"
         >
           <label for="birth-postal-code" class="label">
-            <span class="required-field-indicator">*</span>
-            Code postal de naissance
+            <abbr title={{t "common.forms.required"}} class="mandatory-mark" aria-hidden="true">*</abbr>
+            {{t "common.labels.candidate.birth-city-postcode"}}
           </label>
           <Input
             id="birth-postal-code"
@@ -182,8 +188,8 @@
           class="new-certification-candidate-modal__form__field new-certification-candidate-modal__form__field-double"
         >
           <label for="birth-city" class="label">
-            <span class="required-field-indicator">*</span>
-            Commune de naissance
+            <abbr title={{t "common.forms.required"}} class="mandatory-mark" aria-hidden="true">*</abbr>
+            {{t "common.labels.candidate.birth-city"}}
           </label>
           <Input
             id="birth-city"
@@ -197,7 +203,7 @@
       {{/if}}
 
       <div class="new-certification-candidate-modal__form__field">
-        <label for="external-id" class="label">Identifiant externe</label>
+        <label for="external-id" class="label">{{t "common.forms.certification-labels.external-id"}}</label>
         <Input
           id="external-id"
           @type="text"
@@ -208,7 +214,9 @@
       </div>
 
       <div class="new-certification-candidate-modal__form__field">
-        <label for="extra-time-percentage" class="label">Temps majoré (%)</label>
+        <label for="extra-time-percentage" class="label">
+          {{t "common.forms.certification-labels.extratime-percentage"}}
+        </label>
         <Input
           id="extra-time-percentage"
           @type="number"
@@ -219,8 +227,9 @@
       </div>
 
       <div id="recipient-email-container" class="new-certification-candidate-modal__form__field">
-        <label for="result-recipient-email" class="label">E-mail du destinataire des résultats (formateur,
-          enseignant...)</label>
+        <label for="result-recipient-email" class="label">
+          {{t "common.forms.certification-labels.email-results"}}
+        </label>
         <Input
           id="result-recipient-email"
           @type="email"
@@ -230,13 +239,14 @@
         />
         <div class="new-certification-candidate-modal__form__field__info-panel">
           <FaIcon @icon="info-circle" />
-          <span>Si le champ n’est pas renseigné, les résultats ne seront pas transmis par mail pour le/les candidats
-            concernés.<br />Le candidat verra ses résultats affichés directement sur son compte Pix.</span>
+          <span>{{t "pages.sessions.detail.candidates.add-modal.info-panel" htmlSafe=true}}</span>
         </div>
       </div>
 
       <div id="email-container" class="new-certification-candidate-modal__form__field">
-        <label for="email" class="label">E-mail de convocation</label>
+        <label for="email" class="label">
+          {{t "common.forms.certification-labels.email-convocation"}}
+        </label>
         <Input
           id="email"
           @type="email"
@@ -251,15 +261,16 @@
           class="new-certification-candidate-modal__form__field new-certification-candidate-modal__form__field-double"
         >
           <label for="billing-mode" class="label">
-            <span class="required-field-indicator">*</span>
-            Tarification part Pix</label>
+            <abbr title={{t "common.forms.required"}} class="mandatory-mark" aria-hidden="true">*</abbr>
+            {{t "common.forms.certification-labels.pricing"}}
+          </label>
           <PixSelect
             @id="billing-mode"
             class="birth-country-selector"
             @options={{this.billingModeOptions}}
             @onChange={{fn @updateCandidateDataFromValue @candidateData "billingMode"}}
             @value={{@candidateData.billingMode}}
-            @placeholder={{"-- Choisissez --"}}
+            @placeholder={{this.billingMenuPlaceholder}}
             @hideDefaultOption={{true}}
             required
           />
@@ -268,7 +279,7 @@
           class="new-certification-candidate-modal__form__field new-certification-candidate-modal__form__field-double new-certification-candidate-modal__form__field__tooltip"
         >
           <label for="prepayment-code" class="label">
-            Code de prépaiement
+            {{t "common.forms.certification-labels.prepayment-code"}}
           </label>
           <PixTooltip @id="tooltip-prepayment-code" @position="left">
             <:triggerElement>
@@ -276,14 +287,11 @@
                 @icon="info-circle"
                 tabindex="0"
                 aria-describedby="tooltip-prepayment-code"
-                aria-label="Information du code de prépaiement"
+                aria-label={{t "pages.sessions.detail.candidates.add-modal.prepayment-information"}}
               />
             </:triggerElement>
             <:tooltip>
-              (Requis notamment dans le cas d'un achat de crédits combinés)<br />
-              Doit être composé du SIRET de l’organisation et du numéro de facture. Ex : 12345678912345/FACT12345'.<br
-              />
-              Si vous ne possédez pas de facture, un code de prépaiement doit être établi avec Pix.
+              {{t "pages.sessions.detail.candidates.add-modal.prepayment-tooltip" htmlSafe=true}}
             </:tooltip>
           </PixTooltip>
           <Input
@@ -298,7 +306,9 @@
 
       {{#if this.complementaryCertifications.length}}
         <div class="new-certification-candidate-modal__form__field">
-          <span class="label">Certification complémentaire</span>
+          <span class="label">
+            {{t "common.forms.certification-labels.additional-certification"}}
+          </span>
           <div class="complementary-certifications-checkbox-list">
             <fieldset id="complementary-certifications">
               <label for="no-complementaryCertification">
@@ -310,7 +320,7 @@
                   value="none"
                   {{on "input" this.updateComplementaryCertification}}
                 />
-                Aucune
+                {{t "common.labels.candidate.none"}}
               </label>
               {{#each this.complementaryCertifications as |complementaryCertification index|}}
                 <label for={{concat "complementaryCertification_" index}}>
@@ -344,7 +354,7 @@
       @isDisabled={{this.isLoading}}
       form="new-certification-candidate-form"
     >
-      Inscrire le candidat
+      {{t "pages.sessions.detail.candidates.add-modal.actions.enrol-the-candidate"}}
     </PixButton>
   </:footer>
 </PixModal>

@@ -4,13 +4,13 @@
 
   <form {{on "submit" this.createSession}} class="session-form">
     <p class="session-form__mandatory-information">
-      {{t "pages.sessions.new.required-fields" htmlSafe=true}}
+      {{t "common.forms.mandatory-fields" htmlSafe=true}}
     </p>
 
     <div class="session-form__field">
       <label for="session-address" class="label">
-        <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-        {{t "pages.sessions.new.address"}}
+        <abbr title={{t "common.forms.required"}} class="mandatory-mark" aria-hidden="true">*</abbr>
+        {{t "common.forms.session-labels.center-name"}}
       </label>
       <Input
         id="session-address"
@@ -29,8 +29,8 @@
 
     <div class="session-form__field">
       <label for="session-room" class="label">
-        <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-        {{t "pages.sessions.new.room"}}
+        <abbr title={{t "common.forms.required"}} class="mandatory-mark" aria-hidden="true">*</abbr>
+        {{t "common.forms.session-labels.room-name"}}
       </label>
       <Input
         id="session-room"
@@ -49,8 +49,8 @@
 
     <div class="session-form__field">
       <label for="session-date" class="label">
-        <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-        {{t "pages.sessions.new.date"}}
+        <abbr title={{t "common.forms.required"}} class="mandatory-mark" aria-hidden="true">*</abbr>
+        {{t "common.forms.session-labels.date-start"}}
       </label>
       <EmberFlatpickr
         id="session-date"
@@ -73,8 +73,8 @@
 
     <div class="session-form__field">
       <label for="session-time" class="label">
-        <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-        {{t "pages.sessions.new.time"}}
+        <abbr title={{t "common.forms.required"}} class="mandatory-mark" aria-hidden="true">*</abbr>
+        {{t "common.forms.session-labels.time-start"}}
       </label>
       <EmberFlatpickr
         id="session-time"
@@ -98,8 +98,8 @@
 
     <div class="session-form__field">
       <label for="session-examiner" class="label">
-        <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
-        {{t "pages.sessions.new.examiner"}}
+        <abbr title={{t "common.forms.required"}} class="mandatory-mark" aria-hidden="true">*</abbr>
+        {{t "common.forms.session-labels.invigilator"}}
       </label>
       <Input
         id="session-examiner"
@@ -117,7 +117,7 @@
     </div>
 
     <div class="session-form__field">
-      <label for="session-description" class="label">{{t "pages.sessions.new.description"}}</label>
+      <label for="session-description" class="label">{{t "common.forms.session-labels.observations"}}</label>
       <Textarea
         id="session-description"
         name="session-description"

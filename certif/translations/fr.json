@@ -4,6 +4,7 @@
       "add": "Ajouter",
       "back": "Retour",
       "cancel": "Annuler",
+      "choose": "Choisissez",
       "close": "Fermer",
       "continue": "Continuer",
       "delete": "Supprimer",
@@ -20,11 +21,91 @@
       "gateway-timeout-error": "Le service subit des ralentissements. Veuillez réessayer ultérieurement.",
       "internal-error": "Une erreur est survenue"
     },
-    "form": {
+    "forms": {
+      "certification-labels": {
+        "additional-certification": "Certification complémentaire",
+        "candidate-status": {
+          "authorized-to-resume": "Autorisé à reprendre",
+          "finished": "Terminé",
+          "ongoing": "En cours",
+          "start": "Début"
+        },
+        "email-convocation": "E-mail de convocation",
+        "email-results": "E-mail du destinataire des résultats (formateur, enseignant...)",
+        "external-id": "Identifiant externe",
+        "extratime": "Temps majoré",
+        "extratime-percentage": "Temps majoré (%)",
+        "prepayment-code": "Code de prépaiement",
+        "pricing": "Tarification part Pix"
+      },
+      "login": {
+        "email": "Adresse e-mail",
+        "password":"Mot de passe",
+        "forgot-password": "Mot de passe oublié ?"
+      },
+      "mandatory-fields": "Les champs marqués de <abbr title=\"obligatoire\" class=\"mandatory-mark\">*</abbr>sont obligatoires.",
+      "required": "Obligatoire",
+      "session-labels": {
+        "center-name": "Nom du site",
+        "date": "Date",
+        "date-start": "Date de début",
+        "invigilator": "Surveillant(s)",
+        "observations": "Observations",
+        "room": "Salle",
+        "room-name": "Nom de la salle",
+        "session-number": "N° de session",
+        "status": "Statut",
+        "time": "Heure",
+        "time-start": "Heure de début (heure locale)"
+      }
+    },
+    "form-errors": {
+      "default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement.",
+      "email": {
+        "already-exists": "Cette adresse e-mail est déjà enregistrée, connectez-vous.",
+        "format": "Le champ adresse e-mail n’est pas valide."
+      },
+      "firstname": {
+        "mandatory": "Le champ prénom est obligatoire."
+      },
+      "lastname": {
+        "mandatory": "Le champ nom est obligatoire."
+      },
+      "password": {
+        "format": "Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.",
+        "mandatory": "Le champ mot de passe est obligatoire."
+      },
       "mandatory-all-fields": "Tous les champs sont obligatoires."
     },
-    "candidate": {
-      "candidates": "Candidats"
+    "labels": {
+      "billing-mode": {
+        "free": "Gratuite",
+        "paid": "Payante",
+        "prepaid": "Prépayée"
+      },
+      "candidate": {
+        "birth-city": "Commune de naissance",
+        "birth-city-insee-code": "Code INSEE de naissance",
+        "birth-city-postcode": "Code postal de naissance",
+        "birth-geographical-code": "Code géographique de naissance",
+        "birth-country": "Pays de naissance",
+        "birth-date": "Date de naissance",
+        "birth-name": "Nom de naissance",
+        "firstname": "Prénom",
+        "gender": {
+          "title": "Sexe",
+          "man": "Homme",
+          "woman": "Femme"
+        },
+        "insee-code": "Code INSEE",
+        "lastname":  "Nom",
+        "none": "Aucune",
+        "postcode": "Code postal"
+      }
+    },
+    "sessions": {
+      "candidates": "Candidats",
+      "invigilator": "Surveillant"
     }
   },
   "current-lang": "fr",
@@ -48,20 +129,17 @@
   "pages": {
     "login": {
       "title": "Connectez-vous",
+      "actions": {
+        "login": {
+          "label": "Je me connecte"
+        }
+      },
       "errors": {
         "should-change-password": "Vous avez actuellement un mot de passe temporaire. Cliquez sur <a href=\"{url}\">mot de passe oublié</a> pour le réinitialiser.",
         "invitation-was-cancelled": "Cette invitation n’est plus valide.<br/>Contactez l’administrateur de votre espace Pix Certif.",
         "invitation-already-accepted": "Cette invitation a déjà été acceptée.<br/>Connectez-vous ou contactez l’administrateur de votre espace Pix Certif."
       },
-      "login": "Connectez-vous",
-      "accessible-to": "L'accès à Pix Certif est limité aux centres de certification Pix.",
-      "form": {
-        "mandatory-fields": "Tous les champs sont obligatoires.",
-        "email-address": "Adresse e-mail",
-        "password": "Mot de passe",
-        "button": "Je me connecte",
-        "forgotten-password": "Mot de passe oublié ?"
-      }
+      "accessible-to": "L'accès à Pix Certif est limité aux centres de certification Pix."
     },
     "login-or-register": {
       "title": "Vous êtes invité(e) à rejoindre le centre de certification {certificationCenterName}",
@@ -75,27 +153,16 @@
           }
         },
         "title": "J'ai déjà un compte",
-        "fields": {
-          "email": {
-            "label": "Adresse e-mail",
-            "error": "Le champ adresse e-mail n’est pas valide."
-          },
-          "password": {
-            "label": "Mot de passe",
-            "error": "Le champ mot de passe est obligatoire.",
-            "forgot-password": "Mot de passe oublié ?"
-          }
-        },
         "login": "Je me connecte",
         "button": "Se connecter"
       },
       "register-form": {
         "title": "Je m’inscris",
-        "button": "S'inscrire",
+        "actions": {
+          "login": "S'inscrire",
+          "login-button": "Je m'inscris"
+        },
         "fields": {
-          "button": {
-            "label": "Je m'inscris"
-          },
           "cgu": {
             "accept": "J'accepte les",
             "and": "et la",
@@ -103,27 +170,7 @@
             "data-protection-policy": "politique de confidentialité",
             "error": "Vous devez accepter les conditions d’utilisation de Pix et la politique de confidentialité pour créer un compte.",
             "terms-of-use": "conditions d'utilisation de Pix"
-          },
-          "email": {
-            "error": "Le champ adresse e-mail n’est pas valide.",
-            "label": "Adresse e-mail"
-          },
-          "first-name": {
-            "error": "Le champ prénom est obligatoire.",
-            "label": "Prénom"
-          },
-          "last-name": {
-            "error": "Le champ nom est obligatoire.",
-            "label": "Nom"
-          },
-          "password": {
-            "error": "Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.",
-            "label": "Mot de passe"
           }
-        },
-        "errors": {
-          "default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement.",
-          "email-already-exists": "Cette adresse e-mail est déjà enregistrée, connectez-vous."
         }
       }
     },
@@ -160,6 +207,7 @@
             "download": "Une erreur s'est produite pendant le téléchargement"
           },
           "instructions": {
+            "title": "Comment ça marche ?",
             "creation": {
               "title": "Pour créer des sessions ?",
               "list": "Vous pouvez créer des sessions :",
@@ -171,8 +219,7 @@
               "replace": "<strong>Pour remplacer</strong> une liste pré-existante dans le fichier modèle,",
               "subscription": "<strong>Pour inscrire</strong> des candidats dans une session vide.",
               "warning": "Attention à renseigner le numéro de session sans les autres informations de sessions (ex: date, heure, etc.) pour éviter les doublons lors de la création."
-            },
-            "title": "Comment ça marche ?"
+            }
           }
         },
         "step-two": {
@@ -281,15 +328,8 @@
           "empty": "Aucune session trouvée",
           "header": {
             "actions": "Actions",
-            "center-name": "Nom du site",
-            "date": "Date",
             "effective-candidates": "Certifications passées",
-            "enrolled-candidates": "Candidats inscrits",
-            "room": "Salle",
-            "session-number": "N° de session",
-            "status": "Statut",
-            "supervisor": "Surveillant(s)",
-            "time": "Heure"
+            "enrolled-candidates": "Candidats inscrits"
           },
           "row": {
             "label": "Session de certification",
@@ -301,8 +341,17 @@
         "title": "Session {sessionId}",
         "candidates": {
           "add-modal": {
+            "title": "Inscrire un candidat",
             "actions": {
-              "close-extra-information": "Fermer la modale d'ajout de candidat"
+              "close-extra-information": "Fermer la modale d'ajout de candidat",
+              "enrol-the-candidate": "Inscrire le candidat"
+            },
+            "info-panel": "Si le champ n’est pas renseigné, les résultats ne seront pas transmis par mail pour le/les candidats concernés.<br />Le candidat verra ses résultats affichés directement sur son compte Pix.",
+            "prepayment-information": "Information du code de prépaiement",
+            "prepayment-tooltip": "(Requis notamment dans le cas d'un achat de crédits combinés)<br />Doit être composé du SIRET de l’organisation et du numéro de facture. Ex : 12345678912345/FACT12345'.<br/>Si vous ne possédez pas de facture, un code de prépaiement doit être établi avec Pix.",
+            "notifications": {
+              "add-success": "Le candidat a été inscrit avec succès.",
+              "remove-success": "Le candidat a été supprimé avec succès."
             }
           },
           "detail-modal": {
@@ -310,32 +359,6 @@
             "actions": {
               "close-extra-information": "Fermer la fenêtre de détail du candidat"
             }
-          },
-          "informations": {
-            "additional-certification": "Certification complémentaire",
-            "billing-mode": {
-              "free": "Gratuite",
-              "paid": "Payante",
-              "prepaid": "Prépayée"
-            },
-            "birth-city": "Commune de naissance",
-            "birth-city-insee-code": "Code INSEE de naissance",
-            "birth-city-postcode": "Code postal de naissance",
-            "birth-country": "Pays de naissance",
-            "birth-date": "Date de naissance",
-            "birth-name": "Nom de naissance",
-            "email-convocation": "E-mail de convocation",
-            "email-results": "E-mail du destinataire des résultats (formateur, enseignant...)",
-            "external-id": "Identifiant externe",
-            "extratime": "Temps majoré",
-            "extratime-percentage": "Temps majoré (%)",
-            "firstname": "Prénom",
-            "gender": "Sexe",
-            "lastname": "Nom",
-            "man": "Homme",
-            "prepayment-code": "Code de prépaiement",
-            "pricing": "Tarification part Pix",
-            "woman": "Femme"
           },
           "list": {
             "title": "Liste des candidats",
@@ -377,8 +400,6 @@
           },
           "page-title": "Candidats"
         },
-        "date": "Date",
-        "datetime": "Heure de début (heure locale)",
         "downloads": {
           "label": "Téléchargements :",
           "attendance-sheet": {
@@ -408,8 +429,6 @@
             "update": "Modifier les informations de la session {sessionId}"
           },
           "finalization-info": "Les informations de finalisation de la session ont déjà été transmises aux équipes de Pix.",
-          "invigilators": "Surveillant(s)",
-          "location-name": "Nom du site",
           "session": {
             "copy-number": "Copier le numéro de session",
             "label": "Numéro de session"
@@ -419,17 +438,13 @@
             "candidate": "Candidat",
             "copy-code": "Copier le code d’accès à la session"
           },
-          "room": "Salle",
-          "observations": "Observations",
           "password": {
             "copy-password": "Copier le mot de passe de session pour le surveillant",
-            "label": "Mot de passe de session",
-            "invigilator": "Surveillant"
+            "label": "Mot de passe de session"
           }
         },
         "tabs": {
-          "details": "Détails",
-          "candidates": "Candidats"
+          "details": "Détails"
         }
       },
       "new": {
@@ -438,29 +453,14 @@
           "cancel-extra-information": "Annuler la création de session et retourner vers la page précédente",
           "create-session": "Créer la session"
         },
-        "address": "Nom du site",
-        "date": "Date de début",
-        "description": "Observations",
-        "examiner": "Surveillant(s)",
-        "extra-information": "Planification d’une session | Pix Certif",
-        "required-fields": "Les champs marqués de <abbr title=\"obligatoire\" class=\"mandatory-mark\">*</abbr> sont obligatoires.",
-        "room": "Nom de la salle",
-        "time": "Heure de début (heure locale)"
+        "extra-information": "Planification d’une session | Pix Certif"
       },
       "update": {
         "title": "Modification d'une session de certification",
         "actions": {
           "cancel-extra-information": "Annuler la modification de la session et retourner vers la page précédente",
           "edit-session": "Modifier la session"
-        },
-        "address": "Nom du site",
-        "date": "Date de début",
-        "description": "Observations",
-        "examiner": "Surveillant(s)",
-        "page-title": "Modification d'une session de certification",
-        "required-fields": "Les champs marqués de <abbr title=\"obligatoire\" class=\"mandatory-mark\">*</abbr> sont obligatoires.",
-        "room": "Nom de la salle",
-        "time": "Heure de début (heure locale)"
+        }
       }
     },
     "session-supervising": {
@@ -492,11 +492,7 @@
           "exit-extra-information": "Quitter la surveillance de la session {sessionId}"
         },
         "access-code": "Code d'accès (candidats)",
-        "center-name": "Site",
-        "multiple-supervisor": "Surveillant(s)",
-        "room": "Salle",
-        "session-id": "Session {sessionId}",
-        "supervisor": "Surveillant"
+        "session-id": "Session {sessionId}"
       },
       "candidate-list": {
         "authorized-to-start-candidates": "{authorizedToStartCandidates}/{totalCandidates} {authorizedToStartCandidates, plural,one {candidat sélectionné} other {candidats sélectionnés}}",
@@ -506,13 +502,8 @@
         "search-candidate": "Rechercher un candidat"
       },
       "candidate-in-list": {
-        "extra-time": "Temps majoré",
-        "ongoing": "En cours",
-        "authorized-to-resume": "Autorisé à reprendre",
-        "finished": "Terminé",
         "display-candidate-options": "Afficher les options du candidat",
         "candidate-options": "Options du candidat",
-        "start": "Début",
         "test-end-modal": {
           "description": "Attention : cette action entraîne la fin de son test de certification et est irréversible.",
           "instruction-with-name": "Terminer le test de {firstName} {lastName} ?",
@@ -540,8 +531,6 @@
     },
     "team": {
       "title": "Équipe",
-      "last-name": "Nom",
-      "first-name": "Prénom",
       "referer": "Référent",
       "pix-referer": "Référent Pix",
       "update-referer-button": "Changer de référent",

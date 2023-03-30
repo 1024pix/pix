@@ -5,10 +5,10 @@ import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-const EMPTY_FIRSTNAME_ERROR_MESSAGE = 'pages.login-or-register.register-form.fields.first-name.error';
-const EMPTY_LASTNAME_ERROR_MESSAGE = 'pages.login-or-register.register-form.fields.last-name.error';
-const EMPTY_EMAIL_ERROR_MESSAGE = 'pages.login-or-register.register-form.fields.email.error';
-const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'pages.login-or-register.register-form.fields.password.error';
+const EMPTY_FIRSTNAME_ERROR_MESSAGE = 'common.form-errors.firstname.mandatory';
+const EMPTY_LASTNAME_ERROR_MESSAGE = 'common.form-errors.lastname.mandatory';
+const EMPTY_EMAIL_ERROR_MESSAGE = 'common.form-errors.email.format';
+const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'common.form-errors.password.format';
 const CGU_ERROR_MESSAGE = 'pages.login-or-register.register-form.fields.cgu.error';
 
 module('Integration | Component | Auth::RegisterForm', function (hooks) {
@@ -21,10 +21,10 @@ module('Integration | Component | Auth::RegisterForm', function (hooks) {
   let cguAriaLabel;
 
   hooks.beforeEach(function () {
-    firstNameInputLabel = this.intl.t('pages.login-or-register.register-form.fields.first-name.label');
-    lastNameInputLabel = this.intl.t('pages.login-or-register.register-form.fields.last-name.label');
-    emailInputLabel = this.intl.t('pages.login-or-register.register-form.fields.email.label');
-    passwordInputLabel = this.intl.t('pages.login-or-register.register-form.fields.password.label');
+    firstNameInputLabel = this.intl.t('common.labels.candidate.firstname');
+    lastNameInputLabel = this.intl.t('common.labels.candidate.lastname');
+    emailInputLabel = this.intl.t('common.forms.login.email');
+    passwordInputLabel = this.intl.t('common.forms.login.password');
     cguAriaLabel = this.intl.t('pages.login-or-register.register-form.fields.cgu.aria-label');
   });
 

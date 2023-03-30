@@ -4,7 +4,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | new-certification-candidate-modal', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -59,7 +59,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
     `);
 
     // then
-    assert.dom(screen.getByLabelText('* Nom de famille')).exists();
+    assert.dom(screen.getByLabelText('* Nom de naissance')).exists();
     assert.dom(screen.getByLabelText('* Prénom')).exists();
     assert.dom(screen.getByLabelText('Homme')).exists();
     assert.dom(screen.getByLabelText('Femme')).exists();
@@ -130,7 +130,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
       `);
 
       // then
-      assert.dom(screen.getByLabelText('* Nom de famille')).exists();
+      assert.dom(screen.getByLabelText('* Nom de naissance')).exists();
       assert.dom(screen.getByLabelText('* Prénom')).exists();
       assert.dom(screen.getByLabelText('Homme')).exists();
       assert.dom(screen.getByLabelText('Femme')).exists();
@@ -200,7 +200,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
     `);
 
     // then
-    assert.dom(screen.getByRole('button', { name: '* Pays de naissance' })).includesText('France');
+    assert.dom(screen.getByRole('button', { name: 'Pays de naissance' })).includesText('France');
   });
 
   module('when close button cross icon is clicked', () => {
@@ -471,7 +471,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
           />
       `);
       await fillIn(screen.getByLabelText('* Prénom'), 'Guybrush');
-      await fillIn(screen.getByLabelText('* Nom de famille'), 'Threepwood');
+      await fillIn(screen.getByLabelText('* Nom de naissance'), 'Threepwood');
       await fillIn(screen.getByLabelText('* Date de naissance'), '28/04/2019');
       await click(screen.getByRole('radio', { name: 'Homme' }));
       await click(screen.getByLabelText('* Pays de naissance'));

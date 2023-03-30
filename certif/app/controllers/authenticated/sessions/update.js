@@ -10,7 +10,7 @@ export default class SessionsUpdateController extends Controller {
   @service intl;
 
   get pageTitle() {
-    return `${this.intl.t('pages.sessions.update.page-title')} | Session ${this.session.id} | Pix Certif`;
+    return `${this.intl.t('pages.sessions.update.title')} | Session ${this.session.id} | Pix Certif`;
   }
 
   @action
