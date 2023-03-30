@@ -96,16 +96,18 @@ module.exports = {
   },
 
   async getCandidatesImportSheet(request, h, dependencies = { tokenService, fillCandidatesImportSheet }) {
+    const translate = request.i18n.__;
     const sessionId = request.params.id;
     const token = request.query.accessToken;
     const userId = dependencies.tokenService.extractUserId(token);
+    const filename = translate('candidate-list-template.filename');
 
     const { session, certificationCenterHabilitations, isScoCertificationCenter } =
       await usecases.getCandidateImportSheetData({
         sessionId,
         userId,
       });
-    const candidateImportSheet = await fillCandidatesImportSheet({
+    const candidateImportSheet = await dependencies.fillCandidatesImportSheet({
       session,
       certificationCenterHabilitations,
       isScoCertificationCenter,
@@ -115,7 +117,7 @@ module.exports = {
     return h
       .response(candidateImportSheet)
       .header('Content-Type', 'application/vnd.oasis.opendocument.spreadsheet')
-      .header('Content-Disposition', 'attachment; filename=liste-candidats-session-' + sessionId + '.ods');
+      .header('Content-Disposition', 'attachment; filename=' + filename + sessionId + '.ods');
   },
 
   async getCertificationCandidates(request, h, dependencies = { certificationCandidateSerializer }) {

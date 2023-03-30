@@ -68,6 +68,7 @@
     "email-results": "Email of the results' recipient (instructor, teacher…)",
     "externalid": "External user ID",
     "extratime": "Extra time ?",
+    "filename": "session-candidate-list",
     "firstname": "First name",
     "gender": "Gender (M or F)",
     "one-per-candidate":  "(no more than one per candidate)",
