@@ -12,12 +12,11 @@ export default class LoginForm extends Component {
 
   email = null;
   password = null;
-  @tracked isPasswordVisible = false;
   @tracked isErrorMessagePresent = false;
   @tracked errorMessage = null;
 
-  get passwordInputType() {
-    return this.isPasswordVisible ? 'text' : 'password';
+  get forgottenPasswordUrl() {
+    return this.url.forgottenPasswordUrl;
   }
 
   @action
@@ -42,11 +41,6 @@ export default class LoginForm extends Component {
       this.isErrorMessagePresent = true;
       this._handleApiError(responseError);
     }
-  }
-
-  @action
-  togglePasswordVisibility() {
-    this.isPasswordVisible = !this.isPasswordVisible;
   }
 
   _handleApiError(responseError) {
