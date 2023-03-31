@@ -185,10 +185,6 @@
       "actions": {
         "return": "Revenir à la liste des sessions"
       },
-      "finalize": {
-        "finished-test-list-description": "Liste des candidats qui ont fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant et une liste déroulante permettant de sélectionner la raison de l’abandon.",
-        "unfinished-test-list-description": "Liste des candidats qui n’ont pas fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant et une liste déroulante permettant de sélectionner la raison de l’abandon."
-      },
       "import": {
         "breadcrumb": {
           "extra-information": "Fil d'Arianne",
@@ -475,6 +471,61 @@
         "actions": {
           "cancel-extra-information": "Annuler la modification de la session et retourner vers la page précédente",
           "edit-session": "Modifier la session"
+        }
+      }
+    },
+    "session-finalization": {
+      "actions": {
+        "finalise": "Finaliser"
+      },
+      "title": "Finaliser la session {sessionId}",
+      "return-to": "Retour à la session",
+      "reporting": {
+        "completed-reports-information": {
+          "description": "Certification(s) terminée(s)",
+          "extra-information": "Liste des candidats qui ont fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant.",
+          "table": {
+            "labels": {
+              "screen": "Écran de fin du test vu"
+            }
+          }
+        },
+        "description": "Pour que le signalement soit pris en compte, il est nécessaire d’utiliser la catégorie de signalement appropriée (exemples : C1, C2, etc).",
+        "uncompleted-reports-information": {
+          "description" : "Ces candidats n'ont pas fini leur test de certification ou le surveillant a mis fin à leur test",
+          "extra-information": "Liste des candidats qui n’ont pas fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant et une liste déroulante permettant de sélectionner la raison de l’abandon.",
+          "table": {
+            "labels": {
+              "abandonment": "Abandon : Manque de temps ou départ prématuré",
+              "abandonment-reason": "Raison de l'abandon",
+              "technical-problem": "Problème technique"
+            },
+            "tooltip": {
+              "abandonment": {
+                "enough-time-description": "Le candidat n'a pas eu le temps de répondre à toutes ses questions",
+                "left-deliberately-description": "Le candidat est parti volontairement avant la fin du test"
+              },
+              "extra-information": "Description de la raison de l'abandon",
+              "technical-problem-description": "Le candidat a rencontré un problème technique l'empêchant de poursuivre son test jusqu’à la fin"
+            }
+          }
+        },
+        "table": {
+          "labels": {
+            "certification-number": "N° de certification",
+            "reporting": "Signalement"
+          },
+          "reporting-count": "{reportingsCount, plural,one {1 signalement} other {# signalements}}"
+        },
+        "title": "Signalements : Reporter, pour chaque candidat, les signalements renseignés sur le PV d'incident"
+      },
+      "complementary-information": {
+        "title": "Informations complémentaires (facultatif)",
+        "description": "Vous pouvez indiquer, le cas échéant, les événements survenus lors de la session. Il n'est pas nécessaire de renseigner les candidats absents.",
+        "incident": "Malgré un incident survenu pendant la session, les candidats ont pu terminer leur test de certification. Un temps supplémentaire a été accordé à un ou plusieurs candidats.",
+        "candidates-joining-issue": {
+          "label": "Un ou plusieurs candidats étaient présents en session de certification mais n'ont pas pu rejoindre la session.",
+          "link": "Vous trouverez <a class=\"link\" href=\"https://cloud.pix.fr/s/zf3fGimWwPQCeWF/download/Probl%C3%A8mes%20d%27acc%C3%A8s%20en%20session.pdf\" target=\"_blank\" rel=\"noreferrer noopener\">ici un document pour vous aider à résoudre ce type de problème de connexion pour les prochaines sessions (PDF, 131ko).</a>"
         }
       }
     },

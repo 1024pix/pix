@@ -226,9 +226,7 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
     assert
       .dom(
         screen.getByRole('table', {
-          name: `Ces candidats n'ont pas fini leur test de certification ou le surveillant a mis fin à leur test ${this.intl.t(
-            'pages.sessions.finalize.unfinished-test-list-description'
-          )}`,
+          name: "Ces candidats n'ont pas fini leur test de certification ou le surveillant a mis fin à leur test Liste des candidats qui n’ont pas fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant et une liste déroulante permettant de sélectionner la raison de l’abandon.",
         })
       )
       .exists();
