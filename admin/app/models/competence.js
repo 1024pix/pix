@@ -1,9 +1,8 @@
 import Model, { attr, hasMany } from '@ember-data/model';
 
 export default class Competence extends Model {
-  @attr('string') name;
-  @attr('string') areaId;
-  @attr('string') index;
+  @attr() name;
+  @attr() index;
 
   @hasMany('thematic') thematics;
 

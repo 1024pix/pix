@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 
 export default class CappedTubesCriterion extends Component {
   get areasForView() {
-    return this.args.targetProfile.newAreas
+    return this.args.targetProfile.areas
       .sortBy('code')
       .map((area) => ({
         area,

@@ -455,7 +455,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
 
       test('it should create a badge', async function (assert) {
         // given
-        const tubeThematicDeux = server.create('new-tube', {
+        const tubeThematicDeux = server.create('tube', {
           id: 'tubeThematicDeuxNiveauQuatre',
           name: '@tubeThematicDeuxNiveauQuatre',
           practicalTitle: 'Mon tube thématique 2 de niveau quatre',
@@ -464,7 +464,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
           tablet: true,
           level: 4,
         });
-        const tubeThematicUn = server.create('new-tube', {
+        const tubeThematicUn = server.create('tube', {
           id: 'tubeThematicUnNiveauDeux',
           name: '@tubeThematicUnNiveauDeux',
           practicalTitle: 'Mon tube thématique 1 de niveau deux',
@@ -472,25 +472,25 @@ module('Acceptance | Target Profile Insights', function (hooks) {
           tablet: false,
           level: 2,
         });
-        const thematicDeux = server.create('new-thematic', {
+        const thematicDeux = server.create('thematic', {
           id: 'thematicDeux',
           index: '2',
           name: 'thematicDeux',
           tubes: [tubeThematicDeux],
         });
-        const thematicUn = server.create('new-thematic', {
+        const thematicUn = server.create('thematic', {
           id: 'thematicUn',
           index: '1',
           name: 'thematicUn',
           tubes: [tubeThematicUn],
         });
-        const competenceUn = server.create('new-competence', {
+        const competenceUn = server.create('competence', {
           id: 'competenceUn',
           name: 'competenceUn',
           index: '1.1',
           thematics: [thematicUn, thematicDeux],
         });
-        const areaUn = server.create('new-area', {
+        const areaUn = server.create('area', {
           id: 'areaUn',
           title: 'areaUn',
           code: '1',
@@ -498,7 +498,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
           frameworkId: 'frameworkId',
           competences: [competenceUn],
         });
-        targetProfile.update({ newAreas: [areaUn] });
+        targetProfile.update({ areas: [areaUn] });
 
         // when
         const screen = await visit('/target-profiles/1');

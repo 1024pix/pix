@@ -36,7 +36,7 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
     module('when target profile is tube based', function () {
       test('it should display stage type radio buttons', async function (assert) {
         // given
-        this.set('model', { stages: [], isNewFormat: true });
+        this.set('model', { stages: [] });
 
         // when
         const screen = await render(hbs`<TargetProfiles::Stages @targetProfile={{this.model}} />`);
@@ -44,20 +44,6 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
         // then
         assert.dom(screen.queryByRole('radio', { name: 'Palier par seuil' })).exists();
         assert.dom(screen.queryByRole('radio', { name: 'Palier par niveau' })).exists();
-      });
-    });
-
-    module('when target profile is skill based', function () {
-      test('it should NOT display stage type radio buttons', async function (assert) {
-        // given
-        this.set('model', { stages: [], isNewFormat: false });
-
-        // when
-        const screen = await render(hbs`<TargetProfiles::Stages @targetProfile={{this.model}} />`);
-
-        // then
-        assert.dom(screen.queryByRole('radio', { name: 'Palier par seuil' })).doesNotExist();
-        assert.dom(screen.queryByRole('radio', { name: 'Palier par niveau' })).doesNotExist();
       });
     });
   });
@@ -71,7 +57,7 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
         title: 'My title',
         message: 'My message',
       });
-      this.set('model', { stages: [stage], isNewFormat: true });
+      this.set('model', { stages: [stage] });
 
       // when
       const screen = await render(hbs`<TargetProfiles::Stages @targetProfile={{this.model}} />`);
@@ -97,7 +83,7 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
         title: 'My second stage title',
         message: 'My second stage message',
       });
-      this.set('model', { stages: [stage1, stage2], isNewFormat: true });
+      this.set('model', { stages: [stage1, stage2] });
 
       // when
       const screen = await render(hbs`<TargetProfiles::Stages @targetProfile={{this.model}} />`);
@@ -120,7 +106,7 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
         title: 'My second stage title',
         message: 'My second stage message',
       });
-      this.set('model', { stages: [stage1, stage2], isNewFormat: true });
+      this.set('model', { stages: [stage1, stage2] });
 
       // when
       const screen = await render(hbs`<TargetProfiles::Stages @targetProfile={{this.model}} />`);
