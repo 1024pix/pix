@@ -173,8 +173,10 @@
     "test:api:bail": "npm run test:api:unit -- --bail && npm run test:api:integration -- --bail && npm run test:api:acceptance -- --bail",
     "test:codemods": "cd codemods/migrate-cjs-to-esm; npm install; npm run test",
     "test:lint": "npm test && npm run lint",
-    "esm-migration:prepare": "jscodeshift --transform ./codemods/migrate-cjs-to-esm/transforms/prepare.js --extensions js --ignore-config=.codemodsignore ./ && npm run lint-fix:code",
-    "esm-migration:execute": "jscodeshift --transform ./codemods/migrate-cjs-to-esm/transforms/execute.js --extensions js --ignore-config=.codemodsignore ./ && npm run lint-fix:code"
+    "esm-migration:lib:prepare": "jscodeshift --transform ./codemods/migrate-cjs-to-esm/transforms/lib/prepare.js --extensions js --ignore-config=.codemodsignore-lib ./ && npm run lint-fix:code",
+    "esm-migration:lib:execute": "jscodeshift --transform ./codemods/migrate-cjs-to-esm/transforms/lib/execute.js --extensions js --ignore-config=.codemodsignore-lib ./ && npm run lint-fix:code",
+    "esm-migration:others:prepare": "jscodeshift --transform ./codemods/migrate-cjs-to-esm/transforms/others/prepare.js --extensions js --ignore-config=.codemodsignore-others ./scripts/ ./tests/ ./db/seeds/ ./db/database-builder/ ./db/migrations/ ./db/constants.js && npm run lint-fix:code",
+    "esm-migration:others:execute": "jscodeshift --transform ./codemods/migrate-cjs-to-esm/transforms/others/execute.js --extensions js --ignore-config=.codemodsignore-others ./scripts/ ./tests/ ./db/seeds/ ./db/database-builder/ ./db/migrations/ ./db/constants.js && npm run lint-fix:code"
   },
   "optionalDependencies": {
     "nyc": "^15.1.0"
