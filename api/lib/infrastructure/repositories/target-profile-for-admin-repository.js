@@ -6,7 +6,7 @@ const areaRepository = require('./area-repository.js');
 const competenceRepository = require('./competence-repository.js');
 const thematicRepository = require('./thematic-repository.js');
 const tubeRepository = require('./tube-repository.js');
-const TargetProfileForAdminNewFormat = require('../../domain/models/TargetProfileForAdminNewFormat.js');
+const TargetProfileForAdmin = require('../../domain/models/TargetProfileForAdmin.js');
 const { BadgeDetails, BadgeCriterion, SkillSet, CappedTube, SCOPES } = require('../../domain/models/BadgeDetails.js');
 
 module.exports = {
@@ -35,19 +35,15 @@ module.exports = {
     const tubesData = await knex('target-profile_tubes')
       .select('tubeId', 'level')
       .where('targetProfileId', targetProfileDTO.id);
-    return _toDomainNewFormat(targetProfileDTO, tubesData, locale);
+    return _toDomain(targetProfileDTO, tubesData, locale);
   },
 };
 
-async function _toDomainNewFormat(targetProfileDTO, tubesData, locale) {
-  const { areas, competences, thematics, tubes } = await _getLearningContent_new(
-    targetProfileDTO.id,
-    tubesData,
-    locale
-  );
+async function _toDomain(targetProfileDTO, tubesData, locale) {
+  const { areas, competences, thematics, tubes } = await _getLearningContent(targetProfileDTO.id, tubesData, locale);
   const badges = await _findBadges(targetProfileDTO.id);
 
-  return new TargetProfileForAdminNewFormat({
+  return new TargetProfileForAdmin({
     ...targetProfileDTO,
     badges,
     areas,
@@ -57,7 +53,7 @@ async function _toDomainNewFormat(targetProfileDTO, tubesData, locale) {
   });
 }
 
-async function _getLearningContent_new(targetProfileId, tubesData, locale) {
+async function _getLearningContent(targetProfileId, tubesData, locale) {
   const tubeIds = tubesData.map((data) => data.tubeId);
   const tubes = await tubeRepository.findByRecordIds(tubeIds, locale);
   const notFoundTubeIds = tubeIds.filter((id) => !tubes.map((tube) => tube.id).includes(id));

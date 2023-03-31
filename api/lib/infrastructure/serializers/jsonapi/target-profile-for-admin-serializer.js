@@ -4,7 +4,6 @@ module.exports = {
   serialize(targetProfiles) {
     return new Serializer('target-profile', {
       transform(record) {
-        record.newAreas = record.areas;
         record.badges = record.badges.map((badge) => {
           badge.criteria = badge.criteria.map((criteria) => criteria.toDTO());
           return badge;
@@ -12,7 +11,6 @@ module.exports = {
         return record;
       },
       attributes: [
-        'isNewFormat',
         'name',
         'outdated',
         'isPublic',
@@ -25,7 +23,7 @@ module.exports = {
         'isSimplifiedAccess',
         'badges',
         'stages',
-        'newAreas',
+        'areas',
         'maxLevel',
       ],
       badges: {
@@ -57,7 +55,7 @@ module.exports = {
           },
         },
       },
-      newAreas: {
+      areas: {
         ref: 'id',
         included: true,
         attributes: ['title', 'code', 'color', 'frameworkId', 'competences'],
@@ -78,10 +76,6 @@ module.exports = {
         },
       },
       typeForAttribute(attribute) {
-        if (attribute === 'areas') return 'new-areas';
-        if (attribute === 'competences') return 'new-competences';
-        if (attribute === 'thematics') return 'new-thematics';
-        if (attribute === 'tubes') return 'new-tubes';
         if (attribute === 'criteria') return 'badge-criteria';
         return undefined;
       },

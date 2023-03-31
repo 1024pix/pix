@@ -1,18 +1,13 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/target-profile-for-admin-new-format-serializer');
-const TargetProfileForAdminNewFormat = require('../../../../../lib/domain/models/TargetProfileForAdminNewFormat');
+const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/target-profile-for-admin-serializer');
+const TargetProfileForAdmin = require('../../../../../lib/domain/models/TargetProfileForAdmin');
 const { SCOPES } = require('../../../../../lib/domain/models/BadgeDetails');
 
-describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-serializer', function () {
+describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', function () {
   describe('#serialize', function () {
-    it('should serialize target profile new format to JSONAPI', function () {
+    it('should serialize target profile to JSONAPI', function () {
       // given
-      const badge1Criteria1 = domainBuilder.buildBadgeDetails.buildBadgeCriterion_SkillSets({
-        id: 1000,
-        threshold: 80,
-        arrayOfSkillIds: [['rec123', 'recABC'], ['rec456']],
-      });
-      const badge1Criteria2 = domainBuilder.buildBadgeDetails.buildBadgeCriterion_CampaignParticipation({
+      const badge1Criteria1 = domainBuilder.buildBadgeDetails.buildBadgeCriterion_CampaignParticipation({
         id: 2000,
         threshold: 70,
       });
@@ -25,7 +20,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
         key: 'some key badge1',
         isCertifiable: true,
         isAlwaysVisible: false,
-        criteria: [badge1Criteria1, badge1Criteria2],
+        criteria: [badge1Criteria1],
       });
       const badge2Criteria1 = domainBuilder.buildBadgeDetails.buildBadgeCriterion_CappedTubes({
         name: 'super tubes group',
@@ -61,7 +56,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
         code: 'red',
         frameworkId: 'recFrameworkCool1',
       });
-      const targetProfileForAdminNewFormat = new TargetProfileForAdminNewFormat({
+      const targetProfileForAdmin = new TargetProfileForAdmin({
         id: 132,
         name: 'Mon Super profil cible',
         outdated: true,
@@ -147,7 +142,6 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
           type: 'target-profiles',
           id: '132',
           attributes: {
-            'is-new-format': true,
             name: 'Mon Super profil cible',
             outdated: true,
             'is-public': true,
@@ -178,14 +172,14 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
                 },
               ],
             },
-            'new-areas': {
+            areas: {
               data: [
                 {
-                  type: 'newAreas',
+                  type: 'areas',
                   id: 'recArea1',
                 },
                 {
-                  type: 'newAreas',
+                  type: 'areas',
                   id: 'recArea2',
                 },
               ],
@@ -193,26 +187,6 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
           },
         },
         included: [
-          {
-            type: 'badge-criteria',
-            id: '1000',
-            attributes: {
-              name: null,
-              threshold: 80,
-              scope: SCOPES.SKILL_SET,
-              'skill-sets': [
-                {
-                  name: 'skillSetName#rec123',
-                  skillIds: ['rec123', 'recABC'],
-                },
-                {
-                  name: 'skillSetName#rec456',
-                  skillIds: ['rec456'],
-                },
-              ],
-              'capped-tubes': [],
-            },
-          },
           {
             type: 'badge-criteria',
             id: '2000',
@@ -239,10 +213,6 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
             relationships: {
               criteria: {
                 data: [
-                  {
-                    type: 'badge-criteria',
-                    id: '1000',
-                  },
                   {
                     type: 'badge-criteria',
                     id: '2000',
@@ -289,7 +259,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
             },
           },
           {
-            type: 'new-tubes',
+            type: 'tubes',
             id: 'recTube1',
             attributes: {
               name: '@nomTube',
@@ -300,7 +270,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
             },
           },
           {
-            type: 'new-thematics',
+            type: 'thematics',
             id: 'recThem1',
             attributes: {
               name: 'Super thématique',
@@ -310,7 +280,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
               tubes: {
                 data: [
                   {
-                    type: 'new-tubes',
+                    type: 'tubes',
                     id: 'recTube1',
                   },
                 ],
@@ -318,7 +288,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
             },
           },
           {
-            type: 'new-competences',
+            type: 'competences',
             id: 'recComp1',
             attributes: {
               name: 'Super compétence',
@@ -328,7 +298,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
               thematics: {
                 data: [
                   {
-                    type: 'new-thematics',
+                    type: 'thematics',
                     id: 'recThem1',
                   },
                 ],
@@ -336,7 +306,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
             },
           },
           {
-            type: 'newAreas',
+            type: 'areas',
             id: 'recArea1',
             attributes: {
               title: 'Super domaine',
@@ -348,7 +318,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
               competences: {
                 data: [
                   {
-                    type: 'new-competences',
+                    type: 'competences',
                     id: 'recComp1',
                   },
                 ],
@@ -356,7 +326,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
             },
           },
           {
-            type: 'new-tubes',
+            type: 'tubes',
             id: 'recTube2',
             attributes: {
               name: '@nomTube2',
@@ -367,7 +337,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
             },
           },
           {
-            type: 'new-tubes',
+            type: 'tubes',
             id: 'recTube3',
             attributes: {
               name: '@nomTube3',
@@ -378,7 +348,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
             },
           },
           {
-            type: 'new-thematics',
+            type: 'thematics',
             id: 'recThem2',
             attributes: {
               name: 'Super thématique2',
@@ -388,11 +358,11 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
               tubes: {
                 data: [
                   {
-                    type: 'new-tubes',
+                    type: 'tubes',
                     id: 'recTube2',
                   },
                   {
-                    type: 'new-tubes',
+                    type: 'tubes',
                     id: 'recTube3',
                   },
                 ],
@@ -400,7 +370,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
             },
           },
           {
-            type: 'new-competences',
+            type: 'competences',
             id: 'recComp2',
             attributes: {
               name: 'Super compétence2',
@@ -410,7 +380,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
               thematics: {
                 data: [
                   {
-                    type: 'new-thematics',
+                    type: 'thematics',
                     id: 'recThem2',
                   },
                 ],
@@ -418,7 +388,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
             },
           },
           {
-            type: 'newAreas',
+            type: 'areas',
             id: 'recArea2',
             attributes: {
               title: 'Super domaine2',
@@ -430,7 +400,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
               competences: {
                 data: [
                   {
-                    type: 'new-competences',
+                    type: 'competences',
                     id: 'recComp2',
                   },
                 ],
@@ -441,7 +411,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-new-format-seri
       };
 
       // when
-      const serializedTargetProfile = serializer.serialize(targetProfileForAdminNewFormat);
+      const serializedTargetProfile = serializer.serialize(targetProfileForAdmin);
 
       // then
       expect(serializedTargetProfile).to.deep.equal(expectedSerializedTargetProfile);

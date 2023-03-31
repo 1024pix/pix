@@ -1,10 +1,10 @@
 const { expect, databaseBuilder, catchErr, mockLearningContent, domainBuilder } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const targetProfileForAdminRepository = require('../../../../lib/infrastructure/repositories/target-profile-for-admin-repository');
-const TargetProfileForAdminNewFormat = require('../../../../lib/domain/models/TargetProfileForAdminNewFormat');
+const TargetProfileForAdmin = require('../../../../lib/domain/models/TargetProfileForAdmin');
 
 describe('Integration | Repository | target-profile-for-admin', function () {
-  describe('#getAsNewFormat', function () {
+  describe('#get', function () {
     context('when target profile does not exist', function () {
       it('should throw a NotFound error', async function () {
         // when
@@ -109,7 +109,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
     });
 
     context('when target profile exists and is valid', function () {
-      it('should return a new format target profile', async function () {
+      it('should return target profile', async function () {
         // given
         databaseBuilder.factory.buildOrganization({ id: 66 });
         const targetProfileDB = databaseBuilder.factory.buildTargetProfile({
@@ -419,7 +419,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           ...badge2DTO,
           criteria: [criteria1Badge2],
         });
-        const expectedTargetProfile = new TargetProfileForAdminNewFormat({
+        const expectedTargetProfile = new TargetProfileForAdmin({
           id: targetProfileDB.id,
           name: targetProfileDB.name,
           createdAt: targetProfileDB.createdAt,
@@ -557,7 +557,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           color: 'colorA',
           frameworkId: 'fmk1',
         };
-        const expectedTargetProfile = new TargetProfileForAdminNewFormat({
+        const expectedTargetProfile = new TargetProfileForAdmin({
           id: targetProfileDB.id,
           name: targetProfileDB.name,
           createdAt: targetProfileDB.createdAt,
