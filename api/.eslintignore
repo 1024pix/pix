@@ -2,10 +2,4 @@
 # .file are implicitly ignored, unless explicitly specified here
 node_modules/
 codemods/
-tests/
-db/migrations/
-db/seeds/
-db/database-builder/
-db/constants.js
-scripts/
 nyc.config.js
