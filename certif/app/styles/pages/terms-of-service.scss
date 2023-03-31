@@ -16,19 +16,21 @@
   background-color: white;
   border-radius: 10px;
 
-  &__logo {
-    margin-bottom: 20px;
 
-    & img {
-      display: flex;
+  &__header {
+    display: flex;
+    flex-direction: column;
+
+    &--logo {
       margin: auto;
+      padding-bottom: 20px;
     }
-  }
 
-  &__title {
-    margin-bottom: 30px;
-    text-align: center;
-    color: $pix-neutral-80
+    &--title {
+      margin: 0 10px 30px;
+      text-align: center;
+      color: $pix-neutral-80
+    }
   }
 
   &__line {
@@ -62,12 +64,13 @@
 
   &__actions {
     display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
+    flex-direction: column;
     margin: 0 100px;
-  }
+    gap: 10px;
 
-  &__submit {
-    margin-left: 10px;
+    @include device-is('tablet') {
+      flex-direction: row;
+      justify-content: flex-end;
+    }
   }
 }
