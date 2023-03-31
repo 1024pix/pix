@@ -185,10 +185,6 @@
       "actions": {
         "return": "Return to the sessions list"
       },
-      "finalize": {
-        "finished-test-list-description": "Liste des candidats qui ont fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant et une liste déroulante permettant de sélectionner la raison de l’abandon.",
-        "unfinished-test-list-description": "Liste des candidats qui n’ont pas fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant et une liste déroulante permettant de sélectionner la raison de l’abandon."
-      },
       "import": {
         "breadcrumb": {
           "extra-information": "Fil d'Arianne",
@@ -476,6 +472,61 @@
         "actions": {
           "cancel-extra-information": "Cancel the session change and return to the previous page",
           "edit-session": "Edit the session"
+        }
+      }
+    },
+    "session-finalization": {
+      "actions": {
+        "finalise": "Finalise"
+      },
+      "title": "Finalise the session {sessionId}",
+      "return-to": "Return to the session",
+      "reporting": {
+        "completed-reports-information": {
+          "description": "Finished certification(s)",
+          "extra-information": "List of candidates who have finished their certification exam, ordered by birth name, with a link to add a reporting if needed",
+          "table": {
+            "labels": {
+              "screen": "End of exam screen seen"
+            }
+          }
+        },
+        "description": "For the reporting to be taken into account, you must use the appropriate reporting category (examples : C1, C2, etc).",
+        "uncompleted-reports-information": {
+          "description" : "These candidates haven’t finished their Pix certification exam or the invigilator has ended their exam",
+          "extra-information": "List of candidates who haven’t finished their certification exam, ordered by birth name, with a link to add a reporting if needed and a drop-down list enabling you to select the reason for abandonment",
+          "table": {
+            "labels": {
+              "abandonment": "Abandonment : lack of time or early departure",
+              "abandonment-reason": "Reason for abandonment",
+              "technical-problem": "Technical problem"
+            },
+            "tooltip": {
+              "abandonment": {
+                "enough-time-description": "The candidate didn’t have enough time to answer all the questions",
+                "left-deliberately-description": "The candidate left deliberately before the end of the exam"
+              },
+              "extra-information": "Reason for abandonment's description",
+              "technical-problem-description": "The candidate encountered a technical problem that prevented him from finishing his exam"
+            }
+          }
+        },
+        "table": {
+          "labels": {
+            "certification-number": "Certification No.",
+            "reporting": "Reporting"
+          },
+          "reporting-count": "{reportingsCount, plural,one {1 reporting} other {# reportings}}"
+        },
+        "title": "Reporting: Signal, for each candidate, the incidents inputted into the incident report"
+      },
+      "complementary-information": {
+        "title": "Additional information (optional)",
+        "description": "You may indicate, if need be, the events that occurred during the session. It isn’t necessary to report any missing candidates.",
+        "incident": "Despite an incident having occurred during the session, the candidates have been able to finish their Pix certification exam. Additional time has been granted to at least one of the candidates.",
+        "candidates-joining-issue": {
+          "label": "At least one candidate was present during the certification session but couldn’t join the session.",
+          "link": "You may find <a class=\"link\" href=\"https://cloud.pix.fr/s/zf3fGimWwPQCeWF/download/Probl%C3%A8mes%20d%27acc%C3%A8s%20en%20session.pdf\" target=\"_blank\" rel=\"noreferrer noopener\">here a document to help you solve this kind of connection problem for the following sessions (PDF, 131ko).</a>"
         }
       }
     },
