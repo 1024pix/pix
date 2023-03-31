@@ -25,10 +25,6 @@ export default class TargetProfile extends Component {
     return this.args.model.isSimplifiedAccess ? 'Oui' : 'Non';
   }
 
-  get displayActionsSeparator() {
-    return !this.args.model.isSimplifiedAccess || this.args.model.isNewFormat;
-  }
-
   @action
   toggleEditMode() {
     this.isEditMode = !this.isEditMode;

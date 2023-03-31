@@ -64,22 +64,18 @@
       />
     </div>
   </Card>
-  {{#if @targetProfile.isNewFormat}}
-    <TargetProfiles::BadgeForm::Criteria @badge={{this.badge}} @areas={{@targetProfile.newAreas}} />
-    <div class="badge-form__action-buttons">
-      <PixButtonLink
-        class="badge-form-action-buttons__cancel"
-        @backgroundColor="transparent-light"
-        @isBorderVisible={{true}}
-        @route="authenticated.target-profiles.target-profile.insights"
-      >
-        Annuler
-      </PixButtonLink>
-      <PixButton @backgroundColor="green" @type="submit">
-        Enregistrer le RT
-      </PixButton>
-    </div>
-  {{else}}
-    <TargetProfiles::BadgeForm::OldCriteria @badge={{this.badge}} @skillSetSkills={{this.skillSetSkills}} />
-  {{/if}}
+  <TargetProfiles::BadgeForm::Criteria @badge={{this.badge}} @areas={{@targetProfile.areas}} />
+  <div class="badge-form__action-buttons">
+    <PixButtonLink
+      class="badge-form-action-buttons__cancel"
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      @route="authenticated.target-profiles.target-profile.insights"
+    >
+      Annuler
+    </PixButtonLink>
+    <PixButton @backgroundColor="green" @type="submit">
+      Enregistrer le RT
+    </PixButton>
+  </div>
 </form>

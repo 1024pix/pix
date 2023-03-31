@@ -40,7 +40,7 @@ module('Integration | Component | Badges::Badge', function (hooks) {
     // given
     const store = this.owner.lookup('service:store');
     const targetProfile = store.createRecord('target-profile', {
-      newAreas: [],
+      areas: [],
     });
     const criterionCampaignParticipation = store.createRecord('badge-criterion', {
       id: 123,

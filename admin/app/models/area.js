@@ -1,10 +1,10 @@
 import Model, { attr, hasMany } from '@ember-data/model';
 
 export default class Area extends Model {
-  @attr('string') code;
-  @attr('string') title;
-  @attr('string') color;
-  @attr('string') frameworkId;
+  @attr() title;
+  @attr() code;
+  @attr() color;
+  @attr() frameworkId;
 
   @hasMany('competence') competences;
 

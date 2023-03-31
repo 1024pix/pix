@@ -2,7 +2,7 @@ import Controller from '@ember/controller';
 
 export default class TargetProfileDetailsController extends Controller {
   get areas() {
-    return this.model.newAreas.sortBy('frameworkId', 'code').map((area) => this.buildAreaViewModel(area));
+    return this.model.areas.sortBy('frameworkId', 'code').map((area) => this.buildAreaViewModel(area));
   }
 
   buildAreaViewModel(area) {

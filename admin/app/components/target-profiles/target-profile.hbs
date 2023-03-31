@@ -55,9 +55,7 @@
         >
           Éditer
         </PixButton>
-        {{#if this.displayActionsSeparator}}
-          <div class="target-profile__actions-separator"></div>
-        {{/if}}
+        <div class="target-profile__actions-separator"></div>
         {{#unless @model.isSimplifiedAccess}}
           <PixButton
             @size="small"
@@ -68,21 +66,19 @@
             Marquer comme accès simplifié
           </PixButton>
         {{/unless}}
-        {{#if @model.isNewFormat}}
-          <PixButtonLink
-            @size="small"
-            @backgroundColor="green"
-            @href={{@model.urlToJsonContent}}
-            target="_blank"
-            rel="noopener noreferrer"
-            download
-          >
-            Télécharger le profil cible (JSON)
-          </PixButtonLink>
-          <PixButton @triggerAction={{this.toggleDisplayPdfParametersModal}} @size="small" @backgroundColor="green">
-            Télécharger le profil cible (PDF)
-          </PixButton>
-        {{/if}}
+        <PixButtonLink
+          @size="small"
+          @backgroundColor="green"
+          @href={{@model.urlToJsonContent}}
+          target="_blank"
+          rel="noopener noreferrer"
+          download
+        >
+          Télécharger le profil cible (JSON)
+        </PixButtonLink>
+        <PixButton @triggerAction={{this.toggleDisplayPdfParametersModal}} @size="small" @backgroundColor="green">
+          Télécharger le profil cible (PDF)
+        </PixButton>
         {{#unless @model.outdated}}
           <div class="target-profile__actions-spacer"></div>
           <PixButton @size="small" @backgroundColor="red" @triggerAction={{this.toggleDisplayConfirm}}>
