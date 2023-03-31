@@ -2,7 +2,6 @@ const usecases = require('../../domain/usecases/index.js');
 const tokenService = require('../../domain/services/token-service.js');
 const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer.js');
 const targetProfileSummaryForAdminSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js');
-const targetProfileForAdminOldSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-for-admin-old-format-serializer.js');
 const targetProfileForAdminNewSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-for-admin-new-format-serializer.js');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils.js');
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils.js');
@@ -31,8 +30,7 @@ module.exports = {
   async getTargetProfileForAdmin(request) {
     const targetProfileId = request.params.id;
     const targetProfileForAdmin = await usecases.getTargetProfileForAdmin({ targetProfileId });
-    if (targetProfileForAdmin.isNewFormat) return targetProfileForAdminNewSerializer.serialize(targetProfileForAdmin);
-    return targetProfileForAdminOldSerializer.serialize(targetProfileForAdmin);
+    return targetProfileForAdminNewSerializer.serialize(targetProfileForAdmin);
   },
 
   async findPaginatedFilteredTargetProfileOrganizations(request) {
