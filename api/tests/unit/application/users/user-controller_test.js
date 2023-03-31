@@ -28,6 +28,7 @@ const trainingSerializer = require('../../../../lib/infrastructure/serializers/j
 
 const userController = require('../../../../lib/application/users/user-controller');
 const UserOrganizationForAdmin = require('../../../../lib/domain/read-models/UserOrganizationForAdmin');
+const localeService = require('../../../../lib/domain/services/locale-service');
 
 describe('Unit | Controller | user-controller', function () {
   describe('#save', function () {
@@ -44,68 +45,88 @@ describe('Unit | Controller | user-controller', function () {
       sinon.stub(validationErrorSerializer, 'serialize');
       sinon.stub(encryptionService, 'hashPassword');
       sinon.stub(mailService, 'sendAccountCreationEmail');
-      sinon.stub(usecases, 'createUser').resolves(savedUser);
+      sinon.stub(localeService, 'getCanonicalLocale');
+      sinon.stub(usecases, 'createUser').returns(savedUser);
     });
 
     describe('when request is valid', function () {
-      it('should return a serialized user and a 201 status code', async function () {
-        // given
-        const expectedSerializedUser = { message: 'serialized user' };
-        userSerializer.serialize.returns(expectedSerializedUser);
+      describe('when there is no locale cookie', function () {
+        it('should return a serialized user and a 201 status code', async function () {
+          // given
+          const expectedSerializedUser = { message: 'serialized user' };
+          userSerializer.serialize.returns(expectedSerializedUser);
 
-        // when
-        const response = await userController.save(
-          {
-            payload: {
-              data: {
-                attributes: {
-                  'first-name': 'John',
-                  'last-name': 'DoDoe',
-                  email: 'john.dodoe@example.net',
-                  cgu: true,
-                  password,
+          // when
+          const response = await userController.save(
+            {
+              payload: {
+                data: {
+                  attributes: {
+                    'first-name': 'John',
+                    'last-name': 'DoDoe',
+                    email: 'john.dodoe@example.net',
+                    cgu: true,
+                    password,
+                  },
                 },
               },
             },
-          },
-          hFake
-        );
+            hFake
+          );
 
-        // then
-        expect(userSerializer.serialize).to.have.been.calledWith(savedUser);
-        expect(response.source).to.deep.equal(expectedSerializedUser);
-        expect(response.statusCode).to.equal(201);
+          // then
+          expect(userSerializer.serialize).to.have.been.calledWith(savedUser);
+          expect(localeService.getCanonicalLocale).to.not.have.been.called;
+          expect(response.source).to.deep.equal(expectedSerializedUser);
+          expect(response.statusCode).to.equal(201);
+        });
       });
 
-      it('should call the user creation usecase', async function () {
-        // given
-        const useCaseParameters = {
-          user: deserializedUser,
-          password,
-          localeFromHeader,
-          campaignCode: null,
-        };
+      describe('when there is a locale cookie', function () {
+        it('should return a serialized user with "locale" attribute and a 201 status code', async function () {
+          // given
+          const localeFromCookie = 'fr-FR';
+          const expectedSerializedUser = { message: 'serialized user', locale: localeFromCookie };
+          const savedUser = new User({ email, locale: localeFromCookie });
 
-        // when
-        await userController.save(
-          {
-            payload: {
-              data: {
-                attributes: {
-                  'first-name': 'John',
-                  'last-name': 'DoDoe',
-                  email: 'john.dodoe@example.net',
-                  cgu: true,
-                  password,
+          const useCaseParameters = {
+            user: { ...deserializedUser, locale: localeFromCookie },
+            password,
+            localeFromHeader,
+            campaignCode: null,
+          };
+
+          localeService.getCanonicalLocale.returns(localeFromCookie);
+          userSerializer.serialize.returns(expectedSerializedUser);
+          usecases.createUser.resolves(savedUser);
+
+          // when
+          const response = await userController.save(
+            {
+              payload: {
+                data: {
+                  attributes: {
+                    'first-name': 'John',
+                    'last-name': 'DoDoe',
+                    email: 'john.dodoe@example.net',
+                    cgu: true,
+                    password,
+                  },
                 },
               },
+              state: {
+                locale: localeFromCookie,
+              },
             },
-          },
-          hFake
-        );
+            hFake
+          );
 
-        // then
-        expect(usecases.createUser).to.have.been.calledWith(useCaseParameters);
+          // then
+          expect(usecases.createUser).to.have.been.calledWith(useCaseParameters);
+          expect(localeService.getCanonicalLocale).to.have.been.calledWith(localeFromCookie);
+          expect(userSerializer.serialize).to.have.been.calledWith(savedUser);
+          expect(response.statusCode).to.equal(201);
+        });
       });
     });
   });

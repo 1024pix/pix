@@ -102,6 +102,43 @@ describe('Acceptance | Controller | users-controller', function () {
       });
     });
 
+    context('when a "locale" cookie is present', function () {
+      it('creates a user with a locale in database', async function () {
+        // given
+        const localeFromCookie = 'fr';
+        const userAttributes = {
+          'first-name': 'John',
+          'last-name': 'DoDoe',
+          email: 'john.dodoe@example.net',
+          cgu: true,
+          password: 'Password123',
+        };
+
+        const options = {
+          method: 'POST',
+          url: '/api/users',
+          headers: {
+            cookie: `locale=${localeFromCookie}`,
+          },
+          payload: {
+            data: {
+              type: 'users',
+              attributes: userAttributes,
+              relationships: {},
+            },
+          },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        const createdUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(userAttributes.email);
+        expect(createdUser.locale).to.equal(localeFromCookie);
+        expect(response.statusCode).to.equal(201);
+      });
+    });
+
     context('user is invalid', function () {
       const validUserAttributes = {
         'first-name': 'John',
