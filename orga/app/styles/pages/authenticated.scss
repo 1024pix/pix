@@ -1,18 +1,24 @@
 .app {
   display: flex;
-  height: 100%;
+  align-items: stretch;
+  min-height: 100vh;
 }
 
 .main-content {
-  display: flex;
-  flex-direction: column;
   width: 100%;
   background-color: $pix-neutral-10;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 
   &__body {
     flex: 1 0 auto;
   }
+}
+
+.sticker-banner {
+  position: sticky;
+  top: 0;
+  z-index: 200;
 }
 
 @include device-is('mobile') {
