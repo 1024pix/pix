@@ -1,4 +1,4 @@
-class TargetProfileForAdminNewFormat {
+class TargetProfileForAdmin {
   constructor({
     id,
     name,
@@ -17,7 +17,6 @@ class TargetProfileForAdminNewFormat {
     thematics = [],
     tubes = [],
   } = {}) {
-    this.isNewFormat = true;
     this.id = id;
     this.name = name;
     this.outdated = outdated;
@@ -191,4 +190,4 @@ class TP_Tube {
   }
 }
 
-module.exports = TargetProfileForAdminNewFormat;
+module.exports = TargetProfileForAdmin;

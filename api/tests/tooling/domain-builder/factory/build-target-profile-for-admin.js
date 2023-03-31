@@ -2,7 +2,7 @@ const buildArea = require('./build-area');
 const buildCompetence = require('./build-competence');
 const buildThematic = require('./build-thematic');
 const buildTube = require('./build-tube');
-const TargetProfileForAdmin = require('../../../../lib/domain/models/TargetProfileForAdminNewFormat');
+const TargetProfileForAdmin = require('../../../../lib/domain/models/TargetProfileForAdmin');
 
 module.exports = function buildTargetProfileForAdmin({
   id = 123,

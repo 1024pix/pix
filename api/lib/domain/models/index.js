@@ -142,7 +142,7 @@ const SupOrganizationLearner = require('./SupOrganizationLearner.js');
 const SupOrganizationLearnerSet = require('./SupOrganizationLearnerSet.js');
 const Tag = require('./Tag.js');
 const TargetProfile = require('./TargetProfile.js');
-const TargetProfileForAdminNewFormat = require('./TargetProfileForAdminNewFormat.js');
+const TargetProfileForAdmin = require('./TargetProfileForAdmin.js');
 const TargetProfileForCreation = require('./TargetProfileForCreation.js');
 const TargetProfileForUpdate = require('./TargetProfileForUpdate.js');
 const TargetProfileSummaryForAdmin = require('./TargetProfileSummaryForAdmin.js');
@@ -294,7 +294,7 @@ module.exports = {
   SupOrganizationLearnerSet,
   Tag,
   TargetProfile,
-  TargetProfileForAdminNewFormat,
+  TargetProfileForAdmin,
   TargetProfileForCreation,
   TargetProfileForUpdate,
   TargetProfileSummaryForAdmin,
