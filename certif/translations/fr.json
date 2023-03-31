@@ -522,7 +522,6 @@
           "description": "Attention : cette action entraîne la fin de son test de certification et est irréversible.",
           "instruction-with-name": "Terminer le test de {firstName} {lastName} ?",
           "end-assessment": "Terminer le test",
-          "cancel-label": "Annuler et fermer la fenêtre de confirmation",
           "success": "Succès ! Le test de {firstName} {lastName} est terminé.",
           "error": "Une erreur est survenue, le test de {firstName} {lastName} n'a pas pu être terminé."
         },
