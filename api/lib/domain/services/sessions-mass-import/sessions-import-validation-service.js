@@ -17,11 +17,19 @@ module.exports = {
         });
       }
 
-      if (await _isSessionStarted({ certificationCourseRepository, sessionId })) {
+      if (_isSessionIdFormatValid(sessionId)) {
+        if (await _isSessionStarted({ certificationCourseRepository, sessionId })) {
+          _addToErrorList({
+            errorList: sessionErrors,
+            line,
+            codes: [CERTIFICATION_SESSIONS_ERRORS.CANDIDATE_NOT_ALLOWED_FOR_STARTED_SESSION.code],
+          });
+        }
+      } else {
         _addToErrorList({
           errorList: sessionErrors,
           line,
-          codes: [CERTIFICATION_SESSIONS_ERRORS.CANDIDATE_NOT_ALLOWED_FOR_STARTED_SESSION.code],
+          codes: [CERTIFICATION_SESSIONS_ERRORS.SESSION_ID_NOT_VALID.code],
         });
       }
     } else {
@@ -115,6 +123,10 @@ module.exports = {
 
 function _isDateAndTimeValid(session) {
   return dayjs(`${session.date} ${session.time}`, 'YYYY-MM-DD HH:mm', true).isValid();
+}
+
+function _isSessionIdFormatValid(sessionId) {
+  return !isNaN(sessionId);
 }
 
 function _isErrorNotDuplicated({ certificationCandidateErrors, errorCode }) {
