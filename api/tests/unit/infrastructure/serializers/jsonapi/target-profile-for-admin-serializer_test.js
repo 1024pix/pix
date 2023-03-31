@@ -194,7 +194,6 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
               name: null,
               threshold: 70,
               scope: SCOPES.CAMPAIGN_PARTICIPATION,
-              'skill-sets': [],
               'capped-tubes': [],
             },
           },
@@ -228,7 +227,6 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
               name: 'super tubes group',
               threshold: 50,
               scope: SCOPES.CAPPED_TUBES,
-              'skill-sets': [],
               'capped-tubes': [
                 { tubeId: 'tube1', level: 2 },
                 { tubeId: 'tube2', level: 8 },

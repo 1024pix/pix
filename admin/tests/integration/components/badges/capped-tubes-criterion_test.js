@@ -163,7 +163,6 @@ module('Integration | Component | Badges::CappedTubes', function (hooks) {
     const criterion = store.createRecord('badge-criterion', {
       scope: 'CappedTubes',
       threshold: 70,
-      skillSets: [],
       cappedTubes: cappedTubesDTO,
     });
     this.set('criterion', criterion);

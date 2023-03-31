@@ -16,7 +16,6 @@ import {
 
 import { Response } from 'ember-cli-mirage';
 import { createOrganizationMembership } from './handlers/organization-memberships';
-import { getBadge } from './handlers/badges';
 import { createStage } from './handlers/stages';
 import { findPaginatedAndFilteredSessions } from './handlers/find-paginated-and-filtered-sessions';
 import {
@@ -302,7 +301,6 @@ export default function () {
 
   this.get('/admin/target-profile-summaries', findPaginatedFilteredTargetProfileSummaries);
 
-  this.get('/admin/badges/:id', getBadge);
   this.patch('/admin/badges/:id');
 
   this.post('/admin/stages', createStage);

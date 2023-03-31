@@ -13,8 +13,5 @@ export default class Badge extends Model {
 
   // creation only fields
   @attr('number') campaignThreshold;
-  @attr('number') skillSetThreshold;
-  @attr('string') skillSetName;
-  @attr('array') skillSetSkillsIds;
   @attr('array') cappedTubesCriteria;
 }
