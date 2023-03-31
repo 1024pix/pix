@@ -131,9 +131,6 @@
         {{#if criterion.isCampaignScope}}
           <Badges::CampaignCriterion @criterion={{criterion}} />
         {{/if}}
-        {{#if criterion.isSkillSetScope}}
-          <Badges::SkillSetCriterion @criterion={{criterion}} @targetProfile={{@targetProfile}} />
-        {{/if}}
         {{#if criterion.isCappedTubesScope}}
           <Badges::CappedTubesCriterion @criterion={{criterion}} @targetProfile={{@targetProfile}} />
         {{/if}}

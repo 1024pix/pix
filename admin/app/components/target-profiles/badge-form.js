@@ -17,14 +17,10 @@ export default class BadgeForm extends Component {
     isCertifiable: false,
     isAlwaysVisible: false,
     campaignThreshold: null,
-    skillSetThreshold: null,
-    skillSetName: '',
     cappedTubesCriteria: [],
   };
 
   imageName = '';
-
-  skillSetSkills = '';
 
   @action
   async createBadgeAndCriteria(event) {
@@ -41,7 +37,6 @@ export default class BadgeForm extends Component {
       const badgeWithFormattedImageUrl = {
         ...this.badge,
         imageUrl: this.BASE_URL + this.imageName,
-        skillSetSkillsIds: this._skillIds,
       };
       const badge = this.store.createRecord('badge', badgeWithFormattedImageUrl);
 
@@ -57,11 +52,5 @@ export default class BadgeForm extends Component {
       console.error(error);
       this.notifications.error(`${error.errors[0].detail}`);
     }
-  }
-
-  get _skillIds() {
-    const skillIds = this.skillSetSkills.replace(/\s/g, '');
-    if (skillIds === '') return null;
-    return skillIds.split(',');
   }
 }

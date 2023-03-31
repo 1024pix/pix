@@ -46,14 +46,12 @@ module('Integration | Component | Badges::Badge', function (hooks) {
       id: 123,
       threshold: 25,
       scope: 'CampaignParticipation',
-      skillSets: [],
       cappedTubes: [],
     });
     const criterionCappedTubes = store.createRecord('badge-criterion', {
       id: 456,
       threshold: 95,
       scope: 'CappedTubes',
-      skillSets: [],
       cappedTubes: [],
     });
     const badge = store.createRecord('badge', {

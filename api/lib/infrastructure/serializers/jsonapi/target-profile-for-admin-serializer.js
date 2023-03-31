@@ -42,7 +42,7 @@ module.exports = {
         criteria: {
           ref: 'id',
           included: true,
-          attributes: ['threshold', 'scope', 'skillSets', 'cappedTubes', 'name'],
+          attributes: ['threshold', 'scope', 'cappedTubes', 'name'],
         },
       },
       stages: {
