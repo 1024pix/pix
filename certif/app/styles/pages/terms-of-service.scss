@@ -64,9 +64,13 @@
 
   &__actions {
     display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
+    flex-direction: column;
     margin: 0 100px;
     gap: 10px;
+
+    @include device-is('tablet') {
+      flex-direction: row;
+      justify-content: flex-end;
+    }
   }
 }
