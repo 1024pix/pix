@@ -32,12 +32,13 @@ class AssessmentResult {
 
     this.competenceResults = competences.map(({ competence, area, targetedSkillIds }) => {
       const competenceKnowledgeElements = knowledgeElements.filter(({ skillId }) => targetedSkillIds.includes(skillId));
+      const validatedSkillsCountForCompetence = competenceKnowledgeElements.filter(
+        ({ isValidated }) => isValidated
+      ).length;
+      const masteryPercentage = Math.round((validatedSkillsCountForCompetence / targetedSkillIds.length) * 100);
       let reachedStage;
-
       if (stageCollection.totalStages > 0) {
-        const validatedSkillsCountForCompetence = knowledgeElements.filter(({ isValidated }) => isValidated).length;
-
-        reachedStage = stageCollection.getReachedStageIndex(validatedSkillsCountForCompetence, this.masteryRate * 100);
+        reachedStage = stageCollection.getReachedStageIndex(validatedSkillsCountForCompetence, masteryPercentage);
       }
 
       return _buildCompetenceResult({
@@ -46,6 +47,7 @@ class AssessmentResult {
         targetedSkillIds,
         competenceKnowledgeElements,
         reachedStage,
+        masteryPercentage,
       });
     });
 
@@ -123,13 +125,21 @@ class AssessmentResult {
   }
 }
 
-function _buildCompetenceResult({ competence, area, targetedSkillIds, competenceKnowledgeElements, reachedStage }) {
+function _buildCompetenceResult({
+  competence,
+  area,
+  targetedSkillIds,
+  competenceKnowledgeElements,
+  reachedStage,
+  masteryPercentage,
+}) {
   return new CompetenceResult({
     competence,
     area,
     totalSkillsCount: targetedSkillIds.length,
     knowledgeElements: competenceKnowledgeElements,
     reachedStage,
+    masteryPercentage,
   });
 }
 
