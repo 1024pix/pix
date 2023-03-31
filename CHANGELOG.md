@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v3.339.0 (31/03/2023)
+
+
+### :rocket: Amélioration
+- [#5913](https://github.com/1024pix/pix/pull/5913) [FEATURE] Changer le lien du mot de passe oublié lorsqu'on passe en domaine ORG sur Pix Certif (PIX-7593). 
+- [#5908](https://github.com/1024pix/pix/pull/5908) [FEATURE] Utiliser le cookie locale pour transmettre la locale lors de l'inscription (PIX-7564)
+
+### :building_construction: Tech
+- [#5911](https://github.com/1024pix/pix/pull/5911) [TECH] N'avoir que le scroll du navigateur à l'affichage sur Pix Orga (PIX-7618)
+- [#5910](https://github.com/1024pix/pix/pull/5910) [TECH] Création d'un feature toggle pour la recommandation des contenus formatifs (PIX-7537)
+- [#5912](https://github.com/1024pix/pix/pull/5912) [TECH] Améliorer l'accessibilité de la page des cgu sur Pix Certif (PIX-6662).
+
 ## v3.338.0 (29/03/2023)
 
 
