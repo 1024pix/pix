@@ -127,6 +127,13 @@
     }
   },
   "pages": {
+    "terms-of-service": {
+      "page-title": "Conditions générales",
+      "title": "Conditions générales d'utilisation de la plateforme Pix Certif",
+      "actions": {
+        "accept": "J’accepte les conditions d’utilisation"
+      }
+    },
     "login": {
       "title": "Connectez-vous",
       "actions": {
