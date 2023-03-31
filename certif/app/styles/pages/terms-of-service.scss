@@ -28,10 +28,7 @@
   &__title {
     margin-bottom: 30px;
     text-align: center;
-    color: $pix-neutral-80;
-    font-family: $font-roboto;
-    font-size: 18px;
-    font-weight: 300;
+    color: $pix-neutral-80
   }
 
   &__line {
@@ -49,6 +46,18 @@
     overflow-y: scroll;
     overflow-x: hidden;
     font-family: $font-open-sans;
+
+    p, li {
+      margin-bottom: $spacing-s;
+    }
+
+    ul {
+      list-style: inside;
+    }
+
+    h2, h3 {
+      margin-bottom: $spacing-m;
+    }
   }
 
   &__actions {
