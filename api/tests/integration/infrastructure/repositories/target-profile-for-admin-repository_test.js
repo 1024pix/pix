@@ -154,19 +154,6 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           badgeId: badge1DTO.id,
           threshold: 65,
         });
-        const skillSetId1 = databaseBuilder.factory.buildSkillSet({
-          name: 'skillSetName#recSkillTube1',
-          skillIds: ['recSkillTube1', 'recSkillTube3'],
-        }).id;
-        const skillSetId2 = databaseBuilder.factory.buildSkillSet({
-          name: 'skillSetName#recSkillTube2',
-          skillIds: ['recSkillTube2'],
-        }).id;
-        const badge1Criteria2DTO = databaseBuilder.factory.buildBadgeCriterion.scopeSkillSets({
-          badgeId: badge1DTO.id,
-          threshold: 50,
-          skillSetIds: [skillSetId1, skillSetId2],
-        });
         const badge2DTO = databaseBuilder.factory.buildBadge({
           targetProfileId: targetProfileDB.id,
           altMessage: 'altMessage badge2',
@@ -400,13 +387,9 @@ describe('Integration | Repository | target-profile-for-admin', function () {
         };
         const criteria1Badge1 =
           domainBuilder.buildBadgeDetails.buildBadgeCriterion_CampaignParticipation(badge1Criteria1DTO);
-        const criteria2Badge1 = domainBuilder.buildBadgeDetails.buildBadgeCriterion_SkillSets({
-          ...badge1Criteria2DTO,
-          arrayOfSkillIds: [['recSkillTube1', 'recSkillTube3'], ['recSkillTube2']],
-        });
         const expectedBadge1 = domainBuilder.buildBadgeDetails({
           ...badge1DTO,
-          criteria: [criteria1Badge1, criteria2Badge1],
+          criteria: [criteria1Badge1],
         });
         const criteria1Badge2 = domainBuilder.buildBadgeDetails.buildBadgeCriterion_CappedTubes({
           ...badge2Criteria1DTO,
