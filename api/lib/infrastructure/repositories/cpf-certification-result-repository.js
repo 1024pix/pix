@@ -11,7 +11,6 @@ module.exports = {
       .where('certification-courses.isCancelled', false)
       .whereNotNull('certification-courses.sex')
       .where('assessment-results.status', AssessmentResult.status.VALIDATED)
-      .where('competence-marks.level', '>', -1)
       .where('sessions.publishedAt', '>=', startDate)
       .where('sessions.publishedAt', '<=', endDate)
       .whereNull('certification-courses.cpfImportStatus')
@@ -28,7 +27,6 @@ module.exports = {
       .where('certification-courses.isCancelled', false)
       .whereNotNull('certification-courses.sex')
       .where('assessment-results.status', AssessmentResult.status.VALIDATED)
-      .where('competence-marks.level', '>', -1)
       .where('sessions.publishedAt', '>=', startDate)
       .where('sessions.publishedAt', '<=', endDate)
       .whereNull('certification-courses.cpfImportStatus')
@@ -47,6 +45,7 @@ module.exports = {
           'level', "competence-marks"."level"
         ) ORDER BY "competence-marks"."competence_code" asc) as "competenceMarks"`)
       )
+      .innerJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
       .where('certification-courses.cpfFilename', batchId)
       .groupBy('certification-courses.id', 'assessment-results.pixScore', 'sessions.publishedAt');
     return cpfCertificationResults.map((certificationCourse) => new CpfCertificationResult(certificationCourse));
@@ -109,6 +108,5 @@ function _selectCpfCertificationResults(qb = knex) {
       'assessment-results',
       'assessment-results.id',
       'certification-courses-last-assessment-results.lastAssessmentResultId'
-    )
-    .innerJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id');
+    );
 }
