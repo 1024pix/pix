@@ -8,5 +8,6 @@ const up = function (knex) {
     .andWhere('updatedAt', '<', dayjs().subtract(1, 'year'));
 };
 
+// eslint-disable-next-line no-empty-function
 const down = function () {};
 export { up, down };
