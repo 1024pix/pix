@@ -1,7 +1,7 @@
 import { catchErr, databaseBuilder, expect } from '../../../test-helper.js';
 import sinon from 'sinon';
 
-import { useCases } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
 import { NotFoundError, UncancellableCertificationCenterInvitationError } from '../../../../lib/domain/errors.js';
 
@@ -40,7 +40,7 @@ describe('Integration | UseCases | cancel-certification-center-invitation', func
         await databaseBuilder.commit();
 
         // when
-        const result = await useCases.cancelCertificationCenterInvitation({
+        const result = await usecases.cancelCertificationCenterInvitation({
           certificationCenterInvitationId: certificationCenterInvitation.id,
         });
 
@@ -71,7 +71,7 @@ describe('Integration | UseCases | cancel-certification-center-invitation', func
         await databaseBuilder.commit();
 
         // when
-        const error = await catchErr(useCases.cancelCertificationCenterInvitation)({
+        const error = await catchErr(usecases.cancelCertificationCenterInvitation)({
           certificationCenterInvitationId: acceptedInvitation.id,
         });
 
@@ -88,7 +88,7 @@ describe('Integration | UseCases | cancel-certification-center-invitation', func
       const certificationCenterInvitationId = 123;
 
       // when
-      const error = await catchErr(useCases.cancelCertificationCenterInvitation)({
+      const error = await catchErr(usecases.cancelCertificationCenterInvitation)({
         certificationCenterInvitationId,
       });
 

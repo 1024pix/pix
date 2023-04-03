@@ -1,5 +1,5 @@
 import { expect, databaseBuilder } from '../../../test-helper.js';
-import { useCases } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
 
 describe('Integration | UseCase | find-pending-certification-center-invitations', function () {
@@ -33,7 +33,7 @@ describe('Integration | UseCase | find-pending-certification-center-invitations'
     await databaseBuilder.commit();
 
     // when
-    const certificationCenterInvitations = await useCases.findPendingCertificationCenterInvitations({
+    const certificationCenterInvitations = await usecases.findPendingCertificationCenterInvitations({
       certificationCenterId,
     });
 
@@ -88,7 +88,7 @@ describe('Integration | UseCase | find-pending-certification-center-invitations'
     await databaseBuilder.commit();
 
     // when
-    const certificationCenterInvitations = await useCases.findPendingCertificationCenterInvitations({
+    const certificationCenterInvitations = await usecases.findPendingCertificationCenterInvitations({
       certificationCenterId,
     });
 
@@ -107,7 +107,7 @@ describe('Integration | UseCase | find-pending-certification-center-invitations'
     await databaseBuilder.commit();
 
     // when
-    const certificationCenterInvitations = await useCases.findPendingCertificationCenterInvitations({
+    const certificationCenterInvitations = await usecases.findPendingCertificationCenterInvitations({
       certificationCenterId,
     });
 

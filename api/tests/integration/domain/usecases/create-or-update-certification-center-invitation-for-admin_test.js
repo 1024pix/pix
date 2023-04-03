@@ -1,5 +1,5 @@
 import { expect, databaseBuilder, knex, sinon, catchErr } from '../../../test-helper.js';
-import { useCases } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
 import * as mailService from '../../../../lib/domain/services/mail-service.js';
 import { SendingEmailError, SendingEmailToInvalidDomainError } from '../../../../lib/domain/errors.js';
@@ -39,7 +39,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
     await databaseBuilder.commit();
 
     // when
-    const result = await useCases.createOrUpdateCertificationCenterInvitationForAdmin({
+    const result = await usecases.createOrUpdateCertificationCenterInvitationForAdmin({
       email,
       certificationCenterId,
       mailService,
@@ -81,7 +81,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
     await databaseBuilder.commit();
 
     // when
-    const result = await useCases.createOrUpdateCertificationCenterInvitationForAdmin({
+    const result = await usecases.createOrUpdateCertificationCenterInvitationForAdmin({
       email,
       certificationCenterId,
       mailService,
@@ -116,7 +116,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
     await databaseBuilder.commit();
 
     // when
-    await useCases.createOrUpdateCertificationCenterInvitationForAdmin({
+    await usecases.createOrUpdateCertificationCenterInvitationForAdmin({
       email,
       locale: 'en',
       certificationCenterId,
@@ -150,7 +150,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
     mailService.sendCertificationCenterInvitationEmail.resolves(mailerResponse);
 
     // when
-    const result = await catchErr(useCases.createOrUpdateCertificationCenterInvitationForAdmin)({
+    const result = await catchErr(usecases.createOrUpdateCertificationCenterInvitationForAdmin)({
       email,
       locale: 'fr',
       certificationCenterId,
@@ -177,7 +177,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
       mailService.sendCertificationCenterInvitationEmail.resolves(emailAttemptFailure);
 
       // when
-      const error = await catchErr(useCases.createOrUpdateCertificationCenterInvitationForAdmin)({
+      const error = await catchErr(usecases.createOrUpdateCertificationCenterInvitationForAdmin)({
         email,
         locale: 'fr',
         certificationCenterId,

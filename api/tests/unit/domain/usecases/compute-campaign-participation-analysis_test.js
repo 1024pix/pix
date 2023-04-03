@@ -1,5 +1,5 @@
 import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-import { computeCampaignParticipationAnalysis } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 import {
   UserNotAuthorizedToAccessEntityError,
   CampaignParticipationDeletedError,
@@ -7,6 +7,7 @@ import {
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
 import { LOCALE } from '../../../../lib/domain/constants.js';
 
+const { computeCampaignParticipationAnalysis } = usecases;
 const { FRENCH_SPOKEN } = LOCALE;
 
 const { TO_SHARE } = CampaignParticipationStatuses;
