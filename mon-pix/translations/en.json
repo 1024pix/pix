@@ -1375,6 +1375,7 @@
       },
       "send-title": "Submit your results",
       "stage": {
+        "title": "Competence results details",
         "masteryPercentage": "Success rate: {rate, number, ::percent}",
         "starsAcquired": "{acquired, plural, =0 {no star} other {# stars}} acquired over {total}"
       },

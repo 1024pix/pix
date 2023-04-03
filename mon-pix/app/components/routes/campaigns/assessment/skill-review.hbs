@@ -266,11 +266,9 @@
     {{#unless @model.campaign.isForAbsoluteNovice}}
       {{#if this.showStagesWithStars}}
         <section class="skill-review-result-detail__content">
-          <div class="skill-review-result-detail__table-header">
-            <h2 class="skill-review-result-detail__subtitle">
-              {{t "pages.skill-review.details.title"}}
-            </h2>
-          </div>
+          <h2 class="skill-review-competence-stages-result__title">
+            {{t "pages.skill-review.stage.title"}}
+          </h2>
           {{#each-in this.competenceResultsGroupedByAreas as |area competenceResults|}}
             <div class="skill-review-competence-stages-result__content">
               <div class="skill-review-competence-stages-result__area">
