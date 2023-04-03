@@ -417,12 +417,13 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
       originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
       now = new Date('2020-01-05T05:06:07Z');
       clock = sinon.useFakeTimers(now);
-      constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = 4;
+      sinon.stub(constants, 'MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING').value(4);
+
     });
 
     afterEach(function () {
       clock.restore();
-      constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = originalConstantValue;
+      sinon.stub(constants, 'MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING').value(originalConstantValue);
     });
 
     context('when the campaign does not allow multiple sendings', function () {
@@ -680,11 +681,11 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
     let clock;
 
     before(function () {
-      constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING = 4;
+      sinon.stub(constants, 'MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING').value(4);
     });
 
     after(function () {
-      constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING = originalConstantValue;
+      sinon.stub(constants, 'MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING').value(originalConstantValue);
     });
 
     beforeEach(function () {
