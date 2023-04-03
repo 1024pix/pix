@@ -565,6 +565,8 @@
         "results": "{total, plural, =0 {0 campagne} =1 {1 campagne} other {{total, number} campagnes}}"
       },
       "table": {
+        "description-all-campaigns": "Ce tableau comporte la liste de toutes les campagnes créées dans votre espace Pix Orga. Il indique pour chaque campagne leur propriétaire, leur date de création, le nombre de participants et le nombre de résultats reçus.",
+        "description-my-campaigns": "Ce tableau comporte la liste des campagnes dont vous êtes propriétaire. Il indique pour chaque campagne leur date de création, le nombre de participants et le nombre de résultats reçus.",
         "column": {
           "campaign": "Nom de la campagne",
           "created-by": "Propriétaire",
@@ -723,6 +725,7 @@
         }
       },
       "table": {
+        "description": "Tableau des participants trié par nom.",
         "column": {
           "first-name": "Prénom",
           "last-name": {

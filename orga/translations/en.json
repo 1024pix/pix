@@ -565,6 +565,8 @@
         "results": "{total, plural, =0 {0 campaigns} =1 {1 campaign} other {{total, number} campaigns}}"
       },
       "table": {
+        "description-all-campaigns": "This is the list of all the campaigns created in you Pix Orga. It includes their owner name, creation date, number of participants and number of received results.",
+        "description-my-campaigns": "This is the list of the campaigns you own. It includes their creation date, number of participants and number of received results.",
         "column": {
           "campaign": "Name of the campaign",
           "created-by": "Owner",
@@ -723,6 +725,7 @@
         }
       },
       "table": {
+        "description": "Table of participants, sorted by name.",
         "column": {
           "first-name": "First name",
           "last-name": {
