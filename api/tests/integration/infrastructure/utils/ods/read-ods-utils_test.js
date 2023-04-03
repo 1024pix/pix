@@ -19,6 +19,9 @@ import {
   getSheetDataRowsFromOdsBuffer,
 } from '../../../../../lib/infrastructure/utils/ods/read-ods-utils.js';
 
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
 describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', function () {
   const GET_CONTENT_ODS_FILE_PATH = `${__dirname}/files/get-content-xml_test.ods`;
   const DEFAULT_ODS_FILE_PATH = `${__dirname}/files/default_test.ods`;
