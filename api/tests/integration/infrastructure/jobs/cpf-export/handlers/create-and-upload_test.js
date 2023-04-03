@@ -2,7 +2,6 @@ import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 import { createAndUpload } from '../../../../../../lib/infrastructure/jobs/cpf-export/handlers/create-and-upload.js';
 import { createUnzip } from 'node:zlib';
 
-
 import fs from 'fs';
 import noop from 'lodash/noop';
 import proxyquire from 'proxyquire';
