@@ -8,7 +8,7 @@ import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { UserOrgaSettings } from '../../../../lib/domain/models/UserOrgaSettings.js';
 import { Organization } from '../../../../lib/domain/models/Organization.js';
 import { Tag } from '../../../../lib/domain/models/Tag.js';
-import { apps } from '../../../../lib/domain/constants.js';
+import * as apps from '../../../../lib/domain/constants.js';
 
 describe('Integration | Infrastructure | Repository | Prescriber', function () {
   const userToInsert = {

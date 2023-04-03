@@ -1,7 +1,7 @@
 import { expect, mockLearningContent, domainBuilder } from '../../../test-helper.js';
 import { ScoringSimulation } from '../../../../lib/domain/models/ScoringSimulation.js';
 import { ScoringSimulationResult } from '../../../../lib/domain/models/ScoringSimulationResult.js';
-import { usecases } from '../../../../lib/domain/usecases/.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 
 describe('Integration | UseCases | simulateOldScoring', function () {
   beforeEach(function () {

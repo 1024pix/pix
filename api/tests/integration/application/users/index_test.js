@@ -1,7 +1,7 @@
 import { expect, sinon, HttpTestServer, knex } from '../../../test-helper.js';
 import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
 import { userController } from '../../../../lib/application/users/user-controller.js';
-import { moduleUnderTest } from '../../../../lib/application/users.js';
+import * as moduleUnderTest from '../../../../lib/application/users/index.js';
 
 describe('Integration | Application | Users | Routes', function () {
   const methodGET = 'GET';

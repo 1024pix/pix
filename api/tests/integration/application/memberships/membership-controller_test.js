@@ -2,7 +2,7 @@ import { expect, sinon, domainBuilder, HttpTestServer } from '../../../test-help
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-import { moduleUnderTest } from '../../../../lib/application/memberships.js';
+import * as moduleUnderTest from '../../../../lib/application/memberships/index.js';
 import { InvalidMembershipOrganizationRoleError } from '../../../../lib/domain/errors.js';
 
 describe('Integration | Application | Memberships | membership-controller', function () {

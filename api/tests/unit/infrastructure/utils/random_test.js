@@ -3,7 +3,7 @@ import lodash from 'lodash';
 
 const { range, countBy } = lodash;
 
-import { pseudoRandom } from '../../../../lib/infrastructure/utils/pseudo-random.js';
+import * as pseudoRandom from '../../../../lib/infrastructure/utils/pseudo-random.js';
 
 describe('Unit | Infrastructure | Utils | Random', function () {
   describe('#binaryTreeRandom', function () {
