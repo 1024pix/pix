@@ -1,6 +1,8 @@
 import pg from 'pg';
+
 const types = pg.types;
 import _ from 'lodash';
+// eslint-disable-next-line no-unused-vars
 const { get } = _;
 import { logger } from '../lib/infrastructure/logger.js';
 import { monitoringTools } from '../lib/infrastructure/monitoring-tools.js';
