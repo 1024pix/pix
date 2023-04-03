@@ -14,6 +14,7 @@ const {
   getEligibleCampaignParticipations,
   generateKnowledgeElementSnapshots,
 } = require('../prod/generate-knowledge-element-snapshots-for-campaigns');
+const { generate } = require('../../lib/domain/services/campaigns/campaign-code-generator');
 
 const { SHARED, TO_SHARE } = CampaignParticipationStatuses;
 
@@ -61,7 +62,6 @@ function _printUsage() {
                                              light : 1 compétence, medium : la moitié des compétences, all : toutes les compétences
                                              Option ignorée si le type de la campagne est profiles_collection
                                              Option ignorée si un profil cible est spécifié via --targetProfileId
-    --createOrganizationLearners      : Flag pour créer une organization-learner par participant
     --lowRAM                            : Flag optionnel. Indique que la machine dispose de peu de RAM. Réalise donc la même
                                              opération en consommant moins de RAM (opération ralentie).
     --help ou -h                        : Affiche l'aide`);
@@ -218,11 +218,12 @@ async function _createCampaign({ organizationId, campaignType, targetProfileId }
   if (!adminMemberId) {
     throw new Error(`Organisation ${organizationId} n'a pas de membre ADMIN.`);
   }
+  const code = await generate(campaignRepository);
   const [{ id: campaignId }] = await knex('campaigns')
     .returning('id')
     .insert({
       name: `Campaign_${organizationId}_${targetProfileId}`,
-      code: `FAKECODE`,
+      code,
       ownerId: 1,
       organizationId,
       creatorId: adminMemberId,
@@ -340,7 +341,6 @@ async function _createCampaignParticipations({ campaignId, trx, organizationLear
     const createdAt = moment(baseDate).add(_.random(0, 100), 'days').toDate();
     const isShared = Boolean(_.random(0, 1));
     const sharedAt = isShared ? moment(createdAt).add(_.random(1, 10), 'days').toDate() : null;
-    console.log('ICIIIIIIIII', organizationLearnerAndUserId);
     const userId = organizationLearnerAndUserId.userId;
     const organizationLearnerId = organizationLearnerAndUserId.id;
 
