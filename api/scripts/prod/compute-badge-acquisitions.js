@@ -4,16 +4,10 @@ import _ from 'lodash';
 import bluebird from 'bluebird';
 import perf_hooks from 'perf_hooks';
 
-const {
-  hideBin
-} = yargs/helpers;
-
-const {
-  performance
-} = perf_hooks;
+const { performance } = perf_hooks;
 
 import yargs from 'yargs/yargs';
-import yargs/helpers from 'yargs/helpers';
+import { hideBin } from 'yargs/helpers';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import { CampaignParticipation } from '../../lib/domain/models/CampaignParticipation.js';
 import { logger } from '../../lib/infrastructure/logger.js';

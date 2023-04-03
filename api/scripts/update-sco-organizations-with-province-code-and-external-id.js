@@ -3,15 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import path from 'path';
 import fs from 'fs';
-import fs from 'fs';
-
-const {
-  promises
-} = fs;
-
-const {
-  access,
-} = promises;
+import { access } from 'fs/promises';
 
 import request from 'request-promise-native';
 import papa from 'papaparse';

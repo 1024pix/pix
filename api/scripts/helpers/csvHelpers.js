@@ -1,19 +1,10 @@
 import fs from 'fs';
-import fs from 'fs';
 
-const {
-  difference,
-  isEmpty
-} = lodash;
+const { difference, isEmpty } = lodash;
 
-const {
-  promises
-} = fs;
+const { promises } = fs;
 
-const {
-  readFile,
-  access,
-} = promises;
+const { readFile, access } = promises;
 
 import lodash from 'lodash';
 import papa from 'papaparse';
@@ -126,4 +117,12 @@ async function parseCsvWithHeaderAndRequiredFields({ filePath, requiredFieldName
   return csvData;
 }
 
-export { checkCsvHeader, readCsvFile, parseCsvData, parseCsv, parseCsvWithHeader, parseCsvWithHeaderAndRequiredFields, optionsWithHeader };
+export {
+  checkCsvHeader,
+  readCsvFile,
+  parseCsvData,
+  parseCsv,
+  parseCsvWithHeader,
+  parseCsvWithHeaderAndRequiredFields,
+  optionsWithHeader,
+};

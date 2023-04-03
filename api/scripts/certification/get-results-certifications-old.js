@@ -99,6 +99,6 @@ function main() {
 
 if (require.main === module) {
   main();
-} else {
-  export { parseArgs, toCSVRow, buildRequestObject, findCompetence, HEADERS };
 }
+
+export { parseArgs, toCSVRow, buildRequestObject, findCompetence, HEADERS };

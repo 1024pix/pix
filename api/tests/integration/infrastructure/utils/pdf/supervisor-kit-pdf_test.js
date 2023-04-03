@@ -1,12 +1,7 @@
 import { domainBuilder, expect } from '../../../../test-helper.js';
 import { isSameBinary } from '../../../../tooling/binary-comparator.js';
 import { getSupervisorKitPdfBuffer } from '../../../../../lib/infrastructure/utils/pdf/supervisor-kit-pdf.js';
-
-import pdfLib/cjs/utils from 'pdf-lib/cjs/utils';
-
-const {
-  addRandomSuffix
-} = pdfLib/cjs/utils;
+import { addRandomSuffix } from 'pdf-lib/cjs/utils';
 
 describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor kit Pdf', function () {
   beforeEach(function () {

@@ -1,14 +1,7 @@
-import fs/promises from 'fs/promises';
-
-const {
-  createHash
-} = crypto;
-
-const {
-  readFile
-} = fs/promises;
-
+import { readFile } from 'fs/promises';
 import crypto from 'crypto';
+
+const { createHash } = crypto;
 
 function _hash(buffer) {
   const h = createHash('sha1');
