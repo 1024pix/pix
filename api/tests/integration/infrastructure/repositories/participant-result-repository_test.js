@@ -1,5 +1,5 @@
 import { catchErr, expect, databaseBuilder, mockLearningContent, domainBuilder } from '../../../test-helper.js';
-import * as participantResultRepository from '../../../../lib/infrastructure/repositories/participant-result-repository.js';
+import { ParticipantResultRepository as participantResultRepository } from '../../../../lib/infrastructure/repositories/participant-result-repository.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';

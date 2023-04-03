@@ -418,7 +418,6 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
       now = new Date('2020-01-05T05:06:07Z');
       clock = sinon.useFakeTimers(now);
       sinon.stub(constants, 'MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING').value(4);
-
     });
 
     afterEach(function () {

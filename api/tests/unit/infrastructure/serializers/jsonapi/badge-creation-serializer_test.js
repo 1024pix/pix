@@ -1,5 +1,5 @@
 import { expect } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/badge-creation-serializer.js';
+import { deserializer } from '../../../../../lib/infrastructure/serializers/jsonapi/badge-creation-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | badge-creation-serializer', function () {
   describe('#deserialize', function () {
@@ -25,7 +25,7 @@ describe('Unit | Serializer | JSONAPI | badge-creation-serializer', function () 
       };
 
       // when
-      const badgeCreation = await serializer.deserialize(jsonBadge);
+      const badgeCreation = await deserializer.deserialize(jsonBadge);
 
       // then
       const expectedBadgeCreation = {

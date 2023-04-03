@@ -19,7 +19,7 @@ describe('Unit | UseCase | delete-organization-place-lot', function () {
 
     // then
     expect(organizationPlacesLotRepository.get).to.have.been.calledWithExactly(999);
-    expect(organizationPlacesLotRepository.delete).to.have.been.calledWithExactly({ id: 999, deletedBy: 666 });
+    expect(organizationPlacesLotRepository.remove).to.have.been.calledWithExactly({ id: 999, deletedBy: 666 });
   });
 
   it('should not call sofDelete given wrong organizationId', async function () {
@@ -39,6 +39,6 @@ describe('Unit | UseCase | delete-organization-place-lot', function () {
 
     // then
     expect(response).to.be.instanceOf(NotFoundError);
-    expect(organizationPlacesLotRepository.delete).to.not.have.been.called;
+    expect(organizationPlacesLotRepository.remove).to.not.have.been.called;
   });
 });
