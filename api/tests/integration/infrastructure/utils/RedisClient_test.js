@@ -1,6 +1,4 @@
-import uuid from 'uuid';
-
-const { v4 } = uuid;
+import { v4 as uuidv4 } from 'uuid';
 
 import { RedisClient } from '../../../../lib/infrastructure/utils/RedisClient.js';
 import { config } from '../../../../lib/config.js';
