@@ -4,6 +4,7 @@ import * as knowlegeElementSnapshotRepository from '../../lib/infrastructure/rep
 import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
 import { ParticipantResultsShared } from '../../lib/domain/models/ParticipantResultsShared.js';
 import { CampaignParticipationStatuses } from '../../lib/domain/models/CampaignParticipationStatuses.js';
+
 const { SHARED } = CampaignParticipationStatuses;
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import _ from 'lodash';
