@@ -1,16 +1,6 @@
 import fs from 'fs';
+import { writeFile, stat, unlink } from 'fs/promises';
 
-const {
-  promises
-} = fs;
-
-const {
-  writeFile,
-  stat,
-  unlink,
-} = promises;
-
-import fs from 'fs';
 import FormData from 'form-data';
 import streamToPromise from 'stream-to-promise';
 import { NotFoundError } from '../../../../lib/application/http-errors.js';

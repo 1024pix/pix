@@ -1,9 +1,7 @@
 import { expect, sinon, catchErr } from '../../../test-helper.js';
-import lodash/noop from 'lodash/noop';
+import _ from 'lodash';
 
-const {
-  noop
-} = lodash/noop;
+const { noop } = _;
 
 import { createSession } from '../../../../lib/domain/usecases/create-session.js';
 import { ForbiddenAccess } from '../../../../lib/domain/errors.js';
