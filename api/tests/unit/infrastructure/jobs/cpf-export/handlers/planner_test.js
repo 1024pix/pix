@@ -1,7 +1,8 @@
 import { expect, sinon } from '../../../../../test-helper.js';
 import { planner } from '../../../../../../lib/infrastructure/jobs/cpf-export/handlers/planner.js';
 import dayjs from 'dayjs';
-import { cpf } from '../../../../../../lib/config.js';
+import { config } from '../../../../../../lib/config.js';
+const { cpf } = config;
 import utc from 'dayjs/plugin/utc';
 import lodash from 'lodash';
 

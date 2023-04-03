@@ -13,7 +13,7 @@ import {
   mockLearningContent,
 } from '../../../test-helper.js';
 
-import { settings } from '../../../../lib/config.js';
+import { config as settings } from '../../../../lib/config.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { createServer } from '../../../../server.js';
 

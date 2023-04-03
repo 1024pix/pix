@@ -11,8 +11,8 @@ import {
   ForbiddenAccess,
 } from '../../../../lib/domain/errors.js';
 
-import { settings } from '../../../../lib/config.js';
 import { tokenService } from '../../../../lib/domain/services/token-service.js';
+import { config as settings } from '../../../../lib/config.js';
 
 describe('Unit | Domain | Service | Token Service', function () {
   describe('#createTokenForCampaignResults', function () {
