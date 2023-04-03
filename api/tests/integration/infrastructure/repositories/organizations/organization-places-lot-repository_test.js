@@ -262,7 +262,7 @@ describe('Integration | Repository | Organization Place', function () {
       await databaseBuilder.commit();
 
       // when
-      await organizationPlacesLotRepository.delete({
+      await organizationPlacesLotRepository.remove({
         id: organizationPlace.id,
         deletedBy: user.id,
       });
@@ -284,7 +284,7 @@ describe('Integration | Repository | Organization Place', function () {
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(organizationPlacesLotRepository.delete)({
+      const error = await catchErr(organizationPlacesLotRepository.remove)({
         id: organizationPlace.id,
         deletedBy: user.id,
       });
@@ -304,7 +304,7 @@ describe('Integration | Repository | Organization Place', function () {
       await databaseBuilder.commit();
 
       // when
-      await catchErr(organizationPlacesLotRepository.delete)({
+      await catchErr(organizationPlacesLotRepository.remove)({
         id: organizationPlace.id,
         deletedBy: user.id,
       });

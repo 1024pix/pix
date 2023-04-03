@@ -1351,7 +1351,7 @@ describe('Integration | Repository | Campaign Participation', function () {
       campaignParticipation.deletedBy = ownerId;
 
       await DomainTransaction.execute((domainTransaction) => {
-        return campaignParticipationRepository.delete({
+        return campaignParticipationRepository.remove({
           id: campaignParticipation.id,
           deletedAt: campaignParticipation.deletedAt,
           deletedBy: campaignParticipation.deletedBy,

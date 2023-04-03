@@ -1,5 +1,5 @@
 import { expect, knex, databaseBuilder, mockLearningContent } from '../../../test-helper.js';
-import * as participantResultsSharedRepository from '../../../../lib/infrastructure/repositories/participant-results-shared-repository.js';
+import { participantResultsSharedRepository } from '../../../../lib/infrastructure/repositories/participant-results-shared-repository.js';
 import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
 import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../lib/domain/constants.js';
 

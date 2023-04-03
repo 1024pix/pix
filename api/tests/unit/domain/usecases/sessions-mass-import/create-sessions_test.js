@@ -191,7 +191,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
       });
 
       // then
-      expect(temporarySessionsStorageForMassImportService.delete).to.have.been.calledOnceWith({
+      expect(temporarySessionsStorageForMassImportService.remove).to.have.been.calledOnceWith({
         cachedValidatedSessionsKey,
         userId,
       });

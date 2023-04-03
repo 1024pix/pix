@@ -64,7 +64,7 @@ describe('Unit | Domain | Services | sessions mass import', function () {
       const key = await temporarySessionsStorageForMassImportService.save({ sessions, userId });
 
       // when
-      await temporarySessionsStorageForMassImportService.delete({
+      await temporarySessionsStorageForMassImportService.remove({
         cachedValidatedSessionsKey: key,
         userId,
       });
