@@ -1,6 +1,6 @@
 import { expect, sinon, HttpTestServer, generateValidRequestAuthorizationHeader } from '../../../../test-helper.js';
 import { oidcController } from '../../../../../lib/application/authentication/oidc/oidc-controller.js';
-import { moduleUnderTest } from '../../../../../lib/application/authentication/oidc.js';
+import * as moduleUnderTest from '../../../../../lib/application/authentication/oidc/index.js';
 
 import {
   UserNotFoundError,
