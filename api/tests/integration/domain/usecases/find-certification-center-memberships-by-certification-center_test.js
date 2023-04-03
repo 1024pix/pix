@@ -2,7 +2,9 @@ import { databaseBuilder, expect } from '../../../test-helper.js';
 
 import * as certificationCenterMembershipRepository from '../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
 import { CertificationCenterMembership } from '../../../../lib/domain/models/CertificationCenterMembership.js';
-import { findCertificationCenterMembershipsByCertificationCenter } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+
+const { findCertificationCenterMembershipsByCertificationCenter } = usecases;
 
 describe('Integration | UseCase | find-certification-center-memberships-by-certification-center', function () {
   it('should return certification center memberships', async function () {

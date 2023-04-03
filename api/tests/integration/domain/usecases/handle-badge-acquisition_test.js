@@ -1,5 +1,5 @@
 import { expect, databaseBuilder, knex, mockLearningContent, learningContentBuilder } from '../../../test-helper.js';
-import { useCases } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
@@ -117,7 +117,7 @@ describe('Integration | Usecase | Handle Badge Acquisition', function () {
       it('should not affect the database', async function () {
         await DomainTransaction.execute(async (domainTransaction) => {
           // when
-          await useCases.handleBadgeAcquisition({
+          await usecases.handleBadgeAcquisition({
             assessment,
             domainTransaction,
           });

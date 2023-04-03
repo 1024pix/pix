@@ -1,6 +1,8 @@
 import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-import { computeCampaignCollectiveResult } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
+
+const { computeCampaignCollectiveResult } = usecases;
 
 describe('Unit | UseCase | compute-campaign-collective-result', function () {
   const userId = 1;

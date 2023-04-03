@@ -1,5 +1,5 @@
 import { expect, mockLearningContent, databaseBuilder } from '../../../test-helper.js';
-import { useCases } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 
 describe('Integration | UseCase | find-campaign-profiles-collection-participation-summaries', function () {
   let organizationId;
@@ -33,7 +33,7 @@ describe('Integration | UseCase | find-campaign-profiles-collection-participatio
       await databaseBuilder.commit();
     });
     it('returns the list filtered by the search', async function () {
-      const { data } = await useCases.findCampaignProfilesCollectionParticipationSummaries({
+      const { data } = await usecases.findCampaignProfilesCollectionParticipationSummaries({
         userId,
         campaignId,
         filters: { search: 'Tonari N' },
