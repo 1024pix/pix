@@ -27,6 +27,56 @@ describe('Unit | Domain | Models | User', function () {
     });
   });
 
+  describe('setLocaleIfNotAlreadySet', function () {
+    it('deals with empty locale', function () {
+      // given
+      const user = new User();
+      const getCanonicalLocaleStub = sinon.stub(localeService, 'getCanonicalLocale');
+
+      // when
+      user.setLocaleIfNotAlreadySet(null);
+
+      // then
+      expect(getCanonicalLocaleStub).to.not.have.been.called;
+      expect(user.locale).to.be.undefined;
+      expect(user.mustBePersisted).to.be.false;
+    });
+
+    context('when user has no locale', function () {
+      it('validates, canonicalizes and sets the locale', function () {
+        // given
+        const user = new User();
+        const getCanonicalLocaleStub = sinon.stub(localeService, 'getCanonicalLocale');
+        getCanonicalLocaleStub.returns('fr-FR');
+
+        // when
+        user.setLocaleIfNotAlreadySet('fr-fr');
+
+        // then
+        expect(getCanonicalLocaleStub).to.have.been.calledWith('fr-fr');
+        expect(user.locale).to.equal('fr-FR');
+        expect(user.mustBePersisted).to.be.true;
+      });
+    });
+
+    context('when user has a locale', function () {
+      it('does not set a new locale', function () {
+        // given
+        const user = new User({ locale: 'en' });
+        const getCanonicalLocaleStub = sinon.stub(localeService, 'getCanonicalLocale');
+        getCanonicalLocaleStub.returns('fr-FR');
+
+        // when
+        user.setLocaleIfNotAlreadySet('fr-fr');
+
+        // then
+        expect(getCanonicalLocaleStub).to.not.have.been.called;
+        expect(user.locale).to.equal('en');
+        expect(user.mustBePersisted).to.be.false;
+      });
+    });
+  });
+
   describe('isLinkedToOrganizations', function () {
     it('should be true if user has a role in an organization', function () {
       // given
