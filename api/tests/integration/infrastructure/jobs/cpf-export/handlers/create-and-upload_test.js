@@ -14,6 +14,9 @@ dayjs.extend(timezone);
 import stream from 'stream';
 const { PassThrough } = stream;
 
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
 describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload', function () {
   let cpfCertificationResultRepository;
   let cpfExternalStorage;

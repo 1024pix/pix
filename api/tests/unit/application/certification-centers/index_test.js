@@ -9,6 +9,9 @@ import * as moduleUnderTest from '../../../../lib/application/certification-cent
 import FormData from 'form-data';
 import streamToPromise from 'stream-to-promise';
 
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
 describe('Unit | Router | certification-center-router', function () {
   describe('POST /api/certification-centers/{certificationCenterId}/session', function () {
     it('should return CREATED (200) when everything does as expected', async function () {

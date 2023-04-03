@@ -3,6 +3,9 @@ import { writeFile, rm } from 'fs/promises';
 import values from 'lodash/values';
 import { logger } from '../../../../lib/infrastructure/logger.js';
 import { updateCertificationInfos, headers } from '../../../../scripts/certification/update-certification-infos.js';
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
 const dataFile = `${__dirname}/data.csv`;
 const sessionIdsFile = `${__dirname}/sessionIds.csv`;
 

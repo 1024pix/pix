@@ -1,6 +1,8 @@
 import { expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
 import fs from 'fs';
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Acceptance | Controller | session-controller-import-certification-candidates-from-attendance-sheet', function () {
   let server;
