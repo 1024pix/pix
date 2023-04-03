@@ -7,9 +7,9 @@
         id="session-finalization-complementary-information-step-incident"
         {{on "click" this.onCheckIncidentDuringCertificationSession}}
       />
-      <label for="session-finalization-complementary-information-step-incident">Malgré un incident survenu pendant la
-        session, les candidats ont pu terminer leur test de certification. Un temps supplémentaire a été accordé à un ou
-        plusieurs candidats.</label>
+      <label for="session-finalization-complementary-information-step-incident">
+        {{t "pages.session-finalization.complementary-information.incident"}}
+      </label>
     </div>
     <div class="session-finalization-complementary-information-step__checkboxes">
       <Input
@@ -18,19 +18,13 @@
         id="session-finalization-complementary-information-step-candidates-joining-issue"
         {{on "click" this.onCheckIssueWithJoiningSession}}
       />
-      <label for="session-finalization-complementary-information-step-candidates-joining-issue">Un ou plusieurs
-        candidats étaient présents en session de certification mais n'ont pas pu rejoindre la session.</label>
+      <label for="session-finalization-complementary-information-step-candidates-joining-issue">
+        {{t "pages.session-finalization.complementary-information.candidates-joining-issue.label"}}
+      </label>
     </div>
     {{#if this.displayJoiningIssue}}
       <PixMessage @type="info" @withIcon={{true}}>
-        Vous trouverez
-        <a
-          class="link"
-          href="https://cloud.pix.fr/s/zf3fGimWwPQCeWF/download/Probl%C3%A8mes%20d%27acc%C3%A8s%20en%20session.pdf"
-          target="_blank"
-          rel="noreferrer noopener"
-        >ici un document pour vous aider à résoudre ce type de problème de connexion pour les prochaines sessions. (PDF,
-          131ko)</a>
+        {{t "pages.session-finalization.complementary-information.candidates-joining-issue.link" htmlSafe=true}}
       </PixMessage>
     {{/if}}
   </div>

@@ -4,19 +4,19 @@
       <caption>
         <div class="session-finalization-reports-information-step__title-completed">
           <FaIcon @icon="check-circle" class="session-finalization-reports-information-step__icon" />
-          Certification(s) terminée(s)
+          {{t "pages.session-finalization.reporting.completed-reports-information.description"}}
         </div>
         <span class="sr-only">
-          {{t "pages.sessions.finalize.finished-test-list-description"}}
+          {{t "pages.session-finalization.reporting.completed-reports-information.extra-information"}}
         </span>
       </caption>
     {{/if}}
     <thead>
       <tr>
-        <th>Nom</th>
-        <th>Prénom</th>
-        <th>N° de certification</th>
-        <th>Signalement</th>
+        <th>{{t "common.labels.candidate.lastname"}}</th>
+        <th>{{t "common.labels.candidate.firstname"}}</th>
+        <th>{{t "pages.session-finalization.reporting.table.labels.certification-number"}}</th>
+        <th>{{t "pages.session-finalization.reporting.table.labels.reporting"}}</th>
         {{#if @shouldDisplayHasSeenEndTestScreenCheckbox}}
           <th>
             <div class="session-finalization-reports-information-step__row">
@@ -57,12 +57,10 @@
                   {{t "common.actions.delete"}}
                 </button>
                 <p data-test-id="finalization-report-has-examiner-comment_{{report.certificationCourseId}}">
-                  {{#if (gt report.certificationIssueReports.length 1)}}
-                    {{report.certificationIssueReports.length}}
-                    signalements
-                  {{else}}
-                    1 signalement
-                  {{/if}}
+                  {{t
+                    "pages.session-finalization.reporting.table.reporting-count"
+                    reportingsCount=report.certificationIssueReports.length
+                  }}
                 </p>
               {{else}}
                 <button

@@ -8,6 +8,7 @@ export default class UncompletedReportsInformationStep extends Component {
   @tracked showAddIssueReportModal = false;
   @tracked showIssueReportsModal = false;
   @service notifications;
+  @service intl;
 
   get certificationReportsAreNotEmpty() {
     return this.args.certificationReports.length !== 0;
@@ -15,8 +16,18 @@ export default class UncompletedReportsInformationStep extends Component {
 
   get abortOptions() {
     return [
-      { label: 'Abandon : Manque de temps ou départ prématuré', value: 'candidate' },
-      { label: 'Problème technique', value: 'technical' },
+      {
+        label: this.intl.t(
+          'pages.session-finalization.reporting.uncompleted-reports-information.table.labels.abandonment'
+        ),
+        value: 'candidate',
+      },
+      {
+        label: this.intl.t(
+          'pages.session-finalization.reporting.uncompleted-reports-information.table.labels.technical-problem'
+        ),
+        value: 'technical',
+      },
     ];
   }
 
