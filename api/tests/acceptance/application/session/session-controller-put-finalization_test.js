@@ -9,7 +9,7 @@ import {
 
 import { createServer } from '../../../../server.js';
 import {
-  CertificationIssueReportCategories,
+  CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
 } from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
 import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
@@ -168,7 +168,7 @@ describe('Acceptance | Controller | sessions-controller', function () {
         const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
         databaseBuilder.factory.buildCertificationIssueReport({
           certificationCourseId,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           description: '',
           subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
           questionNumber: 1,
@@ -287,7 +287,7 @@ describe('Acceptance | Controller | sessions-controller', function () {
         const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
         databaseBuilder.factory.buildCertificationIssueReport({
           certificationCourseId,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           description: '',
           subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
           questionNumber: 1,
@@ -395,7 +395,7 @@ describe('Acceptance | Controller | sessions-controller', function () {
         const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId, userId }).id;
         databaseBuilder.factory.buildCertificationIssueReport({
           certificationCourseId,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          category: CertificationIssueReportCategory.IN_CHALLENGE,
           description: '',
           subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
           questionNumber: 1,

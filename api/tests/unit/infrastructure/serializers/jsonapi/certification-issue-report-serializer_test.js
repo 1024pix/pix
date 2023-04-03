@@ -2,7 +2,7 @@ import { expect, domainBuilder } from '../../../../test-helper.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-issue-report-serializer.js';
 
 import {
-  CertificationIssueReportCategories,
+  CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
 } from '../../../../../lib/domain/models/CertificationIssueReportCategory.js';
 
@@ -68,7 +68,7 @@ describe('Unit | Serializer | JSONAPI | certification-issue-report-serializer', 
       // then
       const expectedCertificationIssueReport = {
         certificationCourseId,
-        category: CertificationIssueReportCategories.IN_CHALLENGE,
+        category: CertificationIssueReportCategory.IN_CHALLENGE,
         description,
         subcategory: CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
         questionNumber,

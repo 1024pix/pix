@@ -4,7 +4,7 @@ import { CertificationReport } from '../../../../lib/domain/models/Certification
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 import * as certificationReportRepository from '../../../../lib/infrastructure/repositories/certification-report-repository.js';
 import { CertificationCourseUpdateError } from '../../../../lib/domain/errors.js';
-import { CertificationIssueReportCategories } from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
+import { CertificationIssueReportCategory } from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
 
 describe('Integration | Repository | CertificationReport', function () {
   describe('#findBySessionId', function () {
@@ -26,7 +26,7 @@ describe('Integration | Repository | CertificationReport', function () {
         });
         const certificationIssueReport1 = databaseBuilder.factory.buildCertificationIssueReport({
           certificationCourseId: certificationCourse1.id,
-          category: CertificationIssueReportCategories.OTHER,
+          category: CertificationIssueReportCategory.OTHER,
           description: 'Houston, nous avons un problème',
         });
         // In other session
