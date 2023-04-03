@@ -117,7 +117,7 @@ describe('Integration | Repository | Certification Issue Report', function () {
       await databaseBuilder.commit();
 
       // when
-      await certificationIssueReportRepository.delete(certificationIssueReportToDeleteId);
+      await certificationIssueReportRepository.remove(certificationIssueReportToDeleteId);
 
       // then
       const exists = await knex('certification-issue-reports')

@@ -18,7 +18,7 @@ describe('Unit | UseCase | delete-session', function () {
       });
 
       // then
-      expect(sessionRepository.delete).to.have.been.calledWithExactly(123);
+      expect(sessionRepository.remove).to.have.been.calledWithExactly(123);
     });
   });
 
@@ -40,7 +40,7 @@ describe('Unit | UseCase | delete-session', function () {
 
       // then
       expect(error).to.be.instanceOf(SessionStartedDeletionError);
-      expect(sessionRepository.delete).to.not.have.been.called;
+      expect(sessionRepository.remove).to.not.have.been.called;
     });
   });
 });

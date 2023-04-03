@@ -437,7 +437,7 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
         // given
         const organizationTagToAdd = new OrganizationTag({ organizationId, tagId });
         expect(organizationTagRepository.create).to.have.been.calledWith(organizationTagToAdd);
-        expect(organizationTagRepository.delete).to.have.not.been.called;
+        expect(organizationTagRepository.remove).to.have.not.been.called;
       });
 
       it('should allow to unassign a tag to organization', async function () {
@@ -478,7 +478,7 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
         });
 
         // given
-        expect(organizationTagRepository.delete).to.have.been.calledWith({
+        expect(organizationTagRepository.remove).to.have.been.calledWith({
           organizationTagId: organizationTagToRemove.id,
         });
         expect(organizationTagRepository.create).to.have.not.been.called;

@@ -150,7 +150,7 @@ describe('Integration | Infrastructure | Repository | session-jury-comment-repos
         });
 
         // when
-        await sessionJuryCommentRepository.delete(123);
+        await sessionJuryCommentRepository.remove(123);
 
         // then
         const deletedSessionJuryComment = await sessionJuryCommentRepository.get(123);
