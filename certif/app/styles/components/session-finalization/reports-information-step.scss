@@ -6,7 +6,8 @@
     background: $pix-success-10;
     margin: 8px;
     color: $pix-success-70;
-    font-weight: bold;
+    font-size: 0.875rem;
+    font-weight: normal;
     padding: 20px 0 20px 24px;
 
     &--hidden {
@@ -90,5 +91,10 @@
         }
       }
     }
+  }
+
+  &__icon {
+    height: 14px;
+    margin-right: 8px;
   }
 }
