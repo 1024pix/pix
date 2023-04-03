@@ -1,7 +1,7 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-report-serializer.js';
 import {
-  CertificationIssueReportCategories,
+  CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
 } from '../../../../../lib/domain/models/CertificationIssueReportCategory.js';
 
@@ -53,7 +53,7 @@ describe('Unit | Serializer | JSONAPI | certification-report-serializer', functi
         id: 123,
         certificationIssueReports: [
           domainBuilder.buildCertificationIssueReport({
-            category: CertificationIssueReportCategories.IN_CHALLENGE,
+            category: CertificationIssueReportCategory.IN_CHALLENGE,
             description: 'Pas content',
             subcategory: CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
             questionNumber: '6',
@@ -74,7 +74,7 @@ describe('Unit | Serializer | JSONAPI | certification-report-serializer', functi
           type: 'certificationIssueReports',
           id: '123',
           attributes: {
-            category: CertificationIssueReportCategories.IN_CHALLENGE,
+            category: CertificationIssueReportCategory.IN_CHALLENGE,
             description: 'Pas content',
             subcategory: CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
             'question-number': '6',

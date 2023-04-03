@@ -3,7 +3,7 @@ import { JuryCertificationSummary } from '../../../../lib/domain/read-models/Jur
 import { CertificationIssueReport } from '../../../../lib/domain/models/CertificationIssueReport.js';
 
 import {
-  CertificationIssueReportCategories,
+  CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
   ImpactfulSubcategories,
 } from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
@@ -53,13 +53,13 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
         dbf.buildAssessment({ certificationCourseId: startedCertification.id });
 
         categoryId = dbf.buildIssueReportCategory({
-          name: CertificationIssueReportCategories.OTHER,
+          name: CertificationIssueReportCategory.OTHER,
           isImpactful: false,
         }).id;
 
         certificationIssueReport = dbf.buildCertificationIssueReport({
           certificationCourseId: manyAsrCertification.id,
-          category: CertificationIssueReportCategories.OTHER,
+          category: CertificationIssueReportCategory.OTHER,
           categoryId,
           description,
         });
@@ -100,7 +100,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
               categoryId,
               subcategory: null,
               questionNumber: null,
-              category: CertificationIssueReportCategories.OTHER,
+              category: CertificationIssueReportCategory.OTHER,
               hasBeenAutomaticallyResolved: null,
               resolvedAt: null,
               resolution: null,
@@ -185,20 +185,20 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
         const manyAsrAssessmentId = dbf.buildAssessment({ certificationCourseId: manyAsrCertification.id }).id;
 
         const categoryId = dbf.buildIssueReportCategory({
-          name: CertificationIssueReportCategories.OTHER,
+          name: CertificationIssueReportCategory.OTHER,
           isImpactful: false,
         }).id;
 
         const issueReport1 = dbf.buildCertificationIssueReport({
           certificationCourseId: manyAsrCertification.id,
-          category: CertificationIssueReportCategories.OTHER,
+          category: CertificationIssueReportCategory.OTHER,
           categoryId,
           description: 'first certification issue report',
           hasBeenAutomaticallyResolved: false,
         });
         const issueReport2 = dbf.buildCertificationIssueReport({
           certificationCourseId: manyAsrCertification.id,
-          category: CertificationIssueReportCategories.OTHER,
+          category: CertificationIssueReportCategory.OTHER,
           categoryId,
           description: 'second certification issue report',
           hasBeenAutomaticallyResolved: false,
@@ -318,25 +318,25 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
         });
 
         const categoryId = dbf.buildIssueReportCategory({
-          name: CertificationIssueReportCategories.OTHER,
+          name: CertificationIssueReportCategory.OTHER,
           isImpactful: false,
         }).id;
 
         const issueReport1 = dbf.buildCertificationIssueReport({
           certificationCourseId: manyAsrCertification.id,
-          category: CertificationIssueReportCategories.OTHER,
+          category: CertificationIssueReportCategory.OTHER,
           categoryId,
           description: 'first certification issue report',
           hasBeenAutomaticallyResolved: false,
         });
         dbf.buildIssueReportCategory({
-          name: CertificationIssueReportCategories.OTHER,
+          name: CertificationIssueReportCategory.OTHER,
           isImpactful: true,
           isDeprecated: true,
         });
         const issueReport2 = dbf.buildCertificationIssueReport({
           certificationCourseId: manyAsrCertification.id,
-          category: CertificationIssueReportCategories.OTHER,
+          category: CertificationIssueReportCategory.OTHER,
           categoryId,
           description: 'second certification issue report',
           hasBeenAutomaticallyResolved: false,
@@ -515,7 +515,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
 
             dbf.buildIssueReportCategory({
               id: 3,
-              name: CertificationIssueReportCategories.IN_CHALLENGE,
+              name: CertificationIssueReportCategory.IN_CHALLENGE,
               isImpactful: true,
               isDeprecated: false,
             });
