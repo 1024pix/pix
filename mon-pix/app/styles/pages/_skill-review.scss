@@ -246,6 +246,36 @@
 }
 
 .skill-review-competence-stages-result {
+
+  &__content {
+    padding-top: $pix-spacing-m;
+
+    &:nth-child(2) {
+      padding-top: 0;
+    }
+  }
+
+  &__area {
+    display: flex;
+    align-items: center;
+    padding-bottom: $pix-spacing-xs;
+  }
+
+  &__subtitle {
+    @extend %pix-body-l;
+
+    color: $pix-neutral-90;
+    font-weight: $font-medium;
+  }
+
+  &__border {
+    margin-right: $pix-spacing-xs;
+    padding: 0.7rem 0;
+    border-style: solid;
+    border-width: 2.5px;
+    border-radius: 50px;
+  }
+
   &__table {
     width: 100%;
     border-collapse: collapse;
