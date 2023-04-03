@@ -17,64 +17,64 @@ const {
 //  - transformFn -> Transformation function through which the cell value will be processed into the final value
 const _getTransformationsStructs = (translate) => [
   {
-    header: '* ' + translate('candidate-list-template.birthname'),
+    header: translate('candidate-list-template.headers.birthname'),
     property: 'lastName',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
   {
-    header: '* ' + translate('candidate-list-template.firstname'),
+    header: translate('candidate-list-template.headers.firstname'),
     property: 'firstName',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
   {
-    header: translate('candidate-list-template.externalid'),
+    header: translate('candidate-list-template.headers.externalid'),
     property: 'externalId',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
   {
-    header: translate('candidate-list-template.extratime'),
+    header: translate('candidate-list-template.headers.extratime'),
     property: 'extraTimePercentage',
     transformFn: _toNonZeroValueOrNull,
   },
   {
-    header: '* ' + translate('candidate-list-template.birthdate'),
+    header: translate('candidate-list-template.headers.birth-date'),
     property: 'birthdate',
     transformFn: (cellVal) => {
       return convertDateValue({ dateString: cellVal, inputFormat: 'DD/MM/YYYY', outputFormat: 'YYYY-MM-DD' });
     },
   },
   {
-    header: translate('candidate-list-template.birthcity'),
+    header: translate('candidate-list-template.headers.birthcity'),
     property: 'birthCity',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
   {
-    header: translate('candidate-list-template.birthcity-postcode'),
+    header: translate('candidate-list-template.headers.birthcity-postcode'),
     property: 'birthPostalCode',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
   {
-    header: translate('candidate-list-template.birthcity-inseecode'),
+    header: translate('candidate-list-template.headers.birthcity-inseecode'),
     property: 'birthINSEECode',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
   {
-    header: translate('candidate-list-template.birthcountry'),
+    header: translate('candidate-list-template.headers.birthcountry'),
     property: 'birthCountry',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
   {
-    header: translate('candidate-list-template.email-convocation'),
+    header: translate('candidate-list-template.headers.email-convocation'),
     property: 'email',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
   {
-    header: translate('candidate-list-template.email-results'),
+    header: translate('candidate-list-template.headers.email-results'),
     property: 'resultRecipientEmail',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },
   {
-    header: '* ' + translate('candidate-list-template.gender'),
+    header: translate('candidate-list-template.headers.gender'),
     property: 'sex',
     transformFn: _toNotEmptyTrimmedStringOrNull,
   },

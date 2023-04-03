@@ -34,7 +34,6 @@ async function extractTableDataFromOdsFile({ odsBuffer, tableHeaderTargetPropert
 async function validateOdsHeaders({ odsBuffer, headers }) {
   const sheetDataRows = await getSheetDataRowsFromOdsBuffer({ odsBuffer });
   const headerRow = _findHeaderRow(sheetDataRows, headers);
-
   if (!headerRow) {
     throw new UnprocessableEntityError('Unknown attendance sheet version');
   }
