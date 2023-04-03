@@ -1,5 +1,5 @@
 import { expect, mockLearningContent, databaseBuilder } from '../../../test-helper.js';
-import { useCases } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 
 describe('Integration | UseCase | find-assessment-participation-result-list', function () {
   let organizationId;
@@ -28,7 +28,7 @@ describe('Integration | UseCase | find-assessment-participation-result-list', fu
 
   context('when there are filters', function () {
     it('returns the assessmentParticipationResultMinimal list filtered by the search', async function () {
-      const { participations } = await useCases.findAssessmentParticipationResultList({
+      const { participations } = await usecases.findAssessmentParticipationResultList({
         campaignId,
         filters: { search: 'Tonari N' },
         page,

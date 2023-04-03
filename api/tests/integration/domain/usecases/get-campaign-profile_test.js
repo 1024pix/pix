@@ -1,5 +1,5 @@
 import { expect, databaseBuilder, mockLearningContent } from '../../../test-helper.js';
-import { useCases } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { LOCALE } from '../../../../lib/domain/constants.js';
 
 const { FRENCH_SPOKEN } = LOCALE;
@@ -23,7 +23,7 @@ describe('Integration | UseCase | get-campaign-profile', function () {
 
     await databaseBuilder.commit();
     // when
-    const profile = await useCases.getCampaignProfile({
+    const profile = await usecases.getCampaignProfile({
       userId,
       campaignId,
       campaignParticipationId,
