@@ -1,3 +1,6 @@
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
 require('dotenv').config({ path: `${__dirname}/../.env` });
 const _ = require('lodash');
 const MockDate = require('mockdate');

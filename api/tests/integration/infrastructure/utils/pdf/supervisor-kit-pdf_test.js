@@ -2,6 +2,8 @@ import { domainBuilder, expect } from '../../../../test-helper.js';
 import { isSameBinary } from '../../../../tooling/binary-comparator.js';
 import { getSupervisorKitPdfBuffer } from '../../../../../lib/infrastructure/utils/pdf/supervisor-kit-pdf.js';
 import { addRandomSuffix } from 'pdf-lib/cjs/utils';
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor kit Pdf', function () {
   beforeEach(function () {
