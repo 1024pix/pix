@@ -1,9 +1,10 @@
 import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-import { computeCampaignAnalysis } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
 import { LOCALE } from '../../../../lib/domain/constants.js';
 
 const { FRENCH_SPOKEN } = LOCALE;
+const { computeCampaignAnalysis } = usecases;
 
 describe('Unit | UseCase | compute-campaign-analysis', function () {
   let campaignRepository;

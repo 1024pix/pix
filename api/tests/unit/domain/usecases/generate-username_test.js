@@ -1,5 +1,5 @@
 import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-import { generateUsername } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { Student } from '../../../../lib/domain/models/Student.js';
 
 import {
@@ -7,6 +7,8 @@ import {
   OrganizationLearnerNotFound,
   OrganizationLearnerAlreadyLinkedToUserError,
 } from '../../../../lib/domain/errors.js';
+
+const { generateUsername } = usecases;
 
 describe('Unit | UseCase | generate-username', function () {
   const organizationId = 1;

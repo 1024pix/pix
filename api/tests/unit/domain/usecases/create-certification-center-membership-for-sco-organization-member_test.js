@@ -1,6 +1,8 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { createCertificationCenterMembershipForScoOrganizationMember } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
+
+const { createCertificationCenterMembershipForScoOrganizationMember } = usecases;
 
 describe('Unit | UseCase | create-certification-center-membership-for-sco-organization-member', function () {
   let membershipRepository;
