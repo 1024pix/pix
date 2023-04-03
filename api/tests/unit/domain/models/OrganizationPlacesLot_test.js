@@ -496,4 +496,3 @@ describe('Unit | Domain | Models | OrganizationPlaces', function () {
     });
   });
 });
-/* eslint-enable mocha/no-setup-in-describe */
