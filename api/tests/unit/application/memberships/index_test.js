@@ -1,7 +1,7 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-import { moduleUnderTest } from '../../../../lib/application/memberships.js';
 import { membershipController } from '../../../../lib/application/memberships/membership-controller.js';
+import * as moduleUnderTest from '../../../../lib/application/memberships/index.js';
 
 describe('Unit | Router | membership-router', function () {
   describe('PATCH /api/admin/memberships/{id}', function () {
