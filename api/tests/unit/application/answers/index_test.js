@@ -1,7 +1,9 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { moduleUnderTest } from '../../../../lib/application/answers.js';
+import * as moduleUnderTest from '../../../../lib/application/answers/index.js';
 import { answerController } from '../../../../lib/application/answers/answer-controller.js';
-import { features } from '../../../../lib/config.js';
+import { config } from '../../../../lib/config.js';
+
+const { features } = config;
 
 describe('Unit | Application | Router | answer-router', function () {
   describe('POST /api/answers', function () {
