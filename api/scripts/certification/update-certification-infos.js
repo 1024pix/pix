@@ -1,11 +1,8 @@
 require('dotenv').config({ path: `${__dirname}/../.env` });
 
 import bluebird from 'bluebird';
-import fs/promises from 'fs/promises';
 
-const {
-  readFile
-} = fs/promises;
+import { readFile } from 'fs/promises';
 
 import { logger } from '../../lib/infrastructure/logger.js';
 // Usage: node scripts/update-certifications-infos path/data.csv path/sessionsId.csv

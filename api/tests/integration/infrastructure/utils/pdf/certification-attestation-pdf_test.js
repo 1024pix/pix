@@ -4,15 +4,8 @@ import { isSameBinary } from '../../../../tooling/binary-comparator.js';
 import { getCertificationAttestationsPdfBuffer } from '../../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf.js';
 import { CertificationAttestationGenerationError } from '../../../../../lib/domain/errors.js';
 import fs from 'fs';
-import pdfLib/cjs/utils from 'pdf-lib/cjs/utils';
-
-const {
-  writeFile
-} = fs/promises;
-
-const {
-  addRandomSuffix
-} = pdfLib/cjs/utils;
+import { addRandomSuffix } from 'pdf-lib/cjs/utils';
+import { writeFile } from 'fs/promises';
 
 describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation Pdf', function () {
   beforeEach(async function () {
@@ -258,7 +251,6 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
 async function _writeFile(buffer, outputFilename, dryRun = true) {
   // Note: to update the reference pdf, set dryRun to false.
   if (!dryRun) {
-    import fs/promises from 'fs/promises';
     await writeFile(`${__dirname}/${outputFilename}`, buffer);
   }
 }

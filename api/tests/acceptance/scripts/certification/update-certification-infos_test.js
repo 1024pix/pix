@@ -1,11 +1,5 @@
 import { expect, databaseBuilder, knex, sinon } from '../../../test-helper.js';
-import fs/promises from 'fs/promises';
-
-const {
-  writeFile,
-  rm
-} = fs/promises;
-
+import { writeFile, rm } from 'fs/promises';
 import values from 'lodash/values';
 import { logger } from '../../../../lib/infrastructure/logger.js';
 import { updateCertificationInfos, headers } from '../../../../scripts/certification/update-certification-infos.js';
