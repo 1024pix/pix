@@ -13,7 +13,7 @@ import { createServer } from '../../../../../server.js';
 import { config as settings } from '../../../../../lib/config.js';
 import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
 import * as authenticationSessionService from '../../../../../lib/domain/services/authentication/authentication-session-service.js';
-import { OidcIdentityProviders } from '../../../../../lib/domain/constants/oidc-identity-providers.js';
+import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 
 const uuidPattern = new RegExp(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i);
 
