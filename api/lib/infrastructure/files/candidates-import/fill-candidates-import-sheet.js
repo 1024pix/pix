@@ -4,6 +4,7 @@ const {
   EXTRA_EMPTY_CANDIDATE_ROWS,
   IMPORT_CANDIDATES_TEMPLATE_VALUES,
   IMPORT_CANDIDATES_SESSION_TEMPLATE_VALUES,
+  IMPORT_CANDIDATES_SESSION_TEMPLATE_HEADERS,
 } = require('./candidates-import-placeholders.js');
 const CertificationCandidate = require('../../../domain/models/CertificationCandidate.js');
 
@@ -27,6 +28,9 @@ module.exports = async function fillCandidatesImportSheet({
   const template = await _getCandidatesImportTemplate({ locale });
 
   const odsBuilder = new writeOdsUtils.OdsUtilsBuilder({ template, translate });
+
+  odsBuilder.headerTranslation({ headerValues: IMPORT_CANDIDATES_SESSION_TEMPLATE_HEADERS, translate });
+
   _addSession(odsBuilder, session);
   _addColumns({
     odsBuilder,
@@ -36,11 +40,11 @@ module.exports = async function fillCandidatesImportSheet({
   });
   _addCandidateRows({ odsBuilder, certificationCandidates: session.certificationCandidates, i18n });
 
-  return odsBuilder.build({ templateFilePath: _getCandidatesImportTemplatePath({ locale }) });
+  return odsBuilder.build({ templateFilePath: _getCandidatesImportTemplatePath() });
 };
 
-async function _getCandidatesImportTemplate({ locale }) {
-  const templatePath = _getCandidatesImportTemplatePath({ locale });
+async function _getCandidatesImportTemplate() {
+  const templatePath = _getCandidatesImportTemplatePath();
   return readOdsUtils.getContentXml({ odsFilePath: templatePath });
 }
 
@@ -51,7 +55,7 @@ function _addSession(odsBuilder, session) {
 
 function _addColumns({ odsBuilder, certificationCenterHabilitations, isScoCertificationCenter, translate }) {
   if (!isScoCertificationCenter) {
-    const title = translate('candidate-list-template.title');
+    const title = translate('candidate-list-template.headers.candidates-list');
 
     const billingValidatorList = Object.values(CertificationCandidate.BILLING_MODES).map((value) =>
       translate('candidate-list-template.billing-mode.' + value.toLowerCase())
@@ -141,8 +145,8 @@ function _getCandidatesData({ certificationCandidates, i18n }) {
   return enrolledCandidatesData.concat(emptyCandidatesData);
 }
 
-function _getCandidatesImportTemplatePath({ locale }) {
-  return __dirname + '/1.5/candidates_import_template_' + locale + '.ods';
+function _getCandidatesImportTemplatePath() {
+  return __dirname + '/1.5/candidates_import_template.ods';
 }
 
 function _certificationCandidatesToCandidatesData({ certificationCandidates, i18n }) {

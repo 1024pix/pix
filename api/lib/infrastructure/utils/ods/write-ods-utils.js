@@ -26,6 +26,21 @@ class OdsUtilsBuilder {
     return this;
   }
 
+  headerTranslation({ headerValues, translate }) {
+    const intermediateXmlDom = _.cloneDeep(this.xmlDom);
+    for (const propertyName of headerValues) {
+      const targetXmlDomElement = _getXmlDomElementByText(intermediateXmlDom, propertyName);
+      if (targetXmlDomElement) {
+        const translatedHeader = translate(`candidate-list-template.` + propertyName);
+        targetXmlDomElement.textContent = translatedHeader;
+      }
+    }
+
+    this.xmlDom = intermediateXmlDom;
+
+    return this;
+  }
+
   withTooltipOnCell({ xmlDom, tooltipName, tooltipTitle, tooltipContentLines }) {
     return this.withValidatorRestrictedList({
       xmlDom,
@@ -113,7 +128,7 @@ class OdsUtilsBuilder {
   }
 
   withColumnGroupHeader({ headerLabels, numberOfColumns, lineNumber, rowspan }) {
-    const labelTranslation = this.translate('candidate-list-template.birthplace');
+    const labelTranslation = this.translate('candidate-list-template.headers.birthplace');
     const addedCellOption = new AddedCellOption({
       labels: headerLabels,
       rowspan,
@@ -123,7 +138,7 @@ class OdsUtilsBuilder {
 
     this._withCellToEndOfLineWithStyleOfCellLabelled({
       lineNumber,
-      cellToCopyLabel: '* ' + labelTranslation,
+      cellToCopyLabel: labelTranslation,
       addedCellOption,
     });
 
@@ -172,7 +187,7 @@ class OdsUtilsBuilder {
   _addColumn(column, tableHeaderRow, tableFirstRow) {
     this._withCellToEndOfLineWithStyleOfCellLabelled({
       lineNumber: tableHeaderRow,
-      cellToCopyLabel: this.translate('candidate-list-template.extratime'),
+      cellToCopyLabel: this.translate('candidate-list-template.headers.extratime'),
       addedCellOption: new AddedCellOption({ labels: column.headerLabel }),
     });
 
