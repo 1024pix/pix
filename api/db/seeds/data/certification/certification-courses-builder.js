@@ -25,7 +25,7 @@ import {
 } from './certification-candidates-builder.js';
 
 import { CERTIFICATION_CHALLENGES_DATA } from './certification-data.js';
-import { CertificationIssueReportCategories } from './../../../../lib/domain/models/CertificationIssueReportCategory.js';
+import { CertificationIssueReportCategory } from './../../../../lib/domain/models/CertificationIssueReportCategory.js';
 import { generateCertificateVerificationCode } from '../../../../lib/domain/services/verify-certificate-code-service.js';
 import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
 
@@ -189,18 +189,18 @@ async function _buildCertificationCourse(
   if (examinerComment) {
     databaseBuilder.factory.buildCertificationIssueReport({
       certificationCourseId,
-      category: CertificationIssueReportCategories.OTHER,
+      category: CertificationIssueReportCategory.OTHER,
       description: examinerComment + ' (deuxième fois)',
     });
     databaseBuilder.factory.buildCertificationIssueReport({
       certificationCourseId,
-      category: CertificationIssueReportCategories.OTHER,
+      category: CertificationIssueReportCategory.OTHER,
       description: examinerComment + ' (première fois)',
       resolvedAt: '2020-05-01T00:00:00Z',
     });
     databaseBuilder.factory.buildCertificationIssueReport({
       certificationCourseId,
-      category: CertificationIssueReportCategories.SIGNATURE_ISSUE,
+      category: CertificationIssueReportCategory.SIGNATURE_ISSUE,
       description: examinerComment,
     });
   }

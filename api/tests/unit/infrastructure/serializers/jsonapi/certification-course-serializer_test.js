@@ -3,7 +3,7 @@ import * as serializer from '../../../../../lib/infrastructure/serializers/jsona
 import { Assessment } from '../../../../../lib/domain/models/Assessment.js';
 import { CertificationCourse } from '../../../../../lib/domain/models/CertificationCourse.js';
 import { CertificationIssueReport } from '../../../../../lib/domain/models/CertificationIssueReport.js';
-import { CertificationIssueReportCategories } from '../../../../../lib/domain/models/CertificationIssueReportCategory.js';
+import { CertificationIssueReportCategory } from '../../../../../lib/domain/models/CertificationIssueReportCategory.js';
 
 describe('Unit | Serializer | JSONAPI | certification-course-serializer', function () {
   describe('#serialize', function () {
@@ -23,7 +23,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
       const issueReport = new CertificationIssueReport({
         id: 1234,
         description: "Signalement de l'examinateur",
-        category: CertificationIssueReportCategories.OTHER,
+        category: CertificationIssueReportCategory.OTHER,
         certificationCourseId: certificationCourse.getId(),
       });
 
