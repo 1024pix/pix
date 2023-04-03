@@ -56,6 +56,10 @@ workflows:
           context: Pix
           requires:
             - checkout
+      - pix1d_build_and_test:
+          context: Pix
+          requires:
+            - checkout
 
       - e2e_test_app:
           context: Pix
@@ -182,6 +186,33 @@ jobs:
       - run: npm ci
       - save_cache:
           key: v7-orga-npm-{{ checksum "cachekey" }}
+          paths:
+            - ~/.npm
+      - run:
+          name: Lint
+          command: npm run lint
+      - run:
+          name: Test
+          command: npm run test:ci
+
+  pix1d_build_and_test:
+    docker:
+      - image: cimg/node:16.19.1-browsers
+        environment:
+          JOBS: 2
+    resource_class: small
+    working_directory: ~/pix/pix1d
+    steps:
+      - browser-tools/install-chrome
+      - attach_workspace:
+          at: ~/pix
+      - run: cat package*.json > cachekey
+      - restore_cache:
+          keys:
+            - v7-pix1d-npm-{{ checksum "cachekey" }}
+      - run: npm ci
+      - save_cache:
+          key: v7-pix1d-npm-{{ checksum "cachekey" }}
           paths:
             - ~/.npm
       - run:

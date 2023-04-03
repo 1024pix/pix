@@ -71,6 +71,7 @@ const configuration = (function () {
       pixApp: process.env.DOMAIN_PIX_APP || 'https://app.pix',
       pixOrga: process.env.DOMAIN_PIX_ORGA || 'https://orga.pix',
       pixCertif: process.env.DOMAIN_PIX_CERTIF || 'https://certif.pix',
+      pix1d: process.env.DOMAIN_PIX1D || 'https://pix1d.pix',
     },
 
     partner: {
@@ -215,6 +216,7 @@ const configuration = (function () {
         process.env.FT_ALWAYS_OK_VALIDATE_NEXT_CHALLENGE_ENDPOINT
       ),
       isTrainingRecommendationEnabled: isFeatureEnabled(process.env.FT_TRAINING_RECOMMENDATION),
+      isPix1dEnabled: isFeatureEnabled(process.env.FT_PIX_1D_ENABLED),
     },
 
     infra: {
@@ -351,6 +353,7 @@ const configuration = (function () {
     config.featureToggles.isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled = false;
     config.featureToggles.isMassiveSessionManagementEnabled = false;
     config.featureToggles.isTrainingRecommendationEnabled = false;
+    config.featureToggles.isPix1dEnabled = true;
 
     config.mailing.enabled = false;
     config.mailing.provider = 'sendinblue';
