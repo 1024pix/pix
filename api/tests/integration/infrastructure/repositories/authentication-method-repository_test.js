@@ -1,7 +1,7 @@
 import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../test-helper.js';
 import { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } from '../../../../lib/domain/errors.js';
 import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
-import { OidcIdentityProviders } from '../../../../lib/domain/constants/oidc-identity-providers.js';
+import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 import * as authenticationMethodRepository from '../../../../lib/infrastructure/repositories/authentication-method-repository.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 

@@ -4,7 +4,7 @@ import { logger } from '../../../../../lib/infrastructure/logger.js';
 import { authenticateOidcUser } from '../../../../../lib/domain/usecases/authentication/authenticate-oidc-user.js';
 import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
-import { OidcIdentityProviders } from '../../../../../lib/domain/constants/oidc-identity-providers.js';
+import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 
 describe('Unit | UseCase | authenticate-oidc-user', function () {
   let oidcAuthenticationService;

@@ -1,6 +1,6 @@
 import { expect, sinon } from '../../../test-helper.js';
 import { getIdentityProviders } from '../../../../lib/domain/usecases/get-identity-providers.js';
-import { OidcIdentityProviders } from '../../../../lib/domain/constants/oidc-identity-providers.js';
+import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 import { config } from '../../../../lib/config.js';
 
 describe('Unit | UseCase | get-identity-providers', function () {
