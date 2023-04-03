@@ -33,6 +33,6 @@ const up = async function (knex) {
     }
   }
 };
-
+// eslint-disable-next-line no-empty-function
 const down = function () {};
 export { up, down };
