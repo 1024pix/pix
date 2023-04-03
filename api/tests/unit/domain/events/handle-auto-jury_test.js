@@ -6,7 +6,7 @@ import { CertificationJuryDone } from '../../../../lib/domain/events/Certificati
 import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
 import {
   CertificationIssueReportSubcategories,
-  CertificationIssueReportCategories,
+  CertificationIssueReportCategory,
 } from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
 
 describe('Unit | Domain | Events | handle-auto-jury', function () {
@@ -49,12 +49,12 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
     });
     const certificationCourse = domainBuilder.buildCertificationCourse();
     const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-      category: CertificationIssueReportCategories.IN_CHALLENGE,
+      category: CertificationIssueReportCategory.IN_CHALLENGE,
       subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
       questionNumber: 1,
     });
     const certificationIssueReport2 = domainBuilder.buildCertificationIssueReport({
-      category: CertificationIssueReportCategories.FRAUD,
+      category: CertificationIssueReportCategory.FRAUD,
       subcategory: undefined,
       questionNumber: 1,
     });
@@ -170,7 +170,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
     });
     const certificationCourse = domainBuilder.buildCertificationCourse();
     const certificationIssueReport1 = domainBuilder.buildCertificationIssueReport({
-      category: CertificationIssueReportCategories.IN_CHALLENGE,
+      category: CertificationIssueReportCategory.IN_CHALLENGE,
       subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
       questionNumber: 1,
     });
@@ -593,7 +593,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
       });
       const certificationCourse = domainBuilder.buildCertificationCourse({ id: 4567, sessionId: 1234 });
       const certificationIssueReport1 = domainBuilder.buildCertificationIssueReport({
-        category: CertificationIssueReportCategories.FRAUD,
+        category: CertificationIssueReportCategory.FRAUD,
         subcategory: null,
         questionNumber: 1,
       });
@@ -659,12 +659,12 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
       });
       const certificationCourse = domainBuilder.buildCertificationCourse({ id: 4567, sessionId: 1234 });
       const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-        category: CertificationIssueReportCategories.IN_CHALLENGE,
+        category: CertificationIssueReportCategory.IN_CHALLENGE,
         subcategory: CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
         questionNumber: 1,
       });
       const certificationIssueReport2 = domainBuilder.buildCertificationIssueReport({
-        category: CertificationIssueReportCategories.IN_CHALLENGE,
+        category: CertificationIssueReportCategory.IN_CHALLENGE,
         subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
         questionNumber: 1,
       });

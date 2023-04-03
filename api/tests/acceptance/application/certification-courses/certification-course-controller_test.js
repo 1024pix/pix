@@ -9,7 +9,7 @@ import {
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
-import { CertificationIssueReportCategories } from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
+import { CertificationIssueReportCategory } from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
 import { CertificationAssessment } from '../../../../lib/domain/models/CertificationAssessment.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
@@ -534,7 +534,7 @@ describe('Acceptance | API | Certification Course', function () {
       userId = certificationCourse.userId;
       databaseBuilder.factory.buildCertificationIssueReport({
         certificationCourseId: certificationCourse.id,
-        category: CertificationIssueReportCategories.OTHER,
+        category: CertificationIssueReportCategory.OTHER,
         description: "il s'est enfuit de la session",
       });
 
