@@ -17,6 +17,9 @@ import {
 } from '../../../../../../lib/domain/models/ComplementaryCertification.js';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
 describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet', function () {
   let i18n;
   let userId;
