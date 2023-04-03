@@ -500,8 +500,11 @@ async function generateCampaignWithParticipants({
     const PARTICIPANT_CHUNK_SIZE = 500;
     while (participantLeftToProcess > 0) {
       _log(`Reste à traiter : ${participantLeftToProcess} participants`);
+      const count =
+        participantLeftToProcess > PARTICIPANT_CHUNK_SIZE ? PARTICIPANT_CHUNK_SIZE : participantLeftToProcess;
+
       participantLeftToProcess = participantLeftToProcess - PARTICIPANT_CHUNK_SIZE;
-      await _createParticipants({ count: PARTICIPANT_CHUNK_SIZE, targetProfile, organizationId, campaignId, trx });
+      await _createParticipants({ count, targetProfile, organizationId, campaignId, trx });
     }
   } else {
     await _createParticipants({ count: participantCount, targetProfile, organizationId, campaignId, trx });
