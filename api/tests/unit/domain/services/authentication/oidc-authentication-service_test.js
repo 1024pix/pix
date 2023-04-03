@@ -1,7 +1,7 @@
 import { expect, sinon, catchErr } from '../../../../test-helper.js';
 import { config as settings } from '../../../../../lib/config.js';
 
-import * as OidcAuthenticationService from '../../../../../lib/domain/services/authentication/oidc-authentication-service.js';
+import { OidcAuthenticationService } from '../../../../../lib/domain/services/authentication/oidc-authentication-service.js';
 import jsonwebtoken from 'jsonwebtoken';
 import { httpAgent } from '../../../../../lib/infrastructure/http/http-agent.js';
 import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
@@ -16,7 +16,7 @@ import {
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { UserToCreate } from '../../../../../lib/domain/models/UserToCreate.js';
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
-import { OidcIdentityProviders } from '../../../../../lib/domain/constants/oidc-identity-providers.js';
+import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 import { monitoringTools } from '../../../../../lib/infrastructure/monitoring-tools.js';
 import { OIDC_ERRORS } from '../../../../../lib/domain/constants.js';
 

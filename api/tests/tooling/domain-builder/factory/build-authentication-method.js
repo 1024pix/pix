@@ -3,7 +3,7 @@ import isUndefined from 'lodash/isUndefined';
 import * as encrypt from '../../../../lib/domain/services/encryption-service.js';
 import { User } from '../../../../lib/domain/models/User.js';
 import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
-import { OidcIdentityProviders } from '../../../../lib/domain/constants/oidc-identity-providers.js';
+import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 
 function _buildUser() {
   return new User({

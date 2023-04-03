@@ -4,7 +4,7 @@ import { OrganizationForAdmin } from '../../../../lib/domain/models/organization
 import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
 import * as organizationForAdminRepository from '../../../../lib/infrastructure/repositories/organization-for-admin-repository.js';
 import { SamlIdentityProviders } from '../../../../lib/domain/constants/saml-identity-providers.js';
-import { OidcIdentityProviders } from '../../../../lib/domain/constants/oidc-identity-providers.js';
+import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 
 describe('Integration | Repository | Organization-for-admin', function () {
   let clock;
