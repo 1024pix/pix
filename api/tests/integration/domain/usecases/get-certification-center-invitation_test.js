@@ -1,5 +1,5 @@
 import { expect, databaseBuilder, catchErr } from '../../../test-helper.js';
-import { useCases } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
 import {
   NotFoundError,
@@ -30,7 +30,7 @@ describe('Integration | API | getCertificationCenterInvitation', function () {
       await databaseBuilder.commit();
 
       // when
-      const result = await useCases.getCertificationCenterInvitation({
+      const result = await usecases.getCertificationCenterInvitation({
         certificationCenterInvitationId: konohaInvitation.id,
         certificationCenterInvitationCode: 'PAIN999',
       });
@@ -62,7 +62,7 @@ describe('Integration | API | getCertificationCenterInvitation', function () {
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(useCases.getCertificationCenterInvitation)({
+      const error = await catchErr(usecases.getCertificationCenterInvitation)({
         certificationCenterInvitationId: konohaInvitation.id,
         certificationCenterInvitationCode: 'WRONGCODE01',
       });
@@ -88,7 +88,7 @@ describe('Integration | API | getCertificationCenterInvitation', function () {
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(useCases.getCertificationCenterInvitation)({
+      const error = await catchErr(usecases.getCertificationCenterInvitation)({
         certificationCenterInvitationId: killuaInvitation.id,
         certificationCenterInvitationCode: 'HXH456',
       });
@@ -114,7 +114,7 @@ describe('Integration | API | getCertificationCenterInvitation', function () {
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(useCases.getCertificationCenterInvitation)({
+      const error = await catchErr(usecases.getCertificationCenterInvitation)({
         certificationCenterInvitationId: dekuInvitation.id,
         certificationCenterInvitationCode: 'MHA789',
       });

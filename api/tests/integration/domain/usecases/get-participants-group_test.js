@@ -1,6 +1,8 @@
 import { expect, databaseBuilder, catchErr } from '../../../test-helper.js';
-import { getParticipantsGroup } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { ForbiddenAccess } from '../../../../lib/domain/errors.js';
+
+const { getParticipantsGroup } = usecases;
 
 describe('Integration | UseCase | get-participants-group', function () {
   context('when the use has access to the campaign', function () {

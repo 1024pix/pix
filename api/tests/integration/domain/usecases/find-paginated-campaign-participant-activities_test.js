@@ -1,5 +1,5 @@
 import { expect, catchErr, databaseBuilder } from '../../../test-helper.js';
-import { useCases } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
 
 describe('Integration | UseCase | find-paginated-campaign-participants-activities', function () {
@@ -17,7 +17,7 @@ describe('Integration | UseCase | find-paginated-campaign-participants-activitie
   context('when requesting user is not allowed to access campaign informations', function () {
     it('should throw a UserNotAuthorizedToAccessEntityError error', async function () {
       // when
-      const error = await catchErr(useCases.findPaginatedCampaignParticipantsActivities)({
+      const error = await catchErr(usecases.findPaginatedCampaignParticipantsActivities)({
         userId,
         campaignId,
       });
@@ -39,7 +39,7 @@ describe('Integration | UseCase | find-paginated-campaign-participants-activitie
     });
 
     it('returns the campaignParticipantsActivites of the participants of the campaign', async function () {
-      const { campaignParticipantsActivities } = await useCases.findPaginatedCampaignParticipantsActivities({
+      const { campaignParticipantsActivities } = await usecases.findPaginatedCampaignParticipantsActivities({
         userId,
         campaignId,
         page,
@@ -65,7 +65,7 @@ describe('Integration | UseCase | find-paginated-campaign-participants-activitie
     });
 
     it('returns the campaignParticipantsActivities for the participants for the division', async function () {
-      const { campaignParticipantsActivities } = await useCases.findPaginatedCampaignParticipantsActivities({
+      const { campaignParticipantsActivities } = await usecases.findPaginatedCampaignParticipantsActivities({
         userId,
         campaignId,
         filters: { divisions: ['6eme'] },
@@ -75,7 +75,7 @@ describe('Integration | UseCase | find-paginated-campaign-participants-activitie
     });
 
     it('returns the campaignParticipantsActivities filtered by the search', async function () {
-      const { campaignParticipantsActivities } = await useCases.findPaginatedCampaignParticipantsActivities({
+      const { campaignParticipantsActivities } = await usecases.findPaginatedCampaignParticipantsActivities({
         userId,
         campaignId,
         filters: { search: 'Tonari N' },
