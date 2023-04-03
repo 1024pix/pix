@@ -3,8 +3,9 @@ import { writeFile, stat, unlink } from 'fs/promises';
 
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-import { moduleUnderTest } from '../../../../lib/application/certification-centers.js';
 import { certificationCenterController } from '../../../../lib/application/certification-centers/certification-center-controller.js';
+
+import * as moduleUnderTest from '../../../../lib/application/certification-centers/index.js';
 import FormData from 'form-data';
 import streamToPromise from 'stream-to-promise';
 

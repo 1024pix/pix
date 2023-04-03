@@ -1,6 +1,6 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 import { tutorialEvaluationsController } from '../../../../lib/application/tutorial-evaluations/tutorial-evaluations-controller.js';
-import { moduleUnderTest } from '../../../../lib/application/tutorial-evaluations.js';
+import * as moduleUnderTest from '../../../../lib/application/tutorial-evaluations/index.js';
 import { TutorialEvaluation } from '../../../../lib/domain/models/TutorialEvaluation.js';
 
 describe('Unit | Router | tutorial-evaluations-router', function () {

@@ -8,7 +8,7 @@ import {
 } from '../../../../lib/domain/errors.js';
 
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { moduleUnderTest } from '../../../../lib/application/passwords.js';
+import * as moduleUnderTest from '../../../../lib/application/passwords/index.js';
 
 describe('Integration | Application | Passwords | password-controller', function () {
   let httpTestServer;

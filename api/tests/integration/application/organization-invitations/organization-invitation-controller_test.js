@@ -1,7 +1,7 @@
 import { expect, sinon, HttpTestServer } from '../../../test-helper.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import * as scoOrganizationInvitationSerializer from '../../../../lib/infrastructure/serializers/jsonapi/sco-organization-invitation-serializer.js';
-import { moduleUnderTest } from '../../../../lib/application/organization-invitations.js';
+import * as moduleUnderTest from '../../../../lib/application/organization-invitations/index.js';
 
 import {
   AlreadyExistingInvitationError,

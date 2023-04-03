@@ -1,6 +1,6 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { moduleUnderTest } from '../../../../lib/application/passwords.js';
 import { passwordController } from '../../../../lib/application/passwords/password-controller.js';
+import * as moduleUnderTest from '../../../../lib/application/passwords/index.js';
 
 describe('Unit | Router | Password router', function () {
   describe('POST /api/password-reset-demands', function () {
