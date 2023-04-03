@@ -20,7 +20,7 @@ describe('Acceptance | Controller | scoring-simulator-controller', function () {
     server = await createServer();
 
     const { id: adminId } = databaseBuilder.factory.buildUser.withRole({
-      role: SUPER_ADMIN,
+      role: ROLES.SUPER_ADMIN,
     });
     adminAuthorization = generateValidRequestAuthorizationHeader(adminId);
     await databaseBuilder.commit();
