@@ -1,6 +1,8 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { deleteCampaignParticipationForAdmin } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { CampaignParticipation } from '../../../../lib/domain/models/CampaignParticipation.js';
+
+const { deleteCampaignParticipationForAdmin } = usecases;
 
 describe('Unit | UseCase | delete-campaign-participation-for-admin', function () {
   //given

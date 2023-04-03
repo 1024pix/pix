@@ -1,5 +1,7 @@
 import { expect, sinon } from '../../../test-helper.js';
-import { updateParticipantExternalId } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+
+const { updateParticipantExternalId } = usecases;
 
 describe('Unit | UseCase | update-participation-external-id', function () {
   it('should call repository method to update the external id for a participation', async function () {

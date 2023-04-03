@@ -1,6 +1,8 @@
 import { expect, sinon, catchErr } from '../../../test-helper.js';
-import { updateTargetProfile } from '../../../../lib/domain/usecases/index.js';
 import { EntityValidationError } from '../../../../lib/domain/errors.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+
+const { updateTargetProfile } = usecases;
 
 describe('Unit | UseCase | update-target-profile', function () {
   let targetProfileForUpdateRepository = null;

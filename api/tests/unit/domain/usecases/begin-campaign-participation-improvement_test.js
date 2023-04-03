@@ -1,6 +1,6 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
-import { beginCampaignParticipationImprovement } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 
 import {
   AlreadySharedCampaignParticipationError,
@@ -8,6 +8,8 @@ import {
 } from '../../../../lib/domain/errors.js';
 
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+
+const { beginCampaignParticipationImprovement } = usecases;
 
 describe('Unit | Usecase | begin-campaign-participation-improvement', function () {
   let dependencies;
