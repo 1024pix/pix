@@ -246,6 +246,12 @@
 }
 
 .skill-review-competence-stages-result {
+  &__title {
+    @extend %pix-title-s;
+
+    padding-bottom: $pix-spacing-m;
+    color: $pix-neutral-90;
+  }
 
   &__content {
     padding-top: $pix-spacing-m;
