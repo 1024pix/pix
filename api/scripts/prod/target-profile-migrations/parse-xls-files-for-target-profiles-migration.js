@@ -4,9 +4,7 @@ require('dotenv').config({
 import _ from 'lodash';
 import perf_hooks from 'perf_hooks';
 
-const {
-  performance
-} = perf_hooks;
+const { performance } = perf_hooks;
 
 import XLSX from 'xlsx';
 import { logger } from '../../../lib/infrastructure/logger.js';
@@ -14,10 +12,10 @@ import { cache } from '../../../lib/infrastructure/caches/learning-content-cache
 import { knex, disconnect } from '../../../db/knex-database-connection.js';
 import { normalizeAndRemoveAccents } from '../../../lib/domain/services/validation-treatments.js';
 import { autoMigrateTargetProfile } from './common.js';
+import * as tubeRepository from '../../../lib/infrastructure/repositories/tube-repository.js';
 
 let allTubes;
 async function _cacheLearningContentData() {
-  import * as tubeRepository from '../../../lib/infrastructure/repositories/tube-repository.js';
   const tubes = await tubeRepository.list();
   allTubes = tubes.map((tube) => ({ ...tube, normalizedName: normalizeAndRemoveAccents(tube.name) }));
 }
