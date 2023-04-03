@@ -19,6 +19,9 @@ import {
 
 import { AddedCellOption } from '../../../../../lib/infrastructure/utils/ods/added-cell-option.js';
 
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
 describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', function () {
   const GET_CONTENT_ODS_FILE_PATH = `${__dirname}/files/get-content-xml_test.ods`;
 

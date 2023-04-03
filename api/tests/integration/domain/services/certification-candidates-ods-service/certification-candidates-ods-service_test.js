@@ -23,6 +23,9 @@ import _ from 'lodash';
 import { getI18n } from '../../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
 
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
 describe('Integration | Services | extractCertificationCandidatesFromCandidatesImportSheet', function () {
   let userId;
   let sessionId;

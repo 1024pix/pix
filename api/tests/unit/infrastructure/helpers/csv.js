@@ -5,6 +5,9 @@ import lodash from 'lodash';
 
 const { isEmpty } = lodash;
 
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
 describe('Unit | Infrastructure | Helpers | csv.js', function () {
   const emptyFilePath = `${__dirname}/files/organizations-empty-file.csv`;
   const organizationWithTagsAndTargetProfilesFilePath = `${__dirname}/files/organizations-with-tags-and-target-profiles-test.csv`;
