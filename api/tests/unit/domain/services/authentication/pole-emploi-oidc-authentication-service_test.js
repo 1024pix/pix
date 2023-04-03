@@ -1,7 +1,8 @@
 import { expect } from '../../../../test-helper.js';
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
-import * as PoleEmploiOidcAuthenticationService from '../../../../../lib/domain/services/authentication/pole-emploi-oidc-authentication-service.js';
+import { PoleEmploiOidcAuthenticationService } from '../../../../../lib/domain/services/authentication/pole-emploi-oidc-authentication-service.js';
 import { temporaryStorage } from '../../../../../lib/infrastructure/temporary-storage/index.js';
+
 const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 
 describe('Unit | Domain | Services | pole-emploi-oidc-authentication-service', function () {

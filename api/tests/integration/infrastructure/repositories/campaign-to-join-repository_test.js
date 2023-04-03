@@ -3,7 +3,7 @@ import * as campaignToJoinRepository from '../../../../lib/infrastructure/reposi
 import { CampaignToJoin } from '../../../../lib/domain/read-models/CampaignToJoin.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { OidcIdentityProviders } from '../../../../lib/domain/constants/oidc-identity-providers.js';
+import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 
 describe('Integration | Repository | CampaignToJoin', function () {
   describe('#get', function () {
