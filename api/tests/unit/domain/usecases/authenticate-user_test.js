@@ -10,7 +10,7 @@ import {
   UserShouldChangePasswordError,
 } from '../../../../lib/domain/errors.js';
 
-import { appMessages } from '../../../../lib/domain/constants.js';
+import * as appMessages from '../../../../lib/domain/constants.js';
 
 describe('Unit | Application | UseCase | authenticate-user', function () {
   let refreshTokenService;
