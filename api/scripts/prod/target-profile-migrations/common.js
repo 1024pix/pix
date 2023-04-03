@@ -1,11 +1,11 @@
 import _ from 'lodash';
+import * as skillRepository from '../../../lib/infrastructure/repositories/skill-repository.js';
+import * as tubeRepository from '../../../lib/infrastructure/repositories/tube-repository.js';
 
 let allSkills;
 let allTubes;
 async function _cacheLearningContentData() {
-  import * as skillRepository from '../../../lib/infrastructure/repositories/skill-repository.js';
   allSkills = await skillRepository.list();
-  import * as tubeRepository from '../../../lib/infrastructure/repositories/tube-repository.js';
   allTubes = await tubeRepository.list();
 }
 let cached = false;
