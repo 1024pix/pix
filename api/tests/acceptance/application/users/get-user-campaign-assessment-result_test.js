@@ -320,7 +320,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
               'tested-skills-count': 2,
               'validated-skills-count': 2,
               'area-color': EMERALD_COLOR,
-              'reached-stage': 0,
+              'reached-stage': 1,
               'flash-pix-score': undefined,
             },
           },

@@ -270,14 +270,29 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           }),
           targetedSkillIds: ['skill1', 'skill2', 'skill3'],
         },
+        {
+          competence: domainBuilder.buildCompetence({
+            id: 'rec2',
+            name: 'C2',
+            index: '1.2',
+          }),
+          area: domainBuilder.buildArea({
+            name: 'Domaine2',
+            color: 'Couleur3',
+          }),
+          targetedSkillIds: ['skill4', 'skill5', 'skill6'],
+        },
       ];
 
       const knowledgeElements = [
         domainBuilder.buildKnowledgeElement({ skillId: 'skill1', status: KnowledgeElement.StatusType.VALIDATED }),
         domainBuilder.buildKnowledgeElement({ skillId: 'skill2', status: KnowledgeElement.StatusType.INVALIDATED }),
         domainBuilder.buildKnowledgeElement({ skillId: 'skill3', status: KnowledgeElement.StatusType.VALIDATED }),
+        domainBuilder.buildKnowledgeElement({ skillId: 'skill4', status: KnowledgeElement.StatusType.VALIDATED }),
+        domainBuilder.buildKnowledgeElement({ skillId: 'skill5', status: KnowledgeElement.StatusType.VALIDATED }),
+        domainBuilder.buildKnowledgeElement({ skillId: 'skill6', status: KnowledgeElement.StatusType.VALIDATED }),
       ];
-      const participationResults = { knowledgeElements, acquiredBadgeIds: [], masteryRate: '0.65' };
+      const participationResults = { knowledgeElements, acquiredBadgeIds: [], masteryRate: '0.80' };
 
       const stageCollection = new StageCollection({
         campaignId: 1,
@@ -285,7 +300,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           {
             id: 1,
             title: 'Stage0',
-            message: 'message1',
+            message: 'message0',
             threshold: 0,
             prescriberDescription: 'yolo',
             prescriberTitle: 'coucou',
@@ -294,7 +309,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
             id: 2,
             title: 'Stage1',
             message: 'message1',
-            threshold: 25,
+            threshold: 35,
             prescriberDescription: 'yolo',
             prescriberTitle: 'coucou',
           },
@@ -337,6 +352,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
       });
 
       expect(assessmentResult.competenceResults[0].reachedStage).to.equal(2);
+      expect(assessmentResult.competenceResults[1].reachedStage).to.equal(3);
     });
   });
 

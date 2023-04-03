@@ -11,6 +11,12 @@ export default class CompetenceResult extends Model {
   @attr('number') validatedSkillsCount;
   @attr('number') flashPixScore;
 
+  @attr('number') reachedStage;
+
   // includes
   @belongsTo('campaignParticipationResult') campaignParticipationResult;
+
+  get masteryRate() {
+    return this.masteryPercentage / 100;
+  }
 }

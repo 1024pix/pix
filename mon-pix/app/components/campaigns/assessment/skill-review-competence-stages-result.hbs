@@ -1,0 +1,31 @@
+<section class="skill-review-result-detail__content">
+  <div class="skill-review-result-detail__table-header">
+    <h2 class="skill-review-result-detail__subtitle">
+      {{t "pages.skill-review.details.title"}}
+    </h2>
+  </div>
+
+  <table class="skill-review-competence-stages-result__table">
+    <caption class="sr-only">{{t "pages.skill-review.details.caption"}}</caption>
+    <tbody>
+      {{#each @competenceResults as |competence|}}
+        <tr>
+          <th scope="row">{{competence.name}}</th>
+          <td>
+            <div class="skill-review-competence-stages-result__reached-stage">
+              <p class="skill-review-competence-stages-result__reached-stage-percentage">
+                {{t "pages.skill-review.stage.masteryPercentage" rate=competence.masteryRate}}
+              </p>
+              <PixStars
+                @count={{competence.reachedStage}}
+                @total={{this.total}}
+                @alt={{t "pages.skill-review.stage.starsAcquired" acquired=competence.reachedStage total=this.total}}
+                @color="yellow"
+              />
+            </div>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</section>
