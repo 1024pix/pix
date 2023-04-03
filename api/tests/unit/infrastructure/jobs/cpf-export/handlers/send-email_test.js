@@ -1,8 +1,8 @@
 import { expect, sinon } from '../../../../../test-helper.js';
 import { sendEmail } from '../../../../../../lib/infrastructure/jobs/cpf-export/handlers/send-email.js';
 import cronParser from 'cron-parser';
-import { cpf } from '../../../../../../lib/config.js';
-
+import { config } from '../../../../../../lib/config.js';
+const { cpf } = config;
 describe('Unit | Infrastructure | jobs | cpf-export | send-email', function () {
   let cpfExternalStorage;
   let mailService;

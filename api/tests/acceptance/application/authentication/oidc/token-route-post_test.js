@@ -10,7 +10,7 @@ import {
 } from '../../../../test-helper.js';
 
 import { createServer } from '../../../../../server.js';
-import { settings } from '../../../../../lib/config.js';
+import { config as settings } from '../../../../../lib/config.js';
 import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
 import * as authenticationSessionService from '../../../../../lib/domain/services/authentication/authentication-session-service.js';
 import { OidcIdentityProviders } from '../../../../../lib/domain/constants/oidc-identity-providers.js';
