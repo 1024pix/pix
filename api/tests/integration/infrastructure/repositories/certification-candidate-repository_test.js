@@ -175,7 +175,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
 
       it('should return true when deletion goes well', async function () {
         // when
-        const isDeleted = await certificationCandidateRepository.delete(certificationCandidateToDeleteId);
+        const isDeleted = await certificationCandidateRepository.remove(certificationCandidateToDeleteId);
 
         // then
         expect(isDeleted).to.be.true;
@@ -184,7 +184,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
       it('should delete a single row in the table', async function () {
         const nbCertifCandidatesBeforeDeletion = await BookshelfCertificationCandidate.count();
         // when
-        await certificationCandidateRepository.delete(certificationCandidateToDeleteId);
+        await certificationCandidateRepository.remove(certificationCandidateToDeleteId);
         const nbCertifCandidatesAfterDeletion = await BookshelfCertificationCandidate.count();
 
         // then
@@ -204,7 +204,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
         await databaseBuilder.commit();
 
         // when
-        const isDeleted = await certificationCandidateRepository.delete(certificationCandidateId);
+        const isDeleted = await certificationCandidateRepository.remove(certificationCandidateId);
 
         // then
         const complementaryCertificationSubscriptions = await knex
