@@ -1348,6 +1348,7 @@
       "badges-title": "Vos résultats thématiques",
       "details": {
         "title": "Vos résultats par compétence",
+        "caption": "Détails de vos résultats par compétences",
         "flash-pix-score": "{score, number, ::.} Pix",
         "header-result": "Résultats",
         "header-skill": "Compétences testées",

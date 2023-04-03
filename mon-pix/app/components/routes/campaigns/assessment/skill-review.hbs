@@ -264,30 +264,35 @@
     {{/if}}
 
     {{#unless @model.campaign.isForAbsoluteNovice}}
-
-      <section class="skill-review-result-detail__content">
-        <div class="skill-review-result-detail__table-header">
-          <h2 class="skill-review-result-detail__subtitle">
-            {{t "pages.skill-review.details.title"}}
-          </h2>
-          {{#unless this.isFlashCampaign}}
-            <CircleChart @value={{this.masteryPercentage}}>
-              <span
-                aria-label="{{t 'pages.skill-review.details.result'}}"
-                class="skill-review-table-header__circle-chart-value"
-              >
-                {{t "pages.skill-review.details.percentage" rate=this.masteryRate}}
-              </span>
-            </CircleChart>
-          {{/unless}}
-        </div>
-
-        <CampaignSkillReviewCompetenceResult
-          @showCleaCompetences={{this.showCleaCompetences}}
+      {{#if this.showStagesWithStars}}
+        <Campaigns::Assessment::SkillReviewCompetenceStagesResult
           @competenceResults={{@model.campaignParticipationResult.competenceResults}}
-          @skillSetResults={{@model.campaignParticipationResult.cleaBadge.skillSetResults}}
+          @totalStage={{this.reachedStage.totalStage}}
         />
-      </section>
+      {{else}}
+        <section class="skill-review-result-detail__content">
+          <div class="skill-review-result-detail__table-header">
+            <h2 class="skill-review-result-detail__subtitle">
+              {{t "pages.skill-review.details.title"}}
+            </h2>
+            {{#unless this.isFlashCampaign}}
+              <CircleChart @value={{this.masteryPercentage}}>
+                <span
+                  aria-label="{{t 'pages.skill-review.details.result'}}"
+                  class="skill-review-table-header__circle-chart-value"
+                >
+                  {{t "pages.skill-review.details.percentage" rate=this.masteryRate}}
+                </span>
+              </CircleChart>
+            {{/unless}}
+          </div>
+          <Campaigns::Assessment::CampaignSkillReviewCompetenceResult
+            @showCleaCompetences={{this.showCleaCompetences}}
+            @competenceResults={{@model.campaignParticipationResult.competenceResults}}
+            @skillSetResults={{@model.campaignParticipationResult.cleaBadge.skillSetResults}}
+          />
+        </section>
+      {{/if}}
 
       {{#unless this.isFlashCampaign}}
         <div class="skill-review-result-detail__information">
