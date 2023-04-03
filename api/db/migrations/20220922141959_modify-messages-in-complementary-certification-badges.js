@@ -1,4 +1,5 @@
 import bluebird from 'bluebird';
+
 const {
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
@@ -58,6 +59,6 @@ const up = async function (knex) {
       .where({ id });
   });
 };
-
+// eslint-disable-next-line no-empty-function
 const down = function () {};
 export { up, down };
