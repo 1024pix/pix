@@ -1,5 +1,5 @@
 import { expect, sinon, catchErr } from '../../../../test-helper.js';
-import { settings } from '../../../../../lib/config.js';
+import { config as settings } from '../../../../../lib/config.js';
 
 import * as OidcAuthenticationService from '../../../../../lib/domain/services/authentication/oidc-authentication-service.js';
 import jsonwebtoken from 'jsonwebtoken';

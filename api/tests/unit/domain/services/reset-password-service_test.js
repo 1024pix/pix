@@ -1,7 +1,7 @@
 import jsonwebtoken from 'jsonwebtoken';
 import crypto from 'crypto';
 import { sinon, expect } from '../../../test-helper.js';
-import { settings } from '../../../../lib/config.js';
+import { config as settings } from '../../../../lib/config.js';
 import * as resetPasswordService from '../../../../lib/domain/services/reset-password-service.js';
 
 describe('Unit | Service | Password Service', function () {

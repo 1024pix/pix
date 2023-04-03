@@ -3,7 +3,7 @@ import { sinon, expect } from '../../../test-helper.js';
 import * as mailService from '../../../../lib/domain/services/mail-service.js';
 import { mailer } from '../../../../lib/infrastructure/mailers/mailer.js';
 import { tokenService } from '../../../../lib/domain/services/token-service.js';
-import { settings } from '../../../../lib/config.js';
+import { config as settings } from '../../../../lib/config.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 const mainTranslationsMapping = {
