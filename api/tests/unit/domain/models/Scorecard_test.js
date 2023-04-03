@@ -270,11 +270,11 @@ describe('Unit | Domain | Models | Scorecard', function () {
     });
 
     before(function () {
-      constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET = 7;
+      sinon.stub(constants, 'MINIMUM_DELAY_IN_DAYS_FOR_RESET').value(7);
     });
 
     after(function () {
-      constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET = originalConstantValue;
+      sinon.stub(constants, 'MINIMUM_DELAY_IN_DAYS_FOR_RESET').value(originalConstantValue);
     });
 
     [
@@ -313,11 +313,11 @@ describe('Unit | Domain | Models | Scorecard', function () {
     });
 
     before(function () {
-      constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING = 4;
+      sinon.stub(constants, 'MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING').value(4);
     });
 
     after(function () {
-      constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING = originalConstantValue;
+      sinon.stub(constants, 'MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING').value(originalConstantValue);
     });
 
     [

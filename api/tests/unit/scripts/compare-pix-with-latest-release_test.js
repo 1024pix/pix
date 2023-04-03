@@ -73,10 +73,10 @@ const knowledgeElements = [knowledge1, knowledge2, invalidatedKe, knowledge3];
 describe('Unit | Scripts | compare-pix-with-latest-release.js', function () {
   beforeEach(async function () {
     // stub repositories
-    knowledgeElementRepository.findUniqByUserId = sinon.stub().resolves(knowledgeElements);
-    tubeRepository.get = sinon.stub().callsFake((tubeId) => tubes.find((tube) => tube.id === tubeId));
-    skillRepository.get = sinon.stub().callsFake((skillId) => skills.find((skill) => skill.id === skillId));
-    skillRepository.findActiveByTubeId = sinon.stub().callsFake((tubeId) => {
+    sinon.stub(knowledgeElementRepository, 'findUniqByUserId').resolves(knowledgeElements);
+    sinon.stub(tubeRepository, 'get').callsFake((tubeId) => tubes.find((tube) => tube.id === tubeId));
+    sinon.stub(skillRepository, 'get').callsFake((skillId) => skills.find((skill) => skill.id === skillId));
+    sinon.stub(skillRepository, 'findActiveByTubeId').callsFake((tubeId) => {
       const result = activeSkills.filter((skill) => skill.tubeId === tubeId);
       return result;
     });

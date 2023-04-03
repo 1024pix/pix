@@ -5,8 +5,7 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function () {
   describe('#serializeForPaginatedList()', function () {
     it('should call serialize method by destructuring passed parameter', function () {
       // given
-      const restore = serializer.serialize;
-      serializer.serialize = sinon.stub();
+      sinon.stub(serializer, 'serialize');
       const jurySessions = Symbol('someJurySessions');
       const pagination = Symbol('somePagination');
       const parameter = { jurySessions, pagination, someUnusedField: 'unused' };
@@ -16,7 +15,6 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function () {
 
       // then
       expect(serializer.serialize).to.have.been.calledWithExactly(jurySessions, undefined, pagination);
-      serializer.serialize = restore;
     });
   });
 
