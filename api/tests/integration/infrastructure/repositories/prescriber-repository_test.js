@@ -1,6 +1,6 @@
 import { expect, databaseBuilder, catchErr } from '../../../test-helper.js';
 import bcrypt from 'bcrypt';
-import { settings } from '../../../../lib/config.js';
+import { config as settings } from '../../../../lib/config.js';
 import { ForbiddenAccess, UserNotFoundError } from '../../../../lib/domain/errors.js';
 import * as prescriberRepository from '../../../../lib/infrastructure/repositories/prescriber-repository.js';
 import { Prescriber } from '../../../../lib/domain/read-models/Prescriber.js';

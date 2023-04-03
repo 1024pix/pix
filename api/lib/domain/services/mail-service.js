@@ -21,10 +21,10 @@ const PIX_NAME_EN = 'PIX - Noreply';
 const HELPDESK_FRENCH_FRANCE = 'https://support.pix.fr';
 const HELPDESK_ENGLISH_SPOKEN = 'https://support.pix.org/en/support/home';
 const HELPDESK_FRENCH_SPOKEN = 'https://support.pix.org';
-const PIX_HOME_NAME_INTERNATIONAL = `pix${settings.domain.tldOrg}`;
-const PIX_HOME_NAME_FRENCH_FRANCE = `pix${settings.domain.tldFr}`;
-const PIX_HOME_URL_ENGLISH_SPOKEN = `${settings.domain.pix + settings.domain.tldOrg}/en-gb`;
-const PIX_HOME_URL_FRENCH_FRANCE = `${settings.domain.pix + settings.domain.tldFr}`;
+const PIX_HOME_NAME_INTERNATIONAL = `pix${config.domain.tldOrg}`;
+const PIX_HOME_NAME_FRENCH_FRANCE = `pix${config.domain.tldFr}`;
+const PIX_HOME_URL_ENGLISH_SPOKEN = `${config.domain.pix + config.domain.tldOrg}/en-gb`;
+const PIX_HOME_URL_FRENCH_FRANCE = `${config.domain.pix + config.domain.tldFr}`;
 
 const EMAIL_VERIFICATION_CODE_TAG = 'EMAIL_VERIFICATION_CODE';
 const SCO_ACCOUNT_RECOVERY_TAG = 'SCO_ACCOUNT_RECOVERY';
