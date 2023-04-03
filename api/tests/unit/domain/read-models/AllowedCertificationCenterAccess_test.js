@@ -1,5 +1,5 @@
 import { expect, domainBuilder, sinon } from '../../../test-helper.js';
-import { settings } from '../../../../lib/config.js';
+import { config as settings } from '../../../../lib/config.js';
 
 describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', function () {
   context('#isInWhitelist', function () {

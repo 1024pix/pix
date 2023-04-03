@@ -12,8 +12,10 @@ import {
   UserHasAlreadyLeftSCO,
 } from '../../../../lib/domain/errors.js';
 
-import { features } from '../../../../lib/config.js';
+import { config } from '../../../../lib/config.js';
 import dayjs from 'dayjs';
+
+const { features } = config;
 
 describe('Unit | Service | sco-account-recovery-service', function () {
   describe('#retrieveOrganizationLearner', function () {
