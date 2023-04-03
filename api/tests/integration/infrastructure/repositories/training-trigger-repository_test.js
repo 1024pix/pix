@@ -10,7 +10,7 @@ import {
 } from '../../../test-helper.js';
 
 import * as trainingTriggerRepository from '../../../../lib/infrastructure/repositories/training-trigger-repository.js';
-import { TrainingTrigger, TrainingTriggerTube } from '../../../../lib/domain/models.js';
+import { TrainingTrigger, TrainingTriggerTube } from '../../../../lib/domain/models/index.js';
 import { TrainingTriggerForAdmin } from '../../../../lib/domain/read-models/TrainingTriggerForAdmin.js';
 import _ from 'lodash';
 import { NotFoundError } from '../../../../lib/domain/errors.js';

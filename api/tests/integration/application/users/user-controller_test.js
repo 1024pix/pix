@@ -3,7 +3,7 @@ import { securityPreHandlers } from '../../../../lib/application/security-pre-ha
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { UserNotAuthorizedToRemoveAuthenticationMethod } from '../../../../lib/domain/errors.js';
 import { AssessmentResult } from '../../../../lib/domain/read-models/participant-results/AssessmentResult.js';
-import { moduleUnderTest } from '../../../../lib/application/users.js';
+import * as moduleUnderTest from '../../../../lib/application/users/index.js';
 
 describe('Integration | Application | Users | user-controller', function () {
   let sandbox;
