@@ -2,13 +2,13 @@
 <div class="page__title finalize">
   <div class="finalize__title">
     <PixReturnTo @route="authenticated.sessions.details" @model={{this.session.id}}>
-      Retour à la session
+      {{t "pages.session-finalization.return-to"}}
     </PixReturnTo>
-    <h1 class="page-title">Finaliser la session {{this.session.id}}</h1>
+    <h1 class="page-title">{{t "pages.session-finalization.title" sessionId=this.session.id}}</h1>
   </div>
   <SessionFinalizationStepContainer
-    @title="Signalements : Reporter, pour chaque candidat, les signalements renseignés sur le PV d'incident"
-    @subtitle="Pour que le signalement soit pris en compte, il est nécessaire d’utiliser la catégorie de signalement appropriée (exemples : C1, C2, etc)."
+    @title={{t "pages.session-finalization.reporting.title"}}
+    @subtitle={{t "pages.session-finalization.reporting.description"}}
     @icon="/icons/session-finalization-user.svg"
     @iconAlt=""
   >
@@ -34,8 +34,8 @@
   </SessionFinalizationStepContainer>
 
   <SessionFinalizationStepContainer
-    @title="Informations complémentaires (facultatif)"
-    @subtitle="Vous pouvez indiquer, le cas échéant, les événements survenus lors de la session. Il n'est pas nécessaire de renseigner les candidats absents."
+    @title={{t "pages.session-finalization.complementary-information.title"}}
+    @subtitle={{t "pages.session-finalization.complementary-information.description"}}
     @icon="/icons/edit-file.svg"
     @iconAlt=""
   >
@@ -46,7 +46,7 @@
   </SessionFinalizationStepContainer>
 
   <PixButton class="finalize__button" data-test-id="finalize__button" @triggerAction={{this.openModal}}>
-    Finaliser
+    {{t "pages.session-finalization.actions.finalise"}}
   </PixButton>
 </div>
 

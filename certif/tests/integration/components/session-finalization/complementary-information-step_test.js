@@ -114,7 +114,7 @@ module('Integration | Component | SessionFinalization::ComplementaryInformationS
     assert
       .dom(
         screen.getByRole('link', {
-          name: 'ici un document pour vous aider à résoudre ce type de problème de connexion pour les prochaines sessions. (PDF, 131ko)',
+          name: 'ici un document pour vous aider à résoudre ce type de problème de connexion pour les prochaines sessions (PDF, 131ko).',
         })
       )
       .exists();

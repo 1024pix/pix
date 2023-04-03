@@ -109,7 +109,7 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
     assert
       .dom(
         screen.getByRole('table', {
-          name: `Certification(s) terminée(s) ${this.intl.t('pages.sessions.finalize.finished-test-list-description')}`,
+          name: 'Certification(s) terminée(s) Liste des candidats qui ont fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant.',
         })
       )
       .exists();
