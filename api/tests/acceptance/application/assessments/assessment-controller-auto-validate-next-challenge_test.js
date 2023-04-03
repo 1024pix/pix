@@ -8,7 +8,7 @@ import {
   generateValidRequestAuthorizationHeader,
 } from '../../../test-helper.js';
 
-import { settings } from '../../../../lib/config.js';
+import { config as settings } from '../../../../lib/config.js';
 import { createServer } from '../../../../server.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 

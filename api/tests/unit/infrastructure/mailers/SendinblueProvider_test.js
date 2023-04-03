@@ -1,7 +1,8 @@
 import { sinon, expect, nock, catchErr } from '../../../test-helper.js';
-import { mailing } from '../../../../lib/config.js';
+import { config } from '../../../../lib/config.js';
 import { SendinblueProvider } from '../../../../lib/infrastructure/mailers/SendinblueProvider.js';
 import { MailingProviderInvalidEmailError } from '../../../../lib/infrastructure/mailers/MailingProviderInvalidEmailError.js';
+const { mailing } = config;
 
 describe('Unit | Class | SendinblueProvider', function () {
   beforeEach(function () {
