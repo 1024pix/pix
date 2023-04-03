@@ -1,14 +1,7 @@
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 import { createAndUpload } from '../../../../../../lib/infrastructure/jobs/cpf-export/handlers/create-and-upload.js';
-import node:zlib from 'node:zlib';
+import { createUnzip } from 'node:zlib';
 
-const {
-  PassThrough
-} = stream;
-
-const {
-  createUnzip
-} = node:zlib;
 
 import fs from 'fs';
 import noop from 'lodash/noop';
@@ -20,6 +13,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 import stream from 'stream';
+const { PassThrough } = stream;
 
 describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload', function () {
   let cpfCertificationResultRepository;
