@@ -6,11 +6,25 @@
 ### :rocket: Amélioration
 - [#5913](https://github.com/1024pix/pix/pull/5913) [FEATURE] Changer le lien du mot de passe oublié lorsqu'on passe en domaine ORG sur Pix Certif (PIX-7593). 
 - [#5908](https://github.com/1024pix/pix/pull/5908) [FEATURE] Utiliser le cookie locale pour transmettre la locale lors de l'inscription (PIX-7564)
+- [#5902](https://github.com/1024pix/pix/pull/5902) [FEATURE] Traduire la modale de fin de test dans l'espace surveillant sur Pix Certif (PIX-6681).
+- [#5907](https://github.com/1024pix/pix/pull/5907) [FEATURE] Traduire la page des cgu en anglais sur Pix Certif (PIX-6662).
+- [#5906](https://github.com/1024pix/pix/pull/5906) [FEATURE] Préparation de la recommandation de contenu formatif - partie 5 (PIX-7591).
+- [#5855](https://github.com/1024pix/pix/pull/5855) [FEATURE] Modifier la langue d'un utilisateur depuis Pix-Admin(PIX-5767)
 
 ### :building_construction: Tech
 - [#5911](https://github.com/1024pix/pix/pull/5911) [TECH] N'avoir que le scroll du navigateur à l'affichage sur Pix Orga (PIX-7618)
 - [#5910](https://github.com/1024pix/pix/pull/5910) [TECH] Création d'un feature toggle pour la recommandation des contenus formatifs (PIX-7537)
-- [#5912](https://github.com/1024pix/pix/pull/5912) [TECH] Améliorer l'accessibilité de la page des cgu sur Pix Certif (PIX-6662).
+- [#5912](https://github.com/1024pix/pix/pull/5912) [TECH] Améliorer l'accessibilité de la page des cgu sur Pix Certif (PIX-7621).
+- [#5847](https://github.com/1024pix/pix/pull/5847) [TECH] Nettoyage des erreurs d'import de sessions en masse (PIX-7457)
+- [#5854](https://github.com/1024pix/pix/pull/5854) [TECH] Normalisation des fichiers de traductions (PIX-7511)
+- [#5900](https://github.com/1024pix/pix/pull/5900) [TECH] Optimisation du style de la page "Mes tutos" (PIX-7578).
+- [#5894](https://github.com/1024pix/pix/pull/5894) [TECH]Ajout d'un test sur la validation joi de la route GET authentication-url(PIX-7117)
+- [#5905](https://github.com/1024pix/pix/pull/5905) [TECH] Supprime les imports de librairie externe dans ember-cli-build
+- [#5897](https://github.com/1024pix/pix/pull/5897) [TECH] Met à jour ember-cli-clipboard sur orga
+- [#5898](https://github.com/1024pix/pix/pull/5898) [TECH] Nettoyer les tests des erreurs de lint sur les applications front (PIX-7577).
+
+### :bug: Correction
+- [#5903](https://github.com/1024pix/pix/pull/5903) [BUGFIX] Gérer le mauvais format d'id de session lors de l'import en masse (PIX-7576)
 
 ## v3.338.0 (29/03/2023)
 
