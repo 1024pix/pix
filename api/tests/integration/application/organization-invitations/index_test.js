@@ -1,6 +1,6 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { moduleUnderTest } from '../../../../lib/application/organization-invitations/index.js';
 import { organisationInvitationController } from '../../../../lib/application/organization-invitations/organization-invitation-controller.js';
+import * as moduleUnderTest from '../../../../lib/application/organization-invitations/index.js';
 
 describe('Integration | Application | Organization-invitations | Routes', function () {
   let httpTestServer;

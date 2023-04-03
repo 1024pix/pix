@@ -3,7 +3,7 @@ import { securityPreHandlers } from '../../../../lib/application/security-pre-ha
 import { organizationController } from '../../../../lib/application/organizations/organization-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
-import { moduleUnderTest } from '../../../../lib/application/organizations.js';
+import * as moduleUnderTest from '../../../../lib/application/organizations/index.js';
 import { organizationPlacesCategories } from '../../../../lib/domain/constants/organization-places-categories.js';
 
 describe('Unit | Router | organization-router', function () {

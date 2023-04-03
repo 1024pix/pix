@@ -1,6 +1,6 @@
 import { expect, sinon, hFake } from '../../../test-helper.js';
 import { cacheController } from '../../../../lib/application/cache/cache-controller.js';
-import { learningContentDatasources } from '../../../../lib/infrastructure/datasources/learning-content.js';
+import * as learningContentDatasources from '../../../../lib/infrastructure/datasources/learning-content/index.js';
 import { logger } from '../../../../lib/infrastructure/logger.js';
 
 describe('Unit | Controller | cache-controller', function () {
