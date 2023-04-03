@@ -1,5 +1,5 @@
 import { expect, sinon, HttpTestServer } from '../../../test-helper.js';
-import { moduleUnderTest } from '../../../../lib/application/campaign-participations.js';
+import * as moduleUnderTest from '../../../../lib/application/campaign-participations/index.js';
 import { campaignParticipationController } from '../../../../lib/application/campaign-participations/campaign-participation-controller.js';
 
 describe('Integration | Application | Route | campaignParticipationRouter', function () {
