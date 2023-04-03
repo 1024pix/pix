@@ -1,5 +1,6 @@
-const { expect, domainBuilder, catchErr } = require('../../../test-helper');
+const { expect, domainBuilder, catchErr, sinon } = require('../../../test-helper');
 const TrainingTrigger = require('../../../../lib/domain/models/TrainingTrigger');
+const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 
 describe('Unit | Domain | Models | TrainingTrigger', function () {
   describe('#constructor', function () {
@@ -32,6 +33,238 @@ describe('Unit | Domain | Models | TrainingTrigger', function () {
       expect(trainingTrigger.type).to.equal('goal');
       expect(trainingTrigger.trainingId).to.equal(100);
       expect(trainingTrigger.threshold).to.equal(10);
+    });
+  });
+
+  describe('#isFulfilled', function () {
+    describe('when trigger type is PREREQUISITE', function () {
+      describe('when validated capped knowledge elements percentage is below threshold', function () {
+        it('should return false', function () {
+          // given
+          const skills = Symbol('skills');
+          const cappedSkills = [{ id: 'skill1' }, { id: 'skill2' }];
+          const triggerTubes = [{ getCappedSkills: sinon.stub().withArgs(skills).returns(cappedSkills) }];
+          const trainingTrigger = domainBuilder.buildTrainingTrigger({
+            id: 1,
+            type: TrainingTrigger.types.PREREQUISITE,
+            trainingId: 100,
+            threshold: 100,
+            triggerTubes,
+          });
+          const knowledgeElements = [
+            domainBuilder.buildKnowledgeElement({
+              skillId: 'skill1',
+              status: KnowledgeElement.StatusType.VALIDATED,
+            }),
+            domainBuilder.buildKnowledgeElement({
+              skillId: 'skill1',
+              status: KnowledgeElement.StatusType.INVALIDATED,
+            }),
+            domainBuilder.buildKnowledgeElement({
+              skillId: 'skill2',
+              status: KnowledgeElement.StatusType.VALIDATED,
+            }),
+            domainBuilder.buildKnowledgeElement({
+              skillId: 'skill2',
+              status: KnowledgeElement.StatusType.INVALIDATED,
+            }),
+          ];
+
+          // when
+          const isFulfilled = trainingTrigger.isFulfilled({
+            knowledgeElements,
+            skills,
+          });
+
+          // then
+          expect(isFulfilled).to.be.false;
+        });
+      });
+
+      describe('when validated capped knowledge elements percentage is above threshold', function () {
+        it('should return true', function () {
+          // given
+          const skills = Symbol('skills');
+          const cappedSkills = [{ id: 'skill1' }, { id: 'skill2' }];
+          const triggerTubes = [{ getCappedSkills: sinon.stub().withArgs(skills).returns(cappedSkills) }];
+          const trainingTrigger = domainBuilder.buildTrainingTrigger({
+            id: 1,
+            type: TrainingTrigger.types.PREREQUISITE,
+            trainingId: 100,
+            threshold: 90,
+            triggerTubes,
+          });
+          const knowledgeElements = [
+            domainBuilder.buildKnowledgeElement({
+              skillId: 'skill1',
+              status: KnowledgeElement.StatusType.VALIDATED,
+            }),
+            domainBuilder.buildKnowledgeElement({
+              skillId: 'skill2',
+              status: KnowledgeElement.StatusType.VALIDATED,
+            }),
+          ];
+
+          // when
+          const isFulfilled = trainingTrigger.isFulfilled({
+            knowledgeElements,
+            skills,
+          });
+
+          // then
+          expect(isFulfilled).to.be.true;
+        });
+      });
+
+      describe('when validated capped knowledge elements percentage is equal threshold', function () {
+        it('should return true', function () {
+          // given
+          const skills = Symbol('skills');
+          const cappedSkills = [{ id: 'skill1' }, { id: 'skill2' }];
+          const triggerTubes = [{ getCappedSkills: sinon.stub().withArgs(skills).returns(cappedSkills) }];
+          const trainingTrigger = domainBuilder.buildTrainingTrigger({
+            id: 1,
+            type: TrainingTrigger.types.PREREQUISITE,
+            trainingId: 100,
+            threshold: 100,
+            triggerTubes,
+          });
+          const knowledgeElements = [
+            domainBuilder.buildKnowledgeElement({
+              skillId: 'skill1',
+              status: KnowledgeElement.StatusType.VALIDATED,
+            }),
+            domainBuilder.buildKnowledgeElement({
+              skillId: 'skill2',
+              status: KnowledgeElement.StatusType.VALIDATED,
+            }),
+          ];
+
+          // when
+          const isFulfilled = trainingTrigger.isFulfilled({
+            knowledgeElements,
+            skills,
+          });
+
+          // then
+          expect(isFulfilled).to.be.true;
+        });
+      });
+    });
+
+    describe('when trigger type is GOAL', function () {
+      describe('when validated capped knowledge elements percentage is below threshold', function () {
+        it('should return true', function () {
+          // given
+          const skills = Symbol('skills');
+          const cappedSkills = [{ id: 'skill1' }, { id: 'skill2' }];
+          const triggerTubes = [{ getCappedSkills: sinon.stub().withArgs(skills).returns(cappedSkills) }];
+          const trainingTrigger = domainBuilder.buildTrainingTrigger({
+            id: 1,
+            type: TrainingTrigger.types.GOAL,
+            trainingId: 100,
+            threshold: 100,
+            triggerTubes,
+          });
+          const knowledgeElements = [
+            domainBuilder.buildKnowledgeElement({
+              skillId: 'skill1',
+              status: KnowledgeElement.StatusType.VALIDATED,
+            }),
+            domainBuilder.buildKnowledgeElement({
+              skillId: 'skill1',
+              status: KnowledgeElement.StatusType.INVALIDATED,
+            }),
+            domainBuilder.buildKnowledgeElement({
+              skillId: 'skill2',
+              status: KnowledgeElement.StatusType.VALIDATED,
+            }),
+            domainBuilder.buildKnowledgeElement({
+              skillId: 'skill2',
+              status: KnowledgeElement.StatusType.INVALIDATED,
+            }),
+          ];
+
+          // when
+          const isFulfilled = trainingTrigger.isFulfilled({
+            knowledgeElements,
+            skills,
+          });
+
+          // then
+          expect(isFulfilled).to.be.true;
+        });
+      });
+
+      describe('when validated capped knowledge elements percentage is above threshold', function () {
+        it('should return true', function () {
+          // given
+          const skills = Symbol('skills');
+          const cappedSkills = [{ id: 'skill1' }, { id: 'skill2' }];
+          const triggerTubes = [{ getCappedSkills: sinon.stub().withArgs(skills).returns(cappedSkills) }];
+          const trainingTrigger = domainBuilder.buildTrainingTrigger({
+            id: 1,
+            type: TrainingTrigger.types.GOAL,
+            trainingId: 100,
+            threshold: 90,
+            triggerTubes,
+          });
+          const knowledgeElements = [
+            domainBuilder.buildKnowledgeElement({
+              skillId: 'skill1',
+              status: KnowledgeElement.StatusType.VALIDATED,
+            }),
+            domainBuilder.buildKnowledgeElement({
+              skillId: 'skill2',
+              status: KnowledgeElement.StatusType.VALIDATED,
+            }),
+          ];
+
+          // when
+          const isFulfilled = trainingTrigger.isFulfilled({
+            knowledgeElements,
+            skills,
+          });
+
+          // then
+          expect(isFulfilled).to.be.false;
+        });
+      });
+
+      describe('when validated capped knowledge elements percentage is equal threshold', function () {
+        it('should return true', function () {
+          // given
+          const skills = Symbol('skills');
+          const cappedSkills = [{ id: 'skill1' }, { id: 'skill2' }];
+          const triggerTubes = [{ getCappedSkills: sinon.stub().withArgs(skills).returns(cappedSkills) }];
+          const trainingTrigger = domainBuilder.buildTrainingTrigger({
+            id: 1,
+            type: TrainingTrigger.types.GOAL,
+            trainingId: 100,
+            threshold: 100,
+            triggerTubes,
+          });
+          const knowledgeElements = [
+            domainBuilder.buildKnowledgeElement({
+              skillId: 'skill1',
+              status: KnowledgeElement.StatusType.VALIDATED,
+            }),
+            domainBuilder.buildKnowledgeElement({
+              skillId: 'skill2',
+              status: KnowledgeElement.StatusType.VALIDATED,
+            }),
+          ];
+
+          // when
+          const isFulfilled = trainingTrigger.isFulfilled({
+            knowledgeElements,
+            skills,
+          });
+
+          // then
+          expect(isFulfilled).to.be.true;
+        });
+      });
     });
   });
 });
