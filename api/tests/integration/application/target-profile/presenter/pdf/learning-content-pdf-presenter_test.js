@@ -3,6 +3,8 @@ import { isSameBinary } from '../../../../../tooling/binary-comparator.js';
 import { learningContentPDFPresenter } from '../../../../../../lib/application/target-profiles/presenter/pdf/learning-content-pdf-presenter.js';
 import { addRandomSuffix } from 'pdf-lib/cjs/utils';
 import { writeFile } from 'fs/promises';
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 const REWRITE_REFERENCE_FILE = false;
 

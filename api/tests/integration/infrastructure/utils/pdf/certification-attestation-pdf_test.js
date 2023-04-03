@@ -6,6 +6,8 @@ import { CertificationAttestationGenerationError } from '../../../../../lib/doma
 import fs from 'fs';
 import { addRandomSuffix } from 'pdf-lib/cjs/utils';
 import { writeFile } from 'fs/promises';
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation Pdf', function () {
   beforeEach(async function () {
