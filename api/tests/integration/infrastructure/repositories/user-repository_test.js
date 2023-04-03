@@ -21,7 +21,7 @@ import { CertificationCenter } from '../../../../lib/domain/models/Certification
 import { CertificationCenterMembership } from '../../../../lib/domain/models/CertificationCenterMembership.js';
 import { Organization } from '../../../../lib/domain/models/Organization.js';
 import { OrganizationLearnerForAdmin } from '../../../../lib/domain/read-models/OrganizationLearnerForAdmin.js';
-import { OidcIdentityProviders } from '../../../../lib/domain/constants/oidc-identity-providers.js';
+import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
 
