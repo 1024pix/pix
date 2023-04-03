@@ -2,7 +2,7 @@ import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js'
 import { removeAuthenticationMethod } from '../../../../lib/domain/usecases/remove-authentication-method.js';
 import { UserNotAuthorizedToRemoveAuthenticationMethod } from '../../../../lib/domain/errors.js';
 import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
-import { OidcIdentityProviders } from '../../../../lib/domain/constants/oidc-identity-providers.js';
+import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 
 describe('Unit | UseCase | remove-authentication-method', function () {
   let userRepository;

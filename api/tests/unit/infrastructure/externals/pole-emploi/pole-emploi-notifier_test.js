@@ -4,7 +4,7 @@ import { expect, sinon, catchErr, domainBuilder } from '../../../../test-helper.
 import { config as settings } from '../../../../../lib/config.js';
 import { UnexpectedUserAccountError } from '../../../../../lib/domain/errors.js';
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
-import { OidcIdentityProviders } from '../../../../../lib/domain/constants/oidc-identity-providers.js';
+import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 import { notify } from '../../../../../lib/infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
 import { httpAgent } from '../../../../../lib/infrastructure/http/http-agent.js';
 import * as authenticationMethodRepository from '../../../../../lib/infrastructure/repositories/authentication-method-repository.js';
