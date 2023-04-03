@@ -7,7 +7,7 @@ import {
   sinon,
 } from '../../../test-helper.js';
 
-import { useCases } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { poleEmploiNotifier } from '../../../../lib/infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
 
 describe('Integration | Domain | UseCases | send-shared-participation-results-to-pole-emploi', function () {
@@ -38,7 +38,7 @@ describe('Integration | Domain | UseCases | send-shared-participation-results-to
   });
 
   it('should notify pole emploi and save success of this notification', async function () {
-    await useCases.sendSharedParticipationResultsToPoleEmploi({ campaignParticipationId });
+    await usecases.sendSharedParticipationResultsToPoleEmploi({ campaignParticipationId });
 
     const poleEmploiSendings = await knex('pole-emploi-sendings').where({ campaignParticipationId });
     expect(poleEmploiSendings.length).to.equal(1);
