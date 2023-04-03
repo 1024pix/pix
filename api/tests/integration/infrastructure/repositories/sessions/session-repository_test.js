@@ -555,7 +555,7 @@ describe('Integration | Repository | Session', function () {
           await databaseBuilder.commit();
 
           // when
-          await sessionRepository.delete(sessionId);
+          await sessionRepository.remove(sessionId);
 
           // then
           const foundSession = await knex('sessions').select('id').where({ id: sessionId }).first();
@@ -581,7 +581,7 @@ describe('Integration | Repository | Session', function () {
             await databaseBuilder.commit();
 
             // when
-            await sessionRepository.delete(sessionId);
+            await sessionRepository.remove(sessionId);
 
             // then
             const foundSession = await knex('sessions').select('id').where({ id: sessionId }).first();
@@ -604,7 +604,7 @@ describe('Integration | Repository | Session', function () {
           await databaseBuilder.commit();
 
           // when
-          await sessionRepository.delete(sessionId);
+          await sessionRepository.remove(sessionId);
 
           // then
           const foundSession = await knex('sessions').select('id').where({ id: sessionId }).first();
@@ -622,7 +622,7 @@ describe('Integration | Repository | Session', function () {
           await databaseBuilder.commit();
 
           // when
-          await sessionRepository.delete(sessionId);
+          await sessionRepository.remove(sessionId);
 
           // then
           const foundSession = await knex('sessions').select('id').where({ id: sessionId }).first();
@@ -637,7 +637,7 @@ describe('Integration | Repository | Session', function () {
         const sessionId = 123456;
 
         // when
-        const error = await catchErr(sessionRepository.delete)(sessionId);
+        const error = await catchErr(sessionRepository.remove)(sessionId);
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);

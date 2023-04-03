@@ -82,6 +82,7 @@ function _findEligibleCertifications(count) {
 
 async function _generateVerificationCode(certificationId) {
   const verificationCode = await verifyCertificateCodeService.generateCertificateVerificationCode();
+  // eslint-disable-next-line import/namespace
   return certificationRepository.saveVerificationCode(certificationId, verificationCode);
 }
 
