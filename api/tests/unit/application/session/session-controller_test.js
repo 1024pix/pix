@@ -1012,7 +1012,7 @@ describe('Unit | Controller | sessionController', function () {
       };
 
       // when
-      await sessionController.delete(request, hFake);
+      await sessionController.remove(request, hFake);
 
       // then
       expect(usecases.deleteSession).to.have.been.calledWithExactly({

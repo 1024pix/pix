@@ -61,7 +61,7 @@ describe('Integration | Repository | OrganizationTagRepository', function () {
       await databaseBuilder.commit();
 
       // when
-      await organizationTagRepository.delete({ organizationTagId: organizationTagToBeDeleteId });
+      await organizationTagRepository.remove({ organizationTagId: organizationTagToBeDeleteId });
 
       // then
       const nbOrganizationTagAfterDeletion = await BookshelfOrganizationTag.count();
@@ -81,7 +81,7 @@ describe('Integration | Repository | OrganizationTagRepository', function () {
 
         // when
         const inexistingOranizationTagId = organizationTagId + 1;
-        const error = await catchErr(organizationTagRepository.delete)({
+        const error = await catchErr(organizationTagRepository.remove)({
           organizationTagId: inexistingOranizationTagId,
         });
 

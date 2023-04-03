@@ -51,6 +51,7 @@ async function _getReferentialData() {
   // Récupération des acquis par compétences
   let skills = await Promise.all(
     _.map(competences, (competence) => {
+      // eslint-disable-next-line import/namespace
       return skillsRepository.findByCompetenceId(competence.id);
     })
   );

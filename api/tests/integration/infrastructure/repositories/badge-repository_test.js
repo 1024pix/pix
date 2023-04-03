@@ -1,5 +1,5 @@
 import { expect, databaseBuilder, knex, catchErr } from '../../../test-helper.js';
-import * as badgeRepository from '../../../../lib/infrastructure/repositories/badge-repository.js';
+import { badgeRepository } from '../../../../lib/infrastructure/repositories/badge-repository.js';
 import { Badge } from '../../../../lib/domain/models/Badge.js';
 import { BadgeCriterion } from '../../../../lib/domain/models/BadgeCriterion.js';
 import { SkillSet } from '../../../../lib/domain/models/SkillSet.js';
