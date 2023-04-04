@@ -1,4 +1,6 @@
-require('dotenv').config();
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 import _ from 'lodash';
 import { knex, disconnect } from '../../../db/knex-database-connection.js';
 import { logger } from '../../../lib/infrastructure/logger.js';
@@ -8,6 +10,7 @@ import * as tubeRepository from '../../../lib/infrastructure/repositories/tube-r
 
 let allSkills;
 let allTubes;
+
 async function _cacheLearningContentData() {
   allSkills = await skillRepository.list();
   allTubes = await tubeRepository.list();
