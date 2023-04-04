@@ -1,7 +1,7 @@
 import { sinon, expect, domainBuilder } from '../../../test-helper.js';
 import { getCertificationDetails } from '../../../../lib/domain/usecases/get-certification-details.js';
 import { CertificationDetails } from '../../../../lib/domain/read-models/CertificationDetails.js';
-const CertificationAssessmentStates = require('../../../../lib/domain/models/CertificationAssessment.js').states;
+import { states as CertificationAssessmentStates } from '../../../../lib/domain/models/CertificationAssessment.js';
 
 describe('Unit | UseCase | get-certification-details', function () {
   context('the certification assessment has not been completed', function () {

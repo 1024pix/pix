@@ -1,7 +1,10 @@
 import axios from 'axios';
 import util from 'util';
 import fs from 'fs';
-const streamPipeline = util.promisify(require('stream').pipeline);
+
+import pipeline from 'stream';
+
+const streamPipeline = util.promisify(pipeline);
 
 class ScalingoDBClient {
   constructor(dbId, client) {

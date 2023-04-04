@@ -1,9 +1,10 @@
-import { domainBuilder, expect, MockDate } from '../../../../../test-helper.js';
+import { domainBuilder, expect, MockDate, sinon } from '../../../../../test-helper.js';
 import { isSameBinary } from '../../../../../tooling/binary-comparator.js';
 import { learningContentPDFPresenter } from '../../../../../../lib/application/target-profiles/presenter/pdf/learning-content-pdf-presenter.js';
-import { addRandomSuffix } from 'pdf-lib/cjs/utils';
 import { writeFile } from 'fs/promises';
 import * as url from 'url';
+import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
+
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 const REWRITE_REFERENCE_FILE = false;
@@ -17,7 +18,6 @@ describe('Integration | Application | Target-Profiles | Presenter | PDF | Learni
   });
 
   afterEach(function () {
-    _restorePdfLib();
     MockDate.reset();
   });
 
@@ -85,11 +85,7 @@ function _makePdfLibPredictable() {
     return prefix + '-' + Math.floor(suffix);
   }
 
-  require('pdf-lib/cjs/utils').addRandomSuffix = autoIncrementSuffixByPrefix;
-}
-
-function _restorePdfLib() {
-  require('pdf-lib/cjs/utils').addRandomSuffix = addRandomSuffix;
+  sinon.stub(pdfLibUtils, 'addRandomSuffix').callsFake(autoIncrementSuffixByPrefix);
 }
 
 function _buildRichLearningContent() {
