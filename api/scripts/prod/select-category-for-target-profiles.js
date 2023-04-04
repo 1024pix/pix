@@ -2,11 +2,8 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 import bluebird from 'bluebird';
-import groupBy from 'lodash/groupBy';
-import sum from 'lodash/sum';
-import has from 'lodash/has';
-import partition from 'lodash/partition';
-import negate from 'lodash/negate';
+import lodash from 'lodash';
+const { groupBy, sum, has, partition, negate } = lodash;
 
 import { readCsvFile, parseCsvData } from '../helpers/csvHelpers.js';
 import { categories } from '../../lib/domain/models/TargetProfile.js';

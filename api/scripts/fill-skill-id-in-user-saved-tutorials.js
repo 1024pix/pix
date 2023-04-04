@@ -1,7 +1,8 @@
 import dotenv from 'dotenv';
 
 dotenv.config();
-import groupBy from 'lodash/groupBy';
+import lodash from 'lodash';
+const { groupBy } = lodash;
 import { knex, disconnect } from '../db/knex-database-connection.js';
 import { UserSavedTutorial } from '../lib/domain/models/UserSavedTutorial.js';
 import { KnowledgeElement } from '../lib/domain/models/KnowledgeElement.js';
