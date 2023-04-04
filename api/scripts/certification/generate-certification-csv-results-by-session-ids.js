@@ -7,7 +7,8 @@ dotenv.config({ path: `${__dirname}/../.env` });
 
 import fs from 'fs';
 import bluebird from 'bluebird';
-import isEmpty from 'lodash/isEmpty';
+import lodash from 'lodash';
+const { isEmpty } = lodash;
 import { logger } from '../../lib/infrastructure/logger.js';
 import * as certificationResultUtils from '../../lib/infrastructure/utils/csv/certification-results.js';
 import { usecases } from '../../lib/domain/usecases/index.js';

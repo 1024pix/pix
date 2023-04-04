@@ -4,7 +4,7 @@ dotenv.config();
 
 import _ from 'lodash';
 
-import originalFp from 'lodash/fp';
+import originalFp from 'lodash/fp.js';
 
 const fp = originalFp.convert({ cap: false });
 import bluebird from 'bluebird';

@@ -1,5 +1,5 @@
-import pick from 'lodash/pick';
-import omit from 'lodash/omit';
+import lodash from 'lodash';
+const { omit, pick } = lodash;
 
 import { expect, knex, databaseBuilder, catchErr, sinon, domainBuilder } from '../../../test-helper.js';
 import { BookshelfCertificationCenterMembership } from '../../../../lib/infrastructure/orm-models/CertificationCenterMembership.js';

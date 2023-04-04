@@ -1,4 +1,5 @@
-import pick from 'lodash/pick';
+import lodash from 'lodash';
+const { pick } = lodash;
 
 import { domainBuilder, expect, knex, nock } from '../../../test-helper.js';
 

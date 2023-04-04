@@ -3,7 +3,8 @@ import { createAndUpload } from '../../../../../../lib/infrastructure/jobs/cpf-e
 import { createUnzip } from 'node:zlib';
 
 import fs from 'fs';
-import noop from 'lodash/noop';
+import lodash from 'lodash';
+const { noop } = lodash;
 import proxyquire from 'proxyquire';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';

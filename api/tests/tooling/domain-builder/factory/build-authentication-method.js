@@ -1,4 +1,5 @@
-import isUndefined from 'lodash/isUndefined';
+import lodash from 'lodash';
+const { isUndefined } = lodash;
 
 import * as encrypt from '../../../../lib/domain/services/encryption-service.js';
 import { User } from '../../../../lib/domain/models/User.js';

@@ -1,6 +1,7 @@
 import { knex, expect, databaseBuilder } from '../../../test-helper.js';
 import * as skillSetRepository from '../../../../lib/infrastructure/repositories/skill-set-repository.js';
-import omit from 'lodash/omit';
+import lodash from 'lodash';
+const { omit } = lodash;
 import { SkillSet } from '../../../../lib/domain/models/SkillSet.js';
 
 describe('Integration | Repository | Skill Set Repository', function () {
