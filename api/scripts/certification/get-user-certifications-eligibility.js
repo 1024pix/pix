@@ -31,7 +31,8 @@ async function getUserCertificationsEligibility(userId) {
   console.log(`COMPLEMENTAIRES: ${complementaires}`);
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   const userId = process.argv[2];

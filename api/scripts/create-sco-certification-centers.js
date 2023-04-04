@@ -16,7 +16,10 @@ function createScoCertificationCenters(certificationCenters) {
   return Bookshelf.knex.batchInsert('certification-centers', certificationCenters);
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+import * as url from 'url';
+
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   console.log('Starting creating SCO certification centers.');

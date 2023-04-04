@@ -8,8 +8,10 @@ import * as certificationRepository from '../../lib/infrastructure/repositories/
 import * as sessionPublicationService from '../../lib/domain/services/session-publication-service.js';
 import { parseCsvWithHeader } from '../helpers/csvHelpers.js';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
+import * as url from 'url';
 
 let progression = 0;
+
 function _logProgression(totalCount) {
   ++progression;
   process.stdout.cursorTo(0);
@@ -168,7 +170,8 @@ async function _findAlreadyPublishedSessions(sessionIdsToPublish) {
   return _.map(results, 'id');
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   const commandLineArgs = yargs

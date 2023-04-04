@@ -6,6 +6,7 @@ import { campaignCodeGenerator } from '../../lib/domain/services/campaigns/campa
 import { campaignValidator } from '../../lib/domain/validators/campaign-validator.js';
 import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
 import { parseCsvWithHeader } from '../helpers/csvHelpers.js';
+import * as url from 'url';
 
 function checkData(csvData) {
   return csvData.map(({ targetProfileId, name, externalId, title, customLandingPageText, creatorId }) => {
@@ -45,7 +46,7 @@ async function prepareCampaigns(campaignsData) {
 
     campaignValidator.validate(campaign);
     campaign.code = await campaignCodeGenerator.generate(campaignRepository);
-    if (require.main === module)
+    if (isLaunchedFromCommandLine)
       process.stdout.write(`Campagne ${campaign.name} pour l'organisation ${campaign.organizationId} ===> ✔\n`);
     return campaign;
   });
@@ -70,7 +71,8 @@ function createAssessmentCampaignsForSco(campaigns) {
   return knex.batchInsert('campaigns', campaigns);
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   const filePath = process.argv[2];

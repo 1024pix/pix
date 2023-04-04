@@ -3,6 +3,7 @@ import fs from 'fs';
 import request from 'request-promise-native';
 import papa from 'papaparse';
 import { disconnect } from '../../db/knex-database-connection.js';
+import * as url from 'url';
 
 const CSV_HEADERS = {
   ID: 'ID de certification',
@@ -117,7 +118,8 @@ function _logErrorObjects(errorObjects) {
   });
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 /**
  * Usage: node import-certifications-from-csv.js http://localhost:3000 jwt.access.token my_file.csv

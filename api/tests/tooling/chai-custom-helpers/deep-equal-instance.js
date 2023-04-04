@@ -17,5 +17,4 @@ function _assertHaveSameContent(chai, value1, value2) {
   new chai.Assertion(value1).to.deep.equal(value2);
 }
 
-$;
 export { deepEqualInstance };

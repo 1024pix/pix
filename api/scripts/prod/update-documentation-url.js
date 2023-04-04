@@ -1,4 +1,5 @@
 import { knex, disconnect } from '../../db/knex-database-connection.js';
+import * as url from 'url';
 
 async function updateDocumentationUrl() {
   await _updateProOrganizations();
@@ -93,7 +94,8 @@ async function _updateAGRIOrganizations() {
   await knex('organizations').whereIn('id', ids).update({ documentationUrl: URL.AGRI });
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   await updateDocumentationUrl();

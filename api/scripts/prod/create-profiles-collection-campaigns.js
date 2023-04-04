@@ -5,6 +5,7 @@ import { campaignCodeGenerator } from '../../lib/domain/services/campaigns/campa
 import { campaignValidator } from '../../lib/domain/validators/campaign-validator.js';
 import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
 import { parseCsvWithHeader } from '../helpers/csvHelpers.js';
+import * as url from 'url';
 
 function checkData(campaignData) {
   return campaignData.map(({ name, organizationId, customLandingPageText, creatorId }, index) => {
@@ -42,7 +43,7 @@ async function prepareCampaigns(campaignsData) {
       campaign.code = await campaignCodeGenerator.generate(campaignRepository, generatedList);
       generatedList.push(campaign.code);
 
-      if (require.main === module)
+      if (isLaunchedFromCommandLine)
         process.stdout.write(
           `Campagne de collecte de profils ${campaign.name} pour l'organisation ${campaign.organizationId} ===> ✔\n`
         );
@@ -58,7 +59,8 @@ function createProfilesCollectionCampaigns(campaigns) {
   return knex.batchInsert('campaigns', campaigns);
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   const filePath = process.argv[2];

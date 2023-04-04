@@ -8,6 +8,8 @@ import * as challengeRepository from '../../lib/infrastructure/repositories/chal
 import { logger } from '../../lib/infrastructure/logger.js';
 import { SessionFinalized } from '../../lib/domain/events/SessionFinalized.js';
 import { eventDispatcher } from '../../lib/domain/events/index.js';
+import * as url from 'url';
+
 const IS_FROM_SCRATCH = process.env.IS_FROM_SCRATCH === 'true';
 const AUDIT_TABLE = 'autojury-script-audit';
 
@@ -138,7 +140,8 @@ async function _toRetry(sessionId, error) {
     .where({ sessionId });
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   let finalizedSessionEvents;

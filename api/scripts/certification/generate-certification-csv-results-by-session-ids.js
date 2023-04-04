@@ -51,8 +51,11 @@ async function main() {
   logger.info('Fin du script.');
 }
 
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
+
 (async () => {
-  if (require.main === module) {
+  if (isLaunchedFromCommandLine) {
     try {
       await main();
     } catch (error) {

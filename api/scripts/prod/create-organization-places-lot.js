@@ -2,6 +2,8 @@ import { knex, disconnect } from '../../db/knex-database-connection.js';
 import { parseCsvWithHeader } from '../helpers/csvHelpers.js';
 import { OrganizationPlacesLot } from '../../lib/domain/models/OrganizationPlacesLot.js';
 import { categories } from '../../lib/domain/constants/organization-places-categories.js';
+import * as url from 'url';
+
 const categoriesByCode = {
   [categories.T0]: categories.FREE_RATE,
   [categories.T1]: categories.PUBLIC_RATE,
@@ -11,6 +13,7 @@ const categoriesByCode = {
 };
 
 let logEnable;
+
 async function prepareOrganizationPlacesLot(organizationPlacesLotData, log = true) {
   logEnable = log;
   const organizationPlacesLot = organizationPlacesLotData.map(
@@ -42,7 +45,8 @@ function createOrganizationPlacesLots(organizationPlacesLot) {
   return knex.batchInsert('organization-places', organizationPlacesLot);
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   const filePath = process.argv[2];

@@ -398,6 +398,8 @@ async function _createUser({ firstName, lastName, birthdate, email, organization
   return { userId, organizationLearnerId };
 }
 
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 if (process.argv.length > 2 && !isInTest) {
   const [centerType, candidateNumber, complementaryCertifications = '[]'] = process.argv.slice(2);
 
@@ -411,7 +413,7 @@ if (process.argv.length > 2 && !isInTest) {
       throw error;
     })
     .finally(_disconnect);
-} else if (require.main === module) {
+} else if (isLaunchedFromCommandLine) {
   inquirer
     .prompt(questions)
     .then(async (answers) => {
