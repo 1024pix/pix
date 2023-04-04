@@ -852,9 +852,6 @@ describe('Unit | Router | organization-router', function () {
   });
 
   describe('POST /api/organizations/{id}/sup-organization-learners/replace-csv', function () {
-    afterEach(function () {
-      sinon.restore();
-    });
     context(
       'when the user is an admin for the organization and the organization is SUP and manages student',
       function () {

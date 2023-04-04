@@ -81,10 +81,6 @@ describe('Unit | Scripts | compare-pix-with-latest-release.js', function () {
     });
   });
 
-  afterEach(async function () {
-    sinon.restore();
-  });
-
   describe('#getUserValidatedKnowledgeElements', function () {
     it('should return validated knowledgeElementsOnly', async function () {
       // when

@@ -870,9 +870,6 @@ describe('Unit | Application | Router | campaign-router ', function () {
         .stub(campaignStatsController, 'getParticipationsCountByMasteryRate')
         .callsFake((request, h) => h.response('ok').code(200));
     });
-    afterEach(function () {
-      sinon.restore();
-    });
 
     it('should return 200', async function () {
       const httpTestServer = new HttpTestServer();

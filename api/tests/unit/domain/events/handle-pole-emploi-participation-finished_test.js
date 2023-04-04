@@ -66,10 +66,6 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', f
     });
   });
 
-  afterEach(function () {
-    sinon.restore();
-  });
-
   it('fails when event is not of correct type', async function () {
     // given
     const event = 'not an event of the correct type';

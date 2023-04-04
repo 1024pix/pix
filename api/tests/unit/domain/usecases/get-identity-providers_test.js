@@ -26,10 +26,6 @@ describe('Unit | UseCase | get-identity-providers', function () {
     sinon.stub(config, 'fwb').value({});
   });
 
-  afterEach(function () {
-    sinon.restore();
-  });
-
   it('returns all identity providers', async function () {
     // given & when
     const identityProviders = getIdentityProviders();

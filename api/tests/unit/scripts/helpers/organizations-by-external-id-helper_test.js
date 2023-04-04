@@ -37,10 +37,6 @@ describe('Unit | Scripts | organizations-by-external-id-helper.js', function () 
   describe('#findOrganizationsByExternalIds', function () {
     let organizationRepositoryStub;
 
-    afterEach(function () {
-      sinon.restore();
-    });
-
     it('should find organizations with given externalIds', async function () {
       // given
       const checkedData = [
