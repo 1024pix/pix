@@ -2,7 +2,7 @@ require('dotenv').config({ path: `${__dirname}/../../.env` });
 
 const _ = require('lodash');
 const { knex, disconnect } = require('../../db/knex-database-connection');
-const { cache } = require('../../lib/infrastructure/caches/learning-content-cache');
+const { learningContentCache: cache } = require('../../lib/infrastructure/caches/learning-content-cache');
 const moment = require('moment');
 const competenceRepository = require('../../lib/infrastructure/repositories/competence-repository');
 const skillRepository = require('../../lib/infrastructure/repositories/skill-repository');
@@ -14,15 +14,22 @@ const {
   getEligibleCampaignParticipations,
   generateKnowledgeElementSnapshots,
 } = require('../prod/generate-knowledge-element-snapshots-for-campaigns');
+const { generate } = require('../../lib/domain/services/campaigns/campaign-code-generator');
 
 const { SHARED, TO_SHARE } = CampaignParticipationStatuses;
 
 const firstKECreatedAt = new Date('2020-05-01');
 const secondKECreatedAt = new Date('2020-05-02');
-const baseDate = new Date('2020-05-03');
+const baseDate = new Date('2023-01-01');
 let lowRAMMode = false;
-let createOrganizationLearner = false;
 let progression = 0;
+let LOG_ENABLE = false;
+
+function _log(string) {
+  if (LOG_ENABLE) {
+    console.log(string);
+  }
+}
 
 function _logProgression(totalCount) {
   ++progression;
@@ -44,7 +51,7 @@ function _getChunkSize(objectToBeInserted) {
 }
 
 function _printUsage() {
-  console.log(`
+  _log(`
   node generate-campaign-with-participants.js [OPTIONS]
     --organizationId id                 : Id de l'organisation à laquelle on souhaite attacher la campagne
     --participantCount count            : Nombre de participants à la campagne
@@ -55,7 +62,6 @@ function _printUsage() {
                                              light : 1 compétence, medium : la moitié des compétences, all : toutes les compétences
                                              Option ignorée si le type de la campagne est profiles_collection
                                              Option ignorée si un profil cible est spécifié via --targetProfileId
-    --createOrganizationLearners      : Flag pour créer une organization-learner par participant
     --lowRAM                            : Flag optionnel. Indique que la machine dispose de peu de RAM. Réalise donc la même
                                              opération en consommant moins de RAM (opération ralentie).
     --help ou -h                        : Affiche l'aide`);
@@ -158,9 +164,6 @@ function _validateAndNormalizeArgs(commandLineArgs) {
   if (commandLineArgs.find((commandLineArg) => commandLineArg === '--lowRAM')) {
     lowRAMMode = true;
   }
-  if (commandLineArgs.find((commandLineArg) => commandLineArg === '--createOrganizationLearners')) {
-    createOrganizationLearner = true;
-  }
   const campaignType = _validateAndNormalizeCampaignType(commandLineArgs);
   const targetProfileId = _validateAndNormalizeTargetProfileId(commandLineArgs);
   return {
@@ -174,7 +177,7 @@ function _validateAndNormalizeArgs(commandLineArgs) {
 }
 
 async function _createTargetProfile({ profileType }) {
-  console.log('Création du profil cible...');
+  _log('Création du profil cible...');
   const competences = await competenceRepository.listPixCompetencesOnly();
   const competencesInProfile =
     profileType === 'light'
@@ -182,7 +185,7 @@ async function _createTargetProfile({ profileType }) {
       : profileType === 'medium'
       ? _.sampleSize(competences, Math.round(competences.length / 2))
       : competences;
-  const [targetProfileId] = await knex('target-profiles').returning('id').insert({ name: 'SomeTargetProfile' });
+  const [{ id: targetProfileId }] = await knex('target-profiles').returning('id').insert({ name: 'SomeTargetProfile' });
   for (const competence of competencesInProfile) {
     const skills = await skillRepository.findOperativeByCompetenceId(competence.id);
     for (const skill of skills) {
@@ -191,14 +194,14 @@ async function _createTargetProfile({ profileType }) {
   }
 
   const targetProfile = await targetProfileRepository.get(targetProfileId);
-  console.log('OK');
+  _log('OK');
   return targetProfile;
 }
 
 async function _getTargetProfile(targetProfileId) {
-  console.log('Récupération du profil cible existant...');
+  _log('Récupération du profil cible existant...');
   const targetProfile = await targetProfileRepository.get(targetProfileId);
-  console.log('OK');
+  _log('OK');
   return targetProfile;
 }
 
@@ -215,11 +218,12 @@ async function _createCampaign({ organizationId, campaignType, targetProfileId }
   if (!adminMemberId) {
     throw new Error(`Organisation ${organizationId} n'a pas de membre ADMIN.`);
   }
-  const [campaignId] = await knex('campaigns')
+  const code = await generate(campaignRepository);
+  const [{ id: campaignId }] = await knex('campaigns')
     .returning('id')
     .insert({
       name: `Campaign_${organizationId}_${targetProfileId}`,
-      code: 'FAKECODE',
+      code,
       ownerId: 1,
       organizationId,
       creatorId: adminMemberId,
@@ -241,7 +245,8 @@ async function _createUsers({ count, uniqId, trx }) {
     });
   }
   const chunkSize = _getChunkSize(userData[0]);
-  return trx.batchInsert('users', userData.flat(), chunkSize).returning('id');
+  const users = await trx.batchInsert('users', userData.flat(), chunkSize).returning('id');
+  return users.map((user) => user.id);
 }
 
 async function _createOrganizationLearners({ userIds, organizationId, uniqId, trx }) {
@@ -268,7 +273,9 @@ async function _createOrganizationLearners({ userIds, organizationId, uniqId, tr
     organizationLearnerData.push(organizationLearnerSpecificBuilder({ userId, organizationId, identifier }));
   }
   const chunkSize = _getChunkSize(organizationLearnerData[0]);
-  return trx.batchInsert('organization-learners', organizationLearnerData.flat(), chunkSize).returning('id');
+  return trx
+    .batchInsert('organization-learners', organizationLearnerData.flat(), chunkSize)
+    .returning(['id', 'userId']);
 }
 
 function _buildBaseOrganizationLearner({ userId, organizationId, identifier }) {
@@ -328,12 +335,14 @@ async function _createAssessments({ userAndCampaignParticipationIds, trx }) {
   return trx.batchInsert('assessments', assessmentData.flat(), chunkSize).returning(['id', 'userId']);
 }
 
-async function _createCampaignParticipations({ campaignId, userIds, trx }) {
+async function _createCampaignParticipations({ campaignId, trx, organizationLearnerAndUserIds }) {
   const participationData = [];
-  for (const userId of userIds) {
+  for (const organizationLearnerAndUserId of organizationLearnerAndUserIds) {
     const createdAt = moment(baseDate).add(_.random(0, 100), 'days').toDate();
     const isShared = Boolean(_.random(0, 1));
     const sharedAt = isShared ? moment(createdAt).add(_.random(1, 10), 'days').toDate() : null;
+    const userId = organizationLearnerAndUserId.userId;
+    const organizationLearnerId = organizationLearnerAndUserId.id;
 
     participationData.push({
       campaignId,
@@ -341,6 +350,7 @@ async function _createCampaignParticipations({ campaignId, userIds, trx }) {
       status: isShared ? SHARED : TO_SHARE,
       sharedAt,
       userId,
+      organizationLearnerId,
     });
   }
   const chunkSize = _getChunkSize(participationData[0]);
@@ -348,7 +358,7 @@ async function _createCampaignParticipations({ campaignId, userIds, trx }) {
 }
 
 async function _createAnswersAndKnowledgeElements({ campaignId, targetProfile, userAndAssessmentIds, trx }) {
-  console.log('\tCréation des answers de référence...');
+  _log('\tCréation des answers de référence...');
   const answerData = [];
   for (const userAndAssessmentId of userAndAssessmentIds) {
     answerData.push({
@@ -361,11 +371,11 @@ async function _createAnswersAndKnowledgeElements({ campaignId, targetProfile, u
   const answerRecordedData = await trx
     .batchInsert('answers', answerData.flat(), chunkSize)
     .returning(['id', 'assessmentId']);
-  console.log('\tOK');
+  _log('\tOK');
 
-  console.log('\tCréation des knowledge-elements...');
+  _log('\tCréation des knowledge-elements...');
   const knowledgeElementData = [];
-  console.log('\t\tCréation des données par acquis...');
+  _log('\t\tCréation des données par acquis...');
   const skills = await campaignRepository.findSkills({ campaignId });
   for (const skill of skills) {
     const knowledgeElementDataForOneSkill = [];
@@ -399,26 +409,26 @@ async function _createAnswersAndKnowledgeElements({ campaignId, targetProfile, u
     _logProgression(targetProfile.skills.length);
   }
   _resetProgression();
-  console.log('\t\tOK');
+  _log('\t\tOK');
 
-  console.log('\t\tInsertion en base de données...');
-  const chunkedKnowledgeElements = _.chunk(knowledgeElementData.flat(), _getChunkSize(knowledgeElementData[0][0]));
+  _log('\t\tInsertion en base de données...');
+  const chunkedKnowledgeElements = _.chunk(knowledgeElementData.flat(), _getChunkSize(knowledgeElementData[0]?.[0]));
   let totalKeCount = 0;
   for (const chunk of chunkedKnowledgeElements) {
     await trx('knowledge-elements').insert(chunk);
     totalKeCount = totalKeCount + chunk.length;
     _logProgression(chunkedKnowledgeElements.length);
   }
-  console.log('\t\tOK');
-  console.log(`\t${totalKeCount} knowledge-elements créés`);
-  console.log('\tOK');
+  _log('\t\tOK');
+  _log(`\t${totalKeCount} knowledge-elements créés`);
+  _log('\tOK');
 }
 
 async function _createBadgeAcquisitions({ targetProfile, userAndCampaignParticipationIds, trx }) {
   const badges = await trx.select('id').from('badges').where({ targetProfileId: targetProfile.id });
   const badgeIds = _.map(badges, 'id');
   if (badgeIds.length === 0) {
-    console.log(`\tAucun badge pour le profil cible ${targetProfile.id} - ${targetProfile.name}`);
+    _log(`\tAucun badge pour le profil cible ${targetProfile.id} - ${targetProfile.name}`);
     return;
   }
   const badgeAcquisitionData = [];
@@ -435,59 +445,77 @@ async function _createBadgeAcquisitions({ targetProfile, userAndCampaignParticip
   }
   const chunkSize = _getChunkSize(badgeAcquisitionData[0]);
   await trx.batchInsert('badge-acquisitions', badgeAcquisitionData.flat(), chunkSize);
-  console.log(`\t${badgeAcquisitionData.flat().length} acquisitions de badge créées`);
+  _log(`\t${badgeAcquisitionData.flat().length} acquisitions de badge créées`);
 }
 
 async function _createParticipants({ count, targetProfile, organizationId, campaignId, trx }) {
-  console.log('Création des utilisateurs...');
+  _log('Création des utilisateurs...');
   const userIds = await _createUsers({ count, uniqId: targetProfile.id, trx });
-  console.log('OK');
-  if (createOrganizationLearner) {
-    console.log('Création des organization-learners...');
-    await _createOrganizationLearners({ userIds, organizationId, uniqId: targetProfile.id, trx });
-    console.log('OK');
-  }
-  console.log('Création des campaign-participations...');
-  const userAndCampaignParticipationIds = await _createCampaignParticipations({ campaignId, userIds, trx });
-  console.log('OK');
-  console.log('Création des assessments...');
+  _log('OK');
+
+  _log('Création des organization-learners...');
+  const organizationLearnerAndUserIds = await _createOrganizationLearners({
+    userIds,
+    organizationId,
+    uniqId: targetProfile.id,
+    trx,
+  });
+  _log('OK');
+
+  _log('Création des campaign-participations...');
+  const userAndCampaignParticipationIds = await _createCampaignParticipations({
+    campaignId,
+    organizationLearnerAndUserIds,
+    trx,
+  });
+  _log('OK');
+  _log('Création des assessments...');
   const userAndAssessmentIds = await _createAssessments({ userAndCampaignParticipationIds, trx });
-  console.log('OK');
-  console.log('Création des answers/knowledge-elements...');
+  _log('OK');
+  _log('Création des answers/knowledge-elements...');
   await _createAnswersAndKnowledgeElements({ campaignId, targetProfile, userAndAssessmentIds, trx });
-  console.log('OK');
-  console.log('Création des obtentions de badge...');
+  _log('OK');
+  _log('Création des obtentions de badge...');
   await _createBadgeAcquisitions({ targetProfile, userAndCampaignParticipationIds, trx });
-  console.log('OK');
+  _log('OK');
 }
 
-async function _do({ organizationId, targetProfileId, participantCount, profileType, campaignType }) {
+async function generateCampaignWithParticipants({
+  organizationId,
+  targetProfileId,
+  participantCount,
+  profileType,
+  campaignType,
+}) {
   const targetProfile = targetProfileId
     ? await _getTargetProfile(targetProfileId)
     : await _createTargetProfile({ profileType });
-  console.log('Création de la campagne...');
+  _log('Création de la campagne...');
   const campaignId = await _createCampaign({ organizationId, campaignType, targetProfileId: targetProfile.id });
-  console.log('OK');
+  _log('OK');
   const trx = await knex.transaction();
   if (lowRAMMode) {
-    console.log("Mode lowRAM activé. Découpage de l'opération en plusieurs paquets de 150 participants.");
+    _log("Mode lowRAM activé. Découpage de l'opération en plusieurs paquets de 150 participants.");
     let participantLeftToProcess = participantCount;
     const PARTICIPANT_CHUNK_SIZE = 500;
     while (participantLeftToProcess > 0) {
-      console.log(`Reste à traiter : ${participantLeftToProcess} participants`);
+      _log(`Reste à traiter : ${participantLeftToProcess} participants`);
+      const count =
+        participantLeftToProcess > PARTICIPANT_CHUNK_SIZE ? PARTICIPANT_CHUNK_SIZE : participantLeftToProcess;
+
       participantLeftToProcess = participantLeftToProcess - PARTICIPANT_CHUNK_SIZE;
-      await _createParticipants({ count: PARTICIPANT_CHUNK_SIZE, targetProfile, organizationId, campaignId, trx });
+      await _createParticipants({ count, targetProfile, organizationId, campaignId, trx });
     }
   } else {
     await _createParticipants({ count: participantCount, targetProfile, organizationId, campaignId, trx });
   }
   await trx.commit();
-  console.log('génération des snapshots KE ...');
+  _log('génération des snapshots KE ...');
   const campaignParticipationData = await getEligibleCampaignParticipations(participantCount);
   await generateKnowledgeElementSnapshots(campaignParticipationData, 3);
-  console.log('pré-calcul des résultats ...');
+  _log('pré-calcul des résultats ...');
   await computeParticipationResults();
-  console.log(
+  _log(
     `Campagne: ${campaignId}\nOrganisation: ${organizationId}\nNombre de participants: ${participantCount}\nProfil Cible: ${targetProfile.id}`
   );
 }
@@ -496,23 +524,24 @@ const isLaunchedFromCommandLine = require.main === module;
 
 async function main() {
   const commandLineArgs = process.argv.slice(2);
-  console.log('Validation des arguments...');
+  _log('Validation des arguments...');
   const { organizationId, targetProfileId, participantCount, profileType, campaignType } =
     _validateAndNormalizeArgs(commandLineArgs);
 
-  console.log('OK');
-  await _do({
+  _log('OK');
+  await generateCampaignWithParticipants({
     organizationId,
     targetProfileId,
     participantCount,
     profileType,
     campaignType,
   });
-  console.log('FIN');
+  _log('FIN');
 }
 
 (async () => {
   if (isLaunchedFromCommandLine) {
+    LOG_ENABLE = true;
     try {
       await main();
     } catch (error) {
@@ -525,3 +554,5 @@ async function main() {
     }
   }
 })();
+
+module.exports = { generateCampaignWithParticipants };
