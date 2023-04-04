@@ -3,7 +3,8 @@ import * as badgeRepository from '../../../../lib/infrastructure/repositories/ba
 import { Badge } from '../../../../lib/domain/models/Badge.js';
 import { BadgeCriterion } from '../../../../lib/domain/models/BadgeCriterion.js';
 import { SkillSet } from '../../../../lib/domain/models/SkillSet.js';
-import omit from 'lodash/omit';
+import lodash from 'lodash';
+const { omit } = lodash;
 import { AlreadyExistingEntityError } from '../../../../lib/domain/errors.js';
 
 describe('Integration | Repository | Badge', function () {

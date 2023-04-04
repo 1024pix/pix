@@ -19,7 +19,8 @@ import { logger } from '../../lib/infrastructure/logger.js';
 
 import { parseCsv, checkCsvHeader } from '../helpers/csvHelpers.js';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
-import values from 'lodash/values';
+import lodash from 'lodash';
+const { values } = lodash;
 
 const headers = {
   externalId: 'externalId',

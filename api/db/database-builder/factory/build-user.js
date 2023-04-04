@@ -1,5 +1,5 @@
-import isNil from 'lodash/isNil';
-import isUndefined from 'lodash/isUndefined';
+import lodash from 'lodash';
+const { isUndefined, isNil } = lodash;
 
 import { databaseBuffer } from '../database-buffer.js';
 import { AuthenticationMethod } from '../../../lib/domain/models/AuthenticationMethod.js';

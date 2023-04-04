@@ -9,7 +9,8 @@ import {
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
-import omit from 'lodash/omit';
+import lodash from 'lodash';
+const { omit } = lodash;
 
 describe('Acceptance | Route | target-profiles', function () {
   let server;
