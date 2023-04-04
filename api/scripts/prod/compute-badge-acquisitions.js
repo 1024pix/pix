@@ -15,7 +15,7 @@ import { logger } from '../../lib/infrastructure/logger.js';
 import * as badgeAcquisitionRepository from '../../lib/infrastructure/repositories/badge-acquisition-repository.js';
 import * as badgeForCalculationRepository from '../../lib/infrastructure/repositories/badge-for-calculation-repository.js';
 import * as knowledgeElementRepository from '../../lib/infrastructure/repositories/knowledge-element-repository.js';
-import { cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
+import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
 import * as url from 'url';
 
 const MAX_RANGE_SIZE = 100_000;

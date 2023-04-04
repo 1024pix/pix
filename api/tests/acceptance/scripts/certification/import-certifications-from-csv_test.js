@@ -1,6 +1,7 @@
 import { expect, nock } from '../../../test-helper.js';
-import { script } from '../../../../scripts/certification/import-certifications-from-csv.js';
+import * as script from '../../../../scripts/certification/import-certifications-from-csv.js';
 import * as url from 'url';
+
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Acceptance | Scripts | import-certifications-from-csv.js', function () {

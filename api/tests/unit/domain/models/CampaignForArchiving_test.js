@@ -1,5 +1,5 @@
 import { expect, catchErr } from '../../../test-helper.js';
-import { Campaign } from '../../../../lib/domain/models/CampaignForArchiving.js';
+import { CampaignForArchiving as Campaign } from '../../../../lib/domain/models/CampaignForArchiving.js';
 import { ArchivedCampaignError, ObjectValidationError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | Domain | Models | CampaignForArchiving', function () {

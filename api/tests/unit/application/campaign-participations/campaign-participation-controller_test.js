@@ -1,6 +1,6 @@
 import { sinon, expect, domainBuilder, hFake } from '../../../test-helper.js';
 import { campaignParticipationController } from '../../../../lib/application/campaign-participations/campaign-participation-controller.js';
-import { events } from '../../../../lib/domain/events/index.js';
+import * as events from '../../../../lib/domain/events/index.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { CampaignParticipationResultsShared } from '../../../../lib/domain/events/CampaignParticipationResultsShared.js';
 import { CampaignParticipationStarted } from '../../../../lib/domain/events/CampaignParticipationStarted.js';

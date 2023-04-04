@@ -1,6 +1,6 @@
 import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
 import * as validationErrorSerializer from '../../infrastructure/serializers/jsonapi/validation-error-serializer.js';
-import { requestResponseUtils } from '../../infrastructure/utils/request-response-utils.js';
+import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 
 const verify = function (
   request,
@@ -17,7 +17,9 @@ const verify = function (
   });
 };
 
-export { verify };
+const assessmentAuthorization = { verify };
+
+export { assessmentAuthorization };
 
 function _handleWhenInvalidAuthorization(errorMessage) {
   return {

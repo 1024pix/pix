@@ -2,7 +2,7 @@ import isUndefined from 'lodash/isUndefined';
 import { databaseBuffer } from '../database-buffer.js';
 import { buildUser } from './build-user.js';
 import { AuthenticationMethod } from '../../../lib/domain/models/AuthenticationMethod.js';
-import { OidcIdentityProviders } from '../../../lib/domain/constants/oidc-identity-providers.js';
+import * as OidcIdentityProviders from '../../../lib/domain/constants/oidc-identity-providers.js';
 import * as encrypt from '../../../lib/domain/services/encryption-service.js';
 
 const buildAuthenticationMethod = {};

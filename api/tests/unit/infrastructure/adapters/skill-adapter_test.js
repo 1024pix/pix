@@ -1,5 +1,5 @@
 import { expect, domainBuilder } from '../../../test-helper.js';
-import { skillAdapter } from '../../../../lib/infrastructure/adapters/skill-adapter.js';
+import * as skillAdapter from '../../../../lib/infrastructure/adapters/skill-adapter.js';
 import { Skill } from '../../../../lib/domain/models/Skill.js';
 
 describe('Unit | Infrastructure | Adapter | skillAdapter', function () {

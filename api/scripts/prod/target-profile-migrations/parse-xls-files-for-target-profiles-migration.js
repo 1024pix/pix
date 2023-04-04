@@ -13,7 +13,7 @@ const { performance } = perf_hooks;
 
 import XLSX from 'xlsx';
 import { logger } from '../../../lib/infrastructure/logger.js';
-import { cache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
+import { learningContentCache as cache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
 import { knex, disconnect } from '../../../db/knex-database-connection.js';
 import { normalizeAndRemoveAccents } from '../../../lib/domain/services/validation-treatments.js';
 import { autoMigrateTargetProfile } from './common.js';

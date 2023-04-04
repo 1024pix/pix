@@ -7,7 +7,7 @@ dotenv.config({ path: `${__dirname}/../.env` });
 
 import { logger } from '../../lib/infrastructure/logger.js';
 import { usecases } from '../../lib/domain/usecases/index.js';
-import { cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
+import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
 import * as placementProfileService from '../../lib/domain/services/placement-profile-service.js';
 import * as certificationBadgesService from '../../lib/domain/services/certification-badges-service.js';
 // Usage: node scripts/get-certifications-eligibility 1234
