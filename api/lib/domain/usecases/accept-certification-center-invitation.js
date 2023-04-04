@@ -4,8 +4,10 @@ module.exports = async function acceptCertificationCenterInvitation({
   certificationCenterInvitationId,
   code,
   email,
+  localeFromCookie,
   certificationCenterInvitedUserRepository,
   certificationCenterMembershipRepository,
+  userRepository,
 }) {
   const certificationCenterInvitedUser = await certificationCenterInvitedUserRepository.get({
     certificationCenterInvitationId,
@@ -24,6 +26,14 @@ module.exports = async function acceptCertificationCenterInvitation({
     throw new AlreadyExistingMembershipError(
       `Certification center membership already exists for the user ID ${userId} and certification center ID ${certificationCenterId}.`
     );
+  }
+
+  if (localeFromCookie) {
+    const user = await userRepository.getById(userId);
+    user.setLocaleIfNotAlreadySet(localeFromCookie);
+    if (user.mustBePersisted) {
+      await userRepository.update({ id: user.id, locale: user.locale });
+    }
   }
 
   certificationCenterInvitedUser.acceptInvitation(code);
