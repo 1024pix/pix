@@ -1,6 +1,8 @@
 import dotenv from 'dotenv';
+
 dotenv.config();
 import perf_hooks from 'perf_hooks';
+import * as url from 'url';
 
 const { performance } = perf_hooks;
 
@@ -16,7 +18,8 @@ const doSomething = async ({ throwError }) => {
   return data;
 };
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   const startTime = performance.now();

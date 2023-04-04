@@ -1,9 +1,11 @@
 import dotenv from 'dotenv';
+
 dotenv.config();
 import { logger } from '../../lib/infrastructure/logger.js';
 import { cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import bluebird from 'bluebird';
+import * as url from 'url';
 
 const ASSOC_TABLE_NAME = 'certification-courses-last-assessment-results';
 
@@ -28,7 +30,8 @@ const addLastAssessmentResultCertificationCourse = async () => {
   }
 };
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 function main() {
   return addLastAssessmentResultCertificationCourse();

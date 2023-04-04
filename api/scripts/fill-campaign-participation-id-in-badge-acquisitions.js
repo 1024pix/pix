@@ -1,5 +1,6 @@
 import { knex, disconnect } from '../db/knex-database-connection.js';
 import bluebird from 'bluebird';
+import * as url from 'url';
 
 async function getAllBadgeAcquistionsWithoutCampaignParticipationId() {
   return knex('badge-acquisitions').select().where({ campaignParticipationId: null });
@@ -59,7 +60,8 @@ async function updateBadgeAcquisitionWithCampaignParticipationId(badgeAcquisitio
   );
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   const badgeAcquisitionsWithoutCampaignParticipationId = await getAllBadgeAcquistionsWithoutCampaignParticipationId();

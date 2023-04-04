@@ -16,6 +16,7 @@ import { parseCsv, checkCsvHeader } from '../helpers/csvHelpers.js';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import uniqBy from 'lodash/uniqBy';
 import values from 'lodash/values';
+import * as url from 'url';
 
 const wordsToReplace = [
   {
@@ -390,7 +391,8 @@ function _buildCityNameWithWordReplaced(cityName) {
   return cityName.replace(entry.regex, ` ${entry.value} `).trim();
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main(filePath) {
   logger.info('Starting script import-certification-cpf-cities');

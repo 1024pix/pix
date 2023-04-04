@@ -1,8 +1,10 @@
 import { logger } from '../../lib/infrastructure/logger.js';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import bluebird from 'bluebird';
+import * as url from 'url';
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function _getIdCategorySubcategoryFromCertificationIssueReport() {
   return knex('certification-issue-reports').select('id', 'category', 'subcategory');

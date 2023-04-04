@@ -7,6 +7,7 @@ import { parseCsv } from '../helpers/csvHelpers.js';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import { normalizeAndSortChars } from '../../lib/infrastructure/utils/string-utils.js';
 import _ from 'lodash';
+import * as url from 'url';
 
 const CURRENT_NAME_COLUMN = 'LIBCOG';
 const ALTERNATIVE_NAME_COLUMN = 'LIBENR';
@@ -73,7 +74,8 @@ function checkTransformUnicity(countries) {
   if (hasError) throw new Error('There are more than 1 transformed name with distinct code');
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main(filePath) {
   console.log('Starting script import-certification-cpf-countries');
