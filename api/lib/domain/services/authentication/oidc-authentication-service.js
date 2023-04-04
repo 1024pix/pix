@@ -212,6 +212,10 @@ class OidcAuthenticationService {
 
     return createdUserId;
   }
+
+  getRedirectLogoutUrl() {
+    return null;
+  }
 }
 
 module.exports = OidcAuthenticationService;

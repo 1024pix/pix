@@ -65,6 +65,19 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
     });
   });
 
+  describe('#getRedirectLogoutUrl', function () {
+    it('returns null', function () {
+      // given
+      const oidcAuthenticationService = new OidcAuthenticationService({});
+
+      // when
+      const result = oidcAuthenticationService.getRedirectLogoutUrl();
+
+      // then
+      expect(result).to.be.null;
+    });
+  });
+
   describe('#getUserInfoMissingFields', function () {
     it('should return a message with missing fields list', async function () {
       // given
