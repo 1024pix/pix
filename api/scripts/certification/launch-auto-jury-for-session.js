@@ -1,5 +1,6 @@
 'use strict';
 import dotenv from 'dotenv';
+
 dotenv.config();
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import { SessionFinalized } from '../../lib/domain/events/SessionFinalized.js';
@@ -10,8 +11,10 @@ import * as certificationCourseRepository from '../../lib/infrastructure/reposit
 import { handleAutoJury } from '../../lib/domain/events/handle-auto-jury.js';
 import { events } from '../../lib/domain/events/index.js';
 import { logger } from '../../lib/infrastructure/logger.js';
+import * as url from 'url';
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   const id = process.argv[2];

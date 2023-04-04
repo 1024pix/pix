@@ -294,7 +294,8 @@ function _checkIfTPHasUnexpectedMultiformInstructions(id, multiFormData) {
     throw new Error(`Une feuille d'instructions "multiforme" existe pour ce profil cible.`);
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   const startTime = performance.now();

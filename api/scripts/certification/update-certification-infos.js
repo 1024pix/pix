@@ -113,7 +113,8 @@ async function updateCertificationInfos(dataFilePath, sessionIdsFilePath) {
   logger.info('Done.');
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   const dataFilePath = process.argv[2];

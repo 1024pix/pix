@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+
 dotenv.config();
 import perf_hooks from 'perf_hooks';
 
@@ -11,10 +12,13 @@ import yargs from 'yargs';
 import bluebird from 'bluebird';
 import { status } from '../../lib/domain/models/AssessmentResult.js';
 import readline from 'readline';
+import * as url from 'url';
+
 const DEFAULT_COUNT = 20000;
 const DEFAULT_CONCURRENCY = 2;
 
 let progression = 0;
+
 function _logProgression(totalCount) {
   ++progression;
   readline.cursorTo(process.stdout, 0);
@@ -44,7 +48,8 @@ const updatePixCertificationStatus = async ({ count, concurrency }) => {
   logger.info(`\n\tOK, ${failedGenerations} générations de codes échouées pour cause de code en doublon`);
 };
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   const startTime = performance.now();

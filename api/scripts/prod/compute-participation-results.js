@@ -147,7 +147,8 @@ function _toSQLValuesWithIsCertifiable(participantsResults) {
     .join(', ');
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   await computeParticipantResultsShared(concurrency);

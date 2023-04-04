@@ -14,6 +14,7 @@ import * as challengeRepository from '../../lib/infrastructure/repositories/chal
 import * as placementProfileService from '../../lib/domain/services/placement-profile-service.js';
 import * as certificationChallengeService from '../../lib/domain/services/certification-challenges-service.js';
 import { LOCALE } from '../../lib/domain/constants.js';
+import * as url from 'url';
 
 const { FRENCH_FRANCE } = LOCALE;
 
@@ -86,7 +87,8 @@ function updateProgress() {
   process.stderr.write('.');
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   let userIds;

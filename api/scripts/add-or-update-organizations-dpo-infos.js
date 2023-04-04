@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 import _ from 'lodash';
@@ -8,7 +9,11 @@ import { disconnect } from '../db/knex-database-connection.js';
 import { updateOrganizationDataProtectionOfficerInformation } from '../lib/domain/usecases/update-organization-data-protection-officer-information.js';
 import * as dataProtectionOfficerRepository from '../lib/infrastructure/repositories/data-protection-officer-repository.js';
 
-const IS_LAUNCHED_FROM_CLI = require.main === module;
+import * as url from 'url';
+
+const modulePath = url.fileURLToPath(import.meta.url);
+const IS_LAUNCHED_FROM_CLI = process.argv[1] === modulePath;
+
 const REQUIRED_FIELD_NAMES = ['organizationId', 'firstName', 'lastName', 'email'];
 
 const parsingOptions = {

@@ -7,6 +7,7 @@ import { logger } from '../../../lib/infrastructure/logger.js';
 import { cache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
 import * as skillRepository from '../../../lib/infrastructure/repositories/skill-repository.js';
 import * as tubeRepository from '../../../lib/infrastructure/repositories/tube-repository.js';
+import * as url from 'url';
 
 let allSkills;
 let allTubes;
@@ -133,7 +134,10 @@ async function _deleteSkillSetCriteria(badgeId, trx) {
   await trx('badge-criteria').where({ badgeId, scope: 'SkillSet' }).del();
 }
 
-if (require.main === module) {
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
+
+if (isLaunchedFromCommandLine) {
   main();
 }
 
