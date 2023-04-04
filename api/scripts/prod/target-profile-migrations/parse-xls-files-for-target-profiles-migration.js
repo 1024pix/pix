@@ -1,4 +1,9 @@
-require('dotenv').config({
+import * as url from 'url';
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+import * as dotenv from 'dotenv';
+
+dotenv.config({
   path: `${__dirname}/../../../.env`,
 });
 import _ from 'lodash';
@@ -15,10 +20,12 @@ import { autoMigrateTargetProfile } from './common.js';
 import * as tubeRepository from '../../../lib/infrastructure/repositories/tube-repository.js';
 
 let allTubes;
+
 async function _cacheLearningContentData() {
   const tubes = await tubeRepository.list();
   allTubes = tubes.map((tube) => ({ ...tube, normalizedName: normalizeAndRemoveAccents(tube.name) }));
 }
+
 const report = [];
 
 async function doJob(mainFile, multiFormFiles, dryRun) {
