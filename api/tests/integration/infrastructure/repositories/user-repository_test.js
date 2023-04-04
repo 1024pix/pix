@@ -1682,35 +1682,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         expect(userUpdated.lastLoggedAt).to.deep.equal(now);
       });
     });
-
-    describe('#updateLocale', function () {
-      let clock;
-      const now = new Date('2020-01-02');
-
-      beforeEach(function () {
-        clock = sinon.useFakeTimers(now);
-      });
-
-      afterEach(function () {
-        clock.restore();
-      });
-
-      it('should update the user locale to the provided value', async function () {
-        // given
-        const user = databaseBuilder.factory.buildUser();
-        const userId = user.id;
-        await databaseBuilder.commit();
-        const locale = 'fr-BE';
-
-        // when
-        await userRepository.updateLocale({ userId, locale });
-
-        // then
-        const userUpdated = await knex('users').select().where({ id: userId }).first();
-        expect(userUpdated.locale).to.deep.equal(locale);
-        expect(userUpdated.updatedAt).to.deep.equal(now);
-      });
-    });
   });
 
   describe('#checkIfEmailIsAvailable', function () {
