@@ -424,11 +424,6 @@ if (process.argv.length > 2 && !isInTest) {
       throw error;
     })
     .finally(_disconnect);
-} else {
-  module.exports = {
-    main,
-    databaseBuilder,
-  };
 }
 
 async function _disconnect() {
@@ -439,3 +434,5 @@ async function _disconnect() {
   await temporaryStorage.quit();
   logger.info('Exiting process gracefully...');
 }
+
+export { main, databaseBuilder };
