@@ -1,8 +1,5 @@
-import each from 'lodash/each';
-import map from 'lodash/map';
-import times from 'lodash/times';
-import pick from 'lodash/pick';
-
+import lodash from 'lodash';
+const { each, map, times, pick } = lodash;
 import { expect, knex, databaseBuilder, catchErr, sinon } from '../../../test-helper.js';
 
 import {

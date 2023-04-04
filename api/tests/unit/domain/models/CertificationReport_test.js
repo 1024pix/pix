@@ -2,8 +2,8 @@ import { expect, EMPTY_BLANK_AND_NULL, domainBuilder, catchErr } from '../../../
 import { CertificationReport } from '../../../../lib/domain/models/CertificationReport.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 import { InvalidCertificationReportForFinalization } from '../../../../lib/domain/errors.js';
-import keys from 'lodash/keys';
-
+import lodash from 'lodash';
+const { keys } = lodash;
 describe('Unit | Domain | Models | CertificationReport', function () {
   describe('#constructor', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe

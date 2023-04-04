@@ -1,5 +1,6 @@
 import { PRO_COMPANY_ID, PRO_POLE_EMPLOI_ID, PRO_MED_NUM_ID } from './organizations-pro-builder.js';
-import identity from 'lodash/identity';
+import lodash from 'lodash';
+const { identity } = lodash;
 import { SUP_UNIVERSITY_ID } from './organizations-sup-builder.js';
 
 const skillIdsForSkillSet1 = [
