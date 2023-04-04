@@ -19,7 +19,6 @@ const DatabaseBuilder = require('../db/database-builder/database-builder');
 const databaseBuilder = new DatabaseBuilder({ knex });
 
 const nock = require('nock');
-nock.disableNetConnect();
 
 const learningContentBuilder = require('./tooling/learning-content-builder');
 
@@ -31,6 +30,10 @@ const { ROLES } = require('../lib/domain/constants').PIX_ADMIN;
 const { createTempFile, removeTempFile } = require('./tooling/temporary-file');
 
 /* eslint-disable mocha/no-top-level-hooks */
+before(function () {
+  nock.disableNetConnect();
+});
+
 afterEach(function () {
   sinon.restore();
   learningContentCache.flushAll();
