@@ -16,7 +16,7 @@ const CNAV = {
 };
 const FWB = {
   configKey: 'fwb',
-  propertyPathsToPick: DEFAULT_PROPERTY_PATHS_TO_PICK,
+  propertyPathsToPick: [...DEFAULT_PROPERTY_PATHS_TO_PICK, 'logoutUrl'],
   service: new FwbOidcAuthenticationService(),
 };
 
