@@ -14,8 +14,8 @@ import { logger } from '../../lib/infrastructure/logger.js';
 
 import { parseCsv, checkCsvHeader } from '../helpers/csvHelpers.js';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
-import uniqBy from 'lodash/uniqBy';
-import values from 'lodash/values';
+import lodash from 'lodash';
+const { uniqBy, values } = lodash;
 import * as url from 'url';
 
 const wordsToReplace = [
