@@ -12,7 +12,7 @@ class FwbOidcAuthenticationService extends OidcAuthenticationService {
       identityProvider: 'FWB',
       slug: 'fwb',
       organizationName: 'Fédération Wallonie-Bruxelles',
-      hasLogoutUrl: false,
+      hasLogoutUrl: true,
       jwtOptions: { expiresIn: settings.fwb.accessTokenLifespanMs / 1000 },
       clientSecret: settings.fwb.clientSecret,
       clientId: settings.fwb.clientId,
