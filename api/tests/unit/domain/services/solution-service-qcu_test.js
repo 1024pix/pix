@@ -1,6 +1,6 @@
 import { expect } from '../../../test-helper.js';
 import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
-import { service } from '../../../../lib/domain/services/solution-service-qcu.js';
+import * as service from '../../../../lib/domain/services/solution-service-qcu.js';
 
 describe('Unit | Service | SolutionServiceQCU ', function () {
   describe('if solution type is QCU', function () {

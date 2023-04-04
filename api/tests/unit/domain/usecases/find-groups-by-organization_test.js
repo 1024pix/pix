@@ -1,5 +1,5 @@
 import { expect, sinon } from '../../../test-helper.js';
-import { findDivisionsByOrganization } from '../../../../lib/domain/usecases/find-groups-by-organization.js';
+import { findGroupByOrganization as findDivisionsByOrganization } from '../../../../lib/domain/usecases/find-groups-by-organization.js';
 
 describe('Unit | UseCase | find-groups-by-organization', function () {
   it('should return all groups', async function () {

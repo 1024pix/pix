@@ -1,6 +1,6 @@
 import { expect, sinon } from '../../../test-helper.js';
-import { useCase } from '../../../../lib/application/usecases/checkPix1dEnabled.js';
-import { settings } from '../../../../lib/config.js';
+import * as useCase from '../../../../lib/application/usecases/checkPix1dEnabled.js';
+import { config as settings } from '../../../../lib/config.js';
 
 describe('Unit | Application | Use Case | checkPix1dEnabled', function () {
   it('should resolve true when the admin member has role super admin', async function () {

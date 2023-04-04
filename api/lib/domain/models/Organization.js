@@ -88,4 +88,4 @@ class Organization {
 
 Organization.types = types;
 Organization.defaultValues = defaultValues;
-export { Organization };
+export { Organization, types };

@@ -1,6 +1,6 @@
 import { expect, databaseBuilder, catchErr } from '../../../../test-helper.js';
 import * as campaignForArchivingRepository from '../../../../../lib/infrastructure/repositories/campaign/campaign-for-archiving-repository.js';
-import { Campaign } from '../../../../../lib/domain/models/CampaignForArchiving.js';
+import { CampaignForArchiving as Campaign } from '../../../../../lib/domain/models/CampaignForArchiving.js';
 import { NotFoundError, UserNotFoundError } from '../../../../../lib/domain/errors.js';
 
 describe('Integration | Infrastructure | Repository | campaign-for-archiving-repository', function () {

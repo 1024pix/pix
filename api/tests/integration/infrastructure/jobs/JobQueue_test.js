@@ -1,6 +1,6 @@
 import { expect, knex } from '../../../test-helper.js';
 import { JobQueue } from '../../../../lib/infrastructure/jobs/JobQueue.js';
-import { Job } from '../../../../lib/infrastructure/jobs/JobPgBoss.js';
+import { JobPgBoss as Job } from '../../../../lib/infrastructure/jobs/JobPgBoss.js';
 import PgBoss from 'pg-boss';
 
 describe('Integration | Infrastructure | Jobs | JobQueue', function () {

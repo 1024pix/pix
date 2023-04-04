@@ -1,5 +1,5 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { findCampaignParticipationsRelatedToUser } from '../../../../lib/domain/usecases/find-latest-ongoing-user-campaign-participations.js';
+import { findLatestOngoingUserCampaignParticipations as findCampaignParticipationsRelatedToUser } from '../../../../lib/domain/usecases/find-latest-ongoing-user-campaign-participations.js';
 
 describe('Unit | UseCase | find-latest-user-campaign-participations', function () {
   let userId;

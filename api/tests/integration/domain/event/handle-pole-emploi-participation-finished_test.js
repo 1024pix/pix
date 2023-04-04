@@ -15,7 +15,7 @@ import * as organizationRepository from '../../../../lib/infrastructure/reposito
 import * as poleEmploiSendingRepository from '../../../../lib/infrastructure/repositories/pole-emploi-sending-repository.js';
 import * as targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository.js';
 import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
-import { AsessmentCompletedEvent } from '../../../../lib/domain/events/AssessmentCompleted.js';
+import { AssessmentCompleted as AsessmentCompletedEvent } from '../../../../lib/domain/events/AssessmentCompleted.js';
 
 describe('Integration | Event | Handle Pole emploi participation finished', function () {
   let campaignParticipationId, userId, event, poleEmploiNotifier, responseCode;

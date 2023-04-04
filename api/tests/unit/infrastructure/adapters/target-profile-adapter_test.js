@@ -2,7 +2,7 @@ import { sinon, databaseBuilder, expect, domainBuilder } from '../../../test-hel
 import { BookshelfTargetProfile } from '../../../../lib/infrastructure/orm-models/TargetProfile.js';
 import { BookshelfTargetProfileShare } from '../../../../lib/infrastructure/orm-models/TargetProfileShare.js';
 import { TargetProfile } from '../../../../lib/domain/models/TargetProfile.js';
-import { targetProfileAdapter } from '../../../../lib/infrastructure/adapters/target-profile-adapter.js';
+import * as targetProfileAdapter from '../../../../lib/infrastructure/adapters/target-profile-adapter.js';
 
 describe('Unit | Infrastructure | Adapter | targetProfileAdapter', function () {
   it('should adapt TargetProfile object to domain', function () {
