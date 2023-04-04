@@ -1,10 +1,10 @@
-import { domainBuilder, expect, nock, catchErr } from '../../../../test-helper.js';
+import { domainBuilder, expect, nock, catchErr, sinon } from '../../../../test-helper.js';
 import dayjs from 'dayjs';
 import { isSameBinary } from '../../../../tooling/binary-comparator.js';
 import { getCertificationAttestationsPdfBuffer } from '../../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf.js';
 import { CertificationAttestationGenerationError } from '../../../../../lib/domain/errors.js';
 import fs from 'fs';
-import { addRandomSuffix } from 'pdf-lib/cjs/utils';
+import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
 import { writeFile } from 'fs/promises';
 import * as url from 'url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
@@ -26,10 +26,6 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       .get('/stickers/macaron_droit_expert.pdf')
       // eslint-disable-next-line no-sync
       .reply(200, () => fs.readFileSync(`${__dirname}/stickers/macaron_droit_expert.pdf`));
-  });
-
-  afterEach(function () {
-    _restorePdfLib();
   });
 
   it('should generate full attestation (non-regression test)', async function () {
@@ -272,9 +268,5 @@ function _makePdfLibPredictable() {
     return prefix + '-' + Math.floor(suffix);
   }
 
-  require('pdf-lib/cjs/utils').addRandomSuffix = autoIncrementSuffixByPrefix;
-}
-
-function _restorePdfLib() {
-  require('pdf-lib/cjs/utils').addRandomSuffix = addRandomSuffix;
+  sinon.stub(pdfLibUtils, 'addRandomSuffix').callsFake(autoIncrementSuffixByPrefix);
 }

@@ -1,6 +1,8 @@
 import { expect } from '../test-helper.js';
+import jsonapiSerializer from 'jsonapi-serializer';
 
-const Serializer = require('jsonapi-serializer').Serializer;
+const { Serializer } = jsonapiSerializer;
+
 const resourceType = 'users';
 
 describe('Docs | jsonapi-serializer', function () {

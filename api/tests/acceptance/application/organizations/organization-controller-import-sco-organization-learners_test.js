@@ -2,7 +2,8 @@ import _ from 'lodash';
 import iconv from 'iconv-lite';
 import { expect, knex, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
-require('events').EventEmitter.defaultMaxListeners = 60;
+import { EventEmitter } from 'events';
+EventEmitter.defaultMaxListeners = 60;
 
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { OrganizationLearnerImportHeader } from '../../../../lib/infrastructure/serializers/csv/organization-learner-import-header.js';

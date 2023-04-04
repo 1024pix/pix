@@ -171,4 +171,4 @@ function _isAnswerKoOrSkippedOrPartially(answerStatus) {
 
 CertificationAssessment.states = states;
 
-export { CertificationAssessment };
+export { CertificationAssessment, states };

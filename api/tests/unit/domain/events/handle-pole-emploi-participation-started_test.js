@@ -2,7 +2,8 @@ import { catchErr, expect, sinon, domainBuilder } from '../../../test-helper.js'
 import { CampaignParticipationStarted } from '../../../../lib/domain/events/CampaignParticipationStarted.js';
 import { PoleEmploiSending } from '../../../../lib/domain/models/PoleEmploiSending.js';
 import { PoleEmploiPayload } from '../../../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
-const { handlePoleEmploiParticipationStarted } = require('../../../../lib/domain/events.js')._forTestOnly.handlers;
+import { _forTestOnly } from '../../../../lib/domain/events/index.js';
+const { handlePoleEmploiParticipationStarted } = _forTestOnly.handlers;
 
 describe('Unit | Domain | Events | handle-pole-emploi-participation-started', function () {
   let event, dependencies, expectedResults;

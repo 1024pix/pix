@@ -1,24 +1,33 @@
 'use strict';
-const inquirer = require('inquirer');
-require('dotenv').config({ path: `${__dirname}/../../.env` });
-const { knex, disconnect } = require(`../../db/knex-database-connection`);
-const bluebird = require('bluebird');
-const maxBy = require('lodash/maxBy');
-const logger = require('../../lib/infrastructure/logger');
-const { getNewSessionCode } = require('../../lib/domain/services/session-code-service');
-const { temporaryStorage } = require('../../lib/infrastructure/temporary-storage/index');
-const {
+import * as url from 'url';
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+// eslint-disable-next-line node/no-unpublished-import
+import inquirer from 'inquirer';
+import * as dotenv from 'dotenv';
+
+dotenv.config({ path: `${__dirname}/../../.env` });
+import { knex, disconnect } from '../../db/knex-database-connection.js';
+import bluebird from 'bluebird';
+import lodash from 'lodash';
+const { maxBy } = lodash;
+import { logger } from '../../lib/infrastructure/logger.js';
+import { getNewSessionCode } from '../../lib/domain/services/session-code-service.js';
+import { temporaryStorage } from '../../lib/infrastructure/temporary-storage/index.js';
+import {
   makeUserPixCertifiable,
   makeUserPixDroitCertifiable,
   makeUserCleaCertifiable,
   makeUserPixEduCertifiable,
-} = require('../../db/seeds/data/certification/tooling');
-const DatabaseBuilder = require('../../db/database-builder/database-builder');
-const databaseBuffer = require('../../db/database-builder/database-buffer');
-const databaseBuilder = new DatabaseBuilder({ knex, emptyFirst: false });
-const { learningContentCache } = require('../../lib/infrastructure/caches/learning-content-cache');
-const { SHARED } = require('../../lib/domain/models/CampaignParticipationStatuses');
+} from '../../db/seeds/data/certification/tooling.js';
+import { DatabaseBuilder } from '../../db/database-builder/database-builder.js';
+import { databaseBuffer } from '../../db/database-builder/database-buffer.js';
+import { learningContentCache } from '../../lib/infrastructure/caches/learning-content-cache.js';
+import { CampaignParticipationStatuses } from '../../lib/domain/models/CampaignParticipationStatuses.js';
 
+const { SHARED } = CampaignParticipationStatuses;
+
+const databaseBuilder = new DatabaseBuilder({ knex, emptyFirst: false });
 /**
  * LOG_LEVEL=info ./scripts/data-generation/generate-certif-cli.js 'SUP' 1 '[{"candidateNumber": 1, "key": "EDU_1ER_DEGRE"}, {"candidateNumber": 1, "key": "EDU_2ND_DEGRE"}]'
  * LOG_LEVEL=info ./scripts/data-generation/generate-certif-cli.js 'PRO' 2 '[{"candidateNumber": 1, "key": "CLEA"}, {"candidateNumber": 2, "key": "DROIT"}]'
