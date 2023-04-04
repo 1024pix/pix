@@ -49,6 +49,7 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
     authenticationMethodRepository,
   }) {
     let createdUserId;
+
     await DomainTransaction.execute(async (domainTransaction) => {
       createdUserId = (await userToCreateRepository.create({ user, domainTransaction })).id;
 
@@ -61,10 +62,7 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
       await authenticationMethodRepository.create({ authenticationMethod, domainTransaction });
     });
 
-    return {
-      userId: createdUserId,
-      idToken: sessionContent.idToken,
-    };
+    return createdUserId;
   }
 
   async getRedirectLogoutUrl({ userId, logoutUrlUUID }) {

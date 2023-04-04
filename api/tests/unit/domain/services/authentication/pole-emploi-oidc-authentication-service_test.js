@@ -76,7 +76,7 @@ describe('Unit | Domain | Services | pole-emploi-oidc-authentication-service', f
         authenticationMethod: expectedAuthenticationMethod,
         domainTransaction,
       });
-      expect(result).to.be.deep.equal({ idToken: sessionContent.idToken, userId });
+      expect(result).to.equal(userId);
     });
   });
 
