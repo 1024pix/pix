@@ -1,5 +1,6 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-const { handleCertificationRescoring } = require('../../../../lib/domain/events.js')._forTestOnly.handlers;
+import { _forTestOnly } from '../../../../lib/domain/events/index.js';
+const { handleCertificationRescoring } = _forTestOnly.handlers;
 import { ChallengeNeutralized } from '../../../../lib/domain/events/ChallengeNeutralized.js';
 import { ChallengeDeneutralized } from '../../../../lib/domain/events/ChallengeDeneutralized.js';
 import { CertificationJuryDone } from '../../../../lib/domain/events/CertificationJuryDone.js';

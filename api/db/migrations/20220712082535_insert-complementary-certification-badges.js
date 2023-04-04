@@ -3,6 +3,8 @@ import lodash from 'lodash';
 
 const { noop } = lodash;
 
+import { badges } from '../constants.js';
+
 const {
   PIX_EMPLOI_CLEA_V1,
   PIX_EMPLOI_CLEA_V2,
@@ -23,7 +25,7 @@ const {
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-} = require('../constants.js').badges.keys;
+} = badges.keys;
 
 const DROIT = 'Pix+ Droit';
 const CLEA = 'CléA Numérique';
