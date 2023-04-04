@@ -1,6 +1,7 @@
 const { expect, catchErr } = require('../../../../test-helper');
 const authenticationRegistry = require('../../../../../lib/domain/services/authentication/authentication-service-registry');
 const PoleEmploiOidcAuthenticationService = require('../../../../../lib/domain/services/authentication/pole-emploi-oidc-authentication-service');
+const FwbOidcAuthenticationService = require('../../../../../lib/domain/services/authentication/fwb-oidc-authentication-service');
 const { InvalidIdentityProviderError } = require('../../../../../lib/domain/errors');
 
 describe('Unit | Domain | Services | authentication registry', function () {
@@ -14,6 +15,18 @@ describe('Unit | Domain | Services | authentication registry', function () {
 
       // then
       expect(service).to.be.an.instanceOf(PoleEmploiOidcAuthenticationService);
+    });
+
+    it('finds the identity provider service with hasLogoutUrl', async function () {
+      // given
+      const identityProvider = 'FWB';
+
+      // when
+      const service = await authenticationRegistry.lookupAuthenticationService(identityProvider);
+
+      // then
+      expect(service).to.be.an.instanceOf(FwbOidcAuthenticationService);
+      expect(service.hasLogoutUrl).to.be.true;
     });
 
     it('should throw an error when identity provider is not supported', async function () {
