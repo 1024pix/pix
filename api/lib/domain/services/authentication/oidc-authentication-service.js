@@ -198,6 +198,7 @@ class OidcAuthenticationService {
 
   async createUserAccount({ user, externalIdentityId, userToCreateRepository, authenticationMethodRepository }) {
     let createdUserId;
+
     await DomainTransaction.execute(async (domainTransaction) => {
       createdUserId = (await userToCreateRepository.create({ user, domainTransaction })).id;
 
@@ -208,7 +209,8 @@ class OidcAuthenticationService {
       });
       await authenticationMethodRepository.create({ authenticationMethod, domainTransaction });
     });
-    return { userId: createdUserId };
+
+    return createdUserId;
   }
 }
 
