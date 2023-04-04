@@ -26,6 +26,19 @@ class FwbOidcAuthenticationService extends OidcAuthenticationService {
     this.temporaryStorage = settings.fwb.temporaryStorage;
   }
 
+  async getRedirectLogoutUrl({ userId, logoutUrlUUID }) {
+    const redirectTarget = new URL(this.logoutUrl);
+    const key = `${userId}:${logoutUrlUUID}`;
+    const idToken = await logoutUrlTemporaryStorage.get(key);
+    const params = [{ key: 'id_token_hint', value: idToken }];
+
+    params.forEach(({ key, value }) => redirectTarget.searchParams.append(key, value));
+
+    await logoutUrlTemporaryStorage.delete(key);
+
+    return redirectTarget.toString();
+  }
+
   async saveIdToken({ idToken, userId }) {
     const uuid = uuidv4();
     const { idTokenLifespanMs } = this.temporaryStorage;
