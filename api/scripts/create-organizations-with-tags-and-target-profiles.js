@@ -3,6 +3,7 @@
 
 'use strict';
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 import { checkCsvHeader, parseCsvWithHeader } from './helpers/csvHelpers.js';
@@ -113,7 +114,10 @@ async function createOrganizationWithTagsAndTargetProfiles(filePath) {
   });
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+import * as url from 'url';
+
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   console.log('Starting creating PRO organizations with tags and target profiles.');

@@ -544,7 +544,8 @@ async function generateCampaignWithParticipants({
   );
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   const commandLineArgs = process.argv.slice(2);

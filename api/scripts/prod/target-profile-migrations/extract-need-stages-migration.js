@@ -1,24 +1,21 @@
-require('dotenv').config({
+import * as url from 'url';
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+import * as dotenv from 'dotenv';
+
+dotenv.config({
   path: `${__dirname}/../../../.env`,
 });
 import path from 'path';
+import { writeFile } from 'fs/promises';
 
-const {
-  writeFile
-} = fs/promises;
+const { performance } = perf_hooks;
 
-const {
-  performance
-} = perf_hooks;
-
-const {
-  resolve
-} = path;
+const { resolve } = path;
 
 import perf_hooks from 'perf_hooks';
 import XLSX from 'xlsx';
 import { logger } from '../../../lib/infrastructure/logger.js';
-import fs/promises from 'fs/promises';
 
 async function doJob(multiFormFiles) {
   const targetProfiles = Object.entries(
@@ -77,8 +74,10 @@ function containsOnlyLevelStages(stageRows) {
   );
   return levelStageRows.length === stageRows.length;
 }
+const modulePath = url.fileURLToPath(import.meta.url);
+const __filename = modulePath;
 
-const isLaunchedFromCommandLine = require.main === module;
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   const startTime = performance.now();

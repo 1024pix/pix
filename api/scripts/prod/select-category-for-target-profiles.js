@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+
 dotenv.config();
 import bluebird from 'bluebird';
 import groupBy from 'lodash/groupBy';
@@ -10,6 +11,7 @@ import negate from 'lodash/negate';
 import { readCsvFile, parseCsvData } from '../helpers/csvHelpers.js';
 import { categories } from '../../lib/domain/models/TargetProfile.js';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
+import * as url from 'url';
 
 const TARGET_PROFILE_ID_COLUMN = 'targetProfileId';
 const CATEGORY_COLUMN = 'category';
@@ -57,7 +59,8 @@ function _isSupportedCategory(category) {
   return supportedCategories.includes(category);
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   console.log('Starting script select-category-for-target-profiles');

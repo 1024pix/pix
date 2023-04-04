@@ -5,6 +5,7 @@ import * as authenticationMethodRepository from '../lib/infrastructure/repositor
 import * as userService from '../lib/domain/services/user-service.js';
 import * as encryptionService from '../lib/domain/services/encryption-service.js';
 import { disconnect } from '../db/knex-database-connection.js';
+import * as url from 'url';
 
 function prepareDataForInsert(rawUsers) {
   return rawUsers.map(({ firstName, lastName, email, password }) => {
@@ -40,7 +41,8 @@ async function createUsers({ usersInRaw }) {
   });
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   console.log('Starting creating users accounts for contest.');

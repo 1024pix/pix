@@ -1,5 +1,6 @@
 'use strict';
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 import fs from 'fs';
@@ -13,6 +14,7 @@ import { certificationAttestationPdf } from '../../lib/infrastructure/utils/pdf/
 import { NotFoundError } from '../../lib/domain/errors.js';
 import { cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
 import { disconnect } from '../../db/knex-database-connection.js';
+import * as url from 'url';
 
 /**
  * Avant de lancer le script, remplacer la variable DATABASE_URL par l'url de la base de réplication
@@ -70,8 +72,10 @@ async function main() {
   logger.info('Fin du script.');
 }
 
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 (async () => {
-  if (require.main === module) {
+  if (isLaunchedFromCommandLine) {
     try {
       await main();
     } catch (error) {

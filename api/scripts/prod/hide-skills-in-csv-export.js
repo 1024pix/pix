@@ -1,10 +1,12 @@
 import { knex, disconnect } from '../../db/knex-database-connection.js';
+import * as url from 'url';
 
 async function hideSkills() {
   await knex('organizations').where('showSkills', true).update({ showSkills: false });
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   await hideSkills();
