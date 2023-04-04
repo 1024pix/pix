@@ -1,3 +1,3 @@
-import * as factory from './factory/index.js';
+import * as domainBuilder from './factory/index.js';
 
-module.exports = factory;
+export { domainBuilder };
