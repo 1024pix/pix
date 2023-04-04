@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+
 dotenv.config();
 import { logger } from '../../lib/infrastructure/logger.js';
 
@@ -11,7 +12,6 @@ import { logger } from '../../lib/infrastructure/logger.js';
  * File downloaded from https://www.data.gouv.fr/fr/datasets/base-officielle-des-codes-postaux/ (Export au format CSV)
  **/
 
-('use strict');
 import { parseCsv, checkCsvHeader } from '../helpers/csvHelpers.js';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import uniqBy from 'lodash/uniqBy';
