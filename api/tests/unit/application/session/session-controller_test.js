@@ -6,9 +6,9 @@ import { UserLinkedToCertificationCandidate } from '../../../../lib/domain/event
 import { SessionPublicationBatchResult } from '../../../../lib/domain/models/SessionPublicationBatchResult.js';
 import { logger } from '../../../../lib/infrastructure/logger.js';
 import { SessionPublicationBatchError } from '../../../../lib/application/http-errors.js';
-import { certificationResultUtils } from '../../../../lib/infrastructure/utils/csv/certification-results.js';
-import { queryParamsUtils } from '../../../../lib/infrastructure/utils/query-params-utils.js';
-import { events } from '../../../../lib/domain/events.js';
+import * as certificationResultUtils  from '../../../../lib/infrastructure/utils/csv/certification-results.js';
+import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
+import * as events from '../../../../lib/domain/events/index.js';
 
 describe('Unit | Controller | sessionController', function () {
   let request;

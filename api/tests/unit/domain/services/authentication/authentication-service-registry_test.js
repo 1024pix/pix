@@ -1,5 +1,5 @@
 import { expect, catchErr } from '../../../../test-helper.js';
-import { authenticationRegistry } from '../../../../../lib/domain/services/authentication/authentication-service-registry.js';
+import * as authenticationRegistry from '../../../../../lib/domain/services/authentication/authentication-service-registry.js';
 import * as PoleEmploiOidcAuthenticationService from '../../../../../lib/domain/services/authentication/pole-emploi-oidc-authentication-service.js';
 import * as FwbOidcAuthenticationService from '../../../../../lib/domain/services/authentication/fwb-oidc-authentication-service.js';
 import { InvalidIdentityProviderError } from '../../../../../lib/domain/errors.js';

@@ -1,4 +1,4 @@
-import { ErreurDoc } from '../../../../../lib/infrastructure/open-api-doc/pole-emploi/erreur-doc.js';
+import { erreurDoc as ErreurDoc } from '../../../../../lib/infrastructure/open-api-doc/pole-emploi/erreur-doc.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | Open API Doc | Pole Emploi | Erreur Documentation', function () {

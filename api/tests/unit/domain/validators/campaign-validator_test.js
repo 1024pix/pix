@@ -1,5 +1,5 @@
 import { expect } from '../../../test-helper.js';
-import { campaignValidator } from '../../../../lib/domain/validators/campaign-validator.js';
+import * as campaignValidator from '../../../../lib/domain/validators/campaign-validator.js';
 import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
 
 const MISSING_VALUE = null;

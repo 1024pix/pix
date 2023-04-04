@@ -1,5 +1,5 @@
 import { expect, databaseBuilder } from '../../../test-helper.js';
-import { checkUserIsAdminAndManagingStudentsForOrganization } from '../../../../lib/application/usecases/checkUserIsAdminAndManagingStudentsForOrganization.js';
+import * as checkUserIsAdminAndManagingStudentsForOrganization from '../../../../lib/application/usecases/checkUserIsAdminAndManagingStudentsForOrganization.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 
 describe('Integration | API | checkUserIsAdminAndManagingStudentsForOrganization', function () {

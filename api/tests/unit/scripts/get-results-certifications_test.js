@@ -2,7 +2,7 @@ import chai from 'chai';
 
 const { expect } = chai;
 
-import { getResultsCertifications } from '../../../scripts/certification/get-results-certifications.js';
+import * as getResultsCertifications from '../../../scripts/certification/get-results-certifications.js';
 
 describe('Unit | Scripts | get-results-certifications.js', function () {
   const HEADERS = [

@@ -71,4 +71,4 @@ class OrganizationInvitation {
 
 OrganizationInvitation.StatusType = statuses;
 
-export { OrganizationInvitation };
+export { OrganizationInvitation, statuses };

@@ -6,8 +6,8 @@ import {
   generateValidRequestAuthorizationHeader,
 } from '../../../test-helper.js';
 
-import { organizationAdministrationController } from '../../../../lib/application/organizations-administration/organization-administration-controller.js';
-import { moduleUnderTest } from '../../../../lib/application/organizations-administration.js';
+import * as organizationAdministrationController from '../../../../lib/application/organizations-administration/organization-administration-controller.js';
+import * as moduleUnderTest from '../../../../lib/application/organizations-administration/index.js';
 import { logo3Mb } from './_files/logo-3mb.js';
 
 describe('Integration | Application | Organization Administration | Routes', function () {

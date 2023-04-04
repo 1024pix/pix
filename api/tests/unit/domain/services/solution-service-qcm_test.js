@@ -1,5 +1,5 @@
 import { expect } from '../../../test-helper.js';
-import { service } from '../../../../lib/domain/services/solution-service-qcm.js';
+import * as service from '../../../../lib/domain/services/solution-service-qcm.js';
 import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
 
 describe('Unit | Service | SolutionServiceQCM ', function () {

@@ -7,7 +7,7 @@ import {
 } from '../../test-helper.js';
 
 import { securityPreHandlers } from '../../../lib/application/security-pre-handlers.js';
-import { settings } from '../../../lib/config.js';
+import { config as settings } from '../../../lib/config.js';
 import { PIX_ADMIN } from '../../../lib/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;

@@ -1,6 +1,7 @@
 import { expect, sinon, nock } from '../../test-helper.js';
-import { script } from '../../../scripts/update-sco-organizations-with-province-code-and-external-id.js';
+import * as script from '../../../scripts/update-sco-organizations-with-province-code-and-external-id.js';
 import * as url from 'url';
+
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and-external-id.js', function () {

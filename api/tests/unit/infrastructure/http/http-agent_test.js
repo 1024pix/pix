@@ -1,7 +1,9 @@
 import { expect, sinon } from '../../../test-helper.js';
 import axios from 'axios';
-import { post, get } from '../../../../lib/infrastructure/http/http-agent.js';
+import { httpAgent } from '../../../../lib/infrastructure/http/http-agent.js';
 import { monitoringTools } from '../../../../lib/infrastructure/monitoring-tools.js';
+
+const { post, get } = httpAgent;
 
 describe('Unit | Infrastructure | http | http-agent', function () {
   describe('#post', function () {
