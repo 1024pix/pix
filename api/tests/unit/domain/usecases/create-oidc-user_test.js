@@ -95,7 +95,7 @@ describe('Unit | UseCase | create-oidc-user', function () {
     authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider
       .withArgs({ externalIdentifier: 'externalId', identityProvider: 'SOME_IDP' })
       .resolves(null);
-    oidcAuthenticationService.createUserAccount.resolves({ userId: 10, idToken });
+    oidcAuthenticationService.createUserAccount.resolves(10);
     oidcAuthenticationService.createAccessToken.withArgs(10).returns('accessTokenForExistingExternalUser');
     oidcAuthenticationService.saveIdToken.withArgs({ idToken, userId: 10 }).resolves('logoutUrlUUID');
 

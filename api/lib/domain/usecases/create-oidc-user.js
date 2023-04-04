@@ -35,7 +35,7 @@ module.exports = async function createOidcUser({
     locale: localeFromCookie,
   });
 
-  const { userId, idToken } = await oidcAuthenticationService.createUserAccount({
+  const userId = await oidcAuthenticationService.createUserAccount({
     user,
     sessionContent,
     externalIdentityId: userInfo.externalIdentityId,
@@ -44,7 +44,7 @@ module.exports = async function createOidcUser({
   });
 
   const accessToken = oidcAuthenticationService.createAccessToken(userId);
-  const logoutUrlUUID = await oidcAuthenticationService.saveIdToken({ idToken, userId });
+  const logoutUrlUUID = await oidcAuthenticationService.saveIdToken({ idToken: sessionContent.idToken, userId });
   await userRepository.updateLastLoggedAt({ userId });
 
   return { accessToken, logoutUrlUUID };
