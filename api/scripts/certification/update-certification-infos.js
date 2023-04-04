@@ -12,7 +12,6 @@ import { logger } from '../../lib/infrastructure/logger.js';
 // sessionsId.csv
 // 1,12,30
 
-('use strict');
 import { parseCsv, checkCsvHeader } from '../helpers/csvHelpers.js';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import values from 'lodash/values';

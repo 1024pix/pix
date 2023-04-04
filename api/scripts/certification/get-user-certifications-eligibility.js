@@ -6,7 +6,6 @@ import * as placementProfileService from '../../lib/domain/services/placement-pr
 import * as certificationBadgesService from '../../lib/domain/services/certification-badges-service.js';
 // Usage: node scripts/get-certifications-eligibility 1234
 
-('use strict');
 import { disconnect } from '../../db/knex-database-connection.js';
 import { temporaryStorage } from '../../lib/infrastructure/temporary-storage/index.js';
 
