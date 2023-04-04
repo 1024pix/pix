@@ -35,6 +35,7 @@ module.exports = async function validateSessions({
     const sessionsErrors = await sessionsImportValidationService.validateSession({
       session,
       line: sessionDTO.line,
+      certificationCenterId,
       sessionRepository,
       certificationCourseRepository,
     });

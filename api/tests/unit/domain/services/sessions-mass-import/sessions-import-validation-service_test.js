@@ -18,7 +18,10 @@ describe('Unit | Service | sessions import validation Service', function () {
         now: new Date('2023-01-01'),
         toFake: ['Date'],
       });
-      sessionRepository = { isSessionExisting: sinon.stub() };
+      sessionRepository = {
+        isSessionExisting: sinon.stub(),
+        isSessionExistingBySessionAndCertificationCenterIds: sinon.stub(),
+      };
       certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
     });
 
@@ -80,6 +83,7 @@ describe('Unit | Service | sessions import validation Service', function () {
               const sessionId = 1;
               const session = _buildValidSessionWithId(sessionId);
               certificationCourseRepository.findCertificationCoursesBySessionId.resolves([]);
+              sessionRepository.isSessionExistingBySessionAndCertificationCenterIds.resolves(true);
 
               // when
               const sessionErrors = await sessionsImportValidationService.validateSession({
@@ -103,6 +107,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         certificationCourseRepository.findCertificationCoursesBySessionId
           .withArgs({ sessionId: 1234 })
           .resolves([domainBuilder.buildCertificationCourse({ sessionId: 1234 })]);
+        sessionRepository.isSessionExistingBySessionAndCertificationCenterIds.resolves(true);
 
         // when
         const sessionErrors = await sessionsImportValidationService.validateSession({
@@ -150,17 +155,62 @@ describe('Unit | Service | sessions import validation Service', function () {
       });
     });
 
-    context('conflicting session information validation', function () {
-      context('when there is a sessionId and session information', function () {
-        it('should return a sessionErrors array that contains an already given ID error', async function () {
+    context('when a session id is given', function () {
+      context('when the session exist for the certification center', function () {
+        context('conflicting session information validation', function () {
+          context('when there is a sessionId and session information', function () {
+            it('should return a sessionErrors array that contains an already given ID error', async function () {
+              // given
+              const session = _buildValidSessionWithoutId();
+              session.id = 1234;
+              certificationCourseRepository.findCertificationCoursesBySessionId
+                .withArgs({ sessionId: 1234 })
+                .resolves([]);
+              sessionRepository.isSessionExistingBySessionAndCertificationCenterIds.resolves(true);
+
+              // when
+              const sessionErrors = await sessionsImportValidationService.validateSession({
+                session,
+                line: 1,
+                sessionRepository,
+                certificationCourseRepository,
+              });
+
+              // then
+              expect(sessionErrors).to.deep.equal([
+                {
+                  line: 1,
+                  code: 'INFORMATION_NOT_ALLOWED_WITH_SESSION_ID',
+                  blocking: true,
+                },
+              ]);
+            });
+          });
+        });
+      });
+      context('when the session does not exist for the certification center', function () {
+        it('should return a sessionErrors array that contains a non-existent session id error', async function () {
           // given
-          const session = _buildValidSessionWithoutId();
-          session.id = 1234;
-          certificationCourseRepository.findCertificationCoursesBySessionId.withArgs({ sessionId: 1234 }).resolves([]);
+          const certificationCenter = domainBuilder.buildCertificationCenter();
+          const session = domainBuilder.buildSession({
+            id: 1234,
+            address: null,
+            room: null,
+            date: null,
+            time: null,
+            examiner: null,
+            description: null,
+            certificationCenterId: certificationCenter.id,
+            certificationCandidates: [_buildValidCandidateData()],
+          });
+          sessionRepository.isSessionExistingBySessionAndCertificationCenterIds
+            .withArgs({ sessionId: 5678, certificationCenterId: certificationCenter.id, sessionRepository })
+            .resolves(false);
 
           // when
           const sessionErrors = await sessionsImportValidationService.validateSession({
             session,
+            certificationCenterId: certificationCenter.id,
             line: 1,
             sessionRepository,
             certificationCourseRepository,
@@ -170,31 +220,31 @@ describe('Unit | Service | sessions import validation Service', function () {
           expect(sessionErrors).to.deep.equal([
             {
               line: 1,
-              code: 'INFORMATION_NOT_ALLOWED_WITH_SESSION_ID',
+              code: 'SESSION_ID_NOT_EXISTING',
               blocking: true,
             },
           ]);
         });
       });
+    });
 
-      context('when there is session information but no sessionId', function () {
-        it('should return an empty sessionErrors array', async function () {
-          const session = domainBuilder.buildSession({
-            ..._createValidSessionData(),
-            id: null,
-          });
-
-          // when
-          const sessionErrors = await sessionsImportValidationService.validateSession({
-            session,
-            line: 1,
-            sessionRepository,
-            certificationCourseRepository,
-          });
-
-          // then
-          expect(sessionErrors).to.be.empty;
+    context('when there is session information but no sessionId', function () {
+      it('should return an empty sessionErrors array', async function () {
+        const session = domainBuilder.buildSession({
+          ..._createValidSessionData(),
+          id: null,
         });
+
+        // when
+        const sessionErrors = await sessionsImportValidationService.validateSession({
+          session,
+          line: 1,
+          sessionRepository,
+          certificationCourseRepository,
+        });
+
+        // then
+        expect(sessionErrors).to.be.empty;
       });
     });
 
