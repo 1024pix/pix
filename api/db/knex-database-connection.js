@@ -32,7 +32,7 @@ Links :
  */
 types.setTypeParser(types.builtins.INT8, (value) => parseInt(value));
 
-import { environments as knexConfigs } from './knexfile.js';
+import * as knexConfigs from './knexfile.js';
 
 try {
   Knex.QueryBuilder.extend('whereInArray', function (column, values) {
@@ -46,7 +46,7 @@ try {
 /* -------------------- */
 
 const { logging, environment } = config;
-const knexConfig = knexConfigs[environment];
+const knexConfig = knexConfigs.default[environment];
 const configuredKnex = Knex(knexConfig);
 
 // const originalToSQL = QueryBuilder.prototype.toSQL;
