@@ -901,4 +901,47 @@ describe('Integration | Repository | Session', function () {
       expect(result).to.equal(false);
     });
   });
+
+  describe('#isSessionExistingBySessionAndCertificationCenterIds', function () {
+    context('when session exists', function () {
+      it('should return true', async function () {
+        // given
+        const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+        const session = databaseBuilder.factory.buildSession({
+          certificationCenterId: certificationCenter.id,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const result = await sessionRepository.isSessionExistingBySessionAndCertificationCenterIds({
+          sessionId: session.id,
+          certificationCenterId: certificationCenter.id,
+        });
+
+        // then
+        expect(result).to.be.true;
+      });
+    });
+
+    context('when session does not exist', function () {
+      it('should return false', async function () {
+        // given
+        const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+        databaseBuilder.factory.buildSession({
+          id: 567,
+          certificationCenterId: certificationCenter.id,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const result = await sessionRepository.isSessionExistingBySessionAndCertificationCenterIds({
+          sessionId: 678,
+          certificationCenterId: certificationCenter.id,
+        });
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
+  });
 });
