@@ -3,7 +3,7 @@ import { DatabaseBuilder } from '../database-builder/database-builder.js';
 import { featuresBuilder } from './data/feature/feature-builder.js';
 import { answersBuilder } from './data/answers-builder.js';
 import { assessmentsBuilder } from './data/assessments-builder.js';
-import { buildPixAileProfile } from './data/pix-aile-profile-builder.js';
+import { buildPixAileProfilev2 as buildPixAileProfile } from './data/pix-aile-profile-builder.js';
 import { campaignsProBuilder } from './data/campaigns-pro-builder.js';
 import { campaignsSupBuilder } from './data/campaigns-sup-builder.js';
 import { campaignsScoBuilder } from './data/campaigns-sco-builder.js';
@@ -36,7 +36,7 @@ import {
   getEligibleCampaignParticipations,
   generateKnowledgeElementSnapshots,
 } from '../../scripts/prod/generate-knowledge-element-snapshots-for-campaigns.js';
-import { computeParticipationsResults } from '../../scripts/prod/compute-participation-results.js';
+import { computeParticipantResultsShared as computeParticipationsResults } from '../../scripts/prod/compute-participation-results.js';
 import { poleEmploiSendingsBuilder } from './data/pole-emploi-sendings-builder.js';
 import { trainingBuilder } from './data/trainings-builder.js';
 import { richTargetProfilesBuilder } from './data/learning-content/target-profiles-builder.js';

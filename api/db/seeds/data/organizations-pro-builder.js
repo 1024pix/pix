@@ -5,7 +5,7 @@ import { PIX_ADMIN } from '../../../lib/domain/constants.js';
 const { ROLES } = PIX_ADMIN;
 
 import { DEFAULT_PASSWORD, PIX_ALL_ORGA_ID } from './users-builder.js';
-import { OidcIdentityProviders } from '../../../lib/domain/constants/oidc-identity-providers.js';
+import * as OidcIdentityProviders from '../../../lib/domain/constants/oidc-identity-providers.js';
 import { logoUrl } from '../src/dragonAndCoBase64.js';
 const PRO_COMPANY_ID = 1;
 const PRO_POLE_EMPLOI_ID = 4;

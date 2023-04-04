@@ -7,7 +7,7 @@ import { ScoOrganizationParticipant } from '../../../../lib/domain/read-models/S
 import { SupOrganizationParticipant } from '../../../../lib/domain/read-models/SupOrganizationParticipant.js';
 import { organizationController } from '../../../../lib/application/organizations/organization-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { queryParamsUtils } from '../../../../lib/infrastructure/utils/query-params-utils.js';
+import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 describe('Unit | Application | Organizations | organization-controller', function () {

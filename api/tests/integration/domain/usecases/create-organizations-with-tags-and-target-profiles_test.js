@@ -3,14 +3,14 @@ import lodash from 'lodash';
 
 const { omit } = lodash;
 
-import { domainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { DomainTransaction as domainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import * as organizationInvitationRepository from '../../../../lib/infrastructure/repositories/organization-invitation-repository.js';
 import * as organizationRepository from '../../../../lib/infrastructure/repositories/organization-repository.js';
 import * as organizationTagRepository from '../../../../lib/infrastructure/repositories/organization-tag-repository.js';
 import * as targetProfileShareRepository from '../../../../lib/infrastructure/repositories/target-profile-share-repository.js';
 import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository.js';
 import * as tagRepository from '../../../../lib/infrastructure/repositories/tag-repository.js';
-import { organizationValidator } from '../../../../lib/domain/validators/organization-with-tags-and-target-profiles-script.js';
+import * as organizationValidator from '../../../../lib/domain/validators/organization-with-tags-and-target-profiles-script.js';
 import * as organizationInvitationService from '../../../../lib/domain/services/organization-invitation-service.js';
 
 import {

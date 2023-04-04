@@ -1,5 +1,5 @@
 import { expect } from '../../../test-helper.js';
-import { categories } from '../../../../lib/domain/constants/organization-places-categories.js';
+import * as categories from '../../../../lib/domain/constants/organization-places-categories.js';
 import { OrganizationPlacesLot } from '../../../../lib/domain/models/OrganizationPlacesLot.js';
 import { EntityValidationError } from '../../../../lib/domain/errors.js';
 

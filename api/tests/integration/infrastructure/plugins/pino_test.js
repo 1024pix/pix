@@ -2,7 +2,7 @@ import split from 'split2';
 import writeStream from 'flush-write-stream';
 import { config } from '../../../../lib/config.js';
 import { expect, HttpTestServer, generateValidRequestAuthorizationHeader, sinon } from '../../../test-helper.js';
-import { pinoPlugin } from '../../../../lib/infrastructure/plugins/pino.js';
+import * as pinoPlugin from '../../../../lib/infrastructure/plugins/pino.js';
 import { monitoringTools } from '../../../../lib/infrastructure/monitoring-tools.js';
 
 function sink(func) {

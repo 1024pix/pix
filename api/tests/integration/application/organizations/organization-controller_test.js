@@ -4,7 +4,7 @@ import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
 import { ScoOrganizationParticipant } from '../../../../lib/domain/read-models/ScoOrganizationParticipant.js';
 import { SupOrganizationParticipant } from '../../../../lib/domain/read-models/SupOrganizationParticipant.js';
-import { certificationAttestationPdf } from '../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf.js';
+import * as certificationAttestationPdf from '../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf.js';
 import * as moduleUnderTest from '../../../../lib/application/organizations/index.js';
 import { NoCertificationAttestationForDivisionError } from '../../../../lib/domain/errors.js';
 

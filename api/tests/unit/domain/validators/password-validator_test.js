@@ -1,6 +1,6 @@
 import { expect, catchErr } from '../../../test-helper.js';
 import { EntityValidationError } from '../../../../lib/domain/errors.js';
-import { passwordValidator } from '../../../../lib/domain/validators/password-validator.js';
+import * as passwordValidator from '../../../../lib/domain/validators/password-validator.js';
 
 function _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError) {
   expect(entityValidationErrors).to.be.instanceOf(EntityValidationError);

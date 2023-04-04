@@ -1,4 +1,4 @@
-import { buildSkillCollection } from './build-skill-collection.js';
+import { BuildSkillCollection as buildSkillCollection } from './build-skill-collection.js';
 import { buildKnowledgeElement } from './build-knowledge-element.js';
 import { Progression } from '../../../../lib/domain/models/Progression.js';
 

@@ -6,7 +6,7 @@ import perf_hooks from 'perf_hooks';
 const { performance } = perf_hooks;
 
 import { logger } from '../../lib/infrastructure/logger.js';
-import { cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
+import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import yargs from 'yargs';
 import bluebird from 'bluebird';

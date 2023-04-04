@@ -1,5 +1,5 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
-import { skillsFilter } from '../../../../../lib/domain/services/algorithm-methods/skills-filter.js';
+import * as skillsFilter from '../../../../../lib/domain/services/algorithm-methods/skills-filter.js';
 import { Tube } from '../../../../../lib/domain/models/Tube.js';
 
 const KNOWLEDGE_ELEMENT_STATUS = {

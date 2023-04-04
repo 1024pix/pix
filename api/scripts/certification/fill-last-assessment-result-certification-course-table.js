@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 import { logger } from '../../lib/infrastructure/logger.js';
-import { cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
+import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import bluebird from 'bluebird';
 import * as url from 'url';

@@ -1,7 +1,7 @@
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import { parseCsvWithHeader } from '../helpers/csvHelpers.js';
 import { OrganizationPlacesLot } from '../../lib/domain/models/OrganizationPlacesLot.js';
-import { categories } from '../../lib/domain/constants/organization-places-categories.js';
+import * as categories from '../../lib/domain/constants/organization-places-categories.js';
 import * as url from 'url';
 
 const categoriesByCode = {

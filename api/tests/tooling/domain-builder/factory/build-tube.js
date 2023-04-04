@@ -1,5 +1,5 @@
 import { Tube } from '../../../../lib/domain/models/Tube.js';
-import { buildSkillCollection } from './build-skill-collection.js';
+import { BuildSkillCollection as buildSkillCollection } from './build-skill-collection.js';
 
 const buildTube = function ({
   id = 'recTube123',

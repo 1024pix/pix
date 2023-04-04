@@ -1,5 +1,6 @@
 import { expect } from '../../../test-helper.js';
-import { userId, competenceId } from '../../../../lib/domain/types/identifiers-type.js';
+import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
+const { userId, competenceId } = identifiersType;
 
 describe('Unit | Domain | Type | identifier-types', function () {
   describe('#userId', function () {
