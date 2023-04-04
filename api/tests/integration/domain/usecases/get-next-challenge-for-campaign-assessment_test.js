@@ -1,8 +1,9 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { getNextChallengeForCampaignAssessment } from '../../../../lib/domain/usecases/get-next-challenge-for-campaign-assessment.js';
-import { flash } from '../../../../lib/domain/services/algorithm-methods/flash.js';
-import { smartRandom } from '../../../../lib/domain/services/algorithm-methods/smart-random.js';
-import { dataFetcher } from '../../../../lib/domain/services/algorithm-methods/data-fetcher.js';
+import * as flash from '../../../../lib/domain/services/algorithm-methods/flash.js';
+import * as smartRandom from '../../../../lib/domain/services/algorithm-methods/smart-random.js';
+import * as dataFetcher from '../../../../lib/domain/services/algorithm-methods/data-fetcher.js';
+
 import { LOCALE } from '../../../../lib/domain/constants.js';
 
 const { FRENCH_SPOKEN } = LOCALE;

@@ -1,5 +1,5 @@
 import { expect, sinon, hFake } from '../../../test-helper.js';
-import { AssessmentAuthorization } from '../../../../lib/application/preHandlers/assessment-authorization.js';
+import { assessmentAuthorization as AssessmentAuthorization } from '../../../../lib/application/preHandlers/assessment-authorization.js';
 
 describe('Unit | Pre-handler | Assessment Authorization', function () {
   describe('#verify', function () {

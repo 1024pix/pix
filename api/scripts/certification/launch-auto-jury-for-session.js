@@ -9,7 +9,7 @@ import * as challengeRepository from '../../lib/infrastructure/repositories/chal
 import * as certificationIssueReportRepository from '../../lib/infrastructure/repositories/certification-issue-report-repository.js';
 import * as certificationCourseRepository from '../../lib/infrastructure/repositories/certification-course-repository.js';
 import { handleAutoJury } from '../../lib/domain/events/handle-auto-jury.js';
-import { events } from '../../lib/domain/events/index.js';
+import * as events from '../../lib/domain/events/index.js';
 import { logger } from '../../lib/infrastructure/logger.js';
 import * as url from 'url';
 

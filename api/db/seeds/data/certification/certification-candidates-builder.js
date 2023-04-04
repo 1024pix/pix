@@ -17,8 +17,10 @@ import { SCO_STUDENT_ID as SCO_STUDENT_ORGANIZATION_LEARNER_ID } from '../organi
 
 import {
   CERTIF_SUCCESS_USER_ID,
+  // eslint-disable-next-line import/named
   CERTIF_FAILED_USER_ID,
   CERTIF_REGULAR_USER5_ID,
+  // eslint-disable-next-line import/named
   CERTIF_SCO_STUDENT_ID,
 } from './users.js';
 
@@ -29,7 +31,8 @@ import {
 } from './certification-centers-builder.js';
 
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
-import { BILLING_MODES } from '../../../../lib/domain/models/CertificationCandidate.js';
+import { CertificationCandidate } from '../../../../lib/domain/models/CertificationCandidate.js';
+const { BILLING_MODES } = CertificationCandidate;
 
 const A_LOT_OF_CANDIDATES_COUNT = 150;
 const SUCCESS_CANDIDATE_IN_SESSION_TO_FINALIZE_ID = 1;

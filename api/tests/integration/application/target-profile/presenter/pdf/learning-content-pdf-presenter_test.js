@@ -1,6 +1,6 @@
 import { domainBuilder, expect, MockDate, sinon } from '../../../../../test-helper.js';
 import { isSameBinary } from '../../../../../tooling/binary-comparator.js';
-import { learningContentPDFPresenter } from '../../../../../../lib/application/target-profiles/presenter/pdf/learning-content-pdf-presenter.js';
+import * as learningContentPDFPresenter from '../../../../../../lib/application/target-profiles/presenter/pdf/learning-content-pdf-presenter.js';
 import { writeFile } from 'fs/promises';
 import * as url from 'url';
 import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';

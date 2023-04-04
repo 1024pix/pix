@@ -1,5 +1,5 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
-import { flash } from '../../../../../lib/domain/services/algorithm-methods/flash.js';
+import * as flash from '../../../../../lib/domain/services/algorithm-methods/flash.js';
 import { AnswerStatus } from '../../../../../lib/domain/models/AnswerStatus.js';
 import { config } from '../../../../../lib/config.js';
 

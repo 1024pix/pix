@@ -1,5 +1,5 @@
 import { expect, sinon } from '../../../test-helper.js';
-import { Campaign } from '../../../../lib/domain/models/CampaignForArchiving.js';
+import { CampaignForArchiving as Campaign } from '../../../../lib/domain/models/CampaignForArchiving.js';
 import { archiveCampaign } from '../../../../lib/domain/usecases/archive-campaign.js';
 
 describe('Unit | UseCase | archive-campaign', function () {

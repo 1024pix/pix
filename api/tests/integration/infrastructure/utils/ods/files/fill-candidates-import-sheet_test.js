@@ -6,7 +6,7 @@ const { unlink, writeFile } = promises;
 
 import _ from 'lodash';
 import { expect, databaseBuilder } from '../../../../../test-helper.js';
-import { readOdsUtils } from '../../../../../../lib/infrastructure/utils/ods/read-ods-utils.js';
+import * as readOdsUtils from '../../../../../../lib/infrastructure/utils/ods/read-ods-utils.js';
 import { fillCandidatesImportSheet } from '../../../../../../lib/infrastructure/files/candidates-import/fill-candidates-import-sheet.js';
 import { usecases } from '../../../../../../lib/domain/usecases/index.js';
 import {

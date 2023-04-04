@@ -1,7 +1,7 @@
 import { expect, databaseBuilder, mockLearningContent, knex, catchErr } from '../../../test-helper.js';
 
 import * as campaignManagementRepository from '../../../../lib/infrastructure/repositories/campaign-management-repository.js';
-import { campaignValidator } from '../../../../lib/domain/validators/campaign-validator.js';
+import * as campaignValidator from '../../../../lib/domain/validators/campaign-validator.js';
 import { updateCampaignDetailsManagement } from '../../../../lib/domain/usecases/update-campaign-details-management.js';
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
 import { EntityValidationError } from '../../../../lib/domain/errors.js';

@@ -9,7 +9,7 @@ import fs from 'fs';
 import bluebird from 'bluebird';
 import isEmpty from 'lodash/isEmpty';
 import { logger } from '../../lib/infrastructure/logger.js';
-import { certificationResultUtils } from '../../lib/infrastructure/utils/csv/certification-results.js';
+import * as certificationResultUtils from '../../lib/infrastructure/utils/csv/certification-results.js';
 import { usecases } from '../../lib/domain/usecases/index.js';
 import { temporaryStorage } from '../../lib/infrastructure/temporary-storage/index.js';
 import { disconnect } from '../../db/knex-database-connection.js';

@@ -15,7 +15,7 @@ import * as organizationRepository from '../../../../lib/infrastructure/reposito
 import * as poleEmploiSendingRepository from '../../../../lib/infrastructure/repositories/pole-emploi-sending-repository.js';
 import * as targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository.js';
 import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
-import { CampaignParticipationStartedEvent } from '../../../../lib/domain/events/CampaignParticipationStarted.js';
+import { CampaignParticipationStarted as CampaignParticipationStartedEvent } from '../../../../lib/domain/events/CampaignParticipationStarted.js';
 
 describe('Integration | Event | Handle Pole emploi participation started', function () {
   let campaignParticipationId, userId, event, poleEmploiNotifier, responseCode;

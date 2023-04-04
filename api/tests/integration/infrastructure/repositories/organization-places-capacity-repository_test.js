@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import { expect, databaseBuilder } from '../../../test-helper.js';
 import * as organizationPlacesCapacityRepository from '../../../../lib/infrastructure/repositories/organization-places-capacity-repository.js';
-import { categories } from '../../../../lib/domain/constants/organization-places-categories.js';
+import * as categories from '../../../../lib/domain/constants/organization-places-categories.js';
 
 describe('Integration | Infrastructure | Repository | OrganizationPlacesCapacityRepository', function () {
   describe('#findByOrganizationId', function () {

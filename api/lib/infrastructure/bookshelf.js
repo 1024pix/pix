@@ -18,4 +18,4 @@ bookshelfWithKnex.plugin('bookshelf-validate', {
   validator: validator,
 });
 
-export { bookshelfWithKnex as Bookshelf };
+export { bookshelfWithKnex as Bookshelf, knex };
