@@ -85,6 +85,7 @@ module.exports = function (environment) {
         minValue: 1,
       }),
       sessionSupervisingPollingRate: process.env.SESSION_SUPERVISING_POLLING_RATE ?? 5000,
+      COOKIE_LOCALE_LIFESPAN_IN_SECONDS: 31536000, // 1 year in seconds
     },
 
     matomo: {},

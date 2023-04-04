@@ -1,12 +1,15 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
+const FRENCH_LOCALE = 'fr-FR';
+
 export default class ApplicationRoute extends Route {
   @service currentUser;
   @service featureToggles;
   @service intl;
   @service currentDomain;
   @service dayjs;
+  @service locale;
 
   async beforeModel(transition) {
     await this.featureToggles.load();
@@ -26,6 +29,11 @@ export default class ApplicationRoute extends Route {
 
     if (domain === domainFr) {
       this._setLocale(domainFr);
+
+      if (!this.locale.hasLocaleCookie()) {
+        this.locale.setLocaleCookie(FRENCH_LOCALE);
+      }
+
       return;
     }
 
