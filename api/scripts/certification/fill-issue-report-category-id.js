@@ -5,6 +5,7 @@ import * as url from 'url';
 
 const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
+const __filename = modulePath;
 
 async function _getIdCategorySubcategoryFromCertificationIssueReport() {
   return knex('certification-issue-reports').select('id', 'category', 'subcategory');
