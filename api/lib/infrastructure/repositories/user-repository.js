@@ -187,6 +187,12 @@ module.exports = {
     return bookshelfUser ? _toDomain(bookshelfUser) : null;
   },
 
+  async update(properties) {
+    const { id: userId, ...data } = properties;
+    data.updatedAt = new Date();
+    await knex('users').where({ id: userId }).update(data);
+  },
+
   updateWithEmailConfirmed({
     id,
     userAttributes,

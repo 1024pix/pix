@@ -1282,6 +1282,34 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
   });
 
   describe('update user', function () {
+    describe('#update', function () {
+      let clock;
+      const now = new Date('2021-01-02');
+
+      beforeEach(function () {
+        clock = sinon.useFakeTimers(now);
+      });
+
+      afterEach(function () {
+        clock.restore();
+      });
+
+      it('updates the given properties', async function () {
+        // given
+        const user = databaseBuilder.factory.buildUser();
+        await databaseBuilder.commit();
+
+        // when
+        await userRepository.update({ id: user.id, email: 'chronos@example.net', locale: 'fr-BE' });
+        const fetchedUser = await knex.from('users').where({ id: user.id }).first();
+
+        // then
+        expect(fetchedUser.updatedAt).to.deep.equal(new Date('2021-01-02'));
+        expect(fetchedUser.email).to.equal('chronos@example.net');
+        expect(fetchedUser.locale).to.equal('fr-BE');
+      });
+    });
+
     describe('#updateEmail', function () {
       it('should update the user email', async function () {
         // given
