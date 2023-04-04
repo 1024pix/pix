@@ -1,6 +1,3 @@
-import * as url from 'url';
-
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 import * as dotenv from 'dotenv';
 
 dotenv.config({ path: '../../../.env' });
