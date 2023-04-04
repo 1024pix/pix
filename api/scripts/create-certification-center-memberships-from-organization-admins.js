@@ -6,6 +6,7 @@ import bluebird from 'bluebird';
 import { parseCsvWithHeader } from './helpers/csvHelpers.js';
 import { Membership } from '../lib/domain/models/Membership.js';
 import { knex, disconnect } from '../db/knex-database-connection.js';
+import * as url from 'url';
 
 async function getCertificationCenterIdWithMembershipsUserIdByExternalId(externalId) {
   const certificationCenterIdWithMemberships = await knex('certification-centers')
@@ -71,7 +72,8 @@ async function createCertificationCenterMemberships(certificationCenterMembershi
   return knex.batchInsert('certification-center-memberships', certificationCenterMemberships);
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   console.log('Starting creating Certification Center memberships with a list of ExternalIds.');

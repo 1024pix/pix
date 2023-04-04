@@ -2,6 +2,7 @@ import { DomainTransaction } from '../../lib/infrastructure/DomainTransaction.js
 import { MembershipUpdateError, UserCantBeCreatedError, ForbiddenAccess } from '../../lib/domain/errors.js';
 import times from 'lodash/times';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
+import * as url from 'url';
 
 const INITIAL_ID = 300000;
 
@@ -60,7 +61,8 @@ async function addManyMembersToExistingOrganization({ numberOfUsers }) {
   }
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   const numberOfUsers = process.argv[2];

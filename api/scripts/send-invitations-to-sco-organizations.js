@@ -10,6 +10,7 @@ import { BookshelfOrganization } from '../lib/infrastructure/orm-models/Organiza
 import * as organizationInvitationService from '../lib/domain/services/organization-invitation-service.js';
 import * as organizationRepository from '../lib/infrastructure/repositories/organization-repository.js';
 import * as organizationInvitationRepository from '../lib/infrastructure/repositories/organization-invitation-repository.js';
+import * as url from 'url';
 
 const TAGS = ['JOIN_ORGA'];
 
@@ -38,7 +39,7 @@ async function prepareDataForSending(objectsFromFile) {
 
 async function sendJoinOrganizationInvitations(invitations, tags) {
   return bluebird.mapSeries(invitations, ({ organizationId, email }, index) => {
-    if (require.main === module) {
+    if (isLaunchedFromCommandLine) {
       process.stdout.write(`${index}/${invitations.length}\r`);
     }
 
@@ -52,7 +53,8 @@ async function sendJoinOrganizationInvitations(invitations, tags) {
   });
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   console.log('Start sending "join SCO organization" invitations to users.');
