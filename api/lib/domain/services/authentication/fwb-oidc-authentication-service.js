@@ -1,5 +1,9 @@
+const { v4: uuidv4 } = require('uuid');
 const settings = require('../../../config.js');
 const OidcAuthenticationService = require('./oidc-authentication-service.js');
+const { temporaryStorage } = require('../../../infrastructure/temporary-storage/index.js');
+
+const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 
 class FwbOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
@@ -17,6 +21,20 @@ class FwbOidcAuthenticationService extends OidcAuthenticationService {
       authenticationUrlParameters: [{ key: 'scope', value: 'openid profile' }],
       userInfoUrl: settings.fwb.userInfoUrl,
     });
+    this.temporaryStorage = settings.fwb.temporaryStorage;
+  }
+
+  async saveIdToken({ idToken, userId }) {
+    const uuid = uuidv4();
+    const { idTokenLifespanMs } = this.temporaryStorage;
+
+    await logoutUrlTemporaryStorage.save({
+      key: `${userId}:${uuid}`,
+      value: idToken,
+      expirationDelaySeconds: idTokenLifespanMs / 1000,
+    });
+
+    return uuid;
   }
 }
 
