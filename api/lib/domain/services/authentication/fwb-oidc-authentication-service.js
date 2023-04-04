@@ -21,6 +21,8 @@ class FwbOidcAuthenticationService extends OidcAuthenticationService {
       authenticationUrlParameters: [{ key: 'scope', value: 'openid profile' }],
       userInfoUrl: settings.fwb.userInfoUrl,
     });
+
+    this.logoutUrl = settings.fwb.logoutUrl;
     this.temporaryStorage = settings.fwb.temporaryStorage;
   }
 
