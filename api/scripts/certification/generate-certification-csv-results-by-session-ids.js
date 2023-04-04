@@ -1,5 +1,9 @@
-'use strict';
-require('dotenv').config({ path: `${__dirname}/../.env` });
+import * as dotenv from 'dotenv';
+
+import * as url from 'url';
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+dotenv.config({ path: `${__dirname}/../.env` });
 
 import fs from 'fs';
 import bluebird from 'bluebird';
