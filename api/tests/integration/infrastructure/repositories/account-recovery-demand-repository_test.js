@@ -3,7 +3,8 @@ import * as accountRecoveryDemandRepository from '../../../../lib/infrastructure
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { AccountRecoveryDemand } from '../../../../lib/domain/models/AccountRecoveryDemand.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import omit from 'lodash/omit';
+import lodash from 'lodash';
+const { omit } = lodash;
 
 describe('Integration | Infrastructure | Repository | account-recovery-demand-repository', function () {
   afterEach(function () {

@@ -1,4 +1,5 @@
-import omit from 'lodash/omit';
+import lodash from 'lodash';
+const { omit } = lodash;
 import jsonwebtoken from 'jsonwebtoken';
 
 import { catchErr, expect, sinon } from '../../../test-helper.js';

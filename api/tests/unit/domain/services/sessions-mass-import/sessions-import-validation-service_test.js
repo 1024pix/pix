@@ -2,7 +2,8 @@ import { expect, sinon, domainBuilder } from '../../../../test-helper.js';
 import * as sessionsImportValidationService from '../../../../../lib/domain/services/sessions-mass-import/sessions-import-validation-service.js';
 import { CpfBirthInformationValidation } from '../../../../../lib/domain/services/certification-cpf-service.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/domain/constants/certification-candidates-errors.js';
-import noop from 'lodash/noop';
+import lodash from 'lodash';
+const { noop } = lodash;
 
 describe('Unit | Service | sessions import validation Service', function () {
   describe('#validateSession', function () {

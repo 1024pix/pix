@@ -2,7 +2,8 @@ import { expect, knex, domainBuilder, databaseBuilder, catchErr } from '../../..
 import { OrganizationTag } from '../../../../lib/domain/models/OrganizationTag.js';
 import { AlreadyExistingEntityError, OrganizationTagNotFound } from '../../../../lib/domain/errors.js';
 import * as organizationTagRepository from '../../../../lib/infrastructure/repositories/organization-tag-repository.js';
-import omit from 'lodash/omit';
+import lodash from 'lodash';
+const { omit } = lodash;
 import { BookshelfOrganizationTag } from '../../../../lib/infrastructure/orm-models/OrganizationTag.js';
 
 describe('Integration | Repository | OrganizationTagRepository', function () {

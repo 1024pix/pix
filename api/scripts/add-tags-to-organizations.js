@@ -9,7 +9,8 @@ import * as organizationTagRepository from '../lib/infrastructure/repositories/o
 import * as tagRepository from '../lib/infrastructure/repositories/tag-repository.js';
 import { OrganizationTag } from '../lib/domain/models/OrganizationTag.js';
 import { parseCsv } from './helpers/csvHelpers.js';
-import uniq from 'lodash/uniq';
+import lodash from 'lodash';
+const { uniq } = lodash;
 import { disconnect } from '../db/knex-database-connection.js';
 
 import * as url from 'url';

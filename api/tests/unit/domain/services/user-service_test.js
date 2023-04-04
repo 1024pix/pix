@@ -1,4 +1,5 @@
-import omit from 'lodash/omit';
+import lodash from 'lodash';
+const { omit } = lodash;
 
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';

@@ -4,7 +4,8 @@ import stream from 'stream';
 
 const { PassThrough, Readable } = stream;
 
-import noop from 'lodash/noop';
+import lodash from 'lodash';
+const { noop } = lodash;
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';

@@ -5,8 +5,8 @@ dotenv.config();
 
 import fs from 'fs';
 import bluebird from 'bluebird';
-import isEmpty from 'lodash/isEmpty';
-import compact from 'lodash/compact';
+import lodash from 'lodash';
+const { isEmpty, compact } = lodash;
 import { logger } from '../../lib/infrastructure/logger.js';
 import * as certificateRepository from '../../lib/infrastructure/repositories/certificate-repository.js';
 import * as certificationCourseRepository from '../../lib/infrastructure/repositories/certification-course-repository.js';

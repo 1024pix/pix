@@ -1,5 +1,5 @@
-import _map from 'lodash/map';
-import _omit from 'lodash/omit';
+import lodash from 'lodash';
+const { map: _map, omit: _omit } = lodash;
 
 import {
   expect,
