@@ -10,7 +10,6 @@ const fp = originalFp.convert({ cap: false });
 import bluebird from 'bluebird';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import * as competenceRepository from '../../lib/infrastructure/repositories/competence-repository.js';
-import * as challengeRepository from '../../lib/infrastructure/repositories/challenge-repository.js';
 import * as placementProfileService from '../../lib/domain/services/placement-profile-service.js';
 import * as certificationChallengeService from '../../lib/domain/services/certification-challenges-service.js';
 import { LOCALE } from '../../lib/domain/constants.js';
@@ -26,14 +25,6 @@ const USER_ID = parseInt(process.env.USER_ID) || null;
 //
 // Voir aussi :
 // - https://1024pix.atlassian.net/wiki/spaces/DEV/pages/1855422507/2020-09-28+G+n+rer+des+stats+sur+les+tests+de+certif
-
-function makeRefDataFaster() {
-  challengeRepository.list = _.memoize(challengeRepository.findOperative);
-  competenceRepository.list = _.memoize(competenceRepository.list);
-  competenceRepository.listPixCompetencesOnly = _.memoize(competenceRepository.listPixCompetencesOnly);
-}
-
-makeRefDataFaster();
 
 async function _retrieveUserIds() {
   const result = await knex.raw(
