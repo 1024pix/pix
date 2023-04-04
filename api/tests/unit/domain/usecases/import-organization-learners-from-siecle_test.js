@@ -3,8 +3,7 @@ import { importOrganizationLearnersFromSIECLEFormat } from '../../../../lib/doma
 import { FileValidationError, SiecleXmlImportError } from '../../../../lib/domain/errors.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { OrganizationLearner } from '../../../../lib/domain/models/OrganizationLearner.js';
-
-const fs = require('fs').promises;
+import fs from 'fs/promises';
 
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 const i18n = getI18n();

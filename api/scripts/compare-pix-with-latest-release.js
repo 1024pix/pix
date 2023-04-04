@@ -1,13 +1,13 @@
 import dotenv from 'dotenv';
+
 dotenv.config();
 import _ from 'lodash';
-const calculateScoringInformationForCompetence =
-  require('../lib/domain/services/scoring/scoring-service.js').calculateScoringInformationForCompetence;
+import { calculateScoringInformationForCompetence } from '../lib/domain/services/scoring/scoring-service.js';
 import { buildKnowledgeElement } from '../db/database-builder/factory/build-knowledge-element.js';
 import * as tubeRepository from '../lib/infrastructure/repositories/tube-repository.js';
 import * as skillRepository from '../lib/infrastructure/repositories/skill-repository.js';
 import * as knowledgeElementRepository from '../lib/infrastructure/repositories/knowledge-element-repository.js';
-import { cache } from '../lib/infrastructure/caches/learning-content-cache.js';
+import { learningContentCache as cache } from '../lib/infrastructure/caches/learning-content-cache.js';
 import { disconnect } from '../db/knex-database-connection.js';
 
 async function getUserSkillsGroupedByTubeId(elements) {

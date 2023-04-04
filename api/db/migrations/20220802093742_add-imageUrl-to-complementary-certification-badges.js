@@ -1,3 +1,4 @@
+import { badges } from '../constants.js';
 const TABLE_NAME = 'complementary-certification-badges';
 const COLUMN_NAME = 'imageUrl';
 const {
@@ -16,7 +17,7 @@ const {
   PIX_EMPLOI_CLEA_V1,
   PIX_EMPLOI_CLEA_V2,
   PIX_EMPLOI_CLEA_V3,
-} = require('../constants.js').badges.keys;
+} = badges.keys;
 
 import bluebird from 'bluebird';
 
