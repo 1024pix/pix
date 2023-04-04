@@ -1,6 +1,5 @@
 const INITIAL_ID = 100000;
-
-module.exports = {
+const databaseBuffer = {
   objectsToInsert: [],
   nextId: INITIAL_ID,
 
@@ -18,3 +17,5 @@ module.exports = {
     this.objectsToInsert = [];
   },
 };
+
+export { databaseBuffer };
