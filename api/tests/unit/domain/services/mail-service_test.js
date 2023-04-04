@@ -5,10 +5,12 @@ import { mailer } from '../../../../lib/infrastructure/mailers/mailer.js';
 import { tokenService } from '../../../../lib/domain/services/token-service.js';
 import { config as settings } from '../../../../lib/config.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
+import fr from '../../../../translations/fr.json' assert { type: 'json' };
+import en from '../../../../translations/en.json' assert { type: 'json' };
 
 const mainTranslationsMapping = {
-  fr: require('../../../../translations/fr.js'),
-  en: require('../../../../translations/en.js'),
+  fr,
+  en,
 };
 
 import { LOCALE } from '../../../../lib/domain/constants.js';

@@ -1,8 +1,12 @@
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 import _ from 'lodash';
-const fp = require('lodash/fp').convert({ cap: false });
+
+import originalFp from 'lodash/fp';
+
+const fp = originalFp.convert({ cap: false });
 import bluebird from 'bluebird';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import * as competenceRepository from '../../lib/infrastructure/repositories/competence-repository.js';

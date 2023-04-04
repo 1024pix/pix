@@ -1,17 +1,13 @@
-import { domainBuilder, expect } from '../../../../test-helper.js';
+import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 import { isSameBinary } from '../../../../tooling/binary-comparator.js';
 import { getSupervisorKitPdfBuffer } from '../../../../../lib/infrastructure/utils/pdf/supervisor-kit-pdf.js';
-import { addRandomSuffix } from 'pdf-lib/cjs/utils';
+import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
 import * as url from 'url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor kit Pdf', function () {
   beforeEach(function () {
     _makePdfLibPredictable();
-  });
-
-  afterEach(function () {
-    _restorePdfLib();
   });
 
   it('should return full supervisor kit as a buffer', async function () {
@@ -88,9 +84,5 @@ function _makePdfLibPredictable() {
     return prefix + '-' + Math.floor(suffix);
   }
 
-  require('pdf-lib/cjs/utils').addRandomSuffix = autoIncrementSuffixByPrefix;
-}
-
-function _restorePdfLib() {
-  require('pdf-lib/cjs/utils').addRandomSuffix = addRandomSuffix;
+  sinon.stub(pdfLibUtils, 'addRandomSuffix').callsFake(autoIncrementSuffixByPrefix);
 }

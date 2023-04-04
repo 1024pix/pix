@@ -1,3 +1,5 @@
+import { buildLearningContent } from './build-learning-content.js';
+
 module.exports = {
-  buildLearningContent: require('./build-learning-content.js'),
+  buildLearningContent,
 };

@@ -1,10 +1,11 @@
+import { badges } from '../constants.js';
 const {
   PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
   PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-} = require('../constants.js').badges.keys;
+} = badges.keys;
 
 const up = async function (knex) {
   await knex('complementary-certifications').update({ name: 'Pix+ Édu 2nd degré' }).where({ name: 'Pix+ Édu' });

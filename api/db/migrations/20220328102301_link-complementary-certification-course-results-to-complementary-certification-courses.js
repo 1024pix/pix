@@ -5,6 +5,7 @@ const COMPLEMENTARY_CERTIFICATION_COURSE_ID_COLUMN = 'complementaryCertification
 const CERTIFICATION_COURSE_ID = 'certificationCourseId';
 import uniqBy from 'lodash/uniqBy';
 import bluebird from 'bluebird';
+import { badges } from '../constants.js';
 const {
   PIX_EMPLOI_CLEA,
   PIX_EMPLOI_CLEA_V2,
@@ -15,7 +16,7 @@ const {
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-} = require('../constants.js').badges.keys;
+} = badges.keys;
 
 const PIX_PLUS_EDU = 'Pix+ Édu';
 const PIX_PLUS_DROIT = 'Pix+ Droit';

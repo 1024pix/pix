@@ -1,12 +1,14 @@
-const Joi = require('joi');
-const bluebird = require('bluebird');
-const { NotFoundError } = require('../lib/domain/errors');
-const BadgeCriterion = require('../lib/domain/models/BadgeCriterion');
-const badgeRepository = require('../lib/infrastructure/repositories/badge-repository');
-const badgeCriteriaRepository = require('../lib/infrastructure/repositories/badge-criteria-repository');
-const skillSetRepository = require('../lib/infrastructure/repositories/skill-set-repository');
-const DomainTransaction = require('../lib/infrastructure/DomainTransaction');
-const { knex, disconnect } = require('../db/knex-database-connection');
+import Joi from 'joi';
+import bluebird from 'bluebird';
+import { NotFoundError } from '../lib/domain/errors.js';
+import { BadgeCriterion } from '../lib/domain/models/BadgeCriterion.js';
+import * as badgeRepository from '../lib/infrastructure/repositories/badge-repository.js';
+import * as badgeCriteriaRepository from '../lib/infrastructure/repositories/badge-criteria-repository.js';
+import * as skillSetRepository from '../lib/infrastructure/repositories/skill-set-repository.js';
+import { DomainTransaction } from '../lib/infrastructure/DomainTransaction.js';
+import { knex, disconnect } from '../db/knex-database-connection.js';
+import { readFile } from 'fs/promises';
+import * as url from 'url';
 
 // Usage: node scripts/create-badge-criteria-for-specified-badge path/data.json
 // data.json
@@ -85,7 +87,8 @@ async function copySkillSets({ skillSetIds, newBadgeId }) {
   });
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   console.log('Starting creating badge criteria');
@@ -93,7 +96,7 @@ async function main() {
   const filePath = process.argv[2];
 
   console.log('Reading json data file... ');
-  const jsonFile = require(filePath);
+  const jsonFile = await readFile(filePath);
   console.log('ok');
 
   await checkBadgeExistence(jsonFile.badgeId);
@@ -132,4 +135,4 @@ async function main() {
   }
 })();
 
-module.exports = { checkBadgeExistence, checkCriteriaFormat, checkSkillSetIds, copySkillSets };
+export { checkBadgeExistence, checkCriteriaFormat, checkSkillSetIds, copySkillSets };
