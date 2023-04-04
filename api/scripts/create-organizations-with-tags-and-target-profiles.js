@@ -9,7 +9,7 @@ dotenv.config();
 import { checkCsvHeader, parseCsvWithHeader } from './helpers/csvHelpers.js';
 import { temporaryStorage } from '../lib/infrastructure/temporary-storage/index.js';
 import { createOrganizationsWithTagsAndTargetProfiles } from '../lib/domain/usecases/create-organizations-with-tags-and-target-profiles.js';
-import { domainTransaction } from '../lib/infrastructure/DomainTransaction.js';
+import { DomainTransaction as domainTransaction } from '../lib/infrastructure/DomainTransaction.js';
 import * as organizationInvitationRepository from '../lib/infrastructure/repositories/organization-invitation-repository.js';
 import * as organizationRepository from '../lib/infrastructure/repositories/organization-repository.js';
 import * as dataProtectionOfficerRepository from '../lib/infrastructure/repositories/data-protection-officer-repository.js';

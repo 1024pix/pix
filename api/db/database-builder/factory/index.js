@@ -39,7 +39,7 @@ import { buildComplementaryCertificationHabilitation } from './build-complementa
 import { buildComplementaryCertificationSubscription } from './build-complementary-certification-subscription.js';
 import { buildCorrectAnswersAndKnowledgeElementsForLearningContent } from './build-correct-answers-and-knowledge-elements-for-learning-content.js';
 import { buildCorrectAnswerAndKnowledgeElement } from './build-correct-answer-and-knowledge-element.js';
-import { buildDataProtectionOfficer } from './build-data-protection-officer.js';
+import * as buildDataProtectionOfficer from './build-data-protection-officer.js';
 import { buildFinalizedSession } from './build-finalized-session.js';
 import { buildFlashAssessmentResult } from './build-flash-assessment-result.js';
 import { buildIssueReportCategory } from './build-issue-report-category.js';
@@ -74,9 +74,9 @@ import { buildUserLogin } from './build-user-login.js';
 import { buildUserOrgaSettings } from './build-user-orga-settings.js';
 import { buildUserSavedTutorial } from './build-user-saved-tutorial.js';
 import { buildUserRecommendedTraining } from './build-user-recommended-training.js';
-import { campaignParticipationOverviewFactory } from './campaign-participation-overview-factory.js';
-import { knowledgeElementSnapshotFactory } from './knowledge-elements-snapshot-factory.js';
-import { poleEmploiSendingFactory } from './pole-emploi-sending-factory.js';
+import * as campaignParticipationOverviewFactory from './campaign-participation-overview-factory.js';
+import * as knowledgeElementSnapshotFactory from './knowledge-elements-snapshot-factory.js';
+import * as poleEmploiSendingFactory from './pole-emploi-sending-factory.js';
 
 export {
   buildAccountRecoveryDemand,

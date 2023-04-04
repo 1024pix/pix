@@ -1,5 +1,5 @@
 import { expect, sinon } from '../../../test-helper.js';
-import { cpfExternalStorage } from '../../../../lib/infrastructure/external-storage/cpf-external-storage.js';
+import * as cpfExternalStorage from '../../../../lib/infrastructure/external-storage/cpf-external-storage.js';
 import { config } from '../../../../lib/config.js';
 import _ from 'lodash';
 

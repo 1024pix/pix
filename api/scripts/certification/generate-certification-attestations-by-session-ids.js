@@ -10,9 +10,9 @@ import compact from 'lodash/compact';
 import { logger } from '../../lib/infrastructure/logger.js';
 import * as certificateRepository from '../../lib/infrastructure/repositories/certificate-repository.js';
 import * as certificationCourseRepository from '../../lib/infrastructure/repositories/certification-course-repository.js';
-import { certificationAttestationPdf } from '../../lib/infrastructure/utils/pdf/certification-attestation-pdf.js';
+import * as certificationAttestationPdf from '../../lib/infrastructure/utils/pdf/certification-attestation-pdf.js';
 import { NotFoundError } from '../../lib/domain/errors.js';
-import { cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
+import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
 import { disconnect } from '../../db/knex-database-connection.js';
 import * as url from 'url';
 

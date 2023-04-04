@@ -44,4 +44,4 @@ class TargetProfile {
 
 TargetProfile.categories = categories;
 
-export { TargetProfile };
+export { TargetProfile, categories };

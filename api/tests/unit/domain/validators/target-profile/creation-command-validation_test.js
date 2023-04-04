@@ -1,5 +1,5 @@
 import { expect } from '../../../../test-helper.js';
-import { creationCommandValidator } from '../../../../../lib/domain/validators/target-profile/creation-command-validation.js';
+import * as creationCommandValidator from '../../../../../lib/domain/validators/target-profile/creation-command-validation.js';
 import { EntityValidationError } from '../../../../../lib/domain/errors.js';
 import { categories } from '../../../../../lib/domain/models/TargetProfile.js';
 
