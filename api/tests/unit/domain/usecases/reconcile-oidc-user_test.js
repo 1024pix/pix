@@ -19,10 +19,6 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
     };
   });
 
-  afterEach(function () {
-    sinon.restore();
-  });
-
   it('should retrieve user session content', async function () {
     // given
     const sessionContent = { idToken: 'idToken' };

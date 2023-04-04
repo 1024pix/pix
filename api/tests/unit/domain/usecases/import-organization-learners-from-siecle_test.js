@@ -39,9 +39,6 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
     };
     organizationRepositoryStub = { get: sinon.stub() };
   });
-  afterEach(function () {
-    sinon.restore();
-  });
 
   context('when extracted organizationLearners informations can be imported', function () {
     payload = { path: 'file.csv' };

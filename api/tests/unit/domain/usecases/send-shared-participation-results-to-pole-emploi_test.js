@@ -124,10 +124,6 @@ describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-em
     organizationId = Symbol('organizationId');
   });
 
-  afterEach(function () {
-    sinon.restore();
-  });
-
   context('when campaign is of type ASSESSMENT and organization is Pole Emploi', function () {
     beforeEach(function () {
       organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: true });

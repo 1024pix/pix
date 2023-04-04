@@ -25,10 +25,6 @@ describe('Unit | UseCase | get-scorecard', function () {
     knowledgeElementRepository = {};
   });
 
-  afterEach(function () {
-    sinon.restore();
-  });
-
   context('When user is authenticated', function () {
     beforeEach(function () {
       parseIdStub.withArgs(scorecardId).returns({ competenceId, userId: authenticatedUserId });

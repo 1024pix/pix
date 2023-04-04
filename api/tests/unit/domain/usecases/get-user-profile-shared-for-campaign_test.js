@@ -40,10 +40,6 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function () {
       sinon.stub(constants, 'MAX_REACHABLE_PIX_SCORE').value(expectedMaxReachablePixScore);
     });
 
-    afterEach(function () {
-      sinon.restore();
-    });
-
     it('should return the shared profile for campaign', async function () {
       const knowledgeElements = { competence1: [], competence2: [] };
       const competences = [

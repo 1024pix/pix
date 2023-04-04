@@ -31,10 +31,6 @@ describe('Unit | UseCase | reset-scorecard', function () {
     knowledgeElements = [{}, {}];
   });
 
-  afterEach(function () {
-    sinon.restore();
-  });
-
   context('when the user owns the competenceEvaluation', function () {
     it('should reset the competenceEvaluation', async function () {
       // given

@@ -27,10 +27,6 @@ describe('Unit | Service | ScorecardService', function () {
       buildFromStub = sinon.stub(Scorecard, 'buildFrom');
     });
 
-    afterEach(function () {
-      sinon.restore();
-    });
-
     context('And user asks for his own scorecard', function () {
       it('should return the user scorecard', async function () {
         // given

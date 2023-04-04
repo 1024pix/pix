@@ -28,10 +28,6 @@ describe('Unit | UseCase | find-tutorials', function () {
     locale = 'lang-country';
   });
 
-  afterEach(function () {
-    sinon.restore();
-  });
-
   context('When user is authenticated', function () {
     beforeEach(function () {
       parseIdStub.withArgs(scorecardId).returns({ competenceId, userId: authenticatedUserId });
