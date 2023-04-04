@@ -270,6 +270,9 @@ const configuration = (function () {
       authenticationUrl: process.env.FWB_AUTHENTICATION_URL,
       userInfoUrl: process.env.FWB_USER_INFO_URL,
       accessTokenLifespanMs: ms(process.env.FWB_ACCESS_TOKEN_LIFESPAN || '7d'),
+      temporaryStorage: {
+        idTokenLifespanMs: ms(process.env.FWB_ID_TOKEN_LIFESPAN || '7d'),
+      },
     },
 
     authenticationSession: {
