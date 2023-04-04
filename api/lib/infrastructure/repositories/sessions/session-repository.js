@@ -42,6 +42,11 @@ module.exports = {
     return sessions.length > 0;
   },
 
+  async isSessionExistingBySessionAndCertificationCenterIds({ sessionId, certificationCenterId }) {
+    const [session] = await knex('sessions').where({ id: sessionId, certificationCenterId });
+    return Boolean(session);
+  },
+
   async getWithCertificationCandidates(sessionId) {
     const session = await knex.from('sessions').where({ 'sessions.id': sessionId }).first();
 
