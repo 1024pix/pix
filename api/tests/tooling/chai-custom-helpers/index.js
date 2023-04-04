@@ -1,5 +1,9 @@
+import { deepEqualInstance } from './deep-equal-instance.js';
+import { deepEqualInstanceOmitting } from './deep-equal-instance-omitting.js';
+import { deepEqualArray } from './deep-equal-array.js';
+
 module.exports = {
-  deepEqualInstance: require('./deep-equal-instance.js'),
-  deepEqualInstanceOmitting: require('./deep-equal-instance-omitting.js'),
-  deepEqualArray: require('./deep-equal-array.js'),
+  deepEqualInstance,
+  deepEqualInstanceOmitting,
+  deepEqualArray,
 };

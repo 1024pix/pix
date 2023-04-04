@@ -1,4 +1,5 @@
-const { PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3 } = require('../constants.js').badges.keys;
+import { badges } from '../constants.js';
+const { PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3 } = badges.keys;
 
 const TABLE_NAME = 'badges';
 const CLEA_KEYS = [PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3];
