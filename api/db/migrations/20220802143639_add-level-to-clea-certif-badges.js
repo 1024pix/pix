@@ -1,5 +1,6 @@
+import { badges } from '../constants.js';
 const TABLE_NAME = 'complementary-certification-badges';
-const { PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3 } = require('../constants.js').badges.keys;
+const { PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3 } = badges.keys;
 
 const up = async function (knex) {
   await knex(TABLE_NAME)

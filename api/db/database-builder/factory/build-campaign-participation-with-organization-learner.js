@@ -1,6 +1,6 @@
-const buildAssessment = require('./build-assessment.js');
-const buildCampaignParticipation = require('./build-campaign-participation.js');
-const buildOrganizationLearnerWithUser = require('./build-organization-learner-with-user.js');
+import { buildAssessment } from './build-assessment.js';
+import { buildCampaignParticipation } from './build-campaign-participation.js';
+import { buildOrganizationLearnerWithUser } from './build-organization-learner-with-user.js';
 
 module.exports = (organizationLearner, campaignParticipation, withAssessment) => {
   const { userId, id: organizationLearnerId } = buildOrganizationLearnerWithUser(organizationLearner);
