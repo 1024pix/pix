@@ -2,7 +2,7 @@ import pg from 'pg';
 
 const types = pg.types;
 import _ from 'lodash';
-// eslint-disable-next-line no-unused-vars
+
 const { get } = _;
 import { logger } from '../lib/infrastructure/logger.js';
 import { monitoringTools } from '../lib/infrastructure/monitoring-tools.js';
@@ -32,11 +32,16 @@ Links :
  */
 types.setTypeParser(types.builtins.INT8, (value) => parseInt(value));
 
-import { environments as knexConfigs } from './knexfile.js';
+import * as knexConfigs from './knexfile.js';
 
+const { logging, environment } = config;
+const knexConfig = knexConfigs.default[environment];
+const configuredKnex = Knex(knexConfig);
+
+/* QueryBuilder Extension */
 try {
   Knex.QueryBuilder.extend('whereInArray', function (column, values) {
-    return this.where(column, Knex.raw('any(?)', [values]));
+    return this.where(column, configuredKnex.raw('any(?)', [values]));
   });
 } catch (e) {
   if (e.message !== "Can't extend QueryBuilder with existing method ('whereInArray').") {
@@ -44,10 +49,6 @@ try {
   }
 }
 /* -------------------- */
-
-const { logging, environment } = config;
-const knexConfig = knexConfigs[environment];
-const configuredKnex = Knex(knexConfig);
 
 const originalToSQL = QueryBuilder.prototype.toSQL;
 QueryBuilder.prototype.toSQL = function () {
