@@ -1,4 +1,3 @@
-('use strict');
 const Joi = require('joi');
 const bluebird = require('bluebird');
 const { NotFoundError } = require('../lib/domain/errors');
