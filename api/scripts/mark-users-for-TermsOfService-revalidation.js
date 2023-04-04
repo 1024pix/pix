@@ -1,4 +1,5 @@
 import { knex, disconnect } from '../db/knex-database-connection.js';
+import * as url from 'url';
 
 async function markUsersRequiringTermsOfServiceValidationForRevalidation() {
   const subquery = knex.select('users.id').from('users').where({
@@ -13,7 +14,8 @@ async function markUsersRequiringTermsOfServiceValidationForRevalidation() {
   return result.map(({ id }) => id);
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   console.log(

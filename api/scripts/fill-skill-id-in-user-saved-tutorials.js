@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+
 dotenv.config();
 import groupBy from 'lodash/groupBy';
 import { knex, disconnect } from '../db/knex-database-connection.js';
@@ -8,6 +9,7 @@ import { UserSavedTutorialWithTutorial } from '../lib/domain/models/UserSavedTut
 import * as knowledgeElementRepository from '../lib/infrastructure/repositories/knowledge-element-repository.js';
 import { tutorialDatasource } from '../lib/infrastructure/datasources/learning-content/tutorial-datasource.js';
 import { skillDatasource } from '../lib/infrastructure/datasources/learning-content/skill-datasource.js';
+import * as url from 'url';
 
 async function getAllUserSavedTutorialsWithoutSkillId() {
   const userSavedTutorials = await knex('user-saved-tutorials').whereNull('skillId');
@@ -152,7 +154,8 @@ async function main() {
   console.log('End filling skillId to user saved tutorials');
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 (async () => {
   if (isLaunchedFromCommandLine) {

@@ -2,6 +2,7 @@ import bluebird from 'bluebird';
 import { disconnect } from '../db/knex-database-connection.js';
 import { parseCsvWithHeader } from '../scripts/helpers/csvHelpers.js';
 import { BookshelfOrganization } from '../lib/infrastructure/orm-models/Organization.js';
+import * as url from 'url';
 
 async function updateOrganizationEmailByExternalId(externalId, email) {
   return BookshelfOrganization.where({ externalId })
@@ -21,7 +22,8 @@ async function populateOrganizations(objectsFromFile) {
   });
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   console.log("Start populating organization's email");

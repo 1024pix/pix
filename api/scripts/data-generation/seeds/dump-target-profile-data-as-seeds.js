@@ -1,10 +1,13 @@
-require('dotenv').config({ path: `${__dirname}/../../../.env` });
-import yargs from 'yargs';
-import yargs/helpers from 'yargs/helpers';
+import * as url from 'url';
 
-const {
-  hideBin
-} = yargs/helpers;
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+import * as dotenv from 'dotenv';
+
+dotenv.config({
+  path: `${__dirname}/../../../.env`,
+});
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 
 import { knex, disconnect } from '../../../db/knex-database-connection.js';
 import { logger } from '../../../lib/infrastructure/logger.js';
@@ -143,7 +146,9 @@ function escapedOrNull(value) {
   return value === null ? null : `\`${value}\``;
 }
 
-if (require.main === module) {
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
+if (isLaunchedFromCommandLine) {
   main();
 }
 
