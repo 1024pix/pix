@@ -1,5 +1,6 @@
 import { buildCampaignParticipation } from './build-campaign-participation.js';
-import isUndefined from 'lodash/isUndefined';
+import lodash from 'lodash';
+const { isUndefined } = lodash;
 import { PoleEmploiSending } from '../../../../lib/domain/models/PoleEmploiSending.js';
 
 const buildPoleEmploiSending = function ({

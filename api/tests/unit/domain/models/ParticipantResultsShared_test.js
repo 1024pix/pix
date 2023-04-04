@@ -2,7 +2,8 @@ import { expect, domainBuilder } from '../../../test-helper.js';
 import { ParticipantResultsShared } from '../../../../lib/domain/models/ParticipantResultsShared.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../lib/domain/constants.js';
-import noop from 'lodash/noop';
+import lodash from 'lodash';
+const { noop } = lodash;
 
 describe('Unit | Domain | Models | ParticipantResultsShared', function () {
   context('#masteryRate', function () {

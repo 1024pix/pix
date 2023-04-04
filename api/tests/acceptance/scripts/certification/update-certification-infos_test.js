@@ -1,6 +1,7 @@
 import { expect, databaseBuilder, knex, sinon } from '../../../test-helper.js';
 import { writeFile, rm } from 'fs/promises';
-import values from 'lodash/values';
+import lodash from 'lodash';
+const { values } = lodash;
 import { logger } from '../../../../lib/infrastructure/logger.js';
 import { updateCertificationInfos, headers } from '../../../../scripts/certification/update-certification-infos.js';
 import * as url from 'url';

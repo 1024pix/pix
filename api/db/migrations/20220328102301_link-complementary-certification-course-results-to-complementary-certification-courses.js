@@ -3,7 +3,8 @@ const COMPLEMENTARY_CERTIFICATION_COURSES_TABLE = 'complementary-certification-c
 const COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE = 'complementary-certification-course-results';
 const COMPLEMENTARY_CERTIFICATION_COURSE_ID_COLUMN = 'complementaryCertificationCourseId';
 const CERTIFICATION_COURSE_ID = 'certificationCourseId';
-import uniqBy from 'lodash/uniqBy';
+import lodash from 'lodash';
+const { uniqBy } = lodash;
 import bluebird from 'bluebird';
 import { badges } from '../constants.js';
 const {

@@ -1,5 +1,6 @@
 import { expect, databaseBuilder, domainBuilder, knex, sinon } from '../../../test-helper.js';
-import omit from 'lodash/omit';
+import lodash from 'lodash';
+const { omit } = lodash;
 import * as partnerCertificationScoringRepository from '../../../../lib/infrastructure/repositories/partner-certification-scoring-repository.js';
 import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
 
