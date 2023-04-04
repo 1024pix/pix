@@ -1,4 +1,10 @@
-require('dotenv').config({ path: `${__dirname}/../.env` });
+import * as url from 'url';
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+import * as dotenv from 'dotenv';
+
+dotenv.config({ path: `${__dirname}/../.env` });
+
 import { logger } from '../../lib/infrastructure/logger.js';
 import { usecases } from '../../lib/domain/usecases/index.js';
 import { cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
