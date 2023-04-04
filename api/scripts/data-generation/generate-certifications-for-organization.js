@@ -2,6 +2,7 @@ import yargs from 'yargs';
 import _ from 'lodash';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import { competenceDatasource } from '../../lib/infrastructure/datasources/learning-content/competence-datasource.js';
+import * as url from 'url';
 
 const CERTIF_ERROR_RATE = 0.05;
 const CERTIF_REJECTED_RATE = 0.15;
@@ -304,7 +305,8 @@ function _getChunkSize(objectToBeInserted) {
   return MAX_BINDED_PG;
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   console.log('DEBUT');

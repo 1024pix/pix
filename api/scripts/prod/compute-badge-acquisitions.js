@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+
 dotenv.config();
 import _ from 'lodash';
 import bluebird from 'bluebird';
@@ -15,6 +16,7 @@ import * as badgeAcquisitionRepository from '../../lib/infrastructure/repositori
 import * as badgeForCalculationRepository from '../../lib/infrastructure/repositories/badge-for-calculation-repository.js';
 import * as knowledgeElementRepository from '../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import { cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
+import * as url from 'url';
 
 const MAX_RANGE_SIZE = 100_000;
 
@@ -136,8 +138,8 @@ async function getCampaignParticipationsBetweenIds({ idMin, idMax }) {
   return campaignParticipations.map((campaignParticipation) => new CampaignParticipation(campaignParticipation));
 }
 
-const isLaunchedFromCommandLine = require.main === module;
-
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 (async () => {
   if (isLaunchedFromCommandLine) {
     try {
