@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 import {
   CERTIF_SUCCESS_USER_ID,
+  // eslint-disable-next-line import/named
   CERTIF_SCO_STUDENT_ID,
   CERTIF_FAILURE_USER_ID,
   CERTIF_REGULAR_USER5_ID,

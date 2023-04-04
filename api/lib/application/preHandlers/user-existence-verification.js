@@ -11,4 +11,6 @@ const verifyById = function (request, h, dependencies = { userRepository, errorS
   });
 };
 
-export { verifyById };
+const userVerification = { verifyById };
+
+export { userVerification };

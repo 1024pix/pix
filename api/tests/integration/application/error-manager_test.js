@@ -1,5 +1,5 @@
 import { expect, sinon, HttpTestServer } from '../../test-helper.js';
-import { DomainErrors } from '../../../lib/domain/errors.js';
+import * as DomainErrors from '../../../lib/domain/errors.js';
 
 describe('Integration | API | Controller Error', function () {
   let server;

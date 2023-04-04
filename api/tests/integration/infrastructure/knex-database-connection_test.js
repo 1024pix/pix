@@ -1,6 +1,5 @@
 import { expect, databaseBuilder } from '../../test-helper.js';
-import { knexDatabaseConnection } from '../../../db/knex-database-connection.js';
-const knex = knexDatabaseConnection.knex;
+import { knex, emptyAllTables } from '../../../db/knex-database-connection.js';
 
 import { UserNotFoundError } from '../../../lib/domain/errors.js';
 import * as userRepository from '../../../lib/infrastructure/repositories/user-repository.js';
@@ -20,7 +19,7 @@ describe('Integration | Infrastructure | knex-database-connection', function () 
     await databaseBuilder.commit();
 
     // when
-    await knexDatabaseConnection.emptyAllTables();
+    await emptyAllTables();
 
     // then
     await expect(userRepository.get(id)).to.be.rejectedWith(UserNotFoundError);

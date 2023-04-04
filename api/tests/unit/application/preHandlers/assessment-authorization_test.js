@@ -1,6 +1,6 @@
 import { expect, sinon, hFake } from '../../../test-helper.js';
-import { AssessmentAuthorization } from '../../../../lib/application/preHandlers/assessment-authorization.js';
 import { tokenService } from '../../../../lib/domain/services/token-service.js';
+import { assessmentAuthorization as AssessmentAuthorization } from '../../../../lib/application/preHandlers/assessment-authorization.js';
 import * as assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository.js';
 
 describe('Unit | Pre-handler | Assessment Authorization', function () {

@@ -1,4 +1,4 @@
-import { OidcIdentityProviders } from '../../../lib/domain/constants/oidc-identity-providers.js';
+import * as OidcIdentityProviders from '../../../lib/domain/constants/oidc-identity-providers.js';
 
 const PIX_SUPER_ADMIN_ID = 199;
 const PIX_SUPPORT_ID = 200;

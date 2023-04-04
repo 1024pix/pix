@@ -13,7 +13,9 @@ const verify = function (request, h) {
   });
 };
 
-export { verify };
+const assessmentAuthorization = { verify };
+
+export { assessmentAuthorization };
 
 function _handleWhenInvalidAuthorization(errorMessage) {
   return {

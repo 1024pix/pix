@@ -39,4 +39,6 @@ const verifyBySessionId = async function (
   return true;
 };
 
-export { verifyByCertificationCandidateId, verifyBySessionId };
+const assessmentSupervisorAuthorization = { verifyByCertificationCandidateId, verifyBySessionId };
+
+export { assessmentSupervisorAuthorization };

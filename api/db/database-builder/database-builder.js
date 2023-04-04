@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import bluebird from 'bluebird';
-import { factory } from './factory/index.js';
+import * as factory from './factory/index.js';
 import { databaseBuffer } from './database-buffer.js';
 
 class DatabaseBuilder {

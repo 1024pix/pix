@@ -1,4 +1,4 @@
-import { apps } from '../../../../lib/domain/constants.js';
+import * as apps from '../../../../lib/domain/constants.js';
 
 const featuresBuilder = function ({ databaseBuilder }) {
   databaseBuilder.factory.buildFeature({

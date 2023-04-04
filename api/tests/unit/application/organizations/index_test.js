@@ -4,7 +4,7 @@ import { organizationController } from '../../../../lib/application/organization
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
 import * as moduleUnderTest from '../../../../lib/application/organizations/index.js';
-import { organizationPlacesCategories } from '../../../../lib/domain/constants/organization-places-categories.js';
+import * as organizationPlacesCategories from '../../../../lib/domain/constants/organization-places-categories.js';
 
 describe('Unit | Router | organization-router', function () {
   describe('GET /api/admin/organizations', function () {

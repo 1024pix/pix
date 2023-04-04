@@ -1,5 +1,5 @@
 import { expect, domainBuilder } from '../../../test-helper.js';
-import { solutionAdapter } from '../../../../lib/infrastructure/adapters/solution-adapter.js';
+import * as solutionAdapter from '../../../../lib/infrastructure/adapters/solution-adapter.js';
 import { Solution } from '../../../../lib/domain/models/Solution.js';
 
 describe('Unit | Adapter | Solution', function () {
