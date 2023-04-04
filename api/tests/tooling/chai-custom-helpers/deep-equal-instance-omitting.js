@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-module.exports = function (chai, _utils) {
+const deepEqualInstanceOmitting = function (chai, _utils) {
   chai.Assertion.addMethod('deepEqualInstanceOmitting', function (referenceInstance, omittedAttributes) {
     const assertedInstance = this._obj;
 
@@ -18,3 +18,5 @@ function _assertAreSameType(chai, value1, value2) {
 function _assertHaveSameContent(chai, value1, value2, omittedAttributes) {
   new chai.Assertion(_.omit(value1, omittedAttributes)).to.deep.equal(_.omit(value2, omittedAttributes));
 }
+
+export { deepEqualInstanceOmitting };
