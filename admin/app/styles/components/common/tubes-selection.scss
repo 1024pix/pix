@@ -1,9 +1,9 @@
 .tubes-selection {
   color: $pix-neutral-70;
-  margin-bottom: $spacing-m;
+  margin-bottom: $pix-spacing-m;
 
   &__card {
-    margin-bottom: $spacing-m;
+    margin-bottom: $pix-spacing-m;
   }
 
   &__inline-layout {
@@ -27,12 +27,12 @@
 
   &__multi-select {
     max-width: 300px;
-    margin-left: $spacing-s;
+    margin-left: $pix-spacing-s;
   }
 
   &__multi-select-label {
     font-weight: 500;
-    padding-right: $spacing-s;
+    padding-right: $pix-spacing-s;
   }
 }
 

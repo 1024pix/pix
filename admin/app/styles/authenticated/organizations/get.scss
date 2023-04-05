@@ -1,6 +1,5 @@
 /* stylelint-disable selector-class-pattern */
 #organizations-get-page {
-
   .organization__information {
     display: flex;
 
@@ -52,7 +51,7 @@
         padding: 0;
         display: flex;
         flex-wrap: wrap;
-        margin-bottom: $spacing-m;
+        margin-bottom: $pix-spacing-m;
 
         &__tag {
           margin-right: 6px;

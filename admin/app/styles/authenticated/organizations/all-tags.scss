@@ -3,10 +3,9 @@
   padding: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: $spacing-xs;
+  gap: $pix-spacing-xs;
 
   &__tag {
-
     button {
       border: none;
       padding: 0;

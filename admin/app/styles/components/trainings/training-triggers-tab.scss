@@ -1,6 +1,6 @@
 .training-trigger {
   &__description {
-    margin-bottom: $spacing-m;
+    margin-bottom: $pix-spacing-m;
   }
 }
 
@@ -11,14 +11,14 @@
     font-weight: 500;
     display: flex;
     align-items: baseline;
-    margin-bottom: $spacing-xs;
+    margin-bottom: $pix-spacing-xs;
   }
 
   &__threshold {
     color: $pix-neutral-90;
     font-size: 1rem;
     line-height: 1.5;
-    margin-left: $spacing-s;
+    margin-left: $pix-spacing-s;
   }
 
   &__tubes-count {
@@ -31,10 +31,10 @@
 
   &__toggler {
     display: inline-flex;
-    margin-top: $spacing-s;
+    margin-top: $pix-spacing-s;
 
     svg {
-      margin-right: $spacing-xs;
+      margin-right: $pix-spacing-xs;
     }
   }
 }
@@ -44,12 +44,12 @@
 
   &__actions {
     display: flex;
-    gap: $spacing-m;
-    margin: $spacing-m 0;
+    gap: $pix-spacing-m;
+    margin: $pix-spacing-m 0;
   }
 
   &__threshold {
-    margin-bottom: $spacing-m;
+    margin-bottom: $pix-spacing-m;
   }
 
   .card__title {
@@ -63,7 +63,7 @@
 
 .edit-training-trigger-threshold {
   &__description {
-    margin-bottom: $spacing-s;
+    margin-bottom: $pix-spacing-s;
   }
 
   &__input {
