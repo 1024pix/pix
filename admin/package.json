@@ -21,8 +21,7 @@
     "test": "tests"
   },
   "scripts": {
-    "build": "ember build --environment $BUILD_ENVIRONMENT && npm run build:uncached:assets",
-    "build:uncached:assets": "cp dist/assets/pix-admin-*.css dist/assets/pix-admin.uncached.css && cp dist/assets/vendor-*.css dist/assets/vendor.uncached.css",
+    "build": "ember build --environment $BUILD_ENVIRONMENT",
     "clean": "rm -rf tmp dist node_modules",
     "dev": "ember serve",
     "lint": "npm-run-all --parallel --continue-on-error --parallel \"lint:!(fix)\"",
