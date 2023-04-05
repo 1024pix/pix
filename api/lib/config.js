@@ -270,6 +270,10 @@ const configuration = (function () {
       authenticationUrl: process.env.FWB_AUTHENTICATION_URL,
       userInfoUrl: process.env.FWB_USER_INFO_URL,
       accessTokenLifespanMs: ms(process.env.FWB_ACCESS_TOKEN_LIFESPAN || '7d'),
+      logoutUrl: process.env.FWB_OIDC_LOGOUT_URL,
+      temporaryStorage: {
+        idTokenLifespanMs: ms(process.env.FWB_ID_TOKEN_LIFESPAN || '7d'),
+      },
     },
 
     authenticationSession: {
@@ -396,6 +400,8 @@ const configuration = (function () {
     config.cnav.userInfoUrl = 'http://userInfoUrl.fr';
     config.cnav.tokenUrl = 'http://idp.cnav/token';
     config.cnav.clientSecret = 'PIX_CNAV_CLIENT_SECRET';
+
+    config.fwb.logoutUrl = 'http://logout-url.org';
 
     config.saml.accessTokenLifespanMs = 1000;
 
