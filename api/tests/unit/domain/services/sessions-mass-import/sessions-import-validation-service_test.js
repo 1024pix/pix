@@ -641,6 +641,50 @@ describe('Unit | Service | sessions import validation Service', function () {
       });
     });
   });
+
+  describe('#getUniqueCandidates', function () {
+    context('when there is no duplicate', function () {
+      it('returns the list without errors', function () {
+        // given
+        const candidates = [
+          _buildValidCandidateData({ lineNumber: 1, candidateNumber: 97 }),
+          _buildValidCandidateData({ lineNumber: 2, candidateNumber: 98 }),
+        ];
+
+        // when
+        const { uniqueCandidates, duplicateCandidateErrors } =
+          sessionsImportValidationService.getUniqueCandidates(candidates);
+
+        // then
+        expect(uniqueCandidates.length).equals(candidates.length);
+        expect(duplicateCandidateErrors).to.be.empty;
+      });
+    });
+    context('when there are duplicates', function () {
+      it('returns the filtered list with errors', function () {
+        // given
+        const candidates = [
+          _buildValidCandidateData({ lineNumber: 1, candidateNumber: 97 }),
+          _buildValidCandidateData({ lineNumber: 2, candidateNumber: 98 }),
+          _buildValidCandidateData({ lineNumber: 3, candidateNumber: 97 }),
+        ];
+
+        // when
+        const { uniqueCandidates, duplicateCandidateErrors } =
+          sessionsImportValidationService.getUniqueCandidates(candidates);
+
+        // then
+        expect(uniqueCandidates.map(({ lastName }) => lastName)).to.deep.equal(['Candidat 97', 'Candidat 98']);
+        expect(duplicateCandidateErrors).to.deep.equal([
+          {
+            code: 'DUPLICATE_CANDIDATE_IN_SESSION',
+            line: undefined,
+            isBlocking: false,
+          },
+        ]);
+      });
+    });
+  });
 });
 
 function _createValidSessionData() {
@@ -677,7 +721,7 @@ function _buildValidSessionWithoutId() {
   });
 }
 
-function _buildValidCandidateData(candidateNumber = 2) {
+function _buildValidCandidateData({ lineNumber = 0, candidateNumber = 2 } = { candidateNumber: 0, lineNumber: 0 }) {
   return domainBuilder.buildCertificationCandidate({
     lastName: `Candidat ${candidateNumber}`,
     firstName: `Candidat ${candidateNumber}`,
@@ -692,5 +736,6 @@ function _buildValidCandidateData(candidateNumber = 2) {
     externalId: 'htehte',
     extraTimePercentage: '20',
     billingMode: 'PAID',
+    line: lineNumber,
   });
 }

@@ -6,6 +6,8 @@ const sessionsImportValidationService = require('../../../../../lib/domain/servi
 const temporarySessionsStorageForMassImportService = require('../../../../../lib/domain/services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service');
 const { CpfBirthInformationValidation } = require('../../../../../lib/domain/services/certification-cpf-service');
 const CertificationCandidate = require('../../../../../lib/domain/models/CertificationCandidate');
+const { CERTIFICATION_SESSIONS_ERRORS } = require('../../../../../lib/domain/constants/sessions-errors');
+const SessionMassImportReport = require('../../../../../lib/domain/models/SessionMassImportReport');
 
 describe('Unit | UseCase | sessions-mass-import | validate-sessions', function () {
   let accessCode;
@@ -150,9 +152,9 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
       it('should validate the candidates in the session', async function () {
         // given
         const cachedValidatedSessionsKey = 'uuid';
-        const candidate1 = _createValidCandidateData(1);
-        const candidate2 = _createValidCandidateData(2);
-        const candidate3 = _createValidCandidateData(3);
+        const candidate1 = _createValidCandidateData({ candidateNumber: 1 });
+        const candidate2 = _createValidCandidateData({ candidateNumber: 2 });
+        const candidate3 = _createValidCandidateData({ candidateNumber: 3 });
         const userId = 1234;
         const sessions = [
           {
@@ -303,6 +305,54 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
         expect(complementaryCertificationRepository.getByLabel).to.not.have.been.called;
       });
     });
+
+    context('when there is at least one duplicate candidate in a session', function () {
+      it('should remove duplicate certification candidates from the session', async function () {
+        // given
+        const validSessionData = _createValidSessionData();
+        const firstCandidate = _createValidCandidateData({ line: 1, candidateNumber: 1 });
+        const firstCandidateDuplicate = _createValidCandidateData({ line: 3, candidateNumber: 1 });
+        const secondCandidate = _createValidCandidateData({ line: 2, candidateNumber: 2 });
+
+        const sessions = [
+          {
+            ...validSessionData,
+            certificationCandidates: [firstCandidate, firstCandidateDuplicate, secondCandidate],
+          },
+        ];
+
+        sessionsImportValidationService.validateSession.resolves([]);
+        sessionsImportValidationService.getValidatedCandidateBirthInformation.resolves({
+          certificationCandidateErrors: [],
+          cpfBirthInformation: {},
+        });
+
+        // when
+        const sessionsMassImportReport = await validateSessions({
+          sessions,
+          certificationCenterId,
+          certificationCenterRepository,
+          sessionRepository,
+        });
+
+        // then
+        expect(sessionsMassImportReport).to.deep.equal(
+          new SessionMassImportReport({
+            cachedValidatedSessionsKey: undefined,
+            sessionsCount: 1,
+            sessionsWithoutCandidatesCount: 0,
+            candidatesCount: 2,
+            errorReports: [
+              {
+                line: 3,
+                code: CERTIFICATION_SESSIONS_ERRORS.DUPLICATE_CANDIDATE_IN_SESSION.code,
+                isBlocking: false,
+              },
+            ],
+          })
+        );
+      });
+    });
   });
 });
 
@@ -319,7 +369,7 @@ function _createValidSessionData() {
   };
 }
 
-function _createValidCandidateData(candidateNumber = 2) {
+function _createValidCandidateData({ line = 0, candidateNumber = 2 } = { line: 1, candidateNumber: 2 }) {
   return {
     lastName: `Candidat ${candidateNumber}`,
     firstName: `Candidat ${candidateNumber}`,
@@ -334,5 +384,6 @@ function _createValidCandidateData(candidateNumber = 2) {
     externalId: 'htehte',
     extraTimePercentage: '20',
     billingMode: 'Gratuite',
+    line,
   };
 }

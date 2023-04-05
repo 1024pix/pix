@@ -85,6 +85,34 @@ module.exports = {
     return sessionErrors;
   },
 
+  getUniqueCandidates(candidates) {
+    const duplicateCandidateErrors = [];
+
+    const uniqueCandidates = candidates.filter((candidate, index) => {
+      const isFirstOccurence =
+        index ===
+        candidates.findIndex(
+          (other) =>
+            candidate.firstName === other.firstName &&
+            candidate.lastName === other.lastName &&
+            candidate.birthdate === other.birthdate
+        );
+
+      if (!isFirstOccurence) {
+        _addToErrorList({
+          errorList: duplicateCandidateErrors,
+          line: candidate.line,
+          codes: [CERTIFICATION_SESSIONS_ERRORS.DUPLICATE_CANDIDATE_IN_SESSION.code],
+          isBlocking: false,
+        });
+      }
+
+      return isFirstOccurence;
+    });
+
+    return { uniqueCandidates, duplicateCandidateErrors };
+  },
+
   async getValidatedCandidateBirthInformation({
     candidate,
     isSco,

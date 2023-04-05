@@ -82,7 +82,13 @@ async function _createValidCertificationCandidates({
   certificationCpfCityRepository,
   complementaryCertificationRepository,
 }) {
-  return await bluebird.mapSeries(certificationCandidates, async (certificationCandidate) => {
+  const { uniqueCandidates, duplicateCandidateErrors } =
+    sessionsImportValidationService.getUniqueCandidates(certificationCandidates);
+  if (duplicateCandidateErrors.length > 0) {
+    sessionsMassImportReport.addErrorReports(duplicateCandidateErrors);
+  }
+
+  return bluebird.mapSeries(uniqueCandidates, async (certificationCandidate) => {
     const billingMode = CertificationCandidate.translateBillingMode(certificationCandidate.billingMode);
 
     const domainCertificationCandidate = new CertificationCandidate({
