@@ -68,7 +68,7 @@ describe('Acceptance | Controller | certification-centers-controller-post-valida
             {
               code: 'EMPTY_SESSION',
               line: 2,
-              blocking: false,
+              isBlocking: false,
             },
           ],
           sessionsCount: 1,
@@ -128,7 +128,7 @@ describe('Acceptance | Controller | certification-centers-controller-post-valida
                 {
                   code: 'INFORMATION_NOT_ALLOWED_WITH_SESSION_ID',
                   line: 3,
-                  blocking: true,
+                  isBlocking: true,
                 },
               ],
             });

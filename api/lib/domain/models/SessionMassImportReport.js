@@ -14,7 +14,7 @@ class SessionMassImportReport {
   }
 
   get isValid() {
-    return !this.errorReports.some(({ blocking }) => blocking);
+    return !this.errorReports.some(({ isBlocking }) => isBlocking);
   }
 
   addErrorReports(errors) {
