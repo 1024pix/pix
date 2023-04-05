@@ -3,7 +3,7 @@ import { planner } from '../../../../../../lib/infrastructure/jobs/cpf-export/ha
 import dayjs from 'dayjs';
 import { config } from '../../../../../../lib/config.js';
 const { cpf } = config;
-import utc from 'dayjs/plugin/utc';
+import utc from 'dayjs/plugin/utc.js';
 import lodash from 'lodash';
 
 const { noop } = lodash;
