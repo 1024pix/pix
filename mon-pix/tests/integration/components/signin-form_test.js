@@ -249,56 +249,121 @@ module('Integration | Component | signin form', function (hooks) {
       });
     });
 
-    module('when domain is pix.org', function () {
-      test('should not display Pole Emploi button', async function (assert) {
-        // given
-        class UrlServiceStub extends Service {
-          get isFrenchDomainExtension() {
-            return false;
+    module('oidc connect button', function () {
+      module('when domain is pix.org', function () {
+        test('only displays a FWB button and not Pole emploi button', async function (assert) {
+          // given
+          class UrlServiceStub extends Service {
+            get isFrenchDomainExtension() {
+              return false;
+            }
           }
-        }
+          class OidcIdentityProvidersServiceStub extends Service {
+            isFwbActivated() {
+              return true;
+            }
+          }
+          this.owner.register('service:url', UrlServiceStub);
+          this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersServiceStub);
 
-        this.owner.register('service:url', UrlServiceStub);
+          // when
+          const screen = await render(hbs`<SigninForm />`);
 
-        // when
-        const screen = await render(hbs`<SigninForm />`);
+          // then
+          assert
+            .dom(
+              screen.getByRole('link', {
+                name: `${this.intl.t('pages.sign-in.fwb.link.img')} ${this.intl.t('pages.sign-in.fwb.title')}`,
+              })
+            )
+            .hasAttribute('href', '/connexion/fwb');
+          assert
+            .dom(
+              screen.queryByRole('link', {
+                name: `${this.intl.t('pages.sign-in.pole-emploi.link.img')} ${this.intl.t(
+                  'pages.sign-in.pole-emploi.title'
+                )}`,
+              })
+            )
+            .doesNotExist();
+        });
+        module('when fwb provider is not activated', function () {
+          test("don't displays a FWB nor Pole emploi button", async function (assert) {
+            // given
+            class UrlServiceStub extends Service {
+              get isFrenchDomainExtension() {
+                return false;
+              }
+            }
+            class OidcIdentityProvidersServiceStub extends Service {
+              isFwbActivated() {
+                return false;
+              }
+            }
+            this.owner.register('service:url', UrlServiceStub);
+            this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersServiceStub);
 
-        // then
-        assert
-          .dom(
-            screen.queryByRole('link', {
-              name: `${this.intl.t('pages.sign-in.pole-emploi.link.img')} ${this.intl.t(
-                'pages.sign-in.pole-emploi.title'
-              )}`,
-            })
-          )
-          .doesNotExist();
+            // when
+            const screen = await render(hbs`<SigninForm />`);
+
+            // then
+            assert
+              .dom(
+                screen.queryByRole('link', {
+                  name: `${this.intl.t('pages.sign-in.fwb.link.img')} ${this.intl.t('pages.sign-in.fwb.title')}`,
+                })
+              )
+              .doesNotExist();
+            assert
+              .dom(
+                screen.queryByRole('link', {
+                  name: `${this.intl.t('pages.sign-in.pole-emploi.link.img')} ${this.intl.t(
+                    'pages.sign-in.pole-emploi.title'
+                  )}`,
+                })
+              )
+              .doesNotExist();
+          });
+        });
       });
-    });
 
-    module('when domain is pix.fr', function () {
-      test('should display a Pole emploi button', async function (assert) {
-        // given
-        class UrlServiceStub extends Service {
-          get isFrenchDomainExtension() {
-            return true;
+      module('when domain is pix.fr', function () {
+        test('only displays a Pole emploi button and not FWB button even if fwb connect is activated', async function (assert) {
+          // given
+          class UrlServiceStub extends Service {
+            get isFrenchDomainExtension() {
+              return true;
+            }
           }
-        }
-        this.owner.register('service:url', UrlServiceStub);
+          class OidcIdentityProvidersServiceStub extends Service {
+            isFwbActivated() {
+              return true;
+            }
+          }
+          this.owner.register('service:url', UrlServiceStub);
+          this.owner.register('service:oidcIdentityProviders', OidcIdentityProvidersServiceStub);
 
-        // when
-        const screen = await render(hbs`<SigninForm />`);
+          // when
+          const screen = await render(hbs`<SigninForm />`);
 
-        // then
-        assert
-          .dom(
-            screen.getByRole('link', {
-              name: `${this.intl.t('pages.sign-in.pole-emploi.link.img')} ${this.intl.t(
-                'pages.sign-in.pole-emploi.title'
-              )}`,
-            })
-          )
-          .exists();
+          // then
+          assert
+            .dom(
+              screen.getByRole('link', {
+                name: `${this.intl.t('pages.sign-in.pole-emploi.link.img')} ${this.intl.t(
+                  'pages.sign-in.pole-emploi.title'
+                )}`,
+              })
+            )
+            .hasAttribute('href', '/connexion/pole-emploi');
+          assert
+            .dom(
+              screen.queryByRole('link', {
+                name: `${this.intl.t('pages.sign-in.fwb.link.img')} ${this.intl.t('pages.sign-in.fwb.title')}`,
+              })
+            )
+            .doesNotExist();
+        });
       });
     });
   });
