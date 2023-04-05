@@ -134,6 +134,51 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
     });
   });
 
+  module('#showStages', function () {
+    test('should showStages when clea badge is not acquired and have a reachedStage', function (assert) {
+      // given
+      const reachedStage = { content: { id: 123, threshold: 6 }, get: sinon.stub() };
+      reachedStage.get.withArgs('threshold').returns(6);
+      component.args.model.campaignParticipationResult.reachedStage = reachedStage;
+      const badges = [{ key: 'PIX_EMPLOI_CLEA', id: 33, isAcquired: false, isCertifiable: true, isValid: true }];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
+
+      // when
+      const showStages = component.showStages;
+
+      // then
+      assert.true(showStages);
+    });
+
+    test('should not show showStages when clea badge is acquired and have not a reachedStage', function (assert) {
+      // given
+      component.args.model.campaignParticipationResult.reachedStage = null;
+      const badges = [{ key: 'PIX_EMPLOI_CLEA', id: 33, isAcquired: true, isCertifiable: true, isValid: true }];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
+
+      // when
+      const showStages = component.showStages;
+
+      // then
+      assert.false(showStages);
+    });
+
+    test('should not show showStages when clea badge is acquired and have a reachedStage', function (assert) {
+      // given
+      const reachedStage = { content: { id: 123, threshold: 6 }, get: sinon.stub() };
+      reachedStage.get.withArgs('threshold').returns(6);
+      component.args.model.campaignParticipationResult.reachedStage = reachedStage;
+      const badges = [{ key: 'PIX_EMPLOI_CLEA', id: 33, isAcquired: true, isCertifiable: true, isValid: true }];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
+
+      // when
+      const showStages = component.showStages;
+
+      // then
+      assert.false(showStages);
+    });
+  });
+
   module('#showCleaCompetences', function () {
     test('should showCleaCompetences when campaignParticipationResult has a clea badge', function (assert) {
       // given
