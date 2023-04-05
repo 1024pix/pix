@@ -3,9 +3,11 @@ import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
+import setupIntl from '../../helpers/setup-intl';
 
 module('Unit | Component | enrolled-candidates', function (hooks) {
   setupTest(hooks);
+  setupIntl(hooks);
 
   let component;
 
