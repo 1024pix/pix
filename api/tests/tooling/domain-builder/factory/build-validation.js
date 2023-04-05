@@ -1,5 +1,5 @@
-import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus';
-import { Validation } from '../../../../lib/domain/models/Validation';
+import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
+import { Validation } from '../../../../lib/domain/models/Validation.js';
 
 const buildValidation = function ({ result = AnswerStatus.OK, resultDetails = 'Bravo' } = {}) {
   return new Validation({
