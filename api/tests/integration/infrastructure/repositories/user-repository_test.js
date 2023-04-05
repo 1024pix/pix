@@ -1378,36 +1378,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
       });
     });
 
-    describe('#updateUserAttributes', function () {
-      it('should update lang of the user', async function () {
-        // given
-        const userInDb = databaseBuilder.factory.buildUser(userToInsert);
-        await databaseBuilder.commit();
-
-        const userAttributes = {
-          lang: 'en',
-        };
-
-        // when
-        const updatedUser = await userRepository.updateUserAttributes(userInDb.id, userAttributes);
-
-        // then
-        expect(updatedUser).to.be.an.instanceOf(User);
-        expect(updatedUser.lang).to.equal(userAttributes.lang);
-      });
-
-      it('should throw UserNotFoundError when user id not found', async function () {
-        // given
-        const wrongUserId = 0;
-
-        // when
-        const error = await catchErr(userRepository.updateUserAttributes)(wrongUserId, { lang: 'en' });
-
-        // then
-        expect(error).to.be.instanceOf(UserNotFoundError);
-      });
-    });
-
     describe('#updateUserDetailsForAdministration', function () {
       it('should update firstName, lastName, email and username of the user', async function () {
         // given
