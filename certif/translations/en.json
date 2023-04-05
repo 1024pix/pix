@@ -56,7 +56,7 @@
         "session-number": "Session No.",
         "status": "Status",
         "time": "Time",
-        "time-start": "Starting time (local time)"
+        "time-start": "Starting time (local time in 24-hour format)"
       }
     },
     "form-errors": {
@@ -485,7 +485,7 @@
           "SESSION_ROOM_REQUIRED": "Please indicate a room name.",
           "SESSION_DATE_REQUIRED": "Please indicate a starting date.",
           "SESSION_TIME_REQUIRED": "Please indicate a starting time in local time.",
-          "SESSION_EXAMINER_REQUIRED": "Please indicate the invigilator(s)."
+          "SESSION_EXAMINER_REQUIRED": "Please indicate the last name and first name of the invigilator(s)."
         },
         "examiner": "Invigilator(s)",
         "extra-information": "Session scheduling | Pix Certif",

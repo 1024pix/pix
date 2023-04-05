@@ -484,7 +484,7 @@
           "SESSION_ROOM_REQUIRED": "Veuillez indiquer un nom de salle.",
           "SESSION_DATE_REQUIRED": "Veuillez indiquer une date de début.",
           "SESSION_TIME_REQUIRED": "Veuillez indiquer une heure de début en heure locale.",
-          "SESSION_EXAMINER_REQUIRED": "Veuillez indiquer une surveillante ou un surveillant."
+          "SESSION_EXAMINER_REQUIRED": "Veuillez indiquer le nom et prénom du ou des surveillants."
         },
         "examiner": "Surveillant(s)",
         "extra-information": "Planification d’une session | Pix Certif",

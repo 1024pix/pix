@@ -15,6 +15,7 @@ module('Unit | Controller | authenticated/sessions/new', function (hooks) {
       controller = this.owner.lookup('controller:authenticated/sessions/new');
       event = { preventDefault: sinon.stub() };
       sinon.stub(controller.router, 'transitionTo');
+      sinon.stub(controller, 'checkMissingSessionFields');
       session.save = sinon.stub().resolves();
       controller.model = session;
     });
