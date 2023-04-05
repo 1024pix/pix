@@ -19,13 +19,14 @@
         maxlength="255"
         class="input"
         @value={{this.session.address}}
-        required
+        aria-describedby="address-error"
+        aria-required="true"
       />
-      {{#each this.session.errors.address as |error|}}
-        <div class="session-form__error error-message">
-          {{error.message}}
+      {{#if this.isSessionAddressMissing}}
+        <div id="address-error" class="session-form__error error-message">
+          {{t "pages.sessions.new.errors.SESSION_ADDRESS_REQUIRED"}}
         </div>
-      {{/each}}
+      {{/if}}
     </div>
 
     <div class="session-form__field">
@@ -40,13 +41,14 @@
         maxlength="255"
         class="input"
         @value={{this.session.room}}
-        required
+        aria-describedby="room-error"
+        aria-required="true"
       />
-      {{#each this.session.errors.room as |error|}}
-        <div class="session-form__error error-message">
-          {{error.message}}
+      {{#if this.isSessionRoomMissing}}
+        <div id="room-error" class="session-form__error error-message">
+          {{t "pages.sessions.new.errors.SESSION_ROOM_REQUIRED"}}
         </div>
-      {{/each}}
+      {{/if}}
     </div>
 
     <div class="session-form__field">
@@ -65,9 +67,11 @@
         @minDate="today"
         @name="session-date"
         class="input input--small"
+        aria-describedby="date-error"
+        aria-required="true"
       />
       {{#if this.isSessionDateMissing}}
-        <div class="session-form__error error-message">
+        <div id="date-error" class="session-form__error error-message">
           {{t "pages.sessions.new.errors.SESSION_DATE_REQUIRED"}}
         </div>
       {{/if}}
@@ -90,9 +94,11 @@
         @enableSeconds={{false}}
         @name="session-time"
         class="input input--small"
+        aria-describedby="time-error"
+        aria-required="true"
       />
       {{#if this.isSessionTimeMissing}}
-        <div class="session-form__error error-message">
+        <div id="time-error" class="session-form__error error-message">
           {{t "pages.sessions.new.errors.SESSION_TIME_REQUIRED"}}
         </div>
       {{/if}}
@@ -110,13 +116,14 @@
         maxlength="255"
         class="input"
         @value={{this.session.examiner}}
-        required
+        aria-describedby="examiner-error"
+        aria-required="true"
       />
-      {{#each this.session.errors.examiner as |error|}}
-        <div class="session-form__error error-message">
-          {{error.message}}
+      {{#if this.isSessionExaminerMissing}}
+        <div id="examiner-error" class="session-form__error error-message">
+          {{t "pages.sessions.new.errors.SESSION_EXAMINER_REQUIRED"}}
         </div>
-      {{/each}}
+      {{/if}}
     </div>
 
     <div class="session-form__field">
