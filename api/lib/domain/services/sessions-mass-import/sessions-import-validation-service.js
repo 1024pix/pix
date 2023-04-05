@@ -76,7 +76,8 @@ module.exports = {
         _addToErrorList({
           errorList: sessionErrors,
           line,
-          codes: [CERTIFICATION_SESSIONS_ERRORS.DUPLICATE_CANDIDATE_NOT_ALLOWED_IN_SESSION.code],
+          codes: [CERTIFICATION_SESSIONS_ERRORS.DUPLICATE_CANDIDATE_IN_SESSION.code],
+          isBlocking: false,
         });
       }
     }

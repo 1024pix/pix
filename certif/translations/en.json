@@ -257,7 +257,6 @@
               "CANDIDATE_NOT_ALLOWED_FOR_STARTED_SESSION": "Édition des candidats impossible, le numéro de session correspond à une session déjà démarrée",
               "CANDIDATE_EMAIL_NOT_VALID": "Donnée du champ \"E-mail de convocation\" invalide",
               "CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID": "Donnée du champ \"E-mail du destinataire des résultats (formateur, enseignant…)\" invalide",
-              "DUPLICATE_CANDIDATE_NOT_ALLOWED_IN_SESSION": "Candidat inscrit plusieurs fois à cette session",
               "SESSION_ADDRESS_REQUIRED": "Champ obligatoire \"Nom du site\" manquant",
               "SESSION_ROOM_REQUIRED": "Champ obligatoire \"Nom de la salle\" manquant",
               "SESSION_DATE_REQUIRED": "Champ obligatoire \"Date de session\" manquant",
@@ -278,6 +277,7 @@
             "information": "Nous avons détecté {nonBlockingErrorReportsCount, plural,one {un point d’attention non bloquant} other {des points d’attention non bloquants}} lors de l’import, consultez-{nonBlockingErrorReportsCount, plural,one {le} other {les}} avant de procéder à la création ou l’édition de vos sessions :",
             "line": "Line",
             "errors": {
+              "DUPLICATE_CANDIDATE_IN_SESSION": "Le candidat inscrit plusieurs fois à la même session, une seule inscription sera prise en compte.",
               "EMPTY_SESSION": "La session ne contient pas de candidat"
             }
           },
@@ -502,7 +502,7 @@
         },
         "description": "For the reporting to be taken into account, you must use the appropriate reporting category (examples : C1, C2, etc).",
         "uncompleted-reports-information": {
-          "description" : "These candidates haven’t finished their Pix certification exam or the invigilator has ended their exam",
+          "description": "These candidates haven’t finished their Pix certification exam or the invigilator has ended their exam",
           "extra-information": "List of candidates who haven’t finished their certification exam, ordered by birth name, with a link to add a reporting if needed and a drop-down list enabling you to select the reason for abandonment",
           "table": {
             "labels": {
