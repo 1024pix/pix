@@ -77,7 +77,7 @@ export default class SkillReview extends Component {
   }
 
   get showStages() {
-    return this.reachedStage && !this._isCleaBadgeAcquired;
+    return Boolean(this.reachedStage?.content && !this._isCleaBadgeAcquired);
   }
 
   get showStagesWithStars() {
