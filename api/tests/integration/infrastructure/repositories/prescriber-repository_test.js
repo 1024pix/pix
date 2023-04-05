@@ -15,7 +15,7 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
     firstName: 'estelle',
     lastName: 'popopo',
     email: 'estelle.popopo@example.net',
-    lang: 'someSuperCoolLanguage',
+    lang: 'fr',
     /* eslint-disable-next-line no-sync, mocha/no-setup-in-describe */
     password: bcrypt.hashSync('A124B2C3#!', 1),
     cgu: true,
