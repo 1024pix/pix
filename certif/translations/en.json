@@ -268,7 +268,8 @@
               "SESSION_SCHEDULED_IN_THE_PAST": "Date et/ou heure indiquées antérieures à la date du jour.",
               "SESSION_ID_NOT_EXISTING": "N° de session inexistant.",
               "SESSION_ID_NOT_VALID": "N° de session invalide.",
-              "INFORMATION_NOT_ALLOWED_WITH_SESSION_ID": "Numéro de session fourni, veuillez supprimer les informations de session associées."
+              "INFORMATION_NOT_ALLOWED_WITH_SESSION_ID": "Numéro de session fourni, veuillez supprimer les informations de session associées.",
+              "CSV_HEADERS_NOT_VALID": "Le modèle a été altéré, merci de le télécharger à nouveau."
             }
           },
           "non-blocking-errors": {
