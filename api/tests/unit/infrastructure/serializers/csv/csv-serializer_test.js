@@ -89,6 +89,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
 
         // then
         expect(error).to.be.instanceOf(FileValidationError);
+        expect(error.code).to.equal('CSV_HEADERS_NOT_VALID');
       });
     });
 
