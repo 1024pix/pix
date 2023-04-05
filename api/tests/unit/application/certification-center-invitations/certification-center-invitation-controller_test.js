@@ -32,6 +32,7 @@ describe('Unit | Application | Certification-center-Invitations | Certification-
         certificationCenterInvitationId,
         code,
         email: notValidEmail.trim().toLowerCase(),
+        localeFromCookie: undefined,
       });
       expect(response.statusCode).to.equal(204);
     });

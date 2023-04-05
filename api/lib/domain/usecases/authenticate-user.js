@@ -23,20 +23,12 @@ async function _checkUserAccessScope(scope, user, adminMemberRepository) {
   }
 }
 
-async function _updateUserLocaleIfNotAlreadySet({ user, locale, localeService, userRepository }) {
-  if (user.locale) return;
-  if (!locale) return;
-  const canonicalLocale = localeService.getCanonicalLocale(locale);
-  return userRepository.updateLocale({ userId: user.id, locale: canonicalLocale });
-}
-
 module.exports = async function authenticateUser({
   password,
   scope,
   source,
   username,
   localeFromCookie,
-  localeService,
   refreshTokenService,
   pixAuthenticationService,
   tokenService,
@@ -66,12 +58,10 @@ module.exports = async function authenticateUser({
       refreshToken,
     });
 
-    await _updateUserLocaleIfNotAlreadySet({
-      user: foundUser,
-      locale: localeFromCookie,
-      localeService,
-      userRepository,
-    });
+    foundUser.setLocaleIfNotAlreadySet(localeFromCookie);
+    if (foundUser.mustBePersisted) {
+      await userRepository.update({ id: foundUser.id, locale: foundUser.locale });
+    }
 
     await userRepository.updateLastLoggedAt({ userId: foundUser.id });
     return { accessToken, refreshToken, expirationDelaySeconds };

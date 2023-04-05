@@ -89,6 +89,15 @@ class User {
     return dayjs(parsedDate).isBefore(dayjs(config.dataProtectionPolicy.updateDate)) && isNotOrganizationLearner;
   }
 
+  setLocaleIfNotAlreadySet(newLocale) {
+    this.mustBePersisted = false;
+    if (newLocale && !this.locale) {
+      const canonicalLocale = localeService.getCanonicalLocale(newLocale);
+      this.locale = canonicalLocale;
+      this.mustBePersisted = true;
+    }
+  }
+
   isLinkedToOrganizations() {
     return this.memberships.length > 0;
   }
