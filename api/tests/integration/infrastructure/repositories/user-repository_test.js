@@ -1282,6 +1282,34 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
   });
 
   describe('update user', function () {
+    describe('#update', function () {
+      let clock;
+      const now = new Date('2021-01-02');
+
+      beforeEach(function () {
+        clock = sinon.useFakeTimers(now);
+      });
+
+      afterEach(function () {
+        clock.restore();
+      });
+
+      it('updates the given properties', async function () {
+        // given
+        const user = databaseBuilder.factory.buildUser();
+        await databaseBuilder.commit();
+
+        // when
+        await userRepository.update({ id: user.id, email: 'chronos@example.net', locale: 'fr-BE' });
+        const fetchedUser = await knex.from('users').where({ id: user.id }).first();
+
+        // then
+        expect(fetchedUser.updatedAt).to.deep.equal(new Date('2021-01-02'));
+        expect(fetchedUser.email).to.equal('chronos@example.net');
+        expect(fetchedUser.locale).to.equal('fr-BE');
+      });
+    });
+
     describe('#updateEmail', function () {
       it('should update the user email', async function () {
         // given
@@ -1347,36 +1375,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         expect(updatedUser.emailConfirmedAt).to.be.null;
         expect(updatedUser.email).to.equal(userInDb.email);
         expect(updatedUser.cgu).to.be.false;
-      });
-    });
-
-    describe('#updateUserAttributes', function () {
-      it('should update lang of the user', async function () {
-        // given
-        const userInDb = databaseBuilder.factory.buildUser(userToInsert);
-        await databaseBuilder.commit();
-
-        const userAttributes = {
-          lang: 'en',
-        };
-
-        // when
-        const updatedUser = await userRepository.updateUserAttributes(userInDb.id, userAttributes);
-
-        // then
-        expect(updatedUser).to.be.an.instanceOf(User);
-        expect(updatedUser.lang).to.equal(userAttributes.lang);
-      });
-
-      it('should throw UserNotFoundError when user id not found', async function () {
-        // given
-        const wrongUserId = 0;
-
-        // when
-        const error = await catchErr(userRepository.updateUserAttributes)(wrongUserId, { lang: 'en' });
-
-        // then
-        expect(error).to.be.instanceOf(UserNotFoundError);
       });
     });
 
@@ -1652,35 +1650,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         // then
         const userUpdated = await knex('users').select().where({ id: userId }).first();
         expect(userUpdated.lastLoggedAt).to.deep.equal(now);
-      });
-    });
-
-    describe('#updateLocale', function () {
-      let clock;
-      const now = new Date('2020-01-02');
-
-      beforeEach(function () {
-        clock = sinon.useFakeTimers(now);
-      });
-
-      afterEach(function () {
-        clock.restore();
-      });
-
-      it('should update the user locale to the provided value', async function () {
-        // given
-        const user = databaseBuilder.factory.buildUser();
-        const userId = user.id;
-        await databaseBuilder.commit();
-        const locale = 'fr-BE';
-
-        // when
-        await userRepository.updateLocale({ userId, locale });
-
-        // then
-        const userUpdated = await knex('users').select().where({ id: userId }).first();
-        expect(userUpdated.locale).to.deep.equal(locale);
-        expect(userUpdated.updatedAt).to.deep.equal(now);
       });
     });
   });

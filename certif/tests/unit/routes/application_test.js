@@ -58,6 +58,54 @@ module('Unit | Route | application', function (hooks) {
         sinon.assert.calledWith(intlSetLocaleStub, ['fr', 'fr']);
         sinon.assert.calledWith(dayjsSetLocaleStub, 'fr');
       });
+
+      module('when there is no cookie locale', function () {
+        test('add a cookie locale with "fr-FR" as value', async function (assert) {
+          // given
+          const localeServiceStub = Service.create({
+            hasLocaleCookie: sinon.stub().returns(false),
+            setLocaleCookie: sinon.stub(),
+          });
+          const currentDomainStub = {
+            getExtension: () => 'fr',
+          };
+          const route = this.owner.lookup('route:application');
+
+          route.set('locale', localeServiceStub);
+          route.set('currentDomain', currentDomainStub);
+
+          // when
+          await route.handleLocale();
+
+          // then
+          sinon.assert.calledWith(localeServiceStub.setLocaleCookie, 'fr-FR');
+          assert.ok(true);
+        });
+      });
+
+      module('when there is a cookie locale', function () {
+        test('does not update cookie locale', async function (assert) {
+          // given
+          const localeServiceStub = Service.create({
+            hasLocaleCookie: sinon.stub().returns(true),
+            setLocaleCookie: sinon.stub(),
+          });
+          const currentDomainStub = {
+            getExtension: () => 'fr',
+          };
+          const route = this.owner.lookup('route:application');
+
+          route.set('locale', localeServiceStub);
+          route.set('currentDomain', currentDomainStub);
+
+          // when
+          await route.handleLocale();
+
+          // then
+          sinon.assert.notCalled(localeServiceStub.setLocaleCookie);
+          assert.ok(true);
+        });
+      });
     });
 
     module('when domain is org', function () {

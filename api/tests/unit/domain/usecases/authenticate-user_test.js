@@ -9,8 +9,6 @@ const {
   MissingOrInvalidCredentialsError,
   ForbiddenAccess,
   UserShouldChangePasswordError,
-  LocaleFormatError,
-  LocaleNotSupportedError,
 } = require('../../../../lib/domain/errors');
 
 const appMessages = require('../../../../lib/domain/constants');
@@ -33,7 +31,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
     userRepository = {
       getByUsernameOrEmailWithRoles: sinon.stub(),
       updateLastLoggedAt: sinon.stub(),
-      updateLocale: sinon.stub(),
+      update: sinon.stub(),
     };
     adminMemberRepository = {
       get: sinon.stub(),
@@ -356,137 +354,14 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
     });
   });
 
-  context('when user has a locale', function () {
-    it('does not update the user locale', async function () {
-      // given
-      const accessToken = 'jwt.access.token';
-      const source = 'pix';
-      const expirationDelaySeconds = 1;
-      const user = domainBuilder.buildUser({ email: userEmail, locale: 'fr-FR' });
-
-      pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
-      refreshTokenService.createAccessTokenFromRefreshToken.resolves({ accessToken, expirationDelaySeconds });
-
-      // when
-      await authenticateUser({
-        username: userEmail,
-        password,
-        source,
-        localeFromCookie,
-        pixAuthenticationService,
-        refreshTokenService,
-        userRepository,
-      });
-
-      // then
-      expect(userRepository.updateLocale).to.not.have.been.called;
-    });
-  });
-
-  context('when user does not have a locale', function () {
-    context('when there is a locale cookie ', function () {
-      it('updates the user locale with the formatted value', async function () {
-        // given
-        const accessToken = 'jwt.access.token';
-        const source = 'pix';
-        const expirationDelaySeconds = 1;
-        const user = domainBuilder.buildUser({ email: userEmail, locale: null });
-        const localeService = { getCanonicalLocale: sinon.stub() };
-
-        pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
-        refreshTokenService.createAccessTokenFromRefreshToken.resolves({ accessToken, expirationDelaySeconds });
-        localeService.getCanonicalLocale.returns('canonicalLocale');
-
-        // when
-        await authenticateUser({
-          username: userEmail,
-          password,
-          source,
-          localeFromCookie: 'localeFromCookie',
-          localeService,
-          pixAuthenticationService,
-          refreshTokenService,
-          userRepository,
-        });
-
-        // then
-        expect(localeService.getCanonicalLocale).to.have.been.calledWithExactly('localeFromCookie');
-        expect(userRepository.updateLocale).to.have.been.calledWithExactly({
-          userId: user.id,
-          locale: 'canonicalLocale',
-        });
-      });
-
-      context('when the locale format is invalid', function () {
-        it('bubbles the LocaleFormatError up', async function () {
-          // given
-          const accessToken = 'jwt.access.token';
-          const source = 'pix';
-          const expirationDelaySeconds = 1;
-          const user = domainBuilder.buildUser({ email: userEmail, locale: null });
-          const localeService = { getCanonicalLocale: sinon.stub() };
-          const errorThrownByLocaleService = new LocaleFormatError();
-
-          pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
-          refreshTokenService.createAccessTokenFromRefreshToken.resolves({ accessToken, expirationDelaySeconds });
-          localeService.getCanonicalLocale.throws(errorThrownByLocaleService);
-
-          // when
-          const errorThrownByUseCase = await catchErr(authenticateUser)({
-            username: userEmail,
-            password,
-            source,
-            localeFromCookie: 'localeFromCookie',
-            localeService,
-            pixAuthenticationService,
-            refreshTokenService,
-            userRepository,
-          });
-
-          // then
-          expect(errorThrownByUseCase).to.deepEqualInstance(errorThrownByLocaleService);
-        });
-      });
-
-      context('when the locale is valid but not supported', function () {
-        it('bubbles the LocaleNotSupportedError up', async function () {
-          // given
-          const accessToken = 'jwt.access.token';
-          const source = 'pix';
-          const expirationDelaySeconds = 1;
-          const user = domainBuilder.buildUser({ email: userEmail, locale: null });
-          const localeService = { getCanonicalLocale: sinon.stub() };
-          const errorThrownByLocaleService = new LocaleNotSupportedError();
-
-          pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
-          refreshTokenService.createAccessTokenFromRefreshToken.resolves({ accessToken, expirationDelaySeconds });
-          localeService.getCanonicalLocale.throws(errorThrownByLocaleService);
-
-          // when
-          const errorThrownByUseCase = await catchErr(authenticateUser)({
-            username: userEmail,
-            password,
-            source,
-            localeFromCookie: 'localeFromCookie',
-            localeService,
-            pixAuthenticationService,
-            refreshTokenService,
-            userRepository,
-          });
-
-          // then
-          expect(errorThrownByUseCase).to.deepEqualInstance(errorThrownByLocaleService);
-        });
-      });
-    });
-
-    context('when there is no locale cookie', function () {
+  context('check if locale is updated', function () {
+    context('when user has a locale', function () {
       it('does not update the user locale', async function () {
         // given
         const accessToken = 'jwt.access.token';
         const source = 'pix';
         const expirationDelaySeconds = 1;
-        const user = domainBuilder.buildUser({ email: userEmail, locale: undefined });
+        const user = domainBuilder.buildUser({ email: userEmail, locale: 'fr-FR' });
 
         pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
         refreshTokenService.createAccessTokenFromRefreshToken.resolves({ accessToken, expirationDelaySeconds });
@@ -496,14 +371,71 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
           username: userEmail,
           password,
           source,
-          localeFromCookie: undefined,
+          localeFromCookie,
           pixAuthenticationService,
           refreshTokenService,
           userRepository,
         });
 
         // then
-        expect(userRepository.updateLocale).to.not.have.been.called;
+        expect(userRepository.update).to.not.have.been.called;
+      });
+    });
+
+    context('when user does not have a locale', function () {
+      context('when there is a locale cookie ', function () {
+        it('updates the user locale with the formatted value', async function () {
+          // given
+          const accessToken = 'jwt.access.token';
+          const source = 'pix';
+          const expirationDelaySeconds = 1;
+          const user = domainBuilder.buildUser({ email: userEmail, locale: null });
+          const setLocaleIfNotAlreadySetStub = sinon.stub(user, 'setLocaleIfNotAlreadySet');
+
+          pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
+          refreshTokenService.createAccessTokenFromRefreshToken.resolves({ accessToken, expirationDelaySeconds });
+
+          // when
+          await authenticateUser({
+            username: userEmail,
+            password,
+            source,
+            localeFromCookie: 'localeFromCookie',
+            pixAuthenticationService,
+            refreshTokenService,
+            userRepository,
+          });
+
+          // then
+          expect(setLocaleIfNotAlreadySetStub).to.have.been.calledWithExactly('localeFromCookie');
+        });
+      });
+
+      context('when there is no locale cookie', function () {
+        it('does not update the user locale', async function () {
+          // given
+          const accessToken = 'jwt.access.token';
+          const source = 'pix';
+          const expirationDelaySeconds = 1;
+          const user = domainBuilder.buildUser({ email: userEmail, locale: undefined });
+
+          pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
+          refreshTokenService.createAccessTokenFromRefreshToken.resolves({ accessToken, expirationDelaySeconds });
+
+          // when
+          await authenticateUser({
+            username: userEmail,
+            password,
+            source,
+            localeFromCookie: undefined,
+            pixAuthenticationService,
+            refreshTokenService,
+            userRepository,
+          });
+
+          // then
+          expect(userRepository.update).to.not.have.been.called;
+        });
       });
     });
   });

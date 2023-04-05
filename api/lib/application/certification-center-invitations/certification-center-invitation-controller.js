@@ -5,12 +5,14 @@ module.exports = {
   async acceptCertificationCenterInvitation(request, h) {
     const certificationCenterInvitationId = request.params.id;
     const { code, email: rawEmail } = request.deserializedPayload;
+    const localeFromCookie = request.state?.locale;
     const email = rawEmail.trim().toLowerCase();
 
     await usecases.acceptCertificationCenterInvitation({
       certificationCenterInvitationId,
       code,
       email,
+      localeFromCookie,
     });
     return h.response({}).code(204);
   },
