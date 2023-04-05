@@ -2,12 +2,12 @@
   max-width: 450px;
   display: flex;
   flex-direction: column;
-  gap: $spacing-m;
+  gap: $pix-spacing-m;
   font-size: 0.875rem;
 
   &__information {
     text-align: center;
-    margin-bottom: $spacing-s;
+    margin-bottom: $pix-spacing-s;
     color: $pix-neutral-90;
     font-family: $font-roboto;
     letter-spacing: 0.0094rem;
