@@ -1278,6 +1278,12 @@
           "img": "pôle Emploi connect"
         }
       },
+      "fwb": {
+        "title": "Se connecter via la FWB",
+        "link": {
+          "img": "FWB connect"
+        }
+      },
       "subtitle": {
         "link": "Créez un compte",
         "text": "Vous n'avez pas encore de compte Pix ?"
