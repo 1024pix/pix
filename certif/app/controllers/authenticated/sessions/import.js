@@ -62,6 +62,10 @@ export default class ImportController extends Controller {
       if (!this.file) {
         return;
       }
+      if (this.file.type !== 'text/csv') {
+        this.notifications.error(this.intl.t(`pages.sessions.import.step-one.errors.incorrect-type-file`));
+        return;
+      }
       const {
         sessionsCount,
         sessionsWithoutCandidatesCount,

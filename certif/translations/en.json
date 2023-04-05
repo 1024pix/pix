@@ -207,7 +207,8 @@
             }
           },
           "errors": {
-            "download": "Une erreur s'est produite pendant le téléchargement"
+            "download": "Une erreur s'est produite pendant le téléchargement",
+            "incorrect-type-file": "Le format du fichier est incorrect, seul le format .csv est accepté"
           },
           "instructions": {
             "creation": {
