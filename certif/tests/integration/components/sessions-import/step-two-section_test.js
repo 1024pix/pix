@@ -172,7 +172,7 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
       {
         error: 'DUPLICATE_CANDIDATE_IN_SESSION',
         expectedMessage:
-          'Au moins un candidat est inscrit plusieurs fois à la même session, une seule inscription sera prise en compte.',
+          'Le candidat est inscrit plusieurs fois à la même session, une seule inscription sera prise en compte.',
       },
     ].forEach(function ({ error, expectedMessage }) {
       test('it renders a report', async function (assert) {
