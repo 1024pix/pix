@@ -217,7 +217,7 @@ module('Acceptance | Session Import', function (hooks) {
             test('it should allow session creation anyway', async function (assert) {
               // given
               const blob = new Blob(['foo']);
-              const file = new File([blob], 'fichier.csv', { type: 'text/csv' });
+              const file = new File([blob], 'fichier.csv');
               this.server.post('/certification-centers/:id/sessions/validate-for-mass-import', () => {
                 return new Response(
                   200,
