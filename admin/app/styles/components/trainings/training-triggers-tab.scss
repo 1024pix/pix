@@ -6,7 +6,7 @@
 
 .trigger-card {
   &__title {
-    @include subheading;
+    @extend %pix-body-l;
 
     font-weight: 500;
     display: flex;
@@ -26,12 +26,13 @@
   }
 
   &__description {
-    @include text-small;
+    @extend %pix-body-m;
+
+    margin-bottom: $pix-spacing-s;
   }
 
   &__toggler {
     display: inline-flex;
-    margin-top: $pix-spacing-s;
 
     svg {
       margin-right: $pix-spacing-xs;
