@@ -8,7 +8,7 @@
   }
 
   &__mandatory-information {
-    padding-bottom: $spacing-m;
+    padding-bottom: $pix-spacing-m;
     color: $pix-neutral-70;
   }
 
@@ -19,11 +19,11 @@
   }
 
   &__actions {
-    margin-top: $spacing-l;
+    margin-top: $pix-spacing-l;
     margin-bottom: 0;
     display: flex;
     justify-content: flex-end;
-    gap: $spacing-m;
+    gap: $pix-spacing-m;
     list-style: none;
   }
 

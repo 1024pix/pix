@@ -140,7 +140,7 @@
 
   &__section--link-buttons {
     display: flex;
-    gap: $spacing-s;
+    gap: $pix-spacing-s;
     margin-top: 24px;
   }
 
@@ -178,7 +178,7 @@
 }
 
 .import-page__resume-section {
-  gap: $spacing-m;
+  gap: $pix-spacing-m;
 }
 
 .import-page-section {

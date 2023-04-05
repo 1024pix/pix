@@ -19,7 +19,6 @@
 }
 
 .login-header {
-
   &__title {
     font-family: $font-open-sans;
     font-weight: 400;
@@ -47,16 +46,14 @@
 }
 
 .login-main {
-
   &__form {
     display: flex;
     flex-direction: column;
-    gap: $spacing-s;
+    gap: $pix-spacing-s;
   }
 }
 
 .login-main-form {
-
   &__mandatory-information {
     text-align: center;
     font-family: $font-roboto;

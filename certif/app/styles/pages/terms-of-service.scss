@@ -16,7 +16,6 @@
   background-color: white;
   border-radius: 10px;
 
-
   &__header {
     display: flex;
     flex-direction: column;
@@ -29,7 +28,7 @@
     &--title {
       margin: 0 10px 30px;
       text-align: center;
-      color: $pix-neutral-80
+      color: $pix-neutral-80;
     }
   }
 
@@ -49,16 +48,18 @@
     overflow-x: hidden;
     font-family: $font-open-sans;
 
-    p, li {
-      margin-bottom: $spacing-s;
+    p,
+    li {
+      margin-bottom: $pix-spacing-s;
     }
 
     ul {
       list-style: inside;
     }
 
-    h2, h3 {
-      margin-bottom: $spacing-m;
+    h2,
+    h3 {
+      margin-bottom: $pix-spacing-m;
     }
   }
 
