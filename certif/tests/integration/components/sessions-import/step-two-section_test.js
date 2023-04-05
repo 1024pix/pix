@@ -106,10 +106,6 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
         error: 'CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID',
         expectedMessage: 'Donnée du champ "E-mail du destinataire des résultats (formateur, enseignant…)" invalide',
       },
-      {
-        error: 'DUPLICATE_CANDIDATE_NOT_ALLOWED_IN_SESSION',
-        expectedMessage: 'Candidat inscrit plusieurs fois à cette session',
-      },
       { error: 'SESSION_ADDRESS_REQUIRED', expectedMessage: 'Champ obligatoire "Nom du site" manquant' },
       { error: 'SESSION_ROOM_REQUIRED', expectedMessage: 'Champ obligatoire "Nom de la salle" manquant' },
       { error: 'SESSION_DATE_REQUIRED', expectedMessage: 'Champ obligatoire "Date de session" manquant' },
@@ -171,10 +167,14 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
   });
 
   module('when the imported file contains non blocking errors', function () {
-    [{ error: 'EMPTY_SESSION', expectedMessage: 'La session ne contient pas de candidat' }].forEach(function ({
-      error,
-      expectedMessage,
-    }) {
+    [
+      { error: 'EMPTY_SESSION', expectedMessage: 'La session ne contient pas de candidat' },
+      {
+        error: 'DUPLICATE_CANDIDATE_IN_SESSION',
+        expectedMessage:
+          'Au moins un candidat est inscrit plusieurs fois à la même session, une seule inscription sera prise en compte.',
+      },
+    ].forEach(function ({ error, expectedMessage }) {
       test('it renders a report', async function (assert) {
         // given
         this.set('errorReports', [{ line: '5', code: error, isBlocking: false }]);

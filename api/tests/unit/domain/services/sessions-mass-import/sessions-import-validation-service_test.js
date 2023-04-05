@@ -346,8 +346,8 @@ describe('Unit | Service | sessions import validation Service', function () {
           expect(sessionErrors).to.deep.equal([
             {
               line: 1,
-              code: 'DUPLICATE_CANDIDATE_NOT_ALLOWED_IN_SESSION',
-              isBlocking: true,
+              code: 'DUPLICATE_CANDIDATE_IN_SESSION',
+              isBlocking: false,
             },
           ]);
         });
