@@ -41,11 +41,11 @@ export default class StepTwoSectionComponent extends Component {
   }
 
   get _blockingErrors() {
-    return this.args.errorReports.filter((error) => error.blocking);
+    return this.args.errorReports.filter((error) => error.isBlocking);
   }
 
   get _nonBlockingErrors() {
-    return this.args.errorReports.filter((error) => !error.blocking);
+    return this.args.errorReports.filter((error) => !error.isBlocking);
   }
 
   get hasOnlyNonBlockingErrorReports() {

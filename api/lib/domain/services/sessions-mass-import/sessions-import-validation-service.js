@@ -69,7 +69,7 @@ module.exports = {
         errorList: sessionErrors,
         line,
         codes: [CERTIFICATION_SESSIONS_ERRORS.EMPTY_SESSION.code],
-        blocking: false,
+        isBlocking: false,
       });
     } else {
       if (_hasDuplicateCertificationCandidates(session.certificationCandidates)) {
@@ -148,8 +148,8 @@ function _isErrorNotDuplicated({ certificationCandidateErrors, errorCode }) {
   return !certificationCandidateErrors.some((error) => errorCode === error.code);
 }
 
-function _addToErrorList({ errorList, line, codes = [], blocking = true }) {
-  const errors = codes.map((code) => ({ code, line, blocking }));
+function _addToErrorList({ errorList, line, codes = [], isBlocking = true }) {
+  const errors = codes.map((code) => ({ code, line, isBlocking }));
   errorList.push(...errors);
 }
 

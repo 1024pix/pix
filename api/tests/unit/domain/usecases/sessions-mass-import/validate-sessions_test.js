@@ -237,7 +237,7 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
     it('should not save in temporary storage', async function () {
       // given
       sessionsImportValidationService.validateSession.resolves([
-        { code: 'Veuillez indiquer un nom de site.', blocking: true },
+        { code: 'Veuillez indiquer un nom de site.', isBlocking: true },
       ]);
       sessionsImportValidationService.getValidatedCandidateBirthInformation.resolves({
         certificationCandidateErrors: [],

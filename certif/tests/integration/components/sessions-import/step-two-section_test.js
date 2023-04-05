@@ -139,7 +139,7 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
     ].forEach(function ({ error, expectedMessage }) {
       test('it renders a report', async function (assert) {
         // given
-        this.set('errorReports', [{ line: '5', code: error, blocking: true }]);
+        this.set('errorReports', [{ line: '5', code: error, isBlocking: true }]);
 
         // when
         const { getByText, getByRole } = await render(hbs`<Import::StepTwoSection
@@ -156,8 +156,8 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
     test('it renders a button to return to step one', async function (assert) {
       // given
       this.set('errorReports', [
-        { line: 1, code: 'CANDIDATE_FIRST_NAME_REQUIRED', blocking: true },
-        { line: 2, code: 'EMPTY_SESSION', blocking: false },
+        { line: 1, code: 'CANDIDATE_FIRST_NAME_REQUIRED', isBlocking: true },
+        { line: 2, code: 'EMPTY_SESSION', isBlocking: false },
       ]);
 
       // when
@@ -177,7 +177,7 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
     }) {
       test('it renders a report', async function (assert) {
         // given
-        this.set('errorReports', [{ line: '5', code: error, blocking: false }]);
+        this.set('errorReports', [{ line: '5', code: error, isBlocking: false }]);
 
         // when
         const { getByText, getByRole } = await render(
@@ -193,7 +193,7 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
 
     test('it renders a button to return to step one', async function (assert) {
       // given
-      this.set('errorReports', [{ line: 2, code: 'EMPTY_SESSION', blocking: false }]);
+      this.set('errorReports', [{ line: 2, code: 'EMPTY_SESSION', isBlocking: false }]);
 
       // when
       const { getByRole } = await render(hbs`<Import::StepTwoSection @errorReports={{this.errorReports}} />`);
@@ -206,7 +206,7 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
 
     test('it renders a button to create the sessions', async function (assert) {
       // given
-      this.set('errorReports', [{ line: 2, code: 'EMPTY_SESSION', blocking: false }]);
+      this.set('errorReports', [{ line: 2, code: 'EMPTY_SESSION', isBlocking: false }]);
 
       // when
       const { getByRole } = await render(hbs`<Import::StepTwoSection @errorReports={{this.errorReports}} />`);
