@@ -357,13 +357,19 @@
               "close-extra-information": "Close add candidate window modal",
               "enrol-the-candidate": "Enrol the candidate"
             },
-            "title": "Inscrire un candidat",
+            "title": "Enrol a candidate",
+            "complementary-certification-none": "None",
             "info-panel": "If this field isn’t filled in, the results won't be transmitted by email for the affected candidate(s).<br />The candidate will see their results displayed directly on their Pix account.",
             "prepayment-information": "Prepayment code information",
             "prepayment-tooltip": "Required in particular when purchasing combined credits)<br />It must be comprised of the organisation’s SIRET and of the invoice’s number. Ex : 12345678912345/FACT12345.<br />If you don’t have an invoice, a prepayment code must be set with Pix.",
+            "required-fields": "The fields marked by <span class=\"required-field-indicator\">*</span> are required.",
             "notifications": {
-              "add-success": "The candidate has been successfully enrolled.",
-              "remove-success": "The candidate has been successfully deleted."
+              "success-add": "The candidate has been successfully enrolled.",
+              "success-remove": "The candidate has been successfully deleted.Ï",
+              "error-add-duplicate": "This candidate is already in the list, you can't add them again.",
+              "error-add-unknown": "An error occurred while adding the candidate.",
+              "error-remove-already-in": "This candidate has already joined the session, you can’t delete them.",
+              "error-remove-unknown": "An error occurred while deleting the candidate."
             }
           },
           "detail-modal": {

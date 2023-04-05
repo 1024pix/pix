@@ -5,8 +5,11 @@ import EmberObject, { action } from '@ember/object';
 import get from 'lodash/get';
 import toNumber from 'lodash/toNumber';
 
+const TRANSLATE_PREFIX = 'pages.sessions.detail.candidates';
+
 export default class EnrolledCandidates extends Component {
   @service store;
+  @service intl;
   @service notifications;
   @tracked candidatesInStaging = [];
   @tracked newCandidate = {};
@@ -21,11 +24,11 @@ export default class EnrolledCandidates extends Component {
 
     try {
       await certificationCandidate.destroyRecord({ adapterOptions: { sessionId } });
-      this.notifications.success('Le candidat a été supprimé avec succès.');
+      this.notifications.success(this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.success-remove`));
     } catch (err) {
-      let errorText = "Une erreur s'est produite lors de la suppression du candidat";
+      let errorText = this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.error-remove-unknown`);
       if (get(err, 'errors[0].code') === 403) {
-        errorText = 'Ce candidat a déjà rejoint la session. Vous ne pouvez pas le supprimer.';
+        errorText = this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.error-remove-already-in`);
       }
       this.notifications.error(errorText);
     }
@@ -105,7 +108,7 @@ export default class EnrolledCandidates extends Component {
         adapterOptions: { registerToSession: true, sessionId: this.args.sessionId },
       });
       this.args.reloadCertificationCandidate();
-      this.notifications.success('Le candidat a été inscrit avec succès.');
+      this.notifications.success(this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.success-add`));
       return true;
     } catch (err) {
       if (this._hasConflict(err)) {
@@ -165,12 +168,12 @@ export default class EnrolledCandidates extends Component {
   }
 
   _handleDuplicateError(certificationCandidate) {
-    const errorText = "Ce candidat est déjà dans la liste, vous ne pouvez pas l'ajouter à nouveau.";
+    const errorText = this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.error-add-duplicate`);
     this._handleSavingError(errorText, certificationCandidate);
   }
 
   _handleUnknownSavingError(certificationCandidate) {
-    const errorText = "Une erreur s'est produite lors de l'ajout du candidat.";
+    const errorText = this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.error-add-unknown`);
     this._handleSavingError(errorText, certificationCandidate);
   }
 
