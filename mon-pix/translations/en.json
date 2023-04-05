@@ -1273,9 +1273,15 @@
       "forgotten-password": "Forgot your password?",
       "or": "OR",
       "pole-emploi": {
-        "title": "Sign-in with pôle Emploi",
+        "title": "Log in via Pôle Emploi",
         "link": {
           "img": "pôle emploi connect"
+        }
+      },
+      "fwb": {
+        "title": "Log in via the FWB",
+        "link": {
+          "img": "FWB connect"
         }
       },
       "subtitle": {
