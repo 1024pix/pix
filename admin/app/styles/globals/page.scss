@@ -1,6 +1,5 @@
 /* stylelint-disable selector-class-pattern */
 .page {
-
   .page-header {
     background: $pix-neutral-0;
     display: flex;
@@ -64,7 +63,7 @@
         font-weight: 600;
 
         &--sub {
-          margin-bottom: $spacing-s;
+          margin-bottom: $pix-spacing-s;
         }
       }
 

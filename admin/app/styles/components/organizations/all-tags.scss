@@ -3,11 +3,10 @@
   padding: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: $spacing-xs;
-  margin-top: $spacing-xs;
+  gap: $pix-spacing-xs;
+  margin-top: $pix-spacing-xs;
 
   &__tag {
-
     button {
       border: none;
       padding: 0;
@@ -19,7 +18,7 @@
 
 .organization-tags-lists-separator {
   border: 1px solid $pix-neutral-20;
-  margin: $spacing-m 0;
+  margin: $pix-spacing-m 0;
 }
 
 .organization-recently-used-tags-list__search-input-container {
