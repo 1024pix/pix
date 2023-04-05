@@ -65,6 +65,19 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
     });
   });
 
+  describe('#getRedirectLogoutUrl', function () {
+    it('returns null', function () {
+      // given
+      const oidcAuthenticationService = new OidcAuthenticationService({});
+
+      // when
+      const result = oidcAuthenticationService.getRedirectLogoutUrl();
+
+      // then
+      expect(result).to.be.null;
+    });
+  });
+
   describe('#getUserInfoMissingFields', function () {
     it('should return a message with missing fields list', async function () {
       // given
@@ -532,40 +545,38 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       };
     });
 
-    describe('#createUserAccount', function () {
-      it('should return user id', async function () {
-        // given
-        const externalIdentityId = '1233BBBC';
-        const user = new UserToCreate({
-          firstName: 'Adam',
-          lastName: 'Troisjours',
-        });
-        const userId = 1;
-        userToCreateRepository.create.withArgs({ user, domainTransaction }).resolves({ id: userId });
-
-        const identityProvider = OidcIdentityProviders.CNAV.service.code;
-        const expectedAuthenticationMethod = new AuthenticationMethod({
-          identityProvider,
-          externalIdentifier: externalIdentityId,
-          userId,
-        });
-        const oidcAuthenticationService = new OidcAuthenticationService({ identityProvider });
-
-        // when
-        const result = await oidcAuthenticationService.createUserAccount({
-          user,
-          externalIdentityId,
-          userToCreateRepository,
-          authenticationMethodRepository,
-        });
-
-        // then
-        expect(authenticationMethodRepository.create).to.have.been.calledWith({
-          authenticationMethod: expectedAuthenticationMethod,
-          domainTransaction,
-        });
-        expect(result).to.be.deep.equal({ userId });
+    it('returns created user id', async function () {
+      // given
+      const externalIdentityId = '1233BBBC';
+      const user = new UserToCreate({
+        firstName: 'Adam',
+        lastName: 'Troisjours',
       });
+      const userId = 1;
+      userToCreateRepository.create.withArgs({ user, domainTransaction }).resolves({ id: userId });
+
+      const identityProvider = OidcIdentityProviders.CNAV.service.code;
+      const expectedAuthenticationMethod = new AuthenticationMethod({
+        identityProvider,
+        externalIdentifier: externalIdentityId,
+        userId,
+      });
+      const oidcAuthenticationService = new OidcAuthenticationService({ identityProvider });
+
+      // when
+      const result = await oidcAuthenticationService.createUserAccount({
+        externalIdentityId,
+        user,
+        authenticationMethodRepository,
+        userToCreateRepository,
+      });
+
+      // then
+      expect(authenticationMethodRepository.create).to.have.been.calledWith({
+        authenticationMethod: expectedAuthenticationMethod,
+        domainTransaction,
+      });
+      expect(result).to.equal(userId);
     });
   });
 });
