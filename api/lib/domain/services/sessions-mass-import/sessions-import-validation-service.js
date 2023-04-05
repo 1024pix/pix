@@ -4,7 +4,7 @@ const { CERTIFICATION_SESSIONS_ERRORS } = require('../../constants/sessions-erro
 const dayjs = require('dayjs');
 
 module.exports = {
-  async validateSession({ session, line, sessionRepository, certificationCourseRepository }) {
+  async validateSession({ session, line, certificationCenterId, sessionRepository, certificationCourseRepository }) {
     const sessionId = session.id;
     const sessionErrors = [];
 
@@ -18,11 +18,19 @@ module.exports = {
       }
 
       if (_isSessionIdFormatValid(sessionId)) {
-        if (await _isSessionStarted({ certificationCourseRepository, sessionId })) {
+        if (await _isSessionExistingInCertificationCenter({ sessionId, certificationCenterId, sessionRepository })) {
+          if (await _isSessionStarted({ certificationCourseRepository, sessionId })) {
+            _addToErrorList({
+              errorList: sessionErrors,
+              line,
+              codes: [CERTIFICATION_SESSIONS_ERRORS.CANDIDATE_NOT_ALLOWED_FOR_STARTED_SESSION.code],
+            });
+          }
+        } else {
           _addToErrorList({
             errorList: sessionErrors,
             line,
-            codes: [CERTIFICATION_SESSIONS_ERRORS.CANDIDATE_NOT_ALLOWED_FOR_STARTED_SESSION.code],
+            codes: [CERTIFICATION_SESSIONS_ERRORS.SESSION_ID_NOT_EXISTING.code],
           });
         }
       } else {
@@ -127,6 +135,13 @@ function _isDateAndTimeValid(session) {
 
 function _isSessionIdFormatValid(sessionId) {
   return !isNaN(sessionId);
+}
+
+async function _isSessionExistingInCertificationCenter({ sessionId, certificationCenterId, sessionRepository }) {
+  return await sessionRepository.isSessionExistingBySessionAndCertificationCenterIds({
+    sessionId,
+    certificationCenterId,
+  });
 }
 
 function _isErrorNotDuplicated({ certificationCandidateErrors, errorCode }) {

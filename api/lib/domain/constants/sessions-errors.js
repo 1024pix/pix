@@ -15,6 +15,10 @@ module.exports.CERTIFICATION_SESSIONS_ERRORS = {
     code: 'SESSION_SCHEDULED_IN_THE_PAST',
     getMessage: () => `Une session ne peut pas être programmée dans le passé`,
   },
+  SESSION_ID_NOT_EXISTING: {
+    code: 'SESSION_ID_NOT_EXISTING',
+    getMessage: () => '',
+  },
   SESSION_ID_NOT_VALID: {
     code: 'SESSION_ID_NOT_VALID',
     getMessage: () => '',

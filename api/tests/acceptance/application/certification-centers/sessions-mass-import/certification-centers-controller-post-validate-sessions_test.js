@@ -95,7 +95,7 @@ describe('Acceptance | Controller | certification-centers-controller-post-valida
               isActualName: true,
             });
             databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
-            const sessionId = databaseBuilder.factory.buildSession({ id: 1234 }).id;
+            const sessionId = databaseBuilder.factory.buildSession({ id: 1234, certificationCenterId }).id;
             databaseBuilder.factory.buildCertificationCandidate({ sessionId, lastName: 'Toto' });
             databaseBuilder.factory.buildCertificationCandidate({ sessionId, lastName: 'Foo' });
             databaseBuilder.factory.buildCertificationCandidate({ sessionId, lastName: 'Bar' });
