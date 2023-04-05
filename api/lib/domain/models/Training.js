@@ -22,6 +22,14 @@ class Training {
     this.editorLogoUrl = editorLogoUrl;
     this.trainingTriggers = trainingTriggers;
   }
+
+  shouldBeObtained(knowledgeElements, skills) {
+    if (this.trainingTriggers.length === 0) {
+      return false;
+    }
+
+    return this.trainingTriggers.every((trainingTrigger) => trainingTrigger.isFulfilled({ knowledgeElements, skills }));
+  }
 }
 
 module.exports = Training;

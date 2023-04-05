@@ -4,6 +4,10 @@ class TrainingTriggerTube {
     this.tube = tube;
     this.level = level;
   }
+
+  getCappedSkills(skills) {
+    return skills.filter((skill) => skill.difficulty <= this.level && skill.tubeId === this.tube.id);
+  }
 }
 
 module.exports = TrainingTriggerTube;
