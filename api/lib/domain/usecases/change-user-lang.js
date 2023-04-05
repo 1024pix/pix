@@ -1,3 +1,4 @@
-module.exports = function changeUserLang({ userId, lang, userRepository }) {
-  return userRepository.updateUserAttributes(userId, { lang });
+module.exports = async function changeUserLang({ userId, lang, userRepository }) {
+  await userRepository.update({ id: userId, lang });
+  return userRepository.getFullById(userId);
 };

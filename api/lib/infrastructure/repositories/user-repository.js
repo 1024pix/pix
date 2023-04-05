@@ -32,6 +32,25 @@ module.exports = {
     return new User(foundUser);
   },
 
+  async getFullById(userId) {
+    const userDTO = await knex('users').where({ id: userId }).first();
+    if (!userDTO) {
+      throw new UserNotFoundError();
+    }
+
+    const membershipsDTO = await knex('memberships').where({ userId: userDTO.id, disabledAt: null });
+    const certificationCenterMembershipsDTO = await knex('certification-center-memberships').where({
+      userId: userDTO.id,
+      disabledAt: null,
+    });
+    const authenticationMethodsDTO = await knex('authentication-methods').where({
+      userId: userDTO.id,
+      identityProvider: 'PIX',
+    });
+
+    return _toDomainFromDTO({ userDTO, membershipsDTO, certificationCenterMembershipsDTO, authenticationMethodsDTO });
+  },
+
   async getByUsernameOrEmailWithRolesAndPassword(username) {
     const userDTO = await knex('users')
       .where({ email: username.toLowerCase() })
@@ -362,18 +381,6 @@ module.exports = {
         }
         throw err;
       });
-  },
-
-  async updateUserAttributes(id, userAttributes) {
-    try {
-      const bookshelfUser = await BookshelfUser.where({ id }).save(userAttributes, { patch: true, method: 'update' });
-      return _toDomain(bookshelfUser);
-    } catch (err) {
-      if (err instanceof BookshelfUser.NoRowsUpdatedError) {
-        throw new UserNotFoundError(`User not found for ID ${id}`);
-      }
-      throw err;
-    }
   },
 
   async findByExternalIdentifier({ externalIdentityId, identityProvider }) {
