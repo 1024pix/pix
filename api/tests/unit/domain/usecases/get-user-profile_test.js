@@ -27,10 +27,6 @@ describe('Unit | UseCase | get-user-profile', function () {
     sinon.stub(Scorecard, 'buildFrom').returns(scorecard);
   });
 
-  afterEach(function () {
-    sinon.restore();
-  });
-
   context('When user is authenticated', function () {
     const userId = 2;
     const earnedPixDefaultValue = 4;
