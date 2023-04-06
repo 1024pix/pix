@@ -1,5 +1,33 @@
 # Pix Changelog
 
+## v3.340.0 (06/04/2023)
+
+
+### :rocket: Amélioration
+- [#5928](https://github.com/1024pix/pix/pull/5928) [FEATURE] Ajouter les tables de gestion des fonctionnalités pour Pix (PIX-7460)
+- [#5937](https://github.com/1024pix/pix/pull/5937) [FEATURE] Montée de version pix-ui@v30.0.0 sur Certif (PIX-7640)
+- [#5933](https://github.com/1024pix/pix/pull/5933) [FEATURE] Améliorer le message d'erreur lors d'une suppression de colonne du csv d'import en masse sur Pix Certif (PIX-7090).
+- [#5914](https://github.com/1024pix/pix/pull/5914) [FEATURE] Pour un user qui se connecte à Pix Certif (rejoindre via invitation), si le cookie de la locale est dispo, alors enregistrer cette locale (PIX-7408)
+- [#5929](https://github.com/1024pix/pix/pull/5929) [FEATURE] Mise en place d'un algo de recommandation de contenu formatif (PIX-7506).
+- [#5922](https://github.com/1024pix/pix/pull/5922) [FEATURE] Déconnecter la session FWB d'un utilisateur qui se déconnecte de Pix (PIX-7422)
+- [#5825](https://github.com/1024pix/pix/pull/5825) [FEATURE] Traduire la modale d'inscription individuelle d'un candidat en anglais sur Pix Certif (PIX-6672)
+- [#5926](https://github.com/1024pix/pix/pull/5926) [FEATURE] Ne pas permettre la modification d'une session inexistante lors de l'import en masse de session sur Pix Certif (PIX-7612).
+- [#5916](https://github.com/1024pix/pix/pull/5916) [FEATURE] Traduction de la page de finalisation de session sur Pix Certif (PIX-6676).
+- [#5904](https://github.com/1024pix/pix/pull/5904) [FEATURE] Afficher les résultats des compétences sous forme d'étoiles sur la page de fin de parcours sur Pix-App (PIX-7557)
+
+### :building_construction: Tech
+- [#5925](https://github.com/1024pix/pix/pull/5925) [TECH] Bump pix-ui 29.1.1 (PIX-7641)
+- [#5884](https://github.com/1024pix/pix/pull/5884) [TECH] Migre certif sur embroider
+- [#5924](https://github.com/1024pix/pix/pull/5924) [TECH] Ajout du .buildpacks manquant pour pix1d
+- [#5814](https://github.com/1024pix/pix/pull/5814) [TECH] Création du projet Pix 1D (PIX-7472)
+
+### :bug: Correction
+- [#5915](https://github.com/1024pix/pix/pull/5915) [BUGFIX] Corriger le script de génération de campagne avec participation (PIX-7628)
+
+### :coffee: Autre
+- [#5920](https://github.com/1024pix/pix/pull/5920) [DOC] :memo: Ajout des entrées manquantes pour la v3.339.0 dans le changelog
+- [#5919](https://github.com/1024pix/pix/pull/5919) [BUMP] Lock file maintenance
+
 ## v3.339.0 (31/03/2023)
 
 
