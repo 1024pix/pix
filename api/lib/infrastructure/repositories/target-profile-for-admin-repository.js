@@ -7,6 +7,7 @@ const competenceRepository = require('./competence-repository.js');
 const thematicRepository = require('./thematic-repository.js');
 const tubeRepository = require('./tube-repository.js');
 const TargetProfileForAdmin = require('../../domain/models/TargetProfileForAdmin.js');
+const StageCollection = require('../../domain/models/target-profile-management/StageCollection');
 const { BadgeDetails, BadgeCriterion, CappedTube, SCOPES } = require('../../domain/models/BadgeDetails.js');
 
 module.exports = {
@@ -42,10 +43,12 @@ module.exports = {
 async function _toDomain(targetProfileDTO, tubesData, locale) {
   const { areas, competences, thematics, tubes } = await _getLearningContent(targetProfileDTO.id, tubesData, locale);
   const badges = await _findBadges(targetProfileDTO.id);
+  const stageCollection = await _getStageCollection(targetProfileDTO.id);
 
   return new TargetProfileForAdmin({
     ...targetProfileDTO,
     badges,
+    stageCollection,
     areas,
     competences,
     thematics,
@@ -130,4 +133,14 @@ async function _findBadges(targetProfileId) {
     );
   }
   return badges;
+}
+
+async function _getStageCollection(targetProfileId) {
+  const stages = await knex('stages').where({ targetProfileId }).orderBy('id', 'asc');
+  const { max: maxLevel } = await knex('target-profile_tubes')
+    .max('level')
+    .where('targetProfileId', targetProfileId)
+    .first();
+
+  return new StageCollection({ id: targetProfileId, stages, maxLevel });
 }

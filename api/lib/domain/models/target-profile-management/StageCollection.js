@@ -32,6 +32,21 @@ class StageCollection {
     return this._id;
   }
 
+  toDTO() {
+    return {
+      id: this._id,
+      stages: this._stages.map((stage) => ({
+        id: stage.id,
+        level: stage.level,
+        threshold: stage.threshold,
+        title: stage.title,
+        message: stage.message,
+        prescriberTitle: stage.prescriberTitle,
+        prescriberDescription: stage.prescriberDescription,
+      })),
+    };
+  }
+
   addStage(stage) {
     this._checkStageValidity(stage);
 

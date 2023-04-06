@@ -42,6 +42,30 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
         isAlwaysVisible: true,
         criteria: [badge2Criteria1],
       });
+      const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({
+        id: 132,
+        maxLevel: 5,
+        stages: [
+          {
+            id: 500,
+            level: 4,
+            threshold: null,
+            title: 'titre 500',
+            message: 'message 500',
+            prescriberTitle: 'titre prescripteur 500',
+            prescriberDescription: 'description prescripteur 500',
+          },
+          {
+            id: 501,
+            level: 5,
+            threshold: null,
+            title: 'titre 501',
+            message: 'message 501',
+            prescriberTitle: 'titre prescripteur 501',
+            prescriberDescription: 'description prescripteur 501',
+          },
+        ],
+      });
       const area = domainBuilder.buildArea({
         id: 'recArea1',
         title: 'Super domaine',
@@ -69,6 +93,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
         category: 'OTHER',
         isSimplifiedAccess: true,
         badges: [badge1, badge2],
+        stageCollection,
         areas: [area, area2],
         competences: [
           domainBuilder.buildCompetence({
@@ -172,6 +197,12 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
                 },
               ],
             },
+            'stage-collection': {
+              data: {
+                type: 'stageCollections',
+                id: '132',
+              },
+            },
             areas: {
               data: [
                 {
@@ -254,6 +285,30 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
                   },
                 ],
               },
+            },
+          },
+          {
+            id: '500',
+            type: 'stages',
+            attributes: {
+              level: 4,
+              message: 'message 500',
+              'prescriber-description': 'description prescripteur 500',
+              'prescriber-title': 'titre prescripteur 500',
+              threshold: null,
+              title: 'titre 500',
+            },
+          },
+          {
+            id: '501',
+            type: 'stages',
+            attributes: {
+              level: 5,
+              message: 'message 501',
+              'prescriber-description': 'description prescripteur 501',
+              'prescriber-title': 'titre prescripteur 501',
+              threshold: null,
+              title: 'titre 501',
             },
           },
           {
