@@ -676,6 +676,69 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
     });
   });
 
+  module('#competenceResultsGroupedByAreas', function () {
+    test('should return a competence results object with area keys', function (assert) {
+      // given
+      component.args.model.campaignParticipationResult.competenceResults = [
+        {
+          areaColor: 'areaColor1',
+          areaName: 'area1',
+          name: 'competence1',
+          masteryRate: '33',
+          reachedStage: 1,
+        },
+        {
+          areaColor: 'areaColor1',
+          areaName: 'area1',
+          name: 'competence2',
+          masteryRate: '50',
+          reachedStage: 2,
+        },
+        {
+          areaColor: 'areaColor2',
+          areaName: 'area2',
+          name: 'competence3',
+          masteryRate: '60',
+          reachedStage: 3,
+        },
+      ];
+
+      // when
+      const competenceResults = component.competenceResultsGroupedByAreas;
+
+      // then
+      assert.deepEqual(competenceResults, {
+        area1: {
+          areaColor: 'areaColor1',
+          areaName: 'area1',
+          competences: [
+            {
+              masteryRate: '33',
+              name: 'competence1',
+              reachedStage: 1,
+            },
+            {
+              masteryRate: '50',
+              name: 'competence2',
+              reachedStage: 2,
+            },
+          ],
+        },
+        area2: {
+          areaColor: 'areaColor2',
+          areaName: 'area2',
+          competences: [
+            {
+              masteryRate: '60',
+              name: 'competence3',
+              reachedStage: 3,
+            },
+          ],
+        },
+      });
+    });
+  });
+
   module('#redirectToSignupIfUserIsAnonymous', function () {
     test('should redirect to sign up page on click when user is anonymous', async function (assert) {
       // given

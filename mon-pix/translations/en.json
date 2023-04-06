@@ -1348,7 +1348,7 @@
       "badges-title": "Your thematic results",
       "details": {
         "title": "Your results by competence",
-        "caption": "Competence results details",
+        "caption": "Details of your results in percentage and stars according to competences",
         "flash-pix-score": "{score, number, ::.} Pix",
         "header-result": "Results",
         "header-skill": "Competences tested",
@@ -1375,6 +1375,7 @@
       },
       "send-title": "Submit your results",
       "stage": {
+        "title": "Competence results details",
         "masteryPercentage": "Success rate: {rate, number, ::percent}",
         "starsAcquired": "{acquired, plural, =0 {no star} other {# stars}} acquired over {total}"
       },

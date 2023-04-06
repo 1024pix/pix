@@ -193,6 +193,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
           {
             attributes: {
               'area-color': 'AreaColor',
+              'area-name': 'AreaName',
               index: '1.1',
               name: 'Competence1',
               'mastery-percentage': 50,
@@ -242,6 +243,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
               area: domainBuilder.buildArea({
                 id: 'area1',
                 color: 'area1Color',
+                name: 'AreaName1',
               }),
               pixScore: 300.3438957781,
             },
@@ -255,6 +257,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
               area: domainBuilder.buildArea({
                 id: 'area2',
                 color: 'area2Color',
+                name: 'AreaName2',
               }),
               pixScore: 74,
             },
@@ -285,6 +288,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
             name: 'competence 1',
             index: '1.1',
             'area-color': 'area1Color',
+            'area-name': 'AreaName1',
             'mastery-percentage': 0,
             'total-skills-count': 1,
             'tested-skills-count': 0,
@@ -300,6 +304,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
             name: 'competence 2',
             index: '2.1',
             'area-color': 'area2Color',
+            'area-name': 'AreaName2',
             'mastery-percentage': 0,
             'total-skills-count': 2,
             'tested-skills-count': 0,
