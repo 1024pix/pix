@@ -12,12 +12,14 @@ module('Acceptance | Target Profile Insights', function (hooks) {
   module('Access restriction stuff', function (hooks) {
     hooks.beforeEach(async function () {
       const badge = server.create('badge', { id: 200 });
-      const targetProfile = server.create('target-profile', {
+      const stage = server.create('stage', { id: 100 });
+      const stageCollection = server.create('stage-collection', { id: 1, stages: [stage] });
+      server.create('target-profile', {
         id: 1,
         name: 'Profil cible extra croustillant',
         badges: [badge],
+        stageCollection,
       });
-      server.create('stage', { id: 100, targetProfile });
     });
 
     module('When admin member is not logged in', function () {
@@ -66,18 +68,25 @@ module('Acceptance | Target Profile Insights', function (hooks) {
   });
 
   module('Insights', function (hooks) {
-    let targetProfile;
+    let targetProfile, stageCollection;
 
     hooks.beforeEach(async function () {
-      targetProfile = server.create('target-profile', { id: 1, name: 'Profil cible extra croustillant' });
+      stageCollection = server.create('stage-collection', { id: 1, stages: [] });
+      targetProfile = server.create('target-profile', {
+        id: 1,
+        name: 'Profil cible extra croustillant',
+        stageCollection,
+      });
       await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
     });
 
     module('Stages', function () {
       test('it should display existing stages', async function (assert) {
         // given
-        server.create('stage', { id: 100, title: 'premier palier', targetProfile });
-        server.create('stage', { id: 101, title: 'deuxième palier', targetProfile });
+        const stage1 = server.create('stage', { id: 100, title: 'premier palier' });
+        const stage2 = server.create('stage', { id: 101, title: 'deuxième palier' });
+        stageCollection.update({ stages: [stage1, stage2] });
+
         // when
         const screen = await visit('/target-profiles/1');
         await clickByName('Clés de lecture');
@@ -90,7 +99,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
 
       test('it should display stage details when clicking on "Voir détail"', async function (assert) {
         // given
-        server.create('stage', {
+        const stage = server.create('stage', {
           id: 100,
           level: 1,
           threshold: null,
@@ -98,8 +107,8 @@ module('Acceptance | Target Profile Insights', function (hooks) {
           message: 'message palier',
           prescriberTitle: 'titre prescripteur',
           prescriberDescription: 'description prescripteur',
-          targetProfile,
         });
+        stageCollection.update({ stages: [stage] });
 
         // when
         const screen = await visit('/target-profiles/1/insights');
@@ -116,7 +125,8 @@ module('Acceptance | Target Profile Insights', function (hooks) {
       });
 
       test('it should go back to insights when clicking on target profile header in details page', async function (assert) {
-        server.create('stage', { id: 100, title: 'premier palier', targetProfile });
+        const stage = server.create('stage', { id: 100, title: 'premier palier' });
+        stageCollection.update({ stages: [stage] });
 
         // when
         await visit('/target-profiles/1/stages/100');
@@ -128,7 +138,8 @@ module('Acceptance | Target Profile Insights', function (hooks) {
 
       test('it should cancel stage edition', async function (assert) {
         // given
-        server.create('stage', { id: 100, title: 'titre initial', targetProfile });
+        const stage = server.create('stage', { id: 100, title: 'titre initial' });
+        stageCollection.update({ stages: [stage] });
 
         // when
         const screen = await visit('/target-profiles/1');
@@ -182,7 +193,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
 
         test('it should not display delete button stage on level 0', async function (assert) {
           // given
-          server.create('stage', {
+          const stage = server.create('stage', {
             id: 100,
             level: 0,
             threshold: null,
@@ -190,8 +201,8 @@ module('Acceptance | Target Profile Insights', function (hooks) {
             message: 'message palier',
             prescriberTitle: 'titre prescripteur',
             prescriberDescription: 'description prescripteur',
-            targetProfile,
           });
+          stageCollection.update({ stages: [stage] });
 
           // when
           const screen = await visit('/target-profiles/1/insights');
@@ -203,15 +214,15 @@ module('Acceptance | Target Profile Insights', function (hooks) {
 
         test('it should edit the stage information', async function (assert) {
           // given
-          server.create('stage', {
+          const stage = server.create('stage', {
             id: 100,
             level: 2,
             title: 'ancien titre',
             message: 'ancien message',
             prescriberTitle: 'ancien titre prescripteur',
             prescriberDescription: 'ancienne description prescripteur',
-            targetProfile,
           });
+          stageCollection.update({ stages: [stage] });
 
           // when
           const screen = await visit('/target-profiles/1');
@@ -271,7 +282,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
 
         test('it should not display delete button stage on threshold 0', async function (assert) {
           // given
-          server.create('stage', {
+          const stage = server.create('stage', {
             id: 100,
             level: null,
             threshold: 0,
@@ -279,8 +290,8 @@ module('Acceptance | Target Profile Insights', function (hooks) {
             message: 'message palier',
             prescriberTitle: 'titre prescripteur',
             prescriberDescription: 'description prescripteur',
-            targetProfile,
           });
+          stageCollection.update({ stages: [stage] });
 
           // when
           const screen = await visit('/target-profiles/1/insights');
@@ -292,15 +303,15 @@ module('Acceptance | Target Profile Insights', function (hooks) {
 
         test('it should edit the stage information', async function (assert) {
           // given
-          server.create('stage', {
+          const stage = server.create('stage', {
             id: 100,
             threshold: 10,
             title: 'ancien titre',
             message: 'ancien message',
             prescriberTitle: 'ancien titre prescripteur',
             prescriberDescription: 'ancienne description prescripteur',
-            targetProfile,
           });
+          stageCollection.update({ stages: [stage] });
 
           // when
           const screen = await visit('/target-profiles/1');

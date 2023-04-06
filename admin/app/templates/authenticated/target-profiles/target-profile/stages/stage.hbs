@@ -1,8 +1,9 @@
 <Stages::Stage
   @stage={{@model.stage}}
-  @targetProfile={{@model.targetProfile}}
+  @targetProfileName={{@model.targetProfile.name}}
   @availableLevels={{this.availableLevels}}
   @unavailableThresholds={{this.unavailableThresholds}}
   @toggleEditMode={{this.toggleEditMode}}
   @isEditMode={{this.isEditMode}}
+  @onUpdate={{this.update}}
 />

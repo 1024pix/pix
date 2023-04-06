@@ -38,7 +38,7 @@ export default class UpdateStage extends Component {
     model.prescriberTitle = this.prescriberTitle ? this.prescriberTitle.trim() : null;
     model.prescriberDescription = this.prescriberDescription ? this.prescriberDescription.trim() : null;
     try {
-      await model.save();
+      await this.args.onUpdate();
       await this.notifications.success('Les modifications ont bien été enregistrées.');
       this.args.toggleEditMode();
     } catch (e) {

@@ -1,7 +1,7 @@
 import Model, { attr, belongsTo } from '@ember-data/model';
 
 export default class Stage extends Model {
-  @belongsTo('target-profile') targetProfile;
+  @belongsTo('stage-collection') stageCollection;
 
   @attr('number') threshold;
   @attr('number') level;
@@ -20,5 +20,9 @@ export default class Stage extends Model {
 
   get isTypeLevel() {
     return this.level != null;
+  }
+
+  get isBeingCreated() {
+    return !this.id;
   }
 }
