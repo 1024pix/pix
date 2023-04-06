@@ -215,7 +215,7 @@ function _getComplementaryCertificationLabel(key, COMPLEMENTARY_CERTIFICATION_SU
 function _verifyHeaders({ csvLineKeys, parsedCsvLine, headers }) {
   csvLineKeys.forEach((key) => {
     if (parsedCsvLine[headers[key]] === undefined) {
-      throw new FileValidationError(`La colonne : ${headers[key]} est absente du fichier`);
+      throw new FileValidationError('CSV_HEADERS_NOT_VALID');
     }
   });
 }

@@ -146,7 +146,7 @@ module('Acceptance | Session Import', function (hooks) {
           test('it should get back to step 1', async function (assert) {
             // given
             const blob = new Blob(['foo']);
-            const file = new File([blob], 'fichier.csv');
+            const file = new File([blob], 'fichier.csv', { type: 'text/csv' });
             screen = await visit('/sessions/import');
             const importButton = screen.getByLabelText('Importer le modèle complété');
             await triggerEvent(importButton, 'change', { files: [file] });
@@ -168,7 +168,7 @@ module('Acceptance | Session Import', function (hooks) {
           test("it should remove the file's name", async function (assert) {
             // given
             const blob = new Blob(['foo']);
-            const file = new File([blob], 'fichier.csv');
+            const file = new File([blob], 'fichier.csv', { type: 'text/csv' });
 
             // when
             screen = await visit('/sessions/import');
@@ -186,7 +186,7 @@ module('Acceptance | Session Import', function (hooks) {
           test('it should display the sessions and candidates count', async function (assert) {
             // given
             const blob = new Blob(['foo']);
-            const file = new File([blob], 'fichier.csv');
+            const file = new File([blob], 'fichier.csv', { type: 'text/csv' });
             this.server.post('/certification-centers/:id/sessions/validate-for-mass-import', () => {
               return new Response(
                 200,
@@ -195,7 +195,7 @@ module('Acceptance | Session Import', function (hooks) {
                   sessionsCount: 2,
                   sessionsWithoutCandidatesCount: 1,
                   candidatesCount: 3,
-                  errorReports: [{ code: 'EMPTY_SESSION', line: 1, blocking: false }],
+                  errorReports: [],
                 }
               );
             });
@@ -211,14 +211,43 @@ module('Acceptance | Session Import', function (hooks) {
             assert.dom(screen.getByText('2 sessions dont 1 session sans candidat')).exists();
             assert.dom(screen.getByText('3 candidats')).exists();
             assert.dom(screen.queryByLabelText('fichier.csv')).doesNotExist();
-            assert.dom(screen.getByRole('button', { name: 'Finaliser quand même la création/édition' })).exists();
+          });
+
+          module('when there is only non blocking errors', function () {
+            test('it should allow session creation anyway', async function (assert) {
+              // given
+              const blob = new Blob(['foo']);
+              const file = new File([blob], 'fichier.csv', { type: 'text/csv' });
+              this.server.post('/certification-centers/:id/sessions/validate-for-mass-import', () => {
+                return new Response(
+                  200,
+                  {},
+                  {
+                    sessionsCount: 2,
+                    sessionsWithoutCandidatesCount: 1,
+                    candidatesCount: 3,
+                    errorReports: [{ code: 'EMPTY_SESSION', line: 1, blocking: false }],
+                  }
+                );
+              });
+
+              // when
+              screen = await visit('/sessions/import');
+              const input = screen.getByLabelText('Importer le modèle complété');
+              await triggerEvent(input, 'change', { files: [file] });
+              const importButton = screen.getByRole('button', { name: 'Continuer' });
+              await click(importButton);
+
+              // then
+              assert.dom(screen.getByRole('button', { name: 'Finaliser quand même la création/édition' })).exists();
+            });
           });
 
           module('when the user has confirmed the import', function () {
             test("it should redirect to the session's list", async function (assert) {
               // given
               const blob = new Blob(['foo']);
-              const file = new File([blob], 'fichier.csv');
+              const file = new File([blob], 'fichier.csv', { type: 'text/csv' });
               this.server.post('/certification-centers/:id/sessions/validate-for-mass-import', () => {
                 return new Response(
                   200,
@@ -252,7 +281,7 @@ module('Acceptance | Session Import', function (hooks) {
               test('it should display a success notification', async function (assert) {
                 // given
                 const blob = new Blob(['foo']);
-                const file = new File([blob], 'fichier.csv');
+                const file = new File([blob], 'fichier.csv', { type: 'text/csv' });
                 this.server.post('/certification-centers/:id/sessions/validate-for-mass-import', () => {
                   return new Response(
                     200,
@@ -293,7 +322,7 @@ module('Acceptance | Session Import', function (hooks) {
               test('it should display a pluralized success notification', async function (assert) {
                 // given
                 const blob = new Blob(['foo']);
-                const file = new File([blob], 'fichier.csv');
+                const file = new File([blob], 'fichier.csv', { type: 'text/csv' });
                 this.server.post('/certification-centers/:id/sessions/validate-for-mass-import', () => {
                   return new Response(
                     200,
@@ -336,24 +365,6 @@ module('Acceptance | Session Import', function (hooks) {
           test('it should display an error notification', async function (assert) {
             //given
             const file = new Blob(['foo']);
-            this.server.post(
-              '/certification-centers/:id/sessions/validate-for-mass-import',
-              () =>
-                new Response(
-                  422,
-                  { some: 'header' },
-                  {
-                    errors: [
-                      {
-                        code: 'INVALID_DOCUMENT',
-                        status: '422',
-                        title: 'Unprocessable Entity',
-                        detail: 'Fichier non valide',
-                      },
-                    ],
-                  }
-                )
-            );
 
             // when
             screen = await visit('/sessions/import');
@@ -363,7 +374,9 @@ module('Acceptance | Session Import', function (hooks) {
             await click(importButton);
 
             // then
-            assert.dom(screen.getByText('Fichier non valide')).exists();
+            assert
+              .dom(screen.getByText('Le format du fichier est incorrect, seul le format .csv est accepté'))
+              .exists();
           });
 
           test('it should not go to step two', async function (assert) {
@@ -397,6 +410,39 @@ module('Acceptance | Session Import', function (hooks) {
 
             // then
             assert.dom(screen.getByRole('button', { name: 'Télécharger le modèle vierge' })).exists();
+          });
+        });
+
+        module('when file headers have been modified', function () {
+          test('it should display an error notification', async function (assert) {
+            //given
+            const blob = new Blob(['foo']);
+            const file = new File([blob], 'fichier.csv', { type: 'text/csv' });
+            this.server.post(
+              '/certification-centers/:id/sessions/validate-for-mass-import',
+              () =>
+                new Response(
+                  422,
+                  { some: 'header' },
+                  {
+                    errors: [
+                      {
+                        code: 'CSV_HEADERS_NOT_VALID',
+                      },
+                    ],
+                  }
+                )
+            );
+
+            // when
+            screen = await visit('/sessions/import');
+            const input = await screen.findByLabelText('Importer le modèle complété');
+            await triggerEvent(input, 'change', { files: [file] });
+            const importButton = screen.getByRole('button', { name: 'Continuer' });
+            await click(importButton);
+
+            // then
+            assert.dom(screen.getByText('Le modèle a été altéré, merci de le télécharger à nouveau.')).exists();
           });
         });
       });

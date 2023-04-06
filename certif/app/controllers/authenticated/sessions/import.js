@@ -62,6 +62,10 @@ export default class ImportController extends Controller {
       if (!this.file) {
         return;
       }
+      if (this.file.type !== 'text/csv') {
+        this.notifications.error(this.intl.t(`pages.sessions.import.step-one.errors.incorrect-type-file`));
+        return;
+      }
       const {
         sessionsCount,
         sessionsWithoutCandidatesCount,
@@ -75,7 +79,13 @@ export default class ImportController extends Controller {
       this.cachedValidatedSessionsKey = cachedValidatedSessionsKey;
       this.errorReports = errorReports;
     } catch (errors) {
-      this.notifications.error(errors.errors[0].detail);
+      if (errors.errors[0].code === 'CSV_HEADERS_NOT_VALID') {
+        this.notifications.error(
+          this.intl.t(`pages.sessions.import.step-two.blocking-errors.errors.${errors.errors[0].code}`)
+        );
+      } else {
+        this.notifications.error(errors.errors[0].detail);
+      }
       return;
     }
     this.isImportStepOne = false;
