@@ -265,10 +265,26 @@
 
     {{#unless @model.campaign.isForAbsoluteNovice}}
       {{#if this.showStagesWithStars}}
-        <Campaigns::Assessment::SkillReviewCompetenceStagesResult
-          @competenceResults={{@model.campaignParticipationResult.competenceResults}}
-          @totalStage={{this.reachedStage.totalStage}}
-        />
+        <section class="skill-review-result-detail__content">
+          <h2 class="skill-review-competence-stages-result__title">
+            {{t "pages.skill-review.stage.title"}}
+          </h2>
+          {{#each-in this.competenceResultsGroupedByAreas as |area competenceResults|}}
+            <div class="skill-review-competence-stages-result__content">
+              <div class="skill-review-competence-stages-result__area">
+                <span
+                  class="skill-review-competence-stages-result__border skill-review-competence__border--{{competenceResults.areaColor}}"
+                  aria-hidden="true"
+                ></span>
+                <h3 class="skill-review-competence-stages-result__subtitle">{{area}}</h3>
+              </div>
+              <Campaigns::Assessment::SkillReviewCompetenceStagesResult
+                @competenceResults={{competenceResults}}
+                @totalStage={{this.reachedStage.totalStage}}
+              />
+            </div>
+          {{/each-in}}
+        </section>
       {{else}}
         <section class="skill-review-result-detail__content">
           <div class="skill-review-result-detail__table-header">

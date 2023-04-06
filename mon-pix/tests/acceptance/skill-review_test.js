@@ -198,6 +198,7 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
         test('should display reached stage and competence reached stage', async function (assert) {
           // given
           const competenceResult = server.create('competence-result', {
+            areaName: 'area1',
             name: competenceResultName,
             masteryPercentage: 85,
             reachedStage: 2,
@@ -215,6 +216,7 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
 
           // then
           assert.ok(screen.getByText('You reached Stage 1'));
+          assert.ok(screen.getByText('area1'));
           assert.ok(screen.getByText('85 % de réussite'));
           assert.ok(screen.getByText('2 étoiles acquises sur 4'));
         });

@@ -118,6 +118,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
     const learningContent = [
       {
         id: 'recArea1',
+        name: 'AreaName1',
         color: JAFFA_COLOR,
         competences: [
           {
@@ -130,6 +131,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
       },
       {
         id: 'recArea2',
+        name: 'AreaName2',
         color: EMERALD_COLOR,
         competences: [
           {
@@ -158,6 +160,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
       },
       {
         id: 'recArea3',
+        name: 'AreaName3',
         color: WILD_STRAWBERRY_COLOR,
         competences: [
           {
@@ -305,6 +308,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
               'tested-skills-count': 0,
               'validated-skills-count': 0,
               'area-color': JAFFA_COLOR,
+              'area-name': 'AreaName1',
               'reached-stage': 0,
               'flash-pix-score': undefined,
             },
@@ -320,6 +324,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
               'tested-skills-count': 2,
               'validated-skills-count': 2,
               'area-color': EMERALD_COLOR,
+              'area-name': 'AreaName2',
               'reached-stage': 1,
               'flash-pix-score': undefined,
             },
@@ -335,6 +340,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
               'tested-skills-count': 3,
               'validated-skills-count': 1,
               'area-color': EMERALD_COLOR,
+              'area-name': 'AreaName2',
               'reached-stage': 0,
               'flash-pix-score': undefined,
             },

@@ -170,6 +170,28 @@ export default class SkillReview extends Component {
     return this.args.model.campaignParticipationResult.canImprove && !this.isShareButtonClicked;
   }
 
+  get competenceResultsGroupedByAreas() {
+    const competenceResults = this.args.model.campaignParticipationResult.get('competenceResults').toArray();
+    return competenceResults.reduce((acc, competenceResult) => {
+      const currentArea = competenceResult.areaName;
+      const competence = {
+        name: competenceResult.name,
+        reachedStage: competenceResult.reachedStage,
+        masteryRate: competenceResult.masteryRate,
+      };
+      if (acc[currentArea]) {
+        acc[currentArea].competences.push(competence);
+      } else {
+        acc[currentArea] = {
+          areaName: currentArea,
+          areaColor: competenceResult.areaColor,
+          competences: [competence],
+        };
+      }
+      return acc;
+    }, {});
+  }
+
   _buildUrl(baseUrl, params) {
     const Url = new URL(baseUrl);
     const urlParams = new URLSearchParams(Url.search);
