@@ -1,11 +1,11 @@
-<Ui::IndicatorCard
+<PixIndicatorCard
   @title={{t "cards.participants-count.title"}}
   @icon="users"
-  @color="blue"
+  @color="#3D68FF"
   @info={{t "cards.participants-count.information"}}
-  @loader={{t "cards.participants-count.loader"}}
+  @loadingMessage={{t "cards.participants-count.loader"}}
   @isLoading={{@isLoading}}
   ...attributes
 >
-  {{@value}}
-</Ui::IndicatorCard>
+  <:default>{{@value}}</:default>
+</PixIndicatorCard>

@@ -8,7 +8,7 @@ $margin-right: 32px;
 
   &__last-participation {
     display: flex;
-    gap: $spacing-xs;
+    gap: $pix-spacing-xs;
     justify-content: center;
   }
 
@@ -29,7 +29,7 @@ $margin-right: 32px;
 
   &__certifiable-at {
     display: block;
-    margin-top: $spacing-xxs;
+    margin-top: $pix-spacing-xxs;
   }
 
   &__header {

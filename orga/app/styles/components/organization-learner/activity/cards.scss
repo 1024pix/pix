@@ -4,9 +4,9 @@
 
 .cards {
   display: flex;
-  margin: $spacing-m 0;
+  margin: $pix-spacing-m 0;
   justify-content: space-between;
-  gap: $spacing-m;
+  gap: $pix-spacing-m;
 
   &__content {
     width: 100%;
@@ -17,7 +17,7 @@
     list-style: none;
     justify-content: space-between;
     padding: 0;
-    gap: $spacing-s;
+    gap: $pix-spacing-s;
     margin: 0;
   }
 }

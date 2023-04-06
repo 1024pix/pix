@@ -4,8 +4,7 @@
   align-items: center;
   justify-content: space-between;
   flex-shrink: 0;
-  margin: 0 $spacing-m;
-  margin-top: 100px;
+  margin: 0 $pix-spacing-m;
   border-top: 1px solid $pix-neutral-20;
 
   @include device-is('desktop') {
@@ -44,7 +43,7 @@
 
 .footer-navigation {
   &__item {
-    margin-right: $spacing-xxs;
+    margin-right: $pix-spacing-xxs;
     color: $pix-neutral-60;
     font-size: 0.8125rem;
     font-weight: 500;
@@ -52,7 +51,7 @@
     text-decoration: none;
 
     @include device-is('desktop') {
-      margin-right: $spacing-s;
+      margin-right: $pix-spacing-s;
     }
 
     &.active {
