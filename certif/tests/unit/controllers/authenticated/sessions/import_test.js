@@ -95,7 +95,9 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
       this.owner.register('service:current-user', CurrentUserStub);
       const token = 'a token';
 
-      const file = Symbol('file 1');
+      const blob = new Blob(['foo']);
+      const file = new File([blob], 'fichier.csv', { type: 'text/csv' });
+
       controller.file = file;
 
       controller.session = {
