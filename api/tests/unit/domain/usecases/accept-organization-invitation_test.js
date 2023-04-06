@@ -16,7 +16,7 @@ describe('Unit | UseCase | accept-organization-invitation', function () {
     };
   });
 
-  context('when the user`s membership already exist', function () {
+  context('when the user’s membership already exist', function () {
     it('should mark the invitation as accepted', async function () {
       // given
       const code = '123AZE';
@@ -54,45 +54,47 @@ describe('Unit | UseCase | accept-organization-invitation', function () {
     });
   });
 
-  it('should return the membership id and role', async function () {
-    // given
-    const code = '123AZE';
-    const email = 'user@example.net';
-    const organization = domainBuilder.buildOrganization();
-    const organizationInvitationId = domainBuilder.buildOrganizationInvitation({
-      organizationId: organization.id,
-      code,
-    }).id;
-    const user = domainBuilder.buildUser();
+  context('when the user’s membership does not already exist', function () {
+    it('should return the membership id and role', async function () {
+      // given
+      const code = '123AZE';
+      const email = 'user@example.net';
+      const organization = domainBuilder.buildOrganization();
+      const organizationInvitationId = domainBuilder.buildOrganizationInvitation({
+        organizationId: organization.id,
+        code,
+      }).id;
+      const user = domainBuilder.buildUser();
 
-    const organizationInvitedUser = new OrganizationInvitedUser({
-      userId: user.id,
-      invitation: { code, id: organizationInvitationId },
-    });
-    organizationInvitedUserRepository.get
-      .withArgs({ organizationInvitationId, email })
-      .resolves(organizationInvitedUser);
+      const organizationInvitedUser = new OrganizationInvitedUser({
+        userId: user.id,
+        invitation: { code, id: organizationInvitationId },
+      });
+      organizationInvitedUserRepository.get
+        .withArgs({ organizationInvitationId, email })
+        .resolves(organizationInvitedUser);
 
-    sinon.stub(organizationInvitedUser, 'acceptInvitation').resolves();
+      sinon.stub(organizationInvitedUser, 'acceptInvitation').resolves();
 
-    const membership = domainBuilder.buildMembership({ user, organization, organizationRole: 'MEMBER' });
-    organizationInvitedUser.currentMembershipId = membership.id;
-    organizationInvitedUser.currentRole = membership.organizationRole;
+      const membership = domainBuilder.buildMembership({ user, organization, organizationRole: 'MEMBER' });
+      organizationInvitedUser.currentMembershipId = membership.id;
+      organizationInvitedUser.currentRole = membership.organizationRole;
 
-    // when
-    const result = await acceptOrganizationInvitation({
-      organizationInvitationId,
-      code,
-      email,
-      organizationInvitationRepository,
-      organizationInvitedUserRepository,
-    });
+      // when
+      const result = await acceptOrganizationInvitation({
+        organizationInvitationId,
+        code,
+        email,
+        organizationInvitationRepository,
+        organizationInvitedUserRepository,
+      });
 
-    // then
-    expect(organizationInvitedUserRepository.save).to.have.been.calledWith({ organizationInvitedUser });
-    expect(result).to.deep.equal({
-      id: organizationInvitedUser.currentMembershipId,
-      isAdmin: false,
+      // then
+      expect(organizationInvitedUserRepository.save).to.have.been.calledWith({ organizationInvitedUser });
+      expect(result).to.deep.equal({
+        id: organizationInvitedUser.currentMembershipId,
+        isAdmin: false,
+      });
     });
   });
 });
