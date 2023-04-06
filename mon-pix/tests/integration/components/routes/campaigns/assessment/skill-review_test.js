@@ -5,7 +5,7 @@ import EmberObject from '@ember/object';
 import createGlimmerComponent from '../../../../../helpers/create-glimmer-component';
 import Service from '@ember/service';
 
-module('Unit | component | Campaigns | Evaluation | Skill Review', function (hooks) {
+module('Integration | component | Campaigns | Evaluation | Skill Review', function (hooks) {
   setupTest(hooks);
 
   let component, adapter, possibleBadgesCombinations;
