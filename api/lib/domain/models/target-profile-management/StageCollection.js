@@ -32,9 +32,14 @@ class StageCollection {
     return this._id;
   }
 
+  get maxLevel() {
+    return this._maxLevel;
+  }
+
   toDTO() {
     return {
       id: this._id,
+      targetProfileId: this._id,
       stages: this._stages.map((stage) => ({
         id: stage.id,
         level: stage.level,
