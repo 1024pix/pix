@@ -5,10 +5,10 @@ import EmberObject from '@ember/object';
 import createGlimmerComponent from '../../../../../helpers/create-glimmer-component';
 import Service from '@ember/service';
 
-module('Unit | component | Campaigns | Evaluation | Skill Review', function (hooks) {
+module('Integration | component | Campaigns | Evaluation | Skill Review', function (hooks) {
   setupTest(hooks);
 
-  let component, adapter, possibleBadgesCombinations;
+  let component, adapter, possibleBadgesCombinations, store;
 
   hooks.beforeEach(function () {
     possibleBadgesCombinations = [
@@ -32,14 +32,14 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
 
     const model = {
       campaign: EmberObject.create(),
-      campaignParticipationResult: EmberObject.create({ id: 12345 }),
+      campaignParticipationResult: EmberObject.create({ id: 12345, hasReachedStage: false }),
     };
 
     component = createGlimmerComponent('component:routes/campaigns/assessment/skill-review', {
       model,
     });
 
-    const store = this.owner.lookup('service:store');
+    store = this.owner.lookup('service:store');
     adapter = store.adapterFor('campaign-participation-result');
     sinon.stub(adapter, 'share').resolves();
     sinon.stub(adapter, 'beginImprovement').resolves();
@@ -131,6 +131,47 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       // then
       sinon.assert.calledWith(component.router.transitionTo, 'campaigns.entry-point');
       assert.ok(true);
+    });
+  });
+
+  module('#showStages', function () {
+    test('should showStages when clea badge is not acquired and have a reachedStage', function (assert) {
+      // given
+      component.args.model.campaignParticipationResult.hasReachedStage = true;
+      const badges = [{ key: 'PIX_EMPLOI_CLEA', id: 33, isAcquired: false, isCertifiable: true, isValid: true }];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
+
+      // when
+      const showStages = component.showStages;
+
+      // then
+      assert.true(showStages);
+    });
+
+    test('should not show showStages when clea badge is acquired and have not a reachedStage', function (assert) {
+      // given
+      component.args.model.campaignParticipationResult.hasReachedStage = false;
+      const badges = [{ key: 'PIX_EMPLOI_CLEA', id: 33, isAcquired: true, isCertifiable: true, isValid: true }];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
+
+      // when
+      const showStages = component.showStages;
+
+      // then
+      assert.false(showStages);
+    });
+
+    test('should not show showStages when clea badge is acquired and have a reachedStage', function (assert) {
+      // given
+      component.args.model.campaignParticipationResult.hasReachedStage = true;
+      const badges = [{ key: 'PIX_EMPLOI_CLEA', id: 33, isAcquired: true, isCertifiable: true, isValid: true }];
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
+
+      // when
+      const showStages = component.showStages;
+
+      // then
+      assert.false(showStages);
     });
   });
 
