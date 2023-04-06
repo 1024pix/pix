@@ -12,9 +12,9 @@ function organizeOrganizationsByExternalId(organizations) {
   return organizationsByExternalId;
 }
 
-function findOrganizationsByExternalIds({ checkedData }) {
+function findOrganizationsByExternalIds({ checkedData }, injectedOrganizationRepository = organizationRepository) {
   const externalIds = checkedData.map((data) => data.externalId);
-  return organizationRepository.findByExternalIdsFetchingIdsOnly(externalIds).then((organizations) => {
+  return injectedOrganizationRepository.findByExternalIdsFetchingIdsOnly(externalIds).then((organizations) => {
     return organizations.map((organization) => ({ id: organization.id, externalId: organization.externalId }));
   });
 }
