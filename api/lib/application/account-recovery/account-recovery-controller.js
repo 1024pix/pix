@@ -2,8 +2,14 @@ import { usecases } from '../../domain/usecases/index.js';
 import * as studentInformationForAccountRecoverySerializer from '../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 
-const sendEmailForAccountRecovery = async function (request, h) {
-  const studentInformation = await studentInformationForAccountRecoverySerializer.deserialize(request.payload);
+const sendEmailForAccountRecovery = async function (
+  request,
+  h,
+  dependencies = { studentInformationForAccountRecoverySerializer }
+) {
+  const studentInformation = await dependencies.studentInformationForAccountRecoverySerializer.deserialize(
+    request.payload
+  );
 
   await usecases.sendEmailForAccountRecovery({ studentInformation });
 
