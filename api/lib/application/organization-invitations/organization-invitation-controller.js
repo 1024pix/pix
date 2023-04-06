@@ -10,9 +10,15 @@ module.exports = {
   async acceptOrganizationInvitation(request) {
     const organizationInvitationId = request.params.id;
     const { code, email: rawEmail } = request.payload.data.attributes;
+    const localeFromCookie = request.state?.locale;
     const email = rawEmail?.trim().toLowerCase();
 
-    const membership = await usecases.acceptOrganizationInvitation({ organizationInvitationId, code, email });
+    const membership = await usecases.acceptOrganizationInvitation({
+      organizationInvitationId,
+      code,
+      email,
+      localeFromCookie,
+    });
     await usecases.createCertificationCenterMembershipForScoOrganizationMember({ membership });
     return null;
   },
