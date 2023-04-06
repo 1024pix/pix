@@ -108,34 +108,44 @@
         {{/if}}
       </div>
       <div class="user-detail-personal-information-section__content">
-        <ul>
-          <li class="user-detail-personal-information-section__user-informations">Prénom : {{@user.firstName}}</li>
-          <li class="user-detail-personal-information-section__user-informations">Nom : {{@user.lastName}}</li>
-          <li class="user-detail-personal-information-section__user-informations">Langue : {{@user.lang}}</li>
-          <li class="user-detail-personal-information-section__user-informations">Locale : {{@user.locale}}</li>
-          <li class="user-detail-personal-information-section__user-informations">Date de création :
-            {{dayjs-format @user.createdAt "DD/MM/YYYY"}}</li>
-          <li class="user-detail-personal-information-section__user-informations">Adresse e-mail : {{@user.email}}</li>
-          <li class="user-detail-personal-information-section__user-informations">Identifiant : {{@user.username}}</li>
-          <li class="user-detail-personal-information-section__user-informations">CGU Pix App validé :
-            {{this.userHasValidatePixAppTermsOfService}}</li>
-          <li class="user-detail-personal-information-section__user-informations">CGU Pix Orga validé :
-            {{this.userHasValidatePixOrgaTermsOfService}}</li>
-          <li class="user-detail-personal-information-section__user-informations">CGU Pix Certif validé :
-            {{this.userHasValidatePixCertifTermsOfService}}</li>
-          <li class="user-detail-personal-information-section__user-informations">Nombre de tentatives de connexion en
-            erreur :
-            {{@user.userLogin.failureCount}}</li>
-          {{#if @user.userLogin.blockedAt}}
-            <li class="user-detail-personal-information-section__user-informations">Utilisateur totalement bloqué le :
-              {{dayjs-format @user.userLogin.blockedAt "DD/MM/YYYY HH:mm"}}</li>
-          {{/if}}
-          {{#if this.shouldDisplayTemporaryBlockedDate}}
-            <li class="user-detail-personal-information-section__user-informations">Utilisateur temporairement bloqué
-              jusqu'au :
-              {{dayjs-format @user.userLogin.temporaryBlockedUntil "DD/MM/YYYY HH:mm"}}</li>
-          {{/if}}
-        </ul>
+        <div>
+          <ul class="user-detail-personal-information-section__infogroup">
+            <li class="user-detail-personal-information-section__user-informations">Prénom : {{@user.firstName}}</li>
+            <li class="user-detail-personal-information-section__user-informations">Nom : {{@user.lastName}}</li>
+            <li class="user-detail-personal-information-section__user-informations">Langue : {{@user.lang}}</li>
+            <li class="user-detail-personal-information-section__user-informations">Locale : {{@user.locale}}</li>
+            <li class="user-detail-personal-information-section__user-informations">Date de création :
+              {{dayjs-format @user.createdAt "DD/MM/YYYY"}}</li>
+          </ul>
+          <ul class="user-detail-personal-information-section__infogroup">
+            <li class="user-detail-personal-information-section__user-informations">Adresse e-mail :
+              {{@user.email}}</li>
+            <li class="user-detail-personal-information-section__user-informations">Identifiant :
+              {{@user.username}}</li>
+          </ul>
+          <ul class="user-detail-personal-information-section__infogroup">
+            <li class="user-detail-personal-information-section__user-informations">CGU Pix App validé :
+              {{this.userHasValidatePixAppTermsOfService}}</li>
+            <li class="user-detail-personal-information-section__user-informations">CGU Pix Orga validé :
+              {{this.userHasValidatePixOrgaTermsOfService}}</li>
+            <li class="user-detail-personal-information-section__user-informations">CGU Pix Certif validé :
+              {{this.userHasValidatePixCertifTermsOfService}}</li>
+          </ul>
+          <ul class="user-detail-personal-information-section__infogroup">
+            <li class="user-detail-personal-information-section__user-informations">Nombre de tentatives de connexion en
+              erreur :
+              {{@user.userLogin.failureCount}}</li>
+            {{#if @user.userLogin.blockedAt}}
+              <li class="user-detail-personal-information-section__user-informations">Utilisateur totalement bloqué le :
+                {{dayjs-format @user.userLogin.blockedAt "DD/MM/YYYY HH:mm"}}</li>
+            {{/if}}
+            {{#if this.shouldDisplayTemporaryBlockedDate}}
+              <li class="user-detail-personal-information-section__user-informations">Utilisateur temporairement bloqué
+                jusqu'au :
+                {{dayjs-format @user.userLogin.temporaryBlockedUntil "DD/MM/YYYY HH:mm"}}</li>
+            {{/if}}
+          </ul>
+        </div>
         <div>
           <PixButtonLink
             @backgroundColor="transparent-light"
