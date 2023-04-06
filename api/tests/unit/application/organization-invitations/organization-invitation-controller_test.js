@@ -33,6 +33,7 @@ describe('Unit | Application | Organization-Invitations | organization-invitatio
         organizationInvitationId: organizationInvitation.id,
         code,
         email,
+        localeFromCookie: undefined,
       });
     });
 
