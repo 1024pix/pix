@@ -3,7 +3,6 @@ import {
   findOrganizationsByExternalIds,
   organizeOrganizationsByExternalId,
 } from '../../../../scripts/helpers/organizations-by-external-id-helper.js';
-import * as organizationRepository from '../../../../lib/infrastructure/repositories/organization-repository.js';
 
 describe('Unit | Scripts | organizations-by-external-id-helper.js', function () {
   describe('#organizeOrganizationsByExternalId', function () {
@@ -34,7 +33,9 @@ describe('Unit | Scripts | organizations-by-external-id-helper.js', function () 
   });
 
   describe('#findOrganizationsByExternalIds', function () {
-    let organizationRepositoryStub;
+    afterEach(function () {
+      sinon.restore();
+    });
 
     it('should find organizations with given externalIds', async function () {
       // given
@@ -42,16 +43,14 @@ describe('Unit | Scripts | organizations-by-external-id-helper.js', function () 
         { externalId: 'A100', targetProfileIdList: ['1', '2', '999'] },
         { externalId: 'B200', targetProfileIdList: ['1', '3', '6'] },
       ];
-      organizationRepositoryStub = sinon
-        .stub(organizationRepository, 'findByExternalIdsFetchingIdsOnly')
-        .withArgs(['A100', 'B200'])
-        .resolves([]);
+      const findByExternalIdsFetchingIdsOnlyStub = sinon.stub().withArgs(['A100', 'B200']).resolves([]);
+      const organizationRepository = { findByExternalIdsFetchingIdsOnly: findByExternalIdsFetchingIdsOnlyStub };
 
       // when
-      await findOrganizationsByExternalIds({ checkedData });
+      await findOrganizationsByExternalIds({ checkedData }, organizationRepository);
 
       // then
-      expect(organizationRepositoryStub).to.have.been.calledOnce;
+      expect(findByExternalIdsFetchingIdsOnlyStub).to.have.been.calledOnce;
     });
   });
 });
