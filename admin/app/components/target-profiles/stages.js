@@ -80,7 +80,7 @@ export default class Stages extends Component {
       threshold: !this.isTypeLevel && this.setFirstStage ? '0' : undefined,
       title: isFirstStage ? 'Parcours terminé !' : null,
       message: isFirstStage
-        ? 'Vous n’êtes visiblement pas tombé sur vos sujets préférés...Ou peut-être avez-vous besoin d’aide ? Dans tous les cas, rien n’est perdu d’avance ! Avec de l’accompagnement et un peu d’entraînement vous développerez à coup sûr vos compétences !'
+        ? 'Vous n’êtes visiblement pas tombé sur vos sujets préférés...Ou peut-être avez-vous besoin d’aide ? Dans tous les cas, rien n’est perdu d’avance ! Avec de l’accompagnement et un peu d’entraînement vous développerez à coup sûr vos compétences numériques !'
         : null,
     });
   }
