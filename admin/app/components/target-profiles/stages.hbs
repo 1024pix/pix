@@ -20,12 +20,12 @@
             </tr>
           </thead>
           <tbody>
-            {{#each @targetProfile.stages as |stage index|}}
-              {{#if stage.isNew}}
+            {{#each @stageCollection.stages as |stage index|}}
+              {{#if stage.isBeingCreated}}
                 <TargetProfiles::Stages::NewStage
                   @setFirstStage={{(and this.setFirstStage (eq index 0))}}
                   @stage={{stage}}
-                  @imageUrl={{@targetProfile.imageUrl}}
+                  @imageUrl={{@imageUrl}}
                   @availableLevels={{this.availableLevels}}
                   @unavailableThresholds={{this.unavailableThresholds}}
                   @setLevel={{fn this.onStageLevelChange stage}}
@@ -33,8 +33,8 @@
                 />
               {{else}}
                 <TargetProfiles::Stages::Stage
-                  @imageUrl={{@targetProfile.imageUrl}}
-                  @targetProfileId={{@targetProfile.id}}
+                  @imageUrl={{@imageUrl}}
+                  @targetProfileId={{@targetProfileId}}
                   @stage={{stage}}
                   @deleteStage={{this.deleteStage}}
                 />

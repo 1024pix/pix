@@ -11,7 +11,11 @@ export default class TargetProfileInsightsRoute extends Route {
   async model() {
     const targetProfile = this.modelFor('authenticated.target-profiles.target-profile');
     await targetProfile.hasMany('stages').reload();
+    const stageCollection = await targetProfile.belongsTo('stageCollection').value();
 
-    return targetProfile;
+    return {
+      targetProfile,
+      stageCollection,
+    };
   }
 }

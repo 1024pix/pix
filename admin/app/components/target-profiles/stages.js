@@ -22,38 +22,40 @@ export default class Stages extends Component {
   }
 
   get availableLevels() {
-    const unavailableLevels = this.args.targetProfile.stages.map((stage) => (stage.isNew ? null : stage.level));
-    const allLevels = Array.from({ length: this.args.targetProfile.maxLevel + 1 }, (_, i) => i);
+    const unavailableLevels = this.args.stageCollection
+      .get('stages')
+      .map((stage) => (stage.isBeingCreated ? null : stage.level));
+    const allLevels = Array.from({ length: this.args.maxLevel + 1 }, (_, i) => i);
     return difference(allLevels, unavailableLevels);
   }
 
   get unavailableThresholds() {
-    return this.args.targetProfile.stages.map((stage) => (stage.isNew ? null : stage.threshold));
+    return this.args.stageCollection.stages.map((stage) => (stage.isBeingCreated ? null : stage.threshold));
   }
 
   get isTypeLevel() {
-    return this.args.targetProfile.stages?.firstObject?.isTypeLevel ?? this.firstStageType == 'level';
+    return this.args.stageCollection.stages?.firstObject?.isTypeLevel ?? this.firstStageType == 'level';
   }
 
   get hasStages() {
-    const stages = this.args.targetProfile.stages;
+    const stages = this.args.stageCollection.stages;
     return stages && stages.length > 0;
   }
 
   get hasNewStage() {
-    return this.args.targetProfile.stages.any((stage) => stage.isNew);
+    return this.args.stageCollection.stages.any((stage) => stage.isBeingCreated);
   }
 
   get newStages() {
-    return this.args.targetProfile.stages.filter((stage) => stage.isNew);
+    return this.args.stageCollection.stages.filter((stage) => stage.isBeingCreated);
   }
 
   get displayNoZeroStage() {
     if (!this.hasStages) return false;
     if (this.isTypeLevel) {
-      return !this.args.targetProfile.stages.any((stage) => stage.level === 0);
+      return !this.args.stageCollection.stages.any((stage) => stage.level === 0);
     }
-    return !this.args.targetProfile.stages.any((stage) => stage.threshold === 0);
+    return !this.args.stageCollection.stages.any((stage) => stage.threshold === 0);
   }
 
   get columnNameByStageType() {
@@ -61,7 +63,7 @@ export default class Stages extends Component {
   }
 
   get hasAvailableStages() {
-    const allNewStages = this.args.targetProfile.stages.filter((stage) => stage.isNew) || [];
+    const allNewStages = this.args.stageCollection.stages.filter((stage) => stage.isBeingCreated) || [];
 
     return (this.isTypeLevel && this.availableLevels.length > allNewStages.length) || !this.isTypeLevel;
   }
@@ -72,10 +74,9 @@ export default class Stages extends Component {
 
   @action
   addStage() {
-    const isFirstStage = this.args.targetProfile.stages.length === 0;
+    const isFirstStage = this.args.stageCollection.stages.length === 0;
     const nextLowestLevelAvailable = this.isTypeLevel ? this.availableLevels?.[0] : undefined;
-    this.store.createRecord('stage', {
-      targetProfile: this.args.targetProfile,
+    const stage = this.store.createRecord('stage', {
       level: this.isTypeLevel ? nextLowestLevelAvailable.toString() : undefined,
       threshold: !this.isTypeLevel && this.setFirstStage ? '0' : undefined,
       title: isFirstStage ? 'Parcours terminé !' : null,
@@ -83,6 +84,7 @@ export default class Stages extends Component {
         ? 'Vous n’êtes visiblement pas tombé sur vos sujets préférés...Ou peut-être avez-vous besoin d’aide ? Dans tous les cas, rien n’est perdu d’avance ! Avec de l’accompagnement et un peu d’entraînement vous développerez à coup sûr vos compétences numériques !'
         : null,
     });
+    this.args.stageCollection.stages.pushObject(stage);
   }
 
   @action
@@ -107,12 +109,10 @@ export default class Stages extends Component {
     event.preventDefault();
 
     try {
-      for (const stage of this.newStages) {
-        await stage.save();
-      }
-      await this.args.targetProfile.stages.reload();
+      await this.args.stageCollection.save({ adapterOptions: { stages: this.args.stageCollection.stages } });
       this.notifications.success('Palier(s) ajouté(s) avec succès.');
     } catch (e) {
+      console.log(e);
       this.notifications.error(e.errors?.[0]?.detail ?? 'Une erreur est survenue.');
     }
   }
@@ -123,8 +123,10 @@ export default class Stages extends Component {
   }
 
   @action
-  deleteStage(stage) {
-    stage.destroyRecord();
+  async deleteStage(stage) {
+    this.args.stageCollection.stages.removeObject(stage);
+    stage.deleteRecord();
+    await this.args.stageCollection.save({ adapterOptions: { stages: this.args.stageCollection.stages } });
   }
 
   @action
