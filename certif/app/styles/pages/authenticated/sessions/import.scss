@@ -5,7 +5,6 @@
 
   > p {
     color: $pix-neutral-60;
-    font-weight: $font-light;
     margin-bottom: 8px;
   }
 
@@ -18,8 +17,6 @@
     .pix-collapsible__title {
       border-radius: 8px;
       color: $pix-neutral-70;
-      font-size: 14px;
-      font-weight: $font-light;
     }
 
     .pix-collapsible__title[aria-expanded='true'] {
@@ -140,7 +137,7 @@
 
   &__section--link-buttons {
     display: flex;
-    gap: $spacing-s;
+    gap: $pix-spacing-s;
     margin-top: 24px;
   }
 
@@ -178,7 +175,7 @@
 }
 
 .import-page__resume-section {
-  gap: $spacing-m;
+  gap: $pix-spacing-m;
 }
 
 .import-page-section {
