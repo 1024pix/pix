@@ -5,7 +5,8 @@
 }
 
 .main-content {
-  width: 100%;
+  // Minus 280px because it corresponds to the sidebar's width
+  width: calc(100% - 280px);
   background-color: $pix-neutral-10;
   display: flex;
   flex-direction: column;
@@ -24,5 +25,9 @@
 @include device-is('mobile') {
   .app {
     flex-direction: column;
+  }
+
+  .main-content {
+    width: 100%;
   }
 }
