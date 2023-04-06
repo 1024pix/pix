@@ -4,7 +4,9 @@ const OrganizationInvitedUser = require('../../../../lib/domain/models/Organizat
 const { AlreadyExistingMembershipError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | accept-organization-invitation', function () {
-  let organizationInvitedUserRepository, organizationInvitationRepository;
+  let organizationInvitedUserRepository;
+  let organizationInvitationRepository;
+  let userRepository;
 
   beforeEach(function () {
     organizationInvitedUserRepository = {
@@ -13,6 +15,10 @@ describe('Unit | UseCase | accept-organization-invitation', function () {
     };
     organizationInvitationRepository = {
       markAsAccepted: sinon.stub(),
+    };
+    userRepository = {
+      getById: sinon.stub(),
+      update: sinon.stub(),
     };
   });
 
@@ -55,45 +61,133 @@ describe('Unit | UseCase | accept-organization-invitation', function () {
   });
 
   context('when the user’s membership does not already exist', function () {
-    it('should return the membership id and role', async function () {
-      // given
-      const code = '123AZE';
-      const email = 'user@example.net';
-      const organization = domainBuilder.buildOrganization();
-      const organizationInvitationId = domainBuilder.buildOrganizationInvitation({
-        organizationId: organization.id,
-        code,
-      }).id;
-      const user = domainBuilder.buildUser();
+    context('when the user does not have a locale cookie', function () {
+      it('returns the membership id and role and does not update the user’s locale', async function () {
+        // given
+        const code = '123AZE';
+        const email = 'user@example.net';
+        const organization = domainBuilder.buildOrganization();
+        const organizationInvitationId = domainBuilder.buildOrganizationInvitation({
+          organizationId: organization.id,
+          code,
+        }).id;
+        const user = domainBuilder.buildUser();
 
-      const organizationInvitedUser = new OrganizationInvitedUser({
-        userId: user.id,
-        invitation: { code, id: organizationInvitationId },
+        const organizationInvitedUser = new OrganizationInvitedUser({
+          userId: user.id,
+          invitation: { code, id: organizationInvitationId },
+        });
+        organizationInvitedUserRepository.get
+          .withArgs({ organizationInvitationId, email })
+          .resolves(organizationInvitedUser);
+
+        sinon.stub(organizationInvitedUser, 'acceptInvitation').resolves();
+
+        const membership = domainBuilder.buildMembership({ user, organization, organizationRole: 'MEMBER' });
+        organizationInvitedUser.currentMembershipId = membership.id;
+        organizationInvitedUser.currentRole = membership.organizationRole;
+
+        // when
+        const result = await acceptOrganizationInvitation({
+          organizationInvitationId,
+          code,
+          email,
+          organizationInvitationRepository,
+          organizationInvitedUserRepository,
+          userRepository,
+        });
+
+        // then
+        expect(organizationInvitedUserRepository.save).to.have.been.calledWith({ organizationInvitedUser });
+        expect(result).to.deep.equal({
+          id: organizationInvitedUser.currentMembershipId,
+          isAdmin: false,
+        });
+        expect(userRepository.update).to.not.have.been.called;
       });
-      organizationInvitedUserRepository.get
-        .withArgs({ organizationInvitationId, email })
-        .resolves(organizationInvitedUser);
+    });
 
-      sinon.stub(organizationInvitedUser, 'acceptInvitation').resolves();
+    context('when the user has a locale cookie', function () {
+      context('when the user already has a locale', function () {
+        it('must not update the user’s locale', async function () {
+          // given
+          const code = '123AZE';
+          const email = 'user@example.net';
+          const localeFromCookie = 'fr-BE';
+          const organization = domainBuilder.buildOrganization();
+          const organizationInvitationId = domainBuilder.buildOrganizationInvitation({
+            organizationId: organization.id,
+            code,
+          }).id;
+          const user = domainBuilder.buildUser({ locale: 'fr-FR' });
 
-      const membership = domainBuilder.buildMembership({ user, organization, organizationRole: 'MEMBER' });
-      organizationInvitedUser.currentMembershipId = membership.id;
-      organizationInvitedUser.currentRole = membership.organizationRole;
+          const organizationInvitedUser = new OrganizationInvitedUser({
+            userId: user.id,
+            invitation: { code, id: organizationInvitationId },
+          });
+          organizationInvitedUserRepository.get
+            .withArgs({ organizationInvitationId, email })
+            .resolves(organizationInvitedUser);
 
-      // when
-      const result = await acceptOrganizationInvitation({
-        organizationInvitationId,
-        code,
-        email,
-        organizationInvitationRepository,
-        organizationInvitedUserRepository,
+          sinon.stub(organizationInvitedUser, 'acceptInvitation').resolves();
+
+          userRepository.getById.withArgs(user.id).resolves(user);
+
+          // when
+          await acceptOrganizationInvitation({
+            organizationInvitationId,
+            code,
+            email,
+            localeFromCookie,
+            organizationInvitationRepository,
+            organizationInvitedUserRepository,
+            userRepository,
+          });
+
+          // then
+          expect(userRepository.update).to.not.have.been.called;
+        });
       });
 
-      // then
-      expect(organizationInvitedUserRepository.save).to.have.been.calledWith({ organizationInvitedUser });
-      expect(result).to.deep.equal({
-        id: organizationInvitedUser.currentMembershipId,
-        isAdmin: false,
+      context('when the user does not already have a locale', function () {
+        it('updates the user’s locale', async function () {
+          // given
+          const code = '123AZE';
+          const email = 'user@example.net';
+          const localeFromCookie = 'fr-BE';
+          const organization = domainBuilder.buildOrganization();
+          const organizationInvitationId = domainBuilder.buildOrganizationInvitation({
+            organizationId: organization.id,
+            code,
+          }).id;
+          const user = domainBuilder.buildUser({ locale: null });
+
+          const organizationInvitedUser = new OrganizationInvitedUser({
+            userId: user.id,
+            invitation: { code, id: organizationInvitationId },
+          });
+          organizationInvitedUserRepository.get
+            .withArgs({ organizationInvitationId, email })
+            .resolves(organizationInvitedUser);
+
+          sinon.stub(organizationInvitedUser, 'acceptInvitation').resolves();
+
+          userRepository.getById.withArgs(user.id).resolves(user);
+
+          // when
+          await acceptOrganizationInvitation({
+            organizationInvitationId,
+            code,
+            email,
+            localeFromCookie,
+            organizationInvitationRepository,
+            organizationInvitedUserRepository,
+            userRepository,
+          });
+
+          // then
+          expect(userRepository.update).to.have.have.been.calledWith({ id: user.id, locale: 'fr-BE' });
+        });
       });
     });
   });
