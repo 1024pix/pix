@@ -17,10 +17,8 @@ import { SCO_STUDENT_ID as SCO_STUDENT_ORGANIZATION_LEARNER_ID } from '../organi
 
 import {
   CERTIF_SUCCESS_USER_ID,
-  // eslint-disable-next-line import/named
   CERTIF_FAILED_USER_ID,
   CERTIF_REGULAR_USER5_ID,
-  // eslint-disable-next-line import/named
   CERTIF_SCO_STUDENT_ID,
 } from './users.js';
 
