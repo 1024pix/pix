@@ -31,14 +31,22 @@ describe('Unit | Controller | account-recovery-controller', function () {
         },
       };
 
-      sinon
-        .stub(studentInformationForAccountRecoverySerializer, 'deserialize')
-        .withArgs(request.payload)
-        .resolves(studentInformation);
       sinon.stub(usecases, 'sendEmailForAccountRecovery').resolves();
 
+      const studentInformationForAccountRecoverySerializerStub = {
+        deserialize: sinon.stub(),
+      };
+
+      studentInformationForAccountRecoverySerializerStub.deserialize
+        .withArgs(request.payload)
+        .resolves(studentInformation);
+
+      const dependencies = {
+        studentInformationForAccountRecoverySerializer: studentInformationForAccountRecoverySerializerStub,
+      };
+
       // when
-      const response = await accountRecoveryController.sendEmailForAccountRecovery(request, hFake);
+      const response = await accountRecoveryController.sendEmailForAccountRecovery(request, hFake, dependencies);
 
       // then
       expect(usecases.sendEmailForAccountRecovery).calledWith({ studentInformation });
