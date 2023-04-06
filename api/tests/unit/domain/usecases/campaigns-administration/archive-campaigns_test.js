@@ -11,10 +11,6 @@ describe('Unit | UseCase | archive-campaign', function () {
     };
   });
 
-  afterEach(function () {
-    sinon.restore();
-  });
-
   context('when extracted campaignIds archived', function () {
     it('Should save these informations', async function () {
       const userId = Symbol('userId');
