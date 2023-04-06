@@ -442,7 +442,7 @@ module('Acceptance | Session Import', function (hooks) {
             await click(importButton);
 
             // then
-            assert.dom(screen.getByText('Le modèle a été altéré, merci de le télécharger à nouveau.')).exists();
+            assert.dom(screen.getByText('Le modèle a été altéré, merci de le télécharger à nouveau')).exists();
           });
         });
       });
