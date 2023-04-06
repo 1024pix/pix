@@ -51,4 +51,46 @@ buildStage.withLevel = function ({
   });
 };
 
+buildStage.withLevel.zero = function ({
+  id,
+  message,
+  title,
+  targetProfileId,
+  prescriberTitle,
+  prescriberDescription,
+} = {}) {
+  return buildStage({
+    id,
+    message,
+    title,
+    level: 0,
+    isFirstSkill: false,
+    threshold: null,
+    targetProfileId,
+    prescriberTitle,
+    prescriberDescription,
+  });
+};
+
+buildStage.firstSkill = function ({
+  id,
+  message,
+  title,
+  targetProfileId,
+  prescriberTitle,
+  prescriberDescription,
+} = {}) {
+  return buildStage({
+    id,
+    message,
+    title,
+    level: null,
+    isFirstSkill: true,
+    threshold: null,
+    targetProfileId,
+    prescriberTitle,
+    prescriberDescription,
+  });
+};
+
 module.exports = buildStage;

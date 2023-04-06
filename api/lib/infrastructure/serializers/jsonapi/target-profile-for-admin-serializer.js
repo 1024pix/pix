@@ -4,6 +4,7 @@ module.exports = {
   serialize(targetProfiles) {
     return new Serializer('target-profile', {
       transform(record) {
+        record.stageCollection = record.stageCollection.toDTO();
         record.badges = record.badges.map((badge) => {
           badge.criteria = badge.criteria.map((criteria) => criteria.toDTO());
           return badge;
@@ -22,6 +23,7 @@ module.exports = {
         'category',
         'isSimplifiedAccess',
         'badges',
+        'stageCollection',
         'stages',
         'areas',
         'maxLevel',
@@ -43,6 +45,16 @@ module.exports = {
           ref: 'id',
           included: true,
           attributes: ['threshold', 'scope', 'cappedTubes', 'name'],
+        },
+      },
+      stageCollection: {
+        ref: 'id',
+        included: true,
+        attributes: ['stages'],
+        stages: {
+          ref: 'id',
+          included: true,
+          attributes: ['threshold', 'level', 'title', 'message', 'prescriberTitle', 'prescriberDescription'],
         },
       },
       stages: {

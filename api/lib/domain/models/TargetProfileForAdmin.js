@@ -12,6 +12,7 @@ class TargetProfileForAdmin {
     category,
     isSimplifiedAccess,
     badges,
+    stageCollection,
     areas = [],
     competences = [],
     thematics = [],
@@ -29,6 +30,7 @@ class TargetProfileForAdmin {
     this.category = category;
     this.isSimplifiedAccess = isSimplifiedAccess;
     this.badges = badges;
+    this.stageCollection = stageCollection;
     this.areas = areas.map(
       (area) =>
         new TP_Area({
@@ -42,10 +44,6 @@ class TargetProfileForAdmin {
           tubes,
         })
     );
-  }
-
-  get canAddStageOfTypeLevel() {
-    return true;
   }
 
   get cappedTubes() {
