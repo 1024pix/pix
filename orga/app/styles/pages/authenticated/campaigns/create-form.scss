@@ -25,15 +25,9 @@
     }
   }
 
-
   .pix-select {
     @include device-is('desktop') {
-      width: 360px !important;
-    }
-
-    // TODO : Remove after update fix on PIX UI
-    &__dropdown {
-      overflow-x: hidden;
+      width: 360px;
     }
   }
 }

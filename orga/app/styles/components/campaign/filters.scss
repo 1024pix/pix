@@ -5,7 +5,7 @@
   background-color: $pix-neutral-0;
   border-radius: 4px;
   padding: 10px 14px;
-  gap: $spacing-s;
+  gap: $pix-spacing-s;
 
   @include device-is('tablet') {
     display: flex;
@@ -46,7 +46,7 @@
   &__filter {
     display: flex;
     flex-direction: column;
-    gap: $spacing-s;
+    gap: $pix-spacing-s;
 
     @include device-is('desktop') {
       flex-direction: row;
@@ -56,7 +56,7 @@
   }
 
   &__action {
-    gap: $spacing-m;
+    gap: $pix-spacing-m;
     display: flex;
     border-top: 1.2px solid $pix-neutral-15;
 

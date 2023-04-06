@@ -1,5 +1,5 @@
 .campaign-header-title {
-  margin: $spacing-l 0;
+  margin: $pix-spacing-l 0;
 
   &__informations {
     display: flex;
@@ -8,17 +8,17 @@
   }
   
   &__breadcrumb {
-    margin-bottom: $spacing-s;
+    margin-bottom: $pix-spacing-s;
   }
 
   &__name {
-    @include h2;
+    @extend %pix-title-m;
 
     flex: 0 1 auto;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding-right: $spacing-s; 
+    padding-right: $pix-spacing-s; 
   }
 
   &__details {
@@ -42,16 +42,17 @@
   }
 
   &__detail-item {
-    @include text-small;
+    @extend %pix-body-s;
 
     color: $pix-neutral-60;
 
     & > dt {
       display: block;
-      margin-bottom: $spacing-xs;
+      margin-bottom: $pix-spacing-xs;
     }
 
     & > dd {
+      color: $pix-neutral-90;
       margin: 0;
     }
   }
@@ -67,7 +68,7 @@
     align-items: initial;
 
     &__headline {
-      margin-bottom: $spacing-s;
+      margin-bottom: $pix-spacing-s;
       justify-content: center;
       width: 100%;
     }
