@@ -52,4 +52,7 @@ function buildOrganizationDataProtectionOfficer({
   });
 }
 
-export { buildCertificationCenterDataProtectionOfficer, buildOrganizationDataProtectionOfficer };
+export {
+  buildCertificationCenterDataProtectionOfficer as withCertificationCenterId,
+  buildOrganizationDataProtectionOfficer as withOrganizationId,
+};
