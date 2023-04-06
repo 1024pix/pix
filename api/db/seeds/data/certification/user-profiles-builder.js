@@ -9,8 +9,6 @@ import {
   CERTIF_REGULAR_USER3_ID,
   CERTIF_REGULAR_USER4_ID,
   CERTIF_REGULAR_USER5_ID,
-  // eslint-disable-next-line import/named
-  CERTIF_SCO_STUDENT_ID,
   CERTIF_REGULAR_USER_WITH_TIMED_CHALLENGE_ID,
   CERTIF_DROIT_USER5_ID,
   CERTIF_EDU_FORMATION_INITIALE_2ND_DEGRE_USER_ID,
@@ -57,7 +55,6 @@ async function certificationUserProfilesBuilder({ databaseBuilder }) {
       CERTIF_REGULAR_USER3_ID,
       CERTIF_REGULAR_USER4_ID,
       CERTIF_REGULAR_USER5_ID,
-      CERTIF_SCO_STUDENT_ID,
     ],
     (userId) => {
       return makeUserPixCertifiable({
