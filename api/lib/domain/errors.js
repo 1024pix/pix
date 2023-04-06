@@ -1309,7 +1309,7 @@ class InvalidJuryLevelError extends DomainError {
 
 class InvalidStageError extends DomainError {
   constructor(message) {
-    super(`Palier non valide : ${message}`);
+    super(message);
   }
 }
 

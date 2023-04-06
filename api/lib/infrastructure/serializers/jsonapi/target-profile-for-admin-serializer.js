@@ -50,7 +50,7 @@ module.exports = {
       stageCollection: {
         ref: 'id',
         included: true,
-        attributes: ['stages'],
+        attributes: ['targetProfileId', 'stages'],
         stages: {
           ref: 'id',
           included: true,
