@@ -1,9 +1,9 @@
 import * as adminMemberSerializer from '../../infrastructure/serializers/jsonapi/admin-member-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
 
-const findAll = async function () {
+const findAll = async function (injectedAdminMemberSerializer = adminMemberSerializer) {
   const adminMembers = await usecases.getAdminMembers();
-  return adminMemberSerializer.serialize(adminMembers);
+  return injectedAdminMemberSerializer.serialize(adminMembers);
 };
 
 const getCurrentAdminMember = async function (request) {
