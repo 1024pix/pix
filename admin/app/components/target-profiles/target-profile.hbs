@@ -109,6 +109,14 @@
     <LinkTo @route="authenticated.target-profiles.target-profile.insights" @model={{@model}} class="navbar-item">
       Clés de lecture
     </LinkTo>
+    <LinkTo
+      @route="authenticated.target-profiles.target-profile.training-summaries"
+      @model={{@model}}
+      class="navbar-item"
+      aria-label="Contenus formatifs du profil cible"
+    >
+      Contenus formatifs
+    </LinkTo>
   </nav>
 
   {{yield}}

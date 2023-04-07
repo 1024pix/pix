@@ -1,7 +1,14 @@
 import { getPaginationFromQueryParams, applyPagination } from './pagination-utils';
 
 function findPaginatedTrainingSummaries(schema, request) {
-  const trainingSummaries = schema.trainingSummaries.all().models;
+  let trainingSummaries = schema.trainingSummaries.all().models;
+
+  if (request.params.id) {
+    const targetProfileId = parseInt(request.params.id, 10);
+    trainingSummaries = trainingSummaries.filter((trainingSummary) => {
+      return trainingSummary.targetProfileIds.includes(targetProfileId);
+    });
+  }
 
   const queryParams = request.queryParams;
 
