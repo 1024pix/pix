@@ -45,6 +45,7 @@ describe('Unit | Controller | certifications-point-of-contact-controller', funct
             'first-name': 'Buffy',
             'last-name': 'Summers',
             email: 'buffy.summers@example.net',
+            lang: 'fr',
             'pix-certif-terms-of-service-accepted': true,
           },
           relationships: {
