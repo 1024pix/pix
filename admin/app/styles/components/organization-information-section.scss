@@ -1,5 +1,4 @@
 .organization-information-section {
-
   &__content {
     display: flex;
     flex-direction: row;
@@ -15,9 +14,8 @@
   }
 
   &__details {
-
     &__list {
-      margin-bottom: $spacing-m;
+      margin-bottom: $pix-spacing-m;
     }
 
     .form-actions {

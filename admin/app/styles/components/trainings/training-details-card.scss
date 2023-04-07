@@ -4,7 +4,7 @@
   gap: 2rem;
 
   &__title {
-    @include h3;
+    @extend %pix-title-xs;
   }
 
   &__details {
