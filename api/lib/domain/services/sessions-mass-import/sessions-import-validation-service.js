@@ -69,19 +69,48 @@ module.exports = {
         errorList: sessionErrors,
         line,
         codes: [CERTIFICATION_SESSIONS_ERRORS.EMPTY_SESSION.code],
-        blocking: false,
+        isBlocking: false,
       });
     } else {
       if (_hasDuplicateCertificationCandidates(session.certificationCandidates)) {
         _addToErrorList({
           errorList: sessionErrors,
           line,
-          codes: [CERTIFICATION_SESSIONS_ERRORS.DUPLICATE_CANDIDATE_NOT_ALLOWED_IN_SESSION.code],
+          codes: [CERTIFICATION_SESSIONS_ERRORS.DUPLICATE_CANDIDATE_IN_SESSION.code],
+          isBlocking: false,
         });
       }
     }
 
     return sessionErrors;
+  },
+
+  getUniqueCandidates(candidates) {
+    const duplicateCandidateErrors = [];
+
+    const uniqueCandidates = candidates.filter((candidate, index) => {
+      const isFirstOccurence =
+        index ===
+        candidates.findIndex(
+          (other) =>
+            candidate.firstName === other.firstName &&
+            candidate.lastName === other.lastName &&
+            candidate.birthdate === other.birthdate
+        );
+
+      if (!isFirstOccurence) {
+        _addToErrorList({
+          errorList: duplicateCandidateErrors,
+          line: candidate.line,
+          codes: [CERTIFICATION_SESSIONS_ERRORS.DUPLICATE_CANDIDATE_IN_SESSION.code],
+          isBlocking: false,
+        });
+      }
+
+      return isFirstOccurence;
+    });
+
+    return { uniqueCandidates, duplicateCandidateErrors };
   },
 
   async getValidatedCandidateBirthInformation({
@@ -148,8 +177,8 @@ function _isErrorNotDuplicated({ certificationCandidateErrors, errorCode }) {
   return !certificationCandidateErrors.some((error) => errorCode === error.code);
 }
 
-function _addToErrorList({ errorList, line, codes = [], blocking = true }) {
-  const errors = codes.map((code) => ({ code, line, blocking }));
+function _addToErrorList({ errorList, line, codes = [], isBlocking = true }) {
+  const errors = codes.map((code) => ({ code, line, isBlocking }));
   errorList.push(...errors);
 }
 

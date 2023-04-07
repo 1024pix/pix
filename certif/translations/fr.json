@@ -40,7 +40,7 @@
       },
       "login": {
         "email": "Adresse e-mail",
-        "password":"Mot de passe",
+        "password": "Mot de passe",
         "forgot-password": "Mot de passe oublié ?"
       },
       "mandatory-fields": "Les champs marqués de <abbr title=\"obligatoire\" class=\"mandatory-mark\">*</abbr>sont obligatoires.",
@@ -98,7 +98,7 @@
           "woman": "Femme"
         },
         "insee-code": "Code INSEE",
-        "lastname":  "Nom",
+        "lastname": "Nom",
         "none": "Aucune",
         "postcode": "Code postal"
       }
@@ -257,7 +257,6 @@
               "CANDIDATE_NOT_ALLOWED_FOR_STARTED_SESSION": "Édition des candidats impossible, le numéro de session correspond à une session déjà démarrée",
               "CANDIDATE_EMAIL_NOT_VALID": "Donnée du champ \"E-mail de convocation\" invalide",
               "CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID": "Donnée du champ \"E-mail du destinataire des résultats (formateur, enseignant…)\" invalide",
-              "DUPLICATE_CANDIDATE_NOT_ALLOWED_IN_SESSION": "Candidat inscrit plusieurs fois à cette session",
               "SESSION_ADDRESS_REQUIRED": "Champ obligatoire \"Nom du site\" manquant",
               "SESSION_ROOM_REQUIRED": "Champ obligatoire \"Nom de la salle\" manquant",
               "SESSION_DATE_REQUIRED": "Champ obligatoire \"Date de session\" manquant",
@@ -278,6 +277,7 @@
             "information": "Nous avons détecté {nonBlockingErrorReportsCount, plural,one {un point d’attention non bloquant} other {des points d’attention non bloquants}} lors de l’import, consultez-{nonBlockingErrorReportsCount, plural,one {le} other {les}} avant de procéder à la création ou l’édition de vos sessions :",
             "line": "Ligne",
             "errors": {
+              "DUPLICATE_CANDIDATE_IN_SESSION": "Le candidat est inscrit plusieurs fois à la même session, une seule inscription sera prise en compte.",
               "EMPTY_SESSION": "La session ne contient pas de candidat"
             }
           },
@@ -501,7 +501,7 @@
         },
         "description": "Pour que le signalement soit pris en compte, il est nécessaire d’utiliser la catégorie de signalement appropriée (exemples : C1, C2, etc).",
         "uncompleted-reports-information": {
-          "description" : "Ces candidats n'ont pas fini leur test de certification ou le surveillant a mis fin à leur test",
+          "description": "Ces candidats n'ont pas fini leur test de certification ou le surveillant a mis fin à leur test",
           "extra-information": "Liste des candidats qui n’ont pas fini leur test de certification, triée par nom de naissance, avec un lien pour ajouter un ou plusieurs signalements le cas échéant et une liste déroulante permettant de sélectionner la raison de l’abandon.",
           "table": {
             "labels": {

@@ -23,8 +23,8 @@ module.exports.CERTIFICATION_SESSIONS_ERRORS = {
     code: 'SESSION_ID_NOT_VALID',
     getMessage: () => '',
   },
-  DUPLICATE_CANDIDATE_NOT_ALLOWED_IN_SESSION: {
-    code: 'DUPLICATE_CANDIDATE_NOT_ALLOWED_IN_SESSION',
+  DUPLICATE_CANDIDATE_IN_SESSION: {
+    code: 'DUPLICATE_CANDIDATE_IN_SESSION',
     getMessage: () => `Une session contient au moins un élève en double.`,
   },
   SESSION_ADDRESS_REQUIRED: {
