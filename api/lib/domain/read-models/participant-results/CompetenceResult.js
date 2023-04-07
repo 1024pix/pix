@@ -14,6 +14,7 @@ class CompetenceResult {
     this.name = competence.name;
     this.index = competence.index;
     this.areaName = area.name;
+    this.areaTitle = area.title;
     this.areaColor = area.color;
     this.totalSkillsCount = totalSkillsCount;
     this.testedSkillsCount = knowledgeElements.length;
