@@ -14,10 +14,11 @@ describe('Unit | Controller | admin-member-controller', function () {
       const otherMember = domainBuilder.buildAdminMember();
       sinon.stub(usecases, 'getAdminMembers').resolves([member, otherMember]);
       const serializedMembers = Symbol('serializedMembers');
-      sinon.stub(adminMemberSerializer, 'serialize').withArgs([member, otherMember]).returns(serializedMembers);
+      const serializeStub = sinon.stub().withArgs([member, otherMember]).returns(serializedMembers);
 
+      const adminMemberSerializer = { serialize: serializeStub };
       // when
-      const result = await adminMemberController.findAll();
+      const result = await adminMemberController.findAll(adminMemberSerializer);
 
       // then
       expect(usecases.getAdminMembers).to.have.been.calledOnce;
