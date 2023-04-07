@@ -102,6 +102,10 @@ form .challenge-response {
     margin-top: 0;
     font-weight: $font-normal;
     font-size: 1rem;
+
+    &:not(:last-child) {
+      margin-bottom: 1rem;
+    }
   }
 
   .qroc-proposal {
