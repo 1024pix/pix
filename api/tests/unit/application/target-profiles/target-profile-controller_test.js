@@ -3,7 +3,9 @@ const targetProfileController = require('../../../../lib/application/target-prof
 const usecases = require('../../../../lib/domain/usecases/index.js');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const targetProfileAttachOrganizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer');
+const trainingSummarySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/training-summary-serializer');
 const learningContentPDFPresenter = require('../../../../lib/application/target-profiles/presenter/pdf/learning-content-pdf-presenter');
+const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Unit | Controller | target-profile-controller', function () {
@@ -278,6 +280,42 @@ describe('Unit | Controller | target-profile-controller', function () {
       expect(response.headers['Content-Disposition'].endsWith('.pdf')).to.be.true;
       expect(response.headers['Content-Type']).to.equal('application/pdf');
       expect(response.source).to.equal(pdfBuffer);
+    });
+  });
+
+  describe('#findPaginatedTrainings', function () {
+    it('should return trainings summaries', async function () {
+      // given
+      const targetProfileId = 123;
+      const expectedResult = Symbol('serialized-training-summaries');
+      const trainingSummaries = Symbol('trainingSummaries');
+      const meta = Symbol('meta');
+      const useCaseParameters = {
+        targetProfileId,
+        page: { size: 2, number: 1 },
+      };
+
+      sinon.stub(usecases, 'findPaginatedTargetProfileTrainingSummaries').resolves({
+        trainings: trainingSummaries,
+        meta,
+      });
+      sinon.stub(trainingSummarySerializer, 'serialize').withArgs(trainingSummaries, meta).returns(expectedResult);
+      sinon.stub(queryParamsUtils, 'extractParameters').returns(useCaseParameters);
+      // when
+      const response = await targetProfileController.findPaginatedTrainings(
+        {
+          params: {
+            id: targetProfileId,
+            page: { size: 2, number: 1 },
+          },
+        },
+        hFake
+      );
+
+      // then
+      expect(usecases.findPaginatedTargetProfileTrainingSummaries).to.have.been.calledWith(useCaseParameters);
+      expect(queryParamsUtils.extractParameters).to.have.been.calledOnce;
+      expect(response).to.deep.equal(expectedResult);
     });
   });
 });

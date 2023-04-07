@@ -13,6 +13,7 @@ const stageSerializer = require('../../infrastructure/serializers/jsonapi/stage-
 const targetProfileAttachOrganizationSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer.js');
 const learningContentPDFPresenter = require('./presenter/pdf/learning-content-pdf-presenter.js');
 const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
+const trainingSummarySerializer = require('../../infrastructure/serializers/jsonapi/training-summary-serializer');
 
 module.exports = {
   async findPaginatedFilteredTargetProfileSummariesForAdmin(request) {
@@ -107,6 +108,17 @@ module.exports = {
 
     const stages = await usecases.findTargetProfileStages({ targetProfileId });
     return stageSerializer.serialize(stages);
+  },
+
+  async findPaginatedTrainings(request) {
+    const { page } = queryParamsUtils.extractParameters(request.query);
+    const targetProfileId = request.params.id;
+
+    const { trainings, meta } = await usecases.findPaginatedTargetProfileTrainingSummaries({
+      targetProfileId,
+      page,
+    });
+    return trainingSummarySerializer.serialize(trainings, meta);
   },
 
   async createBadge(request, h) {
