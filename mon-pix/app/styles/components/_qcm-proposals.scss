@@ -5,6 +5,10 @@
   justify-content: flex-start;
   margin-left: 7px;
 
+  & + .proposal-paragraph {
+    margin-top: 1rem;
+  }
+
   input[type='checkbox'] {
     flex-shrink: 0;
   }
