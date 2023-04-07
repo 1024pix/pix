@@ -1,12 +1,14 @@
 import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
-import * as solutionServiceQroc from '../../../../lib/domain/services/solution-service-qroc.js';
 import { Validation } from '../../../../lib/domain/models/Validation.js';
 import { ValidatorQROC } from '../../../../lib/domain/models/ValidatorQROC.js';
 import { expect, domainBuilder, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | ValidatorQROC', function () {
+  let solutionServiceQROCStub;
   beforeEach(function () {
-    sinon.stub(solutionServiceQroc, 'match');
+    solutionServiceQROCStub = {
+      match: sinon.stub().returns(AnswerStatus.OK),
+    };
   });
 
   describe('#assess', function () {
@@ -18,11 +20,10 @@ describe('Unit | Domain | Models | ValidatorQROC', function () {
 
     beforeEach(function () {
       // given
-      solutionServiceQroc.match.returns(AnswerStatus.OK);
       solution = domainBuilder.buildSolution({ type: 'QROC' });
 
       uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected();
-      validator = new ValidatorQROC({ solution: solution });
+      validator = new ValidatorQROC({ solution: solution }, solutionServiceQROCStub);
 
       // when
       validation = validator.assess({ answer: uncorrectedAnswer });
@@ -30,7 +31,7 @@ describe('Unit | Domain | Models | ValidatorQROC', function () {
 
     it('should call solutionServiceQROC', function () {
       // then
-      expect(solutionServiceQroc.match).to.have.been.calledWith({
+      expect(solutionServiceQROCStub.match).to.have.been.calledWith({
         answer: uncorrectedAnswer.value,
         solution: solution,
         challengeFormat,
