@@ -3,7 +3,7 @@
   counter-reset: title;
 
   &__card {
-    margin-bottom: $spacing-m;
+    margin-bottom: $pix-spacing-m;
   }
 
   .card__title {
@@ -19,9 +19,9 @@
   }
 
   &__checkbox {
-    margin: 0 $spacing-xs;
-    width: $spacing-s;
-    height: $spacing-s;
+    margin: 0 $pix-spacing-xs;
+    width: $pix-spacing-s;
+    height: $pix-spacing-s;
   }
 
   &__is-public-checkbox {
@@ -71,12 +71,12 @@
   }
 
   .input-url {
-    margin-bottom: $spacing-s;
+    margin-bottom: $pix-spacing-s;
   }
 
   &__multi-select {
     max-width: 300px;
-    margin-left: $spacing-s;
+    margin-left: $pix-spacing-s;
   }
 
   .textarea-label {

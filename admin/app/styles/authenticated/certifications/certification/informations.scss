@@ -1,5 +1,4 @@
 .certification-informations {
-
   &__actions {
     display: flex;
     justify-content: center;
@@ -22,10 +21,10 @@
   }
 
   &__card {
-    box-shadow: 0 4px 8px rgba($grey-200, 0.08);
-    border: 1px solid $grey-20;
+    box-shadow: 0 4px 8px rgba($pix-neutral-110, 0.08);
+    border: 1px solid $pix-neutral-20;
     border-radius: 8px;
-    background: $white;
+    background: $pix-neutral-0;
     padding: 1rem;
     flex-grow: 1;
 
@@ -35,7 +34,6 @@
       padding-bottom: 0.5em;
       flex-wrap: wrap;
       border-bottom: 1px solid $pix-neutral-20;
-
 
       &:last-of-type {
         border-bottom: none;
@@ -89,7 +87,7 @@
 
     &__score {
       font-size: 1.125rem;
-      color: $grey-90;
+      color: $pix-neutral-90;
     }
   }
 
@@ -98,7 +96,6 @@
   }
 
   &__pix-edu {
-
     &__title {
       margin-bottom: 16px;
       font-size: 1.125rem;
@@ -149,7 +146,6 @@
   }
 
   &__complementary-certification {
-
     &__title {
       margin-bottom: 24px;
     }
@@ -160,7 +156,6 @@
   }
 
   .candidate-informations {
-
     &__actions {
       display: flex;
       margin-top: 8px;

@@ -19,12 +19,11 @@
   }
 
   &__card {
-    margin-bottom: $spacing-m;
+    margin-bottom: $pix-spacing-m;
   }
 }
 
 .create-training-form-card {
-
   &__duration {
     margin-top: 1rem;
     display: flex;
