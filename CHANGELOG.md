@@ -1,5 +1,25 @@
 # Pix Changelog
 
+## v3.341.0 (07/04/2023)
+
+
+### :rocket: Amélioration
+- [#5934](https://github.com/1024pix/pix/pull/5934) [FEATURE] Passer la duplication de candidat en erreur non bloquante dans l'import en masse (PIX-7181).
+- [#5939](https://github.com/1024pix/pix/pull/5939) [FEATURE] Améliorer les messages d'erreurs de la gestions massive des sessions sur Pix Certif (PIX-7677).
+- [#5942](https://github.com/1024pix/pix/pull/5942) [FEATURE] Modification du message par défaut d'un profil cible au palier 0 (PIX-7616)
+- [#5883](https://github.com/1024pix/pix/pull/5883) [FEATURE] Mise à jour de pixUI sur pixOrga (PIX-7560)
+- [#5923](https://github.com/1024pix/pix/pull/5923) [FEATURE] Afficher les domaines de compétences sur la page de fin de campagne sur Pix-App (PIX-7012)
+
+### :building_construction: Tech
+- [#5940](https://github.com/1024pix/pix/pull/5940) [TECH] Bump pix-ui version to 30.0.0 (PIX-7657).
+- [#5930](https://github.com/1024pix/pix/pull/5930) [TECH] Ajouter une contrainte en base de données sur la colonne lang de la table users (PIX-7654)
+
+### :bug: Correction
+- [#5945](https://github.com/1024pix/pix/pull/5945) [BUGFIX] Réparer quelques régressions dans la mise en page de la page de détail d'un utilisateur (PIX-7671)
+- [#5941](https://github.com/1024pix/pix/pull/5941) [BUGFIX] réparer la  width de la sidebar et du main-content
+- [#5932](https://github.com/1024pix/pix/pull/5932) [BUGFIX] Corriger l'affichage des étoiles en fin de parcours sur Pix-App (PIX-7652)
+- [#5927](https://github.com/1024pix/pix/pull/5927) [BUGFIX] Ne plus appeler le provider de mail lors de l'execution des tests (Pix-7646)
+
 ## v3.340.0 (06/04/2023)
 
 
