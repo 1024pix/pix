@@ -173,7 +173,7 @@ export default class SkillReview extends Component {
   get competenceResultsGroupedByAreas() {
     const competenceResults = this.args.model.campaignParticipationResult.get('competenceResults').toArray();
     return competenceResults.reduce((acc, competenceResult) => {
-      const currentArea = competenceResult.areaName;
+      const currentArea = competenceResult.areaTitle;
       const competence = {
         name: competenceResult.name,
         reachedStage: competenceResult.reachedStage,
@@ -183,7 +183,7 @@ export default class SkillReview extends Component {
         acc[currentArea].competences.push(competence);
       } else {
         acc[currentArea] = {
-          areaName: currentArea,
+          areaTitle: currentArea,
           areaColor: competenceResult.areaColor,
           competences: [competence],
         };
