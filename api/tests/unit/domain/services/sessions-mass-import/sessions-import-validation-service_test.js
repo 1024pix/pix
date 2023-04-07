@@ -71,7 +71,7 @@ describe('Unit | Service | sessions import validation Service', function () {
                 {
                   line: 1,
                   code: 'SESSION_ID_NOT_VALID',
-                  blocking: true,
+                  isBlocking: true,
                 },
               ]);
             });
@@ -122,7 +122,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           {
             line: 2,
             code: 'CANDIDATE_NOT_ALLOWED_FOR_STARTED_SESSION',
-            blocking: true,
+            isBlocking: true,
           },
         ]);
       });
@@ -148,7 +148,7 @@ describe('Unit | Service | sessions import validation Service', function () {
             {
               line: 1,
               code: 'SESSION_SCHEDULED_IN_THE_PAST',
-              blocking: true,
+              isBlocking: true,
             },
           ]);
         });
@@ -181,7 +181,7 @@ describe('Unit | Service | sessions import validation Service', function () {
                 {
                   line: 1,
                   code: 'INFORMATION_NOT_ALLOWED_WITH_SESSION_ID',
-                  blocking: true,
+                  isBlocking: true,
                 },
               ]);
             });
@@ -221,7 +221,7 @@ describe('Unit | Service | sessions import validation Service', function () {
             {
               line: 1,
               code: 'SESSION_ID_NOT_EXISTING',
-              blocking: true,
+              isBlocking: true,
             },
           ]);
         });
@@ -267,7 +267,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           {
             line: 1,
             code: 'SESSION_WITH_DATE_AND_TIME_ALREADY_EXISTS',
-            blocking: true,
+            isBlocking: true,
           },
         ]);
       });
@@ -293,7 +293,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           {
             line: 1,
             code: 'SESSION_DATE_NOT_VALID',
-            blocking: true,
+            isBlocking: true,
           },
         ]);
       });
@@ -319,7 +319,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           {
             line: 1,
             code: 'SESSION_TIME_NOT_VALID',
-            blocking: true,
+            isBlocking: true,
           },
         ]);
       });
@@ -346,8 +346,8 @@ describe('Unit | Service | sessions import validation Service', function () {
           expect(sessionErrors).to.deep.equal([
             {
               line: 1,
-              code: 'DUPLICATE_CANDIDATE_NOT_ALLOWED_IN_SESSION',
-              blocking: true,
+              code: 'DUPLICATE_CANDIDATE_IN_SESSION',
+              isBlocking: false,
             },
           ]);
         });
@@ -373,7 +373,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           {
             line: 1,
             code: 'SESSION_ROOM_REQUIRED',
-            blocking: true,
+            isBlocking: true,
           },
         ]);
       });
@@ -396,8 +396,8 @@ describe('Unit | Service | sessions import validation Service', function () {
 
         // then
         expect(sessionErrors).to.have.deep.members([
-          { line: 1, code: 'SESSION_ADDRESS_REQUIRED', blocking: true },
-          { line: 1, code: 'SESSION_ROOM_REQUIRED', blocking: true },
+          { line: 1, code: 'SESSION_ADDRESS_REQUIRED', isBlocking: true },
+          { line: 1, code: 'SESSION_ROOM_REQUIRED', isBlocking: true },
         ]);
       });
     });
@@ -417,7 +417,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         });
 
         // then
-        expect(sessionErrors).to.have.deep.members([{ line: 1, code: 'EMPTY_SESSION', blocking: false }]);
+        expect(sessionErrors).to.have.deep.members([{ line: 1, code: 'EMPTY_SESSION', isBlocking: false }]);
       });
     });
   });
@@ -475,7 +475,7 @@ describe('Unit | Service | sessions import validation Service', function () {
           {
             code: 'CANDIDATE_FIRST_NAME_REQUIRED',
             line: 1,
-            blocking: true,
+            isBlocking: true,
           },
         ]);
       });
@@ -506,7 +506,7 @@ describe('Unit | Service | sessions import validation Service', function () {
               {
                 code: 'CANDIDATE_BILLING_MODE_REQUIRED',
                 line: 1,
-                blocking: true,
+                isBlocking: true,
               },
             ]);
           });
@@ -535,7 +535,7 @@ describe('Unit | Service | sessions import validation Service', function () {
               {
                 code: 'CANDIDATE_BILLING_MODE_REQUIRED',
                 line: 1,
-                blocking: true,
+                isBlocking: true,
               },
             ]);
           });
@@ -603,7 +603,7 @@ describe('Unit | Service | sessions import validation Service', function () {
 
           // then
           expect(result.certificationCandidateErrors).to.deep.equal([
-            { code: 'CANDIDATE_BIRTH_COUNTRY_REQUIRED', line: 1, blocking: true },
+            { code: 'CANDIDATE_BIRTH_COUNTRY_REQUIRED', line: 1, isBlocking: true },
           ]);
         });
       });
@@ -635,7 +635,53 @@ describe('Unit | Service | sessions import validation Service', function () {
         });
 
         // then
-        expect(result.certificationCandidateErrors).to.deep.equal([{ code: 'CPF_INCORRECT', line: 1, blocking: true }]);
+        expect(result.certificationCandidateErrors).to.deep.equal([
+          { code: 'CPF_INCORRECT', line: 1, isBlocking: true },
+        ]);
+      });
+    });
+  });
+
+  describe('#getUniqueCandidates', function () {
+    context('when there is no duplicate', function () {
+      it('returns the list without errors', function () {
+        // given
+        const candidates = [
+          _buildValidCandidateData({ lineNumber: 1, candidateNumber: 97 }),
+          _buildValidCandidateData({ lineNumber: 2, candidateNumber: 98 }),
+        ];
+
+        // when
+        const { uniqueCandidates, duplicateCandidateErrors } =
+          sessionsImportValidationService.getUniqueCandidates(candidates);
+
+        // then
+        expect(uniqueCandidates.length).equals(candidates.length);
+        expect(duplicateCandidateErrors).to.be.empty;
+      });
+    });
+    context('when there are duplicates', function () {
+      it('returns the filtered list with errors', function () {
+        // given
+        const candidates = [
+          _buildValidCandidateData({ lineNumber: 1, candidateNumber: 97 }),
+          _buildValidCandidateData({ lineNumber: 2, candidateNumber: 98 }),
+          _buildValidCandidateData({ lineNumber: 3, candidateNumber: 97 }),
+        ];
+
+        // when
+        const { uniqueCandidates, duplicateCandidateErrors } =
+          sessionsImportValidationService.getUniqueCandidates(candidates);
+
+        // then
+        expect(uniqueCandidates.map(({ lastName }) => lastName)).to.deep.equal(['Candidat 97', 'Candidat 98']);
+        expect(duplicateCandidateErrors).to.deep.equal([
+          {
+            code: 'DUPLICATE_CANDIDATE_IN_SESSION',
+            line: undefined,
+            isBlocking: false,
+          },
+        ]);
       });
     });
   });
@@ -675,7 +721,7 @@ function _buildValidSessionWithoutId() {
   });
 }
 
-function _buildValidCandidateData(candidateNumber = 2) {
+function _buildValidCandidateData({ lineNumber = 0, candidateNumber = 2 } = { candidateNumber: 0, lineNumber: 0 }) {
   return domainBuilder.buildCertificationCandidate({
     lastName: `Candidat ${candidateNumber}`,
     firstName: `Candidat ${candidateNumber}`,
@@ -690,5 +736,6 @@ function _buildValidCandidateData(candidateNumber = 2) {
     externalId: 'htehte',
     extraTimePercentage: '20',
     billingMode: 'PAID',
+    line: lineNumber,
   });
 }

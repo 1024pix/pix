@@ -37,7 +37,7 @@ describe('Unit | Domain | Models | SessionMassImportReport', function () {
       it('should return false', function () {
         // given
         const sessionMassImportReport = new SessionMassImportReport({
-          errorReports: [{ blocking: true }],
+          errorReports: [{ isBlocking: true }],
         });
 
         // when
@@ -52,7 +52,7 @@ describe('Unit | Domain | Models | SessionMassImportReport', function () {
       it('should return true', function () {
         // given
         const sessionMassImportReport = new SessionMassImportReport({
-          errorReports: [{ blocking: false }],
+          errorReports: [{ isBlocking: false }],
         });
 
         // when
