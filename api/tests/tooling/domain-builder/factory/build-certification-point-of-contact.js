@@ -6,6 +6,7 @@ module.exports = function buildCertificationPointOfContact({
   firstName = 'Chèvre',
   lastName = 'Brebis',
   email = 'chevre.brebis@example.net',
+  lang = 'fr',
   pixCertifTermsOfServiceAccepted = true,
   allowedCertificationCenterAccesses = [buildAllowedCertificationCenterAccess()],
 } = {}) {
@@ -14,6 +15,7 @@ module.exports = function buildCertificationPointOfContact({
     firstName,
     lastName,
     email,
+    lang,
     pixCertifTermsOfServiceAccepted,
     allowedCertificationCenterAccesses,
   });

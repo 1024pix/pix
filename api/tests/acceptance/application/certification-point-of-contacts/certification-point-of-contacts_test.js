@@ -30,6 +30,7 @@ describe('Acceptance | Route | CertificationPointOfContact', function () {
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.result.data.id).to.equal(userId.toString());
+      expect(response.result.data.attributes.lang).to.equal('fr');
     });
   });
 });

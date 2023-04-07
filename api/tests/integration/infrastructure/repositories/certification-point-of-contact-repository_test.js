@@ -22,6 +22,7 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
         firstName: 'Jean',
         lastName: 'Acajou',
         email: 'jean.acajou@example.net',
+        lang: 'fr',
         pixCertifTermsOfServiceAccepted: true,
       });
       databaseBuilder.factory.buildUser();
@@ -36,6 +37,7 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
         firstName: 'Jean',
         lastName: 'Acajou',
         email: 'jean.acajou@example.net',
+        lang: 'fr',
         pixCertifTermsOfServiceAccepted: true,
         allowedCertificationCenterAccesses: [],
       });

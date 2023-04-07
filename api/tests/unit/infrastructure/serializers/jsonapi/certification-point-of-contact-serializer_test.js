@@ -52,6 +52,7 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
             'first-name': 'Buffy',
             'last-name': 'Summers',
             email: 'buffy.summers@example.net',
+            lang: 'fr',
             'pix-certif-terms-of-service-accepted': true,
           },
           relationships: {
