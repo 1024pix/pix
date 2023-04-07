@@ -1,10 +1,10 @@
 import { expect, knex } from '../../../../test-helper.js';
-import { temporaryStorage } from '../../../../../lib/infrastructure/temporary-storage.js';
+import { temporaryStorage } from '../../../../../lib/infrastructure/temporary-storage/index.js';
 import * as authenticationMethodRepository from '../../../../../lib/infrastructure/repositories/authentication-method-repository.js';
 import * as userToCreateRepository from '../../../../../lib/infrastructure/repositories/user-to-create-repository.js';
 import * as PoleEmploiOidcAuthenticationService from '../../../../../lib/domain/services/authentication/pole-emploi-oidc-authentication-service.js';
 import { UserToCreate } from '../../../../../lib/domain/models/UserToCreate.js';
-import { OidcIdentityProviders } from '../../../../../lib/domain/constants/oidc-identity-providers.js';
+import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 
 const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 
