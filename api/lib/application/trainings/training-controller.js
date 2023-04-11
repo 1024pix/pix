@@ -30,11 +30,11 @@ module.exports = {
     return h.response(dependencies.trainingSerializer.serialize(createdTraining)).created();
   },
 
-  async update(request) {
+  async update(request, h, dependencies = { trainingSerializer }) {
     const { trainingId } = request.params;
-    const training = await trainingSerializer.deserialize(request.payload);
+    const training = await dependencies.trainingSerializer.deserialize(request.payload);
     const updatedTraining = await usecases.updateTraining({ training: { ...training, id: trainingId } });
-    return trainingSerializer.serialize(updatedTraining);
+    return dependencies.trainingSerializer.serialize(updatedTraining);
   },
 
   async createOrUpdateTrigger(request) {
