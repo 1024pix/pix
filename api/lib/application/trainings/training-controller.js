@@ -37,16 +37,16 @@ module.exports = {
     return dependencies.trainingSerializer.serialize(updatedTraining);
   },
 
-  async createOrUpdateTrigger(request) {
+  async createOrUpdateTrigger(request, h, dependencies = { trainingTriggerSerializer }) {
     const { trainingId } = request.params;
-    const { threshold, tubes, type } = await trainingTriggerSerializer.deserialize(request.payload);
+    const { threshold, tubes, type } = await dependencies.trainingTriggerSerializer.deserialize(request.payload);
     const createdOrUpdatedTrainingTrigger = await usecases.createOrUpdateTrainingTrigger({
       trainingId,
       threshold,
       tubes,
       type,
     });
-    return trainingTriggerSerializer.serialize(createdOrUpdatedTrainingTrigger);
+    return dependencies.trainingTriggerSerializer.serialize(createdOrUpdatedTrainingTrigger);
   },
 
   async attachTargetProfiles(request, h) {
