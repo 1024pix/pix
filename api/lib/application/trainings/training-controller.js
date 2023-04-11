@@ -12,10 +12,10 @@ module.exports = {
     return dependencies.trainingSummarySerializer.serialize(trainings, meta);
   },
 
-  async findTargetProfileSummaries(request) {
+  async findTargetProfileSummaries(request, h, dependencies = { targetProfileSummaryForAdminSerializer }) {
     const { trainingId } = request.params;
     const targetProfileSummaries = await usecases.findTargetProfileSummariesForTraining({ trainingId });
-    return targetProfileSummaryForAdminSerializer.serialize(targetProfileSummaries);
+    return dependencies.targetProfileSummaryForAdminSerializer.serialize(targetProfileSummaries);
   },
 
   async getById(request, h, dependencies = { trainingSerializer }) {
