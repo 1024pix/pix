@@ -106,7 +106,7 @@ module.exports = {
 
   async findCertificationCenterMembershipsByCertificationCenter(
     request,
-    _h,
+    h,
     dependencies = { certificationCenterMembershipSerializer }
   ) {
     const certificationCenterId = request.params.certificationCenterId;
@@ -117,16 +117,20 @@ module.exports = {
     return dependencies.certificationCenterMembershipSerializer.serialize(certificationCenterMemberships);
   },
 
-  async findCertificationCenterMemberships(request) {
+  async findCertificationCenterMemberships(request, h, dependencies = { certificationCenterMembershipSerializer }) {
     const certificationCenterId = request.params.certificationCenterId;
     const certificationCenterMemberships = await usecases.findCertificationCenterMembershipsByCertificationCenter({
       certificationCenterId,
     });
 
-    return certificationCenterMembershipSerializer.serializeMembers(certificationCenterMemberships);
+    return dependencies.certificationCenterMembershipSerializer.serializeMembers(certificationCenterMemberships);
   },
 
-  async createCertificationCenterMembershipByEmail(request, h) {
+  async createCertificationCenterMembershipByEmail(
+    request,
+    h,
+    dependencies = { certificationCenterMembershipSerializer }
+  ) {
     const certificationCenterId = request.params.certificationCenterId;
     const { email } = request.payload;
 
@@ -134,7 +138,9 @@ module.exports = {
       certificationCenterId,
       email,
     });
-    return h.response(certificationCenterMembershipSerializer.serialize(certificationCenterMembership)).created();
+    return h
+      .response(dependencies.certificationCenterMembershipSerializer.serialize(certificationCenterMembership))
+      .created();
   },
 
   async findPendingInvitationsForAdmin(request, h) {
@@ -158,7 +164,7 @@ module.exports = {
     return h.response().code(204);
   },
 
-  async sendInvitationForAdmin(request, h) {
+  async sendInvitationForAdmin(request, h, dependencies = { certificationCenterInvitationSerializer }) {
     const certificationCenterId = request.params.certificationCenterId;
     const invitationInformation = await certificationCenterInvitationSerializer.deserializeForAdmin(request.payload);
 
@@ -170,7 +176,7 @@ module.exports = {
       });
 
     const serializedCertificationCenterInvitation =
-      certificationCenterInvitationSerializer.serializeForAdmin(certificationCenterInvitation);
+      dependencies.certificationCenterInvitationSerializer.serializeForAdmin(certificationCenterInvitation);
     if (isInvitationCreated) {
       return h.response(serializedCertificationCenterInvitation).created();
     }
@@ -194,15 +200,15 @@ module.exports = {
       .code(200);
   },
 
-  async validateSessionsForMassImport(request, h) {
+  async validateSessionsForMassImport(request, h, dependencies = { csvHelpers, csvSerializer }) {
     const certificationCenterId = request.params.certificationCenterId;
     const authenticatedUserId = request.auth.credentials.userId;
 
-    const parsedCsvData = await csvHelpers.parseCsvWithHeader(request.payload.path);
+    const parsedCsvData = await dependencies.csvHelpers.parseCsvWithHeader(request.payload.path);
     if (parsedCsvData.length === 0) {
       throw new UnprocessableEntityError('No session data in csv', 'CSV_DATA_REQUIRED');
     }
-    const sessions = csvSerializer.deserializeForSessionsImport(parsedCsvData);
+    const sessions = dependencies.csvSerializer.deserializeForSessionsImport(parsedCsvData);
     const sessionMassImportReport = await usecases.validateSessions({
       sessions,
       certificationCenterId,
