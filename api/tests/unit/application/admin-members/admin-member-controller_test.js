@@ -1,7 +1,6 @@
 import { expect, sinon, domainBuilder, hFake } from '../../../test-helper.js';
 import { adminMemberController } from '../../../../lib/application/admin-members/admin-member-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import * as adminMemberSerializer from '../../../../lib/infrastructure/serializers/jsonapi/admin-member-serializer.js';
 import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
@@ -14,11 +13,16 @@ describe('Unit | Controller | admin-member-controller', function () {
       const otherMember = domainBuilder.buildAdminMember();
       sinon.stub(usecases, 'getAdminMembers').resolves([member, otherMember]);
       const serializedMembers = Symbol('serializedMembers');
-      const serializeStub = sinon.stub().withArgs([member, otherMember]).returns(serializedMembers);
+      const serializeStub = sinon.stub();
+      serializeStub.withArgs([member, otherMember]).returns(serializedMembers);
+      const request = {};
+      const h = {};
 
       const adminMemberSerializer = { serialize: serializeStub };
+      const dependencies = { adminMemberSerializer };
+
       // when
-      const result = await adminMemberController.findAll(adminMemberSerializer);
+      const result = await adminMemberController.findAll(request, h, dependencies);
 
       // then
       expect(usecases.getAdminMembers).to.have.been.calledOnce;
@@ -30,13 +34,16 @@ describe('Unit | Controller | admin-member-controller', function () {
     it('should get the current admin member', async function () {
       // given
       const request = { auth: { credentials: { userId: 1 } } };
+      const h = {};
       const adminMemberDetails = Symbol('adminMemberDetails');
       sinon.stub(usecases, 'getAdminMemberDetails').withArgs({ userId: 1 }).resolves(adminMemberDetails);
       const serializedUpdatedMember = Symbol('serializedUpdatedMember');
-      sinon.stub(adminMemberSerializer, 'serialize').withArgs(adminMemberDetails).returns(serializedUpdatedMember);
+      const adminMemberSerializerStub = { serialize: sinon.stub() };
+      adminMemberSerializerStub.serialize.withArgs(adminMemberDetails).returns(serializedUpdatedMember);
+      const dependencies = { adminMemberSerializer: adminMemberSerializerStub };
 
       // when
-      const response = await adminMemberController.getCurrentAdminMember(request);
+      const response = await adminMemberController.getCurrentAdminMember(request, h, dependencies);
 
       // then
       expect(response).to.be.equal(serializedUpdatedMember);
@@ -53,14 +60,22 @@ describe('Unit | Controller | admin-member-controller', function () {
       sinon.stub(usecases, 'updateAdminMember').withArgs({ id, role }).resolves(updatedMember);
 
       const serializedUpdatedMember = Symbol('serializedUpdatedMember');
-      sinon.stub(adminMemberSerializer, 'deserialize').returns({ role });
-      sinon.stub(adminMemberSerializer, 'serialize').withArgs(updatedMember).returns(serializedUpdatedMember);
+      const adminMemberSerializerStub = { deserialize: sinon.stub(), serialize: sinon.stub() };
+      adminMemberSerializerStub.deserialize.returns({ role });
+      adminMemberSerializerStub.serialize.withArgs(updatedMember).returns(serializedUpdatedMember);
+
+      const dependencies = { adminMemberSerializer: adminMemberSerializerStub };
+      const h = {};
 
       // when
-      const result = await adminMemberController.updateAdminMember({
-        params: { id },
-        payload: { data: { attributes: { role: ROLES.SUPPORT } } },
-      });
+      const result = await adminMemberController.updateAdminMember(
+        {
+          params: { id },
+          payload: { data: { attributes: { role: ROLES.SUPPORT } } },
+        },
+        h,
+        dependencies
+      );
 
       // then
       expect(result).to.equal(serializedUpdatedMember);
@@ -76,14 +91,17 @@ describe('Unit | Controller | admin-member-controller', function () {
       sinon.stub(usecases, 'deactivateAdminMember').withArgs({ id }).resolves(deactivatedMember);
 
       const serializedDeactivatedMember = Symbol('serializedDeactivatedMember');
-      sinon.stub(adminMemberSerializer, 'serialize').withArgs(deactivatedMember).returns(serializedDeactivatedMember);
+      const adminMemberSerializerStub = { serialize: sinon.stub() };
+      adminMemberSerializerStub.serialize.withArgs(deactivatedMember).returns(serializedDeactivatedMember);
+      const dependencies = { adminMemberSerializer: adminMemberSerializerStub };
 
       // when
       const { statusCode } = await adminMemberController.deactivateAdminMember(
         {
           params: { id },
         },
-        hFake
+        hFake,
+        dependencies
       );
 
       // then
@@ -99,13 +117,18 @@ describe('Unit | Controller | admin-member-controller', function () {
       sinon.stub(usecases, 'saveAdminMember').withArgs(attributes).resolves(savedAdminMember);
 
       const serializedAdminMember = Symbol('serialized admin member');
-      sinon.stub(adminMemberSerializer, 'deserialize').returns(attributes);
-      sinon.stub(adminMemberSerializer, 'serialize').withArgs(savedAdminMember).returns(serializedAdminMember);
+
+      const adminMemberSerializerStub = { deserialize: sinon.stub(), serialize: sinon.stub() };
+      adminMemberSerializerStub.deserialize.returns(attributes);
+      adminMemberSerializerStub.serialize.withArgs(savedAdminMember).returns(serializedAdminMember);
+
+      const dependencies = { adminMemberSerializer: adminMemberSerializerStub };
 
       // when
       const { statusCode, source } = await adminMemberController.saveAdminMember(
         { payload: { data: { attributes } } },
-        hFake
+        hFake,
+        dependencies
       );
 
       // then
