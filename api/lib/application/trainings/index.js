@@ -3,7 +3,7 @@ const Joi = require('joi');
 const trainingsController = require('./training-controller.js');
 const identifiersType = require('../../domain/types/identifiers-type.js');
 const securityPreHandlers = require('../security-pre-handlers.js');
-const { sendJsonApiError, NotFoundError } = require('../http-errors.js');
+const { sendJsonApiError, NotFoundError, BadRequestError } = require('../http-errors.js');
 
 exports.register = async (server) => {
   server.route([
@@ -27,9 +27,14 @@ exports.register = async (server) => {
             allowUnknown: true,
           },
           query: Joi.object({
+            'filter[id]': Joi.number().empty('').allow(null).optional(),
+            'filter[title]': Joi.string().empty('').allow(null).optional(),
             'page[number]': Joi.number().integer().empty('').allow(null).optional(),
             'page[size]': Joi.number().integer().empty('').allow(null).optional(),
           }),
+          failAction: (request, h) => {
+            return sendJsonApiError(new BadRequestError('Un des champs de recherche saisis est invalide.'), h);
+          },
         },
         handler: trainingsController.findPaginatedTrainingSummaries,
         tags: ['api', 'admin', 'trainings'],

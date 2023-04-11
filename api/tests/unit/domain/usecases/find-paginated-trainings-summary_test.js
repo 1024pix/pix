@@ -2,8 +2,9 @@ const { expect, sinon } = require('../../../test-helper');
 const findPaginatedTrainingSummaries = require('../../../../lib/domain/usecases/find-paginated-training-summaries');
 
 describe('Unit | UseCase | find-paginated-training-summaries', function () {
-  it('should find all training summaries with pagination', async function () {
+  it('should find filtered training summaries with pagination', async function () {
     // given
+    const filter = { id: 1 };
     const page = { number: 1, size: 2 };
 
     const trainingRepository = {
@@ -13,15 +14,16 @@ describe('Unit | UseCase | find-paginated-training-summaries', function () {
     const resolvedPagination = Symbol('pagination');
     const trainingSummaries = Symbol('training-summaries');
 
-    trainingRepository.findPaginatedSummaries
-      .withArgs({ page })
-      .resolves({ trainings: trainingSummaries, pagination: resolvedPagination });
+    trainingRepository.findPaginatedSummaries.resolves({
+      trainings: trainingSummaries,
+      pagination: resolvedPagination,
+    });
 
     // when
-    const response = await findPaginatedTrainingSummaries({ page, trainingRepository });
+    const response = await findPaginatedTrainingSummaries({ filter, page, trainingRepository });
 
     // then
-    expect(trainingRepository.findPaginatedSummaries).to.have.been.calledWithExactly({ page });
+    expect(trainingRepository.findPaginatedSummaries).to.have.been.calledWithExactly({ filter, page });
     expect(response.trainings).to.equal(trainingSummaries);
     expect(response.meta.pagination).to.equal(resolvedPagination);
   });

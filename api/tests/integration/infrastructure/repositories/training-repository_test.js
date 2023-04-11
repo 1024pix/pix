@@ -172,10 +172,11 @@ describe('Integration | Repository | training-repository', function () {
         databaseBuilder.factory.buildTraining({ ...trainingSummary3 });
 
         await databaseBuilder.commit();
+        const filter = {};
         const page = { size: 2, number: 2 };
 
         // when
-        const { trainings, pagination } = await trainingRepository.findPaginatedSummaries({ page });
+        const { trainings, pagination } = await trainingRepository.findPaginatedSummaries({ filter, page });
 
         // then
         expect(trainings).to.have.lengthOf(1);
@@ -183,15 +184,63 @@ describe('Integration | Repository | training-repository', function () {
         expect(trainings[0]).to.deep.equal(trainingSummary3);
         expect(pagination).to.deep.equal({ page: 2, pageSize: 2, rowCount: 3, pageCount: 2 });
       });
+
+      it('should return filtered by id result', async function () {
+        // given
+        const trainingSummary1 = domainBuilder.buildTrainingSummary({ id: 1 });
+        const trainingSummary2 = domainBuilder.buildTrainingSummary({ id: 2 });
+        const trainingSummary3 = domainBuilder.buildTrainingSummary({ id: 3 });
+
+        databaseBuilder.factory.buildTraining({ ...trainingSummary1 });
+        databaseBuilder.factory.buildTraining({ ...trainingSummary2 });
+        databaseBuilder.factory.buildTraining({ ...trainingSummary3 });
+
+        await databaseBuilder.commit();
+        const filter = { id: 2 };
+        const page = {};
+
+        // when
+        const { trainings } = await trainingRepository.findPaginatedSummaries({ filter, page });
+
+        // then
+        expect(trainings).to.have.lengthOf(1);
+        expect(trainings[0]).to.be.instanceOf(TrainingSummary);
+        expect(trainings[0]).to.deep.equal(trainingSummary2);
+      });
+
+      it('should return filtered by title results', async function () {
+        // given
+        const trainingSummary1 = domainBuilder.buildTrainingSummary({ id: 1, title: 'test' });
+        const trainingSummary2 = domainBuilder.buildTrainingSummary({ id: 2, title: 'test 2' });
+        const trainingSummary3 = domainBuilder.buildTrainingSummary({ id: 3, title: 'dummy' });
+
+        databaseBuilder.factory.buildTraining({ ...trainingSummary1 });
+        databaseBuilder.factory.buildTraining({ ...trainingSummary2 });
+        databaseBuilder.factory.buildTraining({ ...trainingSummary3 });
+
+        await databaseBuilder.commit();
+        const filter = { title: 'test' };
+        const page = {};
+
+        // when
+        const { trainings } = await trainingRepository.findPaginatedSummaries({ filter, page });
+
+        // then
+        expect(trainings).to.have.lengthOf(2);
+        expect(trainings[0]).to.be.instanceOf(TrainingSummary);
+        expect(trainings[0]).to.deep.equal(trainingSummary1);
+        expect(trainings[1]).to.deep.equal(trainingSummary2);
+      });
     });
 
     context("when trainings don't exist", function () {
       it('should return an empty array', async function () {
         // given
+        const filter = {};
         const page = { size: 2, number: 1 };
 
         // when
-        const { trainings, pagination } = await trainingRepository.findPaginatedSummaries({ page });
+        const { trainings, pagination } = await trainingRepository.findPaginatedSummaries({ filter, page });
 
         // then
         expect(trainings).to.deep.equal([]);
