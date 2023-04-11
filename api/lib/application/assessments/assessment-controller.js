@@ -27,13 +27,13 @@ module.exports = {
     return h.response(assessmentSerializer.serialize(createdAssessment)).created();
   },
 
-  async get(request) {
+  async get(request, _, dependencies = { assessmentSerializer }) {
     const assessmentId = request.params.id;
     const locale = extractLocaleFromRequest(request);
 
     const assessment = await usecases.getAssessment({ assessmentId, locale });
 
-    return assessmentSerializer.serialize(assessment);
+    return dependencies.assessmentSerializer.serialize(assessment);
   },
 
   async getLastChallengeId(request, h) {
