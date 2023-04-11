@@ -188,9 +188,8 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
 
         // when
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
-        //await this.pauseTest();
-        // then
 
+        // then
         assert.strictEqual(findAll('.badge-card').length, 1);
       });
 
