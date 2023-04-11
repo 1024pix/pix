@@ -3,7 +3,7 @@ import Model, { belongsTo, attr } from '@ember-data/model';
 export default class CompetenceResult extends Model {
   // attributes
   @attr('string') areaColor;
-  @attr('string') areaName;
+  @attr('string') areaTitle;
   @attr('string') name;
   @attr('string') index;
   @attr('number') masteryPercentage;

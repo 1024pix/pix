@@ -682,21 +682,21 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       component.args.model.campaignParticipationResult.competenceResults = [
         {
           areaColor: 'areaColor1',
-          areaName: 'area1',
+          areaTitle: 'area1',
           name: 'competence1',
           masteryRate: '33',
           reachedStage: 1,
         },
         {
           areaColor: 'areaColor1',
-          areaName: 'area1',
+          areaTitle: 'area1',
           name: 'competence2',
           masteryRate: '50',
           reachedStage: 2,
         },
         {
           areaColor: 'areaColor2',
-          areaName: 'area2',
+          areaTitle: 'area2',
           name: 'competence3',
           masteryRate: '60',
           reachedStage: 3,
@@ -710,7 +710,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
       assert.deepEqual(competenceResults, {
         area1: {
           areaColor: 'areaColor1',
-          areaName: 'area1',
+          areaTitle: 'area1',
           competences: [
             {
               masteryRate: '33',
@@ -726,7 +726,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
         },
         area2: {
           areaColor: 'areaColor2',
-          areaName: 'area2',
+          areaTitle: 'area2',
           competences: [
             {
               masteryRate: '60',
