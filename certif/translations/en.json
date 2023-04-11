@@ -209,8 +209,7 @@
           "errors": {
             "download": "Une erreur s'est produite pendant le téléchargement",
             "CSV_DATA_REQUIRED": "Le modèle importé n'a pas été rempli, merci de le compléter avant de l'importer à nouveau",
-            "CSV_HEADERS_NOT_VALID": "Le modèle a été altéré, merci de le télécharger à nouveau",
-            "incorrect-type-file": "Le format du fichier est incorrect, seul le format .csv est accepté"
+            "CSV_HEADERS_NOT_VALID": "Le modèle a été altéré, merci de le télécharger à nouveau"
           },
           "instructions": {
             "creation": {
