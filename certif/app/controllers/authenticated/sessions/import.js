@@ -2,6 +2,7 @@ import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import ENV from 'pix-certif/config/environment';
 
 export default class ImportController extends Controller {
   @service fileSaver;
@@ -78,17 +79,8 @@ export default class ImportController extends Controller {
       this.candidatesCount = candidatesCount;
       this.cachedValidatedSessionsKey = cachedValidatedSessionsKey;
       this.errorReports = errorReports;
-    } catch (errors) {
-      if (errors?.errors[0].code === 'CSV_HEADERS_NOT_VALID') {
-        this.notifications.error(
-          this.intl.t(`pages.sessions.import.step-two.blocking-errors.errors.${errors.errors[0].code}`)
-        );
-      } else if (errors?.errors[0].code === 'CSV_DATA_REQUIRED') {
-        this.notifications.error(this.intl.t(`pages.sessions.import.step-one.errors.${errors.errors[0].code}`));
-      } else {
-        this.notifications.error(errors.errors[0].detail);
-      }
-
+    } catch (responseError) {
+      this.notifications.error(this.intl.t(this._handleApiError(responseError)));
       return;
     }
     this.isImportStepOne = false;
@@ -124,5 +116,13 @@ export default class ImportController extends Controller {
 
   reset() {
     this.isImportStepOne = true;
+  }
+
+  _handleApiError(responseError) {
+    const errorCodes = ['CSV_HEADERS_NOT_VALID', 'CSV_DATA_REQUIRED'];
+    const error = responseError?.errors[0];
+    return errorCodes.includes(error.code)
+      ? `pages.sessions.import.step-one.errors.${error.code}`
+      : ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.I18N_KEY;
   }
 }
