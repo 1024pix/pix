@@ -7,7 +7,6 @@ const {
 } = require('../../../test-helper');
 
 const usecases = require('../../../../lib/domain/usecases/index.js');
-const countrySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/country-serializer');
 
 const countryController = require('../../../../lib/application/countries/country-controller');
 
@@ -40,11 +39,11 @@ describe('Unit | Controller | country-controller', function () {
       ];
 
       const userId = 42;
-      sinon.stub(countrySerializer, 'serialize');
+      const countrySerializerStub = { serialize: sinon.stub() };
       sinon.stub(usecases, 'findCountries');
 
       usecases.findCountries.resolves(countries);
-      countrySerializer.serialize.withArgs(countries).resolves(serializedCountries);
+      countrySerializerStub.serialize.withArgs(countries).resolves(serializedCountries);
 
       const request = {
         params: { id: 'course_id' },
@@ -53,12 +52,13 @@ describe('Unit | Controller | country-controller', function () {
       };
 
       // when
-      const response = await countryController.findCountries(request, hFake);
+      const response = await countryController.findCountries(request, hFake, {
+        countrySerializer: countrySerializerStub,
+      });
 
       // then
       expect(usecases.findCountries).to.have.been.called;
-      expect(countrySerializer.serialize).to.have.been.called;
-      expect(countrySerializer.serialize).to.have.been.calledWithExactly(countries);
+      expect(countrySerializerStub.serialize).to.have.been.calledWithExactly(countries);
       expect(response).to.deep.equal(serializedCountries);
     });
   });
