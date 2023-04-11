@@ -30,6 +30,11 @@ export default class NewCertificationCandidateModal extends Component {
     return `-- ${labelTranslation} --`;
   }
 
+  @action closeModal() {
+    this.args.closeModal();
+    document.getElementById('new-certification-candidate-form').reset();
+  }
+
   @action
   selectBirthGeoCodeOption(option) {
     this.selectedBirthGeoCodeOption = option;
@@ -78,8 +83,13 @@ export default class NewCertificationCandidateModal extends Component {
   async onFormSubmit(event) {
     event.preventDefault();
     this.isLoading = true;
+
     try {
-      await this.args.saveCandidate(this.args.candidateData);
+      const result = await this.args.saveCandidate(this.args.candidateData);
+
+      if (result) {
+        this._resetForm();
+      }
     } finally {
       this.isLoading = false;
     }
@@ -170,5 +180,11 @@ export default class NewCertificationCandidateModal extends Component {
   _getCountryName() {
     const country = this.args.countries.find((country) => country.code === this.selectedCountryInseeCode);
     return country.name;
+  }
+
+  _resetForm() {
+    document.getElementById('new-certification-candidate-form').reset();
+    this.selectedCountryInseeCode = FRANCE_INSEE_CODE;
+    this.selectedBirthGeoCodeOption = INSEE_CODE_OPTION;
   }
 }
