@@ -36,9 +36,9 @@ async function getWithTriggersForAdmin({ trainingId, domainTransaction = DomainT
   return _toDomainForAdmin({ training: trainingDTO, targetProfileTrainings, trainingTriggers });
 }
 
-async function findPaginatedSummaries({ page, domainTransaction = DomainTransaction.emptyTransaction() }) {
+async function findPaginatedSummaries({ filter, page, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConn = domainTransaction?.knexTransaction || knex;
-  const query = knexConn(TABLE_NAME).select('trainings.*').orderBy('id', 'asc');
+  const query = knexConn(TABLE_NAME).select('trainings.*').orderBy('id', 'asc').modify(_applyFilters, filter);
   const { results, pagination } = await fetchPage(query, page);
 
   const trainings = results.map((training) => new TrainingSummary(training));
@@ -168,4 +168,15 @@ function _toDomainForAdmin({ training, trainingTriggers, targetProfileTrainings 
     .map(({ targetProfileId }) => targetProfileId);
 
   return new TrainingForAdmin({ ...training, targetProfileIds, trainingTriggers });
+}
+
+function _applyFilters(qb, filter) {
+  const { title, id } = filter;
+  if (title) {
+    qb.whereILike('title', `%${title}%`);
+  }
+  if (id) {
+    qb.where({ id });
+  }
+  return qb;
 }

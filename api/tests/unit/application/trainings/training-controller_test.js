@@ -11,6 +11,7 @@ describe('Unit | Controller | training-controller', function () {
       const trainingSummaries = Symbol('trainingSummary');
       const meta = Symbol('meta');
       const useCaseParameters = {
+        filter: { id: 1 },
         page: { size: 2, number: 1 },
       };
 
@@ -25,6 +26,7 @@ describe('Unit | Controller | training-controller', function () {
       const response = await trainingController.findPaginatedTrainingSummaries(
         {
           params: {
+            filter: { id: 1 },
             page: { size: 2, number: 1 },
           },
         },
