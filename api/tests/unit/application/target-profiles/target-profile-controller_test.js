@@ -1,9 +1,6 @@
 import { expect, sinon, hFake, domainBuilder } from '../../../test-helper.js';
 import { targetProfileController } from '../../../../lib/application/target-profiles/target-profile-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { tokenService } from '../../../../lib/domain/services/token-service.js';
-import * as targetProfileAttachOrganizationSerializer from '../../../../lib/infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer.js';
-import { learningContentPDFPresenter } from '../../../../lib/application/target-profiles/presenter/pdf/learning-content-pdf-presenter.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
 describe('Unit | Controller | target-profile-controller', function () {
@@ -103,10 +100,11 @@ describe('Unit | Controller | target-profile-controller', function () {
 
   describe('#attachOrganizations', function () {
     let request;
+    let targetProfileAttachOrganizationSerializer;
 
     beforeEach(function () {
       sinon.stub(usecases, 'attachOrganizationsToTargetProfile');
-      sinon.stub(targetProfileAttachOrganizationSerializer, 'serialize');
+      targetProfileAttachOrganizationSerializer = { serialize: sinon.stub() };
 
       request = {
         params: {
@@ -125,7 +123,9 @@ describe('Unit | Controller | target-profile-controller', function () {
         usecases.attachOrganizationsToTargetProfile.resolves();
         targetProfileAttachOrganizationSerializer.serialize.returns(serializer);
 
-        const response = await targetProfileController.attachOrganizations(request, hFake);
+        const response = await targetProfileController.attachOrganizations(request, hFake, {
+          targetProfileAttachOrganizationSerializer,
+        });
         // then
         expect(targetProfileAttachOrganizationSerializer.serialize).to.have.been.called;
         expect(response.statusCode).to.equal(200);
@@ -134,7 +134,9 @@ describe('Unit | Controller | target-profile-controller', function () {
 
       it('should call usecase', async function () {
         // when
-        await targetProfileController.attachOrganizations(request, hFake);
+        await targetProfileController.attachOrganizations(request, hFake, {
+          targetProfileAttachOrganizationSerializer,
+        });
 
         // then
         expect(usecases.attachOrganizationsToTargetProfile).to.have.been.calledOnce;
@@ -234,10 +236,13 @@ describe('Unit | Controller | target-profile-controller', function () {
           accessToken,
         },
       };
-      sinon.stub(tokenService, 'extractUserId').withArgs(accessToken).returns(66);
+      const tokenService = {
+        extractUserId: sinon.stub(),
+      };
+      tokenService.extractUserId.withArgs(accessToken).returns(66);
 
       // when
-      const response = await targetProfileController.getContentAsJsonFile(request, hFake);
+      const response = await targetProfileController.getContentAsJsonFile(request, hFake, { tokenService });
 
       // then
       expect(response.source).to.equal('json_content');
@@ -257,10 +262,12 @@ describe('Unit | Controller | target-profile-controller', function () {
         .stub(usecases, 'getLearningContentByTargetProfile')
         .withArgs({ targetProfileId: 123, language: 'fr' })
         .resolves(learningContent);
-      sinon
-        .stub(learningContentPDFPresenter, 'present')
-        .withArgs(learningContent, 'titre du doc', 'fr')
-        .resolves(pdfBuffer);
+
+      const learningContentPDFPresenter = {
+        present: sinon.stub(),
+      };
+
+      learningContentPDFPresenter.present.withArgs(learningContent, 'titre du doc', 'fr').resolves(pdfBuffer);
       const request = {
         params: {
           id: 123,
@@ -273,7 +280,9 @@ describe('Unit | Controller | target-profile-controller', function () {
       };
 
       // when
-      const response = await targetProfileController.getLearningContentAsPdf(request, hFake);
+      const response = await targetProfileController.getLearningContentAsPdf(request, hFake, {
+        learningContentPDFPresenter,
+      });
 
       // then
       expect(response.headers['Content-Disposition'].startsWith('attachment; filename=titre du doc_')).to.be.true;
