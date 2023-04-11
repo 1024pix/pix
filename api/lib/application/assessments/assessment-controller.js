@@ -19,11 +19,11 @@ const Examiner = require('../../domain/models/Examiner.js');
 const ValidatorAlwaysOK = require('../../domain/models/ValidatorAlwaysOK.js');
 
 module.exports = {
-  async save(request, h) {
+  async save(request, h, dependencies = { assessmentRepository }) {
     const assessment = assessmentSerializer.deserialize(request.payload);
     assessment.userId = extractUserIdFromRequest(request);
     assessment.state = 'started';
-    const createdAssessment = await assessmentRepository.save({ assessment });
+    const createdAssessment = await dependencies.assessmentRepository.save({ assessment });
     return h.response(assessmentSerializer.serialize(createdAssessment)).created();
   },
 
