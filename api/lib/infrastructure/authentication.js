@@ -1,5 +1,5 @@
 const { find } = require('lodash');
-const boom = require('boom');
+const boom = require('@hapi/boom');
 
 const tokenService = require('../domain/services/token-service.js');
 const config = require('../../lib/config.js');
