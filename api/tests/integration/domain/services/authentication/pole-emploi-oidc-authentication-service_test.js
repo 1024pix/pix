@@ -9,6 +9,20 @@ const OidcIdentityProviders = require('../../../../../lib/domain/constants/oidc-
 const logoutUrlTemporaryStorage = temporaryStorage.withPrefix('logout-url:');
 
 describe('Integration | Domain | Services | pole-emploi-oidc-authentication-service', function () {
+  describe('instanciate', function () {
+    it('has speficic properties related to this identity provider', async function () {
+      // when
+      const fwbOidcAuthenticationService = new PoleEmploiOidcAuthenticationService();
+
+      // then
+      expect(fwbOidcAuthenticationService.source).to.equal('pole_emploi_connect');
+      expect(fwbOidcAuthenticationService.identityProvider).to.equal('POLE_EMPLOI');
+      expect(fwbOidcAuthenticationService.slug).to.equal('pole-emploi');
+      expect(fwbOidcAuthenticationService.organizationName).to.equal('Pôle Emploi');
+      expect(fwbOidcAuthenticationService.hasLogoutUrl).to.be.true;
+    });
+  });
+
   describe('#createUserAccount', function () {
     afterEach(async function () {
       await knex('authentication-methods').delete();

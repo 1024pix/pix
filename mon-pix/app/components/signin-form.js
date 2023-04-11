@@ -13,6 +13,7 @@ export default class SigninForm extends Component {
   @service session;
   @service store;
   @service router;
+  @service oidcIdentityProviders;
 
   @tracked hasFailed = false;
   @tracked errorMessage;
@@ -25,6 +26,10 @@ export default class SigninForm extends Component {
 
   get displayPoleEmploiButton() {
     return this.url.isFrenchDomainExtension;
+  }
+
+  get displayFwbButton() {
+    return this.oidcIdentityProviders.isFwbActivated();
   }
 
   @action
