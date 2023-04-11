@@ -102,7 +102,7 @@ describe('Unit | Service | Certification CPF service', function () {
           // then
           expect(result).to.deep.equal(
             CpfBirthInformationValidation.failure({
-              certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_CITY_REQUIRED,
+              certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FOREIGN_BIRTH_CITY_REQUIRED,
             })
           );
         });
@@ -136,8 +136,7 @@ describe('Unit | Service | Certification CPF service', function () {
           // then
           expect(result).to.deep.equal(
             CpfBirthInformationValidation.failure({
-              certificationCandidateError:
-                CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_POSTAL_CODE_ON_FOREIGN_COUNTRY_MUST_BE_EMPTY,
+              certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FOREIGN_POSTAL_CODE_MUST_BE_EMPTY,
             })
           );
         });
