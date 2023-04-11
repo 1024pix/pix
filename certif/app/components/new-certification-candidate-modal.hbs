@@ -26,7 +26,6 @@
           class="input"
           @value={{@candidateData.lastName}}
           {{on "input" (fn @updateCandidateData @candidateData "lastName")}}
-          {{did-insert this.focus}}
           required
         />
       </div>

@@ -17,10 +17,6 @@ export default class NewCertificationCandidateModal extends Component {
 
   @tracked isLoading = false;
 
-  focus(element) {
-    element.focus();
-  }
-
   get complementaryCertifications() {
     return this.currentUser.currentAllowedCertificationCenterAccess?.habilitations;
   }
