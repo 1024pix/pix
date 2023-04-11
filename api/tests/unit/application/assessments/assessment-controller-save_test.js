@@ -2,7 +2,6 @@ const { sinon, expect, hFake } = require('../../../test-helper');
 
 const controller = require('../../../../lib/application/assessments/assessment-controller');
 
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
 describe('Unit | Controller | assessment-controller-save', function () {
@@ -30,9 +29,11 @@ describe('Unit | Controller | assessment-controller-save', function () {
           },
         },
       };
+      let assessmentRepositoryStub;
 
       beforeEach(function () {
-        sinon.stub(assessmentRepository, 'save').resolves({});
+        assessmentRepositoryStub = { save: sinon.stub() };
+        assessmentRepositoryStub.save.resolves({});
       });
 
       it('should save an assessment with type PREVIEW', async function () {
@@ -47,10 +48,10 @@ describe('Unit | Controller | assessment-controller-save', function () {
         });
 
         // when
-        await controller.save(request, hFake);
+        await controller.save(request, hFake, { assessmentRepository: assessmentRepositoryStub });
 
         // then
-        expect(assessmentRepository.save).to.have.been.calledWith({ assessment: expected });
+        expect(assessmentRepositoryStub.save).to.have.been.calledWith({ assessment: expected });
       });
     });
   });
