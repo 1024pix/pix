@@ -4,8 +4,8 @@ const logger = require('../../infrastructure/logger.js');
 const _ = require('lodash');
 
 module.exports = {
-  refreshCacheEntries(request, h) {
-    learningContentDatasource
+  refreshCacheEntries(_, h, dependencies = { learningContentDatasource }) {
+    dependencies.learningContentDatasource
       .refreshLearningContentCacheRecords()
       .catch((e) => logger.error('Error while reloading cache', e));
     return h.response({}).code(202);
