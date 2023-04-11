@@ -208,6 +208,7 @@
           },
           "errors": {
             "download": "Une erreur s'est produite pendant le téléchargement",
+            "CSV_DATA_REQUIRED": "Le modèle importé n'a pas été rempli, merci de le compléter avant de l'importer à nouveau",
             "incorrect-type-file": "Le format du fichier est incorrect, seul le format .csv est accepté"
           },
           "instructions": {
