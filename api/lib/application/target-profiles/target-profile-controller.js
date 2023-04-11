@@ -41,13 +41,12 @@ const findPaginatedFilteredTargetProfileOrganizations = async function (request)
   return organizationSerializer.serialize(organizations, pagination);
 };
 
-const getContentAsJsonFile = async function (request, h) {
+const getContentAsJsonFile = async function (request, h, dependencies = { tokenService }) {
   const targetProfileId = request.params.id;
   const token = request.query.accessToken;
-  const userId = tokenService.extractUserId(token);
+  const userId = dependencies.tokenService.extractUserId(token);
 
   const { jsonContent, fileName } = await usecases.getTargetProfileContentAsJson({ userId, targetProfileId });
-
   const escapedFilename = escapeFileName(fileName);
 
   return h
@@ -56,12 +55,14 @@ const getContentAsJsonFile = async function (request, h) {
     .header('Content-Disposition', `attachment; filename=${escapedFilename}`);
 };
 
-const attachOrganizations = async function (request, h) {
+const attachOrganizations = async function (request, h, dependencies = { targetProfileAttachOrganizationSerializer }) {
   const organizationIds = request.payload['organization-ids'];
   const targetProfileId = request.params.id;
   const results = await usecases.attachOrganizationsToTargetProfile({ targetProfileId, organizationIds });
 
-  return h.response(targetProfileAttachOrganizationSerializer.serialize({ ...results, targetProfileId })).code(200);
+  return h
+    .response(dependencies.targetProfileAttachOrganizationSerializer.serialize({ ...results, targetProfileId }))
+    .code(200);
 };
 
 const attachOrganizationsFromExistingTargetProfile = async function (request, h) {
@@ -128,12 +129,12 @@ const markTargetProfileAsSimplifiedAccess = async function (request, h) {
   return h.response(targetProfileSerializer.serialize(targetProfile));
 };
 
-const getLearningContentAsPdf = async function (request, h) {
+const getLearningContentAsPdf = async function (request, h, dependencies = { learningContentPDFPresenter }) {
   const targetProfileId = request.params.id;
   const { title, language } = request.query;
 
   const learningContent = await usecases.getLearningContentByTargetProfile({ targetProfileId, language });
-  const pdfBuffer = await learningContentPDFPresenter.present(learningContent, title, language);
+  const pdfBuffer = await dependencies.learningContentPDFPresenter.present(learningContent, title, language);
 
   const date = new Date();
   const dateString = date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear();
