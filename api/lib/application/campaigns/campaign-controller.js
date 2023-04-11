@@ -20,7 +20,7 @@ const { extractLocaleFromRequest } = require('../../infrastructure/utils/request
 const { ForbiddenAccess } = require('../../domain/errors.js');
 
 module.exports = {
-  async save(request, h) {
+  async save(request, h, dependencies = { campaignReportSerializer }) {
     const { userId: creatorId } = request.auth.credentials;
     const {
       name,
@@ -50,7 +50,7 @@ module.exports = {
     };
 
     const createdCampaign = await usecases.createCampaign({ campaign });
-    return h.response(campaignReportSerializer.serialize(createdCampaign)).created();
+    return h.response(dependencies.campaignReportSerializer.serialize(createdCampaign)).created();
   },
 
   async getByCode(request) {
@@ -61,19 +61,27 @@ module.exports = {
     return campaignToJoinSerializer.serialize(campaignToJoin);
   },
 
-  async getById(request) {
+  async getById(
+    request,
+    h,
+    dependencies = {
+      campaignReportSerializer,
+      tokenService,
+    }
+  ) {
     const { userId } = request.auth.credentials;
     const campaignId = request.params.id;
 
-    const tokenForCampaignResults = tokenService.createTokenForCampaignResults({ userId, campaignId });
+    const tokenForCampaignResults = dependencies.tokenService.createTokenForCampaignResults({ userId, campaignId });
 
     const campaign = await usecases.getCampaign({ campaignId, userId });
-    return campaignReportSerializer.serialize(campaign, {}, { tokenForCampaignResults });
+    return dependencies.campaignReportSerializer.serialize(campaign, {}, { tokenForCampaignResults });
   },
 
-  async getCsvAssessmentResults(request) {
+  async getCsvAssessmentResults(request, h, dependencies = { tokenService }) {
     const token = request.query.accessToken;
-    const { userId, campaignId: extractedCampaignId } = tokenService.extractCampaignResultsTokenContent(token);
+    const { userId, campaignId: extractedCampaignId } =
+      dependencies.tokenService.extractCampaignResultsTokenContent(token);
     const campaignId = request.params.id;
 
     if (extractedCampaignId !== campaignId) {
@@ -102,9 +110,10 @@ module.exports = {
     return writableStream;
   },
 
-  async getCsvProfilesCollectionResults(request) {
+  async getCsvProfilesCollectionResults(request, h, dependencies = { tokenService }) {
     const token = request.query.accessToken;
-    const { userId, campaignId: extractedCampaignId } = tokenService.extractCampaignResultsTokenContent(token);
+    const { userId, campaignId: extractedCampaignId } =
+      dependencies.tokenService.extractCampaignResultsTokenContent(token);
     const campaignId = request.params.id;
 
     if (extractedCampaignId !== campaignId) {
@@ -133,45 +142,45 @@ module.exports = {
     return writableStream;
   },
 
-  update(request) {
+  update(request, h, dependencies = { campaignReportSerializer }) {
     const { userId } = request.auth.credentials;
     const campaignId = request.params.id;
 
     return usecases
       .updateCampaign({ userId, campaignId, ...request.deserializedPayload })
-      .then(campaignReportSerializer.serialize);
+      .then(dependencies.campaignReportSerializer.serialize);
   },
 
-  archiveCampaign(request) {
+  archiveCampaign(request, h, dependencies = { campaignReportSerializer }) {
     const { userId } = request.auth.credentials;
     const campaignId = request.params.id;
 
-    return usecases.archiveCampaign({ userId, campaignId }).then(campaignReportSerializer.serialize);
+    return usecases.archiveCampaign({ userId, campaignId }).then(dependencies.campaignReportSerializer.serialize);
   },
 
-  unarchiveCampaign(request) {
+  unarchiveCampaign(request, h, dependencies = { campaignReportSerializer }) {
     const { userId } = request.auth.credentials;
     const campaignId = request.params.id;
 
-    return usecases.unarchiveCampaign({ userId, campaignId }).then(campaignReportSerializer.serialize);
+    return usecases.unarchiveCampaign({ userId, campaignId }).then(dependencies.campaignReportSerializer.serialize);
   },
 
-  async getCollectiveResult(request) {
+  async getCollectiveResult(request, h, dependencies = { campaignCollectiveResultSerializer }) {
     const { userId } = request.auth.credentials;
     const campaignId = request.params.id;
     const locale = extractLocaleFromRequest(request);
 
     const campaignCollectiveResult = await usecases.computeCampaignCollectiveResult({ userId, campaignId, locale });
-    return campaignCollectiveResultSerializer.serialize(campaignCollectiveResult);
+    return dependencies.campaignCollectiveResultSerializer.serialize(campaignCollectiveResult);
   },
 
-  async getAnalysis(request) {
+  async getAnalysis(request, h, dependencies = { campaignAnalysisSerializer }) {
     const { userId } = request.auth.credentials;
     const campaignId = request.params.id;
     const locale = extractLocaleFromRequest(request);
 
     const campaignAnalysis = await usecases.computeCampaignAnalysis({ userId, campaignId, locale });
-    return campaignAnalysisSerializer.serialize(campaignAnalysis);
+    return dependencies.campaignAnalysisSerializer.serialize(campaignAnalysis);
   },
 
   async findProfilesCollectionParticipations(request) {
@@ -193,7 +202,7 @@ module.exports = {
     return campaignProfilesCollectionParticipationSummarySerializer.serialize(results);
   },
 
-  async findParticipantsActivity(request) {
+  async findParticipantsActivity(request, h, dependencies = { campaignParticipantsActivitySerializer }) {
     const campaignId = request.params.id;
 
     const { page, filter: filters } = queryParamsUtils.extractParameters(request.query);
@@ -212,7 +221,7 @@ module.exports = {
       filters,
     });
 
-    return campaignParticipantsActivitySerializer.serialize(paginatedParticipations);
+    return dependencies.campaignParticipantsActivitySerializer.serialize(paginatedParticipations);
   },
 
   async division(request) {
