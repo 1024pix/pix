@@ -1,4 +1,4 @@
-const Boom = require('boom');
+const Boom = require('@hapi/boom');
 const packageJSON = require('../../../package.json');
 const settings = require('../../config.js');
 const { redisMonitor } = require('../../infrastructure/utils/redis-monitor.js');
