@@ -11,7 +11,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | CompetenceResult', f
     });
 
     const area = domainBuilder.buildArea({
-      name: 'Domaine1',
+      name: 'DomaineNom1',
+      title: 'DomaineTitre1',
       color: 'Couleur1',
     });
 
@@ -39,7 +40,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | CompetenceResult', f
       id: 'rec1',
       name: 'C1',
       index: '1.1',
-      areaName: 'Domaine1',
+      areaName: 'DomaineNom1',
+      areaTitle: 'DomaineTitre1',
       areaColor: 'Couleur1',
       testedSkillsCount: 2,
       totalSkillsCount: 3,

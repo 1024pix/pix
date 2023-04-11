@@ -69,7 +69,7 @@ module.exports = {
           'name',
           'index',
           'areaColor',
-          'areaName',
+          'areaTitle',
           'masteryPercentage',
           'totalSkillsCount',
           'testedSkillsCount',

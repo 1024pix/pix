@@ -18,8 +18,20 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
 
       const learningContent = {
         areas: [
-          { id: 'recArea1', name: 'area1', competenceIds: ['rec1'], color: 'colorArea1' },
-          { id: 'recArea2', name: 'area2', competenceIds: ['rec2'], color: 'colorArea2' },
+          {
+            id: 'recArea1',
+            name: 'area1',
+            title_i18n: { fr: 'domaine1' },
+            competenceIds: ['rec1'],
+            color: 'colorArea1',
+          },
+          {
+            id: 'recArea2',
+            name: 'area2',
+            title_i18n: { fr: 'domaine2' },
+            competenceIds: ['rec2'],
+            color: 'colorArea2',
+          },
         ],
         competences: [
           {
@@ -540,6 +552,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
         name: 'comp1Fr',
         index: '1.1',
         areaName: 'area1',
+        areaTitle: 'domaine1',
         areaColor: 'colorArea1',
         testedSkillsCount: 2,
         totalSkillsCount: 2,
@@ -553,6 +566,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
         name: 'comp2Fr',
         index: '2.1',
         areaName: 'area2',
+        areaTitle: 'domaine2',
         areaColor: 'colorArea2',
         testedSkillsCount: 2,
         totalSkillsCount: 2,
@@ -1084,6 +1098,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
             name: 'comp1Fr',
             index: '1.1',
             areaName: 'area1',
+            areaTitle: 'domaine1',
             areaColor: 'colorArea1',
             testedSkillsCount: 0,
             totalSkillsCount: 2,
@@ -1097,6 +1112,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
             name: 'comp2Fr',
             index: '2.1',
             areaName: 'area2',
+            areaTitle: 'domaine2',
             areaColor: 'colorArea2',
             testedSkillsCount: 0,
             totalSkillsCount: 3,
