@@ -3,10 +3,10 @@ const courseService = require('../../../lib/domain/services/course-service.js');
 const { extractUserIdFromRequest } = require('../../infrastructure/utils/request-response-utils.js');
 
 module.exports = {
-  get(request) {
+  get(request, h, dependencies = { courseService, courseSerializer }) {
     const courseId = request.params.id;
     const userId = extractUserIdFromRequest(request);
 
-    return courseService.getCourse({ courseId, userId }).then(courseSerializer.serialize);
+    return dependencies.courseService.getCourse({ courseId, userId }).then(dependencies.courseSerializer.serialize);
   },
 };
