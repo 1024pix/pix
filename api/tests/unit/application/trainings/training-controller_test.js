@@ -2,10 +2,8 @@ const { sinon, expect, hFake } = require('../../../test-helper');
 const trainingController = require('../../../../lib/application/trainings/training-controller');
 const usecases = require('../../../../lib/domain/usecases/index.js');
 const trainingSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/training-serializer');
-const trainingSummarySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/training-summary-serializer');
 const trainingTriggerSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/training-trigger-serializer');
 const targetProfileSummaryForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer');
-const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 const TrainingTrigger = require('../../../../lib/domain/models/TrainingTrigger');
 
 describe('Unit | Controller | training-controller', function () {
@@ -20,8 +18,12 @@ describe('Unit | Controller | training-controller', function () {
       };
 
       sinon.stub(usecases, 'findPaginatedTrainingSummaries').resolves({ trainings: trainingSummaries, meta });
-      sinon.stub(trainingSummarySerializer, 'serialize').returns(expectedResult);
-      sinon.stub(queryParamsUtils, 'extractParameters').returns(useCaseParameters);
+
+      const trainingSummarySerializer = { serialize: sinon.stub() };
+      const queryParamsUtils = { extractParameters: sinon.stub() };
+      trainingSummarySerializer.serialize.returns(expectedResult);
+      queryParamsUtils.extractParameters.returns(useCaseParameters);
+
       // when
       const response = await trainingController.findPaginatedTrainingSummaries(
         {
@@ -29,7 +31,8 @@ describe('Unit | Controller | training-controller', function () {
             page: { size: 2, number: 1 },
           },
         },
-        hFake
+        hFake,
+        { trainingSummarySerializer, queryParamsUtils }
       );
 
       // then
@@ -48,18 +51,25 @@ describe('Unit | Controller | training-controller', function () {
       const trainingId = 1;
 
       sinon.stub(usecases, 'getTraining').resolves(training);
-      sinon.stub(trainingSerializer, 'serializeForAdmin').returns(expectedResult);
+      const stubedTrainingSerializer = { serializeForAdmin: sinon.stub() };
+      stubedTrainingSerializer.serializeForAdmin.returns(expectedResult);
 
       // when
-      const response = await trainingController.getById({
-        params: {
-          trainingId,
+      const response = await trainingController.getById(
+        {
+          params: {
+            trainingId,
+          },
         },
-      });
+        hFake,
+        {
+          trainingSerializer: stubedTrainingSerializer,
+        }
+      );
 
       // then
       expect(usecases.getTraining).to.have.been.calledWith({ trainingId });
-      expect(trainingSerializer.serializeForAdmin).to.have.been.calledOnce;
+      expect(stubedTrainingSerializer.serializeForAdmin).to.have.been.calledOnce;
       expect(response).to.deep.equal(expectedResult);
     });
   });
@@ -77,10 +87,14 @@ describe('Unit | Controller | training-controller', function () {
         minutes: 2,
       },
     };
+    let stubedTrainingSerializer;
 
     beforeEach(function () {
-      sinon.stub(trainingSerializer, 'deserialize').returns(deserializedTraining);
-      sinon.stub(trainingSerializer, 'serialize');
+      stubedTrainingSerializer = {
+        deserialize: sinon.stub(),
+        serialize: sinon.stub(),
+      };
+      stubedTrainingSerializer.deserialize.returns(deserializedTraining);
       sinon.stub(usecases, 'createTraining').resolves(createdTraining);
     });
 
@@ -101,10 +115,10 @@ describe('Unit | Controller | training-controller', function () {
       };
 
       // when
-      await trainingController.create({ payload }, hFake);
+      await trainingController.create({ payload }, hFake, { trainingSerializer: stubedTrainingSerializer });
 
       // then
-      expect(trainingSerializer.deserialize).to.have.been.calledWith(payload);
+      expect(stubedTrainingSerializer.deserialize).to.have.been.calledWith(payload);
       expect(usecases.createTraining).to.have.been.calledOnceWithExactly({ training: deserializedTraining });
     });
 
@@ -117,7 +131,7 @@ describe('Unit | Controller | training-controller', function () {
         },
       };
 
-      trainingSerializer.serialize.returns(expectedSerializedTraining);
+      stubedTrainingSerializer.serialize.returns(expectedSerializedTraining);
 
       // when
       const response = await trainingController.create(
@@ -131,11 +145,12 @@ describe('Unit | Controller | training-controller', function () {
             },
           },
         },
-        hFake
+        hFake,
+        { trainingSerializer: stubedTrainingSerializer }
       );
 
       // then
-      expect(trainingSerializer.serialize).to.have.been.calledWith(createdTraining);
+      expect(stubedTrainingSerializer.serialize).to.have.been.calledWith(createdTraining);
       expect(response.source).to.deep.equal(expectedSerializedTraining);
     });
   });
