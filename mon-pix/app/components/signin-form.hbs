@@ -64,11 +64,28 @@
       <div class="sign-form-body__bottom-decoration">
         <span>{{t "pages.sign-in.or"}}</span>
       </div>
-
-      <LinkTo @route="authentication.login-oidc" @model="pole-emploi" class="sign-form-body__pole-emploi-connect-link">
+      <LinkTo
+        @route="authentication.login-oidc"
+        @model="pole-emploi"
+        class="sign-form-body__oidc-connect-link oidc-provider-pole-emploi"
+      >
         <img src="/images/logo/pe-connect-logo.svg" alt="{{t 'pages.sign-in.pole-emploi.link.img'}}" />
         <span>{{t "pages.sign-in.pole-emploi.title"}}</span>
       </LinkTo>
+    {{else}}
+      {{#if this.displayFwbButton}}
+        <div class="sign-form-body__bottom-decoration">
+          <span>{{t "pages.sign-in.or"}}</span>
+        </div>
+        <LinkTo
+          @route="authentication.login-oidc"
+          @model="fwb"
+          class="sign-form-body__oidc-connect-link oidc-provider-fwb"
+        >
+          <img src="/images/logo/fwb-connect-logo.svg" alt="{{t 'pages.sign-in.fwb.link.img'}}" />
+          <span>{{t "pages.sign-in.fwb.title"}}</span>
+        </LinkTo>
+      {{/if}}
     {{/if}}
 
   </form>

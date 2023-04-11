@@ -154,17 +154,13 @@
     }
   }
 
-  &__pole-emploi-connect-link {
-    $pole-emploi: #1B2E57;
-
+  &__oidc-connect-link {
     display: flex;
     align-items: center;
     padding: 7px 10px 7px 13px;
-    color: $pix-neutral-0;
     font-weight: bold;
     font-size: 14px;
     text-decoration: none;
-    background-color: $pole-emploi;
     border: 2px solid transparent;
     border-radius: 100px;
 
@@ -172,7 +168,7 @@
     &:hover,
     &:focus-within {
       border: 2px solid $pix-neutral-0;
-      box-shadow: 0 0 0 2px $pole-emploi;
+      box-shadow: 0 0 0 2px $pix-neutral-70;
     }
 
     img {
@@ -189,4 +185,14 @@
     margin: 5px 0 20px;
     font-size: 0.875rem;
   }
+}
+
+.oidc-provider-pole-emploi {
+  color: $pix-neutral-0;
+  background-color: #1B2E57;
+}
+
+.oidc-provider-fwb {
+  color: $pix-neutral-70;
+  background-color: #EDEDED;
 }
