@@ -27,12 +27,12 @@ function _deserializeResultsAdd(json) {
 }
 
 module.exports = {
-  async save(request) {
+  async save(request, h, dependencies = { assessmentResultService }) {
     const jsonResult = request.payload.data.attributes;
     const { assessmentResult, competenceMarks } = _deserializeResultsAdd(jsonResult);
     const juryId = request.auth.credentials.userId;
     // FIXME (re)calculate partner certifications which may be invalidated/validated
-    await assessmentResultService.save({ ...assessmentResult, juryId }, competenceMarks);
+    await dependencies.assessmentResultService.save({ ...assessmentResult, juryId }, competenceMarks);
     return null;
   },
 };
