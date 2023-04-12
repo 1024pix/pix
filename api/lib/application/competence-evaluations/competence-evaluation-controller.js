@@ -1,9 +1,9 @@
 const usecases = require('../../domain/usecases/index.js');
-const serializer = require('../../infrastructure/serializers/jsonapi/competence-evaluation-serializer.js');
+const competenceEvaluationSerializer = require('../../infrastructure/serializers/jsonapi/competence-evaluation-serializer.js');
 const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
 
 module.exports = {
-  async startOrResume(request, h) {
+  async startOrResume(request, h, dependencies = { competenceEvaluationSerializer }) {
     const userId = request.auth.credentials.userId;
     const competenceId = request.payload.competenceId;
 
@@ -11,12 +11,12 @@ module.exports = {
       competenceId,
       userId,
     });
-    const serializedCompetenceEvaluation = serializer.serialize(competenceEvaluation);
+    const serializedCompetenceEvaluation = dependencies.competenceEvaluationSerializer.serialize(competenceEvaluation);
 
     return created ? h.response(serializedCompetenceEvaluation).created() : serializedCompetenceEvaluation;
   },
 
-  async improve(request, h) {
+  async improve(request, h, dependencies = { competenceEvaluationSerializer }) {
     const userId = request.auth.credentials.userId;
     const competenceId = request.payload.competenceId;
 
@@ -29,7 +29,7 @@ module.exports = {
       return competenceEvaluation;
     });
 
-    const serializedCompetenceEvaluation = serializer.serialize(competenceEvaluation);
+    const serializedCompetenceEvaluation = dependencies.competenceEvaluationSerializer.serialize(competenceEvaluation);
     return h.response(serializedCompetenceEvaluation);
   },
 };
