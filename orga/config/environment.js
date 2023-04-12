@@ -91,6 +91,7 @@ module.exports = function (environment) {
           I18N_KEY: 'common.api-error-messages.internal-server-error',
         },
       },
+      COOKIE_LOCALE_LIFESPAN_IN_SECONDS: 31536000, // 1 year in seconds
     },
 
     fontawesome: {
