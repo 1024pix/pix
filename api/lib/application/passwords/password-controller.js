@@ -6,7 +6,13 @@ const userSerializer = require('../../infrastructure/serializers/jsonapi/user-se
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils.js');
 
 module.exports = {
-  async createResetDemand(request, h) {
+  async createResetDemand(
+    request,
+    h,
+    dependencies = {
+      passwordResetSerializer,
+    }
+  ) {
     const { email } = request.payload.data.attributes;
     const locale = extractLocaleFromRequest(request);
 
@@ -14,15 +20,15 @@ module.exports = {
       email,
       locale,
     });
-    const serializedPayload = passwordResetSerializer.serialize(passwordResetDemand.attributes);
+    const serializedPayload = dependencies.passwordResetSerializer.serialize(passwordResetDemand.attributes);
 
     return h.response(serializedPayload).created();
   },
 
-  async checkResetDemand(request) {
+  async checkResetDemand(request, h, dependencies = { userSerializer }) {
     const temporaryKey = request.params.temporaryKey;
     const user = await usecases.getUserByResetPasswordDemand({ temporaryKey });
-    return userSerializer.serialize(user);
+    return dependencies.userSerializer.serialize(user);
   },
 
   async updateExpiredPassword(request, h) {
