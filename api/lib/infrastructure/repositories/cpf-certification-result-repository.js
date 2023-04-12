@@ -5,14 +5,9 @@ const { cpfImportStatus } = require('../../domain/models/CertificationCourse.js'
 
 module.exports = {
   async countByTimeRange({ startDate, endDate }) {
-    const { count } = await _selectCpfCertificationResults()
+    const query = _selectCpfCertificationResults();
+    const { count } = await _filterQuery(query, startDate, endDate)
       .count('certification-courses.id')
-      .where('certification-courses.isPublished', true)
-      .where('certification-courses.isCancelled', false)
-      .whereNotNull('certification-courses.sex')
-      .where('assessment-results.status', AssessmentResult.status.VALIDATED)
-      .where('sessions.publishedAt', '>=', startDate)
-      .where('sessions.publishedAt', '<=', endDate)
       .whereNull('certification-courses.cpfImportStatus')
       .first();
     return count;
@@ -47,23 +42,18 @@ module.exports = {
     const now = new Date();
 
     return knex
-      .with('certification-courses-to-mark', (qb) =>
-        _selectCpfCertificationResults(qb)
+      .with('certification-courses-to-mark', (qb) => {
+        const query = _selectCpfCertificationResults(qb);
+        return _filterQuery(query, startDate, endDate)
           .select('certification-courses.id')
-          .where('certification-courses.isPublished', true)
-          .where('certification-courses.isCancelled', false)
-          .whereNotNull('certification-courses.sex')
-          .where('assessment-results.status', AssessmentResult.status.VALIDATED)
-          .where('sessions.publishedAt', '>=', startDate)
-          .where('sessions.publishedAt', '<=', endDate)
           .where((qb) => {
             qb.orWhereNull('certification-courses.cpfImportStatus');
             qb.orWhere('certification-courses.cpfImportStatus', cpfImportStatus.PENDING);
           })
           .orderBy('certification-courses.id')
           .offset(offset)
-          .limit(limit)
-      )
+          .limit(limit);
+      })
       .update({ cpfFilename: batchId, cpfImportStatus: cpfImportStatus.PENDING, updatedAt: now })
       .from('certification-courses')
       .whereIn('id', knex.select('id').from('certification-courses-to-mark'))
@@ -93,4 +83,14 @@ function _selectCpfCertificationResults(qb = knex) {
       'assessment-results.id',
       'certification-courses-last-assessment-results.lastAssessmentResultId'
     );
+}
+
+function _filterQuery(qb = knex, startDate, endDate) {
+  return qb
+    .where('certification-courses.isPublished', true)
+    .where('certification-courses.isCancelled', false)
+    .whereNotNull('certification-courses.sex')
+    .where('assessment-results.status', AssessmentResult.status.VALIDATED)
+    .where('sessions.publishedAt', '>=', startDate)
+    .where('sessions.publishedAt', '<=', endDate);
 }
