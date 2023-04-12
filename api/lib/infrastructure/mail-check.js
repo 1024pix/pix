@@ -1,12 +1,10 @@
-const { Resolver } = require('node:dns').promises;
-const { mailing } = require('../config.js');
+const { promisify } = require('util');
+const dns = require('dns');
+const resolveMx = promisify(dns.resolveMx);
+
 module.exports = {
   checkDomainIsValid(address) {
-    if (!mailing.enabled) {
-      return Promise.resolve(true);
-    }
-
     const domain = address.replace(/.*@/g, '');
-    return Resolver.resolveMx(domain).then(() => true);
+    return resolveMx(domain).then(() => true);
   },
 };
