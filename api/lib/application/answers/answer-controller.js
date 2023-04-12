@@ -4,33 +4,33 @@ const usecases = require('../../domain/usecases/index.js');
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils.js');
 
 module.exports = {
-  async save(request, h) {
-    const answer = answerSerializer.deserialize(request.payload);
-    const userId = requestResponseUtils.extractUserIdFromRequest(request);
-    const locale = requestResponseUtils.extractLocaleFromRequest(request);
+  async save(request, h, dependencies = { answerSerializer, requestResponseUtils }) {
+    const answer = dependencies.answerSerializer.deserialize(request.payload);
+    const userId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
+    const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
     const createdAnswer = await usecases.correctAnswerThenUpdateAssessment({ answer, userId, locale });
 
-    return h.response(answerSerializer.serialize(createdAnswer)).created();
+    return h.response(dependencies.answerSerializer.serialize(createdAnswer)).created();
   },
 
-  async get(request) {
-    const userId = requestResponseUtils.extractUserIdFromRequest(request);
+  async get(request, _h, dependencies = { requestResponseUtils }) {
+    const userId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
     const answerId = request.params.id;
     const answer = await usecases.getAnswer({ answerId, userId });
 
     return answerSerializer.serialize(answer);
   },
 
-  async update(request) {
-    const userId = requestResponseUtils.extractUserIdFromRequest(request);
+  async update(request, _h, dependencies = { requestResponseUtils }) {
+    const userId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
     const answerId = request.params.id;
     const answer = await usecases.getAnswer({ answerId, userId });
 
     return answerSerializer.serialize(answer);
   },
 
-  async find(request) {
-    const userId = requestResponseUtils.extractUserIdFromRequest(request);
+  async find(request, _h, dependencies = { requestResponseUtils }) {
+    const userId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
     const challengeId = request.query.challengeId;
     const assessmentId = request.query.assessmentId;
     let answers = [];
@@ -44,9 +44,9 @@ module.exports = {
     return answerSerializer.serialize(answers);
   },
 
-  async getCorrection(request) {
-    const userId = requestResponseUtils.extractUserIdFromRequest(request);
-    const locale = requestResponseUtils.extractLocaleFromRequest(request);
+  async getCorrection(request, _h, dependencies = { correctionSerializer, requestResponseUtils }) {
+    const userId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
+    const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
     const answerId = request.params.id;
 
     const correction = await usecases.getCorrectionForAnswer({
@@ -55,6 +55,6 @@ module.exports = {
       locale,
     });
 
-    return correctionSerializer.serialize(correction);
+    return dependencies.correctionSerializer.serialize(correction);
   },
 };

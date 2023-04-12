@@ -56,15 +56,23 @@ describe('Unit | Controller | account-recovery-controller', function () {
         params: { temporaryKey },
       };
       sinon.stub(usecases, 'getAccountRecoveryDetails');
-      sinon.stub(studentInformationForAccountRecoverySerializer, 'serializeAccountRecovery');
+
+      const studentInformationForAccountRecoverySerializerStub = {
+        serializeAccountRecovery: sinon.stub(),
+      };
+
+      const dependencies = {
+        studentInformationForAccountRecoverySerializer: studentInformationForAccountRecoverySerializerStub,
+      };
+
       usecases.getAccountRecoveryDetails.resolves(studentInformation);
 
       // when
-      await accountRecoveryController.checkAccountRecoveryDemand(request, hFake);
+      await accountRecoveryController.checkAccountRecoveryDemand(request, hFake, dependencies);
 
       // then
       expect(usecases.getAccountRecoveryDetails).to.have.been.calledWith({ temporaryKey });
-      expect(studentInformationForAccountRecoverySerializer.serializeAccountRecovery).to.have.been.calledWith(
+      expect(studentInformationForAccountRecoverySerializerStub.serializeAccountRecovery).to.have.been.calledWith(
         studentInformation
       );
     });
