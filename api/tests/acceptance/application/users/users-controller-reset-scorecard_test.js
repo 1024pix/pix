@@ -21,8 +21,8 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', function 
   const competenceId = 'recAbe382T0e1337';
   const competence = {
     id: competenceId,
-    nameFr: 'Mener une recherche et une veille d’information',
-    descriptionFr: 'descriptionCompetence1',
+    name_i18n: { fr: 'Mener une recherche et une veille d’information' },
+    description_i18n: { fr: 'descriptionCompetence1' },
     index: '1.1',
     origin: 'Pix',
     areaId: 'recvoGdo7z2z7pXWa',

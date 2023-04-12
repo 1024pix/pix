@@ -123,7 +123,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
         competences: [
           {
             id: 1,
-            name: 'Agir collectivement',
+            name_i18n: { fr: 'Agir collectivement' },
             index: '1.2',
             tubes: [{ id: 'recTube1', skills: [{ id: 'recSkill1' }] }],
           },
@@ -136,7 +136,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
         competences: [
           {
             id: 2,
-            name: 'Nécessité de la pensée radicale',
+            name_i18n: { fr: 'Nécessité de la pensée radicale' },
             index: '2.1',
             tubes: [
               {
@@ -147,7 +147,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
           },
           {
             id: 3,
-            name: 'Changer efficacement le monde',
+            name_i18n: { fr: 'Changer efficacement le monde' },
             index: '2.2',
             tubes: [
               {
@@ -165,7 +165,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
         competences: [
           {
             id: 4,
-            name: 'Oser la paresse',
+            name_i18n: { fr: 'Oser la paresse' },
             index: '4.3',
             tubes: [{ id: 'recTube0', skills: [{ id: 'notIncludedSkillId' }] }],
           },

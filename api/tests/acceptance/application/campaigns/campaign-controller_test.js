@@ -113,7 +113,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           competences: [
             {
               id: 'recCompetence1',
-              name: 'Fabriquer un meuble',
+              name_i18n: { fr: 'Fabriquer un meuble' },
               index: '1.1',
               tubes: [
                 {
@@ -231,7 +231,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           competences: [
             {
               id: 'recCompetence1',
-              name: 'Fabriquer un meuble',
+              name_i18n: { fr: 'Fabriquer un meuble' },
               index: '1.1',
               tubes: [
                 {
@@ -320,7 +320,7 @@ describe('Acceptance | API | Campaign Controller', function () {
           competences: [
             {
               id: 'recCompetence1',
-              name: 'Fabriquer un meuble',
+              name_i18n: { fr: 'Fabriquer un meuble' },
               index: '1.1',
               tubes: [
                 {
@@ -399,7 +399,7 @@ describe('Acceptance | API | Campaign Controller', function () {
             competences: [
               {
                 id: 'recCompetence1',
-                name: 'Fabriquer un meuble',
+                name_i18n: { fr: 'Fabriquer un meuble' },
                 index: '1.1',
                 tubes: [
                   {
@@ -541,7 +541,7 @@ describe('Acceptance | API | Campaign Controller', function () {
             competences: [
               {
                 id: 'recCompetence1',
-                name: 'Fabriquer un meuble',
+                name_i18n: { fr: 'Fabriquer un meuble' },
                 index: '1.1',
                 tubes: [
                   {

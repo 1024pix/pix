@@ -293,7 +293,10 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       const area1 = domainBuilder.buildArea({
         id: 'recArea1',
         code: '1',
-        competences: [competence1, competence2],
+        competences: [
+          { ...competence1, name_i18n: { fr: competence1.name } },
+          { ...competence2, name_i18n: { fr: competence2.name } },
+        ],
         title: 'titre test',
         framework: null,
       });

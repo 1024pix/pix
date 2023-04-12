@@ -80,10 +80,14 @@ describe('Integration | buildLearningContent', function () {
             competences: [
               {
                 id: 'recArea1_Competence1',
+                name_i18n: { fr: 'competence1_nomFr', en: 'competence1_nameEn' },
+                description_i18n: { fr: 'competence1_descriptionFr', en: 'competence1_descriptionEn' },
                 tubes: [],
               },
               {
                 id: 'recArea1_Competence2',
+                name_i18n: { fr: 'competence2_nomFr', en: 'competence2_nameEn' },
+                description_i18n: { fr: 'competence2_descriptionFr', en: 'competence2_descriptionEn' },
                 tubes: [],
               },
             ],
@@ -93,11 +97,15 @@ describe('Integration | buildLearningContent', function () {
             competences: [
               {
                 id: 'recArea2_Competence1',
+                name_i18n: { fr: 'domaine2_competence1_nomFr', en: 'area2_competence1_nameEn' },
+                description_i18n: { fr: 'domaine2_competence1_descriptionFr', en: 'area2_competence1_descriptionEn' },
                 tubes: [],
                 origin: 'Pix+',
               },
               {
                 id: 'recArea2_Competence2',
+                name_i18n: { fr: 'domaine2_competence2_nomFr', en: 'area2_competence2_nameEn' },
+                description_i18n: { fr: 'domaine2_competence2_descriptionFr', en: 'area2_competence2_descriptionEn' },
                 tubes: [],
                 origin: 'Pix+',
               },
@@ -118,15 +126,31 @@ describe('Integration | buildLearningContent', function () {
     expect(areas[1].competenceIds).to.deep.equal(['recArea2_Competence1', 'recArea2_Competence2']);
     expect(competences[0].id).to.deep.equal('recArea1_Competence1');
     expect(competences[0].areaId).to.deep.equal('recArea1');
+    expect(competences[0].name_i18n.fr).to.deep.equal('competence1_nomFr');
+    expect(competences[0].name_i18n.en).to.deep.equal('competence1_nameEn');
+    expect(competences[0].description_i18n.fr).to.deep.equal('competence1_descriptionFr');
+    expect(competences[0].description_i18n.en).to.deep.equal('competence1_descriptionEn');
     expect(competences[0].origin).to.deep.equal('Pix');
     expect(competences[1].id).to.deep.equal('recArea1_Competence2');
     expect(competences[1].areaId).to.deep.equal('recArea1');
+    expect(competences[1].name_i18n.fr).to.deep.equal('competence2_nomFr');
+    expect(competences[1].name_i18n.en).to.deep.equal('competence2_nameEn');
+    expect(competences[1].description_i18n.fr).to.deep.equal('competence2_descriptionFr');
+    expect(competences[1].description_i18n.en).to.deep.equal('competence2_descriptionEn');
     expect(competences[1].origin).to.deep.equal('Pix');
     expect(competences[2].id).to.deep.equal('recArea2_Competence1');
     expect(competences[2].areaId).to.deep.equal('recArea2');
+    expect(competences[2].name_i18n.fr).to.deep.equal('domaine2_competence1_nomFr');
+    expect(competences[2].name_i18n.en).to.deep.equal('area2_competence1_nameEn');
+    expect(competences[2].description_i18n.fr).to.deep.equal('domaine2_competence1_descriptionFr');
+    expect(competences[2].description_i18n.en).to.deep.equal('area2_competence1_descriptionEn');
     expect(competences[2].origin).to.deep.equal('Pix+');
     expect(competences[3].id).to.deep.equal('recArea2_Competence2');
     expect(competences[3].areaId).to.deep.equal('recArea2');
+    expect(competences[3].name_i18n.fr).to.deep.equal('domaine2_competence2_nomFr');
+    expect(competences[3].name_i18n.en).to.deep.equal('area2_competence2_nameEn');
+    expect(competences[3].description_i18n.fr).to.deep.equal('domaine2_competence2_descriptionFr');
+    expect(competences[3].description_i18n.en).to.deep.equal('area2_competence2_descriptionEn');
     expect(competences[3].origin).to.deep.equal('Pix+');
   });
 
