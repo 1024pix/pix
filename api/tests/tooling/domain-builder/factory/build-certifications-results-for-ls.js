@@ -295,7 +295,7 @@ function mockLearningContentCompetences() {
     {
       id: 'rec99',
       code: '2',
-      titleFr: 'Communication et collaboration',
+      title_i18n: { fr: 'Communication et collaboration' },
       competences: [
         {
           id: 'rec50',
@@ -320,7 +320,7 @@ function mockLearningContentCompetences() {
     {
       id: 'rec98',
       code: '3',
-      titleFr: 'Création de contenu',
+      title_i18n: { fr: 'Création de contenu' },
       competences: [
         {
           id: 'rec53',
@@ -339,7 +339,7 @@ function mockLearningContentCompetences() {
     {
       id: 'rec97',
       code: '1',
-      titleFr: 'Information et données',
+      title_i18n: { fr: 'Information et données' },
       competences: [
         {
           id: 'rec55',

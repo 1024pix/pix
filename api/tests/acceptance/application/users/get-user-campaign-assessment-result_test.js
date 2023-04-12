@@ -118,7 +118,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
     const learningContent = [
       {
         id: 'recArea1',
-        titleFr: 'DomaineNom1',
+        title_i18n: { fr: 'DomaineNom1' },
         color: JAFFA_COLOR,
         competences: [
           {
@@ -131,7 +131,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
       },
       {
         id: 'recArea2',
-        titleFr: 'DomaineNom2',
+        title_i18n: { fr: 'DomaineNom2' },
         color: EMERALD_COLOR,
         competences: [
           {
@@ -160,7 +160,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
       },
       {
         id: 'recArea3',
-        titleFr: 'DomaineNom3',
+        title_i18n: { fr: 'DomaineNom3' },
         color: WILD_STRAWBERRY_COLOR,
         competences: [
           {

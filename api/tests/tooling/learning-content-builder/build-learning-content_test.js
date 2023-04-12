@@ -23,6 +23,10 @@ describe('Integration | buildLearningContent', function () {
         areas: [
           {
             id: 'recArea1',
+            title_i18n: {
+              fr: 'domaine1_Titre',
+              en: 'area1_Title',
+            },
             competences: [],
           },
         ],
@@ -33,6 +37,10 @@ describe('Integration | buildLearningContent', function () {
         areas: [
           {
             id: 'recArea2',
+            title_i18n: {
+              fr: 'domaine2_Titre',
+              en: 'area2_Title',
+            },
             competences: [],
             frameworkId: 'test',
           },
@@ -48,7 +56,11 @@ describe('Integration | buildLearningContent', function () {
     const areas = await areaDatasource.list();
     const frameworks = await frameworkDatasource.list();
     expect(areas[0].id).to.equal('recArea1');
+    expect(areas[0].title_i18n.fr).to.equal('domaine1_Titre');
+    expect(areas[0].title_i18n.en).to.equal('area1_Title');
     expect(areas[1].id).to.equal('recArea2');
+    expect(areas[1].title_i18n.fr).to.equal('domaine2_Titre');
+    expect(areas[1].title_i18n.en).to.equal('area2_Title');
     expect(frameworks.length).to.equal(2);
     expect(frameworks[0].id).to.deep.equal('recFramework1');
     expect(frameworks[0].name).to.deep.equal('monFramework 1');

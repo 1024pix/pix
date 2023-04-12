@@ -29,7 +29,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', function 
   };
   const area = {
     id: 'recvoGdo7z2z7pXWa',
-    titleFr: 'Information et données',
+    title_i18n: { fr: 'Information et données' },
     color: 'jaffa',
     code: '1',
     competenceIds: [competenceId],
@@ -284,7 +284,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', function 
             {
               attributes: {
                 code: area.code,
-                title: area.titleFr,
+                title: area.title_i18n.fr,
                 color: area.color,
               },
               id: area.id,
