@@ -34,17 +34,17 @@ describe('Acceptance | Controller | training-controller', function () {
           areas: [
             {
               id: areaId,
-              titleFr: 'area1_Title',
+              title_i18n: { fr: 'domaine1_Titre' },
               color: 'someColor',
               competences: [
                 {
                   id: competenceId,
-                  name: 'Mener une recherche et une veille d’information',
+                  name_i18n: { fr: 'Mener une recherche et une veille d’information' },
                   index: '1.1',
                   thematics: [
                     {
                       id: thematicId,
-                      name: 'thematic1_Name',
+                      name_i18n: { fr: 'thematique1_Nom' },
                       tubes: [
                         {
                           id: tubeId,
@@ -341,17 +341,17 @@ describe('Acceptance | Controller | training-controller', function () {
           areas: [
             {
               id: areaId,
-              titleFr: 'area1_Title',
+              title_i18n: { fr: 'domaine1_Titre' },
               color: 'someColor',
               competences: [
                 {
                   id: competenceId,
-                  name: 'Mener une recherche et une veille d’information',
+                  name_i18n: { fr: 'Mener une recherche et une veille d’information' },
                   index: '1.1',
                   thematics: [
                     {
                       id: thematicId,
-                      name: 'thematic1_Name',
+                      name_i18n: { fr: 'thematique1_Nom' },
                       tubes: [
                         {
                           id: tubeId,

@@ -352,24 +352,19 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
           {
             ...area1,
-            titleFr: area1.title,
-            titleEn: 'title en',
+            title_i18n: { fr: area1.title, en: 'title en' },
             competences: [
               {
                 id: 'recComp1',
                 index: '1.1',
-                nameFr: 'Traiter des données',
-                nameEn: 'Process data',
-                descriptionFr: 'competence1DescriptionFr',
-                descriptionEn: 'competence1DescriptionEn',
+                name_i18n: { fr: 'Traiter des données', en: 'Process data' },
+                description_i18n: { fr: 'competence1DescriptionFr', en: 'competence1DescriptionEn' },
               },
               {
                 id: 'recComp2',
                 index: '1.2',
-                nameFr: 'Traiter des choux',
-                nameEn: 'Process sprouts',
-                descriptionFr: 'competence2DescriptionFr',
-                descriptionEn: 'competence2DescriptionEn',
+                name_i18n: { fr: 'Traiter des choux', en: 'Process sprouts' },
+                description_i18n: { fr: 'competence2DescriptionFr', en: 'competence2DescriptionEn' },
               },
             ],
           },
@@ -468,24 +463,19 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
           {
             ...area1,
-            titleFr: area1.title,
-            titleEn: 'title en',
+            title_i18n: { fr: area1.title, en: 'title en' },
             competences: [
               {
                 id: 'recComp1',
                 index: '1.1',
-                nameFr: 'Traiter des données',
-                nameEn: 'Process data',
-                descriptionFr: 'competence1DescriptionFr',
-                descriptionEn: 'competence1DescriptionEn',
+                name_i18n: { fr: 'Traiter des données', en: 'Process data' },
+                description_i18n: { fr: 'competence1DescriptionFr', en: 'competence1DescriptionEn' },
               },
               {
                 id: 'recComp2',
                 index: '1.2',
-                nameFr: 'Traiter des choux',
-                nameEn: 'Process sprouts',
-                descriptionFr: 'competence2DescriptionFr',
-                descriptionEn: 'competence2DescriptionEn',
+                name_i18n: { fr: 'Traiter des choux', en: 'Process sprouts' },
+                description_i18n: { fr: 'competence2DescriptionFr', en: 'competence2DescriptionEn' },
               },
             ],
           },

@@ -293,13 +293,16 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       const area1 = domainBuilder.buildArea({
         id: 'recArea1',
         code: '1',
-        competences: [competence1, competence2],
+        competences: [
+          { ...competence1, name_i18n: { fr: competence1.name } },
+          { ...competence2, name_i18n: { fr: competence2.name } },
+        ],
         title: 'titre test',
         framework: null,
       });
 
       const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
-        { ...area1, titleFr: area1.title },
+        { ...area1, title_i18n: { fr: area1.title } },
       ]);
       mockLearningContent(learningContentObjects);
 

@@ -59,12 +59,12 @@ describe('Acceptance | API | Certifications', function () {
         id: 'recvoGdo7z2z7pXWa',
         code: '1',
         name: '1. Information et données',
-        titleFr: 'Information et données',
+        title_i18n: { fr: 'Information et données' },
         color: 'jaffa',
         competences: [
           {
             id: 'recsvLz0W2ShyfD63',
-            name: 'Mener une recherche et une veille d’information',
+            name_i18n: { fr: 'Mener une recherche et une veille d’information' },
             index: '1.1',
             tubes: [
               {
@@ -88,7 +88,7 @@ describe('Acceptance | API | Certifications', function () {
           },
           {
             id: 'recNv8qhaY887jQb2',
-            name: 'Gérer des données',
+            name_i18n: { fr: 'Gérer des données' },
             index: '1.2',
             tubes: [
               {
@@ -112,7 +112,7 @@ describe('Acceptance | API | Certifications', function () {
           },
           {
             id: 'recIkYm646lrGvLNT',
-            name: 'Traiter des données',
+            name_i18n: { fr: 'Traiter des données' },
             index: '1.3',
             tubes: [
               {

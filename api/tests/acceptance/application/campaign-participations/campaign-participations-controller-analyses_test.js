@@ -45,12 +45,12 @@ describe('Acceptance | API | Campaign Participations | Analyses', function () {
           competences: [
             {
               id: 'recCompetence1',
-              name: 'Fabriquer un meuble',
+              name_i18n: { fr: 'Fabriquer un meuble' },
               tubes: [
                 {
                   id: 'recTube1',
-                  practicalTitleFr: 'Monter une étagère',
-                  practicalDescriptionFr: 'Comment monter une étagère',
+                  practicalTitle_i18n: { fr: 'Monter une étagère' },
+                  practicalDescription_i18n: { fr: 'Comment monter une étagère' },
                   skills: [
                     {
                       id: 'recSkillId1',
