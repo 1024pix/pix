@@ -252,7 +252,6 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
           });
           certificationCandidateRepository.findBySessionIdAndPersonalInfo.resolves([]);
           certificationCpfService.getBirthInformation.resolves(cpfBirthInformationValidation);
-          certificationCandidateRepository.saveInSession.resolves();
 
           // when
           const error = await catchErr(addCertificationCandidateToSession)({
@@ -268,7 +267,8 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
 
           // then
           expect(error).to.be.an.instanceOf(CpfBirthInformationValidationError);
-          expect(error.message).to.equal(cpfBirthInformationValidation.message);
+          expect(error.message).to.equal('Failure message');
+          expect(certificationCandidateRepository.saveInSession).not.to.have.been.called;
         });
       });
     });
