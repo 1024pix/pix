@@ -7,13 +7,45 @@ const {
 } = require('../../../test-helper');
 const certificationCourseController = require('../../../../lib/application/certification-courses/certification-course-controller');
 const usecases = require('../../../../lib/domain/usecases/index.js');
-const certifiedProfileRepository = require('../../../../lib/infrastructure/repositories/certified-profile-repository');
-const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
 describe('Unit | Controller | certification-course-controller', function () {
+  let certificationDetailsSerializer;
+  let certificationCourseSerializer;
+  let juryCertificationSerializer;
+  let certificationSerializer;
+  let certifiedProfileSerializer;
+  let certifiedProfileRepository;
+  let requestResponseUtils;
+
+  beforeEach(function () {
+    certificationDetailsSerializer = {
+      serialize: sinon.stub(),
+    };
+    certificationCourseSerializer = {
+      serialize: sinon.stub(),
+      serializeFromCertificationCourse: sinon.stub(),
+      deserializeCertificationCandidateModificationCommand: sinon.stub(),
+    };
+    juryCertificationSerializer = {
+      serialize: sinon.stub(),
+    };
+    certificationSerializer = {
+      serializeFromCertificationCourse: sinon.stub(),
+      deserializeCertificationCandidateModificationCommand: sinon.stub(),
+      deserialize: sinon.stub(),
+    };
+    certifiedProfileSerializer = {
+      serialize: sinon.stub(),
+    };
+    certifiedProfileRepository = {
+      get: sinon.stub(),
+    };
+    requestResponseUtils = { extractLocaleFromRequest: sinon.stub() };
+  });
+
   describe('#getCertificationDetails', function () {
     it('should return a serialized certification details', async function () {
       // given
@@ -57,44 +89,15 @@ describe('Unit | Controller | certification-course-controller', function () {
           userId: 123,
         })
       );
+      certificationDetailsSerializer.serialize.returns('ok');
 
       // when
-      const result = await certificationCourseController.getCertificationDetails(request);
+      const result = await certificationCourseController.getCertificationDetails(request, hFake, {
+        certificationDetailsSerializer,
+      });
 
       // then
-      expect(result.data).to.deep.equal({
-        id: '456',
-        type: 'certification-details',
-        attributes: {
-          'user-id': 123,
-          'created-at': '12-02-2000',
-          'completed-at': '15-02-2000',
-          status: 'started',
-          'total-score': 5,
-          'percentage-correct-answers': 100,
-          'competences-with-mark': [
-            {
-              areaCode: '1',
-              id: 'recComp1',
-              index: '1.1',
-              name: 'Manger des fruits',
-              obtainedLevel: 1,
-              obtainedScore: 5,
-              positionedLevel: 3,
-              positionedScore: 45,
-            },
-          ],
-          'list-challenges-and-answers': [
-            {
-              challengeId: 'rec123',
-              competence: '1.1',
-              result: 'ok',
-              skill: 'manger une mangue',
-              value: 'prout',
-            },
-          ],
-        },
-      });
+      expect(result).to.deep.equal('ok');
     });
   });
 
@@ -136,51 +139,17 @@ describe('Unit | Controller | certification-course-controller', function () {
         commonComplementaryCertificationCourseResults: [],
         complementaryCertificationCourseResultsWithExternal: null,
       });
-      sinon.stub(usecases, 'getJuryCertification').withArgs({ certificationCourseId }).resolves(juryCertification);
+      const stubbedUsecase = sinon.stub(usecases, 'getJuryCertification');
+      stubbedUsecase.withArgs({ certificationCourseId }).resolves(juryCertification);
+      juryCertificationSerializer.serialize.returns('ok');
 
       // when
-      const response = await certificationCourseController.getJuryCertification(request, hFake);
+      const response = await certificationCourseController.getJuryCertification(request, hFake, {
+        juryCertificationSerializer,
+      });
 
       // then
-      expect(response.data).to.deep.equal({
-        type: 'certifications',
-        id: '123',
-        attributes: {
-          'session-id': 456,
-          'user-id': 789,
-          'assessment-id': 159,
-          'first-name': 'Buffy',
-          'last-name': 'Summers',
-          birthdate: '2000-08-30',
-          birthplace: 'Torreilles',
-          sex: 'F',
-          'birth-insee-code': '66212',
-          'birth-postal-code': null,
-          'birth-country': 'France',
-          status: 'rejected',
-          'is-cancelled': false,
-          'is-published': true,
-          'created-at': new Date('2020-01-01'),
-          'completed-at': new Date('2020-02-01'),
-          'pix-score': 55,
-          'jury-id': 66,
-          'competences-with-mark': [],
-          'comment-for-candidate': 'comment candidate',
-          'comment-for-jury': 'comment jury',
-          'comment-for-organization': 'comment organization',
-        },
-        relationships: {
-          'certification-issue-reports': {
-            data: [],
-          },
-          'common-complementary-certification-course-results': {
-            data: [],
-          },
-          'complementary-certification-course-results-with-external': {
-            data: null,
-          },
-        },
-      });
+      expect(response).to.deep.equal('ok');
     });
   });
 
@@ -220,9 +189,22 @@ describe('Unit | Controller | certification-course-controller', function () {
       sinon.stub(usecases, 'correctCandidateIdentityInCertificationCourse').resolves();
       const updatedCertificationCourse = domainBuilder.buildCertificationCourse();
       sinon.stub(usecases, 'getCertificationCourse').resolves(updatedCertificationCourse);
+      certificationSerializer.deserializeCertificationCandidateModificationCommand.resolves({
+        firstName: 'Phil',
+        lastName: 'Defer',
+        birthplace: 'Not here nor there',
+        birthdate: '2020-01-01',
+        userId: 54,
+        certificationCourseId: 4,
+        birthCountry: 'Kazakhstan',
+        birthPostalCode: '12345',
+        sex: 'M',
+        birthINSEECode: '99505',
+      });
+      certificationSerializer.serializeFromCertificationCourse.returns('ok');
 
       // when
-      await certificationCourseController.update(options, hFake);
+      await certificationCourseController.update(options, hFake, { certificationSerializer });
 
       // then
       expect(usecases.correctCandidateIdentityInCertificationCourse).to.have.been.calledWith({
@@ -243,30 +225,29 @@ describe('Unit | Controller | certification-course-controller', function () {
 
     context('when certification course was modified', function () {
       it('should serialize and return saved certification course', async function () {
-        // when
+        // given
         sinon.stub(usecases, 'correctCandidateIdentityInCertificationCourse').resolves();
         const updatedCertificationCourse = domainBuilder.buildCertificationCourse();
         sinon.stub(usecases, 'getCertificationCourse').resolves(updatedCertificationCourse);
-        const response = await certificationCourseController.update(options, hFake);
+        certificationSerializer.deserializeCertificationCandidateModificationCommand.resolves({
+          firstName: 'Phil',
+          lastName: 'Defer',
+          birthplace: 'Not here nor there',
+          birthdate: '2020-01-01',
+          userId: 54,
+          certificationCourseId: 4,
+          birthCountry: 'Kazakhstan',
+          birthPostalCode: '12345',
+          sex: 'M',
+          birthINSEECode: '99505',
+        });
+        certificationSerializer.serializeFromCertificationCourse.returns('ok');
+
+        // when
+        const response = await certificationCourseController.update(options, hFake, { certificationSerializer });
 
         // then
-        expect(response).to.deep.equal({
-          data: {
-            attributes: {
-              birthdate: updatedCertificationCourse.toDTO().birthdate,
-              birthplace: updatedCertificationCourse.toDTO().birthplace,
-              'external-id': updatedCertificationCourse.toDTO().externalId,
-              'first-name': updatedCertificationCourse.toDTO().firstName,
-              'last-name': updatedCertificationCourse.toDTO().lastName,
-              sex: updatedCertificationCourse.toDTO().sex,
-              'birth-country': updatedCertificationCourse.toDTO().birthCountry,
-              'birth-insee-code': updatedCertificationCourse.toDTO().birthINSEECode,
-              'birth-postal-code': updatedCertificationCourse.toDTO().birthPostalCode,
-            },
-            id: `${updatedCertificationCourse.toDTO().id}`,
-            type: 'certifications',
-          },
-        });
+        expect(response).to.deep.equal('ok');
       });
     });
   });
@@ -288,7 +269,8 @@ describe('Unit | Controller | certification-course-controller', function () {
         },
       };
       sinon.stub(usecases, 'retrieveLastOrCreateCertificationCourse');
-      sinon.stub(certificationCourseSerializer, 'serialize');
+      requestResponseUtils.extractLocaleFromRequest.returns('fr');
+      certificationCourseSerializer.serialize.returns('ok');
     });
 
     const retrievedCertificationCourse = { id: 'CertificationCourseId', nbChallenges: 3 };
@@ -304,7 +286,10 @@ describe('Unit | Controller | certification-course-controller', function () {
       });
 
       // when
-      await certificationCourseController.save(request, hFake);
+      await certificationCourseController.save(request, hFake, {
+        extractLocaleFromRequest: requestResponseUtils.extractLocaleFromRequest,
+        certificationCourseSerializer,
+      });
 
       // then
       sinon.assert.calledWith(usecases.retrieveLastOrCreateCertificationCourse, {
@@ -327,7 +312,10 @@ describe('Unit | Controller | certification-course-controller', function () {
       certificationCourseSerializer.serialize.resolves(serializedCertificationCourse);
 
       // when
-      const response = await certificationCourseController.save(request, hFake);
+      const response = await certificationCourseController.save(request, hFake, {
+        extractLocaleFromRequest: requestResponseUtils.extractLocaleFromRequest,
+        certificationCourseSerializer,
+      });
 
       // then
       expect(response.source).to.equal(serializedCertificationCourse);
@@ -343,10 +331,7 @@ describe('Unit | Controller | certification-course-controller', function () {
       const certificationCourse = new CertificationCourse({ id: certificationCourseId, sessionId });
       const userId = 42;
       sinon.stub(usecases, 'getCertificationCourse').withArgs({ certificationCourseId }).resolves(certificationCourse);
-      sinon
-        .stub(certificationCourseSerializer, 'serialize')
-        .withArgs(certificationCourse)
-        .resolves(certificationCourse);
+      certificationCourseSerializer.serialize.withArgs(certificationCourse).resolves(certificationCourse);
       const request = {
         params: { id: certificationCourseId },
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
@@ -354,7 +339,7 @@ describe('Unit | Controller | certification-course-controller', function () {
       };
 
       // when
-      const response = await certificationCourseController.get(request, hFake);
+      const response = await certificationCourseController.get(request, hFake, { certificationCourseSerializer });
 
       // then
       expect(response).to.deep.equal(certificationCourse);
@@ -402,109 +387,20 @@ describe('Unit | Controller | certification-course-controller', function () {
         certifiedCompetences: [competence1],
         certifiedAreas: [area1],
       });
-      sinon.stub(certifiedProfileRepository, 'get').withArgs(123).resolves(certifiedProfile);
+      certifiedProfileRepository.get.withArgs(123).resolves(certifiedProfile);
+      certifiedProfileSerializer.serialize.withArgs(certifiedProfile).resolves('ok');
       const request = {
         params: { id: 123 },
       };
 
       // when
-      const response = await certificationCourseController.getCertifiedProfile(request);
+      const response = await certificationCourseController.getCertifiedProfile(request, hFake, {
+        certifiedProfileRepository,
+        certifiedProfileSerializer,
+      });
 
       // then
-      expect(response).to.deep.equal({
-        data: {
-          id: '123',
-          type: 'certified-profiles',
-          attributes: {
-            'user-id': 456,
-          },
-          relationships: {
-            'certified-skills': {
-              data: [
-                {
-                  id: 'recSkill1',
-                  type: 'certified-skills',
-                },
-                {
-                  id: 'recSkill2',
-                  type: 'certified-skills',
-                },
-              ],
-            },
-            'certified-tubes': {
-              data: [
-                {
-                  id: 'recTube1',
-                  type: 'certified-tubes',
-                },
-              ],
-            },
-            'certified-competences': {
-              data: [
-                {
-                  id: 'recCompetence1',
-                  type: 'certified-competences',
-                },
-              ],
-            },
-            'certified-areas': {
-              data: [
-                {
-                  id: 'recArea1',
-                  type: 'certified-areas',
-                },
-              ],
-            },
-          },
-        },
-        included: [
-          {
-            id: 'recSkill1',
-            type: 'certified-skills',
-            attributes: {
-              name: 'skill_1',
-              'has-been-asked-in-certif': false,
-              'tube-id': 'recTube1',
-              difficulty: 1,
-            },
-          },
-          {
-            id: 'recSkill2',
-            type: 'certified-skills',
-            attributes: {
-              name: 'skill_2',
-              'has-been-asked-in-certif': true,
-              'tube-id': 'recTube1',
-              difficulty: 2,
-            },
-          },
-          {
-            id: 'recTube1',
-            type: 'certified-tubes',
-            attributes: {
-              name: 'tube_1',
-              'competence-id': 'recCompetence1',
-            },
-          },
-          {
-            id: 'recCompetence1',
-            type: 'certified-competences',
-            attributes: {
-              name: 'competence_1',
-              'area-id': 'recArea1',
-              origin: 'Pix',
-            },
-          },
-          {
-            id: 'recArea1',
-            type: 'certified-areas',
-            attributes: {
-              name: 'area_1',
-              color: 'someColor',
-            },
-          },
-        ],
-      });
+      expect(response).to.deep.equal('ok');
     });
   });
 

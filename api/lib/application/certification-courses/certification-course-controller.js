@@ -14,23 +14,23 @@ const assessmentResultService = require('../../domain/services/assessment-result
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils.js');
 
 module.exports = {
-  async getCertificationDetails(request) {
+  async getCertificationDetails(request, h, dependencies = { certificationDetailsSerializer }) {
     const certificationCourseId = request.params.id;
     const certificationDetails = await usecases.getCertificationDetails({ certificationCourseId });
 
-    return certificationDetailsSerializer.serialize(certificationDetails);
+    return dependencies.certificationDetailsSerializer.serialize(certificationDetails);
   },
 
-  async getJuryCertification(request) {
+  async getJuryCertification(request, h, dependencies = { juryCertificationSerializer }) {
     const certificationCourseId = request.params.id;
     const juryCertification = await usecases.getJuryCertification({ certificationCourseId });
-    return juryCertificationSerializer.serialize(juryCertification);
+    return dependencies.juryCertificationSerializer.serialize(juryCertification);
   },
 
-  async update(request) {
+  async update(request, h, dependencies = { certificationSerializer }) {
     const certificationCourseId = request.params.id;
     const userId = request.auth.credentials.userId;
-    const command = await certificationSerializer.deserializeCertificationCandidateModificationCommand(
+    const command = await dependencies.certificationSerializer.deserializeCertificationCandidateModificationCommand(
       request.payload,
       certificationCourseId,
       userId
@@ -39,14 +39,14 @@ module.exports = {
     const updatedCertificationCourse = await usecases.getCertificationCourse({
       certificationCourseId: command.certificationCourseId,
     });
-    return certificationSerializer.serializeFromCertificationCourse(updatedCertificationCourse);
+    return dependencies.certificationSerializer.serializeFromCertificationCourse(updatedCertificationCourse);
   },
 
-  async save(request, h) {
+  async save(request, h, dependencies = { extractLocaleFromRequest, certificationCourseSerializer }) {
     const userId = request.auth.credentials.userId;
     const accessCode = request.payload.data.attributes['access-code'];
     const sessionId = request.payload.data.attributes['session-id'];
-    const locale = extractLocaleFromRequest(request);
+    const locale = dependencies.extractLocaleFromRequest(request);
 
     const { created, certificationCourse } = await DomainTransaction.execute((domainTransaction) => {
       return usecases.retrieveLastOrCreateCertificationCourse({
@@ -58,21 +58,21 @@ module.exports = {
       });
     });
 
-    const serialized = await certificationCourseSerializer.serialize(certificationCourse);
+    const serialized = await dependencies.certificationCourseSerializer.serialize(certificationCourse);
 
     return created ? h.response(serialized).created() : serialized;
   },
 
-  async get(request) {
+  async get(request, h, dependencies = { certificationCourseSerializer }) {
     const certificationCourseId = request.params.id;
     const certificationCourse = await usecases.getCertificationCourse({ certificationCourseId });
-    return certificationCourseSerializer.serialize(certificationCourse);
+    return dependencies.certificationCourseSerializer.serialize(certificationCourse);
   },
 
-  async getCertifiedProfile(request) {
+  async getCertifiedProfile(request, h, dependencies = { certifiedProfileRepository, certifiedProfileSerializer }) {
     const certificationCourseId = request.params.id;
-    const certifiedProfile = await certifiedProfileRepository.get(certificationCourseId);
-    return certifiedProfileSerializer.serialize(certifiedProfile);
+    const certifiedProfile = await dependencies.certifiedProfileRepository.get(certificationCourseId);
+    return dependencies.certifiedProfileSerializer.serialize(certifiedProfile);
   },
 
   async cancel(request, h) {
@@ -87,13 +87,13 @@ module.exports = {
     return h.response().code(200);
   },
 
-  async saveAssessmentResult(request) {
+  async saveAssessmentResult(request, h, dependencies = { assessmentResultService }) {
     const jsonResult = request.payload.data.attributes;
     const certificationCourseId = request.params.id;
     const { assessmentResult, competenceMarks } = _deserializeResultsAdd(jsonResult);
     const juryId = request.auth.credentials.userId;
     // FIXME (re)calculate partner certifications which may be invalidated/validated
-    await assessmentResultService.save({
+    await dependencies.assessmentResultService.save({
       certificationCourseId,
       assessmentResult: { ...assessmentResult, juryId },
       competenceMarks,
