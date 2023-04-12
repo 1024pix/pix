@@ -28,7 +28,7 @@
           @id="firstName"
           name="firstName"
           @label={{t "pages.sign-up.fields.firstname.label"}}
-          {{on "focusout" this.validateFirstName}}
+          {{on "change" this.validateFirstName}}
           @validationStatus={{this.validation.firstName.status}}
           @errorMessage={{this.validation.firstName.message}}
           required
@@ -41,7 +41,7 @@
           @id="lastName"
           name="lastName"
           @label={{t "pages.sign-up.fields.lastname.label"}}
-          {{on "focusout" this.validateLastName}}
+          {{on "change" this.validateLastName}}
           @validationStatus={{this.validation.lastName.status}}
           @errorMessage={{this.validation.lastName.message}}
           required
@@ -55,7 +55,7 @@
           name="email"
           @label="{{t 'pages.sign-up.fields.email.label'}}"
           @information="{{t 'pages.sign-up.fields.email.help'}}"
-          {{on "focusout" this.validateEmail}}
+          {{on "change" this.validateEmail}}
           @validationStatus={{this.validation.email.status}}
           @errorMessage={{this.validation.email.message}}
           required
@@ -70,7 +70,7 @@
           @label="{{t 'pages.sign-up.fields.password.label'}}"
           @information="{{t 'pages.sign-up.fields.password.help'}}"
           @value={{this.password}}
-          {{on "focusout" this.validatePassword}}
+          {{on "change" this.validatePassword}}
           @validationStatus={{this.validation.password.status}}
           @errorMessage={{this.validation.password.message}}
           required
