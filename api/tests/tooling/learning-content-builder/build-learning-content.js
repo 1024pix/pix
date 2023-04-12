@@ -1,6 +1,114 @@
 const _ = require('lodash');
 const { FRENCH_FRANCE, FRENCH_SPOKEN, ENGLISH_SPOKEN } = require('../../../lib/domain/constants').LOCALE;
 
+/**
+ * @typedef {Object} I18nObject
+ * @property {string} [fr]
+ * @property {string} [en]
+ */
+
+/**
+ * @typedef {FrameworkTree[]} LearningContentTree
+ */
+
+/**
+ * @typedef {Object} FrameworkTree
+ * @property {string} [id]
+ * @property {string} [name]
+ * @property {AreaTree[]} areas
+ */
+
+/**
+ * @typedef {Object} AreaTree
+ * @property {string} id
+ * @property {string} [frameworkId]
+ * @property {string} [code]
+ * @property {string} [name]
+ * @property {I18nObject} [title_i18n]
+ * @property {string} [color]
+ * @property {Object[]} [courses]
+ * @property {CompetenceTree[]} [competences]
+ * @property {Object[]} [trainings]
+ */
+
+/**
+ * @typedef {Object} CompetenceTree
+ * @property {string} id
+ * @property {string} [origin='Pix']
+ * @property {string} [index]
+ * @property {I18nObject} [name_i18n]
+ * @property {I18nObject} [description_i18n]
+ * @property {TubeTree[]} [tubes]
+ * @property {ThematicTree[]} [thematics]
+ */
+
+/**
+ * @typedef {Object} ThematicTree
+ * @property {string} id
+ * @property {I18nObject} [name_i18n]
+ * @property {string} [index]
+ * @property {TubeTree[]} [tubes]
+ */
+
+/**
+ * @typedef {Object} TubeTree
+ * @property {string} id
+ * @property {string} [name]
+ * @property {string} [description]
+ * @property {string} [title]
+ * @property {I18nObject} [practicalTitle_i18n]
+ * @property {I18nObject} [practicalDescription_i18n]
+ * @property {boolean} [isMobileCompliant]
+ * @property {boolean} [isTabletCompliant]
+ * @property {SkillTree[]} [skills]
+ */
+
+/**
+ * @typedef {Object} SkillTree
+ * @property {string} id
+ * @property {string} [status='actif']
+ * @property {string} [competenceId]
+ * @property {string} [name]
+ * @property {string} [nom] @deprecated
+ * @property {number} [pixValue]
+ * @property {string} [version]
+ * @property {number} [level]
+ * @property {Challenge[]} [challenges]
+ * @property {Tutorial[]} [tutorials]
+ */
+
+/**
+ * @typedef {Object} Challenge
+ * @property {string} id
+ * @property {string} [competenceId]
+ * @property {string} [skillId]
+ * @property {string} [statut='validé']
+ * @property {string} [solution]
+ * @property {string[]} [locales=['Francophone']]
+ * @property {string} [type]
+ * @property {string} [focusable]
+ * @property {string} [instruction]
+ * @property {string[]} [proposals]
+ * @property {string} [autoReply]
+ * @property {number} [alpha]
+ * @property {number} [delta]
+ */
+
+/**
+ * @typedef {Object} Tutorial
+ * @property {string} id
+ * @property {string} [title]
+ * @property {string} [format]
+ * @property {string} [source]
+ * @property {string} [link]
+ * @property {string} [locale]
+ * @property {string} [duration]
+ */
+
+/**
+ * @param {LearningContentTree} learningContent
+ * @returns
+ */
 const buildLearningContent = function (learningContent) {
   const allAreas = [];
   const allCompetences = [];
@@ -14,7 +122,7 @@ const buildLearningContent = function (learningContent) {
 
   const frameworks = learningContent.map((framework) => {
     const areas = framework.areas.map((area) => {
-      const competences = area.competences.map((competence) => {
+      const competences = area.competences?.map((competence) => {
         const competenceSkills = [];
         function mapTubes(pTubes, thematicId) {
           if (!pTubes) return [];
