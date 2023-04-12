@@ -35,7 +35,10 @@ module('Integration | Component | candidate-information-change-certification-iss
   test('it should show dropdown menu with subcategories when category is checked', async function (assert) {
     // given
     const toggleOnCategory = sinon.stub();
-    const candidateInformationChangeCategory = { isChecked: true };
+    const candidateInformationChangeCategory = {
+      isChecked: true,
+      subcategory: certificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
+    };
     this.set('toggleOnCategory', toggleOnCategory);
     this.set('candidateInformationChangeCategory', candidateInformationChangeCategory);
 
