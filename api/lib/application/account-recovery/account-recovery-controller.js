@@ -11,10 +11,10 @@ module.exports = {
     return h.response().code(204);
   },
 
-  async checkAccountRecoveryDemand(request) {
+  async checkAccountRecoveryDemand(request, h, dependencies = { studentInformationForAccountRecoverySerializer }) {
     const temporaryKey = request.params.temporaryKey;
     const studentInformation = await usecases.getAccountRecoveryDetails({ temporaryKey });
-    return studentInformationForAccountRecoverySerializer.serializeAccountRecovery(studentInformation);
+    return dependencies.studentInformationForAccountRecoverySerializer.serializeAccountRecovery(studentInformation);
   },
 
   async updateUserAccountFromRecoveryDemand(request, h) {

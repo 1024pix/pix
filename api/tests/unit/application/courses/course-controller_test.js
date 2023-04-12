@@ -1,15 +1,15 @@
 const { expect, hFake, sinon, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 
 const Course = require('../../../../lib/domain/models/Course');
-const courseService = require('../../../../lib/domain/services/course-service');
-const courseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/course-serializer');
 
 const courseController = require('../../../../lib/application/courses/course-controller');
 
 describe('Unit | Controller | course-controller', function () {
+  let courseServiceStub;
+  let courseSerializerStub;
   beforeEach(function () {
-    sinon.stub(courseService, 'getCourse');
-    sinon.stub(courseSerializer, 'serialize');
+    courseServiceStub = { getCourse: sinon.stub() };
+    courseSerializerStub = { serialize: sinon.stub() };
   });
 
   describe('#get', function () {
@@ -22,8 +22,8 @@ describe('Unit | Controller | course-controller', function () {
     it('should fetch and return the given course, serialized as JSONAPI', async function () {
       // given
       const userId = 42;
-      courseService.getCourse.resolves(course);
-      courseSerializer.serialize.callsFake(() => course);
+      courseServiceStub.getCourse.resolves(course);
+      courseSerializerStub.serialize.callsFake(() => course);
       const request = {
         params: { id: 'course_id' },
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
@@ -31,13 +31,16 @@ describe('Unit | Controller | course-controller', function () {
       };
 
       // when
-      const response = await courseController.get(request, hFake);
+      const response = await courseController.get(request, hFake, {
+        courseService: courseServiceStub,
+        courseSerializer: courseSerializerStub,
+      });
 
       // then
-      expect(courseService.getCourse).to.have.been.called;
-      expect(courseService.getCourse).to.have.been.calledWithExactly({ courseId: 'course_id', userId });
-      expect(courseSerializer.serialize).to.have.been.called;
-      expect(courseSerializer.serialize).to.have.been.calledWithExactly(course);
+      expect(courseServiceStub.getCourse).to.have.been.called;
+      expect(courseServiceStub.getCourse).to.have.been.calledWithExactly({ courseId: 'course_id', userId });
+      expect(courseSerializerStub.serialize).to.have.been.called;
+      expect(courseSerializerStub.serialize).to.have.been.calledWithExactly(course);
       expect(response).to.deep.equal(course);
     });
   });

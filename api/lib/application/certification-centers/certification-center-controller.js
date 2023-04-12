@@ -17,13 +17,13 @@ const { getHeaders } = require('../../infrastructure/files/sessions-import.js');
 const { UnprocessableEntityError } = require('../../application/http-errors.js');
 
 module.exports = {
-  async saveSession(request) {
+  async saveSession(request, _h, dependencies = { sessionSerializer }) {
     const userId = request.auth.credentials.userId;
-    const session = sessionSerializer.deserialize(request.payload);
+    const session = dependencies.sessionSerializer.deserialize(request.payload);
 
     const newSession = await usecases.createSession({ userId, session });
 
-    return sessionSerializer.serialize({ session: newSession });
+    return dependencies.sessionSerializer.serialize({ session: newSession });
   },
 
   async create(request) {
@@ -104,13 +104,17 @@ module.exports = {
     return divisionSerializer.serialize(divisions);
   },
 
-  async findCertificationCenterMembershipsByCertificationCenter(request) {
+  async findCertificationCenterMembershipsByCertificationCenter(
+    request,
+    _h,
+    dependencies = { certificationCenterMembershipSerializer }
+  ) {
     const certificationCenterId = request.params.certificationCenterId;
     const certificationCenterMemberships = await usecases.findCertificationCenterMembershipsByCertificationCenter({
       certificationCenterId,
     });
 
-    return certificationCenterMembershipSerializer.serialize(certificationCenterMemberships);
+    return dependencies.certificationCenterMembershipSerializer.serialize(certificationCenterMemberships);
   },
 
   async findCertificationCenterMemberships(request) {
