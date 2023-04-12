@@ -48,6 +48,33 @@ module('Acceptance | Trainings | List', function (hooks) {
         assert.dom(screen.getByText('Formation 12')).exists();
       });
 
+      module('when filters are used', function (hooks) {
+        hooks.beforeEach(async () => {
+          server.create('training-summary', { id: 1, title: 'Premier' });
+          server.create('training-summary', { id: 2, title: 'Deuxième' });
+        });
+
+        test('it should display the current filter when trainings are filtered by title', async function (assert) {
+          // when
+          const screen = await visit('/trainings/list?title=Premier');
+
+          // then
+          assert
+            .dom(screen.getByRole('textbox', { name: 'Filtrer les contenus formatifs par un titre' }))
+            .hasValue('Premier');
+          assert.dom(screen.getByText('Premier')).exists();
+        });
+
+        test('it should display the current filter when trainings are filtered by id', async function (assert) {
+          // when
+          const screen = await visit('/trainings/list?id=2');
+
+          // then
+          assert.dom(screen.getByRole('textbox', { name: 'Filtrer les contenus formatifs par un id' })).hasValue('2');
+          assert.dom(screen.getByText('Deuxième')).exists();
+        });
+      });
+
       test('it should redirect to training creation form on click "Nouveau contenu formatif"', async function (assert) {
         // given
         await visit('/trainings/list');

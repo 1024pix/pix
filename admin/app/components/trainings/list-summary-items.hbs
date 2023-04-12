@@ -1,11 +1,34 @@
 <div class="content-text content-text--small">
   <div class="table-admin">
     <table>
+      <caption class="sr-only">Liste des contenus formatifs</caption>
       <thead>
         <tr>
-          <th class="table__column table__column--id" id="training-id">ID</th>
-          <th id="training-titre">Titre</th>
+          <th class="table__column table__column--id" id="training-id" scope="col">ID</th>
+          <th id="training-titre" scope="col">Titre</th>
         </tr>
+        {{#if @triggerFiltering}}
+          <tr>
+            <td class="table__column table__column--id">
+              <input
+                type="text"
+                value={{@id}}
+                oninput={{fn @triggerFiltering "id"}}
+                class="table-admin-input"
+                aria-label="Filtrer les contenus formatifs par un id"
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                value={{@title}}
+                oninput={{fn @triggerFiltering "title"}}
+                class="table-admin-input"
+                aria-label="Filtrer les contenus formatifs par un titre"
+              />
+            </td>
+          </tr>
+        {{/if}}
       </thead>
 
       {{#if @summaries}}
