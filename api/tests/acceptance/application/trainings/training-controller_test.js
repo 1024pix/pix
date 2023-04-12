@@ -39,7 +39,7 @@ describe('Acceptance | Controller | training-controller', function () {
               competences: [
                 {
                   id: competenceId,
-                  name: 'Mener une recherche et une veille d’information',
+                  name_i18n: { fr: 'Mener une recherche et une veille d’information' },
                   index: '1.1',
                   thematics: [
                     {
@@ -346,7 +346,7 @@ describe('Acceptance | Controller | training-controller', function () {
               competences: [
                 {
                   id: competenceId,
-                  name: 'Mener une recherche et une veille d’information',
+                  name_i18n: { fr: 'Mener une recherche et une veille d’information' },
                   index: '1.1',
                   thematics: [
                     {

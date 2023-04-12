@@ -34,11 +34,9 @@ describe('Integration | Repository | learning-content', function () {
             competences: [
               {
                 id: 'recCompetence1',
-                nameFr: 'competence1_nameFr',
-                nameEn: 'competence1_nameEn',
+                name_i18n: { fr: 'competence1_nomFr', en: 'competence1_nameEn' },
                 index: 1,
-                descriptionFr: 'competence1_descriptionFr',
-                descriptionEn: 'competence1_descriptionEn',
+                description_i18n: { fr: 'competence1_descriptionFr', en: 'competence1_descriptionEn' },
                 origin: 'Pix',
                 thematics: [
                   {
@@ -75,11 +73,9 @@ describe('Integration | Repository | learning-content', function () {
               },
               {
                 id: 'recCompetence2',
-                nameFr: 'competence2_nameFr',
-                nameEn: 'competence2_nameEn',
+                name_i18n: { fr: 'competence2_nomFr', en: 'competence2_nameEn' },
                 index: 2,
-                descriptionFr: 'competence2_descriptionFr',
-                descriptionEn: 'competence2_descriptionEn',
+                description_i18n: { fr: 'competence2_descriptionFr', en: 'competence2_descriptionEn' },
                 origin: 'Pix',
                 thematics: [
                   {
@@ -174,11 +170,9 @@ describe('Integration | Repository | learning-content', function () {
             competences: [
               {
                 id: 'recCompetence3',
-                nameFr: 'competence3_nameFr',
-                nameEn: 'competence3_nameEn',
+                name_i18n: { fr: 'competence3_nomFr', en: 'competence3_nameEn' },
                 index: 1,
-                descriptionFr: 'competence3_descriptionFr',
-                descriptionEn: 'competence3_descriptionEn',
+                description_i18n: { fr: 'competence3_descriptionFr', en: 'competence3_descriptionEn' },
                 origin: 'Pix',
                 thematics: [
                   {

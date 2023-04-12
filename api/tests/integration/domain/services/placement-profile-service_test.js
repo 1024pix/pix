@@ -16,8 +16,7 @@ describe('Integration | Service | Placement Profile Service', function () {
         competences: [
           {
             id: 'competenceRecordIdOne',
-            nameFr: 'Construire un flipper',
-            nameEn: 'Build a pinball',
+            name_i18n: { fr: 'Construire un flipper', en: 'Build a pinball' },
             index: '1.1',
             tubes: [
               {
@@ -37,8 +36,7 @@ describe('Integration | Service | Placement Profile Service', function () {
           },
           {
             id: 'competenceRecordIdTwo',
-            nameFr: 'Adopter un dauphin',
-            nameEn: 'Adopt a dolphin',
+            name_i18n: { fr: 'Adopter un dauphin', en: 'Adopt a dolphin' },
             index: '1.2',
             tubes: [
               {
@@ -66,8 +64,7 @@ describe('Integration | Service | Placement Profile Service', function () {
           },
           {
             id: 'competenceRecordIdThree',
-            nameFr: 'Se faire manger par un requin',
-            nameEn: 'Getting eaten by a shark',
+            name_i18n: { fr: 'Se faire manger par un requin', en: 'Getting eaten by a shark' },
             index: '1.3',
             tubes: [
               {

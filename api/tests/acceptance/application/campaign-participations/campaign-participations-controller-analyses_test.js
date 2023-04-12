@@ -45,7 +45,7 @@ describe('Acceptance | API | Campaign Participations | Analyses', function () {
           competences: [
             {
               id: 'recCompetence1',
-              name: 'Fabriquer un meuble',
+              name_i18n: { fr: 'Fabriquer un meuble' },
               tubes: [
                 {
                   id: 'recTube1',
