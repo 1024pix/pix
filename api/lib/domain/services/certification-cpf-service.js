@@ -8,129 +8,135 @@ const CpfValidationStatus = {
 };
 
 class CpfBirthInformationValidation {
-  constructor({ message, code, status, birthCountry, birthINSEECode, birthPostalCode, birthCity }) {
-    this.message = message;
-    this.status = status;
+  constructor({ birthCountry, birthINSEECode, birthPostalCode, birthCity, errors = [] } = { errors: [] }) {
     this.birthCountry = birthCountry;
     this.birthINSEECode = birthINSEECode;
     this.birthPostalCode = birthPostalCode;
     this.birthCity = birthCity;
-    this.code = code;
+    this.errors = errors;
   }
 
-  static failure({ certificationCandidateError, data }) {
+  get status() {
+    return this.errors.length === 0 ? CpfValidationStatus.SUCCESS : CpfValidationStatus.FAILURE;
+  }
+
+  failure({ certificationCandidateError, data }) {
     const message = certificationCandidateError.getMessage(data);
-    return new CpfBirthInformationValidation({
-      message,
-      status: CpfValidationStatus.FAILURE,
-      code: certificationCandidateError.code,
-    });
+    this.errors.push({ message, code: certificationCandidateError.code });
+    return this;
   }
 
-  static success({ birthCountry, birthINSEECode, birthPostalCode, birthCity }) {
-    return new CpfBirthInformationValidation({
-      birthCountry,
-      birthINSEECode,
-      birthPostalCode,
-      birthCity,
-      status: CpfValidationStatus.SUCCESS,
-    });
+  success({ birthCountry, birthINSEECode, birthPostalCode, birthCity }) {
+    this.birthCountry = birthCountry;
+    this.birthINSEECode = birthINSEECode;
+    this.birthPostalCode = birthPostalCode;
+    this.birthCity = birthCity;
+    return this;
   }
 
   hasFailed() {
     return this.status === CpfValidationStatus.FAILURE;
   }
+
+  get firstErrorMessage() {
+    return this.errors?.[0]?.message;
+  }
 }
 
-function _getForeignCountryBirthInformation(birthCity, birthINSEECode, birthPostalCode, country) {
+function _getForeignCountryBirthInformation({
+  birthCity,
+  birthINSEECode,
+  birthPostalCode,
+  country,
+  cpfBirthInformationValidation,
+}) {
   if (!birthCity) {
-    return CpfBirthInformationValidation.failure({
+    cpfBirthInformationValidation.failure({
       certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FOREIGN_BIRTH_CITY_REQUIRED,
     });
   }
 
   if (birthPostalCode) {
-    return CpfBirthInformationValidation.failure({
+    cpfBirthInformationValidation.failure({
       certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FOREIGN_POSTAL_CODE_MUST_BE_EMPTY,
     });
   }
 
-  if (!birthINSEECode || birthINSEECode !== '99') {
-    return CpfBirthInformationValidation.failure({
+  if (birthINSEECode !== '99') {
+    cpfBirthInformationValidation.failure({
       certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FOREIGN_INSEE_CODE_NOT_VALID,
     });
   }
 
-  return CpfBirthInformationValidation.success({
-    birthCountry: country.commonName,
-    birthINSEECode: country.code,
-    birthPostalCode: null,
-    birthCity,
-  });
-}
-
-async function _getBirthInformationByINSEECode({ birthCity, birthINSEECode, country, certificationCpfCityRepository }) {
-  if (birthCity) {
-    return CpfBirthInformationValidation.failure({
-      certificationCandidateError:
-        CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED,
+  if (!cpfBirthInformationValidation.hasFailed()) {
+    cpfBirthInformationValidation.success({
+      birthCountry: country.commonName,
+      birthINSEECode: country.code,
+      birthPostalCode: null,
+      birthCity,
     });
   }
+}
 
+async function _getBirthInformationByINSEECode({
+  birthINSEECode,
+  country,
+  cpfBirthInformationValidation,
+  certificationCpfCityRepository,
+}) {
   const cities = await certificationCpfCityRepository.findByINSEECode({ INSEECode: birthINSEECode });
 
   if (isEmpty(cities)) {
-    return CpfBirthInformationValidation.failure({
+    cpfBirthInformationValidation.failure({
       certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_NOT_VALID,
       data: { birthINSEECode },
     });
   }
 
-  return CpfBirthInformationValidation.success({
-    birthCountry: country.commonName,
-    birthINSEECode,
-    birthPostalCode: null,
-    birthCity: _getActualCity(cities),
-  });
+  if (!cpfBirthInformationValidation.hasFailed()) {
+    cpfBirthInformationValidation.success({
+      birthCountry: country.commonName,
+      birthINSEECode,
+      birthPostalCode: null,
+      birthCity: _getActualCity(cities),
+    });
+  }
 }
 
 async function _getBirthInformationByPostalCode({
   birthCity,
   birthPostalCode,
   country,
+  cpfBirthInformationValidation,
   certificationCpfCityRepository,
 }) {
-  if (!birthCity) {
-    return CpfBirthInformationValidation.failure({
-      certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_CITY_REQUIRED,
-    });
-  }
-
   const cities = await certificationCpfCityRepository.findByPostalCode({ postalCode: birthPostalCode });
-
   if (isEmpty(cities)) {
-    return CpfBirthInformationValidation.failure({
+    cpfBirthInformationValidation.failure({
       certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_POSTAL_CODE_NOT_FOUND,
       data: { birthPostalCode },
     });
+    return;
   }
 
   const normalizedAndSortedCity = normalizeAndSortChars(birthCity);
   const matchedCity = cities.find((city) => normalizeAndSortChars(city.name) === normalizedAndSortedCity);
 
   if (!matchedCity) {
-    return CpfBirthInformationValidation.failure({
+    cpfBirthInformationValidation.failure({
       certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_POSTAL_CODE_CITY_NOT_VALID,
       data: { birthPostalCode, birthCity },
     });
   }
 
-  return CpfBirthInformationValidation.success({
-    birthCountry: country.commonName,
-    birthINSEECode: null,
-    birthPostalCode,
-    birthCity: matchedCity.name,
-  });
+  if (!cpfBirthInformationValidation.hasFailed()) {
+    cpfBirthInformationValidation.success({
+      birthCountry: country.commonName,
+      birthINSEECode: null,
+      birthPostalCode,
+      birthCity: matchedCity.name,
+    });
+  }
 }
 
 async function getBirthInformation({
@@ -141,62 +147,80 @@ async function getBirthInformation({
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
 }) {
+  const cpfBirthInformationValidation = new CpfBirthInformationValidation();
+
   if (!birthCountry) {
-    return CpfBirthInformationValidation.failure({
+    return cpfBirthInformationValidation.failure({
       certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_COUNTRY_REQUIRED,
     });
   }
 
-  const matcher = normalizeAndSortChars(birthCountry);
-  const country = await certificationCpfCountryRepository.getByMatcher({ matcher });
-
+  const country = await _getCountry({ birthCountry, certificationCpfCountryRepository });
   if (!country) {
-    return CpfBirthInformationValidation.failure({
+    return cpfBirthInformationValidation.failure({
       certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_COUNTRY_NOT_FOUND,
       data: { birthCountry },
     });
   }
-  if (country.isForeign()) {
-    return _getForeignCountryBirthInformation(birthCity, birthINSEECode, birthPostalCode, country);
-  } else {
-    if (!birthINSEECode && !birthPostalCode && !birthCity) {
-      return CpfBirthInformationValidation.failure({
-        certificationCandidateError:
-          CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED,
-      });
-    }
 
-    if (birthINSEECode && birthPostalCode) {
-      return CpfBirthInformationValidation.failure({
+  if (country.isForeign()) {
+    _getForeignCountryBirthInformation({
+      birthCity,
+      birthINSEECode,
+      birthPostalCode,
+      country,
+      cpfBirthInformationValidation,
+    });
+  } else {
+    if (
+      (!birthINSEECode && !birthPostalCode && !birthCity) ||
+      (birthINSEECode && birthPostalCode) ||
+      (birthINSEECode && birthCity)
+    ) {
+      cpfBirthInformationValidation.failure({
         certificationCandidateError:
           CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED,
       });
+    } else {
+      if (birthCity && !birthPostalCode) {
+        return cpfBirthInformationValidation.failure({
+          certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_POSTAL_CODE_REQUIRED,
+        });
+      }
+
+      if (!birthCity && birthPostalCode) {
+        return cpfBirthInformationValidation.failure({
+          certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_CITY_REQUIRED,
+        });
+      }
     }
 
     if (birthINSEECode) {
-      return await _getBirthInformationByINSEECode({
-        birthCity,
+      await _getBirthInformationByINSEECode({
         birthINSEECode,
         country,
+        cpfBirthInformationValidation,
         certificationCpfCityRepository,
       });
     }
 
     if (birthPostalCode) {
-      return await _getBirthInformationByPostalCode({
+      await _getBirthInformationByPostalCode({
         birthCity,
         birthPostalCode,
         country,
+        cpfBirthInformationValidation,
         certificationCpfCityRepository,
       });
     }
-
-    if (birthCity) {
-      return CpfBirthInformationValidation.failure({
-        certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_POSTAL_CODE_REQUIRED,
-      });
-    }
   }
+
+  return cpfBirthInformationValidation;
+}
+
+async function _getCountry({ birthCountry, certificationCpfCountryRepository }) {
+  const matcher = normalizeAndSortChars(birthCountry);
+  return certificationCpfCountryRepository.getByMatcher({ matcher });
 }
 
 function _getActualCity(cities) {

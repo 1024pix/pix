@@ -23,6 +23,10 @@ describe('Unit | Service | Certification CPF service', function () {
     context('when country name is not defined', function () {
       it('should return a validation failure', async function () {
         // when
+        const cpfBirthInformationValidationRes = new CpfBirthInformationValidation();
+        cpfBirthInformationValidationRes.failure({
+          certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_COUNTRY_REQUIRED,
+        });
         const result = await getBirthInformation({
           birthCountry: null,
           birthCity: 'GOTHAM CITY',
@@ -33,11 +37,7 @@ describe('Unit | Service | Certification CPF service', function () {
         });
 
         // then
-        expect(result).to.deep.equal(
-          CpfBirthInformationValidation.failure({
-            certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_COUNTRY_REQUIRED,
-          })
-        );
+        expect(result).to.deep.equal(cpfBirthInformationValidationRes);
       });
     });
 
@@ -63,7 +63,7 @@ describe('Unit | Service | Certification CPF service', function () {
 
         // then
         expect(result).to.deep.equal(
-          CpfBirthInformationValidation.failure({
+          new CpfBirthInformationValidation().failure({
             certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_COUNTRY_NOT_FOUND,
             data: { birthCountry },
           })
@@ -101,7 +101,7 @@ describe('Unit | Service | Certification CPF service', function () {
 
           // then
           expect(result).to.deep.equal(
-            CpfBirthInformationValidation.failure({
+            new CpfBirthInformationValidation().failure({
               certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FOREIGN_BIRTH_CITY_REQUIRED,
             })
           );
@@ -112,7 +112,7 @@ describe('Unit | Service | Certification CPF service', function () {
           const birthCountry = 'PORTUGAL';
           const birthCity = 'Porto';
           const birthPostalCode = '1234';
-          const birthINSEECode = null;
+          const birthINSEECode = '99';
 
           const certificationCPFCountry = domainBuilder.buildCertificationCpfCountry({
             code: '1234',
@@ -135,7 +135,7 @@ describe('Unit | Service | Certification CPF service', function () {
 
           // then
           expect(result).to.deep.equal(
-            CpfBirthInformationValidation.failure({
+            new CpfBirthInformationValidation().failure({
               certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FOREIGN_POSTAL_CODE_MUST_BE_EMPTY,
             })
           );
@@ -169,7 +169,7 @@ describe('Unit | Service | Certification CPF service', function () {
 
           // then
           expect(result).to.deep.equal(
-            CpfBirthInformationValidation.failure({
+            new CpfBirthInformationValidation().failure({
               certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FOREIGN_INSEE_CODE_NOT_VALID,
             })
           );
@@ -203,7 +203,7 @@ describe('Unit | Service | Certification CPF service', function () {
 
           // then
           expect(result).to.deep.equal(
-            CpfBirthInformationValidation.failure({
+            new CpfBirthInformationValidation().failure({
               certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FOREIGN_INSEE_CODE_NOT_VALID,
             })
           );
@@ -237,7 +237,7 @@ describe('Unit | Service | Certification CPF service', function () {
 
           // then
           expect(result).to.deep.equal(
-            CpfBirthInformationValidation.success({
+            new CpfBirthInformationValidation({
               birthCountry: 'PORTUGAL',
               birthINSEECode: '1234',
               birthPostalCode: null,
@@ -273,7 +273,7 @@ describe('Unit | Service | Certification CPF service', function () {
 
             // then
             expect(result).to.deep.equal(
-              CpfBirthInformationValidation.failure({
+              new CpfBirthInformationValidation().failure({
                 certificationCandidateError:
                   CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED,
               })
@@ -285,9 +285,17 @@ describe('Unit | Service | Certification CPF service', function () {
           it('should return a validation failure', async function () {
             // given
             const birthCountry = 'FRANCE';
-            const birthCity = null;
+            const birthCity = 'MARSEILLE';
             const birthPostalCode = '1234';
             const birthINSEECode = '1234';
+
+            const marseilleCpf = domainBuilder.buildCertificationCpfCity({
+              postalCode: '1234',
+              INSEECode: '1234',
+              name: 'MARSEILLE',
+            });
+            certificationCpfCityRepository.findByINSEECode.withArgs({ INSEECode: '1234' }).resolves([marseilleCpf]);
+            certificationCpfCityRepository.findByPostalCode.withArgs({ postalCode: '1234' }).resolves([marseilleCpf]);
 
             const certificationCPFCountry = domainBuilder.buildCertificationCpfCountry.FRANCE();
             certificationCpfCountryRepository.getByMatcher
@@ -306,7 +314,7 @@ describe('Unit | Service | Certification CPF service', function () {
 
             // then
             expect(result).to.deep.equal(
-              CpfBirthInformationValidation.failure({
+              new CpfBirthInformationValidation().failure({
                 certificationCandidateError:
                   CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED,
               })
@@ -323,10 +331,15 @@ describe('Unit | Service | Certification CPF service', function () {
             const birthINSEECode = '12345';
 
             const certificationCPFCountry = domainBuilder.buildCertificationCpfCountry.FRANCE();
+            certificationCpfCountryRepository.getByMatcher
+              .withArgs({ matcher: 'ACEFNR' })
+              .resolves(certificationCPFCountry);
+
             const certificationCPFCity = domainBuilder.buildCertificationCpfCity({
-              birthINSEECode,
+              INSEECode: birthINSEECode,
               name: 'GOTHAM CITY',
             });
+            certificationCpfCityRepository.findByINSEECode.resolves([certificationCPFCity]);
 
             certificationCpfCountryRepository.getByMatcher
               .withArgs({ matcher: 'ACEFNR' })
@@ -345,7 +358,7 @@ describe('Unit | Service | Certification CPF service', function () {
 
             // then
             expect(result).to.deep.equal(
-              CpfBirthInformationValidation.success({
+              new CpfBirthInformationValidation().success({
                 birthCountry: 'FRANCE',
                 birthINSEECode: '12345',
                 birthPostalCode: null,
@@ -369,6 +382,7 @@ describe('Unit | Service | Certification CPF service', function () {
             certificationCpfCountryRepository.getByMatcher
               .withArgs({ matcher: 'ACEFNR' })
               .resolves(certificationCPFCountry);
+
             certificationCpfCityRepository.findByINSEECode.resolves([]);
 
             // when
@@ -383,7 +397,7 @@ describe('Unit | Service | Certification CPF service', function () {
 
             // then
             expect(result).to.deep.equal(
-              CpfBirthInformationValidation.failure({
+              new CpfBirthInformationValidation().failure({
                 certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_NOT_VALID,
                 data: { birthINSEECode },
               })
@@ -398,11 +412,15 @@ describe('Unit | Service | Certification CPF service', function () {
             const birthINSEECode = '12345';
 
             const certificationCPFCountry = domainBuilder.buildCertificationCpfCountry.FRANCE();
-
             certificationCpfCountryRepository.getByMatcher
               .withArgs({ matcher: 'ACEFNR' })
               .resolves(certificationCPFCountry);
-            certificationCpfCityRepository.findByINSEECode.resolves([]);
+
+            const gothamCpf = domainBuilder.buildCertificationCpfCity({
+              INSEECode: '12345',
+              name: 'GOTHAM CITY',
+            });
+            certificationCpfCityRepository.findByINSEECode.resolves([gothamCpf]);
 
             // when
             const result = await getBirthInformation({
@@ -416,7 +434,7 @@ describe('Unit | Service | Certification CPF service', function () {
 
             // then
             expect(result).to.deep.equal(
-              CpfBirthInformationValidation.failure({
+              new CpfBirthInformationValidation().failure({
                 certificationCandidateError:
                   CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED,
               })
@@ -455,7 +473,7 @@ describe('Unit | Service | Certification CPF service', function () {
 
             // then
             expect(result).to.deep.equal(
-              CpfBirthInformationValidation.success({
+              new CpfBirthInformationValidation().success({
                 birthCountry: 'FRANCE',
                 birthINSEECode: null,
                 birthPostalCode: '12345',
@@ -504,7 +522,7 @@ describe('Unit | Service | Certification CPF service', function () {
 
               // then
               expect(result).to.deep.equal(
-                CpfBirthInformationValidation.success({
+                new CpfBirthInformationValidation().success({
                   birthCountry: 'FRANCE',
                   birthINSEECode: null,
                   birthPostalCode: '12345',
@@ -543,7 +561,7 @@ describe('Unit | Service | Certification CPF service', function () {
 
             // then
             expect(result).to.deep.equal(
-              CpfBirthInformationValidation.failure({
+              new CpfBirthInformationValidation().failure({
                 certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_POSTAL_CODE_NOT_FOUND,
                 data: { birthPostalCode },
               })
@@ -574,7 +592,7 @@ describe('Unit | Service | Certification CPF service', function () {
 
             // then
             expect(result).to.deep.equal(
-              CpfBirthInformationValidation.failure({
+              new CpfBirthInformationValidation().failure({
                 certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_CITY_REQUIRED,
               })
             );
@@ -611,7 +629,7 @@ describe('Unit | Service | Certification CPF service', function () {
 
             // then
             expect(result).to.deep.equal(
-              CpfBirthInformationValidation.failure({
+              new CpfBirthInformationValidation().failure({
                 certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_POSTAL_CODE_CITY_NOT_VALID,
                 data: { birthPostalCode, birthCity },
               })

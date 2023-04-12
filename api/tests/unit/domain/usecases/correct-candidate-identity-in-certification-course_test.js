@@ -54,7 +54,9 @@ describe('Unit | UseCase | correct-candidate-identity-in-certification-course', 
         certificationCpfCountryRepository,
         certificationCpfCityRepository,
       })
-      .resolves(CpfBirthInformationValidation.success({ birthCountry, birthINSEECode, birthPostalCode, birthCity }));
+      .resolves(
+        new CpfBirthInformationValidation().success({ birthCountry, birthINSEECode, birthPostalCode, birthCity })
+      );
 
     const command = {
       certificationCourseId: 4,
@@ -123,7 +125,7 @@ describe('Unit | UseCase | correct-candidate-identity-in-certification-course', 
         certificationCpfCountryRepository,
         certificationCpfCityRepository,
       })
-      .resolves(CpfBirthInformationValidation.failure({ certificationCandidateError }));
+      .resolves(new CpfBirthInformationValidation().failure({ certificationCandidateError }));
 
     const command = {
       certificationCourseId: 4,
