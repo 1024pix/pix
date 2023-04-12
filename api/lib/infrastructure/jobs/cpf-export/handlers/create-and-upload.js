@@ -17,12 +17,12 @@ module.exports = async function createAndUpload({
   const cpfCertificationResults = await cpfCertificationResultRepository.findByBatchId(batchId);
 
   if (cpfCertificationResults.length == 0) {
-    logger.error(`CpfExportBuilderJob: create CPF results, with no certification found (batchId ${batchId})`);
+    logger.error(`Create CPF results, with no certification found (batchId ${batchId})`);
     return;
   }
 
   const certificationCourseIds = cpfCertificationResults.map(({ id }) => id);
-  logger.info(`CpfExportBuilderJob: create CPF results for ${certificationCourseIds.length} certifications`);
+  logger.info(`Create CPF results for ${certificationCourseIds.length} certifications (batchId ${batchId})`);
 
   const gzipStream = createGzip();
   cpfCertificationXmlExportService.buildXmlExport({
