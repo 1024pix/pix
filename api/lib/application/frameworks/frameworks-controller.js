@@ -4,23 +4,34 @@ const frameworkSerializer = require('../../infrastructure/serializers/jsonapi/fr
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils.js');
 
 module.exports = {
-  async getFrameworks() {
+  async getFrameworks(request, h, dependencies = { frameworkSerializer }) {
     const frameworks = await usecases.getFrameworks();
-    return frameworkSerializer.serialize(frameworks);
+    return dependencies.frameworkSerializer.serialize(frameworks);
   },
-  async getFrameworkAreas(request) {
+
+  async getFrameworkAreas(request, h, dependencies = { frameworkAreasSerializer }) {
     const frameworkId = request.params.id;
     const framework = await usecases.getFrameworkAreas({ frameworkId });
-    return frameworkAreasSerializer.serialize(framework);
+    return dependencies.frameworkAreasSerializer.serialize(framework);
   },
-  async getPixFrameworkAreasWithoutThematics(request) {
-    const locale = extractLocaleFromRequest(request);
+
+  async getPixFrameworkAreasWithoutThematics(
+    request,
+    h,
+    dependencies = { extractLocaleFromRequest, frameworkAreasSerializer }
+  ) {
+    const locale = dependencies.extractLocaleFromRequest(request);
     const framework = await usecases.getFrameworkAreas({ frameworkName: 'Pix', locale });
-    return frameworkAreasSerializer.serialize(framework, { withoutThematics: true });
+    return dependencies.frameworkAreasSerializer.serialize(framework, { withoutThematics: true });
   },
-  async getFrameworksForTargetProfileSubmission(request) {
-    const locale = extractLocaleFromRequest(request);
+
+  async getFrameworksForTargetProfileSubmission(
+    request,
+    h,
+    dependencies = { extractLocaleFromRequest, frameworkSerializer }
+  ) {
+    const locale = dependencies.extractLocaleFromRequest(request);
     const learningContent = await usecases.getLearningContentForTargetProfileSubmission({ locale });
-    return frameworkSerializer.serializeDeepWithoutSkills(learningContent.frameworks);
+    return dependencies.frameworkSerializer.serializeDeepWithoutSkills(learningContent.frameworks);
   },
 };
