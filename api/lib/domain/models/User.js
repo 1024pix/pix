@@ -90,11 +90,11 @@ class User {
   }
 
   setLocaleIfNotAlreadySet(newLocale) {
-    this.mustBePersisted = false;
+    this.hasBeenModified = false;
     if (newLocale && !this.locale) {
       const canonicalLocale = localeService.getCanonicalLocale(newLocale);
       this.locale = canonicalLocale;
-      this.mustBePersisted = true;
+      this.hasBeenModified = true;
     }
   }
 

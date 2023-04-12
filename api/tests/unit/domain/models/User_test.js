@@ -39,7 +39,7 @@ describe('Unit | Domain | Models | User', function () {
       // then
       expect(getCanonicalLocaleStub).to.not.have.been.called;
       expect(user.locale).to.be.undefined;
-      expect(user.mustBePersisted).to.be.false;
+      expect(user.hasBeenModified).to.be.false;
     });
 
     context('when user has no locale', function () {
@@ -55,7 +55,7 @@ describe('Unit | Domain | Models | User', function () {
         // then
         expect(getCanonicalLocaleStub).to.have.been.calledWith('fr-fr');
         expect(user.locale).to.equal('fr-FR');
-        expect(user.mustBePersisted).to.be.true;
+        expect(user.hasBeenModified).to.be.true;
       });
     });
 
@@ -72,7 +72,7 @@ describe('Unit | Domain | Models | User', function () {
         // then
         expect(getCanonicalLocaleStub).to.not.have.been.called;
         expect(user.locale).to.equal('en');
-        expect(user.mustBePersisted).to.be.false;
+        expect(user.hasBeenModified).to.be.false;
       });
     });
   });
