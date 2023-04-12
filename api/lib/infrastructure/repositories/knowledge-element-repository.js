@@ -4,13 +4,13 @@ const constants = require('../constants.js');
 const { knex } = require('../../../db/knex-database-connection.js');
 const KnowledgeElement = require('../../domain/models/KnowledgeElement.js');
 const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses.js');
-const BookshelfKnowledgeElement = require('../orm-models/KnowledgeElement.js');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter.js');
 const knowledgeElementSnapshotRepository = require('./knowledge-element-snapshot-repository.js');
 const campaignRepository = require('./campaign-repository.js');
 const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
 
 const { SHARED } = CampaignParticipationStatuses;
+
+const tableName = 'knowledge-elements';
 
 function _getUniqMostRecents(knowledgeElements) {
   return _(knowledgeElements).orderBy('createdAt', 'desc').uniqBy('skillId').value();
@@ -31,7 +31,7 @@ function _findByUserIdAndLimitDateQuery({
   domainTransaction = DomainTransaction.emptyTransaction(),
 }) {
   const knexConn = domainTransaction.knexTransaction || knex;
-  return knexConn('knowledge-elements').where((qb) => {
+  return knexConn(tableName).where((qb) => {
     qb.where({ userId });
     if (limitDate) {
       qb.where('createdAt', '<', limitDate);
@@ -89,9 +89,8 @@ async function _countValidatedByCompetencesForUsersWithinCampaign(userIdsAndDate
 module.exports = {
   async save(knowledgeElement) {
     const knowledgeElementToSave = _.omit(knowledgeElement, ['id', 'createdAt']);
-    const savedKnowledgeElement = await new BookshelfKnowledgeElement(knowledgeElementToSave).save();
-
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfKnowledgeElement, savedKnowledgeElement);
+    const [savedKnowledgeElement] = await knex(tableName).insert(knowledgeElementToSave).returning('*');
+    return new KnowledgeElement(savedKnowledgeElement);
   },
 
   findUniqByUserId({ userId, limitDate, domainTransaction }) {
@@ -199,7 +198,7 @@ module.exports = {
   },
 
   async findInvalidatedAndDirectByUserId(userId) {
-    const invalidatedKnowledgeElements = await knex('knowledge-elements')
+    const invalidatedKnowledgeElements = await knex(tableName)
       .where({
         userId,
         status: KnowledgeElement.StatusType.INVALIDATED,
