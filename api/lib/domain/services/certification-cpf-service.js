@@ -42,7 +42,7 @@ class CpfBirthInformationValidation {
   }
 }
 
-function getForeignCountryBirthInformation(birthCity, birthINSEECode, birthPostalCode, country) {
+function _getForeignCountryBirthInformation(birthCity, birthINSEECode, birthPostalCode, country) {
   if (!birthCity) {
     return CpfBirthInformationValidation.failure({
       certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FOREIGN_BIRTH_CITY_REQUIRED,
@@ -69,7 +69,7 @@ function getForeignCountryBirthInformation(birthCity, birthINSEECode, birthPosta
   });
 }
 
-async function getBirthInformationByINSEECode(birthCity, birthINSEECode, country, certificationCpfCityRepository) {
+async function _getBirthInformationByINSEECode({ birthCity, birthINSEECode, country, certificationCpfCityRepository }) {
   if (birthCity) {
     return CpfBirthInformationValidation.failure({
       certificationCandidateError:
@@ -94,7 +94,12 @@ async function getBirthInformationByINSEECode(birthCity, birthINSEECode, country
   });
 }
 
-async function getBirthInformationByPostalCode(birthCity, birthPostalCode, country, certificationCpfCityRepository) {
+async function _getBirthInformationByPostalCode({
+  birthCity,
+  birthPostalCode,
+  country,
+  certificationCpfCityRepository,
+}) {
   if (!birthCity) {
     return CpfBirthInformationValidation.failure({
       certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_CITY_REQUIRED,
@@ -152,7 +157,7 @@ async function getBirthInformation({
     });
   }
   if (country.isForeign()) {
-    return getForeignCountryBirthInformation(birthCity, birthINSEECode, birthPostalCode, country);
+    return _getForeignCountryBirthInformation(birthCity, birthINSEECode, birthPostalCode, country);
   } else {
     if (!birthINSEECode && !birthPostalCode && !birthCity) {
       return CpfBirthInformationValidation.failure({
@@ -169,11 +174,21 @@ async function getBirthInformation({
     }
 
     if (birthINSEECode) {
-      return await getBirthInformationByINSEECode(birthCity, birthINSEECode, country, certificationCpfCityRepository);
+      return await _getBirthInformationByINSEECode({
+        birthCity,
+        birthINSEECode,
+        country,
+        certificationCpfCityRepository,
+      });
     }
 
     if (birthPostalCode) {
-      return await getBirthInformationByPostalCode(birthCity, birthPostalCode, country, certificationCpfCityRepository);
+      return await _getBirthInformationByPostalCode({
+        birthCity,
+        birthPostalCode,
+        country,
+        certificationCpfCityRepository,
+      });
     }
 
     if (birthCity) {
