@@ -70,7 +70,7 @@ describe('Integration | Repository | training-trigger-repository', function () {
         areas: [
           {
             id: 'recAreaA',
-            titleFr: 'area1_Title',
+            title_i18n: { fr: 'domaine1_TitreFr' },
             color: 'someColor',
             competences: [
               {

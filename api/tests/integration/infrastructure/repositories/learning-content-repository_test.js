@@ -27,8 +27,7 @@ describe('Integration | Repository | learning-content', function () {
           {
             id: 'recArea1',
             name: 'area1_name',
-            titleFr: 'area1_TitleFr',
-            titleEn: 'area1_TitleEn',
+            title_i18n: { fr: 'domaine1_TitreFr', en: 'area1_TitleEn' },
             color: 'area1_color',
             code: 'area1_code',
             frameworkId: 'recFramework1',
@@ -168,8 +167,7 @@ describe('Integration | Repository | learning-content', function () {
           {
             id: 'recArea2',
             name: 'area2_name',
-            titleFr: 'area2_TitleFr',
-            titleEn: 'area2_TitleEn',
+            title_i18n: { fr: 'domaine2_TitreFr', en: 'area2_TitleEn' },
             color: 'area2_color',
             code: 'area2_code',
             frameworkId: 'recFramework2',

@@ -18,7 +18,6 @@ const learningContent = [
     areas: [
       {
         id: 'recArea1',
-        titleFrFr: 'area1_Title',
         color: 'someColor',
         competences: [
           {

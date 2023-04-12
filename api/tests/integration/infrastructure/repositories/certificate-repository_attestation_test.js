@@ -299,7 +299,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       });
 
       const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
-        { ...area1, titleFr: area1.title },
+        { ...area1, title_i18n: { fr: area1.title } },
       ]);
       mockLearningContent(learningContentObjects);
 

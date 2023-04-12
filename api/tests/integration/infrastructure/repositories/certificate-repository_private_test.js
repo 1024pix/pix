@@ -352,8 +352,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
           {
             ...area1,
-            titleFr: area1.title,
-            titleEn: 'title en',
+            title_i18n: { fr: area1.title, en: 'title en' },
             competences: [
               {
                 id: 'recComp1',
@@ -468,8 +467,7 @@ describe('Integration | Infrastructure | Repository | Certificate_private', func
         const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
           {
             ...area1,
-            titleFr: area1.title,
-            titleEn: 'title en',
+            title_i18n: { fr: area1.title, en: 'title en' },
             competences: [
               {
                 id: 'recComp1',

@@ -12,9 +12,6 @@ describe('Integration | Service | Placement Profile Service', function () {
         id: 'areaOne',
         code: '1',
         color: 'jaffa',
-        name: 'Domaine 1',
-        titleFr: '1. Domaine 1',
-        titleEn: '1. Area 1',
         frameworkId: 'recFmk123',
         competences: [
           {

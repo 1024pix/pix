@@ -59,7 +59,7 @@ describe('Acceptance | API | Certifications', function () {
         id: 'recvoGdo7z2z7pXWa',
         code: '1',
         name: '1. Information et données',
-        titleFr: 'Information et données',
+        title_i18n: { fr: 'Information et données' },
         color: 'jaffa',
         competences: [
           {
