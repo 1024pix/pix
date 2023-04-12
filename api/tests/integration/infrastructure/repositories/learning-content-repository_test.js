@@ -52,10 +52,11 @@ describe('Integration | Repository | learning-content', function () {
                         name: '@tube1_name',
                         title: 'tube1_title',
                         description: 'tube1_description',
-                        practicalTitleFr: 'tube1_practicalTitleFr',
-                        practicalTitleEn: 'tube1_practicalTitleEn',
-                        practicalDescriptionFr: 'tube1_practicalDescriptionFr',
-                        practicalDescriptionEn: 'tube1_practicalDescriptionEn',
+                        practicalTitle_i18n: { fr: 'tube1_practicalTitleFr', en: 'tube1_practicalTitleEn' },
+                        practicalDescription_i18n: {
+                          fr: 'tube1_practicalDescriptionFr',
+                          en: 'tube1_practicalDescriptionEn',
+                        },
                         isMobileCompliant: true,
                         isTabletCompliant: false,
                         skills: [
@@ -93,10 +94,11 @@ describe('Integration | Repository | learning-content', function () {
                         name: '@tube2_name',
                         title: '@tube2_title',
                         description: '@tube2_description',
-                        practicalTitleFr: 'tube2_practicalTitleFr',
-                        practicalTitleEn: 'tube2_practicalTitleEn',
-                        practicalDescriptionFr: 'tube2_practicalDescriptionFr',
-                        practicalDescriptionEn: 'tube2_practicalDescriptionEn',
+                        practicalTitle_i18n: { fr: 'tube2_practicalTitleFr', en: 'tube2_practicalTitleEn' },
+                        practicalDescription_i18n: {
+                          fr: 'tube2_practicalDescriptionFr',
+                          en: 'tube2_practicalDescriptionEn',
+                        },
                         isMobileCompliant: false,
                         isTabletCompliant: true,
                         skills: [
@@ -127,10 +129,11 @@ describe('Integration | Repository | learning-content', function () {
                         name: '@tube3_name',
                         title: '@tube3_title',
                         description: '@tube3_description',
-                        practicalTitleFr: 'tube3_practicalTitleFr',
-                        practicalTitleEn: 'tube3_practicalTitleEn',
-                        practicalDescriptionFr: 'tube3_practicalDescriptionFr',
-                        practicalDescriptionEn: 'tube3_practicalDescriptionEn',
+                        practicalTitle_i18n: { fr: 'tube3_practicalTitleFr', en: 'tube3_practicalTitleEn' },
+                        practicalDescription_i18n: {
+                          fr: 'tube3_practicalDescriptionFr',
+                          en: 'tube3_practicalDescriptionEn',
+                        },
                         isMobileCompliant: true,
                         isTabletCompliant: true,
                         skills: [
@@ -192,10 +195,11 @@ describe('Integration | Repository | learning-content', function () {
                         name: '@tube4_name',
                         title: 'tube4_title',
                         description: 'tube4_description',
-                        practicalTitleFr: 'tube4_practicalTitleFr',
-                        practicalTitleEn: 'tube4_practicalTitleEn',
-                        practicalDescriptionFr: 'tube4_practicalDescriptionFr',
-                        practicalDescriptionEn: 'tube4_practicalDescriptionEn',
+                        practicalTitle_i18n: { fr: 'tube4_practicalTitleFr', en: 'tube4_practicalTitleEn' },
+                        practicalDescription_i18n: {
+                          fr: 'tube4_practicalDescriptionFr',
+                          en: 'tube4_practicalDescriptionEn',
+                        },
                         isMobileCompliant: false,
                         isTabletCompliant: false,
                         skills: [

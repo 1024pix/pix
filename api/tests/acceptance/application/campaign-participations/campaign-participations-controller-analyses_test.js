@@ -49,8 +49,8 @@ describe('Acceptance | API | Campaign Participations | Analyses', function () {
               tubes: [
                 {
                   id: 'recTube1',
-                  practicalTitleFr: 'Monter une étagère',
-                  practicalDescriptionFr: 'Comment monter une étagère',
+                  practicalTitle_i18n: { fr: 'Monter une étagère' },
+                  practicalDescription_i18n: { fr: 'Comment monter une étagère' },
                   skills: [
                     {
                       id: 'recSkillId1',

@@ -73,14 +73,8 @@ const buildLearningContent = function (learningContent) {
               name: tube.name,
               description: tube.description,
               title: tube.title,
-              practicalTitle_i18n: {
-                fr: tube.practicalTitleFr || tube.practicalTitle,
-                en: tube.practicalTitleEn || tube.practicalTitle,
-              },
-              practicalDescription_i18n: {
-                fr: tube.practicalDescriptionFr || tube.practicalDescription,
-                en: tube.practicalDescriptionEn || tube.practicalDescription,
-              },
+              practicalTitle_i18n: tube.practicalTitle_i18n,
+              practicalDescription_i18n: tube.practicalDescription_i18n,
               isMobileCompliant: tube.isMobileCompliant,
               isTabletCompliant: tube.isTabletCompliant,
               competenceId: competence.id,
