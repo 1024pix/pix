@@ -59,7 +59,7 @@ module.exports = async function authenticateUser({
     });
 
     foundUser.setLocaleIfNotAlreadySet(localeFromCookie);
-    if (foundUser.mustBePersisted) {
+    if (foundUser.hasBeenModified) {
       await userRepository.update({ id: foundUser.id, locale: foundUser.locale });
     }
 
