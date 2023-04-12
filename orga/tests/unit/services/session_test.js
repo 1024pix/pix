@@ -128,4 +128,49 @@ module('Unit | Service | session', function (hooks) {
       assert.ok(service.handleInvalidation instanceof Function);
     });
   });
+
+  module('when the current domain  is "fr"', function (hooks) {
+    let service;
+
+    hooks.beforeEach(function () {
+      service = this.owner.lookup('service:session');
+      service.locale = {
+        setLocaleCookie: sinon.stub(),
+        hasLocaleCookie: sinon.stub(),
+      };
+      service.currentDomain = {
+        getExtension: sinon.stub(),
+      };
+    });
+
+    module('when there is no cookie locale', function () {
+      test('add a cookie locale with "fr-FR" as value', async function (assert) {
+        // given
+        service.locale.hasLocaleCookie.returns(false);
+        service.currentDomain.getExtension.returns('fr');
+
+        // when
+        await service.handlePrescriberLanguageAndLocale();
+
+        // then
+        sinon.assert.calledWith(service.locale.setLocaleCookie, 'fr-FR');
+        assert.ok(true);
+      });
+    });
+
+    module('when there is a cookie locale', function () {
+      test('does not update cookie locale', async function (assert) {
+        // given
+        service.locale.hasLocaleCookie.returns(true);
+        service.currentDomain.getExtension.returns('fr');
+
+        // when
+        await service.handlePrescriberLanguageAndLocale();
+
+        // then
+        sinon.assert.notCalled(service.locale.setLocaleCookie);
+        assert.ok(true);
+      });
+    });
+  });
 });
