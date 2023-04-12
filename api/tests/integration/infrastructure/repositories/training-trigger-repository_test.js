@@ -81,7 +81,23 @@ describe('Integration | Repository | training-trigger-repository', function () {
                   {
                     id: 'recThemA',
                     name_i18n: { fr: 'thematique1_Nom' },
-                    tubes: [tube, tube1, tube2],
+                    tubes: [
+                      {
+                        ...tube,
+                        practicalTitle_i18n: { fr: tube.practicalTitle },
+                        practicalDescription_i18n: { fr: tube.practicalDescription },
+                      },
+                      {
+                        ...tube1,
+                        practicalTitle_i18n: { fr: tube1.practicalTitle },
+                        practicalDescription_i18n: { fr: tube1.practicalDescription },
+                      },
+                      {
+                        ...tube2,
+                        practicalTitle_i18n: { fr: tube2.practicalTitle },
+                        practicalDescription_i18n: { fr: tube2.practicalDescription },
+                      },
+                    ],
                   },
                 ],
               },

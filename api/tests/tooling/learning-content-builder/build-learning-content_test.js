@@ -257,10 +257,14 @@ describe('Integration | buildLearningContent', function () {
                 tubes: [
                   {
                     id: 'recArea1_Competence1_Tube1',
+                    practicalTitle_i18n: { fr: 'titrePratique1_fr', en: 'practicalTitle1_en' },
+                    practicalDescription_i18n: { fr: 'descriptionPratique1_fr', en: 'practicalDescription1_en' },
                     skills: [],
                   },
                   {
                     id: 'recArea1_Competence1_Tube2',
+                    practicalTitle_i18n: { fr: 'titrePratique2_fr', en: 'practicalTitle2_en' },
+                    practicalDescription_i18n: { fr: 'descriptionPratique2_fr', en: 'practicalDescription2_en' },
                     skills: [],
                   },
                 ],
@@ -281,8 +285,16 @@ describe('Integration | buildLearningContent', function () {
     expect(competences[0].id).to.deep.equal('recArea1_Competence1');
     expect(tubes[0].id).to.deep.equal('recArea1_Competence1_Tube1');
     expect(tubes[0].competenceId).to.deep.equal('recArea1_Competence1');
+    expect(tubes[0].practicalTitle_i18n.fr).to.deep.equal('titrePratique1_fr');
+    expect(tubes[0].practicalTitle_i18n.en).to.deep.equal('practicalTitle1_en');
+    expect(tubes[0].practicalDescription_i18n.fr).to.deep.equal('descriptionPratique1_fr');
+    expect(tubes[0].practicalDescription_i18n.en).to.deep.equal('practicalDescription1_en');
     expect(tubes[1].id).to.deep.equal('recArea1_Competence1_Tube2');
     expect(tubes[1].competenceId).to.deep.equal('recArea1_Competence1');
+    expect(tubes[1].practicalTitle_i18n.fr).to.deep.equal('titrePratique2_fr');
+    expect(tubes[1].practicalTitle_i18n.en).to.deep.equal('practicalTitle2_en');
+    expect(tubes[1].practicalDescription_i18n.fr).to.deep.equal('descriptionPratique2_fr');
+    expect(tubes[1].practicalDescription_i18n.en).to.deep.equal('practicalDescription2_en');
   });
 
   it('builds skills', async function () {

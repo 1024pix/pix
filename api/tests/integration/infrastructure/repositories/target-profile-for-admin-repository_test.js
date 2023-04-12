@@ -312,7 +312,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
                 fr: 'practicalTitleFR',
                 en: 'practicalTitleEN',
               },
-              practicalDescriptionFrFr: 'tube_desc',
+              practicalDescription_i18n: { fr: 'tube_desc' },
             },
           ],
           skills: [

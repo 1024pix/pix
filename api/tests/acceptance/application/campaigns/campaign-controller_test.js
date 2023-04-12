@@ -404,8 +404,8 @@ describe('Acceptance | API | Campaign Controller', function () {
                 tubes: [
                   {
                     id: 'recTube1',
-                    practicalTitleFr: 'Monter une étagère FR',
-                    practicalDescriptionFr: 'Comment monter une étagère',
+                    practicalTitle_i18n: { fr: 'Monter une étagère FR' },
+                    practicalDescription_i18n: { fr: 'Comment monter une étagère' },
                     skills: [
                       {
                         id: 'recSkillId1',
@@ -546,8 +546,8 @@ describe('Acceptance | API | Campaign Controller', function () {
                 tubes: [
                   {
                     id: 'recTube1',
-                    practicalTitleFr: 'Monter une étagère FR',
-                    practicalDescriptionFr: 'Comment monter une étagère',
+                    practicalTitle_i18n: { fr: 'Monter une étagère FR' },
+                    practicalDescription_i18n: { fr: 'Comment monter une étagère' },
                     skills: [
                       {
                         id: 'recSkillId1',
