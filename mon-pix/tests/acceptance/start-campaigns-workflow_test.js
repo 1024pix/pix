@@ -1,12 +1,10 @@
 import { module, test } from 'qunit';
 
-import { click, fillIn, currentURL, find } from '@ember/test-helpers';
+import { click, fillIn, currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { Response } from 'miragejs';
 
-import { clickByLabel } from '../helpers/click-by-label';
-import { fillInByLabel } from '../helpers/fill-in-by-label';
 import { authenticate, authenticateByGAR } from '../helpers/authentication';
 import { startCampaignByCode, startCampaignByCodeAndExternalId } from '../helpers/campaign';
 import { currentSession } from 'ember-simple-auth/test-support';
@@ -44,12 +42,10 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
       module('When user has not given any campaign code', function () {
         test('should access campaign form page', async function (assert) {
           // when
-          await visit('/campagnes');
+          const screen = await visit('/campagnes');
 
           // then
-          assert.ok(
-            find('.fill-in-campaign-code__start-button').textContent.includes(t('pages.fill-in-campaign-code.start'))
-          );
+          assert.dom(screen.getByRole('button', { name: 'Accéder au parcours' })).exists();
         });
       });
 
@@ -58,11 +54,11 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           test('should display landing page', async function (assert) {
             // given
             const campaign = server.create('campaign', { isRestricted: false });
-            await visit('/campagnes');
+            const screen = await visit('/campagnes');
 
             // when
-            await fillIn('#campaign-code', campaign.code);
-            await click('.fill-in-campaign-code__start-button');
+            await fillIn(screen.getByRole('textbox', { name: t('pages.fill-in-campaign-code.label') }), campaign.code);
+            await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
             // then
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
@@ -91,27 +87,38 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               // given
               const campaign = server.create('campaign', { isRestricted: false });
               const screen = await visit('/campagnes');
-              await fillIn('#campaign-code', campaign.code);
-              await click('.fill-in-campaign-code__start-button');
+              await fillIn(
+                screen.getByRole('textbox', { name: t('pages.fill-in-campaign-code.label') }),
+                campaign.code
+              );
+              await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
               // then
               assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
 
               // when
-              await click('.campaign-landing-page__start-button');
+              await click(screen.getByRole('button', { name: 'Je commence' }));
 
               // then
               assert.strictEqual(currentURL(), '/inscription');
 
               // when
-              await fillIn('#firstName', prescritUser.firstName);
-              await fillIn('#lastName', prescritUser.lastName);
-              await fillIn('#email', prescritUser.email);
-              await fillIn('#password', prescritUser.password);
+              await fillIn(screen.getByRole('textbox', { name: 'Prénom' }), prescritUser.firstName);
+              await fillIn(screen.getByRole('textbox', { name: 'Nom' }), prescritUser.lastName);
+              await fillIn(
+                screen.getByRole('textbox', { name: 'Adresse e-mail (ex: nom@exemple.fr)' }),
+                prescritUser.email
+              );
+              await fillIn(
+                screen.getByLabelText(
+                  'Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)'
+                ),
+                prescritUser.password
+              );
               await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
 
               // when
-              await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
+              await click(screen.getByRole('button', { name: this.intl.t('pages.sign-up.actions.submit') }));
 
               // then
               assert.strictEqual(sentCampaignCode, campaign.code);
@@ -127,16 +134,19 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           module('When the student has an account but is not reconciled', function () {
             test('should redirect to invited sco student page', async function (assert) {
               // given
-              await visit('/campagnes');
+              const screen = await visit('/campagnes');
 
               // when
-              await fillIn('#campaign-code', campaign.code);
-              await clickByLabel(t('pages.fill-in-campaign-code.start'));
-              await clickByLabel('Je commence');
-              await click('#login-button');
-              await fillIn('#login', prescritUser.email);
-              await fillIn('#password', prescritUser.password);
-              await click('#submit-connexion');
+              await fillIn(
+                screen.getByRole('textbox', { name: t('pages.fill-in-campaign-code.label') }),
+                campaign.code
+              );
+              await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
+              await click(screen.getByRole('button', { name: 'Je commence' }));
+              await click(screen.getByRole('button', { name: 'Se connecter' }));
+              await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }), prescritUser.email);
+              await fillIn(screen.getByLabelText('Mot de passe'), prescritUser.password);
+              await click(screen.getByRole('button', { name: 'Se connecter' }));
 
               // then
               assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/prescrit/eleve`);
@@ -151,16 +161,22 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
                 server.create('sco-organization-learner', {
                   campaignCode: campaign.code,
                 });
-                await visit('/campagnes');
+                const screen = await visit('/campagnes');
 
                 // when
-                await fillIn('#campaign-code', campaign.code);
-                await clickByLabel(t('pages.fill-in-campaign-code.start'));
-                await clickByLabel('Je commence');
-                await click('#login-button');
-                await fillIn('#login', prescritUser.email);
-                await fillIn('#password', prescritUser.password);
-                await click('#submit-connexion');
+                await fillIn(
+                  screen.getByRole('textbox', { name: t('pages.fill-in-campaign-code.label') }),
+                  campaign.code
+                );
+                await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
+                await click(screen.getByRole('button', { name: 'Je commence' }));
+                await click(screen.getByRole('button', { name: 'Se connecter' }));
+                await fillIn(
+                  screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }),
+                  prescritUser.email
+                );
+                await fillIn(screen.getByLabelText('Mot de passe'), prescritUser.password);
+                await click(screen.getByRole('button', { name: 'Se connecter' }));
 
                 // then
                 assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
@@ -171,19 +187,22 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           module('When user must accept Pix last terms of service', function () {
             test('should redirect to invited sco student page after accept terms of service', async function (assert) {
               // given
-              await visit('/campagnes');
+              const screen = await visit('/campagnes');
               prescritUser.mustValidateTermsOfService = true;
-              await fillIn('#campaign-code', campaign.code);
-              await clickByLabel(t('pages.fill-in-campaign-code.start'));
-              await clickByLabel('Je commence');
-              await click('#login-button');
-              await fillIn('#login', prescritUser.email);
-              await fillIn('#password', prescritUser.password);
-              await click('#submit-connexion');
+              await fillIn(
+                screen.getByRole('textbox', { name: t('pages.fill-in-campaign-code.label') }),
+                campaign.code
+              );
+              await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
+              await click(screen.getByRole('button', { name: 'Je commence' }));
+              await click(screen.getByRole('button', { name: 'Se connecter' }));
+              await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }), prescritUser.email);
+              await fillIn(screen.getByLabelText('Mot de passe'), prescritUser.password);
+              await click(screen.getByRole('button', { name: 'Se connecter' }));
 
               // when
-              await click('#pix-cgu');
-              await clickByLabel(this.intl.t('pages.terms-of-service.form.button'));
+              await click(screen.getByRole('checkbox', { name: "J'accepte les conditions d'utilisation de Pix" }));
+              await click(screen.getByRole('button', { name: 'Je continue' }));
 
               // then
               assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/prescrit/eleve`);
@@ -200,10 +219,10 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
           test('should redirect to login-or-register page when landing page has been seen', async function (assert) {
             // given
-            await visit(`/campagnes/${campaign.code}`);
+            const screen = await visit(`/campagnes/${campaign.code}`);
 
             // when
-            await clickByLabel('Je commence');
+            await click(screen.getByRole('button', { name: 'Je commence' }));
 
             // then
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/rejoindre/identification`);
@@ -242,49 +261,76 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               return new Response(422, {}, emailAlreadyExistResponse);
             });
 
-            await visit(`/campagnes/${campaign.code}`);
-            await clickByLabel('Je commence');
+            const screen = await visit(`/campagnes/${campaign.code}`);
+            await click(screen.getByRole('button', { name: 'Je commence' }));
 
             // when
-            await fillIn('#firstName', prescritUser.firstName);
-            await fillIn('#lastName', prescritUser.lastName);
-            await fillIn('#dayOfBirth', '10');
-            await fillIn('#monthOfBirth', '12');
-            await fillIn('#yearOfBirth', '2000');
+            await fillIn(screen.getByRole('textbox', { name: 'obligatoire Prénom' }), prescritUser.firstName);
+            await fillIn(screen.getByRole('textbox', { name: 'obligatoire Nom' }), prescritUser.lastName);
+            await fillIn(screen.getByRole('spinbutton', { name: 'Jour de naissance' }), '10');
+            await fillIn(screen.getByRole('spinbutton', { name: 'Mois de naissance' }), '12');
+            await fillIn(screen.getByRole('spinbutton', { name: 'Année de naissance' }), '2000');
+            await click(screen.getByRole('button', { name: "Je m'inscris" }));
 
-            await click('#submit-search');
             //go to email-based authentication window
-            await click('.pix-toggle-deprecated__off');
+            await click(screen.getByText('Mon adresse e-mail'));
 
-            await fillIn('#email', prescritUser.email);
-            await fillIn('#password', 'pix123');
-            await click('#submit-registration');
+            await fillIn(
+              screen.getByRole('textbox', { name: 'obligatoire Adresse e-mail (ex: nom@exemple.fr)' }),
+              prescritUser.email
+            );
+            await fillIn(
+              screen.getByLabelText(
+                'Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)',
+                { exact: false }
+              ),
+              'pix123'
+            );
 
+            await click(screen.getByRole('button', { name: "Je m'inscris" }));
             // then
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/rejoindre/identification`);
-            assert.strictEqual(find('#firstName').value, prescritUser.firstName);
-            assert.strictEqual(find('#email').value, prescritUser.email);
-            assert.strictEqual(find('#password').value, 'pix123');
+            assert.strictEqual(
+              screen.getByRole('textbox', { name: 'obligatoire Prénom' }).value,
+              prescritUser.firstName
+            );
+            assert.strictEqual(
+              screen.getByRole('textbox', { name: 'obligatoire Adresse e-mail (ex: nom@exemple.fr)' }).value,
+              prescritUser.email
+            );
+            assert.strictEqual(
+              screen.getByLabelText(
+                'Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)',
+                { exact: false }
+              ).value,
+              'pix123'
+            );
 
             //go to username-based authentication window
-            await click('.pix-toggle-deprecated__off');
-            assert.strictEqual(find('span[data-test-username]').textContent, 'first.last1010');
-            assert.strictEqual(find('#password').value, 'pix123');
+            await click(screen.getByText('Mon identifiant'));
+            assert.dom(screen.getByText('first.last1010')).exists();
+            assert.strictEqual(
+              screen.getByLabelText(
+                'Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)',
+                { exact: false }
+              ).value,
+              'pix123'
+            );
           });
 
           test('should redirect to student sco invited page when connection is done', async function (assert) {
             // given
-            await visit(`/campagnes/${campaign.code}`);
-            await clickByLabel('Je commence');
+            const screen = await visit(`/campagnes/${campaign.code}`);
+            await click(screen.getByRole('button', { name: 'Je commence' }));
 
             // then
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/rejoindre/identification`);
 
             // when
-            await click('#login-button');
-            await fillIn('#login', prescritUser.email);
-            await fillIn('#password', prescritUser.password);
-            await click('#submit-connexion');
+            await click(screen.getByRole('button', { name: 'Se connecter' }));
+            await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }), prescritUser.email);
+            await fillIn(screen.getByLabelText('Mot de passe'), prescritUser.password);
+            await click(screen.getByRole('button', { name: 'Se connecter' }));
 
             // then
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/prescrit/eleve`);
@@ -292,30 +338,29 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
           test('should begin campaign participation when fields are filled in and associate button is clicked', async function (assert) {
             // given
-            await visit(`/campagnes/${campaign.code}`);
-            await clickByLabel('Je commence');
+            const screen = await visit(`/campagnes/${campaign.code}`);
+            await click(screen.getByRole('button', { name: 'Je commence' }));
 
             // then
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/rejoindre/identification`);
 
             // when
-            await click('#login-button');
-            await fillIn('#login', prescritUser.email);
-            await fillIn('#password', prescritUser.password);
-            await click('#submit-connexion');
+            await click(screen.getByRole('button', { name: 'Se connecter' }));
+            await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }), prescritUser.email);
+            await fillIn(screen.getByLabelText('Mot de passe'), prescritUser.password);
+            await click(screen.getByRole('button', { name: 'Se connecter' }));
 
             // then
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/prescrit/eleve`);
 
             // when
-            await fillIn('#firstName', 'Jane');
-            await fillIn('#lastName', 'Acme');
-            await fillIn('#dayOfBirth', '10');
-            await fillIn('#monthOfBirth', '12');
-            await fillIn('#yearOfBirth', '2000');
-
-            await clickByLabel(this.intl.t('pages.join.button'));
-            await clickByLabel(this.intl.t('pages.join.sco.associate'));
+            await fillIn(screen.getByRole('textbox', { name: 'Prénom' }), 'Jane');
+            await fillIn(screen.getByRole('textbox', { name: 'Nom' }), 'Acme');
+            await fillIn(screen.getByRole('textbox', { name: 'jour de naissance' }), '10');
+            await fillIn(screen.getByRole('textbox', { name: 'mois de naissance' }), '12');
+            await fillIn(screen.getByRole('textbox', { name: 'année de naissance' }), '2000');
+            await click(screen.getByRole('button', { name: "C'est parti !" }));
+            await click(screen.getByRole('button', { name: 'Associer' }));
 
             //then
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
@@ -329,11 +374,11 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
           test('should redirect to landing page', async function (assert) {
             // given
-            await visit('/campagnes');
+            const screen = await visit('/campagnes');
 
             // when
-            await fillIn('#campaign-code', campaign.code);
-            await clickByLabel(t('pages.fill-in-campaign-code.start'));
+            await fillIn(screen.getByRole('textbox', { name: t('pages.fill-in-campaign-code.label') }), campaign.code);
+            await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
             // then
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
@@ -341,10 +386,10 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
           test('should redirect to simple login page when landing page has been seen', async function (assert) {
             // given
-            await visit(`/campagnes/${campaign.code}`);
+            const screen = await visit(`/campagnes/${campaign.code}`);
 
             // when
-            await clickByLabel('Je commence');
+            await click(screen.getByRole('button', { name: 'Je commence' }));
 
             // then
             assert.strictEqual(currentURL(), '/inscription');
@@ -352,15 +397,15 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
           test('should redirect to invited sup student page after login', async function (assert) {
             // given
-            await visit(`/campagnes/${campaign.code}`);
-            await clickByLabel('Je commence');
+            const screen = await visit(`/campagnes/${campaign.code}`);
+            await click(screen.getByRole('button', { name: 'Je commence' }));
 
             // when
-            await clickByLabel('connectez-vous à votre compte');
-            await fillIn('#login', prescritUser.email);
-            await fillIn('#password', prescritUser.password);
+            await click(screen.getByRole('link', { name: 'connectez-vous à votre compte' }));
+            await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }), prescritUser.email);
+            await fillIn(screen.getByLabelText('Mot de passe'), prescritUser.password);
 
-            await clickByLabel('Je me connecte');
+            await click(screen.getByRole('button', { name: 'Je me connecte' }));
 
             // then
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/prescrit/etudiant`);
@@ -382,10 +427,10 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
           test('should redirect to tutorial page after starting campaign', async function (assert) {
             // when
-            await visit(`/campagnes/${campaign.code}`);
-            await click('button[type="submit"]');
-            await fillIn('#id-pix-label', 'vu');
-            await click('button[type="submit"]');
+            const screen = await visit(`/campagnes/${campaign.code}`);
+            await click(screen.getByRole('button', { name: 'Je commence' }));
+            await fillIn(screen.getByRole('textbox', { name: 'Les anonymes' }), 'vu');
+            await click(screen.getByRole('button', { name: 'Continuer' }));
 
             // then
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
@@ -397,33 +442,29 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
         test('should display an error message on fill-in-campaign-code page', async function (assert) {
           // given
           const campaignCode = 'NONEXIST';
-          await visit('/campagnes');
+          const screen = await visit('/campagnes');
 
           // when
-          await fillIn('#campaign-code', campaignCode);
-          await clickByLabel(t('pages.fill-in-campaign-code.start'));
+          await fillIn(screen.getByRole('textbox', { name: t('pages.fill-in-campaign-code.label') }), campaignCode);
+          await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
           // then
           assert.strictEqual(currentURL(), '/campagnes');
-          assert.ok(
-            find('.fill-in-campaign-code__error').textContent.includes(
-              t('pages.fill-in-campaign-code.errors.not-found')
-            )
-          );
+          assert.dom(screen.getByText(t('pages.fill-in-campaign-code.errors.not-found'))).exists();
         });
       });
 
       module('When user validates with empty campaign code', function () {
         test('should display an error', async function (assert) {
           // given
-          await visit('/campagnes');
+          const screen = await visit('/campagnes');
 
           // when
-          await clickByLabel(t('pages.fill-in-campaign-code.start'));
+          await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
           // then
           assert.strictEqual(currentURL(), '/campagnes');
-          assert.ok(find('.fill-in-campaign-code__error').textContent.includes('Veuillez saisir un code.'));
+          assert.dom(screen.getByText('Veuillez saisir un code.')).exists();
         });
       });
 
@@ -454,24 +495,10 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             const campaign = server.create('campaign', { customLandingPageText: 'SomeText' });
 
             // when
-            await visit(`/campagnes/${campaign.code}`);
+            const screen = await visit(`/campagnes/${campaign.code}`);
 
             // then
-            assert.dom('.campaign-landing-page__start__custom-text').exists();
-            assert.ok(
-              find('.campaign-landing-page__start__custom-text').textContent.includes(campaign.customLandingPageText)
-            );
-          });
-        });
-
-        module('When campaign does not have custom text for the landing page', function () {
-          test('should show only the defaulted text on the landing page', async function (assert) {
-            // when
-            const campaign = server.create('campaign', { customLandingPageText: null });
-            await visit(`/campagnes/${campaign.code}`);
-
-            // then
-            assert.dom('.campaign-landing-page__start__custom-text').doesNotExist();
+            assert.dom(screen.getByText('SomeText')).exists();
           });
         });
       });
@@ -503,11 +530,11 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
         module('When association is not already done', function () {
           test('should redirect to landing page', async function (assert) {
             // given
-            await visit('/campagnes');
+            const screen = await visit('/campagnes');
 
             //when
-            await fillIn('#campaign-code', campaign.code);
-            await clickByLabel(t('pages.fill-in-campaign-code.start'));
+            await fillIn(screen.getByRole('textbox', { name: t('pages.fill-in-campaign-code.label') }), campaign.code);
+            await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
             //then
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
@@ -523,8 +550,8 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             });
 
             // when
-            await visit(`/campagnes/${campaign.code}`);
-            await clickByLabel('Je commence');
+            const screen = await visit(`/campagnes/${campaign.code}`);
+            await click(screen.getByRole('button', { name: 'Je commence' }));
 
             // then
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
@@ -532,10 +559,10 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
           test('should redirect to invited sco student page when landing page has been seen', async function (assert) {
             // given
-            await visit(`/campagnes/${campaign.code}`);
+            const screen = await visit(`/campagnes/${campaign.code}`);
 
             //when
-            await clickByLabel('Je commence');
+            await click(screen.getByRole('button', { name: 'Je commence' }));
 
             //then
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/prescrit/eleve`);
@@ -543,27 +570,27 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
           test('should not set any field by default', async function (assert) {
             // when
-            await visit(`/campagnes/${campaign.code}`);
-            await clickByLabel('Je commence');
+            const screen = await visit(`/campagnes/${campaign.code}`);
+            await click(screen.getByRole('button', { name: 'Je commence' }));
 
             //then
-            assert.strictEqual(find('#firstName').value, '');
-            assert.strictEqual(find('#lastName').value, '');
+            assert.strictEqual(screen.getByRole('textbox', { name: 'Prénom' }).value, '');
+            assert.strictEqual(screen.getByRole('textbox', { name: 'Nom' }).value, '');
           });
 
           test('should begin campaign participation when fields are filled in and associate button is clicked', async function (assert) {
             // given
-            await visit(`/campagnes/${campaign.code}`);
-            await clickByLabel('Je commence');
-            await fillIn('#firstName', 'Robert');
-            await fillIn('#lastName', 'Smith');
-            await fillIn('#dayOfBirth', '10');
-            await fillIn('#monthOfBirth', '12');
-            await fillIn('#yearOfBirth', '2000');
+            const screen = await visit(`/campagnes/${campaign.code}`);
+            await click(screen.getByRole('button', { name: 'Je commence' }));
+            await fillIn(screen.getByRole('textbox', { name: 'Prénom' }), 'Robert');
+            await fillIn(screen.getByRole('textbox', { name: 'Nom' }), 'Smith');
+            await fillIn(screen.getByRole('textbox', { name: 'jour de naissance' }), '10');
+            await fillIn(screen.getByRole('textbox', { name: 'mois de naissance' }), '12');
+            await fillIn(screen.getByRole('textbox', { name: 'année de naissance' }), '2000');
 
             // when
-            await clickByLabel(this.intl.t('pages.join.button'));
-            await clickByLabel(this.intl.t('pages.join.sco.associate'));
+            await click(screen.getByRole('button', { name: "C'est parti !" }));
+            await click(screen.getByRole('button', { name: 'Associer' }));
 
             //then
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
@@ -587,10 +614,10 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
           test('should begin campaign participation when landing page has been seen', async function (assert) {
             // given
-            await visit(`/campagnes/${campaign.code}`);
+            const screen = await visit(`/campagnes/${campaign.code}`);
 
             // when
-            await clickByLabel('Je commence');
+            await click(screen.getByRole('button', { name: 'Je commence' }));
 
             //then
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
@@ -605,11 +632,11 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
         test('should redirect to landing page', async function (assert) {
           // given
-          await visit('/campagnes');
+          const screen = await visit('/campagnes');
 
           //when
-          await fillIn('#campaign-code', campaign.code);
-          await clickByLabel(t('pages.fill-in-campaign-code.start'));
+          await fillIn(screen.getByRole('textbox', { name: t('pages.fill-in-campaign-code.label') }), campaign.code);
+          await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
           //then
           assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
@@ -617,10 +644,10 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
         test('should redirect to invited sup student page when landing page has been seen', async function (assert) {
           // given
-          await visit(`/campagnes/${campaign.code}`);
+          const screen = await visit(`/campagnes/${campaign.code}`);
 
           // when
-          await clickByLabel('Je commence');
+          await click(screen.getByRole('button', { name: 'Je commence' }));
 
           // then
           assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/prescrit/etudiant`);
@@ -628,17 +655,17 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
         test('should begin campaign participation when association is done', async function (assert) {
           // given
-          await visit(`/campagnes/${campaign.code}`);
-          await clickByLabel('Je commence');
+          const screen = await visit(`/campagnes/${campaign.code}`);
+          await click(screen.getByRole('button', { name: 'Je commence' }));
 
           // when
-          await fillInByLabel('Numéro étudiant', 'F100');
-          await fillInByLabel('Prénom', 'Jean');
-          await fillInByLabel('Nom', 'Bon');
-          await fillInByLabel('jour de naissance', '01');
-          await fillInByLabel('mois de naissance', '01');
-          await fillInByLabel('année de naissance', '2000');
-          await clickByLabel("C'est parti !");
+          await fillIn(screen.getByRole('textbox', { name: 'Numéro étudiant' }), 'F100');
+          await fillIn(screen.getByRole('textbox', { name: 'Prénom' }), 'Jean');
+          await fillIn(screen.getByRole('textbox', { name: 'Nom' }), 'Bon');
+          await fillIn(screen.getByRole('textbox', { name: 'jour de naissance' }), '01');
+          await fillIn(screen.getByRole('textbox', { name: 'mois de naissance' }), '01');
+          await fillIn(screen.getByRole('textbox', { name: 'année de naissance' }), '2000');
+          await click(screen.getByRole('button', { name: "C'est parti !" }));
 
           // then
           assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
@@ -707,22 +734,21 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
         test('should show an error message when user starts the campaign', async function (assert) {
           // when
           const screen = await visit(`/campagnes/${campaign.code}`);
-          await clickByLabel('Je commence');
+          await click(screen.getByRole('button', { name: 'Je commence' }));
 
           // then
           assert.ok(screen.getByText('Oups, la page demandée n’est pas accessible.'));
         });
       });
 
-      module('When campaign does not exist', function (hooks) {
-        hooks.beforeEach(async function () {
-          await visit('/campagnes/codefaux');
-        });
-
+      module('When campaign does not exist', function () {
         test('should show an error message', async function (assert) {
+          // given & when
+          const screen = await visit('/campagnes/codefaux');
+
           // then
           assert.strictEqual(currentURL(), '/campagnes/codefaux');
-          assert.ok(find('.title').textContent.includes('Oups, la page demandée n’est pas accessible.'));
+          assert.dom(screen.getByRole('heading', { name: 'Oups, la page demandée n’est pas accessible.' })).exists();
         });
       });
 
@@ -741,10 +767,10 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
         test('should redirect to tutorial page after starting campaign', async function (assert) {
           // when
-          await visit(`/campagnes/${campaign.code}`);
-          await click('button[type="submit"]');
-          await fillIn('#id-pix-label', 'vu');
-          await click('button[type="submit"]');
+          const screen = await visit(`/campagnes/${campaign.code}`);
+          await click(screen.getByRole('button', { name: 'Je commence' }));
+          await fillIn(screen.getByRole('textbox', { name: 'Les anonymes' }), 'vu');
+          await click(screen.getByRole('button', { name: 'Continuer' }));
 
           // then
           assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
@@ -761,10 +787,10 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
         const previousUserId = session.data.authenticated['user_id'];
 
         // when
-        await visit('/campagnes');
-        await fillIn('#campaign-code', campaign.code);
-        await clickByLabel(t('pages.fill-in-campaign-code.start'));
-        await click('button[type="submit"]');
+        const screen = await visit('/campagnes');
+        await fillIn(screen.getByRole('textbox', { name: t('pages.fill-in-campaign-code.label') }), campaign.code);
+        await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
+        await click(screen.getByRole('button', { name: 'Je commence' }));
 
         const currentUserId = session.data.authenticated['user_id'];
 
@@ -780,58 +806,84 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
           campaign = server.create('campaign', { isRestricted: true, organizationType: 'SCO' });
         });
 
-        module('When association is not already done and reconciliation token is provided', function (hooks) {
-          hooks.beforeEach(async function () {
+        module('When association is not already done and reconciliation token is provided', function () {
+          test('should redirect to landing page', async function (assert) {
+            // given
             const externalUserToken =
               'aaa.' +
               btoa(
                 '{"first_name":"JeanPrescrit","last_name":"Campagne","saml_id":"SamlId","source":"external","iat":1545321469,"exp":4702193958}'
               ) +
               '.bbb';
-            await visit(`/campagnes?externalUser=${externalUserToken}`);
-          });
+            const screen = await visit(`/campagnes?externalUser=${externalUserToken}`);
 
-          test('should redirect to landing page', async function (assert) {
             // when
-            await fillIn('#campaign-code', campaign.code);
-            await clickByLabel(t('pages.fill-in-campaign-code.start'));
+            await fillIn(screen.getByRole('textbox', { name: t('pages.fill-in-campaign-code.label') }), campaign.code);
+            await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
             // then
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
           });
 
           test('should redirect to reconciliation form when landing page has been seen', async function (assert) {
+            // given
+            const externalUserToken =
+              'aaa.' +
+              btoa(
+                '{"first_name":"JeanPrescrit","last_name":"Campagne","saml_id":"SamlId","source":"external","iat":1545321469,"exp":4702193958}'
+              ) +
+              '.bbb';
+            const screen = await visit(`/campagnes?externalUser=${externalUserToken}`);
+
             // when
-            await fillIn('#campaign-code', campaign.code);
-            await clickByLabel(t('pages.fill-in-campaign-code.start'));
-            await clickByLabel('Je commence');
+            await fillIn(screen.getByRole('textbox', { name: t('pages.fill-in-campaign-code.label') }), campaign.code);
+            await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
+            await click(screen.getByRole('button', { name: 'Je commence' }));
 
             // then
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/rejoindre/mediacentre`);
           });
 
           test('should set by default firstName and lastName', async function (assert) {
+            // given
+            const externalUserToken =
+              'aaa.' +
+              btoa(
+                '{"first_name":"JeanPrescrit","last_name":"Campagne","saml_id":"SamlId","source":"external","iat":1545321469,"exp":4702193958}'
+              ) +
+              '.bbb';
+            const screen = await visit(`/campagnes?externalUser=${externalUserToken}`);
+
             // when
-            await fillIn('#campaign-code', campaign.code);
-            await clickByLabel(t('pages.fill-in-campaign-code.start'));
-            await clickByLabel('Je commence');
+            await fillIn(screen.getByRole('textbox', { name: t('pages.fill-in-campaign-code.label') }), campaign.code);
+            await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
+            await click(screen.getByRole('button', { name: 'Je commence' }));
 
             //then
-            assert.strictEqual(find('#firstName').value, 'JeanPrescrit');
-            assert.strictEqual(find('#lastName').value, 'Campagne');
+            assert.strictEqual(screen.getByRole('textbox', { name: 'Prénom' }).value, 'JeanPrescrit');
+            assert.strictEqual(screen.getByRole('textbox', { name: 'Nom' }).value, 'Campagne');
           });
 
           test('should begin campaign participation when reconciliation is done', async function (assert) {
             // given
-            await fillIn('#campaign-code', campaign.code);
-            await clickByLabel(t('pages.fill-in-campaign-code.start'));
-            await clickByLabel('Je commence');
+            const externalUserToken =
+              'aaa.' +
+              btoa(
+                '{"first_name":"JeanPrescrit","last_name":"Campagne","saml_id":"SamlId","source":"external","iat":1545321469,"exp":4702193958}'
+              ) +
+              '.bbb';
+            const screen = await visit(`/campagnes?externalUser=${externalUserToken}`);
+
+            // given
+            await fillIn(screen.getByRole('textbox', { name: t('pages.fill-in-campaign-code.label') }), campaign.code);
+            await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
+            await click(screen.getByRole('button', { name: 'Je commence' }));
 
             // when
-            await fillIn('#dayOfBirth', '10');
-            await fillIn('#monthOfBirth', '12');
-            await fillIn('#yearOfBirth', '2000');
-            await clickByLabel(this.intl.t('pages.join.button'));
+            await fillIn(screen.getByRole('textbox', { name: 'jour de naissance' }), '10');
+            await fillIn(screen.getByRole('textbox', { name: 'mois de naissance' }), '12');
+            await fillIn(screen.getByRole('textbox', { name: 'année de naissance' }), '2000');
+            await click(screen.getByRole('button', { name: "C'est parti !" }));
 
             //then
             assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
@@ -866,11 +918,14 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               server.create('sco-organization-learner', {
                 campaignCode: campaign.code,
               });
-              await visit('/campagnes');
+              const screen = await visit('/campagnes');
 
               // when
-              await fillIn('#campaign-code', campaign.code);
-              await clickByLabel(t('pages.fill-in-campaign-code.start'));
+              await fillIn(
+                screen.getByRole('textbox', { name: t('pages.fill-in-campaign-code.label') }),
+                campaign.code
+              );
+              await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
 
               // then
               assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/presentation`);
@@ -908,8 +963,6 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
                 }
               );
             });
-
-            await visit(`/campagnes?externalUser=${externalUserToken}`);
           });
 
           test('should begin campaign participation if GAR authentication method has been added', async function (assert) {
@@ -917,20 +970,22 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             server.create('sco-organization-learner', {
               campaignCode: campaign.code,
             });
-            await fillIn('#campaign-code', campaign.code);
-            await clickByLabel(t('pages.fill-in-campaign-code.start'));
-            await clickByLabel('Je commence');
 
-            await fillIn('#dayOfBirth', '10');
-            await fillIn('#monthOfBirth', '12');
-            await fillIn('#yearOfBirth', '2000');
-            await clickByLabel(this.intl.t('pages.join.button'));
-            await clickByLabel(this.intl.t('pages.join.sco.continue-with-pix'));
+            const screen = await visit(`/campagnes?externalUser=${externalUserToken}`);
+            await fillIn(screen.getByRole('textbox', { name: t('pages.fill-in-campaign-code.label') }), campaign.code);
+            await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
+            await click(screen.getByRole('button', { name: 'Je commence' }));
+
+            await fillIn(screen.getByRole('textbox', { name: 'jour de naissance' }), '10');
+            await fillIn(screen.getByRole('textbox', { name: 'mois de naissance' }), '12');
+            await fillIn(screen.getByRole('textbox', { name: 'année de naissance' }), '2000');
+            await click(screen.getByRole('button', { name: "C'est parti !" }));
+            await click(screen.getByRole('button', { name: 'Continuer avec mon compte Pix' }));
 
             // when
-            await fillIn('#login', prescritUser.email);
-            await fillIn('#password', prescritUser.password);
-            await click('#submit-connexion');
+            await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }), prescritUser.email);
+            await fillIn(screen.getByLabelText('Mot de passe'), prescritUser.password);
+            await click(screen.getByRole('button', { name: 'Se connecter' }));
 
             const session = currentSession();
             assert.strictEqual(session.data.authenticated.source, AUTHENTICATED_SOURCE_FROM_GAR);
@@ -941,7 +996,6 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
 
           test('should display an specific error message if GAR authentication method adding has failed with http statusCode 4xx', async function (assert) {
             // given
-            const expectedErrorMessage = 'Les données que vous avez soumises ne sont pas au bon format.';
             const errorsApi = new Response(
               400,
               {},
@@ -951,30 +1005,29 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             );
             server.post('/token-from-external-user', () => errorsApi);
 
-            await fillIn('#campaign-code', campaign.code);
-            await clickByLabel(t('pages.fill-in-campaign-code.start'));
-            await clickByLabel('Je commence');
+            const screen = await visit(`/campagnes?externalUser=${externalUserToken}`);
+            await fillIn(screen.getByRole('textbox', { name: t('pages.fill-in-campaign-code.label') }), campaign.code);
+            await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
+            await click(screen.getByRole('button', { name: 'Je commence' }));
 
-            await fillIn('#dayOfBirth', '10');
-            await fillIn('#monthOfBirth', '12');
-            await fillIn('#yearOfBirth', '2000');
-            await clickByLabel(this.intl.t('pages.join.button'));
-            await clickByLabel(this.intl.t('pages.join.sco.continue-with-pix'));
+            await fillIn(screen.getByRole('textbox', { name: 'jour de naissance' }), '10');
+            await fillIn(screen.getByRole('textbox', { name: 'mois de naissance' }), '12');
+            await fillIn(screen.getByRole('textbox', { name: 'année de naissance' }), '2000');
+            await click(screen.getByRole('button', { name: "C'est parti !" }));
+            await click(screen.getByRole('button', { name: 'Continuer avec mon compte Pix' }));
 
             // when
-            await fillIn('#login', prescritUser.email);
-            await fillIn('#password', prescritUser.password);
-            await click('#submit-connexion');
+            await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }), prescritUser.email);
+            await fillIn(screen.getByLabelText('Mot de passe'), prescritUser.password);
+            await click(screen.getByRole('button', { name: 'Se connecter' }));
 
             // then
             assert.ok(currentURL().includes(`/campagnes/${campaign.code}/rejoindre/identification`));
-            assert.strictEqual(find('#update-form-error-message').textContent, expectedErrorMessage);
+            assert.dom(screen.getByText('Les données que vous avez soumises ne sont pas au bon format.')).exists();
           });
 
           test('should display an specific error message if GAR authentication method adding has failed due to wrong connected account', async function (assert) {
             // given
-            const expectedErrorMessage =
-              "L'adresse e-mail ou l'identifiant est incorrect. Pour continuer, vous devez vous connecter à votre compte qui est sous la forme : ";
             const expectedObfuscatedConnectionMethod = 't***@example.net';
             const errorsApi = new Response(
               409,
@@ -991,53 +1044,62 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
             );
             server.post('/token-from-external-user', () => errorsApi);
 
-            await fillIn('#campaign-code', campaign.code);
-            await clickByLabel(t('pages.fill-in-campaign-code.start'));
-            await clickByLabel('Je commence');
+            const screen = await visit(`/campagnes?externalUser=${externalUserToken}`);
+            await fillIn(screen.getByRole('textbox', { name: t('pages.fill-in-campaign-code.label') }), campaign.code);
+            await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
+            await click(screen.getByRole('button', { name: 'Je commence' }));
 
-            await fillIn('#dayOfBirth', '10');
-            await fillIn('#monthOfBirth', '12');
-            await fillIn('#yearOfBirth', '2000');
-            await clickByLabel(this.intl.t('pages.join.button'));
-            await clickByLabel(this.intl.t('pages.join.sco.continue-with-pix'));
+            await fillIn(screen.getByRole('textbox', { name: 'jour de naissance' }), '10');
+            await fillIn(screen.getByRole('textbox', { name: 'mois de naissance' }), '12');
+            await fillIn(screen.getByRole('textbox', { name: 'année de naissance' }), '2000');
+            await click(screen.getByRole('button', { name: "C'est parti !" }));
+            await click(screen.getByRole('button', { name: 'Continuer avec mon compte Pix' }));
 
             // when
-            await fillIn('#login', prescritUser.email);
-            await fillIn('#password', prescritUser.password);
-            await click('#submit-connexion');
+            await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }), prescritUser.email);
+            await fillIn(screen.getByLabelText('Mot de passe'), prescritUser.password);
+            await click(screen.getByRole('button', { name: 'Se connecter' }));
 
             // then
             assert.ok(currentURL().includes(`/campagnes/${campaign.code}/rejoindre/identification`));
-            assert.strictEqual(
-              find('#update-form-error-message').textContent,
-              expectedErrorMessage + expectedObfuscatedConnectionMethod
-            );
+            assert
+              .dom(
+                screen.getByText(
+                  "L'adresse e-mail ou l'identifiant est incorrect. Pour continuer, vous devez vous connecter à votre compte qui est sous la forme : t***@example.net"
+                )
+              )
+              .exists();
           });
 
           test('should display the default error message if GAR authentication method adding has failed with others http statusCode', async function (assert) {
             // given
-            const expectedErrorMessage =
-              'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.';
             server.post('/token-from-external-user', () => new Response(500));
 
-            await fillIn('#campaign-code', campaign.code);
-            await clickByLabel(t('pages.fill-in-campaign-code.start'));
-            await clickByLabel('Je commence');
+            const screen = await visit(`/campagnes?externalUser=${externalUserToken}`);
+            await fillIn(screen.getByRole('textbox', { name: t('pages.fill-in-campaign-code.label') }), campaign.code);
+            await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
+            await click(screen.getByRole('button', { name: 'Je commence' }));
 
-            await fillIn('#dayOfBirth', '10');
-            await fillIn('#monthOfBirth', '12');
-            await fillIn('#yearOfBirth', '2000');
-            await clickByLabel(this.intl.t('pages.join.button'));
-            await clickByLabel(this.intl.t('pages.join.sco.continue-with-pix'));
+            await fillIn(screen.getByRole('textbox', { name: 'jour de naissance' }), '10');
+            await fillIn(screen.getByRole('textbox', { name: 'mois de naissance' }), '12');
+            await fillIn(screen.getByRole('textbox', { name: 'année de naissance' }), '2000');
+            await click(screen.getByRole('button', { name: "C'est parti !" }));
+            await click(screen.getByRole('button', { name: 'Continuer avec mon compte Pix' }));
 
             // when
-            await fillIn('#login', prescritUser.email);
-            await fillIn('#password', prescritUser.password);
-            await click('#submit-connexion');
+            await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }), prescritUser.email);
+            await fillIn(screen.getByLabelText('Mot de passe'), prescritUser.password);
+            await click(screen.getByRole('button', { name: 'Se connecter' }));
 
             // then
             assert.ok(currentURL().includes(`/campagnes/${campaign.code}/rejoindre/identification`));
-            assert.strictEqual(find('#update-form-error-message').textContent, expectedErrorMessage);
+            assert
+              .dom(
+                screen.getByText(
+                  'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.'
+                )
+              )
+              .exists();
           });
 
           module('When user should change password', function () {
@@ -1072,25 +1134,39 @@ module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
               });
 
               // when
-              await fillIn('#campaign-code', campaign.code);
-              await clickByLabel(t('pages.fill-in-campaign-code.start'));
-              await clickByLabel('Je commence');
+              const screen = await visit(`/campagnes?externalUser=${externalUserToken}`);
+              await fillIn(
+                screen.getByRole('textbox', { name: t('pages.fill-in-campaign-code.label') }),
+                campaign.code
+              );
+              await click(screen.getByRole('button', { name: 'Accéder au parcours' }));
+              await click(screen.getByRole('button', { name: 'Je commence' }));
 
-              await fillIn('#dayOfBirth', '10');
-              await fillIn('#monthOfBirth', '12');
-              await fillIn('#yearOfBirth', '2000');
-              await clickByLabel(this.intl.t('pages.join.button'));
-              await clickByLabel(this.intl.t('pages.join.sco.continue-with-pix'));
-              await fillIn('#login', userShouldChangePassword.username);
-              await fillIn('#password', userShouldChangePassword.password);
-              await click('#submit-connexion');
+              await fillIn(screen.getByRole('textbox', { name: 'jour de naissance' }), '10');
+              await fillIn(screen.getByRole('textbox', { name: 'mois de naissance' }), '12');
+              await fillIn(screen.getByRole('textbox', { name: 'année de naissance' }), '2000');
+              await click(screen.getByRole('button', { name: "C'est parti !" }));
+              await click(screen.getByRole('button', { name: 'Continuer avec mon compte Pix' }));
+              await fillIn(
+                screen.getByRole('textbox', { name: 'Adresse e-mail ou identifiant' }),
+                userShouldChangePassword.username
+              );
+
+              await fillIn(screen.getByLabelText('Mot de passe'), userShouldChangePassword.password);
+              await click(screen.getByRole('button', { name: 'Se connecter' }));
 
               // then
               assert.strictEqual(currentURL(), '/mise-a-jour-mot-de-passe-expire');
 
               // when
-              await fillIn('#password', 'newPass12345!');
-              await clickByLabel(this.intl.t('pages.update-expired-password.button'));
+              await fillIn(
+                screen.getByLabelText(
+                  'Mot de passe (8 caractères minimum, dont une majuscule, une minuscule et un chiffre)',
+                  { exact: false }
+                ),
+                'newPass12345!'
+              );
+              await click(screen.getByRole('button', { name: 'Réinitialiser' }));
 
               // then
               assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);

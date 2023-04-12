@@ -1,67 +1,60 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { find, render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | assessment-banner', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('renders', async function (assert) {
-    await render(hbs`{{assessment-banner}}`);
-    assert.dom('.assessment-banner').exists();
-  });
-
   test('should not display home link button if not requested', async function (assert) {
-    this.set('assessmentTitle', 'My assessment');
-    await render(hbs`{{assessment-banner title=this.assessmentTitle}}`);
-    assert.dom('.assessment-banner__home-link').doesNotExist();
+    // given & when
+    const screen = await render(hbs`<AssessmentBanner @displayHomeLink={{false}} />`);
+
+    // then
+    assert.dom(screen.queryByRole('link', { name: 'Quitter' })).doesNotExist();
   });
 
   test('should display home link button if requested', async function (assert) {
-    this.set('assessmentTitle', 'My assessment');
-    await render(hbs`{{assessment-banner title=this.assessmentTitle displayHomeLink=true}}`);
-    assert.dom('.assessment-banner__home-link').exists();
+    // given & when
+    const screen = await render(hbs`<AssessmentBanner @displayHomeLink={{true}} />`);
+
+    // then
+    assert.dom(screen.getByRole('link', { name: 'Quitter' })).exists();
   });
 
-  module('When assessment has a title', function (hooks) {
-    hooks.beforeEach(async function () {
-      this.set('assessmentTitle', 'My assessment');
-      await render(hbs`{{assessment-banner title=this.assessmentTitle}}`);
-    });
+  module('When assessment has a title', function () {
+    test('should render the banner with accessible title information', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const assessment = store.createRecord('assessment', {
+        title: 'Assessment title',
+      });
 
-    test('should render the banner with accessible title information', function (assert) {
-      const title = find('.assessment-banner__title');
-      assert.ok(title);
-      assert.strictEqual(title.childNodes.length, 2);
-      const a11yText = title.firstChild.textContent;
-      assert.strictEqual(a11yText, "Épreuve pour l'évaluation : ");
-    });
+      this.set('title', assessment.title);
 
-    test('should render the banner with a title', function (assert) {
-      const title = find('.assessment-banner__title');
-      assert.ok(title);
-      assert.strictEqual(title.childNodes.length, 2);
-      const assessmentName = title.lastChild.textContent;
-      assert.strictEqual(assessmentName, 'My assessment');
-    });
+      // when
+      const screen = await render(hbs`<AssessmentBanner @title={{this.title}} />`);
 
-    test('should render the banner with a splitter', function (assert) {
-      assert.dom('.assessment-banner__splitter').exists();
+      // then
+      assert.dom(screen.getByRole('heading', { name: "Épreuve pour l'évaluation : Assessment title" })).exists();
     });
   });
 
-  module("When assessment doesn't have a title", function (hooks) {
-    hooks.beforeEach(async function () {
-      this.set('assessmentTitle', null);
-      await render(hbs`{{assessment-banner title=this.assessmentTitle}}`);
-    });
+  module("When assessment doesn't have a title", function () {
+    test('should not render the banner with title', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const assessment = store.createRecord('assessment', {
+        title: null,
+      });
 
-    test('should not render the banner with a title', function (assert) {
-      assert.dom('.assessment-banner__title').doesNotExist();
-    });
+      this.set('title', assessment.title);
 
-    test('should not render the banner with a splitter', function (assert) {
-      assert.dom('.assessment-banner__splitter').doesNotExist();
+      // when
+      const screen = await render(hbs`<AssessmentBanner @title={{this.title}} />`);
+
+      // then
+      assert.dom(screen.queryByRole('heading', { name: "Épreuve pour l'évaluation :" })).doesNotExist();
     });
   });
 });
