@@ -27,25 +27,24 @@ describe('Integration | Repository | learning-content', function () {
           {
             id: 'recArea1',
             name: 'area1_name',
-            titleFr: 'area1_TitleFr',
-            titleEn: 'area1_TitleEn',
+            title_i18n: { fr: 'domaine1_TitreFr', en: 'area1_TitleEn' },
             color: 'area1_color',
             code: 'area1_code',
             frameworkId: 'recFramework1',
             competences: [
               {
                 id: 'recCompetence1',
-                nameFr: 'competence1_nameFr',
-                nameEn: 'competence1_nameEn',
+                name_i18n: { fr: 'competence1_nomFr', en: 'competence1_nameEn' },
                 index: 1,
-                descriptionFr: 'competence1_descriptionFr',
-                descriptionEn: 'competence1_descriptionEn',
+                description_i18n: { fr: 'competence1_descriptionFr', en: 'competence1_descriptionEn' },
                 origin: 'Pix',
                 thematics: [
                   {
                     id: 'recThematic1',
-                    nameFr: 'thematic1_nameFr',
-                    nameEn: 'thematic1_nameEn',
+                    name_i18n: {
+                      fr: 'thematique1_nomFr',
+                      en: 'thematic1_nameEn',
+                    },
                     index: '10',
                     tubes: [
                       {
@@ -53,10 +52,11 @@ describe('Integration | Repository | learning-content', function () {
                         name: '@tube1_name',
                         title: 'tube1_title',
                         description: 'tube1_description',
-                        practicalTitleFr: 'tube1_practicalTitleFr',
-                        practicalTitleEn: 'tube1_practicalTitleEn',
-                        practicalDescriptionFr: 'tube1_practicalDescriptionFr',
-                        practicalDescriptionEn: 'tube1_practicalDescriptionEn',
+                        practicalTitle_i18n: { fr: 'tube1_practicalTitleFr', en: 'tube1_practicalTitleEn' },
+                        practicalDescription_i18n: {
+                          fr: 'tube1_practicalDescriptionFr',
+                          en: 'tube1_practicalDescriptionEn',
+                        },
                         isMobileCompliant: true,
                         isTabletCompliant: false,
                         skills: [
@@ -76,17 +76,17 @@ describe('Integration | Repository | learning-content', function () {
               },
               {
                 id: 'recCompetence2',
-                nameFr: 'competence2_nameFr',
-                nameEn: 'competence2_nameEn',
+                name_i18n: { fr: 'competence2_nomFr', en: 'competence2_nameEn' },
                 index: 2,
-                descriptionFr: 'competence2_descriptionFr',
-                descriptionEn: 'competence2_descriptionEn',
+                description_i18n: { fr: 'competence2_descriptionFr', en: 'competence2_descriptionEn' },
                 origin: 'Pix',
                 thematics: [
                   {
                     id: 'recThematic2',
-                    nameFr: 'thematic2_nameFr',
-                    nameEn: 'thematic2_nameEn',
+                    name_i18n: {
+                      fr: 'thematique2_nomFr',
+                      en: 'thematic2_nameEn',
+                    },
                     index: '20',
                     tubes: [
                       {
@@ -94,10 +94,11 @@ describe('Integration | Repository | learning-content', function () {
                         name: '@tube2_name',
                         title: '@tube2_title',
                         description: '@tube2_description',
-                        practicalTitleFr: 'tube2_practicalTitleFr',
-                        practicalTitleEn: 'tube2_practicalTitleEn',
-                        practicalDescriptionFr: 'tube2_practicalDescriptionFr',
-                        practicalDescriptionEn: 'tube2_practicalDescriptionEn',
+                        practicalTitle_i18n: { fr: 'tube2_practicalTitleFr', en: 'tube2_practicalTitleEn' },
+                        practicalDescription_i18n: {
+                          fr: 'tube2_practicalDescriptionFr',
+                          en: 'tube2_practicalDescriptionEn',
+                        },
                         isMobileCompliant: false,
                         isTabletCompliant: true,
                         skills: [
@@ -128,10 +129,11 @@ describe('Integration | Repository | learning-content', function () {
                         name: '@tube3_name',
                         title: '@tube3_title',
                         description: '@tube3_description',
-                        practicalTitleFr: 'tube3_practicalTitleFr',
-                        practicalTitleEn: 'tube3_practicalTitleEn',
-                        practicalDescriptionFr: 'tube3_practicalDescriptionFr',
-                        practicalDescriptionEn: 'tube3_practicalDescriptionEn',
+                        practicalTitle_i18n: { fr: 'tube3_practicalTitleFr', en: 'tube3_practicalTitleEn' },
+                        practicalDescription_i18n: {
+                          fr: 'tube3_practicalDescriptionFr',
+                          en: 'tube3_practicalDescriptionEn',
+                        },
                         isMobileCompliant: true,
                         isTabletCompliant: true,
                         skills: [
@@ -168,25 +170,24 @@ describe('Integration | Repository | learning-content', function () {
           {
             id: 'recArea2',
             name: 'area2_name',
-            titleFr: 'area2_TitleFr',
-            titleEn: 'area2_TitleEn',
+            title_i18n: { fr: 'domaine2_TitreFr', en: 'area2_TitleEn' },
             color: 'area2_color',
             code: 'area2_code',
             frameworkId: 'recFramework2',
             competences: [
               {
                 id: 'recCompetence3',
-                nameFr: 'competence3_nameFr',
-                nameEn: 'competence3_nameEn',
+                name_i18n: { fr: 'competence3_nomFr', en: 'competence3_nameEn' },
                 index: 1,
-                descriptionFr: 'competence3_descriptionFr',
-                descriptionEn: 'competence3_descriptionEn',
+                description_i18n: { fr: 'competence3_descriptionFr', en: 'competence3_descriptionEn' },
                 origin: 'Pix',
                 thematics: [
                   {
                     id: 'recThematic3',
-                    nameFr: 'thematic3_nameFr',
-                    nameEn: 'thematic3_nameEn',
+                    name_i18n: {
+                      fr: 'thematique3_nomFr',
+                      en: 'thematic3_nameEn',
+                    },
                     index: '30',
                     tubes: [
                       {
@@ -194,10 +195,11 @@ describe('Integration | Repository | learning-content', function () {
                         name: '@tube4_name',
                         title: 'tube4_title',
                         description: 'tube4_description',
-                        practicalTitleFr: 'tube4_practicalTitleFr',
-                        practicalTitleEn: 'tube4_practicalTitleEn',
-                        practicalDescriptionFr: 'tube4_practicalDescriptionFr',
-                        practicalDescriptionEn: 'tube4_practicalDescriptionEn',
+                        practicalTitle_i18n: { fr: 'tube4_practicalTitleFr', en: 'tube4_practicalTitleEn' },
+                        practicalDescription_i18n: {
+                          fr: 'tube4_practicalDescriptionFr',
+                          en: 'tube4_practicalDescriptionEn',
+                        },
                         isMobileCompliant: false,
                         isTabletCompliant: false,
                         skills: [

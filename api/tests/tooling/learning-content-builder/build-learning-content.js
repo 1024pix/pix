@@ -73,14 +73,8 @@ const buildLearningContent = function (learningContent) {
               name: tube.name,
               description: tube.description,
               title: tube.title,
-              practicalTitle_i18n: {
-                fr: tube.practicalTitleFr || tube.practicalTitle,
-                en: tube.practicalTitleEn || tube.practicalTitle,
-              },
-              practicalDescription_i18n: {
-                fr: tube.practicalDescriptionFr || tube.practicalDescription,
-                en: tube.practicalDescriptionEn || tube.practicalDescription,
-              },
+              practicalTitle_i18n: tube.practicalTitle_i18n,
+              practicalDescription_i18n: tube.practicalDescription_i18n,
               isMobileCompliant: tube.isMobileCompliant,
               isTabletCompliant: tube.isTabletCompliant,
               competenceId: competence.id,
@@ -97,10 +91,7 @@ const buildLearningContent = function (learningContent) {
             allTubes.push(tubes);
             return {
               id: thematic.id,
-              name_i18n: {
-                fr: thematic.nameFr || thematic.name,
-                en: thematic.nameEn || thematic.name,
-              },
+              name_i18n: thematic.name_i18n,
               index: thematic.index,
               tubeIds: tubes.map((tube) => tube.id),
               competenceId: competence.id,
@@ -113,14 +104,8 @@ const buildLearningContent = function (learningContent) {
           areaId: area.id,
           origin: competence.origin || 'Pix',
           index: competence.index,
-          name_i18n: {
-            fr: competence.nameFr || competence.name,
-            en: competence.nameEn || competence.name,
-          },
-          description_i18n: {
-            fr: competence.descriptionFr || competence.description,
-            en: competence.descriptionEn || competence.description,
-          },
+          name_i18n: competence.name_i18n,
+          description_i18n: competence.description_i18n,
           thematicIds: thematics.map(({ id }) => id),
         };
       });
@@ -142,10 +127,7 @@ const buildLearningContent = function (learningContent) {
         id: area.id,
         code: area.code,
         name: area.name,
-        title_i18n: {
-          fr: area.titleFr,
-          en: area.titleEn,
-        },
+        title_i18n: area.title_i18n,
         color: area.color,
         frameworkId: framework.id,
         competenceIds: competences.map((competence) => competence.id),

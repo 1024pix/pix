@@ -70,18 +70,34 @@ describe('Integration | Repository | training-trigger-repository', function () {
         areas: [
           {
             id: 'recAreaA',
-            titleFr: 'area1_Title',
+            title_i18n: { fr: 'domaine1_TitreFr' },
             color: 'someColor',
             competences: [
               {
                 id: 'recCompA',
-                name: 'Mener une recherche et une veille d’information',
+                name_i18n: { fr: 'Mener une recherche et une veille d’information' },
                 index: '1.1',
                 thematics: [
                   {
                     id: 'recThemA',
-                    name: 'thematic1_Name',
-                    tubes: [tube, tube1, tube2],
+                    name_i18n: { fr: 'thematique1_Nom' },
+                    tubes: [
+                      {
+                        ...tube,
+                        practicalTitle_i18n: { fr: tube.practicalTitle },
+                        practicalDescription_i18n: { fr: tube.practicalDescription },
+                      },
+                      {
+                        ...tube1,
+                        practicalTitle_i18n: { fr: tube1.practicalTitle },
+                        practicalDescription_i18n: { fr: tube1.practicalDescription },
+                      },
+                      {
+                        ...tube2,
+                        practicalTitle_i18n: { fr: tube2.practicalTitle },
+                        practicalDescription_i18n: { fr: tube2.practicalDescription },
+                      },
+                    ],
                   },
                 ],
               },

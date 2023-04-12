@@ -295,24 +295,24 @@ function mockLearningContentCompetences() {
     {
       id: 'rec99',
       code: '2',
-      titleFr: 'Communication et collaboration',
+      title_i18n: { fr: 'Communication et collaboration' },
       competences: [
         {
           id: 'rec50',
           index: '2.1',
-          name: 'Interagir',
+          name_i18n: { fr: 'Interagir' },
           tubes: [],
         },
         {
           id: 'rec51',
           index: '2.2',
-          name: 'Partager et publier',
+          name_i18n: { fr: 'Partager et publier' },
           tubes: [],
         },
         {
           id: 'rec52',
           index: '2.3',
-          name: 'Collaborer',
+          name_i18n: { fr: 'Collaborer' },
           tubes: [],
         },
       ],
@@ -320,18 +320,18 @@ function mockLearningContentCompetences() {
     {
       id: 'rec98',
       code: '3',
-      titleFr: 'Création de contenu',
+      title_i18n: { fr: 'Création de contenu' },
       competences: [
         {
           id: 'rec53',
           index: '3.1',
-          name: 'Développer des documents textuels',
+          name_i18n: { fr: 'Développer des documents textuels' },
           tubes: [],
         },
         {
           id: 'rec54',
           index: '3.2',
-          name: 'Développer des documents multimedia',
+          name_i18n: { fr: 'Développer des documents multimedia' },
           tubes: [],
         },
       ],
@@ -339,18 +339,18 @@ function mockLearningContentCompetences() {
     {
       id: 'rec97',
       code: '1',
-      titleFr: 'Information et données',
+      title_i18n: { fr: 'Information et données' },
       competences: [
         {
           id: 'rec55',
           index: '1.1',
-          name: 'Mener une recherche et une veille d’information',
+          name_i18n: { fr: 'Mener une recherche et une veille d’information' },
           tubes: [],
         },
         {
           id: 'rec56',
           index: '1.2',
-          name: 'Gérer des données',
+          name_i18n: { fr: 'Gérer des données' },
           tubes: [],
         },
       ],
