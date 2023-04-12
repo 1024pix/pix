@@ -6,7 +6,7 @@ module.exports = {
   /**
    * @see https://tools.ietf.org/html/rfc6749#section-4.3
    */
-  async createToken(request, h) {
+  async createToken(request, h, dependencies = { tokenService }) {
     let accessToken, refreshToken;
     let expirationDelaySeconds;
 
@@ -38,7 +38,7 @@ module.exports = {
       .response({
         token_type: 'bearer',
         access_token: accessToken,
-        user_id: tokenService.extractUserId(accessToken),
+        user_id: dependencies.tokenService.extractUserId(accessToken),
         refresh_token: refreshToken,
         expires_in: expirationDelaySeconds,
       })

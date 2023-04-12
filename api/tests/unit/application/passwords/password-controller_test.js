@@ -1,8 +1,5 @@
 const { sinon, expect, hFake } = require('../../../test-helper');
 
-const passwordResetSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/password-reset-serializer');
-const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
-
 const usecases = require('../../../../lib/domain/usecases/index.js');
 
 const passwordController = require('../../../../lib/application/passwords/password-controller');
@@ -32,17 +29,26 @@ describe('Unit | Controller | PasswordController', function () {
       },
     };
 
+    let dependencies;
+
     beforeEach(function () {
       sinon.stub(usecases, 'createPasswordResetDemand');
-      sinon.stub(passwordResetSerializer, 'serialize');
+
+      const passwordResetSerializerStub = {
+        serialize: sinon.stub(),
+      };
 
       usecases.createPasswordResetDemand.resolves(resetPasswordDemand);
-      passwordResetSerializer.serialize.returns();
+      passwordResetSerializerStub.serialize.returns();
+
+      dependencies = {
+        passwordResetSerializer: passwordResetSerializerStub,
+      };
     });
 
     it('should reply with serialized password reset demand when all went well', async function () {
       // when
-      const response = await passwordController.createResetDemand(request, hFake);
+      const response = await passwordController.createResetDemand(request, hFake, dependencies);
 
       // then
       expect(response.statusCode).to.equal(201);
@@ -50,7 +56,7 @@ describe('Unit | Controller | PasswordController', function () {
         email,
         locale,
       });
-      expect(passwordResetSerializer.serialize).to.have.been.calledWith(resetPasswordDemand.attributes);
+      expect(dependencies.passwordResetSerializer.serialize).to.have.been.calledWith(resetPasswordDemand.attributes);
     });
   });
 
@@ -61,21 +67,26 @@ describe('Unit | Controller | PasswordController', function () {
     const request = {
       params: { temporaryKey },
     };
+    let dependencies;
 
     beforeEach(function () {
       sinon.stub(usecases, 'getUserByResetPasswordDemand');
-      sinon.stub(userSerializer, 'serialize');
-
+      const userSerializerStub = {
+        serialize: sinon.stub(),
+      };
+      dependencies = {
+        userSerializer: userSerializerStub,
+      };
       usecases.getUserByResetPasswordDemand.resolves({ email });
     });
 
     it('should return serialized user', async function () {
       // when
-      await passwordController.checkResetDemand(request, hFake);
+      await passwordController.checkResetDemand(request, hFake, dependencies);
 
       // then
       expect(usecases.getUserByResetPasswordDemand).to.have.been.calledWith({ temporaryKey });
-      expect(userSerializer.serialize).to.have.been.calledWith({ email });
+      expect(dependencies.userSerializer.serialize).to.have.been.calledWith({ email });
     });
   });
 
