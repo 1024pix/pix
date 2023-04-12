@@ -644,6 +644,7 @@ describe('Unit | Service | sessions import validation Service', function () {
         // then
         expect(result.certificationCandidateErrors).to.deep.equal([
           { code: 'CPF_INCORRECT', line: 1, isBlocking: true },
+          { code: 'CPF_INCORRECT 2', line: 1, isBlocking: true },
         ]);
       });
     });
