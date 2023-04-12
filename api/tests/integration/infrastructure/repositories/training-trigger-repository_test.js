@@ -80,7 +80,7 @@ describe('Integration | Repository | training-trigger-repository', function () {
                 thematics: [
                   {
                     id: 'recThemA',
-                    name: 'thematic1_Name',
+                    name_i18n: { fr: 'thematique1_Nom' },
                     tubes: [tube, tube1, tube2],
                   },
                 ],

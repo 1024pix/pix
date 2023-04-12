@@ -3,6 +3,7 @@ const { areaDatasource } = require('../../../lib/infrastructure/datasources/lear
 const {
   competenceDatasource,
 } = require('../../../lib/infrastructure/datasources/learning-content/competence-datasource');
+const { thematicDatasource } = require('../../../lib/infrastructure/datasources/learning-content/thematic-datasource');
 const { tubeDatasource } = require('../../../lib/infrastructure/datasources/learning-content/tube-datasource');
 const { skillDatasource } = require('../../../lib/infrastructure/datasources/learning-content/skill-datasource');
 const {
@@ -152,6 +153,93 @@ describe('Integration | buildLearningContent', function () {
     expect(competences[3].description_i18n.fr).to.deep.equal('domaine2_competence2_descriptionFr');
     expect(competences[3].description_i18n.en).to.deep.equal('area2_competence2_descriptionEn');
     expect(competences[3].origin).to.deep.equal('Pix+');
+  });
+
+  it('builds thematics', async function () {
+    // given
+    const learningContent = [
+      {
+        id: 'recFramework1',
+        name: 'monFramework 1',
+        areas: [
+          {
+            id: 'recArea1',
+            competences: [
+              {
+                id: 'recArea1_Competence1',
+                thematics: [
+                  {
+                    id: 'recThematic1',
+                    name_i18n: { fr: 'thematique1_nomFr', en: 'thematic1_nameEn' },
+                  },
+                ],
+              },
+              {
+                id: 'recArea1_Competence2',
+                thematics: [
+                  {
+                    id: 'recThematic2',
+                    name_i18n: { fr: 'thematique2_nomFr', en: 'thematic2_nameEn' },
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: 'recArea2',
+            competences: [
+              {
+                id: 'recArea2_Competence1',
+                thematics: [
+                  {
+                    id: 'recArea2_Thematic1',
+                    name_i18n: { fr: 'domaine2_thematique1_nomFr', en: 'area2_thematic1_nameEn' },
+                  },
+                ],
+                origin: 'Pix+',
+              },
+              {
+                id: 'recArea2_Competence2',
+                thematics: [
+                  {
+                    id: 'recArea2_Thematic2',
+                    name_i18n: { fr: 'domaine2_thematique2_nomFr', en: 'area2_thematic2_nameEn' },
+                  },
+                ],
+                origin: 'Pix+',
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    // when
+    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    mockLearningContent(learningContentObjects);
+
+    // then
+    const areas = await areaDatasource.list();
+    const competences = await competenceDatasource.list();
+    const thematics = await thematicDatasource.list();
+    expect(areas[0].competenceIds).to.deep.equal(['recArea1_Competence1', 'recArea1_Competence2']);
+    expect(areas[1].competenceIds).to.deep.equal(['recArea2_Competence1', 'recArea2_Competence2']);
+    expect(competences[0].id).to.deep.equal('recArea1_Competence1');
+    expect(competences[1].id).to.deep.equal('recArea1_Competence2');
+    expect(competences[2].id).to.deep.equal('recArea2_Competence1');
+    expect(competences[3].id).to.deep.equal('recArea2_Competence2');
+    expect(thematics[0].id).to.deep.equal('recThematic1');
+    expect(thematics[0].name_i18n.fr).to.deep.equal('thematique1_nomFr');
+    expect(thematics[0].name_i18n.en).to.deep.equal('thematic1_nameEn');
+    expect(thematics[1].id).to.deep.equal('recThematic2');
+    expect(thematics[1].name_i18n.fr).to.deep.equal('thematique2_nomFr');
+    expect(thematics[1].name_i18n.en).to.deep.equal('thematic2_nameEn');
+    expect(thematics[2].id).to.deep.equal('recArea2_Thematic1');
+    expect(thematics[2].name_i18n.fr).to.deep.equal('domaine2_thematique1_nomFr');
+    expect(thematics[2].name_i18n.en).to.deep.equal('area2_thematic1_nameEn');
+    expect(thematics[3].id).to.deep.equal('recArea2_Thematic2');
+    expect(thematics[3].name_i18n.fr).to.deep.equal('domaine2_thematique2_nomFr');
+    expect(thematics[3].name_i18n.en).to.deep.equal('area2_thematic2_nameEn');
   });
 
   it('builds tubes', async function () {

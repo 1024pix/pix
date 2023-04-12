@@ -44,7 +44,7 @@ describe('Acceptance | Controller | training-controller', function () {
                   thematics: [
                     {
                       id: thematicId,
-                      name: 'thematic1_Name',
+                      name_i18n: { fr: 'thematique1_Nom' },
                       tubes: [
                         {
                           id: tubeId,
@@ -351,7 +351,7 @@ describe('Acceptance | Controller | training-controller', function () {
                   thematics: [
                     {
                       id: thematicId,
-                      name: 'thematic1_Name',
+                      name_i18n: { fr: 'thematique1_Nom' },
                       tubes: [
                         {
                           id: tubeId,
