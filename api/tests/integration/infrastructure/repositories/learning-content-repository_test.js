@@ -41,8 +41,10 @@ describe('Integration | Repository | learning-content', function () {
                 thematics: [
                   {
                     id: 'recThematic1',
-                    nameFr: 'thematic1_nameFr',
-                    nameEn: 'thematic1_nameEn',
+                    name_i18n: {
+                      fr: 'thematique1_nomFr',
+                      en: 'thematic1_nameEn',
+                    },
                     index: '10',
                     tubes: [
                       {
@@ -80,8 +82,10 @@ describe('Integration | Repository | learning-content', function () {
                 thematics: [
                   {
                     id: 'recThematic2',
-                    nameFr: 'thematic2_nameFr',
-                    nameEn: 'thematic2_nameEn',
+                    name_i18n: {
+                      fr: 'thematique2_nomFr',
+                      en: 'thematic2_nameEn',
+                    },
                     index: '20',
                     tubes: [
                       {
@@ -177,8 +181,10 @@ describe('Integration | Repository | learning-content', function () {
                 thematics: [
                   {
                     id: 'recThematic3',
-                    nameFr: 'thematic3_nameFr',
-                    nameEn: 'thematic3_nameEn',
+                    name_i18n: {
+                      fr: 'thematique3_nomFr',
+                      en: 'thematic3_nameEn',
+                    },
                     index: '30',
                     tubes: [
                       {

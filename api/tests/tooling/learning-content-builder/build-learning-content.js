@@ -97,10 +97,7 @@ const buildLearningContent = function (learningContent) {
             allTubes.push(tubes);
             return {
               id: thematic.id,
-              name_i18n: {
-                fr: thematic.nameFr || thematic.name,
-                en: thematic.nameEn || thematic.name,
-              },
+              name_i18n: thematic.name_i18n,
               index: thematic.index,
               tubeIds: tubes.map((tube) => tube.id),
               competenceId: competence.id,
