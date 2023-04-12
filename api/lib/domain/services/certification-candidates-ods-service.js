@@ -159,7 +159,9 @@ function _handleFieldValidationError(err, tableHeaderTargetPropertyMap, line) {
 
 function _handleBirthInformationValidationError(cpfBirthInformation, line) {
   line = parseInt(line) + 1;
-  throw new CertificationCandidatesImportError({ message: `Ligne ${line} : ${cpfBirthInformation.message}` });
+  throw new CertificationCandidatesImportError({
+    message: `Ligne ${line} : ${cpfBirthInformation.firstErrorMessage}`,
+  });
 }
 
 function _handleVersionError() {
