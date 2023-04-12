@@ -445,6 +445,70 @@ module('Acceptance | Session Import', function (hooks) {
             assert.dom(screen.getByText('Le modèle a été altéré, merci de le télécharger à nouveau')).exists();
           });
         });
+
+        module('when the file is empty', function () {
+          test('it should display an error notification', async function (assert) {
+            //given
+            const blob = new Blob(['foo']);
+            const file = new File([blob], 'fichier.csv', { type: 'text/csv' });
+            this.server.post(
+              '/certification-centers/:id/sessions/validate-for-mass-import',
+              () =>
+                new Response(
+                  422,
+                  { some: 'header' },
+                  {
+                    errors: [
+                      {
+                        code: 'CSV_DATA_REQUIRED',
+                      },
+                    ],
+                  }
+                )
+            );
+
+            // when
+            screen = await visit('/sessions/import');
+            const input = await screen.findByLabelText('Importer le modèle complété');
+            await triggerEvent(input, 'change', { files: [file] });
+            const importButton = screen.getByRole('button', { name: 'Continuer' });
+            await click(importButton);
+
+            // then
+            assert
+              .dom(
+                screen.getByText(
+                  "Le modèle importé n'a pas été rempli, merci de le compléter avant de l'importer à nouveau"
+                )
+              )
+              .exists();
+          });
+        });
+
+        module('when sessions validation fails with a 500 http error', function () {
+          test('it should display an error notification with the default error message', async function (assert) {
+            //given
+            const blob = new Blob(['foo']);
+            const file = new File([blob], 'fichier.csv', { type: 'text/csv' });
+            this.server.post('/certification-centers/:id/sessions/validate-for-mass-import', () => new Response(500));
+
+            // when
+            screen = await visit('/sessions/import');
+            const input = await screen.findByLabelText('Importer le modèle complété');
+            await triggerEvent(input, 'change', { files: [file] });
+            const importButton = screen.getByRole('button', { name: 'Continuer' });
+            await click(importButton);
+
+            // then
+            assert
+              .dom(
+                screen.getByText(
+                  'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.'
+                )
+              )
+              .exists();
+          });
+        });
       });
     });
   });

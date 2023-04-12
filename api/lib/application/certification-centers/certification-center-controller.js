@@ -196,7 +196,7 @@ module.exports = {
 
     const parsedCsvData = await csvHelpers.parseCsvWithHeader(request.payload.path);
     if (parsedCsvData.length === 0) {
-      throw new UnprocessableEntityError('No session data in csv');
+      throw new UnprocessableEntityError('No session data in csv', 'CSV_DATA_REQUIRED');
     }
     const sessions = csvSerializer.deserializeForSessionsImport(parsedCsvData);
     const sessionMassImportReport = await usecases.validateSessions({

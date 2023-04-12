@@ -561,7 +561,8 @@ describe('Unit | Controller | certifications-center-controller', function () {
 
         // then
         expect(error).to.be.instanceOf(UnprocessableEntityError);
-        expect(error.message).to.equal(`No session data in csv`);
+        expect(error.message).to.equal('No session data in csv');
+        expect(error.code).to.equal('CSV_DATA_REQUIRED');
       });
     });
   });
