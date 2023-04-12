@@ -12,7 +12,9 @@
   </div>
   {{#if @candidateInformationChangeCategory.isChecked}}
     <div class="candidate-information-change-certification-issue-report-fields__details">
-      <label for="subcategory-for-category-candidate-information-change">Sélectionnez une sous-catégorie :</label>
+      <label for="subcategory-for-category-candidate-information-change">{{t
+          "pages.session-finalization.add-issue-modal.actions.select-subcategory"
+        }}</label>
       <PixSelect
         @id="subcategory-for-category-candidate-information-change"
         @options={{this.options}}
