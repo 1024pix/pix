@@ -17,10 +17,6 @@ export default class NewCertificationCandidateModal extends Component {
 
   @tracked isLoading = false;
 
-  focus(element) {
-    element.focus();
-  }
-
   get complementaryCertifications() {
     return this.currentUser.currentAllowedCertificationCenterAccess?.habilitations;
   }
@@ -28,6 +24,11 @@ export default class NewCertificationCandidateModal extends Component {
   get billingMenuPlaceholder() {
     const labelTranslation = this.intl.t('common.actions.choose');
     return `-- ${labelTranslation} --`;
+  }
+
+  @action closeModal() {
+    this.args.closeModal();
+    document.getElementById('new-certification-candidate-form').reset();
   }
 
   @action
@@ -78,8 +79,13 @@ export default class NewCertificationCandidateModal extends Component {
   async onFormSubmit(event) {
     event.preventDefault();
     this.isLoading = true;
+
     try {
-      await this.args.saveCandidate(this.args.candidateData);
+      const result = await this.args.saveCandidate(this.args.candidateData);
+
+      if (result) {
+        this._resetForm();
+      }
     } finally {
       this.isLoading = false;
     }
@@ -170,5 +176,11 @@ export default class NewCertificationCandidateModal extends Component {
   _getCountryName() {
     const country = this.args.countries.find((country) => country.code === this.selectedCountryInseeCode);
     return country.name;
+  }
+
+  _resetForm() {
+    document.getElementById('new-certification-candidate-form').reset();
+    this.selectedCountryInseeCode = FRANCE_INSEE_CODE;
+    this.selectedBirthGeoCodeOption = INSEE_CODE_OPTION;
   }
 }

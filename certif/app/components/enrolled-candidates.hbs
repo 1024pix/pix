@@ -172,15 +172,13 @@
   />
 {{/if}}
 
-{{#if this.showNewCertificationCandidateModal}}
-  <NewCertificationCandidateModal
-    @showModal={{this.showNewCertificationCandidateModal}}
-    @closeModal={{this.closeNewCertificationCandidateModal}}
-    @countries={{@countries}}
-    @saveCandidate={{this.addCertificationCandidate}}
-    @candidateData={{this.newCandidate}}
-    @updateCandidateData={{this.updateCertificationCandidateInStagingFieldFromEvent}}
-    @updateCandidateDataFromValue={{this.updateCertificationCandidateInStagingFieldFromValue}}
-    @shouldDisplayPaymentOptions={{@shouldDisplayPaymentOptions}}
-  />
-{{/if}}
+<NewCertificationCandidateModal
+  @showModal={{this.showNewCertificationCandidateModal}}
+  @closeModal={{this.closeNewCertificationCandidateModal}}
+  @countries={{@countries}}
+  @saveCandidate={{this.addCertificationCandidate}}
+  @candidateData={{this.newCandidate}}
+  @updateCandidateData={{this.updateCertificationCandidateInStagingFieldFromEvent}}
+  @updateCandidateDataFromValue={{this.updateCertificationCandidateInStagingFieldFromValue}}
+  @shouldDisplayPaymentOptions={{@shouldDisplayPaymentOptions}}
+/>

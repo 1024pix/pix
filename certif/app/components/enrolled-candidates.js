@@ -69,6 +69,7 @@ export default class EnrolledCandidates extends Component {
       this.candidatesInStaging.removeObject(candidate);
       this.closeNewCertificationCandidateModal();
     }
+    return success;
   }
 
   @action

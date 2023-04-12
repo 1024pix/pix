@@ -22,14 +22,17 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     });
 
     const certificationCandidate = store.createRecord('certification-candidate', candidate);
+    const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
 
     this.set('certificationCandidates', [certificationCandidate]);
+    this.set('countries', [countries]);
 
     // when
     const screen = await renderScreen(hbs`
         <EnrolledCandidates
           @sessionId="1"
           @certificationCandidates={{this.certificationCandidates}}
+          @countries={{this.countries}}
           >
         </EnrolledCandidates>
       `);
@@ -51,9 +54,11 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
       birthdate: new Date('2019-04-28'),
     });
 
+    const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
     const certificationCandidate = store.createRecord('certification-candidate', candidate);
 
     this.set('certificationCandidates', [certificationCandidate]);
+    this.set('countries', [countries]);
 
     // when
     const screen = await renderScreen(hbs`
@@ -61,6 +66,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
           @sessionId="1"
           @certificationCandidates={{this.certificationCandidates}}
           @displayComplementaryCertification={{this.displayComplementaryCertification}}
+          @countries={{this.countries}}
           >
         </EnrolledCandidates>
       `);
@@ -85,9 +91,11 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
       complementaryCertifications: null,
     });
 
+    const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
     const certificationCandidate = store.createRecord('certification-candidate', candidate);
 
     this.set('certificationCandidates', [certificationCandidate]);
+    this.set('countries', [countries]);
 
     // when
     const screen = await renderScreen(hbs`
@@ -95,6 +103,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
           @sessionId="1"
           @certificationCandidates={{this.certificationCandidates}}
           @displayComplementaryCertification={{this.displayComplementaryCertification}}
+          @countries={{this.countries}}
           >
         </EnrolledCandidates>
       `);
@@ -107,14 +116,17 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     // given
     const candidate = _buildCertificationCandidate({});
     const certificationCandidates = [candidate];
+    const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
 
     this.set('certificationCandidates', certificationCandidates);
+    this.set('countries', [countries]);
 
     // when
     const screen = await renderScreen(hbs`
         <EnrolledCandidates
           @sessionId="1"
           @certificationCandidates={{this.certificationCandidates}}
+          @countries={{this.countries}}
         >
         </EnrolledCandidates>
     `);
@@ -134,14 +146,18 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
       _buildCertificationCandidate({ firstName: 'Fifi', lastName: 'Duck', isLinked: true }),
       _buildCertificationCandidate({ firstName: 'Loulou', lastName: 'Duck', isLinked: false }),
     ];
+    const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
 
+    this.set('countries', [countries]);
     this.set('certificationCandidates', certificationCandidates);
 
     // when
     const screen = await renderScreen(hbs`
       <EnrolledCandidates
         @sessionId="1"
-        @certificationCandidates={{this.certificationCandidates}}>
+        @certificationCandidates={{this.certificationCandidates}}
+        @countries={{this.countries}}
+        >
       </EnrolledCandidates>
     `);
 
@@ -167,7 +183,9 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
       });
 
       const certificationCandidate = store.createRecord('certification-candidate', candidate);
+      const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
 
+      this.set('countries', [countries]);
       this.set('certificationCandidates', [certificationCandidate]);
 
       // when
@@ -176,6 +194,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
             @sessionId="1"
             @certificationCandidates={{this.certificationCandidates}}
             @shouldDisplayPaymentOptions={{this.shouldDisplayPaymentOptions}}
+            @countries={{this.countries}}
             >
           </EnrolledCandidates>
         `);
@@ -202,7 +221,9 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
       test(it, async function (assert) {
         // given
         const certificationCandidates = [];
+        const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
 
+        this.set('countries', [countries]);
         this.set('certificationCandidates', certificationCandidates);
         this.set(
           'shouldDisplayPrescriptionScoStudentRegistrationFeature',
@@ -215,6 +236,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
             @sessionId="1"
             @certificationCandidates={{this.certificationCandidates}}
             @shouldDisplayPrescriptionScoStudentRegistrationFeature={{this.shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+            @countries={{this.countries}}
           >
           </EnrolledCandidates>
         `);
@@ -246,7 +268,9 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
     test(it, async function (assert) {
       // given
       const candidate = _buildCertificationCandidate({});
+      const countries = store.createRecord('country', { name: 'CANADA', code: 99401 });
 
+      this.set('countries', [countries]);
       this.set('certificationCandidates', [candidate]);
       this.set(
         'shouldDisplayPrescriptionScoStudentRegistrationFeature',
@@ -259,6 +283,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
           @sessionId="1"
           @certificationCandidates={{this.certificationCandidates}}
           @shouldDisplayPrescriptionScoStudentRegistrationFeature={{this.shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+          @countries={{this.countries}}
         >
         </EnrolledCandidates>
     `);
