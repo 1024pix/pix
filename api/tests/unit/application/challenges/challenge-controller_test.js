@@ -1,39 +1,35 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
+const { sinon, expect, hFake } = require('../../../test-helper');
 
-const ChallengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
-const ChallengeSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/challenge-serializer');
-
-const moduleUnderTest = require('../../../../lib/application/challenges');
+const challengeController = require('../../../../lib/application/challenges/challenge-controller');
 
 describe('Unit | Controller | challenge-controller', function () {
-  let httpTestServer;
-
-  let ChallengeRepoStub;
-  let ChallengeSerializerStub;
+  let challengeRepository;
+  let challengeSerializer;
 
   beforeEach(async function () {
-    ChallengeRepoStub = sinon.stub(ChallengeRepository, 'get');
-    ChallengeSerializerStub = sinon.stub(ChallengeSerializer, 'serialize');
-
-    httpTestServer = new HttpTestServer();
-    await httpTestServer.register(moduleUnderTest);
+    challengeRepository = { get: sinon.stub() };
+    challengeSerializer = { serialize: sinon.stub() };
   });
 
   describe('#get', function () {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const challenge = Symbol('someChallenge');
-
     it('should fetch and return the given challenge, serialized as JSONAPI', async function () {
       // given
-      ChallengeRepoStub.resolves(challenge);
-      ChallengeSerializerStub.resolves({ serialized: challenge });
+      const challengeId = 123;
+      const challenge = Symbol('someChallenge');
+      const expectedResult = Symbol('serialized-challenge');
+      challengeRepository.get.resolves(challenge);
+      challengeSerializer.serialize.resolves(expectedResult);
 
       // when
-      const response = await httpTestServer.request('GET', '/api/challenges/challenge_id');
+      const response = await challengeController.get({ params: { id: challengeId } }, hFake, {
+        challengeRepository,
+        challengeSerializer,
+      });
 
       // then
-      expect(response.result).to.deep.equal({ serialized: challenge });
+      expect(challengeRepository.get).to.have.been.calledWith(challengeId);
+      expect(challengeSerializer.serialize).to.have.been.calledOnce;
+      expect(response).to.deep.equal(expectedResult);
     });
   });
 });
