@@ -567,9 +567,11 @@
       },
       "header": {
         "actions": {
+          "confirmation": "Quitter la surveillance",
           "exit-extra-information": "Quitter la surveillance de la session {sessionId}"
         },
         "access-code": "Code d'accès (candidats)",
+        "information": "Attention, assurez-vous que tous les candidats aient terminé leur test avant de quitter la surveillance. Pour reprendre la surveillance de cette session, vous devrez entrer à nouveau son numéro de session et son mot de passe.",
         "session-id": "Session {sessionId}"
       },
       "candidate-list": {

@@ -568,9 +568,11 @@
       },
       "header": {
         "actions": {
-          "exit-extra-information": "Exit the invigilation of session {sessionId}"
+          "confirmation": "Exit the invigilation",
+          "exit-extra-information": "Exit the session’s invigilation {sessionId}"
         },
         "access-code": "Access code (candidates)",
+        "information": "Warning, make sure that all the candidates have finished their exam before exiting the invigilation. To resume the invigilation of this session, you will have to enter again it’s session number and it’s password.",
         "session-id": "Session {sessionId}"
       },
       "candidate-list": {
