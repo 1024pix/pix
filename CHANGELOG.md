@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.342.0 (12/04/2023)
+
+
+### :rocket: Amélioration
+- [#5959](https://github.com/1024pix/pix/pull/5959) [FEATURE] Améliorer le message d'erreur lorsque le fichier d'import en masse de session est vide sur Pix Certif (PIX-7672).
+
+### :building_construction: Tech
+- [#5921](https://github.com/1024pix/pix/pull/5921) [TECH] Permettre la génération d'un grand nombre de fichers CPF (PIX-7580)
+
+### :bug: Correction
+- [#5917](https://github.com/1024pix/pix/pull/5917) [BUGFIX] Corriger l'affichage de la modale d'inscription d'un candidat sur Pix Certif (PIX-7630)
+- [#5957](https://github.com/1024pix/pix/pull/5957) [BUGFIX] Ne pas bloquer l'utilisateur sur le type du fichier dans l'import en masse de sessions sur Pix Certif (PIX-7708)
+- [#5966](https://github.com/1024pix/pix/pull/5966) [BUGFIX] Corrige l'envoi des emails
+
 ## v3.341.0 (07/04/2023)
 
 
