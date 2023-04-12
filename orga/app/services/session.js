@@ -2,7 +2,7 @@ import { inject as service } from '@ember/service';
 import SessionService from 'ember-simple-auth/services/session';
 import get from 'lodash/get';
 
-const DEFAULT_FRENCH_LOCALE = 'fr';
+const DEFAULT_LOCALE = 'fr';
 const FRENCH_LOCALE = 'fr-FR';
 
 export default class CurrentSessionService extends SessionService {
@@ -68,16 +68,16 @@ export default class CurrentSessionService extends SessionService {
     }
   }
 
-  _setLocale(lang) {
-    let locale = DEFAULT_FRENCH_LOCALE;
+  _setLocale(locale) {
+    let userLocale = DEFAULT_LOCALE;
 
     if (!this.url.isFrenchDomainExtension) {
-      locale = this.intl.get('locales').includes(lang) ? lang : DEFAULT_FRENCH_LOCALE;
+      userLocale = this.intl.get('locales').includes(locale) ? locale : DEFAULT_LOCALE;
     }
 
-    this.intl.setLocale([locale, DEFAULT_FRENCH_LOCALE]);
-    this.dayjs.setLocale(locale);
-    this.dayjs.self.locale(locale);
+    this.intl.setLocale([userLocale, DEFAULT_LOCALE]);
+    this.dayjs.setLocale(userLocale);
+    this.dayjs.self.locale(userLocale);
   }
 
   _getRouteAfterInvalidation() {
