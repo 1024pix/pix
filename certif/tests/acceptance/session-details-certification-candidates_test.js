@@ -292,8 +292,6 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           });
           const screen = await visit(`/sessions/${sessionWithoutCandidates.id}/candidats`);
 
-          this.pauseTest();
-
           await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
           await fillIn(screen.getByLabelText('* Nom de naissance'), 'BackStreet');
           await fillIn(screen.getByLabelText('* Prénom'), 'Boys');

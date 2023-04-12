@@ -1,6 +1,6 @@
 <PixModal
   @title={{t "pages.sessions.detail.candidates.detail-modal.title"}}
-  @onCloseButtonClick={{@closeModal}}
+  @onCloseButtonClick={{this.closeModal}}
   class="new-certification-candidate-modal"
   @showModal={{@showModal}}
 >
@@ -26,7 +26,6 @@
           class="input"
           @value={{@candidateData.lastName}}
           {{on "input" (fn @updateCandidateData @candidateData "lastName")}}
-          {{did-insert this.focus}}
           required
         />
       </div>
@@ -342,7 +341,7 @@
   <:footer>
     <PixButton
       aria-label={{t "pages.sessions.detail.candidates.add-modal.actions.close-extra-information"}}
-      @triggerAction={{@closeModal}}
+      @triggerAction={{this.closeModal}}
       @backgroundColor="transparent-light"
       @isBorderVisible="true"
     >
