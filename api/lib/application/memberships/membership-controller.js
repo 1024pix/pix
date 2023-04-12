@@ -4,20 +4,20 @@ const usecases = require('../../domain/usecases/index.js');
 const { BadRequestError } = require('../http-errors.js');
 
 module.exports = {
-  async create(request, h) {
+  async create(request, h, dependencies = { membershipSerializer }) {
     const userId = request.payload.data.relationships.user.data.id;
     const organizationId = request.payload.data.relationships.organization.data.id;
 
     const membership = await usecases.createMembership({ userId, organizationId });
     await usecases.createCertificationCenterMembershipForScoOrganizationMember({ membership });
 
-    return h.response(membershipSerializer.serializeForAdmin(membership)).created();
+    return h.response(dependencies.membershipSerializer.serializeForAdmin(membership)).created();
   },
 
-  async update(request, h) {
+  async update(request, h, dependencies = { requestResponseUtils, membershipSerializer }) {
     const membershipId = request.params.id;
-    const userId = requestResponseUtils.extractUserIdFromRequest(request);
-    const membership = membershipSerializer.deserialize(request.payload);
+    const userId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
+    const membership = dependencies.membershipSerializer.deserialize(request.payload);
     // eslint-disable-next-line no-restricted-syntax
     const membershipIdFromPayload = parseInt(membership.id);
     if (membershipId !== membershipIdFromPayload) {
@@ -28,7 +28,7 @@ module.exports = {
     const updatedMembership = await usecases.updateMembership({ membership });
     await usecases.createCertificationCenterMembershipForScoOrganizationMember({ membership });
 
-    return h.response(membershipSerializer.serialize(updatedMembership));
+    return h.response(dependencies.membershipSerializer.serialize(updatedMembership));
   },
 
   async disable(request, h) {
