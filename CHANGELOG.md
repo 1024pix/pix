@@ -4,13 +4,24 @@
 
 
 ### :rocket: Amélioration
+- [#5935](https://github.com/1024pix/pix/pull/5935) [FEATURE] Ajouter le logo FWB et lien vers SSO FWB sur la page de app.pix.org/connexion (PIX-7253)
+- [#5936](https://github.com/1024pix/pix/pull/5936) [FEATURE] Montée de version pix-ui@v30.0.0 sur Admin (PIX-7642)
+- [#5949](https://github.com/1024pix/pix/pull/5949) [FEATURE] Améliorer l'affichage du nom de l'organisation dans le menu sur Pix Orga (PIX-7662)
 - [#5959](https://github.com/1024pix/pix/pull/5959) [FEATURE] Améliorer le message d'erreur lorsque le fichier d'import en masse de session est vide sur Pix Certif (PIX-7672).
 
 ### :building_construction: Tech
 - [#5921](https://github.com/1024pix/pix/pull/5921) [TECH] Permettre la génération d'un grand nombre de fichers CPF (PIX-7580)
+- [#5953](https://github.com/1024pix/pix/pull/5953) [BUMP] Update dependency xml2js to 0.5.0 [SECURITY]
+- [#5954](https://github.com/1024pix/pix/pull/5954) [BUMP] Update dependency ember-resolver to v10 (admin)
+- [#5955](https://github.com/1024pix/pix/pull/5955) [BUMP] Update dependency ember-qunit to v6 (admin)
+- [#5956](https://github.com/1024pix/pix/pull/5956) [BUMP] Update dependency ember-keyboard to v8 (certif)
+- [#5958](https://github.com/1024pix/pix/pull/5958) [BUMP] Update dependency ember-exam to v8 (admin)
+- [#5962](https://github.com/1024pix/pix/pull/5962) [TECH] Remplacement de boom a @hapi/boom
 
 ### :bug: Correction
 - [#5917](https://github.com/1024pix/pix/pull/5917) [BUGFIX] Corriger l'affichage de la modale d'inscription d'un candidat sur Pix Certif (PIX-7630)
+- [#5947](https://github.com/1024pix/pix/pull/5947) [BUGFIX] Ajouter un espacement entre les paragraphes de réponse à une épreuve (PIX-7684)
+- [#5952](https://github.com/1024pix/pix/pull/5952) [BUGFIX] Traduire les domaines affichés dans l'écran de fin de parcours (PIX-7704) (PIX-7012)
 - [#5957](https://github.com/1024pix/pix/pull/5957) [BUGFIX] Ne pas bloquer l'utilisateur sur le type du fichier dans l'import en masse de sessions sur Pix Certif (PIX-7708)
 - [#5966](https://github.com/1024pix/pix/pull/5966) [BUGFIX] Corrige l'envoi des emails
 
