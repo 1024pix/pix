@@ -365,6 +365,23 @@ module('Acceptance | Session Import', function (hooks) {
           test('it should display an error notification', async function (assert) {
             //given
             const file = new Blob(['foo']);
+            this.server.post(
+              '/certification-centers/:id/sessions/validate-for-mass-import',
+              () =>
+                new Response(
+                  422,
+                  { some: 'header' },
+                  {
+                    errors: [
+                      {
+                        code: 'CSV_HEADERS_NOT_VALID',
+                        status: '422',
+                        title: 'Unprocessable Entity',
+                      },
+                    ],
+                  }
+                )
+            );
 
             // when
             screen = await visit('/sessions/import');
@@ -374,9 +391,7 @@ module('Acceptance | Session Import', function (hooks) {
             await click(importButton);
 
             // then
-            assert
-              .dom(screen.getByText('Le format du fichier est incorrect, seul le format .csv est accepté'))
-              .exists();
+            assert.dom(screen.getByText('Le modèle a été altéré, merci de le télécharger à nouveau')).exists();
           });
 
           test('it should not go to step two', async function (assert) {
