@@ -6,9 +6,13 @@ import hbs from 'htmlbars-inline-precompile';
 module('Integration | Component | routes/authenticated/trainings | list-items', function (hooks) {
   setupRenderingTest(hooks);
 
+  hooks.beforeEach(function () {
+    this.set('noop', () => {});
+  });
+
   test('it should display header with id and title', async function (assert) {
     // when
-    const screen = await render(hbs`<Trainings::ListSummaryItems />`);
+    const screen = await render(hbs`<Trainings::ListSummaryItems @triggerFiltering={{this.noop}} />`);
 
     // then
     assert.dom(screen.getByText('ID')).exists();
@@ -27,7 +31,9 @@ module('Integration | Component | routes/authenticated/trainings | list-items', 
     this.summaries = summaries;
 
     // when
-    const screen = await render(hbs`<Trainings::ListSummaryItems @summaries={{this.summaries}} />`);
+    const screen = await render(
+      hbs`<Trainings::ListSummaryItems @summaries={{this.summaries}} @triggerFiltering={{this.noop}} />`
+    );
 
     // then
     assert.strictEqual(screen.getAllByLabelText('Contenu formatif').length, 2);
@@ -42,7 +48,9 @@ module('Integration | Component | routes/authenticated/trainings | list-items', 
     this.summaries = summaries;
 
     // when
-    const screen = await render(hbs`<Trainings::ListSummaryItems @summaries={{this.summaries}} />`);
+    const screen = await render(
+      hbs`<Trainings::ListSummaryItems @summaries={{this.summaries}} @triggerFiltering={{this.noop}} />`
+    );
 
     // then
     assert.dom(screen.getByLabelText('Contenu formatif')).containsText(123);
