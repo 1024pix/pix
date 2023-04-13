@@ -2,7 +2,8 @@ const challengeRepository = require('../../infrastructure/repositories/challenge
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer.js');
 
 module.exports = {
-  get(request) {
-    return challengeRepository.get(request.params.id).then((challenge) => challengeSerializer.serialize(challenge));
+  async get(request, h, dependencies = { challengeRepository, challengeSerializer }) {
+    const challenge = await dependencies.challengeRepository.get(request.params.id);
+    return dependencies.challengeSerializer.serialize(challenge);
   },
 };
