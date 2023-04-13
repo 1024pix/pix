@@ -337,29 +337,41 @@ function buildCities({ csvData }) {
   const citiesWithAlternates = csvData.flatMap((data) => {
     const result = [];
 
-    result.push({
-      name: data[headers.cityName],
+    const codes = {
       postalCode: data[headers.postalCode],
       INSEECode: data[headers.inseeCode],
-      isActualName: true,
-    });
+    };
 
-    if (data[headers.cityAlternateName]) {
-      result.push({
-        name: data[headers.cityAlternateName],
-        postalCode: data[headers.postalCode],
-        INSEECode: data[headers.inseeCode],
-        isActualName: false,
-      });
-    }
+    // Generate cities for current city names
+    result.push({
+      name: data[headers.cityName],
+      isActualName: true,
+      ...codes,
+    });
 
     if (_doesCityNameContainWordToReplace(data[headers.cityName])) {
       result.push({
         name: _buildCityNameWithWordReplaced(data[headers.cityName]),
-        postalCode: data[headers.postalCode],
-        INSEECode: data[headers.inseeCode],
         isActualName: false,
+        ...codes,
       });
+    }
+
+    // Generate cities for current alternate city names
+    if (data[headers.cityAlternateName]) {
+      result.push({
+        name: data[headers.cityAlternateName],
+        isActualName: false,
+        ...codes,
+      });
+
+      if (_doesCityNameContainWordToReplace(data[headers.cityAlternateName])) {
+        result.push({
+          name: _buildCityNameWithWordReplaced(data[headers.cityAlternateName]),
+          isActualName: false,
+          ...codes,
+        });
+      }
     }
 
     return result;
