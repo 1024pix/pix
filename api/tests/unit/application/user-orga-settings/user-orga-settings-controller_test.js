@@ -1,10 +1,8 @@
-const { sinon, expect } = require('../../../test-helper');
+const { sinon, expect, hFake } = require('../../../test-helper');
 
 const userOrgaSettingsController = require('../../../../lib/application/user-orga-settings/user-orga-settings-controller');
 
 const usecases = require('../../../../lib/domain/usecases/index.js');
-
-const userOrgaSettingsSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-orga-settings-serializer');
 
 describe('Unit | Controller | user-orga-settings-controller', function () {
   describe('#createOrUpdate', function () {
@@ -54,15 +52,19 @@ describe('Unit | Controller | user-orga-settings-controller', function () {
     let expectedUserOrgaSettings;
     let response;
 
+    let userOrgaSettingsSerializer;
+
     beforeEach(async function () {
       sinon.stub(usecases, 'createOrUpdateUserOrgaSettings');
-      sinon.stub(userOrgaSettingsSerializer, 'serialize');
+      userOrgaSettingsSerializer = {
+        serialize: sinon.stub(),
+      };
 
       expectedUserOrgaSettings = { id: 1, user: { id: userId }, organization: { id: organizationId } };
       usecases.createOrUpdateUserOrgaSettings.resolves(expectedUserOrgaSettings);
       userOrgaSettingsSerializer.serialize.resolves(serializedUseOrgaSettings);
 
-      response = await userOrgaSettingsController.createOrUpdate(request);
+      response = await userOrgaSettingsController.createOrUpdate(request, hFake, { userOrgaSettingsSerializer });
     });
 
     it('should call the usecase to update the userOrgaSetting', async function () {

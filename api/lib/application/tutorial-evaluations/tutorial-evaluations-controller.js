@@ -3,10 +3,12 @@ const tutorialEvaluationSerializer = require('../../infrastructure/serializers/j
 const TutorialEvaluation = require('../../../lib/domain/models/TutorialEvaluation.js');
 
 module.exports = {
-  async evaluate(request, h) {
+  async evaluate(request, h, dependencies = { tutorialEvaluationSerializer }) {
     const { userId } = request.auth.credentials;
     const { tutorialId } = request.params;
-    const { status = TutorialEvaluation.statuses.LIKED } = tutorialEvaluationSerializer.deserialize(request.payload);
+    const { status = TutorialEvaluation.statuses.LIKED } = dependencies.tutorialEvaluationSerializer.deserialize(
+      request.payload
+    );
 
     const tutorialEvaluation = await usecases.addTutorialEvaluation({ userId, tutorialId, status });
 
