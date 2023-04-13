@@ -302,6 +302,7 @@ describe('Acceptance | Controller | training-controller', function () {
             id: '1',
             attributes: {
               title: training.title,
+              'is-recommendable': false,
             },
           },
         };
@@ -315,7 +316,7 @@ describe('Acceptance | Controller | training-controller', function () {
         expect(response.statusCode).to.equal(200);
         expect(response.result.data[0].type).to.deep.equal(expectedResponse.data.type);
         expect(response.result.data[0].id).to.exist;
-        expect(response.result.data[0].attributes.title).to.deep.equal(expectedResponse.data.attributes.title);
+        expect(response.result.data[0].attributes).to.deep.equal(expectedResponse.data.attributes);
         expect(response.result.meta.pagination).to.deep.equal(expectedPagination);
       });
     });
