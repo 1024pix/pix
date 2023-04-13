@@ -2,11 +2,8 @@ const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
 
 const certificationController = require('../../../../lib/application/certifications/certification-controller');
 const usecases = require('../../../../lib/domain/usecases/index.js');
-const certificationAttestationPdf = require('../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
-const events = require('../../../../lib/domain/events/index.js');
 const ChallengeNeutralized = require('../../../../lib/domain/events/ChallengeNeutralized');
 const ChallengeDeneutralized = require('../../../../lib/domain/events/ChallengeDeneutralized');
-const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
 
 describe('Unit | Controller | certifications-controller', function () {
   describe('#findUserCertifications', function () {
@@ -79,8 +76,7 @@ describe('Unit | Controller | certifications-controller', function () {
         params: { id: certificationId },
       };
       const locale = 'fr-fr';
-      sinon.stub(requestResponseUtils, 'extractLocaleFromRequest');
-
+      const requestResponseUtilsStub = { extractLocaleFromRequest: sinon.stub() };
       const privateCertificate = domainBuilder.buildPrivateCertificate.validated({
         id: certificationId,
         firstName: 'Dorothé',
@@ -99,10 +95,12 @@ describe('Unit | Controller | certifications-controller', function () {
       });
       sinon.stub(usecases, 'getPrivateCertificate');
       usecases.getPrivateCertificate.withArgs({ userId, certificationId, locale }).resolves(privateCertificate);
-      requestResponseUtils.extractLocaleFromRequest.withArgs(request).returns(locale);
+      requestResponseUtilsStub.extractLocaleFromRequest.withArgs(request).returns(locale);
 
       // when
-      const response = await certificationController.getCertification(request, hFake);
+      const response = await certificationController.getCertification(request, hFake, {
+        requestResponseUtils: requestResponseUtilsStub,
+      });
 
       // then
       expect(response).to.deep.equal({
@@ -140,7 +138,7 @@ describe('Unit | Controller | certifications-controller', function () {
       // given
       const request = { payload: { verificationCode: 'P-123456BB' } };
       const locale = 'fr-fr';
-      sinon.stub(requestResponseUtils, 'extractLocaleFromRequest');
+      const requestResponseUtilsStub = { extractLocaleFromRequest: sinon.stub() };
       const shareableCertificate = domainBuilder.buildShareableCertificate({
         id: 123,
         firstName: 'Dorothé',
@@ -159,10 +157,12 @@ describe('Unit | Controller | certifications-controller', function () {
       usecases.getShareableCertificate
         .withArgs({ verificationCode: 'P-123456BB', locale })
         .resolves(shareableCertificate);
-      requestResponseUtils.extractLocaleFromRequest.withArgs(request).returns(locale);
+      requestResponseUtilsStub.extractLocaleFromRequest.withArgs(request).returns(locale);
 
       // when
-      const response = await certificationController.getCertificationByVerificationCode(request, hFake);
+      const response = await certificationController.getCertificationByVerificationCode(request, hFake, {
+        requestResponseUtils: requestResponseUtilsStub,
+      });
 
       // then
       expect(response).to.deep.equal({
@@ -213,14 +213,17 @@ describe('Unit | Controller | certifications-controller', function () {
           certificationId: certification.id,
         })
         .resolves(certification);
-
-      sinon
-        .stub(certificationAttestationPdf, 'getCertificationAttestationsPdfBuffer')
+      const certificationAttestationPdfStub = {
+        getCertificationAttestationsPdfBuffer: sinon.stub(),
+      };
+      certificationAttestationPdfStub.getCertificationAttestationsPdfBuffer
         .withArgs({ certificates: [certification], isFrenchDomainExtension: true })
         .resolves({ buffer: attestationPDF, fileName });
 
       // when
-      const response = await certificationController.getPDFAttestation(request, hFake);
+      const response = await certificationController.getPDFAttestation(request, hFake, {
+        certificationAttestationPdf: certificationAttestationPdfStub,
+      });
 
       // then
       expect(response.source).to.deep.equal(attestationPDF);
@@ -243,12 +246,14 @@ describe('Unit | Controller | certifications-controller', function () {
         auth: { credentials: { userId: 7 } },
       };
       sinon.stub(usecases, 'neutralizeChallenge');
-      sinon.stub(events, 'eventDispatcher').value({
-        dispatch: sinon.stub(),
-      });
+      const eventsStub = {
+        eventDispatcher: {
+          dispatch: sinon.stub(),
+        },
+      };
 
       // when
-      await certificationController.neutralizeChallenge(request, hFake);
+      await certificationController.neutralizeChallenge(request, hFake, { events: eventsStub });
 
       // then
       expect(usecases.neutralizeChallenge).to.have.been.calledWith({
@@ -272,12 +277,14 @@ describe('Unit | Controller | certifications-controller', function () {
         auth: { credentials: { userId: 7 } },
       };
       sinon.stub(usecases, 'neutralizeChallenge');
-      sinon.stub(events, 'eventDispatcher').value({
-        dispatch: sinon.stub(),
-      });
 
+      const eventsStub = {
+        eventDispatcher: {
+          dispatch: sinon.stub(),
+        },
+      };
       // when
-      const response = await certificationController.neutralizeChallenge(request, hFake);
+      const response = await certificationController.neutralizeChallenge(request, hFake, { events: eventsStub });
 
       // then
       expect(response.statusCode).to.equal(204);
@@ -298,15 +305,17 @@ describe('Unit | Controller | certifications-controller', function () {
       };
       const eventToBeDispatched = new ChallengeNeutralized({ certificationCourseId: 1, juryId: 7 });
       sinon.stub(usecases, 'neutralizeChallenge').resolves(eventToBeDispatched);
-      sinon.stub(events, 'eventDispatcher').value({
-        dispatch: sinon.stub(),
-      });
+      const eventsStub = {
+        eventDispatcher: {
+          dispatch: sinon.stub(),
+        },
+      };
 
       // when
-      await certificationController.neutralizeChallenge(request, hFake);
+      await certificationController.neutralizeChallenge(request, hFake, { events: eventsStub });
 
       // then
-      expect(events.eventDispatcher.dispatch).to.have.been.calledWithExactly(eventToBeDispatched);
+      expect(eventsStub.eventDispatcher.dispatch).to.have.been.calledWithExactly(eventToBeDispatched);
     });
   });
 
@@ -325,10 +334,14 @@ describe('Unit | Controller | certifications-controller', function () {
         auth: { credentials: { userId: 7 } },
       };
       sinon.stub(usecases, 'deneutralizeChallenge');
-      sinon.stub(events, 'eventDispatcher');
+      const eventsStub = {
+        eventDispatcher: {
+          dispatch: sinon.stub(),
+        },
+      };
 
       // when
-      await certificationController.deneutralizeChallenge(request, hFake);
+      await certificationController.deneutralizeChallenge(request, hFake, { events: eventsStub });
 
       // then
       expect(usecases.deneutralizeChallenge).to.have.been.calledWith({
@@ -352,10 +365,13 @@ describe('Unit | Controller | certifications-controller', function () {
         auth: { credentials: { userId: 7 } },
       };
       sinon.stub(usecases, 'deneutralizeChallenge');
-      sinon.stub(events, 'eventDispatcher');
-
+      const eventsStub = {
+        eventDispatcher: {
+          dispatch: sinon.stub(),
+        },
+      };
       // when
-      const response = await certificationController.deneutralizeChallenge(request, hFake);
+      const response = await certificationController.deneutralizeChallenge(request, hFake, { events: eventsStub });
 
       // then
       expect(response.statusCode).to.equal(204);
@@ -377,15 +393,17 @@ describe('Unit | Controller | certifications-controller', function () {
       const eventToBeDispatched = new ChallengeDeneutralized({ certificationCourseId: 1, juryId: 7 });
 
       sinon.stub(usecases, 'deneutralizeChallenge').resolves(eventToBeDispatched);
-      sinon.stub(events, 'eventDispatcher').value({
-        dispatch: sinon.stub(),
-      });
+      const eventsStub = {
+        eventDispatcher: {
+          dispatch: sinon.stub(),
+        },
+      };
 
       // when
-      await certificationController.deneutralizeChallenge(request, hFake);
+      await certificationController.deneutralizeChallenge(request, hFake, { events: eventsStub });
 
       // then
-      expect(events.eventDispatcher.dispatch).to.have.been.calledWith(eventToBeDispatched);
+      expect(eventsStub.eventDispatcher.dispatch).to.have.been.calledWith(eventToBeDispatched);
     });
   });
 });

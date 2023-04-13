@@ -15,10 +15,10 @@ module.exports = {
     return privateCertificateSerializer.serialize(privateCertificates);
   },
 
-  async getCertification(request) {
+  async getCertification(request, h, dependencies = { requestResponseUtils }) {
     const userId = request.auth.credentials.userId;
     const certificationId = request.params.id;
-    const locale = requestResponseUtils.extractLocaleFromRequest(request);
+    const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
 
     const privateCertificate = await usecases.getPrivateCertificate({
       userId,
@@ -28,15 +28,15 @@ module.exports = {
     return privateCertificateSerializer.serialize(privateCertificate);
   },
 
-  async getCertificationByVerificationCode(request) {
+  async getCertificationByVerificationCode(request, h, dependencies = { requestResponseUtils }) {
     const verificationCode = request.payload.verificationCode;
-    const locale = requestResponseUtils.extractLocaleFromRequest(request);
+    const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
 
     const shareableCertificate = await usecases.getShareableCertificate({ verificationCode, locale });
     return shareableCertificateSerializer.serialize(shareableCertificate);
   },
 
-  async getPDFAttestation(request, h) {
+  async getPDFAttestation(request, h, dependencies = { certificationAttestationPdf }) {
     const userId = request.auth.credentials.userId;
     const certificationId = request.params.id;
     const isFrenchDomainExtension = request.query.isFrenchDomainExtension;
@@ -45,7 +45,7 @@ module.exports = {
       certificationId,
     });
 
-    const { buffer } = await certificationAttestationPdf.getCertificationAttestationsPdfBuffer({
+    const { buffer } = await dependencies.certificationAttestationPdf.getCertificationAttestationsPdfBuffer({
       certificates: [attestation],
       isFrenchDomainExtension,
     });
@@ -57,7 +57,7 @@ module.exports = {
       .header('Content-Type', 'application/pdf');
   },
 
-  async neutralizeChallenge(request, h) {
+  async neutralizeChallenge(request, h, dependencies = { events }) {
     const challengeRecId = request.payload.data.attributes.challengeRecId;
     const certificationCourseId = request.payload.data.attributes.certificationCourseId;
     const juryId = request.auth.credentials.userId;
@@ -66,11 +66,11 @@ module.exports = {
       certificationCourseId,
       juryId,
     });
-    await events.eventDispatcher.dispatch(event);
+    await dependencies.events.eventDispatcher.dispatch(event);
     return h.response().code(204);
   },
 
-  async deneutralizeChallenge(request, h) {
+  async deneutralizeChallenge(request, h, dependencies = { events }) {
     const challengeRecId = request.payload.data.attributes.challengeRecId;
     const certificationCourseId = request.payload.data.attributes.certificationCourseId;
     const juryId = request.auth.credentials.userId;
@@ -79,7 +79,7 @@ module.exports = {
       certificationCourseId,
       juryId,
     });
-    await events.eventDispatcher.dispatch(event);
+    await dependencies.events.eventDispatcher.dispatch(event);
     return h.response().code(204);
   },
 };
