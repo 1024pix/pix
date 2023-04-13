@@ -24,7 +24,7 @@ describe('Unit | Scripts | import-certification-cpf-cities.js', function () {
             code_commune_insee: '44184',
             nom_de_la_commune: 'NAZAIRE',
             code_postal: '44600',
-            ligne_5: 'ST MARC SUR MER',
+            ligne_5: 'ALTERNATE NAZAIRE',
           },
           {
             code_commune_insee: '66186',
@@ -60,7 +60,7 @@ describe('Unit | Scripts | import-certification-cpf-cities.js', function () {
           {
             INSEECode: '44184',
             isActualName: false,
-            name: 'ST MARC SUR MER',
+            name: 'ALTERNATE NAZAIRE',
             postalCode: '44600',
           },
           {
@@ -70,6 +70,59 @@ describe('Unit | Scripts | import-certification-cpf-cities.js', function () {
             postalCode: '66570',
           },
         ]);
+      });
+
+      context('#when there is a word to replace in the city alternate name', function () {
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        [
+          {
+            cityName: 'DUNKERQUE',
+            cityAlternateName: 'ST POL SUR MER',
+            expectedCityAlternateName: 'SAINT POL SUR MER',
+          },
+          {
+            cityName: 'NEUSSARGUES EN PINATELLE',
+            cityAlternateName: 'STE ANASTASIE',
+            expectedCityAlternateName: 'SAINTE ANASTASIE',
+          },
+        ].forEach(({ cityName, cityAlternateName, expectedCityAlternateName }) => {
+          it('should return 3 lines,  for the city name and two both long and short alternate city names', function () {
+            // given
+            const csvData = [
+              {
+                code_commune_insee: '50453',
+                nom_de_la_commune: cityName,
+                code_postal: '50800',
+                ligne_5: cityAlternateName,
+              },
+            ];
+
+            // when
+            const cities = buildCities({ csvData });
+
+            // then
+            expect(cities).to.deep.equal([
+              {
+                INSEECode: '50453',
+                isActualName: true,
+                name: cityName,
+                postalCode: '50800',
+              },
+              {
+                INSEECode: '50453',
+                isActualName: false,
+                name: cityAlternateName,
+                postalCode: '50800',
+              },
+              {
+                INSEECode: '50453',
+                isActualName: false,
+                name: expectedCityAlternateName,
+                postalCode: '50800',
+              },
+            ]);
+          });
+        });
       });
     });
 
@@ -97,45 +150,45 @@ describe('Unit | Scripts | import-certification-cpf-cities.js', function () {
           },
         ]);
       });
-    });
 
-    describe('#when there is a word to replace in the city name', function () {
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      [
-        { cityName: 'STE CECILE', expectedCityName: 'SAINTE CECILE' },
-        { cityName: 'ST NAZAIRE', expectedCityName: 'SAINT NAZAIRE' },
-        { cityName: 'NAZAIRE STE CECILE', expectedCityName: 'NAZAIRE SAINTE CECILE' },
-        { cityName: 'CECILE ST NAZAIRE', expectedCityName: 'CECILE SAINT NAZAIRE' },
-      ].forEach(({ cityName, expectedCityName }) => {
-        it('should return 2 lines with both long and short city names', function () {
-          // given
-          const csvData = [
-            {
-              code_commune_insee: '50453',
-              nom_de_la_commune: cityName,
-              code_postal: '50800',
-              ligne_5: null,
-            },
-          ];
+      context('#when there is a word to replace in the city name', function () {
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        [
+          { cityName: 'STE CECILE', expectedCityName: 'SAINTE CECILE' },
+          { cityName: 'ST NAZAIRE', expectedCityName: 'SAINT NAZAIRE' },
+          { cityName: 'NAZAIRE STE CECILE', expectedCityName: 'NAZAIRE SAINTE CECILE' },
+          { cityName: 'CECILE ST NAZAIRE', expectedCityName: 'CECILE SAINT NAZAIRE' },
+        ].forEach(({ cityName, expectedCityName }) => {
+          it('should return 2 lines with both long and short city names', function () {
+            // given
+            const csvData = [
+              {
+                code_commune_insee: '50453',
+                nom_de_la_commune: cityName,
+                code_postal: '50800',
+                ligne_5: null,
+              },
+            ];
 
-          // when
-          const cities = buildCities({ csvData });
+            // when
+            const cities = buildCities({ csvData });
 
-          // then
-          expect(cities).to.deep.equal([
-            {
-              INSEECode: '50453',
-              isActualName: true,
-              name: cityName,
-              postalCode: '50800',
-            },
-            {
-              INSEECode: '50453',
-              isActualName: false,
-              name: expectedCityName,
-              postalCode: '50800',
-            },
-          ]);
+            // then
+            expect(cities).to.deep.equal([
+              {
+                INSEECode: '50453',
+                isActualName: true,
+                name: cityName,
+                postalCode: '50800',
+              },
+              {
+                INSEECode: '50453',
+                isActualName: false,
+                name: expectedCityName,
+                postalCode: '50800',
+              },
+            ]);
+          });
         });
       });
     });
