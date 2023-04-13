@@ -256,8 +256,8 @@ describe('Integration | Repository | training-repository', function () {
     context('when trainings exist', function () {
       it('should return paginated results', async function () {
         // given
-        const trainingSummary1 = domainBuilder.buildTrainingSummary({ id: 1 });
-        const trainingSummary2 = domainBuilder.buildTrainingSummary({ id: 2 });
+        const trainingSummary1 = domainBuilder.buildTrainingSummary({ id: 1, isRecommendable: true });
+        const trainingSummary2 = domainBuilder.buildTrainingSummary({ id: 2, isRecommendable: false });
         const trainingSummaryLinkToAnotherTargetProfile = domainBuilder.buildTrainingSummary({ id: 3 });
 
         databaseBuilder.factory.buildTraining({ ...trainingSummary1 });
@@ -274,6 +274,8 @@ describe('Integration | Repository | training-repository', function () {
           trainingId: trainingSummaryLinkToAnotherTargetProfile.id,
         });
 
+        databaseBuilder.factory.buildTrainingTrigger({ trainingId: trainingSummary1.id });
+
         await databaseBuilder.commit();
         const page = { size: 2, number: 1 };
 
@@ -286,9 +288,9 @@ describe('Integration | Repository | training-repository', function () {
         // then
         expect(trainings).to.have.lengthOf(2);
         expect(trainings[0]).to.be.instanceOf(TrainingSummary);
-        expect(trainings[0].title).to.deep.equal(trainingSummary1.title);
+        expect(trainings[0]).to.deep.equal(trainingSummary1);
         expect(trainings[1]).to.be.instanceOf(TrainingSummary);
-        expect(trainings[1].title).to.deep.equal(trainingSummary2.title);
+        expect(trainings[1]).to.deep.equal(trainingSummary2);
         expect(pagination).to.deep.equal({ page: 1, pageSize: 2, rowCount: 2, pageCount: 1 });
       });
     });
