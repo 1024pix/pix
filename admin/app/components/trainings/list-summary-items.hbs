@@ -6,6 +6,7 @@
         <tr>
           <th class="table__column table__column--id" id="training-id" scope="col">ID</th>
           <th id="training-titre" scope="col">Titre</th>
+          <th id="training-recommendable" scope="col" class="col-status">Statut</th>
         </tr>
         {{#if @triggerFiltering}}
           <tr>
@@ -40,6 +41,13 @@
                 <LinkTo @route="authenticated.trainings.training" @model={{summary.id}}>
                   {{summary.title}}
                 </LinkTo>
+              </td>
+              <td headers="training-recommendable">
+                {{#if this.isTrainingRecommendationEnabled}}
+                  {{if summary.isRecommendable "Actif" "Inactif"}}
+                {{else}}
+                  Actif
+                {{/if}}
               </td>
             </tr>
           {{/each}}
