@@ -19,18 +19,18 @@
         />
       </:triggerElement>
       <:tooltip>
-        <span>a quitté temporairement, sous surveillance, la salle d’examen, est arrivé en retard, a rencontré des
-          difficultés pour se connecter à la session, a dû se reconnecter à la session, avait oublié son mot de passe...</span>
+        <span>{{t "pages.session-finalization.add-issue-modal.non-blocking-issues.candidate-examples"}}</span>
       </:tooltip>
     </PixTooltip>
   </div>
   {{#if @nonBlockingCandidateIssueCategory.isChecked}}
     <PixMessage @type="info" @withIcon={{true}}>
-      Signalement à titre informatif, le problème rencontré n'a pas empêché le candidat de continuer à répondre aux
-      questions.
+      {{t "pages.session-finalization.add-issue-modal.non-blocking-issues.candidate-information"}}
     </PixMessage>
     <div class="non-blocking-candidate-issue-certification-issue-report-fields__details">
-      <label for="text-area-for-category-candidate-issue">Décrivez l'incident rencontré</label>
+      <label for="text-area-for-category-candidate-issue">{{t
+          "pages.session-finalization.add-issue-modal.actions.describe"
+        }}</label>
       <PixTextarea
         id="text-area-for-category-candidate-issue"
         @value={{@nonBlockingCandidateIssueCategory.description}}
