@@ -1,27 +1,28 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { find, render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | Badge Card', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  hooks.beforeEach(function () {
+  test('should render the badge acquired card', async function (assert) {
+    // given
     this.set('title', 'Badge de winner');
     this.set('message', 'Bravo ! Tu as ton badge !');
     this.set('imageUrl', '/images/background/hexa-pix.svg');
     this.set('altMessage', 'Ceci est un badge.');
-  });
 
-  test('should render the badge acquired card', async function (assert) {
     // when
-    await render(
+    const screen = await render(
       hbs`<BadgeCard @message={{this.message}} @title={{this.title}} @imageUrl={{this.imageUrl}} @altMessage={{this.altMessage}} />`
     );
 
     // then
-    assert.dom('.badge-card').exists();
-    assert.strictEqual(find('.badge-card-text__title').textContent.trim(), 'Badge de winner');
-    assert.strictEqual(find('.badge-card-text__message').textContent.trim(), 'Bravo ! Tu as ton badge !');
+    assert.dom(screen.getByRole('heading', { name: 'Badge de winner', level: 3 })).exists();
+    assert
+      .dom(screen.getByRole('img', { name: 'Ceci est un badge.' }))
+      .hasAttribute('src', '/images/background/hexa-pix.svg');
+    assert.dom(screen.getByText('Bravo ! Tu as ton badge !')).exists();
   });
 });
