@@ -1,7 +1,6 @@
-const { sinon, expect } = require('../../../test-helper');
+const { sinon, expect, hFake } = require('../../../test-helper');
 
 const usecases = require('../../../../lib/domain/usecases/index.js');
-const prescriberSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/prescriber-serializer');
 
 const prescriberController = require('../../../../lib/application/prescribers/prescriber-controller');
 
@@ -13,16 +12,18 @@ describe('Unit | Controller | prescriber-controller', function () {
       request = { auth: { credentials: { userId: 1 } } };
 
       sinon.stub(usecases, 'getPrescriber');
-      sinon.stub(prescriberSerializer, 'serialize');
     });
 
     it('should get the prescriber', async function () {
       // given
+      const prescriberSerializer = {
+        serialize: sinon.stub(),
+      };
       usecases.getPrescriber.withArgs({ userId: 1 }).resolves({});
       prescriberSerializer.serialize.withArgs({}).returns('ok');
 
       // when
-      const response = await prescriberController.get(request);
+      const response = await prescriberController.get(request, hFake, { prescriberSerializer });
 
       // then
       expect(response).to.be.equal('ok');
