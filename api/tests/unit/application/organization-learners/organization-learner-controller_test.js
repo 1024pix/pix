@@ -1,7 +1,5 @@
 const { sinon, expect, hFake } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases/index.js');
-const organizationLearnerParticipationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-learner-activity-serializer');
-const organizationLearnerSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-learner-follow-up/organization-learner-serializer');
 const organizationLearnerController = require('../../../../lib/application/organization-learners/organization-learner-controller');
 
 describe('Unit | Application | Organization-Learner | organization-learner-controller', function () {
@@ -12,14 +10,14 @@ describe('Unit | Application | Organization-Learner | organization-learner-contr
       const organizationLearnerActivity = Symbol('activity returned by use case');
       const serializedActivity = Symbol('serialized activity');
 
-      sinon.stub(organizationLearnerParticipationSerializer, 'serialize');
+      const organizationLearnerActivitySerializer = {
+        serialize: sinon.stub(),
+      };
       sinon.stub(usecases, 'getOrganizationLearnerActivity');
 
       usecases.getOrganizationLearnerActivity.withArgs({ organizationLearnerId }).resolves(organizationLearnerActivity);
 
-      organizationLearnerParticipationSerializer.serialize
-        .withArgs(organizationLearnerActivity)
-        .returns(serializedActivity);
+      organizationLearnerActivitySerializer.serialize.withArgs(organizationLearnerActivity).returns(serializedActivity);
 
       const request = {
         params: {
@@ -28,11 +26,13 @@ describe('Unit | Application | Organization-Learner | organization-learner-contr
       };
 
       // when
-      const response = await organizationLearnerController.getActivity(request, hFake);
+      const response = await organizationLearnerController.getActivity(request, hFake, {
+        organizationLearnerActivitySerializer,
+      });
 
       // then
       expect(usecases.getOrganizationLearnerActivity).to.have.been.calledWith({ organizationLearnerId });
-      expect(organizationLearnerParticipationSerializer.serialize).to.have.been.calledWith(organizationLearnerActivity);
+      expect(organizationLearnerActivitySerializer.serialize).to.have.been.calledWith(organizationLearnerActivity);
       expect(response.statusCode).to.equal(200);
       expect(response.source).to.equal(serializedActivity);
     });
@@ -45,7 +45,9 @@ describe('Unit | Application | Organization-Learner | organization-learner-contr
       const organizationLearner = Symbol('learner returned by use case');
       const serializedLearner = Symbol('serialized learner');
 
-      sinon.stub(organizationLearnerSerializer, 'serialize');
+      const organizationLearnerSerializer = {
+        serialize: sinon.stub(),
+      };
       sinon.stub(usecases, 'getOrganizationLearner');
 
       usecases.getOrganizationLearner.withArgs({ organizationLearnerId }).resolves(organizationLearner);
@@ -59,7 +61,9 @@ describe('Unit | Application | Organization-Learner | organization-learner-contr
       };
 
       // when
-      const response = await organizationLearnerController.getLearner(request, hFake);
+      const response = await organizationLearnerController.getLearner(request, hFake, {
+        organizationLearnerSerializer,
+      });
 
       // then
       expect(usecases.getOrganizationLearner).to.have.been.calledWith({ organizationLearnerId });
