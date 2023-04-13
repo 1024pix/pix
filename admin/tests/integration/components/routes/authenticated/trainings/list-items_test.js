@@ -11,6 +11,12 @@ module('Integration | Component | routes/authenticated/trainings | list-items', 
   });
 
   test('it should display header with id and title', async function (assert) {
+    // given
+    const featureToggles = this.owner.lookup('service:feature-toggles');
+    featureToggles.featureToggles = {
+      isTrainingRecommendationEnabled: true,
+    };
+
     // when
     const screen = await render(hbs`<Trainings::ListSummaryItems @triggerFiltering={{this.noop}} />`);
 
@@ -21,6 +27,10 @@ module('Integration | Component | routes/authenticated/trainings | list-items', 
 
   test('it should display trainings summaries list', async function (assert) {
     // given
+    const featureToggles = this.owner.lookup('service:feature-toggles');
+    featureToggles.featureToggles = {
+      isTrainingRecommendationEnabled: true,
+    };
     const summaries = [
       { id: 1, title: "Apprendre en s'amusant" },
       { id: 2, title: 'Speed training' },
@@ -41,6 +51,10 @@ module('Integration | Component | routes/authenticated/trainings | list-items', 
 
   test('it should display trainings summaries data', async function (assert) {
     // given
+    const featureToggles = this.owner.lookup('service:feature-toggles');
+    featureToggles.featureToggles = {
+      isTrainingRecommendationEnabled: true,
+    };
     const summaries = [{ id: 123, title: 'Comment toiletter son chien' }];
     summaries.meta = {
       pagination: { rowCount: 2 },
