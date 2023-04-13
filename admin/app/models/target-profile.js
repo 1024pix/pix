@@ -32,6 +32,7 @@ export default class TargetProfile extends Model {
 
   @hasMany('badge') badges;
   @hasMany('stage') stages;
+  @hasMany('training-summary') trainingSummaries;
 
   @attr() isNewFormat;
   @hasMany('old-area') oldAreas;

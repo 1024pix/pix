@@ -156,6 +156,34 @@ exports.register = async (server) => {
       },
     },
     {
+      method: 'GET',
+      path: '/api/admin/target-profiles/{id}/training-summaries',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.targetProfileId,
+          }),
+        },
+        handler: targetProfileController.findPaginatedTrainings,
+        tags: ['api', 'admin', 'target-profiles', 'trainings'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            '- Elle permet de récupérer les résumés des contenus formatifs liés au profil cible',
+        ],
+      },
+    },
+    {
       method: 'POST',
       path: '/api/admin/target-profiles',
       config: {

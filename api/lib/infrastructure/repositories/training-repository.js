@@ -45,6 +45,24 @@ async function findPaginatedSummaries({ page, domainTransaction = DomainTransact
   return { trainings, pagination };
 }
 
+async function findPaginatedSummariesByTargetProfileId({
+  targetProfileId,
+  page,
+  domainTransaction = DomainTransaction.emptyTransaction(),
+}) {
+  const knexConn = domainTransaction?.knexTransaction || knex;
+  const query = knexConn(TABLE_NAME)
+    .select('trainings.*')
+    .innerJoin('target-profile-trainings', `${TABLE_NAME}.id`, 'target-profile-trainings.trainingId')
+    .where({ 'target-profile-trainings.targetProfileId': targetProfileId })
+    .orderBy('id', 'asc');
+
+  const { results, pagination } = await fetchPage(query, page);
+
+  const trainings = results.map((training) => new TrainingSummary(training));
+  return { trainings, pagination };
+}
+
 async function findWithTriggersByCampaignParticipationIdAndLocale({
   campaignParticipationId,
   locale,
@@ -129,6 +147,7 @@ module.exports = {
   get,
   getWithTriggersForAdmin,
   findPaginatedSummaries,
+  findPaginatedSummariesByTargetProfileId,
   findWithTriggersByCampaignParticipationIdAndLocale,
   create,
   update,
