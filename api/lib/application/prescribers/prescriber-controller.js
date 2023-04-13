@@ -3,11 +3,11 @@ const prescriberSerializer = require('../../infrastructure/serializers/jsonapi/p
 const usecases = require('../../domain/usecases/index.js');
 
 module.exports = {
-  get(request) {
+  get(request, h, dependencies = { prescriberSerializer }) {
     const authenticatedUserId = request.auth.credentials.userId;
 
     return usecases
       .getPrescriber({ userId: authenticatedUserId })
-      .then((prescriber) => prescriberSerializer.serialize(prescriber));
+      .then((prescriber) => dependencies.prescriberSerializer.serialize(prescriber));
   },
 };
