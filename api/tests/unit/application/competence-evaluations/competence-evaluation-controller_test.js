@@ -1,17 +1,17 @@
 const { sinon, expect, domainBuilder, hFake } = require('../../../test-helper');
 const competenceEvaluationController = require('../../../../lib/application/competence-evaluations/competence-evaluation-controller');
-const serializer = require('../../../../lib/infrastructure/serializers/jsonapi/competence-evaluation-serializer');
 const usecases = require('../../../../lib/domain/usecases/index.js');
 
 describe('Unit | Application | Controller | Competence-Evaluation', function () {
-  describe('#start', function () {
-    let request;
+  describe('#startOrResume', function () {
     const competenceId = 'recABCD1234';
     const userId = 6;
+    let request;
+    let competenceEvaluationSerializer;
 
     beforeEach(function () {
       sinon.stub(usecases, 'startOrResumeCompetenceEvaluation');
-      sinon.stub(serializer, 'serialize');
+      competenceEvaluationSerializer = { serialize: sinon.stub() };
       request = {
         headers: { authorization: 'token' },
         auth: { credentials: { userId } },
@@ -24,7 +24,7 @@ describe('Unit | Application | Controller | Competence-Evaluation', function () 
       usecases.startOrResumeCompetenceEvaluation.resolves({});
 
       // when
-      await competenceEvaluationController.startOrResume(request, hFake);
+      await competenceEvaluationController.startOrResume(request, hFake, { competenceEvaluationSerializer });
 
       // then
       expect(usecases.startOrResumeCompetenceEvaluation).to.have.been.calledOnce;
@@ -46,13 +46,15 @@ describe('Unit | Application | Controller | Competence-Evaluation', function () 
         userId: competenceEvaluation.userId,
         competenceId,
       };
-      serializer.serialize.returns(serializedCompetenceEvaluation);
+      competenceEvaluationSerializer.serialize.returns(serializedCompetenceEvaluation);
 
       // when
-      const response = await competenceEvaluationController.startOrResume(request, hFake);
+      const response = await competenceEvaluationController.startOrResume(request, hFake, {
+        competenceEvaluationSerializer,
+      });
 
       // then
-      expect(serializer.serialize).to.have.been.calledWith(competenceEvaluation);
+      expect(competenceEvaluationSerializer.serialize).to.have.been.calledWith(competenceEvaluation);
       expect(response.statusCode).to.equal(201);
       expect(response.source).to.deep.equal(serializedCompetenceEvaluation);
     });
