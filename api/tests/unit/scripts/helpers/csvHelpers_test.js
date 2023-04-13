@@ -10,6 +10,7 @@ const {
 const {
   batchOrganizationOptionsWithHeader,
 } = require('../../../../scripts/create-organizations-with-tags-and-target-profiles');
+const { UnprocessableEntityError } = require('../../../../lib/application/http-errors');
 
 describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
   const notExistFilePath = 'notExist.csv';
@@ -164,6 +165,18 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
 
         // then
         expect(data[0].type).to.equal('PRO');
+      });
+    });
+
+    context('when csv file is empty or contains only the header line', function () {
+      it(' should return an unprocessable entity error', async function () {
+        // given & when
+        const error = await catchErr(parseCsvWithHeader)(emptyFilePath);
+
+        // then
+        expect(error).to.be.instanceOf(UnprocessableEntityError);
+        expect(error.message).to.equal('No session data in csv');
+        expect(error.code).to.equal('CSV_DATA_REQUIRED');
       });
     });
   });
