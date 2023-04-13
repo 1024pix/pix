@@ -14,8 +14,12 @@
       class="button button--link campaign-participation-overview-card-content__action"
       @route="campaigns.entry-point"
       @model={{@model.campaignCode}}
+      aria-label={{t
+        "pages.campaign-participation-overview.card.resume.extra-information"
+        campaignTitle=@model.campaignTitle
+      }}
     >
-      {{t "pages.campaign-participation-overview.card.resume"}}
+      {{t "pages.campaign-participation-overview.card.resume.information"}}
     </LinkTo>
   </section>
 </article>

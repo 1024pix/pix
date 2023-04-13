@@ -7,6 +7,7 @@ export default class CompetenceCardDefault extends Component {
   @service store;
   @service router;
   @service competenceEvaluation;
+  @service intl;
 
   get displayedLevel() {
     if (this.args.scorecard.isNotStarted) {
@@ -17,6 +18,13 @@ export default class CompetenceCardDefault extends Component {
 
   get shouldWaitBeforeImproving() {
     return this.args.scorecard.remainingDaysBeforeImproving > 0;
+  }
+
+  get ariaLabelButton() {
+    const ariaLabel = this.args.scorecard.isStarted
+      ? 'pages.competence-details.actions.continue.extra-information'
+      : 'pages.competence-details.actions.start.extra-information';
+    return this.intl.t(ariaLabel, { competenceName: this.args.scorecard.name });
   }
 
   @action
