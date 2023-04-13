@@ -14,7 +14,6 @@ const map = require('lodash/map');
 const csvHelpers = require('../../../scripts/helpers/csvHelpers.js');
 const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer.js');
 const { getHeaders } = require('../../infrastructure/files/sessions-import.js');
-const { UnprocessableEntityError } = require('../../application/http-errors.js');
 
 module.exports = {
   async saveSession(request, _h, dependencies = { sessionSerializer }) {
@@ -205,9 +204,7 @@ module.exports = {
     const authenticatedUserId = request.auth.credentials.userId;
 
     const parsedCsvData = await dependencies.csvHelpers.parseCsvWithHeader(request.payload.path);
-    if (parsedCsvData.length === 0) {
-      throw new UnprocessableEntityError('No session data in csv', 'CSV_DATA_REQUIRED');
-    }
+
     const sessions = dependencies.csvSerializer.deserializeForSessionsImport(parsedCsvData);
     const sessionMassImportReport = await usecases.validateSessions({
       sessions,
