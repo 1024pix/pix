@@ -4,7 +4,7 @@ const { MissingQueryParamError } = require('../http-errors.js');
 const usecases = require('../../domain/usecases/index.js');
 const organizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/organization-invitation-serializer.js');
 const scoOrganizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/sco-organization-invitation-serializer.js');
-const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils.js');
+const requestResponseUtils = require('../../infrastructure/utils/request-response-utils.js');
 
 module.exports = {
   async acceptOrganizationInvitation(request) {
@@ -23,17 +23,17 @@ module.exports = {
     return null;
   },
 
-  async sendScoInvitation(request, h) {
+  async sendScoInvitation(request, h, dependencies = { requestResponseUtils, scoOrganizationInvitationSerializer }) {
     const { uai, 'first-name': firstName, 'last-name': lastName } = request.payload.data.attributes;
 
-    const locale = extractLocaleFromRequest(request);
+    const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
 
     const organizationScoInvitation = await usecases.sendScoInvitation({ uai, firstName, lastName, locale });
 
-    return h.response(scoOrganizationInvitationSerializer.serialize(organizationScoInvitation)).created();
+    return h.response(dependencies.scoOrganizationInvitationSerializer.serialize(organizationScoInvitation)).created();
   },
 
-  async getOrganizationInvitation(request) {
+  async getOrganizationInvitation(request, h, dependencies = { organizationInvitationSerializer }) {
     const organizationInvitationId = request.params.id;
     const organizationInvitationCode = request.query.code;
 
@@ -45,6 +45,6 @@ module.exports = {
       organizationInvitationId,
       organizationInvitationCode,
     });
-    return organizationInvitationSerializer.serialize(organizationInvitation);
+    return dependencies.organizationInvitationSerializer.serialize(organizationInvitation);
   },
 };
