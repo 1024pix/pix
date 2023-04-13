@@ -211,7 +211,10 @@
       "card": {
         "finished-at": "Terminé le {date}",
         "results": "{result, number, ::percent} de réussite",
-        "resume": "Reprendre",
+        "resume": {
+          "extra-information": "Reprendre le parcours {campaignTitle}",
+          "information": "Reprendre"
+        },
         "see-more": "Voir le détail",
         "send": "Envoyer mes résultats",
         "stages": "{count} { count, plural, =0 {étoile} =1 {étoile} other {étoiles} } sur {total}",
@@ -674,6 +677,7 @@
       "title": "Compétence",
       "actions": {
         "continue": {
+          "extra-information": "Reprendre la compétence {competenceName}",
           "label": "Reprendre"
         },
         "improve": {
@@ -699,6 +703,7 @@
           }
         },
         "start": {
+          "extra-information": "Commencer la compétence {competenceName}",
           "label": "Commencer"
         }
       },
@@ -737,6 +742,7 @@
         "message": "<h2>Bravo vous avez terminé les compétences recommandées !</h2> <p> Pour aller plus loin continuez à vous entraîner en retentant des compétences. </p>"
       },
       "improvable-competences": {
+        "extra-information": "Accéder à toutes les compétences à retenter",
         "title": "Retenter une compétence",
         "profile-link": "Toutes les compétences",
         "subtitle": "Prêt à faire passer votre compétence au niveau supérieur ?"
@@ -749,6 +755,7 @@
         "message": "<h2>Bonjour { firstname }, découvrez votre tableau de bord.</h2><p>Accédez rapidement et facilement à vos parcours et vos tests de compétence déjà commencés.<br/>Retrouvez l’évolution de votre score Pix et vérifiez si votre profil est prêt pour la certification Pix.</p>"
       },
       "recommended-competences": {
+        "extra-information": "Accéder à toutes les compétences recommandées",
         "title": "Compétences recommandées",
         "profile-link": "Toutes les compétences",
         "subtitle": "Explorez les compétences recommandées pour vous."

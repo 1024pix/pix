@@ -1,11 +1,10 @@
-import { currentURL, click, find } from '@ember/test-helpers';
+import { currentURL, click } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { invalidateSession } from '../helpers/invalidate-session';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import { authenticate } from '../helpers/authentication';
 import setupIntl from '../helpers/setup-intl';
-import { clickByLabel } from '../helpers/click-by-label';
 import { visit } from '@1024pix/ember-testing-library';
 
 const ASSESSMENT = 'ASSESSMENT';
@@ -54,7 +53,9 @@ module('Acceptance | User dashboard page', function (hooks) {
         const screen = await visit('/campagnes');
 
         // when
-        await clickByLabel(this.intl.t('pages.fill-in-campaign-code.warning-message-logout'));
+        await click(
+          screen.getByRole('link', { name: this.intl.t('pages.fill-in-campaign-code.warning-message-logout') })
+        );
 
         // then
         assert.notOk(screen.queryByText('Hermione Granger'));
@@ -93,12 +94,11 @@ module('Acceptance | User dashboard page', function (hooks) {
 
         test('should display a card with a resume button', async function (assert) {
           // when
-          await visit('/accueil');
+          const screen = await visit('/accueil');
 
           // then
-          const resumeButton = find('.campaign-participation-overview-card-content__action');
-          assert.ok(resumeButton);
-          assert.strictEqual(resumeButton.textContent.trim(), 'Reprendre');
+          const resumeButton = screen.getByRole('link', { name: 'Reprendre le parcours My Campaign' });
+          assert.dom(resumeButton).exists();
         });
       });
 
@@ -130,12 +130,11 @@ module('Acceptance | User dashboard page', function (hooks) {
 
         test('should display a card with a share button', async function (assert) {
           // when
-          await visit('/accueil');
+          const screen = await visit('/accueil');
 
           // then
-          const shareButton = find('.campaign-participation-overview-card-content__action');
-          assert.ok(shareButton);
-          assert.strictEqual(shareButton.textContent.trim(), 'Envoyer mes résultats');
+          const shareButton = screen.getByRole('link', { name: 'Envoyer mes résultats' });
+          assert.dom(shareButton).exists();
         });
       });
     });
@@ -148,10 +147,11 @@ module('Acceptance | User dashboard page', function (hooks) {
       await authenticate(user);
 
       // when
-      await visit('/accueil');
+      const screen = await visit('/accueil');
 
       // then
-      assert.dom('section[data-test-recommended-competences]').exists();
+      assert.dom(screen.getByRole('heading', { name: 'Compétences recommandées' })).exists();
+      assert.dom(screen.getByText('Explorez les compétences recommandées pour vous.')).exists();
     });
 
     test('should display the link to profile', async function (assert) {
@@ -163,12 +163,11 @@ module('Acceptance | User dashboard page', function (hooks) {
       const screen = await visit('/accueil');
 
       // then
-      // todo : ajouter des aria-label dans les 2 boutons pour distinguer les compétences recommandées ou à retester
-      const competencesButtons = screen.getAllByText(
-        this.intl.t('pages.dashboard.recommended-competences.profile-link')
-      ).length;
+      const recommendedCompetencesButton = screen.getByRole('link', {
+        name: 'Accéder à toutes les compétences recommandées',
+      });
 
-      assert.strictEqual(competencesButtons, 2);
+      assert.dom(recommendedCompetencesButton).exists();
     });
   });
 
@@ -190,15 +189,21 @@ module('Acceptance | User dashboard page', function (hooks) {
     hooks.beforeEach(async function () {
       user = server.create('user', 'withEmail');
       await authenticate(user);
-      await visit('/accueil');
     });
 
-    test('should display started-competences section', function (assert) {
-      assert.dom('section[data-test-started-competences]').exists();
+    test('should display started-competences section', async function (assert) {
+      // when
+      const screen = await visit('/accueil');
+
+      // then
+      assert.dom(screen.getByRole('heading', { name: 'Reprendre une compétence', level: 2 })).exists();
+      assert.dom(screen.getByText('Continuez vos tests de compétences, retrouvez les plus récents ici.')).exists();
     });
 
     test('should link to competence-details page on click on level circle', async function (assert) {
       // when
+      await visit('/accueil');
+
       await click('.competence-card__link');
 
       // then
@@ -214,21 +219,24 @@ module('Acceptance | User dashboard page', function (hooks) {
 
     module('when user has new information to see', function (hooks) {
       hooks.beforeEach(async function () {
-        user = server.create('user', 'withEmail');
+        user = server.create('user', 'withEmail', { firstName: 'Henri' });
       });
 
       module('when user has closable information', function () {
         test('should close new dashboard information on user click', async function (assert) {
           // given
           await authenticate(user);
-          await visit('/accueil');
-          assert.dom('.new-information').exists();
+          const screen = await visit('/accueil');
+
+          assert.dom(screen.getByRole('heading', { name: 'Bonjour Henri, découvrez votre tableau de bord.' })).exists();
 
           // when
-          await click('.new-information__close');
+          await click(screen.getByRole('button', { name: 'Fermer la bannière' }));
 
           // then
-          assert.dom('.new-information').doesNotExist();
+          assert
+            .dom(screen.queryByRole('heading', { name: 'Bonjour Henri, découvrez votre tableau de bord.' }))
+            .doesNotExist();
         });
       });
 
@@ -258,32 +266,25 @@ module('Acceptance | User dashboard page', function (hooks) {
         module('when user has not shared his results', function () {
           test('should display a resume campaign banner for the campaign', async function (assert) {
             // when
-            await visit('/accueil');
+            const screen = await visit('/accueil');
 
             // then
-            assert.dom('.new-information__content').exists();
-            assert.dom('.new-information-content-text__button').exists();
-          });
-
-          test('should display accessibility information in the banner', async function (assert) {
-            // when
-            await visit('/accueil');
-
-            // then
-            const button = find('.new-information-content-text__button');
-            const a11yText = button.firstChild.textContent;
-            assert.ok(button);
-            assert.ok(a11yText);
+            assert
+              .dom(
+                screen.getByRole('heading', { name: "N'oubliez pas de finaliser votre envoi de profil !", level: 2 })
+              )
+              .exists();
+            assert.dom(screen.getByRole('link', { name: 'Continuer' })).exists();
           });
         });
 
         module('when users wants to share his results by clicking the resume button', function () {
           test('should redirect the user to the campaign results sharing page', async function (assert) {
             // given
-            await visit('/accueil');
+            const screen = await visit('/accueil');
 
             // when
-            await click('.new-information-content-text__button');
+            await click(screen.getByRole('link', { name: 'Continuer' }));
 
             // then
             assert.strictEqual(currentURL(), '/campagnes/SNAP1234/collecte/envoi-profil');
@@ -295,13 +296,16 @@ module('Acceptance | User dashboard page', function (hooks) {
     module('when user has no new information to see', function () {
       test('should not render any new-information banner', async function (assert) {
         // given
-        user = server.create('user', 'withEmail', 'hasSeenNewDashboardInfo');
-
-        // when
+        user = server.create('user', 'withEmail', { hasSeenNewDashboardInfo: true, firstName: 'Henri' });
         await authenticate(user);
 
+        // when
+        const screen = await visit('/accueil');
+
         // then
-        assert.dom('.new-information__content').doesNotExist();
+        assert
+          .dom(screen.queryByRole('heading', { name: 'Bonjour Henri, découvrez votre tableau de bord.' }))
+          .doesNotExist();
       });
     });
   });

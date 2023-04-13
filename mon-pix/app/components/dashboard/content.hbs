@@ -64,7 +64,6 @@
 
     {{#if this.hasStartedCompetences}}
       <Dashboard::Section
-        data-test-started-competences
         @title={{t "pages.dashboard.started-competences.title"}}
         @subtitle={{t "pages.dashboard.started-competences.subtitle"}}
       >
@@ -74,11 +73,11 @@
 
     {{#if this.hasRecommendedCompetences}}
       <Dashboard::Section
-        data-test-recommended-competences
         @title={{t "pages.dashboard.recommended-competences.title"}}
         @subtitle={{t "pages.dashboard.recommended-competences.subtitle"}}
         @linkRoute="authenticated.profile"
         @linkText={{t "pages.dashboard.recommended-competences.profile-link"}}
+        @ariaLabelLink={{t "pages.dashboard.recommended-competences.extra-information"}}
       >
         <CompetenceCard::List @scorecards={{this.recommendedScorecards}} />
       </Dashboard::Section>
@@ -90,6 +89,7 @@
         @subtitle={{t "pages.dashboard.improvable-competences.subtitle"}}
         @linkRoute="authenticated.profile"
         @linkText={{t "pages.dashboard.improvable-competences.profile-link"}}
+        @ariaLabelLink={{t "pages.dashboard.improvable-competences.extra-information"}}
       >
         <CompetenceCard::List @scorecards={{this.improvableScorecards}} />
       </Dashboard::Section>

@@ -73,6 +73,7 @@
           class="button button--extra-thin button--round button--link button--green competence-card__button"
           @model={{@scorecard.competenceId}}
           @route="authenticated.competences.resume"
+          aria-label={{this.ariaLabelButton}}
         >
           <span class="competence-card-button__label">
             {{#if @scorecard.isStarted}}
