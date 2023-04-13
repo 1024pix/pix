@@ -3,10 +3,12 @@ const certificationResultUtils = require('../../infrastructure/utils/csv/certifi
 const dayjs = require('dayjs');
 
 module.exports = {
-  async getCleaCertifiedCandidateDataCsv(request, h) {
+  async getCleaCertifiedCandidateDataCsv(request, h, dependencies = { certificationResultUtils }) {
     const sessionId = request.params.id;
     const { session, cleaCertifiedCandidateData } = await usecases.getCleaCertifiedCandidateBySession({ sessionId });
-    const csvResult = await certificationResultUtils.getCleaCertifiedCandidateCsv(cleaCertifiedCandidateData);
+    const csvResult = await dependencies.certificationResultUtils.getCleaCertifiedCandidateCsv(
+      cleaCertifiedCandidateData
+    );
 
     const dateWithTime = dayjs(session.date + ' ' + session.time)
       .locale('fr')
