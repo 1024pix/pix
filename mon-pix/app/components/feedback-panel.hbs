@@ -1,6 +1,6 @@
 {{! template-lint-disable require-input-label no-unknown-arguments-for-builtin-components }}
 <div class="feedback-panel">
-  <h3 class="sr-only">{{t "pages.challenge.parts.feedback"}}</h3>
+  <h2 class="screen-reader-only">{{t "pages.challenge.parts.feedback"}}</h2>
   <div class="feedback-panel__view feedback-panel__view--link">
     <button
       class="feedback-panel__open-button"
@@ -17,7 +17,7 @@
 
   {{#if this.isExpanded}}
     {{#if this.isFormSubmitted}}
-      <div class="feedback-panel__view feedback-panel__view--mercix" id="feedback-panel-submitted">
+      <div class="feedback-panel__view feedback-panel__view--mercix" id="feedback-panel-submitted" role="status">
         {{t "pages.challenge.feedback-panel.form.status.success" htmlSafe=true}}
       </div>
     {{else}}
