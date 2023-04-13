@@ -76,7 +76,7 @@
     "sax": "^1.2.4",
     "saxpath": "^0.6.5",
     "scalingo": "^0.6.1",
-    "schemalint": "^0.5.10",
+    "schemalint": "^1.0.0",
     "sib-api-v3-sdk": "^8.3.0",
     "uuid": "^8.3.2",
     "validator": "^13.7.0",
