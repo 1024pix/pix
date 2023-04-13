@@ -64,7 +64,7 @@ module.exports = {
         'organization-learners.lastName',
       ])
       .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
-      .where({ campaignId, isImproved: false, deletedAt: null });
+      .where({ campaignId, isImproved: false, 'campaign-participations.deletedAt': null });
 
     return results.map(_rowToResult);
   },
