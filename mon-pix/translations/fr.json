@@ -452,8 +452,8 @@
               }
             },
             "detail-selection": {
-              "aria-first": "Vous avez un problème avec",
-              "aria-secondary": "Précisez votre problème",
+              "aria-first": "Sélectionner la catégorie du problème rencontré",
+              "aria-secondary": "Sélectionner une option pour préciser votre problème",
               "label": "Précisez",
               "options": {
                 "answer-not-accepted": "Ma réponse est correcte mais n’a pas été validée",
