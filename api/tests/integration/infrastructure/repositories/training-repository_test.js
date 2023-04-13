@@ -200,6 +200,66 @@ describe('Integration | Repository | training-repository', function () {
     });
   });
 
+  describe('#findPaginatedSummariesByTargetProfileId', function () {
+    context('when trainings exist', function () {
+      it('should return paginated results', async function () {
+        // given
+        const trainingSummary1 = domainBuilder.buildTrainingSummary({ id: 1 });
+        const trainingSummary2 = domainBuilder.buildTrainingSummary({ id: 2 });
+        const trainingSummaryLinkToAnotherTargetProfile = domainBuilder.buildTrainingSummary({ id: 3 });
+
+        databaseBuilder.factory.buildTraining({ ...trainingSummary1 });
+        databaseBuilder.factory.buildTraining({ ...trainingSummary2 });
+        databaseBuilder.factory.buildTraining({ ...trainingSummaryLinkToAnotherTargetProfile });
+
+        const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+        const anotherTargetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+
+        databaseBuilder.factory.buildTargetProfileTraining({ targetProfileId, trainingId: trainingSummary1.id });
+        databaseBuilder.factory.buildTargetProfileTraining({ targetProfileId, trainingId: trainingSummary2.id });
+        databaseBuilder.factory.buildTargetProfileTraining({
+          targetProfileId: anotherTargetProfileId,
+          trainingId: trainingSummaryLinkToAnotherTargetProfile.id,
+        });
+
+        await databaseBuilder.commit();
+        const page = { size: 2, number: 1 };
+
+        // when
+        const { trainings, pagination } = await trainingRepository.findPaginatedSummariesByTargetProfileId({
+          targetProfileId,
+          page,
+        });
+
+        // then
+        expect(trainings).to.have.lengthOf(2);
+        expect(trainings[0]).to.be.instanceOf(TrainingSummary);
+        expect(trainings[0]).to.deep.equal(trainingSummary1);
+        expect(trainings[1]).to.be.instanceOf(TrainingSummary);
+        expect(trainings[1]).to.deep.equal(trainingSummary2);
+        expect(pagination).to.deep.equal({ page: 1, pageSize: 2, rowCount: 2, pageCount: 1 });
+      });
+    });
+
+    context('when training does not exist', function () {
+      it('should return an empty array', async function () {
+        // given
+        const page = { size: 2, number: 1 };
+        const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+
+        // when
+        const { trainings, pagination } = await trainingRepository.findPaginatedSummariesByTargetProfileId({
+          targetProfileId,
+          page,
+        });
+
+        // then
+        expect(trainings).to.deep.equal([]);
+        expect(pagination).to.deep.equal({ page: 1, pageSize: 2, rowCount: 0, pageCount: 0 });
+      });
+    });
+  });
+
   describe('#findWithTriggersByCampaignParticipationIdAndLocale', function () {
     let area1;
     let competence1;

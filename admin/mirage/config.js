@@ -298,6 +298,7 @@ export default function () {
   this.put('/admin/target-profiles/:id/outdate', outdate);
   this.post('/admin/target-profiles/:id/badges', createBadge);
   this.put('/admin/target-profiles/:id/simplified-access', markTargetProfileAsSimplifiedAccess);
+  this.get('/admin/target-profiles/:id/training-summaries', findPaginatedTrainingSummaries);
 
   this.get('/admin/target-profile-summaries', findPaginatedFilteredTargetProfileSummaries);
 

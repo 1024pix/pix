@@ -103,6 +103,7 @@ Router.map(function () {
         this.route('stages', function () {
           this.route('stage', { path: '/:stage_id' });
         });
+        this.route('training-summaries');
       });
     });
 

@@ -477,6 +477,7 @@ const findPaginatedFilteredTargetProfileSummariesForAdmin = require('./find-pagi
 const findPaginatedFilteredTutorials = require('./find-paginated-filtered-tutorials.js');
 const findPaginatedFilteredUsers = require('./find-paginated-filtered-users.js');
 const findPaginatedParticipationsForCampaignManagement = require('./find-paginated-participations-for-campaign-management.js');
+const findPaginatedTargetProfileTrainingSummaries = require('./find-paginated-target-profile-training-summaries.js');
 const findPaginatedTrainingSummaries = require('./find-paginated-training-summaries.js');
 const findPaginatedUserRecommendedTrainings = require('./find-paginated-user-recommended-trainings.js');
 const findPendingCertificationCenterInvitations = require('./find-pending-certification-center-invitations.js');
@@ -765,6 +766,7 @@ const usecasesWithoutInjectedDependencies = {
   findPaginatedFilteredTutorials,
   findPaginatedFilteredUsers,
   findPaginatedParticipationsForCampaignManagement,
+  findPaginatedTargetProfileTrainingSummaries,
   findPaginatedTrainingSummaries,
   findPaginatedUserRecommendedTrainings,
   findPendingCertificationCenterInvitations,
