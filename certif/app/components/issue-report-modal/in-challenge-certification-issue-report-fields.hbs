@@ -2,7 +2,9 @@
   <div class="candidate-information-change-certification-issue-report-fields__radio-button">
     {{! template-lint-disable require-input-label }}
     <input
-      aria-label="Sélectionner la catégorie '{{@inChallengeCategory.categoryLabel}}'"
+      aria-label="{{t
+        'pages.session-finalization.add-issue-modal.actions.select-category-label'
+      }} '{{@inChallengeCategory.categoryLabel}}'"
       id="input-radio-for-category-in-challenge"
       type="radio"
       name="in-challenge"
@@ -14,7 +16,9 @@
   </div>
   {{#if @inChallengeCategory.isChecked}}
     <div class="candidate-information-change-certification-issue-report-fields__details">
-      <label for="input-for-category-in-challenge-question-number">Numéro de question :</label>
+      <label for="input-for-category-in-challenge-question-number">{{t
+          "pages.session-finalization.add-issue-modal.actions.enter-question-number"
+        }}</label>
       <Input
         id="input-for-category-in-challenge-question-number"
         name="question-number"
@@ -24,9 +28,11 @@
         @value={{@inChallengeCategory.questionNumber}}
         placeholder="7"
       />
-      <label for="subcategory-for-category-in-challenge">Sélectionnez une sous-catégorie :</label>
+      <label for="subcategory-for-category-in-challenge">{{t
+          "pages.session-finalization.add-issue-modal.actions.select-subcategory"
+        }}</label>
       <PixSelect
-        aria-label="Sélectionner la sous-catégorie"
+        aria-label="{{t 'pages.session-finalization.add-issue-modal.actions.select-subcategory-label'}}"
         @id="subcategory-for-category-in-challenge"
         @options={{this.options}}
         @value={{@inChallengeCategory.subcategory}}

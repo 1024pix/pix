@@ -5,8 +5,11 @@ import {
   subcategoryToCode,
   subcategoryToLabel,
 } from 'pix-certif/models/certification-issue-report';
+import { inject as service } from '@ember/service';
 
 export default class InChallengeCertificationIssueReportFields extends Component {
+  @service intl;
+
   @action
   onChangeSubcategory(option) {
     this.args.inChallengeCategory.subcategory = option;
@@ -33,7 +36,7 @@ export default class InChallengeCertificationIssueReportFields extends Component
       const labelForSubcategory = subcategoryToLabel[subcategory];
       return {
         value: certificationIssueReportSubcategories[subcategory],
-        label: `${subcategoryToCode[subcategory]} ${labelForSubcategory}`,
+        label: `${subcategoryToCode[subcategory]} ${this.intl.t(labelForSubcategory)}`,
       };
     })
     .filter(Boolean);

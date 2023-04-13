@@ -19,9 +19,11 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
   test('it should call toggle function on click radio button', async function (assert) {
     // given
     const toggleOnCategory = sinon.stub();
+    const intl = this.owner.lookup('service:intl');
     const inChallengeCategory = new RadioButtonCategoryWithSubcategoryAndQuestionNumber({
       name: 'IN_CHALLENGE',
       isChecked: false,
+      intl,
     });
     this.set('toggleOnCategory', toggleOnCategory);
     this.set('inChallengeCategory', inChallengeCategory);
@@ -33,8 +35,11 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
         @toggleOnCategory={{this.toggleOnCategory}}
         @maxlength={{500}}
       />`);
+
     await click(
-      `[aria-label="Sélectionner la catégorie '${categoryToLabel[certificationIssueReportCategories.IN_CHALLENGE]}'"]`
+      `[aria-label="${this.intl.t(
+        'pages.session-finalization.add-issue-modal.actions.select-category-label'
+      )} '${this.intl.t(categoryToLabel[certificationIssueReportCategories.IN_CHALLENGE])}'"]`
     );
 
     // then
@@ -76,9 +81,12 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
     test(`it should select the subcategory: ${subcategory} when category is checked`, async function (assert) {
       // given
       const toggleOnCategory = sinon.stub();
+      const [subcategoryCode, subcategoryLabel] = subcategory.split(' ');
+      const intl = this.owner.lookup('service:intl');
       const inChallengeCategory = new RadioButtonCategoryWithSubcategoryAndQuestionNumber({
         name: 'IN_CHALLENGE',
         isChecked: true,
+        intl,
       });
       this.set('toggleOnCategory', toggleOnCategory);
       this.set('inChallengeCategory', inChallengeCategory);
@@ -90,10 +98,14 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
         @toggleOnCategory={{this.toggleOnCategory}}
         @maxlength={{500}}
       />`);
-      await click(screen.getByLabelText('Sélectionnez une sous-catégorie :'));
+
+      await click(
+        screen.getByLabelText(this.intl.t('pages.session-finalization.add-issue-modal.actions.select-subcategory'))
+      );
+
       await click(
         await screen.findByRole('option', {
-          name: subcategory,
+          name: `${subcategoryCode} ${this.intl.t(subcategoryLabel)}`,
         })
       );
 
@@ -102,7 +114,7 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
         .dom(
           screen.getByRole('option', {
             selected: true,
-            name: subcategory,
+            name: `${subcategoryCode} ${this.intl.t(subcategoryLabel)}`,
           })
         )
         .exists();
@@ -112,8 +124,10 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
   test('category', async function (assert) {
     // given
     const toggleOnCategory = () => {};
+    const intl = this.owner.lookup('service:intl');
     const inChallengeCategory = new RadioButtonCategoryWithSubcategoryAndQuestionNumber({
       name: 'IN_CHALLENGE',
+      intl,
     });
     this.set('toggleOnCategory', toggleOnCategory);
     this.set('inChallengeCategory', inChallengeCategory);
@@ -132,9 +146,11 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
   test('subcategory FILE_NOT_OPENING', async function (assert) {
     // given
     const toggleOnCategory = sinon.stub();
+    const intl = this.owner.lookup('service:intl');
     const inChallengeCategory = new RadioButtonCategoryWithSubcategoryAndQuestionNumber({
       name: 'IN_CHALLENGE',
       isChecked: true,
+      intl,
     });
     this.set('toggleOnCategory', toggleOnCategory);
     this.set('inChallengeCategory', inChallengeCategory);
@@ -146,12 +162,14 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
         @toggleOnCategory={{this.toggleOnCategory}}
         @maxlength={{500}}
       />`);
-    await click(screen.getByLabelText('Sélectionnez une sous-catégorie :'));
+    await click(
+      screen.getByLabelText(this.intl.t('pages.session-finalization.add-issue-modal.actions.select-subcategory'))
+    );
     await click(
       await screen.findByRole('option', {
-        name: `${subcategoryToCode[certificationIssueReportSubcategories.FILE_NOT_OPENING]} ${
+        name: `${subcategoryToCode[certificationIssueReportSubcategories.FILE_NOT_OPENING]} ${this.intl.t(
           subcategoryToLabel[certificationIssueReportSubcategories.FILE_NOT_OPENING]
-        }`,
+        )}`,
       })
     );
 
@@ -159,9 +177,9 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
     assert
       .dom(
         screen.getByRole('option', {
-          name: `${subcategoryToCode[certificationIssueReportSubcategories.FILE_NOT_OPENING]} ${
+          name: `${subcategoryToCode[certificationIssueReportSubcategories.FILE_NOT_OPENING]} ${this.intl.t(
             subcategoryToLabel[certificationIssueReportSubcategories.FILE_NOT_OPENING]
-          }`,
+          )}`,
         })
       )
       .exists();
