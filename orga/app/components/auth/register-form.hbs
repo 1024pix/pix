@@ -7,7 +7,7 @@
         @label={{t "pages.login-or-register.register-form.fields.first-name.label"}}
         name="firstName"
         type="firstName"
-        {{on "focusout" this.validateFirstName}}
+        {{on "change" this.validateFirstName}}
         @errorMessage={{this.firstNameValidationMessage}}
         @validationStatus={{if this.firstNameValidationMessage "error" "default"}}
         required={{true}}
@@ -22,7 +22,7 @@
         @label={{t "pages.login-or-register.register-form.fields.last-name.label"}}
         name="lastName"
         type="lastName"
-        {{on "focusout" this.validateLastName}}
+        {{on "change" this.validateLastName}}
         @errorMessage={{this.lastNameValidationMessage}}
         @validationStatus={{if this.lastNameValidationMessage "error" "default"}}
         required={{true}}
@@ -37,7 +37,7 @@
         @label={{t "pages.login-or-register.register-form.fields.email.label"}}
         name="email"
         type="email"
-        {{on "focusout" this.validateEmail}}
+        {{on "change" this.validateEmail}}
         @errorMessage={{this.emailValidationMessage}}
         @validationStatus={{if this.emailValidationMessage "error" "default"}}
         required={{true}}
@@ -54,8 +54,7 @@
         autocomplete="current-password"
         required={{true}}
         aria-required={{true}}
-        {{on "input" this.validatePassword}}
-        {{on "focusout" this.validatePassword}}
+        {{on "change" this.validatePassword}}
         @errorMessage={{this.passwordValidationMessage}}
         @validationStatus={{if this.passwordValidationMessage "error" "default"}}
       />
