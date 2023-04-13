@@ -13,14 +13,16 @@
       {{/each}}
     </div>
 
-    <div class="progress-bar-background"></div>
+    <div class="progress-bar-content">
+      <div class="progress-bar-background"></div>
 
-    <div class="progress-bar-progression" style={{this.progressionWidth}}></div>
+      <div class="progress-bar-progression" style={{this.progressionWidth}}></div>
 
-    <div class="progress-bar-steps">
-      {{#each this.steps as |step|}}
-        <span class="progress-bar-step" style={{step.background}}></span>
-      {{/each}}
+      <div class="progress-bar-steps">
+        {{#each this.steps as |step|}}
+          <span class="progress-bar-step" style={{step.background}}></span>
+        {{/each}}
+      </div>
     </div>
   </div>
 {{else}}

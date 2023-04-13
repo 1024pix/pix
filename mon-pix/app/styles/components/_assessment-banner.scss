@@ -2,6 +2,11 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-around;
+  width: 100%;
+  min-height: 180px;
+  color: $pix-neutral-0;
+  background: $pix-primary-app-gradient;
+  box-shadow: 0 2px 8px 0 rgb(0 0 0 / 10%);
 }
 
 .assessment-banner-container {
@@ -9,19 +14,17 @@
   align-items: center;
   width: 100%;
   max-width: 990px;
-  min-height: 80px;
-  margin-top: 5px;
+  margin-top: $pix-spacing-m;
   padding: 0 10px;
 
   @include device-is('desktop') {
-    min-height: 100px;
     padding: 0;
   }
 }
 
 .assessment-banner__title {
   margin: 0;
-  font-size: 1.094rem;
+  font-size: 1rem;
 
   @include device-is('mobile') {
     position: absolute;
@@ -40,18 +43,18 @@
   }
 }
 
-.assessment-banner__pix-logo img {
-  height: 47px;
+.assessment-banner__pix-logo {
+  height: 24px;
 }
 
 .assessment-banner__splitter {
   width: 1px;
-  height: 40px;
+  height: 16px;
   margin: 0 10px;
   background: $pix-neutral-15;
 
   @include device-is('desktop') {
-    margin: 0 20px;
+    margin: 0 12px;
   }
 }
 
