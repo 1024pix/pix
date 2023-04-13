@@ -35,6 +35,10 @@ module.exports.CERTIFICATION_CANDIDATES_ERRORS = {
     code: 'CANDIDATE_BIRTH_CITY_REQUIRED',
     getMessage: () => 'Le champ ville est obligatoire.',
   },
+  CANDIDATE_FOREIGN_BIRTH_CITY_REQUIRED: {
+    code: 'CANDIDATE_FOREIGN_BIRTH_CITY_REQUIRED',
+    getMessage: () => "Candidat né à l'étranger, champ obligatoire nom de commune de naissance manquant",
+  },
   CANDIDATE_BIRTH_COUNTRY_NOT_FOUND: {
     code: 'CANDIDATE_BIRTH_COUNTRY_NOT_FOUND',
     getMessage: ({ birthCountry }) => `Le pays "${birthCountry}" n'a pas été trouvé.`,
@@ -92,9 +96,9 @@ module.exports.CERTIFICATION_CANDIDATES_ERRORS = {
     code: 'CANDIDATE_MAX_ONE_COMPLEMENTARY_CERTIFICATION',
     getMessage: () => '',
   },
-  CANDIDATE_POSTAL_CODE_ON_FOREIGN_COUNTRY_MUST_BE_EMPTY: {
-    code: 'CANDIDATE_POSTAL_CODE_ON_FOREIGN_COUNTRY_MUST_BE_EMPTY',
-    getMessage: () => 'Le champ code postal ne doit pas être renseigné pour un pays étranger.',
+  CANDIDATE_FOREIGN_POSTAL_CODE_MUST_BE_EMPTY: {
+    code: 'CANDIDATE_FOREIGN_POSTAL_CODE_MUST_BE_EMPTY',
+    getMessage: () => 'Candidat né à l\'étranger, le champ "Code postal" doit rester vide.',
   },
   CANDIDATE_PREPAYMENT_CODE_REQUIRED: {
     code: 'CANDIDATE_PREPAYMENT_CODE_REQUIRED',
