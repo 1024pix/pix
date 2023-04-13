@@ -452,8 +452,8 @@
               }
             },
             "detail-selection": {
-              "aria-first": "You have a problem with",
-              "aria-secondary": "Specify your problem",
+              "aria-first": "Select the category of the problem encountered",
+              "aria-secondary": "Select an option to specify your problem",
               "label": "Please specify",
               "options": {
                 "answer-not-accepted": "My answer is correct but has not been approved",
