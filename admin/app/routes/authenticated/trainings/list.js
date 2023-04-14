@@ -4,13 +4,14 @@ import { inject as service } from '@ember/service';
 
 export default class ListRoute extends Route {
   @service accessControl;
+  @service notifications;
   @service store;
 
   queryParams = {
     pageNumber: { refreshModel: true },
     pageSize: { refreshModel: true },
     id: { refreshModel: true },
-    name: { refreshModel: true },
+    title: { refreshModel: true },
   };
 
   beforeModel() {
@@ -22,6 +23,10 @@ export default class ListRoute extends Route {
 
     try {
       trainingSummaries = await this.store.query('training-summary', {
+        filter: {
+          id: params.id ? params.id.trim() : '',
+          title: params.title ? params.title.trim() : '',
+        },
         page: {
           number: params.pageNumber,
           size: params.pageSize,
@@ -34,5 +39,14 @@ export default class ListRoute extends Route {
       return [];
     }
     return trainingSummaries;
+  }
+
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      controller.pageNumber = 1;
+      controller.pageSize = 10;
+      controller.id = null;
+      controller.title = null;
+    }
   }
 }

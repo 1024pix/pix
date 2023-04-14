@@ -16,6 +16,11 @@
 
 <main class="page-body">
   <section class="page-section">
-    <Trainings::ListSummaryItems @summaries={{@model}} @id={{this.id}} @name={{this.name}} />
+    <Trainings::ListSummaryItems
+      @summaries={{@model}}
+      @id={{this.id}}
+      @title={{this.title}}
+      @triggerFiltering={{this.triggerFiltering}}
+    />
   </section>
 </main>
