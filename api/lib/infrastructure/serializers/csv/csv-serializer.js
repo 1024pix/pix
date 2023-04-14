@@ -25,11 +25,11 @@ function _csvSerializeValue(data) {
   }
 }
 
-function deserializeForSessionsImport(parsedCsvData) {
+function deserializeForSessionsImport({ parsedCsvData, hasBillingMode }) {
   const sessions = [];
   const csvLineKeys = Object.keys(headers);
 
-  _verifyHeaders({ csvLineKeys, headers, parsedCsvLine: parsedCsvData[0] });
+  _verifyHeaders({ csvLineKeys, headers, parsedCsvLine: parsedCsvData[0], hasBillingMode });
 
   parsedCsvData.forEach((lineDTO, index) => {
     const dataFromColumnName = _getDataFromColumnNames({ csvLineKeys, headers, line: lineDTO });
@@ -212,12 +212,20 @@ function _getComplementaryCertificationLabel(key, COMPLEMENTARY_CERTIFICATION_SU
   return key.replace(COMPLEMENTARY_CERTIFICATION_SUFFIX, '').trim();
 }
 
-function _verifyHeaders({ csvLineKeys, parsedCsvLine, headers }) {
+function _verifyHeaders({ csvLineKeys, parsedCsvLine, headers, hasBillingMode }) {
   csvLineKeys.forEach((key) => {
     if (parsedCsvLine[headers[key]] === undefined) {
+      if (_isBillingModeOptional(key, hasBillingMode)) {
+        return;
+      }
+
       throw new FileValidationError('CSV_HEADERS_NOT_VALID');
     }
   });
+}
+
+function _isBillingModeOptional(key, hasBillingMode) {
+  return (key === 'billingMode' || key === 'prepaymentCode') && !hasBillingMode;
 }
 
 function _hasSessionInformation({ address, room, date, time, examiner }) {

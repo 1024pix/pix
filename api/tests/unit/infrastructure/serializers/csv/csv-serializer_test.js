@@ -85,11 +85,88 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
         ];
 
         // when
-        const error = await catchErr(csvSerializer.deserializeForSessionsImport)(parsedCsvData);
+        const error = await catchErr(csvSerializer.deserializeForSessionsImport)({
+          parsedCsvData,
+          hasBillingMode: true,
+        });
 
         // then
         expect(error).to.be.instanceOf(FileValidationError);
         expect(error.code).to.equal('CSV_HEADERS_NOT_VALID');
+      });
+
+      context('when billing mode header is missing', function () {
+        context('when certification center has billing mode', function () {
+          it('should throw an error', async function () {
+            const parsedCsvData = [
+              {
+                'Numéro de session préexistante': '',
+                '* Nom du site': '',
+                '* Nom de la salle': '',
+                '* Date de début (format: JJ/MM/AAAA)': '',
+                '* Heure de début (heure locale format: HH:MM)': '',
+                '* Surveillant(s)': '',
+                'Observations (optionnel)': '',
+                '* Nom de naissance': 'Paul',
+                '* Prénom': 'Pierre',
+                '* Date de naissance (format: JJ/MM/AAAA)': '12/09/1987',
+                '* Sexe (M ou F)': 'M',
+                'Code INSEE de la commune de naissance': '',
+                'Code postal de la commune de naissance': '',
+                'Nom de la commune de naissance': '',
+                '* Pays de naissance': 'France',
+                'E-mail du destinataire des résultats (formateur, enseignant…)': '',
+                'E-mail de convocation': '',
+                'Identifiant externe': '',
+                'Temps majoré ? (exemple format: 33%)': '',
+              },
+            ];
+
+            // when
+            const error = await catchErr(csvSerializer.deserializeForSessionsImport)({
+              parsedCsvData,
+              hasBillingMode: true,
+            });
+
+            // then
+            expect(error).to.be.instanceOf(FileValidationError);
+            expect(error.code).to.equal('CSV_HEADERS_NOT_VALID');
+          });
+        });
+
+        context('when certification center does not have the billing mode', function () {
+          it('should not throw an error', async function () {
+            const parsedCsvData = [
+              {
+                'Numéro de session préexistante': '',
+                '* Nom du site': '',
+                '* Nom de la salle': '',
+                '* Date de début (format: JJ/MM/AAAA)': '',
+                '* Heure de début (heure locale format: HH:MM)': '',
+                '* Surveillant(s)': '',
+                'Observations (optionnel)': '',
+                '* Nom de naissance': 'Paul',
+                '* Prénom': 'Pierre',
+                '* Date de naissance (format: JJ/MM/AAAA)': '12/09/1987',
+                '* Sexe (M ou F)': 'M',
+                'Code INSEE de la commune de naissance': '',
+                'Code postal de la commune de naissance': '',
+                'Nom de la commune de naissance': '',
+                '* Pays de naissance': 'France',
+                'E-mail du destinataire des résultats (formateur, enseignant…)': '',
+                'E-mail de convocation': '',
+                'Identifiant externe': '',
+                'Temps majoré ? (exemple format: 33%)': '',
+              },
+            ];
+
+            // when
+            const result = await csvSerializer.deserializeForSessionsImport({ parsedCsvData, hasBillingMode: false });
+
+            // then
+            expect(result).to.deep.equal([emptySession]);
+          });
+        });
       });
     });
 
@@ -123,7 +200,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           ];
 
           // when
-          const result = await csvSerializer.deserializeForSessionsImport(parsedCsvData);
+          const result = await csvSerializer.deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true });
 
           // then
           expect(result).to.deep.equal([emptySession]);
@@ -162,7 +239,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           ];
 
           // when
-          const result = csvSerializer.deserializeForSessionsImport(parsedCsvData);
+          const result = csvSerializer.deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true });
 
           // then
           expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
@@ -199,7 +276,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           ];
 
           // when
-          const result = csvSerializer.deserializeForSessionsImport(parsedCsvData);
+          const result = csvSerializer.deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true });
 
           // then
           expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
@@ -229,7 +306,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           ];
 
           // when
-          const result = csvSerializer.deserializeForSessionsImport(parsedCsvData);
+          const result = csvSerializer.deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true });
 
           // then
           expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
@@ -258,7 +335,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
             ];
 
             // when
-            const result = csvSerializer.deserializeForSessionsImport(parsedCsvData);
+            const result = csvSerializer.deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true });
 
             // then
             expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
@@ -301,7 +378,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           ];
 
           // when
-          const result = csvSerializer.deserializeForSessionsImport(parsedCsvData);
+          const result = csvSerializer.deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true });
 
           // then
           expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
@@ -399,7 +476,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           ];
 
           // when
-          const result = csvSerializer.deserializeForSessionsImport(parsedCsvData);
+          const result = csvSerializer.deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true });
 
           // then
           expect(_omitUniqueKey(result)).to.deep.equal(expectedResult);
@@ -470,7 +547,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
 
           // when
           const result = csvSerializer
-            .deserializeForSessionsImport(parsedCsvData)
+            .deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true })
             .map((session) => _.omit(session, 'uniqueKey'));
 
           // then
@@ -523,7 +600,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
 
           // when
           const result = csvSerializer
-            .deserializeForSessionsImport(parsedCsvData)
+            .deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true })
             .map((session) => _.omit(session, 'uniqueKey'));
 
           // then
@@ -545,7 +622,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
 
             // when
             const result = csvSerializer
-              .deserializeForSessionsImport(csvLine)
+              .deserializeForSessionsImport({ parsedCsvData: csvLine, hasBillingMode: true })
               .map((session) => _.omit(session, 'uniqueKey'));
 
             // then
@@ -631,7 +708,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
 
         // when
         const result = csvSerializer
-          .deserializeForSessionsImport(parsedCsvData)
+          .deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true })
           .map((session) => _.omit(session, 'uniqueKey'));
 
         // then
@@ -813,7 +890,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           ];
 
           // when
-          const [result] = csvSerializer.deserializeForSessionsImport(parsedCsvData);
+          const [result] = csvSerializer.deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true });
 
           // then
           expect(result.certificationCandidates).to.have.length(6);
@@ -841,7 +918,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
 
           // when
           const result = csvSerializer
-            .deserializeForSessionsImport(parsedCsvData)
+            .deserializeForSessionsImport({ parsedCsvData, hasBillingMode: true })
             .map((session) => _.omit(session, 'uniqueKey'));
 
           // then
@@ -869,7 +946,10 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
       ];
 
       // when
-      const [firstSession, secondSession] = csvSerializer.deserializeForSessionsImport(parsedCsvData);
+      const [firstSession, secondSession] = csvSerializer.deserializeForSessionsImport({
+        parsedCsvData,
+        hasBillingMode: true,
+      });
 
       // then
       expect(firstSession.line).to.equal(2);
