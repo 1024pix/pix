@@ -10,7 +10,8 @@
       "delete": "Delete",
       "quit": "Quit",
       "update": "Edit",
-      "exit": "Exit"
+      "exit": "Exit",
+      "validate": "Validate"
     },
     "api-error-messages": {
       "bad-request-error": "The data entered was not in the correct format.",
@@ -502,10 +503,61 @@
       }
     },
     "session-finalization": {
+      "title": "Finalise the session {sessionId}",
       "actions": {
         "finalise": "Finalise"
       },
-      "title": "Finalise the session {sessionId}",
+      "add-issue-modal": {
+        "title": "Reporting for candidate :",
+        "actions": {
+          "add-reporting": "Add the reporting",
+          "cancel": "Cancel",
+          "describe": "Describe the incident encountered",
+          "enter-question-number": "Question number :",
+          "specify": "Specify",
+          "select-category": "Please select a category",
+          "select-category-label": "Select a category ",
+          "select-subcategory": "Select a subcategory:",
+          "select-subcategory-label": "Select a subcategory",
+          "transmit-report": "Please transmit the Fraud report filled in during the certification session by using <span><a class=\"link\" href=\"https://form-eu.123formbuilder.com/41052/form\" target=\"_blank\" rel=\"noreferrer noopener\">this form</a></span>"
+        },
+        "category-labels": {
+          "candidate-informations-changes": "Edit the candidate’s details",
+          "fraud": "Suspected fraud",
+          "in-challenge": "Technical problem with a question",
+          "non-blocking-candidate-issue": "Non-blocking incident linked to the candidate",
+          "non-blocking-technical-issue": "Non-blocking technical incident",
+          "signature-issue": "Was present but forgot to sign or signed on the wrong line"
+        },
+        "errors": {
+          "add-reporting": "An error occurred while adding a reporting. Please try again.",
+          "technical-issue": "Technical issue"
+        },
+        "non-blocking-issues": {
+          "candidate-examples": "Left temporarily, under invigilation, the exam room, arrived late, encountered difficulties to connect to the session, had to reconnect to the session, had forgotten their password…",
+          "candidate-information": "Reporting on an indicative basis, the problem encountered didn’t prevent the candidate from continuing to answer the questions.",
+          "technical-examples": "The computer switched off, significant slowness of the network and/or of the machine etc…",
+          "technical-information": "Reporting on an indicative basis, the problem encountered didn’t prevent the candidate from continuing to answer the questions. In case of an incident during a focus mode question, please refer to the E10 category."
+        },
+        "subcategory-labels": {
+          "accessibility-issue": "Problem with the accessibility of the question (ex : colour blindness)",
+          "embed-not-working": "The simulator/the application isn’t displayed",
+          "extra-time-exceeded": "The candidate profits from extra time and hasn’t been able to answer the question within the time allocated",
+          "extra-time-percentage": "Add/edit the extra time",
+          "file-not-opening": "The file to download can’t be downloaded or doesn’t open",
+          "image-not-displaying": "The picture isn’t displayed",
+          "name-or-birthdate": "Edit the first name/last name/date of birth",
+          "skip-on-oops": "A technical problem due to the Pix platform prevented the candidate from answering the question",
+          "software-not-working": "The software installed on the computer didn’t work",
+          "unintentional-focus-out": "The candidate was forced to click outside the authorised frame for a focus mode question",
+          "website-blocked": "The website is blocked by the establishment’s network restrictions (social media for ex.)",
+          "website-unavailable": "The website to visit is unavailable/under maintenance/unreachable"
+        },
+        "subcategory-to-textarea-labels": {
+          "name-or-birthdate": "Fill in the correct details",
+          "extra-time-percentage": "Specify extra time"
+        }
+      },
       "return-to": "Return to the session",
       "reporting": {
         "completed-reports-information": {
