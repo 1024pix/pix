@@ -1361,12 +1361,11 @@
       "badges-title": "Vos résultats thématiques",
       "details": {
         "title": "Vos résultats par compétence",
-        "caption": "Détails de vos résultats sous forme de pourcentage et d'étoiles en fonction des compétences",
+        "caption": "Détails de vos résultats sous forme de pourcentage en fonction des compétences",
         "flash-pix-score": "{score, number, ::.} Pix",
         "header-result": "Résultats",
         "header-skill": "Compétences testées",
         "result": "Résultat global",
-        "result-by-skill": "Votre résultat pour la compétence",
         "percentage": "{rate, number, ::percent}"
       },
       "disabled-share": "Ce parcours a été désactivé par l'organisateur.'<br>'L'envoi des résultats n'est plus possible.",
@@ -1389,6 +1388,7 @@
       "send-title": "Envoyez vos résultats",
       "stage": {
         "title": "Détails des compétences",
+        "caption": "Détails de vos résultats sous forme de pourcentage et d'étoiles en fonction des compétences",
         "masteryPercentage": "{rate, number, ::percent} de réussite",
         "starsAcquired": "{acquired, plural, =0 {aucune étoile acquise} other {# étoiles acquises}} sur {total}"
       },
