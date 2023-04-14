@@ -3,7 +3,6 @@ const { expect, hFake, sinon } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases/index.js');
 
 const scoOrganizationLearnerController = require('../../../../lib/application/sco-organization-learners/sco-organization-learner-controller');
-const studentInformationForAccountRecoverySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');
 
 describe('Unit | Application | Controller | sco-organization-learner', function () {
   describe('#createUserAndReconcileToOrganizationLearnerFromExternalUser', function () {
@@ -59,14 +58,14 @@ describe('Unit | Application | Controller | sco-organization-learner', function 
     beforeEach(function () {
       sinon.stub(usecases, 'checkScoAccountRecovery');
       usecases.checkScoAccountRecovery.resolves();
-      sinon.stub(studentInformationForAccountRecoverySerializer, 'serialize');
-      studentInformationForAccountRecoverySerializer.serialize.resolves();
-      sinon.stub(studentInformationForAccountRecoverySerializer, 'deserialize');
-      studentInformationForAccountRecoverySerializer.deserialize.resolves();
     });
 
     it('should return student account information serialized', async function () {
       // given
+      const studentInformationForAccountRecoverySerializer = {
+        serialize: sinon.stub(),
+        deserialize: sinon.stub(),
+      };
       hFake.request = { path: {} };
       const studentInformation = {
         ineIna: '1234567890A',
@@ -97,7 +96,9 @@ describe('Unit | Application | Controller | sco-organization-learner', function 
         .returns(studentInformationForAccountRecoveryJSONAPI);
 
       // when
-      const response = await scoOrganizationLearnerController.checkScoAccountRecovery(request, hFake);
+      const response = await scoOrganizationLearnerController.checkScoAccountRecovery(request, hFake, {
+        studentInformationForAccountRecoverySerializer,
+      });
 
       // then
       expect(response.source).to.deep.equal(studentInformationForAccountRecoveryJSONAPI);

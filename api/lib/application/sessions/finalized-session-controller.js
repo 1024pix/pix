@@ -3,13 +3,13 @@ const toBePublishedSessionSerializer = require('../../infrastructure/serializers
 const withRequiredActionSessionSerializer = require('../../infrastructure/serializers/jsonapi/with-required-action-session-serializer.js');
 
 module.exports = {
-  async findFinalizedSessionsToPublish() {
+  async findFinalizedSessionsToPublish(request, h, dependencies = { toBePublishedSessionSerializer }) {
     const finalizedSessionsToPublish = await usecases.findFinalizedSessionsToPublish();
-    return toBePublishedSessionSerializer.serialize(finalizedSessionsToPublish);
+    return dependencies.toBePublishedSessionSerializer.serialize(finalizedSessionsToPublish);
   },
 
-  async findFinalizedSessionsWithRequiredAction() {
+  async findFinalizedSessionsWithRequiredAction(request, h, dependencies = { withRequiredActionSessionSerializer }) {
     const finalizedSessionsWithRequiredAction = await usecases.findFinalizedSessionsWithRequiredAction();
-    return withRequiredActionSessionSerializer.serialize(finalizedSessionsWithRequiredAction);
+    return dependencies.withRequiredActionSessionSerializer.serialize(finalizedSessionsWithRequiredAction);
   },
 };

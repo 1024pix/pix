@@ -1,6 +1,5 @@
 const { domainBuilder, sinon, hFake, expect } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases/index.js');
-const certificationResultUtils = require('../../../../lib/infrastructure/utils/csv/certification-results');
 const sessionWithCleaCertifiedCandidateController = require('../../../../lib/application/sessions/session-with-clea-certified-candidate-controller');
 
 describe('Unit | Controller | session-with-clea-certified-candidate', function () {
@@ -22,15 +21,16 @@ describe('Unit | Controller | session-with-clea-certified-candidate', function (
         .withArgs({ sessionId: 1 })
         .resolves({ session, cleaCertifiedCandidateData: cleaCertifiedCandidates });
 
-      sinon
-        .stub(certificationResultUtils, 'getCleaCertifiedCandidateCsv')
-        .withArgs(cleaCertifiedCandidates)
-        .resolves('csv-string');
+      const certificationResultUtils = {
+        getCleaCertifiedCandidateCsv: sinon.stub(),
+      };
+      certificationResultUtils.getCleaCertifiedCandidateCsv.withArgs(cleaCertifiedCandidates).resolves('csv-string');
 
       // when
       const response = await sessionWithCleaCertifiedCandidateController.getCleaCertifiedCandidateDataCsv(
         request,
-        hFake
+        hFake,
+        { certificationResultUtils }
       );
 
       // then
