@@ -25,36 +25,44 @@ export const certificationIssueReportSubcategories = {
 };
 
 export const categoryToLabel = {
-  [certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES]: 'Modification infos candidat',
+  [certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES]:
+    'pages.session-finalization.add-issue-modal.category-labels.candidate-informations-changes',
   [certificationIssueReportCategories.SIGNATURE_ISSUE]:
-    'Était présent(e) mais a oublié de signer, ou a signé sur la mauvaise ligne',
-  [certificationIssueReportCategories.FRAUD]: 'Suspicion de fraude',
-  [certificationIssueReportCategories.NON_BLOCKING_TECHNICAL_ISSUE]: 'Incident technique non bloquant',
-  [certificationIssueReportCategories.NON_BLOCKING_CANDIDATE_ISSUE]: 'Incident lié au candidat non bloquant',
-  [certificationIssueReportCategories.IN_CHALLENGE]: 'Problème technique sur une question',
+    'pages.session-finalization.add-issue-modal.category-labels.signature-issue',
+  [certificationIssueReportCategories.FRAUD]: 'pages.session-finalization.add-issue-modal.category-labels.fraud',
+  [certificationIssueReportCategories.NON_BLOCKING_TECHNICAL_ISSUE]:
+    'pages.session-finalization.add-issue-modal.category-labels.non-blocking-technical-issue',
+  [certificationIssueReportCategories.NON_BLOCKING_CANDIDATE_ISSUE]:
+    'pages.session-finalization.add-issue-modal.category-labels.non-blocking-candidate-issue',
+  [certificationIssueReportCategories.IN_CHALLENGE]:
+    'pages.session-finalization.add-issue-modal.category-labels.in-challenge',
 };
 
 export const subcategoryToLabel = {
-  [certificationIssueReportSubcategories.NAME_OR_BIRTHDATE]: 'Modification des prénom/nom/date de naissance',
-  [certificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE]: 'Ajout/modification du temps majoré',
-  [certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]: "L'image ne s'affiche pas",
-  [certificationIssueReportSubcategories.EMBED_NOT_WORKING]: "Le simulateur/l'application ne s'affiche pas",
+  [certificationIssueReportSubcategories.NAME_OR_BIRTHDATE]:
+    'pages.session-finalization.add-issue-modal.subcategory-labels.name-or-birthdate',
+  [certificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE]:
+    'pages.session-finalization.add-issue-modal.subcategory-labels.extra-time-percentage',
+  [certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]:
+    'pages.session-finalization.add-issue-modal.subcategory-labels.image-not-displaying',
+  [certificationIssueReportSubcategories.EMBED_NOT_WORKING]:
+    'pages.session-finalization.add-issue-modal.subcategory-labels.embed-not-working',
   [certificationIssueReportSubcategories.FILE_NOT_OPENING]:
-    "Le fichier à télécharger ne se télécharge pas ou ne s'ouvre pas",
+    'pages.session-finalization.add-issue-modal.subcategory-labels.file-not-opening',
   [certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]:
-    'Le site à visiter est indisponible/en maintenance/inaccessible',
+    'pages.session-finalization.add-issue-modal.subcategory-labels.website-unavailable',
   [certificationIssueReportSubcategories.WEBSITE_BLOCKED]:
-    "Le site est bloqué par les restrictions réseau de l'établissement (réseaux sociaux par ex.)",
+    'pages.session-finalization.add-issue-modal.subcategory-labels.website-blocked',
   [certificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED]:
-    "Le candidat bénéficie d'un temps majoré et n'a pas pu répondre à la question dans le temps imparti",
+    'pages.session-finalization.add-issue-modal.subcategory-labels.extra-time-exceeded',
   [certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]:
-    "Le logiciel installé sur l'ordinateur n'a pas fonctionné",
+    'pages.session-finalization.add-issue-modal.subcategory-labels.software-not-working',
   [certificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT]:
-    'Le candidat a été contraint de cliquer en dehors du cadre autorisé pour une question en mode focus',
+    'pages.session-finalization.add-issue-modal.subcategory-labels.unintentional-focus-out',
   [certificationIssueReportSubcategories.SKIP_ON_OOPS]:
-    'Un problème technique lié à la plateforme Pix a empêché le candidat de répondre à la question',
+    'pages.session-finalization.add-issue-modal.subcategory-labels.skip-on-oops',
   [certificationIssueReportSubcategories.ACCESSIBILITY_ISSUE]:
-    'Problème avec l’accessibilité de la question (ex : daltonisme)',
+    'pages.session-finalization.add-issue-modal.subcategory-labels.accessibility-issue',
 };
 
 export const categoryToCode = {
@@ -82,8 +90,10 @@ export const subcategoryToCode = {
 };
 
 export const subcategoryToTextareaLabel = {
-  [certificationIssueReportSubcategories.NAME_OR_BIRTHDATE]: 'Renseignez les informations correctes',
-  [certificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE]: 'Précisez le temps majoré',
+  [certificationIssueReportSubcategories.NAME_OR_BIRTHDATE]:
+    'pages.session-finalization.add-issue-modal.subcategory-to-textarea-labels.name-or-birthdate',
+  [certificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE]:
+    'pages.session-finalization.add-issue-modal.subcategory-to-textarea-labels.extra-time-percentage',
 };
 
 export default class CertificationIssueReport extends Model {
