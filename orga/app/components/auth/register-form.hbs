@@ -7,9 +7,9 @@
         @label={{t "pages.login-or-register.register-form.fields.first-name.label"}}
         name="firstName"
         type="firstName"
-        {{on "focusout" this.validateFirstName}}
-        @errorMessage={{this.firstNameValidationMessage}}
-        @validationStatus={{if this.firstNameValidationMessage "error" "default"}}
+        {{on "change" this.validateFirstName}}
+        @errorMessage={{this.validation.firstName.message}}
+        @validationStatus={{this.validation.firstName.status}}
         required={{true}}
         aria-required={{true}}
         autocomplete="given-name"
@@ -22,9 +22,9 @@
         @label={{t "pages.login-or-register.register-form.fields.last-name.label"}}
         name="lastName"
         type="lastName"
-        {{on "focusout" this.validateLastName}}
-        @errorMessage={{this.lastNameValidationMessage}}
-        @validationStatus={{if this.lastNameValidationMessage "error" "default"}}
+        {{on "change" this.validateLastName}}
+        @errorMessage={{this.validation.lastName.message}}
+        @validationStatus={{this.validation.lastName.status}}
         required={{true}}
         aria-required={{true}}
         autocomplete="family-name"
@@ -37,9 +37,9 @@
         @label={{t "pages.login-or-register.register-form.fields.email.label"}}
         name="email"
         type="email"
-        {{on "focusout" this.validateEmail}}
-        @errorMessage={{this.emailValidationMessage}}
-        @validationStatus={{if this.emailValidationMessage "error" "default"}}
+        {{on "change" this.validateEmail}}
+        @errorMessage={{this.validation.email.message}}
+        @validationStatus={{this.validation.email.status}}
         required={{true}}
         aria-required={{true}}
         autocomplete="email"
@@ -54,10 +54,9 @@
         autocomplete="current-password"
         required={{true}}
         aria-required={{true}}
-        {{on "input" this.validatePassword}}
-        {{on "focusout" this.validatePassword}}
-        @errorMessage={{this.passwordValidationMessage}}
-        @validationStatus={{if this.passwordValidationMessage "error" "default"}}
+        {{on "change" this.validatePassword}}
+        @errorMessage={{this.validation.password.message}}
+        @validationStatus={{this.validation.password.status}}
       />
     </div>
 
