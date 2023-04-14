@@ -7,7 +7,7 @@
         @label={{t "common.labels.candidate.firstname"}}
         name="firstName"
         type="firstName"
-        {{on "focusout" this.validateFirstName}}
+        {{on "change" this.validateFirstName}}
         required={{true}}
         aria-required={{true}}
         autocomplete="given-name"
@@ -22,7 +22,7 @@
         @label={{t "common.labels.candidate.lastname"}}
         name="lastName"
         type="lastName"
-        {{on "focusout" this.validateLastName}}
+        {{on "change" this.validateLastName}}
         required={{true}}
         aria-required={{true}}
         autocomplete="family-name"
@@ -37,7 +37,7 @@
         @label={{t "common.forms.login.email"}}
         name="email"
         type="email"
-        {{on "focusout" this.validateEmail}}
+        {{on "change" this.validateEmail}}
         required={{true}}
         aria-required={{true}}
         autocomplete="email"
@@ -54,8 +54,7 @@
         autocomplete="current-password"
         required={{true}}
         aria-required={{true}}
-        {{on "input" this.validatePassword}}
-        {{on "focusout" this.validatePassword}}
+        {{on "change" this.validatePassword}}
         @validationStatus={{this.validation.password.status}}
         @errorMessage={{this.validation.password.message}}
       />
