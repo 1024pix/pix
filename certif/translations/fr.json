@@ -10,7 +10,8 @@
       "delete": "Supprimer",
       "quit": "Quitter",
       "update": "Modifier",
-      "exit": "Quitter"
+      "exit": "Quitter",
+      "validate": "Valider"
     },
     "api-error-messages": {
       "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
@@ -501,10 +502,61 @@
       }
     },
     "session-finalization": {
+      "title": "Finaliser la session {sessionId}",
       "actions": {
         "finalise": "Finaliser"
       },
-      "title": "Finaliser la session {sessionId}",
+      "add-issue-modal": {
+        "title": "Signalement du candidat :",
+        "actions": {
+          "add-reporting": "Ajouter le signalement",
+          "cancel": "Annuler",
+          "describe": "Décrivez l'incident rencontré",
+          "enter-question-number": "Numéro de question :",
+          "specify": "Précisez",
+          "select-category": "Veuillez selectionner une catégorie",
+          "select-category-label": "Sélectionner la catégorie",
+          "select-subcategory": "Sélectionnez une sous-catégorie :",
+          "select-subcategory-label": "Sélectionner la sous-catégorie",
+          "transmit-report": "Merci de transmettre le procès-verbal de fraude rempli pendant la session de certification en utilisant <span><a class=\"link\" href=\"https://form-eu.123formbuilder.com/41052/form\" target=\"_blank\" rel=\"noreferrer noopener\">ce formulaire</a></span>"
+        },
+        "category-labels": {
+          "candidate-informations-changes": "Modification infos candidat",
+          "fraud": "Suspicion de fraude",
+          "in-challenge": "Problème technique sur une question",
+          "non-blocking-candidate-issue": "Incident lié au candidat non bloquant",
+          "non-blocking-technical-issue": "Incident technique non bloquant",
+          "signature-issue": "Était présent(e) mais a oublié de signer, ou a signé sur la mauvaise ligne"
+        },
+        "errors": {
+          "add-reporting": "Une erreur s'est produite lors de l'ajout du signalement. Merci de réessayer.",
+          "technical-issue": "Incident technique"
+        },
+        "non-blocking-issues": {
+          "candidate-examples": "a quitté temporairement, sous surveillance, la salle d’examen, est arrivé en retard, a rencontré des difficultés pour se connecter à la session, a dû se reconnecter à la session, avait oublié son mot de passe...",
+          "candidate-information": "Signalement à titre informatif, le problème rencontré n'a pas empêché le candidat de continuer à répondre aux questions. ",
+          "technical-examples": "L’ordinateur s’est éteint, lenteur significative du réseau et/ou de l’appareil etc.",
+          "technical-information": "Signalement à titre informatif, le problème rencontré n'a pas empêché le candidat de continuer à répondre aux questions. En cas d’incident sur une question focus, merci de vous reporter à la catégorie E10."
+        },
+        "subcategory-labels": {
+          "accessibility-issue": "Problème avec l’accessibilité de la question (ex : daltonisme)",
+          "embed-not-working": "Le simulateur/l'application ne s'affiche pas",
+          "extra-time-exceeded": "Le candidat bénéficie d'un temps majoré et n'a pas pu répondre à la question dans le temps imparti",
+          "extra-time-percentage": "Ajout/modification du temps majoré",
+          "file-not-opening": "Le fichier à télécharger ne se télécharge pas ou ne s'ouvre pas",
+          "image-not-displaying": "L'image ne s'affiche pas",
+          "name-or-birthdate": "Modification des prénom/nom/date de naissance",
+          "skip-on-oops": "Un problème technique lié à la plateforme Pix a empêché le candidat de répondre à la question",
+          "software-not-working": "Le logiciel installé sur l'ordinateur n'a pas fonctionné",
+          "unintentional-focus-out": "Le candidat a été contraint de cliquer en dehors du cadre autorisé pour une question en mode focus",
+          "website-blocked": "Le site est bloqué par les restrictions réseau de l'établissement (réseaux sociaux par ex.)",
+          "website-unavailable": "Le site à visiter est indisponible/en maintenance/inaccessible"
+        },
+        "subcategory-to-textarea-labels": {
+          "name-or-birthdate": "Renseignez les informations correctes",
+          "extra-time-percentage": "Précisez le temps majoré"
+        }
+      },
       "return-to": "Retour à la session",
       "reporting": {
         "completed-reports-information": {
