@@ -41,6 +41,23 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     assert.contains('Dernière participation');
   });
 
+  test('it should have a caption to describe the table ', async function (assert) {
+    // given
+    this.set('participants', []);
+
+    // when
+    await render(
+      hbs`<OrganizationParticipant::List
+  @participants={{this.participants}}
+  @triggerFiltering={{this.noop}}
+  @onClickLearner={{this.noop}}
+/>`
+    );
+
+    // then
+    assert.contains(this.intl.t('pages.organization-participants.table.description'));
+  });
+
   test('it should display a list of participants', async function (assert) {
     // given
     const participants = [

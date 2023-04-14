@@ -3,6 +3,7 @@ import { render as renderScreen } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import sinon from 'sinon';
+import Service from '@ember/service';
 
 module('Integration | Component | Campaign::List', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -324,6 +325,48 @@ module('Integration | Component | Campaign::List', function (hooks) {
         // then
         assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.filter.clear'))).hasNoAttribute('disabled');
       });
+    });
+  });
+
+  module('Caption', function () {
+    test('it should display the caption for my campaigns page ', async function (assert) {
+      // given
+      class RouterStub extends Service {
+        currentRouteName = 'campaigns.my-campaigns';
+      }
+      this.owner.register('service:router', RouterStub);
+
+      const campaigns = [];
+      campaigns.meta = { rowCount: 0 };
+      this.set('campaigns', campaigns);
+
+      // when
+      const screen = await renderScreen(
+        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
+      );
+
+      // then
+      assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.table.description-my-campaigns'))).exists();
+    });
+
+    test('it should display the caption for all campaigns page ', async function (assert) {
+      // given
+      class RouterStub extends Service {
+        currentRouteName = 'campaigns.all-campaigns';
+      }
+      this.owner.register('service:router', RouterStub);
+
+      const campaigns = [];
+      campaigns.meta = { rowCount: 0 };
+      this.set('campaigns', campaigns);
+
+      // when
+      const screen = await renderScreen(
+        hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`
+      );
+
+      // then
+      assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.table.description-all-campaigns'))).exists();
     });
   });
 });
