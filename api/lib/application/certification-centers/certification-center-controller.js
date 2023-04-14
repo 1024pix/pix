@@ -205,7 +205,12 @@ module.exports = {
 
     const parsedCsvData = await dependencies.csvHelpers.parseCsvWithHeader(request.payload.path);
 
-    const sessions = dependencies.csvSerializer.deserializeForSessionsImport(parsedCsvData);
+    const certificationCenter = await usecases.getCertificationCenter({ id: certificationCenterId });
+
+    const sessions = dependencies.csvSerializer.deserializeForSessionsImport({
+      parsedCsvData,
+      hasBillingMode: certificationCenter.hasBillingMode,
+    });
     const sessionMassImportReport = await usecases.validateSessions({
       sessions,
       certificationCenterId,
