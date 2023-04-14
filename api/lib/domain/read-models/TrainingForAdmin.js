@@ -22,6 +22,10 @@ class TrainingForAdmin {
     this.editorLogoUrl = editorLogoUrl;
     this.trainingTriggers = trainingTriggers;
   }
+
+  get isRecommendable() {
+    return this.trainingTriggers?.length > 0;
+  }
 }
 
 module.exports = TrainingForAdmin;
