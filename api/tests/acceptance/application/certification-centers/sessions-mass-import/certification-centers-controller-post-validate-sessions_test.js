@@ -44,7 +44,7 @@ describe('Acceptance | Controller | certification-centers-controller-post-valida
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
         await databaseBuilder.commit();
 
-        const newBuffer = `N° de session;* Nom du site;* Nom de la salle;* Date de début;* Heure de début (heure locale);* Surveillant(s);Observations (optionnel);* Nom de naissance;* Prénom;* Date de naissance (format: jj/mm/aaaa);* Sexe (M ou F);Code Insee;Code postal;Nom de la commune;* Pays;E-mail du destinataire des résultats (formateur, enseignant…);E-mail de convocation;Identifiant local;Temps majoré ?;Tarification part Pix;Code de prépaiement
+        const newBuffer = `Numéro de session préexistante;* Nom du site;* Nom de la salle;* Date de début (format: JJ/MM/AAAA);* Heure de début (heure locale format: HH:MM);* Surveillant(s);Observations (optionnel);* Nom de naissance;* Prénom;* Date de naissance (format: JJ/MM/AAAA);* Sexe (M ou F);Code INSEE de la commune de naissance;Code postal de la commune de naissance;Nom de la commune de naissance;* Pays de naissance;E-mail du destinataire des résultats (formateur, enseignant…);E-mail de convocation;Identifiant externe;Temps majoré ? (exemple format: 33%);* Tarification part Pix (Gratuite, Prépayée ou Payante);Code de prépaiement (si Tarification part Pix Prépayée)
         ;site1;salle1;19/10/2023;12:00;surveillant;non;;;;;;;;;;;;;;`;
 
         const options = {
@@ -101,7 +101,7 @@ describe('Acceptance | Controller | certification-centers-controller-post-valida
             databaseBuilder.factory.buildCertificationCandidate({ sessionId, lastName: 'Bar' });
             await databaseBuilder.commit();
 
-            const newBuffer = `N° de session;* Nom du site;* Nom de la salle;* Date de début;* Heure de début (heure locale);* Surveillant(s);Observations (optionnel);* Nom de naissance;* Prénom;* Date de naissance (format: jj/mm/aaaa);* Sexe (M ou F);Code Insee;Code postal;Nom de la commune;* Pays;E-mail du destinataire des résultats (formateur, enseignant…);E-mail de convocation;Identifiant local;Temps majoré ?;Tarification part Pix;Code de prépaiement
+            const newBuffer = `Numéro de session préexistante;* Nom du site;* Nom de la salle;* Date de début (format: JJ/MM/AAAA);* Heure de début (heure locale format: HH:MM);* Surveillant(s);Observations (optionnel);* Nom de naissance;* Prénom;* Date de naissance (format: JJ/MM/AAAA);* Sexe (M ou F);Code INSEE de la commune de naissance;Code postal de la commune de naissance;Nom de la commune de naissance;* Pays de naissance;E-mail du destinataire des résultats (formateur, enseignant…);E-mail de convocation;Identifiant externe;Temps majoré ? (exemple format: 33%);* Tarification part Pix (Gratuite, Prépayée ou Payante);Code de prépaiement (si Tarification part Pix Prépayée)
           ${sessionId};;;;;;;Tutu;Jean-Paul;01/01/2000;M;75115;;;FRANCE;;;;;Gratuite;;
           ${sessionId};site1;salle1;19/10/2023;12:00;surveillant;non;Tata;Corinne;01/01/2000;M;75115;;;FRANCE;;;;;Gratuite;;`;
 
