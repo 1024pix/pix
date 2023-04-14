@@ -27,12 +27,12 @@ function _csvSerializeValue(data) {
 
 function deserializeForSessionsImport({ parsedCsvData, hasBillingMode }) {
   const sessions = [];
-  const csvLineKeys = Object.keys(headers);
+  const expectedHeadersKeys = Object.keys(headers);
 
-  _verifyHeaders({ csvLineKeys, headers, parsedCsvLine: parsedCsvData[0], hasBillingMode });
+  _verifyHeaders({ expectedHeadersKeys, headers, parsedCsvLine: parsedCsvData[0], hasBillingMode });
 
   parsedCsvData.forEach((lineDTO, index) => {
-    const dataFromColumnName = _getDataFromColumnNames({ csvLineKeys, headers, line: lineDTO });
+    const dataFromColumnName = _getDataFromColumnNames({ expectedHeadersKeys, headers, line: lineDTO });
     const FIRST_DATA_LINE = 2;
     const data = { ...dataFromColumnName, line: index + FIRST_DATA_LINE };
 
@@ -155,11 +155,11 @@ function _hasSessionIdAndCandidateInformation(data) {
   return _hasCandidateInformation(data) && data.sessionId;
 }
 
-function _getDataFromColumnNames({ csvLineKeys, headers, line }) {
+function _getDataFromColumnNames({ expectedHeadersKeys, headers, line }) {
   const data = {};
   data.complementaryCertifications = _extractComplementaryCertificationLabelsFromLine(line);
 
-  csvLineKeys.forEach((key) => {
+  expectedHeadersKeys.forEach((key) => {
     const headerKeyInCurrentLine = line[headers[key]];
     if (key === 'birthdate' || key === 'date') {
       data[key] =
@@ -212,9 +212,11 @@ function _getComplementaryCertificationLabel(key, COMPLEMENTARY_CERTIFICATION_SU
   return key.replace(COMPLEMENTARY_CERTIFICATION_SUFFIX, '').trim();
 }
 
-function _verifyHeaders({ csvLineKeys, parsedCsvLine, headers, hasBillingMode }) {
-  csvLineKeys.forEach((key) => {
-    if (parsedCsvLine[headers[key]] === undefined) {
+function _verifyHeaders({ expectedHeadersKeys, parsedCsvLine, headers, hasBillingMode }) {
+  expectedHeadersKeys.forEach((key) => {
+    const headerKey = parsedCsvLine[headers[key]];
+
+    if (headerKey === undefined) {
       if (_isBillingModeOptional(key, hasBillingMode)) {
         return;
       }
