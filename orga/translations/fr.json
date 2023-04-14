@@ -4,7 +4,7 @@
     "campaign-creation": {
       "external-user-id-required": "Veuillez préciser le libellé du champ qui sera demandé à vos participants au démarrage du parcours.",
       "name-required": "Veuillez donner un nom à votre campagne.",
-      "owner_not_in_organization": "Le propriétaire ne fait pas parti de l'organisation.",
+      "owner_not_in_organization": "Le propriétaire ne fait pas partie de l'organisation.",
       "purpose-required": "Veuillez choisir l’objectif de votre campagne : Évaluation ou Collecte de profils.",
       "target-profile-required": "Veuillez sélectionner un parcours pour votre campagne.",
       "title_too_long": "Le titre de la campagne est trop long.",
