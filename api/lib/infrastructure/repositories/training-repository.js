@@ -38,7 +38,16 @@ async function getWithTriggersForAdmin({ trainingId, domainTransaction = DomainT
 
 async function findPaginatedSummaries({ filter, page, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConn = domainTransaction?.knexTransaction || knex;
-  const query = knexConn(TABLE_NAME).select('trainings.*').orderBy('id', 'asc').modify(_applyFilters, filter);
+  const query = knexConn(TABLE_NAME)
+    .select(
+      'id',
+      'title',
+      knex.raw(
+        '(CASE WHEN EXISTS (SELECT 1 FROM "training-triggers" WHERE "training-triggers"."trainingId" = trainings.id) THEN true ELSE false END) AS "isRecommendable"'
+      )
+    )
+    .orderBy('id', 'asc')
+    .modify(_applyFilters, filter);
   const { results, pagination } = await fetchPage(query, page);
 
   const trainings = results.map((training) => new TrainingSummary(training));
