@@ -6,7 +6,7 @@ import { TOOLTIP_CONFIG, LEGEND_CONFIG } from '../../ui/chart';
 import maxBy from 'lodash/maxBy';
 import minBy from 'lodash/minBy';
 
-import locales from 'date-fns/locale';
+import { fr as localesFr } from 'date-fns/locale';
 
 export default class ParticipantsByDay extends Component {
   @service store;
@@ -82,6 +82,7 @@ export default class ParticipantsByDay extends Component {
   }
 
   get options() {
+    const locales = { fr: localesFr };
     const locale = locales[this.intl.locale[0]];
 
     return {
