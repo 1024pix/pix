@@ -61,7 +61,13 @@ async function findPaginatedSummariesByTargetProfileId({
 }) {
   const knexConn = domainTransaction?.knexTransaction || knex;
   const query = knexConn(TABLE_NAME)
-    .select('trainings.*')
+    .select(
+      'trainings.id',
+      'trainings.title',
+      knex.raw(
+        '(CASE WHEN EXISTS (SELECT 1 FROM "training-triggers" WHERE "training-triggers"."trainingId" = trainings.id) THEN true ELSE false END) AS "isRecommendable"'
+      )
+    )
     .innerJoin('target-profile-trainings', `${TABLE_NAME}.id`, 'target-profile-trainings.trainingId')
     .where({ 'target-profile-trainings.targetProfileId': targetProfileId })
     .orderBy('id', 'asc');

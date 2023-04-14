@@ -897,7 +897,7 @@ describe('Acceptance | Route | target-profiles', function () {
           id: training.id.toString(),
           attributes: {
             title: 'title',
-            'is-recommendable': undefined,
+            'is-recommendable': false,
           },
         },
       ];
