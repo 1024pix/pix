@@ -52,6 +52,7 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
             },
             'editor-logo-url': 'https://images.pix.fr/contenu-formatif/editeur/editor_logo_url.svg',
             'editor-name': 'Ministère education nationale',
+            'is-recommendable': true,
             link: 'https://example.net',
             locale: 'fr-fr',
             title: 'Training 1',
