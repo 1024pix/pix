@@ -1,24 +1,14 @@
 const { expect, sinon, hFake, domainBuilder, catchErr } = require('../../../test-helper');
 const sessionController = require('../../../../lib/application/sessions/session-controller');
 const usecases = require('../../../../lib/domain/usecases/index.js');
-const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
-const jurySessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/jury-session-serializer');
-const certificationCandidateSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-serializer');
-const certificationReportSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-report-serializer');
-const juryCertificationSummarySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/jury-certification-summary-serializer');
-const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
-const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
-const sessionValidator = require('../../../../lib/domain/validators/session-validator');
-const juryCertificationSummaryRepository = require('../../../../lib/infrastructure/repositories/jury-certification-summary-repository');
-const jurySessionRepository = require('../../../../lib/infrastructure/repositories/sessions/jury-session-repository');
 const UserAlreadyLinkedToCertificationCandidate = require('../../../../lib/domain/events/UserAlreadyLinkedToCertificationCandidate');
 const UserLinkedToCertificationCandidate = require('../../../../lib/domain/events/UserLinkedToCertificationCandidate');
-const certificationResults = require('../../../../lib/infrastructure/utils/csv/certification-results');
-const tokenService = require('../../../../lib/domain/services/token-service');
 const { SessionPublicationBatchResult } = require('../../../../lib/domain/models/SessionPublicationBatchResult');
 const logger = require('../../../../lib/infrastructure/logger');
 const { SessionPublicationBatchError } = require('../../../../lib/application/http-errors');
-const supervisorKitPdf = require('../../../../lib/infrastructure/utils/pdf/supervisor-kit-pdf');
+const certificationResultUtils = require('../../../../lib/infrastructure/utils/csv/certification-results.js');
+const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
+const events = require('../../../../lib/domain/events');
 
 describe('Unit | Controller | sessionController', function () {
   let request;
@@ -29,7 +19,7 @@ describe('Unit | Controller | sessionController', function () {
 
     beforeEach(function () {
       sinon.stub(usecases, 'getJurySession');
-      sinon.stub(jurySessionSerializer, 'serialize');
+
       request = {
         auth: { credentials: { userId } },
         params: {
@@ -41,6 +31,7 @@ describe('Unit | Controller | sessionController', function () {
     context('when session exists', function () {
       it('should reply serialized session informations', async function () {
         // given
+        const jurySessionSerializer = { serialize: sinon.stub() };
         const foundJurySession = Symbol('foundSession');
         const serializedJurySession = Symbol('serializedSession');
         const hasSupervisorAccess = true;
@@ -50,7 +41,7 @@ describe('Unit | Controller | sessionController', function () {
         jurySessionSerializer.serialize.withArgs(foundJurySession, hasSupervisorAccess).resolves(serializedJurySession);
 
         // when
-        const response = await sessionController.getJurySession(request, hFake);
+        const response = await sessionController.getJurySession(request, hFake, { jurySessionSerializer });
 
         // then
         expect(response).to.deep.equal(serializedJurySession);
@@ -63,7 +54,7 @@ describe('Unit | Controller | sessionController', function () {
 
     beforeEach(function () {
       sinon.stub(usecases, 'getSession');
-      sinon.stub(sessionSerializer, 'serialize');
+
       request = {
         auth: { credentials: { userId } },
         params: {
@@ -75,6 +66,7 @@ describe('Unit | Controller | sessionController', function () {
     context('when session exists', function () {
       it('should reply serialized session informations', async function () {
         // given
+        const sessionSerializer = { serialize: sinon.stub() };
         const foundSession = Symbol('foundSession');
         const serializedSession = Symbol('serializedSession');
         usecases.getSession.withArgs({ sessionId }).resolves({ session: foundSession, hasSomeCleaAcquired: false });
@@ -83,7 +75,7 @@ describe('Unit | Controller | sessionController', function () {
           .returns(serializedSession);
 
         // when
-        const response = await sessionController.get(request, hFake);
+        const response = await sessionController.get(request, hFake, { sessionSerializer });
 
         // then
         expect(response).to.deep.equal(serializedSession);
@@ -111,18 +103,17 @@ describe('Unit | Controller | sessionController', function () {
       };
 
       sinon.stub(usecases, 'updateSession');
-      sinon.stub(sessionSerializer, 'deserialize');
-      sinon.stub(sessionSerializer, 'serialize');
-      sessionSerializer.deserialize.withArgs(request.payload).returns({});
     });
 
     it('should return the updated session', async function () {
       // given
+      const sessionSerializer = { serialize: sinon.stub(), deserialize: sinon.stub() };
+      sessionSerializer.deserialize.withArgs(request.payload).returns({});
       usecases.updateSession.withArgs(updateSessionArgs).resolves(updatedSession);
       sessionSerializer.serialize.withArgs({ session: updatedSession }).returns(updatedSession);
 
       // when
-      const response = await sessionController.update(request, hFake);
+      const response = await sessionController.update(request, hFake, { sessionSerializer });
 
       // then
       expect(response).to.deep.equal(updatedSession);
@@ -147,15 +138,18 @@ describe('Unit | Controller | sessionController', function () {
 
       odsBuffer = Buffer.alloc(5);
       sinon.stub(usecases, 'getAttendanceSheet');
-      sinon.stub(tokenService, 'extractUserId').withArgs(accessToken).returns(userId);
     });
 
     it("should return the feuille d'émargement", async function () {
       // given
+      const tokenService = {
+        extractUserId: sinon.stub(),
+      };
+      tokenService.extractUserId.withArgs(accessToken).returns(userId);
       usecases.getAttendanceSheet.withArgs({ sessionId, userId }).resolves(odsBuffer);
 
       // when
-      const response = await sessionController.getAttendanceSheet(request, hFake);
+      const response = await sessionController.getAttendanceSheet(request, hFake, { tokenService });
 
       // then
       const expectedHeaders = {
@@ -210,15 +204,17 @@ describe('Unit | Controller | sessionController', function () {
         .stub(usecases, 'getSessionCertificationCandidates')
         .withArgs({ sessionId })
         .resolves(certificationCandidates);
-      sinon
-        .stub(certificationCandidateSerializer, 'serialize')
-        .withArgs(certificationCandidates)
-        .returns(certificationCandidatesJsonApi);
     });
 
     it('should return certification candidates', async function () {
       // when
-      const response = await sessionController.getCertificationCandidates(request, hFake);
+      const certificationCandidateSerializer = { serialize: sinon.stub() };
+      certificationCandidateSerializer.serialize
+        .withArgs(certificationCandidates)
+        .returns(certificationCandidatesJsonApi);
+      const response = await sessionController.getCertificationCandidates(request, hFake, {
+        certificationCandidateSerializer,
+      });
 
       // then
       expect(response).to.deep.equal(certificationCandidatesJsonApi);
@@ -246,7 +242,6 @@ describe('Unit | Controller | sessionController', function () {
           },
         },
       };
-      sinon.stub(certificationCandidateSerializer, 'deserialize').resolves(certificationCandidate);
       sinon
         .stub(usecases, 'addCertificationCandidateToSession')
         .withArgs({
@@ -255,15 +250,23 @@ describe('Unit | Controller | sessionController', function () {
           complementaryCertifications,
         })
         .resolves(addedCertificationCandidate);
-      sinon
-        .stub(certificationCandidateSerializer, 'serialize')
-        .withArgs(addedCertificationCandidate)
-        .returns(certificationCandidateJsonApi);
     });
 
     it('should return the added certification candidate', async function () {
+      // given
+      const certificationCandidateSerializer = {
+        serialize: sinon.stub(),
+        deserialize: sinon.stub(),
+      };
+      certificationCandidateSerializer.serialize
+        .withArgs(addedCertificationCandidate)
+        .returns(certificationCandidateJsonApi);
+      certificationCandidateSerializer.deserialize.resolves(certificationCandidate);
+
       // when
-      const response = await sessionController.addCertificationCandidate(request, hFake);
+      const response = await sessionController.addCertificationCandidate(request, hFake, {
+        certificationCandidateSerializer,
+      });
 
       // then
       expect(response.source).to.equal(certificationCandidateJsonApi);
@@ -311,17 +314,25 @@ describe('Unit | Controller | sessionController', function () {
           },
         },
       };
-      sinon
-        .stub(juryCertificationSummaryRepository, 'findBySessionIdPaginated')
+      const juryCertificationSummaryRepository = {
+        findBySessionIdPaginated: sinon.stub(),
+      };
+      juryCertificationSummaryRepository.findBySessionIdPaginated
         .withArgs({ sessionId, page })
         .resolves({ juryCertificationSummaries, pagination });
-      sinon
-        .stub(juryCertificationSummarySerializer, 'serialize')
+      const juryCertificationSummarySerializer = {
+        serialize: sinon.stub(),
+      };
+      juryCertificationSummarySerializer.serialize
         .withArgs(juryCertificationSummaries)
         .returns(juryCertificationSummariesJSONAPI);
 
       // when
-      const response = await sessionController.getJuryCertificationSummaries(request, hFake);
+      const response = await sessionController.getJuryCertificationSummaries(request, hFake, {
+        juryCertificationSummaryRepository,
+        juryCertificationSummarySerializer,
+        queryParamsUtils,
+      });
 
       // then
       expect(response).to.deep.equal(juryCertificationSummariesJSONAPI);
@@ -332,8 +343,10 @@ describe('Unit | Controller | sessionController', function () {
     it('should return csv content and fileName', async function () {
       // given
       const session = { id: 1, date: '2020/01/01', time: '12:00' };
-      sinon
-        .stub(tokenService, 'extractResultRecipientEmailAndSessionId')
+      const tokenService = {
+        extractResultRecipientEmailAndSessionId: sinon.stub(),
+      };
+      tokenService.extractResultRecipientEmailAndSessionId
         .withArgs('abcd1234')
         .returns({ sessionId: 1, resultRecipientEmail: 'user@example.net' });
       sinon
@@ -344,15 +357,18 @@ describe('Unit | Controller | sessionController', function () {
           certificationResults: [],
           fileName: '20200101_1200_resultats_session_1.csv',
         });
-      sinon.stub(certificationResults, 'getSessionCertificationResultsCsv');
-      certificationResults.getSessionCertificationResultsCsv
+      const certificationResultUtils = {
+        getSessionCertificationResultsCsv: sinon.stub(),
+      };
+      certificationResultUtils.getSessionCertificationResultsCsv
         .withArgs({ session, certificationResults: [] })
         .resolves('csv content');
 
       // when
       const response = await sessionController.getSessionResultsByRecipientEmail(
         { params: { token: 'abcd1234' } },
-        hFake
+        hFake,
+        { tokenService, certificationResultUtils }
       );
 
       // then
@@ -377,14 +393,20 @@ describe('Unit | Controller | sessionController', function () {
           credentials: { userId },
         },
       };
-      sinon.stub(tokenService, 'extractSessionId').withArgs(token).returns({ sessionId });
+      const tokenService = {
+        extractSessionId: sinon.stub(),
+      };
+      tokenService.extractSessionId.withArgs(token).returns({ sessionId });
       sinon.stub(usecases, 'getSessionResults').withArgs({ sessionId }).resolves({
         session,
         certificationResults,
       });
 
       // when
-      const response = await sessionController.getSessionResultsToDownload(request, hFake);
+      const response = await sessionController.getSessionResultsToDownload(request, hFake, {
+        tokenService,
+        certificationResultUtils,
+      });
 
       // then
       const expectedHeader = `attachment; filename=${fileName}`;
@@ -411,15 +433,19 @@ describe('Unit | Controller | sessionController', function () {
         params: { id: sessionId },
       };
       sinon.stub(usecases, 'getSessionCertificationReports').withArgs({ sessionId }).resolves(certificationReports);
-      sinon
-        .stub(certificationReportSerializer, 'serialize')
-        .withArgs(certificationReports)
-        .returns(serializedCertificationReports);
     });
 
     it('should return certification candidates', async function () {
+      // given
+      const certificationReportSerializer = {
+        serialize: sinon.stub(),
+      };
+      certificationReportSerializer.serialize.withArgs(certificationReports).returns(serializedCertificationReports);
+
       // when
-      const response = await sessionController.getCertificationReports(request, hFake);
+      const response = await sessionController.getCertificationReports(request, hFake, {
+        certificationReportSerializer,
+      });
 
       // then
       expect(response).to.deep.equal(serializedCertificationReports);
@@ -432,6 +458,7 @@ describe('Unit | Controller | sessionController', function () {
     const userId = 2;
     const student1 = { id: 1 };
     const student2 = { id: 2 };
+    let dependencies;
 
     beforeEach(function () {
       studentIds = [student1.id, student2.id];
@@ -450,23 +477,29 @@ describe('Unit | Controller | sessionController', function () {
           'organization-learner-ids': [student1.id, student2.id],
         },
       };
-      sinon.stub(requestResponseUtils, 'extractUserIdFromRequest');
+      const requestResponseUtils = { extractUserIdFromRequest: sinon.stub() };
       sinon.stub(usecases, 'enrollStudentsToSession');
       sinon.stub(usecases, 'getSessionCertificationCandidates');
-      sinon.stub(certificationCandidateSerializer, 'serialize');
+      const certificationCandidateSerializer = { serialize: sinon.stub() };
+      dependencies = {
+        requestResponseUtils,
+        certificationCandidateSerializer,
+      };
     });
 
     context('when the user has access to session and there organizationLearnerIds are corrects', function () {
       beforeEach(function () {
-        requestResponseUtils.extractUserIdFromRequest.withArgs(request).returns(userId);
+        dependencies.requestResponseUtils.extractUserIdFromRequest.withArgs(request).returns(userId);
         usecases.enrollStudentsToSession.withArgs({ sessionId, referentId: userId, studentIds }).resolves();
         usecases.getSessionCertificationCandidates.withArgs({ sessionId }).resolves(studentList);
-        certificationCandidateSerializer.serialize.withArgs(studentList).returns(serializedCertificationCandidate);
+        dependencies.certificationCandidateSerializer.serialize
+          .withArgs(studentList)
+          .returns(serializedCertificationCandidate);
       });
 
       it('should return certificationCandidates', async function () {
         // when
-        const response = await sessionController.enrollStudentsToSession(request, hFake);
+        const response = await sessionController.enrollStudentsToSession(request, hFake, dependencies);
 
         // then
         expect(response.statusCode).to.equal(201);
@@ -480,22 +513,23 @@ describe('Unit | Controller | sessionController', function () {
     const userId = 2;
     let firstName;
     let lastName;
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const birthdate = Symbol('birthdate');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const linkedCertificationCandidate = Symbol('candidate');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const serializedCertificationCandidate = Symbol('sCandidate');
+    let birthdate;
+    let linkedCertificationCandidate;
+    let serializedCertificationCandidate;
+    let dependencies;
 
     beforeEach(function () {
       // given
       firstName = 'firstName';
       lastName = 'lastName';
-      sinon
-        .stub(certificationCandidateSerializer, 'serialize')
+      birthdate = Symbol('birthdate');
+      linkedCertificationCandidate = Symbol('candidate');
+      serializedCertificationCandidate = Symbol('sCandidate');
+      const certificationCandidateSerializer = { serialize: sinon.stub() };
+      dependencies = {
+        certificationCandidateSerializer,
+      };
+      dependencies.certificationCandidateSerializer.serialize
         .withArgs(linkedCertificationCandidate)
         .returns(serializedCertificationCandidate);
     });
@@ -521,7 +555,7 @@ describe('Unit | Controller | sessionController', function () {
       const request = buildRequest(sessionId, userId, firstName, lastName, birthdate);
 
       // when
-      const response = await sessionController.createCandidateParticipation(request, hFake);
+      const response = await sessionController.createCandidateParticipation(request, hFake, dependencies);
 
       // then
       expect(response).to.equal(serializedCertificationCandidate);
@@ -543,7 +577,7 @@ describe('Unit | Controller | sessionController', function () {
         // given
         const request = buildRequest(sessionId, userId, firstName, lastName, birthdate);
         // when
-        const response = await sessionController.createCandidateParticipation(request, hFake);
+        const response = await sessionController.createCandidateParticipation(request, hFake, dependencies);
 
         // then
         expect(response).to.equals(serializedCertificationCandidate);
@@ -567,7 +601,7 @@ describe('Unit | Controller | sessionController', function () {
         const request = buildRequest(sessionId, userId, firstName, lastName, birthdate);
 
         // when
-        const response = await sessionController.createCandidateParticipation(request, hFake);
+        const response = await sessionController.createCandidateParticipation(request, hFake, dependencies);
 
         // then
         expect(response.statusCode).to.equal(201);
@@ -605,12 +639,13 @@ describe('Unit | Controller | sessionController', function () {
           },
         },
       };
-      sinon.stub(certificationReportSerializer, 'deserialize').resolves(aCertificationReport);
+      const certificationReportSerializer = { deserialize: sinon.stub() };
+      certificationReportSerializer.deserialize.resolves(aCertificationReport);
       sinon.stub(usecases, 'finalizeSession').resolves(updatedSession);
       sinon.stub(usecases, 'getSession').resolves(updatedSession);
 
       // when
-      await sessionController.finalize(request, hFake);
+      await sessionController.finalize(request, hFake, { certificationReportSerializer, events });
 
       // then
       expect(usecases.finalizeSession).to.have.been.calledWithExactly({
@@ -624,15 +659,14 @@ describe('Unit | Controller | sessionController', function () {
   });
 
   describe('#publish / #unpublish', function () {
-    const sessionId = 123;
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const session = Symbol('session');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const serializedSession = Symbol('serializedSession');
+    let session;
+    let serializedSession;
+    let sessionId;
 
     beforeEach(function () {
+      sessionId = 123;
+      session = Symbol('session');
+      serializedSession = Symbol('serializedSession');
       request = {
         params: {
           id: sessionId,
@@ -653,12 +687,15 @@ describe('Unit | Controller | sessionController', function () {
             sessionId,
           })
           .resolves(usecaseResult);
-        sinon.stub(sessionSerializer, 'serialize').withArgs({ session: usecaseResult }).resolves(serializedSession);
       });
 
       it('should return the serialized session', async function () {
+        // given
+        const sessionSerializer = { serialize: sinon.stub() };
+        sessionSerializer.serialize.withArgs({ session }).resolves(serializedSession);
+
         // when
-        const response = await sessionController.publish(request);
+        const response = await sessionController.publish(request, hFake, { sessionSerializer });
 
         // then
         expect(response).to.equal(serializedSession);
@@ -675,12 +712,15 @@ describe('Unit | Controller | sessionController', function () {
             sessionId,
           })
           .resolves(usecaseResult);
-        sinon.stub(sessionSerializer, 'serialize').withArgs({ session }).resolves(serializedSession);
       });
 
       it('should return the serialized session', async function () {
+        // given
+        const sessionSerializer = { serialize: sinon.stub() };
+        sessionSerializer.serialize.withArgs({ session }).resolves(serializedSession);
+
         // when
-        const response = await sessionController.unpublish(request);
+        const response = await sessionController.unpublish(request, hFake, { sessionSerializer });
 
         // then
         expect(response).to.equal(serializedSession);
@@ -792,15 +832,14 @@ describe('Unit | Controller | sessionController', function () {
   });
 
   describe('#flagResultsAsSentToPrescriber', function () {
-    const sessionId = 123;
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const session = Symbol('session');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const serializedSession = Symbol('serializedSession');
+    let sessionId;
+    let session;
+    let serializedSession;
 
     beforeEach(function () {
+      sessionId = 123;
+      session = Symbol('session');
+      serializedSession = Symbol('serializedSession');
       request = {
         params: {
           id: sessionId,
@@ -812,12 +851,17 @@ describe('Unit | Controller | sessionController', function () {
       beforeEach(function () {
         const usecaseResult = { resultsFlaggedAsSent: false, session };
         sinon.stub(usecases, 'flagSessionResultsAsSentToPrescriber').withArgs({ sessionId }).resolves(usecaseResult);
-        sinon.stub(sessionSerializer, 'serialize').withArgs({ session }).resolves(serializedSession);
       });
 
       it('should return the serialized session', async function () {
+        // given
+        const sessionSerializer = {
+          serialize: sinon.stub(),
+        };
+        sessionSerializer.serialize.withArgs({ session }).resolves(serializedSession);
+
         // when
-        const response = await sessionController.flagResultsAsSentToPrescriber(request, hFake);
+        const response = await sessionController.flagResultsAsSentToPrescriber(request, hFake, { sessionSerializer });
 
         // then
         expect(response).to.equal(serializedSession);
@@ -828,12 +872,15 @@ describe('Unit | Controller | sessionController', function () {
       beforeEach(function () {
         const usecaseResult = { resultsFlaggedAsSent: true, session };
         sinon.stub(usecases, 'flagSessionResultsAsSentToPrescriber').withArgs({ sessionId }).resolves(usecaseResult);
-        sinon.stub(sessionSerializer, 'serialize').withArgs({ session }).resolves(serializedSession);
       });
 
       it('should return the serialized session with code 201', async function () {
+        // given
+        const sessionSerializer = { serialize: sinon.stub() };
+        sessionSerializer.serialize.withArgs({ session }).resolves(serializedSession);
+
         // when
-        const response = await sessionController.flagResultsAsSentToPrescriber(request, hFake);
+        const response = await sessionController.flagResultsAsSentToPrescriber(request, hFake, { sessionSerializer });
 
         // then
         expect(response.statusCode).to.equal(201);
@@ -843,15 +890,12 @@ describe('Unit | Controller | sessionController', function () {
   });
 
   describe('#findPaginatedFilteredJurySessions', function () {
-    beforeEach(function () {
-      sinon.stub(queryParamsUtils, 'extractParameters');
-      sinon.stub(sessionValidator, 'validateAndNormalizeFilters');
-      sinon.stub(jurySessionRepository, 'findPaginatedFiltered');
-      sinon.stub(jurySessionSerializer, 'serializeForPaginatedList');
-    });
-
     it('should return the serialized jurySessions', async function () {
       // given
+      const queryParamsUtils = { extractParameters: sinon.stub() };
+      const sessionValidator = { validateAndNormalizeFilters: sinon.stub() };
+      const jurySessionRepository = { findPaginatedFiltered: sinon.stub() };
+      const jurySessionSerializer = { serializeForPaginatedList: sinon.stub() };
       const request = { query: {} };
       const filter = { filter1: ' filter1ToTrim', filter2: 'filter2' };
       const normalizedFilters = 'normalizedFilters';
@@ -868,7 +912,12 @@ describe('Unit | Controller | sessionController', function () {
         .returns(serializedJurySessionsForPaginatedList);
 
       // when
-      const result = await sessionController.findPaginatedFilteredJurySessions(request, hFake);
+      const result = await sessionController.findPaginatedFilteredJurySessions(request, hFake, {
+        queryParamsUtils,
+        sessionValidator,
+        jurySessionRepository,
+        jurySessionSerializer,
+      });
 
       // then
       expect(result).to.equal(serializedJurySessionsForPaginatedList);
@@ -876,18 +925,12 @@ describe('Unit | Controller | sessionController', function () {
   });
 
   describe('#assignCertificationOfficer', function () {
-    let request;
-    const sessionId = 1;
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const session = Symbol('session');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const sessionJsonApi = Symbol('someSessionSerialized');
-
-    beforeEach(function () {
+    it('should return updated session', async function () {
       // given
-      request = {
+      const sessionId = 1;
+      const session = Symbol('session');
+      const sessionJsonApi = Symbol('someSessionSerialized');
+      const request = {
         params: { id: sessionId },
         auth: {
           credentials: {
@@ -902,12 +945,11 @@ describe('Unit | Controller | sessionController', function () {
           certificationOfficerId: userId,
         })
         .resolves(session);
-      sinon.stub(jurySessionSerializer, 'serialize').withArgs(session).returns(sessionJsonApi);
-    });
+      const jurySessionSerializer = { serialize: sinon.stub() };
+      jurySessionSerializer.serialize.withArgs(session).returns(sessionJsonApi);
 
-    it('should return updated session', async function () {
       // when
-      const response = await sessionController.assignCertificationOfficer(request, hFake);
+      const response = await sessionController.assignCertificationOfficer(request, hFake, { jurySessionSerializer });
 
       // then
       expect(usecases.assignCertificationOfficerToJurySession).to.have.been.calledWithExactly({
@@ -1005,14 +1047,21 @@ describe('Unit | Controller | sessionController', function () {
           accessToken: 'ACCESS_TOKEN',
         },
       };
-      sinon.stub(tokenService, 'extractUserId').returns(userId);
-      sinon
-        .stub(supervisorKitPdf, 'getSupervisorKitPdfBuffer')
-        .resolves({ buffer: supervisorKitBuffer, fileName: `kit-surveillant-${sessionMainInfo.id}.pdf` });
+      const tokenService = {
+        extractUserId: sinon.stub(),
+      };
+      tokenService.extractUserId.withArgs(request.query.accessToken).returns(userId);
+      const supervisorKitPdf = {
+        getSupervisorKitPdfBuffer: sinon.stub(),
+      };
+      supervisorKitPdf.getSupervisorKitPdfBuffer.resolves({
+        buffer: supervisorKitBuffer,
+        fileName: `kit-surveillant-${sessionMainInfo.id}.pdf`,
+      });
       usecases.getSupervisorKitSessionInfo.resolves(sessionMainInfo);
 
       // when
-      const response = await sessionController.getSupervisorKitPdf(request, hFake);
+      const response = await sessionController.getSupervisorKitPdf(request, hFake, { tokenService, supervisorKitPdf });
 
       // then
       expect(usecases.getSupervisorKitSessionInfo).to.have.been.calledWith({

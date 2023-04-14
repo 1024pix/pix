@@ -23,44 +23,53 @@ const UserLinkedToCertificationCandidate = require('../../domain/events/UserLink
 const logger = require('../../infrastructure/logger.js');
 
 module.exports = {
-  async findPaginatedFilteredJurySessions(request) {
-    const { filter, page } = queryParamsUtils.extractParameters(request.query);
-    const normalizedFilters = sessionValidator.validateAndNormalizeFilters(filter);
-    const jurySessionsForPaginatedList = await jurySessionRepository.findPaginatedFiltered({
+  async findPaginatedFilteredJurySessions(
+    request,
+    h,
+    dependencies = {
+      queryParamsUtils,
+      jurySessionRepository,
+      jurySessionSerializer,
+      sessionValidator,
+    }
+  ) {
+    const { filter, page } = dependencies.queryParamsUtils.extractParameters(request.query);
+    const normalizedFilters = dependencies.sessionValidator.validateAndNormalizeFilters(filter);
+    const jurySessionsForPaginatedList = await dependencies.jurySessionRepository.findPaginatedFiltered({
       filters: normalizedFilters,
       page,
     });
 
-    return jurySessionSerializer.serializeForPaginatedList(jurySessionsForPaginatedList);
+    return dependencies.jurySessionSerializer.serializeForPaginatedList(jurySessionsForPaginatedList);
   },
 
-  async getJurySession(request) {
+  async getJurySession(request, h, dependencies = { jurySessionSerializer }) {
     const sessionId = request.params.id;
     const { jurySession, hasSupervisorAccess } = await usecases.getJurySession({ sessionId });
 
-    return jurySessionSerializer.serialize(jurySession, hasSupervisorAccess);
+    return dependencies.jurySessionSerializer.serialize(jurySession, hasSupervisorAccess);
   },
 
-  async get(request) {
+  async get(request, h, dependencies = { sessionSerializer }) {
     const sessionId = request.params.id;
     const { session, hasSupervisorAccess, hasSomeCleaAcquired } = await usecases.getSession({ sessionId });
-    return sessionSerializer.serialize({ session, hasSupervisorAccess, hasSomeCleaAcquired });
+    return dependencies.sessionSerializer.serialize({ session, hasSupervisorAccess, hasSomeCleaAcquired });
   },
 
-  async update(request) {
+  async update(request, h, dependencies = { sessionSerializer }) {
     const userId = request.auth.credentials.userId;
-    const session = sessionSerializer.deserialize(request.payload);
+    const session = dependencies.sessionSerializer.deserialize(request.payload);
     session.id = request.params.id;
 
     const updatedSession = await usecases.updateSession({ userId, session });
 
-    return sessionSerializer.serialize({ session: updatedSession });
+    return dependencies.sessionSerializer.serialize({ session: updatedSession });
   },
 
-  async getAttendanceSheet(request, h) {
+  async getAttendanceSheet(request, h, dependencies = { tokenService }) {
     const sessionId = request.params.id;
     const token = request.query.accessToken;
-    const userId = tokenService.extractUserId(token);
+    const userId = dependencies.tokenService.extractUserId(token);
     const attendanceSheet = await usecases.getAttendanceSheet({ sessionId, userId });
 
     const fileName = `feuille-emargement-session-${sessionId}.ods`;
@@ -70,13 +79,13 @@ module.exports = {
       .header('Content-Disposition', `attachment; filename=${fileName}`);
   },
 
-  async getSupervisorKitPdf(request, h) {
+  async getSupervisorKitPdf(request, h, dependencies = { tokenService, supervisorKitPdf }) {
     const sessionId = request.params.id;
     const token = request.query.accessToken;
-    const userId = tokenService.extractUserId(token);
+    const userId = dependencies.tokenService.extractUserId(token);
     const sessionForSupervisorKit = await usecases.getSupervisorKitSessionInfo({ sessionId, userId });
 
-    const { buffer, fileName } = await supervisorKitPdf.getSupervisorKitPdfBuffer({
+    const { buffer, fileName } = await dependencies.supervisorKitPdf.getSupervisorKitPdfBuffer({
       sessionForSupervisorKit,
     });
 
@@ -86,10 +95,10 @@ module.exports = {
       .header('Content-Type', 'application/pdf');
   },
 
-  async getCandidatesImportSheet(request, h) {
+  async getCandidatesImportSheet(request, h, dependencies = { tokenService, fillCandidatesImportSheet }) {
     const sessionId = request.params.id;
     const token = request.query.accessToken;
-    const userId = tokenService.extractUserId(token);
+    const userId = dependencies.tokenService.extractUserId(token);
 
     const { session, certificationCenterHabilitations, isScoCertificationCenter } =
       await usecases.getCandidateImportSheetData({
@@ -108,16 +117,16 @@ module.exports = {
       .header('Content-Disposition', 'attachment; filename=liste-candidats-session-' + sessionId + '.ods');
   },
 
-  async getCertificationCandidates(request) {
+  async getCertificationCandidates(request, h, dependencies = { certificationCandidateSerializer }) {
     const sessionId = request.params.id;
 
     const certificationCandidates = await usecases.getSessionCertificationCandidates({ sessionId });
-    return certificationCandidateSerializer.serialize(certificationCandidates);
+    return dependencies.certificationCandidateSerializer.serialize(certificationCandidates);
   },
 
-  async addCertificationCandidate(request, h) {
+  async addCertificationCandidate(request, h, dependencies = { certificationCandidateSerializer }) {
     const sessionId = request.params.id;
-    const certificationCandidate = await certificationCandidateSerializer.deserialize(request.payload);
+    const certificationCandidate = await dependencies.certificationCandidateSerializer.deserialize(request.payload);
     const complementaryCertifications = request.payload.data.attributes['complementary-certifications'] ?? [];
     const addedCertificationCandidate = await usecases.addCertificationCandidateToSession({
       sessionId,
@@ -125,7 +134,7 @@ module.exports = {
       complementaryCertifications,
     });
 
-    return h.response(certificationCandidateSerializer.serialize(addedCertificationCandidate)).created();
+    return h.response(dependencies.certificationCandidateSerializer.serialize(addedCertificationCandidate)).created();
   },
 
   async deleteCertificationCandidate(request) {
@@ -136,31 +145,39 @@ module.exports = {
     return null;
   },
 
-  async getJuryCertificationSummaries(request) {
+  async getJuryCertificationSummaries(
+    request,
+    h,
+    dependencies = {
+      queryParamsUtils,
+      juryCertificationSummaryRepository,
+      juryCertificationSummarySerializer,
+    }
+  ) {
     const sessionId = request.params.id;
-    const { page } = queryParamsUtils.extractParameters(request.query);
+    const { page } = dependencies.queryParamsUtils.extractParameters(request.query);
 
     const { juryCertificationSummaries, pagination } =
-      await juryCertificationSummaryRepository.findBySessionIdPaginated({
+      await dependencies.juryCertificationSummaryRepository.findBySessionIdPaginated({
         sessionId,
         page,
       });
-    return juryCertificationSummarySerializer.serialize(juryCertificationSummaries, pagination);
+    return dependencies.juryCertificationSummarySerializer.serialize(juryCertificationSummaries, pagination);
   },
 
-  async generateSessionResultsDownloadLink(request, h) {
+  async generateSessionResultsDownloadLink(request, h, dependencies = { sessionResultsLinkService }) {
     const sessionId = request.params.id;
-    const sessionResultsLink = sessionResultsLinkService.generateResultsLink(sessionId);
+    const sessionResultsLink = dependencies.sessionResultsLinkService.generateResultsLink(sessionId);
 
     return h.response({ sessionResultsLink });
   },
 
-  async getSessionResultsToDownload(request, h) {
+  async getSessionResultsToDownload(request, h, dependencies = { tokenService, certificationResultUtils }) {
     const token = request.params.token;
-    const { sessionId } = tokenService.extractSessionId(token);
+    const { sessionId } = dependencies.tokenService.extractSessionId(token);
     const { session, certificationResults } = await usecases.getSessionResults({ sessionId });
 
-    const csvResult = await certificationResultUtils.getSessionCertificationResultsCsv({
+    const csvResult = await dependencies.certificationResultUtils.getSessionCertificationResultsCsv({
       session,
       certificationResults,
     });
@@ -174,14 +191,15 @@ module.exports = {
       .header('Content-Disposition', `attachment; filename=${fileName}`);
   },
 
-  async getSessionResultsByRecipientEmail(request, h) {
+  async getSessionResultsByRecipientEmail(request, h, dependencies = { tokenService, certificationResultUtils }) {
     const token = request.params.token;
-    const { resultRecipientEmail, sessionId } = tokenService.extractResultRecipientEmailAndSessionId(token);
+    const { resultRecipientEmail, sessionId } =
+      dependencies.tokenService.extractResultRecipientEmailAndSessionId(token);
     const { session, certificationResults } = await usecases.getSessionResultsByResultRecipientEmail({
       sessionId,
       resultRecipientEmail,
     });
-    const csvResult = await certificationResultUtils.getSessionCertificationResultsCsv({
+    const csvResult = await dependencies.certificationResultUtils.getSessionCertificationResultsCsv({
       session,
       certificationResults,
     });
@@ -195,12 +213,12 @@ module.exports = {
       .header('Content-Disposition', `attachment; filename=${fileName}`);
   },
 
-  async getCertificationReports(request) {
+  async getCertificationReports(request, h, dependencies = { certificationReportSerializer }) {
     const sessionId = request.params.id;
 
     return usecases
       .getSessionCertificationReports({ sessionId })
-      .then((certificationReports) => certificationReportSerializer.serialize(certificationReports));
+      .then((certificationReports) => dependencies.certificationReportSerializer.serialize(certificationReports));
   },
 
   async importCertificationCandidatesFromCandidatesImportSheet(request) {
@@ -219,18 +237,19 @@ module.exports = {
     return null;
   },
 
-  async enrollStudentsToSession(request, h) {
-    const referentId = requestResponseUtils.extractUserIdFromRequest(request);
+  async enrollStudentsToSession(request, h, dependencies = { certificationCandidateSerializer, requestResponseUtils }) {
+    const referentId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
     const sessionId = request.params.id;
     const studentIds = request.deserializedPayload.organizationLearnerIds;
 
     await usecases.enrollStudentsToSession({ sessionId, referentId, studentIds });
     const certificationCandidates = await usecases.getSessionCertificationCandidates({ sessionId });
-    const certificationCandidatesSerialized = certificationCandidateSerializer.serialize(certificationCandidates);
+    const certificationCandidatesSerialized =
+      dependencies.certificationCandidateSerializer.serialize(certificationCandidates);
     return h.response(certificationCandidatesSerialized).created();
   },
 
-  async createCandidateParticipation(request, h) {
+  async createCandidateParticipation(request, h, dependencies = { certificationCandidateSerializer }) {
     const userId = request.auth.credentials.userId;
     const sessionId = request.params.id;
     const firstName = trim(request.payload.data.attributes['first-name']);
@@ -246,11 +265,11 @@ module.exports = {
     });
 
     const certificationCandidate = await usecases.getCertificationCandidate({ userId, sessionId });
-    const serialized = await certificationCandidateSerializer.serialize(certificationCandidate);
+    const serialized = await dependencies.certificationCandidateSerializer.serialize(certificationCandidate);
     return event instanceof UserLinkedToCertificationCandidate ? h.response(serialized).created() : serialized;
   },
 
-  async finalize(request, h) {
+  async finalize(request, h, dependencies = { certificationReportSerializer, events }) {
     const sessionId = request.params.id;
     const examinerGlobalComment = request.payload.data.attributes['examiner-global-comment'];
     const hasIncident = request.payload.data.attributes['has-incident'];
@@ -258,7 +277,7 @@ module.exports = {
     const certificationReports = await Promise.all(
       (request.payload.data.included || [])
         .filter((data) => data.type === 'certification-reports')
-        .map((data) => certificationReportSerializer.deserialize({ data }))
+        .map((data) => dependencies.certificationReportSerializer.deserialize({ data }))
     );
 
     const event = await usecases.finalizeSession({
@@ -268,16 +287,16 @@ module.exports = {
       hasJoiningIssue,
       certificationReports,
     });
-    await events.eventDispatcher.dispatch(event);
+    await dependencies.events.eventDispatcher.dispatch(event);
     return h.response().code(200);
   },
 
-  async publish(request) {
+  async publish(request, h, dependencies = { sessionSerializer }) {
     const sessionId = request.params.id;
 
     const session = await usecases.publishSession({ sessionId });
 
-    return sessionSerializer.serialize({ session });
+    return dependencies.sessionSerializer.serialize({ session });
   },
 
   async publishInBatch(request, h) {
@@ -292,26 +311,26 @@ module.exports = {
     return h.response().code(204);
   },
 
-  async unpublish(request) {
+  async unpublish(request, h, dependencies = { sessionSerializer }) {
     const sessionId = request.params.id;
 
     const session = await usecases.unpublishSession({ sessionId });
 
-    return sessionSerializer.serialize({ session });
+    return dependencies.sessionSerializer.serialize({ session });
   },
 
-  async flagResultsAsSentToPrescriber(request, h) {
+  async flagResultsAsSentToPrescriber(request, h, dependencies = { sessionSerializer }) {
     const sessionId = request.params.id;
     const { resultsFlaggedAsSent, session } = await usecases.flagSessionResultsAsSentToPrescriber({ sessionId });
-    const serializedSession = await sessionSerializer.serialize({ session });
+    const serializedSession = await dependencies.sessionSerializer.serialize({ session });
     return resultsFlaggedAsSent ? h.response(serializedSession).created() : serializedSession;
   },
 
-  async assignCertificationOfficer(request) {
+  async assignCertificationOfficer(request, h, dependencies = { jurySessionSerializer }) {
     const sessionId = request.params.id;
     const certificationOfficerId = request.auth.credentials.userId;
     const jurySession = await usecases.assignCertificationOfficerToJurySession({ sessionId, certificationOfficerId });
-    return jurySessionSerializer.serialize(jurySession);
+    return dependencies.jurySessionSerializer.serialize(jurySession);
   },
 
   async commentAsJury(request, h) {
