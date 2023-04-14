@@ -7,8 +7,8 @@ const queryParamsUtils = require('../../infrastructure/utils/query-params-utils.
 
 module.exports = {
   async findPaginatedTrainingSummaries(request, h, dependencies = { trainingSummarySerializer, queryParamsUtils }) {
-    const { page } = dependencies.queryParamsUtils.extractParameters(request.query);
-    const { trainings, meta } = await usecases.findPaginatedTrainingSummaries({ page });
+    const { filter, page } = dependencies.queryParamsUtils.extractParameters(request.query);
+    const { trainings, meta } = await usecases.findPaginatedTrainingSummaries({ filter, page });
     return dependencies.trainingSummarySerializer.serialize(trainings, meta);
   },
 

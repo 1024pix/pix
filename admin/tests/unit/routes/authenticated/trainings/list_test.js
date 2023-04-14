@@ -24,13 +24,38 @@ module('Unit | Route | authenticated/trainings/list', function (hooks) {
       };
     });
 
-    test('it should call store.query', async function (assert) {
-      // when
-      await route.model(params);
+    module('when queryParams filters are falsy', function () {
+      test('it should call store.query with no filters on name and id', async function (assert) {
+        // when
+        await route.model(params);
+        expectedQueryArgs.filter = {
+          title: '',
+          id: '',
+        };
 
-      // then
-      sinon.assert.calledWith(route.store.query, 'training-summary', expectedQueryArgs);
-      assert.ok(true);
+        // then
+        sinon.assert.calledWith(route.store.query, 'training-summary', expectedQueryArgs);
+        assert.ok(true);
+      });
+    });
+
+    module('when queryParams filters are truthy', function () {
+      test('it should call store.query with filters containing trimmed values', async function (assert) {
+        // given
+        params.title = 'someTitle';
+        params.id = 'someId';
+        expectedQueryArgs.filter = {
+          title: 'someTitle',
+          id: 'someId',
+        };
+
+        // when
+        await route.model(params);
+
+        // then
+        sinon.assert.calledWith(route.store.query, 'training-summary', expectedQueryArgs);
+        assert.ok(true);
+      });
     });
   });
 });
