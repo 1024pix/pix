@@ -67,7 +67,11 @@ module('Integration | Component | add-issue-report-modal', function (hooks) {
     // then
     for (const category of Object.values(certificationIssueReportCategories)) {
       assert
-        .dom(screen.getByLabelText(`${categoryToCode[category]} ${categoryToLabel[category]}`, { exact: false }))
+        .dom(
+          screen.getByLabelText(`${categoryToCode[category]} ${this.intl.t(categoryToLabel[category])}`, {
+            exact: false,
+          })
+        )
         .exists();
     }
   });
