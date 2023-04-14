@@ -55,7 +55,7 @@ When(`je vois {int} résultats par compétence`, (numberOfResultsByCompetence) =
 });
 
 When(`je vois {int} résultats pour la compétence`, (numberOfResultsByCompetence) => {
-  cy.get('[aria-label="Votre résultat pour la compétence"]').should('have.lengthOf', numberOfResultsByCompetence);
+  cy.get('.skill-review-competence__row').should('have.lengthOf', numberOfResultsByCompetence);
 });
 
 When(`je vois la formation recommandée ayant le titre {string}`, (trainingName) => {
