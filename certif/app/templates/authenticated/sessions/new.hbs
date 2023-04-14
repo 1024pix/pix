@@ -23,11 +23,13 @@
         aria-describedby="address-error"
         aria-required="true"
       />
-      {{#if this.isSessionAddressMissing}}
-        <div id="address-error" class="session-form__error error-message">
+
+      <p id="address-error" class="session-form__error error-message">
+        {{#if this.isSessionAddressMissing}}
           {{t "pages.sessions.new.errors.SESSION_ADDRESS_REQUIRED"}}
-        </div>
-      {{/if}}
+        {{/if}}
+      </p>
+
     </div>
 
     <div class="session-form__field">
@@ -46,11 +48,12 @@
         aria-describedby="room-error"
         aria-required="true"
       />
-      {{#if this.isSessionRoomMissing}}
-        <div id="room-error" class="session-form__error error-message">
+
+      <p id="room-error" class="session-form__error error-message">
+        {{#if this.isSessionRoomMissing}}
           {{t "pages.sessions.new.errors.SESSION_ROOM_REQUIRED"}}
-        </div>
-      {{/if}}
+        {{/if}}
+      </p>
     </div>
 
     <div class="session-form__field">
@@ -72,11 +75,12 @@
         aria-describedby="date-error"
         aria-required="true"
       />
-      {{#if this.isSessionDateMissing}}
-        <div id="date-error" class="session-form__error error-message">
+
+      <p id="date-error" class="session-form__error error-message">
+        {{#if this.isSessionDateMissing}}
           {{t "pages.sessions.new.errors.SESSION_DATE_REQUIRED"}}
-        </div>
-      {{/if}}
+        {{/if}}
+      </p>
     </div>
 
     <div class="session-form__field">
@@ -99,11 +103,11 @@
         aria-describedby="time-error"
         aria-required="true"
       />
-      {{#if this.isSessionTimeMissing}}
-        <div id="time-error" class="session-form__error error-message">
+      <p id="time-error" class="session-form__error error-message">
+        {{#if this.isSessionTimeMissing}}
           {{t "pages.sessions.new.errors.SESSION_TIME_REQUIRED"}}
-        </div>
-      {{/if}}
+        {{/if}}
+      </p>
     </div>
 
     <div class="session-form__field">
@@ -122,11 +126,11 @@
         aria-describedby="examiner-error"
         aria-required="true"
       />
-      {{#if this.isSessionExaminerMissing}}
-        <div id="examiner-error" class="session-form__error error-message">
+      <p id="examiner-error" class="session-form__error error-message">
+        {{#if this.isSessionExaminerMissing}}
           {{t "pages.sessions.new.errors.SESSION_EXAMINER_REQUIRED"}}
-        </div>
-      {{/if}}
+        {{/if}}
+      </p>
     </div>
 
     <div class="session-form__field">
