@@ -1,6 +1,5 @@
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
-import * as jwt from 'mon-pix/helpers/jwt';
 import sinon from 'sinon';
 
 module('Unit | Authenticator | gar', function (hooks) {
@@ -16,13 +15,13 @@ module('Unit | Authenticator | gar', function (hooks) {
       const authenticator = this.owner.lookup('authenticator:gar');
       const token = Symbol('mon super token');
 
-      sinon.stub(jwt, 'decodeToken').returns({ user_id: 1, source: 'gar' });
+      const decodeToken = sinon.stub().returns({ user_id: 1, source: 'gar' });
 
       // when
-      const expectedResult = await authenticator.authenticate(token);
+      const expectedResult = await authenticator.authenticate(token, decodeToken);
 
       // then
-      sinon.assert.calledWith(jwt.decodeToken, token);
+      sinon.assert.calledWith(decodeToken, token);
       assert.deepEqual(expectedResult, {
         token_type: 'bearer',
         access_token: token,
