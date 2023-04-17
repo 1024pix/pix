@@ -49,7 +49,7 @@ async function runJobs() {
 }
 const startInWebProcess = process.env.START_JOB_IN_WEB_PROCESS;
 const modulePath = url.fileURLToPath(import.meta.url);
-const isEntryPointFromOtherFile = process.argv[1] === modulePath;
+const isEntryPointFromOtherFile = process.argv[1] !== modulePath;
 
 if (!startInWebProcess || (startInWebProcess && isEntryPointFromOtherFile)) {
   runJobs();
