@@ -36,7 +36,6 @@
                     class="feedback-panel__dropdown"
                     {{on "change" this.displayCategoryOptions}}
                     aria-label={{t "pages.challenge.feedback-panel.form.fields.detail-selection.aria-first"}}
-                    data-test-feedback-category-dropdown
                   >
                     <option value="" disabled selected>{{t
                         "pages.challenge.feedback-panel.form.fields.category-selection.label"
@@ -50,7 +49,6 @@
                       class="feedback-panel__dropdown"
                       {{on "change" this.showFeedback}}
                       aria-label={{t "pages.challenge.feedback-panel.form.fields.detail-selection.aria-secondary"}}
-                      data-test-feedback-subcategory-dropdown
                     >
                       <option value="default" selected>{{t
                           "pages.challenge.feedback-panel.form.fields.detail-selection.label"

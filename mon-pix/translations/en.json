@@ -211,7 +211,10 @@
       "card": {
         "finished-at": "Finished the {date}",
         "results": "Success rate: {result, number, ::percent}",
-        "resume": "Resume",
+        "resume": {
+          "extra-information": "Resume the customised test {campaignTitle}",
+          "information": "Resume"
+        },
         "see-more": "See more",
         "send": "Submit my results",
         "stages": "{count} { count, plural, =0 {star} =1 {star} other {stars} } out of {total}",
@@ -449,8 +452,8 @@
               }
             },
             "detail-selection": {
-              "aria-first": "You have a problem with",
-              "aria-secondary": "Specify your problem",
+              "aria-first": "Select the category of the problem encountered",
+              "aria-secondary": "Select an option to specify your problem",
               "label": "Please specify",
               "options": {
                 "answer-not-accepted": "My answer is correct but has not been approved",
@@ -674,6 +677,7 @@
       "title": "Competence",
       "actions": {
         "continue": {
+          "extra-information": "Resume competence {competenceName}",
           "label": "Resume"
         },
         "improve": {
@@ -699,6 +703,7 @@
           }
         },
         "start": {
+          "extra-information": "Start competence {competenceName}",
           "label": "Start"
         }
       },
@@ -737,6 +742,7 @@
         "message": "<h2>Congrats! You've finished all the competences recommended for you!</h2> <p> Want to continue your Pix experience? You can try a competence again. </p>"
       },
       "improvable-competences": {
+        "extra-information": "Access all the competences to retry",
         "title": "Try again",
         "profile-link": "See all",
         "subtitle": "Ready to improve your score?"
@@ -749,6 +755,7 @@
         "message": "<h2>Hi {firstname}, welcome to your dashboard.</h2><p>Quickly and easily access all your tests in progress.<br>Follow the evolution of your Pix score and check if your profile is ready for certification.</p>"
       },
       "recommended-competences": {
+        "extra-information": "Access all recommended competences",
         "title": "Recommended",
         "profile-link": "See all competences",
         "subtitle": "Discover the competences recommended for you."

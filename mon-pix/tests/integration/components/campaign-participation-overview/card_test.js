@@ -1,18 +1,15 @@
 import { module, test } from 'qunit';
-import { render } from '@ember/test-helpers';
-import { contains } from '../../../helpers/contains';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | CampaignParticipationOverview | Card', function (hooks) {
   setupIntlRenderingTest(hooks);
-  let store;
 
-  hooks.beforeEach(function () {
-    store = this.owner.lookup('service:store');
-  });
   module('when the participation status is ONGOING', function () {
     test('should display CardOngoing', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
       const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
         isShared: false,
         createdAt: '2020-12-10T15:16:20.109Z',
@@ -23,13 +20,20 @@ module('Integration | Component | CampaignParticipationOverview | Card', functio
 
       this.set('campaignParticipationOverview', campaignParticipationOverview);
 
-      await render(hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`);
-      assert.ok(contains('EN COURS'));
+      // when
+      const screen = await render(
+        hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`
+      );
+
+      // then
+      assert.dom(screen.getByText('En cours')).exists();
     });
   });
 
   module('when the participation status is TO_SHARE', function () {
     test('should display CardToShare', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
       const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
         isShared: false,
         createdAt: '2020-12-10T15:16:20.109Z',
@@ -40,13 +44,20 @@ module('Integration | Component | CampaignParticipationOverview | Card', functio
 
       this.set('campaignParticipationOverview', campaignParticipationOverview);
 
-      await render(hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`);
-      assert.ok(contains('À ENVOYER'));
+      // when
+      const screen = await render(
+        hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`
+      );
+
+      // then
+      assert.dom(screen.getByText('À envoyer')).exists();
     });
   });
 
   module('when the participation status is ENDED', function () {
     test('should display CardEnded', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
       const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
         isShared: true,
         createdAt: '2020-12-10T15:16:20.109Z',
@@ -58,13 +69,20 @@ module('Integration | Component | CampaignParticipationOverview | Card', functio
 
       this.set('campaignParticipationOverview', campaignParticipationOverview);
 
-      await render(hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`);
-      assert.ok(contains('TERMINÉ'));
+      // when
+      const screen = await render(
+        hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`
+      );
+
+      // then
+      assert.dom(screen.getByText('Terminé')).exists();
     });
   });
 
   module('when the participation status is DISABLED', function () {
     test('should display CardDisabled', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
       const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
         isShared: false,
         createdAt: '2020-12-18T15:16:20.109Z',
@@ -75,8 +93,13 @@ module('Integration | Component | CampaignParticipationOverview | Card', functio
 
       this.set('campaignParticipationOverview', campaignParticipationOverview);
 
-      await render(hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`);
-      assert.ok(contains('INACTIF'));
+      // when
+      const screen = await render(
+        hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`
+      );
+
+      // then
+      assert.dom(screen.getByText('Inactif')).exists();
     });
   });
 });
