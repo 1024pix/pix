@@ -78,7 +78,6 @@
     "ember-cli-mirage": "^2.3.2",
     "ember-cli-sass": "^11.0.1",
     "ember-cli-sri": "^2.1.1",
-    "ember-cli-terser": "^4.0.2",
     "ember-cli-test-loader": "^3.0.0",
     "ember-collapsible-panel": "^5.0.0",
     "ember-cookies": "^0.5.2",
