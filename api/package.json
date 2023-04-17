@@ -63,7 +63,7 @@
     "papaparse": "^5.3.2",
     "pdf-lib": "^1.17.1",
     "pg": "^8.7.3",
-    "pg-boss": "^7.2.1",
+    "pg-boss": "^8.0.0",
     "pg-connection-string": "^2.5.0",
     "pino": "^8.0.0",
     "pino-pretty": "^8.0.0",
