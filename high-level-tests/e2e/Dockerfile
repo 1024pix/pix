@@ -1,4 +1,4 @@
-FROM node:14.16.0
+FROM node:14.21.3
 
 # To run chrome headless with no-sandbox.
 ENV CI 1
