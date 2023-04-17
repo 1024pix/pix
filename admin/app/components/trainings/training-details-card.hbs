@@ -23,6 +23,12 @@
       <dd class="training-details-card__details-value">{{@training.editorName}}</dd>
       <dt class="training-details-card__details-label">Logo de l'éditeur&nbsp;:&nbsp;</dt>
       <dd class="training-details-card__details-value">{{@training.editorLogoUrl}}</dd>
+      <dt class="training-details-card__details-label">Statut&nbsp;:&nbsp;</dt>
+      {{#if this.isTrainingRecommendationEnabled}}
+        <dd class="training-details-card__details-value">{{if @training.isRecommendable "Actif" "Inactif"}}</dd>
+      {{else}}
+        <dd class="training-details-card__details-value">Actif</dd>
+      {{/if}}
     </dl>
   </div>
   <img class="training-details-card__editor-logo" src={{@training.editorLogoUrl}} alt={{@training.editorName}} />

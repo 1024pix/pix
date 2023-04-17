@@ -24,6 +24,7 @@ export default class Training extends Model {
   @attr('string') locale;
   @attr('string') editorName;
   @attr('string') editorLogoUrl;
+  @attr('boolean') isRecommendable;
   @attr({
     defaultValue: () => ({
       days: 0,
@@ -36,6 +37,11 @@ export default class Training extends Model {
   @hasMany('training-trigger') trainingTriggers;
   @hasMany('target-profile-summary') targetProfileSummaries;
 
+  attachTargetProfiles = memberAction({
+    path: 'attach-target-profiles',
+    type: 'post',
+  });
+
   get prerequisiteTrigger() {
     return this.trainingTriggers.findBy('type', 'prerequisite');
   }
@@ -47,9 +53,4 @@ export default class Training extends Model {
   get sortedTargetProfileSummaries() {
     return this.targetProfileSummaries.sortBy('id');
   }
-
-  attachTargetProfiles = memberAction({
-    path: 'attach-target-profiles',
-    type: 'post',
-  });
 }
