@@ -1,5 +1,49 @@
 # Pix Changelog
 
+## v3.343.0 (17/04/2023)
+
+
+### :rocket: Amélioration
+- [#5982](https://github.com/1024pix/pix/pull/5982) [FEATURE] Améliorer le design de l'entête des épreuves sur Pix-App (PIX-7715)
+- [#5992](https://github.com/1024pix/pix/pull/5992) [FEATURE] Amélioration de la compréhension des en-têtes du CSV d'import en masse (PIX-6655).
+- [#5970](https://github.com/1024pix/pix/pull/5970) [FEATURE] Améliorer les tests de Pix App avec Testing Library (PIX-7712).
+- [#5985](https://github.com/1024pix/pix/pull/5985) [FEATURE] Visualiser si un CF est actif ou non depuis la liste des CF d'un PC sur Pix Admin (PIX-7745).
+- [#5981](https://github.com/1024pix/pix/pull/5981) [FEATURE] Visualiser si un CF est actif ou non depuis la liste sur Pix Admin (PIX-7741).
+- [#5963](https://github.com/1024pix/pix/pull/5963) [FEATURE] Filtrer par id ou titre le tableau des contenus formatifs (PIX-7391).
+- [#5931](https://github.com/1024pix/pix/pull/5931) [FEATURE] ajout de caption aux tableaux (PIX-5083)
+- [#5944](https://github.com/1024pix/pix/pull/5944) [FEATURE] Pour un user qui se connecte à Pix Orga via invitation, si le cookie de la locale est dispo, alors enregistrer cette locale (PIX-7407)
+- [#5972](https://github.com/1024pix/pix/pull/5972) [FEATURE] Traduire la modale de fermeture de l'espace surveillant sur Pix Certif (PIX-7674).
+- [#5950](https://github.com/1024pix/pix/pull/5950) [FEATURE] Affichage des contenus formatifs liés à un profil cible sur Pix Admin (PIX-7392).
+- [#5965](https://github.com/1024pix/pix/pull/5965) [FEATURE] Améliorer l'a11y du formulaire de signalisation de problème (PIX-5782)
+- [#5964](https://github.com/1024pix/pix/pull/5964) [FEATURE] Ajout d'erreurs pour l'import de sessions en masse (PIX-7448)
+- [#5946](https://github.com/1024pix/pix/pull/5946) [FEATURE] Ajouter la clé pour Activer l'envoi multiple sur les campagnes d'évaluation d'une organisation (PIX-7464)
+- [#5751](https://github.com/1024pix/pix/pull/5751) [FEATURE] Améliorer les tests sur Pix App avec Testing Library (PIX-7131).
+- [#5961](https://github.com/1024pix/pix/pull/5961) [FEATURE] Utiliser les nouvelles classes css de Pix UI pour les titres de la page des cgu sur Pix Certif (PIX-7703).
+
+### :building_construction: Tech
+- [#5999](https://github.com/1024pix/pix/pull/5999) [TECH] Supprime ember-cli-terser des applications qui utilisent embroider
+- [#5988](https://github.com/1024pix/pix/pull/5988) [TECH] Montée de version de Pix UI en v31.0.0 sur Pix-Certif (PIX-7753).
+- [#5796](https://github.com/1024pix/pix/pull/5796) [TECH] Migrer mon-pix sur embroider
+- [#5984](https://github.com/1024pix/pix/pull/5984) [TECH] Faire de l'injection de dépendance dans les controllers (part-5)
+- [#5893](https://github.com/1024pix/pix/pull/5893) [TECH] Migre orga sur embroider
+- [#5979](https://github.com/1024pix/pix/pull/5979) [TECH] Faire de l'injection de dépendance dans les controllers (part-4)
+- [#5978](https://github.com/1024pix/pix/pull/5978) [TECH] Faire de l'injection de dépendance dans les controllers (part-3)
+- [#5974](https://github.com/1024pix/pix/pull/5974) [TECH] Faire de l'injection de dépendance dans les controllers (part-2)
+- [#5971](https://github.com/1024pix/pix/pull/5971) [TECH] Faire de l'injection de dépendance dans les controllers (part-1)
+- [#5968](https://github.com/1024pix/pix/pull/5968) [TECH] Aligner la signature de `buildLearningContent` avec les vrais clés i18n du référentiel
+- [#5901](https://github.com/1024pix/pix/pull/5901) [TECH] Remplacer l'utilisation de bookshelf dans certains repositories
+- [#5969](https://github.com/1024pix/pix/pull/5969) [TECH] Le CHANGELOG de la v3.242.0 est erroné (PIX-7730)
+
+### :bug: Correction
+- [#5987](https://github.com/1024pix/pix/pull/5987) [BUGFIX] Enlever les noms accessibles sur les résultats par compétences en fin de campagne sur Pix-App (PIX-7267)
+- [#5980](https://github.com/1024pix/pix/pull/5980) [BUGFIX] Remplacement de mot dans le nom de ville alternatif (PIX-7734)
+- [#5976](https://github.com/1024pix/pix/pull/5976) [BUGFIX] Permettre d'utiliser l'autofill sur les pages d'inscription de Pix App-Certif-Orga (PIX-7685)
+
+### :coffee: Autre
+- [#5994](https://github.com/1024pix/pix/pull/5994) [BUMP] Update Node.js to v14.21.3 (e2e)
+- [#5791](https://github.com/1024pix/pix/pull/5791) [BUMP] Update dependency knex to 2.4.0 [SECURITY]
+- [#5960](https://github.com/1024pix/pix/pull/5960) [BUMP] Update hapijs monorepo (api) (major)
+
 ## v3.342.0 (12/04/2023)
 
 
