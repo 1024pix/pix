@@ -1361,12 +1361,11 @@
       "badges-title": "Your thematic results",
       "details": {
         "title": "Your results by competence",
-        "caption": "Details of your results in percentage and stars according to competences",
+        "caption": "Details of your results in percentage according to competences",
         "flash-pix-score": "{score, number, ::.} Pix",
         "header-result": "Results",
         "header-skill": "Competences tested",
         "result": "Overall result",
-        "result-by-skill": "Your results for the competence",
         "percentage": "{rate, number, ::percent}"
       },
       "disabled-share": "This customised test has been deactivated by the organiser.'<br>'It is no longer possible to submit results.",
@@ -1389,6 +1388,7 @@
       "send-title": "Submit your results",
       "stage": {
         "title": "Competence results details",
+        "caption": "Details of your results in percentage and stars according to competences",
         "masteryPercentage": "Success rate: {rate, number, ::percent}",
         "starsAcquired": "{acquired, plural, =0 {no star} other {# stars}} acquired over {total}"
       },
