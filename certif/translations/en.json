@@ -1,7 +1,7 @@
 {
   "common": {
     "actions": {
-      "back": "Retour",
+      "back": "Back",
       "cancel": "Cancel",
       "choose": "Choose",
       "close": "Close",
