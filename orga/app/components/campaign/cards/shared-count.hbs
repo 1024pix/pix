@@ -1,11 +1,11 @@
 <PixIndicatorCard
   @title={{if @isTypeAssessment (t "cards.submitted-count.title") (t "cards.submitted-count.title-profiles")}}
-  @icon="share"
+  @icon="inbox-in"
   @color="#14865D"
   @info={{t "cards.submitted-count.information"}}
   @loadingMessage={{t "cards.submitted-count.loader"}}
   @isLoading={{@isLoading}}
-  class="indicator-card"
+  @iconPrefix="fapix"
   ...attributes
 >
   <:default>{{@value}}</:default>
