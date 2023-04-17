@@ -1,4 +1,4 @@
-import { Response } from 'ember-cli-mirage';
+import { Response } from 'miragejs';
 import { getPaginationFromQueryParams, applyPagination } from './pagination-utils';
 
 function attachTargetProfiles(schema, request) {

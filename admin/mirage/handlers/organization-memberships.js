@@ -1,4 +1,4 @@
-import { Response } from 'ember-cli-mirage';
+import { Response } from 'miragejs';
 
 export function createOrganizationMembership(schema, request) {
   const params = JSON.parse(request.requestBody);

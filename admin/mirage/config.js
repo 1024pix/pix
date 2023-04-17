@@ -14,7 +14,7 @@ import {
   markTargetProfileAsSimplifiedAccess,
 } from './handlers/target-profiles';
 
-import { Response } from 'ember-cli-mirage';
+import { Response } from 'miragejs';
 import { createOrganizationMembership } from './handlers/organization-memberships';
 import { createStage } from './handlers/stages';
 import { findPaginatedAndFilteredSessions } from './handlers/find-paginated-and-filtered-sessions';
