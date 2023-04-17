@@ -28,7 +28,7 @@ services:
   orga:
     container_name: pix-e2e-orga
     user: node
-    image: node:14.16.0
+    image: node:14.21.3
     command: npx ember serve --proxy http://api:3000
     volumes:
       - ../..:/code
@@ -39,7 +39,7 @@ services:
   monpix:
     container_name: pix-e2e-monpix
     user: node
-    image: node:14.16.0
+    image: node:14.21.3
     command: npx ember serve --proxy http://api:3000
     volumes:
       - ../..:/code
@@ -50,7 +50,7 @@ services:
   api:
     container_name: pix-e2e-api
     user: node
-    image: node:14.16.0
+    image: node:14.21.3
     env_file: ./env-api
     command: npm run start:watch
     volumes:
