@@ -20,6 +20,7 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
   const utf8FilePath = `${__dirname}/files/utf8_excel-test.csv`;
   const withHeaderFilePath = `${__dirname}/files/withHeader-test.csv`;
   const withValidHeaderFilePath = `${__dirname}/files/withValidHeaderFilePath.csv`;
+  const sessionsForMassImportFilePath = `${__dirname}/files/import-sessions-with-sex-value-in-lowercase-test.csv`;
 
   describe('#readCsvFile', function () {
     it('should throw a NotFoundError when file does not exist', async function () {
@@ -165,6 +166,15 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
 
         // then
         expect(data[0].type).to.equal('PRO');
+      });
+
+      it('should convert sex to uppercase', async function () {
+        // given & when
+        const result = await parseCsvWithHeader(sessionsForMassImportFilePath);
+
+        // then
+        const data = result[0];
+        expect(data['* Sexe (M ou F)']).to.equal('F');
       });
     });
 
