@@ -76,10 +76,12 @@ module('Integration | Component | issue-reports-modal', function (hooks) {
     // given
     const issue1 = EmberObject.create({
       category: certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES,
+      categoryLabel: categoryToLabel[certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES],
     });
 
     const issue2 = EmberObject.create({
       category: certificationIssueReportCategories.SIGNATURE_ISSUE,
+      categoryLabel: categoryToLabel[certificationIssueReportCategories.SIGNATURE_ISSUE],
     });
 
     const report = EmberObject.create({
@@ -147,9 +149,9 @@ module('Integration | Component | issue-reports-modal', function (hooks) {
     `);
 
     // then
-    assert.contains(categoryToLabel[certificationIssueReportCategories.SIGNATURE_ISSUE]);
-    assert.contains(categoryToLabel[certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES]);
-    assert.contains(subcategoryToLabel[certificationIssueReportSubcategories.NAME_OR_BIRTHDATE]);
+    assert.contains(this.intl.t(categoryToLabel[certificationIssueReportCategories.SIGNATURE_ISSUE]));
+    assert.contains(this.intl.t(categoryToLabel[certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES]));
+    assert.contains(this.intl.t(subcategoryToLabel[certificationIssueReportSubcategories.NAME_OR_BIRTHDATE]));
     assert.dom('li').exists({ count: 2 });
   });
 });
