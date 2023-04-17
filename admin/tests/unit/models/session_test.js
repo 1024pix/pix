@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
-import { STARTED, PROCESSED } from 'pix-admin/models/session';
+import { CREATED, PROCESSED } from 'pix-admin/models/session';
 
 module('Unit | Model | session', function (hooks) {
   setupTest(hooks);
@@ -28,11 +28,11 @@ module('Unit | Model | session', function (hooks) {
       });
     });
 
-    module('when the status is STARTED', function () {
+    module('when the status is CREATED', function () {
       test('isFinalized should be false', function (assert) {
         // given
         const sessionStarted = run(() => {
-          return store.createRecord('session', { status: STARTED });
+          return store.createRecord('session', { status: CREATED });
         });
 
         // when
