@@ -1,6 +1,6 @@
 import filter from 'lodash/filter';
 
-import { Response } from 'ember-cli-mirage';
+import { Response } from 'miragejs';
 import { getPaginationFromQueryParams, applyPagination } from './pagination-utils';
 
 export function findPaginatedAndFilteredSessions(schema, request) {
