@@ -138,7 +138,9 @@ module('Integration | Component | Dashboard | Content', function (hooks) {
         .dom(screen.getByRole('heading', { name: this.intl.t('pages.dashboard.recommended-competences.title') }))
         .exists();
       assert
-        .dom(screen.getByRole('link', { name: this.intl.t('pages.dashboard.recommended-competences.profile-link') }))
+        .dom(
+          screen.getByRole('link', { name: this.intl.t('pages.dashboard.recommended-competences.extra-information') })
+        )
         .exists();
     });
 

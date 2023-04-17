@@ -1,10 +1,9 @@
-import { currentURL, visit } from '@ember/test-helpers';
+import { currentURL, click } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 import { authenticate } from '../helpers/authentication';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { contains } from '../helpers/contains';
-import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';
 
 module('Acceptance | User account page', function (hooks) {
@@ -42,20 +41,26 @@ module('Acceptance | User account page', function (hooks) {
     module('My account menu', function () {
       test('should display my account menu', async function (assert) {
         // when
-        await visit('/mon-compte');
+        const screen = await visit('/mon-compte');
 
         // then
-        assert.ok(contains(this.intl.t('pages.user-account.personal-information.menu-link-title')));
-        assert.ok(contains(this.intl.t('pages.user-account.connexion-methods.menu-link-title')));
-        assert.ok(contains(this.intl.t('pages.user-account.language.menu-link-title')));
+        assert.ok(
+          screen.getByRole('link', { name: this.intl.t('pages.user-account.personal-information.menu-link-title') })
+        );
+        assert.ok(
+          screen.getByRole('link', { name: this.intl.t('pages.user-account.connexion-methods.menu-link-title') })
+        );
+        assert.ok(screen.getByRole('link', { name: this.intl.t('pages.user-account.language.menu-link-title') }));
       });
 
       test('should display personal information on click on "Informations personnelles"', async function (assert) {
         // given
-        await visit('/mon-compte');
+        const screen = await visit('/mon-compte');
 
         // when
-        await clickByLabel(this.intl.t('pages.user-account.personal-information.menu-link-title'));
+        await click(
+          screen.getByRole('link', { name: this.intl.t('pages.user-account.personal-information.menu-link-title') })
+        );
 
         // then
         assert.strictEqual(currentURL(), '/mon-compte/informations-personnelles');
@@ -63,10 +68,12 @@ module('Acceptance | User account page', function (hooks) {
 
       test('should display connection methods on click on "Méthodes de connexion"', async function (assert) {
         // given
-        await visit('/mon-compte');
+        const screen = await visit('/mon-compte');
 
         // when
-        await clickByLabel(this.intl.t('pages.user-account.connexion-methods.menu-link-title'));
+        await click(
+          screen.getByRole('link', { name: this.intl.t('pages.user-account.connexion-methods.menu-link-title') })
+        );
 
         // then
         assert.strictEqual(currentURL(), '/mon-compte/methodes-de-connexion');
@@ -74,10 +81,10 @@ module('Acceptance | User account page', function (hooks) {
 
       test('should display language on click on "Choisir ma langue"', async function (assert) {
         // given
-        await visit('/mon-compte');
+        const screen = await visit('/mon-compte');
 
         // when
-        await clickByLabel(this.intl.t('pages.user-account.language.menu-link-title'));
+        await click(screen.getByRole('link', { name: this.intl.t('pages.user-account.language.menu-link-title') }));
 
         // then
         assert.strictEqual(currentURL(), '/mon-compte/langue');
