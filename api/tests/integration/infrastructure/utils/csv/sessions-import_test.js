@@ -12,7 +12,7 @@ describe('Integration | Infrastructure | Utils | csv | sessions-import', functio
           const result = getHeaders({ habilitationLabels, shouldDisplayBillingModeColumns });
 
           // then
-          const expectedResult = `${BOM_CHAR}"N° de session";"* Nom du site";"* Nom de la salle";"* Date de début";"* Heure de début (heure locale)";"* Surveillant(s)";"Observations (optionnel)";"* Nom de naissance";"* Prénom";"* Date de naissance (format: jj/mm/aaaa)";"* Sexe (M ou F)";"Code Insee";"Code postal";"Nom de la commune";"* Pays";"E-mail du destinataire des résultats (formateur, enseignant…)";"E-mail de convocation";"Identifiant local";"Temps majoré ?";"Tarification part Pix";"Code de prépaiement"`;
+          const expectedResult = `${BOM_CHAR}"Numéro de session préexistante";"* Nom du site";"* Nom de la salle";"* Date de début (format: JJ/MM/AAAA)";"* Heure de début (heure locale format: HH:MM)";"* Surveillant(s)";"Observations (optionnel)";"* Nom de naissance";"* Prénom";"* Date de naissance (format: JJ/MM/AAAA)";"* Sexe (M ou F)";"Code INSEE de la commune de naissance";"Code postal de la commune de naissance";"Nom de la commune de naissance";"* Pays de naissance";"E-mail du destinataire des résultats (formateur, enseignant…)";"E-mail de convocation";"Identifiant externe";"Temps majoré ? (exemple format: 33%)";"* Tarification part Pix (Gratuite, Prépayée ou Payante)";"Code de prépaiement (si Tarification part Pix Prépayée)"`;
           expect(result).to.equal(expectedResult);
         });
       });
@@ -27,7 +27,7 @@ describe('Integration | Infrastructure | Utils | csv | sessions-import', functio
           const result = getHeaders({ habilitationLabels, shouldDisplayBillingModeColumns });
 
           // then
-          const expectedResult = `${BOM_CHAR}"N° de session";"* Nom du site";"* Nom de la salle";"* Date de début";"* Heure de début (heure locale)";"* Surveillant(s)";"Observations (optionnel)";"* Nom de naissance";"* Prénom";"* Date de naissance (format: jj/mm/aaaa)";"* Sexe (M ou F)";"Code Insee";"Code postal";"Nom de la commune";"* Pays";"E-mail du destinataire des résultats (formateur, enseignant…)";"E-mail de convocation";"Identifiant local";"Temps majoré ?";"Tarification part Pix";"Code de prépaiement";"Pix 1 ('oui' ou laisser vide)";"Pix 2 ('oui' ou laisser vide)"`;
+          const expectedResult = `${BOM_CHAR}"Numéro de session préexistante";"* Nom du site";"* Nom de la salle";"* Date de début (format: JJ/MM/AAAA)";"* Heure de début (heure locale format: HH:MM)";"* Surveillant(s)";"Observations (optionnel)";"* Nom de naissance";"* Prénom";"* Date de naissance (format: JJ/MM/AAAA)";"* Sexe (M ou F)";"Code INSEE de la commune de naissance";"Code postal de la commune de naissance";"Nom de la commune de naissance";"* Pays de naissance";"E-mail du destinataire des résultats (formateur, enseignant…)";"E-mail de convocation";"Identifiant externe";"Temps majoré ? (exemple format: 33%)";"* Tarification part Pix (Gratuite, Prépayée ou Payante)";"Code de prépaiement (si Tarification part Pix Prépayée)";"Pix 1 ('oui' ou laisser vide)";"Pix 2 ('oui' ou laisser vide)"`;
           expect(result).to.equal(expectedResult);
         });
       });
@@ -41,7 +41,7 @@ describe('Integration | Infrastructure | Utils | csv | sessions-import', functio
         const result = getHeaders({ habilitationLabels, shouldDisplayBillingModeColumns });
 
         // then
-        const expectedResult = `${BOM_CHAR}"N° de session";"* Nom du site";"* Nom de la salle";"* Date de début";"* Heure de début (heure locale)";"* Surveillant(s)";"Observations (optionnel)";"* Nom de naissance";"* Prénom";"* Date de naissance (format: jj/mm/aaaa)";"* Sexe (M ou F)";"Code Insee";"Code postal";"Nom de la commune";"* Pays";"E-mail du destinataire des résultats (formateur, enseignant…)";"E-mail de convocation";"Identifiant local";"Temps majoré ?"`;
+        const expectedResult = `${BOM_CHAR}"Numéro de session préexistante";"* Nom du site";"* Nom de la salle";"* Date de début (format: JJ/MM/AAAA)";"* Heure de début (heure locale format: HH:MM)";"* Surveillant(s)";"Observations (optionnel)";"* Nom de naissance";"* Prénom";"* Date de naissance (format: JJ/MM/AAAA)";"* Sexe (M ou F)";"Code INSEE de la commune de naissance";"Code postal de la commune de naissance";"Nom de la commune de naissance";"* Pays de naissance";"E-mail du destinataire des résultats (formateur, enseignant…)";"E-mail de convocation";"Identifiant externe";"Temps majoré ? (exemple format: 33%)"`;
         expect(result).to.equal(expectedResult);
       });
     });
