@@ -558,6 +558,17 @@
           "extra-time-percentage": "Specify extra time"
         }
       },
+      "issue-reports-modal": {
+        "title": "Reporting for candidate :",
+        "subtitle": "My reporting",
+        "actions": {
+          "add-reporting": "Add a reporting",
+          "delete-reporting": "Delete the reporting"
+        },
+        "errors": {
+          "delete-reporting": "An error has occurred while deleting the reporting. Please try again"
+        }
+      },
       "return-to": "Return to the session",
       "reporting": {
         "completed-reports-information": {

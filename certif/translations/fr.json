@@ -557,6 +557,17 @@
           "extra-time-percentage": "Précisez le temps majoré"
         }
       },
+      "issue-reports-modal": {
+        "title": "Signalement du candidat :",
+        "subtitle": "Mes signalements",
+        "actions": {
+          "add-reporting": "Ajouter un signalement",
+          "delete-reporting": "Supprimer le signalement"
+        },
+        "errors": {
+          "delete-reporting": "Une erreur s'est produite lors de la suppression du signalement. Merci de réessayer"
+        }
+      },
       "return-to": "Retour à la session",
       "reporting": {
         "completed-reports-information": {
