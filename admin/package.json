@@ -44,6 +44,9 @@
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.8.1",
     "@faker-js/faker": "^7.6.0",
+    "@embroider/compat": "^2.1.1",
+    "@embroider/core": "^2.1.1",
+    "@embroider/webpack": "^2.1.1",
     "@formatjs/intl": "^2.5.1",
     "@fortawesome/ember-fontawesome": "^0.4.1",
     "@fortawesome/free-brands-svg-icons": "^6.2.1",
@@ -107,6 +110,6 @@
     "sinon": "^15.0.0",
     "stylelint": "^15.0.0",
     "stylelint-config-standard-scss": "^9.0.0",
-    "webpack": "^5.65.0"
+    "webpack": "^5.79.0"
   }
 }
