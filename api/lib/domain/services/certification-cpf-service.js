@@ -177,22 +177,22 @@ async function getBirthInformation({
       (birthINSEECode && birthPostalCode) ||
       (birthINSEECode && birthCity)
     ) {
-      cpfBirthInformationValidation.failure({
+      return cpfBirthInformationValidation.failure({
         certificationCandidateError:
           CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED,
       });
-    } else {
-      if (birthCity && !birthPostalCode) {
-        return cpfBirthInformationValidation.failure({
-          certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_POSTAL_CODE_REQUIRED,
-        });
-      }
+    }
 
-      if (!birthCity && birthPostalCode) {
-        return cpfBirthInformationValidation.failure({
-          certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_CITY_REQUIRED,
-        });
-      }
+    if (birthCity && !birthPostalCode) {
+      return cpfBirthInformationValidation.failure({
+        certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_POSTAL_CODE_REQUIRED,
+      });
+    }
+
+    if (!birthCity && birthPostalCode) {
+      return cpfBirthInformationValidation.failure({
+        certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_CITY_REQUIRED,
+      });
     }
 
     if (birthINSEECode) {
