@@ -395,6 +395,7 @@ const computeCampaignAnalysis = require('./compute-campaign-analysis.js');
 const computeCampaignCollectiveResult = require('./compute-campaign-collective-result.js');
 const computeCampaignParticipationAnalysis = require('./compute-campaign-participation-analysis.js');
 const correctAnswerThenUpdateAssessment = require('./correct-answer-then-update-assessment.js');
+const correctAnswer = require('./correct-answer.js');
 const correctCandidateIdentityInCertificationCourse = require('./correct-candidate-identity-in-certification-course.js');
 const createAccessTokenFromRefreshToken = require('./create-access-token-from-refresh-token.js');
 const createAndReconcileUserToOrganizationLearner = require('./create-and-reconcile-user-to-organization-learner.js');
@@ -684,6 +685,7 @@ const usecasesWithoutInjectedDependencies = {
   computeCampaignAnalysis,
   computeCampaignCollectiveResult,
   computeCampaignParticipationAnalysis,
+  correctAnswer,
   correctAnswerThenUpdateAssessment,
   correctCandidateIdentityInCertificationCourse,
   createAccessTokenFromRefreshToken,
