@@ -4,7 +4,12 @@
     <dl class="training-details-card__details">
       <dt class="training-details-card__details-label">Publié sur&nbsp;:&nbsp;</dt>
       <dd class="training-details-card__details-value">
-        <a href={{@training.link}} target="_blank" rel="noopener noreferrer" aria-label="{{@training.link}} (nouvelle fenêtre)">
+        <a
+          href={{@training.link}}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="{{@training.link}} (nouvelle fenêtre)"
+        >
           {{@training.link}}
         </a>
       </dd>
@@ -20,7 +25,11 @@
       <dd class="training-details-card__details-value">{{@training.editorLogoUrl}}</dd>
       <dt class="training-details-card__details-label">Statut&nbsp;:&nbsp;</dt>
       {{#if this.isTrainingRecommendationEnabled}}
-        <dd class="training-details-card__details-value">{{if @training.isRecommendable "Déclenchable" "Non déclenchable"}}</dd>
+        <dd class="training-details-card__details-value">{{if
+            @training.isRecommendable
+            "Déclenchable"
+            "Non déclenchable"
+          }}</dd>
       {{else}}
         <dd class="training-details-card__details-value">Déclenchable</dd>
       {{/if}}
