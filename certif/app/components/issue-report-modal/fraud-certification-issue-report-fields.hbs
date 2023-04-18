@@ -12,16 +12,9 @@
   </div>
   {{#if @fraudCategory.isChecked}}
     <div class="fraud-certification-issue-report-fields__details">
-      <p>Merci de transmettre le procès-verbal de fraude rempli pendant la session de certification en utilisant
-        <span>
-          <a
-            class="link"
-            href="https://form-eu.123formbuilder.com/41052/form"
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            ce formulaire</a>
-        </span>
+      <p>{{t "pages.session-finalization.add-issue-modal.actions.transmit-report" htmlSafe=true}}
+        <FaIcon @icon="up-right-from-square" aria-hidden="true" />
+        <span class="sr-only">{{t "navigation.external-link-title"}}</span>
       </p>
     </div>
   {{/if}}
