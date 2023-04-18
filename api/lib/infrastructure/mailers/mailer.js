@@ -23,15 +23,16 @@ class Mailer {
 
   async sendEmail(options) {
     debugEmail(options);
+
+    if (!mailing.enabled) {
+      return EmailingAttempt.success(options.to);
+    }
+
     try {
       await mailCheck.checkDomainIsValid(options.to);
     } catch (err) {
       logger.warn({ err }, `Email is not valid '${options.to}'`);
       return EmailingAttempt.failure(options.to, EmailingAttempt.errorCode.INVALID_DOMAIN);
-    }
-
-    if (!mailing.enabled) {
-      return EmailingAttempt.success(options.to);
     }
 
     try {
@@ -93,6 +94,7 @@ class Mailer {
     return mailing[this._providerName].templates.acquiredCleaResultTemplateId;
   }
 }
+
 const mailer = new Mailer();
 
 module.exports = { mailer };
