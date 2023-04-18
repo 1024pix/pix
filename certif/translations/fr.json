@@ -19,8 +19,7 @@
       "login-unauthorized-error": "L'adresse e-mail et/ou le mot de passe saisis sont incorrects.",
       "login-user-temporary-blocked-error": "Vous avez effectué trop de tentatives de connexion. Réessayez plus tard ou cliquez sur <a href=\"{url}\">mot de passe oublié</a> pour le réinitialiser.",
       "login-user-blocked-error": "Votre compte est bloqué car vous avez effectué trop de tentatives de connexion. Pour le débloquer, <a href=\"{url}\">contactez-nous</a>.",
-      "gateway-timeout-error": "Le service subit des ralentissements. Veuillez réessayer ultérieurement.",
-      "internal-error": "Une erreur est survenue"
+      "gateway-timeout-error": "Le service subit des ralentissements. Veuillez réessayer ultérieurement."
     },
     "forms": {
       "certification-labels": {
@@ -683,7 +682,8 @@
       }
     },
     "session-supervising-error": {
-      "title": "Erreur d'accès à la surveillance de session",
+      "title": "Une erreur est survenue",
+      "page-title": "Erreur d'accès à la surveillance de session",
       "description": "Pour accéder à cette session, cliquez sur le bouton \"Surveiller une session\" et renseignez les informations de la session"
     },
     "team": {
