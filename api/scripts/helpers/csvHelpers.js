@@ -4,6 +4,8 @@ const { difference, isEmpty } = require('lodash');
 const papa = require('papaparse');
 
 const { NotFoundError, FileValidationError } = require('../../lib/domain/errors');
+const { UnprocessableEntityError } = require('../../lib/application/http-errors');
+
 const ERRORS = {
   INVALID_FILE_EXTENSION: 'INVALID_FILE_EXTENSION',
   MISSING_REQUIRED_FIELD_NAMES: 'MISSING_REQUIRED_FIELD_NAMES',
@@ -78,8 +80,13 @@ async function parseCsvData(cleanedData, options) {
   return data;
 }
 
-function parseCsvWithHeader(filePath, options = optionsWithHeader) {
-  return parseCsv(filePath, options);
+async function parseCsvWithHeader(filePath, options = optionsWithHeader) {
+  const parsedCsvData = await parseCsv(filePath, options);
+  if (parsedCsvData.length === 0) {
+    throw new UnprocessableEntityError('No session data in csv', 'CSV_DATA_REQUIRED');
+  }
+
+  return parsedCsvData;
 }
 
 async function parseCsvWithHeaderAndRequiredFields({ filePath, requiredFieldNames }) {
