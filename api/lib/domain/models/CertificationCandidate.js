@@ -64,21 +64,9 @@ const certificationCandidateValidationForMassImportJoiSchema = Joi.object({
     'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SEX_REQUIRED.code,
     'any.only': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SEX_NOT_VALID.code,
   }),
-  birthPostalCode: Joi.alternatives().conditional('birthINSEECode', {
-    is: Joi.string().empty(['', null]).required(),
-    then: Joi.string().empty(['', null]).forbidden().messages({
-      'any.unknown': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED.code,
-    }),
-    otherwise: Joi.alternatives().conditional('birthCity', {
-      is: Joi.string().empty(['', null]).required(),
-      then: Joi.string().empty(['', null]).required().messages({
-        'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_POSTAL_CODE_REQUIRED.code,
-      }),
-      otherwise: Joi.string().empty(['', null]).required().messages({
-        'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED.code,
-      }),
-    }),
-  }),
+  birthPostalCode: Joi.string().allow(null).empty(['', null]).optional(),
+  birthINSEECode: Joi.string().allow(null).empty(['', null]).optional(),
+  birthCity: Joi.string().allow(null).empty(['', null]).optional(),
   birthCountry: Joi.string().required().empty(['', null]).messages({
     'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_COUNTRY_REQUIRED.code,
   }),
