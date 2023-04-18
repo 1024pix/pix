@@ -111,6 +111,7 @@
   },
   "current-lang": "fr",
   "navigation": {
+    "external-link-title": "Ouverture dans une nouvelle fenêtre",
     "main": {
       "sessions": "Sessions",
       "sessions-label": "Sessions de certification",
@@ -518,7 +519,7 @@
           "select-category-label": "Sélectionner la catégorie",
           "select-subcategory": "Sélectionnez une sous-catégorie :",
           "select-subcategory-label": "Sélectionner la sous-catégorie",
-          "transmit-report": "Merci de transmettre le procès-verbal de fraude rempli pendant la session de certification en utilisant <span><a class=\"link\" href=\"https://form-eu.123formbuilder.com/41052/form\" target=\"_blank\" rel=\"noreferrer noopener\">ce formulaire</a></span>"
+          "transmit-report": "Merci de transmettre le procès-verbal de fraude rempli pendant la session de certification en utilisant <span><a class=\"link\" href=\"https://form-eu.123formbuilder.com/41052/form\" target=\"_blank\" rel=\"noreferrer\">ce formulaire</a></span>"
         },
         "category-labels": {
           "candidate-informations-changes": "Modification infos candidat",
