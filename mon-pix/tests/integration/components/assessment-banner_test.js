@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { render } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | assessment-banner', function (hooks) {
@@ -11,15 +12,51 @@ module('Integration | Component | assessment-banner', function (hooks) {
     const screen = await render(hbs`<AssessmentBanner @displayHomeLink={{false}} />`);
 
     // then
-    assert.dom(screen.queryByRole('link', { name: 'Quitter' })).doesNotExist();
+    assert.dom(screen.queryByRole('button', { name: 'Quitter' })).doesNotExist();
   });
 
-  test('should display home link button if requested', async function (assert) {
-    // given & when
-    const screen = await render(hbs`<AssessmentBanner @displayHomeLink={{true}} />`);
+  module('When home button is requested', function (hooks) {
+    let screen;
 
-    // then
-    assert.dom(screen.getByRole('link', { name: 'Quitter' })).exists();
+    hooks.beforeEach(async function () {
+      // given
+      screen = await render(hbs`<AssessmentBanner @displayHomeLink={{true}} />`);
+    });
+
+    test('it should display home button', function (assert) {
+      // then
+      assert.dom(screen.queryByRole('button', { name: 'Quitter' })).exists();
+      assert.dom(screen.getByText("Besoin d'une pause ?")).isVisible();
+    });
+
+    test('it should open modal', async function (assert) {
+      // when
+      await click(screen.queryByRole('button', { name: 'Quitter' }));
+
+      // then
+      assert.notOk(
+        screen
+          .getByText("Besoin d'une pause ?")
+          .closest('.pix-modal__overlay')
+          .classList.toString()
+          .includes('pix-modal__overlay--hidden')
+      );
+    });
+
+    test('it should close modal on stay button click', async function (assert) {
+      // when
+      await click(screen.queryByRole('button', { name: 'Quitter' }));
+      await click(screen.getByText('Rester'));
+
+      // then
+      assert.ok(
+        screen
+          .getByText("Besoin d'une pause ?")
+          .closest('.pix-modal__overlay')
+          .classList.toString()
+          .includes('pix-modal__overlay--hidden')
+      );
+    });
   });
 
   module('When assessment has a title', function () {
