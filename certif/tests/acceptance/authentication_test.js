@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
 import { visit, currentURL, click, fillIn } from '@ember/test-helpers';
+import { visit as visitScreen } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession, invalidateSession } from 'ember-simple-auth/test-support';
 import {
@@ -162,6 +163,21 @@ module('Acceptance | authentication', function (hooks) {
 
         // then
         assert.strictEqual(currentURL(), '/sessions/liste');
+      });
+    });
+
+    module('when a lang query param is present', function () {
+      test('sets and remembers the locale to the lang query param which wins over the user’s lang', async function (assert) {
+        // given
+        certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+
+        // when
+        await visitScreen('/?lang=en');
+        await authenticateSession(certificationPointOfContact.id);
+        const screen = await visitScreen('/');
+
+        // then
+        assert.dom(screen.getByRole('link', { name: 'Invigilator’s Portal' })).exists();
       });
     });
   });
