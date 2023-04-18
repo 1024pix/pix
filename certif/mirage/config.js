@@ -316,6 +316,7 @@ export default function () {
       firstName: attributes['first-name'],
       lastName: attributes['last-name'],
       email: attributes.email,
+      lang: 'fr',
       password: 'secret',
     };
 
