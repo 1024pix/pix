@@ -5,6 +5,12 @@ import sinon from 'sinon';
 import EmberObject from '@ember/object';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import {
+  certificationIssueReportCategories,
+  categoryToLabel,
+  subcategoryToLabel,
+  certificationIssueReportSubcategories,
+} from 'pix-certif/models/certification-issue-report';
 
 module('Integration | Component | issue-report-modal', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -41,10 +47,12 @@ module('Integration | Component | issue-report-modal', function (hooks) {
     // given
     const issue1 = EmberObject.create({
       description: 'issue1',
+      categoryLabel: categoryToLabel[certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES],
     });
 
     const issue2 = EmberObject.create({
       description: 'issue2',
+      categoryLabel: categoryToLabel[certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES],
     });
 
     const report = EmberObject.create({
@@ -77,13 +85,13 @@ module('Integration | Component | issue-report-modal', function (hooks) {
   test('it shows a list of issue reports', async function (assert) {
     // given
     const issue1 = EmberObject.create({
-      categoryLabel: 'categoryLabel1',
-      subcategoryLabel: 'subcategoryLabel1',
+      categoryLabel: categoryToLabel[certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES],
+      subcategoryLabel: subcategoryToLabel[certificationIssueReportSubcategories.WEBSITE_BLOCKED],
     });
 
     const issue2 = EmberObject.create({
-      categoryLabel: 'categoryLabel2',
-      subcategoryLabel: 'subcategoryLabel2',
+      categoryLabel: categoryToLabel[certificationIssueReportCategories.FRAUD],
+      subcategoryLabel: subcategoryToLabel[certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING],
     });
 
     const report = EmberObject.create({
@@ -110,10 +118,10 @@ module('Integration | Component | issue-report-modal', function (hooks) {
     `);
 
     // then
-    assert.contains('categoryLabel1');
-    assert.contains('subcategoryLabel1');
-    assert.contains('categoryLabel2');
-    assert.contains('subcategoryLabel2');
+    assert.contains(this.intl.t(categoryToLabel[certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES]));
+    assert.contains(this.intl.t(subcategoryToLabel[certificationIssueReportSubcategories.WEBSITE_BLOCKED]));
+    assert.contains(this.intl.t(categoryToLabel[certificationIssueReportCategories.FRAUD]));
+    assert.contains(this.intl.t(subcategoryToLabel[certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]));
   });
 
   test('it calls a function linked to the close button', async function (assert) {
@@ -185,8 +193,8 @@ module('Integration | Component | issue-report-modal', function (hooks) {
   test('it calls a function linked to the delete button', async function (assert) {
     // given
     const issue = EmberObject.create({
-      categoryLabel: 'categoryLabel1',
-      subcategoryLabel: 'subcategoryLabel1',
+      categoryLabel: categoryToLabel[certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES],
+      subcategoryLabel: subcategoryToLabel[certificationIssueReportSubcategories.WEBSITE_BLOCKED],
     });
 
     const report = EmberObject.create({

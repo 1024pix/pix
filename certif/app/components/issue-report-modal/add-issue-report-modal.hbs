@@ -1,7 +1,7 @@
 <PixModal
   @showModal={{@showModal}}
   class="add-issue-report-modal"
-  @title="Signalement du candidat : {{@report.firstName}} {{@report.lastName}}"
+  @title="{{t 'pages.session-finalization.add-issue-modal.title'}} {{@report.firstName}} {{@report.lastName}}"
   @onCloseButtonClick={{@closeModal}}
 >
   <:content>
@@ -48,17 +48,23 @@
       </div>
 
       {{#if this.showCategoryMissingError}}
-        <PixMessage @type="alert">Veuillez selectionner une catégorie</PixMessage>
+        <PixMessage @type="alert">{{t
+            "pages.session-finalization.add-issue-modal.actions.select-category"
+          }}</PixMessage>
       {{/if}}
 
       {{#if this.showIssueReportSubmitError}}
-        <PixMessage @type="alert">Une erreur s'est produite lors de l'ajout du signalement. Merci de réessayer</PixMessage>
+        <PixMessage @type="alert">{{t "pages.session-finalization.add-issue-modal.errors.add-reporting"}}</PixMessage>
       {{/if}}
     </form>
   </:content>
   <:footer>
     <PixButton @triggerAction={{@closeModal}} @backgroundColor="transparent-light">
       {{t "common.actions.cancel"}}</PixButton>
-    <PixButton form="add-issue-report-form" @type="submit" aria-label="Ajouter le signalement">Valider</PixButton>
+    <PixButton
+      form="add-issue-report-form"
+      @type="submit"
+      aria-label={{t "pages.session-finalization.add-issue-modal.actions.add-reporting"}}
+    >{{t "common.actions.validate"}}</PixButton>
   </:footer>
 </PixModal>

@@ -15,21 +15,22 @@
           @icon="info-circle"
           tabindex="0"
           aria-describedby="tooltip-technical-issue"
-          aria-label="Incident technique"
+          aria-label="{{t 'pages.session-finalization.add-issue-modal.errors.technical-issue'}}"
         />
       </:triggerElement>
       <:tooltip>
-        <span>l’ordinateur s’est éteint, lenteur significative du réseau et/ou de l’appareil, etc.</span>
+        <span>{{t "pages.session-finalization.add-issue-modal.non-blocking-issues.technical-examples"}}</span>
       </:tooltip>
     </PixTooltip>
   </div>
   {{#if @nonBlockingTechnicalIssueCategory.isChecked}}
     <PixMessage @type="info" @withIcon={{true}}>
-      Signalement à titre informatif, le problème rencontré n'a pas empêché le candidat de continuer à répondre aux
-      questions. En cas d’incident sur une question focus, merci de vous reporter à la catégorie E10.
+      {{t "pages.session-finalization.add-issue-modal.non-blocking-issues.technical-information"}}
     </PixMessage>
     <div class="non-blocking-technical-issue-certification-issue-report-fields__details">
-      <label for="text-area-for-category-technical-issue">Décrivez l'incident rencontré</label>
+      <label for="text-area-for-category-technical-issue">{{t
+          "pages.session-finalization.add-issue-modal.actions.describe"
+        }}</label>
       <PixTextarea
         id="text-area-for-category-technical-issue"
         @value={{@nonBlockingTechnicalIssueCategory.description}}
