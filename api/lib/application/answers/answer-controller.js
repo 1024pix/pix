@@ -1,4 +1,5 @@
 const answerSerializer = require('../../infrastructure/serializers/jsonapi/answer-serializer.js');
+const answerPix1dSerializer = require('../../infrastructure/serializers/jsonapi/answer-pix1d-serializer.js');
 const correctionSerializer = require('../../infrastructure/serializers/jsonapi/correction-serializer.js');
 const usecases = require('../../domain/usecases/index.js');
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils.js');
@@ -11,6 +12,14 @@ module.exports = {
     const createdAnswer = await usecases.correctAnswerThenUpdateAssessment({ answer, userId, locale });
 
     return h.response(dependencies.answerSerializer.serialize(createdAnswer)).created();
+  },
+
+  async saveForPix1D(request, h, dependencies = { answerPix1dSerializer }) {
+    const answer = dependencies.answerPix1dSerializer.deserialize(request.payload);
+    const challengeId = answer.challengeId;
+    const createdAnswer = await usecases.correctAnswer({ answer, challengeId });
+
+    return h.response(answerPix1dSerializer.serialize(createdAnswer)).created();
   },
 
   async get(request, _h, dependencies = { requestResponseUtils }) {
