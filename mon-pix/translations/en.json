@@ -41,7 +41,8 @@
       "cancel": "Cancel",
       "close": "Close",
       "quit": "Exit",
-      "sign-out": "Sign out"
+      "sign-out": "Sign out",
+      "stay": "Stay"
     },
     "api-error-messages": {
       "bad-request-error": "The data entered was not in the correct format.",
@@ -150,7 +151,9 @@
   },
   "pages": {
     "assessment-banner": {
-      "title": "Question for the assessment: "
+      "title": "Question for the assessment: ",
+      "modal-title": "Do you need a break?",
+      "modal-content": "All your progress is saved. You will able to resume where you stopped."
     },
     "assessment-results": {
       "title": "End of test",

@@ -8,10 +8,34 @@
           }}</span>{{@title}}</h1>
     {{/if}}
     {{#if @displayHomeLink}}
-      <LinkTo @route="authenticated" class="assessment-banner__home-link">
+      <button type="button" class="assessment-banner__home-link" onclick={{this.toggleClosingModal}}>
         {{t "common.actions.quit"}}
         <FaIcon @icon="right-from-bracket" />
-      </LinkTo>
+      </button>
+      <PixModal
+        class="assessment-banner__closing-modal"
+        @title={{t "pages.assessment-banner.modal-title"}}
+        @showModal={{this.showClosingModal}}
+        @onCloseButtonClick={{this.toggleClosingModal}}
+      >
+        <:content>
+          <p>{{t "pages.assessment-banner.modal-content"}}</p>
+        </:content>
+        <:footer>
+          <div class="assessment-banner-closing-modal__footer">
+            <PixButton
+              @backgroundColor="transparent-light"
+              @isBorderVisible={{true}}
+              @triggerAction={{this.toggleClosingModal}}
+            >
+              {{t "common.actions.stay"}}
+            </PixButton>
+            <PixButtonLink @route="authenticated" title={{t "common.actions.quit"}}>
+              {{t "common.actions.quit"}}
+            </PixButtonLink>
+          </div>
+        </:footer>
+      </PixModal>
     {{/if}}
   </header>
 </div>
