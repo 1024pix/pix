@@ -1,12 +1,12 @@
 {
   "common": {
     "actions": {
+      "add": "Add",
       "back": "Back",
       "cancel": "Cancel",
       "choose": "Choose",
       "close": "Close",
       "continue": "Continue",
-      "add": "Add",
       "delete": "Delete",
       "quit": "Quit",
       "update": "Edit",
