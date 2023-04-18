@@ -37,11 +37,8 @@ export default class SessionsNewController extends Controller {
           case '400':
             this.notifications.error(this.intl.t('common.api-error-messages.bad-request-error'));
             break;
-          case '500':
-            this.notifications.error(this.intl.t('common.api-error-messages.internal-server-error'));
-            break;
           default:
-            this.notifications.error(this.intl.t('common.api-error-messages.internal-error'));
+            this.notifications.error(this.intl.t('common.api-error-messages.internal-server-error'));
             break;
         }
       }
