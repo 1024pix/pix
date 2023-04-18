@@ -1,5 +1,25 @@
 # Pix Changelog
 
+## v3.344.0 (18/04/2023)
+
+
+### :rocket: Amélioration
+- [#6009](https://github.com/1024pix/pix/pull/6009) [FEATURE] Mise à jour des RTs des profils cibles Pix+Edu (PIX-7776)
+- [#5986](https://github.com/1024pix/pix/pull/5986) [FEATURE] Montée de version de Pix UI en v31.0.0 sur Pix App (PIX-7748)
+- [#5989](https://github.com/1024pix/pix/pull/5989) [FEATURE] Afficher le statut d'un CF sur Pix Admin (PIX-7752).
+
+### :building_construction: Tech
+- [#5973](https://github.com/1024pix/pix/pull/5973) [TECH] Traduction de la modale d'ajout de signalement (PIX-6677).
+- [#5996](https://github.com/1024pix/pix/pull/5996) [TECH] Mise à jour de eslint-plugin-i18n-json en 4.0.0
+- [#5918](https://github.com/1024pix/pix/pull/5918) [TECH] Retrait du code lié à l'ancienne gestion des PCs et de ses clés de lecture sur PixAdmin (PIX-7631)
+
+### :bug: Correction
+- [#5990](https://github.com/1024pix/pix/pull/5990) [BUGFIX] Permettre à un centre SCO qui ne gère pas d'élèves à importer en masse des sessions sur Pix Certif (PIX-7709).
+- [#5889](https://github.com/1024pix/pix/pull/5889) [BUGFIX] Ajouter les traductions pour les champs en erreur dans les formulaires de création et modification de session (PIX-7157).
+
+### :coffee: Autre
+- [#5993](https://github.com/1024pix/pix/pull/5993) [BUMP] Replace dependency babel-eslint with @babel/eslint-parser ^7.11.0 (pix1d)
+
 ## v3.343.0 (17/04/2023)
 
 
