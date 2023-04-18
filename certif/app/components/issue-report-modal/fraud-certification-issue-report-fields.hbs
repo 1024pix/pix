@@ -12,7 +12,10 @@
   </div>
   {{#if @fraudCategory.isChecked}}
     <div class="fraud-certification-issue-report-fields__details">
-      <p>{{t "pages.session-finalization.add-issue-modal.actions.transmit-report" htmlSafe=true}}</p>
+      <p>{{t "pages.session-finalization.add-issue-modal.actions.transmit-report" htmlSafe=true}}
+        <FaIcon @icon="up-right-from-square" aria-hidden="true" />
+        <span class="sr-only">{{t "navigation.external-link-title"}}</span>
+      </p>
     </div>
   {{/if}}
 </fieldset>

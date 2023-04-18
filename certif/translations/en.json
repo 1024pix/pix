@@ -111,6 +111,7 @@
   },
   "current-lang": "en",
   "navigation": {
+    "external-link-title": "Open in a new window",
     "main": {
       "sessions": "Sessions",
       "sessions-label": "Certification sessions",
@@ -519,7 +520,7 @@
           "select-category-label": "Select a category ",
           "select-subcategory": "Select a subcategory:",
           "select-subcategory-label": "Select a subcategory",
-          "transmit-report": "Please transmit the Fraud report filled in during the certification session by using <span><a class=\"link\" href=\"https://form-eu.123formbuilder.com/41052/form\" target=\"_blank\" rel=\"noreferrer noopener\">this form</a></span>"
+          "transmit-report": "Please transmit the fraud report filled in during the certification session by using <span><a class=\"link\" href=\"https://form-eu.123formbuilder.com/41052/form\" target=\"_blank\" rel=\"noreferrer\">this form</a></span>"
         },
         "category-labels": {
           "candidate-informations-changes": "Edit the candidate’s details",
