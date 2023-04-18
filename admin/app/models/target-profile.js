@@ -34,17 +34,7 @@ export default class TargetProfile extends Model {
   @hasMany('stage') stages;
   @hasMany('training-summary') trainingSummaries;
 
-  @attr() isNewFormat;
-  @hasMany('old-area') oldAreas;
-  @hasMany('new-area') newAreas;
-
-  get sortedOldAreas() {
-    return this.oldAreas.sortBy('code');
-  }
-
-  get sortedNewAreas() {
-    return this.newAreas.sortBy('code');
-  }
+  @hasMany('area') areas;
 
   get urlToJsonContent() {
     return `${ENV.APP.API_HOST}/api/admin/target-profiles/${this.id}/content-json?accessToken=${this.session.data.authenticated.access_token}`;

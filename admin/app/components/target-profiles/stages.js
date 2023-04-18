@@ -67,7 +67,7 @@ export default class Stages extends Component {
   }
 
   get mustChooseStageStype() {
-    return !this.hasStages && this.args.targetProfile.isNewFormat;
+    return !this.hasStages;
   }
 
   @action

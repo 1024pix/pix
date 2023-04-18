@@ -32,97 +32,97 @@ module('Integration | Component | Badges::CappedTubes', function (hooks) {
         level: 7,
       },
     ];
-    const tube1Thematic1Competence1Area1 = store.createRecord('new-tube', {
+    const tube1Thematic1Competence1Area1 = store.createRecord('tube', {
       id: 'tube1Thematic1Competence1Area1ID',
       name: 'tube1Thematic1Competence1Area1 name',
       practicalTitle: 'tube1Thematic1Competence1Area1 practicalTitle',
       level: 8,
     });
-    const tube2Thematic1Competence1Area1 = store.createRecord('new-tube', {
+    const tube2Thematic1Competence1Area1 = store.createRecord('tube', {
       id: 'tube2Thematic1Competence1Area1ID',
       name: 'tube2Thematic1Competence1Area1 name',
       practicalTitle: 'tube2Thematic1Competence1Area1 practicalTitle',
       level: 8,
     });
-    const tube3Thematic1Competence1Area1 = store.createRecord('new-tube', {
+    const tube3Thematic1Competence1Area1 = store.createRecord('tube', {
       id: 'tube3Thematic1Competence1Area1ID',
       name: 'tube3Thematic1Competence1Area1 name',
       practicalTitle: 'tube3Thematic1Competence1Area1 practicalTitle',
       level: 8,
     });
-    const thematic1Competence1Area1 = store.createRecord('new-thematic', {
+    const thematic1Competence1Area1 = store.createRecord('thematic', {
       id: 'thematic1Competence1Area1ID',
       name: 'thematic1Competence1Area1 name',
       index: 'thematic1Competence1Area1 index',
       tubes: [tube1Thematic1Competence1Area1, tube2Thematic1Competence1Area1, tube3Thematic1Competence1Area1],
     });
-    const tube1Thematic2Competence1Area1 = store.createRecord('new-tube', {
+    const tube1Thematic2Competence1Area1 = store.createRecord('tube', {
       id: 'tube1Thematic2Competence1Area1ID',
       name: 'tube1Thematic2Competence1Area1 name',
       practicalTitle: 'tube1Thematic2Competence1Area1 practicalTitle',
       level: 8,
     });
-    const thematic2Competence1Area1 = store.createRecord('new-thematic', {
+    const thematic2Competence1Area1 = store.createRecord('thematic', {
       id: 'thematic2Competence1Area1ID',
       name: 'thematic2Competence1Area1 name',
       index: 'thematic2Competence1Area1 index',
       tubes: [tube1Thematic2Competence1Area1],
     });
-    const tube1Thematic3Competence1Area1 = store.createRecord('new-tube', {
+    const tube1Thematic3Competence1Area1 = store.createRecord('tube', {
       id: 'tube1Thematic3Competence1Area1ID',
       name: 'tube1Thematic3Competence1Area1 name',
       practicalTitle: 'tube1Thematic3Competence1Area1 practicalTitle',
       level: 8,
     });
-    const thematic3Competence1Area1 = store.createRecord('new-thematic', {
+    const thematic3Competence1Area1 = store.createRecord('thematic', {
       id: 'thematic3Competence1Area1ID',
       name: 'thematic3Competence1Area1 name',
       index: 'thematic3Competence1Area1 index',
       tubes: [tube1Thematic3Competence1Area1],
     });
-    const competence1Area1 = store.createRecord('new-competence', {
+    const competence1Area1 = store.createRecord('competence', {
       id: 'competence1Area1ID',
       name: 'competence1Area1 name',
       index: 'competence1Area1 index',
       thematics: [thematic1Competence1Area1, thematic2Competence1Area1, thematic3Competence1Area1],
     });
-    const tube1Thematic1Competence2Area1 = store.createRecord('new-tube', {
+    const tube1Thematic1Competence2Area1 = store.createRecord('tube', {
       id: 'tube1Thematic1Competence2Area1ID',
       name: 'tube1Thematic1Competence2Area1 name',
       practicalTitle: 'tube1Thematic1Competence2Area1 practicalTitle',
       level: 8,
     });
-    const thematic1Competence2Area1 = store.createRecord('new-thematic', {
+    const thematic1Competence2Area1 = store.createRecord('thematic', {
       id: 'thematic1Competence2Area1ID',
       name: 'thematic1Competence2Area1 name',
       index: 'thematic1Competence2Area1 index',
       tubes: [tube1Thematic1Competence2Area1],
     });
-    const competence2Area1 = store.createRecord('new-competence', {
+    const competence2Area1 = store.createRecord('competence', {
       id: 'competence2Area1ID',
       name: 'competence2Area1 name',
       index: 'competence2Area1 index',
       thematics: [thematic1Competence2Area1],
     });
-    const tube1Thematic1Competence3Area1 = store.createRecord('new-tube', {
+    const tube1Thematic1Competence3Area1 = store.createRecord('tube', {
       id: 'tube1Thematic1Competence3Area1ID',
       name: 'tube1Thematic1Competence3Area1 name',
       practicalTitle: 'tube1Thematic1Competence3Area1 practicalTitle',
       level: 8,
     });
-    const thematic1Competence3Area1 = store.createRecord('new-thematic', {
+    const thematic1Competence3Area1 = store.createRecord('thematic', {
       id: 'thematic1Competence3Area1ID',
       name: 'thematic1Competence3Area1 name',
       index: 'thematic1Competence3Area1 index',
       tubes: [tube1Thematic1Competence3Area1],
     });
-    const competence3Area1 = store.createRecord('new-competence', {
+    const competence3Area1 = store.createRecord('competence', {
       id: 'competence3Area1ID',
       name: 'competence3Area1 name',
       index: 'competence3Area1 index',
       thematics: [thematic1Competence3Area1],
     });
-    const area1 = store.createRecord('new-area', {
+    const area1 = store.createRecord('area', {
       id: 'area1ID',
       title: 'area1 title',
       code: 'area1 code',
@@ -130,25 +130,25 @@ module('Integration | Component | Badges::CappedTubes', function (hooks) {
       frameworkId: 'frameworkId1',
       competences: [competence1Area1, competence2Area1, competence3Area1],
     });
-    const tube1Thematic1Competence1Area2 = store.createRecord('new-tube', {
+    const tube1Thematic1Competence1Area2 = store.createRecord('tube', {
       id: 'tube1Thematic1Competence1Area2ID',
       name: 'tube1Thematic1Competence1Area2 name',
       practicalTitle: 'tube1Thematic1Competence1Area2 practicalTitle',
       level: 8,
     });
-    const thematic1Competence1Area2 = store.createRecord('new-thematic', {
+    const thematic1Competence1Area2 = store.createRecord('thematic', {
       id: 'thematic1Competence1Area2ID',
       name: 'thematic1Competence1Area2 name',
       index: 'thematic1Competence1Area2 index',
       tubes: [tube1Thematic1Competence1Area2],
     });
-    const competence1Area2 = store.createRecord('new-competence', {
+    const competence1Area2 = store.createRecord('competence', {
       id: 'competence1Area2ID',
       name: 'competence1Area2 name',
       index: 'competence1Area2 index',
       thematics: [thematic1Competence1Area2],
     });
-    const area2 = store.createRecord('new-area', {
+    const area2 = store.createRecord('area', {
       id: 'area2ID',
       title: 'area2 title',
       code: 'area2 code',
@@ -158,12 +158,11 @@ module('Integration | Component | Badges::CappedTubes', function (hooks) {
     });
 
     const targetProfile = store.createRecord('target-profile', {
-      newAreas: [area1, area2],
+      areas: [area1, area2],
     });
     const criterion = store.createRecord('badge-criterion', {
       scope: 'CappedTubes',
       threshold: 70,
-      skillSets: [],
       cappedTubes: cappedTubesDTO,
     });
     this.set('criterion', criterion);

@@ -4,7 +4,6 @@ module.exports = {
   serialize(targetProfiles) {
     return new Serializer('target-profile', {
       transform(record) {
-        record.oldAreas = record.areas;
         record.badges = record.badges.map((badge) => {
           badge.criteria = badge.criteria.map((criteria) => criteria.toDTO());
           return badge;
@@ -12,7 +11,6 @@ module.exports = {
         return record;
       },
       attributes: [
-        'isNewFormat',
         'name',
         'outdated',
         'isPublic',
@@ -25,7 +23,8 @@ module.exports = {
         'isSimplifiedAccess',
         'badges',
         'stages',
-        'oldAreas',
+        'areas',
+        'maxLevel',
       ],
       badges: {
         ref: 'id',
@@ -43,7 +42,7 @@ module.exports = {
         criteria: {
           ref: 'id',
           included: true,
-          attributes: ['threshold', 'scope', 'skillSets', 'cappedTubes'],
+          attributes: ['threshold', 'scope', 'cappedTubes', 'name'],
         },
       },
       stages: {
@@ -56,31 +55,27 @@ module.exports = {
           },
         },
       },
-      oldAreas: {
+      areas: {
         ref: 'id',
         included: true,
-        attributes: ['title', 'code', 'color', 'competences'],
+        attributes: ['title', 'code', 'color', 'frameworkId', 'competences'],
         competences: {
           ref: 'id',
           included: true,
-          attributes: ['name', 'index', 'tubes'],
-          tubes: {
+          attributes: ['name', 'index', 'thematics'],
+          thematics: {
             ref: 'id',
             included: true,
-            attributes: ['practicalTitle', 'skills'],
-            skills: {
+            attributes: ['name', 'index', 'tubes'],
+            tubes: {
               ref: 'id',
               included: true,
-              attributes: ['name', 'difficulty'],
+              attributes: ['name', 'practicalTitle', 'level', 'mobile', 'tablet'],
             },
           },
         },
       },
       typeForAttribute(attribute) {
-        if (attribute === 'areas') return 'old-areas';
-        if (attribute === 'competences') return 'old-competences';
-        if (attribute === 'tubes') return 'old-tubes';
-        if (attribute === 'skills') return 'old-skills';
         if (attribute === 'criteria') return 'badge-criteria';
         return undefined;
       },
