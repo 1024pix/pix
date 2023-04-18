@@ -1,0 +1,15 @@
+.challenge-embed-simulator {
+  margin: 15px 0;
+  padding: 12px;
+  border: 2px solid darkgrey;
+  border-radius: 7px;
+
+  &__iframe {
+    position: relative;
+    width: 100%;
+    height: calc(100% - 5px);
+    border: none;
+  }
+}
+
+
