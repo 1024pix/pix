@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@1024pix/ember-testing-library": "^0.6.1",
+    "@1024pix/pix-ui": "^30.0.0",
     "@1024pix/stylelint-config": "^2.0.0",
     "@ember/optional-features": "^2.0.0",
     "@ember/string": "^3.0.1",
@@ -85,5 +86,12 @@
   "_comment": "À supprimer dès qu'on passera à la version ember-cli-mirage v3+",
   "overrides": {
     "@embroider/macros": "^1.0.0"
+  },
+  "dependencies": {
+    "@1024pix/pix-ui": "^30.0.0",
+    "@ember/render-modifiers": "^2.0.5",
+    "lodash": "^4.17.21",
+    "showdown": "^2.1.0",
+    "xss": "^1.0.14"
   }
 }
