@@ -1,9 +1,8 @@
-const { expect, sinon, domainBuilder, hFake, catchErr } = require('../../../test-helper');
+const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases/index.js');
 const Session = require('../../../../lib/domain/models/Session');
 
 const certificationCenterController = require('../../../../lib/application/certification-centers/certification-center-controller');
-const { UnprocessableEntityError } = require('../../../../lib/application/http-errors');
 
 describe('Unit | Controller | certifications-center-controller', function () {
   describe('#saveSession', function () {
@@ -520,8 +519,10 @@ describe('Unit | Controller | certifications-center-controller', function () {
       };
 
       sinon.stub(usecases, 'validateSessions');
-      usecases.validateSessions.resolves({ cachedValidatedSessionsKey });
+      sinon.stub(usecases, 'getCertificationCenter');
 
+      usecases.validateSessions.resolves({ cachedValidatedSessionsKey });
+      usecases.getCertificationCenter.resolves(domainBuilder.buildCertificationCenter());
       // when
       await certificationCenterController.validateSessionsForMassImport(request, hFake, {
         csvHelpers: csvHelpersStub,
@@ -556,6 +557,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
       };
 
       sinon.stub(usecases, 'validateSessions');
+      sinon.stub(usecases, 'getCertificationCenter');
 
       usecases.validateSessions.resolves({
         cachedValidatedSessionsKey,
@@ -563,6 +565,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
         sessionsWithoutCandidatesCount,
         candidatesCount,
       });
+      usecases.getCertificationCenter.resolves(domainBuilder.buildCertificationCenter());
 
       // when
       const result = await certificationCenterController.validateSessionsForMassImport(request, hFake, {
@@ -576,31 +579,6 @@ describe('Unit | Controller | certifications-center-controller', function () {
         sessionsCount,
         sessionsWithoutCandidatesCount,
         candidatesCount,
-      });
-    });
-
-    describe('when the import session file contains only the header line', function () {
-      it(' should return an unprocessable entity error', async function () {
-        // given
-        const request = {
-          payload: { file: { path: 'csv-path' } },
-          params: { certificationCenterId: 123 },
-          auth: { credentials: { userId: 2 } },
-        };
-
-        const csvHelpersStub = {
-          parseCsvWithHeader: sinon.stub().resolves([]),
-        };
-
-        // when
-        const error = await catchErr(certificationCenterController.validateSessionsForMassImport)(request, hFake, {
-          csvHelpers: csvHelpersStub,
-        });
-
-        // then
-        expect(error).to.be.instanceOf(UnprocessableEntityError);
-        expect(error.message).to.equal('No session data in csv');
-        expect(error.code).to.equal('CSV_DATA_REQUIRED');
       });
     });
   });
