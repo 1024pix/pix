@@ -1,6 +1,6 @@
 import ApplicationSerializer from './application';
 
-const _includes = ['areas', 'competences', 'tubes', 'skills', 'newAreas', 'badges'];
+const _includes = ['areas', 'badges'];
 
 export default ApplicationSerializer.extend({
   include: _includes,

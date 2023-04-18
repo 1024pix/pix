@@ -1,16 +1,13 @@
 const _ = require('lodash');
 const { knex } = require('../../../db/knex-database-connection.js');
-const { NotFoundError, TargetProfileInvalidError } = require('../../domain/errors.js');
+const { NotFoundError } = require('../../domain/errors.js');
 const { FRENCH_FRANCE } = require('../../domain/constants.js').LOCALE;
 const areaRepository = require('./area-repository.js');
 const competenceRepository = require('./competence-repository.js');
-const targetProfileRepository = require('./target-profile-repository.js');
 const thematicRepository = require('./thematic-repository.js');
 const tubeRepository = require('./tube-repository.js');
-const skillRepository = require('./skill-repository.js');
-const TargetProfileForAdminOldFormat = require('../../domain/models/TargetProfileForAdminOldFormat.js');
-const TargetProfileForAdminNewFormat = require('../../domain/models/TargetProfileForAdminNewFormat.js');
-const { BadgeDetails, BadgeCriterion, SkillSet, CappedTube, SCOPES } = require('../../domain/models/BadgeDetails.js');
+const TargetProfileForAdmin = require('../../domain/models/TargetProfileForAdmin.js');
+const { BadgeDetails, BadgeCriterion, CappedTube, SCOPES } = require('../../domain/models/BadgeDetails.js');
 
 module.exports = {
   async get({ id, locale = FRENCH_FRANCE }) {
@@ -38,40 +35,15 @@ module.exports = {
     const tubesData = await knex('target-profile_tubes')
       .select('tubeId', 'level')
       .where('targetProfileId', targetProfileDTO.id);
-    if (_.isEmpty(tubesData)) {
-      // OLD target profile
-      const skillIds = await targetProfileRepository.getTargetProfileSkillIds(targetProfileDTO.id);
-      if (_.isEmpty(skillIds)) {
-        throw new TargetProfileInvalidError();
-      }
-      return _toDomainOldFormat(targetProfileDTO, skillIds, locale);
-    }
-    return _toDomainNewFormat(targetProfileDTO, tubesData, locale);
+    return _toDomain(targetProfileDTO, tubesData, locale);
   },
 };
 
-async function _toDomainOldFormat(targetProfileDTO, skillIds, locale) {
-  const { areas, competences, tubes, skills } = await _getLearningContent_old(skillIds, locale);
-  const badges = await _findBadges(targetProfileDTO.id);
-  return new TargetProfileForAdminOldFormat({
-    ...targetProfileDTO,
-    badges,
-    areas,
-    competences,
-    tubes,
-    skills,
-  });
-}
-
-async function _toDomainNewFormat(targetProfileDTO, tubesData, locale) {
-  const { areas, competences, thematics, tubes } = await _getLearningContent_new(
-    targetProfileDTO.id,
-    tubesData,
-    locale
-  );
+async function _toDomain(targetProfileDTO, tubesData, locale) {
+  const { areas, competences, thematics, tubes } = await _getLearningContent(targetProfileDTO.id, tubesData, locale);
   const badges = await _findBadges(targetProfileDTO.id);
 
-  return new TargetProfileForAdminNewFormat({
+  return new TargetProfileForAdmin({
     ...targetProfileDTO,
     badges,
     areas,
@@ -81,26 +53,7 @@ async function _toDomainNewFormat(targetProfileDTO, tubesData, locale) {
   });
 }
 
-async function _getLearningContent_old(skillIds, locale) {
-  const skills = await skillRepository.findOperativeByIds(skillIds);
-  const tubeIds = _.keys(_.groupBy(skills, 'tubeId'));
-  const tubes = await tubeRepository.findByRecordIds(tubeIds, locale);
-
-  const competenceIds = _.keys(_.groupBy(tubes, 'competenceId'));
-  const competences = await competenceRepository.findByRecordIds({ competenceIds, locale });
-
-  const areaIds = _.keys(_.groupBy(competences, 'areaId'));
-  const areas = await areaRepository.findByRecordIds({ areaIds, locale });
-
-  return {
-    areas,
-    competences,
-    tubes,
-    skills,
-  };
-}
-
-async function _getLearningContent_new(targetProfileId, tubesData, locale) {
+async function _getLearningContent(targetProfileId, tubesData, locale) {
   const tubeIds = tubesData.map((data) => data.tubeId);
   const tubes = await tubeRepository.findByRecordIds(tubeIds, locale);
   const notFoundTubeIds = tubeIds.filter((id) => !tubes.map((tube) => tube.id).includes(id));
@@ -146,22 +99,6 @@ async function _findBadges(targetProfileId) {
           new BadgeCriterion({
             ...badgeCriterionDTO,
             skillSets: [],
-            cappedTubes: [],
-          })
-        );
-      }
-      if (badgeCriterionDTO.scope === SCOPES.SKILL_SET) {
-        const skillSetsDTO = await knex('skill-sets')
-          .select('name', 'skillIds')
-          .whereIn('id', badgeCriterionDTO.skillSetIds);
-        const skillSets = [];
-        for (const { name, skillIds } of skillSetsDTO) {
-          skillSets.push(new SkillSet({ name, skillIds }));
-        }
-        criteria.push(
-          new BadgeCriterion({
-            ...badgeCriterionDTO,
-            skillSets,
             cappedTubes: [],
           })
         );

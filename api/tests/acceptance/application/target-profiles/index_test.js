@@ -14,6 +14,7 @@ describe('Acceptance | Route | target-profiles', function () {
   let server;
 
   const skillId = 'recArea1_Competence1_Tube1_Skill1';
+  const tubeId = 'recArea1_Competence1_Tube1';
 
   const learningContent = {
     areas: [{ id: 'recArea1', competenceIds: ['recArea1_Competence1'] }],
@@ -128,7 +129,7 @@ describe('Acceptance | Route | target-profiles', function () {
     beforeEach(async function () {
       mockLearningContent(learningContent);
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skillId });
+      databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId });
       user = databaseBuilder.factory.buildUser.withRole();
 
       await databaseBuilder.commit();

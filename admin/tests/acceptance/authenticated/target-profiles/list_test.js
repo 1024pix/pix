@@ -48,13 +48,12 @@ module('Acceptance | Target Profiles | List', function (hooks) {
 
       test('it should redirect to target profile details on click', async function (assert) {
         // given
-        const area = server.create('new-area', { id: 'area1', title: 'Area 1', code: '1' });
+        const area = server.create('area', { id: 'area1', title: 'Area 1', code: '1' });
 
         server.create('target-profile', {
           id: 1,
           name: 'Profil Cible',
-          newAreas: [area],
-          isNewFormat: true,
+          areas: [area],
         });
         server.create('target-profile-summary', { id: 1, name: 'Profil Cible', outdated: true });
         const screen = await visit('/target-profiles/list');

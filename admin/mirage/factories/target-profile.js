@@ -46,17 +46,9 @@ export default Factory.extend({
     return 1000;
   },
 
-  isNewFormat() {
-    return true;
-  },
-
   afterCreate(targetProfile, server) {
-    if (
-      targetProfile.newAreas.models.length === 0 &&
-      targetProfile.oldAreas.models.length === 0 &&
-      targetProfile.isNewFormat !== false
-    ) {
-      const tubeTrois = server.create('new-tube', {
+    if (targetProfile.areas.models.length === 0) {
+      const tubeTrois = server.create('tube', {
         id: 'tubeNiveauTrois',
         name: '@tubeNiveauTrois',
         practicalTitle: 'Mon tube de niveau trois',
@@ -65,7 +57,7 @@ export default Factory.extend({
         tablet: false,
         level: 3,
       });
-      const tubeQuatre = server.create('new-tube', {
+      const tubeQuatre = server.create('tube', {
         id: 'tubeNiveauQuatre',
         name: '@tubeNiveauQuatre',
         practicalTitle: 'Mon tube de niveau quatre',
@@ -74,7 +66,7 @@ export default Factory.extend({
         tablet: true,
         level: 4,
       });
-      const tubeDeux = server.create('new-tube', {
+      const tubeDeux = server.create('tube', {
         id: 'tubeNiveauDeux',
         name: '@tubeNiveauDeux',
         practicalTitle: 'Mon tube de niveau deux',
@@ -82,19 +74,19 @@ export default Factory.extend({
         tablet: false,
         level: 2,
       });
-      const thematicUn = server.create('new-thematic', {
+      const thematicUn = server.create('thematic', {
         id: 'thematicUn',
         index: '1',
         name: 'thematicUn',
         tubes: [tubeTrois, tubeQuatre, tubeDeux],
       });
-      const competenceUn = server.create('new-competence', {
+      const competenceUn = server.create('competence', {
         id: 'competenceUn',
         name: 'competenceUn',
         index: '1.1',
         thematics: [thematicUn],
       });
-      const areaUn = server.create('new-area', {
+      const areaUn = server.create('area', {
         id: 'areaUn',
         title: 'areaUn',
         code: '1',
@@ -102,11 +94,7 @@ export default Factory.extend({
         frameworkId: 'frameworkId',
         competences: [competenceUn],
       });
-      targetProfile.update({ newAreas: [areaUn] });
-    }
-    if (targetProfile.isNewFormat == null) {
-      if (targetProfile.newAreas.length !== 0) targetProfile.update({ isNewFormat: true });
-      if (targetProfile.oldAreas.length !== 0) targetProfile.update({ isNewFormat: false });
+      targetProfile.update({ areas: [areaUn] });
     }
   },
 

@@ -35,7 +35,7 @@ function createTargetProfile(schema, request) {
     return schema.tubes.find(id);
   });
   tubes.forEach((tube) =>
-    schema.create('new-tube', {
+    schema.create('tube', {
       ...tube.attrs,
       level: tubesByLevel.find((tubeByLevel) => tubeByLevel.id === tube.id).level,
     })
@@ -52,7 +52,7 @@ function createTargetProfile(schema, request) {
       },
     }))
     .filter((thematic) => thematic.attrs.tubeIds.length);
-  thematics.forEach((thematic) => schema.create('new-thematic', thematic.attrs));
+  thematics.forEach((thematic) => schema.create('thematic', thematic.attrs));
 
   const thematicIds = thematics.map((thematic) => thematic.attrs.id);
   const competences = schema.competences
@@ -65,7 +65,7 @@ function createTargetProfile(schema, request) {
       },
     }))
     .filter((competence) => competence.attrs.thematicIds.length);
-  competences.forEach((competence) => schema.create('new-competence', competence.attrs));
+  competences.forEach((competence) => schema.create('competence', competence.attrs));
 
   const competenceIds = competences.map((competence) => competence.attrs.id);
   const areas = schema.areas
@@ -78,13 +78,12 @@ function createTargetProfile(schema, request) {
       },
     }))
     .filter((area) => area.attrs.competenceIds.length);
-  areas.forEach((area) => schema.create('new-area', area.attrs));
+  areas.forEach((area) => schema.create('area', area.attrs));
 
   const areaIds = areas.map((area) => area.attrs.id);
   return schema.create('target-profile', {
     ...params.data.attributes,
-    isNewFormat: true,
-    newAreaIds: areaIds,
+    areaIds,
   });
 }
 

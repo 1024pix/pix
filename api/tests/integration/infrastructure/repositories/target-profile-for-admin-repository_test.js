@@ -1,11 +1,10 @@
 const { expect, databaseBuilder, catchErr, mockLearningContent, domainBuilder } = require('../../../test-helper');
-const { NotFoundError, TargetProfileInvalidError } = require('../../../../lib/domain/errors');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 const targetProfileForAdminRepository = require('../../../../lib/infrastructure/repositories/target-profile-for-admin-repository');
-const TargetProfileForAdminOldFormat = require('../../../../lib/domain/models/TargetProfileForAdminOldFormat');
-const TargetProfileForAdminNewFormat = require('../../../../lib/domain/models/TargetProfileForAdminNewFormat');
+const TargetProfileForAdmin = require('../../../../lib/domain/models/TargetProfileForAdmin');
 
 describe('Integration | Repository | target-profile-for-admin', function () {
-  describe('#getAsOldFormat', function () {
+  describe('#get', function () {
     context('when target profile does not exist', function () {
       it('should throw a NotFound error', async function () {
         // when
@@ -14,377 +13,6 @@ describe('Integration | Repository | target-profile-for-admin', function () {
         // then
         expect(err).to.be.instanceOf(NotFoundError);
         expect(err.message).to.deep.equal("Le profil cible n'existe pas");
-      });
-    });
-
-    context('when target profile has no skills', function () {
-      it('should throw a TargetProfileInvalidError error', async function () {
-        // given
-        databaseBuilder.factory.buildTargetProfile({ id: 1 });
-        await databaseBuilder.commit();
-
-        // when
-        const err = await catchErr(targetProfileForAdminRepository.get)({ id: 1 });
-
-        // then
-        expect(err).to.be.instanceOf(TargetProfileInvalidError);
-      });
-    });
-
-    context('when target profile exists and is valid', function () {
-      it('should return an old format target profile', async function () {
-        // given
-        databaseBuilder.factory.buildOrganization({ id: 66 });
-        const targetProfileDB = databaseBuilder.factory.buildTargetProfile({
-          id: 1,
-          name: 'Mon Super Profil Cible qui déchire',
-          outdated: false,
-          isPublic: true,
-          createdAt: new Date('2020-01-01'),
-          ownerOrganizationId: 66,
-          imageUrl: 'some/image/url',
-          description: 'cool stuff',
-          comment: 'i like it',
-          category: 'SOME_CATEGORY',
-          isSimplifiedAccess: true,
-        });
-        databaseBuilder.factory.buildTargetProfileSkill({
-          targetProfileId: targetProfileDB.id,
-          skillId: 'recArea1_Competence1_Tube1_Skill2',
-        });
-        databaseBuilder.factory.buildTargetProfileSkill({
-          targetProfileId: targetProfileDB.id,
-          skillId: 'recArea1_Competence2_Tube1_Skill1',
-        });
-        const badge1DTO = databaseBuilder.factory.buildBadge({
-          targetProfileId: targetProfileDB.id,
-          altMessage: 'altMessage badge1',
-          imageUrl: 'image badge1',
-          message: 'message badge1',
-          title: 'title badge1',
-          key: 'KEY_BADGE1',
-          isCertifiable: true,
-          isAlwaysVisible: false,
-        });
-        const badge1Criteria1DTO = databaseBuilder.factory.buildBadgeCriterion.scopeCampaignParticipation({
-          badgeId: badge1DTO.id,
-          threshold: 65,
-        });
-        const skillSetId1 = databaseBuilder.factory.buildSkillSet({
-          name: 'skillSetName#recArea1_Competence2_Tube1_Skill1',
-          skillIds: ['recArea1_Competence2_Tube1_Skill1'],
-        }).id;
-        const skillSetId2 = databaseBuilder.factory.buildSkillSet({
-          name: 'skillSetName#recArea1_Competence1_Tube1_Skill2',
-          skillIds: ['recArea1_Competence1_Tube1_Skill2'],
-        }).id;
-        const badge1Criteria2DTO = databaseBuilder.factory.buildBadgeCriterion.scopeSkillSets({
-          badgeId: badge1DTO.id,
-          threshold: 50,
-          skillSetIds: [skillSetId1, skillSetId2],
-        });
-        const badge2DTO = databaseBuilder.factory.buildBadge({
-          targetProfileId: targetProfileDB.id,
-          altMessage: 'altMessage badge2',
-          imageUrl: 'image badge2',
-          message: 'message badge2',
-          title: 'title badge2',
-          key: 'KEY_BADGE2',
-          isCertifiable: false,
-          isAlwaysVisible: true,
-        });
-        const badge2Criteria1DTO = databaseBuilder.factory.buildBadgeCriterion.scopeCampaignParticipation({
-          badgeId: badge2DTO.id,
-          threshold: 65,
-        });
-        await databaseBuilder.commit();
-        const learningContent = {
-          areas: [
-            {
-              id: 'recArea1',
-              title_i18n: {
-                fr: 'area1_Title',
-              },
-              color: 'area1_color',
-              code: 'area1_code',
-              frameworkId: 'fmk1',
-              competenceIds: ['recArea1_Competence1', 'recArea1_Competence2'],
-            },
-          ],
-          competences: [
-            {
-              id: 'recArea1_Competence1',
-              name_i18n: {
-                fr: 'competence1_1_name',
-              },
-              index: 'competence1_1_index',
-              areaId: 'recArea1',
-              skillIds: ['recArea1_Competence1_Tube1_Skill2'],
-              origin: 'Pix',
-            },
-            {
-              id: 'recArea1_Competence2',
-              name_i18n: {
-                fr: 'competence1_2_name',
-              },
-              index: 'competence1_2_index',
-              areaId: 'recArea1',
-              skillIds: ['recArea1_Competence2_Tube1_Skill1'],
-              origin: 'Pix',
-            },
-          ],
-          tubes: [
-            {
-              id: 'recArea1_Competence1_Tube1',
-              competenceId: 'recArea1_Competence1',
-              practicalTitle_i18n: {
-                fr: 'tube1_1_1_practicalTitle',
-              },
-              practicalDescription_i18n: {
-                fr: 'tube1_1_1_practicalDescription',
-              },
-            },
-            {
-              id: 'recArea1_Competence2_Tube1',
-              competenceId: 'recArea1_Competence2',
-              practicalTitle_i18n: {
-                fr: 'tube1_2_1_practicalTitle',
-              },
-              practicalDescription_i18n: {
-                fr: 'tube1_2_1_practicalDescriptionFrFr',
-              },
-            },
-          ],
-          skills: [
-            {
-              id: 'recArea1_Competence1_Tube1_Skill2',
-              name: 'skill1_1_1_2_name4',
-              status: 'actif',
-              tubeId: 'recArea1_Competence1_Tube1',
-              competenceId: 'recArea1_Competence1',
-              tutorialIds: [],
-              level: 4,
-            },
-            {
-              id: 'recArea1_Competence2_Tube1_Skill1',
-              name: 'skill1_2_1_1_name3',
-              status: 'actif',
-              tubeId: 'recArea1_Competence2_Tube1',
-              competenceId: 'recArea1_Competence2',
-              tutorialIds: [],
-              level: 3,
-            },
-          ],
-          thematics: [],
-          challenges: [],
-        };
-        mockLearningContent(learningContent);
-
-        // when
-        const actualTargetProfile = await targetProfileForAdminRepository.get({ id: 1 });
-
-        // then
-        const skill1_1_1_2 = {
-          id: 'recArea1_Competence1_Tube1_Skill2',
-          name: 'skill1_1_1_2_name4',
-          difficulty: 4,
-          tubeId: 'recArea1_Competence1_Tube1',
-        };
-        const skill1_2_1_1 = {
-          id: 'recArea1_Competence2_Tube1_Skill1',
-          name: 'skill1_2_1_1_name3',
-          difficulty: 3,
-          tubeId: 'recArea1_Competence2_Tube1',
-        };
-        const tube1_1_1 = {
-          id: 'recArea1_Competence1_Tube1',
-          practicalTitle: 'tube1_1_1_practicalTitle',
-          competenceId: 'recArea1_Competence1',
-        };
-        const tube1_2_1 = {
-          id: 'recArea1_Competence2_Tube1',
-          practicalTitle: 'tube1_2_1_practicalTitle',
-          competenceId: 'recArea1_Competence2',
-        };
-        const competence1_1 = {
-          id: 'recArea1_Competence1',
-          name: 'competence1_1_name',
-          index: 'competence1_1_index',
-          areaId: 'recArea1',
-        };
-        const competence1_2 = {
-          id: 'recArea1_Competence2',
-          name: 'competence1_2_name',
-          index: 'competence1_2_index',
-          areaId: 'recArea1',
-        };
-        const area1 = { id: 'recArea1', title: 'area1_Title', code: 'area1_code', color: 'area1_color' };
-        const criteria1Badge1 =
-          domainBuilder.buildBadgeDetails.buildBadgeCriterion_CampaignParticipation(badge1Criteria1DTO);
-        const criteria2Badge1 = domainBuilder.buildBadgeDetails.buildBadgeCriterion_SkillSets({
-          ...badge1Criteria2DTO,
-          arrayOfSkillIds: [['recArea1_Competence2_Tube1_Skill1'], ['recArea1_Competence1_Tube1_Skill2']],
-        });
-        const expectedBadge1 = domainBuilder.buildBadgeDetails({
-          ...badge1DTO,
-          criteria: [criteria1Badge1, criteria2Badge1],
-        });
-        const criteria1Badge2 =
-          domainBuilder.buildBadgeDetails.buildBadgeCriterion_CampaignParticipation(badge2Criteria1DTO);
-        const expectedBadge2 = domainBuilder.buildBadgeDetails({
-          ...badge2DTO,
-          criteria: [criteria1Badge2],
-        });
-        const expectedTargetProfile = new TargetProfileForAdminOldFormat({
-          id: targetProfileDB.id,
-          name: targetProfileDB.name,
-          createdAt: targetProfileDB.createdAt,
-          outdated: targetProfileDB.outdated,
-          isPublic: targetProfileDB.isPublic,
-          ownerOrganizationId: targetProfileDB.ownerOrganizationId,
-          description: targetProfileDB.description,
-          comment: targetProfileDB.comment,
-          imageUrl: targetProfileDB.imageUrl,
-          category: targetProfileDB.category,
-          isSimplifiedAccess: targetProfileDB.isSimplifiedAccess,
-          skills: [skill1_1_1_2, skill1_2_1_1],
-          tubes: [tube1_1_1, tube1_2_1],
-          competences: [competence1_1, competence1_2],
-          areas: [area1],
-          badges: [expectedBadge1, expectedBadge2],
-        });
-        expect(actualTargetProfile).to.deepEqualInstance(expectedTargetProfile);
-      });
-
-      it('should return target profile according to selected locale', async function () {
-        // given
-        databaseBuilder.factory.buildOrganization({ id: 66 });
-        const targetProfileDB = databaseBuilder.factory.buildTargetProfile({
-          id: 1,
-          name: 'Mon Super Profil Cible qui déchire',
-          outdated: false,
-          isPublic: true,
-          createdAt: new Date('2020-01-01'),
-          ownerOrganizationId: 66,
-          imageUrl: 'some/image/url',
-          description: 'cool stuff',
-          comment: 'i like it',
-          category: 'SOME_CATEGORY',
-          isSimplifiedAccess: true,
-        });
-        databaseBuilder.factory.buildTargetProfileSkill({
-          targetProfileId: targetProfileDB.id,
-          skillId: 'recSkill1',
-        });
-        await databaseBuilder.commit();
-        const learningContent = {
-          areas: [
-            {
-              id: 'recArea1',
-              title_i18n: {
-                fr: 'titleFR',
-                en: 'titleEN',
-              },
-              color: 'area1_color',
-              code: 'area1_code',
-              frameworkId: 'fmk1',
-              competenceIds: ['recCompetence1'],
-            },
-          ],
-          competences: [
-            {
-              id: 'recCompetence1',
-              name_i18n: {
-                fr: 'nameFR',
-                en: 'nameEN',
-              },
-              index: 'competence1_index',
-              areaId: 'recArea1',
-              skillIds: ['recSkill1'],
-              origin: 'Pix',
-            },
-          ],
-          tubes: [
-            {
-              id: 'recTube1',
-              competenceId: 'recCompetence1',
-              practicalTitle_i18n: {
-                fr: 'practicalTitleFR',
-                en: 'practicalTitleEN',
-              },
-              practicalDescription_i18n: { fr: 'tube_desc' },
-            },
-          ],
-          skills: [
-            {
-              id: 'recSkill1',
-              name: 'skill1',
-              status: 'archivé',
-              tubeId: 'recTube1',
-              competenceId: 'recCompetence1',
-              tutorialIds: [],
-              level: 1,
-            },
-          ],
-          thematics: [],
-          challenges: [],
-        };
-        mockLearningContent(learningContent);
-
-        // when
-        const actualTargetProfile = await targetProfileForAdminRepository.get({ id: 1, locale: 'en' });
-
-        // then
-        const skill1 = { id: 'recSkill1', name: 'skill1', difficulty: 1, tubeId: 'recTube1' };
-        const tube1 = { id: 'recTube1', practicalTitle: 'practicalTitleEN', competenceId: 'recCompetence1' };
-        const competence1 = { id: 'recCompetence1', name: 'nameEN', index: 'competence1_index', areaId: 'recArea1' };
-        const area1 = { id: 'recArea1', title: 'titleEN', code: 'area1_code', color: 'area1_color' };
-        const expectedTargetProfile = new TargetProfileForAdminOldFormat({
-          id: targetProfileDB.id,
-          name: targetProfileDB.name,
-          createdAt: targetProfileDB.createdAt,
-          outdated: targetProfileDB.outdated,
-          isPublic: targetProfileDB.isPublic,
-          ownerOrganizationId: targetProfileDB.ownerOrganizationId,
-          description: targetProfileDB.description,
-          comment: targetProfileDB.comment,
-          imageUrl: targetProfileDB.imageUrl,
-          category: targetProfileDB.category,
-          isSimplifiedAccess: targetProfileDB.isSimplifiedAccess,
-          skills: [skill1],
-          tubes: [tube1],
-          competences: [competence1],
-          areas: [area1],
-          badges: [],
-        });
-        expect(actualTargetProfile).to.deepEqualInstance(expectedTargetProfile);
-      });
-    });
-  });
-
-  describe('#getAsNewFormat', function () {
-    context('when target profile does not exist', function () {
-      it('should throw a NotFound error', async function () {
-        // when
-        const err = await catchErr(targetProfileForAdminRepository.get)({ id: 123 });
-
-        // then
-        expect(err).to.be.instanceOf(NotFoundError);
-        expect(err.message).to.deep.equal("Le profil cible n'existe pas");
-      });
-    });
-
-    context('when target profile has no tubes', function () {
-      it('should throw a TargetProfileInvalidError error', async function () {
-        // given
-        databaseBuilder.factory.buildTargetProfile({ id: 1 });
-        await databaseBuilder.commit();
-
-        // when
-        const err = await catchErr(targetProfileForAdminRepository.get)({ id: 1 });
-
-        // then
-        expect(err).to.be.instanceOf(TargetProfileInvalidError);
       });
     });
 
@@ -481,7 +109,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
     });
 
     context('when target profile exists and is valid', function () {
-      it('should return a new format target profile', async function () {
+      it('should return target profile', async function () {
         // given
         databaseBuilder.factory.buildOrganization({ id: 66 });
         const targetProfileDB = databaseBuilder.factory.buildTargetProfile({
@@ -525,19 +153,6 @@ describe('Integration | Repository | target-profile-for-admin', function () {
         const badge1Criteria1DTO = databaseBuilder.factory.buildBadgeCriterion.scopeCampaignParticipation({
           badgeId: badge1DTO.id,
           threshold: 65,
-        });
-        const skillSetId1 = databaseBuilder.factory.buildSkillSet({
-          name: 'skillSetName#recSkillTube1',
-          skillIds: ['recSkillTube1', 'recSkillTube3'],
-        }).id;
-        const skillSetId2 = databaseBuilder.factory.buildSkillSet({
-          name: 'skillSetName#recSkillTube2',
-          skillIds: ['recSkillTube2'],
-        }).id;
-        const badge1Criteria2DTO = databaseBuilder.factory.buildBadgeCriterion.scopeSkillSets({
-          badgeId: badge1DTO.id,
-          threshold: 50,
-          skillSetIds: [skillSetId1, skillSetId2],
         });
         const badge2DTO = databaseBuilder.factory.buildBadge({
           targetProfileId: targetProfileDB.id,
@@ -772,13 +387,9 @@ describe('Integration | Repository | target-profile-for-admin', function () {
         };
         const criteria1Badge1 =
           domainBuilder.buildBadgeDetails.buildBadgeCriterion_CampaignParticipation(badge1Criteria1DTO);
-        const criteria2Badge1 = domainBuilder.buildBadgeDetails.buildBadgeCriterion_SkillSets({
-          ...badge1Criteria2DTO,
-          arrayOfSkillIds: [['recSkillTube1', 'recSkillTube3'], ['recSkillTube2']],
-        });
         const expectedBadge1 = domainBuilder.buildBadgeDetails({
           ...badge1DTO,
-          criteria: [criteria1Badge1, criteria2Badge1],
+          criteria: [criteria1Badge1],
         });
         const criteria1Badge2 = domainBuilder.buildBadgeDetails.buildBadgeCriterion_CappedTubes({
           ...badge2Criteria1DTO,
@@ -791,7 +402,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           ...badge2DTO,
           criteria: [criteria1Badge2],
         });
-        const expectedTargetProfile = new TargetProfileForAdminNewFormat({
+        const expectedTargetProfile = new TargetProfileForAdmin({
           id: targetProfileDB.id,
           name: targetProfileDB.name,
           createdAt: targetProfileDB.createdAt,
@@ -929,7 +540,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           color: 'colorA',
           frameworkId: 'fmk1',
         };
-        const expectedTargetProfile = new TargetProfileForAdminNewFormat({
+        const expectedTargetProfile = new TargetProfileForAdmin({
           id: targetProfileDB.id,
           name: targetProfileDB.name,
           createdAt: targetProfileDB.createdAt,

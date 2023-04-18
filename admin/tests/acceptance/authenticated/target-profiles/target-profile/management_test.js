@@ -69,7 +69,6 @@ module('Acceptance | Target Profile Management', function (hooks) {
         comment: 'Commentaire Privé.',
         category: 'SUBJECT',
         isSimplifiedAccess: true,
-        isNewFormat: true,
       });
 
       // when
