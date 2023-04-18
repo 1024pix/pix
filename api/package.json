@@ -97,7 +97,7 @@
     "eslint": "^8.18.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-chai-expect": "^3.0.0",
-    "eslint-plugin-i18n-json": "^3.1.0",
+    "eslint-plugin-i18n-json": "^4.0.0",
     "eslint-plugin-knex": "^0.2.1",
     "eslint-plugin-mocha": "^10.0.5",
     "eslint-plugin-node": "^11.1.0",
