@@ -3,6 +3,9 @@ import { setupTest } from 'ember-qunit';
 import setupIntl from '../../helpers/setup-intl';
 import sinon from 'sinon';
 
+const FRANCE_TLD = 'fr';
+const INTERNATIONAL_TLD = 'org';
+
 module('Unit | Service | url', function (hooks) {
   setupTest(hooks);
   setupIntl(hooks);
@@ -12,7 +15,7 @@ module('Unit | Service | url', function (hooks) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedDataProtectionPolicyUrl = 'https://pix.fr/politique-protection-donnees-personnelles-app';
-      service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+      service.currentDomain.getExtension = sinon.stub().returns(FRANCE_TLD);
 
       // when
       const dataProtectionPolicyUrl = service.dataProtectionPolicyUrl;
@@ -25,7 +28,7 @@ module('Unit | Service | url', function (hooks) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedDataProtectionPolicyUrl = 'https://pix.org/en-gb/personal-data-protection-policy';
-      service.currentDomain = { getExtension: sinon.stub().returns('org') };
+      service.currentDomain.getExtension = sinon.stub().returns(INTERNATIONAL_TLD);
       service.intl = { t: sinon.stub().returns('en') };
 
       // when
@@ -39,7 +42,7 @@ module('Unit | Service | url', function (hooks) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedDataProtectionPolicyUrl = 'https://pix.org/politique-protection-donnees-personnelles-app';
-      service.currentDomain = { getExtension: sinon.stub().returns('org') };
+      service.currentDomain.getExtension = sinon.stub().returns(INTERNATIONAL_TLD);
       service.intl = { t: sinon.stub().returns('fr') };
 
       // when
@@ -55,7 +58,7 @@ module('Unit | Service | url', function (hooks) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.fr/conditions-generales-d-utilisation';
-      service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+      service.currentDomain.getExtension = sinon.stub().returns(FRANCE_TLD);
 
       // when
       const cguUrl = service.cguUrl;
@@ -68,7 +71,7 @@ module('Unit | Service | url', function (hooks) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.org/en-gb/terms-and-conditions';
-      service.currentDomain = { getExtension: sinon.stub().returns('org') };
+      service.currentDomain.getExtension = sinon.stub().returns(INTERNATIONAL_TLD);
       service.intl = { t: sinon.stub().returns('en') };
 
       // when
@@ -82,7 +85,7 @@ module('Unit | Service | url', function (hooks) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.org/conditions-generales-d-utilisation';
-      service.currentDomain = { getExtension: sinon.stub().returns('org') };
+      service.currentDomain.getExtension = sinon.stub().returns(INTERNATIONAL_TLD);
       service.intl = { t: sinon.stub().returns('fr') };
 
       // when
@@ -98,7 +101,7 @@ module('Unit | Service | url', function (hooks) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedForgottenPasswordUrl = 'https://app.pix.fr/mot-de-passe-oublie';
-      service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+      service.currentDomain.getExtension = sinon.stub().returns(FRANCE_TLD);
 
       // when
       const forgottenPasswordUrl = service.forgottenPasswordUrl;
@@ -111,7 +114,7 @@ module('Unit | Service | url', function (hooks) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedForgottenPasswordUrl = 'https://app.pix.org/mot-de-passe-oublie?lang=en';
-      service.currentDomain = { getExtension: sinon.stub().returns('org') };
+      service.currentDomain.getExtension = sinon.stub().returns(INTERNATIONAL_TLD);
       service.intl = { t: sinon.stub().returns('en') };
 
       // when
@@ -125,7 +128,7 @@ module('Unit | Service | url', function (hooks) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedForgottenPasswordUrl = 'https://app.pix.org/mot-de-passe-oublie';
-      service.currentDomain = { getExtension: sinon.stub().returns('org') };
+      service.currentDomain.getExtension = sinon.stub().returns(INTERNATIONAL_TLD);
       service.intl = { t: sinon.stub().returns('fr') };
 
       // when
@@ -141,7 +144,7 @@ module('Unit | Service | url', function (hooks) {
       test('should return "pix.fr" url', function (assert) {
         // given
         const service = this.owner.lookup('service:url');
-        service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+        service.currentDomain.getExtension = sinon.stub().returns(FRANCE_TLD);
 
         // when
         const legalNoticeUrl = service.legalNoticeUrl;
@@ -156,7 +159,7 @@ module('Unit | Service | url', function (hooks) {
         test('should return "pix.org/en-gb" url', function (assert) {
           // given
           const service = this.owner.lookup('service:url');
-          service.currentDomain = { getExtension: sinon.stub().returns('org') };
+          service.currentDomain.getExtension = sinon.stub().returns(INTERNATIONAL_TLD);
           service.intl = { t: sinon.stub().returns('en') };
 
           // when
@@ -171,7 +174,7 @@ module('Unit | Service | url', function (hooks) {
         test('should return "pix.org/fr" url', function (assert) {
           // given
           const service = this.owner.lookup('service:url');
-          service.currentDomain = { getExtension: sinon.stub().returns('org') };
+          service.currentDomain.getExtension = sinon.stub().returns(INTERNATIONAL_TLD);
           service.intl = { t: sinon.stub().returns('fr') };
 
           // when
@@ -189,7 +192,7 @@ module('Unit | Service | url', function (hooks) {
       test('should return "pix.fr" url', function (assert) {
         // given
         const service = this.owner.lookup('service:url');
-        service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+        service.currentDomain.getExtension = sinon.stub().returns(FRANCE_TLD);
 
         // when
         const accessibilityUrl = service.accessibilityUrl;
@@ -204,7 +207,7 @@ module('Unit | Service | url', function (hooks) {
         test('should return "pix.org/en-gb" url', function (assert) {
           // given
           const service = this.owner.lookup('service:url');
-          service.currentDomain = { getExtension: sinon.stub().returns('org') };
+          service.currentDomain.getExtension = sinon.stub().returns(INTERNATIONAL_TLD);
           service.intl = { t: sinon.stub().returns('en') };
 
           // when
@@ -219,7 +222,7 @@ module('Unit | Service | url', function (hooks) {
         test('should return "pix.org/fr" url', function (assert) {
           // given
           const service = this.owner.lookup('service:url');
-          service.currentDomain = { getExtension: sinon.stub().returns('org') };
+          service.currentDomain.getExtension = sinon.stub().returns(INTERNATIONAL_TLD);
           service.intl = { t: sinon.stub().returns('fr') };
 
           // when
