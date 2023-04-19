@@ -86,7 +86,7 @@ module('Acceptance | Common behavior to all challenges', function (hooks) {
     });
 
     test('should come back to the home route when the back button is clicked', async function (assert) {
-      assert.strictEqual(find('.assessment-banner__home-link').getAttribute('href'), '/');
+      assert.strictEqual(find('.assessment-banner-closing-modal__footer a[title="Quitter"]').getAttribute('href'), '/');
     });
 
     test('should be able to send a feedback about the current challenge', function (assert) {

@@ -60,7 +60,7 @@
 
 .assessment-banner__home-link {
   z-index: 1;
-  width: 100px;
+  height: 1.5rem;
   margin-left: auto;
   color: $pix-neutral-0;
   font-weight: $font-medium;
@@ -71,5 +71,14 @@
 
   &:hover {
     color: rgb($pix-neutral-0, 0.8);
+  }
+}
+
+.assessment-banner-closing-modal__footer {
+  display: flex;
+  justify-content: flex-end;
+
+  & > * + * {
+    margin-left: $pix-spacing-xs;
   }
 }

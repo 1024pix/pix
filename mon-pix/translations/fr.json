@@ -41,7 +41,8 @@
       "cancel": "Annuler",
       "close": "Fermer",
       "quit": "Quitter",
-      "sign-out": "Se déconnecter"
+      "sign-out": "Se déconnecter",
+      "stay": "Rester"
     },
     "api-error-messages": {
       "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
@@ -150,7 +151,9 @@
   },
   "pages": {
     "assessment-banner": {
-      "title": "Épreuve pour l'évaluation : "
+      "title": "Épreuve pour l'évaluation : ",
+      "modal-title": "Besoin d'une pause ?",
+      "modal-content": "Tous tes progrès sont enregistrés. Tu pourras reprendre là où tu t’es arrêté."
     },
     "assessment-results": {
       "title": "Fin du test",

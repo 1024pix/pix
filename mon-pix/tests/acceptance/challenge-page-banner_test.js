@@ -1,4 +1,4 @@
-import { click } from '@ember/test-helpers';
+import { click, currentURL } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { visit } from '@1024pix/ember-testing-library';
 import { authenticate } from '../helpers/authentication';
@@ -28,7 +28,7 @@ module('Acceptance | Challenge page banner', function (hooks) {
 
       // then
       assert.dom(screen.getByRole('img', { name: 'pix' })).exists();
-      assert.dom(screen.getByRole('link', { name: 'Quitter' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Quitter' })).exists();
     });
 
     test('should display accessibility information in the banner', async function (assert) {
@@ -41,6 +41,18 @@ module('Acceptance | Challenge page banner', function (hooks) {
 
       // then
       assert.dom(screen.getByRole('heading', { name: "Épreuve pour l'évaluation : SomeTitle", level: 1 })).exists();
+    });
+
+    test('should be able to leave the campaign', async function (assert) {
+      // when
+      const screen = await visit(`campagnes/${campaign.code}`);
+      await click(screen.getByRole('button', { name: 'Je commence' }));
+      await click(screen.getByRole('button', { name: 'Ignorer' }));
+      await click(screen.getByRole('button', { name: 'Quitter' }));
+      await click(screen.getByTitle('Quitter'));
+
+      // then
+      assert.strictEqual(currentURL(), '/accueil');
     });
   });
 });
