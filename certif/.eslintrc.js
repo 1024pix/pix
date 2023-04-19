@@ -19,6 +19,7 @@ module.exports = {
     'plugin:ember/recommended',
     'plugin:qunit/recommended',
     'plugin:prettier/recommended',
+    'plugin:i18n-json/recommended',
   ],
   env: {
     browser: true,
