@@ -36,6 +36,7 @@ module.exports = function (environment) {
     APP: {
       API_HOST: process.env.API_HOST || '',
       BANNER_CONTENT: process.env.BANNER_CONTENT || '',
+      CERTIFICATION_BANNER_DISPLAY_DATES: process.env.CERTIFICATION_BANNER_DISPLAY_DATES || '',
       BANNER_TYPE: process.env.BANNER_TYPE || '',
       CAMPAIGNS_ROOT_URL: process.env.CAMPAIGNS_ROOT_URL,
       MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({
@@ -113,6 +114,7 @@ module.exports = function (environment) {
 
   if (environment === 'development') {
     ENV.APP.CAMPAIGNS_ROOT_URL = 'http://localhost:4200/campagnes/';
+    ENV.APP.CERTIFICATION_BANNER_DISPLAY_DATES = '04 05 06 07';
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
     // ENV.APP.LOG_TRANSITIONS = true;
@@ -125,6 +127,7 @@ module.exports = function (environment) {
   }
 
   if (environment === 'test') {
+    ENV.APP.CERTIFICATION_BANNER_DISPLAY_DATES = '04 05 06 07';
     ENV.APP.API_HOST = 'http://localhost:3000';
     ENV.APP.CAMPAIGNS_ROOT_URL = 'http://localhost:4200/campagnes/';
 

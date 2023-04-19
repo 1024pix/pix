@@ -7,6 +7,15 @@
       htmlSafe=true
     }}
   </PixBanner>
+{{else if this.displayCertificationBanner}}
+  <PixBanner @type="information">
+    {{t
+      "banners.certification.message"
+      documentationLink=this.certificationDocumentationLink
+      linkClasses="link link--banner link--bold link--underlined"
+      htmlSafe=true
+    }}
+  </PixBanner>
 {{else if this.displayNewYearCampaignsBanner}}
   <PixBanner @type="information">
     {{t

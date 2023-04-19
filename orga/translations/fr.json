@@ -53,6 +53,9 @@
     },
     "import": {
       "message": "'<strong>'Rentrée 2022 :'</strong>' l’administrateur doit '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'importer la base élèves'</a>' 2022 pour initialiser Pix Orga. '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Plus d’info'</a>'"
+    },
+    "certification": {
+      "message": "'<strong>'Certifications :'</strong>' n’oubliez pas de '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'finaliser les sessions dans Pix Certif'</a>' puis de télécharger les attestations ici via l'onglet “Certifications” avant la rentrée 2023."
     }
   },
   "cards": {
