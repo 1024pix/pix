@@ -17,10 +17,10 @@
 }
 
 .rounded-panel__row.challenge-actions {
-  padding: 20px 0;
+  padding: 16px 0;
 
   @include device-is('tablet') {
-    padding: 20px;
+    padding: 16px;
   }
 }
 
@@ -28,7 +28,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 6px;
+  margin: $pix-spacing-xxs;
   background-color: $pix-neutral-10;
 
   @include device-is('mobile') {
