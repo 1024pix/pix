@@ -13,6 +13,10 @@ export default Factory.extend({
     return 'laura.passtacertif@example.net';
   },
 
+  lang() {
+    return 'fr';
+  },
+
   pixCertifTermsOfServiceAccepted() {
     return false;
   },

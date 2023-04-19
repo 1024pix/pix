@@ -22,7 +22,7 @@ module('Integration | Component | Layout::Footer', function (hooks) {
   test('should display legal notice link', async function (assert) {
     // given
     const service = this.owner.lookup('service:url');
-    service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+    service.currentDomain.getExtension = sinon.stub().returns('fr');
 
     // when
     const screen = await renderScreen(hbs`<Layout::Footer />}`);
@@ -36,7 +36,7 @@ module('Integration | Component | Layout::Footer', function (hooks) {
   test('should display accessibility link', async function (assert) {
     // given
     const service = this.owner.lookup('service:url');
-    service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+    service.currentDomain.getExtension = sinon.stub().returns('fr');
 
     // when
     const screen = await renderScreen(hbs`<Layout::Footer />}`);

@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
 import { visit, currentURL, click, fillIn } from '@ember/test-helpers';
+import { visit as visitScreen } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession, invalidateSession } from 'ember-simple-auth/test-support';
 import {
@@ -33,132 +34,151 @@ module('Acceptance | authentication', function (hooks) {
     });
   });
 
-  module('When certificationPointOfContact is logging in but has not accepted terms of service yet', function () {
-    test('it should redirect certificationPointOfContact to the terms-of-service page', async function (assert) {
-      // given
-      await invalidateSession();
-      certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceNotAccepted();
+  module('When certificationPointOfContact is logging in', function () {
+    module('when has not accepted terms of service yet', function () {
+      test('it should redirect certificationPointOfContact to the terms-of-service page', async function (assert) {
+        // given
+        await invalidateSession();
+        certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceNotAccepted();
 
-      await visit('/connexion');
-      await fillIn('#login-email', certificationPointOfContact.email);
-      await fillIn('#login-password', 'secret');
+        await visit('/connexion');
+        await fillIn('#login-email', certificationPointOfContact.email);
+        await fillIn('#login-password', 'secret');
 
-      // when
-      await click('button[type=submit]');
+        // when
+        await click('button[type=submit]');
 
-      // then
-      assert.strictEqual(currentURL(), '/cgu');
-      assert.ok(
-        currentSession(this.application).get('isAuthenticated'),
-        'The certificationPointOfContact is authenticated'
-      );
+        // then
+        assert.strictEqual(currentURL(), '/cgu');
+        assert.ok(
+          currentSession(this.application).get('isAuthenticated'),
+          'The certificationPointOfContact is authenticated'
+        );
+      });
+
+      test('it should not show menu nor top bar', async function (assert) {
+        // given
+        await invalidateSession();
+        certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceNotAccepted();
+
+        await visit('/connexion');
+        await fillIn('#login-email', certificationPointOfContact.email);
+        await fillIn('#login-password', 'secret');
+
+        // when
+        await click('button[type=submit]');
+
+        // then
+        assert.ok(
+          currentSession(this.application).get('isAuthenticated'),
+          'The certificationPointOfContact is authenticated'
+        );
+
+        assert.dom('.app__sidebar').doesNotExist();
+        assert.dom('.main-content__topbar').doesNotExist();
+      });
     });
 
-    test('it should not show menu nor top bar', async function (assert) {
-      // given
-      await invalidateSession();
-      certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceNotAccepted();
+    module('when has accepted terms of service', function () {
+      test('it should redirect certificationPointOfContact to the session list', async function (assert) {
+        // given
+        await invalidateSession();
+        certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
 
-      await visit('/connexion');
-      await fillIn('#login-email', certificationPointOfContact.email);
-      await fillIn('#login-password', 'secret');
+        await visit('/connexion');
+        await fillIn('#login-email', certificationPointOfContact.email);
+        await fillIn('#login-password', 'secret');
 
-      // when
-      await click('button[type=submit]');
+        // when
+        await click('button[type=submit]');
 
-      // then
-      assert.ok(
-        currentSession(this.application).get('isAuthenticated'),
-        'The certificationPointOfContact is authenticated'
-      );
+        // then
 
-      assert.dom('.app__sidebar').doesNotExist();
-      assert.dom('.main-content__topbar').doesNotExist();
+        assert.strictEqual(currentURL(), '/sessions/liste');
+        assert.ok(
+          currentSession(this.application).get('isAuthenticated'),
+          'The certificationPointOfContact is authenticated'
+        );
+      });
+
+      test('it should show certificationPointOfContact name', async function (assert) {
+        // given
+        await invalidateSession();
+        certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+
+        await visit('/connexion');
+        await fillIn('#login-email', certificationPointOfContact.email);
+        await fillIn('#login-password', 'secret');
+
+        // when
+        await click('button[type=submit]');
+
+        // then
+        assert.ok(
+          currentSession(this.application).get('isAuthenticated'),
+          'The certificationPointOfContact is authenticated'
+        );
+        assert.dom('.logged-user-summary__name').hasText('Harry Cover');
+      });
     });
   });
 
-  module('When certificationPointOfContact is logging in and has accepted terms of service', function () {
-    test('it should redirect certificationPointOfContact to the session list', async function (assert) {
-      // given
-      await invalidateSession();
-      certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+  module('When certificationPointOfContact is authenticated', function () {
+    module('When has accepted terms of service', function () {
+      test('it should let certificationPointOfContact access requested page', async function (assert) {
+        // given
+        certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+        await authenticateSession(certificationPointOfContact.id);
 
-      await visit('/connexion');
-      await fillIn('#login-email', certificationPointOfContact.email);
-      await fillIn('#login-password', 'secret');
+        // when
+        await visit('/sessions/liste');
 
-      // when
-      await click('button[type=submit]');
+        // then
+        assert.strictEqual(currentURL(), '/sessions/liste');
+        assert.ok(
+          currentSession(this.application).get('isAuthenticated'),
+          'The certificationPointOfContact is authenticated'
+        );
+      });
 
-      // then
+      test('it should show the name and externalId of certification center', async function (assert) {
+        // given
+        certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+        await authenticateSession(certificationPointOfContact.id);
 
-      assert.strictEqual(currentURL(), '/sessions/liste');
-      assert.ok(
-        currentSession(this.application).get('isAuthenticated'),
-        'The certificationPointOfContact is authenticated'
-      );
+        // when
+        await visit('/sessions/liste');
+
+        // then
+        assert.dom('.logged-user-summary__certification-center').hasText('Centre de certification du pix (ABC123)');
+      });
+
+      test('it should redirect certificationPointOfContact to the session list on root url', async function (assert) {
+        // given
+        certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+        await authenticateSession(certificationPointOfContact.id);
+
+        // when
+        await visit('/');
+
+        // then
+        assert.strictEqual(currentURL(), '/sessions/liste');
+      });
     });
 
-    test('it should show certificationPointOfContact name', async function (assert) {
-      // given
-      await invalidateSession();
-      certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+    module('when a lang query param is present', function () {
+      test('sets and remembers the locale to the lang query param which wins over the user’s lang', async function (assert) {
+        // given
+        certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
 
-      await visit('/connexion');
-      await fillIn('#login-email', certificationPointOfContact.email);
-      await fillIn('#login-password', 'secret');
+        // when
+        await visitScreen('/?lang=en');
+        await authenticateSession(certificationPointOfContact.id);
+        const screen = await visitScreen('/');
 
-      // when
-      await click('button[type=submit]');
-
-      // then
-      assert.ok(
-        currentSession(this.application).get('isAuthenticated'),
-        'The certificationPointOfContact is authenticated'
-      );
-      assert.dom('.logged-user-summary__name').hasText('Harry Cover');
-    });
-  });
-
-  module('When certificationPointOfContact is already authenticated and has accepted terms of service', function () {
-    test('it should let certificationPointOfContact access requested page', async function (assert) {
-      // given
-      certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
-      await authenticateSession(certificationPointOfContact.id);
-
-      // when
-      await visit('/sessions/liste');
-
-      // then
-      assert.strictEqual(currentURL(), '/sessions/liste');
-      assert.ok(
-        currentSession(this.application).get('isAuthenticated'),
-        'The certificationPointOfContact is authenticated'
-      );
-    });
-
-    test('it should show the name and externalId of certification center', async function (assert) {
-      // given
-      certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
-      await authenticateSession(certificationPointOfContact.id);
-
-      // when
-      await visit('/sessions/liste');
-
-      // then
-      assert.dom('.logged-user-summary__certification-center').hasText('Centre de certification du pix (ABC123)');
-    });
-
-    test('it should redirect certificationPointOfContact to the session list on root url', async function (assert) {
-      // given
-      certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
-      await authenticateSession(certificationPointOfContact.id);
-
-      // when
-      await visit('/');
-
-      // then
-      assert.strictEqual(currentURL(), '/sessions/liste');
+        // then
+        assert.dom(screen.getByRole('link', { name: 'Invigilator’s Portal' })).exists();
+      });
     });
   });
 });
