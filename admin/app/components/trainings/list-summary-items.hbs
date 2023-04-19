@@ -28,6 +28,7 @@
                 aria-label="Filtrer les contenus formatifs par un titre"
               />
             </td>
+            <td></td>
           </tr>
         {{/if}}
       </thead>
@@ -44,9 +45,9 @@
               </td>
               <td headers="training-recommendable">
                 {{#if this.isTrainingRecommendationEnabled}}
-                  {{if summary.isRecommendable "Actif" "Inactif"}}
+                  {{if summary.isRecommendable "Déclenchable" "Non déclenchable"}}
                 {{else}}
-                  Actif
+                  Déclenchable
                 {{/if}}
               </td>
             </tr>

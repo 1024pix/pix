@@ -45,7 +45,7 @@ module('Integration | Component | Trainings::TrainingDetailsCard', function (hoo
   });
 
   module('when feature toggle is disabled', function () {
-    test('it should display always Actif', async function (assert) {
+    test('it should display always Déclenchable', async function (assert) {
       // given
       class FeatureTogglesStub extends Service {
         featureToggles = { isTrainingRecommendationEnabled: false };
@@ -56,12 +56,12 @@ module('Integration | Component | Trainings::TrainingDetailsCard', function (hoo
       const screen = await render(hbs`<Trainings::TrainingDetailsCard @training={{this.training}} />`);
 
       // then
-      assert.dom(screen.getByText('Actif')).exists();
+      assert.dom(screen.getByText('Déclenchable')).exists();
     });
   });
 
   module('when feature toggle is enabled', function () {
-    test('it should display "actif" when training is recommendable', async function (assert) {
+    test('it should display "Déclenchable" when training is recommendable', async function (assert) {
       // given
       class FeatureTogglesStub extends Service {
         featureToggles = { isTrainingRecommendationEnabled: true };
@@ -72,21 +72,21 @@ module('Integration | Component | Trainings::TrainingDetailsCard', function (hoo
       const screen = await render(hbs`<Trainings::TrainingDetailsCard @training={{this.training}} />`);
 
       // then
-      assert.dom(screen.getByText('Actif')).exists();
+      assert.dom(screen.getByText('Déclenchable')).exists();
     });
 
-    test('it should display "inactif" when training is recommendable', async function (assert) {
+    test('it should display "Non déclenchable" when training is not recommendable', async function (assert) {
       // given
       class FeatureTogglesStub extends Service {
         featureToggles = { isTrainingRecommendationEnabled: true };
       }
 
       this.owner.register('service:feature-toggles', FeatureTogglesStub);
-      this.set('training.isRecommendable', true);
+      this.set('training.isRecommendable', false);
       const screen = await render(hbs`<Trainings::TrainingDetailsCard @training={{this.training}} />`);
 
       // then
-      assert.dom(screen.getByText('Actif')).exists();
+      assert.dom(screen.getByText('Non déclenchable')).exists();
     });
   });
 });

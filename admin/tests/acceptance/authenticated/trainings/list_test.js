@@ -46,9 +46,9 @@ module('Acceptance | Trainings | List', function (hooks) {
 
         // then
         assert.dom(screen.getByText('Formation 11')).exists();
-        assert.dom(screen.getByText('Actif')).exists();
+        assert.dom(screen.getByText('Déclenchable')).exists();
         assert.dom(screen.getByText('Formation 12')).exists();
-        assert.dom(screen.getByText('Inactif')).exists();
+        assert.dom(screen.getByText('Non déclenchable')).exists();
       });
 
       module('when training recommendation feature toggle is disabled', function () {
@@ -65,9 +65,9 @@ module('Acceptance | Trainings | List', function (hooks) {
 
           // then
           assert.dom(screen.getByText('Formation 11')).exists();
-          assert.strictEqual(screen.queryAllByText('Actif').length, 2);
+          assert.strictEqual(screen.queryAllByText('Déclenchable').length, 2);
           assert.dom(screen.getByText('Formation 12')).exists();
-          assert.dom(screen.queryByText('Inactif')).doesNotExist();
+          assert.dom(screen.queryByText('Non déclenchable')).doesNotExist();
         });
       });
 
