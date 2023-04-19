@@ -17,10 +17,12 @@ const checkUserIsMemberOfAnOrganizationUseCase = require('./usecases/checkUserIs
 const checkUserIsMemberOfCertificationCenterUsecase = require('./usecases/checkUserIsMemberOfCertificationCenter.js');
 const checkUserIsMemberOfCertificationCenterSessionUsecase = require('./usecases/checkUserIsMemberOfCertificationCenterSession.js');
 const checkAuthorizationToManageCampaignUsecase = require('./usecases/checkAuthorizationToManageCampaign.js');
+const checkOrganizationIsScoAndManagingStudentUsecase = require('./usecases/checkOrganizationIsScoAndManagingStudent');
 const checkPix1dEnabled = require('./usecases/checkPix1dEnabled.js');
 const certificationIssueReportRepository = require('../infrastructure/repositories/certification-issue-report-repository.js');
+const organizationRepository = require('../infrastructure/repositories/organization-repository');
 const Organization = require('../../lib/domain/models/Organization.js');
-const { ForbiddenAccess } = require('../..//lib/domain/errors.js');
+const { ForbiddenAccess, NotFoundError } = require('../..//lib/domain/errors.js');
 const apps = require('../..//lib/domain/constants.js');
 
 const JSONAPIError = require('jsonapi-serializer').Error;
@@ -290,6 +292,48 @@ async function checkUserBelongsToScoOrganizationAndManagesStudents(
   return _replyForbiddenError(h);
 }
 
+async function checkCertificationCenterIsNotScoManagingStudents(
+  request,
+  h,
+  dependencies = {
+    checkOrganizationIsScoAndManagingStudentUsecase,
+    checkUserIsMemberOfCertificationCenterUsecase,
+    organizationRepository,
+  }
+) {
+  if (_noCredentials(request)) {
+    return _replyForbiddenError(h);
+  }
+
+  const certificationCenterId =
+    parseInt(request?.params?.certificationCenterId) ||
+    parseInt(request?.payload?.data?.attributes?.certificationCenterId);
+
+  let organizationId;
+
+  try {
+    organizationId = await dependencies.organizationRepository.getIdByCertificationCenterId(certificationCenterId);
+  } catch (error) {
+    if (_noOrganizationFound(error)) {
+      return h.response(true);
+    }
+  }
+
+  const isOrganizationScoManagingStudent = await dependencies.checkOrganizationIsScoAndManagingStudentUsecase.execute({
+    organizationId,
+  });
+
+  if (isOrganizationScoManagingStudent) {
+    return _replyForbiddenError(h);
+  }
+
+  return h.response(true);
+}
+
+function _noCredentials(request) {
+  return !request?.auth?.credentials || !request.auth.credentials.userId;
+}
+
 async function checkUserBelongsToSupOrganizationAndManagesStudents(
   request,
   h,
@@ -481,6 +525,10 @@ async function checkUserOwnsCertificationCourse(
   }
 }
 
+function _noOrganizationFound(error) {
+  return error instanceof NotFoundError;
+}
+
 /* eslint-enable no-restricted-syntax */
 
 module.exports = {
@@ -489,6 +537,7 @@ module.exports = {
   checkRequestedUserIsAuthenticatedUser,
   checkUserBelongsToOrganizationManagingStudents,
   checkUserBelongsToScoOrganizationAndManagesStudents,
+  checkCertificationCenterIsNotScoManagingStudents,
   checkUserBelongsToSupOrganizationAndManagesStudents,
   checkAdminMemberHasRoleSuperAdmin,
   checkAdminMemberHasRoleCertif,
