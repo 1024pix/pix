@@ -2,7 +2,6 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
-import Service from '@ember/service';
 
 module('Integration | Component | Trainings::TrainingDetailsCard', function (hooks) {
   setupRenderingTest(hooks);
@@ -23,13 +22,6 @@ module('Integration | Component | Trainings::TrainingDetailsCard', function (hoo
   });
 
   test('it should display the details', async function (assert) {
-    // given
-    class FeatureTogglesStub extends Service {
-      featureToggles = { isTrainingRecommendationEnabled: true };
-    }
-
-    this.owner.register('service:feature-toggles', FeatureTogglesStub);
-
     // when
     const screen = await render(hbs`<Trainings::TrainingDetailsCard @training={{this.training}} />`);
 
@@ -44,49 +36,21 @@ module('Integration | Component | Trainings::TrainingDetailsCard', function (hoo
     assert.dom(screen.getByAltText('Un éditeur de contenu formatif')).exists();
   });
 
-  module('when feature toggle is disabled', function () {
-    test('it should display always Déclenchable', async function (assert) {
-      // given
-      class FeatureTogglesStub extends Service {
-        featureToggles = { isTrainingRecommendationEnabled: false };
-      }
+  test('it should display "Déclenchable" when training is recommendable', async function (assert) {
+    // given
+    this.set('training.isRecommendable', true);
+    const screen = await render(hbs`<Trainings::TrainingDetailsCard @training={{this.training}} />`);
 
-      this.owner.register('service:feature-toggles', FeatureTogglesStub);
-      this.set('training.isRecommendable', false);
-      const screen = await render(hbs`<Trainings::TrainingDetailsCard @training={{this.training}} />`);
-
-      // then
-      assert.dom(screen.getByText('Déclenchable')).exists();
-    });
+    // then
+    assert.dom(screen.getByText('Déclenchable')).exists();
   });
 
-  module('when feature toggle is enabled', function () {
-    test('it should display "Déclenchable" when training is recommendable', async function (assert) {
-      // given
-      class FeatureTogglesStub extends Service {
-        featureToggles = { isTrainingRecommendationEnabled: true };
-      }
+  test('it should display "Non déclenchable" when training is not recommendable', async function (assert) {
+    // given
+    this.set('training.isRecommendable', false);
+    const screen = await render(hbs`<Trainings::TrainingDetailsCard @training={{this.training}} />`);
 
-      this.owner.register('service:feature-toggles', FeatureTogglesStub);
-      this.set('training.isRecommendable', true);
-      const screen = await render(hbs`<Trainings::TrainingDetailsCard @training={{this.training}} />`);
-
-      // then
-      assert.dom(screen.getByText('Déclenchable')).exists();
-    });
-
-    test('it should display "Non déclenchable" when training is not recommendable', async function (assert) {
-      // given
-      class FeatureTogglesStub extends Service {
-        featureToggles = { isTrainingRecommendationEnabled: true };
-      }
-
-      this.owner.register('service:feature-toggles', FeatureTogglesStub);
-      this.set('training.isRecommendable', false);
-      const screen = await render(hbs`<Trainings::TrainingDetailsCard @training={{this.training}} />`);
-
-      // then
-      assert.dom(screen.getByText('Non déclenchable')).exists();
-    });
+    // then
+    assert.dom(screen.getByText('Non déclenchable')).exists();
   });
 });
