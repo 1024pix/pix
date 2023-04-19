@@ -343,6 +343,9 @@ describe('Unit | Router | certification-center-router', function () {
     it('should exist', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenter').callsFake((_, h) => h.response(true));
+      sinon
+        .stub(securityPreHandlers, 'checkCertificationCenterIsNotScoManagingStudents')
+        .callsFake((_request, h) => h.response(true));
       sinon.stub(certificationCenterController, 'validateSessionsForMassImport').returns('ok');
       const certificationCenterId = 123;
       const httpTestServer = new HttpTestServer();
@@ -359,6 +362,32 @@ describe('Unit | Router | certification-center-router', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
+    });
+
+    context('when user is member of a certification center from a sco organization managing student', function () {
+      it('should forbid access', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenter').callsFake((_, h) => h.response(true));
+        sinon.stub(securityPreHandlers, 'checkCertificationCenterIsNotScoManagingStudents').callsFake((_request, h) => {
+          return Promise.resolve(h.response().code(403).takeover());
+        });
+        sinon.stub(certificationCenterController, 'validateSessionsForMassImport').returns('ok');
+        const certificationCenterId = 123;
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'POST',
+          `/api/certification-centers/${certificationCenterId}/sessions/validate-for-mass-import`,
+          payload,
+          null,
+          headers
+        );
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
     });
   });
 

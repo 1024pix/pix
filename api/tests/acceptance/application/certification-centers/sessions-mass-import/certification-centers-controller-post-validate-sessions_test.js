@@ -40,7 +40,12 @@ describe('Acceptance | Controller | certification-centers-controller-post-valida
       it('should return status 200', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+          type: 'SUP',
+          externalId: '1234AB',
+        }).id;
+        databaseBuilder.factory.buildOrganization({ externalId: '1234AB', isManagingStudents: false, type: 'SUP' });
+
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
         await databaseBuilder.commit();
 
@@ -83,7 +88,11 @@ describe('Acceptance | Controller | certification-centers-controller-post-valida
           it('should throw and do nothing', async function () {
             // given
             const userId = databaseBuilder.factory.buildUser().id;
-            const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+            const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+              externalId: '1234AB',
+              type: 'SUP',
+            }).id;
+            databaseBuilder.factory.buildOrganization({ externalId: '1234AB', isManagingStudents: false, type: 'SUP' });
             databaseBuilder.factory.buildCertificationCpfCountry({
               commonName: 'FRANCE',
               matcher: 'ACEFNR',
