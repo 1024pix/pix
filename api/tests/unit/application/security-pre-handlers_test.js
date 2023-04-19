@@ -2,7 +2,7 @@ const { expect, sinon, hFake, domainBuilder } = require('../../test-helper');
 
 const securityPreHandlers = require('../../../lib/application/security-pre-handlers');
 const tokenService = require('../../../lib/domain/services/token-service');
-
+const { NotFoundError } = require('../../../lib/domain/errors');
 describe('Unit | Application | SecurityPreHandlers', function () {
   describe('#checkAdminMemberHasRoleSuperAdmin', function () {
     let request;
@@ -24,7 +24,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         });
 
         // then
-        expect(response.source).to.equal(true);
+        expect(response.source).to.be.true;
       });
     });
 
@@ -97,7 +97,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         });
 
         // then
-        expect(response.source).to.equal(true);
+        expect(response.source).to.be.true;
       });
     });
 
@@ -166,7 +166,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         });
 
         // then
-        expect(response.source).to.equal(true);
+        expect(response.source).to.be.true;
       });
     });
 
@@ -233,7 +233,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         });
 
         // then
-        expect(response.source).to.equal(true);
+        expect(response.source).to.be.true;
       });
     });
 
@@ -299,7 +299,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         const response = await securityPreHandlers.checkRequestedUserIsAuthenticatedUser(request, hFake);
 
         // then
-        expect(response.source).to.equal(true);
+        expect(response.source).to.be.true;
       });
 
       it('should authorize access to resource when the authenticated user is the same as the requested user (userId)', async function () {
@@ -307,7 +307,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         const response = await securityPreHandlers.checkRequestedUserIsAuthenticatedUser(request, hFake);
 
         // then
-        expect(response.source).to.equal(true);
+        expect(response.source).to.be.true;
       });
     });
 
@@ -362,7 +362,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         });
 
         // then
-        expect(response.source).to.equal(true);
+        expect(response.source).to.be.true;
       });
     });
 
@@ -444,7 +444,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         });
 
         // then
-        expect(response.source).to.equal(true);
+        expect(response.source).to.be.true;
       });
     });
 
@@ -526,7 +526,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         });
 
         // then
-        expect(response.source).to.equal(true);
+        expect(response.source).to.be.true;
       });
     });
 
@@ -619,7 +619,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
           );
 
           // then
-          expect(response.source).to.equal(true);
+          expect(response.source).to.be.true;
         });
       });
 
@@ -648,7 +648,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
           );
 
           // then
-          expect(response.source).to.equal(true);
+          expect(response.source).to.be.true;
         });
       });
     });
@@ -707,6 +707,176 @@ describe('Unit | Application | SecurityPreHandlers', function () {
     });
   });
 
+  describe('#checkCertificationCenterIsNotScoManagingStudents', function () {
+    let checkOrganizationIsScoAndManagingStudentUsecaseStub;
+    let organizationRepositoryStub;
+
+    let dependencies;
+
+    beforeEach(function () {
+      checkOrganizationIsScoAndManagingStudentUsecaseStub = { execute: sinon.stub() };
+      organizationRepositoryStub = {
+        getIdByCertificationCenterId: sinon.stub(),
+      };
+
+      dependencies = {
+        checkOrganizationIsScoAndManagingStudentUsecase: checkOrganizationIsScoAndManagingStudentUsecaseStub,
+        organizationRepository: organizationRepositoryStub,
+      };
+    });
+
+    context('Successful cases', function () {
+      context('when certification center does not belong to an organization', function () {
+        it('should authorize access to resource when the user is authenticated', async function () {
+          // given
+          const request = {
+            auth: {
+              credentials: {
+                accessToken: 'valid.access.token',
+                userId: 1234,
+              },
+            },
+            params: {
+              certificationCenterId: 5678,
+            },
+          };
+          dependencies.checkOrganizationIsScoAndManagingStudentUsecase.execute.resolves(false);
+          dependencies.organizationRepository.getIdByCertificationCenterId.rejects(new NotFoundError());
+
+          // when
+          const response = await securityPreHandlers.checkCertificationCenterIsNotScoManagingStudents(
+            request,
+            hFake,
+            dependencies
+          );
+
+          // then
+          expect(response.source).to.be.true;
+        });
+      });
+
+      context('when certification center id is in request params', function () {
+        it('should authorize access to resource when the user is authenticated, member of certification center and the organization associated is not SCO managing students', async function () {
+          // given
+          const request = {
+            auth: {
+              credentials: {
+                accessToken: 'valid.access.token',
+                userId: 1234,
+              },
+            },
+            params: {
+              certificationCenterId: 5678,
+            },
+          };
+          dependencies.checkOrganizationIsScoAndManagingStudentUsecase.execute.resolves(false);
+          dependencies.organizationRepository.getIdByCertificationCenterId.resolves(1);
+
+          // when
+          const response = await securityPreHandlers.checkCertificationCenterIsNotScoManagingStudents(
+            request,
+            hFake,
+            dependencies
+          );
+
+          // then
+          expect(response.source).to.be.true;
+        });
+      });
+
+      context('when certification center id is in request payload', function () {
+        it('should authorize access to resource when the user is authenticated, member of certification center and the organization associated is not SCO managing students', async function () {
+          // given
+          const request = {
+            auth: {
+              credentials: {
+                accessToken: 'valid.access.token',
+                userId: 1234,
+              },
+            },
+            payload: {
+              data: {
+                attributes: {
+                  certificationCenterId: 5678,
+                },
+              },
+            },
+          };
+          dependencies.checkOrganizationIsScoAndManagingStudentUsecase.execute.resolves(false);
+          dependencies.organizationRepository.getIdByCertificationCenterId.resolves(1);
+
+          // when
+          const response = await securityPreHandlers.checkCertificationCenterIsNotScoManagingStudents(
+            request,
+            hFake,
+            dependencies
+          );
+
+          // then
+          expect(response.source).to.be.true;
+        });
+      });
+    });
+
+    context('Error cases', function () {
+      it('should forbid resource access when user was not previously authenticated', async function () {
+        // given
+        const request = {
+          payload: {
+            data: {
+              attributes: {
+                certificationCenterId: 5678,
+              },
+            },
+          },
+        };
+
+        // when
+        const response = await securityPreHandlers.checkCertificationCenterIsNotScoManagingStudents(
+          request,
+          hFake,
+          dependencies
+        );
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when the certification center does belong to SCO Organization and manage students', async function () {
+        // given
+        const request = {
+          auth: {
+            credentials: {
+              accessToken: 'valid.access.token',
+              userId: 1234,
+            },
+          },
+          payload: {
+            data: {
+              attributes: {
+                certificationCenterId: 5678,
+              },
+            },
+          },
+        };
+        dependencies.checkOrganizationIsScoAndManagingStudentUsecase.execute.resolves(true);
+        dependencies.organizationRepository.getIdByCertificationCenterId.resolves(1);
+
+        // when
+        const response = await securityPreHandlers.checkCertificationCenterIsNotScoManagingStudents(
+          request,
+          hFake,
+          dependencies
+        );
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+    });
+  });
+
   describe('#adminMemberHasAtLeastOneAccessOf', function () {
     let belongsToOrganizationStub;
     let hasRoleSuperAdminStub;
@@ -739,7 +909,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         ])(request, hFake);
 
         // then
-        expect(response).to.equal(true);
+        expect(response).to.be.true;
       });
 
       it('should authorize access to resource when the user is authenticated and is Super Admin', async function () {
@@ -754,7 +924,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         ])(request, hFake);
 
         // then
-        expect(response).to.equal(true);
+        expect(response).to.be.true;
       });
 
       it('should authorize access to resource when the user is authenticated and belongs to organization and is Super Admin', async function () {
@@ -769,7 +939,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         ])(request, hFake);
 
         // then
-        expect(response).to.equal(true);
+        expect(response).to.be.true;
       });
     });
 
@@ -818,7 +988,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
           checkUserIsMemberOfAnOrganizationUseCase: checkUserIsMemberOfAnOrganizationUseCaseStub,
         });
         // then
-        expect(response.source).to.equal(true);
+        expect(response.source).to.be.true;
       });
     });
 
@@ -900,7 +1070,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         });
 
         // then
-        expect(response.source).to.equal(true);
+        expect(response.source).to.be.true;
       });
     });
 
@@ -954,7 +1124,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         });
 
         // then
-        expect(response.source).to.equal(true);
+        expect(response.source).to.be.true;
       });
     });
 
@@ -1012,7 +1182,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
           );
 
         // then
-        expect(response.source).to.equal(true);
+        expect(response.source).to.be.true;
       });
     });
 
@@ -1113,7 +1283,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
           );
 
         // then
-        expect(response.source).to.equal(true);
+        expect(response.source).to.be.true;
       });
     });
 
@@ -1245,7 +1415,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         );
 
         // then
-        expect(response.source).to.equal(true);
+        expect(response.source).to.be.true;
       });
     });
 
