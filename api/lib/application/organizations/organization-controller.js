@@ -20,10 +20,10 @@ import * as supOrganizationParticipantsSerializer from '../../infrastructure/ser
 import * as targetProfileSummaryForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 
 import { SupOrganizationLearnerParser } from '../../infrastructure/serializers/csv/sup-organization-learner-parser.js';
-import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
+import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils.js';
 import {
-  extractLocaleFromRequest,
   extractUserIdFromRequest,
+  extractLocaleFromRequest,
 } from '../../infrastructure/utils/request-response-utils.js';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat.js';
@@ -118,7 +118,7 @@ const findPaginatedCampaignManagements = async function (
 
 const findPaginatedFilteredMembershipsForAdmin = async function (request) {
   const organizationId = request.params.id;
-  const options = extractParameters(request.query);
+  const options = queryParamsUtils.extractParameters(request.query);
 
   const { models: memberships, pagination } = await usecases.findPaginatedFilteredOrganizationMemberships({
     organizationId,
@@ -130,7 +130,7 @@ const findPaginatedFilteredMembershipsForAdmin = async function (request) {
 
 const findPaginatedFilteredMemberships = async function (request) {
   const organizationId = request.params.id;
-  const options = extractParameters(request.query);
+  const options = queryParamsUtils.extractParameters(request.query);
 
   const { models: memberships, pagination } = await usecases.findPaginatedFilteredOrganizationMemberships({
     organizationId,
@@ -467,7 +467,7 @@ const findTargetProfileSummariesForAdmin = async function (request) {
   return targetProfileSummaryForAdminSerializer.serialize(targetProfileSummaries);
 };
 
-export {
+const organizationController = {
   create,
   createInBatch,
   findPaginatedFilteredOrganizations,
@@ -501,3 +501,5 @@ export {
   getPaginatedParticipantsForAnOrganization,
   findTargetProfileSummariesForAdmin,
 };
+
+export { organizationController };

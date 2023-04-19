@@ -244,7 +244,7 @@ const getGroups = async function (request) {
   return groupSerializer.serialize(groups);
 };
 
-export {
+const campaignController = {
   save,
   getByCode,
   getById,
@@ -260,6 +260,8 @@ export {
   division,
   getGroups,
 };
+
+export { campaignController };
 
 function _validateFilters(filters) {
   if (typeof filters.code === 'undefined') {

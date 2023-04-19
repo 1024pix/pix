@@ -10,4 +10,5 @@ const saveJuryComplementaryCertificationCourseResult = async function (request, 
   return h.response().code(200);
 };
 
-export { saveJuryComplementaryCertificationCourseResult };
+const complementaryCertificationCourseResultsController = { saveJuryComplementaryCertificationCourseResult };
+export { complementaryCertificationCourseResultsController };

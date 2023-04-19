@@ -103,7 +103,7 @@ const saveAssessmentResult = async function (request, h, dependencies = { assess
   return null;
 };
 
-export {
+const certificationCourseController = {
   getCertificationDetails,
   getJuryCertification,
   update,
@@ -114,6 +114,8 @@ export {
   uncancel,
   saveAssessmentResult,
 };
+
+export { certificationCourseController };
 
 // TODO: Should be removed and replaced by a real serializer
 function _deserializeResultsAdd(json) {

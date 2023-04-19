@@ -33,4 +33,10 @@ const updateCampaignDetailsManagement = async function (request, h) {
   return h.response({}).code(204);
 };
 
-export { getCampaignDetails, findPaginatedParticipationsForCampaignManagement, updateCampaignDetailsManagement };
+const campaignManagementController = {
+  getCampaignDetails,
+  findPaginatedParticipationsForCampaignManagement,
+  updateCampaignDetailsManagement,
+};
+
+export { campaignManagementController };

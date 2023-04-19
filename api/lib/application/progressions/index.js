@@ -1,4 +1,4 @@
-import { ProgressionController } from './progression-controller.js';
+import { progressionController } from './progression-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -6,7 +6,7 @@ const register = async function (server) {
       method: 'GET',
       path: '/api/progressions/{id}',
       config: {
-        handler: ProgressionController.get,
+        handler: progressionController.get,
         tags: ['api'],
         notes: [
           '- **Route nécessitant une authentification**\n' +

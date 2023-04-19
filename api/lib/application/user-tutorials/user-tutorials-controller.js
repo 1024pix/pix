@@ -41,4 +41,5 @@ const removeFromUser = async function (request, h, dependencies = { userSavedTut
   return h.response().code(204);
 };
 
-export { add, find, removeFromUser };
+const userTutorialsController = { add, find, removeFromUser };
+export { userTutorialsController };

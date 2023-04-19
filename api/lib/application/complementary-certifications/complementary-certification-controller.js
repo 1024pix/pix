@@ -6,4 +6,5 @@ const findComplementaryCertifications = async function () {
   return complementaryCertificationSerializer.serialize(complementaryCertifications);
 };
 
-export { findComplementaryCertifications };
+const complementaryCertificationController = { findComplementaryCertifications };
+export { complementaryCertificationController };

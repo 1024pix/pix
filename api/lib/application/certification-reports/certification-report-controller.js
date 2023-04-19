@@ -15,4 +15,6 @@ const abort = async function (request, h) {
   return h.response().code(200);
 };
 
-export { saveCertificationIssueReport, abort };
+const certificationReportController = { saveCertificationIssueReport, abort };
+
+export { certificationReportController };
