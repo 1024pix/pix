@@ -3,7 +3,6 @@ import { securityPreHandlers } from '../../../../lib/application/security-pre-ha
 import { prescriberController } from '../../../../lib/application/prescribers/prescriber-controller.js';
 import * as moduleUnderTest from '../../../../lib/application/prescribers/index.js';
 
-
 describe('Unit | Router | prescriber-router', function () {
   describe('GET /api/prescription/prescribers/{id}', function () {
     it('should exist', async function () {

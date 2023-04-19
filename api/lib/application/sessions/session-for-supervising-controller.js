@@ -14,4 +14,6 @@ const supervise = async function (request, h) {
   return h.response().code(204);
 };
 
-export { get, supervise };
+const sessionForSupervisingController = { get, supervise };
+
+export { sessionForSupervisingController };

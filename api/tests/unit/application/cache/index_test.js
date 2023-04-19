@@ -3,7 +3,6 @@ import { securityPreHandlers } from '../../../../lib/application/security-pre-ha
 import { cacheController } from '../../../../lib/application/cache/cache-controller.js';
 import * as moduleUnderTest from '../../../../lib/application/cache/index.js';
 
-
 describe('Unit | Router | cache-router', function () {
   describe('PATCH /api/cache/{model}/{id}', function () {
     it('should exist', async function () {

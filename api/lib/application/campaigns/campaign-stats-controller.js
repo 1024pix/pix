@@ -52,9 +52,11 @@ const getParticipationsCountByMasteryRate = async function (request) {
   });
 };
 
-export {
+const campaignStatsController = {
   getParticipationsByStage,
   getParticipationsByStatus,
   getParticipationsByDay,
   getParticipationsCountByMasteryRate,
 };
+
+export { campaignStatsController };

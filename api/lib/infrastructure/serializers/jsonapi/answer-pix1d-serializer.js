@@ -1,6 +1,6 @@
 import { Answer } from '../../../domain/models/Answer.js';
 import { Serializer } from 'jsonapi-serializer';
-import { answerStatusJSONAPIAdapter } from '../../adapters/answer-status-json-api-adapter.js';
+import { AnswerStatusJsonApiAdapter as answerStatusJSONAPIAdapter } from '../../adapters/answer-status-json-api-adapter.js';
 
 const serialize = function (answer) {
   return new Serializer('answer', {

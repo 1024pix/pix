@@ -31,4 +31,5 @@ const findTutorials = function (request, h, dependencies = { requestResponseUtil
     .then(dependencies.tutorialSerializer.serialize);
 };
 
-export { getScorecard, findTutorials };
+const scorecardController = { getScorecard, findTutorials };
+export { scorecardController };

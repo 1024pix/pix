@@ -47,4 +47,6 @@ const updateExpiredPassword = async function (request, h) {
     .created();
 };
 
-export { createResetDemand, checkResetDemand, updateExpiredPassword };
+const passwordController = { createResetDemand, checkResetDemand, updateExpiredPassword };
+
+export { passwordController };

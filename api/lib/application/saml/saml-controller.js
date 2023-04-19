@@ -35,4 +35,6 @@ const assert = async function (request, h) {
   }
 };
 
-export { metadata, login, assert };
+const samlController = { metadata, login, assert };
+
+export { samlController };

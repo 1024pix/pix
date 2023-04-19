@@ -31,4 +31,11 @@ const saveAdminMember = async function (request, h, dependencies = { adminMember
   return h.response(dependencies.adminMemberSerializer.serialize(savedAdminMember)).created();
 };
 
-export { findAll, getCurrentAdminMember, updateAdminMember, deactivateAdminMember, saveAdminMember };
+const adminMemberController = {
+  findAll,
+  getCurrentAdminMember,
+  updateAdminMember,
+  deactivateAdminMember,
+  saveAdminMember,
+};
+export { adminMemberController };

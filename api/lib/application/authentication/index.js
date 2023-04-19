@@ -1,6 +1,6 @@
 import Joi from 'joi';
 import { sendJsonApiError, BadRequestError } from '../http-errors.js';
-import { AuthenticationController } from './authentication-controller.js';
+import { authenticationController as AuthenticationController } from './authentication-controller.js';
 import { securityPreHandlers } from '../security-pre-handlers.js';
 import { responseAuthenticationDoc } from '../../infrastructure/open-api-doc/authentication/response-authentication-doc.js';
 import { responseObjectErrorDoc } from '../../infrastructure/open-api-doc/livret-scolaire/response-object-error-doc.js';

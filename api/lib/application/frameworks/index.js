@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { frameworkController } from './frameworks-controller.js';
+import { frameworksController as frameworkController } from './frameworks-controller.js';
 import { securityPreHandlers } from '../security-pre-handlers.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 

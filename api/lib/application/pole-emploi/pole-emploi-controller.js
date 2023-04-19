@@ -7,7 +7,9 @@ const getSendings = async function (request, h) {
   return h.response(sendings).header('link', link).code(200);
 };
 
-export { getSendings };
+const poleEmploiController = { getSendings };
+
+export { poleEmploiController };
 
 function _extractFilters(request) {
   const filters = {};

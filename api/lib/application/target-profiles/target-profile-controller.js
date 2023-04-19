@@ -147,7 +147,7 @@ const getLearningContentAsPdf = async function (request, h, dependencies = { lea
     .header('Content-Type', 'application/pdf');
 };
 
-export {
+const targetProfileController = {
   findPaginatedFilteredTargetProfileSummariesForAdmin,
   getTargetProfileForAdmin,
   findPaginatedFilteredTargetProfileOrganizations,
@@ -162,3 +162,5 @@ export {
   markTargetProfileAsSimplifiedAccess,
   getLearningContentAsPdf,
 };
+
+export { targetProfileController };
