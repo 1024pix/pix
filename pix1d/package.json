@@ -62,7 +62,6 @@
     "ember-cli-inject-live-reload": "^2.1.0",
     "ember-cli-mirage": "^2.4.0",
     "ember-cli-sass": "^11.0.1",
-    "ember-cli-sri": "^2.1.1",
     "ember-data": "~4.11.3",
     "ember-fetch": "^8.1.2",
     "ember-load-initializers": "^2.1.2",
