@@ -1,6 +1,6 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-import { certificationCoursesController } from '../../../../lib/application/certification-courses/certification-course-controller.js';
+import { certificationCourseController as certificationCoursesController } from '../../../../lib/application/certification-courses/certification-course-controller.js';
 import * as moduleUnderTest from '../../../../lib/application/certification-courses/index.js';
 
 describe('Unit | Application | Certifications Course | Route', function () {

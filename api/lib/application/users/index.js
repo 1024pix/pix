@@ -3,7 +3,7 @@ import XRegExp from 'xregexp';
 import { securityPreHandlers } from '../security-pre-handlers.js';
 import { userController } from './user-controller.js';
 import { sendJsonApiError, BadRequestError } from '../http-errors.js';
-import * as userVerification from '../preHandlers/user-existence-verification.js';
+import { userVerification } from '../preHandlers/user-existence-verification.js';
 import { config } from '../../config.js';
 
 const { passwordValidationPattern } = config.account;

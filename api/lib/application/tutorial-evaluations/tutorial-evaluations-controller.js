@@ -14,4 +14,5 @@ const evaluate = async function (request, h, dependencies = { tutorialEvaluation
   return h.response(tutorialEvaluationSerializer.serialize(tutorialEvaluation)).created();
 };
 
-export { evaluate };
+const tutorialEvaluationsController = { evaluate };
+export { tutorialEvaluationsController };

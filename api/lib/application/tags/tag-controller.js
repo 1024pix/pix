@@ -18,4 +18,6 @@ const getRecentlyUsedTags = async function (request, h, dependencies = { tagSeri
   return dependencies.tagSerializer.serialize(recentlyUsedTags);
 };
 
-export { create, findAllTags, getRecentlyUsedTags };
+const tagController = { create, findAllTags, getRecentlyUsedTags };
+
+export { tagController };

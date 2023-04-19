@@ -34,4 +34,6 @@ const calculateFlashScores = async function (request, h) {
   });
 };
 
-export { calculateOldScores, calculateFlashScores };
+const scoringSimulatorController = { calculateOldScores, calculateFlashScores };
+
+export { scoringSimulatorController };

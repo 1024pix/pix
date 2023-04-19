@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { OidcIdentityProviders } from '../../../domain/constants/oidc-identity-providers.js';
+import * as OidcIdentityProviders from '../../../domain/constants/oidc-identity-providers.js';
 import { oidcController } from './oidc-controller.js';
 
 const validProviders = Object.values(OidcIdentityProviders).map((provider) => provider.service.code);

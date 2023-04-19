@@ -6,4 +6,6 @@ const get = async function (request, h, dependencies = { challengeRepository, ch
   return dependencies.challengeSerializer.serialize(challenge);
 };
 
-export { get };
+const challengeController = { get };
+
+export { challengeController };

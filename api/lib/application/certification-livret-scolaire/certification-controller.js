@@ -7,4 +7,6 @@ const getCertificationsByOrganizationUAI = async function (request) {
   return certificationsResultsForLsSerializer.serialize(certifications);
 };
 
-export { getCertificationsByOrganizationUAI };
+const certificationController = { getCertificationsByOrganizationUAI };
+
+export { certificationController };

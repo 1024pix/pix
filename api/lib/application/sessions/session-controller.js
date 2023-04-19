@@ -13,8 +13,8 @@ import * as certificationReportSerializer from '../../infrastructure/serializers
 import * as juryCertificationSummarySerializer from '../../infrastructure/serializers/jsonapi/jury-certification-summary-serializer.js';
 import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
 import * as jurySessionRepository from '../../infrastructure/repositories/sessions/jury-session-repository.js';
-import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
-import { extractUserIdFromRequest } from '../../infrastructure/utils/request-response-utils.js';
+import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils.js';
+import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 import * as certificationResultUtils from '../../infrastructure/utils/csv/certification-results.js';
 import { fillCandidatesImportSheet } from '../../infrastructure/files/candidates-import/fill-candidates-import-sheet.js';
 import * as supervisorKitPdf from '../../infrastructure/utils/pdf/supervisor-kit-pdf.js';
@@ -378,7 +378,7 @@ const deleteJuryComment = async function (request, h) {
   return h.response().code(204);
 };
 
-export {
+const sessionController = {
   findPaginatedFilteredJurySessions,
   getJurySession,
   get,
@@ -407,6 +407,8 @@ export {
   remove,
   deleteJuryComment,
 };
+
+export { sessionController };
 
 function _logSessionBatchPublicationErrors(result) {
   logger.warn(`One or more error occurred when publishing session in batch ${result.batchId}`);

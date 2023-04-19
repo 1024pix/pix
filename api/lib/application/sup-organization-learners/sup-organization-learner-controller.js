@@ -30,4 +30,6 @@ const updateStudentNumber = async function (request, h) {
   return h.response().code(204);
 };
 
-export { reconcileSupOrganizationLearner, updateStudentNumber };
+const supOrganizationLearnerController = { reconcileSupOrganizationLearner, updateStudentNumber };
+
+export { supOrganizationLearnerController };

@@ -6,4 +6,5 @@ const findCountries = async function (_request, _h, dependencies = { countrySeri
   return dependencies.countrySerializer.serialize(countries);
 };
 
-export { findCountries };
+const countryController = { findCountries };
+export { countryController };

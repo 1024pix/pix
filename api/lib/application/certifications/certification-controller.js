@@ -82,7 +82,7 @@ const deneutralizeChallenge = async function (request, h, dependencies = { event
   return h.response().code(204);
 };
 
-export {
+const certificationController = {
   findUserCertifications,
   getCertification,
   getCertificationByVerificationCode,
@@ -90,3 +90,5 @@ export {
   neutralizeChallenge,
   deneutralizeChallenge,
 };
+
+export { certificationController };

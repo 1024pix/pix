@@ -240,7 +240,7 @@ const createSessionsForMassImport = async function (request, h) {
   return h.response().code(201);
 };
 
-export {
+const certificationCenterController = {
   saveSession,
   create,
   update,
@@ -259,3 +259,5 @@ export {
   validateSessionsForMassImport,
   createSessionsForMassImport,
 };
+
+export { certificationCenterController };

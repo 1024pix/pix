@@ -9,4 +9,6 @@ const get = function (request, h, dependencies = { courseService, courseSerializ
   return dependencies.courseService.getCourse({ courseId, userId }).then(dependencies.courseSerializer.serialize);
 };
 
-export { get };
+const courseController = { get };
+
+export { courseController };

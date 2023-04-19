@@ -19,4 +19,6 @@ const refreshCacheEntry = function (request) {
   return datasource.refreshLearningContentCacheRecord(recordId, updatedRecord).then(() => null);
 };
 
-export { refreshCacheEntries, refreshCacheEntry };
+const cacheController = { refreshCacheEntries, refreshCacheEntry };
+
+export { cacheController };
