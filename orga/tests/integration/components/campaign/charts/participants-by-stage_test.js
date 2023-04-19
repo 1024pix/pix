@@ -38,8 +38,10 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStage', functi
   });
 
   test('it should display stage stars', async function (assert) {
-    assert.dom('[data-test-status=acquired]').isVisible({ count: 1 });
-    assert.dom('[data-test-status=unacquired]').isVisible({ count: 1 });
+    const [starNotAcquired, starAcquired] = document.querySelectorAll('.pix-stars__item');
+
+    assert.dom(starNotAcquired).doesNotHaveAttribute('data-acquired');
+    assert.dom(starAcquired).hasAttribute('data-acquired');
   });
 
   test('it should display participants number', async function (assert) {
