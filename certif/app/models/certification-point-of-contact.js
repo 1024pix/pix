@@ -4,6 +4,7 @@ export default class CertificationPointOfContact extends Model {
   @attr() firstName;
   @attr() lastName;
   @attr() email;
+  @attr() lang;
   @attr() pixCertifTermsOfServiceAccepted;
   @hasMany('allowed-certification-center-access') allowedCertificationCenterAccesses;
 

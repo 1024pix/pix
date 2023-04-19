@@ -12,6 +12,7 @@ module.exports = {
         firstName: 'users.firstName',
         lastName: 'users.lastName',
         email: 'users.email',
+        lang: 'users.lang',
         pixCertifTermsOfServiceAccepted: 'users.pixCertifTermsOfServiceAccepted',
         certificationCenterIds: knex.raw('array_agg(?? order by ?? asc)', [
           'certificationCenterId',

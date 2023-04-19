@@ -8,6 +8,7 @@ module.exports = {
         'firstName',
         'lastName',
         'email',
+        'lang',
         'pixCertifTermsOfServiceAccepted',
         'allowedCertificationCenterAccesses',
       ],

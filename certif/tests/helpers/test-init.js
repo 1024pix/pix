@@ -32,6 +32,7 @@ export function createCertificationPointOfContactWithCustomCenters({
     firstName: 'Harry',
     lastName: 'Cover',
     email: 'harry@cover.com',
+    lang: 'fr',
     pixCertifTermsOfServiceAccepted,
     allowedCertificationCenterAccesses,
   });
