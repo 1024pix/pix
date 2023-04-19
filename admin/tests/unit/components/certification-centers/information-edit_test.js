@@ -6,17 +6,13 @@ import sinon from 'sinon';
 module('Unit | Component | certification-centers/information-edit', function (hooks) {
   setupTest(hooks);
 
-  let component;
+  let component, store;
 
   hooks.beforeEach(function () {
+    store = this.owner.lookup('service:store');
     component = createGlimmerComponent('component:certification-centers/information-edit', {
       availableHabilitations: [],
-      certificationCenter: {
-        getProperties: sinon.stub().returns({}),
-        set: function (propertyName, propertyValue) {
-          this[propertyName] = propertyValue;
-        },
-      },
+      certificationCenter: store.createRecord('certification-center'),
       onSubmit: sinon.stub(),
       toggleEditMode: sinon.stub(),
     });
@@ -25,7 +21,7 @@ module('Unit | Component | certification-centers/information-edit', function (ho
   module('#updateGrantedHabilitation', function () {
     test('it should add the habilitation to the certification center', function (assert) {
       // given
-      const habilitation = { key: 'E', label: 'Pix+Surf' };
+      const habilitation = store.createRecord('complementary-certification', { key: 'E', label: 'Pix+Surf' });
 
       component.form.habilitations = [];
 
@@ -38,7 +34,7 @@ module('Unit | Component | certification-centers/information-edit', function (ho
 
     test('it should remove the habilitation from the certification center', function (assert) {
       // given
-      const habilitation = { key: 'E', label: 'Pix+Surf' };
+      const habilitation = store.createRecord('complementary-certification', { key: 'E', label: 'Pix+Surf' });
 
       component.form.habilitations = [habilitation];
 

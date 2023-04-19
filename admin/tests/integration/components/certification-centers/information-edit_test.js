@@ -17,6 +17,7 @@ module('Integration | Component | certification-centers/information-edit', funct
       dataProtectionOfficerFirstName: 'Justin',
       dataProtectionOfficerLastName: 'Ptipeu',
       dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
+      habilitations: [],
     });
 
     this.set('certificationCenter', certificationCenter);
