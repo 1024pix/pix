@@ -9,6 +9,10 @@
   },
   "license": "AGPL-3.0",
   "author": "GIP Pix",
+  "engines": {
+    "node": "16",
+    "npm": ">=8.13.2 <9"
+  },
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -22,6 +26,7 @@
     "lint:hbs:fix": "ember-template-lint . --fix",
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
+    "preinstall": "npx check-engine",
     "start": "ember serve --proxy http://localhost:3000",
     "test": "ember test --reporter dot",
     "test:ci": "npm run test",
@@ -76,9 +81,6 @@
     "stylelint-config-standard-scss": "^6.1.0",
     "tracked-built-ins": "^3.1.1",
     "webpack": "^5.75.0"
-  },
-  "engines": {
-    "node": "14.* || 16.* || >= 18"
   },
   "ember": {
     "edition": "octane"
