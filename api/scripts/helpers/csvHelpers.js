@@ -20,7 +20,7 @@ const optionsWithHeader = {
     if (typeof value === 'string') {
       value = value.trim();
     }
-    if (columnName === 'uai') {
+    if (columnName === 'uai' || columnName === '* Sexe (M ou F)') {
       value = value.toUpperCase();
     }
     if (columnName === 'createdBy') {
