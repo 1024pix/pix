@@ -67,7 +67,7 @@
 .main-content {
   display: flex;
   flex-direction: column;
-  overflow: auto;
+  overflow: hidden;
 
   &__topbar {
     background-color: $pix-neutral-0;
