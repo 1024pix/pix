@@ -31,27 +31,32 @@
   margin: 6px;
   background-color: $pix-neutral-10;
 
+  @include device-is('mobile') {
+    &__group {
+      display: flex;
+      flex-direction: column;
+      padding: 0 $pix-spacing-m;
+    }
+
+    &__action-validate {
+      margin-bottom: 1rem;
+    }
+  }
+
   @include device-is('tablet') {
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
-  }
 
-  &__group {
-    display: flex;
-    flex-direction: row-reverse;
-  }
+    &__group {
+      display: flex;
+      flex-direction: row-reverse;
+    }
 
-  &__action-skip {
-    @include action-button;
-  }
-
-  &__action-validate {
-    @include action-button;
-  }
-
-  &__action-continue {
-    @include action-button;
+    &__action-validate {
+      min-width: 12.5em;
+      margin-left: $pix-spacing-s;
+    }
   }
 
   &__already-answered {
