@@ -110,6 +110,11 @@ export default class Stages extends Component {
 
     try {
       await this.args.stageCollection.save({ adapterOptions: { stages: this.args.stageCollection.stages } });
+      await this.args.targetProfile.reload();
+      const stages = this.store.peekAll('stage');
+      for (const stage of stages.toArray()) {
+        if (!stage.id) stage.deleteRecord();
+      }
       this.notifications.success('Palier(s) ajouté(s) avec succès.');
     } catch (e) {
       console.log(e);
