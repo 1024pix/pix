@@ -1,0 +1,8 @@
+<div>
+  {{#if this.challengeInstruction}}
+    <div>
+      <Markdown::MarkdownToHtmlUnsafe @markdown={{this.challengeInstruction}} />
+    </div>
+  {{/if}}
+  <Challenge::ChallengeEmbedSimulator @embedDocument={{this.challengeEmbedDocument}} />
+</div>

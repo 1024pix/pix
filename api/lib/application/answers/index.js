@@ -36,6 +36,33 @@ exports.register = async (server) => {
       },
     },
     {
+      method: 'POST',
+      path: '/api/pix1d/answers',
+      config: {
+        auth: false,
+        validate: {
+          payload: Joi.object({
+            data: {
+              attributes: {
+                value: Joi.string().allow('').allow(null),
+                result: Joi.string().allow(null),
+                'result-details': Joi.string().allow(null),
+              },
+              relationships: Joi.object().required(),
+              challenge: Joi.object(),
+              type: Joi.string(),
+            },
+          }),
+        },
+        handler: answerController.saveForPix1D,
+        tags: ['api', 'pix1d', 'answers'],
+        notes: [
+          "- **Cette route est accessible aux utilisateurs pour qui l'answer appartient à leur assessment**\n" +
+            '- Enregistre une réponse à un challenge pour Pix 1D',
+        ],
+      },
+    },
+    {
       method: 'GET',
       path: '/api/answers/{id}',
       config: {
