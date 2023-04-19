@@ -34,9 +34,11 @@ const getFrameworksForTargetProfileSubmission = async function (
   return dependencies.frameworkSerializer.serializeDeepWithoutSkills(learningContent.frameworks);
 };
 
-export {
+const frameworksController = {
   getFrameworks,
   getFrameworkAreas,
   getPixFrameworkAreasWithoutThematics,
   getFrameworksForTargetProfileSubmission,
 };
+
+export { frameworksController };

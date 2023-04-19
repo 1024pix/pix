@@ -180,7 +180,7 @@ const checkScoAccountRecovery = async function (
   );
 };
 
-export {
+const scoOrganizationLearnerController = {
   reconcileScoOrganizationLearnerManually,
   reconcileScoOrganizationLearnerAutomatically,
   generateUsername,
@@ -190,3 +190,5 @@ export {
   generateUsernameWithTemporaryPassword,
   checkScoAccountRecovery,
 };
+
+export { scoOrganizationLearnerController };

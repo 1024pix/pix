@@ -536,7 +536,7 @@ function _noOrganizationFound(error) {
   return error instanceof NotFoundError;
 }
 
-export {
+const securityPreHandlers = {
   checkIfUserIsBlocked,
   checkPix1dActivated,
   checkRequestedUserIsAuthenticatedUser,
@@ -561,3 +561,5 @@ export {
   checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId,
   adminMemberHasAtLeastOneAccessOf,
 };
+
+export { securityPreHandlers };

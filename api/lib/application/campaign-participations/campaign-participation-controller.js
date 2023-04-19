@@ -184,7 +184,7 @@ const findTrainings = async function (request, h, dependencies = { trainingSeria
   return dependencies.trainingSerializer.serialize(trainings);
 };
 
-export {
+const campaignParticipationController = {
   save,
   shareCampaignResult,
   beginImprovement,
@@ -198,3 +198,5 @@ export {
   deleteCampaignParticipationForAdmin,
   findTrainings,
 };
+
+export { campaignParticipationController };

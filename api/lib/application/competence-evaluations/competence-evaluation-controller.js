@@ -32,4 +32,6 @@ const improve = async function (request, h, dependencies = { competenceEvaluatio
   return h.response(serializedCompetenceEvaluation);
 };
 
-export { startOrResume, improve };
+const competenceEvaluationController = { startOrResume, improve };
+
+export { competenceEvaluationController };
