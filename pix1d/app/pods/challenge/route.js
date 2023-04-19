@@ -5,6 +5,6 @@ export default class ChallengeRoute extends Route {
   @service store;
 
   model(params) {
-    return this.store.findRecord('challenge', params.challenge_number);
+    return this.store.findRecord('challenge', params.challenge_id);
   }
 }

@@ -1,6 +1,7 @@
 /* eslint ember/no-computed-properties-in-native-classes: 0 */
 
-import Model, { attr } from '@ember-data/model';
+import Model, { attr, belongsTo } from '@ember-data/model';
+import { computed } from '@ember/object';
 
 export default class Challenge extends Model {
   // attributes
@@ -23,4 +24,12 @@ export default class Challenge extends Model {
   @attr('string') type;
   @attr('boolean') autoReply;
   @attr('boolean') focused;
+
+  @belongsTo('answer') answer;
+
+  @computed('embedUrl', 'embedTitle', 'embedHeight')
+  get hasValidEmbedDocument() {
+    const embedUrl = this.embedUrl;
+    return !!embedUrl && !!this.embedTitle && !!this.embedHeight && embedUrl.toLowerCase().indexOf('https://') === 0; // fixes bug on IE: startsWith in not supported (PR #242)
+  }
 }
