@@ -15,4 +15,5 @@ const save = async function (request, h) {
   return h.response(serializer.serialize(persistedFeedback.toJSON())).created();
 };
 
-export { save };
+const feedbackController = { save };
+export { feedbackController };

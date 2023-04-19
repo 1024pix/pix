@@ -13,4 +13,6 @@ const archiveCampaigns = async function (request, h, dependencies = { csvCampaig
   return h.response(null).code(204);
 };
 
-export { archiveCampaigns };
+const campaignController = { archiveCampaigns };
+
+export { campaignController };

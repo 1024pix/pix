@@ -10,4 +10,6 @@ const update = async function (request, h) {
   return h.response({}).code(204);
 };
 
-export { update };
+const stageCollectionController = { update };
+
+export { stageCollectionController };

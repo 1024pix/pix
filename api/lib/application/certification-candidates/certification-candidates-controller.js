@@ -39,4 +39,11 @@ const endAssessmentBySupervisor = async function (request) {
   return null;
 };
 
-export { authorizeToStart, authorizeToResume, getSubscriptions, endAssessmentBySupervisor };
+const certificationCandidatesController = {
+  authorizeToStart,
+  authorizeToResume,
+  getSubscriptions,
+  endAssessmentBySupervisor,
+};
+
+export { certificationCandidatesController };

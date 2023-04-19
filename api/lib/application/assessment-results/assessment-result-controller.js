@@ -35,4 +35,6 @@ const save = async function (request, h, dependencies = { assessmentResultServic
   return null;
 };
 
-export { save };
+const assessmentResultController = { save };
+
+export { assessmentResultController };

@@ -1,6 +1,6 @@
 import { expect, sinon, hFake } from '../../../test-helper.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { certificationCandidateController } from '../../../../lib/application/certification-candidates/certification-candidates-controller.js';
+import { certificationCandidatesController } from '../../../../lib/application/certification-candidates/certification-candidates-controller.js';
 
 describe('Unit | Controller | certifications-candidate-controller', function () {
   describe('#authorizeToStart', function () {
@@ -25,7 +25,7 @@ describe('Unit | Controller | certifications-candidate-controller', function () 
         .resolves();
 
       // when
-      const response = await certificationCandidateController.authorizeToStart(request, hFake);
+      const response = await certificationCandidatesController.authorizeToStart(request, hFake);
 
       // then
       expect(response.statusCode).to.equal(204);
@@ -52,7 +52,7 @@ describe('Unit | Controller | certifications-candidate-controller', function () 
         .resolves();
 
       // when
-      const response = await certificationCandidateController.authorizeToResume(request, hFake);
+      const response = await certificationCandidatesController.authorizeToResume(request, hFake);
 
       // then
       expect(response.statusCode).to.equal(204);
@@ -67,7 +67,7 @@ describe('Unit | Controller | certifications-candidate-controller', function () 
       usecases.endAssessmentBySupervisor.resolves();
 
       // when
-      await certificationCandidateController.endAssessmentBySupervisor({
+      await certificationCandidatesController.endAssessmentBySupervisor({
         params: { id: certificationCandidateId },
       });
 

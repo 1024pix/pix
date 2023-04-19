@@ -33,4 +33,10 @@ const cancelCertificationCenterInvitation = async function (request, h) {
   return h.response().code(204);
 };
 
-export { acceptCertificationCenterInvitation, getCertificationCenterInvitation, cancelCertificationCenterInvitation };
+const certificationCenterInvitationController = {
+  acceptCertificationCenterInvitation,
+  getCertificationCenterInvitation,
+  cancelCertificationCenterInvitation,
+};
+
+export { certificationCenterInvitationController };

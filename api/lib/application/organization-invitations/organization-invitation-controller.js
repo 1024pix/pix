@@ -51,4 +51,5 @@ const getOrganizationInvitation = async function (request, h, dependencies = { o
   return dependencies.organizationInvitationSerializer.serialize(organizationInvitation);
 };
 
-export { acceptOrganizationInvitation, sendScoInvitation, getOrganizationInvitation };
+const organizationInvitationController = { acceptOrganizationInvitation, sendScoInvitation, getOrganizationInvitation };
+export { organizationInvitationController };

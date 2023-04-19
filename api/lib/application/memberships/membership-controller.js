@@ -32,10 +32,12 @@ const update = async function (request, h, dependencies = { requestResponseUtils
 
 const disable = async function (request, h) {
   const membershipId = request.params.id;
-  const userId = extractUserIdFromRequest(request);
+  const userId = requestResponseUtils.extractUserIdFromRequest(request);
 
   await usecases.disableMembership({ membershipId, userId });
   return h.response().code(204);
 };
 
-export { create, update, disable };
+const membershipController = { create, update, disable };
+
+export { membershipController };

@@ -1,4 +1,4 @@
-import { AssessmentResultController } from './assessment-result-controller.js';
+import { assessmentResultController } from './assessment-result-controller.js';
 import { securityPreHandlers } from '../security-pre-handlers.js';
 
 const register = async function (server) {
@@ -18,7 +18,7 @@ const register = async function (server) {
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
-        handler: AssessmentResultController.save,
+        handler: assessmentResultController.save,
         tags: ['api'],
       },
     },
