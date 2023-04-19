@@ -75,34 +75,6 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
-      path: '/api/admin/target-profiles/{id}/stages',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.targetProfileId,
-          }),
-        },
-        handler: targetProfileController.findStages,
-        tags: ['api', 'admin', 'target-profiles', 'stages'],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Elle permet de récupérer les paliers attachés au profil cible',
-        ],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/admin/target-profiles/{id}/organizations',
       config: {
         pre: [

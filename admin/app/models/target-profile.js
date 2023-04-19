@@ -31,7 +31,6 @@ export default class TargetProfile extends Model {
   @attr('number') maxLevel;
 
   @hasMany('badge') badges;
-  @hasMany('stage') stages;
   @belongsTo('stage-collection') stageCollection;
   @hasMany('training-summary') trainingSummaries;
 

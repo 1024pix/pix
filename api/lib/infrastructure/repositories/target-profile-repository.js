@@ -6,7 +6,6 @@ const { knex } = require('../../../db/knex-database-connection.js');
 const { NotFoundError, ObjectValidationError, InvalidSkillSetError } = require('../../domain/errors.js');
 const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
 const TargetProfile = require('../../domain/models/TargetProfile.js');
-const Stage = require('../../domain/models/Stage.js');
 
 const TARGET_PROFILE_TABLE = 'target-profiles';
 
@@ -177,10 +176,5 @@ module.exports = {
         );
       }
     }
-  },
-
-  async findStages({ targetProfileId }) {
-    const stages = await knex('stages').where({ targetProfileId }).orderBy(['stages.threshold', 'stages.level']);
-    return stages.map((stage) => new Stage(stage));
   },
 };

@@ -12,20 +12,6 @@ module.exports = {
     return new StageCollection({ id: targetProfileId, stages, maxLevel });
   },
 
-  async save(stageCollection) {
-    const rawIds = await knex('stages').insert(stageCollection.stages).onConflict('id').merge().returning('id');
-    return rawIds.map((rawId) => rawId.id);
-  },
-
-  delete({ id, targetProfileId }) {
-    return knex('stages')
-      .where({
-        id,
-        targetProfileId,
-      })
-      .delete();
-  },
-
   async update(stageCollectionUpdate) {
     const stageIdsToDelete = stageCollectionUpdate.stageIdsToDelete;
     const stagesToUpdate = stageCollectionUpdate.stagesToUpdate.map((stage) => ({

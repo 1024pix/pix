@@ -1,6 +1,5 @@
-import Model, { hasMany, belongsTo } from '@ember-data/model';
+import Model, { hasMany } from '@ember-data/model';
 
 export default class Stage extends Model {
-  //@belongsTo('target-profile') targetProfile;
   @hasMany('stage') stages;
 }

@@ -419,7 +419,6 @@ const createOrganizationsWithTagsAndTargetProfiles = require('./create-organizat
 const createPasswordResetDemand = require('./create-password-reset-demand.js');
 const createSession = require('./create-session.js');
 const createSessions = require('./sessions-mass-import/create-sessions.js');
-const createStage = require('./target-profile-management/create-stage.js');
 const createTag = require('./create-tag.js');
 const createTargetProfile = require('./create-target-profile.js');
 const createTraining = require('./create-training.js');
@@ -432,7 +431,6 @@ const deleteCertificationIssueReport = require('./delete-certification-issue-rep
 const deleteOrganizationPlaceLot = require('./delete-organization-place-lot.js');
 const deleteSession = require('./delete-session.js');
 const deleteSessionJuryComment = require('./delete-session-jury-comment.js');
-const deleteStage = require('./target-profile-management/delete-stage.js');
 const deleteUnassociatedBadge = require('./delete-unassociated-badge.js');
 const deleteUnlinkedCertificationCandidate = require('./delete-unlinked-certification-candidate.js');
 const deneutralizeChallenge = require('./deneutralize-challenge.js');
@@ -484,7 +482,6 @@ const findPaginatedUserRecommendedTrainings = require('./find-paginated-user-rec
 const findPendingCertificationCenterInvitations = require('./find-pending-certification-center-invitations.js');
 const findPendingOrganizationInvitations = require('./find-pending-organization-invitations.js');
 const findStudentsForEnrollment = require('./find-students-for-enrollment.js');
-const findTargetProfileStages = require('./find-target-profile-stages.js');
 const findTargetProfileSummariesForTraining = require('./find-target-profile-summaries-for-training.js');
 const findTutorials = require('./find-tutorials.js');
 const findUserAuthenticationMethods = require('./find-user-authentication-methods.js');
@@ -637,7 +634,6 @@ const updateOrganizationInformation = require('./update-organization-information
 const updateOrganizationLearnerDependentUserPassword = require('./update-organization-learner-dependent-user-password.js');
 const updateParticipantExternalId = require('./update-participant-external-id.js');
 const updateSession = require('./update-session.js');
-const updateStage = require('./target-profile-management/update-stage.js');
 const updateStudentNumber = require('./update-student-number.js');
 const updateTargetProfile = require('./update-target-profile.js');
 const updateTraining = require('./update-training.js');
@@ -710,7 +706,6 @@ const usecasesWithoutInjectedDependencies = {
   createPasswordResetDemand,
   createSession,
   createSessions,
-  createStage,
   createTag,
   createTargetProfile,
   createTraining,
@@ -774,7 +769,6 @@ const usecasesWithoutInjectedDependencies = {
   findPendingCertificationCenterInvitations,
   findPendingOrganizationInvitations,
   findStudentsForEnrollment,
-  findTargetProfileStages,
   findTargetProfileSummariesForTraining,
   findTutorials,
   findUserAuthenticationMethods,
@@ -927,8 +921,6 @@ const usecasesWithoutInjectedDependencies = {
   updateOrganizationLearnerDependentUserPassword,
   updateParticipantExternalId,
   updateSession,
-  updateStage,
-  deleteStage,
   updateStudentNumber,
   updateTargetProfile,
   updateTraining,

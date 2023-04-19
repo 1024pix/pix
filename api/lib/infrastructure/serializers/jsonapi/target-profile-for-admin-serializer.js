@@ -24,7 +24,6 @@ module.exports = {
         'isSimplifiedAccess',
         'badges',
         'stageCollection',
-        'stages',
         'areas',
         'maxLevel',
       ],
@@ -55,16 +54,6 @@ module.exports = {
           ref: 'id',
           included: true,
           attributes: ['threshold', 'level', 'title', 'message', 'prescriberTitle', 'prescriberDescription'],
-        },
-      },
-      stages: {
-        ref: 'id',
-        ignoreRelationshipData: true,
-        nullIfMissing: true,
-        relationshipLinks: {
-          related(record, current, parent) {
-            return `/api/admin/target-profiles/${parent.id}/stages`;
-          },
         },
       },
       areas: {
