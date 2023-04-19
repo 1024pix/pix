@@ -34,14 +34,15 @@
   },
   "devDependencies": {
     "@1024pix/ember-testing-library": "^0.6.1",
-    "@1024pix/pix-ui": "^30.0.0",
+    "@1024pix/pix-ui": "^31.1.0",
     "@1024pix/stylelint-config": "^2.0.0",
+    "@babel/eslint-parser": "^7.11.0",
     "@ember/optional-features": "^2.0.0",
+    "@ember/render-modifiers": "^2.0.5",
     "@ember/string": "^3.0.1",
     "@ember/test-helpers": "^2.9.3",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
-    "@babel/eslint-parser": "^7.11.0",
     "broccoli-asset-rev": "^3.0.0",
     "concurrently": "^7.6.0",
     "ember-auto-import": "^2.6.1",
@@ -76,11 +77,13 @@
     "qunit": "^2.19.4",
     "qunit-dom": "^2.0.0",
     "sass": "^1.59.3",
+    "showdown": "^2.1.0",
     "stylelint": "^14.16.1",
     "stylelint-config-prettier": "^9.0.5",
     "stylelint-config-standard-scss": "^6.1.0",
     "tracked-built-ins": "^3.1.1",
-    "webpack": "^5.75.0"
+    "webpack": "^5.75.0",
+    "xss": "^1.0.14"
   },
   "ember": {
     "edition": "octane"
@@ -88,12 +91,5 @@
   "_comment": "À supprimer dès qu'on passera à la version ember-cli-mirage v3+",
   "overrides": {
     "@embroider/macros": "^1.0.0"
-  },
-  "dependencies": {
-    "@1024pix/pix-ui": "^30.0.0",
-    "@ember/render-modifiers": "^2.0.5",
-    "lodash": "^4.17.21",
-    "showdown": "^2.1.0",
-    "xss": "^1.0.14"
   }
 }
