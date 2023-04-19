@@ -84,6 +84,34 @@ module('Unit | Model | session', function (hooks) {
     });
   });
 
+  module('#urlToDownloadCandidatesImportTemplate', function () {
+    test('it should return the correct urlToDownloadCandidatesImportTemplate', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+
+      class SessionStub extends Service {
+        data = {
+          authenticated: {
+            access_token: '123',
+          },
+        };
+      }
+      class IntlStub extends Service {
+        locale = ['dk'];
+      }
+
+      const model = store.createRecord('session', { id: 1 });
+      this.owner.register('service:session', SessionStub);
+      this.owner.register('service:intl', IntlStub);
+
+      // when/then
+      assert.strictEqual(
+        model.urlToDownloadCandidatesImportTemplate,
+        `${config.APP.API_HOST}/api/sessions/1/candidates-import-sheet?accessToken=123&lang=dk`
+      );
+    });
+  });
+
   module('#uncompletedCertificationReports', function () {
     test('it should return the uncomplete certification reports', function (assert) {
       // given
