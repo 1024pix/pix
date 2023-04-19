@@ -1,15 +1,16 @@
 .challenge-item {
-  border: 3px solid transparent;
+  padding: $pix-spacing-xxs;
 
   &--focused {
     z-index: 1;
-    border: 3px dashed $pix-neutral-70;
     border-radius: 10px;
+    outline: 3px dashed $pix-neutral-70;
+    outline-offset: -3px;
   }
 }
 
 .challenge-response {
-  margin: 6px;
+  margin: 4px;
   font-size: 0.938rem;
   background-color: $pix-neutral-10;
 
