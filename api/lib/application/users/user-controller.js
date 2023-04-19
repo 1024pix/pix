@@ -436,7 +436,7 @@ const rememberUserHasSeenLastDataProtectionPolicyInformation = async function (
   return dependencies.userSerializer.serialize(updatedUser);
 };
 
-export {
+const userController = {
   save,
   getCurrentUser,
   getUserDetailsForAdmin,
@@ -473,3 +473,5 @@ export {
   findCertificationCenterMembershipsByUser,
   rememberUserHasSeenLastDataProtectionPolicyInformation,
 };
+
+export { userController };

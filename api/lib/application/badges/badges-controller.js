@@ -17,4 +17,6 @@ const deleteUnassociatedBadge = async function (request, h) {
   return h.response().code(204);
 };
 
-export { updateBadge, deleteUnassociatedBadge };
+const badgesController = { updateBadge, deleteUnassociatedBadge };
+
+export { badgesController };

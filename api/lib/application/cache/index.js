@@ -1,5 +1,5 @@
 import { securityPreHandlers } from '../security-pre-handlers.js';
-import { CacheController } from './cache-controller.js';
+import { cacheController } from './cache-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -13,7 +13,7 @@ const register = async function (server) {
             assign: 'hasRoleSuperAdmin',
           },
         ],
-        handler: CacheController.refreshCacheEntry,
+        handler: cacheController.refreshCacheEntry,
         tags: ['api', 'cache'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin',
@@ -32,7 +32,7 @@ const register = async function (server) {
             assign: 'hasRoleSuperAdmin',
           },
         ],
-        handler: CacheController.refreshCacheEntries,
+        handler: cacheController.refreshCacheEntries,
         tags: ['api', 'cache'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin',

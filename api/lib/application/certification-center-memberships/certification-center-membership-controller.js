@@ -8,4 +8,6 @@ const disable = async function (request, h) {
   return h.response().code(204);
 };
 
-export { disable };
+const certificationCenterMembershipController = { disable };
+
+export { certificationCenterMembershipController };

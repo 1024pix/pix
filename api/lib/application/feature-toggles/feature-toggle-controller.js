@@ -5,4 +5,6 @@ const getActiveFeatures = function () {
   return serializer.serialize(config.featureToggles);
 };
 
-export { getActiveFeatures };
+const featureToggleController = { getActiveFeatures };
+
+export { featureToggleController };

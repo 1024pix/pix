@@ -41,4 +41,10 @@ const updateUserAccountFromRecoveryDemand = async function (request, h) {
   return h.response().code(204);
 };
 
-export { sendEmailForAccountRecovery, checkAccountRecoveryDemand, updateUserAccountFromRecoveryDemand };
+const accountRecoveryController = {
+  sendEmailForAccountRecovery,
+  checkAccountRecoveryDemand,
+  updateUserAccountFromRecoveryDemand,
+};
+
+export { accountRecoveryController };

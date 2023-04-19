@@ -10,4 +10,6 @@ const get = function (request, h, dependencies = { prescriberSerializer }) {
     .then((prescriber) => dependencies.prescriberSerializer.serialize(prescriber));
 };
 
-export { get };
+const prescriberController = { get };
+
+export { prescriberController };

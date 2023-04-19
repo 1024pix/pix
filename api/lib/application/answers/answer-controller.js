@@ -66,4 +66,6 @@ const getCorrection = async function (request, _h, dependencies = { correctionSe
   return dependencies.correctionSerializer.serialize(correction);
 };
 
-export { save, saveForPix1D, get, update, find, getCorrection };
+const answerController = { save, saveForPix1D, get, update, find, getCorrection };
+
+export { answerController };

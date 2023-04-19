@@ -72,7 +72,7 @@ const attachTargetProfiles = async function (request, h) {
   return h.response({}).code(204);
 };
 
-export {
+const trainingController = {
   findPaginatedTrainingSummaries,
   findTargetProfileSummaries,
   getById,
@@ -81,3 +81,5 @@ export {
   createOrUpdateTrigger,
   attachTargetProfiles,
 };
+
+export { trainingController };

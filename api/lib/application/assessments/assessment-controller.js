@@ -146,7 +146,7 @@ const autoValidateNextChallenge = async function (request, h) {
   return h.response().code(204);
 };
 
-export {
+const assessmentController = {
   save,
   get,
   getLastChallengeId,
@@ -157,6 +157,8 @@ export {
   findCompetenceEvaluations,
   autoValidateNextChallenge,
 };
+
+export { assessmentController };
 
 async function _getChallenge(assessment, request, dependencies) {
   if (assessment.isStarted()) {

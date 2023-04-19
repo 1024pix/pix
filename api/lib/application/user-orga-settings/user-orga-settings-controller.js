@@ -16,4 +16,6 @@ const createOrUpdate = async function (request, h, dependencies = { userOrgaSett
   return dependencies.userOrgaSettingsSerializer.serialize(result);
 };
 
-export { createOrUpdate };
+const userOrgaSettingsController = { createOrUpdate };
+
+export { userOrgaSettingsController };

@@ -7,4 +7,5 @@ const get = async function (request) {
   return certificationPointOfContactSerializer.serialize(certificationPointOfContact);
 };
 
-export { get };
+const certificationPointOfContactController = { get };
+export { certificationPointOfContactController };

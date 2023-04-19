@@ -1,7 +1,6 @@
 import { expect, sinon, hFake, domainBuilder } from '../../../test-helper.js';
 import { accountRecoveryController } from '../../../../lib/application/account-recovery/account-recovery-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import * as studentInformationForAccountRecoverySerializer from '../../../../lib/infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
 describe('Unit | Controller | account-recovery-controller', function () {

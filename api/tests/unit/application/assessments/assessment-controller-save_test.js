@@ -1,5 +1,5 @@
 import { sinon, expect, hFake } from '../../../test-helper.js';
-import { controller } from '../../../../lib/application/assessments/assessment-controller.js';
+import { assessmentController as controller } from '../../../../lib/application/assessments/assessment-controller.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 
 describe('Unit | Controller | assessment-controller-save', function () {

@@ -134,7 +134,7 @@ const createUser = async function (
   return h.response(response).code(200);
 };
 
-export {
+const oidcController = {
   getIdentityProviders,
   getRedirectLogoutUrl,
   findUserForReconciliation,
@@ -143,3 +143,5 @@ export {
   authenticateUser,
   createUser,
 };
+
+export { oidcController };
