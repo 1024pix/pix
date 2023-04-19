@@ -1,5 +1,5 @@
 import { expect, knex, databaseBuilder, hFake } from '../../../test-helper.js';
-import { controller } from '../../../../lib/application/stage-collections/stage-collection-controller.js';
+import { stageCollectionController } from '../../../../lib/application/stage-collections/stage-collection-controller.js';
 import * as stageCollectionRepository from '../../../../lib/infrastructure/repositories/target-profile-management/stage-collection-repository.js';
 
 describe('Integration | Application | stage-collection-controller', function () {
@@ -99,7 +99,7 @@ describe('Integration | Application | stage-collection-controller', function () 
       };
 
       // when
-      await controller.update(request, hFake);
+      await stageCollectionController.update(request, hFake);
 
       // then
       const currentStageCollection = await stageCollectionRepository.getByTargetProfileId(targetProfileId);

@@ -36,4 +36,6 @@ const getLearner = async function (request, h, dependencies = { organizationLear
   return h.response(dependencies.organizationLearnerSerializer.serialize(learner)).code(200);
 };
 
-export { dissociate, findAssociation, getActivity, getLearner };
+const organizationLearnerController = { dissociate, findAssociation, getActivity, getLearner };
+
+export { organizationLearnerController };

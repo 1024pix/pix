@@ -16,4 +16,5 @@ const findFinalizedSessionsWithRequiredAction = async function (
   return dependencies.withRequiredActionSessionSerializer.serialize(finalizedSessionsWithRequiredAction);
 };
 
-export { findFinalizedSessionsToPublish, findFinalizedSessionsWithRequiredAction };
+const finalizedSessionController = { findFinalizedSessionsToPublish, findFinalizedSessionsWithRequiredAction };
+export { finalizedSessionController };

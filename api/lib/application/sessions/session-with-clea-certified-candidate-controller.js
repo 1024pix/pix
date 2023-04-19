@@ -20,4 +20,6 @@ const getCleaCertifiedCandidateDataCsv = async function (request, h, dependencie
     .header('Content-Disposition', `attachment; filename=${fileName}`);
 };
 
-export { getCleaCertifiedCandidateDataCsv };
+const sessionWithCleaCertifiedCandidateController = { getCleaCertifiedCandidateDataCsv };
+
+export { sessionWithCleaCertifiedCandidateController };

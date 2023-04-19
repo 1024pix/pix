@@ -13,4 +13,6 @@ const createRelease = async function (request, h) {
   return h.response({}).code(204);
 };
 
-export { createRelease };
+const lcmsController = { createRelease };
+
+export { lcmsController };

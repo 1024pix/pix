@@ -14,4 +14,6 @@ const get = function (request) {
     .then(ProgressionSerializer.serialize);
 };
 
-export { get };
+const progressionController = { get };
+
+export { progressionController };

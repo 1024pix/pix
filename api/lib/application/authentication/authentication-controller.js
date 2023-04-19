@@ -106,4 +106,12 @@ const revokeToken = async function (request, h) {
   return h.response().code(204);
 };
 
-export { createToken, authenticateExternalUser, authenticateAnonymousUser, authenticateApplication, revokeToken };
+const authenticationController = {
+  createToken,
+  authenticateExternalUser,
+  authenticateAnonymousUser,
+  authenticateApplication,
+  revokeToken,
+};
+
+export { authenticationController };

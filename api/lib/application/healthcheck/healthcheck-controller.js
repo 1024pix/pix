@@ -36,4 +36,6 @@ const checkRedisStatus = async function () {
   }
 };
 
-export { get, checkDbStatus, checkRedisStatus };
+const healthcheckController = { get, checkDbStatus, checkRedisStatus };
+
+export { healthcheckController };

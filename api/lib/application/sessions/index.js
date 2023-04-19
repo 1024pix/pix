@@ -7,7 +7,7 @@ import { finalizedSessionController } from './finalized-session-controller.js';
 import { authorization } from '../preHandlers/authorization.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 import { sendJsonApiError, UnprocessableEntityError } from '../http-errors.js';
-import * as assessmentSupervisorAuthorization from '../preHandlers/session-supervisor-authorization.js';
+import { assessmentSupervisorAuthorization } from '../preHandlers/session-supervisor-authorization.js';
 
 const register = async function (server) {
   server.route([
