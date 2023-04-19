@@ -1,6 +1,5 @@
 const handleTrainingRecommendation = require('../../../../lib/domain/usecases/handle-training-recommendation');
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const config = require('../../../../lib/config.js');
 
 describe('Unit | UseCase | handle-training-recommendation', function () {
   let trainingRepository;
@@ -24,34 +23,62 @@ describe('Unit | UseCase | handle-training-recommendation', function () {
         const campaignParticipationId = Symbol('campaign-participation-id');
         const domainTransaction = Symbol('domain-transaction');
         const assessment = domainBuilder.buildAssessment.ofTypeCampaign({ campaignParticipationId });
-        const trainings = [domainBuilder.buildTraining(), domainBuilder.buildTraining()];
-        findWithTriggersByCampaignParticipationIdAndLocaleStub.resolves(trainings);
+        const campaignRepository = { findSkillsByCampaignParticipationId: sinon.stub() };
+        const knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
+
+        const campaignSkills = Symbol('campaign-skills');
+        campaignRepository.findSkillsByCampaignParticipationId
+          .withArgs({
+            campaignParticipationId,
+            domainTransaction,
+          })
+          .resolves(campaignSkills);
+
+        const knowledgeElements = Symbol('knowledge-elements');
+        knowledgeElementRepository.findUniqByUserId
+          .withArgs({
+            userId: assessment.userId,
+            domainTransaction,
+          })
+          .resolves(knowledgeElements);
+
+        const trainings = [
+          { id: 1, shouldBeObtained: sinon.stub() },
+          { id: 2, shouldBeObtained: sinon.stub() },
+        ];
+        trainings[0].shouldBeObtained.withArgs(knowledgeElements, campaignSkills).returns(true);
+        trainings[1].shouldBeObtained.withArgs(knowledgeElements, campaignSkills).returns(true);
+
+        findWithTriggersByCampaignParticipationIdAndLocaleStub
+          .withArgs({
+            campaignParticipationId,
+            locale,
+            domainTransaction,
+          })
+          .resolves(trainings);
 
         // when
         await handleTrainingRecommendation({
           locale,
           assessment,
+          campaignRepository,
+          knowledgeElementRepository,
           trainingRepository,
           userRecommendedTrainingRepository,
           domainTransaction,
         });
 
         // then
-        expect(findWithTriggersByCampaignParticipationIdAndLocaleStub).to.have.been.calledWith({
-          campaignParticipationId,
-          locale,
-          domainTransaction,
-        });
-        expect(saveStub).to.have.been.callCount(2);
+        expect(saveStub).to.have.been.calledTwice;
         expect(saveStub.firstCall).to.have.been.calledWithExactly({
           userId: assessment.userId,
-          trainingId: trainings[0].id,
+          trainingId: 1,
           campaignParticipationId,
           domainTransaction,
         });
         expect(saveStub.secondCall).to.have.been.calledWithExactly({
           userId: assessment.userId,
-          trainingId: trainings[1].id,
+          trainingId: 2,
           campaignParticipationId,
           domainTransaction,
         });
@@ -105,105 +132,17 @@ describe('Unit | UseCase | handle-training-recommendation', function () {
     });
   });
 
-  describe('when feature toggle is disabled', function () {
-    it('should use the old way to recommend trainings', async function () {
+  describe('when there is no training to recommend', function () {
+    it('should not call campaignRepository and knowledgeElementRepository', async function () {
       // given
-      const locale = Symbol('locale');
-      const campaignParticipationId = Symbol('campaign-participation-id');
-      const domainTransaction = Symbol('domain-transaction');
-      const assessment = domainBuilder.buildAssessment.ofTypeCampaign({ campaignParticipationId });
-      const trainings = [domainBuilder.buildTraining(), domainBuilder.buildTraining()];
-      findWithTriggersByCampaignParticipationIdAndLocaleStub.resolves(trainings);
-      sinon.stub(config, 'featureToggles').value({ isTrainingRecommendationEnabled: false });
-
-      // when
-      await handleTrainingRecommendation({
-        locale,
-        assessment,
-        trainingRepository,
-        userRecommendedTrainingRepository,
-        domainTransaction,
-      });
-
-      // then
-      expect(saveStub).to.have.been.called;
-    });
-  });
-
-  describe('when feature toggle is enabled', function () {
-    describe('when there is no training to recommend', function () {
-      it('should not call campaignRepository and knowledgeElementRepository', async function () {
-        // given
-        sinon.stub(config, 'featureToggles').value({ isTrainingRecommendationEnabled: true });
-
-        const locale = Symbol('locale');
-        const campaignParticipationId = Symbol('campaign-participation-id');
-        const domainTransaction = Symbol('domain-transaction');
-        const assessment = domainBuilder.buildAssessment.ofTypeCampaign({ campaignParticipationId });
-        const campaignRepository = { findSkillsByCampaignParticipationId: sinon.stub() };
-        const knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
-        const trainings = [];
-        findWithTriggersByCampaignParticipationIdAndLocaleStub.resolves(trainings);
-
-        // when
-        await handleTrainingRecommendation({
-          locale,
-          assessment,
-          campaignRepository,
-          knowledgeElementRepository,
-          trainingRepository,
-          userRecommendedTrainingRepository,
-          domainTransaction,
-        });
-
-        // then
-        expect(campaignRepository.findSkillsByCampaignParticipationId).not.have.been.called;
-        expect(knowledgeElementRepository.findUniqByUserId).not.have.been.called;
-        expect(saveStub).not.have.been.called;
-      });
-    });
-
-    it('should the new way to recommend trainings', async function () {
-      // given
-      sinon.stub(config, 'featureToggles').value({ isTrainingRecommendationEnabled: true });
-
       const locale = Symbol('locale');
       const campaignParticipationId = Symbol('campaign-participation-id');
       const domainTransaction = Symbol('domain-transaction');
       const assessment = domainBuilder.buildAssessment.ofTypeCampaign({ campaignParticipationId });
       const campaignRepository = { findSkillsByCampaignParticipationId: sinon.stub() };
       const knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
-
-      const campaignSkills = Symbol('campaign-skills');
-      campaignRepository.findSkillsByCampaignParticipationId
-        .withArgs({
-          campaignParticipationId,
-          domainTransaction,
-        })
-        .resolves(campaignSkills);
-
-      const knowledgeElements = Symbol('knowledge-elements');
-      knowledgeElementRepository.findUniqByUserId
-        .withArgs({
-          userId: assessment.userId,
-          domainTransaction,
-        })
-        .resolves(knowledgeElements);
-
-      const trainings = [
-        { id: 1, shouldBeObtained: sinon.stub() },
-        { id: 2, shouldBeObtained: sinon.stub() },
-      ];
-      trainings[0].shouldBeObtained.withArgs(knowledgeElements, campaignSkills).returns(true);
-      trainings[1].shouldBeObtained.withArgs(knowledgeElements, campaignSkills).returns(true);
-
-      findWithTriggersByCampaignParticipationIdAndLocaleStub
-        .withArgs({
-          campaignParticipationId,
-          locale,
-          domainTransaction,
-        })
-        .resolves(trainings);
+      const trainings = [];
+      findWithTriggersByCampaignParticipationIdAndLocaleStub.resolves(trainings);
 
       // when
       await handleTrainingRecommendation({
@@ -217,19 +156,9 @@ describe('Unit | UseCase | handle-training-recommendation', function () {
       });
 
       // then
-      expect(saveStub).to.have.been.calledTwice;
-      expect(saveStub.firstCall).to.have.been.calledWithExactly({
-        userId: assessment.userId,
-        trainingId: 1,
-        campaignParticipationId,
-        domainTransaction,
-      });
-      expect(saveStub.secondCall).to.have.been.calledWithExactly({
-        userId: assessment.userId,
-        trainingId: 2,
-        campaignParticipationId,
-        domainTransaction,
-      });
+      expect(campaignRepository.findSkillsByCampaignParticipationId).not.have.been.called;
+      expect(knowledgeElementRepository.findUniqByUserId).not.have.been.called;
+      expect(saveStub).not.have.been.called;
     });
   });
 });

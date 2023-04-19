@@ -26,7 +26,6 @@ describe('Acceptance | Controller | feature-toggle-controller', function () {
             'is-clea-results-retrieval-by-habilitated-certification-centers-enabled': false,
             'is-massive-session-management-enabled': false,
             'is-pix1d-enabled': true,
-            'is-training-recommendation-enabled': false,
           },
         },
       };
