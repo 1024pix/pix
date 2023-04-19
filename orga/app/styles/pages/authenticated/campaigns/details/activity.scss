@@ -9,7 +9,8 @@
 
   .warning-text {
     @extend %pix-body-s;
-    @extend %pix-body-weight-medium
+
+    font-weight: $font-medium;
   }
 }
 
