@@ -4,7 +4,7 @@ import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { visit } from '@1024pix/ember-testing-library';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
-import { Response } from 'ember-cli-mirage';
+import { Response } from 'miragejs';
 
 module('Acceptance | Team | Add member', function (hooks) {
   setupApplicationTest(hooks);
