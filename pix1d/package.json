@@ -9,6 +9,10 @@
   },
   "license": "AGPL-3.0",
   "author": "GIP Pix",
+  "engines": {
+    "node": "16",
+    "npm": ">=8.13.2 <9"
+  },
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -76,9 +80,6 @@
     "stylelint-config-standard-scss": "^6.1.0",
     "tracked-built-ins": "^3.1.1",
     "webpack": "^5.75.0"
-  },
-  "engines": {
-    "node": "14.* || 16.* || >= 18"
   },
   "ember": {
     "edition": "octane"
