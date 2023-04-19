@@ -175,20 +175,21 @@ function _getDataFromColumnNames({ expectedHeadersKeys, headers, line }) {
   data.complementaryCertifications = _extractComplementaryCertificationLabelsFromLine(line);
 
   expectedHeadersKeys.forEach((key) => {
-    const headerKeyInCurrentLine = line[headers[key]];
+    const headerLabel = headers[key];
+    const currentValue = line[headerLabel];
     if (key === 'birthdate' || key === 'date') {
       data[key] =
         convertDateValue({
-          dateString: headerKeyInCurrentLine,
+          dateString: currentValue,
           inputFormat: 'DD/MM/YYYY',
           outputFormat: 'YYYY-MM-DD',
-        }) ?? headerKeyInCurrentLine;
+        }) ?? currentValue;
     } else if (key === 'extraTimePercentage') {
-      data[key] = headerKeyInCurrentLine !== '' ? headerKeyInCurrentLine : null;
+      data[key] = currentValue || null;
     } else if (key === 'prepaymentCode') {
-      data[key] = headerKeyInCurrentLine !== '' ? headerKeyInCurrentLine : null;
+      data[key] = currentValue || null;
     } else {
-      data[key] = headerKeyInCurrentLine;
+      data[key] = currentValue;
     }
   });
   return data;
