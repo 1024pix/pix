@@ -56,7 +56,7 @@ describe('Acceptance | API | assessment-controller-auto-validate-next-challenge'
     settings.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled = true;
 
     server = await createServer();
-    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    const learningContentObjects = learningContentBuilder(learningContent);
     mockLearningContent(learningContentObjects);
   });
 

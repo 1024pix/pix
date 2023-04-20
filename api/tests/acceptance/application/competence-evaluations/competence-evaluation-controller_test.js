@@ -38,7 +38,7 @@ describe('Acceptance | API | Competence Evaluations', function () {
           },
         ];
 
-        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+        const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
       });
 

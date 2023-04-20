@@ -38,7 +38,7 @@ describe('Integration | Event | Handle Pole emploi participation finished', func
       event = new AsessmentCompletedEvent();
       event.campaignParticipationId = campaignParticipationId;
 
-      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([]);
+      const learningContentObjects = learningContentBuilder.fromAreas([]);
       mockLearningContent(learningContentObjects);
 
       return databaseBuilder.commit();

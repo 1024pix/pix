@@ -71,7 +71,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
 
   beforeEach(async function () {
     server = await createServer();
-    const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+    const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
     mockLearningContent(learningContentObjects);
   });
 

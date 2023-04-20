@@ -51,7 +51,8 @@ describe('Acceptance | API | assessment-controller-get-challenge-answer-for-pix-
 
   beforeEach(async function () {
     server = await createServer();
-    const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+    learningContentBuilder.fromAreas;
+    const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
     mockLearningContent(learningContentObjects);
   });
 
