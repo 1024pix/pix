@@ -1,4 +1,17 @@
 {{page-title (t "pages.sign-up.title")}}
-<div class="sign-form-page">
-  <SignupForm @user={{@model}} />
-</div>
+<main class="sign-form-page" role="main">
+  <section class="sign-form-page__container">
+    <SignupForm @user={{@model}} />
+    {{#if this.isInternationalDomain}}
+      <PixSelect
+        @id="language-switcher"
+        @value={{this.selectedLanguage}}
+        aria-label={{t "pages.inscription.choose-language-aria-label"}}
+        @icon="earth-europe"
+        @options={{this.availableLanguages}}
+        @onChange={{this.onLanguageChange}}
+        @hideDefaultOption="true"
+      />
+    {{/if}}
+  </section>
+</main>

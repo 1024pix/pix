@@ -833,6 +833,9 @@
       "title": "Mode focus",
       "description": "Pour la ou les prochaines questions, vous ne serez pas autorisé à sortir de la page."
     },
+    "inscription": {
+      "choose-language-aria-label": "Sélectionnez une langue"
+    },
     "join": {
       "title": "Rejoindre",
       "button": "C'est parti !",
