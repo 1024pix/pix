@@ -40,7 +40,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
       },
     ];
 
-    const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+    const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
     mockLearningContent(learningContentObjects);
   });
 

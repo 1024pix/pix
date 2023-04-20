@@ -150,7 +150,7 @@ describe('Acceptance | Controller | sessions-controller', function () {
             ],
           },
         ];
-        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+        const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
 
         const userId = databaseBuilder.factory.buildUser().id;
@@ -266,7 +266,7 @@ describe('Acceptance | Controller | sessions-controller', function () {
             ],
           },
         ];
-        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+        const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
 
         const userId = databaseBuilder.factory.buildUser().id;
@@ -372,7 +372,7 @@ describe('Acceptance | Controller | sessions-controller', function () {
             ],
           },
         ];
-        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+        const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
 
         const userId = databaseBuilder.factory.buildUser().id;
