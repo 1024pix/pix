@@ -149,6 +149,12 @@ async function getBirthInformation({
 }) {
   const cpfBirthInformationValidation = new CpfBirthInformationValidation();
 
+  if (!birthCountry && !birthINSEECode && !birthPostalCode && !birthCity) {
+    return cpfBirthInformationValidation.failure({
+      certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INFORMATION_REQUIRED,
+    });
+  }
+
   if (!birthCountry) {
     return cpfBirthInformationValidation.failure({
       certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_COUNTRY_REQUIRED,
