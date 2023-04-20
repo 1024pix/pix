@@ -107,7 +107,7 @@ describe('Integration | Repository | training-trigger-repository', function () {
         ],
       },
     ];
-    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    const learningContentObjects = learningContentBuilder(learningContent);
     mockLearningContent(learningContentObjects);
   });
 

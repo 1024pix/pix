@@ -20,7 +20,7 @@ describe('Integration | Repository | learning-content', function () {
   let skill1, skill2, skill3, skill8;
 
   beforeEach(function () {
-    learningContent = learningContentBuilder.buildLearningContent([
+    learningContent = learningContentBuilder([
       {
         id: 'recFramework1',
         name: 'Mon référentiel 1',

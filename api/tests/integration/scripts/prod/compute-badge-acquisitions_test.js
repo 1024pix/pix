@@ -167,7 +167,7 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
         threshold: 90,
       });
 
-      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+      const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
 
       return databaseBuilder.commit();
@@ -314,7 +314,7 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
         userId,
       });
 
-      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+      const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
 
       return databaseBuilder.commit();

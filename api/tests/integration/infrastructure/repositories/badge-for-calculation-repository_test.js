@@ -100,7 +100,7 @@ describe('Integration | Repository | BadgeForCalculation', function () {
         ],
       },
     ];
-    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    const learningContentObjects = learningContentBuilder(learningContent);
     mockLearningContent(learningContentObjects);
     targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
     campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;

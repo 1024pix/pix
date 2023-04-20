@@ -67,7 +67,7 @@ describe('Acceptance | Controller | training-controller', function () {
         },
       ];
 
-      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      const learningContentObjects = learningContentBuilder(learningContent);
       mockLearningContent(learningContentObjects);
     });
 
@@ -371,7 +371,7 @@ describe('Acceptance | Controller | training-controller', function () {
         },
       ];
 
-      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      const learningContentObjects = learningContentBuilder(learningContent);
       mockLearningContent(learningContentObjects);
     });
 

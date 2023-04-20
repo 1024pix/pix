@@ -42,7 +42,7 @@ describe('Acceptance | API | Progressions', function () {
         },
       ];
 
-      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+      const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
 
       userId = databaseBuilder.factory.buildUser({}).id;

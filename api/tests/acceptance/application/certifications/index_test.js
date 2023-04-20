@@ -137,7 +137,7 @@ describe('Acceptance | API | Certifications', function () {
       },
     ];
 
-    const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+    const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
     mockLearningContent(learningContentObjects);
 
     return databaseBuilder.commit();
