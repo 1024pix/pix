@@ -25,7 +25,7 @@
     {{/if}}
   </div>
 
-  <div class="form__field-with-info form__field form__field-campaign-owner">
+  <div class="form__field form__field-with-info form__field-campaign-owner">
     <PixSelect
       @options={{this.campaignOwnerOptions}}
       @onChange={{this.onChangeCampaignOwner}}
@@ -97,7 +97,7 @@
   </div>
 
   {{#if this.isCampaignGoalAssessment}}
-    <div class="form__field-with-info form__field-with-info--small">
+    <div class="form__field form__field-with-info">
       <PixFilterableAndSearchableSelect
         @label={{t "pages.campaign-creation.target-profiles-list-label"}}
         @placeholder={{t "pages.campaign-creation.target-profiles-label"}}
@@ -171,14 +171,12 @@
       <abbr title={{t "common.form.mandatory-fields-title"}} class="mandatory-mark" aria-hidden="true">*</abbr>
       {{t "pages.campaign-creation.external-id-label.question-label"}}
     </p>
-
     <PixRadioButton
       name="external-id-label"
       @label={{t "pages.campaign-creation.no"}}
       @value="false"
       {{on "change" this.doNotAskLabelIdPix}}
     />
-
     <PixRadioButton
       name="external-id-label"
       @label={{t "pages.campaign-creation.yes"}}
