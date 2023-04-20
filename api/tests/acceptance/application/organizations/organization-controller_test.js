@@ -1536,7 +1536,7 @@ describe('Acceptance | Application | organization-controller', function () {
             ],
           },
         ];
-        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+        const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
 
         user = databaseBuilder.factory.buildUser({});
@@ -1820,7 +1820,7 @@ describe('Acceptance | Application | organization-controller', function () {
           ],
         },
       ];
-      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+      const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
     });
 

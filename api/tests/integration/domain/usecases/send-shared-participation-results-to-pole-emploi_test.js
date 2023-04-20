@@ -28,7 +28,7 @@ describe('Integration | Domain | UseCases | send-shared-participation-results-to
     databaseBuilder.factory.buildCampaignSkill({ campaignId });
     campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId }).id;
     databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
-    const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([]);
+    const learningContentObjects = learningContentBuilder.fromAreas([]);
     mockLearningContent(learningContentObjects);
     return databaseBuilder.commit();
   });

@@ -305,7 +305,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
           framework: null,
         });
 
-        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
+        const learningContentObjects = learningContentBuilder.fromAreas([
           {
             ...area1,
             title_i18n: { fr: area1.title, en: 'title en' },
@@ -417,7 +417,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
           framework: null,
         });
 
-        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
+        const learningContentObjects = learningContentBuilder.fromAreas([
           {
             ...area1,
             title_i18n: { fr: area1.title, en: 'title en' },
@@ -485,7 +485,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
           hasExternalJury: true,
         }).id;
 
-        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(minimalLearningContent);
+        const learningContentObjects = learningContentBuilder.fromAreas(minimalLearningContent);
         mockLearningContent(learningContentObjects);
         const userId = databaseBuilder.factory.buildUser().id;
         const shareableCertificateData = {
