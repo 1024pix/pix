@@ -1,5 +1,28 @@
 # Pix Changelog
 
+## v3.345.0 (20/04/2023)
+
+
+### :rocket: Amélioration
+- [#5948](https://github.com/1024pix/pix/pull/5948) [FEATURE] Afficher Pix Certif dans la langue de l'utilisateur enregistrée dans son compte (PIX-7644)
+- [#6013](https://github.com/1024pix/pix/pull/6013) [FEATURE] Ajouter une nouvelle bannière pour la période de certification (PIX-7665).
+- [#6011](https://github.com/1024pix/pix/pull/6011) [FEATURE] Amélioration visuelle des boutons d'action des écrans d'épreuve (PIX-7718).
+- [#5951](https://github.com/1024pix/pix/pull/5951) [FEATURE] Pix1D - Afficher une épreuve de type embed
+- [#6004](https://github.com/1024pix/pix/pull/6004) [FEATURE] Modification du wording des statuts des contenus formatifs (PIX-7785)
+- [#6008](https://github.com/1024pix/pix/pull/6008) [FEATURE] Ajouter une boîte de dialogue de confirmation de sortie d'une campagne (PIX-7720).
+- [#6001](https://github.com/1024pix/pix/pull/6001) [FEATURE] Imposer la majuscule sur la valeur lors de l'import en masse des sessions sur Pix Certif (PIX-7755).
+- [#6005](https://github.com/1024pix/pix/pull/6005) [FEATURE] Traduction de la bannière de communication sur Pix Certif (PIX-6689).
+- [#5983](https://github.com/1024pix/pix/pull/5983) [FEATURE] Ajout d'une migration pour creer les colonnes deletedAt & deletedBy sur la table organization-learners (PIX-7681).
+
+### :building_construction: Tech
+- [#6012](https://github.com/1024pix/pix/pull/6012) [TECH][CERTIF] Montée de version de Pix UI en v31.1.0 (PIX-7782)
+- [#6007](https://github.com/1024pix/pix/pull/6007) [TECH][MON-PIX] Montée de version de Pix UI en v31.1.0 (PIX-7780)
+- [#6014](https://github.com/1024pix/pix/pull/6014) [TECH] Aligner la version de Node entre les front (PIX-7803)
+- [#6006](https://github.com/1024pix/pix/pull/6006) [TECH] Utiliser les imports miragejs plutôt que ember-cli-mirage
+
+### :bug: Correction
+- [#6016](https://github.com/1024pix/pix/pull/6016) [BUGFIX] Corriger l'espacement avant la pagination dans la page "Mes formations" (PIX-7806).
+
 ## v3.344.0 (18/04/2023)
 
 
