@@ -40,7 +40,7 @@ const {
   LocaleFormatError,
   LocaleNotSupportedError,
 } = require('../../../lib/domain/errors');
-const HttpErrors = require('../../../lib/application/http-errors.js');
+const { HttpErrors } = require('../../../lib/application/http-errors.js');
 
 const { handle } = require('../../../lib/application/error-manager');
 const { SESSION_SUPERVISING } = require('../../../lib/domain/constants/session-supervising');
