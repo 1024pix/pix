@@ -428,6 +428,10 @@ exports.register = async function (server) {
             method: securityPreHandlers.checkUserIsMemberOfCertificationCenter,
             assign: 'isMemberOfCertificationCenter',
           },
+          {
+            method: securityPreHandlers.checkCertificationCenterIsNotScoManagingStudents,
+            assign: 'isCertificationCenterNotScoManagingStudents',
+          },
         ],
         validate: {
           params: Joi.object({ certificationCenterId: identifiersType.certificationCenterId }),
