@@ -27,7 +27,13 @@
 
   .pix-select {
     @include device-is('desktop') {
-      width: 360px;
+      width: 355px;
+    }
+  }
+
+  &.form__field-campaign-owner {
+    .pix-select {
+      width: 100%;
     }
   }
 }
