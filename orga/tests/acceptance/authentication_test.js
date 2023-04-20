@@ -29,109 +29,93 @@ module('Acceptance | authentication', function (hooks) {
     });
   });
 
-  module('When prescriber is already logged in', function (hooks) {
-    hooks.beforeEach(async () => {
-      const user = createUserWithMembershipAndTermsOfServiceAccepted();
-      createPrescriberByUser(user);
+  module('When prescriber is logging in', function () {
+    module('when has not accepted terms of service', function (hooks) {
+      let user;
 
-      await authenticateSession(user.id);
+      hooks.beforeEach(async () => {
+        user = createUserWithMembership();
+        createPrescriberByUser(user);
+      });
+
+      test('it should redirect prescriber to the terms-of-service page', async function (assert) {
+        // given
+        await visit('/connexion');
+        await fillByLabel('Adresse e-mail', user.email);
+        await fillByLabel('Mot de passe', 'secret');
+
+        // when
+        await clickByName('Je me connecte');
+
+        // then
+        assert.strictEqual(currentURL(), '/cgu');
+        assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
+      });
+
+      test('it should not show menu nor top bar', async function (assert) {
+        // given
+        server.create('campaign');
+
+        await visit('/connexion');
+        await fillByLabel('Adresse e-mail', user.email);
+        await fillByLabel('Mot de passe', 'secret');
+
+        // when
+        await clickByName('Je me connecte');
+
+        // then
+        assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
+
+        assert.dom('.sidebar').doesNotExist();
+        assert.dom('.topbar').doesNotExist();
+      });
     });
 
-    test('it should redirect prescriber to campaign list page', async function (assert) {
-      // when
-      await visit('/connexion');
+    module('when has accepted terms of service', function (hooks) {
+      let user;
 
-      // then
-      assert.strictEqual(currentURL(), '/campagnes/les-miennes');
-      assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
-    });
-  });
+      hooks.beforeEach(() => {
+        user = createUserWithMembershipAndTermsOfServiceAccepted();
+        createPrescriberByUser(user);
+      });
 
-  module('When prescriber is logging in but has not accepted terms of service yet', function (hooks) {
-    let user;
+      test('it should redirect user to the campaigns list', async function (assert) {
+        // given
+        server.create('campaign');
 
-    hooks.beforeEach(async () => {
-      user = createUserWithMembership();
-      createPrescriberByUser(user);
-    });
+        await visit('/connexion');
+        await fillByLabel('Adresse e-mail', user.email);
+        await fillByLabel('Mot de passe', 'secret');
 
-    test('it should redirect prescriber to the terms-of-service page', async function (assert) {
-      // given
-      await visit('/connexion');
-      await fillByLabel('Adresse e-mail', user.email);
-      await fillByLabel('Mot de passe', 'secret');
+        // when
+        await clickByName('Je me connecte');
 
-      // when
-      await clickByName('Je me connecte');
+        // then
+        assert.strictEqual(currentURL(), '/campagnes/les-miennes');
+        assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
+      });
 
-      // then
-      assert.strictEqual(currentURL(), '/cgu');
-      assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
-    });
+      test('it should show user name', async function (assert) {
+        // given
+        server.create('campaign');
 
-    test('it should not show menu nor top bar', async function (assert) {
-      // given
-      server.create('campaign');
+        await visit('/connexion');
+        await fillByLabel('Adresse e-mail', user.email);
+        await fillByLabel('Mot de passe', 'secret');
 
-      await visit('/connexion');
-      await fillByLabel('Adresse e-mail', user.email);
-      await fillByLabel('Mot de passe', 'secret');
+        // when
+        await clickByName('Je me connecte');
 
-      // when
-      await clickByName('Je me connecte');
+        // then
+        assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
 
-      // then
-      assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
-
-      assert.dom('.sidebar').doesNotExist();
-      assert.dom('.topbar').doesNotExist();
-    });
-  });
-
-  module('When user is logging in and has accepted terms of service', function (hooks) {
-    let user;
-
-    hooks.beforeEach(() => {
-      user = createUserWithMembershipAndTermsOfServiceAccepted();
-      createPrescriberByUser(user);
-    });
-
-    test('it should redirect user to the campaigns list', async function (assert) {
-      // given
-      server.create('campaign');
-
-      await visit('/connexion');
-      await fillByLabel('Adresse e-mail', user.email);
-      await fillByLabel('Mot de passe', 'secret');
-
-      // when
-      await clickByName('Je me connecte');
-
-      // then
-      assert.strictEqual(currentURL(), '/campagnes/les-miennes');
-      assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
-    });
-
-    test('it should show user name', async function (assert) {
-      // given
-      server.create('campaign');
-
-      await visit('/connexion');
-      await fillByLabel('Adresse e-mail', user.email);
-      await fillByLabel('Mot de passe', 'secret');
-
-      // when
-      await clickByName('Je me connecte');
-
-      // then
-      assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
-
-      assert.contains('Harry Cover');
+        assert.contains('Harry Cover');
+      });
     });
   });
 
-  module('When prescriber is already authenticated', function () {
-    module('When the organization has not credits and prescriber is ADMIN', function (hooks) {
+  module('When prescriber is authenticated', function () {
+    module('When the organization has no credits and prescriber is ADMIN', function (hooks) {
       hooks.beforeEach(async () => {
         const user = createPrescriberForOrganization(
           { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com' },
@@ -151,12 +135,21 @@ module('Acceptance | authentication', function (hooks) {
       });
     });
 
-    module('When prescriber has already accepted terms of service', function (hooks) {
+    module('When prescriber has accepted terms of service', function (hooks) {
       hooks.beforeEach(async () => {
         const user = createUserWithMembershipAndTermsOfServiceAccepted();
         createPrescriberByUser(user);
 
         await authenticateSession(user.id);
+      });
+
+      test('it should redirect prescriber to campaign list page', async function (assert) {
+        // when
+        await visit('/connexion');
+
+        // then
+        assert.strictEqual(currentURL(), '/campagnes/les-miennes');
+        assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
       });
 
       test('it should let prescriber access requested page', async function (assert) {
