@@ -31,7 +31,8 @@ class OdsUtilsBuilder {
     for (const propertyName of headerValues) {
       const targetXmlDomElement = _getXmlDomElementByText(intermediateXmlDom, propertyName);
       if (targetXmlDomElement) {
-        const translatedHeader = translate(`candidate-list-template.` + propertyName);
+        _translateNoteBackgroundTitle(targetXmlDomElement, translate);
+        const translatedHeader = translate(`candidate-list-template.${propertyName}`);
         targetXmlDomElement.textContent = translatedHeader;
       }
     }
@@ -486,6 +487,15 @@ function _updateXmlDomWithData(parsedXmlDom, dataToInject, templateValues) {
     }
   }
   return parsedXmlDomUpdated;
+}
+
+function _translateNoteBackgroundTitle(targetXmlDomElement, translate) {
+  if (targetXmlDomElement.parentNode.nodeName === 'table:help-message') {
+    const title = targetXmlDomElement.parentNode.getAttribute('table:title');
+    if (title) {
+      targetXmlDomElement.parentNode.setAttribute('table:title', translate(`candidate-list-template.${title}`));
+    }
+  }
 }
 
 module.exports = {
