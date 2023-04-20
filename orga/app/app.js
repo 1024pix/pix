@@ -3,7 +3,7 @@ import Resolver from 'ember-resolver';
 import loadInitializers from 'ember-load-initializers';
 import config from './config/environment';
 import { library, dom } from '@fortawesome/fontawesome-svg-core';
-import { fapixTachometer, fapixPersonExport } from './custom-icons';
+import { fapixTachometer, fapixPersonExport, fapixInboxIn } from './custom-icons';
 
 import '@formatjs/intl-locale/polyfill';
 import '@formatjs/intl-pluralrules/polyfill';
@@ -17,7 +17,7 @@ export default class App extends Application {
   Resolver = Resolver;
 }
 
-library.add(fapixTachometer, fapixPersonExport);
+library.add(fapixTachometer, fapixPersonExport, fapixInboxIn);
 dom.watch();
 
 loadInitializers(App, config.modulePrefix);
