@@ -17,10 +17,13 @@ function _randomCharacter() {
 }
 
 module.exports = {
-  async generateCertificateVerificationCode(generateCode = _generateCode) {
+  async generateCertificateVerificationCode({
+    generateCode = _generateCode,
+    dependencies = { certificationCourseRepository },
+  } = {}) {
     for (let i = 0; i < NB_OF_TRIALS; i++) {
       const code = generateCode();
-      const isCodeAvailable = await certificationCourseRepository.isVerificationCodeAvailable(code);
+      const isCodeAvailable = await dependencies.certificationCourseRepository.isVerificationCodeAvailable(code);
       if (isCodeAvailable) return code;
     }
     throw new CertificateVerificationCodeGenerationTooManyTrials(NB_OF_TRIALS);
