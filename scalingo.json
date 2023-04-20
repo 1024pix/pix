@@ -34,5 +34,6 @@
       "amount": 1,
       "size": "S"
     }
-  }
+  },
+  "stack": "scalingo-22"
 }
