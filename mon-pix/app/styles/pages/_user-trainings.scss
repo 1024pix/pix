@@ -35,12 +35,12 @@
   flex-direction: column;
   width: 100%;
   min-height: inherit;
-  margin: 24px auto;
-  padding: 20px 32px;
+  margin: $pix-spacing-m auto 0;
+  padding: 20px 32px 0;
   color: $pix-neutral-90;
 
   @include device-is('tablet') {
-    padding: 40px 0;
+    padding: 40px 0 0;
   }
 
   &__title {
@@ -60,10 +60,10 @@
   &__list {
     display: grid;
     grid-template-columns: 1fr;
+    gap: 24px;
+    margin-bottom: $pix-spacing-l;
     padding: 0;
-    column-gap: 24px;
     list-style: none;
-    row-gap: 24px;
 
     @include device-is('tablet') {
       grid-template-columns: repeat(3, minmax(0, 1fr));
