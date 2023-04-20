@@ -2,41 +2,26 @@ const { expect, sinon, hFake, domainBuilder } = require('../../test-helper');
 
 const securityPreHandlers = require('../../../lib/application/security-pre-handlers');
 const tokenService = require('../../../lib/domain/services/token-service');
-const checkAdminMemberHasRoleSuperAdminUseCase = require('../../../lib/application/usecases/checkAdminMemberHasRoleSuperAdmin');
-const checkAdminMemberHasRoleCertifUseCase = require('../../../lib/application/usecases/checkAdminMemberHasRoleCertif');
-const checkAdminMemberHasRoleSupportUseCase = require('../../../lib/application/usecases/checkAdminMemberHasRoleSupport');
-const checkAdminMemberHasRoleMetierUseCase = require('../../../lib/application/usecases/checkAdminMemberHasRoleMetier');
-const checkUserIsAdminInOrganizationUseCase = require('../../../lib/application/usecases/checkUserIsAdminInOrganization');
-const checkUserBelongsToLearnersOrganizationUseCase = require('../../../lib/application/usecases/checkUserBelongsToLearnersOrganization');
-const checkUserBelongsToOrganizationManagingStudentsUseCase = require('../../../lib/application/usecases/checkUserBelongsToOrganizationManagingStudents');
-const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('../../../lib/application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
-const checkUserIsMemberOfAnOrganizationUseCase = require('../../../lib/application/usecases/checkUserIsMemberOfAnOrganization');
-const checkUserIsMemberOfCertificationCenterUseCase = require('../../../lib/application/usecases/checkUserIsMemberOfCertificationCenter');
-const checkAuthorizationToManageCampaignUsecase = require('../../../lib/application/usecases/checkAuthorizationToManageCampaign');
-const checkUserIsMemberOfCertificationCenterSessionUsecase = require('../../../lib/application/usecases/checkUserIsMemberOfCertificationCenterSession');
-const certificationIssueReportRepository = require('../../../lib/infrastructure/repositories/certification-issue-report-repository');
-const checkUserOwnsCertificationCourseUseCase = require('../../../lib/application/usecases/checkUserOwnsCertificationCourse');
+
 describe('Unit | Application | SecurityPreHandlers', function () {
   describe('#checkAdminMemberHasRoleSuperAdmin', function () {
-    let hasRoleSuperAdminStub;
     let request;
 
     beforeEach(function () {
       sinon.stub(tokenService, 'extractTokenFromAuthChain');
-      hasRoleSuperAdminStub = sinon.stub(checkAdminMemberHasRoleSuperAdminUseCase, 'execute');
       request = { auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } } };
     });
 
     context('Successful case', function () {
-      beforeEach(function () {
-        hasRoleSuperAdminStub.resolves({ user_id: 1234 });
-      });
-
       it('should authorize access to resource when the user is authenticated and has role Super Admin', async function () {
         // given
-
+        const checkAdminMemberHasRoleSuperAdminUseCaseStub = {
+          execute: sinon.stub().resolves({ user_id: 1234 }),
+        };
         // when
-        const response = await securityPreHandlers.checkAdminMemberHasRoleSuperAdmin(request, hFake);
+        const response = await securityPreHandlers.checkAdminMemberHasRoleSuperAdmin(request, hFake, {
+          checkAdminMemberHasRoleSuperAdminUseCase: checkAdminMemberHasRoleSuperAdminUseCaseStub,
+        });
 
         // then
         expect(response.source).to.equal(true);
@@ -47,9 +32,13 @@ describe('Unit | Application | SecurityPreHandlers', function () {
       it('should forbid resource access when user was not previously authenticated', async function () {
         // given
         delete request.auth.credentials;
-
+        const checkAdminMemberHasRoleSuperAdminUseCaseStub = {
+          execute: sinon.stub(),
+        };
         // when
-        const response = await securityPreHandlers.checkAdminMemberHasRoleSuperAdmin(request, hFake);
+        const response = await securityPreHandlers.checkAdminMemberHasRoleSuperAdmin(request, hFake, {
+          checkAdminMemberHasRoleSuperAdminUseCase: checkAdminMemberHasRoleSuperAdminUseCaseStub,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -58,10 +47,14 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should forbid resource access when user does not have role Super Admin', async function () {
         // given
-        checkAdminMemberHasRoleSuperAdminUseCase.execute.resolves(false);
+        const checkAdminMemberHasRoleSuperAdminUseCaseStub = {
+          execute: sinon.stub().resolves(false),
+        };
 
         // when
-        const response = await securityPreHandlers.checkAdminMemberHasRoleSuperAdmin(request, hFake);
+        const response = await securityPreHandlers.checkAdminMemberHasRoleSuperAdmin(request, hFake, {
+          checkAdminMemberHasRoleSuperAdminUseCase: checkAdminMemberHasRoleSuperAdminUseCaseStub,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -70,10 +63,14 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should forbid resource access when an error is thrown by use case', async function () {
         // given
-        checkAdminMemberHasRoleSuperAdminUseCase.execute.rejects(new Error('Some error'));
+        const checkAdminMemberHasRoleSuperAdminUseCaseStub = {
+          execute: sinon.stub().rejects(new Error('Some error')),
+        };
 
         // when
-        const response = await securityPreHandlers.checkAdminMemberHasRoleSuperAdmin(request, hFake);
+        const response = await securityPreHandlers.checkAdminMemberHasRoleSuperAdmin(request, hFake, {
+          checkAdminMemberHasRoleSuperAdminUseCase: checkAdminMemberHasRoleSuperAdminUseCaseStub,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -83,25 +80,21 @@ describe('Unit | Application | SecurityPreHandlers', function () {
   });
 
   describe('#checkAdminMemberHasRoleCertif', function () {
-    let hasRoleCertifStub;
     let request;
 
     beforeEach(function () {
       sinon.stub(tokenService, 'extractTokenFromAuthChain');
-      hasRoleCertifStub = sinon.stub(checkAdminMemberHasRoleCertifUseCase, 'execute');
       request = { auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } } };
     });
 
     context('Successful case', function () {
-      beforeEach(function () {
-        hasRoleCertifStub.resolves({ user_id: 1234 });
-      });
-
       it('should authorize access to resource when the user is authenticated and has role Certif', async function () {
         // given
-
+        const checkAdminMemberHasRoleCertifUseCaseStub = { execute: sinon.stub().returns({ user_id: 1234 }) };
         // when
-        const response = await securityPreHandlers.checkAdminMemberHasRoleCertif(request, hFake);
+        const response = await securityPreHandlers.checkAdminMemberHasRoleCertif(request, hFake, {
+          checkAdminMemberHasRoleCertifUseCase: checkAdminMemberHasRoleCertifUseCaseStub,
+        });
 
         // then
         expect(response.source).to.equal(true);
@@ -112,9 +105,12 @@ describe('Unit | Application | SecurityPreHandlers', function () {
       it('should forbid resource access when user was not previously authenticated', async function () {
         // given
         delete request.auth.credentials;
+        const checkAdminMemberHasRoleCertifUseCaseStub = { execute: sinon.stub() };
 
         // when
-        const response = await securityPreHandlers.checkAdminMemberHasRoleCertif(request, hFake);
+        const response = await securityPreHandlers.checkAdminMemberHasRoleCertif(request, hFake, {
+          checkAdminMemberHasRoleCertifUseCase: checkAdminMemberHasRoleCertifUseCaseStub,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -123,10 +119,12 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should forbid resource access when user does not have role Certif', async function () {
         // given
-        checkAdminMemberHasRoleCertifUseCase.execute.resolves(false);
+        const checkAdminMemberHasRoleCertifUseCaseStub = { execute: sinon.stub().resolves(false) };
 
         // when
-        const response = await securityPreHandlers.checkAdminMemberHasRoleCertif(request, hFake);
+        const response = await securityPreHandlers.checkAdminMemberHasRoleCertif(request, hFake, {
+          checkAdminMemberHasRoleCertifUseCase: checkAdminMemberHasRoleCertifUseCaseStub,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -135,10 +133,12 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should forbid resource access when an error is thrown by use case', async function () {
         // given
-        checkAdminMemberHasRoleCertifUseCase.execute.rejects(new Error('Some error'));
+        const checkAdminMemberHasRoleCertifUseCaseStub = { execute: sinon.stub().rejects(new Error('Some error')) };
 
         // when
-        const response = await securityPreHandlers.checkAdminMemberHasRoleCertif(request, hFake);
+        const response = await securityPreHandlers.checkAdminMemberHasRoleCertif(request, hFake, {
+          checkAdminMemberHasRoleCertifUseCase: checkAdminMemberHasRoleCertifUseCaseStub,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -148,25 +148,22 @@ describe('Unit | Application | SecurityPreHandlers', function () {
   });
 
   describe('#checkAdminMemberHasRoleSupport', function () {
-    let hasRoleSupportStub;
     let request;
 
     beforeEach(function () {
       sinon.stub(tokenService, 'extractTokenFromAuthChain');
-      hasRoleSupportStub = sinon.stub(checkAdminMemberHasRoleSupportUseCase, 'execute');
       request = { auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } } };
     });
 
     context('Successful case', function () {
-      beforeEach(function () {
-        hasRoleSupportStub.resolves({ user_id: 1234 });
-      });
-
       it('should authorize access to resource when the user is authenticated and has role Support', async function () {
         // given
+        const checkAdminMemberHasRoleSupportUseCaseStub = { execute: sinon.stub().resolves({ user_id: 1234 }) };
 
         // when
-        const response = await securityPreHandlers.checkAdminMemberHasRoleSupport(request, hFake);
+        const response = await securityPreHandlers.checkAdminMemberHasRoleSupport(request, hFake, {
+          checkAdminMemberHasRoleSupportUseCase: checkAdminMemberHasRoleSupportUseCaseStub,
+        });
 
         // then
         expect(response.source).to.equal(true);
@@ -177,9 +174,12 @@ describe('Unit | Application | SecurityPreHandlers', function () {
       it('should forbid resource access when user was not previously authenticated', async function () {
         // given
         delete request.auth.credentials;
+        const checkAdminMemberHasRoleSupportUseCaseStub = { execute: sinon.stub() };
 
         // when
-        const response = await securityPreHandlers.checkAdminMemberHasRoleSupport(request, hFake);
+        const response = await securityPreHandlers.checkAdminMemberHasRoleSupport(request, hFake, {
+          checkAdminMemberHasRoleSupportUseCase: checkAdminMemberHasRoleSupportUseCaseStub,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -188,10 +188,11 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should forbid resource access when user does not have role Support', async function () {
         // given
-        checkAdminMemberHasRoleSupportUseCase.execute.resolves(false);
-
+        const checkAdminMemberHasRoleSupportUseCaseStub = { execute: sinon.stub().resolves(false) };
         // when
-        const response = await securityPreHandlers.checkAdminMemberHasRoleSupport(request, hFake);
+        const response = await securityPreHandlers.checkAdminMemberHasRoleSupport(request, hFake, {
+          checkAdminMemberHasRoleSupportUseCase: checkAdminMemberHasRoleSupportUseCaseStub,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -200,10 +201,12 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should forbid resource access when an error is thrown by use case', async function () {
         // given
-        checkAdminMemberHasRoleSupportUseCase.execute.rejects(new Error('Some error'));
+        const checkAdminMemberHasRoleSupportUseCaseStub = { execute: sinon.stub().rejects(new Error('Some error')) };
 
         // when
-        const response = await securityPreHandlers.checkAdminMemberHasRoleSupport(request, hFake);
+        const response = await securityPreHandlers.checkAdminMemberHasRoleSupport(request, hFake, {
+          checkAdminMemberHasRoleSupportUseCase: checkAdminMemberHasRoleSupportUseCaseStub,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -213,25 +216,21 @@ describe('Unit | Application | SecurityPreHandlers', function () {
   });
 
   describe('#checkAdminMemberHasRoleMetier', function () {
-    let hasRoleMetierStub;
     let request;
 
     beforeEach(function () {
       sinon.stub(tokenService, 'extractTokenFromAuthChain');
-      hasRoleMetierStub = sinon.stub(checkAdminMemberHasRoleMetierUseCase, 'execute');
       request = { auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } } };
     });
 
     context('Successful case', function () {
-      beforeEach(function () {
-        hasRoleMetierStub.resolves({ user_id: 1234 });
-      });
-
       it('should authorize access to resource when the user is authenticated and has role Metier', async function () {
         // given
-
+        const checkAdminMemberHasRoleMetierUseCaseStub = { execute: sinon.stub().resolves({ user_id: 1234 }) };
         // when
-        const response = await securityPreHandlers.checkAdminMemberHasRoleMetier(request, hFake);
+        const response = await securityPreHandlers.checkAdminMemberHasRoleMetier(request, hFake, {
+          checkAdminMemberHasRoleMetierUseCase: checkAdminMemberHasRoleMetierUseCaseStub,
+        });
 
         // then
         expect(response.source).to.equal(true);
@@ -242,9 +241,11 @@ describe('Unit | Application | SecurityPreHandlers', function () {
       it('should forbid resource access when user was not previously authenticated', async function () {
         // given
         delete request.auth.credentials;
-
+        const checkAdminMemberHasRoleMetierUseCaseStub = { execute: sinon.stub() };
         // when
-        const response = await securityPreHandlers.checkAdminMemberHasRoleMetier(request, hFake);
+        const response = await securityPreHandlers.checkAdminMemberHasRoleMetier(request, hFake, {
+          checkAdminMemberHasRoleMetierUseCase: checkAdminMemberHasRoleMetierUseCaseStub,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -253,10 +254,12 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should forbid resource access when user does not have role Metier', async function () {
         // given
-        checkAdminMemberHasRoleMetierUseCase.execute.resolves(false);
+        const checkAdminMemberHasRoleMetierUseCaseStub = { execute: sinon.stub().resolves(false) };
 
         // when
-        const response = await securityPreHandlers.checkAdminMemberHasRoleMetier(request, hFake);
+        const response = await securityPreHandlers.checkAdminMemberHasRoleMetier(request, hFake, {
+          checkAdminMemberHasRoleMetierUseCase: checkAdminMemberHasRoleMetierUseCaseStub,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -265,10 +268,12 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should forbid resource access when an error is thrown by use case', async function () {
         // given
-        checkAdminMemberHasRoleMetierUseCase.execute.rejects(new Error('Some error'));
+        const checkAdminMemberHasRoleMetierUseCase = { execute: sinon.stub().rejects(new Error('Some error')) };
 
         // when
-        const response = await securityPreHandlers.checkAdminMemberHasRoleMetier(request, hFake);
+        const response = await securityPreHandlers.checkAdminMemberHasRoleMetier(request, hFake, {
+          checkAdminMemberHasRoleMetierUseCase: checkAdminMemberHasRoleMetierUseCase,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -334,18 +339,14 @@ describe('Unit | Application | SecurityPreHandlers', function () {
   });
 
   describe('#checkUserIsAdminInOrganization', function () {
-    let isAdminInOrganizationStub;
-
     beforeEach(function () {
       sinon.stub(tokenService, 'extractTokenFromAuthChain');
-      isAdminInOrganizationStub = sinon.stub(checkUserIsAdminInOrganizationUseCase, 'execute');
     });
 
     context('Successful case', function () {
       let request;
 
       beforeEach(function () {
-        isAdminInOrganizationStub.resolves(true);
         request = {
           auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } },
           params: { id: 5678 },
@@ -354,9 +355,11 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should authorize access to resource when the user is authenticated and is ADMIN in Organization', async function () {
         // given
-
+        const checkUserIsAdminInOrganizationUseCaseStub = { execute: sinon.stub().resolves(true) };
         // when
-        const response = await securityPreHandlers.checkUserIsAdminInOrganization(request, hFake);
+        const response = await securityPreHandlers.checkUserIsAdminInOrganization(request, hFake, {
+          checkUserIsAdminInOrganizationUseCase: checkUserIsAdminInOrganizationUseCaseStub,
+        });
 
         // then
         expect(response.source).to.equal(true);
@@ -367,16 +370,18 @@ describe('Unit | Application | SecurityPreHandlers', function () {
       let request;
 
       beforeEach(function () {
-        isAdminInOrganizationStub.resolves(true);
         request = { auth: { credentials: { accessToken: 'valid.access.token' } }, params: { id: 5678 } };
       });
 
       it('should forbid resource access when user was not previously authenticated', async function () {
         // given
         delete request.auth.credentials;
+        const checkUserIsAdminInOrganizationUseCaseStub = { execute: sinon.stub() };
 
         // when
-        const response = await securityPreHandlers.checkUserIsAdminInOrganization(request, hFake);
+        const response = await securityPreHandlers.checkUserIsAdminInOrganization(request, hFake, {
+          checkUserIsAdminInOrganizationUseCase: checkUserIsAdminInOrganizationUseCaseStub,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -385,10 +390,12 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should forbid resource access when user is not ADMIN in Organization', async function () {
         // given
-        checkUserIsAdminInOrganizationUseCase.execute.resolves(false);
+        const checkUserIsAdminInOrganizationUseCaseStub = { execute: sinon.stub().resolves(false) };
 
         // when
-        const response = await securityPreHandlers.checkUserIsAdminInOrganization(request, hFake);
+        const response = await securityPreHandlers.checkUserIsAdminInOrganization(request, hFake, {
+          checkUserIsAdminInOrganizationUseCase: checkUserIsAdminInOrganizationUseCaseStub,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -397,10 +404,12 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should forbid resource access when an error is thrown by use case', async function () {
         // given
-        checkUserIsAdminInOrganizationUseCase.execute.rejects(new Error('Some error'));
+        const checkUserIsAdminInOrganizationUseCaseStub = { execute: sinon.stub().rejects(new Error('Some error')) };
 
         // when
-        const response = await securityPreHandlers.checkUserIsAdminInOrganization(request, hFake);
+        const response = await securityPreHandlers.checkUserIsAdminInOrganization(request, hFake, {
+          checkUserIsAdminInOrganizationUseCase: checkUserIsAdminInOrganizationUseCaseStub,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -410,13 +419,8 @@ describe('Unit | Application | SecurityPreHandlers', function () {
   });
 
   describe('#checkUserBelongsToOrganizationManagingStudents', function () {
-    let belongToOrganizationManagingStudentsStub;
     let request;
     beforeEach(function () {
-      belongToOrganizationManagingStudentsStub = sinon.stub(
-        checkUserBelongsToOrganizationManagingStudentsUseCase,
-        'execute'
-      );
       request = {
         auth: {
           credentials: {
@@ -431,10 +435,13 @@ describe('Unit | Application | SecurityPreHandlers', function () {
     context('Successful case', function () {
       it('should authorize access to resource when the user is authenticated, belongs to an Organization and manages students', async function () {
         // given
-        belongToOrganizationManagingStudentsStub.resolves(true);
+        const checkUserBelongsToOrganizationManagingStudentsUseCaseStub = { execute: sinon.stub().resolves(true) };
 
         // when
-        const response = await securityPreHandlers.checkUserBelongsToOrganizationManagingStudents(request, hFake);
+        const response = await securityPreHandlers.checkUserBelongsToOrganizationManagingStudents(request, hFake, {
+          checkUserBelongsToOrganizationManagingStudentsUseCase:
+            checkUserBelongsToOrganizationManagingStudentsUseCaseStub,
+        });
 
         // then
         expect(response.source).to.equal(true);
@@ -445,9 +452,13 @@ describe('Unit | Application | SecurityPreHandlers', function () {
       it('should forbid resource access when user was not previously authenticated', async function () {
         // given
         delete request.auth.credentials;
+        const checkUserBelongsToOrganizationManagingStudentsUseCaseStub = { execute: sinon.stub() };
 
         // when
-        const response = await securityPreHandlers.checkUserBelongsToOrganizationManagingStudents(request, hFake);
+        const response = await securityPreHandlers.checkUserBelongsToOrganizationManagingStudents(request, hFake, {
+          checkUserBelongsToOrganizationManagingStudentsUseCase:
+            checkUserBelongsToOrganizationManagingStudentsUseCaseStub,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -456,10 +467,13 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should forbid resource access when user does not belong to an Organization or manage students', async function () {
         // given
-        belongToOrganizationManagingStudentsStub.resolves(false);
+        const checkUserBelongsToOrganizationManagingStudentsUseCaseStub = { execute: sinon.stub().resolves(false) };
 
         // when
-        const response = await securityPreHandlers.checkUserBelongsToOrganizationManagingStudents(request, hFake);
+        const response = await securityPreHandlers.checkUserBelongsToOrganizationManagingStudents(request, hFake, {
+          checkUserBelongsToOrganizationManagingStudentsUseCase:
+            checkUserBelongsToOrganizationManagingStudentsUseCaseStub,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -468,10 +482,15 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should forbid resource access when an error is thrown by use case', async function () {
         // given
-        belongToOrganizationManagingStudentsStub.rejects(new Error('Some error'));
+        const checkUserBelongsToOrganizationManagingStudentsUseCaseStub = {
+          execute: sinon.stub().rejects(new Error('Some error')),
+        };
 
         // when
-        const response = await securityPreHandlers.checkUserBelongsToOrganizationManagingStudents(request, hFake);
+        const response = await securityPreHandlers.checkUserBelongsToOrganizationManagingStudents(request, hFake, {
+          checkUserBelongsToOrganizationManagingStudentsUseCase:
+            checkUserBelongsToOrganizationManagingStudentsUseCaseStub,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -481,10 +500,8 @@ describe('Unit | Application | SecurityPreHandlers', function () {
   });
 
   describe('#checkUserBelongsToOrganizationLearnerOrganization', function () {
-    let belongsToLearnerOrganizationStub;
     let request;
     beforeEach(function () {
-      belongsToLearnerOrganizationStub = sinon.stub(checkUserBelongsToLearnersOrganizationUseCase, 'execute');
       request = {
         auth: {
           credentials: {
@@ -499,10 +516,14 @@ describe('Unit | Application | SecurityPreHandlers', function () {
     context('Successful case', function () {
       it('should authorize access to resource when the user is authenticated and belongs to the same organization as the learner', async function () {
         // given
-        belongsToLearnerOrganizationStub.resolves(true);
+        const checkUserBelongsToLearnersOrganizationUseCaseStub = {
+          execute: sinon.stub().resolves(true),
+        };
 
         // when
-        const response = await securityPreHandlers.checkUserBelongsToLearnersOrganization(request, hFake);
+        const response = await securityPreHandlers.checkUserBelongsToLearnersOrganization(request, hFake, {
+          checkUserBelongsToLearnersOrganizationUseCase: checkUserBelongsToLearnersOrganizationUseCaseStub,
+        });
 
         // then
         expect(response.source).to.equal(true);
@@ -513,9 +534,14 @@ describe('Unit | Application | SecurityPreHandlers', function () {
       it('should forbid resource access when user was not previously authenticated', async function () {
         // given
         delete request.auth.credentials;
+        const checkUserBelongsToLearnersOrganizationUseCaseStub = {
+          execute: sinon.stub(),
+        };
 
         // when
-        const response = await securityPreHandlers.checkUserBelongsToLearnersOrganization(request, hFake);
+        const response = await securityPreHandlers.checkUserBelongsToLearnersOrganization(request, hFake, {
+          checkUserBelongsToLearnersOrganizationUseCase: checkUserBelongsToLearnersOrganizationUseCaseStub,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -524,10 +550,14 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it("should forbid resource access when user does not belong to the learner's organization", async function () {
         // given
-        belongsToLearnerOrganizationStub.resolves(false);
+        const checkUserBelongsToLearnersOrganizationUseCaseStub = {
+          execute: sinon.stub().resolves(false),
+        };
 
         // when
-        const response = await securityPreHandlers.checkUserBelongsToLearnersOrganization(request, hFake);
+        const response = await securityPreHandlers.checkUserBelongsToLearnersOrganization(request, hFake, {
+          checkUserBelongsToLearnersOrganizationUseCase: checkUserBelongsToLearnersOrganizationUseCaseStub,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -538,10 +568,14 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         // if organization learner ressource is missing, a 403 error response is sent not to give further information to unauthorized people
 
         // given
-        belongsToLearnerOrganizationStub.rejects(new Error());
+        const checkUserBelongsToLearnersOrganizationUseCaseStub = {
+          execute: sinon.stub().rejects(new Error('Some error')),
+        };
 
         // when
-        const response = await securityPreHandlers.checkUserBelongsToLearnersOrganization(request, hFake);
+        const response = await securityPreHandlers.checkUserBelongsToLearnersOrganization(request, hFake, {
+          checkUserBelongsToLearnersOrganizationUseCase: checkUserBelongsToLearnersOrganizationUseCaseStub,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -551,14 +585,9 @@ describe('Unit | Application | SecurityPreHandlers', function () {
   });
 
   describe('#checkUserBelongsToScoOrganizationAndManagesStudents', function () {
-    let belongToScoOrganizationAndManageStudentsStub;
     let request;
 
     beforeEach(function () {
-      belongToScoOrganizationAndManageStudentsStub = sinon.stub(
-        checkUserBelongsToScoOrganizationAndManagesStudentsUseCase,
-        'execute'
-      );
       request = {
         auth: {
           credentials: {
@@ -576,12 +605,17 @@ describe('Unit | Application | SecurityPreHandlers', function () {
       context('when organization id is in request params', function () {
         it('should authorize access to resource when the user is authenticated, belongs to SCO Organization and manages students', async function () {
           // given
-          belongToScoOrganizationAndManageStudentsStub.resolves(true);
-
+          const checkUserBelongsToScoOrganizationAndManagesStudentsUseCaseStub = {
+            execute: sinon.stub().resolves(true),
+          };
           // when
           const response = await securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents(
             request,
-            hFake
+            hFake,
+            {
+              checkUserBelongsToScoOrganizationAndManagesStudentsUseCase:
+                checkUserBelongsToScoOrganizationAndManagesStudentsUseCaseStub,
+            }
           );
 
           // then
@@ -599,12 +633,18 @@ describe('Unit | Application | SecurityPreHandlers', function () {
               },
             },
           };
-          belongToScoOrganizationAndManageStudentsStub.resolves(true);
+          const checkUserBelongsToScoOrganizationAndManagesStudentsUseCaseStub = {
+            execute: sinon.stub().resolves(true),
+          };
 
           // when
           const response = await securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents(
             request,
-            hFake
+            hFake,
+            {
+              checkUserBelongsToScoOrganizationAndManagesStudentsUseCase:
+                checkUserBelongsToScoOrganizationAndManagesStudentsUseCaseStub,
+            }
           );
 
           // then
@@ -617,9 +657,15 @@ describe('Unit | Application | SecurityPreHandlers', function () {
       it('should forbid resource access when user was not previously authenticated', async function () {
         // given
         delete request.auth.credentials;
+        const checkUserBelongsToScoOrganizationAndManagesStudentsUseCaseStub = {
+          execute: sinon.stub(),
+        };
 
         // when
-        const response = await securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents(request, hFake);
+        const response = await securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents(request, hFake, {
+          checkUserBelongsToScoOrganizationAndManagesStudentsUseCase:
+            checkUserBelongsToScoOrganizationAndManagesStudentsUseCaseStub,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -628,10 +674,15 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should forbid resource access when user does not belong to SCO Organization or manage students', async function () {
         // given
-        belongToScoOrganizationAndManageStudentsStub.resolves(false);
+        const checkUserBelongsToScoOrganizationAndManagesStudentsUseCaseStub = {
+          execute: sinon.stub().resolves(false),
+        };
 
         // when
-        const response = await securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents(request, hFake);
+        const response = await securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents(request, hFake, {
+          checkUserBelongsToScoOrganizationAndManagesStudentsUseCase:
+            checkUserBelongsToScoOrganizationAndManagesStudentsUseCaseStub,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -640,10 +691,14 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should forbid resource access when an error is thrown by use case', async function () {
         // given
-        belongToScoOrganizationAndManageStudentsStub.rejects(new Error('Some error'));
-
+        const checkUserBelongsToScoOrganizationAndManagesStudentsUseCaseStub = {
+          execute: sinon.stub().rejects(new Error('Some error')),
+        };
         // when
-        const response = await securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents(request, hFake);
+        const response = await securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents(request, hFake, {
+          checkUserBelongsToScoOrganizationAndManagesStudentsUseCase:
+            checkUserBelongsToScoOrganizationAndManagesStudentsUseCaseStub,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -738,11 +793,9 @@ describe('Unit | Application | SecurityPreHandlers', function () {
   });
 
   describe('#checkUserIsMemberOfAnOrganization', function () {
-    let isMemberOfAnOrganizationStub;
     let request;
 
     beforeEach(function () {
-      isMemberOfAnOrganizationStub = sinon.stub(checkUserIsMemberOfAnOrganizationUseCase, 'execute');
       request = {
         auth: {
           credentials: {
@@ -756,10 +809,14 @@ describe('Unit | Application | SecurityPreHandlers', function () {
     context('Successful case', function () {
       it('should authorize access to resource when the user is authenticated and member of an organization', async function () {
         // given
-        isMemberOfAnOrganizationStub.resolves(true);
+        const checkUserIsMemberOfAnOrganizationUseCaseStub = {
+          execute: sinon.stub().resolves(true),
+        };
 
         // when
-        const response = await securityPreHandlers.checkUserIsMemberOfAnOrganization(request, hFake);
+        const response = await securityPreHandlers.checkUserIsMemberOfAnOrganization(request, hFake, {
+          checkUserIsMemberOfAnOrganizationUseCase: checkUserIsMemberOfAnOrganizationUseCaseStub,
+        });
         // then
         expect(response.source).to.equal(true);
       });
@@ -769,9 +826,14 @@ describe('Unit | Application | SecurityPreHandlers', function () {
       it('should forbid resource access when user was not previously authenticated', async function () {
         // given
         delete request.auth.credentials;
+        const checkUserIsMemberOfAnOrganizationUseCaseStub = {
+          execute: sinon.stub(),
+        };
 
         // when
-        const response = await securityPreHandlers.checkUserIsMemberOfAnOrganization(request, hFake);
+        const response = await securityPreHandlers.checkUserIsMemberOfAnOrganization(request, hFake, {
+          checkUserIsMemberOfAnOrganizationUseCase: checkUserIsMemberOfAnOrganizationUseCaseStub,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -780,10 +842,14 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should forbid resource access when user is not a member of any organization', async function () {
         // given
-        isMemberOfAnOrganizationStub.resolves(false);
+        const checkUserIsMemberOfAnOrganizationUseCaseStub = {
+          execute: sinon.stub().resolves(false),
+        };
 
         // when
-        const response = await securityPreHandlers.checkUserIsMemberOfAnOrganization(request, hFake);
+        const response = await securityPreHandlers.checkUserIsMemberOfAnOrganization(request, hFake, {
+          checkUserIsMemberOfAnOrganizationUseCase: checkUserIsMemberOfAnOrganizationUseCaseStub,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -792,10 +858,14 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should forbid resource access when an error is thrown by use case', async function () {
         // given
-        isMemberOfAnOrganizationStub.rejects(new Error('Some error'));
+        const checkUserIsMemberOfAnOrganizationUseCaseStub = {
+          execute: sinon.stub().rejects(new Error('Some error')),
+        };
 
         // when
-        const response = await securityPreHandlers.checkUserIsMemberOfAnOrganization(request, hFake);
+        const response = await securityPreHandlers.checkUserIsMemberOfAnOrganization(request, hFake, {
+          checkUserIsMemberOfAnOrganizationUseCase: checkUserIsMemberOfAnOrganizationUseCaseStub,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -820,10 +890,14 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         };
 
         sinon.stub(tokenService, 'extractTokenFromAuthChain');
-        sinon.stub(checkUserIsMemberOfCertificationCenterUseCase, 'execute').resolves(true);
+        const checkUserIsMemberOfCertificationCenterUsecaseStub = {
+          execute: sinon.stub().resolves(true),
+        };
 
         // when
-        const response = await securityPreHandlers.checkUserIsMemberOfCertificationCenter(request, hFake);
+        const response = await securityPreHandlers.checkUserIsMemberOfCertificationCenter(request, hFake, {
+          checkUserIsMemberOfCertificationCenterUsecase: checkUserIsMemberOfCertificationCenterUsecaseStub,
+        });
 
         // then
         expect(response.source).to.equal(true);
@@ -841,10 +915,14 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         };
 
         sinon.stub(tokenService, 'extractTokenFromAuthChain');
-        sinon.stub(checkUserIsMemberOfCertificationCenterUseCase, 'execute').resolves(false);
+        const checkUserIsMemberOfCertificationCenterUsecaseStub = {
+          execute: sinon.stub().resolves(false),
+        };
 
         // when
-        const response = await securityPreHandlers.checkUserIsMemberOfCertificationCenter(request, hFake);
+        const response = await securityPreHandlers.checkUserIsMemberOfCertificationCenter(request, hFake, {
+          checkUserIsMemberOfCertificationCenterUsecase: checkUserIsMemberOfCertificationCenterUsecaseStub,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -867,13 +945,13 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         };
 
         sinon.stub(tokenService, 'extractTokenFromAuthChain');
-        sinon
-          .stub(checkAuthorizationToManageCampaignUsecase, 'execute')
-          .withArgs({ userId: user.id, campaignId: campaign.id })
-          .resolves(true);
-
+        const checkAuthorizationToManageCampaignUsecaseStub = {
+          execute: sinon.stub().resolves(true),
+        };
         // when
-        const response = await securityPreHandlers.checkAuthorizationToManageCampaign(request, hFake);
+        const response = await securityPreHandlers.checkAuthorizationToManageCampaign(request, hFake, {
+          checkAuthorizationToManageCampaignUsecase: checkAuthorizationToManageCampaignUsecaseStub,
+        });
 
         // then
         expect(response.source).to.equal(true);
@@ -895,13 +973,14 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         };
 
         sinon.stub(tokenService, 'extractTokenFromAuthChain');
-        sinon
-          .stub(checkAuthorizationToManageCampaignUsecase, 'execute')
-          .withArgs({ userId: user.id, campaignId: campaign.id })
-          .resolves(false);
+        const checkAuthorizationToManageCampaignUsecaseStub = {
+          execute: sinon.stub().resolves(false),
+        };
 
         // when
-        const response = await securityPreHandlers.checkAuthorizationToManageCampaign(request, hFake);
+        const response = await securityPreHandlers.checkAuthorizationToManageCampaign(request, hFake, {
+          checkAuthorizationToManageCampaignUsecase: checkAuthorizationToManageCampaignUsecaseStub,
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -914,12 +993,9 @@ describe('Unit | Application | SecurityPreHandlers', function () {
     context('Successful case', function () {
       it('should authorize access to resource when the user is a member of the organization center', async function () {
         // given
-        const userId = 123;
-        const certificationCourseId = 7;
-        sinon
-          .stub(checkUserIsMemberOfCertificationCenterSessionUsecase, 'execute')
-          .withArgs({ userId, certificationCourseId })
-          .resolves(true);
+        const checkUserIsMemberOfCertificationCenterSessionUsecaseStub = {
+          execute: sinon.stub().resolves(true),
+        };
 
         // when
         const response =
@@ -928,7 +1004,11 @@ describe('Unit | Application | SecurityPreHandlers', function () {
               auth: { credentials: { accessToken: 'valid.access.token', userId: 123 } },
               params: { id: 7 },
             },
-            hFake
+            hFake,
+            {
+              checkUserIsMemberOfCertificationCenterSessionUsecase:
+                checkUserIsMemberOfCertificationCenterSessionUsecaseStub,
+            }
           );
 
         // then
@@ -938,11 +1018,20 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
     context('Error cases', function () {
       it('should forbid resource access when user was not previously authenticated', async function () {
-        // given & when
+        // given
+        const checkUserIsMemberOfCertificationCenterSessionUsecaseStub = {
+          execute: sinon.stub(),
+        };
+
+        // when
         const response =
           await securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId(
             { auth: { credentials: {} }, params: { id: 5678 } },
-            hFake
+            hFake,
+            {
+              checkUserIsMemberOfCertificationCenterSessionUsecase:
+                checkUserIsMemberOfCertificationCenterSessionUsecaseStub,
+            }
           );
 
         // then
@@ -952,13 +1041,19 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should forbid resource access when user is not a member of the organization center', async function () {
         // given
-        sinon.stub(checkUserIsMemberOfCertificationCenterSessionUsecase, 'execute').resolves(false);
+        const checkUserIsMemberOfCertificationCenterSessionUsecaseStub = {
+          execute: sinon.stub().resolves(false),
+        };
 
         // when
         const response =
           await securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId(
             { auth: { credentials: { accessToken: 'valid.access.token', userId: 1 } }, params: { id: 5678 } },
-            hFake
+            hFake,
+            {
+              checkUserIsMemberOfCertificationCenterSessionUsecase:
+                checkUserIsMemberOfCertificationCenterSessionUsecaseStub,
+            }
           );
 
         // then
@@ -968,13 +1063,19 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should forbid resource access when an error is thrown by use case', async function () {
         // given
-        sinon.stub(checkUserIsMemberOfCertificationCenterSessionUsecase, 'execute').rejects(new Error('Some error'));
+        const checkUserIsMemberOfCertificationCenterSessionUsecaseStub = {
+          execute: sinon.stub().rejects(new Error('Some error')),
+        };
 
         // when
         const response =
           await securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId(
             { auth: { credentials: { accessToken: 'valid.access.token', userId: 1 } }, params: { id: 5678 } },
-            hFake
+            hFake,
+            {
+              checkUserIsMemberOfCertificationCenterSessionUsecase:
+                checkUserIsMemberOfCertificationCenterSessionUsecaseStub,
+            }
           );
 
         // then
@@ -988,18 +1089,14 @@ describe('Unit | Application | SecurityPreHandlers', function () {
     context('Successful case', function () {
       it('should authorize access to resource when the user is a member of the organization center', async function () {
         // given
-        const userId = 123;
         const certificationCourseId = 7;
-        const certificationIssueReportId = 666;
-        sinon
-          .stub(certificationIssueReportRepository, 'get')
-          .withArgs(certificationIssueReportId)
-          .resolves({ certificationCourseId });
-        sinon
-          .stub(checkUserIsMemberOfCertificationCenterSessionUsecase, 'execute')
-          .withArgs({ userId, certificationCourseId })
-          .resolves(true);
 
+        const certificationIssueReportRepositoryStub = {
+          get: sinon.stub().withArgs(certificationCourseId).resolves({ certificationCourseId }),
+        };
+        const checkUserIsMemberOfCertificationCenterSessionUsecaseStub = {
+          execute: sinon.stub().resolves(true),
+        };
         // when
         const response =
           await securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId(
@@ -1007,7 +1104,12 @@ describe('Unit | Application | SecurityPreHandlers', function () {
               auth: { credentials: { accessToken: 'valid.access.token', userId: 123 } },
               params: { id: 666 },
             },
-            hFake
+            hFake,
+            {
+              certificationIssueReportRepository: certificationIssueReportRepositoryStub,
+              checkUserIsMemberOfCertificationCenterSessionUsecase:
+                checkUserIsMemberOfCertificationCenterSessionUsecaseStub,
+            }
           );
 
         // then
@@ -1017,11 +1119,25 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
     context('Error cases', function () {
       it('should forbid resource access when user was not previously authenticated', async function () {
-        // given & when
+        // given
+        const certificationIssueReportRepositoryStub = {
+          get: sinon.stub(),
+        };
+
+        const checkUserIsMemberOfCertificationCenterSessionUsecaseStub = {
+          execute: sinon.stub(),
+        };
+
+        // when
         const response =
           await securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId(
             { auth: { credentials: {} }, params: { id: 5678 } },
-            hFake
+            hFake,
+            {
+              certificationIssueReportRepository: certificationIssueReportRepositoryStub,
+              checkUserIsMemberOfCertificationCenterSessionUsecase:
+                checkUserIsMemberOfCertificationCenterSessionUsecaseStub,
+            }
           );
 
         // then
@@ -1031,14 +1147,23 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should forbid resource access when user is not a member of the organization center', async function () {
         // given
-        sinon.stub(certificationIssueReportRepository, 'get').resolves({ certificationCourseId: 7 });
-        sinon.stub(checkUserIsMemberOfCertificationCenterSessionUsecase, 'execute').resolves(false);
+        const checkUserIsMemberOfCertificationCenterSessionUsecaseStub = {
+          execute: sinon.stub().resolves(false),
+        };
+        const certificationIssueReportRepositoryStub = {
+          get: sinon.stub().resolves({ certificationCourseId: 7 }),
+        };
 
         // when
         const response =
           await securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId(
             { auth: { credentials: { accessToken: 'valid.access.token', userId: 1 } }, params: { id: 666 } },
-            hFake
+            hFake,
+            {
+              certificationIssueReportRepository: certificationIssueReportRepositoryStub,
+              checkUserIsMemberOfCertificationCenterSessionUsecase:
+                checkUserIsMemberOfCertificationCenterSessionUsecaseStub,
+            }
           );
 
         // then
@@ -1048,14 +1173,23 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should forbid resource access when an error is thrown by use case', async function () {
         // given
-        sinon.stub(certificationIssueReportRepository, 'get').resolves({ certificationCourseId: 7 });
-        sinon.stub(checkUserIsMemberOfCertificationCenterSessionUsecase, 'execute').rejects(new Error('Some error'));
+        const certificationIssueReportRepositoryStub = {
+          get: sinon.stub().resolves({ certificationCourseId: 7 }),
+        };
+        const checkUserIsMemberOfCertificationCenterSessionUsecaseStub = {
+          execute: sinon.stub().rejects(new Error('Some error')),
+        };
 
         // when
         const response =
           await securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId(
             { auth: { credentials: { accessToken: 'valid.access.token', userId: 1 } }, params: { id: 666 } },
-            hFake
+            hFake,
+            {
+              certificationIssueReportRepository: certificationIssueReportRepositoryStub,
+              checkUserIsMemberOfCertificationCenterSessionUsecase:
+                checkUserIsMemberOfCertificationCenterSessionUsecaseStub,
+            }
           );
 
         // then
@@ -1065,13 +1199,22 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should forbid resource access when an error is thrown by repo', async function () {
         // given
-        sinon.stub(certificationIssueReportRepository, 'get').rejects(new Error('Some error'));
-
+        const certificationIssueReportRepositoryStub = {
+          get: sinon.stub().rejects(new Error('Some error')),
+        };
+        const checkUserIsMemberOfCertificationCenterSessionUsecaseStub = {
+          execute: sinon.stub(),
+        };
         // when
         const response =
           await securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId(
             { auth: { credentials: { accessToken: 'valid.access.token', userId: 1 } }, params: { id: 666 } },
-            hFake
+            hFake,
+            {
+              certificationIssueReportRepository: certificationIssueReportRepositoryStub,
+              checkUserIsMemberOfCertificationCenterSessionUsecase:
+                checkUserIsMemberOfCertificationCenterSessionUsecaseStub,
+            }
           );
 
         // then
@@ -1085,12 +1228,9 @@ describe('Unit | Application | SecurityPreHandlers', function () {
     context('Successful case', function () {
       it('should authorize access to resource when the user owns the certification course', async function () {
         // given
-        const userId = 123;
-        const certificationCourseId = 7;
-        sinon
-          .stub(checkUserOwnsCertificationCourseUseCase, 'execute')
-          .withArgs({ userId, certificationCourseId })
-          .resolves(true);
+        const checkUserOwnsCertificationCourseUseCaseStub = {
+          execute: sinon.stub().resolves(true),
+        };
 
         // when
         const response = await securityPreHandlers.checkUserOwnsCertificationCourse(
@@ -1098,7 +1238,10 @@ describe('Unit | Application | SecurityPreHandlers', function () {
             auth: { credentials: { accessToken: 'valid.access.token', userId: 123 } },
             params: { id: 7 },
           },
-          hFake
+          hFake,
+          {
+            checkUserOwnsCertificationCourseUseCase: checkUserOwnsCertificationCourseUseCaseStub,
+          }
         );
 
         // then
@@ -1108,10 +1251,18 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
     context('Error cases', function () {
       it('should forbid resource access when user was not previously authenticated', async function () {
-        // given & when
+        // given
+        const checkUserOwnsCertificationCourseUseCaseStub = {
+          execute: sinon.stub(),
+        };
+
+        // when
         const response = await securityPreHandlers.checkUserOwnsCertificationCourse(
           { auth: { credentials: {} }, params: { id: 5678 } },
-          hFake
+          hFake,
+          {
+            checkUserOwnsCertificationCourseUseCase: checkUserOwnsCertificationCourseUseCaseStub,
+          }
         );
 
         // then
@@ -1121,12 +1272,17 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should forbid resource access when user does not own the certification course', async function () {
         // given
-        sinon.stub(checkUserOwnsCertificationCourseUseCase, 'execute').resolves(false);
+        const checkUserOwnsCertificationCourseUseCaseStub = {
+          execute: sinon.stub().resolves(false),
+        };
 
         // when
         const response = await securityPreHandlers.checkUserOwnsCertificationCourse(
           { auth: { credentials: { accessToken: 'valid.access.token', userId: 1 } }, params: { id: 5678 } },
-          hFake
+          hFake,
+          {
+            checkUserOwnsCertificationCourseUseCase: checkUserOwnsCertificationCourseUseCaseStub,
+          }
         );
 
         // then
@@ -1136,12 +1292,17 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should forbid resource access when an error is thrown by use case', async function () {
         // given
-        sinon.stub(checkUserOwnsCertificationCourseUseCase, 'execute').rejects(new Error('Some error'));
+        const checkUserOwnsCertificationCourseUseCaseStub = {
+          execute: sinon.stub().rejects(new Error('Some error')),
+        };
 
         // when
         const response = await securityPreHandlers.checkUserOwnsCertificationCourse(
           { auth: { credentials: { accessToken: 'valid.access.token', userId: 1 } }, params: { id: 5678 } },
-          hFake
+          hFake,
+          {
+            checkUserOwnsCertificationCourseUseCase: checkUserOwnsCertificationCourseUseCaseStub,
+          }
         );
 
         // then

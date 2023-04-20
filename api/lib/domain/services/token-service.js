@@ -197,8 +197,30 @@ async function extractExternalUserFromIdToken(token) {
     samlId: externalUser['saml_id'],
   };
 }
+const tokenService = {
+  createAccessTokenFromUser,
+  createAccessTokenForSaml,
+  createAccessTokenFromApplication,
+  createAccessTokenFromAnonymousUser,
+  createTokenForCampaignResults,
+  createIdTokenForUserReconciliation,
+  createCertificationResultsByRecipientEmailLinkToken,
+  createCertificationResultsLinkToken,
+  createPasswordResetToken,
+  decodeIfValid,
+  getDecodedToken,
+  extractExternalUserFromIdToken,
+  extractResultRecipientEmailAndSessionId,
+  extractSamlId,
+  extractSessionId,
+  extractTokenFromAuthChain,
+  extractUserId,
+  extractClientId,
+  extractCampaignResultsTokenContent,
+};
 
 module.exports = {
+  tokenService,
   createAccessTokenFromUser,
   createAccessTokenForSaml,
   createAccessTokenFromApplication,
