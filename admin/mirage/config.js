@@ -7,7 +7,7 @@ import {
   findPaginatedTargetProfileOrganizations,
   findPaginatedFilteredTargetProfileSummaries,
   findTargetProfileBadges,
-  findTargetProfileStages,
+  updateTargetProfileStageCollection,
   outdate,
   updateTargetProfile,
   createBadge,
@@ -292,7 +292,7 @@ export default function () {
   this.post('/admin/target-profiles/:id/attach-organizations', attachTargetProfileToOrganizations);
   this.post('/admin/target-profiles/:id/copy-organizations', attachOrganizationsFromExistingTargetProfile);
   this.get('/admin/target-profiles/:id/badges', findTargetProfileBadges);
-  this.get('/admin/target-profiles/:id/stages', findTargetProfileStages);
+  this.patch('/admin/stage-collections/:id', updateTargetProfileStageCollection);
   this.patch('/admin/target-profiles/:id', updateTargetProfile);
   this.put('/admin/target-profiles/:id/outdate', outdate);
   this.post('/admin/target-profiles/:id/badges', createBadge);

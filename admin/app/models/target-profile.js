@@ -1,5 +1,5 @@
 import { memberAction } from 'ember-api-actions';
-import Model, { attr, hasMany } from '@ember-data/model';
+import Model, { attr, hasMany, belongsTo } from '@ember-data/model';
 import ENV from 'pix-admin/config/environment';
 import { inject as service } from '@ember/service';
 import formatList from '../utils/format-select-options';
@@ -31,7 +31,7 @@ export default class TargetProfile extends Model {
   @attr('number') maxLevel;
 
   @hasMany('badge') badges;
-  @hasMany('stage') stages;
+  @belongsTo('stage-collection') stageCollection;
   @hasMany('training-summary') trainingSummaries;
 
   @hasMany('area') areas;

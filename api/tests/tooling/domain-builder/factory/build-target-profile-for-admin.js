@@ -2,6 +2,7 @@ const buildArea = require('./build-area');
 const buildCompetence = require('./build-competence');
 const buildThematic = require('./build-thematic');
 const buildTube = require('./build-tube');
+const buildStageCollection = require('./target-profile-management/build-stage-collection');
 const TargetProfileForAdmin = require('../../../../lib/domain/models/TargetProfileForAdmin');
 
 module.exports = function buildTargetProfileForAdmin({
@@ -17,6 +18,7 @@ module.exports = function buildTargetProfileForAdmin({
   category = 'some_category',
   isSimplifiedAccess = true,
   badges = [],
+  stageCollection = buildStageCollection({ id: 123, maxLevel: 2, stages: [] }),
   areas = [buildArea({ id: 'recArea' })],
   competences = [buildCompetence({ id: 'recCompetence', area: buildArea({ id: 'recArea' }) })],
   thematics = [buildThematic({ id: 'recThematic', competenceId: 'recCompetence' })],
@@ -37,6 +39,7 @@ module.exports = function buildTargetProfileForAdmin({
     category,
     isSimplifiedAccess,
     badges,
+    stageCollection,
     areas,
     competences,
     thematics,
