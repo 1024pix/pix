@@ -21,16 +21,18 @@
       @route="authenticated.target-profiles.target-profile.stages.stage"
       @size="small"
       @model={{@stage.id}}
+      aria-label="Voir le détail du palier {{@stage.id}}"
     >
       Voir détail
     </PixButtonLink>
-    {{#unless this.isDefaultStage}}
+    {{#unless this.isZeroStageAmongOtherStages}}
       <PixButton
         @backgroundColor="red"
         @isBorderVisible={{true}}
         @size="small"
         @iconBefore="trash"
         @triggerAction={{this.toggleModal}}
+        aria-label="Supprimer le palier {{@stage.id}}"
         class="stages-table-actions-delete"
       >
         Supprimer

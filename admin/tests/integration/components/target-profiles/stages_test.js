@@ -94,9 +94,6 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       );
 
       // then
-      assert.dom(screen.queryByRole('radio', { name: 'Palier par seuil' })).doesNotExist();
-      assert.dom(screen.queryByRole('radio', { name: 'Palier par niveau' })).doesNotExist();
-      assert.dom(screen.queryByRole('button', { name: /Supprimer/ })).doesNotExist();
       assert.dom(screen.getByText('Voir détail')).exists();
     });
 

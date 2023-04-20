@@ -37,6 +37,7 @@
                   @targetProfileId={{@targetProfileId}}
                   @stage={{stage}}
                   @deleteStage={{this.deleteStage}}
+                  @collectionHasNonZeroStages={{this.collectionHasNonZeroStages}}
                 />
               {{/if}}
             {{/each}}
@@ -46,7 +47,7 @@
     {{else}}
       <div class="table__empty">Aucun palier associé</div>
     {{/if}}
-    {{#if this.mustChooseStageStype}}
+    {{#if this.mustChooseStageType}}
       <PixRadioButton
         name="stageType"
         @label="Palier par seuil"
