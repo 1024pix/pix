@@ -68,8 +68,15 @@ export default class Stages extends Component {
     return (this.isTypeLevel && this.availableLevels.length > allNewStages.length) || !this.isTypeLevel;
   }
 
-  get mustChooseStageStype() {
+  get mustChooseStageType() {
     return !this.hasStages;
+  }
+
+  get collectionHasNonZeroStages() {
+    const nonZeroStages = this.args.stageCollection.stages.filter(
+      (stage) => !stage.isBeingCreated && stage.threshold !== 0 && stage.level !== 0
+    );
+    return nonZeroStages.length > 0;
   }
 
   @action
@@ -101,7 +108,7 @@ export default class Stages extends Component {
   }
 
   get isAddStageDisabled() {
-    return (this.mustChooseStageStype && this.firstStageType == null) || !this.hasAvailableStages;
+    return (this.mustChooseStageType && this.firstStageType == null) || !this.hasAvailableStages;
   }
 
   @action
