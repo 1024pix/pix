@@ -4,7 +4,7 @@ const { knex } = require('../../../db/knex-database-connection.js');
 const knowledgeElementRepository = require('./knowledge-element-repository.js');
 const CampaignAnalysis = require('../../domain/read-models/CampaignAnalysis.js');
 const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses.js');
-const constants = require('../constants.js');
+const { constants } = require('../constants.js');
 
 const { SHARED } = CampaignParticipationStatuses;
 

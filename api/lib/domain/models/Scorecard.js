@@ -2,7 +2,7 @@ const _ = require('lodash');
 const Assessment = require('./Assessment.js');
 const CompetenceEvaluation = require('./CompetenceEvaluation.js');
 const KnowledgeElement = require('./KnowledgeElement.js');
-const constants = require('../constants.js');
+const { constants } = require('../constants.js');
 const scoringService = require('../services/scoring/scoring-service.js');
 
 const statuses = {
