@@ -155,20 +155,20 @@ async function getBirthInformation({
     });
   }
 
-  const country = await _getCountry({ birthCountry, certificationCpfCountryRepository });
-  if (!country) {
+  const foundCountry = await _getCountry({ birthCountry, certificationCpfCountryRepository });
+  if (!foundCountry) {
     return cpfBirthInformationValidation.failure({
       certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_COUNTRY_NOT_FOUND,
       data: { birthCountry },
     });
   }
 
-  if (country.isForeign()) {
+  if (foundCountry.isForeign()) {
     _getForeignCountryBirthInformation({
       birthCity,
       birthINSEECode,
       birthPostalCode,
-      country,
+      country: foundCountry,
       cpfBirthInformationValidation,
     });
   } else {
@@ -179,7 +179,7 @@ async function getBirthInformation({
     ) {
       return cpfBirthInformationValidation.failure({
         certificationCandidateError:
-          CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED,
+          CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_AND_BIRTH_CITY_REQUIRED,
       });
     }
 
@@ -198,7 +198,7 @@ async function getBirthInformation({
     if (birthINSEECode) {
       await _getBirthInformationByINSEECode({
         birthINSEECode,
-        country,
+        country: foundCountry,
         cpfBirthInformationValidation,
         certificationCpfCityRepository,
       });
@@ -208,7 +208,7 @@ async function getBirthInformation({
       await _getBirthInformationByPostalCode({
         birthCity,
         birthPostalCode,
-        country,
+        country: foundCountry,
         cpfBirthInformationValidation,
         certificationCpfCityRepository,
       });

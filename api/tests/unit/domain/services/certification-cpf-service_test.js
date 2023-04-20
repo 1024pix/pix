@@ -23,8 +23,8 @@ describe('Unit | Service | Certification CPF service', function () {
     context('when country name is not defined', function () {
       it('should return a validation failure', async function () {
         // when
-        const cpfBirthInformationValidationRes = new CpfBirthInformationValidation();
-        cpfBirthInformationValidationRes.failure({
+        const cpfBirthInformationValidationResult = new CpfBirthInformationValidation();
+        cpfBirthInformationValidationResult.failure({
           certificationCandidateError: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_COUNTRY_REQUIRED,
         });
         const result = await getBirthInformation({
@@ -37,7 +37,7 @@ describe('Unit | Service | Certification CPF service', function () {
         });
 
         // then
-        expect(result).to.deep.equal(cpfBirthInformationValidationRes);
+        expect(result).to.deep.equal(cpfBirthInformationValidationResult);
       });
     });
 
@@ -307,7 +307,7 @@ describe('Unit | Service | Certification CPF service', function () {
               expect(result).to.deep.equal(
                 new CpfBirthInformationValidation().failure({
                   certificationCandidateError:
-                    CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED,
+                    CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_AND_BIRTH_CITY_REQUIRED,
                 })
               );
             });
@@ -350,7 +350,7 @@ describe('Unit | Service | Certification CPF service', function () {
               expect(result).to.deep.equal(
                 new CpfBirthInformationValidation().failure({
                   certificationCandidateError:
-                    CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED,
+                    CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_AND_BIRTH_CITY_REQUIRED,
                 })
               );
             });
@@ -382,7 +382,7 @@ describe('Unit | Service | Certification CPF service', function () {
               expect(result).to.deep.equal(
                 new CpfBirthInformationValidation().failure({
                   certificationCandidateError:
-                    CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED,
+                    CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_AND_BIRTH_CITY_REQUIRED,
                 })
               );
             });
@@ -503,7 +503,7 @@ describe('Unit | Service | Certification CPF service', function () {
             expect(result).to.deep.equal(
               new CpfBirthInformationValidation().failure({
                 certificationCandidateError:
-                  CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED,
+                  CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_AND_BIRTH_CITY_REQUIRED,
               })
             );
           });

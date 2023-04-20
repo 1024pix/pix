@@ -239,7 +239,7 @@
               "CANDIDATE_SEX_REQUIRED": "Champ obligatoire \"Sexe\" manquant",
               "CANDIDATE_SEX_NOT_VALID": "Donnée du champ \"Sexe\" invalide (format accepté \"M\"/\"F\")",
               "CANDIDATE_BIRTH_INSEE_CODE_NOT_VALID": "Donnée du champ \"Code INSEE\" invalide",
-              "CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED": "Renseigner soit un code INSEE, soit un code postal et un nom de commune de naissance",
+              "CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_AND_BIRTH_CITY_REQUIRED": "Renseigner soit un code INSEE, soit un code postal et un nom de commune de naissance",
               "CANDIDATE_BIRTH_COUNTRY_REQUIRED": "Champ obligatoire \"Pays de naissance\" manquant",
               "CANDIDATE_BIRTH_CITY_REQUIRED": "Champ obligatoire \"Nom de la commune\" manquant",
               "CANDIDATE_BIRTH_COUNTRY_NOT_FOUND": "Champ \"Pays de naissance\" non trouvé",
