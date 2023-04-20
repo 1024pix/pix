@@ -55,8 +55,8 @@ module.exports.CERTIFICATION_CANDIDATES_ERRORS = {
     code: 'CANDIDATE_BIRTH_INSEE_CODE_NOT_VALID',
     getMessage: ({ birthINSEECode }) => `Le code INSEE "${birthINSEECode}" n'est pas valide.`,
   },
-  CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED: {
-    code: 'CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED',
+  CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_AND_BIRTH_CITY_REQUIRED: {
+    code: 'CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_AND_BIRTH_CITY_REQUIRED',
     getMessage: () => 'Renseigner soit un code INSEE soit un code postal et un nom de commune de naissance',
   },
   CANDIDATE_BIRTH_POSTAL_CODE_NOT_FOUND: {

@@ -35,7 +35,7 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
         expectedMessage: 'Donnée du champ "Code INSEE" invalide',
       },
       {
-        error: 'CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_REQUIRED',
+        error: 'CANDIDATE_BIRTH_INSEE_CODE_OR_BIRTH_POSTAL_CODE_AND_BIRTH_CITY_REQUIRED',
         expectedMessage: 'Renseigner soit un code INSEE, soit un code postal et un nom de commune de naissance',
       },
       { error: 'CANDIDATE_BIRTH_COUNTRY_REQUIRED', expectedMessage: 'Champ obligatoire "Pays de naissance" manquant' },
