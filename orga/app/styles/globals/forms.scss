@@ -134,14 +134,7 @@
 }
 
 .label {
-  display: inline-block;
-  color: $pix-neutral-70;
-  font-size: 0.875rem;
-  padding-bottom: 5px;
-}
-
-p.label {
-  margin: 0 0 16px;
+  @include label();
 }
 
 .input-container {
