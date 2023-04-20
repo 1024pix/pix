@@ -42,6 +42,42 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
             }
           });
         });
+        context('when collection has at least one stage without a value', function () {
+          it('should throw an error', function () {
+            // given
+            const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({ maxLevel: 8 });
+            const stagesDTO = [
+              {
+                id: 123,
+                level: null,
+                threshold: 0,
+                title: 'Palier seuil 0 titre',
+                message: 'Palier seuil 0 message',
+                prescriberTitle: 'Palier seuil 0 titre prescri',
+                prescriberDescription: 'Palier seuil 0 message prescri',
+              },
+              {
+                id: 456,
+                level: null,
+                threshold: null,
+                title: 'Palier seuil titre',
+                message: 'Palier seuil message',
+                prescriberTitle: 'Palier seuil titre prescri',
+                prescriberDescription: 'Palier seuil message prescri',
+              },
+            ];
+
+            // when
+            try {
+              new StageCollectionUpdate({ stagesDTO, stageCollection });
+              expect.fail('Expected error to have been thrown');
+            } catch (err) {
+              // then
+              expect(err).to.be.instanceOf(InvalidStageError);
+              expect(err.message).to.equal('Les paliers doivent avoir une valeur de seuil ou de niveau.');
+            }
+          });
+        });
         context('when collection does not have exclusively threshold stages', function () {
           it('should throw an error', function () {
             // given
@@ -195,6 +231,78 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
             }
           });
         });
+        context('when collection has a stage threshold that exceeds 100', function () {
+          it('should throw an error', function () {
+            // given
+            const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({ maxLevel: 2 });
+            const stagesDTO = [
+              {
+                id: 123,
+                level: null,
+                threshold: 101,
+                title: 'Palier seuil 10 titre',
+                message: 'Palier seuil 10 message',
+                prescriberTitle: 'Palier seuil 10 titre prescri',
+                prescriberDescription: 'Palier seuil 10 message prescri',
+              },
+              {
+                id: 456,
+                level: null,
+                threshold: 0,
+                title: 'Palier seuil 0 titre',
+                message: 'Palier seuil 0 message',
+                prescriberTitle: 'Palier seuil 0 titre prescri',
+                prescriberDescription: 'Palier seuil 0 message prescri',
+              },
+            ];
+
+            // when
+            try {
+              new StageCollectionUpdate({ stagesDTO, stageCollection });
+              expect.fail('Expected error to have been thrown');
+            } catch (err) {
+              // then
+              expect(err).to.be.instanceOf(InvalidStageError);
+              expect(err.message).to.equal('Le seuil ne doit pas dépasser 100.');
+            }
+          });
+        });
+        context('when collection has a stage threshold under zero', function () {
+          it('should throw an error', function () {
+            // given
+            const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({ maxLevel: 2 });
+            const stagesDTO = [
+              {
+                id: 123,
+                level: null,
+                threshold: -1,
+                title: 'Palier seuil 10 titre',
+                message: 'Palier seuil 10 message',
+                prescriberTitle: 'Palier seuil 10 titre prescri',
+                prescriberDescription: 'Palier seuil 10 message prescri',
+              },
+              {
+                id: 456,
+                level: null,
+                threshold: 0,
+                title: 'Palier seuil 0 titre',
+                message: 'Palier seuil 0 message',
+                prescriberTitle: 'Palier seuil 0 titre prescri',
+                prescriberDescription: 'Palier seuil 0 message prescri',
+              },
+            ];
+
+            // when
+            try {
+              new StageCollectionUpdate({ stagesDTO, stageCollection });
+              expect.fail('Expected error to have been thrown');
+            } catch (err) {
+              // then
+              expect(err).to.be.instanceOf(InvalidStageError);
+              expect(err.message).to.equal('Le seuil doit être supérieur à zéro.');
+            }
+          });
+        });
         context(
           'when input collection submit for update a stage that does not belong to the original collection',
           function () {
@@ -285,6 +393,42 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
               // then
               expect(err).to.be.instanceOf(InvalidStageError);
               expect(err.message).to.equal('La présence du palier zéro est obligatoire.');
+            }
+          });
+        });
+        context('when collection has at least one stage without a value', function () {
+          it('should throw an error', function () {
+            // given
+            const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({ maxLevel: 8 });
+            const stagesDTO = [
+              {
+                id: 123,
+                level: 0,
+                threshold: null,
+                title: 'Palier niveau 0 titre',
+                message: 'Palier niveau 0 message',
+                prescriberTitle: 'Palier niveau 0 titre prescri',
+                prescriberDescription: 'Palier niveau 0 message prescri',
+              },
+              {
+                id: 456,
+                level: null,
+                threshold: null,
+                title: 'Palier niveau titre',
+                message: 'Palier niveau message',
+                prescriberTitle: 'Palier niveau titre prescri',
+                prescriberDescription: 'Palier niveau message prescri',
+              },
+            ];
+
+            // when
+            try {
+              new StageCollectionUpdate({ stagesDTO, stageCollection });
+              expect.fail('Expected error to have been thrown');
+            } catch (err) {
+              // then
+              expect(err).to.be.instanceOf(InvalidStageError);
+              expect(err.message).to.equal('Les paliers doivent avoir une valeur de seuil ou de niveau.');
             }
           });
         });
@@ -483,6 +627,51 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
               // then
               expect(err).to.be.instanceOf(InvalidStageError);
               expect(err.message).to.equal("Le niveau d'un palier dépasse le niveau maximum du profil cible.");
+            }
+          });
+        });
+        context('when collection has a stage level under zero', function () {
+          it('should throw an error', function () {
+            // given
+            const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({ maxLevel: 2 });
+            const stagesDTO = [
+              {
+                id: 123,
+                level: 0,
+                threshold: null,
+                title: 'Palier niveau 0 titre',
+                message: 'Palier niveau 0 message',
+                prescriberTitle: 'Palier niveau 0 titre prescri',
+                prescriberDescription: 'Palier niveau 0 message prescri',
+              },
+              {
+                id: 456,
+                level: 2,
+                threshold: null,
+                title: 'Palier niveau 2 titre',
+                message: 'Palier niveau 2 message',
+                prescriberTitle: 'Palier niveau 2 titre prescri',
+                prescriberDescription: 'Palier niveau 2 message prescri',
+              },
+              {
+                id: 789,
+                level: -1,
+                threshold: null,
+                title: 'Palier niveau 3 titre',
+                message: 'Palier niveau 3 message',
+                prescriberTitle: 'Palier niveau 3 titre prescri',
+                prescriberDescription: 'Palier niveau 3 message prescri',
+              },
+            ];
+
+            // when
+            try {
+              new StageCollectionUpdate({ stagesDTO, stageCollection });
+              expect.fail('Expected error to have been thrown');
+            } catch (err) {
+              // then
+              expect(err).to.be.instanceOf(InvalidStageError);
+              expect(err.message).to.equal("Le niveau d'un palier doit être supérieur à zéro.");
             }
           });
         });

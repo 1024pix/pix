@@ -125,10 +125,6 @@ function findTargetProfileBadges(schema) {
   return schema.badges.all();
 }
 
-function findTargetProfileStages(schema) {
-  return schema.stages.all();
-}
-
 function updateTargetProfile(schema, request) {
   const payload = JSON.parse(request.requestBody);
   const newName = payload.data.attributes.name;
@@ -182,6 +178,22 @@ function markTargetProfileAsSimplifiedAccess(schema, request) {
   return targetProfile.update({ isSimplifiedAccess: true });
 }
 
+function updateTargetProfileStageCollection(schema, request) {
+  const id = request.params.id;
+  const params = JSON.parse(request.requestBody);
+  const stagesDTO = params.data.attributes['stages'];
+  const newStages = stagesDTO.filter((stage) => !stage.id).map((newStage) => schema.create('stage', newStage));
+  const oldStages = stagesDTO
+    .filter((stage) => stage.id)
+    .map((oldStageDTO) => {
+      const oldVersionStage = schema.stages.find(oldStageDTO.id);
+      oldVersionStage.update({ ...oldStageDTO });
+      return oldVersionStage;
+    });
+  schema.stageCollections.find(id).update({ stages: [...newStages, ...oldStages] });
+  return new Response(204);
+}
+
 export {
   attachOrganizationsFromExistingTargetProfile,
   attachTargetProfiles,
@@ -192,7 +204,7 @@ export {
   findPaginatedTargetProfileOrganizations,
   findPaginatedFilteredTargetProfileSummaries,
   findTargetProfileBadges,
-  findTargetProfileStages,
+  updateTargetProfileStageCollection,
   updateTargetProfile,
   outdate,
   markTargetProfileAsSimplifiedAccess,

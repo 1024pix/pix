@@ -80,7 +80,7 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       const stage = store.createRecord('stage', {
         id: 1,
         level: 0,
-        title: 'TA MERE',
+        title: 'stage 1',
       });
       const stageCollection = store.createRecord('stage-collection', {
         stages: [stage],
