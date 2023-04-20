@@ -17,6 +17,7 @@ module.exports = function () {
       'circle-user',
       'circle-xmark',
       'copy',
+      'earth-europe',
       'eye',
       'eye-slash',
       'globe',

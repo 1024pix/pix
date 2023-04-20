@@ -23,15 +23,13 @@
     flex-direction: column;
     gap: $pix-spacing-m;
     align-items: center;
-    width: 95%;
     max-width: 609px;
-    margin: 0 auto;
+    margin-bottom: $pix-spacing-s;
     padding: 20px 10px;
     background-color: $pix-neutral-0;
     border-radius: 10px;
 
     @include device-is('tablet') {
-      margin: 20px 0;
       padding: 40px 80px;
     }
   }
