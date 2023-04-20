@@ -42,7 +42,7 @@ class StageCollectionUpdate {
 
 function _checkValidity(stagesDTO, stageCollection) {
   const hasZeroStage = stagesDTO.find(({ threshold, level }) => threshold === 0 || level === 0);
-  if (!hasZeroStage) {
+  if (!hasZeroStage && stagesDTO.length > 0) {
     throw new InvalidStageError('La présence du palier zéro est obligatoire.');
   }
 

@@ -6,7 +6,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
   describe('constructor', function () {
     context('when business rules are invalid', function () {
       context('when in a threshold collection', function () {
-        context('when collection has no zero stage', function () {
+        context('when collection has no zero stage but has some other stages', function () {
           it('should throw an error', function () {
             // given
             const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({ maxLevel: 8 });
@@ -17,8 +17,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: 10,
                 title: 'Palier seuil 10 titre',
                 message: 'Palier seuil 10 message',
-                prescriberTitle: 'Palier seuil 10 titre prescri',
-                prescriberDescription: 'Palier seuil 10 message prescri',
+                prescriberTitle: 'Palier seuil 10 titre prescripteur',
+                prescriberDescription: 'Palier seuil 10 message prescripteur',
               },
               {
                 id: 456,
@@ -26,8 +26,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: 50,
                 title: 'Palier seuil 50 titre',
                 message: 'Palier seuil 50 message',
-                prescriberTitle: 'Palier seuil 50 titre prescri',
-                prescriberDescription: 'Palier seuil 50 message prescri',
+                prescriberTitle: 'Palier seuil 50 titre prescripteur',
+                prescriberDescription: 'Palier seuil 50 message prescripteur',
               },
             ];
 
@@ -53,8 +53,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: 0,
                 title: 'Palier seuil 0 titre',
                 message: 'Palier seuil 0 message',
-                prescriberTitle: 'Palier seuil 0 titre prescri',
-                prescriberDescription: 'Palier seuil 0 message prescri',
+                prescriberTitle: 'Palier seuil 0 titre prescripteur',
+                prescriberDescription: 'Palier seuil 0 message prescripteur',
               },
               {
                 id: 456,
@@ -62,8 +62,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: null,
                 title: 'Palier seuil titre',
                 message: 'Palier seuil message',
-                prescriberTitle: 'Palier seuil titre prescri',
-                prescriberDescription: 'Palier seuil message prescri',
+                prescriberTitle: 'Palier seuil titre prescripteur',
+                prescriberDescription: 'Palier seuil message prescripteur',
               },
             ];
 
@@ -89,8 +89,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: 0,
                 title: 'Palier seuil 0 titre',
                 message: 'Palier seuil 0 message',
-                prescriberTitle: 'Palier seuil 0 titre prescri',
-                prescriberDescription: 'Palier seuil 0 message prescri',
+                prescriberTitle: 'Palier seuil 0 titre prescripteur',
+                prescriberDescription: 'Palier seuil 0 message prescripteur',
               },
               {
                 id: 456,
@@ -98,8 +98,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: 50,
                 title: 'Palier seuil 50 titre',
                 message: 'Palier seuil 50 message',
-                prescriberTitle: 'Palier seuil 50 titre prescri',
-                prescriberDescription: 'Palier seuil 50 message prescri',
+                prescriberTitle: 'Palier seuil 50 titre prescripteur',
+                prescriberDescription: 'Palier seuil 50 message prescripteur',
               },
               {
                 id: 789,
@@ -107,8 +107,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: null,
                 title: 'Palier niveau 5 titre',
                 message: 'Palier niveau 5 message',
-                prescriberTitle: 'Palier niveau 5 titre prescri',
-                prescriberDescription: 'Palier niveau 5 message prescri',
+                prescriberTitle: 'Palier niveau 5 titre prescripteur',
+                prescriberDescription: 'Palier niveau 5 message prescripteur',
               },
             ];
 
@@ -134,8 +134,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: 0,
                 title: 'Palier seuil 0 titre',
                 message: 'Palier seuil 0 message',
-                prescriberTitle: 'Palier seuil 0 titre prescri',
-                prescriberDescription: 'Palier seuil 0 message prescri',
+                prescriberTitle: 'Palier seuil 0 titre prescripteur',
+                prescriberDescription: 'Palier seuil 0 message prescripteur',
               },
               {
                 id: 456,
@@ -143,8 +143,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: 50,
                 title: 'Palier seuil 50 titre',
                 message: 'Palier seuil 50 message',
-                prescriberTitle: 'Palier seuil 50 titre prescri',
-                prescriberDescription: 'Palier seuil 50 message prescri',
+                prescriberTitle: 'Palier seuil 50 titre prescripteur',
+                prescriberDescription: 'Palier seuil 50 message prescripteur',
               },
               {
                 id: 789,
@@ -152,8 +152,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: 60,
                 title: 'Palier seuil 60 titre',
                 message: 'Palier seuil 60 message',
-                prescriberTitle: 'Palier seuil 60 titre prescri',
-                prescriberDescription: 'Palier seuil 60 message prescri',
+                prescriberTitle: 'Palier seuil 60 titre prescripteur',
+                prescriberDescription: 'Palier seuil 60 message prescripteur',
               },
               {
                 id: null,
@@ -188,8 +188,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: 0,
                 title: null,
                 message: 'Palier seuil 0 message',
-                prescriberTitle: 'Palier seuil 0 titre prescri',
-                prescriberDescription: 'Palier seuil 0 message prescri',
+                prescriberTitle: 'Palier seuil 0 titre prescripteur',
+                prescriberDescription: 'Palier seuil 0 message prescripteur',
               },
             ];
 
@@ -215,8 +215,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: 0,
                 title: 'Palier seuil 0 titre',
                 message: null,
-                prescriberTitle: 'Palier seuil 0 titre prescri',
-                prescriberDescription: 'Palier seuil 0 message prescri',
+                prescriberTitle: 'Palier seuil 0 titre prescripteur',
+                prescriberDescription: 'Palier seuil 0 message prescripteur',
               },
             ];
 
@@ -242,8 +242,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: 101,
                 title: 'Palier seuil 10 titre',
                 message: 'Palier seuil 10 message',
-                prescriberTitle: 'Palier seuil 10 titre prescri',
-                prescriberDescription: 'Palier seuil 10 message prescri',
+                prescriberTitle: 'Palier seuil 10 titre prescripteur',
+                prescriberDescription: 'Palier seuil 10 message prescripteur',
               },
               {
                 id: 456,
@@ -251,8 +251,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: 0,
                 title: 'Palier seuil 0 titre',
                 message: 'Palier seuil 0 message',
-                prescriberTitle: 'Palier seuil 0 titre prescri',
-                prescriberDescription: 'Palier seuil 0 message prescri',
+                prescriberTitle: 'Palier seuil 0 titre prescripteur',
+                prescriberDescription: 'Palier seuil 0 message prescripteur',
               },
             ];
 
@@ -278,8 +278,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: -1,
                 title: 'Palier seuil 10 titre',
                 message: 'Palier seuil 10 message',
-                prescriberTitle: 'Palier seuil 10 titre prescri',
-                prescriberDescription: 'Palier seuil 10 message prescri',
+                prescriberTitle: 'Palier seuil 10 titre prescripteur',
+                prescriberDescription: 'Palier seuil 10 message prescripteur',
               },
               {
                 id: 456,
@@ -287,8 +287,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: 0,
                 title: 'Palier seuil 0 titre',
                 message: 'Palier seuil 0 message',
-                prescriberTitle: 'Palier seuil 0 titre prescri',
-                prescriberDescription: 'Palier seuil 0 message prescri',
+                prescriberTitle: 'Palier seuil 0 titre prescripteur',
+                prescriberDescription: 'Palier seuil 0 message prescripteur',
               },
             ];
 
@@ -315,8 +315,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                   threshold: 0,
                   title: 'Palier seuil 0 titre',
                   message: 'Palier seuil 0 message',
-                  prescriberTitle: 'Palier seuil 0 titre prescri',
-                  prescriberDescription: 'Palier seuil 0 message prescri',
+                  prescriberTitle: 'Palier seuil 0 titre prescripteur',
+                  prescriberDescription: 'Palier seuil 0 message prescripteur',
                 },
               ];
               const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({
@@ -330,8 +330,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                   threshold: 10,
                   title: 'Palier seuil 10 titre',
                   message: 'Palier seuil 10 message',
-                  prescriberTitle: 'Palier seuil 10 titre prescri',
-                  prescriberDescription: 'Palier seuil 10 message prescri',
+                  prescriberTitle: 'Palier seuil 10 titre prescripteur',
+                  prescriberDescription: 'Palier seuil 10 message prescripteur',
                 },
                 {
                   id: 456,
@@ -339,8 +339,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                   threshold: 0,
                   title: 'Palier seuil 0 titre',
                   message: 'Palier seuil 0 message',
-                  prescriberTitle: 'Palier seuil 0 titre prescri',
-                  prescriberDescription: 'Palier seuil 0 message prescri',
+                  prescriberTitle: 'Palier seuil 0 titre prescripteur',
+                  prescriberDescription: 'Palier seuil 0 message prescripteur',
                 },
               ];
 
@@ -360,7 +360,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
         );
       });
       context('when in a level collection', function () {
-        context('when collection has no zero stage', function () {
+        context('when collection has no zero stage but has some other stages', function () {
           it('should throw an error', function () {
             // given
             const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({ maxLevel: 8 });
@@ -371,8 +371,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: null,
                 title: 'Palier niveau 1 titre',
                 message: 'Palier niveau 1 message',
-                prescriberTitle: 'Palier niveau 1 titre prescri',
-                prescriberDescription: 'Palier niveau 1 message prescri',
+                prescriberTitle: 'Palier niveau 1 titre prescripteur',
+                prescriberDescription: 'Palier niveau 1 message prescripteur',
               },
               {
                 id: 456,
@@ -380,8 +380,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: null,
                 title: 'Palier niveau 5 titre',
                 message: 'Palier niveau 5 message',
-                prescriberTitle: 'Palier niveau 5 titre prescri',
-                prescriberDescription: 'Palier niveau 5 message prescri',
+                prescriberTitle: 'Palier niveau 5 titre prescripteur',
+                prescriberDescription: 'Palier niveau 5 message prescripteur',
               },
             ];
 
@@ -407,8 +407,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: null,
                 title: 'Palier niveau 0 titre',
                 message: 'Palier niveau 0 message',
-                prescriberTitle: 'Palier niveau 0 titre prescri',
-                prescriberDescription: 'Palier niveau 0 message prescri',
+                prescriberTitle: 'Palier niveau 0 titre prescripteur',
+                prescriberDescription: 'Palier niveau 0 message prescripteur',
               },
               {
                 id: 456,
@@ -416,8 +416,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: null,
                 title: 'Palier niveau titre',
                 message: 'Palier niveau message',
-                prescriberTitle: 'Palier niveau titre prescri',
-                prescriberDescription: 'Palier niveau message prescri',
+                prescriberTitle: 'Palier niveau titre prescripteur',
+                prescriberDescription: 'Palier niveau message prescripteur',
               },
             ];
 
@@ -443,8 +443,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: 0,
                 title: 'Palier seuil 0 titre',
                 message: 'Palier seuil 0 message',
-                prescriberTitle: 'Palier seuil 0 titre prescri',
-                prescriberDescription: 'Palier seuil 0 message prescri',
+                prescriberTitle: 'Palier seuil 0 titre prescripteur',
+                prescriberDescription: 'Palier seuil 0 message prescripteur',
               },
               {
                 id: 456,
@@ -452,8 +452,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: null,
                 title: 'Palier niveau 5 titre',
                 message: 'Palier niveau 5 message',
-                prescriberTitle: 'Palier niveau 5 titre prescri',
-                prescriberDescription: 'Palier niveau 5 message prescri',
+                prescriberTitle: 'Palier niveau 5 titre prescripteur',
+                prescriberDescription: 'Palier niveau 5 message prescripteur',
               },
               {
                 id: 789,
@@ -461,8 +461,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: 50,
                 title: 'Palier seuil 50 titre',
                 message: 'Palier seuil 50 message',
-                prescriberTitle: 'Palier seuil 50 titre prescri',
-                prescriberDescription: 'Palier seuil 50 message prescri',
+                prescriberTitle: 'Palier seuil 50 titre prescripteur',
+                prescriberDescription: 'Palier seuil 50 message prescripteur',
               },
             ];
 
@@ -488,8 +488,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: null,
                 title: 'Palier niveau 0 titre',
                 message: 'Palier niveau 0 message',
-                prescriberTitle: 'Palier niveau 1 titre prescri',
-                prescriberDescription: 'Palier niveau 1 message prescri',
+                prescriberTitle: 'Palier niveau 1 titre prescripteur',
+                prescriberDescription: 'Palier niveau 1 message prescripteur',
               },
               {
                 id: 456,
@@ -497,8 +497,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: null,
                 title: 'Palier niveau 5 titre',
                 message: 'Palier niveau 5 message',
-                prescriberTitle: 'Palier niveau 5 titre prescri',
-                prescriberDescription: 'Palier niveau 5 message prescri',
+                prescriberTitle: 'Palier niveau 5 titre prescripteur',
+                prescriberDescription: 'Palier niveau 5 message prescripteur',
               },
               {
                 id: 789,
@@ -506,8 +506,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: null,
                 title: 'Palier niveau 7 titre',
                 message: 'Palier niveau 7 message',
-                prescriberTitle: 'Palier niveau 7 titre prescri',
-                prescriberDescription: 'Palier niveau 7 message prescri',
+                prescriberTitle: 'Palier niveau 7 titre prescripteur',
+                prescriberDescription: 'Palier niveau 7 message prescripteur',
               },
               {
                 id: null,
@@ -542,8 +542,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: null,
                 title: null,
                 message: 'Palier niveau 0 message',
-                prescriberTitle: 'Palier niveau 0 titre prescri',
-                prescriberDescription: 'Palier niveau 0 message prescri',
+                prescriberTitle: 'Palier niveau 0 titre prescripteur',
+                prescriberDescription: 'Palier niveau 0 message prescripteur',
               },
             ];
 
@@ -569,8 +569,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: null,
                 title: 'Palier niveau 0 titre',
                 message: null,
-                prescriberTitle: 'Palier niveau 0 titre prescri',
-                prescriberDescription: 'Palier niveau 0 message prescri',
+                prescriberTitle: 'Palier niveau 0 titre prescripteur',
+                prescriberDescription: 'Palier niveau 0 message prescripteur',
               },
             ];
 
@@ -596,8 +596,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: null,
                 title: 'Palier niveau 0 titre',
                 message: 'Palier niveau 0 message',
-                prescriberTitle: 'Palier niveau 0 titre prescri',
-                prescriberDescription: 'Palier niveau 0 message prescri',
+                prescriberTitle: 'Palier niveau 0 titre prescripteur',
+                prescriberDescription: 'Palier niveau 0 message prescripteur',
               },
               {
                 id: 456,
@@ -605,8 +605,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: null,
                 title: 'Palier niveau 2 titre',
                 message: 'Palier niveau 2 message',
-                prescriberTitle: 'Palier niveau 2 titre prescri',
-                prescriberDescription: 'Palier niveau 2 message prescri',
+                prescriberTitle: 'Palier niveau 2 titre prescripteur',
+                prescriberDescription: 'Palier niveau 2 message prescripteur',
               },
               {
                 id: 789,
@@ -614,8 +614,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: null,
                 title: 'Palier niveau 3 titre',
                 message: 'Palier niveau 3 message',
-                prescriberTitle: 'Palier niveau 3 titre prescri',
-                prescriberDescription: 'Palier niveau 3 message prescri',
+                prescriberTitle: 'Palier niveau 3 titre prescripteur',
+                prescriberDescription: 'Palier niveau 3 message prescripteur',
               },
             ];
 
@@ -641,8 +641,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: null,
                 title: 'Palier niveau 0 titre',
                 message: 'Palier niveau 0 message',
-                prescriberTitle: 'Palier niveau 0 titre prescri',
-                prescriberDescription: 'Palier niveau 0 message prescri',
+                prescriberTitle: 'Palier niveau 0 titre prescripteur',
+                prescriberDescription: 'Palier niveau 0 message prescripteur',
               },
               {
                 id: 456,
@@ -650,8 +650,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: null,
                 title: 'Palier niveau 2 titre',
                 message: 'Palier niveau 2 message',
-                prescriberTitle: 'Palier niveau 2 titre prescri',
-                prescriberDescription: 'Palier niveau 2 message prescri',
+                prescriberTitle: 'Palier niveau 2 titre prescripteur',
+                prescriberDescription: 'Palier niveau 2 message prescripteur',
               },
               {
                 id: 789,
@@ -659,8 +659,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 threshold: null,
                 title: 'Palier niveau 3 titre',
                 message: 'Palier niveau 3 message',
-                prescriberTitle: 'Palier niveau 3 titre prescri',
-                prescriberDescription: 'Palier niveau 3 message prescri',
+                prescriberTitle: 'Palier niveau 3 titre prescripteur',
+                prescriberDescription: 'Palier niveau 3 message prescripteur',
               },
             ];
 
@@ -687,8 +687,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                   threshold: null,
                   title: 'Palier niveau 0 titre',
                   message: 'Palier niveau 0 message',
-                  prescriberTitle: 'Palier niveau 0 titre prescri',
-                  prescriberDescription: 'Palier niveau 0 message prescri',
+                  prescriberTitle: 'Palier niveau 0 titre prescripteur',
+                  prescriberDescription: 'Palier niveau 0 message prescripteur',
                 },
               ];
               const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({
@@ -702,8 +702,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                   threshold: null,
                   title: 'Palier niveau 1 titre',
                   message: 'Palier niveau 1 message',
-                  prescriberTitle: 'Palier niveau 1 titre prescri',
-                  prescriberDescription: 'Palier niveau 1 message prescri',
+                  prescriberTitle: 'Palier niveau 1 titre prescripteur',
+                  prescriberDescription: 'Palier niveau 1 message prescripteur',
                 },
                 {
                   id: 456,
@@ -711,8 +711,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                   threshold: null,
                   title: 'Palier niveau 0 titre',
                   message: 'Palier niveau 0 message',
-                  prescriberTitle: 'Palier niveau 0 titre prescri',
-                  prescriberDescription: 'Palier niveau 0 message prescri',
+                  prescriberTitle: 'Palier niveau 0 titre prescripteur',
+                  prescriberDescription: 'Palier niveau 0 message prescripteur',
                 },
               ];
 
@@ -743,8 +743,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
               threshold: 0,
               title: 'Palier seuil 0 titre',
               message: 'Palier seuil 0 message',
-              prescriberTitle: 'Palier seuil 0 titre prescri',
-              prescriberDescription: 'Palier seuil 0 message prescri',
+              prescriberTitle: 'Palier seuil 0 titre prescripteur',
+              prescriberDescription: 'Palier seuil 0 message prescripteur',
             },
             {
               id: 456,
@@ -752,8 +752,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
               threshold: 50,
               title: 'Palier seuil 50 titre',
               message: 'Palier seuil 50 message',
-              prescriberTitle: 'Palier seuil 50 titre prescri',
-              prescriberDescription: 'Palier seuil 50 message prescri',
+              prescriberTitle: 'Palier seuil 50 titre prescripteur',
+              prescriberDescription: 'Palier seuil 50 message prescripteur',
             },
             {
               id: 789,
@@ -761,8 +761,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
               threshold: 60,
               title: 'Palier seuil 60 titre',
               message: 'Palier seuil 60 message',
-              prescriberTitle: 'Palier seuil 60 titre prescri',
-              prescriberDescription: 'Palier seuil 60 message prescri',
+              prescriberTitle: 'Palier seuil 60 titre prescripteur',
+              prescriberDescription: 'Palier seuil 60 message prescripteur',
             },
           ];
           const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({
@@ -776,8 +776,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
               threshold: 0,
               title: 'Palier seuil 0 titre',
               message: 'Palier seuil 0 message',
-              prescriberTitle: 'Palier seuil 0 titre prescri',
-              prescriberDescription: 'Palier seuil 0 message prescri',
+              prescriberTitle: 'Palier seuil 0 titre prescripteur',
+              prescriberDescription: 'Palier seuil 0 message prescripteur',
             },
             {
               id: 456,
@@ -785,8 +785,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
               threshold: 50,
               title: 'Palier seuil 50 titre',
               message: 'Palier seuil 50 message',
-              prescriberTitle: 'Palier seuil 50 titre prescri',
-              prescriberDescription: 'Palier seuil 50 message prescri',
+              prescriberTitle: 'Palier seuil 50 titre prescripteur',
+              prescriberDescription: 'Palier seuil 50 message prescripteur',
             },
             {
               id: 789,
@@ -794,8 +794,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
               threshold: 60,
               title: 'Palier seuil 60 titre',
               message: 'Palier seuil 60 message',
-              prescriberTitle: 'Palier seuil 60 titre prescri',
-              prescriberDescription: 'Palier seuil 60 message prescri',
+              prescriberTitle: 'Palier seuil 60 titre prescripteur',
+              prescriberDescription: 'Palier seuil 60 message prescripteur',
             },
             {
               id: null,
@@ -803,8 +803,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
               threshold: 80,
               title: 'Palier seuil 80 titre',
               message: 'Palier seuil 80 message',
-              prescriberTitle: 'Palier seuil 80 titre prescri',
-              prescriberDescription: 'Palier seuil 80 message prescri',
+              prescriberTitle: 'Palier seuil 80 titre prescripteur',
+              prescriberDescription: 'Palier seuil 80 message prescripteur',
             },
           ];
 
@@ -825,8 +825,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
               threshold: null,
               title: 'Palier niveau 0 titre',
               message: 'Palier niveau 0 message',
-              prescriberTitle: 'Palier niveau 0 titre prescri',
-              prescriberDescription: 'Palier niveau 0 message prescri',
+              prescriberTitle: 'Palier niveau 0 titre prescripteur',
+              prescriberDescription: 'Palier niveau 0 message prescripteur',
             },
             {
               id: 456,
@@ -834,8 +834,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
               threshold: null,
               title: 'Palier niveau 1 titre',
               message: 'Palier niveau 1 message',
-              prescriberTitle: 'Palier niveau 1 titre prescri',
-              prescriberDescription: 'Palier niveau 1 message prescri',
+              prescriberTitle: 'Palier niveau 1 titre prescripteur',
+              prescriberDescription: 'Palier niveau 1 message prescripteur',
             },
             {
               id: 789,
@@ -843,8 +843,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
               threshold: null,
               title: 'Palier niveau 2 titre',
               message: 'Palier niveau 2 message',
-              prescriberTitle: 'Palier niveau 2 titre prescri',
-              prescriberDescription: 'Palier niveau 2 message prescri',
+              prescriberTitle: 'Palier niveau 2 titre prescripteur',
+              prescriberDescription: 'Palier niveau 2 message prescripteur',
             },
           ];
           const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({
@@ -858,8 +858,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
               threshold: null,
               title: 'Palier niveau 0 titre',
               message: 'Palier niveau 0 message',
-              prescriberTitle: 'Palier niveau 0 titre prescri',
-              prescriberDescription: 'Palier niveau 0 message prescri',
+              prescriberTitle: 'Palier niveau 0 titre prescripteur',
+              prescriberDescription: 'Palier niveau 0 message prescripteur',
             },
             {
               id: 456,
@@ -867,8 +867,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
               threshold: null,
               title: 'Palier niveau 1 titre',
               message: 'Palier niveau 1 message',
-              prescriberTitle: 'Palier niveau 1 titre prescri',
-              prescriberDescription: 'Palier niveau 1 message prescri',
+              prescriberTitle: 'Palier niveau 1 titre prescripteur',
+              prescriberDescription: 'Palier niveau 1 message prescripteur',
             },
             {
               id: 789,
@@ -876,8 +876,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
               threshold: null,
               title: 'Palier niveau 2 titre',
               message: 'Palier niveau 2 message',
-              prescriberTitle: 'Palier niveau 2 titre prescri',
-              prescriberDescription: 'Palier niveau 2 message prescri',
+              prescriberTitle: 'Palier niveau 2 titre prescripteur',
+              prescriberDescription: 'Palier niveau 2 message prescripteur',
             },
             {
               id: null,
@@ -885,8 +885,8 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
               threshold: null,
               title: 'Palier niveau 3 titre',
               message: 'Palier niveau 3 message',
-              prescriberTitle: 'Palier niveau 3 titre prescri',
-              prescriberDescription: 'Palier niveau 3 message prescri',
+              prescriberTitle: 'Palier niveau 3 titre prescripteur',
+              prescriberDescription: 'Palier niveau 3 message prescripteur',
             },
           ];
 
@@ -896,6 +896,49 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
           // then
           expect(collection).to.be.instanceOf(StageCollectionUpdate);
         });
+      });
+      it('should successfully build an empty collection', function () {
+        // given
+        const oldStages = [
+          {
+            id: 123,
+            level: 0,
+            threshold: null,
+            title: 'Palier niveau 0 titre',
+            message: 'Palier niveau 0 message',
+            prescriberTitle: 'Palier niveau 0 titre prescripteur',
+            prescriberDescription: 'Palier niveau 0 message prescripteur',
+          },
+          {
+            id: 456,
+            level: 1,
+            threshold: null,
+            title: 'Palier niveau 1 titre',
+            message: 'Palier niveau 1 message',
+            prescriberTitle: 'Palier niveau 1 titre prescripteur',
+            prescriberDescription: 'Palier niveau 1 message prescripteur',
+          },
+          {
+            id: 789,
+            level: 2,
+            threshold: null,
+            title: 'Palier niveau 2 titre',
+            message: 'Palier niveau 2 message',
+            prescriberTitle: 'Palier niveau 2 titre prescripteur',
+            prescriberDescription: 'Palier niveau 2 message prescripteur',
+          },
+        ];
+        const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({
+          stages: oldStages,
+          maxLevel: 8,
+        });
+        const stagesDTO = [];
+
+        // when
+        const collection = new StageCollectionUpdate({ stagesDTO, stageCollection });
+
+        // then
+        expect(collection).to.be.instanceOf(StageCollectionUpdate);
       });
     });
   });
