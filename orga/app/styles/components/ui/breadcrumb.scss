@@ -7,7 +7,7 @@
   }
 
   li {
-    font-size: 0.875rem;
+    @extend %pix-body-m;
   }
 
   li:not(:last-child) {
