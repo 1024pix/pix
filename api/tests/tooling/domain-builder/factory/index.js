@@ -83,6 +83,7 @@ import { buildJurySession } from './build-jury-session.js';
 import { buildKnowledgeElement } from './build-knowledge-element.js';
 import { buildLearningContent } from './build-learning-content.js';
 import { buildMembership } from './build-membership.js';
+import { buildMission } from './build-mission.js';
 import { buildOrganization } from './build-organization.js';
 import { buildOrganizationPlacesLot } from './build-organization-places-lot.js';
 import { buildOrganizationPlacesLotManagement } from './build-organization-places-lot-management.js';
@@ -231,6 +232,7 @@ export {
   buildKnowledgeElement,
   buildLearningContent,
   buildMembership,
+  buildMission,
   buildOrganization,
   buildOrganizationPlacesLot,
   buildOrganizationPlacesLotManagement,

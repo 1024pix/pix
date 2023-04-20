@@ -100,6 +100,7 @@ import * as learningContentRepository from '../../infrastructure/repositories/le
 import * as localeService from '../../domain/services/locale-service.js';
 import * as mailService from '../../domain/services/mail-service.js';
 import * as membershipRepository from '../../infrastructure/repositories/membership-repository.js';
+import * as missionRepository from '../../infrastructure/repositories/mission-repository.js';
 import * as obfuscationService from '../../domain/services/obfuscation-service.js';
 import * as organizationMemberIdentityRepository from '../../infrastructure/repositories/organization-member-identity-repository.js';
 import * as organizationForAdminRepository from '../../infrastructure/repositories/organization-for-admin-repository.js';
@@ -307,6 +308,7 @@ const dependencies = {
   localeService,
   mailService,
   membershipRepository,
+  missionRepository,
   obfuscationService,
   organizationMemberIdentityRepository,
   organizationForAdminRepository,
@@ -579,6 +581,7 @@ import { getJurySession } from './get-jury-session.js';
 import { getLastChallengeIdFromAssessmentId } from './get-last-challenge-id-from-assessment-id.js';
 import { getLearningContentByTargetProfile } from './get-learning-content-by-target-profile.js';
 import { getLearningContentForTargetProfileSubmission } from './get-learning-content-for-target-profile-submission.js';
+import { getMission } from './get-mission.js';
 import { getNextChallengeForCampaignAssessment } from './get-next-challenge-for-campaign-assessment.js';
 import { getNextChallengeForCertification } from './get-next-challenge-for-certification.js';
 import { getNextChallengeForCompetenceEvaluation } from './get-next-challenge-for-competence-evaluation.js';
@@ -868,6 +871,7 @@ const usecasesWithoutInjectedDependencies = {
   getLastChallengeIdFromAssessmentId,
   getLearningContentByTargetProfile,
   getLearningContentForTargetProfileSubmission,
+  getMission,
   getNextChallengeForCampaignAssessment,
   getNextChallengeForCertification,
   getNextChallengeForCompetenceEvaluation,
