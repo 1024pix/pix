@@ -44,7 +44,7 @@ describe('Integration | buildLearningContent', function () {
     ];
 
     // when
-    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    const learningContentObjects = learningContentBuilder(learningContent);
     mockLearningContent(learningContentObjects);
 
     // then
@@ -111,7 +111,7 @@ describe('Integration | buildLearningContent', function () {
     ];
 
     // when
-    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    const learningContentObjects = learningContentBuilder(learningContent);
     mockLearningContent(learningContentObjects);
 
     // then
@@ -209,7 +209,7 @@ describe('Integration | buildLearningContent', function () {
     ];
 
     // when
-    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    const learningContentObjects = learningContentBuilder(learningContent);
     mockLearningContent(learningContentObjects);
 
     // then
@@ -270,7 +270,7 @@ describe('Integration | buildLearningContent', function () {
     ];
 
     // when
-    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    const learningContentObjects = learningContentBuilder(learningContent);
     mockLearningContent(learningContentObjects);
 
     // then
@@ -330,7 +330,7 @@ describe('Integration | buildLearningContent', function () {
     ];
 
     // when
-    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    const learningContentObjects = learningContentBuilder(learningContent);
     mockLearningContent(learningContentObjects);
 
     // then
@@ -395,7 +395,7 @@ describe('Integration | buildLearningContent', function () {
     ];
 
     // when
-    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    const learningContentObjects = learningContentBuilder(learningContent);
     mockLearningContent(learningContentObjects);
 
     // then
@@ -436,7 +436,7 @@ describe('Integration | buildLearningContent', function () {
     ];
 
     // when
-    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    const learningContentObjects = learningContentBuilder(learningContent);
     mockLearningContent(learningContentObjects);
 
     // then

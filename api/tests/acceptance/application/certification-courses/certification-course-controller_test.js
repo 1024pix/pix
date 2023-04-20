@@ -57,7 +57,7 @@ describe('Acceptance | API | Certification Course', function () {
           },
         ];
 
-        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+        const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
 
         databaseBuilder.factory.buildCertificationCourse({ id: 1234, isV2Certification: true });
@@ -132,7 +132,7 @@ describe('Acceptance | API | Certification Course', function () {
 
         const user = databaseBuilder.factory.buildUser({});
 
-        const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+        const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
         mockLearningContent(learningContentObjects);
 
         databaseBuilder.factory.buildCertificationCourse({ id: 1234, isV2Certification: true, userId: user.id });
@@ -840,7 +840,7 @@ describe('Acceptance | API | Certification Course', function () {
       context('when locale is fr-fr', function () {
         beforeEach(async function () {
           // given
-          const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+          const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
           mockLearningContent(learningContentObjects);
           certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
             sessionId,
@@ -901,7 +901,7 @@ describe('Acceptance | API | Certification Course', function () {
       context('when locale is en', function () {
         beforeEach(async function () {
           // given
-          const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+          const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
           mockLearningContent(learningContentObjects);
           certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({
             sessionId,
