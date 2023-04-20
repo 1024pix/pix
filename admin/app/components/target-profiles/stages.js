@@ -113,9 +113,11 @@ export default class Stages extends Component {
       await this.args.targetProfile.reload();
       this.store
         .peekAll('stage')
-        .toArray()
         .filter(({ id }) => !id)
-        .forEach((stage) => stage.deleteRecord());
+        .forEach((stage) => {
+          this.args.stageCollection.stages.removeObject(stage);
+          stage.deleteRecord();
+        });
       this.notifications.success('Palier(s) ajouté(s) avec succès.');
     } catch (e) {
       console.log(e);
