@@ -51,6 +51,10 @@ module.exports.CERTIFICATION_CANDIDATES_ERRORS = {
     code: 'CANDIDATE_BIRTH_COUNTRY_REQUIRED',
     getMessage: () => 'Le champ pays est obligatoire.',
   },
+  CANDIDATE_BIRTH_INFORMATION_REQUIRED: {
+    code: 'CANDIDATE_BIRTH_INFORMATION_REQUIRED',
+    getMessage: () => 'Renseigner les données de naissance du candidat',
+  },
   CANDIDATE_BIRTH_INSEE_CODE_NOT_VALID: {
     code: 'CANDIDATE_BIRTH_INSEE_CODE_NOT_VALID',
     getMessage: ({ birthINSEECode }) => `Le code INSEE "${birthINSEECode}" n'est pas valide.`,

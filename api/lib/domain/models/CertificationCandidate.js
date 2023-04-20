@@ -67,9 +67,7 @@ const certificationCandidateValidationForMassImportJoiSchema = Joi.object({
   birthPostalCode: Joi.string().allow(null).empty(['', null]).optional(),
   birthINSEECode: Joi.string().allow(null).empty(['', null]).optional(),
   birthCity: Joi.string().allow(null).empty(['', null]).optional(),
-  birthCountry: Joi.string().required().empty(['', null]).messages({
-    'any.required': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTH_COUNTRY_REQUIRED.code,
-  }),
+  birthCountry: Joi.string().empty(['', null]),
   email: Joi.string().email().allow(null).empty('').optional().messages({
     'string.email': CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EMAIL_NOT_VALID.code,
   }),
