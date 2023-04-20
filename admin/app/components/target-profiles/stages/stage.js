@@ -9,10 +9,11 @@ export default class Stage extends Component {
     this.showModal = !this.showModal;
   }
 
-  get isDefaultStage() {
+  get isZeroStageAmongOtherStages() {
     return (
-      (this.args.stage.isTypeLevel && this.args.stage.level === 0) ||
-      (!this.args.stage.isTypeLevel && this.args.stage.threshold === 0)
+      ((this.args.stage.isTypeLevel && this.args.stage.level === 0) ||
+        (!this.args.stage.isTypeLevel && this.args.stage.threshold === 0)) &&
+      this.args.collectionHasNonZeroStages
     );
   }
 }
