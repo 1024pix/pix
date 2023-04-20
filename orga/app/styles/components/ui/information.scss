@@ -10,7 +10,7 @@
   padding: 0 $pix-spacing-xs;
   border-left: 1px solid $pix-neutral-22;
   font-size: 0.875rem;
-  text-align: center;
+  text-align: left;
 
   &__title {
     margin-bottom: $pix-spacing-xs;
@@ -30,6 +30,7 @@
 
   &--certifiable {
     padding-bottom: $pix-spacing-xxs;
+    text-align: center;
   }
 
   &:first-of-type {
