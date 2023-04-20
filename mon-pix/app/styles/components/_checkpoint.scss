@@ -11,7 +11,7 @@
   justify-content: space-between;
   width: 80%;
   min-height: 50px;
-  margin-bottom: 35px;
+  margin: 12px 0 35px;
 
   @include device-is('tablet') {
     width: 800px;
