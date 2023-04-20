@@ -161,7 +161,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
         },
       };
 
-      learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
+      learningContentObjects = learningContentBuilder.fromAreas([
         {
           id: 'recArea1',
           title_i18n: {

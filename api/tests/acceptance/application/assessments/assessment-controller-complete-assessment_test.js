@@ -151,7 +151,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
   ];
 
   beforeEach(async function () {
-    const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+    const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
     mockLearningContent(learningContentObjects);
 
     server = await createServer();

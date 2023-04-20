@@ -100,7 +100,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', function 
         ],
       },
     ];
-    const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+    const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
     mockLearningContent(learningContentObjects);
 
     server = await createServer();
