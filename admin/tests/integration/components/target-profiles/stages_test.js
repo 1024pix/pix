@@ -2,31 +2,51 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { find, click } from '@ember/test-helpers';
 import { render } from '@1024pix/ember-testing-library';
-import EmberObject from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | TargetProfiles::Stages', function (hooks) {
   setupRenderingTest(hooks);
+  let store;
+
+  hooks.beforeEach(function () {
+    store = this.owner.lookup('service:store');
+  });
 
   test('it should display add button', async function (assert) {
     // given
-    this.set('model', { stages: [] });
+    const stage = store.createRecord('stage', {
+      level: 1,
+    });
+    const stageCollection = store.createRecord('stage-collection', {
+      stages: [stage],
+    });
+    this.set('stageCollection', stageCollection);
+    this.set('maxLevel', 2);
+    this.set('isNewFormat', true);
 
     // when
-    const screen = await render(hbs`<TargetProfiles::Stages @targetProfile={{this.model}} />`);
+    const screen = await render(
+      hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}} @isNewFormat={{this.isNewFormat}}/>`
+    );
 
     // then
-    assert.dom('table').doesNotExist();
     assert.dom(screen.queryByRole('button', { name: 'Nouveau palier' })).exists();
   });
 
   module('when no stages', function () {
     test('it should display a message', async function (assert) {
       // given
-      this.set('model', { stages: [] });
+      const stageCollection = store.createRecord('stage-collection', {
+        stages: [],
+      });
+      this.set('stageCollection', stageCollection);
+      this.set('maxLevel', 2);
+      this.set('isNewFormat', true);
 
       // when
-      const screen = await render(hbs`<TargetProfiles::Stages @targetProfile={{this.model}} />`);
+      const screen = await render(
+        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}} @isNewFormat={{this.isNewFormat}}/>`
+      );
 
       // then
       assert.dom('table').doesNotExist();
@@ -36,10 +56,16 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
     module('when target profile is tube based', function () {
       test('it should display stage type radio buttons', async function (assert) {
         // given
-        this.set('model', { stages: [] });
+        const stageCollection = store.createRecord('stage-collection', {
+          stages: [],
+        });
+        this.set('stageCollection', stageCollection);
+        this.set('maxLevel', 2);
 
         // when
-        const screen = await render(hbs`<TargetProfiles::Stages @targetProfile={{this.model}} />`);
+        const screen = await render(
+          hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}} @isNewFormat={{this.isNewFormat}}/>`
+        );
 
         // then
         assert.dom(screen.queryByRole('radio', { name: 'Palier par seuil' })).exists();
@@ -51,16 +77,21 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
   module('when at least one stage', function () {
     test('it should NOT display stage type radio buttons', async function (assert) {
       // given
-      const stage = EmberObject.create({
+      const stage = store.createRecord('stage', {
         id: 1,
-        threshold: 0,
-        title: 'My title',
-        message: 'My message',
+        level: 0,
+        title: 'stage 1',
       });
-      this.set('model', { stages: [stage] });
+      const stageCollection = store.createRecord('stage-collection', {
+        stages: [stage],
+      });
+      this.set('stageCollection', stageCollection);
+      this.set('maxLevel', 2);
 
       // when
-      const screen = await render(hbs`<TargetProfiles::Stages @targetProfile={{this.model}} />`);
+      const screen = await render(
+        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}} @isNewFormat={{this.isNewFormat}}/>`
+      );
 
       // then
       assert.dom(screen.queryByRole('radio', { name: 'Palier par seuil' })).doesNotExist();
@@ -69,24 +100,22 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       assert.dom(screen.getByText('Voir détail')).exists();
     });
 
-    test('it shoud display delete button on a stage', async function (assert) {
+    test('it should display delete button on a stage', async function (assert) {
       // given
-      const stage1 = EmberObject.create({
+      const stage = store.createRecord('stage', {
         id: 1,
-        threshold: 0,
-        title: 'My title',
-        message: 'My message',
+        level: 1,
       });
-      const stage2 = EmberObject.create({
-        id: 1,
-        threshold: 20,
-        title: 'My second stage title',
-        message: 'My second stage message',
+      const stageCollection = store.createRecord('stage-collection', {
+        stages: [stage],
       });
-      this.set('model', { stages: [stage1, stage2] });
+      this.set('stageCollection', stageCollection);
+      this.set('maxLevel', 2);
 
       // when
-      const screen = await render(hbs`<TargetProfiles::Stages @targetProfile={{this.model}} />`);
+      const screen = await render(
+        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}} @isNewFormat={{this.isNewFormat}}/>`
+      );
 
       // then
       assert.dom(screen.queryByRole('button', { name: /Supprimer/ })).exists();
@@ -94,22 +123,20 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
 
     test('it should display modal when deleting a stage', async function (assert) {
       // given
-      const stage1 = EmberObject.create({
+      const stage = store.createRecord('stage', {
         id: 1,
-        threshold: 0,
-        title: 'My title',
-        message: 'My message',
+        level: 1,
       });
-      const stage2 = EmberObject.create({
-        id: 1,
-        threshold: 20,
-        title: 'My second stage title',
-        message: 'My second stage message',
+      const stageCollection = store.createRecord('stage-collection', {
+        stages: [stage],
       });
-      this.set('model', { stages: [stage1, stage2] });
+      this.set('stageCollection', stageCollection);
+      this.set('maxLevel', 2);
 
       // when
-      const screen = await render(hbs`<TargetProfiles::Stages @targetProfile={{this.model}} />`);
+      const screen = await render(
+        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}} @isNewFormat={{this.isNewFormat}}/>`
+      );
       await click(screen.getByRole('button', { name: /Supprimer/ }));
       await screen.findByRole('dialog');
 
@@ -122,16 +149,23 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
   module('when stage type is threshold', function () {
     test('it should display the items', async function (assert) {
       // given
-      const stage = EmberObject.create({
+      const stage = store.createRecord('stage', {
         id: 1,
         threshold: 100,
         title: 'My title',
         message: 'My message',
       });
-      this.set('model', { stages: [stage], imageUrl: 'data:,' });
+      const stageCollection = store.createRecord('stage-collection', {
+        stages: [stage],
+      });
+      this.set('stageCollection', stageCollection);
+      this.set('maxLevel', 2);
+      this.set('isNewFormat', true);
 
       // when
-      const screen = await render(hbs`<TargetProfiles::Stages @targetProfile={{this.model}} />`);
+      const screen = await render(
+        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}} @isNewFormat={{this.isNewFormat}}/>`
+      );
 
       // then
       assert.dom('table').exists();
@@ -152,88 +186,75 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       assert.dom(screen.queryByText('Aucun résultat thématique associé')).doesNotExist();
     });
 
-    test('it should display a message when there is no stages with threshold 0', async function (assert) {
-      // given
-      this.set('model', { stages: [] });
-
-      // when
-      const screen = await render(hbs`<TargetProfiles::Stages @targetProfile={{this.model}} />`);
-
-      // then
-      assert.dom('table').doesNotExist();
-      assert.dom(screen.getByText('Aucun palier associé')).exists();
-    });
-
     test('it should display a warning when there is no threshold at 0', async function (assert) {
       // given
-      const stage = EmberObject.create({
+      const stage = store.createRecord('stage', {
         id: 1,
         threshold: 100,
         title: 'My title',
         message: 'My message',
       });
-      this.set('model', { stages: [stage] });
+      const stageCollection = store.createRecord('stage-collection', {
+        stages: [stage],
+      });
+      this.set('stageCollection', stageCollection);
+      this.set('maxLevel', 2);
+      this.set('isNewFormat', true);
 
       // when
-      const screen = await render(hbs`<TargetProfiles::Stages @targetProfile={{this.model}} />`);
+      const screen = await render(
+        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}} @isNewFormat={{this.isNewFormat}}/>`
+      );
 
       // then
       assert.dom(screen.getByText("Attention ! Il n'y a pas de palier à 0")).exists();
     });
 
-    module('when no stage with threshold 0', function () {
-      test('it should display warning message', async function (assert) {
-        // given
-        const stage = EmberObject.create({
-          id: 1,
-          threshold: 100,
-          title: 'My title',
-          message: 'My message',
-        });
-        this.set('model', { stages: [stage], imageUrl: 'data:,' });
-
-        // when
-        const screen = await render(hbs`<TargetProfiles::Stages @targetProfile={{this.model}} />`);
-
-        // then
-        assert.dom(screen.queryByText("Attention ! Il n'y a pas de palier à 0")).exists();
+    test('it should not display warning message when there is a stage with threshold 0', async function (assert) {
+      // given
+      const stage = store.createRecord('stage', {
+        id: 1,
+        threshold: 0,
+        title: 'My title',
+        message: 'My message',
       });
-    });
-
-    module('when one stage with threshold 0', function () {
-      test('it should not display warning message', async function (assert) {
-        // given
-        const stage = EmberObject.create({
-          id: 1,
-          threshold: 0,
-          title: 'My title',
-          message: 'My message',
-        });
-        this.set('model', { stages: [stage], imageUrl: 'data:,' });
-
-        // when
-        const screen = await render(hbs`<TargetProfiles::Stages @targetProfile={{this.model}} />`);
-
-        // then
-        assert.dom(screen.queryByText("Attention ! Il n'y a pas de palier à 0")).doesNotExist();
+      const stageCollection = store.createRecord('stage-collection', {
+        stages: [stage],
       });
+      this.set('stageCollection', stageCollection);
+      this.set('maxLevel', 2);
+      this.set('isNewFormat', true);
+
+      // when
+      const screen = await render(
+        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}} @isNewFormat={{this.isNewFormat}}/>`
+      );
+
+      // then
+      assert.dom(screen.queryByText("Attention ! Il n'y a pas de palier à 0")).doesNotExist();
     });
   });
 
   module('when stage type is level', function () {
     test('it should display the items', async function (assert) {
       // given
-      const stage = EmberObject.create({
+      const stage = store.createRecord('stage', {
         id: 1,
         level: 6,
-        isTypeLevel: true,
         title: 'My title',
         message: 'My message',
       });
-      this.set('model', { stages: [stage], imageUrl: 'data:,' });
+      const stageCollection = store.createRecord('stage-collection', {
+        stages: [stage],
+      });
+      this.set('stageCollection', stageCollection);
+      this.set('maxLevel', 2);
+      this.set('isNewFormat', true);
 
       // when
-      const screen = await render(hbs`<TargetProfiles::Stages @targetProfile={{this.model}} />`);
+      const screen = await render(
+        hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}} @isNewFormat={{this.isNewFormat}}/>`
+      );
 
       // then
       assert.dom('table').exists();
@@ -254,40 +275,26 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
       assert.dom(screen.queryByText('Aucun résultat thématique associé')).doesNotExist();
     });
 
-    module('when no stage with level 0', function () {
-      test('it should display warning message', async function (assert) {
-        // given
-        const stage = EmberObject.create({
-          id: 1,
-          level: 6,
-          isTypeLevel: true,
-          title: 'My title',
-          message: 'My message',
-        });
-        this.set('model', { stages: [stage], imageUrl: 'data:,' });
-
-        // when
-        const screen = await render(hbs`<TargetProfiles::Stages @targetProfile={{this.model}} />`);
-
-        // then
-        assert.dom(screen.queryByText("Attention ! Il n'y a pas de palier à 0")).exists();
-      });
-    });
-
     module('when one stage with level 0', function () {
       test('it should not display warning message', async function (assert) {
         // given
-        const stage = EmberObject.create({
+        const stage = store.createRecord('stage', {
           id: 1,
           level: 0,
-          isTypeLevel: true,
           title: 'My title',
           message: 'My message',
         });
-        this.set('model', { stages: [stage], imageUrl: 'data:,' });
+        const stageCollection = store.createRecord('stage-collection', {
+          stages: [stage],
+        });
+        this.set('stageCollection', stageCollection);
+        this.set('maxLevel', 2);
+        this.set('isNewFormat', true);
 
         // when
-        const screen = await render(hbs`<TargetProfiles::Stages @targetProfile={{this.model}} />`);
+        const screen = await render(
+          hbs`<TargetProfiles::Stages @targetProfileId={{123}} @stageCollection={{this.stageCollection}} @maxLevel={{this.maxLevel}} @isNewFormat={{this.isNewFormat}}/>`
+        );
 
         // then
         assert.dom(screen.queryByText("Attention ! Il n'y a pas de palier à 0")).doesNotExist();

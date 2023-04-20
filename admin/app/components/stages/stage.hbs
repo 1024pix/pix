@@ -1,7 +1,7 @@
 <header class="page-header">
   <div class="page-title">
     <p>
-      <LinkTo @route="authenticated.target-profiles.target-profile.insights">{{@targetProfile.name}}</LinkTo>
+      <LinkTo @route="authenticated.target-profiles.target-profile.insights">{{@targetProfileName}}</LinkTo>
       <span class="wire">&nbsp;>&nbsp;</span>
       <h1>Palier
         {{@stage.id}}
@@ -19,6 +19,7 @@
       @toggleEditMode={{@toggleEditMode}}
       @availableLevels={{@availableLevels}}
       @unavailableThresholds={{@unavailableThresholds}}
+      @onUpdate={{@onUpdate}}
     />
   {{else}}
     <Stages::ViewStage

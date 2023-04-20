@@ -140,6 +140,23 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           tubeId: 'recTube3',
           level: 8,
         });
+        const firstStage = databaseBuilder.factory.buildStage.withLevel.zero({
+          id: 100,
+          targetProfileId: targetProfileDB.id,
+          title: 'palier zero titre',
+          message: 'palier zero message',
+          prescriberTitle: 'palier zero titre prescripteur',
+          prescriberDescription: 'palier zero description prescripteur',
+        });
+        const secondStage = databaseBuilder.factory.buildStage.withLevel({
+          id: 101,
+          targetProfileId: targetProfileDB.id,
+          level: 4,
+          title: 'palier 4 titre',
+          message: 'palier 4 message',
+          prescriberTitle: 'palier 4 titre prescripteur',
+          prescriberDescription: 'palier 4 description prescripteur',
+        });
         const badge1DTO = databaseBuilder.factory.buildBadge({
           targetProfileId: targetProfileDB.id,
           altMessage: 'altMessage badge1',
@@ -385,6 +402,11 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           color: 'colorA',
           frameworkId: 'fmk1',
         };
+        const expectedStageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({
+          id: targetProfileDB.id,
+          maxLevel: 8,
+          stages: [firstStage, secondStage],
+        });
         const criteria1Badge1 =
           domainBuilder.buildBadgeDetails.buildBadgeCriterion_CampaignParticipation(badge1Criteria1DTO);
         const expectedBadge1 = domainBuilder.buildBadgeDetails({
@@ -415,6 +437,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           category: targetProfileDB.category,
           isSimplifiedAccess: targetProfileDB.isSimplifiedAccess,
           badges: [expectedBadge1, expectedBadge2],
+          stageCollection: expectedStageCollection,
           areas: [areaA],
           competences: [compA_areaA, compB_areaA],
           thematics: [themA_compA_areaA, themB_compA_areaA, themC_compB_areaA],
@@ -540,6 +563,11 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           color: 'colorA',
           frameworkId: 'fmk1',
         };
+        const expectedStageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({
+          id: targetProfileDB.id,
+          maxLevel: 4,
+          stages: [],
+        });
         const expectedTargetProfile = new TargetProfileForAdmin({
           id: targetProfileDB.id,
           name: targetProfileDB.name,
@@ -557,6 +585,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           thematics: [themA_compA_areaA],
           tubes: [tube1_themA_compA_areaA],
           badges: [],
+          stageCollection: expectedStageCollection,
         });
         expect(actualTargetProfile).to.deepEqualInstance(expectedTargetProfile);
       });

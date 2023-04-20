@@ -8,7 +8,6 @@ const requestResponseUtils = require('../../infrastructure/utils/request-respons
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer.js');
 const badgeSerializer = require('../../infrastructure/serializers/jsonapi/badge-serializer.js');
 const badgeCreationSerializer = require('../../infrastructure/serializers/jsonapi/badge-creation-serializer.js');
-const stageSerializer = require('../../infrastructure/serializers/jsonapi/stage-serializer.js');
 const targetProfileAttachOrganizationSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer.js');
 const learningContentPDFPresenter = require('./presenter/pdf/learning-content-pdf-presenter.js');
 const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
@@ -99,13 +98,6 @@ module.exports = {
       });
     });
     return targetProfileSerializer.serializeId(targetProfileId);
-  },
-
-  async findStages(request) {
-    const targetProfileId = request.params.id;
-
-    const stages = await usecases.findTargetProfileStages({ targetProfileId });
-    return stageSerializer.serialize(stages);
   },
 
   async findPaginatedTrainings(request) {

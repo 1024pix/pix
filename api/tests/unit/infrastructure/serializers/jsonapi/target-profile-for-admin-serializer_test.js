@@ -1,7 +1,6 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/target-profile-for-admin-serializer');
 const TargetProfileForAdmin = require('../../../../../lib/domain/models/TargetProfileForAdmin');
-const { SCOPES } = require('../../../../../lib/domain/models/BadgeDetails');
 
 describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', function () {
   describe('#serialize', function () {
@@ -42,6 +41,30 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
         isAlwaysVisible: true,
         criteria: [badge2Criteria1],
       });
+      const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({
+        id: 132,
+        maxLevel: 5,
+        stages: [
+          {
+            id: 500,
+            level: 4,
+            threshold: null,
+            title: 'titre 500',
+            message: 'message 500',
+            prescriberTitle: 'titre prescripteur 500',
+            prescriberDescription: 'description prescripteur 500',
+          },
+          {
+            id: 501,
+            level: 5,
+            threshold: null,
+            title: 'titre 501',
+            message: 'message 501',
+            prescriberTitle: 'titre prescripteur 501',
+            prescriberDescription: 'description prescripteur 501',
+          },
+        ],
+      });
       const area = domainBuilder.buildArea({
         id: 'recArea1',
         title: 'Super domaine',
@@ -69,6 +92,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
         category: 'OTHER',
         isSimplifiedAccess: true,
         badges: [badge1, badge2],
+        stageCollection,
         areas: [area, area2],
         competences: [
           domainBuilder.buildCompetence({
@@ -142,47 +166,48 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
           type: 'target-profiles',
           id: '132',
           attributes: {
-            name: 'Mon Super profil cible',
-            outdated: true,
-            'is-public': true,
-            'created-at': new Date('2021-03-02'),
-            'owner-organization-id': 12,
-            description: 'Un super profil cible',
-            comment: 'commentaire',
-            'image-url': 'some/image/url',
             category: 'OTHER',
+            comment: 'commentaire',
+            'created-at': new Date('2021-03-02'),
+            description: 'Un super profil cible',
+            'image-url': 'some/image/url',
+            'is-public': true,
             'is-simplified-access': true,
             'max-level': 7,
+            name: 'Mon Super profil cible',
+            outdated: true,
+            'owner-organization-id': 12,
           },
           relationships: {
-            stages: {
-              links: {
-                related: '/api/admin/target-profiles/132/stages',
-              },
+            areas: {
+              data: [
+                {
+                  id: 'recArea1',
+                  type: 'areas',
+                },
+                {
+                  id: 'recArea2',
+                  type: 'areas',
+                },
+              ],
             },
             badges: {
               data: [
                 {
-                  type: 'badges',
                   id: '100',
+                  type: 'badges',
                 },
                 {
-                  type: 'badges',
                   id: '200',
+                  type: 'badges',
                 },
               ],
             },
-            areas: {
-              data: [
-                {
-                  type: 'areas',
-                  id: 'recArea1',
-                },
-                {
-                  type: 'areas',
-                  id: 'recArea2',
-                },
-              ],
+            'stage-collection': {
+              data: {
+                id: '132',
+                type: 'stageCollections',
+              },
             },
           },
         },
@@ -191,10 +216,10 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
             type: 'badge-criteria',
             id: '2000',
             attributes: {
-              name: null,
-              threshold: 70,
-              scope: SCOPES.CAMPAIGN_PARTICIPATION,
               'capped-tubes': [],
+              name: null,
+              scope: 'CampaignParticipation',
+              threshold: 70,
             },
           },
           {
@@ -203,207 +228,258 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
             attributes: {
               'alt-message': 'some altMessage badge1',
               'image-url': 'some imageUrl badge1',
+              'is-always-visible': false,
+              'is-certifiable': true,
+              key: 'some key badge1',
               message: 'some message badge1',
               title: 'some title badge1',
-              key: 'some key badge1',
-              'is-certifiable': true,
-              'is-always-visible': false,
             },
             relationships: {
               criteria: {
                 data: [
                   {
-                    type: 'badge-criteria',
                     id: '2000',
+                    type: 'badge-criteria',
                   },
                 ],
               },
             },
           },
           {
-            type: 'badge-criteria',
             id: '3000',
+            type: 'badge-criteria',
             attributes: {
-              name: 'super tubes group',
-              threshold: 50,
-              scope: SCOPES.CAPPED_TUBES,
               'capped-tubes': [
-                { tubeId: 'tube1', level: 2 },
-                { tubeId: 'tube2', level: 8 },
+                {
+                  level: 2,
+                  tubeId: 'tube1',
+                },
+                {
+                  level: 8,
+                  tubeId: 'tube2',
+                },
               ],
+              name: 'super tubes group',
+              scope: 'CappedTubes',
+              threshold: 50,
             },
           },
           {
-            type: 'badges',
-            id: '200',
             attributes: {
               'alt-message': 'some altMessage badge2',
               'image-url': 'some imageUrl badge2',
+              'is-always-visible': true,
+              'is-certifiable': false,
+              key: 'some key badge2',
               message: 'some message badge2',
               title: 'some title badge2',
-              key: 'some key badge2',
-              'is-certifiable': false,
-              'is-always-visible': true,
             },
+            id: '200',
             relationships: {
               criteria: {
                 data: [
                   {
-                    type: 'badge-criteria',
                     id: '3000',
+                    type: 'badge-criteria',
                   },
                 ],
               },
             },
+            type: 'badges',
           },
           {
-            type: 'tubes',
-            id: 'recTube1',
             attributes: {
-              name: '@nomTube',
-              'practical-title': 'Super tube',
+              level: 4,
+              message: 'message 500',
+              'prescriber-description': 'description prescripteur 500',
+              'prescriber-title': 'titre prescripteur 500',
+              threshold: null,
+              title: 'titre 500',
+            },
+            id: '500',
+            type: 'stages',
+          },
+          {
+            attributes: {
+              level: 5,
+              message: 'message 501',
+              'prescriber-description': 'description prescripteur 501',
+              'prescriber-title': 'titre prescripteur 501',
+              threshold: null,
+              title: 'titre 501',
+            },
+            id: '501',
+            type: 'stages',
+          },
+          {
+            attributes: {
+              'target-profile-id': 132,
+            },
+            id: '132',
+            relationships: {
+              stages: {
+                data: [
+                  {
+                    id: '500',
+                    type: 'stages',
+                  },
+                  {
+                    id: '501',
+                    type: 'stages',
+                  },
+                ],
+              },
+            },
+            type: 'stageCollections',
+          },
+          {
+            attributes: {
               level: 7,
               mobile: true,
+              name: '@nomTube',
+              'practical-title': 'Super tube',
               tablet: false,
             },
+            id: 'recTube1',
+            type: 'tubes',
           },
           {
-            type: 'thematics',
-            id: 'recThem1',
             attributes: {
-              name: 'Super thématique',
               index: '5',
+              name: 'Super thématique',
             },
+            id: 'recThem1',
             relationships: {
               tubes: {
                 data: [
                   {
-                    type: 'tubes',
                     id: 'recTube1',
+                    type: 'tubes',
                   },
                 ],
               },
             },
+            type: 'thematics',
           },
           {
-            type: 'competences',
-            id: 'recComp1',
             attributes: {
-              name: 'Super compétence',
               index: '1.1',
+              name: 'Super compétence',
             },
+            id: 'recComp1',
             relationships: {
               thematics: {
                 data: [
                   {
-                    type: 'thematics',
                     id: 'recThem1',
+                    type: 'thematics',
                   },
                 ],
               },
             },
+            type: 'competences',
           },
           {
-            type: 'areas',
-            id: 'recArea1',
             attributes: {
-              title: 'Super domaine',
-              color: 'blue',
               code: 'lyoko',
+              color: 'blue',
               'framework-id': 'recFrameworkCool1',
+              title: 'Super domaine',
             },
+            id: 'recArea1',
             relationships: {
               competences: {
                 data: [
                   {
-                    type: 'competences',
                     id: 'recComp1',
+                    type: 'competences',
                   },
                 ],
               },
             },
+            type: 'areas',
           },
           {
-            type: 'tubes',
-            id: 'recTube2',
             attributes: {
-              name: '@nomTube2',
-              'practical-title': 'Super tube2',
               level: 4,
               mobile: true,
+              name: '@nomTube2',
+              'practical-title': 'Super tube2',
               tablet: false,
             },
+            id: 'recTube2',
+            type: 'tubes',
           },
           {
-            type: 'tubes',
-            id: 'recTube3',
             attributes: {
-              name: '@nomTube3',
-              'practical-title': 'Super tube3',
               level: 6,
               mobile: true,
+              name: '@nomTube3',
+              'practical-title': 'Super tube3',
               tablet: false,
             },
+            id: 'recTube3',
+            type: 'tubes',
           },
           {
-            type: 'thematics',
-            id: 'recThem2',
             attributes: {
-              name: 'Super thématique2',
               index: '6',
+              name: 'Super thématique2',
             },
+            id: 'recThem2',
             relationships: {
               tubes: {
                 data: [
                   {
-                    type: 'tubes',
                     id: 'recTube2',
+                    type: 'tubes',
                   },
                   {
-                    type: 'tubes',
                     id: 'recTube3',
+                    type: 'tubes',
                   },
                 ],
               },
             },
+            type: 'thematics',
           },
           {
-            type: 'competences',
-            id: 'recComp2',
             attributes: {
-              name: 'Super compétence2',
               index: '1.2',
+              name: 'Super compétence2',
             },
+            id: 'recComp2',
             relationships: {
               thematics: {
                 data: [
                   {
-                    type: 'thematics',
                     id: 'recThem2',
+                    type: 'thematics',
                   },
                 ],
               },
             },
+            type: 'competences',
           },
           {
-            type: 'areas',
-            id: 'recArea2',
             attributes: {
-              title: 'Super domaine2',
-              color: 'red',
               code: 'red',
+              color: 'red',
               'framework-id': 'recFrameworkCool1',
+              title: 'Super domaine2',
             },
+            id: 'recArea2',
             relationships: {
               competences: {
                 data: [
                   {
-                    type: 'competences',
                     id: 'recComp2',
+                    type: 'competences',
                   },
                 ],
               },
             },
+            type: 'areas',
           },
         ],
       };

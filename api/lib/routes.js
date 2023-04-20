@@ -38,13 +38,13 @@ const poleEmploi = require('./application/pole-emploi/index.js');
 const prescribers = require('./application/prescribers/index.js');
 const progressions = require('./application/progressions/index.js');
 const saml = require('./application/saml/index.js');
+const stageCollection = require('./application/stage-collections/index.js');
 const scoringSimulator = require('./application/scoring-simulator/index.js');
 const organizationLearners = require('./application/organization-learners/index.js');
 const scorecards = require('./application/scorecards/index.js');
 const scoOrganizationLearners = require('./application/sco-organization-learners/index.js');
 const supOrganizationLearners = require('./application/sup-organization-learners/index.js');
 const sessions = require('./application/sessions/index.js');
-const targetProfileManagement = require('./application/target-profile-management/index.js');
 const tags = require('./application/tags/index.js');
 const targetProfiles = require('./application/target-profiles/index.js');
 const trainings = require('./application/trainings/index.js');
@@ -100,8 +100,8 @@ const routes = [
   scorecards,
   scoOrganizationLearners,
   supOrganizationLearners,
+  stageCollection,
   sessions,
-  targetProfileManagement,
   tags,
   targetProfiles,
   trainings,
