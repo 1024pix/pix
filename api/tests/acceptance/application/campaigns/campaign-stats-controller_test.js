@@ -18,7 +18,7 @@ describe('Acceptance | API | Campaign Stats Controller', function () {
   describe('GET /api/campaigns/{id}/stats/participations-by-stage', function () {
     it('should return the campaign by id', async function () {
       // given
-      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas([
+      const learningContentObjects = learningContentBuilder.fromAreas([
         {
           id: 'recArea1',
           title_i18n: {

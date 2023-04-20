@@ -174,7 +174,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
         ],
       },
     ];
-    const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+    const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
     mockLearningContent(learningContentObjects);
     await databaseBuilder.commit();
   });

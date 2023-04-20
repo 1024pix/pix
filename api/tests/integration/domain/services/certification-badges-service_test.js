@@ -94,7 +94,7 @@ describe('Integration | Service | Certification-Badges Service', function () {
         threshold: 40,
       });
       await databaseBuilder.commit();
-      const learningContentObjects = learningContentBuilder.buildLearningContent.fromAreas(learningContent);
+      const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
 
       // when
