@@ -1,12 +1,27 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import Service from '@ember/service';
 
 module('Unit | Route | application', function (hooks) {
   setupTest(hooks);
 
+  hooks.beforeEach(function () {
+    class currentDomainStub extends Service {
+      get isFranceDomain() {
+        return true;
+      }
+    }
+    this.owner.register('service:currentDomain', currentDomainStub);
+
+    class CurrentUserStub extends Service {
+      load = sinon.stub();
+    }
+    this.owner.register('service:currentUser', CurrentUserStub);
+  });
+
   module('beforeModel', function () {
-    test('should load feature toggles', async function (assert) {
+    test('loads feature toggles', async function (assert) {
       // given
       const transition = { to: { queryParams: {} } };
       const route = this.owner.lookup('route:application');
@@ -14,8 +29,7 @@ module('Unit | Route | application', function (hooks) {
       sinon.stub(route.featureToggles, 'load');
       route.featureToggles.load.resolves();
 
-      sinon.stub(route.session, 'handlePrescriberLanguageAndLocale');
-      route.session.handlePrescriberLanguageAndLocale.resolves();
+      sinon.stub(route.session, 'handleLocale');
 
       // when
       await route.beforeModel(transition);
@@ -24,24 +38,27 @@ module('Unit | Route | application', function (hooks) {
       assert.ok(route.featureToggles.load.called);
     });
 
-    module('When lang parameter exist', function () {
-      test('should use lang parameter with session service method', async function (assert) {
-        // given
-        const transition = { to: { queryParams: { lang: 'fr' } } };
-        const route = this.owner.lookup('route:application');
+    test('calls handleLocale', async function (assert) {
+      // given
+      const transition = { to: { queryParams: { lang: 'fr' } } };
+      const route = this.owner.lookup('route:application');
 
-        sinon.stub(route.featureToggles, 'load');
-        route.featureToggles.load.resolves();
+      sinon.stub(route.featureToggles, 'load');
+      route.featureToggles.load.resolves();
 
-        sinon.stub(route.session, 'handlePrescriberLanguageAndLocale');
-        route.session.handlePrescriberLanguageAndLocale.resolves();
+      sinon.stub(route.session, 'handleLocale');
+      route.session.handleLocale.resolves();
 
-        // when
-        await route.beforeModel(transition);
+      // when
+      await route.beforeModel(transition);
 
-        // then
-        assert.ok(route.session.handlePrescriberLanguageAndLocale.calledWith('fr'));
+      // then
+      sinon.assert.calledWith(route.session.handleLocale, {
+        isFranceDomain: true,
+        localeFromQueryParam: 'fr',
+        userLocale: undefined,
       });
+      assert.ok(true);
     });
   });
 });

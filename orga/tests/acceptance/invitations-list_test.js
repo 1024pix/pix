@@ -15,7 +15,7 @@ module('Acceptance | Invitations list', function (hooks) {
 
   test('it should be possible to cancel an invitation', async function (assert) {
     // given
-    const userAttributes = {};
+    const userAttributes = { lang: 'fr' };
     const invitationAttributes = {
       id: 123,
       email: 'gigi@example.net',
