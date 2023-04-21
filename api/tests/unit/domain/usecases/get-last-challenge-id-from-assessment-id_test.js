@@ -1,11 +1,11 @@
 const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
 
 const getLastChallengeIdFromAssessmentId = require('../../../../lib/domain/usecases/get-last-challenge-id-from-assessment-id');
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | get-last-challenge-id-from-assessment-id', function () {
   let assessment;
+  let assessmentRepository;
   const assessmentLastChallengeId = 'last-challenge-id';
 
   beforeEach(async function () {
@@ -13,7 +13,7 @@ describe('Unit | UseCase | get-last-challenge-id-from-assessment-id', function (
       lastChallengeId: assessmentLastChallengeId,
     });
 
-    sinon.stub(assessmentRepository, 'get');
+    assessmentRepository = { get: sinon.stub() };
   });
 
   it('should resolve the Assessment domain object matching the given assessment ID', async function () {
