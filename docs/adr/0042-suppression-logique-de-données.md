@@ -1,10 +1,10 @@
-# 41. Suppression logique de données.
+# 42. Suppression logique de données.
 
 Date : 2023-02-08
 
 ## État
 
-Accepté
+Obsolète - remplacé par 0045-suppression-logique-des-données-avec-historisation.md
 
 ## Contexte
 
