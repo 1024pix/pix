@@ -56,10 +56,6 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
       clock.restore();
       settings.poleEmploi.sendingUrl = originPoleEmploiSendingUrl;
       settings.poleEmploi.tokenUrl = originPoleEmploiTokenUrl;
-
-      httpAgent.post.restore();
-      authenticationMethodRepository.findOneByUserIdAndIdentityProvider.restore();
-      authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider.restore();
     });
 
     it('should throw an error if the user is not known as PoleEmploi user', async function () {

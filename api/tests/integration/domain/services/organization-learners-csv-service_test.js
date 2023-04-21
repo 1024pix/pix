@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { expect, catchErr } from '../../../test-helper.js';
 import { CsvImportError } from '../../../../lib/domain/errors.js';
-import * as organizationLearnersCsvService from '../../../../lib/domain/services/organization-learners-csv-service.js';
+import { extractOrganizationLearnersInformation } from '../../../../lib/domain/services/organization-learners-csv-service.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
 
@@ -49,11 +49,7 @@ describe('Integration | Services | organization-learners-csv-service', function 
       ];
 
       // when
-      const results = await organizationLearnersCsvService.extractOrganizationLearnersInformation(
-        path,
-        organization,
-        i18n
-      );
+      const results = await extractOrganizationLearnersInformation(path, organization, i18n);
 
       //then
       const actualResult = _.map(results, (result) =>
@@ -67,11 +63,7 @@ describe('Integration | Services | organization-learners-csv-service', function 
       const organization = { id: 123, isAgriculture: true };
       const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-csv-with-unknown-encoding.csv`;
       // when
-      const error = await catchErr(organizationLearnersCsvService.extractOrganizationLearnersInformation)(
-        path,
-        organization,
-        i18n
-      );
+      const error = await catchErr(extractOrganizationLearnersInformation)(path, organization, i18n);
 
       //then
       expect(error).to.be.instanceof(CsvImportError);
@@ -83,11 +75,7 @@ describe('Integration | Services | organization-learners-csv-service', function 
       const organization = { id: 123, isAgriculture: true };
       const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-csv-with-duplicate-national-student-id.csv`;
       // when
-      const error = await catchErr(organizationLearnersCsvService.extractOrganizationLearnersInformation)(
-        path,
-        organization,
-        i18n
-      );
+      const error = await catchErr(extractOrganizationLearnersInformation)(path, organization, i18n);
 
       //then
       expect(error).to.be.instanceof(CsvImportError);
@@ -100,11 +88,7 @@ describe('Integration | Services | organization-learners-csv-service', function 
       const organization = { id: 123, isAgriculture: true };
       const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-csv-with-no-national-student-id.csv`;
       // when
-      const error = await catchErr(organizationLearnersCsvService.extractOrganizationLearnersInformation)(
-        path,
-        organization,
-        i18n
-      );
+      const error = await catchErr(extractOrganizationLearnersInformation)(path, organization, i18n);
 
       //then
       expect(error).to.be.instanceof(CsvImportError);

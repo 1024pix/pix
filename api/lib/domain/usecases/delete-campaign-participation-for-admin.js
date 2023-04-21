@@ -19,7 +19,7 @@ const deleteCampaignParticipationForAdmin = async function ({
   await bluebird.mapSeries(campaignParticipations, async (campaignParticipation) => {
     campaignParticipation.delete(userId);
     const { id, deletedAt, deletedBy } = campaignParticipation;
-    await campaignParticipationRepository.delete({ id, deletedAt, deletedBy, domainTransaction });
+    await campaignParticipationRepository.remove({ id, deletedAt, deletedBy, domainTransaction });
   });
 };
 
