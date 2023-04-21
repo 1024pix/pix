@@ -26,11 +26,7 @@ module('Acceptance | authenticated | team', function (hooks) {
           module('when there is no referer', function () {
             test('it should be possible to see the "no referer" section', async function (assert) {
               // given
-              const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
-              server.create('featureToggle', { isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled: true });
-              server.create('member', { firstName: 'Lili', lastName: 'Dupont', isReferer: false });
-              server.create('allowed-certification-center-access', { id: 1, habilitations: [{ key: 'CLEA' }] });
-              await authenticateSession(certificationPointOfContact.id);
+              await _createAndAuthenticateMember();
 
               // when
               const screen = await visitScreen('/equipe');
@@ -48,18 +44,7 @@ module('Acceptance | authenticated | team', function (hooks) {
 
             test('it should be possible to select a referer', async function (assert) {
               // given
-              const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
-              server.create('featureToggle', { isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled: true });
-              server.create('member', {
-                id: 102,
-                firstName: 'Lili',
-                lastName: 'Dupont',
-                isReferer: false,
-              });
-              server.create('allowed-certification-center-access', { id: 1, habilitations: [{ key: 'CLEA' }] });
-              await authenticateSession(certificationPointOfContact.id);
-
-              // when
+              await _createAndAuthenticateMember();
               const screen = await visitScreen('/equipe');
 
               assert.dom(screen.queryByRole('cell', { name: 'Référent Pix' })).doesNotExist();
@@ -74,6 +59,8 @@ module('Acceptance | authenticated | team', function (hooks) {
                   name: 'Lili Dupont',
                 })
               );
+
+              // when
               await click(screen.getByRole('button', { name: 'Valider la sélection de référent' }));
               await waitForDialogClose();
 
@@ -87,18 +74,7 @@ module('Acceptance | authenticated | team', function (hooks) {
             module('when no referer is selected', function () {
               test('it should not be possible to validate', async function (assert) {
                 // given
-                const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
-                server.create('featureToggle', {
-                  isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled: true,
-                });
-                server.create('member', {
-                  id: 102,
-                  firstName: 'Lili',
-                  lastName: 'Dupont',
-                  isReferer: false,
-                });
-                server.create('allowed-certification-center-access', { id: 1, habilitations: [{ key: 'CLEA' }] });
-                await authenticateSession(certificationPointOfContact.id);
+                await _createAndAuthenticateMember();
 
                 // when
                 const screen = await visitScreen('/equipe');
@@ -118,18 +94,7 @@ module('Acceptance | authenticated | team', function (hooks) {
             module('when referer registration failed', function () {
               test('it should return error message', async function (assert) {
                 // given
-                const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
-                server.create('featureToggle', {
-                  isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled: true,
-                });
-                server.create('member', {
-                  id: 102,
-                  firstName: 'Lili',
-                  lastName: 'Dupont',
-                  isReferer: false,
-                });
-                server.create('allowed-certification-center-access', { id: 1, habilitations: [{ key: 'CLEA' }] });
-                await authenticateSession(certificationPointOfContact.id);
+                await _createAndAuthenticateMember();
                 const screen = await visitScreen('/equipe');
                 this.server.post('certif/certification-centers/:id/update-referer', () => {
                   return new Response(500, {}, { errors: [{ status: '500' }] });
@@ -215,4 +180,12 @@ module('Acceptance | authenticated | team', function (hooks) {
       });
     });
   });
+
+  async function _createAndAuthenticateMember() {
+    const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+    server.create('featureToggle', { isCleaResultsRetrievalByHabilitatedCertificationCentersEnabled: true });
+    server.create('member', { firstName: 'Lili', lastName: 'Dupont', isReferer: false });
+    server.create('allowed-certification-center-access', { id: 1, habilitations: [{ key: 'CLEA' }] });
+    await authenticateSession(certificationPointOfContact.id);
+  }
 });
