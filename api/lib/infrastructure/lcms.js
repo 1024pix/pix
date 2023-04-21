@@ -1,15 +1,15 @@
 import { httpAgent } from './http/http-agent.js';
 import { config } from '../config.js';
 
-const { lcms } = config;
+const { lcms: lcmsConfig } = config;
 const getLatestRelease = async function () {
   const response = await httpAgent.get({
-    url: lcms.url + '/releases/latest',
-    headers: { Authorization: `Bearer ${lcms.apiKey}` },
+    url: lcmsConfig.url + '/releases/latest',
+    headers: { Authorization: `Bearer ${lcmsConfig.apiKey}` },
   });
 
   if (!response.isSuccessful) {
-    throw new Error(`An error occurred while fetching ${lcms.url}`);
+    throw new Error(`An error occurred while fetching ${lcmsConfig.url}`);
   }
 
   return response.data.content;
@@ -17,10 +17,12 @@ const getLatestRelease = async function () {
 
 const createRelease = async function () {
   const response = await httpAgent.post({
-    url: lcms.url + '/releases',
-    headers: { Authorization: `Bearer ${lcms.apiKey}` },
+    url: lcmsConfig.url + '/releases',
+    headers: { Authorization: `Bearer ${lcmsConfig.apiKey}` },
   });
   return response.data.content;
 };
 
-export { getLatestRelease, createRelease };
+const lcms = { getLatestRelease, createRelease };
+
+export { lcms };
