@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const JSONAPIError = require('jsonapi-serializer').Error;
-const HttpErrors = require('./http-errors.js');
+const { HttpErrors } = require('./http-errors.js');
 const DomainErrors = require('../domain/errors.js');
 const errorSerializer = require('../infrastructure/serializers/jsonapi/error-serializer.js');
 const { extractLocaleFromRequest } = require('../infrastructure/utils/request-response-utils.js');

@@ -8,7 +8,7 @@ const { SHARED } = CampaignParticipationStatuses;
 const { knex, disconnect } = require('../../db/knex-database-connection');
 const _ = require('lodash');
 const bluebird = require('bluebird');
-const constants = require('../../lib/infrastructure/constants');
+const { constants } = require('../../lib/infrastructure/constants');
 const placementProfileService = require('../../lib/domain/services/placement-profile-service');
 const competenceRepository = require('../../lib/infrastructure/repositories/competence-repository');
 

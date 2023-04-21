@@ -1,5 +1,5 @@
 const { domainBuilder, expect, sinon } = require('../../../../test-helper');
-const constants = require('../../../../../lib/domain/constants');
+const { constants } = require('../../../../../lib/domain/constants');
 const AssessmentResult = require('../../../../../lib/domain/read-models/participant-results/AssessmentResult');
 const KnowledgeElement = require('../../../../../lib/domain/models/KnowledgeElement');
 const StageCollection = require('../../../../../lib/domain/models/user-campaign-results/StageCollection');
