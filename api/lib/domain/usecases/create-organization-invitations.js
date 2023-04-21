@@ -1,6 +1,5 @@
 const bluebird = require('bluebird');
 
-const organizationInvitationService = require('../../domain/services/organization-invitation-service.js');
 const { OrganizationArchivedError } = require('../errors.js');
 
 module.exports = async function createOrganizationInvitations({
@@ -9,6 +8,7 @@ module.exports = async function createOrganizationInvitations({
   locale,
   organizationRepository,
   organizationInvitationRepository,
+  organizationInvitationService,
 }) {
   const organization = await organizationRepository.get(organizationId);
 

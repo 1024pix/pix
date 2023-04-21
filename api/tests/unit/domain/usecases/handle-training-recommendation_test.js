@@ -1,19 +1,19 @@
 const handleTrainingRecommendation = require('../../../../lib/domain/usecases/handle-training-recommendation');
-const trainingRepository = require('../../../../lib/infrastructure/repositories/training-repository');
-const userRecommendedTrainingRepository = require('../../../../lib/infrastructure/repositories/user-recommended-training-repository');
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const config = require('../../../../lib/config.js');
 
 describe('Unit | UseCase | handle-training-recommendation', function () {
+  let trainingRepository;
+  let userRecommendedTrainingRepository;
   let findWithTriggersByCampaignParticipationIdAndLocaleStub;
   let saveStub;
 
   beforeEach(function () {
-    findWithTriggersByCampaignParticipationIdAndLocaleStub = sinon.stub(
-      trainingRepository,
-      'findWithTriggersByCampaignParticipationIdAndLocale'
-    );
-    saveStub = sinon.stub(userRecommendedTrainingRepository, 'save').resolves();
+    trainingRepository = { findWithTriggersByCampaignParticipationIdAndLocale: sinon.stub() };
+    userRecommendedTrainingRepository = { save: sinon.stub() };
+    findWithTriggersByCampaignParticipationIdAndLocaleStub =
+      trainingRepository.findWithTriggersByCampaignParticipationIdAndLocale;
+    saveStub = userRecommendedTrainingRepository.save.resolves();
   });
 
   describe('when assessment is for campaign', function () {

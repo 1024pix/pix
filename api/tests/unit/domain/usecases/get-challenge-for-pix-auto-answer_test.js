@@ -1,10 +1,10 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const getChallengeForPixAutoAnswer = require('../../../../lib/domain/usecases/get-challenge-for-pix-auto-answer');
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const challengeForPixAutoAnswerRepository = require('../../../../lib/infrastructure/repositories/challenge-for-pix-auto-answer-repository');
 
 describe('Unit | UseCase | get-challenge-answer-for-pix-button', function () {
   let assessment;
+  let assessmentRepository;
+  let challengeForPixAutoAnswerRepository;
   const challengeId = 1;
   const challenge = {
     id: challengeId,
@@ -19,8 +19,8 @@ describe('Unit | UseCase | get-challenge-answer-for-pix-button', function () {
       lastChallengeId,
     });
 
-    sinon.stub(assessmentRepository, 'get');
-    sinon.stub(challengeForPixAutoAnswerRepository, 'get');
+    assessmentRepository = { get: sinon.stub() };
+    challengeForPixAutoAnswerRepository = { get: sinon.stub() };
   });
 
   it('should return the solution of the last challenge from the given assessment', async function () {

@@ -1,5 +1,4 @@
 const { UserNotAuthorizedToAccessEntityError } = require('../errors.js');
-const stageCollectionRepository = require('../../infrastructure/repositories/user-campaign-results/stage-collection-repository');
 
 module.exports = async function getCampaignAssessmentParticipation({
   userId,
@@ -8,6 +7,7 @@ module.exports = async function getCampaignAssessmentParticipation({
   campaignRepository,
   campaignAssessmentParticipationRepository,
   badgeAcquisitionRepository,
+  stageCollectionRepository,
 }) {
   if (!(await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, userId))) {
     throw new UserNotAuthorizedToAccessEntityError('User does not belong to the organization that owns the campaign');

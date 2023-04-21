@@ -8,6 +8,8 @@ const organizationTagRepository = require('../../../../lib/infrastructure/reposi
 const targetProfileShareRepository = require('../../../../lib/infrastructure/repositories/target-profile-share-repository');
 const dataProtectionOfficerRepository = require('../../../../lib/infrastructure/repositories/data-protection-officer-repository');
 const tagRepository = require('../../../../lib/infrastructure/repositories/tag-repository');
+const organizationValidator = require('../../../../lib/domain/validators/organization-with-tags-and-target-profiles-script.js');
+const organizationInvitationService = require('../../../../lib/domain/services/organization-invitation-service.js');
 const {
   OrganizationTagNotFound,
   ManyOrganizationsFoundError,
@@ -82,6 +84,8 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           organizationTagRepository,
           organizationInvitationRepository,
           dataProtectionOfficerRepository,
+          organizationValidator,
+          organizationInvitationService,
         });
 
         // then
@@ -107,6 +111,8 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           organizationTagRepository,
           organizationInvitationRepository,
           dataProtectionOfficerRepository,
+          organizationValidator,
+          organizationInvitationService,
         });
 
         // then
@@ -184,6 +190,8 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           organizationTagRepository,
           organizationInvitationRepository,
           dataProtectionOfficerRepository,
+          organizationValidator,
+          organizationInvitationService,
         });
 
         // then
@@ -223,6 +231,8 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           organizationTagRepository,
           organizationInvitationRepository,
           dataProtectionOfficerRepository,
+          organizationValidator,
+          organizationInvitationService,
         });
 
         // then
@@ -326,6 +336,8 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           organizationTagRepository,
           organizationInvitationRepository,
           dataProtectionOfficerRepository,
+          organizationValidator,
+          organizationInvitationService,
         });
 
         // then
@@ -397,6 +409,8 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
           organizationTagRepository,
           organizationInvitationRepository,
           dataProtectionOfficerRepository,
+          organizationValidator,
+          organizationInvitationService,
         });
 
         // then
@@ -472,6 +486,8 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         organizationTagRepository,
         organizationInvitationRepository,
         dataProtectionOfficerRepository,
+        organizationValidator,
+        organizationInvitationService,
       });
 
       // then
@@ -548,6 +564,8 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         organizationTagRepository,
         organizationInvitationRepository,
         dataProtectionOfficerRepository,
+        organizationValidator,
+        organizationInvitationService,
       });
 
       // then
@@ -644,6 +662,8 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         organizationTagRepository,
         organizationInvitationRepository,
         dataProtectionOfficerRepository,
+        organizationValidator,
+        organizationInvitationService,
       });
 
       // then
@@ -720,6 +740,8 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         organizationTagRepository,
         organizationInvitationRepository,
         dataProtectionOfficerRepository,
+        organizationValidator,
+        organizationInvitationService,
       });
 
       // then
@@ -804,6 +826,8 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         organizationTagRepository,
         organizationInvitationRepository,
         dataProtectionOfficerRepository,
+        organizationValidator,
+        organizationInvitationService,
       });
 
       // then

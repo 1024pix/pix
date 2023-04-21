@@ -1,12 +1,12 @@
 const { expect, catchErr, domainBuilder } = require('../../../test-helper');
 const updateCampaignDetailsManagement = require('../../../../lib/domain/usecases/update-campaign-details-management');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
-const campaignValidator = require('../../../../lib/domain/validators/campaign-validator');
 const sinon = require('sinon');
 
 describe('Unit | UseCase | update-campaign-details-management', function () {
   let campaignManagementRepository;
   let campaign;
+  let campaignValidator;
 
   beforeEach(function () {
     campaign = domainBuilder.buildCampaign();
@@ -16,7 +16,7 @@ describe('Unit | UseCase | update-campaign-details-management', function () {
       get: sinon.stub().resolves(campaign),
     };
 
-    sinon.stub(campaignValidator, 'validate');
+    campaignValidator = { validate: sinon.stub() };
   });
 
   it('should update the campaign', async function () {
@@ -31,7 +31,12 @@ describe('Unit | UseCase | update-campaign-details-management', function () {
       multipleSendings: false,
     };
 
-    await updateCampaignDetailsManagement({ campaignId, ...campaignAttributes, campaignManagementRepository });
+    await updateCampaignDetailsManagement({
+      campaignId,
+      ...campaignAttributes,
+      campaignManagementRepository,
+      campaignValidator,
+    });
 
     expect(campaignManagementRepository.update).to.have.been.calledOnceWith({ campaignId, campaignAttributes });
   });
@@ -44,6 +49,7 @@ describe('Unit | UseCase | update-campaign-details-management', function () {
       const error = await catchErr(updateCampaignDetailsManagement)({
         campaignId,
         campaignManagementRepository,
+        campaignValidator,
       });
 
       expect(error).to.be.an.instanceOf(EntityValidationError);

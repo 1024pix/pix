@@ -171,6 +171,14 @@ const verifyCertificateCodeService = require('../../domain/services/verify-certi
 const participantResultsSharedRepository = require('../../infrastructure/repositories/participant-results-shared-repository.js');
 const poleEmploiNotifier = require('../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js');
 const disabledPoleEmploiNotifier = require('../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js');
+const organizationInvitationService = require('../services/organization-invitation-service.js');
+const organizationCreationValidator = require('../validators/organization-creation-validator.js');
+const organizationValidator = require('../validators/organization-with-tags-and-target-profiles-script.js');
+const userValidator = require('../validators/user-validator.js');
+const passwordValidator = require('../validators/password-validator.js');
+const stageCollectionRepository = require('../../infrastructure/repositories/user-campaign-results/stage-collection-repository');
+const campaignValidator = require('../validators/campaign-validator.js');
+const learningContentConversionService = require('../services/learning-content/learning-content-conversion-service.js');
 
 function requirePoleEmploiNotifier() {
   if (settings.poleEmploi.pushEnabled) {
@@ -353,6 +361,14 @@ const dependencies = {
   userService,
   userSavedTutorialRepository,
   verifyCertificateCodeService,
+  organizationInvitationService,
+  organizationCreationValidator,
+  organizationValidator,
+  userValidator,
+  passwordValidator,
+  stageCollectionRepository,
+  campaignValidator,
+  learningContentConversionService,
 };
 
 const { injectDependencies } = require('../../infrastructure/utils/dependency-injection.js');

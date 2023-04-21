@@ -1,8 +1,6 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases/index.js');
+const reconcileScoOrganizationLearnerAutomatically = require('../../../../lib/domain/usecases/reconcile-sco-organization-learner-automatically.js');
 const OrganizationLearner = require('../../../../lib/domain/models/OrganizationLearner');
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const organizationLearnerRepository = require('../../../../lib/infrastructure/repositories/organization-learner-repository');
 const { CampaignCodeError, UserCouldNotBeReconciledError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | reconcile-sco-organization-learner-automatically', function () {
@@ -12,6 +10,8 @@ describe('Unit | UseCase | reconcile-sco-organization-learner-automatically', fu
   let getCampaignStub;
   let organizationLearner;
   let userId;
+  let campaignRepository;
+  let organizationLearnerRepository;
   const organizationId = 1;
   const organizationLearnerId = 1;
   const nationalStudentId = '123456789AZ';
@@ -25,16 +25,18 @@ describe('Unit | UseCase | reconcile-sco-organization-learner-automatically', fu
       nationalStudentId,
     });
 
-    getCampaignStub = sinon
-      .stub(campaignRepository, 'getByCode')
+    campaignRepository = { getByCode: sinon.stub() };
+    getCampaignStub = campaignRepository.getByCode
       .withArgs(campaignCode)
       .resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
 
-    reconcileUserByNationalStudentIdAndOrganizationIdStub = sinon.stub(
-      organizationLearnerRepository,
-      'reconcileUserByNationalStudentIdAndOrganizationId'
-    );
-    findByUserIdStub = sinon.stub(organizationLearnerRepository, 'findByUserId');
+    organizationLearnerRepository = {
+      reconcileUserByNationalStudentIdAndOrganizationId: sinon.stub(),
+      findByUserId: sinon.stub(),
+    };
+    reconcileUserByNationalStudentIdAndOrganizationIdStub =
+      organizationLearnerRepository.reconcileUserByNationalStudentIdAndOrganizationId;
+    findByUserIdStub = organizationLearnerRepository.findByUserId;
   });
 
   context('When there is no campaign with the given code', function () {
@@ -43,9 +45,11 @@ describe('Unit | UseCase | reconcile-sco-organization-learner-automatically', fu
       getCampaignStub.withArgs(campaignCode).resolves(null);
 
       // when
-      const result = await catchErr(usecases.reconcileScoOrganizationLearnerAutomatically)({
+      const result = await catchErr(reconcileScoOrganizationLearnerAutomatically)({
         userId,
         campaignCode,
+        campaignRepository,
+        organizationLearnerRepository,
       });
 
       // then
@@ -59,9 +63,11 @@ describe('Unit | UseCase | reconcile-sco-organization-learner-automatically', fu
       findByUserIdStub.resolves([]);
 
       // when
-      const result = await catchErr(usecases.reconcileScoOrganizationLearnerAutomatically)({
+      const result = await catchErr(reconcileScoOrganizationLearnerAutomatically)({
         userId,
         campaignCode,
+        campaignRepository,
+        organizationLearnerRepository,
       });
 
       // then
@@ -77,9 +83,11 @@ describe('Unit | UseCase | reconcile-sco-organization-learner-automatically', fu
       reconcileUserByNationalStudentIdAndOrganizationIdStub.throws(new UserCouldNotBeReconciledError());
 
       // when
-      const result = await catchErr(usecases.reconcileScoOrganizationLearnerAutomatically)({
+      const result = await catchErr(reconcileScoOrganizationLearnerAutomatically)({
         userId,
         campaignCode,
+        campaignRepository,
+        organizationLearnerRepository,
       });
 
       // then
@@ -95,9 +103,11 @@ describe('Unit | UseCase | reconcile-sco-organization-learner-automatically', fu
       reconcileUserByNationalStudentIdAndOrganizationIdStub.throws(new UserCouldNotBeReconciledError());
 
       // when
-      const result = await catchErr(usecases.reconcileScoOrganizationLearnerAutomatically)({
+      const result = await catchErr(reconcileScoOrganizationLearnerAutomatically)({
         userId,
         campaignCode,
+        campaignRepository,
+        organizationLearnerRepository,
       });
 
       // then
@@ -131,9 +141,11 @@ describe('Unit | UseCase | reconcile-sco-organization-learner-automatically', fu
         .resolves(organizationLearner);
 
       // when
-      const result = await usecases.reconcileScoOrganizationLearnerAutomatically({
+      const result = await reconcileScoOrganizationLearnerAutomatically({
         userId,
         campaignCode,
+        campaignRepository,
+        organizationLearnerRepository,
       });
 
       // then
