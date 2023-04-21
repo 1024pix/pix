@@ -31,25 +31,12 @@ export default class Stages extends Component {
     return this.args.stageCollection.isLevelType;
   }
 
-  get hasStages() {
-    const stages = this.args.stageCollection.stages;
-    return stages && stages.length > 0;
-  }
-
   get hasNewStage() {
     return this.args.stageCollection.stages.any((stage) => stage.isBeingCreated);
   }
 
   get newStages() {
     return this.args.stageCollection.stages.filter((stage) => stage.isBeingCreated);
-  }
-
-  get displayNoZeroStage() {
-    if (!this.hasStages) return false;
-    if (this.isLevelType) {
-      return !this.args.stageCollection.stages.any((stage) => stage.level === 0);
-    }
-    return !this.args.stageCollection.stages.any((stage) => stage.threshold === 0);
   }
 
   get columnNameByStageType() {
@@ -63,7 +50,7 @@ export default class Stages extends Component {
   }
 
   get mustChooseStageType() {
-    return !this.hasStages;
+    return !this.args.stageCollection.hasStages;
   }
 
   get collectionHasNonZeroStages() {
