@@ -19,6 +19,16 @@ const register = async function (server) {
       },
     },
     {
+      method: 'POST',
+      path: '/api/pix1d/assessments',
+      config: {
+        pre: [{ method: securityPreHandlers.checkPix1dActivated }],
+        auth: false,
+        handler: assessmentController.createForPix1d,
+        tags: ['api', 'pix1d', 'assessment'],
+      },
+    },
+    {
       method: 'GET',
       path: '/api/assessments/{id}/next',
       config: {
