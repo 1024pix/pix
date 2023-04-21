@@ -69,8 +69,7 @@
         Nouveau palier
       </PixButton>
       {{#if @stageCollection.hasStages}}
-        <PixTooltip @id="tooltip-stage"
-         @isWide="true">
+        <PixTooltip @id="tooltip-stage" @isWide="true">
           <:triggerElement>
             <PixButton
               class="stages-new-stage"
@@ -84,7 +83,8 @@
             </PixButton>
           </:triggerElement>
           <:tooltip>
-            Le palier 1er acquis est obtenu dès un acquis réussi par le participant. Il se verra alors attribuer une étoile à la fin de son parcours.
+            Le palier 1er acquis est obtenu dès un acquis réussi par le participant. Il se verra alors attribuer une
+            étoile à la fin de son parcours.
           </:tooltip>
         </PixTooltip>
       {{/if}}
