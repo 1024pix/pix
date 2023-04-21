@@ -103,6 +103,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
           id: 100,
           level: 1,
           threshold: null,
+          isFirstSkill: false,
           title: 'premier palier',
           message: 'message palier',
           prescriberTitle: 'titre prescripteur',
@@ -236,6 +237,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
           const stage = server.create('stage', {
             id: 100,
             level: 2,
+            threshold: null,
             title: 'ancien titre',
             message: 'ancien message',
             prescriberTitle: 'ancien titre prescripteur',
@@ -336,6 +338,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
           const stage = server.create('stage', {
             id: 100,
             threshold: 10,
+            level: null,
             title: 'ancien titre',
             message: 'ancien message',
             prescriberTitle: 'ancien titre prescripteur',
