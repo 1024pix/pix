@@ -1,12 +1,12 @@
 const { ForbiddenAccess } = require('../../domain/errors.js');
 const dayjs = require('dayjs');
-const learningContentConversionService = require('../services/learning-content/learning-content-conversion-service.js');
 
 module.exports = async function getTargetProfileContentAsJson({
   userId,
   targetProfileId,
   adminMemberRepository,
   targetProfileForAdminRepository,
+  learningContentConversionService,
 }) {
   const adminMember = await adminMemberRepository.get({ userId });
   if (!_hasAuthorizationToDownloadContent(adminMember))
