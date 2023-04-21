@@ -53,7 +53,15 @@ module.exports = {
         stages: {
           ref: 'id',
           included: true,
-          attributes: ['threshold', 'level', 'title', 'message', 'prescriberTitle', 'prescriberDescription'],
+          attributes: [
+            'threshold',
+            'level',
+            'isFirstSkill',
+            'title',
+            'message',
+            'prescriberTitle',
+            'prescriberDescription',
+          ],
         },
       },
       areas: {

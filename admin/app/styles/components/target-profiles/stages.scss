@@ -28,8 +28,12 @@
   margin-bottom: 0;
 }
 
-.stages-new-stage {
-  margin: 10px 0;
+.add-stage-actions {
+  display: flex;
+
+  .stages-new-stage {
+    margin: 10px 8px 10px 0;
+  }
 }
 
 .stages-actions {

@@ -12,7 +12,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
             const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({ maxLevel: 8 });
             const stagesDTO = [
               {
-                id: 123,
+                id: null,
                 level: null,
                 threshold: 10,
                 title: 'Palier seuil 10 titre',
@@ -21,7 +21,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 prescriberDescription: 'Palier seuil 10 message prescripteur',
               },
               {
-                id: 456,
+                id: null,
                 level: null,
                 threshold: 50,
                 title: 'Palier seuil 50 titre',
@@ -48,7 +48,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
             const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({ maxLevel: 8 });
             const stagesDTO = [
               {
-                id: 123,
+                id: null,
                 level: null,
                 threshold: 0,
                 title: 'Palier seuil 0 titre',
@@ -57,7 +57,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 prescriberDescription: 'Palier seuil 0 message prescripteur',
               },
               {
-                id: 456,
+                id: null,
                 level: null,
                 threshold: null,
                 title: 'Palier seuil titre',
@@ -84,7 +84,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
             const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({ maxLevel: 8 });
             const stagesDTO = [
               {
-                id: 123,
+                id: null,
                 level: null,
                 threshold: 0,
                 title: 'Palier seuil 0 titre',
@@ -93,7 +93,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 prescriberDescription: 'Palier seuil 0 message prescripteur',
               },
               {
-                id: 456,
+                id: null,
                 level: null,
                 threshold: 50,
                 title: 'Palier seuil 50 titre',
@@ -102,7 +102,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 prescriberDescription: 'Palier seuil 50 message prescripteur',
               },
               {
-                id: 789,
+                id: null,
                 level: 5,
                 threshold: null,
                 title: 'Palier niveau 5 titre',
@@ -129,7 +129,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
             const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({ maxLevel: 8 });
             const stagesDTO = [
               {
-                id: 123,
+                id: null,
                 level: null,
                 threshold: 0,
                 title: 'Palier seuil 0 titre',
@@ -138,7 +138,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 prescriberDescription: 'Palier seuil 0 message prescripteur',
               },
               {
-                id: 456,
+                id: null,
                 level: null,
                 threshold: 50,
                 title: 'Palier seuil 50 titre',
@@ -147,7 +147,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 prescriberDescription: 'Palier seuil 50 message prescripteur',
               },
               {
-                id: 789,
+                id: null,
                 level: null,
                 threshold: 60,
                 title: 'Palier seuil 60 titre',
@@ -183,7 +183,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
             const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({ maxLevel: 8 });
             const stagesDTO = [
               {
-                id: 123,
+                id: null,
                 level: null,
                 threshold: 0,
                 title: null,
@@ -210,7 +210,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
             const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({ maxLevel: 8 });
             const stagesDTO = [
               {
-                id: 123,
+                id: null,
                 level: null,
                 threshold: 0,
                 title: 'Palier seuil 0 titre',
@@ -237,7 +237,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
             const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({ maxLevel: 2 });
             const stagesDTO = [
               {
-                id: 123,
+                id: null,
                 level: null,
                 threshold: 101,
                 title: 'Palier seuil 10 titre',
@@ -246,7 +246,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 prescriberDescription: 'Palier seuil 10 message prescripteur',
               },
               {
-                id: 456,
+                id: null,
                 level: null,
                 threshold: 0,
                 title: 'Palier seuil 0 titre',
@@ -273,7 +273,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
             const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({ maxLevel: 2 });
             const stagesDTO = [
               {
-                id: 123,
+                id: null,
                 level: null,
                 threshold: -1,
                 title: 'Palier seuil 10 titre',
@@ -282,7 +282,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 prescriberDescription: 'Palier seuil 10 message prescripteur',
               },
               {
-                id: 456,
+                id: null,
                 level: null,
                 threshold: 0,
                 title: 'Palier seuil 0 titre',
@@ -358,6 +358,91 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
             });
           }
         );
+        context('when collection has several first skill stages', function () {
+          it('should throw an error', function () {
+            // given
+            const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({ maxLevel: 2 });
+            const stagesDTO = [
+              {
+                id: null,
+                level: null,
+                threshold: null,
+                isFirstSkill: true,
+                title: 'Palier premier acquis 1 titre',
+                message: 'Palier premier acquis 1 message',
+                prescriberTitle: 'Palier premier acquis 1 titre prescripteur',
+                prescriberDescription: 'Palier premier acquis 1 message prescripteur',
+              },
+              {
+                id: null,
+                level: null,
+                threshold: 0,
+                isFirstSkill: false,
+                title: 'Palier seuil 0 titre',
+                message: 'Palier seuil 0 message',
+                prescriberTitle: 'Palier seuil 0 titre prescripteur',
+                prescriberDescription: 'Palier seuil 0 message prescripteur',
+              },
+              {
+                id: null,
+                level: null,
+                threshold: null,
+                isFirstSkill: true,
+                title: 'Palier premier acquis 2 titre',
+                message: 'Palier premier acquis 2 message',
+                prescriberTitle: 'Palier premier acquis 2 titre prescripteur',
+                prescriberDescription: 'Palier premier acquis 2 message prescripteur',
+              },
+            ];
+
+            // when
+            try {
+              new StageCollectionUpdate({ stagesDTO, stageCollection });
+              expect.fail('Expected error to have been thrown');
+            } catch (err) {
+              // then
+              expect(err).to.be.instanceOf(InvalidStageError);
+              expect(err.message).to.equal("Il ne peut y avoir qu'un seul palier premier acquis.");
+            }
+          });
+        });
+        context('when collection has a first skill stage with a threshold', function () {
+          it('should throw an error', function () {
+            // given
+            const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({ maxLevel: 2 });
+            const stagesDTO = [
+              {
+                id: null,
+                level: null,
+                threshold: 0,
+                title: 'Palier seuil 0 titre',
+                message: 'Palier seuil 0 message',
+                prescriberTitle: 'Palier seuil 0 titre prescripteur',
+                prescriberDescription: 'Palier seuil 0 message prescripteur',
+              },
+              {
+                id: null,
+                level: null,
+                threshold: 20,
+                isFirstSkill: true,
+                title: 'Palier premier acquis invalide titre',
+                message: 'Palier premier acquis invalide message',
+                prescriberTitle: 'Palier premier acquis invalide titre prescripteur',
+                prescriberDescription: 'Palier premier acquis invalide message prescripteur',
+              },
+            ];
+
+            // when
+            try {
+              new StageCollectionUpdate({ stagesDTO, stageCollection });
+              expect.fail('Expected error to have been thrown');
+            } catch (err) {
+              // then
+              expect(err).to.be.instanceOf(InvalidStageError);
+              expect(err.message).to.equal('Un palier de premier acquis ne peut pas avoir de niveau ou de seuil.');
+            }
+          });
+        });
       });
       context('when in a level collection', function () {
         context('when collection has no zero stage but has some other stages', function () {
@@ -366,7 +451,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
             const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({ maxLevel: 8 });
             const stagesDTO = [
               {
-                id: 123,
+                id: null,
                 level: 1,
                 threshold: null,
                 title: 'Palier niveau 1 titre',
@@ -375,7 +460,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 prescriberDescription: 'Palier niveau 1 message prescripteur',
               },
               {
-                id: 456,
+                id: null,
                 level: 5,
                 threshold: null,
                 title: 'Palier niveau 5 titre',
@@ -402,7 +487,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
             const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({ maxLevel: 8 });
             const stagesDTO = [
               {
-                id: 123,
+                id: null,
                 level: 0,
                 threshold: null,
                 title: 'Palier niveau 0 titre',
@@ -411,7 +496,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 prescriberDescription: 'Palier niveau 0 message prescripteur',
               },
               {
-                id: 456,
+                id: null,
                 level: null,
                 threshold: null,
                 title: 'Palier niveau titre',
@@ -438,7 +523,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
             const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({ maxLevel: 8 });
             const stagesDTO = [
               {
-                id: 123,
+                id: null,
                 level: null,
                 threshold: 0,
                 title: 'Palier seuil 0 titre',
@@ -447,7 +532,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 prescriberDescription: 'Palier seuil 0 message prescripteur',
               },
               {
-                id: 456,
+                id: null,
                 level: 5,
                 threshold: null,
                 title: 'Palier niveau 5 titre',
@@ -456,7 +541,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 prescriberDescription: 'Palier niveau 5 message prescripteur',
               },
               {
-                id: 789,
+                id: null,
                 level: null,
                 threshold: 50,
                 title: 'Palier seuil 50 titre',
@@ -483,7 +568,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
             const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({ maxLevel: 8 });
             const stagesDTO = [
               {
-                id: 123,
+                id: null,
                 level: 0,
                 threshold: null,
                 title: 'Palier niveau 0 titre',
@@ -492,7 +577,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 prescriberDescription: 'Palier niveau 1 message prescripteur',
               },
               {
-                id: 456,
+                id: null,
                 level: 5,
                 threshold: null,
                 title: 'Palier niveau 5 titre',
@@ -501,7 +586,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 prescriberDescription: 'Palier niveau 5 message prescripteur',
               },
               {
-                id: 789,
+                id: null,
                 level: 7,
                 threshold: null,
                 title: 'Palier niveau 7 titre',
@@ -537,7 +622,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
             const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({ maxLevel: 8 });
             const stagesDTO = [
               {
-                id: 123,
+                id: null,
                 level: 0,
                 threshold: null,
                 title: null,
@@ -564,7 +649,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
             const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({ maxLevel: 8 });
             const stagesDTO = [
               {
-                id: 123,
+                id: null,
                 level: 0,
                 threshold: null,
                 title: 'Palier niveau 0 titre',
@@ -591,7 +676,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
             const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({ maxLevel: 2 });
             const stagesDTO = [
               {
-                id: 123,
+                id: null,
                 level: 0,
                 threshold: null,
                 title: 'Palier niveau 0 titre',
@@ -600,7 +685,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 prescriberDescription: 'Palier niveau 0 message prescripteur',
               },
               {
-                id: 456,
+                id: null,
                 level: 2,
                 threshold: null,
                 title: 'Palier niveau 2 titre',
@@ -609,7 +694,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 prescriberDescription: 'Palier niveau 2 message prescripteur',
               },
               {
-                id: 789,
+                id: null,
                 level: 3,
                 threshold: null,
                 title: 'Palier niveau 3 titre',
@@ -636,7 +721,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
             const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({ maxLevel: 2 });
             const stagesDTO = [
               {
-                id: 123,
+                id: null,
                 level: 0,
                 threshold: null,
                 title: 'Palier niveau 0 titre',
@@ -645,7 +730,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 prescriberDescription: 'Palier niveau 0 message prescripteur',
               },
               {
-                id: 456,
+                id: null,
                 level: 2,
                 threshold: null,
                 title: 'Palier niveau 2 titre',
@@ -654,7 +739,7 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
                 prescriberDescription: 'Palier niveau 2 message prescripteur',
               },
               {
-                id: 789,
+                id: null,
                 level: -1,
                 threshold: null,
                 title: 'Palier niveau 3 titre',
@@ -730,6 +815,91 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
             });
           }
         );
+        context('when collection has several first skill stages', function () {
+          it('should throw an error', function () {
+            // given
+            const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({ maxLevel: 2 });
+            const stagesDTO = [
+              {
+                id: null,
+                level: 0,
+                threshold: null,
+                isFirstSkill: false,
+                title: 'Palier niveau 0 titre',
+                message: 'Palier niveau 0 message',
+                prescriberTitle: 'Palier niveau 0 titre prescripteur',
+                prescriberDescription: 'Palier niveau 0 message prescripteur',
+              },
+              {
+                id: null,
+                level: null,
+                threshold: null,
+                isFirstSkill: true,
+                title: 'Palier premier acquis 1 titre',
+                message: 'Palier premier acquis 1 message',
+                prescriberTitle: 'Palier premier acquis 1 titre prescripteur',
+                prescriberDescription: 'Palier premier acquis 1 message prescripteur',
+              },
+              {
+                id: null,
+                level: null,
+                threshold: null,
+                isFirstSkill: true,
+                title: 'Palier premier acquis 2 titre',
+                message: 'Palier premier acquis 2 message',
+                prescriberTitle: 'Palier premier acquis 2 titre prescripteur',
+                prescriberDescription: 'Palier premier acquis 2 message prescripteur',
+              },
+            ];
+
+            // when
+            try {
+              new StageCollectionUpdate({ stagesDTO, stageCollection });
+              expect.fail('Expected error to have been thrown');
+            } catch (err) {
+              // then
+              expect(err).to.be.instanceOf(InvalidStageError);
+              expect(err.message).to.equal("Il ne peut y avoir qu'un seul palier premier acquis.");
+            }
+          });
+        });
+        context('when collection has a first skill stage with a level', function () {
+          it('should throw an error', function () {
+            // given
+            const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({ maxLevel: 2 });
+            const stagesDTO = [
+              {
+                id: null,
+                level: 0,
+                threshold: null,
+                title: 'Palier niveau 0 titre',
+                message: 'Palier niveau 0 message',
+                prescriberTitle: 'Palier niveau 0 titre prescripteur',
+                prescriberDescription: 'Palier niveau 0 message prescripteur',
+              },
+              {
+                id: null,
+                level: 1,
+                threshold: null,
+                isFirstSkill: true,
+                title: 'Palier premier acquis invalide titre',
+                message: 'Palier premier acquis invalide message',
+                prescriberTitle: 'Palier premier acquis invalide titre prescripteur',
+                prescriberDescription: 'Palier premier acquis invalide message prescripteur',
+              },
+            ];
+
+            // when
+            try {
+              new StageCollectionUpdate({ stagesDTO, stageCollection });
+              expect.fail('Expected error to have been thrown');
+            } catch (err) {
+              // then
+              expect(err).to.be.instanceOf(InvalidStageError);
+              expect(err.message).to.equal('Un palier de premier acquis ne peut pas avoir de niveau ou de seuil.');
+            }
+          });
+        });
       });
     });
     context('when business rules are valid', function () {
@@ -814,6 +984,101 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
           // then
           expect(collection).to.be.instanceOf(StageCollectionUpdate);
         });
+
+        it('should successfully build the collection with a first skill stage', function () {
+          // given
+          const oldStages = [
+            {
+              id: 123,
+              level: null,
+              threshold: 0,
+              title: 'Palier seuil 0 titre',
+              message: 'Palier seuil 0 message',
+              prescriberTitle: 'Palier seuil 0 titre prescripteur',
+              prescriberDescription: 'Palier seuil 0 message prescripteur',
+            },
+            {
+              id: 456,
+              level: null,
+              threshold: 50,
+              title: 'Palier seuil 50 titre',
+              message: 'Palier seuil 50 message',
+              prescriberTitle: 'Palier seuil 50 titre prescripteur',
+              prescriberDescription: 'Palier seuil 50 message prescripteur',
+            },
+            {
+              id: 789,
+              level: null,
+              threshold: 60,
+              title: 'Palier seuil 60 titre',
+              message: 'Palier seuil 60 message',
+              prescriberTitle: 'Palier seuil 60 titre prescripteur',
+              prescriberDescription: 'Palier seuil 60 message prescripteur',
+            },
+          ];
+          const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({
+            stages: oldStages,
+            maxLevel: 8,
+          });
+          const stagesDTO = [
+            {
+              id: '123',
+              level: null,
+              threshold: 0,
+              isFirstSkill: false,
+              title: 'Palier seuil 0 titre',
+              message: 'Palier seuil 0 message',
+              prescriberTitle: 'Palier seuil 0 titre prescripteur',
+              prescriberDescription: 'Palier seuil 0 message prescripteur',
+            },
+            {
+              id: 456,
+              level: null,
+              threshold: 50,
+              isFirstSkill: false,
+              title: 'Palier seuil 50 titre',
+              message: 'Palier seuil 50 message',
+              prescriberTitle: 'Palier seuil 50 titre prescripteur',
+              prescriberDescription: 'Palier seuil 50 message prescripteur',
+            },
+            {
+              id: 789,
+              level: null,
+              threshold: 60,
+              isFirstSkill: false,
+              title: 'Palier seuil 60 titre',
+              message: 'Palier seuil 60 message',
+              prescriberTitle: 'Palier seuil 60 titre prescripteur',
+              prescriberDescription: 'Palier seuil 60 message prescripteur',
+            },
+            {
+              id: null,
+              level: null,
+              threshold: 80,
+              isFirstSkill: false,
+              title: 'Palier seuil 80 titre',
+              message: 'Palier seuil 80 message',
+              prescriberTitle: 'Palier seuil 80 prescripteur',
+              prescriberDescription: 'Palier seuil 80 prescripteur',
+            },
+            {
+              id: null,
+              level: null,
+              threshold: null,
+              isFirstSkill: true,
+              title: 'Palier premier acquis titre',
+              message: 'Palier premier acquis message',
+              prescriberTitle: 'Palier premier acquis prescripteur',
+              prescriberDescription: 'Palier premier acquis prescripteur',
+            },
+          ];
+
+          // when
+          const collection = new StageCollectionUpdate({ stagesDTO, stageCollection });
+
+          // then
+          expect(collection).to.be.instanceOf(StageCollectionUpdate);
+        });
       });
       context('when in a level collection', function () {
         it('should successfully build the collection', function () {
@@ -887,6 +1152,97 @@ describe('Unit | Domain | Models | target-profile-management/StageCollectionUpda
               message: 'Palier niveau 3 message',
               prescriberTitle: 'Palier niveau 3 titre prescripteur',
               prescriberDescription: 'Palier niveau 3 message prescripteur',
+            },
+          ];
+
+          // when
+          const collection = new StageCollectionUpdate({ stagesDTO, stageCollection });
+
+          // then
+          expect(collection).to.be.instanceOf(StageCollectionUpdate);
+        });
+        it('should successfully build the collection with a first skill stage', function () {
+          // given
+          const oldStages = [
+            {
+              id: 123,
+              level: 0,
+              threshold: null,
+              title: 'Palier niveau 0 titre',
+              message: 'Palier niveau 0 message',
+              prescriberTitle: 'Palier niveau 0 titre prescripteur',
+              prescriberDescription: 'Palier niveau 0 message prescripteur',
+            },
+            {
+              id: 456,
+              level: 1,
+              threshold: null,
+              title: 'Palier niveau 1 titre',
+              message: 'Palier niveau 1 message',
+              prescriberTitle: 'Palier niveau 1 titre prescripteur',
+              prescriberDescription: 'Palier niveau 1 message prescripteur',
+            },
+            {
+              id: 789,
+              level: 2,
+              threshold: null,
+              title: 'Palier niveau 2 titre',
+              message: 'Palier niveau 2 message',
+              prescriberTitle: 'Palier niveau 2 titre prescripteur',
+              prescriberDescription: 'Palier niveau 2 message prescripteur',
+            },
+          ];
+          const stageCollection = domainBuilder.buildStageCollectionForTargetProfileManagement({
+            stages: oldStages,
+            maxLevel: 8,
+          });
+          const stagesDTO = [
+            {
+              id: 123,
+              level: 0,
+              threshold: null,
+              title: 'Palier niveau 0 titre',
+              message: 'Palier niveau 0 message',
+              prescriberTitle: 'Palier niveau 0 titre prescripteur',
+              prescriberDescription: 'Palier niveau 0 message prescripteur',
+            },
+            {
+              id: 456,
+              level: 1,
+              threshold: null,
+              title: 'Palier niveau 1 titre',
+              message: 'Palier niveau 1 message',
+              prescriberTitle: 'Palier niveau 1 titre prescripteur',
+              prescriberDescription: 'Palier niveau 1 message prescripteur',
+            },
+            {
+              id: 789,
+              level: 2,
+              threshold: null,
+              title: 'Palier niveau 2 titre',
+              message: 'Palier niveau 2 message',
+              prescriberTitle: 'Palier niveau 2 titre prescripteur',
+              prescriberDescription: 'Palier niveau 2 message prescripteur',
+            },
+            {
+              id: null,
+              level: 3,
+              threshold: null,
+              isFirstSkill: false,
+              title: 'Palier niveau 3 titre',
+              message: 'Palier niveau 3 message',
+              prescriberTitle: 'Palier niveau 3 titre prescripteur',
+              prescriberDescription: 'Palier niveau 3 message prescripteur',
+            },
+            {
+              id: null,
+              level: null,
+              threshold: null,
+              isFirstSkill: true,
+              title: 'Palier premier acquis titre',
+              message: 'Palier premier acquis message',
+              prescriberTitle: 'Palier premier acquis titre prescripteur',
+              prescriberDescription: 'Palier premier acquis message prescripteur',
             },
           ];
 

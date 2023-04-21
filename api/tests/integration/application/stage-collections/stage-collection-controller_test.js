@@ -64,9 +64,10 @@ describe('Integration | Application | stage-collection-controller', function () 
                   prescriberDescription: 'Palier niveau 0 description prescripteur',
                 },
                 {
-                  id: 456,
+                  id: '456',
                   level: 1,
                   threshold: null,
+                  isFirstSkill: false,
                   title: 'Palier niveau 1 titre',
                   message: 'Palier niveau 1 message',
                   prescriberTitle: 'Palier niveau 1 titre prescripteur',
@@ -81,6 +82,16 @@ describe('Integration | Application | stage-collection-controller', function () 
                   prescriberTitle: 'Palier niveau 2 titre prescripteur',
                   prescriberDescription: 'Palier niveau 2 description prescripteur',
                 },
+                {
+                  id: null,
+                  level: null,
+                  threshold: null,
+                  isFirstSkill: true,
+                  title: 'Palier premier acquis titre',
+                  message: 'Palier premier acquis message',
+                  prescriberTitle: 'Palier premier acquis titre prescripteur',
+                  prescriberDescription: 'Palier premier acquis description prescripteur',
+                },
               ],
             },
           },
@@ -92,26 +103,39 @@ describe('Integration | Application | stage-collection-controller', function () 
 
       // then
       const currentStageCollection = await stageCollectionRepository.getByTargetProfileId(targetProfileId);
-      const newStageId = currentStageCollection.stages
+      const newStageIds = currentStageCollection.stages
         .map(({ id }) => id)
-        .filter((value) => ![123, 456, 789].includes(value))[0];
+        .filter((value) => ![123, 456, 789].includes(value))
+        .sort();
       expect(currentStageCollection.toDTO()).to.deep.equal({
         id: targetProfileId,
         targetProfileId,
         stages: [
           {
-            id: newStageId,
+            id: newStageIds[0],
             level: 2,
             threshold: null,
+            isFirstSkill: false,
             title: 'Palier niveau 2 titre',
             message: 'Palier niveau 2 message',
             prescriberTitle: 'Palier niveau 2 titre prescripteur',
             prescriberDescription: 'Palier niveau 2 description prescripteur',
           },
           {
+            id: newStageIds[1],
+            level: null,
+            threshold: null,
+            isFirstSkill: true,
+            title: 'Palier premier acquis titre',
+            message: 'Palier premier acquis message',
+            prescriberTitle: 'Palier premier acquis titre prescripteur',
+            prescriberDescription: 'Palier premier acquis description prescripteur',
+          },
+          {
             id: 123,
             level: 0,
             threshold: null,
+            isFirstSkill: false,
             title: 'Palier niveau 0 titre',
             message: 'Palier niveau 0 message',
             prescriberTitle: 'Palier niveau 0 titre prescripteur',
@@ -121,6 +145,7 @@ describe('Integration | Application | stage-collection-controller', function () 
             id: 456,
             level: 1,
             threshold: null,
+            isFirstSkill: false,
             title: 'Palier niveau 1 titre',
             message: 'Palier niveau 1 message',
             prescriberTitle: 'Palier niveau 1 titre prescripteur',

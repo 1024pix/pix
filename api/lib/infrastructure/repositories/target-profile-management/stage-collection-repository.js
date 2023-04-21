@@ -18,6 +18,7 @@ module.exports = {
       id: stage.id,
       level: stage.level,
       threshold: stage.threshold,
+      isFirstSkill: stage.isFirstSkill,
       title: stage.title,
       message: stage.message,
       prescriberTitle: stage.prescriberTitle,
@@ -27,6 +28,7 @@ module.exports = {
     const stagesToCreate = stageCollectionUpdate.stagesToCreate.map((stage) => ({
       level: stage.level,
       threshold: stage.threshold,
+      isFirstSkill: stage.isFirstSkill,
       title: stage.title,
       message: stage.message,
       prescriberTitle: stage.prescriberTitle,

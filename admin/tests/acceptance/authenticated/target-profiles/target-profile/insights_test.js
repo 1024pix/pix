@@ -103,6 +103,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
           id: 100,
           level: 1,
           threshold: null,
+          isFirstSkill: false,
           title: 'premier palier',
           message: 'message palier',
           prescriberTitle: 'titre prescripteur',
@@ -163,12 +164,16 @@ module('Acceptance | Target Profile Insights', function (hooks) {
           await clickByName('Palier par niveau');
           await clickByName('Nouveau palier');
           await clickByName('Nouveau palier');
+          await clickByName('Nouveau palier "1er acquis"');
 
-          const [firstStageTitleInput, secondStageTitleInput] = screen.getAllByLabelText('Titre du palier');
+          const [firstStageTitleInput, secondStageTitleInput, firstSkillStageTitleInput] =
+            screen.getAllByLabelText('Titre du palier');
           const [firstStageLevelButton, secondStageLevelButton] = screen.getAllByLabelText('Niveau du palier');
-          const [firstStageLevelMessage, secondStageLevelMessage] = screen.getAllByLabelText('Message du palier');
+          const [firstStageLevelMessage, secondStageLevelMessage, firstSkillStageLevelMessage] =
+            screen.getAllByLabelText('Message du palier');
           await fillIn(firstStageTitleInput, 'mon premier palier');
           await fillIn(secondStageTitleInput, 'mon deuxième palier');
+          await fillIn(firstSkillStageTitleInput, 'mon palier premier acquis');
 
           await click(secondStageLevelButton);
           await screen.findByRole('listbox');
@@ -177,6 +182,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
 
           await fillIn(firstStageLevelMessage, 'mon message un');
           await fillIn(secondStageLevelMessage, 'mon message deux');
+          await fillIn(firstSkillStageLevelMessage, 'mon message premier acquis');
 
           await clickByName('Enregistrer');
 
@@ -184,10 +190,13 @@ module('Acceptance | Target Profile Insights', function (hooks) {
           assert.true(firstStageLevelButton.hasAttributes('aria-disabled', 'true'));
           assert.dom(screen.getAllByText('mon premier palier')[0]).exists();
           assert.dom(screen.getAllByText('mon deuxième palier')[0]).exists();
+          assert.dom(screen.getAllByText('mon palier premier acquis')[0]).exists();
           assert.dom(screen.getAllByText('3')[0]).exists();
           assert.dom(screen.getAllByText('0')[0]).exists();
+          assert.dom(screen.getAllByText('1er acquis')[0]).exists();
           assert.dom(screen.getByText('mon message un')).exists();
           assert.dom(screen.getByText('mon message deux')).exists();
+          assert.dom(screen.getByText('mon message premier acquis')).exists();
           assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
         });
 
@@ -228,6 +237,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
           const stage = server.create('stage', {
             id: 100,
             level: 2,
+            threshold: null,
             title: 'ancien titre',
             message: 'ancien message',
             prescriberTitle: 'ancien titre prescripteur',
@@ -328,6 +338,7 @@ module('Acceptance | Target Profile Insights', function (hooks) {
           const stage = server.create('stage', {
             id: 100,
             threshold: 10,
+            level: null,
             title: 'ancien titre',
             message: 'ancien message',
             prescriberTitle: 'ancien titre prescripteur',
