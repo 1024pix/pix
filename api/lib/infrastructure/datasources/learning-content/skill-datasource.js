@@ -12,6 +12,14 @@ const skillDatasource = datasource.extend({
     return _.filter(skills, { status: ACTIVE_STATUS });
   },
 
+  async findBySkillNamePrefix(prefix) {
+    const skills = await this.list();
+    const filteredSkills = _.filter(skills, function (skill) {
+      return _.startsWith(skill.name, prefix);
+    });
+    return filteredSkills;
+  },
+
   async findOperative() {
     const skills = await this.list();
     return _.filter(skills, (skill) => _.includes(OPERATIVE_STATUSES, skill.status));

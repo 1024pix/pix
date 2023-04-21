@@ -47,6 +47,7 @@ const register = async function (server) {
                 value: Joi.string().allow('').allow(null),
                 result: Joi.string().allow(null),
                 'result-details': Joi.string().allow(null),
+                'assessment-id': Joi.string().allow(null),
               },
               relationships: Joi.object().required(),
               challenge: Joi.object(),

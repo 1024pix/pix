@@ -6,8 +6,7 @@ export default class MissionRoute extends Route {
   @service store;
 
   model(params, transition) {
-    const mission = this.store.peekRecord('mission', transition.to.parent.params.mission_id);
-    return this.store.queryRecord('assessment', { missionId: mission.id });
+    return this.store.queryRecord('assessment', { missionId: transition.to.parent.params.mission_id });
   }
 
   afterModel(assessment) {
