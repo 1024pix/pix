@@ -1,9 +1,10 @@
 import { expect, sinon } from '../../../test-helper.js';
-import { mailing } from '../../../../lib/config.js';
+import { config } from '../../../../lib/config.js';
 import { logger } from '../../../../lib/infrastructure/logger.js';
 import { Mailer } from '../../../../lib/infrastructure/mailers/mailer.js';
 import { EmailingAttempt } from '../../../../lib/domain/models/EmailingAttempt.js';
 import { MailingProviderInvalidEmailError } from '../../../../lib/infrastructure/mailers/MailingProviderInvalidEmailError.js';
+const { mailing } = config;
 
 describe('Unit | Infrastructure | Mailers | mailer', function () {
   let mailCheck;
