@@ -8,7 +8,7 @@
 .challenge-statement__instruction-section {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin: 20px 20px 16px;
   font-size: 0.938rem;
   font-family: $font-open-sans;
 
@@ -41,7 +41,10 @@
 
 .challenge-statement-instruction {
   &__text {
+    @extend %pix-body-l;
+
     width: 100%;
+    color: $pix-neutral-80;
 
     p {
       overflow-wrap: break-word;
