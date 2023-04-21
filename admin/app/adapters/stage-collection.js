@@ -11,6 +11,7 @@ export default class StageCollectionAdapter extends ApplicationAdapter {
       id: stage.id,
       level: stage.level && parseInt(stage.level),
       threshold: stage.threshold && parseInt(stage.threshold),
+      isFirstSkill: stage.isFirstSkill,
       title: stage.title,
       message: stage.message,
       prescriberTitle: stage.prescriberTitle,

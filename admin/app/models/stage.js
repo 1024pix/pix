@@ -20,10 +20,18 @@ export default class Stage extends Model {
   }
 
   get isTypeLevel() {
-    return this.level != null;
+    return this.level !== null;
   }
 
   get isBeingCreated() {
     return !this.id;
+  }
+
+  get isZeroStage() {
+    return this.level === 0 || this.threshold === 0;
+  }
+
+  get levelAsString() {
+    return this.level.toString();
   }
 }
