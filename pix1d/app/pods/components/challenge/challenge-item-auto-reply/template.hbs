@@ -1,3 +1,8 @@
 <form {{will-destroy this.removeEmbedAutoEventListener}} {{on "submit" this.validateAnswer}}>
-  <Challenge::ChallengeActions @challenge={{@challenge}} @answer={{@answer}} @validateAnswer={{this.validateAnswer}} />
+  <Challenge::ChallengeActions
+    @challenge={{@challenge}}
+    @assessment={{@assessment}}
+    @answer={{@answer}}
+    @validateAnswer={{this.validateAnswer}}
+  />
 </form>

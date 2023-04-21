@@ -15,10 +15,9 @@ const save = async function (request, h, dependencies = { answerSerializer, requ
 
 const saveForPix1D = async function (request, h, dependencies = { answerPix1dSerializer }) {
   const answer = dependencies.answerPix1dSerializer.deserialize(request.payload);
-  const challengeId = answer.challengeId;
-  const createdAnswer = await usecases.correctAnswer({ answer, challengeId });
+  const createdAnswer = await usecases.correctAnswer({ answer });
 
-  return h.response(answerPix1dSerializer.serialize(createdAnswer)).created();
+  return h.response(dependencies.answerPix1dSerializer.serialize(createdAnswer)).created();
 };
 
 const get = async function (request, _h, dependencies = { requestResponseUtils }) {

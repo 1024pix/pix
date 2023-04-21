@@ -45,6 +45,22 @@ const register = async function (server) {
     },
     {
       method: 'GET',
+      path: '/api/pix1d/assessments/{id}/next',
+      config: {
+        pre: [{ method: securityPreHandlers.checkPix1dActivated }],
+        auth: false,
+        validate: {
+          params: Joi.object({
+            id: identifiersType.assessmentId,
+          }),
+        },
+        handler: assessmentController.getNextChallengeForPix1d,
+        notes: ["- Récupération de la question suivante pour l'évaluation de mission donnée"],
+        tags: ['api'],
+      },
+    },
+    {
+      method: 'GET',
       path: '/api/assessments/{id}',
       config: {
         auth: false,
@@ -131,6 +147,21 @@ const register = async function (server) {
         },
         handler: assessmentController.completeAssessment,
         tags: ['api'],
+      },
+    },
+    {
+      method: 'PATCH',
+      path: '/api/pix1d/assessments/{id}',
+      config: {
+        auth: false,
+        pre: [{ method: securityPreHandlers.checkPix1dActivated }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.assessmentId,
+          }),
+        },
+        handler: assessmentController.completeAssessmentForPix1d,
+        tags: ['api', 'pix1d', 'assessments'],
       },
     },
     {

@@ -49,6 +49,35 @@ describe('Unit | Infrastructure | Datasource | LearningContent | SkillDatasource
     });
   });
 
+  describe('#findBySkillNamePrefix', function () {
+    it('should return the corresponding skills', async function () {
+      // given
+      const rawSkill1 = { id: 'recSkill1', name: '@rechercher_didacticiel1' };
+      const rawSkill2 = { id: 'recSkill2', name: '@rechercher_entrainement1' };
+      const rawSkill3 = { id: 'recSkill2', name: '@rechercher_didacticiel2' };
+      sinon.stub(lcms, 'getLatestRelease').resolves({ skills: [rawSkill1, rawSkill2, rawSkill3] });
+
+      // when
+      const result = await skillDatasource.findBySkillNamePrefix('@rechercher_didacticiel');
+
+      // then
+      expect(result).to.deep.equal([rawSkill1, rawSkill3]);
+    });
+
+    context('when there is no skill found', function () {
+      it('should return an empty array', async function () {
+        // given
+        sinon.stub(lcms, 'getLatestRelease').resolves({ skills: [] });
+
+        // when
+        const result = await skillDatasource.findBySkillNamePrefix('@rechercher_validation');
+
+        // then
+        expect(result).to.deep.equal([]);
+      });
+    });
+  });
+
   describe('#findActive', function () {
     it('should query LCMS skills', async function () {
       // given

@@ -41,6 +41,31 @@ describe('Unit | Controller | assessment-controller', function () {
       expect(result).to.be.equal(assessment);
     });
   });
+  describe('#getNextChallengeForPix1d', function () {
+    it('should call the expected usecase', async function () {
+      const assessmentId = 104974;
+      const challenge = { id: 'rec1', instruction: '1st challenge for Pix1d' };
+      const challengeSerializerStub = { serialize: sinon.stub() };
+      challengeSerializerStub.serialize.resolves(challenge);
+
+      // given
+      const request = {
+        params: {
+          id: assessmentId,
+        },
+      };
+
+      sinon.stub(usecases, 'getNextChallengeForPix1d').withArgs({ assessmentId }).resolves(challenge);
+
+      // when
+      const result = await assessmentController.getNextChallengeForPix1d(request, hFake, {
+        challengeSerializer: challengeSerializerStub,
+      });
+
+      // then
+      expect(result).to.be.equal(challenge);
+    });
+  });
 
   describe('#completeAssessment', function () {
     let domainTransaction, assessmentId, assessment, assessmentCompletedEvent;
@@ -102,6 +127,22 @@ describe('Unit | Controller | assessment-controller', function () {
 
       // then
       expect(events.eventDispatcher.dispatch).to.have.been.calledWith(assessmentCompletedEvent);
+    });
+  });
+
+  describe('#completeAssessmentForPix1d', function () {
+    it('should call the completeAssessment use case', async function () {
+      const assessmentId = 2;
+      const assessment = Symbol('completed-assessment');
+
+      sinon.stub(usecases, 'completeAssessmentForPix1d');
+      usecases.completeAssessmentForPix1d.resolves(assessment);
+
+      // when
+      await assessmentController.completeAssessmentForPix1d({ params: { id: assessmentId } }, hFake);
+
+      // then
+      expect(usecases.completeAssessmentForPix1d).to.have.been.calledWithExactly({ assessmentId });
     });
   });
 

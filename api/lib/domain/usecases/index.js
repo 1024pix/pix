@@ -66,6 +66,7 @@ import * as certificationCpfService from '../../domain/services/certification-cp
 import * as certificationResultRepository from '../../infrastructure/repositories/certification-result-repository.js';
 import * as challengeRepository from '../../infrastructure/repositories/challenge-repository.js';
 import * as challengeForPixAutoAnswerRepository from '../../infrastructure/repositories/challenge-for-pix-auto-answer-repository.js';
+import * as challengePix1dRepository from '../../infrastructure/repositories/challenge-pix1d-repository.js';
 import * as cleaCertifiedCandidateRepository from '../../infrastructure/repositories/clea-certified-candidate-repository.js';
 import * as competenceEvaluationRepository from '../../infrastructure/repositories/competence-evaluation-repository.js';
 import * as competenceMarkRepository from '../../infrastructure/repositories/competence-mark-repository.js';
@@ -271,6 +272,7 @@ const dependencies = {
   certificationResultRepository,
   challengeRepository,
   challengeForPixAutoAnswerRepository,
+  challengePix1dRepository,
   cleaCertifiedCandidateRepository,
   codeUtils,
   competenceEvaluationRepository,
@@ -438,6 +440,7 @@ import { changeUserLang } from './change-user-lang.js';
 import { checkScoAccountRecovery } from './check-sco-account-recovery.js';
 import { commentSessionAsJury } from './comment-session-as-jury.js';
 import { completeAssessment } from './complete-assessment.js';
+import { completeAssessmentForPix1d } from './complete-assessment-for-pix1d';
 import { computeCampaignAnalysis } from './compute-campaign-analysis.js';
 import { computeCampaignCollectiveResult } from './compute-campaign-collective-result.js';
 import { computeCampaignParticipationAnalysis } from './compute-campaign-participation-analysis.js';
@@ -588,6 +591,7 @@ import { getNextChallengeForCertification } from './get-next-challenge-for-certi
 import { getNextChallengeForCompetenceEvaluation } from './get-next-challenge-for-competence-evaluation.js';
 import { getNextChallengeForDemo } from './get-next-challenge-for-demo.js';
 import { getNextChallengeForPreview } from './get-next-challenge-for-preview.js';
+import { getNextChallengeForPix1d } from './get-next-challenge-for-pix1d.js';
 import { getOrganizationInvitation } from './get-organization-invitation.js';
 import { getOrganizationLearner } from './get-organization-learner.js';
 import { getOrganizationLearnerActivity } from './get-organization-learner-activity.js';
@@ -729,6 +733,7 @@ const usecasesWithoutInjectedDependencies = {
   checkScoAccountRecovery,
   commentSessionAsJury,
   completeAssessment,
+  completeAssessmentForPix1d,
   computeCampaignAnalysis,
   computeCampaignCollectiveResult,
   computeCampaignParticipationAnalysis,
@@ -860,6 +865,7 @@ const usecasesWithoutInjectedDependencies = {
   getCertificationPointOfContact,
   getCertificationsResultsForLS,
   getChallengeForPixAutoAnswer,
+  getNextChallengeForPix1d,
   getCleaCertifiedCandidateBySession,
   getCorrectionForAnswer,
   getCurrentUser,

@@ -93,6 +93,18 @@ const getNextChallenge = async function (
   }
 };
 
+const getNextChallengeForPix1d = async function (request, h, dependencies = { challengeSerializer }) {
+  const assessmentId = request.params.id;
+  const challenge = await usecases.getNextChallengeForPix1d({ assessmentId });
+  return dependencies.challengeSerializer.serialize(challenge);
+};
+
+const completeAssessmentForPix1d = async function (request, h) {
+  const assessmentId = request.params.id;
+  await usecases.completeAssessmentForPix1d({ assessmentId });
+  return h.response({}).code(204);
+};
+
 const completeAssessment = async function (request) {
   const assessmentId = request.params.id;
   const locale = extractLocaleFromRequest(request);

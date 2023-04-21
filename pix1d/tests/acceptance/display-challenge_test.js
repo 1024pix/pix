@@ -8,10 +8,12 @@ module('Acceptance | Challenge', function (hooks) {
   setupMirage(hooks);
 
   test('displays challenge page', async function (assert) {
+    const assessment = this.server.create('assessment');
     const challenge = this.server.create('challenge');
     // when
-    const screen = await visit(`/challenges/${challenge.id}`);
+    const screen = await visit(`/assessments/${assessment.id}/challenges`);
     // then
     assert.dom(screen.getByText(challenge.instruction)).exists();
+    assert.dom(screen.getByRole('button', { name: 'Valider' })).exists();
   });
 });

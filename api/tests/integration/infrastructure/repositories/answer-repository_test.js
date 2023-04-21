@@ -583,4 +583,32 @@ describe('Integration | Repository | answerRepository', function () {
       });
     });
   });
+
+  describe('#save', function () {
+    afterEach(async function () {
+      await knex('answers').delete();
+    });
+
+    it('should save and return the answer', async function () {
+      // given
+
+      const { id: assessmentId } = databaseBuilder.factory.buildAssessment();
+      await databaseBuilder.commit();
+
+      const answerToSave = domainBuilder.buildAnswer({
+        assessmentId,
+        result: AnswerStatus.OK,
+        resultDetails: 'some details',
+        value: 'Fruits',
+        challengeId: 'recChallenge123',
+      });
+
+      // when
+      const savedAnswer = await answerRepository.save(answerToSave);
+
+      // then
+      const answerInDB = await answerRepository.get(savedAnswer.id);
+      expect(savedAnswer).to.deep.equal(answerInDB);
+    });
+  });
 });
