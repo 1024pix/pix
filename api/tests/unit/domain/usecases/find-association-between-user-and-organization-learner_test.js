@@ -1,13 +1,11 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases/index.js');
+const findAssociationBetweenUserAndOrganizationLearner = require('../../../../lib/domain/usecases/find-association-between-user-and-organization-learner.js');
 const OrganizationLearner = require('../../../../lib/domain/models/OrganizationLearner');
 const {
   CampaignCodeError,
   UserNotAuthorizedToAccessEntityError,
   OrganizationLearnerDisabledError,
 } = require('../../../../lib/domain/errors');
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const organizationLearnerRepository = require('../../../../lib/infrastructure/repositories/organization-learner-repository');
 
 describe('Unit | UseCase | find-association-between-user-and-organization-learner', function () {
   let organizationLearnerReceivedStub;
@@ -16,16 +14,19 @@ describe('Unit | UseCase | find-association-between-user-and-organization-learne
   let organization;
   let userId;
   let campaign;
+  let campaignRepository;
+  let organizationLearnerRepository;
 
   beforeEach(function () {
     userId = domainBuilder.buildUser().id;
     organization = domainBuilder.buildOrganization();
     campaign = domainBuilder.buildCampaign({ organization });
     organizationLearner = domainBuilder.buildOrganizationLearner({ organization, userId });
-    getCampaignStub = sinon.stub(campaignRepository, 'getByCode').throws('unexpected call');
-    organizationLearnerReceivedStub = sinon
-      .stub(organizationLearnerRepository, 'findOneByUserIdAndOrganizationId')
-      .throws('unexpected call');
+    campaignRepository = { getByCode: sinon.stub() };
+    getCampaignStub = campaignRepository.getByCode.throws('unexpected call');
+    organizationLearnerRepository = { findOneByUserIdAndOrganizationId: sinon.stub() };
+    organizationLearnerReceivedStub =
+      organizationLearnerRepository.findOneByUserIdAndOrganizationId.throws('unexpected call');
   });
 
   describe('There is an organizationLearner linked to the given userId', function () {
@@ -35,10 +36,12 @@ describe('Unit | UseCase | find-association-between-user-and-organization-learne
       organizationLearnerReceivedStub.resolves({});
 
       // when
-      await usecases.findAssociationBetweenUserAndOrganizationLearner({
+      await findAssociationBetweenUserAndOrganizationLearner({
         authenticatedUserId: userId,
         requestedUserId: userId,
         campaignCode: campaign.code,
+        campaignRepository,
+        organizationLearnerRepository,
       });
 
       // then
@@ -53,10 +56,12 @@ describe('Unit | UseCase | find-association-between-user-and-organization-learne
         .resolves(organizationLearner);
 
       // when
-      const result = await usecases.findAssociationBetweenUserAndOrganizationLearner({
+      const result = await findAssociationBetweenUserAndOrganizationLearner({
         authenticatedUserId: userId,
         requestedUserId: userId,
         campaignCode: campaign.code,
+        campaignRepository,
+        organizationLearnerRepository,
       });
 
       // then
@@ -72,10 +77,12 @@ describe('Unit | UseCase | find-association-between-user-and-organization-learne
       organizationLearnerReceivedStub.withArgs({ userId, organizationId: organization.id }).resolves(null);
 
       // when
-      const result = await usecases.findAssociationBetweenUserAndOrganizationLearner({
+      const result = await findAssociationBetweenUserAndOrganizationLearner({
         authenticatedUserId: userId,
         requestedUserId: userId,
         campaignCode: campaign.code,
+        campaignRepository,
+        organizationLearnerRepository,
       });
 
       // then
@@ -91,10 +98,12 @@ describe('Unit | UseCase | find-association-between-user-and-organization-learne
       organizationLearnerReceivedStub.withArgs({ userId, organizationId: otherCampaign.organizationId }).resolves(null);
 
       // when
-      const result = await usecases.findAssociationBetweenUserAndOrganizationLearner({
+      const result = await findAssociationBetweenUserAndOrganizationLearner({
         authenticatedUserId: userId,
         requestedUserId: userId,
         campaignCode: campaign.code,
+        campaignRepository,
+        organizationLearnerRepository,
       });
 
       // then
@@ -116,10 +125,12 @@ describe('Unit | UseCase | find-association-between-user-and-organization-learne
         .resolves(disabledOrganizationLearner);
 
       // when
-      const result = await catchErr(usecases.findAssociationBetweenUserAndOrganizationLearner)({
+      const result = await catchErr(findAssociationBetweenUserAndOrganizationLearner)({
         authenticatedUserId: userId,
         requestedUserId: userId,
         campaignCode: campaign.code,
+        campaignRepository,
+        organizationLearnerRepository,
       });
 
       // then
@@ -134,10 +145,12 @@ describe('Unit | UseCase | find-association-between-user-and-organization-learne
       organizationLearnerReceivedStub.withArgs({ userId, organizationId: organization.id }).resolves(null);
 
       // when
-      const result = await catchErr(usecases.findAssociationBetweenUserAndOrganizationLearner)({
+      const result = await catchErr(findAssociationBetweenUserAndOrganizationLearner)({
         authenticatedUserId: '999',
         requestedUserId: userId,
         campaignCode: campaign.code,
+        campaignRepository,
+        organizationLearnerRepository,
       });
 
       // then
@@ -151,10 +164,12 @@ describe('Unit | UseCase | find-association-between-user-and-organization-learne
       getCampaignStub.withArgs(campaign.code).resolves(null);
 
       // when
-      const result = await catchErr(usecases.findAssociationBetweenUserAndOrganizationLearner)({
+      const result = await catchErr(findAssociationBetweenUserAndOrganizationLearner)({
         authenticatedUserId: userId,
         requestedUserId: userId,
         campaignCode: campaign.code,
+        campaignRepository,
+        organizationLearnerRepository,
       });
 
       // then
