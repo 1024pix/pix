@@ -102,8 +102,8 @@
     "tooltip-line-3": "If you don’t have an invoice, a prepayment code must be set with Pix.",
     "tooltips": {
       "date-format": "Use the DD/MM/YYYY date format",
-      "email-format": "Your email address must contain an “@” and a “.” Exemple: name@exemple.com. This field is optional, it is used to facilitate the candidates’ convocation.",
-      "email-results": "If this field isn’t filled in, the results won't be transmitted by email for the affected candidate(s). The candidate will see their results displayed directly on their Pix account.",
+      "email-format": "Your email address must contain an “@” and a “.” Exemple: name@exemple.com. \n This field is optional, it is used to facilitate the candidates’ convocation.",
+      "email-results": "If this field isn’t filled in, the results won't be transmitted by email for the affected candidate(s). \n The candidate will see their results displayed directly on their Pix account.",
       "gender-format": "M=Man F=Woman"
     },
     "yes": "Yes",
