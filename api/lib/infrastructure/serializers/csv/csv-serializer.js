@@ -31,11 +31,12 @@ function deserializeForSessionsImport({ parsedCsvData, hasBillingMode }) {
 
   const csvBillingModeKey = headers.billingMode;
   const csvPrepaymentCodeKey = headers.prepaymentCode;
+  const firstCsvLine = parsedCsvData[0];
 
   if (
     _isScoAndHasBillingModeColumnsInCsv({
       hasBillingMode,
-      parsedCsvLine: parsedCsvData[0],
+      firstCsvLine,
       csvBillingModeKey,
       csvPrepaymentCodeKey,
     })
@@ -43,7 +44,7 @@ function deserializeForSessionsImport({ parsedCsvData, hasBillingMode }) {
     throw new FileValidationError('CSV_HEADERS_NOT_VALID');
   }
 
-  _verifyHeaders({ expectedHeadersKeys, headers, parsedCsvLine: parsedCsvData[0], hasBillingMode });
+  _verifyHeaders({ expectedHeadersKeys, headers, firstCsvLine, hasBillingMode });
 
   parsedCsvData.forEach((lineDTO, index) => {
     const dataFromColumnName = _getDataFromColumnNames({ expectedHeadersKeys, headers, line: lineDTO });
@@ -226,12 +227,12 @@ function _getComplementaryCertificationLabel(key, COMPLEMENTARY_CERTIFICATION_SU
   return key.replace(COMPLEMENTARY_CERTIFICATION_SUFFIX, '').trim();
 }
 
-function _verifyHeaders({ expectedHeadersKeys, parsedCsvLine, headers, hasBillingMode }) {
+function _verifyHeaders({ expectedHeadersKeys, firstCsvLine, headers, hasBillingMode }) {
   expectedHeadersKeys.forEach((key) => {
-    const headerKey = parsedCsvLine[headers[key]];
+    const matchingCsvColumnValue = firstCsvLine[headers[key]];
 
-    if (headerKey === undefined) {
-      if (_isBillingModeOptional(key, hasBillingMode)) {
+    if (_missingCsvColumn(matchingCsvColumnValue)) {
+      if (_isBillingModeOptionalAndAssociatedColumnsMissing(key, hasBillingMode)) {
         return;
       }
 
@@ -242,14 +243,18 @@ function _verifyHeaders({ expectedHeadersKeys, parsedCsvLine, headers, hasBillin
 
 function _isScoAndHasBillingModeColumnsInCsv({
   hasBillingMode,
-  parsedCsvLine,
+  firstCsvLine,
   csvBillingModeKey,
   csvPrepaymentCodeKey,
 }) {
-  return !hasBillingMode && (csvBillingModeKey in parsedCsvLine || csvPrepaymentCodeKey in parsedCsvLine);
+  return !hasBillingMode && (csvBillingModeKey in firstCsvLine || csvPrepaymentCodeKey in firstCsvLine);
 }
 
-function _isBillingModeOptional(key, hasBillingMode) {
+function _missingCsvColumn(matchingCsvColumnValue) {
+  return matchingCsvColumnValue === undefined;
+}
+
+function _isBillingModeOptionalAndAssociatedColumnsMissing(key, hasBillingMode) {
   return (key === 'billingMode' || key === 'prepaymentCode') && !hasBillingMode;
 }
 
