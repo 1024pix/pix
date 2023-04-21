@@ -69,16 +69,24 @@
         Nouveau palier
       </PixButton>
       {{#if @stageCollection.hasStages}}
-        <PixButton
-          class="stages-new-stage"
-          @backgroundColor="transparent-light"
-          @isBorderVisible={{true}}
-          @triggerAction={{this.addFirstSkillStage}}
-          @isDisabled={{this.isAddFirstSkillStageDisabled}}
-          @iconBefore="plus"
-        >
-          Nouveau palier "1er acquis"
-        </PixButton>
+        <PixTooltip @id="tooltip-stage"
+         @isWide="true">
+          <:triggerElement>
+            <PixButton
+              class="stages-new-stage"
+              @backgroundColor="transparent-light"
+              @isBorderVisible={{true}}
+              @triggerAction={{this.addFirstSkillStage}}
+              @isDisabled={{this.isAddFirstSkillStageDisabled}}
+              @iconBefore="plus"
+            >
+              Nouveau palier "1er acquis"
+            </PixButton>
+          </:triggerElement>
+          <:tooltip>
+            Le palier 1er acquis est obtenu dès un acquis réussi par le participant. Il se verra alors attribuer une étoile à la fin de son parcours.
+          </:tooltip>
+        </PixTooltip>
       {{/if}}
     </div>
     {{#if this.hasNewStage}}
