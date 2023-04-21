@@ -2,7 +2,7 @@ import Service, { inject as service } from '@ember/service';
 
 import ENV from 'pix-orga/config/environment';
 
-const FRENCH_DOMAIN_EXTENSION = 'fr';
+const FRENCH_LOCALE = 'fr';
 const PIX_FR_DOMAIN = 'https://pix.fr';
 const PIX_ORG_DOMAIN_FR_LOCALE = 'https://pix.org/fr';
 const PIX_ORG_DOMAIN_EN_LOCALE = 'https://pix.org/en-gb';
@@ -35,10 +35,6 @@ export default class Url extends Service {
 
   definedHomeUrl = ENV.rootURL;
 
-  get isFrenchDomainExtension() {
-    return this.currentDomain.getExtension() === FRENCH_DOMAIN_EXTENSION;
-  }
-
   get campaignsRootUrl() {
     return this.definedCampaignsRootUrl
       ? this.definedCampaignsRootUrl
@@ -51,31 +47,23 @@ export default class Url extends Service {
   }
 
   get legalNoticeUrl() {
-    const domainExtension = this.currentDomain.getExtension();
     const { en, fr } = this.SHOWCASE_WEBSITE_LOCALE_PATH.LEGAL_NOTICE;
-
-    return this._computeShowcaseWebsiteUrl({ domainExtension, en, fr });
+    return this._computeShowcaseWebsiteUrl({ en, fr });
   }
 
   get cguUrl() {
-    const domainExtension = this.currentDomain.getExtension();
     const { en, fr } = this.SHOWCASE_WEBSITE_LOCALE_PATH.CGU;
-
-    return this._computeShowcaseWebsiteUrl({ domainExtension, en, fr });
+    return this._computeShowcaseWebsiteUrl({ en, fr });
   }
 
   get dataProtectionPolicyUrl() {
-    const domainExtension = this.currentDomain.getExtension();
     const { en, fr } = this.SHOWCASE_WEBSITE_LOCALE_PATH.DATA_PROTECTION_POLICY;
-
-    return this._computeShowcaseWebsiteUrl({ domainExtension, en, fr });
+    return this._computeShowcaseWebsiteUrl({ en, fr });
   }
 
   get accessibilityUrl() {
-    const domainExtension = this.currentDomain.getExtension();
     const { en, fr } = this.SHOWCASE_WEBSITE_LOCALE_PATH.ACCESSIBILITY;
-
-    return this._computeShowcaseWebsiteUrl({ domainExtension, en, fr });
+    return this._computeShowcaseWebsiteUrl({ en, fr });
   }
 
   get forgottenPasswordUrl() {
@@ -87,14 +75,14 @@ export default class Url extends Service {
     return url;
   }
 
-  _computeShowcaseWebsiteUrl({ domainExtension, en: englishPath, fr: frenchPath }) {
+  _computeShowcaseWebsiteUrl({ en: englishPath, fr: frenchPath }) {
     const currentLanguage = this.intl.t('current-lang');
 
-    if (domainExtension === FRENCH_DOMAIN_EXTENSION) {
+    if (this.currentDomain.isFranceDomain) {
       return `${PIX_FR_DOMAIN}${frenchPath}`;
     }
 
-    return currentLanguage === FRENCH_DOMAIN_EXTENSION
+    return currentLanguage === FRENCH_LOCALE
       ? `${PIX_ORG_DOMAIN_FR_LOCALE}${frenchPath}`
       : `${PIX_ORG_DOMAIN_EN_LOCALE}${englishPath}`;
   }

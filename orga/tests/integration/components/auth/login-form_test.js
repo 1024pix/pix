@@ -238,13 +238,13 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
 
   module('when domain is pix.org', function () {
     test('should not display recovery link', async function (assert) {
-      //given
-      class UrlStub extends Service {
-        get isFrenchDomainExtension() {
+      // given
+      class CurrentDomainServiceStub extends Service {
+        get isFranceDomain() {
           return false;
         }
       }
-      this.owner.register('service:url', UrlStub);
+      this.owner.register('service:currentDomain', CurrentDomainServiceStub);
 
       // when
       await renderScreen(hbs`<Auth::LoginForm />`);
@@ -256,13 +256,13 @@ module('Integration | Component | Auth::LoginForm', function (hooks) {
 
   module('when domain is pix.fr', function () {
     test('should display recovery link', async function (assert) {
-      //given
-      class UrlStub extends Service {
-        get isFrenchDomainExtension() {
+      // given
+      class CurrentDomainServiceStub extends Service {
+        get isFranceDomain() {
           return true;
         }
       }
-      this.owner.register('service:url', UrlStub);
+      this.owner.register('service:currentDomain', CurrentDomainServiceStub);
 
       // when
       await renderScreen(hbs`<Auth::LoginForm />`);

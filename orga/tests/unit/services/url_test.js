@@ -7,32 +7,6 @@ module('Unit | Service | url', function (hooks) {
   setupTest(hooks);
   setupIntl(hooks);
 
-  module('#isFrenchDomainExtension', function () {
-    test('returns true when the current domain contains pix.fr', function (assert) {
-      // given
-      const service = this.owner.lookup('service:url');
-      service.currentDomain = { getExtension: sinon.stub().returns('fr') };
-
-      // when
-      const domainExtension = service.isFrenchDomainExtension;
-
-      // then
-      assert.true(domainExtension);
-    });
-
-    test('returns false when the current domain contains pix.org', function (assert) {
-      // given
-      const service = this.owner.lookup('service:url');
-      service.currentDomain = { getExtension: sinon.stub().returns('org') };
-
-      // when
-      const domainExtension = service.isFrenchDomainExtension;
-
-      // then
-      assert.false(domainExtension);
-    });
-  });
-
   module('#campaignsRootUrl', function () {
     test('returns default campaigns root url when is defined', function (assert) {
       // given
@@ -95,7 +69,7 @@ module('Unit | Service | url', function (hooks) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedUrl = 'https://pix.fr/mentions-legales';
-      service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+      service.currentDomain = { isFranceDomain: true };
 
       // when
       const url = service.legalNoticeUrl;
@@ -108,7 +82,7 @@ module('Unit | Service | url', function (hooks) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedUrl = 'https://pix.org/en-gb/legal-notice';
-      service.currentDomain = { getExtension: sinon.stub().returns('org') };
+      service.currentDomain = { isFranceDomain: false };
       service.intl = { t: sinon.stub().returns('en') };
 
       // when
@@ -122,7 +96,7 @@ module('Unit | Service | url', function (hooks) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedUrl = 'https://pix.org/fr/mentions-legales';
-      service.currentDomain = { getExtension: sinon.stub().returns('org') };
+      service.currentDomain = { isFranceDomain: false };
       service.intl = { t: sinon.stub().returns('fr') };
 
       // when
@@ -138,7 +112,7 @@ module('Unit | Service | url', function (hooks) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.fr/politique-protection-donnees-personnelles-app';
-      service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+      service.currentDomain = { isFranceDomain: true };
 
       // when
       const cguUrl = service.dataProtectionPolicyUrl;
@@ -151,7 +125,7 @@ module('Unit | Service | url', function (hooks) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.org/en-gb/personal-data-protection-policy';
-      service.currentDomain = { getExtension: sinon.stub().returns('org') };
+      service.currentDomain = { isFranceDomain: false };
       service.intl = { t: sinon.stub().returns('en') };
 
       // when
@@ -165,7 +139,7 @@ module('Unit | Service | url', function (hooks) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.org/fr/politique-protection-donnees-personnelles-app';
-      service.currentDomain = { getExtension: sinon.stub().returns('org') };
+      service.currentDomain = { isFranceDomain: false };
       service.intl = { t: sinon.stub().returns('fr') };
 
       // when
@@ -181,7 +155,7 @@ module('Unit | Service | url', function (hooks) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.fr/conditions-generales-d-utilisation';
-      service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+      service.currentDomain = { isFranceDomain: true };
 
       // when
       const cguUrl = service.cguUrl;
@@ -194,7 +168,7 @@ module('Unit | Service | url', function (hooks) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.org/en-gb/terms-and-conditions';
-      service.currentDomain = { getExtension: sinon.stub().returns('org') };
+      service.currentDomain = { isFranceDomain: false };
       service.intl = { t: sinon.stub().returns('en') };
 
       // when
@@ -208,7 +182,7 @@ module('Unit | Service | url', function (hooks) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.org/fr/conditions-generales-d-utilisation';
-      service.currentDomain = { getExtension: sinon.stub().returns('org') };
+      service.currentDomain = { isFranceDomain: false };
       service.intl = { t: sinon.stub().returns('fr') };
 
       // when
@@ -224,7 +198,7 @@ module('Unit | Service | url', function (hooks) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedUrl = 'https://pix.fr/accessibilite-pix-orga';
-      service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+      service.currentDomain = { isFranceDomain: true };
 
       // when
       const url = service.accessibilityUrl;
@@ -237,7 +211,7 @@ module('Unit | Service | url', function (hooks) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedUrl = 'https://pix.org/en-gb/accessibility-pix-orga';
-      service.currentDomain = { getExtension: sinon.stub().returns('org') };
+      service.currentDomain = { isFranceDomain: false };
       service.intl = { t: sinon.stub().returns('en') };
 
       // when
@@ -251,7 +225,7 @@ module('Unit | Service | url', function (hooks) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedUrl = 'https://pix.org/fr/accessibilite-pix-orga';
-      service.currentDomain = { getExtension: sinon.stub().returns('org') };
+      service.currentDomain = { isFranceDomain: false };
       service.intl = { t: sinon.stub().returns('fr') };
 
       // when
