@@ -5,7 +5,6 @@ const {
   ManyOrganizationsFoundError,
   OrganizationArchivedError,
 } = require('../errors.js');
-const organizationInvitationService = require('../../domain/services/organization-invitation-service.js');
 
 module.exports = async function sendScoInvitation({
   uai,
@@ -14,6 +13,7 @@ module.exports = async function sendScoInvitation({
   locale,
   organizationRepository,
   organizationInvitationRepository,
+  organizationInvitationService,
 }) {
   const organizationWithGivenUAI = await _getOrganizationWithGivenUAI({ uai, organizationRepository });
   _ensureOrganizationHasAnEmail({ email: organizationWithGivenUAI.email, uai });
