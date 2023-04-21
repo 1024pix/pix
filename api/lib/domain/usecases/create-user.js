@@ -1,8 +1,5 @@
 const { AlreadyRegisteredEmailError, EntityValidationError } = require('../errors.js');
 
-const userValidator = require('../validators/user-validator.js');
-const passwordValidator = require('../validators/password-validator.js');
-
 const { getCampaignUrl } = require('../../infrastructure/utils/url-builder.js');
 
 function _manageEmailAvailabilityError(error) {
@@ -18,7 +15,7 @@ function _manageError(error, errorType, attribute, message) {
   throw error;
 }
 
-function _validatePassword(password) {
+function _validatePassword(password, passwordValidator) {
   let result;
   try {
     passwordValidator.validate(password);
@@ -28,7 +25,7 @@ function _validatePassword(password) {
   return result;
 }
 
-async function _validateData({ password, user, userRepository }) {
+async function _validateData({ password, user, userRepository, userValidator, passwordValidator }) {
   let userValidatorError;
   try {
     userValidator.validate({ user });
@@ -36,7 +33,7 @@ async function _validateData({ password, user, userRepository }) {
     userValidatorError = err;
   }
 
-  const passwordValidatorError = _validatePassword(password);
+  const passwordValidatorError = _validatePassword(password, passwordValidator);
 
   const validationErrors = [];
   if (user.email) {
@@ -67,11 +64,15 @@ module.exports = async function createUser({
   encryptionService,
   mailService,
   userService,
+  userValidator,
+  passwordValidator,
 }) {
   const isValid = await _validateData({
     password,
     user,
     userRepository,
+    userValidator,
+    passwordValidator,
   });
 
   const userHasValidatedPixTermsOfService = user.cgu === true;
