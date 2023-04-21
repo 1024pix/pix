@@ -2,7 +2,6 @@ const { isEmpty, uniqBy } = require('lodash');
 const bluebird = require('bluebird');
 const Organization = require('../models/Organization.js');
 const OrganizationTag = require('../models/OrganizationTag.js');
-const organizationValidator = require('../validators/organization-with-tags-and-target-profiles-script.js');
 const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
 
 const {
@@ -14,7 +13,6 @@ const {
 } = require('../errors.js');
 
 const SEPARATOR = '_';
-const organizationInvitationService = require('../../domain/services/organization-invitation-service.js');
 
 module.exports = async function createOrganizationsWithTagsAndTargetProfiles({
   organizations,
@@ -25,6 +23,8 @@ module.exports = async function createOrganizationsWithTagsAndTargetProfiles({
   organizationTagRepository,
   organizationInvitationRepository,
   dataProtectionOfficerRepository,
+  organizationValidator,
+  organizationInvitationService,
 }) {
   if (isEmpty(organizations)) {
     throw new ObjectValidationError('Les organisations ne sont pas renseignées.');

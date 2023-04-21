@@ -1,9 +1,8 @@
-const organizationCreationValidator = require('../validators/organization-creation-validator.js');
-
 module.exports = async function createOrganization({
   organization,
   dataProtectionOfficerRepository,
   organizationForAdminRepository,
+  organizationCreationValidator,
 }) {
   organizationCreationValidator.validate(organization);
   const createdOrganization = await organizationForAdminRepository.save(organization);

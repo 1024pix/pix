@@ -1,12 +1,17 @@
 const { expect, sinon } = require('../../../test-helper');
-const { disableCertificationCenterMembership } = require('../../../../lib/domain/usecases/index.js');
-const certificationCenterMembershipRepository = require('../../../../lib/infrastructure/repositories/certification-center-membership-repository');
+const disableCertificationCenterMembership = require('../../../../lib/domain/usecases/disable-certification-center-membership.js');
 
 describe('Unit | UseCase | disable-certification-center-membership', function () {
+  let certificationCenterMembershipRepository;
+  beforeEach(function () {
+    certificationCenterMembershipRepository = {
+      disableById: sinon.stub(),
+    };
+  });
+
   it('should disable certification center membership', async function () {
     // given
     const certificationCenterMembershipId = 100;
-    sinon.stub(certificationCenterMembershipRepository, 'disableById');
 
     // when
     await disableCertificationCenterMembership({

@@ -1,11 +1,11 @@
 const { catchErr, expect, sinon } = require('../../../test-helper');
-const { disableMembership } = require('../../../../lib/domain/usecases/index.js');
-const membershipRepository = require('../../../../lib/infrastructure/repositories/membership-repository');
+const disableMembership = require('../../../../lib/domain/usecases/disable-membership.js');
 const { MembershipUpdateError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | disable-membership', function () {
+  let membershipRepository;
   beforeEach(function () {
-    sinon.stub(membershipRepository, 'updateById');
+    membershipRepository = { updateById: sinon.stub() };
   });
 
   it('should disable membership', async function () {

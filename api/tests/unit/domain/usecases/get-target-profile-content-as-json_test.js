@@ -1,11 +1,15 @@
 const { expect, sinon, catchErr, domainBuilder, MockDate } = require('../../../test-helper');
 const { ForbiddenAccess } = require('../../../../lib/domain/errors');
-const learningContentConversionService = require('../../../../lib/domain/services/learning-content/learning-content-conversion-service');
 const getTargetProfileContentAsJson = require('../../../../lib/domain/usecases/get-target-profile-content-as-json');
 
 describe('Unit | UseCase | get-target-profile-content-as-json', function () {
   let targetProfileForAdminRepository;
   let adminMemberRepository;
+  let learningContentConversionService;
+
+  beforeEach(function () {
+    learningContentConversionService = { findActiveSkillsForCappedTubes: sinon.stub() };
+  });
 
   afterEach(function () {
     MockDate.reset();
@@ -15,7 +19,6 @@ describe('Unit | UseCase | get-target-profile-content-as-json', function () {
     beforeEach(function () {
       targetProfileForAdminRepository = { get: sinon.stub() };
       targetProfileForAdminRepository.get.rejects(new Error('I should not be called'));
-      sinon.stub(learningContentConversionService, 'findActiveSkillsForCappedTubes');
       learningContentConversionService.findActiveSkillsForCappedTubes.rejects(new Error('I should not be called'));
     });
 
@@ -30,6 +33,7 @@ describe('Unit | UseCase | get-target-profile-content-as-json', function () {
         targetProfileId: 123,
         adminMemberRepository,
         targetProfileForAdminRepository,
+        learningContentConversionService,
       });
 
       // then
@@ -75,7 +79,6 @@ describe('Unit | UseCase | get-target-profile-content-as-json', function () {
         domainBuilder.buildSkill({ id: 'skill2Tube2', tubeId: 'recTube2' }),
       ];
       const skillsForTube3 = [];
-      sinon.stub(learningContentConversionService, 'findActiveSkillsForCappedTubes');
       learningContentConversionService.findActiveSkillsForCappedTubes
         .withArgs([
           {
@@ -106,6 +109,7 @@ describe('Unit | UseCase | get-target-profile-content-as-json', function () {
           targetProfileId: 123,
           adminMemberRepository,
           targetProfileForAdminRepository,
+          learningContentConversionService,
         });
 
         // then
@@ -128,6 +132,7 @@ describe('Unit | UseCase | get-target-profile-content-as-json', function () {
           targetProfileId: 123,
           adminMemberRepository,
           targetProfileForAdminRepository,
+          learningContentConversionService,
         });
 
         // then
@@ -150,6 +155,7 @@ describe('Unit | UseCase | get-target-profile-content-as-json', function () {
           targetProfileId: 123,
           adminMemberRepository,
           targetProfileForAdminRepository,
+          learningContentConversionService,
         });
 
         // then

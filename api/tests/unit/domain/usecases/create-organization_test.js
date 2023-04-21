@@ -1,12 +1,12 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
-const { createOrganization } = require('../../../../lib/domain/usecases/index.js');
+const createOrganization = require('../../../../lib/domain/usecases/create-organization.js');
 const OrganizationForAdmin = require('../../../../lib/domain/models/OrganizationForAdmin');
-const organizationCreationValidator = require('../../../../lib/domain/validators/organization-creation-validator');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | create-organization', function () {
+  let organizationCreationValidator;
   beforeEach(function () {
-    sinon.stub(organizationCreationValidator, 'validate');
+    organizationCreationValidator = { validate: sinon.stub() };
   });
 
   it('validates organization properties and saves it', async function () {
@@ -30,6 +30,7 @@ describe('Unit | UseCase | create-organization', function () {
       dataProtectionOfficerRepository,
       organization,
       organizationForAdminRepository,
+      organizationCreationValidator,
     });
 
     // then
@@ -56,7 +57,11 @@ describe('Unit | UseCase | create-organization', function () {
         organizationCreationValidator.validate.throws(new EntityValidationError({}));
 
         // when
-        const error = await catchErr(createOrganization)({ organization, organizationRepository });
+        const error = await catchErr(createOrganization)({
+          organization,
+          organizationRepository,
+          organizationCreationValidator,
+        });
 
         // then
         expect(error).to.be.an.instanceOf(EntityValidationError);
