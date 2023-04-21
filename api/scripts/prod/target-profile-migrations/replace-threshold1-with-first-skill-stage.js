@@ -5,8 +5,13 @@ import perf_hooks from 'perf_hooks';
 const { performance } = perf_hooks;
 
 import { logger } from '../../../lib/infrastructure/logger.js';
-import { cache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
+import { learningContentCache as cache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
 import { knex, disconnect } from '../../../db/knex-database-connection.js';
+import * as url from 'url';
+
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
+const __filename = modulePath;
 
 const replaceThreshold = async () => {
   const results = await knex('stages').select('*').where('threshold', 1);
@@ -18,8 +23,6 @@ const replaceThreshold = async () => {
     .returning('id');
   logger.info(`${ids.length} paliers convertis...`);
 };
-
-const isLaunchedFromCommandLine = require.main === module;
 
 async function main() {
   const startTime = performance.now();

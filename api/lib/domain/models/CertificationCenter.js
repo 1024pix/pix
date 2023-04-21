@@ -23,5 +23,6 @@ class CertificationCenter {
     return this.habilitations.some((habilitation) => habilitation.key === key);
   }
 }
+CertificationCenter.types = CERTIFICATION_CENTER_TYPES;
 
 export { CertificationCenter, CERTIFICATION_CENTER_TYPES as types };
